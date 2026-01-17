@@ -34,15 +34,23 @@ end
 #
 # source://opentelemetry-instrumentation-pg//lib/opentelemetry/instrumentation/pg/instrumentation.rb#11
 class OpenTelemetry::Instrumentation::PG::Instrumentation < ::OpenTelemetry::Instrumentation::Base
+  # Returns the value of attribute propagator.
+  #
+  # source://opentelemetry-instrumentation-pg//lib/opentelemetry/instrumentation/pg/instrumentation.rb#33
+  def propagator; end
+
   private
 
-  # source://opentelemetry-instrumentation-pg//lib/opentelemetry/instrumentation/pg/instrumentation.rb#33
-  def gem_version; end
-
-  # source://opentelemetry-instrumentation-pg//lib/opentelemetry/instrumentation/pg/instrumentation.rb#41
-  def patch_client; end
+  # source://opentelemetry-instrumentation-pg//lib/opentelemetry/instrumentation/pg/instrumentation.rb#50
+  def configure_propagator(config); end
 
   # source://opentelemetry-instrumentation-pg//lib/opentelemetry/instrumentation/pg/instrumentation.rb#37
+  def gem_version; end
+
+  # source://opentelemetry-instrumentation-pg//lib/opentelemetry/instrumentation/pg/instrumentation.rb#45
+  def patch_client; end
+
+  # source://opentelemetry-instrumentation-pg//lib/opentelemetry/instrumentation/pg/instrumentation.rb#41
   def require_dependencies; end
 end
 

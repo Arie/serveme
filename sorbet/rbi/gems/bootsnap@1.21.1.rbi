@@ -20,55 +20,55 @@ module Bootsnap
   def instrumentation_enabled=(_arg0); end
 
   class << self
-    # source://bootsnap//lib/bootsnap.rb#44
+    # source://bootsnap//lib/bootsnap.rb#42
     def _instrument(event, path); end
 
-    # source://bootsnap//lib/bootsnap.rb#139
+    # source://bootsnap//lib/bootsnap.rb#137
     def absolute_path?(path); end
 
-    # source://bootsnap//lib/bootsnap.rb#85
+    # source://bootsnap//lib/bootsnap.rb#83
     def default_setup; end
 
-    # source://bootsnap//lib/bootsnap.rb#37
+    # source://bootsnap//lib/bootsnap.rb#35
     def instrumentation=(callback); end
 
     # source://bootsnap//lib/bootsnap/load_path_cache/path_scanner.rb#65
     def instrumentation_enabled=(_arg0); end
 
-    # source://bootsnap//lib/bootsnap.rb#24
+    # source://bootsnap//lib/bootsnap.rb#22
     def log!; end
 
-    # source://bootsnap//lib/bootsnap.rb#14
+    # source://bootsnap//lib/bootsnap.rb#12
     def log_stats!; end
 
     # Returns the value of attribute logger.
     #
-    # source://bootsnap//lib/bootsnap.rb#12
+    # source://bootsnap//lib/bootsnap.rb#10
     def logger; end
 
-    # source://bootsnap//lib/bootsnap.rb#28
+    # source://bootsnap//lib/bootsnap.rb#26
     def logger=(logger); end
 
     # Allow the C extension to redefine `rb_get_path` without warning.
     # Allow the C extension to redefine `rb_get_path` without warning.
     #
-    # source://bootsnap//lib/bootsnap/load_path_cache/path_scanner.rb#65
-    def rb_get_path(fname); end
+    # source://bootsnap//lib/bootsnap.rb#145
+    def rb_get_path(_arg0); end
 
-    # source://bootsnap//lib/bootsnap.rb#48
+    # source://bootsnap//lib/bootsnap.rb#46
     def setup(cache_dir:, development_mode: T.unsafe(nil), load_path_cache: T.unsafe(nil), ignore_directories: T.unsafe(nil), readonly: T.unsafe(nil), revalidation: T.unsafe(nil), compile_cache_iseq: T.unsafe(nil), compile_cache_yaml: T.unsafe(nil), compile_cache_json: T.unsafe(nil)); end
 
-    # source://bootsnap//lib/bootsnap.rb#81
+    # source://bootsnap//lib/bootsnap.rb#79
     def unload_cache!; end
 
     private
 
-    # source://bootsnap//lib/bootsnap.rb#161
+    # source://bootsnap//lib/bootsnap.rb#159
     def bool_env(key, default: T.unsafe(nil)); end
 
     # @return [Boolean]
     #
-    # source://bootsnap//lib/bootsnap.rb#157
+    # source://bootsnap//lib/bootsnap.rb#155
     def enabled?(key); end
   end
 end
@@ -793,7 +793,7 @@ Bootsnap::LoadPathCache::Path::VOLATILE = T.let(T.unsafe(nil), Symbol)
 # source://bootsnap//lib/bootsnap/load_path_cache/path_scanner.rb#7
 module Bootsnap::LoadPathCache::PathScanner
   class << self
-    # source://bootsnap//lib/bootsnap/load_path_cache/path_scanner.rb#106
+    # source://bootsnap//lib/bootsnap/load_path_cache/path_scanner.rb#113
     def call(root_path); end
 
     # Returns the value of attribute ignored_directories.

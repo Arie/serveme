@@ -88,8 +88,8 @@ module Turbo::Broadcastable
   def broadcast_prepend_to(*streamables, target: T.unsafe(nil), **rendering); end
   def broadcast_refresh; end
   def broadcast_refresh_later; end
-  def broadcast_refresh_later_to(*streamables); end
-  def broadcast_refresh_to(*streamables); end
+  def broadcast_refresh_later_to(*streamables, **attributes); end
+  def broadcast_refresh_to(*streamables, **attributes); end
   def broadcast_remove(**rendering); end
   def broadcast_remove_to(*streamables, target: T.unsafe(nil), **rendering); end
   def broadcast_render(**rendering); end
@@ -297,7 +297,7 @@ class Turbo::Engine < ::Rails::Engine; end
 #   config.assets.precompile -= Turbo::Engine::PRECOMPILE_ASSETS
 # end
 #
-# source://turbo-rails//lib/turbo/engine.rb#67
+# source://turbo-rails//lib/turbo/engine.rb#41
 Turbo::Engine::PRECOMPILE_ASSETS = T.let(T.unsafe(nil), Array)
 
 module Turbo::Frames; end
@@ -313,6 +313,14 @@ end
 
 module Turbo::FramesHelper
   def turbo_frame_tag(*ids, src: T.unsafe(nil), target: T.unsafe(nil), **attributes, &block); end
+end
+
+class Turbo::ImmediateDebouncer
+  def initialize(delay: T.unsafe(nil)); end
+
+  def complete?; end
+  def debounce(&block); end
+  def wait; end
 end
 
 module Turbo::IncludesHelper
@@ -430,7 +438,7 @@ module Turbo::Streams::Broadcasts
   def broadcast_prepend_later_to(*streamables, **opts); end
   def broadcast_prepend_to(*streamables, **opts); end
   def broadcast_refresh_later_to(*streamables, request_id: T.unsafe(nil), **opts); end
-  def broadcast_refresh_to(*streamables, **opts); end
+  def broadcast_refresh_to(*streamables, **attributes); end
   def broadcast_remove_to(*streamables, **opts); end
   def broadcast_render_later_to(*streamables, **rendering); end
   def broadcast_render_to(*streamables, **rendering); end
@@ -595,26 +603,52 @@ module Turbo::SystemTestHelper
   def connect_turbo_cable_stream_sources(**options, &block); end
 end
 
-# source://turbo-rails//lib/turbo/system_test_helper.rb#106
+# source://turbo-rails//lib/turbo/system_test_helper.rb#108
 class Turbo::SystemTestHelper::SignedStreamNameConditions
   include ::Enumerable
   include ::Turbo::Streams::StreamName
 
   # @return [SignedStreamNameConditions] a new instance of SignedStreamNameConditions
   #
-  # source://turbo-rails//lib/turbo/system_test_helper.rb#109
+  # source://turbo-rails//lib/turbo/system_test_helper.rb#111
   def initialize(value); end
 
-  # source://turbo-rails//lib/turbo/system_test_helper.rb#113
+  # source://turbo-rails//lib/turbo/system_test_helper.rb#115
   def attribute; end
 
-  # source://turbo-rails//lib/turbo/system_test_helper.rb#117
+  # source://turbo-rails//lib/turbo/system_test_helper.rb#119
   def each; end
 end
 
 # source://turbo-rails//lib/turbo/test_assertions.rb#2
 module Turbo::TestAssertions
   extend ::ActiveSupport::Concern
+
+  # Assert that the rendered fragment of HTML does not contain a `<turbo-frame>`
+  # element.
+  #
+  # ==== Arguments
+  #
+  # * <tt>ids</tt> [String, Array<String, ActiveRecord::Base>] matches the <tt>[id]</tt> attribute
+  #
+  # ==== Options
+  #
+  # * <tt>:loading</tt> [String] matches the element's <tt>[loading]</tt>
+  #   attribute
+  # * <tt>:src</tt> [String] matches the element's <tt>[src]</tt> attribute
+  # * <tt>:target</tt> [String] matches the element's <tt>[target]</tt>
+  #   attribute
+  #
+  #   Given the following HTML fragment:
+  #
+  #     <turbo-frame id="example" target="_top"></turbo-frame>
+  #
+  #   The following assertion would fail:
+  #
+  #     assert_no_turbo_frame id: "example", target: "_top"
+  #
+  # source://turbo-rails//lib/turbo/test_assertions.rb#153
+  def assert_no_turbo_frame(*ids, **options, &block); end
 
   # Assert that the rendered fragment of HTML does not contain a `<turbo-stream>`
   # element.
@@ -639,6 +673,47 @@ module Turbo::TestAssertions
   #
   # source://turbo-rails//lib/turbo/test_assertions.rb#76
   def assert_no_turbo_stream(action:, target: T.unsafe(nil), targets: T.unsafe(nil)); end
+
+  # Assert that the rendered fragment of HTML contains a `<turbo-frame>`
+  # element.
+  #
+  # ==== Arguments
+  #
+  # * <tt>ids</tt> [String, Array<String, ActiveRecord::Base>] matches the element's <tt>[id]</tt> attribute
+  #
+  # ==== Options
+  #
+  # * <tt>:loading</tt> [String] matches the element's <tt>[loading]</tt>
+  #   attribute
+  # * <tt>:src</tt> [String] matches the element's <tt>[src]</tt> attribute
+  # * <tt>:target</tt> [String] matches the element's <tt>[target]</tt>
+  #   attribute
+  # * <tt>:count</tt> [Integer] indicates how many turbo frames are expected.
+  #   Defaults to <tt>1</tt>.
+  #
+  #   Given the following HTML fragment:
+  #
+  #     <turbo-frame id="example" target="_top"></turbo-frame>
+  #
+  #   The following assertion would pass:
+  #
+  #     assert_turbo_frame id: "example", target: "_top"
+  #
+  # You can also pass a block make assertions about the contents of the
+  # element. Given the following HTML fragment:
+  #
+  #     <turbo-frame id="example">
+  #       <p>Hello!</p>
+  #     </turbo-frame>
+  #
+  #   The following assertion would pass:
+  #
+  #     assert_turbo_frame id: "example" do
+  #       assert_select "p", text: "Hello!"
+  #     end
+  #
+  # source://turbo-rails//lib/turbo/test_assertions.rb#121
+  def assert_turbo_frame(*ids, loading: T.unsafe(nil), src: T.unsafe(nil), target: T.unsafe(nil), count: T.unsafe(nil), &block); end
 
   # Assert that the rendered fragment of HTML contains a `<turbo-stream>`
   # element.
@@ -754,6 +829,9 @@ class Turbo::ThreadDebouncer
   def initialize(key, thread, delay:); end
 
   def debounce; end
+  def debouncer_class; end
+  def debouncer_class=(_arg0); end
+  def debouncer_class?; end
   def wait(*_arg0, **_arg1, &_arg2); end
 
   private
@@ -763,10 +841,15 @@ class Turbo::ThreadDebouncer
   def thread; end
 
   class << self
+    def debouncer_class; end
+    def debouncer_class=(value); end
+    def debouncer_class?; end
     def for(key, delay: T.unsafe(nil)); end
 
     private
 
+    def __class_attr_debouncer_class; end
+    def __class_attr_debouncer_class=(new_value); end
     def new(*_arg0); end
   end
 end

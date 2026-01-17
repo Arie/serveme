@@ -97,29 +97,29 @@ Pagy::A_TAG = T.let(T.unsafe(nil), String)
 module Pagy::B64
   private
 
-  # source://pagy//lib/pagy/modules/b64.rb#10
+  # source://pagy//lib/pagy/modules/b64.rb#12
   def decode(str); end
 
   # source://pagy//lib/pagy/modules/b64.rb#8
   def encode(bin); end
 
-  # source://pagy//lib/pagy/modules/b64.rb#19
+  # source://pagy//lib/pagy/modules/b64.rb#24
   def urlsafe_decode(str); end
 
-  # source://pagy//lib/pagy/modules/b64.rb#12
+  # source://pagy//lib/pagy/modules/b64.rb#16
   def urlsafe_encode(bin); end
 
   class << self
-    # source://pagy//lib/pagy/modules/b64.rb#10
+    # source://pagy//lib/pagy/modules/b64.rb#12
     def decode(str); end
 
     # source://pagy//lib/pagy/modules/b64.rb#8
     def encode(bin); end
 
-    # source://pagy//lib/pagy/modules/b64.rb#19
+    # source://pagy//lib/pagy/modules/b64.rb#24
     def urlsafe_decode(str); end
 
-    # source://pagy//lib/pagy/modules/b64.rb#12
+    # source://pagy//lib/pagy/modules/b64.rb#16
     def urlsafe_encode(bin); end
   end
 end
@@ -128,12 +128,12 @@ end
 class Pagy::Calendar < ::Hash
   # Return the current time of the smallest time unit shown
   #
-  # source://pagy//lib/pagy/classes/calendar/calendar.rb#45
+  # source://pagy//lib/pagy/classes/calendar/calendar.rb#43
   def showtime; end
 
   # Return the url for the calendar (shortest unit) page at time
   #
-  # source://pagy//lib/pagy/classes/calendar/calendar.rb#50
+  # source://pagy//lib/pagy/classes/calendar/calendar.rb#46
   def url_at(time, **_arg1); end
 
   private
@@ -142,12 +142,12 @@ class Pagy::Calendar < ::Hash
   #
   # @raise [InternalError]
   #
-  # source://pagy//lib/pagy/classes/calendar/calendar.rb#90
+  # source://pagy//lib/pagy/classes/calendar/calendar.rb#94
   def create(unit, **_arg1); end
 
   # Create the calendar
   #
-  # source://pagy//lib/pagy/classes/calendar/calendar.rb#65
+  # source://pagy//lib/pagy/classes/calendar/calendar.rb#64
   def init(conf, period, params); end
 
   class << self
@@ -264,75 +264,75 @@ class Pagy::Calendar::Unit < ::Pagy
 
   # Returns the value of attribute from.
   #
-  # source://pagy//lib/pagy/classes/calendar/unit.rb#29
+  # source://pagy//lib/pagy/classes/calendar/unit.rb#32
   def from; end
 
   # Returns the value of attribute last.
   #
-  # source://pagy//lib/pagy/classes/calendar/unit.rb#29
+  # source://pagy//lib/pagy/classes/calendar/unit.rb#32
   def last; end
 
   # Returns the value of attribute order.
   #
-  # source://pagy//lib/pagy/classes/calendar/unit.rb#29
+  # source://pagy//lib/pagy/classes/calendar/unit.rb#32
   def order; end
 
   # Returns the value of attribute last.
   #
-  # source://pagy//lib/pagy/classes/calendar/unit.rb#30
+  # source://pagy//lib/pagy/classes/calendar/unit.rb#33
   def pages; end
 
   # Returns the value of attribute previous.
   #
-  # source://pagy//lib/pagy/classes/calendar/unit.rb#29
+  # source://pagy//lib/pagy/classes/calendar/unit.rb#32
   def previous; end
 
   # Returns the value of attribute to.
   #
-  # source://pagy//lib/pagy/classes/calendar/unit.rb#29
+  # source://pagy//lib/pagy/classes/calendar/unit.rb#32
   def to; end
 
   protected
 
   # Period of the active page (used internally for nested units)
   #
-  # source://pagy//lib/pagy/classes/calendar/unit.rb#84
+  # source://pagy//lib/pagy/classes/calendar/unit.rb#87
   def active_period; end
 
   # Called by false in_range?
   #
-  # source://pagy//lib/pagy/classes/calendar/unit.rb#37
+  # source://pagy//lib/pagy/classes/calendar/unit.rb#40
   def assign_empty_page_variables; end
 
   # Base class method for the setup of the unit variables (subclasses must implement it and call super)
   #
   # @raise [OptionError]
   #
-  # source://pagy//lib/pagy/classes/calendar/unit.rb#60
+  # source://pagy//lib/pagy/classes/calendar/unit.rb#63
   def assign_unit_variables; end
 
   # @return [Boolean]
   #
-  # source://pagy//lib/pagy/classes/calendar/unit.rb#34
+  # source://pagy//lib/pagy/classes/calendar/unit.rb#37
   def calendar?; end
 
   # Apply the strftime format to the time.
   # Localization other than :en, requires the rails-I18n gem.
   #
-  # source://pagy//lib/pagy/classes/calendar/unit.rb#70
+  # source://pagy//lib/pagy/classes/calendar/unit.rb#73
   def localize(time, **options); end
 
   # The page that includes time
   # In case of time out of range, the :fit_time option avoids the RangeError
   # and returns the closest page to the passed time argument (first or last page)
   #
-  # source://pagy//lib/pagy/classes/calendar/unit.rb#47
+  # source://pagy//lib/pagy/classes/calendar/unit.rb#50
   def page_at(time, **options); end
 
   # The number of time units to offset from the @initial time, in order to get the ordered starting time for the page.
   # Used in starting_time_for(page) where page starts from 1 (e.g. page to starting_time means subtracting 1)
   #
-  # source://pagy//lib/pagy/classes/calendar/unit.rb#79
+  # source://pagy//lib/pagy/classes/calendar/unit.rb#82
   def time_offset_for(page); end
 end
 
@@ -429,15 +429,13 @@ end
 module Pagy::Console
   include ::Pagy::Method
 
-  # source://pagy//lib/pagy/modules/console.rb#22
+  # source://pagy//lib/pagy/modules/console.rb#31
   def collection; end
 
-  # source://pagy//lib/pagy/modules/console.rb#21
+  # source://pagy//lib/pagy/modules/console.rb#29
   def params; end
 
-  # Direct reference to request.params via a method
-  #
-  # source://pagy//lib/pagy/modules/console.rb#20
+  # source://pagy//lib/pagy/modules/console.rb#25
   def request; end
 end
 
@@ -448,10 +446,10 @@ class Pagy::Console::Collection < ::Array
   # source://pagy//lib/pagy/modules/console.rb#7
   def initialize(arr = T.unsafe(nil)); end
 
-  # source://pagy//lib/pagy/modules/console.rb#14
+  # source://pagy//lib/pagy/modules/console.rb#20
   def count(*_arg0); end
 
-  # source://pagy//lib/pagy/modules/console.rb#13
+  # source://pagy//lib/pagy/modules/console.rb#16
   def limit(value); end
 
   # source://pagy//lib/pagy/modules/console.rb#12
@@ -488,7 +486,7 @@ module Pagy::CountishPaginator
 
   # Get the count from the page and set epoch when ttl (Time To Live) requires it
   #
-  # source://pagy//lib/pagy/toolbox/paginators/countish.rb#23
+  # source://pagy//lib/pagy/toolbox/paginators/countish.rb#26
   def setup_options(count, epoch, collection, options); end
 
   class << self
@@ -499,7 +497,7 @@ module Pagy::CountishPaginator
 
     # Get the count from the page and set epoch when ttl (Time To Live) requires it
     #
-    # source://pagy//lib/pagy/toolbox/paginators/countish.rb#23
+    # source://pagy//lib/pagy/toolbox/paginators/countish.rb#26
     def setup_options(count, epoch, collection, options); end
   end
 end
@@ -538,12 +536,12 @@ module Pagy::ElasticsearchRailsPaginator
 
   # Get from and size params from the response object, supporting different versions of ElasticsearchRails
   #
-  # source://pagy//lib/pagy/toolbox/paginators/elasticsearch_rails.rb#32
+  # source://pagy//lib/pagy/toolbox/paginators/elasticsearch_rails.rb#36
   def pagination_params_from(response_object); end
 
   # Get the count from the response object, supporting different versions of ElasticsearchRails
   #
-  # source://pagy//lib/pagy/toolbox/paginators/elasticsearch_rails.rb#43
+  # source://pagy//lib/pagy/toolbox/paginators/elasticsearch_rails.rb#48
   def total_count_from(response_object); end
 
   class << self
@@ -554,12 +552,12 @@ module Pagy::ElasticsearchRailsPaginator
 
     # Get from and size params from the response object, supporting different versions of ElasticsearchRails
     #
-    # source://pagy//lib/pagy/toolbox/paginators/elasticsearch_rails.rb#32
+    # source://pagy//lib/pagy/toolbox/paginators/elasticsearch_rails.rb#36
     def pagination_params_from(response_object); end
 
     # Get the count from the response object, supporting different versions of ElasticsearchRails
     #
-    # source://pagy//lib/pagy/toolbox/paginators/elasticsearch_rails.rb#43
+    # source://pagy//lib/pagy/toolbox/paginators/elasticsearch_rails.rb#48
     def total_count_from(response_object); end
   end
 end
@@ -575,23 +573,23 @@ class Pagy::EscapedValue < ::String; end
 module Pagy::I18n
   extend ::Pagy::I18n
 
-  # source://pagy//lib/pagy/modules/i18n/i18n.rb#19
+  # source://pagy//lib/pagy/modules/i18n/i18n.rb#26
   def locale; end
 
   # Store the variable for the duration of a single request
   #
-  # source://pagy//lib/pagy/modules/i18n/i18n.rb#15
+  # source://pagy//lib/pagy/modules/i18n/i18n.rb#22
   def locale=(value); end
 
-  # source://pagy//lib/pagy/modules/i18n/i18n.rb#12
+  # source://pagy//lib/pagy/modules/i18n/i18n.rb#17
   def locales; end
 
-  # source://pagy//lib/pagy/modules/i18n/i18n.rb#11
+  # source://pagy//lib/pagy/modules/i18n/i18n.rb#13
   def pathnames; end
 
   # Translate and pluralize the key with the locale entries
   #
-  # source://pagy//lib/pagy/modules/i18n/i18n.rb#22
+  # source://pagy//lib/pagy/modules/i18n/i18n.rb#31
   def translate(key, **options); end
 
   private
@@ -599,14 +597,17 @@ module Pagy::I18n
   # Create a flat hash with dotted notation keys
   # e.g. { 'a' => { 'b' => {'c' => 3, 'd' => 4 }}} -> { 'a.b.c' => 3, 'a.b.d' => 4 }
   #
-  # source://pagy//lib/pagy/modules/i18n/i18n.rb#42
+  # source://pagy//lib/pagy/modules/i18n/i18n.rb#57
   def flatten_to_dot_keys(initial, prefix = T.unsafe(nil)); end
 
   # @raise [Errno::ENOENT]
   #
-  # source://pagy//lib/pagy/modules/i18n/i18n.rb#31
+  # source://pagy//lib/pagy/modules/i18n/i18n.rb#42
   def load; end
 end
+
+# source://pagy//lib/pagy/modules/i18n/i18n.rb#9
+class Pagy::I18n::KeyError < ::KeyError; end
 
 # source://pagy//lib/pagy/modules/i18n/p11n.rb#5
 module Pagy::I18n::P11n; end
@@ -704,7 +705,7 @@ end
 
 # Generic internal error
 #
-# source://pagy//lib/pagy/classes/exceptions.rb#24
+# source://pagy//lib/pagy/classes/exceptions.rb#25
 class Pagy::InternalError < ::StandardError; end
 
 # source://pagy//lib/pagy/toolbox/paginators/keynav_js.rb#6
@@ -733,27 +734,27 @@ class Pagy::Keyset < ::Pagy
   # @raise [InternalError]
   # @return [Keyset] a new instance of Keyset
   #
-  # source://pagy//lib/pagy/classes/keyset/keyset.rb#55
+  # source://pagy//lib/pagy/classes/keyset/keyset.rb#51
   def initialize(set, **_arg1); end
 
   # Return the next page (i.e., the cutoff of the current page)
   #
-  # source://pagy//lib/pagy/classes/keyset/keyset.rb#75
+  # source://pagy//lib/pagy/classes/keyset/keyset.rb#71
   def next; end
 
   # Return the array of records for the current page
   #
-  # source://pagy//lib/pagy/classes/keyset/keyset.rb#67
+  # source://pagy//lib/pagy/classes/keyset/keyset.rb#63
   def records; end
 
   protected
 
   # Return the prefixed arguments from a cutoff
   #
-  # source://pagy//lib/pagy/classes/keyset/keyset.rb#136
+  # source://pagy//lib/pagy/classes/keyset/keyset.rb#132
   def arguments_from(cutoff, prefix = T.unsafe(nil)); end
 
-  # source://pagy//lib/pagy/classes/keyset/keyset.rb#86
+  # source://pagy//lib/pagy/classes/keyset/keyset.rb#82
   def assign_page; end
 
   # Compose the parameterized predicate used to extract the page records.
@@ -770,27 +771,27 @@ class Pagy::Keyset < ::Pagy
   #
   #     ("pets"."animal", "pets"."name", "pets"."id") > (:animal, :name, :id)
   #
-  # source://pagy//lib/pagy/classes/keyset/keyset.rb#113
+  # source://pagy//lib/pagy/classes/keyset/keyset.rb#109
   def compose_predicate(prefix = T.unsafe(nil)); end
 
   # Extract the cutoff from the last record (only called if @more)
   #
-  # source://pagy//lib/pagy/classes/keyset/keyset.rb#142
+  # source://pagy//lib/pagy/classes/keyset/keyset.rb#138
   def extract_cutoff; end
 
-  # source://pagy//lib/pagy/classes/keyset/keyset.rb#92
+  # source://pagy//lib/pagy/classes/keyset/keyset.rb#88
   def fetch_records; end
 
   # @return [Boolean]
   #
-  # source://pagy//lib/pagy/classes/keyset/keyset.rb#84
+  # source://pagy//lib/pagy/classes/keyset/keyset.rb#80
   def keyset?; end
 
   class << self
     # Helper to lazy-include the adapter module
     #
-    # source://pagy//lib/pagy/classes/keyset/keyset.rb#50
-    def mix_in_adapter(orm_name); end
+    # source://pagy//lib/pagy/classes/keyset/keyset.rb#46
+    def mix_in_adapter(adapter); end
 
     # Factory method: detects the set type, configures the subclass, and instantiates
     #
@@ -815,12 +816,12 @@ module Pagy::Keyset::Adapters; end
 module Pagy::Keyset::Adapters::ActiveRecord
   # Apply the where predicate to the set
   #
-  # source://pagy//lib/pagy/classes/keyset/adapters/active_record.rb#38
+  # source://pagy//lib/pagy/classes/keyset/adapters/active_record.rb#40
   def apply_where(predicate, arguments); end
 
   # Append the missing keyset keys, if the set is restricted by select
   #
-  # source://pagy//lib/pagy/classes/keyset/adapters/active_record.rb#31
+  # source://pagy//lib/pagy/classes/keyset/adapters/active_record.rb#33
   def ensure_select; end
 
   # Extract the keyset from the set
@@ -835,18 +836,18 @@ module Pagy::Keyset::Adapters::ActiveRecord
 
   # Get the hash of quoted keyset identifiers
   #
-  # source://pagy//lib/pagy/classes/keyset/adapters/active_record.rb#19
+  # source://pagy//lib/pagy/classes/keyset/adapters/active_record.rb#21
   def quoted_identifiers(table); end
 
   # Typecast the attributes
   #
-  # source://pagy//lib/pagy/classes/keyset/adapters/active_record.rb#25
+  # source://pagy//lib/pagy/classes/keyset/adapters/active_record.rb#27
   def typecast(attributes); end
 
   class << self
     # @private
     #
-    # source://pagy//lib/pagy/classes/keyset/adapters/active_record.rb#42
+    # source://pagy//lib/pagy/classes/keyset/adapters/active_record.rb#44
     def included(including); end
   end
 end
@@ -857,12 +858,12 @@ end
 module Pagy::Keyset::Adapters::Sequel
   # Apply the where predicate to the set
   #
-  # source://pagy//lib/pagy/classes/keyset/adapters/sequel.rb#51
+  # source://pagy//lib/pagy/classes/keyset/adapters/sequel.rb#53
   def apply_where(predicate, arguments); end
 
   # Append the missing keyset keys, if the set is restricted by select
   #
-  # source://pagy//lib/pagy/classes/keyset/adapters/sequel.rb#43
+  # source://pagy//lib/pagy/classes/keyset/adapters/sequel.rb#45
   def ensure_select; end
 
   # Extract the keyset from the set
@@ -877,18 +878,18 @@ module Pagy::Keyset::Adapters::Sequel
 
   # Get the hash of quoted keyset identifiers
   #
-  # source://pagy//lib/pagy/classes/keyset/adapters/sequel.rb#28
+  # source://pagy//lib/pagy/classes/keyset/adapters/sequel.rb#30
   def quoted_identifiers(table); end
 
   # Typecast the attributes
   #
-  # source://pagy//lib/pagy/classes/keyset/adapters/sequel.rb#34
+  # source://pagy//lib/pagy/classes/keyset/adapters/sequel.rb#36
   def typecast(attributes); end
 
   class << self
     # @private
     #
-    # source://pagy//lib/pagy/classes/keyset/adapters/sequel.rb#55
+    # source://pagy//lib/pagy/classes/keyset/adapters/sequel.rb#57
     def included(including); end
   end
 end
@@ -938,7 +939,7 @@ class Pagy::Keyset::Keynav < ::Pagy::Keyset
 
   # Use a compound predicate to fetch the records
   #
-  # source://pagy//lib/pagy/classes/keyset/keynav.rb#59
+  # source://pagy//lib/pagy/classes/keyset/keynav.rb#60
   def fetch_records; end
 
   # @return [Boolean]
@@ -1009,7 +1010,7 @@ module Pagy::Linkable
   # source://pagy//lib/pagy/modules/abilities/linkable.rb#45
   def compose_page_url(page, **options); end
 
-  # source://pagy//lib/pagy/modules/abilities/linkable.rb#59
+  # source://pagy//lib/pagy/modules/abilities/linkable.rb#66
   def compose_url(absolute, path, params, fragment); end
 end
 
@@ -1147,63 +1148,63 @@ class Pagy::Offset < ::Pagy
 
   # Returns the value of attribute count.
   #
-  # source://pagy//lib/pagy/classes/offset/offset.rb#30
+  # source://pagy//lib/pagy/classes/offset/offset.rb#35
   def count; end
 
   # Returns the value of attribute from.
   #
-  # source://pagy//lib/pagy/classes/offset/offset.rb#30
+  # source://pagy//lib/pagy/classes/offset/offset.rb#35
   def from; end
 
   # Returns the value of attribute in.
   #
-  # source://pagy//lib/pagy/classes/offset/offset.rb#30
+  # source://pagy//lib/pagy/classes/offset/offset.rb#35
   def in; end
 
   # Returns the value of attribute last.
   #
-  # source://pagy//lib/pagy/classes/offset/offset.rb#30
+  # source://pagy//lib/pagy/classes/offset/offset.rb#35
   def last; end
 
   # Returns the value of attribute offset.
   #
-  # source://pagy//lib/pagy/classes/offset/offset.rb#30
+  # source://pagy//lib/pagy/classes/offset/offset.rb#35
   def offset; end
 
   # Returns the value of attribute last.
   #
-  # source://pagy//lib/pagy/classes/offset/offset.rb#31
+  # source://pagy//lib/pagy/classes/offset/offset.rb#36
   def pages; end
 
   # Returns the value of attribute previous.
   #
-  # source://pagy//lib/pagy/classes/offset/offset.rb#30
+  # source://pagy//lib/pagy/classes/offset/offset.rb#35
   def previous; end
 
-  # source://pagy//lib/pagy/classes/offset/offset.rb#33
+  # source://pagy//lib/pagy/classes/offset/offset.rb#38
   def records(collection); end
 
   # Returns the value of attribute to.
   #
-  # source://pagy//lib/pagy/classes/offset/offset.rb#30
+  # source://pagy//lib/pagy/classes/offset/offset.rb#35
   def to; end
 
   protected
 
   # Called by false in_range?
   #
-  # source://pagy//lib/pagy/classes/offset/offset.rb#51
+  # source://pagy//lib/pagy/classes/offset/offset.rb#56
   def assign_empty_page_variables; end
 
-  # source://pagy//lib/pagy/classes/offset/offset.rb#41
+  # source://pagy//lib/pagy/classes/offset/offset.rb#46
   def assign_last; end
 
-  # source://pagy//lib/pagy/classes/offset/offset.rb#46
+  # source://pagy//lib/pagy/classes/offset/offset.rb#51
   def assign_offset; end
 
   # @return [Boolean]
   #
-  # source://pagy//lib/pagy/classes/offset/offset.rb#39
+  # source://pagy//lib/pagy/classes/offset/offset.rb#44
   def offset?; end
 end
 
@@ -1235,12 +1236,12 @@ class Pagy::Offset::Countless < ::Pagy::Offset
 
   # Called by false in_range?
   #
-  # source://pagy//lib/pagy/classes/offset/countless.rb#50
+  # source://pagy//lib/pagy/classes/offset/countless.rb#55
   def assign_empty_page_variables; end
 
   # Support easy countless page param overriding (for legacy param and behavior)
   #
-  # source://pagy//lib/pagy/classes/offset/countless.rb#58
+  # source://pagy//lib/pagy/classes/offset/countless.rb#63
   def compose_page_param(page); end
 
   # @return [Boolean]
@@ -1312,12 +1313,12 @@ Pagy::ROOT = T.let(T.unsafe(nil), Pathname)
 
 # I18n localization error
 #
-# source://pagy//lib/pagy/classes/exceptions.rb#21
+# source://pagy//lib/pagy/classes/exceptions.rb#22
 class Pagy::RailsI18nLoadError < ::LoadError; end
 
 # Specific range error
 #
-# source://pagy//lib/pagy/classes/exceptions.rb#18
+# source://pagy//lib/pagy/classes/exceptions.rb#19
 class Pagy::RangeError < ::Pagy::OptionError; end
 
 # Add method supporting range checking, range error and rescue
@@ -1345,33 +1346,33 @@ class Pagy::Request
 
   # Returns the value of attribute base_url.
   #
-  # source://pagy//lib/pagy/classes/request.rb#18
+  # source://pagy//lib/pagy/classes/request.rb#19
   def base_url; end
 
   # Returns the value of attribute cookie.
   #
-  # source://pagy//lib/pagy/classes/request.rb#18
+  # source://pagy//lib/pagy/classes/request.rb#19
   def cookie; end
 
   # Returns the value of attribute params.
   #
-  # source://pagy//lib/pagy/classes/request.rb#18
+  # source://pagy//lib/pagy/classes/request.rb#19
   def params; end
 
   # Returns the value of attribute path.
   #
-  # source://pagy//lib/pagy/classes/request.rb#18
+  # source://pagy//lib/pagy/classes/request.rb#19
   def path; end
 
-  # source://pagy//lib/pagy/classes/request.rb#26
+  # source://pagy//lib/pagy/classes/request.rb#27
   def resolve_limit; end
 
-  # source://pagy//lib/pagy/classes/request.rb#20
+  # source://pagy//lib/pagy/classes/request.rb#21
   def resolve_page(force_integer: T.unsafe(nil)); end
 
   private
 
-  # source://pagy//lib/pagy/classes/request.rb#37
+  # source://pagy//lib/pagy/classes/request.rb#39
   def get_params(request); end
 end
 
@@ -1419,13 +1420,13 @@ module Pagy::Searcher
   # Common search logic
   #
   # source://pagy//lib/pagy/modules/searcher.rb#9
-  def wrap(pagy_search_args, options); end
+  def wrap(search_arguments, options); end
 
   class << self
     # Common search logic
     #
     # source://pagy//lib/pagy/modules/searcher.rb#9
-    def wrap(pagy_search_args, options); end
+    def wrap(search_arguments, options); end
   end
 end
 

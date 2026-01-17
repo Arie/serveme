@@ -41,7 +41,7 @@ class OpenTelemetry::Instrumentation::Trilogy::Instrumentation < ::OpenTelemetry
   # source://opentelemetry-instrumentation-trilogy//lib/opentelemetry/instrumentation/trilogy/instrumentation.rb#45
   def configure_propagator(config); end
 
-  # source://opentelemetry-instrumentation-trilogy//lib/opentelemetry/instrumentation/trilogy/instrumentation.rb#55
+  # source://opentelemetry-instrumentation-trilogy//lib/opentelemetry/instrumentation/trilogy/instrumentation.rb#56
   def fetch_propagator(name, class_name, gem_suffix = T.unsafe(nil)); end
 
   # source://opentelemetry-instrumentation-trilogy//lib/opentelemetry/instrumentation/trilogy/instrumentation.rb#41

@@ -2089,14 +2089,14 @@ class Aws::EC2Metadata
   #   ec2_metadata = Aws::EC2Metadata.new
   #   ec2_metadata.get('/latest/meta-data/instance-id')
   #   => "i-023a25f10a73a0f79"
-  # @note This implementation always returns a String and will not parse any
-  #   responses. Parsable responses may include JSON objects or directory
-  #   listings, which are strings separated by line feeds (ASCII 10).
   # @note Unlike other services, IMDS does not have a service API model. This
   #   means that we cannot confidently generate code with methods and
   #   response structures. This implementation ensures that new IMDS features
   #   are always supported by being deployed to the instance and does not
   #   require code changes.
+  # @note This implementation always returns a String and will not parse any
+  #   responses. Parsable responses may include JSON objects or directory
+  #   listings, which are strings separated by line feeds (ASCII 10).
   # @param path [String] The full path to the metadata.
   # @see https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-identity-documents.html
   # @see https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instancedata-data-categories.html
@@ -5295,31 +5295,31 @@ class Aws::Plugins::ChecksumAlgorithm::AwsChunkedTrailerDigestIO
   # @api private
   # @return [Boolean]
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#539
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#540
   def eof?; end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#520
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#521
   def read(length = T.unsafe(nil), buf = T.unsafe(nil)); end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#513
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#514
   def rewind; end
 
   # the size of the application layer aws-chunked + trailer body
   #
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#499
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#500
   def size; end
 
   private
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#545
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#546
   def calculate_overhead(chunk_size); end
 
   # Returns true if more data needs to be read into the buffer
@@ -5327,17 +5327,17 @@ class Aws::Plugins::ChecksumAlgorithm::AwsChunkedTrailerDigestIO
   # @api private
   # @return [Boolean]
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#569
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#570
   def fill_data?(length); end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#549
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#550
   def fill_encoded_buffer(required_length); end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#564
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#565
   def trailer_string; end
 end
 

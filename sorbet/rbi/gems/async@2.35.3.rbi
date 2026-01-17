@@ -126,24 +126,39 @@ class Async::Clock
   # source://async//lib/async/clock.rb#34
   def initialize(total = T.unsafe(nil)); end
 
+  # Convert the clock to a JSON-compatible hash.
+  #
+  # source://async//lib/async/clock.rb#80
+  def as_json(*_arg0, **_arg1, &_arg2); end
+
   # Reset the total elapsed time. If the clock is currently running, reset the start time to now.
   #
-  # source://async//lib/async/clock.rb#66
+  # source://async//lib/async/clock.rb#69
   def reset!; end
 
   # Start measuring a duration.
   #
-  # source://async//lib/async/clock.rb#40
+  # source://async//lib/async/clock.rb#43
   def start!; end
+
+  # Returns the value of attribute started.
+  #
+  # source://async//lib/async/clock.rb#40
+  def started; end
 
   # Stop measuring a duration and append the duration to the current total.
   #
-  # source://async//lib/async/clock.rb#45
+  # source://async//lib/async/clock.rb#48
   def stop!; end
+
+  # Convert the clock to a JSON string.
+  #
+  # source://async//lib/async/clock.rb#90
+  def to_json(*_arg0, **_arg1, &_arg2); end
 
   # The total elapsed time including any current duration.
   #
-  # source://async//lib/async/clock.rb#55
+  # source://async//lib/async/clock.rb#58
   def total; end
 
   class << self

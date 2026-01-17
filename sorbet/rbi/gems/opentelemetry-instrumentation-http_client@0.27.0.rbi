@@ -32,15 +32,32 @@ module OpenTelemetry::Instrumentation::HttpClient; end
 # source://opentelemetry-instrumentation-http_client//lib/opentelemetry/instrumentation/http_client/http_helper.rb#12
 module OpenTelemetry::Instrumentation::HttpClient::HttpHelper
   class << self
-    # Prepares all span data for the specified semantic convention in a single call
+    # Prepares span data using both old and stable semantic conventions
     #
     # @api private
     # @param method [String, Symbol] The HTTP method
-    # @param semconv [Symbol] The semantic convention to use (:stable or :old)
-    # @return [SpanCreationAttributes] struct containing span_name, normalized_method, and original_method
+    # @return [SpanCreationAttributes] struct containing span_name and attributes hash
     #
-    # source://opentelemetry-instrumentation-http_client//lib/opentelemetry/instrumentation/http_client/http_helper.rb#66
-    def span_attrs_for(method, semconv: T.unsafe(nil)); end
+    # source://opentelemetry-instrumentation-http_client//lib/opentelemetry/instrumentation/http_client/http_helper.rb#107
+    def span_attrs_for_dup(method); end
+
+    # Prepares span data using old semantic conventions
+    #
+    # @api private
+    # @param method [String, Symbol] The HTTP method
+    # @return [SpanCreationAttributes] struct containing span_name and attributes hash
+    #
+    # source://opentelemetry-instrumentation-http_client//lib/opentelemetry/instrumentation/http_client/http_helper.rb#58
+    def span_attrs_for_old(method); end
+
+    # Prepares span data using stable semantic conventions
+    #
+    # @api private
+    # @param method [String, Symbol] The HTTP method
+    # @return [SpanCreationAttributes] struct containing span_name and attributes hash
+    #
+    # source://opentelemetry-instrumentation-http_client//lib/opentelemetry/instrumentation/http_client/http_helper.rb#80
+    def span_attrs_for_stable(method); end
   end
 end
 
@@ -51,12 +68,10 @@ end
 # source://opentelemetry-instrumentation-http_client//lib/opentelemetry/instrumentation/http_client/http_helper.rb#17
 OpenTelemetry::Instrumentation::HttpClient::HttpHelper::METHOD_CACHE = T.let(T.unsafe(nil), Hash)
 
-# Pre-computed span names for old semantic conventions to avoid allocations
-#
 # @api private
 #
-# source://opentelemetry-instrumentation-http_client//lib/opentelemetry/instrumentation/http_client/http_helper.rb#48
-OpenTelemetry::Instrumentation::HttpClient::HttpHelper::OLD_SPAN_NAMES = T.let(T.unsafe(nil), Hash)
+# source://opentelemetry-instrumentation-http_client//lib/opentelemetry/instrumentation/http_client/http_helper.rb#49
+OpenTelemetry::Instrumentation::HttpClient::HttpHelper::OLD_SPAN_NAMES_BY_METHOD = T.let(T.unsafe(nil), Hash)
 
 # Lightweight struct to hold span creation attributes
 #
@@ -64,35 +79,20 @@ OpenTelemetry::Instrumentation::HttpClient::HttpHelper::OLD_SPAN_NAMES = T.let(T
 #
 # source://opentelemetry-instrumentation-http_client//lib/opentelemetry/instrumentation/http_client/http_helper.rb#14
 class OpenTelemetry::Instrumentation::HttpClient::HttpHelper::SpanCreationAttributes < ::Struct
-  # Returns the value of attribute normalized_method
+  # Returns the value of attribute attributes
   #
-  # @return [Object] the current value of normalized_method
+  # @return [Object] the current value of attributes
   #
   # source://opentelemetry-instrumentation-http_client//lib/opentelemetry/instrumentation/http_client/http_helper.rb#14
-  def normalized_method; end
+  def attributes; end
 
-  # Sets the attribute normalized_method
+  # Sets the attribute attributes
   #
-  # @param value [Object] the value to set the attribute normalized_method to.
+  # @param value [Object] the value to set the attribute attributes to.
   # @return [Object] the newly set value
   #
   # source://opentelemetry-instrumentation-http_client//lib/opentelemetry/instrumentation/http_client/http_helper.rb#14
-  def normalized_method=(_); end
-
-  # Returns the value of attribute original_method
-  #
-  # @return [Object] the current value of original_method
-  #
-  # source://opentelemetry-instrumentation-http_client//lib/opentelemetry/instrumentation/http_client/http_helper.rb#14
-  def original_method; end
-
-  # Sets the attribute original_method
-  #
-  # @param value [Object] the value to set the attribute original_method to.
-  # @return [Object] the newly set value
-  #
-  # source://opentelemetry-instrumentation-http_client//lib/opentelemetry/instrumentation/http_client/http_helper.rb#14
-  def original_method=(_); end
+  def attributes=(_); end
 
   # Returns the value of attribute span_name
   #

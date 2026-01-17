@@ -17275,16 +17275,16 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @param options [Hash] ({})
   # @param params [Hash] ({})
   # @param waiter_name [Symbol]
-  # @raise [Errors::FailureStateError] Raised when the waiter terminates
-  #   because the waiter has entered a state that it will not transition
-  #   out of, preventing success.
   # @raise [Errors::TooManyAttemptsError] Raised when the configured
   #   maximum number of attempts have been made, and the waiter is not
   #   yet successful.
-  # @raise [Errors::UnexpectedError] Raised when an error is encounted
-  #   while polling for a resource that is not expected.
   # @raise [Errors::NoSuchWaiterError] Raised when you request to wait
   #   for an unknown state.
+  # @raise [Errors::UnexpectedError] Raised when an error is encounted
+  #   while polling for a resource that is not expected.
+  # @raise [Errors::FailureStateError] Raised when the waiter terminates
+  #   because the waiter has entered a state that it will not transition
+  #   out of, preventing success.
   # @return [Boolean] Returns `true` if the waiter was successful.
   # @yield [w.waiter]
   #

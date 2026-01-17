@@ -35,12 +35,23 @@ end
 #
 # source://opentelemetry-instrumentation-mysql2//lib/opentelemetry/instrumentation/mysql2/instrumentation.rb#12
 class OpenTelemetry::Instrumentation::Mysql2::Instrumentation < ::OpenTelemetry::Instrumentation::Base
+  # Returns the value of attribute propagator.
+  #
+  # source://opentelemetry-instrumentation-mysql2//lib/opentelemetry/instrumentation/mysql2/instrumentation.rb#29
+  def propagator; end
+
   private
 
-  # source://opentelemetry-instrumentation-mysql2//lib/opentelemetry/instrumentation/mysql2/instrumentation.rb#33
+  # source://opentelemetry-instrumentation-mysql2//lib/opentelemetry/instrumentation/mysql2/instrumentation.rb#41
+  def configure_propagator(config); end
+
+  # source://opentelemetry-instrumentation-mysql2//lib/opentelemetry/instrumentation/mysql2/instrumentation.rb#52
+  def fetch_propagator(name, class_name, gem_suffix = T.unsafe(nil)); end
+
+  # source://opentelemetry-instrumentation-mysql2//lib/opentelemetry/instrumentation/mysql2/instrumentation.rb#37
   def patch_client; end
 
-  # source://opentelemetry-instrumentation-mysql2//lib/opentelemetry/instrumentation/mysql2/instrumentation.rb#29
+  # source://opentelemetry-instrumentation-mysql2//lib/opentelemetry/instrumentation/mysql2/instrumentation.rb#33
   def require_dependencies; end
 end
 

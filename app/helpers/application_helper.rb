@@ -15,7 +15,15 @@ module ApplicationHelper
   end
 
   def used_donator_server_count
-    Reservation.current.where(server_id: Server.for_donators).count
+    @used_donator_server_count ||= Reservation.current.where(server_id: Server.for_donators).count
+  end
+
+  def total_donator_server_count
+    @total_donator_server_count ||= Server.for_donators.active.count
+  end
+
+  def free_donator_server_count
+    @free_donator_server_count ||= total_donator_server_count - used_donator_server_count
   end
 
   def eu_system?

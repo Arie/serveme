@@ -1,9 +1,8 @@
 - if !current_user.donator? && free_servers.size < 3
-  - free_donator_servers_count = Server.for_donators.active.count - used_donator_server_count
-  - if free_donator_servers_count > 0
+  - if free_donator_server_count > 0
     .row
       .col-md-12
         .donate.alert.alert-info.donator-nag
           %h4
-            Premium users have #{I18n.t(:available, :count => free_donator_servers_count, :scope => :server)} right now.
+            Premium users have #{I18n.t(:available, :count => free_donator_server_count, :scope => :server)} right now.
             = link_to("Buy premium and get instant access!", donate_path, data: { turbo: false })

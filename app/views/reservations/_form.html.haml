@@ -24,13 +24,12 @@
 
       = f.input :server_id, :label => "Server", :required => true, :disabled => !@reservation.schedulable?
       - if @reservation.schedulable? && !current_user.donator?
-        - free_donator_servers_count = Server.for_donators.active.count - used_donator_server_count
-        - if free_donator_servers_count > 0
+        - if free_donator_server_count > 0
           .buy_premium.form-group
             .col
               .alert.alert-warning
                 No servers available for you during the selected times.
-                Premium users have #{I18n.t(:available, :count => free_donator_servers_count, :scope => :server)} right now.
+                Premium users have #{I18n.t(:available, :count => free_donator_server_count, :scope => :server)} right now.
                 = link_to("Buy premium and get instant access!", donate_path, data: { turbo: false })
 
       #refresh-ping.form-group.row.string.readonly.reservation_ping.form-group-valid{data: { controller: "ping" }}

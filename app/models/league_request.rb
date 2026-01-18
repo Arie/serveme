@@ -112,9 +112,7 @@ class LeagueRequest
 
   sig { params(search_value: T.any(String, T::Array[String]), search_field: Symbol).returns(ActiveRecord::Relation) }
   def find_by_steam_uid_subquery(search_value, search_field = :steam_uid)
-    subquery = ReservationPlayer.joins(reservation: :server)
-      .where(servers: { sdr: false })
-      .without_sdr_ip
+    subquery = base_players_query
       .where(search_field => search_value)
       .select(:steam_uid)
       .distinct
@@ -128,14 +126,12 @@ class LeagueRequest
       subquery = subquery.where("asn_number IS NULL OR asn_number NOT IN (?)", banned_asns)
     end
 
-    maybe_filter_by_reservation_ids(players_query.where(steam_uid: subquery))
+    apply_display_columns(maybe_filter_by_reservation_ids(base_players_query.where(steam_uid: subquery)))
   end
 
   sig { params(search_value: T.any(String, T::Array[String]), search_field: Symbol).returns(ActiveRecord::Relation) }
   def find_by_ip_subquery(search_value, search_field = :steam_uid)
-    subquery = ReservationPlayer.joins(reservation: :server)
-      .where(servers: { sdr: false })
-      .without_sdr_ip
+    subquery = base_players_query
       .where(search_field => search_value)
       .select(:ip)
       .distinct
@@ -149,7 +145,7 @@ class LeagueRequest
       subquery = subquery.where("asn_number IS NULL OR asn_number NOT IN (?)", banned_asns)
     end
 
-    maybe_filter_by_reservation_ids(players_query.where(ip: subquery))
+    apply_display_columns(maybe_filter_by_reservation_ids(base_players_query.where(ip: subquery)))
   end
 
   def maybe_filter_by_reservation_ids(query)
@@ -160,8 +156,9 @@ class LeagueRequest
     end
   end
 
-  def players_query
-    ReservationPlayer
+  sig { params(query: ActiveRecord::Relation).returns(ActiveRecord::Relation) }
+  def apply_display_columns(query)
+    query
       .select(
         "reservation_players.id",
         "reservation_players.reservation_id",
@@ -174,10 +171,19 @@ class LeagueRequest
         "reservations.starts_at AS reservation_starts_at",
         "reservations.ends_at AS reservation_ends_at"
       )
+      .order("reservations.starts_at DESC")
+  end
+
+  sig { returns(ActiveRecord::Relation) }
+  def base_players_query
+    ReservationPlayer
       .joins(reservation: :server)
       .where(servers: { sdr: false })
       .without_sdr_ip
-      .order("reservations.starts_at DESC")
+  end
+
+  def players_query
+    apply_display_columns(base_players_query)
   end
 
   def parse_ips(input)

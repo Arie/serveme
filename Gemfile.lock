@@ -262,7 +262,6 @@ GEM
       cucumber (>= 7, < 11)
       railties (>= 6.1, < 9)
     cucumber-tag-expressions (8.1.0)
-    dante (0.2.0)
     database_cleaner (2.1.0)
       database_cleaner-active_record (>= 2, < 3)
     database_cleaner-active_record (2.2.2)
@@ -1117,7 +1116,6 @@ DEPENDENCIES
   connection_pool (< 3)
   cucumber
   cucumber-rails
-  dante
   database_cleaner
   devise
   down
@@ -1211,4 +1209,4 @@ DEPENDENCIES
   zonebie
 
 BUNDLED WITH
-   4.0.4
+  4.0.4

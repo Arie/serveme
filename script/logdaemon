@@ -2,8 +2,6 @@
 # frozen_string_literal: true
 
 require File.expand_path('../config/boot', __dir__)
-require 'dante'
-require 'eventmachine'
 require 'socket'
 require 'sidekiq'
 require 'active_support'
@@ -14,10 +12,14 @@ require File.expand_path('../app/helpers/log_line_helper', __dir__)
 
 STREAMING_LOG_DIR = File.expand_path('../log/streaming', __dir__)
 
-class Handler < EM::Connection
+class LogHandler
   include LogLineHelper
 
-  def receive_data(data)
+  def initialize(streaming_log_dir)
+    @streaming_log_dir = streaming_log_dir
+  end
+
+  def process_data(data)
     log_line = data.force_encoding('UTF-8').scrub[5..]
     LogWorker.perform_async(log_line.to_s) if interesting_line?(log_line)
     matches = log_line.match(LogWorker::LOG_LINE_REGEX)
@@ -27,26 +29,73 @@ class Handler < EM::Connection
   def write_log(secret, line)
     return unless secret =~ /^\d+$/
 
-    File.open(File.join(STREAMING_LOG_DIR, "#{secret}.log"), 'a') do |f|
+    File.open(File.join(@streaming_log_dir, "#{secret}.log"), 'a') do |f|
       f.puts line
     end
   end
 end
 
-runner = Dante::Runner.new('logdaemon')
-runner.with_options do |opts|
-  opts.on('-i', '--ip IP', String, 'IP to bind to') do |ip|
-    options[:ip] = ip
-  end
-end
-runner.description = 'TF2 server logdaemon'
+FileUtils.mkdir_p(STREAMING_LOG_DIR)
 
-runner.execute do |opts|
-  ip    = opts[:ip]
-  port  = opts[:port]
-  puts "Listening on #{ip}:#{port}..."
-  FileUtils.mkdir_p(STREAMING_LOG_DIR)
+# Check for systemd socket activation
+listen_fds = ENV.fetch('LISTEN_FDS', 0).to_i
+listen_pid = ENV.fetch('LISTEN_PID', 0).to_i
+
+if listen_fds > 0 && listen_pid == Process.pid
+  # Systemd socket activation: FD 3 is the first passed socket
+  # EventMachine doesn't support attaching existing UDP sockets,
+  # so we use plain Ruby sockets instead
+  puts "Using systemd socket activation (#{listen_fds} socket(s) passed)"
+
+  socket = UDPSocket.for_fd(3)
+  handler = LogHandler.new(STREAMING_LOG_DIR)
+
+  # Handle SIGTERM gracefully for systemd stop/restart
+  running = true
+  Signal.trap('TERM') { running = false }
+  Signal.trap('INT') { running = false }
+
+  while running
+    begin
+      # Use IO.select with timeout to allow signal handling
+      ready = IO.select([ socket ], nil, nil, 1)
+      next unless ready
+
+      data, = socket.recvfrom_nonblock(65535)
+      handler.process_data(data)
+    rescue IO::WaitReadable
+      # No data available, continue loop
+    rescue => e
+      warn "Error processing log line: #{e.message}"
+      warn e.backtrace.first(5).join("\n")
+    end
+  end
+
+  puts "Shutting down gracefully"
+else
+  # Fallback for development/manual usage - use EventMachine
+  require 'eventmachine'
+  require 'optparse'
+
+  # Store handler in a constant so EMHandler can access it
+  LOG_HANDLER = LogHandler.new(STREAMING_LOG_DIR)
+
+  class EMHandler < EM::Connection
+    def receive_data(data)
+      LOG_HANDLER.process_data(data)
+    end
+  end
+
+  options = { ip: '0.0.0.0', port: 40001 }
+  OptionParser.new do |opts|
+    opts.banner = "Usage: #{$PROGRAM_NAME} [options]"
+    opts.on('-i', '--ip IP', 'IP to bind to') { |ip| options[:ip] = ip }
+    opts.on('-p', '--port PORT', Integer, 'Port to bind to') { |port| options[:port] = port }
+  end.parse!
+
+  puts "Listening on #{options[:ip]}:#{options[:port]}..."
+
   EM.run do
-    EM.open_datagram_socket(ip, port, Handler)
+    EM.open_datagram_socket(options[:ip], options[:port], EMHandler)
   end
 end

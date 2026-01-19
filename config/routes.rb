@@ -166,6 +166,12 @@ Serveme::Application.routes.draw do
         post :find_servers
       end
     end
+
+    # MCP (Model Context Protocol) endpoints for Claude Code integration
+    resource :mcp, only: [], controller: :mcp do
+      get :tools
+      post :execute
+    end
   end
 
   # Serve swagger YAML dynamically with current server first (before rswag engine)
@@ -176,6 +182,11 @@ Serveme::Application.routes.draw do
 
   # Stripe webhook
   post "/stripe/webhook", to: "stripe_webhooks#create"
+
+  # Discord bot invite and OAuth2 for account linking
+  get "/discord", to: "discord#invite", as: "discord_invite"
+  get "/discord/link", to: "discord#link", as: "discord_link"
+  get "/discord/callback", to: "discord#callback", as: "discord_callback"
 
   # Pretty URL
   get   "/donate",                        to: "orders#new",                as: "donate"
@@ -192,6 +203,7 @@ Serveme::Application.routes.draw do
   get   "/reservations-played",           to: "reservations#played_in",    as: "played_in"
   get   "/recent-reservations",           to: "pages#recent_reservations", as: "recent_reservations"
   get   "/settings",                      to: "users#edit",                as: "settings"
+  delete "/settings/unlink-discord",      to: "users#unlink_discord",      as: "unlink_discord"
   get   "/upload-map",                    to: "map_uploads#new",           as: "upload_map"
   get   "/upload-file",                   to: "file_uploads#new",          as: "upload_file"
   get   "/maps",                          to: "map_uploads#index",         as: "maps"

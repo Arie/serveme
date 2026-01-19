@@ -967,6 +967,96 @@ class Reservation
     sig { void }
     def disable_democheck_will_change!; end
 
+    sig { returns(T.nilable(::String)) }
+    def discord_channel_id; end
+
+    sig { params(value: T.nilable(::String)).returns(T.nilable(::String)) }
+    def discord_channel_id=(value); end
+
+    sig { returns(T::Boolean) }
+    def discord_channel_id?; end
+
+    sig { returns(T.nilable(::String)) }
+    def discord_channel_id_before_last_save; end
+
+    sig { returns(T.untyped) }
+    def discord_channel_id_before_type_cast; end
+
+    sig { returns(T::Boolean) }
+    def discord_channel_id_came_from_user?; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def discord_channel_id_change; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def discord_channel_id_change_to_be_saved; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def discord_channel_id_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::String)) }
+    def discord_channel_id_in_database; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def discord_channel_id_previous_change; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def discord_channel_id_previously_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::String)) }
+    def discord_channel_id_previously_was; end
+
+    sig { returns(T.nilable(::String)) }
+    def discord_channel_id_was; end
+
+    sig { void }
+    def discord_channel_id_will_change!; end
+
+    sig { returns(T.nilable(::String)) }
+    def discord_message_id; end
+
+    sig { params(value: T.nilable(::String)).returns(T.nilable(::String)) }
+    def discord_message_id=(value); end
+
+    sig { returns(T::Boolean) }
+    def discord_message_id?; end
+
+    sig { returns(T.nilable(::String)) }
+    def discord_message_id_before_last_save; end
+
+    sig { returns(T.untyped) }
+    def discord_message_id_before_type_cast; end
+
+    sig { returns(T::Boolean) }
+    def discord_message_id_came_from_user?; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def discord_message_id_change; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def discord_message_id_change_to_be_saved; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def discord_message_id_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::String)) }
+    def discord_message_id_in_database; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def discord_message_id_previous_change; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def discord_message_id_previously_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::String)) }
+    def discord_message_id_previously_was; end
+
+    sig { returns(T.nilable(::String)) }
+    def discord_message_id_was; end
+
+    sig { void }
+    def discord_message_id_will_change!; end
+
     sig { returns(T.nilable(::Integer)) }
     def duration; end
 
@@ -1835,6 +1925,12 @@ class Reservation
     def restore_disable_democheck!; end
 
     sig { void }
+    def restore_discord_channel_id!; end
+
+    sig { void }
+    def restore_discord_message_id!; end
+
+    sig { void }
     def restore_duration!; end
 
     sig { void }
@@ -1950,6 +2046,18 @@ class Reservation
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def saved_change_to_disable_democheck?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def saved_change_to_discord_channel_id; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def saved_change_to_discord_channel_id?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def saved_change_to_discord_message_id; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def saved_change_to_discord_message_id?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
     sig { returns(T.nilable([T.nilable(::Integer), T.nilable(::Integer)])) }
     def saved_change_to_duration; end
@@ -2688,6 +2796,12 @@ class Reservation
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def will_save_change_to_disable_democheck?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def will_save_change_to_discord_channel_id?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def will_save_change_to_discord_message_id?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def will_save_change_to_duration?(from: T.unsafe(nil), to: T.unsafe(nil)); end

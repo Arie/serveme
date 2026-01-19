@@ -13,6 +13,10 @@
           = link_to i_am_feeling_lucky_reservations_path, :class => 'btn btn-lg btn-warning', :method => :post, :title => "Make a reservation in 1 click", data: { disable_with: "1-click-server <i class='fa fa-refresh fa-spin'></i>"} do
             1-click-server
             %i.fa.fa-bolt
+          %p.mt-2.mb-0.text-warning
+            %small
+              %strong New:
+              = link_to "Add our bot to your Discord server", discord_invite_path, class: "text-warning"
 
         .col-12.col-md-4.align-self-end
           = render 'reservations/available_servers'

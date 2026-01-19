@@ -34,4 +34,24 @@ describe UsersController do
       @user.reload.nickname.should_not eql 'abc'
     end
   end
+
+  describe '#unlink_discord' do
+    it 'unlinks a linked discord account' do
+      @user.update!(discord_uid: '123456789')
+      delete :unlink_discord
+      @user.reload.discord_uid.should be_nil
+      flash[:notice].should eq 'Discord account unlinked'
+    end
+
+    it 'shows alert when no discord account is linked' do
+      @user.update!(discord_uid: nil)
+      delete :unlink_discord
+      flash[:alert].should eq 'No Discord account linked'
+    end
+
+    it 'redirects to settings page' do
+      delete :unlink_discord
+      response.should redirect_to(settings_path)
+    end
+  end
 end

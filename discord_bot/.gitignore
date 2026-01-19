@@ -1,0 +1,5 @@
+# Ignore local overrides
+config/local.yml
+
+# Logs
+*.log

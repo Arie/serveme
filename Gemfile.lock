@@ -276,6 +276,15 @@ GEM
       responders
       warden (~> 1.2.3)
     diff-lcs (1.6.2)
+    discordrb (3.7.2)
+      base64 (~> 0.2)
+      discordrb-webhooks (~> 3.7.2)
+      ffi (>= 1.9.24)
+      opus-ruby
+      rest-client (>= 2.0.0)
+      websocket-client-simple (>= 0.9.0)
+    discordrb-webhooks (3.7.2)
+      rest-client (>= 2.0.0)
     domain_name (0.6.20240107)
     down (5.4.2)
       addressable (~> 2.8)
@@ -321,6 +330,7 @@ GEM
     erubi (1.13.1)
     et-orbi (1.4.0)
       tzinfo
+    event_emitter (0.2.6)
     event_stream_parser (1.0.0)
     eventmachine (1.2.7)
     execjs (2.10.0)
@@ -398,6 +408,7 @@ GEM
       http-cookie (~> 1.0)
       http-form_data (~> 2.2)
       llhttp-ffi (~> 0.5.0)
+    http-accept (1.7.0)
     http-cookie (1.1.0)
       domain_name (~> 0.5)
     http-form_data (2.3.0)
@@ -484,12 +495,15 @@ GEM
       libv8-node (~> 24.12.0.1)
     minitest (6.0.1)
       prism (~> 1.5)
+    mock_redis (0.53.0)
+      redis (~> 5)
     msgpack (1.8.0)
     multi_json (1.19.1)
     multi_test (1.1.0)
     multi_xml (0.8.1)
       bigdecimal (>= 3.1, < 5)
     multipart-post (2.4.1)
+    mutex_m (0.3.0)
     net-ftp (0.3.9)
       net-protocol
       time
@@ -726,6 +740,8 @@ GEM
       opentelemetry-semantic_conventions
     opentelemetry-semantic_conventions (1.36.0)
       opentelemetry-api (~> 1.0)
+    opus-ruby (1.0.1)
+      ffi
     orm_adapter (0.5.0)
     ostruct (0.6.3)
     pagy (43.2.6)
@@ -846,6 +862,11 @@ GEM
     responders (3.2.0)
       actionpack (>= 7.0)
       railties (>= 7.0)
+    rest-client (2.1.0)
+      http-accept (>= 1.7.0, < 2.0)
+      http-cookie (>= 1.0.2, < 2.0)
+      mime-types (>= 1.16, < 4.0)
+      netrc (~> 0.8)
     rexml (3.4.4)
     rouge (4.7.0)
     rspec-activemodel-mocks (1.3.0)
@@ -1066,6 +1087,12 @@ GEM
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
+    websocket (1.2.11)
+    websocket-client-simple (0.9.0)
+      base64
+      event_emitter
+      mutex_m
+      websocket
     websocket-driver (0.8.0)
       base64
       websocket-extensions (>= 0.1.0)
@@ -1118,6 +1145,7 @@ DEPENDENCIES
   cucumber-rails
   database_cleaner
   devise
+  discordrb
   down
   draper
   ed25519
@@ -1138,6 +1166,7 @@ DEPENDENCIES
   maxmind-geoip2
   maxminddb
   mini_racer
+  mock_redis
   net-ftp
   net-imap
   net-pop

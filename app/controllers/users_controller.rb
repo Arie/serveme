@@ -13,6 +13,16 @@ class UsersController < ApplicationController
     redirect_to root_path
   end
 
+  def unlink_discord
+    if current_user.discord_uid.present?
+      current_user.update!(discord_uid: nil)
+      flash[:notice] = "Discord account unlinked"
+    else
+      flash[:alert] = "No Discord account linked"
+    end
+    redirect_to settings_path
+  end
+
   def steam_avatar
     user = User.find(params[:id])
     size = params[:size]&.to_sym || :medium

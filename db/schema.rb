@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_11_11_115752) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_20_124752) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -201,6 +201,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_11_115752) do
     t.datetime "created_at", precision: nil
     t.string "custom_whitelist_id"
     t.boolean "disable_democheck", default: false
+    t.string "discord_channel_id"
+    t.string "discord_message_id"
     t.bigint "duration"
     t.boolean "enable_arena_respawn", default: false
     t.boolean "enable_demos_tf", default: false
@@ -345,6 +347,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_11_115752) do
     t.datetime "current_sign_in_at", precision: nil
     t.text "current_sign_in_ip"
     t.string "demos_tf_api_key"
+    t.string "discord_uid"
     t.text "email"
     t.text "encrypted_password", default: "", null: false
     t.bigint "expired_reservations", default: 0
@@ -367,6 +370,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_11_115752) do
     t.text "uid"
     t.datetime "updated_at", precision: nil
     t.index ["api_key"], name: "idx_17257_index_users_on_api_key", unique: true
+    t.index ["discord_uid"], name: "index_users_on_discord_uid", unique: true
     t.index ["latitude", "longitude"], name: "idx_17257_index_users_on_latitude_and_longitude"
     t.index ["reservations_count"], name: "index_users_on_reservations_count"
     t.index ["reset_password_token"], name: "idx_17257_index_users_on_reset_password_token", unique: true

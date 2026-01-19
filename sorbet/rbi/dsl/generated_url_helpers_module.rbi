@@ -97,6 +97,15 @@ module GeneratedUrlHelpersModule
   def credits_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def discord_callback_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def discord_invite_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def discord_link_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def donate_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
@@ -137,6 +146,9 @@ module GeneratedUrlHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def edit_whitelist_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def execute_api_mcp_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def extend_api_reservation_url(*args); end
@@ -529,6 +541,9 @@ module GeneratedUrlHelpersModule
   def time_selection_reservations_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def tools_api_mcp_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def turbo_recede_historical_location_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
@@ -536,6 +551,9 @@ module GeneratedUrlHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def turbo_resume_historical_location_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def unlink_discord_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def update_rails_disk_service_url(*args); end

@@ -121,6 +121,7 @@ group :test do
   gem "json_expressions"
   gem "launchy"
   gem "maxminddb"
+  gem "mock_redis"
   gem "rails-controller-testing"
   gem "shoulda-matchers"
   gem "vcr"
@@ -129,6 +130,11 @@ end
 
 group :development, :production do
   gem "hive_geoip2"
+end
+
+# Discord bot dependencies
+group :discord do
+  gem "discordrb"
 end
 
 gem "brakeman", "~> 7.0", groups: %i[development test]

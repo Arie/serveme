@@ -2,4 +2,5 @@
 :queues:
   - [priority, 2]
   - default
+  - discord
   - low

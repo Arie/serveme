@@ -938,6 +938,51 @@ class User
     def demos_tf_api_key_will_change!; end
 
     sig { returns(T.nilable(::String)) }
+    def discord_uid; end
+
+    sig { params(value: T.nilable(::String)).returns(T.nilable(::String)) }
+    def discord_uid=(value); end
+
+    sig { returns(T::Boolean) }
+    def discord_uid?; end
+
+    sig { returns(T.nilable(::String)) }
+    def discord_uid_before_last_save; end
+
+    sig { returns(T.untyped) }
+    def discord_uid_before_type_cast; end
+
+    sig { returns(T::Boolean) }
+    def discord_uid_came_from_user?; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def discord_uid_change; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def discord_uid_change_to_be_saved; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def discord_uid_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::String)) }
+    def discord_uid_in_database; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def discord_uid_previous_change; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def discord_uid_previously_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::String)) }
+    def discord_uid_previously_was; end
+
+    sig { returns(T.nilable(::String)) }
+    def discord_uid_was; end
+
+    sig { void }
+    def discord_uid_will_change!; end
+
+    sig { returns(T.nilable(::String)) }
     def email; end
 
     sig { params(value: T.nilable(::String)).returns(T.nilable(::String)) }
@@ -1763,6 +1808,9 @@ class User
     def restore_demos_tf_api_key!; end
 
     sig { void }
+    def restore_discord_uid!; end
+
+    sig { void }
     def restore_email!; end
 
     sig { void }
@@ -1860,6 +1908,12 @@ class User
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def saved_change_to_demos_tf_api_key?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def saved_change_to_discord_uid; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def saved_change_to_discord_uid?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
     sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
     def saved_change_to_email; end
@@ -2238,6 +2292,9 @@ class User
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def will_save_change_to_demos_tf_api_key?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def will_save_change_to_discord_uid?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def will_save_change_to_email?(from: T.unsafe(nil), to: T.unsafe(nil)); end

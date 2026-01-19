@@ -24,6 +24,7 @@ class ReservationWorker
     reservation.provisioned = true
     reservation.save(validate: false)
     UpdateSteamNicknameWorker.perform_async(reservation.user.uid)
+    DiscordReservationUpdateWorker.perform_async(reservation_id)
   end
 
   def after_update_reservation_steps
@@ -38,5 +39,6 @@ class ReservationWorker
     reservation.save(validate: false)
     reservation.broadcast_connect_info
     LogScanWorker.perform_async(reservation_id)
+    DiscordReservationUpdateWorker.perform_async(reservation_id)
   end
 end

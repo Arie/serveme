@@ -206,6 +206,11 @@ FactoryBot.define do
     content { 'whitelist content' }
   end
 
+  factory :whitelist do
+    sequence(:file) { |n| "whitelist_#{n}.txt" }
+    hidden { false }
+  end
+
   factory :order do
     association :product
     association :user

@@ -42,3 +42,14 @@ set :linked_dirs, fetch(:linked_dirs, []).push("log", "tmp/pids", "tmp/cache", "
 set :assets_dependencies, %w[app/assets app/javascript lib/assets vendor/assets Gemfile.lock config/routes.rb]
 
 after "deploy:finishing", "logdaemon:restart"
+
+namespace :discord_bot do
+  desc "Restart Discord bot"
+  task :restart do
+    on roles(:app) do
+      execute "systemctl --user restart serveme-discord-bot"
+    end
+  end
+end
+
+after "deploy:published", "discord_bot:restart"

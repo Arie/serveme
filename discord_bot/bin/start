@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -e
+
+# Start the serveme.tf Discord bot
+# Usage: bin/start [environment]
+# Examples:
+#   bin/start              # development (default)
+#   bin/start development  # explicit development
+#   bin/start production   # production mode
+
+# Navigate to Rails root (parent of discord_bot directory)
+cd "$(dirname "$0")/../.."
+
+ENV="${1:-${RAILS_ENV:-development}}"
+export RAILS_ENV="$ENV"
+
+echo "Starting serveme.tf Discord bot in $ENV mode..."
+
+exec bundle exec ruby discord_bot/bot.rb

@@ -1,0 +1,35 @@
+# Systemd service file for serveme.tf Discord bot
+#
+# Customize and copy this into ~/.config/systemd/user/
+# Then run:
+#   - systemctl --user daemon-reload
+#   - systemctl --user enable serveme-discord-bot
+#   - systemctl --user {start,stop,restart} serveme-discord-bot
+#
+# Use `journalctl --user -u serveme-discord-bot -rn 100` to view the last 100 lines of log output.
+#
+[Unit]
+Description=Discord bot for serveme (eu)
+After=syslog.target network.target
+
+[Service]
+Type=simple
+Environment=RAILS_ENV=production
+
+WorkingDirectory=/var/www/serveme/current
+ExecStart=/home/tf2/.rvm/bin/rvm default do bundle exec ruby discord_bot/bot.rb
+
+UMask=0002
+
+# if we crash, restart
+RestartSec=1
+Restart=on-failure
+
+# output goes to log files
+StandardOutput=append:/var/www/serveme/shared/log/discord_bot.log
+StandardError=append:/var/www/serveme/shared/log/discord_bot.error.log
+
+SyslogIdentifier=serveme-discord-bot
+
+[Install]
+WantedBy=default.target

@@ -97,6 +97,15 @@ module GeneratedPathHelpersModule
   def credits_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def discord_callback_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def discord_invite_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def discord_link_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def donate_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
@@ -137,6 +146,9 @@ module GeneratedPathHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def edit_whitelist_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def execute_api_mcp_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def extend_api_reservation_path(*args); end
@@ -529,6 +541,9 @@ module GeneratedPathHelpersModule
   def time_selection_reservations_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def tools_api_mcp_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def turbo_recede_historical_location_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
@@ -536,6 +551,9 @@ module GeneratedPathHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def turbo_resume_historical_location_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def unlink_discord_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def update_rails_disk_service_path(*args); end

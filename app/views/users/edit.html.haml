@@ -13,6 +13,20 @@
     %button.btn.btn-primary{:type => :submit}
       Save
 
+%h2.mt-4 Discord
+- if current_user.discord_uid.present?
+  %p
+    Your Discord account is linked. You can use
+    %code= "/#{SITE_HOST == 'serveme.tf' ? 'serveme' : "serveme-#{SITE_HOST.split('.').first}"}"
+    commands in Discord.
+    = button_to "Unlink", unlink_discord_path, method: :delete, class: "btn btn-danger btn-sm", form: { style: "display: inline" }, data: { confirm: "Are you sure you want to unlink your Discord account?" }
+- else
+  %p
+    Link your Discord account to use
+    %code= "/#{SITE_HOST == 'serveme.tf' ? 'serveme' : "serveme-#{SITE_HOST.split('.').first}"}"
+    commands in Discord.
+    = link_to "Link Discord", discord_link_path, class: "btn btn-primary btn-sm"
+
 - if current_user.private_server_option?
   %h2 Your private server
 

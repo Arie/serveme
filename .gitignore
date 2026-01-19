@@ -30,3 +30,4 @@ cucumber.html
 .claude-on-rails/sessions/
 .claude-swarm/
 claude-swarm.log
+discord_bot/config.yml

@@ -1,0 +1,54 @@
+# Discord Bot Configuration
+# Copy to config.yml and fill in your values
+
+discord:
+  token: "YOUR_DISCORD_BOT_TOKEN"
+  client_id: "YOUR_DISCORD_CLIENT_ID"
+
+# Redis for storing user region preferences
+redis:
+  url: "redis://localhost:6379/1"
+
+# Serveme regions with their MCP API endpoints
+regions:
+  eu:
+    name: "Europe"
+    url: "https://serveme.tf/api/mcp"
+    api_key: "YOUR_EU_API_KEY"
+    flag: "eu"
+  na:
+    name: "North America"
+    url: "https://na.serveme.tf/api/mcp"
+    api_key: "YOUR_NA_API_KEY"
+    flag: "us"
+  sea:
+    name: "Southeast Asia"
+    url: "https://sea.serveme.tf/api/mcp"
+    api_key: "YOUR_SEA_API_KEY"
+    flag: "sg"
+  au:
+    name: "Australia"
+    url: "https://au.serveme.tf/api/mcp"
+    api_key: "YOUR_AU_API_KEY"
+    flag: "au"
+
+# Locale to region mapping for guessing user's default region
+locale_mapping:
+  na:
+    - en-US
+    - en-CA
+    - es-MX
+    - es-US
+  au:
+    - en-AU
+    - en-NZ
+  sea:
+    - zh-CN
+    - zh-TW
+    - ja
+    - ko
+    - th
+    - vi
+    - id
+    - ms
+  # Everything else defaults to EU

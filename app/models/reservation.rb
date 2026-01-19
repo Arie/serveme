@@ -144,7 +144,9 @@ class Reservation < ActiveRecord::Base
     self.extending  = true
     self.ends_at    = T.must(ends_at) + user&.reservation_extension_time
     self.inactive_minute_counter = 0
-    save
+    result = save
+    DiscordReservationUpdateWorker.perform_async(id) if result
+    result
   end
 
   sig { returns(T::Boolean) }

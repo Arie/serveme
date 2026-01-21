@@ -36,7 +36,7 @@ module Mcp
               description: "Discord user ID (for authorization via linked account)"
             }
           },
-          required: ["reservation_id"]
+          required: [ "reservation_id" ]
         }
       end
 

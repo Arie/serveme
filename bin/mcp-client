@@ -1,0 +1,183 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# MCP stdio-to-HTTP bridge for serveme.tf
+# Usage: mcp-client <region> [api_key]
+# Regions: eu, na, sea, au
+
+require "net/http"
+require "uri"
+require "json"
+
+REGIONS = {
+  "eu" => "https://serveme.tf",
+  "na" => "https://na.serveme.tf",
+  "sea" => "https://sea.serveme.tf",
+  "au" => "https://au.serveme.tf"
+}.freeze
+
+SERVER_INFO = {
+  name: "serveme-mcp",
+  version: "1.0.0"
+}.freeze
+
+CAPABILITIES = {
+  tools: {}
+}.freeze
+
+class McpClient
+  def initialize(region, api_key)
+    @region = region
+    @api_key = api_key
+    @base_url = REGIONS[region]
+    @endpoint = URI("#{@base_url}/api/mcp/execute")
+    @tools_cache = nil
+  end
+
+  def run
+    $stdout.sync = true
+    $stderr.puts "MCP client started for #{@region} (#{@base_url})"
+
+    loop do
+      line = $stdin.gets
+      break unless line
+
+      begin
+        request = JSON.parse(line)
+        response = handle_request(request)
+        puts response.to_json if response
+      rescue JSON::ParserError => e
+        puts error_response(nil, -32700, "Parse error: #{e.message}").to_json
+      rescue StandardError => e
+        $stderr.puts "Error: #{e.message}\n#{e.backtrace.first(3).join("\n")}"
+        puts error_response(nil, -32603, "Internal error: #{e.message}").to_json
+      end
+    end
+  end
+
+  private
+
+  def handle_request(request)
+    id = request["id"]
+    method = request["method"]
+
+    case method
+    when "initialize"
+      handle_initialize(id, request["params"])
+    when "initialized"
+      # Notification, no response needed
+      nil
+    when "tools/list"
+      handle_tools_list(id)
+    when "tools/call"
+      handle_tools_call(id, request["params"])
+    when "ping"
+      success_response(id, {})
+    else
+      error_response(id, -32601, "Method not found: #{method}")
+    end
+  end
+
+  def handle_initialize(id, _params)
+    {
+      jsonrpc: "2.0",
+      id: id,
+      result: {
+        protocolVersion: "2024-11-05",
+        serverInfo: SERVER_INFO,
+        capabilities: CAPABILITIES
+      }
+    }
+  end
+
+  def handle_tools_list(id)
+    # Fetch tools from remote API
+    response = send_to_api({ jsonrpc: "2.0", id: 1, method: "tools/list" })
+
+    if response[:error]
+      return error_response(id, response[:error][:code], response[:error][:message])
+    end
+
+    tools = response.dig(:result, :tools) || response.dig("result", "tools") || []
+    @tools_cache = tools
+
+    {
+      jsonrpc: "2.0",
+      id: id,
+      result: { tools: tools }
+    }
+  end
+
+  def handle_tools_call(id, params)
+    response = send_to_api({
+      jsonrpc: "2.0",
+      id: 1,
+      method: "tools/call",
+      params: params
+    })
+
+    if response[:error] || response["error"]
+      err = response[:error] || response["error"]
+      return error_response(id, err[:code] || err["code"], err[:message] || err["message"])
+    end
+
+    {
+      jsonrpc: "2.0",
+      id: id,
+      result: response[:result] || response["result"]
+    }
+  end
+
+  def send_to_api(request)
+    http = Net::HTTP.new(@endpoint.host, @endpoint.port)
+    http.use_ssl = @endpoint.scheme == "https"
+    http.open_timeout = 10
+    http.read_timeout = 30
+
+    req = Net::HTTP::Post.new(@endpoint.path)
+    req["Authorization"] = "Bearer #{@api_key}"
+    req["Content-Type"] = "application/json"
+    req.body = request.to_json
+
+    response = http.request(req)
+
+    case response.code.to_i
+    when 200
+      JSON.parse(response.body, symbolize_names: true)
+    when 401
+      { error: { code: -32001, message: "Unauthorized - check API key" } }
+    when 403
+      { error: { code: -32002, message: "Forbidden - admin or league_admin role required" } }
+    else
+      { error: { code: -32603, message: "HTTP #{response.code}: #{response.body}" } }
+    end
+  rescue Net::OpenTimeout, Net::ReadTimeout => e
+    { error: { code: -32603, message: "Timeout: #{e.message}" } }
+  rescue StandardError => e
+    { error: { code: -32603, message: "Network error: #{e.message}" } }
+  end
+
+  def success_response(id, result)
+    { jsonrpc: "2.0", id: id, result: result }
+  end
+
+  def error_response(id, code, message)
+    { jsonrpc: "2.0", id: id, error: { code: code, message: message } }
+  end
+end
+
+# Main
+region = ARGV[0] || "eu"
+api_key = ARGV[1] || ENV["SERVEME_API_KEY"]
+
+unless api_key
+  $stderr.puts "Error: API key required. Pass as argument or set SERVEME_API_KEY env var"
+  exit 1
+end
+
+unless REGIONS.key?(region)
+  $stderr.puts "Error: Unknown region '#{region}'. Valid: #{REGIONS.keys.join(', ')}"
+  exit 1
+end
+
+McpClient.new(region, api_key).run

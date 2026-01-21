@@ -31,3 +31,6 @@ cucumber.html
 .claude-swarm/
 claude-swarm.log
 discord_bot/config.yml
+
+# MCP config (contains API keys)
+.mcp.json

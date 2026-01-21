@@ -17,7 +17,8 @@ module Mcp
       Mcp::Tools::LinkDiscordTool,
       Mcp::Tools::GetDiscordLinkTool,
       Mcp::Tools::CreateReservationTool,
-      Mcp::Tools::GetReservationStatusTool
+      Mcp::Tools::GetReservationStatusTool,
+      Mcp::Tools::EndReservationTool
     ].freeze, T::Array[T.class_of(Mcp::Tools::BaseTool)])
 
     sig { returns(T::Array[T.class_of(Mcp::Tools::BaseTool)]) }

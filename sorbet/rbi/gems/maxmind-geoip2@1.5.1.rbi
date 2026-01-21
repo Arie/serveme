@@ -1357,11 +1357,19 @@ class MaxMind::GeoIP2::Record::Traits < ::MaxMind::GeoIP2::Record::Abstract
   # services is more static than the IP risk score provided in minFraud
   # and is not responsive to traffic on your network. If you need realtime
   # IP risk scoring based on behavioral signals on your own network, please
-  # use minFraud. This property is only available from Insights.
+  # use minFraud.
+  #
+  # We do not provide an IP risk snapshot for low-risk networks. If this
+  # field is not populated, we either do not have signals for the network
+  # or the signals we have show that the network is low-risk. If you would
+  # like to get signals for low-risk networks, please use the minFraud web
+  # services.
+  #
+  # This property is only available from Insights.
   #
   # @return [Float, nil]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/traits.rb#248
+  # source://maxmind-geoip2//lib/maxmind/geoip2/record/traits.rb#256
   def ip_risk_snapshot; end
 
   # The name of the ISP associated with the IP address. This attribute is
@@ -1501,7 +1509,7 @@ class MaxMind::GeoIP2::Record::Traits < ::MaxMind::GeoIP2::Record::Abstract
   #
   # @return [String, nil]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/traits.rb#276
+  # source://maxmind-geoip2//lib/maxmind/geoip2/record/traits.rb#284
   def user_type; end
 end
 

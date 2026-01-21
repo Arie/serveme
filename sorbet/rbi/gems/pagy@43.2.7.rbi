@@ -47,7 +47,7 @@ class Pagy
 
   # Merge all the DEFAULT constants of the class hierarchy with the options
   #
-  # source://pagy//lib/pagy.rb#58
+  # source://pagy//lib/pagy.rb#63
   def assign_options(**options); end
 
   # @return [Boolean]
@@ -536,12 +536,12 @@ module Pagy::ElasticsearchRailsPaginator
 
   # Get from and size params from the response object, supporting different versions of ElasticsearchRails
   #
-  # source://pagy//lib/pagy/toolbox/paginators/elasticsearch_rails.rb#36
+  # source://pagy//lib/pagy/toolbox/paginators/elasticsearch_rails.rb#37
   def pagination_params_from(response_object); end
 
   # Get the count from the response object, supporting different versions of ElasticsearchRails
   #
-  # source://pagy//lib/pagy/toolbox/paginators/elasticsearch_rails.rb#48
+  # source://pagy//lib/pagy/toolbox/paginators/elasticsearch_rails.rb#49
   def total_count_from(response_object); end
 
   class << self
@@ -552,12 +552,12 @@ module Pagy::ElasticsearchRailsPaginator
 
     # Get from and size params from the response object, supporting different versions of ElasticsearchRails
     #
-    # source://pagy//lib/pagy/toolbox/paginators/elasticsearch_rails.rb#36
+    # source://pagy//lib/pagy/toolbox/paginators/elasticsearch_rails.rb#37
     def pagination_params_from(response_object); end
 
     # Get the count from the response object, supporting different versions of ElasticsearchRails
     #
-    # source://pagy//lib/pagy/toolbox/paginators/elasticsearch_rails.rb#48
+    # source://pagy//lib/pagy/toolbox/paginators/elasticsearch_rails.rb#49
     def total_count_from(response_object); end
   end
 end
@@ -739,22 +739,22 @@ class Pagy::Keyset < ::Pagy
 
   # Return the next page (i.e., the cutoff of the current page)
   #
-  # source://pagy//lib/pagy/classes/keyset/keyset.rb#71
+  # source://pagy//lib/pagy/classes/keyset/keyset.rb#73
   def next; end
 
   # Return the array of records for the current page
   #
-  # source://pagy//lib/pagy/classes/keyset/keyset.rb#63
+  # source://pagy//lib/pagy/classes/keyset/keyset.rb#65
   def records; end
 
   protected
 
   # Return the prefixed arguments from a cutoff
   #
-  # source://pagy//lib/pagy/classes/keyset/keyset.rb#132
+  # source://pagy//lib/pagy/classes/keyset/keyset.rb#140
   def arguments_from(cutoff, prefix = T.unsafe(nil)); end
 
-  # source://pagy//lib/pagy/classes/keyset/keyset.rb#82
+  # source://pagy//lib/pagy/classes/keyset/keyset.rb#84
   def assign_page; end
 
   # Compose the parameterized predicate used to extract the page records.
@@ -771,20 +771,20 @@ class Pagy::Keyset < ::Pagy
   #
   #     ("pets"."animal", "pets"."name", "pets"."id") > (:animal, :name, :id)
   #
-  # source://pagy//lib/pagy/classes/keyset/keyset.rb#109
+  # source://pagy//lib/pagy/classes/keyset/keyset.rb#111
   def compose_predicate(prefix = T.unsafe(nil)); end
 
   # Extract the cutoff from the last record (only called if @more)
   #
-  # source://pagy//lib/pagy/classes/keyset/keyset.rb#138
+  # source://pagy//lib/pagy/classes/keyset/keyset.rb#146
   def extract_cutoff; end
 
-  # source://pagy//lib/pagy/classes/keyset/keyset.rb#88
+  # source://pagy//lib/pagy/classes/keyset/keyset.rb#90
   def fetch_records; end
 
   # @return [Boolean]
   #
-  # source://pagy//lib/pagy/classes/keyset/keyset.rb#80
+  # source://pagy//lib/pagy/classes/keyset/keyset.rb#82
   def keyset?; end
 
   class << self

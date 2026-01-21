@@ -216,8 +216,11 @@ module ServemeBot
       return event.respond(choices: []) unless user
 
       query = (event.options[event.focused] || "").to_s.downcase
-      servers = Server.active.where(type: %w[LocalServer SshServer])
-                      .reservable_by_user(user).includes(:location)
+
+      # Only show currently available servers (not reserved)
+      starts_at = Time.current
+      ends_at = starts_at + 2.hours
+      servers = ServerForUserFinder.new(user, starts_at, ends_at).servers.includes(:location)
 
       suggestions = servers.order(:name).map do |s|
         { name: "#{s.name} (#{s.location&.name || 'Unknown'})", value: s.name }

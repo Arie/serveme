@@ -15,6 +15,7 @@ A web-interface to reserve TF2 gameservers
 * Gameserver started with `-port PORTNUMBER -autoupdate` in the startup line
 * [libmaxminddb](https://github.com/maxmind/libmaxminddb), for GeoIP lookups. Or you can configure another one in the
   [geocoder initializer](https://github.com/alexreisner/geocoder)
+* Ripgrep installed
 
 ## Running locally
 1. Make sure you've installed the requirements.
@@ -69,7 +70,7 @@ There's a simple JSON API to create and stop reservations. It typically returns 
 ### Interactive API Documentation
 **NEW:** Complete interactive Swagger API documentation is now available at:
 - **EU**: https://serveme.tf/api-docs
-- **NA**: https://na.serveme.tf/api-docs  
+- **NA**: https://na.serveme.tf/api-docs
 - **AU**: https://au.serveme.tf/api-docs
 - **SEA**: https://sea.serveme.tf/api-docs
 
@@ -77,7 +78,7 @@ The Swagger documentation provides complete schemas, examples, and a testing int
 
 **Important**: API keys are region-specific. Use the API key from the same region as the endpoint you're calling:
 - **EU**: https://serveme.tf (API keys from EU account)
-- **NA**: https://na.serveme.tf (API keys from NA account)  
+- **NA**: https://na.serveme.tf (API keys from NA account)
 - **AU**: https://au.serveme.tf (API keys from AU account)
 - **SEA**: https://sea.serveme.tf (API keys from SEA account)
 
@@ -444,7 +445,7 @@ curl -X GET 'https://serveme.tf/api/maps'
 ```
 Returns a list of all available maps on the servers. This endpoint does not require authentication.
 
-### List Available Servers  
+### List Available Servers
 ```shell
 curl -X GET 'https://serveme.tf/api/servers?api_key=your_api_key'
 ```
@@ -479,7 +480,7 @@ The following endpoints require admin permissions:
 # Get donator form template
 curl -X GET 'https://serveme.tf/api/donators/new?api_key=your_admin_api_key'
 
-# Get donator details  
+# Get donator details
 curl -X GET 'https://serveme.tf/api/donators/76561198012345678?api_key=your_admin_api_key'
 
 # Create/update donator status

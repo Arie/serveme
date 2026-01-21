@@ -39,24 +39,18 @@ class LogStreamingService
   private
 
   def stream_forward_with_search(search_term)
-    match_indices = []
-    total_lines = 0
+    total_lines = count_lines_fast
+    all_matches = search_with_ripgrep(search_term)
 
-    File.foreach(filename) do |line|
-      sanitized = StringSanitizer.tidy_bytes(line)
-      match_indices << total_lines if sanitized.downcase.include?(search_term)
-      total_lines += 1
-    end
-
-    indices_to_fetch = match_indices.slice(offset, chunk_size) || []
-    lines = fetch_lines_by_indices(indices_to_fetch)
+    page = all_matches.slice(offset, chunk_size) || []
+    lines = page.map { |match| StringSanitizer.tidy_bytes(match[:content]) }
 
     build_result(
       lines: lines,
       total_lines: total_lines,
-      matched_lines: match_indices.size,
-      has_more: (offset + chunk_size) < match_indices.size,
-      loaded_lines: [ offset + lines.size, match_indices.size ].min
+      matched_lines: all_matches.size,
+      has_more: (offset + chunk_size) < all_matches.size,
+      loaded_lines: [ offset + lines.size, all_matches.size ].min
     )
   end
 
@@ -84,25 +78,19 @@ class LogStreamingService
   end
 
   def stream_reverse_with_search(search_term)
-    match_indices = []
-    total_lines = 0
+    total_lines = count_lines_fast
+    all_matches = search_with_ripgrep(search_term)
 
-    File.foreach(filename) do |line|
-      sanitized = StringSanitizer.tidy_bytes(line)
-      match_indices << total_lines if sanitized.downcase.include?(search_term)
-      total_lines += 1
-    end
-
-    reversed_matches = match_indices.reverse
-    indices_to_fetch = reversed_matches.slice(offset, chunk_size) || []
-    lines = fetch_lines_by_indices(indices_to_fetch)
+    reversed_matches = all_matches.reverse
+    page = reversed_matches.slice(offset, chunk_size) || []
+    lines = page.map { |match| StringSanitizer.tidy_bytes(match[:content]) }
 
     build_result(
       lines: lines,
       total_lines: total_lines,
-      matched_lines: match_indices.size,
-      has_more: (offset + chunk_size) < match_indices.size,
-      loaded_lines: [ offset + lines.size, match_indices.size ].min
+      matched_lines: all_matches.size,
+      has_more: (offset + chunk_size) < all_matches.size,
+      loaded_lines: [ offset + lines.size, all_matches.size ].min
     )
   end
 
@@ -134,23 +122,28 @@ class LogStreamingService
     )
   end
 
-  def fetch_lines_by_indices(indices)
-    return [] if indices.empty?
+  def search_with_ripgrep(search_term)
+    sanitized_term = sanitize_search_term(search_term)
+    return [] if sanitized_term.blank?
 
-    indices_set = indices.to_set
-    lines_by_index = {}
-    current_idx = 0
-    max_idx = indices_set.max
+    matches = []
 
-    File.foreach(filename) do |line|
-      if indices_set.include?(current_idx)
-        lines_by_index[current_idx] = StringSanitizer.tidy_bytes(line)
+    IO.popen([ "rg", "--line-number", "--ignore-case", "--fixed-strings", sanitized_term, filename.to_s ]) do |io|
+      io.each_line do |line|
+        line_number, content = line.split(":", 2)
+        matches << { line_number: line_number.to_i - 1, content: content }
       end
-      current_idx += 1
-      break if current_idx > max_idx
     end
 
-    indices.map { |idx| lines_by_index[idx] }
+    matches
+  end
+
+  def sanitize_search_term(term)
+    return nil if term.nil?
+
+    term = term[0, 200]
+
+    term.encode("UTF-8", invalid: :replace, undef: :replace, replace: "")
   end
 
   def count_lines_fast

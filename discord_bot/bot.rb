@@ -74,9 +74,7 @@ module ServemeBot
 
       # Register command with all subcommands (region-specific: /serveme, /serveme-na, etc.)
       @bot.register_application_command(Config.command_name, "#{Config.bot_name} - TF2 server reservations", server_id: server_id) do |cmd|
-        cmd.subcommand(:servers, "Show available servers") do |sub|
-          sub.string(:location, "Filter by location (e.g., Netherlands, Chicago)", required: false)
-        end
+        cmd.subcommand(:servers, "Show available servers")
 
         cmd.subcommand(:reservations, "Show your reservation history") do |sub|
           sub.string(:status, "Filter by status", required: false,
@@ -111,9 +109,7 @@ module ServemeBot
 
       # Handle subcommands
       @bot.application_command(Config.command_name).subcommand(:servers) do |event|
-        Commands::ServersCommand.new(event).execute(
-          location: event.options["location"]
-        )
+        Commands::ServersCommand.new(event).execute
       end
 
       @bot.application_command(Config.command_name).subcommand(:reservations) do |event|
@@ -191,6 +187,12 @@ module ServemeBot
       @bot.button(custom_id: /^extend_reservation:\d+$/) do |event|
         reservation_id = event.interaction.button.custom_id.split(":").last.to_i
         handle_extend_reservation(event, reservation_id)
+      end
+
+      # Book server group button (from /serveme servers)
+      @bot.button(custom_id: /^book_group:.+$/) do |event|
+        group_name = event.interaction.button.custom_id.sub("book_group:", "")
+        handle_book_group(event, group_name)
       end
     end
 
@@ -375,6 +377,16 @@ module ServemeBot
     rescue StandardError => e
       Rails.logger.error "Error extending reservation: #{e.message}\n#{e.backtrace.first(5).join("\n")}"
       event.respond(content: ":x: Failed to extend reservation. Please try again later.", ephemeral: true)
+    end
+
+    def handle_book_group(event, group_name)
+      user = User.find_by(discord_uid: event.user.id.to_s)
+      user_info = user ? "#{user.nickname} (#{user.id})" : "unlinked"
+      Rails.logger.info "[Discord] book_group by #{event.user.username} (#{event.user.id}) -> #{user_info} group=#{group_name}"
+
+      # Delegate to ReserveCommand with group_name as server_query
+      # This will fuzzy match and book any available server from the group
+      Commands::ReserveCommand.new(event).execute(server_query: group_name)
     end
   end
 end

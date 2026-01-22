@@ -4,20 +4,20 @@
 module ServemeBot
   module Commands
     class ServersCommand < BaseCommand
-      def execute(location: nil)
-        log_command("servers", location: location)
+      def execute
+        log_command("servers")
         return unless require_linked_account!
 
         defer_response
 
-        servers = fetch_available_servers(location)
+        servers = fetch_servers
 
-        embed = Formatters::ServerFormatter.format_server_list(
+        result = Formatters::ServerFormatter.format_server_list(
           servers,
-          title: build_title(location)
+          title: "Available Servers"
         )
 
-        edit_response(embeds: [ embed ])
+        edit_response(embeds: [ result[:embed] ], components: result[:components])
       rescue StandardError => e
         Rails.logger.error "ServersCommand error: #{e.message}\n#{e.backtrace.first(5).join("\n")}"
         edit_response(content: ":x: Failed to fetch servers. Please try again later.")
@@ -25,7 +25,7 @@ module ServemeBot
 
       private
 
-      def fetch_available_servers(location)
+      def fetch_servers
         starts_at = Time.current
         ends_at = starts_at + 2.hours
 
@@ -34,16 +34,7 @@ module ServemeBot
 
         available_ids = available_servers.pluck(:id)
 
-        # Filter by location if provided
-        if location.present?
-          all_user_servers = all_user_servers.joins(:location).where(
-            "locations.name ILIKE ? OR locations.flag ILIKE ?",
-            "%#{location}%",
-            "%#{location}%"
-          )
-        end
-
-        all_user_servers.includes(:location).map do |server|
+        all_user_servers.includes(:location).order(:name).map do |server|
           {
             "id" => server.id,
             "name" => server.name,
@@ -54,14 +45,6 @@ module ServemeBot
             "available" => available_ids.include?(server.id)
           }
         end.sort_by { |s| [ s["available"] ? 0 : 1, s["name"] ] }
-      end
-
-      def build_title(location)
-        if location.present?
-          "Available Servers - #{location}"
-        else
-          "Available Servers"
-        end
       end
     end
   end

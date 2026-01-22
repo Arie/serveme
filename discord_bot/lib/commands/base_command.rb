@@ -54,11 +54,11 @@ module ServemeBot
         event.defer if event.respond_to?(:defer)
       end
 
-      def edit_response(content: nil, embeds: nil)
+      def edit_response(content: nil, embeds: nil, components: nil)
         if event.respond_to?(:edit_response)
-          event.edit_response(content: content, embeds: embeds)
+          event.edit_response(content: content, embeds: embeds, components: components)
         else
-          event.respond(content: content, embeds: embeds)
+          event.respond(content: content, embeds: embeds, components: components)
         end
       end
     end

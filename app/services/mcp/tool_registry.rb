@@ -8,6 +8,7 @@ module Mcp
     TOOLS = T.let([
       # Admin tools
       Mcp::Tools::SearchAltsTool,
+      Mcp::Tools::SearchByAsnTool,
       Mcp::Tools::GetUserTool,
       Mcp::Tools::ListServersTool,
       Mcp::Tools::ListReservationsTool,

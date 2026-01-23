@@ -31,6 +31,11 @@ module ServemeBot
       def require_linked_account!
         return true if current_user
 
+        # AU region: try ozfortress auto-link before showing error
+        if Config.region_key == "au" && try_ozfortress_auto_link
+          return true
+        end
+
         respond_with_error(
           "Your Discord account is not linked to #{SITE_HOST}.\n\n" \
           "Use `/#{ServemeBot::Config.command_name} link` to connect your accounts."
@@ -60,6 +65,25 @@ module ServemeBot
         else
           event.respond(content: content, embeds: embeds, components: components)
         end
+      end
+
+      private
+
+      def try_ozfortress_auto_link
+        steam_uid = OzfortressApi.steam_id_for_discord(discord_uid)
+        return false unless steam_uid
+
+        user = User.find_by(uid: steam_uid)
+        return false unless user
+        return false if user.discord_uid.present? # Already linked to someone
+
+        user.update!(discord_uid: discord_uid)
+        @current_user = user # Update cached user
+        Rails.logger.info "[Discord] Auto-linked #{discord_username} (#{discord_uid}) via ozfortress -> #{user.nickname} (#{user.id})"
+        true
+      rescue ActiveRecord::RecordInvalid => e
+        Rails.logger.error "OzfortressApi auto-link failed: #{e.message}"
+        false
       end
     end
   end

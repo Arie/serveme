@@ -1407,6 +1407,14 @@ class TF2LineParser::Events::Unknown < ::TF2LineParser::Events::Event
   end
 end
 
+# source://tf2_line_parser//lib/tf2_line_parser/events/world_intermission_win_limit.rb#5
+class TF2LineParser::Events::WorldIntermissionWinLimit < ::TF2LineParser::Events::RoundEventWithoutVariables
+  class << self
+    # source://tf2_line_parser//lib/tf2_line_parser/events/world_intermission_win_limit.rb#6
+    def round_type; end
+  end
+end
+
 # source://tf2_line_parser//lib/tf2_line_parser/line.rb#6
 class TF2LineParser::Line
   # @return [Line] a new instance of Line
@@ -1437,10 +1445,16 @@ class TF2LineParser::Line
 
     private
 
-    # source://tf2_line_parser//lib/tf2_line_parser/line.rb#79
+    # source://tf2_line_parser//lib/tf2_line_parser/line.rb#152
+    def check_damage_subtypes(line); end
+
+    # source://tf2_line_parser//lib/tf2_line_parser/line.rb#166
+    def check_heal_subtypes(line); end
+
+    # source://tf2_line_parser//lib/tf2_line_parser/line.rb#85
     def find_candidate_types(line); end
 
-    # source://tf2_line_parser//lib/tf2_line_parser/line.rb#123
+    # source://tf2_line_parser//lib/tf2_line_parser/line.rb#138
     def try_parse_types(line, types); end
   end
 end

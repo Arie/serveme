@@ -544,7 +544,7 @@ class Async::Node
 
   # Print the hierarchy of the task tree from the given node.
   #
-  # source://async//lib/async/node.rb#307
+  # source://async//lib/async/node.rb#313
   def print_hierarchy(out = T.unsafe(nil), backtrace: T.unsafe(nil)); end
 
   # source://async//lib/async/node.rb#92
@@ -559,7 +559,7 @@ class Async::Node
   #
   # @return [Boolean]
   #
-  # source://async//lib/async/node.rb#299
+  # source://async//lib/async/node.rb#305
   def stopped?; end
 
   # @private
@@ -604,6 +604,12 @@ class Async::Node
   # source://async//lib/async/node.rb#256
   def traverse(&block); end
 
+  # Wait for this node to complete. By default, nodes cannot be waited on.
+  # Subclasses like Task override this method to provide waiting functionality.
+  #
+  # source://async//lib/async/node.rb#300
+  def wait; end
+
   protected
 
   # source://async//lib/async/node.rb#210
@@ -623,7 +629,7 @@ class Async::Node
 
   private
 
-  # source://async//lib/async/node.rb#319
+  # source://async//lib/async/node.rb#325
   def print_backtrace(out, indent, node); end
 
   # Attempt to stop all non-transient children.
@@ -1216,55 +1222,81 @@ class Async::Stop::Later
   def transfer; end
 end
 
-# source://async//lib/async/task.rb#35
+# Represents a sequential unit of work, defined by a block, which is executed concurrently with other tasks. A task can be in one of the following states: `initialized`, `running`, `completed`, `failed`, `cancelled` or `stopped`.
+#
+# ```mermaid
+# stateDiagram-v2
+# [*] --> Initialized
+# Initialized --> Running : Run
+#
+# Running --> Completed : Return Value
+# Running --> Failed : Exception
+#
+# Completed --> [*]
+# Failed --> [*]
+#
+# Running --> Stopped : Stop
+# Stopped --> [*]
+# Completed --> Stopped : Stop
+# Failed --> Stopped : Stop
+# Initialized --> Stopped : Stop
+# ```
+#
+# @example Creating a task that sleeps for 1 second.
+#   require "async"
+#   Async do |task|
+#   sleep(1)
+#   end
+#
+# source://async//lib/async/task.rb#61
 class Async::Task < ::Async::Node
   # Create a new task.
   #
   # @return [Task] a new instance of Task
   #
-  # source://async//lib/async/task.rb#63
+  # source://async//lib/async/task.rb#89
   def initialize(parent = T.unsafe(nil), finished: T.unsafe(nil), **options, &block); end
 
   # @return [Boolean]
   #
-  # source://async//lib/async/task.rb#149
+  # source://async//lib/async/task.rb#175
   def alive?; end
 
   # Annotate the task with a description.
   #
   # This will internally try to annotate the fiber if it is running, otherwise it will annotate the task itself.
   #
-  # source://async//lib/async/task.rb#106
+  # source://async//lib/async/task.rb#132
   def annotate(annotation, &block); end
 
-  # source://async//lib/async/task.rb#115
+  # source://async//lib/async/task.rb#141
   def annotation; end
 
   # Run an asynchronous task as a child of the current task.
   #
   # @raise [FinishedError]
   #
-  # source://async//lib/async/task.rb#230
+  # source://async//lib/async/task.rb#256
   def async(*arguments, **options, &block); end
 
-  # source://async//lib/async/task.rb#97
+  # source://async//lib/async/task.rb#123
   def backtrace(*arguments); end
 
   # Alias for {#completed?}.
   #
   # @return [Boolean]
   #
-  # source://async//lib/async/task.rb#181
+  # source://async//lib/async/task.rb#207
   def complete?; end
 
   # @return [Boolean]
   #
-  # source://async//lib/async/task.rb#176
+  # source://async//lib/async/task.rb#202
   def completed?; end
 
   # @return [Boolean]
   #
-  # source://async//lib/async/task.rb#391
+  # source://async//lib/async/task.rb#449
   def current?; end
 
   # Defer the handling of stop. During the execution of the given block, if a stop is requested, it will be deferred until the block exits. This is useful for ensuring graceful shutdown of servers and other long-running tasks. You should wrap the response handling code in a defer_stop block to ensure that the task is stopped when the response is complete but not before.
@@ -1273,153 +1305,176 @@ class Async::Task < ::Async::Node
   #
   # If stop is invoked a second time, it will be immediately executed.
   #
-  # source://async//lib/async/task.rb#340
+  # source://async//lib/async/task.rb#398
   def defer_stop; end
 
   # @return [Boolean]
   #
-  # source://async//lib/async/task.rb#166
+  # source://async//lib/async/task.rb#192
   def failed?; end
 
   # Returns the value of attribute fiber.
   #
-  # source://async//lib/async/task.rb#146
+  # source://async//lib/async/task.rb#172
   def fiber; end
 
   # Whether we can remove this node from the reactor graph.
   #
   # @return [Boolean]
   #
-  # source://async//lib/async/task.rb#155
+  # source://async//lib/async/task.rb#181
   def finished?; end
 
-  # source://async//lib/async/task.rb#92
+  # Retrieve the current result of the task. Will cause the caller to wait until result is available. If the task resulted in an unhandled error (derived from `StandardError`), this will be raised. If the task was stopped, this will return `nil`.
+  #
+  # Conceptually speaking, waiting on a task should return a result, and if it throws an exception, this is certainly an exceptional case that should represent a failure in your program, not an expected outcome. In other words, you should not design your programs to expect exceptions from `#wait` as a normal flow control, and prefer to catch known exceptions within the task itself and return a result that captures the intention of the failure, e.g. a `TimeoutError` might simply return `nil` or `false` to indicate that the operation did not generate a valid result (as a timeout was an expected outcome of the internal operation in this case).
+  # For compatibility with `Thread#join` and similar interfaces.
+  #
+  # source://async//lib/async/task.rb#293
+  def join; end
+
+  # source://async//lib/async/task.rb#118
   def reactor; end
 
   # Access the result of the task without waiting. May be nil if the task is not completed. Does not raise exceptions.
   #
-  # source://async//lib/async/task.rb#267
+  # source://async//lib/async/task.rb#325
   def result; end
 
   # Begin the execution of the task.
   #
-  # source://async//lib/async/task.rb#202
+  # source://async//lib/async/task.rb#228
   def run(*arguments); end
 
   # @return [Boolean]
   #
-  # source://async//lib/async/task.rb#161
+  # source://async//lib/async/task.rb#187
   def running?; end
 
   # @deprecated Prefer {Kernel#sleep} except when compatibility with `stable-v1` is required.
   #
-  # source://async//lib/async/task.rb#129
+  # source://async//lib/async/task.rb#155
   def sleep(duration = T.unsafe(nil)); end
 
-  # source://async//lib/async/task.rb#186
+  # source://async//lib/async/task.rb#212
   def status; end
 
   # Stop the task and all of its children.
   #
   # If `later` is false, it means that `stop` has been invoked directly. When `later` is true, it means that `stop` is invoked by `stop_children` or some other indirect mechanism. In that case, if we encounter the "current" fiber, we can't stop it right away, as it's currently performing `#stop`. Stopping it immediately would interrupt the current stop traversal, so we need to schedule the stop to occur later.
   #
-  # source://async//lib/async/task.rb#284
+  # source://async//lib/async/task.rb#342
   def stop(later = T.unsafe(nil), cause: T.unsafe(nil)); end
 
   # @return [Boolean]
   #
-  # source://async//lib/async/task.rb#373
+  # source://async//lib/async/task.rb#431
   def stop_deferred?; end
 
   # @return [Boolean]
   #
-  # source://async//lib/async/task.rb#171
+  # source://async//lib/async/task.rb#197
   def stopped?; end
 
-  # source://async//lib/async/task.rb#124
+  # source://async//lib/async/task.rb#150
   def to_s; end
 
   # Retrieve the current result of the task. Will cause the caller to wait until result is available. If the task resulted in an unhandled error (derived from `StandardError`), this will be raised. If the task was stopped, this will return `nil`.
   #
   # Conceptually speaking, waiting on a task should return a result, and if it throws an exception, this is certainly an exceptional case that should represent a failure in your program, not an expected outcome. In other words, you should not design your programs to expect exceptions from `#wait` as a normal flow control, and prefer to catch known exceptions within the task itself and return a result that captures the intention of the failure, e.g. a `TimeoutError` might simply return `nil` or `false` to indicate that the operation did not generate a valid result (as a timeout was an expected outcome of the internal operation in this case).
   #
-  # source://async//lib/async/task.rb#254
+  # source://async//lib/async/task.rb#280
   def wait; end
+
+  # Wait on all non-transient children to complete, recursively, then wait on the task itself, if it is not the current task.
+  #
+  # If any child task fails with an exception, that exception will be raised immediately, and remaining children may not be waited on.
+  #
+  # @example Waiting on all children.
+  #   Async do |task|
+  #   child = task.async do
+  #   sleep(0.01)
+  #   end
+  #   task.wait_all # Will wait on the child task.
+  #   end
+  #
+  # source://async//lib/async/task.rb#310
+  def wait_all; end
 
   # Execute the given block of code, raising the specified exception if it exceeds the given duration during a non-blocking operation.
   #
-  # source://async//lib/async/task.rb#136
+  # source://async//lib/async/task.rb#162
   def with_timeout(duration, exception = T.unsafe(nil), message = T.unsafe(nil), &block); end
 
   # Yield back to the reactor and allow other fibers to execute.
   #
-  # source://async//lib/async/task.rb#141
+  # source://async//lib/async/task.rb#167
   def yield; end
 
   private
 
   # State transition into the completed state.
   #
-  # source://async//lib/async/task.rb#412
+  # source://async//lib/async/task.rb#470
   def completed!(result); end
 
   # State transition into the failed state.
   #
-  # source://async//lib/async/task.rb#418
+  # source://async//lib/async/task.rb#476
   def failed!(exception = T.unsafe(nil)); end
 
   # Finish the current task, moving any children to the parent.
   #
-  # source://async//lib/async/task.rb#402
+  # source://async//lib/async/task.rb#460
   def finish!; end
 
-  # source://async//lib/async/task.rb#451
+  # source://async//lib/async/task.rb#509
   def schedule(&block); end
 
-  # source://async//lib/async/task.rb#445
+  # source://async//lib/async/task.rb#503
   def stop!; end
 
-  # source://async//lib/async/task.rb#423
+  # source://async//lib/async/task.rb#481
   def stopped!; end
 
-  # source://async//lib/async/task.rb#397
+  # source://async//lib/async/task.rb#455
   def warn(*_arg0, **_arg1, &_arg2); end
 
   class << self
     # Lookup the {Task} for the current fiber. Raise `RuntimeError` if none is available.
     # @raises[RuntimeError] If task was not {set!} for the current fiber.
     #
-    # source://async//lib/async/task.rb#380
+    # source://async//lib/async/task.rb#438
     def current; end
 
     # Check if there is a task defined for the current fiber.
     #
     # @return [Boolean]
     #
-    # source://async//lib/async/task.rb#386
+    # source://async//lib/async/task.rb#444
     def current?; end
 
     # Run the given block of code in a task, asynchronously, in the given scheduler.
     #
-    # source://async//lib/async/task.rb#54
+    # source://async//lib/async/task.rb#80
     def run(scheduler, *arguments, **options, &block); end
 
     # @deprecated With no replacement.
     #
-    # source://async//lib/async/task.rb#47
+    # source://async//lib/async/task.rb#73
     def yield; end
   end
 end
 
 # Raised when a child task is created within a task that has finished execution.
 #
-# source://async//lib/async/task.rb#37
+# source://async//lib/async/task.rb#63
 class Async::Task::FinishedError < ::RuntimeError
   # Create a new finished error.
   #
   # @return [FinishedError] a new instance of FinishedError
   #
-  # source://async//lib/async/task.rb#41
+  # source://async//lib/async/task.rb#67
   def initialize(message = T.unsafe(nil)); end
 end
 

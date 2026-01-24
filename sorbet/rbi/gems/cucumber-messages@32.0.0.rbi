@@ -32,7 +32,7 @@ module Cucumber::Messages; end
 class Cucumber::Messages::Attachment < ::Cucumber::Messages::Message
   # @return [Attachment] a new instance of Attachment
   #
-  # source://cucumber-messages//lib/cucumber/messages/attachment.rb#97
+  # source://cucumber-messages//lib/cucumber/messages/attachment.rb#99
   def initialize(body: T.unsafe(nil), content_encoding: T.unsafe(nil), file_name: T.unsafe(nil), media_type: T.unsafe(nil), source: T.unsafe(nil), test_case_started_id: T.unsafe(nil), test_step_id: T.unsafe(nil), url: T.unsafe(nil), test_run_started_id: T.unsafe(nil), test_run_hook_started_id: T.unsafe(nil), timestamp: T.unsafe(nil)); end
 
   # The body of the attachment. If `contentEncoding` is `IDENTITY`, the attachment
@@ -79,12 +79,12 @@ class Cucumber::Messages::Attachment < ::Cucumber::Messages::Message
 
   # The identifier of the test run hook execution if the attachment was created during the execution of a test run hook
   #
-  # source://cucumber-messages//lib/cucumber/messages/attachment.rb#90
+  # source://cucumber-messages//lib/cucumber/messages/attachment.rb#92
   def test_run_hook_started_id; end
 
   # Not used; implementers should instead populate `testRunHookStartedId` if an attachment was created during the execution of a test run hook
   #
-  # source://cucumber-messages//lib/cucumber/messages/attachment.rb#85
+  # source://cucumber-messages//lib/cucumber/messages/attachment.rb#87
   def test_run_started_id; end
 
   # The identifier of the test step if the attachment was created during the execution of a test step
@@ -94,7 +94,7 @@ class Cucumber::Messages::Attachment < ::Cucumber::Messages::Message
 
   # When the attachment was created
   #
-  # source://cucumber-messages//lib/cucumber/messages/attachment.rb#95
+  # source://cucumber-messages//lib/cucumber/messages/attachment.rb#97
   def timestamp; end
 
   # A URL where the attachment can be retrieved. This field should not be set by Cucumber.
@@ -109,7 +109,9 @@ class Cucumber::Messages::Attachment < ::Cucumber::Messages::Message
   # reduce bandwidth of message consumers. It also makes it easier to process and download attachments
   # separately from reports.
   #
-  # source://cucumber-messages//lib/cucumber/messages/attachment.rb#80
+  # Deprecated; use ExternalAttachment instead.
+  #
+  # source://cucumber-messages//lib/cucumber/messages/attachment.rb#82
   def url; end
 
   class << self
@@ -119,7 +121,7 @@ class Cucumber::Messages::Attachment < ::Cucumber::Messages::Message
     #
     #   Cucumber::Messages::Attachment.from_h(some_hash) # => #<Cucumber::Messages::Attachment:0x... ...>
     #
-    # source://cucumber-messages//lib/cucumber/messages/attachment.rb#131
+    # source://cucumber-messages//lib/cucumber/messages/attachment.rb#133
     def from_h(hash); end
   end
 end
@@ -378,107 +380,112 @@ end
 class Cucumber::Messages::Envelope < ::Cucumber::Messages::Message
   # @return [Envelope] a new instance of Envelope
   #
-  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#51
-  def initialize(attachment: T.unsafe(nil), gherkin_document: T.unsafe(nil), hook: T.unsafe(nil), meta: T.unsafe(nil), parameter_type: T.unsafe(nil), parse_error: T.unsafe(nil), pickle: T.unsafe(nil), suggestion: T.unsafe(nil), source: T.unsafe(nil), step_definition: T.unsafe(nil), test_case: T.unsafe(nil), test_case_finished: T.unsafe(nil), test_case_started: T.unsafe(nil), test_run_finished: T.unsafe(nil), test_run_started: T.unsafe(nil), test_step_finished: T.unsafe(nil), test_step_started: T.unsafe(nil), test_run_hook_started: T.unsafe(nil), test_run_hook_finished: T.unsafe(nil), undefined_parameter_type: T.unsafe(nil)); end
+  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#53
+  def initialize(attachment: T.unsafe(nil), external_attachment: T.unsafe(nil), gherkin_document: T.unsafe(nil), hook: T.unsafe(nil), meta: T.unsafe(nil), parameter_type: T.unsafe(nil), parse_error: T.unsafe(nil), pickle: T.unsafe(nil), suggestion: T.unsafe(nil), source: T.unsafe(nil), step_definition: T.unsafe(nil), test_case: T.unsafe(nil), test_case_finished: T.unsafe(nil), test_case_started: T.unsafe(nil), test_run_finished: T.unsafe(nil), test_run_started: T.unsafe(nil), test_step_finished: T.unsafe(nil), test_step_started: T.unsafe(nil), test_run_hook_started: T.unsafe(nil), test_run_hook_finished: T.unsafe(nil), undefined_parameter_type: T.unsafe(nil)); end
 
   # Returns the value of attribute attachment.
   #
   # source://cucumber-messages//lib/cucumber/messages/envelope.rb#11
   def attachment; end
 
-  # Returns the value of attribute gherkin_document.
+  # Returns the value of attribute external_attachment.
   #
   # source://cucumber-messages//lib/cucumber/messages/envelope.rb#13
+  def external_attachment; end
+
+  # Returns the value of attribute gherkin_document.
+  #
+  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#15
   def gherkin_document; end
 
   # Returns the value of attribute hook.
   #
-  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#15
+  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#17
   def hook; end
 
   # Returns the value of attribute meta.
   #
-  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#17
+  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#19
   def meta; end
 
   # Returns the value of attribute parameter_type.
   #
-  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#19
+  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#21
   def parameter_type; end
 
   # Returns the value of attribute parse_error.
   #
-  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#21
+  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#23
   def parse_error; end
 
   # Returns the value of attribute pickle.
   #
-  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#23
+  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#25
   def pickle; end
 
   # Returns the value of attribute source.
   #
-  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#27
+  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#29
   def source; end
 
   # Returns the value of attribute step_definition.
   #
-  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#29
+  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#31
   def step_definition; end
 
   # Returns the value of attribute suggestion.
   #
-  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#25
+  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#27
   def suggestion; end
 
   # Returns the value of attribute test_case.
   #
-  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#31
+  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#33
   def test_case; end
 
   # Returns the value of attribute test_case_finished.
   #
-  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#33
+  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#35
   def test_case_finished; end
 
   # Returns the value of attribute test_case_started.
   #
-  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#35
+  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#37
   def test_case_started; end
 
   # Returns the value of attribute test_run_finished.
   #
-  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#37
+  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#39
   def test_run_finished; end
 
   # Returns the value of attribute test_run_hook_finished.
   #
-  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#47
+  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#49
   def test_run_hook_finished; end
 
   # Returns the value of attribute test_run_hook_started.
   #
-  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#45
+  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#47
   def test_run_hook_started; end
 
   # Returns the value of attribute test_run_started.
   #
-  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#39
+  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#41
   def test_run_started; end
 
   # Returns the value of attribute test_step_finished.
   #
-  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#41
+  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#43
   def test_step_finished; end
 
   # Returns the value of attribute test_step_started.
   #
-  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#43
+  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#45
   def test_step_started; end
 
   # Returns the value of attribute undefined_parameter_type.
   #
-  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#49
+  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#51
   def undefined_parameter_type; end
 
   class << self
@@ -488,7 +495,7 @@ class Cucumber::Messages::Envelope < ::Cucumber::Messages::Message
     #
     #   Cucumber::Messages::Envelope.from_h(some_hash) # => #<Cucumber::Messages::Envelope:0x... ...>
     #
-    # source://cucumber-messages//lib/cucumber/messages/envelope.rb#103
+    # source://cucumber-messages//lib/cucumber/messages/envelope.rb#107
     def from_h(hash); end
   end
 end
@@ -589,6 +596,70 @@ class Cucumber::Messages::Exception < ::Cucumber::Messages::Message
     #   Cucumber::Messages::Exception.from_h(some_hash) # => #<Cucumber::Messages::Exception:0x... ...>
     #
     # source://cucumber-messages//lib/cucumber/messages/exception.rb#46
+    def from_h(hash); end
+  end
+end
+
+# Represents the ExternalAttachment message in Cucumber's {message protocol}[https://github.com/cucumber/messages].
+#
+#
+# Represents an attachment that is stored externally rather than embedded in the message stream.
+#
+# This message type is used for large attachments (e.g., video files) that are already
+# on the filesystem and should not be loaded into memory. Instead of embedding the content,
+# only a URL reference is stored.
+#
+# A formatter or other consumer of messages may replace an Attachment with an ExternalAttachment if it makes sense to do so.
+#
+# source://cucumber-messages//lib/cucumber/messages/external_attachment.rb#18
+class Cucumber::Messages::ExternalAttachment < ::Cucumber::Messages::Message
+  # @return [ExternalAttachment] a new instance of ExternalAttachment
+  #
+  # source://cucumber-messages//lib/cucumber/messages/external_attachment.rb#53
+  def initialize(url: T.unsafe(nil), media_type: T.unsafe(nil), test_step_id: T.unsafe(nil), test_case_started_id: T.unsafe(nil), test_run_hook_started_id: T.unsafe(nil), timestamp: T.unsafe(nil)); end
+
+  # The media type of the data. This can be any valid
+  # [IANA Media Type](https://www.iana.org/assignments/media-types/media-types.xhtml)
+  # as well as Cucumber-specific media types such as `text/x.cucumber.gherkin+plain`
+  # and `text/x.cucumber.stacktrace+plain`
+  #
+  # source://cucumber-messages//lib/cucumber/messages/external_attachment.rb#31
+  def media_type; end
+
+  # The identifier of the test case attempt if the attachment was created during the execution of a test step
+  #
+  # source://cucumber-messages//lib/cucumber/messages/external_attachment.rb#41
+  def test_case_started_id; end
+
+  # The identifier of the test run hook execution if the attachment was created during the execution of a test run hook
+  #
+  # source://cucumber-messages//lib/cucumber/messages/external_attachment.rb#46
+  def test_run_hook_started_id; end
+
+  # The identifier of the test step if the attachment was created during the execution of a test step
+  #
+  # source://cucumber-messages//lib/cucumber/messages/external_attachment.rb#36
+  def test_step_id; end
+
+  # When the attachment was created
+  #
+  # source://cucumber-messages//lib/cucumber/messages/external_attachment.rb#51
+  def timestamp; end
+
+  # A URL where the attachment can be retrieved. This could be a file:// URL for
+  # local filesystem paths, or an http(s):// URL for remote resources.
+  #
+  # source://cucumber-messages//lib/cucumber/messages/external_attachment.rb#23
+  def url; end
+
+  class << self
+    # Returns a new ExternalAttachment from the given hash.
+    # If the hash keys are camelCased, they are properly assigned to the
+    # corresponding snake_cased attributes.
+    #
+    #   Cucumber::Messages::ExternalAttachment.from_h(some_hash) # => #<Cucumber::Messages::ExternalAttachment:0x... ...>
+    #
+    # source://cucumber-messages//lib/cucumber/messages/external_attachment.rb#77
     def from_h(hash); end
   end
 end
@@ -784,22 +855,23 @@ end
 class Cucumber::Messages::Group < ::Cucumber::Messages::Message
   # @return [Group] a new instance of Group
   #
-  # source://cucumber-messages//lib/cucumber/messages/group.rb#17
+  # source://cucumber-messages//lib/cucumber/messages/group.rb#21
   def initialize(children: T.unsafe(nil), start: T.unsafe(nil), value: T.unsafe(nil)); end
 
-  # Returns the value of attribute children.
+  # The nested capture groups of an argument.
+  # Absent if the group has no nested capture groups.
   #
-  # source://cucumber-messages//lib/cucumber/messages/group.rb#11
+  # source://cucumber-messages//lib/cucumber/messages/group.rb#15
   def children; end
 
   # Returns the value of attribute start.
   #
-  # source://cucumber-messages//lib/cucumber/messages/group.rb#13
+  # source://cucumber-messages//lib/cucumber/messages/group.rb#17
   def start; end
 
   # Returns the value of attribute value.
   #
-  # source://cucumber-messages//lib/cucumber/messages/group.rb#15
+  # source://cucumber-messages//lib/cucumber/messages/group.rb#19
   def value; end
 
   class << self
@@ -809,7 +881,7 @@ class Cucumber::Messages::Group < ::Cucumber::Messages::Message
     #
     #   Cucumber::Messages::Group.from_h(some_hash) # => #<Cucumber::Messages::Group:0x... ...>
     #
-    # source://cucumber-messages//lib/cucumber/messages/group.rb#35
+    # source://cucumber-messages//lib/cucumber/messages/group.rb#39
     def from_h(hash); end
   end
 end

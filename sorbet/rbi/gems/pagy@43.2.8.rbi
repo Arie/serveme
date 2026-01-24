@@ -597,13 +597,13 @@ module Pagy::I18n
   # Create a flat hash with dotted notation keys
   # e.g. { 'a' => { 'b' => {'c' => 3, 'd' => 4 }}} -> { 'a.b.c' => 3, 'a.b.d' => 4 }
   #
-  # source://pagy//lib/pagy/modules/i18n/i18n.rb#57
+  # source://pagy//lib/pagy/modules/i18n/i18n.rb#60
   def flatten_to_dot_keys(initial, prefix = T.unsafe(nil)); end
 
-  # @raise [Errno::ENOENT]
+  # @raise [KeyError]
   #
   # source://pagy//lib/pagy/modules/i18n/i18n.rb#42
-  def load; end
+  def load(locale: T.unsafe(nil)); end
 end
 
 # source://pagy//lib/pagy/modules/i18n/i18n.rb#9
@@ -751,7 +751,7 @@ class Pagy::Keyset < ::Pagy
 
   # Return the prefixed arguments from a cutoff
   #
-  # source://pagy//lib/pagy/classes/keyset/keyset.rb#140
+  # source://pagy//lib/pagy/classes/keyset/keyset.rb#139
   def arguments_from(cutoff, prefix = T.unsafe(nil)); end
 
   # source://pagy//lib/pagy/classes/keyset/keyset.rb#84
@@ -776,7 +776,7 @@ class Pagy::Keyset < ::Pagy
 
   # Extract the cutoff from the last record (only called if @more)
   #
-  # source://pagy//lib/pagy/classes/keyset/keyset.rb#146
+  # source://pagy//lib/pagy/classes/keyset/keyset.rb#145
   def extract_cutoff; end
 
   # source://pagy//lib/pagy/classes/keyset/keyset.rb#90
@@ -1364,7 +1364,7 @@ class Pagy::Request
   # source://pagy//lib/pagy/classes/request.rb#19
   def path; end
 
-  # source://pagy//lib/pagy/classes/request.rb#27
+  # source://pagy//lib/pagy/classes/request.rb#29
   def resolve_limit; end
 
   # source://pagy//lib/pagy/classes/request.rb#21
@@ -1372,7 +1372,7 @@ class Pagy::Request
 
   private
 
-  # source://pagy//lib/pagy/classes/request.rb#39
+  # source://pagy//lib/pagy/classes/request.rb#41
   def get_params(request); end
 end
 

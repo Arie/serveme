@@ -152,7 +152,7 @@
 - if current_user && reservation.user == current_user
   .row
     .col-md-12
-      = render "rcon", action: "motd_rcon_command"
+      = render "rcon", action: "motd_rcon_command", motd: true
 
 :javascript
   jQuery(document).on('turbo:load', function() {

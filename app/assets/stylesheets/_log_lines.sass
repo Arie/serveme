@@ -246,6 +246,33 @@ body:has(.streaming-page)
     border-bottom: 1px solid #333
     padding: 8px 15px
 
+// MOTD-specific RCON page - constrained height for in-game browser
+.rcon-page-motd
+  margin: 0
+  padding: 10px
+  flex: none
+  overflow: visible
+  min-height: auto
+
+  > div
+    flex: none
+    min-height: auto
+
+  .log-lines-wrapper
+    flex: none
+    min-height: auto
+    // Use viewport height with min/max bounds for different resolutions
+    height: clamp(150px, 40vh, 500px)
+
+  .virtual-log-viewport
+    // Fill most of wrapper, leaving room for status bar
+    height: calc(100% - 50px)
+    min-height: 100px
+    flex: none
+
+  .log-status-bar.rcon-bottom-bar
+    position: static
+
 // RCON log lines - full height like streaming
 .web-rcon-log-lines.rcon-log-lines
   max-height: none

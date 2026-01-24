@@ -1,6 +1,6 @@
 <%= turbo_stream_from "reservation_#{@logsecret}_log_lines#{@skip_sanitization ? '_admin' : ''}" %>
 
-<div class="rcon-page">
+<div class="rcon-page<%= ' rcon-page-motd' if local_assigns[:motd] %>">
   <div data-controller="virtual-log"
        data-virtual-log-view-url-value="<%= rcon_view_reservation_path(@reservation) %>"
        data-virtual-log-total-lines-value="<%= @total_lines %>"

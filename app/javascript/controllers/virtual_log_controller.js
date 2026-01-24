@@ -53,6 +53,10 @@ export default class extends Controller {
     this.boundHandleScroll = this.debounce(this.handleScroll.bind(this), 50)
     this.viewportTarget.addEventListener('scroll', this.boundHandleScroll, { passive: true })
 
+    // Separate immediate listener for tailing state (not debounced)
+    this.boundUpdateTailingState = this.updateTailingState.bind(this)
+    this.viewportTarget.addEventListener('scroll', this.boundUpdateTailingState, { passive: true })
+
     // Set up keyboard shortcuts
     this.boundHandleKeydown = this.handleKeydown.bind(this)
     document.addEventListener('keydown', this.boundHandleKeydown)
@@ -94,6 +98,7 @@ export default class extends Controller {
 
   disconnect() {
     this.viewportTarget.removeEventListener('scroll', this.boundHandleScroll)
+    this.viewportTarget.removeEventListener('scroll', this.boundUpdateTailingState)
     document.removeEventListener('keydown', this.boundHandleKeydown)
     this.linesContainerTarget.removeEventListener('click', this.boundHandleLogLineClick)
     document.removeEventListener('turbo:before-stream-render', this.boundHandleTurboStream)
@@ -239,6 +244,22 @@ export default class extends Controller {
     this.linesContainerTarget.appendChild(fragment)
   }
 
+  // Immediately update tailing state on every scroll (not debounced)
+  // This ensures we reliably detach from tailing when user scrolls up
+  updateTailingState() {
+    if (!this.hasStreamTargetValue) return
+
+    const scrollTop = this.viewportTarget.scrollTop
+    const viewportHeight = this.viewportTarget.clientHeight
+    const scrollHeight = this.viewportTarget.scrollHeight
+
+    // Use a small threshold: within 3 line heights of the bottom
+    const threshold = this.lineHeightValue * 3
+    const distanceFromBottom = scrollHeight - (scrollTop + viewportHeight)
+
+    this.tailing = distanceFromBottom <= threshold
+  }
+
   // Handle native scroll (mousewheel)
   handleScroll() {
     if (this.isDragging) return
@@ -254,21 +275,10 @@ export default class extends Controller {
     this.updateStatusText()
     this.updateProgressPosition(percent)
 
-    // Update tailing state based on scroll position
-    if (this.hasStreamTargetValue) {
-      const viewportHeight = this.viewportTarget.clientHeight
-      const contentHeight = effectiveTotal * this.lineHeightValue
-      const distanceFromBottom = contentHeight - (scrollTop + viewportHeight)
-      const nearBottom = distanceFromBottom < viewportHeight
-
-      // Update tailing state: attach when near bottom, detach when scrolling away
-      this.tailing = nearBottom
-
-      // On live streaming pages, don't reload when at the bottom - new content comes via Turbo Streams
-      // This preserves RCON responses that aren't in the log file
-      if (nearBottom) {
-        return
-      }
+    // On live streaming pages, don't reload when at the bottom - new content comes via Turbo Streams
+    // This preserves RCON responses that aren't in the log file
+    if (this.hasStreamTargetValue && this.tailing) {
+      return
     }
 
     // Calculate what line the user is viewing

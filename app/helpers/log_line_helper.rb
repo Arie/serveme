@@ -45,7 +45,9 @@ module LogLineHelper
       TF2LineParser::Events::Disconnect,
       TF2LineParser::Events::MatchEnd,
       TF2LineParser::Events::FinalScore,
-      TF2LineParser::Events::RoundStalemate
+      TF2LineParser::Events::RoundStalemate,
+      TF2LineParser::Events::Damage,
+      TF2LineParser::Events::PickupItem
     ]
   end
 

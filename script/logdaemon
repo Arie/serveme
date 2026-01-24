@@ -8,21 +8,22 @@ require 'active_support'
 require 'active_support/core_ext'
 require 'tf2_line_parser'
 require File.expand_path('../app/workers/log_worker', __dir__)
+require File.expand_path('../app/helpers/log_line_helper', __dir__)
 
 STREAMING_LOG_DIR = File.expand_path('../log/streaming', __dir__)
 
 class LogHandler
+  include LogLineHelper
+
   def initialize(streaming_log_dir)
     @streaming_log_dir = streaming_log_dir
   end
 
   def process_data(data)
     log_line = data.force_encoding('UTF-8').scrub[5..]
+    LogWorker.perform_async(log_line.to_s) if interesting_line?(log_line)
     matches = log_line.match(LogWorker::LOG_LINE_REGEX)
-    return unless matches && matches[:secret].present?
-
-    LogWorker.perform_async(log_line.to_s)
-    write_log(matches[:secret], matches[:line]) if matches[:line]
+    write_log(matches[:secret], matches[:line]) if matches && matches[:line] && matches[:secret].present?
   end
 
   def write_log(secret, line)

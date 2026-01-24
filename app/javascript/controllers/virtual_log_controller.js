@@ -117,7 +117,6 @@ export default class extends Controller {
       mutations.forEach((mutation) => {
         if (mutation.type === 'attributes' && mutation.attributeName === 'connected') {
           const isConnected = streamSource.hasAttribute('connected')
-          console.log('[VirtualLog] Connection state changed:', isConnected, 'wasConnected:', this.wasConnected)
 
           // Reconnected after being disconnected
           if (isConnected && !this.wasConnected) {
@@ -263,9 +262,6 @@ export default class extends Controller {
       const nearBottom = distanceFromBottom < viewportHeight
 
       // Update tailing state: attach when near bottom, detach when scrolling away
-      if (this.tailing !== nearBottom) {
-        console.log('[VirtualLog] Tailing changed:', nearBottom)
-      }
       this.tailing = nearBottom
 
       // On live streaming pages, don't reload when at the bottom - new content comes via Turbo Streams
@@ -562,13 +558,11 @@ export default class extends Controller {
 
   // Handle Turbo Stream reconnection - reload to catch up on missed lines
   handleReconnect() {
-    console.log('[VirtualLog] Reconnect detected, tailing:', this.tailing)
     if (!this.hasStreamTargetValue) return
 
     // Only reload if we were tailing (at the bottom)
     // Users scrolled up looking at history don't need a reload
     if (this.tailing) {
-      console.log('[VirtualLog] Reloading at 100% to catch up')
       this.loadAtPercent(100)
     }
   }

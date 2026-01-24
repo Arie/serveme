@@ -150,6 +150,10 @@ module ServemeBot
       end
 
       def find_server_config_id(config_query, previous)
+        # Explicit "no config" - don't use previous
+        return nil if config_query == "__none__"
+
+        # No query - use previous config if available
         return previous&.server_config_id if config_query.blank?
 
         query = config_query.to_s.downcase

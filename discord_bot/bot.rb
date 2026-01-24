@@ -12,6 +12,7 @@ require "discordrb"
 # Load bot libraries
 require_relative "lib/config"
 require_relative "lib/helpers/flag_helper"
+require_relative "lib/helpers/regional_configs"
 require_relative "lib/formatters/server_formatter"
 require_relative "lib/formatters/reservation_formatter"
 require_relative "lib/commands/base_command"
@@ -86,7 +87,7 @@ module ServemeBot
           sub.string(:server, "Server name", required: false, autocomplete: true)
           sub.string(:map, "Initial map (uses previous or cp_badlands)", required: false, autocomplete: true)
           sub.string(:password, "Server password (uses previous or auto-generated)", required: false)
-          sub.integer(:duration, "Duration in minutes (default: 120)", required: false)
+          sub.integer(:duration, "Duration in minutes (default: 120)", required: false, autocomplete: true)
           sub.string(:config, "Server config", required: false, autocomplete: true)
           sub.string(:whitelist, "Whitelist", required: false, autocomplete: true)
         end
@@ -95,7 +96,7 @@ module ServemeBot
           sub.string(:server, "Server name", required: false, autocomplete: true)
           sub.string(:map, "Initial map (uses previous or cp_badlands)", required: false, autocomplete: true)
           sub.string(:password, "Server password (uses previous or auto-generated)", required: false)
-          sub.integer(:duration, "Duration in minutes (default: 120)", required: false)
+          sub.integer(:duration, "Duration in minutes (default: 120)", required: false, autocomplete: true)
           sub.string(:config, "Server config", required: false, autocomplete: true)
           sub.string(:whitelist, "Whitelist", required: false, autocomplete: true)
         end
@@ -194,6 +195,14 @@ module ServemeBot
         group_name = event.interaction.button.custom_id.sub("book_group:", "")
         handle_book_group(event, group_name)
       end
+
+      # Book with config button (from config preset selection)
+      @bot.button(custom_id: /^book_with_config:.+$/) do |event|
+        parts = event.interaction.button.custom_id.sub("book_with_config:", "").split(":", 2)
+        group_name = parts[0]
+        config_name = parts[1] || ""
+        handle_book_with_config(event, group_name, config_name)
+      end
     end
 
     def register_autocomplete_handlers
@@ -207,6 +216,8 @@ module ServemeBot
           handle_config_autocomplete(event)
         when "whitelist"
           handle_whitelist_autocomplete(event)
+        when "duration"
+          handle_duration_autocomplete(event)
         else
           event.respond(choices: [])
         end
@@ -275,7 +286,10 @@ module ServemeBot
       return event.respond(choices: []) unless user
 
       query = (event.options[event.focused] || "").to_s.downcase
-      configs = ServerConfig.active.ordered
+      configs = ServerConfig.active.ordered.to_a
+
+      # Prioritize regional configs (ETF2L for EU, RGL for NA, etc.)
+      configs = Helpers::RegionalConfigs.prioritized_configs(configs, Config.region_key)
 
       suggestions = configs.map { |c| { name: c.file, value: c.file } }
 
@@ -307,6 +321,28 @@ module ServemeBot
     rescue StandardError => e
       Rails.logger.error "Whitelist autocomplete error: #{e.message}\n#{e.backtrace.first(5).join("\n")}"
       event.respond(choices: [])
+    end
+
+    def handle_duration_autocomplete(event)
+      # Predefined duration options with human-readable labels
+      durations = [
+        { name: "30 minutes", value: 30 },
+        { name: "1 hour", value: 60 },
+        { name: "1.5 hours", value: 90 },
+        { name: "2 hours (default)", value: 120 },
+        { name: "3 hours", value: 180 }
+      ]
+
+      query = (event.options[event.focused] || "").to_s
+
+      if query.present?
+        # Filter by typed number or text
+        durations = durations.select do |d|
+          d[:value].to_s.include?(query) || d[:name].downcase.include?(query.downcase)
+        end
+      end
+
+      event.respond(choices: durations)
     end
 
     def handle_end_reservation(event, reservation_id)
@@ -384,9 +420,85 @@ module ServemeBot
       user_info = user ? "#{user.nickname} (#{user.id})" : "unlinked"
       Rails.logger.info "[Discord] book_group by #{event.user.username} (#{event.user.id}) -> #{user_info} group=#{group_name}"
 
-      # Delegate to ReserveCommand with group_name as server_query
-      # This will fuzzy match and book any available server from the group
-      Commands::ReserveCommand.new(event).execute(server_query: group_name)
+      unless user
+        event.respond(content: ":x: Your Discord account is not linked. Use `/#{Config.command_name} link` first.", ephemeral: true)
+        return
+      end
+
+      # Always show config selection
+      previous = IAmFeelingLucky.new(user).previous_reservation
+      show_config_presets(event, group_name, previous&.server_config)
+    end
+
+    def show_config_presets(event, group_name, previous_config)
+      presets = Helpers::RegionalConfigs.presets_for_region(Config.region_key)
+
+      rows = []
+
+      # If user has a previous config, show it first (unless already in presets)
+      if previous_config && !presets.include?(previous_config.file)
+        rows << {
+          type: 1, # Action row
+          components: [
+            {
+              type: 2, # Button
+              style: 3, # Success (green) - highlight previous choice
+              label: "#{previous_config.file} (previous)",
+              custom_id: "book_with_config:#{group_name}:#{previous_config.file}"
+            }
+          ]
+        }
+      end
+
+      # Regional preset buttons
+      rows << {
+        type: 1, # Action row
+        components: presets.first(5).map do |config|
+          style = previous_config&.file == config ? 3 : 1 # Green if previous, blue otherwise
+          {
+            type: 2, # Button
+            style: style,
+            label: config,
+            custom_id: "book_with_config:#{group_name}:#{config}"
+          }
+        end
+      }
+
+      # "No config" button
+      rows << {
+        type: 1,
+        components: [
+          {
+            type: 2,
+            style: 2, # Secondary (gray)
+            label: "No config",
+            custom_id: "book_with_config:#{group_name}:__none__"
+          }
+        ]
+      }
+
+      event.respond(
+        content: "**Select a config for #{group_name}:**\n\nOr use `/#{Config.command_name} book` with the `config:` option for more choices.",
+        components: rows,
+        ephemeral: true
+      )
+    end
+
+    def handle_book_with_config(event, group_name, config_name)
+      user = User.find_by(discord_uid: event.user.id.to_s)
+      user_info = user ? "#{user.nickname} (#{user.id})" : "unlinked"
+      Rails.logger.info "[Discord] book_with_config by #{event.user.username} (#{event.user.id}) -> #{user_info} group=#{group_name} config=#{config_name}"
+
+      # __none__ means explicitly no config (don't use previous)
+      # Empty string would fall back to previous config
+      config = case config_name
+      when "__none__" then "__none__"
+      when "", nil then nil
+      else config_name
+      end
+
+      # Don't pre-acknowledge - let ReserveCommand handle the interaction
+      Commands::ReserveCommand.new(event).execute(server_query: group_name, config: config)
     end
   end
 end

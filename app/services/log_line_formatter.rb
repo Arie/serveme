@@ -38,7 +38,8 @@ class LogLineFormatter
       type: event_type,
       event: parsed_event,
       raw: skip_sanitization ? @line : self.class.sanitize_sensitive_data(@line),
-      message: extract_message(skip_sanitization)
+      message: extract_message(skip_sanitization),
+      admin: skip_sanitization
     }
   end
 

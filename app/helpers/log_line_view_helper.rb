@@ -2,7 +2,11 @@
 # frozen_string_literal: true
 
 module LogLineViewHelper
+  extend T::Sig
   include ERB::Util
+
+  # Type alias for the formatted hash from LogLineFormatter
+  FormattedLogLine = T.type_alias { T::Hash[Symbol, T.untyped] }
 
   # Team colors matching TF2 style
   TEAM_COLORS = {
@@ -34,6 +38,7 @@ module LogLineViewHelper
     "tf_projectile_arrow_fire" => "huntsman_flyingburn"
   }.freeze
 
+  sig { params(class_name: T.nilable(String)).returns(T.any(String, ActiveSupport::SafeBuffer)) }
   def class_icon(class_name)
     return "" unless class_name.present?
 
@@ -43,6 +48,7 @@ module LogLineViewHelper
     image_tag("class_#{class_lower}.png", class: "class-icon", alt: class_name, title: class_name)
   end
 
+  sig { params(weapon_name: T.nilable(String)).returns(ActiveSupport::SafeBuffer) }
   def weapon_icon(weapon_name)
     weapon_lower = weapon_name&.downcase || "default"
 
@@ -52,7 +58,8 @@ module LogLineViewHelper
     content_tag(:span, "", class: "killicon killicon-#{weapon_lower}", title: weapon_name || "unknown")
   end
 
-  def log_player_name(player, link: true)
+  sig { params(player: T.nilable(TF2LineParser::Player), link: T::Boolean, league_request_link: T::Boolean).returns(ActiveSupport::SafeBuffer) }
+  def log_player_name(player, link: true, league_request_link: false)
     return content_tag(:span, "Unknown", class: "player-name team-unassigned") unless player
 
     team_class = player.team&.downcase || "unassigned"
@@ -61,12 +68,20 @@ module LogLineViewHelper
     if link && player.steam_id
       steam_uid = LogLineFormatter.steam_id_to_community_id(player.steam_id)
       if steam_uid
-        steam_url = "https://steamcommunity.com/profiles/#{steam_uid}"
-        link_to name, steam_url,
-          class: "player-name team-#{team_class}",
-          target: "_blank",
-          rel: "noopener noreferrer",
-          title: player.steam_id
+        if league_request_link
+          link_to name, league_request_path(steam_uid: steam_uid, cross_reference: true),
+            class: "player-name team-#{team_class}",
+            target: "_blank",
+            rel: "noopener noreferrer",
+            title: "#{player.steam_id} (#{steam_uid})"
+        else
+          steam_url = "https://steamcommunity.com/profiles/#{steam_uid}"
+          link_to name, steam_url,
+            class: "player-name team-#{team_class}",
+            target: "_blank",
+            rel: "noopener noreferrer",
+            title: player.steam_id
+        end
       else
         content_tag(:span, name, class: "player-name team-#{team_class}")
       end
@@ -75,6 +90,7 @@ module LogLineViewHelper
     end
   end
 
+  sig { params(time: T.nilable(Time)).returns(ActiveSupport::SafeBuffer) }
   def log_timestamp(time)
     return content_tag(:span, "", class: "log-timestamp") unless time
 
@@ -83,6 +99,7 @@ module LogLineViewHelper
       title: time.strftime("%Y-%m-%d %H:%M:%S"))
   end
 
+  sig { params(formatted: FormattedLogLine).returns(ActiveSupport::SafeBuffer) }
   def render_kill_event(formatted)
     event = formatted[:event]
     return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player) && event.respond_to?(:target)
@@ -147,6 +164,7 @@ module LogLineViewHelper
     content_tag(:span, content, class: "log-kill")
   end
 
+  sig { params(formatted: FormattedLogLine).returns(ActiveSupport::SafeBuffer) }
   def render_chat_event(formatted)
     event = formatted[:event]
     return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player) && event.respond_to?(:message)
@@ -162,21 +180,37 @@ module LogLineViewHelper
     content_tag(:span, content, class: "log-chat")
   end
 
+  sig { params(formatted: FormattedLogLine).returns(ActiveSupport::SafeBuffer) }
   def render_connect_event(formatted)
     event = formatted[:event]
     return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player)
 
+    admin_mode = formatted[:admin] == true
+
     # Use formatted[:message] which is sanitized based on skip_sanitization flag
-    address_text = formatted[:message].present? ? " from #{formatted[:message]}" : ""
+    if formatted[:message].present?
+      ip_address = formatted[:message].to_s.split(":").first
+      if admin_mode && ip_address.present? && ip_address != "0.0.0.0"
+        ip_link = link_to(formatted[:message], league_request_path(ip: ip_address, cross_reference: true),
+          class: "ip-address-link", target: "_blank", rel: "noopener noreferrer")
+        address_text = safe_join([ " from ", ip_link ])
+      else
+        address_text = " from #{formatted[:message]}"
+      end
+    else
+      address_text = ""
+    end
 
     content = safe_join([
-      log_player_name(event.player),
-      content_tag(:span, " connected#{address_text}", class: "connect-action")
+      log_player_name(event.player, league_request_link: admin_mode),
+      content_tag(:span, " connected", class: "connect-action"),
+      address_text
     ])
 
     content_tag(:span, content, class: "log-connect")
   end
 
+  sig { params(formatted: FormattedLogLine).returns(ActiveSupport::SafeBuffer) }
   def render_disconnect_event(formatted)
     event = formatted[:event]
     return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player)
@@ -191,6 +225,7 @@ module LogLineViewHelper
     content_tag(:span, content, class: "log-disconnect")
   end
 
+  sig { params(formatted: FormattedLogLine).returns(ActiveSupport::SafeBuffer) }
   def render_point_capture_event(formatted)
     event = formatted[:event]
     cap_name = format_cap_name(event)
@@ -214,6 +249,7 @@ module LogLineViewHelper
     content_tag(:span, content, class: "log-capture")
   end
 
+  sig { params(event: TF2LineParser::Events::Event).returns(String) }
   def format_cap_name(event)
     return event.cap_name.to_s if event.cap_name.present?
     return "point #{event.cap_number}" if event.cap_number.present?
@@ -221,6 +257,7 @@ module LogLineViewHelper
     "control point"
   end
 
+  sig { params(formatted: FormattedLogLine).returns(ActiveSupport::SafeBuffer) }
   def render_round_event(formatted)
     event = formatted[:event]
     message = case formatted[:type]
@@ -261,6 +298,7 @@ module LogLineViewHelper
     content_tag(:span, message, class: "log-round")
   end
 
+  sig { params(formatted: FormattedLogLine).returns(ActiveSupport::SafeBuffer) }
   def render_console_event(formatted)
     message = formatted[:message] || formatted[:raw]
 
@@ -272,6 +310,7 @@ module LogLineViewHelper
     content_tag(:span, content, class: "log-console")
   end
 
+  sig { params(formatted: FormattedLogLine).returns(ActiveSupport::SafeBuffer) }
   def render_suicide_event(formatted)
     event = formatted[:event]
     return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player)
@@ -287,6 +326,7 @@ module LogLineViewHelper
     content_tag(:span, content, class: "log-suicide")
   end
 
+  sig { params(formatted: FormattedLogLine).returns(ActiveSupport::SafeBuffer) }
   def render_rcon_event(formatted)
     message = formatted[:message] || formatted[:raw]
 
@@ -298,6 +338,7 @@ module LogLineViewHelper
     content_tag(:span, content, class: "log-rcon")
   end
 
+  sig { params(formatted: FormattedLogLine).returns(ActiveSupport::SafeBuffer) }
   def render_role_change_event(formatted)
     event = formatted[:event]
     return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player)
@@ -315,6 +356,7 @@ module LogLineViewHelper
     content_tag(:span, content, class: "log-role")
   end
 
+  sig { params(formatted: FormattedLogLine).returns(ActiveSupport::SafeBuffer) }
   def render_spawn_event(formatted)
     event = formatted[:event]
     return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player)
@@ -331,6 +373,7 @@ module LogLineViewHelper
     content_tag(:span, content, class: "log-spawn")
   end
 
+  sig { params(formatted: FormattedLogLine).returns(ActiveSupport::SafeBuffer) }
   def render_domination_event(formatted)
     event = formatted[:event]
     return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player) && event.respond_to?(:target)
@@ -344,6 +387,7 @@ module LogLineViewHelper
     content_tag(:span, content, class: "log-domination")
   end
 
+  sig { params(formatted: FormattedLogLine).returns(ActiveSupport::SafeBuffer) }
   def render_revenge_event(formatted)
     event = formatted[:event]
     return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player) && event.respond_to?(:target)
@@ -357,6 +401,7 @@ module LogLineViewHelper
     content_tag(:span, content, class: "log-revenge")
   end
 
+  sig { params(formatted: FormattedLogLine).returns(ActiveSupport::SafeBuffer) }
   def render_pickup_item_event(formatted)
     event = formatted[:event]
     return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player)
@@ -374,6 +419,7 @@ module LogLineViewHelper
     content_tag(:span, content, class: "log-pickup")
   end
 
+  sig { params(formatted: FormattedLogLine).returns(ActiveSupport::SafeBuffer) }
   def render_heal_event(formatted)
     event = formatted[:event]
     return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player) && event.respond_to?(:target)
@@ -390,6 +436,7 @@ module LogLineViewHelper
     content_tag(:span, content, class: "log-heal")
   end
 
+  sig { params(formatted: FormattedLogLine).returns(ActiveSupport::SafeBuffer) }
   def render_charge_deployed_event(formatted)
     event = formatted[:event]
     return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player)
@@ -403,6 +450,7 @@ module LogLineViewHelper
     content_tag(:span, content, class: "log-charge")
   end
 
+  sig { params(formatted: FormattedLogLine).returns(ActiveSupport::SafeBuffer) }
   def render_charge_ready_event(formatted)
     event = formatted[:event]
     return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player)
@@ -416,6 +464,7 @@ module LogLineViewHelper
     content_tag(:span, content, class: "log-charge-ready")
   end
 
+  sig { params(formatted: FormattedLogLine).returns(ActiveSupport::SafeBuffer) }
   def render_charge_ended_event(formatted)
     event = formatted[:event]
     return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player)
@@ -432,6 +481,7 @@ module LogLineViewHelper
     content_tag(:span, content, class: "log-charge-ended")
   end
 
+  sig { params(formatted: FormattedLogLine).returns(ActiveSupport::SafeBuffer) }
   def render_lost_uber_advantage_event(formatted)
     event = formatted[:event]
     return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player)
@@ -448,6 +498,7 @@ module LogLineViewHelper
     content_tag(:span, content, class: "log-lost-uber")
   end
 
+  sig { params(seconds: T.nilable(T.any(Integer, Float, String))).returns(String) }
   def format_duration(seconds)
     return "" unless seconds
     seconds = seconds.to_f
@@ -460,6 +511,7 @@ module LogLineViewHelper
     end
   end
 
+  sig { params(formatted: FormattedLogLine).returns(ActiveSupport::SafeBuffer) }
   def render_empty_uber_event(formatted)
     event = formatted[:event]
     return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player)
@@ -473,6 +525,7 @@ module LogLineViewHelper
     content_tag(:span, content, class: "log-empty-uber")
   end
 
+  sig { params(formatted: FormattedLogLine).returns(ActiveSupport::SafeBuffer) }
   def render_first_heal_after_spawn_event(formatted)
     event = formatted[:event]
     return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player)
@@ -489,6 +542,7 @@ module LogLineViewHelper
     content_tag(:span, content, class: "log-first-heal")
   end
 
+  sig { params(formatted: FormattedLogLine).returns(ActiveSupport::SafeBuffer) }
   def render_player_extinguished_event(formatted)
     event = formatted[:event]
     return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player) && event.respond_to?(:target)
@@ -506,6 +560,7 @@ module LogLineViewHelper
     content_tag(:span, content, class: "log-extinguish")
   end
 
+  sig { params(formatted: FormattedLogLine).returns(ActiveSupport::SafeBuffer) }
   def render_airshot_event(formatted)
     event = formatted[:event]
     return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player) && event.respond_to?(:target)
@@ -525,6 +580,7 @@ module LogLineViewHelper
     content_tag(:span, content, class: "log-airshot")
   end
 
+  sig { params(formatted: FormattedLogLine).returns(ActiveSupport::SafeBuffer) }
   def render_airshot_heal_event(formatted)
     event = formatted[:event]
     return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player) && event.respond_to?(:target)
@@ -543,6 +599,7 @@ module LogLineViewHelper
     content_tag(:span, content, class: "log-airshot-heal")
   end
 
+  sig { params(formatted: FormattedLogLine).returns(ActiveSupport::SafeBuffer) }
   def render_joined_team_event(formatted)
     event = formatted[:event]
     return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player)
@@ -559,6 +616,7 @@ module LogLineViewHelper
     content_tag(:span, content, class: "log-joined-team")
   end
 
+  sig { params(formatted: FormattedLogLine).returns(ActiveSupport::SafeBuffer) }
   def render_builtobject_event(formatted)
     event = formatted[:event]
     return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player)
@@ -574,6 +632,7 @@ module LogLineViewHelper
     content_tag(:span, content, class: "log-builtobject")
   end
 
+  sig { params(formatted: FormattedLogLine).returns(ActiveSupport::SafeBuffer) }
   def render_damage_event(formatted)
     event = formatted[:event]
     return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player) && event.respond_to?(:target)
@@ -603,6 +662,7 @@ module LogLineViewHelper
     content_tag(:span, content, class: "log-damage")
   end
 
+  sig { params(formatted: FormattedLogLine).returns(ActiveSupport::SafeBuffer) }
   def render_medic_death_event(formatted)
     event = formatted[:event]
     return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player)
@@ -618,6 +678,7 @@ module LogLineViewHelper
     content_tag(:span, content, class: "log-medic-death")
   end
 
+  sig { params(formatted: FormattedLogLine).returns(ActiveSupport::SafeBuffer) }
   def render_medic_death_ex_event(formatted)
     event = formatted[:event]
     return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player)
@@ -643,6 +704,7 @@ module LogLineViewHelper
     end
   end
 
+  sig { params(formatted: FormattedLogLine).returns(ActiveSupport::SafeBuffer) }
   def render_killedobject_event(formatted)
     event = formatted[:event]
     return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player) && event.respond_to?(:objectowner)
@@ -663,6 +725,7 @@ module LogLineViewHelper
     content_tag(:span, content, class: "log-killedobject")
   end
 
+  sig { params(object: T.nilable(String)).returns(String) }
   def format_building_name(object)
     case object&.upcase
     when "OBJ_SENTRYGUN"
@@ -678,6 +741,7 @@ module LogLineViewHelper
     end
   end
 
+  sig { params(formatted: FormattedLogLine).returns(ActiveSupport::SafeBuffer) }
   def render_log_line_content(formatted)
     case formatted[:type]
     when :kill
@@ -753,6 +817,7 @@ module LogLineViewHelper
     end
   end
 
+  sig { params(formatted: FormattedLogLine).returns(ActiveSupport::SafeBuffer) }
   def render_capture_block_event(formatted)
     event = formatted[:event]
     return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player)
@@ -768,6 +833,7 @@ module LogLineViewHelper
     content_tag(:span, content, class: "log-capture-block")
   end
 
+  sig { params(formatted: FormattedLogLine).returns(ActiveSupport::SafeBuffer) }
   def render_shot_fired_event(formatted)
     event = formatted[:event]
     return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player)
@@ -783,6 +849,7 @@ module LogLineViewHelper
     content_tag(:span, content, class: "log-shot")
   end
 
+  sig { params(formatted: FormattedLogLine).returns(ActiveSupport::SafeBuffer) }
   def render_shot_hit_event(formatted)
     event = formatted[:event]
     return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player)

@@ -25,6 +25,45 @@ The `.claude-on-rails/prompts/` directory contains specialized prompts for diffe
 - **api.md** - API endpoints and documentation
 - **devops.md** - Deployment and infrastructure
 
+## Per-Region MCP Servers
+
+serveme.tf operates across multiple regions, each with its own MCP server providing direct access to region-specific data:
+
+| Server | Region | Notes |
+|--------|--------|-------|
+| `serveme-eu` | Europe | Primary region |
+| `serveme-na` | North America | |
+| `serveme-au` | Australia | |
+| `serveme-sea` | Southeast Asia | |
+
+### Available Tools (per region)
+
+**User & Account Management:**
+- `get_user` - Look up user by Steam ID, nickname, or user ID
+- `search_alts` - Find alternate accounts by IP or Steam ID
+- `search_by_asn` - Find accounts by ISP/ASN (not available in SEA)
+- `link_discord` / `get_discord_link` - Discord account linking
+
+**Server Management:**
+- `list_servers` - List all servers with status
+- `get_public_servers` - Public server availability (no sensitive data)
+
+**Reservation Management:**
+- `list_reservations` - Admin view with passwords/RCON
+- `get_player_reservations` - Player's own reservations (safe for Discord bot)
+- `create_reservation` - Book a server
+- `get_reservation_status` - Live reservation status with players
+- `end_reservation` - End reservation early
+
+### Usage Notes
+
+- Always use the appropriate regional server (users/servers are region-specific)
+- `list_reservations` returns sensitive data (RCON passwords) - use for admin tasks
+- `get_player_reservations` is safe for Discord bot integration
+- Steam IDs can be provided in any format (ID64, ID, ID3, profile URL)
+
+See `.claude-on-rails/prompts/mcp-servers.md` for detailed documentation.
+
 ## Development Guidelines
 
 When working on this project:

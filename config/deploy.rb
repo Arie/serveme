@@ -32,6 +32,9 @@ set :puma_preload_app, false
 set :puma_phased_restart, true
 set :puma_enable_socket_service, true
 
+# Sidekiq: disable default hooks, we'll add our own without early quiet
+set :sidekiq_default_hooks, false
+
 # Default value for :linked_files is []
 set :linked_files, fetch(:linked_files, []).push("config/master.key", "config/credentials/production.key", "config/database.yml", "config/puma/production.rb", "config/initializers/locale.rb", "config/initializers/maps_dir.rb", "config/initializers/01_site_url.rb", "doc/GeoLite2-City.mmdb", "doc/GeoLite2-ASN.mmdb", "config/cacert.pem")
 
@@ -40,6 +43,11 @@ set :linked_dirs, fetch(:linked_dirs, []).push("log", "tmp/pids", "tmp/cache", "
 
 # Configure asset dependencies for faster_assets
 set :assets_dependencies, %w[app/assets app/javascript lib/assets vendor/assets Gemfile.lock config/routes.rb]
+
+# Sidekiq hooks: no early quiet, just stop after code update and start after publish
+after "deploy:updated", "sidekiq:stop"
+after "deploy:published", "sidekiq:start"
+after "deploy:failed", "sidekiq:restart"
 
 after "deploy:finishing", "logdaemon:restart"
 

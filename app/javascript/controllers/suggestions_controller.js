@@ -142,6 +142,10 @@ export default class extends Controller {
       event.stopPropagation();
     }
 
+    // Cancel any pending autocomplete requests to prevent popup appearing after submit
+    this.clearDebounceTimer();
+    this.abortPreviousFetchRequest();
+
     const form = this.element.tagName === 'FORM' ?
                  this.element :
                  this.element.closest('form');

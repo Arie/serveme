@@ -68,9 +68,8 @@ export default class extends Controller {
     this.boundHandleTurboStream = this.handleTurboStreamAppend.bind(this)
     document.addEventListener('turbo:before-stream-render', this.boundHandleTurboStream)
 
-    // Listen for Turbo Stream reconnection to catch up after disconnect
-    this.boundHandleReconnect = this.handleReconnect.bind(this)
-    document.addEventListener('turbo:cable-stream-source-connected', this.boundHandleReconnect)
+    // Watch for Turbo Stream reconnection to catch up after disconnect
+    this.setupReconnectObserver()
 
     // Check if we have pre-rendered lines (server-side rendered for non-JS fallback)
     const preRenderedLines = this.linesContainerTarget.querySelectorAll('.virtual-line')
@@ -98,8 +97,38 @@ export default class extends Controller {
     document.removeEventListener('keydown', this.boundHandleKeydown)
     this.linesContainerTarget.removeEventListener('click', this.boundHandleLogLineClick)
     document.removeEventListener('turbo:before-stream-render', this.boundHandleTurboStream)
-    document.removeEventListener('turbo:cable-stream-source-connected', this.boundHandleReconnect)
+    if (this.reconnectObserver) {
+      this.reconnectObserver.disconnect()
+    }
     this.cleanupProgressBar()
+  }
+
+  // Set up MutationObserver to detect Turbo Stream reconnection
+  setupReconnectObserver() {
+    if (!this.hasStreamTargetValue) return
+
+    // Find the turbo-cable-stream-source element
+    const streamSource = document.querySelector('turbo-cable-stream-source')
+    if (!streamSource) return
+
+    this.wasConnected = streamSource.hasAttribute('connected')
+
+    this.reconnectObserver = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'connected') {
+          const isConnected = streamSource.hasAttribute('connected')
+          console.log('[VirtualLog] Connection state changed:', isConnected, 'wasConnected:', this.wasConnected)
+
+          // Reconnected after being disconnected
+          if (isConnected && !this.wasConnected) {
+            this.handleReconnect()
+          }
+          this.wasConnected = isConnected
+        }
+      })
+    })
+
+    this.reconnectObserver.observe(streamSource, { attributes: true })
   }
 
   // Get effective total (matches if searching, otherwise total lines)
@@ -234,6 +263,9 @@ export default class extends Controller {
       const nearBottom = distanceFromBottom < viewportHeight
 
       // Update tailing state: attach when near bottom, detach when scrolling away
+      if (this.tailing !== nearBottom) {
+        console.log('[VirtualLog] Tailing changed:', nearBottom)
+      }
       this.tailing = nearBottom
 
       // On live streaming pages, don't reload when at the bottom - new content comes via Turbo Streams
@@ -529,12 +561,14 @@ export default class extends Controller {
   }
 
   // Handle Turbo Stream reconnection - reload to catch up on missed lines
-  handleReconnect(event) {
+  handleReconnect() {
+    console.log('[VirtualLog] Reconnect detected, tailing:', this.tailing)
     if (!this.hasStreamTargetValue) return
 
     // Only reload if we were tailing (at the bottom)
     // Users scrolled up looking at history don't need a reload
     if (this.tailing) {
+      console.log('[VirtualLog] Reloading at 100% to catch up')
       this.loadAtPercent(100)
     }
   }

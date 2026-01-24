@@ -275,20 +275,21 @@ export default class extends Controller {
     this.updateStatusText()
     this.updateProgressPosition(percent)
 
-    // On live streaming pages, don't reload when at the bottom - new content comes via Turbo Streams
-    // This preserves RCON responses that aren't in the log file
-    if (this.hasStreamTargetValue && this.tailing) {
-      return
-    }
-
-    // Calculate what line the user is viewing
-    const currentLine = Math.floor(scrollTop / this.lineHeightValue)
+    // Calculate what lines are visible (top and bottom of viewport)
+    const viewportHeight = this.viewportTarget.clientHeight
+    const topLine = Math.floor(scrollTop / this.lineHeightValue)
+    const bottomLine = Math.floor((scrollTop + viewportHeight) / this.lineHeightValue)
 
     // Check if we're near the edges of loaded content
     const buffer = this.viewportCountValue / 4  // Reload when within 25% of edge
     const needsReload =
-      currentLine < this.loadedStartIndex + buffer ||
-      currentLine > this.loadedEndIndex - buffer
+      topLine < this.loadedStartIndex + buffer ||
+      bottomLine > this.loadedEndIndex - buffer
+
+    // On live streaming pages at the end, don't reload - new content comes via Turbo Streams
+    if (this.hasStreamTargetValue && percent > 98) {
+      return
+    }
 
     if (needsReload) {
       this.loadAtPercent(percent, false)
@@ -588,9 +589,19 @@ export default class extends Controller {
     // Prevent default Turbo rendering - we handle it ourselves
     event.preventDefault()
 
-    // If searching, just update the count - don't show unfiltered lines
+    // Always update total line count and content height
+    this.totalLinesValue++
+    this.updateContentHeight()
+
+    // If searching, don't show unfiltered lines
     if (this.totalMatches !== null) {
-      this.totalLinesValue++
+      return
+    }
+
+    // Only render and track new lines if we're tailing
+    // Otherwise there would be a gap between loaded content and streamed content
+    if (!this.tailing) {
+      this.updateStatusText()
       return
     }
 
@@ -606,7 +617,7 @@ export default class extends Controller {
     const wrapper = document.createElement('div')
     wrapper.className = 'virtual-line'
     wrapper.style.position = 'absolute'
-    wrapper.style.top = `${this.totalLinesValue * this.lineHeightValue}px`
+    wrapper.style.top = `${(this.totalLinesValue - 1) * this.lineHeightValue}px`
     wrapper.style.left = '0'
     wrapper.style.right = '0'
     wrapper.appendChild(logLine)
@@ -614,19 +625,15 @@ export default class extends Controller {
     // Append to the lines container
     this.linesContainerTarget.appendChild(wrapper)
 
-    // Update totals and height
-    this.totalLinesValue++
+    // Update loaded range to include the new line
     this.loadedEndIndex = this.totalLinesValue
-    this.updateContentHeight()
 
-    // Auto-scroll to bottom if tailing
-    if (this.tailing) {
-      this.currentPercent = 100
-      const effectiveTotal = this.getEffectiveTotal()
-      const targetScroll = effectiveTotal * this.lineHeightValue
-      this.viewportTarget.scrollTop = targetScroll
-      this.updateProgressPosition(100)
-    }
+    // Auto-scroll to bottom
+    this.currentPercent = 100
+    const effectiveTotal = this.getEffectiveTotal()
+    const targetScroll = effectiveTotal * this.lineHeightValue
+    this.viewportTarget.scrollTop = targetScroll
+    this.updateProgressPosition(100)
 
     this.updateStatusText()
   }

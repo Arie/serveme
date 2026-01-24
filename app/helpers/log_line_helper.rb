@@ -47,7 +47,15 @@ module LogLineHelper
       TF2LineParser::Events::FinalScore,
       TF2LineParser::Events::RoundStalemate,
       TF2LineParser::Events::Damage,
-      TF2LineParser::Events::PickupItem
+      TF2LineParser::Events::PickupItem,
+      TF2LineParser::Events::ChargeDeployed,
+      TF2LineParser::Events::ChargeReady,
+      TF2LineParser::Events::ChargeEnded,
+      TF2LineParser::Events::Domination,
+      TF2LineParser::Events::Revenge,
+      TF2LineParser::Events::Airshot,
+      TF2LineParser::Events::AirshotHeal,
+      TF2LineParser::Events::HeadshotDamage
     ]
   end
 

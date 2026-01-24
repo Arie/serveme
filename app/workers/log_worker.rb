@@ -47,10 +47,7 @@ class LogWorker
       mapstart = event.unknown.match(MAP_START)
       handle_mapstart(mapstart[2]) if mapstart
     end
-    # Broadcast sanitized version for regular users
-    Turbo::StreamsChannel.broadcast_prepend_to "reservation_#{reservation&.logsecret}_log_lines", target: "reservation_#{reservation&.logsecret}_log_lines", partial: "reservations/log_line", locals: { log_line: line, skip_sanitization: false }
-    # Broadcast unsanitized version for admins
-    Turbo::StreamsChannel.broadcast_prepend_to "reservation_#{reservation&.logsecret}_log_lines_admin", target: "reservation_#{reservation&.logsecret}_log_lines", partial: "reservations/log_line", locals: { log_line: line, skip_sanitization: true }
+    broadcast_log_lines
   end
 
   def handle_mapstart(mapname)
@@ -450,6 +447,34 @@ class LogWorker
         server_id: reservation.server_id
       }
     )
+  end
+
+  def broadcast_log_lines
+    logsecret = reservation&.logsecret
+    return unless logsecret
+
+    user_stream = "reservation_#{logsecret}_log_lines"
+    admin_stream = "reservation_#{logsecret}_log_lines_admin"
+
+    # Broadcast sanitized version for regular users (only if someone is subscribed)
+    if TurboSubscriberChecker.has_subscribers?(user_stream)
+      Turbo::StreamsChannel.broadcast_prepend_to(
+        user_stream,
+        target: user_stream,
+        partial: "reservations/log_line",
+        locals: { log_line: line, skip_sanitization: false }
+      )
+    end
+
+    # Broadcast unsanitized version for admins (only if someone is subscribed)
+    if TurboSubscriberChecker.has_subscribers?(admin_stream)
+      Turbo::StreamsChannel.broadcast_prepend_to(
+        admin_stream,
+        target: user_stream,
+        partial: "reservations/log_line",
+        locals: { log_line: line, skip_sanitization: true }
+      )
+    end
   end
 
   def today

@@ -512,6 +512,15 @@ export default class extends Controller {
 
     if (!query) {
       this.totalMatches = null
+
+      // On streaming pages, clearing search should go to end and resume tailing
+      // (similar to reconnect behavior)
+      if (this.hasStreamTargetValue) {
+        this.tailing = true
+        this.updateUrl(query)
+        this.loadAtPercent(100)
+        return
+      }
     }
 
     // Update the URL to reflect the search query

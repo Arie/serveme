@@ -376,10 +376,10 @@ module GeneratedUrlHelpersModule
   def rcon_command_reservation_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
-  def rcon_load_more_reservation_url(*args); end
+  def rcon_reservation_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
-  def rcon_reservation_url(*args); end
+  def rcon_view_reservation_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def recent_reservations_pages_url(*args); end
@@ -457,10 +457,10 @@ module GeneratedUrlHelpersModule
   def show_ip_statistic_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
-  def show_log_load_more_reservation_log_uploads_url(*args); end
+  def show_log_reservation_log_uploads_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
-  def show_log_reservation_log_uploads_url(*args); end
+  def show_log_view_reservation_log_uploads_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def show_player_statistic_url(*args); end
@@ -520,10 +520,10 @@ module GeneratedUrlHelpersModule
   def steam_sessions_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
-  def streaming_load_more_reservation_url(*args); end
+  def streaming_reservation_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
-  def streaming_reservation_url(*args); end
+  def streaming_view_reservation_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def stripe_orders_url(*args); end

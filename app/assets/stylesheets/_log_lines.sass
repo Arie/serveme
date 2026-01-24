@@ -198,35 +198,80 @@ button.log-search-clear
   color: #888
   font-size: 0.85em
   min-width: 70px
+  padding-left: 8px
 
 // Body background for log pages
 body:has(.rcon-page),
 body:has(.streaming-page)
   background: #1a1a1a
+  margin: 0
+  padding: 0
+  height: 100vh
+  overflow: hidden
+  display: flex
+  flex-direction: column
+
+  .container-fluid
+    flex: 1
+    display: flex
+    flex-direction: column
+    min-height: 0
+    padding: 0
+
+    > main
+      flex: 1
+      display: flex
+      flex-direction: column
+      min-height: 0
 
 // RCON page styling
 .rcon-page
   margin: -15px -15px 0 -15px
-  padding: 10px 15px
+  padding: 10px 15px 0 15px
   background: #1a1a1a
-  min-height: 100vh
+  overflow: hidden
+  flex: 1
+  display: flex
+  flex-direction: column
+  min-height: 0
+
+  > div
+    display: flex
+    flex-direction: column
+    flex: 1
+    min-height: 0
 
   .log-controls-bar
     background: #1a1a1a
     border-bottom: 1px solid #333
-    padding: 8px 0
+    padding: 8px 15px
 
 // RCON log lines - full height like streaming
 .web-rcon-log-lines.rcon-log-lines
   max-height: none
   overflow-y: visible
 
+// Button before streaming page (e.g. log uploads)
+main > a.btn:first-child
+  align-self: flex-start
+  margin: 10px 15px
+
 // Streaming log page - full viewport
 .streaming-page
   margin: -15px -15px 0 -15px
-  padding: 10px 15px
+  padding: 10px 15px 0 15px
   background: #1a1a1a
-  min-height: 100vh
+  overflow: hidden
+  flex: 1
+  display: flex
+  flex-direction: column
+  min-height: 0
+
+  > div
+    display: flex
+    flex-direction: column
+    flex: 1
+    min-height: 0
 
   h3
     margin: 0 0 5px 0
@@ -239,13 +284,18 @@ body:has(.streaming-page)
     background: #1a1a1a
     border-bottom: 1px solid #333
     margin-bottom: 0
-    padding: 8px 0
+    padding: 8px 15px
 
 // Wrapper for log lines + loading overlay
 .log-lines-wrapper
   position: relative
   min-height: 200px
   background: #1a1a1a
+  flex: 1
+  display: flex
+  flex-direction: column
+  min-height: 0
+  padding: 0 15px
 
 .web-rcon-log-lines.streaming-log-lines
   max-height: none
@@ -291,24 +341,18 @@ body:has(.streaming-page)
 
   // Raw line display (slides out below formatted line)
   .log-raw
-    max-height: 0
-    overflow: hidden
-    opacity: 0
-    transition: max-height 0.2s ease-out, opacity 0.2s ease-out, padding 0.2s ease-out
+    display: none
     font-family: monospace
     font-size: 0.85em
     color: #888
     background: #1a1a1a
-    padding: 0 8px
-    margin-top: 0
+    padding: 6px 8px
+    margin-top: 4px
     white-space: pre-wrap
     word-break: break-all
 
   &.show-raw .log-raw
-    max-height: 200px
-    opacity: 1
-    padding: 6px 8px
-    margin-top: 4px
+    display: block
 
 // Timestamp
 .log-timestamp
@@ -765,15 +809,7 @@ body:has(.streaming-page)
   &.visible
     display: flex
 
-// Load more sentinel for infinite scroll
-.log-load-more
-  display: flex
-  align-items: center
-  justify-content: center
-  gap: 10px
-  padding: 20px
-  color: #888
-
+// Loading spinner
 .log-load-more-spinner
   width: 20px
   height: 20px
@@ -786,60 +822,13 @@ body:has(.streaming-page)
   to
     transform: rotate(360deg)
 
-.log-load-more-text
-  font-size: 0.9em
-
-// Initial loading state for lazy-loaded content
-.log-initial-loading
-  display: flex
-  align-items: center
-  justify-content: center
-  gap: 10px
-  padding: 40px
-  color: #888
-
-// CSS-based filtering for live mode (rcon page)
-// When filter-active is set, hide all lines by default, then show selected groups
-.web-rcon-log-lines.filter-active
-  .log-line
-    display: none
-
-  // Show kills group when filter-kills is set
-  &.filter-kills
-    .log-line-kill,
-    .log-line-suicide
-      display: flex
-
-  // Show chat group when filter-chat is set
-  &.filter-chat
-    .log-line-say,
-    .log-line-team_say
-      display: flex
-
-  // Show connects group when filter-connects is set
-  &.filter-connects
-    .log-line-connect,
-    .log-line-disconnect
-      display: flex
-
-  // Show round group when filter-round is set
-  &.filter-round
-    .log-line-round_win,
-    .log-line-round_start,
-    .log-line-round_stalemate,
-    .log-line-current_score,
-    .log-line-final_score,
-    .log-line-match_end,
-    .log-line-point_capture
-      display: flex
-
-// Status bar for chunked loading
+// Status bar
 .log-status-bar
-  position: sticky
-  bottom: 0
   background: linear-gradient(to top, #1a1a1a 80%, transparent)
-  padding: 15px 10px 10px
+  padding: 5px 0 10px
   text-align: center
+  touch-action: none
+  flex-shrink: 0
 
 // Progress bar container
 .log-progress-container
@@ -978,3 +967,239 @@ body:has(.streaming-page)
     opacity: 1
   50%
     opacity: 0.5
+
+// Virtual scrolling styles
+.virtual-log-viewport
+  width: 100%
+  flex: 1
+  min-height: 0
+  overflow-y: auto
+  overflow-x: hidden
+  background: #1a1a1a
+  position: relative
+  // Hide native scrollbar - use progress bar instead
+  scrollbar-width: none  // Firefox
+  -ms-overflow-style: none  // IE/Edge
+  &::-webkit-scrollbar
+    display: none  // Chrome/Safari
+
+.virtual-log-content
+  position: relative
+  width: 100%
+  // Height is set dynamically via JS based on total lines
+
+.virtual-log-lines
+  position: absolute
+  top: 0
+  left: 0
+  right: 0
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace
+  font-size: 13px
+  padding: 0
+
+// Virtual line wrapper - positioned absolutely
+.virtual-line
+  width: 100%
+  box-sizing: border-box
+  height: 24px
+  overflow: hidden
+
+  // Allow overflow when raw line is expanded
+  &:has(.log-line.show-raw)
+    overflow: visible
+
+  .log-line
+    // Override default log-line styles for virtual scrolling
+    margin: 0
+    padding: 0
+    height: 24px
+    border-bottom: 1px solid #2a2a2a
+    overflow: hidden
+
+    &:hover
+      background: #252525
+
+    .log-formatted
+      line-height: 24px
+      height: 24px
+      align-items: center
+      // Override base flex-wrap and prevent line wrapping
+      flex-wrap: nowrap
+      overflow: hidden
+      text-overflow: ellipsis
+
+      // All children should not wrap and be centered
+      > *
+        flex-shrink: 0
+        line-height: 22px
+        display: inline-flex
+        align-items: center
+        gap: 4px
+
+      // Allow the last text content to truncate
+      > span:last-child
+        flex-shrink: 1
+        overflow: hidden
+        text-overflow: ellipsis
+        white-space: nowrap
+
+      // Override pre-wrap on RCON/console messages to prevent wrapping
+      .rcon-message,
+      .console-message
+        white-space: nowrap
+        overflow: hidden
+        text-overflow: ellipsis
+
+    // Raw line expansion - show below the formatted line
+    &.show-raw
+      overflow: visible
+      position: relative
+
+      .log-raw
+        display: block
+        position: absolute
+        top: 24px
+        left: 0
+        right: 0
+        background: #111
+        border: 1px solid #333
+        border-radius: 4px
+        padding: 6px 8px
+        z-index: 10
+        font-family: monospace
+        font-size: 0.85em
+        color: #888
+        white-space: pre-wrap
+        word-break: break-all
+
+  // Player name backgrounds - full line height
+  .player-name
+    line-height: 24px
+    padding: 0 4px
+    display: inline-flex
+    align-items: center
+    height: 24px
+    box-sizing: border-box
+
+// RCON compact bottom bar - combines status and input
+.log-status-bar.rcon-bottom-bar
+  padding: 8px 0
+  overscroll-behavior: contain
+
+.rcon-bottom-controls
+  display: flex
+  align-items: center
+  justify-content: space-between
+  gap: 12px
+  flex-wrap: wrap
+
+.rcon-input-container
+  display: flex
+  align-items: center
+  flex: 1
+  min-width: 200px
+  max-width: 500px
+  position: relative
+  z-index: 100
+
+.rcon-command-inline
+  display: flex
+  align-items: flex-start
+  gap: 8px
+  margin: 0
+  flex: 1
+
+  .suggestions
+    position: relative
+    flex: 1
+
+    // SimpleForm wrapper div
+    > div
+      margin: 0
+
+  input.rcon-input-inline
+    width: 100% !important
+    height: 34px !important
+    padding: 6px 12px
+    font-size: 0.9em
+    background: #2a2a2a
+    border: 1px solid #444
+    color: #fff
+    border-radius: 4px
+    box-sizing: border-box
+
+    &:focus
+      border-color: #5cb85c
+      outline: none
+
+    &::placeholder
+      color: #666
+
+  > input[type="submit"]
+    height: 34px
+    padding: 6px 12px
+    flex-shrink: 0
+
+  > .rcon-help-link
+    display: inline-flex
+    align-items: center
+    justify-content: center
+    width: 34px
+    height: 34px
+    color: #888
+    text-decoration: none
+    font-size: 1.2em
+    background: #2a2a2a
+    border: 1px solid #444
+    border-radius: 4px
+    flex-shrink: 0
+
+    &:hover
+      color: #5cb85c
+      border-color: #5cb85c
+
+// Suggestions dropdown for bottom position - appears above the input
+.suggestions-results-bottom
+  position: absolute
+  bottom: 100%
+  left: 0
+  right: 0
+  margin-bottom: 4px
+  z-index: 1000
+  // Override inline styles from JS
+  overflow: visible !important
+  max-height: none !important
+  height: auto !important
+
+  // Override the default rcon-autocomplete positioning
+  ul.rcon-autocomplete
+    position: static
+    top: auto
+    left: auto
+    width: 100%
+    background: #222
+    border: 1px solid #444
+    max-height: 300px
+    overflow-y: auto
+    text-align: left
+
+    li
+      color: #fff
+      border-bottom-color: #444
+      text-align: left
+
+      > div:hover
+        background-color: #5cb85c
+
+      &.current-result > div
+        background-color: #4cae4c
+
+      .description
+        color: #aaa
+
+// Command list popup positioned above when at bottom
+.command-list-popup-bottom
+  bottom: 100%
+  top: auto
+  margin-bottom: 10px
+  z-index: 1001

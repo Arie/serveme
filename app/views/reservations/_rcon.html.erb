@@ -1,118 +1,99 @@
 <%= turbo_stream_from "reservation_#{@logsecret}_log_lines#{@skip_sanitization ? '_admin' : ''}" %>
 
 <div class="rcon-page">
-  <div data-controller="log-filter" data-log-filter-live-mode-value="true" data-log-filter-load-more-url-value="<%= rcon_load_more_reservation_path(@reservation) %>" data-log-filter-total-lines-value="<%= @total_lines %>" data-log-filter-matched-lines-value="<%= @matched_lines %>" data-log-filter-loaded-lines-value="<%= @loaded_lines %>">
-      <div class="log-controls-bar">
-        <% if @reservation.now? %>
-          <div data-controller="command-list" class="rcon-form-container">
-            <%= simple_form_for(@reservation, url: url_for(controller: "reservations", action: @action || "rcon_command"), html: { class: "rcon-command", autocomplete: "off"}, data: { controller: "suggestions", action: "turbo:submit-end->suggestions#resetForm", suggestions_url_value: rcon_autocomplete_url(reservation_id: @reservation.id), suggestions_debounce_value: "150", suggestions_prevent_default_submission: true }) do |f| %>
-              <div class="suggestions">
-                <%= f.input :query, label: false do %>
-                  <%= text_field_tag :query, nil, placeholder: "RCON command", class: "form-control", autocomplete: "off", autofocus: true, spellcheck: false, data: { action: "keyup->suggestions#fetchResults keydown->suggestions#navigateResults", suggestions_target: "query", command_list_target: "input" } %>
-                <% end %>
-                <div data-suggestions-target="results"></div>
-              </div>
-              <%= submit_tag "Send", name: "commit", class: "btn btn-primary", data: { action: "click->suggestions#submitForm" } %>
-              <a href="#" data-action="click->command-list#show" class="rcon-help-link" title="View available commands">?</a>
-            <% end %>
-            <div data-command-list-target="list" class="command-list-popup">
-              <div class="command-list-header">
-                <h6>Available Commands</h6>
-                <button type="button" class="command-list-close" data-action="click->command-list#hide" aria-label="Close">&times;</button>
-              </div>
-              <div class="command-list-search">
-                <input type="text" class="form-control form-control-sm" placeholder="Search commands..."
-                       data-command-list-target="search"
-                       data-action="input->command-list#filterCommands">
-              </div>
-              <div class="commands-grid">
-                <% RconAutocomplete.commands_to_suggest.each do |cmd| %>
-                  <div class="command-item"
-                       data-command-list-target="commandItem"
-                       data-command-text="<%= cmd[:command] %>"
-                       data-command-desc="<%= cmd[:description] %>">
-                    <a href="#" class="command-link" data-action="click->command-list#selectCommand" data-command="<%= cmd[:command] %>">
-                      <strong class="command-name"><%= cmd[:command] %></strong>
-                      <small class="command-desc"><%= cmd[:description] %></small>
-                    </a>
-                  </div>
-                <% end %>
-              </div>
-            </div>
-          </div>
-        <% end %>
-        <div class="log-search-container">
-          <input type="text" class="log-search-input" placeholder="Search logs..." value="<%= @search_query %>" data-action="input->log-filter#search" data-log-filter-target="searchInput">
-          <button type="button" class="log-search-clear" data-action="click->log-filter#clearSearch" data-log-filter-target="clearBtn" title="Clear search">&times;</button>
-          <%= form_with url: rcon_reservation_path(@reservation), method: :get, data: { turbo_frame: "rcon-log-lines", log_filter_target: "searchForm" }, html: { style: "display:none" } do %>
-            <input type="hidden" name="q" data-log-filter-target="searchFormQuery" value="<%= @search_query %>">
-          <% end %>
-          <span class="log-search-count" data-log-filter-target="searchCount">
-            <% if @matched_lines != @total_lines %>
-              <%= "#{@matched_lines} / #{@total_lines}" %>
-            <% end %>
-          </span>
-        </div>
+  <div data-controller="virtual-log"
+       data-virtual-log-view-url-value="<%= rcon_view_reservation_path(@reservation) %>"
+       data-virtual-log-total-lines-value="<%= @total_lines %>"
+       data-virtual-log-line-height-value="24"
+       data-virtual-log-buffer-lines-value="50"
+       data-virtual-log-viewport-count-value="200"
+       data-virtual-log-stream-target-value="reservation_<%= @logsecret %>_log_lines"
+       data-virtual-log-initial-query-value="<%= @initial_query %>"
+       data-virtual-log-start-at-end-value="true">
+    <div class="log-controls-bar">
+      <div class="log-search-container">
+        <input type="text" class="log-search-input" placeholder="Search logs..." value="<%= @initial_query %>" data-action="input->virtual-log#search" data-virtual-log-target="searchInput">
+        <button type="button" class="log-search-clear" data-action="click->virtual-log#clearSearch" title="Clear search">&times;</button>
+        <span class="log-search-count" data-virtual-log-target="searchCount"></span>
       </div>
+    </div>
 
     <div class="log-lines-wrapper">
-      <div class="log-loading-overlay" data-log-filter-target="loadingOverlay">
+      <div class="log-loading-overlay" data-virtual-log-target="loadingOverlay">
         <div class="log-load-more-spinner"></div>
         <span>Loading...</span>
       </div>
 
-      <%= turbo_frame_tag "rcon-log-lines", src: (@lazy_load ? rcon_reservation_path(@reservation) : nil) do %>
-        <% if @lazy_load %>
-          <div class="web-rcon-log-lines rcon-log-lines" id="<%= "reservation_#{@logsecret}_log_lines" %>" data-log-filter-target="container">
-            <div class="log-initial-loading">
-              <div class="log-load-more-spinner"></div>
-              <span>Loading log lines...</span>
-            </div>
-          </div>
-        <% else %>
-          <div class="web-rcon-log-lines rcon-log-lines" id="<%= "reservation_#{@logsecret}_log_lines" %>" data-log-filter-target="container">
-<% @log_lines.each do |line| %><%= render "reservations/log_line", log_line: line, skip_sanitization: @skip_sanitization %><% end %>
+      <div class="virtual-log-viewport" data-virtual-log-target="viewport">
+        <div class="virtual-log-content" data-virtual-log-target="content">
+          <div class="virtual-log-lines" id="reservation_<%= @logsecret %>_log_lines" data-virtual-log-target="linesContainer"></div>
+        </div>
+      </div>
 
-            <% if @has_more %>
-              <div class="log-load-more" data-log-filter-target="loadMoreSentinel" data-next-offset="<%= @next_offset %>" data-search-query="<%= @search_query %>">
-                <div class="log-load-more-spinner"></div>
-                <span class="log-load-more-text">
-                  <% if @matched_lines != @total_lines %>
-                    Loading more... (<%= @loaded_lines %> / <%= @matched_lines %> matches)
-                  <% else %>
-                    Loading more... (<%= @loaded_lines %> / <%= @total_lines %> lines)
-                  <% end %>
-                </span>
-              </div>
-            <% end %>
-          </div>
-
-          <div class="log-status-bar" data-log-filter-target="statusBar">
-            <% if @matched_lines > 0 %>
-              <div class="log-progress-container" data-log-filter-target="progressContainer">
-                <div class="log-progress-bar" data-log-filter-target="progressBar" style="width: <%= @matched_lines > 0 ? (@loaded_lines * 100.0 / @matched_lines).round(1) : 0 %>%"></div>
-                <div class="log-progress-position" data-log-filter-target="progressPosition" style="left: 0%"></div>
-                <div class="log-progress-tooltip" data-log-filter-target="progressTooltip"></div>
-              </div>
-            <% end %>
-            <div class="log-status-controls">
-              <% if @matched_lines > 0 %>
-                <button type="button" class="log-nav-btn" data-action="click->log-filter#scrollToTop" data-log-filter-target="topBtn" title="Scroll to top (Home)">↑</button>
-              <% end %>
-              <% if @matched_lines == 0 %>
-                <span class="log-status-text" data-log-filter-target="statusText">No matching lines</span>
-              <% elsif @matched_lines != @total_lines %>
-                <span class="log-status-text" data-log-filter-target="statusText">Match 1 of <%= @matched_lines %></span>
-              <% else %>
-                <span class="log-status-text" data-log-filter-target="statusText">Line 1 of <%= @total_lines %></span>
-              <% end %>
-              <% if @matched_lines > 0 %>
-                <button type="button" class="log-nav-btn" data-action="click->log-filter#scrollToBottom" data-log-filter-target="bottomBtn" title="Scroll to bottom (End)">↓</button>
-              <% end %>
-            </div>
+      <div class="log-status-bar rcon-bottom-bar">
+        <% if @total_lines > 0 %>
+          <div class="log-progress-container" data-virtual-log-target="progressContainer">
+            <div class="log-progress-bar" data-virtual-log-target="progressBar" style="width: 100%"></div>
+            <div class="log-progress-position" data-virtual-log-target="progressPosition" style="left: 100%"></div>
+            <div class="log-progress-tooltip" data-virtual-log-target="progressTooltip"></div>
           </div>
         <% end %>
-      <% end %>
+        <div class="rcon-bottom-controls">
+          <% if @reservation.now? %>
+            <div data-controller="command-list" class="rcon-input-container">
+              <%= simple_form_for(@reservation, url: url_for(controller: "reservations", action: @action || "rcon_command"), html: { class: "rcon-command-inline", autocomplete: "off"}, data: { controller: "suggestions", action: "turbo:submit-end->suggestions#resetForm", suggestions_url_value: rcon_autocomplete_url(reservation_id: @reservation.id), suggestions_debounce_value: "150", suggestions_prevent_default_submission: true }) do |f| %>
+                <div class="suggestions">
+                  <%= f.input :query, label: false do %>
+                    <%= text_field_tag :query, nil, placeholder: "RCON command...", class: "form-control rcon-input-inline", autocomplete: "off", autofocus: true, spellcheck: false, data: { action: "keyup->suggestions#fetchResults keydown->suggestions#navigateResults", suggestions_target: "query", command_list_target: "input" } %>
+                  <% end %>
+                  <div data-suggestions-target="results" class="suggestions-results-bottom"></div>
+                </div>
+                <%= submit_tag "Send", name: "commit", class: "btn btn-primary btn-sm", data: { action: "click->suggestions#submitForm" } %>
+                <a href="#" data-action="click->command-list#show" class="rcon-help-link" title="View available commands">?</a>
+              <% end %>
+              <div data-command-list-target="list" class="command-list-popup command-list-popup-bottom">
+                <div class="command-list-header">
+                  <h6>Available Commands</h6>
+                  <button type="button" class="command-list-close" data-action="click->command-list#hide" aria-label="Close">&times;</button>
+                </div>
+                <div class="command-list-search">
+                  <input type="text" class="form-control form-control-sm" placeholder="Search commands..."
+                         data-command-list-target="search"
+                         data-action="input->command-list#filterCommands">
+                </div>
+                <div class="commands-grid">
+                  <% RconAutocomplete.commands_to_suggest.each do |cmd| %>
+                    <div class="command-item"
+                         data-command-list-target="commandItem"
+                         data-command-text="<%= cmd[:command] %>"
+                         data-command-desc="<%= cmd[:description] %>">
+                      <a href="#" class="command-link" data-action="click->command-list#selectCommand" data-command="<%= cmd[:command] %>">
+                        <strong class="command-name"><%= cmd[:command] %></strong>
+                        <small class="command-desc"><%= cmd[:description] %></small>
+                      </a>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+          <div class="log-status-controls">
+            <% if @total_lines > 0 %>
+              <button type="button" class="log-nav-btn" data-action="click->virtual-log#scrollToTop" data-virtual-log-target="topBtn" title="Scroll to top (Home)">↑</button>
+            <% end %>
+            <span class="log-status-text" data-virtual-log-target="statusText">
+              <% if @total_lines == 0 %>
+                No log lines
+              <% else %>
+                Line <%= @total_lines %> of <%= @total_lines %>
+              <% end %>
+            </span>
+            <% if @total_lines > 0 %>
+              <button type="button" class="log-nav-btn" data-action="click->virtual-log#scrollToBottom" data-virtual-log-target="bottomBtn" title="Scroll to bottom (End)">↓</button>
+            <% end %>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

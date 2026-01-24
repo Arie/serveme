@@ -3,7 +3,7 @@
 
 class ReservationsController < ApplicationController
   include ActionView::RecordIdentifier # Include for dom_id helper
-  before_action :require_admin, only: %i[streaming streaming_load_more]
+  before_action :require_admin, only: %i[streaming streaming_view]
   skip_before_action :redirect_if_country_banned, only: :played_in
   skip_before_action :authenticate_user!, only: %i[motd]
   skip_before_action :store_current_location, only: %i[extend_reservation destroy]
@@ -125,38 +125,36 @@ class ReservationsController < ApplicationController
 
   def streaming
     setup_log_viewing
+    @initial_query = params[:q].to_s.strip.presence
 
-    result = log_streaming_service.stream_forward
-    assign_log_result(result)
+    # For virtual scrolling, we only need the total line count on initial load
+    # The frontend will fetch specific ranges as needed
+    service = LogStreamingService.new(streaming_log_path)
+    @total_lines = service.total_line_count
   rescue Errno::ENOENT
     flash[:error] = "No such streaming logfile #{@logsecret}.log"
     redirect_to reservation_path(reservation)
   end
 
-  def streaming_load_more
-    setup_log_viewing
-    load_more_logs(:stream_forward, "reservations/streaming_chunk")
+  # Virtual scrolling view endpoint - returns rendered lines for a viewport position
+  # Used by both streaming (admin) and rcon (reservation owner) pages
+  def streaming_view
+    render_log_view_json
+  end
+
+  def rcon_view
+    render_log_view_json
   end
 
   def rcon
     setup_log_viewing
+    @initial_query = params[:q].to_s.strip.presence
 
-    # On initial page load (not turbo frame), render shell and let frame fetch content async
-    unless turbo_frame_request?
-      @lazy_load = true
-      assign_empty_log_result
-      return
-    end
-
-    result = log_streaming_service.stream_reverse
-    assign_log_result(result)
+    # For virtual scrolling, we only need the total line count on initial load
+    service = LogStreamingService.new(streaming_log_path)
+    @total_lines = service.total_line_count
   rescue Errno::ENOENT
-    assign_empty_log_result
-  end
-
-  def rcon_load_more
-    setup_log_viewing
-    load_more_logs(:stream_reverse, "reservations/rcon_chunk")
+    @total_lines = 0
   end
 
   def rcon_command
@@ -235,49 +233,38 @@ class ReservationsController < ApplicationController
     )
   end
 
-  def load_more_logs(direction, partial)
-    @offset = params[:offset].to_i
-    chunk_size = params[:chunk_size].to_i.nonzero? || LogStreamingService::DEFAULT_CHUNK_SIZE
-
-    result = log_streaming_service(chunk_size: chunk_size).public_send(direction)
-    render_log_chunk(partial, result)
-  rescue Errno::ENOENT
-    head :not_found
-  end
-
   def streaming_log_path
     Rails.root.join("log", "streaming", "#{@logsecret}.log")
   end
 
-  def assign_log_result(result)
-    @log_lines = result[:lines]
-    @total_lines = result[:total_lines]
-    @matched_lines = result[:matched_lines]
-    @has_more = result[:has_more]
-    @next_offset = result[:next_offset]
-    @loaded_lines = result[:loaded_lines]
-  end
+  def render_log_view_json
+    setup_log_viewing
+    query = params[:q].to_s.strip.presence
+    position_percent = params[:percent].to_f.clamp(0, 100)
+    count = params[:count].to_i.clamp(10, 500)
 
-  def assign_empty_log_result
-    @log_lines = []
-    @total_lines = 0
-    @matched_lines = 0
-    @has_more = false
-    @loaded_lines = 0
-  end
+    service = LogStreamingService.new(streaming_log_path, search_query: query)
+    result = service.view_at_position(position_percent: position_percent, count: count)
 
-  def render_log_chunk(partial, result)
-    render partial: partial, locals: {
-      log_lines: result[:lines],
-      skip_sanitization: @skip_sanitization,
-      has_more: result[:has_more],
-      next_offset: result[:next_offset],
-      total_lines: result[:total_lines],
-      loaded_lines: result[:loaded_lines],
-      search_query: @search_query,
-      matched_lines: result[:matched_lines],
-      reservation: reservation
+    html = render_to_string(
+      partial: "reservations/log_line",
+      formats: [ :html ],
+      collection: result[:lines],
+      as: :log_line,
+      locals: { skip_sanitization: @skip_sanitization }
+    )
+
+    render json: {
+      html: html,
+      total: result[:total],
+      total_matches: result[:total_matches],
+      start_index: result[:start_index],
+      end_index: result[:end_index],
+      is_search: result[:is_search],
+      line_indices: result[:line_indices]
     }
+  rescue Errno::ENOENT
+    render json: { error: "Log file not found", html: "", total: 0 }, status: :not_found
   end
 
   def shared_rcon_command(return_path)

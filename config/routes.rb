@@ -43,9 +43,9 @@ Serveme::Application.routes.draw do
       post :extend_reservation, as: :extend
       get :status,              as: :status
       get :streaming,           as: :streaming
-      get :streaming_load_more, as: :streaming_load_more
+      get :streaming_view,      as: :streaming_view
       get :rcon,                as: :rcon
-      get :rcon_load_more,      as: :rcon_load_more
+      get :rcon_view,           as: :rcon_view
       get :motd,                as: :motd
       patch :rcon_command, as: :rcon_command
       patch :motd_rcon_command, as: :motd_rcon_command
@@ -61,7 +61,7 @@ Serveme::Application.routes.draw do
     resources :log_uploads, only: %i[new create index] do
       collection do
         get :show_log
-        get :show_log_load_more
+        get :show_log_view
       end
     end
   end

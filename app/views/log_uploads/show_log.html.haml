@@ -3,50 +3,46 @@
   %i.fa.fa-upload
 
 .streaming-page
-  %div{data: {controller: "log-filter", log_filter_load_more_url_value: show_log_load_more_reservation_log_uploads_path(reservation, file_name: @file_name), log_filter_total_lines_value: @total_lines, log_filter_matched_lines_value: @matched_lines, log_filter_loaded_lines_value: @loaded_lines}}
+  %div{data: {controller: "virtual-log", virtual_log_view_url_value: show_log_view_reservation_log_uploads_path(reservation, file_name: @file_name), virtual_log_total_lines_value: @total_lines, virtual_log_line_height_value: 24, virtual_log_buffer_lines_value: 50, virtual_log_viewport_count_value: 200, virtual_log_initial_query_value: @initial_query, virtual_log_initial_total_matches_value: @initial_total_matches}}
     .log-controls-bar
       .log-search-container
-        %input.log-search-input{type: "text", placeholder: "Search logs...", value: @search_query, data: {action: "input->log-filter#search", log_filter_target: "searchInput"}}
-        %button.log-search-clear{type: "button", data: {action: "click->log-filter#clearSearch", log_filter_target: "clearBtn"}, title: "Clear search"} ×
-        = form_with url: show_log_reservation_log_uploads_path(reservation), method: :get, data: { turbo_frame: "log-lines", log_filter_target: "searchForm" }, html: { style: "display:none" } do
-          %input{type: "hidden", name: "file_name", value: @file_name}
-          %input{type: "hidden", name: "q", data: {log_filter_target: "searchFormQuery"}, value: @search_query}
-        %span.log-search-count{data: {log_filter_target: "searchCount"}}
-          - if @matched_lines != @total_lines
-            = "#{@matched_lines} / #{@total_lines}"
+        %input.log-search-input{type: "text", placeholder: "Search logs...", value: @initial_query, data: {action: "input->virtual-log#search", virtual_log_target: "searchInput"}}
+        %button.log-search-clear{type: "button", data: {action: "click->virtual-log#clearSearch"}, title: "Clear search"} ×
+        %span.log-search-count{data: {virtual_log_target: "searchCount"}}
+          - if @initial_total_matches.present?
+            = "#{@initial_total_matches} / #{@total_lines}"
 
     .log-lines-wrapper
-      .log-loading-overlay{data: {log_filter_target: "loadingOverlay"}}
+      .log-loading-overlay{data: {virtual_log_target: "loadingOverlay"}}
         .log-load-more-spinner
         %span Loading...
 
-      = turbo_frame_tag "log-lines" do
-        .web-rcon-log-lines.streaming-log-lines{data: {log_filter_target: "container"}}
-          = render partial: "reservations/log_line", collection: @log_lines, as: :log_line, locals: { skip_sanitization: @skip_sanitization }
+      -# Virtual scroll viewport - fixed height, scrollable
+      .virtual-log-viewport{data: {virtual_log_target: "viewport"}}
+        -# Content container - has the full virtual height
+        .virtual-log-content{data: {virtual_log_target: "content"}}
+          -# Lines container - pre-rendered with initial lines for non-JS fallback
+          .virtual-log-lines{data: {virtual_log_target: "linesContainer"}}
+            - @initial_lines&.each_with_index do |line, idx|
+              .virtual-line{style: "position: absolute; top: #{(@initial_start_index + idx) * 24}px; left: 0; right: 0;"}
+                = render partial: "reservations/log_line", locals: { log_line: line, skip_sanitization: @skip_sanitization }
 
-          - if @has_more
-            .log-load-more{data: {log_filter_target: "loadMoreSentinel", next_offset: @next_offset, search_query: @search_query}}
-              .log-load-more-spinner
-              %span.log-load-more-text
-                - if @matched_lines != @total_lines
-                  Loading more... (#{@loaded_lines} / #{@matched_lines} matches)
-                - else
-                  Loading more... (#{@loaded_lines} / #{@total_lines} lines)
-
-        .log-status-bar{data: {log_filter_target: "statusBar"}}
-          - if @matched_lines > 0
-            .log-progress-container{data: {log_filter_target: "progressContainer"}}
-              .log-progress-bar{data: {log_filter_target: "progressBar"}, style: "width: #{@matched_lines > 0 ? (@loaded_lines * 100.0 / @matched_lines).round(1) : 0}%"}
-              .log-progress-position{data: {log_filter_target: "progressPosition"}, style: "left: 0%"}
-              .log-progress-tooltip{data: {log_filter_target: "progressTooltip"}}
-          .log-status-controls
-            - if @matched_lines > 0
-              %button.log-nav-btn{type: "button", data: {action: "click->log-filter#scrollToTop", log_filter_target: "topBtn"}, title: "Scroll to top (Home)"} ↑
-            - if @matched_lines == 0
-              %span.log-status-text{data: {log_filter_target: "statusText"}} No matching lines
-            - elsif @matched_lines != @total_lines
-              %span.log-status-text{data: {log_filter_target: "statusText"}}= "Match 1 of #{@matched_lines}"
-            - else
-              %span.log-status-text{data: {log_filter_target: "statusText"}}= "Line 1 of #{@total_lines}"
-            - if @matched_lines > 0
-              %button.log-nav-btn{type: "button", data: {action: "click->log-filter#scrollToBottom", log_filter_target: "bottomBtn"}, title: "Scroll to bottom (End)"} ↓
+      .log-status-bar
+        - if @total_lines > 0
+          .log-progress-container{data: {virtual_log_target: "progressContainer"}}
+            .log-progress-bar{data: {virtual_log_target: "progressBar"}, style: "width: 100%"}
+            .log-progress-position{data: {virtual_log_target: "progressPosition"}, style: "left: 0%"}
+            .log-progress-tooltip{data: {virtual_log_target: "progressTooltip"}}
+        .log-status-controls
+          - if @total_lines > 0
+            %button.log-nav-btn{type: "button", data: {action: "click->virtual-log#scrollToTop", virtual_log_target: "topBtn"}, title: "Scroll to top (Home)"} ↑
+          - if @initial_total_matches == 0 && @initial_query.present?
+            %span.log-status-text{data: {virtual_log_target: "statusText"}} No matches
+          - elsif @total_lines == 0
+            %span.log-status-text{data: {virtual_log_target: "statusText"}} No log lines
+          - elsif @initial_total_matches.present?
+            %span.log-status-text{data: {virtual_log_target: "statusText"}}= "Match 1 of #{@initial_total_matches}"
+          - else
+            %span.log-status-text{data: {virtual_log_target: "statusText"}}= "Line 1 of #{@total_lines}"
+          - if @total_lines > 0
+            %button.log-nav-btn{type: "button", data: {action: "click->virtual-log#scrollToBottom", virtual_log_target: "bottomBtn"}, title: "Scroll to bottom (End)"} ↓

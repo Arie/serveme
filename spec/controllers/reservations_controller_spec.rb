@@ -298,6 +298,44 @@ describe ReservationsController do
   end
 
   describe '#rcon' do
+    let(:log_dir) { Rails.root.join('log', 'streaming') }
+
+    before { FileUtils.mkdir_p(log_dir) }
+
+    context 'with a log file' do
+      let(:reservation) { create(:reservation, user: @user, server: create(:server)) }
+      let(:log_file) { log_dir.join("#{reservation.logsecret}.log") }
+
+      before do
+        reservation.update_columns(starts_at: 1.hour.ago, ends_at: 1.hour.from_now)
+        File.write(log_file, "line1\nline2\nline3\n")
+      end
+
+      after { FileUtils.rm_f(log_file) }
+
+      it 'returns the page shell with total line count' do
+        get :rcon, params: { id: reservation.id }
+
+        expect(response).to be_successful
+        expect(assigns(:total_lines)).to eq(3)
+      end
+    end
+
+    context 'without a log file' do
+      let(:reservation) { create(:reservation, user: @user, server: create(:server)) }
+
+      before { reservation.update_columns(starts_at: 1.hour.ago, ends_at: 1.hour.from_now) }
+
+      it 'handles missing log file gracefully' do
+        get :rcon, params: { id: reservation.id }
+
+        expect(response).to be_successful
+        expect(assigns(:total_lines)).to eq(0)
+      end
+    end
+  end
+
+  describe '#rcon_view' do
     render_views
 
     let(:log_dir) { Rails.root.join('log', 'streaming') }
@@ -329,58 +367,59 @@ describe ReservationsController do
       after { FileUtils.rm_f(log_file) }
 
       it 'renders log lines with proper formatting' do
-        # Simulate turbo frame request to get actual content (initial load is lazy)
-        request.headers['Turbo-Frame'] = 'rcon-log-lines'
-        get :rcon, params: { id: reservation.id }
+        get :rcon_view, params: { id: reservation.id, percent: 0, count: 200 }
 
         expect(response).to be_successful
-        expect(assigns(:log_lines)).to be_present
+        json = JSON.parse(response.body)
+        html = json['html']
 
         # Kill events with weapon icons
-        expect(response.body).to include('log-line-kill')
-        expect(response.body).to include('killicon')
+        expect(html).to include('log-line-kill')
+        expect(html).to include('killicon')
 
         # Kill modifiers
-        expect(response.body).to include('headshot')
-        expect(response.body).to include('backstab')
+        expect(html).to include('headshot')
+        expect(html).to include('backstab')
 
         # Chat messages
-        expect(response.body).to include('log-line-say')
-        expect(response.body).to include('nice shot!')
+        expect(html).to include('log-line-say')
+        expect(html).to include('nice shot!')
 
         # Connect/disconnect
-        expect(response.body).to include('log-line-connect')
-        expect(response.body).to include('log-line-disconnect')
+        expect(html).to include('log-line-connect')
+        expect(html).to include('log-line-disconnect')
 
         # Round events
-        expect(response.body).to include('log-line-round_start')
-        expect(response.body).to include('log-line-round_win')
+        expect(html).to include('log-line-round_start')
+        expect(html).to include('log-line-round_win')
 
         # Suicide
-        expect(response.body).to include('log-line-suicide')
+        expect(html).to include('log-line-suicide')
 
         # Player team colors
-        expect(response.body).to include('team-red')
-        expect(response.body).to include('team-blue')
+        expect(html).to include('team-red')
+        expect(html).to include('team-blue')
       end
 
       it 'sanitizes IP addresses for non-admin users' do
         @user.groups.delete(Group.admin_group)
-        # Simulate turbo frame request to get actual content
-        request.headers['Turbo-Frame'] = 'rcon-log-lines'
-        get :rcon, params: { id: reservation.id }
+        get :rcon_view, params: { id: reservation.id, percent: 0, count: 200 }
+
+        json = JSON.parse(response.body)
+        html = json['html']
 
         # IP addresses should be sanitized to 0.0.0.0
-        expect(response.body).not_to include('192.168.1.1')
-        expect(response.body).to include('0.0.0.0')
+        expect(html).not_to include('192.168.1.1')
+        expect(html).to include('0.0.0.0')
       end
 
       it 'shows real IP addresses for admin users' do
-        # Simulate turbo frame request to get actual content
-        request.headers['Turbo-Frame'] = 'rcon-log-lines'
-        get :rcon, params: { id: reservation.id }
+        get :rcon_view, params: { id: reservation.id, percent: 0, count: 200 }
 
-        expect(response.body).to include('192.168.1.1')
+        json = JSON.parse(response.body)
+        html = json['html']
+
+        expect(html).to include('192.168.1.1')
       end
     end
 
@@ -404,33 +443,34 @@ describe ReservationsController do
 
       it 'sanitizes secrets for non-admin users' do
         @user.groups.delete(Group.admin_group)
-        # Simulate turbo frame request to get actual content
-        request.headers['Turbo-Frame'] = 'rcon-log-lines'
-        get :rcon, params: { id: reservation.id }
+        get :rcon_view, params: { id: reservation.id, percent: 0, count: 200 }
 
         expect(response).to be_successful
+        json = JSON.parse(response.body)
+        html = json['html']
 
         # IPs should be sanitized
-        expect(response.body).not_to include('46.4.87.20')
-        expect(response.body).not_to include('192.168.1.100')
+        expect(html).not_to include('46.4.87.20')
+        expect(html).not_to include('192.168.1.100')
 
         # Secrets should be sanitized
-        expect(response.body).not_to include('75313243783007334810188687151252384638')
-        expect(response.body).not_to include('supersecret123')
+        expect(html).not_to include('75313243783007334810188687151252384638')
+        expect(html).not_to include('supersecret123')
 
         # Should show masked versions
-        expect(response.body).to include('0.0.0.0')
-        expect(response.body).to include('*****')
+        expect(html).to include('0.0.0.0')
+        expect(html).to include('*****')
       end
 
       it 'shows secrets for admin users' do
-        # Simulate turbo frame request to get actual content
-        request.headers['Turbo-Frame'] = 'rcon-log-lines'
-        get :rcon, params: { id: reservation.id }
+        get :rcon_view, params: { id: reservation.id, percent: 0, count: 200 }
 
         expect(response).to be_successful
-        expect(response.body).to include('46.4.87.20')
-        expect(response.body).to include('supersecret123')
+        json = JSON.parse(response.body)
+        html = json['html']
+
+        expect(html).to include('46.4.87.20')
+        expect(html).to include('supersecret123')
       end
     end
 
@@ -439,11 +479,13 @@ describe ReservationsController do
 
       before { reservation.update_columns(starts_at: 1.hour.ago, ends_at: 1.hour.from_now) }
 
-      it 'handles missing log file gracefully' do
-        get :rcon, params: { id: reservation.id }
+      it 'returns empty result for missing log file' do
+        get :rcon_view, params: { id: reservation.id, percent: 0, count: 200 }
 
         expect(response).to be_successful
-        expect(assigns(:log_lines)).to eq([])
+        json = JSON.parse(response.body)
+        expect(json['total']).to eq(0)
+        expect(json['html'].strip).to eq('')
       end
     end
   end

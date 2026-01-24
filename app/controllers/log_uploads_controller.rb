@@ -38,32 +38,61 @@ class LogUploadsController < ApplicationController
 
   def show_log
     setup_log_viewing
-    result = log_streaming_service.stream_forward
-    assign_log_result(result)
+    @initial_query = params[:q].to_s.strip.presence
+
+    file = find_log_file(@file_name)
+    file_path = file[:file_name_and_path]
+    raise Errno::ENOENT, "Log file not found: #{@file_name}" unless file_path
+
+    service = LogStreamingService.new(file_path, search_query: @initial_query)
+    @total_lines = service.total_line_count
+
+    # Pre-render initial lines for non-JS fallback and faster initial display
+    # Use larger count to ensure content is visible without JS (for tests and non-JS browsers)
+    initial_count = [ @total_lines, 500 ].min
+    result = service.view_at_position(position_percent: 0, count: initial_count)
+    @initial_lines = result[:lines]
+    @initial_start_index = result[:start_index]
+    @initial_total_matches = result[:total_matches]
   rescue Errno::ENOENT
     flash[:error] = "Log file not found"
     redirect_to reservation_log_uploads_path(reservation)
   end
 
-  def show_log_load_more
+  # Virtual scrolling view endpoint for log uploads
+  def show_log_view
     setup_log_viewing
-    chunk_size = params[:chunk_size].to_i.nonzero? || LogStreamingService::DEFAULT_CHUNK_SIZE
+    query = params[:q].to_s.strip.presence
+    position_percent = params[:percent].to_f.clamp(0, 100)
+    count = params[:count].to_i.clamp(10, 500)
 
-    result = log_streaming_service(chunk_size: chunk_size).stream_forward
-    render partial: "log_uploads/show_log_chunk", locals: {
-      log_lines: result[:lines],
-      skip_sanitization: @skip_sanitization,
-      has_more: result[:has_more],
-      next_offset: result[:next_offset],
-      total_lines: result[:total_lines],
-      loaded_lines: result[:loaded_lines],
-      search_query: @search_query,
-      matched_lines: result[:matched_lines],
-      reservation: reservation,
-      file_name: @file_name
+    file = find_log_file(@file_name)
+    file_path = file[:file_name_and_path]
+    raise Errno::ENOENT, "Log file not found: #{@file_name}" unless file_path
+
+    service = LogStreamingService.new(file_path, search_query: query)
+    result = service.view_at_position(position_percent: position_percent, count: count)
+
+    # Render the lines as HTML
+    html = render_to_string(
+      partial: "reservations/log_line",
+      formats: [ :html ],
+      collection: result[:lines],
+      as: :log_line,
+      locals: { skip_sanitization: @skip_sanitization }
+    )
+
+    render json: {
+      html: html,
+      total: result[:total],
+      total_matches: result[:total_matches],
+      start_index: result[:start_index],
+      end_index: result[:end_index],
+      is_search: result[:is_search],
+      line_indices: result[:line_indices]
     }
   rescue Errno::ENOENT
-    head :not_found
+    render json: { error: "Log file not found", html: "", total: 0 }, status: :not_found
   end
 
   private
@@ -87,16 +116,6 @@ class LogUploadsController < ApplicationController
       chunk_size: chunk_size || LogStreamingService::DEFAULT_CHUNK_SIZE
     )
   end
-
-  def assign_log_result(result)
-    @log_lines = result[:lines]
-    @total_lines = result[:total_lines]
-    @matched_lines = result[:matched_lines]
-    @has_more = result[:has_more]
-    @next_offset = result[:next_offset]
-    @loaded_lines = result[:loaded_lines]
-  end
-
 
   def link_log_upload_to_reservation
     @log_upload ||= LogUpload.new

@@ -98,6 +98,7 @@ L 02/15/2013 - 00:16:32: "ser mais "leve"<6><STEAM_0:0:41722710><Blue>" picked u
 L 02/15/2013 - 00:16:34: "CคpTคiИ★Lucky<7><STEAM_0:1:9411550><Blue>" triggered "healed" against "TreV.avi<9><STEAM_0:0:47199579><Blue>" (healing "24")
 L 02/15/2013 - 00:16:36: "CคpTคiИ★Lucky<7><STEAM_0:1:9411550><Blue>" triggered "healed" against "TreV.avi<9><STEAM_0:0:47199579><Blue>" (healing "24")
 L 02/15/2013 - 00:16:36: "CคpTคiИ★Lucky<7><STEAM_0:1:9411550><Blue>" triggered "healed" against "TreV.avi<9><STEAM_0:0:47199579><Blue>" (healing "3")
+L 02/15/2013 - 00:23:21: "Λϟ ϟλϟ ϟIИØ™<15><STEAM_0:1:15383925><Blue>" say_team "[P-REC] Dan�a, Dan�a!"
 L 02/15/2013 - 00:16:37: "CคpTคiИ★Lucky<7><STEAM_0:1:9411550><Blue>" triggered "healed" against "TreV.avi<9><STEAM_0:0:47199579><Blue>" (healing "24")
 L 02/15/2013 - 00:16:37: "CคpTคiИ★Lucky<7><STEAM_0:1:9411550><Blue>" triggered "healed" against "TreV.avi<9><STEAM_0:0:47199579><Blue>" (healing "4")
 L 02/15/2013 - 00:16:44: "XiuUu - tf2portugal.com<11><STEAM_0:0:9062456><>" connected, address "0.0.0.0:52541"
@@ -770,7 +771,6 @@ L 02/15/2013 - 00:23:21: "XiuUu - tf2portugal.com<11><STEAM_0:0:9062456><Blue>" 
 L 02/15/2013 - 00:23:21: "XiuUu - tf2portugal.com<11><STEAM_0:0:9062456><Blue>" picked up item "medkit_small"
 L 02/15/2013 - 00:23:21: "CคpTคiИ★Lucky<7><STEAM_0:1:9411550><Blue>" triggered "damage" (damage "9")
 L 02/15/2013 - 00:23:21: "TreV.avi<9><STEAM_0:0:47199579><Blue>" say_team "[P-REC] Recording..."
-L 02/15/2013 - 00:23:21: "Λϟ ϟλϟ ϟIИØ™<15><STEAM_0:1:15383925><Blue>" say_team "[P-REC] Dan�a, Dan�a!"
 L 02/15/2013 - 00:48:46: "ser mais "leve"<6><STEAM_0:0:41722710><Red>" triggered "damage" (damage "73")
 L 02/15/2013 - 00:52:18: "v.slap | qwarK<16><STEAM_0:1:16788708><Red>" triggered "medic_death" against "CคpTคiИ★Lucky<7><STEAM_0:1:9411550><Blue>" (healing "0") (ubercharge "0")
 L 02/15/2013 - 00:52:18: "v.slap | qwarK<16><STEAM_0:1:16788708><Red>" killed "CคpTคiИ★Lucky<7><STEAM_0:1:9411550><Blue>" with "minigun" (attacker_position "-2776 585 162") (victim_position "-3352 426 139")

@@ -14,7 +14,8 @@ module Mcp
       sig { override.returns(String) }
       def self.description
         "Search for alternate accounts by IP address or Steam ID. " \
-        "Can cross-reference to find all accounts that share IPs with a given Steam ID, " \
+        "Accepts multiple Steam IDs (comma-separated or array) for batch searches. " \
+        "Can cross-reference to find all accounts that share IPs with given Steam IDs, " \
         "or all Steam IDs that have used a given IP address."
       end
 
@@ -24,9 +25,12 @@ module Mcp
           type: "object",
           properties: {
             steam_uid: {
-              type: "string",
-              description: "Steam ID64 to search for (e.g., 76561198012345678). " \
-                          "Also accepts Steam ID format (STEAM_0:0:123) or Steam ID3 ([U:1:123])."
+              oneOf: [
+                { type: "string" },
+                { type: "array", items: { type: "string" } }
+              ],
+              description: "Steam ID64(s) to search for. Accepts a single ID, comma-separated IDs, " \
+                          "or an array of IDs. Also accepts Steam ID format (STEAM_0:0:123) or Steam ID3 ([U:1:123])."
             },
             ip: {
               type: "string",
@@ -53,7 +57,7 @@ module Mcp
 
       sig { override.params(params: T::Hash[Symbol, T.untyped]).returns(T::Hash[Symbol, T.untyped]) }
       def execute(params)
-        steam_uid = params[:steam_uid]&.to_s&.presence
+        steam_uid = normalize_steam_uids(params[:steam_uid])
         ip = params[:ip]&.to_s&.presence
         cross_reference = params.fetch(:cross_reference, true)
         reservation_ids = params[:reservation_ids]&.to_s&.presence
@@ -91,6 +95,17 @@ module Mcp
       end
 
       private
+
+      sig { params(input: T.untyped).returns(T.nilable(String)) }
+      def normalize_steam_uids(input)
+        return nil if input.blank?
+
+        if input.is_a?(Array)
+          input.map(&:to_s).reject(&:blank?).join(",").presence
+        else
+          input.to_s.presence
+        end
+      end
 
       sig { params(results: ActiveRecord::Relation).returns(T::Array[T::Hash[Symbol, T.untyped]]) }
       def format_results(results)

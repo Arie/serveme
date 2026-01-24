@@ -193,7 +193,7 @@ module LogLineViewHelper
 
   def render_point_capture_event(formatted)
     event = formatted[:event]
-    cap_name = event.respond_to?(:cp_name) ? event.cp_name : "control point"
+    cap_name = format_cap_name(event)
     team = event.respond_to?(:team) ? event.team : nil
 
     if event.respond_to?(:player) && event.player
@@ -212,6 +212,13 @@ module LogLineViewHelper
     end
 
     content_tag(:span, content, class: "log-capture")
+  end
+
+  def format_cap_name(event)
+    return event.cap_name.to_s if event.cap_name.present?
+    return "point #{event.cap_number}" if event.cap_number.present?
+
+    "control point"
   end
 
   def render_round_event(formatted)
@@ -750,7 +757,7 @@ module LogLineViewHelper
     event = formatted[:event]
     return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player)
 
-    cap_name = event.respond_to?(:cap_name) ? event.cap_name : "control point"
+    cap_name = format_cap_name(event)
 
     content = safe_join([
       log_player_name(event.player),

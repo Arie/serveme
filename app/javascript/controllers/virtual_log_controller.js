@@ -44,6 +44,7 @@ export default class extends Controller {
     this.pendingRequest = null
     this.loadedStartIndex = 0
     this.loadedEndIndex = 0
+    this.tailing = this.startAtEndValue  // Track if we're following live updates
 
     // Set up the virtual scroll height
     this.updateContentHeight()
@@ -66,6 +67,10 @@ export default class extends Controller {
     // Listen for Turbo Stream updates
     this.boundHandleTurboStream = this.handleTurboStreamAppend.bind(this)
     document.addEventListener('turbo:before-stream-render', this.boundHandleTurboStream)
+
+    // Listen for Turbo Stream reconnection to catch up after disconnect
+    this.boundHandleReconnect = this.handleReconnect.bind(this)
+    document.addEventListener('turbo:cable-stream-source-connected', this.boundHandleReconnect)
 
     // Check if we have pre-rendered lines (server-side rendered for non-JS fallback)
     const preRenderedLines = this.linesContainerTarget.querySelectorAll('.virtual-line')
@@ -93,6 +98,7 @@ export default class extends Controller {
     document.removeEventListener('keydown', this.boundHandleKeydown)
     this.linesContainerTarget.removeEventListener('click', this.boundHandleLogLineClick)
     document.removeEventListener('turbo:before-stream-render', this.boundHandleTurboStream)
+    document.removeEventListener('turbo:cable-stream-source-connected', this.boundHandleReconnect)
     this.cleanupProgressBar()
   }
 
@@ -220,13 +226,19 @@ export default class extends Controller {
     this.updateStatusText()
     this.updateProgressPosition(percent)
 
-    // On live streaming pages, don't reload when at the bottom - new content comes via Turbo Streams
-    // This preserves RCON responses that aren't in the log file
+    // Update tailing state based on scroll position
     if (this.hasStreamTargetValue) {
       const viewportHeight = this.viewportTarget.clientHeight
       const contentHeight = effectiveTotal * this.lineHeightValue
       const distanceFromBottom = contentHeight - (scrollTop + viewportHeight)
-      if (distanceFromBottom < viewportHeight) {
+      const nearBottom = distanceFromBottom < viewportHeight
+
+      // Update tailing state: attach when near bottom, detach when scrolling away
+      this.tailing = nearBottom
+
+      // On live streaming pages, don't reload when at the bottom - new content comes via Turbo Streams
+      // This preserves RCON responses that aren't in the log file
+      if (nearBottom) {
         return
       }
     }
@@ -516,6 +528,17 @@ export default class extends Controller {
     }
   }
 
+  // Handle Turbo Stream reconnection - reload to catch up on missed lines
+  handleReconnect(event) {
+    if (!this.hasStreamTargetValue) return
+
+    // Only reload if we were tailing (at the bottom)
+    // Users scrolled up looking at history don't need a reload
+    if (this.tailing) {
+      this.loadAtPercent(100)
+    }
+  }
+
   // Handle Turbo Stream updates for live log
   handleTurboStreamAppend(event) {
     const stream = event.target
@@ -541,14 +564,6 @@ export default class extends Controller {
     const logLine = content.querySelector('.log-line')
     if (!logLine) return
 
-    // Check if we're near the bottom BEFORE updating
-    // If user is viewing the last viewport worth of content, keep them at bottom
-    const scrollTop = this.viewportTarget.scrollTop
-    const viewportHeight = this.viewportTarget.clientHeight
-    const currentContentHeight = this.getEffectiveTotal() * this.lineHeightValue
-    const distanceFromBottom = currentContentHeight - (scrollTop + viewportHeight)
-    const wasNearBottom = distanceFromBottom < viewportHeight
-
     // Create a positioned wrapper for the new line
     const wrapper = document.createElement('div')
     wrapper.className = 'virtual-line'
@@ -566,8 +581,8 @@ export default class extends Controller {
     this.loadedEndIndex = this.totalLinesValue
     this.updateContentHeight()
 
-    // Auto-scroll to bottom if we were near the bottom
-    if (wasNearBottom) {
+    // Auto-scroll to bottom if tailing
+    if (this.tailing) {
       this.currentPercent = 100
       const effectiveTotal = this.getEffectiveTotal()
       const targetScroll = effectiveTotal * this.lineHeightValue

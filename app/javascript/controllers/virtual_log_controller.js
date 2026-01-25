@@ -45,6 +45,7 @@ export default class extends Controller {
     this.loadedStartIndex = 0
     this.loadedEndIndex = 0
     this.tailing = this.startAtEndValue  // Track if we're following live updates
+    this.isStreamingUpdate = false  // Flag to prevent scroll handler interference during streaming
 
     // Set up the virtual scroll height
     this.updateContentHeight()
@@ -263,6 +264,8 @@ export default class extends Controller {
   // Handle native scroll (mousewheel)
   handleScroll() {
     if (this.isDragging) return
+    // Skip recalculation during streaming updates to prevent flickering
+    if (this.isStreamingUpdate) return
 
     const scrollTop = this.viewportTarget.scrollTop
     const effectiveTotal = this.getEffectiveTotal()
@@ -271,9 +274,28 @@ export default class extends Controller {
     const maxScroll = effectiveTotal * this.lineHeightValue
     const percent = (scrollTop / maxScroll) * 100
 
+    // When tailing on streaming pages, always show 100% to prevent nervous jumping
+    if (this.hasStreamTargetValue && this.tailing) {
+      this.updateProgressPosition(100)
+      if (this.hasStatusTextTarget) {
+        this.statusTextTarget.textContent = `Line ${effectiveTotal} of ${effectiveTotal}`
+      }
+      return
+    }
+
     // Always update status text and progress position while scrolling
     this.updateStatusText()
     this.updateProgressPosition(percent)
+
+    // On live streaming pages near the end, don't reload - new content comes via Turbo Streams
+    if (this.hasStreamTargetValue && percent > 95) {
+      return
+    }
+
+    // For short logs where everything fits in viewport, no need to reload
+    if (effectiveTotal <= this.viewportCountValue) {
+      return
+    }
 
     // Calculate what lines are visible (top and bottom of viewport)
     const viewportHeight = this.viewportTarget.clientHeight
@@ -285,11 +307,6 @@ export default class extends Controller {
     const needsReload =
       topLine < this.loadedStartIndex + buffer ||
       bottomLine > this.loadedEndIndex - buffer
-
-    // On live streaming pages at the end, don't reload - new content comes via Turbo Streams
-    if (this.hasStreamTargetValue && percent > 98) {
-      return
-    }
 
     if (needsReload) {
       this.loadAtPercent(percent, false)
@@ -598,29 +615,48 @@ export default class extends Controller {
     // Prevent default Turbo rendering - we handle it ourselves
     event.preventDefault()
 
+    // Set flag to prevent scroll handler interference during our updates
+    this.isStreamingUpdate = true
+
     // Always update total line count and content height
     this.totalLinesValue++
     this.updateContentHeight()
 
     // If searching, don't show unfiltered lines
     if (this.totalMatches !== null) {
+      this.isStreamingUpdate = false
       return
     }
 
     // Only render and track new lines if we're tailing
     // Otherwise there would be a gap between loaded content and streamed content
     if (!this.tailing) {
-      this.updateStatusText()
+      // Just update the status to show there are more lines
+      if (this.hasStatusTextTarget) {
+        const effectiveTotal = this.getEffectiveTotal()
+        const scrollTop = this.viewportTarget.scrollTop
+        const viewportHeight = this.viewportTarget.clientHeight
+        const currentLine = Math.floor((scrollTop + viewportHeight / 2) / this.lineHeightValue)
+        const currentIndex = Math.max(1, Math.min(currentLine + 1, effectiveTotal))
+        this.statusTextTarget.textContent = `Line ${currentIndex} of ${effectiveTotal}`
+      }
+      this.isStreamingUpdate = false
       return
     }
 
     // Get the HTML content from the Turbo Stream template
     const template = stream.querySelector('template')
-    if (!template) return
+    if (!template) {
+      this.isStreamingUpdate = false
+      return
+    }
 
     const content = template.content.cloneNode(true)
     const logLine = content.querySelector('.log-line')
-    if (!logLine) return
+    if (!logLine) {
+      this.isStreamingUpdate = false
+      return
+    }
 
     // Create a positioned wrapper for the new line
     const wrapper = document.createElement('div')
@@ -637,14 +673,26 @@ export default class extends Controller {
     // Update loaded range to include the new line
     this.loadedEndIndex = this.totalLinesValue
 
-    // Auto-scroll to bottom
+    // Auto-scroll to bottom and update UI in the next frame to ensure DOM is updated
     this.currentPercent = 100
     const effectiveTotal = this.getEffectiveTotal()
-    const targetScroll = effectiveTotal * this.lineHeightValue
-    this.viewportTarget.scrollTop = targetScroll
-    this.updateProgressPosition(100)
 
-    this.updateStatusText()
+    // Use requestAnimationFrame to ensure DOM has reflowed before updating scroll
+    requestAnimationFrame(() => {
+      const targetScroll = effectiveTotal * this.lineHeightValue
+      this.viewportTarget.scrollTop = targetScroll
+      this.updateProgressPosition(100)
+
+      // Directly set status text to avoid calculation issues
+      if (this.hasStatusTextTarget) {
+        this.statusTextTarget.textContent = `Line ${effectiveTotal} of ${effectiveTotal}`
+      }
+
+      // Clear flag after a short delay to let any queued scroll events pass
+      requestAnimationFrame(() => {
+        this.isStreamingUpdate = false
+      })
+    })
   }
 
   // Utility

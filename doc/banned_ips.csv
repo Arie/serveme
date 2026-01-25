@@ -15,6 +15,8 @@ ip,name,reason
 70.176.181.56,alts,alts
 72.235.200.186,alts,alts
 35.137.118.23,alts,match invader
+82.78.0.0/24,arctic,cheater / etf2l mirror ban (https://etf2l.org/forum/user/126158/)
+82.78.173.0/24,arctic,cheater / etf2l mirror ban (https://etf2l.org/forum/user/126158/)
 212.241.71.203,cheater,cheater
 67.160.175.159,cheater,cheater
 85.139.95.110,cheater,cheater

@@ -616,7 +616,7 @@ class Cucumber::Messages::ExternalAttachment < ::Cucumber::Messages::Message
   # @return [ExternalAttachment] a new instance of ExternalAttachment
   #
   # source://cucumber-messages//lib/cucumber/messages/external_attachment.rb#53
-  def initialize(url: T.unsafe(nil), media_type: T.unsafe(nil), test_step_id: T.unsafe(nil), test_case_started_id: T.unsafe(nil), test_run_hook_started_id: T.unsafe(nil), timestamp: T.unsafe(nil)); end
+  def initialize(url: T.unsafe(nil), media_type: T.unsafe(nil), test_case_started_id: T.unsafe(nil), test_step_id: T.unsafe(nil), test_run_hook_started_id: T.unsafe(nil), timestamp: T.unsafe(nil)); end
 
   # The media type of the data. This can be any valid
   # [IANA Media Type](https://www.iana.org/assignments/media-types/media-types.xhtml)
@@ -628,7 +628,7 @@ class Cucumber::Messages::ExternalAttachment < ::Cucumber::Messages::Message
 
   # The identifier of the test case attempt if the attachment was created during the execution of a test step
   #
-  # source://cucumber-messages//lib/cucumber/messages/external_attachment.rb#41
+  # source://cucumber-messages//lib/cucumber/messages/external_attachment.rb#36
   def test_case_started_id; end
 
   # The identifier of the test run hook execution if the attachment was created during the execution of a test run hook
@@ -638,7 +638,7 @@ class Cucumber::Messages::ExternalAttachment < ::Cucumber::Messages::Message
 
   # The identifier of the test step if the attachment was created during the execution of a test step
   #
-  # source://cucumber-messages//lib/cucumber/messages/external_attachment.rb#36
+  # source://cucumber-messages//lib/cucumber/messages/external_attachment.rb#41
   def test_step_id; end
 
   # When the attachment was created

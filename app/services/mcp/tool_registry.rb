@@ -14,6 +14,8 @@ module Mcp
       Mcp::Tools::ListReservationsTool,
       Mcp::Tools::CreateServerConfigTool,
       Mcp::Tools::UpdateServerConfigTool,
+      Mcp::Tools::CreateWhitelistTool,
+      Mcp::Tools::UpdateWhitelistTool,
       # Public tools (for Discord bot integration)
       Mcp::Tools::GetPublicServersTool,
       Mcp::Tools::GetPlayerReservationsTool,
@@ -22,7 +24,8 @@ module Mcp
       Mcp::Tools::CreateReservationTool,
       Mcp::Tools::GetReservationStatusTool,
       Mcp::Tools::EndReservationTool,
-      Mcp::Tools::ListServerConfigsTool
+      Mcp::Tools::ListServerConfigsTool,
+      Mcp::Tools::ListWhitelistsTool
     ].freeze, T::Array[T.class_of(Mcp::Tools::BaseTool)])
 
     sig { returns(T::Array[T.class_of(Mcp::Tools::BaseTool)]) }

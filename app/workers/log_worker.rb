@@ -6,6 +6,7 @@ require File.expand_path("../models/concerns/steam_id_anonymizer", __dir__)
 class LogWorker
   include Sidekiq::Worker
   include SteamIdAnonymizer
+  include LogLineHelper
   extend T::Sig
   sidekiq_options retry: 1
 
@@ -456,8 +457,7 @@ class LogWorker
     user_stream = "reservation_#{logsecret}_log_lines"
     admin_stream = "reservation_#{logsecret}_log_lines_admin"
 
-    # Broadcast sanitized version for regular users (only if someone is subscribed)
-    if TurboSubscriberChecker.has_subscribers?(user_stream)
+    if TurboSubscriberChecker.has_subscribers?(user_stream) && !admin_only_event?(line)
       Turbo::StreamsChannel.broadcast_prepend_to(
         user_stream,
         target: user_stream,
@@ -466,7 +466,6 @@ class LogWorker
       )
     end
 
-    # Broadcast unsanitized version for admins (only if someone is subscribed)
     if TurboSubscriberChecker.has_subscribers?(admin_stream)
       Turbo::StreamsChannel.broadcast_prepend_to(
         admin_stream,

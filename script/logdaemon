@@ -7,8 +7,8 @@ require 'sidekiq'
 require 'active_support'
 require 'active_support/core_ext'
 require 'tf2_line_parser'
-require File.expand_path('../app/workers/log_worker', __dir__)
 require File.expand_path('../app/helpers/log_line_helper', __dir__)
+require File.expand_path('../app/workers/log_worker', __dir__)
 
 STREAMING_LOG_DIR = File.expand_path('../log/streaming', __dir__)
 

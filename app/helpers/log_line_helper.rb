@@ -30,6 +30,10 @@ module LogLineHelper
     interesting_events.any? { |event_type| log_line.match(event_type.regex) }
   end
 
+  def admin_only_event?(log_line)
+    admin_only_events.any? { |event_type| log_line.match(event_type.regex) }
+  end
+
   def interesting_events
     @interesting_events ||= [
       TF2LineParser::Events::Kill,
@@ -55,7 +59,16 @@ module LogLineHelper
       TF2LineParser::Events::Revenge,
       TF2LineParser::Events::Airshot,
       TF2LineParser::Events::AirshotHeal,
-      TF2LineParser::Events::HeadshotDamage
+      TF2LineParser::Events::HeadshotDamage,
+      TF2LineParser::Events::RoleChange,
+      TF2LineParser::Events::TeamSay
+    ]
+  end
+
+  def admin_only_events
+    @admin_only_events ||= [
+      TF2LineParser::Events::RoleChange,
+      TF2LineParser::Events::TeamSay
     ]
   end
 

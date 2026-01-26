@@ -337,16 +337,16 @@ class Cucumber::CucumberExpressions::GroupBuilder
 
   # @return [Boolean]
   #
-  # source://cucumber-cucumber-expressions//lib/cucumber/cucumber_expressions/group_builder.rb#29
+  # source://cucumber-cucumber-expressions//lib/cucumber/cucumber_expressions/group_builder.rb#34
   def capturing?; end
 
-  # source://cucumber-cucumber-expressions//lib/cucumber/cucumber_expressions/group_builder.rb#39
+  # source://cucumber-cucumber-expressions//lib/cucumber/cucumber_expressions/group_builder.rb#44
   def children; end
 
-  # source://cucumber-cucumber-expressions//lib/cucumber/cucumber_expressions/group_builder.rb#33
+  # source://cucumber-cucumber-expressions//lib/cucumber/cucumber_expressions/group_builder.rb#38
   def move_children_to(group_builder); end
 
-  # source://cucumber-cucumber-expressions//lib/cucumber/cucumber_expressions/group_builder.rb#25
+  # source://cucumber-cucumber-expressions//lib/cucumber/cucumber_expressions/group_builder.rb#30
   def set_non_capturing!; end
 
   # Returns the value of attribute source.

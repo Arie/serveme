@@ -2,101 +2,102 @@
   = javascript_include_tag "https://js.stripe.com/v3/"
   = javascript_tag "var stripe = Stripe('#{STRIPE_PUBLISHABLE_KEY}'); var stripeReturnUrl = '#{stripe_return_orders_url}';"
 
-= render 'shared/point_to_na', blink: true
+- na_user = eu_system? && current_user&.from_na?
+%div{data: na_user ? { controller: "na-confirm" } : {}}
+  = render 'shared/point_to_na', blink: true, confirm: na_user
 
-.stripe-result
-  .row
-    .col-md-8
-      .mine
-        %p.lead
-          Thanks for buying premium, it's been immediately activated, enjoy!
-      .gift
-        .voucher_code{data: { voucher_url: claim_url } }
-        %p.lead
-          Thanks for buying premium, because you've bought it for someone else, they need to activate it.
-        Send
-        = link_to "this link", claim_path, id: "voucher-claim-url"
-        to the person you want to give premium to
+  .stripe-result
+    .row
+      .col-md-8
+        .mine
+          %p.lead
+            Thanks for buying premium, it's been immediately activated, enjoy!
+        .gift
+          .voucher_code{data: { voucher_url: claim_url } }
+          %p.lead
+            Thanks for buying premium, because you've bought it for someone else, they need to activate it.
+          Send
+          = link_to "this link", claim_path, id: "voucher-claim-url"
+          to the person you want to give premium to
 
-.premium-page
-  .row
-    .col-md-12
-      %h2 Buy premium
-
-      %p
-        Thanks for your interest in our premium service! As a premium user you help to keep this site running and get some
-        = link_to "cool perks", "#perks"
-        in return!
-
-  - if au_system?
+  .premium-page{class: (na_user ? "d-none" : ""), data: na_user ? { "na-confirm-target": "form" } : {}}
     .row
       .col-md-12
+        %h2 Buy premium
 
         %p
-          What do you get with premium?
+          Thanks for your interest in our premium service! As a premium user you help to keep this site running and get some
+          = link_to "cool perks", "#perks"
+          in return!
 
-        = render "shared/perks"
+    - if au_system?
+      .row
+        .col-md-12
 
-        %p#perks
-          We use the money for the following things:
-          %ul
-            %li
-              Pay
-              = link_to("for the servers", server_providers_path)
-            %li Pay for the hosting of the site
-            %li Fund additional gameservers
+          %p
+            What do you get with premium?
 
-        %p
-          Premium status is site-specific, so you either pay for serveme.tf, na.serveme.tf, sea.serveme.tf or au.serveme.tf, make sure you're on the right site before paying.
+          = render "shared/perks"
 
-        %p
-          Get
-          = link_to('au.serveme.tf premium by subscribing to the ozfortress Patreon.', 'https://patreon.com/ozfortress')
+          %p#perks
+            We use the money for the following things:
+            %ul
+              %li
+                Pay
+                = link_to("for the servers", server_providers_path)
+              %li Pay for the hosting of the site
+              %li Fund additional gameservers
 
-        %p
-          If you don't receive your premium within 24 hours, please reach out to
-          = link_to('@coreobs on Discord.', 'https://discordapp.com/users/226205616773922816')
+          %p
+            Premium status is site-specific, so you either pay for serveme.tf, na.serveme.tf, sea.serveme.tf or au.serveme.tf, make sure you're on the right site before paying.
 
-  - else
+          %p
+            Get
+            = link_to('au.serveme.tf premium by subscribing to the ozfortress Patreon.', 'https://patreon.com/ozfortress')
+
+          %p
+            If you don't receive your premium within 24 hours, please reach out to
+            = link_to('@coreobs on Discord.', 'https://discordapp.com/users/226205616773922816')
+
+    - else
+      .row
+        .col-md-6.col-xs-12.order-form
+          = render 'form'
+
+        .col-md-6.col-xs-12
+
+          %p
+            What do you get with premium?
+
+          = render "shared/perks"
+
+          %p#perks
+            We use the money for the following things:
+            %ul
+              %li
+                Pay
+                = link_to("for the servers", server_providers_path)
+              %li Pay for the hosting of the site
+              %li Fund additional gameservers
+
+          %p
+            Premium status is site-specific, so you either pay for serveme.tf, na.serveme.tf, sea.serveme.tf or au.serveme.tf, make sure you're on the right site before paying.
+
+          %p
+            You can also
+            - if sea_system?
+              = link_to('send the tradebot a trade offer.', 'https://steamcommunity.com/tradeoffer/new/?partner=328658734&token=3vDIZUwa')
+
+              The current rate is 2 keys per month, but you can also send some items just to say thanks.
+
+            - else
+              = link_to('send me a TF2 trade offer.', 'https://steamcommunity.com/tradeoffer/new/?partner=231702&token=POpKIGaL')
+
+              The current rate is 2 keys per month, but you can also send some items just to say thanks.
+
+    .row.stripe-result
+      .col-md-12
+
     .row
-      .col-md-6.col-xs-12.order-form
-        = render 'form'
-
-      .col-md-6.col-xs-12
-
-        %p
-          What do you get with premium?
-
-        = render "shared/perks"
-
-        %p#perks
-          We use the money for the following things:
-          %ul
-            %li
-              Pay
-              = link_to("for the servers", server_providers_path)
-            %li Pay for the hosting of the site
-            %li Fund additional gameservers
-
-        %p
-          Premium status is site-specific, so you either pay for serveme.tf, na.serveme.tf, sea.serveme.tf or au.serveme.tf, make sure you're on the right site before paying.
-
-        %p
-          You can also
-          - if sea_system?
-            = link_to('send the tradebot a trade offer.', 'https://steamcommunity.com/tradeoffer/new/?partner=328658734&token=3vDIZUwa')
-
-            The current rate is 2 keys per month, but you can also send some items just to say thanks.
-
-          - else
-            = link_to('send me a TF2 trade offer.', 'https://steamcommunity.com/tradeoffer/new/?partner=231702&token=POpKIGaL')
-
-            The current rate is 2 keys per month, but you can also send some items just to say thanks.
-
-  .row.stripe-result
-    .col-md-12
-
-  .row
-    .col-md-12
-      &nbsp;
-
+      .col-md-12
+        &nbsp;

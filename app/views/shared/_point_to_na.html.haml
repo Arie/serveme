@@ -1,7 +1,7 @@
 - if eu_system? && current_user && current_user.from_na?
   .row
     .col-md-12
-      .flash_message.flash.alert.alert-success{class: (local_assigns[:blink] ? 'blink-alert' : '')}
+      .flash_message.flash.alert.alert-warning{class: (local_assigns[:blink] && !local_assigns[:confirm] ? 'blink-alert' : '')}
         %h5
           - if current_user.geocoded && current_user.na_sign_in_ip?
             %span.flags{class: "flags-#{current_user.geocoded.country_code.downcase}"}
@@ -19,3 +19,8 @@
             Howdy! It looks like you're not from Europe, but from North-America, perhaps you're looking for
             = link_to("na.serveme.tf", "https://na.serveme.tf")
             ?
+        - if local_assigns[:confirm]
+          .form-check.mt-3
+            %input.form-check-input{type: "checkbox", id: "na-confirm-checkbox", data: { action: "change->na-confirm#toggle", "na-confirm-target": "checkbox" }}
+            %label.form-check-label{for: "na-confirm-checkbox"}
+              I understand this is the EU site and I want to buy EU premium

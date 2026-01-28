@@ -287,8 +287,8 @@ export default class extends Controller {
     // Skip recalculation during streaming updates to prevent flickering
     if (this.isStreamingUpdate) return
 
-    // In delay mode, force tailing - no scrolling away allowed
-    if (this.delaySecondsValue > 0) {
+    // In delay mode on streaming pages, force tailing - no scrolling away allowed
+    if (this.hasStreamTargetValue && this.delaySecondsValue > 0) {
       this.tailing = true
       return
     }
@@ -313,10 +313,6 @@ export default class extends Controller {
     this.updateStatusText()
     this.updateProgressPosition(percent)
 
-    // On live streaming pages near the end, don't reload - new content comes via Turbo Streams
-    if (this.hasStreamTargetValue && percent > 95) {
-      return
-    }
 
     // For short logs where everything fits in viewport, no need to reload
     if (effectiveTotal <= this.viewportCountValue) {
@@ -368,8 +364,8 @@ export default class extends Controller {
 
   // Handle click on progress bar
   handleProgressClick(event) {
-    // Disabled in delay mode - must stay tailing
-    if (this.delaySecondsValue > 0) return
+    // Disabled in delay mode on streaming pages - must stay tailing
+    if (this.hasStreamTargetValue && this.delaySecondsValue > 0) return
     if (event.target === this.progressPositionTarget) return
 
     const rect = this.progressContainerTarget.getBoundingClientRect()
@@ -394,8 +390,8 @@ export default class extends Controller {
 
   // Handle drag start
   handleMarkerMousedown(event) {
-    // Disabled in delay mode - must stay tailing
-    if (this.delaySecondsValue > 0) return
+    // Disabled in delay mode on streaming pages - must stay tailing
+    if (this.hasStreamTargetValue && this.delaySecondsValue > 0) return
 
     event.preventDefault()
     this.isDragging = true
@@ -525,14 +521,14 @@ export default class extends Controller {
   }
 
   scrollToTop() {
-    // Disabled in delay mode - must stay tailing
-    if (this.delaySecondsValue > 0) return
+    // Disabled in delay mode on streaming pages - must stay tailing
+    if (this.hasStreamTargetValue && this.delaySecondsValue > 0) return
     this.loadAtPercent(0)
   }
 
   scrollToBottom() {
-    // In delay mode, just ensure we're tailing
-    if (this.delaySecondsValue > 0) {
+    // In delay mode on streaming pages, just ensure we're tailing
+    if (this.hasStreamTargetValue && this.delaySecondsValue > 0) {
       this.viewportTarget.scrollTop = this.viewportTarget.scrollHeight
       this.tailing = true
       return
@@ -542,15 +538,15 @@ export default class extends Controller {
   }
 
   scrollPageUp() {
-    // Disabled in delay mode - must stay tailing
-    if (this.delaySecondsValue > 0) return
+    // Disabled in delay mode on streaming pages - must stay tailing
+    if (this.hasStreamTargetValue && this.delaySecondsValue > 0) return
     const newPercent = Math.max(0, this.currentPercent - 10)
     this.loadAtPercent(newPercent)
   }
 
   scrollPageDown() {
-    // Disabled in delay mode - must stay tailing
-    if (this.delaySecondsValue > 0) return
+    // Disabled in delay mode on streaming pages - must stay tailing
+    if (this.hasStreamTargetValue && this.delaySecondsValue > 0) return
     const newPercent = Math.min(100, this.currentPercent + 10)
     this.loadAtPercent(newPercent)
   }
@@ -644,11 +640,9 @@ export default class extends Controller {
     // Only reload if we were tailing (at the bottom)
     // Users scrolled up looking at history don't need a reload
     if (this.tailing) {
-      // When delay is active, don't reload - just wait for buffered events
+      // When delay is active on streaming pages, don't reload - just wait for buffered events
       // Reloading would bypass the buffer and show unbuffered content
-      if (this.delaySecondsValue > 0) {
-        return
-      }
+      if (this.delaySecondsValue > 0) return
       this.loadAtPercent(100)
     }
   }

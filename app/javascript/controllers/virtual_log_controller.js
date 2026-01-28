@@ -56,6 +56,8 @@ export default class extends Controller {
 
     // Initialize delay buffer system
     this.eventBuffer = []
+    this.delaySetAt = null         // Timestamp when delay was last set/increased
+    this.bufferPrimed = false      // True once we've released at least one event
     this.startBufferProcessor()
     this.applyUrlParams()
     this.updateBufferStatus()
@@ -735,28 +737,26 @@ export default class extends Controller {
 
   // Process buffer and release events that have waited long enough
   processBuffer() {
+    // Always update status first so countdown ticks even with empty buffer
+    this.updateBufferStatus()
+
     if (this.eventBuffer.length === 0) return
 
     const now = Date.now()
     const delayMs = this.delaySecondsValue * 1000
 
-    let changed = false
     while (this.eventBuffer.length > 0) {
       const oldest = this.eventBuffer[0]
       if (now - oldest.receivedAt >= delayMs) {
+        this.bufferPrimed = true  // Events are now flowing
         this.eventBuffer.shift()
         // Only render if not filtering or event passes filter
         if (!this.highlightOnlyValue || this.isHighlightEvent(oldest.eventType)) {
           this.renderBufferedEvent(oldest)
         }
-        changed = true
       } else {
         break // Buffer is ordered chronologically
       }
-    }
-
-    if (changed) {
-      this.updateBufferStatus()
     }
   }
 
@@ -821,11 +821,18 @@ export default class extends Controller {
 
   // Called when delay slider changes
   adjustDelay(event) {
+    const oldDelay = this.delaySecondsValue
     const newDelay = parseInt(event.target.value, 10)
     this.delaySecondsValue = newDelay
 
     if (this.hasDelayDisplayTarget) {
       this.delayDisplayTarget.textContent = `${newDelay}s`
+    }
+
+    // Record timestamp when delay is set or increased (for countdown when buffer is empty)
+    if (newDelay > 0 && (oldDelay === 0 || newDelay > oldDelay)) {
+      this.delaySetAt = Date.now()
+      this.bufferPrimed = false  // Need to buffer again
     }
 
     // If reducing delay, immediately process any events that are now ready
@@ -869,14 +876,49 @@ export default class extends Controller {
     const delaySeconds = this.delaySecondsValue
     const stvAhead = String(Math.max(0, 90 - delaySeconds)).padStart(2, '\u00A0')
 
-    this.bufferStatusTarget.textContent = `${count} buffered | ${stvAhead}s ahead of STV`
-
+    // Live mode (no delay)
     if (delaySeconds === 0) {
+      this.bufferStatusTarget.textContent = `${count} buffered | ${stvAhead}s ahead of STV`
       this.bufferStatusTarget.classList.add('live')
-      this.bufferStatusTarget.classList.remove('delayed')
+      this.bufferStatusTarget.classList.remove('buffering')
+      return
+    }
+
+    // Once events have started flowing, stay in ready state
+    if (this.bufferPrimed) {
+      this.bufferStatusTarget.textContent = `${count} buffered | ${stvAhead}s ahead of STV`
+      this.bufferStatusTarget.classList.add('live')
+      this.bufferStatusTarget.classList.remove('buffering')
+      return
+    }
+
+    // Calculate how long we've been buffering
+    let fillSeconds
+    if (count > 0) {
+      // Use oldest event's age as the fill progress
+      fillSeconds = Math.floor((Date.now() - this.eventBuffer[0].receivedAt) / 1000)
+    } else if (this.delaySetAt) {
+      // No events in buffer, use time since delay was set
+      fillSeconds = Math.floor((Date.now() - this.delaySetAt) / 1000)
     } else {
+      // Edge case: delay > 0 but delaySetAt not set, start tracking now
+      this.delaySetAt = Date.now()
+      fillSeconds = 0
+    }
+
+    // Check if buffer has filled enough
+    if (fillSeconds >= delaySeconds) {
+      // Buffer is ready (green)
+      this.bufferStatusTarget.textContent = `${count} buffered | ${stvAhead}s ahead of STV`
+      this.bufferStatusTarget.classList.add('live')
+      this.bufferStatusTarget.classList.remove('buffering')
+    } else {
+      // Still filling buffer (yellow)
+      const fillStr = String(fillSeconds).padStart(2, '\u00A0')
+      const delayStr = String(delaySeconds).padStart(2, '\u00A0')
+      this.bufferStatusTarget.textContent = `Buffering: ${fillStr}s / ${delayStr}s`
+      this.bufferStatusTarget.classList.add('buffering')
       this.bufferStatusTarget.classList.remove('live')
-      this.bufferStatusTarget.classList.add('delayed')
     }
   }
 
@@ -890,6 +932,9 @@ export default class extends Controller {
       const delay = parseInt(delayParam, 10)
       if (!isNaN(delay) && delay >= 0 && delay <= 90) {
         this.delaySecondsValue = delay
+        if (delay > 0) {
+          this.delaySetAt = Date.now()
+        }
         if (this.hasDelaySliderTarget) {
           this.delaySliderTarget.value = delay
         }
@@ -902,6 +947,9 @@ export default class extends Controller {
       const restoredDelay = parseInt(this.delaySliderTarget.value, 10)
       if (!isNaN(restoredDelay) && restoredDelay >= 0 && restoredDelay <= 90) {
         this.delaySecondsValue = restoredDelay
+        if (restoredDelay > 0) {
+          this.delaySetAt = Date.now()
+        }
         if (this.hasDelayDisplayTarget) {
           this.delayDisplayTarget.textContent = `${restoredDelay}s`
         }

@@ -10810,7 +10810,7 @@ class IO
 
   def wait_priority(*arg); end
 
-  def wait_readable(*arg); end
+  def wait_readable(timeout = nil); end
 
   def wait_writable(*arg); end
 

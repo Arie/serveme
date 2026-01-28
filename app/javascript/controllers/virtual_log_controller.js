@@ -287,6 +287,12 @@ export default class extends Controller {
     // Skip recalculation during streaming updates to prevent flickering
     if (this.isStreamingUpdate) return
 
+    // In delay mode, force tailing - no scrolling away allowed
+    if (this.delaySecondsValue > 0) {
+      this.tailing = true
+      return
+    }
+
     const scrollTop = this.viewportTarget.scrollTop
     const effectiveTotal = this.getEffectiveTotal()
     if (effectiveTotal === 0) return
@@ -362,6 +368,8 @@ export default class extends Controller {
 
   // Handle click on progress bar
   handleProgressClick(event) {
+    // Disabled in delay mode - must stay tailing
+    if (this.delaySecondsValue > 0) return
     if (event.target === this.progressPositionTarget) return
 
     const rect = this.progressContainerTarget.getBoundingClientRect()
@@ -386,6 +394,9 @@ export default class extends Controller {
 
   // Handle drag start
   handleMarkerMousedown(event) {
+    // Disabled in delay mode - must stay tailing
+    if (this.delaySecondsValue > 0) return
+
     event.preventDefault()
     this.isDragging = true
     this.progressPositionTarget.classList.add('dragging')
@@ -514,19 +525,32 @@ export default class extends Controller {
   }
 
   scrollToTop() {
+    // Disabled in delay mode - must stay tailing
+    if (this.delaySecondsValue > 0) return
     this.loadAtPercent(0)
   }
 
   scrollToBottom() {
+    // In delay mode, just ensure we're tailing
+    if (this.delaySecondsValue > 0) {
+      this.viewportTarget.scrollTop = this.viewportTarget.scrollHeight
+      this.tailing = true
+      return
+    }
+
     this.loadAtPercent(100)
   }
 
   scrollPageUp() {
+    // Disabled in delay mode - must stay tailing
+    if (this.delaySecondsValue > 0) return
     const newPercent = Math.max(0, this.currentPercent - 10)
     this.loadAtPercent(newPercent)
   }
 
   scrollPageDown() {
+    // Disabled in delay mode - must stay tailing
+    if (this.delaySecondsValue > 0) return
     const newPercent = Math.min(100, this.currentPercent + 10)
     this.loadAtPercent(newPercent)
   }
@@ -620,6 +644,11 @@ export default class extends Controller {
     // Only reload if we were tailing (at the bottom)
     // Users scrolled up looking at history don't need a reload
     if (this.tailing) {
+      // When delay is active, don't reload - just wait for buffered events
+      // Reloading would bypass the buffer and show unbuffered content
+      if (this.delaySecondsValue > 0) {
+        return
+      }
       this.loadAtPercent(100)
     }
   }

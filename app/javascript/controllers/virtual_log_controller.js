@@ -290,6 +290,8 @@ export default class extends Controller {
     // In delay mode on streaming pages, force tailing - no scrolling away allowed
     if (this.hasStreamTargetValue && this.delaySecondsValue > 0) {
       this.tailing = true
+      // Force scroll to bottom
+      this.viewportTarget.scrollTop = this.viewportTarget.scrollHeight
       return
     }
 
@@ -693,7 +695,7 @@ export default class extends Controller {
     if (this.delaySecondsValue === 0) {
       bufferedEvent.rendered = true
       if (!this.highlightOnlyValue || this.isHighlightEvent(eventType)) {
-        this.renderImmediately(logLine)
+        this.renderImmediately(logLine, bufferedEvent)
       }
     }
 
@@ -701,7 +703,7 @@ export default class extends Controller {
   }
 
   // Existing immediate render logic extracted to separate method
-  renderImmediately(logLine) {
+  renderImmediately(logLine, bufferedEvent = null) {
     // Set flag to prevent scroll handler interference during our updates
     this.isStreamingUpdate = true
 
@@ -726,6 +728,11 @@ export default class extends Controller {
     wrapper.style.left = '0'
     wrapper.style.right = '0'
     wrapper.appendChild(logLine)
+
+    // Store reference for un-rendering when delay increases
+    if (bufferedEvent) {
+      bufferedEvent.domElement = wrapper
+    }
 
     // Append to the lines container
     this.linesContainerTarget.appendChild(wrapper)
@@ -776,23 +783,30 @@ export default class extends Controller {
     const now = Date.now()
     const delayMs = this.delaySecondsValue * 1000
 
-    while (this.eventBuffer.length > 0) {
-      const oldest = this.eventBuffer[0]
-      if (now - oldest.receivedAt >= delayMs) {
-        this.bufferPrimed = true  // Events are now flowing
-        this.eventBuffer.shift()
-        // Only render if not already rendered and passes filter
-        if (!oldest.rendered && (!this.highlightOnlyValue || this.isHighlightEvent(oldest.eventType))) {
-          this.renderBufferedEvent(oldest)
+    // Don't shift events - keep them in buffer for potential un-rendering
+    // Events are cleaned up by age (90s max) in handleTurboStreamAppend
+    for (const event of this.eventBuffer) {
+      const age = now - event.receivedAt
+      if (age >= delayMs) {
+        // Check domElement (not rendered) - domElement is the source of truth for display state
+        if (!event.domElement) {
+          this.bufferPrimed = true  // Events are now flowing
+          // Only render if passes filter
+          if (!this.highlightOnlyValue || this.isHighlightEvent(event.eventType)) {
+            this.renderBufferedEvent(event)
+          } else {
+            event.rendered = true  // Mark as processed even if filtered out
+          }
         }
       } else {
-        break // Buffer is ordered chronologically
+        break // Buffer is ordered chronologically, no need to check newer events
       }
     }
   }
 
   // Render a single buffered event
   renderBufferedEvent(bufferedEvent) {
+    bufferedEvent.rendered = true
     this.totalLinesValue++
     this.updateContentHeight()
 
@@ -808,6 +822,9 @@ export default class extends Controller {
     wrapper.style.left = '0'
     wrapper.style.right = '0'
     wrapper.innerHTML = bufferedEvent.html
+
+    // Store reference for un-rendering when delay increases
+    bufferedEvent.domElement = wrapper
 
     this.linesContainerTarget.appendChild(wrapper)
     this.loadedEndIndex = this.totalLinesValue
@@ -860,27 +877,62 @@ export default class extends Controller {
       this.delayDisplayTarget.textContent = `${newDelay}s`
     }
 
+    const now = Date.now()
+
     // Going to delay=0: flush buffer (catch up / peek mode)
     if (newDelay === 0 && oldDelay > 0) {
       this.flushBuffer()
       this.bufferPrimed = false
       this.delaySetAt = null
     }
-    // Going from 0 to >0, or increasing delay
-    else if (newDelay > 0 && (oldDelay === 0 || newDelay > oldDelay)) {
-      // Check if buffer has unrendered events old enough
-      const oldestUnrendered = this.eventBuffer.find(e => !e.rendered)
+    // Entering delay mode from live (0 → >0): clear and re-render from buffer
+    else if (oldDelay === 0 && newDelay > 0) {
+      // Clear everything and re-render from buffer for clean state
+      this.reRenderFromBuffer()
+
+      // Check if buffer has old enough events to be considered primed
+      const oldestUnrendered = this.eventBuffer.find(e => !e.domElement)
       const hasOldEnoughEvents = oldestUnrendered &&
-        (Date.now() - oldestUnrendered.receivedAt) >= newDelay * 1000
+        (now - oldestUnrendered.receivedAt) >= newDelay * 1000
 
       if (hasOldEnoughEvents) {
         this.bufferPrimed = true
         this.delaySetAt = null
+      } else if (!oldestUnrendered && this.eventBuffer.length > 0) {
+        // All events are rendered, we're primed
+        this.bufferPrimed = true
+        this.delaySetAt = null
       } else {
         this.bufferPrimed = false
-        // Use oldest unrendered event's time, or now if none
-        this.delaySetAt = oldestUnrendered ? oldestUnrendered.receivedAt : Date.now()
+        this.delaySetAt = oldestUnrendered ? oldestUnrendered.receivedAt : now
       }
+    }
+    // Increasing delay (while already in delay mode): clear and re-render
+    else if (newDelay > oldDelay) {
+      // Clear and re-render for consistent positioning
+      this.reRenderFromBuffer()
+
+      // Check if buffer has unrendered events old enough
+      const oldestUnrendered = this.eventBuffer.find(e => !e.domElement)
+      const hasOldEnoughEvents = oldestUnrendered &&
+        (now - oldestUnrendered.receivedAt) >= newDelay * 1000
+
+      if (hasOldEnoughEvents) {
+        this.bufferPrimed = true
+        this.delaySetAt = null
+      } else if (!oldestUnrendered && this.eventBuffer.length > 0) {
+        // All events are rendered, we're primed
+        this.bufferPrimed = true
+        this.delaySetAt = null
+      } else {
+        this.bufferPrimed = false
+        this.delaySetAt = oldestUnrendered ? oldestUnrendered.receivedAt : now
+      }
+    }
+    // Decreasing delay (but not to 0): events will be rendered by processBuffer
+    else if (newDelay > 0 && newDelay < oldDelay) {
+      this.bufferPrimed = true
+      this.delaySetAt = null
     }
 
     // Process any events that are now ready
@@ -888,27 +940,67 @@ export default class extends Controller {
     this.updateBufferStatus()
   }
 
-  // Flush buffer - render all unrendered events immediately (for catch up)
+  // Flush buffer - render all undisplayed events immediately (for catch up)
   flushBuffer() {
     for (const event of this.eventBuffer) {
-      if (!event.rendered && (!this.highlightOnlyValue || this.isHighlightEvent(event.eventType))) {
+      if (!event.domElement && (!this.highlightOnlyValue || this.isHighlightEvent(event.eventType))) {
         this.renderBufferedEvent(event)
       }
-      event.rendered = true
+      event.rendered = true  // Mark as processed
     }
   }
 
   // Toggle highlight-only mode
   toggleHighlightOnly(event) {
     this.highlightOnlyValue = event.target.checked
+
+    // Simplest approach: clear all visible events and re-render from buffer
+    // This ensures correct ordering and positioning
+    this.reRenderFromBuffer()
+  }
+
+  // Clear all visible events and re-render from buffer based on current filter settings
+  reRenderFromBuffer() {
+    // Remove all visible events from DOM
+    for (const event of this.eventBuffer) {
+      if (event.domElement) {
+        event.domElement.remove()
+        event.domElement = null
+      }
+    }
+
+    // Clear container and reset count
+    this.linesContainerTarget.innerHTML = ''
+    this.totalLinesValue = 0
+
+    // Re-render events that are old enough and pass the current filter
+    const now = Date.now()
+    const delayMs = this.delaySecondsValue * 1000
+
+    for (const event of this.eventBuffer) {
+      const age = now - event.receivedAt
+      if (age >= delayMs) {
+        if (!this.highlightOnlyValue || this.isHighlightEvent(event.eventType)) {
+          this.renderBufferedEvent(event)
+        }
+      }
+    }
+
+    this.updateContentHeight()
+
+    // Scroll to bottom since we're tailing in delay mode
+    requestAnimationFrame(() => {
+      this.viewportTarget.scrollTop = this.viewportTarget.scrollHeight
+      this.updateStatusText()
+    })
   }
 
   // Update buffer status display
   updateBufferStatus() {
     if (!this.hasBufferStatusTarget) return
 
-    // Count only unrendered events (rendered ones are "consumed")
-    const count = this.eventBuffer.filter(e => !e.rendered).length
+    // Count only undisplayed events (domElement is null means not on screen)
+    const count = this.eventBuffer.filter(e => !e.domElement).length
     const delaySeconds = this.delaySecondsValue
     const stvAhead = String(Math.max(0, 90 - delaySeconds)).padStart(2, '\u00A0')
 
@@ -928,9 +1020,9 @@ export default class extends Controller {
       return
     }
 
-    // Calculate how long we've been buffering (based on oldest unrendered event)
+    // Calculate how long we've been buffering (based on oldest undisplayed event)
     let fillSeconds
-    const oldestUnrendered = this.eventBuffer.find(e => !e.rendered)
+    const oldestUnrendered = this.eventBuffer.find(e => !e.domElement)
     if (oldestUnrendered) {
       // Use oldest unrendered event's age as the fill progress
       fillSeconds = Math.floor((Date.now() - oldestUnrendered.receivedAt) / 1000)

@@ -45,6 +45,21 @@ module Mcp
               type: "integer",
               description: "Filter by server ID"
             },
+            starts_after: {
+              type: "string",
+              format: "date-time",
+              description: "Only include reservations starting after this time (ISO 8601, e.g. '2026-01-27T00:00:00')"
+            },
+            starts_before: {
+              type: "string",
+              format: "date-time",
+              description: "Only include reservations starting before this time (ISO 8601, e.g. '2026-01-28T00:00:00')"
+            },
+            offset: {
+              type: "integer",
+              description: "Number of results to skip for pagination. Default: 0",
+              default: 0
+            },
             limit: {
               type: "integer",
               description: "Maximum number of results. Default: 25",
@@ -71,12 +86,16 @@ module Mcp
 
         reservations = build_query(params)
         limit = [ params.fetch(:limit, 25).to_i, 100 ].min
+        offset = [ params.fetch(:offset, 0).to_i, 0 ].max
 
-        reservations = reservations.limit(limit)
+        total_count = reservations.count
+        reservations = reservations.offset(offset).limit(limit)
 
         {
           reservations: reservations.map { |r| format_reservation(r) },
-          total_count: reservations.size
+          total_count: total_count,
+          offset: offset,
+          limit: limit
         }
       end
 
@@ -127,6 +146,15 @@ module Mcp
         # Server filter
         if params[:server_id].present?
           reservations = reservations.where(server_id: params[:server_id])
+        end
+
+        # Date range filter
+        if params[:starts_after].present?
+          reservations = reservations.where(starts_at: Time.parse(params[:starts_after].to_s)..)
+        end
+
+        if params[:starts_before].present?
+          reservations = reservations.where(starts_at: ...Time.parse(params[:starts_before].to_s))
         end
 
         reservations

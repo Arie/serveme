@@ -25,7 +25,11 @@ RSpec.describe Mcp::Tools::ListReservationsTool do
       expect(schema[:properties]).to have_key(:status)
       expect(schema[:properties]).to have_key(:user_id)
       expect(schema[:properties]).to have_key(:user_query)
+      expect(schema[:properties]).to have_key(:steam_uid)
       expect(schema[:properties]).to have_key(:server_id)
+      expect(schema[:properties]).to have_key(:starts_after)
+      expect(schema[:properties]).to have_key(:starts_before)
+      expect(schema[:properties]).to have_key(:offset)
       expect(schema[:properties]).to have_key(:limit)
     end
   end
@@ -125,6 +129,71 @@ RSpec.describe Mcp::Tools::ListReservationsTool do
       end
     end
 
+    context "with offset parameter" do
+      it "skips results based on offset" do
+        result_without_offset = tool.execute(limit: 10)
+        result_with_offset = tool.execute(limit: 10, offset: 1)
+
+        expect(result_with_offset[:offset]).to eq(1)
+        expect(result_with_offset[:reservations].size).to eq(result_without_offset[:reservations].size - 1)
+      end
+
+      it "returns total_count regardless of offset" do
+        result = tool.execute(offset: 1)
+
+        expect(result[:total_count]).to be >= 1
+      end
+    end
+
+    context "with steam_uid filter" do
+      it "filters by Steam ID64" do
+        result = tool.execute(steam_uid: reservation_user.uid)
+
+        result[:reservations].each do |r|
+          expect(r[:user_id]).to eq(reservation_user.id)
+        end
+      end
+
+      it "returns empty when steam_uid not found" do
+        result = tool.execute(steam_uid: "76561198999999999")
+
+        expect(result[:reservations]).to be_empty
+      end
+    end
+
+    context "with date range filters" do
+      it "filters by starts_after" do
+        result = tool.execute(starts_after: 1.hour.from_now.iso8601)
+
+        result[:reservations].each do |r|
+          expect(r[:starts_at]).to be > 1.hour.from_now
+        end
+        expect(result[:reservations].map { |r| r[:id] }).to include(future_reservation.id)
+        expect(result[:reservations].map { |r| r[:id] }).not_to include(current_reservation.id)
+      end
+
+      it "filters by starts_before" do
+        result = tool.execute(starts_before: 1.hour.ago.iso8601)
+
+        result[:reservations].each do |r|
+          expect(r[:starts_at]).to be < 1.hour.ago
+        end
+        expect(result[:reservations].map { |r| r[:id] }).to include(past_reservation.id)
+        expect(result[:reservations].map { |r| r[:id] }).not_to include(future_reservation.id)
+      end
+
+      it "combines starts_after and starts_before" do
+        result = tool.execute(
+          starts_after: 30.minutes.ago.iso8601,
+          starts_before: 1.hour.from_now.iso8601
+        )
+
+        expect(result[:reservations].map { |r| r[:id] }).to include(current_reservation.id)
+        expect(result[:reservations].map { |r| r[:id] }).not_to include(past_reservation.id)
+        expect(result[:reservations].map { |r| r[:id] }).not_to include(future_reservation.id)
+      end
+    end
+
     it "includes reservation details" do
       result = tool.execute({})
 
@@ -132,11 +201,20 @@ RSpec.describe Mcp::Tools::ListReservationsTool do
       expect(reservation).to include(
         :id,
         :user_id,
+        :user_nickname,
+        :user_steam_uid,
         :server_id,
+        :server_name,
         :starts_at,
         :ends_at,
         :password,
-        :rcon
+        :rcon,
+        :tv_password,
+        :status,
+        :first_map,
+        :server_config,
+        :enable_plugins,
+        :enable_demos_tf
       )
     end
 

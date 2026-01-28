@@ -35,7 +35,17 @@ module LogLineViewHelper
   # Map projectile/alternate weapon names to their icon names
   WEAPON_ALIASES = {
     "tf_projectile_arrow" => "huntsman",
-    "tf_projectile_arrow_fire" => "huntsman_flyingburn"
+    "tf_projectile_arrow_fire" => "huntsman_flyingburn",
+    # Projectile class names
+    "tf_projectile_flare" => "flaregun",
+    "tf_projectile_healing_bolt" => "crusaders_crossbow",
+    "tf_projectile_sentryrocket" => "obj_sentrygun",
+    "tf_weapon_grenadelauncher" => "tf_projectile_pipe",
+    # Gas/jar variants
+    "jar_gas" => "gas_blast",
+    # Environmental/fallback
+    "unknown" => "skull",
+    "prop_physics" => "skull"
   }.freeze
 
   sig { params(class_name: T.nilable(String)).returns(T.any(String, ActiveSupport::SafeBuffer)) }
@@ -716,10 +726,10 @@ module LogLineViewHelper
     content = safe_join([
       log_player_name(event.player),
       weapon ? safe_join([ " ", weapon_icon(weapon), " " ]) : content_tag(:span, " destroyed ", class: "destroy-action"),
-      content_tag(:span, "💥", class: "destroy-emoji"),
-      content_tag(:span, " ", class: "spacer"),
+      content_tag(:span, object_name, class: "building-name"),
+      " (",
       log_player_name(owner),
-      content_tag(:span, "'s #{object_name}", class: "building-name")
+      ")"
     ])
 
     content_tag(:span, content, class: "log-killedobject")

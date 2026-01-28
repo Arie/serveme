@@ -1230,3 +1230,89 @@ main > a.btn:first-child
   top: auto
   margin-bottom: 10px
   z-index: 1001
+
+// ==========================================
+// Feed Delay Controls
+// ==========================================
+
+.feed-controls
+  display: flex
+  align-items: center
+  gap: 1rem
+  margin-left: auto
+  padding-left: 1rem
+  border-left: 1px solid rgba(255, 255, 255, 0.1)
+
+.delay-control
+  display: flex
+  align-items: center
+  gap: 0.5rem
+
+.delay-label
+  font-size: 0.85rem
+  color: #888
+  margin: 0
+
+.delay-slider
+  width: 100px
+  cursor: pointer
+  accent-color: #5cb85c
+
+.delay-display
+  font-size: 0.85rem
+  color: #fff
+  min-width: 2.5rem
+  text-align: right
+  font-family: monospace
+
+.highlight-control
+  display: flex
+  align-items: center
+  font-size: 1rem
+  flex-shrink: 0
+  margin-left: 0.5rem
+
+  .form-check-label
+    display: flex
+    align-items: center
+    gap: 0.4rem
+    margin: 0
+    cursor: pointer
+
+  .form-check-input
+    margin: 0
+    accent-color: #5cb85c
+    flex-shrink: 0
+    position: relative
+    z-index: 1
+
+.buffer-status
+  font-size: 0.75rem
+  padding: 0.25rem 0.5rem
+  border-radius: 4px
+  font-family: monospace
+  text-align: center
+  flex-shrink: 0
+  white-space: nowrap
+  min-width: 26ch
+
+  &.live
+    background: rgba(40, 167, 69, 0.2)
+    color: #28a745
+
+  &.delayed
+    background: rgba(255, 193, 7, 0.2)
+    color: #ffc107
+
+// Responsive: stack controls on smaller screens
+@media (max-width: 900px)
+  .log-controls-bar
+    flex-wrap: wrap
+
+  .feed-controls
+    width: 100%
+    margin-left: 0
+    padding-left: 0
+    padding-top: 0.5rem
+    border-left: none
+    border-top: 1px solid rgba(255, 255, 255, 0.1)

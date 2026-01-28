@@ -21,7 +21,12 @@ export default class extends Controller {
     "searchCount",        // Search results count
     "loadingOverlay",     // Loading indicator
     "topBtn",             // Scroll to top button
-    "bottomBtn"           // Scroll to bottom button
+    "bottomBtn",          // Scroll to bottom button
+    "delaySlider",        // Range input for delay
+    "delayDisplay",       // Shows current delay value
+    "bufferStatus",       // Shows buffered event count
+    "highlightToggle",    // Checkbox for highlight-only mode
+    "feedControls"        // Container for feed delay controls
   ]
 
   static values = {
@@ -33,7 +38,9 @@ export default class extends Controller {
     streamTarget: String,  // Turbo Stream target ID for live updates
     initialQuery: String,  // Initial search query from URL
     initialTotalMatches: Number,  // Total matches for initial query (pre-rendered)
-    startAtEnd: { type: Boolean, default: false }  // Start at end of file (for RCON)
+    startAtEnd: { type: Boolean, default: false },  // Start at end of file (for RCON)
+    delaySeconds: { type: Number, default: 0 },     // 0 = real-time
+    highlightOnly: { type: Boolean, default: false } // Filter to important events only
   }
 
   connect() {
@@ -46,6 +53,12 @@ export default class extends Controller {
     this.loadedEndIndex = 0
     this.tailing = this.startAtEndValue  // Track if we're following live updates
     this.isStreamingUpdate = false  // Flag to prevent scroll handler interference during streaming
+
+    // Initialize delay buffer system
+    this.eventBuffer = []
+    this.startBufferProcessor()
+    this.applyUrlParams()
+    this.updateBufferStatus()
 
     // Set up the virtual scroll height
     this.updateContentHeight()
@@ -107,6 +120,11 @@ export default class extends Controller {
       this.reconnectObserver.disconnect()
     }
     this.cleanupProgressBar()
+
+    // Clean up buffer processor
+    if (this.bufferInterval) {
+      clearInterval(this.bufferInterval)
+    }
   }
 
   // Set up MutationObserver to detect Turbo Stream reconnection
@@ -615,6 +633,42 @@ export default class extends Controller {
     // Prevent default Turbo rendering - we handle it ourselves
     event.preventDefault()
 
+    // Get the HTML content from the Turbo Stream template
+    const template = stream.querySelector('template')
+    if (!template) return
+
+    const content = template.content.cloneNode(true)
+    const logLine = content.querySelector('.log-line')
+    if (!logLine) return
+
+    // If searching, don't show unfiltered lines (but still count them)
+    if (this.totalMatches !== null) {
+      return
+    }
+
+    const eventType = logLine.dataset.eventType
+
+    // If delay is 0, render immediately (filter here since no buffer)
+    if (this.delaySecondsValue === 0) {
+      if (this.highlightOnlyValue && !this.isHighlightEvent(eventType)) {
+        return
+      }
+      this.renderImmediately(logLine)
+      return
+    }
+
+    // Buffer all events - filtering happens at render time
+    this.eventBuffer.push({
+      html: logLine.outerHTML,
+      receivedAt: Date.now(),
+      eventType: eventType
+    })
+
+    this.updateBufferStatus()
+  }
+
+  // Existing immediate render logic extracted to separate method
+  renderImmediately(logLine) {
     // Set flag to prevent scroll handler interference during our updates
     this.isStreamingUpdate = true
 
@@ -622,38 +676,11 @@ export default class extends Controller {
     this.totalLinesValue++
     this.updateContentHeight()
 
-    // If searching, don't show unfiltered lines
-    if (this.totalMatches !== null) {
-      this.isStreamingUpdate = false
-      return
-    }
-
     // Only render and track new lines if we're tailing
     // Otherwise there would be a gap between loaded content and streamed content
     if (!this.tailing) {
       // Just update the status to show there are more lines
-      if (this.hasStatusTextTarget) {
-        const effectiveTotal = this.getEffectiveTotal()
-        const scrollTop = this.viewportTarget.scrollTop
-        const viewportHeight = this.viewportTarget.clientHeight
-        const currentLine = Math.floor((scrollTop + viewportHeight / 2) / this.lineHeightValue)
-        const currentIndex = Math.max(1, Math.min(currentLine + 1, effectiveTotal))
-        this.statusTextTarget.textContent = `Line ${currentIndex} of ${effectiveTotal}`
-      }
-      this.isStreamingUpdate = false
-      return
-    }
-
-    // Get the HTML content from the Turbo Stream template
-    const template = stream.querySelector('template')
-    if (!template) {
-      this.isStreamingUpdate = false
-      return
-    }
-
-    const content = template.content.cloneNode(true)
-    const logLine = content.querySelector('.log-line')
-    if (!logLine) {
+      this.updateStatusText()
       this.isStreamingUpdate = false
       return
     }
@@ -693,6 +720,204 @@ export default class extends Controller {
         this.isStreamingUpdate = false
       })
     })
+  }
+
+  // ==========================================
+  // Feed Delay Buffer System
+  // ==========================================
+
+  // Start the buffer processor timer
+  startBufferProcessor() {
+    this.bufferInterval = setInterval(() => {
+      this.processBuffer()
+    }, 100) // Check every 100ms for smooth playback
+  }
+
+  // Process buffer and release events that have waited long enough
+  processBuffer() {
+    if (this.eventBuffer.length === 0) return
+
+    const now = Date.now()
+    const delayMs = this.delaySecondsValue * 1000
+
+    let changed = false
+    while (this.eventBuffer.length > 0) {
+      const oldest = this.eventBuffer[0]
+      if (now - oldest.receivedAt >= delayMs) {
+        this.eventBuffer.shift()
+        // Only render if not filtering or event passes filter
+        if (!this.highlightOnlyValue || this.isHighlightEvent(oldest.eventType)) {
+          this.renderBufferedEvent(oldest)
+        }
+        changed = true
+      } else {
+        break // Buffer is ordered chronologically
+      }
+    }
+
+    if (changed) {
+      this.updateBufferStatus()
+    }
+  }
+
+  // Render a single buffered event
+  renderBufferedEvent(bufferedEvent) {
+    this.totalLinesValue++
+    this.updateContentHeight()
+
+    if (!this.tailing) {
+      this.updateStatusText()
+      return
+    }
+
+    const wrapper = document.createElement('div')
+    wrapper.className = 'virtual-line'
+    wrapper.style.position = 'absolute'
+    wrapper.style.top = `${(this.totalLinesValue - 1) * this.lineHeightValue}px`
+    wrapper.style.left = '0'
+    wrapper.style.right = '0'
+    wrapper.innerHTML = bufferedEvent.html
+
+    this.linesContainerTarget.appendChild(wrapper)
+    this.loadedEndIndex = this.totalLinesValue
+
+    // Auto-scroll if tailing
+    requestAnimationFrame(() => {
+      const targetScroll = this.totalLinesValue * this.lineHeightValue
+      this.viewportTarget.scrollTop = targetScroll
+      this.updateProgressPosition(100)
+      this.updateStatusText()
+    })
+  }
+
+  // Define which events are "highlight" events (big plays)
+  isHighlightEvent(eventType) {
+    const highlightEvents = [
+      'medic_death',
+      'medic_death_ex',
+      'charge_deployed',
+      'charge_ready',
+      'lost_uber_advantage',
+
+      'airshot',
+      'airshot_heal',
+      'domination',
+      'revenge',
+
+      // Objective events
+      'point_capture',
+      'capture_block',
+      'round_win',
+      'round_stalemate',
+      'final_score',
+      'match_end',
+
+      'kill',
+      'say'
+    ]
+
+    return highlightEvents.includes(eventType)
+  }
+
+  // Called when delay slider changes
+  adjustDelay(event) {
+    const newDelay = parseInt(event.target.value, 10)
+    this.delaySecondsValue = newDelay
+
+    if (this.hasDelayDisplayTarget) {
+      this.delayDisplayTarget.textContent = `${newDelay}s`
+    }
+
+    // If reducing delay, immediately process any events that are now ready
+    this.processBuffer()
+    this.updateBufferStatus()
+  }
+
+  // Catch up - flush all buffered events immediately
+  catchUp() {
+    while (this.eventBuffer.length > 0) {
+      const event = this.eventBuffer.shift()
+      this.renderBufferedEvent(event)
+    }
+    this.updateBufferStatus()
+  }
+
+  // Go live - set delay to 0 and catch up
+  goLive() {
+    this.delaySecondsValue = 0
+
+    if (this.hasDelaySliderTarget) {
+      this.delaySliderTarget.value = 0
+    }
+    if (this.hasDelayDisplayTarget) {
+      this.delayDisplayTarget.textContent = '0s'
+    }
+
+    this.catchUp()
+  }
+
+  // Toggle highlight-only mode
+  toggleHighlightOnly(event) {
+    this.highlightOnlyValue = event.target.checked
+  }
+
+  // Update buffer status display
+  updateBufferStatus() {
+    if (!this.hasBufferStatusTarget) return
+
+    const count = this.eventBuffer.length
+    const delaySeconds = this.delaySecondsValue
+    const stvAhead = String(Math.max(0, 90 - delaySeconds)).padStart(2, '\u00A0')
+
+    this.bufferStatusTarget.textContent = `${count} buffered | ${stvAhead}s ahead of STV`
+
+    if (delaySeconds === 0) {
+      this.bufferStatusTarget.classList.add('live')
+      this.bufferStatusTarget.classList.remove('delayed')
+    } else {
+      this.bufferStatusTarget.classList.remove('live')
+      this.bufferStatusTarget.classList.add('delayed')
+    }
+  }
+
+  // Apply initial delay from URL or browser-restored form state
+  applyUrlParams() {
+    const urlParams = new URLSearchParams(window.location.search)
+    const delayParam = urlParams.get('delay')
+
+    if (delayParam) {
+      // URL parameter takes priority
+      const delay = parseInt(delayParam, 10)
+      if (!isNaN(delay) && delay >= 0 && delay <= 90) {
+        this.delaySecondsValue = delay
+        if (this.hasDelaySliderTarget) {
+          this.delaySliderTarget.value = delay
+        }
+        if (this.hasDelayDisplayTarget) {
+          this.delayDisplayTarget.textContent = `${delay}s`
+        }
+      }
+    } else if (this.hasDelaySliderTarget) {
+      // Sync with browser-restored slider value
+      const restoredDelay = parseInt(this.delaySliderTarget.value, 10)
+      if (!isNaN(restoredDelay) && restoredDelay >= 0 && restoredDelay <= 90) {
+        this.delaySecondsValue = restoredDelay
+        if (this.hasDelayDisplayTarget) {
+          this.delayDisplayTarget.textContent = `${restoredDelay}s`
+        }
+      }
+    }
+
+    const highlightParam = urlParams.get('highlights')
+    if (highlightParam === 'true' || highlightParam === '1') {
+      this.highlightOnlyValue = true
+      if (this.hasHighlightToggleTarget) {
+        this.highlightToggleTarget.checked = true
+      }
+    } else if (this.hasHighlightToggleTarget) {
+      // Sync with browser-restored checkbox state
+      this.highlightOnlyValue = this.highlightToggleTarget.checked
+    }
   }
 
   // Utility

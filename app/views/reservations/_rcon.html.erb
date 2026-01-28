@@ -16,6 +16,23 @@
         <button type="button" class="log-search-clear" data-action="click->virtual-log#clearSearch" title="Clear search">&times;</button>
         <span class="log-search-count" data-virtual-log-target="searchCount"></span>
       </div>
+
+      <div class="feed-controls" data-virtual-log-target="feedControls">
+        <div class="delay-control">
+          <label class="delay-label">Delay:</label>
+          <input type="range" class="delay-slider" min="0" max="90" value="0" data-virtual-log-target="delaySlider" data-action="input->virtual-log#adjustDelay">
+          <span class="delay-display" data-virtual-log-target="delayDisplay">0s</span>
+        </div>
+
+        <div class="highlight-control">
+          <label class="form-check-label" title="Highlights only">
+            <input type="checkbox" class="form-check-input" data-virtual-log-target="highlightToggle" data-action="change->virtual-log#toggleHighlightOnly">
+            ⭐
+          </label>
+        </div>
+
+        <span class="buffer-status live" data-virtual-log-target="bufferStatus">0 buffered | 90s ahead of STV</span>
+      </div>
     </div>
 
     <div class="log-lines-wrapper">

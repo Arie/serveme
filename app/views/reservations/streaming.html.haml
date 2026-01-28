@@ -10,6 +10,20 @@
         %button.log-search-clear{type: "button", data: {action: "click->virtual-log#clearSearch"}, title: "Clear search"} ×
         %span.log-search-count{data: {virtual_log_target: "searchCount"}}
 
+      .feed-controls{data: {virtual_log_target: "feedControls"}}
+        .delay-control
+          %label.delay-label Delay:
+          %input.delay-slider{type: "range", min: "0", max: "90", value: "0", data: {virtual_log_target: "delaySlider", action: "input->virtual-log#adjustDelay"}}
+          %span.delay-display{data: {virtual_log_target: "delayDisplay"}} 0s
+
+        .highlight-control
+          %label.form-check-label{title: "Highlights only"}
+            %input.form-check-input{type: "checkbox", data: {virtual_log_target: "highlightToggle", action: "change->virtual-log#toggleHighlightOnly"}}
+            ⭐
+
+        %span.buffer-status.live{data: {virtual_log_target: "bufferStatus"}}
+          0 buffered | 90s ahead of STV
+
     .log-lines-wrapper
       .log-loading-overlay{data: {virtual_log_target: "loadingOverlay"}}
         .log-load-more-spinner

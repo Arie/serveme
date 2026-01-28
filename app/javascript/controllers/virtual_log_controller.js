@@ -679,21 +679,29 @@ export default class extends Controller {
 
     const eventType = logLine.dataset.eventType
 
-    // If delay is 0, render immediately (filter here since no buffer)
-    if (this.delaySecondsValue === 0) {
-      if (this.highlightOnlyValue && !this.isHighlightEvent(eventType)) {
-        return
-      }
-      this.renderImmediately(logLine)
-      return
+    // Always buffer events (for seamless delay switching)
+    const now = Date.now()
+    const bufferedEvent = {
+      html: logLine.outerHTML,
+      receivedAt: now,
+      eventType: eventType,
+      rendered: false
+    }
+    this.eventBuffer.push(bufferedEvent)
+
+    // Eject events older than 90s (max delay) - they're no longer needed
+    const maxAge = 90 * 1000
+    while (this.eventBuffer.length > 0 && (now - this.eventBuffer[0].receivedAt) > maxAge) {
+      this.eventBuffer.shift()
     }
 
-    // Buffer all events - filtering happens at render time
-    this.eventBuffer.push({
-      html: logLine.outerHTML,
-      receivedAt: Date.now(),
-      eventType: eventType
-    })
+    // If delay is 0, also render immediately
+    if (this.delaySecondsValue === 0) {
+      bufferedEvent.rendered = true
+      if (!this.highlightOnlyValue || this.isHighlightEvent(eventType)) {
+        this.renderImmediately(logLine)
+      }
+    }
 
     this.updateBufferStatus()
   }
@@ -779,8 +787,8 @@ export default class extends Controller {
       if (now - oldest.receivedAt >= delayMs) {
         this.bufferPrimed = true  // Events are now flowing
         this.eventBuffer.shift()
-        // Only render if not filtering or event passes filter
-        if (!this.highlightOnlyValue || this.isHighlightEvent(oldest.eventType)) {
+        // Only render if not already rendered and passes filter
+        if (!oldest.rendered && (!this.highlightOnlyValue || this.isHighlightEvent(oldest.eventType))) {
           this.renderBufferedEvent(oldest)
         }
       } else {
@@ -858,38 +866,42 @@ export default class extends Controller {
       this.delayDisplayTarget.textContent = `${newDelay}s`
     }
 
-    // Record timestamp when delay is set or increased (for countdown when buffer is empty)
-    if (newDelay > 0 && (oldDelay === 0 || newDelay > oldDelay)) {
-      this.delaySetAt = Date.now()
-      this.bufferPrimed = false  // Need to buffer again
+    // Going to delay=0: flush buffer (catch up / peek mode)
+    if (newDelay === 0 && oldDelay > 0) {
+      this.flushBuffer()
+      this.bufferPrimed = false
+      this.delaySetAt = null
+    }
+    // Going from 0 to >0, or increasing delay
+    else if (newDelay > 0 && (oldDelay === 0 || newDelay > oldDelay)) {
+      // Check if buffer has unrendered events old enough
+      const oldestUnrendered = this.eventBuffer.find(e => !e.rendered)
+      const hasOldEnoughEvents = oldestUnrendered &&
+        (Date.now() - oldestUnrendered.receivedAt) >= newDelay * 1000
+
+      if (hasOldEnoughEvents) {
+        this.bufferPrimed = true
+        this.delaySetAt = null
+      } else {
+        this.bufferPrimed = false
+        // Use oldest unrendered event's time, or now if none
+        this.delaySetAt = oldestUnrendered ? oldestUnrendered.receivedAt : Date.now()
+      }
     }
 
-    // If reducing delay, immediately process any events that are now ready
+    // Process any events that are now ready
     this.processBuffer()
     this.updateBufferStatus()
   }
 
-  // Catch up - flush all buffered events immediately
-  catchUp() {
-    while (this.eventBuffer.length > 0) {
-      const event = this.eventBuffer.shift()
-      this.renderBufferedEvent(event)
+  // Flush buffer - render all unrendered events immediately (for catch up)
+  flushBuffer() {
+    for (const event of this.eventBuffer) {
+      if (!event.rendered && (!this.highlightOnlyValue || this.isHighlightEvent(event.eventType))) {
+        this.renderBufferedEvent(event)
+      }
+      event.rendered = true
     }
-    this.updateBufferStatus()
-  }
-
-  // Go live - set delay to 0 and catch up
-  goLive() {
-    this.delaySecondsValue = 0
-
-    if (this.hasDelaySliderTarget) {
-      this.delaySliderTarget.value = 0
-    }
-    if (this.hasDelayDisplayTarget) {
-      this.delayDisplayTarget.textContent = '0s'
-    }
-
-    this.catchUp()
   }
 
   // Toggle highlight-only mode
@@ -901,7 +913,8 @@ export default class extends Controller {
   updateBufferStatus() {
     if (!this.hasBufferStatusTarget) return
 
-    const count = this.eventBuffer.length
+    // Count only unrendered events (rendered ones are "consumed")
+    const count = this.eventBuffer.filter(e => !e.rendered).length
     const delaySeconds = this.delaySecondsValue
     const stvAhead = String(Math.max(0, 90 - delaySeconds)).padStart(2, '\u00A0')
 
@@ -921,13 +934,14 @@ export default class extends Controller {
       return
     }
 
-    // Calculate how long we've been buffering
+    // Calculate how long we've been buffering (based on oldest unrendered event)
     let fillSeconds
-    if (count > 0) {
-      // Use oldest event's age as the fill progress
-      fillSeconds = Math.floor((Date.now() - this.eventBuffer[0].receivedAt) / 1000)
+    const oldestUnrendered = this.eventBuffer.find(e => !e.rendered)
+    if (oldestUnrendered) {
+      // Use oldest unrendered event's age as the fill progress
+      fillSeconds = Math.floor((Date.now() - oldestUnrendered.receivedAt) / 1000)
     } else if (this.delaySetAt) {
-      // No events in buffer, use time since delay was set
+      // No unrendered events, use time since delay was set
       fillSeconds = Math.floor((Date.now() - this.delaySetAt) / 1000)
     } else {
       // Edge case: delay > 0 but delaySetAt not set, start tracking now

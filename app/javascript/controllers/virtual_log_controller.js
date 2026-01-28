@@ -668,10 +668,8 @@ export default class extends Controller {
     wrapper.style.left = '0'
     wrapper.style.right = '0'
 
-    // RCON responses have variable height, so use relative positioning
+    // RCON responses have variable height
     if (rconResponse) {
-      wrapper.style.position = 'relative'
-      wrapper.style.top = 'auto'
       wrapper.classList.add('rcon-response-wrapper')
       wrapper.appendChild(rconResponse)
     } else {

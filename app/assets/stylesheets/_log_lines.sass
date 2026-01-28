@@ -1035,11 +1035,6 @@ main > a.btn:first-child
   &:has(.log-line.show-raw)
     overflow: visible
 
-  // RCON response wrappers have variable height
-  &.rcon-response-wrapper
-    height: auto
-    overflow: visible
-
   .log-line
     // Override default log-line styles for virtual scrolling
     margin: 0
@@ -1235,31 +1230,3 @@ main > a.btn:first-child
   top: auto
   margin-bottom: 10px
   z-index: 1001
-
-// RCON command response - shows multiline output properly
-.rcon-response
-  background: #1a1a1a
-  border: 1px solid #333
-  border-radius: 4px
-  padding: 8px 12px
-  margin: 4px 0
-  font-family: monospace
-  font-size: 0.9em
-
-  .rcon-response-prefix
-    color: #5cb85c
-    font-weight: bold
-    display: block
-    margin-bottom: 4px
-
-  .rcon-response-content
-    color: #ccc
-    white-space: pre-wrap
-    word-break: break-word
-    margin: 0
-    padding: 0
-    background: transparent
-    border: none
-    font-family: inherit
-    font-size: inherit
-    line-height: 1.4

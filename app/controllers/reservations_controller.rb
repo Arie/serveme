@@ -272,7 +272,7 @@ class ReservationsController < ApplicationController
       Rails.logger.info("User #{current_user.name} (#{current_user.uid}) executed rcon command \"#{rcon_command}\" for reservation #{reservation.id}")
       result = handle_rcon_command(rcon_command)
       respond_to do |format|
-        format.turbo_stream { render turbo_stream: turbo_stream.prepend("reservation_#{reservation.logsecret}_log_lines", target: "reservation_#{reservation.logsecret}_log_lines", partial: "reservations/rcon_response", locals: { response: result }) }
+        format.turbo_stream { render turbo_stream: turbo_stream.prepend("reservation_#{reservation.logsecret}_log_lines", target: "reservation_#{reservation.logsecret}_log_lines", partial: "reservations/log_line", locals: { log_line: result }) }
         format.html { redirect_to return_path }
       end
     else

@@ -653,9 +653,7 @@ export default class extends Controller {
 
     const content = template.content.cloneNode(true)
     const logLine = content.querySelector('.log-line')
-    const rconResponse = content.querySelector('.rcon-response')
-
-    if (!logLine && !rconResponse) {
+    if (!logLine) {
       this.isStreamingUpdate = false
       return
     }
@@ -667,14 +665,7 @@ export default class extends Controller {
     wrapper.style.top = `${(this.totalLinesValue - 1) * this.lineHeightValue}px`
     wrapper.style.left = '0'
     wrapper.style.right = '0'
-
-    // RCON responses have variable height
-    if (rconResponse) {
-      wrapper.classList.add('rcon-response-wrapper')
-      wrapper.appendChild(rconResponse)
-    } else {
-      wrapper.appendChild(logLine)
-    }
+    wrapper.appendChild(logLine)
 
     // Append to the lines container
     this.linesContainerTarget.appendChild(wrapper)

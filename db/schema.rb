@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_20_124752) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_29_082641) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -236,6 +236,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_20_124752) do
     t.index ["created_at"], name: "index_reservations_on_created_at"
     t.index ["custom_whitelist_id"], name: "idx_17175_index_reservations_on_custom_whitelist_id"
     t.index ["end_instantly"], name: "idx_17175_index_reservations_on_end_instantly"
+    t.index ["ended", "provisioned", "ends_at"], name: "index_reservations_on_ended_provisioned_ends_at"
     t.index ["ends_at"], name: "idx_17175_index_reservations_on_ends_at"
     t.index ["logsecret"], name: "idx_17175_index_reservations_on_logsecret"
     t.index ["server_config_id"], name: "idx_17175_index_reservations_on_server_config_id"

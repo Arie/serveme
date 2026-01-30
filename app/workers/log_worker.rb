@@ -87,6 +87,8 @@ class LogWorker
     return if handle_banned_player(community_id, ip, event)
     return if handle_league_banned_player(community_id, ip, event)
 
+    check_residential_proxy(rp, event.player.uid)
+
     broadcast_player_connect(rp)
     whitelist_player_in_firewall(rp)
   end
@@ -161,6 +163,11 @@ class LogWorker
     return unless reservation&.server&.supports_mitigations?
 
     AllowReservationPlayerWorker.perform_async(reservation_player.id)
+  end
+
+  sig { params(reservation_player: ReservationPlayer, player_uid: String).void }
+  def check_residential_proxy(reservation_player, player_uid)
+    IpProxyCheckWorker.perform_async(reservation_player.id, player_uid)
   end
 
   sig { void }

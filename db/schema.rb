@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_29_082641) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_30_113947) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -99,6 +99,21 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_29_082641) do
     t.bigint "server_id"
     t.index ["hiperz_id"], name: "idx_17107_index_hiperz_server_informations_on_hiperz_id"
     t.index ["server_id"], name: "idx_17107_index_hiperz_server_informations_on_server_id"
+  end
+
+  create_table "ip_lookups", force: :cascade do |t|
+    t.string "connection_type"
+    t.string "country_code"
+    t.datetime "created_at", null: false
+    t.integer "fraud_score"
+    t.string "ip", null: false
+    t.boolean "is_proxy", default: false
+    t.boolean "is_residential_proxy", default: false
+    t.string "isp"
+    t.jsonb "raw_response"
+    t.datetime "updated_at", null: false
+    t.index ["ip"], name: "index_ip_lookups_on_ip", unique: true
+    t.index ["is_residential_proxy"], name: "index_ip_lookups_on_is_residential_proxy"
   end
 
   create_table "locations", force: :cascade do |t|

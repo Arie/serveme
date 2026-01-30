@@ -13,15 +13,13 @@ class IpProxyCheckWorker
     return if skip_check?(rp)
     return if IpLookup.cached?(rp.ip)
 
-    result = IpQualityScoreService.check(rp.ip)
+    result = ProxyDetectionService.check(rp.ip)
 
     kick_player(rp) if result&.is_residential_proxy
-  rescue IpQualityScoreService::QuotaExceededError
-    Rails.logger.info "[IPQS] Monthly quota exceeded, skipping check for #{rp.ip}"
-  rescue IpQualityScoreService::ApiError => e
-    Rails.logger.warn "[IPQS] API error for #{rp.ip}: #{e.message}"
+  rescue ProxyDetectionService::AllProvidersExhaustedError => e
+    Rails.logger.warn "[ProxyDetection] All providers exhausted for #{rp.ip}: #{e.message}"
   rescue StandardError => e
-    Rails.logger.error "[IPQS] Unexpected error for #{rp.ip}: #{e.message}"
+    Rails.logger.error "[ProxyDetection] Unexpected error for #{rp.ip}: #{e.message}"
   end
 
   private
@@ -48,8 +46,8 @@ class IpProxyCheckWorker
     return unless reservation && !reservation.ended?
 
     reservation.server&.rcon_exec "kickid #{@player_uid} [#{SITE_HOST}] Residential proxy detected; addip 0 #{rp.ip}"
-    Rails.logger.warn "[IPQS] Kicked residential proxy: #{rp.ip} (#{rp.steam_uid}) from reservation #{reservation.id}"
+    Rails.logger.warn "[ProxyDetection] Kicked residential proxy: #{rp.ip} (#{rp.steam_uid}) from reservation #{reservation.id}"
   rescue SteamCondenser::Error => e
-    Rails.logger.warn "[IPQS] Failed to kick player #{rp.steam_uid}: #{e.message}"
+    Rails.logger.warn "[ProxyDetection] Failed to kick player #{rp.steam_uid}: #{e.message}"
   end
 end

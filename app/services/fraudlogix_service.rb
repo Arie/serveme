@@ -3,7 +3,6 @@
 
 class FraudlogixService
   BASE_URL = "https://iplist.fraudlogix.com/v5"
-  MONTHLY_QUOTA = 1000
 
   class QuotaExceededError < StandardError; end
   class ApiError < StandardError; end
@@ -12,23 +11,8 @@ class FraudlogixService
     new.check(ip)
   end
 
-  def self.quota_exceeded?
-    current_usage >= MONTHLY_QUOTA
-  end
-
-  def self.current_usage
-    Rails.cache.read(quota_key)&.to_i || 0
-  end
-
-  def self.quota_key
-    "fraudlogix_monthly_usage:#{Date.current.strftime('%Y-%m')}"
-  end
-
   def check(ip)
-    raise QuotaExceededError if self.class.quota_exceeded?
-
     response = make_request(ip)
-    increment_quota
 
     is_residential_proxy = detect_residential_proxy(response)
 
@@ -68,15 +52,29 @@ class FraudlogixService
       .headers("x-api-key" => api_key, "Content-Type" => "application/json")
       .get("#{BASE_URL}?ip=#{ip}")
 
+    # Fraudlogix returns 429 when rate limited
+    if response.status.code == 429
+      raise QuotaExceededError, "Rate limit exceeded"
+    end
+
+    # Check for quota/limit errors in response body
+    if response.status.code == 401 || response.status.code == 403
+      body = response.body.to_s
+      if body.include?("limit") || body.include?("quota") || body.include?("exceeded")
+        raise QuotaExceededError, body
+      end
+    end
+
     raise ApiError, "HTTP #{response.status}" unless response.status.success?
 
-    JSON.parse(response.body.to_s)
-  end
+    json = JSON.parse(response.body.to_s)
 
-  def increment_quota
-    key = self.class.quota_key
-    current = Rails.cache.read(key).to_i
-    Rails.cache.write(key, current + 1, expires_in: 45.days)
+    # Check for error message in JSON response
+    if json["error"].to_s.downcase.include?("limit") || json["error"].to_s.downcase.include?("quota")
+      raise QuotaExceededError, json["error"]
+    end
+
+    json
   end
 
   def api_key

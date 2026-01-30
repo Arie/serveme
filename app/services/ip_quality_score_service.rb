@@ -3,7 +3,6 @@
 
 class IpQualityScoreService
   BASE_URL = "https://www.ipqualityscore.com/api/json/ip"
-  MONTHLY_QUOTA = 1000
   FRAUD_SCORE_THRESHOLD = 90
 
   class QuotaExceededError < StandardError; end
@@ -13,23 +12,8 @@ class IpQualityScoreService
     new.check(ip)
   end
 
-  def self.quota_exceeded?
-    current_usage >= MONTHLY_QUOTA
-  end
-
-  def self.current_usage
-    Rails.cache.read(quota_key)&.to_i || 0
-  end
-
-  def self.quota_key
-    "ipqs_monthly_usage:#{Date.current.strftime('%Y-%m')}"
-  end
-
   def check(ip)
-    raise QuotaExceededError if self.class.quota_exceeded?
-
     response = make_request(ip)
-    increment_quota
 
     is_residential_proxy = detect_residential_proxy(response)
 
@@ -61,15 +45,14 @@ class IpQualityScoreService
     raise ApiError, "HTTP #{response.status}" unless response.status.success?
 
     json = JSON.parse(response.body.to_s)
+
+    if json["message"].to_s.include?("exceeded")
+      raise QuotaExceededError, json["message"]
+    end
+
     raise ApiError, json["message"] unless json["success"]
 
     json
-  end
-
-  def increment_quota
-    key = self.class.quota_key
-    current = Rails.cache.read(key).to_i
-    Rails.cache.write(key, current + 1, expires_in: 45.days)
   end
 
   def api_key

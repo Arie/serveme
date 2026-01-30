@@ -37,11 +37,6 @@ class ProxyDetectionService
   private
 
   def try_provider(provider, ip)
-    # Skip if provider has quota tracking and is exceeded
-    if provider[:service].respond_to?(:quota_exceeded?) && provider[:service].quota_exceeded?
-      raise provider[:service]::QuotaExceededError
-    end
-
     provider[:service].check(ip)
   end
 end

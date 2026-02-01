@@ -7,28 +7,6 @@ require 'sidekiq/testing'
 RSpec.describe DailyZipfileUploadWorker, type: :worker do
   let(:worker) { described_class.new }
   let(:now) { Time.current }
-  let(:two_days_ago) { now - 2.days }
-
-  let!(:eligible) do
-    r = create(:reservation, ended: true)
-    r.update_columns(starts_at: now - 1.day - 1.hour, ends_at: now - 1.day)
-    r
-  end
-  let!(:too_old) do
-    r = create(:reservation, ended: true)
-    r.update_columns(starts_at: now - 3.days - 1.hour, ends_at: now - 3.days)
-    r
-  end
-  let!(:not_ended) do
-    r = create(:reservation, ended: false)
-    r.update_columns(starts_at: now - 1.day - 1.hour, ends_at: now - 1.day)
-    r
-  end
-  let!(:already_uploaded) do
-    r = create(:reservation, :with_zipfile, ended: true)
-    r.update_columns(starts_at: now - 1.day - 1.hour, ends_at: now - 1.day)
-    r
-  end
 
   before do
     allow(Time).to receive(:current).and_return(now)
@@ -37,6 +15,18 @@ RSpec.describe DailyZipfileUploadWorker, type: :worker do
   end
 
   it 'uploads only for ended, recent, not-yet-uploaded reservations' do
+    eligible = create(:reservation, ended: true)
+    eligible.update_columns(starts_at: now - 1.day - 1.hour, ends_at: now - 1.day)
+
+    too_old = create(:reservation, ended: true)
+    too_old.update_columns(starts_at: now - 3.days - 1.hour, ends_at: now - 3.days)
+
+    not_ended = create(:reservation, ended: false)
+    not_ended.update_columns(starts_at: now - 1.day - 1.hour, ends_at: now - 1.day)
+
+    already_uploaded = create(:reservation, :with_zipfile, ended: true)
+    already_uploaded.update_columns(starts_at: now - 1.day - 1.hour, ends_at: now - 1.day)
+
     calls = []
     allow_any_instance_of(ZipUploadWorker).to receive(:perform) { |_, id| calls << id }
     worker.perform

@@ -27,25 +27,45 @@ describe Statistic do
       server2 = create :server, name: '#2'
       server3 = create :server, name: '#3'
 
+      # Create users and stub donator? for all
+      allow_any_instance_of(User).to receive(:donator?).and_return(true)
+
       user_1 = create :user
-      allow(user_1).to receive(:donator?).and_return(true)
-
       user_2 = create :user
-      allow(user_2).to receive(:donator?).and_return(true)
-
       user_3 = create :user
-      allow(user_3).to receive(:donator?).and_return(true)
 
+      # Use insert_all for faster reservation creation
+      server_config = create :server_config
+      now = Time.current
+
+      reservations_data = []
       3.times do |i|
-        starts_at = i.days.from_now
-        create :reservation, server: server1, starts_at: starts_at, ends_at: starts_at + 1.hour, user: user_1
+        starts_at = now + i.days
+        reservations_data << {
+          server_id: server1.id, user_id: user_1.id, server_config_id: server_config.id,
+          password: 'secret', rcon: 'supersecret',
+          starts_at: starts_at, ends_at: starts_at + 1.hour,
+          created_at: now, updated_at: now
+        }
       end
       2.times do |i|
-        starts_at = i.days.from_now
-        create :reservation, server: server2, starts_at: starts_at, ends_at: starts_at + 1.hour, user: user_2
+        starts_at = now + i.days
+        reservations_data << {
+          server_id: server2.id, user_id: user_2.id, server_config_id: server_config.id,
+          password: 'secret', rcon: 'supersecret',
+          starts_at: starts_at, ends_at: starts_at + 1.hour,
+          created_at: now, updated_at: now
+        }
       end
-      starts_at = 1.days.from_now
-      create :reservation, server: server3, starts_at: starts_at, ends_at: starts_at + 1.hour, user: user_3
+      starts_at = now + 1.day
+      reservations_data << {
+        server_id: server3.id, user_id: user_3.id, server_config_id: server_config.id,
+        password: 'secret', rcon: 'supersecret',
+        starts_at: starts_at, ends_at: starts_at + 1.hour,
+        created_at: now, updated_at: now
+      }
+
+      Reservation.insert_all!(reservations_data)
 
       top_10_hash = Statistic.top_10_servers
 

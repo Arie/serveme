@@ -42,8 +42,8 @@ RSpec.describe Mcp::Tools::ListReservationsTool do
     let(:server3) { create(:server, name: "Server 3") }
     let(:reservation_user) { create(:user, nickname: "ReservationUser") }
 
-    # Use different servers to avoid collision validations
-    let!(:current_reservation) do
+    # Use lazy let - only create when needed
+    let(:current_reservation) do
       create(:reservation,
         server: server,
         user: reservation_user,
@@ -52,7 +52,7 @@ RSpec.describe Mcp::Tools::ListReservationsTool do
       )
     end
 
-    let!(:past_reservation) do
+    let(:past_reservation) do
       reservation = create(:reservation, server: server2)
       reservation.update_columns(
         user_id: reservation_user.id,
@@ -62,7 +62,7 @@ RSpec.describe Mcp::Tools::ListReservationsTool do
       reservation.reload
     end
 
-    let!(:future_reservation) do
+    let(:future_reservation) do
       create(:reservation,
         server: server3,
         user: reservation_user,
@@ -71,8 +71,16 @@ RSpec.describe Mcp::Tools::ListReservationsTool do
       )
     end
 
+    # Helper to create all reservations when needed
+    define_method(:create_all_reservations) do
+      current_reservation
+      past_reservation
+      future_reservation
+    end
+
     context "with default parameters" do
       it "returns recent reservations" do
+        current_reservation # trigger creation
         result = tool.execute({})
 
         expect(result[:reservations]).to be_an(Array)
@@ -81,6 +89,8 @@ RSpec.describe Mcp::Tools::ListReservationsTool do
     end
 
     context "with status filter" do
+      before { create_all_reservations }
+
       it "filters by current status" do
         result = tool.execute(status: "current")
 
@@ -98,6 +108,7 @@ RSpec.describe Mcp::Tools::ListReservationsTool do
 
     context "with user_id filter" do
       it "filters by user" do
+        current_reservation # trigger creation
         result = tool.execute(user_id: reservation_user.id)
 
         result[:reservations].each do |r|
@@ -123,6 +134,7 @@ RSpec.describe Mcp::Tools::ListReservationsTool do
 
     context "with limit parameter" do
       it "respects the limit" do
+        create_all_reservations
         result = tool.execute(limit: 1)
 
         expect(result[:reservations].size).to eq(1)
@@ -130,6 +142,8 @@ RSpec.describe Mcp::Tools::ListReservationsTool do
     end
 
     context "with offset parameter" do
+      before { create_all_reservations }
+
       it "skips results based on offset" do
         result_without_offset = tool.execute(limit: 10)
         result_with_offset = tool.execute(limit: 10, offset: 1)
@@ -147,6 +161,7 @@ RSpec.describe Mcp::Tools::ListReservationsTool do
 
     context "with steam_uid filter" do
       it "filters by Steam ID64" do
+        current_reservation # trigger creation
         result = tool.execute(steam_uid: reservation_user.uid)
 
         result[:reservations].each do |r|
@@ -162,6 +177,8 @@ RSpec.describe Mcp::Tools::ListReservationsTool do
     end
 
     context "with date range filters" do
+      before { create_all_reservations }
+
       it "filters by starts_after" do
         result = tool.execute(starts_after: 1.hour.from_now.iso8601)
 
@@ -195,6 +212,7 @@ RSpec.describe Mcp::Tools::ListReservationsTool do
     end
 
     it "includes reservation details" do
+      current_reservation # trigger creation
       result = tool.execute({})
 
       reservation = result[:reservations].first
@@ -251,6 +269,7 @@ RSpec.describe Mcp::Tools::ListReservationsTool do
       end
 
       it "finds user by nickname" do
+        current_reservation # trigger creation of reservation_user's reservation
         result = tool.execute(user_query: "ReservationUser")
 
         expect(result[:reservations]).to be_an(Array)

@@ -110,16 +110,17 @@ RSpec.describe Mcp::Tools::SearchByAsnTool do
     end
 
     context "with limit parameter" do
-      before do
-        5.times do |i|
-          r = create(:reservation)
-          player = create(:reservation_player,
-            reservation: r,
+      let!(:additional_players) do
+        reservations = create_list(:reservation, 5)
+        reservations.each_with_index do |r, i|
+          ReservationPlayer.insert!({
+            reservation_id: r.id,
             steam_uid: "7656119800000000#{i}",
             ip: "82.78.0.#{i}",
-            name: "Player#{i}"
-          )
-          player.update_columns(asn_number: asn_number, asn_organization: asn_organization)
+            name: "Player#{i}",
+            asn_number: asn_number,
+            asn_organization: asn_organization
+          })
         end
       end
 

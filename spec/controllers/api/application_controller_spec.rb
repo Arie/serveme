@@ -10,13 +10,13 @@ class TestApiController < Api::ApplicationController
 end
 
 describe TestApiController do
-  before do
+  before(:all) do
     Rails.application.routes.draw do
       get '/' => 'test_api#index'
     end
   end
 
-  after do
+  after(:all) do
     Rails.application.reload_routes!
   end
 

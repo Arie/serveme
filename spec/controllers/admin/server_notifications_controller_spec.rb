@@ -4,13 +4,11 @@
 require 'spec_helper'
 
 RSpec.describe Admin::ServerNotificationsController, type: :controller do
-  render_views # Important for checking the content of the rendered template
-
   # Assuming Group.admin_group exists and assigns admin privileges
   let(:admin_user) { create(:user, :admin) } # Use the :admin trait from user factory
   let(:user) { create(:user) }
-  let!(:server_notification1) { ServerNotification.create!(message: "Test Notification 1", notification_type: "public") }
-  let!(:server_notification2) { ServerNotification.create!(message: "Test Ad 1", notification_type: "ad") }
+  let(:server_notification1) { ServerNotification.create!(message: "Test Notification 1", notification_type: "public") }
+  let(:server_notification2) { ServerNotification.create!(message: "Test Ad 1", notification_type: "ad") }
 
   before(:each) do
     # Stub new_user_session_path if it remains problematic, or ensure it's loaded via Devise/Rails helpers
@@ -40,12 +38,19 @@ RSpec.describe Admin::ServerNotificationsController, type: :controller do
     context "when logged in as an admin" do
       before { sign_in admin_user }
 
-      it "assigns all server_notifications to @server_notifications and renders the index template" do
-        get :index
-        expect(assigns(:server_notifications)).to match_array([ server_notification1, server_notification2 ])
-        expect(response).to render_template(:index)
-        expect(response.body).to include("Test Notification 1")
-        expect(response.body).to include("Test Ad 1")
+      context "rendering views" do
+        render_views
+
+        it "assigns all server_notifications to @server_notifications and renders the index template" do
+          # Trigger creation of notifications before request
+          server_notification1
+          server_notification2
+          get :index
+          expect(assigns(:server_notifications)).to match_array([ server_notification1, server_notification2 ])
+          expect(response).to render_template(:index)
+          expect(response.body).to include("Test Notification 1")
+          expect(response.body).to include("Test Ad 1")
+        end
       end
     end
   end
@@ -82,6 +87,9 @@ RSpec.describe Admin::ServerNotificationsController, type: :controller do
         end
 
         it "re-renders the 'index' template with existing notifications and the new unsaved notification" do
+          # Trigger creation of notifications before request
+          server_notification1
+          server_notification2
           post :create, params: { server_notification: invalid_attributes }
           expect(response).to render_template(:index)
           expect(assigns(:server_notifications)).to match_array([ server_notification1, server_notification2 ])
@@ -126,6 +134,9 @@ RSpec.describe Admin::ServerNotificationsController, type: :controller do
         end
 
         it "re-renders the 'index' template with errors" do
+          # Trigger creation of notifications before request
+          server_notification1
+          server_notification2
           patch :update, params: { id: notification_to_update.id, server_notification: invalid_attributes }
           expect(response).to render_template(:index)
           expect(assigns(:server_notification).errors).not_to be_empty

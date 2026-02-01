@@ -32,7 +32,9 @@ class FraudlogixService
 
   def detect_residential_proxy(response)
     return true if response["Proxy"] == true
-    return true if %w[High Extreme].include?(response["RiskScore"])
+    return true if response["VPN"] == true
+    return true if response["TOR"] == true
+    return true if response["DataCenter"] == true
 
     false
   end

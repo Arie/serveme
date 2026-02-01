@@ -50,11 +50,44 @@ describe IpQualityScoreService do
       expect(result.is_residential_proxy).to be true
     end
 
-    it "detects residential proxy when fraud_score is >= 90" do
-      high_fraud_response = api_response.merge("fraud_score" => 95, "proxy" => false, "connection_type" => "Cable/DSL")
+    it "detects VPN" do
+      vpn_response = api_response.merge("vpn" => true, "proxy" => false, "connection_type" => "Cable/DSL")
 
       stub_request(:get, "https://www.ipqualityscore.com/api/json/ip/#{api_key}/#{ip}?strictness=1")
-        .to_return(status: 200, body: high_fraud_response.to_json)
+        .to_return(status: 200, body: vpn_response.to_json)
+
+      result = described_class.check(ip)
+
+      expect(result.is_residential_proxy).to be true
+    end
+
+    it "detects Tor" do
+      tor_response = api_response.merge("tor" => true, "proxy" => false, "connection_type" => "Cable/DSL")
+
+      stub_request(:get, "https://www.ipqualityscore.com/api/json/ip/#{api_key}/#{ip}?strictness=1")
+        .to_return(status: 200, body: tor_response.to_json)
+
+      result = described_class.check(ip)
+
+      expect(result.is_residential_proxy).to be true
+    end
+
+    it "detects active VPN" do
+      active_vpn_response = api_response.merge("active_vpn" => true, "proxy" => false, "connection_type" => "Cable/DSL")
+
+      stub_request(:get, "https://www.ipqualityscore.com/api/json/ip/#{api_key}/#{ip}?strictness=1")
+        .to_return(status: 200, body: active_vpn_response.to_json)
+
+      result = described_class.check(ip)
+
+      expect(result.is_residential_proxy).to be true
+    end
+
+    it "detects active Tor" do
+      active_tor_response = api_response.merge("active_tor" => true, "proxy" => false, "connection_type" => "Cable/DSL")
+
+      stub_request(:get, "https://www.ipqualityscore.com/api/json/ip/#{api_key}/#{ip}?strictness=1")
+        .to_return(status: 200, body: active_tor_response.to_json)
 
       result = described_class.check(ip)
 

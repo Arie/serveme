@@ -32,8 +32,11 @@ class IpQualityScoreService
   private
 
   def detect_residential_proxy(response)
-    return true if response["fraud_score"].to_i >= FRAUD_SCORE_THRESHOLD
-    return true if response["proxy"] && response["connection_type"] == "Residential"
+    return true if response["proxy"] == true
+    return true if response["vpn"] == true
+    return true if response["tor"] == true
+    return true if response["active_vpn"] == true
+    return true if response["active_tor"] == true
 
     false
   end

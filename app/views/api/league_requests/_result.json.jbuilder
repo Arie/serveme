@@ -11,3 +11,7 @@ json.flagged_ip asn && @banned_asns[asn_number]
 json.asn asn_number
 json.asn_org asn&.respond_to?(:autonomous_system_organization) ? asn.autonomous_system_organization : asn&.asn_organization
 json.asn_net asn&.respond_to?(:network) ? asn.network : asn&.asn_network
+ip_lookup = @ip_lookups[result.ip]
+json.is_proxy ip_lookup&.is_proxy || false
+json.is_residential_proxy ip_lookup&.is_residential_proxy || false
+json.fraud_score ip_lookup&.fraud_score

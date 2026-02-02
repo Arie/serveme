@@ -29,6 +29,8 @@ class LeagueRequestsController < ApplicationController
 
           @banned_asns = LeagueRequest.precompute_banned_asns(@asns)
 
+          @ip_lookups = IpLookup.where(ip: unique_ips).index_by(&:ip)
+
           @stac_steam_uids = unique_uids.join(",")
 
           format.html { render :index }

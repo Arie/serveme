@@ -40,6 +40,13 @@
                 - if @banned_asns[asn_number]
                   %span.badge.badge-warning{title: "Possible VPN"}
                     %i.fa.fa-flag
+                - if ip_lookup = @ip_lookups[result.ip]
+                  - if ip_lookup.is_residential_proxy
+                    %span.badge.badge-danger{title: "Residential proxy (fraud score: #{ip_lookup.fraud_score})"}
+                      %i.fa.fa-user-secret
+                  - elsif ip_lookup.is_proxy
+                    %span.badge.badge-warning{title: "Proxy (fraud score: #{ip_lookup.fraud_score})"}
+                      %i.fa.fa-user-secret
               - else
                 = link_to(result.ip, league_request_path(ip: result.ip))
           %td

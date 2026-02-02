@@ -10,6 +10,8 @@ module Api
         @results = LeagueRequest.new(current_user, ip: request_params[:ip], steam_uid: request_params[:steam_uid], reservation_ids: request_params[:reservation_ids], cross_reference: request_params[:cross_reference]).search
         @asns = LeagueRequest.lookup_asns(@results)
         @banned_asns = LeagueRequest.precompute_banned_asns(@asns)
+        unique_ips = @results.map(&:ip).compact.uniq
+        @ip_lookups = IpLookup.where(ip: unique_ips).index_by(&:ip)
 
         format.json { render :index }
       end

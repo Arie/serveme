@@ -152,7 +152,7 @@ module Mcp
       sig { params(reservation: Reservation).returns(T::Array[T::Hash[Symbol, T.untyped]]) }
       def format_players(reservation)
         # Get players from reservation_players (logged during reservation)
-        reservation.reservation_players.order(created_at: :desc).limit(24).map do |rp|
+        reservation.reservation_players.order(id: :desc).limit(24).map do |rp|
           {
             name: rp.name,
             steam_uid: rp.steam_uid,

@@ -427,6 +427,7 @@ RSpec.describe 'serveme.tf API', type: :request do
                          ip: { type: :string },
                          port: { type: :string },
                          ip_and_port: { type: :string },
+                         resolved_ip: { type: :string, nullable: true },
                          sdr: { type: :boolean },
                          latitude: { type: :number },
                          longitude: { type: :number }
@@ -562,6 +563,7 @@ RSpec.describe 'serveme.tf API', type: :request do
                          ip: { type: :string },
                          port: { type: :string },
                          ip_and_port: { type: :string },
+                         resolved_ip: { type: :string, nullable: true },
                          sdr: { type: :boolean },
                          latitude: { type: :number },
                          longitude: { type: :number }
@@ -677,6 +679,7 @@ RSpec.describe 'serveme.tf API', type: :request do
                          ip: { type: :string },
                          port: { type: :string },
                          ip_and_port: { type: :string },
+                         resolved_ip: { type: :string, nullable: true },
                          sdr: { type: :boolean },
                          latitude: { type: :number },
                          longitude: { type: :number }
@@ -862,6 +865,7 @@ RSpec.describe 'serveme.tf API', type: :request do
                          ip: { type: :string },
                          port: { type: :string },
                          ip_and_port: { type: :string },
+                         resolved_ip: { type: :string, nullable: true },
                          sdr: { type: :boolean },
                          latitude: { type: :number },
                          longitude: { type: :number }

@@ -23,10 +23,15 @@ module Bootsnap
     # source://bootsnap//lib/bootsnap.rb#42
     def _instrument(event, path); end
 
-    # source://bootsnap//lib/bootsnap.rb#137
+    # source://bootsnap//lib/bootsnap.rb#139
     def absolute_path?(path); end
 
-    # source://bootsnap//lib/bootsnap.rb#83
+    # Returns the value of attribute cache_dir.
+    #
+    # source://bootsnap//lib/bootsnap.rb#10
+    def cache_dir; end
+
+    # source://bootsnap//lib/bootsnap.rb#85
     def default_setup; end
 
     # source://bootsnap//lib/bootsnap.rb#35
@@ -52,23 +57,23 @@ module Bootsnap
     # Allow the C extension to redefine `rb_get_path` without warning.
     # Allow the C extension to redefine `rb_get_path` without warning.
     #
-    # source://bootsnap//lib/bootsnap.rb#145
+    # source://bootsnap//lib/bootsnap.rb#147
     def rb_get_path(_arg0); end
 
     # source://bootsnap//lib/bootsnap.rb#46
     def setup(cache_dir:, development_mode: T.unsafe(nil), load_path_cache: T.unsafe(nil), ignore_directories: T.unsafe(nil), readonly: T.unsafe(nil), revalidation: T.unsafe(nil), compile_cache_iseq: T.unsafe(nil), compile_cache_yaml: T.unsafe(nil), compile_cache_json: T.unsafe(nil)); end
 
-    # source://bootsnap//lib/bootsnap.rb#79
+    # source://bootsnap//lib/bootsnap.rb#81
     def unload_cache!; end
 
     private
 
-    # source://bootsnap//lib/bootsnap.rb#159
+    # source://bootsnap//lib/bootsnap.rb#161
     def bool_env(key, default: T.unsafe(nil)); end
 
     # @return [Boolean]
     #
-    # source://bootsnap//lib/bootsnap.rb#155
+    # source://bootsnap//lib/bootsnap.rb#157
     def enabled?(key); end
   end
 end
@@ -793,7 +798,7 @@ Bootsnap::LoadPathCache::Path::VOLATILE = T.let(T.unsafe(nil), Symbol)
 # source://bootsnap//lib/bootsnap/load_path_cache/path_scanner.rb#7
 module Bootsnap::LoadPathCache::PathScanner
   class << self
-    # source://bootsnap//lib/bootsnap/load_path_cache/path_scanner.rb#113
+    # source://bootsnap//lib/bootsnap/load_path_cache/path_scanner.rb#106
     def call(root_path); end
 
     # Returns the value of attribute ignored_directories.

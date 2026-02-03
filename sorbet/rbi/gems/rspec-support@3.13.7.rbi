@@ -484,13 +484,13 @@ module RSpec::Support::FuzzyMatcher
     # @private
     # @return [Boolean]
     #
-    # source://rspec-support//lib/rspec/support/fuzzy_matcher.rb#29
+    # source://rspec-support//lib/rspec/support/fuzzy_matcher.rb#32
     def arrays_match?(expected_list, actual_list); end
 
     # @private
     # @return [Boolean]
     #
-    # source://rspec-support//lib/rspec/support/fuzzy_matcher.rb#38
+    # source://rspec-support//lib/rspec/support/fuzzy_matcher.rb#41
     def hashes_match?(expected_hash, actual_hash); end
   end
 end

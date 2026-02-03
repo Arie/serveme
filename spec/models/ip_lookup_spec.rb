@@ -54,4 +54,80 @@ describe IpLookup do
       expect(lookup.is_residential_proxy).to be false
     end
   end
+
+  describe "cross-region sync" do
+    describe "after_create_commit callback" do
+      it "enqueues IpLookupSyncWorker after create" do
+        expect(IpLookupSyncWorker).to receive(:perform_async).with(kind_of(Integer))
+        described_class.create!(ip: "5.5.5.5")
+      end
+
+      it "does not enqueue worker when synced_from_region is set" do
+        expect(IpLookupSyncWorker).not_to receive(:perform_async)
+
+        lookup = described_class.new(ip: "6.6.6.6")
+        lookup.synced_from_region = true
+        lookup.save!
+      end
+    end
+
+    describe ".upsert_from_sync" do
+      it "creates a new record when IP does not exist" do
+        expect(IpLookupSyncWorker).not_to receive(:perform_async)
+
+        result = described_class.upsert_from_sync(
+          ip: "7.7.7.7",
+          is_proxy: true,
+          is_residential_proxy: true,
+          fraud_score: 100,
+          isp: "Test ISP",
+          country_code: "US"
+        )
+
+        expect(result).to be_persisted
+        expect(result.ip).to eq("7.7.7.7")
+        expect(result.is_proxy).to be true
+        expect(result.is_residential_proxy).to be true
+        expect(result.fraud_score).to eq(100)
+        expect(result.isp).to eq("Test ISP")
+        expect(result.country_code).to eq("US")
+      end
+
+      it "updates an existing record when IP already exists" do
+        existing = described_class.create!(ip: "8.8.8.8", fraud_score: 50, isp: "Old ISP")
+
+        result = described_class.upsert_from_sync(
+          ip: "8.8.8.8",
+          fraud_score: 100,
+          isp: "New ISP"
+        )
+
+        expect(result.id).to eq(existing.id)
+        expect(result.fraud_score).to eq(100)
+        expect(result.isp).to eq("New ISP")
+      end
+
+      it "only permits allowed attributes" do
+        result = described_class.upsert_from_sync(
+          ip: "9.9.9.9",
+          fraud_score: 75,
+          created_at: 1.year.ago,
+          id: 999999
+        )
+
+        expect(result.id).not_to eq(999999)
+        expect(result.created_at).to be > 1.day.ago
+      end
+
+      it "handles string keys in attributes" do
+        result = described_class.upsert_from_sync(
+          "ip" => "10.10.10.10",
+          "fraud_score" => 80
+        )
+
+        expect(result.ip).to eq("10.10.10.10")
+        expect(result.fraud_score).to eq(80)
+      end
+    end
+  end
 end

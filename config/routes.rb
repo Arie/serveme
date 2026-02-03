@@ -158,6 +158,7 @@ Serveme::Application.routes.draw do
     resources :maps, only: :index
     resources :servers, only: :index
     resources :donators, except: %i[edit update index]
+    resources :ip_lookups, only: :create
     resources :reservations do
       member do
         post :extend

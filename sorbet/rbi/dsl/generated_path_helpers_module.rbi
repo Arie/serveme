@@ -52,6 +52,9 @@ module GeneratedPathHelpersModule
   def api_donators_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def api_ip_lookups_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def api_league_requests_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }

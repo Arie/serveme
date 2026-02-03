@@ -52,6 +52,9 @@ module GeneratedUrlHelpersModule
   def api_donators_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def api_ip_lookups_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def api_league_requests_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }

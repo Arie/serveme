@@ -30,3 +30,6 @@ seaweedfs:
   bucket: <%= Rails.application.credentials.dig(:seaweedfs, :bucket) || SITE_HOST %>
   public: false
   force_path_style: true
+  http_read_timeout: 600
+  http_idle_timeout: 300
+  http_open_timeout: 300

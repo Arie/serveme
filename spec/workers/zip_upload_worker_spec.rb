@@ -55,26 +55,74 @@ RSpec.describe ZipUploadWorker, type: :worker do
       end
     end
 
-    context 'when blob creation fails' do
-      let(:error_message) { 'Blob creation failed!' }
-      let(:creation_error) { StandardError.new(error_message) }
-
-      before do
-        allow(ActiveStorage::Blob).to receive(:create_and_upload!).and_raise(creation_error)
-        allow(reservation).to receive(:status_update).with(anything)
-        allow(Reservation).to receive(:find_by).with(id: reservation.id).and_return(reservation)
+    context 'when timeout occurs during blob creation' do
+      let(:zipfile_size) { File.size(zipfile_path) }
+      let(:existing_blob) do
+        ActiveStorage::Blob.create!(
+          key: 'recovered-blob-key',
+          filename: 'test.zip',
+          content_type: 'application/zip',
+          byte_size: zipfile_size,
+          checksum: SecureRandom.hex,
+          service_name: 'seaweedfs'
+        )
+      end
+      let(:incomplete_blob) do
+        ActiveStorage::Blob.create!(
+          key: 'incomplete-blob-key',
+          filename: 'test.zip',
+          content_type: 'application/zip',
+          byte_size: zipfile_size - 100, # Incomplete upload
+          checksum: SecureRandom.hex,
+          service_name: 'seaweedfs'
+        )
       end
 
-      it 'logs an error, updates status, and re-raises the error' do
-        expect_any_instance_of(ActiveStorage::Attachment).not_to receive(:save)
-        expect(reservation).not_to receive(:status_update).with('Finished uploading zip file to storage')
+      context 'timeout' do
+        let(:timeout_error) { Net::ReadTimeout.new('Timeout waiting for read') }
 
-        expect(Rails.logger).to receive(:error).with(a_string_including(error_message))
-        expect(reservation).to receive(:status_update).with("Failed to upload zip file (blob creation)")
+        context 'when complete blob exists despite timeout' do
+          before do
+            existing_blob # Create the blob
+            allow(ActiveStorage::Blob).to receive(:create_and_upload!).and_raise(timeout_error)
+            allow(Reservation).to receive(:find_by).with(id: reservation.id).and_return(reservation)
+          end
 
-        expect {
-          worker.perform(reservation.id)
-        }.to raise_error(creation_error)
+          it 'recovers by finding the existing blob and completes attachment' do
+            expect(Rails.logger).to receive(:warn).with(/Timeout during blob creation/)
+            expect(Rails.logger).to receive(:info).with(/Found complete existing blob #{existing_blob.key}/)
+            expect(Rails.logger).to receive(:info).with(/Attachment record saved/)
+
+            expect { worker.perform(reservation.id) }.not_to raise_error
+
+            reservation.reload
+            expect(reservation.zipfile).to be_attached
+            expect(reservation.zipfile.blob.id).to eq(existing_blob.id)
+            expect(reservation.reservation_statuses.pluck(:status)).to include('Finished uploading zip file to storage')
+          end
+        end
+
+        context 'when incomplete blob exists after timeout' do
+          before do
+            incomplete_blob
+            allow(ActiveStorage::Blob).to receive(:create_and_upload!).and_raise(timeout_error)
+            allow_any_instance_of(ActiveStorage::Blob).to receive(:purge).and_return(true)
+            allow(Reservation).to receive(:find_by).with(id: reservation.id).and_return(reservation)
+            allow(reservation).to receive(:status_update)
+          end
+
+          it 'deletes incomplete blob, logs error, and re-raises' do
+            expect(Rails.logger).to receive(:warn).with(/Timeout during blob creation/)
+            expect(Rails.logger).to receive(:warn).with(/Found incomplete blob #{incomplete_blob.key}/)
+            expect(Rails.logger).to receive(:error).with(/Timeout occurred with incomplete blob/)
+            expect(reservation).to receive(:status_update).with('Failed to upload zip file (timeout, incomplete blob)')
+            expect_any_instance_of(ActiveStorage::Blob).to receive(:purge)
+
+            expect {
+              worker.perform(reservation.id)
+            }.to raise_error(timeout_error)
+          end
+        end
       end
     end
 

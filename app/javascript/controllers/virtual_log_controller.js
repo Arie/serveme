@@ -803,6 +803,10 @@ export default class extends Controller {
     // Always update status first so countdown ticks even with empty buffer
     this.updateBufferStatus()
 
+    // Skip rendering while delay slider is being dragged - the debounced
+    // applyDelayChange will do a clean rebuild when the user stops
+    if (this.delayAdjusting) return
+
     if (this.eventBuffer.length === 0) return
 
     const now = Date.now()
@@ -922,89 +926,57 @@ export default class extends Controller {
     return text.toLowerCase().includes(this.currentQuery.toLowerCase())
   }
 
-  // Called when delay slider changes
-  adjustDelay(event) {
-    const oldDelay = this.delaySecondsValue
-    const newDelay = parseInt(event.target.value, 10)
-    this.delaySecondsValue = newDelay
+  // Called on input (while dragging) - just updates the label
+  previewDelay(event) {
+    this.delayAdjusting = true
+    this.delaySecondsValue = parseInt(event.target.value, 10)
 
     if (this.hasDelayDisplayTarget) {
-      this.delayDisplayTarget.textContent = `${newDelay}s`
+      this.delayDisplayTarget.textContent = `${this.delaySecondsValue}s`
     }
 
-    const now = Date.now()
-
-    // Going to delay=0: flush buffer (catch up / peek mode)
-    if (newDelay === 0 && oldDelay > 0) {
-      this.flushBuffer()
-      this.bufferPrimed = false
-      this.delaySetAt = null
-    }
-    // Entering delay mode from live (0 → >0): clear and re-render from buffer
-    else if (oldDelay === 0 && newDelay > 0) {
-      // Clear everything and re-render from buffer for clean state
-      this.reRenderFromBuffer()
-
-      // Check if buffer has old enough events to be considered primed
-      const oldestUnrendered = this.eventBuffer.find(e => !e.domElement)
-      const hasOldEnoughEvents = oldestUnrendered &&
-        (now - oldestUnrendered.receivedAt) >= newDelay * 1000
-
-      if (hasOldEnoughEvents) {
-        this.bufferPrimed = true
-        this.delaySetAt = null
-      } else if (!oldestUnrendered && this.eventBuffer.length > 0) {
-        // All events are rendered, we're primed
-        this.bufferPrimed = true
-        this.delaySetAt = null
-      } else {
-        this.bufferPrimed = false
-        this.delaySetAt = oldestUnrendered ? oldestUnrendered.receivedAt : now
-      }
-    }
-    // Increasing delay (while already in delay mode): clear and re-render
-    else if (newDelay > oldDelay) {
-      // Clear and re-render for consistent positioning
-      this.reRenderFromBuffer()
-
-      // Check if buffer has unrendered events old enough
-      const oldestUnrendered = this.eventBuffer.find(e => !e.domElement)
-      const hasOldEnoughEvents = oldestUnrendered &&
-        (now - oldestUnrendered.receivedAt) >= newDelay * 1000
-
-      if (hasOldEnoughEvents) {
-        this.bufferPrimed = true
-        this.delaySetAt = null
-      } else if (!oldestUnrendered && this.eventBuffer.length > 0) {
-        // All events are rendered, we're primed
-        this.bufferPrimed = true
-        this.delaySetAt = null
-      } else {
-        this.bufferPrimed = false
-        this.delaySetAt = oldestUnrendered ? oldestUnrendered.receivedAt : now
-      }
-    }
-    // Decreasing delay (but not to 0): events will be rendered by processBuffer
-    else if (newDelay > 0 && newDelay < oldDelay) {
-      this.bufferPrimed = true
-      this.delaySetAt = null
-    }
-
-    // Process any events that are now ready
-    this.processBuffer()
     this.updateBufferStatus()
   }
 
-  // Flush buffer - render all undisplayed events immediately (for catch up)
-  flushBuffer() {
-    for (const event of this.eventBuffer) {
-      if (!event.rendered &&
-          (!this.highlightOnlyValue || this.isHighlightEvent(event.eventType)) &&
-          (!this.currentQuery || this.matchesQuery(event.rawText))) {
-        this.renderBufferedEvent(event)
-      }
-      event.rendered = true  // Mark as processed
+  // Called on change (mouse release) - rebuilds the content
+  adjustDelay(event) {
+    this.delayAdjusting = false
+    this.delaySecondsValue = parseInt(event.target.value, 10)
+
+    if (this.hasDelayDisplayTarget) {
+      this.delayDisplayTarget.textContent = `${this.delaySecondsValue}s`
     }
+
+    this.applyDelayChange()
+  }
+
+  applyDelayChange() {
+    if (this.delaySecondsValue === 0) {
+      // Live mode: reload from server for a clean, complete view
+      for (const event of this.eventBuffer) {
+        event.rendered = true
+      }
+      this.tailing = true
+      this.loadAtPercent(100)
+      this.bufferPrimed = false
+      this.delaySetAt = null
+    } else {
+      // Delay mode: rebuild from buffer (works for both increase and decrease)
+      this.reRenderFromBuffer()
+
+      // Update primed state based on whether we rendered anything
+      const effectiveTotal = this.getEffectiveTotal()
+      if (effectiveTotal > 0) {
+        this.bufferPrimed = true
+        this.delaySetAt = null
+      } else {
+        this.bufferPrimed = false
+        const oldestUnrendered = this.eventBuffer.find(e => !e.rendered)
+        this.delaySetAt = oldestUnrendered ? oldestUnrendered.receivedAt : Date.now()
+      }
+    }
+
+    this.updateBufferStatus()
   }
 
   // Toggle highlight-only mode
@@ -1034,6 +1006,9 @@ export default class extends Controller {
     } else {
       this.totalLinesValue = 0
     }
+
+    // We're rebuilding from scratch, so we're tailing the new content
+    this.tailing = true
 
     // Re-render events that are old enough and pass all filters
     const now = Date.now()

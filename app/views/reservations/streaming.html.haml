@@ -13,7 +13,7 @@
       .feed-controls{data: {virtual_log_target: "feedControls"}}
         .delay-control
           %label.delay-label Delay:
-          %input.delay-slider{type: "range", min: "0", max: "90", value: "0", data: {virtual_log_target: "delaySlider", action: "input->virtual-log#adjustDelay"}}
+          %input.delay-slider{type: "range", min: "0", max: "90", value: "0", data: {virtual_log_target: "delaySlider", action: "input->virtual-log#previewDelay change->virtual-log#adjustDelay"}}
           %span.delay-display{data: {virtual_log_target: "delayDisplay"}} 0s
 
         .highlight-control

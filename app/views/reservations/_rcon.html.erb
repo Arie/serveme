@@ -20,7 +20,7 @@
       <div class="feed-controls" data-virtual-log-target="feedControls">
         <div class="delay-control">
           <label class="delay-label">Delay:</label>
-          <input type="range" class="delay-slider" min="0" max="90" value="0" data-virtual-log-target="delaySlider" data-action="input->virtual-log#adjustDelay">
+          <input type="range" class="delay-slider" min="0" max="90" value="0" data-virtual-log-target="delaySlider" data-action="input->virtual-log#previewDelay change->virtual-log#adjustDelay">
           <span class="delay-display" data-virtual-log-target="delayDisplay">0s</span>
         </div>
 

@@ -19,10 +19,18 @@ module LogLineHelper
   INTERESTING_KEYWORDS = %w[killed triggered say connected disconnected suicide rcon score].freeze
   INTERESTING_KEYWORDS_MULTI_WORD = [ "changed role", "Started map", "picked up item" ].freeze
 
+  ACTIONABLE_KEYWORDS = %w[say connected disconnected].freeze
+  ACTIONABLE_KEYWORDS_MULTI_WORD = [ "Started map" ].freeze
+
   def interesting_line?(log_line)
     return false unless contains_interesting_keyword?(log_line)
 
     interesting_event?(log_line) || map_start?(log_line)
+  end
+
+  def actionable_line?(log_line)
+    ACTIONABLE_KEYWORDS.any? { |kw| log_line.include?(kw) } ||
+      ACTIONABLE_KEYWORDS_MULTI_WORD.any? { |kw| log_line.include?(kw) }
   end
 
   private

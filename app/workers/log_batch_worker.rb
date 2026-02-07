@@ -57,6 +57,10 @@ class LogBatchWorker
       has_user_subscribers = TurboSubscriberChecker.has_subscribers?(user_stream)
       has_admin_subscribers = TurboSubscriberChecker.has_subscribers?(admin_stream)
 
+      if has_user_subscribers || has_admin_subscribers
+        Sidekiq.redis { |r| r.set("log_listeners:#{logsecret}", "1", ex: 30) }
+      end
+
       next unless has_user_subscribers || has_admin_subscribers
 
       # Batch render user lines (if there are subscribers)

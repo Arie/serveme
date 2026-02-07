@@ -21,22 +21,42 @@ class LogHandler
     @batch = []
     @batch_mutex = Mutex.new
     @last_flush = Time.now
+    @listener_cache = {}
+    @listener_cache_mutex = Mutex.new
     start_batch_flusher
   end
 
   def process_data(data)
     log_line = data.force_encoding('UTF-8').scrub[5..]
+    matches = log_line.match(LogWorker::LOG_LINE_REGEX)
+    secret = matches[:secret] if matches
 
     if interesting_line?(log_line)
-      @batch_mutex.synchronize do
-        @batch << log_line.to_s
-        flush_batch if @batch.size >= 20
+      if actionable_line?(log_line) || has_listeners?(secret)
+        @batch_mutex.synchronize do
+          @batch << log_line.to_s
+          flush_batch if @batch.size >= 20
+        end
       end
     end
 
     # Write to log files immediately (unbatched)
-    matches = log_line.match(LogWorker::LOG_LINE_REGEX)
-    write_log(matches[:secret], matches[:line]) if matches && matches[:line] && matches[:secret].present?
+    write_log(secret, matches[:line]) if matches && matches[:line] && secret.present?
+  end
+
+  def has_listeners?(secret)
+    return false unless secret.present?
+
+    @listener_cache_mutex.synchronize do
+      cached = @listener_cache[secret]
+      if cached && (Time.now - cached[:time]) < 2
+        return cached[:value]
+      end
+
+      value = Sidekiq.redis { |r| r.call("EXISTS", "log_listeners:#{secret}") > 0 }
+      @listener_cache[secret] = { value: value, time: Time.now }
+      value
+    end
   end
 
   def flush_batch

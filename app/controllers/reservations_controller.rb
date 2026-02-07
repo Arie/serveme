@@ -221,6 +221,7 @@ class ReservationsController < ApplicationController
     @skip_sanitization = current_user&.admin?
     @search_query = params[:q].presence
     @offset = params[:offset].to_i
+    Sidekiq.redis { |r| r.set("log_listeners:#{@logsecret}", "1", ex: 30) }
   end
 
   def log_streaming_service(chunk_size: nil)

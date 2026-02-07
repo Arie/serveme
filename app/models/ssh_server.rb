@@ -71,6 +71,32 @@ class SshServer < RemoteServer
     out.join("\n")
   end
 
+  sig { params(command: String).returns(T::Hash[Symbol, T.untyped]) }
+  def execute_with_status(command)
+    logger.info "executing remotely with status check: #{command}"
+
+    wrapped_command = "#{command} && echo '__CMD_SUCCESS__' || echo '__CMD_FAILURE__'"
+    out = []
+    err = []
+
+    ssh&.exec!(wrapped_command) do |_channel, stream, data|
+      out << data if stream == :stdout
+      err << data if stream == :stderr
+    end
+
+    stdout_text = out.join("\n")
+    stderr_text = err.join("\n")
+    success = stdout_text.include?("__CMD_SUCCESS__")
+
+    stdout_text = stdout_text.gsub(/\n?__CMD_(SUCCESS|FAILURE)__\n?/, "")
+
+    {
+      stdout: stdout_text,
+      stderr: stderr_text,
+      success: success
+    }
+  end
+
   sig { params(files: T::Array[String], destination: String).returns(T.nilable(T::Boolean)) }
   def copy_to_server(files, destination)
     # brakeman: ignore:Command Injection
@@ -129,6 +155,42 @@ class SshServer < RemoteServer
 
   sig { returns(T::Boolean) }
   def supports_mitigations?
+    true
+  end
+
+  sig { params(reservation: Reservation).returns(String) }
+  def temp_directory_for_reservation(reservation)
+    "#{tf_dir}/temp_reservation_#{reservation.id}"
+  end
+
+  sig { params(reservation: Reservation).void }
+  def move_files_to_temp_directory(reservation)
+    temp_dir = temp_directory_for_reservation(reservation)
+
+    mkdir_result = execute_with_status("mkdir -p #{temp_dir.shellescape}")
+    unless mkdir_result[:success]
+      error_msg = "Failed to create temp directory on remote server: #{mkdir_result[:stderr]}"
+      logger.error error_msg
+      reservation.status_update(error_msg)
+      raise StandardError, error_msg
+    end
+
+    files_to_move = logs + demos
+    return if files_to_move.empty?
+
+    escaped_files = files_to_move.map(&:shellescape).join(" ")
+    move_result = execute_with_status("mv -t #{temp_dir.shellescape} #{escaped_files}")
+
+    unless move_result[:success]
+      error_msg = "Failed to move files to temp directory on remote server: #{move_result[:stderr]}"
+      logger.error error_msg
+      reservation.status_update(error_msg)
+      raise StandardError, error_msg
+    end
+  end
+
+  sig { returns(T::Boolean) }
+  def uses_async_cleanup?
     true
   end
 

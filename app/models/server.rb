@@ -460,9 +460,15 @@ class Server < ActiveRecord::Base
     restore_rgl_base_cfg
     rcon_exec("sv_logflush 1; tv_stoprecord; kickall Reservation ended, every player can download the STV demo at https://#{SITE_HOST}")
     sleep 1 if Rails.env.production? # Give server a second to finish the STV demo and write the log
-    zip_demos_and_logs(reservation)
-    copy_logs(reservation)
-    remove_logs_and_demos
+
+    if uses_async_cleanup?
+      move_files_to_temp_directory(reservation)
+    else
+      zip_demos_and_logs(reservation)
+      copy_logs(reservation)
+      remove_logs_and_demos
+    end
+
     reservation.status_update("Restarting server")
     rcon_disconnect
     clear_sdr_info!
@@ -705,6 +711,21 @@ class Server < ActiveRecord::Base
 
   def file_present?(_file)
     raise "not implemented"
+  end
+
+  sig { params(_reservation: Reservation).void }
+  def move_files_to_temp_directory(_reservation)
+    raise "not implemented"
+  end
+
+  sig { params(_reservation: Reservation).returns(String) }
+  def temp_directory_for_reservation(_reservation)
+    raise "not implemented"
+  end
+
+  sig { returns(T::Boolean) }
+  def uses_async_cleanup?
+    false
   end
 
   private

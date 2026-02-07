@@ -94,6 +94,38 @@ describe SshServer do
     end
   end
 
+  describe '#execute_with_status' do
+    it 'returns success status when command succeeds' do
+      command = 'ls /tmp'
+      wrapped_command = "#{command} && echo '__CMD_SUCCESS__' || echo '__CMD_FAILURE__'"
+      ssh = double
+      subject.stub(ssh: ssh)
+
+      expect(ssh).to receive(:exec!).with(wrapped_command).and_yield(nil, :stdout, "file1\nfile2\n__CMD_SUCCESS__\n")
+
+      result = subject.execute_with_status(command)
+      expect(result[:success]).to be true
+      expect(result[:stdout]).to eq("file1\nfile2")
+      expect(result[:stderr]).to eq('')
+    end
+
+    it 'returns failure status when command fails' do
+      command = 'ls /nonexistent'
+      wrapped_command = "#{command} && echo '__CMD_SUCCESS__' || echo '__CMD_FAILURE__'"
+      ssh = double
+      subject.stub(ssh: ssh)
+
+      expect(ssh).to receive(:exec!).with(wrapped_command) do |cmd, &block|
+        block.call(nil, :stderr, "ls: cannot access '/nonexistent': No such file or directory")
+        block.call(nil, :stdout, "__CMD_FAILURE__\n")
+      end
+
+      result = subject.execute_with_status(command)
+      expect(result[:success]).to be false
+      expect(result[:stderr]).to eq("ls: cannot access '/nonexistent': No such file or directory")
+    end
+  end
+
   describe '#ssh' do
     it 'creates the Net::SSH instance' do
       subject.stub(ip: double)
@@ -163,6 +195,34 @@ describe SshServer do
 
     it 'chomps off line breaks' do
       subject.shell_output_to_array(shell_output).first.should_not include("\n")
+    end
+  end
+
+  describe '#move_files_to_temp_directory' do
+    it 'creates temp directory on remote server and moves files' do
+      reservation = double(id: 123, status_update: nil)
+      temp_dir = '/tmp/foo/tf/temp_reservation_123'
+      log_file = '/tmp/foo/tf/logs/log1.log'
+      demo_file = '/tmp/foo/tf/demo1.dem'
+
+      subject.stub(tf_dir: '/tmp/foo/tf')
+      allow(subject).to receive(:temp_directory_for_reservation).with(reservation).and_return(temp_dir)
+      allow(subject).to receive(:logs).and_return([ log_file ])
+      allow(subject).to receive(:demos).and_return([ demo_file ])
+
+      expect(subject).to receive(:execute_with_status).with("mkdir -p #{temp_dir.shellescape}").and_return({ success: true, stdout: '', stderr: '' })
+      # Expect single mv command with -t flag to move all files at once
+      expect(subject).to receive(:execute_with_status).with("mv -t #{temp_dir.shellescape} #{log_file.shellescape} #{demo_file.shellescape}").and_return({ success: true, stdout: '', stderr: '' })
+
+      subject.move_files_to_temp_directory(reservation)
+    end
+  end
+
+  describe '#temp_directory_for_reservation' do
+    it 'returns the correct temp directory path on remote server' do
+      reservation = double(id: 456)
+      subject.stub(tf_dir: '/tmp/foo/tf')
+      expect(subject.temp_directory_for_reservation(reservation)).to eq('/tmp/foo/tf/temp_reservation_456')
     end
   end
 

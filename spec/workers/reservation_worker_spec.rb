@@ -29,5 +29,25 @@ describe ReservationWorker do
       Server.any_instance.should_receive(:end_reservation)
       ReservationWorker.perform_async(reservation.id, 'end')
     end
+
+    it 'should enqueue ReservationCleanupWorker after ending reservation for async cleanup servers' do
+      temp_directory = "/tmp/reservation-#{reservation.id}"
+      allow_any_instance_of(Server).to receive(:end_reservation)
+      allow_any_instance_of(Server).to receive(:uses_async_cleanup?).and_return(true)
+      allow_any_instance_of(Server).to receive(:temp_directory_for_reservation).and_return(temp_directory)
+
+      expect(ReservationCleanupWorker).to receive(:perform_async).with(reservation.id, temp_directory)
+
+      ReservationWorker.new.perform(reservation.id, 'end')
+    end
+
+    it 'should not enqueue ReservationCleanupWorker for FTP-based RemoteServers' do
+      allow_any_instance_of(LocalServer).to receive(:end_reservation)
+      expect_any_instance_of(LocalServer).to receive(:uses_async_cleanup?).and_return(false)
+
+      expect(ReservationCleanupWorker).not_to receive(:perform_async)
+
+      ReservationWorker.new.perform(reservation.id, 'end')
+    end
   end
 end

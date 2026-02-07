@@ -125,20 +125,35 @@ describe LocalServer do
   describe '#end_reservation' do
     subject { described_class.new(path: '/tmp/test_server_path') }
 
-    it 'should zip demos and logs, remove configuration and restart' do
+    it 'should move files to temp directory, remove configuration and restart' do
       reservation_id = 1
       StacLogsDownloaderWorker.should_receive(:perform_async).with(reservation_id).and_return nil
       reservation = double(id: reservation_id, rcon: 'foo', status: 'Ready', status_update: nil, ended?: false, reload: true, user: nil)
-      subject.should_receive(:copy_logs)
-      subject.should_receive(:zip_demos_and_logs).with(reservation)
-      subject.should_receive(:disable_plugins)
-      subject.should_receive(:disable_demos_tf)
-      subject.should_receive(:remove_logs_and_demos)
+      subject.should_receive(:move_files_to_temp_directory).with(reservation)
       subject.should_receive(:remove_configuration)
-      subject.should_receive(:rcon_exec).once
       subject.should_receive(:restart)
-      subject.should_receive(:rcon_disconnect)
       subject.end_reservation(reservation)
+    end
+  end
+
+  describe '#move_files_to_temp_directory' do
+    subject { described_class.new(path: '/tmp/test_server_path') }
+
+    it 'moves log and demo files to temp directory' do
+      reservation = double(id: 123)
+      temp_dir = "/tmp/reservation-123"
+      log_file = '/tmp/test_server_path/tf/logs/log1.log'
+      demo_file = '/tmp/test_server_path/tf/demo1.dem'
+
+      allow(subject).to receive(:temp_directory_for_reservation).with(reservation).and_return(temp_dir)
+      allow(subject).to receive(:logs).and_return([ log_file ])
+      allow(subject).to receive(:demos).and_return([ demo_file ])
+
+      expect(FileUtils).to receive(:mkdir_p).with(temp_dir)
+      expect(FileUtils).to receive(:mv).with(log_file, File.join(temp_dir, 'log1.log'))
+      expect(FileUtils).to receive(:mv).with(demo_file, File.join(temp_dir, 'demo1.dem'))
+
+      subject.move_files_to_temp_directory(reservation)
     end
   end
 
@@ -194,7 +209,7 @@ describe LocalServer do
 
   describe '#log_copier_class' do
     it 'returns the log copier class' do
-      subject.log_copier_class.should eql(LocalLogCopier)
+      subject.log_copier_class.should eql(RemoteLogCopier)
     end
   end
 

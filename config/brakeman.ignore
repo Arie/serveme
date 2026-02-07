@@ -434,6 +434,52 @@
         77
       ],
       "note": ""
+    },
+    {
+      "warning_type": "Command Injection",
+      "warning_code": 14,
+      "fingerprint": "9e886201bf3df24bc2d897090abaf82fa580d88f0984b04c03a521d6fdbbea37",
+      "check_name": "Execute",
+      "message": "Possible command injection",
+      "file": "app/workers/reservation_cleanup_worker.rb",
+      "line": 52,
+      "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
+      "code": "system(\"zip -j #{Rails.root.join(\"public\", \"uploads\", reservation.zipfile_name).to_s.shellescape} #{Dir.glob(File.join(temp_directory_path, \"*\")).map(&:shellescape).join(\" \")}\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "ReservationCleanupWorker",
+        "method": "zip_local_server_files"
+      },
+      "user_input": "Rails.root.join(\"public\", \"uploads\", reservation.zipfile_name).to_s",
+      "confidence": "Medium",
+      "cwe_id": [
+        77
+      ],
+      "note": "False positive - all paths are escaped with shellescape, zipfile_name is controlled by application"
+    },
+    {
+      "warning_type": "Command Injection",
+      "warning_code": 14,
+      "fingerprint": "a7b5a6893ce9baf98d10e8fd1122d8bdf725714eae1ff46d386c04dd7fbac611",
+      "check_name": "Execute",
+      "message": "Possible command injection",
+      "file": "app/workers/reservation_cleanup_worker.rb",
+      "line": 105,
+      "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
+      "code": "system(\"#{\"LANG=ALL LC_ALL=C sed -i -r 's/(\\\\b[0-9]{1,3}\\\\.){3}[0-9]{1,3}\\\\b/0.0.0.0/g;s/logstf_apikey \\\\\\\"\\\\S+\\\\\\\"/logstf_apikey \\\\\\\"apikey\\\\\\\"/g;s/tftrue_logs_apikey \\\\\\\"\\\\S+\\\\\\\"/tftrue_logs_apikey \\\\\\\"apikey\\\\\\\"/g;s/sm_demostf_apikey \\\\\\\"\\\\S+\\\\\\\"/sm_demostf_apikey \\\\\\\"apikey\\\\\\\"/g'\"} #{\"#{tmp_dir}/*.log\"}\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "ReservationCleanupWorker",
+        "method": "strip_ips_and_api_keys_from_log_files"
+      },
+      "user_input": "tmp_dir",
+      "confidence": "Medium",
+      "cwe_id": [
+        77
+      ],
+      "note": "False positive - tmp_dir is from Dir.mktmpdir (safe), strip_command is static string"
     }
   ],
   "brakeman_version": "7.1.0"

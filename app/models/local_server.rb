@@ -75,14 +75,39 @@ class LocalServer < Server
     true
   end
 
-  sig { returns(T.class_of(LocalLogCopier)) }
+  sig { returns(T.class_of(RemoteLogCopier)) }
   def log_copier_class
-    LocalLogCopier
+    RemoteLogCopier
   end
 
   sig { returns(T.class_of(LocalZipFileCreator)) }
   def zip_file_creator_class
     LocalZipFileCreator
+  end
+
+  sig { params(reservation: Reservation).returns(String) }
+  def temp_directory_for_reservation(reservation)
+    "/tmp/reservation-#{reservation.id}"
+  end
+
+  sig { params(reservation: Reservation).void }
+  def move_files_to_temp_directory(reservation)
+    temp_dir = temp_directory_for_reservation(reservation)
+
+    FileUtils.mkdir_p(temp_dir)
+
+    files_to_move = logs + demos
+    return if files_to_move.empty?
+
+    files_to_move.each do |file|
+      destination = File.join(temp_dir, File.basename(file))
+      FileUtils.mv(file, destination)
+    end
+  end
+
+  sig { returns(T::Boolean) }
+  def uses_async_cleanup?
+    true
   end
 
   private

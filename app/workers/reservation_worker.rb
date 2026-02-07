@@ -38,7 +38,14 @@ class ReservationWorker
     reservation.duration = reservation.ends_at.to_i - reservation.starts_at.to_i
     reservation.save(validate: false)
     reservation.broadcast_connect_info
-    LogScanWorker.perform_async(reservation_id)
+
+    if reservation.server.uses_async_cleanup?
+      temp_directory = reservation.server.temp_directory_for_reservation(reservation)
+      ReservationCleanupWorker.perform_async(reservation_id, temp_directory)
+    else
+      LogScanWorker.perform_async(reservation_id)
+    end
+
     DiscordReservationUpdateWorker.perform_async(reservation_id)
   end
 end

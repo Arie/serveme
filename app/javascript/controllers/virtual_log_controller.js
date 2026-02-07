@@ -665,38 +665,34 @@ export default class extends Controller {
     if (!template) return
 
     const content = template.content.cloneNode(true)
-    const logLine = content.querySelector('.log-line')
-    if (!logLine) return
+    const logLines = content.querySelectorAll('.log-line')
+    if (logLines.length === 0) return
 
     // If searching, don't show unfiltered lines (but still count them)
     if (this.totalMatches !== null) {
       return
     }
 
-    const eventType = logLine.dataset.eventType
-
-    // Always buffer events (for seamless delay switching)
     const now = Date.now()
-    const bufferedEvent = {
-      html: logLine.outerHTML,
-      receivedAt: now,
-      eventType: eventType,
-      rendered: false
+
+    // Process each log line in the batch
+    for (const logLine of logLines) {
+      const eventType = logLine.dataset.eventType
+
+      // Always buffer events (for seamless delay switching)
+      const bufferedEvent = {
+        html: logLine.outerHTML,
+        receivedAt: now,
+        eventType: eventType,
+        rendered: false
+      }
+      this.eventBuffer.push(bufferedEvent)
     }
-    this.eventBuffer.push(bufferedEvent)
 
     // Eject events older than 90s (max delay) - they're no longer needed
     const maxAge = 90 * 1000
     while (this.eventBuffer.length > 0 && (now - this.eventBuffer[0].receivedAt) > maxAge) {
       this.eventBuffer.shift()
-    }
-
-    // If delay is 0, also render immediately
-    if (this.delaySecondsValue === 0) {
-      bufferedEvent.rendered = true
-      if (!this.highlightOnlyValue || this.isHighlightEvent(eventType)) {
-        this.renderImmediately(logLine, bufferedEvent)
-      }
     }
 
     this.updateBufferStatus()
@@ -782,15 +778,19 @@ export default class extends Controller {
 
     const now = Date.now()
     const delayMs = this.delaySecondsValue * 1000
+    let renderedAny = false
+
+    // Set flag to prevent scroll handler interference during our updates
+    this.isStreamingUpdate = true
 
     // Don't shift events - keep them in buffer for potential un-rendering
     // Events are cleaned up by age (90s max) in handleTurboStreamAppend
     for (const event of this.eventBuffer) {
       const age = now - event.receivedAt
       if (age >= delayMs) {
-        // Check domElement (not rendered) - domElement is the source of truth for display state
-        if (!event.domElement) {
+        if (!event.rendered) {
           this.bufferPrimed = true  // Events are now flowing
+          renderedAny = true
           // Only render if passes filter
           if (!this.highlightOnlyValue || this.isHighlightEvent(event.eventType)) {
             this.renderBufferedEvent(event)
@@ -801,6 +801,17 @@ export default class extends Controller {
       } else {
         break // Buffer is ordered chronologically, no need to check newer events
       }
+    }
+
+    // Clear flag after DOM has settled to let any queued scroll events pass
+    if (renderedAny) {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          this.isStreamingUpdate = false
+        })
+      })
+    } else {
+      this.isStreamingUpdate = false
     }
   }
 
@@ -943,7 +954,7 @@ export default class extends Controller {
   // Flush buffer - render all undisplayed events immediately (for catch up)
   flushBuffer() {
     for (const event of this.eventBuffer) {
-      if (!event.domElement && (!this.highlightOnlyValue || this.isHighlightEvent(event.eventType))) {
+      if (!event.rendered && (!this.highlightOnlyValue || this.isHighlightEvent(event.eventType))) {
         this.renderBufferedEvent(event)
       }
       event.rendered = true  // Mark as processed
@@ -961,12 +972,13 @@ export default class extends Controller {
 
   // Clear all visible events and re-render from buffer based on current filter settings
   reRenderFromBuffer() {
-    // Remove all visible events from DOM
+    // Remove all visible events from DOM and reset rendered state
     for (const event of this.eventBuffer) {
       if (event.domElement) {
         event.domElement.remove()
         event.domElement = null
       }
+      event.rendered = false
     }
 
     // Clear container and reset count
@@ -999,8 +1011,8 @@ export default class extends Controller {
   updateBufferStatus() {
     if (!this.hasBufferStatusTarget) return
 
-    // Count only undisplayed events (domElement is null means not on screen)
-    const count = this.eventBuffer.filter(e => !e.domElement).length
+    // Count only unprocessed events
+    const count = this.eventBuffer.filter(e => !e.rendered).length
     const delaySeconds = this.delaySecondsValue
     const stvAhead = String(Math.max(0, 90 - delaySeconds)).padStart(2, '\u00A0')
 

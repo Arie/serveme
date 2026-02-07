@@ -10,7 +10,7 @@ class LogWorker
   extend T::Sig
   sidekiq_options retry: 1
 
-  attr_accessor :raw_line, :line, :message
+  attr_accessor :raw_line, :line, :message, :skip_broadcast
 
   MAP_START         = /(Started map\ "(\w+)")/
   END_COMMAND       = /^!end.*/
@@ -48,7 +48,7 @@ class LogWorker
       mapstart = event.unknown.match(MAP_START)
       handle_mapstart(mapstart[2]) if mapstart
     end
-    broadcast_log_lines
+    broadcast_log_lines unless @skip_broadcast
   end
 
   def handle_mapstart(mapname)

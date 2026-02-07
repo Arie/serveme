@@ -9,6 +9,7 @@ require 'active_support/core_ext'
 require 'tf2_line_parser'
 require File.expand_path('../app/helpers/log_line_helper', __dir__)
 require File.expand_path('../app/workers/log_worker', __dir__)
+require File.expand_path('../app/workers/log_batch_worker', __dir__)
 
 STREAMING_LOG_DIR = File.expand_path('../log/streaming', __dir__)
 
@@ -17,13 +18,46 @@ class LogHandler
 
   def initialize(streaming_log_dir)
     @streaming_log_dir = streaming_log_dir
+    @batch = []
+    @batch_mutex = Mutex.new
+    @last_flush = Time.now
+    start_batch_flusher
   end
 
   def process_data(data)
     log_line = data.force_encoding('UTF-8').scrub[5..]
-    LogWorker.perform_async(log_line.to_s) if interesting_line?(log_line)
+
+    if interesting_line?(log_line)
+      @batch_mutex.synchronize do
+        @batch << log_line.to_s
+        flush_batch if @batch.size >= 20
+      end
+    end
+
+    # Write to log files immediately (unbatched)
     matches = log_line.match(LogWorker::LOG_LINE_REGEX)
     write_log(matches[:secret], matches[:line]) if matches && matches[:line] && matches[:secret].present?
+  end
+
+  def flush_batch
+    return if @batch.empty?
+
+    LogBatchWorker.perform_async(@batch.dup)
+
+    @batch.clear
+    @last_flush = Time.now
+  end
+
+  def start_batch_flusher
+    # Background thread that flushes every 100ms even if batch isn't full
+    Thread.new do
+      loop do
+        sleep 0.1
+        @batch_mutex.synchronize { flush_batch }
+      rescue => e
+        warn "Batch flusher error: #{e.message}"
+      end
+    end
   end
 
   def write_log(secret, line)

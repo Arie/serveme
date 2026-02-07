@@ -571,6 +571,12 @@ export default class extends Controller {
   performSearch(query) {
     this.currentQuery = query
 
+    // Reset buffer rendered state since content is being replaced by server results
+    for (const event of this.eventBuffer) {
+      event.domElement = null
+      event.rendered = false
+    }
+
     if (!query) {
       this.totalMatches = null
 
@@ -670,22 +676,19 @@ export default class extends Controller {
     const logLines = content.querySelectorAll('.log-line')
     if (logLines.length === 0) return
 
-    // If searching, don't show unfiltered lines (but still count them)
-    if (this.totalMatches !== null) {
-      return
-    }
-
     const now = Date.now()
 
     // Process each log line in the batch
     for (const logLine of logLines) {
       const eventType = logLine.dataset.eventType
+      const rawText = logLine.dataset.raw || ''
 
-      // Always buffer events (for seamless delay switching)
+      // Always buffer all events (for seamless delay switching and search re-filtering)
       const bufferedEvent = {
         html: logLine.outerHTML,
         receivedAt: now,
         eventType: eventType,
+        rawText: rawText,
         rendered: false
       }
       this.eventBuffer.push(bufferedEvent)
@@ -793,8 +796,9 @@ export default class extends Controller {
         if (!event.rendered) {
           this.bufferPrimed = true  // Events are now flowing
           renderedAny = true
-          // Only render if passes filter
-          if (!this.highlightOnlyValue || this.isHighlightEvent(event.eventType)) {
+          // Only render if passes all filters (highlight + search)
+          if ((!this.highlightOnlyValue || this.isHighlightEvent(event.eventType)) &&
+              (!this.currentQuery || this.matchesQuery(event.rawText))) {
             this.renderBufferedEvent(event)
           } else {
             event.rendered = true  // Mark as processed even if filtered out
@@ -813,6 +817,7 @@ export default class extends Controller {
           this.viewportTarget.scrollTop = this.viewportTarget.scrollHeight
           this.updateProgressPosition(100)
           this.updateStatusText()
+          this.updateSearchCount()
         }
         requestAnimationFrame(() => {
           this.isStreamingUpdate = false
@@ -826,18 +831,27 @@ export default class extends Controller {
   // Render a single buffered event
   renderBufferedEvent(bufferedEvent) {
     bufferedEvent.rendered = true
-    this.totalLinesValue++
+
+    // Increment the appropriate counter
+    if (this.totalMatches !== null) {
+      this.totalMatches++
+    } else {
+      this.totalLinesValue++
+    }
     this.updateContentHeight()
+
+    const effectiveTotal = this.getEffectiveTotal()
 
     if (!this.tailing) {
       this.updateStatusText()
+      this.updateSearchCount()
       return
     }
 
     const wrapper = document.createElement('div')
     wrapper.className = 'virtual-line'
     wrapper.style.position = 'absolute'
-    wrapper.style.top = `${(this.totalLinesValue - 1) * this.lineHeightValue}px`
+    wrapper.style.top = `${(effectiveTotal - 1) * this.lineHeightValue}px`
     wrapper.style.left = '0'
     wrapper.style.right = '0'
     wrapper.innerHTML = bufferedEvent.html
@@ -846,7 +860,7 @@ export default class extends Controller {
     bufferedEvent.domElement = wrapper
 
     this.linesContainerTarget.appendChild(wrapper)
-    this.loadedEndIndex = this.totalLinesValue
+    this.loadedEndIndex = effectiveTotal
   }
 
   // Define which events are "highlight" events (big plays)
@@ -876,6 +890,13 @@ export default class extends Controller {
     ]
 
     return highlightEvents.includes(eventType)
+  }
+
+  // Check if text matches the current search query (case-insensitive substring match,
+  // matching ripgrep's --ignore-case --fixed-strings behavior on the server)
+  matchesQuery(text) {
+    if (!this.currentQuery) return true
+    return text.toLowerCase().includes(this.currentQuery.toLowerCase())
   }
 
   // Called when delay slider changes
@@ -954,7 +975,9 @@ export default class extends Controller {
   // Flush buffer - render all undisplayed events immediately (for catch up)
   flushBuffer() {
     for (const event of this.eventBuffer) {
-      if (!event.rendered && (!this.highlightOnlyValue || this.isHighlightEvent(event.eventType))) {
+      if (!event.rendered &&
+          (!this.highlightOnlyValue || this.isHighlightEvent(event.eventType)) &&
+          (!this.currentQuery || this.matchesQuery(event.rawText))) {
         this.renderBufferedEvent(event)
       }
       event.rendered = true  // Mark as processed
@@ -981,18 +1004,23 @@ export default class extends Controller {
       event.rendered = false
     }
 
-    // Clear container and reset count
+    // Clear container and reset appropriate count
     this.linesContainerTarget.innerHTML = ''
-    this.totalLinesValue = 0
+    if (this.totalMatches !== null) {
+      this.totalMatches = 0
+    } else {
+      this.totalLinesValue = 0
+    }
 
-    // Re-render events that are old enough and pass the current filter
+    // Re-render events that are old enough and pass all filters
     const now = Date.now()
     const delayMs = this.delaySecondsValue * 1000
 
     for (const event of this.eventBuffer) {
       const age = now - event.receivedAt
       if (age >= delayMs) {
-        if (!this.highlightOnlyValue || this.isHighlightEvent(event.eventType)) {
+        if ((!this.highlightOnlyValue || this.isHighlightEvent(event.eventType)) &&
+            (!this.currentQuery || this.matchesQuery(event.rawText))) {
           this.renderBufferedEvent(event)
         }
       }
@@ -1000,10 +1028,11 @@ export default class extends Controller {
 
     this.updateContentHeight()
 
-    // Scroll to bottom since we're tailing in delay mode
+    // Scroll to bottom since we're tailing
     requestAnimationFrame(() => {
       this.viewportTarget.scrollTop = this.viewportTarget.scrollHeight
       this.updateStatusText()
+      this.updateSearchCount()
     })
   }
 

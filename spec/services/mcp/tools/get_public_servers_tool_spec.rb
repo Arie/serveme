@@ -64,11 +64,13 @@ RSpec.describe Mcp::Tools::GetPublicServersTool do
     end
 
     context "with location filter" do
-      let!(:eu_server) { create(:server, name: "EU Server", active: true, location: Location.find_by(name: "Netherlands") || create(:location, name: "Netherlands", flag: "nl")) }
-      let!(:us_server) { create(:server, name: "US Server", active: true, location: Location.find_by(name: "Chicago") || create(:location, name: "Chicago", flag: "us")) }
+      let(:eu_location) { create(:location, name: "FilterTestEU", flag: "nl") }
+      let(:us_location) { create(:location, name: "FilterTestUS", flag: "us") }
+      let!(:eu_server) { create(:server, name: "EU Server", active: true, location: eu_location) }
+      let!(:us_server) { create(:server, name: "US Server", active: true, location: us_location) }
 
       it "filters by location name" do
-        result = tool.execute(location: "Netherlands")
+        result = tool.execute(location: "FilterTestEU")
 
         server_names = result[:servers].map { |s| s[:name] }
         expect(server_names).to include("EU Server")

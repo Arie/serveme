@@ -129,8 +129,15 @@ describe LocalServer do
       reservation_id = 1
       StacLogsDownloaderWorker.should_receive(:perform_async).with(reservation_id).and_return nil
       reservation = double(id: reservation_id, rcon: 'foo', status: 'Ready', status_update: nil, ended?: false, reload: true, user: nil)
-      subject.should_receive(:move_files_to_temp_directory).with(reservation)
       subject.should_receive(:remove_configuration)
+      subject.should_receive(:disable_plugins)
+      subject.should_receive(:disable_demos_tf)
+      subject.should_receive(:restore_rgl_base_cfg)
+      subject.should_receive(:rcon_exec)
+      subject.should_receive(:uses_async_cleanup?).and_return(true)
+      subject.should_receive(:move_files_to_temp_directory).with(reservation)
+      subject.should_receive(:rcon_disconnect)
+      subject.should_receive(:clear_sdr_info!)
       subject.should_receive(:restart)
       subject.end_reservation(reservation)
     end

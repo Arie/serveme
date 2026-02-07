@@ -8,7 +8,7 @@
 class IpProxyCheckWorker
   class << self
     sig { params(reservation_player_id: T.untyped, player_uid: T.untyped).returns(String) }
-    def perform_async(reservation_player_id, player_uid); end
+    def perform_async(reservation_player_id, player_uid = T.unsafe(nil)); end
 
     sig do
       params(
@@ -17,7 +17,7 @@ class IpProxyCheckWorker
         player_uid: T.untyped
       ).returns(String)
     end
-    def perform_at(interval, reservation_player_id, player_uid); end
+    def perform_at(interval, reservation_player_id, player_uid = T.unsafe(nil)); end
 
     sig do
       params(
@@ -26,6 +26,6 @@ class IpProxyCheckWorker
         player_uid: T.untyped
       ).returns(String)
     end
-    def perform_in(interval, reservation_player_id, player_uid); end
+    def perform_in(interval, reservation_player_id, player_uid = T.unsafe(nil)); end
   end
 end

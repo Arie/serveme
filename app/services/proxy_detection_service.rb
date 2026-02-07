@@ -5,6 +5,7 @@ class ProxyDetectionService
   class AllProvidersExhaustedError < StandardError; end
 
   PROVIDERS = [
+    { service: IpQualityScoreService, name: "IPQS" },
     { service: FraudlogixService, name: "Fraudlogix" }
   ].freeze
 

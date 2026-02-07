@@ -148,52 +148,46 @@ class Tidewave::ExceptionsMiddleware
   def request_parameters(request); end
 end
 
-# source://tidewave//lib/tidewave/middleware.rb#13
+# source://tidewave//lib/tidewave/middleware.rb#12
 class Tidewave::Middleware
   # @return [Middleware] a new instance of Middleware
   #
-  # source://tidewave//lib/tidewave/middleware.rb#25
+  # source://tidewave//lib/tidewave/middleware.rb#23
   def initialize(app, config); end
 
-  # source://tidewave//lib/tidewave/middleware.rb#54
+  # source://tidewave//lib/tidewave/middleware.rb#52
   def call(env); end
 
   private
 
-  # source://tidewave//lib/tidewave/middleware.rb#105
+  # source://tidewave//lib/tidewave/middleware.rb#100
   def config_data; end
 
-  # source://tidewave//lib/tidewave/middleware.rb#101
+  # source://tidewave//lib/tidewave/middleware.rb#96
   def config_endpoint(request); end
 
-  # source://tidewave//lib/tidewave/middleware.rb#114
+  # source://tidewave//lib/tidewave/middleware.rb#109
   def forbidden(message); end
 
-  # source://tidewave//lib/tidewave/middleware.rb#83
+  # source://tidewave//lib/tidewave/middleware.rb#79
   def home(request); end
-
-  # source://tidewave//lib/tidewave/middleware.rb#119
-  def shell(request); end
 
   # @return [Boolean]
   #
-  # source://tidewave//lib/tidewave/middleware.rb#179
+  # source://tidewave//lib/tidewave/middleware.rb#114
   def valid_client_ip?(request); end
 end
 
-# source://tidewave//lib/tidewave/middleware.rb#17
+# source://tidewave//lib/tidewave/middleware.rb#15
 Tidewave::Middleware::CONFIG_ROUTE = T.let(T.unsafe(nil), String)
 
-# source://tidewave//lib/tidewave/middleware.rb#19
+# source://tidewave//lib/tidewave/middleware.rb#17
 Tidewave::Middleware::INVALID_IP = T.let(T.unsafe(nil), String)
 
-# source://tidewave//lib/tidewave/middleware.rb#15
+# source://tidewave//lib/tidewave/middleware.rb#14
 Tidewave::Middleware::MCP_ROUTE = T.let(T.unsafe(nil), String)
 
-# source://tidewave//lib/tidewave/middleware.rb#16
-Tidewave::Middleware::SHELL_ROUTE = T.let(T.unsafe(nil), String)
-
-# source://tidewave//lib/tidewave/middleware.rb#14
+# source://tidewave//lib/tidewave/middleware.rb#13
 Tidewave::Middleware::TIDEWAVE_ROUTE = T.let(T.unsafe(nil), String)
 
 # source://tidewave//lib/tidewave/quiet_requests_middleware.rb#3
@@ -255,15 +249,15 @@ class Tidewave::StreamableHttpTransport < ::FastMcp::Transports::BaseTransport
   # source://tidewave//lib/tidewave/streamable_http_transport.rb#60
   def handle_post_request(request); end
 
-  # source://tidewave//lib/tidewave/streamable_http_transport.rb#116
+  # source://tidewave//lib/tidewave/streamable_http_transport.rb#120
   def json_rpc_error_response(http_status, code, message, id); end
 
-  # source://tidewave//lib/tidewave/streamable_http_transport.rb#101
+  # source://tidewave//lib/tidewave/streamable_http_transport.rb#105
   def method_not_allowed_response; end
 
   # @return [Boolean]
   #
-  # source://tidewave//lib/tidewave/streamable_http_transport.rb#94
+  # source://tidewave//lib/tidewave/streamable_http_transport.rb#98
   def valid_jsonrpc_message?(message); end
 end
 

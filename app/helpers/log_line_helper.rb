@@ -16,22 +16,32 @@ module LogLineHelper
       .gsub(logsecret_regex, 'sv_logsecret *****"')
   end
 
+  INTERESTING_KEYWORDS = %w[killed triggered say connected disconnected suicide rcon score].freeze
+  INTERESTING_KEYWORDS_MULTI_WORD = [ "changed role", "Started map", "picked up item" ].freeze
+
   def interesting_line?(log_line)
+    return false unless contains_interesting_keyword?(log_line)
+
     interesting_event?(log_line) || map_start?(log_line)
   end
 
   private
 
+  def contains_interesting_keyword?(log_line)
+    INTERESTING_KEYWORDS.any? { |kw| log_line.include?(kw) } ||
+      INTERESTING_KEYWORDS_MULTI_WORD.any? { |kw| log_line.include?(kw) }
+  end
+
   def map_start?(log_line)
-    log_line.match(LogWorker::MAP_START)
+    log_line.match?(LogWorker::MAP_START)
   end
 
   def interesting_event?(log_line)
-    interesting_events.any? { |event_type| log_line.match(event_type.regex) }
+    interesting_events.any? { |event_type| log_line.match?(event_type.regex) }
   end
 
   def admin_only_event?(log_line)
-    admin_only_events.any? { |event_type| log_line.match(event_type.regex) }
+    admin_only_events.any? { |event_type| log_line.match?(event_type.regex) }
   end
 
   def interesting_events

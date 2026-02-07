@@ -88,6 +88,10 @@ export default class extends Controller {
     this.boundHandleTurboStream = this.handleTurboStreamAppend.bind(this)
     document.addEventListener('turbo:before-stream-render', this.boundHandleTurboStream)
 
+    // Catch up when tab becomes visible again (browsers throttle background tabs)
+    this.boundHandleVisibilityChange = this.handleVisibilityChange.bind(this)
+    document.addEventListener('visibilitychange', this.boundHandleVisibilityChange)
+
     // Watch for Turbo Stream reconnection to catch up after disconnect
     this.setupReconnectObserver()
 
@@ -118,6 +122,7 @@ export default class extends Controller {
     document.removeEventListener('keydown', this.boundHandleKeydown)
     this.linesContainerTarget.removeEventListener('click', this.boundHandleLogLineClick)
     document.removeEventListener('turbo:before-stream-render', this.boundHandleTurboStream)
+    document.removeEventListener('visibilitychange', this.boundHandleVisibilityChange)
     if (this.reconnectObserver) {
       this.reconnectObserver.disconnect()
     }
@@ -654,6 +659,23 @@ export default class extends Controller {
       // When delay is active on streaming pages, don't reload - just wait for buffered events
       // Reloading would bypass the buffer and show unbuffered content
       if (this.delaySecondsValue > 0) return
+      this.loadAtPercent(100)
+    }
+  }
+
+  // Handle tab becoming visible again after being backgrounded
+  handleVisibilityChange() {
+    if (document.visibilityState !== 'visible') return
+    if (!this.hasStreamTargetValue) return
+    if (!this.tailing) return
+
+    if (this.delaySecondsValue > 0) {
+      // In delay mode, just ensure scroll is at bottom - buffer handles the rest
+      requestAnimationFrame(() => {
+        this.viewportTarget.scrollTop = this.viewportTarget.scrollHeight
+      })
+    } else {
+      // Live mode: reload from server to catch up on any missed lines
       this.loadAtPercent(100)
     }
   }

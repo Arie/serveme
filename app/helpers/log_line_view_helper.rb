@@ -55,7 +55,7 @@ module LogLineViewHelper
     class_lower = class_name.downcase
     return "" unless class_lower.in?(CLASS_ICONS)
 
-    image_tag("class_#{class_lower}.png", class: "class-icon", alt: class_name, title: class_name)
+    tag.span("", class: "class-icon class-icon-#{class_lower}", role: "img", title: class_name, aria: { label: class_name })
   end
 
   sig { params(weapon_name: T.nilable(String)).returns(ActiveSupport::SafeBuffer) }

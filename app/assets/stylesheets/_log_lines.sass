@@ -474,12 +474,35 @@ main > a.btn:first-child
   font-weight: bold
   margin: 0 2px
 
-// Class icons
+// Class icons (sprite)
 .class-icon
+  display: inline-block
   width: 20px
   height: 20px
   vertical-align: middle
   flex-shrink: 0
+  background-image: image-url('class_icons.png')
+  background-size: 180px 20px
+  background-repeat: no-repeat
+
+.class-icon-scout
+  background-position: 0 0
+.class-icon-soldier
+  background-position: -20px 0
+.class-icon-pyro
+  background-position: -40px 0
+.class-icon-demoman
+  background-position: -60px 0
+.class-icon-heavyweapons
+  background-position: -80px 0
+.class-icon-engineer
+  background-position: -100px 0
+.class-icon-medic
+  background-position: -120px 0
+.class-icon-sniper
+  background-position: -140px 0
+.class-icon-spy
+  background-position: -160px 0
 
 // Kill event specific
 .log-line-kill

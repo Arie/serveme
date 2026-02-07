@@ -38,6 +38,7 @@ module LogLineHelper
     @interesting_events ||= [
       TF2LineParser::Events::Kill,
       TF2LineParser::Events::PointCapture,
+      TF2LineParser::Events::CaptureBlock,
       TF2LineParser::Events::RconCommand,
       TF2LineParser::Events::ConsoleSay,
       TF2LineParser::Events::Say,
@@ -55,6 +56,9 @@ module LogLineHelper
       TF2LineParser::Events::ChargeDeployed,
       TF2LineParser::Events::ChargeReady,
       TF2LineParser::Events::ChargeEnded,
+      TF2LineParser::Events::LostUberAdvantage,
+      TF2LineParser::Events::MedicDeath,
+      TF2LineParser::Events::MedicDeathEx,
       TF2LineParser::Events::Domination,
       TF2LineParser::Events::Revenge,
       TF2LineParser::Events::Airshot,

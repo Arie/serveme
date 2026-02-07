@@ -1108,8 +1108,68 @@ main > a.btn:first-child
     height: 24px
     box-sizing: border-box
 
+// RCON command response overlay - slides up from the bottom bar
+#rcon_response
+  position: absolute
+  bottom: 100%
+  left: 15px
+  z-index: 50
+
+.rcon-response
+  background: #111
+  border: 1px solid #444
+  border-radius: 4px 4px 0 0
+  text-align: left
+  width: fit-content
+  max-width: Min(800px, 80vw)
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.4)
+
+.rcon-response-header
+  display: flex
+  align-items: center
+  justify-content: space-between
+  padding: 4px 8px
+  background: #1f1f1f
+  border-bottom: 1px solid #333
+  border-radius: 4px 4px 0 0
+
+.rcon-response-command
+  color: #17a2b8
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace
+  font-size: 0.85em
+  font-weight: bold
+
+  &::before
+    content: "> "
+    color: #666
+
+.rcon-response-close
+  background: none
+  border: none
+  color: #666
+  font-size: 1.3em
+  cursor: pointer
+  padding: 0 4px
+  line-height: 1
+
+  &:hover
+    color: #fff
+
+pre.rcon-response-body
+  margin: 0
+  padding: 8px
+  color: #adb5bd
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace
+  font-size: 0.85em
+  white-space: pre-wrap
+  word-break: break-all
+  max-height: 40vh
+  overflow-y: auto
+  line-height: 1.4
+
 // RCON compact bottom bar - combines status and input
 .log-status-bar.rcon-bottom-bar
+  position: relative
   padding: 8px 0
   overscroll-behavior: contain
 

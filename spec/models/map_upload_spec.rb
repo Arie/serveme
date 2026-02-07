@@ -29,7 +29,11 @@ describe MapUpload do
       allow(ActiveStorage::Blob.service).to receive(:respond_to?).and_call_original
       allow(ActiveStorage::Blob.service).to receive(:respond_to?).with(:bucket).and_return(true)
 
-      allow_any_instance_of(MapUpload).to receive(:refresh_available_maps)
+      allow(MapUpload).to receive(:new).and_wrap_original do |method, *args, **kwargs|
+        instance = method.call(*args, **kwargs)
+        allow(instance).to receive(:refresh_available_maps)
+        instance
+      end
     end
 
     context 'with real map upload records' do

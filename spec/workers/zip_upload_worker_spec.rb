@@ -103,12 +103,19 @@ RSpec.describe ZipUploadWorker, type: :worker do
         end
 
         context 'when incomplete blob exists after timeout' do
+          let(:blob_scope) { double('blob_scope') }
+
           before do
             incomplete_blob
             allow(ActiveStorage::Blob).to receive(:create_and_upload!).and_raise(timeout_error)
-            allow_any_instance_of(ActiveStorage::Blob).to receive(:purge).and_return(true)
+            allow(incomplete_blob).to receive(:purge).and_return(true)
             allow(Reservation).to receive(:find_by).with(id: reservation.id).and_return(reservation)
             allow(reservation).to receive(:status_update)
+            # Stub the blob query chain to return our incomplete_blob instance
+            allow(ActiveStorage::Blob).to receive(:where).and_return(blob_scope)
+            allow(blob_scope).to receive(:where).and_return(blob_scope)
+            allow(blob_scope).to receive(:order).and_return(blob_scope)
+            allow(blob_scope).to receive(:first).and_return(incomplete_blob)
           end
 
           it 'deletes incomplete blob, logs error, and re-raises' do
@@ -116,7 +123,7 @@ RSpec.describe ZipUploadWorker, type: :worker do
             expect(Rails.logger).to receive(:warn).with(/Found incomplete blob #{incomplete_blob.key}/)
             expect(Rails.logger).to receive(:error).with(/Timeout occurred with incomplete blob/)
             expect(reservation).to receive(:status_update).with('Failed to upload zip file (timeout, incomplete blob)')
-            expect_any_instance_of(ActiveStorage::Blob).to receive(:purge)
+            expect(incomplete_blob).to receive(:purge)
 
             expect {
               worker.perform(reservation.id)

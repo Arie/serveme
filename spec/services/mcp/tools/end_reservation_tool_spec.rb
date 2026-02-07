@@ -54,9 +54,11 @@ RSpec.describe Mcp::Tools::EndReservationTool do
     end
 
     context "with valid authorization via steam_uid" do
-      it "ends the reservation successfully" do
+      before do
         allow_any_instance_of(Reservation).to receive(:end_reservation)
+      end
 
+      it "ends the reservation successfully" do
         result = tool.execute(reservation_id: active_reservation.id, steam_uid: owner.uid)
 
         expect(result[:success]).to be true
@@ -137,7 +139,7 @@ RSpec.describe Mcp::Tools::EndReservationTool do
     context "when reservation has already ended" do
       let(:ended_owner) { create(:user, uid: "76561198011111111") }
       let(:ended_server) { create(:server, name: "Ended Reservation Server") }
-      let!(:ended_reservation) do
+      let(:ended_reservation) do
         reservation = create(:reservation, server: ended_server, user: ended_owner)
         reservation.update_columns(
           starts_at: 2.hours.ago,
@@ -156,7 +158,7 @@ RSpec.describe Mcp::Tools::EndReservationTool do
 
     context "when reservation is scheduled for the future" do
       let(:future_server) { create(:server, name: "Future Server") }
-      let!(:future_reservation) do
+      let(:future_reservation) do
         create(:reservation,
           server: future_server,
           user: owner,

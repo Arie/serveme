@@ -4,7 +4,7 @@
 require 'spec_helper'
 
 describe AddGroupMembership do
-  subject { described_class.new(31, create(:user)) }
+  subject { described_class.new(31, build_stubbed(:user)) }
   describe '#update_group_membership' do
     it 'adds extra days to the donator status expiration date' do
       old_expires_at = 1.week.from_now

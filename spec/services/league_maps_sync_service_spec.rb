@@ -31,8 +31,12 @@ RSpec.describe LeagueMapsSyncService do
   end
 
   describe ".fetch_and_apply" do
+    before do
+      allow(described_class).to receive(:new).and_return(service)
+    end
+
     it "fetches, validates and applies valid config" do
-      allow_any_instance_of(described_class).to receive(:fetch_from_github).and_return(valid_yaml_config)
+      allow(service).to receive(:fetch_from_github).and_return(valid_yaml_config)
       allow(MapUpload).to receive(:available_maps).and_return([ "cp_test_map", "koth_test_map" ])
 
       expect(Rails.cache).to receive(:write).with(
@@ -51,14 +55,14 @@ RSpec.describe LeagueMapsSyncService do
     end
 
     it "returns false when fetch fails" do
-      allow_any_instance_of(described_class).to receive(:fetch_from_github).and_return({})
+      allow(service).to receive(:fetch_from_github).and_return({})
 
       result = described_class.fetch_and_apply
       expect(result).to be false
     end
 
     it "returns false when validation fails" do
-      allow_any_instance_of(described_class).to receive(:fetch_from_github).and_return(invalid_yaml_config)
+      allow(service).to receive(:fetch_from_github).and_return(invalid_yaml_config)
 
       result = described_class.fetch_and_apply
       expect(result).to be false

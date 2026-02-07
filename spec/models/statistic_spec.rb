@@ -28,11 +28,10 @@ describe Statistic do
       server3 = create :server, name: '#3'
 
       # Create users and stub donator? for all
-      allow_any_instance_of(User).to receive(:donator?).and_return(true)
-
       user_1 = create :user
       user_2 = create :user
       user_3 = create :user
+      [ user_1, user_2, user_3 ].each { |u| allow(u).to receive(:donator?).and_return(true) }
 
       # Use insert_all for faster reservation creation
       server_config = create :server_config
@@ -78,11 +77,14 @@ describe Statistic do
     let(:tomorrow) { Date.today + 1.day }
 
     it 'returns an array with reservations per date' do
-      allow_any_instance_of(User).to receive(:donator?).and_return(true)
+      user_1 = create :user
+      user_2 = create :user
+      user_3 = create :user
+      [ user_1, user_2, user_3 ].each { |u| allow(u).to receive(:donator?).and_return(true) }
 
-      create :reservation, starts_at: tomorrow + 13.hour, ends_at: tomorrow + 14.hours
-      create :reservation, starts_at: tomorrow + 15.hour, ends_at: tomorrow + 16.hours
-      create :reservation, starts_at: tomorrow + 17.hour, ends_at: tomorrow + 18.hours
+      create :reservation, user: user_1, starts_at: tomorrow + 13.hour, ends_at: tomorrow + 14.hours
+      create :reservation, user: user_2, starts_at: tomorrow + 15.hour, ends_at: tomorrow + 16.hours
+      create :reservation, user: user_3, starts_at: tomorrow + 17.hour, ends_at: tomorrow + 18.hours
 
       Rails.cache.delete('reservations_per_day')  # Clear only the specific cache key
       stats = Statistic.reservations_per_day

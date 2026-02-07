@@ -11,8 +11,11 @@ RSpec.describe DailyZipfileUploadWorker, type: :worker do
   before do
     allow(Time).to receive(:current).and_return(now)
     allow(File).to receive(:exist?).and_return(true)
-    allow_any_instance_of(ZipUploadWorker).to receive(:perform)
+    allow(zip_upload_worker).to receive(:perform)
+    allow(ZipUploadWorker).to receive(:new).and_return(zip_upload_worker)
   end
+
+  let(:zip_upload_worker) { ZipUploadWorker.new }
 
   it 'uploads only for ended, recent, not-yet-uploaded reservations' do
     eligible = create(:reservation, ended: true)
@@ -28,7 +31,7 @@ RSpec.describe DailyZipfileUploadWorker, type: :worker do
     already_uploaded.update_columns(starts_at: now - 1.day - 1.hour, ends_at: now - 1.day)
 
     calls = []
-    allow_any_instance_of(ZipUploadWorker).to receive(:perform) { |_, id| calls << id }
+    allow(zip_upload_worker).to receive(:perform) { |id| calls << id }
     worker.perform
     expect(calls).to eq([ eligible.id ])
   end

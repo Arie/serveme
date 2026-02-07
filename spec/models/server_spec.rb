@@ -5,7 +5,7 @@ require 'spec_helper'
 
 RSpec.describe Server do
   describe '#rcon_say' do
-    let(:server) { create(:server) }
+    let(:server) { build_stubbed(:server) }
 
     before do
       allow(server).to receive(:rcon_exec).and_return("ok")
@@ -90,7 +90,7 @@ RSpec.describe Server do
   end
 
   describe '#rcon_exec' do
-    let(:server) { create(:server, rcon: 'secret') }
+    let(:server) { build_stubbed(:server, rcon: 'secret') }
 
     before do
       allow(server).to receive(:condenser).and_return(double('condenser'))

@@ -141,8 +141,7 @@ describe Api::ReservationsController do
         }.ignore_extra_keys!
       }.ignore_extra_keys!
 
-      Reservation.should_receive(:find).with(reservation.id).and_return(reservation)
-      reservation.server.should_receive(:update_configuration)
+      expect(ReservationChangesWorker).to receive(:perform_async)
 
       patch :update, format: :json, params: { id: reservation.id, reservation: { ends_at: new_ends_at, password: 'bar' } }
       expect(response.body).to match_json_expression(json)

@@ -10,6 +10,11 @@ describe ReservationCleanupWorker do
 
   describe '#perform' do
     context 'with a LocalServer' do
+      before do
+        allow(Reservation).to receive(:includes).and_return(Reservation)
+        allow(Reservation).to receive(:find).with(reservation.id).and_return(reservation)
+      end
+
       it 'zips files, strips IPs, copies logs, scans logs, and cleans up temp directory' do
         # Setup mock files in temp directory
         allow(Dir).to receive(:glob).and_call_original
@@ -19,14 +24,14 @@ describe ReservationCleanupWorker do
         ])
 
         # Allow all system calls (for both IP stripping and zipping)
-        allow_any_instance_of(ReservationCleanupWorker).to receive(:system).and_return(true)
+        allow(worker).to receive(:system).and_return(true)
 
         # Allow File.exist? checks (for both zipfile and temp directory)
         allow(File).to receive(:exist?).and_call_original
         allow(FileUtils).to receive(:rm_f)
 
         # Expect status update
-        expect_any_instance_of(Reservation).to receive(:status_update).with("Zipping logs and demos of locally running server")
+        expect(reservation).to receive(:status_update).with("Zipping logs and demos of locally running server")
 
         # Expect file chmod after zipping
         expect(File).to receive(:chmod).with(0o755, anything)
@@ -47,7 +52,7 @@ describe ReservationCleanupWorker do
         allow(Dir).to receive(:glob).and_call_original
         allow(Dir).to receive(:glob).with(File.join(temp_directory_path, "*")).and_return([])
 
-        expect_any_instance_of(ReservationCleanupWorker).not_to receive(:system)
+        expect(worker).not_to receive(:system)
         expect(LogCopier).to receive(:copy).with(instance_of(Reservation), instance_of(LocalServer))
 
         # LogScanWorker should still be called even if no files to zip
@@ -113,7 +118,7 @@ describe ReservationCleanupWorker do
         expect(ssh_server).to receive(:copy_from_server).with(remote_files, local_tmp_dir)
 
         # Expect IP stripping in log files
-        expect_any_instance_of(ReservationCleanupWorker).to receive(:system)
+        expect(worker).to receive(:system)
           .with(/sed.*#{local_tmp_dir}\/\*\.log/)
           .and_return(true)
 
@@ -249,7 +254,7 @@ describe ReservationCleanupWorker do
         local_tmp_dir = "/tmp/temp_dir_12345"
         allow(Dir).to receive(:mktmpdir).and_return(local_tmp_dir)
         allow(ssh_server).to receive(:copy_from_server)
-        allow_any_instance_of(ReservationCleanupWorker).to receive(:system).and_return(true)
+        allow(worker).to receive(:system).and_return(true)
 
         # Mock Dir.glob for finding files
         allow(Dir).to receive(:glob).and_call_original

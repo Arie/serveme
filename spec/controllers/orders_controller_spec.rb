@@ -56,7 +56,7 @@ describe OrdersController do
   end
 
   describe '#create_payment_intent', :vcr do
-    let!(:product) { create(:product, active: true) }
+    let(:product) { create(:product, active: true) }
 
     it 'returns the payment intent information on a successful creation' do
       post :create_payment_intent, params: { payment_method_id: 'pm_card_visa', product_id: product.id, gift: false }

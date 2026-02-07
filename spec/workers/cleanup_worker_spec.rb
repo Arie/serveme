@@ -10,25 +10,27 @@ describe CleanupWorker do
   let(:young_reservation)       { create :reservation, starts_at: Time.current }
   let(:young_user)              { create :user, api_key: nil, created_at: 1.day.ago }
   let(:old_user)                { create :user, api_key: nil, created_at: 8.days.ago }
+  let(:cleanup_worker) { described_class.new }
 
   before do
-    allow_any_instance_of(described_class).to receive(:remove_old_reservation_logs_and_zips)
-    allow_any_instance_of(described_class).to receive(:remove_orphaned_temp_directories)
+    allow(described_class).to receive(:new).and_return(cleanup_worker)
+    allow(cleanup_worker).to receive(:remove_old_reservation_logs_and_zips)
+    allow(cleanup_worker).to receive(:remove_orphaned_temp_directories)
   end
 
   it 'finds the old reservations' do
     old_reservation
-    subject.old_reservations.to_a.should == [ old_reservation ]
+    cleanup_worker.old_reservations.to_a.should == [ old_reservation ]
   end
 
   it 'finds the old player stats' do
     old_player_statistic
-    subject.old_player_statistics.to_a.should == [ old_player_statistic ]
+    cleanup_worker.old_player_statistics.to_a.should == [ old_player_statistic ]
   end
 
   it 'finds the old server stats' do
     old_server_statistic
-    subject.old_server_statistics.to_a.should == [ old_server_statistic ]
+    cleanup_worker.old_server_statistics.to_a.should == [ old_server_statistic ]
   end
 
   it 'deletes the logs and zip of old reservations and removes server/player stats' do

@@ -26,8 +26,11 @@ RSpec.describe LeagueMaps do
     }
   end
 
+  let(:sync_service) { LeagueMapsSyncService.new }
+
   before do
-    allow_any_instance_of(LeagueMapsSyncService).to receive(:current_config)
+    allow(LeagueMapsSyncService).to receive(:new).and_return(sync_service)
+    allow(sync_service).to receive(:current_config)
       .and_return(mock_config)
   end
 
@@ -67,7 +70,7 @@ RSpec.describe LeagueMaps do
     end
 
     it "handles empty config gracefully" do
-      allow_any_instance_of(LeagueMapsSyncService).to receive(:current_config)
+      allow(sync_service).to receive(:current_config)
         .and_return({})
 
       result = described_class.grouped_league_maps
@@ -90,7 +93,7 @@ RSpec.describe LeagueMaps do
         ]
       }
 
-      allow_any_instance_of(LeagueMapsSyncService).to receive(:current_config)
+      allow(sync_service).to receive(:current_config)
         .and_return(config_with_duplicates)
 
       result = described_class.all_league_maps
@@ -101,7 +104,7 @@ RSpec.describe LeagueMaps do
 
   describe "error handling" do
     it "handles service errors gracefully" do
-      allow_any_instance_of(LeagueMapsSyncService).to receive(:current_config)
+      allow(sync_service).to receive(:current_config)
         .and_raise(StandardError.new("Service error"))
 
       expect { described_class.grouped_league_maps }.to raise_error(StandardError, "Service error")

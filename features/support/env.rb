@@ -8,7 +8,7 @@ require 'sidekiq/testing'
 require 'factory_bot_rails'
 require 'rspec/sorbet'
 RSpec::Sorbet.allow_doubles!
-Sidekiq::Testing.inline!
+Sidekiq::Testing.fake!
 
 # Load seed data
 require Rails.root.join('db', 'seeds')

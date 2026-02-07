@@ -710,8 +710,8 @@ RSpec.describe 'serveme.tf API', type: :request do
         end
 
         before do
-          # Mock server configuration update to prevent actual file changes
-          allow_any_instance_of(Server).to receive(:update_configuration)
+          # Mock the worker to prevent actual server configuration changes
+          allow(ReservationChangesWorker).to receive(:perform_async)
         end
 
         run_test! do |response|
@@ -782,8 +782,8 @@ RSpec.describe 'serveme.tf API', type: :request do
         end
 
         before do
-          # Mock server configuration update to prevent actual file changes
-          allow_any_instance_of(Server).to receive(:update_configuration)
+          # Mock the worker to prevent actual server configuration changes
+          allow(ReservationChangesWorker).to receive(:perform_async)
         end
 
         run_test!

@@ -6,7 +6,7 @@ require 'sidekiq/testing'
 require 'rspec/sorbet'
 require 'vcr'
 RSpec::Sorbet.allow_doubles!
-Sidekiq::Testing.inline!
+Sidekiq::Testing.fake!
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV['RAILS_ENV'] ||= 'test'
@@ -33,6 +33,14 @@ RSpec.configure do |config|
   config.mock_with :rspec do |c|
     c.syntax = %i[should expect]
   end
+  config.define_derived_metadata(file_path: %r{spec/workers}) do |metadata|
+    metadata[:sidekiq_inline] = true
+  end
+
+  config.around(:each, sidekiq_inline: true) do |example|
+    Sidekiq::Testing.inline! { example.run }
+  end
+
   config.before(:suite) do
     Rails.cache.clear
   end

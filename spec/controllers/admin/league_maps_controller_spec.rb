@@ -37,7 +37,9 @@ RSpec.describe Admin::LeagueMapsController, type: :controller do
       it "renders the index page" do
         allow(Rails.cache).to receive(:read).with(LeagueMapsSyncService::CACHE_KEY)
           .and_return(mock_config)
-        allow_any_instance_of(LeagueMapsSyncService).to receive(:last_sync_time)
+        service = instance_double(LeagueMapsSyncService)
+        allow(LeagueMapsSyncService).to receive(:new).and_return(service)
+        allow(service).to receive(:last_sync_time)
           .and_return(1.hour.ago)
 
         get :index

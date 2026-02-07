@@ -26,13 +26,16 @@ describe ReservationsController do
 
   describe '#new' do
     context 'when an IP is provided' do
-      let!(:available_server1) { create :server, ip: '1.2.3.4' }
-      let!(:available_server2) { create :server, ip: '1.2.3.4' }
-      let!(:unavailable_server) { create :server, ip: '1.2.3.4' }
-      let!(:different_ip_server) { create :server, ip: '5.6.7.8' }
+      let(:available_server1) { create :server, ip: '1.2.3.4' }
+      let(:available_server2) { create :server, ip: '1.2.3.4' }
+      let(:unavailable_server) { create :server, ip: '1.2.3.4' }
+      let(:different_ip_server) { create :server, ip: '5.6.7.8' }
+
+      let(:server_finder) { instance_double(ServerForUserFinder) }
 
       before do
-        allow_any_instance_of(ServerForUserFinder).to receive(:servers).and_return(Server.where(id: [ available_server1.id, available_server2.id ]))
+        allow(ServerForUserFinder).to receive(:new).and_return(server_finder)
+        allow(server_finder).to receive(:servers).and_return(Server.where(id: [ available_server1.id, available_server2.id ]))
       end
 
       it 'pre-selects a random available server with the matching IP' do
@@ -180,10 +183,13 @@ describe ReservationsController do
     let(:non_geocoded_server) { create(:server, latitude: nil, longitude: nil, position: 3) }
     let(:another_non_geocoded) { create(:server, latitude: nil, longitude: nil, position: 4) }
 
+    let(:server_finder) { instance_double(ServerForUserFinder) }
+
     before do
       sign_in user
       server_ids = [ london_server.id, berlin_server.id, non_geocoded_server.id, another_non_geocoded.id ].shuffle
-      allow_any_instance_of(ServerForUserFinder).to receive(:servers).and_return(
+      allow(ServerForUserFinder).to receive(:new).and_return(server_finder)
+      allow(server_finder).to receive(:servers).and_return(
         Server.where(id: server_ids)
       )
     end

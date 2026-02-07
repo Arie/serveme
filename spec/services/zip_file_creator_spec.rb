@@ -4,10 +4,10 @@
 require 'spec_helper'
 
 describe ZipFileCreator do
-  let!(:zipper_class)  { LocalZipFileCreator }
-  let!(:server)        { double(zip_file_creator_class: zipper_class) }
-  let!(:reservation)   { double(server: server) }
-  let!(:files_to_zip)  { double }
+  let(:zipper_class)  { LocalZipFileCreator }
+  let(:server)        { double(zip_file_creator_class: zipper_class) }
+  let(:reservation)   { double(server: server) }
+  let(:files_to_zip)  { double }
 
   describe '.create' do
     it 'instantiates the correct ZipFileCreator based on the server and creates the zip' do

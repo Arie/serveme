@@ -58,8 +58,11 @@ describe ServerMonitoringController do
     before { sign_in admin }
 
     context 'with valid server_id' do
+      let(:server_info) { instance_double(ServerInfo) }
+
       before do
-        allow_any_instance_of(ServerInfo).to receive(:fetch_realtime_stats).and_return({
+        allow(ServerInfo).to receive(:new).with(server).and_return(server_info)
+        allow(server_info).to receive(:fetch_realtime_stats).and_return({
           fps: 66.7,
           cpu: 25.5,
           traffic_in: 35.2,
@@ -99,8 +102,11 @@ describe ServerMonitoringController do
     end
 
     context 'when RCON connection fails' do
+      let(:server_info) { instance_double(ServerInfo) }
+
       before do
-        allow_any_instance_of(ServerInfo).to receive(:fetch_realtime_stats).and_raise(Errno::ECONNREFUSED)
+        allow(ServerInfo).to receive(:new).with(server).and_return(server_info)
+        allow(server_info).to receive(:fetch_realtime_stats).and_raise(Errno::ECONNREFUSED)
       end
 
       it 'returns connection error as turbo stream' do
@@ -127,9 +133,11 @@ describe ServerMonitoringController do
 
       context 'with current reservation on server' do
         let!(:reservation) { create(:reservation, user: user, server: server, starts_at: 10.minutes.ago, ends_at: 1.hour.from_now) }
+        let(:server_info) { instance_double(ServerInfo) }
 
         before do
-          allow_any_instance_of(ServerInfo).to receive(:fetch_realtime_stats).and_return({
+          allow(ServerInfo).to receive(:new).with(server).and_return(server_info)
+          allow(server_info).to receive(:fetch_realtime_stats).and_return({
             fps: 66.7,
             cpu: 25.5,
             traffic_in: 35.2,

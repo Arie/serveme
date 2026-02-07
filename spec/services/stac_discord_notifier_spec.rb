@@ -4,7 +4,7 @@
 require 'spec_helper'
 
 RSpec.describe StacDiscordNotifier do
-  let(:reservation) { create(:reservation) }
+  let(:reservation) { build_stubbed(:reservation) }
   let(:notifier) { described_class.new(reservation) }
   let(:detections) do
     {

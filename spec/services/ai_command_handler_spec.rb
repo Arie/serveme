@@ -5,10 +5,10 @@ require 'spec_helper'
 require 'set'
 
 RSpec.describe AiCommandHandler do
-  let(:user) { create :user, uid: '76561197960497430' }
-  let(:server) { create(:server) }
+  let(:user) { build_stubbed :user, uid: '76561197960497430' }
+  let(:server) { build_stubbed(:server) }
   let(:condenser) { double.as_null_object }
-  let(:reservation) { create :reservation, user: user, server: server }
+  let(:reservation) { build_stubbed :reservation, user: user, server: server }
   let(:handler) { described_class.new(reservation) }
   let(:initial_duration) { 60 }
   let(:user_extension_time) { 30.minutes }

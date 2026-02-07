@@ -4,7 +4,7 @@
 require 'spec_helper'
 
 describe StacLogProcessor do
-  let(:reservation) { create(:reservation) }
+  let(:reservation) { build_stubbed(:reservation) }
   let(:processor) { described_class.new(reservation) }
   let(:stac_log_content) { File.read(Rails.root.join('spec', 'fixtures', 'files', 'stac_log.log')) }
 
@@ -65,7 +65,7 @@ describe StacLogProcessor do
   describe '#process_content' do
     # This context uses the stac_log.log fixture
     context "with fixture log" do
-      let(:reservation) { create(:reservation) }
+      let(:reservation) { build_stubbed(:reservation) }
       let(:processor) { described_class.new(reservation) }
       let(:stac_log_content) { File.read(Rails.root.join('spec', 'fixtures', 'files', 'stac_log.log')) }
 
@@ -399,7 +399,7 @@ describe StacLogProcessor do
     end
 
     context "with edge case player names" do
-      let(:reservation) { create(:reservation) }
+      let(:reservation) { build_stubbed(:reservation) }
       let(:processor) { described_class.new(reservation) }
 
       it "handles player names starting with dots that cause empty regex captures" do

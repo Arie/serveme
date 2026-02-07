@@ -4,8 +4,8 @@
 require 'spec_helper'
 
 describe DownloadThenZipFileCreator do
-  let!(:server)        { double('Server', zip_file_creator_class: DownloadThenZipFileCreator) }
-  let!(:reservation)   { double('Reservation', id: 1, server: server, status_update: nil) }
+  let(:server)        { double('Server', zip_file_creator_class: DownloadThenZipFileCreator) }
+  let(:reservation)   { double('Reservation', id: 1, server: server, status_update: nil) }
 
   before do
     allow(ZipUploadWorker).to receive(:perform_async)

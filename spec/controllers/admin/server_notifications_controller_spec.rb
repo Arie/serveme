@@ -101,7 +101,7 @@ RSpec.describe Admin::ServerNotificationsController, type: :controller do
   end
 
   describe "PATCH #update" do
-    let!(:notification_to_update) { ServerNotification.create!(message: "Old Message", notification_type: "public") }
+    let(:notification_to_update) { ServerNotification.create!(message: "Old Message", notification_type: "public") }
     it_behaves_like "admin access only", :update, :patch, { id: 0, server_notification: { message: "Update" } }
 
     context "when logged in as an admin" do

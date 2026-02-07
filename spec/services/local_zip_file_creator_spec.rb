@@ -4,9 +4,9 @@
 require 'spec_helper'
 
 describe LocalZipFileCreator do
-  let!(:zipper_class)  { LocalZipFileCreator }
-  let!(:reservation)   { double(server: server, status_update: nil) }
-  let!(:server)        { double(zip_file_creator_class: zipper_class) }
+  let(:zipper_class)  { LocalZipFileCreator }
+  let(:reservation)   { double(server: server, status_update: nil) }
+  let(:server)        { double(zip_file_creator_class: zipper_class) }
 
   describe '#zip' do
     it 'it adds the files to zip to a zipfile' do

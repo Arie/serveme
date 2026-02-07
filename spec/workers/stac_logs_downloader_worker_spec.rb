@@ -6,7 +6,7 @@ require 'spec_helper'
 RSpec.describe StacLogsDownloaderWorker do
   let(:worker) { described_class.new }
   let(:reservation) { create(:reservation) }
-  let!(:server) { create :server }
+  let(:server) { create :server }
 
   before do
     allow(Server).to receive(:find).with(anything).and_return(server)

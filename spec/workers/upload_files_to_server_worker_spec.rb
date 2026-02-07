@@ -5,7 +5,11 @@ require 'spec_helper'
 
 describe UploadFilesToServerWorker do
   it 'looks over the supplied files and uploads' do
-    allow_any_instance_of(FileUpload).to receive(:validate_file_permissions)
+    allow(FileUpload).to receive(:new).and_wrap_original do |method, *args, **kwargs|
+      instance = method.call(*args, **kwargs)
+      allow(instance).to receive(:validate_file_permissions)
+      instance
+    end
     file_upload = create(:file_upload)
     server_upload = create(:server_upload, file_upload: file_upload)
     server = server_upload.server

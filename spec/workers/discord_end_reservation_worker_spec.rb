@@ -25,7 +25,9 @@ RSpec.describe DiscordEndReservationWorker do
       .with(:discord, :eu_client_id).and_return("client_123")
 
     # Stub the reservation ending process
-    allow_any_instance_of(Reservation).to receive(:end_reservation)
+    allow(Reservation).to receive(:find_by).and_call_original
+    allow(Reservation).to receive(:find_by).with(id: reservation.id).and_return(reservation)
+    allow(reservation).to receive(:end_reservation)
   end
 
   describe "#perform" do
@@ -35,7 +37,7 @@ RSpec.describe DiscordEndReservationWorker do
     end
 
     it "ends the reservation" do
-      expect_any_instance_of(Reservation).to receive(:end_reservation)
+      expect(reservation).to receive(:end_reservation)
       described_class.new.perform(reservation.id, discord_interaction_token)
     end
 
@@ -59,7 +61,7 @@ RSpec.describe DiscordEndReservationWorker do
 
     context "when ending fails" do
       before do
-        allow_any_instance_of(Reservation).to receive(:end_reservation)
+        allow(reservation).to receive(:end_reservation)
           .and_raise(StandardError.new("Connection timeout"))
       end
 

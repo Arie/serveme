@@ -57,7 +57,6 @@ module LogLineHelper
       TF2LineParser::Events::ChargeReady,
       TF2LineParser::Events::ChargeEnded,
       TF2LineParser::Events::LostUberAdvantage,
-      TF2LineParser::Events::MedicDeath,
       TF2LineParser::Events::MedicDeathEx,
       TF2LineParser::Events::Domination,
       TF2LineParser::Events::Revenge,

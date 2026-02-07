@@ -868,7 +868,6 @@ export default class extends Controller {
   // Define which events are "highlight" events (big plays)
   isHighlightEvent(eventType) {
     const highlightEvents = [
-      'medic_death',
       'medic_death_ex',
       'charge_deployed',
       'charge_ready',

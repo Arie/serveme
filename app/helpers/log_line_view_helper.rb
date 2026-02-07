@@ -673,22 +673,6 @@ module LogLineViewHelper
   end
 
   sig { params(formatted: FormattedLogLine).returns(ActiveSupport::SafeBuffer) }
-  def render_medic_death_event(formatted)
-    event = formatted[:event]
-    return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player)
-
-    uber = event.respond_to?(:ubercharge) && event.ubercharge ? " (#{event.ubercharge}%)" : ""
-
-    content = safe_join([
-      log_player_name(event.player),
-      class_icon("medic"),
-      content_tag(:span, " died#{uber}", class: "medic-death-action")
-    ])
-
-    content_tag(:span, content, class: "log-medic-death")
-  end
-
-  sig { params(formatted: FormattedLogLine).returns(ActiveSupport::SafeBuffer) }
   def render_medic_death_ex_event(formatted)
     event = formatted[:event]
     return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player)
@@ -808,8 +792,6 @@ module LogLineViewHelper
       render_builtobject_event(formatted)
     when :damage, :headshot_damage
       render_damage_event(formatted)
-    when :medic_death
-      render_medic_death_event(formatted)
     when :medic_death_ex
       render_medic_death_ex_event(formatted)
     when :killedobject

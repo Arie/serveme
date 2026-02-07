@@ -308,7 +308,8 @@ export default class extends Controller {
     if (this.hasStreamTargetValue && this.tailing) {
       this.updateProgressPosition(100)
       if (this.hasStatusTextTarget) {
-        this.statusTextTarget.textContent = `Line ${effectiveTotal} of ${effectiveTotal}`
+        const label = this.totalMatches !== null ? 'Match' : 'Line'
+        this.statusTextTarget.textContent = `${label} ${effectiveTotal} of ${effectiveTotal}`
       }
       return
     }
@@ -694,8 +695,8 @@ export default class extends Controller {
       this.eventBuffer.push(bufferedEvent)
     }
 
-    // Eject events older than 90s (max delay) - they're no longer needed
-    const maxAge = 90 * 1000
+    // Eject events older than 180s - keeps ~90s of visible lines even at max delay (90s)
+    const maxAge = 180 * 1000
     while (this.eventBuffer.length > 0 && (now - this.eventBuffer[0].receivedAt) > maxAge) {
       this.eventBuffer.shift()
     }
@@ -753,7 +754,8 @@ export default class extends Controller {
 
       // Directly set status text to avoid calculation issues
       if (this.hasStatusTextTarget) {
-        this.statusTextTarget.textContent = `Line ${effectiveTotal} of ${effectiveTotal}`
+        const label = this.totalMatches !== null ? 'Match' : 'Line'
+        this.statusTextTarget.textContent = `${label} ${effectiveTotal} of ${effectiveTotal}`
       }
 
       // Clear flag after a short delay to let any queued scroll events pass

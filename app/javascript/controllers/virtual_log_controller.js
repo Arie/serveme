@@ -173,6 +173,12 @@ export default class extends Controller {
     percent = Math.max(0, Math.min(100, percent))
     this.currentPercent = percent
 
+    // When explicitly seeking (updateScroll=true) to a non-bottom position,
+    // immediately stop tailing so processBuffer's rAF won't override the seek
+    if (updateScroll && percent < 100) {
+      this.tailing = false
+    }
+
     // Cancel any pending request
     if (this.pendingRequest) {
       this.pendingRequest.abort()
@@ -244,25 +250,21 @@ export default class extends Controller {
 
   // Render the HTML content
   renderLines(html, startIndex) {
-    // Parse the HTML and wrap each line with positioning
-    const tempDiv = document.createElement('div')
-    tempDiv.innerHTML = html
-    const lines = tempDiv.querySelectorAll('.log-line')
+    // Split on log-line div boundaries and wrap with positioning via string ops.
+    // This avoids intermediate DOM parsing/manipulation — the browser does a single
+    // optimized parse+layout pass from the innerHTML assignment.
+    const lineHeight = this.lineHeightValue
+    const parts = html.split(/(?=<div class="log-line )/)
+    const wrapped = []
+    let index = startIndex
 
-    const fragment = document.createDocumentFragment()
-    lines.forEach((line, idx) => {
-      const wrapper = document.createElement('div')
-      wrapper.className = 'virtual-line'
-      wrapper.style.position = 'absolute'
-      wrapper.style.top = `${(startIndex + idx) * this.lineHeightValue}px`
-      wrapper.style.left = '0'
-      wrapper.style.right = '0'
-      wrapper.appendChild(line)
-      fragment.appendChild(wrapper)
-    })
+    for (const part of parts) {
+      if (!part) continue
+      wrapped.push(`<div class="virtual-line" style="position:absolute;top:${index * lineHeight}px;left:0;right:0">${part}</div>`)
+      index++
+    }
 
-    this.linesContainerTarget.innerHTML = ''
-    this.linesContainerTarget.appendChild(fragment)
+    this.linesContainerTarget.innerHTML = wrapped.join('')
   }
 
   // Immediately update tailing state on every scroll (not debounced)
@@ -803,9 +805,15 @@ export default class extends Controller {
       }
     }
 
-    // Clear flag after DOM has settled to let any queued scroll events pass
+    // After the batch: single scroll-to-bottom + clear isStreamingUpdate flag
     if (renderedAny) {
       requestAnimationFrame(() => {
+        // Only scroll to bottom if still tailing (a seek may have changed this)
+        if (this.tailing) {
+          this.viewportTarget.scrollTop = this.viewportTarget.scrollHeight
+          this.updateProgressPosition(100)
+          this.updateStatusText()
+        }
         requestAnimationFrame(() => {
           this.isStreamingUpdate = false
         })
@@ -839,14 +847,6 @@ export default class extends Controller {
 
     this.linesContainerTarget.appendChild(wrapper)
     this.loadedEndIndex = this.totalLinesValue
-
-    // Auto-scroll if tailing
-    requestAnimationFrame(() => {
-      const targetScroll = this.totalLinesValue * this.lineHeightValue
-      this.viewportTarget.scrollTop = targetScroll
-      this.updateProgressPosition(100)
-      this.updateStatusText()
-    })
   }
 
   // Define which events are "highlight" events (big plays)

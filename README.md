@@ -499,3 +499,30 @@ curl -X GET 'https://serveme.tf/api/league_requests?api_key=your_league_admin_ap
 ---
 
 **For complete API documentation including all endpoints, request/response schemas, and interactive testing, visit the [Swagger documentation](#interactive-api-documentation) for your region.**
+
+## MCP (for AI chatbots)
+
+serveme.tf has an [MCP](https://modelcontextprotocol.io/) endpoint that AI tools can connect to directly over HTTPS. You need an API key from your account settings page — keys are region-specific.
+
+```json
+{
+  "mcpServers": {
+    "serveme-eu": {
+      "type": "http",
+      "url": "https://serveme.tf/api/mcp",
+      "headers": {
+        "Authorization": "Bearer your_api_key_here"
+      }
+    }
+  }
+}
+```
+
+| Region | URL |
+|--------|-----|
+| Europe | `https://serveme.tf/api/mcp` |
+| North America | `https://na.serveme.tf/api/mcp` |
+| South-East Asia | `https://sea.serveme.tf/api/mcp` |
+| Australia | `https://au.serveme.tf/api/mcp` |
+
+Tools include listing servers, creating/ending reservations, looking up players, linking Discord accounts, and browsing server configs and whitelists. Admin API keys get additional tools for alt detection, log searching, and user management. The tool list and schemas are self-describing via the MCP protocol.

@@ -73,7 +73,8 @@ end
 options = {
   autocorrect: false,
   seed: nil,
-  verbose: false
+  verbose: false,
+  lint_only: false
 }
 
 def get_tests(options)
@@ -122,6 +123,10 @@ OptionParser.new do |parser|
     options[:verbose] = v
   end
 
+  parser.on("-L", "--lint", "Only run the linters") do |v|
+    options[:lint_only] = v
+  end
+
   parser.on("-l", "--list") do
     puts "Tests:"
     get_tests(options).each do |name, command|
@@ -155,9 +160,13 @@ TAPIOCA_DEPENDENT_CHECKS = %i[sorbet]
 
 # Database preparation sub-steps that run after db_test_prepare
 DB_PREPARATION_SUBSTEPS = if options[:autocorrect]
-  %i[db_copy swagger_regenerate tapioca_dsl_autocorrect]
+  steps = %i[swagger_regenerate tapioca_dsl_autocorrect]
+  steps.unshift(:db_copy) unless options[:lint_only]
+  steps
 else
-  %i[db_copy swagger_sync tapioca_dsl]
+  steps = %i[swagger_sync tapioca_dsl]
+  steps.unshift(:db_copy) unless options[:lint_only]
+  steps
 end
 
 class ProgressDisplay
@@ -450,33 +459,35 @@ FileUtils.chdir APP_ROOT do
     abort "❌ Checks #{failed_tests.map(&:name).join(", ")} failed in #{check_time} seconds"
   end
 
-  # Run test suites with live progress display
-  test_progress = ProgressDisplay.new(verbose: options[:verbose])
+  unless options[:lint_only]
+    # Run test suites with live progress display
+    test_progress = ProgressDisplay.new(verbose: options[:verbose])
 
-  test_threads = []
-  test_time = Timing.measure(round: 3) do
-    test_threads = [ :rspec, :cucumber ].map do |name|
-      Thread.new do
-        test = Test.new(name, test_progress, options)
-        Thread.current[:test] = test
-        test.run
+    test_threads = []
+    test_time = Timing.measure(round: 3) do
+      test_threads = [ :rspec, :cucumber ].map do |name|
+        Thread.new do
+          test = Test.new(name, test_progress, options)
+          Thread.current[:test] = test
+          test.run
+        end
       end
+      test_threads.map(&:join)
     end
-    test_threads.map(&:join)
-  end
 
-  test_progress.stop
+    test_progress.stop
 
-  failed_tests = test_threads.map { _1[:test] }.reject(&:success?)
-  if failed_tests.none?
-    puts
-    puts "✅ Tests passed in #{test_time} seconds"
-    puts
-  else
-    puts
-    failed_tests.each do |test|
-      puts test.failed_message unless options[:verbose]
+    failed_tests = test_threads.map { _1[:test] }.reject(&:success?)
+    if failed_tests.none?
+      puts
+      puts "✅ Tests passed in #{test_time} seconds"
+      puts
+    else
+      puts
+      failed_tests.each do |test|
+        puts test.failed_message unless options[:verbose]
+      end
+      abort "❌ Tests #{failed_tests.map(&:name).join(", ")} failed in #{test_time} seconds"
     end
-    abort "❌ Tests #{failed_tests.map(&:name).join(", ")} failed in #{test_time} seconds"
   end
 end

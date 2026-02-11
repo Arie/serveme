@@ -12,6 +12,7 @@ module Mcp
       Mcp::Tools::GetUserTool,
       Mcp::Tools::ListServersTool,
       Mcp::Tools::ListReservationsTool,
+      Mcp::Tools::SearchReservationLogsTool,
       Mcp::Tools::CreateServerConfigTool,
       Mcp::Tools::UpdateServerConfigTool,
       Mcp::Tools::CreateWhitelistTool,

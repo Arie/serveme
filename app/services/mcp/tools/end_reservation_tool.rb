@@ -26,14 +26,6 @@ module Mcp
             reservation_id: {
               type: "integer",
               description: "The reservation ID to end"
-            },
-            steam_uid: {
-              type: "string",
-              description: "Steam ID64 of the reservation owner (for authorization)"
-            },
-            discord_uid: {
-              type: "string",
-              description: "Discord user ID (for authorization via linked account)"
             }
           },
           required: [ "reservation_id" ]
@@ -54,7 +46,7 @@ module Mcp
         return { error: "Reservation not found" } unless reservation
 
         # Verify the requesting user owns this reservation
-        owner_result = verify_owner(reservation, params)
+        owner_result = verify_reservation_owner(reservation)
         return owner_result if owner_result[:error]
 
         # Check if reservation can be ended
@@ -71,20 +63,6 @@ module Mcp
       end
 
       private
-
-      sig { params(reservation: Reservation, params: T::Hash[Symbol, T.untyped]).returns(T::Hash[Symbol, T.untyped]) }
-      def verify_owner(reservation, params)
-        if params[:discord_uid].present?
-          user = User.find_by(discord_uid: params[:discord_uid])
-          return { error: "Discord account not linked" } unless user
-          return { error: "Not authorized to end this reservation" } unless reservation.user_id == user.id
-        elsif params[:steam_uid].present?
-          return { error: "Not authorized to end this reservation" } unless reservation.user&.uid == params[:steam_uid]
-        else
-          return { error: "Either steam_uid or discord_uid is required for authorization" }
-        end
-        {}
-      end
 
       sig { params(reservation: Reservation).returns(T::Hash[Symbol, T.untyped]) }
       def check_endable(reservation)

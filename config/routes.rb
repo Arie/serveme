@@ -169,11 +169,12 @@ Serveme::Application.routes.draw do
       end
     end
 
-    # MCP (Model Context Protocol) endpoints for Claude Code integration
+    # MCP (Model Context Protocol) endpoints
     resource :mcp, only: [], controller: :mcp do
       get :tools
       post :execute
     end
+    post "mcp", to: "mcp#execute" # Streamable HTTP endpoint
   end
 
   # Serve swagger YAML dynamically with current server first (before rswag engine)

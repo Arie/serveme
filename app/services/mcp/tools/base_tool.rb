@@ -65,6 +65,42 @@ module Mcp
 
       sig { returns(User) }
       attr_reader :user
+
+      # Admins and trusted API users (e.g. Discord bots) can act on behalf of other users.
+      # Regular users can only act on their own resources.
+      sig { returns(T::Boolean) }
+      def privileged?
+        user.admin? || user.trusted_api?
+      end
+
+      # Resolve the target user from params. Privileged callers can specify steam_uid/discord_uid
+      # to act on behalf of another user. Non-privileged callers always get @user.
+      sig { params(params: T::Hash[Symbol, T.untyped]).returns(T::Hash[Symbol, T.untyped]) }
+      def resolve_target_user(params)
+        if privileged?
+          if params[:discord_uid].present?
+            target = User.find_by(discord_uid: params[:discord_uid])
+            return { error: "Discord account not linked" } unless target
+            { user: target }
+          elsif params[:steam_uid].present?
+            target = User.find_by(uid: params[:steam_uid])
+            return { error: "No account found for Steam ID: #{params[:steam_uid]}" } unless target
+            { user: target }
+          else
+            { user: user }
+          end
+        else
+          { user: user }
+        end
+      end
+
+      # Verify the API user owns a reservation. Privileged callers can access any reservation.
+      sig { params(reservation: Reservation).returns(T::Hash[Symbol, T.untyped]) }
+      def verify_reservation_owner(reservation)
+        return {} if privileged?
+        return { error: "Not authorized to access this reservation" } unless reservation.user_id == user.id
+        {}
+      end
     end
   end
 end

@@ -28,10 +28,33 @@ RSpec.describe Mcp::Tools::GetDiscordLinkTool do
   end
 
   describe "#execute" do
-    let(:user) { create(:user) }
-    let(:tool) { described_class.new(user) }
+    context "when looking up own discord link" do
+      let(:user) { create(:user, discord_uid: "123456789012345678") }
+      let(:tool) { described_class.new(user) }
 
-    context "when discord_uid is linked" do
+      it "returns the linked user info" do
+        result = tool.execute(discord_uid: "123456789012345678")
+
+        expect(result[:linked]).to be true
+        expect(result[:steam_uid]).to eq(user.uid)
+        expect(result[:nickname]).to eq(user.nickname)
+      end
+    end
+
+    context "when non-privileged user looks up another user's discord" do
+      let(:user) { create(:user, discord_uid: "111111111111111111") }
+      let(:tool) { described_class.new(user) }
+
+      it "returns authorization error" do
+        result = tool.execute(discord_uid: "999999999999999999")
+
+        expect(result[:error]).to include("Not authorized")
+      end
+    end
+
+    context "when privileged user (admin) looks up any discord" do
+      let(:admin) { create(:user, :admin) }
+      let(:tool) { described_class.new(admin) }
       let!(:linked_user) do
         create(:user,
           nickname: "LinkedPlayer",
@@ -47,10 +70,8 @@ RSpec.describe Mcp::Tools::GetDiscordLinkTool do
         expect(result[:steam_uid]).to eq("76561198012345678")
         expect(result[:nickname]).to eq("LinkedPlayer")
       end
-    end
 
-    context "when discord_uid is not linked" do
-      it "returns linked: false" do
+      it "returns linked: false for unknown discord_uid" do
         result = tool.execute(discord_uid: "999999999999999999")
 
         expect(result[:linked]).to be false
@@ -59,6 +80,9 @@ RSpec.describe Mcp::Tools::GetDiscordLinkTool do
     end
 
     context "with missing discord_uid" do
+      let(:user) { create(:user) }
+      let(:tool) { described_class.new(user) }
+
       it "returns an error" do
         result = tool.execute({})
 

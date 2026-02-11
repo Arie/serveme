@@ -61,6 +61,9 @@ module GeneratedPathHelpersModule
   def api_maps_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def api_mcp_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def api_reservation_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }

@@ -52,7 +52,8 @@ module Mcp
 
       sig { override.params(params: T::Hash[Symbol, T.untyped]).returns(T::Hash[Symbol, T.untyped]) }
       def execute(params)
-        player = find_player(params)
+        # Resolve target user (privileged callers can look up other users)
+        player = resolve_target_user(params)
         return player if player[:error]
 
         target_user = T.cast(player[:user], User)
@@ -69,23 +70,6 @@ module Mcp
       end
 
       private
-
-      sig { params(params: T::Hash[Symbol, T.untyped]).returns(T::Hash[Symbol, T.untyped]) }
-      def find_player(params)
-        if params[:discord_uid].present?
-          player = User.find_by(discord_uid: params[:discord_uid])
-          return { error: "Discord account not linked to serveme.tf. Use /link command first." } unless player
-
-          { user: player }
-        elsif params[:steam_uid].present?
-          player = User.find_by(uid: params[:steam_uid])
-          return { error: "Player not found for Steam ID: #{params[:steam_uid]}" } unless player
-
-          { user: player }
-        else
-          { error: "Either steam_uid or discord_uid is required" }
-        end
-      end
 
       sig { params(target_user: User, params: T::Hash[Symbol, T.untyped]).returns(ActiveRecord::Relation) }
       def build_query(target_user, params)

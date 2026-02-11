@@ -17,7 +17,7 @@ module Mcp
       @user = user
     end
 
-    sig { params(request_body: String).returns(T::Hash[Symbol, T.untyped]) }
+    sig { params(request_body: String).returns(T.nilable(T::Hash[Symbol, T.untyped])) }
     def handle(request_body)
       request = parse_request(request_body)
       return request if request[:error]
@@ -40,19 +40,44 @@ module Mcp
       error_response(nil, PARSE_ERROR, "Parse error: #{e.message}")
     end
 
-    sig { params(request: T::Hash[Symbol, T.untyped]).returns(T::Hash[Symbol, T.untyped]) }
+    sig { params(request: T::Hash[Symbol, T.untyped]).returns(T.nilable(T::Hash[Symbol, T.untyped])) }
     def process_request(request)
       id = request[:id]
       method = request[:method]
 
       case method
+      when "initialize"
+        handle_initialize(id)
+      when "initialized"
+        # Notification, no response needed
+        nil
       when "tools/list"
         handle_tools_list(id)
       when "tools/call"
         handle_tools_call(id, request[:params] || {})
+      when "ping"
+        success_response(id, {})
       else
         error_response(id, METHOD_NOT_FOUND, "Method not found: #{method}")
       end
+    end
+
+    sig { params(id: T.untyped).returns(T::Hash[Symbol, T.untyped]) }
+    def handle_initialize(id)
+      {
+        jsonrpc: "2.0",
+        id: id,
+        result: {
+          protocolVersion: "2024-11-05",
+          serverInfo: {
+            name: "serveme-mcp",
+            version: "1.0.0"
+          },
+          capabilities: {
+            tools: {}
+          }
+        }
+      }
     end
 
     sig { params(id: T.untyped).returns(T::Hash[Symbol, T.untyped]) }

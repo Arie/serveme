@@ -29,29 +29,56 @@ RSpec.describe Mcp::Tools::LinkDiscordTool do
   end
 
   describe "#execute" do
-    let(:user) { create(:user) }
-    let(:tool) { described_class.new(user) }
+    context "when API user links their own account" do
+      let(:user) { create(:user, nickname: "TestPlayer", uid: "76561198012345678") }
+      let(:tool) { described_class.new(user) }
 
-    let(:target_user) { create(:user, nickname: "TargetPlayer", uid: "76561198012345678") }
-
-    context "with valid parameters" do
-      it "links discord account to user" do
-        result = tool.execute(discord_uid: "123456789012345678", steam_uid: target_user.uid)
+      it "links discord account successfully" do
+        result = tool.execute(discord_uid: "123456789012345678", steam_uid: user.uid)
 
         expect(result[:success]).to be true
-        expect(result[:user][:nickname]).to eq("TargetPlayer")
-        expect(target_user.reload.discord_uid).to eq("123456789012345678")
+        expect(result[:user][:nickname]).to eq("TestPlayer")
+        expect(user.reload.discord_uid).to eq("123456789012345678")
       end
 
       it "returns linked user info" do
-        result = tool.execute(discord_uid: "123456789012345678", steam_uid: target_user.uid)
+        result = tool.execute(discord_uid: "123456789012345678", steam_uid: user.uid)
 
         expect(result[:user]).to include(:nickname, :steam_uid, :discord_uid)
         expect(result[:user][:discord_uid]).to eq("123456789012345678")
       end
     end
 
+    context "when non-privileged user tries to link another user" do
+      let(:user) { create(:user) }
+      let(:target_user) { create(:user, nickname: "TargetPlayer", uid: "76561198012345678") }
+      let(:tool) { described_class.new(user) }
+
+      it "returns authorization error" do
+        result = tool.execute(discord_uid: "123456789012345678", steam_uid: target_user.uid)
+
+        expect(result[:success]).to be false
+        expect(result[:error]).to include("Not authorized")
+      end
+    end
+
+    context "when privileged user (admin) links another user" do
+      let(:admin) { create(:user, :admin) }
+      let(:target_user) { create(:user, nickname: "TargetPlayer", uid: "76561198012345678") }
+      let(:tool) { described_class.new(admin) }
+
+      it "links discord account successfully" do
+        result = tool.execute(discord_uid: "123456789012345678", steam_uid: target_user.uid)
+
+        expect(result[:success]).to be true
+        expect(target_user.reload.discord_uid).to eq("123456789012345678")
+      end
+    end
+
     context "when user not found" do
+      let(:user) { create(:user) }
+      let(:tool) { described_class.new(user) }
+
       it "returns error" do
         result = tool.execute(discord_uid: "123456789012345678", steam_uid: "76561198099999999")
 
@@ -61,7 +88,10 @@ RSpec.describe Mcp::Tools::LinkDiscordTool do
     end
 
     context "when discord already linked to another user" do
+      let(:admin) { create(:user, :admin) }
+      let(:target_user) { create(:user, uid: "76561198012345678") }
       let!(:other_user) { create(:user, uid: "76561198011111111", discord_uid: "123456789012345678") }
+      let(:tool) { described_class.new(admin) }
 
       it "returns error" do
         result = tool.execute(discord_uid: "123456789012345678", steam_uid: target_user.uid)
@@ -72,19 +102,23 @@ RSpec.describe Mcp::Tools::LinkDiscordTool do
     end
 
     context "when user already has a different discord linked" do
-      before { target_user.update!(discord_uid: "999999999999999999") }
+      let(:user) { create(:user, uid: "76561198012345678", discord_uid: "999999999999999999") }
+      let(:tool) { described_class.new(user) }
 
       it "updates the link" do
-        result = tool.execute(discord_uid: "123456789012345678", steam_uid: target_user.uid)
+        result = tool.execute(discord_uid: "123456789012345678", steam_uid: user.uid)
 
         expect(result[:success]).to be true
-        expect(target_user.reload.discord_uid).to eq("123456789012345678")
+        expect(user.reload.discord_uid).to eq("123456789012345678")
       end
     end
 
     context "with missing parameters" do
+      let(:user) { create(:user, uid: "76561198012345678") }
+      let(:tool) { described_class.new(user) }
+
       it "returns error when discord_uid missing" do
-        result = tool.execute(steam_uid: target_user.uid)
+        result = tool.execute(steam_uid: user.uid)
 
         expect(result[:success]).to be false
         expect(result[:error]).to include("discord_uid")
@@ -100,15 +134,29 @@ RSpec.describe Mcp::Tools::LinkDiscordTool do
   end
 
   describe "unlink functionality" do
-    let(:user) { create(:user) }
-    let(:tool) { described_class.new(user) }
-    let(:linked_user) { create(:user, uid: "76561198012345678", discord_uid: "123456789012345678") }
+    context "when unlinking own account" do
+      let(:user) { create(:user, uid: "76561198012345678", discord_uid: "123456789012345678") }
+      let(:tool) { described_class.new(user) }
 
-    it "can unlink by setting discord_uid to null" do
-      result = tool.execute(discord_uid: "123456789012345678", steam_uid: linked_user.uid, unlink: true)
+      it "can unlink discord" do
+        result = tool.execute(discord_uid: "123456789012345678", steam_uid: user.uid, unlink: true)
 
-      expect(result[:success]).to be true
-      expect(linked_user.reload.discord_uid).to be_nil
+        expect(result[:success]).to be true
+        expect(user.reload.discord_uid).to be_nil
+      end
+    end
+
+    context "when non-privileged user tries to unlink another user" do
+      let(:user) { create(:user) }
+      let(:linked_user) { create(:user, uid: "76561198012345678", discord_uid: "123456789012345678") }
+      let(:tool) { described_class.new(user) }
+
+      it "returns authorization error" do
+        result = tool.execute(discord_uid: "123456789012345678", steam_uid: linked_user.uid, unlink: true)
+
+        expect(result[:success]).to be false
+        expect(result[:error]).to include("Not authorized")
+      end
     end
   end
 end

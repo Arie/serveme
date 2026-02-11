@@ -45,6 +45,11 @@ module Mcp
           return { error: "discord_uid is required", linked: false }
         end
 
+        # Non-privileged users can only look up their own discord link
+        unless privileged? || discord_uid == user.discord_uid
+          return { error: "Not authorized to look up other users' Discord links" }
+        end
+
         linked_user = User.find_by(discord_uid: discord_uid)
 
         if linked_user

@@ -61,6 +61,9 @@ module GeneratedUrlHelpersModule
   def api_maps_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def api_mcp_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def api_reservation_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }

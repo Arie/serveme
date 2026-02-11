@@ -26,14 +26,6 @@ module Mcp
             reservation_id: {
               type: "integer",
               description: "The reservation ID to get status for"
-            },
-            steam_uid: {
-              type: "string",
-              description: "Steam ID64 of the requesting user (for authorization)"
-            },
-            discord_uid: {
-              type: "string",
-              description: "Discord user ID (for authorization via linked account)"
             }
           },
           required: [ "reservation_id" ]
@@ -54,26 +46,13 @@ module Mcp
         return { error: "Reservation not found" } unless reservation
 
         # Verify the requesting user owns this reservation
-        user_result = verify_owner(reservation, params)
-        return user_result if user_result[:error]
+        owner_result = verify_reservation_owner(reservation)
+        return owner_result if owner_result[:error]
 
         format_reservation_status(reservation)
       end
 
       private
-
-      sig { params(reservation: Reservation, params: T::Hash[Symbol, T.untyped]).returns(T::Hash[Symbol, T.untyped]) }
-      def verify_owner(reservation, params)
-        if params[:discord_uid].present?
-          user = User.find_by(discord_uid: params[:discord_uid])
-          return { error: "Discord account not linked" } unless user
-          return { error: "Not authorized to view this reservation" } unless reservation.user_id == user.id
-        elsif params[:steam_uid].present?
-          return { error: "Not authorized to view this reservation" } unless reservation.user&.uid == params[:steam_uid]
-        end
-        # If no auth provided, still allow (for now) since reservation IDs aren't guessable
-        {}
-      end
 
       sig { params(reservation: Reservation).returns(T::Hash[Symbol, T.untyped]) }
       def format_reservation_status(reservation)

@@ -35,9 +35,6 @@ RSpec.describe Mcp::Tools::GetPlayerReservationsTool do
   end
 
   describe "#execute" do
-    let(:user) { create(:user) }
-    let(:tool) { described_class.new(user) }
-
     let(:player) { create(:user, nickname: "TestPlayer", uid: "76561198012345678") }
     let(:server) { create(:server) }
     let(:server2) { create(:server, name: "Server 2") }
@@ -61,23 +58,61 @@ RSpec.describe Mcp::Tools::GetPlayerReservationsTool do
       reservation.reload
     end
 
-    context "with steam_uid parameter" do
+    context "when API user views their own reservations" do
+      let(:tool) { described_class.new(player) }
+
       it "returns player reservations" do
-        result = tool.execute(steam_uid: player.uid)
+        result = tool.execute({})
 
         expect(result[:reservations]).to be_an(Array)
         expect(result[:reservations].size).to eq(2)
       end
 
       it "returns player info" do
-        result = tool.execute(steam_uid: player.uid)
+        result = tool.execute({})
 
         expect(result[:player][:nickname]).to eq("TestPlayer")
         expect(result[:player][:steam_uid]).to eq(player.uid)
       end
+
+      it "returns non-sensitive reservation data" do
+        result = tool.execute({})
+
+        reservation = result[:reservations].first
+        expect(reservation).to include(:id, :server_name, :starts_at, :ends_at, :status, :first_map)
+        expect(reservation).not_to have_key(:password)
+        expect(reservation).not_to have_key(:rcon)
+        expect(reservation).not_to have_key(:tv_password)
+      end
     end
 
-    context "with discord_uid parameter" do
+    context "when non-privileged user tries to view another player" do
+      let(:other_user) { create(:user) }
+      let(:tool) { described_class.new(other_user) }
+
+      it "returns the API user's own reservations instead" do
+        result = tool.execute(steam_uid: player.uid)
+
+        expect(result[:player][:nickname]).to eq(other_user.nickname)
+        expect(result[:reservations].size).to eq(0)
+      end
+    end
+
+    context "when privileged user (admin) looks up another player" do
+      let(:admin) { create(:user, :admin) }
+      let(:tool) { described_class.new(admin) }
+
+      it "returns the target player's reservations" do
+        result = tool.execute(steam_uid: player.uid)
+
+        expect(result[:player][:nickname]).to eq("TestPlayer")
+        expect(result[:reservations].size).to eq(2)
+      end
+    end
+
+    context "when privileged user looks up by discord_uid" do
+      let(:admin) { create(:user, :admin) }
+      let(:tool) { described_class.new(admin) }
       let(:discord_linked_player) do
         create(:user, nickname: "DiscordPlayer", uid: "76561198087654321", discord_uid: "123456789012345678")
       end
@@ -100,43 +135,21 @@ RSpec.describe Mcp::Tools::GetPlayerReservationsTool do
       end
     end
 
-    context "with invalid parameters" do
-      it "returns error if no steam_uid or discord_uid provided" do
-        result = tool.execute({})
-
-        expect(result[:error]).to include("steam_uid or discord_uid")
-      end
-
-      it "returns error if player not found" do
-        result = tool.execute(steam_uid: "76561198099999999")
-
-        expect(result[:error]).to include("not found")
-      end
-    end
-
-    it "returns non-sensitive reservation data" do
-      result = tool.execute(steam_uid: player.uid)
-
-      reservation = result[:reservations].first
-      expect(reservation).to include(:id, :server_name, :starts_at, :ends_at, :status, :first_map)
-
-      # Should NOT include sensitive data
-      expect(reservation).not_to have_key(:password)
-      expect(reservation).not_to have_key(:rcon)
-      expect(reservation).not_to have_key(:tv_password)
-    end
-
     context "with limit parameter" do
+      let(:tool) { described_class.new(player) }
+
       it "respects the limit" do
-        result = tool.execute(steam_uid: player.uid, limit: 1)
+        result = tool.execute(limit: 1)
 
         expect(result[:reservations].size).to eq(1)
       end
     end
 
     context "with status filter" do
+      let(:tool) { described_class.new(player) }
+
       it "filters by current status" do
-        result = tool.execute(steam_uid: player.uid, status: "current")
+        result = tool.execute(status: "current")
 
         expect(result[:reservations].map { |r| r[:id] }).to include(current_reservation.id)
         expect(result[:reservations].map { |r| r[:id] }).not_to include(past_reservation.id)

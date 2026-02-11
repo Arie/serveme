@@ -80,8 +80,8 @@ module Mcp
 
       sig { override.params(params: T::Hash[Symbol, T.untyped]).returns(T::Hash[Symbol, T.untyped]) }
       def execute(params)
-        # Find user
-        user_result = find_user(params)
+        # Resolve target user (privileged callers can specify steam_uid/discord_uid)
+        user_result = resolve_target_user(params)
         return user_result if user_result[:error]
 
         target_user = T.cast(user_result[:user], User)
@@ -146,21 +146,6 @@ module Mcp
       end
 
       private
-
-      sig { params(params: T::Hash[Symbol, T.untyped]).returns(T::Hash[Symbol, T.untyped]) }
-      def find_user(params)
-        if params[:discord_uid].present?
-          user = User.find_by(discord_uid: params[:discord_uid])
-          return { error: "Discord account not linked. Use /link command first." } unless user
-          { user: user }
-        elsif params[:steam_uid].present?
-          user = User.find_by(uid: params[:steam_uid])
-          return { error: "No account found for Steam ID: #{params[:steam_uid]}" } unless user
-          { user: user }
-        else
-          { error: "Either steam_uid or discord_uid is required" }
-        end
-      end
 
       sig { params(user: User, server_id: T.nilable(Integer), starts_at: ActiveSupport::TimeWithZone, ends_at: ActiveSupport::TimeWithZone).returns(T::Hash[Symbol, T.untyped]) }
       def find_server(user, server_id, starts_at, ends_at)

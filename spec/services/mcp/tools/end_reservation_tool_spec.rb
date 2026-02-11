@@ -18,13 +18,11 @@ RSpec.describe Mcp::Tools::EndReservationTool do
       expect(described_class.required_role).to eq(:public)
     end
 
-    it "has an input schema with reservation_id, steam_uid, and discord_uid" do
+    it "has an input schema with reservation_id" do
       schema = described_class.input_schema
 
       expect(schema[:type]).to eq("object")
       expect(schema[:properties]).to have_key(:reservation_id)
-      expect(schema[:properties]).to have_key(:steam_uid)
-      expect(schema[:properties]).to have_key(:discord_uid)
       expect(schema[:required]).to include("reservation_id")
     end
   end
@@ -37,9 +35,6 @@ RSpec.describe Mcp::Tools::EndReservationTool do
   end
 
   describe "#execute" do
-    let(:admin_user) { create(:user, :admin) }
-    let(:tool) { described_class.new(admin_user) }
-
     let(:owner) { create(:user, uid: "76561198012345678") }
     let(:server) { create(:server) }
 
@@ -53,13 +48,15 @@ RSpec.describe Mcp::Tools::EndReservationTool do
       )
     end
 
-    context "with valid authorization via steam_uid" do
+    context "when API user is the reservation owner" do
+      let(:tool) { described_class.new(owner) }
+
       before do
         allow_any_instance_of(Reservation).to receive(:end_reservation)
       end
 
       it "ends the reservation successfully" do
-        result = tool.execute(reservation_id: active_reservation.id, steam_uid: owner.uid)
+        result = tool.execute(reservation_id: active_reservation.id)
 
         expect(result[:success]).to be true
         expect(result[:message]).to include("ended successfully")
@@ -69,70 +66,53 @@ RSpec.describe Mcp::Tools::EndReservationTool do
       it "calls end_reservation on the reservation" do
         expect_any_instance_of(Reservation).to receive(:end_reservation)
 
-        tool.execute(reservation_id: active_reservation.id, steam_uid: owner.uid)
+        tool.execute(reservation_id: active_reservation.id)
       end
     end
 
-    context "with valid authorization via discord_uid" do
-      let(:discord_owner) { create(:user, uid: "76561198087654321", discord_uid: "123456789012345678") }
-      let(:discord_server) { create(:server, name: "Discord Test Server") }
-      let!(:discord_reservation) do
-        create(:reservation,
-          server: discord_server,
-          user: discord_owner,
-          starts_at: 5.minutes.ago,
-          ends_at: 55.minutes.from_now,
-          provisioned: true
-        )
+    context "when API user is an admin (privileged)" do
+      let(:admin_user) { create(:user, :admin) }
+      let(:tool) { described_class.new(admin_user) }
+
+      before do
+        allow_any_instance_of(Reservation).to receive(:end_reservation)
       end
 
-      it "ends the reservation successfully" do
-        allow_any_instance_of(Reservation).to receive(:end_reservation)
-
-        result = tool.execute(reservation_id: discord_reservation.id, discord_uid: "123456789012345678")
+      it "can end any reservation" do
+        result = tool.execute(reservation_id: active_reservation.id)
 
         expect(result[:success]).to be true
-        expect(result[:message]).to include("ended successfully")
       end
+    end
 
-      it "returns error if discord account not linked" do
-        result = tool.execute(reservation_id: discord_reservation.id, discord_uid: "999999999999999999")
+    context "when API user does not own the reservation" do
+      let(:other_user) { create(:user, uid: "76561198099999999") }
+      let(:tool) { described_class.new(other_user) }
 
-        expect(result[:error]).to include("not linked")
+      it "returns authorization error" do
+        result = tool.execute(reservation_id: active_reservation.id)
+
+        expect(result[:error]).to include("Not authorized")
       end
     end
 
     context "with missing reservation_id" do
+      let(:tool) { described_class.new(owner) }
+
       it "returns error" do
-        result = tool.execute(steam_uid: owner.uid)
+        result = tool.execute({})
 
         expect(result[:error]).to include("reservation_id is required")
       end
     end
 
     context "with invalid reservation_id" do
+      let(:tool) { described_class.new(owner) }
+
       it "returns error if reservation not found" do
-        result = tool.execute(reservation_id: 999999, steam_uid: owner.uid)
+        result = tool.execute(reservation_id: 999999)
 
         expect(result[:error]).to include("not found")
-      end
-    end
-
-    context "with missing authorization" do
-      it "returns error if no steam_uid or discord_uid provided" do
-        result = tool.execute(reservation_id: active_reservation.id)
-
-        expect(result[:error]).to include("steam_uid or discord_uid is required")
-      end
-    end
-
-    context "when user does not own the reservation" do
-      let(:other_user) { create(:user, uid: "76561198099999999") }
-
-      it "returns authorization error" do
-        result = tool.execute(reservation_id: active_reservation.id, steam_uid: other_user.uid)
-
-        expect(result[:error]).to include("Not authorized")
       end
     end
 
@@ -148,9 +128,10 @@ RSpec.describe Mcp::Tools::EndReservationTool do
         )
         reservation.reload
       end
+      let(:tool) { described_class.new(ended_owner) }
 
       it "returns error" do
-        result = tool.execute(reservation_id: ended_reservation.id, steam_uid: ended_owner.uid)
+        result = tool.execute(reservation_id: ended_reservation.id)
 
         expect(result[:error]).to include("already ended")
       end
@@ -166,9 +147,10 @@ RSpec.describe Mcp::Tools::EndReservationTool do
           ends_at: 3.hours.from_now
         )
       end
+      let(:tool) { described_class.new(owner) }
 
       it "returns error" do
-        result = tool.execute(reservation_id: future_reservation.id, steam_uid: owner.uid)
+        result = tool.execute(reservation_id: future_reservation.id)
 
         expect(result[:error]).to include("future reservation")
       end

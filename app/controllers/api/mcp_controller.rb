@@ -3,8 +3,6 @@
 
 module Api
   class McpController < Api::ApplicationController
-    before_action :require_admin_or_league_admin
-
     # GET /api/mcp/tools
     # Returns list of tools available to the current user
     def tools
@@ -13,17 +11,17 @@ module Api
     end
 
     # POST /api/mcp/execute
+    # POST /api/mcp (Streamable HTTP)
     # Handles MCP JSON-RPC requests
     def execute
       handler = Mcp::ProtocolHandler.new(current_user)
       result = handler.handle(request.raw_post)
-      render json: result
-    end
 
-    private
-
-    def require_admin_or_league_admin
-      head :forbidden unless current_admin || current_league_admin
+      if result.nil?
+        head :no_content
+      else
+        render json: result
+      end
     end
   end
 end

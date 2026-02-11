@@ -109,6 +109,9 @@ module GeneratedUrlHelpersModule
   def discord_link_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def dismiss_proxy_league_request_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def donate_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }

@@ -16,7 +16,8 @@ describe IpLookupSyncWorker do
       connection_type: "Corporate",
       isp: "Test ISP",
       country_code: "US",
-      raw_response: { "test" => "data" }
+      raw_response: { "test" => "data" },
+      false_positive: false
     )
   end
 

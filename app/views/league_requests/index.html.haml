@@ -41,12 +41,19 @@
                   %span.badge.badge-warning{title: "Possible VPN"}
                     %i.fa.fa-flag
                 - if ip_lookup = @ip_lookups[result.ip]
-                  - if ip_lookup.is_residential_proxy
-                    %span.badge.badge-danger{title: "Residential proxy (fraud score: #{ip_lookup.fraud_score})"}
-                      %i.fa.fa-user-secret
-                  - elsif ip_lookup.is_proxy
-                    %span.badge.badge-warning{title: "Proxy (fraud score: #{ip_lookup.fraud_score})"}
-                      %i.fa.fa-user-secret
+                  - if ip_lookup.is_residential_proxy || ip_lookup.is_proxy
+                    - if ip_lookup.false_positive
+                      - proxy_title = "Dismissed proxy (fraud score: #{ip_lookup.fraud_score}) — click to undismiss"
+                      = button_to dismiss_proxy_league_request_path, method: :patch, class: "btn btn-sm p-0 border-0", style: "background: none; line-height: 1", title: proxy_title, params: { ip: result.ip, search_ip: @league_request_params[:ip], search_steam_uid: @league_request_params[:steam_uid], search_reservation_ids: @league_request_params[:reservation_ids], search_cross_reference: @league_request_params[:cross_reference] } do
+                        %span.badge.badge-success
+                          %i.fa.fa-user-secret
+                    - else
+                      - proxy_label = ip_lookup.is_residential_proxy ? "Residential proxy" : "Proxy"
+                      - proxy_badge = ip_lookup.is_residential_proxy ? "badge-danger" : "badge-warning"
+                      - proxy_title = "#{proxy_label} (fraud score: #{ip_lookup.fraud_score}) — click to dismiss"
+                      = button_to dismiss_proxy_league_request_path, method: :patch, class: "btn btn-sm p-0 border-0", style: "background: none; line-height: 1", title: proxy_title, params: { ip: result.ip, search_ip: @league_request_params[:ip], search_steam_uid: @league_request_params[:steam_uid], search_reservation_ids: @league_request_params[:reservation_ids], search_cross_reference: @league_request_params[:cross_reference] } do
+                        %span.badge{class: proxy_badge}
+                          %i.fa.fa-user-secret
               - else
                 = link_to(result.ip, league_request_path(ip: result.ip))
           %td

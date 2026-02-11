@@ -54,7 +54,8 @@ class IpLookupSyncWorker
         connection_type: ip_lookup.connection_type,
         isp: ip_lookup.isp,
         country_code: ip_lookup.country_code,
-        raw_response: ip_lookup.raw_response
+        raw_response: ip_lookup.raw_response,
+        false_positive: ip_lookup.false_positive
       }
     }
   end

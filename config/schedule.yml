@@ -38,6 +38,11 @@ daily_zipfile_upload_tz:
   class: "DailyZipfileUploadWorker"
   queue: default
 
+daily_proxy_report_tz:
+  cron: "0 9 * * * Europe/Amsterdam"
+  class: "DailyProxyReportWorker"
+  queue: default
+
 league_maps_sync_tz:
   cron: "0 * * * * Europe/Amsterdam"  # Run hourly
   class: "LeagueMapsSyncWorker"

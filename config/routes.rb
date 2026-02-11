@@ -78,6 +78,7 @@ Serveme::Application.routes.draw do
   get "league-request", to: "league_requests#new"
   post "league-request", to: "league_requests#create"
   get "league-request/stac-detections", to: "league_requests#stac_detections", as: :league_request_stac_detections
+  patch "league-request/dismiss-proxy", to: "league_requests#dismiss_proxy", as: :dismiss_proxy_league_request
 
   resources :pages do
     collection do

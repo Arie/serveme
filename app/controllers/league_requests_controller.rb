@@ -57,6 +57,17 @@ class LeagueRequestsController < ApplicationController
     render partial: "stac_detections"
   end
 
+  def dismiss_proxy
+    ip_lookup = IpLookup.find_by!(ip: params[:ip])
+    ip_lookup.update!(false_positive: !ip_lookup.false_positive)
+    redirect_to league_request_path(
+      ip: params[:search_ip],
+      steam_uid: params[:search_steam_uid],
+      reservation_ids: params[:search_reservation_ids],
+      cross_reference: params[:search_cross_reference]
+    )
+  end
+
   def create
     respond_to do |format|
       format.html do

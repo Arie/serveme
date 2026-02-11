@@ -643,6 +643,51 @@ class IpLookup
     sig { void }
     def created_at_will_change!; end
 
+    sig { returns(T.nilable(T::Boolean)) }
+    def false_positive; end
+
+    sig { params(value: T.nilable(T::Boolean)).returns(T.nilable(T::Boolean)) }
+    def false_positive=(value); end
+
+    sig { returns(T::Boolean) }
+    def false_positive?; end
+
+    sig { returns(T.nilable(T::Boolean)) }
+    def false_positive_before_last_save; end
+
+    sig { returns(T.untyped) }
+    def false_positive_before_type_cast; end
+
+    sig { returns(T::Boolean) }
+    def false_positive_came_from_user?; end
+
+    sig { returns(T.nilable([T.nilable(T::Boolean), T.nilable(T::Boolean)])) }
+    def false_positive_change; end
+
+    sig { returns(T.nilable([T.nilable(T::Boolean), T.nilable(T::Boolean)])) }
+    def false_positive_change_to_be_saved; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def false_positive_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(T::Boolean)) }
+    def false_positive_in_database; end
+
+    sig { returns(T.nilable([T.nilable(T::Boolean), T.nilable(T::Boolean)])) }
+    def false_positive_previous_change; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def false_positive_previously_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(T::Boolean)) }
+    def false_positive_previously_was; end
+
+    sig { returns(T.nilable(T::Boolean)) }
+    def false_positive_was; end
+
+    sig { void }
+    def false_positive_will_change!; end
+
     sig { returns(T.nilable(::Integer)) }
     def fraud_score; end
 
@@ -1013,6 +1058,9 @@ class IpLookup
     def restore_created_at!; end
 
     sig { void }
+    def restore_false_positive!; end
+
+    sig { void }
     def restore_fraud_score!; end
 
     sig { void }
@@ -1056,6 +1104,12 @@ class IpLookup
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def saved_change_to_created_at?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable([T.nilable(T::Boolean), T.nilable(T::Boolean)])) }
+    def saved_change_to_false_positive; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def saved_change_to_false_positive?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
     sig { returns(T.nilable([T.nilable(::Integer), T.nilable(::Integer)])) }
     def saved_change_to_fraud_score; end
@@ -1164,6 +1218,9 @@ class IpLookup
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def will_save_change_to_created_at?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def will_save_change_to_false_positive?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def will_save_change_to_fraud_score?(from: T.unsafe(nil), to: T.unsafe(nil)); end

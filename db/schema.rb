@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_11_111517) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_11_203110) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -102,12 +102,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_11_111517) do
   end
 
   create_table "ip_lookups", force: :cascade do |t|
+    t.string "ban_reason"
     t.string "connection_type"
     t.string "country_code"
     t.datetime "created_at", null: false
     t.boolean "false_positive", default: false
     t.integer "fraud_score"
     t.string "ip", null: false
+    t.boolean "is_banned", default: false
     t.boolean "is_proxy", default: false
     t.boolean "is_residential_proxy", default: false
     t.string "isp"

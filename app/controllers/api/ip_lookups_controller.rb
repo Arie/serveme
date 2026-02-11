@@ -21,7 +21,8 @@ module Api
     def ip_lookup_params
       params.require(:ip_lookup).permit(
         :ip, :is_proxy, :is_residential_proxy, :fraud_score,
-        :connection_type, :isp, :country_code, :false_positive, raw_response: {}
+        :connection_type, :isp, :country_code, :false_positive,
+        :is_banned, :ban_reason, raw_response: {}
       )
     end
   end

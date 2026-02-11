@@ -79,6 +79,9 @@ module GeneratedPathHelpersModule
   def apply_admin_league_maps_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def ban_ip_league_request_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def claim_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
@@ -203,6 +206,12 @@ module GeneratedPathHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def leaderboard_donators_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def league_request_ai_chat_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def league_request_ai_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def league_request_path(*args); end

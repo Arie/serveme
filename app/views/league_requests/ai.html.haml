@@ -1,0 +1,24 @@
+- content_for(:title, "AI Investigation Assistant")
+
+:css
+  .container { max-width: 100%; width: 100%; }
+
+.row
+  .col-md-12
+    %h3
+      AI Investigation Assistant
+      = link_to "Back to League Requests", league_request_path, class: "btn btn-sm btn-default pull-right"
+
+%div{data: {controller: "league-ai"}, style: "max-width: 100%;"}
+  .row
+    .col-md-12
+      #chat-messages.well{style: "height: calc(100vh - 180px); overflow-y: auto; background: #1a1a1a; padding: 15px;", data: {league_ai_target: "messages"}}
+        %p.text-muted
+          Ask me to investigate players, search for alts, look up ASNs, or search reservation logs.
+
+  .row{style: "margin-top: 10px;"}
+    .col-md-11
+      %input.form-control{type: "text", autocomplete: "off", value: "Check for alt accounts, proxy usage, and poor chat behavior for ", data: {league_ai_target: "input", action: "keydown.enter->league-ai#send"}}
+    .col-md-1
+      %button.btn.btn-primary.btn-block{data: {league_ai_target: "sendButton", action: "league-ai#send"}}
+        Send

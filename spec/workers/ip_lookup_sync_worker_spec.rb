@@ -17,7 +17,9 @@ describe IpLookupSyncWorker do
       isp: "Test ISP",
       country_code: "US",
       raw_response: { "test" => "data" },
-      false_positive: false
+      false_positive: false,
+      is_banned: false,
+      ban_reason: nil
     )
   end
 

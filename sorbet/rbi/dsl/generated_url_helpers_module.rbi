@@ -79,6 +79,9 @@ module GeneratedUrlHelpersModule
   def apply_admin_league_maps_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def ban_ip_league_request_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def claim_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
@@ -203,6 +206,12 @@ module GeneratedUrlHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def leaderboard_donators_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def league_request_ai_chat_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def league_request_ai_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def league_request_stac_detections_url(*args); end

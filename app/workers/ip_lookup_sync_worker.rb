@@ -55,7 +55,9 @@ class IpLookupSyncWorker
         isp: ip_lookup.isp,
         country_code: ip_lookup.country_code,
         raw_response: ip_lookup.raw_response,
-        false_positive: ip_lookup.false_positive
+        false_positive: ip_lookup.false_positive,
+        is_banned: ip_lookup.is_banned,
+        ban_reason: ip_lookup.ban_reason
       }
     }
   end

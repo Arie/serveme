@@ -79,6 +79,9 @@ Serveme::Application.routes.draw do
   post "league-request", to: "league_requests#create"
   get "league-request/stac-detections", to: "league_requests#stac_detections", as: :league_request_stac_detections
   patch "league-request/dismiss-proxy", to: "league_requests#dismiss_proxy", as: :dismiss_proxy_league_request
+  patch "league-request/ban-ip", to: "league_requests#ban_ip", as: :ban_ip_league_request
+  get  "league-request/ai", to: "league_requests#ai", as: :league_request_ai
+  post "league-request/ai", to: "league_requests#ai_chat", as: :league_request_ai_chat
 
   resources :pages do
     collection do

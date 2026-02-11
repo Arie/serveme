@@ -63,8 +63,9 @@ class ReservationPlayer < ActiveRecord::Base
     return false unless ip
 
     banned_ip = banned_ips.find { |range, _reason| range.include?(ip) }
+    return banned_ip[1] if banned_ip
 
-    banned_ip && banned_ip[1]
+    IpLookup.where(ip: ip, is_banned: true).pick(:ban_reason)
   end
 
   sig { params(steam_id64: T.any(Integer, String)).returns(T.nilable(T::Boolean)) }

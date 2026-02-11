@@ -2,6 +2,8 @@
 # frozen_string_literal: true
 
 class LeagueRequestsController < ApplicationController
+  include ActionController::Live # Required for ai_chat SSE streaming
+
   before_action :require_site_or_league_admin
 
   def new
@@ -59,13 +61,57 @@ class LeagueRequestsController < ApplicationController
 
   def dismiss_proxy
     ip_lookup = IpLookup.find_by!(ip: params[:ip])
-    ip_lookup.update!(false_positive: !ip_lookup.false_positive)
+    ip_lookup.is_banned = false if ip_lookup.is_banned && !ip_lookup.false_positive
+    ip_lookup.false_positive = !ip_lookup.false_positive
+    ip_lookup.save!
     redirect_to league_request_path(
       ip: params[:search_ip],
       steam_uid: params[:search_steam_uid],
       reservation_ids: params[:search_reservation_ids],
       cross_reference: params[:search_cross_reference]
     )
+  end
+
+  def ban_ip
+    ip_lookup = IpLookup.find_or_initialize_by(ip: params[:ip])
+    ip_lookup.is_banned = !ip_lookup.is_banned
+    ip_lookup.ban_reason = ip_lookup.is_banned ? "residential proxy" : nil
+    ip_lookup.false_positive = false if ip_lookup.is_banned
+    ip_lookup.is_proxy = true unless ip_lookup.persisted?
+    ip_lookup.save!
+    redirect_to league_request_path(
+      ip: params[:search_ip],
+      steam_uid: params[:search_steam_uid],
+      reservation_ids: params[:search_reservation_ids],
+      cross_reference: params[:search_cross_reference]
+    )
+  end
+
+  def ai
+  end
+
+  def ai_chat
+    response.headers["Content-Type"] = "text/event-stream"
+    response.headers["Cache-Control"] = "no-cache"
+    response.headers["X-Accel-Buffering"] = "no"
+
+    messages = params[:messages].filter_map do |m|
+      next unless m[:role].to_s.in?(%w[user assistant])
+
+      { role: m[:role].to_s, content: m[:content].to_s }
+    end
+
+    service = LeagueAdminAiService.new(user: current_user)
+    service.stream_response(messages: messages) do |type, data|
+      response.stream.write("data: #{({ type: type, data: data }.to_json)}\n\n")
+    end
+
+    response.stream.write("data: #{({ type: :done, data: nil }.to_json)}\n\n")
+  rescue => e
+    Rails.logger.error("[LeagueAdminAI] Error: #{e.class}: #{e.message}\n#{e.backtrace&.first(5)&.join("\n")}")
+    response.stream.write("data: #{({ type: :error, data: e.message }.to_json)}\n\n")
+  ensure
+    response.stream.close
   end
 
   def create

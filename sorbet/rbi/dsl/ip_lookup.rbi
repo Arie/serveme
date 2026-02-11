@@ -509,6 +509,51 @@ class IpLookup
 
   module GeneratedAttributeMethods
     sig { returns(T.nilable(::String)) }
+    def ban_reason; end
+
+    sig { params(value: T.nilable(::String)).returns(T.nilable(::String)) }
+    def ban_reason=(value); end
+
+    sig { returns(T::Boolean) }
+    def ban_reason?; end
+
+    sig { returns(T.nilable(::String)) }
+    def ban_reason_before_last_save; end
+
+    sig { returns(T.untyped) }
+    def ban_reason_before_type_cast; end
+
+    sig { returns(T::Boolean) }
+    def ban_reason_came_from_user?; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def ban_reason_change; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def ban_reason_change_to_be_saved; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def ban_reason_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::String)) }
+    def ban_reason_in_database; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def ban_reason_previous_change; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def ban_reason_previously_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::String)) }
+    def ban_reason_previously_was; end
+
+    sig { returns(T.nilable(::String)) }
+    def ban_reason_was; end
+
+    sig { void }
+    def ban_reason_will_change!; end
+
+    sig { returns(T.nilable(::String)) }
     def connection_type; end
 
     sig { params(value: T.nilable(::String)).returns(T.nilable(::String)) }
@@ -869,6 +914,51 @@ class IpLookup
     def ip_will_change!; end
 
     sig { returns(T.nilable(T::Boolean)) }
+    def is_banned; end
+
+    sig { params(value: T.nilable(T::Boolean)).returns(T.nilable(T::Boolean)) }
+    def is_banned=(value); end
+
+    sig { returns(T::Boolean) }
+    def is_banned?; end
+
+    sig { returns(T.nilable(T::Boolean)) }
+    def is_banned_before_last_save; end
+
+    sig { returns(T.untyped) }
+    def is_banned_before_type_cast; end
+
+    sig { returns(T::Boolean) }
+    def is_banned_came_from_user?; end
+
+    sig { returns(T.nilable([T.nilable(T::Boolean), T.nilable(T::Boolean)])) }
+    def is_banned_change; end
+
+    sig { returns(T.nilable([T.nilable(T::Boolean), T.nilable(T::Boolean)])) }
+    def is_banned_change_to_be_saved; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def is_banned_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(T::Boolean)) }
+    def is_banned_in_database; end
+
+    sig { returns(T.nilable([T.nilable(T::Boolean), T.nilable(T::Boolean)])) }
+    def is_banned_previous_change; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def is_banned_previously_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(T::Boolean)) }
+    def is_banned_previously_was; end
+
+    sig { returns(T.nilable(T::Boolean)) }
+    def is_banned_was; end
+
+    sig { void }
+    def is_banned_will_change!; end
+
+    sig { returns(T.nilable(T::Boolean)) }
     def is_proxy; end
 
     sig { params(value: T.nilable(T::Boolean)).returns(T.nilable(T::Boolean)) }
@@ -1049,6 +1139,9 @@ class IpLookup
     def raw_response_will_change!; end
 
     sig { void }
+    def restore_ban_reason!; end
+
+    sig { void }
     def restore_connection_type!; end
 
     sig { void }
@@ -1073,6 +1166,9 @@ class IpLookup
     def restore_ip!; end
 
     sig { void }
+    def restore_is_banned!; end
+
+    sig { void }
     def restore_is_proxy!; end
 
     sig { void }
@@ -1086,6 +1182,12 @@ class IpLookup
 
     sig { void }
     def restore_updated_at!; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def saved_change_to_ban_reason; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def saved_change_to_ban_reason?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
     sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
     def saved_change_to_connection_type; end
@@ -1134,6 +1236,12 @@ class IpLookup
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def saved_change_to_ip?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable([T.nilable(T::Boolean), T.nilable(T::Boolean)])) }
+    def saved_change_to_is_banned; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def saved_change_to_is_banned?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
     sig { returns(T.nilable([T.nilable(T::Boolean), T.nilable(T::Boolean)])) }
     def saved_change_to_is_proxy; end
@@ -1211,6 +1319,9 @@ class IpLookup
     def updated_at_will_change!; end
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def will_save_change_to_ban_reason?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def will_save_change_to_connection_type?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
@@ -1233,6 +1344,9 @@ class IpLookup
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def will_save_change_to_ip?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def will_save_change_to_is_banned?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def will_save_change_to_is_proxy?(from: T.unsafe(nil), to: T.unsafe(nil)); end

@@ -35,25 +35,36 @@
                 - tooltip_html = "<strong>ASN</strong> #{asn_number}<br><strong>ORG</strong> #{asn_org}<br><strong>NET</strong> #{asn_net}"
                 = link_to(result.ip, league_request_path(ip: result.ip), class: "asn-tooltip", data: {toggle: "tooltip", html: true, placement: "top"}, title: tooltip_html)
                 - if ban_reason = @banned_ips[result.ip]
-                  %span.badge.badge-danger{title: ban_reason}
-                    %i.fa 💀
+                  - unless @ip_lookups[result.ip]&.is_banned
+                    %span.badge.badge-danger{title: ban_reason}
+                      %i.fa 💀
                 - if @banned_asns[asn_number]
                   %span.badge.badge-warning{title: "Possible VPN"}
                     %i.fa.fa-flag
                 - if ip_lookup = @ip_lookups[result.ip]
-                  - if ip_lookup.is_residential_proxy || ip_lookup.is_proxy
+                  - search_params = { ip: result.ip, search_ip: @league_request_params[:ip], search_steam_uid: @league_request_params[:steam_uid], search_reservation_ids: @league_request_params[:reservation_ids], search_cross_reference: @league_request_params[:cross_reference] }
+                  - if ip_lookup.is_banned
+                    - ban_title = "Banned IP (#{ip_lookup.ban_reason}) — click to unban"
+                    = button_to ban_ip_league_request_path, method: :patch, class: "btn btn-sm p-0 border-0", style: "background: none; line-height: 1", form_class: "d-inline", title: ban_title, params: search_params do
+                      %span.badge.badge-danger
+                        %i.fa.fa-gavel
+                  - elsif ip_lookup.is_residential_proxy || ip_lookup.is_proxy
                     - if ip_lookup.false_positive
                       - proxy_title = "Dismissed proxy (fraud score: #{ip_lookup.fraud_score}) — click to undismiss"
-                      = button_to dismiss_proxy_league_request_path, method: :patch, class: "btn btn-sm p-0 border-0", style: "background: none; line-height: 1", title: proxy_title, params: { ip: result.ip, search_ip: @league_request_params[:ip], search_steam_uid: @league_request_params[:steam_uid], search_reservation_ids: @league_request_params[:reservation_ids], search_cross_reference: @league_request_params[:cross_reference] } do
+                      = button_to dismiss_proxy_league_request_path, method: :patch, class: "btn btn-sm p-0 border-0", style: "background: none; line-height: 1", title: proxy_title, params: search_params do
                         %span.badge.badge-success
                           %i.fa.fa-user-secret
                     - else
                       - proxy_label = ip_lookup.is_residential_proxy ? "Residential proxy" : "Proxy"
                       - proxy_badge = ip_lookup.is_residential_proxy ? "badge-danger" : "badge-warning"
                       - proxy_title = "#{proxy_label} (fraud score: #{ip_lookup.fraud_score}) — click to dismiss"
-                      = button_to dismiss_proxy_league_request_path, method: :patch, class: "btn btn-sm p-0 border-0", style: "background: none; line-height: 1", title: proxy_title, params: { ip: result.ip, search_ip: @league_request_params[:ip], search_steam_uid: @league_request_params[:steam_uid], search_reservation_ids: @league_request_params[:reservation_ids], search_cross_reference: @league_request_params[:cross_reference] } do
+                      = button_to dismiss_proxy_league_request_path, method: :patch, class: "btn btn-sm p-0 border-0", style: "background: none; line-height: 1", form_class: "d-inline", title: proxy_title, params: search_params do
                         %span.badge{class: proxy_badge}
                           %i.fa.fa-user-secret
+                      - ban_title = "Ban this IP — click to ban"
+                      = button_to ban_ip_league_request_path, method: :patch, class: "btn btn-sm p-0 border-0", style: "background: none; line-height: 1", form_class: "d-inline ml-1", title: ban_title, params: search_params do
+                        %span.badge.badge-dark.border
+                          %i.fa.fa-gavel
               - else
                 = link_to(result.ip, league_request_path(ip: result.ip))
           %td

@@ -138,3 +138,5 @@ group :discord do
 end
 
 gem "brakeman", "~> 7.0", groups: %i[development test]
+
+gem "anthropic", "~> 1.19"

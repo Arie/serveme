@@ -7,6 +7,24 @@ module Mcp
       extend T::Sig
 
       MAX_SEARCH_TERM_LENGTH = 200
+      RELEVANT_PATTERNS = [
+        '" say "',
+        '" say_team "',
+        "connected,",
+        "disconnected",
+        'joined team "',
+        'changed role to "',
+        'spawned as "',
+        "entered the game",
+        "kicked",
+        "banned",
+        "Log file",
+        "World triggered",
+        "Team ",
+        'triggered "round_',
+        "rcon",
+        "server_cvar"
+      ].freeze
 
       sig { override.returns(String) }
       def self.tool_name
@@ -117,6 +135,8 @@ module Mcp
         skipped = 0
         IO.popen(args) do |io|
           io.each_line do |line|
+            next unless relevant_line?(line)
+
             if skipped < offset
               skipped += 1
             else
@@ -139,7 +159,7 @@ module Mcp
 
       sig { params(log_file: String, max_results: Integer, offset: Integer, reservation_id: T.untyped, total_lines: Integer).returns(T::Hash[Symbol, T.untyped]) }
       def tail_log(log_file, max_results, offset, reservation_id, total_lines)
-        all_lines = File.readlines(log_file).map(&:chomp)
+        all_lines = File.readlines(log_file).map(&:chomp).select { |line| relevant_line?(line) }
         if offset > 0
           lines = all_lines.drop(offset).first(max_results)
         else
@@ -154,6 +174,11 @@ module Mcp
           lines: lines,
           truncated: offset > 0 ? (offset + lines.size < all_lines.size) : (all_lines.size > max_results)
         }
+      end
+
+      sig { params(line: String).returns(T::Boolean) }
+      def relevant_line?(line)
+        RELEVANT_PATTERNS.any? { |pattern| line.include?(pattern) }
       end
 
       sig { params(term: String).returns(T.nilable(String)) }

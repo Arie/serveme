@@ -47,9 +47,16 @@ RSpec.describe Mcp::Tools::SearchReservationLogsTool do
         L 01/15/2026 - 20:00:01: Log file started
         L 01/15/2026 - 20:00:02: "PlayerOne<2><[U:1:12345]><>" connected, address "192.168.1.100:27005"
         L 01/15/2026 - 20:00:03: "PlayerTwo<3><[U:1:67890]><>" connected, address "10.0.0.50:27005"
+        L 01/15/2026 - 20:00:04: "PlayerOne<2><[U:1:12345]><Unassigned>" joined team "Red"
+        L 01/15/2026 - 20:00:05: "PlayerOne<2><[U:1:12345]><Red>" changed role to "scout"
+        L 01/15/2026 - 20:00:06: "PlayerOne<2><[U:1:12345]><Red>" spawned as "scout"
         L 01/15/2026 - 20:00:10: "PlayerOne<2><[U:1:12345]><Red>" say "gg"
         L 01/15/2026 - 20:00:11: "PlayerTwo<3><[U:1:67890]><Blue>" say "gg wp"
-        L 01/15/2026 - 20:00:15: "PlayerOne<2><[U:1:12345]><Red>" killed "PlayerTwo<3><[U:1:67890]><Blue>"
+        L 01/15/2026 - 20:00:15: "PlayerOne<2><[U:1:12345]><Red>" killed "PlayerTwo<3><[U:1:67890]><Blue>" with "scattergun"
+        L 01/15/2026 - 20:00:16: "PlayerTwo<3><[U:1:67890]><Blue>" triggered "damage" against "PlayerOne<2><[U:1:12345]><Red>" (damage "50")
+        L 01/15/2026 - 20:00:17: "PlayerOne<2><[U:1:12345]><Red>" triggered "shot_fired" (weapon "scattergun")
+        L 01/15/2026 - 20:00:18: "PlayerOne<2><[U:1:12345]><Red>" triggered "shot_hit" (weapon "scattergun")
+        L 01/15/2026 - 20:00:19: "PlayerTwo<3><[U:1:67890]><Blue>" triggered "healed" against "PlayerOne<2><[U:1:12345]><Red>" (healing "24")
         L 01/15/2026 - 20:00:20: Log file closed
       LOG
     end
@@ -69,15 +76,15 @@ RSpec.describe Mcp::Tools::SearchReservationLogsTool do
 
         expect(result[:reservation_id]).to eq(reservation.id)
         expect(result[:lines]).to be_an(Array)
-        expect(result[:lines].size).to eq(3)
-        expect(result[:match_count]).to eq(3)
+        expect(result[:lines].size).to eq(5)
+        expect(result[:match_count]).to eq(5)
         expect(result[:lines]).to all(include("PlayerOne"))
       end
 
       it "searches case-insensitively" do
         result = tool.execute(reservation_id: reservation.id, search_term: "playerone")
 
-        expect(result[:lines].size).to eq(3)
+        expect(result[:lines].size).to eq(5)
       end
 
       it "finds chat messages" do
@@ -88,19 +95,24 @@ RSpec.describe Mcp::Tools::SearchReservationLogsTool do
     end
 
     context "with no search term" do
-      it "returns the full log content" do
+      it "returns only relevant log lines" do
         result = tool.execute(reservation_id: reservation.id)
 
         expect(result[:reservation_id]).to eq(reservation.id)
         expect(result[:lines]).to be_an(Array)
-        expect(result[:lines].size).to eq(7)
+        expect(result[:lines].size).to eq(9)
+        expect(result[:lines].none? { |l| l.include?('" killed "') }).to be true
+        expect(result[:lines].none? { |l| l.include?('triggered "damage"') }).to be true
+        expect(result[:lines].none? { |l| l.include?('triggered "shot_fired"') }).to be true
+        expect(result[:lines].none? { |l| l.include?('triggered "shot_hit"') }).to be true
+        expect(result[:lines].none? { |l| l.include?('triggered "healed"') }).to be true
         expect(result[:truncated]).to be false
       end
     end
 
     context "with context_lines parameter" do
       it "includes context around matches" do
-        result = tool.execute(reservation_id: reservation.id, search_term: "killed", context_lines: 1)
+        result = tool.execute(reservation_id: reservation.id, search_term: "Log file started", context_lines: 1)
 
         expect(result[:lines]).to be_an(Array)
         expect(result[:lines].size).to be > 1
@@ -109,9 +121,9 @@ RSpec.describe Mcp::Tools::SearchReservationLogsTool do
 
     context "with max_results cap" do
       it "limits the number of results" do
-        result = tool.execute(reservation_id: reservation.id, search_term: "PlayerOne", max_results: 2)
+        result = tool.execute(reservation_id: reservation.id, search_term: "PlayerOne", max_results: 3)
 
-        expect(result[:lines].size).to eq(2)
+        expect(result[:lines].size).to eq(3)
         expect(result[:truncated]).to be true
       end
 
@@ -126,21 +138,21 @@ RSpec.describe Mcp::Tools::SearchReservationLogsTool do
     context "with offset parameter" do
       it "skips matches when searching" do
         all_results = tool.execute(reservation_id: reservation.id, search_term: "PlayerOne")
-        offset_results = tool.execute(reservation_id: reservation.id, search_term: "PlayerOne", offset: 1)
+        offset_results = tool.execute(reservation_id: reservation.id, search_term: "PlayerOne", offset: 2)
 
-        expect(offset_results[:lines].size).to eq(2)
-        expect(offset_results[:lines]).to eq(all_results[:lines][1..])
-        expect(offset_results[:offset]).to eq(1)
+        expect(offset_results[:lines].size).to eq(3)
+        expect(offset_results[:lines]).to eq(all_results[:lines][2..])
+        expect(offset_results[:offset]).to eq(2)
         expect(offset_results[:truncated]).to be false
       end
 
       it "paginates search results with offset and max_results" do
-        page1 = tool.execute(reservation_id: reservation.id, search_term: "PlayerOne", max_results: 2, offset: 0)
-        page2 = tool.execute(reservation_id: reservation.id, search_term: "PlayerOne", max_results: 2, offset: 2)
+        page1 = tool.execute(reservation_id: reservation.id, search_term: "20:00", max_results: 5, offset: 0)
+        page2 = tool.execute(reservation_id: reservation.id, search_term: "20:00", max_results: 5, offset: 5)
 
-        expect(page1[:lines].size).to eq(2)
+        expect(page1[:lines].size).to eq(5)
         expect(page1[:truncated]).to be true
-        expect(page2[:lines].size).to eq(1)
+        expect(page2[:lines].size).to eq(4)
         expect(page2[:truncated]).to be false
       end
 

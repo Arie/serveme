@@ -22,6 +22,7 @@ class DailyProxyReportWorker
       .where("reservations.starts_at >= ?", 24.hours.ago)
       .where("(ip_lookups.is_proxy = ? OR ip_lookups.is_residential_proxy = ?)", true, true)
       .where("ip_lookups.false_positive != ?", true)
+      .where("ip_lookups.is_banned != ?", true)
       .select(
         "reservation_players.steam_uid",
         "reservation_players.name",

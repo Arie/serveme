@@ -54,6 +54,15 @@ RSpec.describe DailyProxyReportWorker do
       worker.perform
     end
 
+    it "excludes banned IpLookups" do
+      reservation = create_reservation_at(starts_at: 2.hours.ago, ends_at: 1.hour.ago)
+      create(:reservation_player, reservation: reservation, ip: "1.2.3.4", steam_uid: "76561198012345678")
+      IpLookup.create!(ip: "1.2.3.4", is_proxy: true, fraud_score: 90, isp: "ShadyVPN", country_code: "US", is_banned: true, ban_reason: "residential proxy")
+
+      expect(ProxyDetectionDiscordNotifier).not_to receive(:new)
+      worker.perform
+    end
+
     it "does nothing when there are no proxy detections" do
       expect(ProxyDetectionDiscordNotifier).not_to receive(:new)
       worker.perform

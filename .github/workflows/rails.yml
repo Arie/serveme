@@ -123,7 +123,7 @@ jobs:
         run: |
           sudo add-apt-repository ppa:maxmind/ppa
           sudo apt update
-          sudo apt install libmaxminddb0 libmaxminddb-dev redis-server memcached
+          sudo apt install libmaxminddb0 libmaxminddb-dev redis-server memcached ripgrep
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:

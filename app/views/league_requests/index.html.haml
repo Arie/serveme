@@ -51,7 +51,7 @@
                   - elsif ip_lookup.is_residential_proxy || ip_lookup.is_proxy
                     - if ip_lookup.false_positive
                       - proxy_title = "Dismissed proxy (fraud score: #{ip_lookup.fraud_score}) — click to undismiss"
-                      = button_to dismiss_proxy_league_request_path, method: :patch, class: "btn btn-sm p-0 border-0", style: "background: none; line-height: 1", title: proxy_title, params: search_params do
+                      = button_to dismiss_proxy_league_request_path, method: :patch, class: "btn btn-sm p-0 border-0", style: "background: none; line-height: 1", form_class: "d-inline", title: proxy_title, params: search_params do
                         %span.badge.badge-success
                           %i.fa.fa-user-secret
                     - else

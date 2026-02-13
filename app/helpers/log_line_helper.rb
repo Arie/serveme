@@ -89,7 +89,13 @@ module LogLineHelper
   def admin_only_events
     @admin_only_events ||= [
       TF2LineParser::Events::RoleChange,
-      TF2LineParser::Events::TeamSay
+      TF2LineParser::Events::TeamSay,
+      TF2LineParser::Events::ChargeReady,
+      TF2LineParser::Events::ChargeDeployed,
+      TF2LineParser::Events::ChargeEnded,
+      TF2LineParser::Events::LostUberAdvantage,
+      TF2LineParser::Events::EmptyUber,
+      TF2LineParser::Events::FirstHealAfterSpawn
     ]
   end
 

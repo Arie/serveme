@@ -218,7 +218,7 @@ class ReservationsController < ApplicationController
 
   def setup_log_viewing
     @logsecret = reservation.logsecret
-    @skip_sanitization = current_user&.admin?
+    @skip_sanitization = !!(current_admin || current_league_admin || current_streamer)
     @search_query = params[:q].presence
     @offset = params[:offset].to_i
     Sidekiq.redis { |r| r.set("log_listeners:#{@logsecret}", "1", ex: 30) }
@@ -246,10 +246,17 @@ class ReservationsController < ApplicationController
     service = LogStreamingService.new(streaming_log_path, search_query: query)
     result = service.view_at_position(position_percent: position_percent, count: count)
 
+    lines = result[:lines]
+
+    # Filter sensitive events for non-admin users during active reservations
+    if !@skip_sanitization && reservation.now?
+      lines = lines.reject { |line| admin_only_event?(line) }
+    end
+
     html = render_to_string(
       partial: "reservations/log_line",
       formats: [ :html ],
-      collection: result[:lines],
+      collection: lines,
       as: :log_line,
       locals: { skip_sanitization: @skip_sanitization }
     )

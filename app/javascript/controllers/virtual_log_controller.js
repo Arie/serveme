@@ -84,6 +84,10 @@ export default class extends Controller {
     this.boundHandleLogLineClick = this.handleLogLineClick.bind(this)
     this.linesContainerTarget.addEventListener('click', this.boundHandleLogLineClick)
 
+    // Set up copy handler for clean multi-line copy/paste
+    this.boundHandleCopy = this.handleCopy.bind(this)
+    this.element.addEventListener('copy', this.boundHandleCopy)
+
     // Listen for Turbo Stream updates
     this.boundHandleTurboStream = this.handleTurboStreamAppend.bind(this)
     document.addEventListener('turbo:before-stream-render', this.boundHandleTurboStream)
@@ -121,6 +125,7 @@ export default class extends Controller {
     this.viewportTarget.removeEventListener('scroll', this.boundUpdateTailingState)
     document.removeEventListener('keydown', this.boundHandleKeydown)
     this.linesContainerTarget.removeEventListener('click', this.boundHandleLogLineClick)
+    this.element.removeEventListener('copy', this.boundHandleCopy)
     document.removeEventListener('turbo:before-stream-render', this.boundHandleTurboStream)
     document.removeEventListener('visibilitychange', this.boundHandleVisibilityChange)
     if (this.reconnectObserver) {
@@ -646,6 +651,45 @@ export default class extends Controller {
         logLine.appendChild(rawEl)
       }
       logLine.classList.add('show-raw')
+    }
+  }
+
+  // Handle copy events to produce clean single-line text per log line
+  // Flex layout causes each element (timestamp, name, message) to appear
+  // on separate lines when copied — this joins them with spaces instead
+  handleCopy(event) {
+    const selection = window.getSelection()
+    if (!selection || selection.isCollapsed) return
+
+    const logLines = this.linesContainerTarget.querySelectorAll('.log-line')
+    const selectedLines = []
+
+    for (const logLine of logLines) {
+      if (selection.containsNode(logLine, true)) {
+        selectedLines.push(logLine)
+      }
+    }
+
+    const formattedLines = []
+    for (const logLine of selectedLines) {
+      const formatted = logLine.querySelector('.log-formatted')
+      if (!formatted) continue
+
+      // Join direct children's text with spaces to replace CSS flex gaps
+      const parts = []
+      for (const child of formatted.children) {
+        const text = child.textContent.trim()
+        if (text) parts.push(text)
+      }
+
+      if (parts.length > 0) {
+        formattedLines.push(parts.join(' '))
+      }
+    }
+
+    if (formattedLines.length > 0) {
+      event.preventDefault()
+      event.clipboardData.setData('text/plain', formattedLines.join('\n'))
     }
   }
 

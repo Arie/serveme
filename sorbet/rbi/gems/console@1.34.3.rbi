@@ -242,32 +242,36 @@ class Console::Filter
   #
   # @return [Filter] a new instance of Filter
   #
-  # source://console//lib/console/filter.rb#73
+  # source://console//lib/console/filter.rb#77
   def initialize(output, verbose: T.unsafe(nil), level: T.unsafe(nil), **options); end
 
   # Enable all logging.
   #
-  # source://console//lib/console/filter.rb#143
+  # source://console//lib/console/filter.rb#147
   def all!; end
 
   # Log a message with the given severity.
   #
-  # source://console//lib/console/filter.rb#214
+  # If the severity is not defined in this filter's LEVELS (e.g., when chaining
+  # filters with different severity levels), the message is passed through to the
+  # output without filtering. This allows custom filters to be composed together.
+  #
+  # source://console//lib/console/filter.rb#222
   def call(subject, *arguments, **options, &block); end
 
   # Clear any specific filters for the given class.
   #
-  # source://console//lib/console/filter.rb#199
+  # source://console//lib/console/filter.rb#203
   def clear(subject); end
 
   # Disable logging for the given class.
   #
-  # source://console//lib/console/filter.rb#191
+  # source://console//lib/console/filter.rb#195
   def disable(subject); end
 
   # Enable specific log level for the given class.
   #
-  # source://console//lib/console/filter.rb#183
+  # source://console//lib/console/filter.rb#187
   def enable(subject, level = T.unsafe(nil)); end
 
   # Whether logging is enabled for the given subject and log level.
@@ -276,73 +280,73 @@ class Console::Filter
   #
   # @return [Boolean]
   #
-  # source://console//lib/console/filter.rb#168
+  # source://console//lib/console/filter.rb#172
   def enabled?(subject, level = T.unsafe(nil)); end
 
   # Filter log messages based on the subject and log level.
   #
   # You must provide the subject's class, not an instance of the class.
   #
-  # source://console//lib/console/filter.rb#153
+  # source://console//lib/console/filter.rb#157
   def filter(subject, level); end
 
   # Returns the value of attribute level.
   #
-  # source://console//lib/console/filter.rb#110
+  # source://console//lib/console/filter.rb#114
   def level; end
 
   # Set the log level.
   #
-  # source://console//lib/console/filter.rb#121
+  # source://console//lib/console/filter.rb#125
   def level=(level); end
 
   # Disable all logging.
   #
-  # source://console//lib/console/filter.rb#138
+  # source://console//lib/console/filter.rb#142
   def off!; end
 
   # Returns the value of attribute options.
   #
-  # source://console//lib/console/filter.rb#116
+  # source://console//lib/console/filter.rb#120
   def options; end
 
   # Sets the attribute options
   #
   # @param value the value to set the attribute options to.
   #
-  # source://console//lib/console/filter.rb#116
+  # source://console//lib/console/filter.rb#120
   def options=(_arg0); end
 
   # Returns the value of attribute output.
   #
-  # source://console//lib/console/filter.rb#104
+  # source://console//lib/console/filter.rb#108
   def output; end
 
   # Sets the attribute output
   #
   # @param value the value to set the attribute output to.
   #
-  # source://console//lib/console/filter.rb#104
+  # source://console//lib/console/filter.rb#108
   def output=(_arg0); end
 
   # Returns the value of attribute subjects.
   #
-  # source://console//lib/console/filter.rb#113
+  # source://console//lib/console/filter.rb#117
   def subjects; end
 
   # Returns the value of attribute verbose.
   #
-  # source://console//lib/console/filter.rb#107
+  # source://console//lib/console/filter.rb#111
   def verbose; end
 
   # Set verbose output (enable by default with no arguments).
   #
-  # source://console//lib/console/filter.rb#132
+  # source://console//lib/console/filter.rb#136
   def verbose!(value = T.unsafe(nil)); end
 
   # Create a new log filter with the given options, from an existing log filter.
   #
-  # source://console//lib/console/filter.rb#95
+  # source://console//lib/console/filter.rb#99
   def with(level: T.unsafe(nil), verbose: T.unsafe(nil), **options); end
 
   class << self

@@ -1756,7 +1756,7 @@ class Devise::FailureApp < ::ActionController::Metal
 
   protected
 
-  # source://devise//lib/devise/failure_app.rb#245
+  # source://devise//lib/devise/failure_app.rb#247
   def attempted_path; end
 
   # Choose whether we should respond in an HTTP authentication fashion,
@@ -1770,10 +1770,10 @@ class Devise::FailureApp < ::ActionController::Metal
   #
   # @return [Boolean]
   #
-  # source://devise//lib/devise/failure_app.rb#192
+  # source://devise//lib/devise/failure_app.rb#194
   def http_auth?; end
 
-  # source://devise//lib/devise/failure_app.rb#206
+  # source://devise//lib/devise/failure_app.rb#208
   def http_auth_body; end
 
   # It doesn't make sense to send authenticate headers in AJAX requests
@@ -1781,10 +1781,10 @@ class Devise::FailureApp < ::ActionController::Metal
   #
   # @return [Boolean]
   #
-  # source://devise//lib/devise/failure_app.rb#202
+  # source://devise//lib/devise/failure_app.rb#204
   def http_auth_header?; end
 
-  # source://devise//lib/devise/failure_app.rb#129
+  # source://devise//lib/devise/failure_app.rb#131
   def i18n_locale; end
 
   # source://devise//lib/devise/failure_app.rb#105
@@ -1798,46 +1798,46 @@ class Devise::FailureApp < ::ActionController::Metal
   #
   # @return [Boolean]
   #
-  # source://devise//lib/devise/failure_app.rb#263
+  # source://devise//lib/devise/failure_app.rb#265
   def is_flashing_format?; end
 
   # @return [Boolean]
   #
-  # source://devise//lib/devise/failure_app.rb#257
+  # source://devise//lib/devise/failure_app.rb#259
   def is_navigational_format?; end
 
-  # source://devise//lib/devise/failure_app.rb#218
+  # source://devise//lib/devise/failure_app.rb#220
   def recall_app(app); end
 
-  # source://devise//lib/devise/failure_app.rb#133
+  # source://devise//lib/devise/failure_app.rb#135
   def redirect_url; end
 
-  # source://devise//lib/devise/failure_app.rb#271
+  # source://devise//lib/devise/failure_app.rb#273
   def relative_url_root; end
 
   # @return [Boolean]
   #
-  # source://devise//lib/devise/failure_app.rb#279
+  # source://devise//lib/devise/failure_app.rb#281
   def relative_url_root?; end
 
-  # source://devise//lib/devise/failure_app.rb#267
+  # source://devise//lib/devise/failure_app.rb#269
   def request_format; end
 
-  # source://devise//lib/devise/failure_app.rb#149
+  # source://devise//lib/devise/failure_app.rb#151
   def route(scope); end
 
-  # source://devise//lib/devise/failure_app.rb#237
+  # source://devise//lib/devise/failure_app.rb#239
   def scope; end
 
-  # source://devise//lib/devise/failure_app.rb#241
+  # source://devise//lib/devise/failure_app.rb#243
   def scope_class; end
 
-  # source://devise//lib/devise/failure_app.rb#153
+  # source://devise//lib/devise/failure_app.rb#155
   def scope_url; end
 
   # @return [Boolean]
   #
-  # source://devise//lib/devise/failure_app.rb#180
+  # source://devise//lib/devise/failure_app.rb#182
   def skip_format?; end
 
   # Stores requested URI to redirect the user after signing in. We can't use
@@ -1845,16 +1845,16 @@ class Devise::FailureApp < ::ActionController::Metal
   # authenticated yet, but we still need to store the URI based on scope, so
   # different scopes would never use the same URI to redirect.
   #
-  # source://devise//lib/devise/failure_app.rb#253
+  # source://devise//lib/devise/failure_app.rb#255
   def store_location!; end
 
-  # source://devise//lib/devise/failure_app.rb#225
+  # source://devise//lib/devise/failure_app.rb#227
   def warden; end
 
-  # source://devise//lib/devise/failure_app.rb#233
+  # source://devise//lib/devise/failure_app.rb#235
   def warden_message; end
 
-  # source://devise//lib/devise/failure_app.rb#229
+  # source://devise//lib/devise/failure_app.rb#231
   def warden_options; end
 
   class << self

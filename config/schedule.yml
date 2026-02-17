@@ -6,7 +6,7 @@ clean_up_tz:
 minutely_tz:
   cron: "* * * * * Europe/Amsterdam"
   class: "CronWorker"
-  queue: default
+  queue: priority
 
 server_updates_tz:
   cron: "* * * * * Europe/Amsterdam"

@@ -18,6 +18,24 @@ module Anthropic
   Base64PDFSource = Anthropic::Models::Base64PDFSource
   BaseModel = Anthropic::Helpers::InputSchema::BaseModel
   BaseTool = Anthropic::Helpers::Tools::BaseTool
+  BashCodeExecutionOutputBlock = Anthropic::Models::BashCodeExecutionOutputBlock
+
+  BashCodeExecutionOutputBlockParam = Anthropic::Models::BashCodeExecutionOutputBlockParam
+
+  BashCodeExecutionResultBlock = Anthropic::Models::BashCodeExecutionResultBlock
+
+  BashCodeExecutionResultBlockParam = Anthropic::Models::BashCodeExecutionResultBlockParam
+
+  BashCodeExecutionToolResultBlock = Anthropic::Models::BashCodeExecutionToolResultBlock
+
+  BashCodeExecutionToolResultBlockParam = Anthropic::Models::BashCodeExecutionToolResultBlockParam
+
+  BashCodeExecutionToolResultError = Anthropic::Models::BashCodeExecutionToolResultError
+
+  BashCodeExecutionToolResultErrorCode = Anthropic::Models::BashCodeExecutionToolResultErrorCode
+
+  BashCodeExecutionToolResultErrorParam = Anthropic::Models::BashCodeExecutionToolResultErrorParam
+
   BedrockClient = Anthropic::Helpers::Bedrock::Client
   Beta = Anthropic::Models::Beta
   BetaAPIError = Anthropic::Models::BetaAPIError
@@ -48,6 +66,7 @@ module Anthropic
 
   CitationWebSearchResultLocationParam = Anthropic::Models::CitationWebSearchResultLocationParam
 
+  CitationsConfig = Anthropic::Models::CitationsConfig
   CitationsConfigParam = Anthropic::Models::CitationsConfigParam
   CitationsDelta = Anthropic::Models::CitationsDelta
 
@@ -119,13 +138,48 @@ module Anthropic
     DEFAULT_TIMEOUT_IN_SECONDS = T.let(600.0, Float)
   end
 
+  CodeExecutionOutputBlock = Anthropic::Models::CodeExecutionOutputBlock
+
+  CodeExecutionOutputBlockParam = Anthropic::Models::CodeExecutionOutputBlockParam
+
+  CodeExecutionResultBlock = Anthropic::Models::CodeExecutionResultBlock
+
+  CodeExecutionResultBlockParam = Anthropic::Models::CodeExecutionResultBlockParam
+
+  CodeExecutionTool20250522 = Anthropic::Models::CodeExecutionTool20250522
+  CodeExecutionTool20250825 = Anthropic::Models::CodeExecutionTool20250825
+  CodeExecutionTool20260120 = Anthropic::Models::CodeExecutionTool20260120
+  CodeExecutionToolResultBlock = Anthropic::Models::CodeExecutionToolResultBlock
+
+  CodeExecutionToolResultBlockContent = Anthropic::Models::CodeExecutionToolResultBlockContent
+
+  CodeExecutionToolResultBlockParam = Anthropic::Models::CodeExecutionToolResultBlockParam
+
+  CodeExecutionToolResultBlockParamContent = Anthropic::Models::CodeExecutionToolResultBlockParamContent
+
+  CodeExecutionToolResultError = Anthropic::Models::CodeExecutionToolResultError
+
+  CodeExecutionToolResultErrorCode = Anthropic::Models::CodeExecutionToolResultErrorCode
+
+  CodeExecutionToolResultErrorParam = Anthropic::Models::CodeExecutionToolResultErrorParam
+
   Completion = Anthropic::Models::Completion
   CompletionCreateParams = Anthropic::Models::CompletionCreateParams
+  Container = Anthropic::Models::Container
+  ContainerUploadBlock = Anthropic::Models::ContainerUploadBlock
+  ContainerUploadBlockParam = Anthropic::Models::ContainerUploadBlockParam
   ContentBlock = Anthropic::Models::ContentBlock
   ContentBlockParam = Anthropic::Models::ContentBlockParam
   ContentBlockSource = Anthropic::Models::ContentBlockSource
   ContentBlockSourceContent = Anthropic::Models::ContentBlockSourceContent
+  DirectCaller = Anthropic::Models::DirectCaller
+  DocumentBlock = Anthropic::Models::DocumentBlock
   DocumentBlockParam = Anthropic::Models::DocumentBlockParam
+
+  EncryptedCodeExecutionResultBlock = Anthropic::Models::EncryptedCodeExecutionResultBlock
+
+  EncryptedCodeExecutionResultBlockParam = Anthropic::Models::EncryptedCodeExecutionResultBlockParam
+
   EnumOf = Anthropic::Helpers::InputSchema::EnumOf
   ErrorObject = Anthropic::Models::ErrorObject
   ErrorResponse = Anthropic::Models::ErrorResponse
@@ -2636,6 +2690,7 @@ module Anthropic
 
   InvalidRequestError = Anthropic::Models::InvalidRequestError
   JSONOutputFormat = Anthropic::Models::JSONOutputFormat
+  MemoryTool20250818 = Anthropic::Models::MemoryTool20250818
   Message = Anthropic::Models::Message
   MessageCountTokensParams = Anthropic::Models::MessageCountTokensParams
   MessageCountTokensTool = Anthropic::Models::MessageCountTokensTool
@@ -2873,6 +2928,415 @@ module Anthropic
 
       OrHash = T.type_alias do
           T.any(Anthropic::Base64PDFSource, Anthropic::Internal::AnyHash)
+        end
+    end
+
+    class BashCodeExecutionOutputBlock < Anthropic::Internal::Type::BaseModel
+      sig { returns(String) }
+      attr_accessor :file_id
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig { override.returns({ file_id: String, type: Symbol }) }
+      def to_hash; end
+
+      class << self
+        sig { params(file_id: String, type: Symbol).returns(T.attached_class) }
+        def new(file_id:, type: :bash_code_execution_output); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(
+            Anthropic::BashCodeExecutionOutputBlock,
+            Anthropic::Internal::AnyHash
+          )
+        end
+    end
+
+    class BashCodeExecutionOutputBlockParam < Anthropic::Internal::Type::BaseModel
+      sig { returns(String) }
+      attr_accessor :file_id
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig { override.returns({ file_id: String, type: Symbol }) }
+      def to_hash; end
+
+      class << self
+        sig { params(file_id: String, type: Symbol).returns(T.attached_class) }
+        def new(file_id:, type: :bash_code_execution_output); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(
+            Anthropic::BashCodeExecutionOutputBlockParam,
+            Anthropic::Internal::AnyHash
+          )
+        end
+    end
+
+    class BashCodeExecutionResultBlock < Anthropic::Internal::Type::BaseModel
+      sig { returns(T::Array[Anthropic::BashCodeExecutionOutputBlock]) }
+      attr_accessor :content
+
+      sig { returns(Integer) }
+      attr_accessor :return_code
+
+      sig { returns(String) }
+      attr_accessor :stderr
+
+      sig { returns(String) }
+      attr_accessor :stdout
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig do
+        override
+          .returns({
+            content: T::Array[Anthropic::BashCodeExecutionOutputBlock],
+            return_code: Integer,
+            stderr: String,
+            stdout: String,
+            type: Symbol
+          })
+      end
+      def to_hash; end
+
+      class << self
+        sig do
+          params(
+            content: T::Array[Anthropic::BashCodeExecutionOutputBlock::OrHash],
+            return_code: Integer,
+            stderr: String,
+            stdout: String,
+            type: Symbol
+          ).returns(T.attached_class)
+        end
+        def new(content:, return_code:, stderr:, stdout:, type: :bash_code_execution_result); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(
+            Anthropic::BashCodeExecutionResultBlock,
+            Anthropic::Internal::AnyHash
+          )
+        end
+    end
+
+    class BashCodeExecutionResultBlockParam < Anthropic::Internal::Type::BaseModel
+      sig { returns(T::Array[Anthropic::BashCodeExecutionOutputBlockParam]) }
+      attr_accessor :content
+
+      sig { returns(Integer) }
+      attr_accessor :return_code
+
+      sig { returns(String) }
+      attr_accessor :stderr
+
+      sig { returns(String) }
+      attr_accessor :stdout
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig do
+        override
+          .returns({
+            content: T::Array[Anthropic::BashCodeExecutionOutputBlockParam],
+            return_code: Integer,
+            stderr: String,
+            stdout: String,
+            type: Symbol
+          })
+      end
+      def to_hash; end
+
+      class << self
+        sig do
+          params(
+            content: T::Array[Anthropic::BashCodeExecutionOutputBlockParam::OrHash],
+            return_code: Integer,
+            stderr: String,
+            stdout: String,
+            type: Symbol
+          ).returns(T.attached_class)
+        end
+        def new(content:, return_code:, stderr:, stdout:, type: :bash_code_execution_result); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(
+            Anthropic::BashCodeExecutionResultBlockParam,
+            Anthropic::Internal::AnyHash
+          )
+        end
+    end
+
+    class BashCodeExecutionToolResultBlock < Anthropic::Internal::Type::BaseModel
+      sig { returns(Anthropic::BashCodeExecutionToolResultBlock::Content::Variants) }
+      attr_accessor :content
+
+      sig { returns(String) }
+      attr_accessor :tool_use_id
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig do
+        override
+          .returns({
+            content:
+              Anthropic::BashCodeExecutionToolResultBlock::Content::Variants,
+            tool_use_id: String,
+            type: Symbol
+          })
+      end
+      def to_hash; end
+
+      class << self
+        sig do
+          params(
+            content: T.any(
+              Anthropic::BashCodeExecutionToolResultError::OrHash,
+              Anthropic::BashCodeExecutionResultBlock::OrHash
+            ),
+            tool_use_id: String,
+            type: Symbol
+          ).returns(T.attached_class)
+        end
+        def new(content:, tool_use_id:, type: :bash_code_execution_tool_result); end
+      end
+
+      module Content
+        extend Anthropic::Internal::Type::Union
+
+        class << self
+          sig do
+            override
+              .returns(T::Array[
+              Anthropic::BashCodeExecutionToolResultBlock::Content::Variants
+            ])
+          end
+          def variants; end
+        end
+
+        Variants = T.type_alias do
+            T.any(
+              Anthropic::BashCodeExecutionToolResultError,
+              Anthropic::BashCodeExecutionResultBlock
+            )
+          end
+      end
+
+      OrHash = T.type_alias do
+          T.any(
+            Anthropic::BashCodeExecutionToolResultBlock,
+            Anthropic::Internal::AnyHash
+          )
+        end
+    end
+
+    class BashCodeExecutionToolResultBlockParam < Anthropic::Internal::Type::BaseModel
+      # Create a cache control breakpoint at this content block.
+      sig { returns(T.nilable(Anthropic::CacheControlEphemeral)) }
+      attr_reader :cache_control
+
+      sig { params(cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash)).void }
+      attr_writer :cache_control
+
+      sig do
+        returns(T.any(
+            Anthropic::BashCodeExecutionToolResultErrorParam,
+            Anthropic::BashCodeExecutionResultBlockParam
+          ))
+      end
+      attr_accessor :content
+
+      sig { returns(String) }
+      attr_accessor :tool_use_id
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig do
+        override
+          .returns({
+            content:
+              T.any(
+                Anthropic::BashCodeExecutionToolResultErrorParam,
+                Anthropic::BashCodeExecutionResultBlockParam
+              ),
+            tool_use_id: String,
+            type: Symbol,
+            cache_control: T.nilable(Anthropic::CacheControlEphemeral)
+          })
+      end
+      def to_hash; end
+
+      class << self
+        sig do
+          params(
+            content: T.any(
+              Anthropic::BashCodeExecutionToolResultErrorParam::OrHash,
+              Anthropic::BashCodeExecutionResultBlockParam::OrHash
+            ),
+            tool_use_id: String,
+            cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash),
+            type: Symbol
+          ).returns(T.attached_class)
+        end
+        def new(
+          content:,
+          tool_use_id:,
+          cache_control: nil, # Create a cache control breakpoint at this content block.
+          type: :bash_code_execution_tool_result
+); end
+      end
+
+      module Content
+        extend Anthropic::Internal::Type::Union
+
+        class << self
+          sig do
+            override
+              .returns(T::Array[
+              Anthropic::BashCodeExecutionToolResultBlockParam::Content::Variants
+            ])
+          end
+          def variants; end
+        end
+
+        Variants = T.type_alias do
+            T.any(
+              Anthropic::BashCodeExecutionToolResultErrorParam,
+              Anthropic::BashCodeExecutionResultBlockParam
+            )
+          end
+      end
+
+      OrHash = T.type_alias do
+          T.any(
+            Anthropic::BashCodeExecutionToolResultBlockParam,
+            Anthropic::Internal::AnyHash
+          )
+        end
+    end
+
+    class BashCodeExecutionToolResultError < Anthropic::Internal::Type::BaseModel
+      sig { returns(Anthropic::BashCodeExecutionToolResultErrorCode::TaggedSymbol) }
+      attr_accessor :error_code
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig do
+        override
+          .returns({
+            error_code:
+              Anthropic::BashCodeExecutionToolResultErrorCode::TaggedSymbol,
+            type: Symbol
+          })
+      end
+      def to_hash; end
+
+      class << self
+        sig do
+          params(
+            error_code: Anthropic::BashCodeExecutionToolResultErrorCode::OrSymbol,
+            type: Symbol
+          ).returns(T.attached_class)
+        end
+        def new(error_code:, type: :bash_code_execution_tool_result_error); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(
+            Anthropic::BashCodeExecutionToolResultError,
+            Anthropic::Internal::AnyHash
+          )
+        end
+    end
+
+    module BashCodeExecutionToolResultErrorCode
+      extend Anthropic::Internal::Type::Enum
+
+      class << self
+        sig do
+          override
+            .returns(T::Array[
+            Anthropic::BashCodeExecutionToolResultErrorCode::TaggedSymbol
+          ])
+        end
+        def values; end
+      end
+
+      EXECUTION_TIME_EXCEEDED = T.let(
+          :execution_time_exceeded,
+          Anthropic::BashCodeExecutionToolResultErrorCode::TaggedSymbol
+        )
+
+      INVALID_TOOL_INPUT = T.let(
+          :invalid_tool_input,
+          Anthropic::BashCodeExecutionToolResultErrorCode::TaggedSymbol
+        )
+
+      OUTPUT_FILE_TOO_LARGE = T.let(
+          :output_file_too_large,
+          Anthropic::BashCodeExecutionToolResultErrorCode::TaggedSymbol
+        )
+
+      OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+      TOO_MANY_REQUESTS = T.let(
+          :too_many_requests,
+          Anthropic::BashCodeExecutionToolResultErrorCode::TaggedSymbol
+        )
+
+      TaggedSymbol = T.type_alias do
+          T.all(Symbol, Anthropic::BashCodeExecutionToolResultErrorCode)
+        end
+
+      UNAVAILABLE = T.let(
+          :unavailable,
+          Anthropic::BashCodeExecutionToolResultErrorCode::TaggedSymbol
+        )
+    end
+
+    class BashCodeExecutionToolResultErrorParam < Anthropic::Internal::Type::BaseModel
+      sig { returns(Anthropic::BashCodeExecutionToolResultErrorCode::OrSymbol) }
+      attr_accessor :error_code
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig do
+        override
+          .returns({
+            error_code:
+              Anthropic::BashCodeExecutionToolResultErrorCode::OrSymbol,
+            type: Symbol
+          })
+      end
+      def to_hash; end
+
+      class << self
+        sig do
+          params(
+            error_code: Anthropic::BashCodeExecutionToolResultErrorCode::OrSymbol,
+            type: Symbol
+          ).returns(T.attached_class)
+        end
+        def new(error_code:, type: :bash_code_execution_tool_result_error); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(
+            Anthropic::BashCodeExecutionToolResultErrorParam,
+            Anthropic::Internal::AnyHash
+          )
         end
     end
 
@@ -4853,6 +5317,11 @@ module Anthropic
               Anthropic::Beta::BetaCodeExecutionTool20250522::AllowedCaller::TaggedSymbol
             )
 
+          CODE_EXECUTION_20260120 = T.let(
+              :code_execution_20260120,
+              Anthropic::Beta::BetaCodeExecutionTool20250522::AllowedCaller::TaggedSymbol
+            )
+
           DIRECT = T.let(
               :direct,
               Anthropic::Beta::BetaCodeExecutionTool20250522::AllowedCaller::TaggedSymbol
@@ -4986,6 +5455,11 @@ module Anthropic
               Anthropic::Beta::BetaCodeExecutionTool20250825::AllowedCaller::TaggedSymbol
             )
 
+          CODE_EXECUTION_20260120 = T.let(
+              :code_execution_20260120,
+              Anthropic::Beta::BetaCodeExecutionTool20250825::AllowedCaller::TaggedSymbol
+            )
+
           DIRECT = T.let(
               :direct,
               Anthropic::Beta::BetaCodeExecutionTool20250825::AllowedCaller::TaggedSymbol
@@ -5009,7 +5483,148 @@ module Anthropic
           end
       end
 
+      class BetaCodeExecutionTool20260120 < Anthropic::Internal::Type::BaseModel
+        sig do
+          returns(T.nilable(
+              T::Array[
+                Anthropic::Beta::BetaCodeExecutionTool20260120::AllowedCaller::OrSymbol
+              ]
+            ))
+        end
+        attr_reader :allowed_callers
+
+        sig do
+          params(
+            allowed_callers: T::Array[
+                Anthropic::Beta::BetaCodeExecutionTool20260120::AllowedCaller::OrSymbol
+              ]
+          ).void
+        end
+        attr_writer :allowed_callers
+
+        # Create a cache control breakpoint at this content block.
+        sig { returns(T.nilable(Anthropic::Beta::BetaCacheControlEphemeral)) }
+        attr_reader :cache_control
+
+        sig { params(cache_control: T.nilable(Anthropic::Beta::BetaCacheControlEphemeral::OrHash)).void }
+        attr_writer :cache_control
+
+        # If true, tool will not be included in initial system prompt. Only loaded when
+        # returned via tool_reference from tool search.
+        sig { returns(T.nilable(T::Boolean)) }
+        attr_reader :defer_loading
+
+        sig { params(defer_loading: T::Boolean).void }
+        attr_writer :defer_loading
+
+        # Name of the tool.
+        #
+        # This is how the tool will be called by the model and in `tool_use` blocks.
+        sig { returns(Symbol) }
+        attr_accessor :name
+
+        # When true, guarantees schema validation on tool names and inputs
+        sig { returns(T.nilable(T::Boolean)) }
+        attr_reader :strict
+
+        sig { params(strict: T::Boolean).void }
+        attr_writer :strict
+
+        sig { returns(Symbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              name: Symbol,
+              type: Symbol,
+              allowed_callers:
+                T::Array[
+                  Anthropic::Beta::BetaCodeExecutionTool20260120::AllowedCaller::OrSymbol
+                ],
+              cache_control:
+                T.nilable(Anthropic::Beta::BetaCacheControlEphemeral),
+              defer_loading: T::Boolean,
+              strict: T::Boolean
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # Code execution tool with REPL state persistence (daemon mode + gVisor
+          # checkpoint).
+          sig do
+            params(
+              allowed_callers: T::Array[
+                Anthropic::Beta::BetaCodeExecutionTool20260120::AllowedCaller::OrSymbol
+              ],
+              cache_control: T.nilable(Anthropic::Beta::BetaCacheControlEphemeral::OrHash),
+              defer_loading: T::Boolean,
+              strict: T::Boolean,
+              name: Symbol,
+              type: Symbol
+            ).returns(T.attached_class)
+          end
+          def new(
+            allowed_callers: nil,
+            cache_control: nil, # Create a cache control breakpoint at this content block.
+            defer_loading: nil, # If true, tool will not be included in initial system prompt. Only loaded when
+                                # returned via tool_reference from tool search.
+            strict: nil, # When true, guarantees schema validation on tool names and inputs
+            name: :code_execution, # Name of the tool.
+                                   # This is how the tool will be called by the model and in `tool_use` blocks.
+            type: :code_execution_20260120
+); end
+        end
+
+        module AllowedCaller
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaCodeExecutionTool20260120::AllowedCaller::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          CODE_EXECUTION_20250825 = T.let(
+              :code_execution_20250825,
+              Anthropic::Beta::BetaCodeExecutionTool20260120::AllowedCaller::TaggedSymbol
+            )
+
+          CODE_EXECUTION_20260120 = T.let(
+              :code_execution_20260120,
+              Anthropic::Beta::BetaCodeExecutionTool20260120::AllowedCaller::TaggedSymbol
+            )
+
+          DIRECT = T.let(
+              :direct,
+              Anthropic::Beta::BetaCodeExecutionTool20260120::AllowedCaller::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaCodeExecutionTool20260120::AllowedCaller
+              )
+            end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaCodeExecutionTool20260120,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
       class BetaCodeExecutionToolResultBlock < Anthropic::Internal::Type::BaseModel
+        # Code execution result with encrypted stdout for PFC + web_search results.
         sig { returns(Anthropic::Beta::BetaCodeExecutionToolResultBlockContent::Variants) }
         attr_accessor :content
 
@@ -5035,13 +5650,18 @@ module Anthropic
             params(
               content: T.any(
                 Anthropic::Beta::BetaCodeExecutionToolResultError::OrHash,
-                Anthropic::Beta::BetaCodeExecutionResultBlock::OrHash
+                Anthropic::Beta::BetaCodeExecutionResultBlock::OrHash,
+                Anthropic::Beta::BetaEncryptedCodeExecutionResultBlock::OrHash
               ),
               tool_use_id: String,
               type: Symbol
             ).returns(T.attached_class)
           end
-          def new(content:, tool_use_id:, type: :code_execution_tool_result); end
+          def new(
+            content:, # Code execution result with encrypted stdout for PFC + web_search results.
+            tool_use_id:,
+            type: :code_execution_tool_result
+); end
         end
 
         OrHash = T.type_alias do
@@ -5052,6 +5672,7 @@ module Anthropic
           end
       end
 
+      # Code execution result with encrypted stdout for PFC + web_search results.
       module BetaCodeExecutionToolResultBlockContent
         extend Anthropic::Internal::Type::Union
 
@@ -5068,7 +5689,8 @@ module Anthropic
         Variants = T.type_alias do
             T.any(
               Anthropic::Beta::BetaCodeExecutionToolResultError,
-              Anthropic::Beta::BetaCodeExecutionResultBlock
+              Anthropic::Beta::BetaCodeExecutionResultBlock,
+              Anthropic::Beta::BetaEncryptedCodeExecutionResultBlock
             )
           end
       end
@@ -5081,10 +5703,12 @@ module Anthropic
         sig { params(cache_control: T.nilable(Anthropic::Beta::BetaCacheControlEphemeral::OrHash)).void }
         attr_writer :cache_control
 
+        # Code execution result with encrypted stdout for PFC + web_search results.
         sig do
           returns(T.any(
               Anthropic::Beta::BetaCodeExecutionToolResultErrorParam,
-              Anthropic::Beta::BetaCodeExecutionResultBlockParam
+              Anthropic::Beta::BetaCodeExecutionResultBlockParam,
+              Anthropic::Beta::BetaEncryptedCodeExecutionResultBlockParam
             ))
         end
         attr_accessor :content
@@ -5101,7 +5725,8 @@ module Anthropic
               content:
                 T.any(
                   Anthropic::Beta::BetaCodeExecutionToolResultErrorParam,
-                  Anthropic::Beta::BetaCodeExecutionResultBlockParam
+                  Anthropic::Beta::BetaCodeExecutionResultBlockParam,
+                  Anthropic::Beta::BetaEncryptedCodeExecutionResultBlockParam
                 ),
               tool_use_id: String,
               type: Symbol,
@@ -5116,7 +5741,8 @@ module Anthropic
             params(
               content: T.any(
                 Anthropic::Beta::BetaCodeExecutionToolResultErrorParam::OrHash,
-                Anthropic::Beta::BetaCodeExecutionResultBlockParam::OrHash
+                Anthropic::Beta::BetaCodeExecutionResultBlockParam::OrHash,
+                Anthropic::Beta::BetaEncryptedCodeExecutionResultBlockParam::OrHash
               ),
               tool_use_id: String,
               cache_control: T.nilable(Anthropic::Beta::BetaCacheControlEphemeral::OrHash),
@@ -5124,7 +5750,7 @@ module Anthropic
             ).returns(T.attached_class)
           end
           def new(
-            content:,
+            content:, # Code execution result with encrypted stdout for PFC + web_search results.
             tool_use_id:,
             cache_control: nil, # Create a cache control breakpoint at this content block.
             type: :code_execution_tool_result
@@ -5139,6 +5765,7 @@ module Anthropic
           end
       end
 
+      # Code execution result with encrypted stdout for PFC + web_search results.
       module BetaCodeExecutionToolResultBlockParamContent
         extend Anthropic::Internal::Type::Union
 
@@ -5155,7 +5782,8 @@ module Anthropic
         Variants = T.type_alias do
             T.any(
               Anthropic::Beta::BetaCodeExecutionToolResultErrorParam,
-              Anthropic::Beta::BetaCodeExecutionResultBlockParam
+              Anthropic::Beta::BetaCodeExecutionResultBlockParam,
+              Anthropic::Beta::BetaEncryptedCodeExecutionResultBlockParam
             )
           end
       end
@@ -6090,6 +6718,109 @@ module Anthropic
         end
       end
 
+      class BetaEncryptedCodeExecutionResultBlock < Anthropic::Internal::Type::BaseModel
+        sig { returns(T::Array[Anthropic::Beta::BetaCodeExecutionOutputBlock]) }
+        attr_accessor :content
+
+        sig { returns(String) }
+        attr_accessor :encrypted_stdout
+
+        sig { returns(Integer) }
+        attr_accessor :return_code
+
+        sig { returns(String) }
+        attr_accessor :stderr
+
+        sig { returns(Symbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              content: T::Array[Anthropic::Beta::BetaCodeExecutionOutputBlock],
+              encrypted_stdout: String,
+              return_code: Integer,
+              stderr: String,
+              type: Symbol
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # Code execution result with encrypted stdout for PFC + web_search results.
+          sig do
+            params(
+              content: T::Array[Anthropic::Beta::BetaCodeExecutionOutputBlock::OrHash],
+              encrypted_stdout: String,
+              return_code: Integer,
+              stderr: String,
+              type: Symbol
+            ).returns(T.attached_class)
+          end
+          def new(content:, encrypted_stdout:, return_code:, stderr:, type: :encrypted_code_execution_result); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaEncryptedCodeExecutionResultBlock,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
+      class BetaEncryptedCodeExecutionResultBlockParam < Anthropic::Internal::Type::BaseModel
+        sig { returns(T::Array[Anthropic::Beta::BetaCodeExecutionOutputBlockParam]) }
+        attr_accessor :content
+
+        sig { returns(String) }
+        attr_accessor :encrypted_stdout
+
+        sig { returns(Integer) }
+        attr_accessor :return_code
+
+        sig { returns(String) }
+        attr_accessor :stderr
+
+        sig { returns(Symbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              content:
+                T::Array[Anthropic::Beta::BetaCodeExecutionOutputBlockParam],
+              encrypted_stdout: String,
+              return_code: Integer,
+              stderr: String,
+              type: Symbol
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # Code execution result with encrypted stdout for PFC + web_search results.
+          sig do
+            params(
+              content: T::Array[
+                Anthropic::Beta::BetaCodeExecutionOutputBlockParam::OrHash
+              ],
+              encrypted_stdout: String,
+              return_code: Integer,
+              stderr: String,
+              type: Symbol
+            ).returns(T.attached_class)
+          end
+          def new(content:, encrypted_stdout:, return_code:, stderr:, type: :encrypted_code_execution_result); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaEncryptedCodeExecutionResultBlockParam,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
       class BetaFileDocumentSource < Anthropic::Internal::Type::BaseModel
         sig { returns(String) }
         attr_accessor :file_id
@@ -6779,6 +7510,11 @@ module Anthropic
 
           CODE_EXECUTION_20250825 = T.let(
               :code_execution_20250825,
+              Anthropic::Beta::BetaMemoryTool20250818::AllowedCaller::TaggedSymbol
+            )
+
+          CODE_EXECUTION_20260120 = T.let(
+              :code_execution_20260120,
               Anthropic::Beta::BetaMemoryTool20250818::AllowedCaller::TaggedSymbol
             )
 
@@ -8597,6 +9333,29 @@ module Anthropic
           end
       end
 
+      class BetaServerToolCaller20260120 < Anthropic::Internal::Type::BaseModel
+        sig { returns(String) }
+        attr_accessor :tool_id
+
+        sig { returns(Symbol) }
+        attr_accessor :type
+
+        sig { override.returns({ tool_id: String, type: Symbol }) }
+        def to_hash; end
+
+        class << self
+          sig { params(tool_id: String, type: Symbol).returns(T.attached_class) }
+          def new(tool_id:, type: :code_execution_20260120); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaServerToolCaller20260120,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
       class BetaServerToolUsage < Anthropic::Internal::Type::BaseModel
         # The number of web fetch tool requests.
         sig { returns(Integer) }
@@ -8634,7 +9393,8 @@ module Anthropic
           params(
             caller_: T.any(
                 Anthropic::Beta::BetaDirectCaller::OrHash,
-                Anthropic::Beta::BetaServerToolCaller::OrHash
+                Anthropic::Beta::BetaServerToolCaller::OrHash,
+                Anthropic::Beta::BetaServerToolCaller20260120::OrHash
               )
           ).void
         end
@@ -8672,7 +9432,8 @@ module Anthropic
               name: Anthropic::Beta::BetaServerToolUseBlock::Name::OrSymbol,
               caller_: T.any(
                 Anthropic::Beta::BetaDirectCaller::OrHash,
-                Anthropic::Beta::BetaServerToolCaller::OrHash
+                Anthropic::Beta::BetaServerToolCaller::OrHash,
+                Anthropic::Beta::BetaServerToolCaller20260120::OrHash
               ),
               type: Symbol
             ).returns(T.attached_class)
@@ -8703,7 +9464,8 @@ module Anthropic
           Variants = T.type_alias do
               T.any(
                 Anthropic::Beta::BetaDirectCaller,
-                Anthropic::Beta::BetaServerToolCaller
+                Anthropic::Beta::BetaServerToolCaller,
+                Anthropic::Beta::BetaServerToolCaller20260120
               )
             end
         end
@@ -8784,7 +9546,8 @@ module Anthropic
           returns(T.nilable(
               T.any(
                 Anthropic::Beta::BetaDirectCaller,
-                Anthropic::Beta::BetaServerToolCaller
+                Anthropic::Beta::BetaServerToolCaller,
+                Anthropic::Beta::BetaServerToolCaller20260120
               )
             ))
         end
@@ -8794,7 +9557,8 @@ module Anthropic
           params(
             caller_: T.any(
                 Anthropic::Beta::BetaDirectCaller::OrHash,
-                Anthropic::Beta::BetaServerToolCaller::OrHash
+                Anthropic::Beta::BetaServerToolCaller::OrHash,
+                Anthropic::Beta::BetaServerToolCaller20260120::OrHash
               )
           ).void
         end
@@ -8825,7 +9589,8 @@ module Anthropic
               caller_:
                 T.any(
                   Anthropic::Beta::BetaDirectCaller,
-                  Anthropic::Beta::BetaServerToolCaller
+                  Anthropic::Beta::BetaServerToolCaller,
+                  Anthropic::Beta::BetaServerToolCaller20260120
                 )
             })
         end
@@ -8840,7 +9605,8 @@ module Anthropic
               cache_control: T.nilable(Anthropic::Beta::BetaCacheControlEphemeral::OrHash),
               caller_: T.any(
                 Anthropic::Beta::BetaDirectCaller::OrHash,
-                Anthropic::Beta::BetaServerToolCaller::OrHash
+                Anthropic::Beta::BetaServerToolCaller::OrHash,
+                Anthropic::Beta::BetaServerToolCaller20260120::OrHash
               ),
               type: Symbol
             ).returns(T.attached_class)
@@ -8872,7 +9638,8 @@ module Anthropic
           Variants = T.type_alias do
               T.any(
                 Anthropic::Beta::BetaDirectCaller,
-                Anthropic::Beta::BetaServerToolCaller
+                Anthropic::Beta::BetaServerToolCaller,
+                Anthropic::Beta::BetaServerToolCaller20260120
               )
             end
         end
@@ -10375,6 +11142,11 @@ module Anthropic
               Anthropic::Beta::BetaTool::AllowedCaller::TaggedSymbol
             )
 
+          CODE_EXECUTION_20260120 = T.let(
+              :code_execution_20260120,
+              Anthropic::Beta::BetaTool::AllowedCaller::TaggedSymbol
+            )
+
           DIRECT = T.let(
               :direct,
               Anthropic::Beta::BetaTool::AllowedCaller::TaggedSymbol
@@ -10568,6 +11340,11 @@ module Anthropic
               Anthropic::Beta::BetaToolBash20241022::AllowedCaller::TaggedSymbol
             )
 
+          CODE_EXECUTION_20260120 = T.let(
+              :code_execution_20260120,
+              Anthropic::Beta::BetaToolBash20241022::AllowedCaller::TaggedSymbol
+            )
+
           DIRECT = T.let(
               :direct,
               Anthropic::Beta::BetaToolBash20241022::AllowedCaller::TaggedSymbol
@@ -10707,6 +11484,11 @@ module Anthropic
 
           CODE_EXECUTION_20250825 = T.let(
               :code_execution_20250825,
+              Anthropic::Beta::BetaToolBash20250124::AllowedCaller::TaggedSymbol
+            )
+
+          CODE_EXECUTION_20260120 = T.let(
+              :code_execution_20260120,
               Anthropic::Beta::BetaToolBash20250124::AllowedCaller::TaggedSymbol
             )
 
@@ -11034,6 +11816,11 @@ module Anthropic
               Anthropic::Beta::BetaToolComputerUse20241022::AllowedCaller::TaggedSymbol
             )
 
+          CODE_EXECUTION_20260120 = T.let(
+              :code_execution_20260120,
+              Anthropic::Beta::BetaToolComputerUse20241022::AllowedCaller::TaggedSymbol
+            )
+
           DIRECT = T.let(
               :direct,
               Anthropic::Beta::BetaToolComputerUse20241022::AllowedCaller::TaggedSymbol
@@ -11194,6 +11981,11 @@ module Anthropic
 
           CODE_EXECUTION_20250825 = T.let(
               :code_execution_20250825,
+              Anthropic::Beta::BetaToolComputerUse20250124::AllowedCaller::TaggedSymbol
+            )
+
+          CODE_EXECUTION_20260120 = T.let(
+              :code_execution_20260120,
               Anthropic::Beta::BetaToolComputerUse20250124::AllowedCaller::TaggedSymbol
             )
 
@@ -11367,6 +12159,11 @@ module Anthropic
 
           CODE_EXECUTION_20250825 = T.let(
               :code_execution_20250825,
+              Anthropic::Beta::BetaToolComputerUse20251124::AllowedCaller::TaggedSymbol
+            )
+
+          CODE_EXECUTION_20260120 = T.let(
+              :code_execution_20260120,
               Anthropic::Beta::BetaToolComputerUse20251124::AllowedCaller::TaggedSymbol
             )
 
@@ -11703,6 +12500,11 @@ module Anthropic
               Anthropic::Beta::BetaToolSearchToolBm25_20251119::AllowedCaller::TaggedSymbol
             )
 
+          CODE_EXECUTION_20260120 = T.let(
+              :code_execution_20260120,
+              Anthropic::Beta::BetaToolSearchToolBm25_20251119::AllowedCaller::TaggedSymbol
+            )
+
           DIRECT = T.let(
               :direct,
               Anthropic::Beta::BetaToolSearchToolBm25_20251119::AllowedCaller::TaggedSymbol
@@ -11867,6 +12669,11 @@ module Anthropic
 
           CODE_EXECUTION_20250825 = T.let(
               :code_execution_20250825,
+              Anthropic::Beta::BetaToolSearchToolRegex20251119::AllowedCaller::TaggedSymbol
+            )
+
+          CODE_EXECUTION_20260120 = T.let(
+              :code_execution_20260120,
               Anthropic::Beta::BetaToolSearchToolRegex20251119::AllowedCaller::TaggedSymbol
             )
 
@@ -12427,6 +13234,11 @@ module Anthropic
               Anthropic::Beta::BetaToolTextEditor20241022::AllowedCaller::TaggedSymbol
             )
 
+          CODE_EXECUTION_20260120 = T.let(
+              :code_execution_20260120,
+              Anthropic::Beta::BetaToolTextEditor20241022::AllowedCaller::TaggedSymbol
+            )
+
           DIRECT = T.let(
               :direct,
               Anthropic::Beta::BetaToolTextEditor20241022::AllowedCaller::TaggedSymbol
@@ -12569,6 +13381,11 @@ module Anthropic
               Anthropic::Beta::BetaToolTextEditor20250124::AllowedCaller::TaggedSymbol
             )
 
+          CODE_EXECUTION_20260120 = T.let(
+              :code_execution_20260120,
+              Anthropic::Beta::BetaToolTextEditor20250124::AllowedCaller::TaggedSymbol
+            )
+
           DIRECT = T.let(
               :direct,
               Anthropic::Beta::BetaToolTextEditor20250124::AllowedCaller::TaggedSymbol
@@ -12708,6 +13525,11 @@ module Anthropic
 
           CODE_EXECUTION_20250825 = T.let(
               :code_execution_20250825,
+              Anthropic::Beta::BetaToolTextEditor20250429::AllowedCaller::TaggedSymbol
+            )
+
+          CODE_EXECUTION_20260120 = T.let(
+              :code_execution_20260120,
               Anthropic::Beta::BetaToolTextEditor20250429::AllowedCaller::TaggedSymbol
             )
 
@@ -12862,6 +13684,11 @@ module Anthropic
               Anthropic::Beta::BetaToolTextEditor20250728::AllowedCaller::TaggedSymbol
             )
 
+          CODE_EXECUTION_20260120 = T.let(
+              :code_execution_20260120,
+              Anthropic::Beta::BetaToolTextEditor20250728::AllowedCaller::TaggedSymbol
+            )
+
           DIRECT = T.let(
               :direct,
               Anthropic::Beta::BetaToolTextEditor20250728::AllowedCaller::TaggedSymbol
@@ -12885,10 +13712,8 @@ module Anthropic
           end
       end
 
-      # Configuration for a group of tools from an MCP server.
-      #
-      # Allows configuring enabled status and defer_loading for all tools from an MCP
-      # server, with optional per-tool overrides.
+      # Code execution tool with REPL state persistence (daemon mode + gVisor
+      # checkpoint).
       module BetaToolUnion
         extend Anthropic::Internal::Type::Union
 
@@ -12904,6 +13729,7 @@ module Anthropic
               Anthropic::Beta::BetaToolBash20250124,
               Anthropic::Beta::BetaCodeExecutionTool20250522,
               Anthropic::Beta::BetaCodeExecutionTool20250825,
+              Anthropic::Beta::BetaCodeExecutionTool20260120,
               Anthropic::Beta::BetaToolComputerUse20241022,
               Anthropic::Beta::BetaMemoryTool20250818,
               Anthropic::Beta::BetaToolComputerUse20250124,
@@ -12914,6 +13740,8 @@ module Anthropic
               Anthropic::Beta::BetaToolTextEditor20250728,
               Anthropic::Beta::BetaWebSearchTool20250305,
               Anthropic::Beta::BetaWebFetchTool20250910,
+              Anthropic::Beta::BetaWebSearchTool20260209,
+              Anthropic::Beta::BetaWebFetchTool20260209,
               Anthropic::Beta::BetaToolSearchToolBm25_20251119,
               Anthropic::Beta::BetaToolSearchToolRegex20251119,
               Anthropic::Beta::BetaMCPToolset
@@ -12930,7 +13758,8 @@ module Anthropic
           params(
             caller_: T.any(
                 Anthropic::Beta::BetaDirectCaller::OrHash,
-                Anthropic::Beta::BetaServerToolCaller::OrHash
+                Anthropic::Beta::BetaServerToolCaller::OrHash,
+                Anthropic::Beta::BetaServerToolCaller20260120::OrHash
               )
           ).void
         end
@@ -12968,7 +13797,8 @@ module Anthropic
               name: String,
               caller_: T.any(
                 Anthropic::Beta::BetaDirectCaller::OrHash,
-                Anthropic::Beta::BetaServerToolCaller::OrHash
+                Anthropic::Beta::BetaServerToolCaller::OrHash,
+                Anthropic::Beta::BetaServerToolCaller20260120::OrHash
               ),
               type: Symbol
             ).returns(T.attached_class)
@@ -12994,7 +13824,8 @@ module Anthropic
           Variants = T.type_alias do
               T.any(
                 Anthropic::Beta::BetaDirectCaller,
-                Anthropic::Beta::BetaServerToolCaller
+                Anthropic::Beta::BetaServerToolCaller,
+                Anthropic::Beta::BetaServerToolCaller20260120
               )
             end
         end
@@ -13020,7 +13851,8 @@ module Anthropic
           returns(T.nilable(
               T.any(
                 Anthropic::Beta::BetaDirectCaller,
-                Anthropic::Beta::BetaServerToolCaller
+                Anthropic::Beta::BetaServerToolCaller,
+                Anthropic::Beta::BetaServerToolCaller20260120
               )
             ))
         end
@@ -13030,7 +13862,8 @@ module Anthropic
           params(
             caller_: T.any(
                 Anthropic::Beta::BetaDirectCaller::OrHash,
-                Anthropic::Beta::BetaServerToolCaller::OrHash
+                Anthropic::Beta::BetaServerToolCaller::OrHash,
+                Anthropic::Beta::BetaServerToolCaller20260120::OrHash
               )
           ).void
         end
@@ -13060,7 +13893,8 @@ module Anthropic
               caller_:
                 T.any(
                   Anthropic::Beta::BetaDirectCaller,
-                  Anthropic::Beta::BetaServerToolCaller
+                  Anthropic::Beta::BetaServerToolCaller,
+                  Anthropic::Beta::BetaServerToolCaller20260120
                 )
             })
         end
@@ -13075,7 +13909,8 @@ module Anthropic
               cache_control: T.nilable(Anthropic::Beta::BetaCacheControlEphemeral::OrHash),
               caller_: T.any(
                 Anthropic::Beta::BetaDirectCaller::OrHash,
-                Anthropic::Beta::BetaServerToolCaller::OrHash
+                Anthropic::Beta::BetaServerToolCaller::OrHash,
+                Anthropic::Beta::BetaServerToolCaller20260120::OrHash
               ),
               type: Symbol
             ).returns(T.attached_class)
@@ -13102,7 +13937,8 @@ module Anthropic
           Variants = T.type_alias do
               T.any(
                 Anthropic::Beta::BetaDirectCaller,
-                Anthropic::Beta::BetaServerToolCaller
+                Anthropic::Beta::BetaServerToolCaller,
+                Anthropic::Beta::BetaServerToolCaller20260120
               )
             end
         end
@@ -13379,6 +14215,69 @@ module Anthropic
         end
       end
 
+      class BetaUserLocation < Anthropic::Internal::Type::BaseModel
+        # The city of the user.
+        sig { returns(T.nilable(String)) }
+        attr_accessor :city
+
+        # The two letter
+        # [ISO country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) of the
+        # user.
+        sig { returns(T.nilable(String)) }
+        attr_accessor :country
+
+        # The region of the user.
+        sig { returns(T.nilable(String)) }
+        attr_accessor :region
+
+        # The [IANA timezone](https://nodatime.org/TimeZones) of the user.
+        sig { returns(T.nilable(String)) }
+        attr_accessor :timezone
+
+        sig { returns(Symbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              type: Symbol,
+              city: T.nilable(String),
+              country: T.nilable(String),
+              region: T.nilable(String),
+              timezone: T.nilable(String)
+            })
+        end
+        def to_hash; end
+
+        class << self
+          sig do
+            params(
+              city: T.nilable(String),
+              country: T.nilable(String),
+              region: T.nilable(String),
+              timezone: T.nilable(String),
+              type: Symbol
+            ).returns(T.attached_class)
+          end
+          def new(
+            city: nil, # The city of the user.
+            country: nil, # The two letter
+                          # [ISO country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) of the
+                          # user.
+            region: nil, # The region of the user.
+            timezone: nil, # The [IANA timezone](https://nodatime.org/TimeZones) of the user.
+            type: :approximate
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaUserLocation,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
       class BetaWebFetchBlock < Anthropic::Internal::Type::BaseModel
         sig { returns(Anthropic::Beta::BetaDocumentBlock) }
         attr_reader :content
@@ -13639,6 +14538,11 @@ module Anthropic
               Anthropic::Beta::BetaWebFetchTool20250910::AllowedCaller::TaggedSymbol
             )
 
+          CODE_EXECUTION_20260120 = T.let(
+              :code_execution_20260120,
+              Anthropic::Beta::BetaWebFetchTool20250910::AllowedCaller::TaggedSymbol
+            )
+
           DIRECT = T.let(
               :direct,
               Anthropic::Beta::BetaWebFetchTool20250910::AllowedCaller::TaggedSymbol
@@ -13662,7 +14566,206 @@ module Anthropic
           end
       end
 
+      class BetaWebFetchTool20260209 < Anthropic::Internal::Type::BaseModel
+        sig do
+          returns(T.nilable(
+              T::Array[
+                Anthropic::Beta::BetaWebFetchTool20260209::AllowedCaller::OrSymbol
+              ]
+            ))
+        end
+        attr_reader :allowed_callers
+
+        sig do
+          params(
+            allowed_callers: T::Array[
+                Anthropic::Beta::BetaWebFetchTool20260209::AllowedCaller::OrSymbol
+              ]
+          ).void
+        end
+        attr_writer :allowed_callers
+
+        # List of domains to allow fetching from
+        sig { returns(T.nilable(T::Array[String])) }
+        attr_accessor :allowed_domains
+
+        # List of domains to block fetching from
+        sig { returns(T.nilable(T::Array[String])) }
+        attr_accessor :blocked_domains
+
+        # Create a cache control breakpoint at this content block.
+        sig { returns(T.nilable(Anthropic::Beta::BetaCacheControlEphemeral)) }
+        attr_reader :cache_control
+
+        sig { params(cache_control: T.nilable(Anthropic::Beta::BetaCacheControlEphemeral::OrHash)).void }
+        attr_writer :cache_control
+
+        # Citations configuration for fetched documents. Citations are disabled by
+        # default.
+        sig { returns(T.nilable(Anthropic::Beta::BetaCitationsConfigParam)) }
+        attr_reader :citations
+
+        sig { params(citations: T.nilable(Anthropic::Beta::BetaCitationsConfigParam::OrHash)).void }
+        attr_writer :citations
+
+        # If true, tool will not be included in initial system prompt. Only loaded when
+        # returned via tool_reference from tool search.
+        sig { returns(T.nilable(T::Boolean)) }
+        attr_reader :defer_loading
+
+        sig { params(defer_loading: T::Boolean).void }
+        attr_writer :defer_loading
+
+        # Maximum number of tokens used by including web page text content in the context.
+        # The limit is approximate and does not apply to binary content such as PDFs.
+        sig { returns(T.nilable(Integer)) }
+        attr_accessor :max_content_tokens
+
+        # Maximum number of times the tool can be used in the API request.
+        sig { returns(T.nilable(Integer)) }
+        attr_accessor :max_uses
+
+        # Name of the tool.
+        #
+        # This is how the tool will be called by the model and in `tool_use` blocks.
+        sig { returns(Symbol) }
+        attr_accessor :name
+
+        # When true, guarantees schema validation on tool names and inputs
+        sig { returns(T.nilable(T::Boolean)) }
+        attr_reader :strict
+
+        sig { params(strict: T::Boolean).void }
+        attr_writer :strict
+
+        sig { returns(Symbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              name: Symbol,
+              type: Symbol,
+              allowed_callers:
+                T::Array[
+                  Anthropic::Beta::BetaWebFetchTool20260209::AllowedCaller::OrSymbol
+                ],
+              allowed_domains: T.nilable(T::Array[String]),
+              blocked_domains: T.nilable(T::Array[String]),
+              cache_control:
+                T.nilable(Anthropic::Beta::BetaCacheControlEphemeral),
+              citations: T.nilable(Anthropic::Beta::BetaCitationsConfigParam),
+              defer_loading: T::Boolean,
+              max_content_tokens: T.nilable(Integer),
+              max_uses: T.nilable(Integer),
+              strict: T::Boolean
+            })
+        end
+        def to_hash; end
+
+        class << self
+          sig do
+            params(
+              allowed_callers: T::Array[
+                Anthropic::Beta::BetaWebFetchTool20260209::AllowedCaller::OrSymbol
+              ],
+              allowed_domains: T.nilable(T::Array[String]),
+              blocked_domains: T.nilable(T::Array[String]),
+              cache_control: T.nilable(Anthropic::Beta::BetaCacheControlEphemeral::OrHash),
+              citations: T.nilable(Anthropic::Beta::BetaCitationsConfigParam::OrHash),
+              defer_loading: T::Boolean,
+              max_content_tokens: T.nilable(Integer),
+              max_uses: T.nilable(Integer),
+              strict: T::Boolean,
+              name: Symbol,
+              type: Symbol
+            ).returns(T.attached_class)
+          end
+          def new(
+            allowed_callers: nil,
+            allowed_domains: nil, # List of domains to allow fetching from
+            blocked_domains: nil, # List of domains to block fetching from
+            cache_control: nil, # Create a cache control breakpoint at this content block.
+            citations: nil, # Citations configuration for fetched documents. Citations are disabled by
+                            # default.
+            defer_loading: nil, # If true, tool will not be included in initial system prompt. Only loaded when
+                                # returned via tool_reference from tool search.
+            max_content_tokens: nil, # Maximum number of tokens used by including web page text content in the context.
+                                     # The limit is approximate and does not apply to binary content such as PDFs.
+            max_uses: nil, # Maximum number of times the tool can be used in the API request.
+            strict: nil, # When true, guarantees schema validation on tool names and inputs
+            name: :web_fetch, # Name of the tool.
+                              # This is how the tool will be called by the model and in `tool_use` blocks.
+            type: :web_fetch_20260209
+); end
+        end
+
+        module AllowedCaller
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaWebFetchTool20260209::AllowedCaller::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          CODE_EXECUTION_20250825 = T.let(
+              :code_execution_20250825,
+              Anthropic::Beta::BetaWebFetchTool20260209::AllowedCaller::TaggedSymbol
+            )
+
+          CODE_EXECUTION_20260120 = T.let(
+              :code_execution_20260120,
+              Anthropic::Beta::BetaWebFetchTool20260209::AllowedCaller::TaggedSymbol
+            )
+
+          DIRECT = T.let(
+              :direct,
+              Anthropic::Beta::BetaWebFetchTool20260209::AllowedCaller::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaWebFetchTool20260209::AllowedCaller
+              )
+            end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaWebFetchTool20260209,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
       class BetaWebFetchToolResultBlock < Anthropic::Internal::Type::BaseModel
+        # Tool invocation directly from the model.
+        sig do
+          returns(T.nilable(
+              Anthropic::Beta::BetaWebFetchToolResultBlock::Caller::Variants
+            ))
+        end
+        attr_reader :caller_
+
+        sig do
+          params(
+            caller_: T.any(
+                Anthropic::Beta::BetaDirectCaller::OrHash,
+                Anthropic::Beta::BetaServerToolCaller::OrHash,
+                Anthropic::Beta::BetaServerToolCaller20260120::OrHash
+              )
+          ).void
+        end
+        attr_writer :caller_
+
         sig { returns(Anthropic::Beta::BetaWebFetchToolResultBlock::Content::Variants) }
         attr_accessor :content
 
@@ -13678,7 +14781,9 @@ module Anthropic
               content:
                 Anthropic::Beta::BetaWebFetchToolResultBlock::Content::Variants,
               tool_use_id: String,
-              type: Symbol
+              type: Symbol,
+              caller_:
+                Anthropic::Beta::BetaWebFetchToolResultBlock::Caller::Variants
             })
         end
         def to_hash; end
@@ -13691,10 +14796,43 @@ module Anthropic
                 Anthropic::Beta::BetaWebFetchBlock::OrHash
               ),
               tool_use_id: String,
+              caller_: T.any(
+                Anthropic::Beta::BetaDirectCaller::OrHash,
+                Anthropic::Beta::BetaServerToolCaller::OrHash,
+                Anthropic::Beta::BetaServerToolCaller20260120::OrHash
+              ),
               type: Symbol
             ).returns(T.attached_class)
           end
-          def new(content:, tool_use_id:, type: :web_fetch_tool_result); end
+          def new(
+            content:,
+            tool_use_id:,
+            caller_: nil, # Tool invocation directly from the model.
+            type: :web_fetch_tool_result
+); end
+        end
+
+        # Tool invocation directly from the model.
+        module Caller
+          extend Anthropic::Internal::Type::Union
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaWebFetchToolResultBlock::Caller::Variants
+              ])
+            end
+            def variants; end
+          end
+
+          Variants = T.type_alias do
+              T.any(
+                Anthropic::Beta::BetaDirectCaller,
+                Anthropic::Beta::BetaServerToolCaller,
+                Anthropic::Beta::BetaServerToolCaller20260120
+              )
+            end
         end
 
         module Content
@@ -13734,6 +14872,29 @@ module Anthropic
         sig { params(cache_control: T.nilable(Anthropic::Beta::BetaCacheControlEphemeral::OrHash)).void }
         attr_writer :cache_control
 
+        # Tool invocation directly from the model.
+        sig do
+          returns(T.nilable(
+              T.any(
+                Anthropic::Beta::BetaDirectCaller,
+                Anthropic::Beta::BetaServerToolCaller,
+                Anthropic::Beta::BetaServerToolCaller20260120
+              )
+            ))
+        end
+        attr_reader :caller_
+
+        sig do
+          params(
+            caller_: T.any(
+                Anthropic::Beta::BetaDirectCaller::OrHash,
+                Anthropic::Beta::BetaServerToolCaller::OrHash,
+                Anthropic::Beta::BetaServerToolCaller20260120::OrHash
+              )
+          ).void
+        end
+        attr_writer :caller_
+
         sig do
           returns(T.any(
               Anthropic::Beta::BetaWebFetchToolResultErrorBlockParam,
@@ -13759,7 +14920,13 @@ module Anthropic
               tool_use_id: String,
               type: Symbol,
               cache_control:
-                T.nilable(Anthropic::Beta::BetaCacheControlEphemeral)
+                T.nilable(Anthropic::Beta::BetaCacheControlEphemeral),
+              caller_:
+                T.any(
+                  Anthropic::Beta::BetaDirectCaller,
+                  Anthropic::Beta::BetaServerToolCaller,
+                  Anthropic::Beta::BetaServerToolCaller20260120
+                )
             })
         end
         def to_hash; end
@@ -13773,6 +14940,11 @@ module Anthropic
               ),
               tool_use_id: String,
               cache_control: T.nilable(Anthropic::Beta::BetaCacheControlEphemeral::OrHash),
+              caller_: T.any(
+                Anthropic::Beta::BetaDirectCaller::OrHash,
+                Anthropic::Beta::BetaServerToolCaller::OrHash,
+                Anthropic::Beta::BetaServerToolCaller20260120::OrHash
+              ),
               type: Symbol
             ).returns(T.attached_class)
           end
@@ -13780,8 +14952,32 @@ module Anthropic
             content:,
             tool_use_id:,
             cache_control: nil, # Create a cache control breakpoint at this content block.
+            caller_: nil, # Tool invocation directly from the model.
             type: :web_fetch_tool_result
 ); end
+        end
+
+        # Tool invocation directly from the model.
+        module Caller
+          extend Anthropic::Internal::Type::Union
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaWebFetchToolResultBlockParam::Caller::Variants
+              ])
+            end
+            def variants; end
+          end
+
+          Variants = T.type_alias do
+              T.any(
+                Anthropic::Beta::BetaDirectCaller,
+                Anthropic::Beta::BetaServerToolCaller,
+                Anthropic::Beta::BetaServerToolCaller20260120
+              )
+            end
         end
 
         module Content
@@ -14107,16 +15303,10 @@ module Anthropic
 
         # Parameters for the user's location. Used to provide more relevant search
         # results.
-        sig { returns(T.nilable(Anthropic::Beta::BetaWebSearchTool20250305::UserLocation)) }
+        sig { returns(T.nilable(Anthropic::Beta::BetaUserLocation)) }
         attr_reader :user_location
 
-        sig do
-          params(
-            user_location: T.nilable(
-                Anthropic::Beta::BetaWebSearchTool20250305::UserLocation::OrHash
-              )
-          ).void
-        end
+        sig { params(user_location: T.nilable(Anthropic::Beta::BetaUserLocation::OrHash)).void }
         attr_writer :user_location
 
         sig do
@@ -14135,10 +15325,7 @@ module Anthropic
               defer_loading: T::Boolean,
               max_uses: T.nilable(Integer),
               strict: T::Boolean,
-              user_location:
-                T.nilable(
-                  Anthropic::Beta::BetaWebSearchTool20250305::UserLocation
-                )
+              user_location: T.nilable(Anthropic::Beta::BetaUserLocation)
             })
         end
         def to_hash; end
@@ -14155,9 +15342,7 @@ module Anthropic
               defer_loading: T::Boolean,
               max_uses: T.nilable(Integer),
               strict: T::Boolean,
-              user_location: T.nilable(
-                Anthropic::Beta::BetaWebSearchTool20250305::UserLocation::OrHash
-              ),
+              user_location: T.nilable(Anthropic::Beta::BetaUserLocation::OrHash),
               name: Symbol,
               type: Symbol
             ).returns(T.attached_class)
@@ -14199,6 +15384,11 @@ module Anthropic
               Anthropic::Beta::BetaWebSearchTool20250305::AllowedCaller::TaggedSymbol
             )
 
+          CODE_EXECUTION_20260120 = T.let(
+              :code_execution_20260120,
+              Anthropic::Beta::BetaWebSearchTool20250305::AllowedCaller::TaggedSymbol
+            )
+
           DIRECT = T.let(
               :direct,
               Anthropic::Beta::BetaWebSearchTool20250305::AllowedCaller::TaggedSymbol
@@ -14220,71 +15410,181 @@ module Anthropic
               Anthropic::Internal::AnyHash
             )
           end
+      end
 
-        class UserLocation < Anthropic::Internal::Type::BaseModel
-          # The city of the user.
-          sig { returns(T.nilable(String)) }
-          attr_accessor :city
+      class BetaWebSearchTool20260209 < Anthropic::Internal::Type::BaseModel
+        sig do
+          returns(T.nilable(
+              T::Array[
+                Anthropic::Beta::BetaWebSearchTool20260209::AllowedCaller::OrSymbol
+              ]
+            ))
+        end
+        attr_reader :allowed_callers
 
-          # The two letter
-          # [ISO country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) of the
-          # user.
-          sig { returns(T.nilable(String)) }
-          attr_accessor :country
+        sig do
+          params(
+            allowed_callers: T::Array[
+                Anthropic::Beta::BetaWebSearchTool20260209::AllowedCaller::OrSymbol
+              ]
+          ).void
+        end
+        attr_writer :allowed_callers
 
-          # The region of the user.
-          sig { returns(T.nilable(String)) }
-          attr_accessor :region
+        # If provided, only these domains will be included in results. Cannot be used
+        # alongside `blocked_domains`.
+        sig { returns(T.nilable(T::Array[String])) }
+        attr_accessor :allowed_domains
 
-          # The [IANA timezone](https://nodatime.org/TimeZones) of the user.
-          sig { returns(T.nilable(String)) }
-          attr_accessor :timezone
+        # If provided, these domains will never appear in results. Cannot be used
+        # alongside `allowed_domains`.
+        sig { returns(T.nilable(T::Array[String])) }
+        attr_accessor :blocked_domains
 
-          sig { returns(Symbol) }
-          attr_accessor :type
+        # Create a cache control breakpoint at this content block.
+        sig { returns(T.nilable(Anthropic::Beta::BetaCacheControlEphemeral)) }
+        attr_reader :cache_control
 
+        sig { params(cache_control: T.nilable(Anthropic::Beta::BetaCacheControlEphemeral::OrHash)).void }
+        attr_writer :cache_control
+
+        # If true, tool will not be included in initial system prompt. Only loaded when
+        # returned via tool_reference from tool search.
+        sig { returns(T.nilable(T::Boolean)) }
+        attr_reader :defer_loading
+
+        sig { params(defer_loading: T::Boolean).void }
+        attr_writer :defer_loading
+
+        # Maximum number of times the tool can be used in the API request.
+        sig { returns(T.nilable(Integer)) }
+        attr_accessor :max_uses
+
+        # Name of the tool.
+        #
+        # This is how the tool will be called by the model and in `tool_use` blocks.
+        sig { returns(Symbol) }
+        attr_accessor :name
+
+        # When true, guarantees schema validation on tool names and inputs
+        sig { returns(T.nilable(T::Boolean)) }
+        attr_reader :strict
+
+        sig { params(strict: T::Boolean).void }
+        attr_writer :strict
+
+        sig { returns(Symbol) }
+        attr_accessor :type
+
+        # Parameters for the user's location. Used to provide more relevant search
+        # results.
+        sig { returns(T.nilable(Anthropic::Beta::BetaUserLocation)) }
+        attr_reader :user_location
+
+        sig { params(user_location: T.nilable(Anthropic::Beta::BetaUserLocation::OrHash)).void }
+        attr_writer :user_location
+
+        sig do
+          override
+            .returns({
+              name: Symbol,
+              type: Symbol,
+              allowed_callers:
+                T::Array[
+                  Anthropic::Beta::BetaWebSearchTool20260209::AllowedCaller::OrSymbol
+                ],
+              allowed_domains: T.nilable(T::Array[String]),
+              blocked_domains: T.nilable(T::Array[String]),
+              cache_control:
+                T.nilable(Anthropic::Beta::BetaCacheControlEphemeral),
+              defer_loading: T::Boolean,
+              max_uses: T.nilable(Integer),
+              strict: T::Boolean,
+              user_location: T.nilable(Anthropic::Beta::BetaUserLocation)
+            })
+        end
+        def to_hash; end
+
+        class << self
           sig do
-            override
-              .returns({
-                type: Symbol,
-                city: T.nilable(String),
-                country: T.nilable(String),
-                region: T.nilable(String),
-                timezone: T.nilable(String)
-              })
+            params(
+              allowed_callers: T::Array[
+                Anthropic::Beta::BetaWebSearchTool20260209::AllowedCaller::OrSymbol
+              ],
+              allowed_domains: T.nilable(T::Array[String]),
+              blocked_domains: T.nilable(T::Array[String]),
+              cache_control: T.nilable(Anthropic::Beta::BetaCacheControlEphemeral::OrHash),
+              defer_loading: T::Boolean,
+              max_uses: T.nilable(Integer),
+              strict: T::Boolean,
+              user_location: T.nilable(Anthropic::Beta::BetaUserLocation::OrHash),
+              name: Symbol,
+              type: Symbol
+            ).returns(T.attached_class)
           end
-          def to_hash; end
+          def new(
+            allowed_callers: nil,
+            allowed_domains: nil, # If provided, only these domains will be included in results. Cannot be used
+                                  # alongside `blocked_domains`.
+            blocked_domains: nil, # If provided, these domains will never appear in results. Cannot be used
+                                  # alongside `allowed_domains`.
+            cache_control: nil, # Create a cache control breakpoint at this content block.
+            defer_loading: nil, # If true, tool will not be included in initial system prompt. Only loaded when
+                                # returned via tool_reference from tool search.
+            max_uses: nil, # Maximum number of times the tool can be used in the API request.
+            strict: nil, # When true, guarantees schema validation on tool names and inputs
+            user_location: nil, # Parameters for the user's location. Used to provide more relevant search
+                                # results.
+            name: :web_search, # Name of the tool.
+                               # This is how the tool will be called by the model and in `tool_use` blocks.
+            type: :web_search_20260209
+); end
+        end
+
+        module AllowedCaller
+          extend Anthropic::Internal::Type::Enum
 
           class << self
-            # Parameters for the user's location. Used to provide more relevant search
-            # results.
             sig do
-              params(
-                city: T.nilable(String),
-                country: T.nilable(String),
-                region: T.nilable(String),
-                timezone: T.nilable(String),
-                type: Symbol
-              ).returns(T.attached_class)
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaWebSearchTool20260209::AllowedCaller::TaggedSymbol
+              ])
             end
-            def new(
-              city: nil, # The city of the user.
-              country: nil, # The two letter
-                            # [ISO country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) of the
-                            # user.
-              region: nil, # The region of the user.
-              timezone: nil, # The [IANA timezone](https://nodatime.org/TimeZones) of the user.
-              type: :approximate
-); end
+            def values; end
           end
 
-          OrHash = T.type_alias do
-              T.any(
-                Anthropic::Beta::BetaWebSearchTool20250305::UserLocation,
-                Anthropic::Internal::AnyHash
+          CODE_EXECUTION_20250825 = T.let(
+              :code_execution_20250825,
+              Anthropic::Beta::BetaWebSearchTool20260209::AllowedCaller::TaggedSymbol
+            )
+
+          CODE_EXECUTION_20260120 = T.let(
+              :code_execution_20260120,
+              Anthropic::Beta::BetaWebSearchTool20260209::AllowedCaller::TaggedSymbol
+            )
+
+          DIRECT = T.let(
+              :direct,
+              Anthropic::Beta::BetaWebSearchTool20260209::AllowedCaller::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaWebSearchTool20260209::AllowedCaller
               )
             end
         end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaWebSearchTool20260209,
+              Anthropic::Internal::AnyHash
+            )
+          end
       end
 
       class BetaWebSearchToolRequestError < Anthropic::Internal::Type::BaseModel
@@ -14323,6 +15623,25 @@ module Anthropic
       end
 
       class BetaWebSearchToolResultBlock < Anthropic::Internal::Type::BaseModel
+        # Tool invocation directly from the model.
+        sig do
+          returns(T.nilable(
+              Anthropic::Beta::BetaWebSearchToolResultBlock::Caller::Variants
+            ))
+        end
+        attr_reader :caller_
+
+        sig do
+          params(
+            caller_: T.any(
+                Anthropic::Beta::BetaDirectCaller::OrHash,
+                Anthropic::Beta::BetaServerToolCaller::OrHash,
+                Anthropic::Beta::BetaServerToolCaller20260120::OrHash
+              )
+          ).void
+        end
+        attr_writer :caller_
+
         sig { returns(Anthropic::Beta::BetaWebSearchToolResultBlockContent::Variants) }
         attr_accessor :content
 
@@ -14338,7 +15657,9 @@ module Anthropic
               content:
                 Anthropic::Beta::BetaWebSearchToolResultBlockContent::Variants,
               tool_use_id: String,
-              type: Symbol
+              type: Symbol,
+              caller_:
+                Anthropic::Beta::BetaWebSearchToolResultBlock::Caller::Variants
             })
         end
         def to_hash; end
@@ -14351,10 +15672,43 @@ module Anthropic
                 T::Array[Anthropic::Beta::BetaWebSearchResultBlock::OrHash]
               ),
               tool_use_id: String,
+              caller_: T.any(
+                Anthropic::Beta::BetaDirectCaller::OrHash,
+                Anthropic::Beta::BetaServerToolCaller::OrHash,
+                Anthropic::Beta::BetaServerToolCaller20260120::OrHash
+              ),
               type: Symbol
             ).returns(T.attached_class)
           end
-          def new(content:, tool_use_id:, type: :web_search_tool_result); end
+          def new(
+            content:,
+            tool_use_id:,
+            caller_: nil, # Tool invocation directly from the model.
+            type: :web_search_tool_result
+); end
+        end
+
+        # Tool invocation directly from the model.
+        module Caller
+          extend Anthropic::Internal::Type::Union
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaWebSearchToolResultBlock::Caller::Variants
+              ])
+            end
+            def variants; end
+          end
+
+          Variants = T.type_alias do
+              T.any(
+                Anthropic::Beta::BetaDirectCaller,
+                Anthropic::Beta::BetaServerToolCaller,
+                Anthropic::Beta::BetaServerToolCaller20260120
+              )
+            end
         end
 
         OrHash = T.type_alias do
@@ -14401,6 +15755,29 @@ module Anthropic
         sig { params(cache_control: T.nilable(Anthropic::Beta::BetaCacheControlEphemeral::OrHash)).void }
         attr_writer :cache_control
 
+        # Tool invocation directly from the model.
+        sig do
+          returns(T.nilable(
+              T.any(
+                Anthropic::Beta::BetaDirectCaller,
+                Anthropic::Beta::BetaServerToolCaller,
+                Anthropic::Beta::BetaServerToolCaller20260120
+              )
+            ))
+        end
+        attr_reader :caller_
+
+        sig do
+          params(
+            caller_: T.any(
+                Anthropic::Beta::BetaDirectCaller::OrHash,
+                Anthropic::Beta::BetaServerToolCaller::OrHash,
+                Anthropic::Beta::BetaServerToolCaller20260120::OrHash
+              )
+          ).void
+        end
+        attr_writer :caller_
+
         sig do
           returns(T.any(
               T::Array[Anthropic::Beta::BetaWebSearchResultBlockParam],
@@ -14426,7 +15803,13 @@ module Anthropic
               tool_use_id: String,
               type: Symbol,
               cache_control:
-                T.nilable(Anthropic::Beta::BetaCacheControlEphemeral)
+                T.nilable(Anthropic::Beta::BetaCacheControlEphemeral),
+              caller_:
+                T.any(
+                  Anthropic::Beta::BetaDirectCaller,
+                  Anthropic::Beta::BetaServerToolCaller,
+                  Anthropic::Beta::BetaServerToolCaller20260120
+                )
             })
         end
         def to_hash; end
@@ -14442,6 +15825,11 @@ module Anthropic
               ),
               tool_use_id: String,
               cache_control: T.nilable(Anthropic::Beta::BetaCacheControlEphemeral::OrHash),
+              caller_: T.any(
+                Anthropic::Beta::BetaDirectCaller::OrHash,
+                Anthropic::Beta::BetaServerToolCaller::OrHash,
+                Anthropic::Beta::BetaServerToolCaller20260120::OrHash
+              ),
               type: Symbol
             ).returns(T.attached_class)
           end
@@ -14449,8 +15837,32 @@ module Anthropic
             content:,
             tool_use_id:,
             cache_control: nil, # Create a cache control breakpoint at this content block.
+            caller_: nil, # Tool invocation directly from the model.
             type: :web_search_tool_result
 ); end
+        end
+
+        # Tool invocation directly from the model.
+        module Caller
+          extend Anthropic::Internal::Type::Union
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaWebSearchToolResultBlockParam::Caller::Variants
+              ])
+            end
+            def variants; end
+          end
+
+          Variants = T.type_alias do
+              T.any(
+                Anthropic::Beta::BetaDirectCaller,
+                Anthropic::Beta::BetaServerToolCaller,
+                Anthropic::Beta::BetaServerToolCaller20260120
+              )
+            end
         end
 
         OrHash = T.type_alias do
@@ -15282,6 +16694,7 @@ module Anthropic
                   Anthropic::Beta::BetaToolBash20250124,
                   Anthropic::Beta::BetaCodeExecutionTool20250522,
                   Anthropic::Beta::BetaCodeExecutionTool20250825,
+                  Anthropic::Beta::BetaCodeExecutionTool20260120,
                   Anthropic::Beta::BetaToolComputerUse20241022,
                   Anthropic::Beta::BetaMemoryTool20250818,
                   Anthropic::Beta::BetaToolComputerUse20250124,
@@ -15292,6 +16705,8 @@ module Anthropic
                   Anthropic::Beta::BetaToolTextEditor20250728,
                   Anthropic::Beta::BetaWebSearchTool20250305,
                   Anthropic::Beta::BetaWebFetchTool20250910,
+                  Anthropic::Beta::BetaWebSearchTool20260209,
+                  Anthropic::Beta::BetaWebFetchTool20260209,
                   Anthropic::Beta::BetaToolSearchToolBm25_20251119,
                   Anthropic::Beta::BetaToolSearchToolRegex20251119,
                   Anthropic::Beta::BetaMCPToolset
@@ -15310,6 +16725,7 @@ module Anthropic
                   Anthropic::Beta::BetaToolBash20250124::OrHash,
                   Anthropic::Beta::BetaCodeExecutionTool20250522::OrHash,
                   Anthropic::Beta::BetaCodeExecutionTool20250825::OrHash,
+                  Anthropic::Beta::BetaCodeExecutionTool20260120::OrHash,
                   Anthropic::Beta::BetaToolComputerUse20241022::OrHash,
                   Anthropic::Beta::BetaMemoryTool20250818::OrHash,
                   Anthropic::Beta::BetaToolComputerUse20250124::OrHash,
@@ -15320,6 +16736,8 @@ module Anthropic
                   Anthropic::Beta::BetaToolTextEditor20250728::OrHash,
                   Anthropic::Beta::BetaWebSearchTool20250305::OrHash,
                   Anthropic::Beta::BetaWebFetchTool20250910::OrHash,
+                  Anthropic::Beta::BetaWebSearchTool20260209::OrHash,
+                  Anthropic::Beta::BetaWebFetchTool20260209::OrHash,
                   Anthropic::Beta::BetaToolSearchToolBm25_20251119::OrHash,
                   Anthropic::Beta::BetaToolSearchToolRegex20251119::OrHash,
                   Anthropic::Beta::BetaMCPToolset::OrHash
@@ -15367,6 +16785,7 @@ module Anthropic
                     Anthropic::Beta::BetaToolBash20250124,
                     Anthropic::Beta::BetaCodeExecutionTool20250522,
                     Anthropic::Beta::BetaCodeExecutionTool20250825,
+                    Anthropic::Beta::BetaCodeExecutionTool20260120,
                     Anthropic::Beta::BetaToolComputerUse20241022,
                     Anthropic::Beta::BetaMemoryTool20250818,
                     Anthropic::Beta::BetaToolComputerUse20250124,
@@ -15377,6 +16796,8 @@ module Anthropic
                     Anthropic::Beta::BetaToolTextEditor20250728,
                     Anthropic::Beta::BetaWebSearchTool20250305,
                     Anthropic::Beta::BetaWebFetchTool20250910,
+                    Anthropic::Beta::BetaWebSearchTool20260209,
+                    Anthropic::Beta::BetaWebFetchTool20260209,
                     Anthropic::Beta::BetaToolSearchToolBm25_20251119,
                     Anthropic::Beta::BetaToolSearchToolRegex20251119,
                     Anthropic::Beta::BetaMCPToolset
@@ -15422,6 +16843,7 @@ module Anthropic
                   Anthropic::Beta::BetaToolBash20250124::OrHash,
                   Anthropic::Beta::BetaCodeExecutionTool20250522::OrHash,
                   Anthropic::Beta::BetaCodeExecutionTool20250825::OrHash,
+                  Anthropic::Beta::BetaCodeExecutionTool20260120::OrHash,
                   Anthropic::Beta::BetaToolComputerUse20241022::OrHash,
                   Anthropic::Beta::BetaMemoryTool20250818::OrHash,
                   Anthropic::Beta::BetaToolComputerUse20250124::OrHash,
@@ -15432,6 +16854,8 @@ module Anthropic
                   Anthropic::Beta::BetaToolTextEditor20250728::OrHash,
                   Anthropic::Beta::BetaWebSearchTool20250305::OrHash,
                   Anthropic::Beta::BetaWebFetchTool20250910::OrHash,
+                  Anthropic::Beta::BetaWebSearchTool20260209::OrHash,
+                  Anthropic::Beta::BetaWebFetchTool20260209::OrHash,
                   Anthropic::Beta::BetaToolSearchToolBm25_20251119::OrHash,
                   Anthropic::Beta::BetaToolSearchToolRegex20251119::OrHash,
                   Anthropic::Beta::BetaMCPToolset::OrHash
@@ -15656,10 +17080,8 @@ module Anthropic
             end
         end
 
-        # Configuration for a group of tools from an MCP server.
-        #
-        # Allows configuring enabled status and defer_loading for all tools from an MCP
-        # server, with optional per-tool overrides.
+        # Code execution tool with REPL state persistence (daemon mode + gVisor
+        # checkpoint).
         module Tool
           extend Anthropic::Internal::Type::Union
 
@@ -15680,6 +17102,7 @@ module Anthropic
                 Anthropic::Beta::BetaToolBash20250124,
                 Anthropic::Beta::BetaCodeExecutionTool20250522,
                 Anthropic::Beta::BetaCodeExecutionTool20250825,
+                Anthropic::Beta::BetaCodeExecutionTool20260120,
                 Anthropic::Beta::BetaToolComputerUse20241022,
                 Anthropic::Beta::BetaMemoryTool20250818,
                 Anthropic::Beta::BetaToolComputerUse20250124,
@@ -15690,6 +17113,8 @@ module Anthropic
                 Anthropic::Beta::BetaToolTextEditor20250728,
                 Anthropic::Beta::BetaWebSearchTool20250305,
                 Anthropic::Beta::BetaWebFetchTool20250910,
+                Anthropic::Beta::BetaWebSearchTool20260209,
+                Anthropic::Beta::BetaWebFetchTool20260209,
                 Anthropic::Beta::BetaToolSearchToolBm25_20251119,
                 Anthropic::Beta::BetaToolSearchToolRegex20251119,
                 Anthropic::Beta::BetaMCPToolset
@@ -16059,6 +17484,7 @@ module Anthropic
                   Anthropic::Beta::BetaToolBash20250124,
                   Anthropic::Beta::BetaCodeExecutionTool20250522,
                   Anthropic::Beta::BetaCodeExecutionTool20250825,
+                  Anthropic::Beta::BetaCodeExecutionTool20260120,
                   Anthropic::Beta::BetaToolComputerUse20241022,
                   Anthropic::Beta::BetaMemoryTool20250818,
                   Anthropic::Beta::BetaToolComputerUse20250124,
@@ -16069,6 +17495,8 @@ module Anthropic
                   Anthropic::Beta::BetaToolTextEditor20250728,
                   Anthropic::Beta::BetaWebSearchTool20250305,
                   Anthropic::Beta::BetaWebFetchTool20250910,
+                  Anthropic::Beta::BetaWebSearchTool20260209,
+                  Anthropic::Beta::BetaWebFetchTool20260209,
                   Anthropic::Beta::BetaToolSearchToolBm25_20251119,
                   Anthropic::Beta::BetaToolSearchToolRegex20251119,
                   Anthropic::Beta::BetaMCPToolset
@@ -16087,6 +17515,7 @@ module Anthropic
                   Anthropic::Beta::BetaToolBash20250124::OrHash,
                   Anthropic::Beta::BetaCodeExecutionTool20250522::OrHash,
                   Anthropic::Beta::BetaCodeExecutionTool20250825::OrHash,
+                  Anthropic::Beta::BetaCodeExecutionTool20260120::OrHash,
                   Anthropic::Beta::BetaToolComputerUse20241022::OrHash,
                   Anthropic::Beta::BetaMemoryTool20250818::OrHash,
                   Anthropic::Beta::BetaToolComputerUse20250124::OrHash,
@@ -16097,6 +17526,8 @@ module Anthropic
                   Anthropic::Beta::BetaToolTextEditor20250728::OrHash,
                   Anthropic::Beta::BetaWebSearchTool20250305::OrHash,
                   Anthropic::Beta::BetaWebFetchTool20250910::OrHash,
+                  Anthropic::Beta::BetaWebSearchTool20260209::OrHash,
+                  Anthropic::Beta::BetaWebFetchTool20260209::OrHash,
                   Anthropic::Beta::BetaToolSearchToolBm25_20251119::OrHash,
                   Anthropic::Beta::BetaToolSearchToolRegex20251119::OrHash,
                   Anthropic::Beta::BetaMCPToolset::OrHash
@@ -16180,6 +17611,7 @@ module Anthropic
                     Anthropic::Beta::BetaToolBash20250124,
                     Anthropic::Beta::BetaCodeExecutionTool20250522,
                     Anthropic::Beta::BetaCodeExecutionTool20250825,
+                    Anthropic::Beta::BetaCodeExecutionTool20260120,
                     Anthropic::Beta::BetaToolComputerUse20241022,
                     Anthropic::Beta::BetaMemoryTool20250818,
                     Anthropic::Beta::BetaToolComputerUse20250124,
@@ -16190,6 +17622,8 @@ module Anthropic
                     Anthropic::Beta::BetaToolTextEditor20250728,
                     Anthropic::Beta::BetaWebSearchTool20250305,
                     Anthropic::Beta::BetaWebFetchTool20250910,
+                    Anthropic::Beta::BetaWebSearchTool20260209,
+                    Anthropic::Beta::BetaWebFetchTool20260209,
                     Anthropic::Beta::BetaToolSearchToolBm25_20251119,
                     Anthropic::Beta::BetaToolSearchToolRegex20251119,
                     Anthropic::Beta::BetaMCPToolset
@@ -16244,6 +17678,7 @@ module Anthropic
                   Anthropic::Beta::BetaToolBash20250124::OrHash,
                   Anthropic::Beta::BetaCodeExecutionTool20250522::OrHash,
                   Anthropic::Beta::BetaCodeExecutionTool20250825::OrHash,
+                  Anthropic::Beta::BetaCodeExecutionTool20260120::OrHash,
                   Anthropic::Beta::BetaToolComputerUse20241022::OrHash,
                   Anthropic::Beta::BetaMemoryTool20250818::OrHash,
                   Anthropic::Beta::BetaToolComputerUse20250124::OrHash,
@@ -16254,6 +17689,8 @@ module Anthropic
                   Anthropic::Beta::BetaToolTextEditor20250728::OrHash,
                   Anthropic::Beta::BetaWebSearchTool20250305::OrHash,
                   Anthropic::Beta::BetaWebFetchTool20250910::OrHash,
+                  Anthropic::Beta::BetaWebSearchTool20260209::OrHash,
+                  Anthropic::Beta::BetaWebFetchTool20260209::OrHash,
                   Anthropic::Beta::BetaToolSearchToolBm25_20251119::OrHash,
                   Anthropic::Beta::BetaToolSearchToolRegex20251119::OrHash,
                   Anthropic::Beta::BetaMCPToolset::OrHash
@@ -17102,6 +18539,7 @@ module Anthropic
                         Anthropic::Beta::BetaToolBash20250124,
                         Anthropic::Beta::BetaCodeExecutionTool20250522,
                         Anthropic::Beta::BetaCodeExecutionTool20250825,
+                        Anthropic::Beta::BetaCodeExecutionTool20260120,
                         Anthropic::Beta::BetaToolComputerUse20241022,
                         Anthropic::Beta::BetaMemoryTool20250818,
                         Anthropic::Beta::BetaToolComputerUse20250124,
@@ -17112,6 +18550,8 @@ module Anthropic
                         Anthropic::Beta::BetaToolTextEditor20250728,
                         Anthropic::Beta::BetaWebSearchTool20250305,
                         Anthropic::Beta::BetaWebFetchTool20250910,
+                        Anthropic::Beta::BetaWebSearchTool20260209,
+                        Anthropic::Beta::BetaWebFetchTool20260209,
                         Anthropic::Beta::BetaToolSearchToolBm25_20251119,
                         Anthropic::Beta::BetaToolSearchToolRegex20251119,
                         Anthropic::Beta::BetaMCPToolset
@@ -17130,6 +18570,7 @@ module Anthropic
                         Anthropic::Beta::BetaToolBash20250124::OrHash,
                         Anthropic::Beta::BetaCodeExecutionTool20250522::OrHash,
                         Anthropic::Beta::BetaCodeExecutionTool20250825::OrHash,
+                        Anthropic::Beta::BetaCodeExecutionTool20260120::OrHash,
                         Anthropic::Beta::BetaToolComputerUse20241022::OrHash,
                         Anthropic::Beta::BetaMemoryTool20250818::OrHash,
                         Anthropic::Beta::BetaToolComputerUse20250124::OrHash,
@@ -17140,6 +18581,8 @@ module Anthropic
                         Anthropic::Beta::BetaToolTextEditor20250728::OrHash,
                         Anthropic::Beta::BetaWebSearchTool20250305::OrHash,
                         Anthropic::Beta::BetaWebFetchTool20250910::OrHash,
+                        Anthropic::Beta::BetaWebSearchTool20260209::OrHash,
+                        Anthropic::Beta::BetaWebFetchTool20260209::OrHash,
                         Anthropic::Beta::BetaToolSearchToolBm25_20251119::OrHash,
                         Anthropic::Beta::BetaToolSearchToolRegex20251119::OrHash,
                         Anthropic::Beta::BetaMCPToolset::OrHash
@@ -17230,6 +18673,7 @@ module Anthropic
                           Anthropic::Beta::BetaToolBash20250124,
                           Anthropic::Beta::BetaCodeExecutionTool20250522,
                           Anthropic::Beta::BetaCodeExecutionTool20250825,
+                          Anthropic::Beta::BetaCodeExecutionTool20260120,
                           Anthropic::Beta::BetaToolComputerUse20241022,
                           Anthropic::Beta::BetaMemoryTool20250818,
                           Anthropic::Beta::BetaToolComputerUse20250124,
@@ -17240,6 +18684,8 @@ module Anthropic
                           Anthropic::Beta::BetaToolTextEditor20250728,
                           Anthropic::Beta::BetaWebSearchTool20250305,
                           Anthropic::Beta::BetaWebFetchTool20250910,
+                          Anthropic::Beta::BetaWebSearchTool20260209,
+                          Anthropic::Beta::BetaWebFetchTool20260209,
                           Anthropic::Beta::BetaToolSearchToolBm25_20251119,
                           Anthropic::Beta::BetaToolSearchToolRegex20251119,
                           Anthropic::Beta::BetaMCPToolset
@@ -17303,6 +18749,7 @@ module Anthropic
                         Anthropic::Beta::BetaToolBash20250124::OrHash,
                         Anthropic::Beta::BetaCodeExecutionTool20250522::OrHash,
                         Anthropic::Beta::BetaCodeExecutionTool20250825::OrHash,
+                        Anthropic::Beta::BetaCodeExecutionTool20260120::OrHash,
                         Anthropic::Beta::BetaToolComputerUse20241022::OrHash,
                         Anthropic::Beta::BetaMemoryTool20250818::OrHash,
                         Anthropic::Beta::BetaToolComputerUse20250124::OrHash,
@@ -17313,6 +18760,8 @@ module Anthropic
                         Anthropic::Beta::BetaToolTextEditor20250728::OrHash,
                         Anthropic::Beta::BetaWebSearchTool20250305::OrHash,
                         Anthropic::Beta::BetaWebFetchTool20250910::OrHash,
+                        Anthropic::Beta::BetaWebSearchTool20260209::OrHash,
+                        Anthropic::Beta::BetaWebFetchTool20260209::OrHash,
                         Anthropic::Beta::BetaToolSearchToolBm25_20251119::OrHash,
                         Anthropic::Beta::BetaToolSearchToolRegex20251119::OrHash,
                         Anthropic::Beta::BetaMCPToolset::OrHash
@@ -19702,6 +21151,7 @@ module Anthropic
     BetaCodeExecutionResultBlockParam = Beta::BetaCodeExecutionResultBlockParam
     BetaCodeExecutionTool20250522 = Beta::BetaCodeExecutionTool20250522
     BetaCodeExecutionTool20250825 = Beta::BetaCodeExecutionTool20250825
+    BetaCodeExecutionTool20260120 = Beta::BetaCodeExecutionTool20260120
     BetaCodeExecutionToolResultBlock = Beta::BetaCodeExecutionToolResultBlock
 
     BetaCodeExecutionToolResultBlockContent = Beta::BetaCodeExecutionToolResultBlockContent
@@ -19736,6 +21186,10 @@ module Anthropic
 
     BetaDirectCaller = Beta::BetaDirectCaller
     BetaDocumentBlock = Beta::BetaDocumentBlock
+
+    BetaEncryptedCodeExecutionResultBlock = Beta::BetaEncryptedCodeExecutionResultBlock
+
+    BetaEncryptedCodeExecutionResultBlockParam = Beta::BetaEncryptedCodeExecutionResultBlockParam
 
     module BetaError
       extend Anthropic::Internal::Type::Union
@@ -19995,6 +21449,7 @@ module Anthropic
 
     BetaSearchResultBlockParam = Beta::BetaSearchResultBlockParam
     BetaServerToolCaller = Beta::BetaServerToolCaller
+    BetaServerToolCaller20260120 = Beta::BetaServerToolCaller20260120
     BetaServerToolUsage = Beta::BetaServerToolUsage
     BetaServerToolUseBlock = Beta::BetaServerToolUseBlock
     BetaServerToolUseBlockParam = Beta::BetaServerToolUseBlockParam
@@ -20076,9 +21531,11 @@ module Anthropic
     BetaURLImageSource = Beta::BetaURLImageSource
     BetaURLPDFSource = Beta::BetaURLPDFSource
     BetaUsage = Beta::BetaUsage
+    BetaUserLocation = Beta::BetaUserLocation
     BetaWebFetchBlock = Beta::BetaWebFetchBlock
     BetaWebFetchBlockParam = Beta::BetaWebFetchBlockParam
     BetaWebFetchTool20250910 = Beta::BetaWebFetchTool20250910
+    BetaWebFetchTool20260209 = Beta::BetaWebFetchTool20260209
     BetaWebFetchToolResultBlock = Beta::BetaWebFetchToolResultBlock
     BetaWebFetchToolResultBlockParam = Beta::BetaWebFetchToolResultBlockParam
     BetaWebFetchToolResultErrorBlock = Beta::BetaWebFetchToolResultErrorBlock
@@ -20089,6 +21546,7 @@ module Anthropic
     BetaWebSearchResultBlock = Beta::BetaWebSearchResultBlock
     BetaWebSearchResultBlockParam = Beta::BetaWebSearchResultBlockParam
     BetaWebSearchTool20250305 = Beta::BetaWebSearchTool20250305
+    BetaWebSearchTool20260209 = Beta::BetaWebSearchTool20260209
     BetaWebSearchToolRequestError = Beta::BetaWebSearchToolRequestError
     BetaWebSearchToolResultBlock = Beta::BetaWebSearchToolResultBlock
 
@@ -20661,6 +22119,23 @@ module Anthropic
         end
     end
 
+    class CitationsConfig < Anthropic::Internal::Type::BaseModel
+      sig { returns(T::Boolean) }
+      attr_accessor :enabled
+
+      sig { override.returns({ enabled: T::Boolean }) }
+      def to_hash; end
+
+      class << self
+        sig { params(enabled: T::Boolean).returns(T.attached_class) }
+        def new(enabled:); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(Anthropic::CitationsConfig, Anthropic::Internal::AnyHash)
+        end
+    end
+
     class CitationsConfigParam < Anthropic::Internal::Type::BaseModel
       sig { returns(T.nilable(T::Boolean)) }
       attr_reader :enabled
@@ -20840,6 +22315,816 @@ module Anthropic
       OrHash = T.type_alias do
           T.any(
             Anthropic::CitationsWebSearchResultLocation,
+            Anthropic::Internal::AnyHash
+          )
+        end
+    end
+
+    class CodeExecutionOutputBlock < Anthropic::Internal::Type::BaseModel
+      sig { returns(String) }
+      attr_accessor :file_id
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig { override.returns({ file_id: String, type: Symbol }) }
+      def to_hash; end
+
+      class << self
+        sig { params(file_id: String, type: Symbol).returns(T.attached_class) }
+        def new(file_id:, type: :code_execution_output); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(
+            Anthropic::CodeExecutionOutputBlock,
+            Anthropic::Internal::AnyHash
+          )
+        end
+    end
+
+    class CodeExecutionOutputBlockParam < Anthropic::Internal::Type::BaseModel
+      sig { returns(String) }
+      attr_accessor :file_id
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig { override.returns({ file_id: String, type: Symbol }) }
+      def to_hash; end
+
+      class << self
+        sig { params(file_id: String, type: Symbol).returns(T.attached_class) }
+        def new(file_id:, type: :code_execution_output); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(
+            Anthropic::CodeExecutionOutputBlockParam,
+            Anthropic::Internal::AnyHash
+          )
+        end
+    end
+
+    class CodeExecutionResultBlock < Anthropic::Internal::Type::BaseModel
+      sig { returns(T::Array[Anthropic::CodeExecutionOutputBlock]) }
+      attr_accessor :content
+
+      sig { returns(Integer) }
+      attr_accessor :return_code
+
+      sig { returns(String) }
+      attr_accessor :stderr
+
+      sig { returns(String) }
+      attr_accessor :stdout
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig do
+        override
+          .returns({
+            content: T::Array[Anthropic::CodeExecutionOutputBlock],
+            return_code: Integer,
+            stderr: String,
+            stdout: String,
+            type: Symbol
+          })
+      end
+      def to_hash; end
+
+      class << self
+        sig do
+          params(
+            content: T::Array[Anthropic::CodeExecutionOutputBlock::OrHash],
+            return_code: Integer,
+            stderr: String,
+            stdout: String,
+            type: Symbol
+          ).returns(T.attached_class)
+        end
+        def new(content:, return_code:, stderr:, stdout:, type: :code_execution_result); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(
+            Anthropic::CodeExecutionResultBlock,
+            Anthropic::Internal::AnyHash
+          )
+        end
+    end
+
+    class CodeExecutionResultBlockParam < Anthropic::Internal::Type::BaseModel
+      sig { returns(T::Array[Anthropic::CodeExecutionOutputBlockParam]) }
+      attr_accessor :content
+
+      sig { returns(Integer) }
+      attr_accessor :return_code
+
+      sig { returns(String) }
+      attr_accessor :stderr
+
+      sig { returns(String) }
+      attr_accessor :stdout
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig do
+        override
+          .returns({
+            content: T::Array[Anthropic::CodeExecutionOutputBlockParam],
+            return_code: Integer,
+            stderr: String,
+            stdout: String,
+            type: Symbol
+          })
+      end
+      def to_hash; end
+
+      class << self
+        sig do
+          params(
+            content: T::Array[Anthropic::CodeExecutionOutputBlockParam::OrHash],
+            return_code: Integer,
+            stderr: String,
+            stdout: String,
+            type: Symbol
+          ).returns(T.attached_class)
+        end
+        def new(content:, return_code:, stderr:, stdout:, type: :code_execution_result); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(
+            Anthropic::CodeExecutionResultBlockParam,
+            Anthropic::Internal::AnyHash
+          )
+        end
+    end
+
+    class CodeExecutionTool20250522 < Anthropic::Internal::Type::BaseModel
+      sig do
+        returns(T.nilable(
+            T::Array[
+              Anthropic::CodeExecutionTool20250522::AllowedCaller::OrSymbol
+            ]
+          ))
+      end
+      attr_reader :allowed_callers
+
+      sig do
+        params(
+          allowed_callers: T::Array[
+              Anthropic::CodeExecutionTool20250522::AllowedCaller::OrSymbol
+            ]
+        ).void
+      end
+      attr_writer :allowed_callers
+
+      # Create a cache control breakpoint at this content block.
+      sig { returns(T.nilable(Anthropic::CacheControlEphemeral)) }
+      attr_reader :cache_control
+
+      sig { params(cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash)).void }
+      attr_writer :cache_control
+
+      # If true, tool will not be included in initial system prompt. Only loaded when
+      # returned via tool_reference from tool search.
+      sig { returns(T.nilable(T::Boolean)) }
+      attr_reader :defer_loading
+
+      sig { params(defer_loading: T::Boolean).void }
+      attr_writer :defer_loading
+
+      # Name of the tool.
+      #
+      # This is how the tool will be called by the model and in `tool_use` blocks.
+      sig { returns(Symbol) }
+      attr_accessor :name
+
+      # When true, guarantees schema validation on tool names and inputs
+      sig { returns(T.nilable(T::Boolean)) }
+      attr_reader :strict
+
+      sig { params(strict: T::Boolean).void }
+      attr_writer :strict
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig do
+        override
+          .returns({
+            name: Symbol,
+            type: Symbol,
+            allowed_callers:
+              T::Array[
+                Anthropic::CodeExecutionTool20250522::AllowedCaller::OrSymbol
+              ],
+            cache_control: T.nilable(Anthropic::CacheControlEphemeral),
+            defer_loading: T::Boolean,
+            strict: T::Boolean
+          })
+      end
+      def to_hash; end
+
+      class << self
+        sig do
+          params(
+            allowed_callers: T::Array[
+              Anthropic::CodeExecutionTool20250522::AllowedCaller::OrSymbol
+            ],
+            cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash),
+            defer_loading: T::Boolean,
+            strict: T::Boolean,
+            name: Symbol,
+            type: Symbol
+          ).returns(T.attached_class)
+        end
+        def new(
+          allowed_callers: nil,
+          cache_control: nil, # Create a cache control breakpoint at this content block.
+          defer_loading: nil, # If true, tool will not be included in initial system prompt. Only loaded when
+                              # returned via tool_reference from tool search.
+          strict: nil, # When true, guarantees schema validation on tool names and inputs
+          name: :code_execution, # Name of the tool.
+                                 # This is how the tool will be called by the model and in `tool_use` blocks.
+          type: :code_execution_20250522
+); end
+      end
+
+      module AllowedCaller
+        extend Anthropic::Internal::Type::Enum
+
+        class << self
+          sig do
+            override
+              .returns(T::Array[
+              Anthropic::CodeExecutionTool20250522::AllowedCaller::TaggedSymbol
+            ])
+          end
+          def values; end
+        end
+
+        CODE_EXECUTION_20250825 = T.let(
+            :code_execution_20250825,
+            Anthropic::CodeExecutionTool20250522::AllowedCaller::TaggedSymbol
+          )
+
+        CODE_EXECUTION_20260120 = T.let(
+            :code_execution_20260120,
+            Anthropic::CodeExecutionTool20250522::AllowedCaller::TaggedSymbol
+          )
+
+        DIRECT = T.let(
+            :direct,
+            Anthropic::CodeExecutionTool20250522::AllowedCaller::TaggedSymbol
+          )
+
+        OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+        TaggedSymbol = T.type_alias do
+            T.all(Symbol, Anthropic::CodeExecutionTool20250522::AllowedCaller)
+          end
+      end
+
+      OrHash = T.type_alias do
+          T.any(
+            Anthropic::CodeExecutionTool20250522,
+            Anthropic::Internal::AnyHash
+          )
+        end
+    end
+
+    class CodeExecutionTool20250825 < Anthropic::Internal::Type::BaseModel
+      sig do
+        returns(T.nilable(
+            T::Array[
+              Anthropic::CodeExecutionTool20250825::AllowedCaller::OrSymbol
+            ]
+          ))
+      end
+      attr_reader :allowed_callers
+
+      sig do
+        params(
+          allowed_callers: T::Array[
+              Anthropic::CodeExecutionTool20250825::AllowedCaller::OrSymbol
+            ]
+        ).void
+      end
+      attr_writer :allowed_callers
+
+      # Create a cache control breakpoint at this content block.
+      sig { returns(T.nilable(Anthropic::CacheControlEphemeral)) }
+      attr_reader :cache_control
+
+      sig { params(cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash)).void }
+      attr_writer :cache_control
+
+      # If true, tool will not be included in initial system prompt. Only loaded when
+      # returned via tool_reference from tool search.
+      sig { returns(T.nilable(T::Boolean)) }
+      attr_reader :defer_loading
+
+      sig { params(defer_loading: T::Boolean).void }
+      attr_writer :defer_loading
+
+      # Name of the tool.
+      #
+      # This is how the tool will be called by the model and in `tool_use` blocks.
+      sig { returns(Symbol) }
+      attr_accessor :name
+
+      # When true, guarantees schema validation on tool names and inputs
+      sig { returns(T.nilable(T::Boolean)) }
+      attr_reader :strict
+
+      sig { params(strict: T::Boolean).void }
+      attr_writer :strict
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig do
+        override
+          .returns({
+            name: Symbol,
+            type: Symbol,
+            allowed_callers:
+              T::Array[
+                Anthropic::CodeExecutionTool20250825::AllowedCaller::OrSymbol
+              ],
+            cache_control: T.nilable(Anthropic::CacheControlEphemeral),
+            defer_loading: T::Boolean,
+            strict: T::Boolean
+          })
+      end
+      def to_hash; end
+
+      class << self
+        sig do
+          params(
+            allowed_callers: T::Array[
+              Anthropic::CodeExecutionTool20250825::AllowedCaller::OrSymbol
+            ],
+            cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash),
+            defer_loading: T::Boolean,
+            strict: T::Boolean,
+            name: Symbol,
+            type: Symbol
+          ).returns(T.attached_class)
+        end
+        def new(
+          allowed_callers: nil,
+          cache_control: nil, # Create a cache control breakpoint at this content block.
+          defer_loading: nil, # If true, tool will not be included in initial system prompt. Only loaded when
+                              # returned via tool_reference from tool search.
+          strict: nil, # When true, guarantees schema validation on tool names and inputs
+          name: :code_execution, # Name of the tool.
+                                 # This is how the tool will be called by the model and in `tool_use` blocks.
+          type: :code_execution_20250825
+); end
+      end
+
+      module AllowedCaller
+        extend Anthropic::Internal::Type::Enum
+
+        class << self
+          sig do
+            override
+              .returns(T::Array[
+              Anthropic::CodeExecutionTool20250825::AllowedCaller::TaggedSymbol
+            ])
+          end
+          def values; end
+        end
+
+        CODE_EXECUTION_20250825 = T.let(
+            :code_execution_20250825,
+            Anthropic::CodeExecutionTool20250825::AllowedCaller::TaggedSymbol
+          )
+
+        CODE_EXECUTION_20260120 = T.let(
+            :code_execution_20260120,
+            Anthropic::CodeExecutionTool20250825::AllowedCaller::TaggedSymbol
+          )
+
+        DIRECT = T.let(
+            :direct,
+            Anthropic::CodeExecutionTool20250825::AllowedCaller::TaggedSymbol
+          )
+
+        OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+        TaggedSymbol = T.type_alias do
+            T.all(Symbol, Anthropic::CodeExecutionTool20250825::AllowedCaller)
+          end
+      end
+
+      OrHash = T.type_alias do
+          T.any(
+            Anthropic::CodeExecutionTool20250825,
+            Anthropic::Internal::AnyHash
+          )
+        end
+    end
+
+    class CodeExecutionTool20260120 < Anthropic::Internal::Type::BaseModel
+      sig do
+        returns(T.nilable(
+            T::Array[
+              Anthropic::CodeExecutionTool20260120::AllowedCaller::OrSymbol
+            ]
+          ))
+      end
+      attr_reader :allowed_callers
+
+      sig do
+        params(
+          allowed_callers: T::Array[
+              Anthropic::CodeExecutionTool20260120::AllowedCaller::OrSymbol
+            ]
+        ).void
+      end
+      attr_writer :allowed_callers
+
+      # Create a cache control breakpoint at this content block.
+      sig { returns(T.nilable(Anthropic::CacheControlEphemeral)) }
+      attr_reader :cache_control
+
+      sig { params(cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash)).void }
+      attr_writer :cache_control
+
+      # If true, tool will not be included in initial system prompt. Only loaded when
+      # returned via tool_reference from tool search.
+      sig { returns(T.nilable(T::Boolean)) }
+      attr_reader :defer_loading
+
+      sig { params(defer_loading: T::Boolean).void }
+      attr_writer :defer_loading
+
+      # Name of the tool.
+      #
+      # This is how the tool will be called by the model and in `tool_use` blocks.
+      sig { returns(Symbol) }
+      attr_accessor :name
+
+      # When true, guarantees schema validation on tool names and inputs
+      sig { returns(T.nilable(T::Boolean)) }
+      attr_reader :strict
+
+      sig { params(strict: T::Boolean).void }
+      attr_writer :strict
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig do
+        override
+          .returns({
+            name: Symbol,
+            type: Symbol,
+            allowed_callers:
+              T::Array[
+                Anthropic::CodeExecutionTool20260120::AllowedCaller::OrSymbol
+              ],
+            cache_control: T.nilable(Anthropic::CacheControlEphemeral),
+            defer_loading: T::Boolean,
+            strict: T::Boolean
+          })
+      end
+      def to_hash; end
+
+      class << self
+        # Code execution tool with REPL state persistence (daemon mode + gVisor
+        # checkpoint).
+        sig do
+          params(
+            allowed_callers: T::Array[
+              Anthropic::CodeExecutionTool20260120::AllowedCaller::OrSymbol
+            ],
+            cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash),
+            defer_loading: T::Boolean,
+            strict: T::Boolean,
+            name: Symbol,
+            type: Symbol
+          ).returns(T.attached_class)
+        end
+        def new(
+          allowed_callers: nil,
+          cache_control: nil, # Create a cache control breakpoint at this content block.
+          defer_loading: nil, # If true, tool will not be included in initial system prompt. Only loaded when
+                              # returned via tool_reference from tool search.
+          strict: nil, # When true, guarantees schema validation on tool names and inputs
+          name: :code_execution, # Name of the tool.
+                                 # This is how the tool will be called by the model and in `tool_use` blocks.
+          type: :code_execution_20260120
+); end
+      end
+
+      module AllowedCaller
+        extend Anthropic::Internal::Type::Enum
+
+        class << self
+          sig do
+            override
+              .returns(T::Array[
+              Anthropic::CodeExecutionTool20260120::AllowedCaller::TaggedSymbol
+            ])
+          end
+          def values; end
+        end
+
+        CODE_EXECUTION_20250825 = T.let(
+            :code_execution_20250825,
+            Anthropic::CodeExecutionTool20260120::AllowedCaller::TaggedSymbol
+          )
+
+        CODE_EXECUTION_20260120 = T.let(
+            :code_execution_20260120,
+            Anthropic::CodeExecutionTool20260120::AllowedCaller::TaggedSymbol
+          )
+
+        DIRECT = T.let(
+            :direct,
+            Anthropic::CodeExecutionTool20260120::AllowedCaller::TaggedSymbol
+          )
+
+        OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+        TaggedSymbol = T.type_alias do
+            T.all(Symbol, Anthropic::CodeExecutionTool20260120::AllowedCaller)
+          end
+      end
+
+      OrHash = T.type_alias do
+          T.any(
+            Anthropic::CodeExecutionTool20260120,
+            Anthropic::Internal::AnyHash
+          )
+        end
+    end
+
+    class CodeExecutionToolResultBlock < Anthropic::Internal::Type::BaseModel
+      # Code execution result with encrypted stdout for PFC + web_search results.
+      sig { returns(Anthropic::CodeExecutionToolResultBlockContent::Variants) }
+      attr_accessor :content
+
+      sig { returns(String) }
+      attr_accessor :tool_use_id
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig do
+        override
+          .returns({
+            content: Anthropic::CodeExecutionToolResultBlockContent::Variants,
+            tool_use_id: String,
+            type: Symbol
+          })
+      end
+      def to_hash; end
+
+      class << self
+        sig do
+          params(
+            content: T.any(
+              Anthropic::CodeExecutionToolResultError::OrHash,
+              Anthropic::CodeExecutionResultBlock::OrHash,
+              Anthropic::EncryptedCodeExecutionResultBlock::OrHash
+            ),
+            tool_use_id: String,
+            type: Symbol
+          ).returns(T.attached_class)
+        end
+        def new(
+          content:, # Code execution result with encrypted stdout for PFC + web_search results.
+          tool_use_id:,
+          type: :code_execution_tool_result
+); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(
+            Anthropic::CodeExecutionToolResultBlock,
+            Anthropic::Internal::AnyHash
+          )
+        end
+    end
+
+    # Code execution result with encrypted stdout for PFC + web_search results.
+    module CodeExecutionToolResultBlockContent
+      extend Anthropic::Internal::Type::Union
+
+      class << self
+        sig { override.returns(T::Array[Anthropic::CodeExecutionToolResultBlockContent::Variants]) }
+        def variants; end
+      end
+
+      Variants = T.type_alias do
+          T.any(
+            Anthropic::CodeExecutionToolResultError,
+            Anthropic::CodeExecutionResultBlock,
+            Anthropic::EncryptedCodeExecutionResultBlock
+          )
+        end
+    end
+
+    class CodeExecutionToolResultBlockParam < Anthropic::Internal::Type::BaseModel
+      # Create a cache control breakpoint at this content block.
+      sig { returns(T.nilable(Anthropic::CacheControlEphemeral)) }
+      attr_reader :cache_control
+
+      sig { params(cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash)).void }
+      attr_writer :cache_control
+
+      # Code execution result with encrypted stdout for PFC + web_search results.
+      sig do
+        returns(T.any(
+            Anthropic::CodeExecutionToolResultErrorParam,
+            Anthropic::CodeExecutionResultBlockParam,
+            Anthropic::EncryptedCodeExecutionResultBlockParam
+          ))
+      end
+      attr_accessor :content
+
+      sig { returns(String) }
+      attr_accessor :tool_use_id
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig do
+        override
+          .returns({
+            content:
+              T.any(
+                Anthropic::CodeExecutionToolResultErrorParam,
+                Anthropic::CodeExecutionResultBlockParam,
+                Anthropic::EncryptedCodeExecutionResultBlockParam
+              ),
+            tool_use_id: String,
+            type: Symbol,
+            cache_control: T.nilable(Anthropic::CacheControlEphemeral)
+          })
+      end
+      def to_hash; end
+
+      class << self
+        sig do
+          params(
+            content: T.any(
+              Anthropic::CodeExecutionToolResultErrorParam::OrHash,
+              Anthropic::CodeExecutionResultBlockParam::OrHash,
+              Anthropic::EncryptedCodeExecutionResultBlockParam::OrHash
+            ),
+            tool_use_id: String,
+            cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash),
+            type: Symbol
+          ).returns(T.attached_class)
+        end
+        def new(
+          content:, # Code execution result with encrypted stdout for PFC + web_search results.
+          tool_use_id:,
+          cache_control: nil, # Create a cache control breakpoint at this content block.
+          type: :code_execution_tool_result
+); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(
+            Anthropic::CodeExecutionToolResultBlockParam,
+            Anthropic::Internal::AnyHash
+          )
+        end
+    end
+
+    # Code execution result with encrypted stdout for PFC + web_search results.
+    module CodeExecutionToolResultBlockParamContent
+      extend Anthropic::Internal::Type::Union
+
+      class << self
+        sig do
+          override
+            .returns(T::Array[
+            Anthropic::CodeExecutionToolResultBlockParamContent::Variants
+          ])
+        end
+        def variants; end
+      end
+
+      Variants = T.type_alias do
+          T.any(
+            Anthropic::CodeExecutionToolResultErrorParam,
+            Anthropic::CodeExecutionResultBlockParam,
+            Anthropic::EncryptedCodeExecutionResultBlockParam
+          )
+        end
+    end
+
+    class CodeExecutionToolResultError < Anthropic::Internal::Type::BaseModel
+      sig { returns(Anthropic::CodeExecutionToolResultErrorCode::TaggedSymbol) }
+      attr_accessor :error_code
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig do
+        override
+          .returns({
+            error_code:
+              Anthropic::CodeExecutionToolResultErrorCode::TaggedSymbol,
+            type: Symbol
+          })
+      end
+      def to_hash; end
+
+      class << self
+        sig do
+          params(
+            error_code: Anthropic::CodeExecutionToolResultErrorCode::OrSymbol,
+            type: Symbol
+          ).returns(T.attached_class)
+        end
+        def new(error_code:, type: :code_execution_tool_result_error); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(
+            Anthropic::CodeExecutionToolResultError,
+            Anthropic::Internal::AnyHash
+          )
+        end
+    end
+
+    module CodeExecutionToolResultErrorCode
+      extend Anthropic::Internal::Type::Enum
+
+      class << self
+        sig { override.returns(T::Array[Anthropic::CodeExecutionToolResultErrorCode::TaggedSymbol]) }
+        def values; end
+      end
+
+      EXECUTION_TIME_EXCEEDED = T.let(
+          :execution_time_exceeded,
+          Anthropic::CodeExecutionToolResultErrorCode::TaggedSymbol
+        )
+
+      INVALID_TOOL_INPUT = T.let(
+          :invalid_tool_input,
+          Anthropic::CodeExecutionToolResultErrorCode::TaggedSymbol
+        )
+
+      OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+      TOO_MANY_REQUESTS = T.let(
+          :too_many_requests,
+          Anthropic::CodeExecutionToolResultErrorCode::TaggedSymbol
+        )
+
+      TaggedSymbol = T.type_alias do
+          T.all(Symbol, Anthropic::CodeExecutionToolResultErrorCode)
+        end
+
+      UNAVAILABLE = T.let(
+          :unavailable,
+          Anthropic::CodeExecutionToolResultErrorCode::TaggedSymbol
+        )
+    end
+
+    class CodeExecutionToolResultErrorParam < Anthropic::Internal::Type::BaseModel
+      sig { returns(Anthropic::CodeExecutionToolResultErrorCode::OrSymbol) }
+      attr_accessor :error_code
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig do
+        override
+          .returns({
+            error_code: Anthropic::CodeExecutionToolResultErrorCode::OrSymbol,
+            type: Symbol
+          })
+      end
+      def to_hash; end
+
+      class << self
+        sig do
+          params(
+            error_code: Anthropic::CodeExecutionToolResultErrorCode::OrSymbol,
+            type: Symbol
+          ).returns(T.attached_class)
+        end
+        def new(error_code:, type: :code_execution_tool_result_error); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(
+            Anthropic::CodeExecutionToolResultErrorParam,
             Anthropic::Internal::AnyHash
           )
         end
@@ -21102,6 +23387,104 @@ module Anthropic
         end
     end
 
+    class Container < Anthropic::Internal::Type::BaseModel
+      # The time at which the container will expire.
+      sig { returns(Time) }
+      attr_accessor :expires_at
+
+      # Identifier for the container used in this request
+      sig { returns(String) }
+      attr_accessor :id
+
+      sig { override.returns({ id: String, expires_at: Time }) }
+      def to_hash; end
+
+      class << self
+        # Information about the container used in the request (for the code execution
+        # tool)
+        sig { params(id: String, expires_at: Time).returns(T.attached_class) }
+        def new(
+          id:, # Identifier for the container used in this request
+          expires_at: # The time at which the container will expire.
+); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(Anthropic::Container, Anthropic::Internal::AnyHash)
+        end
+    end
+
+    class ContainerUploadBlock < Anthropic::Internal::Type::BaseModel
+      sig { returns(String) }
+      attr_accessor :file_id
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig { override.returns({ file_id: String, type: Symbol }) }
+      def to_hash; end
+
+      class << self
+        # Response model for a file uploaded to the container.
+        sig { params(file_id: String, type: Symbol).returns(T.attached_class) }
+        def new(file_id:, type: :container_upload); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(Anthropic::ContainerUploadBlock, Anthropic::Internal::AnyHash)
+        end
+    end
+
+    class ContainerUploadBlockParam < Anthropic::Internal::Type::BaseModel
+      # Create a cache control breakpoint at this content block.
+      sig { returns(T.nilable(Anthropic::CacheControlEphemeral)) }
+      attr_reader :cache_control
+
+      sig { params(cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash)).void }
+      attr_writer :cache_control
+
+      sig { returns(String) }
+      attr_accessor :file_id
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig do
+        override
+          .returns({
+            file_id: String,
+            type: Symbol,
+            cache_control: T.nilable(Anthropic::CacheControlEphemeral)
+          })
+      end
+      def to_hash; end
+
+      class << self
+        # A content block that represents a file to be uploaded to the container Files
+        # uploaded via this block will be available in the container's input directory.
+        sig do
+          params(
+            file_id: String,
+            cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash),
+            type: Symbol
+          ).returns(T.attached_class)
+        end
+        def new(
+          file_id:,
+          cache_control: nil, # Create a cache control breakpoint at this content block.
+          type: :container_upload
+); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(
+            Anthropic::ContainerUploadBlockParam,
+            Anthropic::Internal::AnyHash
+          )
+        end
+    end
+
+    # Response model for a file uploaded to the container.
     module ContentBlock
       extend Anthropic::Internal::Type::Union
 
@@ -21117,7 +23500,13 @@ module Anthropic
             Anthropic::RedactedThinkingBlock,
             Anthropic::ToolUseBlock,
             Anthropic::ServerToolUseBlock,
-            Anthropic::WebSearchToolResultBlock
+            Anthropic::WebSearchToolResultBlock,
+            Anthropic::WebFetchToolResultBlock,
+            Anthropic::CodeExecutionToolResultBlock,
+            Anthropic::BashCodeExecutionToolResultBlock,
+            Anthropic::TextEditorCodeExecutionToolResultBlock,
+            Anthropic::ToolSearchToolResultBlock,
+            Anthropic::ContainerUploadBlock
           )
         end
     end
@@ -21142,7 +23531,13 @@ module Anthropic
             Anthropic::ToolUseBlockParam,
             Anthropic::ToolResultBlockParam,
             Anthropic::ServerToolUseBlockParam,
-            Anthropic::WebSearchToolResultBlockParam
+            Anthropic::WebSearchToolResultBlockParam,
+            Anthropic::WebFetchToolResultBlockParam,
+            Anthropic::CodeExecutionToolResultBlockParam,
+            Anthropic::BashCodeExecutionToolResultBlockParam,
+            Anthropic::TextEditorCodeExecutionToolResultBlockParam,
+            Anthropic::ToolSearchToolResultBlockParam,
+            Anthropic::ContainerUploadBlockParam
           )
         end
     end
@@ -21212,6 +23607,91 @@ module Anthropic
       Variants = T.type_alias do
           T.any(Anthropic::TextBlockParam, Anthropic::ImageBlockParam)
         end
+    end
+
+    class DirectCaller < Anthropic::Internal::Type::BaseModel
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig { override.returns({ type: Symbol }) }
+      def to_hash; end
+
+      class << self
+        # Tool invocation directly from the model.
+        sig { params(type: Symbol).returns(T.attached_class) }
+        def new(type: :direct); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(Anthropic::DirectCaller, Anthropic::Internal::AnyHash)
+        end
+    end
+
+    class DocumentBlock < Anthropic::Internal::Type::BaseModel
+      # Citation configuration for the document
+      sig { returns(T.nilable(Anthropic::CitationsConfig)) }
+      attr_reader :citations
+
+      sig { params(citations: T.nilable(Anthropic::CitationsConfig::OrHash)).void }
+      attr_writer :citations
+
+      sig { returns(Anthropic::DocumentBlock::Source::Variants) }
+      attr_accessor :source
+
+      # The title of the document
+      sig { returns(T.nilable(String)) }
+      attr_accessor :title
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig do
+        override
+          .returns({
+            citations: T.nilable(Anthropic::CitationsConfig),
+            source: Anthropic::DocumentBlock::Source::Variants,
+            title: T.nilable(String),
+            type: Symbol
+          })
+      end
+      def to_hash; end
+
+      class << self
+        sig do
+          params(
+            citations: T.nilable(Anthropic::CitationsConfig::OrHash),
+            source: T.any(
+              Anthropic::Base64PDFSource::OrHash,
+              Anthropic::PlainTextSource::OrHash
+            ),
+            title: T.nilable(String),
+            type: Symbol
+          ).returns(T.attached_class)
+        end
+        def new(
+          citations:, # Citation configuration for the document
+          source:,
+          title:, # The title of the document
+          type: :document
+); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(Anthropic::DocumentBlock, Anthropic::Internal::AnyHash)
+        end
+
+      module Source
+        extend Anthropic::Internal::Type::Union
+
+        class << self
+          sig { override.returns(T::Array[Anthropic::DocumentBlock::Source::Variants]) }
+          def variants; end
+        end
+
+        Variants = T.type_alias do
+            T.any(Anthropic::Base64PDFSource, Anthropic::PlainTextSource)
+          end
+      end
     end
 
     class DocumentBlockParam < Anthropic::Internal::Type::BaseModel
@@ -21313,6 +23793,106 @@ module Anthropic
             )
           end
       end
+    end
+
+    class EncryptedCodeExecutionResultBlock < Anthropic::Internal::Type::BaseModel
+      sig { returns(T::Array[Anthropic::CodeExecutionOutputBlock]) }
+      attr_accessor :content
+
+      sig { returns(String) }
+      attr_accessor :encrypted_stdout
+
+      sig { returns(Integer) }
+      attr_accessor :return_code
+
+      sig { returns(String) }
+      attr_accessor :stderr
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig do
+        override
+          .returns({
+            content: T::Array[Anthropic::CodeExecutionOutputBlock],
+            encrypted_stdout: String,
+            return_code: Integer,
+            stderr: String,
+            type: Symbol
+          })
+      end
+      def to_hash; end
+
+      class << self
+        # Code execution result with encrypted stdout for PFC + web_search results.
+        sig do
+          params(
+            content: T::Array[Anthropic::CodeExecutionOutputBlock::OrHash],
+            encrypted_stdout: String,
+            return_code: Integer,
+            stderr: String,
+            type: Symbol
+          ).returns(T.attached_class)
+        end
+        def new(content:, encrypted_stdout:, return_code:, stderr:, type: :encrypted_code_execution_result); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(
+            Anthropic::EncryptedCodeExecutionResultBlock,
+            Anthropic::Internal::AnyHash
+          )
+        end
+    end
+
+    class EncryptedCodeExecutionResultBlockParam < Anthropic::Internal::Type::BaseModel
+      sig { returns(T::Array[Anthropic::CodeExecutionOutputBlockParam]) }
+      attr_accessor :content
+
+      sig { returns(String) }
+      attr_accessor :encrypted_stdout
+
+      sig { returns(Integer) }
+      attr_accessor :return_code
+
+      sig { returns(String) }
+      attr_accessor :stderr
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig do
+        override
+          .returns({
+            content: T::Array[Anthropic::CodeExecutionOutputBlockParam],
+            encrypted_stdout: String,
+            return_code: Integer,
+            stderr: String,
+            type: Symbol
+          })
+      end
+      def to_hash; end
+
+      class << self
+        # Code execution result with encrypted stdout for PFC + web_search results.
+        sig do
+          params(
+            content: T::Array[Anthropic::CodeExecutionOutputBlockParam::OrHash],
+            encrypted_stdout: String,
+            return_code: Integer,
+            stderr: String,
+            type: Symbol
+          ).returns(T.attached_class)
+        end
+        def new(content:, encrypted_stdout:, return_code:, stderr:, type: :encrypted_code_execution_result); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(
+            Anthropic::EncryptedCodeExecutionResultBlockParam,
+            Anthropic::Internal::AnyHash
+          )
+        end
     end
 
     module ErrorObject
@@ -21529,7 +24109,138 @@ module Anthropic
         end
     end
 
+    class MemoryTool20250818 < Anthropic::Internal::Type::BaseModel
+      sig do
+        returns(T.nilable(
+            T::Array[Anthropic::MemoryTool20250818::AllowedCaller::OrSymbol]
+          ))
+      end
+      attr_reader :allowed_callers
+
+      sig { params(allowed_callers: T::Array[Anthropic::MemoryTool20250818::AllowedCaller::OrSymbol]).void }
+      attr_writer :allowed_callers
+
+      # Create a cache control breakpoint at this content block.
+      sig { returns(T.nilable(Anthropic::CacheControlEphemeral)) }
+      attr_reader :cache_control
+
+      sig { params(cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash)).void }
+      attr_writer :cache_control
+
+      # If true, tool will not be included in initial system prompt. Only loaded when
+      # returned via tool_reference from tool search.
+      sig { returns(T.nilable(T::Boolean)) }
+      attr_reader :defer_loading
+
+      sig { params(defer_loading: T::Boolean).void }
+      attr_writer :defer_loading
+
+      sig { returns(T.nilable(T::Array[T::Hash[Symbol, T.anything]])) }
+      attr_reader :input_examples
+
+      sig { params(input_examples: T::Array[T::Hash[Symbol, T.anything]]).void }
+      attr_writer :input_examples
+
+      # Name of the tool.
+      #
+      # This is how the tool will be called by the model and in `tool_use` blocks.
+      sig { returns(Symbol) }
+      attr_accessor :name
+
+      # When true, guarantees schema validation on tool names and inputs
+      sig { returns(T.nilable(T::Boolean)) }
+      attr_reader :strict
+
+      sig { params(strict: T::Boolean).void }
+      attr_writer :strict
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig do
+        override
+          .returns({
+            name: Symbol,
+            type: Symbol,
+            allowed_callers:
+              T::Array[Anthropic::MemoryTool20250818::AllowedCaller::OrSymbol],
+            cache_control: T.nilable(Anthropic::CacheControlEphemeral),
+            defer_loading: T::Boolean,
+            input_examples: T::Array[T::Hash[Symbol, T.anything]],
+            strict: T::Boolean
+          })
+      end
+      def to_hash; end
+
+      class << self
+        sig do
+          params(
+            allowed_callers: T::Array[Anthropic::MemoryTool20250818::AllowedCaller::OrSymbol],
+            cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash),
+            defer_loading: T::Boolean,
+            input_examples: T::Array[T::Hash[Symbol, T.anything]],
+            strict: T::Boolean,
+            name: Symbol,
+            type: Symbol
+          ).returns(T.attached_class)
+        end
+        def new(
+          allowed_callers: nil,
+          cache_control: nil, # Create a cache control breakpoint at this content block.
+          defer_loading: nil, # If true, tool will not be included in initial system prompt. Only loaded when
+                              # returned via tool_reference from tool search.
+          input_examples: nil,
+          strict: nil, # When true, guarantees schema validation on tool names and inputs
+          name: :memory, # Name of the tool.
+                         # This is how the tool will be called by the model and in `tool_use` blocks.
+          type: :memory_20250818
+); end
+      end
+
+      module AllowedCaller
+        extend Anthropic::Internal::Type::Enum
+
+        class << self
+          sig { override.returns(T::Array[Anthropic::MemoryTool20250818::AllowedCaller::TaggedSymbol]) }
+          def values; end
+        end
+
+        CODE_EXECUTION_20250825 = T.let(
+            :code_execution_20250825,
+            Anthropic::MemoryTool20250818::AllowedCaller::TaggedSymbol
+          )
+
+        CODE_EXECUTION_20260120 = T.let(
+            :code_execution_20260120,
+            Anthropic::MemoryTool20250818::AllowedCaller::TaggedSymbol
+          )
+
+        DIRECT = T.let(
+            :direct,
+            Anthropic::MemoryTool20250818::AllowedCaller::TaggedSymbol
+          )
+
+        OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+        TaggedSymbol = T.type_alias do
+            T.all(Symbol, Anthropic::MemoryTool20250818::AllowedCaller)
+          end
+      end
+
+      OrHash = T.type_alias do
+          T.any(Anthropic::MemoryTool20250818, Anthropic::Internal::AnyHash)
+        end
+    end
+
     class Message < Anthropic::Internal::Type::BaseModel
+      # Information about the container used in the request (for the code execution
+      # tool)
+      sig { returns(T.nilable(Anthropic::Container)) }
+      attr_reader :container
+
+      sig { params(container: T.nilable(Anthropic::Container::OrHash)).void }
+      attr_writer :container
+
       # Content generated by the model.
       #
       # This is an array of content blocks, each of which has a `type` that determines
@@ -21643,6 +24354,7 @@ module Anthropic
         override
           .returns({
             id: String,
+            container: T.nilable(Anthropic::Container),
             content: T::Array[Anthropic::ContentBlock::Variants],
             model: Anthropic::Model::Variants,
             role: Symbol,
@@ -21658,6 +24370,7 @@ module Anthropic
         sig do
           params(
             id: String,
+            container: T.nilable(Anthropic::Container::OrHash),
             content: T::Array[
               T.any(
                 Anthropic::TextBlock::OrHash,
@@ -21665,7 +24378,13 @@ module Anthropic
                 Anthropic::RedactedThinkingBlock::OrHash,
                 Anthropic::ToolUseBlock::OrHash,
                 Anthropic::ServerToolUseBlock::OrHash,
-                Anthropic::WebSearchToolResultBlock::OrHash
+                Anthropic::WebSearchToolResultBlock::OrHash,
+                Anthropic::WebFetchToolResultBlock::OrHash,
+                Anthropic::CodeExecutionToolResultBlock::OrHash,
+                Anthropic::BashCodeExecutionToolResultBlock::OrHash,
+                Anthropic::TextEditorCodeExecutionToolResultBlock::OrHash,
+                Anthropic::ToolSearchToolResultBlock::OrHash,
+                Anthropic::ContainerUploadBlock::OrHash
               )
             ],
             model: T.any(Anthropic::Model::OrSymbol, String),
@@ -21679,6 +24398,8 @@ module Anthropic
         def new(
           id:, # Unique object identifier.
                # The format and length of IDs may change over time.
+          container:, # Information about the container used in the request (for the code execution
+                      # tool)
           content:, # Content generated by the model.
                     # This is an array of content blocks, each of which has a `type` that determines
                     # its shape.
@@ -21985,10 +24706,19 @@ module Anthropic
               T.any(
                 Anthropic::Tool,
                 Anthropic::ToolBash20250124,
+                Anthropic::CodeExecutionTool20250522,
+                Anthropic::CodeExecutionTool20250825,
+                Anthropic::CodeExecutionTool20260120,
+                Anthropic::MemoryTool20250818,
                 Anthropic::ToolTextEditor20250124,
                 Anthropic::ToolTextEditor20250429,
                 Anthropic::ToolTextEditor20250728,
-                Anthropic::WebSearchTool20250305
+                Anthropic::WebSearchTool20250305,
+                Anthropic::WebFetchTool20250910,
+                Anthropic::WebSearchTool20260209,
+                Anthropic::WebFetchTool20260209,
+                Anthropic::ToolSearchToolBm25_20251119,
+                Anthropic::ToolSearchToolRegex20251119
               )
             ]
           ))
@@ -22001,10 +24731,19 @@ module Anthropic
               T.any(
                 Anthropic::Tool::OrHash,
                 Anthropic::ToolBash20250124::OrHash,
+                Anthropic::CodeExecutionTool20250522::OrHash,
+                Anthropic::CodeExecutionTool20250825::OrHash,
+                Anthropic::CodeExecutionTool20260120::OrHash,
+                Anthropic::MemoryTool20250818::OrHash,
                 Anthropic::ToolTextEditor20250124::OrHash,
                 Anthropic::ToolTextEditor20250429::OrHash,
                 Anthropic::ToolTextEditor20250728::OrHash,
-                Anthropic::WebSearchTool20250305::OrHash
+                Anthropic::WebSearchTool20250305::OrHash,
+                Anthropic::WebFetchTool20250910::OrHash,
+                Anthropic::WebSearchTool20260209::OrHash,
+                Anthropic::WebFetchTool20260209::OrHash,
+                Anthropic::ToolSearchToolBm25_20251119::OrHash,
+                Anthropic::ToolSearchToolRegex20251119::OrHash
               )
             ]
         ).void
@@ -22036,10 +24775,19 @@ module Anthropic
                 T.any(
                   Anthropic::Tool,
                   Anthropic::ToolBash20250124,
+                  Anthropic::CodeExecutionTool20250522,
+                  Anthropic::CodeExecutionTool20250825,
+                  Anthropic::CodeExecutionTool20260120,
+                  Anthropic::MemoryTool20250818,
                   Anthropic::ToolTextEditor20250124,
                   Anthropic::ToolTextEditor20250429,
                   Anthropic::ToolTextEditor20250728,
-                  Anthropic::WebSearchTool20250305
+                  Anthropic::WebSearchTool20250305,
+                  Anthropic::WebFetchTool20250910,
+                  Anthropic::WebSearchTool20260209,
+                  Anthropic::WebFetchTool20260209,
+                  Anthropic::ToolSearchToolBm25_20251119,
+                  Anthropic::ToolSearchToolRegex20251119
                 )
               ],
             request_options: Anthropic::RequestOptions
@@ -22069,10 +24817,19 @@ module Anthropic
               T.any(
                 Anthropic::Tool::OrHash,
                 Anthropic::ToolBash20250124::OrHash,
+                Anthropic::CodeExecutionTool20250522::OrHash,
+                Anthropic::CodeExecutionTool20250825::OrHash,
+                Anthropic::CodeExecutionTool20260120::OrHash,
+                Anthropic::MemoryTool20250818::OrHash,
                 Anthropic::ToolTextEditor20250124::OrHash,
                 Anthropic::ToolTextEditor20250429::OrHash,
                 Anthropic::ToolTextEditor20250728::OrHash,
-                Anthropic::WebSearchTool20250305::OrHash
+                Anthropic::WebSearchTool20250305::OrHash,
+                Anthropic::WebFetchTool20250910::OrHash,
+                Anthropic::WebSearchTool20260209::OrHash,
+                Anthropic::WebFetchTool20260209::OrHash,
+                Anthropic::ToolSearchToolBm25_20251119::OrHash,
+                Anthropic::ToolSearchToolRegex20251119::OrHash
               )
             ],
             request_options: Anthropic::RequestOptions::OrHash
@@ -22242,6 +24999,8 @@ module Anthropic
       end
     end
 
+    # Code execution tool with REPL state persistence (daemon mode + gVisor
+    # checkpoint).
     module MessageCountTokensTool
       extend Anthropic::Internal::Type::Union
 
@@ -22254,10 +25013,19 @@ module Anthropic
           T.any(
             Anthropic::Tool,
             Anthropic::ToolBash20250124,
+            Anthropic::CodeExecutionTool20250522,
+            Anthropic::CodeExecutionTool20250825,
+            Anthropic::CodeExecutionTool20260120,
+            Anthropic::MemoryTool20250818,
             Anthropic::ToolTextEditor20250124,
             Anthropic::ToolTextEditor20250429,
             Anthropic::ToolTextEditor20250728,
-            Anthropic::WebSearchTool20250305
+            Anthropic::WebSearchTool20250305,
+            Anthropic::WebFetchTool20250910,
+            Anthropic::WebSearchTool20260209,
+            Anthropic::WebFetchTool20260209,
+            Anthropic::ToolSearchToolBm25_20251119,
+            Anthropic::ToolSearchToolRegex20251119
           )
         end
     end
@@ -22265,6 +25033,10 @@ module Anthropic
     class MessageCreateParams < Anthropic::Internal::Type::BaseModel
       extend Anthropic::Internal::Type::RequestParameters::Converter
       include Anthropic::Internal::Type::RequestParameters
+
+      # Container identifier for reuse across requests.
+      sig { returns(T.nilable(String)) }
+      attr_accessor :container
 
       # Specifies the geographic region for inference processing. If not specified, the
       # workspace's `default_inference_geo` is used.
@@ -22558,10 +25330,19 @@ module Anthropic
               T.any(
                 Anthropic::Tool,
                 Anthropic::ToolBash20250124,
+                Anthropic::CodeExecutionTool20250522,
+                Anthropic::CodeExecutionTool20250825,
+                Anthropic::CodeExecutionTool20260120,
+                Anthropic::MemoryTool20250818,
                 Anthropic::ToolTextEditor20250124,
                 Anthropic::ToolTextEditor20250429,
                 Anthropic::ToolTextEditor20250728,
-                Anthropic::WebSearchTool20250305
+                Anthropic::WebSearchTool20250305,
+                Anthropic::WebFetchTool20250910,
+                Anthropic::WebSearchTool20260209,
+                Anthropic::WebFetchTool20260209,
+                Anthropic::ToolSearchToolBm25_20251119,
+                Anthropic::ToolSearchToolRegex20251119
               )
             ]
           ))
@@ -22574,10 +25355,19 @@ module Anthropic
               T.any(
                 Anthropic::Tool::OrHash,
                 Anthropic::ToolBash20250124::OrHash,
+                Anthropic::CodeExecutionTool20250522::OrHash,
+                Anthropic::CodeExecutionTool20250825::OrHash,
+                Anthropic::CodeExecutionTool20260120::OrHash,
+                Anthropic::MemoryTool20250818::OrHash,
                 Anthropic::ToolTextEditor20250124::OrHash,
                 Anthropic::ToolTextEditor20250429::OrHash,
                 Anthropic::ToolTextEditor20250728::OrHash,
-                Anthropic::WebSearchTool20250305::OrHash
+                Anthropic::WebSearchTool20250305::OrHash,
+                Anthropic::WebFetchTool20250910::OrHash,
+                Anthropic::WebSearchTool20260209::OrHash,
+                Anthropic::WebFetchTool20260209::OrHash,
+                Anthropic::ToolSearchToolBm25_20251119::OrHash,
+                Anthropic::ToolSearchToolRegex20251119::OrHash
               )
             ]
         ).void
@@ -22618,6 +25408,7 @@ module Anthropic
             max_tokens: Integer,
             messages: T::Array[Anthropic::MessageParam],
             model: T.any(Anthropic::Model::OrSymbol, String),
+            container: T.nilable(String),
             inference_geo: T.nilable(String),
             metadata: Anthropic::Metadata,
             output_config: Anthropic::OutputConfig,
@@ -22643,10 +25434,19 @@ module Anthropic
                 T.any(
                   Anthropic::Tool,
                   Anthropic::ToolBash20250124,
+                  Anthropic::CodeExecutionTool20250522,
+                  Anthropic::CodeExecutionTool20250825,
+                  Anthropic::CodeExecutionTool20260120,
+                  Anthropic::MemoryTool20250818,
                   Anthropic::ToolTextEditor20250124,
                   Anthropic::ToolTextEditor20250429,
                   Anthropic::ToolTextEditor20250728,
-                  Anthropic::WebSearchTool20250305
+                  Anthropic::WebSearchTool20250305,
+                  Anthropic::WebFetchTool20250910,
+                  Anthropic::WebSearchTool20260209,
+                  Anthropic::WebFetchTool20260209,
+                  Anthropic::ToolSearchToolBm25_20251119,
+                  Anthropic::ToolSearchToolRegex20251119
                 )
               ],
             top_k: Integer,
@@ -22662,6 +25462,7 @@ module Anthropic
             max_tokens: Integer,
             messages: T::Array[Anthropic::MessageParam::OrHash],
             model: T.any(Anthropic::Model::OrSymbol, String),
+            container: T.nilable(String),
             inference_geo: T.nilable(String),
             metadata: Anthropic::Metadata::OrHash,
             output_config: Anthropic::OutputConfig::OrHash,
@@ -22684,10 +25485,19 @@ module Anthropic
               T.any(
                 Anthropic::Tool::OrHash,
                 Anthropic::ToolBash20250124::OrHash,
+                Anthropic::CodeExecutionTool20250522::OrHash,
+                Anthropic::CodeExecutionTool20250825::OrHash,
+                Anthropic::CodeExecutionTool20260120::OrHash,
+                Anthropic::MemoryTool20250818::OrHash,
                 Anthropic::ToolTextEditor20250124::OrHash,
                 Anthropic::ToolTextEditor20250429::OrHash,
                 Anthropic::ToolTextEditor20250728::OrHash,
-                Anthropic::WebSearchTool20250305::OrHash
+                Anthropic::WebSearchTool20250305::OrHash,
+                Anthropic::WebFetchTool20250910::OrHash,
+                Anthropic::WebSearchTool20260209::OrHash,
+                Anthropic::WebFetchTool20260209::OrHash,
+                Anthropic::ToolSearchToolBm25_20251119::OrHash,
+                Anthropic::ToolSearchToolRegex20251119::OrHash
               )
             ],
             top_k: Integer,
@@ -22754,6 +25564,7 @@ module Anthropic
           model:, # The model that will complete your prompt.\n\nSee
                   # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
                   # details and options.
+          container: nil, # Container identifier for reuse across requests.
           inference_geo: nil, # Specifies the geographic region for inference processing. If not specified, the
                               # workspace's `default_inference_geo` is used.
           metadata: nil, # An object describing metadata about the request.
@@ -23186,6 +25997,10 @@ module Anthropic
             end
 
           class Params < Anthropic::Internal::Type::BaseModel
+            # Container identifier for reuse across requests.
+            sig { returns(T.nilable(String)) }
+            attr_accessor :container
+
             # Specifies the geographic region for inference processing. If not specified, the
             # workspace's `default_inference_geo` is used.
             sig { returns(T.nilable(String)) }
@@ -23499,10 +26314,19 @@ module Anthropic
                     T.any(
                       Anthropic::Tool,
                       Anthropic::ToolBash20250124,
+                      Anthropic::CodeExecutionTool20250522,
+                      Anthropic::CodeExecutionTool20250825,
+                      Anthropic::CodeExecutionTool20260120,
+                      Anthropic::MemoryTool20250818,
                       Anthropic::ToolTextEditor20250124,
                       Anthropic::ToolTextEditor20250429,
                       Anthropic::ToolTextEditor20250728,
-                      Anthropic::WebSearchTool20250305
+                      Anthropic::WebSearchTool20250305,
+                      Anthropic::WebFetchTool20250910,
+                      Anthropic::WebSearchTool20260209,
+                      Anthropic::WebFetchTool20260209,
+                      Anthropic::ToolSearchToolBm25_20251119,
+                      Anthropic::ToolSearchToolRegex20251119
                     )
                   ]
                 ))
@@ -23515,10 +26339,19 @@ module Anthropic
                     T.any(
                       Anthropic::Tool::OrHash,
                       Anthropic::ToolBash20250124::OrHash,
+                      Anthropic::CodeExecutionTool20250522::OrHash,
+                      Anthropic::CodeExecutionTool20250825::OrHash,
+                      Anthropic::CodeExecutionTool20260120::OrHash,
+                      Anthropic::MemoryTool20250818::OrHash,
                       Anthropic::ToolTextEditor20250124::OrHash,
                       Anthropic::ToolTextEditor20250429::OrHash,
                       Anthropic::ToolTextEditor20250728::OrHash,
-                      Anthropic::WebSearchTool20250305::OrHash
+                      Anthropic::WebSearchTool20250305::OrHash,
+                      Anthropic::WebFetchTool20250910::OrHash,
+                      Anthropic::WebSearchTool20260209::OrHash,
+                      Anthropic::WebFetchTool20260209::OrHash,
+                      Anthropic::ToolSearchToolBm25_20251119::OrHash,
+                      Anthropic::ToolSearchToolRegex20251119::OrHash
                     )
                   ]
               ).void
@@ -23559,6 +26392,7 @@ module Anthropic
                   max_tokens: Integer,
                   messages: T::Array[Anthropic::MessageParam],
                   model: T.any(Anthropic::Model::OrSymbol, String),
+                  container: T.nilable(String),
                   inference_geo: T.nilable(String),
                   metadata: Anthropic::Metadata,
                   output_config: Anthropic::OutputConfig,
@@ -23587,10 +26421,19 @@ module Anthropic
                       T.any(
                         Anthropic::Tool,
                         Anthropic::ToolBash20250124,
+                        Anthropic::CodeExecutionTool20250522,
+                        Anthropic::CodeExecutionTool20250825,
+                        Anthropic::CodeExecutionTool20260120,
+                        Anthropic::MemoryTool20250818,
                         Anthropic::ToolTextEditor20250124,
                         Anthropic::ToolTextEditor20250429,
                         Anthropic::ToolTextEditor20250728,
-                        Anthropic::WebSearchTool20250305
+                        Anthropic::WebSearchTool20250305,
+                        Anthropic::WebFetchTool20250910,
+                        Anthropic::WebSearchTool20260209,
+                        Anthropic::WebFetchTool20260209,
+                        Anthropic::ToolSearchToolBm25_20251119,
+                        Anthropic::ToolSearchToolRegex20251119
                       )
                     ],
                   top_k: Integer,
@@ -23609,6 +26452,7 @@ module Anthropic
                   max_tokens: Integer,
                   messages: T::Array[Anthropic::MessageParam::OrHash],
                   model: T.any(Anthropic::Model::OrSymbol, String),
+                  container: T.nilable(String),
                   inference_geo: T.nilable(String),
                   metadata: Anthropic::Metadata::OrHash,
                   output_config: Anthropic::OutputConfig::OrHash,
@@ -23632,10 +26476,19 @@ module Anthropic
                     T.any(
                       Anthropic::Tool::OrHash,
                       Anthropic::ToolBash20250124::OrHash,
+                      Anthropic::CodeExecutionTool20250522::OrHash,
+                      Anthropic::CodeExecutionTool20250825::OrHash,
+                      Anthropic::CodeExecutionTool20260120::OrHash,
+                      Anthropic::MemoryTool20250818::OrHash,
                       Anthropic::ToolTextEditor20250124::OrHash,
                       Anthropic::ToolTextEditor20250429::OrHash,
                       Anthropic::ToolTextEditor20250728::OrHash,
-                      Anthropic::WebSearchTool20250305::OrHash
+                      Anthropic::WebSearchTool20250305::OrHash,
+                      Anthropic::WebFetchTool20250910::OrHash,
+                      Anthropic::WebSearchTool20260209::OrHash,
+                      Anthropic::WebFetchTool20260209::OrHash,
+                      Anthropic::ToolSearchToolBm25_20251119::OrHash,
+                      Anthropic::ToolSearchToolRegex20251119::OrHash
                     )
                   ],
                   top_k: Integer,
@@ -23701,6 +26554,7 @@ module Anthropic
                 model:, # The model that will complete your prompt.\n\nSee
                         # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
                         # details and options.
+                container: nil, # Container identifier for reuse across requests.
                 inference_geo: nil, # Specifies the geographic region for inference processing. If not specified, the
                                     # workspace's `default_inference_geo` is used.
                 metadata: nil, # An object describing metadata about the request.
@@ -24567,6 +27421,9 @@ module Anthropic
       # Our best model for real-world agents and coding
       CLAUDE_SONNET_4_5_20250929 = T.let(:"claude-sonnet-4-5-20250929", Anthropic::Model::TaggedSymbol)
 
+      # Frontier intelligence at scale — built for coding, agents, and enterprise workflows
+      CLAUDE_SONNET_4_6 = T.let(:"claude-sonnet-4-6", Anthropic::Model::TaggedSymbol)
+
       OrSymbol = T.type_alias { T.any(Symbol, String) }
       TaggedSymbol = T.type_alias { T.all(Symbol, Anthropic::Model) }
       Variants = T.type_alias { T.any(Anthropic::Model::TaggedSymbol, String) }
@@ -24952,6 +27809,7 @@ module Anthropic
     end
 
     class RawContentBlockStartEvent < Anthropic::Internal::Type::BaseModel
+      # Response model for a file uploaded to the container.
       sig { returns(Anthropic::RawContentBlockStartEvent::ContentBlock::Variants) }
       attr_accessor :content_block
 
@@ -24981,15 +27839,26 @@ module Anthropic
               Anthropic::RedactedThinkingBlock::OrHash,
               Anthropic::ToolUseBlock::OrHash,
               Anthropic::ServerToolUseBlock::OrHash,
-              Anthropic::WebSearchToolResultBlock::OrHash
+              Anthropic::WebSearchToolResultBlock::OrHash,
+              Anthropic::WebFetchToolResultBlock::OrHash,
+              Anthropic::CodeExecutionToolResultBlock::OrHash,
+              Anthropic::BashCodeExecutionToolResultBlock::OrHash,
+              Anthropic::TextEditorCodeExecutionToolResultBlock::OrHash,
+              Anthropic::ToolSearchToolResultBlock::OrHash,
+              Anthropic::ContainerUploadBlock::OrHash
             ),
             index: Integer,
             type: Symbol
           ).returns(T.attached_class)
         end
-        def new(content_block:, index:, type: :content_block_start); end
+        def new(
+          content_block:, # Response model for a file uploaded to the container.
+          index:,
+          type: :content_block_start
+); end
       end
 
+      # Response model for a file uploaded to the container.
       module ContentBlock
         extend Anthropic::Internal::Type::Union
 
@@ -25010,7 +27879,13 @@ module Anthropic
               Anthropic::RedactedThinkingBlock,
               Anthropic::ToolUseBlock,
               Anthropic::ServerToolUseBlock,
-              Anthropic::WebSearchToolResultBlock
+              Anthropic::WebSearchToolResultBlock,
+              Anthropic::WebFetchToolResultBlock,
+              Anthropic::CodeExecutionToolResultBlock,
+              Anthropic::BashCodeExecutionToolResultBlock,
+              Anthropic::TextEditorCodeExecutionToolResultBlock,
+              Anthropic::ToolSearchToolResultBlock,
+              Anthropic::ContainerUploadBlock
             )
           end
       end
@@ -25113,6 +27988,14 @@ module Anthropic
       end
 
       class Delta < Anthropic::Internal::Type::BaseModel
+        # Information about the container used in the request (for the code execution
+        # tool)
+        sig { returns(T.nilable(Anthropic::Container)) }
+        attr_reader :container
+
+        sig { params(container: T.nilable(Anthropic::Container::OrHash)).void }
+        attr_writer :container
+
         sig { returns(T.nilable(Anthropic::StopReason::TaggedSymbol)) }
         attr_accessor :stop_reason
 
@@ -25122,6 +28005,7 @@ module Anthropic
         sig do
           override
             .returns({
+              container: T.nilable(Anthropic::Container),
               stop_reason: T.nilable(Anthropic::StopReason::TaggedSymbol),
               stop_sequence: T.nilable(String)
             })
@@ -25131,11 +28015,17 @@ module Anthropic
         class << self
           sig do
             params(
+              container: T.nilable(Anthropic::Container::OrHash),
               stop_reason: T.nilable(Anthropic::StopReason::OrSymbol),
               stop_sequence: T.nilable(String)
             ).returns(T.attached_class)
           end
-          def new(stop_reason:, stop_sequence:); end
+          def new(
+            container:, # Information about the container used in the request (for the code execution
+                        # tool)
+            stop_reason:,
+            stop_sequence:
+); end
         end
 
         OrHash = T.type_alias do
@@ -25319,17 +28209,66 @@ module Anthropic
         end
     end
 
+    class ServerToolCaller < Anthropic::Internal::Type::BaseModel
+      sig { returns(String) }
+      attr_accessor :tool_id
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig { override.returns({ tool_id: String, type: Symbol }) }
+      def to_hash; end
+
+      class << self
+        # Tool invocation generated by a server-side tool.
+        sig { params(tool_id: String, type: Symbol).returns(T.attached_class) }
+        def new(tool_id:, type: :code_execution_20250825); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(Anthropic::ServerToolCaller, Anthropic::Internal::AnyHash)
+        end
+    end
+
+    class ServerToolCaller20260120 < Anthropic::Internal::Type::BaseModel
+      sig { returns(String) }
+      attr_accessor :tool_id
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig { override.returns({ tool_id: String, type: Symbol }) }
+      def to_hash; end
+
+      class << self
+        sig { params(tool_id: String, type: Symbol).returns(T.attached_class) }
+        def new(tool_id:, type: :code_execution_20260120); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(
+            Anthropic::ServerToolCaller20260120,
+            Anthropic::Internal::AnyHash
+          )
+        end
+    end
+
     class ServerToolUsage < Anthropic::Internal::Type::BaseModel
+      # The number of web fetch tool requests.
+      sig { returns(Integer) }
+      attr_accessor :web_fetch_requests
+
       # The number of web search tool requests.
       sig { returns(Integer) }
       attr_accessor :web_search_requests
 
-      sig { override.returns({ web_search_requests: Integer }) }
+      sig { override.returns({ web_fetch_requests: Integer, web_search_requests: Integer }) }
       def to_hash; end
 
       class << self
-        sig { params(web_search_requests: Integer).returns(T.attached_class) }
+        sig { params(web_fetch_requests: Integer, web_search_requests: Integer).returns(T.attached_class) }
         def new(
+          web_fetch_requests:, # The number of web fetch tool requests.
           web_search_requests: # The number of web search tool requests.
 ); end
       end
@@ -25340,13 +28279,17 @@ module Anthropic
     end
 
     class ServerToolUseBlock < Anthropic::Internal::Type::BaseModel
+      # Tool invocation directly from the model.
+      sig { returns(Anthropic::ServerToolUseBlock::Caller::Variants) }
+      attr_accessor :caller_
+
       sig { returns(String) }
       attr_accessor :id
 
       sig { returns(T::Hash[Symbol, T.anything]) }
       attr_accessor :input
 
-      sig { returns(Symbol) }
+      sig { returns(Anthropic::ServerToolUseBlock::Name::TaggedSymbol) }
       attr_accessor :name
 
       sig { returns(Symbol) }
@@ -25356,8 +28299,9 @@ module Anthropic
         override
           .returns({
             id: String,
+            caller_: Anthropic::ServerToolUseBlock::Caller::Variants,
             input: T::Hash[Symbol, T.anything],
-            name: Symbol,
+            name: Anthropic::ServerToolUseBlock::Name::TaggedSymbol,
             type: Symbol
           })
       end
@@ -25367,12 +28311,83 @@ module Anthropic
         sig do
           params(
             id: String,
+            caller_: T.any(
+              Anthropic::DirectCaller::OrHash,
+              Anthropic::ServerToolCaller::OrHash,
+              Anthropic::ServerToolCaller20260120::OrHash
+            ),
             input: T::Hash[Symbol, T.anything],
-            name: Symbol,
+            name: Anthropic::ServerToolUseBlock::Name::OrSymbol,
             type: Symbol
           ).returns(T.attached_class)
         end
-        def new(id:, input:, name: :web_search, type: :server_tool_use); end
+        def new(
+          id:,
+          caller_:, # Tool invocation directly from the model.
+          input:,
+          name:,
+          type: :server_tool_use
+); end
+      end
+
+      # Tool invocation directly from the model.
+      module Caller
+        extend Anthropic::Internal::Type::Union
+
+        class << self
+          sig { override.returns(T::Array[Anthropic::ServerToolUseBlock::Caller::Variants]) }
+          def variants; end
+        end
+
+        Variants = T.type_alias do
+            T.any(
+              Anthropic::DirectCaller,
+              Anthropic::ServerToolCaller,
+              Anthropic::ServerToolCaller20260120
+            )
+          end
+      end
+
+      module Name
+        extend Anthropic::Internal::Type::Enum
+
+        class << self
+          sig { override.returns(T::Array[Anthropic::ServerToolUseBlock::Name::TaggedSymbol]) }
+          def values; end
+        end
+
+        BASH_CODE_EXECUTION = T.let(
+            :bash_code_execution,
+            Anthropic::ServerToolUseBlock::Name::TaggedSymbol
+          )
+
+        CODE_EXECUTION = T.let(
+            :code_execution,
+            Anthropic::ServerToolUseBlock::Name::TaggedSymbol
+          )
+
+        OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+        TEXT_EDITOR_CODE_EXECUTION = T.let(
+            :text_editor_code_execution,
+            Anthropic::ServerToolUseBlock::Name::TaggedSymbol
+          )
+
+        TOOL_SEARCH_TOOL_BM25 = T.let(
+            :tool_search_tool_bm25,
+            Anthropic::ServerToolUseBlock::Name::TaggedSymbol
+          )
+
+        TOOL_SEARCH_TOOL_REGEX = T.let(
+            :tool_search_tool_regex,
+            Anthropic::ServerToolUseBlock::Name::TaggedSymbol
+          )
+
+        TaggedSymbol = T.type_alias { T.all(Symbol, Anthropic::ServerToolUseBlock::Name) }
+
+        WEB_FETCH = T.let(:web_fetch, Anthropic::ServerToolUseBlock::Name::TaggedSymbol)
+
+        WEB_SEARCH = T.let(:web_search, Anthropic::ServerToolUseBlock::Name::TaggedSymbol)
       end
 
       OrHash = T.type_alias do
@@ -25388,13 +28403,36 @@ module Anthropic
       sig { params(cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash)).void }
       attr_writer :cache_control
 
+      # Tool invocation directly from the model.
+      sig do
+        returns(T.nilable(
+            T.any(
+              Anthropic::DirectCaller,
+              Anthropic::ServerToolCaller,
+              Anthropic::ServerToolCaller20260120
+            )
+          ))
+      end
+      attr_reader :caller_
+
+      sig do
+        params(
+          caller_: T.any(
+              Anthropic::DirectCaller::OrHash,
+              Anthropic::ServerToolCaller::OrHash,
+              Anthropic::ServerToolCaller20260120::OrHash
+            )
+        ).void
+      end
+      attr_writer :caller_
+
       sig { returns(String) }
       attr_accessor :id
 
       sig { returns(T::Hash[Symbol, T.anything]) }
       attr_accessor :input
 
-      sig { returns(Symbol) }
+      sig { returns(Anthropic::ServerToolUseBlockParam::Name::OrSymbol) }
       attr_accessor :name
 
       sig { returns(Symbol) }
@@ -25405,9 +28443,15 @@ module Anthropic
           .returns({
             id: String,
             input: T::Hash[Symbol, T.anything],
-            name: Symbol,
+            name: Anthropic::ServerToolUseBlockParam::Name::OrSymbol,
             type: Symbol,
-            cache_control: T.nilable(Anthropic::CacheControlEphemeral)
+            cache_control: T.nilable(Anthropic::CacheControlEphemeral),
+            caller_:
+              T.any(
+                Anthropic::DirectCaller,
+                Anthropic::ServerToolCaller,
+                Anthropic::ServerToolCaller20260120
+              )
           })
       end
       def to_hash; end
@@ -25417,18 +28461,92 @@ module Anthropic
           params(
             id: String,
             input: T::Hash[Symbol, T.anything],
+            name: Anthropic::ServerToolUseBlockParam::Name::OrSymbol,
             cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash),
-            name: Symbol,
+            caller_: T.any(
+              Anthropic::DirectCaller::OrHash,
+              Anthropic::ServerToolCaller::OrHash,
+              Anthropic::ServerToolCaller20260120::OrHash
+            ),
             type: Symbol
           ).returns(T.attached_class)
         end
         def new(
           id:,
           input:,
+          name:,
           cache_control: nil, # Create a cache control breakpoint at this content block.
-          name: :web_search,
+          caller_: nil, # Tool invocation directly from the model.
           type: :server_tool_use
 ); end
+      end
+
+      # Tool invocation directly from the model.
+      module Caller
+        extend Anthropic::Internal::Type::Union
+
+        class << self
+          sig { override.returns(T::Array[Anthropic::ServerToolUseBlockParam::Caller::Variants]) }
+          def variants; end
+        end
+
+        Variants = T.type_alias do
+            T.any(
+              Anthropic::DirectCaller,
+              Anthropic::ServerToolCaller,
+              Anthropic::ServerToolCaller20260120
+            )
+          end
+      end
+
+      module Name
+        extend Anthropic::Internal::Type::Enum
+
+        class << self
+          sig { override.returns(T::Array[Anthropic::ServerToolUseBlockParam::Name::TaggedSymbol]) }
+          def values; end
+        end
+
+        BASH_CODE_EXECUTION = T.let(
+            :bash_code_execution,
+            Anthropic::ServerToolUseBlockParam::Name::TaggedSymbol
+          )
+
+        CODE_EXECUTION = T.let(
+            :code_execution,
+            Anthropic::ServerToolUseBlockParam::Name::TaggedSymbol
+          )
+
+        OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+        TEXT_EDITOR_CODE_EXECUTION = T.let(
+            :text_editor_code_execution,
+            Anthropic::ServerToolUseBlockParam::Name::TaggedSymbol
+          )
+
+        TOOL_SEARCH_TOOL_BM25 = T.let(
+            :tool_search_tool_bm25,
+            Anthropic::ServerToolUseBlockParam::Name::TaggedSymbol
+          )
+
+        TOOL_SEARCH_TOOL_REGEX = T.let(
+            :tool_search_tool_regex,
+            Anthropic::ServerToolUseBlockParam::Name::TaggedSymbol
+          )
+
+        TaggedSymbol = T.type_alias do
+            T.all(Symbol, Anthropic::ServerToolUseBlockParam::Name)
+          end
+
+        WEB_FETCH = T.let(
+            :web_fetch,
+            Anthropic::ServerToolUseBlockParam::Name::TaggedSymbol
+          )
+
+        WEB_SEARCH = T.let(
+            :web_search,
+            Anthropic::ServerToolUseBlockParam::Name::TaggedSymbol
+          )
       end
 
       OrHash = T.type_alias do
@@ -25676,6 +28794,633 @@ module Anthropic
         end
     end
 
+    class TextEditorCodeExecutionCreateResultBlock < Anthropic::Internal::Type::BaseModel
+      sig { returns(T::Boolean) }
+      attr_accessor :is_file_update
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig { override.returns({ is_file_update: T::Boolean, type: Symbol }) }
+      def to_hash; end
+
+      class << self
+        sig { params(is_file_update: T::Boolean, type: Symbol).returns(T.attached_class) }
+        def new(is_file_update:, type: :text_editor_code_execution_create_result); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(
+            Anthropic::TextEditorCodeExecutionCreateResultBlock,
+            Anthropic::Internal::AnyHash
+          )
+        end
+    end
+
+    class TextEditorCodeExecutionCreateResultBlockParam < Anthropic::Internal::Type::BaseModel
+      sig { returns(T::Boolean) }
+      attr_accessor :is_file_update
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig { override.returns({ is_file_update: T::Boolean, type: Symbol }) }
+      def to_hash; end
+
+      class << self
+        sig { params(is_file_update: T::Boolean, type: Symbol).returns(T.attached_class) }
+        def new(is_file_update:, type: :text_editor_code_execution_create_result); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(
+            Anthropic::TextEditorCodeExecutionCreateResultBlockParam,
+            Anthropic::Internal::AnyHash
+          )
+        end
+    end
+
+    class TextEditorCodeExecutionStrReplaceResultBlock < Anthropic::Internal::Type::BaseModel
+      sig { returns(T.nilable(T::Array[String])) }
+      attr_accessor :lines
+
+      sig { returns(T.nilable(Integer)) }
+      attr_accessor :new_lines
+
+      sig { returns(T.nilable(Integer)) }
+      attr_accessor :new_start
+
+      sig { returns(T.nilable(Integer)) }
+      attr_accessor :old_lines
+
+      sig { returns(T.nilable(Integer)) }
+      attr_accessor :old_start
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig do
+        override
+          .returns({
+            lines: T.nilable(T::Array[String]),
+            new_lines: T.nilable(Integer),
+            new_start: T.nilable(Integer),
+            old_lines: T.nilable(Integer),
+            old_start: T.nilable(Integer),
+            type: Symbol
+          })
+      end
+      def to_hash; end
+
+      class << self
+        sig do
+          params(
+            lines: T.nilable(T::Array[String]),
+            new_lines: T.nilable(Integer),
+            new_start: T.nilable(Integer),
+            old_lines: T.nilable(Integer),
+            old_start: T.nilable(Integer),
+            type: Symbol
+          ).returns(T.attached_class)
+        end
+        def new(lines:, new_lines:, new_start:, old_lines:, old_start:, type: :text_editor_code_execution_str_replace_result); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(
+            Anthropic::TextEditorCodeExecutionStrReplaceResultBlock,
+            Anthropic::Internal::AnyHash
+          )
+        end
+    end
+
+    class TextEditorCodeExecutionStrReplaceResultBlockParam < Anthropic::Internal::Type::BaseModel
+      sig { returns(T.nilable(T::Array[String])) }
+      attr_accessor :lines
+
+      sig { returns(T.nilable(Integer)) }
+      attr_accessor :new_lines
+
+      sig { returns(T.nilable(Integer)) }
+      attr_accessor :new_start
+
+      sig { returns(T.nilable(Integer)) }
+      attr_accessor :old_lines
+
+      sig { returns(T.nilable(Integer)) }
+      attr_accessor :old_start
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig do
+        override
+          .returns({
+            type: Symbol,
+            lines: T.nilable(T::Array[String]),
+            new_lines: T.nilable(Integer),
+            new_start: T.nilable(Integer),
+            old_lines: T.nilable(Integer),
+            old_start: T.nilable(Integer)
+          })
+      end
+      def to_hash; end
+
+      class << self
+        sig do
+          params(
+            lines: T.nilable(T::Array[String]),
+            new_lines: T.nilable(Integer),
+            new_start: T.nilable(Integer),
+            old_lines: T.nilable(Integer),
+            old_start: T.nilable(Integer),
+            type: Symbol
+          ).returns(T.attached_class)
+        end
+        def new(lines: nil, new_lines: nil, new_start: nil, old_lines: nil, old_start: nil, type: :text_editor_code_execution_str_replace_result); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(
+            Anthropic::TextEditorCodeExecutionStrReplaceResultBlockParam,
+            Anthropic::Internal::AnyHash
+          )
+        end
+    end
+
+    class TextEditorCodeExecutionToolResultBlock < Anthropic::Internal::Type::BaseModel
+      sig { returns(Anthropic::TextEditorCodeExecutionToolResultBlock::Content::Variants) }
+      attr_accessor :content
+
+      sig { returns(String) }
+      attr_accessor :tool_use_id
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig do
+        override
+          .returns({
+            content:
+              Anthropic::TextEditorCodeExecutionToolResultBlock::Content::Variants,
+            tool_use_id: String,
+            type: Symbol
+          })
+      end
+      def to_hash; end
+
+      class << self
+        sig do
+          params(
+            content: T.any(
+              Anthropic::TextEditorCodeExecutionToolResultError::OrHash,
+              Anthropic::TextEditorCodeExecutionViewResultBlock::OrHash,
+              Anthropic::TextEditorCodeExecutionCreateResultBlock::OrHash,
+              Anthropic::TextEditorCodeExecutionStrReplaceResultBlock::OrHash
+            ),
+            tool_use_id: String,
+            type: Symbol
+          ).returns(T.attached_class)
+        end
+        def new(content:, tool_use_id:, type: :text_editor_code_execution_tool_result); end
+      end
+
+      module Content
+        extend Anthropic::Internal::Type::Union
+
+        class << self
+          sig do
+            override
+              .returns(T::Array[
+              Anthropic::TextEditorCodeExecutionToolResultBlock::Content::Variants
+            ])
+          end
+          def variants; end
+        end
+
+        Variants = T.type_alias do
+            T.any(
+              Anthropic::TextEditorCodeExecutionToolResultError,
+              Anthropic::TextEditorCodeExecutionViewResultBlock,
+              Anthropic::TextEditorCodeExecutionCreateResultBlock,
+              Anthropic::TextEditorCodeExecutionStrReplaceResultBlock
+            )
+          end
+      end
+
+      OrHash = T.type_alias do
+          T.any(
+            Anthropic::TextEditorCodeExecutionToolResultBlock,
+            Anthropic::Internal::AnyHash
+          )
+        end
+    end
+
+    class TextEditorCodeExecutionToolResultBlockParam < Anthropic::Internal::Type::BaseModel
+      # Create a cache control breakpoint at this content block.
+      sig { returns(T.nilable(Anthropic::CacheControlEphemeral)) }
+      attr_reader :cache_control
+
+      sig { params(cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash)).void }
+      attr_writer :cache_control
+
+      sig do
+        returns(T.any(
+            Anthropic::TextEditorCodeExecutionToolResultErrorParam,
+            Anthropic::TextEditorCodeExecutionViewResultBlockParam,
+            Anthropic::TextEditorCodeExecutionCreateResultBlockParam,
+            Anthropic::TextEditorCodeExecutionStrReplaceResultBlockParam
+          ))
+      end
+      attr_accessor :content
+
+      sig { returns(String) }
+      attr_accessor :tool_use_id
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig do
+        override
+          .returns({
+            content:
+              T.any(
+                Anthropic::TextEditorCodeExecutionToolResultErrorParam,
+                Anthropic::TextEditorCodeExecutionViewResultBlockParam,
+                Anthropic::TextEditorCodeExecutionCreateResultBlockParam,
+                Anthropic::TextEditorCodeExecutionStrReplaceResultBlockParam
+              ),
+            tool_use_id: String,
+            type: Symbol,
+            cache_control: T.nilable(Anthropic::CacheControlEphemeral)
+          })
+      end
+      def to_hash; end
+
+      class << self
+        sig do
+          params(
+            content: T.any(
+              Anthropic::TextEditorCodeExecutionToolResultErrorParam::OrHash,
+              Anthropic::TextEditorCodeExecutionViewResultBlockParam::OrHash,
+              Anthropic::TextEditorCodeExecutionCreateResultBlockParam::OrHash,
+              Anthropic::TextEditorCodeExecutionStrReplaceResultBlockParam::OrHash
+            ),
+            tool_use_id: String,
+            cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash),
+            type: Symbol
+          ).returns(T.attached_class)
+        end
+        def new(
+          content:,
+          tool_use_id:,
+          cache_control: nil, # Create a cache control breakpoint at this content block.
+          type: :text_editor_code_execution_tool_result
+); end
+      end
+
+      module Content
+        extend Anthropic::Internal::Type::Union
+
+        class << self
+          sig do
+            override
+              .returns(T::Array[
+              Anthropic::TextEditorCodeExecutionToolResultBlockParam::Content::Variants
+            ])
+          end
+          def variants; end
+        end
+
+        Variants = T.type_alias do
+            T.any(
+              Anthropic::TextEditorCodeExecutionToolResultErrorParam,
+              Anthropic::TextEditorCodeExecutionViewResultBlockParam,
+              Anthropic::TextEditorCodeExecutionCreateResultBlockParam,
+              Anthropic::TextEditorCodeExecutionStrReplaceResultBlockParam
+            )
+          end
+      end
+
+      OrHash = T.type_alias do
+          T.any(
+            Anthropic::TextEditorCodeExecutionToolResultBlockParam,
+            Anthropic::Internal::AnyHash
+          )
+        end
+    end
+
+    class TextEditorCodeExecutionToolResultError < Anthropic::Internal::Type::BaseModel
+      sig { returns(Anthropic::TextEditorCodeExecutionToolResultErrorCode::TaggedSymbol) }
+      attr_accessor :error_code
+
+      sig { returns(T.nilable(String)) }
+      attr_accessor :error_message
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig do
+        override
+          .returns({
+            error_code:
+              Anthropic::TextEditorCodeExecutionToolResultErrorCode::TaggedSymbol,
+            error_message: T.nilable(String),
+            type: Symbol
+          })
+      end
+      def to_hash; end
+
+      class << self
+        sig do
+          params(
+            error_code: Anthropic::TextEditorCodeExecutionToolResultErrorCode::OrSymbol,
+            error_message: T.nilable(String),
+            type: Symbol
+          ).returns(T.attached_class)
+        end
+        def new(error_code:, error_message:, type: :text_editor_code_execution_tool_result_error); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(
+            Anthropic::TextEditorCodeExecutionToolResultError,
+            Anthropic::Internal::AnyHash
+          )
+        end
+    end
+
+    module TextEditorCodeExecutionToolResultErrorCode
+      extend Anthropic::Internal::Type::Enum
+
+      class << self
+        sig do
+          override
+            .returns(T::Array[
+            Anthropic::TextEditorCodeExecutionToolResultErrorCode::TaggedSymbol
+          ])
+        end
+        def values; end
+      end
+
+      EXECUTION_TIME_EXCEEDED = T.let(
+          :execution_time_exceeded,
+          Anthropic::TextEditorCodeExecutionToolResultErrorCode::TaggedSymbol
+        )
+
+      FILE_NOT_FOUND = T.let(
+          :file_not_found,
+          Anthropic::TextEditorCodeExecutionToolResultErrorCode::TaggedSymbol
+        )
+
+      INVALID_TOOL_INPUT = T.let(
+          :invalid_tool_input,
+          Anthropic::TextEditorCodeExecutionToolResultErrorCode::TaggedSymbol
+        )
+
+      OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+      TOO_MANY_REQUESTS = T.let(
+          :too_many_requests,
+          Anthropic::TextEditorCodeExecutionToolResultErrorCode::TaggedSymbol
+        )
+
+      TaggedSymbol = T.type_alias do
+          T.all(Symbol, Anthropic::TextEditorCodeExecutionToolResultErrorCode)
+        end
+
+      UNAVAILABLE = T.let(
+          :unavailable,
+          Anthropic::TextEditorCodeExecutionToolResultErrorCode::TaggedSymbol
+        )
+    end
+
+    class TextEditorCodeExecutionToolResultErrorParam < Anthropic::Internal::Type::BaseModel
+      sig { returns(Anthropic::TextEditorCodeExecutionToolResultErrorCode::OrSymbol) }
+      attr_accessor :error_code
+
+      sig { returns(T.nilable(String)) }
+      attr_accessor :error_message
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig do
+        override
+          .returns({
+            error_code:
+              Anthropic::TextEditorCodeExecutionToolResultErrorCode::OrSymbol,
+            type: Symbol,
+            error_message: T.nilable(String)
+          })
+      end
+      def to_hash; end
+
+      class << self
+        sig do
+          params(
+            error_code: Anthropic::TextEditorCodeExecutionToolResultErrorCode::OrSymbol,
+            error_message: T.nilable(String),
+            type: Symbol
+          ).returns(T.attached_class)
+        end
+        def new(error_code:, error_message: nil, type: :text_editor_code_execution_tool_result_error); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(
+            Anthropic::TextEditorCodeExecutionToolResultErrorParam,
+            Anthropic::Internal::AnyHash
+          )
+        end
+    end
+
+    class TextEditorCodeExecutionViewResultBlock < Anthropic::Internal::Type::BaseModel
+      sig { returns(String) }
+      attr_accessor :content
+
+      sig { returns(Anthropic::TextEditorCodeExecutionViewResultBlock::FileType::TaggedSymbol) }
+      attr_accessor :file_type
+
+      sig { returns(T.nilable(Integer)) }
+      attr_accessor :num_lines
+
+      sig { returns(T.nilable(Integer)) }
+      attr_accessor :start_line
+
+      sig { returns(T.nilable(Integer)) }
+      attr_accessor :total_lines
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig do
+        override
+          .returns({
+            content: String,
+            file_type:
+              Anthropic::TextEditorCodeExecutionViewResultBlock::FileType::TaggedSymbol,
+            num_lines: T.nilable(Integer),
+            start_line: T.nilable(Integer),
+            total_lines: T.nilable(Integer),
+            type: Symbol
+          })
+      end
+      def to_hash; end
+
+      class << self
+        sig do
+          params(
+            content: String,
+            file_type: Anthropic::TextEditorCodeExecutionViewResultBlock::FileType::OrSymbol,
+            num_lines: T.nilable(Integer),
+            start_line: T.nilable(Integer),
+            total_lines: T.nilable(Integer),
+            type: Symbol
+          ).returns(T.attached_class)
+        end
+        def new(content:, file_type:, num_lines:, start_line:, total_lines:, type: :text_editor_code_execution_view_result); end
+      end
+
+      module FileType
+        extend Anthropic::Internal::Type::Enum
+
+        class << self
+          sig do
+            override
+              .returns(T::Array[
+              Anthropic::TextEditorCodeExecutionViewResultBlock::FileType::TaggedSymbol
+            ])
+          end
+          def values; end
+        end
+
+        IMAGE = T.let(
+            :image,
+            Anthropic::TextEditorCodeExecutionViewResultBlock::FileType::TaggedSymbol
+          )
+
+        OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+        PDF = T.let(
+            :pdf,
+            Anthropic::TextEditorCodeExecutionViewResultBlock::FileType::TaggedSymbol
+          )
+
+        TEXT = T.let(
+            :text,
+            Anthropic::TextEditorCodeExecutionViewResultBlock::FileType::TaggedSymbol
+          )
+
+        TaggedSymbol = T.type_alias do
+            T.all(
+              Symbol,
+              Anthropic::TextEditorCodeExecutionViewResultBlock::FileType
+            )
+          end
+      end
+
+      OrHash = T.type_alias do
+          T.any(
+            Anthropic::TextEditorCodeExecutionViewResultBlock,
+            Anthropic::Internal::AnyHash
+          )
+        end
+    end
+
+    class TextEditorCodeExecutionViewResultBlockParam < Anthropic::Internal::Type::BaseModel
+      sig { returns(String) }
+      attr_accessor :content
+
+      sig { returns(Anthropic::TextEditorCodeExecutionViewResultBlockParam::FileType::OrSymbol) }
+      attr_accessor :file_type
+
+      sig { returns(T.nilable(Integer)) }
+      attr_accessor :num_lines
+
+      sig { returns(T.nilable(Integer)) }
+      attr_accessor :start_line
+
+      sig { returns(T.nilable(Integer)) }
+      attr_accessor :total_lines
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig do
+        override
+          .returns({
+            content: String,
+            file_type:
+              Anthropic::TextEditorCodeExecutionViewResultBlockParam::FileType::OrSymbol,
+            type: Symbol,
+            num_lines: T.nilable(Integer),
+            start_line: T.nilable(Integer),
+            total_lines: T.nilable(Integer)
+          })
+      end
+      def to_hash; end
+
+      class << self
+        sig do
+          params(
+            content: String,
+            file_type: Anthropic::TextEditorCodeExecutionViewResultBlockParam::FileType::OrSymbol,
+            num_lines: T.nilable(Integer),
+            start_line: T.nilable(Integer),
+            total_lines: T.nilable(Integer),
+            type: Symbol
+          ).returns(T.attached_class)
+        end
+        def new(content:, file_type:, num_lines: nil, start_line: nil, total_lines: nil, type: :text_editor_code_execution_view_result); end
+      end
+
+      module FileType
+        extend Anthropic::Internal::Type::Enum
+
+        class << self
+          sig do
+            override
+              .returns(T::Array[
+              Anthropic::TextEditorCodeExecutionViewResultBlockParam::FileType::TaggedSymbol
+            ])
+          end
+          def values; end
+        end
+
+        IMAGE = T.let(
+            :image,
+            Anthropic::TextEditorCodeExecutionViewResultBlockParam::FileType::TaggedSymbol
+          )
+
+        OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+        PDF = T.let(
+            :pdf,
+            Anthropic::TextEditorCodeExecutionViewResultBlockParam::FileType::TaggedSymbol
+          )
+
+        TEXT = T.let(
+            :text,
+            Anthropic::TextEditorCodeExecutionViewResultBlockParam::FileType::TaggedSymbol
+          )
+
+        TaggedSymbol = T.type_alias do
+            T.all(
+              Symbol,
+              Anthropic::TextEditorCodeExecutionViewResultBlockParam::FileType
+            )
+          end
+      end
+
+      OrHash = T.type_alias do
+          T.any(
+            Anthropic::TextEditorCodeExecutionViewResultBlockParam,
+            Anthropic::Internal::AnyHash
+          )
+        end
+    end
+
     class ThinkingBlock < Anthropic::Internal::Type::BaseModel
       sig { returns(String) }
       attr_accessor :signature
@@ -25841,12 +29586,26 @@ module Anthropic
     end
 
     class Tool < Anthropic::Internal::Type::BaseModel
+      sig { returns(T.nilable(T::Array[Anthropic::Tool::AllowedCaller::OrSymbol])) }
+      attr_reader :allowed_callers
+
+      sig { params(allowed_callers: T::Array[Anthropic::Tool::AllowedCaller::OrSymbol]).void }
+      attr_writer :allowed_callers
+
       # Create a cache control breakpoint at this content block.
       sig { returns(T.nilable(Anthropic::CacheControlEphemeral)) }
       attr_reader :cache_control
 
       sig { params(cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash)).void }
       attr_writer :cache_control
+
+      # If true, tool will not be included in initial system prompt. Only loaded when
+      # returned via tool_reference from tool search.
+      sig { returns(T.nilable(T::Boolean)) }
+      attr_reader :defer_loading
+
+      sig { params(defer_loading: T::Boolean).void }
+      attr_writer :defer_loading
 
       # Description of what this tool does.
       #
@@ -25867,6 +29626,12 @@ module Anthropic
       # When null (default), uses the default behavior based on beta headers.
       sig { returns(T.nilable(T::Boolean)) }
       attr_accessor :eager_input_streaming
+
+      sig { returns(T.nilable(T::Array[T::Hash[Symbol, T.anything]])) }
+      attr_reader :input_examples
+
+      sig { params(input_examples: T::Array[T::Hash[Symbol, T.anything]]).void }
+      attr_writer :input_examples
 
       # [JSON schema](https://json-schema.org/draft/2020-12) for this tool's input.
       #
@@ -25899,9 +29664,12 @@ module Anthropic
           .returns({
             input_schema: Anthropic::Tool::InputSchema,
             name: String,
+            allowed_callers: T::Array[Anthropic::Tool::AllowedCaller::OrSymbol],
             cache_control: T.nilable(Anthropic::CacheControlEphemeral),
+            defer_loading: T::Boolean,
             description: String,
             eager_input_streaming: T.nilable(T::Boolean),
+            input_examples: T::Array[T::Hash[Symbol, T.anything]],
             strict: T::Boolean,
             type: T.nilable(Anthropic::Tool::Type::OrSymbol)
           })
@@ -25913,9 +29681,12 @@ module Anthropic
           params(
             input_schema: Anthropic::Tool::InputSchema::OrHash,
             name: String,
+            allowed_callers: T::Array[Anthropic::Tool::AllowedCaller::OrSymbol],
             cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash),
+            defer_loading: T::Boolean,
             description: String,
             eager_input_streaming: T.nilable(T::Boolean),
+            input_examples: T::Array[T::Hash[Symbol, T.anything]],
             strict: T::Boolean,
             type: T.nilable(Anthropic::Tool::Type::OrSymbol)
           ).returns(T.attached_class)
@@ -25926,7 +29697,10 @@ module Anthropic
                          # will produce.
           name:, # Name of the tool.
                  # This is how the tool will be called by the model and in `tool_use` blocks.
+          allowed_callers: nil,
           cache_control: nil, # Create a cache control breakpoint at this content block.
+          defer_loading: nil, # If true, tool will not be included in initial system prompt. Only loaded when
+                              # returned via tool_reference from tool search.
           description: nil, # Description of what this tool does.
                             # Tool descriptions should be as detailed as possible. The more information that
                             # the model has about what the tool is and how to use it, the better it will
@@ -25937,9 +29711,34 @@ module Anthropic
                                       # on-the-fly rather than buffering the full JSON output. When false, streaming is
                                       # disabled for this tool even if the fine-grained-tool-streaming beta is active.
                                       # When null (default), uses the default behavior based on beta headers.
+          input_examples: nil,
           strict: nil, # When true, guarantees schema validation on tool names and inputs
           type: nil
 ); end
+      end
+
+      module AllowedCaller
+        extend Anthropic::Internal::Type::Enum
+
+        class << self
+          sig { override.returns(T::Array[Anthropic::Tool::AllowedCaller::TaggedSymbol]) }
+          def values; end
+        end
+
+        CODE_EXECUTION_20250825 = T.let(
+            :code_execution_20250825,
+            Anthropic::Tool::AllowedCaller::TaggedSymbol
+          )
+
+        CODE_EXECUTION_20260120 = T.let(
+            :code_execution_20260120,
+            Anthropic::Tool::AllowedCaller::TaggedSymbol
+          )
+
+        DIRECT = T.let(:direct, Anthropic::Tool::AllowedCaller::TaggedSymbol)
+        OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+        TaggedSymbol = T.type_alias { T.all(Symbol, Anthropic::Tool::AllowedCaller) }
       end
 
       class InputSchema < Anthropic::Internal::Type::BaseModel
@@ -25999,12 +29798,36 @@ module Anthropic
     end
 
     class ToolBash20250124 < Anthropic::Internal::Type::BaseModel
+      sig do
+        returns(T.nilable(
+            T::Array[Anthropic::ToolBash20250124::AllowedCaller::OrSymbol]
+          ))
+      end
+      attr_reader :allowed_callers
+
+      sig { params(allowed_callers: T::Array[Anthropic::ToolBash20250124::AllowedCaller::OrSymbol]).void }
+      attr_writer :allowed_callers
+
       # Create a cache control breakpoint at this content block.
       sig { returns(T.nilable(Anthropic::CacheControlEphemeral)) }
       attr_reader :cache_control
 
       sig { params(cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash)).void }
       attr_writer :cache_control
+
+      # If true, tool will not be included in initial system prompt. Only loaded when
+      # returned via tool_reference from tool search.
+      sig { returns(T.nilable(T::Boolean)) }
+      attr_reader :defer_loading
+
+      sig { params(defer_loading: T::Boolean).void }
+      attr_writer :defer_loading
+
+      sig { returns(T.nilable(T::Array[T::Hash[Symbol, T.anything]])) }
+      attr_reader :input_examples
+
+      sig { params(input_examples: T::Array[T::Hash[Symbol, T.anything]]).void }
+      attr_writer :input_examples
 
       # Name of the tool.
       #
@@ -26027,7 +29850,11 @@ module Anthropic
           .returns({
             name: Symbol,
             type: Symbol,
+            allowed_callers:
+              T::Array[Anthropic::ToolBash20250124::AllowedCaller::OrSymbol],
             cache_control: T.nilable(Anthropic::CacheControlEphemeral),
+            defer_loading: T::Boolean,
+            input_examples: T::Array[T::Hash[Symbol, T.anything]],
             strict: T::Boolean
           })
       end
@@ -26036,19 +29863,56 @@ module Anthropic
       class << self
         sig do
           params(
+            allowed_callers: T::Array[Anthropic::ToolBash20250124::AllowedCaller::OrSymbol],
             cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash),
+            defer_loading: T::Boolean,
+            input_examples: T::Array[T::Hash[Symbol, T.anything]],
             strict: T::Boolean,
             name: Symbol,
             type: Symbol
           ).returns(T.attached_class)
         end
         def new(
+          allowed_callers: nil,
           cache_control: nil, # Create a cache control breakpoint at this content block.
+          defer_loading: nil, # If true, tool will not be included in initial system prompt. Only loaded when
+                              # returned via tool_reference from tool search.
+          input_examples: nil,
           strict: nil, # When true, guarantees schema validation on tool names and inputs
           name: :bash, # Name of the tool.
                        # This is how the tool will be called by the model and in `tool_use` blocks.
           type: :bash_20250124
 ); end
+      end
+
+      module AllowedCaller
+        extend Anthropic::Internal::Type::Enum
+
+        class << self
+          sig { override.returns(T::Array[Anthropic::ToolBash20250124::AllowedCaller::TaggedSymbol]) }
+          def values; end
+        end
+
+        CODE_EXECUTION_20250825 = T.let(
+            :code_execution_20250825,
+            Anthropic::ToolBash20250124::AllowedCaller::TaggedSymbol
+          )
+
+        CODE_EXECUTION_20260120 = T.let(
+            :code_execution_20260120,
+            Anthropic::ToolBash20250124::AllowedCaller::TaggedSymbol
+          )
+
+        DIRECT = T.let(
+            :direct,
+            Anthropic::ToolBash20250124::AllowedCaller::TaggedSymbol
+          )
+
+        OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+        TaggedSymbol = T.type_alias do
+            T.all(Symbol, Anthropic::ToolBash20250124::AllowedCaller)
+          end
       end
 
       OrHash = T.type_alias do
@@ -26198,6 +30062,74 @@ module Anthropic
         end
     end
 
+    class ToolReferenceBlock < Anthropic::Internal::Type::BaseModel
+      sig { returns(String) }
+      attr_accessor :tool_name
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig { override.returns({ tool_name: String, type: Symbol }) }
+      def to_hash; end
+
+      class << self
+        sig { params(tool_name: String, type: Symbol).returns(T.attached_class) }
+        def new(tool_name:, type: :tool_reference); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(Anthropic::ToolReferenceBlock, Anthropic::Internal::AnyHash)
+        end
+    end
+
+    class ToolReferenceBlockParam < Anthropic::Internal::Type::BaseModel
+      # Create a cache control breakpoint at this content block.
+      sig { returns(T.nilable(Anthropic::CacheControlEphemeral)) }
+      attr_reader :cache_control
+
+      sig { params(cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash)).void }
+      attr_writer :cache_control
+
+      sig { returns(String) }
+      attr_accessor :tool_name
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig do
+        override
+          .returns({
+            tool_name: String,
+            type: Symbol,
+            cache_control: T.nilable(Anthropic::CacheControlEphemeral)
+          })
+      end
+      def to_hash; end
+
+      class << self
+        # Tool reference block that can be included in tool_result content.
+        sig do
+          params(
+            tool_name: String,
+            cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash),
+            type: Symbol
+          ).returns(T.attached_class)
+        end
+        def new(
+          tool_name:,
+          cache_control: nil, # Create a cache control breakpoint at this content block.
+          type: :tool_reference
+); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(
+            Anthropic::ToolReferenceBlockParam,
+            Anthropic::Internal::AnyHash
+          )
+        end
+    end
+
     class ToolResultBlockParam < Anthropic::Internal::Type::BaseModel
       # Create a cache control breakpoint at this content block.
       sig { returns(T.nilable(Anthropic::CacheControlEphemeral)) }
@@ -26263,6 +30195,7 @@ module Anthropic
           def variants; end
         end
 
+        # Tool reference block that can be included in tool_result content.
         module Content
           extend Anthropic::Internal::Type::Union
 
@@ -26281,7 +30214,8 @@ module Anthropic
                 Anthropic::TextBlockParam,
                 Anthropic::ImageBlockParam,
                 Anthropic::SearchResultBlockParam,
-                Anthropic::DocumentBlockParam
+                Anthropic::DocumentBlockParam,
+                Anthropic::ToolReferenceBlockParam
               )
             end
         end
@@ -26308,13 +30242,673 @@ module Anthropic
         end
     end
 
-    class ToolTextEditor20250124 < Anthropic::Internal::Type::BaseModel
+    class ToolSearchToolBm25_20251119 < Anthropic::Internal::Type::BaseModel
+      sig do
+        returns(T.nilable(
+            T::Array[
+              Anthropic::ToolSearchToolBm25_20251119::AllowedCaller::OrSymbol
+            ]
+          ))
+      end
+      attr_reader :allowed_callers
+
+      sig do
+        params(
+          allowed_callers: T::Array[
+              Anthropic::ToolSearchToolBm25_20251119::AllowedCaller::OrSymbol
+            ]
+        ).void
+      end
+      attr_writer :allowed_callers
+
       # Create a cache control breakpoint at this content block.
       sig { returns(T.nilable(Anthropic::CacheControlEphemeral)) }
       attr_reader :cache_control
 
       sig { params(cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash)).void }
       attr_writer :cache_control
+
+      # If true, tool will not be included in initial system prompt. Only loaded when
+      # returned via tool_reference from tool search.
+      sig { returns(T.nilable(T::Boolean)) }
+      attr_reader :defer_loading
+
+      sig { params(defer_loading: T::Boolean).void }
+      attr_writer :defer_loading
+
+      # Name of the tool.
+      #
+      # This is how the tool will be called by the model and in `tool_use` blocks.
+      sig { returns(Symbol) }
+      attr_accessor :name
+
+      # When true, guarantees schema validation on tool names and inputs
+      sig { returns(T.nilable(T::Boolean)) }
+      attr_reader :strict
+
+      sig { params(strict: T::Boolean).void }
+      attr_writer :strict
+
+      sig { returns(Anthropic::ToolSearchToolBm25_20251119::Type::OrSymbol) }
+      attr_accessor :type
+
+      sig do
+        override
+          .returns({
+            name: Symbol,
+            type: Anthropic::ToolSearchToolBm25_20251119::Type::OrSymbol,
+            allowed_callers:
+              T::Array[
+                Anthropic::ToolSearchToolBm25_20251119::AllowedCaller::OrSymbol
+              ],
+            cache_control: T.nilable(Anthropic::CacheControlEphemeral),
+            defer_loading: T::Boolean,
+            strict: T::Boolean
+          })
+      end
+      def to_hash; end
+
+      class << self
+        sig do
+          params(
+            type: Anthropic::ToolSearchToolBm25_20251119::Type::OrSymbol,
+            allowed_callers: T::Array[
+              Anthropic::ToolSearchToolBm25_20251119::AllowedCaller::OrSymbol
+            ],
+            cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash),
+            defer_loading: T::Boolean,
+            strict: T::Boolean,
+            name: Symbol
+          ).returns(T.attached_class)
+        end
+        def new(
+          type:,
+          allowed_callers: nil,
+          cache_control: nil, # Create a cache control breakpoint at this content block.
+          defer_loading: nil, # If true, tool will not be included in initial system prompt. Only loaded when
+                              # returned via tool_reference from tool search.
+          strict: nil, # When true, guarantees schema validation on tool names and inputs
+          name: :tool_search_tool_bm25 # Name of the tool.
+                                       # This is how the tool will be called by the model and in `tool_use` blocks.
+); end
+      end
+
+      module AllowedCaller
+        extend Anthropic::Internal::Type::Enum
+
+        class << self
+          sig do
+            override
+              .returns(T::Array[
+              Anthropic::ToolSearchToolBm25_20251119::AllowedCaller::TaggedSymbol
+            ])
+          end
+          def values; end
+        end
+
+        CODE_EXECUTION_20250825 = T.let(
+            :code_execution_20250825,
+            Anthropic::ToolSearchToolBm25_20251119::AllowedCaller::TaggedSymbol
+          )
+
+        CODE_EXECUTION_20260120 = T.let(
+            :code_execution_20260120,
+            Anthropic::ToolSearchToolBm25_20251119::AllowedCaller::TaggedSymbol
+          )
+
+        DIRECT = T.let(
+            :direct,
+            Anthropic::ToolSearchToolBm25_20251119::AllowedCaller::TaggedSymbol
+          )
+
+        OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+        TaggedSymbol = T.type_alias do
+            T.all(Symbol, Anthropic::ToolSearchToolBm25_20251119::AllowedCaller)
+          end
+      end
+
+      OrHash = T.type_alias do
+          T.any(
+            Anthropic::ToolSearchToolBm25_20251119,
+            Anthropic::Internal::AnyHash
+          )
+        end
+
+      module Type
+        extend Anthropic::Internal::Type::Enum
+
+        class << self
+          sig { override.returns(T::Array[Anthropic::ToolSearchToolBm25_20251119::Type::TaggedSymbol]) }
+          def values; end
+        end
+
+        OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+        TOOL_SEARCH_TOOL_BM25 = T.let(
+            :tool_search_tool_bm25,
+            Anthropic::ToolSearchToolBm25_20251119::Type::TaggedSymbol
+          )
+
+        TOOL_SEARCH_TOOL_BM25_20251119 = T.let(
+            :tool_search_tool_bm25_20251119,
+            Anthropic::ToolSearchToolBm25_20251119::Type::TaggedSymbol
+          )
+
+        TaggedSymbol = T.type_alias do
+            T.all(Symbol, Anthropic::ToolSearchToolBm25_20251119::Type)
+          end
+      end
+    end
+
+    class ToolSearchToolRegex20251119 < Anthropic::Internal::Type::BaseModel
+      sig do
+        returns(T.nilable(
+            T::Array[
+              Anthropic::ToolSearchToolRegex20251119::AllowedCaller::OrSymbol
+            ]
+          ))
+      end
+      attr_reader :allowed_callers
+
+      sig do
+        params(
+          allowed_callers: T::Array[
+              Anthropic::ToolSearchToolRegex20251119::AllowedCaller::OrSymbol
+            ]
+        ).void
+      end
+      attr_writer :allowed_callers
+
+      # Create a cache control breakpoint at this content block.
+      sig { returns(T.nilable(Anthropic::CacheControlEphemeral)) }
+      attr_reader :cache_control
+
+      sig { params(cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash)).void }
+      attr_writer :cache_control
+
+      # If true, tool will not be included in initial system prompt. Only loaded when
+      # returned via tool_reference from tool search.
+      sig { returns(T.nilable(T::Boolean)) }
+      attr_reader :defer_loading
+
+      sig { params(defer_loading: T::Boolean).void }
+      attr_writer :defer_loading
+
+      # Name of the tool.
+      #
+      # This is how the tool will be called by the model and in `tool_use` blocks.
+      sig { returns(Symbol) }
+      attr_accessor :name
+
+      # When true, guarantees schema validation on tool names and inputs
+      sig { returns(T.nilable(T::Boolean)) }
+      attr_reader :strict
+
+      sig { params(strict: T::Boolean).void }
+      attr_writer :strict
+
+      sig { returns(Anthropic::ToolSearchToolRegex20251119::Type::OrSymbol) }
+      attr_accessor :type
+
+      sig do
+        override
+          .returns({
+            name: Symbol,
+            type: Anthropic::ToolSearchToolRegex20251119::Type::OrSymbol,
+            allowed_callers:
+              T::Array[
+                Anthropic::ToolSearchToolRegex20251119::AllowedCaller::OrSymbol
+              ],
+            cache_control: T.nilable(Anthropic::CacheControlEphemeral),
+            defer_loading: T::Boolean,
+            strict: T::Boolean
+          })
+      end
+      def to_hash; end
+
+      class << self
+        sig do
+          params(
+            type: Anthropic::ToolSearchToolRegex20251119::Type::OrSymbol,
+            allowed_callers: T::Array[
+              Anthropic::ToolSearchToolRegex20251119::AllowedCaller::OrSymbol
+            ],
+            cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash),
+            defer_loading: T::Boolean,
+            strict: T::Boolean,
+            name: Symbol
+          ).returns(T.attached_class)
+        end
+        def new(
+          type:,
+          allowed_callers: nil,
+          cache_control: nil, # Create a cache control breakpoint at this content block.
+          defer_loading: nil, # If true, tool will not be included in initial system prompt. Only loaded when
+                              # returned via tool_reference from tool search.
+          strict: nil, # When true, guarantees schema validation on tool names and inputs
+          name: :tool_search_tool_regex # Name of the tool.
+                                        # This is how the tool will be called by the model and in `tool_use` blocks.
+); end
+      end
+
+      module AllowedCaller
+        extend Anthropic::Internal::Type::Enum
+
+        class << self
+          sig do
+            override
+              .returns(T::Array[
+              Anthropic::ToolSearchToolRegex20251119::AllowedCaller::TaggedSymbol
+            ])
+          end
+          def values; end
+        end
+
+        CODE_EXECUTION_20250825 = T.let(
+            :code_execution_20250825,
+            Anthropic::ToolSearchToolRegex20251119::AllowedCaller::TaggedSymbol
+          )
+
+        CODE_EXECUTION_20260120 = T.let(
+            :code_execution_20260120,
+            Anthropic::ToolSearchToolRegex20251119::AllowedCaller::TaggedSymbol
+          )
+
+        DIRECT = T.let(
+            :direct,
+            Anthropic::ToolSearchToolRegex20251119::AllowedCaller::TaggedSymbol
+          )
+
+        OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+        TaggedSymbol = T.type_alias do
+            T.all(Symbol, Anthropic::ToolSearchToolRegex20251119::AllowedCaller)
+          end
+      end
+
+      OrHash = T.type_alias do
+          T.any(
+            Anthropic::ToolSearchToolRegex20251119,
+            Anthropic::Internal::AnyHash
+          )
+        end
+
+      module Type
+        extend Anthropic::Internal::Type::Enum
+
+        class << self
+          sig { override.returns(T::Array[Anthropic::ToolSearchToolRegex20251119::Type::TaggedSymbol]) }
+          def values; end
+        end
+
+        OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+        TOOL_SEARCH_TOOL_REGEX = T.let(
+            :tool_search_tool_regex,
+            Anthropic::ToolSearchToolRegex20251119::Type::TaggedSymbol
+          )
+
+        TOOL_SEARCH_TOOL_REGEX_20251119 = T.let(
+            :tool_search_tool_regex_20251119,
+            Anthropic::ToolSearchToolRegex20251119::Type::TaggedSymbol
+          )
+
+        TaggedSymbol = T.type_alias do
+            T.all(Symbol, Anthropic::ToolSearchToolRegex20251119::Type)
+          end
+      end
+    end
+
+    class ToolSearchToolResultBlock < Anthropic::Internal::Type::BaseModel
+      sig { returns(Anthropic::ToolSearchToolResultBlock::Content::Variants) }
+      attr_accessor :content
+
+      sig { returns(String) }
+      attr_accessor :tool_use_id
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig do
+        override
+          .returns({
+            content: Anthropic::ToolSearchToolResultBlock::Content::Variants,
+            tool_use_id: String,
+            type: Symbol
+          })
+      end
+      def to_hash; end
+
+      class << self
+        sig do
+          params(
+            content: T.any(
+              Anthropic::ToolSearchToolResultError::OrHash,
+              Anthropic::ToolSearchToolSearchResultBlock::OrHash
+            ),
+            tool_use_id: String,
+            type: Symbol
+          ).returns(T.attached_class)
+        end
+        def new(content:, tool_use_id:, type: :tool_search_tool_result); end
+      end
+
+      module Content
+        extend Anthropic::Internal::Type::Union
+
+        class << self
+          sig { override.returns(T::Array[Anthropic::ToolSearchToolResultBlock::Content::Variants]) }
+          def variants; end
+        end
+
+        Variants = T.type_alias do
+            T.any(
+              Anthropic::ToolSearchToolResultError,
+              Anthropic::ToolSearchToolSearchResultBlock
+            )
+          end
+      end
+
+      OrHash = T.type_alias do
+          T.any(
+            Anthropic::ToolSearchToolResultBlock,
+            Anthropic::Internal::AnyHash
+          )
+        end
+    end
+
+    class ToolSearchToolResultBlockParam < Anthropic::Internal::Type::BaseModel
+      # Create a cache control breakpoint at this content block.
+      sig { returns(T.nilable(Anthropic::CacheControlEphemeral)) }
+      attr_reader :cache_control
+
+      sig { params(cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash)).void }
+      attr_writer :cache_control
+
+      sig do
+        returns(T.any(
+            Anthropic::ToolSearchToolResultErrorParam,
+            Anthropic::ToolSearchToolSearchResultBlockParam
+          ))
+      end
+      attr_accessor :content
+
+      sig { returns(String) }
+      attr_accessor :tool_use_id
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig do
+        override
+          .returns({
+            content:
+              T.any(
+                Anthropic::ToolSearchToolResultErrorParam,
+                Anthropic::ToolSearchToolSearchResultBlockParam
+              ),
+            tool_use_id: String,
+            type: Symbol,
+            cache_control: T.nilable(Anthropic::CacheControlEphemeral)
+          })
+      end
+      def to_hash; end
+
+      class << self
+        sig do
+          params(
+            content: T.any(
+              Anthropic::ToolSearchToolResultErrorParam::OrHash,
+              Anthropic::ToolSearchToolSearchResultBlockParam::OrHash
+            ),
+            tool_use_id: String,
+            cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash),
+            type: Symbol
+          ).returns(T.attached_class)
+        end
+        def new(
+          content:,
+          tool_use_id:,
+          cache_control: nil, # Create a cache control breakpoint at this content block.
+          type: :tool_search_tool_result
+); end
+      end
+
+      module Content
+        extend Anthropic::Internal::Type::Union
+
+        class << self
+          sig do
+            override
+              .returns(T::Array[
+              Anthropic::ToolSearchToolResultBlockParam::Content::Variants
+            ])
+          end
+          def variants; end
+        end
+
+        Variants = T.type_alias do
+            T.any(
+              Anthropic::ToolSearchToolResultErrorParam,
+              Anthropic::ToolSearchToolSearchResultBlockParam
+            )
+          end
+      end
+
+      OrHash = T.type_alias do
+          T.any(
+            Anthropic::ToolSearchToolResultBlockParam,
+            Anthropic::Internal::AnyHash
+          )
+        end
+    end
+
+    class ToolSearchToolResultError < Anthropic::Internal::Type::BaseModel
+      sig { returns(Anthropic::ToolSearchToolResultErrorCode::TaggedSymbol) }
+      attr_accessor :error_code
+
+      sig { returns(T.nilable(String)) }
+      attr_accessor :error_message
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig do
+        override
+          .returns({
+            error_code: Anthropic::ToolSearchToolResultErrorCode::TaggedSymbol,
+            error_message: T.nilable(String),
+            type: Symbol
+          })
+      end
+      def to_hash; end
+
+      class << self
+        sig do
+          params(
+            error_code: Anthropic::ToolSearchToolResultErrorCode::OrSymbol,
+            error_message: T.nilable(String),
+            type: Symbol
+          ).returns(T.attached_class)
+        end
+        def new(error_code:, error_message:, type: :tool_search_tool_result_error); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(
+            Anthropic::ToolSearchToolResultError,
+            Anthropic::Internal::AnyHash
+          )
+        end
+    end
+
+    module ToolSearchToolResultErrorCode
+      extend Anthropic::Internal::Type::Enum
+
+      class << self
+        sig { override.returns(T::Array[Anthropic::ToolSearchToolResultErrorCode::TaggedSymbol]) }
+        def values; end
+      end
+
+      EXECUTION_TIME_EXCEEDED = T.let(
+          :execution_time_exceeded,
+          Anthropic::ToolSearchToolResultErrorCode::TaggedSymbol
+        )
+
+      INVALID_TOOL_INPUT = T.let(
+          :invalid_tool_input,
+          Anthropic::ToolSearchToolResultErrorCode::TaggedSymbol
+        )
+
+      OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+      TOO_MANY_REQUESTS = T.let(
+          :too_many_requests,
+          Anthropic::ToolSearchToolResultErrorCode::TaggedSymbol
+        )
+
+      TaggedSymbol = T.type_alias { T.all(Symbol, Anthropic::ToolSearchToolResultErrorCode) }
+
+      UNAVAILABLE = T.let(
+          :unavailable,
+          Anthropic::ToolSearchToolResultErrorCode::TaggedSymbol
+        )
+    end
+
+    class ToolSearchToolResultErrorParam < Anthropic::Internal::Type::BaseModel
+      sig { returns(Anthropic::ToolSearchToolResultErrorCode::OrSymbol) }
+      attr_accessor :error_code
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig do
+        override
+          .returns({
+            error_code: Anthropic::ToolSearchToolResultErrorCode::OrSymbol,
+            type: Symbol
+          })
+      end
+      def to_hash; end
+
+      class << self
+        sig do
+          params(
+            error_code: Anthropic::ToolSearchToolResultErrorCode::OrSymbol,
+            type: Symbol
+          ).returns(T.attached_class)
+        end
+        def new(error_code:, type: :tool_search_tool_result_error); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(
+            Anthropic::ToolSearchToolResultErrorParam,
+            Anthropic::Internal::AnyHash
+          )
+        end
+    end
+
+    class ToolSearchToolSearchResultBlock < Anthropic::Internal::Type::BaseModel
+      sig { returns(T::Array[Anthropic::ToolReferenceBlock]) }
+      attr_accessor :tool_references
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig do
+        override
+          .returns({
+            tool_references: T::Array[Anthropic::ToolReferenceBlock],
+            type: Symbol
+          })
+      end
+      def to_hash; end
+
+      class << self
+        sig do
+          params(
+            tool_references: T::Array[Anthropic::ToolReferenceBlock::OrHash],
+            type: Symbol
+          ).returns(T.attached_class)
+        end
+        def new(tool_references:, type: :tool_search_tool_search_result); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(
+            Anthropic::ToolSearchToolSearchResultBlock,
+            Anthropic::Internal::AnyHash
+          )
+        end
+    end
+
+    class ToolSearchToolSearchResultBlockParam < Anthropic::Internal::Type::BaseModel
+      sig { returns(T::Array[Anthropic::ToolReferenceBlockParam]) }
+      attr_accessor :tool_references
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig do
+        override
+          .returns({
+            tool_references: T::Array[Anthropic::ToolReferenceBlockParam],
+            type: Symbol
+          })
+      end
+      def to_hash; end
+
+      class << self
+        sig do
+          params(
+            tool_references: T::Array[Anthropic::ToolReferenceBlockParam::OrHash],
+            type: Symbol
+          ).returns(T.attached_class)
+        end
+        def new(tool_references:, type: :tool_search_tool_search_result); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(
+            Anthropic::ToolSearchToolSearchResultBlockParam,
+            Anthropic::Internal::AnyHash
+          )
+        end
+    end
+
+    class ToolTextEditor20250124 < Anthropic::Internal::Type::BaseModel
+      sig do
+        returns(T.nilable(
+            T::Array[Anthropic::ToolTextEditor20250124::AllowedCaller::OrSymbol]
+          ))
+      end
+      attr_reader :allowed_callers
+
+      sig { params(allowed_callers: T::Array[Anthropic::ToolTextEditor20250124::AllowedCaller::OrSymbol]).void }
+      attr_writer :allowed_callers
+
+      # Create a cache control breakpoint at this content block.
+      sig { returns(T.nilable(Anthropic::CacheControlEphemeral)) }
+      attr_reader :cache_control
+
+      sig { params(cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash)).void }
+      attr_writer :cache_control
+
+      # If true, tool will not be included in initial system prompt. Only loaded when
+      # returned via tool_reference from tool search.
+      sig { returns(T.nilable(T::Boolean)) }
+      attr_reader :defer_loading
+
+      sig { params(defer_loading: T::Boolean).void }
+      attr_writer :defer_loading
+
+      sig { returns(T.nilable(T::Array[T::Hash[Symbol, T.anything]])) }
+      attr_reader :input_examples
+
+      sig { params(input_examples: T::Array[T::Hash[Symbol, T.anything]]).void }
+      attr_writer :input_examples
 
       # Name of the tool.
       #
@@ -26337,7 +30931,13 @@ module Anthropic
           .returns({
             name: Symbol,
             type: Symbol,
+            allowed_callers:
+              T::Array[
+                Anthropic::ToolTextEditor20250124::AllowedCaller::OrSymbol
+              ],
             cache_control: T.nilable(Anthropic::CacheControlEphemeral),
+            defer_loading: T::Boolean,
+            input_examples: T::Array[T::Hash[Symbol, T.anything]],
             strict: T::Boolean
           })
       end
@@ -26346,19 +30946,63 @@ module Anthropic
       class << self
         sig do
           params(
+            allowed_callers: T::Array[
+              Anthropic::ToolTextEditor20250124::AllowedCaller::OrSymbol
+            ],
             cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash),
+            defer_loading: T::Boolean,
+            input_examples: T::Array[T::Hash[Symbol, T.anything]],
             strict: T::Boolean,
             name: Symbol,
             type: Symbol
           ).returns(T.attached_class)
         end
         def new(
+          allowed_callers: nil,
           cache_control: nil, # Create a cache control breakpoint at this content block.
+          defer_loading: nil, # If true, tool will not be included in initial system prompt. Only loaded when
+                              # returned via tool_reference from tool search.
+          input_examples: nil,
           strict: nil, # When true, guarantees schema validation on tool names and inputs
           name: :str_replace_editor, # Name of the tool.
                                      # This is how the tool will be called by the model and in `tool_use` blocks.
           type: :text_editor_20250124
 ); end
+      end
+
+      module AllowedCaller
+        extend Anthropic::Internal::Type::Enum
+
+        class << self
+          sig do
+            override
+              .returns(T::Array[
+              Anthropic::ToolTextEditor20250124::AllowedCaller::TaggedSymbol
+            ])
+          end
+          def values; end
+        end
+
+        CODE_EXECUTION_20250825 = T.let(
+            :code_execution_20250825,
+            Anthropic::ToolTextEditor20250124::AllowedCaller::TaggedSymbol
+          )
+
+        CODE_EXECUTION_20260120 = T.let(
+            :code_execution_20260120,
+            Anthropic::ToolTextEditor20250124::AllowedCaller::TaggedSymbol
+          )
+
+        DIRECT = T.let(
+            :direct,
+            Anthropic::ToolTextEditor20250124::AllowedCaller::TaggedSymbol
+          )
+
+        OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+        TaggedSymbol = T.type_alias do
+            T.all(Symbol, Anthropic::ToolTextEditor20250124::AllowedCaller)
+          end
       end
 
       OrHash = T.type_alias do
@@ -26367,12 +31011,36 @@ module Anthropic
     end
 
     class ToolTextEditor20250429 < Anthropic::Internal::Type::BaseModel
+      sig do
+        returns(T.nilable(
+            T::Array[Anthropic::ToolTextEditor20250429::AllowedCaller::OrSymbol]
+          ))
+      end
+      attr_reader :allowed_callers
+
+      sig { params(allowed_callers: T::Array[Anthropic::ToolTextEditor20250429::AllowedCaller::OrSymbol]).void }
+      attr_writer :allowed_callers
+
       # Create a cache control breakpoint at this content block.
       sig { returns(T.nilable(Anthropic::CacheControlEphemeral)) }
       attr_reader :cache_control
 
       sig { params(cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash)).void }
       attr_writer :cache_control
+
+      # If true, tool will not be included in initial system prompt. Only loaded when
+      # returned via tool_reference from tool search.
+      sig { returns(T.nilable(T::Boolean)) }
+      attr_reader :defer_loading
+
+      sig { params(defer_loading: T::Boolean).void }
+      attr_writer :defer_loading
+
+      sig { returns(T.nilable(T::Array[T::Hash[Symbol, T.anything]])) }
+      attr_reader :input_examples
+
+      sig { params(input_examples: T::Array[T::Hash[Symbol, T.anything]]).void }
+      attr_writer :input_examples
 
       # Name of the tool.
       #
@@ -26395,7 +31063,13 @@ module Anthropic
           .returns({
             name: Symbol,
             type: Symbol,
+            allowed_callers:
+              T::Array[
+                Anthropic::ToolTextEditor20250429::AllowedCaller::OrSymbol
+              ],
             cache_control: T.nilable(Anthropic::CacheControlEphemeral),
+            defer_loading: T::Boolean,
+            input_examples: T::Array[T::Hash[Symbol, T.anything]],
             strict: T::Boolean
           })
       end
@@ -26404,19 +31078,63 @@ module Anthropic
       class << self
         sig do
           params(
+            allowed_callers: T::Array[
+              Anthropic::ToolTextEditor20250429::AllowedCaller::OrSymbol
+            ],
             cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash),
+            defer_loading: T::Boolean,
+            input_examples: T::Array[T::Hash[Symbol, T.anything]],
             strict: T::Boolean,
             name: Symbol,
             type: Symbol
           ).returns(T.attached_class)
         end
         def new(
+          allowed_callers: nil,
           cache_control: nil, # Create a cache control breakpoint at this content block.
+          defer_loading: nil, # If true, tool will not be included in initial system prompt. Only loaded when
+                              # returned via tool_reference from tool search.
+          input_examples: nil,
           strict: nil, # When true, guarantees schema validation on tool names and inputs
           name: :str_replace_based_edit_tool, # Name of the tool.
                                               # This is how the tool will be called by the model and in `tool_use` blocks.
           type: :text_editor_20250429
 ); end
+      end
+
+      module AllowedCaller
+        extend Anthropic::Internal::Type::Enum
+
+        class << self
+          sig do
+            override
+              .returns(T::Array[
+              Anthropic::ToolTextEditor20250429::AllowedCaller::TaggedSymbol
+            ])
+          end
+          def values; end
+        end
+
+        CODE_EXECUTION_20250825 = T.let(
+            :code_execution_20250825,
+            Anthropic::ToolTextEditor20250429::AllowedCaller::TaggedSymbol
+          )
+
+        CODE_EXECUTION_20260120 = T.let(
+            :code_execution_20260120,
+            Anthropic::ToolTextEditor20250429::AllowedCaller::TaggedSymbol
+          )
+
+        DIRECT = T.let(
+            :direct,
+            Anthropic::ToolTextEditor20250429::AllowedCaller::TaggedSymbol
+          )
+
+        OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+        TaggedSymbol = T.type_alias do
+            T.all(Symbol, Anthropic::ToolTextEditor20250429::AllowedCaller)
+          end
       end
 
       OrHash = T.type_alias do
@@ -26425,12 +31143,36 @@ module Anthropic
     end
 
     class ToolTextEditor20250728 < Anthropic::Internal::Type::BaseModel
+      sig do
+        returns(T.nilable(
+            T::Array[Anthropic::ToolTextEditor20250728::AllowedCaller::OrSymbol]
+          ))
+      end
+      attr_reader :allowed_callers
+
+      sig { params(allowed_callers: T::Array[Anthropic::ToolTextEditor20250728::AllowedCaller::OrSymbol]).void }
+      attr_writer :allowed_callers
+
       # Create a cache control breakpoint at this content block.
       sig { returns(T.nilable(Anthropic::CacheControlEphemeral)) }
       attr_reader :cache_control
 
       sig { params(cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash)).void }
       attr_writer :cache_control
+
+      # If true, tool will not be included in initial system prompt. Only loaded when
+      # returned via tool_reference from tool search.
+      sig { returns(T.nilable(T::Boolean)) }
+      attr_reader :defer_loading
+
+      sig { params(defer_loading: T::Boolean).void }
+      attr_writer :defer_loading
+
+      sig { returns(T.nilable(T::Array[T::Hash[Symbol, T.anything]])) }
+      attr_reader :input_examples
+
+      sig { params(input_examples: T::Array[T::Hash[Symbol, T.anything]]).void }
+      attr_writer :input_examples
 
       # Maximum number of characters to display when viewing a file. If not specified,
       # defaults to displaying the full file.
@@ -26458,7 +31200,13 @@ module Anthropic
           .returns({
             name: Symbol,
             type: Symbol,
+            allowed_callers:
+              T::Array[
+                Anthropic::ToolTextEditor20250728::AllowedCaller::OrSymbol
+              ],
             cache_control: T.nilable(Anthropic::CacheControlEphemeral),
+            defer_loading: T::Boolean,
+            input_examples: T::Array[T::Hash[Symbol, T.anything]],
             max_characters: T.nilable(Integer),
             strict: T::Boolean
           })
@@ -26468,7 +31216,12 @@ module Anthropic
       class << self
         sig do
           params(
+            allowed_callers: T::Array[
+              Anthropic::ToolTextEditor20250728::AllowedCaller::OrSymbol
+            ],
             cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash),
+            defer_loading: T::Boolean,
+            input_examples: T::Array[T::Hash[Symbol, T.anything]],
             max_characters: T.nilable(Integer),
             strict: T::Boolean,
             name: Symbol,
@@ -26476,7 +31229,11 @@ module Anthropic
           ).returns(T.attached_class)
         end
         def new(
+          allowed_callers: nil,
           cache_control: nil, # Create a cache control breakpoint at this content block.
+          defer_loading: nil, # If true, tool will not be included in initial system prompt. Only loaded when
+                              # returned via tool_reference from tool search.
+          input_examples: nil,
           max_characters: nil, # Maximum number of characters to display when viewing a file. If not specified,
                                # defaults to displaying the full file.
           strict: nil, # When true, guarantees schema validation on tool names and inputs
@@ -26486,11 +31243,48 @@ module Anthropic
 ); end
       end
 
+      module AllowedCaller
+        extend Anthropic::Internal::Type::Enum
+
+        class << self
+          sig do
+            override
+              .returns(T::Array[
+              Anthropic::ToolTextEditor20250728::AllowedCaller::TaggedSymbol
+            ])
+          end
+          def values; end
+        end
+
+        CODE_EXECUTION_20250825 = T.let(
+            :code_execution_20250825,
+            Anthropic::ToolTextEditor20250728::AllowedCaller::TaggedSymbol
+          )
+
+        CODE_EXECUTION_20260120 = T.let(
+            :code_execution_20260120,
+            Anthropic::ToolTextEditor20250728::AllowedCaller::TaggedSymbol
+          )
+
+        DIRECT = T.let(
+            :direct,
+            Anthropic::ToolTextEditor20250728::AllowedCaller::TaggedSymbol
+          )
+
+        OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+        TaggedSymbol = T.type_alias do
+            T.all(Symbol, Anthropic::ToolTextEditor20250728::AllowedCaller)
+          end
+      end
+
       OrHash = T.type_alias do
           T.any(Anthropic::ToolTextEditor20250728, Anthropic::Internal::AnyHash)
         end
     end
 
+    # Code execution tool with REPL state persistence (daemon mode + gVisor
+    # checkpoint).
     module ToolUnion
       extend Anthropic::Internal::Type::Union
 
@@ -26503,15 +31297,28 @@ module Anthropic
           T.any(
             Anthropic::Tool,
             Anthropic::ToolBash20250124,
+            Anthropic::CodeExecutionTool20250522,
+            Anthropic::CodeExecutionTool20250825,
+            Anthropic::CodeExecutionTool20260120,
+            Anthropic::MemoryTool20250818,
             Anthropic::ToolTextEditor20250124,
             Anthropic::ToolTextEditor20250429,
             Anthropic::ToolTextEditor20250728,
-            Anthropic::WebSearchTool20250305
+            Anthropic::WebSearchTool20250305,
+            Anthropic::WebFetchTool20250910,
+            Anthropic::WebSearchTool20260209,
+            Anthropic::WebFetchTool20260209,
+            Anthropic::ToolSearchToolBm25_20251119,
+            Anthropic::ToolSearchToolRegex20251119
           )
         end
     end
 
     class ToolUseBlock < Anthropic::Internal::Type::BaseModel
+      # Tool invocation directly from the model.
+      sig { returns(Anthropic::ToolUseBlock::Caller::Variants) }
+      attr_accessor :caller_
+
       sig { returns(String) }
       attr_accessor :id
 
@@ -26531,6 +31338,7 @@ module Anthropic
         override
           .returns({
             id: String,
+            caller_: Anthropic::ToolUseBlock::Caller::Variants,
             input: T::Hash[Symbol, T.anything],
             name: String,
             type: Symbol
@@ -26542,12 +31350,41 @@ module Anthropic
         sig do
           params(
             id: String,
+            caller_: T.any(
+              Anthropic::DirectCaller::OrHash,
+              Anthropic::ServerToolCaller::OrHash,
+              Anthropic::ServerToolCaller20260120::OrHash
+            ),
             input: T::Hash[Symbol, T.anything],
             name: String,
             type: Symbol
           ).returns(T.attached_class)
         end
-        def new(id:, input:, name:, type: :tool_use); end
+        def new(
+          id:,
+          caller_:, # Tool invocation directly from the model.
+          input:,
+          name:,
+          type: :tool_use
+); end
+      end
+
+      # Tool invocation directly from the model.
+      module Caller
+        extend Anthropic::Internal::Type::Union
+
+        class << self
+          sig { override.returns(T::Array[Anthropic::ToolUseBlock::Caller::Variants]) }
+          def variants; end
+        end
+
+        Variants = T.type_alias do
+            T.any(
+              Anthropic::DirectCaller,
+              Anthropic::ServerToolCaller,
+              Anthropic::ServerToolCaller20260120
+            )
+          end
       end
 
       OrHash = T.type_alias do
@@ -26562,6 +31399,29 @@ module Anthropic
 
       sig { params(cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash)).void }
       attr_writer :cache_control
+
+      # Tool invocation directly from the model.
+      sig do
+        returns(T.nilable(
+            T.any(
+              Anthropic::DirectCaller,
+              Anthropic::ServerToolCaller,
+              Anthropic::ServerToolCaller20260120
+            )
+          ))
+      end
+      attr_reader :caller_
+
+      sig do
+        params(
+          caller_: T.any(
+              Anthropic::DirectCaller::OrHash,
+              Anthropic::ServerToolCaller::OrHash,
+              Anthropic::ServerToolCaller20260120::OrHash
+            )
+        ).void
+      end
+      attr_writer :caller_
 
       sig { returns(String) }
       attr_accessor :id
@@ -26582,7 +31442,13 @@ module Anthropic
             input: T::Hash[Symbol, T.anything],
             name: String,
             type: Symbol,
-            cache_control: T.nilable(Anthropic::CacheControlEphemeral)
+            cache_control: T.nilable(Anthropic::CacheControlEphemeral),
+            caller_:
+              T.any(
+                Anthropic::DirectCaller,
+                Anthropic::ServerToolCaller,
+                Anthropic::ServerToolCaller20260120
+              )
           })
       end
       def to_hash; end
@@ -26594,6 +31460,11 @@ module Anthropic
             input: T::Hash[Symbol, T.anything],
             name: String,
             cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash),
+            caller_: T.any(
+              Anthropic::DirectCaller::OrHash,
+              Anthropic::ServerToolCaller::OrHash,
+              Anthropic::ServerToolCaller20260120::OrHash
+            ),
             type: Symbol
           ).returns(T.attached_class)
         end
@@ -26602,8 +31473,27 @@ module Anthropic
           input:,
           name:,
           cache_control: nil, # Create a cache control breakpoint at this content block.
+          caller_: nil, # Tool invocation directly from the model.
           type: :tool_use
 ); end
+      end
+
+      # Tool invocation directly from the model.
+      module Caller
+        extend Anthropic::Internal::Type::Union
+
+        class << self
+          sig { override.returns(T::Array[Anthropic::ToolUseBlockParam::Caller::Variants]) }
+          def variants; end
+        end
+
+        Variants = T.type_alias do
+            T.any(
+              Anthropic::DirectCaller,
+              Anthropic::ServerToolCaller,
+              Anthropic::ServerToolCaller20260120
+            )
+          end
       end
 
       OrHash = T.type_alias do
@@ -26750,6 +31640,840 @@ module Anthropic
       end
     end
 
+    class UserLocation < Anthropic::Internal::Type::BaseModel
+      # The city of the user.
+      sig { returns(T.nilable(String)) }
+      attr_accessor :city
+
+      # The two letter
+      # [ISO country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) of the
+      # user.
+      sig { returns(T.nilable(String)) }
+      attr_accessor :country
+
+      # The region of the user.
+      sig { returns(T.nilable(String)) }
+      attr_accessor :region
+
+      # The [IANA timezone](https://nodatime.org/TimeZones) of the user.
+      sig { returns(T.nilable(String)) }
+      attr_accessor :timezone
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig do
+        override
+          .returns({
+            type: Symbol,
+            city: T.nilable(String),
+            country: T.nilable(String),
+            region: T.nilable(String),
+            timezone: T.nilable(String)
+          })
+      end
+      def to_hash; end
+
+      class << self
+        sig do
+          params(
+            city: T.nilable(String),
+            country: T.nilable(String),
+            region: T.nilable(String),
+            timezone: T.nilable(String),
+            type: Symbol
+          ).returns(T.attached_class)
+        end
+        def new(
+          city: nil, # The city of the user.
+          country: nil, # The two letter
+                        # [ISO country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) of the
+                        # user.
+          region: nil, # The region of the user.
+          timezone: nil, # The [IANA timezone](https://nodatime.org/TimeZones) of the user.
+          type: :approximate
+); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(Anthropic::UserLocation, Anthropic::Internal::AnyHash)
+        end
+    end
+
+    class WebFetchBlock < Anthropic::Internal::Type::BaseModel
+      sig { returns(Anthropic::DocumentBlock) }
+      attr_reader :content
+
+      sig { params(content: Anthropic::DocumentBlock::OrHash).void }
+      attr_writer :content
+
+      # ISO 8601 timestamp when the content was retrieved
+      sig { returns(T.nilable(String)) }
+      attr_accessor :retrieved_at
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      # Fetched content URL
+      sig { returns(String) }
+      attr_accessor :url
+
+      sig do
+        override
+          .returns({
+            content: Anthropic::DocumentBlock,
+            retrieved_at: T.nilable(String),
+            type: Symbol,
+            url: String
+          })
+      end
+      def to_hash; end
+
+      class << self
+        sig do
+          params(
+            content: Anthropic::DocumentBlock::OrHash,
+            retrieved_at: T.nilable(String),
+            url: String,
+            type: Symbol
+          ).returns(T.attached_class)
+        end
+        def new(
+          content:,
+          retrieved_at:, # ISO 8601 timestamp when the content was retrieved
+          url:, # Fetched content URL
+          type: :web_fetch_result
+); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(Anthropic::WebFetchBlock, Anthropic::Internal::AnyHash)
+        end
+    end
+
+    class WebFetchBlockParam < Anthropic::Internal::Type::BaseModel
+      sig { returns(Anthropic::DocumentBlockParam) }
+      attr_reader :content
+
+      sig { params(content: Anthropic::DocumentBlockParam::OrHash).void }
+      attr_writer :content
+
+      # ISO 8601 timestamp when the content was retrieved
+      sig { returns(T.nilable(String)) }
+      attr_accessor :retrieved_at
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      # Fetched content URL
+      sig { returns(String) }
+      attr_accessor :url
+
+      sig do
+        override
+          .returns({
+            content: Anthropic::DocumentBlockParam,
+            type: Symbol,
+            url: String,
+            retrieved_at: T.nilable(String)
+          })
+      end
+      def to_hash; end
+
+      class << self
+        sig do
+          params(
+            content: Anthropic::DocumentBlockParam::OrHash,
+            url: String,
+            retrieved_at: T.nilable(String),
+            type: Symbol
+          ).returns(T.attached_class)
+        end
+        def new(
+          content:,
+          url:, # Fetched content URL
+          retrieved_at: nil, # ISO 8601 timestamp when the content was retrieved
+          type: :web_fetch_result
+); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(Anthropic::WebFetchBlockParam, Anthropic::Internal::AnyHash)
+        end
+    end
+
+    class WebFetchTool20250910 < Anthropic::Internal::Type::BaseModel
+      sig do
+        returns(T.nilable(
+            T::Array[Anthropic::WebFetchTool20250910::AllowedCaller::OrSymbol]
+          ))
+      end
+      attr_reader :allowed_callers
+
+      sig { params(allowed_callers: T::Array[Anthropic::WebFetchTool20250910::AllowedCaller::OrSymbol]).void }
+      attr_writer :allowed_callers
+
+      # List of domains to allow fetching from
+      sig { returns(T.nilable(T::Array[String])) }
+      attr_accessor :allowed_domains
+
+      # List of domains to block fetching from
+      sig { returns(T.nilable(T::Array[String])) }
+      attr_accessor :blocked_domains
+
+      # Create a cache control breakpoint at this content block.
+      sig { returns(T.nilable(Anthropic::CacheControlEphemeral)) }
+      attr_reader :cache_control
+
+      sig { params(cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash)).void }
+      attr_writer :cache_control
+
+      # Citations configuration for fetched documents. Citations are disabled by
+      # default.
+      sig { returns(T.nilable(Anthropic::CitationsConfigParam)) }
+      attr_reader :citations
+
+      sig { params(citations: T.nilable(Anthropic::CitationsConfigParam::OrHash)).void }
+      attr_writer :citations
+
+      # If true, tool will not be included in initial system prompt. Only loaded when
+      # returned via tool_reference from tool search.
+      sig { returns(T.nilable(T::Boolean)) }
+      attr_reader :defer_loading
+
+      sig { params(defer_loading: T::Boolean).void }
+      attr_writer :defer_loading
+
+      # Maximum number of tokens used by including web page text content in the context.
+      # The limit is approximate and does not apply to binary content such as PDFs.
+      sig { returns(T.nilable(Integer)) }
+      attr_accessor :max_content_tokens
+
+      # Maximum number of times the tool can be used in the API request.
+      sig { returns(T.nilable(Integer)) }
+      attr_accessor :max_uses
+
+      # Name of the tool.
+      #
+      # This is how the tool will be called by the model and in `tool_use` blocks.
+      sig { returns(Symbol) }
+      attr_accessor :name
+
+      # When true, guarantees schema validation on tool names and inputs
+      sig { returns(T.nilable(T::Boolean)) }
+      attr_reader :strict
+
+      sig { params(strict: T::Boolean).void }
+      attr_writer :strict
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig do
+        override
+          .returns({
+            name: Symbol,
+            type: Symbol,
+            allowed_callers:
+              T::Array[
+                Anthropic::WebFetchTool20250910::AllowedCaller::OrSymbol
+              ],
+            allowed_domains: T.nilable(T::Array[String]),
+            blocked_domains: T.nilable(T::Array[String]),
+            cache_control: T.nilable(Anthropic::CacheControlEphemeral),
+            citations: T.nilable(Anthropic::CitationsConfigParam),
+            defer_loading: T::Boolean,
+            max_content_tokens: T.nilable(Integer),
+            max_uses: T.nilable(Integer),
+            strict: T::Boolean
+          })
+      end
+      def to_hash; end
+
+      class << self
+        sig do
+          params(
+            allowed_callers: T::Array[Anthropic::WebFetchTool20250910::AllowedCaller::OrSymbol],
+            allowed_domains: T.nilable(T::Array[String]),
+            blocked_domains: T.nilable(T::Array[String]),
+            cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash),
+            citations: T.nilable(Anthropic::CitationsConfigParam::OrHash),
+            defer_loading: T::Boolean,
+            max_content_tokens: T.nilable(Integer),
+            max_uses: T.nilable(Integer),
+            strict: T::Boolean,
+            name: Symbol,
+            type: Symbol
+          ).returns(T.attached_class)
+        end
+        def new(
+          allowed_callers: nil,
+          allowed_domains: nil, # List of domains to allow fetching from
+          blocked_domains: nil, # List of domains to block fetching from
+          cache_control: nil, # Create a cache control breakpoint at this content block.
+          citations: nil, # Citations configuration for fetched documents. Citations are disabled by
+                          # default.
+          defer_loading: nil, # If true, tool will not be included in initial system prompt. Only loaded when
+                              # returned via tool_reference from tool search.
+          max_content_tokens: nil, # Maximum number of tokens used by including web page text content in the context.
+                                   # The limit is approximate and does not apply to binary content such as PDFs.
+          max_uses: nil, # Maximum number of times the tool can be used in the API request.
+          strict: nil, # When true, guarantees schema validation on tool names and inputs
+          name: :web_fetch, # Name of the tool.
+                            # This is how the tool will be called by the model and in `tool_use` blocks.
+          type: :web_fetch_20250910
+); end
+      end
+
+      module AllowedCaller
+        extend Anthropic::Internal::Type::Enum
+
+        class << self
+          sig do
+            override
+              .returns(T::Array[
+              Anthropic::WebFetchTool20250910::AllowedCaller::TaggedSymbol
+            ])
+          end
+          def values; end
+        end
+
+        CODE_EXECUTION_20250825 = T.let(
+            :code_execution_20250825,
+            Anthropic::WebFetchTool20250910::AllowedCaller::TaggedSymbol
+          )
+
+        CODE_EXECUTION_20260120 = T.let(
+            :code_execution_20260120,
+            Anthropic::WebFetchTool20250910::AllowedCaller::TaggedSymbol
+          )
+
+        DIRECT = T.let(
+            :direct,
+            Anthropic::WebFetchTool20250910::AllowedCaller::TaggedSymbol
+          )
+
+        OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+        TaggedSymbol = T.type_alias do
+            T.all(Symbol, Anthropic::WebFetchTool20250910::AllowedCaller)
+          end
+      end
+
+      OrHash = T.type_alias do
+          T.any(Anthropic::WebFetchTool20250910, Anthropic::Internal::AnyHash)
+        end
+    end
+
+    class WebFetchTool20260209 < Anthropic::Internal::Type::BaseModel
+      sig do
+        returns(T.nilable(
+            T::Array[Anthropic::WebFetchTool20260209::AllowedCaller::OrSymbol]
+          ))
+      end
+      attr_reader :allowed_callers
+
+      sig { params(allowed_callers: T::Array[Anthropic::WebFetchTool20260209::AllowedCaller::OrSymbol]).void }
+      attr_writer :allowed_callers
+
+      # List of domains to allow fetching from
+      sig { returns(T.nilable(T::Array[String])) }
+      attr_accessor :allowed_domains
+
+      # List of domains to block fetching from
+      sig { returns(T.nilable(T::Array[String])) }
+      attr_accessor :blocked_domains
+
+      # Create a cache control breakpoint at this content block.
+      sig { returns(T.nilable(Anthropic::CacheControlEphemeral)) }
+      attr_reader :cache_control
+
+      sig { params(cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash)).void }
+      attr_writer :cache_control
+
+      # Citations configuration for fetched documents. Citations are disabled by
+      # default.
+      sig { returns(T.nilable(Anthropic::CitationsConfigParam)) }
+      attr_reader :citations
+
+      sig { params(citations: T.nilable(Anthropic::CitationsConfigParam::OrHash)).void }
+      attr_writer :citations
+
+      # If true, tool will not be included in initial system prompt. Only loaded when
+      # returned via tool_reference from tool search.
+      sig { returns(T.nilable(T::Boolean)) }
+      attr_reader :defer_loading
+
+      sig { params(defer_loading: T::Boolean).void }
+      attr_writer :defer_loading
+
+      # Maximum number of tokens used by including web page text content in the context.
+      # The limit is approximate and does not apply to binary content such as PDFs.
+      sig { returns(T.nilable(Integer)) }
+      attr_accessor :max_content_tokens
+
+      # Maximum number of times the tool can be used in the API request.
+      sig { returns(T.nilable(Integer)) }
+      attr_accessor :max_uses
+
+      # Name of the tool.
+      #
+      # This is how the tool will be called by the model and in `tool_use` blocks.
+      sig { returns(Symbol) }
+      attr_accessor :name
+
+      # When true, guarantees schema validation on tool names and inputs
+      sig { returns(T.nilable(T::Boolean)) }
+      attr_reader :strict
+
+      sig { params(strict: T::Boolean).void }
+      attr_writer :strict
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig do
+        override
+          .returns({
+            name: Symbol,
+            type: Symbol,
+            allowed_callers:
+              T::Array[
+                Anthropic::WebFetchTool20260209::AllowedCaller::OrSymbol
+              ],
+            allowed_domains: T.nilable(T::Array[String]),
+            blocked_domains: T.nilable(T::Array[String]),
+            cache_control: T.nilable(Anthropic::CacheControlEphemeral),
+            citations: T.nilable(Anthropic::CitationsConfigParam),
+            defer_loading: T::Boolean,
+            max_content_tokens: T.nilable(Integer),
+            max_uses: T.nilable(Integer),
+            strict: T::Boolean
+          })
+      end
+      def to_hash; end
+
+      class << self
+        sig do
+          params(
+            allowed_callers: T::Array[Anthropic::WebFetchTool20260209::AllowedCaller::OrSymbol],
+            allowed_domains: T.nilable(T::Array[String]),
+            blocked_domains: T.nilable(T::Array[String]),
+            cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash),
+            citations: T.nilable(Anthropic::CitationsConfigParam::OrHash),
+            defer_loading: T::Boolean,
+            max_content_tokens: T.nilable(Integer),
+            max_uses: T.nilable(Integer),
+            strict: T::Boolean,
+            name: Symbol,
+            type: Symbol
+          ).returns(T.attached_class)
+        end
+        def new(
+          allowed_callers: nil,
+          allowed_domains: nil, # List of domains to allow fetching from
+          blocked_domains: nil, # List of domains to block fetching from
+          cache_control: nil, # Create a cache control breakpoint at this content block.
+          citations: nil, # Citations configuration for fetched documents. Citations are disabled by
+                          # default.
+          defer_loading: nil, # If true, tool will not be included in initial system prompt. Only loaded when
+                              # returned via tool_reference from tool search.
+          max_content_tokens: nil, # Maximum number of tokens used by including web page text content in the context.
+                                   # The limit is approximate and does not apply to binary content such as PDFs.
+          max_uses: nil, # Maximum number of times the tool can be used in the API request.
+          strict: nil, # When true, guarantees schema validation on tool names and inputs
+          name: :web_fetch, # Name of the tool.
+                            # This is how the tool will be called by the model and in `tool_use` blocks.
+          type: :web_fetch_20260209
+); end
+      end
+
+      module AllowedCaller
+        extend Anthropic::Internal::Type::Enum
+
+        class << self
+          sig do
+            override
+              .returns(T::Array[
+              Anthropic::WebFetchTool20260209::AllowedCaller::TaggedSymbol
+            ])
+          end
+          def values; end
+        end
+
+        CODE_EXECUTION_20250825 = T.let(
+            :code_execution_20250825,
+            Anthropic::WebFetchTool20260209::AllowedCaller::TaggedSymbol
+          )
+
+        CODE_EXECUTION_20260120 = T.let(
+            :code_execution_20260120,
+            Anthropic::WebFetchTool20260209::AllowedCaller::TaggedSymbol
+          )
+
+        DIRECT = T.let(
+            :direct,
+            Anthropic::WebFetchTool20260209::AllowedCaller::TaggedSymbol
+          )
+
+        OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+        TaggedSymbol = T.type_alias do
+            T.all(Symbol, Anthropic::WebFetchTool20260209::AllowedCaller)
+          end
+      end
+
+      OrHash = T.type_alias do
+          T.any(Anthropic::WebFetchTool20260209, Anthropic::Internal::AnyHash)
+        end
+    end
+
+    class WebFetchToolResultBlock < Anthropic::Internal::Type::BaseModel
+      # Tool invocation directly from the model.
+      sig { returns(Anthropic::WebFetchToolResultBlock::Caller::Variants) }
+      attr_accessor :caller_
+
+      sig { returns(Anthropic::WebFetchToolResultBlock::Content::Variants) }
+      attr_accessor :content
+
+      sig { returns(String) }
+      attr_accessor :tool_use_id
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig do
+        override
+          .returns({
+            caller_: Anthropic::WebFetchToolResultBlock::Caller::Variants,
+            content: Anthropic::WebFetchToolResultBlock::Content::Variants,
+            tool_use_id: String,
+            type: Symbol
+          })
+      end
+      def to_hash; end
+
+      class << self
+        sig do
+          params(
+            caller_: T.any(
+              Anthropic::DirectCaller::OrHash,
+              Anthropic::ServerToolCaller::OrHash,
+              Anthropic::ServerToolCaller20260120::OrHash
+            ),
+            content: T.any(
+              Anthropic::WebFetchToolResultErrorBlock::OrHash,
+              Anthropic::WebFetchBlock::OrHash
+            ),
+            tool_use_id: String,
+            type: Symbol
+          ).returns(T.attached_class)
+        end
+        def new(
+          caller_:, # Tool invocation directly from the model.
+          content:,
+          tool_use_id:,
+          type: :web_fetch_tool_result
+); end
+      end
+
+      # Tool invocation directly from the model.
+      module Caller
+        extend Anthropic::Internal::Type::Union
+
+        class << self
+          sig { override.returns(T::Array[Anthropic::WebFetchToolResultBlock::Caller::Variants]) }
+          def variants; end
+        end
+
+        Variants = T.type_alias do
+            T.any(
+              Anthropic::DirectCaller,
+              Anthropic::ServerToolCaller,
+              Anthropic::ServerToolCaller20260120
+            )
+          end
+      end
+
+      module Content
+        extend Anthropic::Internal::Type::Union
+
+        class << self
+          sig { override.returns(T::Array[Anthropic::WebFetchToolResultBlock::Content::Variants]) }
+          def variants; end
+        end
+
+        Variants = T.type_alias do
+            T.any(
+              Anthropic::WebFetchToolResultErrorBlock,
+              Anthropic::WebFetchBlock
+            )
+          end
+      end
+
+      OrHash = T.type_alias do
+          T.any(
+            Anthropic::WebFetchToolResultBlock,
+            Anthropic::Internal::AnyHash
+          )
+        end
+    end
+
+    class WebFetchToolResultBlockParam < Anthropic::Internal::Type::BaseModel
+      # Create a cache control breakpoint at this content block.
+      sig { returns(T.nilable(Anthropic::CacheControlEphemeral)) }
+      attr_reader :cache_control
+
+      sig { params(cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash)).void }
+      attr_writer :cache_control
+
+      # Tool invocation directly from the model.
+      sig do
+        returns(T.nilable(
+            T.any(
+              Anthropic::DirectCaller,
+              Anthropic::ServerToolCaller,
+              Anthropic::ServerToolCaller20260120
+            )
+          ))
+      end
+      attr_reader :caller_
+
+      sig do
+        params(
+          caller_: T.any(
+              Anthropic::DirectCaller::OrHash,
+              Anthropic::ServerToolCaller::OrHash,
+              Anthropic::ServerToolCaller20260120::OrHash
+            )
+        ).void
+      end
+      attr_writer :caller_
+
+      sig do
+        returns(T.any(
+            Anthropic::WebFetchToolResultErrorBlockParam,
+            Anthropic::WebFetchBlockParam
+          ))
+      end
+      attr_accessor :content
+
+      sig { returns(String) }
+      attr_accessor :tool_use_id
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig do
+        override
+          .returns({
+            content:
+              T.any(
+                Anthropic::WebFetchToolResultErrorBlockParam,
+                Anthropic::WebFetchBlockParam
+              ),
+            tool_use_id: String,
+            type: Symbol,
+            cache_control: T.nilable(Anthropic::CacheControlEphemeral),
+            caller_:
+              T.any(
+                Anthropic::DirectCaller,
+                Anthropic::ServerToolCaller,
+                Anthropic::ServerToolCaller20260120
+              )
+          })
+      end
+      def to_hash; end
+
+      class << self
+        sig do
+          params(
+            content: T.any(
+              Anthropic::WebFetchToolResultErrorBlockParam::OrHash,
+              Anthropic::WebFetchBlockParam::OrHash
+            ),
+            tool_use_id: String,
+            cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash),
+            caller_: T.any(
+              Anthropic::DirectCaller::OrHash,
+              Anthropic::ServerToolCaller::OrHash,
+              Anthropic::ServerToolCaller20260120::OrHash
+            ),
+            type: Symbol
+          ).returns(T.attached_class)
+        end
+        def new(
+          content:,
+          tool_use_id:,
+          cache_control: nil, # Create a cache control breakpoint at this content block.
+          caller_: nil, # Tool invocation directly from the model.
+          type: :web_fetch_tool_result
+); end
+      end
+
+      # Tool invocation directly from the model.
+      module Caller
+        extend Anthropic::Internal::Type::Union
+
+        class << self
+          sig { override.returns(T::Array[Anthropic::WebFetchToolResultBlockParam::Caller::Variants]) }
+          def variants; end
+        end
+
+        Variants = T.type_alias do
+            T.any(
+              Anthropic::DirectCaller,
+              Anthropic::ServerToolCaller,
+              Anthropic::ServerToolCaller20260120
+            )
+          end
+      end
+
+      module Content
+        extend Anthropic::Internal::Type::Union
+
+        class << self
+          sig { override.returns(T::Array[Anthropic::WebFetchToolResultBlockParam::Content::Variants]) }
+          def variants; end
+        end
+
+        Variants = T.type_alias do
+            T.any(
+              Anthropic::WebFetchToolResultErrorBlockParam,
+              Anthropic::WebFetchBlockParam
+            )
+          end
+      end
+
+      OrHash = T.type_alias do
+          T.any(
+            Anthropic::WebFetchToolResultBlockParam,
+            Anthropic::Internal::AnyHash
+          )
+        end
+    end
+
+    class WebFetchToolResultErrorBlock < Anthropic::Internal::Type::BaseModel
+      sig { returns(Anthropic::WebFetchToolResultErrorCode::TaggedSymbol) }
+      attr_accessor :error_code
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig do
+        override
+          .returns({
+            error_code: Anthropic::WebFetchToolResultErrorCode::TaggedSymbol,
+            type: Symbol
+          })
+      end
+      def to_hash; end
+
+      class << self
+        sig do
+          params(
+            error_code: Anthropic::WebFetchToolResultErrorCode::OrSymbol,
+            type: Symbol
+          ).returns(T.attached_class)
+        end
+        def new(error_code:, type: :web_fetch_tool_result_error); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(
+            Anthropic::WebFetchToolResultErrorBlock,
+            Anthropic::Internal::AnyHash
+          )
+        end
+    end
+
+    class WebFetchToolResultErrorBlockParam < Anthropic::Internal::Type::BaseModel
+      sig { returns(Anthropic::WebFetchToolResultErrorCode::OrSymbol) }
+      attr_accessor :error_code
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig do
+        override
+          .returns({
+            error_code: Anthropic::WebFetchToolResultErrorCode::OrSymbol,
+            type: Symbol
+          })
+      end
+      def to_hash; end
+
+      class << self
+        sig do
+          params(
+            error_code: Anthropic::WebFetchToolResultErrorCode::OrSymbol,
+            type: Symbol
+          ).returns(T.attached_class)
+        end
+        def new(error_code:, type: :web_fetch_tool_result_error); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(
+            Anthropic::WebFetchToolResultErrorBlockParam,
+            Anthropic::Internal::AnyHash
+          )
+        end
+    end
+
+    module WebFetchToolResultErrorCode
+      extend Anthropic::Internal::Type::Enum
+
+      class << self
+        sig { override.returns(T::Array[Anthropic::WebFetchToolResultErrorCode::TaggedSymbol]) }
+        def values; end
+      end
+
+      INVALID_TOOL_INPUT = T.let(
+          :invalid_tool_input,
+          Anthropic::WebFetchToolResultErrorCode::TaggedSymbol
+        )
+
+      MAX_USES_EXCEEDED = T.let(
+          :max_uses_exceeded,
+          Anthropic::WebFetchToolResultErrorCode::TaggedSymbol
+        )
+
+      OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+      TOO_MANY_REQUESTS = T.let(
+          :too_many_requests,
+          Anthropic::WebFetchToolResultErrorCode::TaggedSymbol
+        )
+
+      TaggedSymbol = T.type_alias { T.all(Symbol, Anthropic::WebFetchToolResultErrorCode) }
+
+      UNAVAILABLE = T.let(
+          :unavailable,
+          Anthropic::WebFetchToolResultErrorCode::TaggedSymbol
+        )
+
+      UNSUPPORTED_CONTENT_TYPE = T.let(
+          :unsupported_content_type,
+          Anthropic::WebFetchToolResultErrorCode::TaggedSymbol
+        )
+
+      URL_NOT_ACCESSIBLE = T.let(
+          :url_not_accessible,
+          Anthropic::WebFetchToolResultErrorCode::TaggedSymbol
+        )
+
+      URL_NOT_ALLOWED = T.let(
+          :url_not_allowed,
+          Anthropic::WebFetchToolResultErrorCode::TaggedSymbol
+        )
+
+      URL_TOO_LONG = T.let(
+          :url_too_long,
+          Anthropic::WebFetchToolResultErrorCode::TaggedSymbol
+        )
+    end
+
     class WebSearchResultBlock < Anthropic::Internal::Type::BaseModel
       sig { returns(String) }
       attr_accessor :encrypted_content
@@ -26846,6 +32570,16 @@ module Anthropic
     end
 
     class WebSearchTool20250305 < Anthropic::Internal::Type::BaseModel
+      sig do
+        returns(T.nilable(
+            T::Array[Anthropic::WebSearchTool20250305::AllowedCaller::OrSymbol]
+          ))
+      end
+      attr_reader :allowed_callers
+
+      sig { params(allowed_callers: T::Array[Anthropic::WebSearchTool20250305::AllowedCaller::OrSymbol]).void }
+      attr_writer :allowed_callers
+
       # If provided, only these domains will be included in results. Cannot be used
       # alongside `blocked_domains`.
       sig { returns(T.nilable(T::Array[String])) }
@@ -26862,6 +32596,14 @@ module Anthropic
 
       sig { params(cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash)).void }
       attr_writer :cache_control
+
+      # If true, tool will not be included in initial system prompt. Only loaded when
+      # returned via tool_reference from tool search.
+      sig { returns(T.nilable(T::Boolean)) }
+      attr_reader :defer_loading
+
+      sig { params(defer_loading: T::Boolean).void }
+      attr_writer :defer_loading
 
       # Maximum number of times the tool can be used in the API request.
       sig { returns(T.nilable(Integer)) }
@@ -26885,10 +32627,10 @@ module Anthropic
 
       # Parameters for the user's location. Used to provide more relevant search
       # results.
-      sig { returns(T.nilable(Anthropic::WebSearchTool20250305::UserLocation)) }
+      sig { returns(T.nilable(Anthropic::UserLocation)) }
       attr_reader :user_location
 
-      sig { params(user_location: T.nilable(Anthropic::WebSearchTool20250305::UserLocation::OrHash)).void }
+      sig { params(user_location: T.nilable(Anthropic::UserLocation::OrHash)).void }
       attr_writer :user_location
 
       sig do
@@ -26896,13 +32638,17 @@ module Anthropic
           .returns({
             name: Symbol,
             type: Symbol,
+            allowed_callers:
+              T::Array[
+                Anthropic::WebSearchTool20250305::AllowedCaller::OrSymbol
+              ],
             allowed_domains: T.nilable(T::Array[String]),
             blocked_domains: T.nilable(T::Array[String]),
             cache_control: T.nilable(Anthropic::CacheControlEphemeral),
+            defer_loading: T::Boolean,
             max_uses: T.nilable(Integer),
             strict: T::Boolean,
-            user_location:
-              T.nilable(Anthropic::WebSearchTool20250305::UserLocation)
+            user_location: T.nilable(Anthropic::UserLocation)
           })
       end
       def to_hash; end
@@ -26910,22 +32656,27 @@ module Anthropic
       class << self
         sig do
           params(
+            allowed_callers: T::Array[Anthropic::WebSearchTool20250305::AllowedCaller::OrSymbol],
             allowed_domains: T.nilable(T::Array[String]),
             blocked_domains: T.nilable(T::Array[String]),
             cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash),
+            defer_loading: T::Boolean,
             max_uses: T.nilable(Integer),
             strict: T::Boolean,
-            user_location: T.nilable(Anthropic::WebSearchTool20250305::UserLocation::OrHash),
+            user_location: T.nilable(Anthropic::UserLocation::OrHash),
             name: Symbol,
             type: Symbol
           ).returns(T.attached_class)
         end
         def new(
+          allowed_callers: nil,
           allowed_domains: nil, # If provided, only these domains will be included in results. Cannot be used
                                 # alongside `blocked_domains`.
           blocked_domains: nil, # If provided, these domains will never appear in results. Cannot be used
                                 # alongside `allowed_domains`.
           cache_control: nil, # Create a cache control breakpoint at this content block.
+          defer_loading: nil, # If true, tool will not be included in initial system prompt. Only loaded when
+                              # returned via tool_reference from tool search.
           max_uses: nil, # Maximum number of times the tool can be used in the API request.
           strict: nil, # When true, guarantees schema validation on tool names and inputs
           user_location: nil, # Parameters for the user's location. Used to provide more relevant search
@@ -26936,78 +32687,206 @@ module Anthropic
 ); end
       end
 
+      module AllowedCaller
+        extend Anthropic::Internal::Type::Enum
+
+        class << self
+          sig do
+            override
+              .returns(T::Array[
+              Anthropic::WebSearchTool20250305::AllowedCaller::TaggedSymbol
+            ])
+          end
+          def values; end
+        end
+
+        CODE_EXECUTION_20250825 = T.let(
+            :code_execution_20250825,
+            Anthropic::WebSearchTool20250305::AllowedCaller::TaggedSymbol
+          )
+
+        CODE_EXECUTION_20260120 = T.let(
+            :code_execution_20260120,
+            Anthropic::WebSearchTool20250305::AllowedCaller::TaggedSymbol
+          )
+
+        DIRECT = T.let(
+            :direct,
+            Anthropic::WebSearchTool20250305::AllowedCaller::TaggedSymbol
+          )
+
+        OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+        TaggedSymbol = T.type_alias do
+            T.all(Symbol, Anthropic::WebSearchTool20250305::AllowedCaller)
+          end
+      end
+
       OrHash = T.type_alias do
           T.any(Anthropic::WebSearchTool20250305, Anthropic::Internal::AnyHash)
         end
+    end
 
-      class UserLocation < Anthropic::Internal::Type::BaseModel
-        # The city of the user.
-        sig { returns(T.nilable(String)) }
-        attr_accessor :city
+    class WebSearchTool20260209 < Anthropic::Internal::Type::BaseModel
+      sig do
+        returns(T.nilable(
+            T::Array[Anthropic::WebSearchTool20260209::AllowedCaller::OrSymbol]
+          ))
+      end
+      attr_reader :allowed_callers
 
-        # The two letter
-        # [ISO country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) of the
-        # user.
-        sig { returns(T.nilable(String)) }
-        attr_accessor :country
+      sig { params(allowed_callers: T::Array[Anthropic::WebSearchTool20260209::AllowedCaller::OrSymbol]).void }
+      attr_writer :allowed_callers
 
-        # The region of the user.
-        sig { returns(T.nilable(String)) }
-        attr_accessor :region
+      # If provided, only these domains will be included in results. Cannot be used
+      # alongside `blocked_domains`.
+      sig { returns(T.nilable(T::Array[String])) }
+      attr_accessor :allowed_domains
 
-        # The [IANA timezone](https://nodatime.org/TimeZones) of the user.
-        sig { returns(T.nilable(String)) }
-        attr_accessor :timezone
+      # If provided, these domains will never appear in results. Cannot be used
+      # alongside `allowed_domains`.
+      sig { returns(T.nilable(T::Array[String])) }
+      attr_accessor :blocked_domains
 
-        sig { returns(Symbol) }
-        attr_accessor :type
+      # Create a cache control breakpoint at this content block.
+      sig { returns(T.nilable(Anthropic::CacheControlEphemeral)) }
+      attr_reader :cache_control
 
+      sig { params(cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash)).void }
+      attr_writer :cache_control
+
+      # If true, tool will not be included in initial system prompt. Only loaded when
+      # returned via tool_reference from tool search.
+      sig { returns(T.nilable(T::Boolean)) }
+      attr_reader :defer_loading
+
+      sig { params(defer_loading: T::Boolean).void }
+      attr_writer :defer_loading
+
+      # Maximum number of times the tool can be used in the API request.
+      sig { returns(T.nilable(Integer)) }
+      attr_accessor :max_uses
+
+      # Name of the tool.
+      #
+      # This is how the tool will be called by the model and in `tool_use` blocks.
+      sig { returns(Symbol) }
+      attr_accessor :name
+
+      # When true, guarantees schema validation on tool names and inputs
+      sig { returns(T.nilable(T::Boolean)) }
+      attr_reader :strict
+
+      sig { params(strict: T::Boolean).void }
+      attr_writer :strict
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      # Parameters for the user's location. Used to provide more relevant search
+      # results.
+      sig { returns(T.nilable(Anthropic::UserLocation)) }
+      attr_reader :user_location
+
+      sig { params(user_location: T.nilable(Anthropic::UserLocation::OrHash)).void }
+      attr_writer :user_location
+
+      sig do
+        override
+          .returns({
+            name: Symbol,
+            type: Symbol,
+            allowed_callers:
+              T::Array[
+                Anthropic::WebSearchTool20260209::AllowedCaller::OrSymbol
+              ],
+            allowed_domains: T.nilable(T::Array[String]),
+            blocked_domains: T.nilable(T::Array[String]),
+            cache_control: T.nilable(Anthropic::CacheControlEphemeral),
+            defer_loading: T::Boolean,
+            max_uses: T.nilable(Integer),
+            strict: T::Boolean,
+            user_location: T.nilable(Anthropic::UserLocation)
+          })
+      end
+      def to_hash; end
+
+      class << self
         sig do
-          override
-            .returns({
-              type: Symbol,
-              city: T.nilable(String),
-              country: T.nilable(String),
-              region: T.nilable(String),
-              timezone: T.nilable(String)
-            })
+          params(
+            allowed_callers: T::Array[Anthropic::WebSearchTool20260209::AllowedCaller::OrSymbol],
+            allowed_domains: T.nilable(T::Array[String]),
+            blocked_domains: T.nilable(T::Array[String]),
+            cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash),
+            defer_loading: T::Boolean,
+            max_uses: T.nilable(Integer),
+            strict: T::Boolean,
+            user_location: T.nilable(Anthropic::UserLocation::OrHash),
+            name: Symbol,
+            type: Symbol
+          ).returns(T.attached_class)
         end
-        def to_hash; end
+        def new(
+          allowed_callers: nil,
+          allowed_domains: nil, # If provided, only these domains will be included in results. Cannot be used
+                                # alongside `blocked_domains`.
+          blocked_domains: nil, # If provided, these domains will never appear in results. Cannot be used
+                                # alongside `allowed_domains`.
+          cache_control: nil, # Create a cache control breakpoint at this content block.
+          defer_loading: nil, # If true, tool will not be included in initial system prompt. Only loaded when
+                              # returned via tool_reference from tool search.
+          max_uses: nil, # Maximum number of times the tool can be used in the API request.
+          strict: nil, # When true, guarantees schema validation on tool names and inputs
+          user_location: nil, # Parameters for the user's location. Used to provide more relevant search
+                              # results.
+          name: :web_search, # Name of the tool.
+                             # This is how the tool will be called by the model and in `tool_use` blocks.
+          type: :web_search_20260209
+); end
+      end
+
+      module AllowedCaller
+        extend Anthropic::Internal::Type::Enum
 
         class << self
-          # Parameters for the user's location. Used to provide more relevant search
-          # results.
           sig do
-            params(
-              city: T.nilable(String),
-              country: T.nilable(String),
-              region: T.nilable(String),
-              timezone: T.nilable(String),
-              type: Symbol
-            ).returns(T.attached_class)
+            override
+              .returns(T::Array[
+              Anthropic::WebSearchTool20260209::AllowedCaller::TaggedSymbol
+            ])
           end
-          def new(
-            city: nil, # The city of the user.
-            country: nil, # The two letter
-                          # [ISO country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) of the
-                          # user.
-            region: nil, # The region of the user.
-            timezone: nil, # The [IANA timezone](https://nodatime.org/TimeZones) of the user.
-            type: :approximate
-); end
+          def values; end
         end
 
-        OrHash = T.type_alias do
-            T.any(
-              Anthropic::WebSearchTool20250305::UserLocation,
-              Anthropic::Internal::AnyHash
-            )
+        CODE_EXECUTION_20250825 = T.let(
+            :code_execution_20250825,
+            Anthropic::WebSearchTool20260209::AllowedCaller::TaggedSymbol
+          )
+
+        CODE_EXECUTION_20260120 = T.let(
+            :code_execution_20260120,
+            Anthropic::WebSearchTool20260209::AllowedCaller::TaggedSymbol
+          )
+
+        DIRECT = T.let(
+            :direct,
+            Anthropic::WebSearchTool20260209::AllowedCaller::TaggedSymbol
+          )
+
+        OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+        TaggedSymbol = T.type_alias do
+            T.all(Symbol, Anthropic::WebSearchTool20260209::AllowedCaller)
           end
       end
+
+      OrHash = T.type_alias do
+          T.any(Anthropic::WebSearchTool20260209, Anthropic::Internal::AnyHash)
+        end
     end
 
     class WebSearchToolRequestError < Anthropic::Internal::Type::BaseModel
-      sig { returns(Anthropic::WebSearchToolRequestError::ErrorCode::OrSymbol) }
+      sig { returns(Anthropic::WebSearchToolResultErrorCode::OrSymbol) }
       attr_accessor :error_code
 
       sig { returns(Symbol) }
@@ -27016,8 +32895,7 @@ module Anthropic
       sig do
         override
           .returns({
-            error_code:
-              Anthropic::WebSearchToolRequestError::ErrorCode::OrSymbol,
+            error_code: Anthropic::WebSearchToolResultErrorCode::OrSymbol,
             type: Symbol
           })
       end
@@ -27026,61 +32904,11 @@ module Anthropic
       class << self
         sig do
           params(
-            error_code: Anthropic::WebSearchToolRequestError::ErrorCode::OrSymbol,
+            error_code: Anthropic::WebSearchToolResultErrorCode::OrSymbol,
             type: Symbol
           ).returns(T.attached_class)
         end
         def new(error_code:, type: :web_search_tool_result_error); end
-      end
-
-      module ErrorCode
-        extend Anthropic::Internal::Type::Enum
-
-        class << self
-          sig do
-            override
-              .returns(T::Array[
-              Anthropic::WebSearchToolRequestError::ErrorCode::TaggedSymbol
-            ])
-          end
-          def values; end
-        end
-
-        INVALID_TOOL_INPUT = T.let(
-            :invalid_tool_input,
-            Anthropic::WebSearchToolRequestError::ErrorCode::TaggedSymbol
-          )
-
-        MAX_USES_EXCEEDED = T.let(
-            :max_uses_exceeded,
-            Anthropic::WebSearchToolRequestError::ErrorCode::TaggedSymbol
-          )
-
-        OrSymbol = T.type_alias { T.any(Symbol, String) }
-
-        QUERY_TOO_LONG = T.let(
-            :query_too_long,
-            Anthropic::WebSearchToolRequestError::ErrorCode::TaggedSymbol
-          )
-
-        REQUEST_TOO_LARGE = T.let(
-            :request_too_large,
-            Anthropic::WebSearchToolRequestError::ErrorCode::TaggedSymbol
-          )
-
-        TOO_MANY_REQUESTS = T.let(
-            :too_many_requests,
-            Anthropic::WebSearchToolRequestError::ErrorCode::TaggedSymbol
-          )
-
-        TaggedSymbol = T.type_alias do
-            T.all(Symbol, Anthropic::WebSearchToolRequestError::ErrorCode)
-          end
-
-        UNAVAILABLE = T.let(
-            :unavailable,
-            Anthropic::WebSearchToolRequestError::ErrorCode::TaggedSymbol
-          )
       end
 
       OrHash = T.type_alias do
@@ -27092,6 +32920,10 @@ module Anthropic
     end
 
     class WebSearchToolResultBlock < Anthropic::Internal::Type::BaseModel
+      # Tool invocation directly from the model.
+      sig { returns(Anthropic::WebSearchToolResultBlock::Caller::Variants) }
+      attr_accessor :caller_
+
       sig { returns(Anthropic::WebSearchToolResultBlockContent::Variants) }
       attr_accessor :content
 
@@ -27104,6 +32936,7 @@ module Anthropic
       sig do
         override
           .returns({
+            caller_: Anthropic::WebSearchToolResultBlock::Caller::Variants,
             content: Anthropic::WebSearchToolResultBlockContent::Variants,
             tool_use_id: String,
             type: Symbol
@@ -27114,6 +32947,11 @@ module Anthropic
       class << self
         sig do
           params(
+            caller_: T.any(
+              Anthropic::DirectCaller::OrHash,
+              Anthropic::ServerToolCaller::OrHash,
+              Anthropic::ServerToolCaller20260120::OrHash
+            ),
             content: T.any(
               Anthropic::WebSearchToolResultError::OrHash,
               T::Array[Anthropic::WebSearchResultBlock::OrHash]
@@ -27122,7 +32960,30 @@ module Anthropic
             type: Symbol
           ).returns(T.attached_class)
         end
-        def new(content:, tool_use_id:, type: :web_search_tool_result); end
+        def new(
+          caller_:, # Tool invocation directly from the model.
+          content:,
+          tool_use_id:,
+          type: :web_search_tool_result
+); end
+      end
+
+      # Tool invocation directly from the model.
+      module Caller
+        extend Anthropic::Internal::Type::Union
+
+        class << self
+          sig { override.returns(T::Array[Anthropic::WebSearchToolResultBlock::Caller::Variants]) }
+          def variants; end
+        end
+
+        Variants = T.type_alias do
+            T.any(
+              Anthropic::DirectCaller,
+              Anthropic::ServerToolCaller,
+              Anthropic::ServerToolCaller20260120
+            )
+          end
       end
 
       OrHash = T.type_alias do
@@ -27162,6 +33023,29 @@ module Anthropic
       sig { params(cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash)).void }
       attr_writer :cache_control
 
+      # Tool invocation directly from the model.
+      sig do
+        returns(T.nilable(
+            T.any(
+              Anthropic::DirectCaller,
+              Anthropic::ServerToolCaller,
+              Anthropic::ServerToolCaller20260120
+            )
+          ))
+      end
+      attr_reader :caller_
+
+      sig do
+        params(
+          caller_: T.any(
+              Anthropic::DirectCaller::OrHash,
+              Anthropic::ServerToolCaller::OrHash,
+              Anthropic::ServerToolCaller20260120::OrHash
+            )
+        ).void
+      end
+      attr_writer :caller_
+
       sig do
         returns(T.any(
             T::Array[Anthropic::WebSearchResultBlockParam],
@@ -27186,7 +33070,13 @@ module Anthropic
               ),
             tool_use_id: String,
             type: Symbol,
-            cache_control: T.nilable(Anthropic::CacheControlEphemeral)
+            cache_control: T.nilable(Anthropic::CacheControlEphemeral),
+            caller_:
+              T.any(
+                Anthropic::DirectCaller,
+                Anthropic::ServerToolCaller,
+                Anthropic::ServerToolCaller20260120
+              )
           })
       end
       def to_hash; end
@@ -27200,6 +33090,11 @@ module Anthropic
             ),
             tool_use_id: String,
             cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash),
+            caller_: T.any(
+              Anthropic::DirectCaller::OrHash,
+              Anthropic::ServerToolCaller::OrHash,
+              Anthropic::ServerToolCaller20260120::OrHash
+            ),
             type: Symbol
           ).returns(T.attached_class)
         end
@@ -27207,8 +33102,27 @@ module Anthropic
           content:,
           tool_use_id:,
           cache_control: nil, # Create a cache control breakpoint at this content block.
+          caller_: nil, # Tool invocation directly from the model.
           type: :web_search_tool_result
 ); end
+      end
+
+      # Tool invocation directly from the model.
+      module Caller
+        extend Anthropic::Internal::Type::Union
+
+        class << self
+          sig { override.returns(T::Array[Anthropic::WebSearchToolResultBlockParam::Caller::Variants]) }
+          def variants; end
+        end
+
+        Variants = T.type_alias do
+            T.any(
+              Anthropic::DirectCaller,
+              Anthropic::ServerToolCaller,
+              Anthropic::ServerToolCaller20260120
+            )
+          end
       end
 
       OrHash = T.type_alias do
@@ -27243,7 +33157,7 @@ module Anthropic
     end
 
     class WebSearchToolResultError < Anthropic::Internal::Type::BaseModel
-      sig { returns(Anthropic::WebSearchToolResultError::ErrorCode::TaggedSymbol) }
+      sig { returns(Anthropic::WebSearchToolResultErrorCode::TaggedSymbol) }
       attr_accessor :error_code
 
       sig { returns(Symbol) }
@@ -27252,8 +33166,7 @@ module Anthropic
       sig do
         override
           .returns({
-            error_code:
-              Anthropic::WebSearchToolResultError::ErrorCode::TaggedSymbol,
+            error_code: Anthropic::WebSearchToolResultErrorCode::TaggedSymbol,
             type: Symbol
           })
       end
@@ -27262,61 +33175,11 @@ module Anthropic
       class << self
         sig do
           params(
-            error_code: Anthropic::WebSearchToolResultError::ErrorCode::OrSymbol,
+            error_code: Anthropic::WebSearchToolResultErrorCode::OrSymbol,
             type: Symbol
           ).returns(T.attached_class)
         end
         def new(error_code:, type: :web_search_tool_result_error); end
-      end
-
-      module ErrorCode
-        extend Anthropic::Internal::Type::Enum
-
-        class << self
-          sig do
-            override
-              .returns(T::Array[
-              Anthropic::WebSearchToolResultError::ErrorCode::TaggedSymbol
-            ])
-          end
-          def values; end
-        end
-
-        INVALID_TOOL_INPUT = T.let(
-            :invalid_tool_input,
-            Anthropic::WebSearchToolResultError::ErrorCode::TaggedSymbol
-          )
-
-        MAX_USES_EXCEEDED = T.let(
-            :max_uses_exceeded,
-            Anthropic::WebSearchToolResultError::ErrorCode::TaggedSymbol
-          )
-
-        OrSymbol = T.type_alias { T.any(Symbol, String) }
-
-        QUERY_TOO_LONG = T.let(
-            :query_too_long,
-            Anthropic::WebSearchToolResultError::ErrorCode::TaggedSymbol
-          )
-
-        REQUEST_TOO_LARGE = T.let(
-            :request_too_large,
-            Anthropic::WebSearchToolResultError::ErrorCode::TaggedSymbol
-          )
-
-        TOO_MANY_REQUESTS = T.let(
-            :too_many_requests,
-            Anthropic::WebSearchToolResultError::ErrorCode::TaggedSymbol
-          )
-
-        TaggedSymbol = T.type_alias do
-            T.all(Symbol, Anthropic::WebSearchToolResultError::ErrorCode)
-          end
-
-        UNAVAILABLE = T.let(
-            :unavailable,
-            Anthropic::WebSearchToolResultError::ErrorCode::TaggedSymbol
-          )
       end
 
       OrHash = T.type_alias do
@@ -27325,6 +33188,49 @@ module Anthropic
             Anthropic::Internal::AnyHash
           )
         end
+    end
+
+    module WebSearchToolResultErrorCode
+      extend Anthropic::Internal::Type::Enum
+
+      class << self
+        sig { override.returns(T::Array[Anthropic::WebSearchToolResultErrorCode::TaggedSymbol]) }
+        def values; end
+      end
+
+      INVALID_TOOL_INPUT = T.let(
+          :invalid_tool_input,
+          Anthropic::WebSearchToolResultErrorCode::TaggedSymbol
+        )
+
+      MAX_USES_EXCEEDED = T.let(
+          :max_uses_exceeded,
+          Anthropic::WebSearchToolResultErrorCode::TaggedSymbol
+        )
+
+      OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+      QUERY_TOO_LONG = T.let(
+          :query_too_long,
+          Anthropic::WebSearchToolResultErrorCode::TaggedSymbol
+        )
+
+      REQUEST_TOO_LARGE = T.let(
+          :request_too_large,
+          Anthropic::WebSearchToolResultErrorCode::TaggedSymbol
+        )
+
+      TOO_MANY_REQUESTS = T.let(
+          :too_many_requests,
+          Anthropic::WebSearchToolResultErrorCode::TaggedSymbol
+        )
+
+      TaggedSymbol = T.type_alias { T.all(Symbol, Anthropic::WebSearchToolResultErrorCode) }
+
+      UNAVAILABLE = T.let(
+          :unavailable,
+          Anthropic::WebSearchToolResultErrorCode::TaggedSymbol
+        )
     end
   end
 
@@ -27542,6 +33448,7 @@ module Anthropic
                   Anthropic::Beta::BetaToolBash20250124::OrHash,
                   Anthropic::Beta::BetaCodeExecutionTool20250522::OrHash,
                   Anthropic::Beta::BetaCodeExecutionTool20250825::OrHash,
+                  Anthropic::Beta::BetaCodeExecutionTool20260120::OrHash,
                   Anthropic::Beta::BetaToolComputerUse20241022::OrHash,
                   Anthropic::Beta::BetaMemoryTool20250818::OrHash,
                   Anthropic::Beta::BetaToolComputerUse20250124::OrHash,
@@ -27552,6 +33459,8 @@ module Anthropic
                   Anthropic::Beta::BetaToolTextEditor20250728::OrHash,
                   Anthropic::Beta::BetaWebSearchTool20250305::OrHash,
                   Anthropic::Beta::BetaWebFetchTool20250910::OrHash,
+                  Anthropic::Beta::BetaWebSearchTool20260209::OrHash,
+                  Anthropic::Beta::BetaWebFetchTool20260209::OrHash,
                   Anthropic::Beta::BetaToolSearchToolBm25_20251119::OrHash,
                   Anthropic::Beta::BetaToolSearchToolRegex20251119::OrHash,
                   Anthropic::Beta::BetaMCPToolset::OrHash
@@ -27756,6 +33665,7 @@ module Anthropic
                   Anthropic::Beta::BetaToolBash20250124::OrHash,
                   Anthropic::Beta::BetaCodeExecutionTool20250522::OrHash,
                   Anthropic::Beta::BetaCodeExecutionTool20250825::OrHash,
+                  Anthropic::Beta::BetaCodeExecutionTool20260120::OrHash,
                   Anthropic::Beta::BetaToolComputerUse20241022::OrHash,
                   Anthropic::Beta::BetaMemoryTool20250818::OrHash,
                   Anthropic::Beta::BetaToolComputerUse20250124::OrHash,
@@ -27766,6 +33676,8 @@ module Anthropic
                   Anthropic::Beta::BetaToolTextEditor20250728::OrHash,
                   Anthropic::Beta::BetaWebSearchTool20250305::OrHash,
                   Anthropic::Beta::BetaWebFetchTool20250910::OrHash,
+                  Anthropic::Beta::BetaWebSearchTool20260209::OrHash,
+                  Anthropic::Beta::BetaWebFetchTool20260209::OrHash,
                   Anthropic::Beta::BetaToolSearchToolBm25_20251119::OrHash,
                   Anthropic::Beta::BetaToolSearchToolRegex20251119::OrHash,
                   Anthropic::Beta::BetaMCPToolset::OrHash
@@ -28013,6 +33925,7 @@ module Anthropic
                   Anthropic::Beta::BetaToolBash20250124::OrHash,
                   Anthropic::Beta::BetaCodeExecutionTool20250522::OrHash,
                   Anthropic::Beta::BetaCodeExecutionTool20250825::OrHash,
+                  Anthropic::Beta::BetaCodeExecutionTool20260120::OrHash,
                   Anthropic::Beta::BetaToolComputerUse20241022::OrHash,
                   Anthropic::Beta::BetaMemoryTool20250818::OrHash,
                   Anthropic::Beta::BetaToolComputerUse20250124::OrHash,
@@ -28023,6 +33936,8 @@ module Anthropic
                   Anthropic::Beta::BetaToolTextEditor20250728::OrHash,
                   Anthropic::Beta::BetaWebSearchTool20250305::OrHash,
                   Anthropic::Beta::BetaWebFetchTool20250910::OrHash,
+                  Anthropic::Beta::BetaWebSearchTool20260209::OrHash,
+                  Anthropic::Beta::BetaWebFetchTool20260209::OrHash,
                   Anthropic::Beta::BetaToolSearchToolBm25_20251119::OrHash,
                   Anthropic::Beta::BetaToolSearchToolRegex20251119::OrHash,
                   Anthropic::Beta::BetaMCPToolset::OrHash
@@ -29009,10 +34924,19 @@ module Anthropic
               T.any(
                 Anthropic::Tool::OrHash,
                 Anthropic::ToolBash20250124::OrHash,
+                Anthropic::CodeExecutionTool20250522::OrHash,
+                Anthropic::CodeExecutionTool20250825::OrHash,
+                Anthropic::CodeExecutionTool20260120::OrHash,
+                Anthropic::MemoryTool20250818::OrHash,
                 Anthropic::ToolTextEditor20250124::OrHash,
                 Anthropic::ToolTextEditor20250429::OrHash,
                 Anthropic::ToolTextEditor20250728::OrHash,
-                Anthropic::WebSearchTool20250305::OrHash
+                Anthropic::WebSearchTool20250305::OrHash,
+                Anthropic::WebFetchTool20250910::OrHash,
+                Anthropic::WebSearchTool20260209::OrHash,
+                Anthropic::WebFetchTool20260209::OrHash,
+                Anthropic::ToolSearchToolBm25_20251119::OrHash,
+                Anthropic::ToolSearchToolRegex20251119::OrHash
               )
             ],
           request_options: Anthropic::RequestOptions::OrHash
@@ -29167,6 +35091,7 @@ module Anthropic
           max_tokens: Integer,
           messages: T::Array[Anthropic::MessageParam::OrHash],
           model: T.any(Anthropic::Model::OrSymbol, String),
+          container: T.nilable(String),
           inference_geo: T.nilable(String),
           metadata: Anthropic::Metadata::OrHash,
           output_config: Anthropic::OutputConfig::OrHash,
@@ -29189,10 +35114,19 @@ module Anthropic
               T.any(
                 Anthropic::Tool::OrHash,
                 Anthropic::ToolBash20250124::OrHash,
+                Anthropic::CodeExecutionTool20250522::OrHash,
+                Anthropic::CodeExecutionTool20250825::OrHash,
+                Anthropic::CodeExecutionTool20260120::OrHash,
+                Anthropic::MemoryTool20250818::OrHash,
                 Anthropic::ToolTextEditor20250124::OrHash,
                 Anthropic::ToolTextEditor20250429::OrHash,
                 Anthropic::ToolTextEditor20250728::OrHash,
-                Anthropic::WebSearchTool20250305::OrHash
+                Anthropic::WebSearchTool20250305::OrHash,
+                Anthropic::WebFetchTool20250910::OrHash,
+                Anthropic::WebSearchTool20260209::OrHash,
+                Anthropic::WebFetchTool20260209::OrHash,
+                Anthropic::ToolSearchToolBm25_20251119::OrHash,
+                Anthropic::ToolSearchToolRegex20251119::OrHash
               )
             ],
           top_k: Integer,
@@ -29260,6 +35194,7 @@ module Anthropic
         model:, # The model that will complete your prompt.\n\nSee
                 # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
                 # details and options.
+        container: nil, # Container identifier for reuse across requests.
         inference_geo: nil, # Specifies the geographic region for inference processing. If not specified, the
                             # workspace's `default_inference_geo` is used.
         metadata: nil, # An object describing metadata about the request.
@@ -29619,6 +35554,7 @@ module Anthropic
           max_tokens: Integer,
           messages: T::Array[Anthropic::MessageParam::OrHash],
           model: T.any(Anthropic::Model::OrSymbol, String),
+          container: T.nilable(String),
           inference_geo: T.nilable(String),
           metadata: Anthropic::Metadata::OrHash,
           output_config: Anthropic::OutputConfig::OrHash,
@@ -29641,10 +35577,19 @@ module Anthropic
               T.any(
                 Anthropic::Tool::OrHash,
                 Anthropic::ToolBash20250124::OrHash,
+                Anthropic::CodeExecutionTool20250522::OrHash,
+                Anthropic::CodeExecutionTool20250825::OrHash,
+                Anthropic::CodeExecutionTool20260120::OrHash,
+                Anthropic::MemoryTool20250818::OrHash,
                 Anthropic::ToolTextEditor20250124::OrHash,
                 Anthropic::ToolTextEditor20250429::OrHash,
                 Anthropic::ToolTextEditor20250728::OrHash,
-                Anthropic::WebSearchTool20250305::OrHash
+                Anthropic::WebSearchTool20250305::OrHash,
+                Anthropic::WebFetchTool20250910::OrHash,
+                Anthropic::WebSearchTool20260209::OrHash,
+                Anthropic::WebFetchTool20260209::OrHash,
+                Anthropic::ToolSearchToolBm25_20251119::OrHash,
+                Anthropic::ToolSearchToolRegex20251119::OrHash
               )
             ],
           top_k: Integer,
@@ -29714,6 +35659,7 @@ module Anthropic
         model:, # The model that will complete your prompt.\n\nSee
                 # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
                 # details and options.
+        container: nil, # Container identifier for reuse across requests.
         inference_geo: nil, # Specifies the geographic region for inference processing. If not specified, the
                             # workspace's `default_inference_geo` is used.
         metadata: nil, # An object describing metadata about the request.
@@ -30016,6 +35962,8 @@ module Anthropic
   end
 
   SearchResultBlockParam = Anthropic::Models::SearchResultBlockParam
+  ServerToolCaller = Anthropic::Models::ServerToolCaller
+  ServerToolCaller20260120 = Anthropic::Models::ServerToolCaller20260120
   ServerToolUsage = Anthropic::Models::ServerToolUsage
   ServerToolUseBlock = Anthropic::Models::ServerToolUseBlock
   ServerToolUseBlockParam = Anthropic::Models::ServerToolUseBlockParam
@@ -30027,6 +35975,29 @@ module Anthropic
   TextCitation = Anthropic::Models::TextCitation
   TextCitationParam = Anthropic::Models::TextCitationParam
   TextDelta = Anthropic::Models::TextDelta
+
+  TextEditorCodeExecutionCreateResultBlock = Anthropic::Models::TextEditorCodeExecutionCreateResultBlock
+
+  TextEditorCodeExecutionCreateResultBlockParam = Anthropic::Models::TextEditorCodeExecutionCreateResultBlockParam
+
+  TextEditorCodeExecutionStrReplaceResultBlock = Anthropic::Models::TextEditorCodeExecutionStrReplaceResultBlock
+
+  TextEditorCodeExecutionStrReplaceResultBlockParam = Anthropic::Models::TextEditorCodeExecutionStrReplaceResultBlockParam
+
+  TextEditorCodeExecutionToolResultBlock = Anthropic::Models::TextEditorCodeExecutionToolResultBlock
+
+  TextEditorCodeExecutionToolResultBlockParam = Anthropic::Models::TextEditorCodeExecutionToolResultBlockParam
+
+  TextEditorCodeExecutionToolResultError = Anthropic::Models::TextEditorCodeExecutionToolResultError
+
+  TextEditorCodeExecutionToolResultErrorCode = Anthropic::Models::TextEditorCodeExecutionToolResultErrorCode
+
+  TextEditorCodeExecutionToolResultErrorParam = Anthropic::Models::TextEditorCodeExecutionToolResultErrorParam
+
+  TextEditorCodeExecutionViewResultBlock = Anthropic::Models::TextEditorCodeExecutionViewResultBlock
+
+  TextEditorCodeExecutionViewResultBlockParam = Anthropic::Models::TextEditorCodeExecutionViewResultBlockParam
+
   ThinkingBlock = Anthropic::Models::ThinkingBlock
   ThinkingBlockParam = Anthropic::Models::ThinkingBlockParam
   ThinkingConfigAdaptive = Anthropic::Models::ThinkingConfigAdaptive
@@ -30041,7 +36012,25 @@ module Anthropic
   ToolChoiceAuto = Anthropic::Models::ToolChoiceAuto
   ToolChoiceNone = Anthropic::Models::ToolChoiceNone
   ToolChoiceTool = Anthropic::Models::ToolChoiceTool
+  ToolReferenceBlock = Anthropic::Models::ToolReferenceBlock
+  ToolReferenceBlockParam = Anthropic::Models::ToolReferenceBlockParam
   ToolResultBlockParam = Anthropic::Models::ToolResultBlockParam
+  ToolSearchToolBm25_20251119 = Anthropic::Models::ToolSearchToolBm25_20251119
+  ToolSearchToolRegex20251119 = Anthropic::Models::ToolSearchToolRegex20251119
+  ToolSearchToolResultBlock = Anthropic::Models::ToolSearchToolResultBlock
+
+  ToolSearchToolResultBlockParam = Anthropic::Models::ToolSearchToolResultBlockParam
+
+  ToolSearchToolResultError = Anthropic::Models::ToolSearchToolResultError
+
+  ToolSearchToolResultErrorCode = Anthropic::Models::ToolSearchToolResultErrorCode
+
+  ToolSearchToolResultErrorParam = Anthropic::Models::ToolSearchToolResultErrorParam
+
+  ToolSearchToolSearchResultBlock = Anthropic::Models::ToolSearchToolSearchResultBlock
+
+  ToolSearchToolSearchResultBlockParam = Anthropic::Models::ToolSearchToolSearchResultBlockParam
+
   ToolTextEditor20250124 = Anthropic::Models::ToolTextEditor20250124
   ToolTextEditor20250429 = Anthropic::Models::ToolTextEditor20250429
   ToolTextEditor20250728 = Anthropic::Models::ToolTextEditor20250728
@@ -30052,11 +36041,24 @@ module Anthropic
   URLPDFSource = Anthropic::Models::URLPDFSource
   UnionOf = Anthropic::Helpers::InputSchema::UnionOf
   Usage = Anthropic::Models::Usage
+  UserLocation = Anthropic::Models::UserLocation
   VERSION = T.let(T.unsafe(nil), String)
   VertexClient = Anthropic::Helpers::Vertex::Client
+  WebFetchBlock = Anthropic::Models::WebFetchBlock
+  WebFetchBlockParam = Anthropic::Models::WebFetchBlockParam
+  WebFetchTool20250910 = Anthropic::Models::WebFetchTool20250910
+  WebFetchTool20260209 = Anthropic::Models::WebFetchTool20260209
+  WebFetchToolResultBlock = Anthropic::Models::WebFetchToolResultBlock
+  WebFetchToolResultBlockParam = Anthropic::Models::WebFetchToolResultBlockParam
+  WebFetchToolResultErrorBlock = Anthropic::Models::WebFetchToolResultErrorBlock
+
+  WebFetchToolResultErrorBlockParam = Anthropic::Models::WebFetchToolResultErrorBlockParam
+
+  WebFetchToolResultErrorCode = Anthropic::Models::WebFetchToolResultErrorCode
   WebSearchResultBlock = Anthropic::Models::WebSearchResultBlock
   WebSearchResultBlockParam = Anthropic::Models::WebSearchResultBlockParam
   WebSearchTool20250305 = Anthropic::Models::WebSearchTool20250305
+  WebSearchTool20260209 = Anthropic::Models::WebSearchTool20260209
   WebSearchToolRequestError = Anthropic::Models::WebSearchToolRequestError
   WebSearchToolResultBlock = Anthropic::Models::WebSearchToolResultBlock
 
@@ -30067,4 +36069,5 @@ module Anthropic
   WebSearchToolResultBlockParamContent = Anthropic::Models::WebSearchToolResultBlockParamContent
 
   WebSearchToolResultError = Anthropic::Models::WebSearchToolResultError
+  WebSearchToolResultErrorCode = Anthropic::Models::WebSearchToolResultErrorCode
 end

@@ -11,7 +11,7 @@
         %i.fa.fa-rocket
         Your Status
       .card-body
-        - if na_system?
+        - if au_system?
           - if @is_member
             .alert.alert-success
               %strong
@@ -40,10 +40,10 @@
           .alert.alert-warning
             %strong
               %i.fa.fa-exclamation-triangle
-              Team Comtress servers are only available in North America.
+              Team Comtress servers are only available in Australia.
           %p
             To access Team Comtress servers, visit
-            = link_to "na.serveme.tf/comtress", "https://na.serveme.tf/comtress", class: "alert-link"
+            = link_to "au.serveme.tf/comtress", "https://au.serveme.tf/comtress", class: "alert-link"
             and opt in there.
 
     .card.bg-faded.mb-3

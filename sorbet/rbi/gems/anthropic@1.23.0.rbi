@@ -16410,6 +16410,14 @@ module Anthropic
         sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
         attr_writer :betas
 
+        # Top-level cache control automatically applies a cache_control marker to the last
+        # cacheable block in the request.
+        sig { returns(T.nilable(Anthropic::Beta::BetaCacheControlEphemeral)) }
+        attr_reader :cache_control
+
+        sig { params(cache_control: T.nilable(Anthropic::Beta::BetaCacheControlEphemeral::OrHash)).void }
+        attr_writer :cache_control
+
         # Context management configuration.
         #
         # This allows you to control how Claude manages context across multiple requests,
@@ -16752,6 +16760,8 @@ module Anthropic
             .returns({
               messages: T::Array[Anthropic::Beta::BetaMessageParam],
               model: T.any(Anthropic::Model::OrSymbol, String),
+              cache_control:
+                T.nilable(Anthropic::Beta::BetaCacheControlEphemeral),
               context_management:
                 T.nilable(Anthropic::Beta::BetaContextManagementConfig),
               mcp_servers:
@@ -16815,6 +16825,7 @@ module Anthropic
             params(
               messages: T::Array[Anthropic::Beta::BetaMessageParam::OrHash],
               model: T.any(Anthropic::Model::OrSymbol, String),
+              cache_control: T.nilable(Anthropic::Beta::BetaCacheControlEphemeral::OrHash),
               context_management: T.nilable(Anthropic::Beta::BetaContextManagementConfig::OrHash),
               mcp_servers: T::Array[
                 Anthropic::Beta::BetaRequestMCPServerURLDefinition::OrHash
@@ -16919,6 +16930,8 @@ module Anthropic
             model:, # The model that will complete your prompt.\n\nSee
                     # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
                     # details and options.
+            cache_control: nil, # Top-level cache control automatically applies a cache_control marker to the last
+                                # cacheable block in the request.
             context_management: nil, # Context management configuration.
                                      # This allows you to control how Claude manages context across multiple requests,
                                      # such as whether to clear function results or not.
@@ -17137,6 +17150,14 @@ module Anthropic
 
         sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
         attr_writer :betas
+
+        # Top-level cache control automatically applies a cache_control marker to the last
+        # cacheable block in the request.
+        sig { returns(T.nilable(Anthropic::Beta::BetaCacheControlEphemeral)) }
+        attr_reader :cache_control
+
+        sig { params(cache_control: T.nilable(Anthropic::Beta::BetaCacheControlEphemeral::OrHash)).void }
+        attr_writer :cache_control
 
         # Container identifier for reuse across requests.
         sig { returns(T.nilable(T.any(Anthropic::Beta::BetaContainerParams, String))) }
@@ -17571,6 +17592,8 @@ module Anthropic
               max_tokens: Integer,
               messages: T::Array[Anthropic::Beta::BetaMessageParam],
               model: T.any(Anthropic::Model::OrSymbol, String),
+              cache_control:
+                T.nilable(Anthropic::Beta::BetaCacheControlEphemeral),
               container:
                 T.nilable(T.any(Anthropic::Beta::BetaContainerParams, String)),
               context_management:
@@ -17644,6 +17667,7 @@ module Anthropic
               max_tokens: Integer,
               messages: T::Array[Anthropic::Beta::BetaMessageParam::OrHash],
               model: T.any(Anthropic::Model::OrSymbol, String),
+              cache_control: T.nilable(Anthropic::Beta::BetaCacheControlEphemeral::OrHash),
               container: T.nilable(
                 T.any(Anthropic::Beta::BetaContainerParams::OrHash, String)
               ),
@@ -17761,6 +17785,8 @@ module Anthropic
             model:, # The model that will complete your prompt.\n\nSee
                     # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
                     # details and options.
+            cache_control: nil, # Top-level cache control automatically applies a cache_control marker to the last
+                                # cacheable block in the request.
             container: nil, # Container identifier for reuse across requests.
             context_management: nil, # Context management configuration.
                                      # This allows you to control how Claude manages context across multiple requests,
@@ -18162,6 +18188,20 @@ module Anthropic
               end
 
             class Params < Anthropic::Internal::Type::BaseModel
+              # Top-level cache control automatically applies a cache_control marker to the last
+              # cacheable block in the request.
+              sig { returns(T.nilable(Anthropic::Beta::BetaCacheControlEphemeral)) }
+              attr_reader :cache_control
+
+              sig do
+                params(
+                  cache_control: T.nilable(
+                      Anthropic::Beta::BetaCacheControlEphemeral::OrHash
+                    )
+                ).void
+              end
+              attr_writer :cache_control
+
               # Container identifier for reuse across requests.
               sig { returns(T.nilable(T.any(Anthropic::Beta::BetaContainerParams, String))) }
               attr_accessor :container
@@ -18626,6 +18666,8 @@ module Anthropic
                     max_tokens: Integer,
                     messages: T::Array[Anthropic::Beta::BetaMessageParam],
                     model: T.any(Anthropic::Model::OrSymbol, String),
+                    cache_control:
+                      T.nilable(Anthropic::Beta::BetaCacheControlEphemeral),
                     container:
                       T.nilable(
                         T.any(Anthropic::Beta::BetaContainerParams, String)
@@ -18707,6 +18749,9 @@ module Anthropic
                     max_tokens: Integer,
                     messages: T::Array[Anthropic::Beta::BetaMessageParam::OrHash],
                     model: T.any(Anthropic::Model::OrSymbol, String),
+                    cache_control: T.nilable(
+                      Anthropic::Beta::BetaCacheControlEphemeral::OrHash
+                    ),
                     container: T.nilable(
                       T.any(
                         Anthropic::Beta::BetaContainerParams::OrHash,
@@ -18830,6 +18875,8 @@ module Anthropic
                   model:, # The model that will complete your prompt.\n\nSee
                           # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
                           # details and options.
+                  cache_control: nil, # Top-level cache control automatically applies a cache_control marker to the last
+                                      # cacheable block in the request.
                   container: nil, # Container identifier for reuse across requests.
                   context_management: nil, # Context management configuration.
                                            # This allows you to control how Claude manages context across multiple requests,
@@ -24476,6 +24523,14 @@ module Anthropic
       extend Anthropic::Internal::Type::RequestParameters::Converter
       include Anthropic::Internal::Type::RequestParameters
 
+      # Top-level cache control automatically applies a cache_control marker to the last
+      # cacheable block in the request.
+      sig { returns(T.nilable(Anthropic::CacheControlEphemeral)) }
+      attr_reader :cache_control
+
+      sig { params(cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash)).void }
+      attr_writer :cache_control
+
       # Input messages.
       #
       # Our models are trained to operate on alternating `user` and `assistant`
@@ -24755,6 +24810,7 @@ module Anthropic
           .returns({
             messages: T::Array[Anthropic::MessageParam],
             model: T.any(Anthropic::Model::OrSymbol, String),
+            cache_control: T.nilable(Anthropic::CacheControlEphemeral),
             output_config: Anthropic::OutputConfig,
             system_: Anthropic::MessageCountTokensParams::System::Variants,
             thinking:
@@ -24800,6 +24856,7 @@ module Anthropic
           params(
             messages: T::Array[Anthropic::MessageParam::OrHash],
             model: T.any(Anthropic::Model::OrSymbol, String),
+            cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash),
             output_config: Anthropic::OutputConfig::OrHash,
             system_: Anthropic::MessageCountTokensParams::System::Variants,
             thinking: T.any(
@@ -24889,6 +24946,8 @@ module Anthropic
           model:, # The model that will complete your prompt.\n\nSee
                   # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
                   # details and options.
+          cache_control: nil, # Top-level cache control automatically applies a cache_control marker to the last
+                              # cacheable block in the request.
           output_config: nil, # Configuration options for the model's output, such as the output format.
           system_: nil, # System prompt.
                         # A system prompt is a way of providing context and instructions to Claude, such
@@ -25033,6 +25092,14 @@ module Anthropic
     class MessageCreateParams < Anthropic::Internal::Type::BaseModel
       extend Anthropic::Internal::Type::RequestParameters::Converter
       include Anthropic::Internal::Type::RequestParameters
+
+      # Top-level cache control automatically applies a cache_control marker to the last
+      # cacheable block in the request.
+      sig { returns(T.nilable(Anthropic::CacheControlEphemeral)) }
+      attr_reader :cache_control
+
+      sig { params(cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash)).void }
+      attr_writer :cache_control
 
       # Container identifier for reuse across requests.
       sig { returns(T.nilable(String)) }
@@ -25408,6 +25475,7 @@ module Anthropic
             max_tokens: Integer,
             messages: T::Array[Anthropic::MessageParam],
             model: T.any(Anthropic::Model::OrSymbol, String),
+            cache_control: T.nilable(Anthropic::CacheControlEphemeral),
             container: T.nilable(String),
             inference_geo: T.nilable(String),
             metadata: Anthropic::Metadata,
@@ -25462,6 +25530,7 @@ module Anthropic
             max_tokens: Integer,
             messages: T::Array[Anthropic::MessageParam::OrHash],
             model: T.any(Anthropic::Model::OrSymbol, String),
+            cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash),
             container: T.nilable(String),
             inference_geo: T.nilable(String),
             metadata: Anthropic::Metadata::OrHash,
@@ -25564,6 +25633,8 @@ module Anthropic
           model:, # The model that will complete your prompt.\n\nSee
                   # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
                   # details and options.
+          cache_control: nil, # Top-level cache control automatically applies a cache_control marker to the last
+                              # cacheable block in the request.
           container: nil, # Container identifier for reuse across requests.
           inference_geo: nil, # Specifies the geographic region for inference processing. If not specified, the
                               # workspace's `default_inference_geo` is used.
@@ -25997,6 +26068,14 @@ module Anthropic
             end
 
           class Params < Anthropic::Internal::Type::BaseModel
+            # Top-level cache control automatically applies a cache_control marker to the last
+            # cacheable block in the request.
+            sig { returns(T.nilable(Anthropic::CacheControlEphemeral)) }
+            attr_reader :cache_control
+
+            sig { params(cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash)).void }
+            attr_writer :cache_control
+
             # Container identifier for reuse across requests.
             sig { returns(T.nilable(String)) }
             attr_accessor :container
@@ -26392,6 +26471,7 @@ module Anthropic
                   max_tokens: Integer,
                   messages: T::Array[Anthropic::MessageParam],
                   model: T.any(Anthropic::Model::OrSymbol, String),
+                  cache_control: T.nilable(Anthropic::CacheControlEphemeral),
                   container: T.nilable(String),
                   inference_geo: T.nilable(String),
                   metadata: Anthropic::Metadata,
@@ -26452,6 +26532,7 @@ module Anthropic
                   max_tokens: Integer,
                   messages: T::Array[Anthropic::MessageParam::OrHash],
                   model: T.any(Anthropic::Model::OrSymbol, String),
+                  cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash),
                   container: T.nilable(String),
                   inference_geo: T.nilable(String),
                   metadata: Anthropic::Metadata::OrHash,
@@ -26554,6 +26635,8 @@ module Anthropic
                 model:, # The model that will complete your prompt.\n\nSee
                         # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
                         # details and options.
+                cache_control: nil, # Top-level cache control automatically applies a cache_control marker to the last
+                                    # cacheable block in the request.
                 container: nil, # Container identifier for reuse across requests.
                 inference_geo: nil, # Specifies the geographic region for inference processing. If not specified, the
                                     # workspace's `default_inference_geo` is used.
@@ -33420,6 +33503,7 @@ module Anthropic
           params(
             messages: T::Array[Anthropic::Beta::BetaMessageParam::OrHash],
             model: T.any(Anthropic::Model::OrSymbol, String),
+            cache_control: T.nilable(Anthropic::Beta::BetaCacheControlEphemeral::OrHash),
             context_management: T.nilable(Anthropic::Beta::BetaContextManagementConfig::OrHash),
             mcp_servers: T::Array[
                 Anthropic::Beta::BetaRequestMCPServerURLDefinition::OrHash
@@ -33524,6 +33608,8 @@ module Anthropic
           model:, # Body param: The model that will complete your prompt.\n\nSee
                   # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
                   # details and options.
+          cache_control: nil, # Body param: Top-level cache control automatically applies a cache_control marker
+                              # to the last cacheable block in the request.
           context_management: nil, # Body param: Context management configuration.
                                    # This allows you to control how Claude manages context across multiple requests,
                                    # such as whether to clear function results or not.
@@ -33631,6 +33717,7 @@ module Anthropic
             max_tokens: Integer,
             messages: T::Array[Anthropic::Beta::BetaMessageParam::OrHash],
             model: T.any(Anthropic::Model::OrSymbol, String),
+            cache_control: T.nilable(Anthropic::Beta::BetaCacheControlEphemeral::OrHash),
             container: T.nilable(
                 T.any(Anthropic::Beta::BetaContainerParams::OrHash, String)
               ),
@@ -33749,6 +33836,8 @@ module Anthropic
           model:, # Body param: The model that will complete your prompt.\n\nSee
                   # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
                   # details and options.
+          cache_control: nil, # Body param: Top-level cache control automatically applies a cache_control marker
+                              # to the last cacheable block in the request.
           container: nil, # Body param: Container identifier for reuse across requests.
           context_management: nil, # Body param: Context management configuration.
                                    # This allows you to control how Claude manages context across multiple requests,
@@ -33891,6 +33980,7 @@ module Anthropic
             max_tokens: Integer,
             messages: T::Array[Anthropic::Beta::BetaMessageParam::OrHash],
             model: T.any(Anthropic::Model::OrSymbol, String),
+            cache_control: T.nilable(Anthropic::Beta::BetaCacheControlEphemeral::OrHash),
             container: T.nilable(
                 T.any(Anthropic::Beta::BetaContainerParams::OrHash, String)
               ),
@@ -34011,6 +34101,8 @@ module Anthropic
           model:, # Body param: The model that will complete your prompt.\n\nSee
                   # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
                   # details and options.
+          cache_control: nil, # Body param: Top-level cache control automatically applies a cache_control marker
+                              # to the last cacheable block in the request.
           container: nil, # Body param: Container identifier for reuse across requests.
           context_management: nil, # Body param: Context management configuration.
                                    # This allows you to control how Claude manages context across multiple requests,
@@ -34907,6 +34999,7 @@ module Anthropic
         params(
           messages: T::Array[Anthropic::MessageParam::OrHash],
           model: T.any(Anthropic::Model::OrSymbol, String),
+          cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash),
           output_config: Anthropic::OutputConfig::OrHash,
           system_: Anthropic::MessageCountTokensParams::System::Variants,
           thinking: T.any(
@@ -34996,6 +35089,8 @@ module Anthropic
         model:, # The model that will complete your prompt.\n\nSee
                 # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
                 # details and options.
+        cache_control: nil, # Top-level cache control automatically applies a cache_control marker to the last
+                            # cacheable block in the request.
         output_config: nil, # Configuration options for the model's output, such as the output format.
         system_: nil, # System prompt.
                       # A system prompt is a way of providing context and instructions to Claude, such
@@ -35091,6 +35186,7 @@ module Anthropic
           max_tokens: Integer,
           messages: T::Array[Anthropic::MessageParam::OrHash],
           model: T.any(Anthropic::Model::OrSymbol, String),
+          cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash),
           container: T.nilable(String),
           inference_geo: T.nilable(String),
           metadata: Anthropic::Metadata::OrHash,
@@ -35194,6 +35290,8 @@ module Anthropic
         model:, # The model that will complete your prompt.\n\nSee
                 # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
                 # details and options.
+        cache_control: nil, # Top-level cache control automatically applies a cache_control marker to the last
+                            # cacheable block in the request.
         container: nil, # Container identifier for reuse across requests.
         inference_geo: nil, # Specifies the geographic region for inference processing. If not specified, the
                             # workspace's `default_inference_geo` is used.
@@ -35554,6 +35652,7 @@ module Anthropic
           max_tokens: Integer,
           messages: T::Array[Anthropic::MessageParam::OrHash],
           model: T.any(Anthropic::Model::OrSymbol, String),
+          cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash),
           container: T.nilable(String),
           inference_geo: T.nilable(String),
           metadata: Anthropic::Metadata::OrHash,
@@ -35659,6 +35758,8 @@ module Anthropic
         model:, # The model that will complete your prompt.\n\nSee
                 # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
                 # details and options.
+        cache_control: nil, # Top-level cache control automatically applies a cache_control marker to the last
+                            # cacheable block in the request.
         container: nil, # Container identifier for reuse across requests.
         inference_geo: nil, # Specifies the geographic region for inference processing. If not specified, the
                             # workspace's `default_inference_geo` is used.

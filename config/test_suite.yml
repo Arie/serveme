@@ -1,0 +1,70 @@
+# Test Suite Configuration
+# Each task is defined once with all its properties
+
+tasks:
+  sort_and_dedup:
+    command: "script/sort_and_dedup_csv"
+    autocorrect: "script/sort_and_dedup_csv -a"
+
+  brakeman:
+    command: "bin/brakeman --no-pager --quiet --no-summary"
+
+  importmap:
+    command: "bin/importmap audit"
+
+  rubocop:
+    command: "bin/rubocop -f github"
+    autocorrect: "bin/rubocop --autocorrect-all"
+
+  tapioca_gem:
+    command: "bin/tapioca gem --verify"
+    autocorrect: "bin/tapioca gem"
+
+  db_test_prepare:
+    command: "RAILS_ENV=test bin/rails db:test:prepare"
+
+  tapioca_dsl:
+    command: "bin/tapioca dsl --verify"
+    autocorrect: "bin/tapioca dsl"
+    depends_on: db_test_prepare
+
+  sorbet:
+    command: "bin/srb tc"
+    depends_on: [tapioca_gem, tapioca_dsl]
+
+  swagger_sync:
+    command: "script/check_swagger_sync"
+    autocorrect: "bundle exec rake rswag:specs:swaggerize"
+    depends_on: db_test_prepare
+
+  db_copy:
+    command: "(dropdb serveme_test_cucumber 2>/dev/null || true) && createdb --template serveme_test serveme_test_cucumber"
+    depends_on: db_test_prepare
+
+  rspec:
+    command: "REDIS_CACHE_DB=2 REDIS_LOCK_DB=3 bundle exec rspec spec%{seed_arg}"
+    depends_on: db_copy
+
+  cucumber:
+    command: "%{debug}TEST_DATABASE=serveme_test_cucumber REDIS_CACHE_DB=4 REDIS_LOCK_DB=5 SESSION_KEY_SUFFIX=_cucumber bundle exec cucumber%{seed_arg}"
+    depends_on: db_copy
+
+# Sections define which tasks to run and in what order
+# Sections run sequentially, tasks within a section run in parallel (respecting dependencies)
+sections:
+  checks:
+    tasks:
+      - sort_and_dedup
+      - brakeman
+      - importmap
+      - rubocop
+      - tapioca_gem
+      - tapioca_dsl
+      - sorbet
+      - swagger_sync
+      - db_test_prepare
+
+  tests:
+    tasks:
+      - rspec
+      - cucumber

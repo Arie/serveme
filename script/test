@@ -3,110 +3,116 @@
 
 require "optparse"
 require "fileutils"
-require "open3"
-require "ostruct"
-require "sorbet-runtime"
+require "yaml"
+require_relative "../lib/test_runner"
 require_relative "../lib/timing"
 
 APP_ROOT = File.expand_path("..", __dir__)
-OK = "\e[92m✓\e[0m"
-CROSS = "\e[91m✗\e[0m"
-FRAMES = [ "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" ]
 
-def system!(*args)
-  if !system(*args)
-    puts
-    abort "❌ #{args.first} failed"
+# ============================================================================
+# Helper Functions
+# ============================================================================
+
+def load_config
+  YAML.load_file(File.join(APP_ROOT, "config", "test_suite.yml"))
+end
+
+def detect_formatter
+  return :ai if ENV["CLAUDECODE"] == "1"
+  return :simple if ENV["CI"] == "true"
+  return :simple if !$stdout.tty? # Piped output
+  :fancy
+end
+
+def resolve_command(task_name, task_config, autocorrect:, seed: nil, verbose: false)
+  command = autocorrect && task_config["autocorrect"] ? task_config["autocorrect"] : task_config["command"]
+
+  seed_arg = seed ? " --order random:#{seed}" : ""
+  debug = verbose ? "DEBUG=1 " : ""
+
+  command % {
+    seed_arg: seed_arg,
+    debug: debug
+  }
+rescue KeyError
+  # Command doesn't have interpolation placeholders, return as-is
+  command
+end
+
+def resolve_dependencies(task_name, task_config)
+  depends_on = task_config["depends_on"]
+  return [] if depends_on.nil?
+
+  Array(depends_on).map(&:to_sym)
+end
+
+def resolve_task_with_dependencies(task_name, config)
+  tasks = config["tasks"]
+  task_config = tasks[task_name]
+
+  if task_config.nil?
+    warn "Error: Task '#{task_name}' not found in configuration"
+    exit 1
+  end
+
+  result = Set.new
+  queue = [ task_name ]
+
+  while queue.any?
+    current_task = queue.shift
+    next if result.include?(current_task)
+
+    result.add(current_task)
+
+    current_config = tasks[current_task]
+    if current_config
+      dependencies = resolve_dependencies(current_task, current_config)
+      queue.concat(dependencies.map(&:to_s))
+    end
+  end
+
+  result.to_a
+end
+
+def register_section_tasks(runner, config, section_tasks, autocorrect:, seed: nil, verbose: false)
+  tasks = config["tasks"]
+
+  section_tasks.each do |task_name|
+    task_name_sym = task_name.to_sym
+    task_config = tasks[task_name]
+
+    if task_config.nil?
+      warn "Warning: Task '#{task_name}' not found in configuration"
+      next
+    end
+
+    command = resolve_command(task_name, task_config, autocorrect: autocorrect, seed: seed, verbose: verbose)
+    dependencies = resolve_dependencies(task_name, task_config)
+    is_autocorrect = autocorrect && task_config["autocorrect"] ? true : false
+
+    runner.define_task(
+      name: task_name_sym,
+      command: command,
+      depends_on: dependencies,
+      is_autocorrect: is_autocorrect
+    )
   end
 end
 
-def sort_and_dedup_csv_files(autocorrect: false)
-  require 'csv'
-  require 'stringio'
-
-  files = [ 'banned_steam_ids.csv', 'banned_ips.csv', 'vpn_ips.csv', 'whitelisted_steam_ids.csv', 'bad-asn-list.csv' ]
-  doc_dir = File.join(APP_ROOT, 'doc')
-  files_modified = []
-
-  files.each do |file|
-    file_path = File.join(doc_dir, file)
-    next unless File.exist?(file_path)
-
-    table = CSV.parse(File.read(file_path), headers: true)
-
-    sorted_rows = if file == 'bad-asn-list.csv'
-      table.uniq { |r| r[0] }.sort_by { |r| [ r['ASN'].to_i, r['Entity'] ] }
-    else
-      table.uniq { |r| r[0] }.sort_by { |r| [ r['name'].downcase, r['reason'], r[0] ] }
-    end
-
-    current_content = File.read(file_path)
-    csv_options = { write_headers: true, headers: table.headers }
-    csv_options[:force_quotes] = true if file == 'bad-asn-list.csv'
-
-    new_content = CSV.generate(**csv_options) do |csv|
-      sorted_rows.each do |r|
-        csv << r
-      end
-    end
-
-    if current_content != new_content
-      files_modified << file
-      if autocorrect
-        File.write(file_path, new_content)
-      end
-    end
-  end
-
-  if files_modified.any? && !autocorrect
-    STDERR.puts "Files need sorting/deduplication: #{files_modified.join(', ')}"
-    STDERR.puts "Run with -a to automatically fix"
-    return false
-  end
-
-  true
-rescue => e
-  STDERR.puts "Error processing CSV files: #{e.message}"
-  false
-end
+# ============================================================================
+# Command Line Options
+# ============================================================================
 
 options = {
   autocorrect: false,
   seed: nil,
   verbose: false,
-  lint_only: false
+  formatter: nil,
+  sections: nil,
+  task: nil,
+  max_parallel: false,
+  fail_fast: false
 }
-
-def get_tests(options)
-  {
-  sort_and_dedup: -> { sort_and_dedup_csv_files(autocorrect: options[:autocorrect]) },
-  brakeman: "bin/brakeman --no-pager --quiet --no-summary",
-  importmap: "bin/importmap audit",
-  rubocop: "bin/rubocop -f github",
-  rubocop_autocorrect: "bin/rubocop --autocorrect-all",
-  sorbet: "bin/srb tc",
-  swagger_sync: "script/check_swagger_sync",
-  swagger_regenerate: "bundle exec rake rswag:specs:swaggerize",
-  tapioca_gem: "bin/tapioca gem --verify",
-  tapioca_dsl: "bin/tapioca dsl --verify",
-  tapioca_gem_autocorrect: "bin/tapioca gem",
-  tapioca_dsl_autocorrect: "bin/tapioca dsl",
-  db_test_prepare: "RAILS_ENV=test bin/rails db:test:prepare",
-  db_copy: -> {
-    "(dropdb serveme_test_cucumber 2>/dev/null || true) && " +
-    "createdb --template serveme_test serveme_test_cucumber"
-  },
-  rspec: -> {
-    seed_arg = options[:seed] ? " --order random:#{options[:seed]}" : ""
-    "REDIS_CACHE_DB=2 REDIS_LOCK_DB=3 bundle exec rspec spec#{seed_arg}"
-  },
-  cucumber: -> {
-    seed_arg = options[:seed] ? " --order random:#{options[:seed]}" : ""
-    debug = options[:verbose] ? "DEBUG=1 " : ""
-    "#{debug}TEST_DATABASE=serveme_test_cucumber REDIS_CACHE_DB=4 REDIS_LOCK_DB=5 SESSION_KEY_SUFFIX=_cucumber bundle exec cucumber#{seed_arg}"
-  }
-  }
-end
 
 OptionParser.new do |parser|
   parser.banner = "Usage: ./script/test [options]"
@@ -123,21 +129,49 @@ OptionParser.new do |parser|
     options[:verbose] = v
   end
 
-  parser.on("-L", "--lint", "Only run the linters") do |v|
-    options[:lint_only] = v
+  parser.on("-f", "--formatter FORMATTER", [ :fancy, :simple, :ai ], "Output formatter (fancy, simple, ai)") do |f|
+    options[:formatter] = f
+  end
+
+  parser.on("-s", "--section SECTION", "Run specific section (e.g., checks, tests)") do |s|
+    options[:sections] = [ s ]
+  end
+
+  parser.on("-t", "--task TASK", "Run specific task with all its dependencies") do |t|
+    options[:task] = t
+  end
+
+  parser.on("-P", "--max-parallel", "Run all sections in parallel (dependencies still respected)") do
+    options[:max_parallel] = true
+  end
+
+  parser.on("-F", "--fail-fast", "Stop starting new tasks after a failure") do
+    options[:fail_fast] = true
+  end
+
+  parser.on("-L", "--lint", "DEPRECATED: Use --section=checks instead. Only run the checks section") do
+    warn "Warning: --lint is deprecated. Use --section=checks instead."
+    options[:sections] = [ "checks" ]
   end
 
   parser.on("-l", "--list") do
-    puts "Tests:"
-    get_tests(options).each do |name, command|
-      original_command = command
-      command = command.call if command.is_a?(Proc)
-      puts
-      if command == true || command == false
-        puts "# #{name}\n# (Ruby function check)"
-      else
-        puts "# #{name}\n$ #{command}"
-      end
+    config = load_config
+    puts "Available tasks:"
+    config["tasks"].each do |name, task_config|
+      command = task_config["command"]
+      autocorrect_cmd = task_config["autocorrect"]
+      dependencies = task_config["depends_on"]
+
+      puts "\n# #{name}"
+      puts "$ #{command}"
+      puts "  (autocorrect: #{autocorrect_cmd})" if autocorrect_cmd
+      puts "  (depends_on: #{Array(dependencies).join(', ')})" if dependencies
+    end
+
+    puts "\nAvailable sections:"
+    config["sections"].each do |name, section_config|
+      puts "\n# #{name}"
+      puts "  Tasks: #{section_config['tasks'].join(', ')}"
     end
     exit
   end
@@ -148,346 +182,124 @@ OptionParser.new do |parser|
   end
 end.parse!
 
-# Checks that can run independently in parallel
-INDEPENDENT_CHECKS = if options[:autocorrect]
-  %i[sort_and_dedup brakeman importmap rubocop_autocorrect tapioca_gem_autocorrect]
-else
-  %i[sort_and_dedup brakeman importmap rubocop tapioca_gem]
+# Detect accidental filename arguments
+if ARGV.any?
+  warn "Error: script/test does not accept file arguments."
+  warn ""
+  warn "To run specific test files, use rspec or cucumber directly:"
+  warn "  bin/rspec #{ARGV.first}"
+  warn "  bin/cucumber #{ARGV.first}"
+  exit 1
 end
 
-# Checks that depend on tapioca completion
-TAPIOCA_DEPENDENT_CHECKS = %i[sorbet]
-
-# Database preparation sub-steps that run after db_test_prepare
-DB_PREPARATION_SUBSTEPS = if options[:autocorrect]
-  steps = %i[swagger_regenerate tapioca_dsl_autocorrect]
-  steps.unshift(:db_copy) unless options[:lint_only]
-  steps
-else
-  steps = %i[swagger_sync tapioca_dsl]
-  steps.unshift(:db_copy) unless options[:lint_only]
-  steps
-end
-
-class ProgressDisplay
-  def initialize(verbose: false)
-    @verbose = verbose
-    @tasks = {}
-    @mutex = Mutex.new
-    @display_thread = nil
-    @running = false
-    @expected_task_count = 0
-    @last_display_lines = 0
-  end
-
-  def set_expected_task_count(count)
-    @expected_task_count = count
-  end
-
-  def start_task(name, display_name, parent: nil)
-    return if @verbose
-
-    @mutex.synchronize do
-      @tasks[name] = {
-        display_name: display_name,
-        status: :running,
-        start_time: Time.now,
-        duration: nil,
-        parent: parent
-      }
-      start_display unless @running
-    end
-  end
-
-  def complete_task(name, success:, duration:)
-    return if @verbose
-
-    @mutex.synchronize do
-      if @tasks[name]
-        @tasks[name][:status] = success ? :success : :failed
-        @tasks[name][:duration] = duration
-        @tasks[name][:end_time] = Time.now
-      end
-    end
-  end
-
-  def stop
-    return if @verbose
-
-    @mutex.synchronize do
-      @running = false
-    end
-
-    # Give display thread a brief moment to finish current cycle
-    @display_thread&.join(0.15) # Timeout after 150ms
-    @display_thread&.kill if @display_thread&.alive?
-    @display_thread = nil
-    print "\r\e[K" # Clear current line
-  end
-
-  private
-
-  def start_display
-    return if @running
-
-    @running = true
-    @display_thread = Thread.new do
-      frame_index = 0
-
-      loop do
-        @mutex.synchronize do
-          # Clear previous lines using the last display count, not current task count
-          if @last_display_lines > 0 && frame_index > 0
-            print "\e[#{@last_display_lines}A\e[J"
-          end
-
-          # Sort tasks to show parents immediately followed by their children
-          sorted_tasks = @tasks.sort_by do |name, task|
-            if task[:parent] == :db_test_prepare && name == :tapioca_dsl
-              [ "1_db_test_prepare", "2_tapioca_dsl" ]
-            elsif task[:parent] == :db_test_prepare
-              # Children of db_test_prepare come right after db_test_prepare
-              [ "1_db_test_prepare", "1_#{name}" ]
-            elsif task[:parent] == :tapioca_dsl
-              # Sorbet comes after tapioca_dsl
-              [ "1_db_test_prepare", "3_#{name}" ]
-            elsif name == :db_test_prepare
-              # db_test_prepare comes first in its group
-              [ "1_db_test_prepare", "0" ]
-            else
-              # All other tasks come before or after based on execution order
-              [ "0_independent", name.to_s ]
-            end
-          end
-
-          lines_displayed = 0
-          sorted_tasks.each_with_index do |(name, task), index|
-            # Determine if this is the last child of its parent
-            is_last_child_of_parent = case task[:parent]
-            when :db_test_prepare
-              name == :tapioca_dsl
-            when :tapioca_dsl
-              name == :sorbet
-            when nil
-              false
-            else
-              # Find remaining tasks with same parent
-              remaining_tasks = sorted_tasks[(index + 1)..-1] || []
-              !remaining_tasks.any? { |_, t| t[:parent] == task[:parent] }
-            end
-
-            prefix = if task[:parent] == :tapioca_dsl
-              is_last_child_of_parent ? "    └─ " : "    ├─ "
-            elsif task[:parent]
-              is_last_child_of_parent ? "  └─ " : "  ├─ "
-            else
-              ""
-            end
-            case task[:status]
-            when :running
-              elapsed = Time.now - task[:start_time]
-              spinner = "\e[96m#{FRAMES[frame_index % FRAMES.size]}\e[0m"
-              puts "#{prefix}#{spinner} #{task[:display_name]} (#{elapsed.round(1)}s)"
-            when :success
-              puts "#{prefix}#{OK} #{task[:display_name]} passed in #{task[:duration]} seconds"
-            when :failed
-              puts "#{prefix}#{CROSS} #{task[:display_name]} failed in #{task[:duration]} seconds"
-            end
-            lines_displayed += 1
-          end
-
-          @last_display_lines = lines_displayed
-          break unless @running
-        end
-
-        frame_index += 1
-        sleep 0.1
-      end
-    end
-  end
-end
-
-class Test
-  attr_reader :name, :duration, :output
-
-  def initialize(name, progress_display, options, parent: nil)
-    @name = name
-    @command = get_tests(options).fetch(name)
-    @status = nil
-    @output = nil
-    @duration = 0
-    @verbose = options[:verbose]
-    @progress_display = progress_display
-    @options = options
-    @parent = parent
-  end
-
-  def run
-    display_name = @name.to_s.tr('_', ' ')
-    @progress_display.start_task(@name, display_name, parent: @parent)
-
-    @duration = Timing.measure(round: 3) do
-      command = @command.is_a?(Proc) ? @command.call : @command
-
-      # If command is a boolean (returned from a Ruby method), use it directly
-      if command == true || command == false
-        @status = OpenStruct.new(success?: command)
-        @output = ""
-      elsif @verbose
-        puts "\n$ #{command}"
-        system(command)
-        @status = $?
-        @output = ""
-      else
-        @output, @status = Open3.capture2e(command)
-      end
-    end
-
-    @progress_display.complete_task(@name, success: @status.success?, duration: @duration)
-  end
-
-  def success?
-    @status.success?
-  end
-
-  def failed_message
-    display_name = @name.to_s.tr('_', ' ')
-    "#{CROSS} #{display_name} failed in #{@duration} seconds:\n\n#{@output}\n"
-  end
-end
-
-def create_skipped_test(name, progress, options, parent, reason)
-  test = Test.new(name, progress, options, parent: parent)
-  test.instance_variable_set(:@status, OpenStruct.new(success?: false))
-  test.instance_variable_set(:@output, reason)
-  test.instance_variable_set(:@duration, 0)
-  test
-end
-
-def run_tapioca_dependent_checks(progress, options, all_tests, substep_threads)
-  # Find tapioca gem test (could be regular or autocorrect version)
-  tapioca_gem_test = all_tests.find { |test| test.name == :tapioca_gem || test.name == :tapioca_gem_autocorrect }
-  # Find tapioca dsl test (could be regular or autocorrect version)
-  tapioca_dsl_test = substep_threads.map { _1[:test] }.find { |test| test.name == :tapioca_dsl || test.name == :tapioca_dsl_autocorrect }
-
-  if tapioca_gem_test&.success? && tapioca_dsl_test&.success?
-    sorbet_threads = TAPIOCA_DEPENDENT_CHECKS.map do |name|
-      Thread.new do
-        test = Test.new(name, progress, options, parent: :tapioca_dsl)
-        Thread.current[:test] = test
-        test.run
-      end
-    end
-    sorbet_threads.each(&:join)
-    all_tests.concat(sorbet_threads.map { _1[:test] })
-  else
-    TAPIOCA_DEPENDENT_CHECKS.each do |name|
-      all_tests << create_skipped_test(name, progress, options, :tapioca_dsl, "Skipped due to tapioca failure")
-    end
-  end
-end
+# ============================================================================
+# Main Execution
+# ============================================================================
 
 FileUtils.chdir APP_ROOT do
-  # Run checks with live progress display
-  progress = ProgressDisplay.new(verbose: options[:verbose])
-  # Set expected task count: independent checks + db_test_prepare + substeps + tapioca dependent checks
-  total_expected = INDEPENDENT_CHECKS.size + 1 + DB_PREPARATION_SUBSTEPS.size + TAPIOCA_DEPENDENT_CHECKS.size
-  progress.set_expected_task_count(total_expected)
-  puts unless options[:verbose]
+  config = load_config
 
-  all_tests = []
-  check_time = Timing.measure(round: 3) do
-    # Phase 1: Start independent checks in parallel
-    independent_threads = INDEPENDENT_CHECKS.map do |name|
-      Thread.new do
-        test = Test.new(name, progress, options)
-        Thread.current[:test] = test
-        test.run
-      end
-    end
-
-    # Phase 2: Run db_test_prepare sequentially
-    db_test_prepare_test = Test.new(:db_test_prepare, progress, options)
-    db_test_prepare_test.run
-    all_tests << db_test_prepare_test
-
-    # Phase 3: Start database preparation sub-steps immediately after db_test_prepare (don't wait for linters)
-    substep_threads = []
-    if db_test_prepare_test.success?
-      substep_threads = DB_PREPARATION_SUBSTEPS.map do |name|
-        Thread.new do
-          test = Test.new(name, progress, options, parent: :db_test_prepare)
-          Thread.current[:test] = test
-          test.run
-        end
-      end
-    else
-      # If db_test_prepare failed, still create test objects for substeps to show they were skipped
-      DB_PREPARATION_SUBSTEPS.each do |name|
-        test = Test.new(name, progress, options, parent: :db_test_prepare)
-        # Mark as failed without running since db_test_prepare failed
-        test.instance_variable_set(:@status, OpenStruct.new(success?: false))
-        test.instance_variable_set(:@output, "Skipped due to db test prepare failure")
-        test.instance_variable_set(:@duration, 0)
-        all_tests << test
-      end
-    end
-
-    # Phase 4: Wait for all checks to complete
-    independent_threads.each(&:join)
-    all_tests.concat(independent_threads.map { _1[:test] })
-
-    substep_threads.each(&:join)
-    all_tests.concat(substep_threads.map { _1[:test] })
-
-    # Phase 5: Run tapioca-dependent checks (sorbet) after tapioca gem and dsl complete
-    run_tapioca_dependent_checks(progress, options, all_tests, substep_threads)
-  end
-
-  progress.stop
-
-  failed_tests = all_tests.reject(&:success?)
-  if failed_tests.none?
-    puts
-    puts "✅ All checks passed in #{check_time} seconds"
-    puts
+  # Determine which sections/tasks to run
+  if options[:task]
+    # Run a single task with its dependencies
+    task_list = resolve_task_with_dependencies(options[:task], config)
+    sections_to_run = [ "tasks" ]
+    # Override sections config with synthetic section containing just this task and dependencies
+    config["sections"]["tasks"] = { "tasks" => task_list }
   else
-    puts
-    failed_tests.each do |test|
-      puts test.failed_message unless options[:verbose]
-    end
-    abort "❌ Checks #{failed_tests.map(&:name).join(", ")} failed in #{check_time} seconds"
+    sections_to_run = options[:sections] || config["sections"].keys
   end
 
-  unless options[:lint_only]
-    # Run test suites with live progress display
-    test_progress = ProgressDisplay.new(verbose: options[:verbose])
+  all_sections_passed = true
+  section_results = {}
 
-    test_threads = []
-    test_time = Timing.measure(round: 3) do
-      test_threads = [ :rspec, :cucumber ].map do |name|
-        Thread.new do
-          test = Test.new(name, test_progress, options)
-          Thread.current[:test] = test
-          test.run
+  # Select formatter
+  formatter_type = options[:formatter] || detect_formatter
+  formatter = case formatter_type
+  when :simple then TestRunner::Formatters::Simple.new(verbose: options[:verbose])
+  when :ai then TestRunner::Formatters::Ai.new(verbose: options[:verbose])
+  else TestRunner::Formatters::Fancy.new(verbose: options[:verbose])
+  end
+
+  # Start formatter once for all sections
+  formatter.start
+
+  if options[:max_parallel]
+    # Merge all sections into one runner
+    all_tasks = sections_to_run
+                .flat_map { |name| config["sections"][name]&.dig("tasks") || [] }
+                .flat_map { |task| resolve_task_with_dependencies(task, config) }
+                .uniq
+
+    formatter.start_section("all")
+
+    runner = TestRunner::Runner.new(formatter: formatter, verbose: options[:verbose], manage_formatter: false, fail_fast: options[:fail_fast])
+    register_section_tasks(runner, config, all_tasks, autocorrect: options[:autocorrect], seed: options[:seed], verbose: options[:verbose])
+    result = runner.run
+
+    formatter.complete_section("all")
+
+    section_results["all"] = result
+    all_sections_passed = result.success?
+  else
+    # Run each section in order, tracking completed tasks across sections
+    completed_task_names = Set.new
+
+    sections_to_run.each do |section_name|
+      section_config = config["sections"][section_name]
+
+      if section_config.nil?
+        warn "Warning: Section '#{section_name}' not found in configuration"
+        next
+      end
+
+      # Notify formatter of section start
+      formatter.start_section(section_name)
+
+      # Resolve all tasks with their dependencies
+      section_tasks = section_config["tasks"]
+      all_tasks_with_deps = section_tasks.flat_map { |task| resolve_task_with_dependencies(task, config) }.uniq
+
+      # Run section (formatter lifecycle is managed externally)
+      section_runner = TestRunner::Runner.new(formatter: formatter, verbose: options[:verbose], manage_formatter: false, fail_fast: options[:fail_fast])
+
+      # Pre-complete tasks that already succeeded in previous sections
+      tasks_to_register = all_tasks_with_deps.reject do |task_name|
+        if completed_task_names.include?(task_name.to_sym)
+          section_runner.pre_complete_task(name: task_name.to_sym)
+          true
         end
       end
-      test_threads.map(&:join)
-    end
 
-    test_progress.stop
+      register_section_tasks(section_runner, config, tasks_to_register, autocorrect: options[:autocorrect], seed: options[:seed], verbose: options[:verbose])
+      section_result = section_runner.run
 
-    failed_tests = test_threads.map { _1[:test] }.reject(&:success?)
-    if failed_tests.none?
-      puts
-      puts "✅ Tests passed in #{test_time} seconds"
-      puts
-    else
-      puts
-      failed_tests.each do |test|
-        puts test.failed_message unless options[:verbose]
+      # Track completed tasks for subsequent sections
+      section_result.successful_tasks.each { |t| completed_task_names.add(t.name) }
+
+      # Notify formatter of section completion
+      formatter.complete_section(section_name)
+
+      # Store result
+      section_results[section_name] = section_result
+
+      # Stop if section failed
+      if section_result.failed?
+        all_sections_passed = false
+        break
       end
-      abort "❌ Tests #{failed_tests.map(&:name).join(", ")} failed in #{test_time} seconds"
     end
   end
+
+  formatter.stop
+
+  # Let formatter display failures
+  all_failed_tasks = section_results.values.flat_map(&:failed_tasks)
+  formatter.print_failures(all_failed_tasks, verbose: options[:verbose])
+
+  # Let formatter print summary
+  total_duration = section_results.values.sum(&:total_duration).round(3)
+  formatter.print_final_summary(section_results, total_duration: total_duration, all_passed: all_sections_passed)
+
+  abort if !all_sections_passed
 end

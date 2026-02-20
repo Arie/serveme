@@ -9,6 +9,7 @@ module Mcp
       # Admin tools
       Mcp::Tools::SearchAltsTool,
       Mcp::Tools::SearchByAsnTool,
+      Mcp::Tools::SearchCoPlayersTool,
       Mcp::Tools::GetUserTool,
       Mcp::Tools::ListServersTool,
       Mcp::Tools::ListReservationsTool,

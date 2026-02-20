@@ -45,6 +45,10 @@ module Mcp
             reservation_ids: {
               type: "string",
               description: "Optional comma-separated list of reservation IDs to limit search scope"
+            },
+            first_seen_after: {
+              type: "string",
+              description: "Only include accounts first seen after this date (ISO 8601, e.g. 2025-01-01). Useful for finding newly created alts."
             }
           }
         }
@@ -64,7 +68,7 @@ module Mcp
 
         if steam_uid.blank? && ip.blank?
           return {
-            results: [],
+            accounts: [],
             target: nil,
             error: "At least one parameter (steam_uid or ip) is required"
           }
@@ -78,19 +82,21 @@ module Mcp
           reservation_ids: reservation_ids
         )
 
+        first_seen_after = params[:first_seen_after]&.to_s&.presence
+
         results = league_request.search
         asns = LeagueRequest.lookup_asns(results)
         banned_asns = LeagueRequest.precompute_banned_asns(asns)
         stac_detections = league_request.stac_detections(results)
 
-        formatted_results = format_results(results)
+        formatted_results = format_results(results, first_seen_after: first_seen_after)
 
         {
           target: league_request.target,
-          results: formatted_results,
+          accounts: formatted_results,
           asn_info: format_asns(asns, banned_asns),
           stac_detections: format_stac_detections(stac_detections),
-          result_count: formatted_results.size
+          account_count: formatted_results.size
         }
       end
 
@@ -107,20 +113,76 @@ module Mcp
         end
       end
 
-      sig { params(results: ActiveRecord::Relation).returns(T::Array[T::Hash[Symbol, T.untyped]]) }
-      def format_results(results)
-        results.map do |player|
+      sig { params(results: ActiveRecord::Relation, first_seen_after: T.nilable(String)).returns(T::Array[T::Hash[Symbol, T.untyped]]) }
+      def format_results(results, first_seen_after: nil)
+        aggregated = results.except(:select, :order)
+          .select(
+            "reservation_players.steam_uid",
+            "MAX(reservation_players.name) AS latest_name",
+            "MAX(reservation_players.ip) AS latest_ip",
+            "MAX(reservation_players.asn_number) AS asn_number",
+            "MAX(reservation_players.asn_organization) AS asn_organization",
+            "COUNT(DISTINCT reservation_players.reservation_id) AS reservation_count",
+            "MIN(reservations.starts_at) AS first_seen",
+            "MAX(reservations.starts_at) AS last_seen"
+          )
+          .group("reservation_players.steam_uid")
+          .order("last_seen DESC")
+
+        if first_seen_after.present?
+          aggregated = aggregated.having("MIN(reservations.starts_at) > ?", Time.zone.parse(first_seen_after))
+        end
+
+        banned_uids = ReservationPlayer.banned_uids
+
+        steam_uids = aggregated.map(&:steam_uid)
+        all_names = fetch_all_names(results, steam_uids)
+        all_ips = fetch_all_ips(results, steam_uids)
+
+        aggregated.map do |account|
           {
-            reservation_id: player.reservation_id,
-            steam_uid: player.steam_uid,
-            name: player.name,
-            ip: player.ip,
-            asn_number: player.asn_number,
-            asn_organization: player.asn_organization,
-            reservation_starts_at: player.respond_to?(:reservation_starts_at) ? player.reservation_starts_at : nil,
-            reservation_ends_at: player.respond_to?(:reservation_ends_at) ? player.reservation_ends_at : nil
+            steam_uid: account.steam_uid,
+            name: account.latest_name,
+            ip: account.latest_ip,
+            asn_number: account.asn_number,
+            asn_organization: account.asn_organization,
+            reservation_count: account.reservation_count,
+            first_seen: account.first_seen,
+            last_seen: account.last_seen,
+            all_names: all_names[account.steam_uid] || [],
+            all_ips: all_ips[account.steam_uid] || [],
+            banned: banned_uids.key?(account.steam_uid.to_i),
+            ban_reason: banned_uids[account.steam_uid.to_i]
           }
         end
+      end
+
+      sig { params(results: ActiveRecord::Relation, steam_uids: T::Array[String]).returns(T::Hash[String, T::Array[String]]) }
+      def fetch_all_names(results, steam_uids)
+        return {} if steam_uids.empty?
+
+        records = results.except(:select, :order)
+          .where(steam_uid: steam_uids)
+          .select("reservation_players.steam_uid, reservation_players.name")
+          .distinct
+
+        by_uid = Hash.new { |h, k| h[k] = [] }
+        records.each { |r| by_uid[r.steam_uid] << r.name if r.name.present? }
+        by_uid.transform_values(&:uniq)
+      end
+
+      sig { params(results: ActiveRecord::Relation, steam_uids: T::Array[String]).returns(T::Hash[String, T::Array[String]]) }
+      def fetch_all_ips(results, steam_uids)
+        return {} if steam_uids.empty?
+
+        records = results.except(:select, :order)
+          .where(steam_uid: steam_uids)
+          .select("reservation_players.steam_uid, reservation_players.ip")
+          .distinct
+
+        by_uid = Hash.new { |h, k| h[k] = [] }
+        records.each { |r| by_uid[r.steam_uid] << r.ip if r.ip.present? }
+        by_uid.transform_values(&:uniq)
       end
 
       sig { params(asns: T::Hash[T.untyped, T.untyped], banned_asns: T::Hash[T.untyped, T.untyped]).returns(T::Hash[String, T::Hash[Symbol, T.untyped]]) }

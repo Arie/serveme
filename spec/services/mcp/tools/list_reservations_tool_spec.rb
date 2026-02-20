@@ -29,6 +29,7 @@ RSpec.describe Mcp::Tools::ListReservationsTool do
       expect(schema[:properties]).to have_key(:server_id)
       expect(schema[:properties]).to have_key(:starts_after)
       expect(schema[:properties]).to have_key(:starts_before)
+      expect(schema[:properties]).to have_key(:player_steam_uid)
       expect(schema[:properties]).to have_key(:offset)
       expect(schema[:properties]).to have_key(:limit)
     end
@@ -234,6 +235,69 @@ RSpec.describe Mcp::Tools::ListReservationsTool do
         :enable_plugins,
         :enable_demos_tf
       )
+    end
+
+    context "with player_steam_uid filter" do
+      let(:player_uid) { "76561198012345678" }
+      let!(:reservation_with_player) do
+        create(:reservation,
+          server: server,
+          user: reservation_user,
+          starts_at: 10.minutes.ago,
+          ends_at: 50.minutes.from_now
+        )
+      end
+      let!(:reservation_player) do
+        create(:reservation_player,
+          reservation: reservation_with_player,
+          steam_uid: player_uid,
+          ip: "192.168.1.100",
+          name: "ConnectedPlayer"
+        )
+      end
+      let(:another_user) { create(:user, nickname: "AnotherUser") }
+      let!(:reservation_without_player) do
+        create(:reservation,
+          server: server2,
+          user: another_user,
+          starts_at: 5.minutes.ago,
+          ends_at: 55.minutes.from_now
+        )
+      end
+
+      it "finds reservations the player connected to" do
+        result = tool.execute(player_steam_uid: player_uid)
+
+        expect(result[:reservations].map { |r| r[:id] }).to include(reservation_with_player.id)
+        expect(result[:reservations].map { |r| r[:id] }).not_to include(reservation_without_player.id)
+      end
+
+      it "does not return duplicate reservations" do
+        # Add a second reservation_player for the same player in same reservation
+        create(:reservation_player,
+          reservation: reservation_with_player,
+          steam_uid: player_uid,
+          ip: "192.168.1.200",
+          name: "ConnectedPlayer"
+        )
+
+        result = tool.execute(player_steam_uid: player_uid)
+
+        reservation_ids = result[:reservations].map { |r| r[:id] }
+        expect(reservation_ids.count(reservation_with_player.id)).to eq(1)
+      end
+
+      it "returns empty when player not found in any reservation" do
+        result = tool.execute(player_steam_uid: "76561198999999999")
+
+        expect(result[:reservations]).to be_empty
+      end
+
+      it "returns correct total_count" do
+        result = tool.execute(player_steam_uid: player_uid)
+
+        expect(result[:total_count]).to eq(1)
+      end
     end
 
     context "with user_query parameter" do

@@ -18,16 +18,17 @@ RSpec.describe Mcp::Tools::SearchReservationLogsTool do
       expect(described_class.required_role).to eq(:admin)
     end
 
-    it "has an input schema with reservation_id property" do
+    it "has an input schema with reservation_id and steam_uid properties" do
       schema = described_class.input_schema
 
       expect(schema[:type]).to eq("object")
       expect(schema[:properties]).to have_key(:reservation_id)
+      expect(schema[:properties]).to have_key(:steam_uid)
+      expect(schema[:properties]).to have_key(:reservations_limit)
       expect(schema[:properties]).to have_key(:search_term)
       expect(schema[:properties]).to have_key(:context_lines)
       expect(schema[:properties]).to have_key(:max_results)
       expect(schema[:properties]).to have_key(:offset)
-      expect(schema[:required]).to include("reservation_id")
     end
   end
 
@@ -194,11 +195,11 @@ RSpec.describe Mcp::Tools::SearchReservationLogsTool do
       end
     end
 
-    context "with missing reservation_id" do
+    context "with neither reservation_id nor steam_uid" do
       it "returns error" do
         result = tool.execute({})
 
-        expect(result[:error]).to include("reservation_id is required")
+        expect(result[:error]).to include("Either reservation_id or steam_uid is required")
       end
     end
 
@@ -214,6 +215,78 @@ RSpec.describe Mcp::Tools::SearchReservationLogsTool do
         result = tool.execute(reservation_id: no_secret_reservation.id)
 
         expect(result[:error]).to include("No log file found")
+      end
+    end
+
+    context "with steam_uid parameter" do
+      let(:player_uid) { "76561198012345678" }
+      let(:server2) { create(:server, name: "Second Server") }
+      let!(:reservation2) do
+        create(:reservation, server: server2, logsecret: "testsecret456")
+      end
+      let!(:reservation_player1) do
+        create(:reservation_player,
+          reservation: reservation,
+          steam_uid: player_uid,
+          ip: "192.168.1.100",
+          name: "TestPlayer"
+        )
+      end
+      let!(:reservation_player2) do
+        create(:reservation_player,
+          reservation: reservation2,
+          steam_uid: player_uid,
+          ip: "192.168.1.100",
+          name: "TestPlayer"
+        )
+      end
+
+      let(:log_file2) { log_dir.join("#{reservation2.logsecret}.log") }
+      let(:log_content2) do
+        <<~LOG
+          L 01/16/2026 - 20:00:01: Log file started
+          L 01/16/2026 - 20:00:02: "TestPlayer<2><[U:1:12345]><>" connected, address "192.168.1.100:27005"
+          L 01/16/2026 - 20:00:10: "TestPlayer<2><[U:1:12345]><Red>" say "hello"
+          L 01/16/2026 - 20:00:20: Log file closed
+        LOG
+      end
+
+      before do
+        File.write(log_file2, log_content2)
+      end
+
+      after do
+        File.delete(log_file2) if File.exist?(log_file2)
+      end
+
+      it "searches across multiple reservations" do
+        result = tool.execute(steam_uid: player_uid, search_term: "say")
+
+        expect(result[:steam_uid]).to eq(player_uid)
+        expect(result[:reservations_searched]).to eq(2)
+        expect(result[:results_by_reservation]).to be_an(Array)
+        expect(result[:results_by_reservation].size).to eq(2)
+      end
+
+      it "requires search_term with steam_uid" do
+        result = tool.execute(steam_uid: player_uid)
+
+        expect(result[:error]).to include("search_term is required")
+      end
+
+      it "returns empty when player has no reservations" do
+        result = tool.execute(steam_uid: "76561198099999999", search_term: "test")
+
+        expect(result[:reservations_searched]).to eq(0)
+        expect(result[:results_by_reservation]).to eq([])
+      end
+
+      it "skips reservations without log files" do
+        File.delete(log_file2) if File.exist?(log_file2)
+
+        result = tool.execute(steam_uid: player_uid, search_term: "say")
+
+        expect(result[:reservations_searched]).to eq(1)
       end
     end
   end

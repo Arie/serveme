@@ -33,7 +33,8 @@ module Mcp
 
       sig { override.returns(String) }
       def self.description
-        "Search through a reservation's log file using ripgrep, or retrieve the log contents. " \
+        "Search through reservation log files using ripgrep. Can search a single reservation by ID, " \
+        "or search across multiple reservations a player participated in by Steam ID. " \
         "Useful for investigating players, finding chat messages, connection events, or any text in server logs."
       end
 
@@ -65,9 +66,18 @@ module Mcp
               type: "integer",
               description: "Number of matches to skip before returning results (for pagination, default: 0)",
               default: 0
+            },
+            steam_uid: {
+              type: "string",
+              description: "Steam ID64 to search logs across all recent reservations the player participated in. " \
+                          "When provided, searches across multiple reservations. Requires search_term."
+            },
+            reservations_limit: {
+              type: "integer",
+              description: "Maximum number of recent reservations to search when using steam_uid (default: 10, max: 25)",
+              default: 10
             }
-          },
-          required: [ "reservation_id" ]
+          }
         }
       end
 
@@ -78,8 +88,14 @@ module Mcp
 
       sig { override.params(params: T::Hash[Symbol, T.untyped]).returns(T::Hash[Symbol, T.untyped]) }
       def execute(params)
+        steam_uid = params[:steam_uid]&.to_s&.presence
+
+        if steam_uid
+          return search_across_reservations(params, steam_uid)
+        end
+
         reservation_id = params[:reservation_id]
-        return { error: "reservation_id is required" } if reservation_id.blank?
+        return { error: "Either reservation_id or steam_uid is required" } if reservation_id.blank?
 
         reservation = Reservation.find_by(id: reservation_id)
         return { error: "Reservation ##{reservation_id} not found" } unless reservation
@@ -185,6 +201,44 @@ module Mcp
       def sanitize_search_term(term)
         term = term[0, MAX_SEARCH_TERM_LENGTH]
         T.must(term).encode("UTF-8", invalid: :replace, undef: :replace, replace: "").presence
+      end
+
+      sig { params(params: T::Hash[Symbol, T.untyped], steam_uid: String).returns(T::Hash[Symbol, T.untyped]) }
+      def search_across_reservations(params, steam_uid)
+        search_term = params[:search_term]&.to_s&.presence
+        return { error: "search_term is required when searching by steam_uid" } unless search_term
+
+        reservations_limit = [ params.fetch(:reservations_limit, 10).to_i, 25 ].min
+        context_lines = [ params.fetch(:context_lines, 0).to_i, 10 ].min
+        max_results = [ params.fetch(:max_results, 200).to_i, 1000 ].min
+
+        reservations = Reservation
+          .joins(:reservation_players)
+          .where(reservation_players: { steam_uid: steam_uid })
+          .order(starts_at: :desc)
+          .limit(reservations_limit)
+          .select("reservations.id, reservations.logsecret, reservations.starts_at")
+          .distinct
+
+        results_by_reservation = []
+
+        reservations.each do |reservation|
+          log_file = log_file_path(reservation)
+          next unless log_file && File.exist?(log_file)
+
+          total_lines = count_lines(log_file)
+          result = search_log(log_file, search_term, context_lines, max_results, 0, reservation.id, total_lines)
+
+          next if result[:error] || result[:lines].empty?
+
+          results_by_reservation << result
+        end
+
+        {
+          steam_uid: steam_uid,
+          reservations_searched: results_by_reservation.size,
+          results_by_reservation: results_by_reservation
+        }
       end
     end
   end

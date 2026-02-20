@@ -41,6 +41,11 @@ module Mcp
               type: "string",
               description: "Filter by Steam ID64 (use user_query for more flexible lookup)"
             },
+            player_steam_uid: {
+              type: "string",
+              description: "Filter by a player who connected to the server (searches reservation_players). " \
+                          "Unlike steam_uid which filters by reservation booker, this finds any reservation the player participated in."
+            },
             server_id: {
               type: "integer",
               description: "Filter by server ID"
@@ -146,6 +151,11 @@ module Mcp
         # Server filter
         if params[:server_id].present?
           reservations = reservations.where(server_id: params[:server_id])
+        end
+
+        # Player filter (connected to server, not just booked)
+        if params[:player_steam_uid].present?
+          reservations = reservations.joins(:reservation_players).where(reservation_players: { steam_uid: params[:player_steam_uid] }).distinct
         end
 
         # Date range filter

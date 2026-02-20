@@ -301,7 +301,7 @@ class LeagueAdminAiService
     tool = tool_class.new(@user)
     result = tool.execute(input)
 
-    result = summarize_search_alts(result) if name == "search_alts" && result.is_a?(Hash) && result[:results]
+    result = summarize_search_alts(result) if name == "search_alts" && result.is_a?(Hash) && result[:accounts]
 
     result
   rescue StandardError => e
@@ -310,31 +310,22 @@ class LeagueAdminAiService
   end
 
   def summarize_search_alts(result)
-    results = result[:results]
+    raw_accounts = result[:accounts]
     target_uid = result[:target]
 
-    # Batch-load proxy data for all IPs
-    all_ips = results.map { |r| r[:ip] }.compact.uniq
+    # Batch-load proxy data for all IPs across all accounts
+    all_ips = raw_accounts.flat_map { |a| a[:all_ips] || [ a[:ip] ] }.compact.uniq
     ip_lookups = IpLookup.where(ip: all_ips).index_by(&:ip)
 
-    # Group by steam_uid to build per-account summaries
-    by_account = results.group_by { |r| r[:steam_uid] }
+    banned_asn_numbers = ReservationPlayer.banned_asns
 
-    accounts = by_account.map do |uid, records|
-      ips = records.map { |r| r[:ip] }.compact.uniq
-      names = records.map { |r| r[:name] }.compact.uniq.first(5)
-      reservations_with_dates = records.filter_map { |r|
-        next unless r[:reservation_id]
-        { id: r[:reservation_id], date: r[:reservation_starts_at] }
-      }.uniq { |r| r[:id] }
-      dates = records.map { |r| r[:reservation_starts_at] }.compact.sort
-      asns = records.map { |r| { number: r[:asn_number], org: r[:asn_organization] } }.uniq.compact
-      # Mark banned ASNs inline
-      banned_asn_numbers = ReservationPlayer.banned_asns
+    accounts = raw_accounts.map do |r|
+      uid = r[:steam_uid]
+      ips = (r[:all_ips] || [ r[:ip] ]).compact.uniq
+      names = (r[:all_names] || [ r[:name] ]).compact.uniq.first(5)
+
+      asns = [ { number: r[:asn_number], org: r[:asn_organization] } ].compact.uniq
       asns.each { |a| a[:banned] = true if a[:number] && banned_asn_numbers.include?(a[:number]) }
-
-      # Pick the 5 most recent reservations, include dates so the model knows which are within log retention
-      recent_reservations = reservations_with_dates.sort_by { |r| r[:date] || "" }.last(5)
 
       # Attach proxy/VPN data for this account's IPs (from IpLookup database)
       proxy_ips = ips.filter_map do |ip|
@@ -376,10 +367,9 @@ class LeagueAdminAiService
         proxy_ips: proxy_ips,
         banned_ips: banned_ips,
         vpn_ips: vpn_ips,
-        reservation_count: reservations_with_dates.size,
-        recent_reservations: recent_reservations,
-        first_seen: dates.first,
-        last_seen: dates.last,
+        reservation_count: r[:reservation_count].to_i,
+        first_seen: r[:first_seen],
+        last_seen: r[:last_seen],
         asns: asns.compact.uniq
       }
       account[:banned_uid] = uid_ban_reason if uid_ban_reason
@@ -396,7 +386,6 @@ class LeagueAdminAiService
 
     {
       target: target_uid,
-      total_raw_records: results.size,
       unique_accounts: accounts.size,
       significant_accounts: significant.size,
       accounts_omitted_single_reservation: noise_count,

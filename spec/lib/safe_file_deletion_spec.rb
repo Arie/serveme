@@ -21,6 +21,11 @@ describe SafeFileDeletion do
         expect { described_class.validate_temp_directory!('/home/tf2server/server/tf/temp_reservation_456') }.not_to raise_error
         expect { described_class.validate_temp_directory!('/opt/servers/gameserver/tf/temp_reservation_789') }.not_to raise_error
       end
+
+      it 'accepts paths matching {any}/tc2/temp_reservation_{digits} for Team Comtress servers' do
+        expect { described_class.validate_temp_directory!('/home/tf2/servers-tc2/sv1/tc2/temp_reservation_22706') }.not_to raise_error
+        expect { described_class.validate_temp_directory!('/opt/servers/gameserver/tc2/temp_reservation_789') }.not_to raise_error
+      end
     end
 
     context 'with invalid paths' do

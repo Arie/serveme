@@ -7,7 +7,7 @@ module SafeFileDeletion
   ALLOWED_TEMP_PATTERNS = T.let([
     %r{\A/tmp/reservation-\d+\z},           # /tmp/reservation-123
     %r{\A/tmp/temp_dir_\d+\z},              # /tmp/temp_dir_12345 (from Dir.mktmpdir)
-    %r{\A/.+/tf/temp_reservation_\d+\z}     # /path/to/server/tf/temp_reservation_123
+    %r{\A/.+/(?:tf|tc2)/temp_reservation_\d+\z} # /path/to/server/tf/temp_reservation_123 or tc2/temp_reservation_123
   ].freeze, T::Array[Regexp])
 
   class InvalidPathError < StandardError; end

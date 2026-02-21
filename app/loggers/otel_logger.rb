@@ -8,7 +8,10 @@ require "opentelemetry/exporter/otlp_logs"
 # This runs alongside lograge (which handles disk logging) without interfering with it.
 class OtelLogger
   def self.setup!
-    logger_provider = OpenTelemetry::SDK::Logs::LoggerProvider.new
+    resource = OpenTelemetry::SDK::Resources::Resource.create(
+      "service.name" => ENV["OTEL_SERVICE_NAME"]
+    )
+    logger_provider = OpenTelemetry::SDK::Logs::LoggerProvider.new(resource: resource)
 
     processor = OpenTelemetry::SDK::Logs::Export::BatchLogRecordProcessor.new(
       OpenTelemetry::Exporter::OTLP::Logs::LogsExporter.new(

@@ -8,11 +8,12 @@ class LeagueAdminAiService
 
     INVESTIGATION WORKFLOW
     When investigating a player, follow this order:
-    1. search_alts with their Steam ID (cross_reference: true) -- finds all accounts sharing IPs and the reservation IDs where they were seen. This also returns proxy/VPN data from our IP reputation database for any flagged IPs (proxy_ips array per account, with fraud_score, is_proxy, is_residential_proxy, false_positive). This is usually the most important first step.
-    2. get_user -- gets their serveme profile, donator status, group memberships, reservation count.
-    3. search_by_asn -- if the alt search returned ASN info, search by that ASN to find other accounts on the same ISP. Useful for small/regional ISPs. Less useful for large ISPs (e.g. Comcast, Deutsche Telekom) which have millions of users.
-    4. list_reservations -- finds reservations CREATED BY this user (i.e. where they booked the server). In a 6v6 match, only 1 of 12 players is the reserver. Most players will have few or no reservations even if they played in many matches. Use this mainly to find reservation IDs for log searching, NOT as evidence of activity level.
-    5. search_reservation_logs -- search specific reservation logs. Use targeted search terms, not broad ones. Use reservation IDs from search_alts results or list_reservations.
+    1. search_alts with their Steam ID (cross_reference: true) -- finds all accounts sharing IPs and the reservation IDs where they were seen. This also returns proxy/VPN data from our IP reputation database for any flagged IPs (proxy_ips array per account, with fraud_score, is_proxy, is_residential_proxy, false_positive). Results include «banned» and «ban_reason» per account from the serveme ban list. Use «first_seen_after» (ISO 8601 date) to filter for newly created accounts, useful for periodic sweeps. This is usually the most important first step.
+    2. search_co_players -- finds players who frequently share reservations with the target. High shared_reservation_count between two accounts means they are teammates or friends, NOT alts (one person cannot play two accounts at once). If co-players include banned accounts, that indicates a suspicious friend group. Use this after search_alts to distinguish real alts from friends who happen to share an IP.
+    3. get_user -- gets their serveme profile, donator status, group memberships, reservation count.
+    4. search_by_asn -- if the alt search returned ASN info, search by that ASN to find other accounts on the same ISP. Useful for small/regional ISPs. Less useful for large ISPs (e.g. Comcast, Deutsche Telekom) which have millions of users.
+    5. list_reservations -- finds reservations CREATED BY this user (i.e. where they booked the server). In a 6v6 match, only 1 of 12 players is the reserver. Most players will have few or no reservations even if they played in many matches. Use «player_steam_uid» to find reservations the player actually connected to (not just booked), which gives a more complete picture of their activity.
+    6. search_reservation_logs -- search specific reservation logs. Use targeted search terms, not broad ones. Use reservation IDs from search_alts results or list_reservations. Use «steam_uid» to search across a player's recent reservations without needing specific reservation IDs.
 
     KEY PATTERNS FOR ALT DETECTION
     Two accounts sharing the same IP and appearing in many of the same reservations is the starting point. The crucial question is WHEN they were in the game:
@@ -31,6 +32,12 @@ class LeagueAdminAiService
     • For shared reservations within the 31-day log window, search the logs for BOTH accounts' connect/disconnect events
     • Search for "connected" and "disconnected" with each player's name or Steam ID3 to build a timeline
     • The timeline reveals whether they overlapped (legitimate) or alternated (alt/smurf)
+
+    CO-PLAYER ANALYSIS (distinguishing alts from friends):
+    • Many shared reservations between two accounts on different IPs = two different people (friends/teammates), NOT alts
+    • When search_alts shows IP overlap between accounts, use search_co_players to check if they frequently played together -- if they did, they are almost certainly different people sharing a location (roommates, LAN, same household)
+    • An account that was briefly lent to someone may show 1 connection from an unusual IP but hundreds from their normal location -- this is not strong alt evidence
+    • Co-players who are themselves banned cheaters indicate a suspicious friend group worth investigating further
 
     OTHER ALT INDICATORS:
     • Same unusual ASN with similar play patterns but never overlapping
@@ -119,6 +126,7 @@ class LeagueAdminAiService
 
   ALLOWED_TOOLS = %w[
     search_alts
+    search_co_players
     search_by_asn
     get_user
     list_reservations
@@ -127,6 +135,7 @@ class LeagueAdminAiService
 
   TOOL_LABELS = {
     "search_alts" => "Searching for alt accounts",
+    "search_co_players" => "Finding co-players",
     "search_by_asn" => "Searching by ASN",
     "get_user" => "Looking up user",
     "list_reservations" => "Listing reservations",

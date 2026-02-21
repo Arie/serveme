@@ -46,6 +46,12 @@ module Mcp
               type: "string",
               description: "Optional comma-separated list of reservation IDs to limit search scope"
             },
+            include_vpn_results: {
+              type: "boolean",
+              description: "When true, includes VPN/hosting provider IPs in cross-reference results instead of filtering them out. " \
+                          "Useful for investigating alt networks that use VPNs, but increases false positives. Default: true",
+              default: true
+            },
             first_seen_after: {
               type: "string",
               description: "Only include accounts first seen after this date (ISO 8601, e.g. 2025-01-01). Useful for finding newly created alts."
@@ -64,6 +70,7 @@ module Mcp
         steam_uid = normalize_steam_uids(params[:steam_uid])
         ip = params[:ip]&.to_s&.presence
         cross_reference = params.fetch(:cross_reference, true)
+        include_vpn_results = params.fetch(:include_vpn_results, true)
         reservation_ids = params[:reservation_ids]&.to_s&.presence
 
         if steam_uid.blank? && ip.blank?
@@ -79,6 +86,7 @@ module Mcp
           steam_uid: steam_uid,
           ip: ip,
           cross_reference: cross_reference ? "1" : nil,
+          include_vpn_results: include_vpn_results,
           reservation_ids: reservation_ids
         )
 

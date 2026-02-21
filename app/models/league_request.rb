@@ -8,10 +8,10 @@ class LeagueRequest
   validates :ip, format: { with: /\A(?:[0-9]{1,3}\.){3}[0-9]{1,3}\Z/ }
   validates :steam_uid, format: { with: /\A765[0-9]{14}\Z/ }
 
-  attr_accessor :ip, :steam_uid, :reservation_ids, :cross_reference, :user, :target
+  attr_accessor :ip, :steam_uid, :reservation_ids, :cross_reference, :include_vpn_results, :user, :target
 
-  sig { params(user: User, ip: T.nilable(String), steam_uid: T.nilable(String), reservation_ids: T.nilable(T.any(String, T::Array[Integer])), cross_reference: T.nilable(String)).void }
-  def initialize(user, ip: nil, steam_uid: nil, reservation_ids: nil, cross_reference: nil)
+  sig { params(user: User, ip: T.nilable(String), steam_uid: T.nilable(String), reservation_ids: T.nilable(T.any(String, T::Array[Integer])), cross_reference: T.nilable(String), include_vpn_results: T.nilable(T.any(String, T::Boolean))).void }
+  def initialize(user, ip: nil, steam_uid: nil, reservation_ids: nil, cross_reference: nil, include_vpn_results: nil)
     @user = user
     @ip = parse_ips(ip)
     @steam_uid = parse_steam_uids(steam_uid)
@@ -22,6 +22,7 @@ class LeagueRequest
         reservation_ids
       end
     @cross_reference = (cross_reference == "1")
+    @include_vpn_results = (include_vpn_results == "1" || include_vpn_results == true)
   end
 
   sig { returns(ActiveRecord::Relation) }
@@ -121,7 +122,7 @@ class LeagueRequest
       subquery = subquery.where(reservation_id: @reservation_ids)
     end
 
-    if @cross_reference && search_field == :ip
+    if @cross_reference && search_field == :ip && !@include_vpn_results
       banned_asns = ReservationPlayer.banned_asns
       subquery = subquery.where("asn_number IS NULL OR asn_number NOT IN (?)", banned_asns)
     end
@@ -140,7 +141,7 @@ class LeagueRequest
       subquery = subquery.where(reservation_id: @reservation_ids)
     end
 
-    if @cross_reference
+    if @cross_reference && !@include_vpn_results
       banned_asns = ReservationPlayer.banned_asns
       subquery = subquery.where("asn_number IS NULL OR asn_number NOT IN (?)", banned_asns)
     end

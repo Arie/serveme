@@ -6,6 +6,7 @@
       = f.input :steam_uid,       label: "Steam ID 64", as: :string,  placeholder: "SteamID64"
       = f.input :reservation_ids, label: "Limit to reservation IDs", as: :string,  placeholder: "123456,123457,123458"
       = f.input :cross_reference, label: "Cross reference results", as: :boolean, placeholder: "Cross reference found matches (can cause loads of results, be careful for false positives)"
+      = f.input :include_vpn_results, label: "Include VPN results", as: :boolean, placeholder: "Include VPN/hosting provider IPs in cross-reference results (more results but higher false positive risk)"
 
       %button.btn.btn-default{type: :submit}
         Search

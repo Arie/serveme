@@ -13,7 +13,8 @@ class LeagueRequestsController < ApplicationController
           ip: params[:ip],
           steam_uid: params[:steam_uid],
           reservation_ids: params[:reservation_ids],
-          cross_reference: params[:cross_reference]
+          cross_reference: params[:cross_reference],
+          include_vpn_results: params[:include_vpn_results]
         }
         league_request = LeagueRequest.new(current_user, **@league_request_params)
         @results = league_request.search
@@ -68,7 +69,8 @@ class LeagueRequestsController < ApplicationController
       ip: params[:search_ip],
       steam_uid: params[:search_steam_uid],
       reservation_ids: params[:search_reservation_ids],
-      cross_reference: params[:search_cross_reference]
+      cross_reference: params[:search_cross_reference],
+      include_vpn_results: params[:search_include_vpn_results]
     )
   end
 
@@ -83,7 +85,8 @@ class LeagueRequestsController < ApplicationController
       ip: params[:search_ip],
       steam_uid: params[:search_steam_uid],
       reservation_ids: params[:search_reservation_ids],
-      cross_reference: params[:search_cross_reference]
+      cross_reference: params[:search_cross_reference],
+      include_vpn_results: params[:search_include_vpn_results]
     )
   end
 
@@ -121,7 +124,8 @@ class LeagueRequestsController < ApplicationController
           ip: request_params[:ip],
           steam_uid: request_params[:steam_uid],
           reservation_ids: request_params[:reservation_ids],
-          cross_reference: request_params[:cross_reference]
+          cross_reference: request_params[:cross_reference],
+          include_vpn_results: request_params[:include_vpn_results]
         )
       end
     end
@@ -130,6 +134,6 @@ class LeagueRequestsController < ApplicationController
   private
 
   def request_params
-    params[:league_request].permit(%i[ip steam_uid reservation_ids cross_reference])
+    params[:league_request].permit(%i[ip steam_uid reservation_ids cross_reference include_vpn_results])
   end
 end

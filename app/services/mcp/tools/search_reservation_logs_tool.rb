@@ -70,7 +70,8 @@ module Mcp
             steam_uid: {
               type: "string",
               description: "Steam ID64 to search logs across all recent reservations the player participated in. " \
-                          "When provided, searches across multiple reservations. Requires search_term."
+                          "When provided, searches across multiple reservations and filters results to only show " \
+                          "lines from this player (matched by their SteamID3). Requires search_term."
             },
             reservations_limit: {
               type: "integer",
@@ -138,8 +139,8 @@ module Mcp
         count
       end
 
-      sig { params(log_file: String, search_term: String, context_lines: Integer, max_results: Integer, offset: Integer, reservation_id: T.untyped, total_lines: Integer).returns(T::Hash[Symbol, T.untyped]) }
-      def search_log(log_file, search_term, context_lines, max_results, offset, reservation_id, total_lines)
+      sig { params(log_file: String, search_term: String, context_lines: Integer, max_results: Integer, offset: Integer, reservation_id: T.untyped, total_lines: Integer, player_filter: T.nilable(String)).returns(T::Hash[Symbol, T.untyped]) }
+      def search_log(log_file, search_term, context_lines, max_results, offset, reservation_id, total_lines, player_filter: nil)
         sanitized_term = sanitize_search_term(search_term)
         return { error: "Invalid search term" } if sanitized_term.blank?
 
@@ -152,6 +153,7 @@ module Mcp
         IO.popen(args) do |io|
           io.each_line do |line|
             next unless relevant_line?(line)
+            next if player_filter && !line.include?(player_filter)
 
             if skipped < offset
               skipped += 1
@@ -208,6 +210,12 @@ module Mcp
         search_term = params[:search_term]&.to_s&.presence
         return { error: "search_term is required when searching by steam_uid" } unless search_term
 
+        steam_id3 = begin
+          SteamCondenser::Community::SteamId.community_id_to_steam_id3(steam_uid.to_i)
+        rescue StandardError
+          return { error: "Invalid steam_uid: #{steam_uid}" }
+        end
+
         reservations_limit = [ params.fetch(:reservations_limit, 10).to_i, 25 ].min
         context_lines = [ params.fetch(:context_lines, 0).to_i, 10 ].min
         max_results = [ params.fetch(:max_results, 200).to_i, 1000 ].min
@@ -221,22 +229,30 @@ module Mcp
           .distinct
 
         results_by_reservation = []
+        total_match_count = 0
 
         reservations.each do |reservation|
+          break if total_match_count >= max_results
+
           log_file = log_file_path(reservation)
           next unless log_file && File.exist?(log_file)
 
+          remaining = max_results - total_match_count
           total_lines = count_lines(log_file)
-          result = search_log(log_file, search_term, context_lines, max_results, 0, reservation.id, total_lines)
+          result = search_log(log_file, search_term, context_lines, remaining, 0, reservation.id, total_lines, player_filter: steam_id3)
 
           next if result[:error] || result[:lines].empty?
 
+          total_match_count += result[:lines].size
           results_by_reservation << result
         end
 
         {
           steam_uid: steam_uid,
+          steam_id3: steam_id3,
           reservations_searched: results_by_reservation.size,
+          total_match_count: total_match_count,
+          truncated: total_match_count >= max_results,
           results_by_reservation: results_by_reservation
         }
       end

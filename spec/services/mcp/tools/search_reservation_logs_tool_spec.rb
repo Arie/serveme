@@ -219,7 +219,9 @@ RSpec.describe Mcp::Tools::SearchReservationLogsTool do
     end
 
     context "with steam_uid parameter" do
+      # 76561198012345678 maps to [U:1:52079950]
       let(:player_uid) { "76561198012345678" }
+      let(:player_steam_id3) { "[U:1:52079950]" }
       let(:server2) { create(:server, name: "Second Server") }
       let!(:reservation2) do
         create(:reservation, server: server2, logsecret: "testsecret456")
@@ -241,12 +243,24 @@ RSpec.describe Mcp::Tools::SearchReservationLogsTool do
         )
       end
 
+      let(:log_content) do
+        <<~LOG
+          L 01/15/2026 - 20:00:01: Log file started
+          L 01/15/2026 - 20:00:02: "TestPlayer<2><#{player_steam_id3}><>" connected, address "192.168.1.100:27005"
+          L 01/15/2026 - 20:00:03: "OtherPlayer<3><[U:1:67890]><>" connected, address "10.0.0.50:27005"
+          L 01/15/2026 - 20:00:10: "TestPlayer<2><#{player_steam_id3}><Red>" say "gg"
+          L 01/15/2026 - 20:00:11: "OtherPlayer<3><[U:1:67890]><Blue>" say "gg wp"
+          L 01/15/2026 - 20:00:20: Log file closed
+        LOG
+      end
+
       let(:log_file2) { log_dir.join("#{reservation2.logsecret}.log") }
       let(:log_content2) do
         <<~LOG
           L 01/16/2026 - 20:00:01: Log file started
-          L 01/16/2026 - 20:00:02: "TestPlayer<2><[U:1:12345]><>" connected, address "192.168.1.100:27005"
-          L 01/16/2026 - 20:00:10: "TestPlayer<2><[U:1:12345]><Red>" say "hello"
+          L 01/16/2026 - 20:00:02: "TestPlayer<2><#{player_steam_id3}><>" connected, address "192.168.1.100:27005"
+          L 01/16/2026 - 20:00:10: "TestPlayer<2><#{player_steam_id3}><Red>" say "hello"
+          L 01/16/2026 - 20:00:11: "OtherPlayer<3><[U:1:67890]><Blue>" say "yo"
           L 01/16/2026 - 20:00:20: Log file closed
         LOG
       end
@@ -259,13 +273,27 @@ RSpec.describe Mcp::Tools::SearchReservationLogsTool do
         File.delete(log_file2) if File.exist?(log_file2)
       end
 
-      it "searches across multiple reservations" do
+      it "searches across multiple reservations and filters by player" do
         result = tool.execute(steam_uid: player_uid, search_term: "say")
 
         expect(result[:steam_uid]).to eq(player_uid)
+        expect(result[:steam_id3]).to eq(player_steam_id3)
         expect(result[:reservations_searched]).to eq(2)
+        expect(result[:total_match_count]).to eq(2)
+        expect(result[:truncated]).to be false
         expect(result[:results_by_reservation]).to be_an(Array)
         expect(result[:results_by_reservation].size).to eq(2)
+        all_lines = result[:results_by_reservation].flat_map { |r| r[:lines] }
+        expect(all_lines).to all(include(player_steam_id3))
+        expect(all_lines.none? { |l| l.include?("[U:1:67890]") }).to be true
+      end
+
+      it "applies max_results as a global cap across all reservations" do
+        result = tool.execute(steam_uid: player_uid, search_term: "say", max_results: 1)
+
+        total_lines = result[:results_by_reservation].sum { |r| r[:lines].size }
+        expect(total_lines).to eq(1)
+        expect(result[:truncated]).to be true
       end
 
       it "requires search_term with steam_uid" do

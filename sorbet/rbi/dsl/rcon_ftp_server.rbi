@@ -773,6 +773,411 @@ class RconFtpServer
     sig { void }
     def billing_id_will_change!; end
 
+    sig { returns(T.nilable(::String)) }
+    def cloud_callback_token; end
+
+    sig { params(value: T.nilable(::String)).returns(T.nilable(::String)) }
+    def cloud_callback_token=(value); end
+
+    sig { returns(T::Boolean) }
+    def cloud_callback_token?; end
+
+    sig { returns(T.nilable(::String)) }
+    def cloud_callback_token_before_last_save; end
+
+    sig { returns(T.untyped) }
+    def cloud_callback_token_before_type_cast; end
+
+    sig { returns(T::Boolean) }
+    def cloud_callback_token_came_from_user?; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def cloud_callback_token_change; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def cloud_callback_token_change_to_be_saved; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def cloud_callback_token_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::String)) }
+    def cloud_callback_token_in_database; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def cloud_callback_token_previous_change; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def cloud_callback_token_previously_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::String)) }
+    def cloud_callback_token_previously_was; end
+
+    sig { returns(T.nilable(::String)) }
+    def cloud_callback_token_was; end
+
+    sig { void }
+    def cloud_callback_token_will_change!; end
+
+    sig { returns(T.nilable(::ActiveSupport::TimeWithZone)) }
+    def cloud_created_at; end
+
+    sig { params(value: T.nilable(::ActiveSupport::TimeWithZone)).returns(T.nilable(::ActiveSupport::TimeWithZone)) }
+    def cloud_created_at=(value); end
+
+    sig { returns(T::Boolean) }
+    def cloud_created_at?; end
+
+    sig { returns(T.nilable(::ActiveSupport::TimeWithZone)) }
+    def cloud_created_at_before_last_save; end
+
+    sig { returns(T.untyped) }
+    def cloud_created_at_before_type_cast; end
+
+    sig { returns(T::Boolean) }
+    def cloud_created_at_came_from_user?; end
+
+    sig { returns(T.nilable([T.nilable(::ActiveSupport::TimeWithZone), T.nilable(::ActiveSupport::TimeWithZone)])) }
+    def cloud_created_at_change; end
+
+    sig { returns(T.nilable([T.nilable(::ActiveSupport::TimeWithZone), T.nilable(::ActiveSupport::TimeWithZone)])) }
+    def cloud_created_at_change_to_be_saved; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def cloud_created_at_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::ActiveSupport::TimeWithZone)) }
+    def cloud_created_at_in_database; end
+
+    sig { returns(T.nilable([T.nilable(::ActiveSupport::TimeWithZone), T.nilable(::ActiveSupport::TimeWithZone)])) }
+    def cloud_created_at_previous_change; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def cloud_created_at_previously_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::ActiveSupport::TimeWithZone)) }
+    def cloud_created_at_previously_was; end
+
+    sig { returns(T.nilable(::ActiveSupport::TimeWithZone)) }
+    def cloud_created_at_was; end
+
+    sig { void }
+    def cloud_created_at_will_change!; end
+
+    sig { returns(T.nilable(::ActiveSupport::TimeWithZone)) }
+    def cloud_destroyed_at; end
+
+    sig { params(value: T.nilable(::ActiveSupport::TimeWithZone)).returns(T.nilable(::ActiveSupport::TimeWithZone)) }
+    def cloud_destroyed_at=(value); end
+
+    sig { returns(T::Boolean) }
+    def cloud_destroyed_at?; end
+
+    sig { returns(T.nilable(::ActiveSupport::TimeWithZone)) }
+    def cloud_destroyed_at_before_last_save; end
+
+    sig { returns(T.untyped) }
+    def cloud_destroyed_at_before_type_cast; end
+
+    sig { returns(T::Boolean) }
+    def cloud_destroyed_at_came_from_user?; end
+
+    sig { returns(T.nilable([T.nilable(::ActiveSupport::TimeWithZone), T.nilable(::ActiveSupport::TimeWithZone)])) }
+    def cloud_destroyed_at_change; end
+
+    sig { returns(T.nilable([T.nilable(::ActiveSupport::TimeWithZone), T.nilable(::ActiveSupport::TimeWithZone)])) }
+    def cloud_destroyed_at_change_to_be_saved; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def cloud_destroyed_at_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::ActiveSupport::TimeWithZone)) }
+    def cloud_destroyed_at_in_database; end
+
+    sig { returns(T.nilable([T.nilable(::ActiveSupport::TimeWithZone), T.nilable(::ActiveSupport::TimeWithZone)])) }
+    def cloud_destroyed_at_previous_change; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def cloud_destroyed_at_previously_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::ActiveSupport::TimeWithZone)) }
+    def cloud_destroyed_at_previously_was; end
+
+    sig { returns(T.nilable(::ActiveSupport::TimeWithZone)) }
+    def cloud_destroyed_at_was; end
+
+    sig { void }
+    def cloud_destroyed_at_will_change!; end
+
+    sig { returns(T.nilable(::String)) }
+    def cloud_location; end
+
+    sig { params(value: T.nilable(::String)).returns(T.nilable(::String)) }
+    def cloud_location=(value); end
+
+    sig { returns(T::Boolean) }
+    def cloud_location?; end
+
+    sig { returns(T.nilable(::String)) }
+    def cloud_location_before_last_save; end
+
+    sig { returns(T.untyped) }
+    def cloud_location_before_type_cast; end
+
+    sig { returns(T::Boolean) }
+    def cloud_location_came_from_user?; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def cloud_location_change; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def cloud_location_change_to_be_saved; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def cloud_location_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::String)) }
+    def cloud_location_in_database; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def cloud_location_previous_change; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def cloud_location_previously_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::String)) }
+    def cloud_location_previously_was; end
+
+    sig { returns(T.nilable(::String)) }
+    def cloud_location_was; end
+
+    sig { void }
+    def cloud_location_will_change!; end
+
+    sig { returns(T.nilable(::String)) }
+    def cloud_provider; end
+
+    sig { params(value: T.nilable(::String)).returns(T.nilable(::String)) }
+    def cloud_provider=(value); end
+
+    sig { returns(T::Boolean) }
+    def cloud_provider?; end
+
+    sig { returns(T.nilable(::String)) }
+    def cloud_provider_before_last_save; end
+
+    sig { returns(T.untyped) }
+    def cloud_provider_before_type_cast; end
+
+    sig { returns(T::Boolean) }
+    def cloud_provider_came_from_user?; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def cloud_provider_change; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def cloud_provider_change_to_be_saved; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def cloud_provider_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::String)) }
+    def cloud_provider_id; end
+
+    sig { params(value: T.nilable(::String)).returns(T.nilable(::String)) }
+    def cloud_provider_id=(value); end
+
+    sig { returns(T::Boolean) }
+    def cloud_provider_id?; end
+
+    sig { returns(T.nilable(::String)) }
+    def cloud_provider_id_before_last_save; end
+
+    sig { returns(T.untyped) }
+    def cloud_provider_id_before_type_cast; end
+
+    sig { returns(T::Boolean) }
+    def cloud_provider_id_came_from_user?; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def cloud_provider_id_change; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def cloud_provider_id_change_to_be_saved; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def cloud_provider_id_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::String)) }
+    def cloud_provider_id_in_database; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def cloud_provider_id_previous_change; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def cloud_provider_id_previously_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::String)) }
+    def cloud_provider_id_previously_was; end
+
+    sig { returns(T.nilable(::String)) }
+    def cloud_provider_id_was; end
+
+    sig { void }
+    def cloud_provider_id_will_change!; end
+
+    sig { returns(T.nilable(::String)) }
+    def cloud_provider_in_database; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def cloud_provider_previous_change; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def cloud_provider_previously_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::String)) }
+    def cloud_provider_previously_was; end
+
+    sig { returns(T.nilable(::String)) }
+    def cloud_provider_was; end
+
+    sig { void }
+    def cloud_provider_will_change!; end
+
+    sig { returns(T.nilable(::Integer)) }
+    def cloud_reservation_id; end
+
+    sig { params(value: T.nilable(::Integer)).returns(T.nilable(::Integer)) }
+    def cloud_reservation_id=(value); end
+
+    sig { returns(T::Boolean) }
+    def cloud_reservation_id?; end
+
+    sig { returns(T.nilable(::Integer)) }
+    def cloud_reservation_id_before_last_save; end
+
+    sig { returns(T.untyped) }
+    def cloud_reservation_id_before_type_cast; end
+
+    sig { returns(T::Boolean) }
+    def cloud_reservation_id_came_from_user?; end
+
+    sig { returns(T.nilable([T.nilable(::Integer), T.nilable(::Integer)])) }
+    def cloud_reservation_id_change; end
+
+    sig { returns(T.nilable([T.nilable(::Integer), T.nilable(::Integer)])) }
+    def cloud_reservation_id_change_to_be_saved; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def cloud_reservation_id_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::Integer)) }
+    def cloud_reservation_id_in_database; end
+
+    sig { returns(T.nilable([T.nilable(::Integer), T.nilable(::Integer)])) }
+    def cloud_reservation_id_previous_change; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def cloud_reservation_id_previously_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::Integer)) }
+    def cloud_reservation_id_previously_was; end
+
+    sig { returns(T.nilable(::Integer)) }
+    def cloud_reservation_id_was; end
+
+    sig { void }
+    def cloud_reservation_id_will_change!; end
+
+    sig { returns(T.nilable(::Integer)) }
+    def cloud_ssh_port; end
+
+    sig { params(value: T.nilable(::Integer)).returns(T.nilable(::Integer)) }
+    def cloud_ssh_port=(value); end
+
+    sig { returns(T::Boolean) }
+    def cloud_ssh_port?; end
+
+    sig { returns(T.nilable(::Integer)) }
+    def cloud_ssh_port_before_last_save; end
+
+    sig { returns(T.untyped) }
+    def cloud_ssh_port_before_type_cast; end
+
+    sig { returns(T::Boolean) }
+    def cloud_ssh_port_came_from_user?; end
+
+    sig { returns(T.nilable([T.nilable(::Integer), T.nilable(::Integer)])) }
+    def cloud_ssh_port_change; end
+
+    sig { returns(T.nilable([T.nilable(::Integer), T.nilable(::Integer)])) }
+    def cloud_ssh_port_change_to_be_saved; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def cloud_ssh_port_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::Integer)) }
+    def cloud_ssh_port_in_database; end
+
+    sig { returns(T.nilable([T.nilable(::Integer), T.nilable(::Integer)])) }
+    def cloud_ssh_port_previous_change; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def cloud_ssh_port_previously_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::Integer)) }
+    def cloud_ssh_port_previously_was; end
+
+    sig { returns(T.nilable(::Integer)) }
+    def cloud_ssh_port_was; end
+
+    sig { void }
+    def cloud_ssh_port_will_change!; end
+
+    sig { returns(T.nilable(::String)) }
+    def cloud_status; end
+
+    sig { params(value: T.nilable(::String)).returns(T.nilable(::String)) }
+    def cloud_status=(value); end
+
+    sig { returns(T::Boolean) }
+    def cloud_status?; end
+
+    sig { returns(T.nilable(::String)) }
+    def cloud_status_before_last_save; end
+
+    sig { returns(T.untyped) }
+    def cloud_status_before_type_cast; end
+
+    sig { returns(T::Boolean) }
+    def cloud_status_came_from_user?; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def cloud_status_change; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def cloud_status_change_to_be_saved; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def cloud_status_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::String)) }
+    def cloud_status_in_database; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def cloud_status_previous_change; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def cloud_status_previously_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::String)) }
+    def cloud_status_previously_was; end
+
+    sig { returns(T.nilable(::String)) }
+    def cloud_status_was; end
+
+    sig { void }
+    def cloud_status_will_change!; end
+
     sig { returns(T.nilable(::ActiveSupport::TimeWithZone)) }
     def created_at; end
 
@@ -1725,6 +2130,33 @@ class RconFtpServer
     def restore_billing_id!; end
 
     sig { void }
+    def restore_cloud_callback_token!; end
+
+    sig { void }
+    def restore_cloud_created_at!; end
+
+    sig { void }
+    def restore_cloud_destroyed_at!; end
+
+    sig { void }
+    def restore_cloud_location!; end
+
+    sig { void }
+    def restore_cloud_provider!; end
+
+    sig { void }
+    def restore_cloud_provider_id!; end
+
+    sig { void }
+    def restore_cloud_reservation_id!; end
+
+    sig { void }
+    def restore_cloud_ssh_port!; end
+
+    sig { void }
+    def restore_cloud_status!; end
+
+    sig { void }
     def restore_created_at!; end
 
     sig { void }
@@ -1816,6 +2248,60 @@ class RconFtpServer
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def saved_change_to_billing_id?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def saved_change_to_cloud_callback_token; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def saved_change_to_cloud_callback_token?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable([T.nilable(::ActiveSupport::TimeWithZone), T.nilable(::ActiveSupport::TimeWithZone)])) }
+    def saved_change_to_cloud_created_at; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def saved_change_to_cloud_created_at?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable([T.nilable(::ActiveSupport::TimeWithZone), T.nilable(::ActiveSupport::TimeWithZone)])) }
+    def saved_change_to_cloud_destroyed_at; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def saved_change_to_cloud_destroyed_at?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def saved_change_to_cloud_location; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def saved_change_to_cloud_location?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def saved_change_to_cloud_provider; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def saved_change_to_cloud_provider?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def saved_change_to_cloud_provider_id; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def saved_change_to_cloud_provider_id?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable([T.nilable(::Integer), T.nilable(::Integer)])) }
+    def saved_change_to_cloud_reservation_id; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def saved_change_to_cloud_reservation_id?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable([T.nilable(::Integer), T.nilable(::Integer)])) }
+    def saved_change_to_cloud_ssh_port; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def saved_change_to_cloud_ssh_port?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def saved_change_to_cloud_status; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def saved_change_to_cloud_status?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
     sig { returns(T.nilable([T.nilable(::ActiveSupport::TimeWithZone), T.nilable(::ActiveSupport::TimeWithZone)])) }
     def saved_change_to_created_at; end
@@ -2254,6 +2740,33 @@ class RconFtpServer
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def will_save_change_to_billing_id?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def will_save_change_to_cloud_callback_token?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def will_save_change_to_cloud_created_at?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def will_save_change_to_cloud_destroyed_at?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def will_save_change_to_cloud_location?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def will_save_change_to_cloud_provider?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def will_save_change_to_cloud_provider_id?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def will_save_change_to_cloud_reservation_id?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def will_save_change_to_cloud_ssh_port?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def will_save_change_to_cloud_status?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def will_save_change_to_created_at?(from: T.unsafe(nil), to: T.unsafe(nil)); end

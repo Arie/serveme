@@ -47,3 +47,8 @@ league_maps_sync_tz:
   cron: "0 * * * * Europe/Amsterdam"  # Run hourly
   class: "LeagueMapsSyncWorker"
   queue: default
+
+cloud_server_cleanup_tz:
+  cron: "*/10 * * * * Europe/Amsterdam"  # Run every 10 minutes
+  class: "CloudServerCleanupWorker"
+  queue: default

@@ -13,6 +13,8 @@ class ReservationManager
   end
 
   def start_reservation
+    return if server.is_a?(CloudServer)
+
     if previous_reservation_ended_fully?
       reservation.reservation_statuses.create!(status: "Starting")
       manage_reservation(:start)

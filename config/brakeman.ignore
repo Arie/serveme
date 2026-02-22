@@ -70,29 +70,6 @@
       "note": ""
     },
     {
-      "warning_type": "File Access",
-      "warning_code": 16,
-      "fingerprint": "55f1714352780cdffd6721c1149e6bf195e8f7baebe49ac0330ac92fa8a09ccb",
-      "check_name": "FileAccess",
-      "message": "Model attribute used in file name",
-      "file": "app/workers/zip_upload_worker.rb",
-      "line": 20,
-      "link": "https://brakemanscanner.org/docs/warning_types/file_access/",
-      "code": "File.open(Reservation.find(reservation_id).local_zipfile_path.to_s, \"rb\")",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "ZipUploadWorker",
-        "method": "perform"
-      },
-      "user_input": "Reservation.find(reservation_id).local_zipfile_path.to_s",
-      "confidence": "Medium",
-      "cwe_id": [
-        22
-      ],
-      "note": ""
-    },
-    {
       "warning_type": "Command Injection",
       "warning_code": 14,
       "fingerprint": "5c13513c490134f811a9ce40fb0710583328ce4ec8d6e3c6be682fe780c78f5a",
@@ -197,17 +174,40 @@
     {
       "warning_type": "Command Injection",
       "warning_code": 14,
-      "fingerprint": "7d41c856358c51bb164b0cdc34c07543915573fa90d0d957afa7fe8fa7bdcba5",
+      "fingerprint": "53dd7e609bdfbbe00dca65e164d3f656dff382410c0c7b5c26664e596aeb9244",
       "check_name": "Execute",
       "message": "Possible command injection",
-      "file": "app/models/ssh_server.rb",
-      "line": 87,
+      "file": "app/behaviour/ssh_execution.rb",
+      "line": 106,
       "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
-      "code": "system(\"#{scp_command} #{ip}:\\\"#{files.map(&:shellescape).join(\" \")}\\\" #{destination}\")",
+      "code": "system(\"#{scp_command} #{files.map(&:shellescape).join(\" \")} #{scp_target}:#{destination}\")",
       "render_path": null,
       "location": {
         "type": "method",
-        "class": "SshServer",
+        "class": "SshExecution",
+        "method": "copy_to_server"
+      },
+      "user_input": "scp_command",
+      "confidence": "Medium",
+      "cwe_id": [
+        77
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Command Injection",
+      "warning_code": 14,
+      "fingerprint": "ca78feb62ddd6e715a411cedac9371e843e37c0a422d4c4b5495fdc3203ff468",
+      "check_name": "Execute",
+      "message": "Possible command injection",
+      "file": "app/behaviour/ssh_execution.rb",
+      "line": 114,
+      "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
+      "code": "system(\"#{scp_command} #{scp_target}:\\\"#{files.map(&:shellescape).join(\" \")}\\\" #{destination}\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "SshExecution",
         "method": "copy_from_server"
       },
       "user_input": "scp_command",
@@ -237,29 +237,6 @@
       "confidence": "High",
       "cwe_id": [
         77
-      ],
-      "note": ""
-    },
-    {
-      "warning_type": "File Access",
-      "warning_code": 16,
-      "fingerprint": "9d2537f94d31cea3433132e338a68812fb8cdf1888521644bbab43aa12567e73",
-      "check_name": "FileAccess",
-      "message": "Parameter value used in file name",
-      "file": "app/controllers/log_uploads_controller.rb",
-      "line": 39,
-      "link": "https://brakemanscanner.org/docs/warning_types/file_access/",
-      "code": "File.read(find_log_file(params[:file_name].to_s)[:file_name_and_path])",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "LogUploadsController",
-        "method": "show_log"
-      },
-      "user_input": "params[:file_name].to_s",
-      "confidence": "Weak",
-      "cwe_id": [
-        22
       ],
       "note": ""
     },
@@ -369,29 +346,6 @@
     {
       "warning_type": "Command Injection",
       "warning_code": 14,
-      "fingerprint": "d2acc52a2f48e90f33d7ac20daa1df714fe5f3848ff251143f73ae40bd396563",
-      "check_name": "Execute",
-      "message": "Possible command injection",
-      "file": "app/models/ssh_server.rb",
-      "line": 79,
-      "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
-      "code": "system(\"#{scp_command} #{files.map(&:shellescape).join(\" \")} #{ip}:#{destination}\")",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "SshServer",
-        "method": "copy_to_server"
-      },
-      "user_input": "scp_command",
-      "confidence": "Medium",
-      "cwe_id": [
-        77
-      ],
-      "note": ""
-    },
-    {
-      "warning_type": "Command Injection",
-      "warning_code": 14,
       "fingerprint": "df91fb68d008f306e25952aba20b290b143aae6024ed63b7a030c68a8eb7136f",
       "check_name": "Execute",
       "message": "Possible command injection",
@@ -480,6 +434,52 @@
         77
       ],
       "note": "False positive - tmp_dir is from Dir.mktmpdir (safe), strip_command is static string"
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "cea1467c258cf1374fc4b008bc9a65e640565bd804e9306a301d961252b2d1d5",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/services/cloud_provider/hetzner.rb",
+      "line": 36,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "connection.delete(\"servers/#{provider_id}\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "CloudProvider::Hetzner",
+        "method": "destroy_server"
+      },
+      "user_input": "provider_id",
+      "confidence": "Medium",
+      "cwe_id": [
+        89
+      ],
+      "note": "False positive - this is a Faraday HTTP URL path, not SQL. provider_id is the Hetzner server ID"
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "c257dad9bb35ac89ceaa6c1c2a14642737bdf5459720111de76706347f4b1495",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/services/cloud_provider/vultr.rb",
+      "line": 75,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "connection.delete(\"instances/#{provider_id}\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "CloudProvider::Vultr",
+        "method": "destroy_server"
+      },
+      "user_input": "provider_id",
+      "confidence": "Medium",
+      "cwe_id": [
+        89
+      ],
+      "note": "False positive - this is a Faraday HTTP URL path, not SQL. provider_id is the Vultr instance ID"
     }
   ],
   "brakeman_version": "7.1.0"

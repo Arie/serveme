@@ -1,0 +1,58 @@
+.row
+  .col-12.col-lg-8.offset-lg-2
+    %h3
+      %i.fa.fa-cloud
+      Launch Cloud Server
+
+    .alert.alert-info
+      %i.fa.fa-info-circle
+      Cloud servers are created on-demand in the location of your choice.
+      Unlike regular servers, they take
+      %strong a few minutes
+      to start up. You'll see live progress on the reservation page.
+
+    = simple_form_for(@reservation, url: cloud_reservations_path, wrapper: :horizontal_form, html: { class: 'form-horizontal reservation' }) do |f|
+      .form-group.row
+        %label.col-sm-3.col-form-label{for: "cloud_location"} Location
+        .col-sm-9
+          = select_tag :cloud_location, grouped_options_for_select(@cloud_locations), class: "form-control", required: true, onchange: "updateEstimate(this)"
+          %small.form-text#cloud-estimate
+
+      = f.input :ends_at, as: :string, input_html: { value: I18n.l(@reservation.ends_at || 2.hours.from_now, format: :datepicker), data: { "datepicker-format": "dd-mm-yyyy hh:ii", "datepicker-nodefault": "false" } }, label: "Ends at"
+
+      = f.input :password, as: :string, placeholder: "The server password to join the game"
+      = f.input :rcon, as: :string, placeholder: "The RCON password to control the server"
+      = f.input :first_map, as: :grouped_select, group_method: :maps, group_label_method: :name, collection: LeagueMaps.all, input_html: { class: "select2" }
+      = f.input :tv_password, as: :string, placeholder: "Password for STV, default tv"
+      = f.input :enable_plugins, as: :boolean, hint: "Enable plugins"
+      = f.input :enable_demos_tf, as: :boolean, hint: "Enable uploading STVs to demos.tf"
+      = f.association :server_config, collection: @server_configs, hint: "Specify a league config to run on each map start", input_html: { class: "select2" }
+      = f.input :auto_end, as: :boolean, hint: "Automatically end the reservation once everyone has left the server", input_html: { value: true }
+
+      .row.submit-row
+        .col-sm-2.offset-sm-4.col-lg-2.offset-lg-5
+          %button.btn.btn-success{type: :submit}
+            %i.fa.fa-cloud
+            Launch
+
+    = render "reservations/datepicker_javascript_options"
+
+    :javascript
+      var providerEstimates = #{CloudProvider::PROVIDERS.transform_values { |klass| klass.new.estimated_provision_time }.to_json.html_safe};
+
+      function updateEstimate(select) {
+        var el = document.getElementById('cloud-estimate');
+        var value = select.value;
+        if (!value) { el.textContent = ''; return; }
+        var provider = value.split(':')[0];
+        var estimate = providerEstimates[provider];
+        if (estimate) {
+          el.textContent = 'Estimated startup time: ' + estimate;
+        } else {
+          el.textContent = '';
+        }
+      }
+
+      // Set initial estimate
+      var locationSelect = document.getElementById('cloud_location');
+      if (locationSelect) { updateEstimate(locationSelect); }

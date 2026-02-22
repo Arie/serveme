@@ -384,6 +384,9 @@ class Server < ActiveRecord::Base
   def start_reservation(reservation)
     reservation.enable_mitigations if supports_mitigations?
 
+    if is_a?(CloudServer)
+      write_first_map(reservation)
+    end
     update_configuration(reservation)
     if reservation.enable_plugins? || reservation.enable_demos_tf? || au_system?
       reservation.status_update("Enabling plugins")
@@ -400,6 +403,10 @@ class Server < ActiveRecord::Base
         reservation.status_update("Disabling RGL democheck")
         handle_rgl_base_cfg(reservation)
       end
+    end
+    if is_a?(CloudServer)
+      reservation.status_update("Config files sent, waiting for TF2 to boot")
+      return
     end
     ensure_map_on_server(reservation)
     if T.must(reservation.server).outdated?

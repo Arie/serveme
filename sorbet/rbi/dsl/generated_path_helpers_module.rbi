@@ -85,6 +85,9 @@ module GeneratedPathHelpersModule
   def claim_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def cloud_reservations_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def complete_map_uploads_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
@@ -259,6 +262,9 @@ module GeneratedPathHelpersModule
   def new_api_reservation_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def new_cloud_reservation_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def new_file_upload_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
@@ -398,6 +404,9 @@ module GeneratedPathHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def rcon_view_reservation_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def ready_api_cloud_server_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def recent_reservations_pages_path(*args); end

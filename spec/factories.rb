@@ -18,6 +18,20 @@ FactoryBot.define do
     longitude { 9 }
   end
 
+  factory :cloud_server, class: 'CloudServer' do
+    name { 'Cloud Server 1' }
+    path { '/home/tf2/hlserver/tf2' }
+    ip { '1.2.3.4' }
+    port { '27015' }
+    rcon { 'cloudsecret' }
+    location
+    cloud_provider { 'hetzner' }
+    cloud_provider_id { 'hetzner-123' }
+    cloud_status { 'ready' }
+    cloud_location { 'fsn1' }
+    cloud_created_at { 5.minutes.ago }
+  end
+
   factory :user do
     uid { '123456789' }
     nickname { 'Terminator' }

@@ -1,0 +1,6 @@
+%div{id: "reservation_rcon_info_#{reservation.id}"}
+  - if reservation&.server&.sdr? && (user = current_user rescue nil) && !(user.admin? || user.league_admin? || user.streamer?)
+    %p RCON is not available for SDR servers, use !rcon in chat
+  - else
+    = reservation.rcon_string
+    = render 'shared/copy_button', :copy_button_id => "rcon_string", :copy_text => reservation.rcon_string

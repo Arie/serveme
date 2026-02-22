@@ -62,6 +62,8 @@ module ApplicationHelper
       "fa-gear fa-spin"
     when "Waiting to start"
       "fa-clock-o"
+    when "Provisioning cloud server"
+      "fa-cloud fa-spin"
     else
       "fa-spinner fa-spin"
     end

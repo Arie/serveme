@@ -34,4 +34,7 @@ Serveme::Application.configure do
   config.eager_load = false
 
   config.action_controller.forgery_protection_origin_check = false
+  config.hosts << "host.docker.internal"
+  config.hosts << "ariekanarie.nl"
+  config.hosts << ENV["CLOUD_CALLBACK_HOST"]&.split(":")&.first if ENV["CLOUD_CALLBACK_HOST"]
 end

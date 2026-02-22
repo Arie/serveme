@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_11_203110) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_23_130000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -316,6 +316,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_11_203110) do
   create_table "servers", force: :cascade do |t|
     t.boolean "active", default: true
     t.string "billing_id"
+    t.string "cloud_callback_token"
+    t.datetime "cloud_created_at"
+    t.datetime "cloud_destroyed_at"
+    t.string "cloud_location"
+    t.string "cloud_provider"
+    t.string "cloud_provider_id"
+    t.bigint "cloud_reservation_id"
+    t.integer "cloud_ssh_port", default: 22
+    t.string "cloud_status"
     t.datetime "created_at", precision: nil
     t.text "ftp_password"
     t.bigint "ftp_port", default: 21
@@ -342,6 +351,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_11_203110) do
     t.string "update_status"
     t.datetime "updated_at", precision: nil
     t.index ["active"], name: "idx_17217_index_servers_on_active"
+    t.index ["cloud_reservation_id"], name: "index_servers_on_cloud_reservation_id"
+    t.index ["cloud_status"], name: "index_servers_on_cloud_status"
     t.index ["ip"], name: "index_servers_on_ip"
     t.index ["latitude", "longitude"], name: "idx_17217_index_servers_on_latitude_and_longitude"
     t.index ["location_id"], name: "idx_17217_index_servers_on_location_id"

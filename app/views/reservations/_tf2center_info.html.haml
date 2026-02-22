@@ -1,0 +1,9 @@
+%div{id: "reservation_tf2center_info_#{reservation.id}"}
+  Server Address:
+  - ip_and_port = "#{reservation.server&.hostname_to_ip}:#{reservation.public_port}"
+  = ip_and_port
+  = render 'shared/copy_button', :copy_button_id => "server_address", :copy_text => ip_and_port
+  %br
+  Rcon Password:
+  = reservation.rcon
+  = render 'shared/copy_button', :copy_button_id => "rcon_password", :copy_text => reservation.rcon

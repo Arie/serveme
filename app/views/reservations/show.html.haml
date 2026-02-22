@@ -67,14 +67,7 @@
         %tr
           %td TF2Center info
           %td
-            Server Address:
-            - ip_and_port = "#{reservation.server&.hostname_to_ip}:#{reservation.public_port}"
-            = ip_and_port
-            = render 'shared/copy_button', :copy_button_id => "server_address", :copy_text => ip_and_port
-            %br
-            Rcon Password:
-            = reservation.rcon
-            = render 'shared/copy_button', :copy_button_id => "rcon_password", :copy_text => reservation.rcon
+            = render "tf2center_info"
 
       %tr
         %td Password
@@ -83,11 +76,7 @@
       %tr
         %td RCON
         %td
-          -if reservation&.server&.sdr? && !(current_user.admin? || current_user.league_admin? || current_user.streamer?)
-            %p RCON is not available for SDR servers, use !rcon in chat
-          - else
-            = reservation.rcon_string
-            = render 'shared/copy_button', :copy_button_id => "rcon_string", :copy_text => reservation.rcon_string
+          = render "rcon_info"
 
       %tr
         %td TV password

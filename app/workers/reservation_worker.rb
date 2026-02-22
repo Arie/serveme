@@ -21,8 +21,10 @@ class ReservationWorker
   end
 
   def after_start_reservation_steps
-    reservation.provisioned = true
-    reservation.save(validate: false)
+    unless reservation.server.is_a?(CloudServer)
+      reservation.provisioned = true
+      reservation.save(validate: false)
+    end
     UpdateSteamNicknameWorker.perform_async(reservation.user.uid)
     DiscordReservationUpdateWorker.perform_async(reservation_id)
   end

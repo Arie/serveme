@@ -308,10 +308,18 @@ class Reservation < ActiveRecord::Base
     return "SDR Ready" if server&.sdr? && sdr_ip.present?
     return "Ready" if server_statistics.any? && !server&.sdr?
     return "Ready" if status_messages.grep(/\AServer finished loading map/).any? && !server&.sdr?
+    return "Ready" if provisioned? && server.is_a?(CloudServer)
 
     return "Server updating, please be patient" if status_messages.grep(/\AServer outdated/).any?
 
     return "Starting" if status_messages.include?("Starting")
+
+    if server.is_a?(CloudServer) && !provisioned?
+      cloud_server = T.cast(server, CloudServer)
+      return "Cloud server provisioning" if cloud_server.cloud_status == "provisioning"
+      return "Configuring" if cloud_server.cloud_status == "ssh_ready"
+      return "Starting" if cloud_server.cloud_status == "ready"
+    end
 
     return "Waiting to start" if status_messages.include?("Waiting to start")
 
@@ -433,6 +441,8 @@ class Reservation < ActiveRecord::Base
     broadcast_replace_to self, target: "reservation_connect_info_#{id}", partial: "reservations/connect_info", locals: { reservation: self }
     broadcast_replace_to self, target: "reservation_sdr_connect_info_#{id}", partial: "reservations/sdr_connect_info", locals: { reservation: self }
     broadcast_replace_to self, target: "reservation_stv_connect_info_#{id}", partial: "reservations/stv_connect_info", locals: { reservation: self }
+    broadcast_replace_to self, target: "reservation_tf2center_info_#{id}", partial: "reservations/tf2center_info", locals: { reservation: self }
+    broadcast_replace_to self, target: "reservation_rcon_info_#{id}", partial: "reservations/rcon_info", locals: { reservation: self }
     broadcast_replace_to self, target: "reservation_actions_#{id}", partial: "reservations/actions", locals: { reservation: self }
   end
 

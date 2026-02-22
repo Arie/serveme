@@ -33,14 +33,14 @@ class ReservationCleanupWorker
   private
 
   def zip_files
-    # Only LocalServer and SshServer use async cleanup
+    # Only LocalServer, SshServer, and CloudServer use async cleanup
     # FTP-based RemoteServers use synchronous cleanup in Server#end_reservation
     if server.is_a?(LocalServer)
       zip_local_server_files
-    elsif server.is_a?(SshServer)
+    elsif server.is_a?(SshServer) || server.is_a?(CloudServer)
       zip_ssh_server_files
     else
-      raise "Unexpected server type: #{server.class.name}. Only LocalServer and SshServer use async cleanup."
+      raise "Unexpected server type: #{server.class.name}. Only LocalServer, SshServer, and CloudServer use async cleanup."
     end
   end
 
@@ -122,10 +122,11 @@ class ReservationCleanupWorker
   def cleanup_temp_directory
     if server.is_a?(LocalServer)
       cleanup_local_temp_directory
-    elsif server.is_a?(SshServer)
+    elsif server.is_a?(SshServer) || server.is_a?(CloudServer)
       cleanup_remote_temp_directory
+      schedule_cloud_server_destruction if server.is_a?(CloudServer)
     else
-      raise "Unexpected server type: #{server.class.name}. Only LocalServer and SshServer use async cleanup."
+      raise "Unexpected server type: #{server.class.name}. Only LocalServer, SshServer, and CloudServer use async cleanup."
     end
   end
 
@@ -134,6 +135,10 @@ class ReservationCleanupWorker
   rescue SafeFileDeletion::InvalidPathError => e
     Rails.logger.error("ReservationCleanupWorker: Invalid temp directory path #{temp_directory_path}: #{e.message}")
     raise
+  end
+
+  def schedule_cloud_server_destruction
+    CloudServerDestroyWorker.perform_async(server.id)
   end
 
   def cleanup_remote_temp_directory

@@ -41,7 +41,9 @@ class ReservationWorker
     reservation.save(validate: false)
     reservation.broadcast_connect_info
 
-    if reservation.server.uses_async_cleanup?
+    if reservation.server.is_a?(CloudServer) && !reservation.provisioned?
+      CloudServerDestroyWorker.perform_async(reservation.server.id)
+    elsif reservation.server.uses_async_cleanup?
       temp_directory = reservation.server.temp_directory_for_reservation(reservation)
       ReservationCleanupWorker.perform_async(reservation_id, temp_directory)
     else

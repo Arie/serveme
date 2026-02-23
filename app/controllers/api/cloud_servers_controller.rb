@@ -34,6 +34,8 @@ module Api
       return unless updated > 0
 
       reservation = Reservation.find(T.must(cloud_server.cloud_reservation_id))
+      return if reservation.ended?
+
       reservation.status_update("Server ready, sending config files")
       ReservationWorker.perform_async(reservation.id, "start")
     end
@@ -41,6 +43,8 @@ module Api
     def handle_tf2_ready(cloud_server)
       cloud_server.mark_ready!
       reservation = Reservation.find(T.must(cloud_server.cloud_reservation_id))
+      return if reservation.ended?
+
       reservation.provisioned = true
       reservation.save(validate: false)
       reservation.status_update("TF2 server ready")

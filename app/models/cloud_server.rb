@@ -57,6 +57,14 @@ class CloudServer < RemoteServer
     reservation.broadcast_connect_info
   end
 
+  def end_reservation(reservation)
+    if reservation.provisioned?
+      super
+    else
+      reservation.status_update("Cancelling cloud server")
+    end
+  end
+
   def self.build_for_location(provider_name, location_code, rcon:)
     provider_class = CloudProvider::PROVIDERS[provider_name]
     raise ArgumentError, "Unknown provider: #{provider_name}" unless provider_class

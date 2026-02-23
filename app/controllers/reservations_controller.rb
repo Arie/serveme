@@ -109,7 +109,7 @@ class ReservationsController < ApplicationController
       cancel_reservation
       redirect_to root_path
       return
-    elsif reservation.just_started?
+    elsif reservation.just_started? && reservation.provisioned?
       flash[:alert] = "Your reservation was started in the last 2 minutes. Please give the server some time to start before ending your reservation"
     else
       end_reservation

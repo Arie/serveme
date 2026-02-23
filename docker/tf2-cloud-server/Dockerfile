@@ -20,6 +20,13 @@ USER tf2
 COPY --chown=tf2:tf2 plugins.sh /tmp/plugins.sh
 RUN chmod +x /tmp/plugins.sh && /tmp/plugins.sh && rm /tmp/plugins.sh
 
+# RGL configs, whitelists, and plugins (v365)
+RUN cd /home/tf2/hlserver/tf2/tf \
+    && wget -nv "https://github.com/RGLgg/server-resources-updater/releases/download/v365/server-resources-updater.zip" -O rgl.zip \
+    && unzip -o rgl.zip \
+    && rm rgl.zip \
+    && sed -i '/^sm_updater/d' cfg/rgl_base.cfg
+
 # Bake in ctf_turbine (stock map is VPK-packed, we need the .bsp for changelevel)
 RUN wget -nv "https://fastdl.serveme.tf/maps/ctf_turbine.bsp" -O "/home/tf2/hlserver/tf2/tf/maps/ctf_turbine.bsp"
 

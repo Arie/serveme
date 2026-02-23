@@ -6,11 +6,11 @@ module CloudProvider
     API_URL = "https://api.hetzner.cloud/v1"
 
     LOCATIONS = {
-      "fsn1" => { name: "Falkenstein", country: "Germany", region: "EU", flag: "de" },
-      "nbg1" => { name: "Nuremberg", country: "Germany", region: "EU", flag: "de" },
-      "hel1" => { name: "Helsinki", country: "Finland", region: "EU", flag: "fi" },
-      "ash"  => { name: "Ashburn", country: "USA", region: "NA", flag: "us" },
-      "hil"  => { name: "Hillsboro", country: "USA", region: "NA", flag: "us" }
+      "fsn1" => { name: "Falkenstein", country: "Germany", region: "EU", flag: "de", server_type: "cpx22" },
+      "nbg1" => { name: "Nuremberg", country: "Germany", region: "EU", flag: "de", server_type: "cpx22" },
+      "hel1" => { name: "Helsinki", country: "Finland", region: "EU", flag: "fi", server_type: "cpx22" },
+      "ash"  => { name: "Ashburn", country: "USA", region: "NA", flag: "us", server_type: "cpx21" },
+      "hil"  => { name: "Hillsboro", country: "USA", region: "NA", flag: "us", server_type: "cpx21" }
     }.freeze
 
     def create_server(cloud_server)
@@ -18,7 +18,7 @@ module CloudProvider
       response = connection.post("servers") do |req|
         req.body = {
           name: "serveme-#{cloud_server.id}",
-          server_type: server_type,
+          server_type: server_type_for(cloud_server.cloud_location),
           image: image_id,
           location: cloud_server.cloud_location || default_location,
           ssh_keys: [ ssh_key_name ],
@@ -70,7 +70,7 @@ module CloudProvider
       response = connection.post("servers") do |req|
         req.body = {
           name: "serveme-snapshot-#{Time.current.strftime('%Y%m%d%H%M')}",
-          server_type: server_type,
+          server_type: server_type_for(location),
           image: "docker-ce",
           location: location,
           ssh_keys: [ ssh_key_name ],
@@ -149,8 +149,8 @@ module CloudProvider
       Rails.application.credentials.dig(:cloud_servers, :hetzner, :image_id) || "docker-ce"
     end
 
-    def server_type
-      Rails.application.credentials.dig(:cloud_servers, :hetzner, :server_type) || "cpx21"
+    def server_type_for(location)
+      LOCATIONS.dig(location, :server_type) || "cpx22"
     end
 
     def default_location

@@ -184,7 +184,7 @@ module CloudProvider
     end
 
     def plan
-      Rails.application.credentials.dig(:cloud_servers, :vultr, :plan) || "vc2-2c-2gb"
+      "vc2-2c-2gb"
     end
 
     def default_region

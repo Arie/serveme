@@ -150,7 +150,7 @@ module CloudProvider
     end
 
     def server_type
-      Rails.application.credentials.dig(:cloud_servers, :hetzner, :server_type) || "cpx22"
+      Rails.application.credentials.dig(:cloud_servers, :hetzner, :server_type) || "cpx21"
     end
 
     def default_location

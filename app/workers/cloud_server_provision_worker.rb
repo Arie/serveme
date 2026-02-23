@@ -28,7 +28,11 @@ class CloudServerProvisionWorker
 
     cloud_server.update!(cloud_provider_id: provider_id)
 
-    reservation&.status_update("Creating VM (0%)")
+    if provider.respond_to?(:server_progress)
+      reservation&.status_update("Creating VM (0%)")
+    else
+      reservation&.status_update("Creating VM")
+    end
 
     CloudServerPollWorker.perform_in(5.seconds, cloud_server_id)
   end

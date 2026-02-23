@@ -300,7 +300,7 @@ class ReservationsController < ApplicationController
       end_reservation
       "Ending reservation"
     else
-      reservation.server.rcon_exec(rcon_command).to_s
+      reservation.server.rcon_exec(rcon_command, allow_blocked: current_user&.admin? || current_user&.streamer?).to_s
     end
   end
 

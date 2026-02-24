@@ -19,7 +19,7 @@ class ReservationsController < ApplicationController
       redirect_to root_path
     end
     @reservation ||= new_reservation
-    @servers = Server.active.ordered.includes(:location)
+    @servers = Server.active.not_cloud.ordered.includes(:location)
     if params[:ip].present?
       available_servers = ServerForUserFinder.new(current_user, @reservation.starts_at, @reservation.ends_at).servers
       matching_servers = available_servers.where(ip: params[:ip])
@@ -37,7 +37,7 @@ class ReservationsController < ApplicationController
       end
       reservation_saved if @reservation.persisted?
     else
-      @servers = Server.active.ordered.includes(:location)
+      @servers = Server.active.not_cloud.ordered.includes(:location)
       respond_to do |format|
         format.html { render :new, status: :unprocessable_entity }
       end
@@ -74,7 +74,7 @@ class ReservationsController < ApplicationController
   end
 
   def edit
-    @servers = Server.active.ordered.includes(:location)
+    @servers = Server.active.not_cloud.ordered.includes(:location)
     @reservation = reservation
   end
 

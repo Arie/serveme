@@ -6,6 +6,11 @@ class CloudServerProvisionWorker
 
   sidekiq_options retry: 3, queue: "priority"
 
+  sidekiq_retries_exhausted do |msg, _exception|
+    cloud_server = CloudServer.find_by(id: msg["args"][0])
+    cloud_server&.update!(cloud_status: "destroyed", cloud_destroyed_at: Time.current, active: false)
+  end
+
   def perform(cloud_server_id)
     cloud_server = CloudServer.find(cloud_server_id)
 

@@ -38,7 +38,7 @@ module Mcp
 
       sig { override.params(params: T::Hash[Symbol, T.untyped]).returns(T::Hash[Symbol, T.untyped]) }
       def execute(params)
-        servers = Server.active
+        servers = Server.active.not_cloud
 
         if params[:location].present?
           location = Location.where("name ILIKE ?", "%#{params[:location]}%").first

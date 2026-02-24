@@ -26,7 +26,7 @@ module ReservationsHelper
           end
           redirect_to root_path
         else
-          @servers = Server.active.ordered.includes(:location)
+          @servers = Server.active.not_cloud.ordered.includes(:location)
           render :edit, status: :unprocessable_entity
         end
       end

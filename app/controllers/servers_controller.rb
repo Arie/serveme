@@ -5,7 +5,7 @@ class ServersController < ApplicationController
   before_action :require_admin, only: %i[new create edit update restart force_update]
 
   def index
-    @servers = Server.active.includes([ current_reservations: { user: :groups } ], :location, :recent_server_statistics).order(:name)
+    @servers = Server.active.not_cloud.includes([ current_reservations: { user: :groups } ], :location, :recent_server_statistics).order(:name)
     if current_admin || current_league_admin || current_streamer
       @latest_server_version = Server.latest_version
       render :admins
@@ -82,6 +82,6 @@ class ServersController < ApplicationController
   private
 
   def servers
-    @servers = Server.active.includes([ current_reservations: { user: :groups } ], :location, :recent_server_statistics).order(:name)
+    @servers = Server.active.not_cloud.includes([ current_reservations: { user: :groups } ], :location, :recent_server_statistics).order(:name)
   end
 end

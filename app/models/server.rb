@@ -85,7 +85,7 @@ class Server < ActiveRecord::Base
 
   sig { params(user: User).returns(ActiveRecord::Relation) }
   def self.reservable_by_user(user)
-    where(id: ids_reservable_by_user(user))
+    not_cloud.where(id: ids_reservable_by_user(user))
   end
 
   sig { params(user: User).returns(T::Array[Integer]) }
@@ -115,6 +115,11 @@ class Server < ActiveRecord::Base
   sig { returns(T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy, T.untyped)) }
   def self.active
     where(active: true)
+  end
+
+  sig { returns(ActiveRecord::Relation) }
+  def self.not_cloud
+    where.not(type: "CloudServer")
   end
 
   sig { params(groups: T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy)).returns(T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy)) }

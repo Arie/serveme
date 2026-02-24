@@ -46,7 +46,7 @@ module Mcp
         active_only = params.fetch(:active_only, true)
         include_reservation = params.fetch(:include_reservation, false)
 
-        servers = active_only ? Server.active : Server.all
+        servers = active_only ? Server.active.not_cloud : Server.not_cloud
         servers = servers.includes(:location, :groups)
         servers = servers.includes(current_reservations: :user) if include_reservation
         servers = servers.order(:name)

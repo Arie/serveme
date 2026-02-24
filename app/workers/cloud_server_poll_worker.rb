@@ -36,7 +36,7 @@ class CloudServerPollWorker
           if reservation
             existing = reservation.reservation_statuses.find_by("status LIKE 'Creating VM%'")
             existing&.update!(status: "Creating VM (100%)") if existing&.status&.include?("(")
-            reservation.status_update("VM running at #{ip}, waiting for SSH")
+            reservation.status_update("Server is booting up, configuring game server")
             reservation.broadcast_connect_info
           end
         end

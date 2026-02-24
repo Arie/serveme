@@ -61,6 +61,11 @@ module CloudProvider
       raise NotImplementedError
     end
 
+    # Delete all snapshots except the one to keep. Returns count of deleted snapshots.
+    def delete_old_snapshots(keep_snapshot_id)
+      0
+    end
+
     private
 
     def parse_response(response, error_prefix)

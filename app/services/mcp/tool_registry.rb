@@ -18,6 +18,8 @@ module Mcp
       Mcp::Tools::UpdateServerConfigTool,
       Mcp::Tools::CreateWhitelistTool,
       Mcp::Tools::UpdateWhitelistTool,
+      Mcp::Tools::BuildCloudImageTool,
+      Mcp::Tools::CreateCloudSnapshotTool,
       # Public tools (for Discord bot integration)
       Mcp::Tools::GetPublicServersTool,
       Mcp::Tools::GetPlayerReservationsTool,

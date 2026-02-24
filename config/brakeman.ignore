@@ -461,6 +461,52 @@
     {
       "warning_type": "SQL Injection",
       "warning_code": 0,
+      "fingerprint": "80e95870077314d168f2875f6984a172d4b557509ecf7992a635e2aa33d1e69a",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/services/cloud_provider/hetzner.rb",
+      "line": 148,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "connection.delete(\"images/#{snapshot_id}\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "CloudProvider::Hetzner",
+        "method": "delete_snapshot"
+      },
+      "user_input": "snapshot_id",
+      "confidence": "Medium",
+      "cwe_id": [
+        89
+      ],
+      "note": "False positive - this is a Faraday HTTP URL path, not SQL. snapshot_id is the Hetzner image ID"
+    },
+    {
+      "warning_type": "Command Injection",
+      "warning_code": 14,
+      "fingerprint": "881a8284f06c02fc53c77728b980e61f7f814ea1905584d836072ef1559e1a4c",
+      "check_name": "Execute",
+      "message": "Possible command injection",
+      "file": "app/workers/cloud_snapshot_worker.rb",
+      "line": 36,
+      "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
+      "code": "`ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 -i #{CloudServer.new.cloud_ssh_key_file} root@#{ip} 'test -f /tmp/image-ready && echo READY' 2>/dev/null`",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "CloudSnapshotWorker",
+        "method": "perform"
+      },
+      "user_input": "CloudServer.new.cloud_ssh_key_file",
+      "confidence": "High",
+      "cwe_id": [
+        77
+      ],
+      "note": "False positive - ip is from Hetzner API, ssh_key_file is from credentials/tmp file"
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
       "fingerprint": "c257dad9bb35ac89ceaa6c1c2a14642737bdf5459720111de76706347f4b1495",
       "check_name": "SQL",
       "message": "Possible SQL injection",

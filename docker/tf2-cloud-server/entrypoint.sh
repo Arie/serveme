@@ -10,10 +10,25 @@ fi
 SSH_PORT="${SSH_PORT:-22}"
 sudo /usr/sbin/sshd -p "$SSH_PORT"
 
-# 2. Remove plugins that conflict with serveme's config management
+# 2. Run SteamCMD if the image is outdated (incremental, no validate)
+STEAM_INF="$HOME/hlserver/tf2/tf/steam.inf"
+LOCAL_VERSION=$(grep -oP '^PatchVersion=\K\d+' "$STEAM_INF" 2>/dev/null || echo "0")
+LATEST_VERSION=$(curl -sf --connect-timeout 5 --max-time 10 \
+    "http://api.steampowered.com/ISteamApps/UpToDateCheck/v1?appid=440&version=0" \
+    | grep -oP '"required_version"\s*:\s*\K\d+' || echo "0")
+
+if [ "$LATEST_VERSION" != "0" ] && [ "$LOCAL_VERSION" -lt "$LATEST_VERSION" ]; then
+    echo "TF2 update available: $LOCAL_VERSION -> $LATEST_VERSION, updating..."
+    /usr/games/steamcmd +force_install_dir "$HOME/hlserver/tf2" +login anonymous +app_update 232250 +quit || \
+        echo "Warning: SteamCMD update failed, continuing with existing version"
+else
+    echo "TF2 is up to date (version $LOCAL_VERSION)"
+fi
+
+# 3. Remove plugins that conflict with serveme's config management
 rm -f "$HOME/hlserver/tf2/tf/addons/sourcemod/plugins/autoexec.smx"
 
-# 3. Write server.cfg with rcon password and reservation.cfg exec
+# 4. Write server.cfg with rcon password and reservation.cfg exec
 cat > "$HOME/hlserver/tf2/tf/cfg/server.cfg" <<SERVERCFG
 hostname "serveme cloud server"
 sv_downloadurl "https://fastdl.serveme.tf"
@@ -27,7 +42,7 @@ sv_rcon_banpenalty 1
 exec reservation.cfg
 SERVERCFG
 
-# 4. Phone home: SSH is ready, serveme can push config files
+# 5. Phone home: SSH is ready, serveme can push config files
 if [ -n "$CALLBACK_URL" ]; then
     echo "SSH ready, phoning home..."
     for attempt in 1 2 3; do
@@ -44,7 +59,7 @@ if [ -n "$CALLBACK_URL" ]; then
     done
 fi
 
-# 5. Wait for reservation.cfg to be pushed by serveme (max 5 minutes)
+# 6. Wait for reservation.cfg to be pushed by serveme (max 5 minutes)
 RESERVATION_CFG="$HOME/hlserver/tf2/tf/cfg/reservation.cfg"
 echo "Waiting for reservation.cfg..."
 for i in $(seq 1 300); do
@@ -58,7 +73,7 @@ if [ ! -f "$RESERVATION_CFG" ]; then
     echo "Warning: reservation.cfg not found after 5 minutes, starting anyway"
 fi
 
-# 6. Read first map from file (written by serveme) or fall back to env/default
+# 7. Read first map from file (written by serveme) or fall back to env/default
 FIRST_MAP_FILE="$HOME/hlserver/tf2/tf/cfg/first_map.txt"
 if [ -f "$FIRST_MAP_FILE" ]; then
     FIRST_MAP="$(cat "$FIRST_MAP_FILE")"
@@ -66,7 +81,7 @@ if [ -f "$FIRST_MAP_FILE" ]; then
 fi
 FIRST_MAP="${FIRST_MAP:-ctf_turbine}"
 
-# 7. Download first map if not already present
+# 8. Download first map if not already present
 MAP_PATH="$HOME/hlserver/tf2/tf/maps/${FIRST_MAP}.bsp"
 if [ ! -f "$MAP_PATH" ]; then
     echo "Downloading map: $FIRST_MAP"
@@ -75,7 +90,7 @@ if [ ! -f "$MAP_PATH" ]; then
     echo "Warning: Could not download $FIRST_MAP"
 fi
 
-# 8. Start TF2 server in background
+# 9. Start TF2 server in background
 PORT="${PORT:-27015}"
 cd "$HOME/hlserver"
 TV_PORT="${TV_PORT:-$((PORT + 5))}"
@@ -88,7 +103,7 @@ SRCDS_PID=$!
 # Forward signals to srcds
 trap "kill -TERM $SRCDS_PID 2>/dev/null" TERM INT
 
-# 9. Wait for RCON TCP port to be open, then phone home: TF2 is ready
+# 10. Wait for RCON TCP port to be open, then phone home: TF2 is ready
 if [ -n "$CALLBACK_URL" ]; then
     echo "Waiting for TF2 to start on port $PORT..."
     for i in $(seq 1 120); do
@@ -112,5 +127,5 @@ if [ -n "$CALLBACK_URL" ]; then
     done
 fi
 
-# 10. Wait on srcds process
+# 11. Wait on srcds process
 wait $SRCDS_PID

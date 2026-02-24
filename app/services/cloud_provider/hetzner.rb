@@ -130,6 +130,38 @@ module CloudProvider
       "cloud_servers.hetzner.image_id"
     end
 
+    def list_snapshots
+      snapshots = []
+      page = 1
+      loop do
+        response = connection.get("images?type=snapshot&sort=created:desc&page=#{page}&per_page=50")
+        data = parse_response(response, "Hetzner API error")
+        snapshots.concat(data["images"].select { |i| i["description"].to_s.start_with?("serveme-cloud") })
+        break if page >= data.dig("meta", "pagination", "last_page").to_i
+
+        page += 1
+      end
+      snapshots
+    end
+
+    def delete_snapshot(snapshot_id)
+      response = connection.delete("images/#{snapshot_id}")
+      response.success?
+    end
+
+    def delete_old_snapshots(keep_snapshot_id)
+      deleted = 0
+      list_snapshots.each do |snapshot|
+        next if snapshot["id"].to_s == keep_snapshot_id.to_s
+
+        if delete_snapshot(snapshot["id"])
+          Rails.logger.info "Hetzner: Deleted old snapshot #{snapshot['id']} (#{snapshot['description']})"
+          deleted += 1
+        end
+      end
+      deleted
+    end
+
     private
 
     def connection

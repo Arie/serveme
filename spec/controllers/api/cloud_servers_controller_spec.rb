@@ -31,17 +31,6 @@ describe Api::CloudServersController do
       end
     end
 
-    context 'without status param (legacy)' do
-      it 'treats as tf2_ready' do
-        request.headers['X-Callback-Token'] = callback_token
-        post :ready, params: { id: cloud_server.id }
-
-        expect(response).to have_http_status(:ok)
-        expect(cloud_server.reload.cloud_status).to eq('ready')
-        expect(reservation.reload.provisioned).to eq(true)
-      end
-    end
-
     it 'returns unauthorized with missing token' do
       post :ready, params: { id: cloud_server.id }
 

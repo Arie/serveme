@@ -17,9 +17,6 @@ module Api
         handle_ssh_ready(cloud_server)
       when "tf2_ready"
         handle_tf2_ready(cloud_server)
-      else
-        # Legacy: treat as tf2_ready for backwards compatibility
-        handle_tf2_ready(cloud_server)
       end
 
       head :ok

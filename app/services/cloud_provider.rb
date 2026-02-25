@@ -18,22 +18,33 @@ module CloudProvider
     klass.new
   end
 
-  # Returns cloud locations grouped by region for use in select dropdowns.
+  SITE_REGION = T.let(
+    case SITE_HOST
+    when "na.serveme.tf" then "NA"
+    when "au.serveme.tf" then "AU"
+    when "sea.serveme.tf" then "SEA"
+    else "EU"
+    end.freeze, String
+  )
+
+  # Returns cloud locations grouped by country for use in select dropdowns.
   # Each entry is [label, value] where value is "provider:code".
-  # { "EU" => [["Frankfurt (Hetzner)", "hetzner:fsn1"], ...], "NA" => [...] }
+  # Filtered to only show locations matching the current site region.
   sig { returns(T::Hash[String, T::Array[[ String, String ]]]) }
   def self.grouped_locations
     grouped = Hash.new { |h, k| h[k] = [] }
 
     PROVIDERS.each do |provider_name, klass|
       klass.locations.each do |code, info|
-        label = "#{info[:name]}, #{info[:country]} (#{provider_name.capitalize})"
+        next unless info[:region] == SITE_REGION
+
+        label = "#{info[:name]} (#{provider_name.capitalize})"
         value = "#{provider_name}:#{code}"
-        grouped[info[:region]] << [ label, value ]
+        grouped[info[:country]] << [ label, value ]
       end
     end
 
     grouped.each_value { |locs| locs.sort_by! { |label, _| label } }
-    grouped.sort_by { |region, _| %w[EU NA AU SEA].index(region) || 99 }.to_h
+    grouped.sort_by { |country, _| country }.to_h
   end
 end

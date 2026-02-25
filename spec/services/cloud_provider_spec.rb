@@ -24,28 +24,34 @@ RSpec.describe CloudProvider do
   describe ".grouped_locations" do
     subject(:grouped) { described_class.grouped_locations }
 
-    it "groups locations by region" do
-      expect(grouped.keys).to eq(%w[EU NA AU SEA])
+    it "groups locations by country" do
+      expect(grouped.keys).to include("Germany", "Finland")
     end
 
     it "includes Hetzner locations" do
-      eu_values = grouped["EU"].map(&:last)
-      expect(eu_values).to include("hetzner:fsn1")
+      germany_values = grouped["Germany"].map(&:last)
+      expect(germany_values).to include("hetzner:fsn1")
     end
 
     it "includes Vultr locations" do
-      na_values = grouped["NA"].map(&:last)
-      expect(na_values).to include("vultr:ewr")
+      netherlands_values = grouped["Netherlands"].map(&:last)
+      expect(netherlands_values).to include("vultr:ams")
     end
 
-    it "formats labels as 'City, Country (Provider)'" do
-      fsn1_entry = grouped["EU"].find { |_, v| v == "hetzner:fsn1" }
-      expect(fsn1_entry.first).to eq("Falkenstein, Germany (Hetzner)")
+    it "formats labels as 'City (Provider)'" do
+      fsn1_entry = grouped["Germany"].find { |_, v| v == "hetzner:fsn1" }
+      expect(fsn1_entry.first).to eq("Falkenstein (Hetzner)")
     end
 
-    it "sorts locations alphabetically within each region" do
-      eu_labels = grouped["EU"].map(&:first)
-      expect(eu_labels).to eq(eu_labels.sort)
+    it "sorts locations alphabetically within each country" do
+      grouped.each_value do |locs|
+        labels = locs.map(&:first)
+        expect(labels).to eq(labels.sort)
+      end
+    end
+
+    it "sorts countries alphabetically" do
+      expect(grouped.keys).to eq(grouped.keys.sort)
     end
   end
 

@@ -46,7 +46,9 @@ export default class extends Controller {
     }
   }
 
-  fetchResults() {
+  fetchResults(event) {
+    if (event && [13, 27, 38, 40, 9].includes(event.keyCode)) return;
+
     if (!this.hasResultsTarget) return;
 
     if (this.query == "") {

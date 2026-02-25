@@ -1,9 +1,9 @@
 %div{id: "reservation_status_message_#{reservation.id}"}
   - cloud_data = reservation.cloud_provision_estimate
   - if cloud_data
-    %div{data: { controller: "cloud-countdown", "cloud-countdown-phases-value": cloud_data[:phases].to_json, "cloud-countdown-current-phase-value": cloud_data[:current_phase], "cloud-countdown-phase-started-at-value": cloud_data[:phase_started_at].iso8601, "cloud-countdown-provider-progress-value": cloud_data[:vm_progress] || -1 }}
+    %div{style: "height: 46.5px;", data: { controller: "cloud-countdown", "cloud-countdown-phases-value": cloud_data[:phases].to_json, "cloud-countdown-current-phase-value": cloud_data[:current_phase], "cloud-countdown-phase-started-at-value": cloud_data[:phase_started_at].iso8601, "cloud-countdown-provider-progress-value": cloud_data[:vm_progress] || -1 }}
       %div.d-flex{style: "height: 24px; border-radius: 4px; overflow: hidden;", data: { "cloud-countdown-target": "bar" }}
-      %small.text-muted{data: { "cloud-countdown-target": "text" }}
+      %small.text-muted{data: { "cloud-countdown-target": "text" }} &nbsp;
   - else
     %i.fa{class: reservation_status_spinner_class(reservation)}
     = reservation.status

@@ -43,11 +43,10 @@ class CloudServerPollWorker
       elsif status == "provisioning" && provider.is_a?(CloudProvider::Hetzner)
         progress = provider.server_progress(provider_id)
         if progress && progress > 0 && reservation
-          existing = reservation.reservation_statuses.find_by("status LIKE 'Creating VM%'")
           new_status = "Creating VM (#{progress}%)"
-          if existing
-            existing.update!(status: new_status)
-          else
+          existing = reservation.reservation_statuses.find_by("status LIKE 'Creating VM%'")
+          if existing&.status != new_status
+            existing&.destroy
             reservation.status_update(new_status)
           end
         end

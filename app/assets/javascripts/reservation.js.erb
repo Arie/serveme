@@ -72,6 +72,7 @@ function loadReservationPage() {
   });
 
   function findFreeServers() {
+    if (typeof find_server_url === 'undefined') return;
     enableSpinner("reservation_server_id");
     $.post(find_server_url, $("form.reservation").serialize() ).done(function( data ) {
       free_servers = [];
@@ -107,6 +108,10 @@ function loadReservationPage() {
   function disableSpinner(field) {
     $("." + field + ' .fa-refresh').removeClass('fast-spin');
   };
+
+  if (typeof canEnablePlugins === 'undefined') {
+    canEnablePlugins = true;
+  }
 
   var pluginsCheckbox = $("#reservation_enable_plugins");
   var demosTfCheckbox = $("#reservation_enable_demos_tf");

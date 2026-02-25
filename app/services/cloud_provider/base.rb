@@ -122,14 +122,12 @@ module CloudProvider
     end
 
     def cloud_init_docker_image(_cloud_server)
-      "ghcr.io/arie/tf2-cloud-server:latest"
+      "serveme/tf2-cloud-server:latest"
     end
 
     def cloud_init_docker_pull(_cloud_server, image)
-      ghcr_token = Rails.application.credentials.dig(:cloud_servers, :ghcr_token)
       <<~BASH.strip
         if ! docker image inspect #{image} >/dev/null 2>&1; then
-          echo #{ghcr_token} | docker login ghcr.io -u fakkelbrigade --password-stdin
           docker pull #{image}
         fi
       BASH

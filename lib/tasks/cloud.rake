@@ -413,13 +413,9 @@ namespace :cloud do
     provider_name = args[:provider] || "hetzner"
     location = args[:location] || (provider_name == "hetzner" ? "fsn1" : "ewr")
     provider = CloudProvider.for(provider_name)
-    ghcr_token = Rails.application.credentials.dig(:cloud_servers, :ghcr_token)
-
     setup_script = <<~BASH
       #!/bin/bash
-      echo #{ghcr_token} | docker login ghcr.io -u fakkelbrigade --password-stdin
-      docker pull ghcr.io/arie/tf2-cloud-server:latest
-      docker logout ghcr.io
+      docker pull serveme/tf2-cloud-server:latest
       touch /tmp/image-ready
     BASH
 
@@ -445,7 +441,7 @@ namespace :cloud do
     abort "\n  ERROR: Docker image pull did not complete in time. Destroy the VM manually." unless image_ready
 
     # 3. Verify image
-    images = `ssh -o StrictHostKeyChecking=no -i #{ssh_key_file} root@#{ip} 'docker images ghcr.io/arie/tf2-cloud-server --format "{{.Size}}"' 2>/dev/null`.strip
+    images = `ssh -o StrictHostKeyChecking=no -i #{ssh_key_file} root@#{ip} 'docker images serveme/tf2-cloud-server --format "{{.Size}}"' 2>/dev/null`.strip
     puts "  Image size: #{images}"
 
     # 4. Halt, snapshot, wait, destroy

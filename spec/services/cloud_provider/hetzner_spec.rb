@@ -34,10 +34,6 @@ RSpec.describe CloudProvider::Hetzner do
       allow(Rails.application.credentials).to receive(:dig)
         .with(:cloud_servers, :ssh_public_key)
         .and_return("ssh-ed25519 AAAA test@serveme")
-      allow(Rails.application.credentials).to receive(:dig)
-        .with(:cloud_servers, :ghcr_token)
-        .and_return("ghp_test_token")
-
       stub_request(:post, "https://api.hetzner.cloud/v1/servers")
         .with(headers: { "Authorization" => "Bearer #{api_token}" })
         .to_return(status: 201, body: response_body, headers: { "Content-Type" => "application/json" })

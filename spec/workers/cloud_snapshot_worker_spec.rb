@@ -13,7 +13,6 @@ describe CloudSnapshotWorker do
     allow(redis).to receive(:set).and_return(true)
     allow(redis).to receive(:del)
     allow(CloudProvider).to receive(:for).with("hetzner").and_return(provider)
-    allow(Rails.application.credentials).to receive(:dig).with(:cloud_servers, :ghcr_token).and_return("fake-token")
     allow(Rails.application.credentials).to receive(:dig).with(:cloud_servers, :ssh_private_key).and_return("fake-key")
   end
 
@@ -26,16 +25,8 @@ describe CloudSnapshotWorker do
       worker.perform("hetzner", "fsn1")
     end
 
-    it "skips if ghcr_token is not configured" do
-      allow(Rails.application.credentials).to receive(:dig).with(:cloud_servers, :ghcr_token).and_return(nil)
-
-      expect(provider).not_to receive(:create_snapshot_server)
-
-      worker.perform("hetzner", "fsn1")
-    end
-
     it "releases the lock after completion" do
-      allow(Rails.application.credentials).to receive(:dig).with(:cloud_servers, :ghcr_token).and_return(nil)
+      allow(redis).to receive(:set).and_return(false)
       expect(redis).to receive(:del).with("cloud_snapshot")
 
       worker.perform("hetzner", "fsn1")

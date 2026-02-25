@@ -12,16 +12,12 @@ class CloudSnapshotWorker
     return unless acquire_lock
 
     provider = CloudProvider.for(provider_name)
-    ghcr_token = Rails.application.credentials.dig(:cloud_servers, :ghcr_token)
-    return unless ghcr_token
 
     Rails.logger.info "CloudSnapshotWorker: Creating snapshot for #{provider_name} in #{location}"
 
     setup_script = <<~BASH
       #!/bin/bash
-      echo #{ghcr_token} | docker login ghcr.io -u fakkelbrigade --password-stdin
-      docker pull ghcr.io/arie/tf2-cloud-server:latest
-      docker logout ghcr.io
+      docker pull serveme/tf2-cloud-server:latest
       touch /tmp/image-ready
     BASH
 

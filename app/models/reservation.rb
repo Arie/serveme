@@ -220,6 +220,7 @@ class Reservation < ActiveRecord::Base
     return unless cloud_server.is_a?(CloudServer)
     return unless cloud_server.cloud_created_at.present?
     return if provisioned?
+    return if cloud_server.cloud_status == "destroyed"
 
     current_phase, phase_started_at = cloud_current_phase
     result = {

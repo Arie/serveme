@@ -15,7 +15,7 @@ module Mcp
       def self.description
         "Build and push a new TF2 cloud server Docker image. " \
         "Triggers a background build on the EU server that pulls the latest base image, " \
-        "rebuilds with current plugins/configs, and pushes to GHCR. " \
+        "rebuilds with current plugins/configs, and pushes to Docker Hub. " \
         "Only runs on the EU region (serveme.tf)."
       end
 

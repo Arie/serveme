@@ -211,15 +211,16 @@ module CloudProvider
       BASH
     end
 
-    def cloud_init_docker_image(cloud_server)
+    def cloud_init_docker_pull(cloud_server, image)
       region = cloud_server.cloud_location || default_region
-      "#{region}.vultrcr.com/docker.io/serveme/tf2-cloud-server:latest"
-    end
-
-    def cloud_init_docker_pull(_cloud_server, image)
+      mirror = "#{region}.vultrcr.com/docker.io/serveme/tf2-cloud-server:latest"
       <<~BASH.strip
         if ! docker image inspect #{image} >/dev/null 2>&1; then
-          docker pull #{image}
+          if docker pull #{mirror} 2>/dev/null; then
+            docker tag #{mirror} #{image}
+          else
+            docker pull #{image}
+          fi
         fi
       BASH
     end

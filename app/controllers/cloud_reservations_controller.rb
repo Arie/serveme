@@ -6,14 +6,21 @@ class CloudReservationsController < ApplicationController
   before_action :check_concurrent_cloud_limit
 
   def new
-    @reservation = current_user.reservations.build(
+    attributes = {
       starts_at: Time.current,
       ends_at: 2.hours.from_now,
       password: FriendlyPasswordGenerator.generate,
       rcon: SecureRandom.hex(4),
       enable_plugins: true,
       auto_end: true
-    )
+    }
+
+    previous = current_user.reservations.last
+    if previous
+      attributes.merge!(previous.reusable_attributes.except("server_id").symbolize_keys)
+    end
+
+    @reservation = current_user.reservations.build(attributes)
     @cloud_locations = CloudProvider.grouped_locations
     @server_configs = ServerConfig.active.ordered
   end
@@ -33,13 +40,19 @@ class CloudReservationsController < ApplicationController
 
     @reservation = current_user.reservations.build(reservation_params)
     @reservation.server = server
-    @reservation.starts_at = Time.current
+    future_start = params[:reservation][:starts_at].present? && Time.zone.parse(params[:reservation][:starts_at].to_s)&.future?
+    @reservation.starts_at = future_start ? params[:reservation][:starts_at] : Time.current
     @reservation.ends_at = params[:reservation][:ends_at].present? ? params[:reservation][:ends_at] : 2.hours.from_now
 
     if @reservation.save
       server.update!(cloud_reservation_id: @reservation.id, name: "#{server.name} ##{@reservation.id}")
-      CloudServerProvisionWorker.perform_async(server.id)
-      flash[:notice] = "Cloud server is being provisioned. This usually takes #{server.provider.estimated_provision_time}."
+      if future_start && @reservation.starts_at > 5.minutes.from_now
+        CloudServerProvisionWorker.perform_at(@reservation.starts_at - 5.minutes, server.id)
+        flash[:notice] = "Cloud server is scheduled. Provisioning will begin 5 minutes before your start time (#{I18n.l(@reservation.starts_at, format: :short)})."
+      else
+        CloudServerProvisionWorker.perform_async(server.id)
+        flash[:notice] = "Cloud server is being provisioned. This usually takes #{server.provider.estimated_provision_time}."
+      end
       redirect_to reservation_path(@reservation)
     else
       server.destroy
@@ -70,7 +83,7 @@ class CloudReservationsController < ApplicationController
     params.require(:reservation).permit(
       :password, :rcon, :first_map, :enable_plugins, :enable_demos_tf,
       :auto_end, :server_config_id, :whitelist_id, :custom_whitelist_id,
-      :tv_password, :ends_at
+      :tv_password, :starts_at, :ends_at
     )
   end
 end

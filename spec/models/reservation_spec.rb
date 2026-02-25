@@ -760,6 +760,80 @@ describe Reservation do
     end
   end
 
+  describe '#cloud_provision_estimate' do
+    it 'returns nil for a non-cloud server' do
+      reservation = build(:reservation)
+      expect(reservation.cloud_provision_estimate).to be_nil
+    end
+
+    it 'returns nil when cloud_created_at is not set' do
+      cloud_server = create(:cloud_server, cloud_created_at: nil, cloud_status: 'provisioning')
+      reservation = build(:reservation, server: cloud_server)
+      expect(reservation.cloud_provision_estimate).to be_nil
+    end
+
+    it 'returns nil when already provisioned' do
+      cloud_server = create(:cloud_server, cloud_status: 'ready')
+      reservation = build(:reservation, server: cloud_server, provisioned: true)
+      expect(reservation.cloud_provision_estimate).to be_nil
+    end
+
+    it 'returns phases, current_phase and phase_started_at when provisioning' do
+      cloud_created = 2.minutes.ago
+      cloud_server = create(:cloud_server, cloud_created_at: cloud_created, cloud_status: 'provisioning')
+      reservation = build(:reservation, server: cloud_server, provisioned: false)
+
+      result = reservation.cloud_provision_estimate
+      expect(result).to be_a(Hash)
+      expect(result[:phases]).to be_an(Array)
+      expect(result[:phases].length).to eq(3)
+      expect(result[:current_phase]).to eq("creating_vm")
+      expect(result[:phase_started_at]).to be_within(1.second).of(cloud_created)
+    end
+
+    it 'returns creating_vm phase by default' do
+      cloud_created = 1.minute.ago
+      cloud_server = create(:cloud_server, cloud_created_at: cloud_created, cloud_status: 'provisioning')
+      reservation = build(:reservation, server: cloud_server, provisioned: false)
+
+      result = reservation.cloud_provision_estimate
+      expect(result[:current_phase]).to eq("creating_vm")
+      expect(result[:phase_started_at]).to be_within(1.second).of(cloud_created)
+    end
+
+    it 'returns booting phase when cloud_vm_running_at is set' do
+      cloud_created = 2.minutes.ago
+      vm_running = 1.minute.ago
+      cloud_server = create(:cloud_server, cloud_created_at: cloud_created, cloud_vm_running_at: vm_running, cloud_status: 'provisioning')
+      reservation = build(:reservation, server: cloud_server, provisioned: false)
+
+      result = reservation.cloud_provision_estimate
+      expect(result[:current_phase]).to eq("booting")
+      expect(result[:phase_started_at]).to be_within(1.second).of(vm_running)
+    end
+
+    it 'returns configuring phase when cloud_ssh_ready_at is set' do
+      cloud_created = 3.minutes.ago
+      vm_running = 2.minutes.ago
+      ssh_ready = 1.minute.ago
+      cloud_server = create(:cloud_server, cloud_created_at: cloud_created, cloud_vm_running_at: vm_running, cloud_ssh_ready_at: ssh_ready, cloud_status: 'provisioning')
+      reservation = build(:reservation, server: cloud_server, provisioned: false)
+
+      result = reservation.cloud_provision_estimate
+      expect(result[:current_phase]).to eq("configuring")
+      expect(result[:phase_started_at]).to be_within(1.second).of(ssh_ready)
+    end
+  end
+
+  describe '#ready_at' do
+    it 'is settable' do
+      reservation = create(:reservation)
+      now = Time.current
+      reservation.update!(ready_at: now)
+      expect(reservation.reload.ready_at).to be_within(1.second).of(now)
+    end
+  end
+
   describe '#whitelist_ip' do
     subject { build(:reservation) }
     it "first returns the user's web IP if it's IPv4" do

@@ -76,8 +76,16 @@ module CloudProvider
       ip == "0.0.0.0" ? nil : ip
     end
 
+    def provision_phases
+      [
+        { key: "creating_vm", label: "Creating VM", icon: "fa-cloud", seconds: 50 },
+        { key: "booting", label: "Installing game server", icon: "fa-server", seconds: 130 },
+        { key: "configuring", label: "Applying config", icon: "fa-cog", seconds: 12 }
+      ]
+    end
+
     def estimated_provision_time
-      "about 4 minutes"
+      "about 3 minutes"
     end
 
     def destroy_server(provider_id)

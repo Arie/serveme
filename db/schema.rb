@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_23_130000) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_25_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -238,6 +238,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_23_130000) do
     t.text "password"
     t.boolean "provisioned", default: false
     t.text "rcon"
+    t.datetime "ready_at"
     t.string "sdr_ip"
     t.string "sdr_port"
     t.string "sdr_tv_port"
@@ -324,7 +325,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_23_130000) do
     t.string "cloud_provider_id"
     t.bigint "cloud_reservation_id"
     t.integer "cloud_ssh_port", default: 22
+    t.datetime "cloud_ssh_ready_at"
     t.string "cloud_status"
+    t.integer "cloud_vm_progress"
+    t.datetime "cloud_vm_running_at"
     t.datetime "created_at", precision: nil
     t.text "ftp_password"
     t.bigint "ftp_port", default: 21

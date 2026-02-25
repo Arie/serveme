@@ -21,14 +21,23 @@ module CloudProvider
       raise NotImplementedError
     end
 
-    # Returns provisioning progress as an integer percentage (0-100), or nil if not available.
-    def server_progress(provider_id)
-      nil
+    # Returns the provisioning phases with estimated durations for the progress bar.
+    def provision_phases
+      [
+        { key: "creating_vm", label: "Creating VM", icon: "fa-cloud", seconds: 80 },
+        { key: "booting", label: "Installing game server", icon: "fa-server", seconds: 100 },
+        { key: "configuring", label: "Applying config", icon: "fa-cog", seconds: 60 }
+      ]
     end
 
     # Human-readable estimated provision time shown to users.
     def estimated_provision_time
       "a few minutes"
+    end
+
+    # Returns estimated provisioning time in seconds for countdown display.
+    def estimated_provision_seconds
+      provision_phases.sum { |p| p[:seconds] }
     end
 
     # Destroy the VM/container. Returns boolean.

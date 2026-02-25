@@ -57,6 +57,7 @@ class LogWorker
     if mapname == "ctf_turbine"
       reservation&.status_update("Server startup complete, switching map")
     else
+      reservation&.update_column(:ready_at, Time.current) if reservation&.ready_at.nil?
       reservation&.status_update("Server finished loading map \"#{mapname}\"")
     end
   end

@@ -32,7 +32,7 @@ class CloudServerPollWorker
       if status == "running"
         ip = provider.server_ip(provider_id)
         if ip.present? && cloud_server.ip != ip
-          cloud_server.update!(ip: ip)
+          cloud_server.update!(ip: ip, cloud_vm_running_at: Time.current)
           if reservation
             existing = reservation.reservation_statuses.find_by("status LIKE 'Creating VM%'")
             existing&.update!(status: "Creating VM (100%)") if existing&.status&.include?("(")
@@ -40,9 +40,9 @@ class CloudServerPollWorker
             reservation.broadcast_connect_info
           end
         end
-      elsif status == "provisioning" && provider.respond_to?(:server_progress)
+      elsif status == "provisioning" && provider.is_a?(CloudProvider::Hetzner)
         progress = provider.server_progress(provider_id)
-        if progress && reservation
+        if progress && progress > 0 && reservation
           existing = reservation.reservation_statuses.find_by("status LIKE 'Creating VM%'")
           new_status = "Creating VM (#{progress}%)"
           if existing

@@ -214,6 +214,26 @@ class Reservation < ActiveRecord::Base
     WhitelistTf.find_by(tf_whitelist_id: custom_whitelist_id).try(:content)
   end
 
+  sig { returns(T.nilable(T::Hash[Symbol, T.untyped])) }
+  def cloud_provision_estimate
+    cloud_server = server
+    return unless cloud_server.is_a?(CloudServer)
+    return unless cloud_server.cloud_created_at.present?
+    return if provisioned?
+
+    current_phase, phase_started_at = cloud_current_phase
+    result = {
+      phases: cloud_server.provider.provision_phases,
+      current_phase: current_phase,
+      phase_started_at: phase_started_at
+    }
+    if current_phase == "creating_vm"
+      vm_status = reservation_statuses.find_by("status LIKE 'Creating VM (%'")
+      result[:vm_progress] = vm_status.status.to_s[/\((\d+)%\)/, 1]&.to_i if vm_status
+    end
+    result
+  end
+
   sig { void }
   def calculate_duration
     self.duration = (ends_at.to_i - starts_at.to_i)
@@ -462,6 +482,18 @@ class Reservation < ActiveRecord::Base
   end
 
   private
+
+  sig { returns([ String, ActiveSupport::TimeWithZone ]) }
+  def cloud_current_phase
+    cloud_server = T.cast(server, CloudServer)
+    if cloud_server.cloud_ssh_ready_at.present?
+      [ "configuring", T.must(cloud_server.cloud_ssh_ready_at) ]
+    elsif cloud_server.cloud_vm_running_at.present?
+      [ "booting", T.must(cloud_server.cloud_vm_running_at) ]
+    else
+      [ "creating_vm", T.must(cloud_server.cloud_created_at) ]
+    end
+  end
 
   sig { returns(ReservationManager) }
   def reservation_manager

@@ -63,6 +63,46 @@ describe CloudReservationsController do
           expect(flash[:alert]).to eq("Invalid cloud location.")
         end
       end
+
+      context "with a future starts_at" do
+        it "schedules CloudServerProvisionWorker with perform_at when starts_at is more than 5 minutes away" do
+          future_time = 1.hour.from_now
+          expect(CloudServerProvisionWorker).to receive(:perform_at).with(
+            be_within(5.seconds).of(future_time - 5.minutes),
+            instance_of(Integer)
+          )
+
+          post :create, params: valid_params.deep_merge(
+            reservation: { starts_at: future_time.iso8601 }
+          )
+
+          expect(response).to redirect_to(reservation_path(Reservation.last))
+          expect(flash[:notice]).to include("scheduled")
+        end
+
+        it "uses perform_async when starts_at is less than 5 minutes away" do
+          near_future = 3.minutes.from_now
+          expect(CloudServerProvisionWorker).to receive(:perform_async)
+
+          post :create, params: valid_params.deep_merge(
+            reservation: { starts_at: near_future.iso8601 }
+          )
+
+          expect(response).to redirect_to(reservation_path(Reservation.last))
+          expect(flash[:notice]).to include("provisioned")
+        end
+
+        it "uses perform_async when starts_at is in the past" do
+          past_time = 5.minutes.ago
+          expect(CloudServerProvisionWorker).to receive(:perform_async)
+
+          post :create, params: valid_params.deep_merge(
+            reservation: { starts_at: past_time.iso8601 }
+          )
+
+          expect(response).to redirect_to(reservation_path(Reservation.last))
+        end
+      end
     end
 
     context "as regular user" do

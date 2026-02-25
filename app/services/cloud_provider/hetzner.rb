@@ -55,6 +55,14 @@ module CloudProvider
       action&.dig("progress")
     end
 
+    def provision_phases
+      [
+        { key: "creating_vm", label: "Creating VM", icon: "fa-cloud", seconds: 140 },
+        { key: "booting", label: "Installing game server", icon: "fa-server", seconds: 20 },
+        { key: "configuring", label: "Applying config", icon: "fa-cog", seconds: 10 }
+      ]
+    end
+
     def estimated_provision_time
       "about 3 minutes"
     end

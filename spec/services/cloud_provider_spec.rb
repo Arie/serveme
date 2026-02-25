@@ -48,4 +48,45 @@ RSpec.describe CloudProvider do
       expect(eu_labels).to eq(eu_labels.sort)
     end
   end
+
+  describe "provision_phases" do
+    it "returns 3 phases for Base provider" do
+      phases = CloudProvider::Base.new.provision_phases
+      expect(phases.length).to eq(3)
+      phases.each do |phase|
+        expect(phase.keys).to match_array(%i[key label icon seconds])
+      end
+    end
+
+    it "returns creating_vm, booting, configuring phases" do
+      keys = CloudProvider::Base.new.provision_phases.map { |p| p[:key] }
+      expect(keys).to eq(%w[creating_vm booting configuring])
+    end
+
+    it "sums to 170 for Hetzner" do
+      phases = CloudProvider::Hetzner.new.provision_phases
+      expect(phases.sum { |p| p[:seconds] }).to eq(170)
+    end
+
+    it "sums to 192 for Vultr" do
+      phases = CloudProvider::Vultr.new.provision_phases
+      expect(phases.sum { |p| p[:seconds] }).to eq(192)
+    end
+  end
+
+  describe "estimated_provision_seconds" do
+    it "returns 240 for Base provider" do
+      expect(CloudProvider::Base.new.estimated_provision_seconds).to eq(240)
+    end
+
+    it "returns 170 for Hetzner provider" do
+      expect(CloudProvider::Hetzner.new.estimated_provision_seconds).to eq(170)
+    end
+
+    it "computes from provision_phases" do
+      provider = CloudProvider::Base.new
+      expected = provider.provision_phases.sum { |p| p[:seconds] }
+      expect(provider.estimated_provision_seconds).to eq(expected)
+    end
+  end
 end

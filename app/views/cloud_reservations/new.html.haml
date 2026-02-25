@@ -18,6 +18,7 @@
           = select_tag :cloud_location, grouped_options_for_select(@cloud_locations), class: "form-control", required: true, onchange: "updateEstimate(this)"
           %small.form-text#cloud-estimate
 
+      = f.input :starts_at, as: :string, input_html: { value: I18n.l(@reservation.starts_at || Time.current, format: :datepicker), data: { "datepicker-format": "dd-mm-yyyy hh:ii", "datepicker-nodefault": "false" } }, label: "Starts at"
       = f.input :ends_at, as: :string, input_html: { value: I18n.l(@reservation.ends_at || 2.hours.from_now, format: :datepicker), data: { "datepicker-format": "dd-mm-yyyy hh:ii", "datepicker-nodefault": "false" } }, label: "Ends at"
 
       = f.input :password, as: :string, placeholder: "The server password to join the game"

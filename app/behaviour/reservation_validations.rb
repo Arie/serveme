@@ -15,6 +15,7 @@ module ReservationValidations
       validates_with Reservations::StartsNotTooFarInPastValidator,            on: :create
       validates_with Reservations::OnlyOneFutureReservationPerUserValidator,  unless: :donator?
       validates_with Reservations::StartsNotTooFarInFutureValidator,          unless: :donator?
+      validates_with Reservations::CloudServerConcurrencyValidator,        on: :create
       validates_with Reservations::MapIsValidValidator
       validates_with Reservations::CustomWhitelistValidator
       validates_with Reservations::PasswordValidator, fields: %i[password tv_password tv_relaypassword rcon]

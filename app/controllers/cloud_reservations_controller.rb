@@ -2,7 +2,8 @@
 # frozen_string_literal: true
 
 class CloudReservationsController < ApplicationController
-  before_action :require_admin_or_streamer
+  before_action :require_cloud_access
+  before_action :check_concurrent_cloud_limit
 
   def new
     @reservation = current_user.reservations.build(
@@ -49,6 +50,21 @@ class CloudReservationsController < ApplicationController
   end
 
   private
+
+  def require_cloud_access
+    return if current_user&.can_use_cloud_servers?
+
+    flash[:alert] = "Cloud servers are available to Premium users."
+    redirect_to root_path
+  end
+
+  def check_concurrent_cloud_limit
+    active = current_user.active_cloud_reservation
+    return unless active
+
+    flash[:alert] = "You already have an active cloud server. Please end it before launching another."
+    redirect_to reservation_path(active)
+  end
 
   def reservation_params
     params.require(:reservation).permit(

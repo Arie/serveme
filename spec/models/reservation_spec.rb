@@ -420,6 +420,44 @@ describe Reservation do
       end
     end
 
+    context "cloud server concurrency" do
+      it "does not allow a second cloud reservation when one is active" do
+        user = create(:user)
+        existing_cloud = create(:cloud_server, cloud_status: "ready")
+        create(:reservation, user: user, server: existing_cloud, ended: false)
+
+        new_cloud = create(:cloud_server, cloud_status: "provisioning")
+        second = build(:reservation, user: user, server: new_cloud)
+
+        expect(second).not_to be_valid
+        expect(second.errors[:server]).to include("you already have an active cloud server")
+      end
+
+      it "allows a cloud reservation when the previous one is destroyed" do
+        user = create(:user)
+        old_cloud = create(:cloud_server, cloud_status: "destroyed")
+        create(:reservation, user: user, server: old_cloud, ended: true)
+
+        new_cloud = create(:cloud_server, cloud_status: "provisioning")
+        second = build(:reservation, user: user, server: new_cloud)
+        second.valid?
+
+        expect(second.errors[:server]).to be_empty
+      end
+
+      it "allows a non-cloud reservation when a cloud reservation is active" do
+        user = create(:user)
+        existing_cloud = create(:cloud_server, cloud_status: "ready")
+        create(:reservation, user: user, server: existing_cloud, ended: false)
+
+        regular_server = create(:server)
+        regular = build(:reservation, user: user, server: regular_server, starts_at: 2.hours.from_now, ends_at: 3.hours.from_now)
+        regular.valid?
+
+        expect(regular.errors[:server]).to be_empty
+      end
+    end
+
     it "validates you don't collide with another reservation of yourself" do
       user = create(:user)
       create :reservation, user: user, starts_at: Time.current, ends_at: 119.minutes.from_now

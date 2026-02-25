@@ -138,6 +138,16 @@ class User < ActiveRecord::Base
   end
 
   sig { returns(T::Boolean) }
+  def can_use_cloud_servers?
+    admin? || league_admin? || streamer? || donator?
+  end
+
+  sig { returns(T.nilable(Reservation)) }
+  def active_cloud_reservation
+    reservations.joins(:server).where(servers: { type: "CloudServer" }).where.not(servers: { cloud_status: "destroyed" }).where(ended: false).first
+  end
+
+  sig { returns(T::Boolean) }
   def top10?
     Statistic.top_10_users.key?(self)
   end

@@ -41,6 +41,13 @@ RSpec.describe CloudProvider::Hetzner do
       stub_request(:post, "https://api.hetzner.cloud/v1/servers")
         .with(headers: { "Authorization" => "Bearer #{api_token}" })
         .to_return(status: 201, body: response_body, headers: { "Content-Type" => "application/json" })
+
+      stub_request(:get, "https://api.hetzner.cloud/v1/images?page=1&per_page=50&sort=created:desc&type=snapshot")
+        .with(headers: { "Authorization" => "Bearer #{api_token}" })
+        .to_return(status: 200, body: {
+          images: [ { id: 361302880, description: "serveme-cloud-20260224", status: "available" } ],
+          meta: { pagination: { last_page: 1 } }
+        }.to_json, headers: { "Content-Type" => "application/json" })
     end
 
     it "POSTs to the Hetzner API and returns the server ID" do

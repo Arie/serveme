@@ -178,7 +178,11 @@ module CloudProvider
     end
 
     def image_id
-      Rails.application.credentials.dig(:cloud_servers, :hetzner, :image_id) || "docker-ce"
+      latest_snapshot_id || "docker-ce"
+    end
+
+    def latest_snapshot_id
+      @latest_snapshot_id ||= list_snapshots.first&.dig("id")&.to_s
     end
 
     def server_type_for(location)

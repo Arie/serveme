@@ -5,12 +5,13 @@ export default class extends Controller {
   static values = {
     phases: Array,
     currentPhase: String,
-    phaseStartedAt: String,
+    phaseElapsed: Number, // seconds already elapsed in current phase at render time
     providerProgress: Number // real progress from provider API (0-100), -1 if unavailable
   }
 
   connect() {
-    this.phaseStartedAtTime = new Date(this.phaseStartedAtValue)
+    this.connectTime = Date.now()
+    this.initialElapsed = this.phaseElapsedValue
     this.totalSeconds = this.phasesValue.reduce((sum, p) => sum + p.seconds, 0)
     this.buildBar()
     requestAnimationFrame(() => {
@@ -95,17 +96,20 @@ export default class extends Controller {
     })
   }
 
+  elapsedInPhase() {
+    return this.initialElapsed + (Date.now() - this.connectTime) / 1000
+  }
+
   computeFillPercent() {
     const currentIdx = this.currentPhaseIndex()
     if (currentIdx === -1) return 0
 
     const currentPhase = this.phasesValue[currentIdx]
-    const elapsedInPhase = (new Date() - this.phaseStartedAtTime) / 1000
 
     if (this.providerProgressValue >= 0) {
       return Math.min(100, this.providerProgressValue)
     }
-    return Math.min(100, (elapsedInPhase / currentPhase.seconds) * 100)
+    return Math.max(0, Math.min(100, (this.elapsedInPhase() / currentPhase.seconds) * 100))
   }
 
   tick() {
@@ -113,7 +117,7 @@ export default class extends Controller {
     if (currentIdx === -1) return
 
     const currentPhase = this.phasesValue[currentIdx]
-    const elapsedInPhase = (new Date() - this.phaseStartedAtTime) / 1000
+    const elapsedInPhase = this.elapsedInPhase()
 
     if (this.currentFill) {
       this.currentFill.style.width = `${this.computeFillPercent()}%`

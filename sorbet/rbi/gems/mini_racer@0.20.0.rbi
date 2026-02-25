@@ -140,6 +140,11 @@ class MiniRacer::Snapshot
 
   # source://mini_racer//lib/mini_racer.rb#22
   def warmup!(_arg0); end
+
+  class << self
+    # source://mini_racer//lib/mini_racer.rb#22
+    def load(_arg0); end
+  end
 end
 
 # source://mini_racer//lib/mini_racer.rb#67

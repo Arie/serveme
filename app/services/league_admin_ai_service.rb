@@ -144,6 +144,7 @@ class LeagueAdminAiService
 
   MAX_TOOL_ROUNDS = 15
   MAX_TOOL_RESULT_CHARS = 50_000
+  API_TIMEOUT = 180
 
   STEAM_ID_PATTERN = /STEAM_[0-5]:[01]:\d+/i
   STEAM_ID3_PATTERN = /\[U:1:\d+\]/i
@@ -181,10 +182,10 @@ class LeagueAdminAiService
       # Add assistant message with all content blocks
       messages << { role: "assistant", content: content_blocks }
 
-      # Execute tools and build results
+      # Execute tools and build results, sending keepalives to prevent proxy timeouts
       tool_results = tool_blocks.map do |tool_block|
         block.call(:tool_call, { id: tool_block[:id], label: tool_label(tool_block[:name], tool_block[:input]) })
-        result = execute_tool(tool_block[:name], tool_block[:input])
+        result = execute_tool_with_keepalive(tool_block[:name], tool_block[:input], &block)
         { type: "tool_result", tool_use_id: tool_block[:id], content: truncate_result(result.to_json) }
       end
 
@@ -235,6 +236,19 @@ class LeagueAdminAiService
     steam_id
   end
 
+  def execute_tool_with_keepalive(name, input, &block)
+    result = nil
+    thread = Thread.new do
+      ActiveRecord::Base.connection_pool.with_connection do
+        result = execute_tool(name, input)
+      end
+    end
+    until thread.join(5)
+      block.call(:keepalive, nil)
+    end
+    result
+  end
+
   def stream_and_collect(messages, tool_definitions, &block)
     cached_messages = add_cache_breakpoint(messages)
 
@@ -243,7 +257,8 @@ class LeagueAdminAiService
       max_tokens: 8192,
       system: [ { type: "text", text: SYSTEM_PROMPT, cache_control: { type: "ephemeral" } } ],
       messages: cached_messages,
-      tools: tool_definitions
+      tools: tool_definitions,
+      request_options: { timeout: API_TIMEOUT }
     )
 
     content_blocks = []

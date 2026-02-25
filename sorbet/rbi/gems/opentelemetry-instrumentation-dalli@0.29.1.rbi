@@ -35,12 +35,20 @@ module OpenTelemetry::Instrumentation::Dalli; end
 class OpenTelemetry::Instrumentation::Dalli::Instrumentation < ::OpenTelemetry::Instrumentation::Base
   private
 
-  # source://opentelemetry-instrumentation-dalli//lib/opentelemetry/instrumentation/dalli/instrumentation.rb#32
+  # source://opentelemetry-instrumentation-dalli//lib/opentelemetry/instrumentation/dalli/instrumentation.rb#47
   def add_patches; end
 
-  # source://opentelemetry-instrumentation-dalli//lib/opentelemetry/instrumentation/dalli/instrumentation.rb#27
+  # source://opentelemetry-instrumentation-dalli//lib/opentelemetry/instrumentation/dalli/instrumentation.rb#38
+  def gem_version; end
+
+  # source://opentelemetry-instrumentation-dalli//lib/opentelemetry/instrumentation/dalli/instrumentation.rb#42
   def require_dependencies; end
 end
+
+# Dalli 4.2.0+ has native OpenTelemetry instrumentation
+#
+# source://opentelemetry-instrumentation-dalli//lib/opentelemetry/instrumentation/dalli/instrumentation.rb#13
+OpenTelemetry::Instrumentation::Dalli::Instrumentation::MAX_VERSION = T.let(T.unsafe(nil), Gem::Version)
 
 # source://opentelemetry-instrumentation-dalli//lib/opentelemetry/instrumentation/dalli/version.rb#10
 OpenTelemetry::Instrumentation::Dalli::VERSION = T.let(T.unsafe(nil), String)

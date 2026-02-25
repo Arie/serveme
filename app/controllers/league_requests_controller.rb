@@ -106,12 +106,17 @@ class LeagueRequestsController < ApplicationController
 
     service = LeagueAdminAiService.new(user: current_user)
     service.stream_response(messages: messages) do |type, data|
-      response.stream.write("data: #{({ type: type, data: data }.to_json)}\n\n")
+      if type == :keepalive
+        response.stream.write(": keepalive\n\n")
+      else
+        response.stream.write("data: #{({ type: type, data: data }.to_json)}\n\n")
+      end
     end
 
     response.stream.write("data: #{({ type: :done, data: nil }.to_json)}\n\n")
   rescue => e
     Rails.logger.error("[LeagueAdminAI] Error: #{e.class}: #{e.message}\n#{e.backtrace&.first(5)&.join("\n")}")
+    Sentry.capture_exception(e)
     response.stream.write("data: #{({ type: :error, data: e.message }.to_json)}\n\n")
   ensure
     response.stream.close

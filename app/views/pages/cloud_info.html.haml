@@ -1,0 +1,140 @@
+- content_for(:title) { "Cloud Servers" }
+
+.row
+  .col-md-12
+    %h2.text-center.mb-4
+      %i.fa.fa-cloud
+      Cloud Servers
+
+    .card.bg-faded.mb-3
+      .card-header.text-white
+        %i.fa.fa-user
+        Your Status
+      .card-body
+        - if @is_donator
+          - if @is_member
+            .alert.alert-success
+              %strong
+                %i.fa.fa-check-circle
+                You have access to cloud servers!
+            %p
+              You can launch on-demand cloud servers from the
+              = link_to "cloud reservation page", new_cloud_reservation_path
+              or through the "Cloud server" option in the reservation menu.
+
+            = form_tag cloud_info_path, method: :post, class: "mt-3" do
+              = hidden_field_tag :opt_out, "true"
+              = submit_tag "Opt Out", class: "btn btn-warning", data: { confirm: "Are you sure you want to give up cloud server access?" }
+          - else
+            .alert.alert-info
+              %strong You don't have cloud server access yet.
+            %p
+              As a donator, you can opt in to get access to on-demand cloud servers. Click below to get started!
+
+            = form_tag cloud_info_path, method: :post do
+              = hidden_field_tag :opt_in, "true"
+              = submit_tag "Enable Cloud Servers", class: "btn btn-primary btn-lg"
+        - else
+          .alert.alert-warning
+            %strong
+              %i.fa.fa-exclamation-triangle
+              Cloud servers are available to donators.
+          %p
+            = link_to "Donate", donate_path, class: "alert-link"
+            to get access to premium features including cloud servers.
+
+    .card.bg-faded.mb-3
+      .card-header.text-white
+        %i.fa.fa-star
+        What are Cloud Servers?
+      .card-body
+        %p.lead
+          Cloud servers are on-demand TF2 servers that are provisioned just for you.
+          Instead of sharing a pool of permanent servers, a fresh server is spun up
+          in the cloud when you need it and destroyed when you're done.
+
+    .row
+      .col-md-6
+        .card.bg-faded.mb-3
+          .card-header.text-white
+            %i.fa.fa-globe
+            More Locations
+          .card-body
+            %ul
+              %li Servers in regions not covered by permanent servers
+              %li Choose the location closest to your players
+              %li New locations added regularly
+
+      .col-md-6
+        .card.bg-faded.mb-3
+          .card-header.text-white
+            %i.fa.fa-refresh
+            Fresh Every Time
+          .card-body
+            %ul
+              %li A brand new server instance for every reservation
+              %li Server is destroyed when your reservation ends
+              %li Available even when all permanent servers are in use
+
+    .card.bg-faded.mb-3
+      .card-header.text-white
+        %i.fa.fa-map-marker
+        Available Locations
+      .card-body
+        .row
+          - @cloud_locations.each do |country, locations|
+            .col-md-4.mb-2
+              %span.flags{class: "flags-#{locations.first[:flag]}"}
+              %strong= country
+              %br
+              = locations.map { |l| l[:name] }.join(", ")
+
+    .row
+      .col-md-6
+        .card.bg-faded.mb-3
+          .card-header.text-white
+            %i.fa.fa-clock-o
+            On-Demand
+          .card-body
+            %ul
+              %li Servers are created when you need them
+              %li Schedule servers in advance
+              %li Provisioning takes about 3 minutes
+              %li Automatically destroyed when done
+
+      .col-md-6
+        .card.bg-faded.mb-3
+          .card-header.text-white
+            %i.fa.fa-cogs
+            Same Features
+          .card-body
+            %ul
+              %li Full RCON access
+              %li Custom configs and whitelists
+              %li STV demos and log uploads
+              %li Plugin support
+
+    .card.bg-faded
+      .card-header.text-white
+        %i.fa.fa-info-circle
+        How It Works
+      .card-body
+        %ol
+          %li
+            %strong Opt in above
+            to enable cloud server access on
+            #{SITE_HOST}
+          %li
+            %strong Launch a cloud server
+            from the
+            = link_to "cloud reservation page", new_cloud_reservation_path
+            or the reservation menu
+          %li
+            %strong Pick a location
+            and configure your server settings
+          %li
+            %strong Wait for provisioning
+            \- your server will be ready in a few minutes
+          %li
+            %strong Play!
+            Connect and enjoy your dedicated server

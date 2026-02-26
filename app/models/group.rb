@@ -10,6 +10,7 @@ class Group < ActiveRecord::Base
   CONFIG_ADMIN_GROUP = T.let(find_or_create_by(name: "Config Admins"), Group)
   STREAMER_GROUP = T.let(find_or_create_by(name: "Streamers"), Group)
   TEAM_COMTRESS_GROUP = T.let(find_or_create_by(name: "Team Comtress"), Group)
+  CLOUD_GROUP = T.let(find_or_create_by(name: "Cloud"), Group)
 
   validates_presence_of :name
 
@@ -53,6 +54,11 @@ class Group < ActiveRecord::Base
   sig { returns(Group) }
   def self.team_comtress_group
     find_or_create_by(name: "Team Comtress")
+  end
+
+  sig { returns(Group) }
+  def self.cloud_group
+    find_or_create_by(name: "Cloud")
   end
 
   sig { params(user: User).returns(Group) }

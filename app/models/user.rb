@@ -139,7 +139,12 @@ class User < ActiveRecord::Base
 
   sig { returns(T::Boolean) }
   def can_use_cloud_servers?
-    admin? || league_admin? || streamer?
+    admin? || league_admin? || streamer? || cloud_member?
+  end
+
+  sig { returns(T::Boolean) }
+  def cloud_member?
+    @cloud_member ||= group_ids.include?(Group.cloud_group.id)
   end
 
   sig { returns(T.nilable(Reservation)) }

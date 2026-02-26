@@ -89,6 +89,51 @@ class PagesController < ApplicationController
     render "error", status: 500, formats: :html
   end
 
+  def cloud_info
+    @cloud_group = Group.cloud_group
+    @is_member = current_user.groups.exists?(id: @cloud_group.id)
+    @is_donator = current_user.donator?
+    @cloud_locations = cloud_locations_with_flags
+
+    if request.post?
+      unless @is_donator
+        flash[:alert] = "Cloud servers are only available to donators."
+        redirect_to cloud_info_path
+        return
+      end
+
+      if params[:opt_in] == "true"
+        group_membership = current_user.group_users.find_or_initialize_by(group: @cloud_group)
+        group_membership.expires_at = nil
+        group_membership.save!
+        flash[:notice] = "You now have access to cloud servers."
+      elsif params[:opt_out] == "true"
+        current_user.group_users.where(group: @cloud_group).destroy_all
+        flash[:notice] = "You have opted out of cloud servers."
+      end
+      redirect_to cloud_info_path
+    end
+  end
+
+  private
+
+  def cloud_locations_with_flags
+    locations = Hash.new { |h, k| h[k] = [] }
+
+    CloudProvider::PROVIDERS.each do |provider_name, klass|
+      klass.locations.each do |_code, info|
+        next unless info[:region] == CloudProvider::SITE_REGION
+
+        locations[info[:country]] << { name: info[:name], flag: info[:flag], provider: provider_name }
+      end
+    end
+
+    locations.each_value { |locs| locs.uniq! { |l| l[:name] }; locs.sort_by! { |l| l[:name] } }
+    locations.sort_by { |country, _| country }.to_h
+  end
+
+  public
+
   def comtress
     @team_comtress_group = Group.team_comtress_group
     @is_member = current_user.groups.exists?(id: @team_comtress_group.id)

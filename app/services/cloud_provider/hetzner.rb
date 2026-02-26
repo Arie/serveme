@@ -57,9 +57,9 @@ module CloudProvider
 
     def provision_phases
       [
-        { key: "creating_vm", label: "Creating VM", icon: "fa-cloud", seconds: 105 },
-        { key: "booting", label: "Installing game server", icon: "fa-server", seconds: 20 },
-        { key: "configuring", label: "Applying config", icon: "fa-cog", seconds: 10 }
+        { key: "creating_vm", label: "Creating VM", icon: "fa-cloud", seconds: 140 },
+        { key: "booting", label: "Installing game server", icon: "fa-server", seconds: 15 },
+        { key: "configuring", label: "Applying config", icon: "fa-cog", seconds: 20 }
       ]
     end
 

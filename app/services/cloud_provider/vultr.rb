@@ -78,14 +78,14 @@ module CloudProvider
 
     def provision_phases
       [
-        { key: "creating_vm", label: "Creating VM", icon: "fa-cloud", seconds: 50 },
-        { key: "booting", label: "Installing game server", icon: "fa-server", seconds: 130 },
-        { key: "configuring", label: "Applying config", icon: "fa-cog", seconds: 12 }
+        { key: "creating_vm", label: "Creating VM", icon: "fa-cloud", seconds: 55 },
+        { key: "booting", label: "Installing game server", icon: "fa-server", seconds: 145 },
+        { key: "configuring", label: "Applying config", icon: "fa-cog", seconds: 45 }
       ]
     end
 
     def estimated_provision_time
-      "about 3 minutes"
+      "about 4 minutes"
     end
 
     def destroy_server(provider_id)

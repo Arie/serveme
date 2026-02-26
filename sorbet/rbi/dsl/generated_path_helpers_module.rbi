@@ -85,6 +85,12 @@ module GeneratedPathHelpersModule
   def claim_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def cloud_info_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def cloud_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def cloud_reservations_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }

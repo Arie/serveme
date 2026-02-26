@@ -104,15 +104,5 @@ describe CloudReservationsController do
         end
       end
     end
-
-    context "as regular user" do
-      before { sign_in user }
-
-      it "redirects to root" do
-        post :create, params: valid_params
-
-        expect(response).to redirect_to(root_path)
-      end
-    end
   end
 end

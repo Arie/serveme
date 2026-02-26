@@ -36,6 +36,8 @@ class LogWorker
   private
 
   def handle_event
+    mark_cloud_server_ready if reservation && !reservation.provisioned? && reservation.server.is_a?(CloudServer)
+
     case event
     when TF2LineParser::Events::Say, TF2LineParser::Events::TeamSay
       @message = event.message
@@ -456,6 +458,14 @@ class LogWorker
         server_id: reservation.server_id
       }
     )
+  end
+
+  def mark_cloud_server_ready
+    return if reservation.provisioned?
+
+    reservation.update_columns(provisioned: true, ready_at: Time.current)
+    reservation.status_update("TF2 server ready")
+    reservation.server.broadcast_reservation_status
   end
 
   def broadcast_log_lines

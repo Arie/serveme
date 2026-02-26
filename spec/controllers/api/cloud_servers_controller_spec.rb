@@ -21,13 +21,23 @@ describe Api::CloudServersController do
     end
 
     context 'with tf2_ready status' do
-      it 'marks the server ready and sets reservation as provisioned' do
+      it 'marks the cloud server ready and starts rcon polling' do
+        expect(CloudServerRconPollWorker).to receive(:perform_async).with(reservation.id)
         request.headers['X-Callback-Token'] = callback_token
         post :ready, params: { id: cloud_server.id, status: 'tf2_ready' }
 
         expect(response).to have_http_status(:ok)
         expect(cloud_server.reload.cloud_status).to eq('ready')
-        expect(reservation.reload.provisioned).to eq(true)
+        expect(reservation.reload.provisioned).to eq(false)
+      end
+
+      it 'does not start rcon polling if reservation is already provisioned' do
+        reservation.update_columns(provisioned: true)
+        expect(CloudServerRconPollWorker).not_to receive(:perform_async)
+        request.headers['X-Callback-Token'] = callback_token
+        post :ready, params: { id: cloud_server.id, status: 'tf2_ready' }
+
+        expect(response).to have_http_status(:ok)
       end
     end
 

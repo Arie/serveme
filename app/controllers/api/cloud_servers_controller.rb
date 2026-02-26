@@ -41,12 +41,11 @@ module Api
       cloud_server.mark_ready!
       reservation = Reservation.find(T.must(cloud_server.cloud_reservation_id))
       return if reservation.ended?
+      return if reservation.provisioned?
 
-      reservation.provisioned = true
-      reservation.ready_at = Time.current
-      reservation.save(validate: false)
-      reservation.status_update("TF2 server ready")
+      reservation.status_update("TF2 port open, checking server readiness")
       cloud_server.broadcast_reservation_status
+      CloudServerRconPollWorker.perform_async(reservation.id)
     end
 
     def verify_callback_token

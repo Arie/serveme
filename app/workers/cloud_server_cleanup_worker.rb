@@ -9,7 +9,7 @@ class CloudServerCleanupWorker
   MAX_AGE = 6.hours
 
   def perform
-    CloudServer.where(cloud_status: %w[provisioning ready])
+    CloudServer.where(cloud_status: %w[provisioning ssh_ready ready])
                .where(cloud_created_at: ...MAX_AGE.ago)
                .find_each do |server|
       Rails.logger.info "CloudServerCleanupWorker: Destroying stranded cloud server #{server.id} (created #{server.cloud_created_at})"

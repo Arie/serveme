@@ -13,6 +13,14 @@ describe CloudServerCleanupWorker do
       described_class.new.perform
     end
 
+    it "enqueues destroy for stranded ssh_ready servers older than 6 hours" do
+      old_server = create(:cloud_server, cloud_status: "ssh_ready", cloud_created_at: 7.hours.ago)
+
+      expect(CloudServerDestroyWorker).to receive(:perform_async).with(old_server.id)
+
+      described_class.new.perform
+    end
+
     it "enqueues destroy for stranded ready servers older than 6 hours" do
       old_server = create(:cloud_server, cloud_status: "ready", cloud_created_at: 7.hours.ago)
 

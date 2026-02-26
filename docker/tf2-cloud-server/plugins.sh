@@ -1,6 +1,10 @@
 #!/bin/bash
 set -e
 
+# WebRCON
+cd "$HOME/hlserver/tf2/tf/addons/sourcemod/plugins"
+wget -nv "https://github.com/Arie/serveme/raw/refs/heads/master/doc/web_rcon.smx" -O "web_rcon.smx"
+
 # STAC anti-cheat (zip contents are relative to addons/sourcemod/)
 cd "$HOME/hlserver/tf2/tf/addons/sourcemod"
 wget -nv "https://github.com/sapphonie/StAC-tf2/releases/latest/download/stac.zip" -O "stac.zip"
@@ -18,15 +22,6 @@ cd "$HOME/hlserver/tf2/tf/addons/sourcemod"
 wget -nv "https://github.com/sapphonie/tf2rue/releases/latest/download/tf2rue.zip" -O "tf2rue.zip"
 unzip -o tf2rue.zip
 rm tf2rue.zip
-
-# Re-add funcommands.smx and funvotes.smx (removed by upstream sourcemod.sh)
-cd /tmp
-sm_url=$(wget -q -O - "http://www.sourcemod.net/downloads.php?branch=stable" | grep -oP -m1 "https://[a-z.]+/smdrop/[0-9.]+/sourcemod-(.*)-linux.tar.gz")
-wget -nv "$sm_url" -O sourcemod.tar.gz
-tar -xzf sourcemod.tar.gz addons/sourcemod/plugins/funcommands.smx addons/sourcemod/plugins/funvotes.smx
-cp addons/sourcemod/plugins/funcommands.smx addons/sourcemod/plugins/funvotes.smx \
-    "$HOME/hlserver/tf2/tf/addons/sourcemod/plugins/"
-rm -rf addons sourcemod.tar.gz
 
 # Remove whitelisttf.smx (conflicts with tf2rue which replaces its functionality)
 rm -f "$HOME/hlserver/tf2/tf/addons/sourcemod/plugins/whitelisttf.smx"

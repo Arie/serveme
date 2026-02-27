@@ -27,6 +27,12 @@ RUN cd /home/tf2/hlserver/tf2/tf \
     && rm rgl.zip \
     && sed -i '/^sm_updater/d' cfg/rgl_base.cfg
 
+# ozfortress configs and whitelists
+RUN cd /home/tf2/hlserver/tf2/tf \
+    && wget -nv "https://github.com/ozfortress/server-configs/archive/refs/heads/master.tar.gz" -O ozfortress.tar.gz \
+    && tar xzf ozfortress.tar.gz --strip-components=1 server-configs-master/cfg/ \
+    && rm ozfortress.tar.gz
+
 # Bake in ctf_turbine (stock map is VPK-packed, we need the .bsp for changelevel)
 RUN wget -nv "https://fastdl.serveme.tf/maps/ctf_turbine.bsp" -O "/home/tf2/hlserver/tf2/tf/maps/ctf_turbine.bsp"
 

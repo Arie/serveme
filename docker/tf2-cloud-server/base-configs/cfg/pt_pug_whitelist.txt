@@ -1,0 +1,251 @@
+// Whitelist generated at Sat, 26 Oct 2024 06:21:37 +0200
+// Whitelist: passtime.tf Global whitelist (ID: 14815)
+
+// Share or view this whitelist:
+//	https://whitelist.tf/passtimetf
+
+// New items added to the game are: allowed
+// Hats are: allowed
+// Miscs are: allowed
+// Pyrovision is: NOT allowed
+// Noisemakers are: NOT allowed
+// Restricted noisemakers are: NOT allowed
+// Halloween/Full Moon items are: allowed
+// Noise making miscs are: allowed
+// Explosion on death miscs are: allowed
+// Festive weapon reskins are: allowed
+// Botkiller weapon reskins are: allowed
+
+// Allowed weapons for Multiple classes
+// - Melee
+//  * Pain Train
+
+// Allowed weapons for Soldier
+// - Primary
+//  * Black Box
+// - Secondary
+//  * Gunboats
+//  * Mantreads
+// - Melee
+//  * Equalizer
+//  * Escape Plan
+//  * Market Gardener
+
+// Allowed weapons for Demoman
+// - Primary
+//  * Ali Baba's Wee Booties
+//  * Iron Bomber
+// - Secondary
+//  * Splendid Screen
+// - Melee
+//  * Claidheamh Mòr
+//  * Scotsman's Skullcutter
+//  * Ullapool Caber
+
+// Allowed weapons for Medic
+// - Primary
+//  * Crusader's Crossbow
+// - Melee
+//  * Amputator
+//  * Solemn Vow
+//  * Ubersaw
+//  * Vita-Saw
+
+"item_whitelist"
+{
+	"unlisted_items_default_to"		"1"
+
+	//------------ Blocked weapons/reskins (Total: 150) -------------\\
+	//______________________ Multiple classes _______________________\\
+	"Panic Attack Shotgun"						"0"
+	"The B.A.S.E. Jumper"						"0"
+	"The Half-Zatoichi"						"0"
+	"The Reserve Shooter"						"0"
+	//____________________________ Scout ____________________________\\
+	"Baby Face's Blaster"						"0"
+	"Bonk! Atomic Punch"						"0"
+	"Crit-a-Cola"							"0"
+	"Festive Bonk 2014"						"0"
+	"Festive Force-a-Nature"					"0"
+	"Mad Milk"							"0"
+	"Mutated Milk"							"0"
+	"Pretty Boy's Pocket Pistol"					"0"
+	"Promo Flying Guillotine"					"0"
+	"Sun-on-a-Stick"						"0"
+	"The Atomizer"							"0"
+	"The Back Scatter"						"0"
+	"The Boston Basher"						"0"
+	"The Candy Cane"						"0"
+	"The Fan O'War"							"0"
+	"The Flying Guillotine"						"0"
+	"The Force-a-Nature"						"0"
+	"The Sandman"							"0"
+	"The Shortstop"							"0"
+	"The Soda Popper"						"0"
+	"The Winger"							"0"
+	"The Wrap Assassin"						"0"
+	"Three-Rune Blade"						"0"
+	//___________________________ Soldier ___________________________\\
+	"Festive Buff Banner"						"0"
+	"Rocket Jumper"							"0"
+	"The Air Strike"						"0"
+	"The Battalion's Backup"					"0"
+	"The Beggar's Bazooka"						"0"
+	"The Buff Banner"						"0"
+	"The Concheror"							"0"
+	"The Cow Mangler 5000"						"0"
+	"The Direct Hit"						"0"
+	"The Disciplinary Action"					"0"
+	"The Liberty Launcher"						"0"
+	"The Righteous Bison"						"0"
+	//____________________________ Pyro _____________________________\\
+	"Festive Axtinguisher"						"0"
+	"Festive Backburner 2014"					"0"
+	"Festive Flare Gun"						"0"
+	"Promo Neon Annihilator"					"0"
+	"Sharpened Volcano Fragment"					"0"
+	"The Axtinguisher"						"0"
+	"The Backburner"						"0"
+	"The Back Scratcher"						"0"
+	"The Degreaser"							"0"
+	"The Detonator"							"0"
+	"The Dragon's Fury"						"0"
+	"The Flare Gun"							"0"
+	"The Gas Passer"						"0"
+	"The Homewrecker"						"0"
+	"The Hot Hand"							"0"
+	"The Manmelter"							"0"
+	"The Maul"							"0"
+	"The Neon Annihilator"						"0"
+	"The Phlogistinator"						"0"
+	"The Postal Pummeler"						"0"
+	"The Powerjack"							"0"
+	"The Scorch Shot"						"0"
+	"The Thermal Thruster"						"0"
+	"The Third Degree"						"0"
+	//___________________________ Demoman ___________________________\\
+	"Festive Eyelander"						"0"
+	"Festive Targe 2014"						"0"
+	"Nessie's Nine Iron"						"0"
+	"Stickybomb Jumper"						"0"
+	"The Chargin' Targe"						"0"
+	"The Eyelander"							"0"
+	"The Horseless Headless Horseman's Headtaker"			"0"
+	"The Loch-n-Load"						"0"
+	"The Loose Cannon"						"0"
+	"The Persian Persuader"						"0"
+	"The Quickiebomb Launcher"					"0"
+	"The Scottish Resistance"					"0"
+	"The Tide Turner"						"0"
+	//____________________________ Heavy ____________________________\\
+	"Deflector"							"0"
+	"Festive Gloves of Running Urgently"				"0"
+	"Festive Sandvich"						"0"
+	"Fishcake"							"0"
+	"Fists of Steel"						"0"
+	"Gloves of Running Urgently"					"0"
+	"Gloves of Running Urgently MvM"				"0"
+	"Natascha"							"0"
+	"Promo Huo Long Heatmaker"					"0"
+	"The Brass Beast"						"0"
+	"The Bread Bite"						"0"
+	"The Buffalo Steak Sandvich"					"0"
+	"The Dalokohs Bar"						"0"
+	"The Eviction Notice"						"0"
+	"The Family Business"						"0"
+	"The Holiday Punch"						"0"
+	"The Huo Long Heatmaker"					"0"
+	"The Killing Gloves of Boxing"					"0"
+	"The Robo-Sandvich"						"0"
+	"The Sandvich"							"0"
+	"The Second Banana"						"0"
+	"Tomislav"							"0"
+	"Warrior's Spirit"						"0"
+	//__________________________ Engineer ___________________________\\
+	"Festive Frontier Justice"					"0"
+	"Festive Wrangler"						"0"
+	"The Eureka Effect"						"0"
+	"The Frontier Justice"						"0"
+	"The Giger Counter"						"0"
+	"The Gunslinger"						"0"
+	"The Jag"							"0"
+	"The Pomson 6000"						"0"
+	"The Rescue Ranger"						"0"
+	"The Short Circuit"						"0"
+	"The Southern Hospitality"					"0"
+	"The Widowmaker"						"0"
+	"The Wrangler"							"0"
+	//____________________________ Medic ____________________________\\
+	"The Blutsauger"						"0"
+	"The Kritzkrieg"						"0"
+	"The Overdose"							"0"
+	"The Quick-Fix"							"0"
+	"The Vaccinator"						"0"
+	//___________________________ Sniper ____________________________\\
+	"Darwin's Danger Shield"					"0"
+	"Festive Huntsman"						"0"
+	"Festive Jarate"						"0"
+	"Jarate"							"0"
+	"Shooting Star"							"0"
+	"The Bazaar Bargain"						"0"
+	"The Bushwacka"							"0"
+	"The Classic"							"0"
+	"The Cleaner's Carbine"						"0"
+	"The Cozy Camper"						"0"
+	"The Fortified Compound"					"0"
+	"The Hitman's Heatmaker"					"0"
+	"The Huntsman"							"0"
+	"The Machina"							"0"
+	"The Razorback"							"0"
+	"The Self-Aware Beauty Mark"					"0"
+	"The Shahanshah"						"0"
+	"The Sydney Sleeper"						"0"
+	"The Tribalman's Shiv"						"0"
+	//_____________________________ Spy _____________________________\\
+	"Conniver's Kunai"						"0"
+	"Festive Ambassador"						"0"
+	"L'Etranger"							"0"
+	"Promo Red-Tape Recorder"					"0"
+	"The Ambassador"						"0"
+	"The Big Earner"						"0"
+	"The Cloak and Dagger"						"0"
+	"The Dead Ringer"						"0"
+	"The Diamondback"						"0"
+	"The Enforcer"							"0"
+	"The Red-Tape Recorder"						"0"
+	"The Spy-cicle"							"0"
+	"The Wanga Prick"						"0"
+	"Your Eternal Reward"						"0"
+
+	//------------- ConTrabanned ConTracker (Total: 1) --------------\\
+	//_________________________ All classes _________________________\\
+	"Activated Campaign 3 Pass"					"0"
+
+	//------------------- Noisemakers (Total: 14) -------------------\\
+	"Charity Noise Maker - Bell"					"0"
+	"Charity Noise Maker - Tingsha"					"0"
+	"Halloween Noise Maker - Banshee"				"0"
+	"Halloween Noise Maker - Black Cat"				"0"
+	"Halloween Noise Maker - Crazy Laugh"				"0"
+	"Halloween Noise Maker - Gremlin"				"0"
+	"Halloween Noise Maker - Stabby"				"0"
+	"Halloween Noise Maker - Werewolf"				"0"
+	"Halloween Noise Maker - Witch"					"0"
+	"Noise Maker - TF Birthday"					"0"
+	"Noise Maker - Vuvuzela"					"0"
+	"Noise Maker - Winter 2011"					"0"
+	"Promotional Noise Maker - Fireworks"				"0"
+	"Promotional Noise Maker - Koto"				"0"
+
+	//-------------- Pyro/Romevision items (Total: 8) ---------------\\
+	//_________________________ All classes _________________________\\
+	"Autogrant Pyrovision Goggles"					"0"
+	"Pet Balloonicorn"						"0"
+	"Pet Reindoonicorn"						"0"
+	"Pyrovision Goggles"						"0"
+	//____________________________ Pyro _____________________________\\
+	"The Burning Bongos"						"0"
+	"The Infernal Orchestrina"					"0"
+	"The Lollichop"							"0"
+	"The Rainblower"						"0"
+}

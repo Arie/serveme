@@ -1,0 +1,169 @@
+// Whitelist generated at Tue, 27 Apr 2021 05:36:18 +0200
+// Whitelist: Respawn League Highlander (Season 8) (ID: 11496)
+
+// Share or view this whitelist:
+//	https://whitelist.tf/respawn_hl_s8
+
+// New items added to the game are: allowed
+// Hats are: allowed
+// Miscs are: allowed
+// Pyrovision is: NOT allowed
+// Noisemakers are: NOT allowed
+// Restricted noisemakers are: NOT allowed
+// Halloween/Full Moon items are: allowed
+// Noise making miscs are: NOT allowed
+// Explosion on death miscs are: NOT allowed
+// Festive weapon reskins are: allowed
+// Botkiller weapon reskins are: allowed
+
+// Blocked weapons for Scout
+// - Secondary
+//  * Crit-a-Cola
+//  * Mad Milk
+
+// Blocked weapons for Soldier
+// - Primary
+//  * Air Strike
+
+// Blocked weapons for Pyro
+// - Secondary
+//  * Scorch Shot
+
+// Blocked weapons for Heavy
+// - Primary
+//  * Natascha
+
+// Blocked weapons for Engineer
+// - Secondary
+//  * Short Circuit
+
+// Blocked weapons for Sniper
+// - Primary
+//  * Machina
+//  * Sydney Sleeper
+// - Secondary
+//  * Jarate
+
+// Blocked weapons for Spy
+// - Secondary
+//  * Diamondback
+
+"item_whitelist"
+{
+	"unlisted_items_default_to"		"1"
+
+	//------------- Blocked weapons/reskins (Total: 15) -------------\\
+	//____________________________ Scout ____________________________\\
+	"Crit-a-Cola"							"0"
+	"Mad Milk"							"0"
+	"Mutated Milk"							"0"
+	//___________________________ Soldier ___________________________\\
+	"The Air Strike"						"0"
+	//____________________________ Pyro _____________________________\\
+	"The Scorch Shot"						"0"
+	//____________________________ Heavy ____________________________\\
+	"Deflector"							"0"
+	"Natascha"							"0"
+	//__________________________ Engineer ___________________________\\
+	"The Short Circuit"						"0"
+	//___________________________ Sniper ____________________________\\
+	"Festive Jarate"						"0"
+	"Jarate"							"0"
+	"Shooting Star"							"0"
+	"The Machina"							"0"
+	"The Self-Aware Beauty Mark"					"0"
+	"The Sydney Sleeper"						"0"
+	//_____________________________ Spy _____________________________\\
+	"The Diamondback"						"0"
+
+	//------------- ConTrabanned ConTracker (Total: 1) --------------\\
+	//_________________________ All classes _________________________\\
+	"Activated Campaign 3 Pass"					"0"
+
+	//------------------- Noisemakers (Total: 14) -------------------\\
+	"Charity Noise Maker - Bell"					"0"
+	"Charity Noise Maker - Tingsha"					"0"
+	"Halloween Noise Maker - Banshee"				"0"
+	"Halloween Noise Maker - Black Cat"				"0"
+	"Halloween Noise Maker - Crazy Laugh"				"0"
+	"Halloween Noise Maker - Gremlin"				"0"
+	"Halloween Noise Maker - Stabby"				"0"
+	"Halloween Noise Maker - Werewolf"				"0"
+	"Halloween Noise Maker - Witch"					"0"
+	"Noise Maker - TF Birthday"					"0"
+	"Noise Maker - Vuvuzela"					"0"
+	"Noise Maker - Winter 2011"					"0"
+	"Promotional Noise Maker - Fireworks"				"0"
+	"Promotional Noise Maker - Koto"				"0"
+
+	//-------------- Pyro/Romevision items (Total: 8) ---------------\\
+	//_________________________ All classes _________________________\\
+	"Autogrant Pyrovision Goggles"					"0"
+	"Pet Balloonicorn"						"0"
+	"Pet Reindoonicorn"						"0"
+	"Pyrovision Goggles"						"0"
+	//____________________________ Pyro _____________________________\\
+	"The Burning Bongos"						"0"
+	"The Infernal Orchestrina"					"0"
+	"The Lollichop"							"0"
+	"The Rainblower"						"0"
+
+	//------ Noise making/Explosion on death miscs (Total: 6) -------\\
+	"Bombinomicon"							"0"
+	"Jolly Jingler"							"0"
+	"Reindoonibeanie"						"0"
+	"The Bootie Time"						"0"
+	"The Jingle Belt"						"0"
+	"Elf Care Provider"						"0"
+
+	//--------------------- Taunts (Total: 39) ----------------------\\
+	//_________________________ All classes _________________________\\
+	"Conga Taunt"							"0"
+	"Flippin' Awesome Taunt"					"0"
+	"High Five Taunt"						"0"
+	"RPS Taunt"							"0"
+	"Skullcracker Taunt"						"0"
+	"Square Dance Taunt"						"0"
+	"Taunt: Kazotsky Kick"						"0"
+	"Taunt: Mannrobics"						"0"
+	"Taunt: The Fist Bump"						"0"
+	"Taunt: The Victory Lap"					"0"
+	"Taunt: Zoomin' Broom"						"0"
+	//____________________________ Scout ____________________________\\
+	"Taunt: Runner's Rhythm"					"0"
+	"Taunt: Spin-to-Win"						"0"
+	"Taunt: The Boston Boarder"					"0"
+	"Taunt: The Bunnyhopper"					"0"
+	"Taunt: The Carlton"						"0"
+	"Taunt: The Scooty Scoot"					"0"
+	//___________________________ Soldier ___________________________\\
+	"Taunt: Panzer Pants"						"0"
+	"Taunt: Rocket Jockey"						"0"
+	//____________________________ Pyro _____________________________\\
+	"Pool Party Taunt"						"0"
+	"Taunt: Scorcher's Solo"					"0"
+	"Taunt: The Balloonibouncer"					"0"
+	"Taunt: The Skating Scorcher"					"0"
+	//___________________________ Demoman ___________________________\\
+	"Taunt: Scotsmann's Stagger"					"0"
+	"Taunt: The Pooped Deck"					"0"
+	//____________________________ Heavy ____________________________\\
+	"Taunt: The Boiling Point"					"0"
+	"Taunt: The Russian Arms Race"					"0"
+	"Taunt: The Soviet Strongarm"					"0"
+	"Taunt: The Table Tantrum"					"0"
+	//__________________________ Engineer ___________________________\\
+	"Rancho Relaxo Taunt"						"0"
+	"Taunt: Bucking Bronco"						"0"
+	"Taunt: Texas Truckin"						"0"
+	"Taunt: The Dueling Banjo"					"0"
+	"Taunt: The Jumping Jack"					"0"
+	//____________________________ Medic ____________________________\\
+	"Taunt: Surgeon's Squeezebox"					"0"
+	"Taunt: Time Out Therapy"					"0"
+	//___________________________ Sniper ____________________________\\
+	"Taunt: Didgeridrongo"						"0"
+	//_____________________________ Spy _____________________________\\
+	"Taunt: Luxury Lounge"						"0"
+	"Taunt: The Boxtrot"						"0"
+}

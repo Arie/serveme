@@ -1,0 +1,478 @@
+// Whitelist generated at Fri, 15 Oct 2021 21:11:48 +0200
+// Custom Whitelist ID: 12051
+
+// Share or view this whitelist:
+//	https://whitelist.tf/12051
+
+// New items added to the game are: allowed
+// Hats are: allowed
+// Miscs are: allowed
+// Pyrovision is: NOT allowed
+// Noisemakers are: NOT allowed
+// Restricted noisemakers are: NOT allowed
+// Halloween/Full Moon items are: NOT allowed
+// Noise making miscs are: NOT allowed
+// Explosion on death miscs are: NOT allowed
+// Festive weapon reskins are: allowed
+// Botkiller weapon reskins are: allowed
+
+// Blocked weapons for Multiple classes
+// - Secondary
+//  * B.A.S.E. Jumper
+//  * Reserve Shooter
+
+// Blocked weapons for Scout
+// - Primary
+//  * Soda Popper
+// - Secondary
+//  * Bonk! Atomic Punch
+//  * Crit-a-Cola
+//  * Flying Guillotine
+//  * Mad Milk
+//  * Pretty Boy's Pocket Pistol
+
+// Blocked weapons for Soldier
+// - Primary
+//  * Cow Mangler 5000
+// - Secondary
+//  * Concheror
+// - Melee
+//  * Disciplinary Action
+
+// Blocked weapons for Pyro
+// - Secondary
+//  * Gas Passer
+//  * Scorch Shot
+
+// Blocked weapons for Demoman
+// - Secondary
+//  * Scottish Resistance
+
+// Blocked weapons for Heavy
+// - Primary
+//  * Natascha
+// - Secondary
+//  * Buffalo Steak Sandvich
+// - Melee
+//  * Fists of Steel
+
+// Blocked weapons for Engineer
+// - Primary
+//  * Rescue Ranger
+// - Secondary
+//  * Short Circuit
+
+// Blocked weapons for Medic
+// - Secondary
+//  * Quick-Fix
+//  * Vaccinator
+
+// Blocked weapons for Sniper
+// - Primary
+//  * Machina
+//  * Sydney Sleeper
+// - Secondary
+//  * Jarate
+
+// Blocked weapons for Spy
+// - Secondary
+//  * Diamondback
+
+"item_whitelist"
+{
+	"unlisted_items_default_to"		"1"
+
+	//------------- Blocked weapons/reskins (Total: 32) -------------\\
+	//______________________ Multiple classes _______________________\\
+	"The B.A.S.E. Jumper"						"0"
+	"The Reserve Shooter"						"0"
+	//____________________________ Scout ____________________________\\
+	"Bonk! Atomic Punch"						"0"
+	"Crit-a-Cola"							"0"
+	"Festive Bonk 2014"						"0"
+	"Mad Milk"							"0"
+	"Mutated Milk"							"0"
+	"Pretty Boy's Pocket Pistol"					"0"
+	"Promo Flying Guillotine"					"0"
+	"The Flying Guillotine"						"0"
+	"The Soda Popper"						"0"
+	//___________________________ Soldier ___________________________\\
+	"The Concheror"							"0"
+	"The Cow Mangler 5000"						"0"
+	"The Disciplinary Action"					"0"
+	//____________________________ Pyro _____________________________\\
+	"The Gas Passer"						"0"
+	"The Scorch Shot"						"0"
+	//___________________________ Demoman ___________________________\\
+	"The Scottish Resistance"					"0"
+	//____________________________ Heavy ____________________________\\
+	"Deflector"							"0"
+	"Fists of Steel"						"0"
+	"Natascha"							"0"
+	"The Buffalo Steak Sandvich"					"0"
+	//__________________________ Engineer ___________________________\\
+	"The Rescue Ranger"						"0"
+	"The Short Circuit"						"0"
+	//____________________________ Medic ____________________________\\
+	"The Quick-Fix"							"0"
+	"The Vaccinator"						"0"
+	//___________________________ Sniper ____________________________\\
+	"Festive Jarate"						"0"
+	"Jarate"							"0"
+	"Shooting Star"							"0"
+	"The Machina"							"0"
+	"The Self-Aware Beauty Mark"					"0"
+	"The Sydney Sleeper"						"0"
+	//_____________________________ Spy _____________________________\\
+	"The Diamondback"						"0"
+
+	//------------- ConTrabanned ConTracker (Total: 1) --------------\\
+	//_________________________ All classes _________________________\\
+	"Activated Campaign 3 Pass"					"0"
+
+	//----------- Halloween/Full Moon items (Total: 249) ------------\\
+	//_________________________ All classes _________________________\\
+	"Cursed Cruise"							"0"
+	"Ghost of Spies Checked Past"					"0"
+	"Guano"								"0"
+	"Halloween Mask - Demoman"					"0"
+	"Halloween Mask - Engineer"					"0"
+	"Halloween Mask - Heavy"					"0"
+	"Halloween Mask - Medic"					"0"
+	"Halloween Mask - Pyro"						"0"
+	"Halloween Mask - Scout"					"0"
+	"Halloween Mask - Sniper"					"0"
+	"Halloween Mask - Soldier"					"0"
+	"Halloween Mask - Spy"						"0"
+	"Horseless Headless Horseman's Head"				"0"
+	"Kritz Or Treat Canteen"					"0"
+	"Mildly Disturbing Halloween Mask"				"0"
+	"MONOCULUS!"							"0"
+	"Quoth"								"0"
+	"Seal Mask"							"0"
+	"The Accursed Apparition"					"0"
+	"The Beacon from Beyond"					"0"
+	"The Birdie Bonnet"						"0"
+	"The Boo Balloon"						"0"
+	"The Cryptic Keepsake"						"0"
+	"The Dadliest Catch"						"0"
+	"The Dark Helm"							"0"
+	"The Dead Little Buddy"						"0"
+	"The Haunted Hat"						"0"
+	"The Hooded Haunter"						"0"
+	"The Magical Mercenary"						"0"
+	"The Manneater"							"0"
+	"The One-Way Ticket"						"0"
+	"The Pocket Horsemann"						"0"
+	"The Sackcloth Spook"						"0"
+	"The Tuque or Treat"						"0"
+	"The Unknown Monkeynaut"					"0"
+	"Unidentified Following Object"					"0"
+	"Voodoo-Cursed Soul (Armory)"					"0"
+	//______________________ Multiple classes _______________________\\
+	"Computron 5000"						"0"
+	"Ethereal Hood"							"0"
+	"Pin Pals"							"0"
+	"The Baphomet Trotters"						"0"
+	"The Candleer"							"0"
+	"The Snaggletoothed Stetson"					"0"
+	//____________________________ Scout ____________________________\\
+	"B-ankh!"							"0"
+	"Batter's Beak"							"0"
+	"Claws And Infect"						"0"
+	"Crazy Legs"							"0"
+	"Faun Feet"							"0"
+	"Fowl Fists"							"0"
+	"Futankhamun"							"0"
+	"Grounded Flyboy"						"0"
+	"Head Hunter"							"0"
+	"Nugget Noggin"							"0"
+	"Remorseless Raptor"						"0"
+	"Talon Trotters"						"0"
+	"The Alien Cranium"						"0"
+	"The Biomech Backpack"						"0"
+	"The Corpse Carrier"						"0"
+	"The Face Plante"						"0"
+	"The Halloweiner"						"0"
+	"The Horrific Head of Hare"					"0"
+	"The Hound's Hood"						"0"
+	"The Sprinting Cephalopod"					"0"
+	"The Terrier Trousers"						"0"
+	"The Xeno Suit"							"0"
+	"Wild Whip"							"0"
+	"Wrap Battler"							"0"
+	"Zombie Scout"							"0"
+	//___________________________ Soldier ___________________________\\
+	"Battle Bird"							"0"
+	"Ghoul Gibbin' Gear"						"0"
+	"Grub Grenades"							"0"
+	"Hellhunter's Headpiece"					"0"
+	"Idiot Box"							"0"
+	"Lieutenant Bites the Dust"					"0"
+	"Poopy Doe"							"0"
+	"Shoestring Budget"						"0"
+	"Steel Pipes"							"0"
+	"Supernatural Stalker"						"0"
+	"The Cadaver's Capper"						"0"
+	"The Faux Manchu"						"0"
+	"The Freedom Feathers"						"0"
+	"The Hardium Helm"						"0"
+	"The Hidden Dragon"						"0"
+	"The Jupiter Jumpers"						"0"
+	"The Larval Lid"						"0"
+	"The Shaolin Sash"						"0"
+	"The Space Bracers"						"0"
+	"The Spellbinder's Bonnet"					"0"
+	"The Zipperface"						"0"
+	"War Blunder"							"0"
+	"War Dog"							"0"
+	"Zombie Soldier"						"0"
+	//____________________________ Pyro _____________________________\\
+	"Arsonist Apparatus"						"0"
+	"Blazing Bull"							"0"
+	"Bozo's Bouffant"						"0"
+	"Burny's Boney Bonnet"						"0"
+	"Carrion Companion"						"0"
+	"Creature's Grin"						"0"
+	"Fallen Angel"							"0"
+	"Hard-Headed Hardware"						"0"
+	"Hovering Hotshot"						"0"
+	"Lollichop Licker"						"0"
+	"Moccasin Machinery"						"0"
+	"Mr. Juice"							"0"
+	"PY-40 Incinibot"						"0"
+	"Pyro Shark"							"0"
+	"Tail From the Crypt"						"0"
+	"The Abhorrent Appendages"					"0"
+	"The Beast From Below"						"0"
+	"The Cauterizer's Caudal Appendage"				"0"
+	"The Corpsemopolitan"						"0"
+	"The Creature From The Heap"					"0"
+	"The Crispy Golden Locks"					"0"
+	"The Death Support Pack"					"0"
+	"The External Organ"						"0"
+	"The Glob"							"0"
+	"The Gothic Guise"						"0"
+	"The Grisly Gumbo"						"0"
+	"The Handhunter"						"0"
+	"The Hollowhead"						"0"
+	"The Macabre Mask"						"0"
+	"The Maniac's Manacles"						"0"
+	"The Miami Rooster"						"0"
+	"The Monster's Stompers"					"0"
+	"The Mucous Membrain"						"0"
+	"The Plutonidome"						"0"
+	"The Raven's Visage"						"0"
+	"The Rugged Respirator"						"0"
+	"The Scorched Skirt"						"0"
+	"The Spectralnaut"						"0"
+	"The Treehugger"						"0"
+	"The Vicious Visage"						"0"
+	"Up Pyroscopes"							"0"
+	"Vampyro"							"0"
+	"Zombie Pyro"							"0"
+	//___________________________ Demoman ___________________________\\
+	"Aerobatics Demonstrator"					"0"
+	"Cap'n Calamari"						"0"
+	"Explosive Mind"						"0"
+	"Eyeborg"							"0"
+	"Forgotten King's Pauldrons"					"0"
+	"Forgotten King's Restless Head"				"0"
+	"Hair of the Dog"						"0"
+	"Pickled Paws"							"0"
+	"Polly Putrid"							"0"
+	"Scottish Snarl"						"0"
+	"The Headtaker's Hood"						"0"
+	"The Horsemann's Hand-Me-Down"					"0"
+	"The Lordly Lapels"						"0"
+	"The Mann-Bird of Aberdeen"					"0"
+	"The Parasight"							"0"
+	"The Squid's Lid"						"0"
+	"The Transylvania Top"						"0"
+	"Zombie Demo"							"0"
+	//____________________________ Heavy ____________________________\\
+	"Bone-Cut Belt"							"0"
+	"Bull Locks"							"0"
+	"Can Opener"							"0"
+	"Immobile Suit"							"0"
+	"Ivan The Inedible"						"0"
+	"Mannvich"							"0"
+	"Minsk Beef"							"0"
+	"Soviet Stitch-Up"						"0"
+	"Steel-Toed Stompers"						"0"
+	"The Chicken Kiev"						"0"
+	"The Grand Duchess Fairy Wings"					"0"
+	"The Grand Duchess Tiara"					"0"
+	"The Grand Duchess Tutu"					"0"
+	"The Horned Honcho"						"0"
+	"The Last Bite"							"0"
+	"The Monstrous Mandible"					"0"
+	"Zombie Heavy"							"0"
+	//__________________________ Engineer ___________________________\\
+	"A Shell of a Mann"						"0"
+	"Beep Man"							"0"
+	"Buzz Killer"							"0"
+	"Dell in the Shell"						"0"
+	"Eingineer"							"0"
+	"Final Frontier Freighter"					"0"
+	"Frontier Flyboy"						"0"
+	"Garden Bristles"						"0"
+	"Iron Fist"							"0"
+	"Legend of Bugfoot"						"0"
+	"Soul of 'Spenser's Past"					"0"
+	"The Grease Monkey"						"0"
+	"The Master Mind"						"0"
+	"The Pug Mug"							"0"
+	"Tiny Texan"							"0"
+	"Zombie Engineer"						"0"
+	//____________________________ Medic ____________________________\\
+	"Archimedes the Undying"					"0"
+	"Das Blutliebhaber"						"0"
+	"Dr. Gogglestache"						"0"
+	"Einstein"							"0"
+	"Emerald Jarate"						"0"
+	"Herzensbrecher"						"0"
+	"Hundekopf"							"0"
+	"Kriegsmaschine-9000"						"0"
+	"Medimedes"							"0"
+	"Ramses' Regalia"						"0"
+	"Rolfe Copter"							"0"
+	"Templar's Spirit"						"0"
+	"Teutonkahmun"							"0"
+	"The Alternative Medicine Mann"					"0"
+	"The Lo-Grav Loafers"						"0"
+	"The Second Opinion"						"0"
+	"The Shaman's Skull"						"0"
+	"The Surgeon's Space Suit"					"0"
+	"The Trepanabotomizer"						"0"
+	"The Vicar's Vestments"						"0"
+	"Transylvanian Toupe"						"0"
+	"Vampiric Vesture"						"0"
+	"Wings of Purity"						"0"
+	"Zombie Medic"							"0"
+	//___________________________ Sniper ____________________________\\
+	"Conspiratorial Cut"						"0"
+	"Crocodile Mun-Dee"						"0"
+	"Garlic Flank Stake"						"0"
+	"Holy Hunter"							"0"
+	"Kanga Kickers"							"0"
+	"Marsupial Man"							"0"
+	"Marsupial Muzzle"						"0"
+	"Mr. Mundee's Wild Ride"					"0"
+	"Roo Rippers"							"0"
+	"Scopers Scales"						"0"
+	"Silver Bullets"						"0"
+	"Sir Shootsalot"						"0"
+	"Skinless Slashers"						"0"
+	"The Carious Chameleon"						"0"
+	"The Hallowed Headcase"						"0"
+	"Zombie Sniper"							"0"
+	//_____________________________ Spy _____________________________\\
+	"Avian Amante"							"0"
+	"Bozo's Brogues"						"0"
+	"Facepeeler"							"0"
+	"Griffin's Gog"							"0"
+	"Intangible Ascot"						"0"
+	"Nightmare Hunter"						"0"
+	"Rogue's Rabbit"						"0"
+	"Shadowman's Shade"						"0"
+	"The Bountiful Bow"						"0"
+	"The Candyman's Cap"						"0"
+	"The Foul Cowl"							"0"
+	"The Hyperbaric Bowler"						"0"
+	"Under Cover"							"0"
+	"Zombie Spy"							"0"
+
+	//------------------- Noisemakers (Total: 14) -------------------\\
+	"Charity Noise Maker - Bell"					"0"
+	"Charity Noise Maker - Tingsha"					"0"
+	"Halloween Noise Maker - Banshee"				"0"
+	"Halloween Noise Maker - Black Cat"				"0"
+	"Halloween Noise Maker - Crazy Laugh"				"0"
+	"Halloween Noise Maker - Gremlin"				"0"
+	"Halloween Noise Maker - Stabby"				"0"
+	"Halloween Noise Maker - Werewolf"				"0"
+	"Halloween Noise Maker - Witch"					"0"
+	"Noise Maker - TF Birthday"					"0"
+	"Noise Maker - Vuvuzela"					"0"
+	"Noise Maker - Winter 2011"					"0"
+	"Promotional Noise Maker - Fireworks"				"0"
+	"Promotional Noise Maker - Koto"				"0"
+
+	//-------------- Pyro/Romevision items (Total: 8) ---------------\\
+	//_________________________ All classes _________________________\\
+	"Autogrant Pyrovision Goggles"					"0"
+	"Pet Balloonicorn"						"0"
+	"Pet Reindoonicorn"						"0"
+	"Pyrovision Goggles"						"0"
+	//____________________________ Pyro _____________________________\\
+	"The Burning Bongos"						"0"
+	"The Infernal Orchestrina"					"0"
+	"The Lollichop"							"0"
+	"The Rainblower"						"0"
+
+	//------ Noise making/Explosion on death miscs (Total: 5) -------\\
+	"Jolly Jingler"							"0"
+	"Reindoonibeanie"						"0"
+	"The Bootie Time"						"0"
+	"The Jingle Belt"						"0"
+	"Elf Care Provider"						"0"
+
+	//--------------------- Taunts (Total: 46) ----------------------\\
+	//_________________________ All classes _________________________\\
+	"Conga Taunt"							"0"
+	"Flippin' Awesome Taunt"					"0"
+	"High Five Taunt"						"0"
+	"RPS Taunt"							"0"
+	"Skullcracker Taunt"						"0"
+	"Square Dance Taunt"						"0"
+	"Taunt: Kazotsky Kick"						"0"
+	"Taunt: Mannrobics"						"0"
+	"Taunt: The Fist Bump"						"0"
+	"Taunt: The Victory Lap"					"0"
+	"Taunt: Zoomin' Broom"						"0"
+	//____________________________ Scout ____________________________\\
+	"Taunt: Runner's Rhythm"					"0"
+	"Taunt: Spin-to-Win"						"0"
+	"Taunt: The Boston Boarder"					"0"
+	"Taunt: The Bunnyhopper"					"0"
+	"Taunt: The Carlton"						"0"
+	"Taunt: The Homerunner's Hobby"					"0"
+	"Taunt: The Scooty Scoot"					"0"
+	//___________________________ Soldier ___________________________\\
+	"Taunt: Panzer Pants"						"0"
+	"Taunt: Rocket Jockey"						"0"
+	"Taunt: The Profane Puppeteer"					"0"
+	//____________________________ Pyro _____________________________\\
+	"Pool Party Taunt"						"0"
+	"Taunt: Scorcher's Solo"					"0"
+	"Taunt: The Balloonibouncer"					"0"
+	"Taunt: The Skating Scorcher"					"0"
+	//___________________________ Demoman ___________________________\\
+	"Taunt: Scotsmann's Stagger"					"0"
+	"Taunt: The Drunken Sailor"					"0"
+	"Taunt: The Pooped Deck"					"0"
+	"Taunt: True Scotsman's Call"					"0"
+	//____________________________ Heavy ____________________________\\
+	"Taunt: Bare Knuckle Beatdown"					"0"
+	"Taunt: The Boiling Point"					"0"
+	"Taunt: The Russian Arms Race"					"0"
+	"Taunt: The Soviet Strongarm"					"0"
+	"Taunt: The Table Tantrum"					"0"
+	//__________________________ Engineer ___________________________\\
+	"Rancho Relaxo Taunt"						"0"
+	"Taunt: Bucking Bronco"						"0"
+	"Taunt: Texas Truckin"						"0"
+	"Taunt: The Dueling Banjo"					"0"
+	"Taunt: The Jumping Jack"					"0"
+	//____________________________ Medic ____________________________\\
+	"Meet the Medic Heroic Taunt"					"0"
+	"Taunt: Surgeon's Squeezebox"					"0"
+	"Taunt: The Mannbulance!"					"0"
+	"Taunt: Time Out Therapy"					"0"
+	//___________________________ Sniper ____________________________\\
+	"Taunt: Didgeridrongo"						"0"
+	//_____________________________ Spy _____________________________\\
+	"Taunt: Luxury Lounge"						"0"
+	"Taunt: The Boxtrot"						"0"
+}

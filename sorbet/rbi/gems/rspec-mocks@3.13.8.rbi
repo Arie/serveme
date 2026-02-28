@@ -4146,65 +4146,65 @@ end
 
 # @private
 #
-# source://rspec-mocks//lib/rspec/mocks/order_group.rb#4
+# source://rspec-mocks//lib/rspec/mocks/order_group.rb#6
 class RSpec::Mocks::OrderGroup
   # @return [OrderGroup] a new instance of OrderGroup
   #
-  # source://rspec-mocks//lib/rspec/mocks/order_group.rb#5
+  # source://rspec-mocks//lib/rspec/mocks/order_group.rb#7
   def initialize; end
 
-  # source://rspec-mocks//lib/rspec/mocks/order_group.rb#48
+  # source://rspec-mocks//lib/rspec/mocks/order_group.rb#53
   def clear; end
 
   # @private
   #
-  # source://rspec-mocks//lib/rspec/mocks/order_group.rb#26
+  # source://rspec-mocks//lib/rspec/mocks/order_group.rb#31
   def consume; end
 
   # @return [Boolean]
   #
-  # source://rspec-mocks//lib/rspec/mocks/order_group.rb#54
+  # source://rspec-mocks//lib/rspec/mocks/order_group.rb#61
   def empty?; end
 
   # @private
   #
-  # source://rspec-mocks//lib/rspec/mocks/order_group.rb#37
+  # source://rspec-mocks//lib/rspec/mocks/order_group.rb#42
   def handle_order_constraint(expectation); end
 
-  # source://rspec-mocks//lib/rspec/mocks/order_group.rb#16
+  # source://rspec-mocks//lib/rspec/mocks/order_group.rb#19
   def invoked(message); end
 
   # @private
   # @return [Boolean]
   #
-  # source://rspec-mocks//lib/rspec/mocks/order_group.rb#21
+  # source://rspec-mocks//lib/rspec/mocks/order_group.rb#26
   def ready_for?(expectation); end
 
   # @private
   #
-  # source://rspec-mocks//lib/rspec/mocks/order_group.rb#12
+  # source://rspec-mocks//lib/rspec/mocks/order_group.rb#15
   def register(expectation); end
 
-  # source://rspec-mocks//lib/rspec/mocks/order_group.rb#43
+  # source://rspec-mocks//lib/rspec/mocks/order_group.rb#48
   def verify_invocation_order(expectation); end
 
   private
 
-  # source://rspec-mocks//lib/rspec/mocks/order_group.rb#76
+  # source://rspec-mocks//lib/rspec/mocks/order_group.rb#87
   def expectation_for(message); end
 
   # @return [Boolean]
   #
-  # source://rspec-mocks//lib/rspec/mocks/order_group.rb#64
+  # source://rspec-mocks//lib/rspec/mocks/order_group.rb#71
   def expectations_invoked_in_order?; end
 
-  # source://rspec-mocks//lib/rspec/mocks/order_group.rb#72
+  # source://rspec-mocks//lib/rspec/mocks/order_group.rb#81
   def expected_invocations; end
 
-  # source://rspec-mocks//lib/rspec/mocks/order_group.rb#68
+  # source://rspec-mocks//lib/rspec/mocks/order_group.rb#75
   def invoked_expectations; end
 
-  # source://rspec-mocks//lib/rspec/mocks/order_group.rb#60
+  # source://rspec-mocks//lib/rspec/mocks/order_group.rb#67
   def remaining_expectations; end
 end
 

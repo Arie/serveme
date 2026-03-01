@@ -4,7 +4,7 @@
 module Reservations
   class DockerHostCapacityValidator < ActiveModel::Validator
     def validate(record)
-      return unless record.server.cloud_provider == "remote_docker"
+      return unless record.server&.cloud_provider == "remote_docker"
 
       docker_host = DockerHost.find_by(id: record.server.cloud_location)
       return unless docker_host

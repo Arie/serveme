@@ -10,7 +10,6 @@ class CloudServerPollWorker
 
   def perform(cloud_server_id)
     cloud_server = CloudServer.find(cloud_server_id)
-    return if cloud_server.cloud_status == "ready"
     return if cloud_server.cloud_status == "destroyed"
 
     if stale?(cloud_server)

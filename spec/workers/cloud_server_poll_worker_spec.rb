@@ -29,12 +29,16 @@ describe CloudServerPollWorker do
       expect(cloud_server.reload.ip).to eq("5.6.7.8")
     end
 
-    it "stops polling when server is ready" do
+    it "stops polling when server is ready but still updates IP" do
       cloud_server.update!(cloud_status: "ready")
+      allow(provider).to receive(:server_status).with("cloud-123").and_return("running")
+      allow(provider).to receive(:server_ip).with("cloud-123").and_return("5.6.7.8")
 
       expect(CloudServerPollWorker).not_to receive(:perform_in)
 
       described_class.new.perform(cloud_server.id)
+
+      expect(cloud_server.reload.ip).to eq("5.6.7.8")
     end
 
     it "stops polling when server is destroyed" do

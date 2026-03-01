@@ -32,15 +32,15 @@ module CloudProvider
       steam_port = 30001 + server_index
 
       docker_run_cmd = [
-        "docker run -d --cap-add=NET_ADMIN",
-        "--security-opt apparmor=unconfined",
+        "docker run -d --net=host",
         "--name #{container_name}",
-        "-p #{game_port}:27015/udp -p #{game_port}:27015/tcp",
-        "-p #{tv_port}:27020/udp -p #{ssh_port}:22",
         "-e CALLBACK_URL=#{callback_url(cloud_server)}",
         "-e CALLBACK_TOKEN=#{cloud_server.cloud_callback_token}",
         "-e SSH_AUTHORIZED_KEYS=#{Shellwords.shellescape(public_key)}",
         "-e RCON_PASSWORD=#{cloud_server.rcon}",
+        "-e PORT=#{game_port}",
+        "-e TV_PORT=#{tv_port}",
+        "-e SSH_PORT=#{ssh_port}",
         "-e CLIENT_PORT=#{client_port}",
         "-e STEAM_PORT=#{steam_port}",
         "serveme/tf2-cloud-server:latest"

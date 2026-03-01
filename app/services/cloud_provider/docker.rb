@@ -24,17 +24,15 @@ module CloudProvider
       steam_port = 30001 + server_index
 
       cmd = %W[
-        docker run -d --cap-add=NET_ADMIN
-        --security-opt apparmor=unconfined
+        docker run -d --net=host
         --name #{container_name}
-        -p #{game_port}:27015/udp -p #{game_port}:27015/tcp
-        -p #{tv_port}:27020/udp -p #{ssh_port}:22
-        --add-host host.docker.internal:host-gateway
-        --add-host direct.#{SITE_HOST}:host-gateway
         -e CALLBACK_URL=#{callback_url}
         -e CALLBACK_TOKEN=#{callback_token}
         -e SSH_AUTHORIZED_KEYS=#{public_key}
         -e RCON_PASSWORD=#{cloud_server.rcon}
+        -e PORT=#{game_port}
+        -e TV_PORT=#{tv_port}
+        -e SSH_PORT=#{ssh_port}
         -e CLIENT_PORT=#{client_port}
         -e STEAM_PORT=#{steam_port}
         tf2-cloud-server

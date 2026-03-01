@@ -54,10 +54,10 @@ RSpec.describe CloudProvider::RemoteDocker do
       expect(ssh_session).to have_received(:exec!).with("docker pull serveme/tf2-cloud-server:latest")
     end
 
-    it "runs docker with correct port mappings" do
+    it "runs docker with host networking and port env vars" do
       provider.create_server(cloud_server)
       expect(ssh_session).to have_received(:exec!).with(a_string_matching(
-        /docker run -d.*-p 27015:27015\/udp -p 27015:27015\/tcp.*-p 27020:27020\/udp -p 22000:22/
+        /docker run -d --net=host.*-e PORT=27015.*-e TV_PORT=27020.*-e SSH_PORT=22000/
       ))
     end
 
@@ -68,9 +68,10 @@ RSpec.describe CloudProvider::RemoteDocker do
       ))
     end
 
-    it "does not include --add-host entries" do
+    it "does not include port mappings or --add-host entries" do
       provider.create_server(cloud_server)
       expect(ssh_session).not_to have_received(:exec!).with(a_string_matching(/--add-host/))
+      expect(ssh_session).not_to have_received(:exec!).with(a_string_matching(/-p \d+:/))
     end
 
     it "passes CLIENT_PORT and STEAM_PORT env vars" do
@@ -92,7 +93,7 @@ RSpec.describe CloudProvider::RemoteDocker do
         provider.create_server(cloud_server)
         # server_index = (27115 - 27115) / 10 = 0
         # ssh_port = 22000, client_port = 40001, steam_port = 30001
-        expect(ssh_session).to have_received(:exec!).with(a_string_matching(/-p 22000:22/))
+        expect(ssh_session).to have_received(:exec!).with(a_string_matching(/-e SSH_PORT=22000/))
         expect(ssh_session).to have_received(:exec!).with(a_string_matching(/-e CLIENT_PORT=40001/))
       end
     end

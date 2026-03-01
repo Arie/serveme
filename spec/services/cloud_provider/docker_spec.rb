@@ -19,17 +19,18 @@ RSpec.describe CloudProvider::Docker do
       expect(result).to eq("cloud-#{cloud_server.id}")
     end
 
-    it "calls docker run with the correct arguments" do
+    it "calls docker run with host networking and port env vars" do
       provider.create_server(cloud_server)
 
       expect(provider).to have_received(:system) do |*args|
-        expect(args).to include("docker", "run", "-d", "--cap-add=NET_ADMIN")
+        expect(args).to include("docker", "run", "-d", "--net=host")
         expect(args).to include("--name", "cloud-#{cloud_server.id}")
-        expect(args).to include("-p", "27015:27015/udp", "-p", "27015:27015/tcp")
-        expect(args).to include("-p", "27020:27020/udp", "-p", "22000:22")
         expect(args).to include("-e", "CALLBACK_URL=http://host.docker.internal:3000/api/cloud_servers/#{cloud_server.id}/ready")
         expect(args).to include("-e", "CALLBACK_TOKEN=test-token")
         expect(args).to include("-e", "SSH_AUTHORIZED_KEYS=ssh-ed25519 AAAA test@cloud")
+        expect(args).to include("-e", "PORT=27015")
+        expect(args).to include("-e", "TV_PORT=27020")
+        expect(args).to include("-e", "SSH_PORT=22000")
         expect(args).to include("-e", "CLIENT_PORT=40001")
         expect(args).to include("-e", "STEAM_PORT=30001")
         expect(args).to include("tf2-cloud-server")
@@ -39,12 +40,13 @@ RSpec.describe CloudProvider::Docker do
     context "with a non-default port" do
       let(:cloud_server) { create(:cloud_server, cloud_provider: "docker", cloud_callback_token: "test-token", port: "27025") }
 
-      it "maps host ports based on the cloud server port" do
+      it "passes correct port env vars for non-default port" do
         provider.create_server(cloud_server)
 
         expect(provider).to have_received(:system) do |*args|
-          expect(args).to include("-p", "27025:27015/udp", "-p", "27025:27015/tcp")
-          expect(args).to include("-p", "27030:27020/udp", "-p", "22001:22")
+          expect(args).to include("-e", "PORT=27025")
+          expect(args).to include("-e", "TV_PORT=27030")
+          expect(args).to include("-e", "SSH_PORT=22001")
           expect(args).to include("-e", "CLIENT_PORT=40002")
           expect(args).to include("-e", "STEAM_PORT=30002")
         end

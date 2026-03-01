@@ -178,7 +178,7 @@ describe User do
 
     it 'combines config admin cfg/ access with additional file upload permissions' do
       user = create(:user, :config_admin)
-      user.create_file_upload_permission!(allowed_paths: ['addons/sourcemod/configs/'])
+      user.create_file_upload_permission!(allowed_paths: [ 'addons/sourcemod/configs/' ])
       expect(user.can_upload_to?('cfg/etf2l.cfg')).to be true
       expect(user.can_upload_to?('addons/sourcemod/configs/mgemod_spawns.cfg')).to be true
     end

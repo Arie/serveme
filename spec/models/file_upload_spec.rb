@@ -86,17 +86,32 @@ describe FileUpload do
         user.groups << Group.config_admin_group
       end
 
-      it 'allows cfg/ files but denies other paths and path traversal' do
-        allow(file_upload).to receive(:extract_zip_to_tmp_dir).and_return({ 'cfg' => [ '/tmp/etf2l.cfg' ] })
+      it 'filters unauthorized files, strips disallowed commands, and skips disallowed cfg filenames' do
+        cfg_file = Tempfile.new([ 'etf2l', '.cfg' ])
+        cfg_file.write("exec etf2l_base\nhostname \"my server\"\nsm_updater_enabled 1\nsv_pure 2\n")
+        cfg_file.close
+
+        server_cfg_dir = Dir.mktmpdir
+        server_cfg_path = File.join(server_cfg_dir, 'server.cfg')
+        reservation_cfg_path = File.join(server_cfg_dir, 'reservation.cfg')
+        cp_cfg_path = File.join(server_cfg_dir, 'cp_badlands.cfg')
+        [ server_cfg_path, reservation_cfg_path, cp_cfg_path ].each { |f| File.write(f, '') }
+
+        allow(file_upload).to receive(:extract_zip_to_tmp_dir).and_return({
+          'cfg' => [ cfg_file.path, server_cfg_path, reservation_cfg_path, cp_cfg_path ],
+          'maps' => [ '/tmp/cp_badlands.bsp' ]
+        })
         expect(file_upload).to be_valid
 
-        file_upload.errors.clear
-        allow(file_upload).to receive(:extract_zip_to_tmp_dir).and_return({ 'maps' => [ '/tmp/cp_badlands.bsp' ] })
-        expect(file_upload).not_to be_valid
+        file_upload.save!
+        allow(file_upload).to receive(:upload_files_to_servers).and_return([])
+        file_upload.process_file
 
-        file_upload.errors.clear
-        allow(file_upload).to receive(:extract_zip_to_tmp_dir).and_return({ 'cfg/../etc' => [ '/tmp/passwd' ] })
-        expect(file_upload).not_to be_valid
+        expect(file_upload).to have_received(:upload_files_to_servers).with({ 'cfg' => [ cfg_file.path ] })
+        expect(File.read(cfg_file.path)).to eq("exec etf2l_base\nsv_pure 2\n")
+      ensure
+        cfg_file&.unlink
+        FileUtils.rm_rf(server_cfg_dir) if server_cfg_dir
       end
     end
 

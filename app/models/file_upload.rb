@@ -15,6 +15,8 @@ class FileUpload < ActiveRecord::Base
   sig { returns(T::Array[Server]) }
   def process_file
     files = extract_zip_to_tmp_dir
+    sanitize_cfg_files(files)
+    files = filter_allowed_files(files) if user&.config_admin? && !user&.admin?
     upload_files_to_servers(files)
   end
 
@@ -79,8 +81,43 @@ class FileUpload < ActiveRecord::Base
 
   private
 
+  DISALLOWED_CFG_COMMANDS = %w[sm_updater hostname].freeze
+
+  def sanitize_cfg_files(files)
+    files.each do |path, file_paths|
+      next unless path.start_with?("cfg")
+
+      file_paths.each do |file_path|
+        content = File.read(file_path)
+        sanitized = content.each_line.reject { |line| DISALLOWED_CFG_COMMANDS.any? { |cmd| line.match?(/^\s*#{cmd}/i) } }.join
+        File.write(file_path, sanitized) if sanitized != content
+      end
+    end
+  end
+
+  DISALLOWED_CFG_FILES = %w[server.cfg reservation.cfg].freeze
+  DISALLOWED_CFG_PREFIXES = %w[cp_ ctf_ pl_ ultiduo_ ultitrio_ mge_ koth_ tow_].freeze
+
+  def filter_allowed_files(files)
+    files.each_with_object({}) do |(path, file_paths), allowed|
+      permitted = file_paths.select do |file_path|
+        full_path = File.join(path, File.basename(file_path))
+        next false unless user&.can_upload_to?(full_path)
+        next true unless path.start_with?("cfg")
+
+        filename = File.basename(file_path).downcase
+        next false if DISALLOWED_CFG_FILES.include?(filename)
+        next false if DISALLOWED_CFG_PREFIXES.any? { |prefix| filename.start_with?(prefix) }
+
+        true
+      end
+      allowed[path] = permitted if permitted.any?
+    end
+  end
+
   def validate_file_permissions
     return if user&.admin?
+    return if user&.config_admin?
     zip_path = file_path_for_zip
     return unless zip_path && File.exist?(zip_path)
 

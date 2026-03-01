@@ -16,6 +16,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 USER tf2
 
+# Update TF2 to latest version (base image may be behind)
+RUN /usr/games/steamcmd +force_install_dir /home/tf2/hlserver/tf2 +login anonymous +app_update 232250 +quit
+
 # Download additional plugins (STAC, MGE, tf2rue, funcommands, funvotes)
 COPY --chown=tf2:tf2 plugins.sh /tmp/plugins.sh
 RUN chmod +x /tmp/plugins.sh && /tmp/plugins.sh && rm /tmp/plugins.sh

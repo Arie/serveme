@@ -135,7 +135,7 @@ class CloudServer < RemoteServer
     end
 
     new(
-      name: "#{location_info[:name]} (#{provider_name})",
+      name: "#{location_info[:name]} (#{provider_name == "remote_docker" ? SITE_HOST : provider_name.titleize})",
       ip: "0.0.0.0",
       port: game_port.to_s,
       path: "/home/tf2/hlserver/tf2",

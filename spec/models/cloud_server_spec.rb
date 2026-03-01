@@ -114,14 +114,45 @@ describe CloudServer do
       expect(subject.supports_mitigations?).to be true
     end
 
-    it 'returns false for docker provider' do
+    it 'returns true for docker provider' do
       subject.cloud_provider = "docker"
-      expect(subject.supports_mitigations?).to be false
+      expect(subject.supports_mitigations?).to be true
     end
 
-    it 'returns false for remote_docker provider' do
+    it 'returns true for remote_docker provider' do
       subject.cloud_provider = "remote_docker"
-      expect(subject.supports_mitigations?).to be false
+      expect(subject.supports_mitigations?).to be true
+    end
+  end
+
+  describe '#mitigation_ssh_exec' do
+    it 'SSHs to the docker host for remote_docker provider' do
+      docker_host = create(:docker_host)
+      subject.cloud_provider = "remote_docker"
+      subject.cloud_location = docker_host.id.to_s
+
+      ssh_session = double
+      expect(Net::SSH).to receive(:start).with(docker_host.ip, nil).and_yield(ssh_session)
+      expect(ssh_session).to receive(:exec!).with("test command").and_yield(nil, :stdout, "output")
+
+      result = subject.mitigation_ssh_exec("test command")
+      expect(result).to eq("output")
+    end
+
+    it 'runs locally for docker provider' do
+      subject.cloud_provider = "docker"
+      expect(Open3).to receive(:capture3).with("test command").and_return([ "output", "", double ])
+
+      result = subject.mitigation_ssh_exec("test command")
+      expect(result).to eq("output")
+    end
+
+    it 'falls back to regular ssh_exec for other providers' do
+      subject.cloud_provider = "hetzner"
+      expect(subject).to receive(:ssh_exec).with("test command", log_stderr: false).and_return("output")
+
+      result = subject.mitigation_ssh_exec("test command")
+      expect(result).to eq("output")
     end
   end
 

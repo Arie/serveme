@@ -3,7 +3,7 @@
 
 module Mitigations
   def enable_mitigations
-    server.ssh_exec(
+    server.mitigation_ssh_exec(
       %(
         #{iptables} -C PREROUTING -p udp -m udp --dport #{server.port} -j NOTRACK || #{iptables} -I PREROUTING -p udp -m udp --dport #{server.port} -j NOTRACK;
         #{iptables} -t raw --flush #{chain_name};
@@ -20,7 +20,7 @@ module Mitigations
 
   def allow_reservation_player(reservation_player)
     if reservation_player.duplicates.whitelisted.none?
-      server.ssh_exec(
+      server.mitigation_ssh_exec(
         %(
           #{iptables} -I #{chain_name} 1 -t raw -s #{reservation_player.ip} -j ACCEPT -m comment --comment "#{chain_name}-#{reservation_player.steam_uid}"
         ), log_stderr: true

@@ -1,6 +1,8 @@
 # typed: true
 # frozen_string_literal: true
 
+require "open3"
+
 class CloudServer < RemoteServer
   extend T::Sig
   include SshExecution
@@ -20,7 +22,31 @@ class CloudServer < RemoteServer
 
   sig { returns(T::Boolean) }
   def supports_mitigations?
-    !cloud_provider.in?(%w[docker remote_docker])
+    true
+  end
+
+  sig { params(command: String, log_stderr: T::Boolean).returns(String) }
+  def mitigation_ssh_exec(command, log_stderr: false)
+    case cloud_provider
+    when "docker"
+      out, err, = Open3.capture3(command)
+      logger.info "STDERR while executing #{command}:\n#{err}" if log_stderr && err.present?
+      out
+    when "remote_docker"
+      docker_host = DockerHost.find(T.must(cloud_location))
+      out = []
+      err = []
+      Net::SSH.start(docker_host.ip, nil) do |ssh|
+        ssh.exec!(command) do |_channel, stream, data|
+          out << data if stream == :stdout
+          err << data if stream == :stderr
+        end
+      end
+      logger.info "SSH STDERR while executing #{command}:\n#{err.join("\n")}" if log_stderr && err.any?
+      out.join("\n")
+    else
+      ssh_exec(command, log_stderr: log_stderr)
+    end
   end
 
   sig { returns(T::Boolean) }

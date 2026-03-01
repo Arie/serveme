@@ -635,6 +635,11 @@ class Server < ActiveRecord::Base
     false
   end
 
+  sig { params(command: String, log_stderr: T::Boolean).returns(String) }
+  def mitigation_ssh_exec(command, log_stderr: false) # rubocop:disable Lint/UnusedMethodArgument
+    raise NotImplementedError, "#{self.class} does not support mitigations"
+  end
+
   sig { params(ip: T.nilable(String), port: T.nilable(T.any(Integer, String)), password: String).returns(T.nilable(String)) }
   def connect_string(ip, port, password)
     return nil if ip.nil? || port.nil?

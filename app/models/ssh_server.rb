@@ -15,6 +15,11 @@ class SshServer < RemoteServer
     true
   end
 
+  sig { params(command: String, log_stderr: T::Boolean).returns(String) }
+  def mitigation_ssh_exec(command, log_stderr: false)
+    ssh_exec(command, log_stderr: log_stderr)
+  end
+
   private
 
   sig { returns(String) }

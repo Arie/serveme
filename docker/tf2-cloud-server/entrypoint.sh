@@ -40,6 +40,7 @@ sv_rcon_minfailuretime 1
 sv_rcon_minfailures 20
 sv_rcon_maxfailures 20
 sv_rcon_banpenalty 1
+exec ctf_turbine.cfg
 exec reservation.cfg
 SERVERCFG
 

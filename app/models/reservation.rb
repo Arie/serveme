@@ -338,6 +338,7 @@ class Reservation < ActiveRecord::Base
 
     if server.is_a?(CloudServer) && !provisioned?
       cloud_server = T.cast(server, CloudServer)
+      return "Cloud server failed to start" if cloud_server.cloud_status == "destroyed"
       return "Cloud server provisioning" if cloud_server.cloud_status == "provisioning"
       return "Configuring" if cloud_server.cloud_status == "ssh_ready"
       return "Starting" if cloud_server.cloud_status == "ready"

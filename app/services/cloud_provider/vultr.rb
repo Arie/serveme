@@ -211,16 +211,28 @@ module CloudProvider
       BASH
     end
 
+    PROXY_FALLBACK = {
+      "EU" => "ams",
+      "NA" => "ord"
+    }.freeze
+
     def cloud_init_docker_pull(cloud_server, image)
       region = cloud_server.cloud_location || default_region
+      location_info = LOCATIONS[region]
+      fallback_region = PROXY_FALLBACK[location_info&.dig(:region)]
       mirror = "#{region}.vultrcr.com/docker.io/serveme/tf2-cloud-server:latest"
+
+      pull_commands = []
+      pull_commands << "(docker pull #{mirror} && docker tag #{mirror} #{image})"
+      if fallback_region && fallback_region != region
+        fallback_mirror = "#{fallback_region}.vultrcr.com/docker.io/serveme/tf2-cloud-server:latest"
+        pull_commands << "(docker pull #{fallback_mirror} && docker tag #{fallback_mirror} #{image})"
+      end
+      pull_commands << "docker pull #{image}"
+
       <<~BASH.strip
         if ! docker image inspect #{image} >/dev/null 2>&1; then
-          if docker pull #{mirror}; then
-            docker tag #{mirror} #{image}
-          else
-            docker pull #{image}
-          fi
+          #{pull_commands.join(" || \\\n          ")}
         fi
       BASH
     end

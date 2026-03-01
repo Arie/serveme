@@ -9,9 +9,8 @@ RSpec.describe CloudProvider::Docker do
     let(:cloud_server) { create(:cloud_server, cloud_provider: "docker", cloud_callback_token: "test-token", port: "27015") }
 
     before do
-      allow(File).to receive(:read)
-        .with(Rails.root.join("tmp", "cloud_ssh_key.pub"))
-        .and_return("ssh-ed25519 AAAA test@cloud\n")
+      allow(cloud_server).to receive(:cloud_ssh_public_key)
+        .and_return("ssh-ed25519 AAAA test@cloud")
       allow(provider).to receive(:system).and_return(true)
     end
 

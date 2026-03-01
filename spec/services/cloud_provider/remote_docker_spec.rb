@@ -33,9 +33,8 @@ RSpec.describe CloudProvider::RemoteDocker do
     let(:ssh_session) { instance_double(Net::SSH::Connection::Session) }
 
     before do
-      allow(File).to receive(:read)
-        .with(Rails.root.join("tmp", "cloud_ssh_key.pub"))
-        .and_return("ssh-ed25519 AAAA test@cloud\n")
+      allow(cloud_server).to receive(:cloud_ssh_public_key)
+        .and_return("ssh-ed25519 AAAA test@cloud")
       allow(Net::SSH).to receive(:start).and_yield(ssh_session)
       allow(ssh_session).to receive(:exec!).and_return("container_id_abc123\n")
     end

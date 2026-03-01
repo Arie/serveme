@@ -150,6 +150,12 @@ class CloudServer < RemoteServer
     )
   end
 
+  sig { returns(String) }
+  def cloud_ssh_public_key
+    key = Net::SSH::KeyFactory.load_data_private_key(cloud_ssh_private_key)
+    "#{key.ssh_type} #{[ key.to_blob ].pack('m0')}"
+  end
+
   private
 
   sig { returns(String) }

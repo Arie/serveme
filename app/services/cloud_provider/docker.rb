@@ -13,7 +13,7 @@ module CloudProvider
       callback_host = ENV.fetch("CALLBACK_HOST", "host.docker.internal:3000")
       callback_url = "http://#{callback_host}/api/cloud_servers/#{cloud_server.id}/ready"
       callback_token = cloud_server.cloud_callback_token
-      public_key = File.read(Rails.root.join("tmp", "cloud_ssh_key.pub")).strip
+      public_key = cloud_server.cloud_ssh_public_key
       container_name = "cloud-#{cloud_server.id}"
 
       game_port = cloud_server.port.to_i

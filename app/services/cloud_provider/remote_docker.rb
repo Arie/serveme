@@ -19,7 +19,7 @@ module CloudProvider
     def create_server(cloud_server)
       Rails.logger.info "RemoteDocker: Creating container for cloud_server #{cloud_server.id}"
       docker_host = DockerHost.find(cloud_server.cloud_location)
-      public_key = File.read(Rails.root.join("tmp", "cloud_ssh_key.pub")).strip
+      public_key = cloud_server.cloud_ssh_public_key
       container_name = "cloud-#{cloud_server.id}"
 
       game_port = cloud_server.port.to_i

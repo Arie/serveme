@@ -3,7 +3,7 @@
 
 class CloudReservationsController < ApplicationController
   before_action :require_cloud_access
-  before_action :check_concurrent_cloud_limit
+  before_action :check_concurrent_cloud_limit, only: :create
 
   def new
     attributes = {

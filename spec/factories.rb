@@ -236,4 +236,13 @@ FactoryBot.define do
     contents { 'log content' }
     filesize { 1024 }
   end
+
+  factory :stac_detection do
+    association :reservation
+    steam_uid { 76561198307874162 }
+    player_name { 'TestPlayer' }
+    steam_id { 'STEAM_0:0:173804217' }
+    detection_type { 'SilentAim' }
+    count { 1 }
+  end
 end

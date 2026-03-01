@@ -588,6 +588,20 @@ class Reservation
     def server_statistics=(value); end
 
     sig { returns(T::Array[T.untyped]) }
+    def stac_detection_ids; end
+
+    sig { params(ids: T::Array[T.untyped]).returns(T::Array[T.untyped]) }
+    def stac_detection_ids=(ids); end
+
+    # This method is created by ActiveRecord on the `Reservation` class because it declared `has_many :stac_detections`.
+    # 🔗 [Rails guide for `has_many` association](https://guides.rubyonrails.org/association_basics.html#the-has-many-association)
+    sig { returns(::StacDetection::PrivateCollectionProxy) }
+    def stac_detections; end
+
+    sig { params(value: T::Enumerable[::StacDetection]).void }
+    def stac_detections=(value); end
+
+    sig { returns(T::Array[T.untyped]) }
     def stac_log_ids; end
 
     sig { params(ids: T::Array[T.untyped]).returns(T::Array[T.untyped]) }

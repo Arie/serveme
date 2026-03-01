@@ -36,6 +36,11 @@ class StacLogProcessor
   end
 
   def process_content(content)
+    all_detections = extract_detections(content)
+    notify_detections(all_detections) if all_detections.any?
+  end
+
+  def extract_detections(content)
     all_detections = {}
 
     # Ensure content is UTF-8 encoded and mutable
@@ -44,7 +49,7 @@ class StacLogProcessor
     mutable_content = mutable_content.encode("UTF-8", "UTF-8", invalid: :replace, undef: :replace, replace: "")
 
     process_log_content(mutable_content, all_detections)
-    notify_detections(all_detections) if all_detections.any?
+    all_detections
   end
 
   private

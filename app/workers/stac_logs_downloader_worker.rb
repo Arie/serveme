@@ -46,7 +46,31 @@ class StacLogsDownloaderWorker
 
     processor = StacLogProcessor.new(reservation)
     logs.each do |f|
-      processor.process_content(StringSanitizer.tidy_bytes(File.read(f)))
+      content = StringSanitizer.tidy_bytes(File.read(f))
+      processor.process_content(content)
+      save_detections(processor, content, File.basename(f))
+    end
+  end
+
+  def save_detections(processor, content, filename)
+    all_detections = processor.extract_detections(content)
+    return if all_detections.empty?
+
+    stac_log = reservation.stac_logs.find_by(filename: filename)
+
+    all_detections.each_value do |data|
+      detection_counts = data[:detections].tally
+      detection_counts.each do |detection_type, count|
+        StacDetection.create!(
+          reservation: reservation,
+          steam_uid: data[:steam_id64],
+          player_name: data[:name],
+          steam_id: data[:steam_id],
+          detection_type: detection_type,
+          count: count,
+          stac_log: stac_log
+        )
+      end
     end
   end
 

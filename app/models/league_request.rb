@@ -220,90 +220,47 @@ class LeagueRequest
     nil
   end
 
-  def steam64_to_steam_id3(steam64)
-    return nil unless steam64.present?
-    begin
-      SteamCondenser::Community::SteamId.community_id_to_steam_id3(steam64.to_i)
-    rescue StandardError
-      nil
-    end
-  end
-
   public
 
   sig { params(steam_uids: T.nilable(T.any(String, T::Array[String]))).returns(T::Array[T::Hash[Symbol, T.untyped]]) }
   def find_stac_detections_for_steam_uids(steam_uids)
     return [] unless steam_uids.present?
 
-    steam_uids_array = steam_uids.is_a?(Array) ? steam_uids : [ steam_uids ]
+    steam_uids_array = Array(steam_uids).map(&:to_i)
+
+    scope = StacDetection.where(steam_uid: steam_uids_array)
+                         .includes(reservation: :server)
+                         .includes(:stac_log)
+    scope = scope.where(reservation_id: @reservation_ids) if @reservation_ids
+
+    grouped = scope.group_by { |d| [ d.reservation_id, d.steam_uid ] }
+
     all_detections = []
 
-    steam_uids_array.each do |steam_uid|
-      steam_id3 = steam64_to_steam_id3(steam_uid)
-      next unless steam_id3
+    grouped.each do |(reservation_id, steam_uid), detections|
+      first = T.must(detections.first)
 
-      stac_logs = StacLog.joins(:reservation)
-        .where("stac_logs.contents LIKE ?", "%<#{steam_id3}>%")
-        .includes(reservation: :server)
-
-      maybe_filter_by_reservation_ids_for_stac(stac_logs).find_each do |stac_log|
-        detections = parse_stac_log_detections(stac_log, steam_uid)
-        all_detections.concat(detections) if detections.any?
+      filtered = detections.reject do |d|
+        d.detection_type.match?(StacDetection::FILTERED_TYPES) &&
+          d.count < StacDetection::MIN_COUNT_THRESHOLD
       end
-    end
+      next if filtered.empty?
 
-    all_detections.uniq { |detection| [ detection[:reservation_id], detection[:steam_uid], detection[:detections] ] }
-      .sort_by { |detection| -detection[:reservation_id] }
-  end
-
-  private
-
-  sig { params(stac_log: StacLog, target_steam_uid: String).returns(T::Array[T::Hash[Symbol, T.untyped]]) }
-  def parse_stac_log_detections(stac_log, target_steam_uid)
-    return [] unless stac_log.contents.present?
-
-    begin
-      content = T.must(stac_log.contents).force_encoding("UTF-8")
-      processor = StacLogProcessor.new(stac_log.reservation)
-
-      all_detections = {}
-      processor.send(:process_log_content, content, all_detections)
-
-      detections_for_user = all_detections[target_steam_uid.to_i] || all_detections[target_steam_uid]
-      return [] unless detections_for_user
-
-      detection_counts = detections_for_user[:detections].tally
-      filtered_detections = detections_for_user[:detections].reject do |detection|
-        (detection.match?(/Silent ?Aim/i) || detection.match?(/Trigger ?Bot/i) || detection == "CmdNum SPIKE" || detection == "Aimsnap") &&
-          detection_counts[detection] < 3
+      summarized = filtered.map do |d|
+        d.count > 1 ? "#{d.detection_type} (#{d.count}x)" : d.detection_type
       end
 
-      return [] if filtered_detections.empty?
-
-      summarized_detections = filtered_detections.tally.map do |detection_type, count|
-        count > 1 ? "#{detection_type} (#{count}x)" : detection_type
-      end
-
-      [ {
-        reservation_id: stac_log.reservation_id,
-        reservation: stac_log.reservation,
-        steam_uid: target_steam_uid,
-        player_name: detections_for_user[:name],
-        steam_id: detections_for_user[:steam_id],
-        detections: summarized_detections,
-        stac_log_filename: stac_log.filename
-      } ]
-    rescue StandardError => e
-      Rails.logger.error "Error parsing STAC log #{stac_log.id}: #{e.message}"
-      []
+      all_detections << {
+        reservation_id: reservation_id,
+        reservation: first.reservation,
+        steam_uid: steam_uid.to_s,
+        player_name: first.player_name,
+        steam_id: first.steam_id,
+        detections: summarized,
+        stac_log_filename: first.stac_log&.filename
+      }
     end
-  end
 
-  def maybe_filter_by_reservation_ids_for_stac(query)
-    if @reservation_ids
-      query.where(reservation_id: @reservation_ids)
-    else
-      query
-    end
+    all_detections.sort_by { |d| -d[:reservation_id] }
   end
 end

@@ -398,6 +398,66 @@ describe StacLogProcessor do
       end
     end
 
+    context "with specific Jacob log content using extract_detections" do
+      let(:reservation) { instance_double(Reservation, id: 1_481_044) }
+      let(:log_content) do
+        <<~LOG
+          <17:39:20>
+
+          ----------
+
+          [StAC] Possible triggerbot detection on Jacob.
+          Detections so far: 1. Type: +attack0
+          <17:39:20>
+           Player: Jacob<4><[U:1:347608434]><>
+           StAC cached SteamID: STEAM_0:0:173804217
+          <17:39:39>
+
+          ----------
+
+          [StAC] Possible triggerbot detection on Jacob.
+          Detections so far: 2. Type: +attack0
+          <17:39:39>
+           Player: Jacob<4><[U:1:347608434]><>
+           StAC cached SteamID: STEAM_0:0:173804217
+          <17:43:05>
+
+          ----------
+
+                      [StAC] SilentAim detection of 22.80° on Jacob.
+          Detections so far: 1 norecoil = no
+          <17:43:05>
+           Player: Jacob<4><[U:1:347608434]><>
+           StAC cached SteamID: STEAM_0:0:173804217
+        LOG
+      end
+      let(:processor) { described_class.new(reservation) }
+
+      before do
+        allow(SteamCondenser::Community::SteamId).to receive(:steam_id_to_community_id)
+                                                    .with("STEAM_0:0:173804217")
+                                                    .and_return(76_561_198_307_874_162)
+      end
+
+      it 'returns parsed detections without sending notifications' do
+        result = processor.extract_detections(log_content)
+
+        expect(result).to have_key(76_561_198_307_874_162)
+        player = result[76_561_198_307_874_162]
+        expect(player[:name]).to eq("Jacob")
+        expect(player[:steam_id]).to eq("STEAM_0:0:173804217")
+        expect(player[:detections].tally).to eq({
+          "Triggerbot" => 2,
+          "SilentAim" => 1
+        })
+      end
+
+      it 'does not call StacDiscordNotifier' do
+        expect(StacDiscordNotifier).not_to receive(:new)
+        processor.extract_detections(log_content)
+      end
+    end
+
     context "with edge case player names" do
       let(:reservation) { build_stubbed(:reservation) }
       let(:processor) { described_class.new(reservation) }

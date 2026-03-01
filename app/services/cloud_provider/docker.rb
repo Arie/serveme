@@ -35,6 +35,7 @@ module CloudProvider
         -e SSH_PORT=#{ssh_port}
         -e CLIENT_PORT=#{client_port}
         -e STEAM_PORT=#{steam_port}
+        -e ENABLE_FAKEIP=1
         tf2-cloud-server
       ]
       success = system(*cmd)

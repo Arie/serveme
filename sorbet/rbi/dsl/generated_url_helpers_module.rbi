@@ -85,6 +85,9 @@ module GeneratedUrlHelpersModule
   def apply_admin_league_maps_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def available_locations_cloud_reservations_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def ban_ip_league_request_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }

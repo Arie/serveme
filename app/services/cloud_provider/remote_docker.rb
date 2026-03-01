@@ -6,8 +6,10 @@ require "shellwords"
 
 module CloudProvider
   class RemoteDocker < Base
-    def self.locations
+    def self.locations(starts_at: Time.current, ends_at: 2.hours.from_now)
       DockerHost.active.includes(:location).each_with_object({}) do |host, hash|
+        next if host.full_during?(starts_at, ends_at)
+
         hash[host.id.to_s] = {
           name: host.city,
           country: host.location.name,

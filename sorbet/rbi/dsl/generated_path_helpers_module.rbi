@@ -85,6 +85,9 @@ module GeneratedPathHelpersModule
   def apply_admin_league_maps_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def available_locations_cloud_reservations_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def ban_ip_league_request_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }

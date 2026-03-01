@@ -3,7 +3,7 @@
 
 module CloudProvider
   class Base
-    def self.locations
+    def self.locations(starts_at: Time.current, ends_at: 2.hours.from_now)
       self::LOCATIONS
     end
     # Create a VM/container. Returns the provider-assigned ID (string).

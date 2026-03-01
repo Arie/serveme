@@ -25,6 +25,13 @@ class CloudReservationsController < ApplicationController
     @server_configs = ServerConfig.active.ordered
   end
 
+  def available_locations
+    starts_at = params[:starts_at].present? ? Time.zone.parse(params[:starts_at].to_s) : Time.current
+    ends_at = params[:ends_at].present? ? Time.zone.parse(params[:ends_at].to_s) : 2.hours.from_now
+    @cloud_locations = CloudProvider.grouped_locations(starts_at: starts_at, ends_at: ends_at)
+    render json: @cloud_locations
+  end
+
   def create
     provider_name, location_code = params[:cloud_location].to_s.split(":", 2)
 
@@ -34,6 +41,17 @@ class CloudReservationsController < ApplicationController
       flash[:alert] = "Invalid cloud location."
       redirect_to new_cloud_reservation_path
       return
+    end
+
+    if provider_name == "remote_docker"
+      docker_host = DockerHost.find_by(id: location_code)
+      starts_at = params[:reservation][:starts_at].present? ? Time.zone.parse(params[:reservation][:starts_at].to_s) : Time.current
+      ends_at = params[:reservation][:ends_at].present? ? Time.zone.parse(params[:reservation][:ends_at].to_s) : 2.hours.from_now
+      if docker_host&.full_during?(starts_at, ends_at)
+        flash[:alert] = "This location is at full capacity for the selected time. Please choose another."
+        redirect_to new_cloud_reservation_path
+        return
+      end
     end
 
     server.save!

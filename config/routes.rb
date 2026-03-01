@@ -38,7 +38,11 @@ Serveme::Application.routes.draw do
     resources :reservations, only: :index
   end
 
-  resources :cloud_reservations, only: %i[new create]
+  resources :cloud_reservations, only: %i[new create] do
+    collection do
+      post :available_locations
+    end
+  end
 
   resources :reservations do
     member do

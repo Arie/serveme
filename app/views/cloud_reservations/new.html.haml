@@ -57,3 +57,44 @@
       // Set initial estimate
       var locationSelect = document.getElementById('cloud_location');
       if (locationSelect) { updateEstimate(locationSelect); }
+
+      function refreshCloudLocations() {
+        var startsAt = document.getElementById('reservation_starts_at').value;
+        var endsAt = document.getElementById('reservation_ends_at').value;
+        if (!startsAt && !endsAt) return;
+
+        var csrfToken = document.querySelector('meta[name="csrf-token"]');
+        var token = csrfToken ? csrfToken.getAttribute('content') : '';
+
+        fetch('#{available_locations_cloud_reservations_path}', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': token },
+          body: JSON.stringify({ starts_at: startsAt, ends_at: endsAt })
+        })
+        .then(function(response) { return response.json(); })
+        .then(function(grouped) {
+          var select = document.getElementById('cloud_location');
+          var previousValue = select.value;
+          select.innerHTML = '';
+
+          for (var country in grouped) {
+            var optgroup = document.createElement('optgroup');
+            optgroup.label = country;
+            grouped[country].forEach(function(entry) {
+              var opt = document.createElement('option');
+              opt.text = entry[0];
+              opt.value = entry[1];
+              if (entry[1] === previousValue) { opt.selected = true; }
+              optgroup.appendChild(opt);
+            });
+            select.appendChild(optgroup);
+          }
+
+          updateEstimate(select);
+        });
+      }
+
+      var startsAtInput = document.getElementById('reservation_starts_at');
+      var endsAtInput = document.getElementById('reservation_ends_at');
+      if (startsAtInput) { $(startsAtInput).on('changeDate', refreshCloudLocations); }
+      if (endsAtInput) { $(endsAtInput).on('changeDate', refreshCloudLocations); }

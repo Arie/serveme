@@ -40,7 +40,7 @@ module Mitigations
   end
 
   def chain_name
-    "serveme-#{server.id}"
+    "serveme-#{server.port}"
   end
 
   def allow_limited_udp_rule

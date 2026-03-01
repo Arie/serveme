@@ -216,7 +216,7 @@ module CloudProvider
       mirror = "#{region}.vultrcr.com/docker.io/serveme/tf2-cloud-server:latest"
       <<~BASH.strip
         if ! docker image inspect #{image} >/dev/null 2>&1; then
-          if docker pull #{mirror} 2>/dev/null; then
+          if docker pull #{mirror}; then
             docker tag #{mirror} #{image}
           else
             docker pull #{image}

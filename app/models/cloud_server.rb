@@ -65,6 +65,13 @@ class CloudServer < RemoteServer
     end
   end
 
+  def self.next_available_docker_port
+    used_ports = where(cloud_provider: "docker").where.not(cloud_status: "destroyed").pluck(:port).map(&:to_i).to_set
+    port = 27015
+    port += 10 while used_ports.include?(port)
+    port
+  end
+
   def self.build_for_location(provider_name, location_code, rcon:)
     provider_class = CloudProvider::PROVIDERS[provider_name]
     raise ArgumentError, "Unknown provider: #{provider_name}" unless provider_class
@@ -76,16 +83,24 @@ class CloudServer < RemoteServer
       l.flag = location_info[:flag]
     end
 
+    if provider_name == "docker"
+      game_port = next_available_docker_port
+      ssh_port = 22000 + (game_port - 27015) / 10
+    else
+      game_port = 27015
+      ssh_port = 2222
+    end
+
     new(
       name: "#{location_info[:name]} (#{provider_name})",
       ip: "0.0.0.0",
-      port: "27015",
+      port: game_port.to_s,
       path: "/home/tf2/hlserver/tf2",
       rcon: rcon,
       cloud_provider: provider_name,
       cloud_status: "provisioning",
       cloud_location: location_code,
-      cloud_ssh_port: 2222,
+      cloud_ssh_port: ssh_port,
       cloud_created_at: Time.current,
       cloud_callback_token: SecureRandom.hex(32),
       location: location

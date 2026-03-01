@@ -6,7 +6,7 @@ RSpec.describe CloudProvider::Docker do
   subject(:provider) { described_class.new }
 
   describe "#create_server" do
-    let(:cloud_server) { create(:cloud_server, cloud_provider: "docker", cloud_callback_token: "test-token") }
+    let(:cloud_server) { create(:cloud_server, cloud_provider: "docker", cloud_callback_token: "test-token", port: "27015") }
 
     before do
       allow(File).to receive(:read)
@@ -26,10 +26,29 @@ RSpec.describe CloudProvider::Docker do
       expect(provider).to have_received(:system) do |*args|
         expect(args).to include("docker", "run", "-d", "--cap-add=NET_ADMIN")
         expect(args).to include("--name", "cloud-#{cloud_server.id}")
+        expect(args).to include("-p", "27015:27015/udp", "-p", "27015:27015/tcp")
+        expect(args).to include("-p", "27020:27020/udp", "-p", "22000:22")
         expect(args).to include("-e", "CALLBACK_URL=http://host.docker.internal:3000/api/cloud_servers/#{cloud_server.id}/ready")
         expect(args).to include("-e", "CALLBACK_TOKEN=test-token")
         expect(args).to include("-e", "SSH_AUTHORIZED_KEYS=ssh-ed25519 AAAA test@cloud")
+        expect(args).to include("-e", "CLIENT_PORT=40001")
+        expect(args).to include("-e", "STEAM_PORT=30001")
         expect(args).to include("tf2-cloud-server")
+      end
+    end
+
+    context "with a non-default port" do
+      let(:cloud_server) { create(:cloud_server, cloud_provider: "docker", cloud_callback_token: "test-token", port: "27025") }
+
+      it "maps host ports based on the cloud server port" do
+        provider.create_server(cloud_server)
+
+        expect(provider).to have_received(:system) do |*args|
+          expect(args).to include("-p", "27025:27015/udp", "-p", "27025:27015/tcp")
+          expect(args).to include("-p", "27030:27020/udp", "-p", "22001:22")
+          expect(args).to include("-e", "CLIENT_PORT=40002")
+          expect(args).to include("-e", "STEAM_PORT=30002")
+        end
       end
     end
   end
@@ -75,8 +94,15 @@ RSpec.describe CloudProvider::Docker do
   end
 
   describe "#server_ip" do
-    it "always returns 127.0.0.1" do
-      expect(provider.server_ip("cloud-1")).to eq("127.0.0.1")
+    it "uses DOCKER_HOST_IP env var when set" do
+      allow(ENV).to receive(:fetch).with("DOCKER_HOST_IP").and_return("10.0.0.5")
+      expect(provider.server_ip("cloud-1")).to eq("10.0.0.5")
+    end
+
+    it "falls back to hostname -I detection" do
+      allow(ENV).to receive(:fetch).with("DOCKER_HOST_IP").and_call_original
+      allow(Open3).to receive(:capture2).with("hostname", "-I").and_return([ "192.168.1.12 fd00::1\n", instance_double(Process::Status) ])
+      expect(provider.server_ip("cloud-1")).to eq("192.168.1.12")
     end
   end
 

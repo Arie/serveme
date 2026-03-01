@@ -31,7 +31,8 @@ class CloudServerProvisionWorker
       raise
     end
 
-    cloud_server.update!(cloud_provider_id: provider_id)
+    ip = provider.server_ip(provider_id)
+    cloud_server.update!(cloud_provider_id: provider_id, ip: ip)
 
     reservation&.status_update("Creating VM")
 

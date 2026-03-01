@@ -34,6 +34,7 @@ hostname "serveme cloud server"
 sv_downloadurl "https://fastdl.serveme.tf"
 rcon_password "${RCON_PASSWORD:-changeme}"
 log on
+logaddress_delall
 tv_autorecord 1
 sv_rcon_minfailuretime 1
 sv_rcon_minfailures 20
@@ -94,8 +95,11 @@ fi
 PORT="${PORT:-27015}"
 cd "$HOME/hlserver"
 TV_PORT="${TV_PORT:-$((PORT + 5))}"
+CLIENT_PORT="${CLIENT_PORT:-40001}"
+STEAM_PORT="${STEAM_PORT:-30001}"
 FAKEIP_FLAG="${ENABLE_FAKEIP:+-enablefakeip}"
 tf2/srcds_run -game tf -ip 0.0.0.0 -port "$PORT" $FAKEIP_FLAG \
+    +clientport "$CLIENT_PORT" -steamport "$STEAM_PORT" \
     +map "$FIRST_MAP" +tv_port "$TV_PORT" +tv_maxclients 32 +tv_enable 1 \
     "$@" &
 SRCDS_PID=$!

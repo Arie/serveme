@@ -10,6 +10,7 @@ describe CloudServerProvisionWorker do
   before do
     allow(CloudProvider).to receive(:for).with("docker").and_return(provider)
     allow(provider).to receive(:estimated_provision_time).and_return("less than a minute")
+    allow(provider).to receive(:server_ip).and_return("10.0.0.1")
   end
 
   describe "#perform" do

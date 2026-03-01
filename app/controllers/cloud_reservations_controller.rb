@@ -72,11 +72,18 @@ class CloudReservationsController < ApplicationController
   end
 
   def check_concurrent_cloud_limit
+    return if docker_provider_selected?
+
     active = current_user.active_cloud_reservation
     return unless active
 
     flash[:alert] = "You already have an active cloud server. Please end it before launching another."
     redirect_to reservation_path(active)
+  end
+
+  def docker_provider_selected?
+    provider_name, = params[:cloud_location].to_s.split(":", 2)
+    provider_name == "docker"
   end
 
   def reservation_params

@@ -6,6 +6,7 @@ module Reservations
     def validate(record)
       return unless record.user
       return unless record.server.is_a?(CloudServer)
+      return if record.server.cloud_provider == "docker"
 
       active = record.user.active_cloud_reservation
       return unless active

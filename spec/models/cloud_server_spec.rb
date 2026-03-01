@@ -75,6 +75,39 @@ describe CloudServer do
     end
   end
 
+  describe '.next_available_docker_port' do
+    it 'returns 27015 when no docker servers exist' do
+      expect(CloudServer.next_available_docker_port).to eq(27015)
+    end
+
+    it 'returns the next port when 27015 is in use' do
+      create(:cloud_server, cloud_provider: 'docker', port: '27015', cloud_status: 'ready')
+      expect(CloudServer.next_available_docker_port).to eq(27025)
+    end
+
+    it 'skips ports that are in use' do
+      create(:cloud_server, cloud_provider: 'docker', port: '27015', cloud_status: 'ready')
+      create(:cloud_server, cloud_provider: 'docker', port: '27025', cloud_status: 'provisioning')
+      expect(CloudServer.next_available_docker_port).to eq(27035)
+    end
+
+    it 'reuses ports from destroyed servers' do
+      create(:cloud_server, cloud_provider: 'docker', port: '27015', cloud_status: 'destroyed')
+      expect(CloudServer.next_available_docker_port).to eq(27015)
+    end
+
+    it 'ignores non-docker providers' do
+      create(:cloud_server, cloud_provider: 'hetzner', port: '27015', cloud_status: 'ready')
+      expect(CloudServer.next_available_docker_port).to eq(27015)
+    end
+
+    it 'fills gaps in port allocation' do
+      create(:cloud_server, cloud_provider: 'docker', port: '27015', cloud_status: 'ready')
+      create(:cloud_server, cloud_provider: 'docker', port: '27035', cloud_status: 'ready')
+      expect(CloudServer.next_available_docker_port).to eq(27025)
+    end
+  end
+
   describe '#supports_mitigations?' do
     it 'returns true for non-docker providers' do
       subject.cloud_provider = "hetzner"

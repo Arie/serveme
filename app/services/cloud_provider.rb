@@ -36,7 +36,7 @@ module CloudProvider
 
     PROVIDERS.each do |provider_name, klass|
       klass.locations.each do |code, info|
-        next unless info[:region] == SITE_REGION
+        next unless info[:region] == SITE_REGION || provider_name == "docker"
 
         label = "#{info[:name]} (#{provider_name.capitalize})"
         value = "#{provider_name}:#{code}"

@@ -134,7 +134,7 @@ class CloudServer < RemoteServer
       ssh_port = 2222
     end
 
-    new(
+    attrs = {
       name: "#{location_info[:name]} (#{provider_name == "remote_docker" ? SITE_HOST : provider_name.titleize})",
       ip: "0.0.0.0",
       port: game_port.to_s,
@@ -147,7 +147,14 @@ class CloudServer < RemoteServer
       cloud_created_at: Time.current,
       cloud_callback_token: SecureRandom.hex(32),
       location: location
-    )
+    }
+
+    if provider_name == "remote_docker" && T.must(docker_host).latitude && T.must(docker_host).longitude
+      attrs[:latitude] = T.must(docker_host).latitude
+      attrs[:longitude] = T.must(docker_host).longitude
+    end
+
+    new(attrs)
   end
 
   sig { returns(String) }

@@ -22,7 +22,9 @@ class Server < ActiveRecord::Base
     if override && override["latitude"] && override["longitude"]
       [ override["latitude"], override["longitude"] ]
     else
-      nil # Let geocoder handle it normally
+      # Fall through to actual geocoder lookup
+      result = Geocoder.search(server.host_to_ip)&.first
+      [ result.latitude, result.longitude ] if result&.latitude && result&.longitude
     end
   end
 
@@ -745,6 +747,11 @@ class Server < ActiveRecord::Base
     false
   end
 
+  sig { returns(T.nilable(String)) }
+  def host_to_ip
+    Resolv.getaddress(T.must(ip)) unless Rails.env == "test"
+  end
+
   private
 
   sig { returns(T::Hash[String, T.untyped]) }
@@ -812,11 +819,6 @@ class Server < ActiveRecord::Base
   sig { returns(String) }
   def motd_file
     "#{tf_dir}/motd.txt"
-  end
-
-  sig { returns(T.nilable(String)) }
-  def host_to_ip
-    Resolv.getaddress(T.must(ip)) unless Rails.env == "test"
   end
 
   sig { returns(T::Array[String]) }

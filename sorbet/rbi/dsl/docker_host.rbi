@@ -858,6 +858,51 @@ class DockerHost
     sig { void }
     def ip_will_change!; end
 
+    sig { returns(T.nilable(::Float)) }
+    def latitude; end
+
+    sig { params(value: T.nilable(::Float)).returns(T.nilable(::Float)) }
+    def latitude=(value); end
+
+    sig { returns(T::Boolean) }
+    def latitude?; end
+
+    sig { returns(T.nilable(::Float)) }
+    def latitude_before_last_save; end
+
+    sig { returns(T.untyped) }
+    def latitude_before_type_cast; end
+
+    sig { returns(T::Boolean) }
+    def latitude_came_from_user?; end
+
+    sig { returns(T.nilable([T.nilable(::Float), T.nilable(::Float)])) }
+    def latitude_change; end
+
+    sig { returns(T.nilable([T.nilable(::Float), T.nilable(::Float)])) }
+    def latitude_change_to_be_saved; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def latitude_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::Float)) }
+    def latitude_in_database; end
+
+    sig { returns(T.nilable([T.nilable(::Float), T.nilable(::Float)])) }
+    def latitude_previous_change; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def latitude_previously_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::Float)) }
+    def latitude_previously_was; end
+
+    sig { returns(T.nilable(::Float)) }
+    def latitude_was; end
+
+    sig { void }
+    def latitude_will_change!; end
+
     sig { returns(::Integer) }
     def location_id; end
 
@@ -902,6 +947,51 @@ class DockerHost
 
     sig { void }
     def location_id_will_change!; end
+
+    sig { returns(T.nilable(::Float)) }
+    def longitude; end
+
+    sig { params(value: T.nilable(::Float)).returns(T.nilable(::Float)) }
+    def longitude=(value); end
+
+    sig { returns(T::Boolean) }
+    def longitude?; end
+
+    sig { returns(T.nilable(::Float)) }
+    def longitude_before_last_save; end
+
+    sig { returns(T.untyped) }
+    def longitude_before_type_cast; end
+
+    sig { returns(T::Boolean) }
+    def longitude_came_from_user?; end
+
+    sig { returns(T.nilable([T.nilable(::Float), T.nilable(::Float)])) }
+    def longitude_change; end
+
+    sig { returns(T.nilable([T.nilable(::Float), T.nilable(::Float)])) }
+    def longitude_change_to_be_saved; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def longitude_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::Float)) }
+    def longitude_in_database; end
+
+    sig { returns(T.nilable([T.nilable(::Float), T.nilable(::Float)])) }
+    def longitude_previous_change; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def longitude_previously_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::Float)) }
+    def longitude_previously_was; end
+
+    sig { returns(T.nilable(::Float)) }
+    def longitude_was; end
+
+    sig { void }
+    def longitude_will_change!; end
 
     sig { returns(T.nilable(::Integer)) }
     def max_containers; end
@@ -967,7 +1057,13 @@ class DockerHost
     def restore_ip!; end
 
     sig { void }
+    def restore_latitude!; end
+
+    sig { void }
     def restore_location_id!; end
+
+    sig { void }
+    def restore_longitude!; end
 
     sig { void }
     def restore_max_containers!; end
@@ -1014,11 +1110,23 @@ class DockerHost
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def saved_change_to_ip?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
+    sig { returns(T.nilable([T.nilable(::Float), T.nilable(::Float)])) }
+    def saved_change_to_latitude; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def saved_change_to_latitude?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
     sig { returns(T.nilable([::Integer, ::Integer])) }
     def saved_change_to_location_id; end
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def saved_change_to_location_id?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable([T.nilable(::Float), T.nilable(::Float)])) }
+    def saved_change_to_longitude; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def saved_change_to_longitude?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
     sig { returns(T.nilable([T.nilable(::Integer), T.nilable(::Integer)])) }
     def saved_change_to_max_containers; end
@@ -1147,7 +1255,13 @@ class DockerHost
     def will_save_change_to_ip?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def will_save_change_to_latitude?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def will_save_change_to_location_id?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def will_save_change_to_longitude?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def will_save_change_to_max_containers?(from: T.unsafe(nil), to: T.unsafe(nil)); end

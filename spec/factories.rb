@@ -173,6 +173,8 @@ FactoryBot.define do
     start_port { 27015 }
     max_containers { 4 }
     active { true }
+    latitude { 52.3676 }
+    longitude { 4.9041 }
   end
 
   factory :location do

@@ -81,6 +81,25 @@ describe FileUpload do
       end
     end
 
+    context 'when user is config admin' do
+      before do
+        user.groups << Group.config_admin_group
+      end
+
+      it 'allows cfg/ files but denies other paths and path traversal' do
+        allow(file_upload).to receive(:extract_zip_to_tmp_dir).and_return({ 'cfg' => [ '/tmp/etf2l.cfg' ] })
+        expect(file_upload).to be_valid
+
+        file_upload.errors.clear
+        allow(file_upload).to receive(:extract_zip_to_tmp_dir).and_return({ 'maps' => [ '/tmp/cp_badlands.bsp' ] })
+        expect(file_upload).not_to be_valid
+
+        file_upload.errors.clear
+        allow(file_upload).to receive(:extract_zip_to_tmp_dir).and_return({ 'cfg/../etc' => [ '/tmp/passwd' ] })
+        expect(file_upload).not_to be_valid
+      end
+    end
+
     context 'when user has no file upload permission' do
       it 'denies all files' do
         allow(file_upload).to receive(:extract_zip_to_tmp_dir).and_return({

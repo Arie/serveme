@@ -37,7 +37,7 @@ class FileUploadsController < ApplicationController
   private
 
   def require_admin_or_upload_permission
-    return if current_user.admin? || current_user.file_upload_permission.present?
+    return if current_user.admin? || current_user.config_admin? || current_user.file_upload_permission.present?
 
     flash[:error] = "You don't have permission to upload files"
     redirect_to root_path

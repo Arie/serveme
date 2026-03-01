@@ -138,6 +138,10 @@
             = link_to admin_league_maps_path, class: "dropdown-item" do
               %i.fa.fa-map
               League Maps
+            - if current_user.admin? || current_user.config_admin? || current_user.file_upload_permission.present?
+              = link_to upload_file_path, class: "dropdown-item" do
+                %i.fa.fa-file-o
+                Upload file
             - if current_user.admin?
               = link_to new_cloud_reservation_path, class: "dropdown-item" do
                 %i.fa.fa-cloud
@@ -145,9 +149,6 @@
               = link_to admin_server_notifications_path, class: "dropdown-item" do
                 %i.fa.fa-bell
                 Server Notifications
-              = link_to upload_file_path, class: "dropdown-item" do
-                %i.fa.fa-file-o
-                Upload file
             .dropdown-divider
             %h6.dropdown-header Statistics & Monitoring
             - if show_server_monitoring_link?

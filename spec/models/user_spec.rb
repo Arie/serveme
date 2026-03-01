@@ -167,6 +167,23 @@ describe User do
     end
   end
 
+  describe '#can_upload_to?' do
+    it 'allows config admins to upload to cfg/ but not elsewhere, and prevents path traversal' do
+      user = create(:user, :config_admin)
+      expect(user.can_upload_to?('cfg/etf2l.cfg')).to be true
+      expect(user.can_upload_to?('cfg/sourcemod/sm_config.cfg')).to be true
+      expect(user.can_upload_to?('maps/cp_badlands.bsp')).to be false
+      expect(user.can_upload_to?('cfg/../etc/passwd')).to be false
+    end
+
+    it 'combines config admin cfg/ access with additional file upload permissions' do
+      user = create(:user, :config_admin)
+      user.create_file_upload_permission!(allowed_paths: ['addons/sourcemod/configs/'])
+      expect(user.can_upload_to?('cfg/etf2l.cfg')).to be true
+      expect(user.can_upload_to?('addons/sourcemod/configs/mgemod_spawns.cfg')).to be true
+    end
+  end
+
   describe '#banned?' do
     it 'is banned with a banned UID' do
       user = build(:user, uid: '76561199191964771')

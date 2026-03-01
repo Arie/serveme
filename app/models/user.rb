@@ -226,6 +226,7 @@ class User < ActiveRecord::Base
   sig { params(path: String).returns(T::Boolean) }
   def can_upload_to?(path)
     return true if admin?
+    return true if config_admin? && File.expand_path(path, "/").start_with?("/cfg/")
     file_upload_permission&.path_allowed?(path) || false
   end
 

@@ -25,7 +25,8 @@ RUN cd /home/tf2/hlserver/tf2/tf \
     && wget -nv "https://github.com/RGLgg/server-resources-updater/releases/download/v365/server-resources-updater.zip" -O rgl.zip \
     && unzip -o rgl.zip \
     && rm rgl.zip \
-    && sed -i '/^sm_updater/d' cfg/rgl_base.cfg
+    && sed -i '/^sm_updater/d' cfg/rgl_base.cfg \
+    && rm -f addons/sourcemod/plugins/rglqol.smx addons/sourcemod/plugins/rglupdater.smx
 
 # ozfortress configs and whitelists
 RUN cd /home/tf2/hlserver/tf2/tf \

@@ -1,0 +1,47 @@
+- content_for(:title) { "Docker Hosts" }
+
+.row
+  .col-md-12
+    .d-flex.justify-content-between.align-items-center.mb-4
+      %h2.mb-0 Docker Hosts
+      = link_to("Add Docker Host", new_admin_docker_host_path, class: "btn btn-primary")
+
+.row
+  .col-md-12
+    .card
+      .card-body.p-0
+        .table-responsive
+          %table.table.table-hover.mb-0
+            %thead
+              %tr
+                %th.pl-3 City
+                %th Location
+                %th IP
+                %th.text-center Start Port
+                %th.text-center Max Containers
+                %th.text-center Active
+                %th.text-center Actions
+            %tbody
+              - @docker_hosts.each do |docker_host|
+                %tr[docker_host]
+                  %td.pl-3
+                    = docker_host.city
+                  %td
+                    %span{class: ["flags", "flags-#{docker_host.location.flag}"]}
+                    = docker_host.location.name
+                  %td
+                    = docker_host.ip
+                  %td.text-center
+                    = docker_host.start_port
+                  %td.text-center
+                    = docker_host.max_containers
+                  %td.text-center
+                    - if docker_host.active
+                      %span.badge.bg-success Active
+                    - else
+                      %span.badge.bg-secondary Inactive
+                  %td.text-center
+                    .btn-group.btn-group-sm{role: "group"}
+                      = link_to("Edit", edit_admin_docker_host_path(docker_host), class: "btn btn-warning")
+                      - if docker_host.active
+                        = link_to("Deactivate", admin_docker_host_path(docker_host), method: :delete, data: { confirm: "Are you sure you want to deactivate this Docker host?" }, class: "btn btn-danger")

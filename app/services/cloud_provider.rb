@@ -7,7 +7,8 @@ module CloudProvider
   PROVIDERS = T.let({
     "hetzner" => Hetzner,
     "vultr" => Vultr,
-    "docker" => Docker
+    "docker" => Docker,
+    "remote_docker" => RemoteDocker
   }.freeze, T::Hash[String, T.class_of(Base)])
 
   sig { params(provider_name: String).returns(CloudProvider::Base) }
@@ -36,9 +37,13 @@ module CloudProvider
 
     PROVIDERS.each do |provider_name, klass|
       klass.locations.each do |code, info|
-        next unless info[:region] == SITE_REGION || provider_name == "docker"
+        next unless info[:region] == SITE_REGION || provider_name.in?(%w[docker remote_docker])
 
-        label = "#{info[:name]} (#{provider_name.capitalize})"
+        label = if provider_name == "remote_docker"
+          "#{info[:name]} (#{SITE_HOST})"
+        else
+          "#{info[:name]} (#{provider_name.capitalize})"
+        end
         value = "#{provider_name}:#{code}"
         grouped[info[:country]] << [ label, value ]
       end

@@ -152,6 +152,7 @@ Serveme::Application.routes.draw do
     end
 
     resources :maps, only: [ :index, :destroy ]
+    resources :docker_hosts, except: :show
   end
 
   authenticate :user, ->(u) { u.admin? } do

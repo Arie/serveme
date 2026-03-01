@@ -1,0 +1,9 @@
+= f.error_notification
+
+.form-inputs
+  = f.association :location, label_method: :name, value_method: :id
+  = f.input :city
+  = f.input :ip
+  = f.input :start_port
+  = f.input :max_containers
+  = f.input :active

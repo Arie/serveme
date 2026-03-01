@@ -81,29 +81,29 @@ describe CloudServer do
     end
 
     it 'returns the next port when 27015 is in use' do
-      create(:cloud_server, cloud_provider: 'docker', port: '27015', cloud_status: 'ready')
+      create(:cloud_server, cloud_provider: 'docker', port: '27015', cloud_status: 'ready', cloud_location: 'local')
       expect(CloudServer.next_available_docker_port).to eq(27025)
     end
 
     it 'skips ports that are in use' do
-      create(:cloud_server, cloud_provider: 'docker', port: '27015', cloud_status: 'ready')
-      create(:cloud_server, cloud_provider: 'docker', port: '27025', cloud_status: 'provisioning')
+      create(:cloud_server, cloud_provider: 'docker', port: '27015', cloud_status: 'ready', cloud_location: 'local')
+      create(:cloud_server, cloud_provider: 'docker', port: '27025', cloud_status: 'provisioning', cloud_location: 'local')
       expect(CloudServer.next_available_docker_port).to eq(27035)
     end
 
     it 'reuses ports from destroyed servers' do
-      create(:cloud_server, cloud_provider: 'docker', port: '27015', cloud_status: 'destroyed')
+      create(:cloud_server, cloud_provider: 'docker', port: '27015', cloud_status: 'destroyed', cloud_location: 'local')
       expect(CloudServer.next_available_docker_port).to eq(27015)
     end
 
     it 'ignores non-docker providers' do
-      create(:cloud_server, cloud_provider: 'hetzner', port: '27015', cloud_status: 'ready')
+      create(:cloud_server, cloud_provider: 'hetzner', port: '27015', cloud_status: 'ready', cloud_location: 'local')
       expect(CloudServer.next_available_docker_port).to eq(27015)
     end
 
     it 'fills gaps in port allocation' do
-      create(:cloud_server, cloud_provider: 'docker', port: '27015', cloud_status: 'ready')
-      create(:cloud_server, cloud_provider: 'docker', port: '27035', cloud_status: 'ready')
+      create(:cloud_server, cloud_provider: 'docker', port: '27015', cloud_status: 'ready', cloud_location: 'local')
+      create(:cloud_server, cloud_provider: 'docker', port: '27035', cloud_status: 'ready', cloud_location: 'local')
       expect(CloudServer.next_available_docker_port).to eq(27025)
     end
   end
@@ -118,11 +118,42 @@ describe CloudServer do
       subject.cloud_provider = "docker"
       expect(subject.supports_mitigations?).to be false
     end
+
+    it 'returns false for remote_docker provider' do
+      subject.cloud_provider = "remote_docker"
+      expect(subject.supports_mitigations?).to be false
+    end
   end
 
   describe '#uses_async_cleanup?' do
     it 'returns true' do
       expect(subject.uses_async_cleanup?).to be true
+    end
+  end
+
+  describe '.next_available_port_for' do
+    context 'with remote_docker provider' do
+      let(:docker_host) { create(:docker_host, start_port: 27115) }
+
+      it 'returns start_port when no servers exist' do
+        expect(CloudServer.next_available_port_for('remote_docker', docker_host.id.to_s)).to eq(27115)
+      end
+
+      it 'returns the next port when start_port is in use' do
+        create(:cloud_server, cloud_provider: 'remote_docker', port: '27115', cloud_status: 'ready', cloud_location: docker_host.id.to_s)
+        expect(CloudServer.next_available_port_for('remote_docker', docker_host.id.to_s)).to eq(27125)
+      end
+
+      it 'reuses ports from destroyed servers' do
+        create(:cloud_server, cloud_provider: 'remote_docker', port: '27115', cloud_status: 'destroyed', cloud_location: docker_host.id.to_s)
+        expect(CloudServer.next_available_port_for('remote_docker', docker_host.id.to_s)).to eq(27115)
+      end
+
+      it 'scopes by cloud_location' do
+        other_host = create(:docker_host, start_port: 27015, ip: '10.0.0.2')
+        create(:cloud_server, cloud_provider: 'remote_docker', port: '27115', cloud_status: 'ready', cloud_location: docker_host.id.to_s)
+        expect(CloudServer.next_available_port_for('remote_docker', other_host.id.to_s)).to eq(27015)
+      end
     end
   end
 

@@ -83,7 +83,7 @@ class CloudReservationsController < ApplicationController
 
   def docker_provider_selected?
     provider_name, = params[:cloud_location].to_s.split(":", 2)
-    provider_name == "docker"
+    provider_name.in?(%w[docker remote_docker])
   end
 
   def reservation_params

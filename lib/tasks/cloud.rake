@@ -472,7 +472,7 @@ namespace :cloud do
     providers = if args[:provider]
       [ args[:provider] ]
     else
-      %w[docker hetzner vultr]
+      %w[docker remote_docker hetzner vultr]
     end
 
     providers.each do |provider_name|

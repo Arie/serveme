@@ -166,6 +166,15 @@ FactoryBot.define do
     association :file_upload
   end
 
+  factory :docker_host do
+    association :location
+    city { 'Amsterdam' }
+    ip { '10.0.0.1' }
+    start_port { 27015 }
+    max_containers { 4 }
+    active { true }
+  end
+
   factory :location do
     name { 'Netherlands' }
     flag { 'nl' }

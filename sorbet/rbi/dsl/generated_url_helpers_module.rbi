@@ -10,6 +10,12 @@ module GeneratedUrlHelpersModule
   include ::ActionDispatch::Routing::PolymorphicRoutes
 
   sig { params(args: T.untyped).returns(String) }
+  def admin_docker_host_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def admin_docker_hosts_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def admin_league_maps_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
@@ -128,6 +134,9 @@ module GeneratedUrlHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def donate_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def edit_admin_docker_host_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def edit_admin_product_url(*args); end
@@ -251,6 +260,9 @@ module GeneratedUrlHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def motd_reservation_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def new_admin_docker_host_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def new_admin_product_url(*args); end

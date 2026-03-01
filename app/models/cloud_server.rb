@@ -20,7 +20,7 @@ class CloudServer < RemoteServer
 
   sig { returns(T::Boolean) }
   def supports_mitigations?
-    cloud_provider != "docker"
+    !cloud_provider.in?(%w[docker remote_docker])
   end
 
   sig { returns(T::Boolean) }
@@ -65,11 +65,22 @@ class CloudServer < RemoteServer
     end
   end
 
-  def self.next_available_docker_port
-    used_ports = where(cloud_provider: "docker").where.not(cloud_status: "destroyed").pluck(:port).map(&:to_i).to_set
-    port = 27015
+  def self.next_available_port_for(cloud_provider, cloud_location)
+    start_port = if cloud_provider == "remote_docker"
+      T.must(DockerHost.find(cloud_location).start_port)
+    else
+      27015
+    end
+    used_ports = where(cloud_provider: cloud_provider, cloud_location: cloud_location)
+      .where.not(cloud_status: "destroyed")
+      .pluck(:port).map(&:to_i).to_set
+    port = start_port
     port += 10 while used_ports.include?(port)
     port
+  end
+
+  def self.next_available_docker_port
+    next_available_port_for("docker", "local")
   end
 
   def self.build_for_location(provider_name, location_code, rcon:)
@@ -79,13 +90,19 @@ class CloudServer < RemoteServer
     location_info = provider_class.locations[location_code]
     raise ArgumentError, "Unknown location: #{location_code}" unless location_info
 
-    location = Location.find_or_create_by!(name: "#{location_info[:name]}, #{location_info[:country]}") do |l|
-      l.flag = location_info[:flag]
+    if provider_name == "remote_docker"
+      docker_host = DockerHost.find(location_code)
+      location = docker_host.location
+    else
+      location = Location.find_or_create_by!(name: "#{location_info[:name]}, #{location_info[:country]}") do |l|
+        l.flag = location_info[:flag]
+      end
     end
 
-    if provider_name == "docker"
-      game_port = next_available_docker_port
-      ssh_port = 22000 + (game_port - 27015) / 10
+    if provider_name.in?(%w[docker remote_docker])
+      game_port = next_available_port_for(provider_name, location_code)
+      start_port = provider_name == "remote_docker" ? T.must(T.must(docker_host).start_port) : 27015
+      ssh_port = 22000 + (game_port - start_port) / 10
     else
       game_port = 27015
       ssh_port = 2222

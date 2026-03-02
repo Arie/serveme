@@ -12,28 +12,14 @@
         Your Status
       .card-body
         - if @is_donator
-          - if @is_member
-            .alert.alert-success
-              %strong
-                %i.fa.fa-check-circle
-                You have access to cloud servers!
-            %p
-              You can launch on-demand cloud servers from the
-              = link_to "cloud reservation page", new_cloud_reservation_path
-              or through the "Cloud server" option in the reservation menu.
-
-            = form_tag cloud_info_path, method: :post, class: "mt-3" do
-              = hidden_field_tag :opt_out, "true"
-              = submit_tag "Opt Out", class: "btn btn-warning", data: { confirm: "Are you sure you want to give up cloud server access?" }
-          - else
-            .alert.alert-info
-              %strong You don't have cloud server access yet.
-            %p
-              As a donator, you can opt in to get access to on-demand cloud servers. Click below to get started!
-
-            = form_tag cloud_info_path, method: :post do
-              = hidden_field_tag :opt_in, "true"
-              = submit_tag "Enable Cloud Servers", class: "btn btn-primary btn-lg"
+          .alert.alert-success
+            %strong
+              %i.fa.fa-check-circle
+              You have access to cloud servers!
+          %p
+            You can launch on-demand cloud servers from the
+            = link_to "cloud reservation page", new_cloud_reservation_path
+            or through the "Cloud server" option in the reservation menu.
         - else
           .alert.alert-warning
             %strong
@@ -120,10 +106,6 @@
         How It Works
       .card-body
         %ol
-          %li
-            %strong Opt in above
-            to enable cloud server access on
-            #{SITE_HOST}
           %li
             %strong Launch a cloud server
             from the

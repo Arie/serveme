@@ -17,10 +17,6 @@
             = link_to new_cloud_reservation_path, :class => 'btn btn-lg btn-info', :title => "Launch an on-demand cloud server" do
               Cloud server
               %i.fa.fa-cloud
-          - elsif current_user&.donator?
-            = link_to cloud_info_path, :class => 'btn btn-lg btn-info', :title => "Learn about on-demand cloud servers" do
-              Cloud server
-              %i.fa.fa-cloud
           %p.mt-2.mb-0.text-warning
             %small
               %strong New:

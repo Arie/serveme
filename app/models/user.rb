@@ -139,7 +139,7 @@ class User < ActiveRecord::Base
 
   sig { returns(T::Boolean) }
   def can_use_cloud_servers?
-    admin? || league_admin? || streamer? || cloud_member?
+    admin? || league_admin? || streamer? || donator?
   end
 
   sig { returns(T::Boolean) }

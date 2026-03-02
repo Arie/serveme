@@ -100,6 +100,8 @@ class PagesController < ApplicationController
     locations = Hash.new { |h, k| h[k] = [] }
 
     CloudProvider::PROVIDERS.each do |provider_name, klass|
+      next if provider_name.in?(%w[hetzner vultr]) && CloudProvider::SITE_REGION.in?(%w[EU NA])
+
       klass.locations.each do |_code, info|
         next unless info[:region] == CloudProvider::SITE_REGION || provider_name == "remote_docker" || (provider_name == "docker" && Rails.env.development?)
 

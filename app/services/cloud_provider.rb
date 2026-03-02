@@ -36,6 +36,8 @@ module CloudProvider
     grouped = Hash.new { |h, k| h[k] = [] }
 
     PROVIDERS.each do |provider_name, klass|
+      next if provider_name.in?(%w[hetzner vultr]) && SITE_REGION.in?(%w[EU NA])
+
       klass.locations(starts_at: starts_at, ends_at: ends_at).each do |code, info|
         next unless info[:region] == SITE_REGION || provider_name == "remote_docker" || (provider_name == "docker" && Rails.env.development?)
 

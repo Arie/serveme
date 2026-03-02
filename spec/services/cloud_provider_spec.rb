@@ -24,23 +24,32 @@ RSpec.describe CloudProvider do
   describe ".grouped_locations" do
     subject(:grouped) { described_class.grouped_locations }
 
-    it "groups locations by country" do
-      expect(grouped.keys).to include("Germany", "Finland")
+    it "hides Hetzner and Vultr in EU and NA" do
+      stub_const("CloudProvider::SITE_REGION", "EU")
+      result = described_class.grouped_locations
+      all_values = result.values.flatten(1).map(&:last)
+      expect(all_values).not_to include(a_string_starting_with("hetzner:"))
+      expect(all_values).not_to include(a_string_starting_with("vultr:"))
     end
 
-    it "includes Hetzner locations" do
-      germany_values = grouped["Germany"].map(&:last)
-      expect(germany_values).to include("hetzner:fsn1")
-    end
+    context "when SITE_REGION is AU" do
+      subject(:grouped) { described_class.grouped_locations }
 
-    it "includes Vultr locations" do
-      netherlands_values = grouped["Netherlands"].map(&:last)
-      expect(netherlands_values).to include("vultr:ams")
-    end
+      before { stub_const("CloudProvider::SITE_REGION", "AU") }
 
-    it "formats labels as 'City (Provider)'" do
-      fsn1_entry = grouped["Germany"].find { |_, v| v == "hetzner:fsn1" }
-      expect(fsn1_entry.first).to eq("Falkenstein (Hetzner)")
+      it "groups locations by country" do
+        expect(grouped.keys).to include("Australia")
+      end
+
+      it "includes Vultr locations" do
+        australia_values = grouped["Australia"].map(&:last)
+        expect(australia_values).to include("vultr:mel")
+      end
+
+      it "formats labels as 'City (Provider)'" do
+        mel_entry = grouped["Australia"].find { |_, v| v == "vultr:mel" }
+        expect(mel_entry.first).to eq("Melbourne (Vultr)")
+      end
     end
 
     it "sorts locations alphabetically within each country" do

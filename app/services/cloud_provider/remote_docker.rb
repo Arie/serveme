@@ -12,6 +12,7 @@ module CloudProvider
 
         hash[host.id.to_s] = {
           name: host.city,
+          hostname: host.ip,
           country: host.location.name,
           flag: host.location.flag
         }

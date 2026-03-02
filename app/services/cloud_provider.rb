@@ -40,7 +40,7 @@ module CloudProvider
         next unless info[:region] == SITE_REGION || provider_name == "remote_docker" || (provider_name == "docker" && Rails.env.development?)
 
         label = if provider_name == "remote_docker"
-          "#{info[:name]} (#{SITE_HOST})"
+          "#{info[:name]} (#{info[:hostname]})"
         else
           "#{info[:name]} (#{provider_name.capitalize})"
         end

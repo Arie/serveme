@@ -37,7 +37,7 @@ module CloudProvider
         "-e CALLBACK_URL=#{callback_url(cloud_server)}",
         "-e CALLBACK_TOKEN=#{cloud_server.cloud_callback_token}",
         "-e SSH_AUTHORIZED_KEYS=#{Shellwords.shellescape(public_key)}",
-        "-e RCON_PASSWORD=#{cloud_server.rcon}",
+        "-e RCON_PASSWORD=#{Shellwords.shellescape(cloud_server.rcon)}",
         "-e PORT=#{game_port}",
         "-e TV_PORT=#{tv_port}",
         "-e SSH_PORT=#{ssh_port}",

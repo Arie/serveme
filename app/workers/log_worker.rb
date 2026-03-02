@@ -165,7 +165,7 @@ class LogWorker
   def whitelist_player_in_firewall(reservation_player)
     return unless reservation&.server&.supports_mitigations?
 
-    AllowReservationPlayerWorker.perform_async(reservation_player.id)
+    AllowReservationPlayersWorker.perform_in(3.seconds, reservation.id)
   end
 
   sig { params(reservation_player: ReservationPlayer, player_uid: String).void }

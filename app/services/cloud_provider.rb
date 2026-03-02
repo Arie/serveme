@@ -37,7 +37,7 @@ module CloudProvider
 
     PROVIDERS.each do |provider_name, klass|
       klass.locations(starts_at: starts_at, ends_at: ends_at).each do |code, info|
-        next unless info[:region] == SITE_REGION || provider_name.in?(%w[docker remote_docker])
+        next unless info[:region] == SITE_REGION || provider_name == "remote_docker" || (provider_name == "docker" && Rails.env.development?)
 
         label = if provider_name == "remote_docker"
           "#{info[:name]} (#{SITE_HOST})"

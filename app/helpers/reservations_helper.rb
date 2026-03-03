@@ -5,12 +5,14 @@ module ReservationsHelper
   def find_servers_for_user
     @reservation = new_reservation
     @servers = free_servers
+    @docker_hosts = free_docker_hosts
     render :find_servers
   end
 
   def find_servers_for_reservation
     @reservation = reservation
     @servers = free_servers
+    @docker_hosts = free_docker_hosts
     render :find_servers
   end
 
@@ -70,6 +72,26 @@ module ReservationsHelper
     else
                         free_server_finder.servers.order(:position, :name)
     end
+  end
+
+  def free_docker_hosts
+    @free_docker_hosts ||= begin
+      s = @reservation.starts_at || Time.current
+      e = @reservation.ends_at || 2.hours.from_now
+      DockerHost.active.includes(:location).select { |dh| !dh.full_during?(s, e) }
+    end
+  end
+
+  def free_servers_json
+    servers_json = free_servers.map do |s|
+      { id: s.id, text: s.name, flag: s.location_flag, ip: s.ip, ip_and_port: "#{s.public_ip}:#{s.public_port}" }
+    end
+
+    docker_hosts_json = free_docker_hosts.map do |dh|
+      { id: "dh-#{dh.id}", text: "#{dh.city} (#{dh.ip})", flag: dh.location&.flag, ip: dh.ip, ip_and_port: "#{dh.ip}:#{dh.start_port}" }
+    end
+
+    (docker_hosts_json + servers_json).to_json
   end
 
   def free_server_finder

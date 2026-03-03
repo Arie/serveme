@@ -95,6 +95,45 @@ describe ReservationsController do
     end
   end
 
+  describe '#create with docker host' do
+    let(:docker_host) { create(:docker_host) }
+
+    let(:docker_params) do
+      {
+        reservation: {
+          server_id: "dh-#{docker_host.id}",
+          password: "testpass",
+          rcon: "testrcon",
+          enable_plugins: "1",
+          auto_end: "1",
+          starts_at: Time.current.to_s,
+          ends_at: 2.hours.from_now.to_s
+        }
+      }
+    end
+
+    it "creates a cloud server reservation for a docker host" do
+      expect(CloudServerProvisionWorker).to receive(:perform_async)
+
+      post :create, params: docker_params
+
+      reservation = Reservation.last
+      expect(reservation.server).to be_a(CloudServer)
+      expect(reservation.server.cloud_provider).to eq("remote_docker")
+      expect(response).to redirect_to(reservation_path(reservation))
+      expect(flash[:notice]).to include("provisioned")
+    end
+
+    it "redirects with error when docker host is full" do
+      allow_any_instance_of(DockerHost).to receive(:full_during?).and_return(true)
+
+      post :create, params: docker_params
+
+      expect(response).to redirect_to(new_reservation_path)
+      expect(flash[:alert]).to include("full capacity")
+    end
+  end
+
   describe '#find_servers_for_reservation' do
     render_views
 

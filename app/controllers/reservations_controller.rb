@@ -30,17 +30,10 @@ class ReservationsController < ApplicationController
   end
 
   def create
-    @reservation = current_user.reservations.build(reservation_params)
-    if @reservation.valid?
-      $lock.synchronize("save-reservation-server-#{@reservation.server_id}") do
-        @reservation.save!
-      end
-      reservation_saved if @reservation.persisted?
+    if docker_host_selected?
+      create_docker_host_reservation
     else
-      @servers = Server.active.not_cloud.ordered.includes(:location)
-      respond_to do |format|
-        format.html { render :new, status: :unprocessable_entity }
-      end
+      create_regular_reservation
     end
   end
 
@@ -319,6 +312,46 @@ class ReservationsController < ApplicationController
       played_in = Reservation.played_in(current_user.uid).find_by(id: reservation_id)
       made_by   = current_user.reservations.find_by(id: reservation_id)
       played_in || made_by
+    end
+  end
+
+  def docker_host_selected?
+    params[:reservation]&.dig(:server_id).to_s.start_with?("dh-")
+  end
+
+  def create_regular_reservation
+    @reservation = current_user.reservations.build(reservation_params)
+    if @reservation.valid?
+      $lock.synchronize("save-reservation-server-#{@reservation.server_id}") do
+        @reservation.save!
+      end
+      reservation_saved if @reservation.persisted?
+    else
+      @servers = Server.active.not_cloud.ordered.includes(:location)
+      respond_to do |format|
+        format.html { render :new, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def create_docker_host_reservation
+    docker_host_id = params[:reservation][:server_id].to_s.sub("dh-", "").to_i
+    creator = DockerHostReservationCreator.new(
+      user: current_user,
+      docker_host_id: docker_host_id,
+      reservation_params: reservation_params
+    )
+    @reservation = creator.create!
+    flash[:notice] = "Server is being provisioned. This usually takes about 1 minute."
+    redirect_to reservation_path(@reservation)
+  rescue DockerHostReservationCreator::CapacityError => e
+    flash[:alert] = e.message
+    redirect_to new_reservation_path
+  rescue DockerHostReservationCreator::ValidationError => e
+    @reservation = e.reservation
+    @servers = Server.active.not_cloud.ordered.includes(:location)
+    respond_to do |format|
+      format.html { render :new, status: :unprocessable_entity }
     end
   end
 

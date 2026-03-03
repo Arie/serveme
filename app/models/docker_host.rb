@@ -23,6 +23,11 @@ class DockerHost < ActiveRecord::Base
     container_count_during(starts_at, ends_at) >= (max_containers || 4)
   end
 
+  sig { returns(Integer) }
+  def current_container_count
+    container_count_during(Time.current, Time.current)
+  end
+
   sig { returns(T::Boolean) }
   def full?
     full_during?(Time.current, Time.current)

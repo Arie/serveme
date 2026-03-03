@@ -18,7 +18,7 @@
                 %th Location
                 %th IP
                 %th.text-center Start Port
-                %th.text-center Max Containers
+                %th.text-center Containers
                 %th.text-center Active
                 %th.text-center Actions
             %tbody
@@ -34,6 +34,8 @@
                   %td.text-center
                     = docker_host.start_port
                   %td.text-center
+                    = docker_host.current_container_count
+                    \/
                     = docker_host.max_containers
                   %td.text-center
                     - if docker_host.active

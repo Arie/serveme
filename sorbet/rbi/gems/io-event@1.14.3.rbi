@@ -130,6 +130,11 @@ class IO::Event::Debug::Selector
   # source://io-event//lib/io/event/debug/selector.rb#33
   def initialize(selector, log: T.unsafe(nil)); end
 
+  # Run the given blocking operation and wait for its completion.
+  #
+  # source://io-event//lib/io/event/debug/selector.rb#132
+  def blocking_operation_wait(operation); end
+
   # Close the selector.
   #
   # source://io-event//lib/io/event/debug/selector.rb#78
@@ -142,17 +147,17 @@ class IO::Event::Debug::Selector
 
   # Read from the given IO, forwarded to the underlying selector.
   #
-  # source://io-event//lib/io/event/debug/selector.rb#144
+  # source://io-event//lib/io/event/debug/selector.rb#150
   def io_read(fiber, io, buffer, length, offset = T.unsafe(nil)); end
 
   # Wait for the given IO, forwarded to the underlying selector.
   #
-  # source://io-event//lib/io/event/debug/selector.rb#138
+  # source://io-event//lib/io/event/debug/selector.rb#144
   def io_wait(fiber, io, events); end
 
   # Write to the given IO, forwarded to the underlying selector.
   #
-  # source://io-event//lib/io/event/debug/selector.rb#150
+  # source://io-event//lib/io/event/debug/selector.rb#156
   def io_write(fiber, io, buffer, length, offset = T.unsafe(nil)); end
 
   # Log the given message.
@@ -167,7 +172,7 @@ class IO::Event::Debug::Selector
 
   # Wait for the given process, forwarded to the underlying selector.
   #
-  # source://io-event//lib/io/event/debug/selector.rb#132
+  # source://io-event//lib/io/event/debug/selector.rb#138
   def process_wait(*arguments); end
 
   # Push the given fiber to the selector ready list, such that it will be resumed on the next call to {select}.
@@ -191,7 +196,7 @@ class IO::Event::Debug::Selector
   #
   # @return [Boolean]
   #
-  # source://io-event//lib/io/event/debug/selector.rb#156
+  # source://io-event//lib/io/event/debug/selector.rb#162
   def respond_to?(name, include_private = T.unsafe(nil)); end
 
   # Resume the given fiber with the given arguments.
@@ -201,7 +206,7 @@ class IO::Event::Debug::Selector
 
   # Select for the given duration, forwarded to the underlying selector.
   #
-  # source://io-event//lib/io/event/debug/selector.rb#161
+  # source://io-event//lib/io/event/debug/selector.rb#167
   def select(duration = T.unsafe(nil)); end
 
   # Transfer from the calling fiber to the selector.
@@ -358,7 +363,7 @@ module IO::Event::Selector
   end
 end
 
-class IO::Event::Selector::KQueue
+class IO::Event::Selector::EPoll
   # source://io-event//lib/io/event/native.rb#7
   def initialize(_arg0); end
 

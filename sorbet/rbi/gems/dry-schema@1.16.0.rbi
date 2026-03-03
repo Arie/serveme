@@ -596,147 +596,147 @@ class Dry::Schema::JSONSchema::SchemaCompiler
   # @api private
   # @return [SchemaCompiler] a new instance of SchemaCompiler
   #
-  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#78
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#79
   def initialize(root: T.unsafe(nil), loose: T.unsafe(nil)); end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#221
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#228
   def apply_array_item_constraint(target, type_opts); end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#215
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#222
   def apply_array_size_constraint(target, name, rest); end
 
   # @api private
   # @return [Boolean]
   #
-  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#227
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#234
   def array_size_predicate?(name); end
 
   # @api private
   # @return [Boolean]
   #
-  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#210
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#217
   def array_with_size_predicate?(target, name, opts); end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#96
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#97
   def call(ast); end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#232
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#239
   def convert_array_size_predicate(name, rest); end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#257
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#264
   def fetch_filled_options(type, _target); end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#245
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#252
   def fetch_type_opts_for_predicate(name, rest, target); end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#190
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#197
   def handle_key_predicate(rest); end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#196
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#203
   def handle_value_predicate(name, rest, opts); end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#75
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#76
   def keys; end
 
   # @api private
   # @return [Boolean]
   #
-  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#288
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#295
   def loose?; end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#271
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#278
   def merge_opts!(orig_opts, new_opts); end
 
   # @api private
   # @raise [UnknownConversionError]
   #
-  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#292
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#299
   def raise_unknown_conversion_error!(type, name); end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#75
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#76
   def required; end
 
   # @api private
   # @return [Boolean]
   #
-  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#283
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#290
   def root?; end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#93
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#94
   def to_h; end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#86
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#87
   def to_hash; end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#101
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#102
   def visit(node, opts = T.unsafe(nil)); end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#121
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#122
   def visit_and(node, opts = T.unsafe(nil)); end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#154
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#161
   def visit_each(node, opts = T.unsafe(nil)); end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#147
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#154
   def visit_implication(node, opts = T.unsafe(nil)); end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#159
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#166
   def visit_key(node, opts = T.unsafe(nil)); end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#172
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#179
   def visit_not(node, opts = T.unsafe(nil)); end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#135
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#136
   def visit_or(node, opts = T.unsafe(nil)); end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#179
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#186
   def visit_predicate(node, opts = T.unsafe(nil)); end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#107
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#108
   def visit_set(node, opts = T.unsafe(nil)); end
 end
 
@@ -2438,7 +2438,7 @@ class Dry::Schema::Messages::I18n < ::Dry::Schema::Messages::Abstract
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/messages/i18n.rb#74
+  # source://dry-schema//lib/dry/schema/messages/i18n.rb#73
   def default_locale; end
 
   # Get a message for the given key and its options
@@ -2453,12 +2453,12 @@ class Dry::Schema::Messages::I18n < ::Dry::Schema::Messages::Abstract
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/messages/i18n.rb#100
+  # source://dry-schema//lib/dry/schema/messages/i18n.rb#99
   def interpolatable_data(_key, _options, **data); end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/messages/i18n.rb#105
+  # source://dry-schema//lib/dry/schema/messages/i18n.rb#104
   def interpolate(key, options, **data); end
 
   # Check if given key is defined
@@ -2466,7 +2466,7 @@ class Dry::Schema::Messages::I18n < ::Dry::Schema::Messages::Abstract
   # @api public
   # @return [Boolean]
   #
-  # source://dry-schema//lib/dry/schema/messages/i18n.rb#57
+  # source://dry-schema//lib/dry/schema/messages/i18n.rb#56
   def key?(key, options); end
 
   # Merge messages from an additional path
@@ -2475,12 +2475,12 @@ class Dry::Schema::Messages::I18n < ::Dry::Schema::Messages::Abstract
   # @param paths [String, Array<String>]
   # @return [Messages::I18n]
   #
-  # source://dry-schema//lib/dry/schema/messages/i18n.rb#69
+  # source://dry-schema//lib/dry/schema/messages/i18n.rb#68
   def merge(paths); end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/messages/i18n.rb#79
+  # source://dry-schema//lib/dry/schema/messages/i18n.rb#78
   def prepare(paths = T.unsafe(nil)); end
 
   # Translation function
@@ -2495,7 +2495,7 @@ class Dry::Schema::Messages::I18n < ::Dry::Schema::Messages::Abstract
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/messages/i18n.rb#125
+  # source://dry-schema//lib/dry/schema/messages/i18n.rb#127
   def store_translations(data); end
 end
 

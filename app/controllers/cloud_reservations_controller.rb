@@ -43,41 +43,52 @@ class CloudReservationsController < ApplicationController
       return
     end
 
-    if provider_name == "remote_docker"
-      docker_host = DockerHost.find_by(id: location_code)
-      starts_at = params[:reservation][:starts_at].present? ? Time.zone.parse(params[:reservation][:starts_at].to_s) : Time.current
-      ends_at = params[:reservation][:ends_at].present? ? Time.zone.parse(params[:reservation][:ends_at].to_s) : 2.hours.from_now
-      if docker_host&.full_during?(starts_at, ends_at)
-        flash[:alert] = "This location is at full capacity for the selected time. Please choose another."
-        redirect_to new_cloud_reservation_path
-        return
-      end
-    end
-
-    server.save!
-
-    @reservation = current_user.reservations.build(reservation_params)
-    @reservation.server = server
-    future_start = params[:reservation][:starts_at].present? && Time.zone.parse(params[:reservation][:starts_at].to_s)&.future?
-    @reservation.starts_at = future_start ? params[:reservation][:starts_at] : Time.current
-    @reservation.ends_at = params[:reservation][:ends_at].present? ? params[:reservation][:ends_at] : 2.hours.from_now
-
-    if @reservation.save
-      server.update!(cloud_reservation_id: @reservation.id, name: "#{server.name} ##{@reservation.id}")
-      if future_start && @reservation.starts_at > 5.minutes.from_now
-        CloudServerProvisionWorker.perform_at(@reservation.starts_at - 5.minutes, server.id)
-        flash[:notice] = "Cloud server is scheduled. Provisioning will begin 5 minutes before your start time (#{I18n.l(@reservation.starts_at, format: :short)})."
-      else
-        CloudServerProvisionWorker.perform_async(server.id)
-        flash[:notice] = "Cloud server is being provisioned. This usually takes #{server.provider.estimated_provision_time}."
-      end
-      redirect_to reservation_path(@reservation)
+    lock_key = if provider_name == "remote_docker"
+                 "cloud-reservation-docker-host-#{location_code}"
     else
-      server.destroy
-      @cloud_locations = CloudProvider.grouped_locations
-      @server_configs = ServerConfig.active.ordered
-      render :new, status: :unprocessable_entity
+                 "cloud-reservation-user-#{current_user.id}"
     end
+
+    $lock.synchronize(lock_key, retries: 5, initial_wait: 0.1, expiry: 30) do
+      if provider_name == "remote_docker"
+        docker_host = DockerHost.find_by(id: location_code)
+        starts_at = params[:reservation][:starts_at].present? ? Time.zone.parse(params[:reservation][:starts_at].to_s) : Time.current
+        ends_at = params[:reservation][:ends_at].present? ? Time.zone.parse(params[:reservation][:ends_at].to_s) : 2.hours.from_now
+        if docker_host&.full_during?(starts_at, ends_at)
+          flash[:alert] = "This location is at full capacity for the selected time. Please choose another."
+          redirect_to new_cloud_reservation_path
+          return
+        end
+      end
+
+      server.save!
+
+      @reservation = current_user.reservations.build(reservation_params)
+      @reservation.server = server
+      future_start = params[:reservation][:starts_at].present? && Time.zone.parse(params[:reservation][:starts_at].to_s)&.future?
+      @reservation.starts_at = future_start ? params[:reservation][:starts_at] : Time.current
+      @reservation.ends_at = params[:reservation][:ends_at].present? ? params[:reservation][:ends_at] : 2.hours.from_now
+
+      if @reservation.save
+        server.update!(cloud_reservation_id: @reservation.id, name: "#{server.name} ##{@reservation.id}")
+        if future_start && @reservation.starts_at > 5.minutes.from_now
+          CloudServerProvisionWorker.perform_at(@reservation.starts_at - 5.minutes, server.id)
+          flash[:notice] = "Cloud server is scheduled. Provisioning will begin 5 minutes before your start time (#{I18n.l(@reservation.starts_at, format: :short)})."
+        else
+          CloudServerProvisionWorker.perform_async(server.id)
+          flash[:notice] = "Cloud server is being provisioned. This usually takes #{server.provider.estimated_provision_time}."
+        end
+        redirect_to reservation_path(@reservation)
+      else
+        server.destroy
+        @cloud_locations = CloudProvider.grouped_locations
+        @server_configs = ServerConfig.active.ordered
+        render :new, status: :unprocessable_entity
+      end
+    end
+  rescue RemoteLock::Error
+    flash[:alert] = "Server is busy, please try again."
+    redirect_to new_cloud_reservation_path
   end
 
   private

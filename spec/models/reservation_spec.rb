@@ -834,6 +834,34 @@ describe Reservation do
     end
   end
 
+  describe '#cleanup_cloud_server' do
+    it 'enqueues CloudServerDestroyWorker on destroy for cloud servers' do
+      cloud_server = create(:cloud_server, cloud_status: "provisioning")
+      reservation = create(:reservation, server: cloud_server)
+
+      expect(CloudServerDestroyWorker).to receive(:perform_async).with(cloud_server.id)
+
+      reservation.destroy
+    end
+
+    it 'skips if cloud server is already destroyed' do
+      cloud_server = create(:cloud_server, cloud_status: "destroyed")
+      reservation = create(:reservation, server: cloud_server)
+
+      expect(CloudServerDestroyWorker).not_to receive(:perform_async)
+
+      reservation.destroy
+    end
+
+    it 'skips for non-cloud servers' do
+      reservation = create(:reservation)
+
+      expect(CloudServerDestroyWorker).not_to receive(:perform_async)
+
+      reservation.destroy
+    end
+  end
+
   describe '#whitelist_ip' do
     subject { build(:reservation) }
     it "first returns the user's web IP if it's IPv4" do

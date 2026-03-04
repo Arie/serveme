@@ -75,5 +75,18 @@ describe DockerHostReservationCreator do
       expect { subject.create! }.to raise_error(DockerHostReservationCreator::ValidationError)
       expect(CloudServer.count).to eq(0)
     end
+
+    it "acquires distributed lock on docker host" do
+      expect($lock).to receive(:synchronize).with("cloud-reservation-docker-host-#{docker_host.id}", retries: 5, initial_wait: 0.1, expiry: 30).and_call_original
+      expect(CloudServerProvisionWorker).to receive(:perform_async)
+
+      subject.create!
+    end
+
+    it "raises CapacityError when lock cannot be acquired" do
+      allow($lock).to receive(:synchronize).and_raise(RemoteLock::Error)
+
+      expect { subject.create! }.to raise_error(DockerHostReservationCreator::CapacityError, "Server is busy, please try again.")
+    end
   end
 end

@@ -22,24 +22,17 @@ module Api
     def find_servers
       @reservation = new_reservation
       @servers = free_servers.where(sdr: false)
+      @docker_hosts = free_docker_hosts
       render :find_servers
     end
 
     def create
-      @reservation = current_user.reservations.build(reservation_params)
-      if @reservation.valid?
-        $lock.synchronize("save-reservation-server-#{@reservation.server_id}") do
-          @reservation.save!
-        end
-        if @reservation.persisted? && @reservation.now?
-          @reservation.update_attribute(:start_instantly, true)
-          @reservation.start_reservation
-        end
-        render :show
+      server_id = reservation_params[:server_id]
+
+      if server_id.present? && DockerHost.docker_host_id?(server_id)
+        create_docker_host_reservation(server_id)
       else
-        Rails.logger.warn "API: User: #{api_user.nickname} - Validation errors: #{@reservation.errors.full_messages.join(', ')}"
-        @servers = free_servers
-        render :find_servers, status: :bad_request
+        create_regular_reservation
       end
     end
 
@@ -89,6 +82,41 @@ module Api
 
     def reservation
       @reservation ||= reservations_scope.find(params[:id])
+    end
+
+    def create_regular_reservation
+      @reservation = current_user.reservations.build(reservation_params)
+      if @reservation.valid?
+        $lock.synchronize("save-reservation-server-#{@reservation.server_id}") do
+          @reservation.save!
+        end
+        if @reservation.persisted? && @reservation.now?
+          @reservation.update_attribute(:start_instantly, true)
+          @reservation.start_reservation
+        end
+        render :show
+      else
+        Rails.logger.warn "API: User: #{api_user.nickname} - Validation errors: #{@reservation.errors.full_messages.join(', ')}"
+        @servers = free_servers
+        render :find_servers, status: :bad_request
+      end
+    end
+
+    def create_docker_host_reservation(virtual_server_id)
+      docker_host_id = virtual_server_id.to_i - DockerHost::VIRTUAL_ID_OFFSET
+      creator = DockerHostReservationCreator.new(
+        user: current_user,
+        docker_host_id: docker_host_id,
+        reservation_params: reservation_params
+      )
+      @reservation = creator.create!
+      render :show
+    rescue DockerHostReservationCreator::CapacityError => e
+      render json: { error: e.message }, status: :unprocessable_entity
+    rescue DockerHostReservationCreator::ValidationError => e
+      @reservation = e.reservation
+      @servers = free_servers
+      render :find_servers, status: :bad_request
     end
 
     def reservation_params

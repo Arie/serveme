@@ -113,16 +113,18 @@ class CloudServer < RemoteServer
     provider_class = CloudProvider::PROVIDERS[provider_name]
     raise ArgumentError, "Unknown provider: #{provider_name}" unless provider_class
 
-    location_info = provider_class.locations[location_code]
-    raise ArgumentError, "Unknown location: #{location_code}" unless location_info
-
     if provider_name == "remote_docker"
       docker_host = DockerHost.find(location_code)
       location = docker_host.location
+      location_name = docker_host.city
     else
+      location_info = provider_class.locations[location_code]
+      raise ArgumentError, "Unknown location: #{location_code}" unless location_info
+
       location = Location.find_or_create_by!(name: "#{location_info[:name]}, #{location_info[:country]}") do |l|
         l.flag = location_info[:flag]
       end
+      location_name = location_info[:name]
     end
 
     if provider_name.in?(%w[docker remote_docker])
@@ -135,7 +137,7 @@ class CloudServer < RemoteServer
     end
 
     attrs = {
-      name: "#{location_info[:name]} (#{provider_name == "remote_docker" ? SITE_HOST : provider_name.titleize})",
+      name: "#{location_name} (#{provider_name == "remote_docker" ? SITE_HOST : provider_name.titleize})",
       ip: "0.0.0.0",
       port: game_port.to_s,
       path: "/home/tf2/hlserver/tf2",

@@ -20,7 +20,8 @@ class DockerHostReservationCreator
         raise CapacityError, "This location is at full capacity for the selected time. Please choose another server."
       end
 
-      cloud_server = CloudServer.build_for_location("remote_docker", docker_host_id.to_s, rcon: reservation_params[:rcon])
+      rcon = reservation_params[:rcon].presence || SecureRandom.hex(8)
+      cloud_server = CloudServer.build_for_location("remote_docker", docker_host_id.to_s, rcon: rcon)
       cloud_server.save!
 
       reservation = user.reservations.build(reservation_params.except(:server_id))

@@ -4,10 +4,27 @@
 class DockerHost < ActiveRecord::Base
   extend T::Sig
 
+  VIRTUAL_ID_OFFSET = 1_000_000_000
+
   belongs_to :location
   validates :city, :ip, presence: true
   validates :start_port, numericality: { greater_than_or_equal_to: 27015 }
   scope :active, -> { where(active: true) }
+
+  sig { returns(Integer) }
+  def virtual_server_id
+    VIRTUAL_ID_OFFSET + id
+  end
+
+  sig { params(server_id: T.any(String, Integer)).returns(T::Boolean) }
+  def self.docker_host_id?(server_id)
+    server_id.to_i >= VIRTUAL_ID_OFFSET
+  end
+
+  sig { params(server_id: T.any(String, Integer)).returns(DockerHost) }
+  def self.find_by_virtual_id(server_id)
+    find(server_id.to_i - VIRTUAL_ID_OFFSET)
+  end
 
   sig { params(starts_at: T.any(Time, ActiveSupport::TimeWithZone), ends_at: T.any(Time, ActiveSupport::TimeWithZone)).returns(Integer) }
   def container_count_during(starts_at, ends_at)

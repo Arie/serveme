@@ -16,7 +16,7 @@ class CloudServerPollWorker
       Rails.logger.warn "CloudServerPollWorker: Server #{cloud_server_id} timed out, destroying"
       reservation = Reservation.find_by(id: cloud_server.cloud_reservation_id)
       reservation&.status_update("Cloud server failed to start, destroying VM")
-      reservation&.update!(ends_at: Time.current)
+      reservation&.update_column(:ends_at, Time.current)
       CloudServerDestroyWorker.perform_async(cloud_server_id)
       return
     end

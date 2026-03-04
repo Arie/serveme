@@ -43,6 +43,19 @@ describe Api::ReservationsController do
       }
       expect(response.body).to match_json_expression(json)
     end
+
+    it 'includes docker hosts in the servers array with virtual IDs' do
+      docker_host = create(:docker_host)
+      post :find_servers, params: { reservation: { starts_at: Time.current.to_s, ends_at: (Time.current + 2.hours).to_s } }, format: :json
+
+      servers = JSON.parse(response.body)['servers']
+      docker_server = servers.find { |s| s['id'] == docker_host.virtual_server_id }
+      expect(docker_server).to be_present
+      expect(docker_server['id']).to eq(DockerHost::VIRTUAL_ID_OFFSET + docker_host.id)
+      expect(docker_server['name']).to eq("#{docker_host.city} (Docker)")
+      expect(docker_server['ip']).to eq(docker_host.ip)
+      expect(docker_server['sdr']).to eq(false)
+    end
   end
 
   describe '#show' do
@@ -114,6 +127,48 @@ describe Api::ReservationsController do
     it 'returns a general error if the json was invalid' do
       post :create, format: :json, params: { something_invalid: { foo: 'bar' } }
       response.status.should == 422
+    end
+
+    context 'with a docker host virtual server_id' do
+      let(:docker_host) { create(:docker_host) }
+      let(:virtual_server_id) { docker_host.virtual_server_id }
+
+      it 'creates a reservation via DockerHostReservationCreator' do
+        expect(CloudServerProvisionWorker).to receive(:perform_async)
+
+        post :create, format: :json, params: {
+          reservation: {
+            starts_at: Time.current,
+            ends_at: 2.hours.from_now,
+            rcon: 'foo',
+            password: 'bar',
+            server_id: virtual_server_id
+          }
+        }
+
+        expect(response.status).to eq(200)
+        json = JSON.parse(response.body)
+        expect(json['reservation']).to be_present
+        expect(json['reservation']['server']['ip']).to be_present
+      end
+
+      it 'returns 422 when docker host is at capacity' do
+        allow_any_instance_of(DockerHost).to receive(:full_during?).and_return(true)
+
+        post :create, format: :json, params: {
+          reservation: {
+            starts_at: Time.current,
+            ends_at: 2.hours.from_now,
+            rcon: 'foo',
+            password: 'bar',
+            server_id: virtual_server_id
+          }
+        }
+
+        expect(response.status).to eq(422)
+        json = JSON.parse(response.body)
+        expect(json['error']).to be_present
+      end
     end
   end
 

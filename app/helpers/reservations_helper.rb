@@ -33,6 +33,10 @@ module ReservationsHelper
         end
       end
     end
+  rescue ActiveRecord::RecordNotUnique
+    reservation.errors.add(:server_id, "already booked in the selected timeframe")
+    @servers = Server.active.not_cloud.ordered.includes(:location)
+    render :edit, status: :unprocessable_entity
   end
 
   def find_reservation

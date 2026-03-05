@@ -772,6 +772,12 @@ describe Reservation do
       expect(reservation.cloud_provision_estimate).to be_nil
     end
 
+    it 'returns nil when reservation has not started yet' do
+      cloud_server = create(:cloud_server, cloud_created_at: 1.minute.ago, cloud_status: 'provisioning')
+      reservation = build(:reservation, server: cloud_server, provisioned: false, starts_at: 5.minutes.from_now)
+      expect(reservation.cloud_provision_estimate).to be_nil
+    end
+
     it 'returns nil when already provisioned' do
       cloud_server = create(:cloud_server, cloud_status: 'ready')
       reservation = build(:reservation, server: cloud_server, provisioned: true)

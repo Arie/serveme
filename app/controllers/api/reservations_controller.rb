@@ -45,6 +45,9 @@ module Api
         ReservationChangesWorker.perform_async(reservation.id, reservation.previous_changes.to_json)
         render :show
       end
+    rescue ActiveRecord::RecordNotUnique
+      reservation.errors.add(:server_id, "already booked in the selected timeframe")
+      render :show, status: :bad_request
     end
 
     def destroy

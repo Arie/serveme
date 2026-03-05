@@ -221,6 +221,7 @@ class Reservation < ActiveRecord::Base
     cloud_server = server
     return unless cloud_server.is_a?(CloudServer)
     return unless cloud_server.cloud_created_at.present?
+    return unless starts_at.past?
     return if provisioned?
     return if cloud_server.cloud_status == "destroyed"
 

@@ -26,6 +26,11 @@ class CloudServerProvisionWorker
       return
     end
 
+    # Reset cloud_created_at so the poll worker's staleness timer starts from
+    # actual provisioning, not from when the record was first created (which
+    # could be hours earlier for future-scheduled reservations).
+    cloud_server.update!(cloud_created_at: Time.current)
+
     provider = cloud_server.provider
 
     reservation.status_update("Creating #{cloud_server.cloud_provider} VM in #{cloud_server.cloud_location}, this takes #{provider.estimated_provision_time}")

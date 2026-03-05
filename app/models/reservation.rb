@@ -221,7 +221,7 @@ class Reservation < ActiveRecord::Base
     cloud_server = server
     return unless cloud_server.is_a?(CloudServer)
     return unless cloud_server.cloud_created_at.present?
-    return unless starts_at.past?
+    return unless starts_at&.past?
     return if provisioned?
     return if cloud_server.cloud_status == "destroyed"
 
@@ -341,6 +341,9 @@ class Reservation < ActiveRecord::Base
     if server.is_a?(CloudServer) && !provisioned?
       cloud_server = T.cast(server, CloudServer)
       return "Cloud server failed to start" if cloud_server.cloud_status == "destroyed"
+      if starts_at&.future?
+        return "Waiting to start"
+      end
       return "Cloud server provisioning" if cloud_server.cloud_status == "provisioning"
       return "Configuring" if cloud_server.cloud_status == "ssh_ready"
       return "Starting" if cloud_server.cloud_status == "ready"

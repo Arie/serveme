@@ -17,7 +17,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 USER tf2
 
 # Update TF2 to latest version (base image may be behind)
-RUN /usr/games/steamcmd +force_install_dir /home/tf2/hlserver/tf2 +login anonymous +app_update 232250 +quit
+# SteamCMD sometimes fails with 0x426 on first attempt, retry once
+# Then strip maps and resource files to minimize image size (like base image's clean.sh)
+RUN /usr/games/steamcmd +force_install_dir /home/tf2/hlserver/tf2 +login anonymous +app_update 232250 +quit || \
+    /usr/games/steamcmd +force_install_dir /home/tf2/hlserver/tf2 +login anonymous +app_update 232250 +quit \
+    && cd /home/tf2/hlserver/tf2/tf/maps && rm -f *.bsp \
+    && rm -f /home/tf2/hlserver/tf2/tf/resource/tf_*.txt
 
 # Download additional plugins (STAC, MGE, tf2rue, funcommands, funvotes)
 COPY --chown=tf2:tf2 plugins.sh /tmp/plugins.sh

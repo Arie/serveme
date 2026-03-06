@@ -3,7 +3,7 @@
 
 class CloudImageBuildWorker
   include Sidekiq::Worker
-  sidekiq_options retry: false, queue: "low"
+  sidekiq_options retry: 3, queue: "low"
 
   LOCK_KEY = "cloud_image_build"
   LOCK_TTL = 30.minutes
@@ -18,15 +18,8 @@ class CloudImageBuildWorker
 
     tag = "#{DOCKERHUB_IMAGE}:latest"
 
-    unless run_command("docker build --pull -t #{tag} #{DOCKER_DIR}")
-      Rails.logger.error "CloudImageBuildWorker: Docker build failed"
-      return
-    end
-
-    unless run_command("docker push #{tag}")
-      Rails.logger.error "CloudImageBuildWorker: Docker Hub push failed"
-      return
-    end
+    run_command!("docker build --pull -t #{tag} #{DOCKER_DIR}")
+    run_command!("docker push #{tag}")
 
     Rails.logger.info "CloudImageBuildWorker: Successfully built and pushed image for TF2 version #{version}"
   ensure
@@ -43,8 +36,12 @@ class CloudImageBuildWorker
     Sidekiq.redis { |conn| conn.del(LOCK_KEY) }
   end
 
-  def run_command(command)
+  def run_command!(command)
     Rails.logger.info "CloudImageBuildWorker: Running: #{command}"
-    system(command)
+    output, status = Open3.capture2e(command)
+    return if status.success?
+
+    tail = output.to_s.lines.last(50).join
+    raise "#{command.split.first(3).join(' ')} failed (exit #{status.exitstatus}):\n#{tail}"
   end
 end

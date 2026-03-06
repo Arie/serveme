@@ -13,13 +13,13 @@ describe CloudImageBuildWorker do
     allow(Sidekiq).to receive(:redis).and_yield(redis)
     allow(redis).to receive(:set).and_return(true)
     allow(redis).to receive(:del)
-    allow(worker).to receive(:system).and_return(true)
+    allow(Open3).to receive(:capture2e).and_return([ "", instance_double(Process::Status, success?: true, exitstatus: 0) ])
   end
 
   describe "#perform" do
     it "builds and pushes the Docker image" do
-      expect(worker).to receive(:system).with(/docker build --pull/).and_return(true)
-      expect(worker).to receive(:system).with(/docker push/).and_return(true)
+      expect(Open3).to receive(:capture2e).with(/docker build --pull/).and_return([ "", instance_double(Process::Status, success?: true, exitstatus: 0) ])
+      expect(Open3).to receive(:capture2e).with(/docker push/).and_return([ "", instance_double(Process::Status, success?: true, exitstatus: 0) ])
 
       worker.perform(version)
     end
@@ -27,7 +27,7 @@ describe CloudImageBuildWorker do
     it "skips if not on EU (serveme.tf)" do
       stub_const("SITE_HOST", "na.serveme.tf")
 
-      expect(worker).not_to receive(:system)
+      expect(Open3).not_to receive(:capture2e)
 
       worker.perform(version)
     end
@@ -35,16 +35,16 @@ describe CloudImageBuildWorker do
     it "skips if lock cannot be acquired" do
       allow(redis).to receive(:set).and_return(false)
 
-      expect(worker).not_to receive(:system)
+      expect(Open3).not_to receive(:capture2e)
 
       worker.perform(version)
     end
 
-    it "stops if docker build fails" do
-      expect(worker).to receive(:system).with(/docker build/).and_return(false)
-      expect(worker).not_to receive(:system).with(/docker push/)
+    it "raises with output tail if docker build fails so Sidekiq retries" do
+      expect(Open3).to receive(:capture2e).with(/docker build/).and_return([ "Error! App '232250' state is 0x426\n", instance_double(Process::Status, success?: false, exitstatus: 1) ])
+      expect(Open3).not_to receive(:capture2e).with(/docker push/)
 
-      worker.perform(version)
+      expect { worker.perform(version) }.to raise_error(RuntimeError, /docker build --pull.*failed.*0x426/m)
     end
 
     it "releases the lock after completion" do

@@ -14,7 +14,7 @@ class ServerVersionWorker
 
     ServerUpdateWorker.perform_async(latest_version)
 
-    if previous_version && latest_version != previous_version
+    if latest_version != previous_version
       CloudImageBuildWorker.perform_async(latest_version)
     end
   rescue Faraday::ConnectionFailed

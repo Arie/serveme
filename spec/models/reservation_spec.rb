@@ -760,74 +760,137 @@ describe Reservation do
     end
   end
 
-  describe '#cloud_provision_estimate' do
-    it 'returns nil for a non-cloud server' do
-      reservation = build(:reservation)
-      expect(reservation.cloud_provision_estimate).to be_nil
-    end
-
-    it 'returns nil when cloud_created_at is not set' do
-      cloud_server = create(:cloud_server, cloud_created_at: nil, cloud_status: 'provisioning')
-      reservation = build(:reservation, server: cloud_server)
-      expect(reservation.cloud_provision_estimate).to be_nil
-    end
-
+  describe '#provision_estimate' do
     it 'returns nil when reservation has not started yet' do
       cloud_server = create(:cloud_server, cloud_created_at: 1.minute.ago, cloud_status: 'provisioning')
       reservation = build(:reservation, server: cloud_server, provisioned: false, starts_at: 5.minutes.from_now)
-      expect(reservation.cloud_provision_estimate).to be_nil
+      expect(reservation.provision_estimate).to be_nil
     end
 
-    it 'returns nil when already provisioned' do
-      cloud_server = create(:cloud_server, cloud_status: 'ready')
-      reservation = build(:reservation, server: cloud_server, provisioned: true)
-      expect(reservation.cloud_provision_estimate).to be_nil
+    it 'returns nil when reservation has ended' do
+      reservation = build(:reservation, ends_at: 1.minute.ago)
+      expect(reservation.provision_estimate).to be_nil
     end
 
-    it 'returns phases, current_phase and phase_started_at when provisioning' do
-      cloud_created = 2.minutes.ago
-      cloud_server = create(:cloud_server, cloud_created_at: cloud_created, cloud_status: 'provisioning')
-      reservation = build(:reservation, server: cloud_server, provisioned: false)
+    context 'cloud servers' do
+      it 'returns nil when cloud_created_at is not set and not provisioned' do
+        cloud_server = create(:cloud_server, cloud_created_at: nil, cloud_status: 'provisioning')
+        reservation = build(:reservation, server: cloud_server, provisioned: false)
+        expect(reservation.provision_estimate).to be_nil
+      end
 
-      result = reservation.cloud_provision_estimate
-      expect(result).to be_a(Hash)
-      expect(result[:phases]).to be_an(Array)
-      expect(result[:phases].length).to eq(3)
-      expect(result[:current_phase]).to eq("creating_vm")
-      expect(result[:phase_started_at]).to be_within(1.second).of(cloud_created)
+      it 'returns completed when already provisioned' do
+        cloud_server = create(:cloud_server, cloud_status: 'ready')
+        reservation = build(:reservation, server: cloud_server, provisioned: true)
+        result = reservation.provision_estimate
+        expect(result[:completed]).to be true
+        expect(result[:phases]).to be_an(Array)
+      end
+
+      it 'returns nil when cloud_status is destroyed' do
+        cloud_server = create(:cloud_server, cloud_status: 'destroyed')
+        reservation = build(:reservation, server: cloud_server, provisioned: false)
+        expect(reservation.provision_estimate).to be_nil
+      end
+
+      it 'returns phases, current_phase and phase_started_at when provisioning' do
+        cloud_created = 2.minutes.ago
+        cloud_server = create(:cloud_server, cloud_created_at: cloud_created, cloud_status: 'provisioning')
+        reservation = build(:reservation, server: cloud_server, provisioned: false)
+
+        result = reservation.provision_estimate
+        expect(result).to be_a(Hash)
+        expect(result[:phases]).to be_an(Array)
+        expect(result[:phases].length).to eq(4)
+        expect(result[:current_phase]).to eq("creating_vm")
+        expect(result[:phase_started_at]).to be_within(1.second).of(cloud_created)
+      end
+
+      it 'returns booting phase when cloud_vm_running_at is set' do
+        cloud_created = 2.minutes.ago
+        vm_running = 1.minute.ago
+        cloud_server = create(:cloud_server, cloud_created_at: cloud_created, cloud_vm_running_at: vm_running, cloud_status: 'provisioning')
+        reservation = build(:reservation, server: cloud_server, provisioned: false)
+
+        result = reservation.provision_estimate
+        expect(result[:current_phase]).to eq("booting")
+        expect(result[:phase_started_at]).to be_within(1.second).of(vm_running)
+      end
+
+      it 'returns configuring phase when cloud_ssh_ready_at is set' do
+        cloud_created = 3.minutes.ago
+        vm_running = 2.minutes.ago
+        ssh_ready = 1.minute.ago
+        cloud_server = create(:cloud_server, cloud_created_at: cloud_created, cloud_vm_running_at: vm_running, cloud_ssh_ready_at: ssh_ready, cloud_status: 'provisioning')
+        reservation = build(:reservation, server: cloud_server, provisioned: false)
+
+        result = reservation.provision_estimate
+        expect(result[:current_phase]).to eq("configuring")
+        expect(result[:phase_started_at]).to be_within(1.second).of(ssh_ready)
+      end
     end
 
-    it 'returns creating_vm phase by default' do
-      cloud_created = 1.minute.ago
-      cloud_server = create(:cloud_server, cloud_created_at: cloud_created, cloud_status: 'provisioning')
-      reservation = build(:reservation, server: cloud_server, provisioned: false)
+    context 'normal servers' do
+      it 'returns completed when ready_at is set' do
+        reservation = create(:reservation, ready_at: Time.current)
+        reservation.status_update("Starting")
+        result = reservation.provision_estimate
+        expect(result[:completed]).to be true
+        expect(result[:phases]).to eq(Server::FAST_START_PHASES)
+      end
 
-      result = reservation.cloud_provision_estimate
-      expect(result[:current_phase]).to eq("creating_vm")
-      expect(result[:phase_started_at]).to be_within(1.second).of(cloud_created)
-    end
+      it 'returns sending_configs phase during config upload' do
+        reservation = create(:reservation, ready_at: nil)
+        reservation.status_update("Sending reservation config files")
 
-    it 'returns booting phase when cloud_vm_running_at is set' do
-      cloud_created = 2.minutes.ago
-      vm_running = 1.minute.ago
-      cloud_server = create(:cloud_server, cloud_created_at: cloud_created, cloud_vm_running_at: vm_running, cloud_status: 'provisioning')
-      reservation = build(:reservation, server: cloud_server, provisioned: false)
+        result = reservation.provision_estimate
+        expect(result[:current_phase]).to eq("sending_configs")
+        expect(result[:phases]).to eq(Server::FAST_START_PHASES)
+      end
 
-      result = reservation.cloud_provision_estimate
-      expect(result[:current_phase]).to eq("booting")
-      expect(result[:phase_started_at]).to be_within(1.second).of(vm_running)
-    end
+      it 'returns changing_map phase during fast start' do
+        reservation = create(:reservation, ready_at: nil)
+        reservation.status_update("Attempting fast start")
 
-    it 'returns configuring phase when cloud_ssh_ready_at is set' do
-      cloud_created = 3.minutes.ago
-      vm_running = 2.minutes.ago
-      ssh_ready = 1.minute.ago
-      cloud_server = create(:cloud_server, cloud_created_at: cloud_created, cloud_vm_running_at: vm_running, cloud_ssh_ready_at: ssh_ready, cloud_status: 'provisioning')
-      reservation = build(:reservation, server: cloud_server, provisioned: false)
+        result = reservation.provision_estimate
+        expect(result[:current_phase]).to eq("changing_map")
+      end
 
-      result = reservation.cloud_provision_estimate
-      expect(result[:current_phase]).to eq("configuring")
-      expect(result[:phase_started_at]).to be_within(1.second).of(ssh_ready)
+      it 'returns waiting_for_server phase after fast start attempted' do
+        reservation = create(:reservation, ready_at: nil)
+        reservation.status_update("Fast start attempted, waiting to boot")
+
+        result = reservation.provision_estimate
+        expect(result[:current_phase]).to eq("waiting_for_server")
+      end
+
+      it 'returns waiting_for_start phase after server restarted' do
+        reservation = create(:reservation, ready_at: nil)
+        reservation.status_update("Restarted server, waiting to boot")
+
+        result = reservation.provision_estimate
+        expect(result[:current_phase]).to eq("waiting_for_start")
+        expect(result[:phases]).to eq(Server::RESTART_PHASES)
+      end
+
+      it 'uses restart phases when server is outdated' do
+        reservation = create(:reservation, ready_at: nil)
+        reservation.status_update("Server outdated, restarting server to update")
+
+        result = reservation.provision_estimate
+        expect(result[:current_phase]).to eq("restarting")
+        expect(result[:phases]).to eq(Server::RESTART_PHASES)
+      end
+
+      it 'uses restart phases when fast start failed' do
+        reservation = create(:reservation, ready_at: nil)
+        reservation.status_update("Sending reservation config files")
+        reservation.status_update("Fast start failed, starting server normally")
+
+        result = reservation.provision_estimate
+        expect(result[:current_phase]).to eq("restarting")
+        expect(result[:phases]).to eq(Server::RESTART_PHASES)
+      end
     end
   end
 

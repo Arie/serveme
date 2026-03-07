@@ -6,7 +6,8 @@ export default class extends Controller {
     phases: Array,
     currentPhase: String,
     phaseElapsed: Number, // seconds already elapsed in current phase at render time
-    providerProgress: Number // real progress from provider API (0-100), -1 if unavailable
+    providerProgress: Number, // real progress from provider API (0-100), -1 if unavailable
+    completed: Boolean // all phases done, show fully green bar
   }
 
   connect() {
@@ -14,6 +15,12 @@ export default class extends Controller {
     this.initialElapsed = this.phaseElapsedValue
     this.totalSeconds = this.phasesValue.reduce((sum, p) => sum + p.seconds, 0)
     this.buildBar()
+    if (this.completedValue) {
+      if (this.hasTextTarget) {
+        this.textTarget.textContent = "Server ready"
+      }
+      return
+    }
     requestAnimationFrame(() => {
       if (this.currentFill) this.currentFill.style.transition = "width 1s linear"
       this.tick()
@@ -49,14 +56,14 @@ export default class extends Controller {
       el.style.transition = "none"
 
       // Background for the full segment
-      if (i < currentIdx) {
+      if (this.completedValue || i < currentIdx) {
         el.style.backgroundColor = "#198754" // green
       } else {
         el.style.backgroundColor = "#e9ecef" // light gray
       }
 
       // Animated fill overlay for current phase
-      if (i === currentIdx) {
+      if (!this.completedValue && i === currentIdx) {
         const fill = document.createElement("div")
         fill.style.position = "absolute"
         fill.style.top = "0"
@@ -79,10 +86,10 @@ export default class extends Controller {
       label.style.lineHeight = "24px"
       label.style.padding = "0 6px"
       label.style.whiteSpace = "nowrap"
-      label.style.color = i < currentIdx ? "#fff" : (i === currentIdx ? "#000" : "#6c757d")
-      label.style.fontWeight = i === currentIdx ? "bold" : "normal"
+      label.style.color = (this.completedValue || i < currentIdx) ? "#fff" : (i === currentIdx ? "#000" : "#6c757d")
+      label.style.fontWeight = (this.completedValue || i === currentIdx) ? "bold" : "normal"
 
-      const icon = i < currentIdx ? "fa-check" : phase.icon
+      const icon = (this.completedValue || i < currentIdx) ? "fa-check" : phase.icon
       label.innerHTML = `<i class="fa ${icon}"></i> ${phase.label}`
       el.appendChild(label)
 

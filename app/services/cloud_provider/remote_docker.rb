@@ -64,9 +64,10 @@ module CloudProvider
 
     def provision_phases
       [
-        { key: "creating_vm", label: "Pulling image", icon: "fa-cloud-download", seconds: 15 },
-        { key: "booting", label: "Starting container", icon: "fa-server", seconds: 15 },
-        { key: "configuring", label: "Applying config", icon: "fa-cog", seconds: 30 }
+        { key: "creating_vm", label: "Starting container", icon: "fa-server", seconds: 5 },
+        { key: "booting", label: "Waiting for SSH", icon: "fa-terminal", seconds: 5 },
+        { key: "configuring", label: "Sending configs", icon: "fa-cog", seconds: 15 },
+        { key: "starting_tf2", label: "Starting TF2", icon: "fa-gamepad", seconds: 30 }
       ]
     end
 

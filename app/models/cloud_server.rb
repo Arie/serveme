@@ -64,6 +64,30 @@ class CloudServer < RemoteServer
     write_configuration(server_config_file("first_map.txt"), first_map)
   end
 
+  sig { params(reservation: Reservation).returns(T.nilable(T::Hash[Symbol, T.untyped])) }
+  def provision_estimate(reservation)
+    phases = provider.provision_phases
+
+    if reservation.provisioned?
+      return cloud_status == "destroyed" ? nil : { phases: phases, completed: true }
+    end
+
+    return unless cloud_created_at.present?
+    return if cloud_status == "destroyed"
+
+    current_phase, phase_started_at = cloud_current_phase
+    result = {
+      phases: phases,
+      current_phase: current_phase,
+      phase_started_at: phase_started_at
+    }
+    if current_phase == "creating_vm"
+      vm_status = reservation.reservation_statuses.find_by("status LIKE 'Creating VM (%'")
+      result[:vm_progress] = vm_status.status.to_s[/\((\d+)%\)/, 1]&.to_i if vm_status
+    end
+    result
+  end
+
   def mark_ready!
     updated = self.class.where(id: id).where.not(cloud_status: "destroyed").update_all(cloud_status: "ready")
     return unless updated > 0
@@ -166,6 +190,19 @@ class CloudServer < RemoteServer
   end
 
   private
+
+  sig { returns([ String, ActiveSupport::TimeWithZone ]) }
+  def cloud_current_phase
+    if cloud_status == "ready"
+      [ "starting_tf2", T.must(cloud_ssh_ready_at || cloud_created_at) ]
+    elsif cloud_ssh_ready_at.present?
+      [ "configuring", T.must(cloud_ssh_ready_at) ]
+    elsif cloud_vm_running_at.present?
+      [ "booting", T.must(cloud_vm_running_at) ]
+    else
+      [ "creating_vm", T.must(cloud_created_at) ]
+    end
+  end
 
   sig { returns(String) }
   def cloud_ssh_private_key

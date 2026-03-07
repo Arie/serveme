@@ -11,6 +11,7 @@ describe ReservationWorker do
       server = reservation.server
       allow(Reservation).to receive(:includes).and_return(Reservation)
       allow(Reservation).to receive(:find).with(reservation.id).and_return(reservation)
+      allow(ServerRconPollWorker).to receive(:perform_in)
       expect(server).to receive(:start_reservation).with(reservation)
 
       ReservationWorker.new.perform(reservation.id, 'start')

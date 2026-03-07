@@ -21,9 +21,11 @@ class ReservationWorker
   end
 
   def after_start_reservation_steps
-    unless reservation.server.is_a?(CloudServer)
-      reservation.provisioned = true
-      reservation.save(validate: false)
+    if reservation.server.is_a?(CloudServer)
+      # Cloud servers use CloudServerRconPollWorker instead
+    else
+      reservation.update_columns(provisioned: true)
+      ServerRconPollWorker.perform_in(3.seconds, reservation_id, Time.current.iso8601)
     end
     UpdateSteamNicknameWorker.perform_async(reservation.user.uid)
     DiscordReservationUpdateWorker.perform_async(reservation_id)

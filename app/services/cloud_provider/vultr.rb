@@ -80,7 +80,8 @@ module CloudProvider
       [
         { key: "creating_vm", label: "Creating VM", icon: "fa-cloud", seconds: 55 },
         { key: "booting", label: "Installing game server", icon: "fa-server", seconds: 145 },
-        { key: "configuring", label: "Applying config", icon: "fa-cog", seconds: 45 }
+        { key: "configuring", label: "Sending configs", icon: "fa-cog", seconds: 30 },
+        { key: "starting_tf2", label: "Starting TF2", icon: "fa-gamepad", seconds: 15 }
       ]
     end
 

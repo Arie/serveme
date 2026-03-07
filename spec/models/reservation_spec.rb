@@ -903,6 +903,38 @@ describe Reservation do
     end
   end
 
+  describe '#cleanup_previous_cloud_server' do
+    it 'enqueues CloudServerDestroyWorker when server_id changes away from a cloud server' do
+      cloud_server = create(:cloud_server, cloud_status: "provisioning")
+      regular_server = create(:server)
+      reservation = create(:reservation, server: cloud_server)
+
+      expect(CloudServerDestroyWorker).to receive(:perform_async).with(cloud_server.id)
+
+      reservation.update!(server: regular_server)
+    end
+
+    it 'skips if previous cloud server is already destroyed' do
+      cloud_server = create(:cloud_server, cloud_status: "destroyed")
+      regular_server = create(:server)
+      reservation = create(:reservation, server: cloud_server)
+
+      expect(CloudServerDestroyWorker).not_to receive(:perform_async)
+
+      reservation.update!(server: regular_server)
+    end
+
+    it 'skips when changing between non-cloud servers' do
+      server1 = create(:server)
+      server2 = create(:server)
+      reservation = create(:reservation, server: server1)
+
+      expect(CloudServerDestroyWorker).not_to receive(:perform_async)
+
+      reservation.update!(server: server2)
+    end
+  end
+
   describe '#cleanup_cloud_server' do
     it 'enqueues CloudServerDestroyWorker on destroy for cloud servers' do
       cloud_server = create(:cloud_server, cloud_status: "provisioning")

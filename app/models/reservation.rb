@@ -23,6 +23,7 @@ class Reservation < ActiveRecord::Base
   after_create :update_user_total_seconds_counter
   after_update :update_user_total_seconds_counter, if: :saved_change_to_duration?
   after_destroy :update_user_total_seconds_counter
+  after_update :cleanup_previous_cloud_server, if: :saved_change_to_server_id?
   after_destroy :cleanup_cloud_server
 
   delegate :donator?, to: :user, prefix: false
@@ -497,6 +498,20 @@ class Reservation < ActiveRecord::Base
 
     total_seconds = T.must(user).reservations.sum(:duration)
     T.must(user).update_column(:total_reservation_seconds, total_seconds)
+  end
+
+  sig { void }
+  def cleanup_previous_cloud_server
+    previous_server_id = T.must(saved_change_to_server_id)[0]
+    return unless previous_server_id
+
+    previous_server = Server.find_by(id: previous_server_id)
+    return unless previous_server.is_a?(CloudServer)
+
+    cloud_server = T.cast(previous_server, CloudServer)
+    return if cloud_server.cloud_status == "destroyed"
+
+    CloudServerDestroyWorker.perform_async(cloud_server.id)
   end
 
   sig { void }

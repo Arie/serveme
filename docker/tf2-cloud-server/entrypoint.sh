@@ -10,6 +10,17 @@ fi
 SSH_PORT="${SSH_PORT:-22}"
 sudo /usr/sbin/sshd -p "$SSH_PORT"
 
+# Supervise sshd: restart it if it dies (check every 30s)
+(
+    while true; do
+        sleep 30
+        if ! ss -tln | grep -q ":${SSH_PORT}[[:space:]]"; then
+            echo "sshd on port $SSH_PORT is down, restarting..."
+            sudo /usr/sbin/sshd -p "$SSH_PORT"
+        fi
+    done
+) &
+
 # 2. Remove plugins that conflict with serveme's config management
 rm -f "$HOME/hlserver/tf2/tf/addons/sourcemod/plugins/autoexec.smx"
 

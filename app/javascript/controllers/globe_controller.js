@@ -441,7 +441,7 @@ export default class extends Controller {
   updateStats(servers) {
     let totalPlayers = 0
     let activeServers = 0
-    let totalServers = servers.length
+    let totalServers = 0
     const countries = new Set()
     const regionStats = {}
 
@@ -451,17 +451,18 @@ export default class extends Controller {
 
     servers.forEach(server => {
       const regionName = server.region || this.currentRegion
+      const slots = server.slots || 1
+      const activeSlots = server.active_slots || (server.players.length > 0 ? 1 : 0)
+
+      totalServers += slots
+      activeServers += activeSlots
 
       if (regionStats[regionName]) {
-        regionStats[regionName].totalServers++
+        regionStats[regionName].totalServers += slots
+        regionStats[regionName].activeServers += activeSlots
       }
 
       if (server.players.length > 0) {
-        activeServers++
-
-        if (regionStats[regionName]) {
-          regionStats[regionName].activeServers++
-        }
 
         server.players.forEach(player => {
           totalPlayers++

@@ -6,22 +6,13 @@ require File.expand_path("../models/concerns/steam_id_anonymizer", __dir__)
 class BroadcastGlobeUpdateWorker
   include Sidekiq::Worker
   include SteamIdAnonymizer
+  include GlobeData
 
   def perform
     # Get all servers with current players
     servers_with_players = CurrentPlayersService.all_servers_with_current_players
 
-    # Get all servers that have location data
-    all_servers = Server.active.where.not(latitude: nil, longitude: nil)
-
-    # Create a hash of servers with players for quick lookup
-    servers_with_players_hash = servers_with_players.to_h { |data| [ data[:server].id, data[:players] ] }
-
-    # Combine all servers with their player data (empty array if no players)
-    all_server_data = all_servers.map do |server|
-      players = servers_with_players_hash[server.id] || []
-      { server: server, players: players }
-    end
+    all_server_data = globe_server_data(servers_with_players)
 
     globe_data = {
       servers: all_server_data.map { |data| server_globe_data(data[:server], data[:players]) }
@@ -44,6 +35,8 @@ class BroadcastGlobeUpdateWorker
       latitude: server.latitude,
       longitude: server.longitude,
       location: server.detailed_location,
+      slots: server.respond_to?(:max_containers) ? server.max_containers : 1,
+      active_slots: server.respond_to?(:active_containers) ? server.active_containers : (players.any? ? 1 : 0),
       players: players.map do |player|
         {
           steam_uid: anonymize_steam_id(player[:reservation_player].steam_uid.to_s),

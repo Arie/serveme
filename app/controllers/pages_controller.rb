@@ -47,8 +47,9 @@ class PagesController < ApplicationController
   end
 
   def stats
-    servers_count = Server.active.count
-    servers_for_non_premium_count = Server.active.without_group.count
+    docker_host_slots = DockerHost.active.sum(:max_containers)
+    servers_count = Server.active.count + docker_host_slots
+    servers_for_non_premium_count = Server.active.without_group.count + docker_host_slots
     servers_for_premium_count = Server.for_donators.active.count
     current_reservations_count = Reservation.current.count
     servers_for_non_premium_in_use = Reservation.current.where(server_id: Server.without_group).count

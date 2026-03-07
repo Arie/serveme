@@ -89,7 +89,7 @@ class CloudServer < RemoteServer
   end
 
   def mark_ready!
-    updated = self.class.where(id: id).where.not(cloud_status: "destroyed").update_all(cloud_status: "ready")
+    updated = self.class.where(id: id).where.not(cloud_status: "destroyed").update_all(cloud_status: "ready", active: true)
     return unless updated > 0
 
     reload
@@ -166,6 +166,7 @@ class CloudServer < RemoteServer
       port: game_port.to_s,
       path: "/home/tf2/hlserver/tf2",
       rcon: rcon,
+      active: false,
       cloud_provider: provider_name,
       cloud_status: "provisioning",
       cloud_location: location_code,

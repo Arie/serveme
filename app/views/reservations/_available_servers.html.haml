@@ -19,20 +19,10 @@
       = "#{available_server_count} / #{total_without_group}"
 
 - else
-  - if free_limit
-    - free_in_use = SiteSetting.free_user_reservation_count(Time.current, Time.current)
-    %h5 Servers in use
-    %h6 Everyone
-    = "#{free_in_use} / #{free_limit}"
-    servers
-    %h6 Premium
-    = "#{used_donator_server_count} / #{total_donator_server_count}"
-    servers
-  - else
-    %h5 Servers in use
-    %h6 Everyone
-    = "#{used_free_server_count} / #{total_without_group}"
-    servers
-    %h6 Premium
-    = "#{used_donator_server_count} / #{total_donator_server_count}"
-    servers
+  %h5 Servers in use
+  %h6 Everyone
+  = "#{used_free_server_count} / #{total_without_group}"
+  servers
+  %h6 Premium
+  = "#{used_donator_server_count} / #{total_donator_server_count}"
+  servers

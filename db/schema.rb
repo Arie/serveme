@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_02_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_07_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -378,6 +378,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_02_120000) do
     t.index ["reservations_count"], name: "index_servers_on_reservations_count"
     t.index ["resolved_ip"], name: "index_servers_on_resolved_ip"
     t.index ["type"], name: "index_servers_on_type"
+  end
+
+  create_table "site_settings", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "key", null: false
+    t.datetime "updated_at", null: false
+    t.string "value"
+    t.index ["key"], name: "index_site_settings_on_key", unique: true
   end
 
   create_table "stac_detections", force: :cascade do |t|

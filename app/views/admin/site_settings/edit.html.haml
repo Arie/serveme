@@ -1,0 +1,67 @@
+- content_for(:title) { "Site Settings" }
+
+.row
+  .col-md-12
+    %h2.mb-4 Site Settings
+
+.row
+  .col-md-8
+    .card
+      .card-body
+        = form_tag admin_site_settings_path, method: :patch do
+          %h5 Server Limits
+          .mb-3
+            %label.form-label{for: "free_server_limit"} Free server limit
+            = number_field_tag :free_server_limit, @free_server_limit, class: "form-control", placeholder: "No limit", min: 0
+            %small.text-muted Maximum concurrent reservations for non-premium users. Leave empty for no limit.
+
+          %hr
+
+          %h5 Feature Flags
+          .mb-3
+            .form-check
+              = check_box_tag :always_enable_plugins, "true", SiteSetting.always_enable_plugins?, class: "form-check-input", id: "always_enable_plugins"
+              %label.form-check-label{for: "always_enable_plugins"} Always enable plugins
+              %br
+              %small.text-muted Automatically enable SourceMod plugins for all reservations, even if the user didn't check the box.
+
+          .mb-3
+            .form-check
+              = check_box_tag :always_enable_demos_tf, "true", SiteSetting.always_enable_demos_tf?, class: "form-check-input", id: "always_enable_demos_tf"
+              %label.form-check-label{for: "always_enable_demos_tf"} Always enable demos.tf
+              %br
+              %small.text-muted Automatically upload STVs to demos.tf for all reservations.
+
+          .mb-3
+            .form-check
+              = check_box_tag :show_democheck, "true", SiteSetting.show_democheck?, class: "form-check-input", id: "show_democheck"
+              %label.form-check-label{for: "show_democheck"} Show democheck option
+              %br
+              %small.text-muted Show the RGL democheck toggle on the reservation form.
+
+          = submit_tag "Save settings", class: "btn btn-primary"
+
+  .col-md-4
+    .card
+      .card-header
+        %h6.mb-0 Current Status
+      .card-body
+        %table.table.table-sm.mb-0
+          %tbody
+            %tr
+              %td Free server limit
+              %td
+                - if SiteSetting.free_server_limit
+                  = SiteSetting.free_server_limit
+                - else
+                  %span.text-muted No limit
+            %tr
+              %td Free reservations active
+              %td= SiteSetting.free_user_reservation_count(Time.current, Time.current)
+            %tr
+              %td Free servers available
+              %td
+                - if SiteSetting.free_server_limit
+                  = SiteSetting.free_servers_available
+                - else
+                  %span.text-muted N/A

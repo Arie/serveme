@@ -98,7 +98,7 @@
           %td Server config
           %td= reservation.server_config
 
-      - if na_system?
+      - if SiteSetting.show_democheck?
         %tr
           %td Democheck status (required for RGL matches)
           - if reservation.disable_democheck?

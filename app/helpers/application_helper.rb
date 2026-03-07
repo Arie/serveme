@@ -11,7 +11,7 @@ module ApplicationHelper
   end
 
   def used_free_server_count
-    Reservation.current.where(server_id: Server.without_group).count
+    Reservation.current.where(server_id: Server.without_group).count + docker_hosts_used_count
   end
 
   def used_donator_server_count
@@ -24,6 +24,18 @@ module ApplicationHelper
 
   def free_donator_server_count
     @free_donator_server_count ||= total_donator_server_count - used_donator_server_count
+  end
+
+  def docker_hosts_total_slots
+    @docker_hosts_total_slots ||= DockerHost.active.sum(:max_containers)
+  end
+
+  def docker_hosts_used_count
+    @docker_hosts_used_count ||= DockerHost.active.sum(&:current_container_count)
+  end
+
+  def docker_hosts_available_during(starts_at, ends_at)
+    DockerHost.active.sum { |dh| [ dh.max_containers - dh.container_count_during(starts_at, ends_at), 0 ].max }
   end
 
   def eu_system?

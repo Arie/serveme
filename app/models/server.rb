@@ -395,13 +395,13 @@ class Server < ActiveRecord::Base
       write_first_map(reservation)
     end
     update_configuration(reservation)
-    if reservation.enable_plugins? || reservation.enable_demos_tf? || au_system?
+    if reservation.enable_plugins? || reservation.enable_demos_tf? || SiteSetting.always_enable_plugins?
       reservation.status_update("Enabling plugins")
       enable_plugins
       add_sourcemod_admin(T.must(reservation.user))
       add_sourcemod_servers(reservation)
       reservation.status_update("Enabled plugins")
-      if reservation.enable_demos_tf? || au_system?
+      if reservation.enable_demos_tf? || SiteSetting.always_enable_demos_tf?
         reservation.status_update("Enabling demos.tf")
         enable_demos_tf
         reservation.status_update("Enabled demos.tf")

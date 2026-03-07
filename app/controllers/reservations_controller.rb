@@ -30,6 +30,14 @@ class ReservationsController < ApplicationController
   end
 
   def create
+    starts_at = reservation_params[:starts_at].present? ? Time.zone.parse(reservation_params[:starts_at].to_s) : Time.current
+    ends_at = reservation_params[:ends_at].present? ? Time.zone.parse(reservation_params[:ends_at].to_s) : 2.hours.from_now
+    if SiteSetting.free_server_limit_reached?(current_user, starts_at, ends_at)
+      flash[:alert] = "All free servers are currently in use. Try again later or get premium for more servers."
+      redirect_to new_reservation_path
+      return
+    end
+
     if docker_host_selected?
       create_docker_host_reservation
     else
@@ -38,6 +46,12 @@ class ReservationsController < ApplicationController
   end
 
   def i_am_feeling_lucky
+    if SiteSetting.free_server_limit_reached?(current_user, Time.current, 2.hours.from_now)
+      flash[:alert] = "All free servers are currently in use. Try again later or get premium for more servers."
+      redirect_to root_path
+      return
+    end
+
     @reservation = IAmFeelingLucky.new(current_user).build_reservation
     if @reservation.valid?
       $lock.synchronize("save-reservation-server-#{@reservation.server_id}") do

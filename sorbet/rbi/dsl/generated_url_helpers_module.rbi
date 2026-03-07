@@ -37,6 +37,9 @@ module GeneratedUrlHelpersModule
   def admin_server_notifications_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def admin_site_settings_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def admin_user_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
@@ -143,6 +146,9 @@ module GeneratedUrlHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def edit_admin_server_notification_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def edit_admin_site_settings_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def edit_admin_user_url(*args); end

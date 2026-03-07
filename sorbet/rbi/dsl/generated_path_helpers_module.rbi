@@ -37,6 +37,9 @@ module GeneratedPathHelpersModule
   def admin_server_notifications_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def admin_site_settings_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def admin_user_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
@@ -143,6 +146,9 @@ module GeneratedPathHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def edit_admin_server_notification_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def edit_admin_site_settings_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def edit_admin_user_path(*args); end

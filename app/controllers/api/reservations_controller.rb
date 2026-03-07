@@ -27,6 +27,13 @@ module Api
     end
 
     def create
+      starts_at = reservation_params[:starts_at].present? ? Time.zone.parse(reservation_params[:starts_at].to_s) : Time.current
+      ends_at = reservation_params[:ends_at].present? ? Time.zone.parse(reservation_params[:ends_at].to_s) : 2.hours.from_now
+      if SiteSetting.free_server_limit_reached?(current_user, starts_at, ends_at)
+        render json: { error: "All free servers are currently in use. Try again later or get premium for more servers." }, status: :unprocessable_entity
+        return
+      end
+
       server_id = reservation_params[:server_id]
 
       if server_id.present? && DockerHost.docker_host_id?(server_id)

@@ -1,26 +1,38 @@
-- without_group_count = Server.active.without_group.count
+- free_limit = SiteSetting.free_server_limit
+- total_without_group = Server.active.without_group.count + docker_hosts_total_slots
 - if current_user
   %h5
     Servers available
     (#{I18n.l(Time.current, :format => :time_without_seconds)} - #{I18n.l(1.hour.from_now, :format => :time_without_seconds)})
-  - available_server_count = ServerForUserFinder.new(current_user, Time.current, 1.hour.from_now).servers.size
   - if current_user.donator?
+    - available_server_count = ServerForUserFinder.new(current_user, Time.current, 1.hour.from_now).servers.size + docker_hosts_available_during(Time.current, 1.hour.from_now)
     %h6 For you
-    = "#{available_server_count} / #{Server.active.count}"
+    = "#{available_server_count} / #{Server.active.count + docker_hosts_total_slots}"
   - else
-    .row
-      .col-md-6
-        %h6 For you
-        = "#{available_server_count} / #{without_group_count}"
-      .col-md-6
-        %h6 Premium
-        = "#{free_donator_server_count} / #{total_donator_server_count}"
+    - if free_limit
+      - free_available = [free_limit - SiteSetting.free_user_reservation_count(Time.current, 1.hour.from_now), 0].max
+      %h6 For you
+      = "#{free_available} / #{free_limit}"
+    - else
+      - available_server_count = ServerForUserFinder.new(current_user, Time.current, 1.hour.from_now).servers.size + docker_hosts_available_during(Time.current, 1.hour.from_now)
+      %h6 For you
+      = "#{available_server_count} / #{total_without_group}"
 
 - else
-  %h5 Servers in use
-  %h6 Everyone
-  = "#{used_free_server_count} / #{without_group_count}"
-  servers
-  %h6 Premium
-  = "#{used_donator_server_count} / #{total_donator_server_count}"
-  servers
+  - if free_limit
+    - free_in_use = SiteSetting.free_user_reservation_count(Time.current, Time.current)
+    %h5 Servers in use
+    %h6 Everyone
+    = "#{free_in_use} / #{free_limit}"
+    servers
+    %h6 Premium
+    = "#{used_donator_server_count} / #{total_donator_server_count}"
+    servers
+  - else
+    %h5 Servers in use
+    %h6 Everyone
+    = "#{used_free_server_count} / #{total_without_group}"
+    servers
+    %h6 Premium
+    = "#{used_donator_server_count} / #{total_donator_server_count}"
+    servers

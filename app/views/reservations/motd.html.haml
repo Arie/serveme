@@ -75,7 +75,7 @@
           %td Initial whitelist
           %td= reservation.whitelist
 
-      - if na_system?
+      - if SiteSetting.show_democheck?
         %tr
           %td Democheck status (required for RGL matches)
           - if reservation.disable_democheck?

@@ -65,17 +65,17 @@ RSpec.describe CloudProvider do
   end
 
   describe "provision_phases" do
-    it "returns 4 phases for Base provider" do
+    it "returns 5 phases for Base provider" do
       phases = CloudProvider::Base.new.provision_phases
-      expect(phases.length).to eq(4)
+      expect(phases.length).to eq(5)
       phases.each do |phase|
         expect(phase.keys).to match_array(%i[key label icon seconds])
       end
     end
 
-    it "returns creating_vm, booting, configuring, starting_tf2 phases" do
+    it "returns creating_vm, booting, configuring, booting_tf2, starting_tf2 phases" do
       keys = CloudProvider::Base.new.provision_phases.map { |p| p[:key] }
-      expect(keys).to eq(%w[creating_vm booting configuring starting_tf2])
+      expect(keys).to eq(%w[creating_vm booting configuring booting_tf2 starting_tf2])
     end
 
     it "sums to 175 for Hetzner" do

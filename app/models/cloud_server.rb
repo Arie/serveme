@@ -75,7 +75,7 @@ class CloudServer < RemoteServer
     return unless cloud_created_at.present?
     return if cloud_status == "destroyed"
 
-    current_phase, phase_started_at = cloud_current_phase
+    current_phase, phase_started_at = cloud_current_phase(reservation)
     result = {
       phases: phases,
       current_phase: current_phase,
@@ -191,12 +191,17 @@ class CloudServer < RemoteServer
 
   private
 
-  sig { returns([ String, ActiveSupport::TimeWithZone ]) }
-  def cloud_current_phase
+  sig { params(reservation: Reservation).returns([ String, ActiveSupport::TimeWithZone ]) }
+  def cloud_current_phase(reservation)
     if cloud_status == "ready"
       [ "starting_tf2", T.must(cloud_ssh_ready_at || cloud_created_at) ]
     elsif cloud_ssh_ready_at.present?
-      [ "configuring", T.must(cloud_ssh_ready_at) ]
+      configs_sent = reservation.reservation_statuses.find_by("status LIKE 'Config files sent%'")
+      if configs_sent
+        [ "booting_tf2", T.cast(configs_sent.created_at, ActiveSupport::TimeWithZone) ]
+      else
+        [ "configuring", T.must(cloud_ssh_ready_at) ]
+      end
     elsif cloud_vm_running_at.present?
       [ "booting", T.must(cloud_vm_running_at) ]
     else

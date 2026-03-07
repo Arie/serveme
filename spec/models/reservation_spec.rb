@@ -801,7 +801,7 @@ describe Reservation do
         result = reservation.provision_estimate
         expect(result).to be_a(Hash)
         expect(result[:phases]).to be_an(Array)
-        expect(result[:phases].length).to eq(4)
+        expect(result[:phases].length).to eq(5)
         expect(result[:current_phase]).to eq("creating_vm")
         expect(result[:phase_started_at]).to be_within(1.second).of(cloud_created)
       end

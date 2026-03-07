@@ -795,7 +795,7 @@ class Server < ActiveRecord::Base
     case last_status
     when /Sending reservation config/, /Enabling plugins/, /Enabled plugins/,
          /Enabling demos/, /Enabled demos/, /Disabling RGL/, /Starting/,
-         /Map .* not on the server/, /Finished sending/
+         /Map .* not on the server/, /Uploaded map/, /Finished sending/
       "sending_configs"
     when /Attempting fast start/
       "changing_map"

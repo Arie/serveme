@@ -203,6 +203,20 @@ module ServemeBot
         config_name = parts[1] || ""
         handle_book_with_config(event, group_name, config_name)
       end
+
+      # Book cloud server button (from /serveme servers)
+      @bot.button(custom_id: /^book_cloud:.+$/) do |event|
+        city_name = event.interaction.button.custom_id.sub("book_cloud:", "")
+        handle_book_cloud(event, city_name)
+      end
+
+      # Book cloud with config button
+      @bot.button(custom_id: /^book_cloud_config:.+$/) do |event|
+        parts = event.interaction.button.custom_id.sub("book_cloud_config:", "").split(":", 2)
+        city_name = parts[0]
+        config_name = parts[1] || ""
+        handle_book_cloud_with_config(event, city_name, config_name)
+      end
     end
 
     def register_autocomplete_handlers
@@ -499,6 +513,87 @@ module ServemeBot
 
       # Don't pre-acknowledge - let ReserveCommand handle the interaction
       Commands::ReserveCommand.new(event).execute(server_query: group_name, config: config)
+    end
+
+    def handle_book_cloud(event, city_name)
+      user = User.find_by(discord_uid: event.user.id.to_s)
+      user_info = user ? "#{user.nickname} (#{user.id})" : "unlinked"
+      Rails.logger.info "[Discord] book_cloud by #{event.user.username} (#{event.user.id}) -> #{user_info} city=#{city_name}"
+
+      unless user
+        event.respond(content: ":x: Your Discord account is not linked. Use `/#{Config.command_name} link` first.", ephemeral: true)
+        return
+      end
+
+      previous = IAmFeelingLucky.new(user).previous_reservation
+      show_cloud_config_presets(event, city_name, previous&.server_config)
+    end
+
+    def show_cloud_config_presets(event, city_name, previous_config)
+      presets = Helpers::RegionalConfigs.presets_for_region(Config.region_key)
+
+      rows = []
+
+      if previous_config && !presets.include?(previous_config.file)
+        rows << {
+          type: 1,
+          components: [
+            {
+              type: 2,
+              style: 3,
+              label: "#{previous_config.file} (previous)",
+              custom_id: "book_cloud_config:#{city_name}:#{previous_config.file}"
+            }
+          ]
+        }
+      end
+
+      rows << {
+        type: 1,
+        components: presets.first(5).map do |config|
+          style = previous_config&.file == config ? 3 : 1
+          {
+            type: 2,
+            style: style,
+            label: config,
+            custom_id: "book_cloud_config:#{city_name}:#{config}"
+          }
+        end
+      }
+
+      rows << {
+        type: 1,
+        components: [
+          {
+            type: 2,
+            style: 2,
+            label: "No config",
+            custom_id: "book_cloud_config:#{city_name}:__none__"
+          }
+        ]
+      }
+
+      event.respond(
+        content: "**Select a config for #{city_name}** :cloud:\n\nOr use `/#{Config.command_name} book` with the `config:` option for more choices.",
+        components: rows,
+        ephemeral: true
+      )
+    end
+
+    def handle_book_cloud_with_config(event, city_name, config_name)
+      user = User.find_by(discord_uid: event.user.id.to_s)
+      user_info = user ? "#{user.nickname} (#{user.id})" : "unlinked"
+      Rails.logger.info "[Discord] book_cloud_config by #{event.user.username} (#{event.user.id}) -> #{user_info} city=#{city_name} config=#{config_name}"
+
+      unless user
+        event.respond(content: ":x: Your Discord account is not linked. Use `/#{Config.command_name} link` first.", ephemeral: true)
+        return
+      end
+
+      Commands::ReserveCommand.new(event).execute_cloud(
+        city_name: city_name,
+        config: config_name == "__none__" ? "__none__" : config_name.presence
+      )
     end
   end
 end

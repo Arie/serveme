@@ -34,7 +34,7 @@ module ServemeBot
 
         available_ids = available_servers.pluck(:id)
 
-        all_user_servers.includes(:location).order(:name).map do |server|
+        servers = all_user_servers.includes(:location).order(:name).map do |server|
           {
             "id" => server.id,
             "name" => server.name,
@@ -44,7 +44,26 @@ module ServemeBot
             "flag" => server.location&.flag,
             "available" => available_ids.include?(server.id)
           }
-        end.sort_by { |s| [ s["available"] ? 0 : 1, s["name"] ] }
+        end
+
+        # Include Docker hosts as on-demand cloud servers
+        DockerHost.active.includes(:location).each do |host|
+          available_slots = (host.max_containers || 4) - host.container_count_during(starts_at, ends_at)
+          servers << {
+            "id" => host.virtual_server_id,
+            "name" => host.city,
+            "ip" => host.ip,
+            "location" => host.location&.name,
+            "flag" => host.location&.flag,
+            "available" => available_slots > 0,
+            "cloud" => true,
+            "docker_host_id" => host.id,
+            "available_slots" => [ available_slots, 0 ].max,
+            "total_slots" => host.max_containers || 4
+          }
+        end
+
+        servers.sort_by { |s| [ s["available"] ? 0 : 1, s["name"] ] }
       end
     end
   end

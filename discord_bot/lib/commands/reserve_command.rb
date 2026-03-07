@@ -116,6 +116,79 @@ module ServemeBot
         edit_response(content: ":x: Failed to create reservation. Please try again later.")
       end
 
+      def execute_cloud(city_name:, config: nil)
+        log_command("book_cloud", city: city_name, config: config)
+        return unless require_linked_account!
+
+        defer_response
+
+        docker_host = DockerHost.active.find_by(city: city_name)
+        unless docker_host
+          edit_response(content: ":x: Cloud location '#{city_name}' not found")
+          return
+        end
+
+        lucky = IAmFeelingLucky.new(current_user)
+        previous = lucky.previous_reservation
+
+        password = previous&.password.presence || SecureRandom.alphanumeric(8)
+        rcon = previous&.rcon.presence || SecureRandom.alphanumeric(12)
+        first_map = previous&.first_map.presence || DEFAULT_MAP
+
+        server_config_id = find_server_config_id(config, previous)
+        return unless server_config_id != :error
+
+        whitelist_settings = resolve_whitelist(nil, previous)
+
+        reservation_params = {
+          starts_at: Time.current,
+          ends_at: 2.hours.from_now,
+          password: password,
+          rcon: rcon,
+          tv_password: previous&.tv_password.presence || SecureRandom.alphanumeric(8),
+          first_map: first_map,
+          server_config_id: server_config_id,
+          whitelist_id: whitelist_settings[:whitelist_id],
+          custom_whitelist_id: whitelist_settings[:custom_whitelist_id],
+          enable_plugins: previous&.enable_plugins? || false,
+          enable_demos_tf: previous&.enable_demos_tf? || false,
+          auto_end: true
+        }
+
+        creator = DockerHostReservationCreator.new(
+          user: current_user,
+          docker_host_id: docker_host.id,
+          reservation_params: reservation_params
+        )
+
+        reservation = creator.create!
+
+        edit_response(content: ":white_check_mark: Cloud server booked! Provisioning...\n\n**RCON:** ||`#{reservation.rcon}`||")
+
+        embed = format_reservation_embed(reservation, "starting")
+        rcon_url = "#{SITE_URL}/reservations/#{reservation.id}/rcon"
+        buttons = Discordrb::Components::View.new do |v|
+          v.row do |r|
+            r.button(style: :danger, label: "End", custom_id: "end_reservation:#{reservation.id}")
+            r.button(style: :primary, label: "Extend", custom_id: "extend_reservation:#{reservation.id}")
+            r.button(style: :link, label: "RCON", url: rcon_url)
+          end
+        end
+        message = event.channel.send_message("", false, embed, nil, nil, nil, buttons)
+
+        reservation.update_columns(
+          discord_channel_id: event.channel.id.to_s,
+          discord_message_id: message.id.to_s
+        )
+      rescue DockerHostReservationCreator::CapacityError => e
+        edit_response(content: ":x: #{e.message}")
+      rescue DockerHostReservationCreator::ValidationError => e
+        edit_response(content: ":x: #{e.reservation.errors.full_messages.join(', ')}")
+      rescue StandardError => e
+        Rails.logger.error "ReserveCommand cloud error: #{e.message}\n#{e.backtrace.first(5).join("\n")}"
+        edit_response(content: ":x: Failed to create cloud reservation. Please try again later.")
+      end
+
       private
 
       def find_server(server_query, starts_at, ends_at, lucky)

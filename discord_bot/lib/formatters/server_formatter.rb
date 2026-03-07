@@ -12,8 +12,11 @@ module ServemeBot
         def format_server_list(servers, title: "Available Servers")
           return { embed: empty_embed(title), components: [] } if servers.empty?
 
-          # Group by IP address
-          by_ip = servers.group_by { |s| s["ip"] }
+          # Separate cloud and regular servers
+          cloud_servers, regular_servers = servers.partition { |s| s["cloud"] }
+
+          # Group regular servers by IP address
+          by_ip = regular_servers.group_by { |s| s["ip"] }
 
           # Build and sort server groups
           server_groups = by_ip.map do |_ip, ip_servers|
@@ -34,7 +37,23 @@ module ServemeBot
             { line: line, available: available_count > 0, name: base_name }
           end.sort_by { |s| [ s[:available] ? 0 : 1, s[:name] ] }
 
-          server_lines = server_groups.map { |s| s[:line] }
+          # Add cloud servers as individual entries
+          cloud_groups = cloud_servers.map do |s|
+            flag = Helpers::FlagHelper.to_discord_emoji(s["flag"])
+            available_slots = s["available_slots"]
+            total_slots = s["total_slots"]
+
+            line = if s["available"]
+              "#{flag} **#{s['name']}** :cloud: - #{available_slots}/#{total_slots} available"
+            else
+              "#{flag} ~~#{s['name']}~~ :cloud: - 0/#{total_slots} available"
+            end
+
+            { line: line, available: s["available"], name: s["name"], cloud: true }
+          end.sort_by { |s| [ s[:available] ? 0 : 1, s[:name] ] }
+
+          all_groups = server_groups + cloud_groups
+          server_lines = all_groups.map { |s| s[:line] }
 
           embed = {
             title: title,
@@ -46,7 +65,9 @@ module ServemeBot
 
           # Build Book buttons for available server groups
           available_groups = server_groups.select { |s| s[:available] }.map { |s| s[:name] }
+          available_cloud = cloud_groups.select { |s| s[:available] }.map { |s| s[:name] }
           components = build_book_buttons(available_groups)
+          components += build_cloud_book_buttons(available_cloud)
 
           { embed: embed, components: components }
         end
@@ -77,6 +98,27 @@ module ServemeBot
                   style: 1, # Primary (blue)
                   label: "Book #{label}",
                   custom_id: "book_group:#{name}"
+                }
+              end
+            }
+          end
+        end
+
+        def build_cloud_book_buttons(group_names)
+          return [] if group_names.empty?
+
+          group_names = group_names.first(25)
+
+          group_names.each_slice(5).map do |row_groups|
+            {
+              type: 1,
+              components: row_groups.map do |name|
+                label = name.length > 70 ? "#{name[0..67]}..." : name
+                {
+                  type: 2,
+                  style: 1,
+                  label: "Book #{label} \u2601",
+                  custom_id: "book_cloud:#{name}"
                 }
               end
             }

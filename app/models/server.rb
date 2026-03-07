@@ -143,6 +143,7 @@ class Server < ActiveRecord::Base
     where.not(last_known_version: nil)
       .where(last_known_version: ...latest_version)
       .where.not(id: team_comtress_servers.select(:id))
+      .where.not(type: "CloudServer")
   end
 
   sig { returns(ActiveRecord::Relation) }

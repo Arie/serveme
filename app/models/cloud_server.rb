@@ -108,7 +108,7 @@ class CloudServer < RemoteServer
   end
 
   def end_reservation(reservation)
-    if reservation.provisioned?
+    if reservation.provisioned? && cloud_status != "destroyed"
       super
     else
       reservation.status_update("Cancelling cloud server")

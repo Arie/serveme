@@ -70,7 +70,7 @@ RUN cd /home/tf2/hlserver/tf2/tf \
     && unzip -o socket.zip \
     && rm socket.zip /tmp/socket_3.0.1.zip \
     # tf2-comp-fixes
-    && wget -nv https://github.com/ldesgoui/tf2-comp-fixes/releases/download/v1.17.2/tf2-comp-fixes.zip \
+    && wget -nv https://github.com/ldesgoui/tf2-comp-fixes/releases/download/v1.18.0/tf2-comp-fixes.zip \
     && unzip -o tf2-comp-fixes.zip \
     && rm tf2-comp-fixes.zip \
     # srctvplus

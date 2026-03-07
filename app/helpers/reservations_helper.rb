@@ -68,22 +68,36 @@ module ReservationsHelper
   end
 
   def free_servers
-    @free_servers ||= if current_user.geocoded?
-                        servers = free_server_finder.servers
-                        geocoded_servers = servers.geocoded.near(current_user, 50_000)
-                        non_geocoded_servers = servers.where(latitude: nil)
-                        (geocoded_servers.or(non_geocoded_servers)).order(Arel.sql("CASE WHEN latitude IS NULL THEN 1 ELSE 0 END, distance, position, name"))
-    else
-                        free_server_finder.servers.order(:position, :name)
+    @free_servers ||= begin
+      return Server.none if free_server_limit_reached_for_reservation?
+
+      if current_user.geocoded?
+        servers = free_server_finder.servers
+        geocoded_servers = servers.geocoded.near(current_user, 50_000)
+        non_geocoded_servers = servers.where(latitude: nil)
+        (geocoded_servers.or(non_geocoded_servers)).order(Arel.sql("CASE WHEN latitude IS NULL THEN 1 ELSE 0 END, distance, position, name"))
+      else
+        free_server_finder.servers.order(:position, :name)
+      end
     end
   end
 
   def free_docker_hosts
     @free_docker_hosts ||= begin
+      return [] if free_server_limit_reached_for_reservation?
+
       s = @reservation.starts_at || Time.current
       e = @reservation.ends_at || 2.hours.from_now
       DockerHost.active.includes(:location).select { |dh| !dh.full_during?(s, e) }
     end
+  end
+
+  def free_server_limit_reached_for_reservation?
+    return false unless current_user
+
+    s = @reservation&.starts_at || Time.current
+    e = @reservation&.ends_at || 2.hours.from_now
+    SiteSetting.free_server_limit_reached?(current_user, s, e)
   end
 
   def free_servers_json

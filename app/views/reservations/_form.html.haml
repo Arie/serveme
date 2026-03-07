@@ -24,7 +24,13 @@
 
       = f.input :server_id, as: :string, :label => "Server", :required => true, :disabled => !@reservation.schedulable?
       - if @reservation.schedulable? && !current_user.donator?
-        - if free_donator_server_count > 0
+        - if free_server_limit_reached_for_reservation?
+          .buy_premium.form-group
+            .col
+              .alert.alert-warning
+                All free servers are currently in use.
+                = link_to("Get premium for more servers!", donate_path, data: { turbo: false })
+        - elsif free_donator_server_count > 0
           .buy_premium.form-group
             .col
               .alert.alert-warning

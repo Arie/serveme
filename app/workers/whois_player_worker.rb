@@ -50,7 +50,11 @@ class WhoisPlayerWorker
 
   def send_message(server, message, private_to_uid)
     if private_to_uid
-      server.rcon_exec("sm_psay ##{private_to_uid} #{message}")
+      message.split("\n").each do |line|
+        line.scan(/.{1,200}(?:\s|$)/).map(&:strip).each do |chunk|
+          server.rcon_exec("sm_psay ##{private_to_uid} #{chunk}")
+        end
+      end
     else
       server.rcon_say(message)
     end

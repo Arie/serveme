@@ -48,12 +48,15 @@ class PagesController < ApplicationController
 
   def stats
     docker_host_slots = DockerHost.active.sum(:max_containers)
+    free_server_limit = SiteSetting.free_server_limit
+    donator_server_count = Server.for_donators.active.count
     servers_count = Server.active.count + docker_host_slots
-    servers_for_non_premium_count = Server.active.without_group.count + docker_host_slots
-    servers_for_premium_count = Server.for_donators.active.count
+    servers_for_non_premium_count = free_server_limit || (Server.active.without_group.count + docker_host_slots)
+    servers_for_premium_count = donator_server_count + docker_host_slots - (free_server_limit || 0)
     current_reservations_count = Reservation.current.count
-    servers_for_non_premium_in_use = Reservation.current.where(server_id: Server.without_group).count
-    servers_for_premium_in_use = Reservation.current.where(server_id: Server.for_donators).count
+    free_user_reservation_count = SiteSetting.free_user_reservation_count(Time.current, Time.current)
+    servers_for_non_premium_in_use = free_server_limit ? free_user_reservation_count : Reservation.current.where(server_id: Server.without_group).count
+    servers_for_premium_in_use = current_reservations_count - free_user_reservation_count
     current_players_count = PlayerStatistic.joins(:reservation_player)
       .where(created_at: 90.seconds.ago..)
       .distinct

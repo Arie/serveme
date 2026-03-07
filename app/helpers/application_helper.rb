@@ -22,6 +22,18 @@ module ApplicationHelper
     @total_donator_server_count ||= Server.for_donators.active.count
   end
 
+  def free_user_reservations_in_use
+    @free_user_reservations_in_use ||= SiteSetting.free_user_reservation_count(Time.current, Time.current)
+  end
+
+  def donator_user_reservations_in_use
+    @donator_user_reservations_in_use ||= Reservation.current.count - free_user_reservations_in_use
+  end
+
+  def total_premium_server_count
+    @total_premium_server_count ||= total_donator_server_count + docker_hosts_total_slots - (SiteSetting.free_server_limit || 0)
+  end
+
   def free_donator_server_count
     @free_donator_server_count ||= total_donator_server_count - used_donator_server_count
   end

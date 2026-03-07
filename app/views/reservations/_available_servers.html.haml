@@ -21,8 +21,11 @@
 - else
   %h5 Servers in use
   %h6 Everyone
-  = "#{used_free_server_count} / #{total_without_group}"
+  - if free_limit
+    = "#{free_user_reservations_in_use} / #{free_limit}"
+  - else
+    = "#{used_free_server_count} / #{total_without_group}"
   servers
   %h6 Premium
-  = "#{used_donator_server_count} / #{total_donator_server_count}"
+  = "#{donator_user_reservations_in_use} / #{total_premium_server_count}"
   servers

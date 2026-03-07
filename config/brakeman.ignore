@@ -484,13 +484,13 @@
     {
       "warning_type": "Command Injection",
       "warning_code": 14,
-      "fingerprint": "881a8284f06c02fc53c77728b980e61f7f814ea1905584d836072ef1559e1a4c",
+      "fingerprint": "c778bc64f9f35d859f900888cde9663c9f3212b065b9c7d5b6cb461cb268d061",
       "check_name": "Execute",
       "message": "Possible command injection",
       "file": "app/workers/cloud_snapshot_worker.rb",
-      "line": 36,
+      "line": 32,
       "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
-      "code": "`ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 -i #{CloudServer.new.cloud_ssh_key_file} root@#{ip} 'test -f /tmp/image-ready && echo READY' 2>/dev/null`",
+      "code": "`ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=5 -i #{CloudServer.new.cloud_ssh_key_file} root@#{ip} 'test -f /tmp/image-ready && echo READY' 2>/dev/null`",
       "render_path": null,
       "location": {
         "type": "method",

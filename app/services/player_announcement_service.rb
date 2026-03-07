@@ -6,8 +6,9 @@ class PlayerAnnouncementService
     location_parts = build_location_parts(steam_uid, ip)
     history_parts = build_history_parts(steam_uid)
     league_parts = build_league_parts(steam_uid)
+    alt_parts = build_alt_parts(steam_uid)
 
-    (location_parts + history_parts + league_parts).join(". ")
+    (location_parts + history_parts + league_parts + alt_parts).join(". ")
   end
 
   def self.build_location_parts(steam_uid, ip)
@@ -96,5 +97,38 @@ class PlayerAnnouncementService
     []
   end
 
-  private_class_method :build_location_parts, :find_asn_organization, :build_history_parts, :build_league_parts
+  def self.build_alt_parts(steam_uid)
+    parts = []
+
+    ips = ReservationPlayer
+      .joins(reservation: :server)
+      .where(steam_uid: steam_uid)
+      .where(servers: { sdr: false })
+      .without_sdr_ip
+      .where("reservations.starts_at >= ?", 6.months.ago)
+      .where.not(ip: nil)
+      .where("asn_number IS NULL OR asn_number NOT IN (?)", ReservationPlayer.banned_asns)
+      .distinct
+      .pluck(:ip)
+
+    if ips.any?
+      alts = ReservationPlayer
+        .joins(reservation: :server)
+        .where(ip: ips)
+        .where(servers: { sdr: false })
+        .without_sdr_ip
+        .where.not(steam_uid: steam_uid)
+        .where("reservations.starts_at >= ?", 6.months.ago)
+        .group(:steam_uid)
+        .order(Arel.sql("MAX(reservations.starts_at) DESC"))
+        .limit(5)
+        .pluck(:steam_uid, Arel.sql("MAX(reservation_players.name)"))
+
+      parts << "Possible alts: #{alts.map { |uid, name| "#{name} (#{uid})" }.join(', ')}" if alts.any?
+    end
+
+    parts
+  end
+
+  private_class_method :build_location_parts, :find_asn_organization, :build_history_parts, :build_league_parts, :build_alt_parts
 end

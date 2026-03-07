@@ -150,6 +150,41 @@ describe PlayerAnnouncementService do
       end
     end
 
+    context "alt detection" do
+      it "includes possible alts when another account shares an IP" do
+        user = create(:user)
+        server = create(:server, sdr: false)
+        reservation = build(:reservation, user: user, server: server, starts_at: 1.week.ago, ends_at: 1.week.ago + 2.hours)
+        reservation.save(validate: false)
+
+        create(:reservation_player, reservation: reservation, steam_uid: steam_uid, ip: ip)
+        create(:reservation_player, reservation: reservation, steam_uid: 76561198099999999, ip: ip, name: "SuspiciousAlt")
+
+        result = described_class.build_info(steam_uid, ip)
+        expect(result).to include("Possible alts: SuspiciousAlt (76561198099999999)")
+      end
+
+      it "does not include alts from VPN IPs" do
+        banned_asn = ReservationPlayer.banned_asns.first
+        user = create(:user)
+        server = create(:server, sdr: false)
+        reservation = build(:reservation, user: user, server: server, starts_at: 1.week.ago, ends_at: 1.week.ago + 2.hours)
+        reservation.save(validate: false)
+
+        rp = create(:reservation_player, reservation: reservation, steam_uid: steam_uid, ip: "10.0.0.1")
+        rp.update_column(:asn_number, banned_asn)
+        create(:reservation_player, reservation: reservation, steam_uid: 76561198099999999, ip: "10.0.0.1", name: "VPNUser")
+
+        result = described_class.build_info(steam_uid, ip)
+        expect(result).not_to include("Possible alts")
+      end
+
+      it "does not show alts section when there are none" do
+        result = described_class.build_info(steam_uid, ip)
+        expect(result).not_to include("Possible alts")
+      end
+    end
+
     context "ozfortress league data (AU)" do
       before { stub_const("SITE_HOST", "au.serveme.tf") }
 

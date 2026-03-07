@@ -19,7 +19,7 @@ class PlayerAnnouncementService
 
     geocode_result = Geocoder.search(ip).first
     if geocode_result
-      location = [ geocode_result.city, geocode_result.country ].compact.reject(&:blank?).join(", ")
+      location = [ geocode_result.state, geocode_result.country ].compact.reject(&:blank?).uniq.join(", ")
       parts << location if location.present?
     end
 

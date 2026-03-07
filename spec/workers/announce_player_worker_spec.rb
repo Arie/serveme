@@ -31,13 +31,13 @@ describe AnnouncePlayerWorker do
     end
 
     it "includes location and ISP for new players" do
-      geocode_result = double(city: "Berlin", country: "Germany", latitude: 52.52, longitude: 13.405)
+      geocode_result = double(state: "North Rhine-Westphalia", country: "Germany")
       allow(Geocoder).to receive(:search).with(ip).and_return([ geocode_result ])
 
       asn_data = double(autonomous_system_organization: "Deutsche Telekom", autonomous_system_number: 3320, network: double(to_s: "85.139.0.0/16"))
       allow(ReservationPlayer).to receive(:asn).with(ip).and_return(asn_data)
 
-      expect_any_instance_of(Server).to receive(:rcon_say).with(/Berlin, Germany.*Deutsche Telekom/)
+      expect_any_instance_of(Server).to receive(:rcon_say).with(/North Rhine-Westphalia, Germany.*Deutsche Telekom/)
       subject.perform(reservation.id, steam_uid, ip)
     end
 

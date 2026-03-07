@@ -15,6 +15,7 @@ describe WhoisPlayerWorker do
       #  2 "PlayerOne" [U:1:12345] 05:32 50 0 active 85.139.95.110:27005
       #  3 "SomeGuy" [U:1:67890] 02:15 30 0 active 92.60.40.231:27005
       #  4 "SDRPlayer" [U:1:11111] 01:00 20 0 active 169.254.1.1:27005
+      #  5 "🍔 cant jump" [U:1:22222] 00:45 25 0 active 1.2.3.4:27005
     STATUS
   end
 
@@ -72,6 +73,12 @@ describe WhoisPlayerWorker do
       expect_any_instance_of(Server).not_to receive(:rcon_say).with(/PlayerOne:/)
 
       subject.perform(reservation.id, "Player", "5")
+    end
+
+    it "matches emoji players by emoji name" do
+      expect_any_instance_of(Server).to receive(:rcon_say).with(/cant jump:/)
+
+      subject.perform(reservation.id, "burger")
     end
 
     it "does nothing if reservation does not exist" do

@@ -18,14 +18,14 @@ describe PlayerAnnouncementService do
     end
 
     it "includes location and ISP" do
-      geocode_result = double(city: "Berlin", country: "Germany")
+      geocode_result = double(state: "North Rhine-Westphalia", country: "Germany")
       allow(Geocoder).to receive(:search).with(ip).and_return([ geocode_result ])
 
       asn_data = double(autonomous_system_organization: "Deutsche Telekom")
       allow(ReservationPlayer).to receive(:asn).with(ip).and_return(asn_data)
 
       result = described_class.build_info(steam_uid, ip)
-      expect(result).to include("Berlin, Germany")
+      expect(result).to include("North Rhine-Westphalia, Germany")
       expect(result).to include("Deutsche Telekom")
       expect(result).to include("First game")
     end

@@ -1,6 +1,8 @@
 # typed: false
 # frozen_string_literal: true
 
+require "unicode/name"
+
 class WhoisPlayerWorker
   include Sidekiq::Worker
   sidekiq_options retry: false
@@ -14,7 +16,7 @@ class WhoisPlayerWorker
     return unless status_output
 
     players = RconStatusParser.new(status_output).players.select(&:relevant?)
-    matched = match_players(players, query)
+    matched = match_players(players, query).sort_by { |p| p.name.downcase }
 
     if matched.empty?
       send_message(server, "No players matching '#{query}'", private_to_uid)
@@ -37,8 +39,13 @@ class WhoisPlayerWorker
     players.select do |player|
       player.name.downcase.include?(query_downcase) ||
         player.steam_id.downcase.include?(query_downcase) ||
-        player.steam_uid.to_s.include?(query)
+        player.steam_uid.to_s.include?(query) ||
+        searchable_emoji_name(player.name).include?(query_downcase)
     end
+  end
+
+  def searchable_emoji_name(name)
+    name.each_char.filter_map { |c| Unicode::Name.of(c)&.downcase if c.ord > 0xFF }.join(" ")
   end
 
   def send_message(server, message, private_to_uid)

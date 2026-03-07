@@ -8,6 +8,12 @@ module ServemeBot
       DEFAULT_MAP = "cp_badlands"
 
       def execute(server_query: nil, map: nil, password: nil, duration: nil, config: nil, whitelist: nil)
+        # Route cloud server selections to execute_cloud
+        if server_query.to_s.start_with?("cloud:")
+          city_name = server_query.sub("cloud:", "")
+          return execute_cloud(city_name: city_name, map: map, password: password, duration: duration, config: config, whitelist: whitelist)
+        end
+
         log_command("book", server: server_query, map: map, duration: duration, config: config, whitelist: whitelist)
         return unless require_linked_account!
 
@@ -116,8 +122,8 @@ module ServemeBot
         edit_response(content: ":x: Failed to create reservation. Please try again later.")
       end
 
-      def execute_cloud(city_name:, config: nil)
-        log_command("book_cloud", city: city_name, config: config)
+      def execute_cloud(city_name:, map: nil, password: nil, duration: nil, config: nil, whitelist: nil)
+        log_command("book_cloud", city: city_name, map: map, duration: duration, config: config, whitelist: whitelist)
         return unless require_linked_account!
 
         defer_response
@@ -128,21 +134,36 @@ module ServemeBot
           return
         end
 
+        duration_minutes = [ duration || DEFAULT_DURATION, 30 ].max
+        max_minutes = current_user.maximum_reservation_length / 60
+        if duration_minutes > max_minutes
+          edit_response(content: ":x: Duration exceeds your maximum of #{max_minutes} minutes")
+          return
+        end
+
         lucky = IAmFeelingLucky.new(current_user)
         previous = lucky.previous_reservation
 
-        password = previous&.password.presence || SecureRandom.alphanumeric(8)
+        password = password.to_s.strip
+        if password.blank?
+          password = previous&.password.presence || SecureRandom.alphanumeric(8)
+        elsif password.length > 60
+          edit_response(content: ":x: Password too long (max 60 characters)")
+          return
+        end
+
         rcon = previous&.rcon.presence || SecureRandom.alphanumeric(12)
-        first_map = previous&.first_map.presence || DEFAULT_MAP
+        first_map = map.presence || previous&.first_map.presence || DEFAULT_MAP
 
         server_config_id = find_server_config_id(config, previous)
         return unless server_config_id != :error
 
-        whitelist_settings = resolve_whitelist(nil, previous)
+        whitelist_settings = resolve_whitelist(whitelist, previous)
 
+        starts_at = Time.current
         reservation_params = {
-          starts_at: Time.current,
-          ends_at: 2.hours.from_now,
+          starts_at: starts_at,
+          ends_at: starts_at + duration_minutes.minutes,
           password: password,
           rcon: rcon,
           tv_password: previous&.tv_password.presence || SecureRandom.alphanumeric(8),

@@ -253,6 +253,14 @@ module ServemeBot
         { name: "#{s.name} (#{s.location&.name || 'Unknown'})", value: s.name }
       end
 
+      # Include available Docker hosts
+      DockerHost.active.includes(:location).each do |host|
+        next if host.full_during?(starts_at, ends_at)
+
+        available_slots = (host.max_containers || 4) - host.container_count_during(starts_at, ends_at)
+        suggestions << { name: "#{host.city} (#{host.location&.name || 'Unknown'}) \u2601 #{available_slots} slots", value: "cloud:#{host.city}" }
+      end
+
       if query.present?
         suggestions = suggestions.select { |s| s[:name].downcase.include?(query) }
       end

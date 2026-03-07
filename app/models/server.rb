@@ -252,11 +252,6 @@ class Server < ActiveRecord::Base
   end
 
   sig { params(reservation: Reservation).returns(T.any(String, T::Boolean)) }
-  def add_sourcemod_servers(reservation)
-    T.must(write_configuration(sourcemod_servers_file, sourcemod_servers_body(reservation)))
-  end
-
-  sig { params(reservation: Reservation).returns(T.any(String, T::Boolean)) }
   def add_motd(reservation)
     T.must(write_configuration(motd_file, motd_body(reservation)))
   end
@@ -292,11 +287,6 @@ class Server < ActiveRecord::Base
     "#{tf_dir}/addons/sourcemod/configs/admins_simple.ini"
   end
 
-  sig { returns(String) }
-  def sourcemod_servers_file
-    "#{tf_dir}/addons/sourcemod/configs/serverhop.cfg"
-  end
-
   sig { params(user: User).returns(String) }
   def sourcemod_admin_body(user)
     uid3 = SteamCondenser::Community::SteamId.community_id_to_steam_id3(user.uid.to_i)
@@ -306,24 +296,6 @@ class Server < ActiveRecord::Base
     INI
   end
 
-  sig { params(reservation: Reservation).returns(String) }
-  def sourcemod_servers_body(reservation)
-    <<-CFG
-    "Servers"
-    {
-            "Direct connection"
-            {
-                    "address"               "#{T.must(reservation.server).ip}"
-                    "port"          "#{T.must(reservation.server).port}"
-            }
-            "SDR (Valve VPN)"
-            {
-                    "address"               "#{reservation.connect_sdr_ip}"
-                    "port"          "#{reservation.connect_sdr_port}"
-            }
-    }
-    CFG
-  end
 
   sig { params(reservation: Reservation).returns(T.nilable(T.any(String, T::Boolean))) }
   def write_custom_whitelist(reservation)
@@ -400,7 +372,6 @@ class Server < ActiveRecord::Base
       reservation.status_update("Enabling plugins")
       enable_plugins
       add_sourcemod_admin(T.must(reservation.user))
-      add_sourcemod_servers(reservation)
       reservation.status_update("Enabled plugins")
       if reservation.enable_demos_tf? || SiteSetting.always_enable_demos_tf?
         reservation.status_update("Enabling demos.tf")

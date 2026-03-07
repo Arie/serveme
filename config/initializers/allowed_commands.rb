@@ -1346,7 +1346,6 @@ ALLOWED_SERVER_COMMANDS = Set.new(%w[
   sm_revote
   sm_say
   sm_searchcmd
-  sm_serverhop_version
   sm_servers
   sm_settings
   sm_show_activity

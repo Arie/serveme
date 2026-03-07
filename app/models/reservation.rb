@@ -450,9 +450,6 @@ class Reservation < ActiveRecord::Base
 
     broadcast_connect_info
     status_update("SDR ready, server available at #{server_info.ip}:#{server_info.port}")
-
-    server&.reload&.add_sourcemod_servers(self)
-    server&.rcon_exec("sm plugins reload serverhop")
   end
 
   sig { void }

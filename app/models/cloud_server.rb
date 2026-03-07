@@ -194,7 +194,13 @@ class CloudServer < RemoteServer
   sig { params(reservation: Reservation).returns([ String, ActiveSupport::TimeWithZone ]) }
   def cloud_current_phase(reservation)
     if cloud_status == "ready"
-      [ "starting_tf2", T.must(cloud_ssh_ready_at || cloud_created_at) ]
+      tf2_port_open = reservation.reservation_statuses.find_by("status LIKE 'TF2 port open%'")
+      started_at = if tf2_port_open
+        T.cast(tf2_port_open.created_at, ActiveSupport::TimeWithZone)
+      else
+        T.must(cloud_ssh_ready_at || cloud_created_at)
+      end
+      [ "starting_tf2", started_at ]
     elsif cloud_ssh_ready_at.present?
       configs_sent = reservation.reservation_statuses.find_by("status LIKE 'Config files sent%'")
       if configs_sent

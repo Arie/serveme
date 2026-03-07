@@ -48,7 +48,6 @@ RUN cd /home/tf2/hlserver/tf2/tf \
            addons/sourcemod/plugins/funvotes.smx
 
 # 4. Plugins from docker-comp-server
-COPY --chown=tf2:tf2 socket_3.0.1.zip /tmp/socket_3.0.1.zip
 COPY --chown=tf2:tf2 ExtendHumiliation.smx /tmp/ExtendHumiliation.smx
 RUN cd /home/tf2/hlserver/tf2/tf \
     # SteamWorks
@@ -66,9 +65,9 @@ RUN cd /home/tf2/hlserver/tf2/tf \
     && rm -r Progressive-Ruleset-Timer-Plugins-main \
     && rm improved-match-timer.zip \
     # Socket
-    && cp /tmp/socket_3.0.1.zip socket.zip \
+    && wget -nv "https://raw.githubusercontent.com/spiretf/docker-comp-server/master/socket_3.0.1.zip" -O "socket.zip" \
     && unzip -o socket.zip \
-    && rm socket.zip /tmp/socket_3.0.1.zip \
+    && rm socket.zip \
     # tf2-comp-fixes
     && wget -nv https://github.com/ldesgoui/tf2-comp-fixes/releases/download/v1.18.0/tf2-comp-fixes.zip \
     && unzip -o tf2-comp-fixes.zip \

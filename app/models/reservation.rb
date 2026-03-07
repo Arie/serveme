@@ -219,6 +219,10 @@ class Reservation < ActiveRecord::Base
   sig { returns(T.nilable(T::Hash[Symbol, T.untyped])) }
   def provision_estimate
     return unless starts_at&.past?
+
+    end_data = server&.end_estimate(self)
+    return end_data if end_data
+
     return if past?
 
     server&.provision_estimate(self)

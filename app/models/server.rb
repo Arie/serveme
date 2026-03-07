@@ -594,6 +594,13 @@ class Server < ActiveRecord::Base
     { key: "changing_map", label: "Changing map", icon: "fa-map", seconds: 10 }
   ].freeze
 
+  END_PHASES = [
+    { key: "ending", label: "Ending reservation", icon: "fa-stop", seconds: 2 },
+    { key: "restarting", label: "Restarting server", icon: "fa-refresh", seconds: 2 },
+    { key: "downloading", label: "Downloading logs", icon: "fa-download", seconds: 2 },
+    { key: "zipping", label: "Zipping files", icon: "fa-file-archive", seconds: 2 }
+  ].freeze
+
   sig { params(reservation: Reservation).returns(T.nilable(T::Hash[Symbol, T.untyped])) }
   def provision_estimate(reservation)
     statuses = reservation.reservation_statuses.pluck(:status, :created_at)
@@ -612,6 +619,23 @@ class Server < ActiveRecord::Base
 
     {
       phases: phases,
+      current_phase: current_phase,
+      phase_started_at: last_status_at
+    }
+  end
+
+  sig { params(reservation: Reservation).returns(T.nilable(T::Hash[Symbol, T.untyped])) }
+  def end_estimate(reservation)
+    statuses = reservation.reservation_statuses.pluck(:status, :created_at)
+    return unless statuses.any? { |s, _| s == "Ending" }
+    return if statuses.any? { |s, _| s.match?(/Finished zipping/) }
+
+    last_status, last_status_at = statuses.last
+    current_phase = end_current_phase(T.must(last_status))
+    return unless current_phase
+
+    {
+      phases: END_PHASES,
       current_phase: current_phase,
       phase_started_at: last_status_at
     }
@@ -805,6 +829,20 @@ class Server < ActiveRecord::Base
       "waiting_for_start"
     when /Fast start attempted/, /startup complete, switching map/
       "waiting_for_server"
+    end
+  end
+
+  sig { params(last_status: String).returns(T.nilable(String)) }
+  def end_current_phase(last_status)
+    case last_status
+    when /\AEnding\z/
+      "ending"
+    when /Restarting server/
+      "restarting"
+    when /Restarted server/, /Downloading logs and demos/
+      "downloading"
+    when /Finished downloading/, /Zipping logs and demos/, /Zipping logs and demos of locally/
+      "zipping"
     end
   end
 

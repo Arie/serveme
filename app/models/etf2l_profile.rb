@@ -45,7 +45,44 @@ class Etf2lProfile
     new(response_body) if response_body
   end
 
+  sig { returns(T.nilable(String)) }
+  def highest_division
+    best_tier = T.let(nil, T.nilable(Integer))
+    best_name = T.let(nil, T.nilable(String))
+    teams = json.dig("player", "teams")
+    return nil unless teams.is_a?(Array)
+
+    teams.each do |team|
+      competitions = team["competitions"]
+      next unless competitions.is_a?(Hash)
+
+      competitions.each_value do |comp|
+        category = comp["category"]
+        next unless category&.include?("Season")
+
+        tier = comp.dig("division", "tier")
+        next unless tier.is_a?(Integer)
+
+        if best_tier.nil? || tier < best_tier
+          best_tier = tier
+          div_name = comp.dig("division", "name")
+          comp_name = extract_season_name(comp["competition"])
+          best_name = comp_name ? "#{div_name} (#{comp_name})" : div_name
+        end
+      end
+    end
+
+    best_name
+  end
+
   private
+
+  def extract_season_name(competition)
+    return nil unless competition
+
+    match = competition.match(/Season (\d+)/i)
+    match ? "S#{match[1]}" : competition
+  end
 
   sig { returns(T::Array[Hash]) }
   def active_bans

@@ -25,6 +25,7 @@ class LogWorker
   UNLOCK_COMMAND    = /^!unlock.*/
   UNBANALL_COMMAND  = /^!unbanall.*/
   PASSWORD_COMMAND  = /^!password.*/
+  WHOIS_COMMAND     = /^!whois\s+(.+)/
   LOG_LINE_REGEX    = '(?\'secret\'\d*)(?\'line\'.*)'
 
 
@@ -91,6 +92,7 @@ class LogWorker
     return if handle_league_banned_player(community_id, ip, event)
 
     check_residential_proxy(rp, event.player.uid)
+    announce_new_player(community_id, ip)
 
     broadcast_player_connect(rp)
     whitelist_player_in_firewall(rp)
@@ -159,6 +161,11 @@ class LogWorker
 
     reservation&.server&.rcon_say "#{banned_league_profile.league_name} banned player #{event.player.name} connected: #{banned_league_profile.ban_reason}"
     true
+  end
+
+  sig { params(community_id: Integer, ip: String).void }
+  def announce_new_player(community_id, ip)
+    AnnouncePlayerWorker.perform_async(reservation_id, community_id, ip)
   end
 
   sig { params(reservation_player: ReservationPlayer).void }
@@ -267,6 +274,8 @@ class LogWorker
       :handle_sdr_connect
     when PASSWORD_COMMAND
       :handle_password
+    when WHOIS_COMMAND
+      :handle_whois
     end
   end
 
@@ -401,6 +410,17 @@ class LogWorker
       reservation&.server&.rcon_say "Password can't be sent via DM - plugins are disabled for this reservation"
       Rails.logger.info "Password request denied for #{event.player.name} (#{sayer_steam_uid}) - plugins disabled for reservation #{reservation.id}"
     end
+  end
+
+  sig { void }
+  def handle_whois
+    return unless reservation
+
+    query = message.match(WHOIS_COMMAND)&.[](1)&.strip
+    return unless query.present?
+
+    private_to_uid = said_by_reserver? ? nil : event.player.uid
+    WhoisPlayerWorker.perform_async(reservation.id, query, private_to_uid)
   end
 
   def handle_disconnect

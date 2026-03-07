@@ -19,6 +19,22 @@ class OzfortressApi
       nil
     end
 
+    def profile(steam_uid)
+      return nil unless api_key.present?
+
+      cached = Rails.cache.read("ozfortress_profile_#{steam_uid}")
+      return cached if cached
+
+      response = connection.get("users/steam_id/#{steam_uid}")
+      return nil unless response.success? || response.status == 404
+
+      Rails.cache.write("ozfortress_profile_#{steam_uid}", response.body, expires_in: 1.day)
+      response.body
+    rescue Faraday::Error => e
+      Rails.logger.warn "OzfortressApi error: #{e.message}"
+      nil
+    end
+
     private
 
     def api_key

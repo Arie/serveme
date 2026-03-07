@@ -17,7 +17,7 @@ class Etf2lApi
   sig { params(steam_uid: T.any(String, Integer)).returns(T.nilable(String)) }
   def self.fetch_profile(steam_uid)
     response = etf2l_connection.get("player/#{steam_uid}")
-    return unless response.success?
+    return unless response.success? || response.status == 404
 
     Rails.cache.write("etf2l_profile_#{steam_uid}", response.body, expires_in: 1.day)
 

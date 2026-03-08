@@ -98,9 +98,13 @@ module Api
       @reservation = current_user.reservations.build(reservation_params)
       if @reservation.valid?
         $lock.synchronize("save-reservation-server-#{@reservation.server_id}") do
-          @reservation.save!
+          if @reservation.valid?
+            @reservation.save!
+          end
         end
-        if @reservation.persisted? && @reservation.now?
+      end
+      if @reservation.persisted?
+        if @reservation.now?
           @reservation.update_attribute(:start_instantly, true)
           @reservation.start_reservation
         end

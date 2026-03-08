@@ -339,9 +339,13 @@ class ReservationsController < ApplicationController
     @reservation = current_user.reservations.build(reservation_params)
     if @reservation.valid?
       $lock.synchronize("save-reservation-server-#{@reservation.server_id}") do
-        @reservation.save!
+        if @reservation.valid?
+          @reservation.save!
+        end
       end
-      reservation_saved if @reservation.persisted?
+    end
+    if @reservation.persisted?
+      reservation_saved
     else
       @servers = Server.active.not_cloud.ordered.includes(:location)
       @docker_hosts = DockerHost.active.includes(:location)

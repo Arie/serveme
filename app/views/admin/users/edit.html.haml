@@ -32,6 +32,7 @@
         - if @user_groups.any?
           %ul.list-group.mb-3
             - @user_groups.each do |group_user|
+              - next unless group_user.group
               %li.list-group-item.d-flex.justify-content-between.align-items-center
                 %div
                   %strong= group_user.group.name

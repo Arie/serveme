@@ -94,7 +94,6 @@ class PagesController < ApplicationController
   end
 
   def cloud_info
-    @is_donator = current_user.donator?
     @cloud_locations = cloud_locations_with_flags
   end
 

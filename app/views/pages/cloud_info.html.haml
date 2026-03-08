@@ -11,23 +11,14 @@
         %i.fa.fa-user
         Your Status
       .card-body
-        - if @is_donator
-          .alert.alert-success
-            %strong
-              %i.fa.fa-check-circle
-              You have access to cloud servers!
-          %p
-            You can launch on-demand cloud servers from the
-            = link_to "cloud reservation page", new_cloud_reservation_path
-            or through the "Cloud server" option in the reservation menu.
-        - else
-          .alert.alert-warning
-            %strong
-              %i.fa.fa-exclamation-triangle
-              Cloud servers are available to donators.
-          %p
-            = link_to "Donate", donate_path, class: "alert-link"
-            to get access to premium features including cloud servers.
+        .alert.alert-success
+          %strong
+            %i.fa.fa-check-circle
+            You have access to cloud servers!
+        %p
+          You can launch on-demand cloud servers from the
+          = link_to "cloud reservation page", new_cloud_reservation_path
+          or through the "Cloud server" option in the reservation menu.
 
     .card.bg-faded.mb-3
       .card-header.text-white

@@ -2089,14 +2089,14 @@ class Aws::EC2Metadata
   #   ec2_metadata = Aws::EC2Metadata.new
   #   ec2_metadata.get('/latest/meta-data/instance-id')
   #   => "i-023a25f10a73a0f79"
-  # @note This implementation always returns a String and will not parse any
-  #   responses. Parsable responses may include JSON objects or directory
-  #   listings, which are strings separated by line feeds (ASCII 10).
   # @note Unlike other services, IMDS does not have a service API model. This
   #   means that we cannot confidently generate code with methods and
   #   response structures. This implementation ensures that new IMDS features
   #   are always supported by being deployed to the instance and does not
   #   require code changes.
+  # @note This implementation always returns a String and will not parse any
+  #   responses. Parsable responses may include JSON objects or directory
+  #   listings, which are strings separated by line feeds (ASCII 10).
   # @param path [String] The full path to the metadata.
   # @see https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-identity-documents.html
   # @see https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instancedata-data-categories.html
@@ -7369,44 +7369,44 @@ class Aws::Plugins::UserAgent < ::Seahorse::Client::Plugin
     #
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#84
+    # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#86
     def feature(_feature, &block); end
 
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#88
+    # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#90
     def metric(*metrics, &block); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#98
+# source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#100
 class Aws::Plugins::UserAgent::Handler < ::Seahorse::Client::Handler
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#99
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#101
   def call(context); end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#104
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#106
   def set_user_agent(context); end
 end
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#108
+# source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#110
 class Aws::Plugins::UserAgent::Handler::UserAgent
   # @api private
   # @return [UserAgent] a new instance of UserAgent
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#109
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#111
   def initialize(context); end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#113
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#115
   def to_s; end
 
   private
@@ -7415,41 +7415,41 @@ class Aws::Plugins::UserAgent::Handler::UserAgent
   #
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#142
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#144
   def api_metadata; end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#181
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#183
   def app_id_metadata; end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#175
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#177
   def env_metadata; end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#189
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#191
   def framework_metadata; end
 
   # Used to be RUBY_ENGINE/RUBY_VERSION
   #
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#171
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#173
   def language_metadata; end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#206
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#208
   def metric_metadata; end
 
   # Used to be RUBY_PLATFORM
   #
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#152
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#154
   def os_metadata; end
 end
 

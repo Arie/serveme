@@ -41384,6 +41384,12 @@ RuboCop::Cop::Style::FileNull::REGEXP = T.let(T.unsafe(nil), Regexp)
 # to resource exhaustion. Using the block form ensures the file is
 # automatically closed when the block exits.
 #
+# This cop only registers an offense when the result of `File.open` is
+# assigned to a variable or has a method chained on it, as those are the
+# clearest indicators that the block form should be used instead. When
+# `File.open` is used as a return value or passed as an argument, the
+# caller is likely managing the file descriptor intentionally.
+#
 # @example
 #   # bad
 #   f = File.open('file')
@@ -41399,32 +41405,45 @@ RuboCop::Cop::Style::FileNull::REGEXP = T.let(T.unsafe(nil), Regexp)
 #   # good
 #   File.open('file', &:read)
 #
+#   # good - pass an open file object to an API that manages its lifecycle
+#   process(io: File.open('file'))
+#
+#   # good - return an open file object for the caller to manage
+#   def json_key_io
+#   File.open('file')
+#   end
+#
 #   # good - use File.read for one-shot reads
 #   File.read('file')
 #
-# source://rubocop//lib/rubocop/cop/style/file_open.rb#38
+# source://rubocop//lib/rubocop/cop/style/file_open.rb#52
 class RuboCop::Cop::Style::FileOpen < ::RuboCop::Cop::Base
-  # source://rubocop//lib/rubocop/cop/style/file_open.rb#43
+  # source://rubocop//lib/rubocop/cop/style/file_open.rb#57
   def file_open?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop//lib/rubocop/cop/style/file_open.rb#53
+  # source://rubocop//lib/rubocop/cop/style/file_open.rb#68
   def on_csend(node); end
 
-  # source://rubocop//lib/rubocop/cop/style/file_open.rb#47
+  # source://rubocop//lib/rubocop/cop/style/file_open.rb#61
   def on_send(node); end
 
   private
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/file_open.rb#57
-  def block_form?(node); end
+  # source://rubocop//lib/rubocop/cop/style/file_open.rb#72
+  def offensive_usage?(node); end
+
+  # @return [Boolean]
+  #
+  # source://rubocop//lib/rubocop/cop/style/file_open.rb#78
+  def receiver_of_chained_call?(node); end
 end
 
-# source://rubocop//lib/rubocop/cop/style/file_open.rb#39
+# source://rubocop//lib/rubocop/cop/style/file_open.rb#53
 RuboCop::Cop::Style::FileOpen::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop//lib/rubocop/cop/style/file_open.rb#40
+# source://rubocop//lib/rubocop/cop/style/file_open.rb#54
 RuboCop::Cop::Style::FileOpen::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Favor `File.(bin)read` convenience methods.
@@ -50880,31 +50899,44 @@ class RuboCop::Cop::Style::ReduceToHash < ::RuboCop::Cop::Base
 
   private
 
-  # source://rubocop//lib/rubocop/cop/style/reduce_to_hash.rb#154
+  # source://rubocop//lib/rubocop/cop/style/reduce_to_hash.rb#111
+  def accumulator_name(block_node); end
+
+  # @return [Boolean]
+  #
+  # source://rubocop//lib/rubocop/cop/style/reduce_to_hash.rb#106
+  def accumulator_used_in_expressions?(block_node, key, value); end
+
+  # source://rubocop//lib/rubocop/cop/style/reduce_to_hash.rb#169
   def adjusted_source(expr_node, block_node); end
 
   # source://rubocop//lib/rubocop/cop/style/reduce_to_hash.rb#94
   def check_offense(node, block_node); end
 
-  # source://rubocop//lib/rubocop/cop/style/reduce_to_hash.rb#137
+  # source://rubocop//lib/rubocop/cop/style/reduce_to_hash.rb#152
   def do_end_replacement(block_node, body, arg = T.unsafe(nil)); end
 
-  # source://rubocop//lib/rubocop/cop/style/reduce_to_hash.rb#146
+  # source://rubocop//lib/rubocop/cop/style/reduce_to_hash.rb#161
   def element_arg_source(block_node); end
 
-  # source://rubocop//lib/rubocop/cop/style/reduce_to_hash.rb#163
+  # source://rubocop//lib/rubocop/cop/style/reduce_to_hash.rb#178
   def indent(node); end
 
-  # source://rubocop//lib/rubocop/cop/style/reduce_to_hash.rb#128
+  # source://rubocop//lib/rubocop/cop/style/reduce_to_hash.rb#143
   def named_block_replacement(block_node, body); end
 
-  # source://rubocop//lib/rubocop/cop/style/reduce_to_hash.rb#105
+  # @return [Boolean]
+  #
+  # source://rubocop//lib/rubocop/cop/style/reduce_to_hash.rb#116
+  def references_variable?(node, name); end
+
+  # source://rubocop//lib/rubocop/cop/style/reduce_to_hash.rb#120
   def register_offense(send_node, block_node, key_expr, value_expr); end
 
-  # source://rubocop//lib/rubocop/cop/style/reduce_to_hash.rb#116
+  # source://rubocop//lib/rubocop/cop/style/reduce_to_hash.rb#131
   def replacement(block_node, key_expr, value_expr); end
 
-  # source://rubocop//lib/rubocop/cop/style/reduce_to_hash.rb#142
+  # source://rubocop//lib/rubocop/cop/style/reduce_to_hash.rb#157
   def replacement_range(send_node, block_node); end
 end
 
@@ -52848,16 +52880,16 @@ class RuboCop::Cop::Style::RedundantParentheses < ::RuboCop::Cop::Base
   # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#31
   def allowed_pin_operator?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#335
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#333
   def first_send_argument?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#340
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#338
   def first_super_argument?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#345
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#343
   def first_yield_argument?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#193
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#191
   def interpolation?(param0 = T.unsafe(nil)); end
 
   # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#33
@@ -52873,7 +52905,7 @@ class RuboCop::Cop::Style::RedundantParentheses < ::RuboCop::Cop::Base
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#219
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#217
   def allow_in_multiline_conditions?; end
 
   # @return [Boolean]
@@ -52898,41 +52930,41 @@ class RuboCop::Cop::Style::RedundantParentheses < ::RuboCop::Cop::Base
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#195
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#193
   def argument_of_parenthesized_method_call?(begin_node, node); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#349
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#347
   def call_chain_starts_with_int?(begin_node, send_node); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#223
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#221
   def call_node?(node); end
 
   # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#138
   def check(begin_node); end
 
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#227
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#225
   def check_send(begin_node, node); end
 
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#239
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#237
   def check_unary(begin_node, node); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#262
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#260
   def disallowed_literal?(begin_node, node); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#272
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#270
   def disallowed_one_line_pattern_matching?(begin_node, node); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#355
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#353
   def do_end_block_in_method_chain?(begin_node, node); end
 
   # @return [Boolean]
@@ -52950,7 +52982,7 @@ class RuboCop::Cop::Style::RedundantParentheses < ::RuboCop::Cop::Base
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#324
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#322
   def first_argument?(node); end
 
   # @return [Boolean]
@@ -52965,12 +52997,12 @@ class RuboCop::Cop::Style::RedundantParentheses < ::RuboCop::Cop::Base
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#258
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#256
   def keyword_ancestor?(node); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#292
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#290
   def keyword_with_redundant_parentheses?(node); end
 
   # @return [Boolean]
@@ -52980,12 +53012,12 @@ class RuboCop::Cop::Style::RedundantParentheses < ::RuboCop::Cop::Base
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#213
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#211
   def method_call_parentheses_required?(node); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#305
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#303
   def method_call_with_redundant_parentheses?(begin_node, node); end
 
   # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#130
@@ -52996,17 +53028,17 @@ class RuboCop::Cop::Style::RedundantParentheses < ::RuboCop::Cop::Base
   # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#102
   def multiline_control_flow_statements?(node); end
 
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#248
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#246
   def offense(node, msg); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#204
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#202
   def oneline_rescue_parentheses_required?(begin_node, node); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#320
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#318
   def only_begin_arg?(args); end
 
   # @return [Boolean]
@@ -53016,17 +53048,17 @@ class RuboCop::Cop::Style::RedundantParentheses < ::RuboCop::Cop::Base
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#281
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#279
   def raised_to_power_negative_numeric?(begin_node, node); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#313
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#311
   def singular_parenthesized_parent?(begin_node); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#254
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#252
   def suspect_unary?(node); end
 
   # @return [Boolean]
@@ -63622,76 +63654,76 @@ end
 # Offenses are displayed at compact form - just the
 # location of the problem and the associated message.
 #
-# source://rubocop//lib/rubocop/formatter/simple_text_formatter.rb#10
+# source://rubocop//lib/rubocop/formatter/simple_text_formatter.rb#8
 class RuboCop::Formatter::SimpleTextFormatter < ::RuboCop::Formatter::BaseFormatter
   include ::RuboCop::Formatter::Colorizable
   include ::RuboCop::PathUtil
 
-  # source://rubocop//lib/rubocop/formatter/simple_text_formatter.rb#29
+  # source://rubocop//lib/rubocop/formatter/simple_text_formatter.rb#27
   def file_finished(file, offenses); end
 
-  # source://rubocop//lib/rubocop/formatter/simple_text_formatter.rb#36
+  # source://rubocop//lib/rubocop/formatter/simple_text_formatter.rb#34
   def finished(inspected_files); end
 
-  # source://rubocop//lib/rubocop/formatter/simple_text_formatter.rb#43
+  # source://rubocop//lib/rubocop/formatter/simple_text_formatter.rb#41
   def report_file(file, offenses); end
 
-  # source://rubocop//lib/rubocop/formatter/simple_text_formatter.rb#57
+  # source://rubocop//lib/rubocop/formatter/simple_text_formatter.rb#55
   def report_summary(file_count, offense_count, correction_count, correctable_count); end
 
-  # source://rubocop//lib/rubocop/formatter/simple_text_formatter.rb#23
+  # source://rubocop//lib/rubocop/formatter/simple_text_formatter.rb#21
   def started(_target_files); end
 
   private
 
-  # source://rubocop//lib/rubocop/formatter/simple_text_formatter.rb#85
+  # source://rubocop//lib/rubocop/formatter/simple_text_formatter.rb#83
   def annotate_message(msg); end
 
-  # source://rubocop//lib/rubocop/formatter/simple_text_formatter.rb#80
+  # source://rubocop//lib/rubocop/formatter/simple_text_formatter.rb#78
   def colored_severity_code(offense); end
 
-  # source://rubocop//lib/rubocop/formatter/simple_text_formatter.rb#73
+  # source://rubocop//lib/rubocop/formatter/simple_text_formatter.rb#71
   def count_stats(offenses); end
 
-  # source://rubocop//lib/rubocop/formatter/simple_text_formatter.rb#89
+  # source://rubocop//lib/rubocop/formatter/simple_text_formatter.rb#87
   def message(offense); end
 end
 
-# source://rubocop//lib/rubocop/formatter/simple_text_formatter.rb#14
+# source://rubocop//lib/rubocop/formatter/simple_text_formatter.rb#12
 RuboCop::Formatter::SimpleTextFormatter::COLOR_FOR_SEVERITY = T.let(T.unsafe(nil), Hash)
 
 # A helper class for building the report summary text.
 #
-# source://rubocop//lib/rubocop/formatter/simple_text_formatter.rb#105
+# source://rubocop//lib/rubocop/formatter/simple_text_formatter.rb#103
 class RuboCop::Formatter::SimpleTextFormatter::Report
   include ::RuboCop::Formatter::Colorizable
   include ::RuboCop::Formatter::TextUtil
 
   # @return [Report] a new instance of Report
   #
-  # source://rubocop//lib/rubocop/formatter/simple_text_formatter.rb#110
+  # source://rubocop//lib/rubocop/formatter/simple_text_formatter.rb#108
   def initialize(file_count, offense_count, correction_count, correctable_count, rainbow, safe_autocorrect: T.unsafe(nil)); end
 
-  # source://rubocop//lib/rubocop/formatter/simple_text_formatter.rb#123
+  # source://rubocop//lib/rubocop/formatter/simple_text_formatter.rb#121
   def summary; end
 
   private
 
-  # source://rubocop//lib/rubocop/formatter/simple_text_formatter.rb#160
+  # source://rubocop//lib/rubocop/formatter/simple_text_formatter.rb#158
   def correctable; end
 
-  # source://rubocop//lib/rubocop/formatter/simple_text_formatter.rb#153
+  # source://rubocop//lib/rubocop/formatter/simple_text_formatter.rb#151
   def corrections; end
 
-  # source://rubocop//lib/rubocop/formatter/simple_text_formatter.rb#142
+  # source://rubocop//lib/rubocop/formatter/simple_text_formatter.rb#140
   def files; end
 
-  # source://rubocop//lib/rubocop/formatter/simple_text_formatter.rb#146
+  # source://rubocop//lib/rubocop/formatter/simple_text_formatter.rb#144
   def offenses; end
 
   # Returns the value of attribute rainbow.
   #
-  # source://rubocop//lib/rubocop/formatter/simple_text_formatter.rb#140
+  # source://rubocop//lib/rubocop/formatter/simple_text_formatter.rb#138
   def rainbow; end
 end
 
@@ -65068,22 +65100,13 @@ class RuboCop::ResultCache
   #
   # @api private
   #
-  # source://rubocop//lib/rubocop/result_cache.rb#242
+  # source://rubocop//lib/rubocop/result_cache.rb#245
   def context_checksum(team, options); end
 
   # @api private
   #
   # source://rubocop//lib/rubocop/result_cache.rb#169
   def file_checksum(file, config_store); end
-
-  # Return a hash of the options given at invocation, minus the ones that have
-  # no effect on which offenses and disabled line ranges are found, and thus
-  # don't affect caching.
-  #
-  # @api private
-  #
-  # source://rubocop//lib/rubocop/result_cache.rb#233
-  def relevant_options_digest(options); end
 
   # @api private
   # @return [Boolean]
@@ -65125,6 +65148,15 @@ class RuboCop::ResultCache
     # source://rubocop//lib/rubocop/result_cache.rb#182
     def inhibit_cleanup=(_arg0); end
 
+    # Return a hash of the options given at invocation, minus the ones that have
+    # no effect on which offenses and disabled line ranges are found, and thus
+    # don't affect caching.
+    #
+    # @api private
+    #
+    # source://rubocop//lib/rubocop/result_cache.rb#202
+    def relevant_options_digest(options); end
+
     # @api private
     #
     # source://rubocop//lib/rubocop/result_cache.rb#44
@@ -65146,7 +65178,7 @@ class RuboCop::ResultCache
 
     # @api private
     #
-    # source://rubocop//lib/rubocop/result_cache.rb#201
+    # source://rubocop//lib/rubocop/result_cache.rb#212
     def digest(path); end
 
     # @api private
@@ -65167,7 +65199,7 @@ class RuboCop::ResultCache
 
     # @api private
     #
-    # source://rubocop//lib/rubocop/result_cache.rb#212
+    # source://rubocop//lib/rubocop/result_cache.rb#223
     def rubocop_extra_features; end
   end
 end

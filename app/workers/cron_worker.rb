@@ -16,6 +16,7 @@ class CronWorker
 
   def end_past_reservations
     unended_past_normal_reservations.map(&:end_reservation)
+    end_past_cloud_reservations
   end
 
   def unended_past_normal_reservations
@@ -24,6 +25,14 @@ class CronWorker
 
   def unended_past_reservations
     Reservation.where(ends_at: ...Time.current).where(provisioned: true, ended: false)
+  end
+
+  def end_past_cloud_reservations
+    Reservation.joins(:server)
+               .where(ends_at: ...Time.current, ended: false, provisioned: false)
+               .where(servers: { type: "CloudServer" })
+               .where.not(servers: { cloud_status: "destroyed" })
+               .find_each(&:end_reservation)
   end
 
   def start_active_reservations

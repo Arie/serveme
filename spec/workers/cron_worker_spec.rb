@@ -22,6 +22,34 @@ describe CronWorker do
     end
   end
 
+  describe '#end_past_cloud_reservations' do
+    it 'ends past unprovisioned cloud server reservations' do
+      cloud_server = create(:cloud_server, cloud_status: 'ready')
+      reservation = create(:reservation, server: cloud_server, provisioned: false)
+      reservation.update_columns(ends_at: 1.minute.ago)
+
+      ReservationWorker.should_receive(:perform_async).with(reservation.id, 'end')
+      CronWorker.perform_async
+    end
+
+    it 'does not end past unprovisioned non-cloud reservations' do
+      reservation = create(:reservation, provisioned: false)
+      reservation.update_columns(ends_at: 1.minute.ago)
+
+      ReservationWorker.should_not_receive(:perform_async).with(reservation.id, 'end')
+      CronWorker.perform_async
+    end
+
+    it 'does not end cloud reservations where cloud_status is destroyed' do
+      cloud_server = create(:cloud_server, cloud_status: 'destroyed')
+      reservation = create(:reservation, server: cloud_server, provisioned: false)
+      reservation.update_columns(ends_at: 1.minute.ago)
+
+      ReservationWorker.should_not_receive(:perform_async).with(reservation.id, 'end')
+      CronWorker.perform_async
+    end
+  end
+
   describe '#start_active_reservations' do
     it 'tells unstarted active reservations to start' do
       reservation = create :reservation, starts_at: 1.minute.ago, provisioned: false

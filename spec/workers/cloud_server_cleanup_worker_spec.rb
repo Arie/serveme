@@ -44,5 +44,26 @@ describe CloudServerCleanupWorker do
 
       described_class.new.perform
     end
+
+    it "ends the associated reservation when destroying a stranded server" do
+      old_server = create(:cloud_server, cloud_status: "ready", cloud_created_at: 7.hours.ago)
+      reservation = create(:reservation, server: old_server, ended: false, provisioned: false)
+      old_server.update_columns(cloud_reservation_id: reservation.id)
+
+      allow(CloudServerDestroyWorker).to receive(:perform_async)
+
+      described_class.new.perform
+
+      reservation.reload
+      expect(reservation.ended).to be true
+    end
+
+    it "does not fail when stranded server has no reservation" do
+      create(:cloud_server, cloud_status: "ready", cloud_created_at: 7.hours.ago, cloud_reservation_id: nil)
+
+      allow(CloudServerDestroyWorker).to receive(:perform_async)
+
+      expect { described_class.new.perform }.not_to raise_error
+    end
   end
 end

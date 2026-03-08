@@ -97,6 +97,22 @@ module CloudProvider
       response.success?
     end
 
+    def destroy_servers_by_label(label)
+      response = connection.get("instances?label=#{label}")
+      return 0 unless response.success?
+
+      data = JSON.parse(response.body)
+      instances = data["instances"] || []
+      destroyed = 0
+      instances.each do |instance|
+        if destroy_server(instance["id"])
+          destroyed += 1
+        end
+      end
+      Rails.logger.info "Vultr: Destroyed #{destroyed} servers with label #{label}" if destroyed > 0
+      destroyed
+    end
+
     def create_snapshot_server(location, setup_script)
       response = connection.post("instances") do |req|
         req.body = {

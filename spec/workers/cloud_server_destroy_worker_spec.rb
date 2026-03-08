@@ -9,6 +9,7 @@ describe CloudServerDestroyWorker do
 
   before do
     allow(CloudProvider).to receive(:for).with("docker").and_return(provider)
+    allow(provider).to receive(:destroy_servers_by_label).and_return(0)
   end
 
   describe "#perform" do
@@ -20,6 +21,13 @@ describe CloudServerDestroyWorker do
       cloud_server.reload
       expect(cloud_server.cloud_status).to eq("destroyed")
       expect(cloud_server.cloud_destroyed_at).to be_present
+    end
+
+    it "calls destroy_servers_by_label as safety net" do
+      allow(provider).to receive(:destroy_server)
+      expect(provider).to receive(:destroy_servers_by_label).with("serveme-#{cloud_server.id}")
+
+      described_class.new.perform(cloud_server.id)
     end
 
     it "skips when already destroyed and no provider_id" do

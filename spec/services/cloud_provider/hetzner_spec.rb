@@ -149,4 +149,32 @@ RSpec.describe CloudProvider::Hetzner do
       end
     end
   end
+
+  describe "#destroy_servers_by_label" do
+    it "lists servers by name and destroys each one" do
+      stub_request(:get, "https://api.hetzner.cloud/v1/servers?name=serveme-42")
+        .with(headers: { "Authorization" => "Bearer #{api_token}" })
+        .to_return(status: 200, body: {
+          servers: [
+            { id: 111 },
+            { id: 222 }
+          ]
+        }.to_json, headers: { "Content-Type" => "application/json" })
+
+      stub_request(:delete, "https://api.hetzner.cloud/v1/servers/111")
+        .to_return(status: 200)
+      stub_request(:delete, "https://api.hetzner.cloud/v1/servers/222")
+        .to_return(status: 200)
+
+      VCR.turned_off { expect(provider.destroy_servers_by_label("serveme-42")).to eq(2) }
+    end
+
+    it "returns 0 when no servers match" do
+      stub_request(:get, "https://api.hetzner.cloud/v1/servers?name=serveme-99")
+        .with(headers: { "Authorization" => "Bearer #{api_token}" })
+        .to_return(status: 200, body: { servers: [] }.to_json, headers: { "Content-Type" => "application/json" })
+
+      VCR.turned_off { expect(provider.destroy_servers_by_label("serveme-99")).to eq(0) }
+    end
+  end
 end

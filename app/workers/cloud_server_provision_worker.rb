@@ -42,8 +42,11 @@ class CloudServerProvisionWorker
       raise
     end
 
+    # Save provider_id immediately so retries won't create duplicate VMs
+    cloud_server.update!(cloud_provider_id: provider_id)
+
     ip = provider.server_ip(provider_id)
-    cloud_server.update!(cloud_provider_id: provider_id, ip: ip)
+    cloud_server.update!(ip: ip) if ip.present?
 
     cloud_server.reload
     if cloud_server.cloud_status == "destroyed"

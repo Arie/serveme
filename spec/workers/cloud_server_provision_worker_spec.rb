@@ -63,6 +63,17 @@ describe CloudServerProvisionWorker do
       expect(cloud_server.cloud_status).to eq("destroyed")
     end
 
+    it "saves provider_id before calling server_ip so retries don't create duplicate VMs" do
+      allow(provider).to receive(:create_server).and_return("vultr-abc123")
+      allow(provider).to receive(:server_ip).and_raise("Transient API error")
+      allow(CloudServerPollWorker).to receive(:perform_in)
+
+      expect { described_class.new.perform(cloud_server.id) }.to raise_error("Transient API error")
+
+      cloud_server.reload
+      expect(cloud_server.cloud_provider_id).to eq("vultr-abc123")
+    end
+
     it "destroys server if marked destroyed during provisioning" do
       provider_id = "cloud-#{cloud_server.id}"
       call_count = 0

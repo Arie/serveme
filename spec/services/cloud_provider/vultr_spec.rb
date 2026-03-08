@@ -187,4 +187,32 @@ RSpec.describe CloudProvider::Vultr do
       end
     end
   end
+
+  describe "#destroy_servers_by_label" do
+    it "lists instances by label and destroys each one" do
+      stub_request(:get, "https://api.vultr.com/v2/instances?label=serveme-42")
+        .with(headers: { "Authorization" => "Bearer #{api_token}" })
+        .to_return(status: 200, body: {
+          instances: [
+            { id: "aaa-111" },
+            { id: "bbb-222" }
+          ]
+        }.to_json, headers: { "Content-Type" => "application/json" })
+
+      stub_request(:delete, "https://api.vultr.com/v2/instances/aaa-111")
+        .to_return(status: 204)
+      stub_request(:delete, "https://api.vultr.com/v2/instances/bbb-222")
+        .to_return(status: 204)
+
+      VCR.turned_off { expect(provider.destroy_servers_by_label("serveme-42")).to eq(2) }
+    end
+
+    it "returns 0 when no instances match" do
+      stub_request(:get, "https://api.vultr.com/v2/instances?label=serveme-99")
+        .with(headers: { "Authorization" => "Bearer #{api_token}" })
+        .to_return(status: 200, body: { instances: [] }.to_json, headers: { "Content-Type" => "application/json" })
+
+      VCR.turned_off { expect(provider.destroy_servers_by_label("serveme-99")).to eq(0) }
+    end
+  end
 end

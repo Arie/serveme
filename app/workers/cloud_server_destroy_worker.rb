@@ -12,18 +12,24 @@ class CloudServerDestroyWorker
     cloud_server = CloudServer.find(cloud_server_id)
     return if cloud_server.cloud_status == "destroyed" && cloud_server.cloud_provider_id.blank?
 
+    provider = cloud_server.provider
     provider_id = cloud_server.cloud_provider_id
+
     if provider_id.present?
-      provider = cloud_server.provider
       provider.destroy_server(provider_id)
-      cloud_server.update!(cloud_status: "destroyed", cloud_destroyed_at: Time.current, active: false)
     elsif cloud_server.cloud_status == "provisioning"
       cloud_server.update!(cloud_status: "destroyed", cloud_destroyed_at: Time.current, active: false)
       if cloud_server.cloud_created_at.present? && Time.current - cloud_server.cloud_created_at < MAX_PROVISION_WAIT
         CloudServerDestroyWorker.perform_in(30.seconds, cloud_server_id)
       end
-    else
-      cloud_server.update!(cloud_status: "destroyed", cloud_destroyed_at: Time.current, active: false)
+      return
     end
+
+    # Safety net: destroy any orphaned VMs matching this cloud server's label.
+    # Catches duplicates created by retries before cloud_provider_id was saved.
+    label = "serveme-#{cloud_server.id}"
+    provider.destroy_servers_by_label(label)
+
+    cloud_server.update!(cloud_status: "destroyed", cloud_destroyed_at: Time.current, active: false)
   end
 end

@@ -47,6 +47,12 @@ module CloudProvider
       raise NotImplementedError
     end
 
+    # Destroy all VMs/containers matching the given label. Returns count destroyed.
+    # Used as a safety net to clean up orphaned VMs when provider_id was not saved.
+    def destroy_servers_by_label(_label)
+      0
+    end
+
     # Create a temporary VM for snapshotting. Returns [provider_id, ip].
     def create_snapshot_server(location, setup_script)
       raise NotImplementedError

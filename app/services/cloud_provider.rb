@@ -31,12 +31,12 @@ module CloudProvider
   # Returns cloud locations grouped by country for use in select dropdowns.
   # Each entry is [label, value] where value is "provider:code".
   # Filtered to only show locations matching the current site region.
-  sig { params(starts_at: T.any(Time, ActiveSupport::TimeWithZone), ends_at: T.any(Time, ActiveSupport::TimeWithZone)).returns(T::Hash[String, T::Array[[ String, String ]]]) }
-  def self.grouped_locations(starts_at: Time.current, ends_at: 2.hours.from_now)
+  sig { params(starts_at: T.any(Time, ActiveSupport::TimeWithZone), ends_at: T.any(Time, ActiveSupport::TimeWithZone), user: T.nilable(User)).returns(T::Hash[String, T::Array[[ String, String ]]]) }
+  def self.grouped_locations(starts_at: Time.current, ends_at: 2.hours.from_now, user: nil)
     grouped = Hash.new { |h, k| h[k] = [] }
 
     PROVIDERS.each do |provider_name, klass|
-      next if provider_name.in?(%w[hetzner vultr]) && SITE_REGION.in?(%w[EU NA])
+      next if provider_name.in?(%w[hetzner vultr]) && SITE_REGION.in?(%w[EU NA]) && !user&.cloud_member?
 
       klass.locations(starts_at: starts_at, ends_at: ends_at).each do |code, info|
         next unless info[:region] == SITE_REGION || provider_name == "remote_docker" || (provider_name == "docker" && Rails.env.development?)

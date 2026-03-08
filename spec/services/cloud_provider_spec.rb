@@ -24,12 +24,22 @@ RSpec.describe CloudProvider do
   describe ".grouped_locations" do
     subject(:grouped) { described_class.grouped_locations }
 
-    it "hides Hetzner and Vultr in EU and NA" do
+    it "hides Hetzner and Vultr in EU and NA for non-cloud-group users" do
       stub_const("CloudProvider::SITE_REGION", "EU")
       result = described_class.grouped_locations
       all_values = result.values.flatten(1).map(&:last)
       expect(all_values).not_to include(a_string_starting_with("hetzner:"))
       expect(all_values).not_to include(a_string_starting_with("vultr:"))
+    end
+
+    it "shows Hetzner and Vultr in EU for cloud group members" do
+      stub_const("CloudProvider::SITE_REGION", "EU")
+      user = create(:user)
+      user.groups << Group.cloud_group
+      result = described_class.grouped_locations(user: user)
+      all_values = result.values.flatten(1).map(&:last)
+      expect(all_values).to include(a_string_starting_with("hetzner:"))
+      expect(all_values).to include(a_string_starting_with("vultr:"))
     end
 
     context "when SITE_REGION is AU" do

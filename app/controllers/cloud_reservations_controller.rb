@@ -21,14 +21,14 @@ class CloudReservationsController < ApplicationController
     end
 
     @reservation = current_user.reservations.build(attributes)
-    @cloud_locations = CloudProvider.grouped_locations
+    @cloud_locations = CloudProvider.grouped_locations(user: current_user)
     @server_configs = ServerConfig.active.ordered
   end
 
   def available_locations
     starts_at = params[:starts_at].present? ? Time.zone.parse(params[:starts_at].to_s) : Time.current
     ends_at = params[:ends_at].present? ? Time.zone.parse(params[:ends_at].to_s) : 2.hours.from_now
-    @cloud_locations = CloudProvider.grouped_locations(starts_at: starts_at, ends_at: ends_at)
+    @cloud_locations = CloudProvider.grouped_locations(starts_at: starts_at, ends_at: ends_at, user: current_user)
     render json: @cloud_locations
   end
 
@@ -81,7 +81,7 @@ class CloudReservationsController < ApplicationController
         redirect_to reservation_path(@reservation)
       else
         server.destroy
-        @cloud_locations = CloudProvider.grouped_locations
+        @cloud_locations = CloudProvider.grouped_locations(user: current_user)
         @server_configs = ServerConfig.active.ordered
         render :new, status: :unprocessable_entity
       end

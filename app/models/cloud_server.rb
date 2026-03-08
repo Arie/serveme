@@ -107,6 +107,12 @@ class CloudServer < RemoteServer
     reservation.broadcast_connect_info
   end
 
+  def end_estimate(reservation)
+    return if !reservation.provisioned?
+
+    super
+  end
+
   def end_reservation(reservation)
     if reservation.provisioned? && cloud_status != "destroyed"
       super

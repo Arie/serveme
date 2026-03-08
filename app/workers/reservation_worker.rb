@@ -45,6 +45,7 @@ class ReservationWorker
 
     if reservation.server.is_a?(CloudServer) && !reservation.provisioned?
       CloudServerDestroyWorker.perform_async(reservation.server.id)
+      reservation.status_update("Cancelled cloud server")
     elsif reservation.server.uses_async_cleanup?
       temp_directory = reservation.server.temp_directory_for_reservation(reservation)
       ReservationCleanupWorker.perform_async(reservation_id, temp_directory)

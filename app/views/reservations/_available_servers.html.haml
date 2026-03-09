@@ -1,5 +1,5 @@
 - free_limit = SiteSetting.free_server_limit
-- total_without_group = Server.active.without_group.count + docker_hosts_total_slots
+- total_without_group = Server.active.not_cloud.without_group.count + docker_hosts_total_slots
 - if current_user
   %h5
     Servers available
@@ -7,7 +7,7 @@
   - if current_user.donator?
     - available_server_count = ServerForUserFinder.new(current_user, Time.current, 1.hour.from_now).servers.size + docker_hosts_available_during(Time.current, 1.hour.from_now)
     %h6 For you
-    = "#{available_server_count} / #{Server.active.count + docker_hosts_total_slots}"
+    = "#{available_server_count} / #{Server.active.not_cloud.count + docker_hosts_total_slots}"
   - else
     - if free_limit
       - free_available = [free_limit - SiteSetting.free_user_reservation_count(Time.current, 1.hour.from_now), 0].max

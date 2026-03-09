@@ -19,7 +19,7 @@ module ApplicationHelper
   end
 
   def total_donator_server_count
-    @total_donator_server_count ||= Server.for_donators.active.count
+    @total_donator_server_count ||= Server.for_donators.active.not_cloud.count
   end
 
   def free_user_reservations_in_use

@@ -49,9 +49,9 @@ class PagesController < ApplicationController
   def stats
     docker_host_slots = DockerHost.active.sum(:max_containers)
     free_server_limit = SiteSetting.free_server_limit
-    donator_server_count = Server.for_donators.active.count
-    servers_count = Server.active.count + docker_host_slots
-    servers_for_non_premium_count = free_server_limit || (Server.active.without_group.count + docker_host_slots)
+    donator_server_count = Server.for_donators.active.not_cloud.count
+    servers_count = Server.active.not_cloud.count + docker_host_slots
+    servers_for_non_premium_count = free_server_limit || (Server.active.not_cloud.without_group.count + docker_host_slots)
     servers_for_premium_count = donator_server_count + docker_host_slots - (free_server_limit || 0)
     current_reservations_count = Reservation.current.count
     free_user_reservation_count = SiteSetting.free_user_reservation_count(Time.current, Time.current)

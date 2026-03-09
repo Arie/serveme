@@ -60,42 +60,59 @@ module SshExecution
     ssh_exec(command)
   end
 
+  SSH_RECOVERABLE_ERRORS = [
+    IOError, Errno::ECONNRESET, Errno::EPIPE, Errno::ETIMEDOUT,
+    Net::SSH::Disconnect, Net::SSH::ConnectionTimeout
+  ].freeze
+
   sig { params(command: String, log_stderr: T::Boolean).returns(String) }
   def ssh_exec(command, log_stderr: false)
-    out = []
-    err = []
-    ssh&.exec!(command) do |_channel, stream, data|
-      out << data if stream == :stdout
-      err << data if stream == :stderr
+    with_ssh_reconnect(command) do
+      out = []
+      err = []
+      ssh&.exec!(command) do |_channel, stream, data|
+        out << data if stream == :stdout
+        err << data if stream == :stderr
+      end
+      logger.info "SSH STDERR while executing #{command}:\n#{err.join("\n")}" if log_stderr && err.any?
+      out.join("\n")
     end
-    logger.info "SSH STDERR while executing #{command}:\n#{err.join("\n")}" if log_stderr && err.any?
-    out.join("\n")
   end
 
   sig { params(command: String).returns(T::Hash[Symbol, T.untyped]) }
   def execute_with_status(command)
     logger.info "executing remotely with status check: #{command}"
 
-    wrapped_command = "#{command} && echo '__CMD_SUCCESS__' || echo '__CMD_FAILURE__'"
-    out = []
-    err = []
+    with_ssh_reconnect(command) do
+      wrapped_command = "#{command} && echo '__CMD_SUCCESS__' || echo '__CMD_FAILURE__'"
+      out = []
+      err = []
 
-    ssh&.exec!(wrapped_command) do |_channel, stream, data|
-      out << data if stream == :stdout
-      err << data if stream == :stderr
+      ssh&.exec!(wrapped_command) do |_channel, stream, data|
+        out << data if stream == :stdout
+        err << data if stream == :stderr
+      end
+
+      stdout_text = out.join("\n")
+      stderr_text = err.join("\n")
+      success = stdout_text.include?("__CMD_SUCCESS__")
+
+      stdout_text = stdout_text.gsub(/\n?__CMD_(SUCCESS|FAILURE)__\n?/, "")
+
+      {
+        stdout: stdout_text,
+        stderr: stderr_text,
+        success: success
+      }
     end
+  end
 
-    stdout_text = out.join("\n")
-    stderr_text = err.join("\n")
-    success = stdout_text.include?("__CMD_SUCCESS__")
-
-    stdout_text = stdout_text.gsub(/\n?__CMD_(SUCCESS|FAILURE)__\n?/, "")
-
-    {
-      stdout: stdout_text,
-      stderr: stderr_text,
-      success: success
-    }
+  def with_ssh_reconnect(command)
+    yield
+  rescue *SSH_RECOVERABLE_ERRORS => e
+    logger.warn "SSH connection lost (#{e.class}: #{e.message}), reconnecting to retry: #{command}"
+    ssh_close
+    yield
   end
 
   sig { params(files: T::Array[String], destination: String).returns(T.nilable(T::Boolean)) }

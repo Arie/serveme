@@ -15,7 +15,7 @@ describe SshServer do
   describe '#restart' do
     it 'sends the software termination signal to the process' do
       subject.stub(process_id: 1337)
-      Net::SSH.should_receive(:start).with(subject.ip, nil)
+      Net::SSH.should_receive(:start).with(subject.ip, nil, hash_including(timeout: 5))
       subject.should_receive(:execute).with("kill -15 #{subject.process_id}")
       subject.restart
     end
@@ -129,7 +129,7 @@ describe SshServer do
   describe '#ssh' do
     it 'creates the Net::SSH instance' do
       subject.stub(ip: double)
-      Net::SSH.should_receive(:start).with(subject.ip, nil)
+      Net::SSH.should_receive(:start).with(subject.ip, nil, hash_including(timeout: 5, keepalive: true, keepalive_interval: 5, keepalive_maxcount: 2))
       subject.ssh
     end
   end
@@ -152,6 +152,7 @@ describe SshServer do
       destination = 'bar'
 
       subject.should_receive('system').with("#{scp_command} foo #{subject.ip}:bar")
+
       subject.copy_to_server(files, destination)
     end
   end
@@ -164,7 +165,7 @@ describe SshServer do
       dir = 'cfg'
       sftp_dir.should_receive(:foreach).with(File.join(subject.tf_dir, dir)).and_yield(sftp_entry)
       sftp = double(:sftp, dir: sftp_dir)
-      Net::SFTP.should_receive(:start).with(subject.ip, nil).and_yield(sftp)
+      Net::SFTP.should_receive(:start).with(subject.ip, nil, hash_including(timeout: 5)).and_yield(sftp)
       subject.list_files(dir).should == [ 'file_entry' ]
     end
   end
@@ -175,6 +176,7 @@ describe SshServer do
       destination = 'bar'
 
       subject.should_receive(:system).with("#{scp_command} #{subject.ip}:\"foo\" bar")
+
 
       subject.copy_from_server(files, destination)
     end
@@ -227,6 +229,6 @@ describe SshServer do
   end
 
   define_method(:scp_command) do ||
-    'scp -O -T -l 200000'
+    'scp -O -T -l 200000 -o ConnectTimeout=5 -o ServerAliveInterval=5 -o ServerAliveCountMax=2'
   end
 end

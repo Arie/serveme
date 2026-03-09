@@ -7,7 +7,7 @@ class SshServer < RemoteServer
 
   sig { returns(T.nilable(Net::SSH::Connection::Session)) }
   def ssh
-    @ssh ||= Net::SSH.start(ip, nil)
+    @ssh ||= Net::SSH.start(ip, nil, timeout: 5, keepalive: true, keepalive_interval: 5, keepalive_maxcount: 2)
   end
 
   sig { returns(T::Boolean) }
@@ -24,7 +24,7 @@ class SshServer < RemoteServer
 
   sig { returns(String) }
   def scp_command
-    "scp -O -T -l 200000"
+    "scp -O -T -l 200000 -o ConnectTimeout=5 -o ServerAliveInterval=5 -o ServerAliveCountMax=2"
   end
 
   sig { returns(T.nilable(String)) }
@@ -33,6 +33,6 @@ class SshServer < RemoteServer
   end
 
   def sftp_start(&block)
-    Net::SFTP.start(ip, nil, &block)
+    Net::SFTP.start(ip, nil, timeout: 5, &block)
   end
 end

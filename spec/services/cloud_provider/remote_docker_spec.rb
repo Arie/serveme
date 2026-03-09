@@ -46,7 +46,7 @@ RSpec.describe CloudProvider::RemoteDocker do
 
     it "SSHes to the docker host" do
       provider.create_server(cloud_server)
-      expect(Net::SSH).to have_received(:start).with(docker_host.ip, nil)
+      expect(Net::SSH).to have_received(:start).with(docker_host.ip, nil, hash_including(timeout: 5))
     end
 
     it "pulls the image first" do

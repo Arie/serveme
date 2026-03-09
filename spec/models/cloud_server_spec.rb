@@ -17,11 +17,14 @@ describe CloudServer do
       subject.stub(ip: '1.2.3.4')
       allow(subject).to receive(:cloud_ssh_private_key).and_return('fake-key')
       Net::SSH.should_receive(:start).with('1.2.3.4', 'tf2',
-        port: 22,
-        key_data: [ 'fake-key' ],
-        keys_only: true,
-        non_interactive: true,
-        verify_host_key: :never)
+        hash_including(
+          port: 22,
+          key_data: [ 'fake-key' ],
+          keys_only: true,
+          non_interactive: true,
+          verify_host_key: :never,
+          timeout: 5,
+          keepalive: true))
       subject.ssh
     end
   end
@@ -65,11 +68,13 @@ describe CloudServer do
       subject.stub(process_id: 1337)
       allow(subject).to receive(:cloud_ssh_private_key).and_return('fake-key')
       Net::SSH.should_receive(:start).with(subject.ip, 'tf2',
-        port: 22,
-        key_data: [ 'fake-key' ],
-        keys_only: true,
-        non_interactive: true,
-        verify_host_key: :never)
+        hash_including(
+          port: 22,
+          key_data: [ 'fake-key' ],
+          keys_only: true,
+          non_interactive: true,
+          verify_host_key: :never,
+          timeout: 5))
       subject.should_receive(:execute).with("kill -15 #{subject.process_id}")
       subject.restart
     end
@@ -132,7 +137,7 @@ describe CloudServer do
       subject.cloud_location = docker_host.id.to_s
 
       ssh_session = double
-      expect(Net::SSH).to receive(:start).with(docker_host.ip, nil).and_yield(ssh_session)
+      expect(Net::SSH).to receive(:start).with(docker_host.ip, nil, hash_including(timeout: 5)).and_yield(ssh_session)
       expect(ssh_session).to receive(:exec!).with("test command").and_yield(nil, :stdout, "output")
 
       result = subject.mitigation_ssh_exec("test command")

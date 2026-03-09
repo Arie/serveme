@@ -111,7 +111,7 @@ module CloudProvider
     private
 
     def ssh_to_host(docker_host, &block)
-      Net::SSH.start(docker_host.ip, nil, &block)
+      Net::SSH.start(docker_host.ip, nil, timeout: 5, keepalive: true, keepalive_interval: 5, keepalive_maxcount: 2, &block)
     end
   end
 end

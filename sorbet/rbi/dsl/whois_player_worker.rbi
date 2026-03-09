@@ -7,27 +7,36 @@
 
 class WhoisPlayerWorker
   class << self
-    sig { params(reservation_id: T.untyped, query: T.untyped, private_to_uid: T.untyped).returns(String) }
-    def perform_async(reservation_id, query, private_to_uid = T.unsafe(nil)); end
+    sig do
+      params(
+        reservation_id: T.untyped,
+        query: T.untyped,
+        requester_uid: T.untyped,
+        is_reserver: T.untyped
+      ).returns(String)
+    end
+    def perform_async(reservation_id, query, requester_uid, is_reserver = T.unsafe(nil)); end
 
     sig do
       params(
         interval: T.any(DateTime, Time, ActiveSupport::TimeWithZone),
         reservation_id: T.untyped,
         query: T.untyped,
-        private_to_uid: T.untyped
+        requester_uid: T.untyped,
+        is_reserver: T.untyped
       ).returns(String)
     end
-    def perform_at(interval, reservation_id, query, private_to_uid = T.unsafe(nil)); end
+    def perform_at(interval, reservation_id, query, requester_uid, is_reserver = T.unsafe(nil)); end
 
     sig do
       params(
         interval: T.any(Numeric, ActiveSupport::Duration),
         reservation_id: T.untyped,
         query: T.untyped,
-        private_to_uid: T.untyped
+        requester_uid: T.untyped,
+        is_reserver: T.untyped
       ).returns(String)
     end
-    def perform_in(interval, reservation_id, query, private_to_uid = T.unsafe(nil)); end
+    def perform_in(interval, reservation_id, query, requester_uid, is_reserver = T.unsafe(nil)); end
   end
 end

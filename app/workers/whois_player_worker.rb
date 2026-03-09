@@ -7,7 +7,7 @@ class WhoisPlayerWorker
   include Sidekiq::Worker
   sidekiq_options retry: false
 
-  def perform(reservation_id, query, private_to_uid = nil)
+  def perform(reservation_id, query, requester_uid, is_reserver = false)
     reservation = Reservation.find_by(id: reservation_id)
     return unless reservation&.server
 
@@ -19,11 +19,11 @@ class WhoisPlayerWorker
     matched = match_players(players, query).sort_by { |p| p.name.downcase }
 
     if matched.empty?
-      send_message(server, "No players matching '#{query}'", private_to_uid)
+      send_message(server, "No players matching '#{query}'", requester_uid)
     else
       matched.each do |player|
-        info = PlayerAnnouncementService.build_info(player.steam_uid, player.ip)
-        send_message(server, "#{player.name}: #{info}", private_to_uid)
+        info = PlayerAnnouncementService.build_info(player.steam_uid, player.ip, reserver: is_reserver)
+        send_message(server, "#{player.name}: #{info}", requester_uid)
       end
     end
 
@@ -48,15 +48,11 @@ class WhoisPlayerWorker
     name.each_char.filter_map { |c| Unicode::Name.of(c)&.downcase if c.ord > 0xFF }.join(" ")
   end
 
-  def send_message(server, message, private_to_uid)
-    if private_to_uid
-      message.split("\n").each do |line|
-        line.scan(/.{1,200}(?:\s|$)/).map(&:strip).each do |chunk|
-          server.rcon_exec("sm_psay ##{private_to_uid} #{chunk}")
-        end
+  def send_message(server, message, requester_uid)
+    message.split("\n").each do |line|
+      line.scan(/.{1,200}(?:\s|$)/).map(&:strip).each do |chunk|
+        server.rcon_exec("sm_psay ##{requester_uid} #{chunk}")
       end
-    else
-      server.rcon_say(message)
     end
   end
 end

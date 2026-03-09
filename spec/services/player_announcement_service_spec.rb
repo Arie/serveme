@@ -17,7 +17,7 @@ describe PlayerAnnouncementService do
       expect(described_class.build_info(steam_uid, ip)).to eq("First game")
     end
 
-    it "includes location and ISP" do
+    it "includes state, country and ISP for reserver" do
       geocode_result = double(state: "North Rhine-Westphalia", country: "Germany")
       allow(Geocoder).to receive(:search).with(ip).and_return([ geocode_result ])
 
@@ -28,6 +28,19 @@ describe PlayerAnnouncementService do
       expect(result).to include("North Rhine-Westphalia, Germany")
       expect(result).to include("Deutsche Telekom")
       expect(result).to include("First game")
+    end
+
+    it "shows only country for non-reserver, no state or ISP" do
+      geocode_result = double(state: "North Rhine-Westphalia", country: "Germany")
+      allow(Geocoder).to receive(:search).with(ip).and_return([ geocode_result ])
+
+      asn_data = double(autonomous_system_organization: "Deutsche Telekom")
+      allow(ReservationPlayer).to receive(:asn).with(ip).and_return(asn_data)
+
+      result = described_class.build_info(steam_uid, ip, reserver: false)
+      expect(result).to include("Germany")
+      expect(result).not_to include("North Rhine-Westphalia")
+      expect(result).not_to include("Deutsche Telekom")
     end
 
     it "uses ASN organization from ReservationPlayer record when available" do

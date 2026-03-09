@@ -29,61 +29,73 @@ describe WhoisPlayerWorker do
 
   describe "#perform" do
     it "matches players by partial name" do
-      expect_any_instance_of(Server).to receive(:rcon_say).with(/PlayerOne:/)
-      expect_any_instance_of(Server).not_to receive(:rcon_say).with(/SomeGuy:/)
+      expect_any_instance_of(Server).to receive(:rcon_exec).with(/sm_psay #7 PlayerOne:/)
+      expect_any_instance_of(Server).not_to receive(:rcon_exec).with(/sm_psay #7 SomeGuy:/)
 
-      subject.perform(reservation.id, "Player")
+      subject.perform(reservation.id, "Player", "7", true)
     end
 
     it "matches players by partial name case-insensitively" do
-      expect_any_instance_of(Server).to receive(:rcon_say).with(/SomeGuy:/)
+      expect_any_instance_of(Server).to receive(:rcon_exec).with(/sm_psay #7 SomeGuy:/)
 
-      subject.perform(reservation.id, "someguy")
+      subject.perform(reservation.id, "someguy", "7", true)
     end
 
     it "matches players by steam ID" do
-      expect_any_instance_of(Server).to receive(:rcon_say).with(/SomeGuy:/)
-      expect_any_instance_of(Server).not_to receive(:rcon_say).with(/PlayerOne:/)
+      expect_any_instance_of(Server).to receive(:rcon_exec).with(/sm_psay #7 SomeGuy:/)
+      expect_any_instance_of(Server).not_to receive(:rcon_exec).with(/sm_psay #7 PlayerOne:/)
 
-      subject.perform(reservation.id, "[U:1:67890]")
+      subject.perform(reservation.id, "[U:1:67890]", "7", true)
     end
 
     it "matches players by steam ID64" do
-      expect_any_instance_of(Server).to receive(:rcon_say).with(/PlayerOne:/)
+      expect_any_instance_of(Server).to receive(:rcon_exec).with(/sm_psay #7 PlayerOne:/)
 
-      subject.perform(reservation.id, "76561197960278073")
+      subject.perform(reservation.id, "76561197960278073", "7", true)
     end
 
     it "matches all players with *" do
-      expect_any_instance_of(Server).to receive(:rcon_say).with(/PlayerOne:/).once
-      expect_any_instance_of(Server).to receive(:rcon_say).with(/SomeGuy:/).once
-      expect_any_instance_of(Server).to receive(:rcon_say).with(/SDRPlayer:/).once
+      expect_any_instance_of(Server).to receive(:rcon_exec).with(/sm_psay #7 PlayerOne:/).once
+      expect_any_instance_of(Server).to receive(:rcon_exec).with(/sm_psay #7 SomeGuy:/).once
+      expect_any_instance_of(Server).to receive(:rcon_exec).with(/sm_psay #7 SDRPlayer:/).once
 
-      subject.perform(reservation.id, "*")
+      subject.perform(reservation.id, "*", "7", true)
     end
 
     it "shows no match message when nobody matches" do
-      expect_any_instance_of(Server).to receive(:rcon_say).with(/No players matching 'nobody'/)
+      expect_any_instance_of(Server).to receive(:rcon_exec).with(/sm_psay #7 No players matching 'nobody'/)
 
-      subject.perform(reservation.id, "nobody")
+      subject.perform(reservation.id, "nobody", "7", true)
     end
 
-    it "sends private messages when private_to_uid is set" do
+    it "always sends private messages" do
       expect_any_instance_of(Server).to receive(:rcon_exec).with(/sm_psay #5 PlayerOne:/)
       expect_any_instance_of(Server).not_to receive(:rcon_say).with(/PlayerOne:/)
 
-      subject.perform(reservation.id, "Player", "5")
+      subject.perform(reservation.id, "Player", "5", false)
+    end
+
+    it "includes ISP info for reserver" do
+      expect(PlayerAnnouncementService).to receive(:build_info).with(anything, anything, reserver: true).and_return("info")
+
+      subject.perform(reservation.id, "Player", "7", true)
+    end
+
+    it "excludes ISP info for non-reserver" do
+      expect(PlayerAnnouncementService).to receive(:build_info).with(anything, anything, reserver: false).and_return("info")
+
+      subject.perform(reservation.id, "Player", "5", false)
     end
 
     it "matches emoji players by emoji name" do
-      expect_any_instance_of(Server).to receive(:rcon_say).with(/cant jump:/)
+      expect_any_instance_of(Server).to receive(:rcon_exec).with(/sm_psay #7 .*cant jump:/)
 
-      subject.perform(reservation.id, "burger")
+      subject.perform(reservation.id, "burger", "7", true)
     end
 
     it "does nothing if reservation does not exist" do
       expect_any_instance_of(Server).not_to receive(:rcon_say)
-      subject.perform(999999, "*")
+      subject.perform(999999, "*", "7", true)
     end
   end
 end

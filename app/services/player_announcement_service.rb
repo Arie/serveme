@@ -2,8 +2,8 @@
 # frozen_string_literal: true
 
 class PlayerAnnouncementService
-  def self.build_info(steam_uid, ip)
-    location_parts = build_location_parts(steam_uid, ip)
+  def self.build_info(steam_uid, ip, reserver: true)
+    location_parts = build_location_parts(steam_uid, ip, reserver: reserver)
     history_parts = build_history_parts(steam_uid)
     league_parts = build_league_parts(steam_uid)
     alt_parts = build_alt_parts(steam_uid)
@@ -11,7 +11,7 @@ class PlayerAnnouncementService
     (location_parts + history_parts + league_parts + alt_parts).join(". ")
   end
 
-  def self.build_location_parts(steam_uid, ip)
+  def self.build_location_parts(steam_uid, ip, reserver: true)
     if ReservationPlayer.sdr_ip?(ip)
       return [ "SDR" ]
     end
@@ -20,12 +20,18 @@ class PlayerAnnouncementService
 
     geocode_result = Geocoder.search(ip).first
     if geocode_result
-      location = [ geocode_result.state, geocode_result.country ].compact.reject(&:blank?).uniq.join(", ")
-      parts << location if location.present?
+      if reserver
+        location = [ geocode_result.state, geocode_result.country ].compact.reject(&:blank?).uniq.join(", ")
+        parts << location if location.present?
+      else
+        parts << geocode_result.country if geocode_result.country.present?
+      end
     end
 
-    isp = find_asn_organization(steam_uid, ip)
-    parts << isp if isp
+    if reserver
+      isp = find_asn_organization(steam_uid, ip)
+      parts << isp if isp
+    end
 
     parts
   end

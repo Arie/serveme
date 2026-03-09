@@ -419,8 +419,7 @@ class LogWorker
     query = message.match(WHOIS_COMMAND)&.[](1)&.strip
     return unless query.present?
 
-    private_to_uid = said_by_reserver? ? nil : event.player.uid
-    WhoisPlayerWorker.perform_async(reservation.id, query, private_to_uid)
+    WhoisPlayerWorker.perform_async(reservation.id, query, event.player.uid, said_by_reserver?)
   end
 
   def handle_disconnect

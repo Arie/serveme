@@ -92,14 +92,10 @@ RUN cd /home/tf2/hlserver/tf2/tf \
     && wget -nv "https://github.com/F2/F2s-sourcemod-plugins/releases/download/20250908-1757334414124/f2-sourcemod-plugins.zip" -O "f2-sourcemod-plugins.zip" \
     && unzip -o f2-sourcemod-plugins.zip \
     && rm f2-sourcemod-plugins.zip \
-    # WebRCON
-    && wget -nv https://codeberg.org/spire/webrcon/raw/master/plugin/webrcon.smx \
     # mapdownloader
     && wget -nv https://codeberg.org/spire/mapdownloader/raw/master/plugin/mapdownloader.smx \
     # demos.tf uploader
     && wget -nv https://codeberg.org/demostf/plugin/raw/ba1b642b92585af142a885af7159fa652916c6e7/demostf.smx \
-    # autoexec
-    && wget -nv https://codeberg.org/spire/autoexec/raw/master/plugin/autoexec.smx \
     # Pause
     && wget -nv https://codeberg.org/spire/docker-comp-server/raw/master/pause.smx \
     # SdrConnect
@@ -143,7 +139,7 @@ RUN cd /home/tf2/hlserver/tf2/tf \
 
 COPY --chown=tf2:tf2 base-configs/ /home/tf2/hlserver/tf2/tf/
 
-# 7. Bake in ctf_turbine (stock map is VPK-packed, we need the .bsp for changelevel)
+# 7. Bake in ctf_turbine
 RUN wget -nv "https://fastdl.serveme.tf/maps/ctf_turbine.bsp" -O "/home/tf2/hlserver/tf2/tf/maps/ctf_turbine.bsp"
 
 # 8. Add serveme-specific plugins (.smx files copied from live server)

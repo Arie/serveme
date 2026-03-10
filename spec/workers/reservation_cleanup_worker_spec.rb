@@ -91,6 +91,9 @@ describe ReservationCleanupWorker do
         allow(ssh_mock).to receive(:close)
         allow(Net::SSH).to receive(:start).and_return(ssh_mock)
         allow(ssh_server).to receive(:ssh).and_return(ssh_mock)
+
+        # Stub stac_logs to return empty (no STAC logs by default)
+        allow(ssh_server).to receive(:stac_logs).and_return([])
       end
 
       it 'downloads files, strips IPs, zips, and cleans up remote temp directory' do

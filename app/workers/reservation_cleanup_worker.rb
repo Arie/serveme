@@ -19,6 +19,7 @@ class ReservationCleanupWorker
     return unless @server
 
     begin
+      download_stac_logs
       zip_files
       copy_logs_to_destination
       LogScanWorker.perform_async(reservation_id)
@@ -128,6 +129,12 @@ class ReservationCleanupWorker
     else
       raise "Unexpected server type: #{server.class.name}. Only LocalServer, SshServer, and CloudServer use async cleanup."
     end
+  end
+
+  def download_stac_logs
+    StacLogsDownloader.new(reservation).download_and_process
+  rescue StandardError => e
+    Rails.logger.error("ReservationCleanupWorker: Error downloading STAC logs for reservation #{reservation.id}: #{e.message}")
   end
 
   def cleanup_local_temp_directory

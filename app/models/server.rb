@@ -464,6 +464,10 @@ class Server < ActiveRecord::Base
 
   sig { params(reservation: Reservation).void }
   def download_stac_logs(reservation)
+    # Cloud/SSH servers handle STAC logs in ReservationCleanupWorker
+    # to avoid a race condition with server destruction
+    return if uses_async_cleanup?
+
     StacLogsDownloaderWorker.perform_async(reservation.id)
   end
 

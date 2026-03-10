@@ -38,6 +38,7 @@ describe DockerHostReservationCreator do
       expect(reservation.server).to be_a(CloudServer)
       expect(reservation.server.cloud_provider).to eq("remote_docker")
       expect(reservation.server.cloud_location).to eq(docker_host.id.to_s)
+      expect(reservation.server.ip).to eq(docker_host.ip)
       expect(reservation.user).to eq(user)
       expect(reservation.password).to eq("testpass")
     end

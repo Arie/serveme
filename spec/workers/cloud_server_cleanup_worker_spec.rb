@@ -65,5 +65,23 @@ describe CloudServerCleanupWorker do
 
       expect { described_class.new.perform }.not_to raise_error
     end
+
+    it "does not destroy servers with future reservations" do
+      old_server = create(:cloud_server, cloud_status: "provisioning", cloud_created_at: 7.hours.ago)
+      reservation = create(:reservation, server: old_server, starts_at: 2.hours.from_now, ends_at: 4.hours.from_now, ended: false, provisioned: false)
+      old_server.update_columns(cloud_reservation_id: reservation.id)
+
+      expect(CloudServerDestroyWorker).not_to receive(:perform_async)
+
+      described_class.new.perform
+    end
+
+    it "does not destroy servers with nil cloud_created_at" do
+      create(:cloud_server, cloud_status: "provisioning", cloud_created_at: nil)
+
+      expect(CloudServerDestroyWorker).not_to receive(:perform_async)
+
+      described_class.new.perform
+    end
   end
 end

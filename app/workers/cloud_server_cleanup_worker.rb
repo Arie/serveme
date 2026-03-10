@@ -10,8 +10,12 @@ class CloudServerCleanupWorker
 
   def perform
     CloudServer.where(cloud_status: %w[provisioning ssh_ready ready])
+               .where.not(cloud_created_at: nil)
                .where(cloud_created_at: ...MAX_AGE.ago)
                .find_each do |server|
+      reservation = Reservation.find_by(id: server.cloud_reservation_id)
+      next if reservation&.starts_at&.future?
+
       Rails.logger.info "CloudServerCleanupWorker: Destroying stranded cloud server #{server.id} (created #{server.cloud_created_at})"
       end_stranded_reservation(server)
       CloudServerDestroyWorker.perform_async(server.id)

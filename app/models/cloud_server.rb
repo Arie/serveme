@@ -181,7 +181,6 @@ class CloudServer < RemoteServer
       cloud_status: "provisioning",
       cloud_location: location_code,
       cloud_ssh_port: ssh_port,
-      cloud_created_at: Time.current,
       cloud_callback_token: SecureRandom.hex(32),
       location: location
     }

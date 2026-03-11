@@ -21,7 +21,23 @@ sudo /usr/sbin/sshd -p "$SSH_PORT"
     done
 ) &
 
-# 2. Remove plugins that conflict with serveme's config management
+# 2. Check if TF2 needs updating
+if [ -n "$EXPECTED_TF2_VERSION" ]; then
+    STEAM_INF="$HOME/hlserver/tf2/tf/steam.inf"
+    if [ -f "$STEAM_INF" ]; then
+        INSTALLED_VERSION=$(grep -oP 'PatchVersion=\K[0-9.]+' "$STEAM_INF" | tr -d '.')
+    fi
+    if [ "$INSTALLED_VERSION" != "$EXPECTED_TF2_VERSION" ]; then
+        echo "TF2 outdated (installed: ${INSTALLED_VERSION:-unknown}, expected: $EXPECTED_TF2_VERSION), updating..."
+        /usr/games/steamcmd +force_install_dir /home/tf2/hlserver/tf2 +login anonymous +app_update 232250 +quit || \
+        /usr/games/steamcmd +force_install_dir /home/tf2/hlserver/tf2 +login anonymous +app_update 232250 +quit
+        echo "TF2 update complete"
+    else
+        echo "TF2 is up to date (version: $INSTALLED_VERSION)"
+    fi
+fi
+
+# 3. Remove plugins that conflict with serveme's config management
 rm -f "$HOME/hlserver/tf2/tf/addons/sourcemod/plugins/autoexec.smx"
 
 # 4. Write server.cfg with rcon password and reservation.cfg exec

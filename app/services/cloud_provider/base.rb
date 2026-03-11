@@ -117,6 +117,7 @@ module CloudProvider
           -e RCON_PASSWORD=#{cloud_server.rcon} \
           -e SSH_PORT=2222 \
           -e ENABLE_FAKEIP=1 \
+          -e EXPECTED_TF2_VERSION=#{Server.latest_version} \
           #{image}
       CLOUD_INIT
     end

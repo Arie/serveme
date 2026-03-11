@@ -31,8 +31,8 @@ USER tf2
 # SteamCMD sometimes fails with 0x426 on first attempt, retry once
 ARG TF2_VERSION=0
 RUN echo "Building for TF2 version: ${TF2_VERSION}" \
-    && /usr/games/steamcmd +force_install_dir /home/tf2/hlserver/tf2 +login anonymous +app_update 232250 +quit || \
-    /usr/games/steamcmd +force_install_dir /home/tf2/hlserver/tf2 +login anonymous +app_update 232250 +quit \
+    && (/usr/games/steamcmd +force_install_dir /home/tf2/hlserver/tf2 +login anonymous +app_update 232250 +quit || \
+        /usr/games/steamcmd +force_install_dir /home/tf2/hlserver/tf2 +login anonymous +app_update 232250 +quit) \
     && cd /home/tf2/hlserver/tf2/tf/maps && rm -f *.bsp \
     && rm -f /home/tf2/hlserver/tf2/tf/resource/tf_*.txt
 
@@ -146,6 +146,7 @@ RUN wget -nv "https://fastdl.serveme.tf/maps/ctf_turbine.bsp" -O "/home/tf2/hlse
 
 # 8. Add serveme-specific plugins (.smx files copied from live server)
 COPY --chown=tf2:tf2 serveme-plugins/ /home/tf2/hlserver/tf2/tf/addons/sourcemod/plugins/
+
 
 COPY --chown=tf2:tf2 entrypoint.sh /home/tf2/hlserver/entrypoint.sh
 RUN chmod +x /home/tf2/hlserver/entrypoint.sh

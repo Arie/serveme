@@ -36,6 +36,7 @@ module CloudProvider
         -e CLIENT_PORT=#{client_port}
         -e STEAM_PORT=#{steam_port}
         -e ENABLE_FAKEIP=1
+        -e EXPECTED_TF2_VERSION=#{Server.latest_version}
         tf2-cloud-server
       ]
       success = system(*cmd)

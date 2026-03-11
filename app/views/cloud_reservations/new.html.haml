@@ -21,10 +21,19 @@
       = f.input :starts_at, as: :string, input_html: { value: I18n.l(@reservation.starts_at || Time.current, format: :datepicker), data: { "datepicker-format": "dd-mm-yyyy hh:ii", "datepicker-nodefault": "false" } }, label: "Starts at"
       = f.input :ends_at, as: :string, input_html: { value: I18n.l(@reservation.ends_at || 2.hours.from_now, format: :datepicker), data: { "datepicker-format": "dd-mm-yyyy hh:ii", "datepicker-nodefault": "false" } }, label: "Ends at"
 
-      = f.input :password, as: :string, placeholder: "The server password to join the game"
-      = f.input :rcon, as: :string, placeholder: "The RCON password to control the server"
+      .password-refresh-wrapper{data: { controller: "password-refresh" }}
+        = f.input :password, as: :string, placeholder: "The server password to join the game", input_html: { data: { password_refresh_target: "input" } }
+        %button.password-refresh-btn{type: "button", data: { action: "password-refresh#refresh", password_refresh_target: "button" }, title: "Generate random password"}
+          %i.fa.fa-refresh
+      .password-refresh-wrapper{data: { controller: "password-refresh" }}
+        = f.input :rcon, as: :string, placeholder: "The RCON password to control the server", input_html: { data: { password_refresh_target: "input" } }
+        %button.password-refresh-btn{type: "button", data: { action: "password-refresh#refresh", password_refresh_target: "button" }, title: "Generate random password"}
+          %i.fa.fa-refresh
       = f.input :first_map, as: :grouped_select, group_method: :maps, group_label_method: :name, collection: LeagueMaps.all, input_html: { class: "select2" }
-      = f.input :tv_password, as: :string, placeholder: "Password for STV, default tv"
+      .password-refresh-wrapper{data: { controller: "password-refresh" }}
+        = f.input :tv_password, as: :string, placeholder: "Password for STV, default tv", input_html: { data: { password_refresh_target: "input" } }
+        %button.password-refresh-btn{type: "button", data: { action: "password-refresh#refresh", password_refresh_target: "button" }, title: "Generate random password"}
+          %i.fa.fa-refresh
       = f.input :enable_plugins, as: :boolean, hint: "Enable plugins"
       = f.input :enable_demos_tf, as: :boolean, hint: "Enable uploading STVs to demos.tf"
       = f.association :server_config, collection: @server_configs, hint: "Specify a league config to run on each map start", input_html: { class: "select2" }

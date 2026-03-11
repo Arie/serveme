@@ -44,10 +44,21 @@
         .col-sm-3.col-md-3
           %input#reservation_ping.string.optional.readonly.disabled.form-control{disabled: "disabled", type: "text", data: { ping_target: "selected" }}
 
-      = f.input :password,            as: :string, placeholder: "The server password to join the game"
-      = f.input :rcon,                as: :string, placeholder: "The RCON password to control the server",          disabled: !@reservation.schedulable?
+      .password-refresh-wrapper{data: { controller: "password-refresh" }}
+        = f.input :password,            as: :string, placeholder: "The server password to join the game", input_html: { data: { password_refresh_target: "input" } }
+        %button.password-refresh-btn{type: "button", data: { action: "password-refresh#refresh", password_refresh_target: "button" }, title: "Generate random password"}
+          %i.fa.fa-refresh
+      .password-refresh-wrapper{data: { controller: "password-refresh" }}
+        = f.input :rcon,                as: :string, placeholder: "The RCON password to control the server", disabled: !@reservation.schedulable?, input_html: { data: { password_refresh_target: "input" } }
+        - if @reservation.schedulable?
+          %button.password-refresh-btn{type: "button", data: { action: "password-refresh#refresh", password_refresh_target: "button" }, title: "Generate random password"}
+            %i.fa.fa-refresh
       = f.input :first_map,           as: :grouped_select, group_method: :maps, group_label_method: :name, collection: LeagueMaps.all, :input_html => { :class => "select2" }, disabled: !@reservation.schedulable?
-      = f.input :tv_password,         as: :string,   placeholder: "Password for STV, default tv",                   disabled: !@reservation.schedulable?
+      .password-refresh-wrapper{data: { controller: "password-refresh" }}
+        = f.input :tv_password,         as: :string,   placeholder: "Password for STV, default tv",                   disabled: !@reservation.schedulable?, input_html: { data: { password_refresh_target: "input" } }
+        - if @reservation.schedulable?
+          %button.password-refresh-btn{type: "button", data: { action: "password-refresh#refresh", password_refresh_target: "button" }, title: "Generate random password"}
+            %i.fa.fa-refresh
       = f.input :enable_plugins,      as: :boolean,  hint: "Enable plugins",                                        disabled: !@reservation.schedulable?
       = f.input :enable_demos_tf,     as: :boolean,  hint: "Enable uploading STVs to demos.tf",                     disabled: !@reservation.schedulable?
       - if SiteSetting.show_democheck?

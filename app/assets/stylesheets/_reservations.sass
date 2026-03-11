@@ -24,6 +24,25 @@ form.reservation
 
   i.fa-refresh
     display: none
+  .password-refresh-btn > i.fa-refresh
+    display: inline-block
+
+.password-refresh-wrapper
+  .password-refresh-btn
+    position: absolute
+    right: 1px
+    top: 1px
+    z-index: 2
+    height: calc(1.5em + 1.5rem)
+    display: flex
+    align-items: center
+    padding: 0 10px
+    border: none
+    background: none
+    color: #999
+    cursor: pointer
+    &:hover
+      color: #333
 
 #reservation_status_message
   display: inline-block

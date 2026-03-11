@@ -123,6 +123,9 @@ class CloudServer < RemoteServer
     else
       reservation.status_update("Cancelling cloud server")
     end
+  rescue Errno::ECONNREFUSED => e
+    Rails.logger.warn("CloudServer#end_reservation: SSH connection refused for server #{id} (#{ip}:#{cloud_ssh_port}), server likely already destroyed: #{e.message}")
+    reservation.status_update("Cloud server unreachable, skipping cleanup")
   end
 
   def self.next_available_port_for(cloud_provider, cloud_location)

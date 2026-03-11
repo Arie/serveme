@@ -118,6 +118,8 @@ class ReservationCleanupWorker
 
   def copy_logs_to_destination
     LogCopier.copy(reservation, server)
+  rescue Errno::ECONNREFUSED => e
+    Rails.logger.error("ReservationCleanupWorker: SSH connection refused copying logs for reservation #{reservation.id}: #{e.message}")
   end
 
   def cleanup_temp_directory

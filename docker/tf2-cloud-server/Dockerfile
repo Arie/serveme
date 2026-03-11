@@ -29,7 +29,9 @@ USER tf2
 
 # 2. Install TF2 dedicated server + strip maps/resources to minimize image
 # SteamCMD sometimes fails with 0x426 on first attempt, retry once
-RUN /usr/games/steamcmd +force_install_dir /home/tf2/hlserver/tf2 +login anonymous +app_update 232250 +quit || \
+ARG TF2_VERSION=0
+RUN echo "Building for TF2 version: ${TF2_VERSION}" \
+    && /usr/games/steamcmd +force_install_dir /home/tf2/hlserver/tf2 +login anonymous +app_update 232250 +quit || \
     /usr/games/steamcmd +force_install_dir /home/tf2/hlserver/tf2 +login anonymous +app_update 232250 +quit \
     && cd /home/tf2/hlserver/tf2/tf/maps && rm -f *.bsp \
     && rm -f /home/tf2/hlserver/tf2/tf/resource/tf_*.txt

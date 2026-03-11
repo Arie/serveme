@@ -18,7 +18,7 @@ class CloudImageBuildWorker
 
     tag = "#{DOCKERHUB_IMAGE}:latest"
 
-    run_command!("docker build --pull -t #{tag} #{DOCKER_DIR}")
+    run_command!("docker build --pull --build-arg TF2_VERSION=#{version} -t #{tag} #{DOCKER_DIR}")
     run_command!("docker push #{tag}")
 
     Rails.logger.info "CloudImageBuildWorker: Successfully built and pushed image for TF2 version #{version}"

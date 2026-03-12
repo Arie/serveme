@@ -51,7 +51,7 @@ RSpec.describe CloudProvider::RemoteDocker do
 
     it "pulls the image first" do
       provider.create_server(cloud_server)
-      expect(ssh_session).to have_received(:exec!).with("docker pull serveme/tf2-cloud-server:latest")
+      expect(ssh_session).to have_received(:exec!).with("timeout 600 docker pull serveme/tf2-cloud-server:latest")
     end
 
     it "runs docker with host networking and port env vars" do

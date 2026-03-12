@@ -55,6 +55,9 @@ module GeneratedPathHelpersModule
   def ai_pages_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def api_docker_image_updates_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def api_donator_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }

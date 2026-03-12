@@ -21,7 +21,11 @@ class CloudImageBuildWorker
     run_command!("docker build --pull --build-arg TF2_VERSION=#{version} -t #{tag} #{DOCKER_DIR}")
     run_command!("docker push #{tag}")
 
-    Rails.logger.info "CloudImageBuildWorker: Successfully built and pushed image for TF2 version #{version}"
+    digest = pushed_digest
+    Rails.logger.info "CloudImageBuildWorker: Successfully built and pushed image for TF2 version #{version} (digest: #{digest})"
+    SiteSetting.set(DockerImagePollWorker::DIGEST_SETTING_KEY, digest) if digest
+    DockerHostImagePullWorker.perform_async
+    notify_other_regions(digest)
   ensure
     release_lock
   end
@@ -34,6 +38,46 @@ class CloudImageBuildWorker
 
   def release_lock
     Sidekiq.redis { |conn| conn.del(LOCK_KEY) }
+  end
+
+  def pushed_digest
+    output, = Open3.capture2e("docker inspect --format='{{index .RepoDigests 0}}' #{DOCKERHUB_IMAGE}:latest")
+    digest = output.strip.split("@").last
+    digest if digest.present? && digest.start_with?("sha256:")
+  rescue StandardError => e
+    Rails.logger.warn "CloudImageBuildWorker: Failed to get pushed digest: #{e.message}"
+    nil
+  end
+
+  def notify_other_regions(digest)
+    current_region = case SITE_HOST
+    when "serveme.tf" then :eu
+    when "na.serveme.tf" then :na
+    when "sea.serveme.tf" then :sea
+    when "au.serveme.tf" then :au
+    end
+
+    IpLookupSyncWorker::REGIONS.each do |region_key, base_url|
+      next if region_key == current_region
+
+      api_key = Rails.application.credentials.dig(:serveme, region_key)
+      next unless api_key
+
+      conn = Faraday.new(url: base_url) do |f|
+        f.request :json
+        f.options.timeout = 10
+        f.options.open_timeout = 5
+      end
+
+      conn.post("/api/docker_image_updates") do |req|
+        req.headers["Authorization"] = "Bearer #{api_key}"
+        req.body = { digest: digest }.compact.to_json
+      end
+
+      Rails.logger.info "CloudImageBuildWorker: Notified #{region_key} to pull new image"
+    rescue Faraday::Error => e
+      Rails.logger.warn "CloudImageBuildWorker: Failed to notify #{region_key}: #{e.message}"
+    end
   end
 
   def run_command!(command)

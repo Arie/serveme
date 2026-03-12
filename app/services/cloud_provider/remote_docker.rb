@@ -50,7 +50,7 @@ module CloudProvider
       ].join(" ")
 
       ssh_to_host(docker_host) do |ssh|
-        ssh.exec!("docker pull serveme/tf2-cloud-server:latest")
+        ssh.exec!("timeout 600 docker pull serveme/tf2-cloud-server:latest")
         output = ssh.exec!(docker_run_cmd)
         raise "RemoteDocker container failed to start on #{docker_host.ip}: #{output}" if output.nil? || output.strip.empty?
         Rails.logger.info "RemoteDocker: Created container #{container_name} on #{docker_host.ip}"

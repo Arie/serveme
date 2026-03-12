@@ -48,6 +48,11 @@ league_maps_sync_tz:
   class: "LeagueMapsSyncWorker"
   queue: default
 
+docker_image_poll_tz:
+  cron: "*/5 * * * * Europe/Amsterdam"
+  class: "DockerImagePollWorker"
+  queue: default
+
 cloud_server_cleanup_tz:
   cron: "*/10 * * * * Europe/Amsterdam"  # Run every 10 minutes
   class: "CloudServerCleanupWorker"

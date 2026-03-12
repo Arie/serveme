@@ -2,11 +2,20 @@
 # frozen_string_literal: true
 
 require "spec_helper"
+require "webmock/rspec"
 
 describe CloudImageBuildWorker do
   let(:worker) { described_class.new }
   let(:version) { 9876543 }
   let(:redis) { instance_double(Redis) }
+
+  around do |example|
+    VCR.turned_off do
+      WebMock.allow_net_connect!
+      example.run
+      WebMock.disable_net_connect!
+    end
+  end
 
   before do
     stub_const("SITE_HOST", "serveme.tf")
@@ -14,6 +23,7 @@ describe CloudImageBuildWorker do
     allow(redis).to receive(:set).and_return(true)
     allow(redis).to receive(:del)
     allow(Open3).to receive(:capture2e).and_return([ "", instance_double(Process::Status, success?: true, exitstatus: 0) ])
+    allow(Rails.application.credentials).to receive(:dig).with(:serveme, anything).and_return(nil)
   end
 
   describe "#perform" do
@@ -51,6 +61,35 @@ describe CloudImageBuildWorker do
       expect(redis).to receive(:del).with("cloud_image_build")
 
       worker.perform(version)
+    end
+
+    it "notifies other regions after successful push" do
+      allow(Rails.application.credentials).to receive(:dig).with(:serveme, anything).and_return("test-api-key")
+
+      %w[na.serveme.tf sea.serveme.tf au.serveme.tf].each do |host|
+        stub_request(:post, "https://direct.#{host}/api/docker_image_updates")
+          .with(headers: { "Authorization" => "Bearer test-api-key" })
+          .to_return(status: 200)
+      end
+
+      worker.perform(version)
+
+      expect(WebMock).to have_requested(:post, "https://direct.na.serveme.tf/api/docker_image_updates")
+      expect(WebMock).to have_requested(:post, "https://direct.sea.serveme.tf/api/docker_image_updates")
+      expect(WebMock).to have_requested(:post, "https://direct.au.serveme.tf/api/docker_image_updates")
+    end
+
+    it "continues notifying other regions when one fails" do
+      allow(Rails.application.credentials).to receive(:dig).with(:serveme, anything).and_return("test-api-key")
+
+      stub_request(:post, "https://direct.na.serveme.tf/api/docker_image_updates").to_raise(Faraday::ConnectionFailed.new("Connection refused"))
+      stub_request(:post, "https://direct.sea.serveme.tf/api/docker_image_updates").to_return(status: 200)
+      stub_request(:post, "https://direct.au.serveme.tf/api/docker_image_updates").to_return(status: 200)
+
+      worker.perform(version)
+
+      expect(WebMock).to have_requested(:post, "https://direct.sea.serveme.tf/api/docker_image_updates")
+      expect(WebMock).to have_requested(:post, "https://direct.au.serveme.tf/api/docker_image_updates")
     end
   end
 end

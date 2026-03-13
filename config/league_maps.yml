@@ -40,11 +40,11 @@ league_maps:
 - name: ozfortress 6v6
   active: true
   maps:
-  - cp_granary_pro_rc17a3
   - cp_gullywash_f9
-  - cp_metalworks_f7
   - cp_process_f12
+  - cp_reckoner
   - cp_snakewater_final1
+  - cp_sultry_b8a
   - cp_sunshine
   - koth_bagel_rc12
   - koth_clearcut_b18

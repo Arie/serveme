@@ -51,10 +51,24 @@ class SdrController < ApplicationController
   end
 
   def find_server(ip, port, resolved_ip)
-    Server.active.where(port: port)
-      .where(ip: [ ip, resolved_ip ])
-      .or(Server.active.where(port: port).where(resolved_ip: [ ip, resolved_ip ]))
+    ips = [ ip, resolved_ip ].compact
+    server = Server.active.where(port: port)
+      .where(ip: ips)
+      .or(Server.active.where(port: port).where(resolved_ip: ips))
       .first
+    return server if server
+    return unless ip.match?(/^\d+\.\d+\.\d+\.\d+$/)
+
+    # Fallback: resolve hostnames of servers with matching port to find a match
+    Server.active.where(port: port).where("ip !~ ?", '^\d+\.\d+\.\d+\.\d+$').find_each do |s|
+      s_resolved = Addrinfo.getaddrinfo(s.ip, nil, Socket::AF_INET).first&.ip_address
+      s.update_column(:resolved_ip, s_resolved) if s_resolved
+      return s if s_resolved == ip
+    rescue SocketError
+      next
+    end
+
+    nil
   end
 
   def get_sdr_details(server)

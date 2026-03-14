@@ -30,6 +30,7 @@ class PopulateResolvedIpsService
   private
 
   def lookup_hostname(hostname)
+    @cache ||= {}
     return @cache[hostname] if @cache.key?(hostname)
 
     resolved_ip = Addrinfo.getaddrinfo(hostname, nil, Socket::AF_INET)

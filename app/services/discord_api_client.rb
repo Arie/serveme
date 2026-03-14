@@ -20,6 +20,39 @@ class DiscordApiClient
       request(:patch, "/webhooks/#{client_id}/#{interaction_token}/messages/@original", { content: content })
     end
 
+    def create_private_thread(channel_id:, name:, auto_archive_duration: 1440)
+      request(:post, "/channels/#{channel_id}/threads", {
+        name: name,
+        type: 12, # Private thread
+        auto_archive_duration: auto_archive_duration
+      }, resource_id: channel_id)
+    end
+
+    def add_thread_member(thread_id:, user_id:)
+      request(:put, "/channels/#{thread_id}/thread-members/#{user_id}", nil, resource_id: thread_id)
+    end
+
+    def send_message(channel_id:, content: nil, embeds: nil, components: nil)
+      payload = {}
+      payload[:content] = content if content
+      payload[:embeds] = embeds if embeds
+      payload[:components] = components if components
+
+      request(:post, "/channels/#{channel_id}/messages", payload, resource_id: channel_id)
+    end
+
+    def archive_thread(thread_id:)
+      request(:patch, "/channels/#{thread_id}", { archived: true, locked: true }, resource_id: thread_id)
+    end
+
+    def create_dm_channel(user_id:)
+      request(:post, "/users/@me/channels", { recipient_id: user_id })
+    end
+
+    def get_message(channel_id:, message_id:)
+      request(:get, "/channels/#{channel_id}/messages/#{message_id}", nil, resource_id: channel_id)
+    end
+
     # Check how long to wait before making a request to this resource
     # Returns 0 if we can proceed immediately, or seconds to wait
     def wait_time_for_resource(resource_id)
@@ -62,6 +95,8 @@ class DiscordApiClient
         Net::HTTP::Get.new(uri)
       when :post
         Net::HTTP::Post.new(uri)
+      when :put
+        Net::HTTP::Put.new(uri)
       when :patch
         Net::HTTP::Patch.new(uri)
       when :delete

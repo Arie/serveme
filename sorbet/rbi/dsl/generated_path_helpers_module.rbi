@@ -622,6 +622,9 @@ module GeneratedPathHelpersModule
   def upload_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def user_info_api_ban_appeals_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def user_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }

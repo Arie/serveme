@@ -171,6 +171,9 @@ Serveme::Application.routes.draw do
     resources :servers, only: :index
     resources :donators, except: %i[edit update index]
     resources :ip_lookups, only: :create
+    resource :ban_appeals, only: [] do
+      get :user_info
+    end
     resources :docker_image_updates, only: :create
     resources :reservations do
       member do

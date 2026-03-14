@@ -20,6 +20,7 @@ require_relative "lib/commands/servers_command"
 require_relative "lib/commands/reservations_command"
 require_relative "lib/commands/link_command"
 require_relative "lib/commands/reserve_command"
+require_relative "lib/commands/appeal_command"
 
 module ServemeBot
   class Bot
@@ -105,6 +106,8 @@ module ServemeBot
 
         cmd.subcommand(:unlink, "Unlink your Discord from serveme.tf")
 
+        cmd.subcommand(:appeal, "Appeal a ban on serveme.tf")
+
         cmd.subcommand(:help, "Show available commands")
       end
 
@@ -150,6 +153,10 @@ module ServemeBot
         Commands::LinkCommand.new(event).execute(unlink: true)
       end
 
+      @bot.application_command(Config.command_name).subcommand(:appeal) do |event|
+        Commands::AppealCommand.new(event).execute
+      end
+
       @bot.application_command(Config.command_name).subcommand(:help) do |event|
         user = User.find_by(discord_uid: event.user.id.to_s)
         user_info = user ? "#{user.nickname} (#{user.id})" : "unlinked"
@@ -165,6 +172,7 @@ module ServemeBot
 
           `/#{cmd} servers` - Show available #{Config.region_name} servers
           `/#{cmd} reservations` - Show your reservation history
+          `/#{cmd} appeal` - Appeal a ban on serveme.tf
           `/#{cmd} link` - Link your Discord to #{SITE_HOST}
           `/#{cmd} unlink` - Unlink your Discord account
 
@@ -202,6 +210,16 @@ module ServemeBot
         group_name = parts[0]
         config_name = parts[1] || ""
         handle_book_with_config(event, group_name, config_name)
+      end
+
+      # Appeal approve button
+      @bot.button(custom_id: /^appeal_approve:\d+:\d+$/) do |event|
+        handle_appeal_decision(event, "approved")
+      end
+
+      # Appeal deny button
+      @bot.button(custom_id: /^appeal_deny:\d+:\d+$/) do |event|
+        handle_appeal_decision(event, "denied")
       end
 
       # Book cloud server button (from /serveme servers)
@@ -435,6 +453,35 @@ module ServemeBot
     rescue StandardError => e
       Rails.logger.error "Error extending reservation: #{e.message}\n#{e.backtrace.first(5).join("\n")}"
       event.respond(content: ":x: Failed to extend reservation. Please try again later.", ephemeral: true)
+    end
+
+    def handle_appeal_decision(event, decision)
+      parts = event.interaction.button.custom_id.split(":")
+      user_id = parts[1].to_i
+      thread_id = parts[2]
+
+      admin_user = User.find_by(discord_uid: event.user.id.to_s)
+      unless admin_user&.admin?
+        event.respond(content: ":x: Only admins can approve or deny appeals.", ephemeral: true)
+        return
+      end
+
+      # Extract admin_message_id from the message that has the buttons
+      admin_message_id = event.message.id.to_s
+
+      event.respond(content: ":hourglass: Processing...", ephemeral: true)
+
+      DiscordBanAppealDecisionWorker.perform_async(
+        user_id,
+        thread_id,
+        admin_message_id,
+        decision,
+        event.user.id.to_s,
+        event.interaction.token
+      )
+    rescue StandardError => e
+      Rails.logger.error "[Discord] Error handling appeal #{decision}: #{e.message}"
+      event.respond(content: ":x: Failed to process appeal. Please try again.", ephemeral: true)
     end
 
     def handle_book_group(event, group_name)

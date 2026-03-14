@@ -65,6 +65,10 @@ module ServemeBot
         ENV["DISCORD_DEV_GUILD_ID"] || Rails.application.credentials.dig(:discord, :dev_guild_id)
       end
 
+      def serveme_guild_id
+        Rails.application.credentials.dig(:discord, :serveme_guild_id)
+      end
+
       # Backwards compatibility
       alias_method :link_base_url, :site_url
     end

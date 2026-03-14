@@ -622,6 +622,9 @@ module GeneratedUrlHelpersModule
   def upload_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def user_info_api_ban_appeals_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def user_reservations_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }

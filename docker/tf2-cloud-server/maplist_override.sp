@@ -6,7 +6,7 @@ public Plugin:myinfo =
 	name = "Map List Override",
 	author = "serveme.tf",
 	description = "Override 'maps' command to report all available maps from serveme.tf",
-	version = "1.0",
+	version = "1.1",
 	url = "https://serveme.tf"
 };
 
@@ -18,7 +18,7 @@ public OnPluginStart()
 {
 	g_MapList = CreateArray(PLATFORM_MAX_PATH);
 	LoadMapList();
-	RegServerCmd("maps", Command_Maps, "Override maps command to show all serveme.tf maps");
+	AddCommandListener(Command_Maps, "maps");
 }
 
 public OnMapStart()
@@ -53,12 +53,12 @@ LoadMapList()
 	PrintToServer("[MapListOverride] Loaded %d maps from %s", GetArraySize(g_MapList), MAPLIST_PATH);
 }
 
-public Action:Command_Maps(args)
+public Action:Command_Maps(client, const String:command[], argc)
 {
 	decl String:filter[64];
 	new bool:hasFilter = false;
 
-	if (args >= 1)
+	if (argc >= 1)
 	{
 		GetCmdArg(1, filter, sizeof(filter));
 		if (!StrEqual(filter, "*"))

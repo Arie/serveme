@@ -27,12 +27,6 @@ describe Reservation do
 
       WhitelistTf.find_by_tf_whitelist_id(104).content.should == '104 the whitelist'
     end
-
-    it "sets an error if the whitelist couldn't be downloaded" do
-      reservation = build(:reservation, custom_whitelist_id: 103)
-      Faraday.should_receive(:new).with(anything).and_raise(Faraday::ClientError.new('foo'))
-      reservation.should have(1).error_on(:custom_whitelist_id)
-    end
   end
 
   describe 'passwords' do

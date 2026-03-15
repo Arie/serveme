@@ -35,6 +35,19 @@ describe AllowReservationPlayersWorker do
       subject.perform(reservation.id)
     end
 
+    it 'whitelists players with NULL whitelisted (created by first_or_create)' do
+      rp = create :reservation_player, reservation: reservation, ip: '5.6.7.8', steam_uid: 1005, whitelisted: nil
+
+      expect(server).to receive(:mitigation_ssh_exec).once.with(
+        a_string_matching(/5\.6\.7\.8/),
+        log_stderr: true
+      )
+
+      subject.perform(reservation.id)
+
+      expect(rp.reload.whitelisted).to be true
+    end
+
     it 'only issues SSH for players that need a new iptables rule' do
       create :reservation_player, reservation: reservation, ip: '1.2.3.4', steam_uid: 1001, whitelisted: true
       create :reservation_player, reservation: reservation, ip: '1.2.3.4', steam_uid: 1001, whitelisted: false

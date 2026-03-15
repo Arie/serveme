@@ -144,7 +144,10 @@ COPY --chown=tf2:tf2 base-configs/ /home/tf2/hlserver/tf2/tf/
 # 7. Bake in ctf_turbine
 RUN wget -nv "https://fastdl.serveme.tf/maps/ctf_turbine.bsp" -O "/home/tf2/hlserver/tf2/tf/maps/ctf_turbine.bsp"
 
-# 8. Add serveme-specific plugins (.smx files copied from live server)
+# 8. Bake in map list for maplist_override plugin (refreshed at container start)
+RUN curl -sf --max-time 30 "https://direct.serveme.tf/api/maps.txt" -o /home/tf2/hlserver/tf2/tf/cfg/maplist_full.txt
+
+# 9. Add serveme-specific plugins (.smx files copied from live server)
 COPY --chown=tf2:tf2 serveme-plugins/ /home/tf2/hlserver/tf2/tf/addons/sourcemod/plugins/
 
 

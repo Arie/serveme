@@ -39,5 +39,27 @@ describe Api::MapsController do
       expect(response.status).not_to eq(401)
       expect(response.status).to eq(200)
     end
+
+    it 'renders a sorted plain text list of available maps' do
+      allow(MapUpload).to receive(:available_maps).and_return([ 'koth_viaduct', 'cp_badlands', 'cp_granary' ])
+      Rails.cache.delete("api_maps_text")
+
+      get :index, format: :txt
+
+      expect(response.status).to eq(200)
+      expect(response.content_type).to include('text/plain')
+      expect(response.body).to eq("cp_badlands\ncp_granary\nkoth_viaduct")
+    end
+
+    it 'returns an empty body when no maps are available in text format' do
+      allow(MapUpload).to receive(:available_maps).and_return([])
+      Rails.cache.delete("api_maps_text")
+
+      get :index, format: :txt
+
+      expect(response.status).to eq(200)
+      expect(response.content_type).to include('text/plain')
+      expect(response.body).to eq('')
+    end
   end
 end

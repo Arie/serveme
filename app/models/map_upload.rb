@@ -39,6 +39,7 @@ class MapUpload < ActiveRecord::Base
   def self.refresh_bucket_objects
     Rails.cache.delete("map-list-view-for-admin-false")
     Rails.cache.delete("map-list-view-for-admin-true")
+    Rails.cache.delete("api_maps_text")
     Rails.cache.write("map_bucket_objects", fetch_bucket_objects, expire_in: 11.minutes)
   end
 
@@ -126,6 +127,7 @@ class MapUpload < ActiveRecord::Base
   def self.delete_bucket_object(map_name)
     ActiveStorage::Blob.service.delete("maps/#{map_name}.bsp")
     ActiveStorage::Blob.service.delete("maps/#{map_name}.bsp.bz2")
+    Rails.cache.delete("api_maps_text")
     Rails.cache.write("map_bucket_objects", bucket_objects.reject { |o| o[:map_name] == map_name }, expires_in: 11.minutes)
     Rails.cache.write("map_statistics", map_statistics.reject { |s| s[0] == map_name }, expires_in: 11.minutes)
     Turbo::StreamsChannel.broadcast_replace_to("admin-maps-list", partial: "map_uploads/admin_list", locals: { bucket_objects: bucket_objects, map_statistics: map_statistics })

@@ -87,7 +87,19 @@ if [ ! -f "$RESERVATION_CFG" ]; then
     echo "Warning: reservation.cfg not found after 5 minutes, starting anyway"
 fi
 
-# 7. Read first map from file (written by serveme) or fall back to env/default
+# 7. Refresh map list from serveme API (fall back to baked-in list)
+MAPLIST_PATH="$HOME/hlserver/tf2/tf/cfg/maplist_full.txt"
+MAPLIST_URL="${MAPLIST_URL:-https://direct.serveme.tf/api/maps.txt}"
+echo "Refreshing map list from $MAPLIST_URL..."
+if curl -sf --connect-timeout 5 --max-time 15 "$MAPLIST_URL" -o "${MAPLIST_PATH}.tmp" && [ -s "${MAPLIST_PATH}.tmp" ]; then
+    mv "${MAPLIST_PATH}.tmp" "$MAPLIST_PATH"
+    echo "Map list updated: $(wc -l < "$MAPLIST_PATH") maps"
+else
+    rm -f "${MAPLIST_PATH}.tmp"
+    echo "Could not refresh map list, keeping baked-in version"
+fi
+
+# 8. Read first map from file (written by serveme) or fall back to env/default
 FIRST_MAP_FILE="$HOME/hlserver/tf2/tf/cfg/first_map.txt"
 if [ -f "$FIRST_MAP_FILE" ]; then
     FIRST_MAP="$(cat "$FIRST_MAP_FILE")"
@@ -95,7 +107,7 @@ if [ -f "$FIRST_MAP_FILE" ]; then
 fi
 FIRST_MAP="${FIRST_MAP:-ctf_turbine}"
 
-# 8. Download first map if not already present
+# 9. Download first map if not already present
 MAP_PATH="$HOME/hlserver/tf2/tf/maps/${FIRST_MAP}.bsp"
 if [ ! -f "$MAP_PATH" ]; then
     echo "Downloading map: $FIRST_MAP"
@@ -104,7 +116,7 @@ if [ ! -f "$MAP_PATH" ]; then
     echo "Warning: Could not download $FIRST_MAP"
 fi
 
-# 9. Start TF2 server in background
+# 10. Start TF2 server in background
 PORT="${PORT:-27015}"
 cd "$HOME/hlserver"
 TV_PORT="${TV_PORT:-$((PORT + 5))}"
@@ -120,7 +132,7 @@ SRCDS_PID=$!
 # Forward signals to srcds
 trap "kill -TERM $SRCDS_PID 2>/dev/null" TERM INT
 
-# 10. Wait for RCON TCP port to be open, then phone home: TF2 is ready
+# 11. Wait for RCON TCP port to be open, then phone home: TF2 is ready
 if [ -n "$CALLBACK_URL" ]; then
     echo "Waiting for TF2 to start on port $PORT..."
     for i in $(seq 1 120); do
@@ -144,5 +156,5 @@ if [ -n "$CALLBACK_URL" ]; then
     done
 fi
 
-# 11. Wait on srcds process
+# 12. Wait on srcds process
 wait $SRCDS_PID

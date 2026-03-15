@@ -79,7 +79,7 @@ public Action:Command_Maps(client, const String:command[], argc)
 			continue;
 		}
 
-		PrintToServer("PENDING:  (fs) %s.bsp", mapName);
+		PrintToServer("PENDING:   (fs) %s", mapName);
 		count++;
 	}
 

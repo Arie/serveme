@@ -67,8 +67,9 @@ public Action:Command_Maps(client, const String:command[], argc)
 		}
 	}
 
-	new count = 0;
 	decl String:mapName[PLATFORM_MAX_PATH];
+
+	PrintToServer("-------------");
 
 	for (new i = 0; i < GetArraySize(g_MapList); i++)
 	{
@@ -80,10 +81,7 @@ public Action:Command_Maps(client, const String:command[], argc)
 		}
 
 		PrintToServer("PENDING:   (fs) %s", mapName);
-		count++;
 	}
-
-	PrintToServer("-------------\n%d map(s) in list", count);
 
 	return Plugin_Handled;
 }

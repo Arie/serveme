@@ -31,8 +31,17 @@ class ReservationsController < ApplicationController
   end
 
   def create
-    starts_at = reservation_params[:starts_at].present? ? Time.zone.parse(reservation_params[:starts_at].to_s) : Time.current
-    ends_at = reservation_params[:ends_at].present? ? Time.zone.parse(reservation_params[:ends_at].to_s) : 2.hours.from_now
+    begin
+      starts_at = reservation_params[:starts_at].present? ? Time.zone.parse(reservation_params[:starts_at].to_s) : Time.current
+      ends_at = reservation_params[:ends_at].present? ? Time.zone.parse(reservation_params[:ends_at].to_s) : 2.hours.from_now
+    rescue ArgumentError
+      @reservation = current_user.reservations.build(reservation_params.except(:starts_at, :ends_at))
+      @servers = Server.active.not_cloud.ordered.includes(:location)
+      @docker_hosts = DockerHost.active.includes(:location)
+      flash.now[:alert] = "Invalid date or time entered, please try again."
+      render :new, status: :unprocessable_entity
+      return
+    end
     if SiteSetting.free_server_limit_reached?(current_user, starts_at, ends_at)
       flash[:alert] = "All free servers are currently in use. Try again later or get premium for more servers."
       redirect_to new_reservation_path

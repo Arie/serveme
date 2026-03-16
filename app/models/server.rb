@@ -216,6 +216,7 @@ class Server < ActiveRecord::Base
     handle_rgl_base_cfg(reservation)
     add_motd(reservation)
     write_custom_whitelist(reservation) if reservation.custom_whitelist_id.present?
+    write_maplist
     reservation.status_update("Finished sending reservation config files")
   end
 
@@ -239,6 +240,14 @@ class Server < ActiveRecord::Base
     content = File.read(original_cfg_path)
     write_configuration(server_config_file("rgl_base.cfg"), content)
     true
+  end
+
+  sig { void }
+  def write_maplist
+    maps_text = Rails.cache.fetch("api_maps_text", expires_in: 10.minutes) do
+      MapUpload.available_maps.sort.join("\n")
+    end
+    write_configuration(server_config_file("maplist_full.txt"), maps_text)
   end
 
   sig { returns(T.nilable(T.any(String, T::Boolean))) }

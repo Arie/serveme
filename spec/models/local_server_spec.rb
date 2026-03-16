@@ -103,6 +103,7 @@ describe LocalServer do
       expect(File).to receive(:write).with('/tmp/cfg/ctf_turbine.cfg', 'config file contents').ordered.and_return(file)
       expect(File).to receive(:write).with('/tmp/cfg/rgl_base.cfg', rgl_base_cfg_content).ordered.and_return(file)
       expect(File).to receive(:write).with('/tmp/motd.txt', 'http://localhost:3000/reservations/1337/motd?password=secret').ordered.and_return(file)
+      expect(File).to receive(:write).with('/tmp/cfg/maplist_full.txt', anything).ordered.and_return(file)
 
       subject.should_receive(:generate_config_file).exactly(2).times.with(reservation, anything).and_return('config file contents')
       subject.start_reservation(reservation)

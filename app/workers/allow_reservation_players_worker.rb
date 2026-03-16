@@ -14,7 +14,7 @@ class AllowReservationPlayersWorker
     $lock.synchronize("mitigation-server-#{server.id}", retries: 7, initial_wait: 0.5, expiry: 30.seconds) do
       return if reservation.reload.ended?
 
-      players_to_whitelist = reservation.reservation_players.where(whitelisted: [false, nil])
+      players_to_whitelist = reservation.reservation_players.where(whitelisted: [ false, nil ])
       return if players_to_whitelist.empty?
 
       iptables = "sudo iptables -w 5"

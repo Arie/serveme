@@ -40,7 +40,7 @@ module CloudProvider
       Rails.logger.info "Kamatera: Creating server for cloud_server #{cloud_server.id}"
       location = cloud_server.cloud_location || default_location
 
-      server_name = "serveme-#{cloud_server.id}"
+      server_name = cloud_server_name(cloud_server)
       pwd = server_password
       body = {
         datacenter: location,
@@ -99,7 +99,7 @@ module CloudProvider
     def poll_command(cloud_server)
       provider_id = cloud_server.cloud_provider_id
       command_id = provider_id.delete_prefix("cmd:")
-      server_name = "serveme-#{cloud_server.id}"
+      server_name = cloud_server_name(cloud_server)
 
       cmd_response = service_connection.get("queue/#{command_id}")
       return nil unless cmd_response.success?

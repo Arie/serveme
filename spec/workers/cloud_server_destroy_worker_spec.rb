@@ -9,6 +9,7 @@ describe CloudServerDestroyWorker do
 
   before do
     allow(CloudProvider).to receive(:for).with("docker").and_return(provider)
+    allow(provider).to receive(:cloud_server_name).and_return("serveme-eu-#{cloud_server.cloud_reservation_id}")
     allow(provider).to receive(:destroy_servers_by_label).and_return(0)
   end
 
@@ -25,7 +26,7 @@ describe CloudServerDestroyWorker do
 
     it "calls destroy_servers_by_label as safety net" do
       allow(provider).to receive(:destroy_server)
-      expect(provider).to receive(:destroy_servers_by_label).with("serveme-#{cloud_server.id}")
+      expect(provider).to receive(:destroy_servers_by_label).with("serveme-eu-#{cloud_server.cloud_reservation_id}")
 
       described_class.new.perform(cloud_server.id)
     end

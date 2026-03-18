@@ -27,7 +27,7 @@ class CloudServerPollWorker
 
     begin
       # Kamatera: resolve command queue ID to real server UUID first
-      if provider.respond_to?(:pending_command?) && provider.pending_command?(provider_id)
+      if provider.pending_command?(provider_id)
         resolved_id = provider.poll_command(cloud_server)
         if resolved_id
           cloud_server.update!(cloud_provider_id: resolved_id)

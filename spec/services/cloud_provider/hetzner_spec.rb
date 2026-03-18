@@ -54,7 +54,7 @@ RSpec.describe CloudProvider::Hetzner do
         expect(WebMock).to have_requested(:post, "https://api.hetzner.cloud/v1/servers")
           .with { |req|
             body = JSON.parse(req.body)
-            body["name"] == "serveme-#{cloud_server.id}" &&
+            body["name"] == provider.cloud_server_name(cloud_server) &&
               body["server_type"] == "cpx22" &&
               body["location"] == "fsn1"
           }

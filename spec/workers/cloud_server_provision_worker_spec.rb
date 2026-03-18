@@ -12,6 +12,7 @@ describe CloudServerProvisionWorker do
     cloud_server.update!(cloud_reservation_id: reservation.id)
     allow(CloudProvider).to receive(:for).with("docker").and_return(provider)
     allow(provider).to receive(:estimated_provision_time).and_return("less than a minute")
+    allow(provider).to receive(:pending_command?).and_return(false)
     allow(provider).to receive(:server_ip).and_return("10.0.0.1")
     allow(provider).to receive(:provision_phases).and_return([ { name: "creating_vm", label: "Creating VM", estimated_seconds: 30 }, { name: "booting", label: "Booting", estimated_seconds: 15 }, { name: "configuring", label: "Configuring", estimated_seconds: 15 } ])
   end

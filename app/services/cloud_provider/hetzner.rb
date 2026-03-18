@@ -19,7 +19,7 @@ module CloudProvider
       Rails.logger.info "Hetzner: Creating server for cloud_server #{cloud_server.id}"
       response = connection.post("servers") do |req|
         req.body = {
-          name: "serveme-#{cloud_server.id}",
+          name: cloud_server_name(cloud_server),
           server_type: server_type_for(cloud_server.cloud_location),
           image: image_id,
           location: cloud_server.cloud_location || default_location,

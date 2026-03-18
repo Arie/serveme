@@ -9,6 +9,7 @@ describe CloudServerPollWorker do
 
   before do
     allow(CloudProvider).to receive(:for).with("docker").and_return(provider)
+    allow(provider).to receive(:pending_command?).and_return(false)
   end
 
   describe "#perform" do

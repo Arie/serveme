@@ -27,8 +27,7 @@ class CloudServerDestroyWorker
 
     # Safety net: destroy any orphaned VMs matching this cloud server's label.
     # Catches duplicates created by retries before cloud_provider_id was saved.
-    label = "serveme-#{cloud_server.id}"
-    provider.destroy_servers_by_label(label)
+    provider.destroy_servers_by_label(provider.cloud_server_name(cloud_server))
 
     cloud_server.update!(cloud_status: "destroyed", cloud_destroyed_at: Time.current, active: false)
   end

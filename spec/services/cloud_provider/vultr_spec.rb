@@ -52,7 +52,7 @@ RSpec.describe CloudProvider::Vultr do
           expect(WebMock).to have_requested(:post, "https://api.vultr.com/v2/instances")
             .with { |req|
               body = JSON.parse(req.body)
-              body["label"] == "serveme-#{cloud_server.id}" &&
+              body["label"] == provider.cloud_server_name(cloud_server) &&
                 body["plan"] == "vc2-2c-2gb" &&
                 body["region"] == "ewr" &&
                 body["image_id"] == "docker" &&
@@ -77,7 +77,7 @@ RSpec.describe CloudProvider::Vultr do
           expect(WebMock).to have_requested(:post, "https://api.vultr.com/v2/instances")
             .with { |req|
               body = JSON.parse(req.body)
-              body["label"] == "serveme-#{cloud_server.id}" &&
+              body["label"] == provider.cloud_server_name(cloud_server) &&
                 body["plan"] == "vc2-2c-2gb" &&
                 body["region"] == "ewr" &&
                 body["snapshot_id"] == "snap-abc-123" &&

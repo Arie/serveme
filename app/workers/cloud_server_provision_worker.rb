@@ -45,7 +45,7 @@ class CloudServerProvisionWorker
     # Save provider_id immediately so retries won't create duplicate VMs
     cloud_server.update!(cloud_provider_id: provider_id)
 
-    unless provider.respond_to?(:pending_command?) && provider.pending_command?(provider_id)
+    unless provider.pending_command?(provider_id)
       ip = provider.server_ip(provider_id)
       cloud_server.update!(ip: ip) if ip.present?
     end

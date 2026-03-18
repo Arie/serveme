@@ -47,7 +47,7 @@ module CloudProvider
     def create_server(cloud_server)
       Rails.logger.info "Vultr: Creating server for cloud_server #{cloud_server.id}"
       body = {
-        label: "serveme-#{cloud_server.id}",
+        label: cloud_server_name(cloud_server),
         plan: plan,
         region: cloud_server.cloud_location || default_region,
         sshkey_id: [ ssh_key_id ],

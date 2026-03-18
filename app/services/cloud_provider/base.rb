@@ -47,6 +47,16 @@ module CloudProvider
       raise NotImplementedError
     end
 
+    # Returns true if the provider_id is a pending command queue ID (Kamatera).
+    def pending_command?(_provider_id)
+      false
+    end
+
+    # Poll a pending command to resolve the real server ID. Returns resolved ID or nil.
+    def poll_command(_cloud_server)
+      nil
+    end
+
     # Destroy all VMs/containers matching the given label. Returns count destroyed.
     # Used as a safety net to clean up orphaned VMs when provider_id was not saved.
     def destroy_servers_by_label(_label)
@@ -81,6 +91,11 @@ module CloudProvider
     # Delete all snapshots except the one to keep. Returns count of deleted snapshots.
     def delete_old_snapshots(keep_snapshot_id)
       0
+    end
+
+    def cloud_server_name(cloud_server)
+      region = SITE_HOST == "serveme.tf" ? "eu" : SITE_HOST.split(".").first
+      "serveme-#{region}-#{cloud_server.cloud_reservation_id}"
     end
 
     private

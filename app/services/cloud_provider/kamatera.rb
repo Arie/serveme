@@ -40,22 +40,24 @@ module CloudProvider
       Rails.logger.info "Kamatera: Creating server for cloud_server #{cloud_server.id}"
       location = cloud_server.cloud_location || default_location
 
+      params = {
+        name: "serveme-#{cloud_server.id}",
+        datacenter: location,
+        cpu: cpu_type,
+        ram: ram_mb,
+        disk_size_0: disk_size,
+        disk_src_0: image_id(location),
+        billing: "hourly",
+        traffic: traffic_package,
+        network_name_0: "wan",
+        power: 1,
+        password: server_password,
+        script: cloud_init_script(cloud_server),
+        selectedSSHKeyValue: ssh_public_key
+      }
       response = connection.post("server") do |req|
-        req.body = {
-          name: "serveme-#{cloud_server.id}",
-          datacenter: location,
-          cpu: cpu_type,
-          ram: ram_mb,
-          disk_size_0: disk_size,
-          disk_src_0: image_id(location),
-          billing: "hourly",
-          traffic: traffic_package,
-          network_name_0: "wan",
-          power: 1,
-          password: server_password,
-          script: cloud_init_script(cloud_server),
-          selectedSSHKeyValue: ssh_public_key
-        }.to_json
+        req.headers["Content-Type"] = "application/x-www-form-urlencoded"
+        req.body = URI.encode_www_form(params)
       end
       data = parse_response(response, "Kamatera API error")
 
@@ -121,7 +123,8 @@ module CloudProvider
     def destroy_server(provider_id)
       Rails.logger.info "Kamatera: Destroying server #{provider_id}"
       response = connection.delete("server/#{provider_id}/terminate") do |req|
-        req.body = { confirm: "1", force: "1" }.to_json
+        req.headers["Content-Type"] = "application/x-www-form-urlencoded"
+        req.body = URI.encode_www_form(confirm: "1", force: "1")
       end
       Rails.logger.info "Kamatera: Destroy server #{provider_id} result: #{response.status}"
       response.success?

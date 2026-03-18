@@ -40,7 +40,6 @@ module CloudProvider
       Rails.logger.info "Kamatera: Creating server for cloud_server #{cloud_server.id}"
       location = cloud_server.cloud_location || default_location
 
-      cloud_server.update!(cloud_ssh_port: 22)
       server_name = "serveme-#{cloud_server.id}"
       pwd = server_password
       body = {
@@ -83,29 +82,44 @@ module CloudProvider
       data = parse_response(response, "Kamatera API error")
 
       command_ids = data.is_a?(Array) ? data : [ data ]
-      Rails.logger.info "Kamatera: Create command IDs #{command_ids} for cloud_server #{cloud_server.id}"
+      command_id = command_ids.first
+      Rails.logger.info "Kamatera: Create command ID #{command_id} for cloud_server #{cloud_server.id}"
 
-      # Poll command status until complete, parse IP from log
-      120.times do
-        sleep 5
-        cmd_response = service_connection.get("queue/#{command_ids.first}")
-        next unless cmd_response.success?
+      # Return command ID prefixed with "cmd:" — the poll worker will
+      # poll the Kamatera queue and resolve the real UUID when complete.
+      "cmd:#{command_id}"
+    end
 
-        cmd_data = JSON.parse(cmd_response.body)
-        status = cmd_data["status"] if cmd_data.is_a?(Hash)
-        if status == "complete"
-          server_id = find_server_uuid(server_name)
-          raise "Kamatera server created but UUID not found" unless server_id
+    # Check if provider_id is a pending Kamatera command (not yet resolved to UUID)
+    def pending_command?(provider_id)
+      provider_id&.start_with?("cmd:")
+    end
 
-          Rails.logger.info "Kamatera: Created server #{server_id} (#{server_name}) for cloud_server #{cloud_server.id}"
-          return server_id
-        elsif status == "error"
-          raise "Kamatera server creation failed: #{cmd_data['log']}"
-        elsif status == "cancelled"
-          raise "Kamatera server creation cancelled"
-        end
+    # Poll the Kamatera command queue. Returns the resolved UUID when complete, nil if still pending.
+    def poll_command(cloud_server)
+      provider_id = cloud_server.cloud_provider_id
+      command_id = provider_id.delete_prefix("cmd:")
+      server_name = "serveme-#{cloud_server.id}"
+
+      cmd_response = service_connection.get("queue/#{command_id}")
+      return nil unless cmd_response.success?
+
+      cmd_data = JSON.parse(cmd_response.body)
+      status = cmd_data["status"] if cmd_data.is_a?(Hash)
+
+      case status
+      when "complete"
+        server_id = find_server_uuid(server_name)
+        raise "Kamatera server created but UUID not found" unless server_id
+
+        Rails.logger.info "Kamatera: Created server #{server_id} (#{server_name}) for cloud_server #{cloud_server.id}"
+        server_id
+      when "error"
+        raise "Kamatera server creation failed: #{cmd_data['log']}"
+      when "cancelled"
+        raise "Kamatera server creation cancelled"
       end
-      raise "Kamatera server creation timed out"
+      # Returns nil for "progress" or other statuses — still pending
     end
 
     def server_status(provider_id)

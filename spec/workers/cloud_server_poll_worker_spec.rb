@@ -72,5 +72,40 @@ describe CloudServerPollWorker do
 
       described_class.new.perform(cloud_server.id)
     end
+
+    context "with Kamatera pending command" do
+      let(:cloud_server) { create(:cloud_server, cloud_provider: "kamatera", cloud_status: "provisioning", cloud_provider_id: "cmd:12345", cloud_created_at: 1.minute.ago) }
+      let(:provider) { instance_double(CloudProvider::Kamatera) }
+
+      before do
+        allow(CloudProvider).to receive(:for).with("kamatera").and_return(provider)
+        allow(provider).to receive(:pending_command?).with("cmd:12345").and_return(true)
+      end
+
+      it "re-polls when command is still pending" do
+        allow(provider).to receive(:poll_command).with(cloud_server).and_return(nil)
+        expect(CloudServerPollWorker).to receive(:perform_in).with(5.seconds, cloud_server.id)
+
+        described_class.new.perform(cloud_server.id)
+      end
+
+      it "resolves UUID and continues polling when command completes" do
+        allow(provider).to receive(:poll_command).with(cloud_server).and_return("uuid-resolved-123")
+        allow(provider).to receive(:pending_command?).with("uuid-resolved-123").and_return(false)
+        allow(provider).to receive(:server_status).with("uuid-resolved-123").and_return("provisioning")
+        expect(CloudServerPollWorker).to receive(:perform_in).with(5.seconds, cloud_server.id)
+
+        described_class.new.perform(cloud_server.id)
+
+        expect(cloud_server.reload.cloud_provider_id).to eq("uuid-resolved-123")
+      end
+
+      it "raises when command fails" do
+        allow(provider).to receive(:poll_command).and_raise("Kamatera server creation failed: error log")
+        expect(CloudServerPollWorker).to receive(:perform_in).with(10.seconds, cloud_server.id)
+
+        described_class.new.perform(cloud_server.id)
+      end
+    end
   end
 end

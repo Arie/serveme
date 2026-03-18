@@ -26,6 +26,19 @@ class CloudServerPollWorker
     return unless provider_id.present?
 
     begin
+      # Kamatera: resolve command queue ID to real server UUID first
+      if provider.respond_to?(:pending_command?) && provider.pending_command?(provider_id)
+        resolved_id = provider.poll_command(cloud_server)
+        if resolved_id
+          cloud_server.update!(cloud_provider_id: resolved_id)
+          provider_id = resolved_id
+        else
+          # Still pending — re-poll
+          CloudServerPollWorker.perform_in(5.seconds, cloud_server_id)
+          return
+        end
+      end
+
       status = provider.server_status(provider_id)
       reservation = Reservation.find_by(id: cloud_server.cloud_reservation_id)
 

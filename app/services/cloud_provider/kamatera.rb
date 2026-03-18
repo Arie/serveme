@@ -6,6 +6,30 @@ module CloudProvider
     API_URL = "https://console.kamatera.com/service"
 
     LOCATIONS = {
+      # EU
+      "EU"    => { name: "Amsterdam", country: "Netherlands", region: "EU", flag: "nl" },
+      "EU-LO" => { name: "London", country: "UK", region: "EU", flag: "uk" },
+      "EU-FR" => { name: "Frankfurt", country: "Germany", region: "EU", flag: "de" },
+      "EU-ML" => { name: "Milan", country: "Italy", region: "EU", flag: "it" },
+      "EU-MD" => { name: "Madrid", country: "Spain", region: "EU", flag: "es" },
+      "EU-ST" => { name: "Stockholm", country: "Sweden", region: "EU", flag: "se" },
+      "IL-TA" => { name: "Tel Aviv", country: "Israel", region: "EU", flag: "il" },
+      "IL-PT" => { name: "Petah Tikva", country: "Israel", region: "EU", flag: "il" },
+      "IL-HA" => { name: "Haifa", country: "Israel", region: "EU", flag: "il" },
+      "IL"    => { name: "Rosh Haain", country: "Israel", region: "EU", flag: "il" },
+      "IL-RH" => { name: "Rosh Haain 2", country: "Israel", region: "EU", flag: "il" },
+      # NA
+      "US-NY2" => { name: "New York", country: "USA", region: "NA", flag: "us" },
+      "US-SC"  => { name: "Santa Clara", country: "USA", region: "NA", flag: "us" },
+      "US-TX"  => { name: "Dallas", country: "USA", region: "NA", flag: "us" },
+      "US-CH"  => { name: "Chicago", country: "USA", region: "NA", flag: "us" },
+      "US-MI"  => { name: "Miami", country: "USA", region: "NA", flag: "us" },
+      "US-AT"  => { name: "Atlanta", country: "USA", region: "NA", flag: "us" },
+      "US-SE"  => { name: "Seattle", country: "USA", region: "NA", flag: "us" },
+      "US-LA"  => { name: "Los Angeles", country: "USA", region: "NA", flag: "us" },
+      "CA-TR"  => { name: "Toronto", country: "Canada", region: "NA", flag: "ca" },
+      # AU
+      "AU-SY" => { name: "Sydney", country: "Australia", region: "AU", flag: "au" },
       # SEA
       "AS"    => { name: "Hong Kong", country: "Hong Kong", region: "SEA", flag: "hk" },
       "AS-SG" => { name: "Singapore", country: "Singapore", region: "SEA", flag: "sg" },

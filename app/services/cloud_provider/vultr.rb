@@ -15,6 +15,8 @@ module CloudProvider
       "sto" => { name: "Stockholm", country: "Sweden", region: "EU", flag: "se" },
       "waw" => { name: "Warsaw", country: "Poland", region: "EU", flag: "pl" },
       "man" => { name: "Manchester", country: "UK", region: "EU", flag: "uk" },
+      "tlv" => { name: "Tel Aviv", country: "Israel", region: "EU", flag: "il" },
+      "jnb" => { name: "Johannesburg", country: "South Africa", region: "EU", flag: "za" },
       # NA
       "ewr" => { name: "New Jersey", country: "USA", region: "NA", flag: "us" },
       "ord" => { name: "Chicago", country: "USA", region: "NA", flag: "us" },
@@ -27,6 +29,8 @@ module CloudProvider
       "hnl" => { name: "Honolulu", country: "USA", region: "NA", flag: "us" },
       "yto" => { name: "Toronto", country: "Canada", region: "NA", flag: "ca" },
       "mex" => { name: "Mexico City", country: "Mexico", region: "NA", flag: "mx" },
+      "sao" => { name: "São Paulo", country: "Brazil", region: "NA", flag: "br" },
+      "scl" => { name: "Santiago", country: "Chile", region: "NA", flag: "cl" },
       # AU
       "syd" => { name: "Sydney", country: "Australia", region: "AU", flag: "au" },
       "mel" => { name: "Melbourne", country: "Australia", region: "AU", flag: "au" },
@@ -34,7 +38,10 @@ module CloudProvider
       "sgp" => { name: "Singapore", country: "Singapore", region: "SEA", flag: "sg" },
       "nrt" => { name: "Tokyo", country: "Japan", region: "SEA", flag: "jp" },
       "itm" => { name: "Osaka", country: "Japan", region: "SEA", flag: "jp" },
-      "icn" => { name: "Seoul", country: "South Korea", region: "SEA", flag: "kr" }
+      "icn" => { name: "Seoul", country: "South Korea", region: "SEA", flag: "kr" },
+      "bom" => { name: "Mumbai", country: "India", region: "SEA", flag: "in" },
+      "del" => { name: "Delhi NCR", country: "India", region: "SEA", flag: "in" },
+      "blr" => { name: "Bangalore", country: "India", region: "SEA", flag: "in" }
     }.freeze
 
     def create_server(cloud_server)

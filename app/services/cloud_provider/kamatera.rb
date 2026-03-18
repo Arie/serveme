@@ -3,7 +3,7 @@
 
 module CloudProvider
   class Kamatera < Base
-    API_URL = "https://console.kamatera.com/service"
+    API_URL = "https://console.kamatera.com"
 
     LOCATIONS = {
       # EU
@@ -41,56 +41,75 @@ module CloudProvider
       location = cloud_server.cloud_location || default_location
 
       cloud_server.update!(cloud_ssh_port: 22)
-      params = {
-        name: "serveme-#{cloud_server.id}",
+      server_name = "serveme-#{cloud_server.id}"
+      pwd = server_password
+      body = {
         datacenter: location,
-        cpu: cpu_type,
-        ram: ram_mb,
-        disk_size_0: disk_size,
-        disk_src_0: image_id(location),
-        billing: "hourly",
-        traffic: traffic_package,
-        network_name_0: "wan",
-        power: 1,
-        password: server_password,
+        nServers: 1,
+        names: [ server_name ],
+        cpuStr: cpu_type,
+        cpuType: cpu_type[-1],
+        ramMB: ram_mb,
+        diskSizesGB: [ disk_size ],
+        password: pwd,
+        passwordValidate: pwd,
+        managed: false,
+        backup: false,
+        billingMode: 1,
+        trafficPackage: traffic_package,
+        useSimpleNetworking: false,
+        powerOnCompletion: true,
+        useSimpleWan: false,
+        useSimpleLan: false,
+        netModes: [ "wan" ],
+        netNames: [ "auto" ],
+        netSubnets: [ "" ],
+        netPrefixes: [ 0 ],
+        netIps: [ "auto" ],
+        diskImageId: image_id(location),
+        sourceServerId: "",
+        userId: 0,
+        ownerId: 0,
+        srcUI: false,
+        selectedKey: "",
+        script: cloud_init_script(cloud_server),
         selectedSSHKeyValue: ssh_public_key,
-        script: cloud_init_script(cloud_server)
+        selectedTags: [],
+        userData: ""
       }
-      response = connection.post("server") do |req|
-        req.headers["Content-Type"] = "application/x-www-form-urlencoded"
-        req.body = URI.encode_www_form(params)
+      response = create_connection.post("svc/serverCreate") do |req|
+        req.body = body.to_json
       end
       data = parse_response(response, "Kamatera API error")
 
-      # Kamatera returns an array with command IDs - we need to poll for the server
       command_ids = data.is_a?(Array) ? data : [ data ]
       Rails.logger.info "Kamatera: Create command IDs #{command_ids} for cloud_server #{cloud_server.id}"
 
-      # Poll command status to get the server ID
-      server_id = nil
+      # Poll command status until complete, parse IP from log
       120.times do
         sleep 5
-        cmd_response = connection.get("queue/#{command_ids.first}")
+        cmd_response = service_connection.get("queue/#{command_ids.first}")
         next unless cmd_response.success?
 
         cmd_data = JSON.parse(cmd_response.body)
         status = cmd_data["status"] if cmd_data.is_a?(Hash)
         if status == "complete"
-          # The server name is what we use as provider_id for Kamatera
-          server_id = "serveme-#{cloud_server.id}"
-          break
+          server_id = find_server_uuid(server_name)
+          raise "Kamatera server created but UUID not found" unless server_id
+
+          Rails.logger.info "Kamatera: Created server #{server_id} (#{server_name}) for cloud_server #{cloud_server.id}"
+          return server_id
         elsif status == "error"
           raise "Kamatera server creation failed: #{cmd_data['log']}"
+        elsif status == "cancelled"
+          raise "Kamatera server creation cancelled"
         end
       end
-      raise "Kamatera server creation timed out" unless server_id
-
-      Rails.logger.info "Kamatera: Created server #{server_id} for cloud_server #{cloud_server.id}"
-      server_id
+      raise "Kamatera server creation timed out"
     end
 
     def server_status(provider_id)
-      response = connection.get("server/#{provider_id}")
+      response = service_connection.get("server/#{provider_id}")
       return "provisioning" unless response.success?
 
       data = JSON.parse(response.body)
@@ -98,7 +117,7 @@ module CloudProvider
     end
 
     def server_ip(provider_id)
-      response = connection.get("server/#{provider_id}")
+      response = service_connection.get("server/#{provider_id}")
       return nil unless response.success?
 
       data = JSON.parse(response.body)
@@ -123,7 +142,7 @@ module CloudProvider
 
     def destroy_server(provider_id)
       Rails.logger.info "Kamatera: Destroying server #{provider_id}"
-      response = connection.delete("server/#{provider_id}/terminate") do |req|
+      response = service_connection.delete("server/#{provider_id}/terminate") do |req|
         req.headers["Content-Type"] = "application/x-www-form-urlencoded"
         req.body = URI.encode_www_form(confirm: "1", force: "1")
       end
@@ -132,7 +151,7 @@ module CloudProvider
     end
 
     def destroy_servers_by_label(label)
-      response = connection.get("servers")
+      response = service_connection.get("servers")
       return 0 unless response.success?
 
       data = JSON.parse(response.body)
@@ -140,7 +159,7 @@ module CloudProvider
       destroyed = 0
       servers.each do |server|
         if server["name"] == label
-          if destroy_server(server["name"])
+          if destroy_server(server["id"])
             destroyed += 1
           end
         end
@@ -171,28 +190,26 @@ module CloudProvider
 
     private
 
-    def connection
-      @connection ||= Faraday.new(url: API_URL) do |f|
+    # Connection for /svc/* endpoints (create server) - uses direct auth headers
+    def create_connection
+      @create_connection ||= Faraday.new(url: API_URL) do |f|
         f.headers["Content-Type"] = "application/json"
-        f.headers["Authorization"] = "Bearer #{auth_token}"
+        f.headers["Accept"] = "application/json"
+        f.headers["AuthClientId"] = client_id
+        f.headers["AuthSecret"] = client_secret
         f.options.timeout = 30
         f.options.open_timeout = 5
       end
     end
 
-    def auth_token
-      @auth_token ||= begin
-        conn = Faraday.new(url: API_URL) do |f|
-          f.headers["Content-Type"] = "application/json"
-          f.options.timeout = 10
-          f.options.open_timeout = 5
-        end
-        response = conn.post("authenticate") do |req|
-          req.body = { clientId: client_id, secret: client_secret }.to_json
-        end
-        raise "Kamatera authentication failed (#{response.status})" unless response.success?
-
-        JSON.parse(response.body)["authentication"]
+    # Connection for /service/* endpoints (status, destroy, queue) - uses direct auth headers
+    def service_connection
+      @service_connection ||= Faraday.new(url: "#{API_URL}/service") do |f|
+        f.headers["Content-Type"] = "application/json"
+        f.headers["AuthClientId"] = client_id
+        f.headers["AuthSecret"] = client_secret
+        f.options.timeout = 30
+        f.options.open_timeout = 5
       end
     end
 
@@ -215,7 +232,7 @@ module CloudProvider
     end
 
     def server_password
-      "Sv#{SecureRandom.hex(8)}"
+      "Sv#{SecureRandom.hex(8)}!"
     end
 
     def cpu_type
@@ -232,6 +249,16 @@ module CloudProvider
 
     def traffic_package
       "t5000"
+    end
+
+    def find_server_uuid(server_name)
+      response = service_connection.get("servers")
+      return nil unless response.success?
+
+      data = JSON.parse(response.body)
+      servers = data.is_a?(Array) ? data : []
+      server = servers.find { |s| s["name"] == server_name }
+      server&.dig("id")
     end
 
     def default_location

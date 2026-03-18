@@ -8,7 +8,7 @@ RSpec.describe CloudProvider::Kamatera do
 
   let(:client_id) { "test-kamatera-client-id" }
   let(:client_secret) { "test-kamatera-secret" }
-  let(:auth_token) { "test-auth-token-abc123" }
+  let(:auth_headers) { { "AuthClientId" => client_id, "AuthSecret" => client_secret } }
 
   before do
     allow(Rails.application.credentials).to receive(:dig).and_call_original
@@ -18,55 +18,50 @@ RSpec.describe CloudProvider::Kamatera do
     allow(Rails.application.credentials).to receive(:dig)
       .with(:cloud_servers, :kamatera, :secret_key)
       .and_return(client_secret)
-
-    stub_request(:post, "https://console.kamatera.com/service/authenticate")
-      .with(body: { clientId: client_id, secret: client_secret }.to_json)
-      .to_return(status: 200, body: { authentication: auth_token, expires: 1.hour.from_now.to_i }.to_json,
-                 headers: { "Content-Type" => "application/json" })
   end
 
   describe "#server_status" do
     context "when server is powered on" do
       before do
-        stub_request(:get, "https://console.kamatera.com/service/server/serveme-42")
-          .with(headers: { "Authorization" => "Bearer #{auth_token}" })
+        stub_request(:get, "https://console.kamatera.com/service/server/uuid-abc-123")
+          .with(headers: auth_headers)
           .to_return(status: 200, body: { power: "on", name: "serveme-42" }.to_json, headers: { "Content-Type" => "application/json" })
       end
 
       it "returns 'running'" do
-        VCR.turned_off { expect(provider.server_status("serveme-42")).to eq("running") }
+        VCR.turned_off { expect(provider.server_status("uuid-abc-123")).to eq("running") }
       end
     end
 
     context "when server is powered off" do
       before do
-        stub_request(:get, "https://console.kamatera.com/service/server/serveme-42")
-          .with(headers: { "Authorization" => "Bearer #{auth_token}" })
+        stub_request(:get, "https://console.kamatera.com/service/server/uuid-abc-123")
+          .with(headers: auth_headers)
           .to_return(status: 200, body: { power: "off", name: "serveme-42" }.to_json, headers: { "Content-Type" => "application/json" })
       end
 
       it "returns 'stopped'" do
-        VCR.turned_off { expect(provider.server_status("serveme-42")).to eq("stopped") }
+        VCR.turned_off { expect(provider.server_status("uuid-abc-123")).to eq("stopped") }
       end
     end
 
     context "when server is not found" do
       before do
-        stub_request(:get, "https://console.kamatera.com/service/server/serveme-99")
-          .with(headers: { "Authorization" => "Bearer #{auth_token}" })
+        stub_request(:get, "https://console.kamatera.com/service/server/uuid-abc-123")
+          .with(headers: auth_headers)
           .to_return(status: 404)
       end
 
       it "returns 'provisioning'" do
-        VCR.turned_off { expect(provider.server_status("serveme-99")).to eq("provisioning") }
+        VCR.turned_off { expect(provider.server_status("uuid-abc-123")).to eq("provisioning") }
       end
     end
   end
 
   describe "#server_ip" do
     before do
-      stub_request(:get, "https://console.kamatera.com/service/server/serveme-42")
-        .with(headers: { "Authorization" => "Bearer #{auth_token}" })
+      stub_request(:get, "https://console.kamatera.com/service/server/uuid-abc-123")
+        .with(headers: auth_headers)
         .to_return(status: 200, body: response_body, headers: { "Content-Type" => "application/json" })
     end
 
@@ -76,7 +71,7 @@ RSpec.describe CloudProvider::Kamatera do
       end
 
       it "returns the IP address" do
-        VCR.turned_off { expect(provider.server_ip("serveme-42")).to eq("103.45.67.89") }
+        VCR.turned_off { expect(provider.server_ip("uuid-abc-123")).to eq("103.45.67.89") }
       end
     end
 
@@ -86,15 +81,15 @@ RSpec.describe CloudProvider::Kamatera do
       end
 
       it "returns nil" do
-        VCR.turned_off { expect(provider.server_ip("serveme-42")).to be_nil }
+        VCR.turned_off { expect(provider.server_ip("uuid-abc-123")).to be_nil }
       end
     end
   end
 
   describe "#destroy_server" do
     before do
-      stub_request(:delete, "https://console.kamatera.com/service/server/serveme-42/terminate")
-        .with(headers: { "Authorization" => "Bearer #{auth_token}" })
+      stub_request(:delete, "https://console.kamatera.com/service/server/uuid-abc-123/terminate")
+        .with(headers: auth_headers)
         .to_return(status: response_status, body: "12345", headers: { "Content-Type" => "application/json" })
     end
 
@@ -102,7 +97,7 @@ RSpec.describe CloudProvider::Kamatera do
       let(:response_status) { 200 }
 
       it "returns true" do
-        VCR.turned_off { expect(provider.destroy_server("serveme-42")).to be true }
+        VCR.turned_off { expect(provider.destroy_server("uuid-abc-123")).to be true }
       end
     end
 
@@ -110,7 +105,7 @@ RSpec.describe CloudProvider::Kamatera do
       let(:response_status) { 404 }
 
       it "returns false" do
-        VCR.turned_off { expect(provider.destroy_server("serveme-42")).to be false }
+        VCR.turned_off { expect(provider.destroy_server("uuid-abc-123")).to be false }
       end
     end
   end
@@ -118,13 +113,13 @@ RSpec.describe CloudProvider::Kamatera do
   describe "#destroy_servers_by_label" do
     it "lists servers and destroys matching ones" do
       stub_request(:get, "https://console.kamatera.com/service/servers")
-        .with(headers: { "Authorization" => "Bearer #{auth_token}" })
+        .with(headers: auth_headers)
         .to_return(status: 200, body: [
-          { name: "serveme-42" },
-          { name: "other-server" }
+          { id: "uuid-abc-123", name: "serveme-42" },
+          { id: "uuid-def-456", name: "other-server" }
         ].to_json, headers: { "Content-Type" => "application/json" })
 
-      stub_request(:delete, "https://console.kamatera.com/service/server/serveme-42/terminate")
+      stub_request(:delete, "https://console.kamatera.com/service/server/uuid-abc-123/terminate")
         .to_return(status: 200, body: "12345")
 
       VCR.turned_off { expect(provider.destroy_servers_by_label("serveme-42")).to eq(1) }
@@ -132,7 +127,7 @@ RSpec.describe CloudProvider::Kamatera do
 
     it "returns 0 when no servers match" do
       stub_request(:get, "https://console.kamatera.com/service/servers")
-        .with(headers: { "Authorization" => "Bearer #{auth_token}" })
+        .with(headers: auth_headers)
         .to_return(status: 200, body: [].to_json, headers: { "Content-Type" => "application/json" })
 
       VCR.turned_off { expect(provider.destroy_servers_by_label("serveme-99")).to eq(0) }

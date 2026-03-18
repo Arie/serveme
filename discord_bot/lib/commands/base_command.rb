@@ -43,8 +43,8 @@ module ServemeBot
         false
       end
 
-      def respond_with_embed(embed)
-        event.respond(embeds: [ embed ])
+      def respond_with_embed(embed, ephemeral: false)
+        event.respond(embeds: [ embed ], ephemeral: ephemeral)
       end
 
       def respond_with_error(message)
@@ -55,8 +55,8 @@ module ServemeBot
         event.respond(content: ":white_check_mark: #{message}")
       end
 
-      def defer_response
-        event.defer if event.respond_to?(:defer)
+      def defer_response(ephemeral: false)
+        event.defer(ephemeral: ephemeral) if event.respond_to?(:defer)
       end
 
       def edit_response(content: nil, embeds: nil, components: nil)

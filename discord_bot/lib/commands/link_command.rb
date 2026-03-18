@@ -32,7 +32,7 @@ module ServemeBot
             "2. Link to your #{SITE_HOST} account\n\n" \
             "**[Click here to link your account](#{link_url})**",
           color: 0x5865F2
-        })
+        }, ephemeral: true)
       end
 
       def try_ozfortress_link
@@ -48,7 +48,7 @@ module ServemeBot
             title: "Already linked",
             description: "Your Discord is already linked to **#{user.nickname}** on #{SITE_HOST}.",
             color: 0x57F287
-          })
+          }, ephemeral: true)
           return true
         end
 
@@ -66,7 +66,7 @@ module ServemeBot
           description: "Your Discord has been automatically linked to **#{user.nickname}** on #{SITE_HOST}.\n\n" \
             "This was possible because your accounts are already connected on ozfortress.com.",
           color: 0x57F287
-        })
+        }, ephemeral: true)
         true
       rescue ActiveRecord::RecordInvalid => e
         Rails.logger.error "OzfortressApi auto-link failed: #{e.message}"
@@ -81,7 +81,7 @@ module ServemeBot
             title: "Not linked",
             description: "Your Discord account is not linked to any #{SITE_HOST} account.",
             color: 0xFFA500
-          })
+          }, ephemeral: true)
           return
         end
 
@@ -92,7 +92,7 @@ module ServemeBot
           description: "Your Discord account has been unlinked from **#{user.nickname}** on #{SITE_HOST}.\n\n" \
             "You can re-link anytime using `/#{Config.command_name} link`.",
           color: 0x57F287
-        })
+        }, ephemeral: true)
       end
     end
   end

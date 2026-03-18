@@ -17,7 +17,7 @@ module ServemeBot
         log_command("book", server: server_query, map: map, duration: duration, config: config, whitelist: whitelist)
         return unless require_linked_account!
 
-        defer_response
+        defer_response(ephemeral: true)
 
         # Calculate times
         duration_minutes = [ duration || DEFAULT_DURATION, 30 ].max
@@ -126,7 +126,7 @@ module ServemeBot
         log_command("book_cloud", city: city_name, map: map, duration: duration, config: config, whitelist: whitelist)
         return unless require_linked_account!
 
-        defer_response
+        defer_response(ephemeral: true)
 
         docker_host = DockerHost.active.find_by(city: city_name)
         unless docker_host

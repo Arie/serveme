@@ -8,7 +8,7 @@ module ServemeBot
         log_command("reservations", status: status, limit: limit)
         return unless require_linked_account!
 
-        defer_response
+        defer_response(ephemeral: true)
 
         reservations = fetch_user_reservations(status, limit.to_i)
 

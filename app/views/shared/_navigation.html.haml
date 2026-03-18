@@ -113,6 +113,12 @@
             %i.fa.fa-cogs
             Settings
 
+        - if current_user.can_use_cloud_servers?
+          %li.nav-item
+            = link_to new_cloud_reservation_path, class: "nav-link" do
+              %i.fa.fa-cloud
+              Cloud Server
+
       - if current_user && current_user.config_admin?
         %li.dropdown.nav-item
           %a.dropdown-toggle{data: {"bs-toggle" => "dropdown"}, href: "#", class: "nav-link"}

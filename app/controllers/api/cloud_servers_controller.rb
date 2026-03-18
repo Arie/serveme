@@ -30,8 +30,8 @@ module Api
       if cloud_server.ip.blank? || cloud_server.ip == "0.0.0.0"
         updates[:ip] = request.remote_ip
       end
-      updated = CloudServer.where(id: cloud_server.id)
-        .where.not(cloud_status: "destroyed")
+      # Only transition from provisioning — ignore duplicate callbacks (e.g. after Kamatera reboot)
+      updated = CloudServer.where(id: cloud_server.id, cloud_status: "provisioning")
         .update_all(updates)
       return unless updated > 0
 

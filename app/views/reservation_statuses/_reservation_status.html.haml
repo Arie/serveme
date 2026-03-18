@@ -1,3 +1,4 @@
 %tr{id: dom_id(reservation_status)}
-  %td= I18n.l(reservation_status.updated_at, format: :time)
+  %td{data: {controller: "local-time", "local-time-datetime-value": reservation_status.updated_at.iso8601, "local-time-hour12-value": I18n.t(:show_meridian, scope: :time).to_s}}
+    = I18n.l(reservation_status.updated_at, format: :time)
   %td= reservation_status.status

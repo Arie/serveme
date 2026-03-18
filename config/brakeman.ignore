@@ -526,6 +526,29 @@
         89
       ],
       "note": "False positive - this is a Faraday HTTP URL path, not SQL. provider_id is the Vultr instance ID"
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "0f5d0931c3ea518222b12d719c7f20a3b3e131999f259544d1ba73dcba1e73ed",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/services/cloud_provider/kamatera.rb",
+      "line": 123,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "connection.delete(\"server/#{provider_id}/terminate\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "CloudProvider::Kamatera",
+        "method": "destroy_server"
+      },
+      "user_input": "provider_id",
+      "confidence": "Medium",
+      "cwe_id": [
+        89
+      ],
+      "note": "False positive - this is a Faraday HTTP URL path, not SQL. provider_id is the Kamatera server name"
     }
   ],
   "brakeman_version": "7.1.0"

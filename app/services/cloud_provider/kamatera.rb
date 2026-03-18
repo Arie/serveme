@@ -44,15 +44,15 @@ module CloudProvider
         req.body = {
           name: "serveme-#{cloud_server.id}",
           datacenter: location,
-          image: image_id,
           cpu: cpu_type,
           ram: ram_mb,
           disk_size_0: disk_size,
-          disk_src_0: image_id,
+          disk_src_0: image_id(location),
           billing: "hourly",
           traffic: traffic_package,
           network_name_0: "wan",
           power: 1,
+          password: server_password,
           script: cloud_init_script(cloud_server),
           selectedSSHKeyValue: ssh_public_key
         }.to_json
@@ -204,8 +204,14 @@ module CloudProvider
       Rails.application.credentials.dig(:cloud_servers, :ssh_public_key)
     end
 
-    def image_id
-      "ubuntu_server_24.04_64bit"
+    UBUNTU_24_IMAGE_UUID = "6000C29549da189eaef6ea8a31001a34"
+
+    def image_id(datacenter)
+      "#{datacenter}:#{UBUNTU_24_IMAGE_UUID}"
+    end
+
+    def server_password
+      "Sv#{SecureRandom.hex(8)}"
     end
 
     def cpu_type

@@ -40,6 +40,7 @@ module CloudProvider
       Rails.logger.info "Kamatera: Creating server for cloud_server #{cloud_server.id}"
       location = cloud_server.cloud_location || default_location
 
+      cloud_server.update!(cloud_ssh_port: 22)
       params = {
         name: "serveme-#{cloud_server.id}",
         datacenter: location,
@@ -52,8 +53,8 @@ module CloudProvider
         network_name_0: "wan",
         power: 1,
         password: server_password,
-        script: cloud_init_script(cloud_server),
-        selectedSSHKeyValue: ssh_public_key
+        selectedSSHKeyValue: ssh_public_key,
+        script: cloud_init_script(cloud_server)
       }
       response = connection.post("server") do |req|
         req.headers["Content-Type"] = "application/x-www-form-urlencoded"

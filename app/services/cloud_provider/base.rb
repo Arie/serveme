@@ -110,7 +110,7 @@ module CloudProvider
         #!/bin/bash
         #{cloud_init_pre_docker}
         #{cloud_init_docker_pull(cloud_server, image)}
-        docker run -d --cap-add=NET_ADMIN --network host \
+        docker run -d --restart unless-stopped --cap-add=NET_ADMIN --network host \
           -e CALLBACK_URL=#{callback_url(cloud_server)} \
           -e CALLBACK_TOKEN=#{callback_token} \
           -e SSH_AUTHORIZED_KEYS="#{ssh_public_key}" \

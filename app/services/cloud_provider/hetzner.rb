@@ -10,7 +10,9 @@ module CloudProvider
       "nbg1" => { name: "Nuremberg", country: "Germany", region: "EU", flag: "de", server_type: "cpx22" },
       "hel1" => { name: "Helsinki", country: "Finland", region: "EU", flag: "fi", server_type: "cpx22" },
       "ash"  => { name: "Ashburn", country: "USA", region: "NA", flag: "us", server_type: "cpx21" },
-      "hil"  => { name: "Hillsboro", country: "USA", region: "NA", flag: "us", server_type: "cpx21" }
+      "hil"  => { name: "Hillsboro", country: "USA", region: "NA", flag: "us", server_type: "cpx21" },
+      # SEA
+      "sin"  => { name: "Singapore", country: "Singapore", region: "SEA", flag: "sg", server_type: "cpx22" }
     }.freeze
 
     def create_server(cloud_server)

@@ -13,6 +13,10 @@
           = link_to i_am_feeling_lucky_reservations_path, :class => 'btn btn-lg btn-warning', :method => :post, :title => "Make a reservation in 1 click", data: { disable_with: "1-click-server <i class='fa fa-refresh fa-spin'></i>"} do
             1-click-server
             %i.fa.fa-bolt
+          - if current_user&.can_use_cloud_servers?
+            = link_to new_cloud_reservation_path, class: 'btn btn-lg btn-info', title: "Launch an on-demand cloud server" do
+              Cloud server
+              %i.fa.fa-cloud
           %p.mt-2.mb-0.text-warning
             %small
               %strong New:

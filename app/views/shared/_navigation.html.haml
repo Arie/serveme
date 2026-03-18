@@ -36,6 +36,10 @@
             = link_to i_am_feeling_lucky_reservations_path, method: :post, title: "Make a reservation in 1 click", class: "dropdown-item" do
               %i.fa.fa-magic
               1-click reservation
+            - if current_user.can_use_cloud_servers?
+              = link_to new_cloud_reservation_path, class: "dropdown-item" do
+                %i.fa.fa-cloud
+                Cloud server
             .dropdown-divider
             = link_to your_reservations_path, class: "dropdown-item" do
               %i.fa.fa-user

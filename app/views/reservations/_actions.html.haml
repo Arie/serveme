@@ -8,7 +8,7 @@
         Edit
         %i.fa.fa-edit
 
-    - if reservation.active? || (reservation.now? && reservation.start_instantly?)
+    - if reservation.active? || (reservation.now? && reservation.start_instantly?) || (reservation.now? && reservation.server.is_a?(CloudServer) && !reservation.provisioned?)
       - if reservation.less_than_1_hour_left?
         = link_to extend_reservation_path(reservation), :class => 'btn btn-sm btn-primary', :title => 'Extend reservation', :method => :post, :data => { :confirm => "This will extend your reservation if possible" } do
           Extend

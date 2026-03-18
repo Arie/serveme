@@ -43,6 +43,9 @@ module Api
     end
 
     def handle_tf2_ready(cloud_server)
+      # Ignore duplicate callbacks (e.g. after Kamatera reboot)
+      return if cloud_server.cloud_status == "ready"
+
       if cloud_server.ip.blank? || cloud_server.ip == "0.0.0.0"
         cloud_server.update!(ip: request.remote_ip)
       end

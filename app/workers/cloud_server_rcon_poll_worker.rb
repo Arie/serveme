@@ -39,7 +39,12 @@ class CloudServerRconPollWorker
   private
 
   def mark_ready!(reservation, server)
-    reservation.update_columns(provisioned: true, ready_at: Time.current)
+    # Use update_all with a guard to prevent duplicate "TF2 server ready" messages
+    # from concurrent workers (RconPollWorker + LogWorker can race)
+    updated = Reservation.where(id: reservation.id, provisioned: false)
+      .update_all(provisioned: true, ready_at: Time.current)
+    return unless updated > 0
+
     reservation.status_update("TF2 server ready")
     server.broadcast_reservation_status
   end

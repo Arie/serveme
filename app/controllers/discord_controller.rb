@@ -3,6 +3,8 @@
 
 class DiscordController < ApplicationController
   skip_before_action :verify_authenticity_token, only: [ :callback ]
+  skip_before_action :authenticate_user!, only: [ :link, :callback ]
+  skip_before_action :redirect_if_country_banned, only: [ :link, :callback ]
 
   # GET /discord
   # Redirects to bot invite URL

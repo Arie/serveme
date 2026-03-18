@@ -63,6 +63,8 @@ class DiscordBanAppealWorker
 
   def add_thread_member(thread_id, discord_user_id)
     DiscordApiClient.add_thread_member(thread_id: thread_id, user_id: discord_user_id)
+  rescue StandardError => e
+    Rails.logger.warn "[BanAppeal] Failed to add thread member #{discord_user_id}: #{e.message}"
   end
 
   def post_user_message(thread_id, enrichment)

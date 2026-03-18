@@ -142,16 +142,16 @@ module CloudProvider
 
     def provision_phases
       [
-        { key: "creating_vm", label: "Creating VM", icon: "fa-cloud", seconds: 480 },
-        { key: "booting", label: "Installing game server", icon: "fa-server", seconds: 60 },
-        { key: "configuring", label: "Sending configs", icon: "fa-cog", seconds: 15 },
-        { key: "booting_tf2", label: "Starting TF2", icon: "fa-gamepad", seconds: 15 },
-        { key: "starting_tf2", label: "Waiting for server", icon: "fa-hourglass-half", seconds: 15 }
+        { key: "creating_vm", label: "Creating VM", icon: "fa-cloud", seconds: 100 },
+        { key: "booting", label: "Installing game server", icon: "fa-server", seconds: 55 },
+        { key: "configuring", label: "Sending configs", icon: "fa-cog", seconds: 5 },
+        { key: "booting_tf2", label: "Starting TF2", icon: "fa-gamepad", seconds: 10 },
+        { key: "starting_tf2", label: "Waiting for server", icon: "fa-hourglass-half", seconds: 60 }
       ]
     end
 
     def estimated_provision_time
-      "about 10 minutes"
+      "about 4 minutes"
     end
 
     def destroy_server(provider_id)

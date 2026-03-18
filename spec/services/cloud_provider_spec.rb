@@ -91,14 +91,14 @@ RSpec.describe CloudProvider do
       expect(keys).to eq(%w[creating_vm booting configuring booting_tf2 starting_tf2])
     end
 
-    it "sums to 175 for Hetzner" do
+    it "sums to 283 for Hetzner" do
       phases = CloudProvider::Hetzner.new.provision_phases
-      expect(phases.sum { |p| p[:seconds] }).to eq(175)
+      expect(phases.sum { |p| p[:seconds] }).to eq(283)
     end
 
-    it "sums to 245 for Vultr" do
+    it "sums to 285 for Vultr" do
       phases = CloudProvider::Vultr.new.provision_phases
-      expect(phases.sum { |p| p[:seconds] }).to eq(245)
+      expect(phases.sum { |p| p[:seconds] }).to eq(285)
     end
   end
 
@@ -107,8 +107,8 @@ RSpec.describe CloudProvider do
       expect(CloudProvider::Base.new.estimated_provision_seconds).to eq(240)
     end
 
-    it "returns 175 for Hetzner provider" do
-      expect(CloudProvider::Hetzner.new.estimated_provision_seconds).to eq(175)
+    it "returns 283 for Hetzner provider" do
+      expect(CloudProvider::Hetzner.new.estimated_provision_seconds).to eq(283)
     end
 
     it "computes from provision_phases" do

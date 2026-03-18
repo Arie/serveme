@@ -85,11 +85,11 @@ module CloudProvider
 
     def provision_phases
       [
-        { key: "creating_vm", label: "Creating VM", icon: "fa-cloud", seconds: 55 },
-        { key: "booting", label: "Installing game server", icon: "fa-server", seconds: 145 },
-        { key: "configuring", label: "Sending configs", icon: "fa-cog", seconds: 15 },
-        { key: "booting_tf2", label: "Starting TF2", icon: "fa-gamepad", seconds: 15 },
-        { key: "starting_tf2", label: "Waiting for server", icon: "fa-hourglass-half", seconds: 15 }
+        { key: "creating_vm", label: "Creating VM", icon: "fa-cloud", seconds: 60 },
+        { key: "booting", label: "Installing game server", icon: "fa-server", seconds: 180 },
+        { key: "configuring", label: "Sending configs", icon: "fa-cog", seconds: 5 },
+        { key: "booting_tf2", label: "Starting TF2", icon: "fa-gamepad", seconds: 10 },
+        { key: "starting_tf2", label: "Waiting for server", icon: "fa-hourglass-half", seconds: 30 }
       ]
     end
 

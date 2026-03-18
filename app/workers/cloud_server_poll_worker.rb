@@ -6,7 +6,7 @@ class CloudServerPollWorker
 
   sidekiq_options retry: 0, queue: "default"
 
-  MAX_POLL_TIME = 10.minutes
+  MAX_POLL_TIME = 15.minutes
 
   def perform(cloud_server_id)
     cloud_server = CloudServer.find(cloud_server_id)

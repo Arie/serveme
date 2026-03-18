@@ -50,7 +50,7 @@ describe CloudServerPollWorker do
     end
 
     it "stops polling and destroys VM when server has been polling too long" do
-      cloud_server.update!(cloud_created_at: 11.minutes.ago)
+      cloud_server.update!(cloud_created_at: 16.minutes.ago)
 
       expect(CloudServerPollWorker).not_to receive(:perform_in)
       expect(CloudServerDestroyWorker).to receive(:perform_async).with(cloud_server.id)

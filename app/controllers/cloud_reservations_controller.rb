@@ -64,6 +64,7 @@ class CloudReservationsController < ApplicationController
       server.save!
 
       @reservation = current_user.reservations.build(reservation_params)
+      @reservation.auto_end = true
       @reservation.server = server
       future_start = params[:reservation][:starts_at].present? && Time.zone.parse(params[:reservation][:starts_at].to_s)&.future?
       @reservation.starts_at = future_start ? params[:reservation][:starts_at] : Time.current

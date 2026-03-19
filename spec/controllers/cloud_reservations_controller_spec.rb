@@ -22,7 +22,34 @@ describe CloudReservationsController do
 
         expect(response).to be_successful
         expect(assigns(:reservation)).to be_a_new(Reservation)
-        expect(assigns(:cloud_locations)).to eq(CloudProvider.grouped_locations)
+        expect(assigns(:cloud_locations)).to eq(CloudProvider.grouped_locations(user: user))
+      end
+    end
+
+    context "as donator" do
+      before do
+        user.groups << Group.donator_group
+        sign_in user
+      end
+
+      it "renders the new template" do
+        get :new
+
+        expect(response).to be_successful
+        expect(assigns(:reservation)).to be_a_new(Reservation)
+      end
+    end
+
+    context "as regular user" do
+      before do
+        sign_in user
+      end
+
+      it "redirects to root" do
+        get :new
+
+        expect(response).to redirect_to(root_path)
+        expect(flash[:alert]).to eq("Cloud servers are available to Premium users.")
       end
     end
   end

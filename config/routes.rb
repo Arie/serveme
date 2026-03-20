@@ -243,6 +243,7 @@ Serveme::Application.routes.draw do
   post  "/tc2",                           to: "pages#comtress"
 
   get   "/cloud",                         to: "pages#cloud_info",          as: "cloud_info"
+  post  "/cloud",                         to: "pages#cloud_info"
 
   get   "/player_statistics/sdr",                                          to: "player_statistics#show_for_sdr",                     as: "show_sdr"
   get   "/player_statistics/reservation/:reservation_id",                  to: "player_statistics#show_for_reservation",             as: "show_reservation_statistic"

@@ -106,6 +106,9 @@ module GeneratedUrlHelpersModule
   def cloud_reservations_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def cloud_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def complete_map_uploads_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }

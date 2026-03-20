@@ -147,6 +147,11 @@ class User < ActiveRecord::Base
     @cloud_member ||= group_ids.include?(Group.cloud_group.id)
   end
 
+  sig { returns(T::Boolean) }
+  def cloud_server_access?
+    admin? || cloud_member?
+  end
+
   sig { returns(T.nilable(Reservation)) }
   def active_cloud_reservation
     reservations.joins(:server).where(servers: { type: "CloudServer" }).where.not(servers: { cloud_status: "destroyed" }).where(ended: false).first

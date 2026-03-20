@@ -95,6 +95,17 @@ class PagesController < ApplicationController
 
   def cloud_info
     @cloud_locations = cloud_locations_with_flags
+
+    if request.post? && current_user&.donator?
+      if params[:enable] == "true" && !current_user.cloud_member?
+        current_user.group_users.find_or_create_by!(group: Group.cloud_group)
+        flash[:notice] = "Cloud servers are now enabled! You can launch one from the cloud reservation page."
+      elsif params[:disable] == "true"
+        current_user.group_users.where(group: Group.cloud_group).destroy_all
+        flash[:notice] = "Cloud servers have been disabled."
+      end
+      redirect_to cloud_info_path
+    end
   end
 
   private
@@ -103,7 +114,7 @@ class PagesController < ApplicationController
     locations = Hash.new { |h, k| h[k] = [] }
 
     CloudProvider::PROVIDERS.each do |provider_name, klass|
-      next if provider_name.in?(%w[hetzner vultr]) && CloudProvider::SITE_REGION.in?(%w[EU NA]) && !current_user&.cloud_member?
+      next if provider_name.in?(%w[hetzner vultr]) && CloudProvider::SITE_REGION.in?(%w[EU NA]) && !current_user&.cloud_server_access?
 
       klass.locations.each do |_code, info|
         next unless info[:region] == CloudProvider::SITE_REGION || provider_name == "remote_docker" || (provider_name == "docker" && Rails.env.development?)

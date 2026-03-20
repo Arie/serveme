@@ -14,7 +14,7 @@
             1-click-server
             %i.fa.fa-bolt
           - if current_user&.can_use_cloud_servers?
-            = link_to new_cloud_reservation_path, class: 'btn btn-lg btn-info', title: "Launch an on-demand cloud server" do
+            = link_to current_user.cloud_server_access? ? new_cloud_reservation_path : cloud_info_path, class: 'btn btn-lg btn-info', title: "Launch an on-demand cloud server" do
               Cloud server
               %i.fa.fa-cloud
           %p.mt-2.mb-0.text-warning

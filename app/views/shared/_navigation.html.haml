@@ -37,7 +37,7 @@
               %i.fa.fa-magic
               1-click reservation
             - if current_user.can_use_cloud_servers?
-              = link_to new_cloud_reservation_path, class: "dropdown-item" do
+              = link_to current_user.cloud_server_access? ? new_cloud_reservation_path : cloud_info_path, class: "dropdown-item" do
                 %i.fa.fa-cloud
                 Cloud server
             .dropdown-divider
@@ -119,7 +119,7 @@
 
         - if current_user.can_use_cloud_servers?
           %li.nav-item
-            = link_to new_cloud_reservation_path, class: "nav-link" do
+            = link_to current_user.cloud_server_access? ? new_cloud_reservation_path : cloud_info_path, class: "nav-link" do
               %i.fa.fa-cloud
               Cloud Server
 

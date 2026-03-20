@@ -2089,14 +2089,14 @@ class Aws::EC2Metadata
   #   ec2_metadata = Aws::EC2Metadata.new
   #   ec2_metadata.get('/latest/meta-data/instance-id')
   #   => "i-023a25f10a73a0f79"
+  # @note This implementation always returns a String and will not parse any
+  #   responses. Parsable responses may include JSON objects or directory
+  #   listings, which are strings separated by line feeds (ASCII 10).
   # @note Unlike other services, IMDS does not have a service API model. This
   #   means that we cannot confidently generate code with methods and
   #   response structures. This implementation ensures that new IMDS features
   #   are always supported by being deployed to the instance and does not
   #   require code changes.
-  # @note This implementation always returns a String and will not parse any
-  #   responses. Parsable responses may include JSON objects or directory
-  #   listings, which are strings separated by line feeds (ASCII 10).
   # @param path [String] The full path to the metadata.
   # @see https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-identity-documents.html
   # @see https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instancedata-data-categories.html

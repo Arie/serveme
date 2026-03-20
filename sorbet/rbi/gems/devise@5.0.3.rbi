@@ -2760,7 +2760,7 @@ module Devise::Models::Confirmable
   #     self.update_attribute(:invite_code, nil)
   #   end
   #
-  # source://devise//lib/devise/models/confirmable.rb#308
+  # source://devise//lib/devise/models/confirmable.rb#310
   def after_confirmation; end
 
   # Checks if the user confirmation happens before the token becomes invalid
@@ -2830,20 +2830,20 @@ module Devise::Models::Confirmable
 
   # @return [Boolean]
   #
-  # source://devise//lib/devise/models/confirmable.rb#270
+  # source://devise//lib/devise/models/confirmable.rb#272
   def postpone_email_change?; end
 
-  # source://devise//lib/devise/models/confirmable.rb#262
+  # source://devise//lib/devise/models/confirmable.rb#261
   def postpone_email_change_until_confirmation_and_regenerate_confirmation_token; end
 
   # @return [Boolean]
   #
-  # source://devise//lib/devise/models/confirmable.rb#280
+  # source://devise//lib/devise/models/confirmable.rb#282
   def reconfirmation_required?; end
 
   # @return [Boolean]
   #
-  # source://devise//lib/devise/models/confirmable.rb#284
+  # source://devise//lib/devise/models/confirmable.rb#286
   def send_confirmation_notification?; end
 
   # With reconfirmable, notify the original email when the user first
@@ -2851,7 +2851,7 @@ module Devise::Models::Confirmable
   #
   # @return [Boolean]
   #
-  # source://devise//lib/devise/models/confirmable.rb#290
+  # source://devise//lib/devise/models/confirmable.rb#292
   def send_email_changed_notification?; end
 
   # A callback method used to deliver confirmation
@@ -2873,12 +2873,12 @@ module Devise::Models::Confirmable
   end
 end
 
-# source://devise//lib/devise/models/confirmable.rb#311
+# source://devise//lib/devise/models/confirmable.rb#313
 module Devise::Models::Confirmable::ClassMethods
-  # source://devise//lib/devise/models/confirmable.rb#365
+  # source://devise//lib/devise/models/confirmable.rb#367
   def allow_unconfirmed_access_for; end
 
-  # source://devise//lib/devise/models/confirmable.rb#365
+  # source://devise//lib/devise/models/confirmable.rb#367
   def allow_unconfirmed_access_for=(value); end
 
   # Find a user by its confirmation token and try to confirm it.
@@ -2886,30 +2886,30 @@ module Devise::Models::Confirmable::ClassMethods
   # If the user is already confirmed, create an error for the user
   # Options must have the confirmation_token
   #
-  # source://devise//lib/devise/models/confirmable.rb#329
+  # source://devise//lib/devise/models/confirmable.rb#331
   def confirm_by_token(confirmation_token); end
 
-  # source://devise//lib/devise/models/confirmable.rb#365
+  # source://devise//lib/devise/models/confirmable.rb#367
   def confirm_within; end
 
-  # source://devise//lib/devise/models/confirmable.rb#365
+  # source://devise//lib/devise/models/confirmable.rb#367
   def confirm_within=(value); end
 
-  # source://devise//lib/devise/models/confirmable.rb#365
+  # source://devise//lib/devise/models/confirmable.rb#367
   def confirmation_keys; end
 
-  # source://devise//lib/devise/models/confirmable.rb#365
+  # source://devise//lib/devise/models/confirmable.rb#367
   def confirmation_keys=(value); end
 
   # Find a record for confirmation by unconfirmed email field
   #
-  # source://devise//lib/devise/models/confirmable.rb#357
+  # source://devise//lib/devise/models/confirmable.rb#359
   def find_by_unconfirmed_email_with_errors(attributes = T.unsafe(nil)); end
 
-  # source://devise//lib/devise/models/confirmable.rb#365
+  # source://devise//lib/devise/models/confirmable.rb#367
   def reconfirmable; end
 
-  # source://devise//lib/devise/models/confirmable.rb#365
+  # source://devise//lib/devise/models/confirmable.rb#367
   def reconfirmable=(value); end
 
   # Attempt to find a user by its email. If a record is found, send new
@@ -2917,14 +2917,14 @@ module Devise::Models::Confirmable::ClassMethods
   # field. If no user is found, returns a new user with an email not found error.
   # Options must contain the user email
   #
-  # source://devise//lib/devise/models/confirmable.rb#316
+  # source://devise//lib/devise/models/confirmable.rb#318
   def send_confirmation_instructions(attributes = T.unsafe(nil)); end
 
   class << self
-    # source://devise//lib/devise/models/confirmable.rb#365
+    # source://devise//lib/devise/models/confirmable.rb#367
     def available_configs; end
 
-    # source://devise//lib/devise/models/confirmable.rb#365
+    # source://devise//lib/devise/models/confirmable.rb#367
     def available_configs=(_arg0); end
   end
 end
@@ -3971,7 +3971,7 @@ module Devise::Orm::DirtyTrackingActiveRecordMethods
 
   # @return [Boolean]
   #
-  # source://devise//lib/devise/orm.rb#38
+  # source://devise//lib/devise/orm.rb#42
   def devise_respond_to_and_will_save_change_to_attribute?(attribute); end
 
   # @return [Boolean]
@@ -3984,38 +3984,44 @@ module Devise::Orm::DirtyTrackingActiveRecordMethods
   # source://devise//lib/devise/orm.rb#30
   def devise_saved_change_to_encrypted_password?; end
 
+  # source://devise//lib/devise/orm.rb#38
+  def devise_unconfirmed_email_will_change!; end
+
   # @return [Boolean]
   #
   # source://devise//lib/devise/orm.rb#34
   def devise_will_save_change_to_email?; end
 end
 
-# source://devise//lib/devise/orm.rb#43
+# source://devise//lib/devise/orm.rb#47
 module Devise::Orm::DirtyTrackingMongoidMethods
-  # source://devise//lib/devise/orm.rb#44
+  # source://devise//lib/devise/orm.rb#48
   def devise_email_before_last_save; end
 
-  # source://devise//lib/devise/orm.rb#48
+  # source://devise//lib/devise/orm.rb#52
   def devise_email_in_database; end
 
   # @return [Boolean]
   #
-  # source://devise//lib/devise/orm.rb#64
+  # source://devise//lib/devise/orm.rb#75
   def devise_respond_to_and_will_save_change_to_attribute?(attribute); end
 
   # @return [Boolean]
   #
-  # source://devise//lib/devise/orm.rb#52
+  # source://devise//lib/devise/orm.rb#56
   def devise_saved_change_to_email?; end
 
   # @return [Boolean]
   #
-  # source://devise//lib/devise/orm.rb#56
+  # source://devise//lib/devise/orm.rb#60
   def devise_saved_change_to_encrypted_password?; end
+
+  # source://devise//lib/devise/orm.rb#68
+  def devise_unconfirmed_email_will_change!; end
 
   # @return [Boolean]
   #
-  # source://devise//lib/devise/orm.rb#60
+  # source://devise//lib/devise/orm.rb#64
   def devise_will_save_change_to_email?; end
 end
 

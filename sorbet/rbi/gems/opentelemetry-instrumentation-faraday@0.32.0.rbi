@@ -169,34 +169,37 @@ class OpenTelemetry::Instrumentation::Faraday::Instrumentation < ::OpenTelemetry
   # source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation/faraday/instrumentation.rb#40
   def determine_semconv; end
 
+  # source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation/faraday/instrumentation.rb#55
+  def emit_old_semconv_deprecation_warning(option); end
+
   # source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation/faraday/instrumentation.rb#36
   def gem_version; end
 
-  # source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation/faraday/instrumentation.rb#68
+  # source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation/faraday/instrumentation.rb#74
   def register_tracer_middleware_dup; end
 
-  # source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation/faraday/instrumentation.rb#74
+  # source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation/faraday/instrumentation.rb#80
   def register_tracer_middleware_old; end
 
-  # source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation/faraday/instrumentation.rb#80
+  # source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation/faraday/instrumentation.rb#86
   def register_tracer_middleware_stable; end
 
-  # source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation/faraday/instrumentation.rb#53
+  # source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation/faraday/instrumentation.rb#59
   def require_dependencies_dup; end
 
-  # source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation/faraday/instrumentation.rb#58
+  # source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation/faraday/instrumentation.rb#64
   def require_dependencies_old; end
 
-  # source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation/faraday/instrumentation.rb#63
+  # source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation/faraday/instrumentation.rb#69
   def require_dependencies_stable; end
 
-  # source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation/faraday/instrumentation.rb#86
+  # source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation/faraday/instrumentation.rb#92
   def use_middleware_by_default_dup; end
 
-  # source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation/faraday/instrumentation.rb#90
+  # source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation/faraday/instrumentation.rb#96
   def use_middleware_by_default_old; end
 
-  # source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation/faraday/instrumentation.rb#94
+  # source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation/faraday/instrumentation.rb#100
   def use_middleware_by_default_stable; end
 end
 

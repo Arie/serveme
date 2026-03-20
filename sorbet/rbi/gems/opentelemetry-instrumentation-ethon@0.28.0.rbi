@@ -137,25 +137,28 @@ end
 class OpenTelemetry::Instrumentation::Ethon::Instrumentation < ::OpenTelemetry::Instrumentation::Base
   private
 
-  # source://opentelemetry-instrumentation-ethon//lib/opentelemetry/instrumentation/ethon/instrumentation.rb#55
+  # source://opentelemetry-instrumentation-ethon//lib/opentelemetry/instrumentation/ethon/instrumentation.rb#61
   def add_patches_dup; end
 
-  # source://opentelemetry-instrumentation-ethon//lib/opentelemetry/instrumentation/ethon/instrumentation.rb#65
+  # source://opentelemetry-instrumentation-ethon//lib/opentelemetry/instrumentation/ethon/instrumentation.rb#71
   def add_patches_old; end
 
-  # source://opentelemetry-instrumentation-ethon//lib/opentelemetry/instrumentation/ethon/instrumentation.rb#60
+  # source://opentelemetry-instrumentation-ethon//lib/opentelemetry/instrumentation/ethon/instrumentation.rb#66
   def add_patches_stable; end
 
   # source://opentelemetry-instrumentation-ethon//lib/opentelemetry/instrumentation/ethon/instrumentation.rb#27
   def determine_semconv; end
 
-  # source://opentelemetry-instrumentation-ethon//lib/opentelemetry/instrumentation/ethon/instrumentation.rb#40
+  # source://opentelemetry-instrumentation-ethon//lib/opentelemetry/instrumentation/ethon/instrumentation.rb#42
+  def emit_old_semconv_deprecation_warning(option); end
+
+  # source://opentelemetry-instrumentation-ethon//lib/opentelemetry/instrumentation/ethon/instrumentation.rb#46
   def require_dependencies_dup; end
 
-  # source://opentelemetry-instrumentation-ethon//lib/opentelemetry/instrumentation/ethon/instrumentation.rb#50
+  # source://opentelemetry-instrumentation-ethon//lib/opentelemetry/instrumentation/ethon/instrumentation.rb#56
   def require_dependencies_old; end
 
-  # source://opentelemetry-instrumentation-ethon//lib/opentelemetry/instrumentation/ethon/instrumentation.rb#45
+  # source://opentelemetry-instrumentation-ethon//lib/opentelemetry/instrumentation/ethon/instrumentation.rb#51
   def require_dependencies_stable; end
 end
 

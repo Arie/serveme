@@ -136,22 +136,25 @@ class OpenTelemetry::Instrumentation::HttpClient::Instrumentation < ::OpenTeleme
   # source://opentelemetry-instrumentation-http_client//lib/opentelemetry/instrumentation/http_client/instrumentation.rb#26
   def determine_semconv; end
 
-  # source://opentelemetry-instrumentation-http_client//lib/opentelemetry/instrumentation/http_client/instrumentation.rb#39
+  # source://opentelemetry-instrumentation-http_client//lib/opentelemetry/instrumentation/http_client/instrumentation.rb#41
+  def emit_old_semconv_deprecation_warning(option); end
+
+  # source://opentelemetry-instrumentation-http_client//lib/opentelemetry/instrumentation/http_client/instrumentation.rb#45
   def patch_dup; end
 
-  # source://opentelemetry-instrumentation-http_client//lib/opentelemetry/instrumentation/http_client/instrumentation.rb#44
+  # source://opentelemetry-instrumentation-http_client//lib/opentelemetry/instrumentation/http_client/instrumentation.rb#50
   def patch_old; end
 
-  # source://opentelemetry-instrumentation-http_client//lib/opentelemetry/instrumentation/http_client/instrumentation.rb#49
+  # source://opentelemetry-instrumentation-http_client//lib/opentelemetry/instrumentation/http_client/instrumentation.rb#55
   def patch_stable; end
 
-  # source://opentelemetry-instrumentation-http_client//lib/opentelemetry/instrumentation/http_client/instrumentation.rb#54
+  # source://opentelemetry-instrumentation-http_client//lib/opentelemetry/instrumentation/http_client/instrumentation.rb#60
   def require_dependencies_dup; end
 
-  # source://opentelemetry-instrumentation-http_client//lib/opentelemetry/instrumentation/http_client/instrumentation.rb#59
+  # source://opentelemetry-instrumentation-http_client//lib/opentelemetry/instrumentation/http_client/instrumentation.rb#65
   def require_dependencies_old; end
 
-  # source://opentelemetry-instrumentation-http_client//lib/opentelemetry/instrumentation/http_client/instrumentation.rb#64
+  # source://opentelemetry-instrumentation-http_client//lib/opentelemetry/instrumentation/http_client/instrumentation.rb#70
   def require_dependencies_stable; end
 end
 

@@ -38,22 +38,25 @@ class OpenTelemetry::Instrumentation::RestClient::Instrumentation < ::OpenTeleme
   # source://opentelemetry-instrumentation-restclient//lib/opentelemetry/instrumentation/restclient/instrumentation.rb#27
   def determine_semconv; end
 
-  # source://opentelemetry-instrumentation-restclient//lib/opentelemetry/instrumentation/restclient/instrumentation.rb#52
+  # source://opentelemetry-instrumentation-restclient//lib/opentelemetry/instrumentation/restclient/instrumentation.rb#42
+  def emit_old_semconv_deprecation_warning(option); end
+
+  # source://opentelemetry-instrumentation-restclient//lib/opentelemetry/instrumentation/restclient/instrumentation.rb#58
   def patch_request_dup; end
 
-  # source://opentelemetry-instrumentation-restclient//lib/opentelemetry/instrumentation/restclient/instrumentation.rb#60
+  # source://opentelemetry-instrumentation-restclient//lib/opentelemetry/instrumentation/restclient/instrumentation.rb#66
   def patch_request_old; end
 
-  # source://opentelemetry-instrumentation-restclient//lib/opentelemetry/instrumentation/restclient/instrumentation.rb#56
+  # source://opentelemetry-instrumentation-restclient//lib/opentelemetry/instrumentation/restclient/instrumentation.rb#62
   def patch_request_stable; end
 
-  # source://opentelemetry-instrumentation-restclient//lib/opentelemetry/instrumentation/restclient/instrumentation.rb#40
+  # source://opentelemetry-instrumentation-restclient//lib/opentelemetry/instrumentation/restclient/instrumentation.rb#46
   def require_dependencies_dup; end
 
-  # source://opentelemetry-instrumentation-restclient//lib/opentelemetry/instrumentation/restclient/instrumentation.rb#48
+  # source://opentelemetry-instrumentation-restclient//lib/opentelemetry/instrumentation/restclient/instrumentation.rb#54
   def require_dependencies_old; end
 
-  # source://opentelemetry-instrumentation-restclient//lib/opentelemetry/instrumentation/restclient/instrumentation.rb#44
+  # source://opentelemetry-instrumentation-restclient//lib/opentelemetry/instrumentation/restclient/instrumentation.rb#50
   def require_dependencies_stable; end
 end
 

@@ -162,136 +162,32 @@ OpenTelemetry::Exporter::OTLP::Exporter::SUCCESS = T.let(T.unsafe(nil), Integer)
 # source://opentelemetry-exporter-otlp//lib/opentelemetry/exporter/otlp/version.rb#11
 OpenTelemetry::Exporter::OTLP::VERSION = T.let(T.unsafe(nil), String)
 
-# source://opentelemetry-exporter-otlp//lib/opentelemetry/proto/common/v1/common_pb.rb#13
-module Opentelemetry; end
-
-# source://opentelemetry-exporter-otlp//lib/opentelemetry/proto/common/v1/common_pb.rb#14
-module Opentelemetry::Proto; end
-
-# source://opentelemetry-exporter-otlp//lib/opentelemetry/proto/collector/trace/v1/trace_service_pb.rb#17
-module Opentelemetry::Proto::Collector; end
-
-# source://opentelemetry-exporter-otlp//lib/opentelemetry/proto/collector/trace/v1/trace_service_pb.rb#18
-module Opentelemetry::Proto::Collector::Trace; end
-
-# source://opentelemetry-exporter-otlp//lib/opentelemetry/proto/collector/trace/v1/trace_service_pb.rb#19
-module Opentelemetry::Proto::Collector::Trace::V1; end
-
+class Opentelemetry::Proto::Collector::Logs::V1::ExportLogsPartialSuccess < ::Google::Protobuf::AbstractMessage; end
+class Opentelemetry::Proto::Collector::Logs::V1::ExportLogsServiceRequest < ::Google::Protobuf::AbstractMessage; end
+class Opentelemetry::Proto::Collector::Logs::V1::ExportLogsServiceResponse < ::Google::Protobuf::AbstractMessage; end
 class Opentelemetry::Proto::Collector::Trace::V1::ExportTracePartialSuccess < ::Google::Protobuf::AbstractMessage; end
 class Opentelemetry::Proto::Collector::Trace::V1::ExportTraceServiceRequest < ::Google::Protobuf::AbstractMessage; end
 class Opentelemetry::Proto::Collector::Trace::V1::ExportTraceServiceResponse < ::Google::Protobuf::AbstractMessage; end
-
-# source://opentelemetry-exporter-otlp//lib/opentelemetry/proto/common/v1/common_pb.rb#15
-module Opentelemetry::Proto::Common; end
-
-# source://opentelemetry-exporter-otlp//lib/opentelemetry/proto/common/v1/common_pb.rb#16
-module Opentelemetry::Proto::Common::V1; end
-
 class Opentelemetry::Proto::Common::V1::AnyValue < ::Google::Protobuf::AbstractMessage; end
 class Opentelemetry::Proto::Common::V1::ArrayValue < ::Google::Protobuf::AbstractMessage; end
 class Opentelemetry::Proto::Common::V1::EntityRef < ::Google::Protobuf::AbstractMessage; end
 class Opentelemetry::Proto::Common::V1::InstrumentationScope < ::Google::Protobuf::AbstractMessage; end
 class Opentelemetry::Proto::Common::V1::KeyValue < ::Google::Protobuf::AbstractMessage; end
 class Opentelemetry::Proto::Common::V1::KeyValueList < ::Google::Protobuf::AbstractMessage; end
-
-# source://opentelemetry-exporter-otlp//lib/opentelemetry/proto/resource/v1/resource_pb.rb#17
-module Opentelemetry::Proto::Resource; end
-
-# source://opentelemetry-exporter-otlp//lib/opentelemetry/proto/resource/v1/resource_pb.rb#18
-module Opentelemetry::Proto::Resource::V1; end
-
+class Opentelemetry::Proto::Logs::V1::LogRecord < ::Google::Protobuf::AbstractMessage; end
+module Opentelemetry::Proto::Logs::V1::LogRecordFlags; end
+class Opentelemetry::Proto::Logs::V1::LogsData < ::Google::Protobuf::AbstractMessage; end
+class Opentelemetry::Proto::Logs::V1::ResourceLogs < ::Google::Protobuf::AbstractMessage; end
+class Opentelemetry::Proto::Logs::V1::ScopeLogs < ::Google::Protobuf::AbstractMessage; end
+module Opentelemetry::Proto::Logs::V1::SeverityNumber; end
 class Opentelemetry::Proto::Resource::V1::Resource < ::Google::Protobuf::AbstractMessage; end
-
-# source://opentelemetry-exporter-otlp//lib/opentelemetry/proto/trace/v1/trace_pb.rb#18
-module Opentelemetry::Proto::Trace; end
-
-# source://opentelemetry-exporter-otlp//lib/opentelemetry/proto/trace/v1/trace_pb.rb#19
-module Opentelemetry::Proto::Trace::V1; end
-
 class Opentelemetry::Proto::Trace::V1::ResourceSpans < ::Google::Protobuf::AbstractMessage; end
 class Opentelemetry::Proto::Trace::V1::ScopeSpans < ::Google::Protobuf::AbstractMessage; end
 class Opentelemetry::Proto::Trace::V1::Span < ::Google::Protobuf::AbstractMessage; end
 class Opentelemetry::Proto::Trace::V1::Span::Event < ::Google::Protobuf::AbstractMessage; end
 class Opentelemetry::Proto::Trace::V1::Span::Link < ::Google::Protobuf::AbstractMessage; end
-
-module Opentelemetry::Proto::Trace::V1::Span::SpanKind
-  class << self
-    # source://opentelemetry-exporter-otlp//lib/opentelemetry/proto/trace/v1/trace_pb.rb#26
-    def descriptor; end
-
-    # source://opentelemetry-exporter-otlp//lib/opentelemetry/proto/trace/v1/trace_pb.rb#26
-    def lookup(_arg0); end
-
-    # source://opentelemetry-exporter-otlp//lib/opentelemetry/proto/trace/v1/trace_pb.rb#26
-    def resolve(_arg0); end
-  end
-end
-
-# source://opentelemetry-exporter-otlp//lib/opentelemetry/proto/trace/v1/trace_pb.rb#26
-Opentelemetry::Proto::Trace::V1::Span::SpanKind::SPAN_KIND_CLIENT = T.let(T.unsafe(nil), Integer)
-
-# source://opentelemetry-exporter-otlp//lib/opentelemetry/proto/trace/v1/trace_pb.rb#26
-Opentelemetry::Proto::Trace::V1::Span::SpanKind::SPAN_KIND_CONSUMER = T.let(T.unsafe(nil), Integer)
-
-# source://opentelemetry-exporter-otlp//lib/opentelemetry/proto/trace/v1/trace_pb.rb#26
-Opentelemetry::Proto::Trace::V1::Span::SpanKind::SPAN_KIND_INTERNAL = T.let(T.unsafe(nil), Integer)
-
-# source://opentelemetry-exporter-otlp//lib/opentelemetry/proto/trace/v1/trace_pb.rb#26
-Opentelemetry::Proto::Trace::V1::Span::SpanKind::SPAN_KIND_PRODUCER = T.let(T.unsafe(nil), Integer)
-
-# source://opentelemetry-exporter-otlp//lib/opentelemetry/proto/trace/v1/trace_pb.rb#26
-Opentelemetry::Proto::Trace::V1::Span::SpanKind::SPAN_KIND_SERVER = T.let(T.unsafe(nil), Integer)
-
-# source://opentelemetry-exporter-otlp//lib/opentelemetry/proto/trace/v1/trace_pb.rb#26
-Opentelemetry::Proto::Trace::V1::Span::SpanKind::SPAN_KIND_UNSPECIFIED = T.let(T.unsafe(nil), Integer)
-
-module Opentelemetry::Proto::Trace::V1::SpanFlags
-  class << self
-    # source://opentelemetry-exporter-otlp//lib/opentelemetry/proto/trace/v1/trace_pb.rb#29
-    def descriptor; end
-
-    # source://opentelemetry-exporter-otlp//lib/opentelemetry/proto/trace/v1/trace_pb.rb#29
-    def lookup(_arg0); end
-
-    # source://opentelemetry-exporter-otlp//lib/opentelemetry/proto/trace/v1/trace_pb.rb#29
-    def resolve(_arg0); end
-  end
-end
-
-# source://opentelemetry-exporter-otlp//lib/opentelemetry/proto/trace/v1/trace_pb.rb#29
-Opentelemetry::Proto::Trace::V1::SpanFlags::SPAN_FLAGS_CONTEXT_HAS_IS_REMOTE_MASK = T.let(T.unsafe(nil), Integer)
-
-# source://opentelemetry-exporter-otlp//lib/opentelemetry/proto/trace/v1/trace_pb.rb#29
-Opentelemetry::Proto::Trace::V1::SpanFlags::SPAN_FLAGS_CONTEXT_IS_REMOTE_MASK = T.let(T.unsafe(nil), Integer)
-
-# source://opentelemetry-exporter-otlp//lib/opentelemetry/proto/trace/v1/trace_pb.rb#29
-Opentelemetry::Proto::Trace::V1::SpanFlags::SPAN_FLAGS_DO_NOT_USE = T.let(T.unsafe(nil), Integer)
-
-# source://opentelemetry-exporter-otlp//lib/opentelemetry/proto/trace/v1/trace_pb.rb#29
-Opentelemetry::Proto::Trace::V1::SpanFlags::SPAN_FLAGS_TRACE_FLAGS_MASK = T.let(T.unsafe(nil), Integer)
-
+module Opentelemetry::Proto::Trace::V1::Span::SpanKind; end
+module Opentelemetry::Proto::Trace::V1::SpanFlags; end
 class Opentelemetry::Proto::Trace::V1::Status < ::Google::Protobuf::AbstractMessage; end
-
-module Opentelemetry::Proto::Trace::V1::Status::StatusCode
-  class << self
-    # source://opentelemetry-exporter-otlp//lib/opentelemetry/proto/trace/v1/trace_pb.rb#28
-    def descriptor; end
-
-    # source://opentelemetry-exporter-otlp//lib/opentelemetry/proto/trace/v1/trace_pb.rb#28
-    def lookup(_arg0); end
-
-    # source://opentelemetry-exporter-otlp//lib/opentelemetry/proto/trace/v1/trace_pb.rb#28
-    def resolve(_arg0); end
-  end
-end
-
-# source://opentelemetry-exporter-otlp//lib/opentelemetry/proto/trace/v1/trace_pb.rb#28
-Opentelemetry::Proto::Trace::V1::Status::StatusCode::STATUS_CODE_ERROR = T.let(T.unsafe(nil), Integer)
-
-# source://opentelemetry-exporter-otlp//lib/opentelemetry/proto/trace/v1/trace_pb.rb#28
-Opentelemetry::Proto::Trace::V1::Status::StatusCode::STATUS_CODE_OK = T.let(T.unsafe(nil), Integer)
-
-# source://opentelemetry-exporter-otlp//lib/opentelemetry/proto/trace/v1/trace_pb.rb#28
-Opentelemetry::Proto::Trace::V1::Status::StatusCode::STATUS_CODE_UNSET = T.let(T.unsafe(nil), Integer)
-
+module Opentelemetry::Proto::Trace::V1::Status::StatusCode; end
 class Opentelemetry::Proto::Trace::V1::TracesData < ::Google::Protobuf::AbstractMessage; end

@@ -10,65 +10,65 @@ module Async; end
 
 # A general purpose synchronisation primitive, which allows one task to wait for a number of other tasks to complete. It can be used in conjunction with {Semaphore}.
 #
-# source://async//lib/async/barrier.rb#14
+# source://async//lib/async/barrier.rb#15
 class Async::Barrier
   # Initialize the barrier.
   #
   # @return [Barrier] a new instance of Barrier
   #
-  # source://async//lib/async/barrier.rb#18
+  # source://async//lib/async/barrier.rb#19
   def initialize(parent: T.unsafe(nil)); end
 
   # Execute a child task and add it to the barrier.
   #
-  # source://async//lib/async/barrier.rb#45
+  # source://async//lib/async/barrier.rb#48
   def async(*arguments, parent: T.unsafe(nil), **options, &block); end
 
   # Cancel all tasks held by the barrier.
   #
-  # source://async//lib/async/barrier.rb#93
+  # source://async//lib/async/barrier.rb#109
   def cancel; end
 
   # Whether there are any tasks being held by the barrier.
   #
   # @return [Boolean]
   #
-  # source://async//lib/async/barrier.rb#61
+  # source://async//lib/async/barrier.rb#77
   def empty?; end
 
   # Number of tasks being held by the barrier.
   #
-  # source://async//lib/async/barrier.rb#36
+  # source://async//lib/async/barrier.rb#38
   def size; end
 
   # Backward compatibility alias for {#cancel}.
   #
   # @deprecated Use {#cancel} instead.
   #
-  # source://async//lib/async/barrier.rb#103
+  # source://async//lib/async/barrier.rb#119
   def stop; end
 
   # All tasks which have been invoked into the barrier.
   #
-  # source://async//lib/async/barrier.rb#41
+  # source://async//lib/async/barrier.rb#43
   def tasks; end
 
   # Wait for all tasks to complete by invoking {Task#wait} on each waiting task, which may raise an error. As long as the task has completed, it will be removed from the barrier.
   #
-  # source://async//lib/async/barrier.rb#70
+  # source://async//lib/async/barrier.rb#86
   def wait; end
 end
 
-# source://async//lib/async/barrier.rb#25
+# source://async//lib/async/barrier.rb#27
 class Async::Barrier::TaskNode < ::Async::List::Node
   # @return [TaskNode] a new instance of TaskNode
   #
-  # source://async//lib/async/barrier.rb#26
+  # source://async//lib/async/barrier.rb#28
   def initialize(task); end
 
   # Returns the value of attribute task.
   #
-  # source://async//lib/async/barrier.rb#30
+  # source://async//lib/async/barrier.rb#32
   def task; end
 end
 

@@ -53,6 +53,7 @@ module Anthropic
   Boolean = Anthropic::Helpers::InputSchema::Boolean
   CacheControlEphemeral = Anthropic::Models::CacheControlEphemeral
   CacheCreation = Anthropic::Models::CacheCreation
+  CapabilitySupport = Anthropic::Models::CapabilitySupport
   CitationCharLocation = Anthropic::Models::CitationCharLocation
   CitationCharLocationParam = Anthropic::Models::CitationCharLocationParam
   CitationContentBlockLocation = Anthropic::Models::CitationContentBlockLocation
@@ -172,9 +173,11 @@ module Anthropic
   ContentBlockParam = Anthropic::Models::ContentBlockParam
   ContentBlockSource = Anthropic::Models::ContentBlockSource
   ContentBlockSourceContent = Anthropic::Models::ContentBlockSourceContent
+  ContextManagementCapability = Anthropic::Models::ContextManagementCapability
   DirectCaller = Anthropic::Models::DirectCaller
   DocumentBlock = Anthropic::Models::DocumentBlock
   DocumentBlockParam = Anthropic::Models::DocumentBlockParam
+  EffortCapability = Anthropic::Models::EffortCapability
 
   EncryptedCodeExecutionResultBlock = Anthropic::Models::EncryptedCodeExecutionResultBlock
 
@@ -183,6 +186,7 @@ module Anthropic
   EnumOf = Anthropic::Helpers::InputSchema::EnumOf
   ErrorObject = Anthropic::Models::ErrorObject
   ErrorResponse = Anthropic::Models::ErrorResponse
+  ErrorType = Anthropic::Models::ErrorType
 
   module Errors
     class APIConnectionError < Anthropic::Errors::APIError
@@ -2492,6 +2496,10 @@ module Anthropic
         def encode_content(headers, body); end
 
         # @api private
+        sig { params(query: Anthropic::Internal::AnyHash).returns(Anthropic::Internal::AnyHash) }
+        def encode_query_params(query); end
+
+        # @api private
         #
         # https://www.iana.org/assignments/character-sets/character-sets.xhtml
         sig { params(content_type: String, text: String).void }
@@ -2527,6 +2535,10 @@ module Anthropic
           ).void
         end
         def write_multipart_content(y, val:, closing:, content_type: nil); end
+
+        # @api private
+        sig { params(collection: Anthropic::Internal::AnyHash, key: String, element: T.anything).void }
+        def write_query_param_element!(collection, key, element); end
       end
 
       class << self
@@ -2701,6 +2713,7 @@ module Anthropic
   Messages = Anthropic::Models::Messages
   Metadata = Anthropic::Models::Metadata
   Model = Anthropic::Models::Model
+  ModelCapabilities = Anthropic::Models::ModelCapabilities
   ModelInfo = Anthropic::Models::ModelInfo
   ModelListParams = Anthropic::Models::ModelListParams
   ModelRetrieveParams = Anthropic::Models::ModelRetrieveParams
@@ -4067,6 +4080,30 @@ module Anthropic
           end
       end
 
+      class BetaCapabilitySupport < Anthropic::Internal::Type::BaseModel
+        # Whether this capability is supported by the model.
+        sig { returns(T::Boolean) }
+        attr_accessor :supported
+
+        sig { override.returns({ supported: T::Boolean }) }
+        def to_hash; end
+
+        class << self
+          # Indicates whether a capability is supported.
+          sig { params(supported: T::Boolean).returns(T.attached_class) }
+          def new(
+            supported: # Whether this capability is supported by the model.
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaCapabilitySupport,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
       class BetaCitationCharLocation < Anthropic::Internal::Type::BaseModel
         sig { returns(String) }
         attr_accessor :cited_text
@@ -5299,6 +5336,12 @@ module Anthropic
 ); end
         end
 
+        # Specifies who can invoke a tool.
+        #
+        # Values: direct: The model can call this tool directly. code_execution_20250825:
+        # The tool can be called from the code execution environment (v1).
+        # code_execution_20260120: The tool can be called from the code execution
+        # environment (v2 with persistence).
         module AllowedCaller
           extend Anthropic::Internal::Type::Enum
 
@@ -5437,6 +5480,12 @@ module Anthropic
 ); end
         end
 
+        # Specifies who can invoke a tool.
+        #
+        # Values: direct: The model can call this tool directly. code_execution_20250825:
+        # The tool can be called from the code execution environment (v1).
+        # code_execution_20260120: The tool can be called from the code execution
+        # environment (v2 with persistence).
         module AllowedCaller
           extend Anthropic::Internal::Type::Enum
 
@@ -5577,6 +5626,12 @@ module Anthropic
 ); end
         end
 
+        # Specifies who can invoke a tool.
+        #
+        # Values: direct: The model can call this tool directly. code_execution_20250825:
+        # The tool can be called from the code execution environment (v1).
+        # code_execution_20260120: The tool can be called from the code execution
+        # environment (v2 with persistence).
         module AllowedCaller
           extend Anthropic::Internal::Type::Enum
 
@@ -6444,6 +6499,72 @@ module Anthropic
           end
       end
 
+      class BetaContextManagementCapability < Anthropic::Internal::Type::BaseModel
+        # Indicates whether a capability is supported.
+        sig { returns(T.nilable(Anthropic::Beta::BetaCapabilitySupport)) }
+        attr_reader :clear_thinking_20251015
+
+        sig { params(clear_thinking_20251015: T.nilable(Anthropic::Beta::BetaCapabilitySupport::OrHash)).void }
+        attr_writer :clear_thinking_20251015
+
+        # Indicates whether a capability is supported.
+        sig { returns(T.nilable(Anthropic::Beta::BetaCapabilitySupport)) }
+        attr_reader :clear_tool_uses_20250919
+
+        sig { params(clear_tool_uses_20250919: T.nilable(Anthropic::Beta::BetaCapabilitySupport::OrHash)).void }
+        attr_writer :clear_tool_uses_20250919
+
+        # Indicates whether a capability is supported.
+        sig { returns(T.nilable(Anthropic::Beta::BetaCapabilitySupport)) }
+        attr_reader :compact_20260112
+
+        sig { params(compact_20260112: T.nilable(Anthropic::Beta::BetaCapabilitySupport::OrHash)).void }
+        attr_writer :compact_20260112
+
+        # Whether this capability is supported by the model.
+        sig { returns(T::Boolean) }
+        attr_accessor :supported
+
+        sig do
+          override
+            .returns({
+              clear_thinking_20251015:
+                T.nilable(Anthropic::Beta::BetaCapabilitySupport),
+              clear_tool_uses_20250919:
+                T.nilable(Anthropic::Beta::BetaCapabilitySupport),
+              compact_20260112:
+                T.nilable(Anthropic::Beta::BetaCapabilitySupport),
+              supported: T::Boolean
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # Context management capability details.
+          sig do
+            params(
+              clear_thinking_20251015: T.nilable(Anthropic::Beta::BetaCapabilitySupport::OrHash),
+              clear_tool_uses_20250919: T.nilable(Anthropic::Beta::BetaCapabilitySupport::OrHash),
+              compact_20260112: T.nilable(Anthropic::Beta::BetaCapabilitySupport::OrHash),
+              supported: T::Boolean
+            ).returns(T.attached_class)
+          end
+          def new(
+            clear_thinking_20251015:, # Indicates whether a capability is supported.
+            clear_tool_uses_20250919:, # Indicates whether a capability is supported.
+            compact_20260112:, # Indicates whether a capability is supported.
+            supported: # Whether this capability is supported by the model.
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaContextManagementCapability,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
       class BetaContextManagementConfig < Anthropic::Internal::Type::BaseModel
         # List of context management edits to apply
         sig do
@@ -6716,6 +6837,79 @@ module Anthropic
               )
             end
         end
+      end
+
+      class BetaEffortCapability < Anthropic::Internal::Type::BaseModel
+        # Whether the model supports high effort level.
+        sig { returns(Anthropic::Beta::BetaCapabilitySupport) }
+        attr_reader :high
+
+        sig { params(high: Anthropic::Beta::BetaCapabilitySupport::OrHash).void }
+        attr_writer :high
+
+        # Whether the model supports low effort level.
+        sig { returns(Anthropic::Beta::BetaCapabilitySupport) }
+        attr_reader :low
+
+        sig { params(low: Anthropic::Beta::BetaCapabilitySupport::OrHash).void }
+        attr_writer :low
+
+        # Whether the model supports max effort level.
+        sig { returns(Anthropic::Beta::BetaCapabilitySupport) }
+        attr_reader :max
+
+        sig { params(max: Anthropic::Beta::BetaCapabilitySupport::OrHash).void }
+        attr_writer :max
+
+        # Whether the model supports medium effort level.
+        sig { returns(Anthropic::Beta::BetaCapabilitySupport) }
+        attr_reader :medium
+
+        sig { params(medium: Anthropic::Beta::BetaCapabilitySupport::OrHash).void }
+        attr_writer :medium
+
+        # Whether this capability is supported by the model.
+        sig { returns(T::Boolean) }
+        attr_accessor :supported
+
+        sig do
+          override
+            .returns({
+              high: Anthropic::Beta::BetaCapabilitySupport,
+              low: Anthropic::Beta::BetaCapabilitySupport,
+              max: Anthropic::Beta::BetaCapabilitySupport,
+              medium: Anthropic::Beta::BetaCapabilitySupport,
+              supported: T::Boolean
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # Effort (reasoning_effort) capability details.
+          sig do
+            params(
+              high: Anthropic::Beta::BetaCapabilitySupport::OrHash,
+              low: Anthropic::Beta::BetaCapabilitySupport::OrHash,
+              max: Anthropic::Beta::BetaCapabilitySupport::OrHash,
+              medium: Anthropic::Beta::BetaCapabilitySupport::OrHash,
+              supported: T::Boolean
+            ).returns(T.attached_class)
+          end
+          def new(
+            high:, # Whether the model supports high effort level.
+            low:, # Whether the model supports low effort level.
+            max:, # Whether the model supports max effort level.
+            medium:, # Whether the model supports medium effort level.
+            supported: # Whether this capability is supported by the model.
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaEffortCapability,
+              Anthropic::Internal::AnyHash
+            )
+          end
       end
 
       class BetaEncryptedCodeExecutionResultBlock < Anthropic::Internal::Type::BaseModel
@@ -7495,6 +7689,12 @@ module Anthropic
 ); end
         end
 
+        # Specifies who can invoke a tool.
+        #
+        # Values: direct: The model can call this tool directly. code_execution_20250825:
+        # The tool can be called from the code execution environment (v1).
+        # code_execution_20260120: The tool can be called from the code execution
+        # environment (v2 with persistence).
         module AllowedCaller
           extend Anthropic::Internal::Type::Enum
 
@@ -8360,7 +8560,131 @@ module Anthropic
           end
       end
 
+      class BetaModelCapabilities < Anthropic::Internal::Type::BaseModel
+        # Whether the model supports the Batch API.
+        sig { returns(Anthropic::Beta::BetaCapabilitySupport) }
+        attr_reader :batch
+
+        sig { params(batch: Anthropic::Beta::BetaCapabilitySupport::OrHash).void }
+        attr_writer :batch
+
+        # Whether the model supports citation generation.
+        sig { returns(Anthropic::Beta::BetaCapabilitySupport) }
+        attr_reader :citations
+
+        sig { params(citations: Anthropic::Beta::BetaCapabilitySupport::OrHash).void }
+        attr_writer :citations
+
+        # Whether the model supports code execution tools.
+        sig { returns(Anthropic::Beta::BetaCapabilitySupport) }
+        attr_reader :code_execution
+
+        sig { params(code_execution: Anthropic::Beta::BetaCapabilitySupport::OrHash).void }
+        attr_writer :code_execution
+
+        # Context management support and available strategies.
+        sig { returns(Anthropic::Beta::BetaContextManagementCapability) }
+        attr_reader :context_management
+
+        sig { params(context_management: Anthropic::Beta::BetaContextManagementCapability::OrHash).void }
+        attr_writer :context_management
+
+        # Effort (reasoning_effort) support and available levels.
+        sig { returns(Anthropic::Beta::BetaEffortCapability) }
+        attr_reader :effort
+
+        sig { params(effort: Anthropic::Beta::BetaEffortCapability::OrHash).void }
+        attr_writer :effort
+
+        # Whether the model accepts image content blocks.
+        sig { returns(Anthropic::Beta::BetaCapabilitySupport) }
+        attr_reader :image_input
+
+        sig { params(image_input: Anthropic::Beta::BetaCapabilitySupport::OrHash).void }
+        attr_writer :image_input
+
+        # Whether the model accepts PDF content blocks.
+        sig { returns(Anthropic::Beta::BetaCapabilitySupport) }
+        attr_reader :pdf_input
+
+        sig { params(pdf_input: Anthropic::Beta::BetaCapabilitySupport::OrHash).void }
+        attr_writer :pdf_input
+
+        # Whether the model supports structured output / JSON mode / strict tool schemas.
+        sig { returns(Anthropic::Beta::BetaCapabilitySupport) }
+        attr_reader :structured_outputs
+
+        sig { params(structured_outputs: Anthropic::Beta::BetaCapabilitySupport::OrHash).void }
+        attr_writer :structured_outputs
+
+        # Thinking capability and supported type configurations.
+        sig { returns(Anthropic::Beta::BetaThinkingCapability) }
+        attr_reader :thinking
+
+        sig { params(thinking: Anthropic::Beta::BetaThinkingCapability::OrHash).void }
+        attr_writer :thinking
+
+        sig do
+          override
+            .returns({
+              batch: Anthropic::Beta::BetaCapabilitySupport,
+              citations: Anthropic::Beta::BetaCapabilitySupport,
+              code_execution: Anthropic::Beta::BetaCapabilitySupport,
+              context_management:
+                Anthropic::Beta::BetaContextManagementCapability,
+              effort: Anthropic::Beta::BetaEffortCapability,
+              image_input: Anthropic::Beta::BetaCapabilitySupport,
+              pdf_input: Anthropic::Beta::BetaCapabilitySupport,
+              structured_outputs: Anthropic::Beta::BetaCapabilitySupport,
+              thinking: Anthropic::Beta::BetaThinkingCapability
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # Model capability information.
+          sig do
+            params(
+              batch: Anthropic::Beta::BetaCapabilitySupport::OrHash,
+              citations: Anthropic::Beta::BetaCapabilitySupport::OrHash,
+              code_execution: Anthropic::Beta::BetaCapabilitySupport::OrHash,
+              context_management: Anthropic::Beta::BetaContextManagementCapability::OrHash,
+              effort: Anthropic::Beta::BetaEffortCapability::OrHash,
+              image_input: Anthropic::Beta::BetaCapabilitySupport::OrHash,
+              pdf_input: Anthropic::Beta::BetaCapabilitySupport::OrHash,
+              structured_outputs: Anthropic::Beta::BetaCapabilitySupport::OrHash,
+              thinking: Anthropic::Beta::BetaThinkingCapability::OrHash
+            ).returns(T.attached_class)
+          end
+          def new(
+            batch:, # Whether the model supports the Batch API.
+            citations:, # Whether the model supports citation generation.
+            code_execution:, # Whether the model supports code execution tools.
+            context_management:, # Context management support and available strategies.
+            effort:, # Effort (reasoning_effort) support and available levels.
+            image_input:, # Whether the model accepts image content blocks.
+            pdf_input:, # Whether the model accepts PDF content blocks.
+            structured_outputs:, # Whether the model supports structured output / JSON mode / strict tool schemas.
+            thinking: # Thinking capability and supported type configurations.
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaModelCapabilities,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
       class BetaModelInfo < Anthropic::Internal::Type::BaseModel
+        # Model capability information.
+        sig { returns(T.nilable(Anthropic::Beta::BetaModelCapabilities)) }
+        attr_reader :capabilities
+
+        sig { params(capabilities: T.nilable(Anthropic::Beta::BetaModelCapabilities::OrHash)).void }
+        attr_writer :capabilities
+
         # RFC 3339 datetime string representing the time at which the model was released.
         # May be set to an epoch value if the release date is unknown.
         sig { returns(Time) }
@@ -8374,22 +8698,54 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :id
 
+        # Maximum input context window size in tokens for this model.
+        sig { returns(T.nilable(Integer)) }
+        attr_accessor :max_input_tokens
+
+        # Maximum value for the `max_tokens` parameter when using this model.
+        sig { returns(T.nilable(Integer)) }
+        attr_accessor :max_tokens
+
         # Object type.
         #
         # For Models, this is always `"model"`.
         sig { returns(Symbol) }
         attr_accessor :type
 
-        sig { override.returns({ id: String, created_at: Time, display_name: String, type: Symbol }) }
+        sig do
+          override
+            .returns({
+              id: String,
+              capabilities: T.nilable(Anthropic::Beta::BetaModelCapabilities),
+              created_at: Time,
+              display_name: String,
+              max_input_tokens: T.nilable(Integer),
+              max_tokens: T.nilable(Integer),
+              type: Symbol
+            })
+        end
         def to_hash; end
 
         class << self
-          sig { params(id: String, created_at: Time, display_name: String, type: Symbol).returns(T.attached_class) }
+          sig do
+            params(
+              id: String,
+              capabilities: T.nilable(Anthropic::Beta::BetaModelCapabilities::OrHash),
+              created_at: Time,
+              display_name: String,
+              max_input_tokens: T.nilable(Integer),
+              max_tokens: T.nilable(Integer),
+              type: Symbol
+            ).returns(T.attached_class)
+          end
           def new(
             id:, # Unique model identifier.
+            capabilities:, # Model capability information.
             created_at:, # RFC 3339 datetime string representing the time at which the model was released.
                          # May be set to an epoch value if the release date is unknown.
             display_name:, # A human-readable name for the model.
+            max_input_tokens:, # Maximum input context window size in tokens for this model.
+            max_tokens:, # Maximum value for the `max_tokens` parameter when using this model.
             type: :model # Object type.
                          # For Models, this is always `"model"`.
 ); end
@@ -10838,16 +11194,123 @@ module Anthropic
           end
       end
 
-      class BetaThinkingConfigAdaptive < Anthropic::Internal::Type::BaseModel
-        sig { returns(Symbol) }
-        attr_accessor :type
+      class BetaThinkingCapability < Anthropic::Internal::Type::BaseModel
+        # Whether this capability is supported by the model.
+        sig { returns(T::Boolean) }
+        attr_accessor :supported
 
-        sig { override.returns({ type: Symbol }) }
+        # Supported thinking type configurations.
+        sig { returns(Anthropic::Beta::BetaThinkingTypes) }
+        attr_reader :types
+
+        sig { params(types: Anthropic::Beta::BetaThinkingTypes::OrHash).void }
+        attr_writer :types
+
+        sig { override.returns({ supported: T::Boolean, types: Anthropic::Beta::BetaThinkingTypes }) }
         def to_hash; end
 
         class << self
-          sig { params(type: Symbol).returns(T.attached_class) }
-          def new(type: :adaptive); end
+          # Thinking capability details.
+          sig do
+            params(
+              supported: T::Boolean,
+              types: Anthropic::Beta::BetaThinkingTypes::OrHash
+            ).returns(T.attached_class)
+          end
+          def new(
+            supported:, # Whether this capability is supported by the model.
+            types: # Supported thinking type configurations.
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaThinkingCapability,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
+      class BetaThinkingConfigAdaptive < Anthropic::Internal::Type::BaseModel
+        # Controls how thinking content appears in the response. When set to `summarized`,
+        # thinking is returned normally. When set to `omitted`, thinking content is
+        # redacted but a signature is returned for multi-turn continuity. Defaults to
+        # `summarized`.
+        sig do
+          returns(T.nilable(
+              Anthropic::Beta::BetaThinkingConfigAdaptive::Display::OrSymbol
+            ))
+        end
+        attr_accessor :display_
+
+        sig { returns(Symbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              type: Symbol,
+              display_:
+                T.nilable(
+                  Anthropic::Beta::BetaThinkingConfigAdaptive::Display::OrSymbol
+                )
+            })
+        end
+        def to_hash; end
+
+        class << self
+          sig do
+            params(
+              display_: T.nilable(
+                Anthropic::Beta::BetaThinkingConfigAdaptive::Display::OrSymbol
+              ),
+              type: Symbol
+            ).returns(T.attached_class)
+          end
+          def new(
+            display_: nil, # Controls how thinking content appears in the response. When set to `summarized`,
+                           # thinking is returned normally. When set to `omitted`, thinking content is
+                           # redacted but a signature is returned for multi-turn continuity. Defaults to
+                           # `summarized`.
+            type: :adaptive
+); end
+        end
+
+        # Controls how thinking content appears in the response. When set to `summarized`,
+        # thinking is returned normally. When set to `omitted`, thinking content is
+        # redacted but a signature is returned for multi-turn continuity. Defaults to
+        # `summarized`.
+        module Display
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaThinkingConfigAdaptive::Display::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          OMITTED = T.let(
+              :omitted,
+              Anthropic::Beta::BetaThinkingConfigAdaptive::Display::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          SUMMARIZED = T.let(
+              :summarized,
+              Anthropic::Beta::BetaThinkingConfigAdaptive::Display::TaggedSymbol
+            )
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaThinkingConfigAdaptive::Display
+              )
+            end
         end
 
         OrHash = T.type_alias do
@@ -10891,14 +11354,43 @@ module Anthropic
         sig { returns(Integer) }
         attr_accessor :budget_tokens
 
+        # Controls how thinking content appears in the response. When set to `summarized`,
+        # thinking is returned normally. When set to `omitted`, thinking content is
+        # redacted but a signature is returned for multi-turn continuity. Defaults to
+        # `summarized`.
+        sig do
+          returns(T.nilable(
+              Anthropic::Beta::BetaThinkingConfigEnabled::Display::OrSymbol
+            ))
+        end
+        attr_accessor :display_
+
         sig { returns(Symbol) }
         attr_accessor :type
 
-        sig { override.returns({ budget_tokens: Integer, type: Symbol }) }
+        sig do
+          override
+            .returns({
+              budget_tokens: Integer,
+              type: Symbol,
+              display_:
+                T.nilable(
+                  Anthropic::Beta::BetaThinkingConfigEnabled::Display::OrSymbol
+                )
+            })
+        end
         def to_hash; end
 
         class << self
-          sig { params(budget_tokens: Integer, type: Symbol).returns(T.attached_class) }
+          sig do
+            params(
+              budget_tokens: Integer,
+              display_: T.nilable(
+                Anthropic::Beta::BetaThinkingConfigEnabled::Display::OrSymbol
+              ),
+              type: Symbol
+            ).returns(T.attached_class)
+          end
           def new(
             budget_tokens:, # Determines how many tokens Claude can use for its internal reasoning process.
                             # Larger budgets can enable more thorough analysis for complex problems, improving
@@ -10907,8 +11399,46 @@ module Anthropic
                             # See
                             # [extended thinking](https://docs.claude.com/en/docs/build-with-claude/extended-thinking)
                             # for details.
+            display_: nil, # Controls how thinking content appears in the response. When set to `summarized`,
+                           # thinking is returned normally. When set to `omitted`, thinking content is
+                           # redacted but a signature is returned for multi-turn continuity. Defaults to
+                           # `summarized`.
             type: :enabled
 ); end
+        end
+
+        # Controls how thinking content appears in the response. When set to `summarized`,
+        # thinking is returned normally. When set to `omitted`, thinking content is
+        # redacted but a signature is returned for multi-turn continuity. Defaults to
+        # `summarized`.
+        module Display
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaThinkingConfigEnabled::Display::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          OMITTED = T.let(
+              :omitted,
+              Anthropic::Beta::BetaThinkingConfigEnabled::Display::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          SUMMARIZED = T.let(
+              :summarized,
+              Anthropic::Beta::BetaThinkingConfigEnabled::Display::TaggedSymbol
+            )
+
+          TaggedSymbol = T.type_alias do
+              T.all(Symbol, Anthropic::Beta::BetaThinkingConfigEnabled::Display)
+            end
         end
 
         OrHash = T.type_alias do
@@ -10986,6 +11516,52 @@ module Anthropic
         OrHash = T.type_alias do
             T.any(
               Anthropic::Beta::BetaThinkingTurns,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
+      class BetaThinkingTypes < Anthropic::Internal::Type::BaseModel
+        # Whether the model supports thinking with type 'adaptive' (auto).
+        sig { returns(Anthropic::Beta::BetaCapabilitySupport) }
+        attr_reader :adaptive
+
+        sig { params(adaptive: Anthropic::Beta::BetaCapabilitySupport::OrHash).void }
+        attr_writer :adaptive
+
+        # Whether the model supports thinking with type 'enabled'.
+        sig { returns(Anthropic::Beta::BetaCapabilitySupport) }
+        attr_reader :enabled
+
+        sig { params(enabled: Anthropic::Beta::BetaCapabilitySupport::OrHash).void }
+        attr_writer :enabled
+
+        sig do
+          override
+            .returns({
+              adaptive: Anthropic::Beta::BetaCapabilitySupport,
+              enabled: Anthropic::Beta::BetaCapabilitySupport
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # Supported thinking type configurations.
+          sig do
+            params(
+              adaptive: Anthropic::Beta::BetaCapabilitySupport::OrHash,
+              enabled: Anthropic::Beta::BetaCapabilitySupport::OrHash
+            ).returns(T.attached_class)
+          end
+          def new(
+            adaptive:, # Whether the model supports thinking with type 'adaptive' (auto).
+            enabled: # Whether the model supports thinking with type 'enabled'.
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaThinkingTypes,
               Anthropic::Internal::AnyHash
             )
           end
@@ -11129,6 +11705,12 @@ module Anthropic
 ); end
         end
 
+        # Specifies who can invoke a tool.
+        #
+        # Values: direct: The model can call this tool directly. code_execution_20250825:
+        # The tool can be called from the code execution environment (v1).
+        # code_execution_20260120: The tool can be called from the code execution
+        # environment (v2 with persistence).
         module AllowedCaller
           extend Anthropic::Internal::Type::Enum
 
@@ -11322,6 +11904,12 @@ module Anthropic
 ); end
         end
 
+        # Specifies who can invoke a tool.
+        #
+        # Values: direct: The model can call this tool directly. code_execution_20250825:
+        # The tool can be called from the code execution environment (v1).
+        # code_execution_20260120: The tool can be called from the code execution
+        # environment (v2 with persistence).
         module AllowedCaller
           extend Anthropic::Internal::Type::Enum
 
@@ -11469,6 +12057,12 @@ module Anthropic
 ); end
         end
 
+        # Specifies who can invoke a tool.
+        #
+        # Values: direct: The model can call this tool directly. code_execution_20250825:
+        # The tool can be called from the code execution environment (v1).
+        # code_execution_20260120: The tool can be called from the code execution
+        # environment (v2 with persistence).
         module AllowedCaller
           extend Anthropic::Internal::Type::Enum
 
@@ -11798,6 +12392,12 @@ module Anthropic
 ); end
         end
 
+        # Specifies who can invoke a tool.
+        #
+        # Values: direct: The model can call this tool directly. code_execution_20250825:
+        # The tool can be called from the code execution environment (v1).
+        # code_execution_20260120: The tool can be called from the code execution
+        # environment (v2 with persistence).
         module AllowedCaller
           extend Anthropic::Internal::Type::Enum
 
@@ -11966,6 +12566,12 @@ module Anthropic
 ); end
         end
 
+        # Specifies who can invoke a tool.
+        #
+        # Values: direct: The model can call this tool directly. code_execution_20250825:
+        # The tool can be called from the code execution environment (v1).
+        # code_execution_20260120: The tool can be called from the code execution
+        # environment (v2 with persistence).
         module AllowedCaller
           extend Anthropic::Internal::Type::Enum
 
@@ -12144,6 +12750,12 @@ module Anthropic
 ); end
         end
 
+        # Specifies who can invoke a tool.
+        #
+        # Values: direct: The model can call this tool directly. code_execution_20250825:
+        # The tool can be called from the code execution environment (v1).
+        # code_execution_20260120: The tool can be called from the code execution
+        # environment (v2 with persistence).
         module AllowedCaller
           extend Anthropic::Internal::Type::Enum
 
@@ -12482,6 +13094,12 @@ module Anthropic
 ); end
         end
 
+        # Specifies who can invoke a tool.
+        #
+        # Values: direct: The model can call this tool directly. code_execution_20250825:
+        # The tool can be called from the code execution environment (v1).
+        # code_execution_20260120: The tool can be called from the code execution
+        # environment (v2 with persistence).
         module AllowedCaller
           extend Anthropic::Internal::Type::Enum
 
@@ -12654,6 +13272,12 @@ module Anthropic
 ); end
         end
 
+        # Specifies who can invoke a tool.
+        #
+        # Values: direct: The model can call this tool directly. code_execution_20250825:
+        # The tool can be called from the code execution environment (v1).
+        # code_execution_20260120: The tool can be called from the code execution
+        # environment (v2 with persistence).
         module AllowedCaller
           extend Anthropic::Internal::Type::Enum
 
@@ -13216,6 +13840,12 @@ module Anthropic
 ); end
         end
 
+        # Specifies who can invoke a tool.
+        #
+        # Values: direct: The model can call this tool directly. code_execution_20250825:
+        # The tool can be called from the code execution environment (v1).
+        # code_execution_20260120: The tool can be called from the code execution
+        # environment (v2 with persistence).
         module AllowedCaller
           extend Anthropic::Internal::Type::Enum
 
@@ -13363,6 +13993,12 @@ module Anthropic
 ); end
         end
 
+        # Specifies who can invoke a tool.
+        #
+        # Values: direct: The model can call this tool directly. code_execution_20250825:
+        # The tool can be called from the code execution environment (v1).
+        # code_execution_20260120: The tool can be called from the code execution
+        # environment (v2 with persistence).
         module AllowedCaller
           extend Anthropic::Internal::Type::Enum
 
@@ -13510,6 +14146,12 @@ module Anthropic
 ); end
         end
 
+        # Specifies who can invoke a tool.
+        #
+        # Values: direct: The model can call this tool directly. code_execution_20250825:
+        # The tool can be called from the code execution environment (v1).
+        # code_execution_20260120: The tool can be called from the code execution
+        # environment (v2 with persistence).
         module AllowedCaller
           extend Anthropic::Internal::Type::Enum
 
@@ -13666,6 +14308,12 @@ module Anthropic
 ); end
         end
 
+        # Specifies who can invoke a tool.
+        #
+        # Values: direct: The model can call this tool directly. code_execution_20250825:
+        # The tool can be called from the code execution environment (v1).
+        # code_execution_20260120: The tool can be called from the code execution
+        # environment (v2 with persistence).
         module AllowedCaller
           extend Anthropic::Internal::Type::Enum
 
@@ -13742,6 +14390,7 @@ module Anthropic
               Anthropic::Beta::BetaWebFetchTool20250910,
               Anthropic::Beta::BetaWebSearchTool20260209,
               Anthropic::Beta::BetaWebFetchTool20260209,
+              Anthropic::Beta::BetaWebFetchTool20260309,
               Anthropic::Beta::BetaToolSearchToolBm25_20251119,
               Anthropic::Beta::BetaToolSearchToolRegex20251119,
               Anthropic::Beta::BetaMCPToolset
@@ -14520,6 +15169,12 @@ module Anthropic
 ); end
         end
 
+        # Specifies who can invoke a tool.
+        #
+        # Values: direct: The model can call this tool directly. code_execution_20250825:
+        # The tool can be called from the code execution environment (v1).
+        # code_execution_20260120: The tool can be called from the code execution
+        # environment (v2 with persistence).
         module AllowedCaller
           extend Anthropic::Internal::Type::Enum
 
@@ -14700,6 +15355,12 @@ module Anthropic
 ); end
         end
 
+        # Specifies who can invoke a tool.
+        #
+        # Values: direct: The model can call this tool directly. code_execution_20250825:
+        # The tool can be called from the code execution environment (v1).
+        # code_execution_20260120: The tool can be called from the code execution
+        # environment (v2 with persistence).
         module AllowedCaller
           extend Anthropic::Internal::Type::Enum
 
@@ -14741,6 +15402,207 @@ module Anthropic
         OrHash = T.type_alias do
             T.any(
               Anthropic::Beta::BetaWebFetchTool20260209,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
+      class BetaWebFetchTool20260309 < Anthropic::Internal::Type::BaseModel
+        sig do
+          returns(T.nilable(
+              T::Array[
+                Anthropic::Beta::BetaWebFetchTool20260309::AllowedCaller::OrSymbol
+              ]
+            ))
+        end
+        attr_reader :allowed_callers
+
+        sig do
+          params(
+            allowed_callers: T::Array[
+                Anthropic::Beta::BetaWebFetchTool20260309::AllowedCaller::OrSymbol
+              ]
+          ).void
+        end
+        attr_writer :allowed_callers
+
+        # List of domains to allow fetching from
+        sig { returns(T.nilable(T::Array[String])) }
+        attr_accessor :allowed_domains
+
+        # List of domains to block fetching from
+        sig { returns(T.nilable(T::Array[String])) }
+        attr_accessor :blocked_domains
+
+        # Create a cache control breakpoint at this content block.
+        sig { returns(T.nilable(Anthropic::Beta::BetaCacheControlEphemeral)) }
+        attr_reader :cache_control
+
+        sig { params(cache_control: T.nilable(Anthropic::Beta::BetaCacheControlEphemeral::OrHash)).void }
+        attr_writer :cache_control
+
+        # Citations configuration for fetched documents. Citations are disabled by
+        # default.
+        sig { returns(T.nilable(Anthropic::Beta::BetaCitationsConfigParam)) }
+        attr_reader :citations
+
+        sig { params(citations: T.nilable(Anthropic::Beta::BetaCitationsConfigParam::OrHash)).void }
+        attr_writer :citations
+
+        # If true, tool will not be included in initial system prompt. Only loaded when
+        # returned via tool_reference from tool search.
+        sig { returns(T.nilable(T::Boolean)) }
+        attr_reader :defer_loading
+
+        sig { params(defer_loading: T::Boolean).void }
+        attr_writer :defer_loading
+
+        # Maximum number of tokens used by including web page text content in the context.
+        # The limit is approximate and does not apply to binary content such as PDFs.
+        sig { returns(T.nilable(Integer)) }
+        attr_accessor :max_content_tokens
+
+        # Maximum number of times the tool can be used in the API request.
+        sig { returns(T.nilable(Integer)) }
+        attr_accessor :max_uses
+
+        # Name of the tool.
+        #
+        # This is how the tool will be called by the model and in `tool_use` blocks.
+        sig { returns(Symbol) }
+        attr_accessor :name
+
+        # When true, guarantees schema validation on tool names and inputs
+        sig { returns(T.nilable(T::Boolean)) }
+        attr_reader :strict
+
+        sig { params(strict: T::Boolean).void }
+        attr_writer :strict
+
+        sig { returns(Symbol) }
+        attr_accessor :type
+
+        # Whether to use cached content. Set to false to bypass the cache and fetch fresh
+        # content. Only set to false when the user explicitly requests fresh content or
+        # when fetching rapidly-changing sources.
+        sig { returns(T.nilable(T::Boolean)) }
+        attr_reader :use_cache
+
+        sig { params(use_cache: T::Boolean).void }
+        attr_writer :use_cache
+
+        sig do
+          override
+            .returns({
+              name: Symbol,
+              type: Symbol,
+              allowed_callers:
+                T::Array[
+                  Anthropic::Beta::BetaWebFetchTool20260309::AllowedCaller::OrSymbol
+                ],
+              allowed_domains: T.nilable(T::Array[String]),
+              blocked_domains: T.nilable(T::Array[String]),
+              cache_control:
+                T.nilable(Anthropic::Beta::BetaCacheControlEphemeral),
+              citations: T.nilable(Anthropic::Beta::BetaCitationsConfigParam),
+              defer_loading: T::Boolean,
+              max_content_tokens: T.nilable(Integer),
+              max_uses: T.nilable(Integer),
+              strict: T::Boolean,
+              use_cache: T::Boolean
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # Web fetch tool with use_cache parameter for bypassing cached content.
+          sig do
+            params(
+              allowed_callers: T::Array[
+                Anthropic::Beta::BetaWebFetchTool20260309::AllowedCaller::OrSymbol
+              ],
+              allowed_domains: T.nilable(T::Array[String]),
+              blocked_domains: T.nilable(T::Array[String]),
+              cache_control: T.nilable(Anthropic::Beta::BetaCacheControlEphemeral::OrHash),
+              citations: T.nilable(Anthropic::Beta::BetaCitationsConfigParam::OrHash),
+              defer_loading: T::Boolean,
+              max_content_tokens: T.nilable(Integer),
+              max_uses: T.nilable(Integer),
+              strict: T::Boolean,
+              use_cache: T::Boolean,
+              name: Symbol,
+              type: Symbol
+            ).returns(T.attached_class)
+          end
+          def new(
+            allowed_callers: nil,
+            allowed_domains: nil, # List of domains to allow fetching from
+            blocked_domains: nil, # List of domains to block fetching from
+            cache_control: nil, # Create a cache control breakpoint at this content block.
+            citations: nil, # Citations configuration for fetched documents. Citations are disabled by
+                            # default.
+            defer_loading: nil, # If true, tool will not be included in initial system prompt. Only loaded when
+                                # returned via tool_reference from tool search.
+            max_content_tokens: nil, # Maximum number of tokens used by including web page text content in the context.
+                                     # The limit is approximate and does not apply to binary content such as PDFs.
+            max_uses: nil, # Maximum number of times the tool can be used in the API request.
+            strict: nil, # When true, guarantees schema validation on tool names and inputs
+            use_cache: nil, # Whether to use cached content. Set to false to bypass the cache and fetch fresh
+                            # content. Only set to false when the user explicitly requests fresh content or
+                            # when fetching rapidly-changing sources.
+            name: :web_fetch, # Name of the tool.
+                              # This is how the tool will be called by the model and in `tool_use` blocks.
+            type: :web_fetch_20260309
+); end
+        end
+
+        # Specifies who can invoke a tool.
+        #
+        # Values: direct: The model can call this tool directly. code_execution_20250825:
+        # The tool can be called from the code execution environment (v1).
+        # code_execution_20260120: The tool can be called from the code execution
+        # environment (v2 with persistence).
+        module AllowedCaller
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaWebFetchTool20260309::AllowedCaller::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          CODE_EXECUTION_20250825 = T.let(
+              :code_execution_20250825,
+              Anthropic::Beta::BetaWebFetchTool20260309::AllowedCaller::TaggedSymbol
+            )
+
+          CODE_EXECUTION_20260120 = T.let(
+              :code_execution_20260120,
+              Anthropic::Beta::BetaWebFetchTool20260309::AllowedCaller::TaggedSymbol
+            )
+
+          DIRECT = T.let(
+              :direct,
+              Anthropic::Beta::BetaWebFetchTool20260309::AllowedCaller::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaWebFetchTool20260309::AllowedCaller
+              )
+            end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaWebFetchTool20260309,
               Anthropic::Internal::AnyHash
             )
           end
@@ -15366,6 +16228,12 @@ module Anthropic
 ); end
         end
 
+        # Specifies who can invoke a tool.
+        #
+        # Values: direct: The model can call this tool directly. code_execution_20250825:
+        # The tool can be called from the code execution environment (v1).
+        # code_execution_20260120: The tool can be called from the code execution
+        # environment (v2 with persistence).
         module AllowedCaller
           extend Anthropic::Internal::Type::Enum
 
@@ -15541,6 +16409,12 @@ module Anthropic
 ); end
         end
 
+        # Specifies who can invoke a tool.
+        #
+        # Values: direct: The model can call this tool directly. code_execution_20250825:
+        # The tool can be called from the code execution environment (v1).
+        # code_execution_20260120: The tool can be called from the code execution
+        # environment (v2 with persistence).
         module AllowedCaller
           extend Anthropic::Internal::Type::Enum
 
@@ -16059,9 +16933,14 @@ module Anthropic
         sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
         attr_writer :betas
 
+        # ID of the File.
+        sig { returns(String) }
+        attr_accessor :file_id
+
         sig do
           override
             .returns({
+              file_id: String,
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
               request_options: Anthropic::RequestOptions
@@ -16072,11 +16951,13 @@ module Anthropic
         class << self
           sig do
             params(
+              file_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
           def new(
+            file_id:, # ID of the File.
             betas: nil, # Optional header to specify the beta version(s) you want to use.
             request_options: {}
 ); end
@@ -16105,9 +16986,14 @@ module Anthropic
         sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
         attr_writer :betas
 
+        # ID of the File.
+        sig { returns(String) }
+        attr_accessor :file_id
+
         sig do
           override
             .returns({
+              file_id: String,
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
               request_options: Anthropic::RequestOptions
@@ -16118,11 +17004,13 @@ module Anthropic
         class << self
           sig do
             params(
+              file_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
           def new(
+            file_id:, # ID of the File.
             betas: nil, # Optional header to specify the beta version(s) you want to use.
             request_options: {}
 ); end
@@ -16311,9 +17199,14 @@ module Anthropic
         sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
         attr_writer :betas
 
+        # ID of the File.
+        sig { returns(String) }
+        attr_accessor :file_id
+
         sig do
           override
             .returns({
+              file_id: String,
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
               request_options: Anthropic::RequestOptions
@@ -16324,11 +17217,13 @@ module Anthropic
         class << self
           sig do
             params(
+              file_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
           def new(
+            file_id:, # ID of the File.
             betas: nil, # Optional header to specify the beta version(s) you want to use.
             request_options: {}
 ); end
@@ -16715,6 +17610,7 @@ module Anthropic
                   Anthropic::Beta::BetaWebFetchTool20250910,
                   Anthropic::Beta::BetaWebSearchTool20260209,
                   Anthropic::Beta::BetaWebFetchTool20260209,
+                  Anthropic::Beta::BetaWebFetchTool20260309,
                   Anthropic::Beta::BetaToolSearchToolBm25_20251119,
                   Anthropic::Beta::BetaToolSearchToolRegex20251119,
                   Anthropic::Beta::BetaMCPToolset
@@ -16746,6 +17642,7 @@ module Anthropic
                   Anthropic::Beta::BetaWebFetchTool20250910::OrHash,
                   Anthropic::Beta::BetaWebSearchTool20260209::OrHash,
                   Anthropic::Beta::BetaWebFetchTool20260209::OrHash,
+                  Anthropic::Beta::BetaWebFetchTool20260309::OrHash,
                   Anthropic::Beta::BetaToolSearchToolBm25_20251119::OrHash,
                   Anthropic::Beta::BetaToolSearchToolRegex20251119::OrHash,
                   Anthropic::Beta::BetaMCPToolset::OrHash
@@ -16808,6 +17705,7 @@ module Anthropic
                     Anthropic::Beta::BetaWebFetchTool20250910,
                     Anthropic::Beta::BetaWebSearchTool20260209,
                     Anthropic::Beta::BetaWebFetchTool20260209,
+                    Anthropic::Beta::BetaWebFetchTool20260309,
                     Anthropic::Beta::BetaToolSearchToolBm25_20251119,
                     Anthropic::Beta::BetaToolSearchToolRegex20251119,
                     Anthropic::Beta::BetaMCPToolset
@@ -16867,6 +17765,7 @@ module Anthropic
                   Anthropic::Beta::BetaWebFetchTool20250910::OrHash,
                   Anthropic::Beta::BetaWebSearchTool20260209::OrHash,
                   Anthropic::Beta::BetaWebFetchTool20260209::OrHash,
+                  Anthropic::Beta::BetaWebFetchTool20260309::OrHash,
                   Anthropic::Beta::BetaToolSearchToolBm25_20251119::OrHash,
                   Anthropic::Beta::BetaToolSearchToolRegex20251119::OrHash,
                   Anthropic::Beta::BetaMCPToolset::OrHash
@@ -17128,6 +18027,7 @@ module Anthropic
                 Anthropic::Beta::BetaWebFetchTool20250910,
                 Anthropic::Beta::BetaWebSearchTool20260209,
                 Anthropic::Beta::BetaWebFetchTool20260209,
+                Anthropic::Beta::BetaWebFetchTool20260309,
                 Anthropic::Beta::BetaToolSearchToolBm25_20251119,
                 Anthropic::Beta::BetaToolSearchToolRegex20251119,
                 Anthropic::Beta::BetaMCPToolset
@@ -17518,6 +18418,7 @@ module Anthropic
                   Anthropic::Beta::BetaWebFetchTool20250910,
                   Anthropic::Beta::BetaWebSearchTool20260209,
                   Anthropic::Beta::BetaWebFetchTool20260209,
+                  Anthropic::Beta::BetaWebFetchTool20260309,
                   Anthropic::Beta::BetaToolSearchToolBm25_20251119,
                   Anthropic::Beta::BetaToolSearchToolRegex20251119,
                   Anthropic::Beta::BetaMCPToolset
@@ -17549,6 +18450,7 @@ module Anthropic
                   Anthropic::Beta::BetaWebFetchTool20250910::OrHash,
                   Anthropic::Beta::BetaWebSearchTool20260209::OrHash,
                   Anthropic::Beta::BetaWebFetchTool20260209::OrHash,
+                  Anthropic::Beta::BetaWebFetchTool20260309::OrHash,
                   Anthropic::Beta::BetaToolSearchToolBm25_20251119::OrHash,
                   Anthropic::Beta::BetaToolSearchToolRegex20251119::OrHash,
                   Anthropic::Beta::BetaMCPToolset::OrHash
@@ -17647,6 +18549,7 @@ module Anthropic
                     Anthropic::Beta::BetaWebFetchTool20250910,
                     Anthropic::Beta::BetaWebSearchTool20260209,
                     Anthropic::Beta::BetaWebFetchTool20260209,
+                    Anthropic::Beta::BetaWebFetchTool20260309,
                     Anthropic::Beta::BetaToolSearchToolBm25_20251119,
                     Anthropic::Beta::BetaToolSearchToolRegex20251119,
                     Anthropic::Beta::BetaMCPToolset
@@ -17715,6 +18618,7 @@ module Anthropic
                   Anthropic::Beta::BetaWebFetchTool20250910::OrHash,
                   Anthropic::Beta::BetaWebSearchTool20260209::OrHash,
                   Anthropic::Beta::BetaWebFetchTool20260209::OrHash,
+                  Anthropic::Beta::BetaWebFetchTool20260309::OrHash,
                   Anthropic::Beta::BetaToolSearchToolBm25_20251119::OrHash,
                   Anthropic::Beta::BetaToolSearchToolRegex20251119::OrHash,
                   Anthropic::Beta::BetaMCPToolset::OrHash
@@ -18045,9 +18949,14 @@ module Anthropic
           sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
           attr_writer :betas
 
+          # ID of the Message Batch.
+          sig { returns(String) }
+          attr_accessor :message_batch_id
+
           sig do
             override
               .returns({
+                message_batch_id: String,
                 betas:
                   T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
                 request_options: Anthropic::RequestOptions
@@ -18058,11 +18967,13 @@ module Anthropic
           class << self
             sig do
               params(
+                message_batch_id: String,
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
                 request_options: Anthropic::RequestOptions::OrHash
               ).returns(T.attached_class)
             end
             def new(
+              message_batch_id:, # ID of the Message Batch.
               betas: nil, # Optional header to specify the beta version(s) you want to use.
               request_options: {}
 ); end
@@ -18592,6 +19503,7 @@ module Anthropic
                         Anthropic::Beta::BetaWebFetchTool20250910,
                         Anthropic::Beta::BetaWebSearchTool20260209,
                         Anthropic::Beta::BetaWebFetchTool20260209,
+                        Anthropic::Beta::BetaWebFetchTool20260309,
                         Anthropic::Beta::BetaToolSearchToolBm25_20251119,
                         Anthropic::Beta::BetaToolSearchToolRegex20251119,
                         Anthropic::Beta::BetaMCPToolset
@@ -18623,6 +19535,7 @@ module Anthropic
                         Anthropic::Beta::BetaWebFetchTool20250910::OrHash,
                         Anthropic::Beta::BetaWebSearchTool20260209::OrHash,
                         Anthropic::Beta::BetaWebFetchTool20260209::OrHash,
+                        Anthropic::Beta::BetaWebFetchTool20260309::OrHash,
                         Anthropic::Beta::BetaToolSearchToolBm25_20251119::OrHash,
                         Anthropic::Beta::BetaToolSearchToolRegex20251119::OrHash,
                         Anthropic::Beta::BetaMCPToolset::OrHash
@@ -18728,6 +19641,7 @@ module Anthropic
                           Anthropic::Beta::BetaWebFetchTool20250910,
                           Anthropic::Beta::BetaWebSearchTool20260209,
                           Anthropic::Beta::BetaWebFetchTool20260209,
+                          Anthropic::Beta::BetaWebFetchTool20260309,
                           Anthropic::Beta::BetaToolSearchToolBm25_20251119,
                           Anthropic::Beta::BetaToolSearchToolRegex20251119,
                           Anthropic::Beta::BetaMCPToolset
@@ -18807,6 +19721,7 @@ module Anthropic
                         Anthropic::Beta::BetaWebFetchTool20250910::OrHash,
                         Anthropic::Beta::BetaWebSearchTool20260209::OrHash,
                         Anthropic::Beta::BetaWebFetchTool20260209::OrHash,
+                        Anthropic::Beta::BetaWebFetchTool20260309::OrHash,
                         Anthropic::Beta::BetaToolSearchToolBm25_20251119::OrHash,
                         Anthropic::Beta::BetaToolSearchToolRegex20251119::OrHash,
                         Anthropic::Beta::BetaMCPToolset::OrHash
@@ -19149,9 +20064,14 @@ module Anthropic
           sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
           attr_writer :betas
 
+          # ID of the Message Batch.
+          sig { returns(String) }
+          attr_accessor :message_batch_id
+
           sig do
             override
               .returns({
+                message_batch_id: String,
                 betas:
                   T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
                 request_options: Anthropic::RequestOptions
@@ -19162,11 +20082,13 @@ module Anthropic
           class << self
             sig do
               params(
+                message_batch_id: String,
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
                 request_options: Anthropic::RequestOptions::OrHash
               ).returns(T.attached_class)
             end
             def new(
+              message_batch_id:, # ID of the Message Batch.
               betas: nil, # Optional header to specify the beta version(s) you want to use.
               request_options: {}
 ); end
@@ -19278,9 +20200,14 @@ module Anthropic
           sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
           attr_writer :betas
 
+          # ID of the Message Batch.
+          sig { returns(String) }
+          attr_accessor :message_batch_id
+
           sig do
             override
               .returns({
+                message_batch_id: String,
                 betas:
                   T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
                 request_options: Anthropic::RequestOptions
@@ -19291,11 +20218,13 @@ module Anthropic
           class << self
             sig do
               params(
+                message_batch_id: String,
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
                 request_options: Anthropic::RequestOptions::OrHash
               ).returns(T.attached_class)
             end
             def new(
+              message_batch_id:, # ID of the Message Batch.
               betas: nil, # Optional header to specify the beta version(s) you want to use.
               request_options: {}
 ); end
@@ -19324,9 +20253,14 @@ module Anthropic
           sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
           attr_writer :betas
 
+          # ID of the Message Batch.
+          sig { returns(String) }
+          attr_accessor :message_batch_id
+
           sig do
             override
               .returns({
+                message_batch_id: String,
                 betas:
                   T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
                 request_options: Anthropic::RequestOptions
@@ -19337,11 +20271,13 @@ module Anthropic
           class << self
             sig do
               params(
+                message_batch_id: String,
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
                 request_options: Anthropic::RequestOptions::OrHash
               ).returns(T.attached_class)
             end
             def new(
+              message_batch_id:, # ID of the Message Batch.
               betas: nil, # Optional header to specify the beta version(s) you want to use.
               request_options: {}
 ); end
@@ -19910,9 +20846,14 @@ module Anthropic
         sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
         attr_writer :betas
 
+        # Model identifier or alias.
+        sig { returns(String) }
+        attr_accessor :model_id
+
         sig do
           override
             .returns({
+              model_id: String,
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
               request_options: Anthropic::RequestOptions
@@ -19923,11 +20864,13 @@ module Anthropic
         class << self
           sig do
             params(
+              model_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
           def new(
+            model_id:, # Model identifier or alias.
             betas: nil, # Optional header to specify the beta version(s) you want to use.
             request_options: {}
 ); end
@@ -20122,9 +21065,16 @@ module Anthropic
         sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
         attr_writer :betas
 
+        # Unique identifier for the skill.
+        #
+        # The format and length of IDs may change over time.
+        sig { returns(String) }
+        attr_accessor :skill_id
+
         sig do
           override
             .returns({
+              skill_id: String,
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
               request_options: Anthropic::RequestOptions
@@ -20135,11 +21085,14 @@ module Anthropic
         class << self
           sig do
             params(
+              skill_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
           def new(
+            skill_id:, # Unique identifier for the skill.
+                       # The format and length of IDs may change over time.
             betas: nil, # Optional header to specify the beta version(s) you want to use.
             request_options: {}
 ); end
@@ -20384,9 +21337,16 @@ module Anthropic
         sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
         attr_writer :betas
 
+        # Unique identifier for the skill.
+        #
+        # The format and length of IDs may change over time.
+        sig { returns(String) }
+        attr_accessor :skill_id
+
         sig do
           override
             .returns({
+              skill_id: String,
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
               request_options: Anthropic::RequestOptions
@@ -20397,11 +21357,14 @@ module Anthropic
         class << self
           sig do
             params(
+              skill_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
           def new(
+            skill_id:, # Unique identifier for the skill.
+                       # The format and length of IDs may change over time.
             betas: nil, # Optional header to specify the beta version(s) you want to use.
             request_options: {}
 ); end
@@ -20534,9 +21497,16 @@ module Anthropic
           sig { returns(T.nilable(T::Array[Anthropic::Internal::FileInput])) }
           attr_accessor :files
 
+          # Unique identifier for the skill.
+          #
+          # The format and length of IDs may change over time.
+          sig { returns(String) }
+          attr_accessor :skill_id
+
           sig do
             override
               .returns({
+                skill_id: String,
                 files: T.nilable(T::Array[Anthropic::Internal::FileInput]),
                 betas:
                   T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
@@ -20548,12 +21518,15 @@ module Anthropic
           class << self
             sig do
               params(
+                skill_id: String,
                 files: T.nilable(T::Array[Anthropic::Internal::FileInput]),
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
                 request_options: Anthropic::RequestOptions::OrHash
               ).returns(T.attached_class)
             end
             def new(
+              skill_id:, # Unique identifier for the skill.
+                         # The format and length of IDs may change over time.
               files: nil, # Files to upload for the skill.
                           # All files must be in the same top-level directory and must include a SKILL.md
                           # file at the root of that directory.
@@ -20690,10 +21663,17 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :skill_id
 
+          # Version identifier for the skill.
+          #
+          # Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
+          sig { returns(String) }
+          attr_accessor :version
+
           sig do
             override
               .returns({
                 skill_id: String,
+                version: String,
                 betas:
                   T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
                 request_options: Anthropic::RequestOptions
@@ -20705,6 +21685,7 @@ module Anthropic
             sig do
               params(
                 skill_id: String,
+                version: String,
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
                 request_options: Anthropic::RequestOptions::OrHash
               ).returns(T.attached_class)
@@ -20712,6 +21693,8 @@ module Anthropic
             def new(
               skill_id:, # Unique identifier for the skill.
                          # The format and length of IDs may change over time.
+              version:, # Version identifier for the skill.
+                        # Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
               betas: nil, # Optional header to specify the beta version(s) you want to use.
               request_options: {}
 ); end
@@ -20784,9 +21767,16 @@ module Anthropic
           sig { returns(T.nilable(String)) }
           attr_accessor :page
 
+          # Unique identifier for the skill.
+          #
+          # The format and length of IDs may change over time.
+          sig { returns(String) }
+          attr_accessor :skill_id
+
           sig do
             override
               .returns({
+                skill_id: String,
                 limit: T.nilable(Integer),
                 page: T.nilable(String),
                 betas:
@@ -20799,6 +21789,7 @@ module Anthropic
           class << self
             sig do
               params(
+                skill_id: String,
                 limit: T.nilable(Integer),
                 page: T.nilable(String),
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
@@ -20806,6 +21797,8 @@ module Anthropic
               ).returns(T.attached_class)
             end
             def new(
+              skill_id:, # Unique identifier for the skill.
+                         # The format and length of IDs may change over time.
               limit: nil, # Number of items to return per page.
                           # Defaults to `20`. Ranges from `1` to `1000`.
               page: nil, # Optionally set to the `next_page` token from the previous response.
@@ -20942,10 +21935,17 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :skill_id
 
+          # Version identifier for the skill.
+          #
+          # Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
+          sig { returns(String) }
+          attr_accessor :version
+
           sig do
             override
               .returns({
                 skill_id: String,
+                version: String,
                 betas:
                   T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
                 request_options: Anthropic::RequestOptions
@@ -20957,6 +21957,7 @@ module Anthropic
             sig do
               params(
                 skill_id: String,
+                version: String,
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
                 request_options: Anthropic::RequestOptions::OrHash
               ).returns(T.attached_class)
@@ -20964,6 +21965,8 @@ module Anthropic
             def new(
               skill_id:, # Unique identifier for the skill.
                          # The format and length of IDs may change over time.
+              version:, # Version identifier for the skill.
+                        # Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
               betas: nil, # Optional header to specify the beta version(s) you want to use.
               request_options: {}
 ); end
@@ -21164,6 +22167,7 @@ module Anthropic
 
     BetaCacheControlEphemeral = Beta::BetaCacheControlEphemeral
     BetaCacheCreation = Beta::BetaCacheCreation
+    BetaCapabilitySupport = Beta::BetaCapabilitySupport
     BetaCitationCharLocation = Beta::BetaCitationCharLocation
     BetaCitationCharLocationParam = Beta::BetaCitationCharLocationParam
     BetaCitationConfig = Beta::BetaCitationConfig
@@ -21226,6 +22230,7 @@ module Anthropic
     BetaContentBlockParam = Beta::BetaContentBlockParam
     BetaContentBlockSource = Beta::BetaContentBlockSource
     BetaContentBlockSourceContent = Beta::BetaContentBlockSourceContent
+    BetaContextManagementCapability = Beta::BetaContextManagementCapability
     BetaContextManagementConfig = Beta::BetaContextManagementConfig
     BetaContextManagementResponse = Beta::BetaContextManagementResponse
 
@@ -21233,6 +22238,7 @@ module Anthropic
 
     BetaDirectCaller = Beta::BetaDirectCaller
     BetaDocumentBlock = Beta::BetaDocumentBlock
+    BetaEffortCapability = Beta::BetaEffortCapability
 
     BetaEncryptedCodeExecutionResultBlock = Beta::BetaEncryptedCodeExecutionResultBlock
 
@@ -21390,6 +22396,7 @@ module Anthropic
     BetaMessageParam = Beta::BetaMessageParam
     BetaMessageTokensCount = Beta::BetaMessageTokensCount
     BetaMetadata = Beta::BetaMetadata
+    BetaModelCapabilities = Beta::BetaModelCapabilities
     BetaModelInfo = Beta::BetaModelInfo
 
     class BetaNotFoundError < Anthropic::Internal::Type::BaseModel
@@ -21532,12 +22539,14 @@ module Anthropic
 
     BetaThinkingBlock = Beta::BetaThinkingBlock
     BetaThinkingBlockParam = Beta::BetaThinkingBlockParam
+    BetaThinkingCapability = Beta::BetaThinkingCapability
     BetaThinkingConfigAdaptive = Beta::BetaThinkingConfigAdaptive
     BetaThinkingConfigDisabled = Beta::BetaThinkingConfigDisabled
     BetaThinkingConfigEnabled = Beta::BetaThinkingConfigEnabled
     BetaThinkingConfigParam = Beta::BetaThinkingConfigParam
     BetaThinkingDelta = Beta::BetaThinkingDelta
     BetaThinkingTurns = Beta::BetaThinkingTurns
+    BetaThinkingTypes = Beta::BetaThinkingTypes
     BetaTool = Beta::BetaTool
     BetaToolBash20241022 = Beta::BetaToolBash20241022
     BetaToolBash20250124 = Beta::BetaToolBash20250124
@@ -21583,6 +22592,7 @@ module Anthropic
     BetaWebFetchBlockParam = Beta::BetaWebFetchBlockParam
     BetaWebFetchTool20250910 = Beta::BetaWebFetchTool20250910
     BetaWebFetchTool20260209 = Beta::BetaWebFetchTool20260209
+    BetaWebFetchTool20260309 = Beta::BetaWebFetchTool20260309
     BetaWebFetchToolResultBlock = Beta::BetaWebFetchToolResultBlock
     BetaWebFetchToolResultBlockParam = Beta::BetaWebFetchToolResultBlockParam
     BetaWebFetchToolResultErrorBlock = Beta::BetaWebFetchToolResultErrorBlock
@@ -21722,6 +22732,27 @@ module Anthropic
 
       OrHash = T.type_alias do
           T.any(Anthropic::CacheCreation, Anthropic::Internal::AnyHash)
+        end
+    end
+
+    class CapabilitySupport < Anthropic::Internal::Type::BaseModel
+      # Whether this capability is supported by the model.
+      sig { returns(T::Boolean) }
+      attr_accessor :supported
+
+      sig { override.returns({ supported: T::Boolean }) }
+      def to_hash; end
+
+      class << self
+        # Indicates whether a capability is supported.
+        sig { params(supported: T::Boolean).returns(T.attached_class) }
+        def new(
+          supported: # Whether this capability is supported by the model.
+); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(Anthropic::CapabilitySupport, Anthropic::Internal::AnyHash)
         end
     end
 
@@ -22602,6 +23633,12 @@ module Anthropic
 ); end
       end
 
+      # Specifies who can invoke a tool.
+      #
+      # Values: direct: The model can call this tool directly. code_execution_20250825:
+      # The tool can be called from the code execution environment (v1).
+      # code_execution_20260120: The tool can be called from the code execution
+      # environment (v2 with persistence).
       module AllowedCaller
         extend Anthropic::Internal::Type::Enum
 
@@ -22736,6 +23773,12 @@ module Anthropic
 ); end
       end
 
+      # Specifies who can invoke a tool.
+      #
+      # Values: direct: The model can call this tool directly. code_execution_20250825:
+      # The tool can be called from the code execution environment (v1).
+      # code_execution_20260120: The tool can be called from the code execution
+      # environment (v2 with persistence).
       module AllowedCaller
         extend Anthropic::Internal::Type::Enum
 
@@ -22872,6 +23915,12 @@ module Anthropic
 ); end
       end
 
+      # Specifies who can invoke a tool.
+      #
+      # Values: direct: The model can call this tool directly. code_execution_20250825:
+      # The tool can be called from the code execution environment (v1).
+      # code_execution_20260120: The tool can be called from the code execution
+      # environment (v2 with persistence).
       module AllowedCaller
         extend Anthropic::Internal::Type::Enum
 
@@ -23656,6 +24705,69 @@ module Anthropic
         end
     end
 
+    class ContextManagementCapability < Anthropic::Internal::Type::BaseModel
+      # Indicates whether a capability is supported.
+      sig { returns(T.nilable(Anthropic::CapabilitySupport)) }
+      attr_reader :clear_thinking_20251015
+
+      sig { params(clear_thinking_20251015: T.nilable(Anthropic::CapabilitySupport::OrHash)).void }
+      attr_writer :clear_thinking_20251015
+
+      # Indicates whether a capability is supported.
+      sig { returns(T.nilable(Anthropic::CapabilitySupport)) }
+      attr_reader :clear_tool_uses_20250919
+
+      sig { params(clear_tool_uses_20250919: T.nilable(Anthropic::CapabilitySupport::OrHash)).void }
+      attr_writer :clear_tool_uses_20250919
+
+      # Indicates whether a capability is supported.
+      sig { returns(T.nilable(Anthropic::CapabilitySupport)) }
+      attr_reader :compact_20260112
+
+      sig { params(compact_20260112: T.nilable(Anthropic::CapabilitySupport::OrHash)).void }
+      attr_writer :compact_20260112
+
+      # Whether this capability is supported by the model.
+      sig { returns(T::Boolean) }
+      attr_accessor :supported
+
+      sig do
+        override
+          .returns({
+            clear_thinking_20251015: T.nilable(Anthropic::CapabilitySupport),
+            clear_tool_uses_20250919: T.nilable(Anthropic::CapabilitySupport),
+            compact_20260112: T.nilable(Anthropic::CapabilitySupport),
+            supported: T::Boolean
+          })
+      end
+      def to_hash; end
+
+      class << self
+        # Context management capability details.
+        sig do
+          params(
+            clear_thinking_20251015: T.nilable(Anthropic::CapabilitySupport::OrHash),
+            clear_tool_uses_20250919: T.nilable(Anthropic::CapabilitySupport::OrHash),
+            compact_20260112: T.nilable(Anthropic::CapabilitySupport::OrHash),
+            supported: T::Boolean
+          ).returns(T.attached_class)
+        end
+        def new(
+          clear_thinking_20251015:, # Indicates whether a capability is supported.
+          clear_tool_uses_20250919:, # Indicates whether a capability is supported.
+          compact_20260112:, # Indicates whether a capability is supported.
+          supported: # Whether this capability is supported by the model.
+); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(
+            Anthropic::ContextManagementCapability,
+            Anthropic::Internal::AnyHash
+          )
+        end
+    end
+
     class DirectCaller < Anthropic::Internal::Type::BaseModel
       sig { returns(Symbol) }
       attr_accessor :type
@@ -23842,6 +24954,76 @@ module Anthropic
       end
     end
 
+    class EffortCapability < Anthropic::Internal::Type::BaseModel
+      # Whether the model supports high effort level.
+      sig { returns(Anthropic::CapabilitySupport) }
+      attr_reader :high
+
+      sig { params(high: Anthropic::CapabilitySupport::OrHash).void }
+      attr_writer :high
+
+      # Whether the model supports low effort level.
+      sig { returns(Anthropic::CapabilitySupport) }
+      attr_reader :low
+
+      sig { params(low: Anthropic::CapabilitySupport::OrHash).void }
+      attr_writer :low
+
+      # Whether the model supports max effort level.
+      sig { returns(Anthropic::CapabilitySupport) }
+      attr_reader :max
+
+      sig { params(max: Anthropic::CapabilitySupport::OrHash).void }
+      attr_writer :max
+
+      # Whether the model supports medium effort level.
+      sig { returns(Anthropic::CapabilitySupport) }
+      attr_reader :medium
+
+      sig { params(medium: Anthropic::CapabilitySupport::OrHash).void }
+      attr_writer :medium
+
+      # Whether this capability is supported by the model.
+      sig { returns(T::Boolean) }
+      attr_accessor :supported
+
+      sig do
+        override
+          .returns({
+            high: Anthropic::CapabilitySupport,
+            low: Anthropic::CapabilitySupport,
+            max: Anthropic::CapabilitySupport,
+            medium: Anthropic::CapabilitySupport,
+            supported: T::Boolean
+          })
+      end
+      def to_hash; end
+
+      class << self
+        # Effort (reasoning_effort) capability details.
+        sig do
+          params(
+            high: Anthropic::CapabilitySupport::OrHash,
+            low: Anthropic::CapabilitySupport::OrHash,
+            max: Anthropic::CapabilitySupport::OrHash,
+            medium: Anthropic::CapabilitySupport::OrHash,
+            supported: T::Boolean
+          ).returns(T.attached_class)
+        end
+        def new(
+          high:, # Whether the model supports high effort level.
+          low:, # Whether the model supports low effort level.
+          max:, # Whether the model supports max effort level.
+          medium:, # Whether the model supports medium effort level.
+          supported: # Whether this capability is supported by the model.
+); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(Anthropic::EffortCapability, Anthropic::Internal::AnyHash)
+        end
+    end
+
     class EncryptedCodeExecutionResultBlock < Anthropic::Internal::Type::BaseModel
       sig { returns(T::Array[Anthropic::CodeExecutionOutputBlock]) }
       attr_accessor :content
@@ -24009,6 +25191,36 @@ module Anthropic
       OrHash = T.type_alias do
           T.any(Anthropic::ErrorResponse, Anthropic::Internal::AnyHash)
         end
+    end
+
+    module ErrorType
+      extend Anthropic::Internal::Type::Enum
+
+      class << self
+        sig { override.returns(T::Array[Anthropic::ErrorType::TaggedSymbol]) }
+        def values; end
+      end
+
+      API_ERROR = T.let(:api_error, Anthropic::ErrorType::TaggedSymbol)
+
+      AUTHENTICATION_ERROR = T.let(:authentication_error, Anthropic::ErrorType::TaggedSymbol)
+
+      BILLING_ERROR = T.let(:billing_error, Anthropic::ErrorType::TaggedSymbol)
+
+      INVALID_REQUEST_ERROR = T.let(:invalid_request_error, Anthropic::ErrorType::TaggedSymbol)
+
+      NOT_FOUND_ERROR = T.let(:not_found_error, Anthropic::ErrorType::TaggedSymbol)
+
+      OVERLOADED_ERROR = T.let(:overloaded_error, Anthropic::ErrorType::TaggedSymbol)
+
+      OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+      PERMISSION_ERROR = T.let(:permission_error, Anthropic::ErrorType::TaggedSymbol)
+
+      RATE_LIMIT_ERROR = T.let(:rate_limit_error, Anthropic::ErrorType::TaggedSymbol)
+
+      TIMEOUT_ERROR = T.let(:timeout_error, Anthropic::ErrorType::TaggedSymbol)
+      TaggedSymbol = T.type_alias { T.all(Symbol, Anthropic::ErrorType) }
     end
 
     class GatewayTimeoutError < Anthropic::Internal::Type::BaseModel
@@ -24244,6 +25456,12 @@ module Anthropic
 ); end
       end
 
+      # Specifies who can invoke a tool.
+      #
+      # Values: direct: The model can call this tool directly. code_execution_20250825:
+      # The tool can be called from the code execution environment (v1).
+      # code_execution_20260120: The tool can be called from the code execution
+      # environment (v2 with persistence).
       module AllowedCaller
         extend Anthropic::Internal::Type::Enum
 
@@ -24772,6 +25990,7 @@ module Anthropic
                 Anthropic::WebFetchTool20250910,
                 Anthropic::WebSearchTool20260209,
                 Anthropic::WebFetchTool20260209,
+                Anthropic::WebFetchTool20260309,
                 Anthropic::ToolSearchToolBm25_20251119,
                 Anthropic::ToolSearchToolRegex20251119
               )
@@ -24797,6 +26016,7 @@ module Anthropic
                 Anthropic::WebFetchTool20250910::OrHash,
                 Anthropic::WebSearchTool20260209::OrHash,
                 Anthropic::WebFetchTool20260209::OrHash,
+                Anthropic::WebFetchTool20260309::OrHash,
                 Anthropic::ToolSearchToolBm25_20251119::OrHash,
                 Anthropic::ToolSearchToolRegex20251119::OrHash
               )
@@ -24842,6 +26062,7 @@ module Anthropic
                   Anthropic::WebFetchTool20250910,
                   Anthropic::WebSearchTool20260209,
                   Anthropic::WebFetchTool20260209,
+                  Anthropic::WebFetchTool20260309,
                   Anthropic::ToolSearchToolBm25_20251119,
                   Anthropic::ToolSearchToolRegex20251119
                 )
@@ -24885,6 +26106,7 @@ module Anthropic
                 Anthropic::WebFetchTool20250910::OrHash,
                 Anthropic::WebSearchTool20260209::OrHash,
                 Anthropic::WebFetchTool20260209::OrHash,
+                Anthropic::WebFetchTool20260309::OrHash,
                 Anthropic::ToolSearchToolBm25_20251119::OrHash,
                 Anthropic::ToolSearchToolRegex20251119::OrHash
               )
@@ -25083,6 +26305,7 @@ module Anthropic
             Anthropic::WebFetchTool20250910,
             Anthropic::WebSearchTool20260209,
             Anthropic::WebFetchTool20260209,
+            Anthropic::WebFetchTool20260309,
             Anthropic::ToolSearchToolBm25_20251119,
             Anthropic::ToolSearchToolRegex20251119
           )
@@ -25408,6 +26631,7 @@ module Anthropic
                 Anthropic::WebFetchTool20250910,
                 Anthropic::WebSearchTool20260209,
                 Anthropic::WebFetchTool20260209,
+                Anthropic::WebFetchTool20260309,
                 Anthropic::ToolSearchToolBm25_20251119,
                 Anthropic::ToolSearchToolRegex20251119
               )
@@ -25433,6 +26657,7 @@ module Anthropic
                 Anthropic::WebFetchTool20250910::OrHash,
                 Anthropic::WebSearchTool20260209::OrHash,
                 Anthropic::WebFetchTool20260209::OrHash,
+                Anthropic::WebFetchTool20260309::OrHash,
                 Anthropic::ToolSearchToolBm25_20251119::OrHash,
                 Anthropic::ToolSearchToolRegex20251119::OrHash
               )
@@ -25513,6 +26738,7 @@ module Anthropic
                   Anthropic::WebFetchTool20250910,
                   Anthropic::WebSearchTool20260209,
                   Anthropic::WebFetchTool20260209,
+                  Anthropic::WebFetchTool20260309,
                   Anthropic::ToolSearchToolBm25_20251119,
                   Anthropic::ToolSearchToolRegex20251119
                 )
@@ -25565,6 +26791,7 @@ module Anthropic
                 Anthropic::WebFetchTool20250910::OrHash,
                 Anthropic::WebSearchTool20260209::OrHash,
                 Anthropic::WebFetchTool20260209::OrHash,
+                Anthropic::WebFetchTool20260309::OrHash,
                 Anthropic::ToolSearchToolBm25_20251119::OrHash,
                 Anthropic::ToolSearchToolRegex20251119::OrHash
               )
@@ -25960,12 +27187,30 @@ module Anthropic
         extend Anthropic::Internal::Type::RequestParameters::Converter
         include Anthropic::Internal::Type::RequestParameters
 
-        sig { override.returns({ request_options: Anthropic::RequestOptions }) }
+        # ID of the Message Batch.
+        sig { returns(String) }
+        attr_accessor :message_batch_id
+
+        sig do
+          override
+            .returns({
+              message_batch_id: String,
+              request_options: Anthropic::RequestOptions
+            })
+        end
         def to_hash; end
 
         class << self
-          sig { params(request_options: Anthropic::RequestOptions::OrHash).returns(T.attached_class) }
-          def new(request_options: {}); end
+          sig do
+            params(
+              message_batch_id: String,
+              request_options: Anthropic::RequestOptions::OrHash
+            ).returns(T.attached_class)
+          end
+          def new(
+            message_batch_id:, # ID of the Message Batch.
+            request_options: {}
+); end
         end
 
         OrHash = T.type_alias do
@@ -26404,6 +27649,7 @@ module Anthropic
                       Anthropic::WebFetchTool20250910,
                       Anthropic::WebSearchTool20260209,
                       Anthropic::WebFetchTool20260209,
+                      Anthropic::WebFetchTool20260309,
                       Anthropic::ToolSearchToolBm25_20251119,
                       Anthropic::ToolSearchToolRegex20251119
                     )
@@ -26429,6 +27675,7 @@ module Anthropic
                       Anthropic::WebFetchTool20250910::OrHash,
                       Anthropic::WebSearchTool20260209::OrHash,
                       Anthropic::WebFetchTool20260209::OrHash,
+                      Anthropic::WebFetchTool20260309::OrHash,
                       Anthropic::ToolSearchToolBm25_20251119::OrHash,
                       Anthropic::ToolSearchToolRegex20251119::OrHash
                     )
@@ -26512,6 +27759,7 @@ module Anthropic
                         Anthropic::WebFetchTool20250910,
                         Anthropic::WebSearchTool20260209,
                         Anthropic::WebFetchTool20260209,
+                        Anthropic::WebFetchTool20260309,
                         Anthropic::ToolSearchToolBm25_20251119,
                         Anthropic::ToolSearchToolRegex20251119
                       )
@@ -26568,6 +27816,7 @@ module Anthropic
                       Anthropic::WebFetchTool20250910::OrHash,
                       Anthropic::WebSearchTool20260209::OrHash,
                       Anthropic::WebFetchTool20260209::OrHash,
+                      Anthropic::WebFetchTool20260309::OrHash,
                       Anthropic::ToolSearchToolBm25_20251119::OrHash,
                       Anthropic::ToolSearchToolRegex20251119::OrHash
                     )
@@ -26832,12 +28081,30 @@ module Anthropic
         extend Anthropic::Internal::Type::RequestParameters::Converter
         include Anthropic::Internal::Type::RequestParameters
 
-        sig { override.returns({ request_options: Anthropic::RequestOptions }) }
+        # ID of the Message Batch.
+        sig { returns(String) }
+        attr_accessor :message_batch_id
+
+        sig do
+          override
+            .returns({
+              message_batch_id: String,
+              request_options: Anthropic::RequestOptions
+            })
+        end
         def to_hash; end
 
         class << self
-          sig { params(request_options: Anthropic::RequestOptions::OrHash).returns(T.attached_class) }
-          def new(request_options: {}); end
+          sig do
+            params(
+              message_batch_id: String,
+              request_options: Anthropic::RequestOptions::OrHash
+            ).returns(T.attached_class)
+          end
+          def new(
+            message_batch_id:, # ID of the Message Batch.
+            request_options: {}
+); end
         end
 
         OrHash = T.type_alias do
@@ -26920,12 +28187,30 @@ module Anthropic
         extend Anthropic::Internal::Type::RequestParameters::Converter
         include Anthropic::Internal::Type::RequestParameters
 
-        sig { override.returns({ request_options: Anthropic::RequestOptions }) }
+        # ID of the Message Batch.
+        sig { returns(String) }
+        attr_accessor :message_batch_id
+
+        sig do
+          override
+            .returns({
+              message_batch_id: String,
+              request_options: Anthropic::RequestOptions
+            })
+        end
         def to_hash; end
 
         class << self
-          sig { params(request_options: Anthropic::RequestOptions::OrHash).returns(T.attached_class) }
-          def new(request_options: {}); end
+          sig do
+            params(
+              message_batch_id: String,
+              request_options: Anthropic::RequestOptions::OrHash
+            ).returns(T.attached_class)
+          end
+          def new(
+            message_batch_id:, # ID of the Message Batch.
+            request_options: {}
+); end
         end
 
         OrHash = T.type_alias do
@@ -26940,12 +28225,30 @@ module Anthropic
         extend Anthropic::Internal::Type::RequestParameters::Converter
         include Anthropic::Internal::Type::RequestParameters
 
-        sig { override.returns({ request_options: Anthropic::RequestOptions }) }
+        # ID of the Message Batch.
+        sig { returns(String) }
+        attr_accessor :message_batch_id
+
+        sig do
+          override
+            .returns({
+              message_batch_id: String,
+              request_options: Anthropic::RequestOptions
+            })
+        end
         def to_hash; end
 
         class << self
-          sig { params(request_options: Anthropic::RequestOptions::OrHash).returns(T.attached_class) }
-          def new(request_options: {}); end
+          sig do
+            params(
+              message_batch_id: String,
+              request_options: Anthropic::RequestOptions::OrHash
+            ).returns(T.attached_class)
+          end
+          def new(
+            message_batch_id:, # ID of the Message Batch.
+            request_options: {}
+); end
         end
 
         OrHash = T.type_alias do
@@ -27441,46 +28744,25 @@ module Anthropic
         def variants; end
       end
 
-      # Our fastest model
-      CLAUDE_3_5_HAIKU_20241022 = T.let(:"claude-3-5-haiku-20241022", Anthropic::Model::TaggedSymbol)
-
-      # Fastest and most compact model for near-instant responsiveness
-      CLAUDE_3_5_HAIKU_LATEST = T.let(:"claude-3-5-haiku-latest", Anthropic::Model::TaggedSymbol)
-
-      # High-performance model with early extended thinking
-      CLAUDE_3_7_SONNET_20250219 = T.let(:"claude-3-7-sonnet-20250219", Anthropic::Model::TaggedSymbol)
-
-      # High-performance model with early extended thinking
-      CLAUDE_3_7_SONNET_LATEST = T.let(:"claude-3-7-sonnet-latest", Anthropic::Model::TaggedSymbol)
-
-      # Our previous most fast and cost-effective
+      # Fast and cost-effective model
       CLAUDE_3_HAIKU_20240307 = T.let(:"claude-3-haiku-20240307", Anthropic::Model::TaggedSymbol)
 
-      # Excels at writing and complex tasks
-      CLAUDE_3_OPUS_20240229 = T.let(:"claude-3-opus-20240229", Anthropic::Model::TaggedSymbol)
-
-      # Excels at writing and complex tasks
-      CLAUDE_3_OPUS_LATEST = T.let(:"claude-3-opus-latest", Anthropic::Model::TaggedSymbol)
-
-      # Our most capable model
-      CLAUDE_4_OPUS_20250514 = T.let(:"claude-4-opus-20250514", Anthropic::Model::TaggedSymbol)
-
-      # High-performance model with extended thinking
-      CLAUDE_4_SONNET_20250514 = T.let(:"claude-4-sonnet-20250514", Anthropic::Model::TaggedSymbol)
-
-      # Hybrid model, capable of near-instant responses and extended thinking
+      # Fastest model with near-frontier intelligence
       CLAUDE_HAIKU_4_5 = T.let(:"claude-haiku-4-5", Anthropic::Model::TaggedSymbol)
 
-      # Hybrid model, capable of near-instant responses and extended thinking
+      # Fastest model with near-frontier intelligence
       CLAUDE_HAIKU_4_5_20251001 = T.let(:"claude-haiku-4-5-20251001", Anthropic::Model::TaggedSymbol)
 
-      # Our most capable model
+      # Powerful model for complex tasks
       CLAUDE_OPUS_4_0 = T.let(:"claude-opus-4-0", Anthropic::Model::TaggedSymbol)
 
-      # Our most capable model
+      # Exceptional model for specialized complex tasks
+      CLAUDE_OPUS_4_1 = T.let(:"claude-opus-4-1", Anthropic::Model::TaggedSymbol)
+
+      # Exceptional model for specialized complex tasks
       CLAUDE_OPUS_4_1_20250805 = T.let(:"claude-opus-4-1-20250805", Anthropic::Model::TaggedSymbol)
 
-      # Our most capable model
+      # Powerful model for complex tasks
       CLAUDE_OPUS_4_20250514 = T.let(:"claude-opus-4-20250514", Anthropic::Model::TaggedSymbol)
 
       # Premium model combining maximum intelligence with practical performance
@@ -27498,13 +28780,13 @@ module Anthropic
       # High-performance model with extended thinking
       CLAUDE_SONNET_4_20250514 = T.let(:"claude-sonnet-4-20250514", Anthropic::Model::TaggedSymbol)
 
-      # Our best model for real-world agents and coding
+      # High-performance model for agents and coding
       CLAUDE_SONNET_4_5 = T.let(:"claude-sonnet-4-5", Anthropic::Model::TaggedSymbol)
 
-      # Our best model for real-world agents and coding
+      # High-performance model for agents and coding
       CLAUDE_SONNET_4_5_20250929 = T.let(:"claude-sonnet-4-5-20250929", Anthropic::Model::TaggedSymbol)
 
-      # Frontier intelligence at scale — built for coding, agents, and enterprise workflows
+      # Best combination of speed and intelligence
       CLAUDE_SONNET_4_6 = T.let(:"claude-sonnet-4-6", Anthropic::Model::TaggedSymbol)
 
       OrSymbol = T.type_alias { T.any(Symbol, String) }
@@ -27512,7 +28794,127 @@ module Anthropic
       Variants = T.type_alias { T.any(Anthropic::Model::TaggedSymbol, String) }
     end
 
+    class ModelCapabilities < Anthropic::Internal::Type::BaseModel
+      # Whether the model supports the Batch API.
+      sig { returns(Anthropic::CapabilitySupport) }
+      attr_reader :batch
+
+      sig { params(batch: Anthropic::CapabilitySupport::OrHash).void }
+      attr_writer :batch
+
+      # Whether the model supports citation generation.
+      sig { returns(Anthropic::CapabilitySupport) }
+      attr_reader :citations
+
+      sig { params(citations: Anthropic::CapabilitySupport::OrHash).void }
+      attr_writer :citations
+
+      # Whether the model supports code execution tools.
+      sig { returns(Anthropic::CapabilitySupport) }
+      attr_reader :code_execution
+
+      sig { params(code_execution: Anthropic::CapabilitySupport::OrHash).void }
+      attr_writer :code_execution
+
+      # Context management support and available strategies.
+      sig { returns(Anthropic::ContextManagementCapability) }
+      attr_reader :context_management
+
+      sig { params(context_management: Anthropic::ContextManagementCapability::OrHash).void }
+      attr_writer :context_management
+
+      # Effort (reasoning_effort) support and available levels.
+      sig { returns(Anthropic::EffortCapability) }
+      attr_reader :effort
+
+      sig { params(effort: Anthropic::EffortCapability::OrHash).void }
+      attr_writer :effort
+
+      # Whether the model accepts image content blocks.
+      sig { returns(Anthropic::CapabilitySupport) }
+      attr_reader :image_input
+
+      sig { params(image_input: Anthropic::CapabilitySupport::OrHash).void }
+      attr_writer :image_input
+
+      # Whether the model accepts PDF content blocks.
+      sig { returns(Anthropic::CapabilitySupport) }
+      attr_reader :pdf_input
+
+      sig { params(pdf_input: Anthropic::CapabilitySupport::OrHash).void }
+      attr_writer :pdf_input
+
+      # Whether the model supports structured output / JSON mode / strict tool schemas.
+      sig { returns(Anthropic::CapabilitySupport) }
+      attr_reader :structured_outputs
+
+      sig { params(structured_outputs: Anthropic::CapabilitySupport::OrHash).void }
+      attr_writer :structured_outputs
+
+      # Thinking capability and supported type configurations.
+      sig { returns(Anthropic::ThinkingCapability) }
+      attr_reader :thinking
+
+      sig { params(thinking: Anthropic::ThinkingCapability::OrHash).void }
+      attr_writer :thinking
+
+      sig do
+        override
+          .returns({
+            batch: Anthropic::CapabilitySupport,
+            citations: Anthropic::CapabilitySupport,
+            code_execution: Anthropic::CapabilitySupport,
+            context_management: Anthropic::ContextManagementCapability,
+            effort: Anthropic::EffortCapability,
+            image_input: Anthropic::CapabilitySupport,
+            pdf_input: Anthropic::CapabilitySupport,
+            structured_outputs: Anthropic::CapabilitySupport,
+            thinking: Anthropic::ThinkingCapability
+          })
+      end
+      def to_hash; end
+
+      class << self
+        # Model capability information.
+        sig do
+          params(
+            batch: Anthropic::CapabilitySupport::OrHash,
+            citations: Anthropic::CapabilitySupport::OrHash,
+            code_execution: Anthropic::CapabilitySupport::OrHash,
+            context_management: Anthropic::ContextManagementCapability::OrHash,
+            effort: Anthropic::EffortCapability::OrHash,
+            image_input: Anthropic::CapabilitySupport::OrHash,
+            pdf_input: Anthropic::CapabilitySupport::OrHash,
+            structured_outputs: Anthropic::CapabilitySupport::OrHash,
+            thinking: Anthropic::ThinkingCapability::OrHash
+          ).returns(T.attached_class)
+        end
+        def new(
+          batch:, # Whether the model supports the Batch API.
+          citations:, # Whether the model supports citation generation.
+          code_execution:, # Whether the model supports code execution tools.
+          context_management:, # Context management support and available strategies.
+          effort:, # Effort (reasoning_effort) support and available levels.
+          image_input:, # Whether the model accepts image content blocks.
+          pdf_input:, # Whether the model accepts PDF content blocks.
+          structured_outputs:, # Whether the model supports structured output / JSON mode / strict tool schemas.
+          thinking: # Thinking capability and supported type configurations.
+); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(Anthropic::ModelCapabilities, Anthropic::Internal::AnyHash)
+        end
+    end
+
     class ModelInfo < Anthropic::Internal::Type::BaseModel
+      # Model capability information.
+      sig { returns(T.nilable(Anthropic::ModelCapabilities)) }
+      attr_reader :capabilities
+
+      sig { params(capabilities: T.nilable(Anthropic::ModelCapabilities::OrHash)).void }
+      attr_writer :capabilities
+
       # RFC 3339 datetime string representing the time at which the model was released.
       # May be set to an epoch value if the release date is unknown.
       sig { returns(Time) }
@@ -27526,22 +28928,54 @@ module Anthropic
       sig { returns(String) }
       attr_accessor :id
 
+      # Maximum input context window size in tokens for this model.
+      sig { returns(T.nilable(Integer)) }
+      attr_accessor :max_input_tokens
+
+      # Maximum value for the `max_tokens` parameter when using this model.
+      sig { returns(T.nilable(Integer)) }
+      attr_accessor :max_tokens
+
       # Object type.
       #
       # For Models, this is always `"model"`.
       sig { returns(Symbol) }
       attr_accessor :type
 
-      sig { override.returns({ id: String, created_at: Time, display_name: String, type: Symbol }) }
+      sig do
+        override
+          .returns({
+            id: String,
+            capabilities: T.nilable(Anthropic::ModelCapabilities),
+            created_at: Time,
+            display_name: String,
+            max_input_tokens: T.nilable(Integer),
+            max_tokens: T.nilable(Integer),
+            type: Symbol
+          })
+      end
       def to_hash; end
 
       class << self
-        sig { params(id: String, created_at: Time, display_name: String, type: Symbol).returns(T.attached_class) }
+        sig do
+          params(
+            id: String,
+            capabilities: T.nilable(Anthropic::ModelCapabilities::OrHash),
+            created_at: Time,
+            display_name: String,
+            max_input_tokens: T.nilable(Integer),
+            max_tokens: T.nilable(Integer),
+            type: Symbol
+          ).returns(T.attached_class)
+        end
         def new(
           id:, # Unique model identifier.
+          capabilities:, # Model capability information.
           created_at:, # RFC 3339 datetime string representing the time at which the model was released.
                        # May be set to an epoch value if the release date is unknown.
           display_name:, # A human-readable name for the model.
+          max_input_tokens:, # Maximum input context window size in tokens for this model.
+          max_tokens:, # Maximum value for the `max_tokens` parameter when using this model.
           type: :model # Object type.
                        # For Models, this is always `"model"`.
 ); end
@@ -27638,9 +29072,14 @@ module Anthropic
       sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
       attr_writer :betas
 
+      # Model identifier or alias.
+      sig { returns(String) }
+      attr_accessor :model_id
+
       sig do
         override
           .returns({
+            model_id: String,
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
             request_options: Anthropic::RequestOptions
           })
@@ -27650,11 +29089,13 @@ module Anthropic
       class << self
         sig do
           params(
+            model_id: String,
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(T.attached_class)
         end
         def new(
+          model_id:, # Model identifier or alias.
           betas: nil, # Optional header to specify the beta version(s) you want to use.
           request_options: {}
 ); end
@@ -29550,16 +30991,99 @@ module Anthropic
         end
     end
 
-    class ThinkingConfigAdaptive < Anthropic::Internal::Type::BaseModel
-      sig { returns(Symbol) }
-      attr_accessor :type
+    class ThinkingCapability < Anthropic::Internal::Type::BaseModel
+      # Whether this capability is supported by the model.
+      sig { returns(T::Boolean) }
+      attr_accessor :supported
 
-      sig { override.returns({ type: Symbol }) }
+      # Supported thinking type configurations.
+      sig { returns(Anthropic::ThinkingTypes) }
+      attr_reader :types
+
+      sig { params(types: Anthropic::ThinkingTypes::OrHash).void }
+      attr_writer :types
+
+      sig { override.returns({ supported: T::Boolean, types: Anthropic::ThinkingTypes }) }
       def to_hash; end
 
       class << self
-        sig { params(type: Symbol).returns(T.attached_class) }
-        def new(type: :adaptive); end
+        # Thinking capability details.
+        sig { params(supported: T::Boolean, types: Anthropic::ThinkingTypes::OrHash).returns(T.attached_class) }
+        def new(
+          supported:, # Whether this capability is supported by the model.
+          types: # Supported thinking type configurations.
+); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(Anthropic::ThinkingCapability, Anthropic::Internal::AnyHash)
+        end
+    end
+
+    class ThinkingConfigAdaptive < Anthropic::Internal::Type::BaseModel
+      # Controls how thinking content appears in the response. When set to `summarized`,
+      # thinking is returned normally. When set to `omitted`, thinking content is
+      # redacted but a signature is returned for multi-turn continuity. Defaults to
+      # `summarized`.
+      sig { returns(T.nilable(Anthropic::ThinkingConfigAdaptive::Display::OrSymbol)) }
+      attr_accessor :display_
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig do
+        override
+          .returns({
+            type: Symbol,
+            display_:
+              T.nilable(Anthropic::ThinkingConfigAdaptive::Display::OrSymbol)
+          })
+      end
+      def to_hash; end
+
+      class << self
+        sig do
+          params(
+            display_: T.nilable(Anthropic::ThinkingConfigAdaptive::Display::OrSymbol),
+            type: Symbol
+          ).returns(T.attached_class)
+        end
+        def new(
+          display_: nil, # Controls how thinking content appears in the response. When set to `summarized`,
+                         # thinking is returned normally. When set to `omitted`, thinking content is
+                         # redacted but a signature is returned for multi-turn continuity. Defaults to
+                         # `summarized`.
+          type: :adaptive
+); end
+      end
+
+      # Controls how thinking content appears in the response. When set to `summarized`,
+      # thinking is returned normally. When set to `omitted`, thinking content is
+      # redacted but a signature is returned for multi-turn continuity. Defaults to
+      # `summarized`.
+      module Display
+        extend Anthropic::Internal::Type::Enum
+
+        class << self
+          sig { override.returns(T::Array[Anthropic::ThinkingConfigAdaptive::Display::TaggedSymbol]) }
+          def values; end
+        end
+
+        OMITTED = T.let(
+            :omitted,
+            Anthropic::ThinkingConfigAdaptive::Display::TaggedSymbol
+          )
+
+        OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+        SUMMARIZED = T.let(
+            :summarized,
+            Anthropic::ThinkingConfigAdaptive::Display::TaggedSymbol
+          )
+
+        TaggedSymbol = T.type_alias do
+            T.all(Symbol, Anthropic::ThinkingConfigAdaptive::Display)
+          end
       end
 
       OrHash = T.type_alias do
@@ -29597,14 +31121,35 @@ module Anthropic
       sig { returns(Integer) }
       attr_accessor :budget_tokens
 
+      # Controls how thinking content appears in the response. When set to `summarized`,
+      # thinking is returned normally. When set to `omitted`, thinking content is
+      # redacted but a signature is returned for multi-turn continuity. Defaults to
+      # `summarized`.
+      sig { returns(T.nilable(Anthropic::ThinkingConfigEnabled::Display::OrSymbol)) }
+      attr_accessor :display_
+
       sig { returns(Symbol) }
       attr_accessor :type
 
-      sig { override.returns({ budget_tokens: Integer, type: Symbol }) }
+      sig do
+        override
+          .returns({
+            budget_tokens: Integer,
+            type: Symbol,
+            display_:
+              T.nilable(Anthropic::ThinkingConfigEnabled::Display::OrSymbol)
+          })
+      end
       def to_hash; end
 
       class << self
-        sig { params(budget_tokens: Integer, type: Symbol).returns(T.attached_class) }
+        sig do
+          params(
+            budget_tokens: Integer,
+            display_: T.nilable(Anthropic::ThinkingConfigEnabled::Display::OrSymbol),
+            type: Symbol
+          ).returns(T.attached_class)
+        end
         def new(
           budget_tokens:, # Determines how many tokens Claude can use for its internal reasoning process.
                           # Larger budgets can enable more thorough analysis for complex problems, improving
@@ -29613,8 +31158,41 @@ module Anthropic
                           # See
                           # [extended thinking](https://docs.claude.com/en/docs/build-with-claude/extended-thinking)
                           # for details.
+          display_: nil, # Controls how thinking content appears in the response. When set to `summarized`,
+                         # thinking is returned normally. When set to `omitted`, thinking content is
+                         # redacted but a signature is returned for multi-turn continuity. Defaults to
+                         # `summarized`.
           type: :enabled
 ); end
+      end
+
+      # Controls how thinking content appears in the response. When set to `summarized`,
+      # thinking is returned normally. When set to `omitted`, thinking content is
+      # redacted but a signature is returned for multi-turn continuity. Defaults to
+      # `summarized`.
+      module Display
+        extend Anthropic::Internal::Type::Enum
+
+        class << self
+          sig { override.returns(T::Array[Anthropic::ThinkingConfigEnabled::Display::TaggedSymbol]) }
+          def values; end
+        end
+
+        OMITTED = T.let(
+            :omitted,
+            Anthropic::ThinkingConfigEnabled::Display::TaggedSymbol
+          )
+
+        OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+        SUMMARIZED = T.let(
+            :summarized,
+            Anthropic::ThinkingConfigEnabled::Display::TaggedSymbol
+          )
+
+        TaggedSymbol = T.type_alias do
+            T.all(Symbol, Anthropic::ThinkingConfigEnabled::Display)
+          end
       end
 
       OrHash = T.type_alias do
@@ -29665,6 +31243,49 @@ module Anthropic
 
       OrHash = T.type_alias do
           T.any(Anthropic::ThinkingDelta, Anthropic::Internal::AnyHash)
+        end
+    end
+
+    class ThinkingTypes < Anthropic::Internal::Type::BaseModel
+      # Whether the model supports thinking with type 'adaptive' (auto).
+      sig { returns(Anthropic::CapabilitySupport) }
+      attr_reader :adaptive
+
+      sig { params(adaptive: Anthropic::CapabilitySupport::OrHash).void }
+      attr_writer :adaptive
+
+      # Whether the model supports thinking with type 'enabled'.
+      sig { returns(Anthropic::CapabilitySupport) }
+      attr_reader :enabled
+
+      sig { params(enabled: Anthropic::CapabilitySupport::OrHash).void }
+      attr_writer :enabled
+
+      sig do
+        override
+          .returns({
+            adaptive: Anthropic::CapabilitySupport,
+            enabled: Anthropic::CapabilitySupport
+          })
+      end
+      def to_hash; end
+
+      class << self
+        # Supported thinking type configurations.
+        sig do
+          params(
+            adaptive: Anthropic::CapabilitySupport::OrHash,
+            enabled: Anthropic::CapabilitySupport::OrHash
+          ).returns(T.attached_class)
+        end
+        def new(
+          adaptive:, # Whether the model supports thinking with type 'adaptive' (auto).
+          enabled: # Whether the model supports thinking with type 'enabled'.
+); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(Anthropic::ThinkingTypes, Anthropic::Internal::AnyHash)
         end
     end
 
@@ -29800,6 +31421,12 @@ module Anthropic
 ); end
       end
 
+      # Specifies who can invoke a tool.
+      #
+      # Values: direct: The model can call this tool directly. code_execution_20250825:
+      # The tool can be called from the code execution environment (v1).
+      # code_execution_20260120: The tool can be called from the code execution
+      # environment (v2 with persistence).
       module AllowedCaller
         extend Anthropic::Internal::Type::Enum
 
@@ -29968,6 +31595,12 @@ module Anthropic
 ); end
       end
 
+      # Specifies who can invoke a tool.
+      #
+      # Values: direct: The model can call this tool directly. code_execution_20250825:
+      # The tool can be called from the code execution environment (v1).
+      # code_execution_20260120: The tool can be called from the code execution
+      # environment (v2 with persistence).
       module AllowedCaller
         extend Anthropic::Internal::Type::Enum
 
@@ -30416,6 +32049,12 @@ module Anthropic
 ); end
       end
 
+      # Specifies who can invoke a tool.
+      #
+      # Values: direct: The model can call this tool directly. code_execution_20250825:
+      # The tool can be called from the code execution environment (v1).
+      # code_execution_20260120: The tool can be called from the code execution
+      # environment (v2 with persistence).
       module AllowedCaller
         extend Anthropic::Internal::Type::Enum
 
@@ -30575,6 +32214,12 @@ module Anthropic
 ); end
       end
 
+      # Specifies who can invoke a tool.
+      #
+      # Values: direct: The model can call this tool directly. code_execution_20250825:
+      # The tool can be called from the code execution environment (v1).
+      # code_execution_20260120: The tool can be called from the code execution
+      # environment (v2 with persistence).
       module AllowedCaller
         extend Anthropic::Internal::Type::Enum
 
@@ -31053,6 +32698,12 @@ module Anthropic
 ); end
       end
 
+      # Specifies who can invoke a tool.
+      #
+      # Values: direct: The model can call this tool directly. code_execution_20250825:
+      # The tool can be called from the code execution environment (v1).
+      # code_execution_20260120: The tool can be called from the code execution
+      # environment (v2 with persistence).
       module AllowedCaller
         extend Anthropic::Internal::Type::Enum
 
@@ -31185,6 +32836,12 @@ module Anthropic
 ); end
       end
 
+      # Specifies who can invoke a tool.
+      #
+      # Values: direct: The model can call this tool directly. code_execution_20250825:
+      # The tool can be called from the code execution environment (v1).
+      # code_execution_20260120: The tool can be called from the code execution
+      # environment (v2 with persistence).
       module AllowedCaller
         extend Anthropic::Internal::Type::Enum
 
@@ -31326,6 +32983,12 @@ module Anthropic
 ); end
       end
 
+      # Specifies who can invoke a tool.
+      #
+      # Values: direct: The model can call this tool directly. code_execution_20250825:
+      # The tool can be called from the code execution environment (v1).
+      # code_execution_20260120: The tool can be called from the code execution
+      # environment (v2 with persistence).
       module AllowedCaller
         extend Anthropic::Internal::Type::Enum
 
@@ -31391,6 +33054,7 @@ module Anthropic
             Anthropic::WebFetchTool20250910,
             Anthropic::WebSearchTool20260209,
             Anthropic::WebFetchTool20260209,
+            Anthropic::WebFetchTool20260309,
             Anthropic::ToolSearchToolBm25_20251119,
             Anthropic::ToolSearchToolRegex20251119
           )
@@ -32008,6 +33672,12 @@ module Anthropic
 ); end
       end
 
+      # Specifies who can invoke a tool.
+      #
+      # Values: direct: The model can call this tool directly. code_execution_20250825:
+      # The tool can be called from the code execution environment (v1).
+      # code_execution_20260120: The tool can be called from the code execution
+      # environment (v2 with persistence).
       module AllowedCaller
         extend Anthropic::Internal::Type::Enum
 
@@ -32171,6 +33841,12 @@ module Anthropic
 ); end
       end
 
+      # Specifies who can invoke a tool.
+      #
+      # Values: direct: The model can call this tool directly. code_execution_20250825:
+      # The tool can be called from the code execution environment (v1).
+      # code_execution_20260120: The tool can be called from the code execution
+      # environment (v2 with persistence).
       module AllowedCaller
         extend Anthropic::Internal::Type::Enum
 
@@ -32208,6 +33884,190 @@ module Anthropic
 
       OrHash = T.type_alias do
           T.any(Anthropic::WebFetchTool20260209, Anthropic::Internal::AnyHash)
+        end
+    end
+
+    class WebFetchTool20260309 < Anthropic::Internal::Type::BaseModel
+      sig do
+        returns(T.nilable(
+            T::Array[Anthropic::WebFetchTool20260309::AllowedCaller::OrSymbol]
+          ))
+      end
+      attr_reader :allowed_callers
+
+      sig { params(allowed_callers: T::Array[Anthropic::WebFetchTool20260309::AllowedCaller::OrSymbol]).void }
+      attr_writer :allowed_callers
+
+      # List of domains to allow fetching from
+      sig { returns(T.nilable(T::Array[String])) }
+      attr_accessor :allowed_domains
+
+      # List of domains to block fetching from
+      sig { returns(T.nilable(T::Array[String])) }
+      attr_accessor :blocked_domains
+
+      # Create a cache control breakpoint at this content block.
+      sig { returns(T.nilable(Anthropic::CacheControlEphemeral)) }
+      attr_reader :cache_control
+
+      sig { params(cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash)).void }
+      attr_writer :cache_control
+
+      # Citations configuration for fetched documents. Citations are disabled by
+      # default.
+      sig { returns(T.nilable(Anthropic::CitationsConfigParam)) }
+      attr_reader :citations
+
+      sig { params(citations: T.nilable(Anthropic::CitationsConfigParam::OrHash)).void }
+      attr_writer :citations
+
+      # If true, tool will not be included in initial system prompt. Only loaded when
+      # returned via tool_reference from tool search.
+      sig { returns(T.nilable(T::Boolean)) }
+      attr_reader :defer_loading
+
+      sig { params(defer_loading: T::Boolean).void }
+      attr_writer :defer_loading
+
+      # Maximum number of tokens used by including web page text content in the context.
+      # The limit is approximate and does not apply to binary content such as PDFs.
+      sig { returns(T.nilable(Integer)) }
+      attr_accessor :max_content_tokens
+
+      # Maximum number of times the tool can be used in the API request.
+      sig { returns(T.nilable(Integer)) }
+      attr_accessor :max_uses
+
+      # Name of the tool.
+      #
+      # This is how the tool will be called by the model and in `tool_use` blocks.
+      sig { returns(Symbol) }
+      attr_accessor :name
+
+      # When true, guarantees schema validation on tool names and inputs
+      sig { returns(T.nilable(T::Boolean)) }
+      attr_reader :strict
+
+      sig { params(strict: T::Boolean).void }
+      attr_writer :strict
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      # Whether to use cached content. Set to false to bypass the cache and fetch fresh
+      # content. Only set to false when the user explicitly requests fresh content or
+      # when fetching rapidly-changing sources.
+      sig { returns(T.nilable(T::Boolean)) }
+      attr_reader :use_cache
+
+      sig { params(use_cache: T::Boolean).void }
+      attr_writer :use_cache
+
+      sig do
+        override
+          .returns({
+            name: Symbol,
+            type: Symbol,
+            allowed_callers:
+              T::Array[
+                Anthropic::WebFetchTool20260309::AllowedCaller::OrSymbol
+              ],
+            allowed_domains: T.nilable(T::Array[String]),
+            blocked_domains: T.nilable(T::Array[String]),
+            cache_control: T.nilable(Anthropic::CacheControlEphemeral),
+            citations: T.nilable(Anthropic::CitationsConfigParam),
+            defer_loading: T::Boolean,
+            max_content_tokens: T.nilable(Integer),
+            max_uses: T.nilable(Integer),
+            strict: T::Boolean,
+            use_cache: T::Boolean
+          })
+      end
+      def to_hash; end
+
+      class << self
+        # Web fetch tool with use_cache parameter for bypassing cached content.
+        sig do
+          params(
+            allowed_callers: T::Array[Anthropic::WebFetchTool20260309::AllowedCaller::OrSymbol],
+            allowed_domains: T.nilable(T::Array[String]),
+            blocked_domains: T.nilable(T::Array[String]),
+            cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash),
+            citations: T.nilable(Anthropic::CitationsConfigParam::OrHash),
+            defer_loading: T::Boolean,
+            max_content_tokens: T.nilable(Integer),
+            max_uses: T.nilable(Integer),
+            strict: T::Boolean,
+            use_cache: T::Boolean,
+            name: Symbol,
+            type: Symbol
+          ).returns(T.attached_class)
+        end
+        def new(
+          allowed_callers: nil,
+          allowed_domains: nil, # List of domains to allow fetching from
+          blocked_domains: nil, # List of domains to block fetching from
+          cache_control: nil, # Create a cache control breakpoint at this content block.
+          citations: nil, # Citations configuration for fetched documents. Citations are disabled by
+                          # default.
+          defer_loading: nil, # If true, tool will not be included in initial system prompt. Only loaded when
+                              # returned via tool_reference from tool search.
+          max_content_tokens: nil, # Maximum number of tokens used by including web page text content in the context.
+                                   # The limit is approximate and does not apply to binary content such as PDFs.
+          max_uses: nil, # Maximum number of times the tool can be used in the API request.
+          strict: nil, # When true, guarantees schema validation on tool names and inputs
+          use_cache: nil, # Whether to use cached content. Set to false to bypass the cache and fetch fresh
+                          # content. Only set to false when the user explicitly requests fresh content or
+                          # when fetching rapidly-changing sources.
+          name: :web_fetch, # Name of the tool.
+                            # This is how the tool will be called by the model and in `tool_use` blocks.
+          type: :web_fetch_20260309
+); end
+      end
+
+      # Specifies who can invoke a tool.
+      #
+      # Values: direct: The model can call this tool directly. code_execution_20250825:
+      # The tool can be called from the code execution environment (v1).
+      # code_execution_20260120: The tool can be called from the code execution
+      # environment (v2 with persistence).
+      module AllowedCaller
+        extend Anthropic::Internal::Type::Enum
+
+        class << self
+          sig do
+            override
+              .returns(T::Array[
+              Anthropic::WebFetchTool20260309::AllowedCaller::TaggedSymbol
+            ])
+          end
+          def values; end
+        end
+
+        CODE_EXECUTION_20250825 = T.let(
+            :code_execution_20250825,
+            Anthropic::WebFetchTool20260309::AllowedCaller::TaggedSymbol
+          )
+
+        CODE_EXECUTION_20260120 = T.let(
+            :code_execution_20260120,
+            Anthropic::WebFetchTool20260309::AllowedCaller::TaggedSymbol
+          )
+
+        DIRECT = T.let(
+            :direct,
+            Anthropic::WebFetchTool20260309::AllowedCaller::TaggedSymbol
+          )
+
+        OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+        TaggedSymbol = T.type_alias do
+            T.all(Symbol, Anthropic::WebFetchTool20260309::AllowedCaller)
+          end
+      end
+
+      OrHash = T.type_alias do
+          T.any(Anthropic::WebFetchTool20260309, Anthropic::Internal::AnyHash)
         end
     end
 
@@ -32770,6 +34630,12 @@ module Anthropic
 ); end
       end
 
+      # Specifies who can invoke a tool.
+      #
+      # Values: direct: The model can call this tool directly. code_execution_20250825:
+      # The tool can be called from the code execution environment (v1).
+      # code_execution_20260120: The tool can be called from the code execution
+      # environment (v2 with persistence).
       module AllowedCaller
         extend Anthropic::Internal::Type::Enum
 
@@ -32928,6 +34794,12 @@ module Anthropic
 ); end
       end
 
+      # Specifies who can invoke a tool.
+      #
+      # Values: direct: The model can call this tool directly. code_execution_20250825:
+      # The tool can be called from the code execution environment (v1).
+      # code_execution_20260120: The tool can be called from the code execution
+      # environment (v2 with persistence).
       module AllowedCaller
         extend Anthropic::Internal::Type::Enum
 
@@ -33545,6 +35417,7 @@ module Anthropic
                   Anthropic::Beta::BetaWebFetchTool20250910::OrHash,
                   Anthropic::Beta::BetaWebSearchTool20260209::OrHash,
                   Anthropic::Beta::BetaWebFetchTool20260209::OrHash,
+                  Anthropic::Beta::BetaWebFetchTool20260309::OrHash,
                   Anthropic::Beta::BetaToolSearchToolBm25_20251119::OrHash,
                   Anthropic::Beta::BetaToolSearchToolRegex20251119::OrHash,
                   Anthropic::Beta::BetaMCPToolset::OrHash
@@ -33765,6 +35638,7 @@ module Anthropic
                   Anthropic::Beta::BetaWebFetchTool20250910::OrHash,
                   Anthropic::Beta::BetaWebSearchTool20260209::OrHash,
                   Anthropic::Beta::BetaWebFetchTool20260209::OrHash,
+                  Anthropic::Beta::BetaWebFetchTool20260309::OrHash,
                   Anthropic::Beta::BetaToolSearchToolBm25_20251119::OrHash,
                   Anthropic::Beta::BetaToolSearchToolRegex20251119::OrHash,
                   Anthropic::Beta::BetaMCPToolset::OrHash
@@ -34028,6 +35902,7 @@ module Anthropic
                   Anthropic::Beta::BetaWebFetchTool20250910::OrHash,
                   Anthropic::Beta::BetaWebSearchTool20260209::OrHash,
                   Anthropic::Beta::BetaWebFetchTool20260209::OrHash,
+                  Anthropic::Beta::BetaWebFetchTool20260309::OrHash,
                   Anthropic::Beta::BetaToolSearchToolBm25_20251119::OrHash,
                   Anthropic::Beta::BetaToolSearchToolRegex20251119::OrHash,
                   Anthropic::Beta::BetaMCPToolset::OrHash
@@ -35028,6 +36903,7 @@ module Anthropic
                 Anthropic::WebFetchTool20250910::OrHash,
                 Anthropic::WebSearchTool20260209::OrHash,
                 Anthropic::WebFetchTool20260209::OrHash,
+                Anthropic::WebFetchTool20260309::OrHash,
                 Anthropic::ToolSearchToolBm25_20251119::OrHash,
                 Anthropic::ToolSearchToolRegex20251119::OrHash
               )
@@ -35221,6 +37097,7 @@ module Anthropic
                 Anthropic::WebFetchTool20250910::OrHash,
                 Anthropic::WebSearchTool20260209::OrHash,
                 Anthropic::WebFetchTool20260209::OrHash,
+                Anthropic::WebFetchTool20260309::OrHash,
                 Anthropic::ToolSearchToolBm25_20251119::OrHash,
                 Anthropic::ToolSearchToolRegex20251119::OrHash
               )
@@ -35687,6 +37564,7 @@ module Anthropic
                 Anthropic::WebFetchTool20250910::OrHash,
                 Anthropic::WebSearchTool20260209::OrHash,
                 Anthropic::WebFetchTool20260209::OrHash,
+                Anthropic::WebFetchTool20260309::OrHash,
                 Anthropic::ToolSearchToolBm25_20251119::OrHash,
                 Anthropic::ToolSearchToolRegex20251119::OrHash
               )
@@ -36101,11 +37979,13 @@ module Anthropic
 
   ThinkingBlock = Anthropic::Models::ThinkingBlock
   ThinkingBlockParam = Anthropic::Models::ThinkingBlockParam
+  ThinkingCapability = Anthropic::Models::ThinkingCapability
   ThinkingConfigAdaptive = Anthropic::Models::ThinkingConfigAdaptive
   ThinkingConfigDisabled = Anthropic::Models::ThinkingConfigDisabled
   ThinkingConfigEnabled = Anthropic::Models::ThinkingConfigEnabled
   ThinkingConfigParam = Anthropic::Models::ThinkingConfigParam
   ThinkingDelta = Anthropic::Models::ThinkingDelta
+  ThinkingTypes = Anthropic::Models::ThinkingTypes
   Tool = Anthropic::Models::Tool
   ToolBash20250124 = Anthropic::Models::ToolBash20250124
   ToolChoice = Anthropic::Models::ToolChoice
@@ -36149,6 +38029,7 @@ module Anthropic
   WebFetchBlockParam = Anthropic::Models::WebFetchBlockParam
   WebFetchTool20250910 = Anthropic::Models::WebFetchTool20250910
   WebFetchTool20260209 = Anthropic::Models::WebFetchTool20260209
+  WebFetchTool20260309 = Anthropic::Models::WebFetchTool20260309
   WebFetchToolResultBlock = Anthropic::Models::WebFetchToolResultBlock
   WebFetchToolResultBlockParam = Anthropic::Models::WebFetchToolResultBlockParam
   WebFetchToolResultErrorBlock = Anthropic::Models::WebFetchToolResultErrorBlock

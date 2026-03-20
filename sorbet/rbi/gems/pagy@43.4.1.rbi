@@ -16,75 +16,75 @@ class Pagy
 
   # Returns the value of attribute in.
   #
-  # source://pagy//lib/pagy.rb#41
+  # source://pagy//lib/pagy.rb#47
   def in; end
 
   # Returns the value of attribute limit.
   #
-  # source://pagy//lib/pagy.rb#41
+  # source://pagy//lib/pagy.rb#47
   def limit; end
 
   # Returns the value of attribute next.
   #
-  # source://pagy//lib/pagy.rb#41
+  # source://pagy//lib/pagy.rb#47
   def next; end
 
   # Returns the value of attribute options.
   #
-  # source://pagy//lib/pagy.rb#41
+  # source://pagy//lib/pagy.rb#47
   def options; end
 
   # Returns the value of attribute page.
   #
-  # source://pagy//lib/pagy.rb#41
+  # source://pagy//lib/pagy.rb#47
   def page; end
 
   protected
 
   # Validates and assign the passed options: they must be present and value.to_i must be >= min
   #
-  # source://pagy//lib/pagy.rb#54
+  # source://pagy//lib/pagy.rb#60
   def assign_and_check(name_min); end
 
   # Merge all the DEFAULT constants of the class hierarchy with the options
   #
-  # source://pagy//lib/pagy.rb#67
+  # source://pagy//lib/pagy.rb#73
   def assign_options(**options); end
 
   # @return [Boolean]
   #
-  # source://pagy//lib/pagy.rb#48
+  # source://pagy//lib/pagy.rb#54
   def calendar?; end
 
   # @return [Boolean]
   #
-  # source://pagy//lib/pagy.rb#47
+  # source://pagy//lib/pagy.rb#53
   def countless?; end
 
   # @return [Boolean]
   #
-  # source://pagy//lib/pagy.rb#51
+  # source://pagy//lib/pagy.rb#57
   def keynav?; end
 
   # @return [Boolean]
   #
-  # source://pagy//lib/pagy.rb#50
+  # source://pagy//lib/pagy.rb#56
   def keyset?; end
 
   # Define the hierarchical identity methods, overridden by the respective classes
   #
   # @return [Boolean]
   #
-  # source://pagy//lib/pagy.rb#46
+  # source://pagy//lib/pagy.rb#52
   def offset?; end
 
   # @return [Boolean]
   #
-  # source://pagy//lib/pagy.rb#49
+  # source://pagy//lib/pagy.rb#55
   def search?; end
 
   class << self
-    # source://pagy//lib/pagy.rb#35
+    # source://pagy//lib/pagy.rb#37
     def options; end
   end
 end
@@ -412,17 +412,24 @@ end
 module Pagy::Configurable
   # Generate the script and style tags to help development
   #
-  # source://pagy//lib/pagy/modules/abilities/configurable.rb#15
+  # source://pagy//lib/pagy/modules/abilities/configurable.rb#22
   def dev_tools(wand_scale: T.unsafe(nil)); end
 
-  # Sync the pagy javascript targets
+  # Sync the pagy resource targets.
+  #
+  # @raise [InternalError]
+  #
+  # source://pagy//lib/pagy/modules/abilities/configurable.rb#13
+  def sync(resource, destination, *targets); end
+
+  # Deprecated: Sync the pagy javascript targets. Use sync(:javascripts, ...) instead.
   #
   # source://pagy//lib/pagy/modules/abilities/configurable.rb#7
-  def sync_javascript(destination, *targets); end
+  def sync_javascript(*_arg0, **_arg1, &_arg2); end
 
   # Setup pagy for using the i18n gem
   #
-  # source://pagy//lib/pagy/modules/abilities/configurable.rb#30
+  # source://pagy//lib/pagy/modules/abilities/configurable.rb#37
   def translate_with_the_slower_i18n_gem!; end
 end
 
@@ -1190,12 +1197,12 @@ end
 
 # Hook module for numeric UI helpers
 #
-# source://pagy//lib/pagy.rb#83
+# source://pagy//lib/pagy.rb#89
 module Pagy::NumericHelpers
   include ::Pagy::NumericHelperLoader
 end
 
-# source://pagy//lib/pagy.rb#34
+# source://pagy//lib/pagy.rb#35
 Pagy::OPTIONS = T.let(T.unsafe(nil), Hash)
 
 # Implements Offset Pagination
@@ -1527,6 +1534,14 @@ module Pagy::Shiftable
 
   # source://pagy//lib/pagy/modules/abilities/shiftable.rb#7
   def assign_previous_and_next; end
+end
+
+# source://pagy//lib/pagy/tasks/sync.rb#7
+class Pagy::SyncTask < ::Rake::TaskLib
+  # @return [SyncTask] a new instance of SyncTask
+  #
+  # source://pagy//lib/pagy/tasks/sync.rb#8
+  def initialize(resource, destination, *targets); end
 end
 
 # source://pagy//lib/pagy/classes/offset/search.rb#33

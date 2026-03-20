@@ -66,7 +66,7 @@ module OpenTelemetry::Instrumentation::Sinatra::Extensions::TracerExtension
   end
 end
 
-# Contants patches for `render` method
+# Constants patches for `render` method
 #
 # source://opentelemetry-instrumentation-sinatra//lib/opentelemetry/instrumentation/sinatra/extensions/tracer_extension.rb#17
 module OpenTelemetry::Instrumentation::Sinatra::Extensions::TracerExtension::RenderPatches

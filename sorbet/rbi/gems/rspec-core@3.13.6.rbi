@@ -7076,11 +7076,11 @@ module RSpec::Core::Hooks
   # invoked but before any `after` context hooks.
   #
   # @api public
+  # @note The `:example` and `:context` scopes are also available as
+  #   `:each` and `:all`, respectively. Use whichever you prefer.
   # @note The `:suite` scope is only supported for hooks registered on
   #   `RSpec.configuration` since they exist independently of any
   #   example or example group.
-  # @note The `:example` and `:context` scopes are also available as
-  #   `:each` and `:all`, respectively. Use whichever you prefer.
   # @overload after
   # @overload after
   # @overload after
@@ -7305,7 +7305,6 @@ module RSpec::Core::Hooks
   # They are not a synonym for `before`/`after`.
   #
   # @api public
-  # @note `:example`/`:each` is the only supported scope.
   # @note the syntax of `around` is similar to that of `before` and `after`
   #   but the semantics are quite different. `before` and `after` hooks are
   #   run in the context of the examples with which they are associated,
@@ -7313,6 +7312,7 @@ module RSpec::Core::Hooks
   #   examples. Consequently, `around` hooks do not have direct access to
   #   resources that are made available within the examples and their
   #   associated `before` and `after` hooks.
+  # @note `:example`/`:each` is the only supported scope.
   # @overload around
   # @overload around
   # @overload around
@@ -7538,11 +7538,11 @@ module RSpec::Core::Hooks
   # invoked but before any `after` context hooks.
   #
   # @api public
+  # @note The `:example` and `:context` scopes are also available as
+  #   `:each` and `:all`, respectively. Use whichever you prefer.
   # @note The `:suite` scope is only supported for hooks registered on
   #   `RSpec.configuration` since they exist independently of any
   #   example or example group.
-  # @note The `:example` and `:context` scopes are also available as
-  #   `:each` and `:all`, respectively. Use whichever you prefer.
   # @overload after
   # @overload after
   # @overload after

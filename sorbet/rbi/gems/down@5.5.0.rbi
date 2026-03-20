@@ -318,80 +318,80 @@ class Down::NetHttp < ::Down::Backend
   # Starts retrieving the remote file using Net::HTTP and returns an IO-like
   # object which downloads the response body on-demand.
   #
-  # source://down//lib/down/net_http.rb#107
+  # source://down//lib/down/net_http.rb#109
   def open(url, *args, **options); end
 
   private
 
   # Build a Net::HTTP object for making a request.
   #
-  # source://down//lib/down/net_http.rb#242
+  # source://down//lib/down/net_http.rb#256
   def create_net_http(uri, options); end
 
   # Converts the given IO into a Tempfile if it isn't one already (open-uri
   # returns a StringIO when there is less than 10KB of content), and gives
   # it the specified file extension.
   #
-  # source://down//lib/down/net_http.rb#185
-  def ensure_tempfile(io, extension); end
+  # source://down//lib/down/net_http.rb#192
+  def ensure_tempfile(io, extension, tempfile_name = T.unsafe(nil)); end
 
   # Checks that the url is a valid URI and that its scheme is http or https.
   #
-  # source://down//lib/down/net_http.rb#289
+  # source://down//lib/down/net_http.rb#303
   def ensure_uri(url, allow_relative: T.unsafe(nil)); end
 
   # Merge default and ad-hoc options, merging nested headers.
   #
-  # source://down//lib/down/net_http.rb#363
+  # source://down//lib/down/net_http.rb#377
   def merge_options(options, headers = T.unsafe(nil), **new_options); end
 
   # Makes a Net::HTTP request and follows redirects.
   #
-  # source://down//lib/down/net_http.rb#203
-  def net_http_request(uri, options, follows_remaining:, &block); end
+  # source://down//lib/down/net_http.rb#210
+  def net_http_request(uri, options, follows_remaining:, auth_on_redirect:, &block); end
 
   # Makes sure that the URL is properly encoded.
   #
-  # source://down//lib/down/net_http.rb#304
+  # source://down//lib/down/net_http.rb#318
   def normalize_uri(url, uri_normalizer:); end
 
   # Calls open-uri's URI::HTTP#open method. Additionally handles redirects.
   #
-  # source://down//lib/down/net_http.rb#144
-  def open_uri(uri, options, follows_remaining:); end
+  # source://down//lib/down/net_http.rb#147
+  def open_uri(uri, options, follows_remaining:, auth_on_redirect:); end
 
   # When open-uri raises an exception, it doesn't expose the response object.
   # Fortunately, the exception object holds response data that can be used to
   # rebuild the Net::HTTP response object.
   #
-  # source://down//lib/down/net_http.rb#313
+  # source://down//lib/down/net_http.rb#327
   def rebuild_response_from_open_uri_exception(exception); end
 
   # Re-raise Net::HTTP exceptions as Down::Error exceptions.
   #
-  # source://down//lib/down/net_http.rb#347
+  # source://down//lib/down/net_http.rb#361
   def request_error!(exception); end
 
   # Raises non-sucessful response as a Down::ResponseError.
   #
-  # source://down//lib/down/net_http.rb#332
+  # source://down//lib/down/net_http.rb#346
   def response_error!(response); end
 
   # Yields chunks of the response body to the block.
   #
-  # source://down//lib/down/net_http.rb#282
+  # source://down//lib/down/net_http.rb#296
   def stream_body(response, &block); end
 end
 
 # Defines some additional attributes for the returned Tempfile (on top of what
 # OpenURI::Meta already defines).
 #
-# source://down//lib/down/net_http.rb#382
+# source://down//lib/down/net_http.rb#396
 module Down::NetHttp::DownloadedFile
-  # source://down//lib/down/net_http.rb#388
+  # source://down//lib/down/net_http.rb#402
   def content_type; end
 
-  # source://down//lib/down/net_http.rb#383
+  # source://down//lib/down/net_http.rb#397
   def original_filename; end
 end
 

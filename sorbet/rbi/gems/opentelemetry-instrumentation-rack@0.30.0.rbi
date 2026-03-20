@@ -86,22 +86,25 @@ class OpenTelemetry::Instrumentation::Rack::Instrumentation < ::OpenTelemetry::I
 
   private
 
-  # source://opentelemetry-instrumentation-rack//lib/opentelemetry/instrumentation/rack/instrumentation.rb#123
+  # source://opentelemetry-instrumentation-rack//lib/opentelemetry/instrumentation/rack/instrumentation.rb#129
   def build_attribute_name(prefix, suffix); end
 
-  # source://opentelemetry-instrumentation-rack//lib/opentelemetry/instrumentation/rack/instrumentation.rb#102
+  # source://opentelemetry-instrumentation-rack//lib/opentelemetry/instrumentation/rack/instrumentation.rb#108
   def config_options(user_config); end
 
   # source://opentelemetry-instrumentation-rack//lib/opentelemetry/instrumentation/rack/instrumentation.rb#74
   def determine_semconv; end
 
-  # source://opentelemetry-instrumentation-rack//lib/opentelemetry/instrumentation/rack/instrumentation.rb#97
+  # source://opentelemetry-instrumentation-rack//lib/opentelemetry/instrumentation/rack/instrumentation.rb#89
+  def emit_old_semconv_deprecation_warning(option); end
+
+  # source://opentelemetry-instrumentation-rack//lib/opentelemetry/instrumentation/rack/instrumentation.rb#103
   def require_dependencies_dup; end
 
-  # source://opentelemetry-instrumentation-rack//lib/opentelemetry/instrumentation/rack/instrumentation.rb#87
+  # source://opentelemetry-instrumentation-rack//lib/opentelemetry/instrumentation/rack/instrumentation.rb#93
   def require_dependencies_old; end
 
-  # source://opentelemetry-instrumentation-rack//lib/opentelemetry/instrumentation/rack/instrumentation.rb#92
+  # source://opentelemetry-instrumentation-rack//lib/opentelemetry/instrumentation/rack/instrumentation.rb#98
   def require_dependencies_stable; end
 end
 

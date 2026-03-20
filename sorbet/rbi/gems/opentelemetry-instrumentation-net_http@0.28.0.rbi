@@ -143,22 +143,25 @@ class OpenTelemetry::Instrumentation::Net::HTTP::Instrumentation < ::OpenTelemet
   # source://opentelemetry-instrumentation-net_http//lib/opentelemetry/instrumentation/net/http/instrumentation.rb#34
   def determine_semconv; end
 
-  # source://opentelemetry-instrumentation-net_http//lib/opentelemetry/instrumentation/net/http/instrumentation.rb#59
+  # source://opentelemetry-instrumentation-net_http//lib/opentelemetry/instrumentation/net/http/instrumentation.rb#49
+  def emit_old_semconv_deprecation_warning(option); end
+
+  # source://opentelemetry-instrumentation-net_http//lib/opentelemetry/instrumentation/net/http/instrumentation.rb#65
   def patch_dup; end
 
-  # source://opentelemetry-instrumentation-net_http//lib/opentelemetry/instrumentation/net/http/instrumentation.rb#63
+  # source://opentelemetry-instrumentation-net_http//lib/opentelemetry/instrumentation/net/http/instrumentation.rb#69
   def patch_old; end
 
-  # source://opentelemetry-instrumentation-net_http//lib/opentelemetry/instrumentation/net/http/instrumentation.rb#67
+  # source://opentelemetry-instrumentation-net_http//lib/opentelemetry/instrumentation/net/http/instrumentation.rb#73
   def patch_stable; end
 
-  # source://opentelemetry-instrumentation-net_http//lib/opentelemetry/instrumentation/net/http/instrumentation.rb#47
+  # source://opentelemetry-instrumentation-net_http//lib/opentelemetry/instrumentation/net/http/instrumentation.rb#53
   def require_dependencies_dup; end
 
-  # source://opentelemetry-instrumentation-net_http//lib/opentelemetry/instrumentation/net/http/instrumentation.rb#51
+  # source://opentelemetry-instrumentation-net_http//lib/opentelemetry/instrumentation/net/http/instrumentation.rb#57
   def require_dependencies_old; end
 
-  # source://opentelemetry-instrumentation-net_http//lib/opentelemetry/instrumentation/net/http/instrumentation.rb#55
+  # source://opentelemetry-instrumentation-net_http//lib/opentelemetry/instrumentation/net/http/instrumentation.rb#61
   def require_dependencies_stable; end
 end
 

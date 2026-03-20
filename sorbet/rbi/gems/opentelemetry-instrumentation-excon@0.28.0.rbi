@@ -172,34 +172,37 @@ class OpenTelemetry::Instrumentation::Excon::Instrumentation < ::OpenTelemetry::
 
   private
 
-  # source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation/excon/instrumentation.rb#60
+  # source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation/excon/instrumentation.rb#66
   def add_middleware_dup; end
 
-  # source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation/excon/instrumentation.rb#68
+  # source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation/excon/instrumentation.rb#74
   def add_middleware_old; end
 
-  # source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation/excon/instrumentation.rb#64
+  # source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation/excon/instrumentation.rb#70
   def add_middleware_stable; end
 
   # source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation/excon/instrumentation.rb#32
   def determine_semconv; end
 
-  # source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation/excon/instrumentation.rb#72
+  # source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation/excon/instrumentation.rb#47
+  def emit_old_semconv_deprecation_warning(option); end
+
+  # source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation/excon/instrumentation.rb#78
   def patch_dup; end
 
-  # source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation/excon/instrumentation.rb#80
+  # source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation/excon/instrumentation.rb#86
   def patch_old; end
 
-  # source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation/excon/instrumentation.rb#76
+  # source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation/excon/instrumentation.rb#82
   def patch_stable; end
 
-  # source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation/excon/instrumentation.rb#45
+  # source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation/excon/instrumentation.rb#51
   def require_dependencies_dup; end
 
-  # source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation/excon/instrumentation.rb#55
+  # source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation/excon/instrumentation.rb#61
   def require_dependencies_old; end
 
-  # source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation/excon/instrumentation.rb#50
+  # source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation/excon/instrumentation.rb#56
   def require_dependencies_stable; end
 end
 

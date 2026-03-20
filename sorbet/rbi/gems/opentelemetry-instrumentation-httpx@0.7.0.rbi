@@ -134,22 +134,25 @@ class OpenTelemetry::Instrumentation::HTTPX::Instrumentation < ::OpenTelemetry::
   # source://opentelemetry-instrumentation-httpx//lib/opentelemetry/instrumentation/httpx/instrumentation.rb#28
   def determine_semconv; end
 
-  # source://opentelemetry-instrumentation-httpx//lib/opentelemetry/instrumentation/httpx/instrumentation.rb#55
+  # source://opentelemetry-instrumentation-httpx//lib/opentelemetry/instrumentation/httpx/instrumentation.rb#43
+  def emit_old_semconv_deprecation_warning(option); end
+
+  # source://opentelemetry-instrumentation-httpx//lib/opentelemetry/instrumentation/httpx/instrumentation.rb#61
   def patch_dup; end
 
-  # source://opentelemetry-instrumentation-httpx//lib/opentelemetry/instrumentation/httpx/instrumentation.rb#41
+  # source://opentelemetry-instrumentation-httpx//lib/opentelemetry/instrumentation/httpx/instrumentation.rb#47
   def patch_old; end
 
-  # source://opentelemetry-instrumentation-httpx//lib/opentelemetry/instrumentation/httpx/instrumentation.rb#48
+  # source://opentelemetry-instrumentation-httpx//lib/opentelemetry/instrumentation/httpx/instrumentation.rb#54
   def patch_stable; end
 
-  # source://opentelemetry-instrumentation-httpx//lib/opentelemetry/instrumentation/httpx/instrumentation.rb#70
+  # source://opentelemetry-instrumentation-httpx//lib/opentelemetry/instrumentation/httpx/instrumentation.rb#76
   def require_dependencies_dup; end
 
-  # source://opentelemetry-instrumentation-httpx//lib/opentelemetry/instrumentation/httpx/instrumentation.rb#62
+  # source://opentelemetry-instrumentation-httpx//lib/opentelemetry/instrumentation/httpx/instrumentation.rb#68
   def require_dependencies_old; end
 
-  # source://opentelemetry-instrumentation-httpx//lib/opentelemetry/instrumentation/httpx/instrumentation.rb#66
+  # source://opentelemetry-instrumentation-httpx//lib/opentelemetry/instrumentation/httpx/instrumentation.rb#72
   def require_dependencies_stable; end
 end
 

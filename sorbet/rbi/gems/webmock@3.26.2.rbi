@@ -39,17 +39,17 @@ class HTTP::Response
 
   private
 
-  # source://webmock//lib/webmock/http_lib_adapters/http_rb/response.rb#83
+  # source://webmock//lib/webmock/http_lib_adapters/http_rb/response.rb#91
   def reset_body_to_allow_it_to_be_streamed!(webmock_response); end
 
   class << self
-    # source://webmock//lib/webmock/http_lib_adapters/http_rb/response.rb#58
+    # source://webmock//lib/webmock/http_lib_adapters/http_rb/response.rb#66
     def build_http_rb_response_body_from_webmock_response(webmock_response); end
 
     # source://webmock//lib/webmock/http_lib_adapters/http_rb/response.rb#26
     def from_webmock(request, webmock_response, request_signature = T.unsafe(nil)); end
 
-    # source://webmock//lib/webmock/http_lib_adapters/http_rb/response.rb#71
+    # source://webmock//lib/webmock/http_lib_adapters/http_rb/response.rb#79
     def normalize_uri(uri); end
   end
 end
@@ -61,18 +61,18 @@ class HTTP::Response::Streamer
   # source://webmock//lib/webmock/http_lib_adapters/http_rb/streamer.rb#6
   def initialize(str, encoding: T.unsafe(nil)); end
 
-  # source://webmock//lib/webmock/http_lib_adapters/http_rb/streamer.rb#24
+  # source://webmock//lib/webmock/http_lib_adapters/http_rb/streamer.rb#31
   def close; end
 
   # @return [Boolean]
   #
-  # source://webmock//lib/webmock/http_lib_adapters/http_rb/streamer.rb#28
+  # source://webmock//lib/webmock/http_lib_adapters/http_rb/streamer.rb#35
   def finished_request?; end
 
   # source://webmock//lib/webmock/http_lib_adapters/http_rb/streamer.rb#11
   def readpartial(size = T.unsafe(nil), outbuf = T.unsafe(nil)); end
 
-  # source://webmock//lib/webmock/http_lib_adapters/http_rb/streamer.rb#32
+  # source://webmock//lib/webmock/http_lib_adapters/http_rb/streamer.rb#39
   def sequence_id; end
 end
 
@@ -91,18 +91,18 @@ class HTTP::WebMockPerform
 
   protected
 
-  # source://webmock//lib/webmock/http_lib_adapters/http_rb/webmock.rb#62
+  # source://webmock//lib/webmock/http_lib_adapters/http_rb/webmock.rb#65
   def halt; end
 
-  # source://webmock//lib/webmock/http_lib_adapters/http_rb/webmock.rb#66
+  # source://webmock//lib/webmock/http_lib_adapters/http_rb/webmock.rb#69
   def invoke_callbacks(webmock_response, options = T.unsafe(nil)); end
 
-  # source://webmock//lib/webmock/http_lib_adapters/http_rb/webmock.rb#55
+  # source://webmock//lib/webmock/http_lib_adapters/http_rb/webmock.rb#58
   def perform; end
 
   # @raise [Errno::ETIMEDOUT]
   #
-  # source://webmock//lib/webmock/http_lib_adapters/http_rb/webmock.rb#50
+  # source://webmock//lib/webmock/http_lib_adapters/http_rb/webmock.rb#53
   def raise_timeout_error; end
 
   # source://webmock//lib/webmock/http_lib_adapters/http_rb/webmock.rb#31

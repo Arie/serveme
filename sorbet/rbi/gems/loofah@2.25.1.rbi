@@ -354,22 +354,22 @@ module Loofah::HTML5::Scrub
     # source://loofah//lib/loofah/html5/scrub.rb#147
     def allowed_uri?(uri_string); end
 
-    # source://loofah//lib/loofah/html5/scrub.rb#204
+    # source://loofah//lib/loofah/html5/scrub.rb#207
     def cdata_escape(node); end
 
     # @return [Boolean]
     #
-    # source://loofah//lib/loofah/html5/scrub.rb#199
+    # source://loofah//lib/loofah/html5/scrub.rb#202
     def cdata_needs_escaping?(node); end
 
-    # source://loofah//lib/loofah/html5/scrub.rb#219
+    # source://loofah//lib/loofah/html5/scrub.rb#222
     def escape_tags(string); end
 
     # libxml2 >= 2.9.2 fails to escape comments within some attributes.
     #
     #  see comments about CVE-2018-8048 within the tests for more information
     #
-    # source://loofah//lib/loofah/html5/scrub.rb#178
+    # source://loofah//lib/loofah/html5/scrub.rb#181
     def force_correct_attribute_escaping!(node); end
 
     # source://loofah//lib/loofah/html5/scrub.rb#125
@@ -386,7 +386,7 @@ module Loofah::HTML5::Scrub
     # source://loofah//lib/loofah/html5/scrub.rb#69
     def scrub_css_attribute(node); end
 
-    # source://loofah//lib/loofah/html5/scrub.rb#164
+    # source://loofah//lib/loofah/html5/scrub.rb#167
     def scrub_uri_attribute(attr_node); end
   end
 end

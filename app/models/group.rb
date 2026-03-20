@@ -10,6 +10,7 @@ class Group < ActiveRecord::Base
   CONFIG_ADMIN_GROUP = T.let(find_or_create_by(name: "Config Admins"), Group)
   STREAMER_GROUP = T.let(find_or_create_by(name: "Streamers"), Group)
   TEAM_COMTRESS_GROUP = T.let(find_or_create_by(name: "Team Comtress"), Group)
+  TRUSTED_API_GROUP = T.let(find_or_create_by(name: "Trusted API"), Group)
   CLOUD_GROUP = T.let(find_or_create_by(name: "Cloud"), Group)
 
   validates_presence_of :name
@@ -23,42 +24,42 @@ class Group < ActiveRecord::Base
 
   sig { returns(Group) }
   def self.donator_group
-    find_or_create_by(name: "Donators")
+    DONATOR_GROUP
   end
 
   sig { returns(Group) }
   def self.admin_group
-    find_or_create_by(name: "Admins")
+    ADMIN_GROUP
   end
 
   sig { returns(Group) }
   def self.league_admin_group
-    find_or_create_by(name: "League Admins")
+    LEAGUE_ADMIN_GROUP
   end
 
   sig { returns(Group) }
   def self.config_admin_group
-    find_or_create_by(name: "Config Admins")
+    CONFIG_ADMIN_GROUP
   end
 
   sig { returns(Group) }
   def self.streamer_group
-    find_or_create_by(name: "Streamers")
+    STREAMER_GROUP
   end
 
   sig { returns(Group) }
   def self.trusted_api_group
-    find_or_create_by(name: "Trusted API")
+    TRUSTED_API_GROUP
   end
 
   sig { returns(Group) }
   def self.team_comtress_group
-    find_or_create_by(name: "Team Comtress")
+    TEAM_COMTRESS_GROUP
   end
 
   sig { returns(Group) }
   def self.cloud_group
-    find_or_create_by(name: "Cloud")
+    CLOUD_GROUP
   end
 
   sig { params(user: User).returns(Group) }

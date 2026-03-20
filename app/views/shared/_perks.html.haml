@@ -1,5 +1,5 @@
 %ul
-  - premium_server_count = Group.donator_group.servers.active.count
+  - premium_server_count = Server.joins(:group_servers).where(group_servers: { group_id: Group::DONATOR_GROUP.id }).active.count
   - if premium_server_count == 1
     %li An extra server
   - if premium_server_count > 1

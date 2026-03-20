@@ -7,7 +7,7 @@ end
 
 Given 'there are servers' do
   create(:server)
-  Group.donator_group.servers << create(:server)
+  GroupServer.create!(group_id: Group::DONATOR_GROUP.id, server: create(:server))
 end
 
 Then(/^I can view a list of current reservations$/) do

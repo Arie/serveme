@@ -29,7 +29,7 @@ describe Api::DonatorsController do
   describe '#shows' do
     it 'renders a json of a current donator' do
       create :group_user, user_id: @user.id, group_id: Group.donator_group.id, expires_at: 1.month.from_now
-      Group.donator_group.users.reload
+
 
       get :show, params: { id: @user.uid }, format: :json
       json = {
@@ -80,7 +80,7 @@ describe Api::DonatorsController do
         actions: Hash
       }
       expect(response.body).to match_json_expression(json)
-      expect(Group.donator_group.group_users.where(user_id: @user.id).size).to eql 1
+      expect(GroupUser.where(group_id: Group::DONATOR_GROUP.id, user_id: @user.id).count).to eql 1
     end
 
     it 'returns a 404 if the user doesnt exist' do
@@ -92,12 +92,12 @@ describe Api::DonatorsController do
   describe '#destroy' do
     it 'deletes a donator' do
       create :group_user, user_id: @user.id, group_id: Group.donator_group.id, expires_at: 1.month.from_now
-      expect(Group.donator_group.group_users.where(user_id: @user.id).size).to eql 1
+      expect(GroupUser.where(group_id: Group::DONATOR_GROUP.id, user_id: @user.id).count).to eql 1
 
       delete :destroy, params: { id: @user.uid }, format: :json
 
       expect(response.status).to eql 204
-      expect(Group.donator_group.group_users.where(user_id: @user.id).size).to eql 0
+      expect(GroupUser.where(group_id: Group::DONATOR_GROUP.id, user_id: @user.id).where("expires_at IS NULL OR expires_at >= ?", Time.current).count).to eql 0
     end
 
     it "404s when user wasn't found" do

@@ -133,7 +133,7 @@ class Server < ActiveRecord::Base
 
   sig { returns(ActiveRecord::Relation) }
   def self.for_donators
-    Group.donator_group.servers
+    Server.joins(:group_servers).where(group_servers: { group_id: Group::DONATOR_GROUP.id })
   end
 
   sig { params(latest_version: T.nilable(Integer)).returns(ActiveRecord::Relation) }

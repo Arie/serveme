@@ -6,8 +6,8 @@ module Api
     before_action :require_admin
 
     def show
-      @user = Group.donator_group.users.find_by(uid: params[:id])
-      if @user && (@donator = @user.group_users.find_by(group_id: Group.donator_group.id))
+      @user = User.joins(:group_users).where(group_users: { group_id: Group::DONATOR_GROUP.id }).find_by(uid: params[:id])
+      if @user && (@donator = @user.group_users.find_by(group_id: Group::DONATOR_GROUP.id))
         render :show
       else
         head :not_found
@@ -22,7 +22,7 @@ module Api
     def create
       @user = User.find_by_uid(donator_params[:steam_uid])
       if @user
-        @donator = Group.donator_group.group_users.find_or_initialize_by(user_id: @user.id)
+        @donator = GroupUser.find_or_initialize_by(group_id: Group::DONATOR_GROUP.id, user_id: @user.id)
         @donator.expires_at = donator_params[:expires_at]
         @donator.save
         render :show
@@ -32,7 +32,7 @@ module Api
     end
 
     def destroy
-      group_users = Group.donator_group.group_users.joins(:user).where(users: { uid: params[:id] })
+      group_users = GroupUser.joins(:user).where(group_id: Group::DONATOR_GROUP.id, users: { uid: params[:id] })
       if group_users.any?
         group_users.update_all(expires_at: 1.second.ago)
         head :no_content

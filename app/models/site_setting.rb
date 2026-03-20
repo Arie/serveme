@@ -44,7 +44,7 @@ class SiteSetting < ActiveRecord::Base
 
   sig { params(starts_at: T.any(Time, ActiveSupport::TimeWithZone), ends_at: T.any(Time, ActiveSupport::TimeWithZone)).returns(Integer) }
   def self.free_user_reservation_count(starts_at, ends_at)
-    donator_user_ids = Group.donator_group.users.select(:id)
+    donator_user_ids = User.joins(:group_users).where(group_users: { group_id: Group::DONATOR_GROUP.id }).select(:id)
 
     Reservation
       .where("reservations.starts_at < ? AND reservations.ends_at > ?", ends_at, starts_at)

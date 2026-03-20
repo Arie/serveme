@@ -9,7 +9,7 @@ class DonatorsController < ApplicationController
     all_users_with_days = Order.leaderboard_by_time
 
     # Get IDs of all donators in a single query
-    donator_ids = Group.donator_group.users.pluck(:id).to_set
+    donator_ids = User.joins(:group_users).where(group_users: { group_id: Group::DONATOR_GROUP.id }).pluck(:id).to_set
 
     # Filter to only include donators
     @donators = all_users_with_days.select { |user, _days| donator_ids.include?(user.id) }

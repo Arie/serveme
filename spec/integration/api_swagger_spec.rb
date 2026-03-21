@@ -894,8 +894,20 @@ RSpec.describe 'serveme.tf API', type: :request do
                          latitude: { type: :number },
                          longitude: { type: :number }
                        }
+                     },
+                     progress: {
+                       type: :object,
+                       nullable: true,
+                       properties: {
+                         phases: { type: :array },
+                         current_phase: { type: :string, nullable: true },
+                         completed: { type: :boolean },
+                         phase_elapsed: { type: :integer }
+                       },
+                       additionalProperties: true
                      }
-                   }
+                   },
+                   additionalProperties: true
                  },
                  actions: {
                    type: :object,

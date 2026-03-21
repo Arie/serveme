@@ -225,8 +225,14 @@ class Server < ActiveRecord::Base
     original_cfg_path = Rails.root.join("doc", "rgl_base.cfg")
     content = File.read(original_cfg_path)
 
-    if reservation.disable_democheck?
+    case reservation.democheck_mode
+    when "warn"
       modified_content = content.gsub("sm_democheck_warn 0", "sm_democheck_warn 1")
+      write_configuration(server_config_file("rgl_base.cfg"), modified_content)
+    when "disable"
+      modified_content = content
+        .gsub("sm_democheck_enabled 1", "sm_democheck_enabled 0")
+        .gsub("sm_democheck_announce 1", "sm_democheck_announce 0")
       write_configuration(server_config_file("rgl_base.cfg"), modified_content)
     else
       write_configuration(server_config_file("rgl_base.cfg"), content)
@@ -387,8 +393,8 @@ class Server < ActiveRecord::Base
         enable_demos_tf
         reservation.status_update("Enabled demos.tf")
       end
-      if reservation.disable_democheck?
-        reservation.status_update("Disabling RGL democheck")
+      unless reservation.democheck_kick?
+        reservation.status_update("Setting RGL democheck mode to #{reservation.democheck_mode}")
         handle_rgl_base_cfg(reservation)
       end
     end
@@ -803,7 +809,7 @@ class Server < ActiveRecord::Base
   def provision_current_phase(last_status)
     case last_status
     when /Sending reservation config/, /Enabling plugins/, /Enabled plugins/,
-         /Enabling demos/, /Enabled demos/, /Disabling RGL/, /Starting/,
+         /Enabling demos/, /Enabled demos/, /Disabling RGL/, /Setting RGL/, /Starting/,
          /Map .* not on the server/, /Uploaded map/, /Finished sending/
       "sending_configs"
     when /Attempting fast start/

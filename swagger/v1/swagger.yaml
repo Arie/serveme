@@ -303,6 +303,12 @@ paths:
                         type: boolean
                       disable_democheck:
                         type: boolean
+                      democheck_mode:
+                        type: string
+                        enum:
+                        - kick
+                        - warn
+                        - disable
                   servers:
                     type: array
                     items:
@@ -423,6 +429,20 @@ paths:
                         ends_at:
                           type: string
                           format: date-time
+                        auto_end:
+                          type: boolean
+                        enable_plugins:
+                          type: boolean
+                        enable_demos_tf:
+                          type: boolean
+                        disable_democheck:
+                          type: boolean
+                        democheck_mode:
+                          type: string
+                          enum:
+                          - kick
+                          - warn
+                          - disable
         '401':
           description: Unauthorized
     post:
@@ -512,6 +532,12 @@ paths:
                         type: boolean
                       disable_democheck:
                         type: boolean
+                      democheck_mode:
+                        type: string
+                        enum:
+                        - kick
+                        - warn
+                        - disable
                       last_number_of_players:
                         type: integer
                       inactive_minute_counter:
@@ -596,6 +622,18 @@ paths:
                       type: integer
                     auto_end:
                       type: boolean
+                    enable_plugins:
+                      type: boolean
+                    enable_demos_tf:
+                      type: boolean
+                    disable_democheck:
+                      type: boolean
+                    democheck_mode:
+                      type: string
+                      enum:
+                      - kick
+                      - warn
+                      - disable
                   required:
                   - starts_at
                   - ends_at
@@ -686,6 +724,12 @@ paths:
                         type: boolean
                       disable_democheck:
                         type: boolean
+                      democheck_mode:
+                        type: string
+                        enum:
+                        - kick
+                        - warn
+                        - disable
                       last_number_of_players:
                         type: integer
                       inactive_minute_counter:
@@ -822,6 +866,12 @@ paths:
                         type: boolean
                       disable_democheck:
                         type: boolean
+                      democheck_mode:
+                        type: string
+                        enum:
+                        - kick
+                        - warn
+                        - disable
                       last_number_of_players:
                         type: integer
                       inactive_minute_counter:
@@ -901,6 +951,20 @@ paths:
                       type: integer
                     custom_whitelist_id:
                       type: integer
+                    auto_end:
+                      type: boolean
+                    enable_plugins:
+                      type: boolean
+                    enable_demos_tf:
+                      type: boolean
+                    disable_democheck:
+                      type: boolean
+                    democheck_mode:
+                      type: string
+                      enum:
+                      - kick
+                      - warn
+                      - disable
     put:
       summary: Update reservation (Step 4 - PUT method)
       tags:
@@ -957,6 +1021,20 @@ paths:
                       type: integer
                     custom_whitelist_id:
                       type: integer
+                    auto_end:
+                      type: boolean
+                    enable_plugins:
+                      type: boolean
+                    enable_demos_tf:
+                      type: boolean
+                    disable_democheck:
+                      type: boolean
+                    democheck_mode:
+                      type: string
+                      enum:
+                      - kick
+                      - warn
+                      - disable
     delete:
       summary: Cancel/end reservation (Step 5)
       tags:

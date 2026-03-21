@@ -100,11 +100,14 @@
 
       - if SiteSetting.show_democheck?
         %tr
-          %td Democheck status (required for RGL matches)
-          - if reservation.disable_democheck?
-            %td.bg-danger.text-white= "Disabled"
-          - else
-            %td Enabled
+          %td Democheck mode (required for RGL matches)
+          - case reservation.democheck_mode
+          - when "kick"
+            %td Kick (default)
+          - when "warn"
+            %td.text-warning Warn only
+          - when "disable"
+            %td.text-danger Disabled
 
       - if reservation.custom_whitelist_id.present?
         %tr

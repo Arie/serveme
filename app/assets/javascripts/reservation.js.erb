@@ -115,7 +115,7 @@ function loadReservationPage() {
 
   var pluginsCheckbox = $("#reservation_enable_plugins");
   var demosTfCheckbox = $("#reservation_enable_demos_tf");
-  var disableDemocheckCheckbox = $("#reservation_disable_democheck");
+  var democheckModeRadios = $("input[name='reservation[democheck_mode]']");
 
   function updateCheckboxesState() {
     if (pluginsCheckbox.length === 0) {
@@ -159,13 +159,29 @@ function loadReservationPage() {
       }
     }
 
-    if (disableDemocheckCheckbox.length > 0) {
+    if (democheckModeRadios.length > 0) {
       if (!pluginsChecked) {
-        disableDemocheckCheckbox.prop("checked", false);
-        disableDemocheckCheckbox.prop("disabled", true);
+        democheckModeRadios.filter("[value='kick']").prop("checked", true);
+        democheckModeRadios.prop("disabled", true);
       } else {
-        disableDemocheckCheckbox.prop("disabled", !canEnablePlugins);
+        democheckModeRadios.prop("disabled", !canEnablePlugins);
       }
+      updateDemocheckWarning();
+    }
+  }
+
+  function updateDemocheckWarning() {
+    var selected = democheckModeRadios.filter(":checked").val();
+    var container = democheckModeRadios.closest(".form-control");
+    container.find(".democheck-warning").remove();
+    democheckModeRadios.each(function() {
+      $(this).closest(".form-check").removeClass("text-danger fw-bold text-warning");
+    });
+    if (selected === "disable") {
+      democheckModeRadios.filter("[value='disable']").closest(".form-check").addClass("text-danger fw-bold");
+      container.append('<div class="democheck-warning text-danger fw-bold"><i class="fa fa-exclamation-triangle"></i> Democheck is disabled! It is required for RGL matches</div>');
+    } else if (selected === "warn") {
+      democheckModeRadios.filter("[value='warn']").closest(".form-check").addClass("text-warning fw-bold");
     }
   }
 
@@ -176,6 +192,12 @@ function loadReservationPage() {
   demosTfCheckbox.change(function() {
     updateCheckboxesState();
   });
+
+  democheckModeRadios.change(function() {
+    updateDemocheckWarning();
+  });
+
+  updateDemocheckWarning();
 
   $("#reservation_starts_at").change(function() {
     startDate = getDateFromDatePicker($(this));

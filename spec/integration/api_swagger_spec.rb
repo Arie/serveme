@@ -224,7 +224,8 @@ RSpec.describe 'serveme.tf API', type: :request do
                      sdr_port: { type: :integer, nullable: true },
                      sdr_tv_port: { type: :integer, nullable: true },
                      sdr_final: { type: :boolean },
-                     disable_democheck: { type: :boolean }
+                     disable_democheck: { type: :boolean },
+                     democheck_mode: { type: :string, enum: [ 'kick', 'warn', 'disable' ] }
                    }
                  },
                  servers: {
@@ -331,7 +332,12 @@ RSpec.describe 'serveme.tf API', type: :request do
                        server_id: { type: :integer },
                        user_id: { type: :integer },
                        starts_at: { type: :string, format: 'date-time' },
-                       ends_at: { type: :string, format: 'date-time' }
+                       ends_at: { type: :string, format: 'date-time' },
+                       auto_end: { type: :boolean },
+                       enable_plugins: { type: :boolean },
+                       enable_demos_tf: { type: :boolean },
+                       disable_democheck: { type: :boolean },
+                       democheck_mode: { type: :string, enum: [ 'kick', 'warn', 'disable' ] }
                      }
                    }
                  }
@@ -375,7 +381,11 @@ RSpec.describe 'serveme.tf API', type: :request do
               server_config_id: { type: :integer },
               whitelist_id: { type: :integer },
               custom_whitelist_id: { type: :integer },
-              auto_end: { type: :boolean }
+              auto_end: { type: :boolean },
+              enable_plugins: { type: :boolean },
+              enable_demos_tf: { type: :boolean },
+              disable_democheck: { type: :boolean },
+              democheck_mode: { type: :string, enum: [ 'kick', 'warn', 'disable' ] }
             },
             required: [ 'starts_at', 'ends_at', 'server_id' ]
           }
@@ -411,6 +421,7 @@ RSpec.describe 'serveme.tf API', type: :request do
                      sdr_tv_port: { type: :integer, nullable: true },
                      sdr_final: { type: :boolean },
                      disable_democheck: { type: :boolean },
+                     democheck_mode: { type: :string, enum: [ 'kick', 'warn', 'disable' ] },
                      last_number_of_players: { type: :integer },
                      inactive_minute_counter: { type: :integer },
                      start_instantly: { type: :boolean },
@@ -546,6 +557,7 @@ RSpec.describe 'serveme.tf API', type: :request do
                      sdr_tv_port: { type: :integer, nullable: true },
                      sdr_final: { type: :boolean },
                      disable_democheck: { type: :boolean },
+                     democheck_mode: { type: :string, enum: [ 'kick', 'warn', 'disable' ] },
                      last_number_of_players: { type: :integer },
                      inactive_minute_counter: { type: :integer },
                      logsecret: { type: :string },
@@ -628,7 +640,12 @@ RSpec.describe 'serveme.tf API', type: :request do
               first_map: { type: :string },
               server_config_id: { type: :integer },
               whitelist_id: { type: :integer },
-              custom_whitelist_id: { type: :integer }
+              custom_whitelist_id: { type: :integer },
+              auto_end: { type: :boolean },
+              enable_plugins: { type: :boolean },
+              enable_demos_tf: { type: :boolean },
+              disable_democheck: { type: :boolean },
+              democheck_mode: { type: :string, enum: [ 'kick', 'warn', 'disable' ] }
             }
           }
         }
@@ -662,6 +679,7 @@ RSpec.describe 'serveme.tf API', type: :request do
                      sdr_tv_port: { type: :integer, nullable: true },
                      sdr_final: { type: :boolean },
                      disable_democheck: { type: :boolean },
+                     democheck_mode: { type: :string, enum: [ 'kick', 'warn', 'disable' ] },
                      last_number_of_players: { type: :integer },
                      inactive_minute_counter: { type: :integer },
                      logsecret: { type: :string },
@@ -761,7 +779,12 @@ RSpec.describe 'serveme.tf API', type: :request do
               first_map: { type: :string },
               server_config_id: { type: :integer },
               whitelist_id: { type: :integer },
-              custom_whitelist_id: { type: :integer }
+              custom_whitelist_id: { type: :integer },
+              auto_end: { type: :boolean },
+              enable_plugins: { type: :boolean },
+              enable_demos_tf: { type: :boolean },
+              disable_democheck: { type: :boolean },
+              democheck_mode: { type: :string, enum: [ 'kick', 'warn', 'disable' ] }
             }
           }
         }
@@ -848,6 +871,7 @@ RSpec.describe 'serveme.tf API', type: :request do
                      sdr_tv_port: { type: :integer, nullable: true },
                      sdr_final: { type: :boolean },
                      disable_democheck: { type: :boolean },
+                     democheck_mode: { type: :string, enum: [ 'kick', 'warn', 'disable' ] },
                      last_number_of_players: { type: :integer },
                      inactive_minute_counter: { type: :integer },
                      logsecret: { type: :string },

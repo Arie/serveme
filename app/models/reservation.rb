@@ -4,6 +4,8 @@
 class Reservation < ActiveRecord::Base
   extend T::Sig
 
+  enum :democheck_mode, { kick: "kick", warn: "warn", disable: "disable" }, default: :kick, prefix: :democheck
+
   belongs_to :user, counter_cache: true
   belongs_to :server, counter_cache: true
   belongs_to :server_config, optional: true

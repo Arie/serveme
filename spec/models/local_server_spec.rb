@@ -90,7 +90,7 @@ describe LocalServer do
     end
 
     it 'writes a config file', :vcr do
-      reservation = stubbed_reservation(id: 1337, password: 'secret', enable_plugins?: false, enable_mitigations: true, disable_democheck?: false)
+      reservation = stubbed_reservation(id: 1337, password: 'secret', enable_plugins?: false, enable_mitigations: true, democheck_mode: "kick", democheck_kick?: true)
       subject.should_receive(:restart)
       file = double
       subject.stub(tf_dir: '/tmp')
@@ -107,6 +107,41 @@ describe LocalServer do
 
       subject.should_receive(:generate_config_file).exactly(2).times.with(reservation, anything).and_return('config file contents')
       subject.start_reservation(reservation)
+    end
+  end
+
+  describe '#handle_rgl_base_cfg' do
+    before do
+      subject.stub(tf_dir: '/tmp')
+    end
+
+    let(:rgl_base_cfg_content) { File.read(Rails.root.join('doc', 'rgl_base.cfg')) }
+
+    before do
+      allow(File).to receive(:read).and_call_original
+      allow(File).to receive(:read).with(Rails.root.join('doc', 'rgl_base.cfg')).and_return(rgl_base_cfg_content)
+    end
+
+    it 'writes the unmodified rgl_base.cfg when democheck_mode is kick' do
+      reservation = double(democheck_mode: 'kick')
+      expect(subject).to receive(:write_configuration).with('/tmp/cfg/rgl_base.cfg', rgl_base_cfg_content)
+      subject.handle_rgl_base_cfg(reservation)
+    end
+
+    it 'enables warn mode when democheck_mode is warn' do
+      reservation = double(democheck_mode: 'warn')
+      expected_content = rgl_base_cfg_content.gsub('sm_democheck_warn 0', 'sm_democheck_warn 1')
+      expect(subject).to receive(:write_configuration).with('/tmp/cfg/rgl_base.cfg', expected_content)
+      subject.handle_rgl_base_cfg(reservation)
+    end
+
+    it 'disables democheck when democheck_mode is disable' do
+      reservation = double(democheck_mode: 'disable')
+      expected_content = rgl_base_cfg_content
+        .gsub('sm_democheck_enabled 1', 'sm_democheck_enabled 0')
+        .gsub('sm_democheck_announce 1', 'sm_democheck_announce 0')
+      expect(subject).to receive(:write_configuration).with('/tmp/cfg/rgl_base.cfg', expected_content)
+      subject.handle_rgl_base_cfg(reservation)
     end
   end
 
@@ -435,7 +470,7 @@ Server AppID:           232250%)
   private
 
   define_method(:stubbed_reservation) do |stubs = {}|
-    reservation = instance_double(Reservation, first_map: nil, custom_whitelist_id: false, status_update: instance_double(ReservationStatus), enable_plugins?: false, enable_demos_tf?: false, user: build(:user), server: build(:server), disable_democheck?: false)
+    reservation = instance_double(Reservation, first_map: nil, custom_whitelist_id: false, status_update: instance_double(ReservationStatus), enable_plugins?: false, enable_demos_tf?: false, user: build(:user), server: build(:server), democheck_mode: "kick", democheck_kick?: true)
     allow(reservation).to receive_messages(stubs) if stubs.any?
     reservation
   end

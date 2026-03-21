@@ -8,6 +8,7 @@
 class Reservation
   include GeneratedAssociationMethods
   include GeneratedAttributeMethods
+  include EnumMethodsModule
   extend CommonRelationMethods
   extend GeneratedRelationMethods
 
@@ -23,6 +24,9 @@ class Reservation
   def to_ary; end
 
   class << self
+    sig { returns(T::Hash[T.any(String, Symbol), String]) }
+    def democheck_modes; end
+
     sig do
       params(
         attributes: T.untyped,
@@ -416,6 +420,26 @@ class Reservation
     def third_to_last!; end
   end
 
+  module EnumMethodsModule
+    sig { void }
+    def democheck_disable!; end
+
+    sig { returns(T::Boolean) }
+    def democheck_disable?; end
+
+    sig { void }
+    def democheck_kick!; end
+
+    sig { returns(T::Boolean) }
+    def democheck_kick?; end
+
+    sig { void }
+    def democheck_warn!; end
+
+    sig { returns(T::Boolean) }
+    def democheck_warn?; end
+  end
+
   module GeneratedAssociationMethods
     sig { params(args: T.untyped, blk: T.untyped).returns(::Server) }
     def build_server(*args, &blk); end
@@ -668,6 +692,15 @@ class Reservation
     sig { params(args: T.untyped, blk: T.untyped).returns(PrivateAssociationRelation) }
     def create_with(*args, &blk); end
 
+    sig { params(args: T.untyped, blk: T.untyped).returns(PrivateAssociationRelation) }
+    def democheck_disable(*args, &blk); end
+
+    sig { params(args: T.untyped, blk: T.untyped).returns(PrivateAssociationRelation) }
+    def democheck_kick(*args, &blk); end
+
+    sig { params(args: T.untyped, blk: T.untyped).returns(PrivateAssociationRelation) }
+    def democheck_warn(*args, &blk); end
+
     sig { params(value: T::Boolean).returns(PrivateAssociationRelation) }
     def distinct(value = true); end
 
@@ -724,6 +757,15 @@ class Reservation
 
     sig { params(args: T.untyped, blk: T.untyped).returns(PrivateAssociationRelation) }
     def none(*args, &blk); end
+
+    sig { params(args: T.untyped, blk: T.untyped).returns(PrivateAssociationRelation) }
+    def not_democheck_disable(*args, &blk); end
+
+    sig { params(args: T.untyped, blk: T.untyped).returns(PrivateAssociationRelation) }
+    def not_democheck_kick(*args, &blk); end
+
+    sig { params(args: T.untyped, blk: T.untyped).returns(PrivateAssociationRelation) }
+    def not_democheck_warn(*args, &blk); end
 
     sig { params(args: T.untyped, blk: T.untyped).returns(PrivateAssociationRelation) }
     def null_relation?(*args, &blk); end
@@ -936,50 +978,50 @@ class Reservation
     sig { void }
     def custom_whitelist_id_will_change!; end
 
-    sig { returns(T.nilable(T::Boolean)) }
-    def disable_democheck; end
+    sig { returns(::String) }
+    def democheck_mode; end
 
-    sig { params(value: T.nilable(T::Boolean)).returns(T.nilable(T::Boolean)) }
-    def disable_democheck=(value); end
+    sig { params(value: T.any(::String, ::Symbol)).returns(T.any(::String, ::Symbol)) }
+    def democheck_mode=(value); end
 
     sig { returns(T::Boolean) }
-    def disable_democheck?; end
+    def democheck_mode?; end
 
-    sig { returns(T.nilable(T::Boolean)) }
-    def disable_democheck_before_last_save; end
+    sig { returns(T.nilable(::String)) }
+    def democheck_mode_before_last_save; end
 
     sig { returns(T.untyped) }
-    def disable_democheck_before_type_cast; end
+    def democheck_mode_before_type_cast; end
 
     sig { returns(T::Boolean) }
-    def disable_democheck_came_from_user?; end
+    def democheck_mode_came_from_user?; end
 
-    sig { returns(T.nilable([T.nilable(T::Boolean), T.nilable(T::Boolean)])) }
-    def disable_democheck_change; end
+    sig { returns(T.nilable([::String, ::String])) }
+    def democheck_mode_change; end
 
-    sig { returns(T.nilable([T.nilable(T::Boolean), T.nilable(T::Boolean)])) }
-    def disable_democheck_change_to_be_saved; end
-
-    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
-    def disable_democheck_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
-
-    sig { returns(T.nilable(T::Boolean)) }
-    def disable_democheck_in_database; end
-
-    sig { returns(T.nilable([T.nilable(T::Boolean), T.nilable(T::Boolean)])) }
-    def disable_democheck_previous_change; end
+    sig { returns(T.nilable([::String, ::String])) }
+    def democheck_mode_change_to_be_saved; end
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
-    def disable_democheck_previously_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+    def democheck_mode_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
-    sig { returns(T.nilable(T::Boolean)) }
-    def disable_democheck_previously_was; end
+    sig { returns(T.nilable(::String)) }
+    def democheck_mode_in_database; end
 
-    sig { returns(T.nilable(T::Boolean)) }
-    def disable_democheck_was; end
+    sig { returns(T.nilable([::String, ::String])) }
+    def democheck_mode_previous_change; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def democheck_mode_previously_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::String)) }
+    def democheck_mode_previously_was; end
+
+    sig { returns(T.nilable(::String)) }
+    def democheck_mode_was; end
 
     sig { void }
-    def disable_democheck_will_change!; end
+    def democheck_mode_will_change!; end
 
     sig { returns(T.nilable(::String)) }
     def discord_channel_id; end
@@ -1981,7 +2023,7 @@ class Reservation
     def restore_custom_whitelist_id!; end
 
     sig { void }
-    def restore_disable_democheck!; end
+    def restore_democheck_mode!; end
 
     sig { void }
     def restore_discord_channel_id!; end
@@ -2103,11 +2145,11 @@ class Reservation
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def saved_change_to_custom_whitelist_id?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
-    sig { returns(T.nilable([T.nilable(T::Boolean), T.nilable(T::Boolean)])) }
-    def saved_change_to_disable_democheck; end
+    sig { returns(T.nilable([::String, ::String])) }
+    def saved_change_to_democheck_mode; end
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
-    def saved_change_to_disable_democheck?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+    def saved_change_to_democheck_mode?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
     sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
     def saved_change_to_discord_channel_id; end
@@ -2863,7 +2905,7 @@ class Reservation
     def will_save_change_to_custom_whitelist_id?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
-    def will_save_change_to_disable_democheck?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+    def will_save_change_to_democheck_mode?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def will_save_change_to_discord_channel_id?(from: T.unsafe(nil), to: T.unsafe(nil)); end
@@ -2984,6 +3026,15 @@ class Reservation
     sig { params(args: T.untyped, blk: T.untyped).returns(PrivateRelation) }
     def create_with(*args, &blk); end
 
+    sig { params(args: T.untyped, blk: T.untyped).returns(PrivateRelation) }
+    def democheck_disable(*args, &blk); end
+
+    sig { params(args: T.untyped, blk: T.untyped).returns(PrivateRelation) }
+    def democheck_kick(*args, &blk); end
+
+    sig { params(args: T.untyped, blk: T.untyped).returns(PrivateRelation) }
+    def democheck_warn(*args, &blk); end
+
     sig { params(value: T::Boolean).returns(PrivateRelation) }
     def distinct(value = true); end
 
@@ -3040,6 +3091,15 @@ class Reservation
 
     sig { params(args: T.untyped, blk: T.untyped).returns(PrivateRelation) }
     def none(*args, &blk); end
+
+    sig { params(args: T.untyped, blk: T.untyped).returns(PrivateRelation) }
+    def not_democheck_disable(*args, &blk); end
+
+    sig { params(args: T.untyped, blk: T.untyped).returns(PrivateRelation) }
+    def not_democheck_kick(*args, &blk); end
+
+    sig { params(args: T.untyped, blk: T.untyped).returns(PrivateRelation) }
+    def not_democheck_warn(*args, &blk); end
 
     sig { params(args: T.untyped, blk: T.untyped).returns(PrivateRelation) }
     def null_relation?(*args, &blk); end

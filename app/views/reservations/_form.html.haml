@@ -62,7 +62,20 @@
       = f.input :enable_plugins,      as: :boolean,  hint: "Enable plugins",                                        disabled: !@reservation.schedulable?
       = f.input :enable_demos_tf,     as: :boolean,  hint: "Enable uploading STVs to demos.tf",                     disabled: !@reservation.schedulable?
       - if SiteSetting.show_democheck?
-        = f.input :disable_democheck, as: :boolean, hint: "Disable RGL democheck (only do this for scrims)", disabled: !@reservation.schedulable?, input_html: { checked: @reservation.disable_democheck }
+        = f.input :democheck_mode, label: "Democheck" do
+          .form-control.democheck
+            .form-check.form-check-inline
+              = radio_button_tag "reservation[democheck_mode]", "kick", @reservation.democheck_mode == "kick", class: "form-check-input", id: "reservation_democheck_mode_kick", disabled: !@reservation.schedulable?
+              %label.form-check-label{for: "reservation_democheck_mode_kick"}
+                Kick
+            .form-check.form-check-inline
+              = radio_button_tag "reservation[democheck_mode]", "warn", @reservation.democheck_mode == "warn", class: "form-check-input", id: "reservation_democheck_mode_warn", disabled: !@reservation.schedulable?
+              %label.form-check-label{for: "reservation_democheck_mode_warn"}
+                Warn
+            .form-check.form-check-inline
+              = radio_button_tag "reservation[democheck_mode]", "disable", @reservation.democheck_mode == "disable", class: "form-check-input", id: "reservation_democheck_mode_disable", disabled: !@reservation.schedulable?
+              %label.form-check-label{for: "reservation_democheck_mode_disable"}
+                Disable
       = f.association :server_config, collection: ServerConfig.active.ordered, hint: "Specify a league config to run on each map start", input_html: { class: "select2" }
       = f.input :whitelist_type, :label => "Item whitelist" do
         .form-control.whitelist

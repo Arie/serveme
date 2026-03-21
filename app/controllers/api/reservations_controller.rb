@@ -4,6 +4,7 @@
 module Api
   class ReservationsController < Api::ApplicationController
     include ReservationsHelper
+    before_action :map_legacy_democheck_param, only: [ :create, :update ]
 
     def index
       limit = params[:limit] || 10
@@ -134,7 +135,16 @@ module Api
     end
 
     def reservation_params
-      params.require(:reservation).permit(:starts_at, :ends_at, :server_id, :rcon, :password, :first_map, :tv_password, :tv_relaypassword, :server_config_id, :whitelist_id, :custom_whitelist_id, :auto_end, :enable_plugins, :enable_demos_tf, :disable_democheck)
+      params.require(:reservation).permit(:starts_at, :ends_at, :server_id, :rcon, :password, :first_map, :tv_password, :tv_relaypassword, :server_config_id, :whitelist_id, :custom_whitelist_id, :auto_end, :enable_plugins, :enable_demos_tf, :disable_democheck, :democheck_mode)
+    end
+
+    def map_legacy_democheck_param
+      return unless params[:reservation]
+      return if params[:reservation][:democheck_mode].present?
+      return unless params[:reservation].key?(:disable_democheck)
+
+      params[:reservation][:democheck_mode] = ActiveModel::Type::Boolean.new.cast(params[:reservation][:disable_democheck]) ? "disable" : "kick"
+      params[:reservation].delete(:disable_democheck)
     end
   end
 end

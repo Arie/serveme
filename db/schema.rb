@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_07_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_21_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -233,7 +233,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_07_120000) do
     t.boolean "auto_end", default: true
     t.datetime "created_at", precision: nil
     t.string "custom_whitelist_id"
-    t.boolean "disable_democheck", default: false
+    t.string "democheck_mode", default: "kick", null: false
     t.string "discord_channel_id"
     t.string "discord_message_id"
     t.bigint "duration"

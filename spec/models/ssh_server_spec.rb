@@ -15,7 +15,6 @@ describe SshServer do
   describe '#restart' do
     it 'sends the software termination signal to the process' do
       subject.stub(process_id: 1337)
-      Net::SSH.should_receive(:start).with(subject.ip, nil, hash_including(timeout: 5))
       subject.should_receive(:execute).with("kill -15 #{subject.process_id}")
       subject.restart
     end

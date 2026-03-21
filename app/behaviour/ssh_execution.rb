@@ -162,7 +162,7 @@ module SshExecution
 
   sig { void }
   def ssh_close
-    ssh.try(:close)
+    @ssh.try(:close)
     @ssh = nil
   end
 

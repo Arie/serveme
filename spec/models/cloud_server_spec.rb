@@ -27,6 +27,16 @@ describe CloudServer do
           keepalive: true))
       subject.ssh
     end
+
+    it 'raises when ip is 0.0.0.0' do
+      subject.ip = '0.0.0.0'
+      expect { subject.ssh }.to raise_error(RuntimeError, /no IP assigned yet/)
+    end
+
+    it 'raises when ip is blank' do
+      subject.ip = nil
+      expect { subject.ssh }.to raise_error(RuntimeError, /no IP assigned yet/)
+    end
   end
 
   describe '#scp_command' do
@@ -66,15 +76,6 @@ describe CloudServer do
   describe '#restart' do
     it 'sends the software termination signal to the process' do
       subject.stub(process_id: 1337)
-      allow(subject).to receive(:cloud_ssh_private_key).and_return('fake-key')
-      Net::SSH.should_receive(:start).with(subject.ip, 'tf2',
-        hash_including(
-          port: 22,
-          key_data: [ 'fake-key' ],
-          keys_only: true,
-          non_interactive: true,
-          verify_host_key: :never,
-          timeout: 5))
       subject.should_receive(:execute).with("kill -15 #{subject.process_id}")
       subject.restart
     end

@@ -12,6 +12,8 @@ class CloudServer < RemoteServer
 
   sig { returns(T.nilable(Net::SSH::Connection::Session)) }
   def ssh
+    raise "Cannot SSH to cloud server #{id}: no IP assigned yet (#{ip})" if ip.blank? || ip == "0.0.0.0"
+
     @ssh ||= Net::SSH.start(ip, "tf2",
       port: cloud_ssh_port || 22,
       key_data: [ cloud_ssh_private_key ],
@@ -253,6 +255,8 @@ class CloudServer < RemoteServer
   end
 
   def sftp_start(&block)
+    raise "Cannot SFTP to cloud server #{id}: no IP assigned yet (#{ip})" if ip.blank? || ip == "0.0.0.0"
+
     Net::SFTP.start(ip, "tf2", port: cloud_ssh_port || 22, key_data: [ cloud_ssh_private_key ], keys_only: true, non_interactive: true, verify_host_key: :never, timeout: 5, &block)
   end
 

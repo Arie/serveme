@@ -580,6 +580,38 @@ RSpec.describe 'serveme.tf API', type: :request do
                          latitude: { type: :number },
                          longitude: { type: :number }
                        }
+                     },
+                     progress: {
+                       type: :object,
+                       description: 'Provisioning progress for active reservations. Only present while the server is starting or ending.',
+                       example: {
+                         phases: [
+                           { key: 'sending_configs', label: 'Sending configs', seconds: 3 },
+                           { key: 'changing_map', label: 'Changing map', seconds: 5 },
+                           { key: 'waiting_for_server', label: 'Waiting for server', seconds: 5 }
+                         ],
+                         current_phase: 'changing_map',
+                         completed: false,
+                         phase_elapsed: 2
+                       },
+                       properties: {
+                         phases: {
+                           type: :array,
+                           description: 'Ordered list of provisioning phases',
+                           items: {
+                             type: :object,
+                             properties: {
+                               key: { type: :string, description: 'Phase identifier' },
+                               label: { type: :string, description: 'Human-readable phase name' },
+
+                               seconds: { type: :integer, description: 'Estimated duration in seconds' }
+                             }
+                           }
+                         },
+                         current_phase: { type: :string, nullable: true, description: 'Key of the phase currently in progress' },
+                         completed: { type: :boolean, description: 'Whether all phases are done' },
+                         phase_elapsed: { type: :integer, description: 'Seconds elapsed in current phase' }
+                       }
                      }
                    }
                  },
@@ -596,9 +628,16 @@ RSpec.describe 'serveme.tf API', type: :request do
         let(:reservation_record) { create(:reservation, user: user) }
         let(:id) { reservation_record.id }
 
+        before do
+          reservation_record.reservation_statuses.create!(status: 'Starting')
+        end
+
         run_test! do |response|
           data = JSON.parse(response.body)
           expect(data['reservation']['id']).to eq(reservation_record.id)
+          expect(data['reservation']['progress']).to be_present
+          expect(data['reservation']['progress']['phases']).to be_an(Array)
+          expect(data['reservation']['progress']['completed']).to eq(false)
         end
       end
 
@@ -897,17 +936,38 @@ RSpec.describe 'serveme.tf API', type: :request do
                      },
                      progress: {
                        type: :object,
-                       nullable: true,
-                       properties: {
-                         phases: { type: :array },
-                         current_phase: { type: :string, nullable: true },
-                         completed: { type: :boolean },
-                         phase_elapsed: { type: :integer }
+                       description: 'Provisioning progress. Present while the server is ending.',
+                       example: {
+                         phases: [
+                           { key: 'ending', label: 'Ending reservation', seconds: 2 },
+                           { key: 'restarting', label: 'Restarting server', seconds: 2 },
+                           { key: 'downloading', label: 'Downloading logs', seconds: 2 },
+                           { key: 'zipping', label: 'Zipping files', seconds: 2 }
+                         ],
+                         current_phase: 'ending',
+                         completed: false,
+                         phase_elapsed: 1
                        },
-                       additionalProperties: true
+                       properties: {
+                         phases: {
+                           type: :array,
+                           description: 'Ordered list of provisioning phases',
+                           items: {
+                             type: :object,
+                             properties: {
+                               key: { type: :string, description: 'Phase identifier' },
+                               label: { type: :string, description: 'Human-readable phase name' },
+
+                               seconds: { type: :integer, description: 'Estimated duration in seconds' }
+                             }
+                           }
+                         },
+                         current_phase: { type: :string, nullable: true, description: 'Key of the phase currently in progress' },
+                         completed: { type: :boolean, description: 'Whether all phases are done' },
+                         phase_elapsed: { type: :integer, description: 'Seconds elapsed in current phase' }
+                       }
                      }
-                   },
-                   additionalProperties: true
+                   }
                  },
                  actions: {
                    type: :object,

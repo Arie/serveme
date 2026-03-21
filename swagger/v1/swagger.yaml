@@ -770,6 +770,50 @@ paths:
                             type: number
                           longitude:
                             type: number
+                      progress:
+                        type: object
+                        description: Provisioning progress for active reservations.
+                          Only present while the server is starting or ending.
+                        example:
+                          phases:
+                          - key: sending_configs
+                            label: Sending configs
+                            seconds: 3
+                          - key: changing_map
+                            label: Changing map
+                            seconds: 5
+                          - key: waiting_for_server
+                            label: Waiting for server
+                            seconds: 5
+                          current_phase: changing_map
+                          completed: false
+                          phase_elapsed: 2
+                        properties:
+                          phases:
+                            type: array
+                            description: Ordered list of provisioning phases
+                            items:
+                              type: object
+                              properties:
+                                key:
+                                  type: string
+                                  description: Phase identifier
+                                label:
+                                  type: string
+                                  description: Human-readable phase name
+                                seconds:
+                                  type: integer
+                                  description: Estimated duration in seconds
+                          current_phase:
+                            type: string
+                            nullable: true
+                            description: Key of the phase currently in progress
+                          completed:
+                            type: boolean
+                            description: Whether all phases are done
+                          phase_elapsed:
+                            type: integer
+                            description: Seconds elapsed in current phase
                   actions:
                     type: object
                     properties:

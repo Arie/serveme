@@ -46,11 +46,10 @@ if reservation.persisted? && !reservation.ended?
   provision_data = reservation.provision_estimate
   if provision_data
     json.progress do
-      json.phases provision_data[:phases]
+      json.phases provision_data[:phases].map { |p| p.except(:icon) }
       json.current_phase provision_data[:current_phase]
       json.completed provision_data[:completed] || false
       json.phase_elapsed provision_data[:phase_started_at] ? (Time.current - provision_data[:phase_started_at]).to_f.round : 0
-      json.vm_progress provision_data[:vm_progress] if provision_data[:vm_progress]
     end
   end
 end

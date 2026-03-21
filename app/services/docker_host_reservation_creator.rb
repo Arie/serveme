@@ -31,7 +31,7 @@ class DockerHostReservationCreator
       reservation.ends_at = ends_at
 
       if reservation.save
-        cloud_server.update!(cloud_reservation_id: reservation.id, name: "#{cloud_server.name} ##{reservation.id}")
+        cloud_server.update!(cloud_reservation_id: reservation.id)
         schedule_provisioning(cloud_server, reservation, future_start)
         reservation
       else

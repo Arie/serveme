@@ -43,14 +43,6 @@ describe DockerHostReservationCreator do
       expect(reservation.password).to eq("testpass")
     end
 
-    it "updates the cloud server name with the reservation id" do
-      expect(CloudServerProvisionWorker).to receive(:perform_async)
-
-      reservation = subject.create!
-
-      expect(reservation.server.name).to include("##{reservation.id}")
-    end
-
     it "schedules provisioning for future reservations" do
       future_time = 1.hour.from_now
       params = reservation_params.merge(starts_at: future_time.iso8601)

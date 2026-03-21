@@ -71,7 +71,7 @@ class CloudReservationsController < ApplicationController
       @reservation.ends_at = params[:reservation][:ends_at].present? ? params[:reservation][:ends_at] : 2.hours.from_now
 
       if @reservation.save
-        server.update!(cloud_reservation_id: @reservation.id, name: "#{server.name} ##{@reservation.id}")
+        server.update!(cloud_reservation_id: @reservation.id)
         if future_start && @reservation.starts_at > 5.minutes.from_now
           CloudServerProvisionWorker.perform_at(@reservation.starts_at - 5.minutes, server.id)
           flash[:notice] = "Cloud server is scheduled. Provisioning will begin 5 minutes before your start time (#{I18n.l(@reservation.starts_at, format: :short)})."

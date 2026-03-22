@@ -123,7 +123,7 @@ TV_PORT="${TV_PORT:-$((PORT + 5))}"
 CLIENT_PORT="${CLIENT_PORT:-40001}"
 STEAM_PORT="${STEAM_PORT:-30001}"
 FAKEIP_FLAG="${ENABLE_FAKEIP:+-enablefakeip}"
-tf2/srcds_run -game tf -ip 0.0.0.0 -port "$PORT" $FAKEIP_FLAG \
+tf2/srcds_run -game tf -ip 0.0.0.0 -port "$PORT" -strictportbind $FAKEIP_FLAG \
     +clientport "$CLIENT_PORT" -steamport "$STEAM_PORT" \
     +map "$FIRST_MAP" +tv_port "$TV_PORT" +tv_maxclients 32 +tv_enable 1 \
     "$@" &

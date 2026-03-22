@@ -129,19 +129,17 @@ tf2/srcds_run -game tf -ip 0.0.0.0 -port "$PORT" -strictportbind $FAKEIP_FLAG \
     "$@" &
 SRCDS_PID=$!
 
-# Graceful shutdown: send RCON quit to finalize STV demos and flush logs,
-# then fall back to SIGTERM if the server doesn't exit in time
+# Graceful shutdown: tell SRCDS to stop recording STV and flush logs,
+# then SIGTERM the process tree. We avoid RCON "quit" because srcds_run
+# treats it as a restart signal when -autoupdate is active.
 graceful_shutdown() {
-    echo "Received shutdown signal, sending RCON quit..."
+    echo "Received shutdown signal, stopping STV recording..."
     if [ -x "$HOME/hlserver/rcon" ]; then
-        "$HOME/hlserver/rcon" -H 127.0.0.1 -p "$PORT" -P "${RCON_PASSWORD:-changeme}" quit 2>/dev/null || true
-        # Give srcds up to 10 seconds to exit gracefully
-        for i in $(seq 1 10); do
-            kill -0 $SRCDS_PID 2>/dev/null || return 0
-            sleep 1
-        done
+        "$HOME/hlserver/rcon" -H 127.0.0.1 -p "$PORT" -P "${RCON_PASSWORD:-changeme}" tv_stoprecord 2>/dev/null || true
+        # Brief pause to let SRCDS flush the STV demo to disk
+        sleep 2
     fi
-    echo "RCON quit did not stop server, sending SIGTERM..."
+    echo "Sending SIGTERM to srcds..."
     kill -TERM $SRCDS_PID 2>/dev/null || true
 }
 trap graceful_shutdown TERM INT

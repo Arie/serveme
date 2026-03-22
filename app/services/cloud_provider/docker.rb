@@ -26,6 +26,7 @@ module CloudProvider
       cmd = %W[
         docker run -d --net=host
         --name #{container_name}
+        -v tf2-maps:/home/tf2/hlserver/tf2/tf/maps
         -e CALLBACK_URL=#{callback_url}
         -e CALLBACK_TOKEN=#{callback_token}
         -e SSH_AUTHORIZED_KEYS=#{public_key}

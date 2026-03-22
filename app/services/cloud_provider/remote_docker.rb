@@ -35,6 +35,7 @@ module CloudProvider
       docker_run_cmd = [
         "docker run -d --net=host",
         "--name #{container_name}",
+        "-v tf2-maps:/home/tf2/hlserver/tf2/tf/maps",
         "-e CALLBACK_URL=#{callback_url(cloud_server)}",
         "-e CALLBACK_TOKEN=#{cloud_server.cloud_callback_token}",
         "-e SSH_AUTHORIZED_KEYS=#{Shellwords.shellescape(public_key)}",

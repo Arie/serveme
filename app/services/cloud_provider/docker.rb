@@ -10,8 +10,6 @@ module CloudProvider
     }.freeze, T::Hash[String, T::Hash[Symbol, String]])
     def create_server(cloud_server)
       Rails.logger.info "Docker: Creating container for cloud_server #{cloud_server.id}"
-      callback_host = ENV.fetch("CALLBACK_HOST", "host.docker.internal:3000")
-      callback_url = "http://#{callback_host}/api/cloud_servers/#{cloud_server.id}/ready"
       callback_token = cloud_server.cloud_callback_token
       public_key = cloud_server.cloud_ssh_public_key
       container_name = "cloud-#{cloud_server.id}"
@@ -26,7 +24,7 @@ module CloudProvider
       cmd = %W[
         docker run -d --net=host
         --name #{container_name}
-        -e CALLBACK_URL=#{callback_url}
+        -e CALLBACK_URL=#{callback_url(cloud_server)}
         -e CALLBACK_TOKEN=#{callback_token}
         -e SSH_AUTHORIZED_KEYS=#{public_key}
         -e RCON_PASSWORD=#{cloud_server.rcon}

@@ -52,6 +52,7 @@ sv_rcon_minfailuretime 1
 sv_rcon_minfailures 20
 sv_rcon_maxfailures 20
 sv_rcon_banpenalty 1
+exec aliases.cfg
 exec ctf_turbine.cfg
 exec reservation.cfg
 SERVERCFG
@@ -117,20 +118,35 @@ if [ ! -f "$MAP_PATH" ]; then
 fi
 
 # 10. Start TF2 server in background
+# Disable set -e: from here on we need signal traps to work reliably
+set +e
 PORT="${PORT:-27015}"
 cd "$HOME/hlserver"
 TV_PORT="${TV_PORT:-$((PORT + 5))}"
 CLIENT_PORT="${CLIENT_PORT:-40001}"
 STEAM_PORT="${STEAM_PORT:-30001}"
 FAKEIP_FLAG="${ENABLE_FAKEIP:+-enablefakeip}"
-tf2/srcds_run -game tf -ip 0.0.0.0 -port "$PORT" $FAKEIP_FLAG \
+
+# Graceful shutdown: flush logs, stop STV, then exit.
+# The container runtime will clean up child processes after we exit.
+graceful_shutdown() {
+    echo "Received shutdown signal, stopping STV recording..."
+    if [ -x "$HOME/hlserver/rcon" ]; then
+        RCON_CMD="$HOME/hlserver/rcon -H 127.0.0.1 -p $PORT -P ${RCON_PASSWORD:-changeme}"
+        $RCON_CMD tv_stoprecord 2>/dev/null || true
+        $RCON_CMD sv_logflush 1 2>/dev/null || true
+        sleep 2
+    fi
+    echo "Shutdown complete, exiting."
+    exit 0
+}
+trap graceful_shutdown TERM INT
+
+tf2/srcds_run -game tf -ip 0.0.0.0 -port "$PORT" -norestart -strictportbind $FAKEIP_FLAG \
     +clientport "$CLIENT_PORT" -steamport "$STEAM_PORT" \
     +map "$FIRST_MAP" +tv_port "$TV_PORT" +tv_maxclients 32 +tv_enable 1 \
     "$@" &
 SRCDS_PID=$!
-
-# Forward signals to srcds
-trap "kill -TERM $SRCDS_PID 2>/dev/null" TERM INT
 
 # 11. Wait for RCON TCP port to be open, then phone home: TF2 is ready
 if [ -n "$CALLBACK_URL" ]; then

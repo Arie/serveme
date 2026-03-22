@@ -161,8 +161,12 @@ RUN curl -sf --max-time 30 "https://direct.serveme.tf/api/maps.txt" -o /home/tf2
 COPY --chown=tf2:tf2 serveme-plugins/ /home/tf2/hlserver/tf2/tf/addons/sourcemod/plugins/
 
 
+COPY --chown=tf2:tf2 healthcheck.sh /home/tf2/hlserver/healthcheck.sh
 COPY --chown=tf2:tf2 entrypoint.sh /home/tf2/hlserver/entrypoint.sh
-RUN chmod +x /home/tf2/hlserver/entrypoint.sh
+RUN chmod +x /home/tf2/hlserver/entrypoint.sh /home/tf2/hlserver/healthcheck.sh
+
+HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
+    CMD /home/tf2/hlserver/healthcheck.sh
 
 EXPOSE 27015/udp 27015/tcp 27020/udp 22/tcp
 

@@ -129,8 +129,22 @@ tf2/srcds_run -game tf -ip 0.0.0.0 -port "$PORT" -strictportbind $FAKEIP_FLAG \
     "$@" &
 SRCDS_PID=$!
 
-# Forward signals to srcds
-trap "kill -TERM $SRCDS_PID 2>/dev/null" TERM INT
+# Graceful shutdown: send RCON quit to finalize STV demos and flush logs,
+# then fall back to SIGTERM if the server doesn't exit in time
+graceful_shutdown() {
+    echo "Received shutdown signal, sending RCON quit..."
+    if [ -x "$HOME/hlserver/rcon" ]; then
+        "$HOME/hlserver/rcon" -H 127.0.0.1 -p "$PORT" -P "${RCON_PASSWORD:-changeme}" quit 2>/dev/null || true
+        # Give srcds up to 10 seconds to exit gracefully
+        for i in $(seq 1 10); do
+            kill -0 $SRCDS_PID 2>/dev/null || return 0
+            sleep 1
+        done
+    fi
+    echo "RCON quit did not stop server, sending SIGTERM..."
+    kill -TERM $SRCDS_PID 2>/dev/null || true
+}
+trap graceful_shutdown TERM INT
 
 # 11. Wait for RCON TCP port to be open, then phone home: TF2 is ready
 if [ -n "$CALLBACK_URL" ]; then

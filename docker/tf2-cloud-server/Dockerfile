@@ -1,5 +1,12 @@
 # Heavily based on https://codeberg.org/spire/docker-tf2-server
 
+# Build rcon CLI tool for healthchecks and graceful shutdown
+FROM ubuntu:24.04 AS rcon-build
+RUN apt-get update && apt-get install -y build-essential git \
+    && git clone https://github.com/n0la/rcon.git /tmp/rcon \
+    && cd /tmp/rcon && make \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
 FROM ubuntu:24.04
 
 # 1. System dependencies: steamcmd, SSH, iptables, curl, sudo, iproute2
@@ -35,6 +42,9 @@ RUN echo "Building for TF2 version: ${TF2_VERSION}" \
         /usr/games/steamcmd +force_install_dir /home/tf2/hlserver/tf2 +login anonymous +app_update 232250 +quit) \
     && cd /home/tf2/hlserver/tf2/tf/maps && rm -f *.bsp \
     && rm -f /home/tf2/hlserver/tf2/tf/resource/tf_*.txt
+
+# Copy rcon CLI tool for healthchecks and graceful shutdown
+COPY --from=rcon-build /tmp/rcon/rcon /home/tf2/hlserver/rcon
 
 # 3. MetaMod + SourceMod (latest stable)
 RUN cd /home/tf2/hlserver/tf2/tf \

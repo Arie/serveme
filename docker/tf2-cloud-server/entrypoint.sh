@@ -137,7 +137,7 @@ graceful_shutdown() {
     if [ -x "$HOME/hlserver/rcon" ]; then
         RCON_CMD="$HOME/hlserver/rcon -H 127.0.0.1 -p $PORT -P ${RCON_PASSWORD:-changeme}"
         $RCON_CMD tv_stoprecord 2>/dev/null || true
-        $RCON_CMD logflush 2>/dev/null || true
+        $RCON_CMD sv_logflush 1 2>/dev/null || true
         # Brief pause to let SRCDS flush STV demo and logs to disk
         sleep 2
     fi

@@ -1,15 +1,28 @@
-# Heavily based on https://codeberg.org/spire/docker-tf2-server
+# Layered Docker image for TF2 cloud servers
+# Inspired by melkortf/tf2-servers architecture:
+#   tf2-base → tf2-sourcemod → tf2-plugins → tf2-configs → final
+#
+# Each stage can be built independently with --target for debugging:
+#   docker build --target tf2-base -t serveme/tf2-base .
+#   docker build --target tf2-sourcemod -t serveme/tf2-sourcemod .
+#
+# BuildKit caches each stage independently, so plugin updates don't
+# rebuild the TF2 base, and config changes don't rebuild plugins.
 
-# Build rcon CLI tool for healthchecks and graceful shutdown
+# ============================================================
+# Stage: rcon-build (compile rcon CLI tool)
+# ============================================================
 FROM ubuntu:24.04 AS rcon-build
 RUN apt-get update && apt-get install -y build-essential git \
     && git clone https://github.com/n0la/rcon.git /tmp/rcon \
     && cd /tmp/rcon && make \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-FROM ubuntu:24.04
+# ============================================================
+# Stage: tf2-base (Ubuntu + SteamCMD + TF2 dedicated server)
+# ============================================================
+FROM ubuntu:24.04 AS tf2-base
 
-# 1. System dependencies: steamcmd, SSH, iptables, curl, sudo, iproute2
 RUN echo steam steam/question select "I AGREE" | debconf-set-selections \
     && echo steam steam/license note '' | debconf-set-selections \
     && apt-get -y update \
@@ -34,7 +47,7 @@ ENV HOME=/home/tf2
 ENV USER=tf2
 USER tf2
 
-# 2. Install TF2 dedicated server + strip maps/resources to minimize image
+# Install TF2 dedicated server + strip maps/resources to minimize image
 # SteamCMD sometimes fails with 0x426 on first attempt, retry once
 ARG TF2_VERSION=0
 RUN echo "Building for TF2 version: ${TF2_VERSION}" \
@@ -43,10 +56,13 @@ RUN echo "Building for TF2 version: ${TF2_VERSION}" \
     && cd /home/tf2/hlserver/tf2/tf/maps && rm -f *.bsp \
     && rm -f /home/tf2/hlserver/tf2/tf/resource/tf_*.txt
 
-# Copy rcon CLI tool for healthchecks and graceful shutdown
 COPY --from=rcon-build /tmp/rcon/rcon /home/tf2/hlserver/rcon
 
-# 3. MetaMod + SourceMod (latest stable)
+# ============================================================
+# Stage: tf2-sourcemod (MetaMod + SourceMod)
+# ============================================================
+FROM tf2-base AS tf2-sourcemod
+
 RUN cd /home/tf2/hlserver/tf2/tf \
     && mm_url=$(wget -q -O - "https://www.metamodsource.net/downloads.php?branch=stable" | grep -oP -m1 "https://[a-z.]+/mmsdrop/[0-9.]+/mmsource-(.*)-linux.tar.gz") \
     && sm_url=$(wget -q -O - "http://www.sourcemod.net/downloads.php?branch=stable" | grep -oP -m1 "https://[a-z.]+/smdrop/[0-9.]+/sourcemod-(.*)-linux.tar.gz") \
@@ -59,7 +75,11 @@ RUN cd /home/tf2/hlserver/tf2/tf \
            addons/sourcemod/plugins/funcommands.smx \
            addons/sourcemod/plugins/funvotes.smx
 
-# 4. Plugins from docker-comp-server
+# ============================================================
+# Stage: tf2-plugins (competitive + utility plugins)
+# ============================================================
+FROM tf2-sourcemod AS tf2-plugins
+
 COPY --chown=tf2:tf2 ExtendHumiliation.smx /tmp/ExtendHumiliation.smx
 RUN cd /home/tf2/hlserver/tf2/tf \
     # SteamWorks
@@ -124,42 +144,49 @@ RUN cd /home/tf2/hlserver/tf2/tf \
     && printf "\nsm plugins unload properpregame\n" >> /home/tf2/hlserver/tf2/tf/cfg/sourcemod/soap_live.cfg \
     && printf "\nsm plugins load properpregame\n" >> /home/tf2/hlserver/tf2/tf/cfg/sourcemod/soap_notlive.cfg
 
-# 5. Additional plugins (STAC, MGE, tf2rue, serveme web_rcon)
+# Additional plugins (STAC, MGE, tf2rue, serveme web_rcon)
 COPY --chown=tf2:tf2 plugins.sh /tmp/plugins.sh
 RUN chmod +x /tmp/plugins.sh && /tmp/plugins.sh && rm /tmp/plugins.sh
 
-# 6. Configs: ETF2L, RGL, ozfortress, base-configs
+# ============================================================
+# Stage: tf2-configs (league configs + base configs)
+# ============================================================
+FROM tf2-plugins AS tf2-configs
+
+# ETF2L configs
 RUN cd /home/tf2/hlserver/tf2/tf/cfg \
-    # ETF2L
     && wget -nv "https://github.com/ETF2L/gameserver-configs/releases/latest/download/etf2l_configs.zip" \
     && unzip etf2l_configs.zip \
     && rm *.zip \
     # WaitForSTV handles the stv delay better
     && sed -i 's/tv_delaymapchange_protect\s*"\?1"\?/tv_delaymapchange_protect 0/g' *.cfg
 
+# RGL + ozfortress configs
 RUN cd /home/tf2/hlserver/tf2/tf \
-    # RGL configs (v365)
     && wget -nv "https://github.com/RGLgg/server-resources-updater/releases/download/v365/server-resources-updater.zip" -O rgl.zip \
     && unzip -o rgl.zip \
     && rm rgl.zip \
     && sed -i '/^sm_updater/d' cfg/rgl_base.cfg \
     && rm -f addons/sourcemod/plugins/rglqol.smx addons/sourcemod/plugins/rglupdater.smx \
-    # ozfortress configs
     && wget -nv "https://github.com/ozfortress/server-configs/archive/refs/heads/master.tar.gz" -O ozfortress.tar.gz \
     && tar xzf ozfortress.tar.gz --strip-components=1 server-configs-master/cfg/ \
     && rm ozfortress.tar.gz
 
 COPY --chown=tf2:tf2 base-configs/ /home/tf2/hlserver/tf2/tf/
 
-# 7. Bake in ctf_turbine
+# ============================================================
+# Final stage: serveme-specific setup
+# ============================================================
+FROM tf2-configs
+
+# Bake in ctf_turbine
 RUN wget -nv "https://fastdl.serveme.tf/maps/ctf_turbine.bsp" -O "/home/tf2/hlserver/tf2/tf/maps/ctf_turbine.bsp"
 
-# 8. Bake in map list for maplist_override plugin (refreshed at container start)
+# Bake in map list for maplist_override plugin (refreshed at container start)
 RUN curl -sf --max-time 30 "https://direct.serveme.tf/api/maps.txt" -o /home/tf2/hlserver/tf2/tf/cfg/maplist_full.txt
 
-# 9. Add serveme-specific plugins (.smx files copied from live server)
+# Serveme-specific plugins (.smx files copied from live server)
 COPY --chown=tf2:tf2 serveme-plugins/ /home/tf2/hlserver/tf2/tf/addons/sourcemod/plugins/
-
 
 COPY --chown=tf2:tf2 healthcheck.sh /home/tf2/hlserver/healthcheck.sh
 COPY --chown=tf2:tf2 entrypoint.sh /home/tf2/hlserver/entrypoint.sh

@@ -16,7 +16,7 @@ module LogLineHelper
       .gsub(logsecret_regex, 'sv_logsecret *****"')
   end
 
-  INTERESTING_KEYWORDS = %w[killed triggered say connected disconnected suicide rcon score].freeze
+  INTERESTING_KEYWORDS = %w[killed triggered say connected disconnected suicide rcon score spawned].freeze
   INTERESTING_KEYWORDS_MULTI_WORD = [ "changed role", "Started map", "picked up item" ].freeze
 
   ACTIONABLE_KEYWORDS = %w[say connected disconnected].freeze

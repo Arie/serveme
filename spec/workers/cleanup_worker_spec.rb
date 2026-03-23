@@ -5,7 +5,7 @@ require 'spec_helper'
 
 describe CleanupWorker do
   let(:old_reservation)         { create :reservation, :old }
-  let(:old_player_statistic)    { create :player_statistic, created_at: 40.days.ago }
+  let(:old_player_statistic)    { create :player_statistic, created_at: 400.days.ago }
   let(:old_server_statistic)    { create :server_statistic, created_at: 40.days.ago }
   let(:young_reservation)       { create :reservation, starts_at: Time.current }
   let(:young_user)              { create :user, api_key: nil, created_at: 1.day.ago }

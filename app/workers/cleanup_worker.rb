@@ -43,7 +43,7 @@ class CleanupWorker
   end
 
   def old_player_statistics
-    PlayerStatistic.where(created_at: ...7.days.ago)
+    PlayerStatistic.where(created_at: ...366.days.ago)
   end
 
   def old_server_statistics

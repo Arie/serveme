@@ -2,19 +2,29 @@
 
 .row
   .col-md-12
-    %h2.mb-4 Live Scoreboards
+    %h2.mb-4
+      Live Scoreboards
+      %small.text-muted= "(#{@reservations.size} active)"
 
 - @reservations.each do |reservation|
   - live_stats = LiveMatchStats.get_stats(reservation.id)
   = turbo_stream_from reservation
 
   .card.mb-4
-    .card-header
-      %strong= link_to reservation.server.name, reservation_path(reservation)
-      \-
-      = reservation.first_map
-      %small.text-muted.ms-2
-        = link_to reservation.user.nickname, reservation.user.steam_profile_url, target: "_blank"
+    .card-header.d-flex.justify-content-between.align-items-center
+      %div
+        %strong= reservation.server.name
+        %span.text-muted.ms-2= reservation.first_map
+        %small.text-muted.ms-2
+          by
+          = link_to reservation.user.nickname, reservation.user.steam_profile_url, target: "_blank"
+      .btn-group.btn-group-sm
+        = link_to rcon_reservation_path(reservation), class: "btn btn-warning", target: "_blank" do
+          %i.fa.fa-terminal
+          RCON
+        = link_to reservation_path(reservation), class: "btn btn-info" do
+          %i.fa.fa-eye
+          Show
     .card-body.p-2
       %div{id: "match-scoreboard-#{reservation.id}"}
         - if live_stats && live_stats[:players].any?

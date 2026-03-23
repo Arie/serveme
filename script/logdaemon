@@ -69,10 +69,10 @@ class LogHandler
   end
 
   def start_batch_flusher
-    # Background thread that flushes every 100ms even if batch isn't full
+    # Background thread that flushes every 500ms even if batch isn't full
     Thread.new do
       loop do
-        sleep 0.1
+        sleep 0.5
         @batch_mutex.synchronize { flush_batch }
       rescue => e
         warn "Batch flusher error: #{e.message}"

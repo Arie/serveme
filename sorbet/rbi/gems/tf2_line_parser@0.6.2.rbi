@@ -15,8 +15,8 @@ module TF2LineParser::Events; end
 class TF2LineParser::Events::Airshot < ::TF2LineParser::Events::Damage
   # @return [Airshot] a new instance of Airshot
   #
-  # source://tf2_line_parser//lib/tf2_line_parser/events/airshot.rb#43
-  def initialize(time, player_name, player_uid, player_steamid, player_team, target_name, target_uid, target_steamid, target_team, value, weapon, airshot); end
+  # source://tf2_line_parser//lib/tf2_line_parser/events/airshot.rb#46
+  def initialize(time, player_name, player_uid, player_steamid, player_team, target_name, target_uid, target_steamid, target_team, value, realdamage, weapon, healing, crit, airshot); end
 
   class << self
     # source://tf2_line_parser//lib/tf2_line_parser/events/airshot.rb#19
@@ -263,8 +263,8 @@ end
 class TF2LineParser::Events::Damage < ::TF2LineParser::Events::Event
   # @return [Damage] a new instance of Damage
   #
-  # source://tf2_line_parser//lib/tf2_line_parser/events/damage.rb#62
-  def initialize(time, player_name, player_uid, player_steamid, player_team, target_name, target_uid, target_steamid, target_team, value, weapon, healing, crit, headshot); end
+  # source://tf2_line_parser//lib/tf2_line_parser/events/damage.rb#63
+  def initialize(time, player_name, player_uid, player_steamid, player_team, target_name, target_uid, target_steamid, target_team, value, realdamage, weapon, healing, crit, headshot); end
 
   # Returns the value of attribute crit.
   #
@@ -285,6 +285,11 @@ class TF2LineParser::Events::Damage < ::TF2LineParser::Events::Event
   #
   # source://tf2_line_parser//lib/tf2_line_parser/events/damage.rb#6
   def healing; end
+
+  # Returns the value of attribute realdamage.
+  #
+  # source://tf2_line_parser//lib/tf2_line_parser/events/damage.rb#6
+  def realdamage; end
 
   class << self
     # source://tf2_line_parser//lib/tf2_line_parser/events/damage.rb#36
@@ -676,6 +681,28 @@ class TF2LineParser::Events::Event
   end
 end
 
+# source://tf2_line_parser//lib/tf2_line_parser/events/feign_death.rb#5
+class TF2LineParser::Events::FeignDeath < ::TF2LineParser::Events::PVPEvent
+  # @return [FeignDeath] a new instance of FeignDeath
+  #
+  # source://tf2_line_parser//lib/tf2_line_parser/events/feign_death.rb#22
+  def initialize(time, player_name, player_uid, player_steam_id, player_team, target_name, target_uid, target_steam_id, target_team, weapon); end
+
+  class << self
+    # source://tf2_line_parser//lib/tf2_line_parser/events/feign_death.rb#18
+    def attributes; end
+
+    # source://tf2_line_parser//lib/tf2_line_parser/events/feign_death.rb#6
+    def regex; end
+
+    # source://tf2_line_parser//lib/tf2_line_parser/events/feign_death.rb#14
+    def regex_customkill; end
+
+    # source://tf2_line_parser//lib/tf2_line_parser/events/feign_death.rb#10
+    def regex_weapon; end
+  end
+end
+
 # source://tf2_line_parser//lib/tf2_line_parser/events/final_score.rb#5
 class TF2LineParser::Events::FinalScore < ::TF2LineParser::Events::Score
   class << self
@@ -722,8 +749,8 @@ end
 class TF2LineParser::Events::HeadshotDamage < ::TF2LineParser::Events::Damage
   # @return [HeadshotDamage] a new instance of HeadshotDamage
   #
-  # source://tf2_line_parser//lib/tf2_line_parser/events/headshot_damage.rb#40
-  def initialize(time, player_name, player_uid, player_steamid, player_team, target_name, target_uid, target_steamid, target_team, value, weapon, healing, crit, headshot); end
+  # source://tf2_line_parser//lib/tf2_line_parser/events/headshot_damage.rb#41
+  def initialize(time, player_name, player_uid, player_steamid, player_team, target_name, target_uid, target_steamid, target_team, value, realdamage, weapon, healing, crit, headshot); end
 
   class << self
     # source://tf2_line_parser//lib/tf2_line_parser/events/headshot_damage.rb#14
@@ -1099,17 +1126,30 @@ end
 class TF2LineParser::Events::PointCapture < ::TF2LineParser::Events::Event
   # @return [PointCapture] a new instance of PointCapture
   #
-  # source://tf2_line_parser//lib/tf2_line_parser/events/point_capture.rb#14
-  def initialize(time, team, cap_number, cap_name); end
+  # source://tf2_line_parser//lib/tf2_line_parser/events/point_capture.rb#18
+  def initialize(time, team, cap_number, cap_name, _numcappers, cappers_section); end
+
+  # Returns the value of attribute cappers.
+  #
+  # source://tf2_line_parser//lib/tf2_line_parser/events/point_capture.rb#8
+  def cappers; end
+
+  private
+
+  # source://tf2_line_parser//lib/tf2_line_parser/events/point_capture.rb#28
+  def parse_cappers(section); end
 
   class << self
-    # source://tf2_line_parser//lib/tf2_line_parser/events/point_capture.rb#10
+    # source://tf2_line_parser//lib/tf2_line_parser/events/point_capture.rb#14
     def attributes; end
 
-    # source://tf2_line_parser//lib/tf2_line_parser/events/point_capture.rb#6
+    # source://tf2_line_parser//lib/tf2_line_parser/events/point_capture.rb#10
     def regex; end
   end
 end
+
+# source://tf2_line_parser//lib/tf2_line_parser/events/point_capture.rb#6
+TF2LineParser::Events::PointCapture::CAPPERS_REGEX = T.let(T.unsafe(nil), Regexp)
 
 # source://tf2_line_parser//lib/tf2_line_parser/events/position_report.rb#5
 class TF2LineParser::Events::PositionReport < ::TF2LineParser::Events::Event
@@ -1419,7 +1459,7 @@ end
 class TF2LineParser::Line
   # @return [Line] a new instance of Line
   #
-  # source://tf2_line_parser//lib/tf2_line_parser/line.rb#62
+  # source://tf2_line_parser//lib/tf2_line_parser/line.rb#66
   def initialize(line); end
 
   # Returns the value of attribute line.
@@ -1434,32 +1474,32 @@ class TF2LineParser::Line
   # source://tf2_line_parser//lib/tf2_line_parser/line.rb#7
   def line=(_arg0); end
 
-  # source://tf2_line_parser//lib/tf2_line_parser/line.rb#66
+  # source://tf2_line_parser//lib/tf2_line_parser/line.rb#70
   def parse; end
 
   class << self
     # Class method to parse without object allocation
     #
-    # source://tf2_line_parser//lib/tf2_line_parser/line.rb#71
+    # source://tf2_line_parser//lib/tf2_line_parser/line.rb#75
     def parse(line); end
 
     private
 
-    # source://tf2_line_parser//lib/tf2_line_parser/line.rb#152
+    # source://tf2_line_parser//lib/tf2_line_parser/line.rb#129
     def check_damage_subtypes(line); end
 
-    # source://tf2_line_parser//lib/tf2_line_parser/line.rb#166
+    # source://tf2_line_parser//lib/tf2_line_parser/line.rb#143
     def check_heal_subtypes(line); end
 
-    # source://tf2_line_parser//lib/tf2_line_parser/line.rb#85
+    # source://tf2_line_parser//lib/tf2_line_parser/line.rb#89
     def find_candidate_types(line); end
 
-    # source://tf2_line_parser//lib/tf2_line_parser/line.rb#138
+    # source://tf2_line_parser//lib/tf2_line_parser/line.rb#115
     def try_parse_types(line, types); end
   end
 end
 
-# Fallback types when no keyword matches
+# Fallback types when no keyword matches - ordered by specificity
 #
 # source://tf2_line_parser//lib/tf2_line_parser/line.rb#57
 TF2LineParser::Line::FALLBACK_TYPES = T.let(T.unsafe(nil), Array)

@@ -1,0 +1,76 @@
+L 03/22/2026 - 20:00:00: Log file started (file "logs/L0322001.log") (game "/home/tf2/tf2-1/orangebox/tf") (version "8601326")
+L 03/22/2026 - 20:00:01: "RedScout1<3><[U:1:200002]><>" entered the game
+L 03/22/2026 - 20:00:01: "RedScout1<3><[U:1:200002]><Unassigned>" joined team "Red"
+L 03/22/2026 - 20:00:01: "RedScout1<3><[U:1:200002]><Red>" changed role to "scout"
+L 03/22/2026 - 20:00:02: "RedScout2<4><[U:1:200004]><>" entered the game
+L 03/22/2026 - 20:00:02: "RedScout2<4><[U:1:200004]><Unassigned>" joined team "Red"
+L 03/22/2026 - 20:00:02: "RedScout2<4><[U:1:200004]><Red>" changed role to "scout"
+L 03/22/2026 - 20:00:03: "RedSoldier1<5><[U:1:200006]><>" entered the game
+L 03/22/2026 - 20:00:03: "RedSoldier1<5><[U:1:200006]><Unassigned>" joined team "Red"
+L 03/22/2026 - 20:00:03: "RedSoldier1<5><[U:1:200006]><Red>" changed role to "soldier"
+L 03/22/2026 - 20:00:04: "RedSoldier2<6><[U:1:200008]><>" entered the game
+L 03/22/2026 - 20:00:04: "RedSoldier2<6><[U:1:200008]><Unassigned>" joined team "Red"
+L 03/22/2026 - 20:00:04: "RedSoldier2<6><[U:1:200008]><Red>" changed role to "soldier"
+L 03/22/2026 - 20:00:05: "RedDemo<7><[U:1:200010]><>" entered the game
+L 03/22/2026 - 20:00:05: "RedDemo<7><[U:1:200010]><Unassigned>" joined team "Red"
+L 03/22/2026 - 20:00:05: "RedDemo<7><[U:1:200010]><Red>" changed role to "demoman"
+L 03/22/2026 - 20:00:06: "RedMedic<8><[U:1:200012]><>" entered the game
+L 03/22/2026 - 20:00:06: "RedMedic<8><[U:1:200012]><Unassigned>" joined team "Red"
+L 03/22/2026 - 20:00:06: "RedMedic<8><[U:1:200012]><Red>" changed role to "medic"
+L 03/22/2026 - 20:00:07: "BlueScout1<9><[U:1:400002]><>" entered the game
+L 03/22/2026 - 20:00:07: "BlueScout1<9><[U:1:400002]><Unassigned>" joined team "Blue"
+L 03/22/2026 - 20:00:07: "BlueScout1<9><[U:1:400002]><Blue>" changed role to "scout"
+L 03/22/2026 - 20:00:08: "BlueScout2<10><[U:1:400004]><>" entered the game
+L 03/22/2026 - 20:00:08: "BlueScout2<10><[U:1:400004]><Unassigned>" joined team "Blue"
+L 03/22/2026 - 20:00:08: "BlueScout2<10><[U:1:400004]><Blue>" changed role to "scout"
+L 03/22/2026 - 20:00:09: "BlueSoldier1<11><[U:1:400006]><>" entered the game
+L 03/22/2026 - 20:00:09: "BlueSoldier1<11><[U:1:400006]><Unassigned>" joined team "Blue"
+L 03/22/2026 - 20:00:09: "BlueSoldier1<11><[U:1:400006]><Blue>" changed role to "soldier"
+L 03/22/2026 - 20:00:10: "BlueSoldier2<12><[U:1:400008]><>" entered the game
+L 03/22/2026 - 20:00:10: "BlueSoldier2<12><[U:1:400008]><Unassigned>" joined team "Blue"
+L 03/22/2026 - 20:00:10: "BlueSoldier2<12><[U:1:400008]><Blue>" changed role to "soldier"
+L 03/22/2026 - 20:00:11: "BlueDemo<13><[U:1:400010]><>" entered the game
+L 03/22/2026 - 20:00:11: "BlueDemo<13><[U:1:400010]><Unassigned>" joined team "Blue"
+L 03/22/2026 - 20:00:11: "BlueDemo<13><[U:1:400010]><Blue>" changed role to "demoman"
+L 03/22/2026 - 20:00:12: "BlueMedic<14><[U:1:400012]><>" entered the game
+L 03/22/2026 - 20:00:12: "BlueMedic<14><[U:1:400012]><Unassigned>" joined team "Blue"
+L 03/22/2026 - 20:00:12: "BlueMedic<14><[U:1:400012]><Blue>" changed role to "medic"
+L 03/22/2026 - 20:01:00: World triggered "Round_Start"
+L 03/22/2026 - 20:01:00: "RedScout1<3><[U:1:200002]><Red>" spawned as "Scout"
+L 03/22/2026 - 20:01:00: "RedScout2<4><[U:1:200004]><Red>" spawned as "Scout"
+L 03/22/2026 - 20:01:00: "RedSoldier1<5><[U:1:200006]><Red>" spawned as "Soldier"
+L 03/22/2026 - 20:01:00: "RedSoldier2<6><[U:1:200008]><Red>" spawned as "Soldier"
+L 03/22/2026 - 20:01:00: "RedDemo<7><[U:1:200010]><Red>" spawned as "Demoman"
+L 03/22/2026 - 20:01:00: "RedMedic<8><[U:1:200012]><Red>" spawned as "Medic"
+L 03/22/2026 - 20:01:00: "BlueScout1<9><[U:1:400002]><Blue>" spawned as "Scout"
+L 03/22/2026 - 20:01:00: "BlueScout2<10><[U:1:400004]><Blue>" spawned as "Scout"
+L 03/22/2026 - 20:01:00: "BlueSoldier1<11><[U:1:400006]><Blue>" spawned as "Soldier"
+L 03/22/2026 - 20:01:00: "BlueSoldier2<12><[U:1:400008]><Blue>" spawned as "Soldier"
+L 03/22/2026 - 20:01:00: "BlueDemo<13><[U:1:400010]><Blue>" spawned as "Demoman"
+L 03/22/2026 - 20:01:00: "BlueMedic<14><[U:1:400012]><Blue>" spawned as "Medic"
+L 03/22/2026 - 20:01:10: "RedScout1<3><[U:1:200002]><Red>" killed "BlueScout1<9><[U:1:400002]><Blue>" with "scattergun" (attacker_position "-100 200 0") (victim_position "100 200 0")
+L 03/22/2026 - 20:01:15: "RedScout2<4><[U:1:200004]><Red>" triggered "damage" against "BlueScout2<10><[U:1:400004]><Blue>" (damage "50") (weapon "scattergun")
+L 03/22/2026 - 20:01:16: "RedScout1<3><[U:1:200002]><Red>" triggered "damage" against "BlueScout1<9><[U:1:400002]><Blue>" (damage "80") (weapon "scattergun")
+L 03/22/2026 - 20:01:20: "RedSoldier1<5><[U:1:200006]><Red>" killed "BlueSoldier1<11><[U:1:400006]><Blue>" with "tf_projectile_rocket" (attacker_position "-100 200 0") (victim_position "100 200 0")
+L 03/22/2026 - 20:01:21: "RedSoldier1<5><[U:1:200006]><Red>" triggered "damage" against "BlueSoldier1<11><[U:1:400006]><Blue>" (damage "100") (weapon "tf_projectile_rocket")
+L 03/22/2026 - 20:01:25: "RedSoldier2<6><[U:1:200008]><Red>" triggered "damage" against "BlueSoldier2<12><[U:1:400008]><Blue>" (damage "90") (weapon "tf_projectile_rocket")
+L 03/22/2026 - 20:01:30: "RedDemo<7><[U:1:200010]><Red>" triggered "damage" against "BlueDemo<13><[U:1:400010]><Blue>" (damage "120") (weapon "tf_projectile_pipe")
+L 03/22/2026 - 20:01:35: "RedMedic<8><[U:1:200012]><Red>" triggered "healed" against "RedDemo<7><[U:1:200010]><Red>" (healing "150")
+L 03/22/2026 - 20:01:40: "BlueScout1<9><[U:1:400002]><Blue>" killed "RedScout1<3><[U:1:200002]><Red>" with "scattergun" (attacker_position "100 200 0") (victim_position "-100 200 0")
+L 03/22/2026 - 20:01:41: "BlueScout1<9><[U:1:400002]><Blue>" triggered "damage" against "RedScout1<3><[U:1:200002]><Red>" (damage "70") (weapon "scattergun")
+L 03/22/2026 - 20:01:45: "BlueScout2<10><[U:1:400004]><Blue>" triggered "damage" against "RedScout2<4><[U:1:200004]><Red>" (damage "60") (weapon "scattergun")
+L 03/22/2026 - 20:01:50: "BlueSoldier1<11><[U:1:400006]><Blue>" triggered "damage" against "RedSoldier1<5><[U:1:200006]><Red>" (damage "85") (weapon "tf_projectile_rocket")
+L 03/22/2026 - 20:01:55: "BlueSoldier2<12><[U:1:400008]><Blue>" triggered "damage" against "RedSoldier2<6><[U:1:200008]><Red>" (damage "75") (weapon "tf_projectile_rocket")
+L 03/22/2026 - 20:02:00: "BlueDemo<13><[U:1:400010]><Blue>" triggered "damage" against "RedDemo<7><[U:1:200010]><Red>" (damage "110") (weapon "tf_projectile_pipe")
+L 03/22/2026 - 20:02:05: "BlueMedic<14><[U:1:400012]><Blue>" triggered "healed" against "BlueDemo<13><[U:1:400010]><Blue>" (healing "140")
+L 03/22/2026 - 20:02:10: "RedMedic<8><[U:1:200012]><Red>" triggered "chargedeployed"
+L 03/22/2026 - 20:05:00: World triggered "Round_Win" (winner "Red")
+L 03/22/2026 - 20:05:00: World triggered "Round_Length" (seconds "240.00")
+L 03/22/2026 - 20:06:00: World triggered "Round_Start"
+L 03/22/2026 - 20:06:10: "BlueScout1<9><[U:1:400002]><Blue>" killed "RedScout1<3><[U:1:200002]><Red>" with "scattergun" (attacker_position "100 200 0") (victim_position "-100 200 0")
+L 03/22/2026 - 20:06:15: "BlueSoldier1<11><[U:1:400006]><Blue>" killed "RedSoldier1<5><[U:1:200006]><Red>" with "tf_projectile_rocket" (attacker_position "100 200 0") (victim_position "-100 200 0")
+L 03/22/2026 - 20:10:00: World triggered "Round_Win" (winner "Blue")
+L 03/22/2026 - 20:10:00: World triggered "Round_Length" (seconds "240.00")
+L 03/22/2026 - 20:10:01: Team "Red" final score "3" with "6" players
+L 03/22/2026 - 20:10:01: Team "Blue" final score "2" with "6" players
+L 03/22/2026 - 20:10:02: World triggered "Game_Over" reason "Reached Win Limit"

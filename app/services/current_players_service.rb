@@ -36,11 +36,11 @@ class CurrentPlayersService
 
     servers_with_players = servers_hash.values.map do |server_data|
       players = server_data[:players_by_uid].values
-                                           .sort_by { |player| player[:reservation_player]&.name&.downcase || "zzz" }
+      sorted = players.sort_by { |player| player[:reservation_player]&.name&.downcase || "zzz" }
 
       {
         server: server_data[:server],
-        players: players
+        players: sorted
       }
     end
 

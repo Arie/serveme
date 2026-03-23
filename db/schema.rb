@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_21_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_22_140000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -161,6 +161,30 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_21_120000) do
     t.bigint "user_id", null: false
   end
 
+  create_table "match_players", force: :cascade do |t|
+    t.integer "airshots", default: 0, null: false
+    t.integer "assists", default: 0, null: false
+    t.integer "caps", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.integer "damage", default: 0, null: false
+    t.integer "damage_taken", default: 0, null: false
+    t.integer "deaths", default: 0, null: false
+    t.integer "drops", default: 0, null: false
+    t.integer "healing", default: 0, null: false
+    t.integer "heals_received", default: 0, null: false
+    t.integer "kills", default: 0, null: false
+    t.bigint "reservation_match_id", null: false
+    t.bigint "steam_uid", null: false
+    t.string "team", null: false
+    t.string "tf2_class", null: false
+    t.integer "ubers", default: 0, null: false
+    t.datetime "updated_at", null: false
+    t.boolean "won", null: false
+    t.index ["reservation_match_id", "steam_uid"], name: "index_match_players_on_reservation_match_id_and_steam_uid", unique: true
+    t.index ["reservation_match_id"], name: "index_match_players_on_reservation_match_id"
+    t.index ["steam_uid"], name: "index_match_players_on_steam_uid"
+  end
+
   create_table "paypal_orders", force: :cascade do |t|
     t.datetime "created_at", precision: nil
     t.boolean "gift", default: false
@@ -198,6 +222,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_21_120000) do
     t.text "name"
     t.decimal "price", precision: 15, scale: 6, null: false
     t.index ["grants_private_server"], name: "idx_17155_index_products_on_grants_private_server"
+  end
+
+  create_table "reservation_matches", force: :cascade do |t|
+    t.integer "blue_score"
+    t.datetime "created_at", null: false
+    t.integer "match_number", default: 1, null: false
+    t.integer "red_score"
+    t.bigint "reservation_id", null: false
+    t.float "total_duration_seconds", default: 0.0, null: false
+    t.datetime "updated_at", null: false
+    t.index ["reservation_id"], name: "index_reservation_matches_on_reservation_id"
   end
 
   create_table "reservation_players", force: :cascade do |t|

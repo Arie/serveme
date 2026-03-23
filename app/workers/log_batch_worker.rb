@@ -40,11 +40,60 @@ class LogBatchWorker
       end
     end
 
+    # Update live match stats
+    update_live_match_stats(grouped_lines)
+
+    # Broadcast scoreboard updates to reservation show pages
+    broadcast_scoreboard_updates(grouped_lines)
+
     # Batch broadcast collected lines per reservation
     batch_broadcast_lines(grouped_lines)
   end
 
   private
+
+  def update_live_match_stats(grouped_lines)
+    grouped_lines.each do |logsecret, lines|
+      reservation_id = Rails.cache.fetch("reservation_secret_#{logsecret}", expires_in: 1.minute) do
+        Reservation.where(logsecret: logsecret).pluck(:id).last
+      end
+      next unless reservation_id
+
+      lines.each { |line| LiveMatchStats.process_line(reservation_id, line) }
+    end
+  rescue StandardError => e
+    Rails.logger.error("[LiveMatchStats] Error updating stats: #{e.message}")
+  end
+
+  def broadcast_scoreboard_updates(grouped_lines)
+    grouped_lines.each_key do |logsecret|
+      reservation_id = Rails.cache.fetch("reservation_secret_#{logsecret}", expires_in: 1.minute) do
+        Reservation.where(logsecret: logsecret).pluck(:id).last
+      end
+      next unless reservation_id
+
+      reservation = Reservation.find(reservation_id)
+      next unless TurboSubscriberChecker.has_model_subscribers?(reservation)
+
+      live_stats = LiveMatchStats.get_stats(reservation_id)
+      next unless live_stats && live_stats[:players].any?
+
+      reservation_players_by_uid = reservation.reservation_players.index_by(&:steam_uid)
+
+      html = ApplicationController.render(
+        partial: "reservations/match_scoreboard",
+        locals: { live_stats: live_stats, reservation_players_by_uid: reservation_players_by_uid }
+      )
+
+      Turbo::StreamsChannel.broadcast_replace_to(
+        reservation,
+        target: "match-scoreboard",
+        html: html
+      )
+    end
+  rescue StandardError => e
+    Rails.logger.error("[LiveMatchStats] Error broadcasting scoreboard: #{e.message}")
+  end
 
   def batch_broadcast_lines(grouped_lines)
     grouped_lines.each do |logsecret, lines|

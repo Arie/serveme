@@ -17,6 +17,8 @@ class Reservation < ActiveRecord::Base
   has_many :server_statistics
   has_many :stac_logs
   has_many :stac_detections
+  has_many :reservation_matches
+
   has_one_attached :zipfile, service: :seaweedfs
 
   before_validation :calculate_duration

@@ -51,6 +51,7 @@ class ReservationWorker
       ReservationCleanupWorker.perform_async(reservation_id, temp_directory)
     else
       LogScanWorker.perform_async(reservation_id)
+      MatchStatsWorker.perform_async(reservation_id)
     end
 
     DiscordReservationUpdateWorker.perform_async(reservation_id)

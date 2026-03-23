@@ -138,5 +138,22 @@
               Server stats
               %i.fa.fa-bar-chart
 
+    #match-scoreboard
+      - live_stats = LiveMatchStats.get_stats(reservation.id)
+      - if live_stats && live_stats[:players].any?
+        - reservation_players_by_uid = reservation.reservation_players.index_by(&:steam_uid)
+        = render "reservations/match_scoreboard", live_stats: live_stats, reservation_players_by_uid: reservation_players_by_uid
+
     %table#reservation_statuses.table.table-hover.table-bordered
       = render reservation.reservation_statuses.ordered
+
+:javascript
+  function initScoreboardTooltips() {
+    [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]')).forEach(function(el) {
+      new bootstrap.Tooltip(el);
+    });
+  }
+  document.addEventListener('turbo:load', initScoreboardTooltips);
+  document.addEventListener('turbo:before-stream-render', function(event) {
+    setTimeout(initScoreboardTooltips, 10);
+  });

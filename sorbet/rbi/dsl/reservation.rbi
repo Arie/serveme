@@ -528,6 +528,20 @@ class Reservation
     def reload_zipfile_blob; end
 
     sig { returns(T::Array[T.untyped]) }
+    def reservation_match_ids; end
+
+    sig { params(ids: T::Array[T.untyped]).returns(T::Array[T.untyped]) }
+    def reservation_match_ids=(ids); end
+
+    # This method is created by ActiveRecord on the `Reservation` class because it declared `has_many :reservation_matches`.
+    # 🔗 [Rails guide for `has_many` association](https://guides.rubyonrails.org/association_basics.html#the-has-many-association)
+    sig { returns(::ReservationMatch::PrivateCollectionProxy) }
+    def reservation_matches; end
+
+    sig { params(value: T::Enumerable[::ReservationMatch]).void }
+    def reservation_matches=(value); end
+
+    sig { returns(T::Array[T.untyped]) }
     def reservation_player_ids; end
 
     sig { params(ids: T::Array[T.untyped]).returns(T::Array[T.untyped]) }

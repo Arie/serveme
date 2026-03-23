@@ -9,7 +9,7 @@
   document.addEventListener('turbo:load', function() {
     $('[data-toggle="tooltip"]').tooltip({html: true});
   });
-  
+
   // Reinitialize tooltips after Turbo Stream updates
   document.addEventListener('turbo:before-stream-render', function(event) {
     setTimeout(function() {

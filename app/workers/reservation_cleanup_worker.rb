@@ -23,6 +23,7 @@ class ReservationCleanupWorker
       zip_files
       copy_logs_to_destination
       LogScanWorker.perform_async(reservation_id)
+      MatchStatsWorker.perform_async(reservation_id)
       cleanup_temp_directory
       Rails.logger.info("ReservationCleanupWorker: Completed cleanup for reservation #{reservation_id}")
     rescue StandardError => e

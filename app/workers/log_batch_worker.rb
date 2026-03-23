@@ -82,10 +82,11 @@ class LogBatchWorker
       next unless live_stats && live_stats[:players].any?
 
       reservation_players_by_uid = reservation.reservation_players.index_by(&:steam_uid)
+      connection_info = ScoreboardConnectionInfo.for_reservation(reservation)
 
       html = ApplicationController.render(
         partial: "reservations/match_scoreboard",
-        locals: { live_stats: live_stats, reservation_players_by_uid: reservation_players_by_uid }
+        locals: { live_stats: live_stats, reservation_players_by_uid: reservation_players_by_uid, connection_info: connection_info }
       )
 
       Turbo::StreamsChannel.broadcast_update_to(

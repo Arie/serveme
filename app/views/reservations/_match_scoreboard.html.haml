@@ -2,12 +2,14 @@
 - red_score = scores["Red"] || 0
 - blue_score = scores["Blue"] || 0
 - class_order = { "scout" => 1, "soldier" => 2, "pyro" => 3, "demoman" => 4, "heavyweapons" => 5, "engineer" => 6, "medic" => 7, "sniper" => 8, "spy" => 9, "unknown" => 10 }
+- connection_info ||= {}
 
 - players = live_stats[:players]
 - red_players = players.select { |p| p[:team] == "Red" }
 - blue_players = players.select { |p| p[:team] == "Blue" }
 - red_sorted = red_players.sort_by { |p| class_order[p[:tf2_class] || "unknown"] || 10 }
 - blue_sorted = blue_players.sort_by { |p| class_order[p[:tf2_class] || "unknown"] || 10 }
+- show_connection = connection_info.any?
 
 .match-scoreboard.mb-3
   .d-flex.justify-content-center.align-items-center.mb-3
@@ -29,6 +31,12 @@
           %th.text-end{title: "Heals Received"} HR
           %th.text-center{title: "Kills + Assists per Death"} KA/D
           %th.text-center{title: "Kills per Death"} K/D
+          - if show_connection
+            %th Country
+            %th.text-end Distance
+            %th.text-end Ping
+            %th.text-end Loss
+            %th ISP
       %tbody
         - [["Red", "#bd3b3b", red_sorted], ["Blue", "#5b818f", blue_sorted]].each do |team_name, team_color, team_players|
           - team_players.each do |stats|
@@ -39,6 +47,7 @@
             - effective_deaths = [deaths, 1].max
             - ka_d = ((kills + assists).to_f / effective_deaths).round(1)
             - k_d = (kills.to_f / effective_deaths).round(1)
+            - conn = connection_info[stats[:steam_uid].to_s] if show_connection
             %tr
               %td{style: "background-color: #{team_color}; width: 4px; padding: 0;"}
               %td
@@ -58,6 +67,27 @@
               %td.text-end= number_with_delimiter(stats[:heals_received] || 0)
               %td.text-center= ka_d
               %td.text-center= k_d
+              - if show_connection
+                %td
+                  - if conn && conn[:country_code].present?
+                    = image_tag("flags/#{conn[:country_code]}.png", alt: conn[:country_name], class: "flag", style: "margin-right: 0.5em;")
+                    = conn[:country_name]
+                  - elsif conn && conn[:sdr]
+                    %span.text-muted SDR
+                %td.text-end
+                  - if conn && conn[:sdr]
+                    %span.text-muted SDR
+                  - elsif conn && conn[:distance]
+                    = "#{conn[:distance]} #{conn[:distance_unit]}"
+                %td.text-end
+                  - if conn && conn[:ping]
+                    = "#{conn[:ping]} ms"
+                %td.text-end
+                  - if conn && conn[:loss]
+                    = "#{conn[:loss]}%"
+                %td
+                  - if conn && conn[:asn_organization]
+                    = conn[:asn_organization]
 
   - unassigned = players.select { |p| !p[:team]&.in?(%w[Red Blue]) }
   - if unassigned.any?

@@ -29,6 +29,7 @@
       %div{id: "match-scoreboard-#{reservation.id}"}
         - if live_stats && live_stats[:players].any?
           - reservation_players_by_uid = reservation.reservation_players.index_by(&:steam_uid)
-          = render "reservations/match_scoreboard", live_stats: live_stats, reservation_players_by_uid: reservation_players_by_uid
+          - connection_info = ScoreboardConnectionInfo.for_reservation(reservation)
+          = render "reservations/match_scoreboard", live_stats: live_stats, reservation_players_by_uid: reservation_players_by_uid, connection_info: connection_info
         - else
           %p.text-muted.mb-0 No match data yet

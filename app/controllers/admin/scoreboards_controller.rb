@@ -3,7 +3,7 @@
 
 module Admin
   class ScoreboardsController < ApplicationController
-    before_action :require_admin
+    before_action :require_admin_or_streamer
 
     def index
       @reservations = Reservation.current.includes(:user, :server, :reservation_players)

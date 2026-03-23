@@ -88,7 +88,7 @@ class LogBatchWorker
         locals: { live_stats: live_stats, reservation_players_by_uid: reservation_players_by_uid }
       )
 
-      Turbo::StreamsChannel.broadcast_replace_to(
+      Turbo::StreamsChannel.broadcast_update_to(
         reservation,
         target: "match-scoreboard",
         html: html

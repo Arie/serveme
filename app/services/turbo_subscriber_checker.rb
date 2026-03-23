@@ -20,14 +20,14 @@ class TurboSubscriberChecker
   end
 
   # Check if there are subscribers for a model-based Turbo Stream (e.g., a Reservation)
-  # Model streams use signed channel names unlike plain string streams
+  # Model streams use the unsigned stream name (GlobalID) as the Redis channel, not the signed token
   def self.has_model_subscribers?(streamable)
     cable_config = ActionCable.server.config.cable
     return true unless cable_config["adapter"] == "redis"
 
-    signed = Turbo::StreamsChannel.signed_stream_name(streamable)
+    unsigned = streamable.to_gid_param
     prefix = cable_config["channel_prefix"]
-    full_channel = "#{prefix}:Turbo::StreamsChannel:#{signed}"
+    full_channel = "#{prefix}:#{unsigned}"
 
     Sidekiq.redis { |conn| conn.pubsub(:numsub, full_channel).last.to_i > 0 }
   rescue

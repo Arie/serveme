@@ -147,13 +147,3 @@
     %table#reservation_statuses.table.table-hover.table-bordered
       = render reservation.reservation_statuses.ordered
 
-:javascript
-  function initScoreboardTooltips() {
-    [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]')).forEach(function(el) {
-      new bootstrap.Tooltip(el);
-    });
-  }
-  document.addEventListener('turbo:load', initScoreboardTooltips);
-  document.addEventListener('turbo:before-stream-render', function(event) {
-    setTimeout(initScoreboardTooltips, 10);
-  });

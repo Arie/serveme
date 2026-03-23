@@ -20,15 +20,15 @@
         %tr
           %th
           %th Name
-          %th.text-center{data: {bs_toggle: "tooltip", bs_placement: "top"}, title: "Class"}
-          %th.text-center{data: {bs_toggle: "tooltip", bs_placement: "top"}, title: "Kills"} K
-          %th.text-center{data: {bs_toggle: "tooltip", bs_placement: "top"}, title: "Assists"} A
-          %th.text-center{data: {bs_toggle: "tooltip", bs_placement: "top"}, title: "Deaths"} D
-          %th.text-end{data: {bs_toggle: "tooltip", bs_placement: "top"}, title: "Damage"} DA
-          %th.text-end{data: {bs_toggle: "tooltip", bs_placement: "top"}, title: "Damage Taken"} DT
-          %th.text-end{data: {bs_toggle: "tooltip", bs_placement: "top"}, title: "Heals Received"} HR
-          %th.text-center{data: {bs_toggle: "tooltip", bs_placement: "top"}, title: "Kills + Assists per Death"} KA/D
-          %th.text-center{data: {bs_toggle: "tooltip", bs_placement: "top"}, title: "Kills per Death"} K/D
+          %th.text-center{title: "Class"}
+          %th.text-center{title: "Kills"} K
+          %th.text-center{title: "Assists"} A
+          %th.text-center{title: "Deaths"} D
+          %th.text-end{title: "Damage"} DA
+          %th.text-end{title: "Damage Taken"} DT
+          %th.text-end{title: "Heals Received"} HR
+          %th.text-center{title: "Kills + Assists per Death"} KA/D
+          %th.text-center{title: "Kills per Death"} K/D
       %tbody
         - [["Red", "#bd3b3b", red_sorted], ["Blue", "#5b818f", blue_sorted]].each do |team_name, team_color, team_players|
           - team_players.each do |stats|
@@ -36,8 +36,9 @@
             - kills = stats[:kills] || 0
             - assists = stats[:assists] || 0
             - deaths = stats[:deaths] || 0
-            - ka_d = deaths > 0 ? ((kills + assists).to_f / deaths).round(1) : ""
-            - k_d = deaths > 0 ? (kills.to_f / deaths).round(1) : ""
+            - effective_deaths = [deaths, 1].max
+            - ka_d = ((kills + assists).to_f / effective_deaths).round(1)
+            - k_d = (kills.to_f / effective_deaths).round(1)
             %tr
               %td{style: "background-color: #{team_color}; width: 4px; padding: 0;"}
               %td

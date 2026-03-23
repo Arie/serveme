@@ -138,12 +138,17 @@
               Server stats
               %i.fa.fa-bar-chart
 
-    %div{id: "match-scoreboard-#{reservation.id}"}
-      - live_stats = LiveMatchStats.get_stats(reservation.id)
-      - if live_stats && live_stats[:players].any?
-        - reservation_players_by_uid = reservation.reservation_players.index_by(&:steam_uid)
+    - reservation_players_by_uid = reservation.reservation_players.index_by(&:steam_uid)
+    - live_stats = LiveMatchStats.get_stats(reservation.id)
+    - if live_stats && live_stats[:players].any?
+      %div{id: "match-scoreboard-#{reservation.id}"}
         - connection_info = ScoreboardConnectionInfo.for_reservation(reservation)
         = render "reservations/match_scoreboard", live_stats: live_stats, reservation_players_by_uid: reservation_players_by_uid, connection_info: connection_info
+    - else
+      - reservation.reservation_matches.includes(:match_players).each do |match|
+        - match_stats = ScoreboardStats.from_match(match)
+        - connection_info = ScoreboardConnectionInfo.for_reservation(reservation)
+        = render "reservations/match_scoreboard", live_stats: match_stats, reservation_players_by_uid: reservation_players_by_uid, connection_info: connection_info
 
     %table#reservation_statuses.table.table-hover.table-bordered
       = render reservation.reservation_statuses.ordered

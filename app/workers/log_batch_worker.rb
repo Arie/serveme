@@ -72,6 +72,10 @@ class LogBatchWorker
       end
       next unless reservation_id
 
+      # Throttle scoreboard broadcasts to once per second per reservation
+      throttle_key = "scoreboard_throttle:#{reservation_id}"
+      next unless Sidekiq.redis { |r| r.set(throttle_key, "1", nx: true, ex: 1) }
+
       reservation = Reservation.find(reservation_id)
       next unless TurboSubscriberChecker.has_model_subscribers?(reservation)
 

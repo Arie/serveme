@@ -6,10 +6,17 @@ class LiveMatchStats
   EXPIRY = 12.hours.to_i
 
   ANSI_REGEX = /\e\[\d*;?\d*m\[?K?/
+  MAP_START_REGEX = /Started map "/
 
   class << self
     def process_line(reservation_id, raw_line)
       line = sanitize_line(raw_line)
+
+      if line.match?(MAP_START_REGEX)
+        clear(reservation_id)
+        return
+      end
+
       event = parse_event(line)
       return unless event
 

@@ -82,7 +82,11 @@ module LogLineHelper
       TF2LineParser::Events::AirshotHeal,
       TF2LineParser::Events::HeadshotDamage,
       TF2LineParser::Events::RoleChange,
-      TF2LineParser::Events::TeamSay
+      TF2LineParser::Events::TeamSay,
+      TF2LineParser::Events::Heal,
+      TF2LineParser::Events::Assist,
+      TF2LineParser::Events::MedicDeath,
+      TF2LineParser::Events::Spawn
     ]
   end
 
@@ -97,6 +101,19 @@ module LogLineHelper
       TF2LineParser::Events::EmptyUber,
       TF2LineParser::Events::FirstHealAfterSpawn
     ]
+  end
+
+  def scoreboard_only_events
+    @scoreboard_only_events ||= [
+      TF2LineParser::Events::Heal,
+      TF2LineParser::Events::Assist,
+      TF2LineParser::Events::MedicDeath,
+      TF2LineParser::Events::Spawn
+    ]
+  end
+
+  def scoreboard_only_event?(log_line)
+    scoreboard_only_events.any? { |event_type| log_line.match?(event_type.regex) }
   end
 
   def ip_regex

@@ -75,6 +75,9 @@ class LogBatchWorker
       reservation = Reservation.find(reservation_id)
       next unless TurboSubscriberChecker.has_model_subscribers?(reservation)
 
+      # Keep log_listeners alive so logdaemon continues forwarding lines
+      Sidekiq.redis { |r| r.set("log_listeners:#{logsecret}", "1", ex: 30) }
+
       live_stats = LiveMatchStats.get_stats(reservation_id)
       next unless live_stats && live_stats[:players].any?
 
@@ -114,8 +117,8 @@ class LogBatchWorker
 
       # Batch render user lines (if there are subscribers)
       if has_user_subscribers
-        # Filter out admin-only events for user stream
-        user_lines = lines.reject { |line| admin_only_event?(line) }
+        # Filter out admin-only and scoreboard-only events for user stream
+        user_lines = lines.reject { |line| admin_only_event?(line) || scoreboard_only_event?(line) }
 
         if user_lines.any?
           html = ApplicationController.render(
@@ -135,9 +138,12 @@ class LogBatchWorker
 
       # Batch render admin lines (if there are subscribers)
       if has_admin_subscribers
+        admin_lines = lines.reject { |line| scoreboard_only_event?(line) }
+        next if admin_lines.empty?
+
         html = ApplicationController.render(
           partial: "reservations/log_line",
-          collection: lines,
+          collection: admin_lines,
           as: :log_line,
           locals: { skip_sanitization: true }
         )

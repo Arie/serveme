@@ -116,6 +116,9 @@ class ReservationsController < ApplicationController
 
   def show
     if reservation
+      if reservation.now?
+        Sidekiq.redis { |r| r.set("log_listeners:#{reservation.logsecret}", "1", ex: 30) }
+      end
       render :show
     else
       redirect_to new_reservation_path

@@ -1,0 +1,24 @@
+- content_for(:title) { "Live Scoreboards" }
+
+.row
+  .col-md-12
+    %h2.mb-4 Live Scoreboards
+
+- @reservations.each do |reservation|
+  - live_stats = LiveMatchStats.get_stats(reservation.id)
+  = turbo_stream_from reservation
+
+  .card.mb-4
+    .card-header
+      %strong= link_to reservation.server.name, reservation_path(reservation)
+      \-
+      = reservation.first_map
+      %small.text-muted.ms-2
+        = link_to reservation.user.nickname, reservation.user.steam_profile_url, target: "_blank"
+    .card-body.p-2
+      %div{id: "match-scoreboard-#{reservation.id}"}
+        - if live_stats && live_stats[:players].any?
+          - reservation_players_by_uid = reservation.reservation_players.index_by(&:steam_uid)
+          = render "reservations/match_scoreboard", live_stats: live_stats, reservation_players_by_uid: reservation_players_by_uid
+        - else
+          %p.text-muted.mb-0 No match data yet

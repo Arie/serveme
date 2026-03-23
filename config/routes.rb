@@ -158,6 +158,7 @@ Serveme::Application.routes.draw do
     resources :maps, only: [ :index, :destroy ]
     resources :docker_hosts, except: :show
     resource :site_settings, only: [ :edit, :update ]
+    resources :scoreboards, only: [ :index ]
   end
 
   authenticate :user, ->(u) { u.admin? } do

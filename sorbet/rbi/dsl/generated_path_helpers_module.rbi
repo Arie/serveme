@@ -31,6 +31,9 @@ module GeneratedPathHelpersModule
   def admin_products_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def admin_scoreboards_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def admin_server_notification_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }

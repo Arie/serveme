@@ -90,7 +90,7 @@ class LogBatchWorker
 
       Turbo::StreamsChannel.broadcast_update_to(
         reservation,
-        target: "match-scoreboard",
+        target: "match-scoreboard-#{reservation_id}",
         html: html
       )
     end

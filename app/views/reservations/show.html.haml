@@ -138,7 +138,7 @@
               Server stats
               %i.fa.fa-bar-chart
 
-    #match-scoreboard
+    %div{id: "match-scoreboard-#{reservation.id}"}
       - live_stats = LiveMatchStats.get_stats(reservation.id)
       - if live_stats && live_stats[:players].any?
         - reservation_players_by_uid = reservation.reservation_players.index_by(&:steam_uid)

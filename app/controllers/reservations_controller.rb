@@ -265,9 +265,14 @@ class ReservationsController < ApplicationController
     query = params[:q].to_s.strip.presence
     position_percent = params[:percent].to_f.clamp(0, 100)
     count = params[:count].to_i.clamp(10, 500)
+    target_line = params[:line].present? ? params[:line].to_i : nil
 
     service = LogStreamingService.new(streaming_log_path, search_query: query)
-    result = service.view_at_position(position_percent: position_percent, count: count)
+    result = if target_line
+               service.view_at_line(target_line: target_line, count: count)
+    else
+               service.view_at_position(position_percent: position_percent, count: count)
+    end
 
     lines = result[:lines]
 

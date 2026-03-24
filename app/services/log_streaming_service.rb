@@ -95,6 +95,28 @@ class LogStreamingService
     matches.map { |m| m[:line_number] }
   end
 
+  # View lines centered on a specific line number (no percentage conversion)
+  def view_at_line(target_line:, count:)
+    total = total_line_count
+    return empty_view_result if total == 0
+
+    half = count / 2
+    start_idx = [ target_line - half, 0 ].max
+    end_idx = [ start_idx + count, total ].min
+    start_idx = [ end_idx - count, 0 ].max
+
+    result = stream_range(start_idx, end_idx)
+
+    {
+      lines: result[:lines],
+      total: total,
+      total_matches: nil,
+      start_index: start_idx,
+      end_index: start_idx + result[:lines].size,
+      is_search: false
+    }
+  end
+
   # Unified view method: returns lines for a viewport, with optional search
   # position_percent: 0-100, where in the file/matches to center the view
   # count: number of lines to return

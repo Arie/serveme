@@ -261,6 +261,69 @@ export default class extends Controller {
     }
   }
 
+  // Load content centered on a specific line number (avoids percentage drift on live logs)
+  async loadAtLine(targetLine) {
+    this.tailing = false
+
+    // Cancel any pending request
+    if (this.pendingRequest) {
+      this.pendingRequest.abort()
+    }
+
+    const controller = new AbortController()
+    this.pendingRequest = controller
+
+    try {
+      const url = new URL(this.viewUrlValue, window.location.origin)
+      url.searchParams.set('line', targetLine)
+      url.searchParams.set('count', this.viewportCountValue)
+
+      const response = await fetch(url, {
+        signal: controller.signal,
+        headers: {
+          'Accept': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      })
+
+      if (!response.ok) throw new Error('Failed to fetch')
+
+      const data = await response.json()
+
+      // Update totals
+      this.totalLinesValue = data.total
+      this.totalMatches = null
+      this.updateContentHeight()
+
+      // Track loaded range
+      this.loadedStartIndex = data.start_index
+      this.loadedEndIndex = data.end_index
+
+      // Render the lines
+      this.renderLines(data.html, data.start_index, data.line_indices)
+
+      // Calculate percentage from the server's actual total for UI positioning
+      const percent = data.total > 0 ? (targetLine / data.total) * 100 : 0
+      this.currentPercent = percent
+      this.updateProgressPosition(percent)
+      this.updateStatusText()
+      this.updateSearchCount()
+
+      // Scroll to show the target line near the top of the viewport
+      const targetScroll = targetLine * this.lineHeightValue
+      this.viewportTarget.scrollTop = targetScroll
+
+    } catch (error) {
+      if (error.name !== 'AbortError') {
+        console.error('Load error:', error)
+      }
+    } finally {
+      if (this.pendingRequest === controller) {
+        this.pendingRequest = null
+      }
+    }
+  }
+
   // Render the HTML content
   renderLines(html, startIndex, lineIndices) {
     // Split on log-line div boundaries and wrap with positioning via string ops.
@@ -654,10 +717,8 @@ export default class extends Controller {
       event.rendered = false
     }
 
-    // Calculate percent position based on file line
-    const total = this.totalLinesValue
-    const percent = total > 0 ? (fileLine / total) * 100 : 0
-    this.loadAtPercent(percent)
+    // Pass the exact line number to the server to avoid percentage drift on live logs
+    this.loadAtLine(fileLine)
   }
 
   // Handle click on log line to toggle raw view

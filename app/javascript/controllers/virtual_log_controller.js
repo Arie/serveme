@@ -40,7 +40,8 @@ export default class extends Controller {
     initialTotalMatches: Number,  // Total matches for initial query (pre-rendered)
     startAtEnd: { type: Boolean, default: false },  // Start at end of file (for RCON)
     delaySeconds: { type: Number, default: 0 },     // 0 = real-time
-    highlightOnly: { type: Boolean, default: false } // Filter to important events only
+    highlightOnly: { type: Boolean, default: false }, // Filter to important events only
+    timestampIndex: { type: Array, default: [] }     // [[lineNumber, "HH:MM:SS"], ...] at each second transition
   }
 
   connect() {
@@ -325,7 +326,9 @@ export default class extends Controller {
       this.updateProgressPosition(100)
       if (this.hasStatusTextTarget) {
         const label = this.totalMatches !== null ? 'Match' : 'Line'
-        this.statusTextTarget.textContent = `${label} ${effectiveTotal} of ${effectiveTotal}`
+        const ts = this.timestampForLine(effectiveTotal)
+        const tsPrefix = ts ? `${ts} · ` : ''
+        this.statusTextTarget.textContent = `${tsPrefix}${label} ${effectiveTotal} of ${effectiveTotal}`
       }
       return
     }
@@ -402,11 +405,10 @@ export default class extends Controller {
     const rect = this.progressContainerTarget.getBoundingClientRect()
     const percent = ((event.clientX - rect.left) / rect.width) * 100
     const effectiveTotal = this.getEffectiveTotal()
-    const targetIndex = Math.round((percent / 100) * effectiveTotal)
-    const label = this.totalMatches !== null ? 'Match' : 'Line'
+    const lineNumber = Math.round((percent / 100) * effectiveTotal)
 
     this.progressTooltipTarget.style.left = `${percent}%`
-    this.progressTooltipTarget.textContent = `${label} ${targetIndex}`
+    this.progressTooltipTarget.textContent = this.timestampForLine(lineNumber) || `Line ${lineNumber}`
   }
 
   // Handle drag start
@@ -438,13 +440,15 @@ export default class extends Controller {
     const effectiveTotal = this.getEffectiveTotal()
     const targetIndex = Math.round((percent / 100) * effectiveTotal)
     const label = this.totalMatches !== null ? 'Match' : 'Line'
+    const ts = this.timestampForLine(targetIndex)
 
     if (this.hasProgressTooltipTarget) {
       this.progressTooltipTarget.style.left = `${percent}%`
-      this.progressTooltipTarget.textContent = `${label} ${targetIndex}`
+      this.progressTooltipTarget.textContent = ts || `${label} ${targetIndex}`
     }
     if (this.hasStatusTextTarget) {
-      this.statusTextTarget.textContent = `${label} ${Math.max(1, targetIndex)} of ${effectiveTotal}`
+      const tsPrefix = ts ? `${ts} · ` : ''
+      this.statusTextTarget.textContent = `${tsPrefix}${label} ${Math.max(1, targetIndex)} of ${effectiveTotal}`
     }
 
     // Scroll viewport instantly
@@ -503,7 +507,9 @@ export default class extends Controller {
     }
 
     const label = this.totalMatches !== null ? 'Match' : 'Line'
-    this.statusTextTarget.textContent = `${label} ${currentIndex} of ${effectiveTotal}`
+    const ts = this.timestampForLine(currentIndex)
+    const tsPrefix = ts ? `${ts} · ` : ''
+    this.statusTextTarget.textContent = `${tsPrefix}${label} ${currentIndex} of ${effectiveTotal}`
   }
 
   // Update search count display
@@ -786,6 +792,17 @@ export default class extends Controller {
     for (const logLine of logLines) {
       const eventType = logLine.dataset.eventType
       const rawText = logLine.dataset.raw || ''
+      const timestamp = logLine.dataset.timestamp
+
+      // Extend timestamp index from live lines (10s bucket dedup)
+      if (timestamp) {
+        const idx = this.timestampIndexValue
+        const bucket = timestamp.slice(0, 7)
+        const lastBucket = idx.length > 0 ? idx[idx.length - 1][1].slice(0, 7) : null
+        if (bucket !== lastBucket) {
+          idx.push([this.totalLinesValue + this.eventBuffer.length, timestamp])
+        }
+      }
 
       // Always buffer all events (for seamless delay switching and search re-filtering)
       const bufferedEvent = {
@@ -858,7 +875,9 @@ export default class extends Controller {
       // Directly set status text to avoid calculation issues
       if (this.hasStatusTextTarget) {
         const label = this.totalMatches !== null ? 'Match' : 'Line'
-        this.statusTextTarget.textContent = `${label} ${effectiveTotal} of ${effectiveTotal}`
+        const ts = this.timestampForLine(effectiveTotal)
+        const tsPrefix = ts ? `${ts} · ` : ''
+        this.statusTextTarget.textContent = `${tsPrefix}${label} ${effectiveTotal} of ${effectiveTotal}`
       }
 
       // Clear flag after a short delay to let any queued scroll events pass
@@ -1215,6 +1234,30 @@ export default class extends Controller {
       // Sync with browser-restored checkbox state
       this.highlightOnlyValue = this.highlightToggleTarget.checked
     }
+  }
+
+  // Binary search the timestamp index for the timestamp at a given line number.
+  // Returns "HH:MM:SS" or null if no timestamps are available.
+  timestampForLine(lineNumber) {
+    const idx = this.timestampIndexValue
+    if (!idx || idx.length === 0) return null
+
+    // Binary search: find the last entry where entry[0] <= lineNumber
+    let lo = 0
+    let hi = idx.length - 1
+    let result = null
+
+    while (lo <= hi) {
+      const mid = (lo + hi) >> 1
+      if (idx[mid][0] <= lineNumber) {
+        result = idx[mid][1]
+        lo = mid + 1
+      } else {
+        hi = mid - 1
+      }
+    }
+
+    return result
   }
 
   // Utility

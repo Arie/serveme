@@ -3,7 +3,7 @@
   %i.fa.fa-upload
 
 .streaming-page
-  %div{data: {controller: "virtual-log", virtual_log_view_url_value: show_log_view_reservation_log_uploads_path(reservation, file_name: @file_name), virtual_log_total_lines_value: @total_lines, virtual_log_line_height_value: 24, virtual_log_buffer_lines_value: 50, virtual_log_viewport_count_value: 200, virtual_log_initial_query_value: @initial_query, virtual_log_initial_total_matches_value: @initial_total_matches}}
+  %div{data: {controller: "virtual-log", virtual_log_view_url_value: show_log_view_reservation_log_uploads_path(reservation, file_name: @file_name), virtual_log_total_lines_value: @total_lines, virtual_log_line_height_value: 24, virtual_log_buffer_lines_value: 50, virtual_log_viewport_count_value: 200, virtual_log_initial_query_value: @initial_query, virtual_log_initial_total_matches_value: @initial_total_matches, virtual_log_timestamp_index_value: (@timestamp_index || []).to_json}}
     .log-controls-bar
       .log-search-container
         %input.log-search-input{type: "text", placeholder: "Search logs...", value: @initial_query, data: {action: "input->virtual-log#search", virtual_log_target: "searchInput"}}

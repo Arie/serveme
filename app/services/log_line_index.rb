@@ -9,17 +9,21 @@
 # - Random access: O(1) seek + O(chunk_size) read
 # - File growth: Only indexes new portions, existing offsets remain valid
 class LogLineIndex
-  attr_reader :filename, :offsets, :indexed_to_byte
+  TIMESTAMP_REGEX = /\AL \d{2}\/\d{2}\/\d{4} - (\d{2}:\d{2}:\d{2}):/
+
+  attr_reader :filename, :offsets, :indexed_to_byte, :timestamp_transitions
 
   def initialize(filename)
     @filename = filename
     @offsets = [ 0 ] # First line always starts at byte 0
     @indexed_to_byte = 0
+    @timestamp_transitions = [] # [[line_number, "HH:MM:S0"], ...] at each 10-second change
+    @last_timestamp_bucket = nil
     @mutex = Mutex.new
   end
 
   # Extend the index if the file has grown or if we need to reach a target line.
-  # Thread-safe and idempotent.
+  # Thread-safe and idempotent. Builds both byte-offset and timestamp indexes.
   def extend_if_needed(target_line = nil)
     @mutex.synchronize do
       return unless File.exist?(filename)
@@ -28,10 +32,21 @@ class LogLineIndex
       return if current_size == @indexed_to_byte
       return if target_line && target_line < @offsets.size
 
+      line_number = @offsets.size - 1
+
       File.open(filename, "rb") do |f|
         f.seek(@indexed_to_byte)
 
         while (line = f.gets)
+          if (ts = line[TIMESTAMP_REGEX, 1])
+            bucket = ts[0, 7] # "HH:MM:S" — truncate ones digit for 10s resolution
+            if bucket != @last_timestamp_bucket
+              @timestamp_transitions << [ line_number, ts ]
+              @last_timestamp_bucket = bucket
+            end
+          end
+
+          line_number += 1
           @offsets << f.pos
           break if target_line && @offsets.size > target_line
         end

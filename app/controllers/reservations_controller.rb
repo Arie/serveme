@@ -151,6 +151,7 @@ class ReservationsController < ApplicationController
     # The frontend will fetch specific ranges as needed
     service = LogStreamingService.new(streaming_log_path)
     @total_lines = service.total_line_count
+    @timestamp_index = service.timestamp_index
   rescue Errno::ENOENT
     flash[:error] = "No such streaming logfile #{@logsecret}.log"
     redirect_to reservation_path(reservation)
@@ -173,6 +174,7 @@ class ReservationsController < ApplicationController
     # For virtual scrolling, we only need the total line count on initial load
     service = LogStreamingService.new(streaming_log_path)
     @total_lines = service.total_line_count
+    @timestamp_index = service.timestamp_index
   rescue Errno::ENOENT
     @total_lines = 0
   end

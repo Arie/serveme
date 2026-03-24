@@ -9,7 +9,8 @@
        data-virtual-log-viewport-count-value="200"
        data-virtual-log-stream-target-value="reservation_<%= @logsecret %>_log_lines"
        data-virtual-log-initial-query-value="<%= @initial_query %>"
-       data-virtual-log-start-at-end-value="true">
+       data-virtual-log-start-at-end-value="true"
+       data-virtual-log-timestamp-index-value="<%= (@timestamp_index || []).to_json %>">
     <div class="log-controls-bar">
       <div class="log-search-container">
         <input type="text" class="log-search-input" placeholder="Search logs..." value="<%= @initial_query %>" data-action="input->virtual-log#search" data-virtual-log-target="searchInput">

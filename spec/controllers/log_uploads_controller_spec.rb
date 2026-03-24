@@ -81,7 +81,7 @@ describe LogUploadsController do
     describe '#show_log' do
       it 'assigns total_lines and initial_lines from LogStreamingService' do
         view_result = { lines: %w[line1 line2], start_index: 0, end_index: 2, total: 100, total_matches: nil, is_search: false }
-        service = instance_double(LogStreamingService, total_line_count: 100, view_at_position: view_result)
+        service = instance_double(LogStreamingService, total_line_count: 100, view_at_position: view_result, timestamp_index: [])
         subject.stub(logs: [ { file_name: 'foo.log', file_name_and_path: 'bar.log' } ])
         allow(LogStreamingService).to receive(:new).and_return(service)
 

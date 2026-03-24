@@ -54,6 +54,7 @@ class LogUploadsController < ApplicationController
     @initial_lines = result[:lines]
     @initial_start_index = result[:start_index]
     @initial_total_matches = result[:total_matches]
+    @timestamp_index = service.timestamp_index
   rescue Errno::ENOENT
     flash[:error] = "Log file not found"
     redirect_to reservation_log_uploads_path(reservation)

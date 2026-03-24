@@ -79,6 +79,15 @@ class LogStreamingService
     index.total_lines
   end
 
+  # Returns [[line_number, "HH:MM:SS"], ...] for each second transition.
+  # Bounded by match duration (~10K entries max), not line count.
+  def timestamp_index
+    return [] unless File.exist?(filename)
+    index = self.class.get_index(filename)
+    index.total_lines # ensure fully indexed
+    index.timestamp_transitions
+  end
+
   # Return just the line indices that match the search query (for virtual scroll search)
   def search_line_indices
     return [] unless search_query.present?

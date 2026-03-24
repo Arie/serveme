@@ -54,6 +54,9 @@ sm_democheck_enabled 0
 <% if server_config %>
 <%= "exec #{server_config}" %>
 <% end %>
+<% if SITE_HOST == 'au.serveme.tf' %>
+exec aliases.cfg
+<% end %>
 <% if SITE_HOST != 'na.serveme.tf' %>
 <%= %{servercfgfile "server.cfg" } %>
 <% end %>

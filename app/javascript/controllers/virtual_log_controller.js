@@ -54,6 +54,8 @@ export default class extends Controller {
     this.loadedEndIndex = 0
     this.tailing = this.startAtEndValue  // Track if we're following live updates
     this.isStreamingUpdate = false  // Flag to prevent scroll handler interference during streaming
+    this._timestampIndex = this.timestampIndexValue ? [...this.timestampIndexValue] : []  // Mutable copy for live extension
+    this._nextStreamLine = this.totalLinesValue  // Running line counter for incoming stream events
 
     // Initialize delay buffer system
     this.eventBuffer = []
@@ -796,13 +798,14 @@ export default class extends Controller {
 
       // Extend timestamp index from live lines (10s bucket dedup)
       if (timestamp) {
-        const idx = this.timestampIndexValue
         const bucket = timestamp.slice(0, 7)
-        const lastBucket = idx.length > 0 ? idx[idx.length - 1][1].slice(0, 7) : null
+        const lastEntry = this._timestampIndex.length > 0 ? this._timestampIndex[this._timestampIndex.length - 1] : null
+        const lastBucket = lastEntry ? lastEntry[1].slice(0, 7) : null
         if (bucket !== lastBucket) {
-          idx.push([this.totalLinesValue + this.eventBuffer.length, timestamp])
+          this._timestampIndex.push([this._nextStreamLine, timestamp])
         }
       }
+      this._nextStreamLine++
 
       // Always buffer all events (for seamless delay switching and search re-filtering)
       const bufferedEvent = {
@@ -1239,7 +1242,7 @@ export default class extends Controller {
   // Binary search the timestamp index for the timestamp at a given line number.
   // Returns "HH:MM:SS" or null if no timestamps are available.
   timestampForLine(lineNumber) {
-    const idx = this.timestampIndexValue
+    const idx = this._timestampIndex
     if (!idx || idx.length === 0) return null
 
     // Binary search: find the last entry where entry[0] <= lineNumber

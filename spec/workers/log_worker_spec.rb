@@ -401,6 +401,67 @@ describe LogWorker do
     end
   end
 
+  describe 'mark_cloud_server_ready' do
+    let(:cloud_user)        { create :user, uid: '76561197960497431' }
+    let(:cloud_server)      { create :cloud_server }
+    let(:cloud_reservation) { create :reservation, user: cloud_user, logsecret: '2345678', server: cloud_server, provisioned: false }
+    let(:cloud_badlands_start_line) { '2345678L 02/07/2015 - 20:39:40: Started map "cp_badlands" (CRC "a7e226a1ff6dd4b8d546d7d341d446dc")' }
+
+    before do
+      # Override the outer before block stubs completely
+      RSpec::Mocks.space.proxy_for(Server).reset
+      RSpec::Mocks.space.proxy_for(Reservation).reset
+
+      allow(Server).to receive(:find).with(anything).and_return(cloud_server)
+      Rails.cache.clear
+      Reservation.should_receive(:current).at_least(:once).and_return(Reservation)
+      Reservation.should_receive(:includes).at_least(:once).with(:user).and_return(Reservation)
+      Reservation.should_receive(:find_by_id).at_least(:once).with(cloud_reservation.id).and_return(cloud_reservation)
+      allow(cloud_reservation).to receive(:server).and_return(cloud_server)
+      allow(cloud_server).to receive(:broadcast_reservation_status)
+      allow(cloud_server).to receive(:rcon_auth).and_return(true)
+      allow(cloud_server).to receive(:condenser).and_return(condenser)
+      allow(cloud_server).to receive(:rcon_say)
+      allow(Turbo::StreamsChannel).to receive(:broadcast_append_to)
+      allow(Turbo::StreamsChannel).to receive(:broadcast_remove)
+    end
+
+    it 'marks the reservation as provisioned on first log line' do
+      LogWorker.perform_async(cloud_badlands_start_line)
+
+      cloud_reservation.reload
+      expect(cloud_reservation.provisioned).to be true
+    end
+
+    it 'creates a "TF2 server ready" status message' do
+      LogWorker.perform_async(cloud_badlands_start_line)
+
+      expect(ReservationStatus.where(reservation_id: cloud_reservation.id).pluck(:status)).to include('TF2 server ready')
+    end
+
+    it 'calls broadcast_reservation_status on the server' do
+      expect(cloud_server).to receive(:broadcast_reservation_status)
+      LogWorker.perform_async(cloud_badlands_start_line)
+    end
+
+    it 'does not create duplicate status messages when called twice' do
+      # First call marks it as provisioned
+      LogWorker.perform_async(cloud_badlands_start_line)
+
+      status_count_before = ReservationStatus.where(reservation_id: cloud_reservation.id, status: 'TF2 server ready').count
+      expect(status_count_before).to eq(1)
+
+      # Second call should not create a duplicate status because provisioned is now true
+      cloud_reservation.reload
+      allow(Reservation).to receive(:find_by_id).with(cloud_reservation.id).and_return(cloud_reservation)
+
+      LogWorker.perform_async(cloud_badlands_start_line)
+
+      status_count_after = ReservationStatus.where(reservation_id: cloud_reservation.id, status: 'TF2 server ready').count
+      expect(status_count_after).to eq(1)
+    end
+  end
+
   describe 'console commands' do
     it 'handles Console commands without crashing on steam ID conversion' do
       expect { LogWorker.perform_async(console_extend_line) }.not_to raise_error

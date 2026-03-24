@@ -9,6 +9,7 @@ class LiveMatchStats
   MAP_START_REGEX = /Started map "/
 
   class << self
+    # Process a single raw log line (used by rebuild and standalone callers)
     def process_line(reservation_id, raw_line)
       line = sanitize_line(raw_line)
 
@@ -20,23 +21,47 @@ class LiveMatchStats
       event = parse_event(line)
       return unless event
 
-      case event
-      when TF2LineParser::Events::RoundStart
-        set_field(reservation_id, "between_matches", "0")
-        set_field(reservation_id, "between_rounds", "0")
-      when TF2LineParser::Events::MatchEnd
-        set_field(reservation_id, "between_matches", "1")
-      when TF2LineParser::Events::RoundWin
-        set_field(reservation_id, "between_rounds", "1")
-        increment_team_score(reservation_id, event.team) if event.team
-      when TF2LineParser::Events::FinalScore
-        set_score(reservation_id, event.team, event.score.to_i) if event.team
-      when TF2LineParser::Events::CurrentScore
-        set_score(reservation_id, event.team, event.score.to_i) if event.team
-      else
-        return if between_matches?(reservation_id) || between_rounds?(reservation_id)
+      process_events(reservation_id, [ event ])
+    end
 
-        process_player_event(reservation_id, event)
+    # Process a batch of pre-parsed events, reading between_matches/between_rounds
+    # once instead of per-event
+    def process_events(reservation_id, events)
+      between_matches = between_matches?(reservation_id)
+      between_rounds = between_rounds?(reservation_id)
+
+      events.each do |event|
+        next unless event
+
+        if event.is_a?(TF2LineParser::Events::Unknown) && event.unknown&.match?(MAP_START_REGEX)
+          clear(reservation_id)
+          between_matches = false
+          between_rounds = false
+          next
+        end
+
+        case event
+        when TF2LineParser::Events::RoundStart
+          set_field(reservation_id, "between_matches", "0")
+          set_field(reservation_id, "between_rounds", "0")
+          between_matches = false
+          between_rounds = false
+        when TF2LineParser::Events::MatchEnd
+          set_field(reservation_id, "between_matches", "1")
+          between_matches = true
+        when TF2LineParser::Events::RoundWin
+          set_field(reservation_id, "between_rounds", "1")
+          between_rounds = true
+          increment_team_score(reservation_id, event.team) if event.team
+        when TF2LineParser::Events::FinalScore
+          set_score(reservation_id, event.team, event.score.to_i) if event.team
+        when TF2LineParser::Events::CurrentScore
+          set_score(reservation_id, event.team, event.score.to_i) if event.team
+        else
+          next if between_matches || between_rounds
+
+          process_player_event(reservation_id, event)
+        end
       end
     end
 

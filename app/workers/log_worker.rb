@@ -11,6 +11,7 @@ class LogWorker
   sidekiq_options retry: 1
 
   attr_accessor :raw_line, :line, :message, :skip_broadcast
+  attr_reader :parsed_secret, :parsed_event
 
   MAP_START         = /(Started map\ "(\w+)")/
   END_COMMAND       = /^!end.*/
@@ -310,7 +311,7 @@ class LogWorker
 
   sig { returns(TF2LineParser::Events::Event) }
   def event
-    @event ||= TF2LineParser::Parser.parse(line)
+    @parsed_event ||= TF2LineParser::Parser.parse(line)
   end
 
   sig { returns(T.nilable(Reservation)) }
@@ -326,6 +327,7 @@ class LogWorker
     @line = matches[:line] if matches[:line]
     return unless matches[:secret].present?
 
+    @parsed_secret = matches[:secret]
     Rails.cache.fetch("reservation_secret_#{matches[:secret]}", expires_in: 1.minute) do
       @reservation_id = Reservation.where(logsecret: matches[:secret]).pluck(:id).last
     end
@@ -480,9 +482,11 @@ class LogWorker
   end
 
   def mark_cloud_server_ready
-    return if reservation.provisioned?
+    updated = Reservation.where(id: reservation.id, provisioned: false)
+      .update_all(provisioned: true, ready_at: Time.current)
+    return unless updated > 0
 
-    reservation.update_columns(provisioned: true, ready_at: Time.current)
+    reservation.reload
     reservation.status_update("TF2 server ready")
     reservation.server.broadcast_reservation_status
   end

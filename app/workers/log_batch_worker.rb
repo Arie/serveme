@@ -12,8 +12,10 @@
 # - 10× fewer worker dispatches
 #
 # Additional optimizations:
-# - Bulk-fetches reservations (1 query instead of N queries)
+# - Reuses parsed data from LogWorker (secret, event, line) instead of re-parsing
 # - Batches Turbo Stream broadcasts per reservation (fewer render calls + Redis PUBLISHes)
+# - Bulk-loads reservations for scoreboard broadcasts (1 query instead of N)
+# - Batches LiveMatchStats Redis operations per reservation
 class LogBatchWorker
   include Sidekiq::Worker
   include LogLineHelper
@@ -22,32 +24,29 @@ class LogBatchWorker
   def perform(log_lines)
     return if log_lines.empty?
 
-    # Process each line using LogWorker, collecting broadcasts for batching
     grouped_lines = Hash.new { |h, k| h[k] = [] }
+    grouped_events = Hash.new { |h, k| h[k] = [] }
+    active_logsecrets = Set.new
 
     log_lines.each do |raw_line|
       worker = LogWorker.new
       worker.skip_broadcast = true
       worker.perform(raw_line)
 
-      # Extract logsecret for batch broadcasting
-      matches = raw_line.match(LogWorker::LOG_LINE_REGEX)
-      if matches && matches[:line] && matches[:secret].present?
-        grouped_lines[matches[:secret]] << matches[:line]
-      end
+      secret = worker.parsed_secret
+      next unless secret.present? && worker.line.present?
+
+      grouped_lines[secret] << worker.line
+      grouped_events[secret] << worker.parsed_event
     end
 
-    # Resolve logsecret -> reservation_id once for the whole batch
     reservation_ids = resolve_reservation_ids(grouped_lines.keys)
 
-    # Update live match stats
-    update_live_match_stats(grouped_lines, reservation_ids)
+    update_live_match_stats(grouped_events, reservation_ids)
+    broadcast_scoreboard_updates(grouped_lines, reservation_ids, active_logsecrets)
+    batch_broadcast_lines(grouped_lines, active_logsecrets)
 
-    # Broadcast scoreboard updates to reservation show pages
-    broadcast_scoreboard_updates(grouped_lines, reservation_ids)
-
-    # Batch broadcast collected lines per reservation
-    batch_broadcast_lines(grouped_lines)
+    set_log_listeners(active_logsecrets)
   end
 
   private
@@ -62,18 +61,24 @@ class LogBatchWorker
     result
   end
 
-  def update_live_match_stats(grouped_lines, reservation_ids)
-    grouped_lines.each do |logsecret, lines|
+  def update_live_match_stats(grouped_events, reservation_ids)
+    grouped_events.each do |logsecret, events|
       reservation_id = reservation_ids[logsecret]
       next unless reservation_id
 
-      lines.each { |line| LiveMatchStats.process_line(reservation_id, line) }
+      LiveMatchStats.process_events(reservation_id, events)
     end
   rescue StandardError => e
     Rails.logger.error("[LiveMatchStats] Error updating stats: #{e.message}")
   end
 
-  def broadcast_scoreboard_updates(grouped_lines, reservation_ids)
+  def broadcast_scoreboard_updates(grouped_lines, reservation_ids, active_logsecrets)
+    # Bulk-load all reservations needed for scoreboard broadcasts
+    needed_ids = grouped_lines.keys.filter_map { |logsecret| reservation_ids[logsecret] }
+    return if needed_ids.empty?
+
+    reservations = Reservation.where(id: needed_ids).includes(:reservation_players).index_by(&:id)
+
     grouped_lines.each_key do |logsecret|
       reservation_id = reservation_ids[logsecret]
       next unless reservation_id
@@ -82,11 +87,11 @@ class LogBatchWorker
       throttle_key = "scoreboard_throttle:#{reservation_id}"
       next unless Sidekiq.redis { |r| r.set(throttle_key, "1", nx: true, ex: 1) }
 
-      reservation = Reservation.find(reservation_id)
+      reservation = reservations[reservation_id]
+      next unless reservation
       next unless TurboSubscriberChecker.has_model_subscribers?(reservation)
 
-      # Keep log_listeners alive so logdaemon continues forwarding lines
-      Sidekiq.redis { |r| r.set("log_listeners:#{logsecret}", "1", ex: 30) }
+      active_logsecrets << logsecret
 
       live_stats = LiveMatchStats.get_stats(reservation_id)
       next unless live_stats && live_stats[:players].any?
@@ -109,26 +114,21 @@ class LogBatchWorker
     end
   end
 
-  def batch_broadcast_lines(grouped_lines)
+  def batch_broadcast_lines(grouped_lines, active_logsecrets)
     grouped_lines.each do |logsecret, lines|
       next if lines.empty?
 
       user_stream = "reservation_#{logsecret}_log_lines"
       admin_stream = "#{user_stream}_admin"
 
-      # Check for subscribers before rendering (optimization)
       has_user_subscribers = TurboSubscriberChecker.has_subscribers?(user_stream)
       has_admin_subscribers = TurboSubscriberChecker.has_subscribers?(admin_stream)
 
-      if has_user_subscribers || has_admin_subscribers
-        Sidekiq.redis { |r| r.set("log_listeners:#{logsecret}", "1", ex: 30) }
-      end
-
       next unless has_user_subscribers || has_admin_subscribers
 
-      # Batch render user lines (if there are subscribers)
+      active_logsecrets << logsecret
+
       if has_user_subscribers
-        # Filter out admin-only and scoreboard-only events for user stream
         user_lines = lines.reject { |line| admin_only_event?(line) || scoreboard_only_event?(line) }
 
         if user_lines.any?
@@ -147,7 +147,6 @@ class LogBatchWorker
         end
       end
 
-      # Batch render admin lines (if there are subscribers)
       if has_admin_subscribers
         admin_lines = lines.reject { |line| scoreboard_only_event?(line) }
         next if admin_lines.empty?
@@ -164,6 +163,18 @@ class LogBatchWorker
           target: user_stream,
           html: html
         )
+      end
+    end
+  end
+
+  def set_log_listeners(active_logsecrets)
+    return if active_logsecrets.empty?
+
+    Sidekiq.redis do |r|
+      r.pipelined do |p|
+        active_logsecrets.each do |logsecret|
+          p.set("log_listeners:#{logsecret}", "1", ex: 30)
+        end
       end
     end
   end

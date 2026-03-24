@@ -388,6 +388,15 @@ main > a.btn:first-child
   min-width: 65px
   flex-shrink: 0
 
+// Clickable timestamps in search results (jump to line in full log)
+.virtual-line[data-file-line] .log-timestamp
+  cursor: pointer
+  text-decoration: underline
+  text-decoration-style: dotted
+  text-underline-offset: 2px
+  &:hover
+    color: #4fc3f7
+
 // Player names with team colors
 .player-name
   font-weight: bold

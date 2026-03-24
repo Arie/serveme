@@ -232,8 +232,8 @@ export default class extends Controller {
       this.loadedStartIndex = data.start_index
       this.loadedEndIndex = data.end_index
 
-      // Render the lines
-      this.renderLines(data.html, data.start_index)
+      // Render the lines (pass line_indices for search results so timestamps become clickable)
+      this.renderLines(data.html, data.start_index, data.line_indices)
 
       // Update UI
       this.updateProgressPosition(percent)
@@ -259,7 +259,7 @@ export default class extends Controller {
   }
 
   // Render the HTML content
-  renderLines(html, startIndex) {
+  renderLines(html, startIndex, lineIndices) {
     // Split on log-line div boundaries and wrap with positioning via string ops.
     // This avoids intermediate DOM parsing/manipulation — the browser does a single
     // optimized parse+layout pass from the innerHTML assignment.
@@ -267,11 +267,17 @@ export default class extends Controller {
     const parts = html.split(/(?=<div class="log-line )/)
     const wrapped = []
     let index = startIndex
+    let partIndex = 0
 
     for (const part of parts) {
       if (!part) continue
-      wrapped.push(`<div class="virtual-line" style="position:absolute;top:${index * lineHeight}px;left:0;right:0">${part}</div>`)
+      // In search mode, add data-file-line so timestamps can jump to that line
+      const fileLineAttr = lineIndices && lineIndices[partIndex] !== undefined
+        ? ` data-file-line="${lineIndices[partIndex]}"`
+        : ''
+      wrapped.push(`<div class="virtual-line"${fileLineAttr} style="position:absolute;top:${index * lineHeight}px;left:0;right:0">${part}</div>`)
       index++
+      partIndex++
     }
 
     this.linesContainerTarget.innerHTML = wrapped.join('')
@@ -625,8 +631,39 @@ export default class extends Controller {
     this.performSearch('')
   }
 
+  // Clear search and jump to a specific file line number
+  jumpToFileLine(fileLine) {
+    this.currentQuery = ''
+    if (this.hasSearchInputTarget) {
+      this.searchInputTarget.value = ''
+    }
+    this.totalMatches = null
+    this.updateUrl('')
+
+    // Reset buffer rendered state on streaming pages
+    for (const event of this.eventBuffer) {
+      event.domElement = null
+      event.rendered = false
+    }
+
+    // Calculate percent position based on file line
+    const total = this.totalLinesValue
+    const percent = total > 0 ? (fileLine / total) * 100 : 0
+    this.loadAtPercent(percent)
+  }
+
   // Handle click on log line to toggle raw view
   handleLogLineClick(event) {
+    // In search mode, clicking a timestamp clears search and jumps to that line
+    if (this.totalMatches !== null && event.target.closest('.log-timestamp')) {
+      const virtualLine = event.target.closest('.virtual-line')
+      if (virtualLine && virtualLine.dataset.fileLine !== undefined) {
+        const fileLine = parseInt(virtualLine.dataset.fileLine, 10)
+        this.jumpToFileLine(fileLine)
+        return
+      }
+    }
+
     // Don't close if clicking on the raw content (allows text selection)
     if (event.target.closest('.log-raw')) return
     if (event.target.closest('a, button')) return

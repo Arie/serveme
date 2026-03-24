@@ -169,7 +169,7 @@ class CloudServer < RemoteServer
     if provider_name.in?(%w[docker remote_docker])
       game_port = next_available_port_for(provider_name, location_code)
       start_port = provider_name == "remote_docker" ? T.must(T.must(docker_host).start_port) : 27015
-      ssh_port = 22000 + (game_port - start_port) / 10
+      ssh_port = 22000 + (game_port - 27015) / 10
     else
       game_port = 27015
       ssh_port = 2222

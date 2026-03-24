@@ -210,18 +210,17 @@ describe Reservation do
   end
 
   context 'reservation worker' do
-    let(:reservation) { create :reservation }
-
     describe '#start_reservation' do
       it 'should tell the worker to start the reservation' do
+        reservation = create :reservation
         ReservationWorker.should_receive(:perform_async).with(reservation.id, 'start')
         reservation.start_reservation
       end
 
       it 'should wait if a previous reservation is not fully ended' do
+        reservation = create :reservation
         previous_reservation = create(:reservation)
-        previous_reservation.update_attribute(:server_id, reservation.server_id)
-        previous_reservation.update_attribute(:ends_at, 1.minute.ago)
+        previous_reservation.update_columns(server_id: reservation.server_id, ends_at: 1.minute.ago)
 
         reservation.start_reservation
 
@@ -231,6 +230,7 @@ describe Reservation do
 
     describe '#update_reservation' do
       it 'should tell the worker to start the reservation' do
+        reservation = create :reservation
         ReservationWorker.should_receive(:perform_async).with(reservation.id, 'update')
         reservation.update_reservation
       end
@@ -238,6 +238,7 @@ describe Reservation do
 
     describe '#end_reservation' do
       it 'should tell the worker to end the reservation' do
+        reservation = create :reservation
         ReservationWorker.should_receive(:perform_async).with(reservation.id, 'end')
         reservation.end_reservation
       end
@@ -415,8 +416,9 @@ describe Reservation do
     end
 
     context "cloud server concurrency" do
+      let(:user) { create(:user) }
+
       it "does not allow a second cloud reservation when one is active" do
-        user = create(:user)
         existing_cloud = create(:cloud_server, cloud_status: "ready")
         create(:reservation, user: user, server: existing_cloud, ended: false)
 
@@ -428,7 +430,6 @@ describe Reservation do
       end
 
       it "allows a cloud reservation when the previous one is destroyed" do
-        user = create(:user)
         old_cloud = create(:cloud_server, cloud_status: "destroyed")
         create(:reservation, user: user, server: old_cloud, ended: true)
 
@@ -440,7 +441,6 @@ describe Reservation do
       end
 
       it "allows a non-cloud reservation when a cloud reservation is active" do
-        user = create(:user)
         existing_cloud = create(:cloud_server, cloud_status: "ready")
         create(:reservation, user: user, server: existing_cloud, ended: false)
 
@@ -825,8 +825,10 @@ describe Reservation do
     end
 
     context 'normal servers' do
+      let(:reservation) { create(:reservation, ready_at: nil) }
+
       it 'returns completed when ready_at is set' do
-        reservation = create(:reservation, ready_at: Time.current)
+        reservation.update_column(:ready_at, Time.current)
         reservation.status_update("Starting")
         result = reservation.provision_estimate
         expect(result[:completed]).to be true
@@ -834,7 +836,6 @@ describe Reservation do
       end
 
       it 'returns sending_configs phase during config upload' do
-        reservation = create(:reservation, ready_at: nil)
         reservation.status_update("Sending reservation config files")
 
         result = reservation.provision_estimate
@@ -843,7 +844,6 @@ describe Reservation do
       end
 
       it 'returns changing_map phase during fast start' do
-        reservation = create(:reservation, ready_at: nil)
         reservation.status_update("Attempting fast start")
 
         result = reservation.provision_estimate
@@ -851,7 +851,6 @@ describe Reservation do
       end
 
       it 'returns waiting_for_server phase after fast start attempted' do
-        reservation = create(:reservation, ready_at: nil)
         reservation.status_update("Fast start attempted, waiting to boot")
 
         result = reservation.provision_estimate
@@ -859,7 +858,6 @@ describe Reservation do
       end
 
       it 'returns waiting_for_start phase after server restarted' do
-        reservation = create(:reservation, ready_at: nil)
         reservation.status_update("Restarted server, waiting to boot")
 
         result = reservation.provision_estimate
@@ -868,7 +866,6 @@ describe Reservation do
       end
 
       it 'uses restart phases when server is outdated' do
-        reservation = create(:reservation, ready_at: nil)
         reservation.status_update("Server outdated, restarting server to update")
 
         result = reservation.provision_estimate
@@ -877,7 +874,6 @@ describe Reservation do
       end
 
       it 'uses restart phases when fast start failed' do
-        reservation = create(:reservation, ready_at: nil)
         reservation.status_update("Sending reservation config files")
         reservation.status_update("Fast start failed, starting server normally")
 

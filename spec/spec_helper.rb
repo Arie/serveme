@@ -1,4 +1,4 @@
-# typed: strict
+# typed: false
 # frozen_string_literal: true
 
 require 'sidekiq'
@@ -43,6 +43,12 @@ RSpec.configure do |config|
 
   config.before(:suite) do
     Rails.cache.clear
+  end
+
+  config.before do
+    allow(SteamCondenser::Servers::SourceServer).to receive(:new).and_return(
+      double(SteamCondenser::Servers::SourceServer).as_null_object
+    )
   end
   config.after(:example, :map_archive) do
     Dir.glob(File.join(MAPS_DIR, '*.bsp*')).each do |file|

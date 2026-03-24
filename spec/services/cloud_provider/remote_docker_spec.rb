@@ -89,12 +89,12 @@ RSpec.describe CloudProvider::RemoteDocker do
           cloud_location: docker_host.id.to_s)
       end
 
-      it "calculates server_index from the host's start_port" do
+      it "calculates port offset from absolute game port" do
         provider.create_server(cloud_server)
-        # server_index = (27115 - 27115) / 10 = 0
-        # ssh_port = 22000, client_port = 40001, steam_port = 30001
-        expect(ssh_session).to have_received(:exec!).with(a_string_matching(/-e SSH_PORT=22000/))
-        expect(ssh_session).to have_received(:exec!).with(a_string_matching(/-e CLIENT_PORT=40001/))
+        # port_offset = (27115 - 27015) / 10 = 10
+        # ssh_port = 22010, client_port = 40011, steam_port = 30011
+        expect(ssh_session).to have_received(:exec!).with(a_string_matching(/-e SSH_PORT=22010/))
+        expect(ssh_session).to have_received(:exec!).with(a_string_matching(/-e CLIENT_PORT=40011/))
       end
     end
   end

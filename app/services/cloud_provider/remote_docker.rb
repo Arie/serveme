@@ -27,10 +27,10 @@ module CloudProvider
 
       game_port = cloud_server.port.to_i
       tv_port = game_port + 5
-      server_index = (game_port - docker_host.start_port) / 10
-      ssh_port = 22000 + server_index
-      client_port = 40001 + server_index
-      steam_port = 30001 + server_index
+      port_offset = (game_port - 27015) / 10
+      ssh_port = 22000 + port_offset
+      client_port = 40001 + port_offset
+      steam_port = 30001 + port_offset
 
       docker_run_cmd = [
         "docker run -d --net=host",

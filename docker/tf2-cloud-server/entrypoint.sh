@@ -142,9 +142,10 @@ graceful_shutdown() {
 }
 trap graceful_shutdown TERM INT
 
-tf2/srcds_run -game tf -ip 0.0.0.0 -port "$PORT" -norestart -strictportbind $FAKEIP_FLAG \
+tf2/srcds_run -game tf -ip 0.0.0.0 -port "$PORT" -norestart $FAKEIP_FLAG \
     +clientport "$CLIENT_PORT" -steamport "$STEAM_PORT" \
     +map "$FIRST_MAP" +tv_port "$TV_PORT" +tv_maxclients 32 +tv_enable 1 \
+    +exec aliases.cfg \
     "$@" &
 SRCDS_PID=$!
 

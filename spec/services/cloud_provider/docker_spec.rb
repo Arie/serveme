@@ -25,7 +25,7 @@ RSpec.describe CloudProvider::Docker do
       expect(provider).to have_received(:system) do |*args|
         expect(args).to include("docker", "run", "-d", "--net=host")
         expect(args).to include("--name", "cloud-#{cloud_server.id}")
-        expect(args).to include("-e", "CALLBACK_URL=http://host.docker.internal:3000/api/cloud_servers/#{cloud_server.id}/ready")
+        expect(args).to include("-e", "CALLBACK_URL=https://localhost/api/cloud_servers/#{cloud_server.id}/ready")
         expect(args).to include("-e", "CALLBACK_TOKEN=test-token")
         expect(args).to include("-e", "SSH_AUTHORIZED_KEYS=ssh-ed25519 AAAA test@cloud")
         expect(args).to include("-e", "PORT=27015")

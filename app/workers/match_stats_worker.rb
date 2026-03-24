@@ -8,7 +8,6 @@ class MatchStatsWorker
 
   def perform(reservation_id)
     reservation = Reservation.find(reservation_id)
-    return if ReservationMatch.exists?(reservation_id: reservation_id)
 
     log_files = Dir.glob(Rails.root.join("server_logs", reservation_id.to_s, "*.log"))
     return if log_files.empty?
@@ -17,14 +16,19 @@ class MatchStatsWorker
       matches = LogParser.new(log_file).perform
       next if matches.empty?
 
-      ActiveRecord::Base.transaction do
-        matches.each_with_index do |match_data, index|
+      matches.each_with_index do |match_data, index|
+        match_number = index + 1
+
+        # Skip if this match was already processed (unique index on reservation_id + match_number)
+        next if ReservationMatch.exists?(reservation_id: reservation_id, match_number: match_number)
+
+        ActiveRecord::Base.transaction do
           reservation_match = ReservationMatch.create!(
             reservation_id: reservation_id,
             red_score: match_data.final_scores["Red"],
             blue_score: match_data.final_scores["Blue"],
             total_duration_seconds: match_data.total_duration_seconds,
-            match_number: index + 1
+            match_number: match_number
           )
 
           winning_team = determine_winning_team(match_data)

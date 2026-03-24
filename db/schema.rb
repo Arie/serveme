@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_22_140000) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_24_081900) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -232,6 +232,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_22_140000) do
     t.bigint "reservation_id", null: false
     t.float "total_duration_seconds", default: 0.0, null: false
     t.datetime "updated_at", null: false
+    t.index ["reservation_id", "match_number"], name: "index_reservation_matches_on_reservation_id_and_match_number", unique: true
     t.index ["reservation_id"], name: "index_reservation_matches_on_reservation_id"
   end
 

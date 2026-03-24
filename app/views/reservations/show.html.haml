@@ -145,7 +145,7 @@
       %div{id: "match-scoreboard-#{reservation.id}"}
         = render "reservations/match_scoreboard", live_stats: live_stats, reservation_players_by_uid: reservation_players_by_uid, connection_info: connection_info
     - else
-      - reservation.reservation_matches.includes(:match_players).each do |match|
+      - reservation.reservation_matches.includes(:match_players).order(:match_number).each do |match|
         - match_stats = ScoreboardStats.from_match(match)
         = render "reservations/match_scoreboard", live_stats: match_stats, reservation_players_by_uid: reservation_players_by_uid, connection_info: connection_info
 

@@ -36,31 +36,7 @@ class LiveMatchStats
       else
         return if between_matches?(reservation_id) || between_rounds?(reservation_id)
 
-        case event
-        when TF2LineParser::Events::Kill
-          handle_kill(reservation_id, event)
-        when TF2LineParser::Events::Airshot
-          handle_airshot(reservation_id, event)
-          handle_damage(reservation_id, event)
-        when TF2LineParser::Events::Damage
-          handle_damage(reservation_id, event)
-        when TF2LineParser::Events::Assist
-          handle_assist(reservation_id, event)
-        when TF2LineParser::Events::Heal
-          handle_heal(reservation_id, event)
-        when TF2LineParser::Events::Spawn
-          handle_spawn(reservation_id, event)
-        when TF2LineParser::Events::RoleChange
-          handle_spawn(reservation_id, event)
-        when TF2LineParser::Events::ChargeDeployed
-          handle_uber(reservation_id, event)
-        when TF2LineParser::Events::MedicDeath
-          handle_medic_death(reservation_id, event)
-        when TF2LineParser::Events::PointCapture
-          handle_point_capture(reservation_id, event)
-        when TF2LineParser::Events::Suicide
-          handle_suicide(reservation_id, event)
-        end
+        process_player_event(reservation_id, event)
       end
     end
 
@@ -91,128 +67,162 @@ class LiveMatchStats
 
     private
 
-    def handle_kill(reservation_id, event)
+    def process_player_event(reservation_id, event)
+      ops = []
+
+      case event
+      when TF2LineParser::Events::Kill
+        collect_kill(ops, event)
+      when TF2LineParser::Events::Airshot
+        collect_airshot(ops, event)
+        collect_damage(ops, event)
+      when TF2LineParser::Events::Damage
+        collect_damage(ops, event)
+      when TF2LineParser::Events::Assist
+        collect_assist(ops, event)
+      when TF2LineParser::Events::Heal
+        collect_heal(ops, event)
+      when TF2LineParser::Events::Spawn
+        collect_spawn(ops, event)
+      when TF2LineParser::Events::RoleChange
+        collect_spawn(ops, event)
+      when TF2LineParser::Events::ChargeDeployed
+        collect_uber(ops, event)
+      when TF2LineParser::Events::MedicDeath
+        collect_medic_death(ops, event)
+      when TF2LineParser::Events::PointCapture
+        collect_point_capture(ops, event)
+      when TF2LineParser::Events::Suicide
+        collect_suicide(ops, event)
+      end
+
+      flush_ops(reservation_id, ops) if ops.any?
+    end
+
+    def flush_ops(reservation_id, ops)
+      key = redis_key(reservation_id)
+      Sidekiq.redis do |r|
+        r.pipelined do |p|
+          ops.each do |op|
+            case op[:type]
+            when :incr
+              p.hincrby(key, op[:field], op[:amount])
+            when :set
+              p.hset(key, op[:field], op[:value])
+            end
+          end
+          p.expire(key, EXPIRY)
+        end
+      end
+    end
+
+    def collect_kill(ops, event)
       attacker_uid = steam_uid(event.player)
       target_uid = steam_uid(event.target)
       return unless attacker_uid && target_uid
 
-      increment_stat(reservation_id, attacker_uid, "kills")
-      increment_stat(reservation_id, target_uid, "deaths")
-      ensure_player(reservation_id, event.player)
-      ensure_player(reservation_id, event.target)
+      ops << { type: :incr, field: "player:#{attacker_uid}:kills", amount: 1 }
+      ops << { type: :incr, field: "player:#{target_uid}:deaths", amount: 1 }
+      collect_player_info(ops, attacker_uid, event.player)
+      collect_player_info(ops, target_uid, event.target)
     end
 
-    def handle_damage(reservation_id, event)
+    def collect_damage(ops, event)
       uid = steam_uid(event.player)
       target_uid = steam_uid(event.target)
       dmg = event.damage || 0
 
       if uid
-        increment_stat(reservation_id, uid, "damage", dmg)
-        ensure_player(reservation_id, event.player)
+        ops << { type: :incr, field: "player:#{uid}:damage", amount: dmg }
+        collect_player_info(ops, uid, event.player)
       end
 
-      return unless target_uid
-
-      increment_stat(reservation_id, target_uid, "damage_taken", dmg)
-      ensure_player(reservation_id, event.target)
+      if target_uid
+        ops << { type: :incr, field: "player:#{target_uid}:damage_taken", amount: dmg }
+        collect_player_info(ops, target_uid, event.target)
+      end
     end
 
-    def handle_assist(reservation_id, event)
+    def collect_assist(ops, event)
       uid = steam_uid(event.player)
       return unless uid
 
-      increment_stat(reservation_id, uid, "assists")
-      ensure_player(reservation_id, event.player)
+      ops << { type: :incr, field: "player:#{uid}:assists", amount: 1 }
+      collect_player_info(ops, uid, event.player)
     end
 
-    def handle_heal(reservation_id, event)
+    def collect_heal(ops, event)
       heals = event.healing || event.value || 0
       uid = steam_uid(event.player)
       target_uid = steam_uid(event.target)
 
       if uid
-        increment_stat(reservation_id, uid, "healing", heals)
-        ensure_player(reservation_id, event.player)
+        ops << { type: :incr, field: "player:#{uid}:healing", amount: heals }
+        collect_player_info(ops, uid, event.player)
       end
 
-      return unless target_uid
-
-      increment_stat(reservation_id, target_uid, "heals_received", heals)
-      ensure_player(reservation_id, event.target)
+      if target_uid
+        ops << { type: :incr, field: "player:#{target_uid}:heals_received", amount: heals }
+        collect_player_info(ops, target_uid, event.target)
+      end
     end
 
-    def handle_spawn(reservation_id, event)
+    def collect_spawn(ops, event)
       uid = steam_uid(event.player)
       return unless uid
 
       role = normalize_class(event.role)
-      set_player_field(reservation_id, uid, "tf2_class", role)
-      ensure_player(reservation_id, event.player)
+      ops << { type: :set, field: "player:#{uid}:tf2_class", value: role }
+      collect_player_info(ops, uid, event.player)
     end
 
-    def handle_uber(reservation_id, event)
+    def collect_uber(ops, event)
       uid = steam_uid(event.player)
       return unless uid
 
-      increment_stat(reservation_id, uid, "ubers")
-      ensure_player(reservation_id, event.player)
+      ops << { type: :incr, field: "player:#{uid}:ubers", amount: 1 }
+      collect_player_info(ops, uid, event.player)
     end
 
-    def handle_medic_death(reservation_id, event)
+    def collect_medic_death(ops, event)
       uid = steam_uid(event.target)
       return unless uid
 
-      increment_stat(reservation_id, uid, "drops") if event.ubercharge
-      ensure_player(reservation_id, event.target)
+      ops << { type: :incr, field: "player:#{uid}:drops", amount: 1 } if event.ubercharge
+      collect_player_info(ops, uid, event.target)
     end
 
-    def handle_airshot(reservation_id, event)
+    def collect_airshot(ops, event)
       uid = steam_uid(event.player)
       return unless uid
 
-      increment_stat(reservation_id, uid, "airshots")
-      ensure_player(reservation_id, event.player)
+      ops << { type: :incr, field: "player:#{uid}:airshots", amount: 1 }
+      collect_player_info(ops, uid, event.player)
     end
 
-    def handle_point_capture(reservation_id, event)
+    def collect_point_capture(ops, event)
       event.cappers.each do |capper|
         uid = convert_steam_id(capper.steam_id)
         next unless uid
 
-        increment_stat(reservation_id, uid, "caps")
+        ops << { type: :incr, field: "player:#{uid}:caps", amount: 1 }
       end
     end
 
-    def handle_suicide(reservation_id, event)
+    def collect_suicide(ops, event)
       uid = steam_uid(event.player)
       return unless uid
 
-      increment_stat(reservation_id, uid, "deaths")
-      ensure_player(reservation_id, event.player)
+      ops << { type: :incr, field: "player:#{uid}:deaths", amount: 1 }
+      collect_player_info(ops, uid, event.player)
     end
 
-    def ensure_player(reservation_id, event_player)
-      uid = steam_uid(event_player)
-      return unless uid
-
-      key = redis_key(reservation_id)
-      team = event_player.team
+    def collect_player_info(ops, uid, event_player)
       name = event_player.name
+      team = event_player.team
 
-      Sidekiq.redis do |r|
-        r.hset(key, "player:#{uid}:name", name) if name
-        r.hset(key, "player:#{uid}:team", team) if team.present? && team.in?(%w[Red Blue])
-        r.expire(key, EXPIRY)
-      end
-    end
-
-    def increment_stat(reservation_id, uid, stat, amount = 1)
-      Sidekiq.redis { |r| r.hincrby(redis_key(reservation_id), "player:#{uid}:#{stat}", amount) }
-    end
-
-    def set_player_field(reservation_id, uid, field, value)
-      Sidekiq.redis { |r| r.hset(redis_key(reservation_id), "player:#{uid}:#{field}", value) }
+      ops << { type: :set, field: "player:#{uid}:name", value: name } if name
+      ops << { type: :set, field: "player:#{uid}:team", value: team } if team.present? && team.in?(%w[Red Blue])
     end
 
     def set_field(reservation_id, field, value)
@@ -232,7 +242,7 @@ class LiveMatchStats
     end
 
     def between_matches?(reservation_id)
-      Sidekiq.redis { |r| r.hget(redis_key(reservation_id), "between_matches") } != "0"
+      Sidekiq.redis { |r| r.hget(redis_key(reservation_id), "between_matches") } == "1"
     end
 
     def between_rounds?(reservation_id)

@@ -14,8 +14,9 @@ class TurboSubscriberChecker
     prefix = cable_config["channel_prefix"]
     full_channel = "#{prefix}:#{stream_name}"
 
-    Sidekiq.redis { |conn| conn.pubsub(:numsub, full_channel).last.to_i > 0 }
-  rescue
+    numsub_result = Sidekiq.redis { |conn| conn.call("PUBSUB", "NUMSUB", full_channel) }
+    numsub_result.last.to_i > 0
+  rescue StandardError
     true
   end
 
@@ -29,8 +30,9 @@ class TurboSubscriberChecker
     prefix = cable_config["channel_prefix"]
     full_channel = "#{prefix}:#{unsigned}"
 
-    Sidekiq.redis { |conn| conn.pubsub(:numsub, full_channel).last.to_i > 0 }
-  rescue
+    numsub_result = Sidekiq.redis { |conn| conn.call("PUBSUB", "NUMSUB", full_channel) }
+    numsub_result.last.to_i > 0
+  rescue StandardError
     true
   end
 end

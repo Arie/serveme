@@ -29,22 +29,17 @@ class ScoreboardConnectionInfo
   end
 
   def self.merge_player_statistics!(result, reservation)
-    latest_stats = PlayerStatistic.joins(:reservation_player)
-                                  .where(reservation_players: { reservation_id: reservation.id })
-                                  .includes(:reservation_player)
-                                  .order("player_statistics.created_at DESC")
-
-    seen = Set.new
+    latest_stats = PlayerStatistic
+      .select("DISTINCT ON (reservation_players.steam_uid) player_statistics.*, reservation_players.steam_uid AS rp_steam_uid")
+      .joins(:reservation_player)
+      .where(reservation_players: { reservation_id: reservation.id })
+      .order("reservation_players.steam_uid, player_statistics.created_at DESC")
 
     latest_stats.each do |stat|
-      rp = stat.reservation_player
-      next if seen.include?(rp.steam_uid)
-
-      seen << rp.steam_uid
-
-      if result[rp.steam_uid]
-        result[rp.steam_uid][:ping] = stat.ping
-        result[rp.steam_uid][:loss] = stat.loss
+      uid = stat.rp_steam_uid
+      if result[uid]
+        result[uid][:ping] = stat.ping
+        result[uid][:loss] = stat.loss
       end
     end
   end

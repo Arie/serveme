@@ -4,7 +4,7 @@
 # LogBatchWorker processes batches of log lines for improved performance.
 #
 # Key optimization: Instead of creating one Sidekiq job per log line (500 jobs/sec at peak),
-# the logdaemon batches lines (10 lines or 100ms) and creates ONE job for the entire batch.
+# the logdaemon batches lines (20 lines or 500ms) and creates ONE job for the entire batch.
 #
 # This provides a 10× reduction in Sidekiq overhead:
 # - 10× fewer job serializations
@@ -24,12 +24,10 @@ class LogBatchWorker
 
     # Process each line using LogWorker, collecting broadcasts for batching
     grouped_lines = Hash.new { |h, k| h[k] = [] }
+    worker = LogWorker.new
+    worker.skip_broadcast = true
 
     log_lines.each do |raw_line|
-      # Delegate to LogWorker for all business logic
-      worker = LogWorker.new
-      worker.skip_broadcast = true  # Prevent individual broadcasts - we'll batch them
-
       # Process the line normally (handles connects, chat, bans, etc.)
       worker.perform(raw_line)
 
@@ -40,11 +38,14 @@ class LogBatchWorker
       end
     end
 
+    # Resolve logsecret -> reservation_id once for the whole batch
+    reservation_ids = resolve_reservation_ids(grouped_lines.keys)
+
     # Update live match stats
-    update_live_match_stats(grouped_lines)
+    update_live_match_stats(grouped_lines, reservation_ids)
 
     # Broadcast scoreboard updates to reservation show pages
-    broadcast_scoreboard_updates(grouped_lines)
+    broadcast_scoreboard_updates(grouped_lines, reservation_ids)
 
     # Batch broadcast collected lines per reservation
     batch_broadcast_lines(grouped_lines)
@@ -52,11 +53,19 @@ class LogBatchWorker
 
   private
 
-  def update_live_match_stats(grouped_lines)
-    grouped_lines.each do |logsecret, lines|
-      reservation_id = Rails.cache.fetch("reservation_secret_#{logsecret}", expires_in: 1.minute) do
+  def resolve_reservation_ids(logsecrets)
+    result = {}
+    logsecrets.each do |logsecret|
+      result[logsecret] = Rails.cache.fetch("reservation_secret_#{logsecret}", expires_in: 1.minute) do
         Reservation.where(logsecret: logsecret).pluck(:id).last
       end
+    end
+    result
+  end
+
+  def update_live_match_stats(grouped_lines, reservation_ids)
+    grouped_lines.each do |logsecret, lines|
+      reservation_id = reservation_ids[logsecret]
       next unless reservation_id
 
       lines.each { |line| LiveMatchStats.process_line(reservation_id, line) }
@@ -65,11 +74,9 @@ class LogBatchWorker
     Rails.logger.error("[LiveMatchStats] Error updating stats: #{e.message}")
   end
 
-  def broadcast_scoreboard_updates(grouped_lines)
+  def broadcast_scoreboard_updates(grouped_lines, reservation_ids)
     grouped_lines.each_key do |logsecret|
-      reservation_id = Rails.cache.fetch("reservation_secret_#{logsecret}", expires_in: 1.minute) do
-        Reservation.where(logsecret: logsecret).pluck(:id).last
-      end
+      reservation_id = reservation_ids[logsecret]
       next unless reservation_id
 
       # Throttle scoreboard broadcasts to once per second per reservation
@@ -98,9 +105,9 @@ class LogBatchWorker
         target: "match-scoreboard-#{reservation_id}",
         html: html
       )
+    rescue StandardError => e
+      Rails.logger.error("[LiveMatchStats] Error broadcasting scoreboard for #{logsecret}: #{e.message}")
     end
-  rescue StandardError => e
-    Rails.logger.error("[LiveMatchStats] Error broadcasting scoreboard: #{e.message}")
   end
 
   def batch_broadcast_lines(grouped_lines)

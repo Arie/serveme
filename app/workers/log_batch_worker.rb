@@ -24,11 +24,10 @@ class LogBatchWorker
 
     # Process each line using LogWorker, collecting broadcasts for batching
     grouped_lines = Hash.new { |h, k| h[k] = [] }
-    worker = LogWorker.new
-    worker.skip_broadcast = true
 
     log_lines.each do |raw_line|
-      # Process the line normally (handles connects, chat, bans, etc.)
+      worker = LogWorker.new
+      worker.skip_broadcast = true
       worker.perform(raw_line)
 
       # Extract logsecret for batch broadcasting

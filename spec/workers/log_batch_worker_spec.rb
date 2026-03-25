@@ -165,9 +165,10 @@ describe LogBatchWorker do
 
       LogBatchWorker.new.perform([ round_start_line, kill_line ])
 
-      stats = LiveMatchStats.get_stats(reservation.id)
-      expect(stats).not_to be_nil
-      attacker = stats[:players].find { |p| p[:name] == 'Attacker' }
+      all_stats = LiveMatchStats.get_stats(reservation.id)
+      expect(all_stats).not_to be_nil
+      expect(all_stats.length).to eq(1)
+      attacker = all_stats.first[:players].find { |p| p[:name] == 'Attacker' }
       expect(attacker[:kills]).to eq(1)
     end
   end

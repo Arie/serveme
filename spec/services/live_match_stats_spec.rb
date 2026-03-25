@@ -20,7 +20,7 @@ describe LiveMatchStats do
       described_class.process_line(reservation_id, round_start)
       described_class.process_line(reservation_id, 'L 03/22/2026 - 20:01:10: "Attacker<3><[U:1:200002]><Red>" killed "Victim<4><[U:1:400002]><Blue>" with "scattergun" (attacker_position "0 0 0") (victim_position "0 0 0")')
 
-      stats = described_class.get_stats(reservation_id)
+      stats = described_class.get_stats(reservation_id).first
       attacker = stats[:players].find { |p| p[:name] == 'Attacker' }
       victim = stats[:players].find { |p| p[:name] == 'Victim' }
 
@@ -32,7 +32,7 @@ describe LiveMatchStats do
       described_class.process_line(reservation_id, round_start)
       described_class.process_line(reservation_id, 'L 03/22/2026 - 20:01:10: "Attacker<3><[U:1:200002]><Red>" triggered "damage" against "Victim<4><[U:1:400002]><Blue>" (damage "150") (weapon "scattergun")')
 
-      stats = described_class.get_stats(reservation_id)
+      stats = described_class.get_stats(reservation_id).first
       attacker = stats[:players].find { |p| p[:name] == 'Attacker' }
       victim = stats[:players].find { |p| p[:name] == 'Victim' }
 
@@ -44,7 +44,7 @@ describe LiveMatchStats do
       described_class.process_line(reservation_id, round_start)
       described_class.process_line(reservation_id, 'L 03/22/2026 - 20:01:10: "Medic<3><[U:1:200002]><Red>" triggered "healed" against "Patient<4><[U:1:400002]><Red>" (healing "75")')
 
-      stats = described_class.get_stats(reservation_id)
+      stats = described_class.get_stats(reservation_id).first
       medic = stats[:players].find { |p| p[:name] == 'Medic' }
       patient = stats[:players].find { |p| p[:name] == 'Patient' }
 
@@ -61,7 +61,7 @@ describe LiveMatchStats do
       ]
       lines.each { |line| described_class.process_line(reservation_id, line) }
 
-      stats = described_class.get_stats(reservation_id)
+      stats = described_class.get_stats(reservation_id).first
       expect(stats[:scores]["Red"]).to eq(1)
       expect(stats[:scores]["Blue"]).to eq(1)
     end
@@ -69,7 +69,7 @@ describe LiveMatchStats do
     it 'sets scores from FinalScore events' do
       described_class.process_line(reservation_id, 'L 03/22/2026 - 20:06:01: Team "Red" final score "3" with "6" players')
 
-      stats = described_class.get_stats(reservation_id)
+      stats = described_class.get_stats(reservation_id).first
       expect(stats[:scores]["Red"]).to eq(3)
     end
 
@@ -77,7 +77,7 @@ describe LiveMatchStats do
       described_class.process_line(reservation_id, round_start)
       described_class.process_line(reservation_id, 'L 03/22/2026 - 20:01:05: "Scout<3><[U:1:200002]><Red>" spawned as "Scout"')
 
-      stats = described_class.get_stats(reservation_id)
+      stats = described_class.get_stats(reservation_id).first
       player = stats[:players].find { |p| p[:name] == 'Scout' }
       expect(player[:tf2_class]).to eq('scout')
     end
@@ -91,7 +91,7 @@ describe LiveMatchStats do
       ]
       lines.each { |line| described_class.process_line(reservation_id, line) }
 
-      stats = described_class.get_stats(reservation_id)
+      stats = described_class.get_stats(reservation_id).first
       attacker = stats[:players].find { |p| p[:name] == 'Attacker' }
       expect(attacker[:kills]).to eq(1)
     end
@@ -99,7 +99,7 @@ describe LiveMatchStats do
     it 'tracks events before first round starts' do
       described_class.process_line(reservation_id, 'L 03/22/2026 - 20:00:10: "Attacker<3><[U:1:200002]><Red>" killed "Victim<4><[U:1:400002]><Blue>" with "scattergun" (attacker_position "0 0 0") (victim_position "0 0 0")')
 
-      stats = described_class.get_stats(reservation_id)
+      stats = described_class.get_stats(reservation_id).first
       attacker = stats[:players].find { |p| p[:name] == 'Attacker' }
       expect(attacker[:kills]).to eq(1)
     end
@@ -113,7 +113,7 @@ describe LiveMatchStats do
       ]
       lines.each { |line| described_class.process_line(reservation_id, line) }
 
-      stats = described_class.get_stats(reservation_id)
+      stats = described_class.get_stats(reservation_id).first
       attacker = stats[:players].find { |p| p[:name] == 'Attacker' }
       expect(attacker[:kills]).to eq(1)
     end
@@ -122,7 +122,7 @@ describe LiveMatchStats do
       described_class.process_line(reservation_id, round_start)
       described_class.process_line(reservation_id, 'L 03/22/2026 - 20:01:10: "Player<3><[U:1:200002]><Red>" committed suicide with "world" (attacker_position "0 0 0")')
 
-      stats = described_class.get_stats(reservation_id)
+      stats = described_class.get_stats(reservation_id).first
       player = stats[:players].find { |p| p[:name] == 'Player' }
       expect(player[:deaths]).to eq(1)
     end
@@ -137,9 +137,40 @@ describe LiveMatchStats do
       described_class.process_line(reservation_id, round_start)
       described_class.process_line(reservation_id, 'L 03/22/2026 - 20:01:10: "RedScout<3><[U:1:200002]><Red>" killed "BlueSoldier<4><[U:1:400002]><Blue>" with "scattergun" (attacker_position "0 0 0") (victim_position "0 0 0")')
 
-      stats = described_class.get_stats(reservation_id)
+      all_stats = described_class.get_stats(reservation_id)
+      expect(all_stats.size).to eq(1)
+      stats = all_stats.first
       expect(stats[:players].size).to eq(2)
       expect(stats[:players].map { |p| p[:team] }).to contain_exactly('Red', 'Blue')
+    end
+
+    it 'splits stats into separate matches on MatchEnd' do
+      lines = [
+        # First match
+        'L 03/22/2026 - 20:01:00: World triggered "Round_Start"',
+        'L 03/22/2026 - 20:01:10: "Attacker<3><[U:1:200002]><Red>" killed "Victim<4><[U:1:400002]><Blue>" with "scattergun" (attacker_position "0 0 0") (victim_position "0 0 0")',
+        'L 03/22/2026 - 20:06:00: World triggered "Round_Win" (winner "Red")',
+        'L 03/22/2026 - 20:06:01: World triggered "Game_Over" reason "Reached Win Limit"',
+        # Second match
+        'L 03/22/2026 - 20:08:00: World triggered "Round_Start"',
+        'L 03/22/2026 - 20:08:10: "Attacker<3><[U:1:200002]><Red>" killed "Victim<4><[U:1:400002]><Blue>" with "scattergun" (attacker_position "0 0 0") (victim_position "0 0 0")',
+        'L 03/22/2026 - 20:08:11: "Attacker<3><[U:1:200002]><Red>" killed "Victim<4><[U:1:400002]><Blue>" with "scattergun" (attacker_position "0 0 0") (victim_position "0 0 0")',
+        'L 03/22/2026 - 20:13:00: World triggered "Round_Win" (winner "Blue")'
+      ]
+      lines.each { |line| described_class.process_line(reservation_id, line) }
+
+      all_stats = described_class.get_stats(reservation_id)
+      expect(all_stats.size).to eq(2)
+
+      first_match = all_stats.first
+      attacker_m1 = first_match[:players].find { |p| p[:name] == 'Attacker' }
+      expect(attacker_m1[:kills]).to eq(1)
+      expect(first_match[:scores]["Red"]).to eq(1)
+
+      second_match = all_stats.last
+      attacker_m2 = second_match[:players].find { |p| p[:name] == 'Attacker' }
+      expect(attacker_m2[:kills]).to eq(2)
+      expect(second_match[:scores]["Blue"]).to eq(1)
     end
   end
 
@@ -149,9 +180,10 @@ describe LiveMatchStats do
     it 'rebuilds stats from a log file' do
       described_class.rebuild(reservation_id, fixture_path)
 
-      stats = described_class.get_stats(reservation_id)
-      expect(stats[:players]).not_to be_empty
-      expect(stats[:players].size).to eq(12)
+      all_stats = described_class.get_stats(reservation_id)
+      expect(all_stats).not_to be_empty
+      total_players = all_stats.sum { |s| s[:players].size }
+      expect(total_players).to eq(12)
     end
 
     it 'clears existing stats before rebuilding' do
@@ -160,8 +192,9 @@ describe LiveMatchStats do
 
       described_class.rebuild(reservation_id, fixture_path)
 
-      stats = described_class.get_stats(reservation_id)
-      old_player = stats[:players].find { |p| p[:name] == 'OldPlayer' }
+      all_stats = described_class.get_stats(reservation_id)
+      all_players = all_stats.flat_map { |s| s[:players] }
+      old_player = all_players.find { |p| p[:name] == 'OldPlayer' }
       expect(old_player).to be_nil
     end
   end
@@ -173,6 +206,18 @@ describe LiveMatchStats do
 
       described_class.clear(reservation_id)
       expect(described_class.exists?(reservation_id)).to be false
+    end
+
+    it 'removes completed match data too' do
+      lines = [
+        'L 03/22/2026 - 20:01:00: World triggered "Round_Start"',
+        'L 03/22/2026 - 20:01:10: "Attacker<3><[U:1:200002]><Red>" killed "Victim<4><[U:1:400002]><Blue>" with "scattergun" (attacker_position "0 0 0") (victim_position "0 0 0")',
+        'L 03/22/2026 - 20:06:01: World triggered "Game_Over" reason "Reached Win Limit"'
+      ]
+      lines.each { |line| described_class.process_line(reservation_id, line) }
+
+      described_class.clear(reservation_id)
+      expect(described_class.get_stats(reservation_id)).to be_nil
     end
   end
 

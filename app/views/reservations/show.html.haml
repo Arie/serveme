@@ -140,10 +140,11 @@
 
     - reservation_players_by_uid = reservation.reservation_players.index_by(&:steam_uid)
     - connection_info = ScoreboardConnectionInfo.for_reservation(reservation)
-    - live_stats = LiveMatchStats.get_stats(reservation.id)
-    - if live_stats && live_stats[:players].any?
+    - all_match_stats = LiveMatchStats.get_stats(reservation.id)
+    - if all_match_stats&.any?
       %div{id: "match-scoreboard-#{reservation.id}"}
-        = render "reservations/match_scoreboard", live_stats: live_stats, reservation_players_by_uid: reservation_players_by_uid, connection_info: connection_info
+        - all_match_stats.each do |match_stats|
+          = render "reservations/match_scoreboard", live_stats: match_stats, reservation_players_by_uid: reservation_players_by_uid, connection_info: connection_info
     - else
       - reservation.reservation_matches.includes(:match_players).order(:match_number).each do |match|
         - match_stats = ScoreboardStats.from_match(match)

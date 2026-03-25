@@ -47,6 +47,7 @@ class LiveMatchStats
           between_matches = false
           between_rounds = false
         when TF2LineParser::Events::MatchEnd
+          finalize_current_match(reservation_id)
           set_field(reservation_id, "between_matches", "1")
           between_matches = true
         when TF2LineParser::Events::RoundWin
@@ -67,10 +68,28 @@ class LiveMatchStats
 
     def get_stats(reservation_id)
       key = redis_key(reservation_id)
-      data = Sidekiq.redis { |r| r.hgetall(key) }
-      return nil if data.empty?
 
-      build_stats_from_redis(data)
+      Sidekiq.redis do |r|
+        data = r.hgetall(key)
+        return nil if data.empty?
+
+        match_count = (data["match_count"] || "0").to_i
+        matches = []
+
+        # Load completed matches
+        match_count.times do |i|
+          completed_data = r.hgetall("#{key}:completed:#{i + 1}")
+          next if completed_data.empty?
+
+          matches << build_stats_from_redis(completed_data)
+        end
+
+        # Current in-progress match
+        current = build_stats_from_redis(data)
+        matches << current if current[:players].any? || current[:scores].any?
+
+        matches.presence
+      end
     end
 
     def rebuild(reservation_id, filepath)
@@ -83,7 +102,13 @@ class LiveMatchStats
     end
 
     def clear(reservation_id)
-      Sidekiq.redis { |r| r.del(redis_key(reservation_id)) }
+      key = redis_key(reservation_id)
+      Sidekiq.redis do |r|
+        match_count = (r.hget(key, "match_count") || "0").to_i
+        keys_to_delete = [ key ]
+        match_count.times { |i| keys_to_delete << "#{key}:completed:#{i + 1}" }
+        r.del(*keys_to_delete)
+      end
     end
 
     def exists?(reservation_id)
@@ -91,6 +116,34 @@ class LiveMatchStats
     end
 
     private
+
+    def finalize_current_match(reservation_id)
+      key = redis_key(reservation_id)
+
+      Sidekiq.redis do |r|
+        match_num = r.hincrby(key, "match_count", 1)
+        completed_key = "#{key}:completed:#{match_num}"
+
+        data = r.hgetall(key)
+        match_fields = {}
+        delete_fields = []
+
+        data.each do |field, value|
+          if field.start_with?("player:") || field.start_with?("score:")
+            match_fields[field] = value
+            delete_fields << field
+          end
+        end
+
+        return if match_fields.empty?
+
+        r.pipelined do |p|
+          match_fields.each { |f, v| p.hset(completed_key, f, v) }
+          p.expire(completed_key, EXPIRY)
+          p.hdel(key, *delete_fields)
+        end
+      end
+    end
 
     def process_player_event(reservation_id, event)
       ops = []

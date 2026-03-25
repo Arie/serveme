@@ -93,16 +93,18 @@ class LogBatchWorker
 
       active_logsecrets << logsecret
 
-      live_stats = LiveMatchStats.get_stats(reservation_id)
-      next unless live_stats && live_stats[:players].any?
+      all_match_stats = LiveMatchStats.get_stats(reservation_id)
+      next unless all_match_stats&.any?
 
       reservation_players_by_uid = reservation.reservation_players.index_by(&:steam_uid)
       connection_info = ScoreboardConnectionInfo.for_reservation(reservation)
 
-      html = ApplicationController.render(
-        partial: "reservations/match_scoreboard",
-        locals: { live_stats: live_stats, reservation_players_by_uid: reservation_players_by_uid, connection_info: connection_info }
-      )
+      html = all_match_stats.map do |match_stats|
+        ApplicationController.render(
+          partial: "reservations/match_scoreboard",
+          locals: { live_stats: match_stats, reservation_players_by_uid: reservation_players_by_uid, connection_info: connection_info }
+        )
+      end.join
 
       Turbo::StreamsChannel.broadcast_update_to(
         reservation,

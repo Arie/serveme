@@ -120,11 +120,25 @@ class CloudServer < RemoteServer
   end
 
   def end_reservation(reservation)
-    if reservation.provisioned? && cloud_status != "destroyed"
-      super
-    else
+    reservation.reload
+    return if reservation.ended?
+
+    unless reservation.provisioned? && cloud_status != "destroyed"
       reservation.status_update("Cancelling cloud server")
+      return
     end
+
+    # Skip remove_configuration, disable_plugins, disable_demos_tf, restore_rgl_base_cfg
+    # — the container is destroyed after cleanup, so there's no point cleaning up configs.
+    rcon_exec("sv_logflush 1; tv_stoprecord; kickall Reservation ended, every player can download the STV demo at https://#{SITE_HOST}")
+    sleep 1 if Rails.env.production?
+
+    move_files_to_temp_directory(reservation)
+
+    # Don't restart — killing srcds stops the container and prevents the
+    # ReservationCleanupWorker from downloading logs/demos via SSH.
+    # CloudServerDestroyWorker (scheduled by the cleanup worker) handles destruction.
+    rcon_disconnect
   rescue *SshExecution::SSH_RECOVERABLE_ERRORS => e
     Rails.logger.warn("CloudServer#end_reservation: SSH error for server #{id} (#{ip}:#{cloud_ssh_port}), server likely already destroyed: #{e.class}: #{e.message}")
     reservation.status_update("Cloud server unreachable, skipping cleanup")

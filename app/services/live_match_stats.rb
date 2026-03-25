@@ -50,6 +50,8 @@ class LiveMatchStats
           finalize_current_match(reservation_id)
           set_field(reservation_id, "between_matches", "1")
           between_matches = true
+        when TF2LineParser::Events::RoundLength
+          accumulate_round_length(reservation_id, event.length.to_f) if event.length
         when TF2LineParser::Events::RoundWin
           set_field(reservation_id, "between_rounds", "1")
           between_rounds = true
@@ -129,7 +131,7 @@ class LiveMatchStats
         delete_fields = []
 
         data.each do |field, value|
-          if field.start_with?("player:") || field.start_with?("score:")
+          if field.start_with?("player:") || field.start_with?("score:") || field == "total_duration_cs"
             match_fields[field] = value
             delete_fields << field
           end
@@ -319,6 +321,13 @@ class LiveMatchStats
       Sidekiq.redis { |r| r.hincrby(redis_key(reservation_id), "score:#{team}", 1) }
     end
 
+    def accumulate_round_length(reservation_id, length)
+      key = redis_key(reservation_id)
+      # Store as integer centiseconds to use HINCRBY, then convert back
+      centiseconds = (length * 100).round
+      Sidekiq.redis { |r| r.hincrby(key, "total_duration_cs", centiseconds) }
+    end
+
     def between_matches?(reservation_id)
       Sidekiq.redis { |r| r.hget(redis_key(reservation_id), "between_matches") } == "1"
     end
@@ -378,6 +387,7 @@ class LiveMatchStats
     def build_stats_from_redis(data)
       players = {}
       scores = {}
+      total_duration_cs = 0
 
       data.each do |field, value|
         case field
@@ -388,12 +398,15 @@ class LiveMatchStats
           players[uid][stat.to_sym] = stat.in?(%w[name team tf2_class]) ? value : value.to_i
         when /\Ascore:(\w+)\z/
           scores[$1] = value.to_i
+        when "total_duration_cs"
+          total_duration_cs = value.to_i
         end
       end
 
       {
         players: players.values,
-        scores: scores
+        scores: scores,
+        total_duration_seconds: total_duration_cs / 100.0
       }
     end
   end

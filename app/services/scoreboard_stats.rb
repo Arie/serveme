@@ -28,7 +28,8 @@ class ScoreboardStats
       scores: {
         "Red" => reservation_match.red_score || 0,
         "Blue" => reservation_match.blue_score || 0
-      }
+      },
+      total_duration_seconds: reservation_match.total_duration_seconds || 0
     }
   end
 end

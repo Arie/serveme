@@ -3,6 +3,7 @@
 - blue_score = scores["Blue"] || 0
 - class_order = { "scout" => 1, "soldier" => 2, "pyro" => 3, "demoman" => 4, "heavyweapons" => 5, "engineer" => 6, "medic" => 7, "sniper" => 8, "spy" => 9, "unknown" => 10 }
 - connection_info ||= {}
+- duration_minutes = (live_stats[:total_duration_seconds] || 0) / 60.0
 
 - players = live_stats[:players]
 - red_players = players.select { |p| p[:team] == "Red" }
@@ -27,7 +28,11 @@
           %th.text-center{title: "Assists"} A
           %th.text-center{title: "Deaths"} D
           %th.text-end{title: "Damage"} DA
+          - if duration_minutes > 0
+            %th.text-end{title: "Damage per Minute"} DA/m
           %th.text-end{title: "Damage Taken"} DT
+          - if duration_minutes > 0
+            %th.text-end{title: "Damage Taken per Minute"} DT/m
           %th.text-end{title: "Heals Received"} HR
           %th.text-center{title: "Kills + Assists per Death"} KA/D
           %th.text-center{title: "Kills per Death"} K/D
@@ -63,7 +68,11 @@
               %td.text-center= assists
               %td.text-center= deaths
               %td.text-end= number_with_delimiter(stats[:damage] || 0)
+              - if duration_minutes > 0
+                %td.text-end= ((stats[:damage] || 0) / duration_minutes).round
               %td.text-end= number_with_delimiter(stats[:damage_taken] || 0)
+              - if duration_minutes > 0
+                %td.text-end= ((stats[:damage_taken] || 0) / duration_minutes).round
               %td.text-end= number_with_delimiter(stats[:heals_received] || 0)
               %td.text-center= ka_d
               %td.text-center= k_d

@@ -69,6 +69,10 @@ module Api
       @current_config_admin ||= current_user&.config_admin? && current_user
     end
 
+    def current_streamer
+      @current_streamer ||= current_user&.streamer? && current_user
+    end
+
     def current_trusted_api
       @current_trusted_api ||= current_user&.trusted_api? && current_user
     end

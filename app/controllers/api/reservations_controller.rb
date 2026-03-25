@@ -80,7 +80,7 @@ module Api
     private
 
     def reservations_scope
-      if api_user.admin? || api_user.trusted_api?
+      if api_user.admin? || api_user.league_admin? || api_user.streamer? || api_user.trusted_api?
         if params[:steam_uid]
           Reservation.joins(:user).where(users: { uid: params[:steam_uid] })
         else

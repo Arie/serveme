@@ -46,7 +46,6 @@ hostname "serveme cloud server"
 sv_downloadurl "https://fastdl.serveme.tf"
 rcon_password "${RCON_PASSWORD:-changeme}"
 log on
-logaddress_delall
 tv_autorecord 1
 sv_rcon_minfailuretime 1
 sv_rcon_minfailures 20

@@ -228,6 +228,6 @@ describe SshServer do
   end
 
   define_method(:scp_command) do ||
-    'scp -O -T -l 200000 -o ConnectTimeout=5 -o ServerAliveInterval=5 -o ServerAliveCountMax=2'
+    'scp -4 -O -T -l 200000 -o ConnectTimeout=5 -o ServerAliveInterval=5 -o ServerAliveCountMax=2'
   end
 end

@@ -23,7 +23,8 @@ class CloudServer < RemoteServer
       timeout: 5,
       keepalive: true,
       keepalive_interval: 5,
-      keepalive_maxcount: 2)
+      keepalive_maxcount: 2,
+      bind_address: "0.0.0.0")
   end
 
   sig { returns(T::Boolean) }
@@ -42,7 +43,7 @@ class CloudServer < RemoteServer
       docker_host = DockerHost.find(T.must(cloud_location))
       out = []
       err = []
-      Net::SSH.start(docker_host.ip, nil, timeout: 5, keepalive: true, keepalive_interval: 5, keepalive_maxcount: 2) do |ssh|
+      Net::SSH.start(docker_host.ip, nil, timeout: 5, keepalive: true, keepalive_interval: 5, keepalive_maxcount: 2, bind_address: "0.0.0.0") do |ssh|
         ssh.exec!(command) do |_channel, stream, data|
           out << data if stream == :stdout
           err << data if stream == :stderr
@@ -260,7 +261,7 @@ class CloudServer < RemoteServer
   def scp_command
     key_file = cloud_ssh_key_file
     ssh_port = cloud_ssh_port || 22
-    "scp -O -T -P #{ssh_port} -l 200000 -i #{key_file} -o StrictHostKeyChecking=no -o BatchMode=yes -o ConnectTimeout=5 -o ServerAliveInterval=5 -o ServerAliveCountMax=2"
+    "scp -4 -O -T -P #{ssh_port} -l 200000 -i #{key_file} -o StrictHostKeyChecking=no -o BatchMode=yes -o ConnectTimeout=5 -o ServerAliveInterval=5 -o ServerAliveCountMax=2"
   end
 
   sig { returns(String) }
@@ -271,7 +272,7 @@ class CloudServer < RemoteServer
   def sftp_start(&block)
     raise "Cannot SFTP to cloud server #{id}: no IP assigned yet (#{ip})" if ip.blank? || ip == "0.0.0.0"
 
-    Net::SFTP.start(ip, "tf2", port: cloud_ssh_port || 22, key_data: [ cloud_ssh_private_key ], keys_only: true, non_interactive: true, verify_host_key: :never, timeout: 5, &block)
+    Net::SFTP.start(ip, "tf2", port: cloud_ssh_port || 22, key_data: [ cloud_ssh_private_key ], keys_only: true, non_interactive: true, verify_host_key: :never, timeout: 5, bind_address: "0.0.0.0", &block)
   end
 
   sig { returns(String) }

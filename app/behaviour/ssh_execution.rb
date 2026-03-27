@@ -61,7 +61,7 @@ module SshExecution
   end
 
   SSH_RECOVERABLE_ERRORS = [
-    IOError, Errno::ECONNRESET, Errno::ECONNREFUSED, Errno::EPIPE, Errno::ETIMEDOUT,
+    IOError, Errno::ECONNRESET, Errno::ECONNREFUSED, Errno::EPIPE, Errno::ETIMEDOUT, Errno::ENETUNREACH,
     Net::SSH::Disconnect, Net::SSH::ConnectionTimeout
   ].freeze
 

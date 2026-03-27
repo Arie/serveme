@@ -20,7 +20,7 @@ class DockerHostImagePullWorker
   private
 
   def pull_image_on_host(host)
-    Net::SSH.start(host.ip, nil, timeout: 5, keepalive: true, keepalive_interval: 5, keepalive_maxcount: 2) do |ssh|
+    Net::SSH.start(host.ip, nil, timeout: 5, keepalive: true, keepalive_interval: 5, keepalive_maxcount: 2, bind_address: "0.0.0.0") do |ssh|
       output = ssh.exec!("docker pull #{DOCKERHUB_IMAGE}")
       Rails.logger.info "DockerHostImagePullWorker: Pulled on #{host.ip}: #{output&.lines&.last&.strip}"
     end

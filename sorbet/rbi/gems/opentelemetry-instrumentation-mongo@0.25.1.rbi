@@ -34,15 +34,20 @@ module OpenTelemetry::Instrumentation::Mongo; end
 class OpenTelemetry::Instrumentation::Mongo::Instrumentation < ::OpenTelemetry::Instrumentation::Base
   private
 
-  # source://opentelemetry-instrumentation-mongo//lib/opentelemetry/instrumentation/mongo/instrumentation.rb#32
+  # source://opentelemetry-instrumentation-mongo//lib/opentelemetry/instrumentation/mongo/instrumentation.rb#40
   def gem_version; end
 
-  # source://opentelemetry-instrumentation-mongo//lib/opentelemetry/instrumentation/mongo/instrumentation.rb#40
+  # source://opentelemetry-instrumentation-mongo//lib/opentelemetry/instrumentation/mongo/instrumentation.rb#48
   def register_subscriber; end
 
-  # source://opentelemetry-instrumentation-mongo//lib/opentelemetry/instrumentation/mongo/instrumentation.rb#36
+  # source://opentelemetry-instrumentation-mongo//lib/opentelemetry/instrumentation/mongo/instrumentation.rb#44
   def require_dependencies; end
 end
+
+# Mongo 2.23.0+ has native OpenTelemetry instrumentation
+#
+# source://opentelemetry-instrumentation-mongo//lib/opentelemetry/instrumentation/mongo/instrumentation.rb#13
+OpenTelemetry::Instrumentation::Mongo::Instrumentation::MAX_VERSION = T.let(T.unsafe(nil), Gem::Version)
 
 # source://opentelemetry-instrumentation-mongo//lib/opentelemetry/instrumentation/mongo/instrumentation.rb#12
 OpenTelemetry::Instrumentation::Mongo::Instrumentation::MINIMUM_VERSION = T.let(T.unsafe(nil), Gem::Version)

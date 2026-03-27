@@ -13130,7 +13130,7 @@ module ActionDispatch::Integration::RequestHelpers
   def put(path, **args); end
 end
 
-# source://actionpack//lib/action_dispatch/testing/integration.rb#334
+# source://actionpack//lib/action_dispatch/testing/integration.rb#335
 module ActionDispatch::Integration::Runner
   include ::ActionDispatch::Assertions::RoutingAssertions
   include ::ActionDispatch::Assertions::ResponseAssertions
@@ -13140,57 +13140,57 @@ module ActionDispatch::Integration::Runner
   include ::ActionDispatch::Assertions
   extend ::ActionDispatch::Assertions::RoutingAssertions::ClassMethods
 
-  # source://actionpack//lib/action_dispatch/testing/integration.rb#342
+  # source://actionpack//lib/action_dispatch/testing/integration.rb#343
   def initialize(*args, &blk); end
 
   # Returns the value of attribute app.
   #
-  # source://actionpack//lib/action_dispatch/testing/integration.rb#339
+  # source://actionpack//lib/action_dispatch/testing/integration.rb#340
   def app; end
 
-  # source://actionpack//lib/action_dispatch/testing/integration.rb#412
+  # source://actionpack//lib/action_dispatch/testing/integration.rb#413
   def assertions; end
 
-  # source://actionpack//lib/action_dispatch/testing/integration.rb#416
+  # source://actionpack//lib/action_dispatch/testing/integration.rb#417
   def assertions=(assertions); end
 
-  # source://actionpack//lib/action_dispatch/testing/integration.rb#384
+  # source://actionpack//lib/action_dispatch/testing/integration.rb#385
   def assigns(*_arg0, **_arg1, &_arg2); end
 
-  # source://actionpack//lib/action_dispatch/testing/integration.rb#347
+  # source://actionpack//lib/action_dispatch/testing/integration.rb#348
   def before_setup; end
 
-  # source://actionpack//lib/action_dispatch/testing/integration.rb#384
+  # source://actionpack//lib/action_dispatch/testing/integration.rb#385
   def cookies(*_arg0, **_arg1, &_arg2); end
 
   # Copy the instance variables from the current session instance into the test
   # instance.
   #
-  # source://actionpack//lib/action_dispatch/testing/integration.rb#422
+  # source://actionpack//lib/action_dispatch/testing/integration.rb#423
   def copy_session_variables!; end
 
-  # source://actionpack//lib/action_dispatch/testing/integration.rb#362
+  # source://actionpack//lib/action_dispatch/testing/integration.rb#363
   def create_session(app); end
 
-  # source://actionpack//lib/action_dispatch/testing/integration.rb#428
+  # source://actionpack//lib/action_dispatch/testing/integration.rb#429
   def default_url_options; end
 
-  # source://actionpack//lib/action_dispatch/testing/integration.rb#432
+  # source://actionpack//lib/action_dispatch/testing/integration.rb#433
   def default_url_options=(options); end
 
-  # source://actionpack//lib/action_dispatch/testing/integration.rb#384
+  # source://actionpack//lib/action_dispatch/testing/integration.rb#385
   def delete(*_arg0, **_arg1, &_arg2); end
 
-  # source://actionpack//lib/action_dispatch/testing/integration.rb#384
+  # source://actionpack//lib/action_dispatch/testing/integration.rb#385
   def follow_redirect!(*_arg0, **_arg1, &_arg2); end
 
-  # source://actionpack//lib/action_dispatch/testing/integration.rb#384
+  # source://actionpack//lib/action_dispatch/testing/integration.rb#385
   def get(*_arg0, **_arg1, &_arg2); end
 
-  # source://actionpack//lib/action_dispatch/testing/integration.rb#384
+  # source://actionpack//lib/action_dispatch/testing/integration.rb#385
   def head(*_arg0, **_arg1, &_arg2); end
 
-  # source://actionpack//lib/action_dispatch/testing/integration.rb#352
+  # source://actionpack//lib/action_dispatch/testing/integration.rb#353
   def integration_session; end
 
   # Open a new session instance. If a block is given, the new session is yielded
@@ -13203,47 +13203,47 @@ module ActionDispatch::Integration::Runner
   # By default, a single session is automatically created for you, but you can use
   # this method to open multiple sessions that ought to be tested simultaneously.
   #
-  # source://actionpack//lib/action_dispatch/testing/integration.rb#404
+  # source://actionpack//lib/action_dispatch/testing/integration.rb#405
   def open_session; end
 
-  # source://actionpack//lib/action_dispatch/testing/integration.rb#384
+  # source://actionpack//lib/action_dispatch/testing/integration.rb#385
   def patch(*_arg0, **_arg1, &_arg2); end
 
-  # source://actionpack//lib/action_dispatch/testing/integration.rb#384
+  # source://actionpack//lib/action_dispatch/testing/integration.rb#385
   def post(*_arg0, **_arg1, &_arg2); end
 
-  # source://actionpack//lib/action_dispatch/testing/integration.rb#384
+  # source://actionpack//lib/action_dispatch/testing/integration.rb#385
   def put(*_arg0, **_arg1, &_arg2); end
 
-  # source://actionpack//lib/action_dispatch/testing/integration.rb#374
+  # source://actionpack//lib/action_dispatch/testing/integration.rb#375
   def remove!; end
 
   # Reset the current session. This is useful for testing multiple sessions in a
   # single test case.
   #
-  # source://actionpack//lib/action_dispatch/testing/integration.rb#358
+  # source://actionpack//lib/action_dispatch/testing/integration.rb#359
   def reset!; end
 
-  # source://actionpack//lib/action_dispatch/testing/integration.rb#340
+  # source://actionpack//lib/action_dispatch/testing/integration.rb#341
   def root_session; end
 
-  # source://actionpack//lib/action_dispatch/testing/integration.rb#340
+  # source://actionpack//lib/action_dispatch/testing/integration.rb#341
   def root_session=(_arg0); end
 
   private
 
   # Delegate unhandled messages to the current session instance.
   #
-  # source://actionpack//lib/action_dispatch/testing/integration.rb#442
+  # source://actionpack//lib/action_dispatch/testing/integration.rb#443
   def method_missing(method, *_arg1, **_arg2, &_arg3); end
 
   # @return [Boolean]
   #
-  # source://actionpack//lib/action_dispatch/testing/integration.rb#437
+  # source://actionpack//lib/action_dispatch/testing/integration.rb#438
   def respond_to_missing?(method, _); end
 end
 
-# source://actionpack//lib/action_dispatch/testing/integration.rb#337
+# source://actionpack//lib/action_dispatch/testing/integration.rb#338
 ActionDispatch::Integration::Runner::APP_SESSIONS = T.let(T.unsafe(nil), Hash)
 
 # An instance of this class represents a set of requests and responses performed
@@ -13325,7 +13325,7 @@ class ActionDispatch::Integration::Session
   #
   # @param value the value to set the attribute host to.
   #
-  # source://actionpack//lib/action_dispatch/testing/integration.rb#315
+  # source://actionpack//lib/action_dispatch/testing/integration.rb#316
   def host!(_arg0); end
 
   # Sets the attribute host
@@ -13346,7 +13346,7 @@ class ActionDispatch::Integration::Session
   # Returns `true` if the session is mimicking a secure HTTPS request.
   #
   #     if session.https?
-  #       ...
+  #       # ...
   #     end
   #
   # @return [Boolean]
@@ -13370,7 +13370,7 @@ class ActionDispatch::Integration::Session
   # *   `env`: Additional env to pass, as a Hash. The headers will be merged into
   #     the Rack env hash.
   # *   `xhr`: Set to `true` if you want to make an Ajax request. Adds request
-  #     headers characteristic of XMLHttpRequest e.g. HTTP_X_REQUESTED_WITH. The
+  #     headers characteristic of `XMLHttpRequest`, e.g. `HTTP_X_REQUESTED_WITH`. The
   #     headers will be merged into the Rack env hash.
   # *   `as`: Used for encoding the request with different content type. Supports
   #     `:json` by default and will set the appropriate request headers. The
@@ -13385,12 +13385,13 @@ class ActionDispatch::Integration::Session
   # This method returns the response status, after performing the request.
   # Furthermore, if this method was called from an ActionDispatch::IntegrationTest
   # object, then that object's `@response` instance variable will point to a
-  # Response object which one can use to inspect the details of the response.
+  # ActionDispatch::TestResponse object which one can use to inspect the details of the response.
   #
   # Example:
+  #
   #     process :get, '/author', params: { since: 201501011400 }
   #
-  # source://actionpack//lib/action_dispatch/testing/integration.rb#225
+  # source://actionpack//lib/action_dispatch/testing/integration.rb#226
   def process(method, path, params: T.unsafe(nil), headers: T.unsafe(nil), env: T.unsafe(nil), xhr: T.unsafe(nil), as: T.unsafe(nil)); end
 
   # source://actionpack//lib/action_dispatch/testing/integration.rb#97
@@ -13445,15 +13446,15 @@ class ActionDispatch::Integration::Session
 
   private
 
-  # source://actionpack//lib/action_dispatch/testing/integration.rb#318
+  # source://actionpack//lib/action_dispatch/testing/integration.rb#319
   def _mock_session; end
 
   # @yield [location]
   #
-  # source://actionpack//lib/action_dispatch/testing/integration.rb#326
+  # source://actionpack//lib/action_dispatch/testing/integration.rb#327
   def build_expanded_path(path); end
 
-  # source://actionpack//lib/action_dispatch/testing/integration.rb#322
+  # source://actionpack//lib/action_dispatch/testing/integration.rb#323
   def build_full_uri(path, env); end
 
   class << self
@@ -13674,7 +13675,7 @@ ActionDispatch::Integration::Session::DEFAULT_HOST = T.let(T.unsafe(nil), String
 # Consult the [Rails Testing Guide](https://guides.rubyonrails.org/testing.html)
 # for more.
 #
-# source://actionpack//lib/action_dispatch/testing/integration.rb#649
+# source://actionpack//lib/action_dispatch/testing/integration.rb#650
 class ActionDispatch::IntegrationTest < ::ActiveSupport::TestCase
   include ::ActionDispatch::TestProcess::FixtureFile
   include ::ActionDispatch::Assertions::RoutingAssertions
@@ -13696,7 +13697,7 @@ class ActionDispatch::IntegrationTest < ::ActiveSupport::TestCase
   extend ::ActionDispatch::Assertions::RoutingAssertions::WithIntegrationRouting::ClassMethods
 end
 
-# source://actionpack//lib/action_dispatch/testing/integration.rb#659
+# source://actionpack//lib/action_dispatch/testing/integration.rb#660
 module ActionDispatch::IntegrationTest::Behavior
   include ::ActionDispatch::Assertions::RoutingAssertions
   include ::ActionDispatch::Assertions::ResponseAssertions
@@ -13716,30 +13717,30 @@ module ActionDispatch::IntegrationTest::Behavior
   mixes_in_class_methods ::ActionDispatch::IntegrationTest::Behavior::ClassMethods
   mixes_in_class_methods ::ActionDispatch::Assertions::RoutingAssertions::WithIntegrationRouting::ClassMethods
 
-  # source://actionpack//lib/action_dispatch/testing/integration.rb#692
+  # source://actionpack//lib/action_dispatch/testing/integration.rb#693
   def app; end
 
-  # source://actionpack//lib/action_dispatch/testing/integration.rb#696
+  # source://actionpack//lib/action_dispatch/testing/integration.rb#697
   def document_root_element; end
 end
 
-# source://actionpack//lib/action_dispatch/testing/integration.rb#674
+# source://actionpack//lib/action_dispatch/testing/integration.rb#675
 module ActionDispatch::IntegrationTest::Behavior::ClassMethods
-  # source://actionpack//lib/action_dispatch/testing/integration.rb#675
+  # source://actionpack//lib/action_dispatch/testing/integration.rb#676
   def app; end
 
-  # source://actionpack//lib/action_dispatch/testing/integration.rb#683
+  # source://actionpack//lib/action_dispatch/testing/integration.rb#684
   def app=(app); end
 
-  # source://actionpack//lib/action_dispatch/testing/integration.rb#687
+  # source://actionpack//lib/action_dispatch/testing/integration.rb#688
   def register_encoder(*args, **options); end
 end
 
-# source://actionpack//lib/action_dispatch/testing/integration.rb#652
+# source://actionpack//lib/action_dispatch/testing/integration.rb#653
 module ActionDispatch::IntegrationTest::UrlOptions
   extend ::ActiveSupport::Concern
 
-  # source://actionpack//lib/action_dispatch/testing/integration.rb#654
+  # source://actionpack//lib/action_dispatch/testing/integration.rb#655
   def url_options; end
 end
 
@@ -16998,9 +16999,9 @@ class ActionDispatch::RequestEncoder::IdentityEncoder
   def response_parser; end
 end
 
-# source://actionpack//lib/action_dispatch/testing/integration.rb#670
+# source://actionpack//lib/action_dispatch/testing/integration.rb#671
 class ActionDispatch::RequestEncoder::TurboStreamEncoder < ::ActionDispatch::RequestEncoder::IdentityEncoder
-  # source://actionpack//lib/action_dispatch/testing/integration.rb#670
+  # source://actionpack//lib/action_dispatch/testing/integration.rb#671
   def accept_header; end
 end
 

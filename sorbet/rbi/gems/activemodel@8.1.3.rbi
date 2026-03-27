@@ -1866,7 +1866,10 @@ class ActiveModel::Attributes::Normalization::NormalizedValueType
 
   private
 
-  # source://activemodel//lib/active_model/attributes/normalization.rb#186
+  # source://activemodel//lib/active_model/attributes/normalization.rb#189
+  def instance_variables_to_inspect; end
+
+  # source://activemodel//lib/active_model/attributes/normalization.rb#191
   def normalize(value); end
 end
 
@@ -5052,16 +5055,16 @@ class ActiveModel::Type::Integer < ::ActiveModel::Type::Value
 
   private
 
-  # source://activemodel//lib/active_model/type/integer.rb#120
+  # source://activemodel//lib/active_model/type/integer.rb#124
   def _limit; end
 
-  # source://activemodel//lib/active_model/type/integer.rb#108
+  # source://activemodel//lib/active_model/type/integer.rb#112
   def cast_value(value); end
 
-  # source://activemodel//lib/active_model/type/integer.rb#112
+  # source://activemodel//lib/active_model/type/integer.rb#116
   def max_value; end
 
-  # source://activemodel//lib/active_model/type/integer.rb#116
+  # source://activemodel//lib/active_model/type/integer.rb#120
   def min_value; end
 
   # @return [Boolean]

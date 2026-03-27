@@ -698,7 +698,7 @@ class Rails::Application::Configuration < ::Rails::Engine::Configuration
   # source://railties//lib/rails/application/configuration.rb#14
   def allow_concurrency=(_arg0); end
 
-  # source://railties//lib/rails/application/configuration.rb#585
+  # source://railties//lib/rails/application/configuration.rb#582
   def annotations; end
 
   # Returns the value of attribute api_only.
@@ -706,7 +706,7 @@ class Rails::Application::Configuration < ::Rails::Engine::Configuration
   # source://railties//lib/rails/application/configuration.rb#29
   def api_only; end
 
-  # source://railties//lib/rails/application/configuration.rb#398
+  # source://railties//lib/rails/application/configuration.rb#395
   def api_only=(value); end
 
   # Returns the value of attribute asset_host.
@@ -745,10 +745,10 @@ class Rails::Application::Configuration < ::Rails::Engine::Configuration
   # source://railties//lib/rails/application/configuration.rb#14
   def autoflush_log=(_arg0); end
 
-  # source://railties//lib/rails/application/configuration.rb#493
+  # source://railties//lib/rails/application/configuration.rb#490
   def autoload_lib(ignore:); end
 
-  # source://railties//lib/rails/application/configuration.rb#505
+  # source://railties//lib/rails/application/configuration.rb#502
   def autoload_lib_once(ignore:); end
 
   # Returns the value of attribute beginning_of_week.
@@ -763,7 +763,7 @@ class Rails::Application::Configuration < ::Rails::Engine::Configuration
   # source://railties//lib/rails/application/configuration.rb#14
   def beginning_of_week=(_arg0); end
 
-  # source://railties//lib/rails/application/configuration.rb#410
+  # source://railties//lib/rails/application/configuration.rb#407
   def broadcast_log_level; end
 
   # Returns the value of attribute cache_classes.
@@ -790,10 +790,10 @@ class Rails::Application::Configuration < ::Rails::Engine::Configuration
   # source://railties//lib/rails/application/configuration.rb#14
   def cache_store=(_arg0); end
 
-  # source://railties//lib/rails/application/configuration.rb#517
+  # source://railties//lib/rails/application/configuration.rb#514
   def colorize_logging; end
 
-  # source://railties//lib/rails/application/configuration.rb#521
+  # source://railties//lib/rails/application/configuration.rb#518
   def colorize_logging=(val); end
 
   # Returns the value of attribute consider_all_requests_local.
@@ -822,7 +822,7 @@ class Rails::Application::Configuration < ::Rails::Engine::Configuration
 
   # Configures the ActionDispatch::ContentSecurityPolicy.
   #
-  # source://railties//lib/rails/application/configuration.rb#590
+  # source://railties//lib/rails/application/configuration.rb#587
   def content_security_policy(&block); end
 
   # Returns the value of attribute content_security_policy_nonce_auto.
@@ -888,20 +888,20 @@ class Rails::Application::Configuration < ::Rails::Engine::Configuration
   # Loads and returns the entire raw configuration of database from
   # values stored in <tt>config/database.yml</tt>.
   #
-  # source://railties//lib/rails/application/configuration.rb#456
+  # source://railties//lib/rails/application/configuration.rb#453
   def database_configuration; end
 
-  # source://railties//lib/rails/application/configuration.rb#412
+  # source://railties//lib/rails/application/configuration.rb#409
   def debug_exception_response_format; end
 
   # Sets the attribute debug_exception_response_format
   #
   # @param value the value to set the attribute debug_exception_response_format to.
   #
-  # source://railties//lib/rails/application/configuration.rb#416
+  # source://railties//lib/rails/application/configuration.rb#413
   def debug_exception_response_format=(_arg0); end
 
-  # source://railties//lib/rails/application/configuration.rb#607
+  # source://railties//lib/rails/application/configuration.rb#604
   def default_log_file; end
 
   # Returns the value of attribute disable_sandbox.
@@ -940,10 +940,10 @@ class Rails::Application::Configuration < ::Rails::Engine::Configuration
   # source://railties//lib/rails/application/configuration.rb#14
   def eager_load=(_arg0); end
 
-  # source://railties//lib/rails/application/configuration.rb#382
+  # source://railties//lib/rails/application/configuration.rb#379
   def enable_reloading; end
 
-  # source://railties//lib/rails/application/configuration.rb#386
+  # source://railties//lib/rails/application/configuration.rb#383
   def enable_reloading=(value); end
 
   # Returns the value of attribute encoding.
@@ -951,7 +951,7 @@ class Rails::Application::Configuration < ::Rails::Engine::Configuration
   # source://railties//lib/rails/application/configuration.rb#29
   def encoding; end
 
-  # source://railties//lib/rails/application/configuration.rb#390
+  # source://railties//lib/rails/application/configuration.rb#387
   def encoding=(value); end
 
   # Returns the value of attribute exceptions_app.
@@ -1050,7 +1050,7 @@ class Rails::Application::Configuration < ::Rails::Engine::Configuration
   # source://railties//lib/rails/application/configuration.rb#14
   def hosts=(_arg0); end
 
-  # source://railties//lib/rails/application/configuration.rb#619
+  # source://railties//lib/rails/application/configuration.rb#616
   def inspect; end
 
   # Load the <tt>config/database.yml</tt> to create the Rake tasks for
@@ -1059,7 +1059,7 @@ class Rails::Application::Configuration < ::Rails::Engine::Configuration
   #
   # Do not use this method, use #database_configuration instead.
   #
-  # source://railties//lib/rails/application/configuration.rb#438
+  # source://railties//lib/rails/application/configuration.rb#435
   def load_database_yaml; end
 
   # Loads default configuration values for a target version. This includes
@@ -1104,7 +1104,7 @@ class Rails::Application::Configuration < ::Rails::Engine::Configuration
   # source://railties//lib/rails/application/configuration.rb#29
   def log_level; end
 
-  # source://railties//lib/rails/application/configuration.rb#405
+  # source://railties//lib/rails/application/configuration.rb#402
   def log_level=(level); end
 
   # Returns the value of attribute log_tags.
@@ -1131,12 +1131,12 @@ class Rails::Application::Configuration < ::Rails::Engine::Configuration
   # source://railties//lib/rails/application/configuration.rb#14
   def logger=(_arg0); end
 
-  # source://railties//lib/rails/application/configuration.rb#418
+  # source://railties//lib/rails/application/configuration.rb#415
   def paths; end
 
   # Configures the ActionDispatch::PermissionsPolicy.
   #
-  # source://railties//lib/rails/application/configuration.rb#599
+  # source://railties//lib/rails/application/configuration.rb#596
   def permissions_policy(&block); end
 
   # Returns the value of attribute precompile_filter_parameters.
@@ -1213,7 +1213,7 @@ class Rails::Application::Configuration < ::Rails::Engine::Configuration
 
   # @return [Boolean]
   #
-  # source://railties//lib/rails/application/configuration.rb#378
+  # source://railties//lib/rails/application/configuration.rb#375
   def reloading_enabled?; end
 
   # Returns the value of attribute require_master_key.
@@ -1240,10 +1240,10 @@ class Rails::Application::Configuration < ::Rails::Engine::Configuration
   # source://railties//lib/rails/application/configuration.rb#14
   def sandbox_by_default=(_arg0); end
 
-  # source://railties//lib/rails/application/configuration.rb#526
+  # source://railties//lib/rails/application/configuration.rb#523
   def secret_key_base; end
 
-  # source://railties//lib/rails/application/configuration.rb#538
+  # source://railties//lib/rails/application/configuration.rb#535
   def secret_key_base=(new_secret_key_base); end
 
   # Returns the value of attribute server_timing.
@@ -1286,12 +1286,12 @@ class Rails::Application::Configuration < ::Rails::Engine::Configuration
   #   # use ActionDispatch::Session::MyCustomStore as the session store
   #   config.session_store :my_custom_store
   #
-  # source://railties//lib/rails/application/configuration.rb#565
+  # source://railties//lib/rails/application/configuration.rb#562
   def session_store(new_session_store = T.unsafe(nil), **options); end
 
   # @return [Boolean]
   #
-  # source://railties//lib/rails/application/configuration.rb#581
+  # source://railties//lib/rails/application/configuration.rb#578
   def session_store?; end
 
   # Returns the value of attribute silence_healthcheck_path.
@@ -1356,28 +1356,28 @@ class Rails::Application::Configuration < ::Rails::Engine::Configuration
 
   private
 
-  # source://railties//lib/rails/application/configuration.rb#646
+  # source://railties//lib/rails/application/configuration.rb#643
   def credentials_defaults; end
 
-  # source://railties//lib/rails/application/configuration.rb#656
+  # source://railties//lib/rails/application/configuration.rb#653
   def generate_local_secret; end
 end
 
-# source://railties//lib/rails/application/configuration.rb#623
+# source://railties//lib/rails/application/configuration.rb#620
 class Rails::Application::Configuration::Custom
   # @return [Custom] a new instance of Custom
   #
-  # source://railties//lib/rails/application/configuration.rb#624
+  # source://railties//lib/rails/application/configuration.rb#621
   def initialize; end
 
-  # source://railties//lib/rails/application/configuration.rb#628
+  # source://railties//lib/rails/application/configuration.rb#625
   def method_missing(method, *args); end
 
   private
 
   # @return [Boolean]
   #
-  # source://railties//lib/rails/application/configuration.rb#640
+  # source://railties//lib/rails/application/configuration.rb#637
   def respond_to_missing?(symbol, _); end
 end
 
@@ -1675,193 +1675,6 @@ Rails::BacktraceCleaner::APP_DIRS_PATTERN = T.let(T.unsafe(nil), Regexp)
 
 # source://railties//lib/rails/backtrace_cleaner.rb#9
 Rails::BacktraceCleaner::RENDER_TEMPLATE_PATTERN = T.let(T.unsafe(nil), Regexp)
-
-# source://railties//lib/rails/code_statistics.rb#7
-class Rails::CodeStatistics
-  # @return [CodeStatistics] a new instance of CodeStatistics
-  #
-  # source://railties//lib/rails/code_statistics.rb#63
-  def initialize(*pairs); end
-
-  # source://railties//lib/rails/code_statistics.rb#47
-  def directories; end
-
-  # source://railties//lib/rails/code_statistics.rb#47
-  def directories=(_arg0); end
-
-  # source://railties//lib/rails/code_statistics.rb#47
-  def directories?; end
-
-  # source://railties//lib/rails/code_statistics.rb#49
-  def pattern; end
-
-  # source://railties//lib/rails/code_statistics.rb#49
-  def pattern=(_arg0); end
-
-  # source://railties//lib/rails/code_statistics.rb#49
-  def pattern?; end
-
-  # source://railties//lib/rails/code_statistics.rb#48
-  def test_types; end
-
-  # source://railties//lib/rails/code_statistics.rb#48
-  def test_types=(_arg0); end
-
-  # source://railties//lib/rails/code_statistics.rb#48
-  def test_types?; end
-
-  # source://railties//lib/rails/code_statistics.rb#69
-  def to_s; end
-
-  private
-
-  # source://railties//lib/rails/code_statistics.rb#109
-  def calculate_code; end
-
-  # source://railties//lib/rails/code_statistics.rb#87
-  def calculate_directory_statistics(directory, pattern = T.unsafe(nil)); end
-
-  # source://railties//lib/rails/code_statistics.rb#83
-  def calculate_statistics; end
-
-  # source://railties//lib/rails/code_statistics.rb#115
-  def calculate_tests; end
-
-  # source://railties//lib/rails/code_statistics.rb#103
-  def calculate_total; end
-
-  # source://railties//lib/rails/code_statistics.rb#154
-  def print_code_test_stats; end
-
-  # source://railties//lib/rails/code_statistics.rb#125
-  def print_header; end
-
-  # source://railties//lib/rails/code_statistics.rb#143
-  def print_line(name, statistics); end
-
-  # source://railties//lib/rails/code_statistics.rb#135
-  def print_splitter; end
-
-  # source://railties//lib/rails/code_statistics.rb#121
-  def width_for(label); end
-
-  class << self
-    # source://railties//lib/rails/code_statistics.rb#47
-    def directories; end
-
-    # source://railties//lib/rails/code_statistics.rb#47
-    def directories=(value); end
-
-    # source://railties//lib/rails/code_statistics.rb#47
-    def directories?; end
-
-    # source://railties//lib/rails/code_statistics.rb#49
-    def pattern; end
-
-    # source://railties//lib/rails/code_statistics.rb#49
-    def pattern=(value); end
-
-    # source://railties//lib/rails/code_statistics.rb#49
-    def pattern?; end
-
-    # Add directories to the output of the <tt>bin/rails stats</tt> command.
-    #
-    #   Rails::CodeStatistics.register_directory("My Directory", "path/to/dir")
-    #
-    # For directories that contain test code, set the <tt>test_directory</tt> argument to true.
-    #
-    #   Rails::CodeStatistics.register_directory("Model specs", "spec/models", test_directory: true)
-    #
-    # source://railties//lib/rails/code_statistics.rb#58
-    def register_directory(label, path, test_directory: T.unsafe(nil)); end
-
-    # source://railties//lib/rails/code_statistics.rb#48
-    def test_types; end
-
-    # source://railties//lib/rails/code_statistics.rb#48
-    def test_types=(value); end
-
-    # source://railties//lib/rails/code_statistics.rb#48
-    def test_types?; end
-
-    private
-
-    # source://railties//lib/rails/code_statistics.rb#47
-    def __class_attr_directories; end
-
-    # source://railties//lib/rails/code_statistics.rb#47
-    def __class_attr_directories=(new_value); end
-
-    # source://railties//lib/rails/code_statistics.rb#49
-    def __class_attr_pattern; end
-
-    # source://railties//lib/rails/code_statistics.rb#49
-    def __class_attr_pattern=(new_value); end
-
-    # source://railties//lib/rails/code_statistics.rb#48
-    def __class_attr_test_types; end
-
-    # source://railties//lib/rails/code_statistics.rb#48
-    def __class_attr_test_types=(new_value); end
-  end
-end
-
-# source://railties//lib/rails/code_statistics.rb#8
-Rails::CodeStatistics::DIRECTORIES = T.let(T.unsafe(nil), Array)
-
-# source://railties//lib/rails/code_statistics.rb#43
-Rails::CodeStatistics::HEADERS = T.let(T.unsafe(nil), Hash)
-
-# source://railties//lib/rails/code_statistics.rb#45
-Rails::CodeStatistics::PATTERN = T.let(T.unsafe(nil), Regexp)
-
-# source://railties//lib/rails/code_statistics.rb#33
-Rails::CodeStatistics::TEST_TYPES = T.let(T.unsafe(nil), Array)
-
-# source://railties//lib/rails/code_statistics_calculator.rb#4
-class Rails::CodeStatisticsCalculator
-  # @return [CodeStatisticsCalculator] a new instance of CodeStatisticsCalculator
-  #
-  # source://railties//lib/rails/code_statistics_calculator.rb#42
-  def initialize(lines = T.unsafe(nil), code_lines = T.unsafe(nil), classes = T.unsafe(nil), methods = T.unsafe(nil)); end
-
-  # source://railties//lib/rails/code_statistics_calculator.rb#49
-  def add(code_statistics_calculator); end
-
-  # source://railties//lib/rails/code_statistics_calculator.rb#56
-  def add_by_file_path(file_path); end
-
-  # source://railties//lib/rails/code_statistics_calculator.rb#62
-  def add_by_io(io, file_type); end
-
-  # Returns the value of attribute classes.
-  #
-  # source://railties//lib/rails/code_statistics_calculator.rb#5
-  def classes; end
-
-  # Returns the value of attribute code_lines.
-  #
-  # source://railties//lib/rails/code_statistics_calculator.rb#5
-  def code_lines; end
-
-  # Returns the value of attribute lines.
-  #
-  # source://railties//lib/rails/code_statistics_calculator.rb#5
-  def lines; end
-
-  # Returns the value of attribute methods.
-  #
-  # source://railties//lib/rails/code_statistics_calculator.rb#5
-  def methods; end
-
-  private
-
-  # source://railties//lib/rails/code_statistics_calculator.rb#91
-  def file_type(file_path); end
-end
-
-# source://railties//lib/rails/code_statistics_calculator.rb#7
-Rails::CodeStatisticsCalculator::PATTERNS = T.let(T.unsafe(nil), Hash)
 
 # source://railties//lib/rails/configuration.rb#9
 module Rails::Configuration; end

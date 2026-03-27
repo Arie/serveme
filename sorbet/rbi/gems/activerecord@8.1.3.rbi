@@ -24444,7 +24444,7 @@ class ActiveRecord::FutureResult
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/future_result.rb#139
+  # source://activerecord//lib/active_record/future_result.rb#141
   def canceled?; end
 
   # source://activerecord//lib/active_record/future_result.rb#62
@@ -24463,10 +24463,10 @@ class ActiveRecord::FutureResult
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/future_result.rb#135
+  # source://activerecord//lib/active_record/future_result.rb#137
   def pending?; end
 
-  # source://activerecord//lib/active_record/future_result.rb#122
+  # source://activerecord//lib/active_record/future_result.rb#124
   def result; end
 
   # source://activerecord//lib/active_record/future_result.rb#85
@@ -24480,13 +24480,13 @@ class ActiveRecord::FutureResult
 
   private
 
-  # source://activerecord//lib/active_record/future_result.rb#169
+  # source://activerecord//lib/active_record/future_result.rb#171
   def exec_query(connection, *args, **kwargs); end
 
-  # source://activerecord//lib/active_record/future_result.rb#144
+  # source://activerecord//lib/active_record/future_result.rb#146
   def execute_or_wait; end
 
-  # source://activerecord//lib/active_record/future_result.rb#161
+  # source://activerecord//lib/active_record/future_result.rb#163
   def execute_query(connection, async: T.unsafe(nil)); end
 
   class << self
@@ -24543,11 +24543,11 @@ class ActiveRecord::FutureResult::EventBuffer
   def instrument(name, payload = T.unsafe(nil), &block); end
 end
 
-# source://activerecord//lib/active_record/future_result.rb#173
+# source://activerecord//lib/active_record/future_result.rb#175
 class ActiveRecord::FutureResult::SelectAll < ::ActiveRecord::FutureResult
   private
 
-  # source://activerecord//lib/active_record/future_result.rb#175
+  # source://activerecord//lib/active_record/future_result.rb#177
   def exec_query(*_arg0, **_arg1); end
 end
 
@@ -30131,14 +30131,14 @@ class ActiveRecord::PredicateBuilder::ArrayHandler
 
   # Returns the value of attribute predicate_builder.
   #
-  # source://activerecord//lib/active_record/relation/predicate_builder/array_handler.rb#39
+  # source://activerecord//lib/active_record/relation/predicate_builder/array_handler.rb#41
   def predicate_builder; end
 end
 
-# source://activerecord//lib/active_record/relation/predicate_builder/array_handler.rb#41
+# source://activerecord//lib/active_record/relation/predicate_builder/array_handler.rb#43
 module ActiveRecord::PredicateBuilder::ArrayHandler::NullPredicate
   class << self
-    # source://activerecord//lib/active_record/relation/predicate_builder/array_handler.rb#42
+    # source://activerecord//lib/active_record/relation/predicate_builder/array_handler.rb#44
     def or(other); end
   end
 end
@@ -39568,26 +39568,23 @@ end
 class ActiveRecord::Type::Json < ::ActiveModel::Type::Value
   include ::ActiveModel::Type::Helpers::Mutable
 
-  # source://activerecord//lib/active_record/type/json.rb#38
+  # source://activerecord//lib/active_record/type/json.rb#36
   def accessor; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/type/json.rb#34
+  # source://activerecord//lib/active_record/type/json.rb#32
   def changed_in_place?(raw_old_value, new_value); end
 
   # source://activerecord//lib/active_record/type/json.rb#14
   def deserialize(value); end
 
-  # source://activerecord//lib/active_record/type/json.rb#30
+  # source://activerecord//lib/active_record/type/json.rb#28
   def serialize(value); end
 
   # source://activerecord//lib/active_record/type/json.rb#10
   def type; end
 end
-
-# source://activerecord//lib/active_record/type/json.rb#28
-ActiveRecord::Type::Json::JSON_ENCODER = T.let(T.unsafe(nil), ActiveSupport::JSON::Encoding::JSONGemCoderEncoder)
 
 # source://activerecord//lib/active_record/type/adapter_specific_registry.rb#47
 class ActiveRecord::Type::Registration
@@ -39711,11 +39708,14 @@ class ActiveRecord::Type::Serialized
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/type/serialized.rb#68
+  # source://activerecord//lib/active_record/type/serialized.rb#73
   def default_value?(value); end
 
-  # source://activerecord//lib/active_record/type/serialized.rb#72
+  # source://activerecord//lib/active_record/type/serialized.rb#77
   def encoded(value); end
+
+  # source://activerecord//lib/active_record/type/serialized.rb#71
+  def instance_variables_to_inspect; end
 end
 
 # source://activerecord//lib/active_record/type.rb#66
@@ -43109,7 +43109,7 @@ module Arel::Predications
 
   private
 
-  # source://activerecord//lib/arel/predications.rb#239
+  # source://activerecord//lib/arel/predications.rb#237
   def grouping_all(method_id, others, *extras); end
 
   # source://activerecord//lib/arel/predications.rb#232
@@ -43117,20 +43117,20 @@ module Arel::Predications
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/arel/predications.rb#248
+  # source://activerecord//lib/arel/predications.rb#246
   def infinity?(value); end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/arel/predications.rb#256
+  # source://activerecord//lib/arel/predications.rb#254
   def open_ended?(value); end
 
-  # source://activerecord//lib/arel/predications.rb#244
+  # source://activerecord//lib/arel/predications.rb#242
   def quoted_node(other); end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/arel/predications.rb#252
+  # source://activerecord//lib/arel/predications.rb#250
   def unboundable?(value); end
 end
 

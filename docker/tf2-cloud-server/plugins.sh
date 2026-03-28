@@ -17,6 +17,11 @@ wget -nv "https://github.com/sapphonie/MGEMod/releases/latest/download/mge.zip" 
 unzip -o mge.zip
 rm mge.zip
 
+
+# Better MGE spawns
+cd "$HOME/hlserver/tf2/tf"
+wget -nv "https://raw.githubusercontent.com/Arie/serveme/master/doc/mgemod_spawns.cfg" -O "cfg/mgemod_spawns.cfg"
+
 # tf2rue (TFTrue replacement, zip contents are relative to addons/sourcemod/)
 cd "$HOME/hlserver/tf2/tf/addons/sourcemod"
 wget -nv "https://github.com/sapphonie/tf2rue/releases/latest/download/tf2rue.zip" -O "tf2rue.zip"

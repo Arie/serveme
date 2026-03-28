@@ -7,6 +7,7 @@ class LiveMatchStats
 
   ANSI_REGEX = /\e\[\d*;?\d*m\[?K?/
   MAP_START_REGEX = /Started map "/
+  MINI_ROUND_LENGTH_REGEX = /Mini_Round_Length.*seconds\s+"([\d.]+)"/
 
   class << self
     # Process a single raw log line (used by rebuild and standalone callers)
@@ -14,7 +15,7 @@ class LiveMatchStats
       line = sanitize_line(raw_line)
 
       if line.match?(MAP_START_REGEX)
-        clear(reservation_id)
+        reset_current_match(reservation_id)
         return
       end
 
@@ -33,11 +34,19 @@ class LiveMatchStats
       events.each do |event|
         next unless event
 
-        if event.is_a?(TF2LineParser::Events::Unknown) && event.unknown&.match?(MAP_START_REGEX)
-          clear(reservation_id)
-          between_matches = false
-          between_rounds = false
-          next
+        if event.is_a?(TF2LineParser::Events::Unknown) && event.unknown
+          if event.unknown.match?(MAP_START_REGEX)
+            reset_current_match(reservation_id)
+            between_matches = false
+            between_rounds = false
+            next
+          end
+
+          mini_match = event.unknown.match(MINI_ROUND_LENGTH_REGEX)
+          if mini_match
+            accumulate_round_length(reservation_id, mini_match[1].to_f)
+            next
+          end
         end
 
         case event
@@ -118,6 +127,17 @@ class LiveMatchStats
     end
 
     private
+
+    def reset_current_match(reservation_id)
+      key = redis_key(reservation_id)
+      Sidekiq.redis do |r|
+        data = r.hgetall(key)
+        fields_to_delete = data.keys.select do |field|
+          field.start_with?("player:", "score:") || field.in?(%w[total_duration_cs between_matches between_rounds])
+        end
+        r.hdel(key, *fields_to_delete) if fields_to_delete.any?
+      end
+    end
 
     def finalize_current_match(reservation_id)
       key = redis_key(reservation_id)

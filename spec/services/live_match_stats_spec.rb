@@ -96,12 +96,11 @@ describe LiveMatchStats do
       expect(attacker[:kills]).to eq(1)
     end
 
-    it 'tracks events before first round starts' do
+    it 'ignores events before first round starts (warmup)' do
       described_class.process_line(reservation_id, 'L 03/22/2026 - 20:00:10: "Attacker<3><[U:1:200002]><Red>" killed "Victim<4><[U:1:400002]><Blue>" with "scattergun" (attacker_position "0 0 0") (victim_position "0 0 0")')
 
-      stats = described_class.get_stats(reservation_id).first
-      attacker = stats[:players].find { |p| p[:name] == 'Attacker' }
-      expect(attacker[:kills]).to eq(1)
+      stats = described_class.get_stats(reservation_id)
+      expect(stats).to be_nil
     end
 
     it 'resumes tracking after next round starts' do

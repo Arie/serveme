@@ -344,7 +344,10 @@ class LiveMatchStats
     end
 
     def between_rounds?(reservation_id)
-      Sidekiq.redis { |r| r.hget(redis_key(reservation_id), "between_rounds") } == "1"
+      # Default to true (between rounds) when key doesn't exist,
+      # so warmup/pre-round kills aren't counted.
+      # Only RoundStart sets this to "0" to start tracking kills.
+      Sidekiq.redis { |r| r.hget(redis_key(reservation_id), "between_rounds") } != "0"
     end
 
     def steam_uid(event_player)

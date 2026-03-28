@@ -1007,6 +1007,20 @@ class TF2LineParser::Events::MedicDeathEx < ::TF2LineParser::Events::Event
   end
 end
 
+# source://tf2_line_parser//lib/tf2_line_parser/events/mini_round_length.rb#5
+class TF2LineParser::Events::MiniRoundLength < ::TF2LineParser::Events::RoundEventWithVariables
+  class << self
+    # source://tf2_line_parser//lib/tf2_line_parser/events/mini_round_length.rb#6
+    def round_type; end
+
+    # source://tf2_line_parser//lib/tf2_line_parser/events/mini_round_length.rb#14
+    def round_variable; end
+
+    # source://tf2_line_parser//lib/tf2_line_parser/events/mini_round_length.rb#10
+    def round_variable_regex; end
+  end
+end
+
 # source://tf2_line_parser//lib/tf2_line_parser/events/mini_round_selected.rb#3
 class TF2LineParser::Events::MiniRoundSelected < ::TF2LineParser::Events::RoundEventWithVariables
   class << self
@@ -1026,6 +1040,20 @@ class TF2LineParser::Events::MiniRoundStart < ::TF2LineParser::Events::RoundEven
   class << self
     # source://tf2_line_parser//lib/tf2_line_parser/events/mini_round_start.rb#4
     def round_type; end
+  end
+end
+
+# source://tf2_line_parser//lib/tf2_line_parser/events/mini_round_win.rb#5
+class TF2LineParser::Events::MiniRoundWin < ::TF2LineParser::Events::RoundEventWithVariables
+  class << self
+    # source://tf2_line_parser//lib/tf2_line_parser/events/mini_round_win.rb#6
+    def round_type; end
+
+    # source://tf2_line_parser//lib/tf2_line_parser/events/mini_round_win.rb#14
+    def round_variable; end
+
+    # source://tf2_line_parser//lib/tf2_line_parser/events/mini_round_win.rb#10
+    def round_variable_regex; end
   end
 end
 
@@ -1459,7 +1487,7 @@ end
 class TF2LineParser::Line
   # @return [Line] a new instance of Line
   #
-  # source://tf2_line_parser//lib/tf2_line_parser/line.rb#66
+  # source://tf2_line_parser//lib/tf2_line_parser/line.rb#68
   def initialize(line); end
 
   # Returns the value of attribute line.
@@ -1474,34 +1502,34 @@ class TF2LineParser::Line
   # source://tf2_line_parser//lib/tf2_line_parser/line.rb#7
   def line=(_arg0); end
 
-  # source://tf2_line_parser//lib/tf2_line_parser/line.rb#70
+  # source://tf2_line_parser//lib/tf2_line_parser/line.rb#72
   def parse; end
 
   class << self
     # Class method to parse without object allocation
     #
-    # source://tf2_line_parser//lib/tf2_line_parser/line.rb#75
+    # source://tf2_line_parser//lib/tf2_line_parser/line.rb#77
     def parse(line); end
 
     private
 
-    # source://tf2_line_parser//lib/tf2_line_parser/line.rb#129
+    # source://tf2_line_parser//lib/tf2_line_parser/line.rb#131
     def check_damage_subtypes(line); end
 
-    # source://tf2_line_parser//lib/tf2_line_parser/line.rb#143
+    # source://tf2_line_parser//lib/tf2_line_parser/line.rb#145
     def check_heal_subtypes(line); end
 
-    # source://tf2_line_parser//lib/tf2_line_parser/line.rb#89
+    # source://tf2_line_parser//lib/tf2_line_parser/line.rb#91
     def find_candidate_types(line); end
 
-    # source://tf2_line_parser//lib/tf2_line_parser/line.rb#115
+    # source://tf2_line_parser//lib/tf2_line_parser/line.rb#117
     def try_parse_types(line, types); end
   end
 end
 
 # Fallback types when no keyword matches - ordered by specificity
 #
-# source://tf2_line_parser//lib/tf2_line_parser/line.rb#57
+# source://tf2_line_parser//lib/tf2_line_parser/line.rb#59
 TF2LineParser::Line::FALLBACK_TYPES = T.let(T.unsafe(nil), Array)
 
 # Keyword to event types mapping (order matters for subtypes!)

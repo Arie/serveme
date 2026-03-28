@@ -25,7 +25,7 @@ class BigDecimal < ::Numeric
   #
   #  Related: BigDecimal#power.
   #
-  # source://bigdecimal//lib/bigdecimal.rb#77
+  # source://bigdecimal//lib/bigdecimal.rb#120
   def **(y); end
 
   # source://bigdecimal//lib/bigdecimal.rb#10
@@ -144,7 +144,7 @@ class BigDecimal < ::Numeric
   #
   # Also available as the operator **.
   #
-  # source://bigdecimal//lib/bigdecimal.rb#97
+  # source://bigdecimal//lib/bigdecimal.rb#140
   def power(y, prec = T.unsafe(nil)); end
 
   # source://bigdecimal//lib/bigdecimal.rb#10
@@ -177,7 +177,7 @@ class BigDecimal < ::Numeric
   #
   # @raise [FloatDomainError]
   #
-  # source://bigdecimal//lib/bigdecimal.rb#212
+  # source://bigdecimal//lib/bigdecimal.rb#255
   def sqrt(prec); end
 
   # source://bigdecimal//lib/bigdecimal.rb#10
@@ -266,29 +266,54 @@ module BigDecimal::Internal
     #
     # @raise [ArgumentError]
     #
-    # source://bigdecimal//lib/bigdecimal.rb#18
+    # source://bigdecimal//lib/bigdecimal.rb#21
     def coerce_to_bigdecimal(x, prec, method_name); end
 
-    # source://bigdecimal//lib/bigdecimal.rb#30
+    # source://bigdecimal//lib/bigdecimal.rb#33
     def coerce_validate_prec(prec, method_name, accept_zero: T.unsafe(nil)); end
 
-    # source://bigdecimal//lib/bigdecimal.rb#50
+    # Calculates Math.log(x.to_f) considering large or small exponent
+    #
+    # source://bigdecimal//lib/bigdecimal.rb#80
+    def float_log(x); end
+
+    # source://bigdecimal//lib/bigdecimal.rb#53
     def infinity_computation_result; end
 
-    # source://bigdecimal//lib/bigdecimal.rb#57
+    # source://bigdecimal//lib/bigdecimal.rb#60
     def nan_computation_result; end
+
+    # Iteration for Newton's method with increasing precision
+    #
+    # source://bigdecimal//lib/bigdecimal.rb#68
+    def newton_loop(prec, initial_precision: T.unsafe(nil), safe_margin: T.unsafe(nil)); end
+
+    # Calculating Taylor series sum using binary splitting method
+    # Calculates f(x) = (x/d0)*(1+(x/d1)*(1+(x/d2)*(1+(x/d3)*(1+...))))
+    # x.n_significant_digits or ds.size must be small to be performant.
+    #
+    # source://bigdecimal//lib/bigdecimal.rb#87
+    def taylor_sum_binary_splitting(x, ds, prec); end
   end
 end
+
+# Default extra precision for intermediate calculations
+# This value is currently the same as BigDecimal.double_fig, but defined separately for future changes.
+#
+# source://bigdecimal//lib/bigdecimal.rb#17
+BigDecimal::Internal::EXTRA_PREC = T.let(T.unsafe(nil), Integer)
+
+BigDecimal::VERSION = T.let(T.unsafe(nil), String)
 
 # Core BigMath methods for BigDecimal (log, exp) are defined here.
 # Other methods (sin, cos, atan) are defined in 'bigdecimal/math.rb'.
 #
-# source://bigdecimal//lib/bigdecimal.rb#240
+# source://bigdecimal//lib/bigdecimal.rb#281
 module BigMath
   private
 
-  # source://bigdecimal//lib/bigdecimal.rb#310
-  def _exp_taylor(x, prec); end
+  # source://bigdecimal//lib/bigdecimal.rb#329
+  def _exp_binary_splitting(x, prec); end
 
   # call-seq:
   #   BigMath.exp(decimal, numeric)    -> BigDecimal
@@ -300,7 +325,7 @@ module BigMath
   #
   # If +decimal+ is NaN, returns NaN.
   #
-  # source://bigdecimal//lib/bigdecimal.rb#332
+  # source://bigdecimal//lib/bigdecimal.rb#349
   def exp(x, prec); end
 
   # call-seq:
@@ -315,7 +340,7 @@ module BigMath
   #
   # If +decimal+ is NaN, returns NaN.
   #
-  # source://bigdecimal//lib/bigdecimal.rb#255
+  # source://bigdecimal//lib/bigdecimal.rb#296
   def log(x, prec); end
 
   class << self
@@ -329,7 +354,7 @@ module BigMath
     #
     # If +decimal+ is NaN, returns NaN.
     #
-    # source://bigdecimal//lib/bigdecimal.rb#332
+    # source://bigdecimal//lib/bigdecimal.rb#349
     def exp(x, prec); end
 
     # call-seq:
@@ -346,13 +371,13 @@ module BigMath
     #
     # @raise [Math::DomainError]
     #
-    # source://bigdecimal//lib/bigdecimal.rb#255
+    # source://bigdecimal//lib/bigdecimal.rb#296
     def log(x, prec); end
 
     private
 
-    # source://bigdecimal//lib/bigdecimal.rb#310
-    def _exp_taylor(x, prec); end
+    # source://bigdecimal//lib/bigdecimal.rb#329
+    def _exp_binary_splitting(x, prec); end
   end
 end
 

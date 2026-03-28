@@ -7,7 +7,6 @@ class LiveMatchStats
 
   ANSI_REGEX = /\e\[\d*;?\d*m\[?K?/
   MAP_START_REGEX = /Started map "/
-  MINI_ROUND_LENGTH_REGEX = /Mini_Round_Length.*seconds\s+"([\d.]+)"/
 
   class << self
     # Process a single raw log line (used by rebuild and standalone callers)
@@ -34,23 +33,15 @@ class LiveMatchStats
       events.each do |event|
         next unless event
 
-        if event.is_a?(TF2LineParser::Events::Unknown) && event.unknown
-          if event.unknown.match?(MAP_START_REGEX)
-            reset_current_match(reservation_id)
-            between_matches = false
-            between_rounds = false
-            next
-          end
-
-          mini_match = event.unknown.match(MINI_ROUND_LENGTH_REGEX)
-          if mini_match
-            accumulate_round_length(reservation_id, mini_match[1].to_f)
-            next
-          end
+        if event.is_a?(TF2LineParser::Events::Unknown) && event.unknown&.match?(MAP_START_REGEX)
+          reset_current_match(reservation_id)
+          between_matches = false
+          between_rounds = false
+          next
         end
 
         case event
-        when TF2LineParser::Events::RoundStart
+        when TF2LineParser::Events::RoundStart, TF2LineParser::Events::MiniRoundStart
           set_field(reservation_id, "between_matches", "0")
           set_field(reservation_id, "between_rounds", "0")
           between_matches = false
@@ -59,9 +50,9 @@ class LiveMatchStats
           finalize_current_match(reservation_id)
           set_field(reservation_id, "between_matches", "1")
           between_matches = true
-        when TF2LineParser::Events::RoundLength
+        when TF2LineParser::Events::RoundLength, TF2LineParser::Events::MiniRoundLength
           accumulate_round_length(reservation_id, event.length.to_f) if event.length
-        when TF2LineParser::Events::RoundWin
+        when TF2LineParser::Events::RoundWin, TF2LineParser::Events::MiniRoundWin
           set_field(reservation_id, "between_rounds", "1")
           between_rounds = true
           increment_team_score(reservation_id, event.team) if event.team

@@ -20,12 +20,12 @@ module LogLineHelper
   INTERESTING_KEYWORDS_MULTI_WORD = [ "changed role", "Started map", "picked up item" ].freeze
 
   ACTIONABLE_KEYWORDS = %w[say connected disconnected].freeze
-  ACTIONABLE_KEYWORDS_MULTI_WORD = [ "Started map" ].freeze
+  ACTIONABLE_KEYWORDS_MULTI_WORD = [ "Started map", "Round_Length", "Mini_Round_Length", "Round_Win", "Mini_Round_Win", "Game_Over" ].freeze
 
   def interesting_line?(log_line)
     return false unless contains_interesting_keyword?(log_line)
 
-    interesting_event?(log_line) || map_start?(log_line)
+    interesting_event?(log_line) || map_start?(log_line) || actionable_line?(log_line)
   end
 
   def actionable_line?(log_line)
@@ -86,7 +86,10 @@ module LogLineHelper
       TF2LineParser::Events::Heal,
       TF2LineParser::Events::Assist,
       TF2LineParser::Events::MedicDeath,
-      TF2LineParser::Events::Spawn
+      TF2LineParser::Events::Spawn,
+      TF2LineParser::Events::RoundLength,
+      TF2LineParser::Events::MiniRoundLength,
+      TF2LineParser::Events::MiniRoundWin
     ]
   end
 

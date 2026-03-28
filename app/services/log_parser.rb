@@ -3,7 +3,6 @@
 
 class LogParser
   MIN_MATCH_DURATION_SECONDS = 300
-  MINI_ROUND_LENGTH_REGEX = /Mini_Round_Length.*seconds\s+"([\d.]+)"/
 
   PlayerStats = Struct.new(:steam_uid, :name, :team_counts, :class_counts, :kills, :assists, :deaths, :damage, :damage_taken, :healing, :heals_received, :ubers, :drops, :airshots, :caps, keyword_init: true) do
     def team
@@ -67,19 +66,17 @@ class LogParser
     return unless event
 
     case event
-    when TF2LineParser::Events::RoundStart
+    when TF2LineParser::Events::RoundStart, TF2LineParser::Events::MiniRoundStart
       @between_matches = false
       @between_rounds = false
     when TF2LineParser::Events::MatchEnd
       @match_ended = true
       finalize_match
-    when TF2LineParser::Events::RoundWin
+    when TF2LineParser::Events::RoundWin, TF2LineParser::Events::MiniRoundWin
       @between_rounds = true
       handle_round_win(event)
-    when TF2LineParser::Events::RoundLength
+    when TF2LineParser::Events::RoundLength, TF2LineParser::Events::MiniRoundLength
       handle_round_length(event)
-    when TF2LineParser::Events::Unknown
-      handle_mini_round_length(event)
     when TF2LineParser::Events::FinalScore
       handle_final_score(event)
     when TF2LineParser::Events::CurrentScore
@@ -205,13 +202,6 @@ class LogParser
 
   def handle_round_length(event)
     @round_lengths << event.length.to_f if event.length
-  end
-
-  def handle_mini_round_length(event)
-    return unless event.unknown
-
-    match = event.unknown.match(MINI_ROUND_LENGTH_REGEX)
-    @round_lengths << match[1].to_f if match
   end
 
   def handle_final_score(event)

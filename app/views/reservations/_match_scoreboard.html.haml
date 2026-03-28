@@ -27,12 +27,8 @@
           %th.text-center{title: "Kills"} K
           %th.text-center{title: "Assists"} A
           %th.text-center{title: "Deaths"} D
-          %th.text-end{title: "Damage"} DA
-          - if duration_minutes > 0
-            %th.text-end{title: "Damage per Minute"} DA/m
-          %th.text-end{title: "Damage Taken"} DT
-          - if duration_minutes > 0
-            %th.text-end{title: "Damage Taken per Minute"} DT/m
+          %th.text-end{title: "Damage per Minute"} DA/m
+          %th.text-end{title: "Damage Taken per Minute"} DT/m
           %th.text-end{title: "Heals Received"} HR
           %th.text-center{title: "Kills + Assists per Death"} KA/D
           %th.text-center{title: "Kills per Death"} K/D
@@ -67,12 +63,16 @@
               %td.text-center= kills
               %td.text-center= assists
               %td.text-center= deaths
-              %td.text-end= number_with_delimiter(stats[:damage] || 0)
-              - if duration_minutes > 0
-                %td.text-end= ((stats[:damage] || 0) / duration_minutes).round
-              %td.text-end= number_with_delimiter(stats[:damage_taken] || 0)
-              - if duration_minutes > 0
-                %td.text-end= ((stats[:damage_taken] || 0) / duration_minutes).round
+              %td.text-end
+                - if duration_minutes > 0
+                  = ((stats[:damage] || 0) / duration_minutes).round
+                - else
+                  \-
+              %td.text-end
+                - if duration_minutes > 0
+                  = ((stats[:damage_taken] || 0) / duration_minutes).round
+                - else
+                  \-
               %td.text-end= number_with_delimiter(stats[:heals_received] || 0)
               %td.text-center= ka_d
               %td.text-center= k_d

@@ -18,7 +18,7 @@
     %span.fs-2.fw-bold.px-4.py-2.text-white{style: "background-color: #5b818f;"}= blue_score
 
   - if red_sorted.any? || blue_sorted.any?
-    %table.table.table-hover.table-bordered.table-striped.table-sm.mb-2
+    %table.table.table-hover.table-bordered.table-striped.table-sm.mb-2{style: "white-space: nowrap;"}
       %thead
         %tr
           %th
@@ -37,8 +37,8 @@
           %th.text-center{title: "Kills + Assists per Death"} KA/D
           %th.text-center{title: "Kills per Death"} K/D
           - if show_connection
-            %th Country
-            %th.text-end Distance
+            %th{title: "Country"}
+            %th.text-end{title: "Distance"} Dist
             %th.text-end Ping
             %th.text-end Loss
             %th ISP
@@ -79,8 +79,7 @@
               - if show_connection
                 %td
                   - if conn && conn[:country_code].present?
-                    = image_tag("flags/#{conn[:country_code]}.png", alt: conn[:country_name], class: "flag", style: "margin-right: 0.5em;")
-                    = conn[:country_name]
+                    = image_tag("flags/#{conn[:country_code]}.png", alt: conn[:country_name], title: conn[:country_name], class: "flag")
                   - elsif conn && conn[:sdr]
                     %span.text-muted SDR
                 %td.text-end
@@ -94,7 +93,7 @@
                 %td.text-end
                   - if conn && conn[:loss]
                     = "#{conn[:loss]}%"
-                %td
+                %td.text-truncate{style: "max-width: 150px;", title: conn && conn[:asn_organization]}
                   - if conn && conn[:asn_organization]
                     = conn[:asn_organization]
 

@@ -94,6 +94,12 @@ class LogBatchWorker
       active_logsecrets << logsecret
 
       all_match_stats = LiveMatchStats.get_stats(reservation_id)
+
+      if all_match_stats.nil? || all_match_stats.none? { |m| m[:players].any? }
+        rebuild_from_log(reservation)
+        all_match_stats = LiveMatchStats.get_stats(reservation_id)
+      end
+
       next unless all_match_stats&.any?
 
       reservation_players_by_uid = reservation.reservation_players.index_by(&:steam_uid)
@@ -167,6 +173,13 @@ class LogBatchWorker
         )
       end
     end
+  end
+
+  def rebuild_from_log(reservation)
+    filepath = Rails.root.join("log", "streaming", "#{reservation.logsecret}.log").to_s
+    LiveMatchStats.rebuild(reservation.id, filepath)
+  rescue StandardError => e
+    Rails.logger.error("[LiveMatchStats] Error rebuilding from log for reservation #{reservation.id}: #{e.message}")
   end
 
   def set_log_listeners(active_logsecrets)

@@ -1,0 +1,15 @@
+L 03/22/2026 - 20:00:00: Log file started (file "logs/L0322001.log") (game "/home/tf2/tf2-1/orangebox/tf") (version "8601326")
+L 03/22/2026 - 20:00:01: "RedScout<3><[U:1:200002]><Red>" entered the game
+L 03/22/2026 - 20:00:01: "BlueScout<4><[U:1:400002]><Blue>" entered the game
+L 03/22/2026 - 20:01:00: World triggered "Round_Start"
+L 03/22/2026 - 20:01:00: "RedScout<3><[U:1:200002]><Red>" spawned as "Scout"
+L 03/22/2026 - 20:01:00: "BlueScout<4><[U:1:400002]><Blue>" spawned as "Scout"
+L 03/22/2026 - 20:01:10: "RedScout<3><[U:1:200002]><Red>" killed "BlueScout<4><[U:1:400002]><Blue>" with "scattergun" (attacker_position "0 0 0") (victim_position "0 0 0")
+L 03/22/2026 - 20:01:15: "RedScout<3><[U:1:200002]><Red>" triggered "damage" against "BlueScout<4><[U:1:400002]><Blue>" (damage "100") (weapon "scattergun")
+L 03/22/2026 - 20:05:00: World triggered "Round_Win" (winner "Red")
+L 03/22/2026 - 20:05:00: World triggered "Round_Length" (seconds "240.00")
+L 03/22/2026 - 20:05:00: Team "Red" current score "1" with "1" players
+L 03/22/2026 - 20:05:00: Team "Blue" current score "0" with "1" players
+L 03/22/2026 - 20:05:01: World triggered "Game_Over" reason "Reached Win Limit"
+L 03/22/2026 - 20:05:01: Team "Red" final score "1" with "1" players
+L 03/22/2026 - 20:05:01: Team "Blue" final score "0" with "1" players

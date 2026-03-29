@@ -1,0 +1,56 @@
+L 03/22/2026 - 20:00:00: Log file started (file "logs/L0322001.log") (game "/home/tf2/tf2-1/orangebox/tf") (version "8601326")
+L 03/22/2026 - 20:00:01: "RedScout1<3><[U:1:200002]><Red>" entered the game
+L 03/22/2026 - 20:00:01: "RedSoldier1<4><[U:1:200004]><Red>" entered the game
+L 03/22/2026 - 20:00:01: "RedDemo<5><[U:1:200006]><Red>" entered the game
+L 03/22/2026 - 20:00:01: "RedMedic<6><[U:1:200008]><Red>" entered the game
+L 03/22/2026 - 20:00:01: "BlueScout1<7><[U:1:400002]><Blue>" entered the game
+L 03/22/2026 - 20:00:01: "BlueSoldier1<8><[U:1:400004]><Blue>" entered the game
+L 03/22/2026 - 20:00:01: "BlueDemo<9><[U:1:400006]><Blue>" entered the game
+L 03/22/2026 - 20:00:01: "BlueMedic<10><[U:1:400008]><Blue>" entered the game
+L 03/22/2026 - 20:01:00: World triggered "Round_Start"
+L 03/22/2026 - 20:01:00: "RedScout1<3><[U:1:200002]><Red>" spawned as "Scout"
+L 03/22/2026 - 20:01:00: "RedSoldier1<4><[U:1:200004]><Red>" spawned as "Soldier"
+L 03/22/2026 - 20:01:00: "RedDemo<5><[U:1:200006]><Red>" spawned as "Demoman"
+L 03/22/2026 - 20:01:00: "RedMedic<6><[U:1:200008]><Red>" spawned as "Medic"
+L 03/22/2026 - 20:01:00: "BlueScout1<7><[U:1:400002]><Blue>" spawned as "Scout"
+L 03/22/2026 - 20:01:00: "BlueSoldier1<8><[U:1:400004]><Blue>" spawned as "Soldier"
+L 03/22/2026 - 20:01:00: "BlueDemo<9><[U:1:400006]><Blue>" spawned as "Demoman"
+L 03/22/2026 - 20:01:00: "BlueMedic<10><[U:1:400008]><Blue>" spawned as "Medic"
+L 03/22/2026 - 20:01:10: "RedScout1<3><[U:1:200002]><Red>" killed "BlueScout1<7><[U:1:400002]><Blue>" with "scattergun" (attacker_position "0 0 0") (victim_position "0 0 0")
+L 03/22/2026 - 20:01:15: "RedSoldier1<4><[U:1:200004]><Red>" triggered "damage" against "BlueSoldier1<8><[U:1:400004]><Blue>" (damage "100") (weapon "tf_projectile_rocket")
+L 03/22/2026 - 20:01:20: "RedMedic<6><[U:1:200008]><Red>" triggered "healed" against "RedDemo<5><[U:1:200006]><Red>" (healing "200")
+L 03/22/2026 - 20:01:25: "BlueSoldier1<8><[U:1:400004]><Blue>" killed "RedSoldier1<4><[U:1:200004]><Red>" with "tf_projectile_rocket" (attacker_position "0 0 0") (victim_position "0 0 0")
+L 03/22/2026 - 20:05:00: World triggered "Round_Win" (winner "Red")
+L 03/22/2026 - 20:05:00: World triggered "Round_Length" (seconds "240.00")
+L 03/22/2026 - 20:05:01: World triggered "Round_Start"
+L 03/22/2026 - 20:05:10: "RedScout1<3><[U:1:200002]><Red>" killed "BlueScout1<7><[U:1:400002]><Blue>" with "scattergun" (attacker_position "0 0 0") (victim_position "0 0 0")
+L 03/22/2026 - 20:09:00: World triggered "Round_Win" (winner "Red")
+L 03/22/2026 - 20:09:00: World triggered "Round_Length" (seconds "240.00")
+L 03/22/2026 - 20:09:01: Team "Red" final score "2" with "4" players
+L 03/22/2026 - 20:09:01: Team "Blue" final score "0" with "4" players
+L 03/22/2026 - 20:09:02: World triggered "Game_Over" reason "Reached Win Limit"
+L 03/22/2026 - 20:09:02: Team "Red" final score "2" with "4" players
+L 03/22/2026 - 20:09:02: Team "Blue" final score "0" with "4" players
+L 03/22/2026 - 20:10:00: World triggered "Round_Start"
+L 03/22/2026 - 20:10:00: "RedScout1<3><[U:1:200002]><Red>" spawned as "Scout"
+L 03/22/2026 - 20:10:00: "RedSoldier1<4><[U:1:200004]><Red>" spawned as "Soldier"
+L 03/22/2026 - 20:10:00: "RedDemo<5><[U:1:200006]><Red>" spawned as "Demoman"
+L 03/22/2026 - 20:10:00: "RedMedic<6><[U:1:200008]><Red>" spawned as "Medic"
+L 03/22/2026 - 20:10:00: "BlueScout1<7><[U:1:400002]><Blue>" spawned as "Scout"
+L 03/22/2026 - 20:10:00: "BlueSoldier1<8><[U:1:400004]><Blue>" spawned as "Soldier"
+L 03/22/2026 - 20:10:00: "BlueDemo<9><[U:1:400006]><Blue>" spawned as "Demoman"
+L 03/22/2026 - 20:10:00: "BlueMedic<10><[U:1:400008]><Blue>" spawned as "Medic"
+L 03/22/2026 - 20:10:10: "BlueScout1<7><[U:1:400002]><Blue>" killed "RedScout1<3><[U:1:200002]><Red>" with "scattergun" (attacker_position "0 0 0") (victim_position "0 0 0")
+L 03/22/2026 - 20:10:15: "BlueDemo<9><[U:1:400006]><Blue>" triggered "damage" against "RedDemo<5><[U:1:200006]><Red>" (damage "150") (weapon "tf_projectile_pipe")
+L 03/22/2026 - 20:10:20: "BlueMedic<10><[U:1:400008]><Blue>" triggered "healed" against "BlueScout1<7><[U:1:400002]><Blue>" (healing "180")
+L 03/22/2026 - 20:14:00: World triggered "Round_Win" (winner "Blue")
+L 03/22/2026 - 20:14:00: World triggered "Round_Length" (seconds "240.00")
+L 03/22/2026 - 20:14:01: World triggered "Round_Start"
+L 03/22/2026 - 20:14:10: "BlueScout1<7><[U:1:400002]><Blue>" killed "RedScout1<3><[U:1:200002]><Red>" with "scattergun" (attacker_position "0 0 0") (victim_position "0 0 0")
+L 03/22/2026 - 20:18:00: World triggered "Round_Win" (winner "Blue")
+L 03/22/2026 - 20:18:00: World triggered "Round_Length" (seconds "240.00")
+L 03/22/2026 - 20:18:01: Team "Blue" final score "2" with "4" players
+L 03/22/2026 - 20:18:01: Team "Red" final score "0" with "4" players
+L 03/22/2026 - 20:18:02: World triggered "Game_Over" reason "Reached Win Limit"
+L 03/22/2026 - 20:18:02: Team "Blue" final score "2" with "4" players
+L 03/22/2026 - 20:18:02: Team "Red" final score "0" with "4" players

@@ -27,6 +27,8 @@ class LiveMatchStats
     # Process a batch of pre-parsed events, reading between_matches/between_rounds
     # once instead of per-event
     def process_events(reservation_id, events)
+      return if rebuilding?(reservation_id)
+
       between_matches = between_matches?(reservation_id)
       between_rounds = between_rounds?(reservation_id)
 
@@ -57,9 +59,11 @@ class LiveMatchStats
           between_rounds = true
           increment_team_score(reservation_id, event.team) if event.team
         when TF2LineParser::Events::FinalScore
-          set_score(reservation_id, event.team, event.score.to_i) if event.team
+          # FinalScore fires AFTER Game_Over/MatchEnd, so skip it when between matches
+          # to avoid orphaned scores creating a phantom scoreboard entry
+          set_score(reservation_id, event.team, event.score.to_i) if event.team && !between_matches
         when TF2LineParser::Events::CurrentScore
-          set_score(reservation_id, event.team, event.score.to_i) if event.team
+          set_score(reservation_id, event.team, event.score.to_i) if event.team && !between_matches
         else
           next if between_matches || between_rounds
 
@@ -95,11 +99,20 @@ class LiveMatchStats
     end
 
     def rebuild(reservation_id, filepath)
-      clear(reservation_id)
-      return unless File.exist?(filepath)
+      lock_key = "#{redis_key(reservation_id)}:rebuilding"
+      locked = Sidekiq.redis { |r| r.set(lock_key, "1", nx: true, ex: 30) }
+      return unless locked
 
-      File.open(filepath, "r") do |f|
-        f.each_line { |line| process_line(reservation_id, line) }
+      begin
+        clear(reservation_id)
+        return unless File.exist?(filepath)
+
+        all_matches = LogParser.new(filepath).all_matches
+        return if all_matches.empty?
+
+        store_parsed_matches(reservation_id, all_matches)
+      ensure
+        Sidekiq.redis { |r| r.del(lock_key) }
       end
     end
 
@@ -118,6 +131,65 @@ class LiveMatchStats
     end
 
     private
+
+    def store_parsed_matches(reservation_id, all_matches)
+      key = redis_key(reservation_id)
+      completed = all_matches.select(&:match_ended)
+      current = all_matches.reject(&:match_ended).last
+
+      Sidekiq.redis do |r|
+        r.pipelined do |p|
+          # Store completed matches
+          completed.each_with_index do |match, i|
+            match_num = i + 1
+            completed_key = "#{key}:completed:#{match_num}"
+            match_to_redis(p, completed_key, match)
+            p.expire(completed_key, EXPIRY)
+          end
+
+          # Set match count
+          p.hset(key, "match_count", completed.size.to_s) if completed.any?
+
+          # Store current in-progress match in main key
+          if current
+            match_fields = match_to_hash(current)
+            match_fields.each { |f, v| p.hset(key, f, v) }
+          end
+
+          p.hset(key, "between_matches", all_matches.last&.match_ended ? "1" : "0")
+          p.hset(key, "between_rounds", "1")
+          p.expire(key, EXPIRY)
+        end
+      end
+    end
+
+    def match_to_redis(pipeline, redis_key, match)
+      match_to_hash(match).each { |f, v| pipeline.hset(redis_key, f, v) }
+    end
+
+    def match_to_hash(match)
+      fields = {}
+      match.players.each do |player|
+        uid = player.steam_uid
+        fields["player:#{uid}:name"] = player.name if player.name
+        fields["player:#{uid}:team"] = player.team if player.team
+        fields["player:#{uid}:tf2_class"] = player.tf2_class if player.tf2_class
+        fields["player:#{uid}:kills"] = player.kills.to_s
+        fields["player:#{uid}:assists"] = player.assists.to_s
+        fields["player:#{uid}:deaths"] = player.deaths.to_s
+        fields["player:#{uid}:damage"] = player.damage.to_s
+        fields["player:#{uid}:damage_taken"] = player.damage_taken.to_s
+        fields["player:#{uid}:healing"] = player.healing.to_s
+        fields["player:#{uid}:heals_received"] = player.heals_received.to_s
+        fields["player:#{uid}:ubers"] = player.ubers.to_s
+        fields["player:#{uid}:drops"] = player.drops.to_s
+        fields["player:#{uid}:airshots"] = player.airshots.to_s
+        fields["player:#{uid}:caps"] = player.caps.to_s
+      end
+      match.final_scores.each { |team, score| fields["score:#{team}"] = score.to_s }
+      fields["total_duration_cs"] = (match.total_duration_seconds * 100).round.to_s
+      fields
+    end
 
     def reset_current_match(reservation_id)
       key = redis_key(reservation_id)
@@ -337,6 +409,10 @@ class LiveMatchStats
       # Store as integer centiseconds to use HINCRBY, then convert back
       centiseconds = (length * 100).round
       Sidekiq.redis { |r| r.hincrby(key, "total_duration_cs", centiseconds) }
+    end
+
+    def rebuilding?(reservation_id)
+      Sidekiq.redis { |r| r.exists("#{redis_key(reservation_id)}:rebuilding") > 0 }
     end
 
     def between_matches?(reservation_id)

@@ -27,6 +27,12 @@ class LogParser
     @completed_matches.select { |m| valid_match?(m) }
   end
 
+  # Returns all matches without duration filter, for LiveMatchStats rebuild
+  def all_matches
+    parse_log unless @completed_matches
+    @completed_matches
+  end
+
   private
 
   def parse_log

@@ -144,7 +144,7 @@ module CloudProvider
     end
 
     def wait_for_snapshot(snapshot_id)
-      120.times do
+      180.times do
         sleep 5
         r = connection.get("images/#{snapshot_id}")
         d = JSON.parse(r.body)

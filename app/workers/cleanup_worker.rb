@@ -21,8 +21,6 @@ class CleanupWorker
   end
 
   def remove_old_statistics
-    old_player_statistics.delete_all
-    old_server_statistics.delete_all
     old_reservation_statuses.delete_all
   end
 
@@ -42,13 +40,6 @@ class CleanupWorker
     ReservationStatus.where(created_at: ...31.days.ago)
   end
 
-  def old_player_statistics
-    PlayerStatistic.where(created_at: ...366.days.ago)
-  end
-
-  def old_server_statistics
-    ServerStatistic.where(created_at: ...35.days.ago)
-  end
 
   def remove_orphaned_temp_directories
     cleanup_local_orphaned_temp_directories

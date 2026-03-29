@@ -411,8 +411,29 @@ class CloudServer
   end
 
   module GeneratedAssociationMethods
+    sig { params(args: T.untyped, blk: T.untyped).returns(::Reservation) }
+    def build_cloud_reservation(*args, &blk); end
+
     sig { params(args: T.untyped, blk: T.untyped).returns(::Location) }
     def build_location(*args, &blk); end
+
+    sig { returns(T.nilable(::Reservation)) }
+    def cloud_reservation; end
+
+    sig { params(value: T.nilable(::Reservation)).void }
+    def cloud_reservation=(value); end
+
+    sig { returns(T::Boolean) }
+    def cloud_reservation_changed?; end
+
+    sig { returns(T::Boolean) }
+    def cloud_reservation_previously_changed?; end
+
+    sig { params(args: T.untyped, blk: T.untyped).returns(::Reservation) }
+    def create_cloud_reservation(*args, &blk); end
+
+    sig { params(args: T.untyped, blk: T.untyped).returns(::Reservation) }
+    def create_cloud_reservation!(*args, &blk); end
 
     sig { params(args: T.untyped, blk: T.untyped).returns(::Location) }
     def create_location(*args, &blk); end
@@ -482,6 +503,9 @@ class CloudServer
     sig { params(value: T::Enumerable[::ServerStatistic]).void }
     def recent_server_statistics=(value); end
 
+    sig { returns(T.nilable(::Reservation)) }
+    def reload_cloud_reservation; end
+
     sig { returns(T.nilable(::Location)) }
     def reload_location; end
 
@@ -498,6 +522,9 @@ class CloudServer
 
     sig { params(value: T::Enumerable[::Reservation]).void }
     def reservations=(value); end
+
+    sig { void }
+    def reset_cloud_reservation; end
 
     sig { void }
     def reset_location; end

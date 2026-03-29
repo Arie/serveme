@@ -56,11 +56,7 @@ class DockerHostReservationCreator
 
   private
 
-  def schedule_provisioning(cloud_server, reservation, future_start)
-    if future_start && reservation.starts_at > 5.minutes.from_now
-      CloudServerProvisionWorker.perform_at(reservation.starts_at - 5.minutes, cloud_server.id)
-    else
-      CloudServerProvisionWorker.perform_async(cloud_server.id)
-    end
+  def schedule_provisioning(cloud_server, _reservation, future_start)
+    CloudServerProvisionWorker.perform_async(cloud_server.id) unless future_start
   end
 end

@@ -92,12 +92,9 @@ describe CloudReservationsController do
       end
 
       context "with a future starts_at" do
-        it "schedules CloudServerProvisionWorker with perform_at when starts_at is more than 5 minutes away" do
+        it "does not provision immediately when starts_at is more than 5 minutes away" do
           future_time = 1.hour.from_now
-          expect(CloudServerProvisionWorker).to receive(:perform_at).with(
-            be_within(5.seconds).of(future_time - 5.minutes),
-            instance_of(Integer)
-          )
+          expect(CloudServerProvisionWorker).not_to receive(:perform_async)
 
           post :create, params: valid_params.deep_merge(
             reservation: { starts_at: future_time.iso8601 }

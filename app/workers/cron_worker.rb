@@ -7,6 +7,7 @@ class CronWorker
 
   def perform
     end_past_reservations
+    provision_cloud_servers
     start_active_reservations
     check_active_reservations
     check_inactive_servers
@@ -33,6 +34,22 @@ class CronWorker
                .where(servers: { type: "CloudServer" })
                .where.not(servers: { cloud_status: "destroyed" })
                .find_each(&:end_reservation)
+  end
+
+  def provision_cloud_servers
+    unprovisioned = CloudServer.where(cloud_status: "provisioning", cloud_provider_id: nil)
+
+    # Cloud VMs (Hetzner/Vultr) need 5 minutes lead time
+    unprovisioned.where.not(cloud_provider: "remote_docker")
+                 .joins(:cloud_reservation)
+                 .where(cloud_reservation: { starts_at: ..5.minutes.from_now })
+                 .find_each { |cs| CloudServerProvisionWorker.perform_async(cs.id) }
+
+    # Remote Docker containers start fast, no lead time needed
+    unprovisioned.where(cloud_provider: "remote_docker")
+                 .joins(:cloud_reservation)
+                 .where(cloud_reservation: { starts_at: ..Time.current })
+                 .find_each { |cs| CloudServerProvisionWorker.perform_async(cs.id) }
   end
 
   def start_active_reservations

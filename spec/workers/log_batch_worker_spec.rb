@@ -143,9 +143,10 @@ describe LogBatchWorker do
 
   describe 'scoreboard broadcasts' do
     it 'broadcasts scoreboard when subscribers exist' do
+      Sidekiq.redis { |r| r.del("scoreboard_throttle:#{reservation.id}") }
       allow(TurboSubscriberChecker).to receive(:has_model_subscribers?).and_return(true)
       allow(LiveMatchStats).to receive(:get_stats).with(reservation.id).and_return(
-        { players: [ { name: 'Test', kills: 1, steam_uid: 123 } ], scores: {} }
+        [ { players: [ { name: 'Test', kills: 1, steam_uid: 123 } ], scores: {} } ]
       )
       allow(ScoreboardConnectionInfo).to receive(:for_reservation).and_return({})
       allow(ApplicationController).to receive(:render).and_return('<div>scoreboard</div>')

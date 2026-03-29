@@ -43,15 +43,12 @@ describe DockerHostReservationCreator do
       expect(reservation.password).to eq("testpass")
     end
 
-    it "schedules provisioning for future reservations" do
+    it "does not provision immediately for future reservations" do
       future_time = 1.hour.from_now
       params = reservation_params.merge(starts_at: future_time.iso8601)
       creator = described_class.new(user: user, docker_host_id: docker_host.id, reservation_params: params)
 
-      expect(CloudServerProvisionWorker).to receive(:perform_at).with(
-        be_within(5.seconds).of(future_time - 5.minutes),
-        instance_of(Integer)
-      )
+      expect(CloudServerProvisionWorker).not_to receive(:perform_async)
 
       creator.create!
     end

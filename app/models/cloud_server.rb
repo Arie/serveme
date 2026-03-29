@@ -10,6 +10,8 @@ class CloudServer < RemoteServer
   CLOUD_STATUSES = %w[provisioning ssh_ready ready destroyed].freeze
   validates :cloud_status, inclusion: { in: CLOUD_STATUSES }, allow_nil: true
 
+  belongs_to :cloud_reservation, class_name: "Reservation", optional: true
+
   sig { returns(T.nilable(Net::SSH::Connection::Session)) }
   def ssh
     raise "Cannot SSH to cloud server #{id}: no IP assigned yet (#{ip})" if ip.blank? || ip == "0.0.0.0"

@@ -15,11 +15,13 @@ league_maps:
 - name: ETF2L HL
   active: true
   maps:
-  - cp_steel_f12
-  - koth_govan_rc1
   - pl_vigil_rc10
-  - pl_borneo_f2
-  - cp_gullywash_f9
+  - cp_steel_f12
+  - koth_ashville_final1 
+  - koth_product_final
+  - pl_upward_f12
+  - koth_warmtic_f10
+  - koth_proot_b5b
 - name: ETF2L Ultiduo
   active: true
   maps:

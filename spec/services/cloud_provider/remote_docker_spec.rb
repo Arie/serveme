@@ -41,7 +41,7 @@ RSpec.describe CloudProvider::RemoteDocker do
 
     it "returns the provider_id with host id and container name" do
       result = provider.create_server(cloud_server)
-      expect(result).to eq("#{docker_host.id}:cloud-#{cloud_server.id}")
+      expect(result).to eq("#{docker_host.id}:res-#{cloud_server.cloud_reservation_id}-cloud-#{cloud_server.id}")
     end
 
     it "SSHes to the docker host" do

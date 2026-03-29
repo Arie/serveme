@@ -12,7 +12,7 @@ module CloudProvider
       Rails.logger.info "Docker: Creating container for cloud_server #{cloud_server.id}"
       callback_token = cloud_server.cloud_callback_token
       public_key = cloud_server.cloud_ssh_public_key
-      container_name = "cloud-#{cloud_server.id}"
+      container_name = "res-#{cloud_server.cloud_reservation_id}-cloud-#{cloud_server.id}"
 
       game_port = cloud_server.port.to_i
       tv_port = game_port + 5

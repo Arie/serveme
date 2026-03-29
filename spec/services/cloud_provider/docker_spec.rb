@@ -16,7 +16,7 @@ RSpec.describe CloudProvider::Docker do
 
     it "returns the container name as provider ID" do
       result = provider.create_server(cloud_server)
-      expect(result).to eq("cloud-#{cloud_server.id}")
+      expect(result).to eq("res-#{cloud_server.cloud_reservation_id}-cloud-#{cloud_server.id}")
     end
 
     it "calls docker run with host networking and port env vars" do
@@ -24,7 +24,7 @@ RSpec.describe CloudProvider::Docker do
 
       expect(provider).to have_received(:system) do |*args|
         expect(args).to include("docker", "run", "-d", "--net=host")
-        expect(args).to include("--name", "cloud-#{cloud_server.id}")
+        expect(args).to include("--name", "res-#{cloud_server.cloud_reservation_id}-cloud-#{cloud_server.id}")
         expect(args).to include("-e", "CALLBACK_URL=https://localhost/api/cloud_servers/#{cloud_server.id}/ready")
         expect(args).to include("-e", "CALLBACK_TOKEN=test-token")
         expect(args).to include("-e", "SSH_AUTHORIZED_KEYS=ssh-ed25519 AAAA test@cloud")

@@ -3,7 +3,7 @@
 PORT="${PORT:-27015}"
 RCON_PASSWORD="${RCON_PASSWORD:-changeme}"
 
-output=$("$HOME/hlserver/rcon" -H 127.0.0.1 -p "$PORT" -P "$RCON_PASSWORD" status 2>&1)
+output=$(timeout 5 "$HOME/hlserver/rcon" -H 127.0.0.1 -p "$PORT" -P "$RCON_PASSWORD" status 2>&1)
 if [ $? -ne 0 ]; then
     echo "RCON status failed"
     exit 1

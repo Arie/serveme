@@ -20,7 +20,7 @@ module LogLineHelper
   INTERESTING_KEYWORDS_MULTI_WORD = [ "changed role", "Started map", "picked up item" ].freeze
 
   ACTIONABLE_KEYWORDS = %w[say connected disconnected].freeze
-  ACTIONABLE_KEYWORDS_MULTI_WORD = [ "Started map", "Round_Length", "Mini_Round_Length", "Round_Win", "Mini_Round_Win", "Game_Over" ].freeze
+  ACTIONABLE_KEYWORDS_MULTI_WORD = [ "Started map", "Round_Start", "Mini_Round_Start", "Round_Length", "Mini_Round_Length", "Round_Win", "Mini_Round_Win", "Game_Over" ].freeze
 
   def interesting_line?(log_line)
     return false unless contains_interesting_keyword?(log_line)

@@ -28,7 +28,7 @@ class Server < ActiveRecord::Base
     end
   end
 
-  before_save :geocode, if: :ip_changed?
+  before_save :geocode, if: :should_geocode?
   after_save :update_resolved_ip, if: :ip_changed?
 
   delegate :flag, to: :location, prefix: true, allow_nil: true
@@ -800,7 +800,26 @@ class Server < ActiveRecord::Base
 
   sig { returns(T.nilable(String)) }
   def host_to_ip
-    Resolv.getaddress(T.must(ip)) unless Rails.env == "test"
+    return if Rails.env == "test"
+
+    cache_key = "dns:#{ip}"
+    resolved = begin
+      Resolv.getaddress(T.must(ip))
+    rescue Resolv::ResolvError
+      nil
+    end
+
+    if resolved
+      Rails.cache.write(cache_key, resolved, expires_in: 1.day)
+      resolved
+    else
+      Rails.cache.read(cache_key)
+    end
+  end
+
+  sig { returns(T::Boolean) }
+  def should_geocode?
+    ip_changed? && (latitude.blank? || longitude.blank?)
   end
 
   private

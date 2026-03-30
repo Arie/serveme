@@ -95,7 +95,7 @@ class LogBatchWorker
 
       all_match_stats = LiveMatchStats.get_stats(reservation_id)
 
-      if all_match_stats.nil? || all_match_stats.none? { |m| m[:players].any? }
+      if all_match_stats.nil? || all_match_stats.any? { |m| m[:scores].any? && m[:players].empty? }
         rebuild_from_log(reservation)
         all_match_stats = LiveMatchStats.get_stats(reservation_id)
       end

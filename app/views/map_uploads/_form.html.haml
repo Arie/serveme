@@ -4,7 +4,7 @@
     %button.btn.btn-primary{:type => :submit, data: { 'map-upload-target': 'submitButton' }}
       Upload
 
-  .upload-progress.mt-3{style: "display: none;", data: { 'map-upload-target': 'progressContainer' }}
-    .progress{style: "width: 100%; min-width: 300px;"}
-      .progress-bar.progress-bar-striped.progress-bar-animated.bg-success{role: "progressbar", style: "width: 0%;", "aria-valuenow": "0", "aria-valuemin": "0", "aria-valuemax": "100", data: { 'map-upload-target': 'progressBar' }}
+  .upload-progress.mt-3.d-none{data: { 'map-upload-target': 'progressContainer' }}
+    .progress.w-100.upload-progress-bar
+      .progress-bar.progress-bar-striped.progress-bar-animated.bg-success{role: "progressbar", "aria-valuenow": "0", "aria-valuemin": "0", "aria-valuemax": "100", data: { 'map-upload-target': 'progressBar' }}
         %strong{data: { 'map-upload-target': 'progressText' }} 0%

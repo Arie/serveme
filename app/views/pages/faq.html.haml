@@ -7,6 +7,8 @@
     .card-body.lead.text-white
       Hey there, we hope you're enjoying serveme.tf. Here we'll try to answer your questions :)
 
+    %h4.mt-4.mb-3 Getting Started
+
     .card.bg-faded
       .card-header.text-white
         Q: What is this?
@@ -56,10 +58,18 @@
 
     .card.bg-faded
       .card-header.text-white
+        Q: What does "1-click-server" mean?
+      .card-body
+        %em
+          A: When you press this button, we try to make a reservation based on your previous one. Same settings, same server, 2 hour reservation starting now. If your previous server is in use, we'll try a server on the same machine. If all servers on the machine are busy, we'll try a server in the same country. If all those are busy we try any server that's free and available for you.
+
+    %h4.mt-4.mb-3 Server Management
+
+    .card.bg-faded
+      .card-header.text-white
         Q: Noone can connect to my server, what do I do?
       .card-body
         %em A: It can take a couple of minutes for the server to start (and update to the latest TF2 version), please be patient. If the server isn't up after 5 minutes, try another one.
-
 
     .card.bg-faded
       .card-header.text-white
@@ -160,39 +170,86 @@
       .card-body
         %em
           A: The command is "rcon exec CONFIGNAME", some of the available configs:
-          %table.table
-            - if au_system?
-              %tr
-                %td
-                  %span.badge.badge-info ozfortress:
-                %td
-                  ozfortress.cfg, ozfortress_6v6_5cp.cfg, ozfortress_6v6_5cp_upper.cfg, ozfortress_6v6_5cp_lower.cfg, ozfortress_6v6_golden_cap.cfg, ozfortress_6v6_koth.cfg, ozfortress_6v6_scrim.cfg,
-                  ozfortress_hl_5cp.cfg, ozfortress_hl_golden_cap.cfg, ozfortress_hl_koth.cfg, ozfortress_hl_stopwatch.cfg,
-                  ozfortress_4v4_5cp.cfg, ozfortress_4v4_koth.cfg, ozfortress_ultiduo.cfg, ozfortress_bball.cfg
-              %tr
-                %td
-                  %span.badge.badge-danger UGC:
-                %td
-                  ugc_4v_koth, ugc_4v_sd, ugc_4v_standard, ugc_4v_stopwatch, ugc_4v_tugofwar, ugc_6v_ctf, ugc_6v_koth, ugc_6v_standard,
-                  ugc_6v_stopwatch, ugc_HL_ctf, ugc_HL_dom, ugc_HL_koth, ugc_HL_standard, ugc_HL_stopwatch, ugc_HL_tugofwar
-            - else
-              %tr
-                %td
-                  %span.badge.badge-info ETF2L:
-                %td
-                  etf2l, etf2l_6v6, etf2l_9v9, etf2l_6v6_5cp, etf2l_6v6_ctf, etf2l_6v6_stopwatch, etf2l_9v9_5cp, etf2l_9v9_ctf, etf2l_9v9_koth,
-                  etf2l_9v9_stopwatch, etf2l_ultiduo, etf2l_bball
-              %tr
-                %td
-                  %span.badge.badge-danger UGC:
-                %td
-                  ugc_4v_koth, ugc_4v_sd, ugc_4v_standard, ugc_4v_stopwatch, ugc_4v_tugofwar, ugc_6v_ctf, ugc_6v_koth, ugc_6v_standard,
-                  ugc_6v_stopwatch, ugc_HL_ctf, ugc_HL_dom, ugc_HL_koth, ugc_HL_standard, ugc_HL_stopwatch, ugc_HL_tugofwar
-              %tr
-                %td
-                  %span.badge.badge-success RGL:
-                %td
-                  rgl_6s_5cp_scrim, rgl_7s_koth_bo5, rgl_HL_stopwatch
+          - if au_system?
+            %p
+              %span.badge.badge-info ozfortress
+            %p.config-list
+              %code ozfortress.cfg
+              %code ozfortress_6v6_5cp.cfg
+              %code ozfortress_6v6_5cp_upper.cfg
+              %code ozfortress_6v6_5cp_lower.cfg
+              %code ozfortress_6v6_golden_cap.cfg
+              %code ozfortress_6v6_koth.cfg
+              %code ozfortress_6v6_scrim.cfg
+              %code ozfortress_hl_5cp.cfg
+              %code ozfortress_hl_golden_cap.cfg
+              %code ozfortress_hl_koth.cfg
+              %code ozfortress_hl_stopwatch.cfg
+              %code ozfortress_4v4_5cp.cfg
+              %code ozfortress_4v4_koth.cfg
+              %code ozfortress_ultiduo.cfg
+              %code ozfortress_bball.cfg
+            %p
+              %span.badge.badge-danger UGC
+            %p.config-list
+              %code ugc_4v_koth
+              %code ugc_4v_sd
+              %code ugc_4v_standard
+              %code ugc_4v_stopwatch
+              %code ugc_4v_tugofwar
+              %code ugc_6v_ctf
+              %code ugc_6v_koth
+              %code ugc_6v_standard
+              %code ugc_6v_stopwatch
+              %code ugc_HL_ctf
+              %code ugc_HL_dom
+              %code ugc_HL_koth
+              %code ugc_HL_standard
+              %code ugc_HL_stopwatch
+              %code ugc_HL_tugofwar
+          - else
+            %p
+              %span.badge.badge-info ETF2L
+            %p.config-list
+              %code etf2l
+              %code etf2l_6v6
+              %code etf2l_9v9
+              %code etf2l_6v6_5cp
+              %code etf2l_6v6_ctf
+              %code etf2l_6v6_stopwatch
+              %code etf2l_9v9_5cp
+              %code etf2l_9v9_ctf
+              %code etf2l_9v9_koth
+              %code etf2l_9v9_stopwatch
+              %code etf2l_ultiduo
+              %code etf2l_bball
+            %p
+              %span.badge.badge-danger UGC
+            %p.config-list
+              %code ugc_4v_koth
+              %code ugc_4v_sd
+              %code ugc_4v_standard
+              %code ugc_4v_stopwatch
+              %code ugc_4v_tugofwar
+              %code ugc_6v_ctf
+              %code ugc_6v_koth
+              %code ugc_6v_standard
+              %code ugc_6v_stopwatch
+              %code ugc_HL_ctf
+              %code ugc_HL_dom
+              %code ugc_HL_koth
+              %code ugc_HL_standard
+              %code ugc_HL_stopwatch
+              %code ugc_HL_tugofwar
+            %p
+              %span.badge.badge-success RGL
+            %p.config-list
+              %code rgl_6s_5cp_scrim
+              %code rgl_7s_koth_bo5
+              %code rgl_HL_stopwatch
+
+    %h4.mt-4.mb-3 Account & More
+
     .card.bg-faded
       .card-header.text-white
         Q: I want to use serveme.tf in one of my own projects, is there an API?
@@ -201,13 +258,6 @@
           A: Yep! You can read how to use it
           = link_to("here.", "https://github.com/Arie/serveme/blob/master/README.md")
           Contact me for an API key, or get premium and look in your settings.
-
-    .card.bg-faded
-      .card-header.text-white
-        Q: What does "1-click-server" mean?
-      .card-body
-        %em
-          A: When you press this button, we try to make a reservation based on your previous one. Same settings, same server, 2 hour reservation starting now. If your previous server is in use, we'll try a server on the same machine. If all servers on the machine are busy, we'll try a server in the same country. If all those are busy we try any server that's free and available for you.
 
     .card.bg-faded
       .card-header.text-white

@@ -11,27 +11,24 @@
 
 .row
   .col-md-12
-    %table.table.table-hover.table-bordered.table-striped
-      %thead
-        %tr
-          %th
-            Logo
-          %th
-            Name
-          %th
-            Description
-          %th
-            Location
-          %th
-            IP
+    .table-responsive
+      %table.table.table-hover.table-bordered.table-striped
+        %thead
+          %tr
+            %th Logo
+            %th Name
+            %th Description
+            %th Location
+            %th IP
 
-      %tr
-        %td= image_tag('server_providers/fakkelbrigade.png')
-        %td= link_to('FakkelBrigade', 'http://fakkelbrigade.eu',        :target => '_blank')
-        %td
-          %p
-            FakkelBrigade is a long time supporter of the European TF2 scene, providing free services for clans. Free mumble, free servers and free STV relays. They also host community website
-            = link_to('VanillaTF2.', 'http://www.vanillatf2.org',       :target => '_blank')
-            FakkelBrigades provides a number of gameservers.
-        %td Germany - Falkenstein + Dusseldorf, France - Roubaix, the Netherlands - Rotterdam
-        %td fakkelbrigade.eu, beret.fakkelbrigade.eu, bolus.fakkelbrigade.eu, kroket.fakkelbrigade.eu, orage.fakkelbrigade.eu & wilhelm.fakkelbrigade.eu
+        %tbody
+          %tr
+            %td= image_tag('server_providers/fakkelbrigade.png')
+            %td= link_to('FakkelBrigade', 'http://fakkelbrigade.eu',        :target => '_blank')
+            %td
+              %p
+                FakkelBrigade is a long time supporter of the European TF2 scene, providing free services for clans. Free mumble, free servers and free STV relays. They also host community website
+                = link_to('VanillaTF2.', 'http://www.vanillatf2.org',       :target => '_blank')
+                FakkelBrigades provides a number of gameservers.
+            %td Germany - Falkenstein + Dusseldorf, France - Roubaix, the Netherlands - Rotterdam
+            %td fakkelbrigade.eu, beret.fakkelbrigade.eu, bolus.fakkelbrigade.eu, kroket.fakkelbrigade.eu, orage.fakkelbrigade.eu & wilhelm.fakkelbrigade.eu

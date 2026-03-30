@@ -7,82 +7,83 @@
     %p
       The following people have contributed to this project, thanks!
 
-    %table.table.table-hover.table-bordered.table-striped
-      %thead
-        %tr
-          %th Who
-          %th What
-      %tbody
-        %tr
-          %td= link_to("jakeowaty", "http://steamcommunity.com/profiles/76561198040321459/", :target => '_blank')
-          %td Logo
+    .table-responsive
+      %table.table.table-hover.table-bordered.table-striped
+        %thead
+          %tr
+            %th Who
+            %th What
+        %tbody
+          %tr
+            %td= link_to("jakeowaty", "http://steamcommunity.com/profiles/76561198040321459/", :target => '_blank')
+            %td Logo
 
-        %tr
-          %td= link_to("AnAkIn", "http://etf2l.org/forum/user/1276/",       :target => '_blank')
-          %td
-            = "Plugin: "
-            = link_to('TFTrue', 'http://tftrue.redline-utilities.net',      :target => '_blank')
-        %tr
-          %td= link_to('zooob', 'http://etf2l.org/forum/user/1357/',        :target => '_blank')
-          %td
-            Service:
-            = link_to("logs.tf", "http://logs.tf",                          :target => "_blank")
-        %tr
-          %td= link_to('Wiethoofd',  'http://etf2l.org/forum/user/51315/',                      :target => '_blank')
-          %td
-            Service:
-            = link_to("whitelist.tf", "http://whitelist.tf",                 :target => "_blank")
+          %tr
+            %td= link_to("AnAkIn", "http://etf2l.org/forum/user/1276/",       :target => '_blank')
+            %td
+              = "Plugin: "
+              = link_to('TFTrue', 'http://tftrue.redline-utilities.net',      :target => '_blank')
+          %tr
+            %td= link_to('zooob', 'http://etf2l.org/forum/user/1357/',        :target => '_blank')
+            %td
+              Service:
+              = link_to("logs.tf", "http://logs.tf",                          :target => "_blank")
+          %tr
+            %td= link_to('Wiethoofd',  'http://etf2l.org/forum/user/51315/',                      :target => '_blank')
+            %td
+              Service:
+              = link_to("whitelist.tf", "http://whitelist.tf",                 :target => "_blank")
 
-        %tr
-          %td= link_to('nTraum', 'http://etf2l.org/forum/user/10512',       :target => '_blank')
-          %td Servers
-        %tr
-          %td= link_to('slate', 'http://etf2l.org/forum/user/11427',        :target => '_blank')
-          %td Servers
-        %tr
-          %td= link_to('SeriousCat', 'http://steamcommunity.com/id/zaanpenguin',        :target => '_blank')
-          %td Servers
-        %tr
-          %td= link_to('Spike', 'http://etf2l.org/forum/user/18106',        :target => '_blank')
-          %td Server
-        %tr
-          %td= link_to('Maidos', 'http://etf2l.org/forum/user/57980',        :target => '_blank')
-          %td Servers
-        %tr
-          %td= link_to('tragic', 'http://steamcommunity.com/id/tragic886 ',        :target => '_blank')
-          %td Servers
+          %tr
+            %td= link_to('nTraum', 'http://etf2l.org/forum/user/10512',       :target => '_blank')
+            %td Servers
+          %tr
+            %td= link_to('slate', 'http://etf2l.org/forum/user/11427',        :target => '_blank')
+            %td Servers
+          %tr
+            %td= link_to('SeriousCat', 'http://steamcommunity.com/id/zaanpenguin',        :target => '_blank')
+            %td Servers
+          %tr
+            %td= link_to('Spike', 'http://etf2l.org/forum/user/18106',        :target => '_blank')
+            %td Server
+          %tr
+            %td= link_to('Maidos', 'http://etf2l.org/forum/user/57980',        :target => '_blank')
+            %td Servers
+          %tr
+            %td= link_to('tragic', 'http://steamcommunity.com/id/tragic886 ',        :target => '_blank')
+            %td Servers
 
-        %tr
-          %td= link_to("Chaplain", "http://etf2l.org/forum/user/8289/",     :target => "_blank")
-          %td Suggestion: Extended logs
-        %tr
-          %td= link_to("Chaplain", "http://etf2l.org/forum/user/8289/",     :target => "_blank")
-          %td Suggestion: Zipped logs and demos
-        %tr
-          %td= link_to("GoT <3", "http://www.teamfortress.be",              :target => "_blank")
-          %td Suggestion: A server only reservable by certain people
-        %tr
-          %td Darker
-          %td Suggestion: steam:// connect URL after making a reservation
-        %tr
-          %td= link_to('Kaneco', 'http://etf2l.org/forum/user/23526/',      :target => '_blank')
-          %td Suggestion: Remind users to end their reservations
-        %tr
-          %td= link_to('Kaneco', 'http://etf2l.org/forum/user/23526/',      :target => '_blank')
-          %td
-            Suggestion: Automatically ending reservations when server is empty for 30 minutes
-        %tr
-          %td= link_to('kKaltUu', 'http://etf2l.org/forum/user/9994/',      :target => '_blank')
-          %td Suggestion: logs.tf upload
-        %tr
-          %td= link_to('george', 'http://steamcommunity.com/id/n00pe/',     :target => '_blank')
-          %td Suggestion: disable STV for TF2Lobby play
-        %tr
-          %td= link_to("jarppa", "https://github.com/JaniL",                :target => '_blank')
-          %td Fixing install guide, various pull requests
-        %tr
-          %td= link_to("Jon1155",    "http://etf2l.org/forum/user/76102/",  :target => "_blank")
-          %td Suggestion: Allow editing of reservations
-        %tr
-          %td= link_to('kKaltUu',    'http://etf2l.org/forum/user/9994/',                       :target => '_blank')
-          %td Suggestion: warn when ending reservation with players on server
+          %tr
+            %td= link_to("Chaplain", "http://etf2l.org/forum/user/8289/",     :target => "_blank")
+            %td Suggestion: Extended logs
+          %tr
+            %td= link_to("Chaplain", "http://etf2l.org/forum/user/8289/",     :target => "_blank")
+            %td Suggestion: Zipped logs and demos
+          %tr
+            %td= link_to("GoT <3", "http://www.teamfortress.be",              :target => "_blank")
+            %td Suggestion: A server only reservable by certain people
+          %tr
+            %td Darker
+            %td Suggestion: steam:// connect URL after making a reservation
+          %tr
+            %td= link_to('Kaneco', 'http://etf2l.org/forum/user/23526/',      :target => '_blank')
+            %td Suggestion: Remind users to end their reservations
+          %tr
+            %td= link_to('Kaneco', 'http://etf2l.org/forum/user/23526/',      :target => '_blank')
+            %td
+              Suggestion: Automatically ending reservations when server is empty for 30 minutes
+          %tr
+            %td= link_to('kKaltUu', 'http://etf2l.org/forum/user/9994/',      :target => '_blank')
+            %td Suggestion: logs.tf upload
+          %tr
+            %td= link_to('george', 'http://steamcommunity.com/id/n00pe/',     :target => '_blank')
+            %td Suggestion: disable STV for TF2Lobby play
+          %tr
+            %td= link_to("jarppa", "https://github.com/JaniL",                :target => '_blank')
+            %td Fixing install guide, various pull requests
+          %tr
+            %td= link_to("Jon1155",    "http://etf2l.org/forum/user/76102/",  :target => "_blank")
+            %td Suggestion: Allow editing of reservations
+          %tr
+            %td= link_to('kKaltUu',    'http://etf2l.org/forum/user/9994/',                       :target => '_blank')
+            %td Suggestion: warn when ending reservation with players on server

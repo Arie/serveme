@@ -16,13 +16,15 @@
     = content_for(:head)
   %body
 
+    = link_to "Skip to content", "#main", class: "sr-only sr-only-focusable"
+
     = render 'shared/navigation'
 
     = content_for(:jumbotron)
 
     .container
 
-      %main{role: "main"}
+      %main#main{role: "main"}
         - if notice || alert
           .row
             .col-md-12

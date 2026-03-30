@@ -4,10 +4,7 @@ div.zip-download-status
 form#new_reservation
   label.checkbox
     display: inline-block
-    padding-top: 0px
-  &.time_selection
-    input
-      width: 161px
+    padding-top: 0
 
 form.reservation
   .form-check-input.is-valid.boolean.optional ~ .form-check-label
@@ -17,7 +14,7 @@ form.reservation
     padding-bottom: 2rem
 
   .form-control.whitelist, .form-control.democheck
-    padding-left: 0rem
+    padding-left: 0
     background: 0
     border: 0 none
     color: #aaa
@@ -42,7 +39,7 @@ form.reservation
     color: #999
     cursor: pointer
     &:hover
-      color: #333
+      color: #ddd
 
 #reservation_status_message
   display: inline-block
@@ -60,6 +57,13 @@ table
   td.actions
     .btn-sm
       font-size: 0.7rem
+
+@media (max-width: 575px)
+  .reservation-actions .btn-sm
+    min-height: 44px
+    min-width: 44px
+    font-size: 0.8rem
+    padding: 0.4rem 0.6rem
 
 table.servers
   td.actions
@@ -86,7 +90,7 @@ table.servers
 
 .donate
   h4
-    margin-bottom: 0px
+    margin-bottom: 0
 
 #server_reservations_table
   display: none
@@ -112,8 +116,8 @@ table.servers
         overflow: hidden
         text-align: center
         height: 20px
-        background-color: #428bca
-        border-left: 1px white
+        background-color: var(--info)
+        border-left: 1px solid white
         .progress-bar
           font-size: 10px
 .buy_premium
@@ -128,7 +132,7 @@ table.servers
     float: left
 
 .highlight-download
-  box-shadow: 0 0 8px 2px yellow
+  box-shadow: 0 0 8px 2px var(--warning)
   transition: box-shadow 0.5s ease
 
 #pingsModal

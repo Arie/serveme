@@ -147,7 +147,7 @@ export default class extends Controller {
 
   showProgressBar() {
     if (this.hasProgressContainerTarget) {
-      this.progressContainerTarget.style.display = "block";
+      this.progressContainerTarget.classList.remove("d-none");
     }
   }
 
@@ -164,7 +164,7 @@ export default class extends Controller {
 
   hideProgressBar() {
     if (this.hasProgressContainerTarget) {
-      this.progressContainerTarget.style.display = "none";
+      this.progressContainerTarget.classList.add("d-none");
       if (this.hasProgressBarTarget) {
         this.progressBarTarget.style.width = "0%";
         this.progressBarTarget.setAttribute("aria-valuenow", 0);

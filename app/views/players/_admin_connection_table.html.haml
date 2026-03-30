@@ -1,12 +1,12 @@
 %table.table.table-hover.table-bordered.table-striped
   %colgroup
-    %col{style: "width: 20%; max-width: 180px;"}
-    %col{style: "width: 15%;"}
-    %col{style: "width: 21%;"}
-    %col{style: "width: 12%;"}
-    %col{style: "width: 12%;"}
-    %col{style: "width: 10%;"}
-    %col{style: "width: 10%;"}
+    %col.col-admin-player
+    %col.col-admin-country
+    %col.col-admin-asn
+    %col.col-admin-distance
+    %col.col-admin-connected
+    %col.col-admin-ping
+    %col.col-admin-loss
   %thead
     %tr
       %th Player
@@ -29,7 +29,7 @@
           - if player_info[:sdr]
             %span.text-muted SDR
           - elsif player_info[:country_code].present?
-            = image_tag("flags/#{player_info[:country_code].downcase}.png", alt: player_info[:country_name], class: "flag", style: "margin-right: 0.5em;")
+            = image_tag("flags/#{player_info[:country_code].downcase}.png", alt: player_info[:country_name], class: "flag flag-icon")
             = player_info[:country_name]
           - else
             %span.text-muted Unknown

@@ -18,16 +18,16 @@
             %span{class: ["flags", "flags-sg"]}
             sea.serveme.tf (Asia)
 
-  %button.navbar-toggler{type: "button", data: { "bs-toggle" => "collapse", "bs-target" => "#serveme-navbar" }}
+  %button.navbar-toggler{type: "button", data: { "bs-toggle" => "collapse", "bs-target" => "#serveme-navbar" }, "aria-label": "Toggle navigation", "aria-controls": "serveme-navbar", "aria-expanded": "false"}
     %span.navbar-toggler-icon
 
   #serveme-navbar.collapse.navbar-collapse
     %ul.navbar-nav.mr-auto
       - if current_user
         %li.nav-item.dropdown
-          %a.nav-link.dropdown-toggle{data: {"bs-toggle" => "dropdown"}, href: "#"}
+          %a.nav-link.dropdown-toggle{data: {"bs-toggle" => "dropdown"}, href: "#", title: "Reservations"}
             %i.fa.fa-calendar
-            Reservations
+            %span.nav-label Reservations
             %b.caret>
           .dropdown-menu
             = link_to new_reservation_path, class: "dropdown-item" do
@@ -52,9 +52,9 @@
               Recent reservations
 
       %li.dropdown.nav-item
-        %a.dropdown-toggle{data: {"bs-toggle" => "dropdown"}, href: "#", class: "nav-link"}
+        %a.dropdown-toggle{data: {"bs-toggle" => "dropdown"}, href: "#", class: "nav-link", title: "Community"}
           %i.fa.fa-users
-          Community
+          %span.nav-label Community
           %b.caret>
         .dropdown-menu
           - if current_user
@@ -87,17 +87,17 @@
             Credits
           .dropdown-divider
           = link_to("https://discord.gg/0s38RdItLiCmARMm", title: "serveme.tf on discord", class: "dropdown-item", target: "_blank") do
-            = image_tag "discord.png", alt: "Join our Discord server", style: "width: 1rem; height: 1rem; vertical-align: middle; margin-right: 0.5rem;"
+            = image_tag "discord.png", alt: "Join our Discord server", class: "nav-icon"
             Discord
           = link_to "https://github.com/Arie/serveme", title: "serveme.tf source code", class: "dropdown-item", target: "_blank" do
-            = image_tag "octocat.png", alt: "Fork me on GitHub", style: "width: 1rem; height: 1rem; vertical-align: middle; margin-right: 0.5rem;"
+            = image_tag "octocat.png", alt: "Fork me on GitHub", class: "nav-icon"
             GitHub
 
       - if current_user && current_user.donator?
         %li.dropdown.nav-item
-          %a.dropdown-toggle{data: {"bs-toggle" => "dropdown"}, href: "#", class: "nav-link"}
+          %a.dropdown-toggle{data: {"bs-toggle" => "dropdown"}, href: "#", class: "nav-link", title: "Maps"}
             %i.fa.fa-upload
-            Maps
+            %span.nav-label Maps
             %b.caret>
           .dropdown-menu
             = link_to upload_map_path, class: "dropdown-item" do
@@ -109,26 +109,20 @@
 
       - if current_user
         %li.nav-item
-          = link_to donate_path, class: "nav-link btn-outline-warning", data: { turbo: false } do
+          = link_to donate_path, class: "nav-link btn-outline-warning", title: "Premium", data: { turbo: false } do
             %i.fa.fa-star
-            Premium
+            %span.nav-label Premium
 
         %li.nav-item
-          = link_to settings_path, class: "nav-link" do
+          = link_to settings_path, class: "nav-link", title: "Settings" do
             %i.fa.fa-cogs
-            Settings
-
-        - if current_user.can_use_cloud_servers?
-          %li.nav-item
-            = link_to current_user.cloud_server_access? ? new_cloud_reservation_path : cloud_info_path, class: "nav-link" do
-              %i.fa.fa-cloud
-              Cloud Server
+            %span.nav-label Settings
 
       - if current_user && current_user.config_admin?
         %li.dropdown.nav-item
-          %a.dropdown-toggle{data: {"bs-toggle" => "dropdown"}, href: "#", class: "nav-link"}
+          %a.dropdown-toggle{data: {"bs-toggle" => "dropdown"}, href: "#", class: "nav-link", title: "Admin"}
             %i.fa.fa-shield
-            Admin
+            %span.nav-label Admin
             %b.caret>
           .dropdown-menu
             %h6.dropdown-header Server Management
@@ -204,14 +198,14 @@
       - else
         %li.nav-item.d-md-none
           = link_to '/users/auth/steam', method: :post, class: "nav-link" do
-            = image_tag 'sits_small.png', alt: "Sign in with Steam", style: "height: 1.5rem; vertical-align: middle; margin-right: 0.5rem;"
+            = image_tag 'sits_small.png', alt: "Sign in with Steam", class: "nav-icon-lg"
             Login with Steam
     %ul.nav.navbar-nav.ms-auto.d-none.d-md-flex
       %li.nav-item
         = link_to("https://discord.gg/0s38RdItLiCmARMm", title: "serveme.tf on discord", class: "discord", target: "_blank") do
-          = image_tag "discord.png", alt: "Join our Discord server", style: "width: 1.5rem; height: 1.5rem;"
+          = image_tag "discord.png", alt: "Join our Discord server", class: "nav-icon-lg"
         = link_to "https://github.com/Arie/serveme", title: "serveme.tf source code", class: "octocat", target: "_blank" do
-          = image_tag "octocat.png", alt: "Fork me on GitHub", style: "width: 1.5rem; height: 1.5rem;"
+          = image_tag "octocat.png", alt: "Fork me on GitHub", class: "nav-icon-lg"
       %li.nav-item
         .account
           - if current_user

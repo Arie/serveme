@@ -29,114 +29,114 @@
 
 .row
   .col-md-12
-
-    %table.table.table-hover.table-bordered.table-striped
-      - if current_user.admin? || current_user.league_admin? || current_user.streamer?
+    .table-responsive
+      %table.table.table-hover.table-bordered.table-striped
+        - if current_user.admin? || current_user.league_admin? || current_user.streamer?
+          %tr
+            %td Reserved by
+            %td
+              = link_to(reservation.user.nickname, reservation.user.steam_profile_url, target: "_blank", class: "player-name")
         %tr
-          %td Reserved by
+          %td Status
           %td
-            = link_to(reservation.user.nickname, reservation.user.steam_profile_url, target: "_blank", class: "player-name")
-      %tr
-        %td Status
-        %td
-          = render "status"
+            = render "status"
 
-      %tr
-        %td Actions
-        %td.actions= render 'actions'
-
-      - if reservation.now?
         %tr
-          %td Server control
+          %td Actions
+          %td.actions= render 'actions'
+
+        - if reservation.now?
+          %tr
+            %td Server control
+            %td
+              = link_to "Web RCON", rcon_reservation_path(reservation), class: "btn btn-sm btn-warning"
+              = link_to "Monitoring", server_monitoring_path(server_id: reservation.server_id), class: "btn btn-sm btn-info", target: "_blank"
+
+        %tr
+          %td Connect info
           %td
-            = link_to "Web RCON", rcon_reservation_path(reservation), class: "btn btn-sm btn-warning"
-            = link_to "Monitoring", server_monitoring_path(server_id: reservation.server_id), class: "btn btn-sm btn-info", target: "_blank"
+            = render "connect_info"
 
-      %tr
-        %td Connect info
-        %td
-          = render "connect_info"
-
-      %tr
-        %td
-          SDR connect info
-        %td
-          = render "sdr_connect_info"
-
-      - if !reservation&.server&.sdr?
         %tr
-          %td TF2Center info
           %td
-            = render "tf2center_info"
-
-      %tr
-        %td Password
-        %td= reservation.password
-
-      %tr
-        %td RCON
-        %td
-          = render "rcon_info"
-
-      %tr
-        %td TV password
-        %td= reservation.tv_password
-
-      %tr
-        %td STV connect info
-        %td
-          = render "stv_connect_info"
-          - if current_admin || current_league_admin || current_streamer
-            - ip_and_port = "#{reservation&.server&.public_ip}:#{reservation&.server&.public_tv_port}"
-            - password_for_relay = reservation.tv_relaypassword.presence || reservation.tv_password
-            = link_to "http://relay.fakkelbrigade.eu/new?ip_port=#{ip_and_port}&password=#{password_for_relay}", :title => "create relay", :class => "btn btn-sm btn-warning", :target => "_blank" do
-              Create relay
-              %i.fa.fa-share-alt
-
-      - if reservation.server_config
-        %tr
-          %td Server config
-          %td= reservation.server_config
-
-      - if SiteSetting.show_democheck?
-        %tr
-          %td Democheck mode (required for RGL matches)
-          - case reservation.democheck_mode
-          - when "kick"
-            %td Kick (default)
-          - when "warn"
-            %td.text-warning Warn only
-          - when "disable"
-            %td.text-danger Disabled
-
-      - if reservation.custom_whitelist_id.present?
-        %tr
-          %td Whitelist
-          %td= link_to("Custom whitelist", "http://whitelist.tf/#{reservation.custom_whitelist_id}")
-      - elsif reservation.whitelist
-        %tr
-          %td Whitelist
-          %td= reservation.whitelist
-
-      - if current_admin || current_league_admin || current_streamer
-        %tr
-          %td Logsecret
+            SDR connect info
           %td
-            = reservation.logsecret
-            = render 'shared/copy_button', :copy_button_id => "logsecret_string", :copy_text => reservation.logsecret
-            - ip_and_port = "#{reservation&.server&.ip}:#{reservation&.server&.port}"
-            = link_to "http://live.fakkelbrigade.eu/matches/new?host=#{ip_and_port}&rcon=#{reservation.rcon}&logsecret=#{reservation.logsecret}", :title => "create livestats", :class => "btn btn-sm btn-warning", :target => "_blank" do
-              Livestats
-              %i.fa.fa-bar-chart
+            = render "sdr_connect_info"
+
+        - if !reservation&.server&.sdr?
+          %tr
+            %td TF2Center info
+            %td
+              = render "tf2center_info"
+
         %tr
-          %td Stats
+          %td Password
+          %td= reservation.password
+
+        %tr
+          %td RCON
           %td
-            = link_to show_reservation_statistic_path(reservation),         :title => "Player stats", :class => "btn btn-sm btn-info" do
-              Player stats
-              %i.fa.fa-bar-chart
-            = link_to show_reservation_server_statistic_path(reservation),  :title => "Server stats", :class => "btn btn-sm btn-primary" do
-              Server stats
-              %i.fa.fa-bar-chart
+            = render "rcon_info"
+
+        %tr
+          %td TV password
+          %td= reservation.tv_password
+
+        %tr
+          %td STV connect info
+          %td
+            = render "stv_connect_info"
+            - if current_admin || current_league_admin || current_streamer
+              - ip_and_port = "#{reservation&.server&.public_ip}:#{reservation&.server&.public_tv_port}"
+              - password_for_relay = reservation.tv_relaypassword.presence || reservation.tv_password
+              = link_to "http://relay.fakkelbrigade.eu/new?ip_port=#{ip_and_port}&password=#{password_for_relay}", :title => "create relay", :class => "btn btn-sm btn-warning", :target => "_blank" do
+                Create relay
+                %i.fa.fa-share-alt
+
+        - if reservation.server_config
+          %tr
+            %td Server config
+            %td= reservation.server_config
+
+        - if SiteSetting.show_democheck?
+          %tr
+            %td Democheck mode (required for RGL matches)
+            - case reservation.democheck_mode
+            - when "kick"
+              %td Kick (default)
+            - when "warn"
+              %td.text-warning Warn only
+            - when "disable"
+              %td.text-danger Disabled
+
+        - if reservation.custom_whitelist_id.present?
+          %tr
+            %td Whitelist
+            %td= link_to("Custom whitelist", "http://whitelist.tf/#{reservation.custom_whitelist_id}")
+        - elsif reservation.whitelist
+          %tr
+            %td Whitelist
+            %td= reservation.whitelist
+
+        - if current_admin || current_league_admin || current_streamer
+          %tr
+            %td Logsecret
+            %td
+              = reservation.logsecret
+              = render 'shared/copy_button', :copy_button_id => "logsecret_string", :copy_text => reservation.logsecret
+              - ip_and_port = "#{reservation&.server&.ip}:#{reservation&.server&.port}"
+              = link_to "http://live.fakkelbrigade.eu/matches/new?host=#{ip_and_port}&rcon=#{reservation.rcon}&logsecret=#{reservation.logsecret}", :title => "create livestats", :class => "btn btn-sm btn-warning", :target => "_blank" do
+                Livestats
+                %i.fa.fa-bar-chart
+          %tr
+            %td Stats
+            %td
+              = link_to show_reservation_statistic_path(reservation),         :title => "Player stats", :class => "btn btn-sm btn-info" do
+                Player stats
+                %i.fa.fa-bar-chart
+              = link_to show_reservation_server_statistic_path(reservation),  :title => "Server stats", :class => "btn btn-sm btn-primary" do
+                Server stats
+                %i.fa.fa-bar-chart
 
     - reservation_players_by_uid = reservation.reservation_players.index_by(&:steam_uid)
     - connection_info = ScoreboardConnectionInfo.for_reservation(reservation)
@@ -150,6 +150,7 @@
           - match_stats = ScoreboardStats.from_match(match)
           = render "reservations/match_scoreboard", live_stats: match_stats, reservation_players_by_uid: reservation_players_by_uid, connection_info: connection_info
 
-    %table#reservation_statuses.table.table-hover.table-bordered
-      = render reservation.reservation_statuses.ordered
+    .table-responsive
+      %table#reservation_statuses.table.table-hover.table-bordered.table-striped
+        = render reservation.reservation_statuses.ordered
 

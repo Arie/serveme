@@ -1,5 +1,5 @@
 p.help-block
-  color: #888
+  color: #aaa
   display: inline-block
   margin-left: 15px
 
@@ -12,7 +12,7 @@ td.actions
     margin-right: 2px
 
 span.help-inline
-  color: #b94a48
+  color: var(--danger)
 
 ul#serveme_links
   margin-left: -15px
@@ -28,13 +28,11 @@ main
   padding-top: 1em
 
 .fast-spin
-  -webkit-animation: fa-spin 0.6s infinite linear
   animation: fa-spin 0.6s infinite linear
 
 // Global player name styling for consistent handling across the site
-.player-name
+.player-name, .player-name-compact
   display: inline-block
-  max-width: 200px
   overflow: hidden
   text-overflow: ellipsis
   white-space: nowrap
@@ -42,34 +40,62 @@ main
   word-break: break-all
   word-wrap: break-word
 
-// Shorter version for table cells and compact areas  
+.player-name
+  max-width: 200px
+
+// Shorter version for table cells and compact areas
 .player-name-compact
-  display: inline-block
   max-width: 150px
-  overflow: hidden
-  text-overflow: ellipsis
-  white-space: nowrap
-  vertical-align: top
-  word-break: break-all
-  word-wrap: break-word
 
 // Map name styling for consistent handling across the site
-.map-name
+.map-name, .map-name-compact
   display: inline-block
-  max-width: 250px
   overflow: hidden
   text-overflow: ellipsis
   white-space: nowrap
   vertical-align: top
+
+.map-name
+  max-width: 250px
 
 // Compact version for table cells
 .map-name-compact
-  display: inline-block
   max-width: 180px
-  overflow: hidden
-  text-overflow: ellipsis
-  white-space: nowrap
-  vertical-align: top
+
+// ISP cell in scoreboard connection info
+.isp-cell
+  max-width: 150px
+
+// TF2 team colors
+.bg-team-red
+  background-color: #bd3b3b
+
+.bg-team-blue
+  background-color: #5b818f
+
+.team-color-bar
+  width: 4px
+  padding: 0
+
+// FAQ config list inline code tags
+.config-list
+  code
+    display: inline-block
+    margin: 0 0.25rem 0.25rem 0
+
+// Leaderboard medal colors
+.medal-gold
+  color: #FFD700
+
+.medal-silver
+  color: #C0C0C0
+
+.medal-bronze
+  color: #CD7F32
+
+// Upload progress bar minimum width
+.upload-progress-bar
+  min-width: 300px
 
 // Collapsible chevron indicator
 .chevron

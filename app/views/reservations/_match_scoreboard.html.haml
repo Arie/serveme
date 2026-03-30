@@ -14,88 +14,89 @@
 
 .match-scoreboard.mb-3
   .d-flex.justify-content-center.align-items-center.mb-3
-    %span.fs-2.fw-bold.px-4.py-2.text-white{style: "background-color: #bd3b3b;"}= red_score
-    %span.fs-2.fw-bold.px-4.py-2.text-white{style: "background-color: #5b818f;"}= blue_score
+    %span.fs-2.fw-bold.px-4.py-2.text-white.bg-team-red= red_score
+    %span.fs-2.fw-bold.px-4.py-2.text-white.bg-team-blue= blue_score
 
   - if red_sorted.any? || blue_sorted.any?
-    %table.table.table-hover.table-bordered.table-striped.table-sm.mb-2{style: "white-space: nowrap;"}
-      %thead
-        %tr
-          %th
-          %th Name
-          %th.text-center{title: "Class"}
-          %th.text-center{title: "Kills"} K
-          %th.text-center{title: "Assists"} A
-          %th.text-center{title: "Deaths"} D
-          %th.text-end{title: "Damage per Minute"} DA/m
-          %th.text-end{title: "Damage Taken per Minute"} DT/m
-          %th.text-end{title: "Heals Received"} HR
-          %th.text-center{title: "Kills + Assists per Death"} KA/D
-          %th.text-center{title: "Kills per Death"} K/D
-          - if show_connection
-            %th{title: "Country"}
-            %th.text-end{title: "Distance"} Dist
-            %th.text-end Ping
-            %th.text-end Loss
-            %th ISP
-      %tbody
-        - [["Red", "#bd3b3b", red_sorted], ["Blue", "#5b818f", blue_sorted]].each do |team_name, team_color, team_players|
-          - team_players.each do |stats|
-            - tf2_class = stats[:tf2_class] || "unknown"
-            - kills = stats[:kills] || 0
-            - assists = stats[:assists] || 0
-            - deaths = stats[:deaths] || 0
-            - effective_deaths = [deaths, 1].max
-            - ka_d = ((kills + assists).to_f / effective_deaths).round(1)
-            - k_d = (kills.to_f / effective_deaths).round(1)
-            - conn = connection_info[stats[:steam_uid].to_s] if show_connection
-            %tr
-              %td{style: "background-color: #{team_color}; width: 4px; padding: 0;"}
-              %td
-                - rp = reservation_players_by_uid[stats[:steam_uid].to_s]
-                - if rp&.steam_uid && rp&.name
-                  = link_to(rp.name, "https://steamcommunity.com/profiles/#{rp.steam_uid}", target: "_blank", class: "player-name")
-                - else
-                  %span.player-name= stats[:name] || "Unknown"
-              %td.text-center
-                - if tf2_class != "unknown"
-                  %span{class: "class-icon class-icon-#{tf2_class}", title: tf2_class.capitalize}
-              %td.text-center= kills
-              %td.text-center= assists
-              %td.text-center= deaths
-              %td.text-end
-                - if duration_minutes > 0
-                  = ((stats[:damage] || 0) / duration_minutes).round
-                - else
-                  \-
-              %td.text-end
-                - if duration_minutes > 0
-                  = ((stats[:damage_taken] || 0) / duration_minutes).round
-                - else
-                  \-
-              %td.text-end= number_with_delimiter(stats[:heals_received] || 0)
-              %td.text-center= ka_d
-              %td.text-center= k_d
-              - if show_connection
+    .table-responsive
+      %table.table.table-hover.table-bordered.table-striped.table-sm.mb-2.text-nowrap
+        %thead
+          %tr
+            %th
+            %th Name
+            %th.text-center{title: "Class"}
+            %th.text-center{title: "Kills"} K
+            %th.text-center{title: "Assists"} A
+            %th.text-center{title: "Deaths"} D
+            %th.text-end{title: "Damage per Minute"} DA/m
+            %th.text-end{title: "Damage Taken per Minute"} DT/m
+            %th.text-end{title: "Heals Received"} HR
+            %th.text-center{title: "Kills + Assists per Death"} KA/D
+            %th.text-center{title: "Kills per Death"} K/D
+            - if show_connection
+              %th{title: "Country"}
+              %th.text-end{title: "Distance"} Dist
+              %th.text-end Ping
+              %th.text-end Loss
+              %th ISP
+        %tbody
+          - [["Red", "bg-team-red", red_sorted], ["Blue", "bg-team-blue", blue_sorted]].each do |team_name, team_class, team_players|
+            - team_players.each do |stats|
+              - tf2_class = stats[:tf2_class] || "unknown"
+              - kills = stats[:kills] || 0
+              - assists = stats[:assists] || 0
+              - deaths = stats[:deaths] || 0
+              - effective_deaths = [deaths, 1].max
+              - ka_d = ((kills + assists).to_f / effective_deaths).round(1)
+              - k_d = (kills.to_f / effective_deaths).round(1)
+              - conn = connection_info[stats[:steam_uid].to_s] if show_connection
+              %tr
+                %td{class: "#{team_class} team-color-bar"}
                 %td
-                  - if conn && conn[:country_code].present?
-                    = image_tag("flags/#{conn[:country_code]}.png", alt: conn[:country_name], title: conn[:country_name], class: "flag")
-                  - elsif conn && conn[:sdr]
-                    %span.text-muted SDR
+                  - rp = reservation_players_by_uid[stats[:steam_uid].to_s]
+                  - if rp&.steam_uid && rp&.name
+                    = link_to(rp.name, "https://steamcommunity.com/profiles/#{rp.steam_uid}", target: "_blank", class: "player-name")
+                  - else
+                    %span.player-name= stats[:name] || "Unknown"
+                %td.text-center
+                  - if tf2_class != "unknown"
+                    %span{class: "class-icon class-icon-#{tf2_class}", title: tf2_class.capitalize}
+                %td.text-center= kills
+                %td.text-center= assists
+                %td.text-center= deaths
                 %td.text-end
-                  - if conn && conn[:sdr]
-                    %span.text-muted SDR
-                  - elsif conn && conn[:distance]
-                    = "#{conn[:distance]} #{conn[:distance_unit]}"
+                  - if duration_minutes > 0
+                    = ((stats[:damage] || 0) / duration_minutes).round
+                  - else
+                    \-
                 %td.text-end
-                  - if conn && conn[:ping]
-                    = "#{conn[:ping]} ms"
-                %td.text-end
-                  - if conn && conn[:loss]
-                    = "#{conn[:loss]}%"
-                %td.text-truncate{style: "max-width: 150px;", title: conn && conn[:asn_organization]}
-                  - if conn && conn[:asn_organization]
-                    = conn[:asn_organization]
+                  - if duration_minutes > 0
+                    = ((stats[:damage_taken] || 0) / duration_minutes).round
+                  - else
+                    \-
+                %td.text-end= number_with_delimiter(stats[:heals_received] || 0)
+                %td.text-center= ka_d
+                %td.text-center= k_d
+                - if show_connection
+                  %td
+                    - if conn && conn[:country_code].present?
+                      = image_tag("flags/#{conn[:country_code]}.png", alt: conn[:country_name], title: conn[:country_name], class: "flag")
+                    - elsif conn && conn[:sdr]
+                      %span.text-muted SDR
+                  %td.text-end
+                    - if conn && conn[:sdr]
+                      %span.text-muted SDR
+                    - elsif conn && conn[:distance]
+                      = "#{conn[:distance]} #{conn[:distance_unit]}"
+                  %td.text-end
+                    - if conn && conn[:ping]
+                      = "#{conn[:ping]} ms"
+                  %td.text-end
+                    - if conn && conn[:loss]
+                      = "#{conn[:loss]}%"
+                  %td.text-truncate.isp-cell{title: conn && conn[:asn_organization]}
+                    - if conn && conn[:asn_organization]
+                      = conn[:asn_organization]
 
   - unassigned = players.select { |p| !p[:team]&.in?(%w[Red Blue]) }
   - if unassigned.any?

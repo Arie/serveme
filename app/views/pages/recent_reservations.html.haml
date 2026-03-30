@@ -8,26 +8,26 @@
 
 .row
   .col-md-12
-
-    %table.table.table-condensed.table-hover
-      %thead
-        %tr
-          %th Server
-          %th Reserved by
-          %th Reserved from
-          %th Reserved until
-          - if current_admin || current_league_admin || current_streamer
-            %th Actions
-      %tbody
-        - @recent_reservations.each do |reservation|
-          - klass = 'table-success' if reservation.active?
-          - klass = 'table-info'    if reservation.future?
-          %tr[reservation]{:class => klass}
-            - user = reservation.user.decorate
-            - reservation = reservation.decorate
-            %td= reservation.server_name
-            %td= link_to(user.nickname, user.steam_profile_url, :target => "_blank", :class => "player-name")
-            %td= I18n.l(reservation.starts_at,  :format => :short)
-            %td= I18n.l(reservation.ends_at,    :format => :short)
+    .table-responsive
+      %table.table.table-condensed.table-hover
+        %thead
+          %tr
+            %th Server
+            %th Reserved by
+            %th Reserved from
+            %th Reserved until
             - if current_admin || current_league_admin || current_streamer
-              %td.actions= render 'reservations/actions', :reservation => reservation
+              %th Actions
+        %tbody
+          - @recent_reservations.each do |reservation|
+            - klass = 'table-success' if reservation.active?
+            - klass = 'table-info'    if reservation.future?
+            %tr[reservation]{:class => klass}
+              - user = reservation.user.decorate
+              - reservation = reservation.decorate
+              %td= reservation.server_name
+              %td= link_to(user.nickname, user.steam_profile_url, :target => "_blank", :class => "player-name")
+              %td= I18n.l(reservation.starts_at,  :format => :short)
+              %td= I18n.l(reservation.ends_at,    :format => :short)
+              - if current_admin || current_league_admin || current_streamer
+                %td.actions= render 'reservations/actions', :reservation => reservation

@@ -5,34 +5,36 @@
     %p
       Top contributors ranked by total server time purchased.
 
-    %table.table.table-hover.table-bordered.table-striped
-      %thead
-        %tr
-          %th Rank
-          %th Supporter
-          %th Total Time
-      - @donators.each_with_index do |(user, days), index|
-        %tr
-          %td
-            - case index
-            - when 0
-              %span{style: "color: #FFD700"} 1st
-            - when 1
-              %span{style: "color: #C0C0C0"} 2nd
-            - when 2
-              %span{style: "color: #CD7F32"} 3rd
-            - else
-              = "#{index + 1}th"
-          %td
-            = link_to(user.nickname, user.steam_profile_url, target: "_blank", class: "player-name")
-          %td
-            - years = days.to_i / 365
-            - remaining_days = days.to_i % 365
-            - months = remaining_days / 30
-            - days = remaining_days % 30
-            - parts = []
-            - parts << pluralize(years, 'year') if years > 0
-            - parts << pluralize(months, 'month') if months > 0
-            - parts << pluralize(days, 'day') if days > 0
-            - parts << "0 days" if parts.empty?
-            = parts.join(', ')
+    .table-responsive
+      %table.table.table-hover.table-bordered.table-striped
+        %thead
+          %tr
+            %th Rank
+            %th Supporter
+            %th Total Time
+        %tbody
+          - @donators.each_with_index do |(user, days), index|
+            %tr
+              %td
+                - case index
+                - when 0
+                  %span.medal-gold 1st
+                - when 1
+                  %span.medal-silver 2nd
+                - when 2
+                  %span.medal-bronze 3rd
+                - else
+                  = "#{index + 1}th"
+              %td
+                = link_to(user.nickname, user.steam_profile_url, target: "_blank", class: "player-name")
+              %td
+                - years = days.to_i / 365
+                - remaining_days = days.to_i % 365
+                - months = remaining_days / 30
+                - days = remaining_days % 30
+                - parts = []
+                - parts << pluralize(years, 'year') if years > 0
+                - parts << pluralize(months, 'month') if months > 0
+                - parts << pluralize(days, 'day') if days > 0
+                - parts << "0 days" if parts.empty?
+                = parts.join(', ')

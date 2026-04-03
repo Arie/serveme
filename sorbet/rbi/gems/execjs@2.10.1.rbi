@@ -8,31 +8,29 @@
 # source://execjs//lib/execjs/version.rb#1
 module ExecJS
   class << self
-    # source://execjs//lib/execjs/module.rb#26
+    # source://execjs//lib/execjs/module.rb#24
     def compile(source, options = T.unsafe(nil)); end
 
     # @return [Boolean]
     #
-    # source://execjs//lib/execjs/module.rb#38
+    # source://execjs//lib/execjs/module.rb#36
     def cygwin?; end
 
-    # source://execjs//lib/execjs/module.rb#22
+    # source://execjs//lib/execjs/module.rb#20
     def eval(source, options = T.unsafe(nil)); end
 
-    # source://execjs//lib/execjs/module.rb#18
+    # source://execjs//lib/execjs/module.rb#16
     def exec(source, options = T.unsafe(nil)); end
 
-    # source://execjs//lib/execjs/module.rb#30
+    # source://execjs//lib/execjs/module.rb#28
     def root; end
 
-    # Returns the value of attribute runtime.
-    #
-    # source://execjs//lib/execjs/module.rb#11
+    # source://execjs//lib/execjs.rb#5
     def runtime; end
 
     # @raise [RuntimeUnavailable]
     #
-    # source://execjs//lib/execjs/module.rb#13
+    # source://execjs//lib/execjs/module.rb#11
     def runtime=(runtime); end
 
     # source://execjs//lib/execjs/runtimes.rb#108
@@ -40,7 +38,7 @@ module ExecJS
 
     # @return [Boolean]
     #
-    # source://execjs//lib/execjs/module.rb#34
+    # source://execjs//lib/execjs/module.rb#32
     def windows?; end
   end
 end

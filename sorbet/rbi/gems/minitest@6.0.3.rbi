@@ -367,12 +367,12 @@ module Minitest::Assertions
   #
   # See also: #assert_output
   #
-  # source://minitest//lib/minitest/assertions.rb#459
+  # source://minitest//lib/minitest/assertions.rb#462
   def assert_silent; end
 
   # Fails unless the block throws +sym+
   #
-  # source://minitest//lib/minitest/assertions.rb#468
+  # source://minitest//lib/minitest/assertions.rb#471
   def assert_throws(sym, msg = T.unsafe(nil)); end
 
   # Captures $stdout and $stderr into strings:
@@ -389,7 +389,7 @@ module Minitest::Assertions
   # capture IO for subprocesses. Use #capture_subprocess_io for
   # that.
   #
-  # source://minitest//lib/minitest/assertions.rb#504
+  # source://minitest//lib/minitest/assertions.rb#507
   def capture_io; end
 
   # Captures $stdout and $stderr into strings, using Tempfile to
@@ -406,7 +406,7 @@ module Minitest::Assertions
   # NOTE: This method is approximately 10x slower than #capture_io so
   # only use it when you need to test the output of a subprocess.
   #
-  # source://minitest//lib/minitest/assertions.rb#537
+  # source://minitest//lib/minitest/assertions.rb#540
   def capture_subprocess_io; end
 
   # Returns a diff between +exp+ and +act+. If there is no known
@@ -421,19 +421,19 @@ module Minitest::Assertions
 
   # Returns details for exception +e+
   #
-  # source://minitest//lib/minitest/assertions.rb#569
+  # source://minitest//lib/minitest/assertions.rb#572
   def exception_details(e, msg); end
 
   # Fails after a given date (in the local time zone). This allows
   # you to put time-bombs in your tests if you need to keep
   # something around until a later date lest you forget about it.
   #
-  # source://minitest//lib/minitest/assertions.rb#585
+  # source://minitest//lib/minitest/assertions.rb#588
   def fail_after(y, m, d, msg); end
 
   # Fails with +msg+.
   #
-  # source://minitest//lib/minitest/assertions.rb#592
+  # source://minitest//lib/minitest/assertions.rb#595
   def flunk(msg = T.unsafe(nil)); end
 
   # Returns a proc that delays generation of an output message. If
@@ -441,7 +441,7 @@ module Minitest::Assertions
   # as-is. Otherwise, return a proc that will output +msg+ along
   # with the value of the result of the block passed to +message+.
   #
-  # source://minitest//lib/minitest/assertions.rb#603
+  # source://minitest//lib/minitest/assertions.rb#606
   def message(msg = T.unsafe(nil), ending = T.unsafe(nil), &default); end
 
   # This returns a human-readable version of +obj+. By default
@@ -463,62 +463,62 @@ module Minitest::Assertions
 
   # used for counting assertions
   #
-  # source://minitest//lib/minitest/assertions.rb#614
+  # source://minitest//lib/minitest/assertions.rb#617
   def pass(_msg = T.unsafe(nil)); end
 
   # Fails if +test+ is truthy.
   #
-  # source://minitest//lib/minitest/assertions.rb#621
+  # source://minitest//lib/minitest/assertions.rb#624
   def refute(test, msg = T.unsafe(nil)); end
 
   # Fails if +obj+ is empty.
   #
-  # source://minitest//lib/minitest/assertions.rb#629
+  # source://minitest//lib/minitest/assertions.rb#632
   def refute_empty(obj, msg = T.unsafe(nil)); end
 
   # Fails if <tt>exp == act</tt>.
   #
   # For floats use refute_in_delta.
   #
-  # source://minitest//lib/minitest/assertions.rb#639
+  # source://minitest//lib/minitest/assertions.rb#642
   def refute_equal(exp, act, msg = T.unsafe(nil)); end
 
   # For comparing Floats.  Fails if +exp+ is within +delta+ of +act+.
   #
   #   refute_in_delta Math::PI, (22.0 / 7.0)
   #
-  # source://minitest//lib/minitest/assertions.rb#651
+  # source://minitest//lib/minitest/assertions.rb#654
   def refute_in_delta(exp, act, delta = T.unsafe(nil), msg = T.unsafe(nil)); end
 
   # For comparing Floats.  Fails if +exp+ and +act+ have a relative error
   # less than +epsilon+.
   #
-  # source://minitest//lib/minitest/assertions.rb#663
+  # source://minitest//lib/minitest/assertions.rb#666
   def refute_in_epsilon(exp, act, epsilon = T.unsafe(nil), msg = T.unsafe(nil)); end
 
   # Fails if +obj+ includes +sub+.
   #
-  # source://minitest//lib/minitest/assertions.rb#670
+  # source://minitest//lib/minitest/assertions.rb#673
   def refute_includes(obj, sub, msg = T.unsafe(nil)); end
 
   # Fails if +obj+ is an instance of +cls+.
   #
-  # source://minitest//lib/minitest/assertions.rb#678
+  # source://minitest//lib/minitest/assertions.rb#681
   def refute_instance_of(cls, obj, msg = T.unsafe(nil)); end
 
   # Fails if +obj+ is a kind of +cls+.
   #
-  # source://minitest//lib/minitest/assertions.rb#688
+  # source://minitest//lib/minitest/assertions.rb#691
   def refute_kind_of(cls, obj, msg = T.unsafe(nil)); end
 
   # Fails if +matcher+ <tt>=~</tt> +obj+.
   #
-  # source://minitest//lib/minitest/assertions.rb#696
+  # source://minitest//lib/minitest/assertions.rb#699
   def refute_match(matcher, obj, msg = T.unsafe(nil)); end
 
   # Fails if +obj+ is nil.
   #
-  # source://minitest//lib/minitest/assertions.rb#705
+  # source://minitest//lib/minitest/assertions.rb#708
   def refute_nil(obj, msg = T.unsafe(nil)); end
 
   # Fails if +o1+ is not +op+ +o2+. Eg:
@@ -526,12 +526,12 @@ module Minitest::Assertions
   #   refute_operator 1, :>, 2 #=> pass
   #   refute_operator 1, :<, 2 #=> fail
   #
-  # source://minitest//lib/minitest/assertions.rb#737
+  # source://minitest//lib/minitest/assertions.rb#740
   def refute_operator(o1, op, o2 = T.unsafe(nil), msg = T.unsafe(nil)); end
 
   # Fails if +path+ exists.
   #
-  # source://minitest//lib/minitest/assertions.rb#747
+  # source://minitest//lib/minitest/assertions.rb#750
   def refute_path_exists(path, msg = T.unsafe(nil)); end
 
   # For testing with pattern matching (only supported with Ruby 3.0 and later)
@@ -545,7 +545,7 @@ module Minitest::Assertions
   # This assertion expects a NoMatchingPatternError exception, and will fail if none is raised. Any
   # other exceptions will be raised as normal and generate a test error.
   #
-  # source://minitest//lib/minitest/assertions.rb#722
+  # source://minitest//lib/minitest/assertions.rb#725
   def refute_pattern; end
 
   # For testing with predicates.
@@ -556,18 +556,18 @@ module Minitest::Assertions
   #
   #   str.wont_be :empty?
   #
-  # source://minitest//lib/minitest/assertions.rb#761
+  # source://minitest//lib/minitest/assertions.rb#764
   def refute_predicate(o1, op, msg = T.unsafe(nil)); end
 
   # Fails if +obj+ responds to the message +meth+.
   # include_all defaults to false to match Object#respond_to?
   #
-  # source://minitest//lib/minitest/assertions.rb#771
+  # source://minitest//lib/minitest/assertions.rb#774
   def refute_respond_to(obj, meth, msg = T.unsafe(nil), include_all: T.unsafe(nil)); end
 
   # Fails if +exp+ is the same (by object identity) as +act+.
   #
-  # source://minitest//lib/minitest/assertions.rb#780
+  # source://minitest//lib/minitest/assertions.rb#783
   def refute_same(exp, act, msg = T.unsafe(nil)); end
 
   # Skips the current run. If run in verbose-mode, the skipped run
@@ -576,7 +576,7 @@ module Minitest::Assertions
   #
   # @raise [Minitest::Skip]
   #
-  # source://minitest//lib/minitest/assertions.rb#793
+  # source://minitest//lib/minitest/assertions.rb#796
   def skip(msg = T.unsafe(nil), _ignored = T.unsafe(nil)); end
 
   # Skips the current run until a given date (in the local time
@@ -584,14 +584,14 @@ module Minitest::Assertions
   # date, but still holds you accountable and prevents you from
   # forgetting it.
   #
-  # source://minitest//lib/minitest/assertions.rb#805
+  # source://minitest//lib/minitest/assertions.rb#808
   def skip_until(y, m, d, msg); end
 
   # Was this testcase skipped? Meant for #teardown.
   #
   # @return [Boolean]
   #
-  # source://minitest//lib/minitest/assertions.rb#814
+  # source://minitest//lib/minitest/assertions.rb#817
   def skipped?; end
 
   # Returns things to diff [expect, butwas], or [nil, nil] if nothing to diff.

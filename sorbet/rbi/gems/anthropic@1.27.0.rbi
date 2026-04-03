@@ -11,6 +11,7 @@
 
 module Anthropic
   APIErrorObject = Anthropic::Models::APIErrorObject
+  AWSClient = Anthropic::Helpers::AWS::Client
   AnthropicBeta = Anthropic::Models::AnthropicBeta
   ArrayOf = Anthropic::Helpers::InputSchema::ArrayOf
   AuthenticationError = Anthropic::Models::AuthenticationError
@@ -247,6 +248,9 @@ module Anthropic
       sig { returns(Integer) }
       attr_accessor :status
 
+      sig { returns(T.nilable(Anthropic::ErrorType::TaggedSymbol)) }
+      attr_reader :type
+
       class << self
         # @api private
         sig do
@@ -271,10 +275,11 @@ module Anthropic
             body: T.nilable(Object),
             request: NilClass,
             response: NilClass,
-            message: T.nilable(String)
+            message: T.nilable(String),
+            type: T.nilable(Anthropic::ErrorType::TaggedSymbol)
           ).returns(T.attached_class)
         end
-        def new(url:, status:, headers:, body:, request:, response:, message: nil); end
+        def new(url:, status:, headers:, body:, request:, response:, message: nil, type: nil); end
       end
     end
 
@@ -390,6 +395,52 @@ module Anthropic
   GatewayTimeoutError = Anthropic::Models::GatewayTimeoutError
 
   module Helpers
+    module AWS
+      class Client < Anthropic::Client
+        sig { returns(T.nilable(String)) }
+        attr_reader :aws_region
+
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        private
+
+        sig do
+          params(
+            aws_access_key: T.nilable(String),
+            aws_secret_access_key: T.nilable(String),
+            aws_session_token: T.nilable(String),
+            aws_profile: T.nilable(String)
+          ).returns(T.untyped)
+        end
+        def resolve_credentials(aws_access_key:, aws_secret_access_key:, aws_session_token:, aws_profile:); end
+
+        sig { params(request: Anthropic::Internal::AnyHash).returns(Anthropic::Internal::AnyHash) }
+        def transform_request(request); end
+
+        class << self
+          sig do
+            params(
+              api_key: T.nilable(String),
+              aws_access_key: T.nilable(String),
+              aws_secret_access_key: T.nilable(String),
+              aws_session_token: T.nilable(String),
+              aws_profile: T.nilable(String),
+              aws_region: T.nilable(String),
+              workspace_id: T.nilable(String),
+              skip_auth: T::Boolean,
+              base_url: T.nilable(String),
+              max_retries: Integer,
+              timeout: Float,
+              initial_retry_delay: Float,
+              max_retry_delay: Float
+            ).returns(T.attached_class)
+          end
+          def new(api_key: nil, aws_access_key: nil, aws_secret_access_key: nil, aws_session_token: nil, aws_profile: nil, aws_region: nil, workspace_id: nil, skip_auth: false, base_url: nil, max_retries: Anthropic::Client::DEFAULT_MAX_RETRIES, timeout: Anthropic::Client::DEFAULT_TIMEOUT_IN_SECONDS, initial_retry_delay: Anthropic::Client::DEFAULT_INITIAL_RETRY_DELAY, max_retry_delay: Anthropic::Client::DEFAULT_MAX_RETRY_DELAY); end
+        end
+      end
+    end
+
     module Bedrock
       class Client < Anthropic::Client
         sig { returns(String) }
@@ -2411,6 +2462,10 @@ module Anthropic
 
       class << self
         # @api private
+        sig { params(path: T.any(String, Integer)).returns(String) }
+        def encode_path(path); end
+
+        # @api private
         sig { params(path: T.any(String, T::Array[String])).returns(String) }
         def interpolate_path(path); end
 
@@ -2615,6 +2670,9 @@ module Anthropic
           }
         end
 
+      # https://www.rfc-editor.org/rfc/rfc3986.html#section-3.3
+      RFC_3986_NOT_PCHARS = T.let(/[^A-Za-z0-9\-._~!$&'()*+,;=:@]+/, Regexp)
+
       # @api private
       #
       # An adapter that satisfies the IO interface required by `::IO.copy_stream`
@@ -2803,6 +2861,8 @@ module Anthropic
         )
 
       OUTPUT_128K_2025_02_19 = T.let(:"output-128k-2025-02-19", Anthropic::AnthropicBeta::TaggedSymbol)
+
+      OUTPUT_300K_2026_03_24 = T.let(:"output-300k-2026-03-24", Anthropic::AnthropicBeta::TaggedSymbol)
 
       OrSymbol = T.type_alias { T.any(Symbol, String) }
 
@@ -8053,6 +8113,13 @@ module Anthropic
         sig { returns(Symbol) }
         attr_accessor :role
 
+        # Structured information about a refusal.
+        sig { returns(T.nilable(Anthropic::Beta::BetaRefusalStopDetails)) }
+        attr_reader :stop_details
+
+        sig { params(stop_details: T.nilable(Anthropic::Beta::BetaRefusalStopDetails::OrHash)).void }
+        attr_writer :stop_details
+
         # The reason that we stopped.
         #
         # This may be one the following values:
@@ -8118,6 +8185,7 @@ module Anthropic
                 T.nilable(Anthropic::Beta::BetaContextManagementResponse),
               model: Anthropic::Model::Variants,
               role: Symbol,
+              stop_details: T.nilable(Anthropic::Beta::BetaRefusalStopDetails),
               stop_reason:
                 T.nilable(Anthropic::Beta::BetaStopReason::TaggedSymbol),
               stop_sequence: T.nilable(String),
@@ -8153,6 +8221,7 @@ module Anthropic
               ],
               context_management: T.nilable(Anthropic::Beta::BetaContextManagementResponse::OrHash),
               model: T.any(Anthropic::Model::OrSymbol, String),
+              stop_details: T.nilable(Anthropic::Beta::BetaRefusalStopDetails::OrHash),
               stop_reason: T.nilable(Anthropic::Beta::BetaStopReason::OrSymbol),
               stop_sequence: T.nilable(String),
               usage: Anthropic::Beta::BetaUsage::OrHash,
@@ -8194,6 +8263,7 @@ module Anthropic
             model:, # The model that will complete your prompt.\n\nSee
                     # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
                     # details and options.
+            stop_details:, # Structured information about a refusal.
             stop_reason:, # The reason that we stopped.
                           # This may be one the following values:
                           # - `"end_turn"`: the model reached a natural stopping point
@@ -9128,6 +9198,13 @@ module Anthropic
           sig { params(container: T.nilable(Anthropic::Beta::BetaContainer::OrHash)).void }
           attr_writer :container
 
+          # Structured information about a refusal.
+          sig { returns(T.nilable(Anthropic::Beta::BetaRefusalStopDetails)) }
+          attr_reader :stop_details
+
+          sig { params(stop_details: T.nilable(Anthropic::Beta::BetaRefusalStopDetails::OrHash)).void }
+          attr_writer :stop_details
+
           sig { returns(T.nilable(Anthropic::Beta::BetaStopReason::TaggedSymbol)) }
           attr_accessor :stop_reason
 
@@ -9138,6 +9215,8 @@ module Anthropic
             override
               .returns({
                 container: T.nilable(Anthropic::Beta::BetaContainer),
+                stop_details:
+                  T.nilable(Anthropic::Beta::BetaRefusalStopDetails),
                 stop_reason:
                   T.nilable(Anthropic::Beta::BetaStopReason::TaggedSymbol),
                 stop_sequence: T.nilable(String)
@@ -9149,6 +9228,7 @@ module Anthropic
             sig do
               params(
                 container: T.nilable(Anthropic::Beta::BetaContainer::OrHash),
+                stop_details: T.nilable(Anthropic::Beta::BetaRefusalStopDetails::OrHash),
                 stop_reason: T.nilable(Anthropic::Beta::BetaStopReason::OrSymbol),
                 stop_sequence: T.nilable(String)
               ).returns(T.attached_class)
@@ -9156,6 +9236,7 @@ module Anthropic
             def new(
               container:, # Information about the container used in the request (for the code execution
                           # tool)
+              stop_details:, # Structured information about a refusal.
               stop_reason:,
               stop_sequence:
 ); end
@@ -9284,6 +9365,102 @@ module Anthropic
         OrHash = T.type_alias do
             T.any(
               Anthropic::Beta::BetaRedactedThinkingBlockParam,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
+      class BetaRefusalStopDetails < Anthropic::Internal::Type::BaseModel
+        # The policy category that triggered the refusal.
+        #
+        # `null` when the refusal doesn't map to a named category.
+        sig do
+          returns(T.nilable(
+              Anthropic::Beta::BetaRefusalStopDetails::Category::TaggedSymbol
+            ))
+        end
+        attr_accessor :category
+
+        # Human-readable explanation of the refusal.
+        #
+        # This text is not guaranteed to be stable. `null` when no explanation is
+        # available for the category.
+        sig { returns(T.nilable(String)) }
+        attr_accessor :explanation
+
+        sig { returns(Symbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              category:
+                T.nilable(
+                  Anthropic::Beta::BetaRefusalStopDetails::Category::TaggedSymbol
+                ),
+              explanation: T.nilable(String),
+              type: Symbol
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # Structured information about a refusal.
+          sig do
+            params(
+              category: T.nilable(
+                Anthropic::Beta::BetaRefusalStopDetails::Category::OrSymbol
+              ),
+              explanation: T.nilable(String),
+              type: Symbol
+            ).returns(T.attached_class)
+          end
+          def new(
+            category:, # The policy category that triggered the refusal.
+                       # `null` when the refusal doesn't map to a named category.
+            explanation:, # Human-readable explanation of the refusal.
+                          # This text is not guaranteed to be stable. `null` when no explanation is
+                          # available for the category.
+            type: :refusal
+); end
+        end
+
+        # The policy category that triggered the refusal.
+        #
+        # `null` when the refusal doesn't map to a named category.
+        module Category
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaRefusalStopDetails::Category::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          BIO = T.let(
+              :bio,
+              Anthropic::Beta::BetaRefusalStopDetails::Category::TaggedSymbol
+            )
+
+          CYBER = T.let(
+              :cyber,
+              Anthropic::Beta::BetaRefusalStopDetails::Category::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(Symbol, Anthropic::Beta::BetaRefusalStopDetails::Category)
+            end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaRefusalStopDetails,
               Anthropic::Internal::AnyHash
             )
           end
@@ -22493,6 +22670,7 @@ module Anthropic
     BetaRawMessageStreamEvent = Beta::BetaRawMessageStreamEvent
     BetaRedactedThinkingBlock = Beta::BetaRedactedThinkingBlock
     BetaRedactedThinkingBlockParam = Beta::BetaRedactedThinkingBlockParam
+    BetaRefusalStopDetails = Beta::BetaRefusalStopDetails
     BetaRequestDocumentBlock = Beta::BetaRequestDocumentBlock
 
     BetaRequestMCPServerToolConfiguration = Beta::BetaRequestMCPServerToolConfiguration
@@ -25559,6 +25737,13 @@ module Anthropic
       sig { returns(Symbol) }
       attr_accessor :role
 
+      # Structured information about a refusal.
+      sig { returns(T.nilable(Anthropic::RefusalStopDetails)) }
+      attr_reader :stop_details
+
+      sig { params(stop_details: T.nilable(Anthropic::RefusalStopDetails::OrHash)).void }
+      attr_writer :stop_details
+
       # The reason that we stopped.
       #
       # This may be one the following values:
@@ -25623,6 +25808,7 @@ module Anthropic
             content: T::Array[Anthropic::ContentBlock::Variants],
             model: Anthropic::Model::Variants,
             role: Symbol,
+            stop_details: T.nilable(Anthropic::RefusalStopDetails),
             stop_reason: T.nilable(Anthropic::StopReason::TaggedSymbol),
             stop_sequence: T.nilable(String),
             type: Symbol,
@@ -25653,6 +25839,7 @@ module Anthropic
               )
             ],
             model: T.any(Anthropic::Model::OrSymbol, String),
+            stop_details: T.nilable(Anthropic::RefusalStopDetails::OrHash),
             stop_reason: T.nilable(Anthropic::StopReason::OrSymbol),
             stop_sequence: T.nilable(String),
             usage: Anthropic::Usage::OrHash,
@@ -25692,6 +25879,7 @@ module Anthropic
           model:, # The model that will complete your prompt.\n\nSee
                   # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
                   # details and options.
+          stop_details:, # Structured information about a refusal.
           stop_reason:, # The reason that we stopped.
                         # This may be one the following values:
                         # - `"end_turn"`: the model reached a natural stopping point
@@ -29520,6 +29708,13 @@ module Anthropic
         sig { params(container: T.nilable(Anthropic::Container::OrHash)).void }
         attr_writer :container
 
+        # Structured information about a refusal.
+        sig { returns(T.nilable(Anthropic::RefusalStopDetails)) }
+        attr_reader :stop_details
+
+        sig { params(stop_details: T.nilable(Anthropic::RefusalStopDetails::OrHash)).void }
+        attr_writer :stop_details
+
         sig { returns(T.nilable(Anthropic::StopReason::TaggedSymbol)) }
         attr_accessor :stop_reason
 
@@ -29530,6 +29725,7 @@ module Anthropic
           override
             .returns({
               container: T.nilable(Anthropic::Container),
+              stop_details: T.nilable(Anthropic::RefusalStopDetails),
               stop_reason: T.nilable(Anthropic::StopReason::TaggedSymbol),
               stop_sequence: T.nilable(String)
             })
@@ -29540,6 +29736,7 @@ module Anthropic
           sig do
             params(
               container: T.nilable(Anthropic::Container::OrHash),
+              stop_details: T.nilable(Anthropic::RefusalStopDetails::OrHash),
               stop_reason: T.nilable(Anthropic::StopReason::OrSymbol),
               stop_sequence: T.nilable(String)
             ).returns(T.attached_class)
@@ -29547,6 +29744,7 @@ module Anthropic
           def new(
             container:, # Information about the container used in the request (for the code execution
                         # tool)
+            stop_details:, # Structured information about a refusal.
             stop_reason:,
             stop_sequence:
 ); end
@@ -29665,6 +29863,80 @@ module Anthropic
             Anthropic::RedactedThinkingBlockParam,
             Anthropic::Internal::AnyHash
           )
+        end
+    end
+
+    class RefusalStopDetails < Anthropic::Internal::Type::BaseModel
+      # The policy category that triggered the refusal.
+      #
+      # `null` when the refusal doesn't map to a named category.
+      sig { returns(T.nilable(Anthropic::RefusalStopDetails::Category::TaggedSymbol)) }
+      attr_accessor :category
+
+      # Human-readable explanation of the refusal.
+      #
+      # This text is not guaranteed to be stable. `null` when no explanation is
+      # available for the category.
+      sig { returns(T.nilable(String)) }
+      attr_accessor :explanation
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig do
+        override
+          .returns({
+            category:
+              T.nilable(Anthropic::RefusalStopDetails::Category::TaggedSymbol),
+            explanation: T.nilable(String),
+            type: Symbol
+          })
+      end
+      def to_hash; end
+
+      class << self
+        # Structured information about a refusal.
+        sig do
+          params(
+            category: T.nilable(Anthropic::RefusalStopDetails::Category::OrSymbol),
+            explanation: T.nilable(String),
+            type: Symbol
+          ).returns(T.attached_class)
+        end
+        def new(
+          category:, # The policy category that triggered the refusal.
+                     # `null` when the refusal doesn't map to a named category.
+          explanation:, # Human-readable explanation of the refusal.
+                        # This text is not guaranteed to be stable. `null` when no explanation is
+                        # available for the category.
+          type: :refusal
+); end
+      end
+
+      # The policy category that triggered the refusal.
+      #
+      # `null` when the refusal doesn't map to a named category.
+      module Category
+        extend Anthropic::Internal::Type::Enum
+
+        class << self
+          sig { override.returns(T::Array[Anthropic::RefusalStopDetails::Category::TaggedSymbol]) }
+          def values; end
+        end
+
+        BIO = T.let(:bio, Anthropic::RefusalStopDetails::Category::TaggedSymbol)
+
+        CYBER = T.let(:cyber, Anthropic::RefusalStopDetails::Category::TaggedSymbol)
+
+        OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+        TaggedSymbol = T.type_alias do
+            T.all(Symbol, Anthropic::RefusalStopDetails::Category)
+          end
+      end
+
+      OrHash = T.type_alias do
+          T.any(Anthropic::RefusalStopDetails, Anthropic::Internal::AnyHash)
         end
     end
 
@@ -35205,6 +35477,7 @@ module Anthropic
   RawMessageStreamEvent = Anthropic::Models::RawMessageStreamEvent
   RedactedThinkingBlock = Anthropic::Models::RedactedThinkingBlock
   RedactedThinkingBlockParam = Anthropic::Models::RedactedThinkingBlockParam
+  RefusalStopDetails = Anthropic::Models::RefusalStopDetails
 
   # Specify HTTP behaviour to use for a specific request. These options supplement
   # or override those provided at the client level.

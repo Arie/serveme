@@ -7,7 +7,6 @@ module CloudProvider
   PROVIDERS = T.let({
     "hetzner" => Hetzner,
     "vultr" => Vultr,
-    "kamatera" => Kamatera,
     "docker" => Docker,
     "remote_docker" => RemoteDocker
   }.freeze, T::Hash[String, T.class_of(Base)])
@@ -37,7 +36,7 @@ module CloudProvider
     grouped = Hash.new { |h, k| h[k] = [] }
 
     PROVIDERS.each do |provider_name, klass|
-      next if provider_name.in?(%w[hetzner vultr kamatera]) && !user&.can_use_cloud_servers?
+      next if provider_name.in?(%w[hetzner vultr]) && !user&.can_use_cloud_servers?
 
       klass.locations(starts_at: starts_at, ends_at: ends_at).each do |code, info|
         next unless info[:region] == SITE_REGION || provider_name == "remote_docker" || (provider_name == "docker" && Rails.env.development?)

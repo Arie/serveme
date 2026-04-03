@@ -314,7 +314,10 @@ class Server < ActiveRecord::Base
 
   sig { params(reservation: Reservation).returns(T.nilable(T.any(String, T::Boolean))) }
   def write_custom_whitelist(reservation)
-    write_configuration(server_config_file("custom_whitelist_#{reservation.custom_whitelist_id}.txt"), T.must(reservation.custom_whitelist_content))
+    content = reservation.custom_whitelist_content
+    return unless content
+
+    write_configuration(server_config_file("custom_whitelist_#{reservation.custom_whitelist_id}.txt"), content)
   end
 
   sig { params(object: Reservation, config_file: String).returns(String) }

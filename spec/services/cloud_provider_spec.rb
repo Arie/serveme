@@ -41,7 +41,7 @@ RSpec.describe CloudProvider do
       all_values = result.values.flatten(1).map(&:last)
       expect(all_values).to include(a_string_starting_with("hetzner:"))
       expect(all_values).to include(a_string_starting_with("vultr:"))
-      expect(all_values).to include(a_string_starting_with("kamatera:"))
+      expect(all_values).not_to include(a_string_starting_with("kamatera:"))
     end
 
     context "when SITE_REGION is AU" do

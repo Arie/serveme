@@ -20,7 +20,7 @@ rm mge.zip
 
 # Better MGE spawns
 cd "$HOME/hlserver/tf2/tf"
-wget -nv "https://raw.githubusercontent.com/Arie/serveme/master/doc/mgemod_spawns.cfg?v=20260329" -O "addons/sourcemod/configs/mgemod_spawns.cfg"
+wget -nv "https://raw.githubusercontent.com/Arie/serveme/master/doc/mgemod_spawns.cfg?v=20260404" -O "addons/sourcemod/configs/mgemod_spawns.cfg"
 
 # tf2rue (TFTrue replacement, zip contents are relative to addons/sourcemod/)
 cd "$HOME/hlserver/tf2/tf/addons/sourcemod"

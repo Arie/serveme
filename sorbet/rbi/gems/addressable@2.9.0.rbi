@@ -187,7 +187,7 @@ class Addressable::Template
   # @param pattern [#to_str] The URI Template pattern.
   # @return [Addressable::Template] The initialized Template object.
   #
-  # source://addressable//lib/addressable/template.rb#234
+  # source://addressable//lib/addressable/template.rb#236
   def initialize(pattern); end
 
   # Returns <code>true</code> if the Template objects are equal. This method
@@ -197,7 +197,7 @@ class Addressable::Template
   # @return [TrueClass, FalseClass] <code>true</code> if the Templates are equivalent, <code>false</code>
   #   otherwise.
   #
-  # source://addressable//lib/addressable/template.rb#274
+  # source://addressable//lib/addressable/template.rb#276
   def ==(template); end
 
   # Returns <code>true</code> if the Template objects are equal. This method
@@ -209,7 +209,7 @@ class Addressable::Template
   #   otherwise.
   # @see #==
   #
-  # source://addressable//lib/addressable/template.rb#283
+  # source://addressable//lib/addressable/template.rb#285
   def eql?(template); end
 
   # Expands a URI template into a full URI.
@@ -266,7 +266,7 @@ class Addressable::Template
   # @param processor [#validate, #transform] An optional processor object may be supplied.
   # @return [Addressable::URI] The expanded URI template.
   #
-  # source://addressable//lib/addressable/template.rb#591
+  # source://addressable//lib/addressable/template.rb#593
   def expand(mapping, processor = T.unsafe(nil), normalize_values = T.unsafe(nil)); end
 
   # Extracts a mapping from the URI using a URI Template pattern.
@@ -320,21 +320,21 @@ class Addressable::Template
   # @return [Hash, NilClass] The <tt>Hash</tt> mapping that was extracted from the URI, or
   #   <tt>nil</tt> if the URI didn't match the template.
   #
-  # source://addressable//lib/addressable/template.rb#342
+  # source://addressable//lib/addressable/template.rb#344
   def extract(uri, processor = T.unsafe(nil)); end
 
   # Freeze URI, initializing instance variables.
   #
   # @return [Addressable::URI] The frozen URI object.
   #
-  # source://addressable//lib/addressable/template.rb#245
+  # source://addressable//lib/addressable/template.rb#247
   def freeze; end
 
   # Returns a <tt>String</tt> representation of the Template object's state.
   #
   # @return [String] The Template object's state, as a <tt>String</tt>.
   #
-  # source://addressable//lib/addressable/template.rb#260
+  # source://addressable//lib/addressable/template.rb#262
   def inspect; end
 
   # Returns an Array of variables used within the template pattern.
@@ -344,7 +344,7 @@ class Addressable::Template
   #
   # @return [Array] The variables present in the template's pattern.
   #
-  # source://addressable//lib/addressable/template.rb#610
+  # source://addressable//lib/addressable/template.rb#612
   def keys; end
 
   # Extracts match data from the URI using a URI Template pattern.
@@ -407,7 +407,7 @@ class Addressable::Template
   # @return [Hash, NilClass] The <tt>Hash</tt> mapping that was extracted from the URI, or
   #   <tt>nil</tt> if the URI didn't match the template.
   #
-  # source://addressable//lib/addressable/template.rb#413
+  # source://addressable//lib/addressable/template.rb#415
   def match(uri, processor = T.unsafe(nil)); end
 
   # Returns the named captures of the coerced `Regexp`.
@@ -415,7 +415,7 @@ class Addressable::Template
   # @api private
   # @return [Hash] The named captures of the `Regexp` given by {#to_regexp}.
   #
-  # source://addressable//lib/addressable/template.rb#651
+  # source://addressable//lib/addressable/template.rb#653
   def named_captures; end
 
   # Returns an Array of variables used within the template pattern.
@@ -425,7 +425,7 @@ class Addressable::Template
   #
   # @return [Array] The variables present in the template's pattern.
   #
-  # source://addressable//lib/addressable/template.rb#611
+  # source://addressable//lib/addressable/template.rb#613
   def names; end
 
   # Expands a URI template into another URI template.
@@ -462,12 +462,12 @@ class Addressable::Template
   # @param processor [#validate, #transform] An optional processor object may be supplied.
   # @return [Addressable::Template] The partially expanded URI template.
   #
-  # source://addressable//lib/addressable/template.rb#524
+  # source://addressable//lib/addressable/template.rb#526
   def partial_expand(mapping, processor = T.unsafe(nil), normalize_values = T.unsafe(nil)); end
 
   # @return [String] The Template object's pattern.
   #
-  # source://addressable//lib/addressable/template.rb#254
+  # source://addressable//lib/addressable/template.rb#256
   def pattern; end
 
   # Returns the source of the coerced `Regexp`.
@@ -475,7 +475,7 @@ class Addressable::Template
   # @api private
   # @return [String] The source of the `Regexp` given by {#to_regexp}.
   #
-  # source://addressable//lib/addressable/template.rb#641
+  # source://addressable//lib/addressable/template.rb#643
   def source; end
 
   # Coerces a template into a `Regexp` object. This regular expression will
@@ -485,7 +485,7 @@ class Addressable::Template
   #
   # @return [Regexp] A regular expression which should match the template.
   #
-  # source://addressable//lib/addressable/template.rb#630
+  # source://addressable//lib/addressable/template.rb#632
   def to_regexp; end
 
   # Returns a mapping of variables to their default values specified
@@ -493,7 +493,7 @@ class Addressable::Template
   #
   # @return [Hash] Mapping of template variables to their defaults
   #
-  # source://addressable//lib/addressable/template.rb#618
+  # source://addressable//lib/addressable/template.rb#620
   def variable_defaults; end
 
   # Returns an Array of variables used within the template pattern.
@@ -503,7 +503,7 @@ class Addressable::Template
   #
   # @return [Array] The variables present in the template's pattern.
   #
-  # source://addressable//lib/addressable/template.rb#607
+  # source://addressable//lib/addressable/template.rb#609
   def variables; end
 
   private
@@ -517,7 +517,7 @@ class Addressable::Template
   #   be joined together.
   # @return [String] The transformed mapped value
   #
-  # source://addressable//lib/addressable/template.rb#861
+  # source://addressable//lib/addressable/template.rb#863
   def join_values(operator, return_value); end
 
   # Generates a hash with string keys
@@ -525,7 +525,7 @@ class Addressable::Template
   # @param mapping [Hash] A mapping hash to normalize
   # @return [Hash] A hash with stringified keys
   #
-  # source://addressable//lib/addressable/template.rb#924
+  # source://addressable//lib/addressable/template.rb#926
   def normalize_keys(mapping); end
 
   # Takes a set of values, and joins them together based on the
@@ -534,10 +534,10 @@ class Addressable::Template
   # @param value [Hash, Array, String] Normalizes unicode keys and values with String#unicode_normalize (NFC)
   # @return [Hash, Array, String] The normalized values
   #
-  # source://addressable//lib/addressable/template.rb#898
+  # source://addressable//lib/addressable/template.rb#900
   def normalize_value(value); end
 
-  # source://addressable//lib/addressable/template.rb#656
+  # source://addressable//lib/addressable/template.rb#658
   def ordered_variable_defaults; end
 
   # Generates the <tt>Regexp</tt> that parses a template pattern.
@@ -547,7 +547,7 @@ class Addressable::Template
   # @return [Array, Regexp] An array of expansion variables nad a regular expression which may be
   #   used to parse a template pattern
   #
-  # source://addressable//lib/addressable/template.rb#968
+  # source://addressable//lib/addressable/template.rb#970
   def parse_new_template_pattern(pattern, processor = T.unsafe(nil)); end
 
   # Generates the <tt>Regexp</tt> that parses a template pattern. Memoizes the
@@ -558,7 +558,7 @@ class Addressable::Template
   # @return [Array, Regexp] An array of expansion variables nad a regular expression which may be
   #   used to parse a template pattern
   #
-  # source://addressable//lib/addressable/template.rb#950
+  # source://addressable//lib/addressable/template.rb#952
   def parse_template_pattern(pattern, processor = T.unsafe(nil)); end
 
   # Transforms a mapped value so that values can be substituted into the
@@ -582,7 +582,7 @@ class Addressable::Template
   # @param processor [#validate, #transform] An optional processor object may be supplied.
   # @return [String] The expanded expression
   #
-  # source://addressable//lib/addressable/template.rb#753
+  # source://addressable//lib/addressable/template.rb#755
   def transform_capture(mapping, capture, processor = T.unsafe(nil), normalize_values = T.unsafe(nil)); end
 
   # Loops through each capture and expands any values available in mapping
@@ -605,33 +605,33 @@ class Addressable::Template
   # @param processor [#validate, #transform] An optional processor object may be supplied.
   # @return [String] The expanded expression
   #
-  # source://addressable//lib/addressable/template.rb#694
+  # source://addressable//lib/addressable/template.rb#696
   def transform_partial_capture(mapping, capture, processor = T.unsafe(nil), normalize_values = T.unsafe(nil)); end
 end
 
-# source://addressable//lib/addressable/template.rb#58
+# source://addressable//lib/addressable/template.rb#60
 Addressable::Template::EXPRESSION = T.let(T.unsafe(nil), Regexp)
 
 # Raised if an invalid template operator is used in a pattern.
 #
-# source://addressable//lib/addressable/template.rb#85
+# source://addressable//lib/addressable/template.rb#87
 class Addressable::Template::InvalidTemplateOperatorError < ::StandardError; end
 
 # Raised if an invalid template value is supplied.
 #
-# source://addressable//lib/addressable/template.rb#80
+# source://addressable//lib/addressable/template.rb#82
 class Addressable::Template::InvalidTemplateValueError < ::StandardError; end
 
-# source://addressable//lib/addressable/template.rb#70
+# source://addressable//lib/addressable/template.rb#72
 Addressable::Template::JOINERS = T.let(T.unsafe(nil), Hash)
 
-# source://addressable//lib/addressable/template.rb#62
+# source://addressable//lib/addressable/template.rb#64
 Addressable::Template::LEADERS = T.let(T.unsafe(nil), Hash)
 
 # This class represents the data that is extracted when a Template
 # is matched against a URI.
 #
-# source://addressable//lib/addressable/template.rb#96
+# source://addressable//lib/addressable/template.rb#98
 class Addressable::Template::MatchData
   # Creates a new MatchData object.
   # MatchData objects should never be instantiated directly.
@@ -639,7 +639,7 @@ class Addressable::Template::MatchData
   # @param uri [Addressable::URI] The URI that the template was matched against.
   # @return [MatchData] a new instance of MatchData
   #
-  # source://addressable//lib/addressable/template.rb#103
+  # source://addressable//lib/addressable/template.rb#105
   def initialize(uri, template, mapping); end
 
   # Accesses captured values by name or by index.
@@ -656,28 +656,28 @@ class Addressable::Template::MatchData
   #   If the second parameter is provided, an array of that length will
   #   be returned instead.
   #
-  # source://addressable//lib/addressable/template.rb#170
+  # source://addressable//lib/addressable/template.rb#172
   def [](key, len = T.unsafe(nil)); end
 
   # @return [Array] The list of values that were captured by the Template.
   #   Note that this list will include nils for any variables which
   #   were in the Template, but did not appear in the URI.
   #
-  # source://addressable//lib/addressable/template.rb#149
+  # source://addressable//lib/addressable/template.rb#151
   def captures; end
 
   # Returns a <tt>String</tt> representation of the MatchData's state.
   #
   # @return [String] The MatchData's state, as a <tt>String</tt>.
   #
-  # source://addressable//lib/addressable/template.rb#213
+  # source://addressable//lib/addressable/template.rb#215
   def inspect; end
 
   # @return [Array] The list of variables that were present in the Template.
   #   Note that this list will include variables which do not appear
   #   in the mapping because they were not present in URI.
   #
-  # source://addressable//lib/addressable/template.rb#135
+  # source://addressable//lib/addressable/template.rb#137
   def keys; end
 
   # @return [Hash] The mapping that resulted from the match.
@@ -685,61 +685,61 @@ class Addressable::Template::MatchData
   #   variables that appear in the Template, but are not present
   #   in the URI.
   #
-  # source://addressable//lib/addressable/template.rb#125
+  # source://addressable//lib/addressable/template.rb#127
   def mapping; end
 
   # @return [Array] The list of variables that were present in the Template.
   #   Note that this list will include variables which do not appear
   #   in the mapping because they were not present in URI.
   #
-  # source://addressable//lib/addressable/template.rb#136
+  # source://addressable//lib/addressable/template.rb#138
   def names; end
 
   # Dummy method for code expecting a ::MatchData instance
   #
   # @return [String] An empty string.
   #
-  # source://addressable//lib/addressable/template.rb#225
+  # source://addressable//lib/addressable/template.rb#227
   def post_match; end
 
   # Dummy method for code expecting a ::MatchData instance
   #
   # @return [String] An empty string.
   #
-  # source://addressable//lib/addressable/template.rb#222
+  # source://addressable//lib/addressable/template.rb#224
   def pre_match; end
 
   # @return [String] The matched URI as String.
   #
-  # source://addressable//lib/addressable/template.rb#194
+  # source://addressable//lib/addressable/template.rb#196
   def string; end
 
   # @return [Addressable::Template] The Template used for the match.
   #
-  # source://addressable//lib/addressable/template.rb#117
+  # source://addressable//lib/addressable/template.rb#119
   def template; end
 
   # @return [Array] Array with the matched URI as first element followed by the captured
   #   values.
   #
-  # source://addressable//lib/addressable/template.rb#184
+  # source://addressable//lib/addressable/template.rb#186
   def to_a; end
 
   # @return [String] The matched URI as String.
   #
-  # source://addressable//lib/addressable/template.rb#191
+  # source://addressable//lib/addressable/template.rb#193
   def to_s; end
 
   # @return [Addressable::URI] The URI that the Template was matched against.
   #
-  # source://addressable//lib/addressable/template.rb#112
+  # source://addressable//lib/addressable/template.rb#114
   def uri; end
 
   # @return [Array] The list of values that were captured by the Template.
   #   Note that this list will include nils for any variables which
   #   were in the Template, but did not appear in the URI.
   #
-  # source://addressable//lib/addressable/template.rb#143
+  # source://addressable//lib/addressable/template.rb#145
   def values; end
 
   # Returns multiple captured values at once.
@@ -748,35 +748,38 @@ class Addressable::Template::MatchData
   # @return [Array] Values corresponding to given indices.
   # @see Addressable::Template::MatchData#[]
   #
-  # source://addressable//lib/addressable/template.rb#205
+  # source://addressable//lib/addressable/template.rb#207
   def values_at(*indexes); end
 
   # @return [Array] The list of variables that were present in the Template.
   #   Note that this list will include variables which do not appear
   #   in the mapping because they were not present in URI.
   #
-  # source://addressable//lib/addressable/template.rb#132
+  # source://addressable//lib/addressable/template.rb#134
   def variables; end
 end
 
 # source://addressable//lib/addressable/template.rb#40
 Addressable::Template::RESERVED = T.let(T.unsafe(nil), String)
 
+# source://addressable//lib/addressable/template.rb#42
+Addressable::Template::RESERVED_NO_COMMA = T.let(T.unsafe(nil), String)
+
 # Raised if an invalid template operator is used in a pattern.
 #
-# source://addressable//lib/addressable/template.rb#90
+# source://addressable//lib/addressable/template.rb#92
 class Addressable::Template::TemplateOperatorAbortedError < ::StandardError; end
 
-# source://addressable//lib/addressable/template.rb#42
+# source://addressable//lib/addressable/template.rb#44
 Addressable::Template::UNRESERVED = T.let(T.unsafe(nil), String)
 
-# source://addressable//lib/addressable/template.rb#54
+# source://addressable//lib/addressable/template.rb#56
 Addressable::Template::VARIABLE_LIST = T.let(T.unsafe(nil), Regexp)
 
-# source://addressable//lib/addressable/template.rb#50
+# source://addressable//lib/addressable/template.rb#52
 Addressable::Template::VARNAME = T.let(T.unsafe(nil), Regexp)
 
-# source://addressable//lib/addressable/template.rb#52
+# source://addressable//lib/addressable/template.rb#54
 Addressable::Template::VARSPEC = T.let(T.unsafe(nil), Regexp)
 
 # This is an implementation of a URI parser based on

@@ -451,7 +451,7 @@ class IO::Event::Selector::Select
 
   # Write to the given IO from the buffer.
   #
-  # source://io-event//lib/io/event/selector/select.rb#220
+  # source://io-event//lib/io/event/selector/select.rb#225
   def io_write(fiber, io, buffer, length, offset = T.unsafe(nil)); end
 
   # Returns the value of attribute loop.
@@ -461,7 +461,7 @@ class IO::Event::Selector::Select
 
   # Wait for a process to change state.
   #
-  # source://io-event//lib/io/event/selector/select.rb#252
+  # source://io-event//lib/io/event/selector/select.rb#262
   def process_wait(fiber, pid, flags); end
 
   # Append the given fiber into the ready list.
@@ -486,7 +486,7 @@ class IO::Event::Selector::Select
 
   # Wait for IO events or a timeout.
   #
-  # source://io-event//lib/io/event/selector/select.rb#275
+  # source://io-event//lib/io/event/selector/select.rb#285
   def select(duration = T.unsafe(nil)); end
 
   # Transfer from the current fiber to the event loop.
@@ -515,7 +515,7 @@ class IO::Event::Selector::Select
 
   private
 
-  # source://io-event//lib/io/event/selector/select.rb#258
+  # source://io-event//lib/io/event/selector/select.rb#268
   def pop_ready; end
 end
 

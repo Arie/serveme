@@ -40,13 +40,13 @@ class HTTP::Cookie
   #
   # @return [Cookie] a new instance of Cookie
   #
-  # source://http-cookie//lib/http/cookie.rb#133
+  # source://http-cookie//lib/http/cookie.rb#130
   def initialize(*args); end
 
   # Compares the cookie with another.  When there are many cookies with
   # the same name for a URL, the value of the smallest must be used.
   #
-  # source://http-cookie//lib/http/cookie.rb#648
+  # source://http-cookie//lib/http/cookie.rb#645
   def <=>(other); end
 
   # Tests if it is OK to accept this cookie considering its origin.
@@ -55,7 +55,7 @@ class HTTP::Cookie
   #
   # @return [Boolean]
   #
-  # source://http-cookie//lib/http/cookie.rb#574
+  # source://http-cookie//lib/http/cookie.rb#571
   def acceptable?; end
 
   # Tests if it is OK to accept this cookie if it is sent from a given
@@ -63,90 +63,90 @@ class HTTP::Cookie
   #
   # @return [Boolean]
   #
-  # source://http-cookie//lib/http/cookie.rb#555
+  # source://http-cookie//lib/http/cookie.rb#552
   def acceptable_from_uri?(uri); end
 
   # The time this cookie was last accessed at.
   #
-  # source://http-cookie//lib/http/cookie.rb#551
+  # source://http-cookie//lib/http/cookie.rb#548
   def accessed_at; end
 
   # The time this cookie was last accessed at.
   #
-  # source://http-cookie//lib/http/cookie.rb#551
+  # source://http-cookie//lib/http/cookie.rb#548
   def accessed_at=(_arg0); end
 
   # Returns a string for use in the Cookie header, i.e. `name=value`
   # or `name="value"`.
   #
-  # source://http-cookie//lib/http/cookie.rb#601
+  # source://http-cookie//lib/http/cookie.rb#598
   def cookie_value; end
 
   # The time this cookie was created at.  This value is used as a base
   # date for interpreting the Max-Age attribute value.  See #expires.
   #
-  # source://http-cookie//lib/http/cookie.rb#548
+  # source://http-cookie//lib/http/cookie.rb#545
   def created_at; end
 
   # The time this cookie was created at.  This value is used as a base
   # date for interpreting the Max-Age attribute value.  See #expires.
   #
-  # source://http-cookie//lib/http/cookie.rb#548
+  # source://http-cookie//lib/http/cookie.rb#545
   def created_at=(_arg0); end
 
   # Returns the value of attribute domain.
   #
-  # source://http-cookie//lib/http/cookie.rb#386
+  # source://http-cookie//lib/http/cookie.rb#383
   def domain; end
 
   # See #domain.
   #
-  # source://http-cookie//lib/http/cookie.rb#389
+  # source://http-cookie//lib/http/cookie.rb#386
   def domain=(domain); end
 
   # Returns the domain attribute value as a DomainName object.
   #
-  # source://http-cookie//lib/http/cookie.rb#434
+  # source://http-cookie//lib/http/cookie.rb#431
   def domain_name; end
 
   # Returns the domain, with a dot prefixed only if the domain flag is
   # on.
   #
-  # source://http-cookie//lib/http/cookie.rb#429
+  # source://http-cookie//lib/http/cookie.rb#426
   def dot_domain; end
 
   # YAML serialization helper for Psych.
   #
-  # source://http-cookie//lib/http/cookie.rb#669
+  # source://http-cookie//lib/http/cookie.rb#666
   def encode_with(coder); end
 
   # Expires this cookie by setting the expires attribute value to a
   # past date.
   #
-  # source://http-cookie//lib/http/cookie.rb#541
+  # source://http-cookie//lib/http/cookie.rb#538
   def expire!; end
 
   # Tests if this cookie is expired by now, or by a given time.
   #
   # @return [Boolean]
   #
-  # source://http-cookie//lib/http/cookie.rb#531
+  # source://http-cookie//lib/http/cookie.rb#528
   def expired?(time = T.unsafe(nil)); end
 
-  # source://http-cookie//lib/http/cookie.rb#488
+  # source://http-cookie//lib/http/cookie.rb#485
   def expires; end
 
   # See #expires.
   #
-  # source://http-cookie//lib/http/cookie.rb#493
+  # source://http-cookie//lib/http/cookie.rb#490
   def expires=(t); end
 
-  # source://http-cookie//lib/http/cookie.rb#506
+  # source://http-cookie//lib/http/cookie.rb#503
   def expires_at; end
 
   # See #expires.
   #
-  # source://http-cookie//lib/http/cookie.rb#507
+  # source://http-cookie//lib/http/cookie.rb#504
   def expires_at=(t); end
 
   # The domain flag. (the opposite of host-only-flag)
@@ -155,7 +155,7 @@ class HTTP::Cookie
   # \#domain, including the host domain itself.  If it is false, this
   # cookie will be sent only to the host indicated by the #domain.
   #
-  # source://http-cookie//lib/http/cookie.rb#441
+  # source://http-cookie//lib/http/cookie.rb#438
   def for_domain; end
 
   # The domain flag. (the opposite of host-only-flag)
@@ -164,7 +164,7 @@ class HTTP::Cookie
   # \#domain, including the host domain itself.  If it is false, this
   # cookie will be sent only to the host indicated by the #domain.
   #
-  # source://http-cookie//lib/http/cookie.rb#441
+  # source://http-cookie//lib/http/cookie.rb#438
   def for_domain=(_arg0); end
 
   # The domain flag. (the opposite of host-only-flag)
@@ -173,76 +173,76 @@ class HTTP::Cookie
   # \#domain, including the host domain itself.  If it is false, this
   # cookie will be sent only to the host indicated by the #domain.
   #
-  # source://http-cookie//lib/http/cookie.rb#442
+  # source://http-cookie//lib/http/cookie.rb#439
   def for_domain?; end
 
   # The HttpOnly flag. (http-only-flag)
   #
   # A cookie with this flag on should be hidden from a client script.
   #
-  # source://http-cookie//lib/http/cookie.rb#479
+  # source://http-cookie//lib/http/cookie.rb#476
   def httponly; end
 
   # The HttpOnly flag. (http-only-flag)
   #
   # A cookie with this flag on should be hidden from a client script.
   #
-  # source://http-cookie//lib/http/cookie.rb#479
+  # source://http-cookie//lib/http/cookie.rb#476
   def httponly=(_arg0); end
 
   # The HttpOnly flag. (http-only-flag)
   #
   # A cookie with this flag on should be hidden from a client script.
   #
-  # source://http-cookie//lib/http/cookie.rb#480
+  # source://http-cookie//lib/http/cookie.rb#477
   def httponly?; end
 
   # YAML deserialization helper for Syck.
   #
-  # source://http-cookie//lib/http/cookie.rb#676
+  # source://http-cookie//lib/http/cookie.rb#673
   def init_with(coder); end
 
-  # source://http-cookie//lib/http/cookie.rb#640
+  # source://http-cookie//lib/http/cookie.rb#637
   def inspect; end
 
   # Returns the value of attribute max_age.
   #
-  # source://http-cookie//lib/http/cookie.rb#509
+  # source://http-cookie//lib/http/cookie.rb#506
   def max_age; end
 
   # See #max_age.
   #
-  # source://http-cookie//lib/http/cookie.rb#512
+  # source://http-cookie//lib/http/cookie.rb#509
   def max_age=(sec); end
 
   # Returns the value of attribute name.
   #
-  # source://http-cookie//lib/http/cookie.rb#350
+  # source://http-cookie//lib/http/cookie.rb#347
   def name; end
 
   # See #name.
   #
-  # source://http-cookie//lib/http/cookie.rb#353
+  # source://http-cookie//lib/http/cookie.rb#350
   def name=(name); end
 
   # Returns the value of attribute origin.
   #
-  # source://http-cookie//lib/http/cookie.rb#453
+  # source://http-cookie//lib/http/cookie.rb#450
   def origin; end
 
   # See #origin.
   #
-  # source://http-cookie//lib/http/cookie.rb#456
+  # source://http-cookie//lib/http/cookie.rb#453
   def origin=(origin); end
 
   # Returns the value of attribute path.
   #
-  # source://http-cookie//lib/http/cookie.rb#444
+  # source://http-cookie//lib/http/cookie.rb#441
   def path; end
 
   # See #path.
   #
-  # source://http-cookie//lib/http/cookie.rb#447
+  # source://http-cookie//lib/http/cookie.rb#444
   def path=(path); end
 
   # The secure flag. (secure-only-flag)
@@ -250,7 +250,7 @@ class HTTP::Cookie
   # A cookie with this flag on should only be sent via a secure
   # protocol like HTTPS.
   #
-  # source://http-cookie//lib/http/cookie.rb#473
+  # source://http-cookie//lib/http/cookie.rb#470
   def secure; end
 
   # The secure flag. (secure-only-flag)
@@ -258,7 +258,7 @@ class HTTP::Cookie
   # A cookie with this flag on should only be sent via a secure
   # protocol like HTTPS.
   #
-  # source://http-cookie//lib/http/cookie.rb#473
+  # source://http-cookie//lib/http/cookie.rb#470
   def secure=(_arg0); end
 
   # The secure flag. (secure-only-flag)
@@ -266,21 +266,21 @@ class HTTP::Cookie
   # A cookie with this flag on should only be sent via a secure
   # protocol like HTTPS.
   #
-  # source://http-cookie//lib/http/cookie.rb#474
+  # source://http-cookie//lib/http/cookie.rb#471
   def secure?; end
 
   # The session flag. (the opposite of persistent-flag)
   #
   # A cookie with this flag on should be hidden from a client script.
   #
-  # source://http-cookie//lib/http/cookie.rb#485
+  # source://http-cookie//lib/http/cookie.rb#482
   def session; end
 
   # The session flag. (the opposite of persistent-flag)
   #
   # A cookie with this flag on should be hidden from a client script.
   #
-  # source://http-cookie//lib/http/cookie.rb#486
+  # source://http-cookie//lib/http/cookie.rb#483
   def session?; end
 
   # Returns a string for use in the Set-Cookie header.  If necessary
@@ -288,23 +288,23 @@ class HTTP::Cookie
   # missing, RuntimeError is raised.  It is always the best to set an
   # origin before calling this method.
   #
-  # source://http-cookie//lib/http/cookie.rb#610
+  # source://http-cookie//lib/http/cookie.rb#607
   def set_cookie_value; end
 
   # Hash serialization helper for use back into other libraries (Like Selenium)
   #
-  # source://http-cookie//lib/http/cookie.rb#659
+  # source://http-cookie//lib/http/cookie.rb#656
   def to_h; end
 
   # Returns a string for use in the Cookie header, i.e. `name=value`
   # or `name="value"`.
   #
-  # source://http-cookie//lib/http/cookie.rb#604
+  # source://http-cookie//lib/http/cookie.rb#601
   def to_s; end
 
   # YAML serialization helper for Syck.
   #
-  # source://http-cookie//lib/http/cookie.rb#664
+  # source://http-cookie//lib/http/cookie.rb#661
   def to_yaml_properties; end
 
   # Tests if it is OK to send this cookie to a given `uri`.  A
@@ -312,36 +312,36 @@ class HTTP::Cookie
   #
   # @return [Boolean]
   #
-  # source://http-cookie//lib/http/cookie.rb#589
+  # source://http-cookie//lib/http/cookie.rb#586
   def valid_for_uri?(uri); end
 
   # Returns the value of attribute value.
   #
-  # source://http-cookie//lib/http/cookie.rb#367
+  # source://http-cookie//lib/http/cookie.rb#364
   def value; end
 
   # See #value.
   #
-  # source://http-cookie//lib/http/cookie.rb#370
+  # source://http-cookie//lib/http/cookie.rb#367
   def value=(value); end
 
   # YAML deserialization helper for Psych.
   #
-  # source://http-cookie//lib/http/cookie.rb#681
+  # source://http-cookie//lib/http/cookie.rb#678
   def yaml_initialize(tag, map); end
 
   class << self
     # Takes an array of cookies and returns a string for use in the
     # Cookie header, like "name1=value2; name2=value2".
     #
-    # source://http-cookie//lib/http/cookie.rb#334
+    # source://http-cookie//lib/http/cookie.rb#331
     def cookie_value(cookies); end
 
     # Parses a Cookie header value into a hash of name-value string
     # pairs.  The first appearance takes precedence if multiple pairs
     # with the same name occur.
     #
-    # source://http-cookie//lib/http/cookie.rb#341
+    # source://http-cookie//lib/http/cookie.rb#338
     def cookie_value_to_hash(cookie_value); end
 
     # Parses a Set-Cookie header value `set_cookie` assuming that it
@@ -376,7 +376,7 @@ class HTTP::Cookie
     #   cookie definitions containing double-quotes just as naturally
     #   expected.
     #
-    # source://http-cookie//lib/http/cookie.rb#276
+    # source://http-cookie//lib/http/cookie.rb#273
     def parse(set_cookie, origin, options = T.unsafe(nil), &block); end
 
     # Tests if +target_path+ is under +base_path+ as described in RFC
@@ -399,7 +399,7 @@ class HTTP::Cookie
     #
     # @return [Boolean]
     #
-    # source://http-cookie//lib/http/cookie.rb#232
+    # source://http-cookie//lib/http/cookie.rb#229
     def path_match?(base_path, target_path); end
   end
 end
@@ -407,22 +407,22 @@ end
 # Maximum number of cookies per domain (RFC 6265 6.1 requires 50 at
 # least)
 #
-# source://http-cookie//lib/http/cookie.rb#22
+# source://http-cookie//lib/http/cookie.rb#19
 HTTP::Cookie::MAX_COOKIES_PER_DOMAIN = T.let(T.unsafe(nil), Integer)
 
 # Maximum number of cookies total (RFC 6265 6.1 requires 3000 at
 # least)
 #
-# source://http-cookie//lib/http/cookie.rb#25
+# source://http-cookie//lib/http/cookie.rb#22
 HTTP::Cookie::MAX_COOKIES_TOTAL = T.let(T.unsafe(nil), Integer)
 
 # Maximum number of bytes per cookie (RFC 6265 6.1 requires 4096 at
 # least)
 #
-# source://http-cookie//lib/http/cookie.rb#19
+# source://http-cookie//lib/http/cookie.rb#16
 HTTP::Cookie::MAX_LENGTH = T.let(T.unsafe(nil), Integer)
 
-# source://http-cookie//lib/http/cookie.rb#30
+# source://http-cookie//lib/http/cookie.rb#27
 HTTP::Cookie::PERSISTENT_PROPERTIES = T.let(T.unsafe(nil), Array)
 
 # source://http-cookie//lib/http/cookie/scanner.rb#6
@@ -488,7 +488,7 @@ HTTP::Cookie::Scanner::RE_WSP = T.let(T.unsafe(nil), Regexp)
 
 # :stopdoc:
 #
-# source://http-cookie//lib/http/cookie.rb#28
+# source://http-cookie//lib/http/cookie.rb#25
 HTTP::Cookie::UNIX_EPOCH = T.let(T.unsafe(nil), Time)
 
 # source://http-cookie//lib/http/cookie/uri_parser.rb#1
@@ -531,7 +531,7 @@ HTTP::Cookie::VERSION = T.let(T.unsafe(nil), String)
 # This class is used to manage the Cookies that have been returned from
 # any particular website.
 #
-# source://http-cookie//lib/http/cookie_jar.rb#8
+# source://http-cookie//lib/http/cookie_jar.rb#9
 class HTTP::CookieJar
   include ::Enumerable
 
@@ -552,7 +552,7 @@ class HTTP::CookieJar
   #
   # @return [CookieJar] a new instance of CookieJar
   #
-  # source://http-cookie//lib/http/cookie_jar.rb#69
+  # source://http-cookie//lib/http/cookie_jar.rb#50
   def initialize(options = T.unsafe(nil)); end
 
   # Adds a cookie to the jar if it is acceptable, and returns self in
@@ -579,7 +579,7 @@ class HTTP::CookieJar
   #       jar.origin = origin
   #       jar.add(cookie)     # acceptance check is performed
   #
-  # source://http-cookie//lib/http/cookie_jar.rb#114
+  # source://http-cookie//lib/http/cookie_jar.rb#95
   def <<(cookie); end
 
   # Adds a cookie to the jar if it is acceptable, and returns self in
@@ -606,25 +606,25 @@ class HTTP::CookieJar
   #       jar.origin = origin
   #       jar.add(cookie)     # acceptance check is performed
   #
-  # source://http-cookie//lib/http/cookie_jar.rb#105
+  # source://http-cookie//lib/http/cookie_jar.rb#86
   def add(cookie); end
 
   # Removes expired cookies and returns self.  If `session` is true,
   # all session cookies are removed as well.
   #
-  # source://http-cookie//lib/http/cookie_jar.rb#340
+  # source://http-cookie//lib/http/cookie_jar.rb#321
   def cleanup(session = T.unsafe(nil)); end
 
   # Clears the cookie jar and returns self.
   #
-  # source://http-cookie//lib/http/cookie_jar.rb#333
+  # source://http-cookie//lib/http/cookie_jar.rb#314
   def clear; end
 
   # Gets an array of cookies sorted by the path and creation time.  If
   # `url` is given, only ones that should be sent to the URL/URI are
   # selected, with the access time of each of them updated.
   #
-  # source://http-cookie//lib/http/cookie_jar.rb#130
+  # source://http-cookie//lib/http/cookie_jar.rb#111
   def cookies(url = T.unsafe(nil)); end
 
   # Deletes a cookie that has the same name, domain and path as a
@@ -634,7 +634,7 @@ class HTTP::CookieJar
   # depends on the store used.  See individual store classes for that
   # matter.
   #
-  # source://http-cookie//lib/http/cookie_jar.rb#122
+  # source://http-cookie//lib/http/cookie_jar.rb#103
   def delete(cookie); end
 
   # Iterates over all cookies that are not expired in no particular
@@ -648,7 +648,7 @@ class HTTP::CookieJar
   # If (and only if) the `uri` option is given, last access time of
   # each cookie is updated to the current time.
   #
-  # source://http-cookie//lib/http/cookie_jar.rb#155
+  # source://http-cookie//lib/http/cookie_jar.rb#136
   def each(uri = T.unsafe(nil), &block); end
 
   # Tests if the jar is empty.  If `url` is given, tests if there is
@@ -656,7 +656,7 @@ class HTTP::CookieJar
   #
   # @return [Boolean]
   #
-  # source://http-cookie//lib/http/cookie_jar.rb#136
+  # source://http-cookie//lib/http/cookie_jar.rb#117
   def empty?(url = T.unsafe(nil)); end
 
   # call-seq:
@@ -685,7 +685,7 @@ class HTTP::CookieJar
   # All options given are passed through to the underlying cookie
   # saver module's constructor.
   #
-  # source://http-cookie//lib/http/cookie_jar.rb#294
+  # source://http-cookie//lib/http/cookie_jar.rb#275
   def load(readable, *options); end
 
   # Parses a Set-Cookie field value `set_cookie` assuming that it is
@@ -704,7 +704,7 @@ class HTTP::CookieJar
   #
   # See HTTP::Cookie.parse for available options.
   #
-  # source://http-cookie//lib/http/cookie_jar.rb#183
+  # source://http-cookie//lib/http/cookie_jar.rb#164
   def parse(set_cookie, origin, options = T.unsafe(nil)); end
 
   # call-seq:
@@ -742,28 +742,23 @@ class HTTP::CookieJar
   # All options given are passed through to the underlying cookie
   # saver module's constructor.
   #
-  # source://http-cookie//lib/http/cookie_jar.rb#231
+  # source://http-cookie//lib/http/cookie_jar.rb#212
   def save(writable, *options); end
 
   # Returns the value of attribute store.
   #
-  # source://http-cookie//lib/http/cookie_jar.rb#30
+  # source://http-cookie//lib/http/cookie_jar.rb#11
   def store; end
 
   private
 
-  # source://http-cookie//lib/http/cookie_jar.rb#32
+  # source://http-cookie//lib/http/cookie_jar.rb#13
   def get_impl(base, value, *args); end
 
   # The copy constructor.  Not all backend store classes support cloning.
   #
-  # source://http-cookie//lib/http/cookie_jar.rb#78
+  # source://http-cookie//lib/http/cookie_jar.rb#59
   def initialize_copy(other); end
-
-  class << self
-    # source://http-cookie//lib/http/cookie_jar.rb#10
-    def const_missing(name); end
-  end
 end
 
 # An abstract superclass for all saver classes.
@@ -777,43 +772,33 @@ class HTTP::CookieJar::AbstractSaver
   #
   # @return [AbstractSaver] a new instance of AbstractSaver
   #
-  # source://http-cookie//lib/http/cookie_jar/abstract_saver.rb#41
+  # source://http-cookie//lib/http/cookie_jar/abstract_saver.rb#27
   def initialize(options = T.unsafe(nil)); end
 
   # Implements HTTP::CookieJar#load().
   #
   # This is an abstract method that each subclass must override.
   #
-  # source://http-cookie//lib/http/cookie_jar/abstract_saver.rb#62
+  # source://http-cookie//lib/http/cookie_jar/abstract_saver.rb#48
   def load(io, jar); end
 
   # Implements HTTP::CookieJar#save().
   #
   # This is an abstract method that each subclass must override.
   #
-  # source://http-cookie//lib/http/cookie_jar/abstract_saver.rb#55
+  # source://http-cookie//lib/http/cookie_jar/abstract_saver.rb#41
   def save(io, jar); end
 
   private
 
   # Defines options and their default values.
   #
-  # source://http-cookie//lib/http/cookie_jar/abstract_saver.rb#32
+  # source://http-cookie//lib/http/cookie_jar/abstract_saver.rb#18
   def default_options; end
 
   class << self
-    # source://http-cookie//lib/http/cookie_jar/abstract_saver.rb#26
-    def class_to_symbol(klass); end
-
-    # Gets an implementation class by the name, optionally trying to
-    # load "http/cookie_jar/*_saver" if not found.  If loading fails,
-    # IndexError is raised.
-    #
-    # source://http-cookie//lib/http/cookie_jar/abstract_saver.rb#11
+    # source://http-cookie//lib/http/cookie_jar/abstract_saver.rb#6
     def implementation(symbol); end
-
-    # source://http-cookie//lib/http/cookie_jar/abstract_saver.rb#22
-    def inherited(subclass); end
   end
 end
 
@@ -831,35 +816,35 @@ class HTTP::CookieJar::AbstractStore
   #
   # @return [AbstractStore] a new instance of AbstractStore
   #
-  # source://http-cookie//lib/http/cookie_jar/abstract_store.rb#44
+  # source://http-cookie//lib/http/cookie_jar/abstract_store.rb#33
   def initialize(options = T.unsafe(nil)); end
 
   # Implements HTTP::CookieJar#add().
   #
   # This is an abstract method that each subclass must override.
   #
-  # source://http-cookie//lib/http/cookie_jar/abstract_store.rb#63
+  # source://http-cookie//lib/http/cookie_jar/abstract_store.rb#52
   def add(cookie); end
 
   # Implements HTTP::CookieJar#cleanup().
   #
   # This is an abstract method that each subclass must override.
   #
-  # source://http-cookie//lib/http/cookie_jar/abstract_store.rb#113
+  # source://http-cookie//lib/http/cookie_jar/abstract_store.rb#102
   def cleanup(session = T.unsafe(nil)); end
 
   # Implements HTTP::CookieJar#clear().
   #
   # This is an abstract method that each subclass must override.
   #
-  # source://http-cookie//lib/http/cookie_jar/abstract_store.rb#106
+  # source://http-cookie//lib/http/cookie_jar/abstract_store.rb#95
   def clear; end
 
   # Implements HTTP::CookieJar#delete().
   #
   # This is an abstract method that each subclass must override.
   #
-  # source://http-cookie//lib/http/cookie_jar/abstract_store.rb#70
+  # source://http-cookie//lib/http/cookie_jar/abstract_store.rb#59
   def delete(cookie); end
 
   # Iterates over all cookies that are not expired.
@@ -874,83 +859,75 @@ class HTTP::CookieJar::AbstractStore
   #
   # This is an abstract method that each subclass must override.
   #
-  # source://http-cookie//lib/http/cookie_jar/abstract_store.rb#85
+  # source://http-cookie//lib/http/cookie_jar/abstract_store.rb#74
   def each(uri = T.unsafe(nil), &block); end
 
   # Implements HTTP::CookieJar#empty?().
   #
   # @return [Boolean]
   #
-  # source://http-cookie//lib/http/cookie_jar/abstract_store.rb#98
+  # source://http-cookie//lib/http/cookie_jar/abstract_store.rb#87
   def empty?; end
 
   private
 
   # Defines options and their default values.
   #
-  # source://http-cookie//lib/http/cookie_jar/abstract_store.rb#35
+  # source://http-cookie//lib/http/cookie_jar/abstract_store.rb#24
   def default_options; end
 
   # This is an abstract method that each subclass must override.
   #
-  # source://http-cookie//lib/http/cookie_jar/abstract_store.rb#56
+  # source://http-cookie//lib/http/cookie_jar/abstract_store.rb#45
   def initialize_copy(other); end
 
   class << self
-    # source://http-cookie//lib/http/cookie_jar/abstract_store.rb#29
-    def class_to_symbol(klass); end
-
-    # Gets an implementation class by the name, optionally trying to
-    # load "http/cookie_jar/*_store" if not found.  If loading fails,
-    # IndexError is raised.
+    # Gets an implementation class by the name.
     #
-    # source://http-cookie//lib/http/cookie_jar/abstract_store.rb#14
+    # source://http-cookie//lib/http/cookie_jar/abstract_store.rb#11
     def implementation(symbol); end
-
-    # source://http-cookie//lib/http/cookie_jar/abstract_store.rb#25
-    def inherited(subclass); end
   end
 end
 
 # CookiestxtSaver saves and loads cookies in the cookies.txt format.
 #
-# source://http-cookie//lib/http/cookie_jar/cookiestxt_saver.rb#5
+# source://http-cookie//lib/http/cookie_jar/cookiestxt_saver.rb#4
 class HTTP::CookieJar::CookiestxtSaver < ::HTTP::CookieJar::AbstractSaver
-  # source://http-cookie//lib/http/cookie_jar/cookiestxt_saver.rb#32
+  # source://http-cookie//lib/http/cookie_jar/cookiestxt_saver.rb#31
   def load(io, jar); end
 
-  # source://http-cookie//lib/http/cookie_jar/cookiestxt_saver.rb#24
+  # source://http-cookie//lib/http/cookie_jar/cookiestxt_saver.rb#23
   def save(io, jar); end
 
   private
 
   # Serializes the cookie into a cookies.txt line.
   #
-  # source://http-cookie//lib/http/cookie_jar/cookiestxt_saver.rb#56
+  # source://http-cookie//lib/http/cookie_jar/cookiestxt_saver.rb#55
   def cookie_to_record(cookie); end
 
-  # source://http-cookie//lib/http/cookie_jar/cookiestxt_saver.rb#40
+  # source://http-cookie//lib/http/cookie_jar/cookiestxt_saver.rb#39
   def default_options; end
 
   # Parses a line from cookies.txt and returns a cookie object if the
   # line represents a cookie record or returns nil otherwise.
   #
-  # source://http-cookie//lib/http/cookie_jar/cookiestxt_saver.rb#72
+  # source://http-cookie//lib/http/cookie_jar/cookiestxt_saver.rb#71
   def parse_record(line); end
 end
 
-# source://http-cookie//lib/http/cookie_jar/cookiestxt_saver.rb#49
+# source://http-cookie//lib/http/cookie_jar/cookiestxt_saver.rb#48
 HTTP::CookieJar::CookiestxtSaver::False = T.let(T.unsafe(nil), String)
 
-# source://http-cookie//lib/http/cookie_jar/cookiestxt_saver.rb#51
+# source://http-cookie//lib/http/cookie_jar/cookiestxt_saver.rb#50
 HTTP::CookieJar::CookiestxtSaver::HTTPONLY_PREFIX = T.let(T.unsafe(nil), String)
 
-# source://http-cookie//lib/http/cookie_jar/cookiestxt_saver.rb#52
+# source://http-cookie//lib/http/cookie_jar/cookiestxt_saver.rb#51
 HTTP::CookieJar::CookiestxtSaver::RE_HTTPONLY_PREFIX = T.let(T.unsafe(nil), Regexp)
 
 # :stopdoc:
 #
-# source://http-cookie//lib/http/cookie_jar/cookiestxt_saver.rb#48
+# source://http-cookie//lib/http/cookie_jar/cookiestxt_saver.rb#47
 HTTP::CookieJar::CookiestxtSaver::True = T.let(T.unsafe(nil), String)
 
 # A store class that uses a hash-based cookie store.
@@ -964,7 +941,7 @@ HTTP::CookieJar::CookiestxtSaver::True = T.let(T.unsafe(nil), String)
 # they differ in the `for_domain` flag value, which means they need
 # to be expired individually.
 #
-# source://http-cookie//lib/http/cookie_jar/hash_store.rb#15
+# source://http-cookie//lib/http/cookie_jar/hash_store.rb#14
 class HTTP::CookieJar::HashStore < ::HTTP::CookieJar::AbstractStore
   # :call-seq:
   #   new(**options)
@@ -978,54 +955,218 @@ class HTTP::CookieJar::HashStore < ::HTTP::CookieJar::AbstractStore
   #
   # @return [HashStore] a new instance of HashStore
   #
-  # source://http-cookie//lib/http/cookie_jar/hash_store.rb#32
+  # source://http-cookie//lib/http/cookie_jar/hash_store.rb#31
   def initialize(options = T.unsafe(nil)); end
 
-  # source://http-cookie//lib/http/cookie_jar/hash_store.rb#54
+  # source://http-cookie//lib/http/cookie_jar/hash_store.rb#53
   def add(cookie); end
 
-  # source://http-cookie//lib/http/cookie_jar/hash_store.rb#111
+  # source://http-cookie//lib/http/cookie_jar/hash_store.rb#110
   def cleanup(session = T.unsafe(nil)); end
 
-  # source://http-cookie//lib/http/cookie_jar/hash_store.rb#106
+  # source://http-cookie//lib/http/cookie_jar/hash_store.rb#105
   def clear; end
 
-  # source://http-cookie//lib/http/cookie_jar/hash_store.rb#16
+  # source://http-cookie//lib/http/cookie_jar/hash_store.rb#15
   def default_options; end
 
-  # source://http-cookie//lib/http/cookie_jar/hash_store.rb#61
+  # source://http-cookie//lib/http/cookie_jar/hash_store.rb#60
   def delete(cookie); end
 
   # :yield: cookie
   #
-  # source://http-cookie//lib/http/cookie_jar/hash_store.rb#67
+  # source://http-cookie//lib/http/cookie_jar/hash_store.rb#66
   def each(uri = T.unsafe(nil)); end
 
   private
 
   # The copy constructor.  This store class supports cloning.
   #
-  # source://http-cookie//lib/http/cookie_jar/hash_store.rb#50
+  # source://http-cookie//lib/http/cookie_jar/hash_store.rb#49
   def initialize_copy(other); end
 end
+
+# A store class that uses Mozilla compatible SQLite3 database as
+# backing store.
+#
+# Session cookies are stored separately on memory and will not be
+# stored persistently in the SQLite3 database.
+#
+# source://http-cookie//lib/http/cookie_jar/mozilla_store.rb#10
+class HTTP::CookieJar::MozillaStore < ::HTTP::CookieJar::AbstractStore
+  # :call-seq:
+  #   new(**options)
+  #
+  # Generates a Mozilla cookie store.  If the file does not exist,
+  # it is created.  If it does and its schema is old, it is
+  # automatically upgraded with a new schema keeping the existing
+  # data.
+  #
+  # Available option keywords are as below:
+  #
+  # :filename
+  # mandatory.
+  #
+  # :gc_threshold
+  # been stored (default: `HTTP::Cookie::MAX_COOKIES_TOTAL / 20`)
+  #
+  # :app_id
+  #
+  # :in_browser_element
+  # element. (default: `false`)
+  #
+  # @return [MozillaStore] a new instance of MozillaStore
+  #
+  # source://http-cookie//lib/http/cookie_jar/mozilla_store.rb#98
+  def initialize(options = T.unsafe(nil)); end
+
+  # source://http-cookie//lib/http/cookie_jar/mozilla_store.rb#428
+  def add(cookie); end
+
+  # source://http-cookie//lib/http/cookie_jar/mozilla_store.rb#557
+  def cleanup(session = T.unsafe(nil)); end
+
+  # source://http-cookie//lib/http/cookie_jar/mozilla_store.rb#526
+  def clear; end
+
+  # Closes the SQLite3 database.  After closing, any operation may
+  # raise an error.
+  #
+  # source://http-cookie//lib/http/cookie_jar/mozilla_store.rb#133
+  def close; end
+
+  # Tests if the SQLite3 database is closed.
+  #
+  # @return [Boolean]
+  #
+  # source://http-cookie//lib/http/cookie_jar/mozilla_store.rb#139
+  def closed?; end
+
+  # source://http-cookie//lib/http/cookie_jar/mozilla_store.rb#14
+  def default_options; end
+
+  # source://http-cookie//lib/http/cookie_jar/mozilla_store.rb#438
+  def delete(cookie); end
+
+  # :yield: cookie
+  #
+  # source://http-cookie//lib/http/cookie_jar/mozilla_store.rb#464
+  def each(uri = T.unsafe(nil), &block); end
+
+  # The file name of the SQLite3 database given in initialization.
+  #
+  # source://http-cookie//lib/http/cookie_jar/mozilla_store.rb#129
+  def filename; end
+
+  # Returns the schema version of the database.
+  #
+  # source://http-cookie//lib/http/cookie_jar/mozilla_store.rb#144
+  def schema_version; end
+
+  protected
+
+  # source://http-cookie//lib/http/cookie_jar/mozilla_store.rb#214
+  def create_table; end
+
+  # source://http-cookie//lib/http/cookie_jar/mozilla_store.rb#158
+  def create_table_v5; end
+
+  # source://http-cookie//lib/http/cookie_jar/mozilla_store.rb#187
+  def create_table_v6; end
+
+  # source://http-cookie//lib/http/cookie_jar/mozilla_store.rb#358
+  def db_add(cookie); end
+
+  # source://http-cookie//lib/http/cookie_jar/mozilla_store.rb#387
+  def db_delete(cookie); end
+
+  # source://http-cookie//lib/http/cookie_jar/mozilla_store.rb#243
+  def db_prepare(sql); end
+
+  # source://http-cookie//lib/http/cookie_jar/mozilla_store.rb#422
+  def deserialize_usectime(value); end
+
+  # source://http-cookie//lib/http/cookie_jar/mozilla_store.rb#399
+  def encode_www_form(enum); end
+
+  # source://http-cookie//lib/http/cookie_jar/mozilla_store.rb#403
+  def get_query_param(str, key); end
+
+  # source://http-cookie//lib/http/cookie_jar/mozilla_store.rb#153
+  def schema_version=(version); end
+
+  # source://http-cookie//lib/http/cookie_jar/mozilla_store.rb#418
+  def serialize_usectime(time); end
+
+  # source://http-cookie//lib/http/cookie_jar/mozilla_store.rb#250
+  def upgrade_database; end
+
+  private
+
+  # Raises TypeError.  Cloning is inhibited in this store class.
+  #
+  # @raise [TypeError]
+  #
+  # source://http-cookie//lib/http/cookie_jar/mozilla_store.rb#124
+  def initialize_copy(other); end
+end
+
+# source://http-cookie//lib/http/cookie_jar/mozilla_store.rb#22
+HTTP::CookieJar::MozillaStore::ALL_COLUMNS = T.let(T.unsafe(nil), Array)
+
+# source://http-cookie//lib/http/cookie_jar/mozilla_store.rb#34
+HTTP::CookieJar::MozillaStore::Callable = T.let(T.unsafe(nil), Proc)
+
+# source://http-cookie//lib/http/cookie_jar/mozilla_store.rb#40
+class HTTP::CookieJar::MozillaStore::Database
+  # @return [Database] a new instance of Database
+  #
+  # source://http-cookie//lib/http/cookie_jar/mozilla_store.rb#41
+  def initialize(file); end
+
+  # source://http-cookie//lib/http/cookie_jar/mozilla_store.rb#52
+  def close; end
+
+  # @return [Boolean]
+  #
+  # source://http-cookie//lib/http/cookie_jar/mozilla_store.rb#60
+  def closed?; end
+
+  # source://http-cookie//lib/http/cookie_jar/mozilla_store.rb#68
+  def create_function(*args, &block); end
+
+  # source://http-cookie//lib/http/cookie_jar/mozilla_store.rb#64
+  def execute(*args, &block); end
+
+  # source://http-cookie//lib/http/cookie_jar/mozilla_store.rb#46
+  def prepare(sql); end
+end
+
+# :stopdoc:
+#
+# source://http-cookie//lib/http/cookie_jar/mozilla_store.rb#12
+HTTP::CookieJar::MozillaStore::SCHEMA_VERSION = T.let(T.unsafe(nil), Integer)
+
+# source://http-cookie//lib/http/cookie_jar/mozilla_store.rb#32
+HTTP::CookieJar::MozillaStore::SQL = T.let(T.unsafe(nil), Hash)
 
 # YAMLSaver saves and loads cookies in the YAML format.  It can load a
 # YAML file saved by Mechanize, but the saving format is not
 # compatible with older versions of Mechanize (< 2.7).
 #
-# source://http-cookie//lib/http/cookie_jar/yaml_saver.rb#9
+# source://http-cookie//lib/http/cookie_jar/yaml_saver.rb#7
 class HTTP::CookieJar::YAMLSaver < ::HTTP::CookieJar::AbstractSaver
-  # source://http-cookie//lib/http/cookie_jar/yaml_saver.rb#22
+  # source://http-cookie//lib/http/cookie_jar/yaml_saver.rb#20
   def load(io, jar); end
 
-  # source://http-cookie//lib/http/cookie_jar/yaml_saver.rb#18
+  # source://http-cookie//lib/http/cookie_jar/yaml_saver.rb#16
   def save(io, jar); end
 
   private
 
-  # source://http-cookie//lib/http/cookie_jar/yaml_saver.rb#73
+  # source://http-cookie//lib/http/cookie_jar/yaml_saver.rb#71
   def default_options; end
 
-  # source://http-cookie//lib/http/cookie_jar/yaml_saver.rb#78
+  # source://http-cookie//lib/http/cookie_jar/yaml_saver.rb#75
   def load_yaml(yaml); end
 end

@@ -38,6 +38,7 @@ module Anthropic
   BashCodeExecutionToolResultErrorParam = Anthropic::Models::BashCodeExecutionToolResultErrorParam
 
   BedrockClient = Anthropic::Helpers::Bedrock::Client
+  BedrockMantleClient = Anthropic::Helpers::Bedrock::MantleClient
   Beta = Anthropic::Models::Beta
   BetaAPIError = Anthropic::Models::BetaAPIError
   BetaAuthenticationError = Anthropic::Models::BetaAuthenticationError
@@ -504,6 +505,48 @@ module Anthropic
         end
 
         DEFAULT_VERSION = "bedrock-2023-05-31"
+      end
+
+      class MantleClient < Anthropic::Client
+        sig { returns(T.nilable(String)) }
+        attr_reader :aws_region
+
+        sig { returns(Anthropic::Resources::Beta) }
+        attr_reader :beta
+
+        sig { returns(Anthropic::Resources::Messages) }
+        attr_reader :messages
+
+        sig { returns(T.noreturn) }
+        def completions; end
+
+        sig { returns(T.noreturn) }
+        def models; end
+
+        private
+
+        sig { params(request: Anthropic::Internal::AnyHash).returns(Anthropic::Internal::AnyHash) }
+        def transform_request(request); end
+
+        class << self
+          sig do
+            params(
+              api_key: T.nilable(String),
+              aws_access_key: T.nilable(String),
+              aws_secret_access_key: T.nilable(String),
+              aws_session_token: T.nilable(String),
+              aws_profile: T.nilable(String),
+              aws_region: T.nilable(String),
+              skip_auth: T::Boolean,
+              base_url: T.nilable(String),
+              max_retries: Integer,
+              timeout: Float,
+              initial_retry_delay: Float,
+              max_retry_delay: Float
+            ).returns(T.attached_class)
+          end
+          def new(api_key: nil, aws_access_key: nil, aws_secret_access_key: nil, aws_session_token: nil, aws_profile: nil, aws_region: nil, skip_auth: false, base_url: nil, max_retries: Anthropic::Client::DEFAULT_MAX_RETRIES, timeout: Anthropic::Client::DEFAULT_TIMEOUT_IN_SECONDS, initial_retry_delay: Anthropic::Client::DEFAULT_INITIAL_RETRY_DELAY, max_retry_delay: Anthropic::Client::DEFAULT_MAX_RETRY_DELAY); end
+        end
       end
     end
 
@@ -28941,6 +28984,9 @@ module Anthropic
       # Fastest model with near-frontier intelligence
       CLAUDE_HAIKU_4_5_20251001 = T.let(:"claude-haiku-4-5-20251001", Anthropic::Model::TaggedSymbol)
 
+      # New class of intelligence, strongest in coding and cybersecurity
+      CLAUDE_MYTHOS_PREVIEW = T.let(:"claude-mythos-preview", Anthropic::Model::TaggedSymbol)
+
       # Powerful model for complex tasks
       CLAUDE_OPUS_4_0 = T.let(:"claude-opus-4-0", Anthropic::Model::TaggedSymbol)
 
@@ -28959,7 +29005,7 @@ module Anthropic
       # Premium model combining maximum intelligence with practical performance
       CLAUDE_OPUS_4_5_20251101 = T.let(:"claude-opus-4-5-20251101", Anthropic::Model::TaggedSymbol)
 
-      # Most intelligent model for building agents and coding
+      # Frontier intelligence for long-running agents and coding
       CLAUDE_OPUS_4_6 = T.let(:"claude-opus-4-6", Anthropic::Model::TaggedSymbol)
 
       # High-performance model with extended thinking

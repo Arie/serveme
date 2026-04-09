@@ -205,7 +205,8 @@ class ReservationsController < ApplicationController
   end
 
   def stac_log
-    @reservation = Reservation.find(params[:id])
+    @reservation = find_reservation_for_download
+    return head :not_found unless @reservation
     @stac_logs = @reservation.stac_logs
 
     if @stac_logs.any?

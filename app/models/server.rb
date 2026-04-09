@@ -15,6 +15,7 @@ class Server < ActiveRecord::Base
   belongs_to :location
 
   validates_presence_of :name, :ip, :port, :path, :rcon
+  validates :port, numericality: { only_integer: true, greater_than: 0, less_than_or_equal_to: 65535 }
 
   geocoded_by :host_to_ip do |server|
     # Check for override first

@@ -45,34 +45,40 @@ module Api
     end
 
     def update
-      reservation.update(reservation_params)
-      if reservation.errors.any?
-        Rails.logger.warn "API: User: #{api_user.nickname} - Validation errors: #{reservation.errors.full_messages.join(', ')}"
+      writable_reservation.update(reservation_params)
+      if writable_reservation.errors.any?
+        Rails.logger.warn "API: User: #{api_user.nickname} - Validation errors: #{writable_reservation.errors.full_messages.join(', ')}"
+        @reservation = writable_reservation
         render :show, status: :bad_request
       else
-        ReservationChangesWorker.perform_async(reservation.id, reservation.previous_changes.to_json)
+        @reservation = writable_reservation
+        ReservationChangesWorker.perform_async(writable_reservation.id, writable_reservation.previous_changes.to_json)
         render :show
       end
     rescue ActiveRecord::RecordNotUnique
-      reservation.errors.add(:server_id, "already booked in the selected timeframe")
+      writable_reservation.errors.add(:server_id, "already booked in the selected timeframe")
+      @reservation = writable_reservation
       render :show, status: :bad_request
     end
 
     def destroy
-      if reservation.cancellable?
-        reservation.destroy
+      if writable_reservation.cancellable?
+        writable_reservation.destroy
         head :no_content
       else
-        reservation.update_attribute(:end_instantly, true)
-        reservation.end_reservation
+        writable_reservation.update_attribute(:end_instantly, true)
+        writable_reservation.end_reservation
+        @reservation = writable_reservation
         render :show
       end
     end
 
     def extend
-      if reservation.extend!
+      if writable_reservation.extend!
+        @reservation = writable_reservation
         render :show
       else
+        @reservation = writable_reservation
         render :show, status: :bad_request
       end
     end
@@ -91,8 +97,24 @@ module Api
       end
     end
 
+    def writable_reservations_scope
+      if api_user.admin? || api_user.league_admin? || api_user.trusted_api?
+        if params[:steam_uid]
+          Reservation.joins(:user).where(users: { uid: params[:steam_uid] })
+        else
+          Reservation.joins(:user)
+        end
+      else
+        current_user.reservations.joins(:user)
+      end
+    end
+
     def reservation
       @reservation ||= reservations_scope.find(params[:id])
+    end
+
+    def writable_reservation
+      @writable_reservation ||= writable_reservations_scope.find(params[:id])
     end
 
     def create_regular_reservation

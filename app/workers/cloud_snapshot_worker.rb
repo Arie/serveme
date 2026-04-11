@@ -1,6 +1,8 @@
 # typed: true
 # frozen_string_literal: true
 
+require "shellwords"
+
 class CloudSnapshotWorker
   include Sidekiq::Worker
   sidekiq_options retry: false, queue: "low"
@@ -29,7 +31,7 @@ class CloudSnapshotWorker
     ssh_key_file = CloudServer.new.send(:cloud_ssh_key_file)
     image_ready = T.let(false, T::Boolean)
     180.times do
-      result = `ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=5 -i #{ssh_key_file} root@#{ip} 'test -f /tmp/image-ready && echo READY' 2>/dev/null`.strip
+      result = `ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=5 -i #{ssh_key_file.shellescape} root@#{ip.shellescape} 'test -f /tmp/image-ready && echo READY' 2>/dev/null`.strip
       if result == "READY"
         image_ready = true
         break

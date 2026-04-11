@@ -34,7 +34,7 @@ module CloudProvider
 
       docker_run_cmd = [
         "docker run -d --net=host",
-        "--name #{container_name}",
+        "--name #{Shellwords.shellescape(container_name)}",
         "-e CALLBACK_URL=#{callback_url(cloud_server)}",
         "-e CALLBACK_TOKEN=#{cloud_server.cloud_callback_token}",
         "-e SSH_AUTHORIZED_KEYS=#{Shellwords.shellescape(public_key)}",
@@ -78,7 +78,7 @@ module CloudProvider
       docker_host = DockerHost.find(docker_host_id)
 
       output = ssh_to_host(docker_host) do |ssh|
-        ssh.exec!("docker inspect -f '{{.State.Status}}' #{container_name}")
+        ssh.exec!("docker inspect -f '{{.State.Status}}' #{Shellwords.shellescape(container_name)}")
       end
 
       return "provisioning" if output.nil?
@@ -102,7 +102,7 @@ module CloudProvider
 
       Rails.logger.info "RemoteDocker: Destroying container #{container_name} on #{docker_host.ip}"
       output = ssh_to_host(docker_host) do |ssh|
-        ssh.exec!("docker rm -f #{container_name}")
+        ssh.exec!("docker rm -f #{Shellwords.shellescape(container_name)}")
       end
       result = output.present?
       Rails.logger.info "RemoteDocker: Destroy container #{container_name} result: #{result}"

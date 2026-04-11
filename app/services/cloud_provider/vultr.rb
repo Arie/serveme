@@ -26,7 +26,6 @@ module CloudProvider
       "sjc" => { name: "Silicon Valley", country: "USA", region: "NA", flag: "us" },
       "mia" => { name: "Miami", country: "USA", region: "NA", flag: "us" },
       "atl" => { name: "Atlanta", country: "USA", region: "NA", flag: "us" },
-      "hnl" => { name: "Honolulu", country: "USA", region: "NA", flag: "us" },
       "yto" => { name: "Toronto", country: "Canada", region: "NA", flag: "ca" },
       "mex" => { name: "Mexico City", country: "Mexico", region: "NA", flag: "mx" },
       "sao" => { name: "São Paulo", country: "Brazil", region: "NA", flag: "br" },
@@ -62,6 +61,15 @@ module CloudProvider
       response = connection.post("instances") do |req|
         req.body = body.to_json
       end
+
+      if !response.success? && response.body.to_s.include?("plan is not available") && body[:plan] != fallback_plan
+        Rails.logger.warn "Vultr: Plan #{body[:plan]} not available in #{body[:region]}, retrying with #{fallback_plan}"
+        body[:plan] = fallback_plan
+        response = connection.post("instances") do |req|
+          req.body = body.to_json
+        end
+      end
+
       data = parse_response(response, "Vultr API error")
       provider_id = data.dig("instance", "id")
       Rails.logger.info "Vultr: Created server #{provider_id} for cloud_server #{cloud_server.id}"
@@ -218,6 +226,10 @@ module CloudProvider
 
     def plan
       "vc2-2c-2gb"
+    end
+
+    def fallback_plan
+      "vc2-2c-4gb"
     end
 
     def default_region

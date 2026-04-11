@@ -13,7 +13,7 @@ class ServerMonitoringController < ApplicationController
     else
                  servers_with_current_reservations
     end
-    @servers_json = @servers.map { |s| { id: s.id, name: s.name, ip: s.ip, port: s.port, rcon: s.rcon } }.to_json
+    @servers_json = @servers.map { |s| { id: s.id, name: s.name, ip: s.ip, port: s.port } }.to_json
     @preselected_server_id = determine_preselected_server_id
   end
 

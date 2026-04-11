@@ -1,6 +1,8 @@
 # typed: false
 # frozen_string_literal: true
 
+require "shellwords"
+
 module Mitigations
   def enable_mitigations
     server.mitigation_ssh_exec(
@@ -20,9 +22,10 @@ module Mitigations
 
   def allow_reservation_player(reservation_player)
     if reservation_player.duplicates.whitelisted.none?
+      escaped_ip = Shellwords.shellescape(reservation_player.ip)
       server.mitigation_ssh_exec(
         %(
-          #{iptables} -I #{chain_name} 1 -t raw -s #{reservation_player.ip} -j ACCEPT -m comment --comment "#{chain_name}-#{reservation_player.steam_uid}"
+          #{iptables} -I #{chain_name} 1 -t raw -s #{escaped_ip} -j ACCEPT -m comment --comment "#{chain_name}-#{reservation_player.steam_uid}"
         ), log_stderr: true
       )
     end

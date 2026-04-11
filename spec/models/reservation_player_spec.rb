@@ -3,6 +3,23 @@
 require 'spec_helper'
 
 describe ReservationPlayer do
+  context 'IP format validation' do
+    it 'accepts valid IPv4 addresses' do
+      rp = build(:reservation_player, ip: '192.168.1.1')
+      expect(rp).to be_valid
+    end
+
+    it 'accepts nil IP' do
+      rp = build(:reservation_player, ip: nil)
+      expect(rp).to be_valid
+    end
+
+    it 'rejects arbitrary strings' do
+      rp = build(:reservation_player, ip: 'not-an-ip')
+      expect(rp).not_to be_valid
+    end
+  end
+
   context 'banned asns' do
     it 'doesnt flag good ASNs' do
       good_ip = '1.128.0.1'

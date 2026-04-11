@@ -1,6 +1,8 @@
 # typed: false
 # frozen_string_literal: true
 
+require "shellwords"
+
 module CloudProvider
   class Base
     def self.locations(starts_at: Time.current, ends_at: 2.hours.from_now)
@@ -129,7 +131,7 @@ module CloudProvider
           -e CALLBACK_URL=#{callback_url(cloud_server)} \
           -e CALLBACK_TOKEN=#{callback_token} \
           -e SSH_AUTHORIZED_KEYS="#{ssh_public_key}" \
-          -e RCON_PASSWORD=#{cloud_server.rcon} \
+          -e RCON_PASSWORD=#{Shellwords.shellescape(cloud_server.rcon)} \
           -e SSH_PORT=2222 \
           -e ENABLE_FAKEIP=1 \
           -e EXPECTED_TF2_VERSION=#{Server.latest_version} \

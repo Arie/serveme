@@ -96,4 +96,39 @@ describe MapUpload do
       end
     end
   end
+
+  describe '.sanitize_map_name' do
+    it 'rejects names containing path traversal' do
+      expect { MapUpload.sanitize_map_name('../etc/passwd') }.to raise_error(ArgumentError)
+    end
+  end
+
+  describe '.validate_s3_key' do
+    it 'accepts a valid key matching maps/filename' do
+      expect { MapUpload.validate_s3_key('maps/cp_badlands.bsp', 'cp_badlands.bsp') }.not_to raise_error
+    end
+
+    it 'rejects a key that does not start with maps/' do
+      expect { MapUpload.validate_s3_key('other/cp_badlands.bsp', 'cp_badlands.bsp') }.to raise_error(ArgumentError)
+    end
+
+    it 'rejects a key that does not match the filename' do
+      expect { MapUpload.validate_s3_key('maps/cp_other.bsp', 'cp_badlands.bsp') }.to raise_error(ArgumentError)
+    end
+  end
+
+  describe '.delete_bucket_object' do
+    it 'deletes a valid map name' do
+      allow(ActiveStorage::Blob.service).to receive(:delete)
+      allow(Rails.cache).to receive(:delete)
+      allow(Rails.cache).to receive(:write)
+      allow(MapUpload).to receive(:bucket_objects).and_return([])
+      allow(MapUpload).to receive(:map_statistics).and_return({})
+      allow(Turbo::StreamsChannel).to receive(:broadcast_replace_to)
+
+      expect { MapUpload.delete_bucket_object('cp_badlands') }.not_to raise_error
+      expect(ActiveStorage::Blob.service).to have_received(:delete).with('maps/cp_badlands.bsp')
+      expect(ActiveStorage::Blob.service).to have_received(:delete).with('maps/cp_badlands.bsp.bz2')
+    end
+  end
 end

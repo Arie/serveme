@@ -6,6 +6,8 @@ module Mcp
     class UploadFilesToServersTool < BaseTool
       extend T::Sig
 
+      MAX_ZIP_SIZE = T.let(50.megabytes, Integer)
+
       sig { override.returns(String) }
       def self.tool_name
         "upload_files_to_servers"
@@ -47,8 +49,12 @@ module Mcp
         zip_base64 = params[:zip_base64]
         return { error: "zip_base64 is required" } if zip_base64.blank?
 
-        zip_data = Base64.decode64(zip_base64)
-        return { error: "Invalid base64 data" } if zip_data.blank?
+        begin
+          zip_data = Base64.strict_decode64(zip_base64.gsub(/\s/, ""))
+        rescue ArgumentError
+          return { error: "Invalid base64 data" }
+        end
+        return { error: "Zip file too large (max 50MB)" } if zip_data.bytesize > MAX_ZIP_SIZE
 
         tmp_zip = Tempfile.new([ "mcp_upload", ".zip" ], binmode: true)
         tmp_zip.write(zip_data)

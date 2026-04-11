@@ -125,6 +125,12 @@ RSpec.describe CloudProvider::RemoteDocker do
       allow(ssh_session).to receive(:exec!).and_return(nil)
       expect(provider.server_status("#{docker_host.id}:cloud-1")).to eq("provisioning")
     end
+
+    it "shell-escapes the container name in docker inspect" do
+      allow(ssh_session).to receive(:exec!).and_return("running\n")
+      provider.server_status("#{docker_host.id}:evil; rm -rf /")
+      expect(ssh_session).to have_received(:exec!).with("docker inspect -f '{{.State.Status}}' evil\\;\\ rm\\ -rf\\ /")
+    end
   end
 
   describe "#server_ip" do

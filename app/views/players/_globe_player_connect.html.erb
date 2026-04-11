@@ -6,7 +6,7 @@
     if (globeController && application && application.getControllerForElementAndIdentifier) {
       const controller = application.getControllerForElementAndIdentifier(globeController, 'globe');
       if (controller && controller.globe) {
-        const playerData = <%= player_data.to_json.html_safe %>;
+        const playerData = <%= json_escape(player_data.to_json) %>;
 
         controller.addPlayerConnection(playerData);
       }

@@ -7,25 +7,27 @@
 
 class DiscordEndReservationWorker
   class << self
-    sig { params(reservation_id: T.untyped, discord_interaction_token: T.untyped).returns(String) }
-    def perform_async(reservation_id, discord_interaction_token); end
+    sig { params(reservation_id: T.untyped, discord_interaction_token: T.untyped, user_id: T.untyped).returns(String) }
+    def perform_async(reservation_id, discord_interaction_token, user_id); end
 
     sig do
       params(
         interval: T.any(DateTime, Time, ActiveSupport::TimeWithZone),
         reservation_id: T.untyped,
-        discord_interaction_token: T.untyped
+        discord_interaction_token: T.untyped,
+        user_id: T.untyped
       ).returns(String)
     end
-    def perform_at(interval, reservation_id, discord_interaction_token); end
+    def perform_at(interval, reservation_id, discord_interaction_token, user_id); end
 
     sig do
       params(
         interval: T.any(Numeric, ActiveSupport::Duration),
         reservation_id: T.untyped,
-        discord_interaction_token: T.untyped
+        discord_interaction_token: T.untyped,
+        user_id: T.untyped
       ).returns(String)
     end
-    def perform_in(interval, reservation_id, discord_interaction_token); end
+    def perform_in(interval, reservation_id, discord_interaction_token, user_id); end
   end
 end

@@ -49,16 +49,22 @@ class FileUpload < ActiveRecord::Base
     zip_path = file_path_for_zip
     return {} unless zip_path && File.exist?(zip_path)
 
+    expanded_tmp_dir = File.expand_path(tmp_dir)
+
     Zip::File.foreach(zip_path) do |zipped_file|
+      dest_path = File.join(tmp_dir, zipped_file.name)
+      next unless File.expand_path(dest_path).start_with?("#{expanded_tmp_dir}/")
+
       filename = File.basename(zipped_file.name)
-      FileUtils.mkdir_p(File.join(tmp_dir, zipped_file.name)) if zipped_file.directory?
+      FileUtils.mkdir_p(dest_path) if zipped_file.directory?
 
       next if filename.match(/(__MACOSX|.DS_Store)/) || zipped_file.directory?
 
       target_dir = zipped_file.name.split("/")[0..-2].join("/")
+      next if target_dir.include?("..")
+
       files_with_path[target_dir] ||= []
 
-      dest_path = File.join(tmp_dir, zipped_file.name)
       FileUtils.mkdir_p(File.dirname(dest_path))
       FileUtils.rm_rf(dest_path) if File.exist?(dest_path)
       zipped_file.extract(zipped_file.name, destination_directory: tmp_dir) { true }

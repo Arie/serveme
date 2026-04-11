@@ -343,7 +343,7 @@ module Admin
     end
 
     def update_group_expiry
-      group_user = GroupUser.find(params[:group_user_id])
+      group_user = @user.group_users.find(params[:group_user_id])
       expires_at = params[:expires_at].present? ? Time.zone.parse(params[:expires_at]) : nil
 
       if group_user.update(expires_at: expires_at)

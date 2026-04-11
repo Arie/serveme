@@ -47,7 +47,7 @@
     = render "reservations/datepicker_javascript_options"
 
     :javascript
-      var providerEstimates = #{CloudProvider::PROVIDERS.transform_values { |klass| klass.new.estimated_provision_time }.to_json.html_safe};
+      var providerEstimates = #{ERB::Util.json_escape(CloudProvider::PROVIDERS.transform_values { |klass| klass.new.estimated_provision_time }.to_json)};
 
       function updateEstimate(select) {
         var el = document.getElementById('cloud-estimate');

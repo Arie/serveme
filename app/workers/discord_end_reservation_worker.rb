@@ -6,9 +6,17 @@ class DiscordEndReservationWorker
 
   sidekiq_options queue: :discord, retry: 3
 
-  def perform(reservation_id, discord_interaction_token)
+  def perform(reservation_id, discord_interaction_token, user_id)
     reservation = Reservation.find_by(id: reservation_id)
     return unless reservation
+
+    unless reservation.user_id == user_id
+      DiscordApiClient.update_interaction_response(
+        interaction_token: discord_interaction_token,
+        content: ":x: You can only end your own reservations"
+      )
+      return
+    end
 
     reservation.update(end_instantly: true)
     reservation.end_reservation

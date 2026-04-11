@@ -3,29 +3,6 @@
     {
       "warning_type": "Command Injection",
       "warning_code": 14,
-      "fingerprint": "33bc99c7c37396d2f19f97b596101d9f66a86e6ca42f03a6bf99ae23bbdcf287",
-      "check_name": "Execute",
-      "message": "Possible command injection",
-      "file": "app/services/remote_log_copier.rb",
-      "line": 9,
-      "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
-      "code": "system(\"unzip #{Rails.root.join(\"public\", \"uploads\", reservation.zipfile_name)} *.log -d #{directory_to_copy_to}\")",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "RemoteLogCopier",
-        "method": "copy_logs"
-      },
-      "user_input": "Rails.root.join(\"public\", \"uploads\", reservation.zipfile_name)",
-      "confidence": "Medium",
-      "cwe_id": [
-        77
-      ],
-      "note": ""
-    },
-    {
-      "warning_type": "Command Injection",
-      "warning_code": 14,
       "fingerprint": "4316d5192d6e2aaf4e068cb35280b97a63a6c4d25a83398acbd075f6ba11fb60",
       "check_name": "Execute",
       "message": "Possible command injection",
@@ -197,13 +174,13 @@
     {
       "warning_type": "Command Injection",
       "warning_code": 14,
-      "fingerprint": "ca78feb62ddd6e715a411cedac9371e843e37c0a422d4c4b5495fdc3203ff468",
+      "fingerprint": "fe22fbfabee08fd6ed34c9328d9400ba9da33aae3a9e491981025f28f0d6b42c",
       "check_name": "Execute",
       "message": "Possible command injection",
       "file": "app/behaviour/ssh_execution.rb",
-      "line": 114,
+      "line": 131,
       "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
-      "code": "system(\"#{scp_command} #{scp_target}:\\\"#{files.map(&:shellescape).join(\" \")}\\\" #{destination}\")",
+      "code": "system(\"#{scp_command} #{scp_target}:\\\"#{files.map(&:shellescape).join(\" \")}\\\" #{destination.shellescape}\")",
       "render_path": null,
       "location": {
         "type": "method",
@@ -215,7 +192,7 @@
       "cwe_id": [
         77
       ],
-      "note": ""
+      "note": "False positive - files escaped with shellescape, destination escaped with shellescape, scp_command is application-controlled"
     },
     {
       "warning_type": "Command Injection",
@@ -346,29 +323,6 @@
     {
       "warning_type": "Command Injection",
       "warning_code": 14,
-      "fingerprint": "df91fb68d008f306e25952aba20b290b143aae6024ed63b7a030c68a8eb7136f",
-      "check_name": "Execute",
-      "message": "Possible command injection",
-      "file": "app/models/local_server.rb",
-      "line": 36,
-      "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
-      "code": "`ps ux | grep port | grep #{port} | grep #{(\"srcds_run_64 | grep -v steam-runtime-tools | grep -v srcds_run_64\" or \"srcds_linux\")} | grep -v grep | grep -v ruby | awk '{print $2}'`",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "LocalServer",
-        "method": "find_process_id"
-      },
-      "user_input": "port",
-      "confidence": "Medium",
-      "cwe_id": [
-        77
-      ],
-      "note": ""
-    },
-    {
-      "warning_type": "Command Injection",
-      "warning_code": 14,
       "fingerprint": "f6fc3ae15212f2e291062a9066b4d3ecf2d27067682dcad1e41cc394b77d96f4",
       "check_name": "Execute",
       "message": "Possible command injection",
@@ -482,29 +436,6 @@
       "note": "False positive - this is a Faraday HTTP URL path, not SQL. snapshot_id is the Hetzner image ID"
     },
     {
-      "warning_type": "Command Injection",
-      "warning_code": 14,
-      "fingerprint": "c778bc64f9f35d859f900888cde9663c9f3212b065b9c7d5b6cb461cb268d061",
-      "check_name": "Execute",
-      "message": "Possible command injection",
-      "file": "app/workers/cloud_snapshot_worker.rb",
-      "line": 32,
-      "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
-      "code": "`ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=5 -i #{CloudServer.new.cloud_ssh_key_file} root@#{ip} 'test -f /tmp/image-ready && echo READY' 2>/dev/null`",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "CloudSnapshotWorker",
-        "method": "perform"
-      },
-      "user_input": "CloudServer.new.cloud_ssh_key_file",
-      "confidence": "High",
-      "cwe_id": [
-        77
-      ],
-      "note": "False positive - ip is from Hetzner API, ssh_key_file is from credentials/tmp file"
-    },
-    {
       "warning_type": "SQL Injection",
       "warning_code": 0,
       "fingerprint": "c257dad9bb35ac89ceaa6c1c2a14642737bdf5459720111de76706347f4b1495",
@@ -526,29 +457,6 @@
         89
       ],
       "note": "False positive - this is a Faraday HTTP URL path, not SQL. provider_id is the Vultr instance ID"
-    },
-    {
-      "warning_type": "SQL Injection",
-      "warning_code": 0,
-      "fingerprint": "0f5d0931c3ea518222b12d719c7f20a3b3e131999f259544d1ba73dcba1e73ed",
-      "check_name": "SQL",
-      "message": "Possible SQL injection",
-      "file": "app/services/cloud_provider/kamatera.rb",
-      "line": 123,
-      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
-      "code": "connection.delete(\"server/#{provider_id}/terminate\")",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "CloudProvider::Kamatera",
-        "method": "destroy_server"
-      },
-      "user_input": "provider_id",
-      "confidence": "Medium",
-      "cwe_id": [
-        89
-      ],
-      "note": "False positive - this is a Faraday HTTP URL path, not SQL. provider_id is the Kamatera server name"
     }
   ],
   "brakeman_version": "7.1.0"

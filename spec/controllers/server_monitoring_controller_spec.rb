@@ -32,6 +32,15 @@ describe ServerMonitoringController do
           expect(response).to be_successful
           expect(assigns(:servers)).to include(server)
         end
+
+        it 'does not expose RCON passwords in the servers JSON' do
+          get :index
+          servers_json = assigns(:servers_json)
+          parsed = JSON.parse(servers_json)
+          parsed.each do |server_data|
+            expect(server_data).not_to have_key('rcon')
+          end
+        end
       end
     end
 

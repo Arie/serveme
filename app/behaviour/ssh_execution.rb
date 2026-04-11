@@ -128,7 +128,7 @@ module SshExecution
     # brakeman: ignore:Command Injection
     # files are escaped with shellescape, ip is validated, and destination is controlled by the application
     logger.debug "SCP GET, FILES: #{files.join(', ')} DESTINATION: #{destination}"
-    system("#{scp_command} #{scp_target}:\"#{files.map(&:shellescape).join(' ')}\" #{destination}")
+    system("#{scp_command} #{scp_target}:\"#{files.map(&:shellescape).join(' ')}\" #{destination.shellescape}")
   end
 
   sig { returns(T.class_of(DownloadThenZipFileCreator)) }

@@ -4,11 +4,15 @@
 class ReservationWorker
   include Sidekiq::Worker
 
+  ALLOWED_ACTIONS = %w[start update end].freeze
+
   sidekiq_options retry: 3, queue: "priority"
 
   attr_accessor :reservation, :reservation_id
 
   def perform(reservation_id, action)
+    raise ArgumentError, "Invalid action: #{action}" unless ALLOWED_ACTIONS.include?(action)
+
     @reservation_id = reservation_id
     @reservation = Reservation.includes(:server).find(reservation_id)
     if @reservation.server_id

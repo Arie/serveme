@@ -1,6 +1,8 @@
 # typed: false
 # frozen_string_literal: true
 
+require "shellwords"
+
 class AllowReservationPlayersWorker
   include Sidekiq::Worker
 
@@ -22,7 +24,8 @@ class AllowReservationPlayersWorker
 
       commands = players_to_whitelist.filter_map do |rp|
         if rp.duplicates.whitelisted.none?
-          %(#{iptables} -I #{chain_name} 1 -t raw -s #{rp.ip} -j ACCEPT -m comment --comment "#{chain_name}-#{rp.steam_uid}")
+          escaped_ip = Shellwords.shellescape(rp.ip)
+          %(#{iptables} -I #{chain_name} 1 -t raw -s #{escaped_ip} -j ACCEPT -m comment --comment "#{chain_name}-#{rp.steam_uid}")
         end
       end
 

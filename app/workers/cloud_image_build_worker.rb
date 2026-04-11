@@ -18,8 +18,8 @@ class CloudImageBuildWorker
 
     tag = "#{DOCKERHUB_IMAGE}:latest"
 
-    run_command!("docker build --pull --build-arg TF2_VERSION=#{version} -t #{tag} #{DOCKER_DIR}")
-    run_command!("docker push #{tag}")
+    run_command!("docker", "build", "--pull", "--build-arg", "TF2_VERSION=#{version}", "-t", tag, DOCKER_DIR)
+    run_command!("docker", "push", tag)
 
     digest = pushed_digest
     Rails.logger.info "CloudImageBuildWorker: Successfully built and pushed image for TF2 version #{version} (digest: #{digest})"
@@ -41,7 +41,7 @@ class CloudImageBuildWorker
   end
 
   def pushed_digest
-    output, = Open3.capture2e("docker inspect --format='{{index .RepoDigests 0}}' #{DOCKERHUB_IMAGE}:latest")
+    output, = Open3.capture2e("docker", "inspect", "--format={{index .RepoDigests 0}}", "#{DOCKERHUB_IMAGE}:latest")
     digest = output.strip.split("@").last
     digest if digest.present? && digest.start_with?("sha256:")
   rescue StandardError => e
@@ -80,12 +80,12 @@ class CloudImageBuildWorker
     end
   end
 
-  def run_command!(command)
-    Rails.logger.info "CloudImageBuildWorker: Running: #{command}"
-    output, status = Open3.capture2e(command)
+  def run_command!(*command)
+    Rails.logger.info "CloudImageBuildWorker: Running: #{command.join(' ')}"
+    output, status = T.unsafe(Open3).capture2e(*command)
     return if status.success?
 
     tail = output.to_s.lines.last(50).join
-    raise "#{command.split.first(3).join(' ')} failed (exit #{status.exitstatus}):\n#{tail}"
+    raise "#{command.first(3).join(' ')} failed (exit #{status.exitstatus}):\n#{tail}"
   end
 end

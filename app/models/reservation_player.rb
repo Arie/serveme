@@ -10,6 +10,10 @@ class ReservationPlayer < ActiveRecord::Base
   has_one :server, through: :reservation, autosave: false
   belongs_to :user, primary_key: :uid, foreign_key: :steam_uid, optional: true
 
+  VALID_IP_PATTERN = /\A\d{1,3}(\.\d{1,3}){3}\z/
+
+  validates :ip, format: { with: VALID_IP_PATTERN, message: "is not a valid IPv4 address" }, allow_nil: true
+
   geocoded_by :ip
   before_save :geocode, if: :ip_changed?
   before_save :store_asn_data, if: :ip_changed?

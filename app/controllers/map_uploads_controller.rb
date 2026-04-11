@@ -50,6 +50,12 @@ class MapUploadsController < ApplicationController
       return render json: { error: "Only .bsp files are allowed" }, status: :unprocessable_entity
     end
 
+    begin
+      MapUpload.sanitize_map_name(filename.delete_suffix(".bsp"))
+    rescue ArgumentError
+      return render json: { error: "Invalid filename" }, status: :bad_request
+    end
+
     key = "maps/#{filename}"
     if ActiveStorage::Blob.service.exist?(key)
       return render json: { error: "Map already exists" }, status: :unprocessable_entity
@@ -80,6 +86,10 @@ class MapUploadsController < ApplicationController
 
     return render json: { error: "Missing parameters" }, status: :bad_request unless key.present? && filename.present?
 
+    unless key == "maps/#{filename}"
+      return render json: { error: "Key does not match filename" }, status: :bad_request
+    end
+
     result = MapUpload.create_from_direct_upload(user: current_user, key: key, filename: filename)
 
     if result[:success]
@@ -92,7 +102,12 @@ class MapUploadsController < ApplicationController
   def destroy
     respond_to do |format|
       format.html do
-        MapUpload.delete_bucket_object(params[:id])
+        begin
+          MapUpload.delete_bucket_object(params[:id])
+        rescue ArgumentError
+          flash[:alert] = "Invalid map name"
+          redirect_to maps_path and return
+        end
         @bucket_objects = MapUpload.bucket_objects
         @map_statistics = MapUpload.map_statistics
         flash[:notice] = "Map #{params[:id]} deleted"

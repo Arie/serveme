@@ -282,4 +282,51 @@ describe Api::ReservationsController do
       expect(JSON.parse(response.body)['reservations'].size).to eql(1)
     end
   end
+
+  context 'streamer access restrictions' do
+    let(:streamer) do
+      user = create(:user)
+      user.groups << Group.streamer_group
+      user
+    end
+    let(:other_user) { create(:user) }
+
+    before do
+      controller.stub(api_user: streamer)
+    end
+
+    describe '#index' do
+      it 'allows streamers to list all reservations (read access)' do
+        _own_reservation = create :reservation, user: streamer
+        _other_reservation = create :reservation, user: other_user
+        get :index, params: { limit: 10, offset: 0 }, format: :json
+
+        expect(response.status).to eql 200
+        expect(JSON.parse(response.body)['reservations'].size).to eql(2)
+      end
+    end
+
+    describe '#update' do
+      it 'prevents streamers from updating other users reservations' do
+        reservation = create(:reservation, ends_at: 1.hour.from_now, user: other_user)
+
+        expect {
+          patch :update, format: :json, params: { id: reservation.id, reservation: { password: 'hacked' } }
+        }.not_to change { reservation.reload.password }
+
+        expect(response.status).to eql 404
+      end
+
+      it 'allows streamers to update their own reservations' do
+        reservation = create(:reservation, ends_at: 1.hour.from_now, user: streamer)
+        new_ends_at = 90.minutes.from_now.change(usec: 0)
+
+        expect(ReservationChangesWorker).to receive(:perform_async)
+
+        patch :update, format: :json, params: { id: reservation.id, reservation: { ends_at: new_ends_at, password: 'bar' } }
+
+        expect(response.status).to eql 200
+      end
+    end
+  end
 end

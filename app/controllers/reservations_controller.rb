@@ -115,9 +115,9 @@ class ReservationsController < ApplicationController
   end
 
   def show
-    if reservation
-      if reservation.now?
-        Sidekiq.redis { |r| r.set("log_listeners:#{reservation.logsecret}", "1", ex: 30) }
+    if viewable_reservation
+      if viewable_reservation.now?
+        Sidekiq.redis { |r| r.set("log_listeners:#{viewable_reservation.logsecret}", "1", ex: 30) }
       end
       render :show
     else
@@ -139,7 +139,7 @@ class ReservationsController < ApplicationController
   end
 
   def status
-    reservation
+    viewable_reservation
     respond_to(&:json)
   end
 
@@ -241,7 +241,7 @@ class ReservationsController < ApplicationController
   private
 
   def setup_log_viewing
-    @logsecret = reservation.logsecret
+    @logsecret = viewable_reservation.logsecret
     @skip_sanitization = !!(current_admin || current_league_admin || current_streamer)
     @search_query = params[:q].presence
     @offset = params[:offset].to_i
@@ -337,6 +337,10 @@ class ReservationsController < ApplicationController
     @reservation ||= find_reservation
   end
   helper_method :reservation
+
+  def viewable_reservation
+    @reservation ||= find_reservation_for_viewing
+  end
 
   def find_reservation_for_download
     return unless params[:id].to_i.positive?

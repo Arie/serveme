@@ -22,14 +22,14 @@ describe CloudImageBuildWorker do
     allow(Sidekiq).to receive(:redis).and_yield(redis)
     allow(redis).to receive(:set).and_return(true)
     allow(redis).to receive(:del)
-    allow(Open3).to receive(:capture2e).and_return([ "", instance_double(Process::Status, success?: true, exitstatus: 0) ])
+    allow(Open3).to receive(:capture2e).with(any_args).and_return([ "", instance_double(Process::Status, success?: true, exitstatus: 0) ])
     allow(Rails.application.credentials).to receive(:dig).with(:serveme, anything).and_return(nil)
   end
 
   describe "#perform" do
     it "builds and pushes the Docker image" do
-      expect(Open3).to receive(:capture2e).with(/docker build --pull/).and_return([ "", instance_double(Process::Status, success?: true, exitstatus: 0) ])
-      expect(Open3).to receive(:capture2e).with(/docker push/).and_return([ "", instance_double(Process::Status, success?: true, exitstatus: 0) ])
+      expect(Open3).to receive(:capture2e).with("docker", "build", "--pull", "--build-arg", "TF2_VERSION=#{version}", "-t", "#{CloudImageBuildWorker::DOCKERHUB_IMAGE}:latest", CloudImageBuildWorker::DOCKER_DIR).and_return([ "", instance_double(Process::Status, success?: true, exitstatus: 0) ])
+      expect(Open3).to receive(:capture2e).with("docker", "push", "#{CloudImageBuildWorker::DOCKERHUB_IMAGE}:latest").and_return([ "", instance_double(Process::Status, success?: true, exitstatus: 0) ])
 
       worker.perform(version)
     end
@@ -51,8 +51,8 @@ describe CloudImageBuildWorker do
     end
 
     it "raises with output tail if docker build fails so Sidekiq retries" do
-      expect(Open3).to receive(:capture2e).with(/docker build/).and_return([ "Error! App '232250' state is 0x426\n", instance_double(Process::Status, success?: false, exitstatus: 1) ])
-      expect(Open3).not_to receive(:capture2e).with(/docker push/)
+      expect(Open3).to receive(:capture2e).with("docker", "build", "--pull", "--build-arg", anything, "-t", anything, anything).and_return([ "Error! App '232250' state is 0x426\n", instance_double(Process::Status, success?: false, exitstatus: 1) ])
+      expect(Open3).not_to receive(:capture2e).with("docker", "push", anything)
 
       expect { worker.perform(version) }.to raise_error(RuntimeError, /docker build --pull.*failed.*0x426/m)
     end

@@ -31,6 +31,17 @@ describe ReservationWorker do
     end
   end
 
+  context 'with an invalid action' do
+    it 'should raise an ArgumentError' do
+      allow(Reservation).to receive(:includes).and_return(Reservation)
+      allow(Reservation).to receive(:find).with(reservation.id).and_return(reservation)
+
+      expect {
+        ReservationWorker.new.perform(reservation.id, 'destroy')
+      }.to raise_error(ArgumentError, 'Invalid action: destroy')
+    end
+  end
+
   context 'ending' do
     it 'should send the end_reservation message to the server' do
       server = reservation.server

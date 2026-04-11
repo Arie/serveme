@@ -38,11 +38,11 @@ RSpec.describe DiscordEndReservationWorker do
 
     it "ends the reservation" do
       expect(reservation).to receive(:end_reservation)
-      described_class.new.perform(reservation.id, discord_interaction_token)
+      described_class.new.perform(reservation.id, discord_interaction_token, user.id)
     end
 
     it "sets end_instantly to true" do
-      described_class.new.perform(reservation.id, discord_interaction_token)
+      described_class.new.perform(reservation.id, discord_interaction_token, user.id)
       expect(reservation.reload.end_instantly).to be true
     end
 
@@ -51,12 +51,21 @@ RSpec.describe DiscordEndReservationWorker do
         interaction_token: discord_interaction_token,
         content: ":white_check_mark: Reservation ##{reservation.id} ended"
       )
-      described_class.new.perform(reservation.id, discord_interaction_token)
+      described_class.new.perform(reservation.id, discord_interaction_token, user.id)
     end
 
     it "does nothing when reservation not found" do
       expect(DiscordApiClient).not_to receive(:update_interaction_response)
-      described_class.new.perform(-1, discord_interaction_token)
+      described_class.new.perform(-1, discord_interaction_token, user.id)
+    end
+
+    context "when user_id does not match reservation owner" do
+      let(:other_user) { create(:user) }
+
+      it "does not end the reservation" do
+        expect(reservation).not_to receive(:end_reservation)
+        described_class.new.perform(reservation.id, discord_interaction_token, other_user.id)
+      end
     end
 
     context "when ending fails" do
@@ -70,7 +79,7 @@ RSpec.describe DiscordEndReservationWorker do
           interaction_token: discord_interaction_token,
           content: ":x: Failed to end reservation: Connection timeout"
         )
-        described_class.new.perform(reservation.id, discord_interaction_token)
+        described_class.new.perform(reservation.id, discord_interaction_token, user.id)
       end
     end
   end

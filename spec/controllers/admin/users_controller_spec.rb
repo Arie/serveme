@@ -233,6 +233,21 @@ describe Admin::UsersController do
 
           @user.reload.donator_until.should be_within(1.second).of(new_expiry)
         end
+
+        it 'does not allow updating a group_user belonging to a different user' do
+          other_user = create :user
+          other_user.groups << Group.donator_group
+          other_group_user = other_user.group_users.find_by(group: Group.donator_group)
+
+          expect {
+            patch :update, params: {
+              id: @user.id,
+              group_action: "update_expiry",
+              group_user_id: other_group_user.id,
+              expires_at: 6.months.from_now.to_s
+            }
+          }.to raise_error(ActiveRecord::RecordNotFound)
+        end
       end
     end
   end

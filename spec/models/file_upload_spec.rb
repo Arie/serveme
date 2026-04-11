@@ -162,4 +162,34 @@ describe FileUpload do
       end
     end
   end
+
+  describe 'zip slip protection' do
+    let(:user) { create(:user) }
+
+    it 'skips entries with path traversal in the zip' do
+      malicious_zip = Tempfile.new([ 'malicious', '.zip' ])
+      Zip::OutputStream.open(malicious_zip.path) do |zos|
+        zos.put_next_entry('../../etc/cron.d/evil')
+        zos.write('* * * * * root echo pwned')
+
+        zos.put_next_entry('cfg/etf2l.cfg')
+        zos.write('exec etf2l_base')
+      end
+
+      file_upload = build(:file_upload, user: user)
+      allow(file_upload).to receive(:file_path_for_zip).and_return(malicious_zip.path)
+
+      tmp_dir = file_upload.tmp_dir
+      result = file_upload.extract_zip_to_tmp_dir
+
+      escaped_path = File.expand_path('../../etc/cron.d/evil', tmp_dir)
+      expect(File.exist?(escaped_path)).to be false
+
+      expect(result.keys).to eq([ 'cfg' ])
+      expect(result['cfg'].length).to eq(1)
+      expect(File.basename(result['cfg'].first)).to eq('etf2l.cfg')
+    ensure
+      malicious_zip&.unlink
+    end
+  end
 end

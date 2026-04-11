@@ -45,17 +45,29 @@ RSpec.describe Mcp::Tools::UploadFilesToServersTool do
       end
     end
 
-    context "with blank zip_base64" do
-      it "returns an error" do
-        result = tool.execute(zip_base64: "")
+    context "with invalid base64 data" do
+      it "returns an error for non-base64 characters" do
+        result = tool.execute(zip_base64: "not!valid@base64###")
 
-        expect(result[:error]).to include("zip_base64")
+        expect(result[:error]).to eq("Invalid base64 data")
       end
     end
 
-    context "with missing zip_base64" do
+    context "with zip exceeding size limit" do
       it "returns an error" do
-        result = tool.execute({})
+        stub_const("Mcp::Tools::UploadFilesToServersTool::MAX_ZIP_SIZE", 10)
+        zip_data = "x" * 11
+        zip_base64 = Base64.strict_encode64(zip_data)
+
+        result = tool.execute(zip_base64: zip_base64)
+
+        expect(result[:error]).to eq("Zip file too large (max 50MB)")
+      end
+    end
+
+    context "with blank zip_base64" do
+      it "returns an error" do
+        result = tool.execute(zip_base64: "")
 
         expect(result[:error]).to include("zip_base64")
       end

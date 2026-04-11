@@ -123,8 +123,25 @@ class MapUpload < ActiveRecord::Base
     end
   end
 
+  SAFE_MAP_NAME_REGEX = /\A[a-zA-Z0-9\-_.]+\z/
+
+  sig { params(name: String).returns(String) }
+  def self.sanitize_map_name(name)
+    raise ArgumentError, "Invalid map name: contains path traversal or illegal characters" unless name.match?(SAFE_MAP_NAME_REGEX)
+
+    name
+  end
+
+  sig { params(key: String, filename: String).void }
+  def self.validate_s3_key(key, filename)
+    sanitize_map_name(filename.delete_suffix(".bsp"))
+    expected_key = "maps/#{filename}"
+    raise ArgumentError, "Invalid S3 key: expected #{expected_key}, got #{key}" unless key == expected_key
+  end
+
   sig { params(map_name: String).void }
   def self.delete_bucket_object(map_name)
+    sanitize_map_name(map_name)
     ActiveStorage::Blob.service.delete("maps/#{map_name}.bsp")
     ActiveStorage::Blob.service.delete("maps/#{map_name}.bsp.bz2")
     Rails.cache.delete("api_maps_text")
@@ -184,6 +201,12 @@ class MapUpload < ActiveRecord::Base
 
   sig { params(user: User, key: String, filename: String).returns(T::Hash[Symbol, T.untyped]) }
   def self.create_from_direct_upload(user:, key:, filename:)
+    begin
+      validate_s3_key(key, filename)
+    rescue ArgumentError => e
+      return { success: false, error: e.message }
+    end
+
     existing_blob = ActiveStorage::Blob.find_by(key: key)
     return { success: false, error: "File already exists in database" } if existing_blob
 

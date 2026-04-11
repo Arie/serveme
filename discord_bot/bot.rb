@@ -413,7 +413,8 @@ module ServemeBot
       # End the reservation in background (this can take 30+ seconds)
       DiscordEndReservationWorker.perform_async(
         reservation_id,
-        event.interaction.token
+        event.interaction.token,
+        user.id
       )
     rescue StandardError => e
       Rails.logger.error "Error ending reservation: #{e.message}\n#{e.backtrace.first(5).join("\n")}"

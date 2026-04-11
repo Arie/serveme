@@ -57,7 +57,7 @@
               %canvas{ data: { "server-monitor-target": "lossChart" } }
 
 :javascript
-  var servers_for_monitoring = #{@servers.map { |s| {id: s.id, name: s.name, ip: s.ip, port: s.port, rcon: s.rcon, flag: s.location&.flag || 'unknown'} }.to_json.html_safe};
+  var servers_for_monitoring = #{ERB::Util.json_escape(@servers.map { |s| {id: s.id, name: s.name, ip: s.ip, port: s.port, flag: s.location&.flag || 'unknown'} }.to_json)};
 
   function formatServerMonitoring(server) {
     var flag = $(server.element).data('flag') || 'unknown';

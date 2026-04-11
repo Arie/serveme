@@ -283,50 +283,50 @@ class Gem::SourceIndex
   end
 end
 
-# source://yard//lib/yard/parser/ruby/legacy/irb/slex.rb#17
+# source://yard//lib/yard/parser/ruby/legacy/irb/slex.rb#35
 class IRB::SLex
   # @return [SLex] a new instance of SLex
   #
-  # source://yard//lib/yard/parser/ruby/legacy/irb/slex.rb#25
+  # source://yard//lib/yard/parser/ruby/legacy/irb/slex.rb#43
   def initialize; end
 
-  # source://yard//lib/yard/parser/ruby/legacy/irb/slex.rb#60
+  # source://yard//lib/yard/parser/ruby/legacy/irb/slex.rb#78
   def create(token, preproc = T.unsafe(nil), postproc = T.unsafe(nil)); end
 
-  # source://yard//lib/yard/parser/ruby/legacy/irb/slex.rb#29
+  # source://yard//lib/yard/parser/ruby/legacy/irb/slex.rb#47
   def def_rule(token, preproc = T.unsafe(nil), postproc = T.unsafe(nil), &block); end
 
-  # source://yard//lib/yard/parser/ruby/legacy/irb/slex.rb#36
+  # source://yard//lib/yard/parser/ruby/legacy/irb/slex.rb#54
   def def_rules(*tokens, &block); end
 
-  # source://yard//lib/yard/parser/ruby/legacy/irb/slex.rb#77
+  # source://yard//lib/yard/parser/ruby/legacy/irb/slex.rb#95
   def inspect; end
 
-  # source://yard//lib/yard/parser/ruby/legacy/irb/slex.rb#64
+  # source://yard//lib/yard/parser/ruby/legacy/irb/slex.rb#82
   def match(token); end
 
   # need a check?
   #
-  # source://yard//lib/yard/parser/ruby/legacy/irb/slex.rb#51
+  # source://yard//lib/yard/parser/ruby/legacy/irb/slex.rb#69
   def postproc(token); end
 
-  # source://yard//lib/yard/parser/ruby/legacy/irb/slex.rb#45
+  # source://yard//lib/yard/parser/ruby/legacy/irb/slex.rb#63
   def preproc(token, proc); end
 
-  # source://yard//lib/yard/parser/ruby/legacy/irb/slex.rb#56
+  # source://yard//lib/yard/parser/ruby/legacy/irb/slex.rb#74
   def search(token); end
 end
 
-# source://yard//lib/yard/parser/ruby/legacy/irb/slex.rb#18
+# source://yard//lib/yard/parser/ruby/legacy/irb/slex.rb#36
 IRB::SLex::DOUT = T.let(T.unsafe(nil), IRB::Notifier::CompositeNotifier)
 
-# source://yard//lib/yard/parser/ruby/legacy/irb/slex.rb#20
+# source://yard//lib/yard/parser/ruby/legacy/irb/slex.rb#38
 IRB::SLex::D_DEBUG = T.let(T.unsafe(nil), IRB::Notifier::LeveledNotifier)
 
-# source://yard//lib/yard/parser/ruby/legacy/irb/slex.rb#21
+# source://yard//lib/yard/parser/ruby/legacy/irb/slex.rb#39
 IRB::SLex::D_DETAIL = T.let(T.unsafe(nil), IRB::Notifier::LeveledNotifier)
 
-# source://yard//lib/yard/parser/ruby/legacy/irb/slex.rb#19
+# source://yard//lib/yard/parser/ruby/legacy/irb/slex.rb#37
 IRB::SLex::D_WARN = T.let(T.unsafe(nil), IRB::Notifier::LeveledNotifier)
 
 # ----------------------------------------------------------------------
@@ -335,17 +335,17 @@ IRB::SLex::D_WARN = T.let(T.unsafe(nil), IRB::Notifier::LeveledNotifier)
 #
 # ----------------------------------------------------------------------
 #
-# source://yard//lib/yard/parser/ruby/legacy/irb/slex.rb#86
+# source://yard//lib/yard/parser/ruby/legacy/irb/slex.rb#104
 class IRB::SLex::Node
   # if postproc is nil, this node is an abstract node.
   # if postproc is non-nil, this node is a real node.
   #
   # @return [Node] a new instance of Node
   #
-  # source://yard//lib/yard/parser/ruby/legacy/irb/slex.rb#89
+  # source://yard//lib/yard/parser/ruby/legacy/irb/slex.rb#107
   def initialize(preproc = T.unsafe(nil), postproc = T.unsafe(nil)); end
 
-  # source://yard//lib/yard/parser/ruby/legacy/irb/slex.rb#113
+  # source://yard//lib/yard/parser/ruby/legacy/irb/slex.rb#131
   def create_subnode(chrs, preproc = T.unsafe(nil), postproc = T.unsafe(nil)); end
 
   # chrs: String
@@ -353,37 +353,37 @@ class IRB::SLex::Node
   #       io must have getc()/ungetc(); and ungetc() must be
   #       able to be called arbitrary number of times.
   #
-  # source://yard//lib/yard/parser/ruby/legacy/irb/slex.rb#161
+  # source://yard//lib/yard/parser/ruby/legacy/irb/slex.rb#179
   def match(chrs, op = T.unsafe(nil)); end
 
-  # source://yard//lib/yard/parser/ruby/legacy/irb/slex.rb#198
+  # source://yard//lib/yard/parser/ruby/legacy/irb/slex.rb#216
   def match_io(io, op = T.unsafe(nil)); end
 
   # Returns the value of attribute postproc.
   #
-  # source://yard//lib/yard/parser/ruby/legacy/irb/slex.rb#96
+  # source://yard//lib/yard/parser/ruby/legacy/irb/slex.rb#114
   def postproc; end
 
   # Sets the attribute postproc
   #
   # @param value the value to set the attribute postproc to.
   #
-  # source://yard//lib/yard/parser/ruby/legacy/irb/slex.rb#96
+  # source://yard//lib/yard/parser/ruby/legacy/irb/slex.rb#114
   def postproc=(_arg0); end
 
   # Returns the value of attribute preproc.
   #
-  # source://yard//lib/yard/parser/ruby/legacy/irb/slex.rb#95
+  # source://yard//lib/yard/parser/ruby/legacy/irb/slex.rb#113
   def preproc; end
 
   # Sets the attribute preproc
   #
   # @param value the value to set the attribute preproc to.
   #
-  # source://yard//lib/yard/parser/ruby/legacy/irb/slex.rb#95
+  # source://yard//lib/yard/parser/ruby/legacy/irb/slex.rb#113
   def preproc=(_arg0); end
 
-  # source://yard//lib/yard/parser/ruby/legacy/irb/slex.rb#98
+  # source://yard//lib/yard/parser/ruby/legacy/irb/slex.rb#116
   def search(chrs, opt = T.unsafe(nil)); end
 end
 
@@ -10383,7 +10383,7 @@ class YARD::Parser::Ruby::RipperParser < ::Ripper
 
   # @since 0.5.6
   #
-  # source://yard//lib/yard/parser/ruby/ruby_parser.rb#700
+  # source://yard//lib/yard/parser/ruby/ruby_parser.rb#702
   def add_comment(line, node = T.unsafe(nil), before_node = T.unsafe(nil), into = T.unsafe(nil)); end
 
   # @since 0.5.6
@@ -10394,23 +10394,23 @@ class YARD::Parser::Ruby::RipperParser < ::Ripper
   # @return [Boolean]
   # @since 0.5.6
   #
-  # source://yard//lib/yard/parser/ruby/ruby_parser.rb#625
+  # source://yard//lib/yard/parser/ruby/ruby_parser.rb#627
   def comment_starts_line?(charno); end
 
   # @raise [ParserSyntaxError]
   # @since 0.5.6
   #
-  # source://yard//lib/yard/parser/ruby/ruby_parser.rb#623
+  # source://yard//lib/yard/parser/ruby/ruby_parser.rb#625
   def compile_error(msg); end
 
   # @since 0.5.6
   #
-  # source://yard//lib/yard/parser/ruby/ruby_parser.rb#726
+  # source://yard//lib/yard/parser/ruby/ruby_parser.rb#728
   def freeze_tree(node = T.unsafe(nil)); end
 
   # @since 0.5.6
   #
-  # source://yard//lib/yard/parser/ruby/ruby_parser.rb#634
+  # source://yard//lib/yard/parser/ruby/ruby_parser.rb#636
   def insert_comments; end
 
   # @since 0.5.6

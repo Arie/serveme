@@ -57,13 +57,11 @@ class StripeWebhooksController < ApplicationController
         payload, sig_header, endpoint_secret
       )
     rescue JSON::ParserError => e
-      puts "Error parsing payload: #{e.message}"
-      status 400
-      nil
+      Rails.logger.error "Error parsing payload: #{e.message}"
+      head :bad_request
     rescue Stripe::SignatureVerificationError => e
-      puts "Error verifying webhook signature: #{e.message}"
-      status 400
-      nil
+      Rails.logger.error "Error verifying webhook signature: #{e.message}"
+      head :bad_request
     end
   end
 

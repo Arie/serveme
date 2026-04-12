@@ -131,9 +131,8 @@ FAKEIP_FLAG="${ENABLE_FAKEIP:+-enablefakeip}"
 graceful_shutdown() {
     echo "Received shutdown signal, stopping STV recording..."
     if [ -x "$HOME/hlserver/rcon" ]; then
-        RCON_CMD="timeout 5 $HOME/hlserver/rcon -H 127.0.0.1 -p $PORT -P ${RCON_PASSWORD:-changeme}"
-        $RCON_CMD tv_stoprecord 2>/dev/null || true
-        $RCON_CMD sv_logflush 1 2>/dev/null || true
+        timeout 5 "$HOME/hlserver/rcon" -H 127.0.0.1 -p "$PORT" -P "${RCON_PASSWORD:-changeme}" tv_stoprecord 2>/dev/null || true
+        timeout 5 "$HOME/hlserver/rcon" -H 127.0.0.1 -p "$PORT" -P "${RCON_PASSWORD:-changeme}" sv_logflush 1 2>/dev/null || true
         sleep 2
     fi
     echo "Shutdown complete, exiting."

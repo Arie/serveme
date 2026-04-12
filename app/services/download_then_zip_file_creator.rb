@@ -1,6 +1,8 @@
 # typed: true
 # frozen_string_literal: true
 
+require "open3"
+
 class DownloadThenZipFileCreator < ZipFileCreator
   def create_zip
     tmp_dir = Dir.mktmpdir
@@ -21,7 +23,8 @@ class DownloadThenZipFileCreator < ZipFileCreator
     return if log_files.empty?
 
     sed_expression = 's/(\b[0-9]{1,3}\.){3}[0-9]{1,3}\b/0.0.0.0/g;s/logstf_apikey \"\S+\"/logstf_apikey \"apikey\"/g;s/tftrue_logs_apikey \"\S+\"/tftrue_logs_apikey \"apikey\"/g;s/sm_demostf_apikey \"\S+\"/sm_demostf_apikey \"apikey\"/g'
-    system({ "LANG" => "ALL", "LC_ALL" => "C" }, "sed", "-i", "-r", sed_expression, *log_files)
+    _, stderr, status = T.unsafe(Open3).capture3({ "LANG" => "ALL", "LC_ALL" => "C" }, "sed", "-i", "-r", sed_expression, *log_files)
+    Rails.logger.error("Failed to strip IPs/API keys from logs: #{stderr}") unless status.success?
   end
 
   def zip(tmp_dir)

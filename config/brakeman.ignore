@@ -1,29 +1,6 @@
 {
   "ignored_warnings": [
     {
-      "warning_type": "Command Injection",
-      "warning_code": 14,
-      "fingerprint": "4316d5192d6e2aaf4e068cb35280b97a63a6c4d25a83398acbd075f6ba11fb60",
-      "check_name": "Execute",
-      "message": "Possible command injection",
-      "file": "app/services/local_log_copier.rb",
-      "line": 10,
-      "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
-      "code": "system(\"#{\"LANG=ALL LC_ALL=C sed -i -r 's/(\\\\b[0-9]{1,3}\\\\.){3}[0-9]{1,3}\\\\b/0.0.0.0/g'\"} #{logs.map(&:shellescape).join(\" \")}\")",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "LocalLogCopier",
-        "method": "copy_logs"
-      },
-      "user_input": "logs.map(&:shellescape).join(\" \")",
-      "confidence": "Medium",
-      "cwe_id": [
-        77
-      ],
-      "note": ""
-    },
-    {
       "warning_type": "File Access",
       "warning_code": 16,
       "fingerprint": "511f53654b5c8af1beec82da34bc9999a71e655c190f8cefaf59c15a57d2e011",
@@ -43,29 +20,6 @@
       "confidence": "Weak",
       "cwe_id": [
         22
-      ],
-      "note": ""
-    },
-    {
-      "warning_type": "Command Injection",
-      "warning_code": 14,
-      "fingerprint": "5c13513c490134f811a9ce40fb0710583328ce4ec8d6e3c6be682fe780c78f5a",
-      "check_name": "Execute",
-      "message": "Possible command injection",
-      "file": "app/services/local_zip_file_creator.rb",
-      "line": 14,
-      "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
-      "code": "system(\"zip -j #{zipfile_name_and_path} #{shell_escaped_files_to_zip.join(\" \")}\")",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "LocalZipFileCreator",
-        "method": "zip"
-      },
-      "user_input": "zipfile_name_and_path",
-      "confidence": "Medium",
-      "cwe_id": [
-        77
       ],
       "note": ""
     },
@@ -300,36 +254,13 @@
     {
       "warning_type": "Command Injection",
       "warning_code": 14,
-      "fingerprint": "bd285912e5f534af989f66277b64f5083f62c7675df69bfc8736c5379aeffefa",
-      "check_name": "Execute",
-      "message": "Possible command injection",
-      "file": "app/services/local_log_copier.rb",
-      "line": 11,
-      "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
-      "code": "system(\"cp #{logs.map(&:shellescape).join(\" \")} #{directory_to_copy_to}\")",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "LocalLogCopier",
-        "method": "copy_logs"
-      },
-      "user_input": "logs.map(&:shellescape).join(\" \")",
-      "confidence": "Medium",
-      "cwe_id": [
-        77
-      ],
-      "note": ""
-    },
-    {
-      "warning_type": "Command Injection",
-      "warning_code": 14,
-      "fingerprint": "f6fc3ae15212f2e291062a9066b4d3ecf2d27067682dcad1e41cc394b77d96f4",
+      "fingerprint": "da9c3e471b22cf700ec3de7afa1ae47c6266e86e6816726e45b177b1c33cb562",
       "check_name": "Execute",
       "message": "Possible command injection",
       "file": "app/services/download_then_zip_file_creator.rb",
-      "line": 22,
+      "line": 26,
       "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
-      "code": "system(\"#{\"LANG=ALL LC_ALL=C sed -i -r 's/(\\\\b[0-9]{1,3}\\\\.){3}[0-9]{1,3}\\\\b/0.0.0.0/g;s/logstf_apikey \\\\\\\"\\\\S+\\\\\\\"/logstf_apikey \\\\\\\"apikey\\\\\\\"/g;s/tftrue_logs_apikey \\\\\\\"\\\\S+\\\\\\\"/tftrue_logs_apikey \\\\\\\"apikey\\\\\\\"/g;s/sm_demostf_apikey \\\\\\\"\\\\S+\\\\\\\"/sm_demostf_apikey \\\\\\\"apikey\\\\\\\"/g'\"} #{\"#{tmp_dir}/*.log\"}\")",
+      "code": "Open3.capture3({ \"LANG\" => \"ALL\", \"LC_ALL\" => \"C\" }, \"sed\", \"-i\", \"-r\", \"s/(\\\\b[0-9]{1,3}\\\\.){3}[0-9]{1,3}\\\\b/0.0.0.0/g;s/logstf_apikey \\\"\\\\S+\\\"/logstf_apikey \\\"apikey\\\"/g;s/tftrue_logs_apikey \\\"\\\\S+\\\"/tftrue_logs_apikey \\\"apikey\\\"/g;s/sm_demostf_apikey \\\"\\\\S+\\\"/sm_demostf_apikey \\\"apikey\\\"/g\", *Dir.glob(\"#{tmp_dir}/*.log\"))",
       "render_path": null,
       "location": {
         "type": "method",
@@ -341,7 +272,7 @@
       "cwe_id": [
         77
       ],
-      "note": ""
+      "note": "False positive - Open3.capture3 with array args avoids shell, tmp_dir is from Dir.mktmpdir"
     },
     {
       "warning_type": "Command Injection",

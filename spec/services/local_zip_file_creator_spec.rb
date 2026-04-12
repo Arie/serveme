@@ -15,7 +15,7 @@ describe LocalZipFileCreator do
       zip_creator.stub(files_to_zip: [ 'foo/qux.dem' ])
       zip_creator.stub(zipfile_name_and_path: 'bar.zip')
 
-      zip_creator.should_receive(:system).with('zip', '-j', 'bar.zip', 'foo/qux.dem')
+      expect(Open3).to receive(:capture3).with('zip', '-j', 'bar.zip', 'foo/qux.dem').and_return([ "", "", double(success?: true) ])
 
       zip_creator.zip
     end

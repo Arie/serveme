@@ -66,6 +66,17 @@ describe PaypalOrder do
         order.charge('payer_id', payment_class)
       end
     end
+
+    describe 'PayPal response encoding' do
+      it 'handles non-ASCII UTF-8 characters in ASCII-8BIT response bodies' do
+        json_body = "{\"id\":\"PAY-123\",\"payer\":{\"name\":\"Jos\xC3\xA9\"}}".b
+        response = double(body: json_body, code: "200", content_type: "application/json")
+        api = PayPal::SDK::Core::API::REST.allocate
+        payload = { response: response }
+
+        expect { api.send(:format_response, payload) }.not_to raise_error
+      end
+    end
   end
 
   context 'monthly goal' do

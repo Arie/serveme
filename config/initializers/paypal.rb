@@ -27,3 +27,22 @@ PayPal::SDK.configure do |config|
 end
 
 PayPal::SDK.logger = Rails.logger
+
+# Fix encoding issue: PayPal API responses come back as ASCII-8BIT,
+# but MultiJson's json_gem adapter uses String#encode which tries to
+# transcode rather than re-tag. This fails on valid UTF-8 multi-byte
+# characters (e.g. accented names). Force-encoding to UTF-8 before
+# parsing fixes SERVEME-254.
+module PaypalResponseEncodingFix
+  extend T::Sig
+
+  sig { params(payload: T::Hash[Symbol, T.untyped]).returns(T.untyped) }
+  def format_response(payload)
+    response = payload[:response]
+    if response.body && response.body.encoding == Encoding::ASCII_8BIT
+      response.body.force_encoding(Encoding::UTF_8)
+    end
+    super
+  end
+end
+PayPal::SDK::Core::API::REST.prepend(PaypalResponseEncodingFix)

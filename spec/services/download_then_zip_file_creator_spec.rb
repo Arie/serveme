@@ -31,6 +31,23 @@ describe DownloadThenZipFileCreator do
     end
   end
 
+  describe '#strip_ips_and_api_keys_from_log_files' do
+    it 'uses array form system call to avoid shell injection' do
+      zip_file = described_class.new(reservation, [])
+      allow(zip_file).to receive(:strip_ips_and_api_keys_from_log_files).and_call_original
+      allow(Dir).to receive(:glob).with("/tmp/some_dir/*.log").and_return(["/tmp/some_dir/a.log", "/tmp/some_dir/b.log"])
+
+      zip_file.should_receive(:system).with(
+        { "LANG" => "ALL", "LC_ALL" => "C" },
+        "sed", "-i", "-r",
+        's/(\b[0-9]{1,3}\.){3}[0-9]{1,3}\b/0.0.0.0/g;s/logstf_apikey \"\S+\"/logstf_apikey \"apikey\"/g;s/tftrue_logs_apikey \"\S+\"/tftrue_logs_apikey \"apikey\"/g;s/sm_demostf_apikey \"\S+\"/sm_demostf_apikey \"apikey\"/g',
+        "/tmp/some_dir/a.log", "/tmp/some_dir/b.log"
+      )
+
+      zip_file.strip_ips_and_api_keys_from_log_files("/tmp/some_dir")
+    end
+  end
+
   describe '#zip' do
     it 'zips the file in the tmp dir' do
       zip_file_stub = double

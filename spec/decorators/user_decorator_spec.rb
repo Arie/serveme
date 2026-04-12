@@ -14,6 +14,13 @@ describe UserDecorator do
         user.stub(nickname: 'Foo')
         subject.nickname.should == '<span class="donator">Foo <icon class="fa fa-star" title="Premium"></icon></span>'
       end
+
+      it 'escapes HTML in the nickname to prevent XSS' do
+        user.stub(donator?: true)
+        user.stub(nickname: '<script>alert(1)</script>')
+        expect(subject.nickname).not_to include('<script>')
+        expect(subject.nickname).to include('&lt;script&gt;')
+      end
     end
 
     context 'non-donator' do

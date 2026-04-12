@@ -7,7 +7,7 @@ class UserDecorator < Draper::Decorator
 
   def nickname
     if donator?
-      tag.span "#{object.nickname} #{donator_icon}".html_safe, class: "donator"
+      tag.span safe_join([object.nickname, " ", donator_icon]), class: "donator"
     else
       object.nickname
     end

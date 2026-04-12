@@ -5,10 +5,10 @@
 alias sm_testdiscord
 
 <%= %{hostname "#{SITE_HOST} ##{id}"} %>
-rcon_password "<%= rcon %>"
-sv_password "<%= password %>"
-tv_password "<%= tv_password %>"
-tv_relaypassword "<%= tv_relaypassword %>"
+rcon_password "<%= source_engine_escape(rcon) %>"
+sv_password "<%= source_engine_escape(password) %>"
+tv_password "<%= source_engine_escape(tv_password) %>"
+tv_relaypassword "<%= source_engine_escape(tv_relaypassword) %>"
 sv_logflush 0
 sv_logbans 1
 logaddress_add <%= "direct.#{SITE_HOST}:40001" %>

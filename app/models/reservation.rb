@@ -287,6 +287,11 @@ class Reservation < ActiveRecord::Base
   end
   # rubocop:enable Naming/AccessorMethodName
 
+  sig { params(value: String).returns(String) }
+  def source_engine_escape(value)
+    value.gsub("\\") { "\\\\" }.gsub('"') { '\\"' }
+  end
+
   sig { returns(T::Boolean) }
   def times_entered?
     !!(starts_at && ends_at)

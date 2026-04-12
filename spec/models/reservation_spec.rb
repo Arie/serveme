@@ -55,7 +55,7 @@ describe Reservation do
       end
 
       # Test all invalid characters (smaller set)
-      invalid_chars = [ '"', '💩', ';', '%' ]
+      invalid_chars = [ '"', '💩', ';', '%', '\\', '/' ]
       invalid_chars.each do |char|
         reservation.password = "#{valid_pw}#{char}"
         reservation.should have(1).error_on(:password)

@@ -106,6 +106,32 @@ describe ApplicationController do
     end
   end
 
+  context 'when whitelisted user is on a VPN' do
+    controller(PagesController) do
+      skip_before_action :redirect_if_country_banned
+      define_method(:index) do ||
+        render plain: 'foo'
+      end
+    end
+
+    let(:user) { create(:user) }
+    let(:vpn_ip) { '1.1.1.1' }
+
+    before do
+      sign_in user
+      user.update(current_sign_in_ip: vpn_ip)
+      allow(ReservationPlayer).to receive(:banned_asn_ip?).with(vpn_ip).and_return(true)
+      allow(ReservationPlayer).to receive(:whitelisted_uid?).and_return('routing VPN')
+    end
+
+    it 'allows whitelisted user to stay signed in' do
+      get :index
+
+      expect(response).to have_http_status(:success)
+      expect(controller.current_user).to eq(user)
+    end
+  end
+
   context 'when admin user is on a VPN' do
     controller(PagesController) do
       skip_before_action :redirect_if_country_banned

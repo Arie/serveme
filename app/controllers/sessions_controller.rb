@@ -17,7 +17,7 @@ class SessionsController < Devise::OmniauthCallbacksController
 
     remember_me(user)
 
-    if user.current_sign_in_ip && ReservationPlayer.banned_asn_ip?(user.current_sign_in_ip) && !user.admin?
+    if user.current_sign_in_ip && ReservationPlayer.banned_asn_ip?(user.current_sign_in_ip) && !user.admin? && !ReservationPlayer.whitelisted_uid?(user.uid)
       sign_in(user, event: :authentication)
       set_flash_message(:notice, :success, kind: "Steam") if is_navigational_format?
       redirect_to sdr_path

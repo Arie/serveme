@@ -80,6 +80,17 @@ describe ReservationPlayer do
     it 'returns nil for a non-whitelisted ip' do
       expect(described_class.whitelisted_ip?('127.0.0.1')).to be_nil
     end
+
+    it 'supports ipv6 whitelisted ranges' do
+      described_class.stub(:whitelisted_ips).and_return([ [ IPAddr.new('2001:db8::/32'), 'ipv6 reason' ] ])
+      expect(described_class.whitelisted_ip?('2001:db8::1')).to eql 'ipv6 reason'
+      expect(described_class.whitelisted_ip?('2001:db9::1')).to be_nil
+    end
+
+    it 'does not cross-match ipv4 against ipv6 whitelisted ranges' do
+      described_class.stub(:whitelisted_ips).and_return([ [ IPAddr.new('2001:db8::/32'), 'ipv6 reason' ] ])
+      expect(described_class.whitelisted_ip?('192.168.1.1')).to be_nil
+    end
   end
 
   context 'banned ip' do
@@ -88,6 +99,20 @@ describe ReservationPlayer do
     end
     it 'doesnt flag a good ip as banned' do
       expect(described_class.banned_ip?('127.0.0.1')).to be_falsy
+    end
+
+    it 'recognizes a banned ipv6 address' do
+      described_class.stub(:banned_ips).and_return([ [ IPAddr.new('2001:db8::/32'), 'banned ipv6 range' ] ])
+      expect(described_class.banned_ip?('2001:db8::1')).to eql 'banned ipv6 range'
+    end
+
+    it 'doesnt flag a good ipv6 as banned' do
+      expect(described_class.banned_ip?('::1')).to be_falsy
+    end
+
+    it 'does not cross-match ipv4 against ipv6 banned ranges' do
+      described_class.stub(:banned_ips).and_return([ [ IPAddr.new('2001:db8::/32'), 'banned ipv6 range' ] ])
+      expect(described_class.banned_ip?('192.168.1.1')).to be_falsy
     end
   end
 

@@ -16,7 +16,7 @@ OptionParser.new do |parser|
   end
 end.parse!
 
-files = [ "banned_steam_ids.csv", "banned_ips.csv", "vpn_ips.csv", "whitelisted_steam_ids.csv", "bad-asn-list.csv" ]
+files = [ "banned_steam_ids.csv", "banned_ips.csv", "vpn_ips.csv", "whitelisted_steam_ids.csv", "whitelisted_ips.csv", "bad-asn-list.csv" ]
 doc_dir = File.join(APP_ROOT, "doc")
 files_modified = []
 

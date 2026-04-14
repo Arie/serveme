@@ -60,6 +60,28 @@ describe ReservationPlayer do
     end
   end
 
+  context 'whitelisted ip' do
+    it 'doesnt flag a banned ip as banned when whitelisted' do
+      described_class.stub(:whitelisted_ips).and_return([ [ IPAddr.new('93.45.84.0/24'), 'routing VPN' ] ])
+      expect(described_class.banned_ip?('93.45.84.1')).to be_falsy
+    end
+
+    it 'doesnt flag a banned ASN ip as banned when whitelisted' do
+      described_class.stub(:banned_asns).and_return([ 1221 ])
+      described_class.stub(:whitelisted_ips).and_return([ [ IPAddr.new('1.128.0.0/24'), 'routing VPN' ] ])
+      expect(described_class.banned_asn_ip?('1.128.0.1')).to be_falsy
+    end
+
+    it 'returns the reason for a whitelisted ip' do
+      described_class.stub(:whitelisted_ips).and_return([ [ IPAddr.new('10.0.0.0/24'), 'test reason' ] ])
+      expect(described_class.whitelisted_ip?('10.0.0.1')).to eql 'test reason'
+    end
+
+    it 'returns nil for a non-whitelisted ip' do
+      expect(described_class.whitelisted_ip?('127.0.0.1')).to be_nil
+    end
+  end
+
   context 'banned ip' do
     it 'recognizes a banned ip in a range' do
       expect(described_class.banned_ip?('93.45.84.1')).to be_truthy

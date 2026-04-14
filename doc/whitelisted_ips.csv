@@ -1,0 +1,4 @@
+ip,name,reason
+2a01:e11:9000::/36,illiad,illiad started using scaleways SAS ip ranges
+78.210.128.0/17,illiad,illiad started using scaleways SAS ip ranges
+81.56.0.0/16,illiad,illiad started using scaleways SAS ip ranges

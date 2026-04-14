@@ -57,6 +57,19 @@ class ReservationPlayer < ActiveRecord::Base
     @whitelisted_uids ||= CSV.read(Rails.root.join("doc", "whitelisted_steam_ids.csv"), headers: true).to_h { |row| [ row["steam_id64"].to_i, row["reason"] ] }
   end
 
+  sig { params(ip: T.nilable(String)).returns(T.nilable(String)) }
+  def self.whitelisted_ip?(ip)
+    return nil unless ip
+
+    whitelisted = whitelisted_ips.find { |range, _reason| range.include?(ip) }
+    whitelisted&.last
+  end
+
+  sig { returns(T::Array[T.untyped]) }
+  def self.whitelisted_ips
+    @whitelisted_ips ||= CSV.read(Rails.root.join("doc", "whitelisted_ips.csv"), headers: true).map { |row| [ IPAddr.new(row["ip"]), row["reason"] ] }
+  end
+
   sig { params(steam_id64: T.nilable(T.any(Integer, String))).returns(T.nilable(String)) }
   def self.banned_uid?(steam_id64)
     banned_uids[steam_id64.to_i]
@@ -65,6 +78,7 @@ class ReservationPlayer < ActiveRecord::Base
   sig { params(ip: T.nilable(String)).returns(T.nilable(T.any(String, T::Boolean))) }
   def self.banned_ip?(ip)
     return false unless ip
+    return false if whitelisted_ip?(ip)
 
     banned_ip = banned_ips.find { |range, _reason| range.include?(ip) }
     return banned_ip[1] if banned_ip
@@ -94,6 +108,8 @@ class ReservationPlayer < ActiveRecord::Base
 
   sig { params(ip: T.nilable(String)).returns(T.nilable(T::Boolean)) }
   def self.banned_asn_ip?(ip)
+    return false if whitelisted_ip?(ip)
+
     banned_asn?(asn(ip)) || (ip && vpn_ranges.any? { |range| range.include?(ip) })
   end
 

@@ -1080,11 +1080,6 @@ class Minitest::Runnable
     # source://minitest//lib/minitest.rb#423
     def reset; end
 
-    # Runs a single method and has the reporter record the result.
-    # This was considered internal API but is factored out of run so
-    # that subclasses can specialize the running of an individual
-    # test. See Minitest::ParallelTest::ClassMethods for an example.
-    #
     # source://minitest//lib/minitest.rb#484
     def run(klass, method_name, reporter); end
 
@@ -1094,10 +1089,6 @@ class Minitest::Runnable
     # source://minitest//lib/minitest.rb#493
     def run_order; end
 
-    # Responsible for running all runnable methods in a given class,
-    # each in its own instance. Each instance is passed to the
-    # reporter to record.
-    #
     # source://minitest//lib/minitest.rb#452
     def run_suite(reporter, options = T.unsafe(nil)); end
 

@@ -2932,6 +2932,11 @@ module Anthropic
 
       TaggedSymbol = T.type_alias { T.all(Symbol, Anthropic::AnthropicBeta) }
 
+      USER_PROFILES_2026_03_24 = T.let(
+          :"user-profiles-2026-03-24",
+          Anthropic::AnthropicBeta::TaggedSymbol
+        )
+
       Variants = T.type_alias { T.any(String, Anthropic::AnthropicBeta::TaggedSymbol) }
     end
 
@@ -7798,10 +7803,21 @@ module Anthropic
         sig { returns(T.nilable(String)) }
         attr_accessor :content
 
+        # Opaque metadata from prior compaction, to be round-tripped verbatim
+        sig { returns(T.nilable(String)) }
+        attr_accessor :encrypted_content
+
         sig { returns(Symbol) }
         attr_accessor :type
 
-        sig { override.returns({ content: T.nilable(String), type: Symbol }) }
+        sig do
+          override
+            .returns({
+              content: T.nilable(String),
+              encrypted_content: T.nilable(String),
+              type: Symbol
+            })
+        end
         def to_hash; end
 
         class << self
@@ -7810,9 +7826,16 @@ module Anthropic
           # When content is None, it indicates the compaction failed to produce a valid
           # summary (e.g., malformed output from the model). Clients may round-trip
           # compaction blocks with null content; the server treats them as no-ops.
-          sig { params(content: T.nilable(String), type: Symbol).returns(T.attached_class) }
+          sig do
+            params(
+              content: T.nilable(String),
+              encrypted_content: T.nilable(String),
+              type: Symbol
+            ).returns(T.attached_class)
+          end
           def new(
             content:, # Summary of compacted content, or null if compaction failed
+            encrypted_content:, # Opaque metadata from prior compaction, to be round-tripped verbatim
             type: :compaction
 ); end
         end
@@ -7837,6 +7860,10 @@ module Anthropic
         sig { returns(T.nilable(String)) }
         attr_accessor :content
 
+        # Opaque metadata from prior compaction, to be round-tripped verbatim
+        sig { returns(T.nilable(String)) }
+        attr_accessor :encrypted_content
+
         sig { returns(Symbol) }
         attr_accessor :type
 
@@ -7846,7 +7873,8 @@ module Anthropic
               content: T.nilable(String),
               type: Symbol,
               cache_control:
-                T.nilable(Anthropic::Beta::BetaCacheControlEphemeral)
+                T.nilable(Anthropic::Beta::BetaCacheControlEphemeral),
+              encrypted_content: T.nilable(String)
             })
         end
         def to_hash; end
@@ -7863,12 +7891,14 @@ module Anthropic
             params(
               content: T.nilable(String),
               cache_control: T.nilable(Anthropic::Beta::BetaCacheControlEphemeral::OrHash),
+              encrypted_content: T.nilable(String),
               type: Symbol
             ).returns(T.attached_class)
           end
           def new(
             content:, # Summary of previously compacted content, or null if compaction failed
             cache_control: nil, # Create a cache control breakpoint at this content block.
+            encrypted_content: nil, # Opaque metadata from prior compaction, to be round-tripped verbatim
             type: :compaction
 ); end
         end
@@ -7885,15 +7915,36 @@ module Anthropic
         sig { returns(T.nilable(String)) }
         attr_accessor :content
 
+        # Opaque metadata from prior compaction, to be round-tripped verbatim
+        sig { returns(T.nilable(String)) }
+        attr_accessor :encrypted_content
+
         sig { returns(Symbol) }
         attr_accessor :type
 
-        sig { override.returns({ content: T.nilable(String), type: Symbol }) }
+        sig do
+          override
+            .returns({
+              content: T.nilable(String),
+              encrypted_content: T.nilable(String),
+              type: Symbol
+            })
+        end
         def to_hash; end
 
         class << self
-          sig { params(content: T.nilable(String), type: Symbol).returns(T.attached_class) }
-          def new(content:, type: :compaction_delta); end
+          sig do
+            params(
+              content: T.nilable(String),
+              encrypted_content: T.nilable(String),
+              type: Symbol
+            ).returns(T.attached_class)
+          end
+          def new(
+            content:,
+            encrypted_content:, # Opaque metadata from prior compaction, to be round-tripped verbatim
+            type: :compaction_delta
+); end
         end
 
         OrHash = T.type_alias do
@@ -8654,6 +8705,13 @@ module Anthropic
         sig { returns(T::Boolean) }
         attr_accessor :supported
 
+        # Indicates whether a capability is supported.
+        sig { returns(T.nilable(Anthropic::Beta::BetaCapabilitySupport)) }
+        attr_reader :xhigh
+
+        sig { params(xhigh: T.nilable(Anthropic::Beta::BetaCapabilitySupport::OrHash)).void }
+        attr_writer :xhigh
+
         sig do
           override
             .returns({
@@ -8661,7 +8719,8 @@ module Anthropic
               low: Anthropic::Beta::BetaCapabilitySupport,
               max: Anthropic::Beta::BetaCapabilitySupport,
               medium: Anthropic::Beta::BetaCapabilitySupport,
-              supported: T::Boolean
+              supported: T::Boolean,
+              xhigh: T.nilable(Anthropic::Beta::BetaCapabilitySupport)
             })
         end
         def to_hash; end
@@ -8674,7 +8733,8 @@ module Anthropic
               low: Anthropic::Beta::BetaCapabilitySupport::OrHash,
               max: Anthropic::Beta::BetaCapabilitySupport::OrHash,
               medium: Anthropic::Beta::BetaCapabilitySupport::OrHash,
-              supported: T::Boolean
+              supported: T::Boolean,
+              xhigh: T.nilable(Anthropic::Beta::BetaCapabilitySupport::OrHash)
             ).returns(T.attached_class)
           end
           def new(
@@ -8682,7 +8742,8 @@ module Anthropic
             low:, # Whether the model supports low effort level.
             max:, # Whether the model supports max effort level.
             medium:, # Whether the model supports medium effort level.
-            supported: # Whether this capability is supported by the model.
+            supported:, # Whether this capability is supported by the model.
+            xhigh: # Indicates whether a capability is supported.
 ); end
         end
 
@@ -12337,6 +12398,12 @@ module Anthropic
             Anthropic::Beta::BetaManagedAgentsModel::TaggedSymbol
           )
 
+        # Frontier intelligence for long-running agents and coding
+        CLAUDE_OPUS_4_7 = T.let(
+            :"claude-opus-4-7",
+            Anthropic::Beta::BetaManagedAgentsModel::TaggedSymbol
+          )
+
         # High-performance model for agents and coding
         CLAUDE_SONNET_4_5 = T.let(
             :"claude-sonnet-4-5",
@@ -14453,12 +14520,20 @@ module Anthropic
         sig { params(format_: T.nilable(Anthropic::Beta::BetaJSONOutputFormat::OrHash)).void }
         attr_writer :format_
 
+        # User-configurable total token budget across contexts.
+        sig { returns(T.nilable(Anthropic::Beta::BetaTokenTaskBudget)) }
+        attr_reader :task_budget
+
+        sig { params(task_budget: T.nilable(Anthropic::Beta::BetaTokenTaskBudget::OrHash)).void }
+        attr_writer :task_budget
+
         sig do
           override
             .returns({
               effort:
                 T.nilable(Anthropic::Beta::BetaOutputConfig::Effort::OrSymbol),
-              format_: T.nilable(Anthropic::Beta::BetaJSONOutputFormat)
+              format_: T.nilable(Anthropic::Beta::BetaJSONOutputFormat),
+              task_budget: T.nilable(Anthropic::Beta::BetaTokenTaskBudget)
             })
         end
         def to_hash; end
@@ -14467,13 +14542,15 @@ module Anthropic
           sig do
             params(
               effort: T.nilable(Anthropic::Beta::BetaOutputConfig::Effort::OrSymbol),
-              format_: T.nilable(Anthropic::Beta::BetaJSONOutputFormat::OrHash)
+              format_: T.nilable(Anthropic::Beta::BetaJSONOutputFormat::OrHash),
+              task_budget: T.nilable(Anthropic::Beta::BetaTokenTaskBudget::OrHash)
             ).returns(T.attached_class)
           end
           def new(
             effort: nil, # All possible effort levels.
-            format_: nil # A schema to specify Claude's output format in responses. See
-                         # [structured outputs](https://platform.claude.com/docs/en/build-with-claude/structured-outputs)
+            format_: nil, # A schema to specify Claude's output format in responses. See
+                          # [structured outputs](https://platform.claude.com/docs/en/build-with-claude/structured-outputs)
+            task_budget: nil # User-configurable total token budget across contexts.
 ); end
         end
 
@@ -14505,6 +14582,11 @@ module Anthropic
           TaggedSymbol = T.type_alias do
               T.all(Symbol, Anthropic::Beta::BetaOutputConfig::Effort)
             end
+
+          XHIGH = T.let(
+              :xhigh,
+              Anthropic::Beta::BetaOutputConfig::Effort::TaggedSymbol
+            )
         end
 
         OrHash = T.type_alias do
@@ -17559,6 +17641,42 @@ module Anthropic
         OrHash = T.type_alias do
             T.any(
               Anthropic::Beta::BetaThinkingTypes,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
+      class BetaTokenTaskBudget < Anthropic::Internal::Type::BaseModel
+        # Remaining tokens in the budget. Use this to track usage across contexts when
+        # implementing compaction client-side. Defaults to total if not provided.
+        sig { returns(T.nilable(Integer)) }
+        attr_accessor :remaining
+
+        # Total token budget across all contexts in the session.
+        sig { returns(Integer) }
+        attr_accessor :total
+
+        # The budget type. Currently only 'tokens' is supported.
+        sig { returns(Symbol) }
+        attr_accessor :type
+
+        sig { override.returns({ total: Integer, type: Symbol, remaining: T.nilable(Integer) }) }
+        def to_hash; end
+
+        class << self
+          # User-configurable total token budget across contexts.
+          sig { params(total: Integer, remaining: T.nilable(Integer), type: Symbol).returns(T.attached_class) }
+          def new(
+            total:, # Total token budget across all contexts in the session.
+            remaining: nil, # Remaining tokens in the budget. Use this to track usage across contexts when
+                            # implementing compaction client-side. Defaults to total if not provided.
+            type: :tokens # The budget type. Currently only 'tokens' is supported.
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaTokenTaskBudget,
               Anthropic::Internal::AnyHash
             )
           end
@@ -20948,6 +21066,251 @@ module Anthropic
               Anthropic::Internal::AnyHash
             )
           end
+      end
+
+      class BetaUserProfile < Anthropic::Internal::Type::BaseModel
+        # A timestamp in RFC 3339 format
+        sig { returns(Time) }
+        attr_accessor :created_at
+
+        # Platform's own identifier for this user. Not enforced unique.
+        sig { returns(T.nilable(String)) }
+        attr_accessor :external_id
+
+        # Unique identifier for this user profile, prefixed `uprof_`.
+        sig { returns(String) }
+        attr_accessor :id
+
+        # Arbitrary key-value metadata. Maximum 16 pairs, keys up to 64 chars, values up
+        # to 512 chars.
+        sig { returns(T::Hash[Symbol, String]) }
+        attr_accessor :metadata
+
+        # Trust grants for this profile, keyed by grant name. Key omitted when no grant is
+        # active or in flight.
+        sig { returns(T::Hash[Symbol, Anthropic::Beta::BetaUserProfileTrustGrant]) }
+        attr_accessor :trust_grants
+
+        # Object type. Always `user_profile`.
+        sig { returns(Anthropic::Beta::BetaUserProfile::Type::TaggedSymbol) }
+        attr_accessor :type
+
+        # A timestamp in RFC 3339 format
+        sig { returns(Time) }
+        attr_accessor :updated_at
+
+        sig do
+          override
+            .returns({
+              id: String,
+              created_at: Time,
+              metadata: T::Hash[Symbol, String],
+              trust_grants:
+                T::Hash[Symbol, Anthropic::Beta::BetaUserProfileTrustGrant],
+              type: Anthropic::Beta::BetaUserProfile::Type::TaggedSymbol,
+              updated_at: Time,
+              external_id: T.nilable(String)
+            })
+        end
+        def to_hash; end
+
+        class << self
+          sig do
+            params(
+              id: String,
+              created_at: Time,
+              metadata: T::Hash[Symbol, String],
+              trust_grants: T::Hash[
+                Symbol,
+                Anthropic::Beta::BetaUserProfileTrustGrant::OrHash
+              ],
+              type: Anthropic::Beta::BetaUserProfile::Type::OrSymbol,
+              updated_at: Time,
+              external_id: T.nilable(String)
+            ).returns(T.attached_class)
+          end
+          def new(
+            id:, # Unique identifier for this user profile, prefixed `uprof_`.
+            created_at:, # A timestamp in RFC 3339 format
+            metadata:, # Arbitrary key-value metadata. Maximum 16 pairs, keys up to 64 chars, values up
+                       # to 512 chars.
+            trust_grants:, # Trust grants for this profile, keyed by grant name. Key omitted when no grant is
+                           # active or in flight.
+            type:, # Object type. Always `user_profile`.
+            updated_at:, # A timestamp in RFC 3339 format
+            external_id: nil # Platform's own identifier for this user. Not enforced unique.
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaUserProfile,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        # Object type. Always `user_profile`.
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig { override.returns(T::Array[Anthropic::Beta::BetaUserProfile::Type::TaggedSymbol]) }
+            def values; end
+          end
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(Symbol, Anthropic::Beta::BetaUserProfile::Type)
+            end
+
+          USER_PROFILE = T.let(
+              :user_profile,
+              Anthropic::Beta::BetaUserProfile::Type::TaggedSymbol
+            )
+        end
+      end
+
+      class BetaUserProfileEnrollmentURL < Anthropic::Internal::Type::BaseModel
+        # A timestamp in RFC 3339 format
+        sig { returns(Time) }
+        attr_accessor :expires_at
+
+        # Object type. Always `enrollment_url`.
+        sig { returns(Anthropic::Beta::BetaUserProfileEnrollmentURL::Type::TaggedSymbol) }
+        attr_accessor :type
+
+        # Enrollment URL to send to the end user. Valid until `expires_at`.
+        sig { returns(String) }
+        attr_accessor :url
+
+        sig do
+          override
+            .returns({
+              expires_at: Time,
+              type:
+                Anthropic::Beta::BetaUserProfileEnrollmentURL::Type::TaggedSymbol,
+              url: String
+            })
+        end
+        def to_hash; end
+
+        class << self
+          sig do
+            params(
+              expires_at: Time,
+              type: Anthropic::Beta::BetaUserProfileEnrollmentURL::Type::OrSymbol,
+              url: String
+            ).returns(T.attached_class)
+          end
+          def new(
+            expires_at:, # A timestamp in RFC 3339 format
+            type:, # Object type. Always `enrollment_url`.
+            url: # Enrollment URL to send to the end user. Valid until `expires_at`.
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaUserProfileEnrollmentURL,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        # Object type. Always `enrollment_url`.
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaUserProfileEnrollmentURL::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          ENROLLMENT_URL = T.let(
+              :enrollment_url,
+              Anthropic::Beta::BetaUserProfileEnrollmentURL::Type::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(Symbol, Anthropic::Beta::BetaUserProfileEnrollmentURL::Type)
+            end
+        end
+      end
+
+      class BetaUserProfileTrustGrant < Anthropic::Internal::Type::BaseModel
+        # Status of the trust grant.
+        sig { returns(Anthropic::Beta::BetaUserProfileTrustGrant::Status::TaggedSymbol) }
+        attr_accessor :status
+
+        sig do
+          override
+            .returns({
+              status:
+                Anthropic::Beta::BetaUserProfileTrustGrant::Status::TaggedSymbol
+            })
+        end
+        def to_hash; end
+
+        class << self
+          sig do
+            params(
+              status: Anthropic::Beta::BetaUserProfileTrustGrant::Status::OrSymbol
+            ).returns(T.attached_class)
+          end
+          def new(
+            status: # Status of the trust grant.
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaUserProfileTrustGrant,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        # Status of the trust grant.
+        module Status
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaUserProfileTrustGrant::Status::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          ACTIVE = T.let(
+              :active,
+              Anthropic::Beta::BetaUserProfileTrustGrant::Status::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          PENDING = T.let(
+              :pending,
+              Anthropic::Beta::BetaUserProfileTrustGrant::Status::TaggedSymbol
+            )
+
+          REJECTED = T.let(
+              :rejected,
+              Anthropic::Beta::BetaUserProfileTrustGrant::Status::TaggedSymbol
+            )
+
+          TaggedSymbol = T.type_alias do
+              T.all(Symbol, Anthropic::Beta::BetaUserProfileTrustGrant::Status)
+            end
+        end
       end
 
       class BetaWebFetchBlock < Anthropic::Internal::Type::BaseModel
@@ -24947,6 +25310,11 @@ module Anthropic
         sig { params(top_p: Float).void }
         attr_writer :top_p
 
+        # The user profile ID to attribute this request to. Use when acting on behalf of a
+        # party other than your organization.
+        sig { returns(T.nilable(String)) }
+        attr_accessor :user_profile_id
+
         sig do
           override
             .returns({
@@ -25017,6 +25385,7 @@ module Anthropic
                 ],
               top_k: Integer,
               top_p: Float,
+              user_profile_id: T.nilable(String),
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
               request_options: Anthropic::RequestOptions
@@ -25087,6 +25456,7 @@ module Anthropic
               ],
               top_k: Integer,
               top_p: Float,
+              user_profile_id: T.nilable(String),
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
@@ -25272,6 +25642,8 @@ module Anthropic
                         # `temperature` or `top_p`, but not both.
                         # Recommended for advanced use cases only. You usually only need to use
                         # `temperature`.
+            user_profile_id: nil, # The user profile ID to attribute this request to. Use when acting on behalf of a
+                                  # party other than your organization.
             betas: nil, # Optional header to specify the beta version(s) you want to use.
             request_options: {}
 ); end
@@ -26036,6 +26408,11 @@ module Anthropic
               sig { params(top_p: Float).void }
               attr_writer :top_p
 
+              # The user profile ID to attribute this request to. Use when acting on behalf of a
+              # party other than your organization.
+              sig { returns(T.nilable(String)) }
+              attr_accessor :user_profile_id
+
               sig do
                 override
                   .returns({
@@ -26112,7 +26489,8 @@ module Anthropic
                         )
                       ],
                     top_k: Integer,
-                    top_p: Float
+                    top_p: Float,
+                    user_profile_id: T.nilable(String)
                   })
               end
               def to_hash; end
@@ -26193,7 +26571,8 @@ module Anthropic
                       )
                     ],
                     top_k: Integer,
-                    top_p: Float
+                    top_p: Float,
+                    user_profile_id: T.nilable(String)
                   ).returns(T.attached_class)
                 end
                 def new(
@@ -26372,13 +26751,15 @@ module Anthropic
                               # [Learn more technical details here](https://towardsdatascience.com/how-to-sample-from-language-models-682bceb97277).
                               # Recommended for advanced use cases only. You usually only need to use
                               # `temperature`.
-                  top_p: nil # Use nucleus sampling.
-                             # In nucleus sampling, we compute the cumulative distribution over all the options
-                             # for each subsequent token in decreasing probability order and cut it off once it
-                             # reaches a particular probability specified by `top_p`. You should either alter
-                             # `temperature` or `top_p`, but not both.
-                             # Recommended for advanced use cases only. You usually only need to use
-                             # `temperature`.
+                  top_p: nil, # Use nucleus sampling.
+                              # In nucleus sampling, we compute the cumulative distribution over all the options
+                              # for each subsequent token in decreasing probability order and cut it off once it
+                              # reaches a particular probability specified by `top_p`. You should either alter
+                              # `temperature` or `top_p`, but not both.
+                              # Recommended for advanced use cases only. You usually only need to use
+                              # `temperature`.
+                  user_profile_id: nil # The user profile ID to attribute this request to. Use when acting on behalf of a
+                                       # party other than your organization.
 ); end
               end
 
@@ -34853,6 +35234,363 @@ module Anthropic
         end
       end
 
+      class UserProfileCreateEnrollmentURLParams < Anthropic::Internal::Type::BaseModel
+        extend Anthropic::Internal::Type::RequestParameters::Converter
+        include Anthropic::Internal::Type::RequestParameters
+
+        # Optional header to specify the beta version(s) you want to use.
+        sig do
+          returns(T.nilable(
+              T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]
+            ))
+        end
+        attr_reader :betas
+
+        sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
+        attr_writer :betas
+
+        sig { returns(String) }
+        attr_accessor :user_profile_id
+
+        sig do
+          override
+            .returns({
+              user_profile_id: String,
+              betas:
+                T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions
+            })
+        end
+        def to_hash; end
+
+        class << self
+          sig do
+            params(
+              user_profile_id: String,
+              betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions::OrHash
+            ).returns(T.attached_class)
+          end
+          def new(
+            user_profile_id:,
+            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            request_options: {}
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::UserProfileCreateEnrollmentURLParams,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
+      class UserProfileCreateParams < Anthropic::Internal::Type::BaseModel
+        extend Anthropic::Internal::Type::RequestParameters::Converter
+        include Anthropic::Internal::Type::RequestParameters
+
+        # Optional header to specify the beta version(s) you want to use.
+        sig do
+          returns(T.nilable(
+              T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]
+            ))
+        end
+        attr_reader :betas
+
+        sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
+        attr_writer :betas
+
+        # Platform's own identifier for this user. Not enforced unique. Maximum 255
+        # characters.
+        sig { returns(T.nilable(String)) }
+        attr_accessor :external_id
+
+        # Free-form key-value data to attach to this user profile. Maximum 16 keys, with
+        # keys up to 64 characters and values up to 512 characters. Values must be
+        # non-empty strings.
+        sig { returns(T.nilable(T::Hash[Symbol, String])) }
+        attr_reader :metadata
+
+        sig { params(metadata: T::Hash[Symbol, String]).void }
+        attr_writer :metadata
+
+        sig do
+          override
+            .returns({
+              external_id: T.nilable(String),
+              metadata: T::Hash[Symbol, String],
+              betas:
+                T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions
+            })
+        end
+        def to_hash; end
+
+        class << self
+          sig do
+            params(
+              external_id: T.nilable(String),
+              metadata: T::Hash[Symbol, String],
+              betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions::OrHash
+            ).returns(T.attached_class)
+          end
+          def new(
+            external_id: nil, # Platform's own identifier for this user. Not enforced unique. Maximum 255
+                              # characters.
+            metadata: nil, # Free-form key-value data to attach to this user profile. Maximum 16 keys, with
+                           # keys up to 64 characters and values up to 512 characters. Values must be
+                           # non-empty strings.
+            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            request_options: {}
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::UserProfileCreateParams,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
+      class UserProfileListParams < Anthropic::Internal::Type::BaseModel
+        extend Anthropic::Internal::Type::RequestParameters::Converter
+        include Anthropic::Internal::Type::RequestParameters
+
+        # Optional header to specify the beta version(s) you want to use.
+        sig do
+          returns(T.nilable(
+              T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]
+            ))
+        end
+        attr_reader :betas
+
+        sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
+        attr_writer :betas
+
+        # Query parameter for limit
+        sig { returns(T.nilable(Integer)) }
+        attr_reader :limit
+
+        sig { params(limit: Integer).void }
+        attr_writer :limit
+
+        # Query parameter for order
+        sig { returns(T.nilable(Anthropic::Beta::UserProfileListParams::Order::OrSymbol)) }
+        attr_reader :order
+
+        sig { params(order: Anthropic::Beta::UserProfileListParams::Order::OrSymbol).void }
+        attr_writer :order
+
+        # Query parameter for page
+        sig { returns(T.nilable(String)) }
+        attr_reader :page
+
+        sig { params(page: String).void }
+        attr_writer :page
+
+        sig do
+          override
+            .returns({
+              limit: Integer,
+              order: Anthropic::Beta::UserProfileListParams::Order::OrSymbol,
+              page: String,
+              betas:
+                T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions
+            })
+        end
+        def to_hash; end
+
+        class << self
+          sig do
+            params(
+              limit: Integer,
+              order: Anthropic::Beta::UserProfileListParams::Order::OrSymbol,
+              page: String,
+              betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions::OrHash
+            ).returns(T.attached_class)
+          end
+          def new(
+            limit: nil, # Query parameter for limit
+            order: nil, # Query parameter for order
+            page: nil, # Query parameter for page
+            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            request_options: {}
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::UserProfileListParams,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        # Query parameter for order
+        module Order
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::UserProfileListParams::Order::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          ASC = T.let(
+              :asc,
+              Anthropic::Beta::UserProfileListParams::Order::TaggedSymbol
+            )
+
+          DESC = T.let(
+              :desc,
+              Anthropic::Beta::UserProfileListParams::Order::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(Symbol, Anthropic::Beta::UserProfileListParams::Order)
+            end
+        end
+      end
+
+      class UserProfileRetrieveParams < Anthropic::Internal::Type::BaseModel
+        extend Anthropic::Internal::Type::RequestParameters::Converter
+        include Anthropic::Internal::Type::RequestParameters
+
+        # Optional header to specify the beta version(s) you want to use.
+        sig do
+          returns(T.nilable(
+              T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]
+            ))
+        end
+        attr_reader :betas
+
+        sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
+        attr_writer :betas
+
+        sig { returns(String) }
+        attr_accessor :user_profile_id
+
+        sig do
+          override
+            .returns({
+              user_profile_id: String,
+              betas:
+                T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions
+            })
+        end
+        def to_hash; end
+
+        class << self
+          sig do
+            params(
+              user_profile_id: String,
+              betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions::OrHash
+            ).returns(T.attached_class)
+          end
+          def new(
+            user_profile_id:,
+            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            request_options: {}
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::UserProfileRetrieveParams,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
+      class UserProfileUpdateParams < Anthropic::Internal::Type::BaseModel
+        extend Anthropic::Internal::Type::RequestParameters::Converter
+        include Anthropic::Internal::Type::RequestParameters
+
+        # Optional header to specify the beta version(s) you want to use.
+        sig do
+          returns(T.nilable(
+              T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]
+            ))
+        end
+        attr_reader :betas
+
+        sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
+        attr_writer :betas
+
+        # If present, replaces the stored external_id. Omit to leave unchanged. Maximum
+        # 255 characters.
+        sig { returns(T.nilable(String)) }
+        attr_accessor :external_id
+
+        # Key-value pairs to merge into the stored metadata. Keys provided overwrite
+        # existing values. To remove a key, set its value to an empty string. Keys not
+        # provided are left unchanged. Maximum 16 keys, with keys up to 64 characters and
+        # values up to 512 characters.
+        sig { returns(T.nilable(T::Hash[Symbol, String])) }
+        attr_reader :metadata
+
+        sig { params(metadata: T::Hash[Symbol, String]).void }
+        attr_writer :metadata
+
+        sig { returns(String) }
+        attr_accessor :user_profile_id
+
+        sig do
+          override
+            .returns({
+              user_profile_id: String,
+              external_id: T.nilable(String),
+              metadata: T::Hash[Symbol, String],
+              betas:
+                T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions
+            })
+        end
+        def to_hash; end
+
+        class << self
+          sig do
+            params(
+              user_profile_id: String,
+              external_id: T.nilable(String),
+              metadata: T::Hash[Symbol, String],
+              betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions::OrHash
+            ).returns(T.attached_class)
+          end
+          def new(
+            user_profile_id:,
+            external_id: nil, # If present, replaces the stored external_id. Omit to leave unchanged. Maximum
+                              # 255 characters.
+            metadata: nil, # Key-value pairs to merge into the stored metadata. Keys provided overwrite
+                           # existing values. To remove a key, set its value to an empty string. Keys not
+                           # provided are left unchanged. Maximum 16 keys, with keys up to 64 characters and
+                           # values up to 512 characters.
+            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            request_options: {}
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::UserProfileUpdateParams,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
       class VaultArchiveParams < Anthropic::Internal::Type::BaseModel
         extend Anthropic::Internal::Type::RequestParameters::Converter
         include Anthropic::Internal::Type::RequestParameters
@@ -37805,6 +38543,7 @@ module Anthropic
     BetaThinkingDelta = Beta::BetaThinkingDelta
     BetaThinkingTurns = Beta::BetaThinkingTurns
     BetaThinkingTypes = Beta::BetaThinkingTypes
+    BetaTokenTaskBudget = Beta::BetaTokenTaskBudget
     BetaTool = Beta::BetaTool
     BetaToolBash20241022 = Beta::BetaToolBash20241022
     BetaToolBash20250124 = Beta::BetaToolBash20250124
@@ -37847,6 +38586,9 @@ module Anthropic
     BetaUnrestrictedNetwork = Beta::BetaUnrestrictedNetwork
     BetaUsage = Beta::BetaUsage
     BetaUserLocation = Beta::BetaUserLocation
+    BetaUserProfile = Beta::BetaUserProfile
+    BetaUserProfileEnrollmentURL = Beta::BetaUserProfileEnrollmentURL
+    BetaUserProfileTrustGrant = Beta::BetaUserProfileTrustGrant
     BetaWebFetchBlock = Beta::BetaWebFetchBlock
     BetaWebFetchBlockParam = Beta::BetaWebFetchBlockParam
     BetaWebFetchTool20250910 = Beta::BetaWebFetchTool20250910
@@ -40246,6 +40988,13 @@ module Anthropic
       sig { returns(T::Boolean) }
       attr_accessor :supported
 
+      # Indicates whether a capability is supported.
+      sig { returns(T.nilable(Anthropic::CapabilitySupport)) }
+      attr_reader :xhigh
+
+      sig { params(xhigh: T.nilable(Anthropic::CapabilitySupport::OrHash)).void }
+      attr_writer :xhigh
+
       sig do
         override
           .returns({
@@ -40253,7 +41002,8 @@ module Anthropic
             low: Anthropic::CapabilitySupport,
             max: Anthropic::CapabilitySupport,
             medium: Anthropic::CapabilitySupport,
-            supported: T::Boolean
+            supported: T::Boolean,
+            xhigh: T.nilable(Anthropic::CapabilitySupport)
           })
       end
       def to_hash; end
@@ -40266,7 +41016,8 @@ module Anthropic
             low: Anthropic::CapabilitySupport::OrHash,
             max: Anthropic::CapabilitySupport::OrHash,
             medium: Anthropic::CapabilitySupport::OrHash,
-            supported: T::Boolean
+            supported: T::Boolean,
+            xhigh: T.nilable(Anthropic::CapabilitySupport::OrHash)
           ).returns(T.attached_class)
         end
         def new(
@@ -40274,7 +41025,8 @@ module Anthropic
           low:, # Whether the model supports low effort level.
           max:, # Whether the model supports max effort level.
           medium:, # Whether the model supports medium effort level.
-          supported: # Whether this capability is supported by the model.
+          supported:, # Whether this capability is supported by the model.
+          xhigh: # Indicates whether a capability is supported.
 ); end
       end
 
@@ -44046,6 +44798,9 @@ module Anthropic
       # Frontier intelligence for long-running agents and coding
       CLAUDE_OPUS_4_6 = T.let(:"claude-opus-4-6", Anthropic::Model::TaggedSymbol)
 
+      # Frontier intelligence for long-running agents and coding
+      CLAUDE_OPUS_4_7 = T.let(:"claude-opus-4-7", Anthropic::Model::TaggedSymbol)
+
       # High-performance model with extended thinking
       CLAUDE_SONNET_4_0 = T.let(:"claude-sonnet-4-0", Anthropic::Model::TaggedSymbol)
 
@@ -44450,6 +45205,8 @@ module Anthropic
         OrSymbol = T.type_alias { T.any(Symbol, String) }
 
         TaggedSymbol = T.type_alias { T.all(Symbol, Anthropic::OutputConfig::Effort) }
+
+        XHIGH = T.let(:xhigh, Anthropic::OutputConfig::Effort::TaggedSymbol)
       end
 
       OrHash = T.type_alias do
@@ -50635,6 +51392,9 @@ module Anthropic
       sig { returns(Anthropic::Resources::Beta::Skills) }
       attr_reader :skills
 
+      sig { returns(Anthropic::Resources::Beta::UserProfiles) }
+      attr_reader :user_profiles
+
       sig { returns(Anthropic::Resources::Beta::Vaults) }
       attr_reader :vaults
 
@@ -51349,6 +52109,7 @@ module Anthropic
               ],
             top_k: Integer,
             top_p: Float,
+            user_profile_id: T.nilable(String),
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
             stream: T.noreturn,
             request_options: Anthropic::RequestOptions::OrHash
@@ -51536,6 +52297,8 @@ module Anthropic
                       # `temperature` or `top_p`, but not both.
                       # Recommended for advanced use cases only. You usually only need to use
                       # `temperature`.
+          user_profile_id: nil, # Body param: The user profile ID to attribute this request to. Use when acting on
+                                # behalf of a party other than your organization.
           betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
           stream: false, # There is no need to provide `stream:`. Instead, use `#stream_raw` or `#create`
                          # for streaming and non-streaming use cases, respectively.
@@ -51614,6 +52377,7 @@ module Anthropic
               ],
             top_k: Integer,
             top_p: Float,
+            user_profile_id: T.nilable(String),
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
             stream: T.noreturn,
             request_options: Anthropic::RequestOptions::OrHash
@@ -51803,6 +52567,8 @@ module Anthropic
                       # `temperature` or `top_p`, but not both.
                       # Recommended for advanced use cases only. You usually only need to use
                       # `temperature`.
+          user_profile_id: nil, # Body param: The user profile ID to attribute this request to. Use when acting on
+                                # behalf of a party other than your organization.
           betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
           stream: true, # There is no need to provide `stream:`. Instead, use `#stream_raw` or `#create`
                         # for streaming and non-streaming use cases, respectively.
@@ -52733,6 +53499,101 @@ module Anthropic
             sig { params(client: Anthropic::Client).returns(T.attached_class) }
             def new(client:); end
           end
+        end
+      end
+
+      class UserProfiles
+        # Create User Profile
+        sig do
+          params(
+            external_id: T.nilable(String),
+            metadata: T::Hash[Symbol, String],
+            betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            request_options: Anthropic::RequestOptions::OrHash
+          ).returns(Anthropic::Beta::BetaUserProfile)
+        end
+        def create(
+          external_id: nil, # Body param: Platform's own identifier for this user. Not enforced unique.
+                            # Maximum 255 characters.
+          metadata: nil, # Body param: Free-form key-value data to attach to this user profile. Maximum 16
+                         # keys, with keys up to 64 characters and values up to 512 characters. Values must
+                         # be non-empty strings.
+          betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          request_options: {}
+); end
+
+        # Create Enrollment URL
+        sig do
+          params(
+            user_profile_id: String,
+            betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            request_options: Anthropic::RequestOptions::OrHash
+          ).returns(Anthropic::Beta::BetaUserProfileEnrollmentURL)
+        end
+        def create_enrollment_url(
+          user_profile_id, # Path parameter user_profile_id
+          betas: nil, # Optional header to specify the beta version(s) you want to use.
+          request_options: {}
+); end
+
+        # List User Profiles
+        sig do
+          params(
+            limit: Integer,
+            order: Anthropic::Beta::UserProfileListParams::Order::OrSymbol,
+            page: String,
+            betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            request_options: Anthropic::RequestOptions::OrHash
+          ).returns(Anthropic::Internal::PageCursor[Anthropic::Beta::BetaUserProfile])
+        end
+        def list(
+          limit: nil, # Query param: Query parameter for limit
+          order: nil, # Query param: Query parameter for order
+          page: nil, # Query param: Query parameter for page
+          betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          request_options: {}
+); end
+
+        # Get User Profile
+        sig do
+          params(
+            user_profile_id: String,
+            betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            request_options: Anthropic::RequestOptions::OrHash
+          ).returns(Anthropic::Beta::BetaUserProfile)
+        end
+        def retrieve(
+          user_profile_id, # Path parameter user_profile_id
+          betas: nil, # Optional header to specify the beta version(s) you want to use.
+          request_options: {}
+); end
+
+        # Update User Profile
+        sig do
+          params(
+            user_profile_id: String,
+            external_id: T.nilable(String),
+            metadata: T::Hash[Symbol, String],
+            betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            request_options: Anthropic::RequestOptions::OrHash
+          ).returns(Anthropic::Beta::BetaUserProfile)
+        end
+        def update(
+          user_profile_id, # Path param: Path parameter user_profile_id
+          external_id: nil, # Body param: If present, replaces the stored external_id. Omit to leave
+                            # unchanged. Maximum 255 characters.
+          metadata: nil, # Body param: Key-value pairs to merge into the stored metadata. Keys provided
+                         # overwrite existing values. To remove a key, set its value to an empty string.
+                         # Keys not provided are left unchanged. Maximum 16 keys, with keys up to 64
+                         # characters and values up to 512 characters.
+          betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          request_options: {}
+); end
+
+        class << self
+          # @api private
+          sig { params(client: Anthropic::Client).returns(T.attached_class) }
+          def new(client:); end
         end
       end
 

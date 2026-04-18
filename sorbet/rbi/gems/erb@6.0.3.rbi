@@ -766,8 +766,6 @@ module ERB::DefMethod
   end
 end
 
-module ERB::Escape; end
-
 # ERB::Util
 #
 # A utility module for conversion routines, often handy in HTML generation.

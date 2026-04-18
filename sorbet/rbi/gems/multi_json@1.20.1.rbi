@@ -656,7 +656,7 @@ module MultiJson::AdapterSelector
   # @param name [String] adapter name
   # @return [Class] the adapter class
   #
-  # source://multi_json//lib/multi_json/adapter_selector.rb#165
+  # source://multi_json//lib/multi_json/adapter_selector.rb#166
   def load_adapter_by_name(name); end
 
   # Finds an already-loaded JSON library
@@ -676,6 +676,21 @@ module MultiJson::AdapterSelector
   #
   # source://multi_json//lib/multi_json/adapter_selector.rb#106
   def try_require(adapter_name); end
+
+  # Validate that an adapter satisfies the documented contract
+  #
+  # Custom adapters are accepted as modules/classes, so fail fast
+  # during adapter resolution rather than later on the first load or
+  # dump call.
+  #
+  # @api private
+  # @param adapter [Module] adapter class or module
+  # @raise [AdapterError] when the adapter is missing a required class method
+  #   or ParseError constant
+  # @return [Module] the validated adapter
+  #
+  # source://multi_json//lib/multi_json/adapter_selector.rb#186
+  def validate_adapter!(adapter); end
 
   # Warns the user about reaching the last-resort fallback
   #
@@ -727,21 +742,28 @@ class MultiJson::Adapters::JsonGem < ::MultiJson::Adapter
   # @param options [Hash] serialization options
   # @return [String] JSON string
   #
-  # source://multi_json//lib/multi_json/adapters/json_gem.rb#55
+  # source://multi_json//lib/multi_json/adapters/json_gem.rb#59
   def dump(object, options = T.unsafe(nil)); end
 
   # Parse a JSON string into a Ruby object
+  #
+  # Non-UTF-8 strings are re-labeled via ``force_encoding`` (not
+  # transcoded) and then validated. This handles the dominant
+  # real-world case: Ruby HTTP libraries return response bodies
+  # tagged as ``ASCII-8BIT`` even when the bytes are valid UTF-8.
+  # ``encode(Encoding::UTF_8)`` would raise on any multi-byte
+  # sequence in that scenario because it tries to transcode each
+  # byte individually from ASCII-8BIT to UTF-8.
   #
   # @api private
   # @example Parse JSON string
   #   adapter.load('{"key":"value"}') #=> {"key" => "value"}
   # @param options [Hash] parsing options
   # @param string [String] JSON string to parse
-  # @raise [::JSON::ParserError] when input contains invalid bytes that
-  #   cannot be transcoded to UTF-8
+  # @raise [::JSON::ParserError] when the input is not valid UTF-8
   # @return [Object] parsed Ruby object
   #
-  # source://multi_json//lib/multi_json/adapters/json_gem.rb#34
+  # source://multi_json//lib/multi_json/adapters/json_gem.rb#41
   def load(string, options = T.unsafe(nil)); end
 
   private
@@ -756,7 +778,7 @@ class MultiJson::Adapters::JsonGem < ::MultiJson::Adapter
   # @param options [Hash] merged load options
   # @return [Hash] options with ``:symbolize_keys`` translated
   #
-  # source://multi_json//lib/multi_json/adapters/json_gem.rb#78
+  # source://multi_json//lib/multi_json/adapters/json_gem.rb#82
   def translate_load_options(options); end
 end
 
@@ -982,27 +1004,24 @@ module MultiJson::OptionsCache
     # source://multi_json//lib/multi_json/options_cache.rb#44
     def max_cache_size; end
 
-    # Maximum number of entries per cache store
-    #
-    # Applies to both the dump and load caches. Existing entries are
-    # left in place until normal eviction trims them below a lowered
-    # limit; call {.reset} if you need to evict immediately.
+    # Set the maximum number of entries per cache store
     #
     # @api public
     # @example
     #   MultiJson::OptionsCache.max_cache_size = 5000
-    #   MultiJson::OptionsCache.max_cache_size  #=> 5000
-    # @return [Integer] current cache size limit
+    # @param value [Integer] positive entry cap
+    # @raise [ArgumentError] when value is not a positive Integer
+    # @return [Integer] the validated value
     #
-    # source://multi_json//lib/multi_json/options_cache.rb#44
-    def max_cache_size=(_arg0); end
+    # source://multi_json//lib/multi_json/options_cache.rb#54
+    def max_cache_size=(value); end
 
     # Reset both caches
     #
     # @api private
     # @return [void]
     #
-    # source://multi_json//lib/multi_json/options_cache.rb#50
+    # source://multi_json//lib/multi_json/options_cache.rb#64
     def reset; end
   end
 end
@@ -1014,7 +1033,7 @@ end
 #
 # @api private
 #
-# source://multi_json//lib/multi_json/options_cache.rb#66
+# source://multi_json//lib/multi_json/options_cache.rb#80
 MultiJson::OptionsCache::BACKENDS = T.let(T.unsafe(nil), Hash)
 
 # Default bound on the number of cached entries per store. Applications

@@ -18,7 +18,7 @@ class CloudImageBuildWorker
 
     tag = "#{DOCKERHUB_IMAGE}:latest"
 
-    build_args = ["docker", "build"]
+    build_args = [ "docker", "build" ]
     build_args << "--pull" if force_pull
     build_args.push("--build-arg", "TF2_VERSION=#{version}", "-t", tag, DOCKER_DIR)
     run_command!(*build_args)

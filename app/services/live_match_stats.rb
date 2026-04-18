@@ -72,6 +72,14 @@ class LiveMatchStats
       end
     end
 
+    def get_or_rebuild_stats(reservation)
+      unless rebuilt?(reservation.id)
+        filepath = Rails.root.join("log", "streaming", "#{reservation.logsecret}.log").to_s
+        rebuild(reservation.id, filepath) if File.exist?(filepath)
+      end
+      get_stats(reservation.id)
+    end
+
     def get_stats(reservation_id)
       key = redis_key(reservation_id)
 
@@ -130,6 +138,10 @@ class LiveMatchStats
       Sidekiq.redis { |r| r.exists(redis_key(reservation_id)) > 0 }
     end
 
+    def rebuilt?(reservation_id)
+      Sidekiq.redis { |r| r.hget(redis_key(reservation_id), "rebuilt") } == "1"
+    end
+
     private
 
     def store_parsed_matches(reservation_id, all_matches)
@@ -158,6 +170,7 @@ class LiveMatchStats
 
           p.hset(key, "between_matches", all_matches.last&.match_ended ? "1" : "0")
           p.hset(key, "between_rounds", "1")
+          p.hset(key, "rebuilt", "1")
           p.expire(key, EXPIRY)
         end
       end

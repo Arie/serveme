@@ -13,14 +13,10 @@ rm stac.zip
 
 # MGE Mod (zip contents are relative to tf/)
 cd "$HOME/hlserver/tf2/tf"
-wget -nv "https://github.com/sapphonie/MGEMod/releases/latest/download/mge.zip" -O "mge.zip"
+wget -nv "https://github.com/Arie/MGEMod/releases/latest/download/mge.zip" -O "mge.zip"
 unzip -o mge.zip
 rm mge.zip
 
-
-# Better MGE spawns
-cd "$HOME/hlserver/tf2/tf"
-wget -nv "https://raw.githubusercontent.com/Arie/serveme/master/doc/mgemod_spawns.cfg?v=20260410" -O "addons/sourcemod/configs/mgemod_spawns.cfg"
 
 # tf2rue (TFTrue replacement, zip contents are relative to addons/sourcemod/)
 cd "$HOME/hlserver/tf2/tf/addons/sourcemod"

@@ -10,15 +10,18 @@ class CloudImageBuildWorker
   DOCKER_DIR = Rails.root.join("docker", "tf2-cloud-server").to_s
   DOCKERHUB_IMAGE = "serveme/tf2-cloud-server"
 
-  def perform(version)
+  def perform(version, force_pull = false)
     return unless SITE_HOST == "serveme.tf"
     return unless acquire_lock(version)
 
-    Rails.logger.info "CloudImageBuildWorker: Building new image for TF2 version #{version}"
+    Rails.logger.info "CloudImageBuildWorker: Building new image for TF2 version #{version} (force_pull: #{force_pull})"
 
     tag = "#{DOCKERHUB_IMAGE}:latest"
 
-    run_command!("docker", "build", "--pull", "--build-arg", "TF2_VERSION=#{version}", "-t", tag, DOCKER_DIR)
+    build_args = ["docker", "build"]
+    build_args << "--pull" if force_pull
+    build_args.push("--build-arg", "TF2_VERSION=#{version}", "-t", tag, DOCKER_DIR)
+    run_command!(*build_args)
     run_command!("docker", "push", tag)
 
     digest = pushed_digest

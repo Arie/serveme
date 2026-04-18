@@ -28,10 +28,17 @@ describe CloudImageBuildWorker do
 
   describe "#perform" do
     it "builds and pushes the Docker image" do
-      expect(Open3).to receive(:capture2e).with("docker", "build", "--pull", "--build-arg", "TF2_VERSION=#{version}", "-t", "#{CloudImageBuildWorker::DOCKERHUB_IMAGE}:latest", CloudImageBuildWorker::DOCKER_DIR).and_return([ "", instance_double(Process::Status, success?: true, exitstatus: 0) ])
+      expect(Open3).to receive(:capture2e).with("docker", "build", "--build-arg", "TF2_VERSION=#{version}", "-t", "#{CloudImageBuildWorker::DOCKERHUB_IMAGE}:latest", CloudImageBuildWorker::DOCKER_DIR).and_return([ "", instance_double(Process::Status, success?: true, exitstatus: 0) ])
       expect(Open3).to receive(:capture2e).with("docker", "push", "#{CloudImageBuildWorker::DOCKERHUB_IMAGE}:latest").and_return([ "", instance_double(Process::Status, success?: true, exitstatus: 0) ])
 
       worker.perform(version)
+    end
+
+    it "passes --pull when force_pull is true" do
+      expect(Open3).to receive(:capture2e).with("docker", "build", "--pull", "--build-arg", "TF2_VERSION=#{version}", "-t", "#{CloudImageBuildWorker::DOCKERHUB_IMAGE}:latest", CloudImageBuildWorker::DOCKER_DIR).and_return([ "", instance_double(Process::Status, success?: true, exitstatus: 0) ])
+      expect(Open3).to receive(:capture2e).with("docker", "push", "#{CloudImageBuildWorker::DOCKERHUB_IMAGE}:latest").and_return([ "", instance_double(Process::Status, success?: true, exitstatus: 0) ])
+
+      worker.perform(version, true)
     end
 
     it "skips if not on EU (serveme.tf)" do
@@ -51,10 +58,10 @@ describe CloudImageBuildWorker do
     end
 
     it "raises with output tail if docker build fails so Sidekiq retries" do
-      expect(Open3).to receive(:capture2e).with("docker", "build", "--pull", "--build-arg", anything, "-t", anything, anything).and_return([ "Error! App '232250' state is 0x426\n", instance_double(Process::Status, success?: false, exitstatus: 1) ])
+      expect(Open3).to receive(:capture2e).with("docker", "build", "--build-arg", anything, "-t", anything, anything).and_return([ "Error! App '232250' state is 0x426\n", instance_double(Process::Status, success?: false, exitstatus: 1) ])
       expect(Open3).not_to receive(:capture2e).with("docker", "push", anything)
 
-      expect { worker.perform(version) }.to raise_error(RuntimeError, /docker build --pull.*failed.*0x426/m)
+      expect { worker.perform(version) }.to raise_error(RuntimeError, /docker build --build-arg.*failed.*0x426/m)
     end
 
     it "releases the lock after completion" do

@@ -48,6 +48,11 @@ docker_image_poll_tz:
   class: "DockerImagePollWorker"
   queue: default
 
+nightly_cloud_image_build_tz:
+  cron: "0 4 * * * Europe/Amsterdam"
+  class: "NightlyCloudImageBuildWorker"
+  queue: low
+
 cloud_server_cleanup_tz:
   cron: "*/10 * * * * Europe/Amsterdam"  # Run every 10 minutes
   class: "CloudServerCleanupWorker"

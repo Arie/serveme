@@ -66,7 +66,7 @@ class LocalServer < Server
   def copy_to_server(files, destination)
     # brakeman: ignore:Command Injection
     # files are escaped with shellescape and destination is controlled by the application
-    FileUtils.mkdir_p(destination)
+    FileUtils.mkdir_p(File.dirname(destination))
     system("cp #{files.map(&:shellescape).join(' ')} #{destination}")
   end
 

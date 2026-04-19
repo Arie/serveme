@@ -1,15 +1,47 @@
 = f.error_notification
 
+- hetzner_locations = CloudProvider::Hetzner::LOCATIONS.map { |code, info| ["#{info[:name]}, #{info[:country]} (#{code})", code] }
+- vultr_locations = CloudProvider::Vultr::LOCATIONS.map { |code, info| ["#{info[:name]}, #{info[:country]} (#{code})", code] }
+
 .form-inputs
   = f.association :location, label_method: :name, value_method: :id
   = f.input :city
   = f.input :hostname, placeholder: "de1.serveme.tf"
-  = f.input :provider, collection: [["Manual (provide IP)", ""], ["Hetzner Cloud", "hetzner"]], label: "Provider", include_blank: false
-  = f.input :provider_location, collection: CloudProvider::Hetzner::LOCATIONS.map { |code, info| ["#{info[:name]}, #{info[:country]} (#{code})", code] }, label: "Hetzner Location", include_blank: "N/A", input_html: { disabled: f.object.provider != "hetzner" }
-  = f.input :ip, label: "IP Address", placeholder: "1.2.3.4", hint: "Leave blank for Hetzner (assigned automatically)"
+  = f.input :provider, collection: [["Manual (provide IP)", ""], ["Hetzner Cloud", "hetzner"], ["Vultr", "vultr"]], label: "Provider", include_blank: false, input_html: { id: "docker_host_provider", data: { hetzner_locations: hetzner_locations.to_json, vultr_locations: vultr_locations.to_json } }
+  = f.input :provider_location, label: "Provider Location", include_blank: "N/A", collection: f.object.hetzner? ? hetzner_locations : (f.object.provider == "vultr" ? vultr_locations : []), input_html: { id: "docker_host_provider_location" }
+  = f.input :ip, label: "IP Address", placeholder: "1.2.3.4", hint: "Leave blank for cloud providers (assigned automatically)"
   = f.input :ssh_user, placeholder: "tf2"
   = f.input :start_port
   = f.input :max_containers
   = f.input :latitude, input_html: { step: "any" }
   = f.input :longitude, input_html: { step: "any" }
   = f.input :active
+
+:javascript
+  (function() {
+    var providerSelect = document.getElementById('docker_host_provider');
+    var locationSelect = document.getElementById('docker_host_provider_location');
+    var hetznerLocations = JSON.parse(providerSelect.dataset.hetznerLocations);
+    var vultrLocations = JSON.parse(providerSelect.dataset.vultrLocations);
+    var currentValue = locationSelect.value;
+
+    function updateLocations() {
+      var provider = providerSelect.value;
+      var locations = provider === 'hetzner' ? hetznerLocations : (provider === 'vultr' ? vultrLocations : []);
+
+      locationSelect.disabled = !provider;
+      locationSelect.innerHTML = '<option value="">N/A</option>';
+      locations.forEach(function(loc) {
+        var option = document.createElement('option');
+        option.text = loc[0];
+        option.value = loc[1];
+        if (loc[1] === currentValue) option.selected = true;
+        locationSelect.appendChild(option);
+      });
+    }
+
+    providerSelect.addEventListener('change', function() {
+      currentValue = '';
+      updateLocations();
+    });
+  })();

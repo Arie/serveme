@@ -53,7 +53,7 @@ describe Api::ReservationsController do
       expect(docker_server).to be_present
       expect(docker_server['id']).to eq(DockerHost::VIRTUAL_ID_OFFSET + docker_host.id)
       expect(docker_server['name']).to eq("#{docker_host.city} (Docker)")
-      expect(docker_server['ip']).to eq(docker_host.ip)
+      expect(docker_server['ip']).to eq(docker_host.hostname)
       expect(docker_server['sdr']).to eq(false)
     end
   end

@@ -116,7 +116,7 @@ module ReservationsHelper
     end
 
     docker_hosts_json = free_docker_hosts.map do |dh|
-      { id: "dh-#{dh.id}", text: "#{dh.city} (#{dh.ip})", flag: dh.location&.flag, ip: dh.ip, ip_and_port: "#{dh.ip}:#{dh.start_port}" }
+      { id: "dh-#{dh.id}", text: "#{dh.city} (#{dh.hostname})", flag: dh.location&.flag, ip: dh.hostname, ip_and_port: "#{dh.hostname}:#{dh.start_port}" }
     end
 
     (docker_hosts_json + servers_json).to_json

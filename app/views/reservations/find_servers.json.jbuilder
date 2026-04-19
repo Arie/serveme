@@ -18,11 +18,11 @@ end
 docker_host_entries = (@docker_hosts || []).map do |dh|
   {
     id: "dh-#{dh.id}",
-    name: "#{dh.city} (#{dh.ip})",
+    name: "#{dh.city} (#{dh.hostname})",
     flag: dh.location&.flag,
-    ip: dh.ip,
+    ip: dh.hostname,
     port: dh.start_port,
-    ip_and_port: "#{dh.ip}:#{dh.start_port}"
+    ip_and_port: "#{dh.hostname}:#{dh.start_port}"
   }
 end
 

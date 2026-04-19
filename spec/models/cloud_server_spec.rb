@@ -138,7 +138,7 @@ describe CloudServer do
       subject.cloud_location = docker_host.id.to_s
 
       ssh_session = double
-      expect(Net::SSH).to receive(:start).with(docker_host.ip, nil, hash_including(timeout: 5)).and_yield(ssh_session)
+      expect(Net::SSH).to receive(:start).with(docker_host.hostname, "tf2", hash_including(timeout: 5)).and_yield(ssh_session)
       expect(ssh_session).to receive(:exec!).with("test command").and_yield(nil, :stdout, "output")
 
       result = subject.mitigation_ssh_exec("test command")

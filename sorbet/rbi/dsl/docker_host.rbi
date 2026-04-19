@@ -1264,6 +1264,9 @@ class DockerHost
     def restore_setup_status!; end
 
     sig { void }
+    def restore_ssh_user!; end
+
+    sig { void }
     def restore_start_port!; end
 
     sig { void }
@@ -1359,6 +1362,12 @@ class DockerHost
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def saved_change_to_setup_status?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def saved_change_to_ssh_user; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def saved_change_to_ssh_user?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
     sig { returns(T.nilable([T.nilable(::Integer), T.nilable(::Integer)])) }
     def saved_change_to_start_port; end
 
@@ -1415,6 +1424,51 @@ class DockerHost
 
     sig { void }
     def setup_status_will_change!; end
+
+    sig { returns(T.nilable(::String)) }
+    def ssh_user; end
+
+    sig { params(value: T.nilable(::String)).returns(T.nilable(::String)) }
+    def ssh_user=(value); end
+
+    sig { returns(T::Boolean) }
+    def ssh_user?; end
+
+    sig { returns(T.nilable(::String)) }
+    def ssh_user_before_last_save; end
+
+    sig { returns(T.untyped) }
+    def ssh_user_before_type_cast; end
+
+    sig { returns(T::Boolean) }
+    def ssh_user_came_from_user?; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def ssh_user_change; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def ssh_user_change_to_be_saved; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def ssh_user_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::String)) }
+    def ssh_user_in_database; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def ssh_user_previous_change; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def ssh_user_previously_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::String)) }
+    def ssh_user_previously_was; end
+
+    sig { returns(T.nilable(::String)) }
+    def ssh_user_was; end
+
+    sig { void }
+    def ssh_user_will_change!; end
 
     sig { returns(T.nilable(::Integer)) }
     def start_port; end
@@ -1550,6 +1604,9 @@ class DockerHost
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def will_save_change_to_setup_status?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def will_save_change_to_ssh_user?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def will_save_change_to_start_port?(from: T.unsafe(nil), to: T.unsafe(nil)); end

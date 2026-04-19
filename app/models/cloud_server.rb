@@ -46,7 +46,16 @@ class CloudServer < RemoteServer
       docker_host = DockerHost.find(T.must(cloud_location))
       out = []
       err = []
-      Net::SSH.start(docker_host.ip, nil, timeout: 5, keepalive: true, keepalive_interval: 5, keepalive_maxcount: 2, bind_address: "0.0.0.0") do |ssh|
+      opts = { timeout: 5, keepalive: true, keepalive_interval: 5, keepalive_maxcount: 2, bind_address: "0.0.0.0" }
+      if docker_host.provider?
+        key_data = Rails.application.credentials.dig(:cloud_servers, :ssh_private_key)
+        if key_data.present?
+          opts[:key_data] = [ key_data ]
+          opts[:keys_only] = true
+        end
+        opts[:verify_host_key] = :never
+      end
+      Net::SSH.start(docker_host.hostname, docker_host.ssh_user, **opts) do |ssh|
         ssh.exec!(command) do |_channel, stream, data|
           out << data if stream == :stdout
           err << data if stream == :stderr

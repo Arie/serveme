@@ -11,9 +11,9 @@ json.servers(@servers.to_a + (@docker_hosts || []).to_a) do |item|
     json.id item.virtual_server_id
     json.name "#{item.city} (Docker)"
     json.flag item.location&.flag
-    json.ip item.ip
+    json.ip item.hostname
     json.port item.start_port.to_s
-    json.ip_and_port "#{item.ip}:#{item.start_port}"
+    json.ip_and_port "#{item.hostname}:#{item.start_port}"
     json.sdr false
     json.latitude item.latitude
     json.longitude item.longitude

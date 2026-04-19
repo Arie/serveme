@@ -11,6 +11,7 @@
   = f.input :provider_location, label: "Provider Location", include_blank: "N/A", collection: f.object.hetzner? ? hetzner_locations : (f.object.provider == "vultr" ? vultr_locations : []), input_html: { id: "docker_host_provider_location" }
   = f.input :ip, label: "IP Address", placeholder: "1.2.3.4", hint: "Leave blank for cloud providers (assigned automatically)"
   = f.input :ssh_user, placeholder: "tf2"
+  = f.input :ssh_port, placeholder: "22"
   = f.input :start_port
   = f.input :max_containers
   = f.input :latitude, input_html: { step: "any" }

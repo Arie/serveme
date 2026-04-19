@@ -112,7 +112,7 @@ module CloudProvider
     private
 
     def ssh_to_host(docker_host, &block)
-      opts = { timeout: 5, keepalive: true, keepalive_interval: 5, keepalive_maxcount: 2, bind_address: "0.0.0.0" }
+      opts = { timeout: 5, keepalive: true, keepalive_interval: 5, keepalive_maxcount: 2, bind_address: "0.0.0.0", port: docker_host.ssh_port }
       user = docker_host.ssh_user
 
       if docker_host.provider?

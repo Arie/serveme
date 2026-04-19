@@ -181,9 +181,10 @@ class DockerHostSetupService
   end
 
   def setup_app_user_script
-    username = Etc.getlogin
+    username = docker_host.ssh_user
     pub_key = local_ssh_public_key
-    raise "No SSH public key found for #{username}" unless pub_key
+    cloud_pub_key = cloud_ssh_public_key
+    raise "No SSH public key found" unless pub_key
 
     <<~BASH
       export DEBIAN_FRONTEND=noninteractive
@@ -192,6 +193,7 @@ class DockerHostSetupService
       mkdir -p /home/#{username}/.ssh
       chmod 700 /home/#{username}/.ssh
       echo '#{pub_key}' > /home/#{username}/.ssh/authorized_keys
+      #{"echo '#{cloud_pub_key}' >> /home/#{username}/.ssh/authorized_keys" if cloud_pub_key}
       chmod 600 /home/#{username}/.ssh/authorized_keys
       chown -R #{username}:#{username} /home/#{username}/.ssh
       echo '#{username} ALL=(root) NOPASSWD: /usr/sbin/iptables' > /etc/sudoers.d/#{username}
@@ -204,6 +206,16 @@ class DockerHostSetupService
       path = File.expand_path("~/.ssh/#{name}")
       return File.read(path).strip if File.exist?(path)
     end
+    nil
+  end
+
+  def cloud_ssh_public_key
+    key_data = Rails.application.credentials.dig(:cloud_servers, :ssh_private_key)
+    return nil unless key_data.present?
+
+    key = Net::SSH::KeyFactory.load_data_private_key(key_data)
+    "#{key.ssh_type} #{[ key.to_blob ].pack('m0')}"
+  rescue StandardError
     nil
   end
 

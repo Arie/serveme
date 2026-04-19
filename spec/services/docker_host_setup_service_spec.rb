@@ -121,7 +121,7 @@ describe DockerHostSetupService do
   describe "#check_ssh" do
     it "returns success when SSH connection works" do
       ssh = instance_double(Net::SSH::Connection::Session)
-      allow(Net::SSH).to receive(:start).with("1.2.3.4", nil, hash_including(timeout: 5)).and_yield(ssh)
+      allow(Net::SSH).to receive(:start).with("de1.serveme.tf", nil, hash_including(timeout: 5)).and_yield(ssh)
       allow(ssh).to receive(:exec!).with("hostname").and_return("de1\n")
 
       result = subject.check_ssh

@@ -15,6 +15,7 @@ class DockerHost < ActiveRecord::Base
   validates :hostname, uniqueness: true
   validates :start_port, numericality: { greater_than_or_equal_to: 27015 }
   validates :setup_status, inclusion: { in: SETUP_STATUSES }
+  normalizes :provider, with: ->(v) { v.presence }
   validates :provider, inclusion: { in: PROVIDERS }, allow_nil: true
   validates :provider_location, presence: true, if: :provider?
   scope :active, -> { where(active: true) }

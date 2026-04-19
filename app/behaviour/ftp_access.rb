@@ -32,6 +32,7 @@ module FtpAccess
   sig { params(files: [ String ], destination_dir: String).returns(T.untyped) }
   def copy_to_server(files, destination_dir)
     logger.debug "FTP PUT, FILES: #{files} DESTINATION: #{destination_dir}"
+    ftp_mkdir_p(destination_dir)
     files.each do |file|
       destination_file = File.join(destination_dir, File.basename(file)).to_s
       ftp.putbinaryfile(file, destination_file)
@@ -101,5 +102,16 @@ module FtpAccess
   sig { params(files: Array).returns(Integer) }
   def file_count_per_thread(files)
     (files.size / ftp_connection_pool_size.to_f).ceil
+  end
+
+  sig { params(path: String).void }
+  def ftp_mkdir_p(path)
+    parts = path.split("/").reject(&:empty?)
+    parts.each_with_index do |_, i|
+      dir = "/#{parts[0..i].join('/')}"
+      ftp.mkdir(dir)
+    rescue Net::FTPPermError
+      nil
+    end
   end
 end

@@ -120,6 +120,7 @@ module SshExecution
     # brakeman: ignore:Command Injection
     # files are escaped with shellescape, ip is validated, and destination is controlled by the application
     logger.debug "SCP PUT, FILES: #{files} DESTINATION: #{destination}"
+    execute("mkdir -p #{destination.shellescape}")
     system("#{scp_command} #{files.map(&:shellescape).join(' ')} #{scp_target}:#{destination}")
   end
 

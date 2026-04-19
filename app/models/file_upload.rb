@@ -113,7 +113,7 @@ class FileUpload < ActiveRecord::Base
 
         filename = File.basename(file_path).downcase
         next false if DISALLOWED_CFG_FILES.include?(filename)
-        next false if DISALLOWED_CFG_PREFIXES.any? { |prefix| filename.start_with?(prefix) }
+        next false if path == "cfg" && DISALLOWED_CFG_PREFIXES.any? { |prefix| filename.start_with?(prefix) }
 
         true
       end

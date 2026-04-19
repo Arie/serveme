@@ -763,6 +763,10 @@ class Server < ActiveRecord::Base
     raise "not implemented"
   end
 
+  def ensure_directories(_paths)
+    raise "not implemented"
+  end
+
   def copy_to_server(_files, _destination)
     raise "not implemented"
   end

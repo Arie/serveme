@@ -29,10 +29,14 @@ module FtpAccess
     ftp.putbinaryfile(configuration_file, upload_file)
   end
 
+  sig { params(paths: T::Array[String]).void }
+  def ensure_directories(paths)
+    paths.each { |path| ftp_mkdir_p(path) }
+  end
+
   sig { params(files: [ String ], destination_dir: String).returns(T.untyped) }
   def copy_to_server(files, destination_dir)
     logger.debug "FTP PUT, FILES: #{files} DESTINATION: #{destination_dir}"
-    ftp_mkdir_p(destination_dir)
     files.each do |file|
       destination_file = File.join(destination_dir, File.basename(file)).to_s
       ftp.putbinaryfile(file, destination_file)

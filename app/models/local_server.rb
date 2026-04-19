@@ -62,11 +62,15 @@ class LocalServer < Server
     system("ls #{file.shellescape}")
   end
 
+  sig { params(paths: T::Array[String]).void }
+  def ensure_directories(paths)
+    paths.each { |path| FileUtils.mkdir_p(path) }
+  end
+
   sig { params(files: T::Array[String], destination: String).returns(T.nilable(T::Boolean)) }
   def copy_to_server(files, destination)
     # brakeman: ignore:Command Injection
     # files are escaped with shellescape and destination is controlled by the application
-    FileUtils.mkdir_p(File.dirname(destination))
     system("cp #{files.map(&:shellescape).join(' ')} #{destination}")
   end
 

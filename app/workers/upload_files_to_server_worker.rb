@@ -11,6 +11,13 @@ class UploadFilesToServerWorker
 
     server_upload.update(started_at: Time.now)
     tf_dir = File.expand_path(s.tf_dir)
+
+    directories = files_with_path.keys.filter_map do |destination|
+      full_path = File.expand_path(File.join(tf_dir, destination))
+      full_path if full_path.start_with?("#{tf_dir}/")
+    end
+    s.ensure_directories(directories) if directories.any?
+
     files_with_path.each do |destination, files|
       next unless files.any?
 

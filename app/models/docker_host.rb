@@ -10,6 +10,15 @@ class DockerHost < ActiveRecord::Base
   PROVIDERS = %w[hetzner vultr].freeze
 
   belongs_to :location
+
+  geocoded_by :ip do |host, results|
+    if (result = results.first)
+      host.latitude = result.latitude if result.latitude
+      host.longitude = result.longitude if result.longitude
+    end
+  end
+  after_validation :geocode, if: :should_geocode?
+
   validates :city, :hostname, presence: true
   validates :ip, presence: true, unless: :provider?
   validates :hostname, uniqueness: true
@@ -72,5 +81,12 @@ class DockerHost < ActiveRecord::Base
   sig { returns(T::Boolean) }
   def full?
     full_during?(Time.current, Time.current)
+  end
+
+  private
+
+  sig { returns(T::Boolean) }
+  def should_geocode?
+    ip.present? && ip_changed?
   end
 end

@@ -9,8 +9,8 @@ describe DockerHostImagePullWorker do
   describe "#perform" do
     context "without docker_host_id (fan-out mode)" do
       it "enqueues a job per active docker host" do
-        host1 = create(:docker_host, ip: "host1.example.com")
-        host2 = create(:docker_host, ip: "host2.example.com")
+        host1 = create(:docker_host)
+        host2 = create(:docker_host, hostname: "de2.serveme.tf")
 
         expect(DockerHostImagePullWorker).to receive(:perform_async).with(host1.id)
         expect(DockerHostImagePullWorker).to receive(:perform_async).with(host2.id)
@@ -29,7 +29,7 @@ describe DockerHostImagePullWorker do
 
     context "with docker_host_id (pull mode)" do
       it "pulls the image on the specified host" do
-        host = create(:docker_host, ip: "host1.example.com")
+        host = create(:docker_host)
 
         ssh = instance_double(Net::SSH::Connection::Session)
         allow(Net::SSH).to receive(:start).and_yield(ssh)
@@ -37,11 +37,11 @@ describe DockerHostImagePullWorker do
 
         worker.perform(host.id)
 
-        expect(Net::SSH).to have_received(:start).with("host1.example.com", nil, hash_including(timeout: 5))
+        expect(Net::SSH).to have_received(:start).with(host.hostname, "tf2", hash_including(timeout: 5))
       end
 
       it "raises on SSH failure so Sidekiq retries" do
-        host = create(:docker_host, ip: "host1.example.com")
+        host = create(:docker_host)
 
         allow(Net::SSH).to receive(:start).and_raise(Errno::ECONNREFUSED)
 

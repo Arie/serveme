@@ -15,6 +15,7 @@ describe CloudServerProvisionWorker do
     allow(provider).to receive(:pending_command?).and_return(false)
     allow(provider).to receive(:server_ip).and_return("10.0.0.1")
     allow(provider).to receive(:provision_phases).and_return([ { name: "creating_vm", label: "Creating VM", estimated_seconds: 30 }, { name: "booting", label: "Booting", estimated_seconds: 15 }, { name: "configuring", label: "Configuring", estimated_seconds: 15 } ])
+    allow($lock).to receive(:synchronize).and_yield
   end
 
   describe "#perform" do
@@ -73,6 +74,23 @@ describe CloudServerProvisionWorker do
 
       cloud_server.reload
       expect(cloud_server.cloud_provider_id).to eq("vultr-abc123")
+    end
+
+    it "acquires a lock to prevent duplicate provisioning" do
+      allow(provider).to receive(:create_server).and_return("cloud-#{cloud_server.id}")
+      allow(CloudServerPollWorker).to receive(:perform_in)
+
+      expect($lock).to receive(:synchronize).with("cloud-provision-#{cloud_server.id}", retries: 0, expiry: 5.minutes).and_yield
+
+      described_class.new.perform(cloud_server.id)
+    end
+
+    it "skips when lock is already held" do
+      allow($lock).to receive(:synchronize).and_raise(RemoteLock::Error)
+
+      expect(provider).not_to receive(:create_server)
+
+      described_class.new.perform(cloud_server.id)
     end
 
     it "destroys server if marked destroyed during provisioning" do

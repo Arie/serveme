@@ -8,6 +8,11 @@ class CloudServerDestroyWorker
 
   MAX_PROVISION_WAIT = 15.minutes
 
+  sidekiq_retries_exhausted do |msg, exception|
+    cloud_server = CloudServer.find_by(id: msg["args"][0])
+    Rails.logger.error "CloudServerDestroyWorker: All retries exhausted for cloud_server #{cloud_server&.id}, provider_id #{cloud_server&.cloud_provider_id}: #{exception}"
+  end
+
   def perform(cloud_server_id)
     cloud_server = CloudServer.find(cloud_server_id)
     return if cloud_server.cloud_status == "destroyed" && cloud_server.cloud_provider_id.blank?
@@ -16,7 +21,9 @@ class CloudServerDestroyWorker
     provider_id = cloud_server.cloud_provider_id
 
     if provider_id.present?
-      provider.destroy_server(provider_id)
+      unless provider.destroy_server(provider_id)
+        raise "Failed to destroy #{cloud_server.cloud_provider} server #{provider_id} for cloud_server #{cloud_server.id}"
+      end
     elsif cloud_server.cloud_status == "provisioning"
       cloud_server.update!(cloud_status: "destroyed", cloud_destroyed_at: Time.current, active: false)
       if cloud_server.cloud_created_at.present? && Time.current - cloud_server.cloud_created_at < MAX_PROVISION_WAIT

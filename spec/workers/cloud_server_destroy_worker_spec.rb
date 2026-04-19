@@ -15,7 +15,7 @@ describe CloudServerDestroyWorker do
 
   describe "#perform" do
     it "destroys the server via the provider and updates status" do
-      expect(provider).to receive(:destroy_server).with("cloud-123")
+      expect(provider).to receive(:destroy_server).with("cloud-123").and_return(true)
 
       described_class.new.perform(cloud_server.id)
 
@@ -25,10 +25,19 @@ describe CloudServerDestroyWorker do
     end
 
     it "calls destroy_servers_by_label as safety net" do
-      allow(provider).to receive(:destroy_server)
+      allow(provider).to receive(:destroy_server).with("cloud-123").and_return(true)
       expect(provider).to receive(:destroy_servers_by_label).with("serveme-eu-#{cloud_server.cloud_reservation_id}")
 
       described_class.new.perform(cloud_server.id)
+    end
+
+    it "raises when destroy_server fails so Sidekiq retries" do
+      allow(provider).to receive(:destroy_server).with("cloud-123").and_return(false)
+
+      expect { described_class.new.perform(cloud_server.id) }.to raise_error(RuntimeError, /Failed to destroy/)
+
+      cloud_server.reload
+      expect(cloud_server.cloud_status).not_to eq("destroyed")
     end
 
     it "skips when already destroyed and no provider_id" do
@@ -42,7 +51,7 @@ describe CloudServerDestroyWorker do
     it "still destroys container when already marked destroyed but provider_id is present" do
       cloud_server.update!(cloud_status: "destroyed", cloud_provider_id: "cloud-123")
 
-      expect(provider).to receive(:destroy_server).with("cloud-123")
+      expect(provider).to receive(:destroy_server).with("cloud-123").and_return(true)
 
       described_class.new.perform(cloud_server.id)
     end

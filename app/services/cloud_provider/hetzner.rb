@@ -94,19 +94,42 @@ module CloudProvider
       destroyed
     end
 
-    def create_snapshot_server(location, setup_script)
+    def list_servers
+      servers = []
+      page = 1
+      loop do
+        response = connection.get("servers?page=#{page}&per_page=50")
+        return servers unless response.success?
+
+        data = JSON.parse(response.body)
+        (data["servers"] || []).each do |server|
+          servers << {
+            provider_id: server["id"].to_s,
+            label: server["name"],
+            created_at: server["created"] ? Time.parse(server["created"]) : nil
+          }
+        end
+        break if page >= data.dig("meta", "pagination", "last_page").to_i
+
+        page += 1
+      end
+      servers
+    end
+
+    def create_bare_server(name:, location:, image: nil, user_data: nil)
+      body = {
+        name: name,
+        server_type: server_type_for(location),
+        image: image || "ubuntu-24.04",
+        location: location,
+        ssh_keys: [ ssh_key_name ]
+      }
+      body[:user_data] = user_data if user_data
+
       response = connection.post("servers") do |req|
-        req.body = {
-          name: "serveme-snapshot-#{Time.current.strftime('%Y%m%d%H%M')}",
-          server_type: server_type_for(location),
-          image: "docker-ce",
-          location: location,
-          ssh_keys: [ ssh_key_name ],
-          user_data: setup_script
-        }.to_json
+        req.body = body.to_json
       end
       data = parse_response(response, "Hetzner API error")
-
       server_id = data.dig("server", "id").to_s
 
       ip = nil
@@ -121,6 +144,15 @@ module CloudProvider
       raise "Hetzner VM never became running" unless ip
 
       [ server_id, ip ]
+    end
+
+    def create_snapshot_server(location, setup_script)
+      create_bare_server(
+        name: "serveme-snapshot-#{Time.current.strftime('%Y%m%d%H%M')}",
+        location: location,
+        image: "docker-ce",
+        user_data: setup_script
+      )
     end
 
     def halt_server(provider_id)

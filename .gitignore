@@ -34,3 +34,7 @@ discord_bot/config.yml
 
 # MCP config (contains API keys)
 .mcp.json
+
+# Ignore key files for decrypting credentials and more.
+/config/credentials/*.key
+

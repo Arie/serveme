@@ -7,7 +7,7 @@ class DockerHost < ActiveRecord::Base
   VIRTUAL_ID_OFFSET = 1_000_000_000
 
   SETUP_STATUSES = %w[pending vm_created dns_configured ssh_verified provisioned ssl_verified ready].freeze
-  PROVIDERS = %w[hetzner].freeze
+  PROVIDERS = %w[hetzner vultr].freeze
 
   belongs_to :location
   validates :city, :hostname, presence: true

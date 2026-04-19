@@ -11,39 +11,19 @@ class DockerHostSetupService
   end
 
   def create_vm
-    raise "Not a Hetzner host" unless docker_host.hetzner?
+    raise "No cloud provider configured" unless docker_host.provider?
     raise "VM already created" if docker_host.provider_server_id.present?
 
-    hetzner = CloudProvider::Hetzner.new
-    response = hetzner.send(:connection).post("servers") do |req|
-      req.body = {
-        name: "docker-host-#{docker_host.hostname.tr('.', '-')}",
-        server_type: CloudProvider::Hetzner::LOCATIONS.dig(docker_host.provider_location, :server_type) || "cpx22",
-        image: "ubuntu-24.04",
-        location: docker_host.provider_location,
-        ssh_keys: [ hetzner.send(:ssh_key_name) ]
-      }.to_json
-    end
-    data = hetzner.send(:parse_response, response, "Hetzner API error")
+    provider = cloud_provider
+    server_id, ip = provider.create_bare_server(
+      name: "docker-host-#{docker_host.hostname.tr('.', '-')}",
+      location: docker_host.provider_location
+    )
 
-    server_id = data.dig("server", "id").to_s
-    docker_host.update!(provider_server_id: server_id)
-
-    ip = nil
-    60.times do
-      sleep 5
-      status_response = hetzner.send(:connection).get("servers/#{server_id}")
-      status_data = JSON.parse(status_response.body)
-      status = status_data.dig("server", "status")
-      ip = status_data.dig("server", "public_net", "ipv4", "ip")
-      break if status == "running" && ip.present?
-    end
-    raise "VM did not become ready in time" unless ip
-
-    docker_host.update!(ip: ip)
+    docker_host.update!(provider_server_id: server_id, ip: ip)
     wait_for_ssh(ip)
     docker_host.update!(setup_status: "vm_created")
-    { success: true, message: "Hetzner VM created (#{ip}) in #{docker_host.provider_location}" }
+    { success: true, message: "#{docker_host.provider.capitalize} VM created (#{ip}) in #{docker_host.provider_location}" }
   rescue StandardError => e
     { success: false, message: "VM creation failed: #{e.message}" }
   end
@@ -81,7 +61,7 @@ class DockerHostSetupService
   end
 
   def check_ssl
-    attempts = docker_host.hetzner? ? 12 : 1
+    attempts = docker_host.provider? ? 12 : 1
     last_error = nil
     attempts.times do |attempt|
       uri = URI("https://#{docker_host.hostname}/ping")
@@ -114,6 +94,14 @@ class DockerHostSetupService
   end
 
   private
+
+  def cloud_provider
+    case docker_host.provider
+    when "hetzner" then CloudProvider::Hetzner.new
+    when "vultr" then CloudProvider::Vultr.new
+    else raise "Unknown provider: #{docker_host.provider}"
+    end
+  end
 
   def configure_cloudflare_dns
     dns_service = CloudflareDnsService.new
@@ -156,7 +144,7 @@ class DockerHostSetupService
     opts = { timeout: 5, keepalive: true, keepalive_interval: 5, keepalive_maxcount: 2, bind_address: "0.0.0.0" }
     user = nil
 
-    if docker_host.hetzner?
+    if docker_host.provider?
       user = "root"
       key_data = Rails.application.credentials.dig(:cloud_servers, :ssh_private_key)
       if key_data.present?
@@ -180,6 +168,12 @@ class DockerHostSetupService
       export DEBIAN_FRONTEND=noninteractive
       apt-get update -qq
       apt-get install -y -qq curl git
+      if command -v ufw &>/dev/null && ufw status | grep -q "Status: active"; then
+        ufw allow 80/tcp
+        ufw allow 443/tcp
+        ufw allow #{docker_host.start_port}:#{docker_host.start_port + 100}/tcp
+        ufw allow #{docker_host.start_port}:#{docker_host.start_port + 100}/udp
+      fi
     BASH
   end
 
@@ -259,6 +253,7 @@ OVERRIDE
       #{docker_host.hostname} {
         tls {
           dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+          resolvers 1.1.1.1 8.8.8.8
         }
         reverse_proxy /ping localhost:8083
       }

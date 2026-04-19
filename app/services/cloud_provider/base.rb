@@ -65,6 +65,12 @@ module CloudProvider
       0
     end
 
+    # Create a bare VM with the given name, location, and image. Returns [provider_id, ip].
+    # Polls until the VM is running and has an IP assigned.
+    def create_bare_server(name:, location:, image: nil, user_data: nil)
+      raise NotImplementedError
+    end
+
     # Create a temporary VM for snapshotting. Returns [provider_id, ip].
     def create_snapshot_server(location, setup_script)
       raise NotImplementedError
@@ -88,6 +94,11 @@ module CloudProvider
     # Credential key path for storing snapshot ID
     def snapshot_credential_key
       raise NotImplementedError
+    end
+
+    # List all VMs at this provider. Returns array of { provider_id:, label:, created_at: }.
+    def list_servers
+      []
     end
 
     # Delete all snapshots except the one to keep. Returns count of deleted snapshots.

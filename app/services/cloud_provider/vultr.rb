@@ -128,19 +128,43 @@ module CloudProvider
       destroyed
     end
 
-    def create_snapshot_server(location, setup_script)
+    def list_servers
+      servers = []
+      url = "instances?per_page=100"
+      loop do
+        response = connection.get(url)
+        return servers unless response.success?
+
+        data = JSON.parse(response.body)
+        (data["instances"] || []).each do |instance|
+          servers << {
+            provider_id: instance["id"],
+            label: instance["label"],
+            created_at: instance["date_created"] ? Time.parse(instance["date_created"]) : nil
+          }
+        end
+        cursor = data.dig("meta", "links", "next")
+        break if cursor.blank?
+
+        url = "instances?per_page=100&cursor=#{cursor}"
+      end
+      servers
+    end
+
+    def create_bare_server(name:, location:, image: nil, user_data: nil)
+      body = {
+        label: name,
+        plan: plan,
+        region: location,
+        image_id: image || marketplace_image_id,
+        sshkey_id: [ ssh_key_id ]
+      }
+      body[:user_data] = Base64.strict_encode64(user_data) if user_data
+
       response = connection.post("instances") do |req|
-        req.body = {
-          label: "serveme-snapshot-#{Time.current.strftime('%Y%m%d%H%M')}",
-          plan: plan,
-          region: location,
-          image_id: marketplace_image_id,
-          sshkey_id: [ ssh_key_id ],
-          user_data: Base64.strict_encode64(setup_script)
-        }.to_json
+        req.body = body.to_json
       end
       data = parse_response(response, "Vultr API error")
-
       instance_id = data.dig("instance", "id")
 
       ip = nil
@@ -159,6 +183,15 @@ module CloudProvider
       raise "Vultr VM never became running" unless ip
 
       [ instance_id, ip ]
+    end
+
+    def create_snapshot_server(location, setup_script)
+      create_bare_server(
+        name: "serveme-snapshot-#{Time.current.strftime('%Y%m%d%H%M')}",
+        location: location,
+        image: "docker",
+        user_data: setup_script
+      )
     end
 
     def halt_server(provider_id)

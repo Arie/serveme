@@ -12,15 +12,11 @@ describe DockerHostSetupService do
     let(:docker_host) { create(:docker_host, hostname: "de1.serveme.tf", ip: nil, provider: "hetzner", provider_location: "fsn1") }
 
     it "creates a Hetzner VM and assigns the IP" do
-      connection = instance_double(Faraday::Connection)
-      allow_any_instance_of(CloudProvider::Hetzner).to receive(:connection).and_return(connection)
-      allow_any_instance_of(CloudProvider::Hetzner).to receive(:ssh_key_name).and_return("serveme-cloud")
-
-      create_response = instance_double(Faraday::Response, status: 201, success?: true, body: { server: { id: 12345 } }.to_json)
-      allow(connection).to receive(:post).with("servers").and_yield(Faraday::Request.new).and_return(create_response)
-
-      poll_response = instance_double(Faraday::Response, success?: true, body: { server: { status: "running", public_net: { ipv4: { ip: "5.6.7.8" } } } }.to_json)
-      allow(connection).to receive(:get).with("servers/12345").and_return(poll_response)
+      hetzner = instance_double(CloudProvider::Hetzner)
+      allow(CloudProvider::Hetzner).to receive(:new).and_return(hetzner)
+      allow(hetzner).to receive(:create_bare_server)
+        .with(name: "docker-host-de1-serveme-tf", location: "fsn1")
+        .and_return([ "12345", "5.6.7.8" ])
 
       tcp_socket = instance_double(TCPSocket)
       allow(TCPSocket).to receive(:new).with("5.6.7.8", 22).and_return(tcp_socket)
@@ -34,13 +30,13 @@ describe DockerHostSetupService do
       expect(docker_host.setup_status).to eq("vm_created")
     end
 
-    it "returns an error when not a Hetzner host" do
+    it "returns an error when no provider is configured" do
       docker_host.update_columns(provider: nil)
 
       result = subject.create_vm
 
       expect(result[:success]).to be false
-      expect(result[:message]).to include("Not a Hetzner host")
+      expect(result[:message]).to include("No cloud provider configured")
     end
 
     it "returns an error when VM already exists" do

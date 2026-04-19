@@ -57,3 +57,8 @@ cloud_server_cleanup_tz:
   cron: "*/10 * * * * Europe/Amsterdam"  # Run every 10 minutes
   class: "CloudServerCleanupWorker"
   queue: default
+
+cloud_server_orphan_cleanup_tz:
+  cron: "*/30 * * * * Europe/Amsterdam"
+  class: "CloudServerOrphanCleanupWorker"
+  queue: default

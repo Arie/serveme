@@ -156,7 +156,12 @@ Serveme::Application.routes.draw do
     end
 
     resources :maps, only: [ :index, :destroy ]
-    resources :docker_hosts, except: :show
+    resources :docker_hosts, except: :show do
+      member do
+        get :setup
+        post :run_setup_step
+      end
+    end
     resource :site_settings, only: [ :edit, :update ]
     resources :scoreboards, only: [ :index ]
   end

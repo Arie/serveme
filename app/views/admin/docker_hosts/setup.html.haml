@@ -1,0 +1,59 @@
+- content_for(:title) { "Setup #{@docker_host.hostname}" }
+
+.row
+  .col-md-12.col-lg-8.offset-lg-2
+    .d-flex.justify-content-between.align-items-center.mb-4
+      %h2.mb-0 Setup: #{@docker_host.hostname}
+      = link_to "Back to Docker Hosts", admin_docker_hosts_path, class: "btn btn-secondary btn-sm"
+
+.row
+  .col-md-12.col-lg-8.offset-lg-2
+    .card.mb-3
+      .card-body
+        %h5.card-title Host Details
+        %table.table.table-sm.mb-0
+          %tbody
+            %tr
+              %td.fw-bold Hostname
+              %td= @docker_host.hostname
+            %tr
+              %td.fw-bold IP Address
+              %td= @docker_host.ip || "Pending (will be assigned by Hetzner)"
+            - if @docker_host.provider?
+              %tr
+                %td.fw-bold Provider
+                %td= @docker_host.provider.titleize
+              %tr
+                %td.fw-bold Provider Location
+                %td= CloudProvider::Hetzner::LOCATIONS.dig(@docker_host.provider_location, :name) || @docker_host.provider_location
+            %tr
+              %td.fw-bold City
+              %td= @docker_host.city
+            %tr
+              %td.fw-bold Location
+              %td
+                %span{class: ["flags", "flags-#{@docker_host.location.flag}"]}
+                = @docker_host.location.name
+            %tr
+              %td.fw-bold Setup Status
+              %td#setup-status
+                = render partial: "admin/docker_hosts/setup_status", locals: { docker_host: @docker_host }
+
+- step_number = 0
+- dns_description = @docker_host.serveme_hostname? ? "Create/update A record in Cloudflare for #{@docker_host.hostname}" : "Verify that #{@docker_host.hostname} resolves to #{@docker_host.ip || 'the assigned IP'}"
+
+.row
+  .col-md-12.col-lg-8.offset-lg-2
+    - if @docker_host.hetzner?
+      - step_number += 1
+      = render partial: "admin/docker_hosts/setup_step", locals: { docker_host: @docker_host, key: "create_vm", title: "#{step_number}. Create Hetzner VM", icon: "fa-cloud", description: "Create a #{CloudProvider::Hetzner::LOCATIONS.dig(@docker_host.provider_location, :server_type) || 'cpx22'} server in #{CloudProvider::Hetzner::LOCATIONS.dig(@docker_host.provider_location, :name) || @docker_host.provider_location}" }
+    - step_number += 1
+    = render partial: "admin/docker_hosts/setup_step", locals: { docker_host: @docker_host, key: "dns", title: "#{step_number}. DNS Configuration", icon: "fa-globe", description: dns_description }
+    - step_number += 1
+    = render partial: "admin/docker_hosts/setup_step", locals: { docker_host: @docker_host, key: "ssh", title: "#{step_number}. SSH Connectivity", icon: "fa-terminal", description: "Test SSH connection to #{@docker_host.ip || 'the server'} using the serveme public key" }
+    - step_number += 1
+    = render partial: "admin/docker_hosts/setup_step", locals: { docker_host: @docker_host, key: "provision", title: "#{step_number}. Host Provisioning", icon: "fa-server", description: "Install Docker, Caddy (reverse proxy with auto-SSL), and websocket echo server" }
+    - step_number += 1
+    = render partial: "admin/docker_hosts/setup_step", locals: { docker_host: @docker_host, key: "ssl", title: "#{step_number}. SSL Verification", icon: "fa-lock", description: "Verify HTTPS is working on #{@docker_host.hostname} (Caddy auto-provisions Let's Encrypt cert)" }
+    - step_number += 1
+    = render partial: "admin/docker_hosts/setup_step", locals: { docker_host: @docker_host, key: "pull_image", title: "#{step_number}. Pull Docker Image", icon: "fa-download", description: "Pull serveme/tf2-cloud-server:latest and mark host as ready" }

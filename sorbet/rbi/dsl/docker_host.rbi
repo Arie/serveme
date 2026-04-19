@@ -723,6 +723,51 @@ class DockerHost
     sig { void }
     def created_at_will_change!; end
 
+    sig { returns(::String) }
+    def hostname; end
+
+    sig { params(value: ::String).returns(::String) }
+    def hostname=(value); end
+
+    sig { returns(T::Boolean) }
+    def hostname?; end
+
+    sig { returns(T.nilable(::String)) }
+    def hostname_before_last_save; end
+
+    sig { returns(T.untyped) }
+    def hostname_before_type_cast; end
+
+    sig { returns(T::Boolean) }
+    def hostname_came_from_user?; end
+
+    sig { returns(T.nilable([::String, ::String])) }
+    def hostname_change; end
+
+    sig { returns(T.nilable([::String, ::String])) }
+    def hostname_change_to_be_saved; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def hostname_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::String)) }
+    def hostname_in_database; end
+
+    sig { returns(T.nilable([::String, ::String])) }
+    def hostname_previous_change; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def hostname_previously_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::String)) }
+    def hostname_previously_was; end
+
+    sig { returns(T.nilable(::String)) }
+    def hostname_was; end
+
+    sig { void }
+    def hostname_will_change!; end
+
     sig { returns(::Integer) }
     def id; end
 
@@ -813,10 +858,10 @@ class DockerHost
     sig { void }
     def id_will_change!; end
 
-    sig { returns(::String) }
+    sig { returns(T.nilable(::String)) }
     def ip; end
 
-    sig { params(value: ::String).returns(::String) }
+    sig { params(value: T.nilable(::String)).returns(T.nilable(::String)) }
     def ip=(value); end
 
     sig { returns(T::Boolean) }
@@ -831,10 +876,10 @@ class DockerHost
     sig { returns(T::Boolean) }
     def ip_came_from_user?; end
 
-    sig { returns(T.nilable([::String, ::String])) }
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
     def ip_change; end
 
-    sig { returns(T.nilable([::String, ::String])) }
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
     def ip_change_to_be_saved; end
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
@@ -843,7 +888,7 @@ class DockerHost
     sig { returns(T.nilable(::String)) }
     def ip_in_database; end
 
-    sig { returns(T.nilable([::String, ::String])) }
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
     def ip_previous_change; end
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
@@ -1038,6 +1083,141 @@ class DockerHost
     sig { void }
     def max_containers_will_change!; end
 
+    sig { returns(T.nilable(::String)) }
+    def provider; end
+
+    sig { params(value: T.nilable(::String)).returns(T.nilable(::String)) }
+    def provider=(value); end
+
+    sig { returns(T::Boolean) }
+    def provider?; end
+
+    sig { returns(T.nilable(::String)) }
+    def provider_before_last_save; end
+
+    sig { returns(T.untyped) }
+    def provider_before_type_cast; end
+
+    sig { returns(T::Boolean) }
+    def provider_came_from_user?; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def provider_change; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def provider_change_to_be_saved; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def provider_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::String)) }
+    def provider_in_database; end
+
+    sig { returns(T.nilable(::String)) }
+    def provider_location; end
+
+    sig { params(value: T.nilable(::String)).returns(T.nilable(::String)) }
+    def provider_location=(value); end
+
+    sig { returns(T::Boolean) }
+    def provider_location?; end
+
+    sig { returns(T.nilable(::String)) }
+    def provider_location_before_last_save; end
+
+    sig { returns(T.untyped) }
+    def provider_location_before_type_cast; end
+
+    sig { returns(T::Boolean) }
+    def provider_location_came_from_user?; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def provider_location_change; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def provider_location_change_to_be_saved; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def provider_location_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::String)) }
+    def provider_location_in_database; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def provider_location_previous_change; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def provider_location_previously_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::String)) }
+    def provider_location_previously_was; end
+
+    sig { returns(T.nilable(::String)) }
+    def provider_location_was; end
+
+    sig { void }
+    def provider_location_will_change!; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def provider_previous_change; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def provider_previously_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::String)) }
+    def provider_previously_was; end
+
+    sig { returns(T.nilable(::String)) }
+    def provider_server_id; end
+
+    sig { params(value: T.nilable(::String)).returns(T.nilable(::String)) }
+    def provider_server_id=(value); end
+
+    sig { returns(T::Boolean) }
+    def provider_server_id?; end
+
+    sig { returns(T.nilable(::String)) }
+    def provider_server_id_before_last_save; end
+
+    sig { returns(T.untyped) }
+    def provider_server_id_before_type_cast; end
+
+    sig { returns(T::Boolean) }
+    def provider_server_id_came_from_user?; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def provider_server_id_change; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def provider_server_id_change_to_be_saved; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def provider_server_id_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::String)) }
+    def provider_server_id_in_database; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def provider_server_id_previous_change; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def provider_server_id_previously_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::String)) }
+    def provider_server_id_previously_was; end
+
+    sig { returns(T.nilable(::String)) }
+    def provider_server_id_was; end
+
+    sig { void }
+    def provider_server_id_will_change!; end
+
+    sig { returns(T.nilable(::String)) }
+    def provider_was; end
+
+    sig { void }
+    def provider_will_change!; end
+
     sig { void }
     def restore_active!; end
 
@@ -1046,6 +1226,9 @@ class DockerHost
 
     sig { void }
     def restore_created_at!; end
+
+    sig { void }
+    def restore_hostname!; end
 
     sig { void }
     def restore_id!; end
@@ -1067,6 +1250,18 @@ class DockerHost
 
     sig { void }
     def restore_max_containers!; end
+
+    sig { void }
+    def restore_provider!; end
+
+    sig { void }
+    def restore_provider_location!; end
+
+    sig { void }
+    def restore_provider_server_id!; end
+
+    sig { void }
+    def restore_setup_status!; end
 
     sig { void }
     def restore_start_port!; end
@@ -1092,6 +1287,12 @@ class DockerHost
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def saved_change_to_created_at?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
+    sig { returns(T.nilable([::String, ::String])) }
+    def saved_change_to_hostname; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def saved_change_to_hostname?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
     sig { returns(T.nilable([::Integer, ::Integer])) }
     def saved_change_to_id; end
 
@@ -1104,7 +1305,7 @@ class DockerHost
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def saved_change_to_id_value?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
-    sig { returns(T.nilable([::String, ::String])) }
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
     def saved_change_to_ip; end
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
@@ -1134,6 +1335,30 @@ class DockerHost
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def saved_change_to_max_containers?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def saved_change_to_provider; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def saved_change_to_provider?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def saved_change_to_provider_location; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def saved_change_to_provider_location?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def saved_change_to_provider_server_id; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def saved_change_to_provider_server_id?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable([::String, ::String])) }
+    def saved_change_to_setup_status; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def saved_change_to_setup_status?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
     sig { returns(T.nilable([T.nilable(::Integer), T.nilable(::Integer)])) }
     def saved_change_to_start_port; end
 
@@ -1145,6 +1370,51 @@ class DockerHost
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def saved_change_to_updated_at?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(::String) }
+    def setup_status; end
+
+    sig { params(value: ::String).returns(::String) }
+    def setup_status=(value); end
+
+    sig { returns(T::Boolean) }
+    def setup_status?; end
+
+    sig { returns(T.nilable(::String)) }
+    def setup_status_before_last_save; end
+
+    sig { returns(T.untyped) }
+    def setup_status_before_type_cast; end
+
+    sig { returns(T::Boolean) }
+    def setup_status_came_from_user?; end
+
+    sig { returns(T.nilable([::String, ::String])) }
+    def setup_status_change; end
+
+    sig { returns(T.nilable([::String, ::String])) }
+    def setup_status_change_to_be_saved; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def setup_status_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::String)) }
+    def setup_status_in_database; end
+
+    sig { returns(T.nilable([::String, ::String])) }
+    def setup_status_previous_change; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def setup_status_previously_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::String)) }
+    def setup_status_previously_was; end
+
+    sig { returns(T.nilable(::String)) }
+    def setup_status_was; end
+
+    sig { void }
+    def setup_status_will_change!; end
 
     sig { returns(T.nilable(::Integer)) }
     def start_port; end
@@ -1246,6 +1516,9 @@ class DockerHost
     def will_save_change_to_created_at?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def will_save_change_to_hostname?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def will_save_change_to_id?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
@@ -1265,6 +1538,18 @@ class DockerHost
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def will_save_change_to_max_containers?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def will_save_change_to_provider?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def will_save_change_to_provider_location?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def will_save_change_to_provider_server_id?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def will_save_change_to_setup_status?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def will_save_change_to_start_port?(from: T.unsafe(nil), to: T.unsafe(nil)); end

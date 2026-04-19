@@ -1,0 +1,7 @@
+- case docker_host.setup_status
+- when "ready"
+  %span.badge.bg-success= docker_host.setup_status
+- when "pending"
+  %span.badge.bg-warning= docker_host.setup_status
+- else
+  %span.badge.bg-info= docker_host.setup_status

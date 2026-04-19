@@ -131,12 +131,12 @@
                     %td= link_to server.ip, new_reservation_path(ip: server.ip), class: 'hover-underline text-light'
                     %td.ping Checking...
                 - if @docker_hosts.present?
-                  - @docker_hosts.uniq { |dh| dh.ip }.each do |docker_host|
+                  - @docker_hosts.uniq { |dh| dh.hostname }.each do |docker_host|
                     - next if @servers.any? { |s| s.ip == docker_host.ip }
-                    %tr{data: { ip: docker_host.ip }}
+                    %tr{data: { ip: docker_host.hostname }}
                       %td= docker_host.city
                       %td= docker_host.location&.name
-                      %td= docker_host.ip
+                      %td= docker_host.hostname
                       %td.ping Checking...
           .mt-3
             %canvas{data: { ping_target: "chart" }, style: "width: 100%; height: 200px;"}

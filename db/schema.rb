@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_24_081900) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_18_130000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -56,14 +56,20 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_24_081900) do
     t.boolean "active", default: true
     t.string "city", null: false
     t.datetime "created_at", null: false
-    t.string "ip", null: false
+    t.string "hostname", null: false
+    t.string "ip"
     t.float "latitude"
     t.bigint "location_id", null: false
     t.float "longitude"
     t.integer "max_containers", default: 4
+    t.string "provider"
+    t.string "provider_location"
+    t.string "provider_server_id"
+    t.string "setup_status", default: "pending", null: false
     t.integer "start_port", default: 27015
     t.datetime "updated_at", null: false
     t.index ["active"], name: "index_docker_hosts_on_active"
+    t.index ["hostname"], name: "index_docker_hosts_on_hostname", unique: true
     t.index ["location_id"], name: "index_docker_hosts_on_location_id"
   end
 

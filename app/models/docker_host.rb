@@ -6,10 +6,33 @@ class DockerHost < ActiveRecord::Base
 
   VIRTUAL_ID_OFFSET = 1_000_000_000
 
+  SETUP_STATUSES = %w[pending vm_created dns_configured ssh_verified provisioned ssl_verified ready].freeze
+  PROVIDERS = %w[hetzner].freeze
+
   belongs_to :location
-  validates :city, :ip, presence: true
+  validates :city, :hostname, presence: true
+  validates :ip, presence: true, unless: :provider?
+  validates :hostname, uniqueness: true
   validates :start_port, numericality: { greater_than_or_equal_to: 27015 }
+  validates :setup_status, inclusion: { in: SETUP_STATUSES }
+  validates :provider, inclusion: { in: PROVIDERS }, allow_nil: true
+  validates :provider_location, presence: true, if: :provider?
   scope :active, -> { where(active: true) }
+
+  sig { returns(T::Boolean) }
+  def provider?
+    provider.present?
+  end
+
+  sig { returns(T::Boolean) }
+  def hetzner?
+    provider == "hetzner"
+  end
+
+  sig { returns(T::Boolean) }
+  def serveme_hostname?
+    hostname.to_s.end_with?(".serveme.tf")
+  end
 
   sig { returns(Integer) }
   def virtual_server_id

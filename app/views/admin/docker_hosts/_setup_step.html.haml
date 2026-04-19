@@ -1,0 +1,12 @@
+.card.mb-3
+  .card-body
+    .d-flex.justify-content-between.align-items-start
+      .flex-grow-1
+        %h5.card-title
+          %i.fa{class: icon}
+          = title
+        %p.card-text.text-muted= description
+        %div{id: "step-#{key}-result"}
+          = render partial: "admin/docker_hosts/step_result", locals: { step: key, result: nil }
+      .flex-shrink-0.ms-3
+        = button_to "Run", run_setup_step_admin_docker_host_path(docker_host, step: key), method: :post, form: { data: { turbo: true } }, class: "btn btn-primary btn-sm", data: { disable_with: "Running..." }

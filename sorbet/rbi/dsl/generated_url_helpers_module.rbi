@@ -472,6 +472,9 @@ module GeneratedUrlHelpersModule
   def rswag_ui_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def run_setup_step_admin_docker_host_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def sdr_server_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
@@ -512,6 +515,9 @@ module GeneratedUrlHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def settings_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def setup_admin_docker_host_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def show_ip_statistic_url(*args); end

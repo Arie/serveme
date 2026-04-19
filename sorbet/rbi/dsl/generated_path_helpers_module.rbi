@@ -472,6 +472,9 @@ module GeneratedPathHelpersModule
   def rswag_ui_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def run_setup_step_admin_docker_host_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def sdr_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
@@ -512,6 +515,9 @@ module GeneratedPathHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def settings_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def setup_admin_docker_host_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def show_ip_statistic_path(*args); end

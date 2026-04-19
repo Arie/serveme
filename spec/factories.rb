@@ -170,6 +170,7 @@ FactoryBot.define do
     association :location
     city { 'Amsterdam' }
     ip { '10.0.0.1' }
+    sequence(:hostname) { |n| "ams#{n}.serveme.tf" }
     start_port { 27015 }
     max_containers { 4 }
     active { true }

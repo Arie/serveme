@@ -16,10 +16,12 @@
               %tr
                 %th.pl-3 City
                 %th Location
+                %th Hostname
                 %th IP
                 %th.text-center Start Port
                 %th.text-center Containers
-                %th.text-center Active
+                %th.text-center Status
+                %th.text-center Setup
                 %th.text-center Actions
             %tbody
               - @docker_hosts.each do |docker_host|
@@ -29,6 +31,8 @@
                   %td
                     %span{class: ["flags", "flags-#{docker_host.location.flag}"]}
                     = docker_host.location.name
+                  %td
+                    = docker_host.hostname
                   %td
                     = docker_host.ip
                   %td.text-center
@@ -43,7 +47,16 @@
                     - else
                       %span.badge.bg-secondary Inactive
                   %td.text-center
+                    - case docker_host.setup_status
+                    - when "ready"
+                      %span.badge.bg-success= docker_host.setup_status
+                    - when "pending"
+                      %span.badge.bg-warning= docker_host.setup_status
+                    - else
+                      %span.badge.bg-info= docker_host.setup_status
+                  %td.text-center
                     .btn-group.btn-group-sm{role: "group"}
+                      = link_to("Setup", setup_admin_docker_host_path(docker_host), class: "btn btn-info")
                       = link_to("Edit", edit_admin_docker_host_path(docker_host), class: "btn btn-warning")
                       - if docker_host.active
                         = link_to("Deactivate", admin_docker_host_path(docker_host), method: :delete, data: { confirm: "Are you sure you want to deactivate this Docker host?" }, class: "btn btn-danger")

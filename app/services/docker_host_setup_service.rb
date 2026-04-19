@@ -142,9 +142,9 @@ class DockerHostSetupService
 
   def ssh_to_host(&block)
     opts = { timeout: 5, keepalive: true, keepalive_interval: 5, keepalive_maxcount: 2, bind_address: "0.0.0.0" }
-    user = nil
 
     if docker_host.provider?
+      host = docker_host.ip
       user = "root"
       key_data = Rails.application.credentials.dig(:cloud_servers, :ssh_private_key)
       if key_data.present?
@@ -152,9 +152,12 @@ class DockerHostSetupService
         opts[:keys_only] = true
       end
       opts[:verify_host_key] = :never
+    else
+      host = docker_host.hostname
+      user = nil
     end
 
-    Net::SSH.start(docker_host.ip, user, **opts, &block)
+    Net::SSH.start(host, user, **opts, &block)
   end
 
   def run_script(ssh, script)

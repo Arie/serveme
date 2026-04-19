@@ -263,7 +263,7 @@ class CloudServer < RemoteServer
   def scp_command
     key_file = cloud_ssh_key_file
     ssh_port = cloud_ssh_port || 22
-    "scp -4 -O -T -P #{ssh_port} -l 200000 -i #{key_file} -o StrictHostKeyChecking=no -o BatchMode=yes -o ConnectTimeout=5 -o ServerAliveInterval=5 -o ServerAliveCountMax=2"
+    "scp -4 -O -T -P #{ssh_port} -l 200000 -i #{key_file} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o BatchMode=yes -o ConnectTimeout=5 -o ServerAliveInterval=5 -o ServerAliveCountMax=2"
   end
 
   sig { returns(String) }

@@ -82,8 +82,8 @@ class DockerHostSetupService
 
   def pull_image
     ssh_to_host do |ssh|
-      output = run_script(ssh, "docker pull #{DOCKER_IMAGE} && docker image prune -f")
-      image_check = ssh.exec!("sudo docker image inspect #{DOCKER_IMAGE} > /dev/null 2>&1 && echo EXISTS").to_s.strip
+      output = ssh.exec!("docker pull #{DOCKER_IMAGE} && docker image prune -f")
+      image_check = ssh.exec!("docker image inspect #{DOCKER_IMAGE} > /dev/null 2>&1 && echo EXISTS").to_s.strip
       raise "Image not found after pull. Output: #{output&.strip&.lines&.last}" unless image_check.include?("EXISTS")
 
       docker_host.update!(setup_status: "ready")

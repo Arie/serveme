@@ -194,7 +194,7 @@ describe DockerHostSetupService do
       ssh = instance_double(Net::SSH::Connection::Session)
       allow(Net::SSH).to receive(:start).and_yield(ssh)
       allow(ssh).to receive(:exec!).and_return("Status: Image is up to date")
-      allow(ssh).to receive(:exec!).with("sudo docker image inspect #{DockerHostSetupService::DOCKER_IMAGE} > /dev/null 2>&1 && echo EXISTS").and_return("EXISTS\n")
+      allow(ssh).to receive(:exec!).with("docker image inspect #{DockerHostSetupService::DOCKER_IMAGE} > /dev/null 2>&1 && echo EXISTS").and_return("EXISTS\n")
 
       result = subject.pull_image
 

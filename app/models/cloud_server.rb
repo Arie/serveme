@@ -26,7 +26,8 @@ class CloudServer < RemoteServer
       keepalive: true,
       keepalive_interval: 5,
       keepalive_maxcount: 2,
-      bind_address: "0.0.0.0")
+      bind_address: "0.0.0.0",
+      config: false)
   end
 
   sig { returns(T::Boolean) }
@@ -274,7 +275,7 @@ class CloudServer < RemoteServer
   def sftp_start(&block)
     raise "Cannot SFTP to cloud server #{id}: no IP assigned yet (#{ip})" if ip.blank? || ip == "0.0.0.0"
 
-    Net::SFTP.start(ip, "tf2", port: cloud_ssh_port || 22, key_data: [ cloud_ssh_private_key ], keys_only: true, non_interactive: true, verify_host_key: :never, timeout: 5, bind_address: "0.0.0.0", &block)
+    Net::SFTP.start(ip, "tf2", port: cloud_ssh_port || 22, key_data: [ cloud_ssh_private_key ], keys_only: true, non_interactive: true, verify_host_key: :never, timeout: 5, bind_address: "0.0.0.0", config: false, &block)
   end
 
   sig { returns(String) }

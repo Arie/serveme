@@ -149,6 +149,7 @@ describe DockerHostSetupService do
 
     it "installs Docker, Caddy, and websocket echo server" do
       allow(ssh).to receive(:exec!).and_return("ok")
+      allow(subject).to receive(:local_ssh_public_key).and_return("ssh-ed25519 AAAA fake-key")
 
       result = subject.provision_host
 

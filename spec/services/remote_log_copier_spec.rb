@@ -15,6 +15,7 @@ describe RemoteLogCopier do
       log_copier.stub(directory_to_copy_to: destination)
 
       zipfile_path = Rails.root.join('public', 'uploads', 'foo.zip').to_s
+      FileUtils.mkdir_p(File.dirname(zipfile_path))
 
       Zip::File.open(zipfile_path, create: true) do |zip|
         zip.get_output_stream("test.log") { |f| f.write("log content") }

@@ -81,7 +81,7 @@ module Admin
     end
 
     def docker_host_params
-      params.require(:docker_host).permit(:location_id, :city, :ip, :hostname, :start_port, :max_containers, :active, :provider, :provider_location)
+      params.require(:docker_host).permit(:location_id, :city, :ip, :hostname, :start_port, :max_containers, :active, :provider, :provider_location, :ssh_user, :latitude, :longitude)
     end
   end
 end

@@ -7,6 +7,9 @@
   = f.input :provider, collection: [["Manual (provide IP)", ""], ["Hetzner Cloud", "hetzner"]], label: "Provider", include_blank: false
   = f.input :provider_location, collection: CloudProvider::Hetzner::LOCATIONS.map { |code, info| ["#{info[:name]}, #{info[:country]} (#{code})", code] }, label: "Hetzner Location", include_blank: "N/A", input_html: { disabled: f.object.provider != "hetzner" }
   = f.input :ip, label: "IP Address", placeholder: "1.2.3.4", hint: "Leave blank for Hetzner (assigned automatically)"
+  = f.input :ssh_user, placeholder: "tf2"
   = f.input :start_port
   = f.input :max_containers
+  = f.input :latitude, input_html: { step: "any" }
+  = f.input :longitude, input_html: { step: "any" }
   = f.input :active

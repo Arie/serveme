@@ -12,7 +12,7 @@ class CloudServerProvisionWorker
   end
 
   def perform(cloud_server_id)
-    $lock.synchronize("cloud-provision-#{cloud_server_id}", retries: 0, expiry: 5.minutes) do
+    $lock.synchronize("cloud-provision-#{cloud_server_id}", retries: 1, expiry: 5.minutes) do
       cloud_server = CloudServer.find(cloud_server_id)
       return if cloud_server.cloud_status == "destroyed"
 

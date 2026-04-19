@@ -80,7 +80,7 @@ describe CloudServerProvisionWorker do
       allow(provider).to receive(:create_server).and_return("cloud-#{cloud_server.id}")
       allow(CloudServerPollWorker).to receive(:perform_in)
 
-      expect($lock).to receive(:synchronize).with("cloud-provision-#{cloud_server.id}", retries: 0, expiry: 5.minutes).and_yield
+      expect($lock).to receive(:synchronize).with("cloud-provision-#{cloud_server.id}", retries: 1, expiry: 5.minutes).and_yield
 
       described_class.new.perform(cloud_server.id)
     end

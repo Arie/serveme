@@ -32,7 +32,9 @@ module CloudProvider
       client_port = 40001 + port_offset
       steam_port = 30001 + port_offset
 
-      docker_run_cmd = [
+      discord_webhook = ENV["DISCORD_STAC_WEBHOOK_URL"] || Rails.application.credentials.dig(:discord, :stac_webhook_url)
+
+      docker_run_parts = [
         "docker run -d --net=host",
         "--name #{Shellwords.shellescape(container_name)}",
         "-e CALLBACK_URL=#{callback_url(cloud_server)}",
@@ -45,9 +47,11 @@ module CloudProvider
         "-e CLIENT_PORT=#{client_port}",
         "-e STEAM_PORT=#{steam_port}",
         "-e ENABLE_FAKEIP=1",
-        "-e EXPECTED_TF2_VERSION=#{Server.latest_version}",
-        "serveme/tf2-cloud-server:latest"
-      ].join(" ")
+        "-e EXPECTED_TF2_VERSION=#{Server.latest_version}"
+      ]
+      docker_run_parts << "-e DISCORD_STAC_WEBHOOK_URL=#{Shellwords.shellescape(discord_webhook)}" if discord_webhook.present?
+      docker_run_parts << "serveme/tf2-cloud-server:latest"
+      docker_run_cmd = docker_run_parts.join(" ")
 
       ssh_to_host(docker_host) do |ssh|
         ssh.exec!("timeout 600 docker pull serveme/tf2-cloud-server:latest")

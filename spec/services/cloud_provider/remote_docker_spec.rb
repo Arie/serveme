@@ -97,6 +97,53 @@ RSpec.describe CloudProvider::RemoteDocker do
         expect(ssh_session).to have_received(:exec!).with(a_string_matching(/-e CLIENT_PORT=40011/))
       end
     end
+
+    context "when discord.stac_webhook_url credential is set (ENV unset)" do
+      before do
+        allow(ENV).to receive(:[]).and_call_original
+        allow(ENV).to receive(:[]).with("DISCORD_STAC_WEBHOOK_URL").and_return(nil)
+        allow(Rails.application.credentials).to receive(:dig).and_call_original
+        allow(Rails.application.credentials).to receive(:dig)
+          .with(:discord, :stac_webhook_url).and_return("https://discord.com/api/webhooks/abc/def")
+      end
+
+      it "passes DISCORD_STAC_WEBHOOK_URL env var to docker run via credential fallback" do
+        provider.create_server(cloud_server)
+        expect(ssh_session).to have_received(:exec!).with(a_string_matching(
+          %r{-e DISCORD_STAC_WEBHOOK_URL=https://discord\.com/api/webhooks/abc/def}
+        ))
+      end
+    end
+
+    context "when DISCORD_STAC_WEBHOOK_URL env var is set" do
+      before do
+        allow(ENV).to receive(:[]).and_call_original
+        allow(ENV).to receive(:[]).with("DISCORD_STAC_WEBHOOK_URL")
+          .and_return("https://discord.com/api/webhooks/env/override")
+      end
+
+      it "passes DISCORD_STAC_WEBHOOK_URL env var to docker run from ENV" do
+        provider.create_server(cloud_server)
+        expect(ssh_session).to have_received(:exec!).with(a_string_matching(
+          %r{-e DISCORD_STAC_WEBHOOK_URL=https://discord\.com/api/webhooks/env/override}
+        ))
+      end
+    end
+
+    context "when neither credential nor env var is set" do
+      before do
+        allow(ENV).to receive(:[]).and_call_original
+        allow(ENV).to receive(:[]).with("DISCORD_STAC_WEBHOOK_URL").and_return(nil)
+        allow(Rails.application.credentials).to receive(:dig).and_call_original
+        allow(Rails.application.credentials).to receive(:dig)
+          .with(:discord, :stac_webhook_url).and_return(nil)
+      end
+
+      it "omits the DISCORD_STAC_WEBHOOK_URL flag" do
+        provider.create_server(cloud_server)
+        expect(ssh_session).not_to have_received(:exec!).with(a_string_matching(/DISCORD_STAC_WEBHOOK_URL/))
+      end
+    end
   end
 
   describe "#server_status" do

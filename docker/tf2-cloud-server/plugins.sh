@@ -27,4 +27,19 @@ rm tf2rue.zip
 # Remove whitelisttf.smx (conflicts with tf2rue which replaces its functionality)
 rm -f "$HOME/hlserver/tf2/tf/addons/sourcemod/plugins/whitelisttf.smx"
 
+# Accelerator crash reporter (upstream build from limetech)
+cd "$HOME/hlserver/tf2/tf"
+wget -nv "https://builds.limetech.io/files/accelerator-2.6.0-git165-dcf3449-linux.zip" -O "accelerator.zip"
+unzip -o accelerator.zip -d /tmp/accel
+cp -r /tmp/accel/linux/addons/. "$HOME/hlserver/tf2/tf/addons/"
+rm -rf /tmp/accel accelerator.zip
+
 chmod 0664 "$HOME/hlserver/tf2/tf/addons/sourcemod/plugins"/*.smx
+
+# Set MinidumpAccount for Accelerator crash reporting (steamID64 of ariekanarie)
+CORE_CFG="$HOME/hlserver/tf2/tf/addons/sourcemod/configs/core.cfg"
+if ! grep -q 'MinidumpAccount' "$CORE_CFG"; then
+    # Replace the final closing `}` with MinidumpAccount entry + }
+    sed -i '$d' "$CORE_CFG"
+    printf '\t"MinidumpAccount"\t"76561197960497430"\n}\n' >> "$CORE_CFG"
+fi

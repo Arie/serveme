@@ -40,6 +40,14 @@ fi
 # 3. Remove plugins that conflict with serveme's config management
 rm -f "$HOME/hlserver/tf2/tf/addons/sourcemod/plugins/autoexec.smx"
 
+# 3b. Write discord.cfg for STAC → Discord webhook, if configured
+if [ -n "$DISCORD_STAC_WEBHOOK_URL" ]; then
+    DISCORD_CFG="$HOME/hlserver/tf2/tf/addons/sourcemod/configs/discord.cfg"
+    printf '"Discord"\n{\n\t"stac"\n\t{\n\t\t"url"\t"%s"\n\t}\n}\n' \
+        "$DISCORD_STAC_WEBHOOK_URL" > "$DISCORD_CFG"
+    echo "Wrote discord.cfg for STAC webhook"
+fi
+
 # 4. Write server.cfg with rcon password and reservation.cfg exec
 cat > "$HOME/hlserver/tf2/tf/cfg/server.cfg" <<SERVERCFG
 hostname "serveme cloud server"

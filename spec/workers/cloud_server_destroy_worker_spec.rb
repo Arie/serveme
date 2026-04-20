@@ -82,5 +82,58 @@ describe CloudServerDestroyWorker do
         expect(cloud_server.cloud_status).to eq("destroyed")
       end
     end
+
+    context "when cloud_provider is remote_docker and docker host is inactive" do
+      let(:docker_host) { create(:docker_host, active: false) }
+      let(:cloud_server) do
+        create(:cloud_server,
+          cloud_provider: "remote_docker",
+          cloud_status: "ready",
+          cloud_provider_id: "#{docker_host.id}:res-1-cloud-1",
+          cloud_location: docker_host.id.to_s)
+      end
+      let(:provider) { instance_double(CloudProvider::RemoteDocker) }
+
+      before do
+        allow(CloudProvider).to receive(:for).with("remote_docker").and_return(provider)
+      end
+
+      it "marks the server as destroyed without attempting SSH" do
+        expect(provider).not_to receive(:destroy_server)
+
+        described_class.new.perform(cloud_server.id)
+
+        cloud_server.reload
+        expect(cloud_server.cloud_status).to eq("destroyed")
+        expect(cloud_server.cloud_destroyed_at).to be_present
+        expect(cloud_server.active).to be false
+      end
+    end
+
+    context "when cloud_provider is remote_docker and docker host does not exist" do
+      let(:cloud_server) do
+        create(:cloud_server,
+          cloud_provider: "remote_docker",
+          cloud_status: "ready",
+          cloud_provider_id: "999999:res-1-cloud-1",
+          cloud_location: "999999")
+      end
+      let(:provider) { instance_double(CloudProvider::RemoteDocker) }
+
+      before do
+        allow(CloudProvider).to receive(:for).with("remote_docker").and_return(provider)
+      end
+
+      it "marks the server as destroyed without attempting SSH" do
+        expect(provider).not_to receive(:destroy_server)
+
+        described_class.new.perform(cloud_server.id)
+
+        cloud_server.reload
+        expect(cloud_server.cloud_status).to eq("destroyed")
+        expect(cloud_server.cloud_destroyed_at).to be_present
+        expect(cloud_server.active).to be false
+      end
+    end
   end
 end

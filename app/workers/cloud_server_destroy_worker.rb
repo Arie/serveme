@@ -20,6 +20,15 @@ class CloudServerDestroyWorker
     provider = cloud_server.provider
     provider_id = cloud_server.cloud_provider_id
 
+    if cloud_server.cloud_provider == "remote_docker" && provider_id.present?
+      docker_host_id, = provider_id.split(":", 2)
+      docker_host = DockerHost.find_by(id: docker_host_id)
+      if docker_host.nil? || !docker_host.active?
+        cloud_server.update!(cloud_status: "destroyed", cloud_destroyed_at: Time.current, active: false)
+        return
+      end
+    end
+
     if provider_id.present?
       unless provider.destroy_server(provider_id)
         raise "Failed to destroy #{cloud_server.cloud_provider} server #{provider_id} for cloud_server #{cloud_server.id}"

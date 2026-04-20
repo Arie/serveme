@@ -45,10 +45,11 @@ describe CloudServerCleanupWorker do
       described_class.new.perform
     end
 
-    it "ends the associated reservation when destroying a stranded server" do
+    it "ends reservation and destroys server when ends_at passed over 15 minutes ago but reservation was never ended" do
       old_server = create(:cloud_server, cloud_status: "ready", cloud_created_at: 7.hours.ago)
       reservation = create(:reservation, server: old_server, ended: false, provisioned: false)
       old_server.update_columns(cloud_reservation_id: reservation.id)
+      reservation.update_columns(starts_at: 7.hours.ago, ends_at: 1.hour.ago)
 
       allow(CloudServerDestroyWorker).to receive(:perform_async)
 
@@ -56,6 +57,17 @@ describe CloudServerCleanupWorker do
 
       reservation.reload
       expect(reservation.ended).to be true
+    end
+
+    it "does not destroy servers whose reservation just ended and is still being processed" do
+      old_server = create(:cloud_server, cloud_status: "ready", cloud_created_at: 7.hours.ago)
+      reservation = create(:reservation, server: old_server, ended: false, provisioned: false)
+      old_server.update_columns(cloud_reservation_id: reservation.id)
+      reservation.update_columns(starts_at: 7.hours.ago, ends_at: 5.minutes.ago)
+
+      expect(CloudServerDestroyWorker).not_to receive(:perform_async)
+
+      described_class.new.perform
     end
 
     it "does not fail when stranded server has no reservation" do
@@ -72,6 +84,28 @@ describe CloudServerCleanupWorker do
       old_server.update_columns(cloud_reservation_id: reservation.id)
 
       expect(CloudServerDestroyWorker).not_to receive(:perform_async)
+
+      described_class.new.perform
+    end
+
+    it "does not destroy servers with active reservations that have not ended yet" do
+      old_server = create(:cloud_server, cloud_status: "ready", cloud_created_at: 7.hours.ago)
+      reservation = create(:reservation, server: old_server, ended: false, provisioned: true)
+      old_server.update_columns(cloud_reservation_id: reservation.id)
+      reservation.update_columns(starts_at: 7.hours.ago, ends_at: 1.hour.from_now)
+
+      expect(CloudServerDestroyWorker).not_to receive(:perform_async)
+
+      described_class.new.perform
+    end
+
+    it "destroys servers whose reservation has already ended" do
+      old_server = create(:cloud_server, cloud_status: "ready", cloud_created_at: 7.hours.ago)
+      reservation = create(:reservation, server: old_server, ended: true, provisioned: true)
+      old_server.update_columns(cloud_reservation_id: reservation.id)
+      reservation.update_columns(starts_at: 7.hours.ago, ends_at: 1.hour.ago)
+
+      expect(CloudServerDestroyWorker).to receive(:perform_async).with(old_server.id)
 
       described_class.new.perform
     end

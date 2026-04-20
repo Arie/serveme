@@ -14,7 +14,7 @@ class CloudServerCleanupWorker
                .where(cloud_created_at: ...MAX_AGE.ago)
                .find_each do |server|
       reservation = Reservation.find_by(id: server.cloud_reservation_id)
-      next if reservation&.starts_at&.future?
+      next if reservation && !reservation.ended? && reservation.ends_at > 15.minutes.ago
 
       Rails.logger.info "CloudServerCleanupWorker: Destroying stranded cloud server #{server.id} (created #{server.cloud_created_at})"
       end_stranded_reservation(server)

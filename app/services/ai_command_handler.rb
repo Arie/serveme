@@ -315,6 +315,9 @@ class AiCommandHandler
     - tf_always_loser 0/1 (cheat)
     - tf_damage_multiplier_blue -1.0/1.0 (cheat). e.g. 1.0 = 100% damage, 0.1 = 10% damage. -0.1 = 10% heal, -1.0 = 100% heal.
     - tf_damage_multiplier_red -1.0/1.0 (cheat)
+    - sm_democheck_disable
+    - sm_democheck_enable
+    - sm_democheck_warn 0/1
 
     Local player commands, if these are requested tell players to enter the command themselves in their TF2 console, you can't use these as an rcon command:
     - noclip (allows player to fly and pass through walls, cheat)

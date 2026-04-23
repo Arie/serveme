@@ -11,42 +11,57 @@
 #
 # The OpenTelemetry module provides global accessors for telemetry objects.
 # See the documentation for the `opentelemetry-api` gem for details.
+# Copyright The OpenTelemetry Authors
 #
-# source://opentelemetry-common//lib/opentelemetry/common/http.rb#7
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+# pkg:gem/opentelemetry-common#lib/opentelemetry/common/http.rb:7
 module OpenTelemetry; end
 
 # Common contains common helpers for semantic conventions, context propagation, etc.
 #
-# source://opentelemetry-common//lib/opentelemetry/common/http.rb#8
+# pkg:gem/opentelemetry-common#lib/opentelemetry/common/http.rb:8
 module OpenTelemetry::Common; end
 
 # HTTP contains common helpers for context propagation and semantic conventions.
 #
-# source://opentelemetry-common//lib/opentelemetry/common/http.rb#10
+# pkg:gem/opentelemetry-common#lib/opentelemetry/common/http.rb:10
 module OpenTelemetry::Common::HTTP; end
 
 # ClientContext contains common helpers for context propagation
 #
-# source://opentelemetry-common//lib/opentelemetry/common/http/client_context.rb#11
+# pkg:gem/opentelemetry-common#lib/opentelemetry/common/http/client_context.rb:11
 module OpenTelemetry::Common::HTTP::ClientContext
   extend ::OpenTelemetry::Common::HTTP::ClientContext
 
   # Returns the attributes hash representing the HTTP client context found
   # in the optional context or the current context if none is provided.
   #
-  # @param context [optional Context] The context to lookup the current
+  # @param [optional Context] context The context to lookup the current
   #   attributes hash. Defaults to Context.current
   #
-  # source://opentelemetry-common//lib/opentelemetry/common/http/client_context.rb#23
+  # pkg:gem/opentelemetry-common#lib/opentelemetry/common/http/client_context.rb:23
   def attributes(context = T.unsafe(nil)); end
 
   # Returns a context containing the merged attributes hash, derived from the
   # optional parent context, or the current context if one was not provided.
   #
-  # @param context [optional Context] The context to use as the parent for
+  # @param [optional Context] context The context to use as the parent for
   #   the returned context
   #
-  # source://opentelemetry-common//lib/opentelemetry/common/http/client_context.rb#33
+  # pkg:gem/opentelemetry-common#lib/opentelemetry/common/http/client_context.rb:33
   def context_with_attributes(attributes_hash, parent_context: T.unsafe(nil)); end
 
   # Activates/deactivates the merged attributes hash within the current Context,
@@ -55,37 +70,37 @@ module OpenTelemetry::Common::HTTP::ClientContext
   # On exit, the attributes hash that was active before calling this method
   # will be reactivated.
   #
-  # @param span [Span] the span to activate
+  # @param [Span] span the span to activate
   # @yield [Hash, Context] yields attributes hash and a context containing the
   #   attributes hash to the block.
   #
-  # source://opentelemetry-common//lib/opentelemetry/common/http/client_context.rb#47
+  # pkg:gem/opentelemetry-common#lib/opentelemetry/common/http/client_context.rb:47
   def with_attributes(attributes_hash); end
 end
 
-# source://opentelemetry-common//lib/opentelemetry/common/http/client_context.rb#14
+# pkg:gem/opentelemetry-common#lib/opentelemetry/common/http/client_context.rb:14
 OpenTelemetry::Common::HTTP::ClientContext::CURRENT_ATTRIBUTES_HASH = T.let(T.unsafe(nil), OpenTelemetry::Context::Key)
 
 # Propagation contains common helpers for context propagation.
 #
-# source://opentelemetry-common//lib/opentelemetry/common/propagation/rack_env_getter.rb#9
+# pkg:gem/opentelemetry-common#lib/opentelemetry/common/propagation/rack_env_getter.rb:9
 module OpenTelemetry::Common::Propagation
   extend ::OpenTelemetry::Common::Propagation
 
   # Returns a {RackEnvGetter} instance suitable for reading values from a
   # Rack environment.
   #
-  # source://opentelemetry-common//lib/opentelemetry/common/propagation.rb#22
+  # pkg:gem/opentelemetry-common#lib/opentelemetry/common/propagation.rb:22
   def rack_env_getter; end
 
   # Returns a {SymbolKeyGetter} instance for reading values from a
   # symbol keyed hash.
   #
-  # source://opentelemetry-common//lib/opentelemetry/common/propagation.rb#28
+  # pkg:gem/opentelemetry-common#lib/opentelemetry/common/propagation.rb:28
   def symbol_key_getter; end
 end
 
-# source://opentelemetry-common//lib/opentelemetry/common/propagation.rb#16
+# pkg:gem/opentelemetry-common#lib/opentelemetry/common/propagation.rb:16
 OpenTelemetry::Common::Propagation::RACK_ENV_GETTER = T.let(T.unsafe(nil), OpenTelemetry::Common::Propagation::RackEnvGetter)
 
 # The RackEnvGetter class provides a common methods for reading
@@ -94,85 +109,88 @@ OpenTelemetry::Common::Propagation::RACK_ENV_GETTER = T.let(T.unsafe(nil), OpenT
 # first. With this class you can get +traceparent+ instead of
 # +HTTP_TRACEPARENT+
 #
-# source://opentelemetry-common//lib/opentelemetry/common/propagation/rack_env_getter.rb#15
+# pkg:gem/opentelemetry-common#lib/opentelemetry/common/propagation/rack_env_getter.rb:15
 class OpenTelemetry::Common::Propagation::RackEnvGetter
   # Converts key into a rack-normalized key and reads it from the carrier.
   # Useful for extract operations.
   #
-  # source://opentelemetry-common//lib/opentelemetry/common/propagation/rack_env_getter.rb#18
+  # pkg:gem/opentelemetry-common#lib/opentelemetry/common/propagation/rack_env_getter.rb:18
   def get(carrier, key); end
 
   # Reads all keys from a carrier and converts them from the rack-normalized
   # form to the original. The resulting keys will be lowercase and
   # underscores will be replaced with dashes.
   #
-  # source://opentelemetry-common//lib/opentelemetry/common/propagation/rack_env_getter.rb#25
+  # pkg:gem/opentelemetry-common#lib/opentelemetry/common/propagation/rack_env_getter.rb:25
   def keys(carrier); end
 
   private
 
-  # source://opentelemetry-common//lib/opentelemetry/common/propagation/rack_env_getter.rb#39
+  # pkg:gem/opentelemetry-common#lib/opentelemetry/common/propagation/rack_env_getter.rb:39
   def from_rack_key(key); end
 
-  # source://opentelemetry-common//lib/opentelemetry/common/propagation/rack_env_getter.rb#31
+  # pkg:gem/opentelemetry-common#lib/opentelemetry/common/propagation/rack_env_getter.rb:31
   def to_rack_key(key); end
 end
 
-# source://opentelemetry-common//lib/opentelemetry/common/propagation.rb#17
+# pkg:gem/opentelemetry-common#lib/opentelemetry/common/propagation.rb:17
 OpenTelemetry::Common::Propagation::SYMBOL_KEY_GETTER = T.let(T.unsafe(nil), OpenTelemetry::Common::Propagation::SymbolKeyGetter)
 
 # The SymbolKeyGetter class provides a common method for reading
 # symbol keys from a hash.
 #
-# source://opentelemetry-common//lib/opentelemetry/common/propagation/symbol_key_getter.rb#12
+# pkg:gem/opentelemetry-common#lib/opentelemetry/common/propagation/symbol_key_getter.rb:12
 class OpenTelemetry::Common::Propagation::SymbolKeyGetter
   # Converts key into a symbol and reads it from the carrier.
   # Useful for extract operations.
   #
-  # source://opentelemetry-common//lib/opentelemetry/common/propagation/symbol_key_getter.rb#15
+  # pkg:gem/opentelemetry-common#lib/opentelemetry/common/propagation/symbol_key_getter.rb:15
   def get(carrier, key); end
 
   # Reads all keys from a carrier
   #
-  # source://opentelemetry-common//lib/opentelemetry/common/propagation/symbol_key_getter.rb#20
+  # pkg:gem/opentelemetry-common#lib/opentelemetry/common/propagation/symbol_key_getter.rb:20
   def keys(carrier); end
 end
 
 # Utilities contains common helpers.
 #
-# source://opentelemetry-common//lib/opentelemetry/common/utilities.rb#12
+# pkg:gem/opentelemetry-common#lib/opentelemetry/common/utilities.rb:12
 module OpenTelemetry::Common::Utilities
   extend ::OpenTelemetry::Common::Utilities
 
   # Returns a URL string with userinfo removed.
   #
-  # @param url [String] The URL string to cleanse.
+  # @param [String] url The URL string to cleanse.
+  #
   # @return [String] the cleansed URL.
   #
-  # source://opentelemetry-common//lib/opentelemetry/common/utilities.rb#124
+  # pkg:gem/opentelemetry-common#lib/opentelemetry/common/utilities.rb:124
   def cleanse_url(url); end
 
   # Returns the first non nil environment variable requested,
   # or the default value if provided.
   #
+  # @param [String] env_vars The environment variable(s) to retrieve
   # @param default The fallback value to return if the requested
-  #   env var(s) are not present
-  # @param env_vars [String] The environment variable(s) to retrieve
+  #  env var(s) are not present
+  #
   # @return [String]
   #
-  # source://opentelemetry-common//lib/opentelemetry/common/utilities.rb#141
+  # pkg:gem/opentelemetry-common#lib/opentelemetry/common/utilities.rb:141
   def config_opt(*env_vars, default: T.unsafe(nil)); end
 
   # Returns nil if timeout is nil, 0 if timeout has expired,
   # or the remaining (positive) time left in seconds.
   #
-  # @param start_time [Numeric] Start time for timeout returned
+  # @param [Numeric] timeout The timeout in seconds. May be nil.
+  # @param [Numeric] start_time Start time for timeout returned
   #   by {timeout_timestamp}.
-  # @param timeout [Numeric] The timeout in seconds. May be nil.
+  #
   # @return [Numeric] remaining (positive) time left in seconds.
   #   May be nil.
   #
-  # source://opentelemetry-common//lib/opentelemetry/common/utilities.rb#29
+  # pkg:gem/opentelemetry-common#lib/opentelemetry/common/utilities.rb:29
   def maybe_timeout(timeout, start_time); end
 
   # Converts the provided timestamp to nanosecond integer
@@ -180,7 +198,7 @@ module OpenTelemetry::Common::Utilities
   # @param timestamp [Time] the timestamp to convert, defaults to Time.now
   # @return [Integer]
   #
-  # source://opentelemetry-common//lib/opentelemetry/common/utilities.rb#49
+  # pkg:gem/opentelemetry-common#lib/opentelemetry/common/utilities.rb:49
   def time_in_nanoseconds(timestamp = T.unsafe(nil)); end
 
   # Returns a timestamp suitable to pass as the start_time
@@ -189,68 +207,67 @@ module OpenTelemetry::Common::Utilities
   #
   # @return [Numeric]
   #
-  # source://opentelemetry-common//lib/opentelemetry/common/utilities.rb#41
+  # pkg:gem/opentelemetry-common#lib/opentelemetry/common/utilities.rb:41
   def timeout_timestamp; end
 
   # Truncates a string if it exceeds the size provided.
   #
-  # @param size [Integer] The max size of the string
-  # @param string [String] The string to be truncated
+  # @param [String] string The string to be truncated
+  # @param [Integer] size The max size of the string
+  #
   # @return [String]
   #
-  # source://opentelemetry-common//lib/opentelemetry/common/utilities.rb#84
+  # pkg:gem/opentelemetry-common#lib/opentelemetry/common/utilities.rb:84
   def truncate(string, size); end
 
-  # source://opentelemetry-common//lib/opentelemetry/common/utilities.rb#88
+  # pkg:gem/opentelemetry-common#lib/opentelemetry/common/utilities.rb:88
   def truncate_attribute_value(value, limit); end
 
   # Disables tracing within the provided block
   # If no block is provided instead returns an
   # untraced ctx.
   #
-  # @param context [optional Context] Accepts an explicit context, defaults to current
+  # @param [optional Context] context Accepts an explicit context, defaults to current
   #
-  # source://opentelemetry-common//lib/opentelemetry/common/utilities.rb#104
+  # pkg:gem/opentelemetry-common#lib/opentelemetry/common/utilities.rb:104
   def untraced(context = T.unsafe(nil)); end
 
   # Detects whether the current context has been set to disable tracing.
   #
-  # @return [Boolean]
-  #
-  # source://opentelemetry-common//lib/opentelemetry/common/utilities.rb#114
+  # pkg:gem/opentelemetry-common#lib/opentelemetry/common/utilities.rb:114
   def untraced?(context = T.unsafe(nil)); end
 
   # Encodes a string in utf8
   #
-  # @param binary [optional boolean] This option is for displaying binary data
-  # @param placeholder [optional String] The fallback string to be used if encoding fails
-  # @param string [String] The string to be utf8 encoded
+  # @param [String] string The string to be utf8 encoded
+  # @param [optional boolean] binary This option is for displaying binary data
+  # @param [optional String] placeholder The fallback string to be used if encoding fails
+  #
   # @return [String]
   #
-  # source://opentelemetry-common//lib/opentelemetry/common/utilities.rb#60
+  # pkg:gem/opentelemetry-common#lib/opentelemetry/common/utilities.rb:60
   def utf8_encode(string, binary: T.unsafe(nil), placeholder: T.unsafe(nil)); end
 
   # Returns true if exporter is a valid exporter.
   #
-  # @return [Boolean]
-  #
-  # source://opentelemetry-common//lib/opentelemetry/common/utilities.rb#160
+  # pkg:gem/opentelemetry-common#lib/opentelemetry/common/utilities.rb:160
   def valid_exporter?(exporter); end
 
   # Returns a true if the provided url is valid
   #
-  # @param url [String] the URL string to test validity
+  # @param [String] url the URL string to test validity
+  #
   # @return [boolean]
   #
-  # source://opentelemetry-common//lib/opentelemetry/common/utilities.rb#150
+  # pkg:gem/opentelemetry-common#lib/opentelemetry/common/utilities.rb:150
   def valid_url?(url); end
 end
 
-# source://opentelemetry-common//lib/opentelemetry/common/utilities.rb#18
+# pkg:gem/opentelemetry-common#lib/opentelemetry/common/utilities.rb:18
 OpenTelemetry::Common::Utilities::STRING_PLACEHOLDER = T.let(T.unsafe(nil), String)
 
-# source://opentelemetry-common//lib/opentelemetry/common/utilities.rb#15
+# pkg:gem/opentelemetry-common#lib/opentelemetry/common/utilities.rb:15
 OpenTelemetry::Common::Utilities::UNTRACED_KEY = T.let(T.unsafe(nil), OpenTelemetry::Context::Key)
 
-# source://opentelemetry-common//lib/opentelemetry/common/version.rb#9
+# pkg:gem/opentelemetry-common#lib/opentelemetry/common/version.rb:9
 OpenTelemetry::Common::VERSION = T.let(T.unsafe(nil), String)

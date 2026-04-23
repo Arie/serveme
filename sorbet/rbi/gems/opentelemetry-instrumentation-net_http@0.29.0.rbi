@@ -11,8 +11,26 @@
 #
 # The OpenTelemetry module provides global accessors for telemetry objects.
 # See the documentation for the `opentelemetry-api` gem for details.
+# Copyright The OpenTelemetry Authors
 #
-# source://opentelemetry-instrumentation-net_http//lib/opentelemetry/instrumentation.rb#13
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+# pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation.rb:13
 module OpenTelemetry; end
 
 # "Instrumentation" are specified by
@@ -20,115 +38,84 @@ module OpenTelemetry; end
 #
 # Instrumentation should be able to handle the case when the library is not installed on a user's system.
 #
-# source://opentelemetry-instrumentation-net_http//lib/opentelemetry/instrumentation.rb#18
+# pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation.rb:18
 module OpenTelemetry::Instrumentation; end
 
-# source://opentelemetry-instrumentation-net_http//lib/opentelemetry/instrumentation/net/http.rb#13
+# pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http.rb:13
 module OpenTelemetry::Instrumentation::Net; end
 
 # Contains the OpenTelemetry instrumentation for the Net::HTTP gem
 #
-# source://opentelemetry-instrumentation-net_http//lib/opentelemetry/instrumentation/net/http.rb#15
+# pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http.rb:15
 module OpenTelemetry::Instrumentation::Net::HTTP; end
 
 # Utility module for HTTP-related helper methods
-#
 # @api private
 #
-# source://opentelemetry-instrumentation-net_http//lib/opentelemetry/instrumentation/net/http/http_helper.rb#13
+# pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/http_helper.rb:13
 module OpenTelemetry::Instrumentation::Net::HTTP::HttpHelper
   class << self
     # Prepares span data using both old and stable semantic conventions
-    #
-    # @api private
     # @param method [String, Symbol] The HTTP method
     # @return [SpanCreationAttributes] struct containing span_name and attributes hash
     #
-    # source://opentelemetry-instrumentation-net_http//lib/opentelemetry/instrumentation/net/http/http_helper.rb#108
+    # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/http_helper.rb:108
     def span_attrs_for_dup(method); end
 
     # Prepares span data using old semantic conventions
-    #
-    # @api private
     # @param method [String, Symbol] The HTTP method
     # @return [SpanCreationAttributes] struct containing span_name and attributes hash
     #
-    # source://opentelemetry-instrumentation-net_http//lib/opentelemetry/instrumentation/net/http/http_helper.rb#59
+    # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/http_helper.rb:59
     def span_attrs_for_old(method); end
 
     # Prepares span data using stable semantic conventions
-    #
-    # @api private
     # @param method [String, Symbol] The HTTP method
     # @return [SpanCreationAttributes] struct containing span_name and attributes hash
     #
-    # source://opentelemetry-instrumentation-net_http//lib/opentelemetry/instrumentation/net/http/http_helper.rb#81
+    # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/http_helper.rb:81
     def span_attrs_for_stable(method); end
   end
 end
 
 # Pre-computed mapping to avoid string allocations during normalization
 #
-# @api private
-#
-# source://opentelemetry-instrumentation-net_http//lib/opentelemetry/instrumentation/net/http/http_helper.rb#18
+# pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/http_helper.rb:18
 OpenTelemetry::Instrumentation::Net::HTTP::HttpHelper::METHOD_CACHE = T.let(T.unsafe(nil), Hash)
 
-# @api private
-#
-# source://opentelemetry-instrumentation-net_http//lib/opentelemetry/instrumentation/net/http/http_helper.rb#50
+# pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/http_helper.rb:50
 OpenTelemetry::Instrumentation::Net::HTTP::HttpHelper::OLD_SPAN_NAMES_BY_METHOD = T.let(T.unsafe(nil), Hash)
 
 # Lightweight struct to hold span creation attributes
 #
-# @api private
-#
-# source://opentelemetry-instrumentation-net_http//lib/opentelemetry/instrumentation/net/http/http_helper.rb#15
+# pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/http_helper.rb:15
 class OpenTelemetry::Instrumentation::Net::HTTP::HttpHelper::SpanCreationAttributes < ::Struct
-  # Returns the value of attribute attributes
-  #
-  # @return [Object] the current value of attributes
-  #
-  # source://opentelemetry-instrumentation-net_http//lib/opentelemetry/instrumentation/net/http/http_helper.rb#15
+  # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/http_helper.rb:15
   def attributes; end
 
-  # Sets the attribute attributes
-  #
-  # @param value [Object] the value to set the attribute attributes to.
-  # @return [Object] the newly set value
-  #
-  # source://opentelemetry-instrumentation-net_http//lib/opentelemetry/instrumentation/net/http/http_helper.rb#15
+  # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/http_helper.rb:15
   def attributes=(_); end
 
-  # Returns the value of attribute span_name
-  #
-  # @return [Object] the current value of span_name
-  #
-  # source://opentelemetry-instrumentation-net_http//lib/opentelemetry/instrumentation/net/http/http_helper.rb#15
+  # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/http_helper.rb:15
   def span_name; end
 
-  # Sets the attribute span_name
-  #
-  # @param value [Object] the value to set the attribute span_name to.
-  # @return [Object] the newly set value
-  #
-  # source://opentelemetry-instrumentation-net_http//lib/opentelemetry/instrumentation/net/http/http_helper.rb#15
+  # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/http_helper.rb:15
   def span_name=(_); end
 
   class << self
-    # source://opentelemetry-instrumentation-net_http//lib/opentelemetry/instrumentation/net/http/http_helper.rb#15
+    # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/http_helper.rb:15
     def [](*_arg0); end
 
-    # source://opentelemetry-instrumentation-net_http//lib/opentelemetry/instrumentation/net/http/http_helper.rb#15
+    # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/http_helper.rb:15
     def inspect; end
 
-    # source://opentelemetry-instrumentation-net_http//lib/opentelemetry/instrumentation/net/http/http_helper.rb#15
+    # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/http_helper.rb:15
     def keyword_init?; end
 
-    # source://opentelemetry-instrumentation-net_http//lib/opentelemetry/instrumentation/net/http/http_helper.rb#15
+    # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/http_helper.rb:15
     def members; end
 
-    # source://opentelemetry-instrumentation-net_http//lib/opentelemetry/instrumentation/net/http/http_helper.rb#15
+    # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/http_helper.rb:15
     def new(*_arg0); end
   end
 end
@@ -136,34 +123,34 @@ end
 # The Instrumentation class contains logic to detect and install the Net::HTTP
 # instrumentation
 #
-# source://opentelemetry-instrumentation-net_http//lib/opentelemetry/instrumentation/net/http/instrumentation.rb#13
+# pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/instrumentation.rb:13
 class OpenTelemetry::Instrumentation::Net::HTTP::Instrumentation < ::OpenTelemetry::Instrumentation::Base
   private
 
-  # source://opentelemetry-instrumentation-net_http//lib/opentelemetry/instrumentation/net/http/instrumentation.rb#34
+  # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/instrumentation.rb:34
   def determine_semconv; end
 
-  # source://opentelemetry-instrumentation-net_http//lib/opentelemetry/instrumentation/net/http/instrumentation.rb#49
+  # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/instrumentation.rb:49
   def emit_old_semconv_deprecation_warning(option); end
 
-  # source://opentelemetry-instrumentation-net_http//lib/opentelemetry/instrumentation/net/http/instrumentation.rb#65
+  # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/instrumentation.rb:65
   def patch_dup; end
 
-  # source://opentelemetry-instrumentation-net_http//lib/opentelemetry/instrumentation/net/http/instrumentation.rb#69
+  # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/instrumentation.rb:69
   def patch_old; end
 
-  # source://opentelemetry-instrumentation-net_http//lib/opentelemetry/instrumentation/net/http/instrumentation.rb#73
+  # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/instrumentation.rb:73
   def patch_stable; end
 
-  # source://opentelemetry-instrumentation-net_http//lib/opentelemetry/instrumentation/net/http/instrumentation.rb#53
+  # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/instrumentation.rb:53
   def require_dependencies_dup; end
 
-  # source://opentelemetry-instrumentation-net_http//lib/opentelemetry/instrumentation/net/http/instrumentation.rb#57
+  # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/instrumentation.rb:57
   def require_dependencies_old; end
 
-  # source://opentelemetry-instrumentation-net_http//lib/opentelemetry/instrumentation/net/http/instrumentation.rb#61
+  # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/instrumentation.rb:61
   def require_dependencies_stable; end
 end
 
-# source://opentelemetry-instrumentation-net_http//lib/opentelemetry/instrumentation/net/http/version.rb#11
+# pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/version.rb:11
 OpenTelemetry::Instrumentation::Net::HTTP::VERSION = T.let(T.unsafe(nil), String)

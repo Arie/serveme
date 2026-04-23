@@ -5,83 +5,132 @@
 # Please instead update this file by running `bin/tapioca gem console`.
 
 
-# source://console//lib/console/version.rb#6
+# @namespace
+# Released under the MIT License.
+# Copyright, 2023-2024, by Samuel Williams.
+# Released under the MIT License.
+# Copyright, 2021-2025, by Samuel Williams.
+# Released under the MIT License.
+# Copyright, 2019-2025, by Samuel Williams.
+# Released under the MIT License.
+# Copyright, 2019-2025, by Samuel Williams.
+# Copyright, 2019, by Bryan Powell.
+# Copyright, 2020, by Michael Adams.
+# Copyright, 2021, by Robert Schulze.
+# Released under the MIT License.
+# Copyright, 2023-2025, by Samuel Williams.
+# Released under the MIT License.
+# Copyright, 2022-2025, by Samuel Williams.
+# Released under the MIT License.
+# Copyright, 2021-2025, by Samuel Williams.
+# Released under the MIT License.
+# Copyright, 2024-2025, by Samuel Williams.
+# Released under the MIT License.
+# Copyright, 2020-2025, by Samuel Williams.
+# Released under the MIT License.
+# Copyright, 2019-2025, by Samuel Williams.
+# Released under the MIT License.
+# Copyright, 2019-2025, by Samuel Williams.
+#
+# pkg:gem/console#lib/console/version.rb:6
 module Console
   extend ::Console::Interface
 end
 
 # A simple clock utility for tracking and formatting time.
 #
-# source://console//lib/console/clock.rb#8
+# pkg:gem/console#lib/console/clock.rb:8
 module Console::Clock
   class << self
     # Format a duration in seconds as a human readable string.
     #
-    # source://console//lib/console/clock.rb#13
+    # @parameter duration [Numeric] The duration in seconds.
+    # @returns [String] The formatted duration.
+    #
+    # pkg:gem/console#lib/console/clock.rb:13
     def formatted_duration(duration); end
 
-    # source://console//lib/console/clock.rb#36
+    # @returns [Time] The current monotonic time.
+    #
+    # pkg:gem/console#lib/console/clock.rb:36
     def now; end
   end
 end
 
 # Represents a configuration for the traces library.
 #
-# source://console//lib/console/config.rb#14
+# pkg:gem/console#lib/console/config.rb:14
 class Console::Config
   # Set the default log level based on `$DEBUG` and `$VERBOSE`.
   # You can also specify CONSOLE_LEVEL=debug or CONSOLE_LEVEL=info in environment.
   # https://mislav.net/2011/06/ruby-verbose-mode/ has more details about how it all fits together.
   #
-  # source://console//lib/console/config.rb#42
+  # @parameter env [Hash] The environment to read the log level from.
+  # @returns [Integer | Symbol] The default log level.
+  #
+  # pkg:gem/console#lib/console/config.rb:42
   def log_level(env = T.unsafe(nil)); end
 
   # Create a logger with the given output and options.
   #
-  # source://console//lib/console/config.rb#75
+  # @parameter output [IO] The output to write log messages to.
+  # @parameter env [Hash] The environment to read configuration from.
+  # @parameter options [Hash] Additional options to pass to the logger.
+  # @returns [Logger] The created logger.
+  #
+  # pkg:gem/console#lib/console/config.rb:75
   def make_logger(io = T.unsafe(nil), env = T.unsafe(nil), **options); end
 
   # Create an output with the given output and options.
   #
-  # source://console//lib/console/config.rb#57
+  # @parameter output [IO] The output to write log messages to.
+  # @parameter env [Hash] The environment to read configuration from.
+  # @parameter options [Hash] Additional options to pass to the output.
+  # @returns [Output] The created output.
+  #
+  # pkg:gem/console#lib/console/config.rb:57
   def make_output(io = T.unsafe(nil), env = T.unsafe(nil), **options); end
 
   # Create a resolver with the given logger.
   #
-  # source://console//lib/console/config.rb#65
+  # @parameter logger [Logger] The logger to set the log levels on.
+  # @returns [Resolver | Nil] The created resolver.
+  #
+  # pkg:gem/console#lib/console/config.rb:65
   def make_resolver(logger); end
 
   # Controls verbose output using `$VERBOSE`.
   #
-  # @return [Boolean]
-  #
-  # source://console//lib/console/config.rb#47
+  # pkg:gem/console#lib/console/config.rb:47
   def verbose?(env = T.unsafe(nil)); end
 
   class << self
     # Load the default configuration.
+    # @returns [Config] The default configuration.
     #
-    # source://console//lib/console/config.rb#32
+    # pkg:gem/console#lib/console/config.rb:32
     def default; end
 
     # Load the configuration from the given path.
+    # @parameter path [String] The path to the configuration file.
+    # @returns [Config] The loaded configuration.
     #
-    # source://console//lib/console/config.rb#20
+    # pkg:gem/console#lib/console/config.rb:20
     def load(path); end
   end
 end
 
 # Load the default configuration.
 #
-# source://console//lib/console/config.rb#94
+# pkg:gem/console#lib/console/config.rb:94
 Console::Config::DEFAULT = T.let(T.unsafe(nil), Console::Config)
 
-# source://console//lib/console/config.rb#15
+# pkg:gem/console#lib/console/config.rb:15
 Console::Config::PATH = T.let(T.unsafe(nil), String)
 
 # Structured event logging.
 #
-# source://console//lib/console/event/generic.rb#7
+# pkg:gem/console#lib/console/event/generic.rb:7
 module Console::Event; end
 
 # Represents a failure of some kind, usually with an attached exception.
@@ -96,80 +145,105 @@ module Console::Event; end
 #
 # Generally, you should use the {Console.error} method to log failures, as it will automatically create a failure event for you.
 #
-# source://console//lib/console/event/failure.rb#23
+# pkg:gem/console#lib/console/event/failure.rb:23
 class Console::Event::Failure < ::Console::Event::Generic
   # Create a new failure event for the given exception.
   #
-  # @return [Failure] a new instance of Failure
+  # @parameter exception [Exception] The exception to log.
+  # @parameter root [String] The root directory of the project.
   #
-  # source://console//lib/console/event/failure.rb#56
+  # pkg:gem/console#lib/console/event/failure.rb:56
   def initialize(exception, root = T.unsafe(nil)); end
 
   # Log the failure event.
   #
-  # source://console//lib/console/event/failure.rb#76
+  # @parameter arguments [Array] The arguments to log.
+  # @parameter options [Hash] Additional options to pass to the logger output.
+  #
+  # pkg:gem/console#lib/console/event/failure.rb:76
   def emit(*arguments, **options); end
 
-  # Returns the value of attribute exception.
+  # @attribute [Exception] The exception which caused the failure.
   #
-  # source://console//lib/console/event/failure.rb#50
+  # pkg:gem/console#lib/console/event/failure.rb:50
   def exception; end
 
   # Convert the failure event to a hash.
   #
-  # source://console//lib/console/event/failure.rb#64
+  # @returns [Hash] The hash representation of the failure event.
+  #
+  # pkg:gem/console#lib/console/event/failure.rb:64
   def to_hash; end
 
   private
 
-  # source://console//lib/console/event/failure.rb#84
+  # pkg:gem/console#lib/console/event/failure.rb:84
   def extract(exception, hash); end
 
   class << self
     # For the purpose of efficiently formatting backtraces, we need to know the root directory of the project.
     #
-    # source://console//lib/console/event/failure.rb#27
+    # @returns [String | Nil] The root directory of the project, or nil if it could not be determined.
+    #
+    # pkg:gem/console#lib/console/event/failure.rb:27
     def default_root; end
 
     # Create a new failure event for the given exception.
     #
-    # source://console//lib/console/event/failure.rb#36
+    # @parameter exception [Exception] The exception to log.
+    #
+    # pkg:gem/console#lib/console/event/failure.rb:36
     def for(exception); end
 
     # Log a failure event with the given exception.
     #
-    # source://console//lib/console/event/failure.rb#45
+    # @parameter subject [String] The subject of the log message.
+    # @parameter exception [Exception] The exception to log.
+    # @parameter options [Hash] Additional options pass to the logger output.
+    #
+    # pkg:gem/console#lib/console/event/failure.rb:45
     def log(subject, exception, **options); end
   end
 end
 
 # A generic event which can be used to represent structured data.
 #
-# source://console//lib/console/event/generic.rb#9
+# pkg:gem/console#lib/console/event/generic.rb:9
 class Console::Event::Generic
   # Convert the event to a hash suitable for JSON serialization.
   #
-  # source://console//lib/console/event/generic.rb#20
+  # @returns [Hash] The hash representation of the event.
+  #
+  # pkg:gem/console#lib/console/event/generic.rb:20
   def as_json(*_arg0, **_arg1, &_arg2); end
 
   # Log the event using the given output interface.
   #
-  # source://console//lib/console/event/generic.rb#42
+  # @parameter arguments [Array] The arguments to log.
+  # @parameter options [Hash] Additional options to pass to the logger output.
+  #
+  # pkg:gem/console#lib/console/event/generic.rb:42
   def emit(*arguments, **options); end
 
   # Convert the event to a hash suitable for JSON serialization.
   #
-  # source://console//lib/console/event/generic.rb#13
+  # @returns [Hash] The hash representation of the event.
+  #
+  # pkg:gem/console#lib/console/event/generic.rb:13
   def to_hash; end
 
   # Serialize the event to JSON.
   #
-  # source://console//lib/console/event/generic.rb#27
+  # @returns [String] The JSON representation of the event.
+  #
+  # pkg:gem/console#lib/console/event/generic.rb:27
   def to_json(*_arg0, **_arg1, &_arg2); end
 
   # Convert the event to a string (JSON).
   #
-  # source://console//lib/console/event/generic.rb#34
+  # @returns [String] The string representation of the event.
+  #
+  # pkg:gem/console#lib/console/event/generic.rb:34
   def to_s; end
 end
 
@@ -182,72 +256,90 @@ end
 # event.status = Process.wait
 # ```
 #
-# source://console//lib/console/event/spawn.rb#19
+# pkg:gem/console#lib/console/event/spawn.rb:19
 class Console::Event::Spawn < ::Console::Event::Generic
   # Create a new spawn event.
   #
-  # @return [Spawn] a new instance of Spawn
+  # @parameter environment [Hash] The environment to use when running the command.
+  # @parameter arguments [Array] The arguments used for command execution.
+  # @parameter options [Hash] The options to pass to the command, similar to how you would pass them to `Kernel.system` or `Process.spawn`.
   #
-  # source://console//lib/console/event/spawn.rb#40
+  # pkg:gem/console#lib/console/event/spawn.rb:40
   def initialize(environment, arguments, options); end
 
   # Calculate the duration of the command, if it has completed.
   #
-  # source://console//lib/console/event/spawn.rb#71
+  # @returns [Numeric] The duration of the command.
+  #
+  # pkg:gem/console#lib/console/event/spawn.rb:71
   def duration; end
 
   # Log the spawn event.
   #
-  # source://console//lib/console/event/spawn.rb#99
+  # @parameter arguments [Array] The arguments to log.
+  # @parameter options [Hash] Additional options to pass to the logger output.
+  #
+  # pkg:gem/console#lib/console/event/spawn.rb:99
   def emit(*arguments, **options); end
 
-  # Returns the value of attribute end_time.
+  # @attribute [Numeric] The end time of the command.
   #
-  # source://console//lib/console/event/spawn.rb#55
+  # pkg:gem/console#lib/console/event/spawn.rb:55
   def end_time; end
 
-  # Returns the value of attribute start_time.
+  # @attribute [Numeric] The start time of the command.
   #
-  # source://console//lib/console/event/spawn.rb#52
+  # pkg:gem/console#lib/console/event/spawn.rb:52
   def start_time; end
 
-  # Returns the value of attribute status.
+  # @attribute [Process::Status] The status of the command, if it has completed.
   #
-  # source://console//lib/console/event/spawn.rb#58
+  # pkg:gem/console#lib/console/event/spawn.rb:58
   def status; end
 
   # Set the status of the command, and record the end time.
   #
-  # source://console//lib/console/event/spawn.rb#63
+  # @parameter status [Process::Status] The status of the command.
+  #
+  # pkg:gem/console#lib/console/event/spawn.rb:63
   def status=(status); end
 
   # Convert the spawn event to a hash suitable for JSON serialization.
   #
-  # source://console//lib/console/event/spawn.rb#80
+  # @returns [Hash] The hash representation of the spawn event.
+  #
+  # pkg:gem/console#lib/console/event/spawn.rb:80
   def to_hash; end
 
   class << self
     # Create a new spawn event.
     #
-    # source://console//lib/console/event/spawn.rb#25
+    # @parameter arguments [Array] The arguments to the command, similar to how you would pass them to `Kernel.system` or `Process.spawn`.
+    # @parameter options [Hash] The options to pass to the command, similar to how you would pass them to `Kernel.system` or `Process.spawn`.
+    # @returns [Spawn] The new spawn event representing the command.
+    #
+    # pkg:gem/console#lib/console/event/spawn.rb:25
     def for(*arguments, **options); end
   end
 end
 
 # A log filter which can be used to filter log messages based on severity, subject, and other criteria.
 #
-# source://console//lib/console/filter.rb#13
+# pkg:gem/console#lib/console/filter.rb:13
 class Console::Filter
   # Create a new log filter.
   #
-  # @return [Filter] a new instance of Filter
+  # @parameter output [Console::Output] The output destination.
+  # @parameter verbose [Boolean] Enable verbose output.
+  # @parameter level [Integer] The log level.
+  # @parameter options [Hash] Additional options.
   #
-  # source://console//lib/console/filter.rb#77
+  # pkg:gem/console#lib/console/filter.rb:77
   def initialize(output, verbose: T.unsafe(nil), level: T.unsafe(nil), **options); end
 
   # Enable all logging.
   #
-  # source://console//lib/console/filter.rb#147
+  # pkg:gem/console#lib/console/filter.rb:147
   def all!; end
 
   # Log a message with the given severity.
@@ -256,97 +348,119 @@ class Console::Filter
   # filters with different severity levels), the message is passed through to the
   # output without filtering. This allows custom filters to be composed together.
   #
-  # source://console//lib/console/filter.rb#222
+  # @parameter subject [Object] The subject of the log message.
+  # @parameter arguments [Array] The arguments to log.
+  # @parameter options [Hash] Additional options to pass to the output.
+  # @parameter block [Proc] A block passed to the output.
+  # @returns [Nil] Always returns nil.
+  #
+  # pkg:gem/console#lib/console/filter.rb:222
   def call(subject, *arguments, **options, &block); end
 
   # Clear any specific filters for the given class.
   #
-  # source://console//lib/console/filter.rb#203
+  # @parameter subject [Module] The class to disable.
+  #
+  # pkg:gem/console#lib/console/filter.rb:203
   def clear(subject); end
 
   # Disable logging for the given class.
   #
-  # source://console//lib/console/filter.rb#195
+  # @parameter name [Module] The class to disable.
+  #
+  # pkg:gem/console#lib/console/filter.rb:195
   def disable(subject); end
 
   # Enable specific log level for the given class.
   #
-  # source://console//lib/console/filter.rb#187
+  # @parameter name [Module] The class to enable.
+  #
+  # pkg:gem/console#lib/console/filter.rb:187
   def enable(subject, level = T.unsafe(nil)); end
 
   # Whether logging is enabled for the given subject and log level.
   #
   # You can enable and disable logging for classes. This function checks if logging for a given subject is enabled.
   #
-  # @return [Boolean]
+  # @parameter subject [Module | Object] The subject to check.
+  # @parameter level [Integer] The log level.
+  # @returns [Boolean] Whether logging is enabled.
   #
-  # source://console//lib/console/filter.rb#172
+  # pkg:gem/console#lib/console/filter.rb:172
   def enabled?(subject, level = T.unsafe(nil)); end
 
   # Filter log messages based on the subject and log level.
   #
   # You must provide the subject's class, not an instance of the class.
   #
-  # source://console//lib/console/filter.rb#157
+  # @parameter subject [Module] The subject to filter.
+  # @parameter level [Integer] The log level.
+  #
+  # pkg:gem/console#lib/console/filter.rb:157
   def filter(subject, level); end
 
-  # Returns the value of attribute level.
+  # @attribute [Integer] The current log level.
   #
-  # source://console//lib/console/filter.rb#114
+  # pkg:gem/console#lib/console/filter.rb:114
   def level; end
 
   # Set the log level.
   #
-  # source://console//lib/console/filter.rb#125
+  # @parameter level [Integer | Symbol] The log level.
+  #
+  # pkg:gem/console#lib/console/filter.rb:125
   def level=(level); end
 
   # Disable all logging.
   #
-  # source://console//lib/console/filter.rb#142
+  # pkg:gem/console#lib/console/filter.rb:142
   def off!; end
 
-  # Returns the value of attribute options.
+  # @attribute [Hash] Additional options.
   #
-  # source://console//lib/console/filter.rb#120
+  # pkg:gem/console#lib/console/filter.rb:120
   def options; end
 
-  # Sets the attribute options
+  # @attribute [Hash] Additional options.
   #
-  # @param value the value to set the attribute options to.
-  #
-  # source://console//lib/console/filter.rb#120
+  # pkg:gem/console#lib/console/filter.rb:120
   def options=(_arg0); end
 
-  # Returns the value of attribute output.
+  # @attribute [Console::Output] The output destination.
   #
-  # source://console//lib/console/filter.rb#108
+  # pkg:gem/console#lib/console/filter.rb:108
   def output; end
 
-  # Sets the attribute output
+  # @attribute [Console::Output] The output destination.
   #
-  # @param value the value to set the attribute output to.
-  #
-  # source://console//lib/console/filter.rb#108
+  # pkg:gem/console#lib/console/filter.rb:108
   def output=(_arg0); end
 
-  # Returns the value of attribute subjects.
+  # @attribute [Hash(Module, Integer)] The log levels for specific subject (classes).
   #
-  # source://console//lib/console/filter.rb#117
+  # pkg:gem/console#lib/console/filter.rb:117
   def subjects; end
 
-  # Returns the value of attribute verbose.
+  # @attribute [Boolean] Whether to enable verbose output.
   #
-  # source://console//lib/console/filter.rb#111
+  # pkg:gem/console#lib/console/filter.rb:111
   def verbose; end
 
   # Set verbose output (enable by default with no arguments).
   #
-  # source://console//lib/console/filter.rb#136
+  # @parameter value [Boolean] Enable or disable verbose output.
+  #
+  # pkg:gem/console#lib/console/filter.rb:136
   def verbose!(value = T.unsafe(nil)); end
 
   # Create a new log filter with the given options, from an existing log filter.
   #
-  # source://console//lib/console/filter.rb#99
+  # @parameter level [Integer] The log level.
+  # @parameter verbose [Boolean] Enable verbose output.
+  # @parameter options [Hash] Additional options.
+  # @returns [Console::Filter] The new log filter.
+  #
+  # pkg:gem/console#lib/console/filter.rb:99
   def with(level: T.unsafe(nil), verbose: T.unsafe(nil), **options); end
 
   class << self
@@ -356,22 +470,29 @@ class Console::Filter
     # class MyLogger < Console::Filter[debug: 0, okay: 1, bad: 2, terrible: 3]
     # ```
     #
-    # source://console//lib/console/filter.rb#34
+    # @parameter levels [Hash(Symbol, Integer)] A hash of log levels.
+    #
+    # pkg:gem/console#lib/console/filter.rb:34
     def [](**levels); end
 
     # Define a method.
+    # Define a method which can be shared between ractors.
     #
-    # source://console//lib/console/filter.rb#16
+    # pkg:gem/console#lib/console/filter.rb:16
     def define_immutable_method(name, &block); end
   end
 end
 
-# source://console//lib/console/format/safe.rb#10
+# @namespace
+#
+# pkg:gem/console#lib/console/format/safe.rb:10
 module Console::Format
   class << self
     # A safe format for converting objects to strings.
     #
-    # source://console//lib/console/format.rb#13
+    # @returns [Console::Format::Safe]
+    #
+    # pkg:gem/console#lib/console/format.rb:13
     def default; end
   end
 end
@@ -380,100 +501,117 @@ end
 #
 # Handles issues like circular references and encoding errors.
 #
-# source://console//lib/console/format/safe.rb#14
+# pkg:gem/console#lib/console/format/safe.rb:14
 class Console::Format::Safe
   # Create a new safe format.
   #
-  # @return [Safe] a new instance of Safe
+  # @parameter format [JSON] The format to use for serialization.
+  # @parameter limit [Integer] The maximum depth to recurse into objects.
+  # @parameter encoding [Encoding] The encoding to use for strings.
   #
-  # source://console//lib/console/format/safe.rb#20
+  # pkg:gem/console#lib/console/format/safe.rb:20
   def initialize(format: T.unsafe(nil), limit: T.unsafe(nil), encoding: T.unsafe(nil)); end
 
   # Dump the given object to a string.
   #
-  # source://console//lib/console/format/safe.rb#30
+  # @parameter object [Object] The object to dump.
+  # @returns [String] The dumped object.
+  #
+  # pkg:gem/console#lib/console/format/safe.rb:30
   def dump(object); end
 
   private
 
   # Create a new hash with identity comparison.
   #
-  # source://console//lib/console/format/safe.rb#100
+  # pkg:gem/console#lib/console/format/safe.rb:100
   def default_objects; end
 
   # Filter the backtrace to remove duplicate frames and reduce verbosity.
   #
-  # source://console//lib/console/format/safe.rb#42
+  # @parameter error [Exception] The exception to filter.
+  # @returns [Array(String)] The filtered backtrace.
+  #
+  # pkg:gem/console#lib/console/format/safe.rb:42
   def filter_backtrace(error); end
 
   # Dump the given object to a string, replacing it with a safe representation if there is an error.
   #
   # This is a slow path so we try to avoid it.
   #
-  # source://console//lib/console/format/safe.rb#86
+  # @parameter object [Object] The object to dump.
+  # @parameter error [Exception] The error that occurred while dumping the object.
+  # @returns [Hash] The dumped (truncated) object including error details.
+  #
+  # pkg:gem/console#lib/console/format/safe.rb:86
   def safe_dump(object, error); end
 
   # This will recursively generate a safe version of the object. Nested hashes and arrays will be transformed recursively. Strings will be encoded with the given encoding. Primitive values will be returned as-is. Other values will be converted using `as_json` if available, otherwise `to_s`.
   #
-  # source://console//lib/console/format/safe.rb#110
+  # @parameter object [Object] The object to dump.
+  # @parameter limit [Integer] The maximum depth to recurse into objects.
+  # @parameter objects [Hash] The objects that have already been visited.
+  # @returns [Object] The dumped object as a primitive representation.
+  #
+  # pkg:gem/console#lib/console/format/safe.rb:110
   def safe_dump_recurse(object, limit = T.unsafe(nil), objects = T.unsafe(nil)); end
 end
 
 # The public logger interface.
 #
-# source://console//lib/console/interface.rb#11
+# pkg:gem/console#lib/console/interface.rb:11
 module Console::Interface
   extend ::Fiber::Local
 
   # Emit a log message with arbitrary arguments and options.
   #
-  # source://console//lib/console/interface.rb#57
+  # pkg:gem/console#lib/console/interface.rb:57
   def call(*_arg0, **_arg1, &_arg2); end
 
   # Emit a debug log message.
   #
-  # source://console//lib/console/interface.rb#32
+  # pkg:gem/console#lib/console/interface.rb:32
   def debug(*_arg0, **_arg1, &_arg2); end
 
   # Emit an error log message.
   #
-  # source://console//lib/console/interface.rb#47
+  # pkg:gem/console#lib/console/interface.rb:47
   def error(*_arg0, **_arg1, &_arg2); end
 
   # Emit a fatal log message.
   #
-  # source://console//lib/console/interface.rb#52
+  # pkg:gem/console#lib/console/interface.rb:52
   def fatal(*_arg0, **_arg1, &_arg2); end
 
   # Emit an informational log message.
   #
-  # source://console//lib/console/interface.rb#37
+  # pkg:gem/console#lib/console/interface.rb:37
   def info(*_arg0, **_arg1, &_arg2); end
 
   # Get the current logger instance.
   #
-  # source://console//lib/console/interface.rb#20
+  # pkg:gem/console#lib/console/interface.rb:20
   def logger; end
 
   # Set the current logger instance.
   #
   # The current logger instance is assigned per-fiber.
   #
-  # source://console//lib/console/interface.rb#27
+  # pkg:gem/console#lib/console/interface.rb:27
   def logger=(instance); end
 
   # Emit a warning log message.
   #
-  # source://console//lib/console/interface.rb#42
+  # pkg:gem/console#lib/console/interface.rb:42
   def warn(*_arg0, **_arg1, &_arg2); end
 
   class << self
-    # source://console//lib/console/interface.rb#12
+    # pkg:gem/console#lib/console/interface.rb:12
     def fiber_local_attribute_name; end
 
     # Create a new (thread local) logger instance.
     #
-    # source://console//lib/console/interface.rb#15
+    # pkg:gem/console#lib/console/interface.rb:15
     def local; end
   end
 end
@@ -482,18 +620,24 @@ end
 #
 # The log levels are: `debug`, `info`, `warn`, `error`, and `fatal`.
 #
-# source://console//lib/console/logger.rb#20
+# pkg:gem/console#lib/console/logger.rb:20
 class Console::Logger < ::Console::Filter
   # Create a new logger.
   #
-  # @return [Logger] a new instance of Logger
+  # @parameter output [Console::Output] The output destination.
+  # @parameter options [Hash] Additional options.
   #
-  # source://console//lib/console/logger.rb#47
+  # pkg:gem/console#lib/console/logger.rb:47
   def initialize(output, **options); end
 
   # Create a progress indicator for the given subject.
   #
-  # source://console//lib/console/logger.rb#60
+  # @parameter subject [String] The subject of the progress indicator.
+  # @parameter total [Integer] The total number of items to process.
+  # @parameter options [Hash] Additional options passed to {Progress}.
+  # @returns [Progress] The progress indicator.
+  #
+  # pkg:gem/console#lib/console/logger.rb:60
   def progress(subject, total, **options); end
 
   class << self
@@ -501,17 +645,22 @@ class Console::Logger < ::Console::Filter
     # You can also specify CONSOLE_LEVEL=debug or CONSOLE_LEVEL=info in environment.
     # https://mislav.net/2011/06/ruby-verbose-mode/ has more details about how it all fits together.
     #
-    # source://console//lib/console/logger.rb#29
+    # @parameter env [Hash] The environment to read the log level from.
+    # @parameter verbose [Boolean] The verbose flag.
+    # @parameter debug [Boolean] The debug flag.
+    # @returns [Integer] The default log level.
+    #
+    # pkg:gem/console#lib/console/logger.rb:29
     def default_log_level(env = T.unsafe(nil), verbose: T.unsafe(nil), debug: T.unsafe(nil)); end
   end
 end
 
-# source://console//lib/console/logger.rb#41
+# pkg:gem/console#lib/console/logger.rb:41
 Console::Logger::DEFAULT_LEVEL = T.let(T.unsafe(nil), Integer)
 
 # Output handling.
 #
-# source://console//lib/console/output/terminal.rb#16
+# pkg:gem/console#lib/console/output/terminal.rb:16
 module Console::Output
   class << self
     # Create a new output based on the environment.
@@ -520,419 +669,492 @@ module Console::Output
     #
     # The output argument is deliberately unders-specified but can be an IO object or an instance of {Output}.
     #
-    # source://console//lib/console/output.rb#24
+    # @parameter output [Console::Output] The output to wrap OR an IO object.
+    # @parameter env [Hash] The environment to read configuration from.
+    # @parameter options [Hash] Additional options to customize the output.
+    # @returns [Console::Output] The output instance.
+    #
+    # pkg:gem/console#lib/console/output.rb:24
     def new(output = T.unsafe(nil), env = T.unsafe(nil), **options); end
   end
 end
 
 # Default output format selection.
 #
-# source://console//lib/console/output/default.rb#13
+# pkg:gem/console#lib/console/output/default.rb:13
 module Console::Output::Default
   class << self
     # Detect if we're running in GitHub Actions, where human-readable output is preferred.
     # GitHub Actions sets the GITHUB_ACTIONS environment variable to "true".
     #
-    # @return [Boolean]
-    #
-    # source://console//lib/console/output/default.rb#46
+    # pkg:gem/console#lib/console/output/default.rb:46
     def github_actions?(env = T.unsafe(nil)); end
 
     # Detect if we're running in a cron job or mail context where human-readable output is preferred.
     # Cron jobs often have MAILTO set and lack TERM, or have minimal TERM values.
     #
-    # @return [Boolean]
-    #
-    # source://console//lib/console/output/default.rb#40
+    # pkg:gem/console#lib/console/output/default.rb:40
     def mail?(env = T.unsafe(nil)); end
 
     # Create a new output format based on the given stream.
     #
-    # source://console//lib/console/output/default.rb#20
+    # @parameter io [IO] The output stream.
+    # @parameter env [Hash] Environment variables (defaults to ENV for testing).
+    # @parameter options [Hash] Additional options to customize the output.
+    # @returns [Console::Output::Terminal | Console::Output::Serialized] The output instance, depending on whether the `io` is a terminal or not.
+    #
+    # pkg:gem/console#lib/console/output/default.rb:20
     def new(stream, env: T.unsafe(nil), **options); end
   end
 end
 
 # A wrapper for outputting failure messages, which can include exceptions.
 #
-# source://console//lib/console/output/failure.rb#12
+# pkg:gem/console#lib/console/output/failure.rb:12
 class Console::Output::Failure < ::Console::Output::Wrapper
   # Create a new failure output wrapper.
   #
-  # @return [Failure] a new instance of Failure
-  #
-  # source://console//lib/console/output/failure.rb#14
+  # pkg:gem/console#lib/console/output/failure.rb:14
   def initialize(output, **options); end
 
   # The exception must be either the last argument or passed as an option.
   #
-  # source://console//lib/console/output/failure.rb#25
+  # @parameter subject [String] The subject of the message.
+  # @parameter arguments [Array] The arguments to output.
+  # @parameter exception [Exception] The exception to output.
+  # @parameter options [Hash] Additional options to pass to the output.
+  # @parameter block [Proc] An optional block to pass to the output.
+  #
+  # pkg:gem/console#lib/console/output/failure.rb:25
   def call(subject = T.unsafe(nil), *arguments, exception: T.unsafe(nil), **options, &block); end
 end
 
 # @deprecated This is a legacy constant, please use `Serialized` instead.
 #
-# source://console//lib/console/output/serialized.rb#100
+# pkg:gem/console#lib/console/output/serialized.rb:100
 Console::Output::JSON = Console::Output::Serialized
 
 # A null output that does nothing.
 #
-# source://console//lib/console/output/null.rb#9
+# pkg:gem/console#lib/console/output/null.rb:9
 class Console::Output::Null
   # Create a new null output.
   #
-  # @return [Null] a new instance of Null
-  #
-  # source://console//lib/console/output/null.rb#11
+  # pkg:gem/console#lib/console/output/null.rb:11
   def initialize(*_arg0, **_arg1, &_arg2); end
 
   # Do nothing.
   #
-  # source://console//lib/console/output/null.rb#20
+  # pkg:gem/console#lib/console/output/null.rb:20
   def call(*_arg0, **_arg1, &_arg2); end
 
   # The last output is always self.
   #
-  # source://console//lib/console/output/null.rb#15
+  # pkg:gem/console#lib/console/output/null.rb:15
   def last_output; end
 end
 
 # Serialize log messages in a structured format.
 #
-# source://console//lib/console/output/serialized.rb#13
+# pkg:gem/console#lib/console/output/serialized.rb:13
 class Console::Output::Serialized
   # Create a new serialized output.
   #
-  # @return [Serialized] a new instance of Serialized
+  # @parameter io [IO] The output stream.
+  # @parameter format [Console::Format] The format to use for serializing log messages.
+  # @parameter options [Hash] Additional options to customize the output.
   #
-  # source://console//lib/console/output/serialized.rb#19
+  # pkg:gem/console#lib/console/output/serialized.rb:19
   def initialize(stream, format: T.unsafe(nil), **options); end
 
   # Output the given log message.
   #
-  # source://console//lib/console/output/serialized.rb#50
+  # @parameter subject [String] The subject of the log message.
+  # @parameter arguments [Array] The arguments to log.
+  # @parameter severity [Symbol] The severity of the log message.
+  # @parameter options [Hash] Additional options.
+  # @parameter block [Proc] An optional block used to generate the log message.
+  #
+  # pkg:gem/console#lib/console/output/serialized.rb:50
   def call(subject = T.unsafe(nil), *arguments, severity: T.unsafe(nil), **options, &block); end
 
   # Serialize the given record.
   #
-  # source://console//lib/console/output/serialized.rb#39
+  # @parameter record [Hash] The record to serialize.
+  # @returns [String] The serialized record.
+  #
+  # pkg:gem/console#lib/console/output/serialized.rb:39
   def dump(record); end
 
-  # Returns the value of attribute format.
+  # @attribute [Console::Format] The format to use for serializing log messages.
   #
-  # source://console//lib/console/output/serialized.rb#33
+  # pkg:gem/console#lib/console/output/serialized.rb:33
   def format; end
 
   # This a final output that then writes to an IO object.
   #
-  # source://console//lib/console/output/serialized.rb#25
+  # pkg:gem/console#lib/console/output/serialized.rb:25
   def last_output; end
 
-  # Returns the value of attribute stream.
+  # @attribute [IO] The output stream.
   #
-  # source://console//lib/console/output/serialized.rb#30
+  # pkg:gem/console#lib/console/output/serialized.rb:30
   def stream; end
 end
 
 # Represents a terminal output, and formats log messages for display.
 #
-# source://console//lib/console/output/terminal.rb#18
+# pkg:gem/console#lib/console/output/terminal.rb:18
 class Console::Output::Terminal
   # Create a new terminal output.
   #
-  # @return [Terminal] a new instance of Terminal
+  # @parameter stream [IO] The output stream.
+  # @parameter verbose [Boolean] Whether to print verbose output.
+  # @parameter start_at [Time] The start time of the terminal output.
+  # @parameter format [Console::Terminal::Format] The format to use for terminal output.
+  # @parameter options [Hash] Additional options to customize the output.
   #
-  # source://console//lib/console/output/terminal.rb#72
+  # pkg:gem/console#lib/console/output/terminal.rb:72
   def initialize(stream, verbose: T.unsafe(nil), start_at: T.unsafe(nil), format: T.unsafe(nil), **options); end
 
   # Log a message with the given severity.
   #
-  # source://console//lib/console/output/terminal.rb#145
+  # @parameter subject [String] The subject of the log message.
+  # @parameter arguments [Array] The arguments to log.
+  # @parameter name [String | Nil] The optional name of the log message, used as a prefix, otherwise defaults to the severity name.
+  # @parameter severity [Symbol] The severity of the log message.
+  # @parameter event [Hash] The event to log.
+  # @parameter options [Hash] Additional options.
+  # @yields {|buffer, terminal| ...} An optional block used to generate the log message.
+  # 	@parameter buffer [Console::Output::Terminal::Buffer] The output buffer.
+  # 	@parameter terminal [Console::Terminal] The terminal instance.
+  #
+  # pkg:gem/console#lib/console/output/terminal.rb:145
   def call(subject = T.unsafe(nil), *arguments, name: T.unsafe(nil), severity: T.unsafe(nil), event: T.unsafe(nil), **options, &block); end
 
   # This a final output.
   #
-  # source://console//lib/console/output/terminal.rb#100
+  # pkg:gem/console#lib/console/output/terminal.rb:100
   def last_output; end
 
   # Register all formatters in the given namespace.
   #
-  # source://console//lib/console/output/terminal.rb#124
+  # pkg:gem/console#lib/console/output/terminal.rb:124
   def register_formatters(namespace = T.unsafe(nil)); end
 
-  # Returns the value of attribute start.
+  # @attribute [Time] The start time of the terminal output.
   #
-  # source://console//lib/console/output/terminal.rb#111
+  # pkg:gem/console#lib/console/output/terminal.rb:111
   def start; end
 
-  # Returns the value of attribute stream.
+  # @attribute [IO] The output stream.
   #
-  # source://console//lib/console/output/terminal.rb#105
+  # pkg:gem/console#lib/console/output/terminal.rb:105
   def stream; end
 
-  # Returns the value of attribute terminal.
+  # @attribute [Console::Terminal::Format] The format to use for terminal output.
   #
-  # source://console//lib/console/output/terminal.rb#114
+  # pkg:gem/console#lib/console/output/terminal.rb:114
   def terminal; end
 
-  # Returns the value of attribute verbose.
+  # @attribute [Boolean] Whether to print verbose output.
   #
-  # source://console//lib/console/output/terminal.rb#108
+  # pkg:gem/console#lib/console/output/terminal.rb:108
   def verbose; end
 
   # Set the verbose output.
   #
-  # source://console//lib/console/output/terminal.rb#119
+  # @parameter value [Boolean] Whether to print verbose output.
+  #
+  # pkg:gem/console#lib/console/output/terminal.rb:119
   def verbose!(value = T.unsafe(nil)); end
 
-  # Sets the attribute verbose
+  # @attribute [Boolean] Whether to print verbose output.
   #
-  # @param value the value to set the attribute verbose to.
-  #
-  # source://console//lib/console/output/terminal.rb#108
+  # pkg:gem/console#lib/console/output/terminal.rb:108
   def verbose=(_arg0); end
 
   protected
 
-  # source://console//lib/console/output/terminal.rb#275
+  # pkg:gem/console#lib/console/output/terminal.rb:275
   def build_prefix(name); end
 
-  # source://console//lib/console/output/terminal.rb#212
+  # pkg:gem/console#lib/console/output/terminal.rb:212
   def default_suffix(object = T.unsafe(nil)); end
 
-  # source://console//lib/console/output/terminal.rb#196
+  # pkg:gem/console#lib/console/output/terminal.rb:196
   def format_argument(argument, output); end
 
-  # source://console//lib/console/output/terminal.rb#181
+  # pkg:gem/console#lib/console/output/terminal.rb:181
   def format_event(event, buffer, width); end
 
-  # source://console//lib/console/output/terminal.rb#238
+  # pkg:gem/console#lib/console/output/terminal.rb:238
   def format_object_subject(severity, prefix, subject, output); end
 
-  # source://console//lib/console/output/terminal.rb#192
+  # pkg:gem/console#lib/console/output/terminal.rb:192
   def format_options(options, output); end
 
-  # source://console//lib/console/output/terminal.rb#250
+  # pkg:gem/console#lib/console/output/terminal.rb:250
   def format_string_subject(severity, prefix, subject, output); end
 
-  # source://console//lib/console/output/terminal.rb#202
+  # pkg:gem/console#lib/console/output/terminal.rb:202
   def format_subject(severity, prefix, subject, buffer); end
 
-  # source://console//lib/console/output/terminal.rb#262
+  # pkg:gem/console#lib/console/output/terminal.rb:262
   def format_value(value, output); end
 
-  # source://console//lib/console/output/terminal.rb#271
+  # pkg:gem/console#lib/console/output/terminal.rb:271
   def time_offset_prefix; end
 
   class << self
     # Exports CONSOLE_START_AT which can be used to synchronize the start times of all child processes when they log using delta time.
     #
-    # source://console//lib/console/output/terminal.rb#52
+    # pkg:gem/console#lib/console/output/terminal.rb:52
     def start_at!(env = T.unsafe(nil)); end
   end
 end
 
 # Represents an output buffer that formats lines with a prefix.
 #
-# source://console//lib/console/output/terminal.rb#20
+# pkg:gem/console#lib/console/output/terminal.rb:20
 class Console::Output::Terminal::Buffer < ::StringIO
   # Create a new buffer with the given prefix.
   #
-  # @return [Buffer] a new instance of Buffer
+  # @parameter prefix [String] The prefix to use for each line.
   #
-  # source://console//lib/console/output/terminal.rb#24
+  # pkg:gem/console#lib/console/output/terminal.rb:24
   def initialize(prefix = T.unsafe(nil)); end
 
-  # Write lines using the given prefix.
   # Write a line to the buffer.
   #
-  # source://console//lib/console/output/terminal.rb#45
+  # pkg:gem/console#lib/console/output/terminal.rb:45
   def <<(*lines, prefix: T.unsafe(nil)); end
 
-  # Returns the value of attribute prefix.
+  # @attribute [String] The prefix to use for each line.
   #
-  # source://console//lib/console/output/terminal.rb#31
+  # pkg:gem/console#lib/console/output/terminal.rb:31
   def prefix; end
 
   # Write lines using the given prefix.
   #
-  # source://console//lib/console/output/terminal.rb#37
+  # @parameter lines [Array] The lines to write.
+  # @parameter prefix [String] The prefix to use for each line.
+  #
+  # pkg:gem/console#lib/console/output/terminal.rb:37
   def puts(*lines, prefix: T.unsafe(nil)); end
 end
 
 # The environment variable used to store the start time of the console terminal output.
 #
-# source://console//lib/console/output/terminal.rb#49
+# pkg:gem/console#lib/console/output/terminal.rb:49
 Console::Output::Terminal::CONSOLE_START_AT = T.let(T.unsafe(nil), String)
 
 # The default severity for log messages, if not specified.
 #
-# source://console//lib/console/output/terminal.rb#132
+# pkg:gem/console#lib/console/output/terminal.rb:132
 Console::Output::Terminal::UNKNOWN = T.let(T.unsafe(nil), Symbol)
 
 # Terminal text output.
 #
-# source://console//lib/console/output/terminal.rb#285
+# pkg:gem/console#lib/console/output/terminal.rb:285
 module Console::Output::Text
   class << self
     # Create a new terminal output.
     #
-    # source://console//lib/console/output/terminal.rb#291
+    # @parameter output [IO] The output stream.
+    # @parameter options [Hash] Additional options to customize the output.
+    # @returns [Console::Output::Terminal] The terminal output instance.
+    #
+    # pkg:gem/console#lib/console/output/terminal.rb:291
     def new(output, **options); end
   end
 end
 
 # A generic wrapper for output handling.
 #
-# source://console//lib/console/output/wrapper.rb#9
+# pkg:gem/console#lib/console/output/wrapper.rb:9
 class Console::Output::Wrapper
   # Create a new wrapper output.
   #
-  # @return [Wrapper] a new instance of Wrapper
+  # @parameter delegate [Console::Output] The output to delegate to.
+  # @parameter options [Hash] Additional options to customize the output.
   #
-  # source://console//lib/console/output/wrapper.rb#14
+  # pkg:gem/console#lib/console/output/wrapper.rb:14
   def initialize(delegate, **options); end
 
   # Invoke the delegate.
   #
-  # source://console//lib/console/output/wrapper.rb#34
+  # pkg:gem/console#lib/console/output/wrapper.rb:34
   def call(*_arg0, **_arg1, &_arg2); end
 
-  # Returns the value of attribute delegate.
+  # @attribute [Console::Output] The output to delegate to.
   #
-  # source://console//lib/console/output/wrapper.rb#19
+  # pkg:gem/console#lib/console/output/wrapper.rb:19
   def delegate; end
 
   # The last output is the last output of the delegate.
   #
-  # source://console//lib/console/output/wrapper.rb#22
+  # pkg:gem/console#lib/console/output/wrapper.rb:22
   def last_output; end
 
   # Set the verbose flag for the delegate.
   #
-  # source://console//lib/console/output/wrapper.rb#29
+  # @parameter value [Boolean] The new value.
+  #
+  # pkg:gem/console#lib/console/output/wrapper.rb:29
   def verbose!(value = T.unsafe(nil)); end
 end
 
 # Terminal XTerm output.
 #
-# source://console//lib/console/output/terminal.rb#297
+# pkg:gem/console#lib/console/output/terminal.rb:297
 module Console::Output::XTerm
   class << self
     # Create a new terminal output.
     #
     # You can use this to force XTerm output on a non-TTY output streams that support XTerm escape codes.
     #
-    # source://console//lib/console/output/terminal.rb#305
+    # @parameter output [IO] The output stream.
+    # @parameter options [Hash] Additional options to customize the output.
+    # @returns [Console::Output::Terminal] The terminal output instance.
+    #
+    # pkg:gem/console#lib/console/output/terminal.rb:305
     def new(output, **options); end
   end
 end
 
 # A simple progress indicator
 #
-# source://console//lib/console/progress.rb#11
+# pkg:gem/console#lib/console/progress.rb:11
 class Console::Progress
   # Create a new progress indicator.
   #
-  # @return [Progress] a new instance of Progress
+  # @parameter subject [Object] The subject of the progress indicator.
+  # @parameter total [Integer] The total number of steps.
+  # @parameter minimum_output_duration [Numeric] The minimum duration between outputs.
+  # @parameter options [Hash] Additional options to customize the output.
   #
-  # source://console//lib/console/progress.rb#23
+  # pkg:gem/console#lib/console/progress.rb:23
   def initialize(subject, total = T.unsafe(nil), minimum_output_duration: T.unsafe(nil), **options); end
 
-  # source://console//lib/console/progress.rb#67
+  # @returns [Numeric | Nil] The average duration per step, or `nil` if no steps have been completed.
+  #
+  # pkg:gem/console#lib/console/progress.rb:67
   def average_duration; end
 
-  # Returns the value of attribute current.
+  # @attribute [Numeric] The current number of steps completed.
   #
-  # source://console//lib/console/progress.rb#46
+  # pkg:gem/console#lib/console/progress.rb:46
   def current; end
 
-  # source://console//lib/console/progress.rb#52
+  # @returns [Numeric] The duration since the progress indicator was started.
+  #
+  # pkg:gem/console#lib/console/progress.rb:52
   def duration; end
 
-  # source://console//lib/console/progress.rb#74
+  # @returns [Numeric | Nil] The estimated remaining time, or `nil` if no steps have been completed.
+  #
+  # pkg:gem/console#lib/console/progress.rb:74
   def estimated_remaining_time; end
 
   # Increment the progress indicator by the given amount.
   #
-  # source://console//lib/console/progress.rb#98
+  # @parameter amount [Numeric] The amount to increment by.
+  # @returns [Progress] The progress indicator itself.
+  #
+  # pkg:gem/console#lib/console/progress.rb:98
   def increment(amount = T.unsafe(nil)); end
 
   # Augment the progress indicator with additional information.
   #
-  # source://console//lib/console/progress.rb#127
+  # @parameter *arguments [Array] The arguments to log.
+  # @parameter **options [Hash] Additional options to log.
+  # @parameter &block [Proc] An optional block used to generate the log message.
+  #
+  # pkg:gem/console#lib/console/progress.rb:127
   def mark(*arguments, **options, &block); end
 
-  # Returns the value of attribute minimum_output_duration.
+  # @attribute [Numeric] The minimum duration between outputs.
   #
-  # source://console//lib/console/progress.rb#40
+  # pkg:gem/console#lib/console/progress.rb:40
   def minimum_output_duration; end
 
-  # source://console//lib/console/progress.rb#57
+  # @returns [Rational] The ratio of steps completed to total steps.
+  #
+  # pkg:gem/console#lib/console/progress.rb:57
   def ratio; end
 
-  # source://console//lib/console/progress.rb#62
+  # @returns [Numeric] The number of steps remaining.
+  #
+  # pkg:gem/console#lib/console/progress.rb:62
   def remaining; end
 
   # Resize the progress indicator to the given total.
   #
-  # source://console//lib/console/progress.rb#113
+  # @parameter total [Numeric] The new total number of steps.
+  # @returns [Progress] The progress indicator itself.
+  #
+  # pkg:gem/console#lib/console/progress.rb:113
   def resize(total); end
 
-  # Returns the value of attribute start_time.
+  # @attribute [Time] The time the progress indicator was started.
   #
-  # source://console//lib/console/progress.rb#43
+  # pkg:gem/console#lib/console/progress.rb:43
   def start_time; end
 
-  # Returns the value of attribute subject.
+  # @attribute [Object] The subject of the progress indicator.
   #
-  # source://console//lib/console/progress.rb#37
+  # pkg:gem/console#lib/console/progress.rb:37
   def subject; end
 
   # Generate an appropriate event for the progress indicator.
   #
-  # source://console//lib/console/progress.rb#83
+  # @returns [Hash] The progress indicator as a hash.
+  #
+  # pkg:gem/console#lib/console/progress.rb:83
   def to_hash; end
 
-  # source://console//lib/console/progress.rb#132
+  # @returns [String] A human-readable representation of the progress indicator.
+  #
+  # pkg:gem/console#lib/console/progress.rb:132
   def to_s; end
 
-  # Returns the value of attribute total.
+  # @attribute [Numeric] The total number of steps.
   #
-  # source://console//lib/console/progress.rb#49
+  # pkg:gem/console#lib/console/progress.rb:49
   def total; end
 
   private
 
   # Compute a time delta since the last output, used for rate limiting the output.
   #
-  # source://console//lib/console/progress.rb#145
+  # @returns [Numeric | Nil] The duration since the last output.
+  #
+  # pkg:gem/console#lib/console/progress.rb:145
   def duration_since_last_output; end
 
   # Whether an output should be generated at this time, taking into account the remaining steps, and the duration since the last output.
   #
-  # @return [Boolean]
+  # @returns [Boolean] Whether an output should be generated.
   #
-  # source://console//lib/console/progress.rb#154
+  # pkg:gem/console#lib/console/progress.rb:154
   def output?; end
 
   class << self
     # @deprecated Use {Clock.now} instead.
     #
-    # source://console//lib/console/progress.rb#13
+    # pkg:gem/console#lib/console/progress.rb:13
     def now; end
   end
 end
 
 # Represents a class resolver that can be used to set log levels for different classes as they become available.
 #
-# source://console//lib/console/resolver.rb#11
+# pkg:gem/console#lib/console/resolver.rb:11
 class Console::Resolver
   # Create a new class resolver.
   #
-  # @return [Resolver] a new instance of Resolver
-  #
-  # source://console//lib/console/resolver.rb#63
+  # pkg:gem/console#lib/console/resolver.rb:63
   def initialize; end
 
   # Bind the given class names to the given block. When the class name is resolved into an actual class, the block will be called with the class as an argument.
@@ -941,7 +1163,10 @@ class Console::Resolver
   #
   # If the class is not defined, the block will be called when the class is defined, using a trace point.
   #
-  # source://console//lib/console/resolver.rb#77
+  # @parameter names [Array(String)] The class names to bind.
+  # @parameter block [Proc] The block to call when the class is resolved.
+  #
+  # pkg:gem/console#lib/console/resolver.rb:77
   def bind(names, &block); end
 
   # Invoked by the trace point when a class is defined.
@@ -950,12 +1175,14 @@ class Console::Resolver
   #
   # If the list of names is empty, the trace point will be disabled.
   #
-  # source://console//lib/console/resolver.rb#105
+  # @parameter trace_point [TracePoint] The trace point that triggered the event.
+  #
+  # pkg:gem/console#lib/console/resolver.rb:105
   def resolve(trace_point); end
 
-  # @return [Boolean]
+  # @returns [Boolean] True if the resolver is waiting for classes to be defined.
   #
-  # source://console//lib/console/resolver.rb#94
+  # pkg:gem/console#lib/console/resolver.rb:94
   def waiting?; end
 
   class << self
@@ -965,140 +1192,165 @@ class Console::Resolver
     #
     # You can enable all log levels for a given class by using `CONSOLE_ON=MyClass`. Similarly you can disable all logging using `CONSOLE_OFF=MyClass`.
     #
-    # source://console//lib/console/resolver.rb#22
+    # @parameter logger [Logger] A logger instance to set the logging levels on.
+    # @parameter env [Hash] The environment to read levels from.
+    # @returns [Nil] If there were no custom logging levels specified in the environment.
+    # @returns [Resolver] If there were custom logging levels, then the created resolver is returned.
+    #
+    # pkg:gem/console#lib/console/resolver.rb:22
     def default_resolver(logger, env = T.unsafe(nil)); end
   end
 end
 
 # Styled terminal output.
+# Styled terminal output.
 #
-# source://console//lib/console/terminal/text.rb#11
+# pkg:gem/console#lib/console/terminal/text.rb:11
 module Console::Terminal
   class << self
     # Create a new terminal output for the given stream.
     #
-    # source://console//lib/console/terminal.rb#13
+    # pkg:gem/console#lib/console/terminal.rb:13
     def for(stream); end
   end
 end
 
 # Formatters for various types of events.
 #
-# source://console//lib/console/terminal/formatter/progress.rb#8
+# pkg:gem/console#lib/console/terminal/formatter/progress.rb:8
 module Console::Terminal::Formatter; end
 
 # Format a failure event, including the exception message and backtrace.
 #
-# source://console//lib/console/terminal/formatter/failure.rb#10
+# pkg:gem/console#lib/console/terminal/formatter/failure.rb:10
 class Console::Terminal::Formatter::Failure
   # Create a new failure formatter.
   #
   # @param terminal [Terminal::Text] The terminal to use for formatting.
-  # @return [Failure] a new instance of Failure
   #
-  # source://console//lib/console/terminal/formatter/failure.rb#17
+  # pkg:gem/console#lib/console/terminal/formatter/failure.rb:17
   def initialize(terminal); end
 
   # Format the given event.
   #
-  # source://console//lib/console/terminal/formatter/failure.rb#34
+  # @parameter event [Hash] The event to format.
+  # @parameter stream [IO] The stream to write the formatted event to.
+  # @parameter prefix [String] The prefix to use before the title.
+  # @parameter verbose [Boolean] Whether to include additional information.
+  # @parameter options [Hash] Additional options.
+  #
+  # pkg:gem/console#lib/console/terminal/formatter/failure.rb:34
   def format(event, stream, prefix: T.unsafe(nil), verbose: T.unsafe(nil), **options); end
 end
 
 # The key used to identify this formatter.
 #
-# source://console//lib/console/terminal/formatter/failure.rb#12
+# pkg:gem/console#lib/console/terminal/formatter/failure.rb:12
 Console::Terminal::Formatter::Failure::KEY = T.let(T.unsafe(nil), Symbol)
 
 # Format a progress event, including the current progress and total.
 #
-# source://console//lib/console/terminal/formatter/progress.rb#10
+# pkg:gem/console#lib/console/terminal/formatter/progress.rb:10
 class Console::Terminal::Formatter::Progress
   # Create a new progress formatter.
   #
   # @param terminal [Terminal::Text] The terminal to use for formatting.
-  # @return [Progress] a new instance of Progress
   #
-  # source://console//lib/console/terminal/formatter/progress.rb#30
+  # pkg:gem/console#lib/console/terminal/formatter/progress.rb:30
   def initialize(terminal); end
 
   # Format the given event.
   #
-  # source://console//lib/console/terminal/formatter/progress.rb#41
+  # @parameter event [Hash] The event to format.
+  # @parameter stream [IO] The stream to write the formatted event to.
+  # @parameter verbose [Boolean] Whether to include additional information.
+  # @parameter width [Integer] The width of the progress bar.
+  #
+  # pkg:gem/console#lib/console/terminal/formatter/progress.rb:41
   def format(event, stream, verbose: T.unsafe(nil), width: T.unsafe(nil)); end
 
   private
 
   # Render a progress bar with the given value and width.
   #
-  # source://console//lib/console/terminal/formatter/progress.rb#57
+  # pkg:gem/console#lib/console/terminal/formatter/progress.rb:57
   def bar(value, width); end
 end
 
 # The block characters used to render the progress bar.
 #
-# source://console//lib/console/terminal/formatter/progress.rb#15
+# pkg:gem/console#lib/console/terminal/formatter/progress.rb:15
 Console::Terminal::Formatter::Progress::BLOCK = T.let(T.unsafe(nil), Array)
 
 # The key used to identify this formatter.
 #
-# source://console//lib/console/terminal/formatter/progress.rb#12
+# pkg:gem/console#lib/console/terminal/formatter/progress.rb:12
 Console::Terminal::Formatter::Progress::KEY = T.let(T.unsafe(nil), Symbol)
 
 # Format a spawn event, including the command and arguments.
 #
-# source://console//lib/console/terminal/formatter/spawn.rb#10
+# pkg:gem/console#lib/console/terminal/formatter/spawn.rb:10
 class Console::Terminal::Formatter::Spawn
   # Create a new spawn formatter.
   #
   # @param terminal [Terminal::Text] The terminal to use for formatting.
-  # @return [Spawn] a new instance of Spawn
   #
-  # source://console//lib/console/terminal/formatter/spawn.rb#17
+  # pkg:gem/console#lib/console/terminal/formatter/spawn.rb:17
   def initialize(terminal); end
 
   # Format the given event.
   #
-  # source://console//lib/console/terminal/formatter/spawn.rb#28
+  # @parameter event [Hash] The event to format.
+  # @parameter stream [IO] The stream to write the formatted event to.
+  # @parameter verbose [Boolean] Whether to include additional information.
+  # @parameter width [Integer] The width of the progress bar.
+  #
+  # pkg:gem/console#lib/console/terminal/formatter/spawn.rb:28
   def format(event, stream, verbose: T.unsafe(nil), width: T.unsafe(nil)); end
 
   private
 
   # Generate a string to represent the working directory.
   #
-  # source://console//lib/console/terminal/formatter/spawn.rb#45
+  # pkg:gem/console#lib/console/terminal/formatter/spawn.rb:45
   def chdir_string(options); end
 end
 
 # The key used to identify this formatter.
 #
-# source://console//lib/console/terminal/formatter/spawn.rb#12
+# pkg:gem/console#lib/console/terminal/formatter/spawn.rb:12
 Console::Terminal::Formatter::Spawn::KEY = T.let(T.unsafe(nil), Symbol)
 
 # A simple text-based terminal output.
 #
-# source://console//lib/console/terminal/text.rb#13
+# pkg:gem/console#lib/console/terminal/text.rb:13
 class Console::Terminal::Text
   # Create a new text terminal output.
   #
-  # @return [Text] a new instance of Text
+  # @parameter stream [IO] The stream to write to.
   #
-  # source://console//lib/console/terminal/text.rb#17
+  # pkg:gem/console#lib/console/terminal/text.rb:17
   def initialize(stream); end
 
   # Get the style associated with the given key.
   #
-  # source://console//lib/console/terminal/text.rb#29
+  # @parameter key [Symbol] The key to look up.
+  # @returns [String] The style associated with the key.
+  #
+  # pkg:gem/console#lib/console/terminal/text.rb:29
   def [](key); end
 
   # Set the style associated with the given key.
   #
-  # source://console//lib/console/terminal/text.rb#37
+  # @parameter key [Symbol] The key to associate the style with.
+  # @parameter value [String] The style to associate with the key.
+  #
+  # pkg:gem/console#lib/console/terminal/text.rb:37
   def []=(key, value); end
 
-  # @return [Boolean]
+  # @returns [Boolean] Whether the terminal supports colors.
   #
-  # source://console//lib/console/terminal/text.rb#42
+  # pkg:gem/console#lib/console/terminal/text.rb:42
   def colors?; end
 
   # Print rich text to the output stream.
@@ -1107,91 +1359,114 @@ class Console::Terminal::Text
   # - When the argument is a proc/lambda, call it with self as the argument.
   # - When the argument is anything else, write it directly to the output.
   #
-  # source://console//lib/console/terminal/text.rb#107
+  # @parameter arguments [Array] The arguments to print.
+  #
+  # pkg:gem/console#lib/console/terminal/text.rb:107
   def print(*arguments); end
 
   # Print rich text to the output stream, followed by the reset sequence and a newline.
   #
-  # source://console//lib/console/terminal/text.rb#123
+  # @parameter arguments [Array] The arguments to print.
+  #
+  # pkg:gem/console#lib/console/terminal/text.rb:123
   def print_line(*arguments); end
 
   # Write the given arguments to the output stream using the given style. The reset sequence is automatically
   # appended at the end of each line.
   #
-  # source://console//lib/console/terminal/text.rb#87
+  # @parameter arguments [Array] The arguments to write, each on a new line.
+  # @parameter style [Symbol] The style to apply.
+  #
+  # pkg:gem/console#lib/console/terminal/text.rb:87
   def puts(*arguments, style: T.unsafe(nil)); end
 
   # Generate a reset sequence.
   #
-  # source://console//lib/console/terminal/text.rb#65
+  # @returns [String | Nil] The reset sequence if colors are supported, otherwise nil.
+  #
+  # pkg:gem/console#lib/console/terminal/text.rb:65
   def reset; end
 
-  # source://console//lib/console/terminal/text.rb#47
+  # @returns [Tuple(Integer, Integer)] The size of the terminal, or a default value of [24, 80].
+  #
+  # pkg:gem/console#lib/console/terminal/text.rb:47
   def size; end
 
-  # Returns the value of attribute stream.
+  # @attribute [IO] The stream to write to.
   #
-  # source://console//lib/console/terminal/text.rb#23
+  # pkg:gem/console#lib/console/terminal/text.rb:23
   def stream; end
 
   # Generate a style string for the given foreground, background, and attributes.
   #
-  # source://console//lib/console/terminal/text.rb#59
+  # @returns [String | Nil] The style string if colors are supported, otherwise nil.
+  #
+  # pkg:gem/console#lib/console/terminal/text.rb:59
   def style(foreground, background = T.unsafe(nil), *attributes); end
 
-  # source://console//lib/console/terminal/text.rb#52
+  # @returns [Integer] The width of the terminal.
+  #
+  # pkg:gem/console#lib/console/terminal/text.rb:52
   def width; end
 
   # Write the given arguments to the output stream using the given style. The reset sequence is automatically appended.
   #
-  # source://console//lib/console/terminal/text.rb#72
+  # @parameter arguments [Array] The arguments to write.
+  # @parameter style [Symbol] The style to apply.
+  #
+  # pkg:gem/console#lib/console/terminal/text.rb:72
   def write(*arguments, style: T.unsafe(nil)); end
 end
 
 # XTerm style terminal output.
 #
-# source://console//lib/console/terminal/xterm.rb#14
+# pkg:gem/console#lib/console/terminal/xterm.rb:14
 class Console::Terminal::XTerm < ::Console::Terminal::Text
   # Whether the terminal supports colors.
   #
-  # @return [Boolean]
-  #
-  # source://console//lib/console/terminal/xterm.rb#42
+  # pkg:gem/console#lib/console/terminal/xterm.rb:42
   def colors?; end
 
   # Reset the style.
   #
-  # source://console//lib/console/terminal/xterm.rb#86
+  # @returns [String] The reset code.
+  #
+  # pkg:gem/console#lib/console/terminal/xterm.rb:86
   def reset; end
 
   # The size of the terminal.
   #
-  # source://console//lib/console/terminal/xterm.rb#47
+  # pkg:gem/console#lib/console/terminal/xterm.rb:47
   def size; end
 
   # Apply the given style to the output.
   #
-  # source://console//lib/console/terminal/xterm.rb#65
+  # @parameter foreground [Symbol] The foreground color.
+  # @parameter background [Symbol] The background color.
+  # @parameter attributes [Array(Symbol)] The attributes to apply.
+  # @returns [String] The style code.
+  #
+  # pkg:gem/console#lib/console/terminal/xterm.rb:65
   def style(foreground, background = T.unsafe(nil), *attributes); end
 
   # The width of the terminal.
   #
-  # source://console//lib/console/terminal/xterm.rb#55
+  # pkg:gem/console#lib/console/terminal/xterm.rb:55
   def width; end
 end
 
 # XTerm attribute codes.
 #
-# source://console//lib/console/terminal/xterm.rb#29
+# pkg:gem/console#lib/console/terminal/xterm.rb:29
 Console::Terminal::XTerm::ATTRIBUTES = T.let(T.unsafe(nil), Hash)
 
 # XTerm color codes.
 #
-# source://console//lib/console/terminal/xterm.rb#16
+# pkg:gem/console#lib/console/terminal/xterm.rb:16
 Console::Terminal::XTerm::COLORS = T.let(T.unsafe(nil), Hash)
 
-# source://console//lib/console/filter.rb#10
+# pkg:gem/console#lib/console/filter.rb:10
 Console::UNKNOWN = T.let(T.unsafe(nil), Symbol)
 
-# source://console//lib/console/version.rb#7
+# pkg:gem/console#lib/console/version.rb:7
 Console::VERSION = T.let(T.unsafe(nil), String)

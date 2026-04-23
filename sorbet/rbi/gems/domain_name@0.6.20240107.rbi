@@ -7,48 +7,91 @@
 
 # Represents a domain name ready for extracting its registered domain
 # and TLD.
+# -*- coding: utf-8 -*-
+# --
+# punycode.rb - PunyCode encoder for the Domain Name library
 #
-# source://domain_name//lib/domain_name/version.rb#1
+# Copyright (C) 2011-2017 Akinori MUSHA, All rights reserved.
+#
+# Ported from puny.c, a part of VeriSign XCode (encode/decode) IDN
+# Library.
+#
+# Copyright (C) 2000-2002 Verisign Inc., All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or
+# without modification, are permitted provided that the following
+# conditions are met:
+#
+#  1) Redistributions of source code must retain the above copyright
+#     notice, this list of conditions and the following disclaimer.
+#
+#  2) Redistributions in binary form must reproduce the above copyright
+#     notice, this list of conditions and the following disclaimer in
+#     the documentation and/or other materials provided with the
+#     distribution.
+#
+#  3) Neither the name of the VeriSign Inc. nor the names of its
+#     contributors may be used to endorse or promote products derived
+#     from this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+# "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+# LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+# FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+# COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+# INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+# BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS
+# OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED
+# AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+# LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+# ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+# POSSIBILITY OF SUCH DAMAGE.
+#
+# This software is licensed under the BSD open source license. For more
+# information visit www.opensource.org.
+#
+# Authors:
+#  John Colosi (VeriSign)
+#  Srikanth Veeramachaneni (VeriSign)
+#  Nagesh Chigurupati (Verisign)
+#  Praveen Srinivasan(Verisign)
+# ++
+#
+# pkg:gem/domain_name#lib/domain_name/version.rb:1
 class DomainName
   # Parses _hostname_ into a DomainName object.  An IP address is also
   # accepted.  An IPv6 address may be enclosed in square brackets.
   #
-  # @return [DomainName] a new instance of DomainName
-  #
-  # source://domain_name//lib/domain_name.rb#77
+  # pkg:gem/domain_name#lib/domain_name.rb:77
   def initialize(hostname); end
 
-  # source://domain_name//lib/domain_name.rb#194
+  # pkg:gem/domain_name#lib/domain_name.rb:194
   def <(other); end
 
-  # source://domain_name//lib/domain_name.rb#216
+  # pkg:gem/domain_name#lib/domain_name.rb:216
   def <=(other); end
 
-  # source://domain_name//lib/domain_name.rb#178
+  # pkg:gem/domain_name#lib/domain_name.rb:178
   def <=>(other); end
 
-  # source://domain_name//lib/domain_name.rb#173
+  # pkg:gem/domain_name#lib/domain_name.rb:173
   def ==(other); end
 
-  # source://domain_name//lib/domain_name.rb#205
+  # pkg:gem/domain_name#lib/domain_name.rb:205
   def >(other); end
 
-  # source://domain_name//lib/domain_name.rb#227
+  # pkg:gem/domain_name#lib/domain_name.rb:227
   def >=(other); end
 
   # Returns true if this domain name has a canonical registered
   # domain.
   #
-  # @return [Boolean]
-  #
-  # source://domain_name//lib/domain_name.rb#69
+  # pkg:gem/domain_name#lib/domain_name.rb:69
   def canonical?; end
 
   # Returns true if this domain name has a canonical TLD.
   #
-  # @return [Boolean]
-  #
-  # source://domain_name//lib/domain_name.rb#63
+  # pkg:gem/domain_name#lib/domain_name.rb:63
   def canonical_tld?; end
 
   # Checks if the server represented by this domain is qualified to
@@ -57,9 +100,7 @@ class DomainName
   # cookies without a domain attribute value, in which case only
   # hostname equality is checked.
   #
-  # @return [Boolean]
-  #
-  # source://domain_name//lib/domain_name.rb#149
+  # pkg:gem/domain_name#lib/domain_name.rb:149
   def cookie_domain?(domain, host_only = T.unsafe(nil)); end
 
   # The least "universally original" domain part of this domain name.
@@ -68,10 +109,10 @@ class DomainName
   # IP address, an effective TLD or higher itself, or of a
   # non-canonical domain.
   #
-  # source://domain_name//lib/domain_name.rb#31
+  # pkg:gem/domain_name#lib/domain_name.rb:31
   def domain; end
 
-  # source://domain_name//lib/domain_name.rb#255
+  # pkg:gem/domain_name#lib/domain_name.rb:255
   def domain_idn; end
 
   # The full host name normalized, ASCII-ized and downcased using the
@@ -79,34 +120,32 @@ class DomainName
   # an IP address, the string representation of the IP address
   # suitable for opening a connection to.
   #
-  # source://domain_name//lib/domain_name.rb#20
+  # pkg:gem/domain_name#lib/domain_name.rb:20
   def hostname; end
 
-  # source://domain_name//lib/domain_name.rb#244
+  # pkg:gem/domain_name#lib/domain_name.rb:244
   def hostname_idn; end
 
-  # source://domain_name//lib/domain_name.rb#253
+  # pkg:gem/domain_name#lib/domain_name.rb:253
   def idn; end
 
-  # source://domain_name//lib/domain_name.rb#273
+  # pkg:gem/domain_name#lib/domain_name.rb:273
   def inspect; end
 
   # Returns an IPAddr object if this is an IP address.
   #
-  # source://domain_name//lib/domain_name.rb#49
+  # pkg:gem/domain_name#lib/domain_name.rb:49
   def ipaddr; end
 
   # Returns true if this is an IP address, such as "192.168.0.1" and
   # "[::1]".
   #
-  # @return [Boolean]
-  #
-  # source://domain_name//lib/domain_name.rb#53
+  # pkg:gem/domain_name#lib/domain_name.rb:53
   def ipaddr?; end
 
   # Returns the superdomain of this domain name.
   #
-  # source://domain_name//lib/domain_name.rb#167
+  # pkg:gem/domain_name#lib/domain_name.rb:167
   def superdomain; end
 
   # The TLD part of this domain name.  For example, if the hostname is
@@ -115,100 +154,100 @@ class DomainName
   # does not have one, like when it is an IP address or of a
   # non-canonical domain.
   #
-  # source://domain_name//lib/domain_name.rb#42
+  # pkg:gem/domain_name#lib/domain_name.rb:42
   def tld; end
 
-  # source://domain_name//lib/domain_name.rb#264
+  # pkg:gem/domain_name#lib/domain_name.rb:264
   def tld_idn; end
 
-  # source://domain_name//lib/domain_name.rb#238
+  # pkg:gem/domain_name#lib/domain_name.rb:238
   def to_s; end
 
-  # source://domain_name//lib/domain_name.rb#242
+  # pkg:gem/domain_name#lib/domain_name.rb:242
   def to_str; end
 
   # Returns a host name representation suitable for use in the host
   # name part of a URI.  A host name, an IPv4 address, or a IPv6
   # address enclosed in square brackets.
   #
-  # source://domain_name//lib/domain_name.rb#60
+  # pkg:gem/domain_name#lib/domain_name.rb:60
   def uri_host; end
 
   class << self
-    # source://domain_name//lib/domain_name/etld_data.rb#9572
+    # pkg:gem/domain_name#lib/domain_name/etld_data.rb:9572
     def etld_data; end
 
     # Normalizes a _domain_ using the Punycode algorithm as necessary.
     # Input must be strictly ASCII-only or unicode.
     # The result will be a downcased, ASCII-only string.
     #
-    # source://domain_name//lib/domain_name.rb#288
+    # pkg:gem/domain_name#lib/domain_name.rb:288
     def normalize(domain); end
   end
 end
 
-# source://domain_name//lib/domain_name.rb#73
+# pkg:gem/domain_name#lib/domain_name.rb:73
 DomainName::DOT = T.let(T.unsafe(nil), String)
 
-# source://domain_name//lib/domain_name/etld_data.rb#4
+# pkg:gem/domain_name#lib/domain_name/etld_data.rb:4
 DomainName::ETLD_DATA = T.let(T.unsafe(nil), Hash)
 
-# source://domain_name//lib/domain_name/etld_data.rb#2
+# pkg:gem/domain_name#lib/domain_name/etld_data.rb:2
 DomainName::ETLD_DATA_DATE = T.let(T.unsafe(nil), String)
 
-# source://domain_name//lib/domain_name/punycode.rb#52
+# pkg:gem/domain_name#lib/domain_name/punycode.rb:52
 module DomainName::Punycode
   class << self
     # Decode a +string+ encoded in Punycode
     #
-    # source://domain_name//lib/domain_name/punycode.rb#194
+    # pkg:gem/domain_name#lib/domain_name/punycode.rb:194
     def decode(string); end
 
     # Decode a hostname using IDN/Punycode algorithms
     #
-    # source://domain_name//lib/domain_name/punycode.rb#276
+    # pkg:gem/domain_name#lib/domain_name/punycode.rb:276
     def decode_hostname(hostname); end
 
     # Encode a +string+ in Punycode
     #
-    # source://domain_name//lib/domain_name/punycode.rb#101
+    # pkg:gem/domain_name#lib/domain_name/punycode.rb:101
     def encode(string); end
 
     # Encode a hostname using IDN/Punycode algorithms
     #
-    # source://domain_name//lib/domain_name/punycode.rb#181
+    # pkg:gem/domain_name#lib/domain_name/punycode.rb:181
     def encode_hostname(hostname); end
   end
 end
 
 # Most errors we raise are basically kind of ArgumentError.
 #
-# source://domain_name//lib/domain_name/punycode.rb#96
+# pkg:gem/domain_name#lib/domain_name/punycode.rb:96
 class DomainName::Punycode::ArgumentError < ::ArgumentError; end
 
-# source://domain_name//lib/domain_name/punycode.rb#53
+# pkg:gem/domain_name#lib/domain_name/punycode.rb:53
 DomainName::Punycode::BASE = T.let(T.unsafe(nil), Integer)
 
-# source://domain_name//lib/domain_name/punycode.rb#97
+# pkg:gem/domain_name#lib/domain_name/punycode.rb:97
 class DomainName::Punycode::BufferOverflowError < ::DomainName::Punycode::ArgumentError; end
 
-# source://domain_name//lib/domain_name/punycode.rb#65
+# pkg:gem/domain_name#lib/domain_name/punycode.rb:65
 DomainName::Punycode::CUTOFF = T.let(T.unsafe(nil), Integer)
 
-# source://domain_name//lib/domain_name/punycode.rb#57
+# pkg:gem/domain_name#lib/domain_name/punycode.rb:57
 DomainName::Punycode::DAMP = T.let(T.unsafe(nil), Integer)
 
 # Returns the numeric value of a basic code point (for use in
 # representing integers) in the range 0 to base-1, or nil if cp
 # is does not represent a value.
 #
-# source://domain_name//lib/domain_name/punycode.rb#72
+# pkg:gem/domain_name#lib/domain_name/punycode.rb:72
 DomainName::Punycode::DECODE_DIGIT = T.let(T.unsafe(nil), Hash)
 
-# source://domain_name//lib/domain_name/punycode.rb#60
+# pkg:gem/domain_name#lib/domain_name/punycode.rb:60
 DomainName::Punycode::DELIMITER = T.let(T.unsafe(nil), String)
 
-# source://domain_name//lib/domain_name/punycode.rb#92
+# pkg:gem/domain_name#lib/domain_name/punycode.rb:92
 DomainName::Punycode::DOT = T.let(T.unsafe(nil), String)
 
 # Returns the basic code point whose value (when used for
@@ -218,37 +257,37 @@ DomainName::Punycode::DOT = T.let(T.unsafe(nil), String)
 # undefined if flag is nonzero and digit d has no uppercase
 # form.
 #
-# source://domain_name//lib/domain_name/punycode.rb#86
+# pkg:gem/domain_name#lib/domain_name/punycode.rb:86
 DomainName::Punycode::ENCODE_DIGIT = T.let(T.unsafe(nil), Proc)
 
-# source://domain_name//lib/domain_name/punycode.rb#58
+# pkg:gem/domain_name#lib/domain_name/punycode.rb:58
 DomainName::Punycode::INITIAL_BIAS = T.let(T.unsafe(nil), Integer)
 
-# source://domain_name//lib/domain_name/punycode.rb#59
+# pkg:gem/domain_name#lib/domain_name/punycode.rb:59
 DomainName::Punycode::INITIAL_N = T.let(T.unsafe(nil), Integer)
 
-# source://domain_name//lib/domain_name/punycode.rb#64
+# pkg:gem/domain_name#lib/domain_name/punycode.rb:64
 DomainName::Punycode::LOBASE = T.let(T.unsafe(nil), Integer)
 
-# source://domain_name//lib/domain_name/punycode.rb#62
+# pkg:gem/domain_name#lib/domain_name/punycode.rb:62
 DomainName::Punycode::MAXINT = T.let(T.unsafe(nil), Integer)
 
-# source://domain_name//lib/domain_name/punycode.rb#93
+# pkg:gem/domain_name#lib/domain_name/punycode.rb:93
 DomainName::Punycode::PREFIX = T.let(T.unsafe(nil), String)
 
-# source://domain_name//lib/domain_name/punycode.rb#67
+# pkg:gem/domain_name#lib/domain_name/punycode.rb:67
 DomainName::Punycode::RE_NONBASIC = T.let(T.unsafe(nil), Regexp)
 
-# source://domain_name//lib/domain_name/punycode.rb#56
+# pkg:gem/domain_name#lib/domain_name/punycode.rb:56
 DomainName::Punycode::SKEW = T.let(T.unsafe(nil), Integer)
 
-# source://domain_name//lib/domain_name/punycode.rb#55
+# pkg:gem/domain_name#lib/domain_name/punycode.rb:55
 DomainName::Punycode::TMAX = T.let(T.unsafe(nil), Integer)
 
-# source://domain_name//lib/domain_name/punycode.rb#54
+# pkg:gem/domain_name#lib/domain_name/punycode.rb:54
 DomainName::Punycode::TMIN = T.let(T.unsafe(nil), Integer)
 
-# source://domain_name//lib/domain_name/version.rb#2
+# pkg:gem/domain_name#lib/domain_name/version.rb:2
 DomainName::VERSION = T.let(T.unsafe(nil), String)
 
 class Object < ::BasicObject
@@ -257,6 +296,8 @@ class Object < ::BasicObject
 
   private
 
-  # source://domain_name//lib/domain_name.rb#298
+  # Short hand for DomainName.new().
+  #
+  # pkg:gem/domain_name#lib/domain_name.rb:298
   def DomainName(hostname); end
 end

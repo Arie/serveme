@@ -5,109 +5,101 @@
 # Please instead update this file by running `bin/tapioca gem database_cleaner-active_record`.
 
 
-# source://database_cleaner-active_record//lib/database_cleaner/active_record/base.rb#5
+# pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/base.rb:5
 module DatabaseCleaner; end
 
-# source://database_cleaner-active_record//lib/database_cleaner/active_record/base.rb#6
+# pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/base.rb:6
 module DatabaseCleaner::ActiveRecord
   class << self
-    # source://database_cleaner-active_record//lib/database_cleaner/active_record/base.rb#11
+    # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/base.rb:11
     def config_file_location; end
 
-    # source://database_cleaner-active_record//lib/database_cleaner/active_record/base.rb#7
+    # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/base.rb:7
     def config_file_location=(path); end
   end
 end
 
-# source://database_cleaner-active_record//lib/database_cleaner/active_record/base.rb#15
+# pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/base.rb:15
 class DatabaseCleaner::ActiveRecord::Base < ::DatabaseCleaner::Strategy
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/base.rb#40
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/base.rb:40
   def connection_class; end
 
-  # Returns the value of attribute connection_hash.
-  #
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/base.rb#38
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/base.rb:38
   def connection_hash; end
 
-  # Sets the attribute connection_hash
-  #
-  # @param value the value to set the attribute connection_hash to.
-  #
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/base.rb#38
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/base.rb:38
   def connection_hash=(_arg0); end
 
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/base.rb#33
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/base.rb:33
   def db=(*_arg0); end
 
   private
 
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/base.rb#70
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/base.rb:70
   def active_record_config_hash_for(db); end
 
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/base.rb#92
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/base.rb:92
   def database_for(model); end
 
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/base.rb#87
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/base.rb:87
   def establish_connection; end
 
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/base.rb#52
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/base.rb:52
   def load_config; end
 
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/base.rb#78
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/base.rb:78
   def lookup_from_connection_pool; end
 
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/base.rb#64
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/base.rb:64
   def valid_config(connection_file, db); end
 
   class << self
-    # source://database_cleaner-active_record//lib/database_cleaner/active_record/base.rb#26
+    # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/base.rb:26
     def exclusion_condition(column_name); end
 
-    # source://database_cleaner-active_record//lib/database_cleaner/active_record/base.rb#16
+    # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/base.rb:16
     def migration_table_name; end
   end
 end
 
-# source://database_cleaner-active_record//lib/database_cleaner/active_record/truncation.rb#70
+# pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/truncation.rb:70
 class DatabaseCleaner::ActiveRecord::ConnectionWrapper < ::SimpleDelegator
-  # @return [ConnectionWrapper] a new instance of ConnectionWrapper
-  #
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/truncation.rb#71
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/truncation.rb:71
   def initialize(connection); end
 end
 
-# source://database_cleaner-active_record//lib/database_cleaner/active_record/truncation.rb#86
+# pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/truncation.rb:86
 module DatabaseCleaner::ActiveRecord::ConnectionWrapper::AbstractAdapter
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/truncation.rb#93
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/truncation.rb:93
   def database_cleaner_table_cache; end
 
   # used to be called views but that can clash with gems like schema_plus
   # this gem is not meant to be exposing such an extra interface any way
   #
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/truncation.rb#89
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/truncation.rb:89
   def database_cleaner_view_cache; end
 
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/truncation.rb#98
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/truncation.rb:98
   def database_tables; end
 
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/truncation.rb#102
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/truncation.rb:102
   def truncate_table(table_name); end
 
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/truncation.rb#108
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/truncation.rb:108
   def truncate_tables(tables, opts); end
 end
 
-# source://database_cleaner-active_record//lib/database_cleaner/active_record/truncation.rb#113
+# pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/truncation.rb:113
 module DatabaseCleaner::ActiveRecord::ConnectionWrapper::AbstractMysqlAdapter
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/truncation.rb#118
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/truncation.rb:118
   def pre_count_tables(tables); end
 
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/truncation.rb#114
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/truncation.rb:114
   def pre_count_truncate_tables(tables, opts = T.unsafe(nil)); end
 
   private
 
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/truncation.rb#128
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/truncation.rb:128
   def auto_increment_value(table); end
 
   # This method tells us if the given table has been inserted into since its
@@ -115,35 +107,31 @@ module DatabaseCleaner::ActiveRecord::ConnectionWrapper::AbstractMysqlAdapter
   # increased the auto-increment counter, but then cleaned again such that
   # it appears empty now.
   #
-  # @return [Boolean]
-  #
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/truncation.rb#141
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/truncation.rb:141
   def has_been_used?(table); end
 
-  # @return [Boolean]
-  #
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/truncation.rb#145
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/truncation.rb:145
   def has_rows?(table); end
 
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/truncation.rb#124
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/truncation.rb:124
   def row_count(table); end
 end
 
-# source://database_cleaner-active_record//lib/database_cleaner/active_record/truncation.rb#194
+# pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/truncation.rb:194
 module DatabaseCleaner::ActiveRecord::ConnectionWrapper::PostgreSQLAdapter
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/truncation.rb#213
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/truncation.rb:213
   def database_cleaner_table_cache; end
 
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/truncation.rb#195
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/truncation.rb:195
   def database_tables; end
 
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/truncation.rb#209
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/truncation.rb:209
   def pre_count_tables(tables); end
 
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/truncation.rb#205
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/truncation.rb:205
   def pre_count_truncate_tables(tables, opts = T.unsafe(nil)); end
 
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/truncation.rb#199
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/truncation.rb:199
   def truncate_tables(table_names, opts); end
 
   private
@@ -153,131 +141,113 @@ module DatabaseCleaner::ActiveRecord::ConnectionWrapper::PostgreSQLAdapter
   # but then the table is cleaned.  In other words, this function tells us if the given table
   # was ever inserted into.
   #
-  # @return [Boolean]
-  #
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/truncation.rb#228
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/truncation.rb:228
   def has_been_used?(table); end
 
-  # @return [Boolean]
-  #
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/truncation.rb#239
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/truncation.rb:239
   def has_rows?(table); end
 
-  # @return [Boolean]
-  #
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/truncation.rb#235
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/truncation.rb:235
   def has_sequence?(table); end
 
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/truncation.rb#243
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/truncation.rb:243
   def tables_with_schema; end
 end
 
-# source://database_cleaner-active_record//lib/database_cleaner/active_record/truncation.rb#150
+# pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/truncation.rb:150
 module DatabaseCleaner::ActiveRecord::ConnectionWrapper::SQLiteAdapter
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/truncation.rb#166
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/truncation.rb:166
   def pre_count_tables(tables); end
 
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/truncation.rb#162
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/truncation.rb:162
   def pre_count_truncate_tables(tables, opts = T.unsafe(nil)); end
 
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/truncation.rb#151
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/truncation.rb:151
   def truncate_table(table_name); end
 
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/truncation.rb#158
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/truncation.rb:158
   def truncate_tables(tables, opts); end
 
   private
 
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/truncation.rb#173
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/truncation.rb:173
   def fetch_sequences; end
 
-  # @return [Boolean]
-  #
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/truncation.rb#179
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/truncation.rb:179
   def has_been_used?(table, sequences); end
 
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/truncation.rb#184
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/truncation.rb:184
   def row_count(table); end
 
   # Returns a boolean indicating if the SQLite database is using the sqlite_sequence table.
   #
-  # @return [Boolean]
-  #
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/truncation.rb#189
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/truncation.rb:189
   def uses_sequence?; end
 end
 
-# source://database_cleaner-active_record//lib/database_cleaner/active_record/deletion.rb#3
+# pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/deletion.rb:3
 class DatabaseCleaner::ActiveRecord::Deletion < ::DatabaseCleaner::ActiveRecord::Truncation
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/deletion.rb#4
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/deletion.rb:4
   def clean; end
 
   private
 
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/deletion.rb#66
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/deletion.rb:66
   def build_table_stats_query(connection); end
 
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/deletion.rb#25
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/deletion.rb:25
   def delete_table(connection, table_name); end
 
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/deletion.rb#18
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/deletion.rb:18
   def delete_tables(connection, table_names); end
 
-  # @return [Boolean]
-  #
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/deletion.rb#79
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/deletion.rb:79
   def information_schema_exists?(connection); end
 
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/deletion.rb#29
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/deletion.rb:29
   def reset_id_sequence(connection, table_name); end
 
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/deletion.rb#60
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/deletion.rb:60
   def table_stats_query(connection); end
 
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/deletion.rb#42
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/deletion.rb:42
   def tables_to_clean(connection); end
 
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/deletion.rb#51
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/deletion.rb:51
   def tables_with_new_rows(connection); end
 end
 
-# source://database_cleaner-active_record//lib/database_cleaner/active_record/transaction.rb#3
+# pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/transaction.rb:3
 class DatabaseCleaner::ActiveRecord::Transaction < ::DatabaseCleaner::ActiveRecord::Base
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/transaction.rb#18
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/transaction.rb:18
   def clean; end
 
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/transaction.rb#4
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/transaction.rb:4
   def start; end
 end
 
-# source://database_cleaner-active_record//lib/database_cleaner/active_record/truncation.rb#6
+# pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/truncation.rb:6
 class DatabaseCleaner::ActiveRecord::Truncation < ::DatabaseCleaner::ActiveRecord::Base
-  # @return [Truncation] a new instance of Truncation
-  #
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/truncation.rb#7
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/truncation.rb:7
   def initialize(opts = T.unsafe(nil)); end
 
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/truncation.rb#21
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/truncation.rb:21
   def clean; end
 
   private
 
-  # @return [Boolean]
-  #
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/truncation.rb#61
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/truncation.rb:61
   def cache_tables?; end
 
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/truncation.rb#35
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/truncation.rb:35
   def connection; end
 
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/truncation.rb#54
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/truncation.rb:54
   def migration_storage_names; end
 
-  # @return [Boolean]
-  #
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/truncation.rb#65
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/truncation.rb:65
   def pre_count?; end
 
-  # source://database_cleaner-active_record//lib/database_cleaner/active_record/truncation.rb#45
+  # pkg:gem/database_cleaner-active_record#lib/database_cleaner/active_record/truncation.rb:45
   def tables_to_clean(connection); end
 end

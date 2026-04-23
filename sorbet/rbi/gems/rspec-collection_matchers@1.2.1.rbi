@@ -5,7 +5,7 @@
 # Please instead update this file by running `bin/tapioca gem rspec-collection_matchers`.
 
 
-# source://rspec-collection_matchers//lib/rspec/collection_matchers/rails_extensions.rb#2
+# pkg:gem/rspec-collection_matchers#lib/rspec/collection_matchers/rails_extensions.rb:2
 module ActiveModel::Validations
   include GeneratedInstanceMethods
   include ::ActiveSupport::Callbacks
@@ -19,21 +19,7 @@ module ActiveModel::Validations
   mixes_in_class_methods ::ActiveModel::Translation
   mixes_in_class_methods ::ActiveModel::Validations::HelperMethods
 
-  # Extension to enhance `to have` on AR Model instances.  Calls
-  # model.valid? in order to prepare the object's errors object. Accepts
-  # a :context option to specify the validation context.
-  #
-  # You can also use this to specify the content of the error messages.
-  #
-  # @example
-  #   expect(model).to have(:no).errors_on(:attribute)
-  #   expect(model).to have(1).error_on(:attribute)
-  #   expect(model).to have(n).errors_on(:attribute)
-  #   expect(model).to have(n).errors_on(:attribute, :context => :create)
-  #
-  #   expect(model.errors_on(:attribute)).to include("can't be blank")
-  #
-  # source://rspec-collection_matchers//lib/rspec/collection_matchers/rails_extensions.rb#24
+  # pkg:gem/rspec-collection_matchers#lib/rspec/collection_matchers/rails_extensions.rb:24
   def error_on(attribute, options = T.unsafe(nil)); end
 
   # Extension to enhance `to have` on AR Model instances.  Calls
@@ -44,14 +30,14 @@ module ActiveModel::Validations
   #
   # @example
   #
-  #   expect(model).to have(:no).errors_on(:attribute)
-  #   expect(model).to have(1).error_on(:attribute)
-  #   expect(model).to have(n).errors_on(:attribute)
-  #   expect(model).to have(n).errors_on(:attribute, :context => :create)
+  #     expect(model).to have(:no).errors_on(:attribute)
+  #     expect(model).to have(1).error_on(:attribute)
+  #     expect(model).to have(n).errors_on(:attribute)
+  #     expect(model).to have(n).errors_on(:attribute, :context => :create)
   #
-  #   expect(model.errors_on(:attribute)).to include("can't be blank")
+  #     expect(model.errors_on(:attribute)).to include("can't be blank")
   #
-  # source://rspec-collection_matchers//lib/rspec/collection_matchers/rails_extensions.rb#17
+  # pkg:gem/rspec-collection_matchers#lib/rspec/collection_matchers/rails_extensions.rb:17
   def errors_on(attribute, options = T.unsafe(nil)); end
 
   module GeneratedClassMethods
@@ -69,197 +55,142 @@ module ActiveModel::Validations
   end
 end
 
-# source://rspec-collection_matchers//lib/rspec/collection_matchers/version.rb#1
+# pkg:gem/rspec-collection_matchers#lib/rspec/collection_matchers/version.rb:1
 module RSpec; end
 
-# source://rspec-collection_matchers//lib/rspec/collection_matchers/version.rb#2
+# pkg:gem/rspec-collection_matchers#lib/rspec/collection_matchers/version.rb:2
 module RSpec::CollectionMatchers; end
 
-# source://rspec-collection_matchers//lib/rspec/collection_matchers/have.rb#3
+# pkg:gem/rspec-collection_matchers#lib/rspec/collection_matchers/have.rb:3
 class RSpec::CollectionMatchers::Have
   include ::RSpec::Matchers::Composable
 
-  # @return [Have] a new instance of Have
-  #
-  # source://rspec-collection_matchers//lib/rspec/collection_matchers/have.rb#9
+  # pkg:gem/rspec-collection_matchers#lib/rspec/collection_matchers/have.rb:9
   def initialize(expected, relativity = T.unsafe(nil)); end
 
-  # @return [Boolean]
-  #
-  # source://rspec-collection_matchers//lib/rspec/collection_matchers/have.rb#63
+  # pkg:gem/rspec-collection_matchers#lib/rspec/collection_matchers/have.rb:63
   def ==(collection_or_owner); end
 
-  # source://rspec-collection_matchers//lib/rspec/collection_matchers/have.rb#118
+  # pkg:gem/rspec-collection_matchers#lib/rspec/collection_matchers/have.rb:118
   def description; end
 
-  # source://rspec-collection_matchers//lib/rspec/collection_matchers/have.rb#65
+  # pkg:gem/rspec-collection_matchers#lib/rspec/collection_matchers/have.rb:65
   def determine_collection(collection_or_owner); end
 
-  # source://rspec-collection_matchers//lib/rspec/collection_matchers/have.rb#77
+  # pkg:gem/rspec-collection_matchers#lib/rspec/collection_matchers/have.rb:77
   def determine_query_method(collection); end
 
-  # source://rspec-collection_matchers//lib/rspec/collection_matchers/have.rb#89
+  # pkg:gem/rspec-collection_matchers#lib/rspec/collection_matchers/have.rb:89
   def failure_message; end
 
-  # source://rspec-collection_matchers//lib/rspec/collection_matchers/have.rb#93
+  # pkg:gem/rspec-collection_matchers#lib/rspec/collection_matchers/have.rb:93
   def failure_message_for_should; end
 
-  # source://rspec-collection_matchers//lib/rspec/collection_matchers/have.rb#116
+  # pkg:gem/rspec-collection_matchers#lib/rspec/collection_matchers/have.rb:116
   def failure_message_for_should_not; end
 
-  # source://rspec-collection_matchers//lib/rspec/collection_matchers/have.rb#95
+  # pkg:gem/rspec-collection_matchers#lib/rspec/collection_matchers/have.rb:95
   def failure_message_when_negated; end
 
-  # @return [Boolean]
-  #
-  # source://rspec-collection_matchers//lib/rspec/collection_matchers/have.rb#81
+  # pkg:gem/rspec-collection_matchers#lib/rspec/collection_matchers/have.rb:81
   def is_ignored_class?(collection); end
 
-  # @return [Boolean]
-  #
-  # source://rspec-collection_matchers//lib/rspec/collection_matchers/have.rb#42
+  # pkg:gem/rspec-collection_matchers#lib/rspec/collection_matchers/have.rb:42
   def matches?(collection_or_owner); end
 
-  # source://rspec-collection_matchers//lib/rspec/collection_matchers/have.rb#85
+  # pkg:gem/rspec-collection_matchers#lib/rspec/collection_matchers/have.rb:85
   def not_a_collection; end
 
-  # source://rspec-collection_matchers//lib/rspec/collection_matchers/have.rb#19
+  # pkg:gem/rspec-collection_matchers#lib/rspec/collection_matchers/have.rb:19
   def relativities; end
 
-  # @return [Boolean]
-  #
-  # source://rspec-collection_matchers//lib/rspec/collection_matchers/have.rb#123
+  # pkg:gem/rspec-collection_matchers#lib/rspec/collection_matchers/have.rb:123
   def respond_to?(m, include_all = T.unsafe(nil)); end
 
-  # @return [Boolean]
-  #
-  # source://rspec-collection_matchers//lib/rspec/collection_matchers/have.rb#27
+  # pkg:gem/rspec-collection_matchers#lib/rspec/collection_matchers/have.rb:27
   def supports_value_expectations?; end
 
   private
 
-  # source://rspec-collection_matchers//lib/rspec/collection_matchers/have.rb#143
+  # pkg:gem/rspec-collection_matchers#lib/rspec/collection_matchers/have.rb:143
   def enumerator_class; end
 
-  # source://rspec-collection_matchers//lib/rspec/collection_matchers/have.rb#151
+  # pkg:gem/rspec-collection_matchers#lib/rspec/collection_matchers/have.rb:151
   def errors_on_message(prefix, suffix = T.unsafe(nil)); end
 
-  # @return [Boolean]
-  #
-  # source://rspec-collection_matchers//lib/rspec/collection_matchers/have.rb#147
+  # pkg:gem/rspec-collection_matchers#lib/rspec/collection_matchers/have.rb:147
   def is_errors_on?; end
 
-  # source://rspec-collection_matchers//lib/rspec/collection_matchers/have.rb#129
+  # pkg:gem/rspec-collection_matchers#lib/rspec/collection_matchers/have.rb:129
   def method_missing(method, *args, &block); end
 
-  # source://rspec-collection_matchers//lib/rspec/collection_matchers/have.rb#139
+  # pkg:gem/rspec-collection_matchers#lib/rspec/collection_matchers/have.rb:139
   def relative_expectation; end
 end
 
-# source://rspec-collection_matchers//lib/rspec/collection_matchers/have.rb#7
+# pkg:gem/rspec-collection_matchers#lib/rspec/collection_matchers/have.rb:7
 RSpec::CollectionMatchers::Have::IGNORED_CLASSES = T.let(T.unsafe(nil), Array)
 
-# source://rspec-collection_matchers//lib/rspec/collection_matchers/have.rb#6
+# pkg:gem/rspec-collection_matchers#lib/rspec/collection_matchers/have.rb:6
 RSpec::CollectionMatchers::Have::QUERY_METHODS = T.let(T.unsafe(nil), Array)
 
-# source://rspec-collection_matchers//lib/rspec/collection_matchers/have.rb#156
+# pkg:gem/rspec-collection_matchers#lib/rspec/collection_matchers/have.rb:156
 module RSpec::CollectionMatchers::Syntax
   class << self
+    # @api private
     # Selects which expression generator to use based on the configured syntax.
     #
-    # @api private
-    #
-    # source://rspec-collection_matchers//lib/rspec/collection_matchers/have.rb#171
+    # pkg:gem/rspec-collection_matchers#lib/rspec/collection_matchers/have.rb:171
     def expression_generator; end
 
+    # @api private
     # Generates a negative expectation expression.
     #
-    # @api private
-    #
-    # source://rspec-collection_matchers//lib/rspec/collection_matchers/have.rb#165
+    # pkg:gem/rspec-collection_matchers#lib/rspec/collection_matchers/have.rb:165
     def negative_expression(target_expression, matcher_expression); end
 
+    # @api private
     # Generates a positive expectation expression.
     #
-    # @api private
-    #
-    # source://rspec-collection_matchers//lib/rspec/collection_matchers/have.rb#159
+    # pkg:gem/rspec-collection_matchers#lib/rspec/collection_matchers/have.rb:159
     def positive_expression(target_expression, matcher_expression); end
   end
 end
 
+# @api private
 # Generates expectation expressions for the `expect` syntax.
 #
-# @api private
-#
-# source://rspec-collection_matchers//lib/rspec/collection_matchers/have.rb#193
+# pkg:gem/rspec-collection_matchers#lib/rspec/collection_matchers/have.rb:193
 module RSpec::CollectionMatchers::Syntax::ExpectExpressionGenerator
   class << self
-    # @api private
-    #
-    # source://rspec-collection_matchers//lib/rspec/collection_matchers/have.rb#198
+    # pkg:gem/rspec-collection_matchers#lib/rspec/collection_matchers/have.rb:198
     def negative_expression(target_expression, matcher_expression); end
 
-    # @api private
-    #
-    # source://rspec-collection_matchers//lib/rspec/collection_matchers/have.rb#194
+    # pkg:gem/rspec-collection_matchers#lib/rspec/collection_matchers/have.rb:194
     def positive_expression(target_expression, matcher_expression); end
   end
 end
 
+# @api private
 # Generates expectation expressions for the `should` syntax.
 #
-# @api private
-#
-# source://rspec-collection_matchers//lib/rspec/collection_matchers/have.rb#181
+# pkg:gem/rspec-collection_matchers#lib/rspec/collection_matchers/have.rb:181
 module RSpec::CollectionMatchers::Syntax::ShouldExpressionGenerator
   class << self
-    # @api private
-    #
-    # source://rspec-collection_matchers//lib/rspec/collection_matchers/have.rb#186
+    # pkg:gem/rspec-collection_matchers#lib/rspec/collection_matchers/have.rb:186
     def negative_expression(target_expression, matcher_expression); end
 
-    # @api private
-    #
-    # source://rspec-collection_matchers//lib/rspec/collection_matchers/have.rb#182
+    # pkg:gem/rspec-collection_matchers#lib/rspec/collection_matchers/have.rb:182
     def positive_expression(target_expression, matcher_expression); end
   end
 end
 
-# source://rspec-collection_matchers//lib/rspec/collection_matchers/version.rb#3
+# pkg:gem/rspec-collection_matchers#lib/rspec/collection_matchers/version.rb:3
 RSpec::CollectionMatchers::VERSION = T.let(T.unsafe(nil), String)
 
-# source://rspec-collection_matchers//lib/rspec/collection_matchers/matchers.rb#4
+# pkg:gem/rspec-collection_matchers#lib/rspec/collection_matchers/matchers.rb:4
 module RSpec::Matchers
-  # Passes if receiver is a collection with the submitted number of items OR
-  # if the receiver OWNS a collection with the submitted number of items.
-  #
-  # If the receiver OWNS the collection, you must use the name of the
-  # collection. So if a `Team` instance has a collection named `#players`,
-  # you must use that name to set the expectation.
-  #
-  # If the receiver IS the collection, you can use any name you like for
-  # `named_collection`. We'd recommend using either "elements", "members", or
-  # "items" as these are all standard ways of describing the things IN a
-  # collection.
-  #
-  # This also works for Strings, letting you set expectations about their
-  # lengths.
-  #
-  # @example
-  #   # Passes if team.players.size == 11
-  #   expect(team).to have(11).players
-  #
-  #   # Passes if [1,2,3].length == 3
-  #   expect([1,2,3]).to have(3).items #"items" is pure sugar
-  #
-  #   # Passes if ['a', 'b', 'c'].count == 3
-  #   expect([1,2,3]).to have(3).items #"items" is pure sugar
-  #
-  #   # Passes if "this string".length == 11
-  #   expect("this string").to have(11).characters #"characters" is pure sugar
-  #
-  # source://rspec-collection_matchers//lib/rspec/collection_matchers/matchers.rb#37
+  # pkg:gem/rspec-collection_matchers#lib/rspec/collection_matchers/matchers.rb:37
   def a_collection_having(n); end
 
   # Passes if receiver is a collection with the submitted number of items OR
@@ -291,61 +222,33 @@ module RSpec::Matchers
   #   # Passes if "this string".length == 11
   #   expect("this string").to have(11).characters #"characters" is pure sugar
   #
-  # source://rspec-collection_matchers//lib/rspec/collection_matchers/matchers.rb#33
+  # pkg:gem/rspec-collection_matchers#lib/rspec/collection_matchers/matchers.rb:33
   def have(n); end
 
   # Exactly like have() with >=.
+  #
+  # @example
+  #   expect("this").to have_at_least(3).letters
   #
   # ### Warning:
   #
   # `expect(..).not_to have_at_least` is not supported
   #
-  # @example
-  #   expect("this").to have_at_least(3).letters
-  #
-  # source://rspec-collection_matchers//lib/rspec/collection_matchers/matchers.rb#47
+  # pkg:gem/rspec-collection_matchers#lib/rspec/collection_matchers/matchers.rb:47
   def have_at_least(n); end
 
   # Exactly like have() with <=.
+  #
+  # @example
+  #   expect("this").to have_at_most(4).letters
   #
   # ### Warning:
   #
   # `expect(..).not_to have_at_most` is not supported
   #
-  # @example
-  #   expect("this").to have_at_most(4).letters
-  #
-  # source://rspec-collection_matchers//lib/rspec/collection_matchers/matchers.rb#59
+  # pkg:gem/rspec-collection_matchers#lib/rspec/collection_matchers/matchers.rb:59
   def have_at_most(n); end
 
-  # Passes if receiver is a collection with the submitted number of items OR
-  # if the receiver OWNS a collection with the submitted number of items.
-  #
-  # If the receiver OWNS the collection, you must use the name of the
-  # collection. So if a `Team` instance has a collection named `#players`,
-  # you must use that name to set the expectation.
-  #
-  # If the receiver IS the collection, you can use any name you like for
-  # `named_collection`. We'd recommend using either "elements", "members", or
-  # "items" as these are all standard ways of describing the things IN a
-  # collection.
-  #
-  # This also works for Strings, letting you set expectations about their
-  # lengths.
-  #
-  # @example
-  #   # Passes if team.players.size == 11
-  #   expect(team).to have(11).players
-  #
-  #   # Passes if [1,2,3].length == 3
-  #   expect([1,2,3]).to have(3).items #"items" is pure sugar
-  #
-  #   # Passes if ['a', 'b', 'c'].count == 3
-  #   expect([1,2,3]).to have(3).items #"items" is pure sugar
-  #
-  #   # Passes if "this string".length == 11
-  #   expect("this string").to have(11).characters #"characters" is pure sugar
-  #
-  # source://rspec-collection_matchers//lib/rspec/collection_matchers/matchers.rb#36
+  # pkg:gem/rspec-collection_matchers#lib/rspec/collection_matchers/matchers.rb:36
   def have_exactly(n); end
 end

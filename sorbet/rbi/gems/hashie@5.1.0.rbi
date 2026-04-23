@@ -5,14 +5,28 @@
 # Please instead update this file by running `bin/tapioca gem hashie`.
 
 
-# source://hashie//lib/hashie/extensions/stringify_keys.rb#1
+# Copyright (c) Chad Fowler, Rich Kilmer, Jim Weirich and others.
+# Portions copyright (c) Engine Yard and Andre Arko
+#
+# Permission is hereby granted, free of charge, to any person obtaining
+# a copy of this software and associated documentation files (the
+# 'Software'), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, sublicense, and/or sell copies of the Software, and to
+# permit persons to whom the Software is furnished to do so, subject to
+# the following conditions:
+#
+# The above copyright notice and this permission notice shall be
+# included in all copies or substantial portions of the Software.
+#
+# pkg:gem/hashie#lib/hashie/extensions/stringify_keys.rb:1
 module Hashie
   class << self
     # The logger that Hashie uses for reporting errors.
     #
     # @return [Logger]
     #
-    # source://hashie//lib/hashie/logger.rb#7
+    # pkg:gem/hashie#lib/hashie/logger.rb:7
     def logger; end
 
     # Sets the logger that Hashie uses for reporting errors.
@@ -20,55 +34,52 @@ module Hashie
     # @param logger [Logger] The logger to set as Hashie's logger.
     # @return [void]
     #
-    # source://hashie//lib/hashie/logger.rb#15
+    # pkg:gem/hashie#lib/hashie/logger.rb:15
     def logger=(logger); end
   end
 end
 
-# source://hashie//lib/hashie/array.rb#5
+# pkg:gem/hashie#lib/hashie/array.rb:5
 class Hashie::Array < ::Array
   include ::Hashie::Extensions::Array::PrettyInspect
   include ::Hashie::Extensions::RubyVersionCheck
   extend ::Hashie::Extensions::RubyVersionCheck::ClassMethods
 
-  # source://hashie//lib/hashie/array.rb#6
+  # pkg:gem/hashie#lib/hashie/array.rb:6
   def array_inspect; end
 
-  # source://hashie//lib/hashie/array.rb#9
+  # pkg:gem/hashie#lib/hashie/array.rb:9
   def dig(*indexes); end
 
-  # source://hashie//lib/hashie/array.rb#6
+  # pkg:gem/hashie#lib/hashie/array.rb:6
   def inspect; end
 end
 
-# source://hashie//lib/hashie/extensions/stringify_keys.rb#2
+# pkg:gem/hashie#lib/hashie/extensions/stringify_keys.rb:2
 module Hashie::Extensions; end
 
-# source://hashie//lib/hashie/extensions/array/pretty_inspect.rb#3
+# pkg:gem/hashie#lib/hashie/extensions/array/pretty_inspect.rb:3
 module Hashie::Extensions::Array; end
 
-# source://hashie//lib/hashie/extensions/array/pretty_inspect.rb#4
+# pkg:gem/hashie#lib/hashie/extensions/array/pretty_inspect.rb:4
 module Hashie::Extensions::Array::PrettyInspect
-  # source://hashie//lib/hashie/extensions/array/pretty_inspect.rb#10
+  # pkg:gem/hashie#lib/hashie/extensions/array/pretty_inspect.rb:10
   def hashie_inspect; end
 
   class << self
-    # @private
-    #
-    # source://hashie//lib/hashie/extensions/array/pretty_inspect.rb#5
+    # pkg:gem/hashie#lib/hashie/extensions/array/pretty_inspect.rb:5
     def included(base); end
   end
 end
 
-# source://hashie//lib/hashie/extensions/key_conflict_warning.rb#3
+# pkg:gem/hashie#lib/hashie/extensions/key_conflict_warning.rb:3
 module Hashie::Extensions::KeyConflictWarning
   # Disable the logging of warnings based on keys conflicting keys/methods
   #
   # @api semipublic
-  # @raise [CannotDisableMashWarnings]
   # @return [void]
   #
-  # source://hashie//lib/hashie/extensions/key_conflict_warning.rb#17
+  # pkg:gem/hashie#lib/hashie/extensions/key_conflict_warning.rb:17
   def disable_warnings(*method_keys); end
 
   # Checks whether this class disables warnings for conflicting keys/methods
@@ -76,7 +87,7 @@ module Hashie::Extensions::KeyConflictWarning
   # @api semipublic
   # @return [Boolean]
   #
-  # source://hashie//lib/hashie/extensions/key_conflict_warning.rb#32
+  # pkg:gem/hashie#lib/hashie/extensions/key_conflict_warning.rb:32
   def disable_warnings?(method_key = T.unsafe(nil)); end
 
   # Returns an array of methods that this class disables warnings for.
@@ -84,7 +95,7 @@ module Hashie::Extensions::KeyConflictWarning
   # @api semipublic
   # @return [Boolean]
   #
-  # source://hashie//lib/hashie/extensions/key_conflict_warning.rb#41
+  # pkg:gem/hashie#lib/hashie/extensions/key_conflict_warning.rb:41
   def disabled_warnings; end
 
   # Inheritance hook that sets class configuration when inherited.
@@ -92,92 +103,76 @@ module Hashie::Extensions::KeyConflictWarning
   # @api semipublic
   # @return [void]
   #
-  # source://hashie//lib/hashie/extensions/key_conflict_warning.rb#49
+  # pkg:gem/hashie#lib/hashie/extensions/key_conflict_warning.rb:49
   def inherited(subclass); end
 end
 
-# source://hashie//lib/hashie/extensions/key_conflict_warning.rb#4
+# pkg:gem/hashie#lib/hashie/extensions/key_conflict_warning.rb:4
 class Hashie::Extensions::KeyConflictWarning::CannotDisableMashWarnings < ::StandardError
-  # @return [CannotDisableMashWarnings] a new instance of CannotDisableMashWarnings
-  #
-  # source://hashie//lib/hashie/extensions/key_conflict_warning.rb#5
+  # pkg:gem/hashie#lib/hashie/extensions/key_conflict_warning.rb:5
   def initialize; end
 end
 
-# source://hashie//lib/hashie/extensions/pretty_inspect.rb#3
+# pkg:gem/hashie#lib/hashie/extensions/pretty_inspect.rb:3
 module Hashie::Extensions::PrettyInspect
-  # source://hashie//lib/hashie/extensions/pretty_inspect.rb#9
+  # pkg:gem/hashie#lib/hashie/extensions/pretty_inspect.rb:9
   def hashie_inspect; end
 
   class << self
-    # @private
-    #
-    # source://hashie//lib/hashie/extensions/pretty_inspect.rb#4
+    # pkg:gem/hashie#lib/hashie/extensions/pretty_inspect.rb:4
     def included(base); end
   end
 end
 
-# source://hashie//lib/hashie/extensions/ruby_version.rb#17
+# pkg:gem/hashie#lib/hashie/extensions/ruby_version.rb:17
 class Hashie::Extensions::RubyVersion
   include ::Comparable
 
-  # @return [RubyVersion] a new instance of RubyVersion
-  #
-  # source://hashie//lib/hashie/extensions/ruby_version.rb#22
+  # pkg:gem/hashie#lib/hashie/extensions/ruby_version.rb:22
   def initialize(version); end
 
-  # source://hashie//lib/hashie/extensions/ruby_version.rb#26
+  # pkg:gem/hashie#lib/hashie/extensions/ruby_version.rb:26
   def <=>(other); end
 
-  # Returns the value of attribute segments.
-  #
-  # source://hashie//lib/hashie/extensions/ruby_version.rb#20
+  # pkg:gem/hashie#lib/hashie/extensions/ruby_version.rb:20
   def segments; end
 
-  # Sets the attribute segments
-  #
-  # @param value the value to set the attribute segments to.
-  #
-  # source://hashie//lib/hashie/extensions/ruby_version.rb#20
+  # pkg:gem/hashie#lib/hashie/extensions/ruby_version.rb:20
   def segments=(_arg0); end
 
   private
 
-  # source://hashie//lib/hashie/extensions/ruby_version.rb#53
+  # pkg:gem/hashie#lib/hashie/extensions/ruby_version.rb:53
   def split_to_segments(version); end
 end
 
-# source://hashie//lib/hashie/extensions/ruby_version_check.rb#5
+# pkg:gem/hashie#lib/hashie/extensions/ruby_version_check.rb:5
 module Hashie::Extensions::RubyVersionCheck
   mixes_in_class_methods ::Hashie::Extensions::RubyVersionCheck::ClassMethods
 
   class << self
-    # @private
-    #
-    # source://hashie//lib/hashie/extensions/ruby_version_check.rb#6
+    # pkg:gem/hashie#lib/hashie/extensions/ruby_version_check.rb:6
     def included(base); end
   end
 end
 
-# source://hashie//lib/hashie/extensions/ruby_version_check.rb#10
+# pkg:gem/hashie#lib/hashie/extensions/ruby_version_check.rb:10
 module Hashie::Extensions::RubyVersionCheck::ClassMethods
-  # source://hashie//lib/hashie/extensions/ruby_version_check.rb#11
+  # pkg:gem/hashie#lib/hashie/extensions/ruby_version_check.rb:11
   def with_minimum_ruby(version); end
 
-  # @return [Boolean]
-  #
-  # source://hashie//lib/hashie/extensions/ruby_version_check.rb#15
+  # pkg:gem/hashie#lib/hashie/extensions/ruby_version_check.rb:15
   def with_minimum_ruby?(version); end
 end
 
-# source://hashie//lib/hashie/extensions/stringify_keys.rb#3
+# pkg:gem/hashie#lib/hashie/extensions/stringify_keys.rb:3
 module Hashie::Extensions::StringifyKeys
   extend ::Hashie::Extensions::StringifyKeys::ClassMethods
 
   # Return a new hash with all keys converted
   # to strings.
   #
-  # source://hashie//lib/hashie/extensions/stringify_keys.rb#17
+  # pkg:gem/hashie#lib/hashie/extensions/stringify_keys.rb:17
   def stringify_keys; end
 
   # Convert all keys in the hash to strings.
@@ -187,37 +182,35 @@ module Hashie::Extensions::StringifyKeys
   #   test.stringify_keys!
   #   test # => {'abc' => 'def'}
   #
-  # source://hashie//lib/hashie/extensions/stringify_keys.rb#10
+  # pkg:gem/hashie#lib/hashie/extensions/stringify_keys.rb:10
   def stringify_keys!; end
 end
 
-# source://hashie//lib/hashie/extensions/stringify_keys.rb#21
+# pkg:gem/hashie#lib/hashie/extensions/stringify_keys.rb:21
 module Hashie::Extensions::StringifyKeys::ClassMethods
   # Return a copy of hash with all keys converted
   # to strings.
+  # @param [::Hash] hash
   #
-  # @param hash [::Hash]
-  #
-  # source://hashie//lib/hashie/extensions/stringify_keys.rb#57
+  # pkg:gem/hashie#lib/hashie/extensions/stringify_keys.rb:57
   def stringify_keys(hash); end
 
   # Convert all keys in the hash to strings.
   #
+  # @param [::Hash] hash
   # @example
   #   test = {:abc => 'def'}
   #   test.stringify_keys!
   #   test # => {'abc' => 'def'}
-  # @param hash [::Hash]
   #
-  # source://hashie//lib/hashie/extensions/stringify_keys.rb#45
+  # pkg:gem/hashie#lib/hashie/extensions/stringify_keys.rb:45
   def stringify_keys!(hash); end
 
   # Stringify all keys recursively within nested
   # hashes and arrays.
-  #
   # @api private
   #
-  # source://hashie//lib/hashie/extensions/stringify_keys.rb#25
+  # pkg:gem/hashie#lib/hashie/extensions/stringify_keys.rb:25
   def stringify_keys_recursively!(object); end
 end
 
@@ -225,38 +218,38 @@ end
 # functions baked in such as stringify_keys that may
 # not be available in all libraries.
 #
-# source://hashie//lib/hashie/hash.rb#8
+# pkg:gem/hashie#lib/hashie/hash.rb:8
 class Hashie::Hash < ::Hash
   include ::Hashie::Extensions::PrettyInspect
   include ::Hashie::Extensions::StringifyKeys
 
-  # source://hashie//lib/hashie/hash.rb#9
+  # pkg:gem/hashie#lib/hashie/hash.rb:9
   def hash_inspect; end
 
-  # source://hashie//lib/hashie/hash.rb#9
+  # pkg:gem/hashie#lib/hashie/hash.rb:9
   def inspect; end
 
   # Converts a mash back to a hash (with stringified or symbolized keys)
   #
-  # source://hashie//lib/hashie/hash.rb#18
+  # pkg:gem/hashie#lib/hashie/hash.rb:18
   def to_hash(options = T.unsafe(nil)); end
 
   # The C generator for the json gem doesn't like mashies
   #
-  # source://hashie//lib/hashie/hash.rb#42
+  # pkg:gem/hashie#lib/hashie/hash.rb:42
   def to_json(*args); end
 
   # Convert this hash into a Mash
   #
-  # source://hashie//lib/hashie/hash.rb#13
+  # pkg:gem/hashie#lib/hashie/hash.rb:13
   def to_mash; end
 
   private
 
-  # source://hashie//lib/hashie/hash.rb#54
+  # pkg:gem/hashie#lib/hashie/hash.rb:54
   def flexibly_convert_to_hash(object, options = T.unsafe(nil)); end
 
-  # source://hashie//lib/hashie/hash.rb#48
+  # pkg:gem/hashie#lib/hashie/hash.rb:48
   def maybe_convert_to_hash(object, options); end
 end
 
@@ -316,7 +309,7 @@ end
 #   mash.author_.name = "Michael Bleigh"  (assigned to temp object)
 #   mash.author # => <Mash>
 #
-# source://hashie//lib/hashie/mash.rb#64
+# pkg:gem/hashie#lib/hashie/mash.rb:64
 class Hashie::Mash < ::Hashie::Hash
   include ::Hashie::Extensions::RubyVersionCheck
   extend ::Hashie::Extensions::RubyVersionCheck::ClassMethods
@@ -327,264 +320,226 @@ class Hashie::Mash < ::Hashie::Hash
   # descending into arrays and hashes, converting
   # them as well.
   #
-  # @return [Mash] a new instance of Mash
-  #
-  # source://hashie//lib/hashie/mash.rb#100
+  # pkg:gem/hashie#lib/hashie/mash.rb:100
   def initialize(source_hash = T.unsafe(nil), default = T.unsafe(nil), &blk); end
 
-  # Retrieves an attribute set in the Mash. Will convert a key passed in
-  # as a symbol to a string before retrieving.
-  #
-  # @yield [value]
-  #
-  # source://hashie//lib/hashie/mash.rb#140
+  # pkg:gem/hashie#lib/hashie/mash.rb:140
   def [](key); end
 
-  # Sets an attribute in the Mash. Symbol keys will be converted to
-  # strings before being set, and Hashes will be converted into Mashes
-  # for nesting purposes.
-  #
-  # source://hashie//lib/hashie/mash.rb#141
+  # pkg:gem/hashie#lib/hashie/mash.rb:141
   def []=(key, value, convert = T.unsafe(nil)); end
 
   # Assigns a value to a key
   #
-  # source://hashie//lib/hashie/mash.rb#259
+  # pkg:gem/hashie#lib/hashie/mash.rb:259
   def assign_property(name, value); end
 
   # Returns a new instance of the class it was called on, with nil values
   # removed.
   #
-  # source://hashie//lib/hashie/mash.rb#335
+  # pkg:gem/hashie#lib/hashie/mash.rb:335
   def compact; end
 
   # Retrieves an attribute set in the Mash. Will convert a key passed in
   # as a symbol to a string before retrieving.
   #
-  # @yield [value]
-  #
-  # source://hashie//lib/hashie/mash.rb#125
+  # pkg:gem/hashie#lib/hashie/mash.rb:125
   def custom_reader(key); end
 
   # Sets an attribute in the Mash. Symbol keys will be converted to
   # strings before being set, and Hashes will be converted into Mashes
   # for nesting purposes.
   #
-  # source://hashie//lib/hashie/mash.rb#135
+  # pkg:gem/hashie#lib/hashie/mash.rb:135
   def custom_writer(key, value, convert = T.unsafe(nil)); end
 
   # Performs a deep_update on a duplicate of the
   # current mash.
+  # Performs a deep_update on a duplicate of the
+  # current mash.
   #
-  # source://hashie//lib/hashie/mash.rb#210
+  # pkg:gem/hashie#lib/hashie/mash.rb:210
   def deep_merge(*other_hashes, &blk); end
 
-  # Recursively merges this mash with the passed
-  # in hash, merging each hash in the hierarchy.
-  #
-  # source://hashie//lib/hashie/mash.rb#240
+  # pkg:gem/hashie#lib/hashie/mash.rb:240
   def deep_merge!(*other_hashes, &blk); end
 
   # Recursively merges this mash with the passed
   # in hash, merging each hash in the hierarchy.
+  # Recursively merges this mash with the passed
+  # in hash, merging each hash in the hierarchy.
   #
-  # source://hashie//lib/hashie/mash.rb#216
+  # pkg:gem/hashie#lib/hashie/mash.rb:216
   def deep_update(*other_hashes, &blk); end
 
-  # source://hashie//lib/hashie/mash.rb#166
+  # pkg:gem/hashie#lib/hashie/mash.rb:166
   def delete(key); end
 
-  # source://hashie//lib/hashie/mash.rb#325
+  # pkg:gem/hashie#lib/hashie/mash.rb:325
   def dig(*keys); end
 
   # Duplicates the current mash as a new mash.
   #
-  # source://hashie//lib/hashie/mash.rb#195
+  # pkg:gem/hashie#lib/hashie/mash.rb:195
   def dup; end
 
-  # source://hashie//lib/hashie/mash.rb#351
+  # pkg:gem/hashie#lib/hashie/mash.rb:351
   def except(*keys); end
 
   # play nice with ActiveSupport Array#extract_options!
   #
-  # @return [Boolean]
-  #
-  # source://hashie//lib/hashie/mash.rb#316
+  # pkg:gem/hashie#lib/hashie/mash.rb:316
   def extractable_options?; end
 
-  # source://hashie//lib/hashie/mash.rb#162
+  # pkg:gem/hashie#lib/hashie/mash.rb:162
   def fetch(key, *args); end
 
-  # @return [Boolean]
-  #
-  # source://hashie//lib/hashie/mash.rb#203
+  # pkg:gem/hashie#lib/hashie/mash.rb:203
   def has_key?(key); end
 
-  # @return [Boolean]
-  #
-  # source://hashie//lib/hashie/mash.rb#204
+  # pkg:gem/hashie#lib/hashie/mash.rb:204
   def include?(key); end
 
   # This is the bang method reader, it will return a new Mash
   # if there isn't a value already assigned to the key requested.
   #
-  # source://hashie//lib/hashie/mash.rb#145
+  # pkg:gem/hashie#lib/hashie/mash.rb:145
   def initializing_reader(key); end
 
   # Returns a new instance of the class it was called on, using its keys as
   # values, and its values as keys. The new values and keys will always be
   # strings.
   #
-  # source://hashie//lib/hashie/mash.rb#177
+  # pkg:gem/hashie#lib/hashie/mash.rb:177
   def invert; end
 
-  # @return [Boolean]
-  #
-  # source://hashie//lib/hashie/mash.rb#200
+  # pkg:gem/hashie#lib/hashie/mash.rb:200
   def key?(key); end
 
-  # @return [Boolean]
-  #
-  # source://hashie//lib/hashie/mash.rb#205
+  # pkg:gem/hashie#lib/hashie/mash.rb:205
   def member?(key); end
 
-  # Performs a deep_update on a duplicate of the
-  # current mash.
   # Alias these lexically so they get the correctly defined
   # #deep_merge and #deep_update based on ruby version.
   #
-  # source://hashie//lib/hashie/mash.rb#239
+  # pkg:gem/hashie#lib/hashie/mash.rb:239
   def merge(*other_hashes, &blk); end
 
-  # Recursively merges this mash with the passed
-  # in hash, merging each hash in the hierarchy.
-  #
-  # source://hashie//lib/hashie/mash.rb#242
+  # pkg:gem/hashie#lib/hashie/mash.rb:242
   def merge!(*other_hashes, &blk); end
 
-  # source://hashie//lib/hashie/mash.rb#298
+  # pkg:gem/hashie#lib/hashie/mash.rb:298
   def method_missing(method_name, *args, &blk); end
 
-  # @return [Boolean]
-  #
-  # source://hashie//lib/hashie/mash.rb#293
+  # pkg:gem/hashie#lib/hashie/mash.rb:293
   def prefix_method?(method_name); end
 
-  # source://hashie//lib/hashie/mash.rb#193
+  # pkg:gem/hashie#lib/hashie/mash.rb:193
   def regular_dup; end
 
-  # source://hashie//lib/hashie/mash.rb#199
+  # pkg:gem/hashie#lib/hashie/mash.rb:199
   def regular_key?(_arg0); end
 
-  # source://hashie//lib/hashie/mash.rb#120
+  # pkg:gem/hashie#lib/hashie/mash.rb:120
   def regular_reader(_arg0); end
 
-  # source://hashie//lib/hashie/mash.rb#121
+  # pkg:gem/hashie#lib/hashie/mash.rb:121
   def regular_writer(_arg0, _arg1); end
 
   # Returns a new instance of the class it was called on, containing elements
   # for which the given block returns false.
   #
-  # source://hashie//lib/hashie/mash.rb#183
+  # pkg:gem/hashie#lib/hashie/mash.rb:183
   def reject(&blk); end
 
-  # source://hashie//lib/hashie/mash.rb#277
+  # pkg:gem/hashie#lib/hashie/mash.rb:277
   def replace(other_hash); end
 
   # another ActiveSupport method, see issue #270
   #
-  # source://hashie//lib/hashie/mash.rb#321
+  # pkg:gem/hashie#lib/hashie/mash.rb:321
   def reverse_merge(other_hash); end
 
   # Returns a new instance of the class it was called on, containing elements
   # for which the given block returns true.
   #
-  # source://hashie//lib/hashie/mash.rb#189
+  # pkg:gem/hashie#lib/hashie/mash.rb:189
   def select(&blk); end
 
   # Performs a shallow_update on a duplicate of the current mash
   #
-  # source://hashie//lib/hashie/mash.rb#264
+  # pkg:gem/hashie#lib/hashie/mash.rb:264
   def shallow_merge(other_hash); end
 
   # Merges (non-recursively) the hash from the argument,
   # changing the receiving hash
   #
-  # source://hashie//lib/hashie/mash.rb#270
+  # pkg:gem/hashie#lib/hashie/mash.rb:270
   def shallow_update(other_hash); end
 
-  # source://hashie//lib/hashie/mash.rb#340
+  # pkg:gem/hashie#lib/hashie/mash.rb:340
   def slice(*keys); end
 
-  # source://hashie//lib/hashie/mash.rb#81
+  # pkg:gem/hashie#lib/hashie/mash.rb:81
   def to_module(mash_method_name = T.unsafe(nil)); end
 
-  # source://hashie//lib/hashie/mash.rb#94
+  # pkg:gem/hashie#lib/hashie/mash.rb:94
   def to_s; end
 
-  # source://hashie//lib/hashie/mash.rb#345
+  # pkg:gem/hashie#lib/hashie/mash.rb:345
   def transform_keys(&blk); end
 
-  # source://hashie//lib/hashie/mash.rb#329
+  # pkg:gem/hashie#lib/hashie/mash.rb:329
   def transform_values(&blk); end
 
   # This is the under bang method reader, it will return a temporary new Mash
   # if there isn't a value already assigned to the key requested.
   #
-  # source://hashie//lib/hashie/mash.rb#153
+  # pkg:gem/hashie#lib/hashie/mash.rb:153
   def underbang_reader(key); end
 
-  # Recursively merges this mash with the passed
-  # in hash, merging each hash in the hierarchy.
-  #
-  # source://hashie//lib/hashie/mash.rb#241
+  # pkg:gem/hashie#lib/hashie/mash.rb:241
   def update(*other_hashes, &blk); end
 
-  # source://hashie//lib/hashie/mash.rb#170
+  # pkg:gem/hashie#lib/hashie/mash.rb:170
   def values_at(*keys); end
 
-  # source://hashie//lib/hashie/mash.rb#90
+  # pkg:gem/hashie#lib/hashie/mash.rb:90
   def with_accessors!; end
 
   protected
 
-  # source://hashie//lib/hashie/mash.rb#373
+  # pkg:gem/hashie#lib/hashie/mash.rb:373
   def convert_key(key); end
 
-  # source://hashie//lib/hashie/mash.rb#377
+  # pkg:gem/hashie#lib/hashie/mash.rb:377
   def convert_value(val, duping = T.unsafe(nil)); end
 
-  # source://hashie//lib/hashie/mash.rb#359
+  # pkg:gem/hashie#lib/hashie/mash.rb:359
   def method_name_and_suffix(method_name); end
 
-  # source://hashie//lib/hashie/mash.rb#368
+  # pkg:gem/hashie#lib/hashie/mash.rb:368
   def method_suffix(method_name); end
 
   private
 
-  # source://hashie//lib/hashie/mash.rb#244
+  # pkg:gem/hashie#lib/hashie/mash.rb:244
   def _deep_update(other_hash, &blk); end
 
-  # source://hashie//lib/hashie/mash.rb#395
+  # pkg:gem/hashie#lib/hashie/mash.rb:395
   def log_built_in_message(method_key); end
 
-  # @return [Boolean]
-  #
-  # source://hashie//lib/hashie/mash.rb#408
+  # pkg:gem/hashie#lib/hashie/mash.rb:408
   def log_collision?(method_key); end
 
-  # @return [Boolean]
-  #
-  # source://hashie//lib/hashie/mash.rb#283
+  # pkg:gem/hashie#lib/hashie/mash.rb:283
   def respond_to_missing?(method_name, *args); end
 
   class << self
-    # source://hashie//lib/hashie/mash.rb#118
+    # pkg:gem/hashie#lib/hashie/mash.rb:118
     def [](*_arg0); end
 
-    # @raise [ArgumentError]
-    #
-    # source://hashie//lib/hashie/mash.rb#70
+    # pkg:gem/hashie#lib/hashie/mash.rb:70
     def load(path, options = T.unsafe(nil)); end
 
     # Creates a new anonymous subclass with key conflict
@@ -594,17 +549,17 @@ class Hashie::Mash < ::Hashie::Hash
     # Hashie::Mash.quiet(:zip).new(hash) only zip warning
     # is disabled.
     #
-    # source://hashie//lib/hashie/mash.rb#111
+    # pkg:gem/hashie#lib/hashie/mash.rb:111
     def quiet(*method_keys); end
   end
 end
 
-# source://hashie//lib/hashie/mash.rb#68
+# pkg:gem/hashie#lib/hashie/mash.rb:68
 Hashie::Mash::ALLOWED_SUFFIXES = T.let(T.unsafe(nil), Array)
 
 # A collection of helper methods that can be used throughout the gem.
 #
-# source://hashie//lib/hashie/utils.rb#3
+# pkg:gem/hashie#lib/hashie/utils.rb:3
 module Hashie::Utils
   class << self
     # Lists the classes Ruby uses for integers
@@ -612,7 +567,7 @@ module Hashie::Utils
     # @api private
     # @return [Array<Class>]
     #
-    # source://hashie//lib/hashie/utils.rb#35
+    # pkg:gem/hashie#lib/hashie/utils.rb:35
     def integer_classes; end
 
     # Describes a method by where it was defined.
@@ -620,19 +575,20 @@ module Hashie::Utils
     # @param bound_method [Method] The method to describe.
     # @return [String]
     #
-    # source://hashie//lib/hashie/utils.rb#8
+    # pkg:gem/hashie#lib/hashie/utils.rb:8
     def method_information(bound_method); end
 
     # Duplicates a value or returns the value when it is not duplicable
     #
     # @api public
+    #
     # @param value [Object] the value to safely duplicate
     # @return [Object] the duplicated value
     #
-    # source://hashie//lib/hashie/utils.rb#22
+    # pkg:gem/hashie#lib/hashie/utils.rb:22
     def safe_dup(value); end
   end
 end
 
-# source://hashie//lib/hashie/version.rb#2
+# pkg:gem/hashie#lib/hashie/version.rb:2
 Hashie::VERSION = T.let(T.unsafe(nil), String)

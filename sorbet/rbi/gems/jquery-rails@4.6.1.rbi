@@ -5,26 +5,26 @@
 # Please instead update this file by running `bin/tapioca gem jquery-rails`.
 
 
-# source://jquery-rails//lib/jquery/rails/engine.rb#1
+# pkg:gem/jquery-rails#lib/jquery/rails/engine.rb:1
 module Jquery; end
 
-# source://jquery-rails//lib/jquery/rails/engine.rb#2
+# pkg:gem/jquery-rails#lib/jquery/rails/engine.rb:2
 module Jquery::Rails; end
 
-# source://jquery-rails//lib/jquery/rails/engine.rb#3
+# pkg:gem/jquery-rails#lib/jquery/rails/engine.rb:3
 class Jquery::Rails::Engine < ::Rails::Engine; end
 
-# source://jquery-rails//lib/jquery/rails/version.rb#5
+# pkg:gem/jquery-rails#lib/jquery/rails/version.rb:5
 Jquery::Rails::JQUERY_2_VERSION = T.let(T.unsafe(nil), String)
 
-# source://jquery-rails//lib/jquery/rails/version.rb#6
+# pkg:gem/jquery-rails#lib/jquery/rails/version.rb:6
 Jquery::Rails::JQUERY_3_VERSION = T.let(T.unsafe(nil), String)
 
-# source://jquery-rails//lib/jquery/rails/version.rb#7
+# pkg:gem/jquery-rails#lib/jquery/rails/version.rb:7
 Jquery::Rails::JQUERY_UJS_VERSION = T.let(T.unsafe(nil), String)
 
-# source://jquery-rails//lib/jquery/rails/version.rb#4
+# pkg:gem/jquery-rails#lib/jquery/rails/version.rb:4
 Jquery::Rails::JQUERY_VERSION = T.let(T.unsafe(nil), String)
 
-# source://jquery-rails//lib/jquery/rails/version.rb#3
+# pkg:gem/jquery-rails#lib/jquery/rails/version.rb:3
 Jquery::Rails::VERSION = T.let(T.unsafe(nil), String)

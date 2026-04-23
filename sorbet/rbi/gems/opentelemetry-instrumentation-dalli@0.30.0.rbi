@@ -11,8 +11,20 @@
 #
 # The OpenTelemetry module provides global accessors for telemetry objects.
 # See the documentation for the `opentelemetry-api` gem for details.
+# Copyright The OpenTelemetry Authors
 #
-# source://opentelemetry-instrumentation-dalli//lib/opentelemetry/instrumentation.rb#13
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+# pkg:gem/opentelemetry-instrumentation-dalli#lib/opentelemetry/instrumentation.rb:13
 module OpenTelemetry; end
 
 # "Instrumentation" are specified by
@@ -20,35 +32,33 @@ module OpenTelemetry; end
 #
 # Instrumentation should be able to handle the case when the library is not installed on a user's system.
 #
-# source://opentelemetry-instrumentation-dalli//lib/opentelemetry/instrumentation.rb#18
+# pkg:gem/opentelemetry-instrumentation-dalli#lib/opentelemetry/instrumentation.rb:18
 module OpenTelemetry::Instrumentation; end
 
 # Contains the OpenTelemetry instrumentation for the Dalli gem
 #
-# source://opentelemetry-instrumentation-dalli//lib/opentelemetry/instrumentation/dalli.rb#14
+# pkg:gem/opentelemetry-instrumentation-dalli#lib/opentelemetry/instrumentation/dalli.rb:14
 module OpenTelemetry::Instrumentation::Dalli; end
 
 # The Instrumentation class contains logic to detect and install the Dalli
 # instrumentation
 #
-# source://opentelemetry-instrumentation-dalli//lib/opentelemetry/instrumentation/dalli/instrumentation.rb#12
+# pkg:gem/opentelemetry-instrumentation-dalli#lib/opentelemetry/instrumentation/dalli/instrumentation.rb:12
 class OpenTelemetry::Instrumentation::Dalli::Instrumentation < ::OpenTelemetry::Instrumentation::Base
   private
 
-  # source://opentelemetry-instrumentation-dalli//lib/opentelemetry/instrumentation/dalli/instrumentation.rb#47
+  # pkg:gem/opentelemetry-instrumentation-dalli#lib/opentelemetry/instrumentation/dalli/instrumentation.rb:47
   def add_patches; end
 
-  # source://opentelemetry-instrumentation-dalli//lib/opentelemetry/instrumentation/dalli/instrumentation.rb#38
+  # pkg:gem/opentelemetry-instrumentation-dalli#lib/opentelemetry/instrumentation/dalli/instrumentation.rb:38
   def gem_version; end
 
-  # source://opentelemetry-instrumentation-dalli//lib/opentelemetry/instrumentation/dalli/instrumentation.rb#42
+  # pkg:gem/opentelemetry-instrumentation-dalli#lib/opentelemetry/instrumentation/dalli/instrumentation.rb:42
   def require_dependencies; end
 end
 
-# Dalli 4.2.0+ has native OpenTelemetry instrumentation
-#
-# source://opentelemetry-instrumentation-dalli//lib/opentelemetry/instrumentation/dalli/instrumentation.rb#13
+# pkg:gem/opentelemetry-instrumentation-dalli#lib/opentelemetry/instrumentation/dalli/instrumentation.rb:13
 OpenTelemetry::Instrumentation::Dalli::Instrumentation::MAX_VERSION = T.let(T.unsafe(nil), Gem::Version)
 
-# source://opentelemetry-instrumentation-dalli//lib/opentelemetry/instrumentation/dalli/version.rb#10
+# pkg:gem/opentelemetry-instrumentation-dalli#lib/opentelemetry/instrumentation/dalli/version.rb:10
 OpenTelemetry::Instrumentation::Dalli::VERSION = T.let(T.unsafe(nil), String)

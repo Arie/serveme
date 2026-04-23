@@ -5,66 +5,64 @@
 # Please instead update this file by running `bin/tapioca gem unicode-name`.
 
 
-# source://unicode-name//lib/unicode/name/constants.rb#3
+# pkg:gem/unicode-name#lib/unicode/name/constants.rb:3
 module Unicode; end
 
-# source://unicode-name//lib/unicode/name/constants.rb#4
+# pkg:gem/unicode-name#lib/unicode/name/constants.rb:4
 module Unicode::Name
   class << self
-    # source://unicode-name//lib/unicode/name.rb#45
+    # pkg:gem/unicode-name#lib/unicode/name.rb:45
     def aliases(char); end
 
-    # source://unicode-name//lib/unicode/name.rb#33
+    # pkg:gem/unicode-name#lib/unicode/name.rb:33
     def correct(char); end
 
-    # source://unicode-name//lib/unicode/name.rb#51
+    # pkg:gem/unicode-name#lib/unicode/name.rb:51
     def label(char); end
 
-    # Don't overwrite Module.name
-    #
-    # source://unicode-name//lib/unicode/name.rb#31
+    # pkg:gem/unicode-name#lib/unicode/name.rb:31
     def of(char); end
 
-    # source://unicode-name//lib/unicode/name.rb#72
+    # pkg:gem/unicode-name#lib/unicode/name.rb:72
     def readable(char); end
 
     # Don't overwrite Module.name
     #
-    # source://unicode-name//lib/unicode/name.rb#11
+    # pkg:gem/unicode-name#lib/unicode/name.rb:11
     def unicode_name(char); end
 
     private
 
     # See https://en.wikipedia.org/wiki/Korean_language_and_computers#Hangul_Syllables_Area
     #
-    # source://unicode-name//lib/unicode/name.rb#83
+    # pkg:gem/unicode-name#lib/unicode/name.rb:83
     def hangul_decomposition(codepoint); end
 
-    # source://unicode-name//lib/unicode/name.rb#91
+    # pkg:gem/unicode-name#lib/unicode/name.rb:91
     def insert_words(raw_name); end
   end
 end
 
-# source://unicode-name//lib/unicode/name/constants.rb#7
+# pkg:gem/unicode-name#lib/unicode/name/constants.rb:7
 Unicode::Name::DATA_DIRECTORY = T.let(T.unsafe(nil), String)
 
-# source://unicode-name//lib/unicode/name.rb#6
+# pkg:gem/unicode-name#lib/unicode/name.rb:6
 Unicode::Name::HANGUL_END = T.let(T.unsafe(nil), Integer)
 
-# source://unicode-name//lib/unicode/name.rb#8
+# pkg:gem/unicode-name#lib/unicode/name.rb:8
 Unicode::Name::HANGUL_FINAL_MAX = T.let(T.unsafe(nil), Integer)
 
-# source://unicode-name//lib/unicode/name.rb#7
+# pkg:gem/unicode-name#lib/unicode/name.rb:7
 Unicode::Name::HANGUL_MEDIAL_MAX = T.let(T.unsafe(nil), Integer)
 
-# source://unicode-name//lib/unicode/name.rb#5
+# pkg:gem/unicode-name#lib/unicode/name.rb:5
 Unicode::Name::HANGUL_START = T.let(T.unsafe(nil), Integer)
 
-# source://unicode-name//lib/unicode/name/constants.rb#8
+# pkg:gem/unicode-name#lib/unicode/name/constants.rb:8
 Unicode::Name::INDEX_FILENAME = T.let(T.unsafe(nil), String)
 
-# source://unicode-name//lib/unicode/name/constants.rb#6
+# pkg:gem/unicode-name#lib/unicode/name/constants.rb:6
 Unicode::Name::UNICODE_VERSION = T.let(T.unsafe(nil), String)
 
-# source://unicode-name//lib/unicode/name/constants.rb#5
+# pkg:gem/unicode-name#lib/unicode/name/constants.rb:5
 Unicode::Name::VERSION = T.let(T.unsafe(nil), String)

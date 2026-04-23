@@ -128,12 +128,12 @@
 # If you want to re-use scanners and encoders (because that is faster), see
 # CodeRay::Duo for the most convenient (and recommended) interface.
 #
-# source://coderay//lib/coderay.rb#126
+# pkg:gem/coderay#lib/coderay.rb:126
 module CodeRay
   class << self
     # Assuming the path is a subpath of lib/coderay/
     #
-    # source://coderay//lib/coderay.rb#133
+    # pkg:gem/coderay#lib/coderay.rb:133
     def coderay_path(*path); end
 
     # Encode a string.
@@ -144,7 +144,7 @@ module CodeRay
     #
     # See CodeRay::Encoder.encode.
     #
-    # source://coderay//lib/coderay.rb#196
+    # pkg:gem/coderay#lib/coderay.rb:196
     def encode(code, lang, format, options = T.unsafe(nil)); end
 
     # Encodes +filename+ (a path to a code file) with the Scanner for +lang+.
@@ -156,7 +156,7 @@ module CodeRay
     #  require 'coderay'
     #  page = CodeRay.encode_file 'some_c_code.c', :html
     #
-    # source://coderay//lib/coderay.rb#221
+    # pkg:gem/coderay#lib/coderay.rb:221
     def encode_file(filename, format, options = T.unsafe(nil)); end
 
     # Encode pre-scanned Tokens.
@@ -168,7 +168,7 @@ module CodeRay
     #  tokens = CodeRay.scan '1 + 2', :ruby
     #  puts CodeRay.encode_tokens(tokens, :span)
     #
-    # source://coderay//lib/coderay.rb#209
+    # pkg:gem/coderay#lib/coderay.rb:209
     def encode_tokens(tokens, format, options = T.unsafe(nil)); end
 
     # Finds the Encoder class for +format+ and creates an instance, passing
@@ -186,7 +186,7 @@ module CodeRay
     #  ]
     #  #-> 2 out of 4 tokens have the kind :integer.
     #
-    # source://coderay//lib/coderay.rb#260
+    # pkg:gem/coderay#lib/coderay.rb:260
     def encoder(format, options = T.unsafe(nil)); end
 
     # Extract the options for the scanner from the +options+ hash.
@@ -196,7 +196,7 @@ module CodeRay
     # This is used if a method like CodeRay.encode has to provide options
     # for Encoder _and_ scanner.
     #
-    # source://coderay//lib/coderay.rb#278
+    # pkg:gem/coderay#lib/coderay.rb:278
     def get_scanner_options(options); end
 
     # Highlight a string into a HTML <div>.
@@ -206,7 +206,7 @@ module CodeRay
     #
     # See encode.
     #
-    # source://coderay//lib/coderay.rb#232
+    # pkg:gem/coderay#lib/coderay.rb:232
     def highlight(code, lang, options = T.unsafe(nil), format = T.unsafe(nil)); end
 
     # Highlight a file into a HTML <div>.
@@ -216,7 +216,7 @@ module CodeRay
     #
     # See encode.
     #
-    # source://coderay//lib/coderay.rb#242
+    # pkg:gem/coderay#lib/coderay.rb:242
     def highlight_file(filename, options = T.unsafe(nil), format = T.unsafe(nil)); end
 
     # Scans the given +code+ (a String) with the Scanner for +lang+.
@@ -227,7 +227,7 @@ module CodeRay
     #
     # See also demo/demo_simple.
     #
-    # source://coderay//lib/coderay.rb#168
+    # pkg:gem/coderay#lib/coderay.rb:168
     def scan(code, lang, options = T.unsafe(nil), &block); end
 
     # Scans +filename+ (a path to a code file) with the Scanner for +lang+.
@@ -242,7 +242,7 @@ module CodeRay
     #  require 'coderay'
     #  page = CodeRay.scan_file('some_c_code.c').html
     #
-    # source://coderay//lib/coderay.rb#183
+    # pkg:gem/coderay#lib/coderay.rb:183
     def scan_file(filename, lang = T.unsafe(nil), options = T.unsafe(nil), &block); end
 
     # Finds the Scanner class for +lang+ and creates an instance, passing
@@ -250,12 +250,12 @@ module CodeRay
     #
     # See Scanner.new.
     #
-    # source://coderay//lib/coderay.rb#268
+    # pkg:gem/coderay#lib/coderay.rb:268
     def scanner(lang, options = T.unsafe(nil), &block); end
   end
 end
 
-# source://coderay//lib/coderay.rb#130
+# pkg:gem/coderay#lib/coderay.rb:130
 CodeRay::CODERAY_PATH = T.let(T.unsafe(nil), String)
 
 # = Duo
@@ -273,7 +273,7 @@ CodeRay::CODERAY_PATH = T.let(T.unsafe(nil), String)
 # Until you want to do uncommon things with CodeRay, I recommend to use
 # this method, since it takes care of everything.
 #
-# source://coderay//lib/coderay/duo.rb#17
+# pkg:gem/coderay#lib/coderay/duo.rb:17
 class CodeRay::Duo
   # Create a new Duo, holding a lang and a format to highlight code.
   #
@@ -292,12 +292,9 @@ class CodeRay::Duo
   # The options are forwarded to scanner and encoder
   # (see CodeRay.get_scanner_options).
   #
-  # @return [Duo] a new instance of Duo
-  #
-  # source://coderay//lib/coderay/duo.rb#37
+  # pkg:gem/coderay#lib/coderay/duo.rb:37
   def initialize(lang = T.unsafe(nil), format = T.unsafe(nil), options = T.unsafe(nil)); end
 
-  # Tokenize and highlight the code using +scanner+ and +encoder+.
   # Allows to use Duo like a proc object:
   #
   #  CodeRay::Duo[:python => :yaml].call(code)
@@ -306,69 +303,49 @@ class CodeRay::Duo
   #
   #  CodeRay::Duo[:python => :yaml].(code)
   #
-  # source://coderay//lib/coderay/duo.rb#77
+  # pkg:gem/coderay#lib/coderay/duo.rb:77
   def call(code, options = T.unsafe(nil)); end
 
   # Tokenize and highlight the code using +scanner+ and +encoder+.
   #
-  # source://coderay//lib/coderay/duo.rb#64
+  # pkg:gem/coderay#lib/coderay/duo.rb:64
   def encode(code, options = T.unsafe(nil)); end
 
   # The encoder of the duo. Only created once.
   #
-  # source://coderay//lib/coderay/duo.rb#59
+  # pkg:gem/coderay#lib/coderay/duo.rb:59
   def encoder; end
 
-  # Returns the value of attribute format.
-  #
-  # source://coderay//lib/coderay/duo.rb#19
+  # pkg:gem/coderay#lib/coderay/duo.rb:19
   def format; end
 
-  # Sets the attribute format
-  #
-  # @param value the value to set the attribute format to.
-  #
-  # source://coderay//lib/coderay/duo.rb#19
+  # pkg:gem/coderay#lib/coderay/duo.rb:19
   def format=(_arg0); end
 
-  # Tokenize and highlight the code using +scanner+ and +encoder+.
-  #
-  # source://coderay//lib/coderay/duo.rb#68
+  # pkg:gem/coderay#lib/coderay/duo.rb:68
   def highlight(code, options = T.unsafe(nil)); end
 
-  # Returns the value of attribute lang.
-  #
-  # source://coderay//lib/coderay/duo.rb#19
+  # pkg:gem/coderay#lib/coderay/duo.rb:19
   def lang; end
 
-  # Sets the attribute lang
-  #
-  # @param value the value to set the attribute lang to.
-  #
-  # source://coderay//lib/coderay/duo.rb#19
+  # pkg:gem/coderay#lib/coderay/duo.rb:19
   def lang=(_arg0); end
 
-  # Returns the value of attribute options.
-  #
-  # source://coderay//lib/coderay/duo.rb#19
+  # pkg:gem/coderay#lib/coderay/duo.rb:19
   def options; end
 
-  # Sets the attribute options
-  #
-  # @param value the value to set the attribute options to.
-  #
-  # source://coderay//lib/coderay/duo.rb#19
+  # pkg:gem/coderay#lib/coderay/duo.rb:19
   def options=(_arg0); end
 
   # The scanner of the duo. Only created once.
   #
-  # source://coderay//lib/coderay/duo.rb#54
+  # pkg:gem/coderay#lib/coderay/duo.rb:54
   def scanner; end
 
   class << self
     # To allow calls like Duo[:ruby, :html].highlight.
     #
-    # source://coderay//lib/coderay/duo.rb#50
+    # pkg:gem/coderay#lib/coderay/duo.rb:50
     def [](*_arg0); end
   end
 end
@@ -381,7 +358,7 @@ end
 # mechanism and the [] method that returns the Encoder class
 # belonging to the given format.
 #
-# source://coderay//lib/coderay/encoders.rb#10
+# pkg:gem/coderay#lib/coderay/encoders.rb:10
 module CodeRay::Encoders
   extend ::CodeRay::PluginHost
 end
@@ -396,39 +373,39 @@ end
 #
 # See also: TokenKindFilter, LinesOfCode
 #
-# source://coderay//lib/coderay/encoders/comment_filter.rb#15
+# pkg:gem/coderay#lib/coderay/encoders/comment_filter.rb:15
 class CodeRay::Encoders::CommentFilter < ::CodeRay::Encoders::TokenKindFilter; end
 
-# source://coderay//lib/coderay/encoders/comment_filter.rb#19
+# pkg:gem/coderay#lib/coderay/encoders/comment_filter.rb:19
 CodeRay::Encoders::CommentFilter::DEFAULT_OPTIONS = T.let(T.unsafe(nil), Hash)
 
 # Returns the number of tokens.
 #
 # Text and block tokens are counted.
 #
-# source://coderay//lib/coderay/encoders/count.rb#7
+# pkg:gem/coderay#lib/coderay/encoders/count.rb:7
 class CodeRay::Encoders::Count < ::CodeRay::Encoders::Encoder
-  # source://coderay//lib/coderay/encoders/count.rb#29
+  # pkg:gem/coderay#lib/coderay/encoders/count.rb:29
   def begin_group(kind); end
 
-  # source://coderay//lib/coderay/encoders/count.rb#33
+  # pkg:gem/coderay#lib/coderay/encoders/count.rb:33
   def begin_line(kind); end
 
-  # source://coderay//lib/coderay/encoders/count.rb#32
+  # pkg:gem/coderay#lib/coderay/encoders/count.rb:32
   def end_group(kind); end
 
-  # source://coderay//lib/coderay/encoders/count.rb#34
+  # pkg:gem/coderay#lib/coderay/encoders/count.rb:34
   def end_line(kind); end
 
-  # source://coderay//lib/coderay/encoders/count.rb#25
+  # pkg:gem/coderay#lib/coderay/encoders/count.rb:25
   def text_token(text, kind); end
 
   protected
 
-  # source://coderay//lib/coderay/encoders/count.rb#19
+  # pkg:gem/coderay#lib/coderay/encoders/count.rb:19
   def finish(options); end
 
-  # source://coderay//lib/coderay/encoders/count.rb#13
+  # pkg:gem/coderay#lib/coderay/encoders/count.rb:13
   def setup(options); end
 end
 
@@ -443,25 +420,25 @@ end
 #
 # See also: Scanners::Debug
 #
-# source://coderay//lib/coderay/encoders/debug.rb#14
+# pkg:gem/coderay#lib/coderay/encoders/debug.rb:14
 class CodeRay::Encoders::Debug < ::CodeRay::Encoders::Encoder
-  # source://coderay//lib/coderay/encoders/debug.rb#30
+  # pkg:gem/coderay#lib/coderay/encoders/debug.rb:30
   def begin_group(kind); end
 
-  # source://coderay//lib/coderay/encoders/debug.rb#38
+  # pkg:gem/coderay#lib/coderay/encoders/debug.rb:38
   def begin_line(kind); end
 
-  # source://coderay//lib/coderay/encoders/debug.rb#34
+  # pkg:gem/coderay#lib/coderay/encoders/debug.rb:34
   def end_group(kind); end
 
-  # source://coderay//lib/coderay/encoders/debug.rb#42
+  # pkg:gem/coderay#lib/coderay/encoders/debug.rb:42
   def end_line(kind); end
 
-  # source://coderay//lib/coderay/encoders/debug.rb#20
+  # pkg:gem/coderay#lib/coderay/encoders/debug.rb:20
   def text_token(text, kind); end
 end
 
-# source://coderay//lib/coderay/encoders/debug.rb#18
+# pkg:gem/coderay#lib/coderay/encoders/debug.rb:18
 CodeRay::Encoders::Debug::FILE_EXTENSION = T.let(T.unsafe(nil), String)
 
 # = Debug Lint Encoder
@@ -475,35 +452,29 @@ CodeRay::Encoders::Debug::FILE_EXTENSION = T.let(T.unsafe(nil), String)
 #
 # See also: Encoders::Debug
 #
-# source://coderay//lib/coderay/encoders/debug_lint.rb#16
+# pkg:gem/coderay#lib/coderay/encoders/debug_lint.rb:16
 class CodeRay::Encoders::DebugLint < ::CodeRay::Encoders::Debug
-  # source://coderay//lib/coderay/encoders/debug_lint.rb#26
+  # pkg:gem/coderay#lib/coderay/encoders/debug_lint.rb:26
   def begin_group(kind); end
 
-  # source://coderay//lib/coderay/encoders/debug_lint.rb#37
+  # pkg:gem/coderay#lib/coderay/encoders/debug_lint.rb:37
   def begin_line(kind); end
 
-  # @raise [Lint::IncorrectTokenGroupNesting]
-  #
-  # source://coderay//lib/coderay/encoders/debug_lint.rb#31
+  # pkg:gem/coderay#lib/coderay/encoders/debug_lint.rb:31
   def end_group(kind); end
 
-  # @raise [Lint::IncorrectTokenGroupNesting]
-  #
-  # source://coderay//lib/coderay/encoders/debug_lint.rb#42
+  # pkg:gem/coderay#lib/coderay/encoders/debug_lint.rb:42
   def end_line(kind); end
 
-  # @raise [Lint::EmptyToken]
-  #
-  # source://coderay//lib/coderay/encoders/debug_lint.rb#20
+  # pkg:gem/coderay#lib/coderay/encoders/debug_lint.rb:20
   def text_token(text, kind); end
 
   protected
 
-  # source://coderay//lib/coderay/encoders/debug_lint.rb#55
+  # pkg:gem/coderay#lib/coderay/encoders/debug_lint.rb:55
   def finish(options); end
 
-  # source://coderay//lib/coderay/encoders/debug_lint.rb#50
+  # pkg:gem/coderay#lib/coderay/encoders/debug_lint.rb:50
   def setup(options); end
 end
 
@@ -511,13 +482,13 @@ end
 #
 # See Encoders::HTML for available options.
 #
-# source://coderay//lib/coderay/encoders/div.rb#9
+# pkg:gem/coderay#lib/coderay/encoders/div.rb:9
 class CodeRay::Encoders::Div < ::CodeRay::Encoders::HTML; end
 
-# source://coderay//lib/coderay/encoders/div.rb#15
+# pkg:gem/coderay#lib/coderay/encoders/div.rb:15
 CodeRay::Encoders::Div::DEFAULT_OPTIONS = T.let(T.unsafe(nil), Hash)
 
-# source://coderay//lib/coderay/encoders/div.rb#11
+# pkg:gem/coderay#lib/coderay/encoders/div.rb:11
 CodeRay::Encoders::Div::FILE_EXTENSION = T.let(T.unsafe(nil), String)
 
 # = Encoder
@@ -533,7 +504,7 @@ CodeRay::Encoders::Div::FILE_EXTENSION = T.let(T.unsafe(nil), String)
 # If you want the highlighted code in a div or a span instead,
 # use its subclasses Div and Span.
 #
-# source://coderay//lib/coderay/encoders/encoder.rb#16
+# pkg:gem/coderay#lib/coderay/encoders/encoder.rb:16
 class CodeRay::Encoders::Encoder
   extend ::CodeRay::Plugin
 
@@ -548,79 +519,76 @@ class CodeRay::Encoders::Encoder
   # Each method has an optional +options+ parameter. These are
   # added to the options you passed at creation.
   #
-  # @return [Encoder] a new instance of Encoder
-  #
-  # source://coderay//lib/coderay/encoders/encoder.rb#55
+  # pkg:gem/coderay#lib/coderay/encoders/encoder.rb:55
   def initialize(options = T.unsafe(nil)); end
 
-  # source://coderay//lib/coderay/encoders/encoder.rb#87
+  # pkg:gem/coderay#lib/coderay/encoders/encoder.rb:87
   def <<(token); end
 
   # Starts a token group with the given +kind+.
   #
-  # source://coderay//lib/coderay/encoders/encoder.rb#123
+  # pkg:gem/coderay#lib/coderay/encoders/encoder.rb:123
   def begin_group(kind); end
 
   # Starts a new line token group with the given +kind+.
   #
-  # source://coderay//lib/coderay/encoders/encoder.rb#131
+  # pkg:gem/coderay#lib/coderay/encoders/encoder.rb:131
   def begin_line(kind); end
 
   # Encode the given +code+ using the Scanner for +lang+.
   #
-  # source://coderay//lib/coderay/encoders/encoder.rb#70
+  # pkg:gem/coderay#lib/coderay/encoders/encoder.rb:70
   def encode(code, lang, options = T.unsafe(nil)); end
 
   # Encode a Tokens object.
   #
-  # source://coderay//lib/coderay/encoders/encoder.rb#61
+  # pkg:gem/coderay#lib/coderay/encoders/encoder.rb:61
   def encode_tokens(tokens, options = T.unsafe(nil)); end
 
   # Ends a token group with the given +kind+.
   #
-  # source://coderay//lib/coderay/encoders/encoder.rb#127
+  # pkg:gem/coderay#lib/coderay/encoders/encoder.rb:127
   def end_group(kind); end
 
   # Ends a new line token group with the given +kind+.
   #
-  # source://coderay//lib/coderay/encoders/encoder.rb#135
+  # pkg:gem/coderay#lib/coderay/encoders/encoder.rb:135
   def end_line(kind); end
 
   # The default file extension for this encoder.
   #
-  # source://coderay//lib/coderay/encoders/encoder.rb#83
+  # pkg:gem/coderay#lib/coderay/encoders/encoder.rb:83
   def file_extension; end
 
-  # Encode the given +code+ using the Scanner for +lang+.
   # You can use highlight instead of encode, if that seems
   # more clear to you.
   #
-  # source://coderay//lib/coderay/encoders/encoder.rb#80
+  # pkg:gem/coderay#lib/coderay/encoders/encoder.rb:80
   def highlight(code, lang, options = T.unsafe(nil)); end
 
   # The options you gave the Encoder at creating.
   #
-  # source://coderay//lib/coderay/encoders/encoder.rb#43
+  # pkg:gem/coderay#lib/coderay/encoders/encoder.rb:43
   def options; end
 
   # The options you gave the Encoder at creating.
   #
-  # source://coderay//lib/coderay/encoders/encoder.rb#43
+  # pkg:gem/coderay#lib/coderay/encoders/encoder.rb:43
   def options=(_arg0); end
 
   # The options you gave the Encoder at creating.
   #
-  # source://coderay//lib/coderay/encoders/encoder.rb#43
+  # pkg:gem/coderay#lib/coderay/encoders/encoder.rb:43
   def scanner; end
 
   # The options you gave the Encoder at creating.
   #
-  # source://coderay//lib/coderay/encoders/encoder.rb#43
+  # pkg:gem/coderay#lib/coderay/encoders/encoder.rb:43
   def scanner=(_arg0); end
 
   # Called for each text token ([text, kind]), where text is a String.
   #
-  # source://coderay//lib/coderay/encoders/encoder.rb#118
+  # pkg:gem/coderay#lib/coderay/encoders/encoder.rb:118
   def text_token(text, kind); end
 
   # Called with +content+ and +kind+ of the currently scanned token.
@@ -629,15 +597,10 @@ class CodeRay::Encoders::Encoder
   # By default, it calls text_token, begin_group, end_group, begin_line,
   # or end_line, depending on the +content+.
   #
-  # source://coderay//lib/coderay/encoders/encoder.rb#100
+  # pkg:gem/coderay#lib/coderay/encoders/encoder.rb:100
   def token(content, kind); end
 
-  # Do the encoding.
-  #
-  # The already created +tokens+ object must be used; it must be a
-  # Tokens object.
-  #
-  # source://coderay//lib/coderay/encoders/encoder.rb#184
+  # pkg:gem/coderay#lib/coderay/encoders/encoder.rb:184
   def tokens(tokens, options = T.unsafe(nil)); end
 
   protected
@@ -647,21 +610,21 @@ class CodeRay::Encoders::Encoder
   # The already created +tokens+ object must be used; it must be a
   # Tokens object.
   #
-  # source://coderay//lib/coderay/encoders/encoder.rb#168
+  # pkg:gem/coderay#lib/coderay/encoders/encoder.rb:168
   def compile(tokens, options = T.unsafe(nil)); end
 
   # Called with merged options after encoding starts.
   # The return value is the result of encoding, typically @out.
   #
-  # source://coderay//lib/coderay/encoders/encoder.rb#160
+  # pkg:gem/coderay#lib/coderay/encoders/encoder.rb:160
   def finish(options); end
 
-  # source://coderay//lib/coderay/encoders/encoder.rb#148
+  # pkg:gem/coderay#lib/coderay/encoders/encoder.rb:148
   def get_output(options); end
 
   # Append data.to_s to the output. Returns the argument.
   #
-  # source://coderay//lib/coderay/encoders/encoder.rb#153
+  # pkg:gem/coderay#lib/coderay/encoders/encoder.rb:153
   def output(data); end
 
   # Called with merged options before encoding starts.
@@ -669,29 +632,29 @@ class CodeRay::Encoders::Encoder
   #
   # See the HTML Encoder for an example of option caching.
   #
-  # source://coderay//lib/coderay/encoders/encoder.rb#144
+  # pkg:gem/coderay#lib/coderay/encoders/encoder.rb:144
   def setup(options); end
 
   class << self
     # If FILE_EXTENSION isn't defined, this method returns the
     # downcase class name instead.
     #
-    # source://coderay//lib/coderay/encoders/encoder.rb#24
+    # pkg:gem/coderay#lib/coderay/encoders/encoder.rb:24
     def const_missing(sym); end
 
     # The default file extension for output file of this encoder class.
     #
-    # source://coderay//lib/coderay/encoders/encoder.rb#33
+    # pkg:gem/coderay#lib/coderay/encoders/encoder.rb:33
     def file_extension; end
   end
 end
 
 # Subclasses are to store their default options in this constant.
 #
-# source://coderay//lib/coderay/encoders/encoder.rb#40
+# pkg:gem/coderay#lib/coderay/encoders/encoder.rb:40
 CodeRay::Encoders::Encoder::DEFAULT_OPTIONS = T.let(T.unsafe(nil), Hash)
 
-# source://coderay//lib/coderay/helpers/plugin.rb#41
+# pkg:gem/coderay#lib/coderay/helpers/plugin.rb:41
 CodeRay::Encoders::Encoder::PLUGIN_HOST = CodeRay::Encoders
 
 # A Filter encoder has another Tokens instance as output.
@@ -709,29 +672,29 @@ CodeRay::Encoders::Encoder::PLUGIN_HOST = CodeRay::Encoders
 #
 # See also: TokenKindFilter
 #
-# source://coderay//lib/coderay/encoders/filter.rb#18
+# pkg:gem/coderay#lib/coderay/encoders/filter.rb:18
 class CodeRay::Encoders::Filter < ::CodeRay::Encoders::Encoder
-  # source://coderay//lib/coderay/encoders/filter.rb#39
+  # pkg:gem/coderay#lib/coderay/encoders/filter.rb:39
   def begin_group(kind); end
 
-  # source://coderay//lib/coderay/encoders/filter.rb#43
+  # pkg:gem/coderay#lib/coderay/encoders/filter.rb:43
   def begin_line(kind); end
 
-  # source://coderay//lib/coderay/encoders/filter.rb#47
+  # pkg:gem/coderay#lib/coderay/encoders/filter.rb:47
   def end_group(kind); end
 
-  # source://coderay//lib/coderay/encoders/filter.rb#51
+  # pkg:gem/coderay#lib/coderay/encoders/filter.rb:51
   def end_line(kind); end
 
-  # source://coderay//lib/coderay/encoders/filter.rb#35
+  # pkg:gem/coderay#lib/coderay/encoders/filter.rb:35
   def text_token(text, kind); end
 
   protected
 
-  # source://coderay//lib/coderay/encoders/filter.rb#29
+  # pkg:gem/coderay#lib/coderay/encoders/filter.rb:29
   def finish(options); end
 
-  # source://coderay//lib/coderay/encoders/filter.rb#23
+  # pkg:gem/coderay#lib/coderay/encoders/filter.rb:23
   def setup(options); end
 end
 
@@ -827,119 +790,113 @@ end
 #
 # Default: false
 #
-# source://coderay//lib/coderay/encoders/html.rb#97
+# pkg:gem/coderay#lib/coderay/encoders/html.rb:97
 class CodeRay::Encoders::HTML < ::CodeRay::Encoders::Encoder
   # token groups, eg. strings
   #
-  # source://coderay//lib/coderay/encoders/html.rb#235
+  # pkg:gem/coderay#lib/coderay/encoders/html.rb:235
   def begin_group(kind); end
 
   # whole lines to be highlighted, eg. a deleted line in a diff
   #
-  # source://coderay//lib/coderay/encoders/html.rb#247
+  # pkg:gem/coderay#lib/coderay/encoders/html.rb:247
   def begin_line(kind); end
 
-  # Returns the value of attribute css.
-  #
-  # source://coderay//lib/coderay/encoders/html.rb#126
+  # pkg:gem/coderay#lib/coderay/encoders/html.rb:126
   def css; end
 
-  # source://coderay//lib/coderay/encoders/html.rb#241
+  # pkg:gem/coderay#lib/coderay/encoders/html.rb:241
   def end_group(kind); end
 
-  # source://coderay//lib/coderay/encoders/html.rb#261
+  # pkg:gem/coderay#lib/coderay/encoders/html.rb:261
   def end_line(kind); end
 
-  # source://coderay//lib/coderay/encoders/html.rb#221
+  # pkg:gem/coderay#lib/coderay/encoders/html.rb:221
   def text_token(text, kind); end
 
   protected
 
-  # source://coderay//lib/coderay/encoders/html.rb#316
+  # pkg:gem/coderay#lib/coderay/encoders/html.rb:316
   def break_lines(text, style); end
 
-  # source://coderay//lib/coderay/encoders/html.rb#310
+  # pkg:gem/coderay#lib/coderay/encoders/html.rb:310
   def check_group_nesting(name, kind); end
 
-  # source://coderay//lib/coderay/encoders/html.rb#268
+  # pkg:gem/coderay#lib/coderay/encoders/html.rb:268
   def check_options!(options); end
 
-  # source://coderay//lib/coderay/encoders/html.rb#324
+  # pkg:gem/coderay#lib/coderay/encoders/html.rb:324
   def close_span; end
 
-  # source://coderay//lib/coderay/encoders/html.rb#280
+  # pkg:gem/coderay#lib/coderay/encoders/html.rb:280
   def css_class_for_kinds(kinds); end
 
-  # source://coderay//lib/coderay/encoders/html.rb#195
+  # pkg:gem/coderay#lib/coderay/encoders/html.rb:195
   def finish(options); end
 
-  # source://coderay//lib/coderay/encoders/html.rb#289
+  # pkg:gem/coderay#lib/coderay/encoders/html.rb:289
   def make_span_for_kinds(method, hint); end
 
-  # source://coderay//lib/coderay/encoders/html.rb#172
+  # pkg:gem/coderay#lib/coderay/encoders/html.rb:172
   def setup(options); end
 
-  # source://coderay//lib/coderay/encoders/html.rb#284
+  # pkg:gem/coderay#lib/coderay/encoders/html.rb:284
   def style_for_kinds(kinds); end
 
   class << self
-    # source://coderay//lib/coderay/encoders/html.rb#130
+    # pkg:gem/coderay#lib/coderay/encoders/html.rb:130
     def make_html_escape_hash; end
 
     # Generate a hint about the given +kinds+ in a +hint+ style.
     #
     # +hint+ may be :info, :info_long or :debug.
     #
-    # source://coderay//lib/coderay/encoders/html.rb#157
+    # pkg:gem/coderay#lib/coderay/encoders/html.rb:157
     def token_path_to_hint(hint, kinds); end
   end
 end
 
-# source://coderay//lib/coderay/encoders/html/css.rb#5
+# pkg:gem/coderay#lib/coderay/encoders/html/css.rb:5
 class CodeRay::Encoders::HTML::CSS
-  # @return [CSS] a new instance of CSS
-  #
-  # source://coderay//lib/coderay/encoders/html/css.rb#13
+  # pkg:gem/coderay#lib/coderay/encoders/html/css.rb:13
   def initialize(style = T.unsafe(nil)); end
 
-  # source://coderay//lib/coderay/encoders/html/css.rb#23
+  # pkg:gem/coderay#lib/coderay/encoders/html/css.rb:23
   def get_style_for_css_classes(css_classes); end
 
-  # Returns the value of attribute stylesheet.
-  #
-  # source://coderay//lib/coderay/encoders/html/css.rb#7
+  # pkg:gem/coderay#lib/coderay/encoders/html/css.rb:7
   def stylesheet; end
 
   private
 
-  # source://coderay//lib/coderay/encoders/html/css.rb#49
+  # pkg:gem/coderay#lib/coderay/encoders/html/css.rb:49
   def parse(stylesheet); end
 
   class << self
-    # source://coderay//lib/coderay/encoders/html/css.rb#9
+    # pkg:gem/coderay#lib/coderay/encoders/html/css.rb:9
     def load_stylesheet(style = T.unsafe(nil)); end
   end
 end
 
-# source://coderay//lib/coderay/encoders/html/css.rb#36
+# pkg:gem/coderay#lib/coderay/encoders/html/css.rb:36
 CodeRay::Encoders::HTML::CSS::CSS_CLASS_PATTERN = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/encoders/html.rb#103
+# pkg:gem/coderay#lib/coderay/encoders/html.rb:103
 CodeRay::Encoders::HTML::DEFAULT_OPTIONS = T.let(T.unsafe(nil), Hash)
 
-# source://coderay//lib/coderay/encoders/html.rb#101
+# pkg:gem/coderay#lib/coderay/encoders/html.rb:101
 CodeRay::Encoders::HTML::FILE_EXTENSION = T.let(T.unsafe(nil), String)
 
-# source://coderay//lib/coderay/encoders/html.rb#143
+# pkg:gem/coderay#lib/coderay/encoders/html.rb:143
 CodeRay::Encoders::HTML::HTML_ESCAPE = T.let(T.unsafe(nil), Hash)
 
-# source://coderay//lib/coderay/encoders/html.rb#144
+# pkg:gem/coderay#lib/coderay/encoders/html.rb:144
 CodeRay::Encoders::HTML::HTML_ESCAPE_PATTERN = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/encoders/html/numbering.rb#6
+# pkg:gem/coderay#lib/coderay/encoders/html/numbering.rb:6
 module CodeRay::Encoders::HTML::Numbering
   class << self
-    # source://coderay//lib/coderay/encoders/html/numbering.rb#8
+    # pkg:gem/coderay#lib/coderay/encoders/html/numbering.rb:8
     def number!(output, mode = T.unsafe(nil), options = T.unsafe(nil)); end
   end
 end
@@ -953,91 +910,79 @@ end
 #
 # TODO: Rewrite this without monkey patching.
 #
-# source://coderay//lib/coderay/encoders/html/output.rb#14
+# pkg:gem/coderay#lib/coderay/encoders/html/output.rb:14
 module CodeRay::Encoders::HTML::Output
-  # source://coderay//lib/coderay/encoders/html/output.rb#57
+  # pkg:gem/coderay#lib/coderay/encoders/html/output.rb:57
   def apply_title!(title); end
 
-  # Returns the value of attribute css.
-  #
-  # source://coderay//lib/coderay/encoders/html/output.rb#16
+  # pkg:gem/coderay#lib/coderay/encoders/html/output.rb:16
   def css; end
 
-  # Sets the attribute css
-  #
-  # @param value the value to set the attribute css to.
-  #
-  # source://coderay//lib/coderay/encoders/html/output.rb#16
+  # pkg:gem/coderay#lib/coderay/encoders/html/output.rb:16
   def css=(_arg0); end
 
-  # source://coderay//lib/coderay/encoders/html/output.rb#86
+  # pkg:gem/coderay#lib/coderay/encoders/html/output.rb:86
   def stylesheet(in_tag = T.unsafe(nil)); end
 
-  # source://coderay//lib/coderay/encoders/html/output.rb#62
+  # pkg:gem/coderay#lib/coderay/encoders/html/output.rb:62
   def wrap!(element, *args); end
 
-  # source://coderay//lib/coderay/encoders/html/output.rb#52
+  # pkg:gem/coderay#lib/coderay/encoders/html/output.rb:52
   def wrap_in!(template); end
 
-  # source://coderay//lib/coderay/encoders/html/output.rb#47
+  # pkg:gem/coderay#lib/coderay/encoders/html/output.rb:47
   def wrapped_in; end
 
-  # Sets the attribute wrapped_in
-  #
-  # @param value the value to set the attribute wrapped_in to.
-  #
-  # source://coderay//lib/coderay/encoders/html/output.rb#50
+  # pkg:gem/coderay#lib/coderay/encoders/html/output.rb:50
   def wrapped_in=(_arg0); end
 
-  # @return [Boolean]
-  #
-  # source://coderay//lib/coderay/encoders/html/output.rb#43
+  # pkg:gem/coderay#lib/coderay/encoders/html/output.rb:43
   def wrapped_in?(element); end
 
   class << self
     # Raises an exception if an object that doesn't respond to to_str is extended by Output,
     # to prevent users from misuse. Use Module#remove_method to disable.
     #
-    # source://coderay//lib/coderay/encoders/html/output.rb#22
+    # pkg:gem/coderay#lib/coderay/encoders/html/output.rb:22
     def extended(o); end
 
-    # source://coderay//lib/coderay/encoders/html/output.rb#26
+    # pkg:gem/coderay#lib/coderay/encoders/html/output.rb:26
     def make_stylesheet(css, in_tag = T.unsafe(nil)); end
 
-    # source://coderay//lib/coderay/encoders/html/output.rb#36
+    # pkg:gem/coderay#lib/coderay/encoders/html/output.rb:36
     def page_template_for_css(css); end
   end
 end
 
-# source://coderay//lib/coderay/encoders/html/output.rb#117
+# pkg:gem/coderay#lib/coderay/encoders/html/output.rb:117
 CodeRay::Encoders::HTML::Output::DIV = T.let(T.unsafe(nil), CodeRay::Encoders::HTML::Output::Template)
 
-# source://coderay//lib/coderay/encoders/html/output.rb#130
+# pkg:gem/coderay#lib/coderay/encoders/html/output.rb:130
 CodeRay::Encoders::HTML::Output::PAGE = T.let(T.unsafe(nil), CodeRay::Encoders::HTML::Output::Template)
 
-# source://coderay//lib/coderay/encoders/html/output.rb#115
+# pkg:gem/coderay#lib/coderay/encoders/html/output.rb:115
 CodeRay::Encoders::HTML::Output::SPAN = T.let(T.unsafe(nil), CodeRay::Encoders::HTML::Output::Template)
 
-# source://coderay//lib/coderay/encoders/html/output.rb#123
+# pkg:gem/coderay#lib/coderay/encoders/html/output.rb:123
 CodeRay::Encoders::HTML::Output::TABLE = T.let(T.unsafe(nil), CodeRay::Encoders::HTML::Output::Template)
 
 # -- don't include the templates in docu
 #
-# source://coderay//lib/coderay/encoders/html/output.rb#92
+# pkg:gem/coderay#lib/coderay/encoders/html/output.rb:92
 class CodeRay::Encoders::HTML::Output::Template < ::String
-  # source://coderay//lib/coderay/encoders/html/output.rb#104
+  # pkg:gem/coderay#lib/coderay/encoders/html/output.rb:104
   def apply(target, replacement); end
 
   class << self
-    # source://coderay//lib/coderay/encoders/html/output.rb#94
+    # pkg:gem/coderay#lib/coderay/encoders/html/output.rb:94
     def wrap!(str, template, target); end
   end
 end
 
-# source://coderay//lib/coderay/encoders/html.rb#146
+# pkg:gem/coderay#lib/coderay/encoders/html.rb:146
 CodeRay::Encoders::HTML::TOKEN_KIND_TO_INFO = T.let(T.unsafe(nil), Hash)
 
-# source://coderay//lib/coderay/encoders/html.rb#150
+# pkg:gem/coderay#lib/coderay/encoders/html.rb:150
 CodeRay::Encoders::HTML::TRANSPARENT_TOKEN_KINDS = T.let(T.unsafe(nil), Set)
 
 # A simple JSON Encoder.
@@ -1055,36 +1000,36 @@ CodeRay::Encoders::HTML::TRANSPARENT_TOKEN_KINDS = T.let(T.unsafe(nil), Set)
 #    {"type"=>"block", "action"=>"close", "kind"=>"string"},
 #  ]
 #
-# source://coderay//lib/coderay/encoders/json.rb#18
+# pkg:gem/coderay#lib/coderay/encoders/json.rb:18
 class CodeRay::Encoders::JSON < ::CodeRay::Encoders::Encoder
-  # source://coderay//lib/coderay/encoders/json.rb#64
+  # pkg:gem/coderay#lib/coderay/encoders/json.rb:64
   def begin_group(kind); end
 
-  # source://coderay//lib/coderay/encoders/json.rb#72
+  # pkg:gem/coderay#lib/coderay/encoders/json.rb:72
   def begin_line(kind); end
 
-  # source://coderay//lib/coderay/encoders/json.rb#68
+  # pkg:gem/coderay#lib/coderay/encoders/json.rb:68
   def end_group(kind); end
 
-  # source://coderay//lib/coderay/encoders/json.rb#76
+  # pkg:gem/coderay#lib/coderay/encoders/json.rb:76
   def end_line(kind); end
 
-  # source://coderay//lib/coderay/encoders/json.rb#60
+  # pkg:gem/coderay#lib/coderay/encoders/json.rb:60
   def text_token(text, kind); end
 
   protected
 
-  # source://coderay//lib/coderay/encoders/json.rb#49
+  # pkg:gem/coderay#lib/coderay/encoders/json.rb:49
   def append(data); end
 
-  # source://coderay//lib/coderay/encoders/json.rb#45
+  # pkg:gem/coderay#lib/coderay/encoders/json.rb:45
   def finish(options); end
 
-  # source://coderay//lib/coderay/encoders/json.rb#38
+  # pkg:gem/coderay#lib/coderay/encoders/json.rb:38
   def setup(options); end
 end
 
-# source://coderay//lib/coderay/encoders/json.rb#35
+# pkg:gem/coderay#lib/coderay/encoders/json.rb:35
 CodeRay::Encoders::JSON::FILE_EXTENSION = T.let(T.unsafe(nil), String)
 
 # Counts the LoC (Lines of Code). Returns an Integer >= 0.
@@ -1101,18 +1046,18 @@ CodeRay::Encoders::JSON::FILE_EXTENSION = T.let(T.unsafe(nil), String)
 # A Scanner class should define the token kinds that are not code in the
 # KINDS_NOT_LOC constant, which defaults to [:comment, :doctype].
 #
-# source://coderay//lib/coderay/encoders/lines_of_code.rb#17
+# pkg:gem/coderay#lib/coderay/encoders/lines_of_code.rb:17
 class CodeRay::Encoders::LinesOfCode < ::CodeRay::Encoders::TokenKindFilter
   protected
 
-  # source://coderay//lib/coderay/encoders/lines_of_code.rb#38
+  # pkg:gem/coderay#lib/coderay/encoders/lines_of_code.rb:38
   def finish(options); end
 
-  # source://coderay//lib/coderay/encoders/lines_of_code.rb#25
+  # pkg:gem/coderay#lib/coderay/encoders/lines_of_code.rb:25
   def setup(options); end
 end
 
-# source://coderay//lib/coderay/encoders/lines_of_code.rb#21
+# pkg:gem/coderay#lib/coderay/encoders/lines_of_code.rb:21
 CodeRay::Encoders::LinesOfCode::NON_EMPTY_LINE = T.let(T.unsafe(nil), Regexp)
 
 # = Lint Encoder
@@ -1126,50 +1071,51 @@ CodeRay::Encoders::LinesOfCode::NON_EMPTY_LINE = T.let(T.unsafe(nil), Regexp)
 #
 # See also: Encoders::DebugLint
 #
-# source://coderay//lib/coderay/encoders/lint.rb#14
+# pkg:gem/coderay#lib/coderay/encoders/lint.rb:14
 class CodeRay::Encoders::Lint < ::CodeRay::Encoders::Debug
-  # source://coderay//lib/coderay/encoders/lint.rb#28
+  # pkg:gem/coderay#lib/coderay/encoders/lint.rb:28
   def begin_group(kind); end
 
-  # source://coderay//lib/coderay/encoders/lint.rb#37
+  # pkg:gem/coderay#lib/coderay/encoders/lint.rb:37
   def begin_line(kind); end
 
-  # @raise [IncorrectTokenGroupNesting]
-  #
-  # source://coderay//lib/coderay/encoders/lint.rb#32
+  # pkg:gem/coderay#lib/coderay/encoders/lint.rb:32
   def end_group(kind); end
 
-  # @raise [IncorrectTokenGroupNesting]
-  #
-  # source://coderay//lib/coderay/encoders/lint.rb#41
+  # pkg:gem/coderay#lib/coderay/encoders/lint.rb:41
   def end_line(kind); end
 
-  # @raise [EmptyToken]
-  #
-  # source://coderay//lib/coderay/encoders/lint.rb#23
+  # pkg:gem/coderay#lib/coderay/encoders/lint.rb:23
   def text_token(text, kind); end
 
   protected
 
-  # source://coderay//lib/coderay/encoders/lint.rb#52
+  # pkg:gem/coderay#lib/coderay/encoders/lint.rb:52
   def finish(options); end
 
-  # source://coderay//lib/coderay/encoders/lint.rb#48
+  # pkg:gem/coderay#lib/coderay/encoders/lint.rb:48
   def setup(options); end
 end
 
+# pkg:gem/coderay#lib/coderay/encoders/lint.rb:19
 class CodeRay::Encoders::Lint::EmptyToken < ::CodeRay::Encoders::Lint::InvalidTokenStream; end
+
+# pkg:gem/coderay#lib/coderay/encoders/lint.rb:21
 class CodeRay::Encoders::Lint::IncorrectTokenGroupNesting < ::CodeRay::Encoders::Lint::InvalidTokenStream; end
+
+# pkg:gem/coderay#lib/coderay/encoders/lint.rb:18
 class CodeRay::Encoders::Lint::InvalidTokenStream < ::StandardError; end
+
+# pkg:gem/coderay#lib/coderay/encoders/lint.rb:20
 class CodeRay::Encoders::Lint::UnknownTokenKind < ::CodeRay::Encoders::Lint::InvalidTokenStream; end
 
 # = Null Encoder
 #
 # Does nothing and returns an empty string.
 #
-# source://coderay//lib/coderay/encoders/null.rb#7
+# pkg:gem/coderay#lib/coderay/encoders/null.rb:7
 class CodeRay::Encoders::Null < ::CodeRay::Encoders::Encoder
-  # source://coderay//lib/coderay/encoders/null.rb#11
+  # pkg:gem/coderay#lib/coderay/encoders/null.rb:11
   def text_token(text, kind); end
 end
 
@@ -1178,152 +1124,148 @@ end
 #
 # See Encoders::HTML for available options.
 #
-# source://coderay//lib/coderay/encoders/page.rb#10
+# pkg:gem/coderay#lib/coderay/encoders/page.rb:10
 class CodeRay::Encoders::Page < ::CodeRay::Encoders::HTML; end
 
-# source://coderay//lib/coderay/encoders/page.rb#16
+# pkg:gem/coderay#lib/coderay/encoders/page.rb:16
 CodeRay::Encoders::Page::DEFAULT_OPTIONS = T.let(T.unsafe(nil), Hash)
 
-# source://coderay//lib/coderay/encoders/page.rb#12
+# pkg:gem/coderay#lib/coderay/encoders/page.rb:12
 CodeRay::Encoders::Page::FILE_EXTENSION = T.let(T.unsafe(nil), String)
 
 # Wraps HTML output into a SPAN element, using inline styles by default.
 #
 # See Encoders::HTML for available options.
 #
-# source://coderay//lib/coderay/encoders/span.rb#9
+# pkg:gem/coderay#lib/coderay/encoders/span.rb:9
 class CodeRay::Encoders::Span < ::CodeRay::Encoders::HTML; end
 
-# source://coderay//lib/coderay/encoders/span.rb#15
+# pkg:gem/coderay#lib/coderay/encoders/span.rb:15
 CodeRay::Encoders::Span::DEFAULT_OPTIONS = T.let(T.unsafe(nil), Hash)
 
-# source://coderay//lib/coderay/encoders/span.rb#11
+# pkg:gem/coderay#lib/coderay/encoders/span.rb:11
 CodeRay::Encoders::Span::FILE_EXTENSION = T.let(T.unsafe(nil), String)
 
 # Makes a statistic for the given tokens.
 #
 # Alias: +stats+
 #
-# source://coderay//lib/coderay/encoders/statistic.rb#7
+# pkg:gem/coderay#lib/coderay/encoders/statistic.rb:7
 class CodeRay::Encoders::Statistic < ::CodeRay::Encoders::Encoder
-  # source://coderay//lib/coderay/encoders/statistic.rb#70
+  # pkg:gem/coderay#lib/coderay/encoders/statistic.rb:70
   def begin_group(kind); end
 
-  # source://coderay//lib/coderay/encoders/statistic.rb#78
+  # pkg:gem/coderay#lib/coderay/encoders/statistic.rb:78
   def begin_line(kind); end
 
-  # source://coderay//lib/coderay/encoders/statistic.rb#86
+  # pkg:gem/coderay#lib/coderay/encoders/statistic.rb:86
   def block_token(action, kind); end
 
-  # source://coderay//lib/coderay/encoders/statistic.rb#74
+  # pkg:gem/coderay#lib/coderay/encoders/statistic.rb:74
   def end_group(kind); end
 
-  # source://coderay//lib/coderay/encoders/statistic.rb#82
+  # pkg:gem/coderay#lib/coderay/encoders/statistic.rb:82
   def end_line(kind); end
 
-  # source://coderay//lib/coderay/encoders/statistic.rb#11
+  # pkg:gem/coderay#lib/coderay/encoders/statistic.rb:11
   def real_token_count; end
 
-  # source://coderay//lib/coderay/encoders/statistic.rb#62
+  # pkg:gem/coderay#lib/coderay/encoders/statistic.rb:62
   def text_token(text, kind); end
 
-  # source://coderay//lib/coderay/encoders/statistic.rb#11
+  # pkg:gem/coderay#lib/coderay/encoders/statistic.rb:11
   def type_stats; end
 
   protected
 
-  # source://coderay//lib/coderay/encoders/statistic.rb#42
+  # pkg:gem/coderay#lib/coderay/encoders/statistic.rb:42
   def finish(options); end
 
-  # source://coderay//lib/coderay/encoders/statistic.rb#17
+  # pkg:gem/coderay#lib/coderay/encoders/statistic.rb:17
   def setup(options); end
 end
 
-# source://coderay//lib/coderay/encoders/statistic.rb#24
+# pkg:gem/coderay#lib/coderay/encoders/statistic.rb:24
 CodeRay::Encoders::Statistic::STATS = T.let(T.unsafe(nil), String)
 
-# source://coderay//lib/coderay/encoders/statistic.rb#38
+# pkg:gem/coderay#lib/coderay/encoders/statistic.rb:38
 CodeRay::Encoders::Statistic::TOKEN_TYPES_ROW = T.let(T.unsafe(nil), String)
 
-# source://coderay//lib/coderay/encoders/statistic.rb#13
+# pkg:gem/coderay#lib/coderay/encoders/statistic.rb:13
 class CodeRay::Encoders::Statistic::TypeStats < ::Struct
-  # Returns the value of attribute count
-  #
-  # @return [Object] the current value of count
-  #
-  # source://coderay//lib/coderay/encoders/statistic.rb#13
+  # pkg:gem/coderay#lib/coderay/encoders/statistic.rb:13
   def count; end
 
-  # Sets the attribute count
-  #
-  # @param value [Object] the value to set the attribute count to.
-  # @return [Object] the newly set value
-  #
-  # source://coderay//lib/coderay/encoders/statistic.rb#13
+  # pkg:gem/coderay#lib/coderay/encoders/statistic.rb:13
   def count=(_); end
 
-  # Returns the value of attribute size
-  #
-  # @return [Object] the current value of size
-  #
-  # source://coderay//lib/coderay/encoders/statistic.rb#13
+  # pkg:gem/coderay#lib/coderay/encoders/statistic.rb:13
   def size; end
 
-  # Sets the attribute size
-  #
-  # @param value [Object] the value to set the attribute size to.
-  # @return [Object] the newly set value
-  #
-  # source://coderay//lib/coderay/encoders/statistic.rb#13
+  # pkg:gem/coderay#lib/coderay/encoders/statistic.rb:13
   def size=(_); end
 
   class << self
-    # source://coderay//lib/coderay/encoders/statistic.rb#13
+    # pkg:gem/coderay#lib/coderay/encoders/statistic.rb:13
     def [](*_arg0); end
 
-    # source://coderay//lib/coderay/encoders/statistic.rb#13
+    # pkg:gem/coderay#lib/coderay/encoders/statistic.rb:13
     def inspect; end
 
-    # source://coderay//lib/coderay/encoders/statistic.rb#13
+    # pkg:gem/coderay#lib/coderay/encoders/statistic.rb:13
     def keyword_init?; end
 
-    # source://coderay//lib/coderay/encoders/statistic.rb#13
+    # pkg:gem/coderay#lib/coderay/encoders/statistic.rb:13
     def members; end
 
-    # source://coderay//lib/coderay/encoders/statistic.rb#13
+    # pkg:gem/coderay#lib/coderay/encoders/statistic.rb:13
     def new(*_arg0); end
   end
 end
 
-# source://coderay//lib/coderay/encoders/terminal.rb#17
+# Outputs code highlighted for a color terminal.
+#
+# Note: This encoder is in beta. It currently doesn't use the Styles.
+#
+# Alias: +term+
+#
+# == Authors & License
+#
+# By Rob Aldred (http://robaldred.co.uk)
+#
+# Based on idea by Nathan Weizenbaum (http://nex-3.com)
+#
+# MIT License (http://www.opensource.org/licenses/mit-license.php)
+#
+# pkg:gem/coderay#lib/coderay/encoders/terminal.rb:17
 class CodeRay::Encoders::Terminal < ::CodeRay::Encoders::Encoder
-  # source://coderay//lib/coderay/encoders/terminal.rb#156
+  # pkg:gem/coderay#lib/coderay/encoders/terminal.rb:156
   def begin_group(kind); end
 
-  # source://coderay//lib/coderay/encoders/terminal.rb#160
+  # pkg:gem/coderay#lib/coderay/encoders/terminal.rb:160
   def begin_line(kind); end
 
-  # source://coderay//lib/coderay/encoders/terminal.rb#162
+  # pkg:gem/coderay#lib/coderay/encoders/terminal.rb:162
   def end_group(kind); end
 
-  # source://coderay//lib/coderay/encoders/terminal.rb#172
+  # pkg:gem/coderay#lib/coderay/encoders/terminal.rb:172
   def end_line(kind); end
 
-  # source://coderay//lib/coderay/encoders/terminal.rb#141
+  # pkg:gem/coderay#lib/coderay/encoders/terminal.rb:141
   def text_token(text, kind); end
 
   protected
 
-  # source://coderay//lib/coderay/encoders/terminal.rb#133
+  # pkg:gem/coderay#lib/coderay/encoders/terminal.rb:133
   def setup(options); end
 
   private
 
-  # source://coderay//lib/coderay/encoders/terminal.rb#179
+  # pkg:gem/coderay#lib/coderay/encoders/terminal.rb:179
   def open_token(kind); end
 end
 
-# source://coderay//lib/coderay/encoders/terminal.rb#21
+# pkg:gem/coderay#lib/coderay/encoders/terminal.rb:21
 CodeRay::Encoders::Terminal::TOKEN_COLORS = T.let(T.unsafe(nil), Hash)
 
 # Concats the tokens into a single string, resulting in the original
@@ -1338,21 +1280,21 @@ CodeRay::Encoders::Terminal::TOKEN_COLORS = T.let(T.unsafe(nil), Hash)
 #
 # Default: empty String
 #
-# source://coderay//lib/coderay/encoders/text.rb#15
+# pkg:gem/coderay#lib/coderay/encoders/text.rb:15
 class CodeRay::Encoders::Text < ::CodeRay::Encoders::Encoder
-  # source://coderay//lib/coderay/encoders/text.rb#25
+  # pkg:gem/coderay#lib/coderay/encoders/text.rb:25
   def text_token(text, kind); end
 
   protected
 
-  # source://coderay//lib/coderay/encoders/text.rb#36
+  # pkg:gem/coderay#lib/coderay/encoders/text.rb:36
   def setup(options); end
 end
 
-# source://coderay//lib/coderay/encoders/text.rb#21
+# pkg:gem/coderay#lib/coderay/encoders/text.rb:21
 CodeRay::Encoders::Text::DEFAULT_OPTIONS = T.let(T.unsafe(nil), Hash)
 
-# source://coderay//lib/coderay/encoders/text.rb#19
+# pkg:gem/coderay#lib/coderay/encoders/text.rb:19
 CodeRay::Encoders::Text::FILE_EXTENSION = T.let(T.unsafe(nil), String)
 
 # A Filter that selects tokens based on their token kind.
@@ -1375,7 +1317,7 @@ CodeRay::Encoders::Text::FILE_EXTENSION = T.let(T.unsafe(nil), String)
 #
 # See also: CommentFilter
 #
-# source://coderay//lib/coderay/encoders/token_kind_filter.rb#25
+# pkg:gem/coderay#lib/coderay/encoders/token_kind_filter.rb:25
 class CodeRay::Encoders::TokenKindFilter < ::CodeRay::Encoders::Filter
   # Add the token group to the output stream if +kind+ matches the
   # conditions.
@@ -1383,110 +1325,106 @@ class CodeRay::Encoders::TokenKindFilter < ::CodeRay::Encoders::Filter
   # If it does not, all tokens inside the group are excluded from the
   # stream, even if their kinds match.
   #
-  # source://coderay//lib/coderay/encoders/token_kind_filter.rb#66
+  # pkg:gem/coderay#lib/coderay/encoders/token_kind_filter.rb:66
   def begin_group(kind); end
 
   # See +begin_group+.
   #
-  # source://coderay//lib/coderay/encoders/token_kind_filter.rb#77
+  # pkg:gem/coderay#lib/coderay/encoders/token_kind_filter.rb:77
   def begin_line(kind); end
 
   # Take care of re-enabling the delegation of tokens to the output stream
   # if an exluded group has ended.
   #
-  # source://coderay//lib/coderay/encoders/token_kind_filter.rb#89
+  # pkg:gem/coderay#lib/coderay/encoders/token_kind_filter.rb:89
   def end_group(kind); end
 
   # See +end_group+.
   #
-  # source://coderay//lib/coderay/encoders/token_kind_filter.rb#99
+  # pkg:gem/coderay#lib/coderay/encoders/token_kind_filter.rb:99
   def end_line(kind); end
 
   # Add the token to the output stream if +kind+ matches the conditions.
   #
-  # source://coderay//lib/coderay/encoders/token_kind_filter.rb#57
+  # pkg:gem/coderay#lib/coderay/encoders/token_kind_filter.rb:57
   def text_token(text, kind); end
 
   protected
 
-  # @return [Boolean]
-  #
-  # source://coderay//lib/coderay/encoders/token_kind_filter.rb#49
+  # pkg:gem/coderay#lib/coderay/encoders/token_kind_filter.rb:49
   def include_group?(kind); end
 
-  # @return [Boolean]
-  #
-  # source://coderay//lib/coderay/encoders/token_kind_filter.rb#45
+  # pkg:gem/coderay#lib/coderay/encoders/token_kind_filter.rb:45
   def include_text_token?(text, kind); end
 
-  # source://coderay//lib/coderay/encoders/token_kind_filter.rb#35
+  # pkg:gem/coderay#lib/coderay/encoders/token_kind_filter.rb:35
   def setup(options); end
 end
 
-# source://coderay//lib/coderay/encoders/token_kind_filter.rb#29
+# pkg:gem/coderay#lib/coderay/encoders/token_kind_filter.rb:29
 CodeRay::Encoders::TokenKindFilter::DEFAULT_OPTIONS = T.let(T.unsafe(nil), Hash)
 
 # = XML Encoder
 #
 # Uses REXML. Very slow.
 #
-# source://coderay//lib/coderay/encoders/xml.rb#7
+# pkg:gem/coderay#lib/coderay/encoders/xml.rb:7
 class CodeRay::Encoders::XML < ::CodeRay::Encoders::Encoder
-  # source://coderay//lib/coderay/encoders/xml.rb#58
+  # pkg:gem/coderay#lib/coderay/encoders/xml.rb:58
   def begin_group(kind); end
 
-  # source://coderay//lib/coderay/encoders/xml.rb#62
+  # pkg:gem/coderay#lib/coderay/encoders/xml.rb:62
   def end_group(kind); end
 
-  # source://coderay//lib/coderay/encoders/xml.rb#38
+  # pkg:gem/coderay#lib/coderay/encoders/xml.rb:38
   def text_token(text, kind); end
 
   protected
 
-  # source://coderay//lib/coderay/encoders/xml.rb#31
+  # pkg:gem/coderay#lib/coderay/encoders/xml.rb:31
   def finish(options); end
 
-  # source://coderay//lib/coderay/encoders/xml.rb#22
+  # pkg:gem/coderay#lib/coderay/encoders/xml.rb:22
   def setup(options); end
 end
 
-# source://coderay//lib/coderay/encoders/xml.rb#15
+# pkg:gem/coderay#lib/coderay/encoders/xml.rb:15
 CodeRay::Encoders::XML::DEFAULT_OPTIONS = T.let(T.unsafe(nil), Hash)
 
-# source://coderay//lib/coderay/encoders/xml.rb#11
+# pkg:gem/coderay#lib/coderay/encoders/xml.rb:11
 CodeRay::Encoders::XML::FILE_EXTENSION = T.let(T.unsafe(nil), String)
 
 # = YAML Encoder
 #
 # Slow.
 #
-# source://coderay//lib/coderay/encoders/yaml.rb#9
+# pkg:gem/coderay#lib/coderay/encoders/yaml.rb:9
 class CodeRay::Encoders::YAML < ::CodeRay::Encoders::Encoder
-  # source://coderay//lib/coderay/encoders/yaml.rb#31
+  # pkg:gem/coderay#lib/coderay/encoders/yaml.rb:31
   def begin_group(kind); end
 
-  # source://coderay//lib/coderay/encoders/yaml.rb#39
+  # pkg:gem/coderay#lib/coderay/encoders/yaml.rb:39
   def begin_line(kind); end
 
-  # source://coderay//lib/coderay/encoders/yaml.rb#35
+  # pkg:gem/coderay#lib/coderay/encoders/yaml.rb:35
   def end_group(kind); end
 
-  # source://coderay//lib/coderay/encoders/yaml.rb#43
+  # pkg:gem/coderay#lib/coderay/encoders/yaml.rb:43
   def end_line(kind); end
 
-  # source://coderay//lib/coderay/encoders/yaml.rb#27
+  # pkg:gem/coderay#lib/coderay/encoders/yaml.rb:27
   def text_token(text, kind); end
 
   protected
 
-  # source://coderay//lib/coderay/encoders/yaml.rb#22
+  # pkg:gem/coderay#lib/coderay/encoders/yaml.rb:22
   def finish(options); end
 
-  # source://coderay//lib/coderay/encoders/yaml.rb#16
+  # pkg:gem/coderay#lib/coderay/encoders/yaml.rb:16
   def setup(options); end
 end
 
-# source://coderay//lib/coderay/encoders/yaml.rb#13
+# pkg:gem/coderay#lib/coderay/encoders/yaml.rb:13
 CodeRay::Encoders::YAML::FILE_EXTENSION = T.let(T.unsafe(nil), String)
 
 # = FileType
@@ -1504,7 +1442,7 @@ CodeRay::Encoders::YAML::FILE_EXTENSION = T.let(T.unsafe(nil), String)
 #  # try the shebang line, too
 #  lang = FileType.fetch file_name, :text, true
 #
-# source://coderay//lib/coderay/helpers/file_type.rb#17
+# pkg:gem/coderay#lib/coderay/helpers/file_type.rb:17
 module CodeRay::FileType
   class << self
     # Try to determine the file type of the file.
@@ -1514,7 +1452,7 @@ module CodeRay::FileType
     # The file itself is only accessed when +read_shebang+ is set to true.
     # That means you can get filetypes from files that don't exist.
     #
-    # source://coderay//lib/coderay/helpers/file_type.rb#29
+    # pkg:gem/coderay#lib/coderay/helpers/file_type.rb:29
     def [](filename, read_shebang = T.unsafe(nil)); end
 
     # This works like Hash#fetch.
@@ -1522,25 +1460,26 @@ module CodeRay::FileType
     # If the filetype cannot be found, the +default+ value
     # is returned.
     #
-    # source://coderay//lib/coderay/helpers/file_type.rb#50
+    # pkg:gem/coderay#lib/coderay/helpers/file_type.rb:50
     def fetch(filename, default = T.unsafe(nil), read_shebang = T.unsafe(nil)); end
 
     protected
 
-    # source://coderay//lib/coderay/helpers/file_type.rb#66
+    # pkg:gem/coderay#lib/coderay/helpers/file_type.rb:66
     def type_from_shebang(filename); end
   end
 end
 
-# source://coderay//lib/coderay/helpers/file_type.rb#79
+# pkg:gem/coderay#lib/coderay/helpers/file_type.rb:79
 CodeRay::FileType::TypeFromExt = T.let(T.unsafe(nil), Hash)
 
-# source://coderay//lib/coderay/helpers/file_type.rb#139
+# pkg:gem/coderay#lib/coderay/helpers/file_type.rb:139
 CodeRay::FileType::TypeFromName = T.let(T.unsafe(nil), Hash)
 
-# source://coderay//lib/coderay/helpers/file_type.rb#137
+# pkg:gem/coderay#lib/coderay/helpers/file_type.rb:137
 CodeRay::FileType::TypeFromShebang = T.let(T.unsafe(nil), Regexp)
 
+# pkg:gem/coderay#lib/coderay/helpers/file_type.rb:19
 class CodeRay::FileType::UnknownFileType < ::Exception; end
 
 # = Plugin
@@ -1551,19 +1490,17 @@ class CodeRay::FileType::UnknownFileType < ::Exception; end
 #
 #  See CodeRay::PluginHost for examples.
 #
-# source://coderay//lib/coderay/helpers/plugin.rb#10
+# pkg:gem/coderay#lib/coderay/helpers/plugin.rb:10
 module CodeRay::Plugin
-  # source://coderay//lib/coderay/helpers/plugin.rb#46
+  # pkg:gem/coderay#lib/coderay/helpers/plugin.rb:46
   def aliases; end
 
   # The PluginHost for this Plugin class.
   #
-  # source://coderay//lib/coderay/helpers/plugin.rb#39
+  # pkg:gem/coderay#lib/coderay/helpers/plugin.rb:39
   def plugin_host(host = T.unsafe(nil)); end
 
-  # Returns the value of attribute plugin_id.
-  #
-  # source://coderay//lib/coderay/helpers/plugin.rb#12
+  # pkg:gem/coderay#lib/coderay/helpers/plugin.rb:12
   def plugin_id; end
 
   # Register this class for the given +id+.
@@ -1576,13 +1513,13 @@ module CodeRay::Plugin
   #
   # See PluginHost.register.
   #
-  # source://coderay//lib/coderay/helpers/plugin.rb#23
+  # pkg:gem/coderay#lib/coderay/helpers/plugin.rb:23
   def register_for(id); end
 
   # Returns the title of the plugin, or sets it to the
   # optional argument +title+.
   #
-  # source://coderay//lib/coderay/helpers/plugin.rb#30
+  # pkg:gem/coderay#lib/coderay/helpers/plugin.rb:30
   def title(title = T.unsafe(nil)); end
 end
 
@@ -1611,27 +1548,27 @@ end
 #  # or
 #  Generators::Fancy
 #
-# source://coderay//lib/coderay/helpers/plugin_host.rb#27
+# pkg:gem/coderay#lib/coderay/helpers/plugin_host.rb:27
 module CodeRay::PluginHost
   # Returns the Plugin for +id+.
   #
   # Example:
   #  yaml_plugin = MyPluginHost[:yaml]
   #
-  # source://coderay//lib/coderay/helpers/plugin_host.rb#49
+  # pkg:gem/coderay#lib/coderay/helpers/plugin_host.rb:49
   def [](id, *args, &blk); end
 
   # Returns an array of all Plugins.
   #
   # Note: This loads all plugins using load_all.
   #
-  # source://coderay//lib/coderay/helpers/plugin_host.rb#151
+  # pkg:gem/coderay#lib/coderay/helpers/plugin_host.rb:151
   def all_plugins; end
 
   # Tries to +load+ the missing plugin by translating +const+ to the
   # underscore form (eg. LinesOfCode becomes lines_of_code).
   #
-  # source://coderay//lib/coderay/helpers/plugin_host.rb#61
+  # pkg:gem/coderay#lib/coderay/helpers/plugin_host.rb:61
   def const_missing(const); end
 
   # Define the default plugin to use when no plugin is found
@@ -1646,34 +1583,29 @@ module CodeRay::PluginHost
   #
   #  MyColorHost.default  # loads and returns the Gray plugin
   #
-  # source://coderay//lib/coderay/helpers/plugin_host.rb#114
+  # pkg:gem/coderay#lib/coderay/helpers/plugin_host.rb:114
   def default(id = T.unsafe(nil)); end
 
   # Returns an array of all .rb files in the plugin path.
   #
   # The extension .rb is not included.
   #
-  # source://coderay//lib/coderay/helpers/plugin_host.rb#140
+  # pkg:gem/coderay#lib/coderay/helpers/plugin_host.rb:140
   def list; end
 
-  # Returns the Plugin for +id+.
-  #
-  # Example:
-  #  yaml_plugin = MyPluginHost[:yaml]
-  #
-  # source://coderay//lib/coderay/helpers/plugin_host.rb#57
+  # pkg:gem/coderay#lib/coderay/helpers/plugin_host.rb:57
   def load(id, *args, &blk); end
 
   # Loads all plugins using list and load.
   #
-  # source://coderay//lib/coderay/helpers/plugin_host.rb#39
+  # pkg:gem/coderay#lib/coderay/helpers/plugin_host.rb:39
   def load_all; end
 
   # Loads the map file (see map).
   #
   # This is done automatically when plugin_path is called.
   #
-  # source://coderay//lib/coderay/helpers/plugin_host.rb#159
+  # pkg:gem/coderay#lib/coderay/helpers/plugin_host.rb:159
   def load_plugin_map; end
 
   # Map a plugin_id to another.
@@ -1686,17 +1618,17 @@ module CodeRay::PluginHost
   #      :luna => :moon
   #  end
   #
-  # source://coderay//lib/coderay/helpers/plugin_host.rb#95
+  # pkg:gem/coderay#lib/coderay/helpers/plugin_host.rb:95
   def map(hash); end
 
   # A Hash of plugion_id => Plugin pairs.
   #
-  # source://coderay//lib/coderay/helpers/plugin_host.rb#133
+  # pkg:gem/coderay#lib/coderay/helpers/plugin_host.rb:133
   def plugin_hash; end
 
   # The path where the plugins can be found.
   #
-  # source://coderay//lib/coderay/helpers/plugin_host.rb#79
+  # pkg:gem/coderay#lib/coderay/helpers/plugin_host.rb:79
   def plugin_path(*args); end
 
   # Every plugin must register itself for +id+ by calling register_for,
@@ -1704,19 +1636,19 @@ module CodeRay::PluginHost
   #
   # See Plugin#register_for.
   #
-  # source://coderay//lib/coderay/helpers/plugin_host.rb#128
+  # pkg:gem/coderay#lib/coderay/helpers/plugin_host.rb:128
   def register(plugin, id); end
 
   protected
 
   # Return a plugin hash that automatically loads plugins.
   #
-  # source://coderay//lib/coderay/helpers/plugin_host.rb#172
+  # pkg:gem/coderay#lib/coderay/helpers/plugin_host.rb:172
   def make_plugin_hash; end
 
   # Returns the expected path to the plugin file for the given id.
   #
-  # source://coderay//lib/coderay/helpers/plugin_host.rb#196
+  # pkg:gem/coderay#lib/coderay/helpers/plugin_host.rb:196
   def path_to(plugin_id); end
 
   # Converts +id+ to a valid plugin ID String, or returns +nil+.
@@ -1724,30 +1656,31 @@ module CodeRay::PluginHost
   # Raises +ArgumentError+ for all other objects, or if the
   # given String includes non-alphanumeric characters (\W).
   #
-  # source://coderay//lib/coderay/helpers/plugin_host.rb#204
+  # pkg:gem/coderay#lib/coderay/helpers/plugin_host.rb:204
   def validate_id(id); end
 
   class << self
     # Adds the module/class to the PLUGIN_HOSTS list.
     #
-    # source://coderay//lib/coderay/helpers/plugin_host.rb#72
+    # pkg:gem/coderay#lib/coderay/helpers/plugin_host.rb:72
     def extended(mod); end
   end
 end
 
+# pkg:gem/coderay#lib/coderay/helpers/plugin_host.rb:33
 class CodeRay::PluginHost::HostNotFound < ::LoadError; end
 
-# source://coderay//lib/coderay/helpers/plugin_host.rb#35
+# pkg:gem/coderay#lib/coderay/helpers/plugin_host.rb:35
 CodeRay::PluginHost::PLUGIN_HOSTS = T.let(T.unsafe(nil), Array)
 
-# dummy hash
-#
-# source://coderay//lib/coderay/helpers/plugin_host.rb#36
+# pkg:gem/coderay#lib/coderay/helpers/plugin_host.rb:36
 CodeRay::PluginHost::PLUGIN_HOSTS_BY_ID = T.let(T.unsafe(nil), Hash)
 
 # Raised if Encoders::[] fails because:
 # * a file could not be found
 # * the requested Plugin is not registered
+#
+# pkg:gem/coderay#lib/coderay/helpers/plugin_host.rb:32
 class CodeRay::PluginHost::PluginNotFound < ::LoadError; end
 
 # = Scanners
@@ -1762,40 +1695,40 @@ class CodeRay::PluginHost::PluginNotFound < ::LoadError; end
 #
 # See PluginHost.
 #
-# source://coderay//lib/coderay/scanners.rb#18
+# pkg:gem/coderay#lib/coderay/scanners.rb:18
 module CodeRay::Scanners
   extend ::CodeRay::PluginHost
 end
 
 # Scanner for C.
 #
-# source://coderay//lib/coderay/scanners/c.rb#5
+# pkg:gem/coderay#lib/coderay/scanners/c.rb:5
 class CodeRay::Scanners::C < ::CodeRay::Scanners::Scanner
   protected
 
-  # source://coderay//lib/coderay/scanners/c.rb#44
+  # pkg:gem/coderay#lib/coderay/scanners/c.rb:44
   def scan_tokens(encoder, options); end
 end
 
-# source://coderay//lib/coderay/scanners/c.rb#27
+# pkg:gem/coderay#lib/coderay/scanners/c.rb:27
 CodeRay::Scanners::C::DIRECTIVES = T.let(T.unsafe(nil), Array)
 
-# source://coderay//lib/coderay/scanners/c.rb#39
+# pkg:gem/coderay#lib/coderay/scanners/c.rb:39
 CodeRay::Scanners::C::ESCAPE = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/c.rb#33
+# pkg:gem/coderay#lib/coderay/scanners/c.rb:33
 CodeRay::Scanners::C::IDENT_KIND = T.let(T.unsafe(nil), CodeRay::WordList)
 
-# source://coderay//lib/coderay/scanners/c.rb#10
+# pkg:gem/coderay#lib/coderay/scanners/c.rb:10
 CodeRay::Scanners::C::KEYWORDS = T.let(T.unsafe(nil), Array)
 
-# source://coderay//lib/coderay/scanners/c.rb#23
+# pkg:gem/coderay#lib/coderay/scanners/c.rb:23
 CodeRay::Scanners::C::PREDEFINED_CONSTANTS = T.let(T.unsafe(nil), Array)
 
-# source://coderay//lib/coderay/scanners/c.rb#17
+# pkg:gem/coderay#lib/coderay/scanners/c.rb:17
 CodeRay::Scanners::C::PREDEFINED_TYPES = T.let(T.unsafe(nil), Array)
 
-# source://coderay//lib/coderay/scanners/c.rb#40
+# pkg:gem/coderay#lib/coderay/scanners/c.rb:40
 CodeRay::Scanners::C::UNICODE_ESCAPE = T.let(T.unsafe(nil), Regexp)
 
 # Scanner for C++.
@@ -1803,268 +1736,270 @@ CodeRay::Scanners::C::UNICODE_ESCAPE = T.let(T.unsafe(nil), Regexp)
 # Aliases: +cplusplus+, c++
 CodeRay::Scanners::CPlusPlus = CodeRay::Scanners::Text
 
-# source://coderay//lib/coderay/scanners/css.rb#4
+# pkg:gem/coderay#lib/coderay/scanners/css.rb:4
 class CodeRay::Scanners::CSS < ::CodeRay::Scanners::Scanner
   protected
 
-  # source://coderay//lib/coderay/scanners/css.rb#55
+  # pkg:gem/coderay#lib/coderay/scanners/css.rb:55
   def scan_tokens(encoder, options); end
 
-  # source://coderay//lib/coderay/scanners/css.rb#50
+  # pkg:gem/coderay#lib/coderay/scanners/css.rb:50
   def setup; end
 end
 
-# source://coderay//lib/coderay/scanners/css.rb#8
+# pkg:gem/coderay#lib/coderay/scanners/css.rb:8
 CodeRay::Scanners::CSS::KINDS_NOT_LOC = T.let(T.unsafe(nil), Array)
 
-# source://coderay//lib/coderay/scanners/css.rb#16
+# pkg:gem/coderay#lib/coderay/scanners/css.rb:16
 module CodeRay::Scanners::CSS::RE; end
 
-# source://coderay//lib/coderay/scanners/css.rb#31
+# pkg:gem/coderay#lib/coderay/scanners/css.rb:31
 CodeRay::Scanners::CSS::RE::AtKeyword = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/css.rb#45
+# pkg:gem/coderay#lib/coderay/scanners/css.rb:45
 CodeRay::Scanners::CSS::RE::AttributeSelector = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/css.rb#43
+# pkg:gem/coderay#lib/coderay/scanners/css.rb:43
 CodeRay::Scanners::CSS::RE::Class = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/css.rb#38
+# pkg:gem/coderay#lib/coderay/scanners/css.rb:38
 CodeRay::Scanners::CSS::RE::Dimension = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/css.rb#19
+# differs from standard because it allows uppercase hex too
+#
+# pkg:gem/coderay#lib/coderay/scanners/css.rb:19
 CodeRay::Scanners::CSS::RE::Escape = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/css.rb#40
+# pkg:gem/coderay#lib/coderay/scanners/css.rb:40
 CodeRay::Scanners::CSS::RE::Function = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/css.rb#17
+# pkg:gem/coderay#lib/coderay/scanners/css.rb:17
 CodeRay::Scanners::CSS::RE::Hex = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/css.rb#26
+# pkg:gem/coderay#lib/coderay/scanners/css.rb:26
 CodeRay::Scanners::CSS::RE::HexColor = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/css.rb#42
+# pkg:gem/coderay#lib/coderay/scanners/css.rb:42
 CodeRay::Scanners::CSS::RE::Id = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/css.rb#30
+# pkg:gem/coderay#lib/coderay/scanners/css.rb:30
 CodeRay::Scanners::CSS::RE::Ident = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/css.rb#20
+# pkg:gem/coderay#lib/coderay/scanners/css.rb:20
 CodeRay::Scanners::CSS::RE::NMChar = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/css.rb#21
+# pkg:gem/coderay#lib/coderay/scanners/css.rb:21
 CodeRay::Scanners::CSS::RE::NMStart = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/css.rb#29
+# pkg:gem/coderay#lib/coderay/scanners/css.rb:29
 CodeRay::Scanners::CSS::RE::Name = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/css.rb#28
+# pkg:gem/coderay#lib/coderay/scanners/css.rb:28
 CodeRay::Scanners::CSS::RE::Num = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/css.rb#32
+# pkg:gem/coderay#lib/coderay/scanners/css.rb:32
 CodeRay::Scanners::CSS::RE::Percentage = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/css.rb#44
+# pkg:gem/coderay#lib/coderay/scanners/css.rb:44
 CodeRay::Scanners::CSS::RE::PseudoClass = T.let(T.unsafe(nil), Regexp)
-
-# source://coderay//lib/coderay/scanners/css.rb#24
-CodeRay::Scanners::CSS::RE::String = T.let(T.unsafe(nil), Regexp)
 
 # TODO: buggy regexp
 #
-# source://coderay//lib/coderay/scanners/css.rb#22
+# pkg:gem/coderay#lib/coderay/scanners/css.rb:24
+CodeRay::Scanners::CSS::RE::String = T.let(T.unsafe(nil), Regexp)
+
+# pkg:gem/coderay#lib/coderay/scanners/css.rb:22
 CodeRay::Scanners::CSS::RE::String1 = T.let(T.unsafe(nil), Regexp)
 
 # TODO: buggy regexp
 #
-# source://coderay//lib/coderay/scanners/css.rb#23
+# pkg:gem/coderay#lib/coderay/scanners/css.rb:23
 CodeRay::Scanners::CSS::RE::String2 = T.let(T.unsafe(nil), Regexp)
 
-# differs from standard because it allows uppercase hex too
-#
-# source://coderay//lib/coderay/scanners/css.rb#18
+# pkg:gem/coderay#lib/coderay/scanners/css.rb:18
 CodeRay::Scanners::CSS::RE::Unicode = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/css.rb#36
+# pkg:gem/coderay#lib/coderay/scanners/css.rb:36
 CodeRay::Scanners::CSS::RE::Unit = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/clojure.rb#6
+# Clojure scanner by Licenser.
+#
+# pkg:gem/coderay#lib/coderay/scanners/clojure.rb:6
 class CodeRay::Scanners::Clojure < ::CodeRay::Scanners::Scanner
   protected
 
-  # source://coderay//lib/coderay/scanners/clojure.rb#145
+  # pkg:gem/coderay#lib/coderay/scanners/clojure.rb:145
   def scan_tokens(encoder, options); end
 end
 
-# source://coderay//lib/coderay/scanners/clojure.rb#95
+# pkg:gem/coderay#lib/coderay/scanners/clojure.rb:95
 CodeRay::Scanners::Clojure::BASIC_IDENTIFIER = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/clojure.rb#133
+# pkg:gem/coderay#lib/coderay/scanners/clojure.rb:133
 CodeRay::Scanners::Clojure::COMPLEX10 = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/clojure.rb#134
+# pkg:gem/coderay#lib/coderay/scanners/clojure.rb:134
 CodeRay::Scanners::Clojure::COMPLEX16 = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/clojure.rb#136
+# pkg:gem/coderay#lib/coderay/scanners/clojure.rb:136
 CodeRay::Scanners::Clojure::COMPLEX2 = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/clojure.rb#135
+# pkg:gem/coderay#lib/coderay/scanners/clojure.rb:135
 CodeRay::Scanners::Clojure::COMPLEX8 = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/clojure.rb#16
+# pkg:gem/coderay#lib/coderay/scanners/clojure.rb:16
 CodeRay::Scanners::Clojure::CORE_FORMS = T.let(T.unsafe(nil), Array)
 
-# source://coderay//lib/coderay/scanners/clojure.rb#120
+# pkg:gem/coderay#lib/coderay/scanners/clojure.rb:120
 CodeRay::Scanners::Clojure::DECIMAL = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/clojure.rb#98
+# pkg:gem/coderay#lib/coderay/scanners/clojure.rb:98
 CodeRay::Scanners::Clojure::DIGIT = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/clojure.rb#99
+# pkg:gem/coderay#lib/coderay/scanners/clojure.rb:99
 CodeRay::Scanners::Clojure::DIGIT10 = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/clojure.rb#100
+# pkg:gem/coderay#lib/coderay/scanners/clojure.rb:100
 CodeRay::Scanners::Clojure::DIGIT16 = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/clojure.rb#102
+# pkg:gem/coderay#lib/coderay/scanners/clojure.rb:102
 CodeRay::Scanners::Clojure::DIGIT2 = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/clojure.rb#101
+# pkg:gem/coderay#lib/coderay/scanners/clojure.rb:101
 CodeRay::Scanners::Clojure::DIGIT8 = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/clojure.rb#107
+# pkg:gem/coderay#lib/coderay/scanners/clojure.rb:107
 CodeRay::Scanners::Clojure::EXACTNESS = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/clojure.rb#110
+# pkg:gem/coderay#lib/coderay/scanners/clojure.rb:110
 CodeRay::Scanners::Clojure::EXP = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/clojure.rb#109
+# pkg:gem/coderay#lib/coderay/scanners/clojure.rb:109
 CodeRay::Scanners::Clojure::EXP_MARK = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/clojure.rb#96
+# pkg:gem/coderay#lib/coderay/scanners/clojure.rb:96
 CodeRay::Scanners::Clojure::IDENTIFIER = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/clojure.rb#85
+# pkg:gem/coderay#lib/coderay/scanners/clojure.rb:85
 CodeRay::Scanners::Clojure::IDENT_KIND = T.let(T.unsafe(nil), CodeRay::WordList)
 
-# source://coderay//lib/coderay/scanners/clojure.rb#129
+# pkg:gem/coderay#lib/coderay/scanners/clojure.rb:129
 CodeRay::Scanners::Clojure::IMAG10 = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/clojure.rb#130
+# pkg:gem/coderay#lib/coderay/scanners/clojure.rb:130
 CodeRay::Scanners::Clojure::IMAG16 = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/clojure.rb#132
+# pkg:gem/coderay#lib/coderay/scanners/clojure.rb:132
 CodeRay::Scanners::Clojure::IMAG2 = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/clojure.rb#131
+# pkg:gem/coderay#lib/coderay/scanners/clojure.rb:131
 CodeRay::Scanners::Clojure::IMAG8 = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/clojure.rb#90
+# pkg:gem/coderay#lib/coderay/scanners/clojure.rb:90
 CodeRay::Scanners::Clojure::KEYWORD_NEXT_TOKEN_KIND = T.let(T.unsafe(nil), CodeRay::WordList)
 
-# source://coderay//lib/coderay/scanners/clojure.rb#141
+# pkg:gem/coderay#lib/coderay/scanners/clojure.rb:141
 CodeRay::Scanners::Clojure::NUM = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/clojure.rb#137
+# pkg:gem/coderay#lib/coderay/scanners/clojure.rb:137
 CodeRay::Scanners::Clojure::NUM10 = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/clojure.rb#138
+# pkg:gem/coderay#lib/coderay/scanners/clojure.rb:138
 CodeRay::Scanners::Clojure::NUM16 = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/clojure.rb#140
+# pkg:gem/coderay#lib/coderay/scanners/clojure.rb:140
 CodeRay::Scanners::Clojure::NUM2 = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/clojure.rb#139
+# pkg:gem/coderay#lib/coderay/scanners/clojure.rb:139
 CodeRay::Scanners::Clojure::NUM8 = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/clojure.rb#78
+# pkg:gem/coderay#lib/coderay/scanners/clojure.rb:78
 CodeRay::Scanners::Clojure::PREDEFINED_CONSTANTS = T.let(T.unsafe(nil), Array)
 
-# source://coderay//lib/coderay/scanners/clojure.rb#112
+# pkg:gem/coderay#lib/coderay/scanners/clojure.rb:112
 CodeRay::Scanners::Clojure::PREFIX10 = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/clojure.rb#113
+# pkg:gem/coderay#lib/coderay/scanners/clojure.rb:113
 CodeRay::Scanners::Clojure::PREFIX16 = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/clojure.rb#115
+# pkg:gem/coderay#lib/coderay/scanners/clojure.rb:115
 CodeRay::Scanners::Clojure::PREFIX2 = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/clojure.rb#114
+# pkg:gem/coderay#lib/coderay/scanners/clojure.rb:114
 CodeRay::Scanners::Clojure::PREFIX8 = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/clojure.rb#106
+# pkg:gem/coderay#lib/coderay/scanners/clojure.rb:106
 CodeRay::Scanners::Clojure::RADIX10 = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/clojure.rb#103
+# pkg:gem/coderay#lib/coderay/scanners/clojure.rb:103
 CodeRay::Scanners::Clojure::RADIX16 = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/clojure.rb#105
+# pkg:gem/coderay#lib/coderay/scanners/clojure.rb:105
 CodeRay::Scanners::Clojure::RADIX2 = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/clojure.rb#104
+# pkg:gem/coderay#lib/coderay/scanners/clojure.rb:104
 CodeRay::Scanners::Clojure::RADIX8 = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/clojure.rb#125
+# pkg:gem/coderay#lib/coderay/scanners/clojure.rb:125
 CodeRay::Scanners::Clojure::REAL10 = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/clojure.rb#126
+# pkg:gem/coderay#lib/coderay/scanners/clojure.rb:126
 CodeRay::Scanners::Clojure::REAL16 = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/clojure.rb#128
+# pkg:gem/coderay#lib/coderay/scanners/clojure.rb:128
 CodeRay::Scanners::Clojure::REAL2 = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/clojure.rb#127
+# pkg:gem/coderay#lib/coderay/scanners/clojure.rb:127
 CodeRay::Scanners::Clojure::REAL8 = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/clojure.rb#108
+# pkg:gem/coderay#lib/coderay/scanners/clojure.rb:108
 CodeRay::Scanners::Clojure::SIGN = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/clojure.rb#11
+# pkg:gem/coderay#lib/coderay/scanners/clojure.rb:11
 CodeRay::Scanners::Clojure::SPECIAL_FORMS = T.let(T.unsafe(nil), Array)
 
-# source://coderay//lib/coderay/scanners/clojure.rb#111
+# pkg:gem/coderay#lib/coderay/scanners/clojure.rb:111
 CodeRay::Scanners::Clojure::SUFFIX = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/clojure.rb#97
+# pkg:gem/coderay#lib/coderay/scanners/clojure.rb:97
 CodeRay::Scanners::Clojure::SYMBOL = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/clojure.rb#116
+# pkg:gem/coderay#lib/coderay/scanners/clojure.rb:116
 CodeRay::Scanners::Clojure::UINT10 = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/clojure.rb#117
+# pkg:gem/coderay#lib/coderay/scanners/clojure.rb:117
 CodeRay::Scanners::Clojure::UINT16 = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/clojure.rb#119
+# pkg:gem/coderay#lib/coderay/scanners/clojure.rb:119
 CodeRay::Scanners::Clojure::UINT2 = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/clojure.rb#118
+# pkg:gem/coderay#lib/coderay/scanners/clojure.rb:118
 CodeRay::Scanners::Clojure::UINT8 = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/clojure.rb#121
+# pkg:gem/coderay#lib/coderay/scanners/clojure.rb:121
 CodeRay::Scanners::Clojure::UREAL10 = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/clojure.rb#122
+# pkg:gem/coderay#lib/coderay/scanners/clojure.rb:122
 CodeRay::Scanners::Clojure::UREAL16 = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/clojure.rb#124
+# pkg:gem/coderay#lib/coderay/scanners/clojure.rb:124
 CodeRay::Scanners::Clojure::UREAL2 = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/clojure.rb#123
+# pkg:gem/coderay#lib/coderay/scanners/clojure.rb:123
 CodeRay::Scanners::Clojure::UREAL8 = T.let(T.unsafe(nil), Regexp)
 
 # = Debug Scanner
 #
 # Interprets the output of the Encoders::Debug encoder (basically the inverse function).
 #
-# source://coderay//lib/coderay/scanners/debug.rb#9
+# pkg:gem/coderay#lib/coderay/scanners/debug.rb:9
 class CodeRay::Scanners::Debug < ::CodeRay::Scanners::Scanner
   protected
 
-  # source://coderay//lib/coderay/scanners/debug.rb#21
+  # pkg:gem/coderay#lib/coderay/scanners/debug.rb:21
   def scan_tokens(encoder, options); end
 
-  # source://coderay//lib/coderay/scanners/debug.rb#16
+  # pkg:gem/coderay#lib/coderay/scanners/debug.rb:16
   def setup; end
 end
 
@@ -2072,157 +2007,157 @@ end
 #
 # Alias: +pascal+
 #
-# source://coderay//lib/coderay/scanners/delphi.rb#7
+# pkg:gem/coderay#lib/coderay/scanners/delphi.rb:7
 class CodeRay::Scanners::Delphi < ::CodeRay::Scanners::Scanner
   protected
 
-  # source://coderay//lib/coderay/scanners/delphi.rb#45
+  # pkg:gem/coderay#lib/coderay/scanners/delphi.rb:45
   def scan_tokens(encoder, options); end
 end
 
-# source://coderay//lib/coderay/scanners/delphi.rb#25
+# pkg:gem/coderay#lib/coderay/scanners/delphi.rb:25
 CodeRay::Scanners::Delphi::DIRECTIVES = T.let(T.unsafe(nil), Array)
 
-# source://coderay//lib/coderay/scanners/delphi.rb#36
+# pkg:gem/coderay#lib/coderay/scanners/delphi.rb:36
 CodeRay::Scanners::Delphi::IDENT_KIND = T.let(T.unsafe(nil), CodeRay::WordList::CaseIgnoring)
 
-# source://coderay//lib/coderay/scanners/delphi.rb#12
+# pkg:gem/coderay#lib/coderay/scanners/delphi.rb:12
 CodeRay::Scanners::Delphi::KEYWORDS = T.let(T.unsafe(nil), Array)
 
-# source://coderay//lib/coderay/scanners/delphi.rb#40
+# pkg:gem/coderay#lib/coderay/scanners/delphi.rb:40
 CodeRay::Scanners::Delphi::NAME_FOLLOWS = T.let(T.unsafe(nil), CodeRay::WordList::CaseIgnoring)
 
 # Scanner for output of the diff command.
 #
 # Alias: +patch+
 #
-# source://coderay//lib/coderay/scanners/diff.rb#7
+# pkg:gem/coderay#lib/coderay/scanners/diff.rb:7
 class CodeRay::Scanners::Diff < ::CodeRay::Scanners::Scanner
   protected
 
-  # source://coderay//lib/coderay/scanners/diff.rb#19
+  # pkg:gem/coderay#lib/coderay/scanners/diff.rb:19
   def scan_tokens(encoder, options); end
 
   private
 
-  # source://coderay//lib/coderay/scanners/diff.rb#204
+  # pkg:gem/coderay#lib/coderay/scanners/diff.rb:204
   def diff(a, b); end
 end
 
-# source://coderay//lib/coderay/scanners/diff.rb#12
+# pkg:gem/coderay#lib/coderay/scanners/diff.rb:12
 CodeRay::Scanners::Diff::DEFAULT_OPTIONS = T.let(T.unsafe(nil), Hash)
 
 # Scanner for HTML ERB templates.
 #
-# source://coderay//lib/coderay/scanners/erb.rb#8
+# pkg:gem/coderay#lib/coderay/scanners/erb.rb:8
 class CodeRay::Scanners::ERB < ::CodeRay::Scanners::Scanner
   protected
 
-  # source://coderay//lib/coderay/scanners/erb.rb#38
+  # pkg:gem/coderay#lib/coderay/scanners/erb.rb:38
   def reset_instance; end
 
-  # source://coderay//lib/coderay/scanners/erb.rb#43
+  # pkg:gem/coderay#lib/coderay/scanners/erb.rb:43
   def scan_tokens(encoder, options); end
 
-  # source://coderay//lib/coderay/scanners/erb.rb#33
+  # pkg:gem/coderay#lib/coderay/scanners/erb.rb:33
   def setup; end
 end
 
-# source://coderay//lib/coderay/scanners/erb.rb#15
+# pkg:gem/coderay#lib/coderay/scanners/erb.rb:15
 CodeRay::Scanners::ERB::ERB_RUBY_BLOCK = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/erb.rb#13
+# pkg:gem/coderay#lib/coderay/scanners/erb.rb:13
 CodeRay::Scanners::ERB::KINDS_NOT_LOC = T.let(T.unsafe(nil), Array)
 
-# source://coderay//lib/coderay/scanners/erb.rb#27
+# pkg:gem/coderay#lib/coderay/scanners/erb.rb:27
 CodeRay::Scanners::ERB::START_OF_ERB = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/go.rb#4
+# pkg:gem/coderay#lib/coderay/scanners/go.rb:4
 class CodeRay::Scanners::Go < ::CodeRay::Scanners::Scanner
   protected
 
-  # source://coderay//lib/coderay/scanners/go.rb#50
+  # pkg:gem/coderay#lib/coderay/scanners/go.rb:50
   def scan_tokens(encoder, options); end
 end
 
-# source://coderay//lib/coderay/scanners/go.rb#45
+# pkg:gem/coderay#lib/coderay/scanners/go.rb:45
 CodeRay::Scanners::Go::ESCAPE = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/go.rb#39
+# pkg:gem/coderay#lib/coderay/scanners/go.rb:39
 CodeRay::Scanners::Go::IDENT_KIND = T.let(T.unsafe(nil), CodeRay::WordList)
 
 # http://golang.org/ref/spec#Keywords
 #
-# source://coderay//lib/coderay/scanners/go.rb#10
+# pkg:gem/coderay#lib/coderay/scanners/go.rb:10
 CodeRay::Scanners::Go::KEYWORDS = T.let(T.unsafe(nil), Array)
 
-# source://coderay//lib/coderay/scanners/go.rb#29
+# pkg:gem/coderay#lib/coderay/scanners/go.rb:29
 CodeRay::Scanners::Go::PREDEFINED_CONSTANTS = T.let(T.unsafe(nil), Array)
 
-# source://coderay//lib/coderay/scanners/go.rb#34
+# pkg:gem/coderay#lib/coderay/scanners/go.rb:34
 CodeRay::Scanners::Go::PREDEFINED_FUNCTIONS = T.let(T.unsafe(nil), Array)
 
 # http://golang.org/ref/spec#Types
 #
-# source://coderay//lib/coderay/scanners/go.rb#19
+# pkg:gem/coderay#lib/coderay/scanners/go.rb:19
 CodeRay::Scanners::Go::PREDEFINED_TYPES = T.let(T.unsafe(nil), Array)
 
-# source://coderay//lib/coderay/scanners/go.rb#46
+# pkg:gem/coderay#lib/coderay/scanners/go.rb:46
 CodeRay::Scanners::Go::UNICODE_ESCAPE = T.let(T.unsafe(nil), Regexp)
 
 # Scanner for Groovy.
 #
-# source://coderay//lib/coderay/scanners/groovy.rb#7
+# pkg:gem/coderay#lib/coderay/scanners/groovy.rb:7
 class CodeRay::Scanners::Groovy < ::CodeRay::Scanners::Java
   protected
 
-  # source://coderay//lib/coderay/scanners/groovy.rb#43
+  # pkg:gem/coderay#lib/coderay/scanners/groovy.rb:43
   def scan_tokens(encoder, options); end
 
-  # source://coderay//lib/coderay/scanners/groovy.rb#39
+  # pkg:gem/coderay#lib/coderay/scanners/groovy.rb:39
   def setup; end
 end
 
-# source://coderay//lib/coderay/scanners/groovy.rb#24
+# pkg:gem/coderay#lib/coderay/scanners/groovy.rb:24
 CodeRay::Scanners::Groovy::ESCAPE = T.let(T.unsafe(nil), Regexp)
 
 # TODO: check list of keywords
 #
-# source://coderay//lib/coderay/scanners/groovy.rb#12
+# pkg:gem/coderay#lib/coderay/scanners/groovy.rb:12
 CodeRay::Scanners::Groovy::GROOVY_KEYWORDS = T.let(T.unsafe(nil), Array)
 
-# source://coderay//lib/coderay/scanners/groovy.rb#18
+# pkg:gem/coderay#lib/coderay/scanners/groovy.rb:18
 CodeRay::Scanners::Groovy::GROOVY_MAGIC_VARIABLES = T.let(T.unsafe(nil), Array)
 
-# source://coderay//lib/coderay/scanners/groovy.rb#20
+# pkg:gem/coderay#lib/coderay/scanners/groovy.rb:20
 CodeRay::Scanners::Groovy::IDENT_KIND = T.let(T.unsafe(nil), CodeRay::WordList)
 
-# source://coderay//lib/coderay/scanners/groovy.rb#15
+# pkg:gem/coderay#lib/coderay/scanners/groovy.rb:15
 CodeRay::Scanners::Groovy::KEYWORDS_EXPECTING_VALUE = T.let(T.unsafe(nil), CodeRay::WordList)
 
-# source://coderay//lib/coderay/scanners/groovy.rb#26
+# pkg:gem/coderay#lib/coderay/scanners/groovy.rb:26
 CodeRay::Scanners::Groovy::REGEXP_ESCAPE = T.let(T.unsafe(nil), Regexp)
 
 # TODO: interpretation inside ', ", /
 #
-# source://coderay//lib/coderay/scanners/groovy.rb#29
+# pkg:gem/coderay#lib/coderay/scanners/groovy.rb:29
 CodeRay::Scanners::Groovy::STRING_CONTENT_PATTERN = T.let(T.unsafe(nil), Hash)
 
-# source://coderay//lib/coderay/scanners/groovy.rb#25
+# pkg:gem/coderay#lib/coderay/scanners/groovy.rb:25
 CodeRay::Scanners::Groovy::UNICODE_ESCAPE = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/haml.rb#8
+# pkg:gem/coderay#lib/coderay/scanners/haml.rb:8
 class CodeRay::Scanners::HAML < ::CodeRay::Scanners::Scanner
   protected
 
-  # source://coderay//lib/coderay/scanners/haml.rb#24
+  # pkg:gem/coderay#lib/coderay/scanners/haml.rb:24
   def scan_tokens(encoder, options); end
 
-  # source://coderay//lib/coderay/scanners/haml.rb#17
+  # pkg:gem/coderay#lib/coderay/scanners/haml.rb:17
   def setup; end
 end
 
-# source://coderay//lib/coderay/scanners/haml.rb#13
+# pkg:gem/coderay#lib/coderay/scanners/haml.rb:13
 CodeRay::Scanners::HAML::KINDS_NOT_LOC = T.let(T.unsafe(nil), Array)
 
 # HTML Scanner
@@ -2231,184 +2166,186 @@ CodeRay::Scanners::HAML::KINDS_NOT_LOC = T.let(T.unsafe(nil), Array)
 #
 # See also: Scanners::XML
 #
-# source://coderay//lib/coderay/scanners/html.rb#9
+# pkg:gem/coderay#lib/coderay/scanners/html.rb:9
 class CodeRay::Scanners::HTML < ::CodeRay::Scanners::Scanner
-  # source://coderay//lib/coderay/scanners/html.rb#62
+  # pkg:gem/coderay#lib/coderay/scanners/html.rb:62
   def reset; end
 
   protected
 
-  # source://coderay//lib/coderay/scanners/html.rb#83
+  # pkg:gem/coderay#lib/coderay/scanners/html.rb:83
   def scan_css(encoder, code, state = T.unsafe(nil)); end
 
-  # source://coderay//lib/coderay/scanners/html.rb#76
+  # pkg:gem/coderay#lib/coderay/scanners/html.rb:76
   def scan_java_script(encoder, code); end
 
-  # source://coderay//lib/coderay/scanners/html.rb#90
+  # pkg:gem/coderay#lib/coderay/scanners/html.rb:90
   def scan_tokens(encoder, options); end
 
-  # source://coderay//lib/coderay/scanners/html.rb#70
+  # pkg:gem/coderay#lib/coderay/scanners/html.rb:70
   def setup; end
 end
 
-# source://coderay//lib/coderay/scanners/html.rb#39
+# pkg:gem/coderay#lib/coderay/scanners/html.rb:39
 CodeRay::Scanners::HTML::ATTR_NAME = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/html.rb#42
+# pkg:gem/coderay#lib/coderay/scanners/html.rb:42
 CodeRay::Scanners::HTML::ENTITY = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/html.rb#20
+# pkg:gem/coderay#lib/coderay/scanners/html.rb:20
 CodeRay::Scanners::HTML::EVENT_ATTRIBUTES = T.let(T.unsafe(nil), Array)
 
-# source://coderay//lib/coderay/scanners/html.rb#41
+# pkg:gem/coderay#lib/coderay/scanners/html.rb:41
 CodeRay::Scanners::HTML::HEX = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/html.rb#35
+# pkg:gem/coderay#lib/coderay/scanners/html.rb:35
 CodeRay::Scanners::HTML::IN_ATTRIBUTE = T.let(T.unsafe(nil), CodeRay::WordList::CaseIgnoring)
 
-# source://coderay//lib/coderay/scanners/html.rb#13
+# pkg:gem/coderay#lib/coderay/scanners/html.rb:13
 CodeRay::Scanners::HTML::KINDS_NOT_LOC = T.let(T.unsafe(nil), Array)
 
-# source://coderay//lib/coderay/scanners/html.rb#57
+# pkg:gem/coderay#lib/coderay/scanners/html.rb:57
 CodeRay::Scanners::HTML::PLAIN_STRING_CONTENT = T.let(T.unsafe(nil), Hash)
 
-# source://coderay//lib/coderay/scanners/html.rb#40
+# pkg:gem/coderay#lib/coderay/scanners/html.rb:40
 CodeRay::Scanners::HTML::TAG_END = T.let(T.unsafe(nil), Regexp)
 
 # Scanner for JSON (JavaScript Object Notation).
 #
-# source://coderay//lib/coderay/scanners/json.rb#5
+# pkg:gem/coderay#lib/coderay/scanners/json.rb:5
 class CodeRay::Scanners::JSON < ::CodeRay::Scanners::Scanner
   protected
 
   # See http://json.org/ for a definition of the JSON lexic/grammar.
   #
-  # source://coderay//lib/coderay/scanners/json.rb#26
+  # pkg:gem/coderay#lib/coderay/scanners/json.rb:26
   def scan_tokens(encoder, options); end
 
-  # source://coderay//lib/coderay/scanners/json.rb#21
+  # pkg:gem/coderay#lib/coderay/scanners/json.rb:21
   def setup; end
 end
 
-# source://coderay//lib/coderay/scanners/json.rb#15
+# pkg:gem/coderay#lib/coderay/scanners/json.rb:15
 CodeRay::Scanners::JSON::ESCAPE = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/json.rb#17
+# pkg:gem/coderay#lib/coderay/scanners/json.rb:17
 CodeRay::Scanners::JSON::KEY = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/json.rb#10
+# pkg:gem/coderay#lib/coderay/scanners/json.rb:10
 CodeRay::Scanners::JSON::KINDS_NOT_LOC = T.let(T.unsafe(nil), Array)
 
-# source://coderay//lib/coderay/scanners/json.rb#16
+# pkg:gem/coderay#lib/coderay/scanners/json.rb:16
 CodeRay::Scanners::JSON::UNICODE_ESCAPE = T.let(T.unsafe(nil), Regexp)
 
 # Scanner for Java.
 #
-# source://coderay//lib/coderay/scanners/java.rb#5
+# pkg:gem/coderay#lib/coderay/scanners/java.rb:5
 class CodeRay::Scanners::Java < ::CodeRay::Scanners::Scanner
   protected
 
-  # source://coderay//lib/coderay/scanners/java.rb#51
+  # pkg:gem/coderay#lib/coderay/scanners/java.rb:51
   def scan_tokens(encoder, options); end
 end
 
-# source://coderay//lib/coderay/scanners/java/builtin_types.rb#4
+# pkg:gem/coderay#lib/coderay/scanners/java/builtin_types.rb:4
 module CodeRay::Scanners::Java::BuiltinTypes; end
 
-# source://coderay//lib/coderay/scanners/java/builtin_types.rb#7
+# :nocov:
+#
+# pkg:gem/coderay#lib/coderay/scanners/java/builtin_types.rb:7
 CodeRay::Scanners::Java::BuiltinTypes::List = T.let(T.unsafe(nil), Array)
 
-# source://coderay//lib/coderay/scanners/java.rb#19
+# pkg:gem/coderay#lib/coderay/scanners/java.rb:19
 CodeRay::Scanners::Java::CONSTANTS = T.let(T.unsafe(nil), Array)
 
-# source://coderay//lib/coderay/scanners/java.rb#25
+# pkg:gem/coderay#lib/coderay/scanners/java.rb:25
 CodeRay::Scanners::Java::DIRECTIVES = T.let(T.unsafe(nil), Array)
 
-# source://coderay//lib/coderay/scanners/java.rb#40
+# pkg:gem/coderay#lib/coderay/scanners/java.rb:40
 CodeRay::Scanners::Java::ESCAPE = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/java.rb#47
+# pkg:gem/coderay#lib/coderay/scanners/java.rb:47
 CodeRay::Scanners::Java::IDENT = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/java.rb#30
+# pkg:gem/coderay#lib/coderay/scanners/java.rb:30
 CodeRay::Scanners::Java::IDENT_KIND = T.let(T.unsafe(nil), CodeRay::WordList)
 
 # http://java.sun.com/docs/books/tutorial/java/nutsandbolts/_keywords.html
 #
-# source://coderay//lib/coderay/scanners/java.rb#12
+# pkg:gem/coderay#lib/coderay/scanners/java.rb:12
 CodeRay::Scanners::Java::KEYWORDS = T.let(T.unsafe(nil), Array)
 
-# source://coderay//lib/coderay/scanners/java.rb#20
+# pkg:gem/coderay#lib/coderay/scanners/java.rb:20
 CodeRay::Scanners::Java::MAGIC_VARIABLES = T.let(T.unsafe(nil), Array)
 
-# source://coderay//lib/coderay/scanners/java.rb#18
+# pkg:gem/coderay#lib/coderay/scanners/java.rb:18
 CodeRay::Scanners::Java::RESERVED = T.let(T.unsafe(nil), Array)
 
-# source://coderay//lib/coderay/scanners/java.rb#42
+# pkg:gem/coderay#lib/coderay/scanners/java.rb:42
 CodeRay::Scanners::Java::STRING_CONTENT_PATTERN = T.let(T.unsafe(nil), Hash)
 
-# source://coderay//lib/coderay/scanners/java.rb#21
+# pkg:gem/coderay#lib/coderay/scanners/java.rb:21
 CodeRay::Scanners::Java::TYPES = T.let(T.unsafe(nil), Array)
 
-# source://coderay//lib/coderay/scanners/java.rb#41
+# pkg:gem/coderay#lib/coderay/scanners/java.rb:41
 CodeRay::Scanners::Java::UNICODE_ESCAPE = T.let(T.unsafe(nil), Regexp)
 
 # Scanner for JavaScript.
 #
 # Aliases: +ecmascript+, +ecma_script+, +javascript+
 #
-# source://coderay//lib/coderay/scanners/java_script.rb#7
+# pkg:gem/coderay#lib/coderay/scanners/java_script.rb:7
 class CodeRay::Scanners::JavaScript < ::CodeRay::Scanners::Scanner
   protected
 
-  # source://coderay//lib/coderay/scanners/java_script.rb#224
+  # pkg:gem/coderay#lib/coderay/scanners/java_script.rb:224
   def reset_instance; end
 
-  # source://coderay//lib/coderay/scanners/java_script.rb#61
+  # pkg:gem/coderay#lib/coderay/scanners/java_script.rb:61
   def scan_tokens(encoder, options); end
 
-  # source://coderay//lib/coderay/scanners/java_script.rb#57
+  # pkg:gem/coderay#lib/coderay/scanners/java_script.rb:57
   def setup; end
 
-  # source://coderay//lib/coderay/scanners/java_script.rb#229
+  # pkg:gem/coderay#lib/coderay/scanners/java_script.rb:229
   def xml_scanner; end
 end
 
-# source://coderay//lib/coderay/scanners/java_script.rb#42
+# pkg:gem/coderay#lib/coderay/scanners/java_script.rb:42
 CodeRay::Scanners::JavaScript::ESCAPE = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/java_script.rb#36
+# pkg:gem/coderay#lib/coderay/scanners/java_script.rb:36
 CodeRay::Scanners::JavaScript::IDENT_KIND = T.let(T.unsafe(nil), CodeRay::WordList)
 
 # The actual JavaScript keywords.
 #
-# source://coderay//lib/coderay/scanners/java_script.rb#13
+# pkg:gem/coderay#lib/coderay/scanners/java_script.rb:13
 CodeRay::Scanners::JavaScript::KEYWORDS = T.let(T.unsafe(nil), Array)
 
-# source://coderay//lib/coderay/scanners/java_script.rb#24
+# pkg:gem/coderay#lib/coderay/scanners/java_script.rb:24
 CodeRay::Scanners::JavaScript::KEYWORDS_EXPECTING_VALUE = T.let(T.unsafe(nil), CodeRay::WordList)
 
-# source://coderay//lib/coderay/scanners/java_script.rb#50
+# pkg:gem/coderay#lib/coderay/scanners/java_script.rb:50
 CodeRay::Scanners::JavaScript::KEY_CHECK_PATTERN = T.let(T.unsafe(nil), Hash)
 
-# source://coderay//lib/coderay/scanners/java_script.rb#22
+# pkg:gem/coderay#lib/coderay/scanners/java_script.rb:22
 CodeRay::Scanners::JavaScript::MAGIC_VARIABLES = T.let(T.unsafe(nil), Array)
 
-# source://coderay//lib/coderay/scanners/java_script.rb#18
+# pkg:gem/coderay#lib/coderay/scanners/java_script.rb:18
 CodeRay::Scanners::JavaScript::PREDEFINED_CONSTANTS = T.let(T.unsafe(nil), Array)
 
-# source://coderay//lib/coderay/scanners/java_script.rb#44
+# pkg:gem/coderay#lib/coderay/scanners/java_script.rb:44
 CodeRay::Scanners::JavaScript::REGEXP_ESCAPE = T.let(T.unsafe(nil), Regexp)
 
 # Reserved for future use.
 #
-# source://coderay//lib/coderay/scanners/java_script.rb#29
+# pkg:gem/coderay#lib/coderay/scanners/java_script.rb:29
 CodeRay::Scanners::JavaScript::RESERVED_WORDS = T.let(T.unsafe(nil), Array)
 
-# source://coderay//lib/coderay/scanners/java_script.rb#45
+# pkg:gem/coderay#lib/coderay/scanners/java_script.rb:45
 CodeRay::Scanners::JavaScript::STRING_CONTENT_PATTERN = T.let(T.unsafe(nil), Hash)
 
-# source://coderay//lib/coderay/scanners/java_script.rb#43
+# pkg:gem/coderay#lib/coderay/scanners/java_script.rb:43
 CodeRay::Scanners::JavaScript::UNICODE_ESCAPE = T.let(T.unsafe(nil), Regexp)
 
 # Scanner for the Lua[http://lua.org] programming lanuage.
@@ -2417,34 +2354,34 @@ CodeRay::Scanners::JavaScript::UNICODE_ESCAPE = T.let(T.unsafe(nil), Regexp)
 # {the Lua manual}[http://www.lua.org/manual/5.2/manual.html],
 # which is what this scanner tries to conform to.
 #
-# source://coderay//lib/coderay/scanners/lua.rb#11
+# pkg:gem/coderay#lib/coderay/scanners/lua.rb:11
 class CodeRay::Scanners::Lua < ::CodeRay::Scanners::Scanner
   protected
 
   # CodeRay entry hook. Starts parsing.
   #
-  # source://coderay//lib/coderay/scanners/lua.rb#60
+  # pkg:gem/coderay#lib/coderay/scanners/lua.rb:60
   def scan_tokens(encoder, options); end
 
   # Scanner initialization.
   #
-  # source://coderay//lib/coderay/scanners/lua.rb#54
+  # pkg:gem/coderay#lib/coderay/scanners/lua.rb:54
   def setup; end
 end
 
 # Automatic token kind selection for normal words.
 #
-# source://coderay//lib/coderay/scanners/lua.rb#46
+# pkg:gem/coderay#lib/coderay/scanners/lua.rb:46
 CodeRay::Scanners::Lua::IDENT_KIND = T.let(T.unsafe(nil), CodeRay::WordList)
 
 # Keywords used in Lua.
 #
-# source://coderay//lib/coderay/scanners/lua.rb#18
+# pkg:gem/coderay#lib/coderay/scanners/lua.rb:18
 CodeRay::Scanners::Lua::KEYWORDS = T.let(T.unsafe(nil), Array)
 
 # Constants set by the Lua core.
 #
-# source://coderay//lib/coderay/scanners/lua.rb#25
+# pkg:gem/coderay#lib/coderay/scanners/lua.rb:25
 CodeRay::Scanners::Lua::PREDEFINED_CONSTANTS = T.let(T.unsafe(nil), Array)
 
 # The expressions contained in this array are parts of Lua’s `basic'
@@ -2459,89 +2396,89 @@ CodeRay::Scanners::Lua::PREDEFINED_CONSTANTS = T.let(T.unsafe(nil), Array)
 # highlighted directly accordingly, without the need for specific
 # identifiers to be listed here.
 #
-# source://coderay//lib/coderay/scanners/lua.rb#38
+# pkg:gem/coderay#lib/coderay/scanners/lua.rb:38
 CodeRay::Scanners::Lua::PREDEFINED_EXPRESSIONS = T.let(T.unsafe(nil), Array)
 
 # Scanner for PHP.
 #
 # Original by Stefan Walk.
 #
-# source://coderay//lib/coderay/scanners/php.rb#10
+# pkg:gem/coderay#lib/coderay/scanners/php.rb:10
 class CodeRay::Scanners::PHP < ::CodeRay::Scanners::Scanner
   protected
 
-  # source://coderay//lib/coderay/scanners/php.rb#23
+  # pkg:gem/coderay#lib/coderay/scanners/php.rb:23
   def reset_instance; end
 
-  # source://coderay//lib/coderay/scanners/php.rb#234
+  # pkg:gem/coderay#lib/coderay/scanners/php.rb:234
   def scan_tokens(encoder, options); end
 
-  # source://coderay//lib/coderay/scanners/php.rb#19
+  # pkg:gem/coderay#lib/coderay/scanners/php.rb:19
   def setup; end
 end
 
-# source://coderay//lib/coderay/scanners/php.rb#15
+# pkg:gem/coderay#lib/coderay/scanners/php.rb:15
 CodeRay::Scanners::PHP::KINDS_NOT_LOC = T.let(T.unsafe(nil), Array)
 
-# source://coderay//lib/coderay/scanners/php.rb#197
+# pkg:gem/coderay#lib/coderay/scanners/php.rb:197
 module CodeRay::Scanners::PHP::RE; end
 
-# source://coderay//lib/coderay/scanners/php.rb#211
+# pkg:gem/coderay#lib/coderay/scanners/php.rb:211
 CodeRay::Scanners::PHP::RE::HTML_INDICATOR = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/php.rb#213
+# pkg:gem/coderay#lib/coderay/scanners/php.rb:213
 CodeRay::Scanners::PHP::RE::IDENTIFIER = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/php.rb#216
+# pkg:gem/coderay#lib/coderay/scanners/php.rb:216
 CodeRay::Scanners::PHP::RE::OPERATOR = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/php.rb#206
+# pkg:gem/coderay#lib/coderay/scanners/php.rb:206
 CodeRay::Scanners::PHP::RE::PHP_END = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/php.rb#199
+# pkg:gem/coderay#lib/coderay/scanners/php.rb:199
 CodeRay::Scanners::PHP::RE::PHP_START = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/php.rb#214
+# pkg:gem/coderay#lib/coderay/scanners/php.rb:214
 CodeRay::Scanners::PHP::RE::VARIABLE = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/php.rb#28
+# pkg:gem/coderay#lib/coderay/scanners/php.rb:28
 module CodeRay::Scanners::PHP::Words; end
 
 # according to http://php.net/quickref.php on 2009-04-21;
 # all functions with _ excluded (module functions) and selected additional functions
 #
-# source://coderay//lib/coderay/scanners/php.rb#50
+# pkg:gem/coderay#lib/coderay/scanners/php.rb:50
 CodeRay::Scanners::PHP::Words::BUILTIN_FUNCTIONS = T.let(T.unsafe(nil), Array)
 
-# source://coderay//lib/coderay/scanners/php.rb#46
+# pkg:gem/coderay#lib/coderay/scanners/php.rb:46
 CodeRay::Scanners::PHP::Words::CLASSES = T.let(T.unsafe(nil), Array)
 
-# source://coderay//lib/coderay/scanners/php.rb#145
+# pkg:gem/coderay#lib/coderay/scanners/php.rb:145
 CodeRay::Scanners::PHP::Words::CONSTANTS = T.let(T.unsafe(nil), Array)
 
 # TODO: more built-in PHP functions?
 #
-# source://coderay//lib/coderay/scanners/php.rb#140
+# pkg:gem/coderay#lib/coderay/scanners/php.rb:140
 CodeRay::Scanners::PHP::Words::EXCEPTIONS = T.let(T.unsafe(nil), Array)
 
-# source://coderay//lib/coderay/scanners/php.rb#184
+# pkg:gem/coderay#lib/coderay/scanners/php.rb:184
 CodeRay::Scanners::PHP::Words::IDENT_KIND = T.let(T.unsafe(nil), CodeRay::WordList::CaseIgnoring)
 
 # according to http://www.php.net/manual/en/reserved.keywords.php
 #
-# source://coderay//lib/coderay/scanners/php.rb#31
+# pkg:gem/coderay#lib/coderay/scanners/php.rb:31
 CodeRay::Scanners::PHP::Words::KEYWORDS = T.let(T.unsafe(nil), Array)
 
-# source://coderay//lib/coderay/scanners/php.rb#41
+# pkg:gem/coderay#lib/coderay/scanners/php.rb:41
 CodeRay::Scanners::PHP::Words::LANGUAGE_CONSTRUCTS = T.let(T.unsafe(nil), Array)
 
-# source://coderay//lib/coderay/scanners/php.rb#178
+# pkg:gem/coderay#lib/coderay/scanners/php.rb:178
 CodeRay::Scanners::PHP::Words::PREDEFINED = T.let(T.unsafe(nil), Array)
 
-# source://coderay//lib/coderay/scanners/php.rb#39
+# pkg:gem/coderay#lib/coderay/scanners/php.rb:39
 CodeRay::Scanners::PHP::Words::TYPES = T.let(T.unsafe(nil), Array)
 
-# source://coderay//lib/coderay/scanners/php.rb#193
+# pkg:gem/coderay#lib/coderay/scanners/php.rb:193
 CodeRay::Scanners::PHP::Words::VARIABLE_KIND = T.let(T.unsafe(nil), CodeRay::WordList)
 
 # Scanner for Python. Supports Python 3.
@@ -2549,71 +2486,71 @@ CodeRay::Scanners::PHP::Words::VARIABLE_KIND = T.let(T.unsafe(nil), CodeRay::Wor
 # Based on pygments' PythonLexer, see
 # http://dev.pocoo.org/projects/pygments/browser/pygments/lexers/agile.py.
 #
-# source://coderay//lib/coderay/scanners/python.rb#8
+# pkg:gem/coderay#lib/coderay/scanners/python.rb:8
 class CodeRay::Scanners::Python < ::CodeRay::Scanners::Scanner
   protected
 
-  # source://coderay//lib/coderay/scanners/python.rb#103
+  # pkg:gem/coderay#lib/coderay/scanners/python.rb:103
   def scan_tokens(encoder, options); end
 end
 
-# source://coderay//lib/coderay/scanners/python.rb#86
+# pkg:gem/coderay#lib/coderay/scanners/python.rb:86
 CodeRay::Scanners::Python::DEF_NEW_STATE = T.let(T.unsafe(nil), CodeRay::WordList)
 
-# source://coderay//lib/coderay/scanners/python.rb#91
+# pkg:gem/coderay#lib/coderay/scanners/python.rb:91
 CodeRay::Scanners::Python::DESCRIPTOR = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/python.rb#97
+# pkg:gem/coderay#lib/coderay/scanners/python.rb:97
 CodeRay::Scanners::Python::DOCSTRING_COMING = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/python.rb#65
+# pkg:gem/coderay#lib/coderay/scanners/python.rb:65
 CodeRay::Scanners::Python::ESCAPE = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/python.rb#57
+# pkg:gem/coderay#lib/coderay/scanners/python.rb:57
 CodeRay::Scanners::Python::IDENT_KIND = T.let(T.unsafe(nil), CodeRay::WordList)
 
-# source://coderay//lib/coderay/scanners/python.rb#13
+# pkg:gem/coderay#lib/coderay/scanners/python.rb:13
 CodeRay::Scanners::Python::KEYWORDS = T.let(T.unsafe(nil), Array)
 
-# source://coderay//lib/coderay/scanners/python.rb#64
+# pkg:gem/coderay#lib/coderay/scanners/python.rb:64
 CodeRay::Scanners::Python::NAME = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/python.rb#21
+# pkg:gem/coderay#lib/coderay/scanners/python.rb:21
 CodeRay::Scanners::Python::OLD_KEYWORDS = T.let(T.unsafe(nil), Array)
 
-# source://coderay//lib/coderay/scanners/python.rb#68
+# pkg:gem/coderay#lib/coderay/scanners/python.rb:68
 CodeRay::Scanners::Python::OPERATOR = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/python.rb#37
+# pkg:gem/coderay#lib/coderay/scanners/python.rb:37
 CodeRay::Scanners::Python::PREDEFINED_EXCEPTIONS = T.let(T.unsafe(nil), Array)
 
-# source://coderay//lib/coderay/scanners/python.rb#25
+# pkg:gem/coderay#lib/coderay/scanners/python.rb:25
 CodeRay::Scanners::Python::PREDEFINED_METHODS_AND_TYPES = T.let(T.unsafe(nil), Array)
 
-# source://coderay//lib/coderay/scanners/python.rb#52
+# pkg:gem/coderay#lib/coderay/scanners/python.rb:52
 CodeRay::Scanners::Python::PREDEFINED_VARIABLES_AND_CONSTANTS = T.let(T.unsafe(nil), Array)
 
-# source://coderay//lib/coderay/scanners/python.rb#82
+# pkg:gem/coderay#lib/coderay/scanners/python.rb:82
 CodeRay::Scanners::Python::STRING_CONTENT_REGEXP = T.let(T.unsafe(nil), Hash)
 
-# source://coderay//lib/coderay/scanners/python.rb#78
+# pkg:gem/coderay#lib/coderay/scanners/python.rb:78
 CodeRay::Scanners::Python::STRING_DELIMITER_REGEXP = T.let(T.unsafe(nil), Hash)
 
-# source://coderay//lib/coderay/scanners/python.rb#66
+# pkg:gem/coderay#lib/coderay/scanners/python.rb:66
 CodeRay::Scanners::Python::UNICODE_ESCAPE = T.let(T.unsafe(nil), Regexp)
 
 # = Raydebug Scanner
 #
 # Highlights the output of the Encoders::Debug encoder.
 #
-# source://coderay//lib/coderay/scanners/raydebug.rb#9
+# pkg:gem/coderay#lib/coderay/scanners/raydebug.rb:9
 class CodeRay::Scanners::Raydebug < ::CodeRay::Scanners::Scanner
   protected
 
-  # source://coderay//lib/coderay/scanners/raydebug.rb#22
+  # pkg:gem/coderay#lib/coderay/scanners/raydebug.rb:22
   def scan_tokens(encoder, options); end
 
-  # source://coderay//lib/coderay/scanners/raydebug.rb#17
+  # pkg:gem/coderay#lib/coderay/scanners/raydebug.rb:17
   def setup; end
 end
 
@@ -2625,222 +2562,230 @@ end
 # It is optimized for HTML highlighting, and is not very useful for
 # parsing or pretty printing.
 #
-# source://coderay//lib/coderay/scanners/ruby.rb#11
+# pkg:gem/coderay#lib/coderay/scanners/ruby.rb:11
 class CodeRay::Scanners::Ruby < ::CodeRay::Scanners::Scanner
-  # source://coderay//lib/coderay/scanners/ruby.rb#19
+  # pkg:gem/coderay#lib/coderay/scanners/ruby.rb:19
   def interpreted_string_state; end
 
   protected
 
-  # source://coderay//lib/coderay/scanners/ruby.rb#29
+  # pkg:gem/coderay#lib/coderay/scanners/ruby.rb:29
   def scan_tokens(encoder, options); end
 
-  # source://coderay//lib/coderay/scanners/ruby.rb#25
+  # pkg:gem/coderay#lib/coderay/scanners/ruby.rb:25
   def setup; end
 end
 
-# source://coderay//lib/coderay/scanners/ruby/patterns.rb#5
+# pkg:gem/coderay#lib/coderay/scanners/ruby/patterns.rb:5
 module CodeRay::Scanners::Ruby::Patterns; end
 
-# source://coderay//lib/coderay/scanners/ruby/patterns.rb#72
+# pkg:gem/coderay#lib/coderay/scanners/ruby/patterns.rb:72
 CodeRay::Scanners::Ruby::Patterns::BINARY = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/ruby/patterns.rb#106
+# pkg:gem/coderay#lib/coderay/scanners/ruby/patterns.rb:106
 CodeRay::Scanners::Ruby::Patterns::CHARACTER = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/ruby/patterns.rb#55
+# pkg:gem/coderay#lib/coderay/scanners/ruby/patterns.rb:55
 CodeRay::Scanners::Ruby::Patterns::CLASS_VARIABLE = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/ruby/patterns.rb#96
+# pkg:gem/coderay#lib/coderay/scanners/ruby/patterns.rb:96
 CodeRay::Scanners::Ruby::Patterns::CONTROL_META_ESCAPE = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/ruby/patterns.rb#132
+# pkg:gem/coderay#lib/coderay/scanners/ruby/patterns.rb:132
 CodeRay::Scanners::Ruby::Patterns::DATA = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/ruby/patterns.rb#69
+# pkg:gem/coderay#lib/coderay/scanners/ruby/patterns.rb:69
 CodeRay::Scanners::Ruby::Patterns::DECIMAL = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/ruby/patterns.rb#102
+# pkg:gem/coderay#lib/coderay/scanners/ruby/patterns.rb:102
 CodeRay::Scanners::Ruby::Patterns::ESCAPE = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/ruby/patterns.rb#74
+# pkg:gem/coderay#lib/coderay/scanners/ruby/patterns.rb:74
 CodeRay::Scanners::Ruby::Patterns::EXPONENT = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/ruby/patterns.rb#168
+# pkg:gem/coderay#lib/coderay/scanners/ruby/patterns.rb:168
 CodeRay::Scanners::Ruby::Patterns::FANCY_STRING_INTERPRETED = T.let(T.unsafe(nil), Hash)
 
-# source://coderay//lib/coderay/scanners/ruby/patterns.rb#161
+# pkg:gem/coderay#lib/coderay/scanners/ruby/patterns.rb:161
 CodeRay::Scanners::Ruby::Patterns::FANCY_STRING_KIND = T.let(T.unsafe(nil), Hash)
 
-# source://coderay//lib/coderay/scanners/ruby/patterns.rb#160
+# pkg:gem/coderay#lib/coderay/scanners/ruby/patterns.rb:160
 CodeRay::Scanners::Ruby::Patterns::FANCY_STRING_START = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/ruby/patterns.rb#76
+# pkg:gem/coderay#lib/coderay/scanners/ruby/patterns.rb:76
 CodeRay::Scanners::Ruby::Patterns::FLOAT_OR_INT = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/ruby/patterns.rb#75
+# pkg:gem/coderay#lib/coderay/scanners/ruby/patterns.rb:75
 CodeRay::Scanners::Ruby::Patterns::FLOAT_SUFFIX = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/ruby/patterns.rb#57
+# pkg:gem/coderay#lib/coderay/scanners/ruby/patterns.rb:57
 CodeRay::Scanners::Ruby::Patterns::GLOBAL_VARIABLE = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/ruby/patterns.rb#116
+# NOTE: This is not completely correct, but
+# nobody needs heredoc delimiters ending with \n.
+#
+# pkg:gem/coderay#lib/coderay/scanners/ruby/patterns.rb:116
 CodeRay::Scanners::Ruby::Patterns::HEREDOC_OPEN = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/ruby/patterns.rb#71
+# pkg:gem/coderay#lib/coderay/scanners/ruby/patterns.rb:71
 CodeRay::Scanners::Ruby::Patterns::HEXADECIMAL = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/ruby/patterns.rb#38
+# pkg:gem/coderay#lib/coderay/scanners/ruby/patterns.rb:38
 CodeRay::Scanners::Ruby::Patterns::IDENT = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/ruby/patterns.rb#28
+# pkg:gem/coderay#lib/coderay/scanners/ruby/patterns.rb:28
 CodeRay::Scanners::Ruby::Patterns::IDENT_KIND = T.let(T.unsafe(nil), CodeRay::WordList)
 
-# source://coderay//lib/coderay/scanners/ruby/patterns.rb#54
+# pkg:gem/coderay#lib/coderay/scanners/ruby/patterns.rb:54
 CodeRay::Scanners::Ruby::Patterns::INSTANCE_VARIABLE = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/ruby/patterns.rb#7
+# pkg:gem/coderay#lib/coderay/scanners/ruby/patterns.rb:7
 CodeRay::Scanners::Ruby::Patterns::KEYWORDS = T.let(T.unsafe(nil), Array)
 
-# source://coderay//lib/coderay/scanners/ruby/patterns.rb#151
+# pkg:gem/coderay#lib/coderay/scanners/ruby/patterns.rb:151
 CodeRay::Scanners::Ruby::Patterns::KEYWORDS_EXPECTING_VALUE = T.let(T.unsafe(nil), CodeRay::WordList)
 
-# source://coderay//lib/coderay/scanners/ruby/patterns.rb#32
+# pkg:gem/coderay#lib/coderay/scanners/ruby/patterns.rb:32
 CodeRay::Scanners::Ruby::Patterns::KEYWORD_NEW_STATE = T.let(T.unsafe(nil), CodeRay::WordList)
 
-# source://coderay//lib/coderay/scanners/ruby/patterns.rb#53
+# pkg:gem/coderay#lib/coderay/scanners/ruby/patterns.rb:53
 CodeRay::Scanners::Ruby::Patterns::METHOD_AFTER_DOT = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/ruby/patterns.rb#40
+# pkg:gem/coderay#lib/coderay/scanners/ruby/patterns.rb:40
 CodeRay::Scanners::Ruby::Patterns::METHOD_NAME = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/ruby/patterns.rb#52
+# pkg:gem/coderay#lib/coderay/scanners/ruby/patterns.rb:52
 CodeRay::Scanners::Ruby::Patterns::METHOD_NAME_EX = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/ruby/patterns.rb#41
+# pkg:gem/coderay#lib/coderay/scanners/ruby/patterns.rb:41
 CodeRay::Scanners::Ruby::Patterns::METHOD_NAME_OPERATOR = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/ruby/patterns.rb#87
+# pkg:gem/coderay#lib/coderay/scanners/ruby/patterns.rb:87
 CodeRay::Scanners::Ruby::Patterns::METHOD_NAME_OR_SYMBOL = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/ruby/patterns.rb#51
+# pkg:gem/coderay#lib/coderay/scanners/ruby/patterns.rb:51
 CodeRay::Scanners::Ruby::Patterns::METHOD_SUFFIX = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/ruby/patterns.rb#77
+# pkg:gem/coderay#lib/coderay/scanners/ruby/patterns.rb:77
 CodeRay::Scanners::Ruby::Patterns::NUMERIC = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/ruby/patterns.rb#56
+# pkg:gem/coderay#lib/coderay/scanners/ruby/patterns.rb:56
 CodeRay::Scanners::Ruby::Patterns::OBJECT_VARIABLE = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/ruby/patterns.rb#70
+# pkg:gem/coderay#lib/coderay/scanners/ruby/patterns.rb:70
 CodeRay::Scanners::Ruby::Patterns::OCTAL = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/ruby/patterns.rb#17
+# See http://murfy.de/ruby-constants.
+#
+# pkg:gem/coderay#lib/coderay/scanners/ruby/patterns.rb:17
 CodeRay::Scanners::Ruby::Patterns::PREDEFINED_CONSTANTS = T.let(T.unsafe(nil), Array)
 
-# source://coderay//lib/coderay/scanners/ruby/patterns.rb#58
+# pkg:gem/coderay#lib/coderay/scanners/ruby/patterns.rb:58
 CodeRay::Scanners::Ruby::Patterns::PREFIX_VARIABLE = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/ruby/patterns.rb#61
+# pkg:gem/coderay#lib/coderay/scanners/ruby/patterns.rb:61
 CodeRay::Scanners::Ruby::Patterns::QUOTE_TO_TYPE = T.let(T.unsafe(nil), Hash)
 
-# source://coderay//lib/coderay/scanners/ruby/patterns.rb#67
+# pkg:gem/coderay#lib/coderay/scanners/ruby/patterns.rb:67
 CodeRay::Scanners::Ruby::Patterns::REGEXP_MODIFIERS = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/ruby/patterns.rb#126
+# pkg:gem/coderay#lib/coderay/scanners/ruby/patterns.rb:126
 CodeRay::Scanners::Ruby::Patterns::RUBYDOC = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/ruby/patterns.rb#138
+# pkg:gem/coderay#lib/coderay/scanners/ruby/patterns.rb:138
 CodeRay::Scanners::Ruby::Patterns::RUBYDOC_OR_DATA = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/ruby/patterns.rb#89
+# pkg:gem/coderay#lib/coderay/scanners/ruby/patterns.rb:89
 CodeRay::Scanners::Ruby::Patterns::SIMPLE_ESCAPE = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/ruby/patterns.rb#79
+# pkg:gem/coderay#lib/coderay/scanners/ruby/patterns.rb:79
 CodeRay::Scanners::Ruby::Patterns::SYMBOL = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/ruby/patterns.rb#142
+# Checks for a valid value to follow. This enables
+# value_expected in method calls without parentheses.
+#
+# pkg:gem/coderay#lib/coderay/scanners/ruby/patterns.rb:142
 CodeRay::Scanners::Ruby::Patterns::VALUE_FOLLOWS = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/ruby/patterns.rb#59
+# pkg:gem/coderay#lib/coderay/scanners/ruby/patterns.rb:59
 CodeRay::Scanners::Ruby::Patterns::VARIABLE = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/ruby/string_state.rb#8
+# pkg:gem/coderay#lib/coderay/scanners/ruby/string_state.rb:8
 class CodeRay::Scanners::Ruby::StringState < ::Struct
-  # @return [StringState] a new instance of StringState
-  #
-  # source://coderay//lib/coderay/scanners/ruby/string_state.rb#48
+  # pkg:gem/coderay#lib/coderay/scanners/ruby/string_state.rb:48
   def initialize(kind, interpreted, delim, heredoc = T.unsafe(nil)); end
 
-  # source://coderay//lib/coderay/scanners/ruby/string_state.rb#63
+  # pkg:gem/coderay#lib/coderay/scanners/ruby/string_state.rb:63
   def heredoc_pattern(delim, interpreted, indented); end
 
   class << self
-    # source://coderay//lib/coderay/scanners/ruby/string_state.rb#40
+    # pkg:gem/coderay#lib/coderay/scanners/ruby/string_state.rb:40
     def simple_key_pattern(delim); end
   end
 end
 
-# source://coderay//lib/coderay/scanners/ruby/string_state.rb#10
+# pkg:gem/coderay#lib/coderay/scanners/ruby/string_state.rb:10
 CodeRay::Scanners::Ruby::StringState::CLOSING_PAREN = T.let(T.unsafe(nil), Hash)
 
-# source://coderay//lib/coderay/scanners/ruby/string_state.rb#17
+# debug, if I try to change it with <<
+#
+# pkg:gem/coderay#lib/coderay/scanners/ruby/string_state.rb:17
 CodeRay::Scanners::Ruby::StringState::STRING_PATTERN = T.let(T.unsafe(nil), Hash)
 
 # by Josh Goebel
 #
-# source://coderay//lib/coderay/scanners/sql.rb#5
+# pkg:gem/coderay#lib/coderay/scanners/sql.rb:5
 class CodeRay::Scanners::SQL < ::CodeRay::Scanners::Scanner
-  # source://coderay//lib/coderay/scanners/sql.rb#66
+  # pkg:gem/coderay#lib/coderay/scanners/sql.rb:66
   def scan_tokens(encoder, options); end
 end
 
-# source://coderay//lib/coderay/scanners/sql.rb#23
+# pkg:gem/coderay#lib/coderay/scanners/sql.rb:23
 CodeRay::Scanners::SQL::COMMANDS = T.let(T.unsafe(nil), Array)
 
-# source://coderay//lib/coderay/scanners/sql.rb#38
+# pkg:gem/coderay#lib/coderay/scanners/sql.rb:38
 CodeRay::Scanners::SQL::DIRECTIVES = T.let(T.unsafe(nil), Array)
 
-# source://coderay//lib/coderay/scanners/sql.rb#55
+# pkg:gem/coderay#lib/coderay/scanners/sql.rb:55
 CodeRay::Scanners::SQL::ESCAPE = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/sql.rb#46
+# pkg:gem/coderay#lib/coderay/scanners/sql.rb:46
 CodeRay::Scanners::SQL::IDENT_KIND = T.let(T.unsafe(nil), CodeRay::WordList::CaseIgnoring)
 
-# source://coderay//lib/coderay/scanners/sql.rb#9
+# pkg:gem/coderay#lib/coderay/scanners/sql.rb:9
 CodeRay::Scanners::SQL::KEYWORDS = T.let(T.unsafe(nil), Array)
 
-# source://coderay//lib/coderay/scanners/sql.rb#18
+# pkg:gem/coderay#lib/coderay/scanners/sql.rb:18
 CodeRay::Scanners::SQL::OBJECTS = T.let(T.unsafe(nil), Array)
 
-# source://coderay//lib/coderay/scanners/sql.rb#44
+# pkg:gem/coderay#lib/coderay/scanners/sql.rb:44
 CodeRay::Scanners::SQL::PREDEFINED_CONSTANTS = T.let(T.unsafe(nil), Array)
 
-# source://coderay//lib/coderay/scanners/sql.rb#36
+# pkg:gem/coderay#lib/coderay/scanners/sql.rb:36
 CodeRay::Scanners::SQL::PREDEFINED_FUNCTIONS = T.let(T.unsafe(nil), Array)
 
-# source://coderay//lib/coderay/scanners/sql.rb#28
+# pkg:gem/coderay#lib/coderay/scanners/sql.rb:28
 CodeRay::Scanners::SQL::PREDEFINED_TYPES = T.let(T.unsafe(nil), Array)
 
-# source://coderay//lib/coderay/scanners/sql.rb#60
+# pkg:gem/coderay#lib/coderay/scanners/sql.rb:60
 CodeRay::Scanners::SQL::STRING_CONTENT_PATTERN = T.let(T.unsafe(nil), Hash)
 
-# source://coderay//lib/coderay/scanners/sql.rb#58
+# pkg:gem/coderay#lib/coderay/scanners/sql.rb:58
 CodeRay::Scanners::SQL::STRING_PREFIXES = T.let(T.unsafe(nil), Regexp)
 
-# source://coderay//lib/coderay/scanners/sql.rb#56
+# pkg:gem/coderay#lib/coderay/scanners/sql.rb:56
 CodeRay::Scanners::SQL::UNICODE_ESCAPE = T.let(T.unsafe(nil), Regexp)
 
 # A scanner for Sass.
 #
-# source://coderay//lib/coderay/scanners/sass.rb#5
+# pkg:gem/coderay#lib/coderay/scanners/sass.rb:5
 class CodeRay::Scanners::Sass < ::CodeRay::Scanners::CSS
   protected
 
-  # source://coderay//lib/coderay/scanners/sass.rb#16
+  # pkg:gem/coderay#lib/coderay/scanners/sass.rb:16
   def scan_tokens(encoder, options); end
 
-  # source://coderay//lib/coderay/scanners/sass.rb#12
+  # pkg:gem/coderay#lib/coderay/scanners/sass.rb:12
   def setup; end
 end
 
@@ -2868,7 +2813,7 @@ end
 # You can also use +map+, +any?+, +find+ and even +sort_by+,
 # if you want.
 #
-# source://coderay//lib/coderay/scanners/scanner.rb#29
+# pkg:gem/coderay#lib/coderay/scanners/scanner.rb:29
 class CodeRay::Scanners::Scanner < ::StringScanner
   include ::Enumerable
   extend ::CodeRay::Plugin
@@ -2883,9 +2828,7 @@ class CodeRay::Scanners::Scanner < ::StringScanner
   #
   # Else, a Tokens object is used.
   #
-  # @return [Scanner] a new instance of Scanner
-  #
-  # source://coderay//lib/coderay/scanners/scanner.rb#125
+  # pkg:gem/coderay#lib/coderay/scanners/scanner.rb:125
   def initialize(code = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # The string in binary encoding.
@@ -2893,28 +2836,28 @@ class CodeRay::Scanners::Scanner < ::StringScanner
   # To be used with #pos, which is the index of the byte the scanner
   # will scan next.
   #
-  # source://coderay//lib/coderay/scanners/scanner.rb#218
+  # pkg:gem/coderay#lib/coderay/scanners/scanner.rb:218
   def binary_string; end
 
   # The current column position of the scanner, starting with 1.
   # See also: #line.
   #
-  # source://coderay//lib/coderay/scanners/scanner.rb#209
+  # pkg:gem/coderay#lib/coderay/scanners/scanner.rb:209
   def column(pos = T.unsafe(nil)); end
 
   # Traverse the tokens.
   #
-  # source://coderay//lib/coderay/scanners/scanner.rb#192
+  # pkg:gem/coderay#lib/coderay/scanners/scanner.rb:192
   def each(&block); end
 
   # the default file extension for this scanner
   #
-  # source://coderay//lib/coderay/scanners/scanner.rb#160
+  # pkg:gem/coderay#lib/coderay/scanners/scanner.rb:160
   def file_extension; end
 
   # the Plugin ID for this scanner
   #
-  # source://coderay//lib/coderay/scanners/scanner.rb#155
+  # pkg:gem/coderay#lib/coderay/scanners/scanner.rb:155
   def lang; end
 
   # The current line position of the scanner, starting with 1.
@@ -2923,63 +2866,55 @@ class CodeRay::Scanners::Scanner < ::StringScanner
   # Beware, this is implemented inefficiently. It should be used
   # for debugging only.
   #
-  # source://coderay//lib/coderay/scanners/scanner.rb#202
+  # pkg:gem/coderay#lib/coderay/scanners/scanner.rb:202
   def line(pos = T.unsafe(nil)); end
 
   # Sets back the scanner. Subclasses should redefine the reset_instance
   # method instead of this one.
   #
-  # source://coderay//lib/coderay/scanners/scanner.rb#142
+  # pkg:gem/coderay#lib/coderay/scanners/scanner.rb:142
   def reset; end
 
-  # Returns the value of attribute state.
-  #
-  # source://coderay//lib/coderay/scanners/scanner.rb#44
+  # pkg:gem/coderay#lib/coderay/scanners/scanner.rb:44
   def state; end
 
-  # Sets the attribute state
-  #
-  # @param value the value to set the attribute state to.
-  #
-  # source://coderay//lib/coderay/scanners/scanner.rb#44
+  # pkg:gem/coderay#lib/coderay/scanners/scanner.rb:44
   def state=(_arg0); end
 
   # Set a new string to be scanned.
   #
-  # source://coderay//lib/coderay/scanners/scanner.rb#148
+  # pkg:gem/coderay#lib/coderay/scanners/scanner.rb:148
   def string=(code); end
 
   # Scan the code and returns all tokens in a Tokens object.
   #
-  # source://coderay//lib/coderay/scanners/scanner.rb#165
+  # pkg:gem/coderay#lib/coderay/scanners/scanner.rb:165
   def tokenize(source = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Cache the result of tokenize.
   #
-  # source://coderay//lib/coderay/scanners/scanner.rb#187
+  # pkg:gem/coderay#lib/coderay/scanners/scanner.rb:187
   def tokens; end
 
   protected
 
   # Scanner error with additional status information
   #
-  # @raise [ScanError]
-  #
-  # source://coderay//lib/coderay/scanners/scanner.rb#314
+  # pkg:gem/coderay#lib/coderay/scanners/scanner.rb:314
   def raise_inspect(message, tokens, state = T.unsafe(nil), ambit = T.unsafe(nil), backtrace = T.unsafe(nil)); end
 
-  # source://coderay//lib/coderay/scanners/scanner.rb#289
+  # pkg:gem/coderay#lib/coderay/scanners/scanner.rb:289
   def raise_inspect_arguments(message, tokens, state, ambit); end
 
   # Resets the scanner.
   #
-  # source://coderay//lib/coderay/scanners/scanner.rb#265
+  # pkg:gem/coderay#lib/coderay/scanners/scanner.rb:265
   def reset_instance; end
 
   # Shorthand for scan_until(/\z/).
   # This method also avoids a JRuby 1.9 mode bug.
   #
-  # source://coderay//lib/coderay/scanners/scanner.rb#328
+  # pkg:gem/coderay#lib/coderay/scanners/scanner.rb:328
   def scan_rest; end
 
   # This is the central method, and commonly the only one a
@@ -2988,18 +2923,16 @@ class CodeRay::Scanners::Scanner < ::StringScanner
   # Subclasses must implement this method; it must return +tokens+
   # and must only use Tokens#<< for storing scanned tokens!
   #
-  # @raise [NotImplementedError]
-  #
-  # source://coderay//lib/coderay/scanners/scanner.rb#260
+  # pkg:gem/coderay#lib/coderay/scanners/scanner.rb:260
   def scan_tokens(tokens, options); end
 
-  # source://coderay//lib/coderay/scanners/scanner.rb#305
+  # pkg:gem/coderay#lib/coderay/scanners/scanner.rb:305
   def scanner_state_info(state); end
 
-  # source://coderay//lib/coderay/scanners/scanner.rb#239
+  # pkg:gem/coderay#lib/coderay/scanners/scanner.rb:239
   def set_string_from_source(source); end
 
-  # source://coderay//lib/coderay/scanners/scanner.rb#250
+  # pkg:gem/coderay#lib/coderay/scanners/scanner.rb:250
   def set_tokens_from_options(options); end
 
   # Can be implemented by subclasses to do some initialization
@@ -3008,47 +2941,47 @@ class CodeRay::Scanners::Scanner < ::StringScanner
   # Use reset for initialization that has to be done once per
   # scan.
   #
-  # source://coderay//lib/coderay/scanners/scanner.rb#236
+  # pkg:gem/coderay#lib/coderay/scanners/scanner.rb:236
   def setup; end
 
-  # source://coderay//lib/coderay/scanners/scanner.rb#322
+  # pkg:gem/coderay#lib/coderay/scanners/scanner.rb:322
   def tokens_last(tokens, n); end
 
-  # source://coderay//lib/coderay/scanners/scanner.rb#318
+  # pkg:gem/coderay#lib/coderay/scanners/scanner.rb:318
   def tokens_size(tokens); end
 
   class << self
     # The encoding used internally by this scanner.
     #
-    # source://coderay//lib/coderay/scanners/scanner.rb#71
+    # pkg:gem/coderay#lib/coderay/scanners/scanner.rb:71
     def encoding(name = T.unsafe(nil)); end
 
     # The typical filename suffix for this scanner's language.
     #
-    # source://coderay//lib/coderay/scanners/scanner.rb#66
+    # pkg:gem/coderay#lib/coderay/scanners/scanner.rb:66
     def file_extension(extension = T.unsafe(nil)); end
 
     # The lang of this Scanner class, which is equal to its Plugin ID.
     #
-    # source://coderay//lib/coderay/scanners/scanner.rb#76
+    # pkg:gem/coderay#lib/coderay/scanners/scanner.rb:76
     def lang; end
 
     # Normalizes the given code into a string with UNIX newlines, in the
     # scanner's internal encoding, with invalid and undefined charachters
     # replaced by placeholders. Always returns a new object.
     #
-    # source://coderay//lib/coderay/scanners/scanner.rb#51
+    # pkg:gem/coderay#lib/coderay/scanners/scanner.rb:51
     def normalize(code); end
 
     protected
 
-    # source://coderay//lib/coderay/scanners/scanner.rb#82
+    # pkg:gem/coderay#lib/coderay/scanners/scanner.rb:82
     def encode_with_encoding(code, target_encoding); end
 
-    # source://coderay//lib/coderay/scanners/scanner.rb#100
+    # pkg:gem/coderay#lib/coderay/scanners/scanner.rb:100
     def guess_encoding(s); end
 
-    # source://coderay//lib/coderay/scanners/scanner.rb#96
+    # pkg:gem/coderay#lib/coderay/scanners/scanner.rb:96
     def to_unix(code); end
   end
 end
@@ -3057,29 +2990,31 @@ end
 #
 # Define @default_options for subclasses.
 #
-# source://coderay//lib/coderay/scanners/scanner.rb#40
+# pkg:gem/coderay#lib/coderay/scanners/scanner.rb:40
 CodeRay::Scanners::Scanner::DEFAULT_OPTIONS = T.let(T.unsafe(nil), Hash)
 
-# source://coderay//lib/coderay/scanners/scanner.rb#42
+# pkg:gem/coderay#lib/coderay/scanners/scanner.rb:42
 CodeRay::Scanners::Scanner::KINDS_NOT_LOC = T.let(T.unsafe(nil), Array)
 
-# source://coderay//lib/coderay/helpers/plugin.rb#41
+# pkg:gem/coderay#lib/coderay/helpers/plugin.rb:41
 CodeRay::Scanners::Scanner::PLUGIN_HOST = CodeRay::Scanners
 
-# source://coderay//lib/coderay/scanners/scanner.rb#299
+# pkg:gem/coderay#lib/coderay/scanners/scanner.rb:299
 CodeRay::Scanners::Scanner::SCANNER_STATE_INFO = T.let(T.unsafe(nil), String)
 
-# source://coderay//lib/coderay/scanners/scanner.rb#271
+# pkg:gem/coderay#lib/coderay/scanners/scanner.rb:271
 CodeRay::Scanners::Scanner::SCAN_ERROR_MESSAGE = T.let(T.unsafe(nil), String)
 
 # Raised if a Scanner fails while scanning
+#
+# pkg:gem/coderay#lib/coderay/scanners/scanner.rb:35
 class CodeRay::Scanners::Scanner::ScanError < ::StandardError; end
 
-# source://coderay//lib/coderay/scanners/taskpaper.rb#4
+# pkg:gem/coderay#lib/coderay/scanners/taskpaper.rb:4
 class CodeRay::Scanners::Taskpaper < ::CodeRay::Scanners::Scanner
   protected
 
-  # source://coderay//lib/coderay/scanners/taskpaper.rb#11
+  # pkg:gem/coderay#lib/coderay/scanners/taskpaper.rb:11
   def scan_tokens(encoder, options); end
 end
 
@@ -3089,77 +3024,77 @@ end
 #
 # Alias: +plaintext+, +plain+
 #
-# source://coderay//lib/coderay/scanners/text.rb#9
+# pkg:gem/coderay#lib/coderay/scanners/text.rb:9
 class CodeRay::Scanners::Text < ::CodeRay::Scanners::Scanner
   protected
 
-  # source://coderay//lib/coderay/scanners/text.rb#18
+  # pkg:gem/coderay#lib/coderay/scanners/text.rb:18
   def scan_tokens(encoder, options); end
 end
 
-# source://coderay//lib/coderay/scanners/text.rb#14
+# pkg:gem/coderay#lib/coderay/scanners/text.rb:14
 CodeRay::Scanners::Text::KINDS_NOT_LOC = T.let(T.unsafe(nil), Array)
 
 # Scanner for XML.
 #
 # Currently this is the same scanner as Scanners::HTML.
 #
-# source://coderay//lib/coderay/scanners/xml.rb#9
+# pkg:gem/coderay#lib/coderay/scanners/xml.rb:9
 class CodeRay::Scanners::XML < ::CodeRay::Scanners::HTML; end
 
 # Scanner for YAML.
 #
 # Based on the YAML scanner from Syntax by Jamis Buck.
 #
-# source://coderay//lib/coderay/scanners/yaml.rb#7
+# pkg:gem/coderay#lib/coderay/scanners/yaml.rb:7
 class CodeRay::Scanners::YAML < ::CodeRay::Scanners::Scanner
   protected
 
-  # source://coderay//lib/coderay/scanners/yaml.rb#16
+  # pkg:gem/coderay#lib/coderay/scanners/yaml.rb:16
   def scan_tokens(encoder, options); end
 end
 
-# source://coderay//lib/coderay/scanners/yaml.rb#12
+# pkg:gem/coderay#lib/coderay/scanners/yaml.rb:12
 CodeRay::Scanners::YAML::KINDS_NOT_LOC = T.let(T.unsafe(nil), Symbol)
 
 # This module holds the Style class and its subclasses.
 #
 # See Plugin.
 #
-# source://coderay//lib/coderay/styles.rb#6
+# pkg:gem/coderay#lib/coderay/styles.rb:6
 module CodeRay::Styles
   extend ::CodeRay::PluginHost
 end
 
 # A colorful theme using CSS 3 colors (with alpha channel).
 #
-# source://coderay//lib/coderay/styles/alpha.rb#5
+# pkg:gem/coderay#lib/coderay/styles/alpha.rb:5
 class CodeRay::Styles::Alpha < ::CodeRay::Styles::Style; end
 
-# source://coderay//lib/coderay/styles/alpha.rb#14
+# pkg:gem/coderay#lib/coderay/styles/alpha.rb:14
 CodeRay::Styles::Alpha::CSS_MAIN_STYLES = T.let(T.unsafe(nil), String)
 
-# source://coderay//lib/coderay/styles/alpha.rb#53
+# pkg:gem/coderay#lib/coderay/styles/alpha.rb:53
 CodeRay::Styles::Alpha::TOKEN_COLORS = T.let(T.unsafe(nil), String)
 
 # Base class for styles.
 #
 # Styles are used by Encoders::HTML to colorize tokens.
 #
-# source://coderay//lib/coderay/styles/style.rb#8
+# pkg:gem/coderay#lib/coderay/styles/style.rb:8
 class CodeRay::Styles::Style
   extend ::CodeRay::Plugin
 end
 
-# source://coderay//lib/coderay/styles/style.rb#12
+# pkg:gem/coderay#lib/coderay/styles/style.rb:12
 CodeRay::Styles::Style::DEFAULT_OPTIONS = T.let(T.unsafe(nil), Hash)
 
-# source://coderay//lib/coderay/helpers/plugin.rb#41
+# pkg:gem/coderay#lib/coderay/helpers/plugin.rb:41
 CodeRay::Styles::Style::PLUGIN_HOST = CodeRay::Styles
 
 # A Hash of all known token kinds and their associated CSS classes.
 #
-# source://coderay//lib/coderay/token_kinds.rb#4
+# pkg:gem/coderay#lib/coderay/token_kinds.rb:4
 CodeRay::TokenKinds = T.let(T.unsafe(nil), Hash)
 
 # The Tokens class represents a list of tokens returned from
@@ -3201,17 +3136,17 @@ CodeRay::TokenKinds = T.let(T.unsafe(nil), Hash)
 # You can serialize it to a JSON string and store it in a database, pass it
 # around to encode it more than once, send it to other algorithms...
 #
-# source://coderay//lib/coderay/tokens.rb#41
+# pkg:gem/coderay#lib/coderay/tokens.rb:41
 class CodeRay::Tokens < ::Array
-  # source://coderay//lib/coderay/tokens.rb#156
+  # pkg:gem/coderay#lib/coderay/tokens.rb:156
   def begin_group(kind); end
 
-  # source://coderay//lib/coderay/tokens.rb#158
+  # pkg:gem/coderay#lib/coderay/tokens.rb:158
   def begin_line(kind); end
 
   # Return the actual number of tokens.
   #
-  # source://coderay//lib/coderay/tokens.rb#151
+  # pkg:gem/coderay#lib/coderay/tokens.rb:151
   def count; end
 
   # Encode the tokens using encoder.
@@ -3222,13 +3157,13 @@ class CodeRay::Tokens < ::Array
   #
   # options are passed to the encoder.
   #
-  # source://coderay//lib/coderay/tokens.rb#56
+  # pkg:gem/coderay#lib/coderay/tokens.rb:56
   def encode(encoder, options = T.unsafe(nil)); end
 
-  # source://coderay//lib/coderay/tokens.rb#157
+  # pkg:gem/coderay#lib/coderay/tokens.rb:157
   def end_group(kind); end
 
-  # source://coderay//lib/coderay/tokens.rb#159
+  # pkg:gem/coderay#lib/coderay/tokens.rb:159
   def end_line(kind); end
 
   # Redirects unknown methods to encoder calls.
@@ -3236,17 +3171,17 @@ class CodeRay::Tokens < ::Array
   # For example, if you call +tokens.html+, the HTML encoder
   # is used to highlight the tokens.
   #
-  # source://coderay//lib/coderay/tokens.rb#70
+  # pkg:gem/coderay#lib/coderay/tokens.rb:70
   def method_missing(meth, options = T.unsafe(nil)); end
 
   # The Scanner instance that created the tokens.
   #
-  # source://coderay//lib/coderay/tokens.rb#47
+  # pkg:gem/coderay#lib/coderay/tokens.rb:47
   def scanner; end
 
   # The Scanner instance that created the tokens.
   #
-  # source://coderay//lib/coderay/tokens.rb#47
+  # pkg:gem/coderay#lib/coderay/tokens.rb:47
   def scanner=(_arg0); end
 
   # Split the tokens into parts of the given +sizes+.
@@ -3259,18 +3194,18 @@ class CodeRay::Tokens < ::Array
   # This method is used by @Scanner#tokenize@ when called with an Array
   # of source strings. The Diff encoder uses it for inline highlighting.
   #
-  # source://coderay//lib/coderay/tokens.rb#85
+  # pkg:gem/coderay#lib/coderay/tokens.rb:85
   def split_into_parts(*sizes); end
 
-  # source://coderay//lib/coderay/tokens.rb#155
+  # pkg:gem/coderay#lib/coderay/tokens.rb:155
   def text_token(*_arg0); end
 
   # Turn tokens into a string by concatenating them.
   #
-  # source://coderay//lib/coderay/tokens.rb#62
+  # pkg:gem/coderay#lib/coderay/tokens.rb:62
   def to_s; end
 
-  # source://coderay//lib/coderay/tokens.rb#160
+  # pkg:gem/coderay#lib/coderay/tokens.rb:160
   def tokens(*_arg0); end
 end
 
@@ -3279,92 +3214,66 @@ end
 # This proxy makes it possible to use the classic CodeRay.scan.encode API
 # while still providing the benefits of direct streaming.
 #
-# source://coderay//lib/coderay/tokens_proxy.rb#7
+# pkg:gem/coderay#lib/coderay/tokens_proxy.rb:7
 class CodeRay::TokensProxy
   # Create a new TokensProxy with the arguments of CodeRay.scan.
   #
-  # @return [TokensProxy] a new instance of TokensProxy
-  #
-  # source://coderay//lib/coderay/tokens_proxy.rb#12
+  # pkg:gem/coderay#lib/coderay/tokens_proxy.rb:12
   def initialize(input, lang, options = T.unsafe(nil), block = T.unsafe(nil)); end
 
-  # Returns the value of attribute block.
-  #
-  # source://coderay//lib/coderay/tokens_proxy.rb#9
+  # pkg:gem/coderay#lib/coderay/tokens_proxy.rb:9
   def block; end
 
-  # Sets the attribute block
-  #
-  # @param value the value to set the attribute block to.
-  #
-  # source://coderay//lib/coderay/tokens_proxy.rb#9
+  # pkg:gem/coderay#lib/coderay/tokens_proxy.rb:9
   def block=(_arg0); end
 
   # Overwrite Struct#each.
   #
-  # source://coderay//lib/coderay/tokens_proxy.rb#48
+  # pkg:gem/coderay#lib/coderay/tokens_proxy.rb:48
   def each(*args, &blk); end
 
   # Call CodeRay.encode if +encoder+ is a Symbol;
   # otherwise, convert the receiver to tokens and call encoder.encode_tokens.
   #
-  # source://coderay//lib/coderay/tokens_proxy.rb#21
+  # pkg:gem/coderay#lib/coderay/tokens_proxy.rb:21
   def encode(encoder, options = T.unsafe(nil)); end
 
-  # Returns the value of attribute input.
-  #
-  # source://coderay//lib/coderay/tokens_proxy.rb#9
+  # pkg:gem/coderay#lib/coderay/tokens_proxy.rb:9
   def input; end
 
-  # Sets the attribute input
-  #
-  # @param value the value to set the attribute input to.
-  #
-  # source://coderay//lib/coderay/tokens_proxy.rb#9
+  # pkg:gem/coderay#lib/coderay/tokens_proxy.rb:9
   def input=(_arg0); end
 
-  # Returns the value of attribute lang.
-  #
-  # source://coderay//lib/coderay/tokens_proxy.rb#9
+  # pkg:gem/coderay#lib/coderay/tokens_proxy.rb:9
   def lang; end
 
-  # Sets the attribute lang
-  #
-  # @param value the value to set the attribute lang to.
-  #
-  # source://coderay//lib/coderay/tokens_proxy.rb#9
+  # pkg:gem/coderay#lib/coderay/tokens_proxy.rb:9
   def lang=(_arg0); end
 
   # Tries to call encode;
   # delegates to tokens otherwise.
   #
-  # source://coderay//lib/coderay/tokens_proxy.rb#31
+  # pkg:gem/coderay#lib/coderay/tokens_proxy.rb:31
   def method_missing(method, *args, &blk); end
 
-  # Returns the value of attribute options.
-  #
-  # source://coderay//lib/coderay/tokens_proxy.rb#9
+  # pkg:gem/coderay#lib/coderay/tokens_proxy.rb:9
   def options; end
 
-  # Sets the attribute options
-  #
-  # @param value the value to set the attribute options to.
-  #
-  # source://coderay//lib/coderay/tokens_proxy.rb#9
+  # pkg:gem/coderay#lib/coderay/tokens_proxy.rb:9
   def options=(_arg0); end
 
   # A (cached) scanner instance to use for the scan task.
   #
-  # source://coderay//lib/coderay/tokens_proxy.rb#43
+  # pkg:gem/coderay#lib/coderay/tokens_proxy.rb:43
   def scanner; end
 
   # The (cached) result of the tokenized input; a Tokens instance.
   #
-  # source://coderay//lib/coderay/tokens_proxy.rb#38
+  # pkg:gem/coderay#lib/coderay/tokens_proxy.rb:38
   def tokens; end
 end
 
-# source://coderay//lib/coderay/version.rb#2
+# pkg:gem/coderay#lib/coderay/version.rb:2
 CodeRay::VERSION = T.let(T.unsafe(nil), String)
 
 # = WordList
@@ -3405,31 +3314,29 @@ CodeRay::VERSION = T.let(T.unsafe(nil), String)
 #      kind = IDENT_KIND[match]
 #      ...
 #
-# source://coderay//lib/coderay/helpers/word_list.rb#40
+# pkg:gem/coderay#lib/coderay/helpers/word_list.rb:40
 class CodeRay::WordList < ::Hash
   # Create a new WordList with +default+ as default value.
   #
-  # @return [WordList] a new instance of WordList
-  #
-  # source://coderay//lib/coderay/helpers/word_list.rb#43
+  # pkg:gem/coderay#lib/coderay/helpers/word_list.rb:43
   def initialize(default = T.unsafe(nil)); end
 
   # Add words to the list and associate them with +value+.
   #
   # Returns +self+, so you can concat add calls.
   #
-  # source://coderay//lib/coderay/helpers/word_list.rb#50
+  # pkg:gem/coderay#lib/coderay/helpers/word_list.rb:50
   def add(words, value = T.unsafe(nil)); end
 end
 
 # A CaseIgnoring WordList is like a WordList, only that
 # keys are compared case-insensitively (normalizing keys using +downcase+).
 #
-# source://coderay//lib/coderay/helpers/word_list.rb#60
+# pkg:gem/coderay#lib/coderay/helpers/word_list.rb:60
 class CodeRay::WordList::CaseIgnoring < ::CodeRay::WordList
-  # source://coderay//lib/coderay/helpers/word_list.rb#62
+  # pkg:gem/coderay#lib/coderay/helpers/word_list.rb:62
   def [](key); end
 
-  # source://coderay//lib/coderay/helpers/word_list.rb#66
+  # pkg:gem/coderay#lib/coderay/helpers/word_list.rb:66
   def []=(key, value); end
 end

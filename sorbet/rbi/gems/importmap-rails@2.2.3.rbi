@@ -5,10 +5,10 @@
 # Please instead update this file by running `bin/tapioca gem importmap-rails`.
 
 
-# source://importmap-rails//lib/importmap-rails.rb#1
+# pkg:gem/importmap-rails#lib/importmap-rails.rb:1
 module Importmap; end
 
-# source://importmap-rails//lib/importmap/engine.rb#7
+# pkg:gem/importmap-rails#lib/importmap/engine.rb:7
 class Importmap::Engine < ::Rails::Engine; end
 
 module Importmap::Freshness
@@ -27,18 +27,16 @@ module Importmap::ImportmapTagsHelper
   def _generate_preload_tags(items); end
 end
 
-# source://importmap-rails//lib/importmap/map.rb#3
+# pkg:gem/importmap-rails#lib/importmap/map.rb:3
 class Importmap::Map
-  # @return [Map] a new instance of Map
-  #
-  # source://importmap-rails//lib/importmap/map.rb#14
+  # pkg:gem/importmap-rails#lib/importmap/map.rb:14
   def initialize; end
 
   # Returns an instance of ActiveSupport::EventedFileUpdateChecker configured to clear the cache of the map
   # when the directories passed on initialization via `watches:` have changes. This is used in development
   # and test to ensure the map caches are reset when javascript files are changed.
   #
-  # source://importmap-rails//lib/importmap/map.rb#185
+  # pkg:gem/importmap-rails#lib/importmap/map.rb:185
   def cache_sweeper(watches: T.unsafe(nil)); end
 
   # Returns a SHA1 digest of the import map json that can be used as a part of a page etag to
@@ -50,15 +48,13 @@ class Importmap::Map
   #     etag { Rails.application.importmap.digest(resolver: helpers) if request.format&.html? }
   #   end
   #
-  # source://importmap-rails//lib/importmap/map.rb#178
+  # pkg:gem/importmap-rails#lib/importmap/map.rb:178
   def digest(resolver:); end
 
-  # Returns the value of attribute directories.
-  #
-  # source://importmap-rails//lib/importmap/map.rb#4
+  # pkg:gem/importmap-rails#lib/importmap/map.rb:4
   def directories; end
 
-  # source://importmap-rails//lib/importmap/map.rb#20
+  # pkg:gem/importmap-rails#lib/importmap/map.rb:20
   def draw(path = T.unsafe(nil), &block); end
 
   # Enables automatic integrity hash calculation for all pinned modules.
@@ -94,18 +90,16 @@ class Importmap::Map
   # * For Propshaft, you must configure +config.assets.integrity_hash_algorithm+
   # * External CDN packages should provide their own integrity hashes
   #
-  # source://importmap-rails//lib/importmap/map.rb#67
+  # pkg:gem/importmap-rails#lib/importmap/map.rb:67
   def enable_integrity!; end
 
-  # Returns the value of attribute packages.
-  #
-  # source://importmap-rails//lib/importmap/map.rb#4
+  # pkg:gem/importmap-rails#lib/importmap/map.rb:4
   def packages; end
 
-  # source://importmap-rails//lib/importmap/map.rb#72
+  # pkg:gem/importmap-rails#lib/importmap/map.rb:72
   def pin(name, to: T.unsafe(nil), preload: T.unsafe(nil), integrity: T.unsafe(nil)); end
 
-  # source://importmap-rails//lib/importmap/map.rb#77
+  # pkg:gem/importmap-rails#lib/importmap/map.rb:77
   def pin_all_from(dir, under: T.unsafe(nil), to: T.unsafe(nil), preload: T.unsafe(nil), integrity: T.unsafe(nil)); end
 
   # Returns a hash of resolved module paths to their corresponding package objects for all pinned packages
@@ -155,7 +149,7 @@ class Importmap::Map
   #   # Use a custom cache key for different asset hosts
   #   packages = importmap.preloaded_module_packages(resolver: helpers, cache_key: "cdn_host")
   #
-  # source://importmap-rails//lib/importmap/map.rb#137
+  # pkg:gem/importmap-rails#lib/importmap/map.rb:137
   def preloaded_module_packages(resolver:, entry_point: T.unsafe(nil), cache_key: T.unsafe(nil)); end
 
   # Returns an array of all the resolved module paths of the pinned packages. The `resolver` must respond to
@@ -164,7 +158,7 @@ class Importmap::Map
   # resolve for different asset hosts, you can pass in a custom `cache_key` to vary the cache used by this method for
   # the different cases.
   #
-  # source://importmap-rails//lib/importmap/map.rb#87
+  # pkg:gem/importmap-rails#lib/importmap/map.rb:87
   def preloaded_module_paths(resolver:, entry_point: T.unsafe(nil), cache_key: T.unsafe(nil)); end
 
   # Returns a JSON hash (as a string) of all the resolved module paths of the pinned packages in the import map format.
@@ -173,270 +167,187 @@ class Importmap::Map
   # want these resolved paths to use. In case you need to resolve for different asset hosts, you can pass in a custom
   # `cache_key` to vary the cache used by this method for the different cases.
   #
-  # source://importmap-rails//lib/importmap/map.rb#162
+  # pkg:gem/importmap-rails#lib/importmap/map.rb:162
   def to_json(resolver:, cache_key: T.unsafe(nil)); end
 
   private
 
-  # source://importmap-rails//lib/importmap/map.rb#316
+  # pkg:gem/importmap-rails#lib/importmap/map.rb:316
   def absolute_root_of(path); end
 
-  # source://importmap-rails//lib/importmap/map.rb#235
+  # pkg:gem/importmap-rails#lib/importmap/map.rb:235
   def build_import_map(packages, resolver:); end
 
-  # source://importmap-rails//lib/importmap/map.rb#242
+  # pkg:gem/importmap-rails#lib/importmap/map.rb:242
   def build_integrity_hash(packages, resolver:); end
 
-  # source://importmap-rails//lib/importmap/map.rb#200
+  # pkg:gem/importmap-rails#lib/importmap/map.rb:200
   def cache_as(name); end
 
-  # source://importmap-rails//lib/importmap/map.rb#208
+  # pkg:gem/importmap-rails#lib/importmap/map.rb:208
   def clear_cache; end
 
-  # source://importmap-rails//lib/importmap/map.rb#275
+  # pkg:gem/importmap-rails#lib/importmap/map.rb:275
   def expand_directories_into(paths); end
 
-  # source://importmap-rails//lib/importmap/map.rb#271
+  # pkg:gem/importmap-rails#lib/importmap/map.rb:271
   def expanded_packages_and_directories; end
 
-  # source://importmap-rails//lib/importmap/map.rb#267
+  # pkg:gem/importmap-rails#lib/importmap/map.rb:267
   def expanded_preloading_packages_and_directories(entry_point:); end
 
-  # source://importmap-rails//lib/importmap/map.rb#312
+  # pkg:gem/importmap-rails#lib/importmap/map.rb:312
   def find_javascript_files_in_tree(path); end
 
-  # source://importmap-rails//lib/importmap/map.rb#294
+  # pkg:gem/importmap-rails#lib/importmap/map.rb:294
   def module_name_from(filename, mapping); end
 
-  # source://importmap-rails//lib/importmap/map.rb#308
+  # pkg:gem/importmap-rails#lib/importmap/map.rb:308
   def module_path_from(filename, mapping); end
 
-  # @return [Boolean]
-  #
-  # source://importmap-rails//lib/importmap/map.rb#212
+  # pkg:gem/importmap-rails#lib/importmap/map.rb:212
   def rescuable_asset_error?(error); end
 
-  # source://importmap-rails//lib/importmap/map.rb#222
+  # pkg:gem/importmap-rails#lib/importmap/map.rb:222
   def resolve_asset_path(path, resolver:); end
 
-  # source://importmap-rails//lib/importmap/map.rb#216
+  # pkg:gem/importmap-rails#lib/importmap/map.rb:216
   def resolve_asset_paths(paths, resolver:); end
 
-  # source://importmap-rails//lib/importmap/map.rb#256
+  # pkg:gem/importmap-rails#lib/importmap/map.rb:256
   def resolve_integrity_value(integrity, path, resolver:); end
 
   class << self
-    # source://importmap-rails//lib/importmap/map.rb#8
+    # pkg:gem/importmap-rails#lib/importmap/map.rb:8
     def pin_line_regexp_for(package); end
   end
 end
 
-# source://importmap-rails//lib/importmap/map.rb#12
+# pkg:gem/importmap-rails#lib/importmap/map.rb:12
 class Importmap::Map::InvalidFile < ::StandardError; end
 
-# source://importmap-rails//lib/importmap/map.rb#197
+# pkg:gem/importmap-rails#lib/importmap/map.rb:197
 class Importmap::Map::MappedDir < ::Struct
-  # Returns the value of attribute dir
-  #
-  # @return [Object] the current value of dir
-  #
-  # source://importmap-rails//lib/importmap/map.rb#197
+  # pkg:gem/importmap-rails#lib/importmap/map.rb:197
   def dir; end
 
-  # Sets the attribute dir
-  #
-  # @param value [Object] the value to set the attribute dir to.
-  # @return [Object] the newly set value
-  #
-  # source://importmap-rails//lib/importmap/map.rb#197
+  # pkg:gem/importmap-rails#lib/importmap/map.rb:197
   def dir=(_); end
 
-  # Returns the value of attribute integrity
-  #
-  # @return [Object] the current value of integrity
-  #
-  # source://importmap-rails//lib/importmap/map.rb#197
+  # pkg:gem/importmap-rails#lib/importmap/map.rb:197
   def integrity; end
 
-  # Sets the attribute integrity
-  #
-  # @param value [Object] the value to set the attribute integrity to.
-  # @return [Object] the newly set value
-  #
-  # source://importmap-rails//lib/importmap/map.rb#197
+  # pkg:gem/importmap-rails#lib/importmap/map.rb:197
   def integrity=(_); end
 
-  # Returns the value of attribute path
-  #
-  # @return [Object] the current value of path
-  #
-  # source://importmap-rails//lib/importmap/map.rb#197
+  # pkg:gem/importmap-rails#lib/importmap/map.rb:197
   def path; end
 
-  # Sets the attribute path
-  #
-  # @param value [Object] the value to set the attribute path to.
-  # @return [Object] the newly set value
-  #
-  # source://importmap-rails//lib/importmap/map.rb#197
+  # pkg:gem/importmap-rails#lib/importmap/map.rb:197
   def path=(_); end
 
-  # Returns the value of attribute preload
-  #
-  # @return [Object] the current value of preload
-  #
-  # source://importmap-rails//lib/importmap/map.rb#197
+  # pkg:gem/importmap-rails#lib/importmap/map.rb:197
   def preload; end
 
-  # Sets the attribute preload
-  #
-  # @param value [Object] the value to set the attribute preload to.
-  # @return [Object] the newly set value
-  #
-  # source://importmap-rails//lib/importmap/map.rb#197
+  # pkg:gem/importmap-rails#lib/importmap/map.rb:197
   def preload=(_); end
 
-  # Returns the value of attribute under
-  #
-  # @return [Object] the current value of under
-  #
-  # source://importmap-rails//lib/importmap/map.rb#197
+  # pkg:gem/importmap-rails#lib/importmap/map.rb:197
   def under; end
 
-  # Sets the attribute under
-  #
-  # @param value [Object] the value to set the attribute under to.
-  # @return [Object] the newly set value
-  #
-  # source://importmap-rails//lib/importmap/map.rb#197
+  # pkg:gem/importmap-rails#lib/importmap/map.rb:197
   def under=(_); end
 
   class << self
-    # source://importmap-rails//lib/importmap/map.rb#197
+    # pkg:gem/importmap-rails#lib/importmap/map.rb:197
     def [](*_arg0); end
 
-    # source://importmap-rails//lib/importmap/map.rb#197
+    # pkg:gem/importmap-rails#lib/importmap/map.rb:197
     def inspect; end
 
-    # source://importmap-rails//lib/importmap/map.rb#197
+    # pkg:gem/importmap-rails#lib/importmap/map.rb:197
     def keyword_init?; end
 
-    # source://importmap-rails//lib/importmap/map.rb#197
+    # pkg:gem/importmap-rails#lib/importmap/map.rb:197
     def members; end
 
-    # source://importmap-rails//lib/importmap/map.rb#197
+    # pkg:gem/importmap-rails#lib/importmap/map.rb:197
     def new(*_arg0); end
   end
 end
 
-# source://importmap-rails//lib/importmap/map.rb#198
+# pkg:gem/importmap-rails#lib/importmap/map.rb:198
 class Importmap::Map::MappedFile < ::Struct
-  # Returns the value of attribute integrity
-  #
-  # @return [Object] the current value of integrity
-  #
-  # source://importmap-rails//lib/importmap/map.rb#198
+  # pkg:gem/importmap-rails#lib/importmap/map.rb:198
   def integrity; end
 
-  # Sets the attribute integrity
-  #
-  # @param value [Object] the value to set the attribute integrity to.
-  # @return [Object] the newly set value
-  #
-  # source://importmap-rails//lib/importmap/map.rb#198
+  # pkg:gem/importmap-rails#lib/importmap/map.rb:198
   def integrity=(_); end
 
-  # Returns the value of attribute name
-  #
-  # @return [Object] the current value of name
-  #
-  # source://importmap-rails//lib/importmap/map.rb#198
+  # pkg:gem/importmap-rails#lib/importmap/map.rb:198
   def name; end
 
-  # Sets the attribute name
-  #
-  # @param value [Object] the value to set the attribute name to.
-  # @return [Object] the newly set value
-  #
-  # source://importmap-rails//lib/importmap/map.rb#198
+  # pkg:gem/importmap-rails#lib/importmap/map.rb:198
   def name=(_); end
 
-  # Returns the value of attribute path
-  #
-  # @return [Object] the current value of path
-  #
-  # source://importmap-rails//lib/importmap/map.rb#198
+  # pkg:gem/importmap-rails#lib/importmap/map.rb:198
   def path; end
 
-  # Sets the attribute path
-  #
-  # @param value [Object] the value to set the attribute path to.
-  # @return [Object] the newly set value
-  #
-  # source://importmap-rails//lib/importmap/map.rb#198
+  # pkg:gem/importmap-rails#lib/importmap/map.rb:198
   def path=(_); end
 
-  # Returns the value of attribute preload
-  #
-  # @return [Object] the current value of preload
-  #
-  # source://importmap-rails//lib/importmap/map.rb#198
+  # pkg:gem/importmap-rails#lib/importmap/map.rb:198
   def preload; end
 
-  # Sets the attribute preload
-  #
-  # @param value [Object] the value to set the attribute preload to.
-  # @return [Object] the newly set value
-  #
-  # source://importmap-rails//lib/importmap/map.rb#198
+  # pkg:gem/importmap-rails#lib/importmap/map.rb:198
   def preload=(_); end
 
   class << self
-    # source://importmap-rails//lib/importmap/map.rb#198
+    # pkg:gem/importmap-rails#lib/importmap/map.rb:198
     def [](*_arg0); end
 
-    # source://importmap-rails//lib/importmap/map.rb#198
+    # pkg:gem/importmap-rails#lib/importmap/map.rb:198
     def inspect; end
 
-    # source://importmap-rails//lib/importmap/map.rb#198
+    # pkg:gem/importmap-rails#lib/importmap/map.rb:198
     def keyword_init?; end
 
-    # source://importmap-rails//lib/importmap/map.rb#198
+    # pkg:gem/importmap-rails#lib/importmap/map.rb:198
     def members; end
 
-    # source://importmap-rails//lib/importmap/map.rb#198
+    # pkg:gem/importmap-rails#lib/importmap/map.rb:198
     def new(*_arg0); end
   end
 end
 
-# source://importmap-rails//lib/importmap/map.rb#6
+# pkg:gem/importmap-rails#lib/importmap/map.rb:6
 Importmap::Map::PIN_REGEX = T.let(T.unsafe(nil), Regexp)
 
-# source://importmap-rails//lib/importmap/reloader.rb#4
+# pkg:gem/importmap-rails#lib/importmap/reloader.rb:4
 class Importmap::Reloader
-  # source://importmap-rails//lib/importmap/reloader.rb#5
+  # pkg:gem/importmap-rails#lib/importmap/reloader.rb:5
   def execute(*_arg0, **_arg1, &_arg2); end
 
-  # source://importmap-rails//lib/importmap/reloader.rb#5
+  # pkg:gem/importmap-rails#lib/importmap/reloader.rb:5
   def execute_if_updated(*_arg0, **_arg1, &_arg2); end
 
-  # source://importmap-rails//lib/importmap/reloader.rb#7
+  # pkg:gem/importmap-rails#lib/importmap/reloader.rb:7
   def reload!; end
 
-  # source://importmap-rails//lib/importmap/reloader.rb#5
+  # pkg:gem/importmap-rails#lib/importmap/reloader.rb:5
   def updated?(*_arg0, **_arg1, &_arg2); end
 
   private
 
-  # source://importmap-rails//lib/importmap/reloader.rb#20
+  # pkg:gem/importmap-rails#lib/importmap/reloader.rb:20
   def config; end
 
-  # source://importmap-rails//lib/importmap/reloader.rb#16
+  # pkg:gem/importmap-rails#lib/importmap/reloader.rb:16
   def import_map_paths; end
 
-  # source://importmap-rails//lib/importmap/reloader.rb#12
+  # pkg:gem/importmap-rails#lib/importmap/reloader.rb:12
   def updater; end
 end
 
-# source://importmap-rails//lib/importmap/version.rb#2
+# pkg:gem/importmap-rails#lib/importmap/version.rb:2
 Importmap::VERSION = T.let(T.unsafe(nil), String)

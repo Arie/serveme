@@ -5,145 +5,129 @@
 # Please instead update this file by running `bin/tapioca gem cucumber-tag-expressions`.
 
 
-# source://cucumber-tag-expressions//lib/cucumber/tag_expressions/expressions.rb#3
+# pkg:gem/cucumber-tag-expressions#lib/cucumber/tag_expressions/expressions.rb:3
 module Cucumber; end
 
-# source://cucumber-tag-expressions//lib/cucumber/tag_expressions/expressions.rb#4
+# pkg:gem/cucumber-tag-expressions#lib/cucumber/tag_expressions/expressions.rb:4
 module Cucumber::TagExpressions; end
 
 # And expression node
 #
-# source://cucumber-tag-expressions//lib/cucumber/tag_expressions/expressions.rb#61
+# pkg:gem/cucumber-tag-expressions#lib/cucumber/tag_expressions/expressions.rb:61
 class Cucumber::TagExpressions::And
-  # @return [And] a new instance of And
-  #
-  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/expressions.rb#62
+  # pkg:gem/cucumber-tag-expressions#lib/cucumber/tag_expressions/expressions.rb:62
   def initialize(left, right); end
 
-  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/expressions.rb#67
+  # pkg:gem/cucumber-tag-expressions#lib/cucumber/tag_expressions/expressions.rb:67
   def evaluate(variables); end
 
-  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/expressions.rb#71
+  # pkg:gem/cucumber-tag-expressions#lib/cucumber/tag_expressions/expressions.rb:71
   def to_s; end
 end
 
 # Literal expression node
 #
-# source://cucumber-tag-expressions//lib/cucumber/tag_expressions/expressions.rb#6
+# pkg:gem/cucumber-tag-expressions#lib/cucumber/tag_expressions/expressions.rb:6
 class Cucumber::TagExpressions::Literal
-  # @return [Literal] a new instance of Literal
-  #
-  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/expressions.rb#7
+  # pkg:gem/cucumber-tag-expressions#lib/cucumber/tag_expressions/expressions.rb:7
   def initialize(value); end
 
-  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/expressions.rb#11
+  # pkg:gem/cucumber-tag-expressions#lib/cucumber/tag_expressions/expressions.rb:11
   def evaluate(variables); end
 
-  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/expressions.rb#15
+  # pkg:gem/cucumber-tag-expressions#lib/cucumber/tag_expressions/expressions.rb:15
   def to_s; end
 end
 
 # Not expression node
 #
-# source://cucumber-tag-expressions//lib/cucumber/tag_expressions/expressions.rb#25
+# pkg:gem/cucumber-tag-expressions#lib/cucumber/tag_expressions/expressions.rb:25
 class Cucumber::TagExpressions::Not
-  # @return [Not] a new instance of Not
-  #
-  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/expressions.rb#26
+  # pkg:gem/cucumber-tag-expressions#lib/cucumber/tag_expressions/expressions.rb:26
   def initialize(expression); end
 
-  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/expressions.rb#30
+  # pkg:gem/cucumber-tag-expressions#lib/cucumber/tag_expressions/expressions.rb:30
   def evaluate(variables); end
 
-  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/expressions.rb#34
+  # pkg:gem/cucumber-tag-expressions#lib/cucumber/tag_expressions/expressions.rb:34
   def to_s; end
 end
 
 # Or expression node
 #
-# source://cucumber-tag-expressions//lib/cucumber/tag_expressions/expressions.rb#45
+# pkg:gem/cucumber-tag-expressions#lib/cucumber/tag_expressions/expressions.rb:45
 class Cucumber::TagExpressions::Or
-  # @return [Or] a new instance of Or
-  #
-  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/expressions.rb#46
+  # pkg:gem/cucumber-tag-expressions#lib/cucumber/tag_expressions/expressions.rb:46
   def initialize(left, right); end
 
-  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/expressions.rb#51
+  # pkg:gem/cucumber-tag-expressions#lib/cucumber/tag_expressions/expressions.rb:51
   def evaluate(variables); end
 
-  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/expressions.rb#55
+  # pkg:gem/cucumber-tag-expressions#lib/cucumber/tag_expressions/expressions.rb:55
   def to_s; end
 end
 
-# source://cucumber-tag-expressions//lib/cucumber/tag_expressions/parser.rb#7
+# pkg:gem/cucumber-tag-expressions#lib/cucumber/tag_expressions/parser.rb:7
 class Cucumber::TagExpressions::Parser
-  # @return [Parser] a new instance of Parser
-  #
-  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/parser.rb#8
+  # pkg:gem/cucumber-tag-expressions#lib/cucumber/tag_expressions/parser.rb:8
   def initialize; end
 
-  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/parser.rb#13
+  # pkg:gem/cucumber-tag-expressions#lib/cucumber/tag_expressions/parser.rb:13
   def parse(infix_expression); end
 
   private
 
-  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/parser.rb#120
+  # pkg:gem/cucumber-tag-expressions#lib/cucumber/tag_expressions/parser.rb:120
   def check(infix_expression, expected_token_type, token_type); end
 
-  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/parser.rb#92
+  # pkg:gem/cucumber-tag-expressions#lib/cucumber/tag_expressions/parser.rb:92
   def handle_binary_operator(infix_expression, token, expected_token_type); end
 
-  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/parser.rb#105
+  # pkg:gem/cucumber-tag-expressions#lib/cucumber/tag_expressions/parser.rb:105
   def handle_close_paren(infix_expression, _token, expected_token_type); end
 
-  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/parser.rb#114
+  # pkg:gem/cucumber-tag-expressions#lib/cucumber/tag_expressions/parser.rb:114
   def handle_literal(infix_expression, token, expected_token_type); end
 
-  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/parser.rb#99
+  # pkg:gem/cucumber-tag-expressions#lib/cucumber/tag_expressions/parser.rb:99
   def handle_open_paren(infix_expression, token, expected_token_type); end
 
-  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/parser.rb#78
+  # pkg:gem/cucumber-tag-expressions#lib/cucumber/tag_expressions/parser.rb:78
   def handle_sequential_tokens(token, infix_expression, expected_token_type); end
 
-  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/parser.rb#86
+  # pkg:gem/cucumber-tag-expressions#lib/cucumber/tag_expressions/parser.rb:86
   def handle_unary_operator(infix_expression, token, expected_token_type); end
 
-  # @return [Boolean]
-  #
-  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/parser.rb#28
+  # pkg:gem/cucumber-tag-expressions#lib/cucumber/tag_expressions/parser.rb:28
   def lower_precedence?(operation); end
 
-  # @return [Boolean]
-  #
-  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/parser.rb#33
+  # pkg:gem/cucumber-tag-expressions#lib/cucumber/tag_expressions/parser.rb:33
   def operator?(token); end
 
-  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/parser.rb#133
+  # pkg:gem/cucumber-tag-expressions#lib/cucumber/tag_expressions/parser.rb:133
   def operator_types; end
 
-  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/parser.rb#126
+  # pkg:gem/cucumber-tag-expressions#lib/cucumber/tag_expressions/parser.rb:126
   def popOperand(infix_expression, array, amount = T.unsafe(nil)); end
 
-  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/parser.rb#37
+  # pkg:gem/cucumber-tag-expressions#lib/cucumber/tag_expressions/parser.rb:37
   def precedence(token); end
 
-  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/parser.rb#69
+  # pkg:gem/cucumber-tag-expressions#lib/cucumber/tag_expressions/parser.rb:69
   def push_expression(infix_expression, token); end
 
-  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/parser.rb#41
+  # pkg:gem/cucumber-tag-expressions#lib/cucumber/tag_expressions/parser.rb:41
   def tokenize(infix_expression); end
 
-  # @return [Boolean]
-  #
-  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/parser.rb#143
+  # pkg:gem/cucumber-tag-expressions#lib/cucumber/tag_expressions/parser.rb:143
   def whitespace?(char); end
 end
 
-# source://cucumber-tag-expressions//lib/cucumber/tag_expressions/expressions.rb#76
+# pkg:gem/cucumber-tag-expressions#lib/cucumber/tag_expressions/expressions.rb:76
 class Cucumber::TagExpressions::True
-  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/expressions.rb#77
+  # pkg:gem/cucumber-tag-expressions#lib/cucumber/tag_expressions/expressions.rb:77
   def evaluate(_variables); end
 
-  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/expressions.rb#81
+  # pkg:gem/cucumber-tag-expressions#lib/cucumber/tag_expressions/expressions.rb:81
   def to_s; end
 end

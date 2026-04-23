@@ -5,5 +5,10 @@
 # Please instead update this file by running `bin/tapioca gem yaml`.
 
 
-# THIS IS AN EMPTY RBI FILE.
-# see https://github.com/Shopify/tapioca#manually-requiring-parts-of-a-gem
+# pkg:gem/yaml#lib/yaml.rb:20
+module Psych
+  extend ::Bootsnap::CompileCache::YAML::Psych4::Patch
+end
+
+# pkg:gem/yaml#lib/yaml.rb:69
+Psych::LOADER_VERSION = T.let(T.unsafe(nil), String)

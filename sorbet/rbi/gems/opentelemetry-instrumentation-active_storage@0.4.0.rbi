@@ -11,18 +11,27 @@
 #
 # The OpenTelemetry module provides global accessors for telemetry objects.
 # See the documentation for the `opentelemetry-api` gem for details.
+# Copyright The OpenTelemetry Authors
 #
-# source://opentelemetry-instrumentation-active_storage//lib/opentelemetry/instrumentation.rb#13
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+# pkg:gem/opentelemetry-instrumentation-active_storage#lib/opentelemetry/instrumentation.rb:13
 module OpenTelemetry; end
 
 # Instrumentation should be able to handle the case when the library is not installed on a user's system.
 #
-# source://opentelemetry-instrumentation-active_storage//lib/opentelemetry/instrumentation.rb#15
+# pkg:gem/opentelemetry-instrumentation-active_storage#lib/opentelemetry/instrumentation.rb:15
 module OpenTelemetry::Instrumentation; end
 
 # Contains the OpenTelemetry instrumentation for the ActiveStorage gem
 #
-# source://opentelemetry-instrumentation-active_storage//lib/opentelemetry/instrumentation/active_storage.rb#13
+# pkg:gem/opentelemetry-instrumentation-active_storage#lib/opentelemetry/instrumentation/active_storage.rb:13
 module OpenTelemetry::Instrumentation::ActiveStorage; end
 
 # The {OpenTelemetry::Instrumentation::ActiveStorage::Instrumentation} class contains logic to detect and install the ActiveStorage instrumentation
@@ -61,46 +70,46 @@ module OpenTelemetry::Instrumentation::ActiveStorage; end
 #
 # @example An explicit default configuration
 #   OpenTelemetry::SDK.configure do |c|
-#   c.use_all({
-#   'OpenTelemetry::Instrumentation::ActionMailer' => {
-#   disallowed_notification_payload_keys: [],
-#   notification_payload_transform: nil,
-#   key: :omit,
-#   url: :omit,
-#   },
-#   })
+#     c.use_all({
+#       'OpenTelemetry::Instrumentation::ActionMailer' => {
+#         disallowed_notification_payload_keys: [],
+#         notification_payload_transform: nil,
+#         key: :omit,
+#         url: :omit,
+#       },
+#     })
 #   end
 #
-# source://opentelemetry-instrumentation-active_storage//lib/opentelemetry/instrumentation/active_storage/instrumentation.rb#55
+# pkg:gem/opentelemetry-instrumentation-active_storage#lib/opentelemetry/instrumentation/active_storage/instrumentation.rb:55
 class OpenTelemetry::Instrumentation::ActiveStorage::Instrumentation < ::OpenTelemetry::Instrumentation::Base
   private
 
-  # source://opentelemetry-instrumentation-active_storage//lib/opentelemetry/instrumentation/active_storage/instrumentation.rb#115
+  # pkg:gem/opentelemetry-instrumentation-active_storage#lib/opentelemetry/instrumentation/active_storage/instrumentation.rb:115
   def _config; end
 
-  # source://opentelemetry-instrumentation-active_storage//lib/opentelemetry/instrumentation/active_storage/instrumentation.rb#80
+  # pkg:gem/opentelemetry-instrumentation-active_storage#lib/opentelemetry/instrumentation/active_storage/instrumentation.rb:80
   def gem_version; end
 
-  # source://opentelemetry-instrumentation-active_storage//lib/opentelemetry/instrumentation/active_storage/instrumentation.rb#124
+  # pkg:gem/opentelemetry-instrumentation-active_storage#lib/opentelemetry/instrumentation/active_storage/instrumentation.rb:124
   def require_dependencies; end
 
-  # source://opentelemetry-instrumentation-active_storage//lib/opentelemetry/instrumentation/active_storage/instrumentation.rb#84
+  # pkg:gem/opentelemetry-instrumentation-active_storage#lib/opentelemetry/instrumentation/active_storage/instrumentation.rb:84
   def resolve_key; end
 
-  # source://opentelemetry-instrumentation-active_storage//lib/opentelemetry/instrumentation/active_storage/instrumentation.rb#96
+  # pkg:gem/opentelemetry-instrumentation-active_storage#lib/opentelemetry/instrumentation/active_storage/instrumentation.rb:96
   def resolve_payload_transform; end
 
-  # source://opentelemetry-instrumentation-active_storage//lib/opentelemetry/instrumentation/active_storage/instrumentation.rb#90
+  # pkg:gem/opentelemetry-instrumentation-active_storage#lib/opentelemetry/instrumentation/active_storage/instrumentation.rb:90
   def resolve_url; end
 
   # add `active_storage.` prefix to each attribute
   #
-  # source://opentelemetry-instrumentation-active_storage//lib/opentelemetry/instrumentation/active_storage/instrumentation.rb#120
+  # pkg:gem/opentelemetry-instrumentation-active_storage#lib/opentelemetry/instrumentation/active_storage/instrumentation.rb:120
   def transform_payload(payload); end
 end
 
-# source://opentelemetry-instrumentation-active_storage//lib/opentelemetry/instrumentation/active_storage/instrumentation.rb#56
+# pkg:gem/opentelemetry-instrumentation-active_storage#lib/opentelemetry/instrumentation/active_storage/instrumentation.rb:56
 OpenTelemetry::Instrumentation::ActiveStorage::Instrumentation::MINIMUM_VERSION = T.let(T.unsafe(nil), Gem::Version)
 
-# source://opentelemetry-instrumentation-active_storage//lib/opentelemetry/instrumentation/active_storage/version.rb#10
+# pkg:gem/opentelemetry-instrumentation-active_storage#lib/opentelemetry/instrumentation/active_storage/version.rb:10
 OpenTelemetry::Instrumentation::ActiveStorage::VERSION = T.let(T.unsafe(nil), String)

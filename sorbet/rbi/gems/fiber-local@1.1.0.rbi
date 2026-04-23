@@ -5,31 +5,32 @@
 # Please instead update this file by running `bin/tapioca gem fiber-local`.
 
 
-# source://fiber-local//lib/fiber/local/version.rb#7
+# pkg:gem/fiber-local#lib/fiber/local/version.rb:7
 module Fiber::Local
   # Get the current thread-local instance. Create it if required.
+  # @returns [Object] The thread-local instance.
   #
-  # source://fiber-local//lib/fiber/local.rb#33
+  # pkg:gem/fiber-local#lib/fiber/local.rb:33
   def instance; end
 
   # Assigns to the fiber-local instance.
+  # @parameter instance [Object] The object that will become the thread-local instance.
   #
-  # source://fiber-local//lib/fiber/local.rb#52
+  # pkg:gem/fiber-local#lib/fiber/local.rb:52
   def instance=(instance); end
 
   # Instantiate a new thread-local object.
   # By default, invokes {new} to generate the instance.
+  # @returns [Object]
   #
-  # source://fiber-local//lib/fiber/local.rb#27
+  # pkg:gem/fiber-local#lib/fiber/local.rb:27
   def local; end
 
   class << self
-    # @private
-    #
-    # source://fiber-local//lib/fiber/local.rb#11
+    # pkg:gem/fiber-local#lib/fiber/local.rb:11
     def extended(klass); end
   end
 end
 
-# source://fiber-local//lib/fiber/local/version.rb#8
+# pkg:gem/fiber-local#lib/fiber/local/version.rb:8
 Fiber::Local::VERSION = T.let(T.unsafe(nil), String)

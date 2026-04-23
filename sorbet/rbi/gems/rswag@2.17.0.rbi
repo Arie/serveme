@@ -5,5 +5,5 @@
 # Please instead update this file by running `bin/tapioca gem rswag`.
 
 
-# source://rswag//lib/rswag.rb#5
+# pkg:gem/rswag#lib/rswag.rb:5
 module Rswag; end

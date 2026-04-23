@@ -11,36 +11,57 @@
 #
 # The OpenTelemetry module provides global accessors for telemetry objects.
 # See the documentation for the `opentelemetry-api` gem for details.
+# Copyright The OpenTelemetry Authors
 #
-# source://opentelemetry-instrumentation-active_job//lib/opentelemetry/instrumentation.rb#13
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+# pkg:gem/opentelemetry-instrumentation-active_job#lib/opentelemetry/instrumentation.rb:13
 module OpenTelemetry; end
 
 # Instrumentation should be able to handle the case when the library is not installed on a user's system.
 #
-# source://opentelemetry-instrumentation-active_job//lib/opentelemetry/instrumentation.rb#15
+# pkg:gem/opentelemetry-instrumentation-active_job#lib/opentelemetry/instrumentation.rb:15
 module OpenTelemetry::Instrumentation; end
 
 # Contains the OpenTelemetry instrumentation for the ActiveJob gem
 #
-# source://opentelemetry-instrumentation-active_job//lib/opentelemetry/instrumentation/active_job.rb#13
+# pkg:gem/opentelemetry-instrumentation-active_job#lib/opentelemetry/instrumentation/active_job.rb:13
 module OpenTelemetry::Instrumentation::ActiveJob
   extend ::OpenTelemetry::Instrumentation::ActiveJob
 
   # Returns a context containing the span, derived from the optional parent
   # context, or the current context if one was not provided.
   #
-  # @param context [optional Context] The context to use as the parent for
+  # @param [optional Context] context The context to use as the parent for
   #   the returned context
   #
-  # source://opentelemetry-instrumentation-active_job//lib/opentelemetry/instrumentation/active_job.rb#33
+  # pkg:gem/opentelemetry-instrumentation-active_job#lib/opentelemetry/instrumentation/active_job.rb:33
   def context_with_span(span, parent_context: T.unsafe(nil)); end
 
   # Returns the current span from the current or provided context
   #
-  # @param context [optional Context] The context to lookup the current
+  # @param [optional Context] context The context to lookup the current
   #   {Span} from. Defaults to Context.current
   #
-  # source://opentelemetry-instrumentation-active_job//lib/opentelemetry/instrumentation/active_job.rb#23
+  # pkg:gem/opentelemetry-instrumentation-active_job#lib/opentelemetry/instrumentation/active_job.rb:23
   def current_span(context = T.unsafe(nil)); end
 
   # Activates/deactivates the Span within the current Context, which makes the "current span"
@@ -48,34 +69,34 @@ module OpenTelemetry::Instrumentation::ActiveJob
   #
   # On exit, the Span that was active before calling this method will be reactivated.
   #
-  # @param span [Span] the span to activate
+  # @param [Span] span the span to activate
   # @yield [span, context] yields span and a context containing the span to the block.
   #
-  # source://opentelemetry-instrumentation-active_job//lib/opentelemetry/instrumentation/active_job.rb#44
+  # pkg:gem/opentelemetry-instrumentation-active_job#lib/opentelemetry/instrumentation/active_job.rb:44
   def with_span(span); end
 end
 
-# source://opentelemetry-instrumentation-active_job//lib/opentelemetry/instrumentation/active_job.rb#16
+# pkg:gem/opentelemetry-instrumentation-active_job#lib/opentelemetry/instrumentation/active_job.rb:16
 OpenTelemetry::Instrumentation::ActiveJob::CURRENT_SPAN_KEY = T.let(T.unsafe(nil), OpenTelemetry::Context::Key)
 
 # The Instrumentation class contains logic to detect and install the ActiveJob instrumentation
 #
-# source://opentelemetry-instrumentation-active_job//lib/opentelemetry/instrumentation/active_job/instrumentation.rb#11
+# pkg:gem/opentelemetry-instrumentation-active_job#lib/opentelemetry/instrumentation/active_job/instrumentation.rb:11
 class OpenTelemetry::Instrumentation::ActiveJob::Instrumentation < ::OpenTelemetry::Instrumentation::Base
   private
 
-  # source://opentelemetry-instrumentation-active_job//lib/opentelemetry/instrumentation/active_job/instrumentation.rb#61
+  # pkg:gem/opentelemetry-instrumentation-active_job#lib/opentelemetry/instrumentation/active_job/instrumentation.rb:61
   def gem_version; end
 
-  # source://opentelemetry-instrumentation-active_job//lib/opentelemetry/instrumentation/active_job/instrumentation.rb#71
+  # pkg:gem/opentelemetry-instrumentation-active_job#lib/opentelemetry/instrumentation/active_job/instrumentation.rb:71
   def patch_activejob; end
 
-  # source://opentelemetry-instrumentation-active_job//lib/opentelemetry/instrumentation/active_job/instrumentation.rb#65
+  # pkg:gem/opentelemetry-instrumentation-active_job#lib/opentelemetry/instrumentation/active_job/instrumentation.rb:65
   def require_dependencies; end
 end
 
-# source://opentelemetry-instrumentation-active_job//lib/opentelemetry/instrumentation/active_job/instrumentation.rb#12
+# pkg:gem/opentelemetry-instrumentation-active_job#lib/opentelemetry/instrumentation/active_job/instrumentation.rb:12
 OpenTelemetry::Instrumentation::ActiveJob::Instrumentation::MINIMUM_VERSION = T.let(T.unsafe(nil), Gem::Version)
 
-# source://opentelemetry-instrumentation-active_job//lib/opentelemetry/instrumentation/active_job/version.rb#10
+# pkg:gem/opentelemetry-instrumentation-active_job#lib/opentelemetry/instrumentation/active_job/version.rb:10
 OpenTelemetry::Instrumentation::ActiveJob::VERSION = T.let(T.unsafe(nil), String)

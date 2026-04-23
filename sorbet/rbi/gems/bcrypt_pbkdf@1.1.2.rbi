@@ -5,7 +5,7 @@
 # Please instead update this file by running `bin/tapioca gem bcrypt_pbkdf`.
 
 
-# source://bcrypt_pbkdf//lib/bcrypt_pbkdf.rb#8
+# pkg:gem/bcrypt_pbkdf#lib/bcrypt_pbkdf.rb:5
 module BCryptPbkdf
   class << self
     # generates a key from a password + salt returning a string with keylen bytes
@@ -20,17 +20,18 @@ module BCryptPbkdf
     #   keylen = 64
     #   @key = BCryptPbkdf.key("my secret", "my salt", keylen, rounds)
     #
-    # source://bcrypt_pbkdf//lib/bcrypt_pbkdf.rb#20
+    # pkg:gem/bcrypt_pbkdf#lib/bcrypt_pbkdf.rb:20
     def key(pass, salt, keylen, rounds); end
   end
 end
 
+# pkg:gem/bcrypt_pbkdf#lib/bcrypt_pbkdf.rb:5
 class BCryptPbkdf::Engine
   class << self
-    # source://bcrypt_pbkdf//lib/bcrypt_pbkdf.rb#5
+    # pkg:gem/bcrypt_pbkdf#lib/bcrypt_pbkdf.rb:5
     def __bc_crypt_hash(_arg0, _arg1); end
 
-    # source://bcrypt_pbkdf//lib/bcrypt_pbkdf.rb#5
+    # pkg:gem/bcrypt_pbkdf#lib/bcrypt_pbkdf.rb:5
     def __bc_crypt_pbkdf(_arg0, _arg1, _arg2, _arg3); end
   end
 end

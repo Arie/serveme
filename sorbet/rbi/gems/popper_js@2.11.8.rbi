@@ -5,11 +5,11 @@
 # Please instead update this file by running `bin/tapioca gem popper_js`.
 
 
-# source://popper_js//lib/popper_js/version.rb#3
+# pkg:gem/popper_js#lib/popper_js/version.rb:3
 module PopperJs; end
 
-# source://popper_js//lib/popper_js/engine.rb#4
+# pkg:gem/popper_js#lib/popper_js/engine.rb:4
 class PopperJs::Engine < ::Rails::Engine; end
 
-# source://popper_js//lib/popper_js/version.rb#4
+# pkg:gem/popper_js#lib/popper_js/version.rb:4
 PopperJs::VERSION = T.let(T.unsafe(nil), String)

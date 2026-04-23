@@ -5,7 +5,7 @@
 # Please instead update this file by running `bin/tapioca gem temple`.
 
 
-# source://temple//lib/temple/version.rb#2
+# pkg:gem/temple#lib/temple/version.rb:2
 module Temple; end
 
 # ERB example implementation
@@ -13,46 +13,41 @@ module Temple; end
 # Example usage:
 #   Temple::ERB::Template.new { "<%= 'Hello, world!' %>" }.render
 #
-# source://temple//lib/temple.rb#29
+# pkg:gem/temple#lib/temple.rb:29
 module Temple::ERB; end
 
 # Example ERB engine implementation
 #
 # @api public
 #
-# source://temple//lib/temple/erb/engine.rb#7
+# pkg:gem/temple#lib/temple/erb/engine.rb:7
 class Temple::ERB::Engine < ::Temple::Engine; end
 
 # Example ERB parser
 #
 # @api public
 #
-# source://temple//lib/temple/erb/parser.rb#7
+# pkg:gem/temple#lib/temple/erb/parser.rb:7
 class Temple::ERB::Parser < ::Temple::Parser
-  # @api public
-  #
-  # source://temple//lib/temple/erb/parser.rb#10
+  # pkg:gem/temple#lib/temple/erb/parser.rb:10
   def call(input); end
 end
 
-# @api public
-#
-# source://temple//lib/temple/erb/parser.rb#8
+# pkg:gem/temple#lib/temple/erb/parser.rb:8
 Temple::ERB::Parser::ERB_PATTERN = T.let(T.unsafe(nil), Regexp)
 
 # ERB Template class
+#
+# pkg:gem/temple#lib/temple/erb/template.rb:10
 class Temple::ERB::Template < ::Temple::Templates::Tilt; end
 
 # ERB trimming like in erubis
 # Deletes spaces around '<% %>' and leave spaces around '<%= %>'.
-#
 # @api public
 #
-# source://temple//lib/temple/erb/trimming.rb#7
+# pkg:gem/temple#lib/temple/erb/trimming.rb:7
 class Temple::ERB::Trimming < ::Temple::Filter
-  # @api public
-  #
-  # source://temple//lib/temple/erb/trimming.rb#10
+  # pkg:gem/temple#lib/temple/erb/trimming.rb:10
   def on_multi(*exps); end
 end
 
@@ -86,7 +81,7 @@ end
 #
 # @api public
 #
-# source://temple//lib/temple/engine.rb#32
+# pkg:gem/temple#lib/temple/engine.rb:32
 class Temple::Engine
   include ::Temple::Mixins::Options
   include ::Temple::Mixins::EngineDSL
@@ -94,47 +89,33 @@ class Temple::Engine
   extend ::Temple::Mixins::ThreadOptions
   extend ::Temple::Mixins::EngineDSL
 
-  # @api public
-  # @return [Engine] a new instance of Engine
-  #
-  # source://temple//lib/temple/engine.rb#45
+  # pkg:gem/temple#lib/temple/engine.rb:45
   def initialize(opts = T.unsafe(nil)); end
 
-  # @api public
-  #
-  # source://temple//lib/temple/engine.rb#50
+  # pkg:gem/temple#lib/temple/engine.rb:50
   def call(input); end
 
-  # @api public
-  #
-  # source://temple//lib/temple/engine.rb#39
+  # pkg:gem/temple#lib/temple/engine.rb:39
   def chain; end
 
   protected
 
-  # @api public
-  #
-  # source://temple//lib/temple/engine.rb#60
+  # pkg:gem/temple#lib/temple/engine.rb:60
   def call_chain; end
 
-  # @api public
-  #
-  # source://temple//lib/temple/engine.rb#56
+  # pkg:gem/temple#lib/temple/engine.rb:56
   def chain_modified!; end
 
   class << self
-    # @api public
-    #
-    # source://temple//lib/temple/engine.rb#41
+    # pkg:gem/temple#lib/temple/engine.rb:41
     def chain; end
   end
 end
 
 # Temple base filter
-#
 # @api public
 #
-# source://temple//lib/temple/filter.rb#5
+# pkg:gem/temple#lib/temple/filter.rb:5
 class Temple::Filter
   include ::Temple::Utils
   include ::Temple::Mixins::CompiledDispatcher
@@ -151,30 +132,26 @@ end
 #
 # @api public
 #
-# source://temple//lib/temple/exceptions.rb#12
+# pkg:gem/temple#lib/temple/exceptions.rb:12
 class Temple::FilterError < ::RuntimeError; end
 
-# source://temple//lib/temple.rb#44
+# pkg:gem/temple#lib/temple.rb:44
 module Temple::Filters; end
 
-# source://temple//lib/temple/filters/ambles.rb#4
+# pkg:gem/temple#lib/temple/filters/ambles.rb:4
 class Temple::Filters::Ambles < ::Temple::Filter
-  # @return [Ambles] a new instance of Ambles
-  #
-  # source://temple//lib/temple/filters/ambles.rb#7
+  # pkg:gem/temple#lib/temple/filters/ambles.rb:7
   def initialize(*_arg0); end
 
-  # source://temple//lib/temple/filters/ambles.rb#13
+  # pkg:gem/temple#lib/temple/filters/ambles.rb:13
   def call(ast); end
 end
 
 # @api public
 #
-# source://temple//lib/temple/filters/code_merger.rb#5
+# pkg:gem/temple#lib/temple/filters/code_merger.rb:5
 class Temple::Filters::CodeMerger < ::Temple::Filter
-  # @api public
-  #
-  # source://temple//lib/temple/filters/code_merger.rb#6
+  # pkg:gem/temple#lib/temple/filters/code_merger.rb:6
   def on_multi(*exps); end
 end
 
@@ -184,26 +161,18 @@ end
 #
 # @api public
 #
-# source://temple//lib/temple/filters/control_flow.rb#9
+# pkg:gem/temple#lib/temple/filters/control_flow.rb:9
 class Temple::Filters::ControlFlow < ::Temple::Filter
-  # @api public
-  #
-  # source://temple//lib/temple/filters/control_flow.rb#35
+  # pkg:gem/temple#lib/temple/filters/control_flow.rb:35
   def on_block(code, exp); end
 
-  # @api public
-  #
-  # source://temple//lib/temple/filters/control_flow.rb#21
+  # pkg:gem/temple#lib/temple/filters/control_flow.rb:21
   def on_case(arg, *cases); end
 
-  # @api public
-  #
-  # source://temple//lib/temple/filters/control_flow.rb#31
+  # pkg:gem/temple#lib/temple/filters/control_flow.rb:31
   def on_cond(*cases); end
 
-  # @api public
-  #
-  # source://temple//lib/temple/filters/control_flow.rb#10
+  # pkg:gem/temple#lib/temple/filters/control_flow.rb:10
   def on_if(condition, yes, no = T.unsafe(nil)); end
 end
 
@@ -211,27 +180,25 @@ end
 #
 # @api public
 #
-# source://temple//lib/temple/filters/dynamic_inliner.rb#7
+# pkg:gem/temple#lib/temple/filters/dynamic_inliner.rb:7
 class Temple::Filters::DynamicInliner < ::Temple::Filter
-  # @api public
-  #
-  # source://temple//lib/temple/filters/dynamic_inliner.rb#8
+  # pkg:gem/temple#lib/temple/filters/dynamic_inliner.rb:8
   def on_multi(*exps); end
 end
 
 # Compile [:multi, [:static, 'foo'], [:dynamic, 'bar']] to [:dynamic, '"foo#{bar}"']
 #
-# source://temple//lib/temple/filters/dynamic_merger.rb#5
+# pkg:gem/temple#lib/temple/filters/dynamic_merger.rb:5
 class Temple::Filters::DynamicMerger < ::Temple::Filter
-  # source://temple//lib/temple/filters/dynamic_merger.rb#6
+  # pkg:gem/temple#lib/temple/filters/dynamic_merger.rb:6
   def on_multi(*exps); end
 
   private
 
-  # source://temple//lib/temple/filters/dynamic_merger.rb#56
+  # pkg:gem/temple#lib/temple/filters/dynamic_merger.rb:56
   def count_newline(exps); end
 
-  # source://temple//lib/temple/filters/dynamic_merger.rb#34
+  # pkg:gem/temple#lib/temple/filters/dynamic_merger.rb:34
   def merge_dynamic(exps); end
 end
 
@@ -239,11 +206,9 @@ end
 #
 # @api public
 #
-# source://temple//lib/temple/filters/encoding.rb#7
+# pkg:gem/temple#lib/temple/filters/encoding.rb:7
 class Temple::Filters::Encoding < ::Temple::Parser
-  # @api public
-  #
-  # source://temple//lib/temple/filters/encoding.rb#10
+  # pkg:gem/temple#lib/temple/filters/encoding.rb:10
   def call(s); end
 end
 
@@ -251,19 +216,14 @@ end
 #
 # @api public
 #
-# source://temple//lib/temple/filters/eraser.rb#7
+# pkg:gem/temple#lib/temple/filters/eraser.rb:7
 class Temple::Filters::Eraser < ::Temple::Filter
-  # @api public
-  #
-  # source://temple//lib/temple/filters/eraser.rb#11
+  # pkg:gem/temple#lib/temple/filters/eraser.rb:11
   def compile(exp); end
 
   protected
 
-  # @api public
-  # @return [Boolean]
-  #
-  # source://temple//lib/temple/filters/eraser.rb#18
+  # pkg:gem/temple#lib/temple/filters/eraser.rb:18
   def do?(list, exp); end
 end
 
@@ -274,27 +234,18 @@ end
 #
 # @api public
 #
-# source://temple//lib/temple/filters/escapable.rb#10
+# pkg:gem/temple#lib/temple/filters/escapable.rb:10
 class Temple::Filters::Escapable < ::Temple::Filter
-  # @api public
-  # @return [Escapable] a new instance of Escapable
-  #
-  # source://temple//lib/temple/filters/escapable.rb#16
+  # pkg:gem/temple#lib/temple/filters/escapable.rb:16
   def initialize(opts = T.unsafe(nil)); end
 
-  # @api public
-  #
-  # source://temple//lib/temple/filters/escapable.rb#36
+  # pkg:gem/temple#lib/temple/filters/escapable.rb:36
   def on_dynamic(value); end
 
-  # @api public
-  #
-  # source://temple//lib/temple/filters/escapable.rb#24
+  # pkg:gem/temple#lib/temple/filters/escapable.rb:24
   def on_escape(flag, exp); end
 
-  # @api public
-  #
-  # source://temple//lib/temple/filters/escapable.rb#32
+  # pkg:gem/temple#lib/temple/filters/escapable.rb:32
   def on_static(value); end
 end
 
@@ -302,11 +253,9 @@ end
 #
 # @api public
 #
-# source://temple//lib/temple/filters/multi_flattener.rb#7
+# pkg:gem/temple#lib/temple/filters/multi_flattener.rb:7
 class Temple::Filters::MultiFlattener < ::Temple::Filter
-  # @api public
-  #
-  # source://temple//lib/temple/filters/multi_flattener.rb#8
+  # pkg:gem/temple#lib/temple/filters/multi_flattener.rb:8
   def on_multi(*exps); end
 end
 
@@ -314,22 +263,20 @@ end
 #
 # @api public
 #
-# source://temple//lib/temple/filters/remove_bom.rb#7
+# pkg:gem/temple#lib/temple/filters/remove_bom.rb:7
 class Temple::Filters::RemoveBOM < ::Temple::Parser
-  # @api public
-  #
-  # source://temple//lib/temple/filters/remove_bom.rb#8
+  # pkg:gem/temple#lib/temple/filters/remove_bom.rb:8
   def call(s); end
 end
 
 # Convert [:dynamic, code] to [:static, text] if code is static Ruby expression.
 #
-# source://temple//lib/temple/filters/static_analyzer.rb#5
+# pkg:gem/temple#lib/temple/filters/static_analyzer.rb:5
 class Temple::Filters::StaticAnalyzer < ::Temple::Filter
-  # source://temple//lib/temple/filters/static_analyzer.rb#6
+  # pkg:gem/temple#lib/temple/filters/static_analyzer.rb:6
   def call(exp); end
 
-  # source://temple//lib/temple/filters/static_analyzer.rb#15
+  # pkg:gem/temple#lib/temple/filters/static_analyzer.rb:15
   def on_dynamic(code); end
 end
 
@@ -345,81 +292,71 @@ end
 #
 # @api public
 #
-# source://temple//lib/temple/filters/static_merger.rb#15
+# pkg:gem/temple#lib/temple/filters/static_merger.rb:15
 class Temple::Filters::StaticMerger < ::Temple::Filter
-  # @api public
-  #
-  # source://temple//lib/temple/filters/static_merger.rb#16
+  # pkg:gem/temple#lib/temple/filters/static_merger.rb:16
   def on_multi(*exps); end
 end
 
 # Compile [:dynamic, "foo#{bar}"] to [:multi, [:static, 'foo'], [:dynamic, 'bar']]
 #
-# source://temple//lib/temple/filters/string_splitter.rb#10
+# pkg:gem/temple#lib/temple/filters/string_splitter.rb:10
 class Temple::Filters::StringSplitter < ::Temple::Filter
-  # source://temple//lib/temple/filters/string_splitter.rb#89
+  # pkg:gem/temple#lib/temple/filters/string_splitter.rb:89
   def on_dynamic(code); end
 
   private
 
-  # @return [Boolean]
-  #
-  # source://temple//lib/temple/filters/string_splitter.rb#107
+  # pkg:gem/temple#lib/temple/filters/string_splitter.rb:107
   def string_literal?(code); end
 
   class << self
     # `code` param must be valid string literal
     #
-    # source://temple//lib/temple/filters/string_splitter.rb#14
+    # pkg:gem/temple#lib/temple/filters/string_splitter.rb:14
     def compile(code); end
 
     private
 
-    # source://temple//lib/temple/filters/string_splitter.rb#42
+    # pkg:gem/temple#lib/temple/filters/string_splitter.rb:42
     def compile_tokens!(exps, tokens); end
 
     # Some quotes are split-unsafe. Replace such quotes with null characters.
     #
-    # source://temple//lib/temple/filters/string_splitter.rb#60
+    # pkg:gem/temple#lib/temple/filters/string_splitter.rb:60
     def escape_quotes(beg_str, end_str); end
 
-    # source://temple//lib/temple/filters/string_splitter.rb#69
+    # pkg:gem/temple#lib/temple/filters/string_splitter.rb:69
     def shift_balanced_embexpr(tokens); end
 
-    # source://temple//lib/temple/filters/string_splitter.rb#28
+    # pkg:gem/temple#lib/temple/filters/string_splitter.rb:28
     def strip_quotes!(tokens); end
   end
 end
 
-# source://temple//lib/temple/filters/string_splitter.rb#118
+# pkg:gem/temple#lib/temple/filters/string_splitter.rb:118
 class Temple::Filters::StringSplitter::SyntaxChecker < ::Ripper
   private
 
-  # @raise [ParseError]
-  #
-  # source://temple//lib/temple/filters/string_splitter.rb#130
+  # pkg:gem/temple#lib/temple/filters/string_splitter.rb:130
   def on_parse_error(*_arg0); end
 
   class << self
-    # @return [Boolean]
-    #
-    # source://temple//lib/temple/filters/string_splitter.rb#121
+    # pkg:gem/temple#lib/temple/filters/string_splitter.rb:121
     def syntax_error?(code); end
   end
 end
 
-# source://temple//lib/temple/filters/string_splitter.rb#119
+# pkg:gem/temple#lib/temple/filters/string_splitter.rb:119
 class Temple::Filters::StringSplitter::SyntaxChecker::ParseError < ::StandardError; end
 
 # Validates temple expression with given grammar
 #
 # @api public
 #
-# source://temple//lib/temple/filters/validator.rb#7
+# pkg:gem/temple#lib/temple/filters/validator.rb:7
 class Temple::Filters::Validator < ::Temple::Filter
-  # @api public
-  #
-  # source://temple//lib/temple/filters/validator.rb#10
+  # pkg:gem/temple#lib/temple/filters/validator.rb:10
   def compile(exp); end
 end
 
@@ -429,7 +366,7 @@ end
 #
 # @api public
 #
-# source://temple//lib/temple/generator.rb#8
+# pkg:gem/temple#lib/temple/generator.rb:8
 class Temple::Generator
   include ::Temple::Utils
   include ::Temple::Mixins::CompiledDispatcher
@@ -437,96 +374,61 @@ class Temple::Generator
   extend ::Temple::Mixins::ClassOptions
   extend ::Temple::Mixins::ThreadOptions
 
-  # @api public
-  #
-  # source://temple//lib/temple/generator.rb#18
+  # pkg:gem/temple#lib/temple/generator.rb:18
   def call(exp); end
 
-  # @api public
-  #
-  # source://temple//lib/temple/generator.rb#38
+  # pkg:gem/temple#lib/temple/generator.rb:38
   def create_buffer; end
 
-  # @api public
-  # @raise [InvalidExpression]
-  #
-  # source://temple//lib/temple/generator.rb#45
+  # pkg:gem/temple#lib/temple/generator.rb:45
   def on(*exp); end
 
-  # @api public
-  #
-  # source://temple//lib/temple/generator.rb#57
+  # pkg:gem/temple#lib/temple/generator.rb:57
   def on_capture(name, exp); end
 
-  # @api public
-  #
-  # source://temple//lib/temple/generator.rb#71
+  # pkg:gem/temple#lib/temple/generator.rb:71
   def on_code(code); end
 
-  # @api public
-  #
-  # source://temple//lib/temple/generator.rb#67
+  # pkg:gem/temple#lib/temple/generator.rb:67
   def on_dynamic(code); end
 
-  # @api public
-  #
-  # source://temple//lib/temple/generator.rb#49
+  # pkg:gem/temple#lib/temple/generator.rb:49
   def on_multi(*exp); end
 
-  # @api public
-  #
-  # source://temple//lib/temple/generator.rb#53
+  # pkg:gem/temple#lib/temple/generator.rb:53
   def on_newline; end
 
-  # @api public
-  #
-  # source://temple//lib/temple/generator.rb#63
+  # pkg:gem/temple#lib/temple/generator.rb:63
   def on_static(text); end
 
-  # @api public
-  #
-  # source://temple//lib/temple/generator.rb#26
+  # pkg:gem/temple#lib/temple/generator.rb:26
   def postamble; end
 
-  # @api public
-  #
-  # source://temple//lib/temple/generator.rb#22
+  # pkg:gem/temple#lib/temple/generator.rb:22
   def preamble; end
 
-  # @api public
-  #
-  # source://temple//lib/temple/generator.rb#34
+  # pkg:gem/temple#lib/temple/generator.rb:34
   def restore_buffer; end
 
-  # @api public
-  #
-  # source://temple//lib/temple/generator.rb#41
+  # pkg:gem/temple#lib/temple/generator.rb:41
   def return_buffer; end
 
-  # @api public
-  #
-  # source://temple//lib/temple/generator.rb#30
+  # pkg:gem/temple#lib/temple/generator.rb:30
   def save_buffer; end
 
   protected
 
-  # @api public
-  #
-  # source://temple//lib/temple/generator.rb#77
+  # pkg:gem/temple#lib/temple/generator.rb:77
   def buffer; end
 
-  # @api public
-  #
-  # source://temple//lib/temple/generator.rb#81
+  # pkg:gem/temple#lib/temple/generator.rb:81
   def capture_generator; end
 
-  # @api public
-  #
-  # source://temple//lib/temple/generator.rb#87
+  # pkg:gem/temple#lib/temple/generator.rb:87
   def concat(str); end
 end
 
-# source://temple//lib/temple.rb#36
+# pkg:gem/temple#lib/temple.rb:36
 module Temple::Generators; end
 
 # Implements an array buffer.
@@ -538,16 +440,12 @@ module Temple::Generators; end
 #
 # @api public
 #
-# source://temple//lib/temple/generators/array.rb#12
+# pkg:gem/temple#lib/temple/generators/array.rb:12
 class Temple::Generators::Array < ::Temple::Generator
-  # @api public
-  #
-  # source://temple//lib/temple/generators/array.rb#13
+  # pkg:gem/temple#lib/temple/generators/array.rb:13
   def create_buffer; end
 
-  # @api public
-  #
-  # source://temple//lib/temple/generators/array.rb#17
+  # pkg:gem/temple#lib/temple/generators/array.rb:17
   def return_buffer; end
 end
 
@@ -560,16 +458,12 @@ end
 #
 # @api public
 #
-# source://temple//lib/temple/generators/array_buffer.rb#12
+# pkg:gem/temple#lib/temple/generators/array_buffer.rb:12
 class Temple::Generators::ArrayBuffer < ::Temple::Generators::Array
-  # @api public
-  #
-  # source://temple//lib/temple/generators/array_buffer.rb#13
+  # pkg:gem/temple#lib/temple/generators/array_buffer.rb:13
   def call(exp); end
 
-  # @api public
-  #
-  # source://temple//lib/temple/generators/array_buffer.rb#24
+  # pkg:gem/temple#lib/temple/generators/array_buffer.rb:24
   def return_buffer; end
 end
 
@@ -577,36 +471,24 @@ end
 #
 # @api public
 #
-# source://temple//lib/temple/generators/erb.rb#7
+# pkg:gem/temple#lib/temple/generators/erb.rb:7
 class Temple::Generators::ERB < ::Temple::Generator
-  # @api public
-  #
-  # source://temple//lib/temple/generators/erb.rb#8
+  # pkg:gem/temple#lib/temple/generators/erb.rb:8
   def call(exp); end
 
-  # @api public
-  #
-  # source://temple//lib/temple/generators/erb.rb#16
+  # pkg:gem/temple#lib/temple/generators/erb.rb:16
   def on_capture(name, exp); end
 
-  # @api public
-  #
-  # source://temple//lib/temple/generators/erb.rb#28
+  # pkg:gem/temple#lib/temple/generators/erb.rb:28
   def on_code(code); end
 
-  # @api public
-  #
-  # source://temple//lib/temple/generators/erb.rb#24
+  # pkg:gem/temple#lib/temple/generators/erb.rb:24
   def on_dynamic(code); end
 
-  # @api public
-  #
-  # source://temple//lib/temple/generators/erb.rb#12
+  # pkg:gem/temple#lib/temple/generators/erb.rb:12
   def on_multi(*exp); end
 
-  # @api public
-  #
-  # source://temple//lib/temple/generators/erb.rb#20
+  # pkg:gem/temple#lib/temple/generators/erb.rb:20
   def on_static(text); end
 end
 
@@ -619,21 +501,15 @@ end
 #
 # @api public
 #
-# source://temple//lib/temple/generators/rails_output_buffer.rb#12
+# pkg:gem/temple#lib/temple/generators/rails_output_buffer.rb:12
 class Temple::Generators::RailsOutputBuffer < ::Temple::Generators::StringBuffer
-  # @api public
-  #
-  # source://temple//lib/temple/generators/rails_output_buffer.rb#18
+  # pkg:gem/temple#lib/temple/generators/rails_output_buffer.rb:18
   def call(exp); end
 
-  # @api public
-  #
-  # source://temple//lib/temple/generators/rails_output_buffer.rb#30
+  # pkg:gem/temple#lib/temple/generators/rails_output_buffer.rb:30
   def concat(str); end
 
-  # @api public
-  #
-  # source://temple//lib/temple/generators/rails_output_buffer.rb#22
+  # pkg:gem/temple#lib/temple/generators/rails_output_buffer.rb:22
   def create_buffer; end
 end
 
@@ -646,21 +522,15 @@ end
 #
 # @api public
 #
-# source://temple//lib/temple/generators/string_buffer.rb#12
+# pkg:gem/temple#lib/temple/generators/string_buffer.rb:12
 class Temple::Generators::StringBuffer < ::Temple::Generators::ArrayBuffer
-  # @api public
-  #
-  # source://temple//lib/temple/generators/string_buffer.rb#13
+  # pkg:gem/temple#lib/temple/generators/string_buffer.rb:13
   def create_buffer; end
 
-  # @api public
-  #
-  # source://temple//lib/temple/generators/string_buffer.rb#21
+  # pkg:gem/temple#lib/temple/generators/string_buffer.rb:21
   def on_dynamic(code); end
 
-  # @api public
-  #
-  # source://temple//lib/temple/generators/string_buffer.rb#17
+  # pkg:gem/temple#lib/temple/generators/string_buffer.rb:17
   def return_buffer; end
 end
 
@@ -674,297 +544,206 @@ end
 #
 # @api public
 #
-# source://temple//lib/temple/grammar.rb#12
+# pkg:gem/temple#lib/temple/grammar.rb:12
 module Temple::Grammar
   extend ::Temple::Mixins::GrammarDSL
 end
 
-# source://temple//lib/temple/mixins/grammar_dsl.rb#168
+# pkg:gem/temple#lib/temple/mixins/grammar_dsl.rb:168
 Temple::Grammar::Bool = T.let(T.unsafe(nil), Temple::Mixins::GrammarDSL::Root)
 
-# source://temple//lib/temple/mixins/grammar_dsl.rb#168
+# pkg:gem/temple#lib/temple/mixins/grammar_dsl.rb:168
 Temple::Grammar::Case = T.let(T.unsafe(nil), Temple::Mixins::GrammarDSL::Root)
 
-# source://temple//lib/temple/mixins/grammar_dsl.rb#168
+# pkg:gem/temple#lib/temple/mixins/grammar_dsl.rb:168
 Temple::Grammar::Condition = T.let(T.unsafe(nil), Temple::Mixins::GrammarDSL::Root)
 
-# source://temple//lib/temple/mixins/grammar_dsl.rb#168
+# pkg:gem/temple#lib/temple/mixins/grammar_dsl.rb:168
 Temple::Grammar::EmptyExp = T.let(T.unsafe(nil), Temple::Mixins::GrammarDSL::Root)
 
-# source://temple//lib/temple/mixins/grammar_dsl.rb#168
+# pkg:gem/temple#lib/temple/mixins/grammar_dsl.rb:168
 Temple::Grammar::Expression = T.let(T.unsafe(nil), Temple::Mixins::GrammarDSL::Root)
 
-# source://temple//lib/temple/mixins/grammar_dsl.rb#168
+# pkg:gem/temple#lib/temple/mixins/grammar_dsl.rb:168
 Temple::Grammar::HTMLAttr = T.let(T.unsafe(nil), Temple::Mixins::GrammarDSL::Root)
 
-# source://temple//lib/temple/mixins/grammar_dsl.rb#168
+# pkg:gem/temple#lib/temple/mixins/grammar_dsl.rb:168
 Temple::Grammar::HTMLIdentifier = T.let(T.unsafe(nil), Temple::Mixins::GrammarDSL::Root)
 
-# source://temple//lib/temple.rb#61
+# pkg:gem/temple#lib/temple.rb:61
 module Temple::HTML; end
 
 # This filter merges html attributes (e.g. used for id and class)
-#
 # @api public
 #
-# source://temple//lib/temple/html/attribute_merger.rb#6
+# pkg:gem/temple#lib/temple/html/attribute_merger.rb:6
 class Temple::HTML::AttributeMerger < ::Temple::HTML::Filter
-  # @api public
-  #
-  # source://temple//lib/temple/html/attribute_merger.rb#9
+  # pkg:gem/temple#lib/temple/html/attribute_merger.rb:9
   def on_html_attrs(*attrs); end
 end
 
 # This filter removes empty attributes
-#
 # @api public
 #
-# source://temple//lib/temple/html/attribute_remover.rb#6
+# pkg:gem/temple#lib/temple/html/attribute_remover.rb:6
 class Temple::HTML::AttributeRemover < ::Temple::HTML::Filter
-  # @api public
-  # @raise [ArgumentError]
-  # @return [AttributeRemover] a new instance of AttributeRemover
-  #
-  # source://temple//lib/temple/html/attribute_remover.rb#9
+  # pkg:gem/temple#lib/temple/html/attribute_remover.rb:9
   def initialize(opts = T.unsafe(nil)); end
 
-  # @api public
-  #
-  # source://temple//lib/temple/html/attribute_remover.rb#19
+  # pkg:gem/temple#lib/temple/html/attribute_remover.rb:19
   def on_html_attr(name, value); end
 
-  # @api public
-  #
-  # source://temple//lib/temple/html/attribute_remover.rb#15
+  # pkg:gem/temple#lib/temple/html/attribute_remover.rb:15
   def on_html_attrs(*attrs); end
 end
 
 # This filter sorts html attributes.
-#
 # @api public
 #
-# source://temple//lib/temple/html/attribute_sorter.rb#6
+# pkg:gem/temple#lib/temple/html/attribute_sorter.rb:6
 class Temple::HTML::AttributeSorter < ::Temple::HTML::Filter
-  # @api public
-  #
-  # source://temple//lib/temple/html/attribute_sorter.rb#9
+  # pkg:gem/temple#lib/temple/html/attribute_sorter.rb:9
   def call(exp); end
 
-  # @api public
-  #
-  # source://temple//lib/temple/html/attribute_sorter.rb#13
+  # pkg:gem/temple#lib/temple/html/attribute_sorter.rb:13
   def on_html_attrs(*attrs); end
 end
 
 # @api private
 #
-# source://temple//lib/temple/html/dispatcher.rb#5
+# pkg:gem/temple#lib/temple/html/dispatcher.rb:5
 module Temple::HTML::Dispatcher
-  # @api private
-  #
-  # source://temple//lib/temple/html/dispatcher.rb#10
+  # pkg:gem/temple#lib/temple/html/dispatcher.rb:10
   def on_html_attr(name, content); end
 
-  # @api private
-  #
-  # source://temple//lib/temple/html/dispatcher.rb#6
+  # pkg:gem/temple#lib/temple/html/dispatcher.rb:6
   def on_html_attrs(*attrs); end
 
-  # @api private
-  #
-  # source://temple//lib/temple/html/dispatcher.rb#14
+  # pkg:gem/temple#lib/temple/html/dispatcher.rb:14
   def on_html_comment(content); end
 
-  # @api private
-  #
-  # source://temple//lib/temple/html/dispatcher.rb#18
+  # pkg:gem/temple#lib/temple/html/dispatcher.rb:18
   def on_html_condcomment(condition, content); end
 
-  # @api private
-  #
-  # source://temple//lib/temple/html/dispatcher.rb#22
+  # pkg:gem/temple#lib/temple/html/dispatcher.rb:22
   def on_html_js(content); end
 
-  # @api private
-  #
-  # source://temple//lib/temple/html/dispatcher.rb#26
+  # pkg:gem/temple#lib/temple/html/dispatcher.rb:26
   def on_html_tag(name, attrs, content = T.unsafe(nil)); end
 end
 
 # @api public
 #
-# source://temple//lib/temple/html/fast.rb#5
+# pkg:gem/temple#lib/temple/html/fast.rb:5
 class Temple::HTML::Fast < ::Temple::HTML::Filter
-  # @api public
-  # @return [Fast] a new instance of Fast
-  #
-  # source://temple//lib/temple/html/fast.rb#37
+  # pkg:gem/temple#lib/temple/html/fast.rb:37
   def initialize(opts = T.unsafe(nil)); end
 
-  # @api public
-  #
-  # source://temple//lib/temple/html/fast.rb#108
+  # pkg:gem/temple#lib/temple/html/fast.rb:108
   def on_html_attr(name, value); end
 
-  # @api public
-  #
-  # source://temple//lib/temple/html/fast.rb#104
+  # pkg:gem/temple#lib/temple/html/fast.rb:104
   def on_html_attrs(*attrs); end
 
-  # @api public
-  #
-  # source://temple//lib/temple/html/fast.rb#80
+  # pkg:gem/temple#lib/temple/html/fast.rb:80
   def on_html_comment(content); end
 
-  # @api public
-  #
-  # source://temple//lib/temple/html/fast.rb#87
+  # pkg:gem/temple#lib/temple/html/fast.rb:87
   def on_html_condcomment(condition, content); end
 
-  # @api public
-  #
-  # source://temple//lib/temple/html/fast.rb#66
+  # pkg:gem/temple#lib/temple/html/fast.rb:66
   def on_html_doctype(type); end
 
-  # @api public
-  #
-  # source://temple//lib/temple/html/fast.rb#119
+  # pkg:gem/temple#lib/temple/html/fast.rb:119
   def on_html_js(content); end
 
-  # @api public
-  #
-  # source://temple//lib/temple/html/fast.rb#94
+  # pkg:gem/temple#lib/temple/html/fast.rb:94
   def on_html_tag(name, attrs, content = T.unsafe(nil)); end
 end
 
-# @api public
-#
-# source://temple//lib/temple/html/fast.rb#6
+# pkg:gem/temple#lib/temple/html/fast.rb:6
 Temple::HTML::Fast::DOCTYPES = T.let(T.unsafe(nil), Hash)
 
 # See http://www.w3.org/html/wg/drafts/html/master/single-page.html#void-elements
 #
-# @api public
-#
-# source://temple//lib/temple/html/fast.rb#30
+# pkg:gem/temple#lib/temple/html/fast.rb:30
 Temple::HTML::Fast::HTML_VOID_ELEMENTS = T.let(T.unsafe(nil), Array)
 
 # @api public
 #
-# source://temple//lib/temple/html/filter.rb#5
+# pkg:gem/temple#lib/temple/html/filter.rb:5
 class Temple::HTML::Filter < ::Temple::Filter
   include ::Temple::HTML::Dispatcher
 
-  # @api public
-  # @return [Boolean]
-  #
-  # source://temple//lib/temple/html/filter.rb#8
+  # pkg:gem/temple#lib/temple/html/filter.rb:8
   def contains_nonempty_static?(exp); end
 end
 
 # @api public
 #
-# source://temple//lib/temple/html/pretty.rb#5
+# pkg:gem/temple#lib/temple/html/pretty.rb:5
 class Temple::HTML::Pretty < ::Temple::HTML::Fast
-  # @api public
-  # @return [Pretty] a new instance of Pretty
-  #
-  # source://temple//lib/temple/html/pretty.rb#15
+  # pkg:gem/temple#lib/temple/html/pretty.rb:15
   def initialize(opts = T.unsafe(nil)); end
 
-  # @api public
-  #
-  # source://temple//lib/temple/html/pretty.rb#23
+  # pkg:gem/temple#lib/temple/html/pretty.rb:23
   def call(exp); end
 
-  # @api public
-  #
-  # source://temple//lib/temple/html/pretty.rb#37
+  # pkg:gem/temple#lib/temple/html/pretty.rb:37
   def on_dynamic(code); end
 
-  # @api public
-  #
-  # source://temple//lib/temple/html/pretty.rb#48
+  # pkg:gem/temple#lib/temple/html/pretty.rb:48
   def on_html_comment(content); end
 
-  # @api public
-  #
-  # source://temple//lib/temple/html/pretty.rb#43
+  # pkg:gem/temple#lib/temple/html/pretty.rb:43
   def on_html_doctype(type); end
 
-  # @api public
-  #
-  # source://temple//lib/temple/html/pretty.rb#55
+  # pkg:gem/temple#lib/temple/html/pretty.rb:55
   def on_html_tag(name, attrs, content = T.unsafe(nil)); end
 
-  # @api public
-  #
-  # source://temple//lib/temple/html/pretty.rb#27
+  # pkg:gem/temple#lib/temple/html/pretty.rb:27
   def on_static(content); end
 
   protected
 
-  # @api public
-  #
-  # source://temple//lib/temple/html/pretty.rb#87
+  # pkg:gem/temple#lib/temple/html/pretty.rb:87
   def indent; end
 
-  # @api public
-  #
-  # source://temple//lib/temple/html/pretty.rb#81
+  # pkg:gem/temple#lib/temple/html/pretty.rb:81
   def preamble; end
 
   # Return indentation before tag
   #
-  # @api public
-  #
-  # source://temple//lib/temple/html/pretty.rb#92
+  # pkg:gem/temple#lib/temple/html/pretty.rb:92
   def tag_indent(name); end
 end
 
 # Immutable map class which supports map merging
-#
 # @api public
 #
-# source://temple//lib/temple/map.rb#5
+# pkg:gem/temple#lib/temple/map.rb:5
 class Temple::ImmutableMap
   include ::Enumerable
 
-  # @api public
-  # @return [ImmutableMap] a new instance of ImmutableMap
-  #
-  # source://temple//lib/temple/map.rb#8
+  # pkg:gem/temple#lib/temple/map.rb:8
   def initialize(*map); end
 
-  # @api public
-  #
-  # source://temple//lib/temple/map.rb#16
+  # pkg:gem/temple#lib/temple/map.rb:16
   def [](key); end
 
-  # @api public
-  #
-  # source://temple//lib/temple/map.rb#21
+  # pkg:gem/temple#lib/temple/map.rb:21
   def each; end
 
-  # @api public
-  # @return [Boolean]
-  #
-  # source://temple//lib/temple/map.rb#12
+  # pkg:gem/temple#lib/temple/map.rb:12
   def include?(key); end
 
-  # @api public
-  #
-  # source://temple//lib/temple/map.rb#25
+  # pkg:gem/temple#lib/temple/map.rb:25
   def keys; end
 
-  # @api public
-  #
-  # source://temple//lib/temple/map.rb#33
+  # pkg:gem/temple#lib/temple/map.rb:33
   def to_hash; end
 
-  # @api public
-  #
-  # source://temple//lib/temple/map.rb#29
+  # pkg:gem/temple#lib/temple/map.rb:29
   def values; end
 end
 
@@ -972,150 +751,107 @@ end
 #
 # @api public
 #
-# source://temple//lib/temple/exceptions.rb#6
+# pkg:gem/temple#lib/temple/exceptions.rb:6
 class Temple::InvalidExpression < ::RuntimeError; end
 
-# source://temple//lib/temple.rb#19
+# pkg:gem/temple#lib/temple.rb:19
 module Temple::Mixins; end
 
 # @api public
 #
-# source://temple//lib/temple/mixins/options.rb#5
+# pkg:gem/temple#lib/temple/mixins/options.rb:5
 module Temple::Mixins::ClassOptions
-  # @api public
-  #
-  # source://temple//lib/temple/mixins/options.rb#11
+  # pkg:gem/temple#lib/temple/mixins/options.rb:11
   def default_options; end
 
-  # @api public
-  #
-  # source://temple//lib/temple/mixins/options.rb#36
+  # pkg:gem/temple#lib/temple/mixins/options.rb:36
   def define_deprecated_options(*opts); end
 
-  # @api public
-  #
-  # source://temple//lib/temple/mixins/options.rb#27
+  # pkg:gem/temple#lib/temple/mixins/options.rb:27
   def define_options(*opts); end
 
-  # @api public
-  #
-  # source://temple//lib/temple/mixins/options.rb#45
+  # pkg:gem/temple#lib/temple/mixins/options.rb:45
   def disable_option_validator!; end
 
-  # @api public
-  #
-  # source://temple//lib/temple/mixins/options.rb#20
+  # pkg:gem/temple#lib/temple/mixins/options.rb:20
   def options; end
 
-  # @api public
-  #
-  # source://temple//lib/temple/mixins/options.rb#6
+  # pkg:gem/temple#lib/temple/mixins/options.rb:6
   def set_default_options(opts); end
 
-  # @api public
-  #
-  # source://temple//lib/temple/mixins/options.rb#16
+  # pkg:gem/temple#lib/temple/mixins/options.rb:16
   def set_options(opts); end
 end
 
 # @api private
 #
-# source://temple//lib/temple/mixins/dispatcher.rb#44
+# pkg:gem/temple#lib/temple/mixins/dispatcher.rb:44
 module Temple::Mixins::CompiledDispatcher
-  # @api private
-  #
-  # source://temple//lib/temple/mixins/dispatcher.rb#45
+  # pkg:gem/temple#lib/temple/mixins/dispatcher.rb:45
   def call(exp); end
 
-  # @api private
-  #
-  # source://temple//lib/temple/mixins/dispatcher.rb#49
+  # pkg:gem/temple#lib/temple/mixins/dispatcher.rb:49
   def compile(exp); end
 
   private
 
-  # @api private
-  #
-  # source://temple//lib/temple/mixins/dispatcher.rb#73
+  # pkg:gem/temple#lib/temple/mixins/dispatcher.rb:73
   def dispatched_methods; end
 
-  # @api private
-  #
-  # source://temple//lib/temple/mixins/dispatcher.rb#55
+  # pkg:gem/temple#lib/temple/mixins/dispatcher.rb:55
   def dispatcher(exp); end
 
-  # @api private
-  #
-  # source://temple//lib/temple/mixins/dispatcher.rb#59
+  # pkg:gem/temple#lib/temple/mixins/dispatcher.rb:59
   def replace_dispatcher(exp); end
 end
 
 # @api private
 #
-# source://temple//lib/temple/mixins/dispatcher.rb#79
+# pkg:gem/temple#lib/temple/mixins/dispatcher.rb:79
 class Temple::Mixins::CompiledDispatcher::DispatchNode < ::Hash
-  # @api private
-  # @return [DispatchNode] a new instance of DispatchNode
-  #
-  # source://temple//lib/temple/mixins/dispatcher.rb#82
+  # pkg:gem/temple#lib/temple/mixins/dispatcher.rb:82
   def initialize; end
 
-  # @api private
-  #
-  # source://temple//lib/temple/mixins/dispatcher.rb#87
+  # pkg:gem/temple#lib/temple/mixins/dispatcher.rb:87
   def compile(level = T.unsafe(nil), call_parent = T.unsafe(nil)); end
 
-  # @api private
-  #
-  # source://temple//lib/temple/mixins/dispatcher.rb#80
+  # pkg:gem/temple#lib/temple/mixins/dispatcher.rb:80
   def method; end
 
-  # @api private
-  #
-  # source://temple//lib/temple/mixins/dispatcher.rb#80
+  # pkg:gem/temple#lib/temple/mixins/dispatcher.rb:80
   def method=(_arg0); end
 end
 
 # @api private
 #
-# source://temple//lib/temple/mixins/dispatcher.rb#25
+# pkg:gem/temple#lib/temple/mixins/dispatcher.rb:25
 module Temple::Mixins::ControlFlowDispatcher
-  # @api private
-  #
-  # source://temple//lib/temple/mixins/dispatcher.rb#34
+  # pkg:gem/temple#lib/temple/mixins/dispatcher.rb:34
   def on_block(code, content); end
 
-  # @api private
-  #
-  # source://temple//lib/temple/mixins/dispatcher.rb#30
+  # pkg:gem/temple#lib/temple/mixins/dispatcher.rb:30
   def on_case(arg, *cases); end
 
-  # @api private
-  #
-  # source://temple//lib/temple/mixins/dispatcher.rb#38
+  # pkg:gem/temple#lib/temple/mixins/dispatcher.rb:38
   def on_cond(*cases); end
 
-  # @api private
-  #
-  # source://temple//lib/temple/mixins/dispatcher.rb#26
+  # pkg:gem/temple#lib/temple/mixins/dispatcher.rb:26
   def on_if(condition, *cases); end
 end
 
 # @api private
 #
-# source://temple//lib/temple/mixins/dispatcher.rb#5
+# pkg:gem/temple#lib/temple/mixins/dispatcher.rb:5
 module Temple::Mixins::CoreDispatcher
-  # @api private
-  #
-  # source://temple//lib/temple/mixins/dispatcher.rb#12
+  # pkg:gem/temple#lib/temple/mixins/dispatcher.rb:12
   def on_capture(name, exp); end
 
-  # @api private
-  #
-  # source://temple//lib/temple/mixins/dispatcher.rb#6
+  # pkg:gem/temple#lib/temple/mixins/dispatcher.rb:6
   def on_multi(*exps); end
 end
 
+# @api public
+#
 # Implements a compatible call-method
 # based on the including classe's methods.
 #
@@ -1138,19 +874,22 @@ end
 # not contain with :z. This way a
 # dispatcher can implement namespaces.
 #
-# @api public
+# @note
+#  Processing does not reach into unknown
+#  expression types by default.
+#
 # @example
 #   class MyAwesomeDispatch
-#   include Temple::Mixins::Dispatcher
-#   def on_awesome(thing) # keep awesome things
-#   return [:awesome, thing]
-#   end
-#   def on_boring(thing) # make boring things awesome
-#   return [:awesome, thing+" with bacon"]
-#   end
-#   def on(type,*args) # unknown stuff is boring too
-#   return [:awesome, 'just bacon']
-#   end
+#     include Temple::Mixins::Dispatcher
+#     def on_awesome(thing) # keep awesome things
+#       return [:awesome, thing]
+#     end
+#     def on_boring(thing) # make boring things awesome
+#       return [:awesome, thing+" with bacon"]
+#     end
+#     def on(type,*args) # unknown stuff is boring too
+#       return [:awesome, 'just bacon']
+#     end
 #   end
 #   filter = MyAwesomeDispatch.new
 #   # Boring things are converted:
@@ -1159,10 +898,8 @@ end
 #   filter.call([:foo]) #=> [:awesome, 'just bacon']
 #   # Known but not boring things won't be touched:
 #   filter.call([:awesome, 'chuck norris']) #=>[:awesome, 'chuck norris']
-# @note Processing does not reach into unknown
-#   expression types by default.
 #
-# source://temple//lib/temple/mixins/dispatcher.rb#155
+# pkg:gem/temple#lib/temple/mixins/dispatcher.rb:155
 module Temple::Mixins::Dispatcher
   include ::Temple::Mixins::CompiledDispatcher
   include ::Temple::Mixins::CoreDispatcher
@@ -1172,407 +909,272 @@ end
 
 # @api private
 #
-# source://temple//lib/temple/mixins/engine_dsl.rb#5
+# pkg:gem/temple#lib/temple/mixins/engine_dsl.rb:5
 module Temple::Mixins::EngineDSL
-  # @api private
-  #
-  # source://temple//lib/temple/mixins/engine_dsl.rb#35
+  # pkg:gem/temple#lib/temple/mixins/engine_dsl.rb:35
   def after(name, *args, &block); end
 
-  # @api private
-  #
-  # source://temple//lib/temple/mixins/engine_dsl.rb#9
+  # pkg:gem/temple#lib/temple/mixins/engine_dsl.rb:9
   def append(*args, &block); end
 
-  # @api private
-  #
-  # source://temple//lib/temple/mixins/engine_dsl.rb#27
+  # pkg:gem/temple#lib/temple/mixins/engine_dsl.rb:27
   def before(name, *args, &block); end
 
-  # @api private
-  #
-  # source://temple//lib/temple/mixins/engine_dsl.rb#6
+  # pkg:gem/temple#lib/temple/mixins/engine_dsl.rb:6
   def chain_modified!; end
 
-  # source://temple//lib/temple/mixins/engine_dsl.rb#55
+  # pkg:gem/temple#lib/temple/mixins/engine_dsl.rb:55
   def filter(name, *options); end
 
-  # source://temple//lib/temple/mixins/engine_dsl.rb#55
+  # pkg:gem/temple#lib/temple/mixins/engine_dsl.rb:55
   def generator(name, *options); end
 
-  # source://temple//lib/temple/mixins/engine_dsl.rb#55
+  # pkg:gem/temple#lib/temple/mixins/engine_dsl.rb:55
   def html(name, *options); end
 
-  # @api private
-  #
-  # source://temple//lib/temple/mixins/engine_dsl.rb#14
+  # pkg:gem/temple#lib/temple/mixins/engine_dsl.rb:14
   def prepend(*args, &block); end
 
-  # @api private
-  #
-  # source://temple//lib/temple/mixins/engine_dsl.rb#19
+  # pkg:gem/temple#lib/temple/mixins/engine_dsl.rb:19
   def remove(name); end
 
-  # @api private
-  #
-  # source://temple//lib/temple/mixins/engine_dsl.rb#43
+  # pkg:gem/temple#lib/temple/mixins/engine_dsl.rb:43
   def replace(name, *args, &block); end
 
-  # @api private
-  #
-  # source://temple//lib/temple/mixins/engine_dsl.rb#25
+  # pkg:gem/temple#lib/temple/mixins/engine_dsl.rb:25
   def use(*args, &block); end
 
   private
 
-  # @api private
-  #
-  # source://temple//lib/temple/mixins/engine_dsl.rb#75
+  # pkg:gem/temple#lib/temple/mixins/engine_dsl.rb:75
   def chain_class_constructor(filter, local_options); end
 
-  # @api private
-  #
-  # source://temple//lib/temple/mixins/engine_dsl.rb#108
+  # pkg:gem/temple#lib/temple/mixins/engine_dsl.rb:108
   def chain_element(args, block); end
 
-  # @api private
-  #
-  # source://temple//lib/temple/mixins/engine_dsl.rb#62
+  # pkg:gem/temple#lib/temple/mixins/engine_dsl.rb:62
   def chain_name(name); end
 
-  # @api private
-  # @raise [ArgumentError]
-  #
-  # source://temple//lib/temple/mixins/engine_dsl.rb#85
+  # pkg:gem/temple#lib/temple/mixins/engine_dsl.rb:85
   def chain_proc_constructor(name, filter); end
 end
 
 # @api private
 #
-# source://temple//lib/temple/mixins/dispatcher.rb#18
+# pkg:gem/temple#lib/temple/mixins/dispatcher.rb:18
 module Temple::Mixins::EscapeDispatcher
-  # @api private
-  #
-  # source://temple//lib/temple/mixins/dispatcher.rb#19
+  # pkg:gem/temple#lib/temple/mixins/dispatcher.rb:19
   def on_escape(flag, exp); end
 end
 
 # @api private
 #
-# source://temple//lib/temple/mixins/grammar_dsl.rb#5
+# pkg:gem/temple#lib/temple/mixins/grammar_dsl.rb:5
 module Temple::Mixins::GrammarDSL
-  # @api private
-  # @return [Boolean]
-  #
-  # source://temple//lib/temple/mixins/grammar_dsl.rb#126
+  # pkg:gem/temple#lib/temple/mixins/grammar_dsl.rb:126
   def ===(exp); end
 
-  # @api private
-  # @return [Boolean]
-  #
-  # source://temple//lib/temple/mixins/grammar_dsl.rb#127
+  # pkg:gem/temple#lib/temple/mixins/grammar_dsl.rb:127
   def =~(exp); end
 
-  # @api private
-  #
-  # source://temple//lib/temple/mixins/grammar_dsl.rb#137
+  # pkg:gem/temple#lib/temple/mixins/grammar_dsl.rb:137
   def Rule(rule); end
 
-  # @api private
-  #
-  # source://temple//lib/temple/mixins/grammar_dsl.rb#133
+  # pkg:gem/temple#lib/temple/mixins/grammar_dsl.rb:133
   def Value(value); end
 
-  # @api private
-  #
-  # source://temple//lib/temple/mixins/grammar_dsl.rb#167
+  # pkg:gem/temple#lib/temple/mixins/grammar_dsl.rb:167
   def const_missing(name); end
 
-  # @api private
-  #
-  # source://temple//lib/temple/mixins/grammar_dsl.rb#116
+  # pkg:gem/temple#lib/temple/mixins/grammar_dsl.rb:116
   def extended(mod); end
 
-  # @api private
-  # @return [Boolean]
-  #
-  # source://temple//lib/temple/mixins/grammar_dsl.rb#123
+  # pkg:gem/temple#lib/temple/mixins/grammar_dsl.rb:123
   def match?(exp); end
 
-  # @api private
-  #
-  # source://temple//lib/temple/mixins/grammar_dsl.rb#129
+  # pkg:gem/temple#lib/temple/mixins/grammar_dsl.rb:129
   def validate!(exp); end
 end
 
-# @api private
-#
-# source://temple//lib/temple/mixins/grammar_dsl.rb#85
+# pkg:gem/temple#lib/temple/mixins/grammar_dsl.rb:85
 class Temple::Mixins::GrammarDSL::Element < ::Temple::Mixins::GrammarDSL::Or
-  # @api private
-  # @return [Element] a new instance of Element
-  #
-  # source://temple//lib/temple/mixins/grammar_dsl.rb#86
+  # pkg:gem/temple#lib/temple/mixins/grammar_dsl.rb:86
   def initialize(grammar, rule); end
 
-  # @api private
-  #
-  # source://temple//lib/temple/mixins/grammar_dsl.rb#97
+  # pkg:gem/temple#lib/temple/mixins/grammar_dsl.rb:97
   def after_copy(source); end
 
-  # @api private
-  #
-  # source://temple//lib/temple/mixins/grammar_dsl.rb#91
+  # pkg:gem/temple#lib/temple/mixins/grammar_dsl.rb:91
   def match(exp, unmatched); end
 end
 
-# @api private
-#
-# source://temple//lib/temple/mixins/grammar_dsl.rb#28
+# pkg:gem/temple#lib/temple/mixins/grammar_dsl.rb:28
 class Temple::Mixins::GrammarDSL::Or < ::Temple::Mixins::GrammarDSL::Rule
-  # @api private
-  # @return [Or] a new instance of Or
-  #
-  # source://temple//lib/temple/mixins/grammar_dsl.rb#29
+  # pkg:gem/temple#lib/temple/mixins/grammar_dsl.rb:29
   def initialize(grammar, *children); end
 
-  # @api private
-  #
-  # source://temple//lib/temple/mixins/grammar_dsl.rb#34
+  # pkg:gem/temple#lib/temple/mixins/grammar_dsl.rb:34
   def <<(rule); end
 
-  # @api private
-  #
-  # source://temple//lib/temple/mixins/grammar_dsl.rb#46
+  # pkg:gem/temple#lib/temple/mixins/grammar_dsl.rb:46
   def after_copy(source); end
 
-  # @api private
-  #
-  # source://temple//lib/temple/mixins/grammar_dsl.rb#41
+  # pkg:gem/temple#lib/temple/mixins/grammar_dsl.rb:41
   def match(exp, unmatched); end
 
-  # @api private
-  #
-  # source://temple//lib/temple/mixins/grammar_dsl.rb#39
+  # pkg:gem/temple#lib/temple/mixins/grammar_dsl.rb:39
   def |(rule); end
 end
 
-# @api private
-#
-# source://temple//lib/temple/mixins/grammar_dsl.rb#51
+# pkg:gem/temple#lib/temple/mixins/grammar_dsl.rb:51
 class Temple::Mixins::GrammarDSL::Root < ::Temple::Mixins::GrammarDSL::Or
-  # @api private
-  # @return [Root] a new instance of Root
-  #
-  # source://temple//lib/temple/mixins/grammar_dsl.rb#52
+  # pkg:gem/temple#lib/temple/mixins/grammar_dsl.rb:52
   def initialize(grammar, name); end
 
-  # @api private
-  #
-  # source://temple//lib/temple/mixins/grammar_dsl.rb#79
+  # pkg:gem/temple#lib/temple/mixins/grammar_dsl.rb:79
   def after_copy(source); end
 
-  # @api private
-  #
-  # source://temple//lib/temple/mixins/grammar_dsl.rb#75
+  # pkg:gem/temple#lib/temple/mixins/grammar_dsl.rb:75
   def copy_to(grammar); end
 
-  # @api private
-  #
-  # source://temple//lib/temple/mixins/grammar_dsl.rb#57
+  # pkg:gem/temple#lib/temple/mixins/grammar_dsl.rb:57
   def match(exp, unmatched); end
 
-  # @api private
-  #
-  # source://temple//lib/temple/mixins/grammar_dsl.rb#63
+  # pkg:gem/temple#lib/temple/mixins/grammar_dsl.rb:63
   def validate!(exp); end
 end
 
-# @api private
-#
-# source://temple//lib/temple/mixins/grammar_dsl.rb#6
+# pkg:gem/temple#lib/temple/mixins/grammar_dsl.rb:6
 class Temple::Mixins::GrammarDSL::Rule
-  # @api private
-  # @return [Rule] a new instance of Rule
-  #
-  # source://temple//lib/temple/mixins/grammar_dsl.rb#7
+  # pkg:gem/temple#lib/temple/mixins/grammar_dsl.rb:7
   def initialize(grammar); end
 
-  # @api private
-  # @return [Boolean]
-  #
-  # source://temple//lib/temple/mixins/grammar_dsl.rb#14
+  # pkg:gem/temple#lib/temple/mixins/grammar_dsl.rb:14
   def ===(exp); end
 
-  # @api private
-  # @return [Boolean]
-  #
-  # source://temple//lib/temple/mixins/grammar_dsl.rb#15
+  # pkg:gem/temple#lib/temple/mixins/grammar_dsl.rb:15
   def =~(exp); end
 
-  # @api private
-  #
-  # source://temple//lib/temple/mixins/grammar_dsl.rb#21
+  # pkg:gem/temple#lib/temple/mixins/grammar_dsl.rb:21
   def copy_to(grammar); end
 
-  # @api private
-  # @return [Boolean]
-  #
-  # source://temple//lib/temple/mixins/grammar_dsl.rb#11
+  # pkg:gem/temple#lib/temple/mixins/grammar_dsl.rb:11
   def match?(exp); end
 
-  # @api private
-  #
-  # source://temple//lib/temple/mixins/grammar_dsl.rb#17
+  # pkg:gem/temple#lib/temple/mixins/grammar_dsl.rb:17
   def |(rule); end
 end
 
-# @api private
-#
-# source://temple//lib/temple/mixins/grammar_dsl.rb#105
+# pkg:gem/temple#lib/temple/mixins/grammar_dsl.rb:105
 class Temple::Mixins::GrammarDSL::Value < ::Temple::Mixins::GrammarDSL::Rule
-  # @api private
-  # @return [Value] a new instance of Value
-  #
-  # source://temple//lib/temple/mixins/grammar_dsl.rb#106
+  # pkg:gem/temple#lib/temple/mixins/grammar_dsl.rb:106
   def initialize(grammar, value); end
 
-  # @api private
-  #
-  # source://temple//lib/temple/mixins/grammar_dsl.rb#111
+  # pkg:gem/temple#lib/temple/mixins/grammar_dsl.rb:111
   def match(exp, unmatched); end
 end
 
 # @api public
 #
-# source://temple//lib/temple/mixins/options.rb#71
+# pkg:gem/temple#lib/temple/mixins/options.rb:71
 module Temple::Mixins::Options
   mixes_in_class_methods ::Temple::Mixins::ClassOptions
   mixes_in_class_methods ::Temple::Mixins::ThreadOptions
 
-  # @api public
-  #
-  # source://temple//lib/temple/mixins/options.rb#81
+  # pkg:gem/temple#lib/temple/mixins/options.rb:81
   def initialize(opts = T.unsafe(nil)); end
 
-  # @api public
-  #
-  # source://temple//lib/temple/mixins/options.rb#79
+  # pkg:gem/temple#lib/temple/mixins/options.rb:79
   def options; end
 
   class << self
-    # @api public
-    # @private
-    #
-    # source://temple//lib/temple/mixins/options.rb#72
+    # pkg:gem/temple#lib/temple/mixins/options.rb:72
     def included(base); end
   end
 end
 
 # @api private
 #
-# source://temple//lib/temple/mixins/template.rb#5
+# pkg:gem/temple#lib/temple/mixins/template.rb:5
 module Temple::Mixins::Template
   include ::Temple::Mixins::ClassOptions
 
-  # @api private
-  #
-  # source://temple//lib/temple/mixins/template.rb#8
+  # pkg:gem/temple#lib/temple/mixins/template.rb:8
   def compile(code, options); end
 
-  # @api private
-  #
-  # source://temple//lib/temple/mixins/template.rb#18
+  # pkg:gem/temple#lib/temple/mixins/template.rb:18
   def create(engine, options); end
 
-  # @api private
-  # @raise [NotImplementedError]
-  #
-  # source://temple//lib/temple/mixins/template.rb#14
+  # pkg:gem/temple#lib/temple/mixins/template.rb:14
   def register_as(*names); end
 end
 
-# source://temple//lib/temple/mixins/options.rb#50
+# pkg:gem/temple#lib/temple/mixins/options.rb:50
 module Temple::Mixins::ThreadOptions
-  # source://temple//lib/temple/mixins/options.rb#59
+  # pkg:gem/temple#lib/temple/mixins/options.rb:59
   def thread_options; end
 
-  # source://temple//lib/temple/mixins/options.rb#51
+  # pkg:gem/temple#lib/temple/mixins/options.rb:51
   def with_options(options); end
 
   protected
 
-  # source://temple//lib/temple/mixins/options.rb#65
+  # pkg:gem/temple#lib/temple/mixins/options.rb:65
   def thread_options_key; end
 end
 
 # Mutable map class which supports map merging
-#
 # @api public
 #
-# source://temple//lib/temple/map.rb#42
+# pkg:gem/temple#lib/temple/map.rb:42
 class Temple::MutableMap < ::Temple::ImmutableMap
-  # @api public
-  # @return [MutableMap] a new instance of MutableMap
-  #
-  # source://temple//lib/temple/map.rb#43
+  # pkg:gem/temple#lib/temple/map.rb:43
   def initialize(*map); end
 
-  # @api public
-  #
-  # source://temple//lib/temple/map.rb#47
+  # pkg:gem/temple#lib/temple/map.rb:47
   def []=(key, value); end
 
-  # @api public
-  #
-  # source://temple//lib/temple/map.rb#51
+  # pkg:gem/temple#lib/temple/map.rb:51
   def update(map); end
 end
 
-# source://temple//lib/temple/map.rb#56
+# pkg:gem/temple#lib/temple/map.rb:56
 class Temple::OptionMap < ::Temple::MutableMap
-  # @return [OptionMap] a new instance of OptionMap
-  #
-  # source://temple//lib/temple/map.rb#57
+  # pkg:gem/temple#lib/temple/map.rb:57
   def initialize(*map, &block); end
 
-  # source://temple//lib/temple/map.rb#64
+  # pkg:gem/temple#lib/temple/map.rb:64
   def []=(key, value); end
 
-  # source://temple//lib/temple/map.rb#83
+  # pkg:gem/temple#lib/temple/map.rb:83
   def add_deprecated_keys(*keys); end
 
-  # source://temple//lib/temple/map.rb#79
+  # pkg:gem/temple#lib/temple/map.rb:79
   def add_valid_keys(*keys); end
 
-  # @return [Boolean]
-  #
-  # source://temple//lib/temple/map.rb#96
+  # pkg:gem/temple#lib/temple/map.rb:96
   def deprecated_key?(key); end
 
-  # source://temple//lib/temple/map.rb#69
+  # pkg:gem/temple#lib/temple/map.rb:69
   def update(map); end
 
-  # @return [Boolean]
-  #
-  # source://temple//lib/temple/map.rb#101
+  # pkg:gem/temple#lib/temple/map.rb:101
   def valid_key?(key); end
 
-  # source://temple//lib/temple/map.rb#74
+  # pkg:gem/temple#lib/temple/map.rb:74
   def valid_keys; end
 
-  # source://temple//lib/temple/map.rb#91
+  # pkg:gem/temple#lib/temple/map.rb:91
   def validate_key!(key); end
 
-  # source://temple//lib/temple/map.rb#87
+  # pkg:gem/temple#lib/temple/map.rb:87
   def validate_map!(map); end
 end
 
 # Temple base parser
-#
 # @api public
 #
-# source://temple//lib/temple/parser.rb#5
+# pkg:gem/temple#lib/temple/parser.rb:5
 class Temple::Parser
   include ::Temple::Utils
   include ::Temple::Mixins::Options
@@ -1580,93 +1182,81 @@ class Temple::Parser
   extend ::Temple::Mixins::ThreadOptions
 end
 
-# source://temple//lib/temple/static_analyzer.rb#8
+# pkg:gem/temple#lib/temple/static_analyzer.rb:8
 module Temple::StaticAnalyzer
   class << self
-    # @return [Boolean]
-    #
-    # source://temple//lib/temple/static_analyzer.rb#33
+    # pkg:gem/temple#lib/temple/static_analyzer.rb:33
     def available?; end
 
-    # @return [Boolean]
-    #
-    # source://temple//lib/temple/static_analyzer.rb#37
+    # pkg:gem/temple#lib/temple/static_analyzer.rb:37
     def static?(code); end
 
-    # @return [Boolean]
-    #
-    # source://temple//lib/temple/static_analyzer.rb#58
+    # pkg:gem/temple#lib/temple/static_analyzer.rb:58
     def syntax_error?(code); end
   end
 end
 
-# source://temple//lib/temple/static_analyzer.rb#20
+# pkg:gem/temple#lib/temple/static_analyzer.rb:20
 Temple::StaticAnalyzer::DYNAMIC_TOKENS = T.let(T.unsafe(nil), Array)
 
-# source://temple//lib/temple/static_analyzer.rb#24
+# pkg:gem/temple#lib/temple/static_analyzer.rb:24
 Temple::StaticAnalyzer::STATIC_KEYWORDS = T.let(T.unsafe(nil), Array)
 
-# source://temple//lib/temple/static_analyzer.rb#28
+# pkg:gem/temple#lib/temple/static_analyzer.rb:28
 Temple::StaticAnalyzer::STATIC_OPERATORS = T.let(T.unsafe(nil), Array)
 
-# source://temple//lib/temple/static_analyzer.rb#9
+# pkg:gem/temple#lib/temple/static_analyzer.rb:9
 Temple::StaticAnalyzer::STATIC_TOKENS = T.let(T.unsafe(nil), Array)
 
-# source://temple//lib/temple/static_analyzer.rb#67
+# pkg:gem/temple#lib/temple/static_analyzer.rb:67
 class Temple::StaticAnalyzer::SyntaxChecker < ::Ripper
   private
 
-  # @raise [ParseError]
-  #
-  # source://temple//lib/temple/static_analyzer.rb#72
+  # pkg:gem/temple#lib/temple/static_analyzer.rb:72
   def on_parse_error(*_arg0); end
 end
 
-# source://temple//lib/temple/static_analyzer.rb#68
+# pkg:gem/temple#lib/temple/static_analyzer.rb:68
 class Temple::StaticAnalyzer::SyntaxChecker::ParseError < ::StandardError; end
 
 # @api public
 #
-# source://temple//lib/temple/templates.rb#4
+# pkg:gem/temple#lib/temple/templates.rb:4
 module Temple::Templates
   class << self
-    # @api public
-    #
-    # source://temple//lib/temple/templates.rb#8
+    # pkg:gem/temple#lib/temple/templates.rb:8
     def method_missing(name, engine, options = T.unsafe(nil)); end
   end
 end
 
-# source://temple//lib/temple/templates/rails.rb#4
+# pkg:gem/temple#lib/temple/templates/rails.rb:4
 class Temple::Templates::Rails
   extend ::Temple::Mixins::ClassOptions
   extend ::Temple::Mixins::Template
 
-  # source://temple//lib/temple/templates/rails.rb#7
+  # pkg:gem/temple#lib/temple/templates/rails.rb:7
   def call(template, source = T.unsafe(nil)); end
 
-  # @return [Boolean]
-  #
-  # source://temple//lib/temple/templates/rails.rb#16
+  # pkg:gem/temple#lib/temple/templates/rails.rb:16
   def supports_streaming?; end
 
   class << self
-    # source://temple//lib/temple/templates/rails.rb#20
+    # pkg:gem/temple#lib/temple/templates/rails.rb:20
     def register_as(*names); end
   end
 end
 
-# source://temple//lib/temple/templates/tilt.rb#6
+# pkg:gem/temple#lib/temple/templates/tilt.rb:6
 class Temple::Templates::Tilt < ::Tilt::Template
   extend ::Temple::Mixins::ClassOptions
   extend ::Temple::Mixins::Template
 
   # A string containing the (Ruby) source code for the template.
   #
-  # @param locals [Hash] Local variables
+  # @param [Hash]   locals Local variables
   # @return [String] Compiled template ruby code
   #
-  # source://temple//lib/temple/templates/tilt.rb#30
+  # pkg:gem/temple#lib/temple/templates/tilt.rb:30
   def precompiled_template(locals = T.unsafe(nil)); end
 
   # Prepare Temple template
@@ -1675,63 +1265,61 @@ class Temple::Templates::Tilt < ::Tilt::Template
   #
   # @return [void]
   #
-  # source://temple//lib/temple/templates/tilt.rb#16
+  # pkg:gem/temple#lib/temple/templates/tilt.rb:16
   def prepare; end
 
   class << self
-    # source://temple//lib/temple/templates/tilt.rb#34
+    # pkg:gem/temple#lib/temple/templates/tilt.rb:34
     def register_as(*names); end
   end
 end
 
 # @api public
 #
-# source://temple//lib/temple/utils.rb#9
+# pkg:gem/temple#lib/temple/utils.rb:9
 module Temple::Utils
   extend ::Temple::Utils
 
   # Check if expression is empty
   #
-  # @api public
   # @param exp [Array] Temple expression
-  # @return [Boolean] true if expression is empty
+  # @return true if expression is empty
   #
-  # source://temple//lib/temple/utils.rb#66
+  # pkg:gem/temple#lib/temple/utils.rb:66
   def empty_exp?(exp); end
 
   # Returns an escaped copy of `html`.
   #
-  # @api public
+  # @param html [String] The string to escape
+  # @return [String] The escaped string
+  # Returns an escaped copy of `html`.
+  #
   # @param html [String] The string to escape
   # @return [String] The escaped string
   #
-  # source://temple//lib/temple/utils.rb#27
+  # pkg:gem/temple#lib/temple/utils.rb:27
   def escape_html(html); end
 
   # Returns an escaped copy of `html`.
   # Strings which are declared as html_safe are not escaped.
   #
-  # @api public
   # @param html [String] The string to escape
   # @return [String] The escaped string
   #
-  # source://temple//lib/temple/utils.rb#17
+  # pkg:gem/temple#lib/temple/utils.rb:17
   def escape_html_safe(html); end
 
-  # @api public
-  #
-  # source://temple//lib/temple/utils.rb#77
+  # pkg:gem/temple#lib/temple/utils.rb:77
   def indent_dynamic(text, indent_next, indent, pre_tags = T.unsafe(nil)); end
 
   # Generate unique variable name
   #
-  # @api public
   # @param prefix [String] Variable name prefix
   # @return [String] Variable name
   #
-  # source://temple//lib/temple/utils.rb#56
+  # pkg:gem/temple#lib/temple/utils.rb:56
   def unique_name(prefix = T.unsafe(nil)); end
 end
 
-# source://temple//lib/temple/version.rb#3
+# pkg:gem/temple#lib/temple/version.rb:3
 Temple::VERSION = T.let(T.unsafe(nil), String)

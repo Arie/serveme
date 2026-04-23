@@ -5,13 +5,32 @@
 # Please instead update this file by running `bin/tapioca gem timeout`.
 
 
-# source://timeout//lib/timeout.rb#21
+# Timeout long-running blocks
+#
+# == Synopsis
+#
+#   require 'timeout'
+#   status = Timeout.timeout(5) {
+#     # Something that should be interrupted if it takes more than 5 seconds...
+#   }
+#
+# == Description
+#
+# Timeout provides a way to auto-terminate a potentially long-running
+# operation if it hasn't finished in a fixed amount of time.
+#
+# == Copyright
+#
+# Copyright:: (C) 2000  Network Applied Communication Laboratory, Inc.
+# Copyright:: (C) 2000  Information-technology Promotion Agency, Japan
+#
+# pkg:gem/timeout#lib/timeout.rb:21
 module Timeout
   private
 
   # See Timeout.timeout
   #
-  # source://timeout//lib/timeout.rb#311
+  # pkg:gem/timeout#lib/timeout.rb:311
   def timeout(*args, &block); end
 
   class << self
@@ -87,83 +106,71 @@ module Timeout
     # instead of +:immediate+. However, that means if the block uses no blocking operations after +sec+ seconds,
     # the block will not be interrupted.
     #
-    # @raise [ArgumentError]
-    #
-    # source://timeout//lib/timeout.rb#278
+    # pkg:gem/timeout#lib/timeout.rb:278
     def timeout(sec, klass = T.unsafe(nil), message = T.unsafe(nil), &block); end
   end
 end
 
 # Raised by Timeout.timeout when the block times out.
 #
-# source://timeout//lib/timeout.rb#33
+# pkg:gem/timeout#lib/timeout.rb:33
 class Timeout::Error < ::RuntimeError
   class << self
-    # source://timeout//lib/timeout.rb#34
+    # pkg:gem/timeout#lib/timeout.rb:34
     def handle_timeout(message); end
   end
 end
 
 # Internal exception raised to when a timeout is triggered.
 #
-# source://timeout//lib/timeout.rb#26
+# pkg:gem/timeout#lib/timeout.rb:26
 class Timeout::ExitException < ::Exception
-  # source://timeout//lib/timeout.rb#27
+  # pkg:gem/timeout#lib/timeout.rb:27
   def exception(*_arg0); end
 end
 
 # We keep a private reference so that time mocking libraries won't break Timeout.
 #
-# source://timeout//lib/timeout.rb#49
+# pkg:gem/timeout#lib/timeout.rb:49
 Timeout::GET_TIME = T.let(T.unsafe(nil), Method)
 
-# source://timeout//lib/timeout.rb#143
+# pkg:gem/timeout#lib/timeout.rb:143
 class Timeout::Request
-  # @return [Request] a new instance of Request
-  #
-  # source://timeout//lib/timeout.rb#146
+  # pkg:gem/timeout#lib/timeout.rb:146
   def initialize(thread, timeout, exception_class, message); end
 
-  # Returns the value of attribute deadline.
-  #
-  # source://timeout//lib/timeout.rb#144
+  # pkg:gem/timeout#lib/timeout.rb:144
   def deadline; end
 
   # Only called by the timeout thread, so does not need Sync.synchronize
   #
-  # @return [Boolean]
-  #
-  # source://timeout//lib/timeout.rb#157
+  # pkg:gem/timeout#lib/timeout.rb:157
   def done?; end
 
-  # @return [Boolean]
-  #
-  # source://timeout//lib/timeout.rb#163
+  # pkg:gem/timeout#lib/timeout.rb:163
   def expired?(now); end
 
-  # source://timeout//lib/timeout.rb#177
+  # pkg:gem/timeout#lib/timeout.rb:177
   def finished; end
 
   # Only called by the timeout thread, so does not need Sync.synchronize
   #
-  # source://timeout//lib/timeout.rb#168
+  # pkg:gem/timeout#lib/timeout.rb:168
   def interrupt; end
 end
 
-# source://timeout//lib/timeout.rb#56
+# pkg:gem/timeout#lib/timeout.rb:56
 class Timeout::State
-  # @return [State] a new instance of State
-  #
-  # source://timeout//lib/timeout.rb#57
+  # pkg:gem/timeout#lib/timeout.rb:57
   def initialize; end
 
-  # source://timeout//lib/timeout.rb#134
+  # pkg:gem/timeout#lib/timeout.rb:134
   def add_request(request); end
 
-  # source://timeout//lib/timeout.rb#83
+  # pkg:gem/timeout#lib/timeout.rb:83
   def create_timeout_thread; end
 
-  # source://timeout//lib/timeout.rb#120
+  # pkg:gem/timeout#lib/timeout.rb:120
   def ensure_timeout_thread_created; end
 
   class << self
@@ -171,23 +178,23 @@ class Timeout::State
     # 1. Ractor.store_if_absent is available
     # 2. Method object can be shareable (4.0~)
     #
-    # source://timeout//lib/timeout.rb#70
+    # pkg:gem/timeout#lib/timeout.rb:70
     def instance; end
   end
 end
 
-# source://timeout//lib/timeout.rb#185
+# pkg:gem/timeout#lib/timeout.rb:185
 module Timeout::Sync
   class << self
     # Calls mutex.synchronize(&block) but if that fails on CRuby due to being in a trap handler,
     # run mutex.synchronize(&block) in a separate Thread instead.
     #
-    # source://timeout//lib/timeout.rb#188
+    # pkg:gem/timeout#lib/timeout.rb:188
     def synchronize(mutex, &block); end
   end
 end
 
 # The version
 #
-# source://timeout//lib/timeout.rb#23
+# pkg:gem/timeout#lib/timeout.rb:23
 Timeout::VERSION = T.let(T.unsafe(nil), String)

@@ -11,8 +11,20 @@
 #
 # The OpenTelemetry module provides global accessors for telemetry objects.
 # See the documentation for the `opentelemetry-api` gem for details.
+# Copyright The OpenTelemetry Authors
 #
-# source://opentelemetry-instrumentation-aws_lambda//lib/opentelemetry/instrumentation.rb#13
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+# pkg:gem/opentelemetry-instrumentation-aws_lambda#lib/opentelemetry/instrumentation.rb:13
 module OpenTelemetry; end
 
 # "Instrumentation" are specified by
@@ -20,23 +32,23 @@ module OpenTelemetry; end
 #
 # Instrumentation should be able to handle the case when the library is not installed on a user's system.
 #
-# source://opentelemetry-instrumentation-aws_lambda//lib/opentelemetry/instrumentation.rb#18
+# pkg:gem/opentelemetry-instrumentation-aws_lambda#lib/opentelemetry/instrumentation.rb:18
 module OpenTelemetry::Instrumentation; end
 
 # Contains the OpenTelemetry instrumentation for the aws_lambda gem
 #
-# source://opentelemetry-instrumentation-aws_lambda//lib/opentelemetry/instrumentation/aws_lambda.rb#13
+# pkg:gem/opentelemetry-instrumentation-aws_lambda#lib/opentelemetry/instrumentation/aws_lambda.rb:13
 module OpenTelemetry::Instrumentation::AwsLambda; end
 
 # Instrumentation class that detects and installs the AwsLambda instrumentation
 #
-# source://opentelemetry-instrumentation-aws_lambda//lib/opentelemetry/instrumentation/aws_lambda/instrumentation.rb#11
+# pkg:gem/opentelemetry-instrumentation-aws_lambda#lib/opentelemetry/instrumentation/aws_lambda/instrumentation.rb:11
 class OpenTelemetry::Instrumentation::AwsLambda::Instrumentation < ::OpenTelemetry::Instrumentation::Base
   private
 
-  # source://opentelemetry-instrumentation-aws_lambda//lib/opentelemetry/instrumentation/aws_lambda/instrumentation.rb#23
+  # pkg:gem/opentelemetry-instrumentation-aws_lambda#lib/opentelemetry/instrumentation/aws_lambda/instrumentation.rb:23
   def require_dependencies; end
 end
 
-# source://opentelemetry-instrumentation-aws_lambda//lib/opentelemetry/instrumentation/aws_lambda/version.rb#10
+# pkg:gem/opentelemetry-instrumentation-aws_lambda#lib/opentelemetry/instrumentation/aws_lambda/version.rb:10
 OpenTelemetry::Instrumentation::AwsLambda::VERSION = T.let(T.unsafe(nil), String)

@@ -5,15 +5,67 @@
 # Please instead update this file by running `bin/tapioca gem text`.
 
 
+# Ruby implementation of the Double Metaphone algorithm by Lawrence Philips,
+# originally published in the June 2000 issue of C/C++ Users Journal.
+#
+# Based on Stephen Woodbridge's PHP version - http://swoodbridge.com/DoubleMetaPhone/
+#
+# Author: Tim Fletcher (mail@tfletcher.com)
+#
+#
+# Levenshtein distance algorithm implementation for Ruby, with UTF-8 support.
+#
+# The Levenshtein distance is a measure of how similar two strings s and t are,
+# calculated as the number of deletions/insertions/substitutions needed to
+# transform s into t. The greater the distance, the more the strings differ.
+#
+# The Levenshtein distance is also sometimes referred to as the
+# easier-to-pronounce-and-spell 'edit distance'.
+#
+# Author: Paul Battley (pbattley@gmail.com)
+#
+#
+# An implementation of the Metaphone phonetic coding system in Ruby.
+#
+# Metaphone encodes names into a phonetic form such that similar-sounding names
+# have the same or similar Metaphone encodings.
+#
+# The original system was described by Lawrence Philips in Computer Language
+# Vol. 7 No. 12, December 1990, pp 39-43.
+#
+# As there are multiple implementations of Metaphone, each with their own
+# quirks, I have based this on my interpretation of the algorithm specification.
+# Even LP's original BASIC implementation appears to contain bugs (specifically
+# with the handling of CC and MB), when compared to his explanation of the
+# algorithm.
+#
+# I have also compared this implementation with that found in PHP's standard
+# library, which appears to mimic the behaviour of LP's original BASIC
+# implementation. For compatibility, these rules can also be used by passing
+# :buggy=>true to the methods.
+#
+# Author: Paul Battley (pbattley@gmail.com)
+#
+#
+# This is the Porter Stemming algorithm, ported to Ruby from the
+# version coded up in Perl.  It's easy to follow against the rules
+# in the original paper in:
+#
+#   Porter, 1980, An algorithm for suffix stripping, Program, Vol. 14,
+#   no. 3, pp 130-137,
+#
+# Taken from http://www.tartarus.org/~martin/PorterStemmer (Public Domain)
+#
+#
 # Ruby implementation of the Soundex algorithm,
 # as described by Knuth in volume 3 of The Art of Computer Programming.
 #
 # Author: Michael Neumann (neumann@s-direktnet.de)
 #
-# source://text//lib/text/double_metaphone.rb#11
+# pkg:gem/text#lib/text/double_metaphone.rb:11
 module Text; end
 
-# source://text//lib/text/levenshtein.rb#15
+# pkg:gem/text#lib/text/levenshtein.rb:15
 module Text::Levenshtein
   extend ::Text::Levenshtein
 
@@ -29,26 +81,26 @@ module Text::Levenshtein
   # of different normalised forms being used, normalisation should be performed
   # beforehand.
   #
-  # source://text//lib/text/levenshtein.rb#29
+  # pkg:gem/text#lib/text/levenshtein.rb:29
   def distance(str1, str2, max_distance = T.unsafe(nil)); end
 
   private
 
-  # source://text//lib/text/levenshtein.rb#38
+  # pkg:gem/text#lib/text/levenshtein.rb:38
   def distance_with_maximum(str1, str2, max_distance); end
 
-  # source://text//lib/text/levenshtein.rb#125
+  # pkg:gem/text#lib/text/levenshtein.rb:125
   def distance_without_maximum(str1, str2); end
 end
 
-# source://text//lib/text/double_metaphone.rb#12
+# pkg:gem/text#lib/text/double_metaphone.rb:12
 module Text::Metaphone
   extend ::Text::Metaphone
 
   # Returns the primary and secondary double metaphone tokens
   # (the secondary will be nil if equal to the primary).
   #
-  # source://text//lib/text/double_metaphone.rb#16
+  # pkg:gem/text#lib/text/double_metaphone.rb:16
   def double_metaphone(str); end
 
   # Returns the Metaphone representation of a string. If the string contains
@@ -58,145 +110,141 @@ module Text::Metaphone
   #
   # If the :buggy option is set, alternate 'buggy' rules are used.
   #
-  # source://text//lib/text/metaphone.rb#79
+  # pkg:gem/text#lib/text/metaphone.rb:79
   def metaphone(str, options = T.unsafe(nil)); end
 
   private
 
-  # source://text//lib/text/double_metaphone.rb#49
+  # pkg:gem/text#lib/text/double_metaphone.rb:49
   def double_metaphone_lookup(str, pos, length, last); end
 
-  # source://text//lib/text/metaphone.rb#85
+  # pkg:gem/text#lib/text/metaphone.rb:85
   def metaphone_word(w, options = T.unsafe(nil)); end
 
-  # @return [Boolean]
-  #
-  # source://text//lib/text/double_metaphone.rb#41
+  # pkg:gem/text#lib/text/double_metaphone.rb:41
   def slavo_germanic?(str); end
 
-  # @return [Boolean]
-  #
-  # source://text//lib/text/double_metaphone.rb#45
+  # pkg:gem/text#lib/text/double_metaphone.rb:45
   def vowel?(str); end
 end
 
-# source://text//lib/text/metaphone.rb#27
+# pkg:gem/text#lib/text/metaphone.rb:27
 module Text::Metaphone::Rules; end
 
 # The rules for the 'buggy' alternate implementation used by PHP etc.
 #
-# source://text//lib/text/metaphone.rb#67
+# pkg:gem/text#lib/text/metaphone.rb:67
 Text::Metaphone::Rules::BUGGY = T.let(T.unsafe(nil), Array)
 
 # Metaphone rules.  These are simply applied in order.
 #
-# source://text//lib/text/metaphone.rb#31
+# pkg:gem/text#lib/text/metaphone.rb:31
 Text::Metaphone::Rules::STANDARD = T.let(T.unsafe(nil), Array)
 
-# source://text//lib/text/porter_stemming.rb#12
+# pkg:gem/text#lib/text/porter_stemming.rb:12
 module Text::PorterStemming
   class << self
-    # source://text//lib/text/porter_stemming.rb#82
+    # vowel in stem
+    #
+    # pkg:gem/text#lib/text/porter_stemming.rb:82
     def stem(word); end
   end
 end
 
-# consonant
-#
-# source://text//lib/text/porter_stemming.rb#72
+# pkg:gem/text#lib/text/porter_stemming.rb:72
 Text::PorterStemming::C = T.let(T.unsafe(nil), String)
-
-# consonant sequence
-#
-# source://text//lib/text/porter_stemming.rb#74
-Text::PorterStemming::CC = T.let(T.unsafe(nil), String)
-
-# [cc]vvcc[vv] is m=1
-#
-# source://text//lib/text/porter_stemming.rb#78
-Text::PorterStemming::MEQ1 = T.let(T.unsafe(nil), Regexp)
-
-# [cc]vvcc... is m>0
-#
-# source://text//lib/text/porter_stemming.rb#77
-Text::PorterStemming::MGR0 = T.let(T.unsafe(nil), Regexp)
-
-# [cc]vvccvvcc... is m>1
-#
-# source://text//lib/text/porter_stemming.rb#79
-Text::PorterStemming::MGR1 = T.let(T.unsafe(nil), Regexp)
-
-# source://text//lib/text/porter_stemming.rb#14
-Text::PorterStemming::STEP_2_LIST = T.let(T.unsafe(nil), Hash)
-
-# source://text//lib/text/porter_stemming.rb#24
-Text::PorterStemming::STEP_3_LIST = T.let(T.unsafe(nil), Hash)
-
-# source://text//lib/text/porter_stemming.rb#29
-Text::PorterStemming::SUFFIX_1_REGEXP = T.let(T.unsafe(nil), Regexp)
-
-# source://text//lib/text/porter_stemming.rb#52
-Text::PorterStemming::SUFFIX_2_REGEXP = T.let(T.unsafe(nil), Regexp)
 
 # vowel
 #
-# source://text//lib/text/porter_stemming.rb#73
-Text::PorterStemming::V = T.let(T.unsafe(nil), String)
+# pkg:gem/text#lib/text/porter_stemming.rb:74
+Text::PorterStemming::CC = T.let(T.unsafe(nil), String)
 
-# vowel in stem
+# [cc]vvcc... is m>0
 #
-# source://text//lib/text/porter_stemming.rb#80
-Text::PorterStemming::VOWEL_IN_STEM = T.let(T.unsafe(nil), Regexp)
+# pkg:gem/text#lib/text/porter_stemming.rb:78
+Text::PorterStemming::MEQ1 = T.let(T.unsafe(nil), Regexp)
 
 # vowel sequence
 #
-# source://text//lib/text/porter_stemming.rb#75
+# pkg:gem/text#lib/text/porter_stemming.rb:77
+Text::PorterStemming::MGR0 = T.let(T.unsafe(nil), Regexp)
+
+# [cc]vvcc[vv] is m=1
+#
+# pkg:gem/text#lib/text/porter_stemming.rb:79
+Text::PorterStemming::MGR1 = T.let(T.unsafe(nil), Regexp)
+
+# pkg:gem/text#lib/text/porter_stemming.rb:14
+Text::PorterStemming::STEP_2_LIST = T.let(T.unsafe(nil), Hash)
+
+# pkg:gem/text#lib/text/porter_stemming.rb:24
+Text::PorterStemming::STEP_3_LIST = T.let(T.unsafe(nil), Hash)
+
+# pkg:gem/text#lib/text/porter_stemming.rb:29
+Text::PorterStemming::SUFFIX_1_REGEXP = T.let(T.unsafe(nil), Regexp)
+
+# pkg:gem/text#lib/text/porter_stemming.rb:52
+Text::PorterStemming::SUFFIX_2_REGEXP = T.let(T.unsafe(nil), Regexp)
+
+# consonant
+#
+# pkg:gem/text#lib/text/porter_stemming.rb:73
+Text::PorterStemming::V = T.let(T.unsafe(nil), String)
+
+# [cc]vvccvvcc... is m>1
+#
+# pkg:gem/text#lib/text/porter_stemming.rb:80
+Text::PorterStemming::VOWEL_IN_STEM = T.let(T.unsafe(nil), Regexp)
+
+# consonant sequence
+#
+# pkg:gem/text#lib/text/porter_stemming.rb:75
 Text::PorterStemming::VV = T.let(T.unsafe(nil), String)
 
-# source://text//lib/text/soundex.rb#9
+# pkg:gem/text#lib/text/soundex.rb:9
 module Text::Soundex
   private
 
-  # source://text//lib/text/soundex.rb#53
+  # pkg:gem/text#lib/text/soundex.rb:53
   def get_code(char); end
 
-  # source://text//lib/text/soundex.rb#11
+  # pkg:gem/text#lib/text/soundex.rb:11
   def soundex(str_or_arr); end
 
   # returns nil if the value couldn't be calculated (empty-string, wrong-character)
   # do not change the parameter "str"
   #
-  # source://text//lib/text/soundex.rb#29
+  # pkg:gem/text#lib/text/soundex.rb:29
   def soundex_str(str); end
 
   class << self
-    # source://text//lib/text/soundex.rb#56
+    # pkg:gem/text#lib/text/soundex.rb:56
     def get_code(char); end
 
-    # source://text//lib/text/soundex.rb#21
+    # pkg:gem/text#lib/text/soundex.rb:21
     def soundex(str_or_arr); end
 
     # returns nil if the value couldn't be calculated (empty-string, wrong-character)
     # do not change the parameter "str"
     #
-    # source://text//lib/text/soundex.rb#51
+    # pkg:gem/text#lib/text/soundex.rb:51
     def soundex_str(str); end
   end
 end
 
-# source://text//lib/text/version.rb#2
+# pkg:gem/text#lib/text/version.rb:2
 module Text::VERSION; end
 
-# source://text//lib/text/version.rb#3
+# pkg:gem/text#lib/text/version.rb:3
 Text::VERSION::MAJOR = T.let(T.unsafe(nil), Integer)
 
-# source://text//lib/text/version.rb#4
+# pkg:gem/text#lib/text/version.rb:4
 Text::VERSION::MINOR = T.let(T.unsafe(nil), Integer)
 
-# source://text//lib/text/version.rb#7
+# pkg:gem/text#lib/text/version.rb:7
 Text::VERSION::STRING = T.let(T.unsafe(nil), String)
 
-# source://text//lib/text/version.rb#5
+# pkg:gem/text#lib/text/version.rb:5
 Text::VERSION::TINY = T.let(T.unsafe(nil), Integer)
 
 # Ruby implementation of the string similarity described by Simon White
@@ -217,23 +265,21 @@ Text::VERSION::TINY = T.let(T.unsafe(nil), Integer)
 #
 #   WhiteSimilarity.new.similarity("FRANCE", "FRENCH")
 #
-# source://text//lib/text/white_similarity.rb#26
+# pkg:gem/text#lib/text/white_similarity.rb:26
 class Text::WhiteSimilarity
-  # @return [WhiteSimilarity] a new instance of WhiteSimilarity
-  #
-  # source://text//lib/text/white_similarity.rb#32
+  # pkg:gem/text#lib/text/white_similarity.rb:32
   def initialize; end
 
-  # source://text//lib/text/white_similarity.rb#36
+  # pkg:gem/text#lib/text/white_similarity.rb:36
   def similarity(str1, str2); end
 
   private
 
-  # source://text//lib/text/white_similarity.rb#54
+  # pkg:gem/text#lib/text/white_similarity.rb:54
   def word_letter_pairs(str); end
 
   class << self
-    # source://text//lib/text/white_similarity.rb#28
+    # pkg:gem/text#lib/text/white_similarity.rb:28
     def similarity(str1, str2); end
   end
 end

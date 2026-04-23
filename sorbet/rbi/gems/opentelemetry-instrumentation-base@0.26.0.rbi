@@ -5,13 +5,20 @@
 # Please instead update this file by running `bin/tapioca gem opentelemetry-instrumentation-base`.
 
 
-# source://opentelemetry-instrumentation-base//lib/opentelemetry/instrumentation/base.rb#7
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+# pkg:gem/opentelemetry-instrumentation-base#lib/opentelemetry/instrumentation/base.rb:7
 module OpenTelemetry; end
 
 # The instrumentation module contains functionality to register and install
 # instrumentation
 #
-# source://opentelemetry-instrumentation-base//lib/opentelemetry/instrumentation/base.rb#8
+# pkg:gem/opentelemetry-instrumentation-base#lib/opentelemetry/instrumentation/base.rb:8
 module OpenTelemetry::Instrumentation; end
 
 # The Base class holds all metadata and configuration for an
@@ -68,91 +75,71 @@ module OpenTelemetry::Instrumentation; end
 # '::' replaced by underscores, OPENTELEMETRY shortened to OTEL_{LANG}, and '_ENABLED' appended.
 # For example: OTEL_RUBY_INSTRUMENTATION_SINATRA_ENABLED = false.
 #
-# source://opentelemetry-instrumentation-base//lib/opentelemetry/instrumentation/base.rb#62
+# pkg:gem/opentelemetry-instrumentation-base#lib/opentelemetry/instrumentation/base.rb:62
 class OpenTelemetry::Instrumentation::Base
-  # @return [Base] a new instance of Base
-  #
-  # source://opentelemetry-instrumentation-base//lib/opentelemetry/instrumentation/base.rb#197
+  # pkg:gem/opentelemetry-instrumentation-base#lib/opentelemetry/instrumentation/base.rb:197
   def initialize(name, version, install_blk, present_blk, compatible_blk, options); end
 
   # Calls the compatible block of the Instrumentation subclasses, if no block is provided
   # it's assumed to be compatible
   #
-  # @return [Boolean]
-  #
-  # source://opentelemetry-instrumentation-base//lib/opentelemetry/instrumentation/base.rb#246
+  # pkg:gem/opentelemetry-instrumentation-base#lib/opentelemetry/instrumentation/base.rb:246
   def compatible?; end
 
-  # Returns the value of attribute config.
-  #
-  # source://opentelemetry-instrumentation-base//lib/opentelemetry/instrumentation/base.rb#192
+  # pkg:gem/opentelemetry-instrumentation-base#lib/opentelemetry/instrumentation/base.rb:192
   def config; end
 
   # Whether this instrumentation is enabled. It first checks to see if it's enabled
   # by an environment variable and will proceed to check if it's enabled
   # by local config, if given.
   #
-  # @param config [optional Hash] The local config
-  # @return [Boolean]
+  # @param [optional Hash] config The local config
   #
-  # source://opentelemetry-instrumentation-base//lib/opentelemetry/instrumentation/base.rb#257
+  # pkg:gem/opentelemetry-instrumentation-base#lib/opentelemetry/instrumentation/base.rb:257
   def enabled?(config = T.unsafe(nil)); end
 
   # Install instrumentation with the given config. The present? and compatible?
   # will be run first, and install will return false if either fail. Will
   # return true if install was completed successfully.
   #
-  # @param config [Hash] The config for this instrumentation
+  # @param [Hash] config The config for this instrumentation
   #
-  # source://opentelemetry-instrumentation-base//lib/opentelemetry/instrumentation/base.rb#216
+  # pkg:gem/opentelemetry-instrumentation-base#lib/opentelemetry/instrumentation/base.rb:216
   def install(config = T.unsafe(nil)); end
 
   # Whether or not this instrumentation is installable in the current process. Will
   # be true when the instrumentation defines an install block, is not disabled
   # by environment or config, and the target library present and compatible.
   #
-  # @param config [Hash] The config for this instrumentation
-  # @return [Boolean]
+  # @param [Hash] config The config for this instrumentation
   #
-  # source://opentelemetry-instrumentation-base//lib/opentelemetry/instrumentation/base.rb#232
+  # pkg:gem/opentelemetry-instrumentation-base#lib/opentelemetry/instrumentation/base.rb:232
   def installable?(config = T.unsafe(nil)); end
 
-  # Returns the value of attribute installed.
-  #
-  # source://opentelemetry-instrumentation-base//lib/opentelemetry/instrumentation/base.rb#192
+  # pkg:gem/opentelemetry-instrumentation-base#lib/opentelemetry/instrumentation/base.rb:192
   def installed; end
 
-  # Returns the value of attribute installed.
-  #
-  # source://opentelemetry-instrumentation-base//lib/opentelemetry/instrumentation/base.rb#194
+  # pkg:gem/opentelemetry-instrumentation-base#lib/opentelemetry/instrumentation/base.rb:194
   def installed?; end
 
-  # Returns the value of attribute name.
-  #
-  # source://opentelemetry-instrumentation-base//lib/opentelemetry/instrumentation/base.rb#192
+  # pkg:gem/opentelemetry-instrumentation-base#lib/opentelemetry/instrumentation/base.rb:192
   def name; end
 
   # Calls the present block of the Instrumentation subclasses, if no block is provided
   # it's assumed the instrumentation is not present
   #
-  # @return [Boolean]
-  #
-  # source://opentelemetry-instrumentation-base//lib/opentelemetry/instrumentation/base.rb#238
+  # pkg:gem/opentelemetry-instrumentation-base#lib/opentelemetry/instrumentation/base.rb:238
   def present?; end
 
-  # Returns the value of attribute tracer.
-  #
-  # source://opentelemetry-instrumentation-base//lib/opentelemetry/instrumentation/base.rb#192
+  # pkg:gem/opentelemetry-instrumentation-base#lib/opentelemetry/instrumentation/base.rb:192
   def tracer; end
 
-  # Returns the value of attribute version.
-  #
-  # source://opentelemetry-instrumentation-base//lib/opentelemetry/instrumentation/base.rb#192
+  # pkg:gem/opentelemetry-instrumentation-base#lib/opentelemetry/instrumentation/base.rb:192
   def version; end
 
   private
 
-  # source://opentelemetry-instrumentation-base//lib/opentelemetry/instrumentation/base.rb#363
+  # pkg:gem/opentelemetry-instrumentation-base#lib/opentelemetry/instrumentation/base.rb:363
   def coerce_env_var(env_var, validation_type); end
 
   # The config_options method is responsible for validating that the user supplied
@@ -160,9 +147,9 @@ class OpenTelemetry::Instrumentation::Base
   # Unknown configuration keys are not included in the final config hash.
   # Invalid configuration values are logged, and replaced by the default.
   #
-  # @param user_config [Hash] The user supplied configuration hash
+  # @param [Hash] user_config The user supplied configuration hash
   #
-  # source://opentelemetry-instrumentation-base//lib/opentelemetry/instrumentation/base.rb#272
+  # pkg:gem/opentelemetry-instrumentation-base#lib/opentelemetry/instrumentation/base.rb:272
   def config_options(user_config); end
 
   # Checks to see if the user has passed any environment variables that set options
@@ -178,7 +165,7 @@ class OpenTelemetry::Instrumentation::Base
   # For integer, string, enum, set the value as a string (e.g., option=string).
   # Callable options are not allowed to be set through environment variables.
   #
-  # source://opentelemetry-instrumentation-base//lib/opentelemetry/instrumentation/base.rb#341
+  # pkg:gem/opentelemetry-instrumentation-base#lib/opentelemetry/instrumentation/base.rb:341
   def config_overrides_from_env; end
 
   # Checks to see if this instrumentation is enabled by env var. By convention, the
@@ -188,9 +175,7 @@ class OpenTelemetry::Instrumentation::Base
   # will be OTEL_RUBY_INSTRUMENTATION_SINATRA_ENABLED. A value of 'false' will disable
   # the instrumentation, all other values will enable it.
   #
-  # @return [Boolean]
-  #
-  # source://opentelemetry-instrumentation-base//lib/opentelemetry/instrumentation/base.rb#319
+  # pkg:gem/opentelemetry-instrumentation-base#lib/opentelemetry/instrumentation/base.rb:319
   def enabled_by_env_var?; end
 
   class << self
@@ -199,25 +184,25 @@ class OpenTelemetry::Instrumentation::Base
     # required, but a common use case will be to check to target library
     # version for compatibility.
     #
-    # @param blk [Callable] The compatibility block for this instrumentation
+    # @param [Callable] blk The compatibility block for this instrumentation
     #
-    # source://opentelemetry-instrumentation-base//lib/opentelemetry/instrumentation/base.rb#136
+    # pkg:gem/opentelemetry-instrumentation-base#lib/opentelemetry/instrumentation/base.rb:136
     def compatible(&blk); end
 
-    # source://opentelemetry-instrumentation-base//lib/opentelemetry/instrumentation/base.rb#77
+    # pkg:gem/opentelemetry-instrumentation-base#lib/opentelemetry/instrumentation/base.rb:77
     def inherited(subclass); end
 
     # The install block for this instrumentation. This will be where you install
     # instrumentation, either by framework hook or applying a monkey patch.
     #
-    # @param blk [Callable] The install block for this instrumentation
-    # @yieldparam config [Hash] The instrumentation config will be yielded to the
+    # @param [Callable] blk The install block for this instrumentation
+    # @yieldparam [Hash] config The instrumentation config will be yielded to the
     #   install block
     #
-    # source://opentelemetry-instrumentation-base//lib/opentelemetry/instrumentation/base.rb#116
+    # pkg:gem/opentelemetry-instrumentation-base#lib/opentelemetry/instrumentation/base.rb:116
     def install(&blk); end
 
-    # source://opentelemetry-instrumentation-base//lib/opentelemetry/instrumentation/base.rb#165
+    # pkg:gem/opentelemetry-instrumentation-base#lib/opentelemetry/instrumentation/base.rb:165
     def instance; end
 
     # Optionally set the name of this instrumentation. If not
@@ -225,9 +210,9 @@ class OpenTelemetry::Instrumentation::Base
     # or the class name if it does not have a namespace. If there is not
     # a namespace, or a class name, it will default to 'unknown'.
     #
-    # @param instrumentation_name [String] The full name of the instrumentation package
+    # @param [String] instrumentation_name The full name of the instrumentation package
     #
-    # source://opentelemetry-instrumentation-base//lib/opentelemetry/instrumentation/base.rb#87
+    # pkg:gem/opentelemetry-instrumentation-base#lib/opentelemetry/instrumentation/base.rb:87
     def instrumentation_name(instrumentation_name = T.unsafe(nil)); end
 
     # Optionally set the version of this instrumentation. If not explicitly set,
@@ -236,23 +221,21 @@ class OpenTelemetry::Instrumentation::Base
     # have a namespace. If a VERSION constant cannot be found, it defaults
     # to '0.0.0'.
     #
-    # @param instrumentation_version [String] The version of the instrumentation package
+    # @param [String] instrumentation_version The version of the instrumentation package
     #
-    # source://opentelemetry-instrumentation-base//lib/opentelemetry/instrumentation/base.rb#102
+    # pkg:gem/opentelemetry-instrumentation-base#lib/opentelemetry/instrumentation/base.rb:102
     def instrumentation_version(instrumentation_version = T.unsafe(nil)); end
 
     # The option method is used to define default configuration options
     # for the instrumentation library. It requires a name, default value,
     # and a validation callable to be provided.
+    # @param [String] name The name of the configuration option
+    # @param default The default value to be used, or to used if validation fails
+    # @param [Callable, Symbol] validate Accepts a callable or a symbol that matches
     # a key in the VALIDATORS hash.  The supported keys are, :array, :boolean,
     # :callable, :integer, :string.
     #
-    # @param default The default value to be used, or to used if validation fails
-    # @param name [String] The name of the configuration option
-    # @param validate [Callable, Symbol] Accepts a callable or a symbol that matches
-    # @raise [ArgumentError]
-    #
-    # source://opentelemetry-instrumentation-base//lib/opentelemetry/instrumentation/base.rb#148
+    # pkg:gem/opentelemetry-instrumentation-base#lib/opentelemetry/instrumentation/base.rb:148
     def option(name, default:, validate:); end
 
     # The present block for this instrumentation. This block is used to detect if
@@ -260,40 +243,32 @@ class OpenTelemetry::Instrumentation::Base
     # checking to see if the target gem spec was loaded or if expected
     # constants from the target library are present.
     #
-    # @param blk [Callable] The present block for this instrumentation
+    # @param [Callable] blk The present block for this instrumentation
     #
-    # source://opentelemetry-instrumentation-base//lib/opentelemetry/instrumentation/base.rb#126
+    # pkg:gem/opentelemetry-instrumentation-base#lib/opentelemetry/instrumentation/base.rb:126
     def present(&blk); end
 
     private
 
-    # Returns the value of attribute compatible_blk.
-    #
-    # source://opentelemetry-instrumentation-base//lib/opentelemetry/instrumentation/base.rb#172
+    # pkg:gem/opentelemetry-instrumentation-base#lib/opentelemetry/instrumentation/base.rb:172
     def compatible_blk; end
 
-    # source://opentelemetry-instrumentation-base//lib/opentelemetry/instrumentation/base.rb#174
+    # pkg:gem/opentelemetry-instrumentation-base#lib/opentelemetry/instrumentation/base.rb:174
     def infer_name; end
 
-    # source://opentelemetry-instrumentation-base//lib/opentelemetry/instrumentation/base.rb#180
+    # pkg:gem/opentelemetry-instrumentation-base#lib/opentelemetry/instrumentation/base.rb:180
     def infer_version; end
 
-    # Returns the value of attribute install_blk.
-    #
-    # source://opentelemetry-instrumentation-base//lib/opentelemetry/instrumentation/base.rb#172
+    # pkg:gem/opentelemetry-instrumentation-base#lib/opentelemetry/instrumentation/base.rb:172
     def install_blk; end
 
-    # source://opentelemetry-instrumentation-base//lib/opentelemetry/instrumentation/base.rb#75
+    # pkg:gem/opentelemetry-instrumentation-base#lib/opentelemetry/instrumentation/base.rb:75
     def new(*_arg0); end
 
-    # Returns the value of attribute options.
-    #
-    # source://opentelemetry-instrumentation-base//lib/opentelemetry/instrumentation/base.rb#172
+    # pkg:gem/opentelemetry-instrumentation-base#lib/opentelemetry/instrumentation/base.rb:172
     def options; end
 
-    # Returns the value of attribute present_blk.
-    #
-    # source://opentelemetry-instrumentation-base//lib/opentelemetry/instrumentation/base.rb#172
+    # pkg:gem/opentelemetry-instrumentation-base#lib/opentelemetry/instrumentation/base.rb:172
     def present_blk; end
   end
 end

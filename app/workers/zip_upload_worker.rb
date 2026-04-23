@@ -42,7 +42,7 @@ class ZipUploadWorker
         content_type: "application/zip",
         service_name: :seaweedfs
       )
-      Rails.logger.info("ZipUploadWorker: Blob created for reservation #{reservation.id}, key: #{blob&.key}") if blob
+      Rails.logger.info("ZipUploadWorker: Blob created for reservation #{reservation.id}, key: #{blob.key}") if blob
       blob
     end
   rescue Net::ReadTimeout, Net::WriteTimeout, Aws::S3::MultipartUploadError => e

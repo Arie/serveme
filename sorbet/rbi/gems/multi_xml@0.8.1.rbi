@@ -15,10 +15,11 @@
 # @example Parse XML
 #   MultiXml.parse('<root><name>John</name></root>')
 #   #=> {"root"=>{"name"=>"John"}}
+#
 # @example Set the parser
 #   MultiXml.parser = :nokogiri
 #
-# source://multi_xml//lib/multi_xml/constants.rb#1
+# pkg:gem/multi_xml#lib/multi_xml/constants.rb:1
 module MultiXml
   extend ::MultiXml::Helpers
 
@@ -26,23 +27,23 @@ module MultiXml
     # Parse XML into a Ruby Hash
     #
     # @api public
+    # @param xml [String, IO] XML content as a string or IO-like object
+    # @param options [Hash] Parsing options
+    # @option options [Symbol, String, Module] :parser Parser to use for this call
+    # @option options [Boolean] :symbolize_keys Convert keys to symbols (default: false)
+    # @option options [Array<String>] :disallowed_types Types to reject (default: ['yaml', 'symbol'])
+    # @option options [Boolean] :typecast_xml_value Apply type conversions (default: true)
+    # @return [Hash] Parsed XML as nested hash
+    # @raise [ParseError] if XML is malformed
+    # @raise [DisallowedTypeError] if XML contains a disallowed type attribute
     # @example Parse simple XML
     #   MultiXml.parse('<root><name>John</name></root>')
     #   #=> {"root"=>{"name"=>"John"}}
     # @example Parse with symbolized keys
     #   MultiXml.parse('<root><name>John</name></root>', symbolize_keys: true)
     #   #=> {root: {name: "John"}}
-    # @option options
-    # @option options
-    # @option options
-    # @option options
-    # @param options [Hash] Parsing options
-    # @param xml [String, IO] XML content as a string or IO-like object
-    # @raise [ParseError] if XML is malformed
-    # @raise [DisallowedTypeError] if XML contains a disallowed type attribute
-    # @return [Hash] Parsed XML as nested hash
     #
-    # source://multi_xml//lib/multi_xml.rb#74
+    # pkg:gem/multi_xml#lib/multi_xml.rb:74
     def parse(xml, options = T.unsafe(nil)); end
 
     # Get the current XML parser module
@@ -51,26 +52,26 @@ module MultiXml
     # Parsers are checked in order of performance: Ox, LibXML, Nokogiri, Oga, REXML.
     #
     # @api public
+    # @return [Module] the current parser module
     # @example Get current parser
     #   MultiXml.parser #=> MultiXml::Parsers::Ox
-    # @return [Module] the current parser module
     #
-    # source://multi_xml//lib/multi_xml.rb#37
+    # pkg:gem/multi_xml#lib/multi_xml.rb:37
     def parser; end
 
     # Set the XML parser to use
     #
     # @api public
-    # @example Set parser by module
-    #   MultiXml.parser = MyCustomParser
-    # @example Set parser by symbol
-    #   MultiXml.parser = :nokogiri
     # @param new_parser [Symbol, String, Module] Parser specification
     #   - Symbol/String: :libxml, :nokogiri, :ox, :rexml, :oga
     #   - Module: Custom parser implementing parse(io) and parse_error
     # @return [Module] the newly configured parser module
+    # @example Set parser by symbol
+    #   MultiXml.parser = :nokogiri
+    # @example Set parser by module
+    #   MultiXml.parser = MyCustomParser
     #
-    # source://multi_xml//lib/multi_xml.rb#52
+    # pkg:gem/multi_xml#lib/multi_xml.rb:52
     def parser=(new_parser); end
 
     private
@@ -81,16 +82,16 @@ module MultiXml
     # @param name [String] Underscored string
     # @return [String] CamelCased string
     #
-    # source://multi_xml//lib/multi_xml.rb#119
+    # pkg:gem/multi_xml#lib/multi_xml.rb:119
     def camelize(name); end
 
     # Detect the best available parser
     #
     # @api private
-    # @raise [NoParserError] if no parser is available
     # @return [Symbol] Parser name
+    # @raise [NoParserError] if no parser is available
     #
-    # source://multi_xml//lib/multi_xml.rb#128
+    # pkg:gem/multi_xml#lib/multi_xml.rb:128
     def detect_parser; end
 
     # Try to load and find an available parser
@@ -98,7 +99,7 @@ module MultiXml
     # @api private
     # @return [Symbol, nil] Parser name or nil if none available
     #
-    # source://multi_xml//lib/multi_xml.rb#158
+    # pkg:gem/multi_xml#lib/multi_xml.rb:158
     def find_available_parser; end
 
     # Find an already-loaded parser library
@@ -106,7 +107,7 @@ module MultiXml
     # @api private
     # @return [Symbol, nil] Parser name or nil if none loaded
     #
-    # source://multi_xml//lib/multi_xml.rb#147
+    # pkg:gem/multi_xml#lib/multi_xml.rb:147
     def find_loaded_parser; end
 
     # Load a parser by name
@@ -115,7 +116,7 @@ module MultiXml
     # @param name [Symbol, String] Parser name
     # @return [Module] Loaded parser module
     #
-    # source://multi_xml//lib/multi_xml.rb#108
+    # pkg:gem/multi_xml#lib/multi_xml.rb:108
     def load_parser(name); end
 
     # Normalize input to an IO-like object
@@ -124,7 +125,7 @@ module MultiXml
     # @param xml [String, IO] Input to normalize
     # @return [IO] IO-like object
     #
-    # source://multi_xml//lib/multi_xml.rb#194
+    # pkg:gem/multi_xml#lib/multi_xml.rb:194
     def normalize_input(xml); end
 
     # Parse XML with error handling and key normalization
@@ -133,29 +134,29 @@ module MultiXml
     # @param io [IO] IO-like object containing XML
     # @param original_input [String, IO] Original input for error reporting
     # @param xml_parser [Module] Parser to use
-    # @raise [ParseError] if XML is malformed
     # @return [Hash] Parsed XML with undasherized keys
+    # @raise [ParseError] if XML is malformed
     #
-    # source://multi_xml//lib/multi_xml.rb#208
+    # pkg:gem/multi_xml#lib/multi_xml.rb:208
     def parse_with_error_handling(io, original_input, xml_parser); end
 
     # Raise an error indicating no parser is available
     #
     # @api private
-    # @raise [NoParserError] always
     # @return [void]
+    # @raise [NoParserError] always
     #
-    # source://multi_xml//lib/multi_xml.rb#182
+    # pkg:gem/multi_xml#lib/multi_xml.rb:182
     def raise_no_parser_error; end
 
     # Resolve a parser specification to a module
     #
     # @api private
     # @param spec [Symbol, String, Class, Module] Parser specification
-    # @raise [RuntimeError] if spec is invalid
     # @return [Module] Resolved parser module
+    # @raise [RuntimeError] if spec is invalid
     #
-    # source://multi_xml//lib/multi_xml.rb#95
+    # pkg:gem/multi_xml#lib/multi_xml.rb:95
     def resolve_parser(spec); end
 
     # Attempt to require a library
@@ -164,7 +165,7 @@ module MultiXml
     # @param library [String] Library to require
     # @return [Boolean] true if successful, false if LoadError
     #
-    # source://multi_xml//lib/multi_xml.rb#170
+    # pkg:gem/multi_xml#lib/multi_xml.rb:170
     def try_require(library); end
   end
 end
@@ -172,11 +173,11 @@ end
 # Default parsing options
 #
 # @api public
+# @return [Hash] default options for parse method
 # @example View defaults
 #   DEFAULT_OPTIONS[:symbolize_keys] #=> false
-# @return [Hash] default options for parse method
 #
-# source://multi_xml//lib/multi_xml/constants.rb#55
+# pkg:gem/multi_xml#lib/multi_xml/constants.rb:55
 MultiXml::DEFAULT_OPTIONS = T.let(T.unsafe(nil), Hash)
 
 # XML type attributes disallowed by default for security
@@ -184,11 +185,11 @@ MultiXml::DEFAULT_OPTIONS = T.let(T.unsafe(nil), Hash)
 # These types are blocked to prevent code execution vulnerabilities.
 #
 # @api public
+# @return [Array<String>] list of disallowed type names
 # @example Check default disallowed types
 #   DISALLOWED_TYPES #=> ["symbol", "yaml"]
-# @return [Array<String>] list of disallowed type names
 #
-# source://multi_xml//lib/multi_xml/constants.rb#39
+# pkg:gem/multi_xml#lib/multi_xml/constants.rb:39
 MultiXml::DISALLOWED_TYPES = T.let(T.unsafe(nil), Array)
 
 # Raised when an XML type attribute is in the disallowed list
@@ -198,43 +199,43 @@ MultiXml::DISALLOWED_TYPES = T.let(T.unsafe(nil), Array)
 # @api public
 # @example Catching a disallowed type error
 #   begin
-#   MultiXml.parse('<data type="yaml">--- :key</data>')
+#     MultiXml.parse('<data type="yaml">--- :key</data>')
 #   rescue MultiXml::DisallowedTypeError => e
-#   puts e.type #=> "yaml"
+#     puts e.type #=> "yaml"
 #   end
 #
-# source://multi_xml//lib/multi_xml/errors.rb#72
+# pkg:gem/multi_xml#lib/multi_xml/errors.rb:72
 class MultiXml::DisallowedTypeError < ::StandardError
   # Create a new DisallowedTypeError
   #
   # @api public
-  # @example Create a disallowed type error
-  #   DisallowedTypeError.new("yaml")
   # @param type [String] The disallowed type attribute value
   # @return [DisallowedTypeError] the new error instance
+  # @example Create a disallowed type error
+  #   DisallowedTypeError.new("yaml")
   #
-  # source://multi_xml//lib/multi_xml/errors.rb#88
+  # pkg:gem/multi_xml#lib/multi_xml/errors.rb:88
   def initialize(type); end
 
   # The disallowed type that was encountered
   #
   # @api public
+  # @return [String] the type attribute value that was disallowed
   # @example Access the disallowed type
   #   error.type #=> "yaml"
-  # @return [String] the type attribute value that was disallowed
   #
-  # source://multi_xml//lib/multi_xml/errors.rb#79
+  # pkg:gem/multi_xml#lib/multi_xml/errors.rb:79
   def type; end
 end
 
 # Values that represent false in XML boolean attributes
 #
 # @api public
+# @return [Set<String>] values considered false
 # @example Check false values
 #   FALSE_BOOLEAN_VALUES.include?("0") #=> true
-# @return [Set<String>] values considered false
 #
-# source://multi_xml//lib/multi_xml/constants.rb#47
+# pkg:gem/multi_xml#lib/multi_xml/constants.rb:47
 MultiXml::FALSE_BOOLEAN_VALUES = T.let(T.unsafe(nil), Set)
 
 # Creates a file-like StringIO from base64-encoded content
@@ -242,7 +243,7 @@ MultiXml::FALSE_BOOLEAN_VALUES = T.let(T.unsafe(nil), Set)
 # @api private
 # @return [Proc] lambda that creates file objects
 #
-# source://multi_xml//lib/multi_xml/constants.rb#89
+# pkg:gem/multi_xml#lib/multi_xml/constants.rb:89
 MultiXml::FILE_CONVERTER = T.let(T.unsafe(nil), Proc)
 
 # Mixin that provides file-like metadata to StringIO objects
@@ -257,65 +258,89 @@ MultiXml::FILE_CONVERTER = T.let(T.unsafe(nil), Proc)
 #   io.original_filename = "document.pdf"
 #   io.content_type = "application/pdf"
 #
-# source://multi_xml//lib/multi_xml/file_like.rb#13
+# pkg:gem/multi_xml#lib/multi_xml/file_like.rb:13
 module MultiXml::FileLike
+  # Set the content type
+  #
+  # @api public
+  # @param value [String] The MIME type to set
+  # @return [String] the content type that was set
+  # @example Set content type
+  #   io.content_type = "application/pdf"
   # Get the content type
   #
   # @api public
+  # @return [String] the content type or "application/octet-stream" if not set
   # @example Get content type
   #   io.content_type #=> "application/pdf"
-  # @return [String] the content type or "application/octet-stream" if not set
   #
-  # source://multi_xml//lib/multi_xml/file_like.rb#58
+  # pkg:gem/multi_xml#lib/multi_xml/file_like.rb:58
   def content_type; end
 
   # Set the content type
   #
   # @api public
-  # @example Set content type
-  #   io.content_type = "application/pdf"
   # @param value [String] The MIME type to set
   # @return [String] the content type that was set
+  # @example Set content type
+  #   io.content_type = "application/pdf"
+  # Get the content type
   #
-  # source://multi_xml//lib/multi_xml/file_like.rb#40
+  # @api public
+  # @return [String] the content type or "application/octet-stream" if not set
+  # @example Get content type
+  #   io.content_type #=> "application/pdf"
+  #
+  # pkg:gem/multi_xml#lib/multi_xml/file_like.rb:40
   def content_type=(_arg0); end
 
   # Get the original filename
   #
   # @api public
+  # @return [String] the original filename or "untitled" if not set
   # @example Get filename
   #   io.original_filename #=> "document.pdf"
-  # @return [String] the original filename or "untitled" if not set
-  #
-  # source://multi_xml//lib/multi_xml/file_like.rb#48
-  def original_filename; end
-
   # Set the original filename
   #
   # @api public
-  # @example Set filename
-  #   io.original_filename = "report.pdf"
   # @param value [String] The filename to set
   # @return [String] the filename that was set
+  # @example Set filename
+  #   io.original_filename = "report.pdf"
   #
-  # source://multi_xml//lib/multi_xml/file_like.rb#31
+  # pkg:gem/multi_xml#lib/multi_xml/file_like.rb:48
+  def original_filename; end
+
+  # Get the original filename
+  #
+  # @api public
+  # @return [String] the original filename or "untitled" if not set
+  # @example Get filename
+  #   io.original_filename #=> "document.pdf"
+  # Set the original filename
+  #
+  # @api public
+  # @param value [String] The filename to set
+  # @return [String] the filename that was set
+  # @example Set filename
+  #   io.original_filename = "report.pdf"
+  #
+  # pkg:gem/multi_xml#lib/multi_xml/file_like.rb:31
   def original_filename=(_arg0); end
 end
 
 # Default content type when none is specified
-#
 # @api public
 # @return [String] the default MIME type "application/octet-stream"
 #
-# source://multi_xml//lib/multi_xml/file_like.rb#22
+# pkg:gem/multi_xml#lib/multi_xml/file_like.rb:22
 MultiXml::FileLike::DEFAULT_CONTENT_TYPE = T.let(T.unsafe(nil), String)
 
 # Default filename when none is specified
-#
 # @api public
 # @return [String] the default filename "untitled"
 #
-# source://multi_xml//lib/multi_xml/file_like.rb#17
+# pkg:gem/multi_xml#lib/multi_xml/file_like.rb:17
 MultiXml::FileLike::DEFAULT_FILENAME = T.let(T.unsafe(nil), String)
 
 # Methods for transforming parsed XML hash structures
@@ -325,30 +350,30 @@ MultiXml::FileLike::DEFAULT_FILENAME = T.let(T.unsafe(nil), String)
 #
 # @api public
 #
-# source://multi_xml//lib/multi_xml/helpers.rb#8
+# pkg:gem/multi_xml#lib/multi_xml/helpers.rb:8
 module MultiXml::Helpers
   private
 
   # Apply a type converter to content
   #
   # @api private
+  # @param hash [Hash] Original hash with type info
   # @param content [String] Content to convert
   # @param converter [Proc] Converter to apply
-  # @param hash [Hash] Original hash with type info
   # @return [Object] Converted value
   #
-  # source://multi_xml//lib/multi_xml/helpers.rb#220
+  # pkg:gem/multi_xml#lib/multi_xml/helpers.rb:220
   def apply_converter(hash, content, converter); end
 
   # Convert a hash based on its type and content
   #
   # @api private
-  # @param disallowed_types [Array<String>] Types to reject
   # @param hash [Hash] Hash to convert
   # @param type [String, nil] Type attribute value
+  # @param disallowed_types [Array<String>] Types to reject
   # @return [Object] Converted value
   #
-  # source://multi_xml//lib/multi_xml/helpers.rb#93
+  # pkg:gem/multi_xml#lib/multi_xml/helpers.rb:93
   def convert_hash(hash, type, disallowed_types); end
 
   # Convert text content using type converters
@@ -357,17 +382,17 @@ module MultiXml::Helpers
   # @param hash [Hash] Hash containing text content and type
   # @return [Object] Converted value
   #
-  # source://multi_xml//lib/multi_xml/helpers.rb#155
+  # pkg:gem/multi_xml#lib/multi_xml/helpers.rb:155
   def convert_text_content(hash); end
 
   # Check if a type is in the disallowed list
   #
   # @api private
-  # @param disallowed_types [Array<String>] Disallowed type list
   # @param type [String, nil] Type to check
+  # @param disallowed_types [Array<String>] Disallowed type list
   # @return [Boolean] true if type is disallowed
   #
-  # source://multi_xml//lib/multi_xml/helpers.rb#82
+  # pkg:gem/multi_xml#lib/multi_xml/helpers.rb:82
   def disallowed_type?(type, disallowed_types); end
 
   # Check if a hash represents an empty value
@@ -377,18 +402,18 @@ module MultiXml::Helpers
   # @param type [String, nil] Type attribute value
   # @return [Boolean] true if value should be nil
   #
-  # source://multi_xml//lib/multi_xml/helpers.rb#180
+  # pkg:gem/multi_xml#lib/multi_xml/helpers.rb:180
   def empty_value?(hash, type); end
 
   # Extract array entries from element with type="array"
   #
   # @api private
-  # @param disallowed_types [Array<String>] Types to reject
   # @param hash [Hash] Hash containing array entries
+  # @param disallowed_types [Array<String>] Types to reject
   # @return [Array] Extracted and typecasted entries
   # @see https://github.com/jnunemaker/httparty/issues/102
   #
-  # source://multi_xml//lib/multi_xml/helpers.rb#120
+  # pkg:gem/multi_xml#lib/multi_xml/helpers.rb:120
   def extract_array_entries(hash, disallowed_types); end
 
   # Find array or hash entries in a hash, excluding the type key
@@ -397,18 +422,18 @@ module MultiXml::Helpers
   # @param hash [Hash] Hash to search
   # @return [Array, Hash, nil] Found entries or nil
   #
-  # source://multi_xml//lib/multi_xml/helpers.rb#132
+  # pkg:gem/multi_xml#lib/multi_xml/helpers.rb:132
   def find_array_entries(hash); end
 
   # Recursively convert all hash keys to symbols
   #
   # @api private
-  # @example Symbolize hash keys
-  #   symbolize_keys({"name" => "John"}) #=> {name: "John"}
   # @param data [Hash, Array, Object] Data to transform
   # @return [Hash, Array, Object] Transformed data with symbolized keys
+  # @example Symbolize hash keys
+  #   symbolize_keys({"name" => "John"}) #=> {name: "John"}
   #
-  # source://multi_xml//lib/multi_xml/helpers.rb#18
+  # pkg:gem/multi_xml#lib/multi_xml/helpers.rb:18
   def symbolize_keys(data); end
 
   # Recursively transform hash keys using a block
@@ -417,7 +442,7 @@ module MultiXml::Helpers
   # @param data [Hash, Array, Object] Data to transform
   # @return [Hash, Array, Object] Transformed data
   #
-  # source://multi_xml//lib/multi_xml/helpers.rb#193
+  # pkg:gem/multi_xml#lib/multi_xml/helpers.rb:193
   def transform_keys(data, &block); end
 
   # Typecast array elements and unwrap single-element arrays
@@ -427,53 +452,53 @@ module MultiXml::Helpers
   # @param disallowed_types [Array<String>] Types to reject
   # @return [Object, Array] Typecasted array or single element
   #
-  # source://multi_xml//lib/multi_xml/helpers.rb#57
+  # pkg:gem/multi_xml#lib/multi_xml/helpers.rb:57
   def typecast_array(array, disallowed_types); end
 
   # Typecast all child values in a hash
   #
   # @api private
-  # @param disallowed_types [Array<String>] Types to reject
   # @param hash [Hash] Hash with children to typecast
+  # @param disallowed_types [Array<String>] Types to reject
   # @return [Hash, StringIO] Typecasted hash or unwrapped file
   #
-  # source://multi_xml//lib/multi_xml/helpers.rb#108
+  # pkg:gem/multi_xml#lib/multi_xml/helpers.rb:108
   def typecast_children(hash, disallowed_types); end
 
   # Typecast a hash based on its type attribute
   #
   # @api private
-  # @param disallowed_types [Array<String>] Types to reject
   # @param hash [Hash] Hash to typecast
-  # @raise [DisallowedTypeError] if type is disallowed
+  # @param disallowed_types [Array<String>] Types to reject
   # @return [Object] Typecasted value
+  # @raise [DisallowedTypeError] if type is disallowed
   #
-  # source://multi_xml//lib/multi_xml/helpers.rb#69
+  # pkg:gem/multi_xml#lib/multi_xml/helpers.rb:69
   def typecast_hash(hash, disallowed_types); end
 
   # Recursively typecast XML values based on type attributes
   #
   # @api private
+  # @param value [Hash, Array, Object] Value to typecast
+  # @param disallowed_types [Array<String>] Types to reject
+  # @return [Object] Typecasted value
+  # @raise [DisallowedTypeError] if a disallowed type is encountered
   # @example Typecast integer value
   #   typecast_xml_value({"__content__" => "42", "type" => "integer"})
   #   #=> 42
-  # @param disallowed_types [Array<String>] Types to reject
-  # @param value [Hash, Array, Object] Value to typecast
-  # @raise [DisallowedTypeError] if a disallowed type is encountered
-  # @return [Object] Typecasted value
   #
-  # source://multi_xml//lib/multi_xml/helpers.rb#43
+  # pkg:gem/multi_xml#lib/multi_xml/helpers.rb:43
   def typecast_xml_value(value, disallowed_types = T.unsafe(nil)); end
 
   # Recursively convert dashes in hash keys to underscores
   #
   # @api private
-  # @example Convert dashed keys
-  #   undasherize_keys({"first-name" => "John"}) #=> {"first_name" => "John"}
   # @param data [Hash, Array, Object] Data to transform
   # @return [Hash, Array, Object] Transformed data with undasherized keys
+  # @example Convert dashed keys
+  #   undasherize_keys({"first-name" => "John"}) #=> {"first_name" => "John"}
   #
-  # source://multi_xml//lib/multi_xml/helpers.rb#29
+  # pkg:gem/multi_xml#lib/multi_xml/helpers.rb:29
   def undasherize_keys(data); end
 
   # Unwrap a file object from the result hash if present
@@ -482,7 +507,7 @@ module MultiXml::Helpers
   # @param result [Hash] Hash that may contain a file
   # @return [Hash, StringIO] The file if present, otherwise the hash
   #
-  # source://multi_xml//lib/multi_xml/helpers.rb#208
+  # pkg:gem/multi_xml#lib/multi_xml/helpers.rb:208
   def unwrap_file_if_present(result); end
 
   # Unwrap value if hash has no other significant keys
@@ -492,29 +517,29 @@ module MultiXml::Helpers
   # @param value [Object] Converted value
   # @return [Object, Hash] Value or hash with merged content
   #
-  # source://multi_xml//lib/multi_xml/helpers.rb#170
+  # pkg:gem/multi_xml#lib/multi_xml/helpers.rb:170
   def unwrap_if_simple(hash, value); end
 
   # Wrap hash in array if needed and typecast all entries
   #
   # @api private
-  # @param disallowed_types [Array<String>] Types to reject
   # @param entries [Array, Hash] Entries to process
+  # @param disallowed_types [Array<String>] Types to reject
   # @return [Array] Typecasted entries
   #
-  # source://multi_xml//lib/multi_xml/helpers.rb#145
+  # pkg:gem/multi_xml#lib/multi_xml/helpers.rb:145
   def wrap_and_typecast(entries, disallowed_types); end
 
   class << self
     # Convert a hash based on its type and content
     #
     # @api private
-    # @param disallowed_types [Array<String>] Types to reject
     # @param hash [Hash] Hash to convert
     # @param type [String, nil] Type attribute value
+    # @param disallowed_types [Array<String>] Types to reject
     # @return [Object] Converted value
     #
-    # source://multi_xml//lib/multi_xml/helpers.rb#93
+    # pkg:gem/multi_xml#lib/multi_xml/helpers.rb:93
     def convert_hash(hash, type, disallowed_types); end
 
     # Convert text content using type converters
@@ -523,17 +548,17 @@ module MultiXml::Helpers
     # @param hash [Hash] Hash containing text content and type
     # @return [Object] Converted value
     #
-    # source://multi_xml//lib/multi_xml/helpers.rb#155
+    # pkg:gem/multi_xml#lib/multi_xml/helpers.rb:155
     def convert_text_content(hash); end
 
     # Check if a type is in the disallowed list
     #
     # @api private
-    # @param disallowed_types [Array<String>] Disallowed type list
     # @param type [String, nil] Type to check
+    # @param disallowed_types [Array<String>] Disallowed type list
     # @return [Boolean] true if type is disallowed
     #
-    # source://multi_xml//lib/multi_xml/helpers.rb#82
+    # pkg:gem/multi_xml#lib/multi_xml/helpers.rb:82
     def disallowed_type?(type, disallowed_types); end
 
     # Check if a hash represents an empty value
@@ -543,18 +568,18 @@ module MultiXml::Helpers
     # @param type [String, nil] Type attribute value
     # @return [Boolean] true if value should be nil
     #
-    # source://multi_xml//lib/multi_xml/helpers.rb#180
+    # pkg:gem/multi_xml#lib/multi_xml/helpers.rb:180
     def empty_value?(hash, type); end
 
     # Extract array entries from element with type="array"
     #
     # @api private
-    # @param disallowed_types [Array<String>] Types to reject
     # @param hash [Hash] Hash containing array entries
+    # @param disallowed_types [Array<String>] Types to reject
     # @return [Array] Extracted and typecasted entries
     # @see https://github.com/jnunemaker/httparty/issues/102
     #
-    # source://multi_xml//lib/multi_xml/helpers.rb#120
+    # pkg:gem/multi_xml#lib/multi_xml/helpers.rb:120
     def extract_array_entries(hash, disallowed_types); end
 
     # Find array or hash entries in a hash, excluding the type key
@@ -563,18 +588,18 @@ module MultiXml::Helpers
     # @param hash [Hash] Hash to search
     # @return [Array, Hash, nil] Found entries or nil
     #
-    # source://multi_xml//lib/multi_xml/helpers.rb#132
+    # pkg:gem/multi_xml#lib/multi_xml/helpers.rb:132
     def find_array_entries(hash); end
 
     # Recursively convert all hash keys to symbols
     #
     # @api private
-    # @example Symbolize hash keys
-    #   symbolize_keys({"name" => "John"}) #=> {name: "John"}
     # @param data [Hash, Array, Object] Data to transform
     # @return [Hash, Array, Object] Transformed data with symbolized keys
+    # @example Symbolize hash keys
+    #   symbolize_keys({"name" => "John"}) #=> {name: "John"}
     #
-    # source://multi_xml//lib/multi_xml/helpers.rb#18
+    # pkg:gem/multi_xml#lib/multi_xml/helpers.rb:18
     def symbolize_keys(data); end
 
     # Typecast array elements and unwrap single-element arrays
@@ -584,53 +609,53 @@ module MultiXml::Helpers
     # @param disallowed_types [Array<String>] Types to reject
     # @return [Object, Array] Typecasted array or single element
     #
-    # source://multi_xml//lib/multi_xml/helpers.rb#57
+    # pkg:gem/multi_xml#lib/multi_xml/helpers.rb:57
     def typecast_array(array, disallowed_types); end
 
     # Typecast all child values in a hash
     #
     # @api private
-    # @param disallowed_types [Array<String>] Types to reject
     # @param hash [Hash] Hash with children to typecast
+    # @param disallowed_types [Array<String>] Types to reject
     # @return [Hash, StringIO] Typecasted hash or unwrapped file
     #
-    # source://multi_xml//lib/multi_xml/helpers.rb#108
+    # pkg:gem/multi_xml#lib/multi_xml/helpers.rb:108
     def typecast_children(hash, disallowed_types); end
 
     # Typecast a hash based on its type attribute
     #
     # @api private
-    # @param disallowed_types [Array<String>] Types to reject
     # @param hash [Hash] Hash to typecast
-    # @raise [DisallowedTypeError] if type is disallowed
+    # @param disallowed_types [Array<String>] Types to reject
     # @return [Object] Typecasted value
+    # @raise [DisallowedTypeError] if type is disallowed
     #
-    # source://multi_xml//lib/multi_xml/helpers.rb#69
+    # pkg:gem/multi_xml#lib/multi_xml/helpers.rb:69
     def typecast_hash(hash, disallowed_types); end
 
     # Recursively typecast XML values based on type attributes
     #
     # @api private
+    # @param value [Hash, Array, Object] Value to typecast
+    # @param disallowed_types [Array<String>] Types to reject
+    # @return [Object] Typecasted value
+    # @raise [DisallowedTypeError] if a disallowed type is encountered
     # @example Typecast integer value
     #   typecast_xml_value({"__content__" => "42", "type" => "integer"})
     #   #=> 42
-    # @param disallowed_types [Array<String>] Types to reject
-    # @param value [Hash, Array, Object] Value to typecast
-    # @raise [DisallowedTypeError] if a disallowed type is encountered
-    # @return [Object] Typecasted value
     #
-    # source://multi_xml//lib/multi_xml/helpers.rb#43
+    # pkg:gem/multi_xml#lib/multi_xml/helpers.rb:43
     def typecast_xml_value(value, disallowed_types = T.unsafe(nil)); end
 
     # Recursively convert dashes in hash keys to underscores
     #
     # @api private
-    # @example Convert dashed keys
-    #   undasherize_keys({"first-name" => "John"}) #=> {"first_name" => "John"}
     # @param data [Hash, Array, Object] Data to transform
     # @return [Hash, Array, Object] Transformed data with undasherized keys
+    # @example Convert dashed keys
+    #   undasherize_keys({"first-name" => "John"}) #=> {"first_name" => "John"}
     #
-    # source://multi_xml//lib/multi_xml/helpers.rb#29
+    # pkg:gem/multi_xml#lib/multi_xml/helpers.rb:29
     def undasherize_keys(data); end
 
     # Unwrap value if hash has no other significant keys
@@ -640,17 +665,17 @@ module MultiXml::Helpers
     # @param value [Object] Converted value
     # @return [Object, Hash] Value or hash with merged content
     #
-    # source://multi_xml//lib/multi_xml/helpers.rb#170
+    # pkg:gem/multi_xml#lib/multi_xml/helpers.rb:170
     def unwrap_if_simple(hash, value); end
 
     # Wrap hash in array if needed and typecast all entries
     #
     # @api private
-    # @param disallowed_types [Array<String>] Types to reject
     # @param entries [Array, Hash] Entries to process
+    # @param disallowed_types [Array<String>] Types to reject
     # @return [Array] Typecasted entries
     #
-    # source://multi_xml//lib/multi_xml/helpers.rb#145
+    # pkg:gem/multi_xml#lib/multi_xml/helpers.rb:145
     def wrap_and_typecast(entries, disallowed_types); end
   end
 end
@@ -663,22 +688,22 @@ end
 # @api public
 # @example Catching the error
 #   begin
-#   MultiXml.parse('<root/>')
+#     MultiXml.parse('<root/>')
 #   rescue MultiXml::NoParserError => e
-#   puts "Please install an XML parser gem"
+#     puts "Please install an XML parser gem"
 #   end
 #
-# source://multi_xml//lib/multi_xml/errors.rb#59
+# pkg:gem/multi_xml#lib/multi_xml/errors.rb:59
 class MultiXml::NoParserError < ::StandardError; end
 
 # Parser libraries in preference order (fastest first)
 #
 # @api public
+# @return [Array<Array>] pairs of [require_path, parser_symbol]
 # @example View parser order
 #   PARSER_PREFERENCE.first #=> ["ox", :ox]
-# @return [Array<Array>] pairs of [require_path, parser_symbol]
 #
-# source://multi_xml//lib/multi_xml/constants.rb#67
+# pkg:gem/multi_xml#lib/multi_xml/constants.rb:67
 MultiXml::PARSER_PREFERENCE = T.let(T.unsafe(nil), Array)
 
 # Parses datetime strings, trying Time first then DateTime
@@ -686,7 +711,7 @@ MultiXml::PARSER_PREFERENCE = T.let(T.unsafe(nil), Array)
 # @api private
 # @return [Proc] lambda that parses datetime strings
 #
-# source://multi_xml//lib/multi_xml/constants.rb#79
+# pkg:gem/multi_xml#lib/multi_xml/constants.rb:79
 MultiXml::PARSE_DATETIME = T.let(T.unsafe(nil), Proc)
 
 # Raised when XML parsing fails
@@ -696,67 +721,67 @@ MultiXml::PARSE_DATETIME = T.let(T.unsafe(nil), Proc)
 # @api public
 # @example Catching a parse error
 #   begin
-#   MultiXml.parse('<invalid>')
+#     MultiXml.parse('<invalid>')
 #   rescue MultiXml::ParseError => e
-#   puts e.xml   # The malformed XML
-#   puts e.cause # The underlying parser exception
+#     puts e.xml   # The malformed XML
+#     puts e.cause # The underlying parser exception
 #   end
 #
-# source://multi_xml//lib/multi_xml/errors.rb#14
+# pkg:gem/multi_xml#lib/multi_xml/errors.rb:14
 class MultiXml::ParseError < ::StandardError
   # Create a new ParseError
   #
   # @api public
-  # @example Create a parse error
-  #   ParseError.new("Invalid XML", xml: "<bad>", cause: original_error)
-  # @param cause [Exception, nil] The underlying parser exception
   # @param message [String, nil] Error message
   # @param xml [String, nil] The original XML that failed to parse
+  # @param cause [Exception, nil] The underlying parser exception
   # @return [ParseError] the new error instance
+  # @example Create a parse error
+  #   ParseError.new("Invalid XML", xml: "<bad>", cause: original_error)
   #
-  # source://multi_xml//lib/multi_xml/errors.rb#40
+  # pkg:gem/multi_xml#lib/multi_xml/errors.rb:40
   def initialize(message = T.unsafe(nil), xml: T.unsafe(nil), cause: T.unsafe(nil)); end
 
   # The underlying parser exception
   #
   # @api public
+  # @return [Exception, nil] the original exception from the parser
   # @example Access the cause
   #   error.cause #=> #<Nokogiri::XML::SyntaxError: ...>
-  # @return [Exception, nil] the original exception from the parser
   #
-  # source://multi_xml//lib/multi_xml/errors.rb#29
+  # pkg:gem/multi_xml#lib/multi_xml/errors.rb:29
   def cause; end
 
   # The original XML that failed to parse
   #
   # @api public
+  # @return [String, nil] the XML string that caused the error
   # @example Access the failing XML
   #   error.xml #=> "<invalid>"
-  # @return [String, nil] the XML string that caused the error
   #
-  # source://multi_xml//lib/multi_xml/errors.rb#21
+  # pkg:gem/multi_xml#lib/multi_xml/errors.rb:21
   def xml; end
 end
 
 # Maps Ruby class names to XML type attribute values
 #
 # @api public
+# @return [Hash{String => String}] mapping of Ruby class names to XML types
 # @example Check XML type for a Ruby class
 #   RUBY_TYPE_TO_XML["Integer"] #=> "integer"
-# @return [Hash{String => String}] mapping of Ruby class names to XML types
 #
-# source://multi_xml//lib/multi_xml/constants.rb#17
+# pkg:gem/multi_xml#lib/multi_xml/constants.rb:17
 MultiXml::RUBY_TYPE_TO_XML = T.let(T.unsafe(nil), Hash)
 
 # Hash key for storing text content within element hashes
 #
 # @api public
+# @return [String] the key "__content__" used for text content
 # @example Accessing text content
 #   result = MultiXml.parse('<name>John</name>')
 #   result["name"] #=> "John" (simplified, but internally uses __content__)
-# @return [String] the key "__content__" used for text content
 #
-# source://multi_xml//lib/multi_xml/constants.rb#9
+# pkg:gem/multi_xml#lib/multi_xml/constants.rb:9
 MultiXml::TEXT_CONTENT_KEY = T.let(T.unsafe(nil), String)
 
 # Type converters for XML type attributes
@@ -765,9 +790,9 @@ MultiXml::TEXT_CONTENT_KEY = T.let(T.unsafe(nil), String)
 # Converters with arity 2 receive the content and the full entity hash.
 #
 # @api public
+# @return [Hash{String => Proc}] mapping of type names to converter procs
 # @example Using a converter
 #   TYPE_CONVERTERS["integer"].call("42") #=> 42
-# @return [Hash{String => Proc}] mapping of type names to converter procs
 #
-# source://multi_xml//lib/multi_xml/constants.rb#107
+# pkg:gem/multi_xml#lib/multi_xml/constants.rb:107
 MultiXml::TYPE_CONVERTERS = T.let(T.unsafe(nil), Hash)

@@ -7,201 +7,145 @@
 
 # Ensure DatabaseAdapters module is available
 #
-# source://tidewave//lib/tidewave/version.rb#3
+# pkg:gem/tidewave#lib/tidewave/version.rb:3
 module Tidewave; end
 
-# source://tidewave//lib/tidewave/configuration.rb#4
+# pkg:gem/tidewave#lib/tidewave/configuration.rb:4
 class Tidewave::Configuration
-  # @return [Configuration] a new instance of Configuration
-  #
-  # source://tidewave//lib/tidewave/configuration.rb#7
+  # pkg:gem/tidewave#lib/tidewave/configuration.rb:7
   def initialize; end
 
-  # Returns the value of attribute allow_remote_access.
-  #
-  # source://tidewave//lib/tidewave/configuration.rb#5
+  # pkg:gem/tidewave#lib/tidewave/configuration.rb:5
   def allow_remote_access; end
 
-  # Sets the attribute allow_remote_access
-  #
-  # @param value the value to set the attribute allow_remote_access to.
-  #
-  # source://tidewave//lib/tidewave/configuration.rb#5
+  # pkg:gem/tidewave#lib/tidewave/configuration.rb:5
   def allow_remote_access=(_arg0); end
 
-  # Returns the value of attribute client_url.
-  #
-  # source://tidewave//lib/tidewave/configuration.rb#5
+  # pkg:gem/tidewave#lib/tidewave/configuration.rb:5
   def client_url; end
 
-  # Sets the attribute client_url
-  #
-  # @param value the value to set the attribute client_url to.
-  #
-  # source://tidewave//lib/tidewave/configuration.rb#5
+  # pkg:gem/tidewave#lib/tidewave/configuration.rb:5
   def client_url=(_arg0); end
 
-  # Returns the value of attribute dev.
-  #
-  # source://tidewave//lib/tidewave/configuration.rb#5
+  # pkg:gem/tidewave#lib/tidewave/configuration.rb:5
   def dev; end
 
-  # Sets the attribute dev
-  #
-  # @param value the value to set the attribute dev to.
-  #
-  # source://tidewave//lib/tidewave/configuration.rb#5
+  # pkg:gem/tidewave#lib/tidewave/configuration.rb:5
   def dev=(_arg0); end
 
-  # Returns the value of attribute logger.
-  #
-  # source://tidewave//lib/tidewave/configuration.rb#5
+  # pkg:gem/tidewave#lib/tidewave/configuration.rb:5
   def logger; end
 
-  # Sets the attribute logger
-  #
-  # @param value the value to set the attribute logger to.
-  #
-  # source://tidewave//lib/tidewave/configuration.rb#5
+  # pkg:gem/tidewave#lib/tidewave/configuration.rb:5
   def logger=(_arg0); end
 
-  # Returns the value of attribute logger_middleware.
-  #
-  # source://tidewave//lib/tidewave/configuration.rb#5
+  # pkg:gem/tidewave#lib/tidewave/configuration.rb:5
   def logger_middleware; end
 
-  # Sets the attribute logger_middleware
-  #
-  # @param value the value to set the attribute logger_middleware to.
-  #
-  # source://tidewave//lib/tidewave/configuration.rb#5
+  # pkg:gem/tidewave#lib/tidewave/configuration.rb:5
   def logger_middleware=(_arg0); end
 
-  # Returns the value of attribute preferred_orm.
-  #
-  # source://tidewave//lib/tidewave/configuration.rb#5
+  # pkg:gem/tidewave#lib/tidewave/configuration.rb:5
   def preferred_orm; end
 
-  # Sets the attribute preferred_orm
-  #
-  # @param value the value to set the attribute preferred_orm to.
-  #
-  # source://tidewave//lib/tidewave/configuration.rb#5
+  # pkg:gem/tidewave#lib/tidewave/configuration.rb:5
   def preferred_orm=(_arg0); end
 
-  # Returns the value of attribute team.
-  #
-  # source://tidewave//lib/tidewave/configuration.rb#5
+  # pkg:gem/tidewave#lib/tidewave/configuration.rb:5
   def team; end
 
-  # Sets the attribute team
-  #
-  # @param value the value to set the attribute team to.
-  #
-  # source://tidewave//lib/tidewave/configuration.rb#5
+  # pkg:gem/tidewave#lib/tidewave/configuration.rb:5
   def team=(_arg0); end
 end
 
-# source://tidewave//lib/tidewave/database_adapter.rb#4
+# pkg:gem/tidewave#lib/tidewave/database_adapter.rb:4
 class Tidewave::DatabaseAdapter
-  # @raise [NotImplementedError]
-  #
-  # source://tidewave//lib/tidewave/database_adapter.rb#25
+  # pkg:gem/tidewave#lib/tidewave/database_adapter.rb:25
   def execute_query(query, arguments = T.unsafe(nil)); end
 
-  # @raise [NotImplementedError]
-  #
-  # source://tidewave//lib/tidewave/database_adapter.rb#29
+  # pkg:gem/tidewave#lib/tidewave/database_adapter.rb:29
   def get_models; end
 
   class << self
-    # source://tidewave//lib/tidewave/database_adapter.rb#10
+    # pkg:gem/tidewave#lib/tidewave/database_adapter.rb:10
     def create_adapter; end
 
-    # source://tidewave//lib/tidewave/database_adapter.rb#6
+    # pkg:gem/tidewave#lib/tidewave/database_adapter.rb:6
     def current; end
   end
 end
 
-# source://tidewave//lib/tidewave.rb#9
+# pkg:gem/tidewave#lib/tidewave.rb:9
 module Tidewave::DatabaseAdapters; end
 
-# source://tidewave//lib/tidewave/exceptions_middleware.rb#3
+# pkg:gem/tidewave#lib/tidewave/exceptions_middleware.rb:3
 class Tidewave::ExceptionsMiddleware
-  # @return [ExceptionsMiddleware] a new instance of ExceptionsMiddleware
-  #
-  # source://tidewave//lib/tidewave/exceptions_middleware.rb#4
+  # pkg:gem/tidewave#lib/tidewave/exceptions_middleware.rb:4
   def initialize(app); end
 
-  # source://tidewave//lib/tidewave/exceptions_middleware.rb#8
+  # pkg:gem/tidewave#lib/tidewave/exceptions_middleware.rb:8
   def call(env); end
 
   private
 
-  # source://tidewave//lib/tidewave/exceptions_middleware.rb#70
+  # pkg:gem/tidewave#lib/tidewave/exceptions_middleware.rb:70
   def append_body(body, headers, content); end
 
-  # source://tidewave//lib/tidewave/exceptions_middleware.rb#27
+  # pkg:gem/tidewave#lib/tidewave/exceptions_middleware.rb:27
   def format_exception_html(exception, request); end
 
-  # source://tidewave//lib/tidewave/exceptions_middleware.rb#64
+  # pkg:gem/tidewave#lib/tidewave/exceptions_middleware.rb:64
   def request_parameters(request); end
 end
 
-# source://tidewave//lib/tidewave/middleware.rb#12
+# pkg:gem/tidewave#lib/tidewave/middleware.rb:12
 class Tidewave::Middleware
-  # @return [Middleware] a new instance of Middleware
-  #
-  # source://tidewave//lib/tidewave/middleware.rb#23
+  # pkg:gem/tidewave#lib/tidewave/middleware.rb:23
   def initialize(app, config); end
 
-  # source://tidewave//lib/tidewave/middleware.rb#52
+  # pkg:gem/tidewave#lib/tidewave/middleware.rb:52
   def call(env); end
 
   private
 
-  # source://tidewave//lib/tidewave/middleware.rb#100
+  # pkg:gem/tidewave#lib/tidewave/middleware.rb:100
   def config_data; end
 
-  # source://tidewave//lib/tidewave/middleware.rb#96
+  # pkg:gem/tidewave#lib/tidewave/middleware.rb:96
   def config_endpoint(request); end
 
-  # source://tidewave//lib/tidewave/middleware.rb#109
+  # pkg:gem/tidewave#lib/tidewave/middleware.rb:109
   def forbidden(message); end
 
-  # source://tidewave//lib/tidewave/middleware.rb#79
+  # pkg:gem/tidewave#lib/tidewave/middleware.rb:79
   def home(request); end
 
-  # @return [Boolean]
-  #
-  # source://tidewave//lib/tidewave/middleware.rb#114
+  # pkg:gem/tidewave#lib/tidewave/middleware.rb:114
   def valid_client_ip?(request); end
 end
 
-# source://tidewave//lib/tidewave/middleware.rb#15
+# pkg:gem/tidewave#lib/tidewave/middleware.rb:15
 Tidewave::Middleware::CONFIG_ROUTE = T.let(T.unsafe(nil), String)
 
-# source://tidewave//lib/tidewave/middleware.rb#17
+# pkg:gem/tidewave#lib/tidewave/middleware.rb:17
 Tidewave::Middleware::INVALID_IP = T.let(T.unsafe(nil), String)
 
-# source://tidewave//lib/tidewave/middleware.rb#14
+# pkg:gem/tidewave#lib/tidewave/middleware.rb:14
 Tidewave::Middleware::MCP_ROUTE = T.let(T.unsafe(nil), String)
 
-# source://tidewave//lib/tidewave/middleware.rb#13
+# pkg:gem/tidewave#lib/tidewave/middleware.rb:13
 Tidewave::Middleware::TIDEWAVE_ROUTE = T.let(T.unsafe(nil), String)
 
-# source://tidewave//lib/tidewave/quiet_requests_middleware.rb#3
+# pkg:gem/tidewave#lib/tidewave/quiet_requests_middleware.rb:3
 class Tidewave::QuietRequestsMiddleware
-  # @return [QuietRequestsMiddleware] a new instance of QuietRequestsMiddleware
-  #
-  # source://tidewave//lib/tidewave/quiet_requests_middleware.rb#4
+  # pkg:gem/tidewave#lib/tidewave/quiet_requests_middleware.rb:4
   def initialize(app); end
 
-  # source://tidewave//lib/tidewave/quiet_requests_middleware.rb#8
+  # pkg:gem/tidewave#lib/tidewave/quiet_requests_middleware.rb:8
   def call(env); end
 end
 
-# source://tidewave//lib/tidewave/railtie.rb#35
+# pkg:gem/tidewave#lib/tidewave/railtie.rb:35
 class Tidewave::Railtie < ::Rails::Railtie; end
 
 # Streamable HTTP transport for MCP (POST-only, no SSE)
@@ -209,130 +153,122 @@ class Tidewave::Railtie < ::Rails::Railtie; end
 # that only supports POST requests for JSON-RPC messages. Unlike the full protocol,
 # it does not support Server-Sent Events (SSE) for streaming responses.
 #
-# source://tidewave//lib/tidewave/streamable_http_transport.rb#12
+# pkg:gem/tidewave#lib/tidewave/streamable_http_transport.rb:12
 class Tidewave::StreamableHttpTransport < ::FastMcp::Transports::BaseTransport
-  # @return [StreamableHttpTransport] a new instance of StreamableHttpTransport
-  #
-  # source://tidewave//lib/tidewave/streamable_http_transport.rb#15
+  # pkg:gem/tidewave#lib/tidewave/streamable_http_transport.rb:15
   def initialize(app, server, options = T.unsafe(nil)); end
 
-  # Returns the value of attribute app.
-  #
-  # source://tidewave//lib/tidewave/streamable_http_transport.rb#13
+  # pkg:gem/tidewave#lib/tidewave/streamable_http_transport.rb:13
   def app; end
 
-  # source://tidewave//lib/tidewave/streamable_http_transport.rb#39
+  # pkg:gem/tidewave#lib/tidewave/streamable_http_transport.rb:39
   def call(env); end
 
-  # Returns the value of attribute path.
-  #
-  # source://tidewave//lib/tidewave/streamable_http_transport.rb#13
+  # pkg:gem/tidewave#lib/tidewave/streamable_http_transport.rb:13
   def path; end
 
   # Send a message - capture response for synchronous HTTP
   # Required by FastMCP::Transports::BaseTransport interface
   #
-  # source://tidewave//lib/tidewave/streamable_http_transport.rb#34
+  # pkg:gem/tidewave#lib/tidewave/streamable_http_transport.rb:34
   def send_message(message); end
 
-  # source://tidewave//lib/tidewave/streamable_http_transport.rb#22
+  # pkg:gem/tidewave#lib/tidewave/streamable_http_transport.rb:22
   def start; end
 
-  # source://tidewave//lib/tidewave/streamable_http_transport.rb#27
+  # pkg:gem/tidewave#lib/tidewave/streamable_http_transport.rb:27
   def stop; end
 
   private
 
-  # source://tidewave//lib/tidewave/streamable_http_transport.rb#52
+  # pkg:gem/tidewave#lib/tidewave/streamable_http_transport.rb:52
   def handle_mcp_request(request, env); end
 
-  # source://tidewave//lib/tidewave/streamable_http_transport.rb#60
+  # pkg:gem/tidewave#lib/tidewave/streamable_http_transport.rb:60
   def handle_post_request(request); end
 
-  # source://tidewave//lib/tidewave/streamable_http_transport.rb#120
+  # pkg:gem/tidewave#lib/tidewave/streamable_http_transport.rb:120
   def json_rpc_error_response(http_status, code, message, id); end
 
-  # source://tidewave//lib/tidewave/streamable_http_transport.rb#105
+  # pkg:gem/tidewave#lib/tidewave/streamable_http_transport.rb:105
   def method_not_allowed_response; end
 
-  # @return [Boolean]
-  #
-  # source://tidewave//lib/tidewave/streamable_http_transport.rb#98
+  # pkg:gem/tidewave#lib/tidewave/streamable_http_transport.rb:98
   def valid_jsonrpc_message?(message); end
 end
 
-# source://tidewave//lib/tidewave/tools/base.rb#4
+# pkg:gem/tidewave#lib/tidewave/tools/base.rb:4
 module Tidewave::Tools; end
 
-# source://tidewave//lib/tidewave/tools/base.rb#5
+# pkg:gem/tidewave#lib/tidewave/tools/base.rb:5
 class Tidewave::Tools::Base < ::FastMcp::Tool; end
 
-# source://tidewave//lib/tidewave/tools/execute_sql_query.rb#3
+# pkg:gem/tidewave#lib/tidewave/tools/execute_sql_query.rb:3
 class Tidewave::Tools::ExecuteSqlQuery < ::Tidewave::Tools::Base
-  # source://tidewave//lib/tidewave/tools/execute_sql_query.rb#33
+  # pkg:gem/tidewave#lib/tidewave/tools/execute_sql_query.rb:33
   def call(query:, arguments: T.unsafe(nil)); end
 end
 
-# source://tidewave//lib/tidewave/tools/execute_sql_query.rb#31
+# pkg:gem/tidewave#lib/tidewave/tools/execute_sql_query.rb:31
 Tidewave::Tools::ExecuteSqlQuery::RESULT_LIMIT = T.let(T.unsafe(nil), Integer)
 
-# source://tidewave//lib/tidewave/tools/get_docs.rb#3
+# pkg:gem/tidewave#lib/tidewave/tools/get_docs.rb:3
 class Tidewave::Tools::GetDocs < ::Tidewave::Tools::Base
-  # source://tidewave//lib/tidewave/tools/get_docs.rb#23
+  # pkg:gem/tidewave#lib/tidewave/tools/get_docs.rb:23
   def call(reference:); end
 
   private
 
-  # source://tidewave//lib/tidewave/tools/get_docs.rb#35
+  # pkg:gem/tidewave#lib/tidewave/tools/get_docs.rb:35
   def extract_documentation(file_path, line_number); end
 end
 
-# source://tidewave//lib/tidewave/tools/get_logs.rb#3
+# pkg:gem/tidewave#lib/tidewave/tools/get_logs.rb:3
 class Tidewave::Tools::GetLogs < ::Tidewave::Tools::Base
-  # source://tidewave//lib/tidewave/tools/get_logs.rb#16
+  # pkg:gem/tidewave#lib/tidewave/tools/get_logs.rb:16
   def call(tail:, grep: T.unsafe(nil)); end
 
   private
 
-  # source://tidewave//lib/tidewave/tools/get_logs.rb#35
+  # pkg:gem/tidewave#lib/tidewave/tools/get_logs.rb:35
   def tail_lines(file_path); end
 end
 
-# source://tidewave//lib/tidewave/tools/get_models.rb#3
+# pkg:gem/tidewave#lib/tidewave/tools/get_models.rb:3
 class Tidewave::Tools::GetModels < ::Tidewave::Tools::Base
-  # source://tidewave//lib/tidewave/tools/get_models.rb#9
+  # pkg:gem/tidewave#lib/tidewave/tools/get_models.rb:9
   def call; end
 
   private
 
-  # source://tidewave//lib/tidewave/tools/get_models.rb#27
+  # pkg:gem/tidewave#lib/tidewave/tools/get_models.rb:27
   def get_relative_source_location(model_name); end
 end
 
-# source://tidewave//lib/tidewave/tools/get_source_location.rb#3
+# pkg:gem/tidewave#lib/tidewave/tools/get_source_location.rb:3
 class Tidewave::Tools::GetSourceLocation < ::Tidewave::Tools::Base
-  # source://tidewave//lib/tidewave/tools/get_source_location.rb#24
+  # pkg:gem/tidewave#lib/tidewave/tools/get_source_location.rb:24
   def call(reference:); end
 
-  # source://tidewave//lib/tidewave/tools/get_source_location.rb#46
+  # pkg:gem/tidewave#lib/tidewave/tools/get_source_location.rb:46
   def get_package_location(package); end
 
   class << self
-    # source://tidewave//lib/tidewave/tools/get_source_location.rb#58
+    # pkg:gem/tidewave#lib/tidewave/tools/get_source_location.rb:58
     def get_source_location(reference); end
   end
 end
 
-# source://tidewave//lib/tidewave/tools/project_eval.rb#6
+# pkg:gem/tidewave#lib/tidewave/tools/project_eval.rb:6
 class Tidewave::Tools::ProjectEval < ::Tidewave::Tools::Base
-  # source://tidewave//lib/tidewave/tools/project_eval.rb#32
+  # pkg:gem/tidewave#lib/tidewave/tools/project_eval.rb:32
   def call(code:, arguments: T.unsafe(nil), timeout: T.unsafe(nil), json: T.unsafe(nil)); end
 
   private
 
-  # source://tidewave//lib/tidewave/tools/project_eval.rb#91
+  # pkg:gem/tidewave#lib/tidewave/tools/project_eval.rb:91
   def eval_binding(arguments); end
 end
 
-# source://tidewave//lib/tidewave/version.rb#4
+# pkg:gem/tidewave#lib/tidewave/version.rb:4
 Tidewave::VERSION = T.let(T.unsafe(nil), String)

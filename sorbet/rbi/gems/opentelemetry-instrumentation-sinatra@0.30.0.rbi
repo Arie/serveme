@@ -11,8 +11,11 @@
 #
 # The OpenTelemetry module provides global accessors for telemetry objects.
 # See the documentation for the `opentelemetry-api` gem for details.
+# Copyright The OpenTelemetry Authors
 #
-# source://opentelemetry-instrumentation-sinatra//lib/opentelemetry/instrumentation.rb#13
+# SPDX-License-Identifier: Apache-2.0
+#
+# pkg:gem/opentelemetry-instrumentation-sinatra#lib/opentelemetry/instrumentation.rb:13
 module OpenTelemetry; end
 
 # "Instrumentation" are specified by
@@ -20,57 +23,35 @@ module OpenTelemetry; end
 #
 # Instrumentation should be able to handle the case when the library is not installed on a user's system.
 #
-# source://opentelemetry-instrumentation-sinatra//lib/opentelemetry/instrumentation.rb#18
+# pkg:gem/opentelemetry-instrumentation-sinatra#lib/opentelemetry/instrumentation.rb:18
 module OpenTelemetry::Instrumentation; end
 
-# The {OpenTelemetry::Instrumentation::Sinatra::Instrumentation} class contains logic to detect and install the Sinatra instrumentation
+# (see OpenTelemetry::Instrumentation::Sinatra::Instrumentation)
 #
-# Installation and configuration of this instrumentation is done within the
-# {https://www.rubydoc.info/gems/opentelemetry-sdk/OpenTelemetry/SDK#configure-instance_method OpenTelemetry::SDK#configure}
-# block, calling {https://www.rubydoc.info/gems/opentelemetry-sdk/OpenTelemetry%2FSDK%2FConfigurator:use use()}
-# or {https://www.rubydoc.info/gems/opentelemetry-sdk/OpenTelemetry%2FSDK%2FConfigurator:use_all use_all()}.
-#
-# ## Configuration keys and options
-#
-# ### `:install_rack`
-#
-# Default is `true`. Specifies whether or not to install the Rack instrumentation as part of installing the Sinatra instrumentation.
-# This is useful in cases where you have multiple Rack applications but want to manually specify where to insert the tracing middleware.
-#
-# @example Manually install Rack instrumentation.
-#   OpenTelemetry::SDK.configure do |c|
-#   c.use_all({
-#   'OpenTelemetry::Instrumentation::Rack' => { },
-#   'OpenTelemetry::Instrumentation::Sinatra' => {
-#   install_rack: false
-#   },
-#   })
-#   end
-#
-# source://opentelemetry-instrumentation-sinatra//lib/opentelemetry/instrumentation/sinatra.rb#13
+# pkg:gem/opentelemetry-instrumentation-sinatra#lib/opentelemetry/instrumentation/sinatra.rb:13
 module OpenTelemetry::Instrumentation::Sinatra; end
 
-# source://opentelemetry-instrumentation-sinatra//lib/opentelemetry/instrumentation/sinatra/extensions/tracer_extension.rb#12
+# pkg:gem/opentelemetry-instrumentation-sinatra#lib/opentelemetry/instrumentation/sinatra/extensions/tracer_extension.rb:12
 module OpenTelemetry::Instrumentation::Sinatra::Extensions; end
 
 # Sinatra extension that installs TracerMiddleware and provides
 # tracing for template rendering
 #
-# source://opentelemetry-instrumentation-sinatra//lib/opentelemetry/instrumentation/sinatra/extensions/tracer_extension.rb#15
+# pkg:gem/opentelemetry-instrumentation-sinatra#lib/opentelemetry/instrumentation/sinatra/extensions/tracer_extension.rb:15
 module OpenTelemetry::Instrumentation::Sinatra::Extensions::TracerExtension
   class << self
     # Sinatra hook after extension is registered
     #
-    # source://opentelemetry-instrumentation-sinatra//lib/opentelemetry/instrumentation/sinatra/extensions/tracer_extension.rb#31
+    # pkg:gem/opentelemetry-instrumentation-sinatra#lib/opentelemetry/instrumentation/sinatra/extensions/tracer_extension.rb:31
     def registered(app); end
   end
 end
 
 # Constants patches for `render` method
 #
-# source://opentelemetry-instrumentation-sinatra//lib/opentelemetry/instrumentation/sinatra/extensions/tracer_extension.rb#17
+# pkg:gem/opentelemetry-instrumentation-sinatra#lib/opentelemetry/instrumentation/sinatra/extensions/tracer_extension.rb:17
 module OpenTelemetry::Instrumentation::Sinatra::Extensions::TracerExtension::RenderPatches
-  # source://opentelemetry-instrumentation-sinatra//lib/opentelemetry/instrumentation/sinatra/extensions/tracer_extension.rb#18
+  # pkg:gem/opentelemetry-instrumentation-sinatra#lib/opentelemetry/instrumentation/sinatra/extensions/tracer_extension.rb:18
   def render(_engine, data, *_arg2); end
 end
 
@@ -90,38 +71,36 @@ end
 #
 # @example Manually install Rack instrumentation.
 #   OpenTelemetry::SDK.configure do |c|
-#   c.use_all({
-#   'OpenTelemetry::Instrumentation::Rack' => { },
-#   'OpenTelemetry::Instrumentation::Sinatra' => {
-#   install_rack: false
-#   },
-#   })
+#     c.use_all({
+#       'OpenTelemetry::Instrumentation::Rack' => { },
+#       'OpenTelemetry::Instrumentation::Sinatra' => {
+#         install_rack: false
+#       },
+#     })
 #   end
 #
-# source://opentelemetry-instrumentation-sinatra//lib/opentelemetry/instrumentation/sinatra/instrumentation.rb#36
+# pkg:gem/opentelemetry-instrumentation-sinatra#lib/opentelemetry/instrumentation/sinatra/instrumentation.rb:36
 class OpenTelemetry::Instrumentation::Sinatra::Instrumentation < ::OpenTelemetry::Instrumentation::Base
-  # source://opentelemetry-instrumentation-sinatra//lib/opentelemetry/instrumentation/sinatra/instrumentation.rb#53
+  # pkg:gem/opentelemetry-instrumentation-sinatra#lib/opentelemetry/instrumentation/sinatra/instrumentation.rb:53
   def install_middleware(app); end
 end
 
-# source://opentelemetry-instrumentation-sinatra//lib/opentelemetry/instrumentation/sinatra/middlewares/tracer_middleware.rb#11
+# pkg:gem/opentelemetry-instrumentation-sinatra#lib/opentelemetry/instrumentation/sinatra/middlewares/tracer_middleware.rb:11
 module OpenTelemetry::Instrumentation::Sinatra::Middlewares; end
 
 # Middleware to trace Sinatra requests
 #
-# source://opentelemetry-instrumentation-sinatra//lib/opentelemetry/instrumentation/sinatra/middlewares/tracer_middleware.rb#13
+# pkg:gem/opentelemetry-instrumentation-sinatra#lib/opentelemetry/instrumentation/sinatra/middlewares/tracer_middleware.rb:13
 class OpenTelemetry::Instrumentation::Sinatra::Middlewares::TracerMiddleware
-  # @return [TracerMiddleware] a new instance of TracerMiddleware
-  #
-  # source://opentelemetry-instrumentation-sinatra//lib/opentelemetry/instrumentation/sinatra/middlewares/tracer_middleware.rb#14
+  # pkg:gem/opentelemetry-instrumentation-sinatra#lib/opentelemetry/instrumentation/sinatra/middlewares/tracer_middleware.rb:14
   def initialize(app); end
 
-  # source://opentelemetry-instrumentation-sinatra//lib/opentelemetry/instrumentation/sinatra/middlewares/tracer_middleware.rb#18
+  # pkg:gem/opentelemetry-instrumentation-sinatra#lib/opentelemetry/instrumentation/sinatra/middlewares/tracer_middleware.rb:18
   def call(env); end
 
-  # source://opentelemetry-instrumentation-sinatra//lib/opentelemetry/instrumentation/sinatra/middlewares/tracer_middleware.rb#24
+  # pkg:gem/opentelemetry-instrumentation-sinatra#lib/opentelemetry/instrumentation/sinatra/middlewares/tracer_middleware.rb:24
   def trace_response(env, response); end
 end
 
-# source://opentelemetry-instrumentation-sinatra//lib/opentelemetry/instrumentation/sinatra/version.rb#10
+# pkg:gem/opentelemetry-instrumentation-sinatra#lib/opentelemetry/instrumentation/sinatra/version.rb:10
 OpenTelemetry::Instrumentation::Sinatra::VERSION = T.let(T.unsafe(nil), String)

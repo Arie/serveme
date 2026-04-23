@@ -11,33 +11,39 @@
 #
 # The OpenTelemetry module provides global accessors for telemetry objects.
 # See the documentation for the `opentelemetry-api` gem for details.
+# Copyright The OpenTelemetry Authors
 #
-# source://opentelemetry-instrumentation-rails//lib/opentelemetry/instrumentation.rb#13
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+# pkg:gem/opentelemetry-instrumentation-rails#lib/opentelemetry/instrumentation.rb:13
 module OpenTelemetry; end
 
 # Instrumentation should be able to handle the case when the library is not installed on a user's system.
 #
-# source://opentelemetry-instrumentation-rails//lib/opentelemetry/instrumentation.rb#15
+# pkg:gem/opentelemetry-instrumentation-rails#lib/opentelemetry/instrumentation.rb:15
 module OpenTelemetry::Instrumentation; end
 
 # Contains the OpenTelemetry instrumentation for the Rails gem
 #
-# source://opentelemetry-instrumentation-rails//lib/opentelemetry/instrumentation/rails.rb#13
+# pkg:gem/opentelemetry-instrumentation-rails#lib/opentelemetry/instrumentation/rails.rb:13
 module OpenTelemetry::Instrumentation::Rails; end
 
 # The Instrumentation class contains logic to detect and install the Rails
 # instrumentation
 #
-# source://opentelemetry-instrumentation-rails//lib/opentelemetry/instrumentation/rails/instrumentation.rb#14
+# pkg:gem/opentelemetry-instrumentation-rails#lib/opentelemetry/instrumentation/rails/instrumentation.rb:14
 class OpenTelemetry::Instrumentation::Rails::Instrumentation < ::OpenTelemetry::Instrumentation::Base
   private
 
-  # source://opentelemetry-instrumentation-rails//lib/opentelemetry/instrumentation/rails/instrumentation.rb#26
+  # pkg:gem/opentelemetry-instrumentation-rails#lib/opentelemetry/instrumentation/rails/instrumentation.rb:26
   def gem_version; end
 end
 
-# source://opentelemetry-instrumentation-rails//lib/opentelemetry/instrumentation/rails/instrumentation.rb#15
+# pkg:gem/opentelemetry-instrumentation-rails#lib/opentelemetry/instrumentation/rails/instrumentation.rb:15
 OpenTelemetry::Instrumentation::Rails::Instrumentation::MINIMUM_VERSION = T.let(T.unsafe(nil), Gem::Version)
 
-# source://opentelemetry-instrumentation-rails//lib/opentelemetry/instrumentation/rails/version.rb#10
+# pkg:gem/opentelemetry-instrumentation-rails#lib/opentelemetry/instrumentation/rails/version.rb:10
 OpenTelemetry::Instrumentation::Rails::VERSION = T.let(T.unsafe(nil), String)

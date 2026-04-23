@@ -5,41 +5,85 @@
 # Please instead update this file by running `bin/tapioca gem maxmind-geoip2`.
 
 
-# source://maxmind-geoip2//lib/maxmind/geoip2/errors.rb#3
+# pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/errors.rb:3
 module MaxMind; end
 
-# source://maxmind-geoip2//lib/maxmind/geoip2/errors.rb#4
+# pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/errors.rb:4
 module MaxMind::GeoIP2; end
 
 # Base error class for all errors that originate from the IP address
 # itself and will not change when retried.
 #
-# source://maxmind-geoip2//lib/maxmind/geoip2/errors.rb#11
+# pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/errors.rb:11
 class MaxMind::GeoIP2::AddressError < ::MaxMind::GeoIP2::Error; end
 
 # An AddressInvalidError means the IP address was invalid.
 #
-# source://maxmind-geoip2//lib/maxmind/geoip2/errors.rb#24
+# pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/errors.rb:24
 class MaxMind::GeoIP2::AddressInvalidError < ::MaxMind::GeoIP2::AddressError; end
 
 # An AddressNotFoundError means the IP address was not found in the
 # database or the web service said the IP address was not found.
 #
-# source://maxmind-geoip2//lib/maxmind/geoip2/errors.rb#16
+# pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/errors.rb:16
 class MaxMind::GeoIP2::AddressNotFoundError < ::MaxMind::GeoIP2::AddressError; end
 
 # An AddressReservedError means the IP address is reserved.
 #
-# source://maxmind-geoip2//lib/maxmind/geoip2/errors.rb#28
+# pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/errors.rb:28
 class MaxMind::GeoIP2::AddressReservedError < ::MaxMind::GeoIP2::AddressError; end
 
 # An AuthenticationError means there was a problem authenticating to the
 # web service.
 #
-# source://maxmind-geoip2//lib/maxmind/geoip2/errors.rb#33
+# pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/errors.rb:33
 class MaxMind::GeoIP2::AuthenticationError < ::MaxMind::GeoIP2::Error; end
 
-# source://maxmind-geoip2//lib/maxmind/geoip2/client.rb#58
+# This class provides a client API for all the
+# {https://dev.maxmind.com/geoip/docs/web-services?lang=en GeoIP2 web
+# services}. The services are Country, City Plus, and Insights. Each service
+# returns a different set of data about an IP address, with Country returning
+# the least data and Insights the most.
+#
+# Each web service is represented by a different model class, and these model
+# classes in turn contain multiple record classes. The record classes have
+# attributes which contain data about the IP address.
+#
+# If the web service does not return a particular piece of data for an IP
+# address, the associated attribute is not populated.
+#
+# The web service may not return any information for an entire record, in
+# which case all of the attributes for that record class will be empty.
+#
+# == Usage
+#
+# The basic API for this class is the same for all of the web service end
+# points. First you create a web service client object with your MaxMind
+# account ID and license key, then you call the method corresponding to a
+# specific end point, passing it the IP address you want to look up.
+#
+# If the request succeeds, the method call will return a model class for the
+# service you called. This model in turn contains multiple record classes,
+# each of which represents part of the data returned by the web service.
+#
+# If the request fails, the client class throws an exception.
+#
+# == Example
+#
+#   require 'maxmind/geoip2'
+#
+#   client = MaxMind::GeoIP2::Client.new(
+#     account_id: 42,
+#     license_key: 'abcdef123456',
+#   )
+#
+#   # Replace 'city' with the method corresponding to the web service you
+#   # are using, e.g., 'country', 'insights'.
+#   record = client.city('128.101.101.101')
+#
+#   puts record.country.iso_code
+#
+# pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/client.rb:58
 class MaxMind::GeoIP2::Client
   # Create a Client that may be used to query a GeoIP2 web service.
   #
@@ -47,24 +91,32 @@ class MaxMind::GeoIP2::Client
   # threads.
   #
   # @param account_id [Integer] your MaxMind account ID.
+  #
+  # @param license_key [String] your MaxMind license key.
+  #
+  # @param locales [Array<String>] a list of locale codes to use in the name
+  #   property from most preferred to least preferred.
+  #
   # @param host [String] the host to use when querying the web service. Set
   #   this to "geolite.info" to use the GeoLite2 web service instead of the
   #   GeoIP2 web service. Set this to "sandbox.maxmind.com" to use the
   #   Sandbox environment. The sandbox allows you to experiment with the
   #   API without affecting your production data.
-  # @param license_key [String] your MaxMind license key.
-  # @param locales [Array<String>] a list of locale codes to use in the name
-  #   property from most preferred to least preferred.
-  # @param pool_size [Integer] HTTP connection pool size
-  # @param proxy_address [String] proxy address to use, if any.
-  # @param proxy_password [String] proxy password to use, if any.
-  # @param proxy_port [Integer] proxy port to use, if any.
-  # @param proxy_username [String] proxy username to use, if any.
+  #
   # @param timeout [Integer] the number of seconds to wait for a request
   #   before timing out. If 0, no timeout is set.
-  # @return [Client] a new instance of Client
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/client.rb#93
+  # @param proxy_address [String] proxy address to use, if any.
+  #
+  # @param proxy_port [Integer] proxy port to use, if any.
+  #
+  # @param proxy_username [String] proxy username to use, if any.
+  #
+  # @param proxy_password [String] proxy password to use, if any.
+  #
+  # @param pool_size [Integer] HTTP connection pool size
+  #
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/client.rb:93
   def initialize(account_id:, license_key:, locales: T.unsafe(nil), host: T.unsafe(nil), timeout: T.unsafe(nil), proxy_address: T.unsafe(nil), proxy_port: T.unsafe(nil), proxy_username: T.unsafe(nil), proxy_password: T.unsafe(nil), pool_size: T.unsafe(nil)); end
 
   # This method calls the City Plus web service.
@@ -72,25 +124,36 @@ class MaxMind::GeoIP2::Client
   # @param ip_address [String] IPv4 or IPv6 address as a string. If no
   #   address is provided, the address that the web service is called from is
   #   used.
+  #
   # @raise [HTTP::Error] if there was an error performing the HTTP request,
   #   such as an error connecting.
+  #
   # @raise [JSON::ParserError] if there was invalid JSON in the response.
+  #
   # @raise [HTTPError] if there was a problem with the HTTP response, such as
   #   an unexpected HTTP status code.
+  #
   # @raise [AddressInvalidError] if the web service believes the IP address
   #   to be invalid or missing.
+  #
   # @raise [AddressNotFoundError] if the IP address was not found.
+  #
+  # @raise [AddressReservedError] if the IP address is reserved.
+  #
   # @raise [AuthenticationError] if there was a problem authenticating to the
   #   web service, such as an invalid or missing license key.
+  #
   # @raise [InsufficientFundsError] if your account is out of credit.
+  #
   # @raise [PermissionRequiredError] if your account does not have permission
   #   to use the web service.
+  #
   # @raise [InvalidRequestError] if the web service responded with an error
   #   and there is no more specific error to raise.
-  # @raise [AddressReservedError] if the IP address is reserved.
+  #
   # @return [MaxMind::GeoIP2::Model::City]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/client.rb#157
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/client.rb:157
   def city(ip_address = T.unsafe(nil)); end
 
   # This method calls the Country web service.
@@ -98,25 +161,36 @@ class MaxMind::GeoIP2::Client
   # @param ip_address [String] IPv4 or IPv6 address as a string. If no
   #   address is provided, the address that the web service is called from is
   #   used.
+  #
   # @raise [HTTP::Error] if there was an error performing the HTTP request,
   #   such as an error connecting.
+  #
   # @raise [JSON::ParserError] if there was invalid JSON in the response.
+  #
   # @raise [HTTPError] if there was a problem with the HTTP response, such as
   #   an unexpected HTTP status code.
+  #
   # @raise [AddressInvalidError] if the web service believes the IP address
   #   to be invalid or missing.
+  #
   # @raise [AddressNotFoundError] if the IP address was not found.
+  #
+  # @raise [AddressReservedError] if the IP address is reserved.
+  #
   # @raise [AuthenticationError] if there was a problem authenticating to the
   #   web service, such as an invalid or missing license key.
+  #
   # @raise [InsufficientFundsError] if your account is out of credit.
+  #
   # @raise [PermissionRequiredError] if your account does not have permission
   #   to use the web service.
+  #
   # @raise [InvalidRequestError] if the web service responded with an error
   #   and there is no more specific error to raise.
-  # @raise [AddressReservedError] if the IP address is reserved.
+  #
   # @return [MaxMind::GeoIP2::Model::Country]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/client.rb#194
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/client.rb:194
   def country(ip_address = T.unsafe(nil)); end
 
   # This method calls the Insights web service.
@@ -127,78 +201,89 @@ class MaxMind::GeoIP2::Client
   # @param ip_address [String] IPv4 or IPv6 address as a string. If no
   #   address is provided, the address that the web service is called from is
   #   used.
+  #
   # @raise [HTTP::Error] if there was an error performing the HTTP request,
   #   such as an error connecting.
+  #
   # @raise [JSON::ParserError] if there was invalid JSON in the response.
+  #
   # @raise [HTTPError] if there was a problem with the HTTP response, such as
   #   an unexpected HTTP status code.
+  #
   # @raise [AddressInvalidError] if the web service believes the IP address
   #   to be invalid or missing.
+  #
   # @raise [AddressNotFoundError] if the IP address was not found.
+  #
+  # @raise [AddressReservedError] if the IP address is reserved.
+  #
   # @raise [AuthenticationError] if there was a problem authenticating to the
   #   web service, such as an invalid or missing license key.
+  #
   # @raise [InsufficientFundsError] if your account is out of credit.
+  #
   # @raise [PermissionRequiredError] if your account does not have permission
   #   to use the web service.
+  #
   # @raise [InvalidRequestError] if the web service responded with an error
   #   and there is no more specific error to raise.
-  # @raise [AddressReservedError] if the IP address is reserved.
+  #
   # @return [MaxMind::GeoIP2::Model::Insights]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/client.rb#234
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/client.rb:234
   def insights(ip_address = T.unsafe(nil)); end
 
   private
 
-  # source://maxmind-geoip2//lib/maxmind/geoip2/client.rb#271
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/client.rb:271
   def get(endpoint, ip_address); end
 
-  # source://maxmind-geoip2//lib/maxmind/geoip2/client.rb#301
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/client.rb:301
   def handle_client_error(endpoint, status, body, is_json); end
 
-  # source://maxmind-geoip2//lib/maxmind/geoip2/client.rb#336
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/client.rb:336
   def handle_success(endpoint, body, is_json); end
 
-  # source://maxmind-geoip2//lib/maxmind/geoip2/client.rb#250
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/client.rb:250
   def make_http_client; end
 
-  # source://maxmind-geoip2//lib/maxmind/geoip2/client.rb#240
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/client.rb:240
   def response_for(endpoint, model_class, ip_address); end
 end
 
 # Module's base error class
 #
-# source://maxmind-geoip2//lib/maxmind/geoip2/errors.rb#6
+# pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/errors.rb:6
 class MaxMind::GeoIP2::Error < ::StandardError; end
 
 # An HTTPError means there was an unexpected HTTP status or response.
 #
-# source://maxmind-geoip2//lib/maxmind/geoip2/errors.rb#20
+# pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/errors.rb:20
 class MaxMind::GeoIP2::HTTPError < ::MaxMind::GeoIP2::Error; end
 
 # An InsufficientFundsError means the account is out of credits.
 #
-# source://maxmind-geoip2//lib/maxmind/geoip2/errors.rb#37
+# pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/errors.rb:37
 class MaxMind::GeoIP2::InsufficientFundsError < ::MaxMind::GeoIP2::Error; end
 
 # An InvalidRequestError means the web service returned an error and there
 # is no more specific error class.
 #
-# source://maxmind-geoip2//lib/maxmind/geoip2/errors.rb#47
+# pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/errors.rb:47
 class MaxMind::GeoIP2::InvalidRequestError < ::MaxMind::GeoIP2::Error; end
 
-# source://maxmind-geoip2//lib/maxmind/geoip2/model/country.rb#11
+# pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/country.rb:11
 module MaxMind::GeoIP2::Model; end
 
 # Model class for the GeoLite2 ASN database.
 #
-# source://maxmind-geoip2//lib/maxmind/geoip2/model/asn.rb#9
+# pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/asn.rb:9
 class MaxMind::GeoIP2::Model::ASN < ::MaxMind::GeoIP2::Model::Abstract
   # The autonomous system number associated with the IP address.
   #
   # @return [Integer, nil]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/model/asn.rb#13
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/asn.rb:13
   def autonomous_system_number; end
 
   # The organization associated with the registered autonomous system number
@@ -206,14 +291,14 @@ class MaxMind::GeoIP2::Model::ASN < ::MaxMind::GeoIP2::Model::Abstract
   #
   # @return [String, nil]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/model/asn.rb#21
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/asn.rb:21
   def autonomous_system_organization; end
 
   # The IP address that the data in the model is for.
   #
   # @return [String]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/model/asn.rb#28
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/asn.rb:28
   def ip_address; end
 
   # The network in CIDR notation associated with the record. In particular,
@@ -222,32 +307,32 @@ class MaxMind::GeoIP2::Model::ASN < ::MaxMind::GeoIP2::Model::Abstract
   #
   # @return [String]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/model/asn.rb#37
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/asn.rb:37
   def network; end
 end
 
-# source://maxmind-geoip2//lib/maxmind/geoip2/model/abstract.rb#9
+# @!visibility private
+#
+# pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/abstract.rb:9
 class MaxMind::GeoIP2::Model::Abstract
-  # @return [Abstract] a new instance of Abstract
-  #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/model/abstract.rb#10
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/abstract.rb:10
   def initialize(record); end
 
   protected
 
-  # source://maxmind-geoip2//lib/maxmind/geoip2/model/abstract.rb#19
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/abstract.rb:19
   def get(key); end
 end
 
 # Model class for the Anonymous IP database.
 #
-# source://maxmind-geoip2//lib/maxmind/geoip2/model/anonymous_ip.rb#9
+# pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/anonymous_ip.rb:9
 class MaxMind::GeoIP2::Model::AnonymousIP < ::MaxMind::GeoIP2::Model::Abstract
   # This is true if the IP address belongs to any sort of anonymous network.
   #
   # @return [Boolean]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/model/anonymous_ip.rb#13
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/anonymous_ip.rb:13
   def anonymous?; end
 
   # This is true if the IP address is registered to an anonymous VPN
@@ -257,7 +342,7 @@ class MaxMind::GeoIP2::Model::AnonymousIP < ::MaxMind::GeoIP2::Model::Abstract
   #
   # @return [Boolean]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/model/anonymous_ip.rb#23
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/anonymous_ip.rb:23
   def anonymous_vpn?; end
 
   # This is true if the IP address belongs to a hosting or VPN provider (see
@@ -265,14 +350,14 @@ class MaxMind::GeoIP2::Model::AnonymousIP < ::MaxMind::GeoIP2::Model::Abstract
   #
   # @return [Boolean]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/model/anonymous_ip.rb#31
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/anonymous_ip.rb:31
   def hosting_provider?; end
 
   # The IP address that the data in the model is for.
   #
   # @return [String]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/model/anonymous_ip.rb#38
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/anonymous_ip.rb:38
   def ip_address; end
 
   # The network in CIDR notation associated with the record. In particular,
@@ -281,14 +366,14 @@ class MaxMind::GeoIP2::Model::AnonymousIP < ::MaxMind::GeoIP2::Model::Abstract
   #
   # @return [String]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/model/anonymous_ip.rb#47
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/anonymous_ip.rb:47
   def network; end
 
   # This is true if the IP address belongs to a public proxy.
   #
   # @return [Boolean]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/model/anonymous_ip.rb#54
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/anonymous_ip.rb:54
   def public_proxy?; end
 
   # This is true if the IP address is on a suspected anonymizing network
@@ -296,27 +381,27 @@ class MaxMind::GeoIP2::Model::AnonymousIP < ::MaxMind::GeoIP2::Model::Abstract
   #
   # @return [Boolean]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/model/anonymous_ip.rb#62
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/anonymous_ip.rb:62
   def residential_proxy?; end
 
   # This is true if the IP address is a Tor exit node.
   #
   # @return [Boolean]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/model/anonymous_ip.rb#69
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/anonymous_ip.rb:69
   def tor_exit_node?; end
 end
 
 # Model class for the Anonymous Plus database.
 #
-# source://maxmind-geoip2//lib/maxmind/geoip2/model/anonymous_plus.rb#10
+# pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/anonymous_plus.rb:10
 class MaxMind::GeoIP2::Model::AnonymousPlus < ::MaxMind::GeoIP2::Model::AnonymousIP
   # A score ranging from 1 to 99 that is our percent confidence that the
   # network is currently part of an actively used VPN service.
   #
   # @return [Integer, nil]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/model/anonymous_plus.rb#15
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/anonymous_plus.rb:15
   def anonymizer_confidence; end
 
   # The last day that the network was sighted in our analysis of
@@ -325,7 +410,7 @@ class MaxMind::GeoIP2::Model::AnonymousPlus < ::MaxMind::GeoIP2::Model::Anonymou
   # @return [Date, nil] A Date object representing the last seen date,
   #   or nil if the date is not available.
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/model/anonymous_plus.rb#24
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/anonymous_plus.rb:24
   def network_last_seen; end
 
   # The name of the VPN provider (e.g., NordVPN, SurfShark, etc.)
@@ -333,7 +418,7 @@ class MaxMind::GeoIP2::Model::AnonymousPlus < ::MaxMind::GeoIP2::Model::Anonymou
   #
   # @return [String, nil]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/model/anonymous_plus.rb#40
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/anonymous_plus.rb:40
   def provider_name; end
 end
 
@@ -345,25 +430,25 @@ end
 #
 # See {MaxMind::GeoIP2::Model::Country} for inherited methods.
 #
-# source://maxmind-geoip2//lib/maxmind/geoip2/model/city.rb#19
+# pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/city.rb:19
 class MaxMind::GeoIP2::Model::City < ::MaxMind::GeoIP2::Model::Country
-  # @return [City] a new instance of City
+  # @!visibility private
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/model/city.rb#48
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/city.rb:48
   def initialize(record, locales); end
 
   # City data for the IP address.
   #
   # @return [MaxMind::GeoIP2::Record::City]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/model/city.rb#23
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/city.rb:23
   def city; end
 
   # Location data for the IP address.
   #
   # @return [MaxMind::GeoIP2::Record::Location]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/model/city.rb#28
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/city.rb:28
   def location; end
 
   # The most specific subdivision returned.
@@ -373,14 +458,14 @@ class MaxMind::GeoIP2::Model::City < ::MaxMind::GeoIP2::Model::Country
   #
   # @return [MaxMind::GeoIP2::Record::Subdivision, nil]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/model/city.rb#62
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/city.rb:62
   def most_specific_subdivision; end
 
   # Postal data for the IP address.
   #
   # @return [MaxMind::GeoIP2::Record::Postal]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/model/city.rb#33
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/city.rb:33
   def postal; end
 
   # The country subdivisions for the IP address.
@@ -394,18 +479,18 @@ class MaxMind::GeoIP2::Model::City < ::MaxMind::GeoIP2::Model::Country
   #
   # @return [Array<MaxMind::GeoIP2::Record::Subdivision>]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/model/city.rb#45
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/city.rb:45
   def subdivisions; end
 
   private
 
-  # source://maxmind-geoip2//lib/maxmind/geoip2/model/city.rb#68
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/city.rb:68
   def create_subdivisions(subdivisions, locales); end
 end
 
 # Model class for the GeoIP2 Connection Type database.
 #
-# source://maxmind-geoip2//lib/maxmind/geoip2/model/connection_type.rb#9
+# pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/connection_type.rb:9
 class MaxMind::GeoIP2::Model::ConnectionType < ::MaxMind::GeoIP2::Model::Abstract
   # The connection type may take the following values: "Dialup",
   # "Cable/DSL", "Corporate", "Cellular", and "Satellite". Additional
@@ -413,14 +498,14 @@ class MaxMind::GeoIP2::Model::ConnectionType < ::MaxMind::GeoIP2::Model::Abstrac
   #
   # @return [String, nil]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/model/connection_type.rb#15
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/connection_type.rb:15
   def connection_type; end
 
   # The IP address that the data in the model is for.
   #
   # @return [String]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/model/connection_type.rb#22
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/connection_type.rb:22
   def ip_address; end
 
   # The network in CIDR notation associated with the record. In particular,
@@ -429,25 +514,25 @@ class MaxMind::GeoIP2::Model::ConnectionType < ::MaxMind::GeoIP2::Model::Abstrac
   #
   # @return [String]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/model/connection_type.rb#31
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/connection_type.rb:31
   def network; end
 end
 
 # Model class for the data returned by the GeoIP2 Country web service and
 # database. It is also used for GeoLite2 Country lookups.
 #
-# source://maxmind-geoip2//lib/maxmind/geoip2/model/country.rb#14
+# pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/country.rb:14
 class MaxMind::GeoIP2::Model::Country
-  # @return [Country] a new instance of Country
+  # @!visibility private
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/model/country.rb#51
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/country.rb:51
   def initialize(record, locales); end
 
   # Continent data for the IP address.
   #
   # @return [MaxMind::GeoIP2::Record::Continent]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/model/country.rb#18
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/country.rb:18
   def continent; end
 
   # Country data for the IP address. This object represents the country where
@@ -455,14 +540,14 @@ class MaxMind::GeoIP2::Model::Country
   #
   # @return [MaxMind::GeoIP2::Record::Country]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/model/country.rb#24
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/country.rb:24
   def country; end
 
   # Data related to your MaxMind account.
   #
   # @return [MaxMind::GeoIP2::Record::MaxMind]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/model/country.rb#29
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/country.rb:29
   def maxmind; end
 
   # Registered country data for the IP address. This record represents the
@@ -471,7 +556,7 @@ class MaxMind::GeoIP2::Model::Country
   #
   # @return [MaxMind::GeoIP2::Record::Country]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/model/country.rb#36
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/country.rb:36
   def registered_country; end
 
   # Represented country data for the IP address. The represented country is
@@ -480,34 +565,34 @@ class MaxMind::GeoIP2::Model::Country
   #
   # @return [MaxMind::GeoIP2::Record::RepresentedCountry]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/model/country.rb#43
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/country.rb:43
   def represented_country; end
 
   # Data for the traits of the IP address.
   #
   # @return [MaxMind::GeoIP2::Record::Traits]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/model/country.rb#48
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/country.rb:48
   def traits; end
 end
 
 # Model class for the GeoIP2 Domain database.
 #
-# source://maxmind-geoip2//lib/maxmind/geoip2/model/domain.rb#9
+# pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/domain.rb:9
 class MaxMind::GeoIP2::Model::Domain < ::MaxMind::GeoIP2::Model::Abstract
   # The second level domain associated with the IP address. This will be
   # something like "example.com" or "example.co.uk", not "foo.example.com".
   #
   # @return [String, nil]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/model/domain.rb#14
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/domain.rb:14
   def domain; end
 
   # The IP address that the data in the model is for.
   #
   # @return [String]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/model/domain.rb#21
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/domain.rb:21
   def ip_address; end
 
   # The network in CIDR notation associated with the record. In particular,
@@ -516,7 +601,7 @@ class MaxMind::GeoIP2::Model::Domain < ::MaxMind::GeoIP2::Model::Abstract
   #
   # @return [String]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/model/domain.rb#30
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/domain.rb:30
   def network; end
 end
 
@@ -527,18 +612,18 @@ end
 #
 # See {MaxMind::GeoIP2::Model::City} for inherited methods.
 #
-# source://maxmind-geoip2//lib/maxmind/geoip2/model/enterprise.rb#14
+# pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/enterprise.rb:14
 class MaxMind::GeoIP2::Model::Enterprise < ::MaxMind::GeoIP2::Model::City; end
 
 # Model class for the GeoIP2 ISP database.
 #
-# source://maxmind-geoip2//lib/maxmind/geoip2/model/isp.rb#9
+# pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/isp.rb:9
 class MaxMind::GeoIP2::Model::ISP < ::MaxMind::GeoIP2::Model::Abstract
   # The autonomous system number associated with the IP address.
   #
   # @return [Integer, nil]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/model/isp.rb#13
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/isp.rb:13
   def autonomous_system_number; end
 
   # The organization associated with the registered autonomous system number
@@ -546,21 +631,21 @@ class MaxMind::GeoIP2::Model::ISP < ::MaxMind::GeoIP2::Model::Abstract
   #
   # @return [String, nil]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/model/isp.rb#21
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/isp.rb:21
   def autonomous_system_organization; end
 
   # The IP address that the data in the model is for.
   #
   # @return [String]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/model/isp.rb#28
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/isp.rb:28
   def ip_address; end
 
   # The name of the ISP associated with the IP address.
   #
   # @return [String, nil]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/model/isp.rb#35
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/isp.rb:35
   def isp; end
 
   # The {https://en.wikipedia.org/wiki/Mobile_country_code mobile country
@@ -568,7 +653,7 @@ class MaxMind::GeoIP2::Model::ISP < ::MaxMind::GeoIP2::Model::Abstract
   #
   # @return [String, nil]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/model/isp.rb#43
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/isp.rb:43
   def mobile_country_code; end
 
   # The {https://en.wikipedia.org/wiki/Mobile_country_code mobile network
@@ -576,7 +661,7 @@ class MaxMind::GeoIP2::Model::ISP < ::MaxMind::GeoIP2::Model::Abstract
   #
   # @return [String, nil]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/model/isp.rb#51
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/isp.rb:51
   def mobile_network_code; end
 
   # The network in CIDR notation associated with the record. In particular,
@@ -585,14 +670,14 @@ class MaxMind::GeoIP2::Model::ISP < ::MaxMind::GeoIP2::Model::Abstract
   #
   # @return [String]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/model/isp.rb#60
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/isp.rb:60
   def network; end
 
   # The name of the organization associated with the IP address.
   #
   # @return [String, nil]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/model/isp.rb#67
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/isp.rb:67
   def organization; end
 end
 
@@ -601,11 +686,11 @@ end
 # See https://dev.maxmind.com/geoip/docs/web-services?lang=en for more
 # details.
 #
-# source://maxmind-geoip2//lib/maxmind/geoip2/model/insights.rb#13
+# pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/insights.rb:13
 class MaxMind::GeoIP2::Model::Insights < ::MaxMind::GeoIP2::Model::City
-  # @return [Insights] a new instance of Insights
+  # @!visibility private
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/model/insights.rb#21
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/insights.rb:21
   def initialize(record, locales); end
 
   # Data indicating whether the IP address is part of an anonymizing
@@ -613,14 +698,14 @@ class MaxMind::GeoIP2::Model::Insights < ::MaxMind::GeoIP2::Model::City
   #
   # @return [MaxMind::GeoIP2::Record::Anonymizer]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/model/insights.rb#18
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/model/insights.rb:18
   def anonymizer; end
 end
 
 # A PermissionRequiredError means the account does not have permission to
 # use the requested service.
 #
-# source://maxmind-geoip2//lib/maxmind/geoip2/errors.rb#42
+# pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/errors.rb:42
 class MaxMind::GeoIP2::PermissionRequiredError < ::MaxMind::GeoIP2::Error; end
 
 # Reader is a reader for the GeoIP2/GeoLite2 database format. IP addresses
@@ -637,7 +722,7 @@ class MaxMind::GeoIP2::PermissionRequiredError < ::MaxMind::GeoIP2::Error; end
 #
 #   reader.close
 #
-# source://maxmind-geoip2//lib/maxmind/geoip2/reader.rb#30
+# pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/reader.rb:30
 class MaxMind::GeoIP2::Reader
   # Create a Reader for looking up IP addresses in a GeoIP2/GeoLite2 database
   # file.
@@ -648,189 +733,234 @@ class MaxMind::GeoIP2::Reader
   # Once created, the Reader is safe to use for lookups from multiple
   # threads. It is safe to use after forking.
   #
-  # @overload initialize
+  # @overload initialize(database:, locales: ['en'], mode: MaxMind::DB::MODE_AUTO)
+  #   @param database [String] a path to a GeoIP2/GeoLite2 database file.
+  #   @param locales [Array<String>] a list of locale codes to use in the name
+  #     property from most preferred to least preferred.
+  #   @param mode [Symbol] Defines how to open the database. It may be one of
+  #     MaxMind::DB::MODE_AUTO, MaxMind::DB::MODE_FILE, or
+  #     MaxMind::DB::MODE_MEMORY. If you don't provide one, the Reader uses
+  #     MaxMind::DB::MODE_AUTO. Refer to the definition of those constants in
+  #     MaxMind::DB for an explanation of their meaning.
+  #
   # @raise [MaxMind::DB::InvalidDatabaseError] if the database is corrupt
   #   or invalid.
-  # @raise [ArgumentError] if the mode is invalid.
-  # @return [Reader] a new instance of Reader
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/reader.rb#57
+  # @raise [ArgumentError] if the mode is invalid.
+  #
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/reader.rb:57
   def initialize(*args); end
 
   # Look up the IP address in the Anonymous IP database.
   #
   # @param ip_address [String] a string in the standard notation. It may be
   #   IPv4 or IPv6.
-  # @raise [ArgumentError] if used against a non-Anonymous IP database or if
-  #   you attempt to look up an IPv6 address in an IPv4 only database.
-  # @raise [AddressNotFoundError] if the IP address is not found in the
-  #   database.
-  # @raise [MaxMind::DB::InvalidDatabaseError] if the database appears
-  #   corrupt.
+  #
   # @return [MaxMind::GeoIP2::Model::AnonymousIP]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/reader.rb#105
+  # @raise [ArgumentError] if used against a non-Anonymous IP database or if
+  #   you attempt to look up an IPv6 address in an IPv4 only database.
+  #
+  # @raise [AddressNotFoundError] if the IP address is not found in the
+  #   database.
+  #
+  # @raise [MaxMind::DB::InvalidDatabaseError] if the database appears
+  #   corrupt.
+  #
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/reader.rb:105
   def anonymous_ip(ip_address); end
 
   # Look up the IP address in the Anonymous Plus database.
   #
   # @param ip_address [String] a string in the standard notation. It may be
   #   IPv4 or IPv6.
-  # @raise [ArgumentError] if used against a non-Anonymous Plus database
-  #   or if you attempt to look up an IPv6 address in an IPv4 only database.
-  # @raise [AddressNotFoundError] if the IP address is not found in the
-  #   database.
-  # @raise [MaxMind::DB::InvalidDatabaseError] if the database appears
-  #   corrupt.
+  #
   # @return [MaxMind::GeoIP2::Model::AnonymousPlus]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/reader.rb#129
+  # @raise [ArgumentError] if used against a non-Anonymous Plus database
+  #   or if you attempt to look up an IPv6 address in an IPv4 only database.
+  #
+  # @raise [AddressNotFoundError] if the IP address is not found in the
+  #   database.
+  #
+  # @raise [MaxMind::DB::InvalidDatabaseError] if the database appears
+  #   corrupt.
+  #
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/reader.rb:129
   def anonymous_plus(ip_address); end
 
   # Look up the IP address in an ASN database.
   #
   # @param ip_address [String] a string in the standard notation. It may be
   #   IPv4 or IPv6.
-  # @raise [ArgumentError] if used against a non-ASN database or if you
-  #   attempt to look up an IPv6 address in an IPv4 only database.
-  # @raise [AddressNotFoundError] if the IP address is not found in the
-  #   database.
-  # @raise [MaxMind::DB::InvalidDatabaseError] if the database appears
-  #   corrupt.
+  #
   # @return [MaxMind::GeoIP2::Model::ASN]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/reader.rb#153
+  # @raise [ArgumentError] if used against a non-ASN database or if you
+  #   attempt to look up an IPv6 address in an IPv4 only database.
+  #
+  # @raise [AddressNotFoundError] if the IP address is not found in the
+  #   database.
+  #
+  # @raise [MaxMind::DB::InvalidDatabaseError] if the database appears
+  #   corrupt.
+  #
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/reader.rb:153
   def asn(ip_address); end
 
   # Look up the IP address in a City database.
   #
   # @param ip_address [String] a string in the standard notation. It may be
   #   IPv4 or IPv6.
-  # @raise [ArgumentError] if used against a non-City database or if you
-  #   attempt to look up an IPv6 address in an IPv4 only database.
-  # @raise [AddressNotFoundError] if the IP address is not found in the
-  #   database.
-  # @raise [MaxMind::DB::InvalidDatabaseError] if the database appears
-  #   corrupt.
+  #
   # @return [MaxMind::GeoIP2::Model::City]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/reader.rb#172
+  # @raise [ArgumentError] if used against a non-City database or if you
+  #   attempt to look up an IPv6 address in an IPv4 only database.
+  #
+  # @raise [AddressNotFoundError] if the IP address is not found in the
+  #   database.
+  #
+  # @raise [MaxMind::DB::InvalidDatabaseError] if the database appears
+  #   corrupt.
+  #
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/reader.rb:172
   def city(ip_address); end
 
   # Close the Reader and return resources to the system.
   #
   # @return [void]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/reader.rb#286
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/reader.rb:286
   def close; end
 
   # Look up the IP address in a Connection Type database.
   #
   # @param ip_address [String] a string in the standard notation. It may be
   #   IPv4 or IPv6.
-  # @raise [ArgumentError] if used against a non-Connection Type database or if
-  #   you attempt to look up an IPv6 address in an IPv4 only database.
-  # @raise [AddressNotFoundError] if the IP address is not found in the
-  #   database.
-  # @raise [MaxMind::DB::InvalidDatabaseError] if the database appears
-  #   corrupt.
+  #
   # @return [MaxMind::GeoIP2::Model::ConnectionType]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/reader.rb#191
+  # @raise [ArgumentError] if used against a non-Connection Type database or if
+  #   you attempt to look up an IPv6 address in an IPv4 only database.
+  #
+  # @raise [AddressNotFoundError] if the IP address is not found in the
+  #   database.
+  #
+  # @raise [MaxMind::DB::InvalidDatabaseError] if the database appears
+  #   corrupt.
+  #
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/reader.rb:191
   def connection_type(ip_address); end
 
   # Look up the IP address in a Country database.
   #
   # @param ip_address [String] a string in the standard notation. It may be
   #   IPv4 or IPv6.
-  # @raise [ArgumentError] if used against a non-Country database or if you
-  #   attempt to look up an IPv6 address in an IPv4 only database.
-  # @raise [AddressNotFoundError] if the IP address is not found in the
-  #   database.
-  # @raise [MaxMind::DB::InvalidDatabaseError] if the database appears
-  #   corrupt.
+  #
   # @return [MaxMind::GeoIP2::Model::Country]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/reader.rb#215
+  # @raise [ArgumentError] if used against a non-Country database or if you
+  #   attempt to look up an IPv6 address in an IPv4 only database.
+  #
+  # @raise [AddressNotFoundError] if the IP address is not found in the
+  #   database.
+  #
+  # @raise [MaxMind::DB::InvalidDatabaseError] if the database appears
+  #   corrupt.
+  #
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/reader.rb:215
   def country(ip_address); end
 
   # Look up the IP address in a Domain database.
   #
   # @param ip_address [String] a string in the standard notation. It may be
   #   IPv4 or IPv6.
-  # @raise [ArgumentError] if used against a non-Domain database or if you
-  #   attempt to look up an IPv6 address in an IPv4 only database.
-  # @raise [AddressNotFoundError] if the IP address is not found in the
-  #   database.
-  # @raise [MaxMind::DB::InvalidDatabaseError] if the database appears
-  #   corrupt.
+  #
   # @return [MaxMind::GeoIP2::Model::Domain]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/reader.rb#234
+  # @raise [ArgumentError] if used against a non-Domain database or if you
+  #   attempt to look up an IPv6 address in an IPv4 only database.
+  #
+  # @raise [AddressNotFoundError] if the IP address is not found in the
+  #   database.
+  #
+  # @raise [MaxMind::DB::InvalidDatabaseError] if the database appears
+  #   corrupt.
+  #
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/reader.rb:234
   def domain(ip_address); end
 
   # Look up the IP address in an Enterprise database.
   #
   # @param ip_address [String] a string in the standard notation. It may be
   #   IPv4 or IPv6.
-  # @raise [ArgumentError] if used against a non-Enterprise database or if
-  #   you attempt to look up an IPv6 address in an IPv4 only database.
-  # @raise [AddressNotFoundError] if the IP address is not found in the
-  #   database.
-  # @raise [MaxMind::DB::InvalidDatabaseError] if the database appears
-  #   corrupt.
+  #
   # @return [MaxMind::GeoIP2::Model::Enterprise]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/reader.rb#253
+  # @raise [ArgumentError] if used against a non-Enterprise database or if
+  #   you attempt to look up an IPv6 address in an IPv4 only database.
+  #
+  # @raise [AddressNotFoundError] if the IP address is not found in the
+  #   database.
+  #
+  # @raise [MaxMind::DB::InvalidDatabaseError] if the database appears
+  #   corrupt.
+  #
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/reader.rb:253
   def enterprise(ip_address); end
 
   # Look up the IP address in an ISP database.
   #
   # @param ip_address [String] a string in the standard notation. It may be
   #   IPv4 or IPv6.
-  # @raise [ArgumentError] if used against a non-ISP database or if you
-  #   attempt to look up an IPv6 address in an IPv4 only database.
-  # @raise [AddressNotFoundError] if the IP address is not found in the
-  #   database.
-  # @raise [MaxMind::DB::InvalidDatabaseError] if the database appears
-  #   corrupt.
+  #
   # @return [MaxMind::GeoIP2::Model::ISP]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/reader.rb#272
+  # @raise [ArgumentError] if used against a non-ISP database or if you
+  #   attempt to look up an IPv6 address in an IPv4 only database.
+  #
+  # @raise [AddressNotFoundError] if the IP address is not found in the
+  #   database.
+  #
+  # @raise [MaxMind::DB::InvalidDatabaseError] if the database appears
+  #   corrupt.
+  #
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/reader.rb:272
   def isp(ip_address); end
 
   # Return the metadata associated with the database.
   #
   # @return [MaxMind::DB::Metadata]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/reader.rb#279
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/reader.rb:279
   def metadata; end
 
   private
 
-  # source://maxmind-geoip2//lib/maxmind/geoip2/reader.rb#318
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/reader.rb:318
   def flat_model_for(model_class, method, type, ip_address); end
 
-  # source://maxmind-geoip2//lib/maxmind/geoip2/reader.rb#302
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/reader.rb:302
   def get_record(method, type, ip_address); end
 
-  # source://maxmind-geoip2//lib/maxmind/geoip2/reader.rb#292
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/reader.rb:292
   def model_for(model_class, method, type, ip_address); end
 end
 
-# source://maxmind-geoip2//lib/maxmind/geoip2/record/abstract.rb#5
+# pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/abstract.rb:5
 module MaxMind::GeoIP2::Record; end
 
-# source://maxmind-geoip2//lib/maxmind/geoip2/record/abstract.rb#7
+# @!visibility private
+#
+# pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/abstract.rb:7
 class MaxMind::GeoIP2::Record::Abstract
-  # @return [Abstract] a new instance of Abstract
-  #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/abstract.rb#8
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/abstract.rb:8
   def initialize(record); end
 
   protected
 
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/abstract.rb#14
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/abstract.rb:14
   def get(key); end
 end
 
@@ -839,14 +969,14 @@ end
 #
 # This record is returned by the Insights web service.
 #
-# source://maxmind-geoip2//lib/maxmind/geoip2/record/anonymizer.rb#13
+# pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/anonymizer.rb:13
 class MaxMind::GeoIP2::Record::Anonymizer < ::MaxMind::GeoIP2::Record::Abstract
   # This is true if the IP address belongs to any sort of anonymous
   # network. This property is only available from Insights.
   #
   # @return [Boolean]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/anonymizer.rb#27
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/anonymizer.rb:27
   def anonymous?; end
 
   # This is true if the IP address is registered to an anonymous VPN
@@ -857,7 +987,7 @@ class MaxMind::GeoIP2::Record::Anonymizer < ::MaxMind::GeoIP2::Record::Abstract
   #
   # @return [Boolean]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/anonymizer.rb#38
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/anonymizer.rb:38
   def anonymous_vpn?; end
 
   # A score ranging from 1 to 99 that represents our percent confidence
@@ -866,7 +996,7 @@ class MaxMind::GeoIP2::Record::Anonymizer < ::MaxMind::GeoIP2::Record::Abstract
   #
   # @return [Integer, nil]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/anonymizer.rb#19
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/anonymizer.rb:19
   def confidence; end
 
   # This is true if the IP address belongs to a hosting or VPN provider
@@ -875,7 +1005,7 @@ class MaxMind::GeoIP2::Record::Anonymizer < ::MaxMind::GeoIP2::Record::Abstract
   #
   # @return [Boolean]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/anonymizer.rb#47
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/anonymizer.rb:47
   def hosting_provider?; end
 
   # The last day that the network was sighted in our analysis of
@@ -885,7 +1015,7 @@ class MaxMind::GeoIP2::Record::Anonymizer < ::MaxMind::GeoIP2::Record::Abstract
   # @return [Date, nil] A Date object representing the last seen date,
   #   or nil if the date is not available.
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/anonymizer.rb#82
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/anonymizer.rb:82
   def network_last_seen; end
 
   # The name of the VPN provider (e.g., NordVPN, SurfShark, etc.)
@@ -894,7 +1024,7 @@ class MaxMind::GeoIP2::Record::Anonymizer < ::MaxMind::GeoIP2::Record::Abstract
   #
   # @return [String, nil]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/anonymizer.rb#99
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/anonymizer.rb:99
   def provider_name; end
 
   # This is true if the IP address belongs to a public proxy. This
@@ -902,7 +1032,7 @@ class MaxMind::GeoIP2::Record::Anonymizer < ::MaxMind::GeoIP2::Record::Abstract
   #
   # @return [Boolean]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/anonymizer.rb#55
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/anonymizer.rb:55
   def public_proxy?; end
 
   # This is true if the IP address is on a suspected anonymizing network
@@ -911,7 +1041,7 @@ class MaxMind::GeoIP2::Record::Anonymizer < ::MaxMind::GeoIP2::Record::Abstract
   #
   # @return [Boolean]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/anonymizer.rb#64
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/anonymizer.rb:64
   def residential_proxy?; end
 
   # This is true if the IP address is a Tor exit node. This property is
@@ -919,7 +1049,7 @@ class MaxMind::GeoIP2::Record::Anonymizer < ::MaxMind::GeoIP2::Record::Abstract
   #
   # @return [Boolean]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/anonymizer.rb#72
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/anonymizer.rb:72
   def tor_exit_node?; end
 end
 
@@ -930,7 +1060,7 @@ end
 #
 # See {MaxMind::GeoIP2::Record::Place} for inherited methods.
 #
-# source://maxmind-geoip2//lib/maxmind/geoip2/record/city.rb#14
+# pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/city.rb:14
 class MaxMind::GeoIP2::Record::City < ::MaxMind::GeoIP2::Record::Place
   # A value from 0-100 indicating MaxMind's confidence that the city is
   # correct. This attribute is only available from the Insights service and
@@ -938,7 +1068,7 @@ class MaxMind::GeoIP2::Record::City < ::MaxMind::GeoIP2::Record::Place
   #
   # @return [Integer, nil]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/city.rb#20
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/city.rb:20
   def confidence; end
 
   # The GeoName ID for the city. This attribute is returned by all location
@@ -946,7 +1076,7 @@ class MaxMind::GeoIP2::Record::City < ::MaxMind::GeoIP2::Record::Place
   #
   # @return [Integer, nil]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/city.rb#28
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/city.rb:28
   def geoname_id; end
 
   # A Hash where the keys are locale codes and the values are names. This
@@ -954,7 +1084,7 @@ class MaxMind::GeoIP2::Record::City < ::MaxMind::GeoIP2::Record::Place
   #
   # @return [Hash<String, String>, nil]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/city.rb#36
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/city.rb:36
   def names; end
 end
 
@@ -964,7 +1094,7 @@ end
 #
 # See {MaxMind::GeoIP2::Record::Place} for inherited methods.
 #
-# source://maxmind-geoip2//lib/maxmind/geoip2/record/continent.rb#13
+# pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/continent.rb:13
 class MaxMind::GeoIP2::Record::Continent < ::MaxMind::GeoIP2::Record::Place
   # A two character continent code like "NA" (North America) or "OC"
   # (Oceania). This attribute is returned by all location services and
@@ -972,7 +1102,7 @@ class MaxMind::GeoIP2::Record::Continent < ::MaxMind::GeoIP2::Record::Place
   #
   # @return [String, nil]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/continent.rb#19
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/continent.rb:19
   def code; end
 
   # The GeoName ID for the continent. This attribute is returned by all
@@ -980,7 +1110,7 @@ class MaxMind::GeoIP2::Record::Continent < ::MaxMind::GeoIP2::Record::Place
   #
   # @return [String, nil]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/continent.rb#27
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/continent.rb:27
   def geoname_id; end
 
   # A Hash where the keys are locale codes and the values are names. This
@@ -988,7 +1118,7 @@ class MaxMind::GeoIP2::Record::Continent < ::MaxMind::GeoIP2::Record::Place
   #
   # @return [Hash<String, String>, nil]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/continent.rb#35
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/continent.rb:35
   def names; end
 end
 
@@ -998,7 +1128,7 @@ end
 #
 # See {MaxMind::GeoIP2::Record::Place} for inherited methods.
 #
-# source://maxmind-geoip2//lib/maxmind/geoip2/record/country.rb#13
+# pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/country.rb:13
 class MaxMind::GeoIP2::Record::Country < ::MaxMind::GeoIP2::Record::Place
   # A value from 0-100 indicating MaxMind's confidence that the country is
   # correct. This attribute is only available from the Insights service and
@@ -1006,7 +1136,7 @@ class MaxMind::GeoIP2::Record::Country < ::MaxMind::GeoIP2::Record::Place
   #
   # @return [Integer, nil]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/country.rb#19
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/country.rb:19
   def confidence; end
 
   # The GeoName ID for the country. This attribute is returned by all
@@ -1014,7 +1144,7 @@ class MaxMind::GeoIP2::Record::Country < ::MaxMind::GeoIP2::Record::Place
   #
   # @return [Integer, nil]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/country.rb#27
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/country.rb:27
   def geoname_id; end
 
   # This is true if the country is a member state of the European Union. This
@@ -1022,7 +1152,7 @@ class MaxMind::GeoIP2::Record::Country < ::MaxMind::GeoIP2::Record::Place
   #
   # @return [Boolean]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/country.rb#35
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/country.rb:35
   def in_european_union?; end
 
   # The two-character ISO 3166-1 alpha code for the country. See
@@ -1031,7 +1161,7 @@ class MaxMind::GeoIP2::Record::Country < ::MaxMind::GeoIP2::Record::Place
   #
   # @return [String, nil]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/country.rb#44
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/country.rb:44
   def iso_code; end
 
   # A Hash where the keys are locale codes and the values are names. This
@@ -1039,7 +1169,7 @@ class MaxMind::GeoIP2::Record::Country < ::MaxMind::GeoIP2::Record::Place
   #
   # @return [Hash<String, String>, nil]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/country.rb#52
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/country.rb:52
   def names; end
 end
 
@@ -1048,7 +1178,7 @@ end
 # This record is returned by all location services and databases besides
 # Country.
 #
-# source://maxmind-geoip2//lib/maxmind/geoip2/record/location.rb#12
+# pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/location.rb:12
 class MaxMind::GeoIP2::Record::Location < ::MaxMind::GeoIP2::Record::Abstract
   # The approximate accuracy radius in kilometers around the latitude and
   # longitude for the IP address. This is the radius where we have a 67%
@@ -1057,7 +1187,7 @@ class MaxMind::GeoIP2::Record::Location < ::MaxMind::GeoIP2::Record::Abstract
   #
   # @return [Integer, nil]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/location.rb#19
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/location.rb:19
   def accuracy_radius; end
 
   # The average income in US dollars associated with the requested IP
@@ -1065,7 +1195,7 @@ class MaxMind::GeoIP2::Record::Location < ::MaxMind::GeoIP2::Record::Abstract
   #
   # @return [Integer, nil]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/location.rb#27
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/location.rb:27
   def average_income; end
 
   # The approximate latitude of the location associated with the IP address.
@@ -1074,7 +1204,7 @@ class MaxMind::GeoIP2::Record::Location < ::MaxMind::GeoIP2::Record::Abstract
   #
   # @return [Float, nil]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/location.rb#36
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/location.rb:36
   def latitude; end
 
   # The approximate longitude of the location associated with the IP address.
@@ -1083,16 +1213,16 @@ class MaxMind::GeoIP2::Record::Location < ::MaxMind::GeoIP2::Record::Abstract
   #
   # @return [Float, nil]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/location.rb#45
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/location.rb:45
   def longitude; end
 
   # The metro code is a no-longer-maintained code for targeting
   # advertisements in Google.
   #
-  # @deprecated Code values are no longer maintained.
   # @return [Integer, nil]
+  # @deprecated Code values are no longer maintained.
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/location.rb#54
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/location.rb:54
   def metro_code; end
 
   # The estimated population per square kilometer associated with the IP
@@ -1100,7 +1230,7 @@ class MaxMind::GeoIP2::Record::Location < ::MaxMind::GeoIP2::Record::Abstract
   #
   # @return [Integer, nil]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/location.rb#62
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/location.rb:62
   def population_density; end
 
   # The time zone associated with location, as specified by the IANA Time
@@ -1109,7 +1239,7 @@ class MaxMind::GeoIP2::Record::Location < ::MaxMind::GeoIP2::Record::Abstract
   #
   # @return [String, nil]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/location.rb#71
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/location.rb:71
   def time_zone; end
 end
 
@@ -1117,30 +1247,30 @@ end
 #
 # This record is returned by all location services.
 #
-# source://maxmind-geoip2//lib/maxmind/geoip2/record/maxmind.rb#11
+# pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/maxmind.rb:11
 class MaxMind::GeoIP2::Record::MaxMind < ::MaxMind::GeoIP2::Record::Abstract
   # The number of remaining queries you have for the service you are calling.
   #
   # @return [Integer, nil]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/maxmind.rb#15
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/maxmind.rb:15
   def queries_remaining; end
 end
 
 # Location data common to different location types.
 #
-# source://maxmind-geoip2//lib/maxmind/geoip2/record/place.rb#9
+# pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/place.rb:9
 class MaxMind::GeoIP2::Record::Place < ::MaxMind::GeoIP2::Record::Abstract
-  # @return [Place] a new instance of Place
+  # @!visibility private
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/place.rb#11
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/place.rb:11
   def initialize(record, locales); end
 
   # The first available localized name in order of preference.
   #
   # @return [String, nil]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/place.rb#19
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/place.rb:19
   def name; end
 end
 
@@ -1149,7 +1279,7 @@ end
 # This record is returned by all location services and databases besides
 # Country.
 #
-# source://maxmind-geoip2//lib/maxmind/geoip2/record/postal.rb#12
+# pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/postal.rb:12
 class MaxMind::GeoIP2::Record::Postal < ::MaxMind::GeoIP2::Record::Abstract
   # The postal code of the location. Postal codes are not available for all
   # countries. In some countries, this will only contain part of the postal
@@ -1158,7 +1288,7 @@ class MaxMind::GeoIP2::Record::Postal < ::MaxMind::GeoIP2::Record::Abstract
   #
   # @return [String, nil]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/postal.rb#19
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/postal.rb:19
   def code; end
 
   # A value from 0-100 indicating MaxMind's confidence that the postal code
@@ -1167,7 +1297,7 @@ class MaxMind::GeoIP2::Record::Postal < ::MaxMind::GeoIP2::Record::Abstract
   #
   # @return [Integer, nil]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/postal.rb#28
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/postal.rb:28
   def confidence; end
 end
 
@@ -1179,7 +1309,7 @@ end
 #
 # See {MaxMind::GeoIP2::Record::Country} for inherited methods.
 #
-# source://maxmind-geoip2//lib/maxmind/geoip2/record/represented_country.rb#15
+# pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/represented_country.rb:15
 class MaxMind::GeoIP2::Record::RepresentedCountry < ::MaxMind::GeoIP2::Record::Country
   # A string indicating the type of entity that is representing the country.
   # Currently we only return +military+ but this could expand to include
@@ -1187,7 +1317,7 @@ class MaxMind::GeoIP2::Record::RepresentedCountry < ::MaxMind::GeoIP2::Record::C
   #
   # @return [String, nil]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/represented_country.rb#21
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/represented_country.rb:21
   def type; end
 end
 
@@ -1198,7 +1328,7 @@ end
 #
 # See {MaxMind::GeoIP2::Record::Place} for inherited methods.
 #
-# source://maxmind-geoip2//lib/maxmind/geoip2/record/subdivision.rb#14
+# pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/subdivision.rb:14
 class MaxMind::GeoIP2::Record::Subdivision < ::MaxMind::GeoIP2::Record::Place
   # This is a value from 0-100 indicating MaxMind's confidence that the
   # subdivision is correct. This attribute is only available from the
@@ -1206,7 +1336,7 @@ class MaxMind::GeoIP2::Record::Subdivision < ::MaxMind::GeoIP2::Record::Place
   #
   # @return [Integer, nil]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/subdivision.rb#20
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/subdivision.rb:20
   def confidence; end
 
   # This is a GeoName ID for the subdivision. This attribute is returned by
@@ -1214,7 +1344,7 @@ class MaxMind::GeoIP2::Record::Subdivision < ::MaxMind::GeoIP2::Record::Place
   #
   # @return [Integer, nil]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/subdivision.rb#28
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/subdivision.rb:28
   def geoname_id; end
 
   # This is a string up to three characters long contain the subdivision
@@ -1224,7 +1354,7 @@ class MaxMind::GeoIP2::Record::Subdivision < ::MaxMind::GeoIP2::Record::Place
   #
   # @return [String, nil]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/subdivision.rb#38
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/subdivision.rb:38
   def iso_code; end
 
   # A Hash where the keys are locale codes and the values are names. This attribute is returned by all location services and
@@ -1232,7 +1362,7 @@ class MaxMind::GeoIP2::Record::Subdivision < ::MaxMind::GeoIP2::Record::Place
   #
   # @return [Hash<String, String>, nil]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/subdivision.rb#46
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/subdivision.rb:46
   def names; end
 end
 
@@ -1240,11 +1370,11 @@ end
 #
 # This record is returned by all location services and databases.
 #
-# source://maxmind-geoip2//lib/maxmind/geoip2/record/traits.rb#12
+# pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/traits.rb:12
 class MaxMind::GeoIP2::Record::Traits < ::MaxMind::GeoIP2::Record::Abstract
-  # @return [Traits] a new instance of Traits
+  # @!visibility private
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/traits.rb#14
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/traits.rb:14
   def initialize(record); end
 
   # This is true if the IP address belongs to any sort of anonymous network.
@@ -1253,10 +1383,10 @@ class MaxMind::GeoIP2::Record::Traits < ::MaxMind::GeoIP2::Record::Abstract
   # This method is deprecated as of version 1.4.0. Use the anonymizer object
   # from the Insights response instead.
   #
-  # @deprecated since 1.4.0
   # @return [Boolean]
+  # @deprecated since 1.4.0
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/traits.rb#84
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/traits.rb:84
   def anonymous?; end
 
   # This is true if the IP address is registered to an anonymous VPN
@@ -1267,10 +1397,10 @@ class MaxMind::GeoIP2::Record::Traits < ::MaxMind::GeoIP2::Record::Abstract
   # This method is deprecated as of version 1.4.0. Use the anonymizer object
   # from the Insights response instead.
   #
-  # @deprecated since 1.4.0
   # @return [Boolean]
+  # @deprecated since 1.4.0
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/traits.rb#98
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/traits.rb:98
   def anonymous_vpn?; end
 
   # This is true if the IP address belongs to an
@@ -1282,7 +1412,7 @@ class MaxMind::GeoIP2::Record::Traits < ::MaxMind::GeoIP2::Record::Abstract
   #
   # @return [Boolean]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/traits.rb#110
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/traits.rb:110
   def anycast?; end
 
   # The autonomous system number associated with the IP address. See
@@ -1292,7 +1422,7 @@ class MaxMind::GeoIP2::Record::Traits < ::MaxMind::GeoIP2::Record::Abstract
   #
   # @return [Integer, nil]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/traits.rb#29
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/traits.rb:29
   def autonomous_system_number; end
 
   # The organization associated with the registered autonomous system number
@@ -1303,7 +1433,7 @@ class MaxMind::GeoIP2::Record::Traits < ::MaxMind::GeoIP2::Record::Abstract
   #
   # @return [String, nil]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/traits.rb#40
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/traits.rb:40
   def autonomous_system_organization; end
 
   # The connection type may take the following  values: "Dialup",
@@ -1314,7 +1444,7 @@ class MaxMind::GeoIP2::Record::Traits < ::MaxMind::GeoIP2::Record::Abstract
   #
   # @return [String, nil]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/traits.rb#51
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/traits.rb:51
   def connection_type; end
 
   # The second level domain associated with the IP address. This will be
@@ -1324,7 +1454,7 @@ class MaxMind::GeoIP2::Record::Traits < ::MaxMind::GeoIP2::Record::Abstract
   #
   # @return [String, nil]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/traits.rb#61
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/traits.rb:61
   def domain; end
 
   # This is true if the IP address belongs to a hosting or VPN provider (see
@@ -1334,10 +1464,10 @@ class MaxMind::GeoIP2::Record::Traits < ::MaxMind::GeoIP2::Record::Abstract
   # This method is deprecated as of version 1.4.0. Use the anonymizer object
   # from the Insights response instead.
   #
-  # @deprecated since 1.4.0
   # @return [Boolean]
+  # @deprecated since 1.4.0
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/traits.rb#123
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/traits.rb:123
   def hosting_provider?; end
 
   # The IP address that the data in the model is for. If you performed a "me"
@@ -1348,7 +1478,7 @@ class MaxMind::GeoIP2::Record::Traits < ::MaxMind::GeoIP2::Record::Abstract
   #
   # @return [String, nil]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/traits.rb#72
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/traits.rb:72
   def ip_address; end
 
   # This field contains the risk associated with the IP address. The value
@@ -1369,7 +1499,7 @@ class MaxMind::GeoIP2::Record::Traits < ::MaxMind::GeoIP2::Record::Abstract
   #
   # @return [Float, nil]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/traits.rb#256
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/traits.rb:256
   def ip_risk_snapshot; end
 
   # The name of the ISP associated with the IP address. This attribute is
@@ -1378,7 +1508,7 @@ class MaxMind::GeoIP2::Record::Traits < ::MaxMind::GeoIP2::Record::Abstract
   #
   # @return [String, nil]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/traits.rb#200
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/traits.rb:200
   def isp; end
 
   # This attribute is true if MaxMind believes this IP address to be a
@@ -1387,7 +1517,7 @@ class MaxMind::GeoIP2::Record::Traits < ::MaxMind::GeoIP2::Record::Abstract
   #
   # @return [Boolean]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/traits.rb#132
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/traits.rb:132
   def legitimate_proxy?; end
 
   # The {https://en.wikipedia.org/wiki/Mobile_country_code mobile country
@@ -1398,7 +1528,7 @@ class MaxMind::GeoIP2::Record::Traits < ::MaxMind::GeoIP2::Record::Abstract
   #
   # @return [String, nil]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/traits.rb#143
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/traits.rb:143
   def mobile_country_code; end
 
   # The {https://en.wikipedia.org/wiki/Mobile_country_code mobile network
@@ -1409,7 +1539,7 @@ class MaxMind::GeoIP2::Record::Traits < ::MaxMind::GeoIP2::Record::Abstract
   #
   # @return [String, nil]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/traits.rb#154
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/traits.rb:154
   def mobile_network_code; end
 
   # The network in CIDR notation associated with the record. In particular,
@@ -1418,7 +1548,7 @@ class MaxMind::GeoIP2::Record::Traits < ::MaxMind::GeoIP2::Record::Abstract
   #
   # @return [String, nil]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/traits.rb#209
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/traits.rb:209
   def network; end
 
   # The name of the organization associated with the IP address. This
@@ -1427,7 +1557,7 @@ class MaxMind::GeoIP2::Record::Traits < ::MaxMind::GeoIP2::Record::Abstract
   #
   # @return [String, nil]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/traits.rb#218
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/traits.rb:218
   def organization; end
 
   # This is true if the IP address belongs to a public proxy. This property
@@ -1436,10 +1566,10 @@ class MaxMind::GeoIP2::Record::Traits < ::MaxMind::GeoIP2::Record::Abstract
   # This method is deprecated as of version 1.4.0. Use the anonymizer object
   # from the Insights response instead.
   #
-  # @deprecated since 1.4.0
   # @return [Boolean]
+  # @deprecated since 1.4.0
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/traits.rb#166
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/traits.rb:166
   def public_proxy?; end
 
   # This is true if the IP address is on a suspected anonymizing network
@@ -1449,10 +1579,10 @@ class MaxMind::GeoIP2::Record::Traits < ::MaxMind::GeoIP2::Record::Abstract
   # This method is deprecated as of version 1.4.0. Use the anonymizer object
   # from the Insights response instead.
   #
-  # @deprecated since 1.4.0
   # @return [Boolean]
+  # @deprecated since 1.4.0
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/traits.rb#179
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/traits.rb:179
   def residential_proxy?; end
 
   # An indicator of how static or dynamic an IP address is. This property is
@@ -1460,7 +1590,7 @@ class MaxMind::GeoIP2::Record::Traits < ::MaxMind::GeoIP2::Record::Abstract
   #
   # @return [Float, nil]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/traits.rb#226
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/traits.rb:226
   def static_ip_score; end
 
   # This is true if the IP address is a Tor exit node. This property is only
@@ -1469,10 +1599,10 @@ class MaxMind::GeoIP2::Record::Traits < ::MaxMind::GeoIP2::Record::Abstract
   # This method is deprecated as of version 1.4.0. Use the anonymizer object
   # from the Insights response instead.
   #
-  # @deprecated since 1.4.0
   # @return [Boolean]
+  # @deprecated since 1.4.0
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/traits.rb#191
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/traits.rb:191
   def tor_exit_node?; end
 
   # The estimated number of users sharing the IP/network during the past 24
@@ -1481,7 +1611,7 @@ class MaxMind::GeoIP2::Record::Traits < ::MaxMind::GeoIP2::Record::Abstract
   #
   # @return [Integer, nil]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/traits.rb#235
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/traits.rb:235
   def user_count; end
 
   # The user type associated with the IP address. This can be one of the
@@ -1509,11 +1639,11 @@ class MaxMind::GeoIP2::Record::Traits < ::MaxMind::GeoIP2::Record::Abstract
   #
   # @return [String, nil]
   #
-  # source://maxmind-geoip2//lib/maxmind/geoip2/record/traits.rb#284
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/record/traits.rb:284
   def user_type; end
 end
 
 # The Gem version.
 #
-# source://maxmind-geoip2//lib/maxmind/geoip2/version.rb#6
+# pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/version.rb:6
 MaxMind::GeoIP2::VERSION = T.let(T.unsafe(nil), String)

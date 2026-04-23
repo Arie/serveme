@@ -11,35 +11,44 @@
 #
 # The OpenTelemetry module provides global accessors for telemetry objects.
 # See the documentation for the `opentelemetry-api` gem for details.
+# Copyright The OpenTelemetry Authors
 #
-# source://opentelemetry-instrumentation-active_support//lib/opentelemetry/instrumentation.rb#13
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+# pkg:gem/opentelemetry-instrumentation-active_support#lib/opentelemetry/instrumentation.rb:13
 module OpenTelemetry; end
 
 # Instrumentation should be able to handle the case when the library is not installed on a user's system.
 #
-# source://opentelemetry-instrumentation-active_support//lib/opentelemetry/instrumentation.rb#15
+# pkg:gem/opentelemetry-instrumentation-active_support#lib/opentelemetry/instrumentation.rb:15
 module OpenTelemetry::Instrumentation; end
 
 # Contains the OpenTelemetry instrumentation for the ActiveSupport gem
 #
-# source://opentelemetry-instrumentation-active_support//lib/opentelemetry/instrumentation/active_support.rb#13
+# pkg:gem/opentelemetry-instrumentation-active_support#lib/opentelemetry/instrumentation/active_support.rb:13
 module OpenTelemetry::Instrumentation::ActiveSupport; end
 
 # The Instrumentation class contains logic to detect and install the ActiveSupport instrumentation
 #
-# source://opentelemetry-instrumentation-active_support//lib/opentelemetry/instrumentation/active_support/instrumentation.rb#11
+# pkg:gem/opentelemetry-instrumentation-active_support#lib/opentelemetry/instrumentation/active_support/instrumentation.rb:11
 class OpenTelemetry::Instrumentation::ActiveSupport::Instrumentation < ::OpenTelemetry::Instrumentation::Base
   private
 
-  # source://opentelemetry-instrumentation-active_support//lib/opentelemetry/instrumentation/active_support/instrumentation.rb#28
+  # pkg:gem/opentelemetry-instrumentation-active_support#lib/opentelemetry/instrumentation/active_support/instrumentation.rb:28
   def gem_version; end
 
-  # source://opentelemetry-instrumentation-active_support//lib/opentelemetry/instrumentation/active_support/instrumentation.rb#32
+  # pkg:gem/opentelemetry-instrumentation-active_support#lib/opentelemetry/instrumentation/active_support/instrumentation.rb:32
   def require_dependencies; end
 end
 
-# source://opentelemetry-instrumentation-active_support//lib/opentelemetry/instrumentation/active_support/instrumentation.rb#12
+# pkg:gem/opentelemetry-instrumentation-active_support#lib/opentelemetry/instrumentation/active_support/instrumentation.rb:12
 OpenTelemetry::Instrumentation::ActiveSupport::Instrumentation::MINIMUM_VERSION = T.let(T.unsafe(nil), Gem::Version)
 
-# source://opentelemetry-instrumentation-active_support//lib/opentelemetry/instrumentation/active_support/version.rb#10
+# pkg:gem/opentelemetry-instrumentation-active_support#lib/opentelemetry/instrumentation/active_support/version.rb:10
 OpenTelemetry::Instrumentation::ActiveSupport::VERSION = T.let(T.unsafe(nil), String)

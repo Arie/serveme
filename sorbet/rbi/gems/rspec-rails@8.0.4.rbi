@@ -6,129 +6,110 @@
 
 
 # Namespace for all core RSpec projects.
+# The following code inspired and modified from Rails' `assert_response`:
 #
-# source://rspec-rails//lib/rspec/rails/feature_check.rb#1
+#   https://github.com/rails/rails/blob/main/actionpack/lib/action_dispatch/testing/assertions/response.rb#L22-L38
+#
+# Thank you to all the Rails devs who did the heavy lifting on this!
+#
+# pkg:gem/rspec-rails#lib/rspec/rails/feature_check.rb:1
 module RSpec; end
 
 # Namespace for rspec-rails code.
 #
-# source://rspec-rails//lib/rspec/rails/feature_check.rb#2
+# pkg:gem/rspec-rails#lib/rspec/rails/feature_check.rb:2
 module RSpec::Rails; end
 
 # @private
 #
-# source://rspec-rails//lib/rspec/rails/feature_check.rb#4
+# pkg:gem/rspec-rails#lib/rspec/rails/feature_check.rb:4
 module RSpec::Rails::FeatureCheck
   private
 
-  # source://rspec-rails//lib/rspec/rails/feature_check.rb#26
+  # pkg:gem/rspec-rails#lib/rspec/rails/feature_check.rb:26
   def has_action_cable_testing?; end
 
-  # source://rspec-rails//lib/rspec/rails/feature_check.rb#42
+  # pkg:gem/rspec-rails#lib/rspec/rails/feature_check.rb:42
   def has_action_mailbox?; end
 
-  # source://rspec-rails//lib/rspec/rails/feature_check.rb#18
+  # pkg:gem/rspec-rails#lib/rspec/rails/feature_check.rb:18
   def has_action_mailer?; end
 
-  # source://rspec-rails//lib/rspec/rails/feature_check.rb#38
+  # pkg:gem/rspec-rails#lib/rspec/rails/feature_check.rb:38
   def has_action_mailer_legacy_delivery_job?; end
 
-  # source://rspec-rails//lib/rspec/rails/feature_check.rb#30
+  # pkg:gem/rspec-rails#lib/rspec/rails/feature_check.rb:30
   def has_action_mailer_parameterized?; end
 
-  # source://rspec-rails//lib/rspec/rails/feature_check.rb#22
+  # pkg:gem/rspec-rails#lib/rspec/rails/feature_check.rb:22
   def has_action_mailer_preview?; end
 
-  # source://rspec-rails//lib/rspec/rails/feature_check.rb#34
+  # pkg:gem/rspec-rails#lib/rspec/rails/feature_check.rb:34
   def has_action_mailer_unified_delivery?; end
 
-  # source://rspec-rails//lib/rspec/rails/feature_check.rb#6
+  # pkg:gem/rspec-rails#lib/rspec/rails/feature_check.rb:6
   def has_active_job?; end
 
-  # source://rspec-rails//lib/rspec/rails/feature_check.rb#10
+  # pkg:gem/rspec-rails#lib/rspec/rails/feature_check.rb:10
   def has_active_record?; end
 
-  # source://rspec-rails//lib/rspec/rails/feature_check.rb#14
+  # pkg:gem/rspec-rails#lib/rspec/rails/feature_check.rb:14
   def has_active_record_migration?; end
 
-  # source://rspec-rails//lib/rspec/rails/feature_check.rb#46
+  # pkg:gem/rspec-rails#lib/rspec/rails/feature_check.rb:46
   def type_metatag(type); end
 
   class << self
-    # @return [Boolean]
-    #
-    # source://rspec-rails//lib/rspec/rails/feature_check.rb#26
+    # pkg:gem/rspec-rails#lib/rspec/rails/feature_check.rb:26
     def has_action_cable_testing?; end
 
-    # @return [Boolean]
-    #
-    # source://rspec-rails//lib/rspec/rails/feature_check.rb#42
+    # pkg:gem/rspec-rails#lib/rspec/rails/feature_check.rb:42
     def has_action_mailbox?; end
 
-    # @return [Boolean]
-    #
-    # source://rspec-rails//lib/rspec/rails/feature_check.rb#18
+    # pkg:gem/rspec-rails#lib/rspec/rails/feature_check.rb:18
     def has_action_mailer?; end
 
-    # @return [Boolean]
-    #
-    # source://rspec-rails//lib/rspec/rails/feature_check.rb#38
+    # pkg:gem/rspec-rails#lib/rspec/rails/feature_check.rb:38
     def has_action_mailer_legacy_delivery_job?; end
 
-    # @return [Boolean]
-    #
-    # source://rspec-rails//lib/rspec/rails/feature_check.rb#30
+    # pkg:gem/rspec-rails#lib/rspec/rails/feature_check.rb:30
     def has_action_mailer_parameterized?; end
 
-    # @return [Boolean]
-    #
-    # source://rspec-rails//lib/rspec/rails/feature_check.rb#22
+    # pkg:gem/rspec-rails#lib/rspec/rails/feature_check.rb:22
     def has_action_mailer_preview?; end
 
-    # @return [Boolean]
-    #
-    # source://rspec-rails//lib/rspec/rails/feature_check.rb#34
+    # pkg:gem/rspec-rails#lib/rspec/rails/feature_check.rb:34
     def has_action_mailer_unified_delivery?; end
 
-    # @return [Boolean]
-    #
-    # source://rspec-rails//lib/rspec/rails/feature_check.rb#6
+    # pkg:gem/rspec-rails#lib/rspec/rails/feature_check.rb:6
     def has_active_job?; end
 
-    # @return [Boolean]
-    #
-    # source://rspec-rails//lib/rspec/rails/feature_check.rb#10
+    # pkg:gem/rspec-rails#lib/rspec/rails/feature_check.rb:10
     def has_active_record?; end
 
-    # @return [Boolean]
-    #
-    # source://rspec-rails//lib/rspec/rails/feature_check.rb#14
+    # pkg:gem/rspec-rails#lib/rspec/rails/feature_check.rb:14
     def has_active_record_migration?; end
 
-    # source://rspec-rails//lib/rspec/rails/feature_check.rb#46
+    # pkg:gem/rspec-rails#lib/rspec/rails/feature_check.rb:46
     def type_metatag(type); end
   end
 end
 
 # Railtie to hook into Rails.
 #
-# source://rspec-rails//lib/rspec-rails.rb#8
+# pkg:gem/rspec-rails#lib/rspec-rails.rb:8
 class RSpec::Rails::Railtie < ::Rails::Railtie
   private
 
-  # source://rspec-rails//lib/rspec-rails.rb#69
+  # pkg:gem/rspec-rails#lib/rspec-rails.rb:69
   def config_default_preview_path(options); end
 
-  # @return [Boolean]
-  #
-  # source://rspec-rails//lib/rspec-rails.rb#59
+  # pkg:gem/rspec-rails#lib/rspec-rails.rb:59
   def config_preview_path?(options); end
 
-  # source://rspec-rails//lib/rspec-rails.rb#52
+  # pkg:gem/rspec-rails#lib/rspec-rails.rb:52
   def setup_preview_path(app); end
 
-  # @return [Boolean]
-  #
-  # source://rspec-rails//lib/rspec-rails.rb#75
+  # pkg:gem/rspec-rails#lib/rspec-rails.rb:75
   def supports_action_mailer_previews?(config); end
 end

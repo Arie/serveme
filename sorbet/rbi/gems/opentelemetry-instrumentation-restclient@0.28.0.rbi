@@ -11,8 +11,23 @@
 #
 # The OpenTelemetry module provides global accessors for telemetry objects.
 # See the documentation for the `opentelemetry-api` gem for details.
+# Copyright The OpenTelemetry Authors
 #
-# source://opentelemetry-instrumentation-restclient//lib/opentelemetry/instrumentation.rb#13
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+# pkg:gem/opentelemetry-instrumentation-restclient#lib/opentelemetry/instrumentation.rb:13
 module OpenTelemetry; end
 
 # "Instrumentation" are specified by
@@ -20,45 +35,45 @@ module OpenTelemetry; end
 #
 # Instrumentation should be able to handle the case when the library is not installed on a user's system.
 #
-# source://opentelemetry-instrumentation-restclient//lib/opentelemetry/instrumentation.rb#18
+# pkg:gem/opentelemetry-instrumentation-restclient#lib/opentelemetry/instrumentation.rb:18
 module OpenTelemetry::Instrumentation; end
 
 # Contains the OpenTelemetry instrumentation for the RestClient gem
 #
-# source://opentelemetry-instrumentation-restclient//lib/opentelemetry/instrumentation/restclient.rb#13
+# pkg:gem/opentelemetry-instrumentation-restclient#lib/opentelemetry/instrumentation/restclient.rb:13
 module OpenTelemetry::Instrumentation::RestClient; end
 
 # The Instrumentation class contains logic to detect and install the RestClient
 # instrumentation
 #
-# source://opentelemetry-instrumentation-restclient//lib/opentelemetry/instrumentation/restclient/instrumentation.rb#12
+# pkg:gem/opentelemetry-instrumentation-restclient#lib/opentelemetry/instrumentation/restclient/instrumentation.rb:12
 class OpenTelemetry::Instrumentation::RestClient::Instrumentation < ::OpenTelemetry::Instrumentation::Base
   private
 
-  # source://opentelemetry-instrumentation-restclient//lib/opentelemetry/instrumentation/restclient/instrumentation.rb#27
+  # pkg:gem/opentelemetry-instrumentation-restclient#lib/opentelemetry/instrumentation/restclient/instrumentation.rb:27
   def determine_semconv; end
 
-  # source://opentelemetry-instrumentation-restclient//lib/opentelemetry/instrumentation/restclient/instrumentation.rb#42
+  # pkg:gem/opentelemetry-instrumentation-restclient#lib/opentelemetry/instrumentation/restclient/instrumentation.rb:42
   def emit_old_semconv_deprecation_warning(option); end
 
-  # source://opentelemetry-instrumentation-restclient//lib/opentelemetry/instrumentation/restclient/instrumentation.rb#58
+  # pkg:gem/opentelemetry-instrumentation-restclient#lib/opentelemetry/instrumentation/restclient/instrumentation.rb:58
   def patch_request_dup; end
 
-  # source://opentelemetry-instrumentation-restclient//lib/opentelemetry/instrumentation/restclient/instrumentation.rb#66
+  # pkg:gem/opentelemetry-instrumentation-restclient#lib/opentelemetry/instrumentation/restclient/instrumentation.rb:66
   def patch_request_old; end
 
-  # source://opentelemetry-instrumentation-restclient//lib/opentelemetry/instrumentation/restclient/instrumentation.rb#62
+  # pkg:gem/opentelemetry-instrumentation-restclient#lib/opentelemetry/instrumentation/restclient/instrumentation.rb:62
   def patch_request_stable; end
 
-  # source://opentelemetry-instrumentation-restclient//lib/opentelemetry/instrumentation/restclient/instrumentation.rb#46
+  # pkg:gem/opentelemetry-instrumentation-restclient#lib/opentelemetry/instrumentation/restclient/instrumentation.rb:46
   def require_dependencies_dup; end
 
-  # source://opentelemetry-instrumentation-restclient//lib/opentelemetry/instrumentation/restclient/instrumentation.rb#54
+  # pkg:gem/opentelemetry-instrumentation-restclient#lib/opentelemetry/instrumentation/restclient/instrumentation.rb:54
   def require_dependencies_old; end
 
-  # source://opentelemetry-instrumentation-restclient//lib/opentelemetry/instrumentation/restclient/instrumentation.rb#50
+  # pkg:gem/opentelemetry-instrumentation-restclient#lib/opentelemetry/instrumentation/restclient/instrumentation.rb:50
   def require_dependencies_stable; end
 end
 
-# source://opentelemetry-instrumentation-restclient//lib/opentelemetry/instrumentation/restclient/version.rb#10
+# pkg:gem/opentelemetry-instrumentation-restclient#lib/opentelemetry/instrumentation/restclient/version.rb:10
 OpenTelemetry::Instrumentation::RestClient::VERSION = T.let(T.unsafe(nil), String)

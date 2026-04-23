@@ -11,17 +11,61 @@ class Object < ::BasicObject
 
   private
 
-  # source://sexp_processor//lib/sexp.rb#391
+  # This is a very important shortcut to make using Sexps much more awesome.
+  #
+  # In its normal form +s(...)+, creates a Sexp instance. If passed a
+  # block, it creates a Sexp::Matcher using the factory methods on Sexp.
+  #
+  # See Matcher and other factory class methods on Sexp.
+  #
+  # pkg:gem/sexp_processor#lib/sexp.rb:391
   def s(*args, &blk); end
 end
 
-# source://sexp_processor//lib/sexp.rb#9
+# Sexps are the basic storage mechanism of SexpProcessor.  Sexps have
+# a +type+ (to be renamed +node_type+) which is the first element of
+# the Sexp. The type is used by SexpProcessor to determine whom to
+# dispatch the Sexp to for processing.
+#
+# I'm starting to warm up to this idea!
+# ENV["STRICT_SEXP"] turns on various levels of conformance checking
+#
+# 1 = sexp[0]         => sexp_type
+# 1 = sexp.first      => sexp_type
+# 1 = sexp[0] = x     => sexp_type = x
+# 1 = sexp[1..-1]     => sexp_body
+# 1 = sexp[1..-1] = x => sexp_body = x
+# 1 = sexp[-1]        => last
+# 2 = sexp[1]         => no
+# 2 = sexp[1] = x     => no
+# 3 = sexp[n]         => no
+# 3 = sexp[n] = x     => no
+# 3 = sexp.node_name  => no (ie, method_missing)
+# 4 = sexp.replace x  => no
+# 4 = sexp.concat x   => no
+# 4 = sexp.collect!   => no
+# 4 = sexp.compact!   => no
+# 4 = sexp.flatten!   => no
+# 4 = sexp.map!       => no
+# 4 = sexp.reject!    => no
+# 4 = sexp.reverse!   => no
+# 4 = sexp.rotate!    => no
+# 4 = sexp.select!    => no
+# 4 = sexp.shuffle!   => no
+# 4 = sexp.slice!     => no
+# 4 = sexp.sort!      => no
+# 4 = sexp.sort_by!   => no
+# 4 = sexp.uniq!      => no
+# 4 = sexp.unshift    => no
+# 4 = sexp.push       => no
+# 4 = sexp.pop        => no
+# 4 = sexp <<         => no
+#
+# pkg:gem/sexp_processor#lib/sexp.rb:9
 class Sexp < ::Array
   # Create a new Sexp containing +args+.
   #
-  # @return [Sexp] a new instance of Sexp
-  #
-  # source://sexp_processor//lib/sexp.rb#35
+  # pkg:gem/sexp_processor#lib/sexp.rb:35
   def initialize(*args); end
 
   # Verifies that +pattern+ is a Matcher and then dispatches to its #/
@@ -29,12 +73,10 @@ class Sexp < ::Array
   #
   # TODO: rename grep? match_all ? find_all ?
   #
-  # @raise [ArgumentError]
-  #
-  # source://sexp_processor//lib/sexp_matcher.rb#30
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:30
   def /(pattern); end
 
-  # source://sexp_processor//lib/sexp.rb#76
+  # pkg:gem/sexp_processor#lib/sexp.rb:76
   def ==(obj); end
 
   # Verifies that +pattern+ is a Matcher and then dispatches to its
@@ -42,34 +84,30 @@ class Sexp < ::Array
   #
   # See Matcher.=~
   #
-  # @raise [ArgumentError]
-  #
-  # source://sexp_processor//lib/sexp_matcher.rb#8
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:8
   def =~(pattern); end
 
-  # source://sexp_processor//lib/sexp.rb#39
+  # pkg:gem/sexp_processor#lib/sexp.rb:39
   def _concat(*_arg0); end
 
   # Returns true if the node_type is +array+ or +args+.
   #
   # REFACTOR: to TypedSexp - we only care when we have units.
   #
-  # @return [Boolean]
-  #
-  # source://sexp_processor//lib/sexp.rb#93
+  # pkg:gem/sexp_processor#lib/sexp.rb:93
   def array_type?; end
 
   # Optional comments above/aside this sexp. Usually set by ruby_parser.
   #
-  # source://sexp_processor//lib/sexp.rb#28
+  # pkg:gem/sexp_processor#lib/sexp.rb:28
   def comments; end
 
   # Optional comments above/aside this sexp. Usually set by ruby_parser.
   #
-  # source://sexp_processor//lib/sexp.rb#28
+  # pkg:gem/sexp_processor#lib/sexp.rb:28
   def comments=(_arg0); end
 
-  # source://sexp_processor//lib/sexp.rb#99
+  # pkg:gem/sexp_processor#lib/sexp.rb:99
   def compact; end
 
   # Recursively enumerates the sexp yielding to +block+ for every sub-Sexp.
@@ -81,130 +119,133 @@ class Sexp < ::Array
   #     # ...
   #   end
   #
-  # source://sexp_processor//lib/sexp.rb#113
+  # pkg:gem/sexp_processor#lib/sexp.rb:113
   def deep_each(&block); end
 
   # Return the maximum depth of the sexp. One-based.
   #
-  # source://sexp_processor//lib/sexp.rb#125
+  # pkg:gem/sexp_processor#lib/sexp.rb:125
   def depth; end
 
   # Enumeratates the sexp yielding to +b+ when the node_type == +t+.
   #
-  # source://sexp_processor//lib/sexp.rb#132
+  # pkg:gem/sexp_processor#lib/sexp.rb:132
   def each_of_type(t, &b); end
 
   # Enumerates all sub-sexps skipping non-Sexp elements.
   #
-  # source://sexp_processor//lib/sexp.rb#144
+  # pkg:gem/sexp_processor#lib/sexp.rb:144
   def each_sexp; end
 
-  # @return [Boolean]
-  #
-  # source://sexp_processor//lib/sexp.rb#80
+  # pkg:gem/sexp_processor#lib/sexp.rb:80
   def eql?(o); end
 
   # Accessors for the file. Usually set by ruby_parser.
   #
-  # source://sexp_processor//lib/sexp.rb#23
+  # pkg:gem/sexp_processor#lib/sexp.rb:23
   def file; end
 
   # Accessors for the file. Usually set by ruby_parser.
   #
-  # source://sexp_processor//lib/sexp.rb#23
+  # pkg:gem/sexp_processor#lib/sexp.rb:23
   def file=(_arg0); end
 
   # Replaces all elements whose node_type is +from+ with +to+. Used
   # only for the most trivial of rewrites.
   #
-  # source://sexp_processor//lib/sexp.rb#158
+  # pkg:gem/sexp_processor#lib/sexp.rb:158
   def find_and_replace_all(from, to); end
 
-  # source://sexp_processor//lib/sexp.rb#199
+  # pkg:gem/sexp_processor#lib/sexp.rb:199
   def find_node(name, delete = T.unsafe(nil)); end
 
   # Find every node with type +name+.
   #
-  # source://sexp_processor//lib/sexp.rb#217
+  # pkg:gem/sexp_processor#lib/sexp.rb:217
   def find_nodes(name); end
 
   # Replaces all Sexps matching +pattern+ with Sexp +repl+.
   #
-  # source://sexp_processor//lib/sexp.rb#171
+  # pkg:gem/sexp_processor#lib/sexp.rb:171
   def gsub(pattern, repl); end
 
-  # source://sexp_processor//lib/sexp.rb#84
+  # pkg:gem/sexp_processor#lib/sexp.rb:84
   def hash; end
 
-  # Returns the node type of the Sexp.
-  #
-  # source://sexp_processor//lib/sexp.rb#310
+  # pkg:gem/sexp_processor#lib/sexp.rb:310
   def head; end
 
-  # source://sexp_processor//lib/sexp.rb#190
+  # pkg:gem/sexp_processor#lib/sexp.rb:190
   def inspect; end
 
+  # ZenTest FULL
+  #
+  # A setter for the line this sexp was found on. Usually set by ruby_parser.
+  #
   # If passed a line number, sets the line and returns self. Otherwise
   # returns the line number. This allows you to do message cascades
   # and still get the sexp back.
   #
-  # source://sexp_processor//lib/sexp.rb#228
+  # pkg:gem/sexp_processor#lib/sexp.rb:228
   def line(n = T.unsafe(nil)); end
 
+  # ZenTest FULL
+  #
   # A setter for the line this sexp was found on. Usually set by ruby_parser.
   #
-  # source://sexp_processor//lib/sexp.rb#13
+  # If passed a line number, sets the line and returns self. Otherwise
+  # returns the line number. This allows you to do message cascades
+  # and still get the sexp back.
+  #
+  # pkg:gem/sexp_processor#lib/sexp.rb:13
   def line=(_arg0); end
 
   # Returns the maximum line number of the children of self.
   #
-  # source://sexp_processor//lib/sexp.rb#241
-  def line_max; end
-
   # Set the maximum line number for this sexp. Often set by ruby_parser.
   #
-  # source://sexp_processor//lib/sexp.rb#18
+  # pkg:gem/sexp_processor#lib/sexp.rb:241
+  def line_max; end
+
+  # Returns the maximum line number of the children of self.
+  #
+  # Set the maximum line number for this sexp. Often set by ruby_parser.
+  #
+  # pkg:gem/sexp_processor#lib/sexp.rb:18
   def line_max=(_arg0); end
 
-  # source://sexp_processor//lib/sexp.rb#72
+  # pkg:gem/sexp_processor#lib/sexp.rb:72
   def map(&blk); end
 
   # Returns the size of the sexp, flattened.
   #
-  # source://sexp_processor//lib/sexp.rb#248
+  # pkg:gem/sexp_processor#lib/sexp.rb:248
   def mass; end
 
   # Returns the node named +node+, deleting it if +delete+ is true.
   #
-  # source://sexp_processor//lib/sexp.rb#255
+  # pkg:gem/sexp_processor#lib/sexp.rb:255
   def method_missing(meth, delete = T.unsafe(nil)); end
 
   # Creates a new sexp with the new contents of +body+, but with the
   # same +file+, +line+, and +comment+ as self.
   #
-  # source://sexp_processor//lib/sexp.rb#63
+  # pkg:gem/sexp_processor#lib/sexp.rb:63
   def new(*body); end
 
-  # source://sexp_processor//lib/sexp.rb#272
+  # pkg:gem/sexp_processor#lib/sexp.rb:272
   def pretty_print(q); end
 
   # Recursively searches for the +pattern+ yielding each match, and
   # replacing it with the result of the block.
   #
-  # @raise [ArgumentError]
-  #
-  # source://sexp_processor//lib/sexp_matcher.rb#57
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:57
   def replace_sexp(pattern, &block); end
 
-  # @return [Boolean]
-  #
-  # source://sexp_processor//lib/sexp.rb#267
+  # pkg:gem/sexp_processor#lib/sexp.rb:267
   def respond_to?(msg, private = T.unsafe(nil)); end
 
-  # Returns the Sexp body (starting at +from+, defaulting to 1), ie
-  # the values without the node type.
-  #
-  # source://sexp_processor//lib/sexp.rb#311
+  # pkg:gem/sexp_processor#lib/sexp.rb:311
   def rest(from = T.unsafe(nil)); end
 
   # Verifies that +pattern+ is a Matcher and then dispatches to its
@@ -212,86 +253,73 @@ class Sexp < ::Array
   #
   # TODO: rename match?
   #
-  # @raise [ArgumentError]
-  # @return [Boolean]
-  #
-  # source://sexp_processor//lib/sexp_matcher.rb#19
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:19
   def satisfy?(pattern); end
 
   # Recursively searches for the +pattern+ yielding the matches.
   #
-  # @raise [ArgumentError]
-  #
-  # source://sexp_processor//lib/sexp_matcher.rb#38
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:38
   def search_each(pattern, &block); end
 
   # Returns the Sexp body (starting at +from+, defaulting to 1), ie
   # the values without the node type.
   #
-  # source://sexp_processor//lib/sexp.rb#299
+  # pkg:gem/sexp_processor#lib/sexp.rb:299
   def sexp_body(from = T.unsafe(nil)); end
 
   # Sets the Sexp body to new content.
   #
-  # source://sexp_processor//lib/sexp.rb#306
+  # pkg:gem/sexp_processor#lib/sexp.rb:306
   def sexp_body=(v); end
 
   # Returns the node type of the Sexp.
   #
-  # source://sexp_processor//lib/sexp.rb#284
+  # pkg:gem/sexp_processor#lib/sexp.rb:284
   def sexp_type; end
 
   # Sets the node type of the Sexp.
   #
-  # source://sexp_processor//lib/sexp.rb#291
+  # pkg:gem/sexp_processor#lib/sexp.rb:291
   def sexp_type=(v); end
 
   # Returns the bare bones structure of the sexp.
   # s(:a, :b, s(:c, :d), :e) => s(:a, s(:c))
   #
-  # source://sexp_processor//lib/sexp.rb#326
+  # pkg:gem/sexp_processor#lib/sexp.rb:326
   def structure; end
 
   # Replaces the Sexp matching +pattern+ with +repl+.
   #
-  # source://sexp_processor//lib/sexp.rb#338
+  # pkg:gem/sexp_processor#lib/sexp.rb:338
   def sub(pattern, repl); end
 
-  # source://sexp_processor//lib/sexp.rb#368
+  # pkg:gem/sexp_processor#lib/sexp.rb:368
   def to_a; end
 
-  # source://sexp_processor//lib/sexp.rb#372
+  # pkg:gem/sexp_processor#lib/sexp.rb:372
   def to_s; end
 
   # Return the value (last item) of a single element sexp (eg `s(:lit, 42)`).
   #
-  # source://sexp_processor//lib/sexp.rb#377
+  # pkg:gem/sexp_processor#lib/sexp.rb:377
   def value; end
 
   class << self
-    # Matches when sub-expression does not match.
-    #
-    # This is also available via Matcher#-@.
-    #
-    # See Not for examples.
-    #
-    # @return [Boolean]
-    #
-    # source://sexp_processor//lib/sexp_matcher.rb#160
+    # pkg:gem/sexp_processor#lib/sexp_matcher.rb:160
     def -(arg); end
 
     # Matches any single item.
     #
     # See Wild for examples.
     #
-    # source://sexp_processor//lib/sexp_matcher.rb#93
+    # pkg:gem/sexp_processor#lib/sexp_matcher.rb:93
     def _; end
 
     # Matches all remaining input.
     #
     # See Remaining for examples.
     #
-    # source://sexp_processor//lib/sexp_matcher.rb#104
+    # pkg:gem/sexp_processor#lib/sexp_matcher.rb:104
     def ___; end
 
     # Matches only when all sub-expressions match.
@@ -300,7 +328,7 @@ class Sexp < ::Array
     #
     # See All for examples.
     #
-    # source://sexp_processor//lib/sexp_matcher.rb#144
+    # pkg:gem/sexp_processor#lib/sexp_matcher.rb:144
     def all(*args); end
 
     # Matches when any of the sub-expressions match.
@@ -309,40 +337,40 @@ class Sexp < ::Array
     #
     # See Any for examples.
     #
-    # source://sexp_processor//lib/sexp_matcher.rb#133
+    # pkg:gem/sexp_processor#lib/sexp_matcher.rb:133
     def any(*args); end
 
     # Matches any atom.
     #
     # See Atom for examples.
     #
-    # source://sexp_processor//lib/sexp_matcher.rb#122
+    # pkg:gem/sexp_processor#lib/sexp_matcher.rb:122
     def atom; end
 
     # Matches anything that has a child matching the sub-expression.
     #
     # See Child for examples.
     #
-    # source://sexp_processor//lib/sexp_matcher.rb#170
+    # pkg:gem/sexp_processor#lib/sexp_matcher.rb:170
     def child(child); end
 
     # Creates a new Sexp from Array +a+.
     #
-    # source://sexp_processor//lib/sexp.rb#44
+    # pkg:gem/sexp_processor#lib/sexp.rb:44
     def from_array(a); end
 
     # Matches an expression or any expression that includes the child.
     #
     # See Include for examples.
     #
-    # source://sexp_processor//lib/sexp_matcher.rb#113
+    # pkg:gem/sexp_processor#lib/sexp_matcher.rb:113
     def include(child); end
 
     # Matches an atom of the specified +klass+ (or module).
     #
     # See Pattern for examples.
     #
-    # source://sexp_processor//lib/sexp_matcher.rb#208
+    # pkg:gem/sexp_processor#lib/sexp_matcher.rb:208
     def k(klass); end
 
     # Matches any atom who's string representation matches the patterns
@@ -350,7 +378,7 @@ class Sexp < ::Array
     #
     # See Pattern for examples.
     #
-    # source://sexp_processor//lib/sexp_matcher.rb#190
+    # pkg:gem/sexp_processor#lib/sexp_matcher.rb:190
     def m(*values); end
 
     # Matches when sub-expression does not match.
@@ -359,19 +387,17 @@ class Sexp < ::Array
     #
     # See Not for examples.
     #
-    # @return [Boolean]
-    #
-    # source://sexp_processor//lib/sexp_matcher.rb#155
+    # pkg:gem/sexp_processor#lib/sexp_matcher.rb:155
     def not?(arg); end
 
     # Matches an S-Expression.
     #
     # See Matcher for examples.
     #
-    # source://sexp_processor//lib/sexp_matcher.rb#78
+    # pkg:gem/sexp_processor#lib/sexp_matcher.rb:78
     def q(*args); end
 
-    # source://sexp_processor//lib/sexp_matcher.rb#82
+    # pkg:gem/sexp_processor#lib/sexp_matcher.rb:82
     def s(*args); end
 
     # Matches anything having the same sexp_type, which is the first
@@ -379,7 +405,7 @@ class Sexp < ::Array
     #
     # See Type for examples.
     #
-    # source://sexp_processor//lib/sexp_matcher.rb#180
+    # pkg:gem/sexp_processor#lib/sexp_matcher.rb:180
     def t(name); end
   end
 end
@@ -393,34 +419,30 @@ end
 #   s(:a)     / s{ all(s(:a), s(:b)) }    #=> []
 #   s(:a, :b) / s{ t(:a) & include(:b)) } #=> [s(:a, :b)]
 #
-# source://sexp_processor//lib/sexp_matcher.rb#647
+# pkg:gem/sexp_processor#lib/sexp_matcher.rb:647
 class Sexp::All < ::Sexp::Matcher
   # Create an All matcher which will match all of the +options+.
   #
-  # @return [All] a new instance of All
-  #
-  # source://sexp_processor//lib/sexp_matcher.rb#656
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:656
   def initialize(*options); end
 
-  # source://sexp_processor//lib/sexp_matcher.rb#669
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:669
   def ==(o); end
 
-  # source://sexp_processor//lib/sexp_matcher.rb#673
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:673
   def inspect; end
 
   # The collection of sub-matchers to match against.
   #
-  # source://sexp_processor//lib/sexp_matcher.rb#651
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:651
   def options; end
 
-  # source://sexp_processor//lib/sexp_matcher.rb#677
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:677
   def pretty_print(q); end
 
   # Satisfied when all sub expressions match +o+
   #
-  # @return [Boolean]
-  #
-  # source://sexp_processor//lib/sexp_matcher.rb#663
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:663
   def satisfy?(o); end
 end
 
@@ -434,34 +456,30 @@ end
 #   s(:a) / s{     s(:a) | s(:b) } #=> [s(:a)] # same thing via |
 #   s(:a) / s{ any(s(:b), s(:c)) } #=> []
 #
-# source://sexp_processor//lib/sexp_matcher.rb#598
+# pkg:gem/sexp_processor#lib/sexp_matcher.rb:598
 class Sexp::Any < ::Sexp::Matcher
   # Create an Any matcher which will match any of the +options+.
   #
-  # @return [Any] a new instance of Any
-  #
-  # source://sexp_processor//lib/sexp_matcher.rb#607
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:607
   def initialize(*options); end
 
-  # source://sexp_processor//lib/sexp_matcher.rb#620
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:620
   def ==(o); end
 
-  # source://sexp_processor//lib/sexp_matcher.rb#624
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:624
   def inspect; end
 
   # The collection of sub-matchers to match against.
   #
-  # source://sexp_processor//lib/sexp_matcher.rb#602
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:602
   def options; end
 
-  # source://sexp_processor//lib/sexp_matcher.rb#628
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:628
   def pretty_print(q); end
 
   # Satisfied when any sub expressions match +o+
   #
-  # @return [Boolean]
-  #
-  # source://sexp_processor//lib/sexp_matcher.rb#614
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:614
   def satisfy?(o); end
 end
 
@@ -472,19 +490,17 @@ end
 #   s(:a)        / s{ s(atom) } #=> [s(:a)]
 #   s(:a, s(:b)) / s{ s(atom) } #=> [s(:b)]
 #
-# source://sexp_processor//lib/sexp_matcher.rb#790
+# pkg:gem/sexp_processor#lib/sexp_matcher.rb:790
 class Sexp::Atom < ::Sexp::Matcher
-  # source://sexp_processor//lib/sexp_matcher.rb#798
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:798
   def inspect; end
 
-  # source://sexp_processor//lib/sexp_matcher.rb#802
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:802
   def pretty_print(q); end
 
   # Satisfied when +o+ is an atom.
   #
-  # @return [Boolean]
-  #
-  # source://sexp_processor//lib/sexp_matcher.rb#794
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:794
   def satisfy?(o); end
 end
 
@@ -498,36 +514,32 @@ end
 #                                              s(s(:a)),
 #                                              s(:a)]
 #
-# source://sexp_processor//lib/sexp_matcher.rb#744
+# pkg:gem/sexp_processor#lib/sexp_matcher.rb:744
 class Sexp::Child < ::Sexp::Matcher
   # Create a Child matcher which will match anything having a
   # descendant matching +child+.
   #
-  # @return [Child] a new instance of Child
-  #
-  # source://sexp_processor//lib/sexp_matcher.rb#754
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:754
   def initialize(child); end
 
-  # source://sexp_processor//lib/sexp_matcher.rb#767
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:767
   def ==(o); end
 
   # The child to match.
   #
-  # source://sexp_processor//lib/sexp_matcher.rb#748
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:748
   def child; end
 
-  # source://sexp_processor//lib/sexp_matcher.rb#771
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:771
   def inspect; end
 
-  # source://sexp_processor//lib/sexp_matcher.rb#775
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:775
   def pretty_print(q); end
 
   # Satisfied if matches +child+ or +o+ has a descendant matching
   # +child+.
   #
-  # @return [Boolean]
-  #
-  # source://sexp_processor//lib/sexp_matcher.rb#762
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:762
   def satisfy?(o); end
 end
 
@@ -538,36 +550,32 @@ end
 #   s(:a, :b)   / s{ include(:b) } #=> [s(:a, :b)]
 #   s(s(s(:a))) / s{ include(:a) } #=> [s(:a)]
 #
-# source://sexp_processor//lib/sexp_matcher.rb#938
+# pkg:gem/sexp_processor#lib/sexp_matcher.rb:938
 class Sexp::Include < ::Sexp::Matcher
   # Creates a Matcher which will match any Sexp that contains the
   # +value+.
   #
-  # @return [Include] a new instance of Include
-  #
-  # source://sexp_processor//lib/sexp_matcher.rb#948
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:948
   def initialize(value); end
 
-  # source://sexp_processor//lib/sexp_matcher.rb#963
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:963
   def ==(o); end
 
-  # source://sexp_processor//lib/sexp_matcher.rb#967
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:967
   def inspect; end
 
-  # source://sexp_processor//lib/sexp_matcher.rb#971
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:971
   def pretty_print(q); end
 
   # Satisfied if a +o+ is a Sexp and one of +o+'s elements matches
   # value
   #
-  # @return [Boolean]
-  #
-  # source://sexp_processor//lib/sexp_matcher.rb#956
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:956
   def satisfy?(o); end
 
   # The value that should be included in the match.
   #
-  # source://sexp_processor//lib/sexp_matcher.rb#942
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:942
   def value; end
 end
 
@@ -577,17 +585,15 @@ end
 #
 #   s(:lit, 6.28) / s{ q(:lit, k(Float)) }                   #=> [s(:lit, 6.28)]
 #
-# source://sexp_processor//lib/sexp_matcher.rb#871
+# pkg:gem/sexp_processor#lib/sexp_matcher.rb:871
 class Sexp::Klass < ::Sexp::Pattern
-  # source://sexp_processor//lib/sexp_matcher.rb#876
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:876
   def inspect; end
 
-  # source://sexp_processor//lib/sexp_matcher.rb#880
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:880
   def pretty_print(q); end
 
-  # @return [Boolean]
-  #
-  # source://sexp_processor//lib/sexp_matcher.rb#872
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:872
   def satisfy?(o); end
 end
 
@@ -597,20 +603,20 @@ end
 # For instance:
 #   res = s(:a, s(:b)) / s{ s(:a,_) } / s{ s(:b) }
 #
-# source://sexp_processor//lib/sexp_matcher.rb#1078
+# pkg:gem/sexp_processor#lib/sexp_matcher.rb:1078
 class Sexp::MatchCollection < ::Array
   # See Traverse#search
   #
-  # source://sexp_processor//lib/sexp_matcher.rb#1082
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:1082
   def /(pattern); end
 
-  # source://sexp_processor//lib/sexp_matcher.rb#1088
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:1088
   def inspect; end
 
-  # source://sexp_processor//lib/sexp_matcher.rb#1094
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:1094
   def pretty_print(q); end
 
-  # source://sexp_processor//lib/sexp_matcher.rb#1092
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:1092
   def to_s; end
 end
 
@@ -649,7 +655,7 @@ end
 #
 # If rdoc didn't suck, these would all be links.
 #
-# source://sexp_processor//lib/sexp_matcher.rb#248
+# pkg:gem/sexp_processor#lib/sexp_matcher.rb:248
 class Sexp::Matcher < ::Sexp
   # Combines the Matcher with another Matcher, the resulting one will
   # be satisfied only if both Matchers would be satisfied.
@@ -658,7 +664,7 @@ class Sexp::Matcher < ::Sexp
   # Example:
   #   t(:a) & include(:b)
   #
-  # source://sexp_processor//lib/sexp_matcher.rb#341
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:341
   def &(other); end
 
   # Returns a Matcher that matches whenever this Matcher would not have matched
@@ -666,7 +672,7 @@ class Sexp::Matcher < ::Sexp
   # Example:
   #   -s(:a)
   #
-  # source://sexp_processor//lib/sexp_matcher.rb#351
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:351
   def -@; end
 
   # Searches through +sexp+ for all sub-trees that match this
@@ -676,22 +682,10 @@ class Sexp::Matcher < ::Sexp
   # Example:
   #   Q{ s(:b) } / s(:a, s(:b)) => [s(:b)]
   #
-  # @raise [ArgumentError]
-  #
-  # source://sexp_processor//lib/sexp_matcher.rb#314
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:314
   def /(sexp); end
 
-  # Tree equivalent to String#=~, returns true if +self+ matches
-  # +sexp+ as a whole or in a sub-tree (if +match_subs?+).
-  #
-  # TODO: maybe this should NOT be aliased to === ?
-  #
-  # TODO: example
-  # TODO?: alias === satisfy?
-  #
-  # @raise [ArgumentError]
-  #
-  # source://sexp_processor//lib/sexp_matcher.rb#304
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:304
   def ===(sexp); end
 
   # Tree equivalent to String#=~, returns true if +self+ matches
@@ -701,9 +695,7 @@ class Sexp::Matcher < ::Sexp
   #
   # TODO: example
   #
-  # @raise [ArgumentError]
-  #
-  # source://sexp_processor//lib/sexp_matcher.rb#297
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:297
   def =~(sexp); end
 
   # Returns a Matcher that matches if this has a sibling +o+
@@ -711,20 +703,18 @@ class Sexp::Matcher < ::Sexp
   # Example:
   #   s(:a) >> s(:b)
   #
-  # source://sexp_processor//lib/sexp_matcher.rb#361
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:361
   def >>(other); end
 
   # Is this matcher greedy? Defaults to false.
   #
-  # @return [Boolean]
-  #
-  # source://sexp_processor//lib/sexp_matcher.rb#368
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:368
   def greedy?; end
 
-  # source://sexp_processor//lib/sexp_matcher.rb#372
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:372
   def inspect; end
 
-  # source://sexp_processor//lib/sexp_matcher.rb#378
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:378
   def pretty_print(q); end
 
   # Does this matcher actually match +o+? Returns falsey if +o+ is
@@ -735,9 +725,7 @@ class Sexp::Matcher < ::Sexp
   # TODO: push this up to Sexp and make this the workhorse
   # TODO: do the same with ===/satisfy?
   #
-  # @return [Boolean]
-  #
-  # source://sexp_processor//lib/sexp_matcher.rb#274
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:274
   def satisfy?(o); end
 
   # Combines the Matcher with another Matcher, the resulting one will
@@ -747,26 +735,24 @@ class Sexp::Matcher < ::Sexp
   # Example:
   #   s(:a) | s(:b)
   #
-  # source://sexp_processor//lib/sexp_matcher.rb#329
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:329
   def |(other); end
 
   class << self
     # Setter for +match_subs?+.
     #
-    # source://sexp_processor//lib/sexp_matcher.rb#259
+    # pkg:gem/sexp_processor#lib/sexp_matcher.rb:259
     def match_subs=(o); end
 
     # Should #=~ match sub-trees?
     #
-    # @return [Boolean]
-    #
-    # source://sexp_processor//lib/sexp_matcher.rb#252
+    # pkg:gem/sexp_processor#lib/sexp_matcher.rb:252
     def match_subs?; end
 
     # Parse a lispy string representation of a matcher into a Matcher.
     # See +Parser+.
     #
-    # source://sexp_processor//lib/sexp_matcher.rb#390
+    # pkg:gem/sexp_processor#lib/sexp_matcher.rb:390
     def parse(s); end
   end
 end
@@ -775,45 +761,39 @@ end
 #
 #   "(a 42 _ (c) [t x] ___)" => s{ s(:a, 42, _, s(:c), t(:x), ___) }
 #
-# source://sexp_processor//lib/sexp_matcher.rb#399
+# pkg:gem/sexp_processor#lib/sexp_matcher.rb:399
 class Sexp::Matcher::Parser
   # Create a new Parser instance on +s+
   #
-  # @return [Parser] a new instance of Parser
-  #
-  # source://sexp_processor//lib/sexp_matcher.rb#409
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:409
   def initialize(s); end
 
   # Converts +s+ into a stream of tokens and adds them to +tokens+.
   #
-  # source://sexp_processor//lib/sexp_matcher.rb#416
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:416
   def lex(s); end
 
   # Returns the next token and removes it from the stream or raises if empty.
   #
-  # @raise [SyntaxError]
-  #
-  # source://sexp_processor//lib/sexp_matcher.rb#423
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:423
   def next_token; end
 
   # Parses tokens and returns a +Matcher+ instance.
   #
-  # source://sexp_processor//lib/sexp_matcher.rb#438
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:438
   def parse; end
 
   # Parses a balanced command. A command is denoted by square
   # brackets and must conform to a whitelisted set of allowed
   # commands (see +ALLOWED+).
   #
-  # @raise [SyntaxError]
-  #
-  # source://sexp_processor//lib/sexp_matcher.rb#515
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:515
   def parse_cmd; end
 
   # Parses a balanced list of expressions and returns the
   # equivalent matcher.
   #
-  # source://sexp_processor//lib/sexp_matcher.rb#496
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:496
   def parse_list; end
 
   # Parses a string into a sexp matcher:
@@ -832,28 +812,28 @@ class Sexp::Matcher::Parser
   #   NAME : /:?[\w?!=~-]+/
   #    CMD : t | k | m | atom | not? | - | any | child | include
   #
-  # source://sexp_processor//lib/sexp_matcher.rb#460
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:460
   def parse_sexp; end
 
   # Returns the next token without removing it from the stream.
   #
-  # source://sexp_processor//lib/sexp_matcher.rb#431
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:431
   def peek_token; end
 
   # The stream of tokens to parse. See #lex.
   #
-  # source://sexp_processor//lib/sexp_matcher.rb#404
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:404
   def tokens; end
 
   # The stream of tokens to parse. See #lex.
   #
-  # source://sexp_processor//lib/sexp_matcher.rb#404
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:404
   def tokens=(_arg0); end
 end
 
 # A collection of allowed commands to convert into matchers.
 #
-# source://sexp_processor//lib/sexp_matcher.rb#508
+# pkg:gem/sexp_processor#lib/sexp_matcher.rb:508
 Sexp::Matcher::Parser::ALLOWED = T.let(T.unsafe(nil), Array)
 
 # Matches when sub-expression does not match.
@@ -866,34 +846,30 @@ Sexp::Matcher::Parser::ALLOWED = T.let(T.unsafe(nil), Array)
 #   s(:a) / s{ -s(:b) }      #=> [s(:a)]
 #   s(:a) / s{ s(not? :a) } #=> []
 #
-# source://sexp_processor//lib/sexp_matcher.rb#697
+# pkg:gem/sexp_processor#lib/sexp_matcher.rb:697
 class Sexp::Not < ::Sexp::Matcher
   # Creates a Matcher which will match any Sexp that does not match the +value+
   #
-  # @return [Not] a new instance of Not
-  #
-  # source://sexp_processor//lib/sexp_matcher.rb#707
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:707
   def initialize(value); end
 
-  # source://sexp_processor//lib/sexp_matcher.rb#711
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:711
   def ==(o); end
 
-  # source://sexp_processor//lib/sexp_matcher.rb#722
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:722
   def inspect; end
 
-  # source://sexp_processor//lib/sexp_matcher.rb#726
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:726
   def pretty_print(q); end
 
   # Satisfied if a +o+ does not match the +value+
   #
-  # @return [Boolean]
-  #
-  # source://sexp_processor//lib/sexp_matcher.rb#718
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:718
   def satisfy?(o); end
 
   # The value to negate in the match.
   #
-  # source://sexp_processor//lib/sexp_matcher.rb#702
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:702
   def value; end
 end
 
@@ -908,43 +884,37 @@ end
 #
 # TODO: maybe don't require non-sexps? This does respond to =~ now.
 #
-# source://sexp_processor//lib/sexp_matcher.rb#819
+# pkg:gem/sexp_processor#lib/sexp_matcher.rb:819
 class Sexp::Pattern < ::Sexp::Matcher
   # Create a Patten matcher which will match any atom that either
   # matches the input +pattern+.
   #
-  # @return [Pattern] a new instance of Pattern
-  #
-  # source://sexp_processor//lib/sexp_matcher.rb#834
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:834
   def initialize(pattern); end
 
-  # source://sexp_processor//lib/sexp_matcher.rb#826
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:826
   def ==(o); end
 
-  # @return [Boolean]
-  #
-  # source://sexp_processor//lib/sexp_matcher.rb#855
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:855
   def eql?(o); end
 
-  # source://sexp_processor//lib/sexp_matcher.rb#859
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:859
   def hash; end
 
-  # source://sexp_processor//lib/sexp_matcher.rb#845
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:845
   def inspect; end
 
   # The regexp to match for the pattern.
   #
-  # source://sexp_processor//lib/sexp_matcher.rb#824
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:824
   def pattern; end
 
-  # source://sexp_processor//lib/sexp_matcher.rb#849
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:849
   def pretty_print(q); end
 
   # Satisfied if +o+ is an atom, and +o+ matches +pattern+
   #
-  # @return [Boolean]
-  #
-  # source://sexp_processor//lib/sexp_matcher.rb#841
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:841
   def satisfy?(o); end
 end
 
@@ -956,73 +926,65 @@ end
 #   s(:a)         / s{ s(:a, ___ ) } #=> [s(:a)]
 #   s(:a, :b, :c) / s{ s(:a, ___ ) } #=> [s(:a, :b, :c)]
 #
-# source://sexp_processor//lib/sexp_matcher.rb#566
+# pkg:gem/sexp_processor#lib/sexp_matcher.rb:566
 class Sexp::Remaining < ::Sexp::Matcher
-  # @return [Boolean]
-  #
-  # source://sexp_processor//lib/sexp_matcher.rb#574
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:574
   def greedy?; end
 
-  # source://sexp_processor//lib/sexp_matcher.rb#578
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:578
   def inspect; end
 
-  # source://sexp_processor//lib/sexp_matcher.rb#582
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:582
   def pretty_print(q); end
 
   # Always satisfied once this is reached. Think of it as a var arg.
   #
-  # @return [Boolean]
-  #
-  # source://sexp_processor//lib/sexp_matcher.rb#570
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:570
   def satisfy?(o); end
 end
 
 # See Matcher for sibling relations: <,<<,>>,>
 #
-# source://sexp_processor//lib/sexp_matcher.rb#981
+# pkg:gem/sexp_processor#lib/sexp_matcher.rb:981
 class Sexp::Sibling < ::Sexp::Matcher
   # Creates a Matcher which will match any pair of Sexps that are siblings.
   # Defaults to matching the immediate following sibling.
   #
-  # @return [Sibling] a new instance of Sibling
-  #
-  # source://sexp_processor//lib/sexp_matcher.rb#1002
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:1002
   def initialize(subject, sibling, distance = T.unsafe(nil)); end
 
-  # source://sexp_processor//lib/sexp_matcher.rb#1027
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:1027
   def ==(o); end
 
   # An optional distance requirement for the matcher.
   #
-  # source://sexp_processor//lib/sexp_matcher.rb#996
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:996
   def distance; end
 
-  # source://sexp_processor//lib/sexp_matcher.rb#1034
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:1034
   def inspect; end
 
-  # source://sexp_processor//lib/sexp_matcher.rb#1038
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:1038
   def pretty_print(q); end
 
   # Satisfied if o contains +subject+ followed by +sibling+
   #
-  # @return [Boolean]
-  #
-  # source://sexp_processor//lib/sexp_matcher.rb#1011
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:1011
   def satisfy?(o); end
 
   # The RHS of the matcher.
   #
-  # source://sexp_processor//lib/sexp_matcher.rb#991
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:991
   def sibling; end
 
   # The LHS of the matcher.
   #
-  # source://sexp_processor//lib/sexp_matcher.rb#986
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:986
   def subject; end
 
   private
 
-  # source://sexp_processor//lib/sexp_matcher.rb#1056
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:1056
   def index_matches(pattern, o); end
 end
 
@@ -1035,39 +997,33 @@ end
 #   s(:a, :b) / s{ t(:b) }        #=> []
 #   s(:a, s(:b, :c)) / s{ t(:b) } #=> [s(:b, :c)]
 #
-# source://sexp_processor//lib/sexp_matcher.rb#897
+# pkg:gem/sexp_processor#lib/sexp_matcher.rb:897
 class Sexp::Type < ::Sexp::Matcher
   # Creates a Matcher which will match any Sexp who's type is +type+, where a type is
   # the first element in the Sexp.
   #
-  # @return [Type] a new instance of Type
-  #
-  # source://sexp_processor//lib/sexp_matcher.rb#904
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:904
   def initialize(type); end
 
-  # source://sexp_processor//lib/sexp_matcher.rb#908
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:908
   def ==(o); end
 
-  # source://sexp_processor//lib/sexp_matcher.rb#919
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:919
   def inspect; end
 
-  # source://sexp_processor//lib/sexp_matcher.rb#923
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:923
   def pretty_print(q); end
 
   # Satisfied if the sexp_type of +o+ is +type+.
   #
-  # @return [Boolean]
-  #
-  # source://sexp_processor//lib/sexp_matcher.rb#915
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:915
   def satisfy?(o); end
 
-  # Returns the value of attribute sexp_type.
-  #
-  # source://sexp_processor//lib/sexp_matcher.rb#898
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:898
   def sexp_type; end
 end
 
-# source://sexp_processor//lib/sexp.rb#221
+# pkg:gem/sexp_processor#lib/sexp.rb:221
 Sexp::UNASSIGNED = T.let(T.unsafe(nil), Object)
 
 # Matches any single item.
@@ -1077,18 +1033,16 @@ Sexp::UNASSIGNED = T.let(T.unsafe(nil), Object)
 #   s(:a)           / s{ _ }    #=> [s(:a)]
 #   s(:a, s(s(:b))) / s{ s(_) } #=> [s(s(:b))]
 #
-# source://sexp_processor//lib/sexp_matcher.rb#540
+# pkg:gem/sexp_processor#lib/sexp_matcher.rb:540
 class Sexp::Wild < ::Sexp::Matcher
-  # source://sexp_processor//lib/sexp_matcher.rb#548
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:548
   def inspect; end
 
-  # source://sexp_processor//lib/sexp_matcher.rb#552
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:552
   def pretty_print(q); end
 
   # Matches any single element.
   #
-  # @return [Boolean]
-  #
-  # source://sexp_processor//lib/sexp_matcher.rb#544
+  # pkg:gem/sexp_processor#lib/sexp_matcher.rb:544
   def satisfy?(o); end
 end

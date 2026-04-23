@@ -290,7 +290,14 @@
 #   escapeHTML('Usage: foo "bar" <baz>')
 #   h('Usage: foo "bar" <baz>') # alias
 #
-# source://cgi//lib/cgi/escape.rb#4
+#
+# --
+# Methods for generating HTML, parsing CGI-related parameters, and
+# generating HTTP responses.
+# ++
+# :stopdoc
+#
+# pkg:gem/cgi#lib/cgi/escape.rb:4
 class CGI
   include ::CGI::Escape
   include ::CGI::EscapeExt
@@ -299,6 +306,81 @@ class CGI
   extend ::CGI::EscapeExt
   extend ::CGI::Util
 
+  # :call-seq:
+  #   CGI.new(options = {}) -> new_cgi
+  #   CGI.new(tag_maker) -> new_cgi
+  #   CGI.new(options = {}) {|name, value| ... } -> new_cgi
+  #   CGI.new(tag_maker) {|name, value| ... } -> new_cgi
+  #
+  # Returns a new \CGI object.
+  #
+  # The behavior of this method depends _strongly_ on whether it is called
+  # within a standard \CGI call environment;
+  # that is, whether <tt>ENV['REQUEST_METHOD']</tt> is defined.
+  #
+  # <b>Within a Standard Call Environment</b>
+  #
+  # This section assumes that <tt>ENV['REQUEST_METHOD']</tt> is defined;
+  # for example:
+  #
+  #   ENV['REQUEST_METHOD'] # => "GET"
+  #
+  # With no argument and no block given, returns a new \CGI object with default values:
+  #
+  #   cgi = CGI.new
+  #   puts cgi.pretty_inspect
+  #   #<CGI:0x000002b0ea237bc8
+  #   @accept_charset=#<Encoding:UTF-8>,
+  #   @accept_charset_error_block=nil,
+  #   @cookies={},
+  #   @max_multipart_length=134217728,
+  #   @multipart=false,
+  #   @output_cookies=nil,
+  #   @output_hidden=nil,
+  #   @params={}>
+  #
+  # With hash argument +options+ given and no block given,
+  # returns a new \CGI object with the given options.
+  #
+  # The options may be:
+  #
+  # - <tt>accept_charset: _encoding_</tt>:
+  #   specifies the encoding of the received query string.
+  #
+  #   Value  _encoding_ may be
+  #   an {Encoding object}[https://docs.ruby-lang.org/en/master/encodings_rdoc.html#label-Encoding+Objects]
+  #   or an {encoding name}[https://docs.ruby-lang.org/en/master/encodings_rdoc.html#label-Names+and+Aliases]:
+  #
+  #     CGI.new(accept_charset: 'EUC-JP')
+  #
+  #   If the option is not given,
+  #   the default value is the class default encoding.
+  #
+  #   <em>Note:</em> The <tt>accept_charset</tt> method returns the HTTP Accept-Charset
+  #   header value, not the configured encoding. The configured encoding is used
+  #   internally for query string parsing.
+  #
+  # - <tt>max_multipart_length: _size_</tt>:
+  #   specifies maximum size (in bytes) of multipart data.
+  #
+  #   The _size_ may be:
+  #
+  #   - A positive integer.
+  #
+  #       CGI.new(max_multipart_length: 1024 * 1024)
+  #
+  #
+  #   - A lambda to be evaluated when the request is parsed.
+  #     This is useful when determining whether to accept multipart data
+  #     (e.g. by consulting a registered user's upload allowance).
+  #
+  #       CGI.new(max_multipart_length: -> {check_filesystem})
+  #
+  #   If the option is not given, the default is +134217728+, specifying a maximum size of 128 megabytes.
+  #
+  #   <em>Note:</em> This option configures internal behavior only.
+  #   There is no public method to retrieve this value after initialization.
+  #
   # - <tt>tag_maker: _html_version_</tt>:
   #   specifies which version of HTML to use in generating tags.
   #
@@ -370,101 +452,14 @@ class CGI
   #    @output_hidden=nil,
   #    @params={}>
   #
-  # @return [CGI] a new instance of CGI
-  #
-  # source://cgi//lib/cgi/core.rb#930
+  # pkg:gem/cgi#lib/cgi/core.rb:930
   def initialize(options = T.unsafe(nil), &block); end
 
   # Return the accept character set for this CGI instance.
   #
-  # source://cgi//lib/cgi/core.rb#772
+  # pkg:gem/cgi#lib/cgi/core.rb:772
   def accept_charset; end
 
-  # Create an HTTP header block as a string.
-  #
-  # :call-seq:
-  #   http_header(content_type_string="text/html")
-  #   http_header(headers_hash)
-  #
-  # Includes the empty line that ends the header block.
-  #
-  # +content_type_string+::
-  #   If this form is used, this string is the <tt>Content-Type</tt>
-  # +headers_hash+::
-  #   A Hash of header values. The following header keys are recognized:
-  #
-  #   type:: The Content-Type header.  Defaults to "text/html"
-  #   charset:: The charset of the body, appended to the Content-Type header.
-  #   nph:: A boolean value.  If true, prepend protocol string and status
-  #         code, and date; and sets default values for "server" and
-  #         "connection" if not explicitly set.
-  #   status::
-  #     The HTTP status code as a String, returned as the Status header.  The
-  #     values are:
-  #
-  #     OK:: 200 OK
-  #     PARTIAL_CONTENT:: 206 Partial Content
-  #     MULTIPLE_CHOICES:: 300 Multiple Choices
-  #     MOVED:: 301 Moved Permanently
-  #     REDIRECT:: 302 Found
-  #     NOT_MODIFIED:: 304 Not Modified
-  #     BAD_REQUEST:: 400 Bad Request
-  #     AUTH_REQUIRED:: 401 Authorization Required
-  #     FORBIDDEN:: 403 Forbidden
-  #     NOT_FOUND:: 404 Not Found
-  #     METHOD_NOT_ALLOWED:: 405 Method Not Allowed
-  #     NOT_ACCEPTABLE:: 406 Not Acceptable
-  #     LENGTH_REQUIRED:: 411 Length Required
-  #     PRECONDITION_FAILED:: 412 Precondition Failed
-  #     SERVER_ERROR:: 500 Internal Server Error
-  #     NOT_IMPLEMENTED:: 501 Method Not Implemented
-  #     BAD_GATEWAY:: 502 Bad Gateway
-  #     VARIANT_ALSO_VARIES:: 506 Variant Also Negotiates
-  #
-  #   server:: The server software, returned as the Server header.
-  #   connection:: The connection type, returned as the Connection header (for
-  #                instance, "close".
-  #   length:: The length of the content that will be sent, returned as the
-  #            Content-Length header.
-  #   language:: The language of the content, returned as the Content-Language
-  #              header.
-  #   expires:: The time on which the current content expires, as a +Time+
-  #             object, returned as the Expires header.
-  #   cookie::
-  #     A cookie or cookies, returned as one or more Set-Cookie headers.  The
-  #     value can be the literal string of the cookie; a CGI::Cookie object;
-  #     an Array of literal cookie strings or Cookie objects; or a hash all of
-  #     whose values are literal cookie strings or Cookie objects.
-  #
-  #     These cookies are in addition to the cookies held in the
-  #     @output_cookies field.
-  #
-  #   Other headers can also be set; they are appended as key: value.
-  #
-  # Examples:
-  #
-  #   http_header
-  #     # Content-Type: text/html
-  #
-  #   http_header("text/plain")
-  #     # Content-Type: text/plain
-  #
-  #   http_header("nph"        => true,
-  #               "status"     => "OK",  # == "200 OK"
-  #                 # "status"     => "200 GOOD",
-  #               "server"     => ENV['SERVER_SOFTWARE'],
-  #               "connection" => "close",
-  #               "type"       => "text/html",
-  #               "charset"    => "iso-2022-jp",
-  #                 # Content-Type: text/html; charset=iso-2022-jp
-  #               "length"     => 103,
-  #               "language"   => "ja",
-  #               "expires"    => Time.now + 30,
-  #               "cookie"     => [cookie1, cookie2],
-  #               "my_header1" => "my_value",
-  #               "my_header2" => "my_value")
-  #
-  # This method does not perform charset conversion.
   # This method is an alias for #http_header, when HTML5 tag maker is inactive.
   #
   # NOTE: use #http_header to create HTTP header blocks, this alias is only
@@ -472,7 +467,7 @@ class CGI
   #
   # Using #header with the HTML5 tag maker will create a <header> element.
   #
-  # source://cgi//lib/cgi/core.rb#189
+  # pkg:gem/cgi#lib/cgi/core.rb:189
   def header(options = T.unsafe(nil)); end
 
   # Create an HTTP header block as a string.
@@ -561,12 +556,10 @@ class CGI
   #
   # This method does not perform charset conversion.
   #
-  # source://cgi//lib/cgi/core.rb#160
+  # pkg:gem/cgi#lib/cgi/core.rb:160
   def http_header(options = T.unsafe(nil)); end
 
-  # @return [Boolean]
-  #
-  # source://cgi//lib/cgi/core.rb#274
+  # pkg:gem/cgi#lib/cgi/core.rb:274
   def nph?; end
 
   # Print an HTTP header and body to $DEFAULT_OUTPUT ($>)
@@ -633,7 +626,7 @@ class CGI
   #      #
   #      # string
   #
-  # source://cgi//lib/cgi/core.rb#367
+  # pkg:gem/cgi#lib/cgi/core.rb:367
   def out(options = T.unsafe(nil)); end
 
   # Print an argument or list of arguments to the default output stream
@@ -641,47 +634,47 @@ class CGI
   #   cgi = CGI.new
   #   cgi.print    # default:  cgi.print == $DEFAULT_OUTPUT.print
   #
-  # source://cgi//lib/cgi/core.rb#383
+  # pkg:gem/cgi#lib/cgi/core.rb:383
   def print(*options); end
 
   private
 
-  # source://cgi//lib/cgi/core.rb#218
+  # pkg:gem/cgi#lib/cgi/core.rb:218
   def _header_for_hash(options); end
 
-  # source://cgi//lib/cgi/core.rb#278
+  # pkg:gem/cgi#lib/cgi/core.rb:278
   def _header_for_modruby(buf); end
 
-  # source://cgi//lib/cgi/core.rb#202
+  # pkg:gem/cgi#lib/cgi/core.rb:202
   def _header_for_string(content_type); end
 
-  # source://cgi//lib/cgi/core.rb#191
+  # pkg:gem/cgi#lib/cgi/core.rb:191
   def _no_crlf_check(str); end
 
   # Synonym for ENV.
   #
-  # source://cgi//lib/cgi/core.rb#59
+  # pkg:gem/cgi#lib/cgi/core.rb:59
   def env_table; end
 
   # Synonym for $stdin.
   #
-  # source://cgi//lib/cgi/core.rb#64
+  # pkg:gem/cgi#lib/cgi/core.rb:64
   def stdinput; end
 
   # Synonym for $stdout.
   #
-  # source://cgi//lib/cgi/core.rb#69
+  # pkg:gem/cgi#lib/cgi/core.rb:69
   def stdoutput; end
 
   class << self
     # Return the accept character set for all new CGI instances.
     #
-    # source://cgi//lib/cgi/core.rb#762
+    # pkg:gem/cgi#lib/cgi/core.rb:762
     def accept_charset; end
 
     # Set the accept character set for all new CGI instances.
     #
-    # source://cgi//lib/cgi/core.rb#767
+    # pkg:gem/cgi#lib/cgi/core.rb:767
     def accept_charset=(accept_charset); end
 
     # :call-seq:
@@ -693,7 +686,7 @@ class CGI
     #   CGI.parse(query)
     #   # => {"foo" => ["0", "2"], "bar" => ["1", "3"]}
     #
-    # source://cgi//lib/cgi/core.rb#396
+    # pkg:gem/cgi#lib/cgi/core.rb:396
     def parse(query); end
   end
 end
@@ -735,7 +728,7 @@ end
 #   cookie1.secure   = true
 #   cookie1.httponly = true
 #
-# source://cgi//lib/cgi/cookie.rb#40
+# pkg:gem/cgi#lib/cgi/cookie.rb:40
 class CGI::Cookie < ::Array
   # Create a new CGI::Cookie object.
   #
@@ -766,93 +759,91 @@ class CGI::Cookie < ::Array
   #
   #   These keywords correspond to attributes of the cookie object.
   #
-  # @return [Cookie] a new instance of Cookie
-  #
-  # source://cgi//lib/cgi/cookie.rb#77
+  # pkg:gem/cgi#lib/cgi/cookie.rb:77
   def initialize(name = T.unsafe(nil), *value); end
 
   # Domain for which this cookie applies, as a +String+
   #
-  # source://cgi//lib/cgi/cookie.rb#126
+  # pkg:gem/cgi#lib/cgi/cookie.rb:126
   def domain; end
 
   # Set domain for which this cookie applies
   #
-  # source://cgi//lib/cgi/cookie.rb#128
+  # pkg:gem/cgi#lib/cgi/cookie.rb:128
   def domain=(str); end
 
   # Time at which this cookie expires, as a +Time+
   #
-  # source://cgi//lib/cgi/cookie.rb#136
+  # pkg:gem/cgi#lib/cgi/cookie.rb:136
   def expires; end
 
   # Time at which this cookie expires, as a +Time+
   #
-  # source://cgi//lib/cgi/cookie.rb#136
+  # pkg:gem/cgi#lib/cgi/cookie.rb:136
   def expires=(_arg0); end
 
   # True if this cookie is httponly; false otherwise
   #
-  # source://cgi//lib/cgi/cookie.rb#140
+  # pkg:gem/cgi#lib/cgi/cookie.rb:140
   def httponly; end
 
   # Set whether the Cookie is a httponly cookie or not.
   #
   # +val+ must be a boolean.
   #
-  # source://cgi//lib/cgi/cookie.rb#163
+  # pkg:gem/cgi#lib/cgi/cookie.rb:163
   def httponly=(val); end
 
   # A summary of cookie string.
   #
-  # source://cgi//lib/cgi/cookie.rb#205
+  # pkg:gem/cgi#lib/cgi/cookie.rb:205
   def inspect; end
 
   # Name of this cookie, as a +String+
   #
-  # source://cgi//lib/cgi/cookie.rb#106
+  # pkg:gem/cgi#lib/cgi/cookie.rb:106
   def name; end
 
   # Set name of this cookie
   #
-  # source://cgi//lib/cgi/cookie.rb#108
+  # pkg:gem/cgi#lib/cgi/cookie.rb:108
   def name=(str); end
 
   # Path for which this cookie applies, as a +String+
   #
-  # source://cgi//lib/cgi/cookie.rb#116
+  # pkg:gem/cgi#lib/cgi/cookie.rb:116
   def path; end
 
   # Set path for which this cookie applies
   #
-  # source://cgi//lib/cgi/cookie.rb#118
+  # pkg:gem/cgi#lib/cgi/cookie.rb:118
   def path=(str); end
 
   # True if this cookie is secure; false otherwise
   #
-  # source://cgi//lib/cgi/cookie.rb#138
+  # pkg:gem/cgi#lib/cgi/cookie.rb:138
   def secure; end
 
   # Set whether the Cookie is a secure cookie or not.
   #
   # +val+ must be a boolean.
   #
-  # source://cgi//lib/cgi/cookie.rb#155
+  # pkg:gem/cgi#lib/cgi/cookie.rb:155
   def secure=(val); end
 
   # Convert the Cookie to its string representation.
   #
-  # source://cgi//lib/cgi/cookie.rb#168
+  # pkg:gem/cgi#lib/cgi/cookie.rb:168
   def to_s; end
 
   # Returns the value or list of values for this cookie.
   #
-  # source://cgi//lib/cgi/cookie.rb#143
+  # pkg:gem/cgi#lib/cgi/cookie.rb:143
   def value; end
 
   # Replaces the value of this cookie with a new value or list of values.
   #
-  # source://cgi//lib/cgi/cookie.rb#148
+  # pkg:gem/cgi#lib/cgi/cookie.rb:148
   def value=(val); end
 
   class << self
@@ -862,25 +853,25 @@ class CGI::Cookie < ::Array
     #   cookies = CGI::Cookie.parse("raw_cookie_string")
     #     # { "name1" => cookie1, "name2" => cookie2, ... }
     #
-    # source://cgi//lib/cgi/cookie.rb#185
+    # pkg:gem/cgi#lib/cgi/cookie.rb:185
     def parse(raw_cookie); end
   end
 end
 
-# source://cgi//lib/cgi/cookie.rb#46
+# pkg:gem/cgi#lib/cgi/cookie.rb:46
 CGI::Cookie::DOMAIN_VALUE_RE = T.let(T.unsafe(nil), Regexp)
 
-# source://cgi//lib/cgi/cookie.rb#45
+# pkg:gem/cgi#lib/cgi/cookie.rb:45
 CGI::Cookie::PATH_VALUE_RE = T.let(T.unsafe(nil), Regexp)
 
 # :stopdoc:
 #
-# source://cgi//lib/cgi/cookie.rb#44
+# pkg:gem/cgi#lib/cgi/cookie.rb:44
 CGI::Cookie::TOKEN_RE = T.let(T.unsafe(nil), Regexp)
 
 # Escape/unescape for CGI, HTML, URI.
 #
-# source://cgi//lib/cgi/escape.rb#5
+# pkg:gem/cgi#lib/cgi/escape.rb:5
 module CGI::Escape
   include ::CGI::EscapeExt
 
@@ -889,7 +880,7 @@ module CGI::Escape
   #   url_encoded_string = CGI.escape("'Stop!' said Fred")
   #      # => "%27Stop%21%27+said+Fred"
   #
-  # source://cgi//lib/cgi/escape.rb#20
+  # pkg:gem/cgi#lib/cgi/escape.rb:20
   def escape(_arg0); end
 
   # Escape only the tags of certain HTML elements in +string+.
@@ -906,14 +897,14 @@ module CGI::Escape
   #   print CGI.escapeElement('<BR><A HREF="url"></A>', ["A", "IMG"])
   #     # "<BR>&lt;A HREF=&quot;url&quot;&gt;&lt;/A&gt"
   #
-  # source://cgi//lib/cgi/escape.rb#191
+  # pkg:gem/cgi#lib/cgi/escape.rb:191
   def escapeElement(string, *elements); end
 
   # Escape special characters in HTML, namely '&\"<>
   #   CGI.escapeHTML('Usage: foo "bar" <baz>')
   #      # => "Usage: foo &quot;bar&quot; &lt;baz&gt;"
   #
-  # source://cgi//lib/cgi/escape.rb#83
+  # pkg:gem/cgi#lib/cgi/escape.rb:83
   def escapeHTML(_arg0); end
 
   # URL-encode a string following RFC 3986
@@ -921,55 +912,30 @@ module CGI::Escape
   #   url_encoded_string = CGI.escapeURIComponent("'Stop!' said Fred")
   #      # => "%27Stop%21%27%20said%20Fred"
   #
-  # source://cgi//lib/cgi/escape.rb#47
+  # pkg:gem/cgi#lib/cgi/escape.rb:47
   def escapeURIComponent(_arg0); end
 
-  # Escape only the tags of certain HTML elements in +string+.
-  #
-  # Takes an element or elements or array of elements.  Each element
-  # is specified by the name of the element, without angle brackets.
-  # This matches both the start and the end tag of that element.
-  # The attribute list of the open tag will also be escaped (for
-  # instance, the double-quotes surrounding attribute values).
-  #
-  #   print CGI.escapeElement('<BR><A HREF="url"></A>', "A", "IMG")
-  #     # "<BR>&lt;A HREF=&quot;url&quot;&gt;&lt;/A&gt"
-  #
-  #   print CGI.escapeElement('<BR><A HREF="url"></A>', ["A", "IMG"])
-  #     # "<BR>&lt;A HREF=&quot;url&quot;&gt;&lt;/A&gt"
   # Synonym for CGI.escapeElement(str)
   #
-  # source://cgi//lib/cgi/escape.rb#223
+  # pkg:gem/cgi#lib/cgi/escape.rb:223
   def escape_element(string, *elements); end
 
-  # Escape special characters in HTML, namely '&\"<>
-  #   CGI.escapeHTML('Usage: foo "bar" <baz>')
-  #      # => "Usage: foo &quot;bar&quot; &lt;baz&gt;"
   # Synonym for CGI.escapeHTML(str)
   #
-  # source://cgi//lib/cgi/escape.rb#164
+  # pkg:gem/cgi#lib/cgi/escape.rb:164
   def escape_html(string); end
 
-  # URL-encode a string following RFC 3986
-  # Space characters (+" "+) are encoded with (+"%20"+)
-  #   url_encoded_string = CGI.escapeURIComponent("'Stop!' said Fred")
-  #      # => "%27Stop%21%27%20said%20Fred"
-  #
-  # source://cgi//lib/cgi/escape.rb#55
+  # pkg:gem/cgi#lib/cgi/escape.rb:55
   def escape_uri_component(_arg0); end
 
-  # Escape special characters in HTML, namely '&\"<>
-  #   CGI.escapeHTML('Usage: foo "bar" <baz>')
-  #      # => "Usage: foo &quot;bar&quot; &lt;baz&gt;"
-  #
-  # source://cgi//lib/cgi/escape.rb#165
+  # pkg:gem/cgi#lib/cgi/escape.rb:165
   def h(string); end
 
   # URL-decode an application/x-www-form-urlencoded string with encoding(optional).
   #   string = CGI.unescape("%27Stop%21%27+said+Fred")
   #      # => "'Stop!' said Fred"
   #
-  # source://cgi//lib/cgi/escape.rb#33
+  # pkg:gem/cgi#lib/cgi/escape.rb:33
   def unescape(*_arg0); end
 
   # Undo escaping such as that done by CGI.escapeElement()
@@ -982,88 +948,72 @@ module CGI::Escape
   #           CGI.escapeHTML('<BR><A HREF="url"></A>'), ["A", "IMG"])
   #     # "&lt;BR&gt;<A HREF="url"></A>"
   #
-  # source://cgi//lib/cgi/escape.rb#211
+  # pkg:gem/cgi#lib/cgi/escape.rb:211
   def unescapeElement(string, *elements); end
 
   # Unescape a string that has been HTML-escaped
   #   CGI.unescapeHTML("Usage: foo &quot;bar&quot; &lt;baz&gt;")
   #      # => "Usage: foo \"bar\" <baz>"
   #
-  # source://cgi//lib/cgi/escape.rb#105
+  # pkg:gem/cgi#lib/cgi/escape.rb:105
   def unescapeHTML(_arg0); end
 
   # URL-decode a string following RFC 3986 with encoding(optional).
   #   string = CGI.unescapeURIComponent("%27Stop%21%27+said%20Fred")
   #      # => "'Stop!'+said Fred"
   #
-  # source://cgi//lib/cgi/escape.rb#60
+  # pkg:gem/cgi#lib/cgi/escape.rb:60
   def unescapeURIComponent(*_arg0); end
 
-  # Undo escaping such as that done by CGI.escapeElement()
-  #
-  #   print CGI.unescapeElement(
-  #           CGI.escapeHTML('<BR><A HREF="url"></A>'), "A", "IMG")
-  #     # "&lt;BR&gt;<A HREF="url"></A>"
-  #
-  #   print CGI.unescapeElement(
-  #           CGI.escapeHTML('<BR><A HREF="url"></A>'), ["A", "IMG"])
-  #     # "&lt;BR&gt;<A HREF="url"></A>"
   # Synonym for CGI.unescapeElement(str)
   #
-  # source://cgi//lib/cgi/escape.rb#226
+  # pkg:gem/cgi#lib/cgi/escape.rb:226
   def unescape_element(string, *elements); end
 
-  # Unescape a string that has been HTML-escaped
-  #   CGI.unescapeHTML("Usage: foo &quot;bar&quot; &lt;baz&gt;")
-  #      # => "Usage: foo \"bar\" <baz>"
   # Synonym for CGI.unescapeHTML(str)
   #
-  # source://cgi//lib/cgi/escape.rb#168
+  # pkg:gem/cgi#lib/cgi/escape.rb:168
   def unescape_html(string); end
 
-  # URL-decode a string following RFC 3986 with encoding(optional).
-  #   string = CGI.unescapeURIComponent("%27Stop%21%27+said%20Fred")
-  #      # => "'Stop!'+said Fred"
-  #
-  # source://cgi//lib/cgi/escape.rb#69
+  # pkg:gem/cgi#lib/cgi/escape.rb:69
   def unescape_uri_component(*_arg0); end
 end
 
 # The set of special characters and their escaped values
 #
-# source://cgi//lib/cgi/escape.rb#72
+# pkg:gem/cgi#lib/cgi/escape.rb:72
 CGI::Escape::TABLE_FOR_ESCAPE_HTML__ = T.let(T.unsafe(nil), Hash)
 
-# source://cgi//lib/cgi/escape.rb#8
+# pkg:gem/cgi#lib/cgi/escape.rb:8
 module CGI::EscapeExt
-  # source://cgi//lib/cgi/escape.rb#173
+  # pkg:gem/cgi#lib/cgi/escape.rb:173
   def escape(_arg0); end
 
-  # source://cgi//lib/cgi/escape.rb#173
+  # pkg:gem/cgi#lib/cgi/escape.rb:173
   def escapeHTML(_arg0); end
 
-  # source://cgi//lib/cgi/escape.rb#173
+  # pkg:gem/cgi#lib/cgi/escape.rb:173
   def escapeURIComponent(_arg0); end
 
-  # source://cgi//lib/cgi/escape.rb#173
+  # pkg:gem/cgi#lib/cgi/escape.rb:173
   def escape_uri_component(_arg0); end
 
-  # source://cgi//lib/cgi/escape.rb#173
+  # pkg:gem/cgi#lib/cgi/escape.rb:173
   def unescape(*_arg0); end
 
-  # source://cgi//lib/cgi/escape.rb#173
+  # pkg:gem/cgi#lib/cgi/escape.rb:173
   def unescapeHTML(_arg0); end
 
-  # source://cgi//lib/cgi/escape.rb#173
+  # pkg:gem/cgi#lib/cgi/escape.rb:173
   def unescapeURIComponent(*_arg0); end
 
-  # source://cgi//lib/cgi/escape.rb#173
+  # pkg:gem/cgi#lib/cgi/escape.rb:173
   def unescape_uri_component(*_arg0); end
 end
 
 # HTML version 3 generation class.
 #
-# source://cgi//lib/cgi/html.rb#1010
+# pkg:gem/cgi#lib/cgi/html.rb:1010
 class CGI::HTML3
   include ::CGI::TagMaker
   include ::CGI::Html3
@@ -1072,7 +1022,7 @@ end
 
 # HTML version 4 generation class.
 #
-# source://cgi//lib/cgi/html.rb#1016
+# pkg:gem/cgi#lib/cgi/html.rb:1016
 class CGI::HTML4
   include ::CGI::TagMaker
   include ::CGI::Html4
@@ -1081,7 +1031,7 @@ end
 
 # HTML version 4 with framesets generation class.
 #
-# source://cgi//lib/cgi/html.rb#1028
+# pkg:gem/cgi#lib/cgi/html.rb:1028
 class CGI::HTML4Fr
   include ::CGI::TagMaker
   include ::CGI::Html4Tr
@@ -1091,7 +1041,7 @@ end
 
 # HTML version 4 transitional generation class.
 #
-# source://cgi//lib/cgi/html.rb#1022
+# pkg:gem/cgi#lib/cgi/html.rb:1022
 class CGI::HTML4Tr
   include ::CGI::TagMaker
   include ::CGI::Html4Tr
@@ -1100,7 +1050,7 @@ end
 
 # HTML version 5 generation class.
 #
-# source://cgi//lib/cgi/html.rb#1035
+# pkg:gem/cgi#lib/cgi/html.rb:1035
 class CGI::HTML5
   include ::CGI::TagMaker
   include ::CGI::Html5
@@ -1109,1102 +1059,1102 @@ end
 
 # Mixin module for HTML version 3 generation methods.
 #
-# source://cgi//lib/cgi/html.rb#822
+# pkg:gem/cgi#lib/cgi/html.rb:822
 module CGI::Html3
   include ::CGI::TagMaker
 
-  # source://cgi//lib/cgi/html.rb#837
+  # pkg:gem/cgi#lib/cgi/html.rb:837
   def a(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#837
+  # pkg:gem/cgi#lib/cgi/html.rb:837
   def address(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#837
+  # pkg:gem/cgi#lib/cgi/html.rb:837
   def applet(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#845
+  # pkg:gem/cgi#lib/cgi/html.rb:845
   def area(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#837
+  # pkg:gem/cgi#lib/cgi/html.rb:837
   def b(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#845
+  # pkg:gem/cgi#lib/cgi/html.rb:845
   def base(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#845
+  # pkg:gem/cgi#lib/cgi/html.rb:845
   def basefont(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#837
+  # pkg:gem/cgi#lib/cgi/html.rb:837
   def big(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#837
+  # pkg:gem/cgi#lib/cgi/html.rb:837
   def blockquote(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#853
+  # pkg:gem/cgi#lib/cgi/html.rb:853
   def body(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#845
+  # pkg:gem/cgi#lib/cgi/html.rb:845
   def br(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#837
+  # pkg:gem/cgi#lib/cgi/html.rb:837
   def caption(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#837
+  # pkg:gem/cgi#lib/cgi/html.rb:837
   def center(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#837
+  # pkg:gem/cgi#lib/cgi/html.rb:837
   def cite(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#837
+  # pkg:gem/cgi#lib/cgi/html.rb:837
   def code(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#853
+  # pkg:gem/cgi#lib/cgi/html.rb:853
   def dd(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#837
+  # pkg:gem/cgi#lib/cgi/html.rb:837
   def dfn(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#837
+  # pkg:gem/cgi#lib/cgi/html.rb:837
   def dir(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#837
+  # pkg:gem/cgi#lib/cgi/html.rb:837
   def div(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#837
+  # pkg:gem/cgi#lib/cgi/html.rb:837
   def dl(attributes = T.unsafe(nil), &block); end
 
   # The DOCTYPE declaration for this version of HTML
   #
-  # source://cgi//lib/cgi/html.rb#826
+  # pkg:gem/cgi#lib/cgi/html.rb:826
   def doctype; end
 
-  # source://cgi//lib/cgi/html.rb#853
+  # pkg:gem/cgi#lib/cgi/html.rb:853
   def dt(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#837
+  # pkg:gem/cgi#lib/cgi/html.rb:837
   def em(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#837
+  # pkg:gem/cgi#lib/cgi/html.rb:837
   def font(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#837
+  # pkg:gem/cgi#lib/cgi/html.rb:837
   def form(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#837
+  # pkg:gem/cgi#lib/cgi/html.rb:837
   def h1(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#837
+  # pkg:gem/cgi#lib/cgi/html.rb:837
   def h2(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#837
+  # pkg:gem/cgi#lib/cgi/html.rb:837
   def h3(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#837
+  # pkg:gem/cgi#lib/cgi/html.rb:837
   def h4(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#837
+  # pkg:gem/cgi#lib/cgi/html.rb:837
   def h5(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#837
+  # pkg:gem/cgi#lib/cgi/html.rb:837
   def h6(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#853
+  # pkg:gem/cgi#lib/cgi/html.rb:853
   def head(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#845
+  # pkg:gem/cgi#lib/cgi/html.rb:845
   def hr(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#853
+  # pkg:gem/cgi#lib/cgi/html.rb:853
   def html(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#837
+  # pkg:gem/cgi#lib/cgi/html.rb:837
   def i(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#845
+  # pkg:gem/cgi#lib/cgi/html.rb:845
   def img(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#845
+  # pkg:gem/cgi#lib/cgi/html.rb:845
   def input(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#845
+  # pkg:gem/cgi#lib/cgi/html.rb:845
   def isindex(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#837
+  # pkg:gem/cgi#lib/cgi/html.rb:837
   def kbd(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#853
+  # pkg:gem/cgi#lib/cgi/html.rb:853
   def li(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#845
+  # pkg:gem/cgi#lib/cgi/html.rb:845
   def link(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#837
+  # pkg:gem/cgi#lib/cgi/html.rb:837
   def listing(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#837
+  # pkg:gem/cgi#lib/cgi/html.rb:837
   def map(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#837
+  # pkg:gem/cgi#lib/cgi/html.rb:837
   def menu(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#845
+  # pkg:gem/cgi#lib/cgi/html.rb:845
   def meta(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#837
+  # pkg:gem/cgi#lib/cgi/html.rb:837
   def ol(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#853
+  # pkg:gem/cgi#lib/cgi/html.rb:853
   def option(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#853
+  # pkg:gem/cgi#lib/cgi/html.rb:853
   def p(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#845
+  # pkg:gem/cgi#lib/cgi/html.rb:845
   def param(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#853
+  # pkg:gem/cgi#lib/cgi/html.rb:853
   def plaintext(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#837
+  # pkg:gem/cgi#lib/cgi/html.rb:837
   def pre(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#837
+  # pkg:gem/cgi#lib/cgi/html.rb:837
   def samp(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#837
+  # pkg:gem/cgi#lib/cgi/html.rb:837
   def script(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#837
+  # pkg:gem/cgi#lib/cgi/html.rb:837
   def select(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#837
+  # pkg:gem/cgi#lib/cgi/html.rb:837
   def small(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#837
+  # pkg:gem/cgi#lib/cgi/html.rb:837
   def strike(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#837
+  # pkg:gem/cgi#lib/cgi/html.rb:837
   def strong(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#837
+  # pkg:gem/cgi#lib/cgi/html.rb:837
   def style(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#837
+  # pkg:gem/cgi#lib/cgi/html.rb:837
   def sub(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#837
+  # pkg:gem/cgi#lib/cgi/html.rb:837
   def sup(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#837
+  # pkg:gem/cgi#lib/cgi/html.rb:837
   def table(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#853
+  # pkg:gem/cgi#lib/cgi/html.rb:853
   def td(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#837
+  # pkg:gem/cgi#lib/cgi/html.rb:837
   def textarea(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#853
+  # pkg:gem/cgi#lib/cgi/html.rb:853
   def th(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#837
+  # pkg:gem/cgi#lib/cgi/html.rb:837
   def title(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#853
+  # pkg:gem/cgi#lib/cgi/html.rb:853
   def tr(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#837
+  # pkg:gem/cgi#lib/cgi/html.rb:837
   def tt(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#837
+  # pkg:gem/cgi#lib/cgi/html.rb:837
   def u(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#837
+  # pkg:gem/cgi#lib/cgi/html.rb:837
   def ul(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#837
+  # pkg:gem/cgi#lib/cgi/html.rb:837
   def var(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#837
+  # pkg:gem/cgi#lib/cgi/html.rb:837
   def xmp(attributes = T.unsafe(nil), &block); end
 end
 
 # Mixin module for HTML version 4 generation methods.
 #
-# source://cgi//lib/cgi/html.rb#861
+# pkg:gem/cgi#lib/cgi/html.rb:861
 module CGI::Html4
   include ::CGI::TagMaker
 
-  # source://cgi//lib/cgi/html.rb#877
+  # pkg:gem/cgi#lib/cgi/html.rb:877
   def a(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#877
+  # pkg:gem/cgi#lib/cgi/html.rb:877
   def abbr(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#877
+  # pkg:gem/cgi#lib/cgi/html.rb:877
   def acronym(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#877
+  # pkg:gem/cgi#lib/cgi/html.rb:877
   def address(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#884
+  # pkg:gem/cgi#lib/cgi/html.rb:884
   def area(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#877
+  # pkg:gem/cgi#lib/cgi/html.rb:877
   def b(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#884
+  # pkg:gem/cgi#lib/cgi/html.rb:884
   def base(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#877
+  # pkg:gem/cgi#lib/cgi/html.rb:877
   def bdo(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#877
+  # pkg:gem/cgi#lib/cgi/html.rb:877
   def big(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#877
+  # pkg:gem/cgi#lib/cgi/html.rb:877
   def blockquote(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#892
+  # pkg:gem/cgi#lib/cgi/html.rb:892
   def body(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#884
+  # pkg:gem/cgi#lib/cgi/html.rb:884
   def br(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#877
+  # pkg:gem/cgi#lib/cgi/html.rb:877
   def button(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#877
+  # pkg:gem/cgi#lib/cgi/html.rb:877
   def caption(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#877
+  # pkg:gem/cgi#lib/cgi/html.rb:877
   def cite(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#877
+  # pkg:gem/cgi#lib/cgi/html.rb:877
   def code(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#884
+  # pkg:gem/cgi#lib/cgi/html.rb:884
   def col(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#892
+  # pkg:gem/cgi#lib/cgi/html.rb:892
   def colgroup(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#892
+  # pkg:gem/cgi#lib/cgi/html.rb:892
   def dd(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#877
+  # pkg:gem/cgi#lib/cgi/html.rb:877
   def del(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#877
+  # pkg:gem/cgi#lib/cgi/html.rb:877
   def dfn(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#877
+  # pkg:gem/cgi#lib/cgi/html.rb:877
   def div(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#877
+  # pkg:gem/cgi#lib/cgi/html.rb:877
   def dl(attributes = T.unsafe(nil), &block); end
 
   # The DOCTYPE declaration for this version of HTML
   #
-  # source://cgi//lib/cgi/html.rb#865
+  # pkg:gem/cgi#lib/cgi/html.rb:865
   def doctype; end
 
-  # source://cgi//lib/cgi/html.rb#892
+  # pkg:gem/cgi#lib/cgi/html.rb:892
   def dt(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#877
+  # pkg:gem/cgi#lib/cgi/html.rb:877
   def em(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#877
+  # pkg:gem/cgi#lib/cgi/html.rb:877
   def fieldset(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#877
+  # pkg:gem/cgi#lib/cgi/html.rb:877
   def form(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#877
+  # pkg:gem/cgi#lib/cgi/html.rb:877
   def h1(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#877
+  # pkg:gem/cgi#lib/cgi/html.rb:877
   def h2(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#877
+  # pkg:gem/cgi#lib/cgi/html.rb:877
   def h3(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#877
+  # pkg:gem/cgi#lib/cgi/html.rb:877
   def h4(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#877
+  # pkg:gem/cgi#lib/cgi/html.rb:877
   def h5(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#877
+  # pkg:gem/cgi#lib/cgi/html.rb:877
   def h6(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#892
+  # pkg:gem/cgi#lib/cgi/html.rb:892
   def head(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#884
+  # pkg:gem/cgi#lib/cgi/html.rb:884
   def hr(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#892
+  # pkg:gem/cgi#lib/cgi/html.rb:892
   def html(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#877
+  # pkg:gem/cgi#lib/cgi/html.rb:877
   def i(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#884
+  # pkg:gem/cgi#lib/cgi/html.rb:884
   def img(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#884
+  # pkg:gem/cgi#lib/cgi/html.rb:884
   def input(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#877
+  # pkg:gem/cgi#lib/cgi/html.rb:877
   def ins(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#877
+  # pkg:gem/cgi#lib/cgi/html.rb:877
   def kbd(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#877
+  # pkg:gem/cgi#lib/cgi/html.rb:877
   def label(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#877
+  # pkg:gem/cgi#lib/cgi/html.rb:877
   def legend(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#892
+  # pkg:gem/cgi#lib/cgi/html.rb:892
   def li(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#884
+  # pkg:gem/cgi#lib/cgi/html.rb:884
   def link(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#877
+  # pkg:gem/cgi#lib/cgi/html.rb:877
   def map(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#884
+  # pkg:gem/cgi#lib/cgi/html.rb:884
   def meta(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#877
+  # pkg:gem/cgi#lib/cgi/html.rb:877
   def noscript(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#877
+  # pkg:gem/cgi#lib/cgi/html.rb:877
   def object(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#877
+  # pkg:gem/cgi#lib/cgi/html.rb:877
   def ol(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#877
+  # pkg:gem/cgi#lib/cgi/html.rb:877
   def optgroup(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#892
+  # pkg:gem/cgi#lib/cgi/html.rb:892
   def option(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#892
+  # pkg:gem/cgi#lib/cgi/html.rb:892
   def p(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#884
+  # pkg:gem/cgi#lib/cgi/html.rb:884
   def param(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#877
+  # pkg:gem/cgi#lib/cgi/html.rb:877
   def pre(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#877
+  # pkg:gem/cgi#lib/cgi/html.rb:877
   def q(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#877
+  # pkg:gem/cgi#lib/cgi/html.rb:877
   def samp(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#877
+  # pkg:gem/cgi#lib/cgi/html.rb:877
   def script(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#877
+  # pkg:gem/cgi#lib/cgi/html.rb:877
   def select(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#877
+  # pkg:gem/cgi#lib/cgi/html.rb:877
   def small(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#877
+  # pkg:gem/cgi#lib/cgi/html.rb:877
   def span(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#877
+  # pkg:gem/cgi#lib/cgi/html.rb:877
   def strong(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#877
+  # pkg:gem/cgi#lib/cgi/html.rb:877
   def style(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#877
+  # pkg:gem/cgi#lib/cgi/html.rb:877
   def sub(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#877
+  # pkg:gem/cgi#lib/cgi/html.rb:877
   def sup(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#877
+  # pkg:gem/cgi#lib/cgi/html.rb:877
   def table(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#892
+  # pkg:gem/cgi#lib/cgi/html.rb:892
   def tbody(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#892
+  # pkg:gem/cgi#lib/cgi/html.rb:892
   def td(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#877
+  # pkg:gem/cgi#lib/cgi/html.rb:877
   def textarea(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#892
+  # pkg:gem/cgi#lib/cgi/html.rb:892
   def tfoot(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#892
+  # pkg:gem/cgi#lib/cgi/html.rb:892
   def th(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#892
+  # pkg:gem/cgi#lib/cgi/html.rb:892
   def thead(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#877
+  # pkg:gem/cgi#lib/cgi/html.rb:877
   def title(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#892
+  # pkg:gem/cgi#lib/cgi/html.rb:892
   def tr(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#877
+  # pkg:gem/cgi#lib/cgi/html.rb:877
   def tt(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#877
+  # pkg:gem/cgi#lib/cgi/html.rb:877
   def ul(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#877
+  # pkg:gem/cgi#lib/cgi/html.rb:877
   def var(attributes = T.unsafe(nil), &block); end
 end
 
 # Mixin module for generating HTML version 4 with framesets.
 #
-# source://cgi//lib/cgi/html.rb#941
+# pkg:gem/cgi#lib/cgi/html.rb:941
 module CGI::Html4Fr
   include ::CGI::TagMaker
 
   # The DOCTYPE declaration for this version of HTML
   #
-  # source://cgi//lib/cgi/html.rb#945
+  # pkg:gem/cgi#lib/cgi/html.rb:945
   def doctype; end
 
-  # source://cgi//lib/cgi/html.rb#960
+  # pkg:gem/cgi#lib/cgi/html.rb:960
   def frame(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#953
+  # pkg:gem/cgi#lib/cgi/html.rb:953
   def frameset(attributes = T.unsafe(nil), &block); end
 end
 
 # Mixin module for HTML version 4 transitional generation methods.
 #
-# source://cgi//lib/cgi/html.rb#900
+# pkg:gem/cgi#lib/cgi/html.rb:900
 module CGI::Html4Tr
   include ::CGI::TagMaker
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def a(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def abbr(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def acronym(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def address(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def applet(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#925
+  # pkg:gem/cgi#lib/cgi/html.rb:925
   def area(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def b(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#925
+  # pkg:gem/cgi#lib/cgi/html.rb:925
   def base(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#925
+  # pkg:gem/cgi#lib/cgi/html.rb:925
   def basefont(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def bdo(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def big(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def blockquote(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#933
+  # pkg:gem/cgi#lib/cgi/html.rb:933
   def body(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#925
+  # pkg:gem/cgi#lib/cgi/html.rb:925
   def br(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def button(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def caption(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def center(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def cite(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def code(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#925
+  # pkg:gem/cgi#lib/cgi/html.rb:925
   def col(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#933
+  # pkg:gem/cgi#lib/cgi/html.rb:933
   def colgroup(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#933
+  # pkg:gem/cgi#lib/cgi/html.rb:933
   def dd(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def del(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def dfn(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def dir(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def div(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def dl(attributes = T.unsafe(nil), &block); end
 
   # The DOCTYPE declaration for this version of HTML
   #
-  # source://cgi//lib/cgi/html.rb#904
+  # pkg:gem/cgi#lib/cgi/html.rb:904
   def doctype; end
 
-  # source://cgi//lib/cgi/html.rb#933
+  # pkg:gem/cgi#lib/cgi/html.rb:933
   def dt(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def em(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def fieldset(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def font(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def form(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def h1(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def h2(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def h3(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def h4(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def h5(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def h6(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#933
+  # pkg:gem/cgi#lib/cgi/html.rb:933
   def head(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#925
+  # pkg:gem/cgi#lib/cgi/html.rb:925
   def hr(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#933
+  # pkg:gem/cgi#lib/cgi/html.rb:933
   def html(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def i(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def iframe(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#925
+  # pkg:gem/cgi#lib/cgi/html.rb:925
   def img(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#925
+  # pkg:gem/cgi#lib/cgi/html.rb:925
   def input(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def ins(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#925
+  # pkg:gem/cgi#lib/cgi/html.rb:925
   def isindex(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def kbd(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def label(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def legend(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#933
+  # pkg:gem/cgi#lib/cgi/html.rb:933
   def li(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#925
+  # pkg:gem/cgi#lib/cgi/html.rb:925
   def link(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def map(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def menu(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#925
+  # pkg:gem/cgi#lib/cgi/html.rb:925
   def meta(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def noframes(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def noscript(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def object(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def ol(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def optgroup(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#933
+  # pkg:gem/cgi#lib/cgi/html.rb:933
   def option(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#933
+  # pkg:gem/cgi#lib/cgi/html.rb:933
   def p(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#925
+  # pkg:gem/cgi#lib/cgi/html.rb:925
   def param(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def pre(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def q(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def s(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def samp(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def script(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def select(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def small(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def span(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def strike(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def strong(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def style(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def sub(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def sup(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def table(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#933
+  # pkg:gem/cgi#lib/cgi/html.rb:933
   def tbody(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#933
+  # pkg:gem/cgi#lib/cgi/html.rb:933
   def td(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def textarea(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#933
+  # pkg:gem/cgi#lib/cgi/html.rb:933
   def tfoot(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#933
+  # pkg:gem/cgi#lib/cgi/html.rb:933
   def th(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#933
+  # pkg:gem/cgi#lib/cgi/html.rb:933
   def thead(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def title(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#933
+  # pkg:gem/cgi#lib/cgi/html.rb:933
   def tr(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def tt(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def u(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def ul(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#917
+  # pkg:gem/cgi#lib/cgi/html.rb:917
   def var(attributes = T.unsafe(nil), &block); end
 end
 
 # Mixin module for HTML version 5 generation methods.
 #
-# source://cgi//lib/cgi/html.rb#968
+# pkg:gem/cgi#lib/cgi/html.rb:968
 module CGI::Html5
   include ::CGI::TagMaker
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def a(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def abbr(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def address(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#995
+  # pkg:gem/cgi#lib/cgi/html.rb:995
   def area(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def article(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def aside(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def audio(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def b(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#995
+  # pkg:gem/cgi#lib/cgi/html.rb:995
   def base(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def bdi(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def bdo(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def blockquote(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#1003
+  # pkg:gem/cgi#lib/cgi/html.rb:1003
   def body(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#995
+  # pkg:gem/cgi#lib/cgi/html.rb:995
   def br(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def button(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def canvas(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def caption(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def cite(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def code(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#995
+  # pkg:gem/cgi#lib/cgi/html.rb:995
   def col(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#1003
+  # pkg:gem/cgi#lib/cgi/html.rb:1003
   def colgroup(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#995
+  # pkg:gem/cgi#lib/cgi/html.rb:995
   def command(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def datalist(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#1003
+  # pkg:gem/cgi#lib/cgi/html.rb:1003
   def dd(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def del(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def details(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def dfn(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def dialog(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def div(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def dl(attributes = T.unsafe(nil), &block); end
 
   # The DOCTYPE declaration for this version of HTML
   #
-  # source://cgi//lib/cgi/html.rb#972
+  # pkg:gem/cgi#lib/cgi/html.rb:972
   def doctype; end
 
-  # source://cgi//lib/cgi/html.rb#1003
+  # pkg:gem/cgi#lib/cgi/html.rb:1003
   def dt(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def em(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#995
+  # pkg:gem/cgi#lib/cgi/html.rb:995
   def embed(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def fieldset(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def figcaption(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def figure(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def footer(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def form(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def h1(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def h2(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def h3(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def h4(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def h5(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def h6(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#1003
+  # pkg:gem/cgi#lib/cgi/html.rb:1003
   def head(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def header(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def hgroup(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#995
+  # pkg:gem/cgi#lib/cgi/html.rb:995
   def hr(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#1003
+  # pkg:gem/cgi#lib/cgi/html.rb:1003
   def html(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def i(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def iframe(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#995
+  # pkg:gem/cgi#lib/cgi/html.rb:995
   def img(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#995
+  # pkg:gem/cgi#lib/cgi/html.rb:995
   def input(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def ins(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def kbd(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#995
+  # pkg:gem/cgi#lib/cgi/html.rb:995
   def keygen(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def label(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def legend(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#1003
+  # pkg:gem/cgi#lib/cgi/html.rb:1003
   def li(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#995
+  # pkg:gem/cgi#lib/cgi/html.rb:995
   def link(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def map(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def mark(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def menu(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#995
+  # pkg:gem/cgi#lib/cgi/html.rb:995
   def meta(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def meter(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def nav(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def noscript(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def object(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def ol(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#1003
+  # pkg:gem/cgi#lib/cgi/html.rb:1003
   def optgroup(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#1003
+  # pkg:gem/cgi#lib/cgi/html.rb:1003
   def option(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def output(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#1003
+  # pkg:gem/cgi#lib/cgi/html.rb:1003
   def p(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#995
+  # pkg:gem/cgi#lib/cgi/html.rb:995
   def param(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def pre(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def progress(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def q(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#1003
+  # pkg:gem/cgi#lib/cgi/html.rb:1003
   def rp(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#1003
+  # pkg:gem/cgi#lib/cgi/html.rb:1003
   def rt(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def ruby(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def s(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def samp(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def script(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def section(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def select(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def small(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#995
+  # pkg:gem/cgi#lib/cgi/html.rb:995
   def source(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def span(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def strong(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def style(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def sub(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def summary(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def sup(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def table(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#1003
+  # pkg:gem/cgi#lib/cgi/html.rb:1003
   def tbody(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#1003
+  # pkg:gem/cgi#lib/cgi/html.rb:1003
   def td(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def textarea(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#1003
+  # pkg:gem/cgi#lib/cgi/html.rb:1003
   def tfoot(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#1003
+  # pkg:gem/cgi#lib/cgi/html.rb:1003
   def th(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#1003
+  # pkg:gem/cgi#lib/cgi/html.rb:1003
   def thead(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def time(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def title(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#1003
+  # pkg:gem/cgi#lib/cgi/html.rb:1003
   def tr(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#995
+  # pkg:gem/cgi#lib/cgi/html.rb:995
   def track(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def u(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def ul(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def var(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#987
+  # pkg:gem/cgi#lib/cgi/html.rb:987
   def video(attributes = T.unsafe(nil), &block); end
 
-  # source://cgi//lib/cgi/html.rb#995
+  # pkg:gem/cgi#lib/cgi/html.rb:995
   def wbr(attributes = T.unsafe(nil), &block); end
 end
 
@@ -2219,7 +2169,7 @@ end
 #
 # See class CGI for a detailed example.
 #
-# source://cgi//lib/cgi/html.rb#79
+# pkg:gem/cgi#lib/cgi/html.rb:79
 module CGI::HtmlExtension
   # Generate an Anchor element as a string.
   #
@@ -2236,7 +2186,7 @@ module CGI::HtmlExtension
   #   a("HREF" => "http://www.example.com", "TARGET" => "_top") { "Example" }
   #     # => "<A HREF=\"http://www.example.com\" TARGET=\"_top\">Example</A>"
   #
-  # source://cgi//lib/cgi/html.rb#97
+  # pkg:gem/cgi#lib/cgi/html.rb:97
   def a(href = T.unsafe(nil)); end
 
   # Generate a Document Base URI element as a String.
@@ -2249,7 +2199,7 @@ module CGI::HtmlExtension
   #   base("http://www.example.com/cgi")
   #     # => "<BASE HREF=\"http://www.example.com/cgi\">"
   #
-  # source://cgi//lib/cgi/html.rb#115
+  # pkg:gem/cgi#lib/cgi/html.rb:115
   def base(href = T.unsafe(nil)); end
 
   # Generate a BlockQuote element as a string.
@@ -2263,7 +2213,7 @@ module CGI::HtmlExtension
   #   blockquote("http://www.example.com/quotes/foo.html") { "Foo!" }
   #     #=> "<BLOCKQUOTE CITE=\"http://www.example.com/quotes/foo.html\">Foo!</BLOCKQUOTE>
   #
-  # source://cgi//lib/cgi/html.rb#134
+  # pkg:gem/cgi#lib/cgi/html.rb:134
   def blockquote(cite = T.unsafe(nil)); end
 
   # Generate a Table Caption element as a string.
@@ -2277,7 +2227,7 @@ module CGI::HtmlExtension
   #   caption("left") { "Capital Cities" }
   #     # => <CAPTION ALIGN=\"left\">Capital Cities</CAPTION>
   #
-  # source://cgi//lib/cgi/html.rb#154
+  # pkg:gem/cgi#lib/cgi/html.rb:154
   def caption(align = T.unsafe(nil)); end
 
   # Generate a Checkbox Input element as a string.
@@ -2297,7 +2247,7 @@ module CGI::HtmlExtension
   #   checkbox("name", "value", true)
   #     # = checkbox("NAME" => "name", "VALUE" => "value", "CHECKED" => true)
   #
-  # source://cgi//lib/cgi/html.rb#180
+  # pkg:gem/cgi#lib/cgi/html.rb:180
   def checkbox(name = T.unsafe(nil), value = T.unsafe(nil), checked = T.unsafe(nil)); end
 
   # Generate a sequence of checkbox elements, as a String.
@@ -2344,7 +2294,7 @@ module CGI::HtmlExtension
   #   checkbox_group("NAME" => "name",
   #                    "VALUES" => [["1", "Foo"], ["2", "Bar", true], "Baz"])
   #
-  # source://cgi//lib/cgi/html.rb#234
+  # pkg:gem/cgi#lib/cgi/html.rb:234
   def checkbox_group(name = T.unsafe(nil), *values); end
 
   # Generate an File Upload Input element as a string.
@@ -2369,7 +2319,7 @@ module CGI::HtmlExtension
   #   file_field("NAME" => "name", "SIZE" => 40)
   #     # <INPUT TYPE="file" NAME="name" SIZE="40">
   #
-  # source://cgi//lib/cgi/html.rb#276
+  # pkg:gem/cgi#lib/cgi/html.rb:276
   def file_field(name = T.unsafe(nil), size = T.unsafe(nil), maxlength = T.unsafe(nil)); end
 
   # Generate a Form element as a string.
@@ -2394,7 +2344,7 @@ module CGI::HtmlExtension
   #   form("METHOD" => "post", "ENCTYPE" => "enctype") { "string" }
   #     # <FORM METHOD="post" ENCTYPE="enctype">string</FORM>
   #
-  # source://cgi//lib/cgi/html.rb#310
+  # pkg:gem/cgi#lib/cgi/html.rb:310
   def form(method = T.unsafe(nil), action = T.unsafe(nil), enctype = T.unsafe(nil)); end
 
   # Generate a Hidden Input element as a string.
@@ -2413,7 +2363,7 @@ module CGI::HtmlExtension
   #   hidden("NAME" => "name", "VALUE" => "reset", "ID" => "foo")
   #     # <INPUT TYPE="hidden" NAME="name" VALUE="value" ID="foo">
   #
-  # source://cgi//lib/cgi/html.rb#351
+  # pkg:gem/cgi#lib/cgi/html.rb:351
   def hidden(name = T.unsafe(nil), value = T.unsafe(nil)); end
 
   # Generate a top-level HTML element as a string.
@@ -2458,7 +2408,7 @@ module CGI::HtmlExtension
   #
   #   html(if $VERBOSE then "PRETTY" end) { "HTML string" }
   #
-  # source://cgi//lib/cgi/html.rb#403
+  # pkg:gem/cgi#lib/cgi/html.rb:403
   def html(attributes = T.unsafe(nil)); end
 
   # Generate an Image Button Input element as a string.
@@ -2477,7 +2427,7 @@ module CGI::HtmlExtension
   #   image_button("SRC" => "url", "ALT" => "string")
   #     # <INPUT TYPE="image" SRC="url" ALT="string">
   #
-  # source://cgi//lib/cgi/html.rb#448
+  # pkg:gem/cgi#lib/cgi/html.rb:448
   def image_button(src = T.unsafe(nil), name = T.unsafe(nil), alt = T.unsafe(nil)); end
 
   # Generate an Image element as a string.
@@ -2494,7 +2444,7 @@ module CGI::HtmlExtension
   #   img("SRC" => "src", "ALT" => "alt", "WIDTH" => 100, "HEIGHT" => 50)
   #     # <IMG SRC="src" ALT="alt" WIDTH="100" HEIGHT="50">
   #
-  # source://cgi//lib/cgi/html.rb#474
+  # pkg:gem/cgi#lib/cgi/html.rb:474
   def img(src = T.unsafe(nil), alt = T.unsafe(nil), width = T.unsafe(nil), height = T.unsafe(nil)); end
 
   # Generate a Form element with multipart encoding as a String.
@@ -2512,7 +2462,7 @@ module CGI::HtmlExtension
   #   multipart_form("url") { "string" }
   #     # <FORM METHOD="post" ACTION="url" ENCTYPE="multipart/form-data">string</FORM>
   #
-  # source://cgi//lib/cgi/html.rb#500
+  # pkg:gem/cgi#lib/cgi/html.rb:500
   def multipart_form(action = T.unsafe(nil), enctype = T.unsafe(nil)); end
 
   # Generate a Password Input element as a string.
@@ -2535,7 +2485,7 @@ module CGI::HtmlExtension
   #   password_field("NAME" => "name", "VALUE" => "value")
   #     # <INPUT TYPE="password" NAME="name" VALUE="value">
   #
-  # source://cgi//lib/cgi/html.rb#542
+  # pkg:gem/cgi#lib/cgi/html.rb:542
   def password_field(name = T.unsafe(nil), value = T.unsafe(nil), size = T.unsafe(nil), maxlength = T.unsafe(nil)); end
 
   # Generate a Select element as a string.
@@ -2582,7 +2532,7 @@ module CGI::HtmlExtension
   #     #   <OPTION VALUE="Baz">Baz</OPTION>
   #     # </SELECT>
   #
-  # source://cgi//lib/cgi/html.rb#597
+  # pkg:gem/cgi#lib/cgi/html.rb:597
   def popup_menu(name = T.unsafe(nil), *values); end
 
   # Generates a radio-button Input element.
@@ -2602,7 +2552,7 @@ module CGI::HtmlExtension
   #   radio_button("NAME" => "name", "VALUE" => "value", "ID" => "foo")
   #     # <INPUT TYPE="radio" NAME="name" VALUE="value" ID="foo">
   #
-  # source://cgi//lib/cgi/html.rb#646
+  # pkg:gem/cgi#lib/cgi/html.rb:646
   def radio_button(name = T.unsafe(nil), value = T.unsafe(nil), checked = T.unsafe(nil)); end
 
   # Generate a sequence of radio button Input elements, as a String.
@@ -2634,7 +2584,7 @@ module CGI::HtmlExtension
   #   radio_group("NAME" => "name",
   #                 "VALUES" => [["1", "Foo"], ["2", "Bar", true], "Baz"])
   #
-  # source://cgi//lib/cgi/html.rb#685
+  # pkg:gem/cgi#lib/cgi/html.rb:685
   def radio_group(name = T.unsafe(nil), *values); end
 
   # Generate a reset button Input element, as a String.
@@ -2653,54 +2603,10 @@ module CGI::HtmlExtension
   #   reset("VALUE" => "reset", "ID" => "foo")
   #     # <INPUT TYPE="reset" VALUE="reset" ID="foo">
   #
-  # source://cgi//lib/cgi/html.rb#720
+  # pkg:gem/cgi#lib/cgi/html.rb:720
   def reset(value = T.unsafe(nil), name = T.unsafe(nil)); end
 
-  # Generate a Select element as a string.
-  #
-  # +name+ is the name of the element.  The +values+ are the options that
-  # can be selected from the Select menu.  Each value can be a String or
-  # a one, two, or three-element Array.  If a String or a one-element
-  # Array, this is both the value of that option and the text displayed for
-  # it.  If a three-element Array, the elements are the option value, displayed
-  # text, and a boolean value specifying whether this option starts as selected.
-  # The two-element version omits either the option value (defaults to the same
-  # as the display text) or the boolean selected specifier (defaults to false).
-  #
-  # The attributes and options can also be specified as a hash.  In this
-  # case, options are specified as an array of values as described above,
-  # with the hash key of "VALUES".
-  #
-  #   popup_menu("name", "foo", "bar", "baz")
-  #     # <SELECT NAME="name">
-  #     #   <OPTION VALUE="foo">foo</OPTION>
-  #     #   <OPTION VALUE="bar">bar</OPTION>
-  #     #   <OPTION VALUE="baz">baz</OPTION>
-  #     # </SELECT>
-  #
-  #   popup_menu("name", ["foo"], ["bar", true], "baz")
-  #     # <SELECT NAME="name">
-  #     #   <OPTION VALUE="foo">foo</OPTION>
-  #     #   <OPTION VALUE="bar" SELECTED>bar</OPTION>
-  #     #   <OPTION VALUE="baz">baz</OPTION>
-  #     # </SELECT>
-  #
-  #   popup_menu("name", ["1", "Foo"], ["2", "Bar", true], "Baz")
-  #     # <SELECT NAME="name">
-  #     #   <OPTION VALUE="1">Foo</OPTION>
-  #     #   <OPTION SELECTED VALUE="2">Bar</OPTION>
-  #     #   <OPTION VALUE="Baz">Baz</OPTION>
-  #     # </SELECT>
-  #
-  #   popup_menu("NAME" => "name", "SIZE" => 2, "MULTIPLE" => true,
-  #               "VALUES" => [["1", "Foo"], ["2", "Bar", true], "Baz"])
-  #     # <SELECT NAME="name" MULTIPLE SIZE="2">
-  #     #   <OPTION VALUE="1">Foo</OPTION>
-  #     #   <OPTION SELECTED VALUE="2">Bar</OPTION>
-  #     #   <OPTION VALUE="Baz">Baz</OPTION>
-  #     # </SELECT>
-  #
-  # source://cgi//lib/cgi/html.rb#730
+  # pkg:gem/cgi#lib/cgi/html.rb:730
   def scrolling_list(name = T.unsafe(nil), *values); end
 
   # Generate a submit button Input element, as a String.
@@ -2722,7 +2628,7 @@ module CGI::HtmlExtension
   #   submit("VALUE" => "ok", "NAME" => "button1", "ID" => "foo")
   #     # <INPUT TYPE="submit" VALUE="ok" NAME="button1" ID="foo">
   #
-  # source://cgi//lib/cgi/html.rb#750
+  # pkg:gem/cgi#lib/cgi/html.rb:750
   def submit(value = T.unsafe(nil), name = T.unsafe(nil)); end
 
   # Generate a text field Input element, as a String.
@@ -2748,7 +2654,7 @@ module CGI::HtmlExtension
   #   text_field("NAME" => "name", "VALUE" => "value")
   #     # <INPUT TYPE="text" NAME="name" VALUE="value">
   #
-  # source://cgi//lib/cgi/html.rb#782
+  # pkg:gem/cgi#lib/cgi/html.rb:782
   def text_field(name = T.unsafe(nil), value = T.unsafe(nil), size = T.unsafe(nil), maxlength = T.unsafe(nil)); end
 
   # Generate a TextArea element, as a String.
@@ -2766,7 +2672,7 @@ module CGI::HtmlExtension
   #   textarea("name", 40, 5)
   #      # = textarea("NAME" => "name", "COLS" => 40, "ROWS" => 5)
   #
-  # source://cgi//lib/cgi/html.rb#808
+  # pkg:gem/cgi#lib/cgi/html.rb:808
   def textarea(name = T.unsafe(nil), cols = T.unsafe(nil), rows = T.unsafe(nil)); end
 end
 
@@ -2788,175 +2694,161 @@ end
 #    mechanisms, handling multipart forms, and allowing the
 #    class to be used in "offline" mode.
 #
-# source://cgi//lib/cgi/core.rb#435
+# pkg:gem/cgi#lib/cgi/core.rb:435
 module CGI::QueryExtension
   # Get the value for the parameter with a given key.
   #
   # If the parameter has multiple values, only the first will be
   # retrieved; use #params to get the array of values.
   #
-  # source://cgi//lib/cgi/core.rb#717
+  # pkg:gem/cgi#lib/cgi/core.rb:717
   def [](key); end
 
-  # source://cgi//lib/cgi/core.rb#451
+  # pkg:gem/cgi#lib/cgi/core.rb:451
   def accept; end
 
-  # source://cgi//lib/cgi/core.rb#451
+  # pkg:gem/cgi#lib/cgi/core.rb:451
   def accept_charset; end
 
-  # source://cgi//lib/cgi/core.rb#451
+  # pkg:gem/cgi#lib/cgi/core.rb:451
   def accept_encoding; end
 
-  # source://cgi//lib/cgi/core.rb#451
+  # pkg:gem/cgi#lib/cgi/core.rb:451
   def accept_language; end
 
-  # source://cgi//lib/cgi/core.rb#451
+  # pkg:gem/cgi#lib/cgi/core.rb:451
   def auth_type; end
 
-  # source://cgi//lib/cgi/core.rb#451
+  # pkg:gem/cgi#lib/cgi/core.rb:451
   def cache_control; end
 
-  # source://cgi//lib/cgi/core.rb#438
+  # pkg:gem/cgi#lib/cgi/core.rb:438
   def content_length; end
 
-  # source://cgi//lib/cgi/core.rb#451
+  # pkg:gem/cgi#lib/cgi/core.rb:451
   def content_type; end
 
   # Get the cookies as a hash of cookie-name=>Cookie pairs.
   #
-  # source://cgi//lib/cgi/core.rb#467
+  # pkg:gem/cgi#lib/cgi/core.rb:467
   def cookies; end
 
   # Get the cookies as a hash of cookie-name=>Cookie pairs.
   #
-  # source://cgi//lib/cgi/core.rb#467
+  # pkg:gem/cgi#lib/cgi/core.rb:467
   def cookies=(_arg0); end
 
-  # source://cgi//lib/cgi/core.rb#606
+  # pkg:gem/cgi#lib/cgi/core.rb:606
   def create_body(is_large); end
 
   # Get the uploaded files as a hash of name=>values pairs
   #
-  # source://cgi//lib/cgi/core.rb#474
+  # pkg:gem/cgi#lib/cgi/core.rb:474
   def files; end
 
-  # source://cgi//lib/cgi/core.rb#451
+  # pkg:gem/cgi#lib/cgi/core.rb:451
   def from; end
 
-  # source://cgi//lib/cgi/core.rb#451
+  # pkg:gem/cgi#lib/cgi/core.rb:451
   def gateway_interface; end
 
   # Returns true if a given query string parameter exists.
   #
-  # @return [Boolean]
-  #
-  # source://cgi//lib/cgi/core.rb#741
+  # pkg:gem/cgi#lib/cgi/core.rb:741
   def has_key?(*args); end
 
-  # source://cgi//lib/cgi/core.rb#451
+  # pkg:gem/cgi#lib/cgi/core.rb:451
   def host; end
 
-  # Returns true if a given query string parameter exists.
-  #
-  # @return [Boolean]
-  #
-  # source://cgi//lib/cgi/core.rb#745
+  # pkg:gem/cgi#lib/cgi/core.rb:745
   def include?(*args); end
 
-  # Returns true if a given query string parameter exists.
-  #
-  # @return [Boolean]
-  #
-  # source://cgi//lib/cgi/core.rb#744
+  # pkg:gem/cgi#lib/cgi/core.rb:744
   def key?(*args); end
 
   # Return all query parameter names as an array of String.
   #
-  # source://cgi//lib/cgi/core.rb#736
+  # pkg:gem/cgi#lib/cgi/core.rb:736
   def keys(*args); end
 
   # Returns whether the form contained multipart/form-data
   #
-  # @return [Boolean]
-  #
-  # source://cgi//lib/cgi/core.rb#709
+  # pkg:gem/cgi#lib/cgi/core.rb:709
   def multipart?; end
 
-  # source://cgi//lib/cgi/core.rb#451
+  # pkg:gem/cgi#lib/cgi/core.rb:451
   def negotiate; end
 
   # Get the parameters as a hash of name=>values pairs, where
   # values is an Array.
   #
-  # source://cgi//lib/cgi/core.rb#471
+  # pkg:gem/cgi#lib/cgi/core.rb:471
   def params; end
 
   # Set all the parameters.
   #
-  # source://cgi//lib/cgi/core.rb#477
+  # pkg:gem/cgi#lib/cgi/core.rb:477
   def params=(hash); end
 
-  # source://cgi//lib/cgi/core.rb#451
+  # pkg:gem/cgi#lib/cgi/core.rb:451
   def path_info; end
 
-  # source://cgi//lib/cgi/core.rb#451
+  # pkg:gem/cgi#lib/cgi/core.rb:451
   def path_translated; end
 
-  # source://cgi//lib/cgi/core.rb#451
+  # pkg:gem/cgi#lib/cgi/core.rb:451
   def pragma; end
 
-  # source://cgi//lib/cgi/core.rb#451
+  # pkg:gem/cgi#lib/cgi/core.rb:451
   def query_string; end
 
   # Get the raw cookies as a string.
   #
-  # source://cgi//lib/cgi/core.rb#457
+  # pkg:gem/cgi#lib/cgi/core.rb:457
   def raw_cookie; end
 
   # Get the raw RFC2965 cookies as a string.
   #
-  # source://cgi//lib/cgi/core.rb#462
+  # pkg:gem/cgi#lib/cgi/core.rb:462
   def raw_cookie2; end
 
-  # source://cgi//lib/cgi/core.rb#451
+  # pkg:gem/cgi#lib/cgi/core.rb:451
   def referer; end
 
-  # source://cgi//lib/cgi/core.rb#451
+  # pkg:gem/cgi#lib/cgi/core.rb:451
   def remote_addr; end
 
-  # source://cgi//lib/cgi/core.rb#451
+  # pkg:gem/cgi#lib/cgi/core.rb:451
   def remote_host; end
 
-  # source://cgi//lib/cgi/core.rb#451
+  # pkg:gem/cgi#lib/cgi/core.rb:451
   def remote_ident; end
 
-  # source://cgi//lib/cgi/core.rb#451
+  # pkg:gem/cgi#lib/cgi/core.rb:451
   def remote_user; end
 
-  # source://cgi//lib/cgi/core.rb#451
+  # pkg:gem/cgi#lib/cgi/core.rb:451
   def request_method; end
 
-  # source://cgi//lib/cgi/core.rb#451
+  # pkg:gem/cgi#lib/cgi/core.rb:451
   def script_name; end
 
-  # source://cgi//lib/cgi/core.rb#451
+  # pkg:gem/cgi#lib/cgi/core.rb:451
   def server_name; end
 
-  # source://cgi//lib/cgi/core.rb#438
+  # pkg:gem/cgi#lib/cgi/core.rb:438
   def server_port; end
 
-  # source://cgi//lib/cgi/core.rb#451
+  # pkg:gem/cgi#lib/cgi/core.rb:451
   def server_protocol; end
 
-  # source://cgi//lib/cgi/core.rb#451
+  # pkg:gem/cgi#lib/cgi/core.rb:451
   def server_software; end
 
-  # @return [Boolean]
-  #
-  # source://cgi//lib/cgi/core.rb#622
+  # pkg:gem/cgi#lib/cgi/core.rb:622
   def unescape_filename?; end
 
-  # source://cgi//lib/cgi/core.rb#451
+  # pkg:gem/cgi#lib/cgi/core.rb:451
   def user_agent; end
 
   private
@@ -2968,12 +2860,12 @@ module CGI::QueryExtension
   # Handles multipart forms (in particular, forms that involve file uploads).
   # Reads query parameters in the @params field, and cookies into @cookies.
   #
-  # source://cgi//lib/cgi/core.rb#664
+  # pkg:gem/cgi#lib/cgi/core.rb:664
   def initialize_query; end
 
   # offline mode. read name=value pairs on standard input.
   #
-  # source://cgi//lib/cgi/core.rb#629
+  # pkg:gem/cgi#lib/cgi/core.rb:629
   def read_from_cmdline; end
 
   # Parses multipart form elements according to
@@ -2984,7 +2876,7 @@ module CGI::QueryExtension
   #
   #   params[name => body]
   #
-  # source://cgi//lib/cgi/core.rb#491
+  # pkg:gem/cgi#lib/cgi/core.rb:491
   def read_multipart(boundary, content_length); end
 end
 
@@ -2993,16 +2885,16 @@ end
 # Provides methods for code generation for tags following
 # the various DTD element types.
 #
-# source://cgi//lib/cgi/html.rb#7
+# pkg:gem/cgi#lib/cgi/html.rb:7
 module CGI::TagMaker
   # Generate code for an empty element.
   #
   #   - O EMPTY
   #
-  # source://cgi//lib/cgi/html.rb#27
+  # pkg:gem/cgi#lib/cgi/html.rb:27
   def nOE_element(element, attributes = T.unsafe(nil)); end
 
-  # source://cgi//lib/cgi/html.rb#43
+  # pkg:gem/cgi#lib/cgi/html.rb:43
   def nOE_element_def(attributes = T.unsafe(nil), &block); end
 
   # Generate code for an element for which the end (and possibly the
@@ -3010,26 +2902,26 @@ module CGI::TagMaker
   #
   #   O O or - O
   #
-  # source://cgi//lib/cgi/html.rb#52
+  # pkg:gem/cgi#lib/cgi/html.rb:52
   def nO_element(element, attributes = T.unsafe(nil)); end
 
-  # source://cgi//lib/cgi/html.rb#61
+  # pkg:gem/cgi#lib/cgi/html.rb:61
   def nO_element_def(attributes = T.unsafe(nil), &block); end
 
   # Generate code for an element with required start and end tags.
   #
   #   - -
   #
-  # source://cgi//lib/cgi/html.rb#12
+  # pkg:gem/cgi#lib/cgi/html.rb:12
   def nn_element(element, attributes = T.unsafe(nil)); end
 
-  # source://cgi//lib/cgi/html.rb#20
+  # pkg:gem/cgi#lib/cgi/html.rb:20
   def nn_element_def(attributes = T.unsafe(nil), &block); end
 end
 
 # Utility methods for CGI.
 #
-# source://cgi//lib/cgi/util.rb#3
+# pkg:gem/cgi#lib/cgi/util.rb:3
 module CGI::Util
   # Prettify (indent) an HTML string.
   #
@@ -3048,7 +2940,7 @@ module CGI::Util
   #     #         </BODY>
   #     # </HTML>
   #
-  # source://cgi//lib/cgi/util.rb#35
+  # pkg:gem/cgi#lib/cgi/util.rb:35
   def pretty(string, shift = T.unsafe(nil)); end
 
   # Format a +Time+ object as a String using the format specified by RFC 1123.
@@ -3056,11 +2948,11 @@ module CGI::Util
   #   CGI.rfc1123_date(Time.now)
   #     # Sat, 01 Jan 2000 00:00:00 GMT
   #
-  # source://cgi//lib/cgi/util.rb#14
+  # pkg:gem/cgi#lib/cgi/util.rb:14
   def rfc1123_date(time); end
 end
 
 # The version string
 #
-# source://cgi//lib/cgi.rb#303
+# pkg:gem/cgi#lib/cgi.rb:303
 CGI::VERSION = T.let(T.unsafe(nil), String)

@@ -11,8 +11,14 @@
 #
 # The OpenTelemetry module provides global accessors for telemetry objects.
 # See the documentation for the `opentelemetry-api` gem for details.
+# Copyright The OpenTelemetry Authors
 #
-# source://opentelemetry-instrumentation-mysql2//lib/opentelemetry/instrumentation.rb#13
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+# pkg:gem/opentelemetry-instrumentation-mysql2#lib/opentelemetry/instrumentation.rb:13
 module OpenTelemetry; end
 
 # "Instrumentation" are specified by
@@ -20,12 +26,12 @@ module OpenTelemetry; end
 #
 # Instrumentation should be able to handle the case when the library is not installed on a user's system.
 #
-# source://opentelemetry-instrumentation-mysql2//lib/opentelemetry/instrumentation.rb#18
+# pkg:gem/opentelemetry-instrumentation-mysql2#lib/opentelemetry/instrumentation.rb:18
 module OpenTelemetry::Instrumentation; end
 
 # Contains the OpenTelemetry instrumentation for the Mysql2 gem
 #
-# source://opentelemetry-instrumentation-mysql2//lib/opentelemetry/instrumentation/mysql2.rb#14
+# pkg:gem/opentelemetry-instrumentation-mysql2#lib/opentelemetry/instrumentation/mysql2.rb:14
 module OpenTelemetry::Instrumentation::Mysql2
   extend ::OpenTelemetry::Helpers::Sql
 end
@@ -33,27 +39,25 @@ end
 # The Instrumentation class contains logic to detect and install the Mysql2
 # instrumentation
 #
-# source://opentelemetry-instrumentation-mysql2//lib/opentelemetry/instrumentation/mysql2/instrumentation.rb#12
+# pkg:gem/opentelemetry-instrumentation-mysql2#lib/opentelemetry/instrumentation/mysql2/instrumentation.rb:12
 class OpenTelemetry::Instrumentation::Mysql2::Instrumentation < ::OpenTelemetry::Instrumentation::Base
-  # Returns the value of attribute propagator.
-  #
-  # source://opentelemetry-instrumentation-mysql2//lib/opentelemetry/instrumentation/mysql2/instrumentation.rb#29
+  # pkg:gem/opentelemetry-instrumentation-mysql2#lib/opentelemetry/instrumentation/mysql2/instrumentation.rb:29
   def propagator; end
 
   private
 
-  # source://opentelemetry-instrumentation-mysql2//lib/opentelemetry/instrumentation/mysql2/instrumentation.rb#41
+  # pkg:gem/opentelemetry-instrumentation-mysql2#lib/opentelemetry/instrumentation/mysql2/instrumentation.rb:41
   def configure_propagator(config); end
 
-  # source://opentelemetry-instrumentation-mysql2//lib/opentelemetry/instrumentation/mysql2/instrumentation.rb#52
+  # pkg:gem/opentelemetry-instrumentation-mysql2#lib/opentelemetry/instrumentation/mysql2/instrumentation.rb:52
   def fetch_propagator(name, class_name, gem_suffix = T.unsafe(nil)); end
 
-  # source://opentelemetry-instrumentation-mysql2//lib/opentelemetry/instrumentation/mysql2/instrumentation.rb#37
+  # pkg:gem/opentelemetry-instrumentation-mysql2#lib/opentelemetry/instrumentation/mysql2/instrumentation.rb:37
   def patch_client; end
 
-  # source://opentelemetry-instrumentation-mysql2//lib/opentelemetry/instrumentation/mysql2/instrumentation.rb#33
+  # pkg:gem/opentelemetry-instrumentation-mysql2#lib/opentelemetry/instrumentation/mysql2/instrumentation.rb:33
   def require_dependencies; end
 end
 
-# source://opentelemetry-instrumentation-mysql2//lib/opentelemetry/instrumentation/mysql2/version.rb#10
+# pkg:gem/opentelemetry-instrumentation-mysql2#lib/opentelemetry/instrumentation/mysql2/version.rb:10
 OpenTelemetry::Instrumentation::Mysql2::VERSION = T.let(T.unsafe(nil), String)

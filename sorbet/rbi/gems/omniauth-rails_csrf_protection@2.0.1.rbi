@@ -5,13 +5,13 @@
 # Please instead update this file by running `bin/tapioca gem omniauth-rails_csrf_protection`.
 
 
-# source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/version.rb#1
+# pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/version.rb:1
 module OmniAuth; end
 
-# source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/version.rb#2
+# pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/version.rb:2
 module OmniAuth::RailsCsrfProtection; end
 
-# source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/railtie.rb#6
+# pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/railtie.rb:6
 class OmniAuth::RailsCsrfProtection::Railtie < ::Rails::Railtie; end
 
 # Provides a callable method that verifies Cross-Site Request Forgery
@@ -24,7 +24,7 @@ class OmniAuth::RailsCsrfProtection::Railtie < ::Rails::Railtie; end
 # authenticity token, you can find the source code at
 # https://github.com/rails/rails/blob/v5.2.2/actionpack/lib/action_controller/metal/request_forgery_protection.rb#L217-L240.
 #
-# source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#19
+# pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:19
 class OmniAuth::RailsCsrfProtection::TokenVerifier
   include ::AbstractController::Helpers
   include ::ActiveSupport::Callbacks
@@ -37,126 +37,124 @@ class OmniAuth::RailsCsrfProtection::TokenVerifier
   extend ::AbstractController::Callbacks::ClassMethods
   extend ::ActionController::RequestForgeryProtection::ClassMethods
 
-  # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#34
+  # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:34
   def __callbacks; end
 
-  # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#58
+  # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:58
   def _call(env); end
 
-  # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#34
+  # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:34
   def _helper_methods; end
 
-  # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#34
+  # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:34
   def _helper_methods=(_arg0); end
 
-  # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#34
+  # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:34
   def _helper_methods?; end
 
-  # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#34
+  # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:34
   def _process_action_callbacks; end
 
-  # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#34
+  # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:34
   def _run_process_action_callbacks; end
 
-  # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#34
+  # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:34
   def _run_process_action_callbacks!(&block); end
 
-  # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#34
+  # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:34
   def allow_forgery_protection(*_arg0, **_arg1, &_arg2); end
 
-  # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#34
+  # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:34
   def allow_forgery_protection=(arg); end
 
-  # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#54
+  # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:54
   def call(env); end
 
-  # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#29
+  # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:29
   def config; end
 
-  # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#34
+  # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:34
   def csrf_token_storage_strategy(*_arg0, **_arg1, &_arg2); end
 
-  # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#34
+  # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:34
   def csrf_token_storage_strategy=(arg); end
 
-  # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#34
+  # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:34
   def forgery_protection_origin_check(*_arg0, **_arg1, &_arg2); end
 
-  # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#34
+  # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:34
   def forgery_protection_origin_check=(arg); end
 
-  # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#34
+  # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:34
   def forgery_protection_strategy(*_arg0, **_arg1, &_arg2); end
 
-  # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#34
+  # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:34
   def forgery_protection_strategy=(arg); end
 
-  # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#34
+  # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:34
   def log_warning_on_csrf_failure(*_arg0, **_arg1, &_arg2); end
 
-  # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#34
+  # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:34
   def log_warning_on_csrf_failure=(arg); end
 
-  # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#69
+  # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:69
   def params(*_arg0, **_arg1, &_arg2); end
 
-  # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#34
+  # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:34
   def per_form_csrf_tokens(*_arg0, **_arg1, &_arg2); end
 
-  # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#34
+  # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:34
   def per_form_csrf_tokens=(arg); end
 
-  # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#34
+  # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:34
   def raise_on_missing_callback_actions; end
 
-  # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#34
+  # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:34
   def raise_on_missing_callback_actions=(val); end
 
-  # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#34
+  # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:34
   def request_forgery_protection_token(*_arg0, **_arg1, &_arg2); end
 
-  # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#34
+  # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:34
   def request_forgery_protection_token=(arg); end
 
-  # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#69
+  # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:69
   def session(*_arg0, **_arg1, &_arg2); end
 
   private
 
-  # Returns the value of attribute request.
-  #
-  # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#68
+  # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:68
   def request; end
 
   class << self
-    # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#34
+    # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:34
     def __callbacks; end
 
-    # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#34
+    # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:34
     def __callbacks=(value); end
 
-    # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#34
+    # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:34
     def _helper_methods; end
 
-    # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#34
+    # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:34
     def _helper_methods=(value); end
 
-    # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#34
+    # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:34
     def _helper_methods?; end
 
-    # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#34
+    # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:34
     def _helpers; end
 
-    # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#34
+    # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:34
     def _process_action_callbacks; end
 
-    # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#34
+    # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:34
     def _process_action_callbacks=(value); end
 
-    # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#34
+    # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:34
     def allow_forgery_protection(*_arg0, **_arg1, &_arg2); end
 
-    # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#34
+    # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:34
     def allow_forgery_protection=(arg); end
 
     # `ActiveSupport::Configurable` is deprecated in Rails 8.1 and will be
@@ -164,66 +162,75 @@ class OmniAuth::RailsCsrfProtection::TokenVerifier
     # directly accesing configurations via `config`, we only need to define
     # these methods and delegate them to `ActionController::Base.config`.
     #
-    # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#25
+    # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:25
     def config; end
 
-    # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#34
+    # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:34
     def csrf_token_storage_strategy(*_arg0, **_arg1, &_arg2); end
 
-    # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#34
+    # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:34
     def csrf_token_storage_strategy=(arg); end
 
-    # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#34
+    # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:34
     def forgery_protection_origin_check(*_arg0, **_arg1, &_arg2); end
 
-    # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#34
+    # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:34
     def forgery_protection_origin_check=(arg); end
 
-    # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#34
+    # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:34
     def forgery_protection_strategy(*_arg0, **_arg1, &_arg2); end
 
-    # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#34
+    # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:34
     def forgery_protection_strategy=(arg); end
 
-    # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#34
+    # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:34
     def log_warning_on_csrf_failure(*_arg0, **_arg1, &_arg2); end
 
-    # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#34
+    # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:34
     def log_warning_on_csrf_failure=(arg); end
 
-    # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#34
+    # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:34
     def per_form_csrf_tokens(*_arg0, **_arg1, &_arg2); end
 
-    # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#34
+    # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:34
     def per_form_csrf_tokens=(arg); end
 
-    # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#34
+    # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:34
     def raise_on_missing_callback_actions; end
 
-    # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#34
+    # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:34
     def raise_on_missing_callback_actions=(val); end
 
-    # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#34
+    # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:34
     def request_forgery_protection_token(*_arg0, **_arg1, &_arg2); end
 
-    # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#34
+    # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:34
     def request_forgery_protection_token=(arg); end
 
     private
 
-    # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#34
+    # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:34
     def __class_attr___callbacks; end
 
-    # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#34
+    # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:34
     def __class_attr___callbacks=(new_value); end
 
-    # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#34
+    # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:34
     def __class_attr__helper_methods; end
 
-    # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#34
+    # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:34
     def __class_attr__helper_methods=(new_value); end
   end
 end
 
-# source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/version.rb#3
+# pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:34
+module OmniAuth::RailsCsrfProtection::TokenVerifier::HelperMethods
+  # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:34
+  def form_authenticity_token(*_arg0, **_arg1, &_arg2); end
+
+  # pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/token_verifier.rb:34
+  def protect_against_forgery?(*_arg0, **_arg1, &_arg2); end
+end
+
+# pkg:gem/omniauth-rails_csrf_protection#lib/omniauth/rails_csrf_protection/version.rb:3
 OmniAuth::RailsCsrfProtection::VERSION = T.let(T.unsafe(nil), String)

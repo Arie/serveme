@@ -5,7 +5,7 @@
 # Please instead update this file by running `bin/tapioca gem rack-openid`.
 
 
-# source://rack-openid//lib/rack/openid.rb#11
+# pkg:gem/rack-openid#lib/rack/openid.rb:11
 module Rack; end
 
 # A Rack middleware that provides a more HTTPish API around the
@@ -18,7 +18,7 @@ module Rack; end
 # On competition, the OpenID response is automatically verified and
 # assigned to env["rack.openid.response"].
 #
-# source://rack-openid//lib/rack/openid.rb#21
+# pkg:gem/rack-openid#lib/rack/openid.rb:21
 class Rack::OpenID
   # Initialize middleware with application and optional OpenID::Store.
   # If no store is given, OpenID::Store::Memory is used.
@@ -29,68 +29,66 @@ class Rack::OpenID
   #
   #   use Rack::OpenID, OpenID::Store::Memcache.new
   #
-  # @return [OpenID] a new instance of OpenID
-  #
-  # source://rack-openid//lib/rack/openid.rb#82
+  # pkg:gem/rack-openid#lib/rack/openid.rb:82
   def initialize(app, store = T.unsafe(nil)); end
 
   # Standard Rack +call+ dispatch that accepts an +env+ and
   # returns a [status, header, body] response.
   #
-  # source://rack-openid//lib/rack/openid.rb#89
+  # pkg:gem/rack-openid#lib/rack/openid.rb:89
   def call(env); end
 
   private
 
-  # source://rack-openid//lib/rack/openid.rb#262
+  # pkg:gem/rack-openid#lib/rack/openid.rb:262
   def add_attribute_exchange_fields(oidreq, fields); end
 
-  # source://rack-openid//lib/rack/openid.rb#281
+  # pkg:gem/rack-openid#lib/rack/openid.rb:281
   def add_oauth_fields(oidreq, fields); end
 
-  # source://rack-openid//lib/rack/openid.rb#288
+  # pkg:gem/rack-openid#lib/rack/openid.rb:288
   def add_pape_fields(oidreq, fields); end
 
-  # source://rack-openid//lib/rack/openid.rb#247
+  # pkg:gem/rack-openid#lib/rack/openid.rb:247
   def add_simple_registration_fields(oidreq, fields); end
 
-  # source://rack-openid//lib/rack/openid.rb#116
+  # pkg:gem/rack-openid#lib/rack/openid.rb:116
   def begin_authentication(env, qs); end
 
-  # source://rack-openid//lib/rack/openid.rb#143
+  # pkg:gem/rack-openid#lib/rack/openid.rb:143
   def complete_authentication(env); end
 
-  # source://rack-openid//lib/rack/openid.rb#298
+  # pkg:gem/rack-openid#lib/rack/openid.rb:298
   def default_store; end
 
-  # source://rack-openid//lib/rack/openid.rb#164
+  # pkg:gem/rack-openid#lib/rack/openid.rb:164
   def flatten_params(params); end
 
-  # source://rack-openid//lib/rack/openid.rb#226
+  # pkg:gem/rack-openid#lib/rack/openid.rb:226
   def open_id_redirect_url(req, oidreq, options); end
 
-  # source://rack-openid//lib/rack/openid.rb#168
+  # pkg:gem/rack-openid#lib/rack/openid.rb:168
   def override_request_method(env, method); end
 
-  # source://rack-openid//lib/rack/openid.rb#205
+  # pkg:gem/rack-openid#lib/rack/openid.rb:205
   def realm(req, domain = T.unsafe(nil)); end
 
-  # source://rack-openid//lib/rack/openid.rb#222
+  # pkg:gem/rack-openid#lib/rack/openid.rb:222
   def redirect_to(url); end
 
-  # source://rack-openid//lib/rack/openid.rb#214
+  # pkg:gem/rack-openid#lib/rack/openid.rb:214
   def request_url(req); end
 
-  # source://rack-openid//lib/rack/openid.rb#110
+  # pkg:gem/rack-openid#lib/rack/openid.rb:110
   def sanitize_params!(params); end
 
-  # source://rack-openid//lib/rack/openid.rb#176
+  # pkg:gem/rack-openid#lib/rack/openid.rb:176
   def sanitize_query_string(env); end
 
-  # source://rack-openid//lib/rack/openid.rb#192
+  # pkg:gem/rack-openid#lib/rack/openid.rb:192
   def scheme_with_host_and_port(req, host = T.unsafe(nil)); end
 
-  # source://rack-openid//lib/rack/openid.rb#303
+  # pkg:gem/rack-openid#lib/rack/openid.rb:303
   def timeout_protection_from_identity_server; end
 
   class << self
@@ -99,7 +97,7 @@ class Rack::OpenID
     #   Rack::OpenID.build_header(:identifier => "http://josh.openid.com/")
     #     #=> OpenID identifier="http://josh.openid.com/"
     #
-    # source://rack-openid//lib/rack/openid.rb#26
+    # pkg:gem/rack-openid#lib/rack/openid.rb:26
     def build_header(params = T.unsafe(nil)); end
 
     # Helper method for parsing "WWW-Authenticate" header values into
@@ -108,38 +106,38 @@ class Rack::OpenID
     #   Rack::OpenID.parse_header("OpenID identifier='http://josh.openid.com/'")
     #     #=> {:identifier => "http://josh.openid.com/"}
     #
-    # source://rack-openid//lib/rack/openid.rb#41
+    # pkg:gem/rack-openid#lib/rack/openid.rb:41
     def parse_header(str); end
   end
 end
 
-# source://rack-openid//lib/rack/openid.rb#69
+# pkg:gem/rack-openid#lib/rack/openid.rb:69
 Rack::OpenID::AUTHENTICATE_HEADER = T.let(T.unsafe(nil), String)
 
-# source://rack-openid//lib/rack/openid.rb#70
+# pkg:gem/rack-openid#lib/rack/openid.rb:70
 Rack::OpenID::AUTHENTICATE_REGEXP = T.let(T.unsafe(nil), Regexp)
 
-# source://rack-openid//lib/rack/openid.rb#66
+# pkg:gem/rack-openid#lib/rack/openid.rb:66
 Rack::OpenID::HTTP_METHODS = T.let(T.unsafe(nil), Array)
 
-# source://rack-openid//lib/rack/openid.rb#61
+# pkg:gem/rack-openid#lib/rack/openid.rb:61
 class Rack::OpenID::MissingResponse
   include ::OpenID::Consumer::Response
 end
 
-# source://rack-openid//lib/rack/openid.rb#63
+# pkg:gem/rack-openid#lib/rack/openid.rb:63
 Rack::OpenID::MissingResponse::STATUS = T.let(T.unsafe(nil), Symbol)
 
-# source://rack-openid//lib/rack/openid.rb#68
+# pkg:gem/rack-openid#lib/rack/openid.rb:68
 Rack::OpenID::RESPONSE = T.let(T.unsafe(nil), String)
 
-# source://rack-openid//lib/rack/openid.rb#56
+# pkg:gem/rack-openid#lib/rack/openid.rb:56
 class Rack::OpenID::TimeoutResponse
   include ::OpenID::Consumer::Response
 end
 
-# source://rack-openid//lib/rack/openid.rb#58
+# pkg:gem/rack-openid#lib/rack/openid.rb:58
 Rack::OpenID::TimeoutResponse::STATUS = T.let(T.unsafe(nil), Symbol)
 
-# source://rack-openid//lib/rack/openid.rb#72
+# pkg:gem/rack-openid#lib/rack/openid.rb:72
 Rack::OpenID::URL_FIELD_SELECTOR = T.let(T.unsafe(nil), Proc)

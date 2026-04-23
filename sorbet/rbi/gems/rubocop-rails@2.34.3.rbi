@@ -5,46 +5,40 @@
 # Please instead update this file by running `bin/tapioca gem rubocop-rails`.
 
 
-# source://rubocop-rails//lib/rubocop/rails.rb#3
+# pkg:gem/rubocop-rails#lib/rubocop/rails.rb:3
 module RuboCop; end
 
-# source://rubocop-rails//lib/rubocop/cop/mixin/active_record_helper.rb#4
+# pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/active_record_helper.rb:4
 module RuboCop::Cop; end
 
 # A mixin to extend cops for Active Record features
 #
-# source://rubocop-rails//lib/rubocop/cop/mixin/active_record_helper.rb#6
+# pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/active_record_helper.rb:6
 module RuboCop::Cop::ActiveRecordHelper
   extend ::RuboCop::AST::NodePattern::Macros
 
-  # source://rubocop-rails//lib/rubocop/cop/mixin/active_record_helper.rb#11
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/active_record_helper.rb:11
   def active_record?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/mixin/active_record_helper.rb#30
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/active_record_helper.rb:30
   def external_dependency_checksum; end
 
-  # source://rubocop-rails//lib/rubocop/cop/mixin/active_record_helper.rb#22
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/active_record_helper.rb:22
   def find_belongs_to(param0); end
 
-  # source://rubocop-rails//lib/rubocop/cop/mixin/active_record_helper.rb#18
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/active_record_helper.rb:18
   def find_set_table_name(param0); end
 
-  # source://rubocop-rails//lib/rubocop/cop/mixin/active_record_helper.rb#84
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/active_record_helper.rb:84
   def foreign_key_of(belongs_to); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/mixin/active_record_helper.rb#105
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/active_record_helper.rb:105
   def in_where?(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/mixin/active_record_helper.rb#26
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/active_record_helper.rb:26
   def inherit_active_record_base?(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/mixin/active_record_helper.rb#96
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/active_record_helper.rb:96
   def polymorphic?(belongs_to); end
 
   # Resolve relation into column name.
@@ -53,44 +47,44 @@ module RuboCop::Cop::ActiveRecordHelper
   # Returns an array of column names if the relation is polymorphic.
   # It returns `nil` if it can't resolve.
   #
-  # @param class_node [RuboCop::AST::Node]
   # @param name [String]
+  # @param class_node [RuboCop::AST::Node]
   # @param table [RuboCop::Rails::SchemaLoader::Table]
   # @return [Array, String, nil]
   #
-  # source://rubocop-rails//lib/rubocop/cop/mixin/active_record_helper.rb#69
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/active_record_helper.rb:69
   def resolve_relation_into_column(name:, class_node:, table:); end
 
-  # source://rubocop-rails//lib/rubocop/cop/mixin/active_record_helper.rb#41
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/active_record_helper.rb:41
   def schema; end
 
-  # source://rubocop-rails//lib/rubocop/cop/mixin/active_record_helper.rb#50
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/active_record_helper.rb:50
   def table_name(class_node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/mixin/active_record_helper.rb#9
+# pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/active_record_helper.rb:9
 RuboCop::Cop::ActiveRecordHelper::WHERE_METHODS = T.let(T.unsafe(nil), Array)
 
 # A mixin to extend cops for Active Record features
 #
-# source://rubocop-rails//lib/rubocop/cop/mixin/active_record_migrations_helper.rb#6
+# pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/active_record_migrations_helper.rb:6
 module RuboCop::Cop::ActiveRecordMigrationsHelper
   extend ::RuboCop::AST::NodePattern::Macros
 
-  # source://rubocop-rails//lib/rubocop/cop/mixin/active_record_migrations_helper.rb#24
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/active_record_migrations_helper.rb:24
   def create_table_with_block?(param0 = T.unsafe(nil)); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/mixin/active_record_migrations_helper.rb#19
+# pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/active_record_migrations_helper.rb:19
 RuboCop::Cop::ActiveRecordMigrationsHelper::MYSQL_SCHEMA_DEFINITIONS = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/mixin/active_record_migrations_helper.rb#14
+# pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/active_record_migrations_helper.rb:14
 RuboCop::Cop::ActiveRecordMigrationsHelper::POSTGRES_SCHEMA_DEFINITIONS = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/mixin/active_record_migrations_helper.rb#9
+# pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/active_record_migrations_helper.rb:9
 RuboCop::Cop::ActiveRecordMigrationsHelper::RAILS_ABSTRACT_SCHEMA_DEFINITIONS = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/mixin/active_record_migrations_helper.rb#13
+# pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/active_record_migrations_helper.rb:13
 RuboCop::Cop::ActiveRecordMigrationsHelper::RAILS_ABSTRACT_SCHEMA_DEFINITIONS_HELPERS = T.let(T.unsafe(nil), Array)
 
 class RuboCop::Cop::Bundler::DuplicatedGem < ::RuboCop::Cop::Base
@@ -124,9 +118,9 @@ end
 
 # A mixin to return all of the class send nodes.
 #
-# source://rubocop-rails//lib/rubocop/cop/mixin/class_send_node_helper.rb#6
+# pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/class_send_node_helper.rb:6
 module RuboCop::Cop::ClassSendNodeHelper
-  # source://rubocop-rails//lib/rubocop/cop/mixin/class_send_node_helper.rb#7
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/class_send_node_helper.rb:7
   def class_send_nodes(class_node); end
 end
 
@@ -136,51 +130,49 @@ end
 # in `config/database.yml` or the environment variable `DATABASE_URL`
 # when the `Database` option is not set.
 #
-# source://rubocop-rails//lib/rubocop/cop/mixin/database_type_resolvable.rb#10
+# pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/database_type_resolvable.rb:10
 module RuboCop::Cop::DatabaseTypeResolvable
-  # source://rubocop-rails//lib/rubocop/cop/mixin/database_type_resolvable.rb#14
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/database_type_resolvable.rb:14
   def database; end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/mixin/database_type_resolvable.rb#61
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/database_type_resolvable.rb:61
   def database_adapter; end
 
-  # source://rubocop-rails//lib/rubocop/cop/mixin/database_type_resolvable.rb#31
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/database_type_resolvable.rb:31
   def database_from_env; end
 
-  # source://rubocop-rails//lib/rubocop/cop/mixin/database_type_resolvable.rb#20
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/database_type_resolvable.rb:20
   def database_from_yaml; end
 
-  # source://rubocop-rails//lib/rubocop/cop/mixin/database_type_resolvable.rb#43
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/database_type_resolvable.rb:43
   def database_yaml; end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/mixin/database_type_resolvable.rb#11
+# pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/database_type_resolvable.rb:11
 RuboCop::Cop::DatabaseTypeResolvable::MYSQL = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/mixin/database_type_resolvable.rb#12
+# pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/database_type_resolvable.rb:12
 RuboCop::Cop::DatabaseTypeResolvable::POSTGRESQL = T.let(T.unsafe(nil), String)
 
 # Common functionality for enforcing a specific superclass.
 #
-# source://rubocop-rails//lib/rubocop/cop/mixin/enforce_superclass.rb#11
+# pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/enforce_superclass.rb:11
 module RuboCop::Cop::EnforceSuperclass
-  # source://rubocop-rails//lib/rubocop/cop/mixin/enforce_superclass.rb#24
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/enforce_superclass.rb:24
   def on_class(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/mixin/enforce_superclass.rb#30
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/enforce_superclass.rb:30
   def on_send(node); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/mixin/enforce_superclass.rb#38
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/enforce_superclass.rb:38
   def register_offense(offense_node); end
 
   class << self
-    # @private
-    #
-    # source://rubocop-rails//lib/rubocop/cop/mixin/enforce_superclass.rb#12
+    # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/enforce_superclass.rb:12
     def included(base); end
   end
 end
@@ -227,231 +219,169 @@ end
 
 # Common functionality for Rails/IndexBy and Rails/IndexWith
 #
-# source://rubocop-rails//lib/rubocop/cop/mixin/index_method.rb#6
+# pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/index_method.rb:6
 module RuboCop::Cop::IndexMethod
-  # source://rubocop-rails//lib/rubocop/cop/mixin/index_method.rb#74
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/index_method.rb:74
   def on_block(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/mixin/index_method.rb#99
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/index_method.rb:99
   def on_csend(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/mixin/index_method.rb#87
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/index_method.rb:87
   def on_itblock(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/mixin/index_method.rb#86
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/index_method.rb:86
   def on_numblock(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/mixin/index_method.rb#89
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/index_method.rb:89
   def on_send(node); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/mixin/index_method.rb#167
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/index_method.rb:167
   def execute_correction(corrector, node, correction); end
 
-  # source://rubocop-rails//lib/rubocop/cop/mixin/index_method.rb#144
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/index_method.rb:144
   def extract_captures(match); end
 
-  # source://rubocop-rails//lib/rubocop/cop/mixin/index_method.rb#127
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/index_method.rb:127
   def handle_possible_offense(node, match, match_desc); end
 
-  # @raise [NotImplementedError]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/mixin/index_method.rb#149
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/index_method.rb:149
   def new_method_name; end
 
   # @abstract Implemented with `def_node_matcher`
-  # @raise [NotImplementedError]
   #
-  # source://rubocop-rails//lib/rubocop/cop/mixin/index_method.rb#108
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/index_method.rb:108
   def on_bad_each_with_object(_node); end
 
   # @abstract Implemented with `def_node_matcher`
-  # @raise [NotImplementedError]
   #
-  # source://rubocop-rails//lib/rubocop/cop/mixin/index_method.rb#123
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/index_method.rb:123
   def on_bad_hash_brackets_map(_node); end
 
   # @abstract Implemented with `def_node_matcher`
-  # @raise [NotImplementedError]
   #
-  # source://rubocop-rails//lib/rubocop/cop/mixin/index_method.rb#118
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/index_method.rb:118
   def on_bad_map_to_h(_node); end
 
   # @abstract Implemented with `def_node_matcher`
-  # @raise [NotImplementedError]
   #
-  # source://rubocop-rails//lib/rubocop/cop/mixin/index_method.rb#113
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/index_method.rb:113
   def on_bad_to_h(_node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/mixin/index_method.rb#153
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/index_method.rb:153
   def prepare_correction(node); end
 end
 
 # Internal helper class to hold autocorrect data
 #
-# source://rubocop-rails//lib/rubocop/cop/mixin/index_method.rb#20
+# pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/index_method.rb:20
 class RuboCop::Cop::IndexMethod::Autocorrection < ::Struct
-  # Returns the value of attribute block_node
-  #
-  # @return [Object] the current value of block_node
-  #
-  # source://rubocop-rails//lib/rubocop/cop/mixin/index_method.rb#20
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/index_method.rb:20
   def block_node; end
 
-  # Sets the attribute block_node
-  #
-  # @param value [Object] the value to set the attribute block_node to.
-  # @return [Object] the newly set value
-  #
-  # source://rubocop-rails//lib/rubocop/cop/mixin/index_method.rb#20
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/index_method.rb:20
   def block_node=(_); end
 
-  # Returns the value of attribute leading
-  #
-  # @return [Object] the current value of leading
-  #
-  # source://rubocop-rails//lib/rubocop/cop/mixin/index_method.rb#20
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/index_method.rb:20
   def leading; end
 
-  # Sets the attribute leading
-  #
-  # @param value [Object] the value to set the attribute leading to.
-  # @return [Object] the newly set value
-  #
-  # source://rubocop-rails//lib/rubocop/cop/mixin/index_method.rb#20
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/index_method.rb:20
   def leading=(_); end
 
-  # Returns the value of attribute match
-  #
-  # @return [Object] the current value of match
-  #
-  # source://rubocop-rails//lib/rubocop/cop/mixin/index_method.rb#20
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/index_method.rb:20
   def match; end
 
-  # Sets the attribute match
-  #
-  # @param value [Object] the value to set the attribute match to.
-  # @return [Object] the newly set value
-  #
-  # source://rubocop-rails//lib/rubocop/cop/mixin/index_method.rb#20
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/index_method.rb:20
   def match=(_); end
 
-  # source://rubocop-rails//lib/rubocop/cop/mixin/index_method.rb#60
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/index_method.rb:60
   def set_new_arg_name(transformed_argname, corrector); end
 
-  # source://rubocop-rails//lib/rubocop/cop/mixin/index_method.rb#66
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/index_method.rb:66
   def set_new_body_expression(transforming_body_expr, corrector); end
 
-  # source://rubocop-rails//lib/rubocop/cop/mixin/index_method.rb#51
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/index_method.rb:51
   def set_new_method_name(new_method_name, corrector); end
 
-  # source://rubocop-rails//lib/rubocop/cop/mixin/index_method.rb#45
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/index_method.rb:45
   def strip_prefix_and_suffix(node, corrector); end
 
-  # Returns the value of attribute trailing
-  #
-  # @return [Object] the current value of trailing
-  #
-  # source://rubocop-rails//lib/rubocop/cop/mixin/index_method.rb#20
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/index_method.rb:20
   def trailing; end
 
-  # Sets the attribute trailing
-  #
-  # @param value [Object] the value to set the attribute trailing to.
-  # @return [Object] the newly set value
-  #
-  # source://rubocop-rails//lib/rubocop/cop/mixin/index_method.rb#20
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/index_method.rb:20
   def trailing=(_); end
 
   class << self
-    # source://rubocop-rails//lib/rubocop/cop/mixin/index_method.rb#20
+    # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/index_method.rb:20
     def [](*_arg0); end
 
-    # source://rubocop-rails//lib/rubocop/cop/mixin/index_method.rb#21
+    # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/index_method.rb:21
     def from_each_with_object(node, match); end
 
-    # source://rubocop-rails//lib/rubocop/cop/mixin/index_method.rb#41
+    # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/index_method.rb:41
     def from_hash_brackets_map(node, match); end
 
-    # source://rubocop-rails//lib/rubocop/cop/mixin/index_method.rb#29
+    # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/index_method.rb:29
     def from_map_to_h(node, match); end
 
-    # source://rubocop-rails//lib/rubocop/cop/mixin/index_method.rb#25
+    # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/index_method.rb:25
     def from_to_h(node, match); end
 
-    # source://rubocop-rails//lib/rubocop/cop/mixin/index_method.rb#20
+    # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/index_method.rb:20
     def inspect; end
 
-    # source://rubocop-rails//lib/rubocop/cop/mixin/index_method.rb#20
+    # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/index_method.rb:20
     def keyword_init?; end
 
-    # source://rubocop-rails//lib/rubocop/cop/mixin/index_method.rb#20
+    # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/index_method.rb:20
     def members; end
 
-    # source://rubocop-rails//lib/rubocop/cop/mixin/index_method.rb#20
+    # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/index_method.rb:20
     def new(*_arg0); end
   end
 end
 
 # Internal helper class to hold match data
 #
-# source://rubocop-rails//lib/rubocop/cop/mixin/index_method.rb#10
+# pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/index_method.rb:10
 class RuboCop::Cop::IndexMethod::Captures < ::Struct
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/mixin/index_method.rb#14
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/index_method.rb:14
   def noop_transformation?; end
 
-  # Returns the value of attribute transformed_argname
-  #
-  # @return [Object] the current value of transformed_argname
-  #
-  # source://rubocop-rails//lib/rubocop/cop/mixin/index_method.rb#10
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/index_method.rb:10
   def transformed_argname; end
 
-  # Sets the attribute transformed_argname
-  #
-  # @param value [Object] the value to set the attribute transformed_argname to.
-  # @return [Object] the newly set value
-  #
-  # source://rubocop-rails//lib/rubocop/cop/mixin/index_method.rb#10
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/index_method.rb:10
   def transformed_argname=(_); end
 
-  # Returns the value of attribute transforming_body_expr
-  #
-  # @return [Object] the current value of transforming_body_expr
-  #
-  # source://rubocop-rails//lib/rubocop/cop/mixin/index_method.rb#10
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/index_method.rb:10
   def transforming_body_expr; end
 
-  # Sets the attribute transforming_body_expr
-  #
-  # @param value [Object] the value to set the attribute transforming_body_expr to.
-  # @return [Object] the newly set value
-  #
-  # source://rubocop-rails//lib/rubocop/cop/mixin/index_method.rb#10
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/index_method.rb:10
   def transforming_body_expr=(_); end
 
   class << self
-    # source://rubocop-rails//lib/rubocop/cop/mixin/index_method.rb#10
+    # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/index_method.rb:10
     def [](*_arg0); end
 
-    # source://rubocop-rails//lib/rubocop/cop/mixin/index_method.rb#10
+    # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/index_method.rb:10
     def inspect; end
 
-    # source://rubocop-rails//lib/rubocop/cop/mixin/index_method.rb#10
+    # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/index_method.rb:10
     def keyword_init?; end
 
-    # source://rubocop-rails//lib/rubocop/cop/mixin/index_method.rb#10
+    # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/index_method.rb:10
     def members; end
 
-    # source://rubocop-rails//lib/rubocop/cop/mixin/index_method.rb#10
+    # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/index_method.rb:10
     def new(*_arg0); end
   end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/mixin/index_method.rb#7
+# pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/index_method.rb:7
 RuboCop::Cop::IndexMethod::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 class RuboCop::Cop::Layout::AccessModifierIndentation < ::RuboCop::Cop::Base
@@ -667,7 +597,6 @@ end
 
 class RuboCop::Cop::Layout::IndentationWidth < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
-  include ::RuboCop::Cop::ConfigurableEnforcedStyle
 end
 
 class RuboCop::Cop::Layout::InitialIndentation < ::RuboCop::Cop::Base
@@ -952,6 +881,10 @@ class RuboCop::Cop::Lint::ConstantResolution < ::RuboCop::Cop::Base
 end
 
 class RuboCop::Cop::Lint::CopDirectiveSyntax < ::RuboCop::Cop::Base
+  include ::RuboCop::Rails::MigrationFileSkippable
+end
+
+class RuboCop::Cop::Lint::DataDefineOverride < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
 end
 
@@ -1428,6 +1361,10 @@ class RuboCop::Cop::Lint::UnreachableLoop < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
 end
 
+class RuboCop::Cop::Lint::UnreachablePatternBranch < ::RuboCop::Cop::Base
+  include ::RuboCop::Rails::MigrationFileSkippable
+end
+
 class RuboCop::Cop::Lint::UnusedBlockArgument < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
 end
@@ -1550,16 +1487,14 @@ end
 
 # Common functionality for cops working with migrations
 #
-# source://rubocop-rails//lib/rubocop/cop/mixin/migrations_helper.rb#6
+# pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/migrations_helper.rb:6
 module RuboCop::Cop::MigrationsHelper
   extend ::RuboCop::AST::NodePattern::Macros
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/mixin/migrations_helper.rb#19
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/migrations_helper.rb:19
   def in_migration?(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/mixin/migrations_helper.rb#9
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/migrations_helper.rb:9
   def migration_class?(param0 = T.unsafe(nil)); end
 end
 
@@ -1855,82 +1790,82 @@ class RuboCop::Cop::Performance::ZipWithoutBlock < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/action_controller_flash_before_render.rb#5
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/action_controller_flash_before_render.rb:5
 module RuboCop::Cop::Rails; end
 
 # Using `flash` assignment before `render` in Rails controllers will persist the message for too long.
 # Check https://guides.rubyonrails.org/action_controller_overview.html#flash-now
 #
+# @safety
+#   This cop's autocorrection is unsafe because it replaces `flash` by `flash.now`.
+#   Even though it is usually a mistake, it might be used intentionally.
+#
 # @example
 #
 #   # bad
 #   class HomeController < ApplicationController
-#   def create
-#   flash[:alert] = "msg"
-#   render :index
-#   end
+#     def create
+#       flash[:alert] = "msg"
+#       render :index
+#     end
 #   end
 #
 #   # good
 #   class HomeController < ApplicationController
-#   def create
-#   flash.now[:alert] = "msg"
-#   render :index
-#   end
+#     def create
+#       flash.now[:alert] = "msg"
+#       render :index
+#     end
 #   end
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/action_controller_flash_before_render.rb#31
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/action_controller_flash_before_render.rb:31
 class RuboCop::Cop::Rails::ActionControllerFlashBeforeRender < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/action_controller_flash_before_render.rb#44
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/action_controller_flash_before_render.rb:44
   def action_controller?(param0); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/action_controller_flash_before_render.rb#36
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/action_controller_flash_before_render.rb:36
   def flash_assignment?(param0); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/action_controller_flash_before_render.rb#53
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/action_controller_flash_before_render.rb:53
   def on_send(flash_node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/action_controller_flash_before_render.rb#40
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/action_controller_flash_before_render.rb:40
   def render?(param0); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/action_controller_flash_before_render.rb#110
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/action_controller_flash_before_render.rb:110
   def find_ancestor(node, type:); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/action_controller_flash_before_render.rb#69
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/action_controller_flash_before_render.rb:69
   def followed_by_render?(flash_node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/action_controller_flash_before_render.rb#86
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/action_controller_flash_before_render.rb:86
   def inherit_action_controller_base?(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/action_controller_flash_before_render.rb#93
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/action_controller_flash_before_render.rb:93
   def instance_method_or_block?(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/action_controller_flash_before_render.rb#100
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/action_controller_flash_before_render.rb:100
   def use_redirect_to?(context); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/action_controller_flash_before_render.rb#34
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/action_controller_flash_before_render.rb:34
 RuboCop::Cop::Rails::ActionControllerFlashBeforeRender::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/action_controller_flash_before_render.rb#51
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/action_controller_flash_before_render.rb:51
 RuboCop::Cop::Rails::ActionControllerFlashBeforeRender::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Using `ActionController::TestCase` is discouraged and should be replaced by
 # `ActionDispatch::IntegrationTest`. Controller tests are too close to the
 # internals of a controller whereas integration tests mimic the browser/user.
+#
+# @safety
+#   This cop's autocorrection is unsafe because the API of each test case class is different.
+#   Make sure to update each test of your controller test cases after changing the superclass.
 #
 # @example
 #   # bad
@@ -1941,20 +1876,20 @@ RuboCop::Cop::Rails::ActionControllerFlashBeforeRender::RESTRICT_ON_SEND = T.let
 #   class MyControllerTest < ActionDispatch::IntegrationTest
 #   end
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/action_controller_test_case.rb#23
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/action_controller_test_case.rb:23
 class RuboCop::Cop::Rails::ActionControllerTestCase < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   extend ::RuboCop::Cop::AutoCorrector
   extend ::RuboCop::Cop::TargetRailsVersion
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/action_controller_test_case.rb#31
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/action_controller_test_case.rb:31
   def action_controller_test_case?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/action_controller_test_case.rb#37
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/action_controller_test_case.rb:37
   def on_class(node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/action_controller_test_case.rb#27
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/action_controller_test_case.rb:27
 RuboCop::Cop::Rails::ActionControllerTestCase::MSG = T.let(T.unsafe(nil), String)
 
 # Enforces the consistent use of action filter methods.
@@ -1975,6 +1910,7 @@ RuboCop::Cop::Rails::ActionControllerTestCase::MSG = T.let(T.unsafe(nil), String
 #   after_action :do_stuff
 #   append_around_action :do_stuff
 #   skip_after_action :do_stuff
+#
 # @example EnforcedStyle: filter
 #   # bad
 #   after_action :do_stuff
@@ -1986,43 +1922,43 @@ RuboCop::Cop::Rails::ActionControllerTestCase::MSG = T.let(T.unsafe(nil), String
 #   append_around_filter :do_stuff
 #   skip_after_filter :do_stuff
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/action_filter.rb#35
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/action_filter.rb:35
 class RuboCop::Cop::Rails::ActionFilter < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::ConfigurableEnforcedStyle
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/action_filter.rb#75
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/action_filter.rb:75
   def on_block(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/action_filter.rb#79
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/action_filter.rb:79
   def on_send(node); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/action_filter.rb#96
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/action_filter.rb:96
   def bad_methods; end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/action_filter.rb#85
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/action_filter.rb:85
   def check_method_node(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/action_filter.rb#100
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/action_filter.rb:100
   def good_methods; end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/action_filter.rb#104
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/action_filter.rb:104
   def preferred_method(method); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/action_filter.rb#57
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/action_filter.rb:57
 RuboCop::Cop::Rails::ActionFilter::ACTION_METHODS = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/action_filter.rb#41
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/action_filter.rb:41
 RuboCop::Cop::Rails::ActionFilter::FILTER_METHODS = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/action_filter.rb#39
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/action_filter.rb:39
 RuboCop::Cop::Rails::ActionFilter::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/action_filter.rb#73
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/action_filter.rb:73
 RuboCop::Cop::Rails::ActionFilter::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Enforces consistent ordering of the standard Rails RESTful controller actions.
@@ -2055,7 +1991,7 @@ RuboCop::Cop::Rails::ActionFilter::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array
 #   def show; end
 #   def destroy; end
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/action_order.rb#35
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/action_order.rb:35
 class RuboCop::Cop::Rails::ActionOrder < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::VisibilityHelp
@@ -2063,47 +1999,51 @@ class RuboCop::Cop::Rails::ActionOrder < ::RuboCop::Cop::Base
   include ::RuboCop::Cop::RangeHelp
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/action_order.rb#43
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/action_order.rb:43
   def action_declarations(param0, param1); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/action_order.rb#45
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/action_order.rb:45
   def on_class(node); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/action_order.rb#60
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/action_order.rb:60
   def actions; end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/action_order.rb#87
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/action_order.rb:87
   def add_range(range1, range2); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/action_order.rb#83
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/action_order.rb:83
   def correction_target(def_node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/action_order.rb#56
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/action_order.rb:56
   def expected_order; end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/action_order.rb#64
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/action_order.rb:64
   def find_index(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/action_order.rb#94
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/action_order.rb:94
   def range_with_comments(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/action_order.rb#101
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/action_order.rb:101
   def range_with_comments_and_lines(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/action_order.rb#68
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/action_order.rb:68
   def register_offense(previous, current); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/action_order.rb#105
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/action_order.rb:105
   def swap_range(corrector, range1, range2); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/action_order.rb#41
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/action_order.rb:41
 RuboCop::Cop::Rails::ActionOrder::MSG = T.let(T.unsafe(nil), String)
 
 # Checks that ActiveRecord aliases are not used. The direct method names
 # are more clear and easier to read.
+#
+# @safety
+#   This cop is unsafe because custom `update_attributes` method call was changed to
+#   `update` but the method name remained same in the method definition.
 #
 # @example
 #   # bad
@@ -2112,25 +2052,25 @@ RuboCop::Cop::Rails::ActionOrder::MSG = T.let(T.unsafe(nil), String)
 #   # good
 #   book.update!(author: 'Alice')
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/active_record_aliases.rb#19
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/active_record_aliases.rb:19
 class RuboCop::Cop::Rails::ActiveRecordAliases < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/active_record_aliases.rb#43
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/active_record_aliases.rb:43
   def on_csend(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/active_record_aliases.rb#28
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/active_record_aliases.rb:28
   def on_send(node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/active_record_aliases.rb#24
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/active_record_aliases.rb:24
 RuboCop::Cop::Rails::ActiveRecordAliases::ALIASES = T.let(T.unsafe(nil), Hash)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/active_record_aliases.rb#22
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/active_record_aliases.rb:22
 RuboCop::Cop::Rails::ActiveRecordAliases::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/active_record_aliases.rb#26
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/active_record_aliases.rb:26
 RuboCop::Cop::Rails::ActiveRecordAliases::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Checks that Active Record callbacks are declared
@@ -2139,67 +2079,63 @@ RuboCop::Cop::Rails::ActiveRecordAliases::RESTRICT_ON_SEND = T.let(T.unsafe(nil)
 # @example
 #   # bad
 #   class Person < ApplicationRecord
-#   after_commit :after_commit_callback
-#   before_validation :before_validation_callback
+#     after_commit :after_commit_callback
+#     before_validation :before_validation_callback
 #   end
 #
 #   # good
 #   class Person < ApplicationRecord
-#   before_validation :before_validation_callback
-#   after_commit :after_commit_callback
+#     before_validation :before_validation_callback
+#     after_commit :after_commit_callback
 #   end
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/active_record_callbacks_order.rb#22
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/active_record_callbacks_order.rb:22
 class RuboCop::Cop::Rails::ActiveRecordCallbacksOrder < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/active_record_callbacks_order.rb#51
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/active_record_callbacks_order.rb:51
   def on_class(class_node); end
 
   private
 
   # Autocorrect by swapping between two nodes autocorrecting them
   #
-  # source://rubocop-rails//lib/rubocop/cop/rails/active_record_callbacks_order.rb#73
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/active_record_callbacks_order.rb:73
   def autocorrect(corrector, node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/active_record_callbacks_order.rb#111
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/active_record_callbacks_order.rb:111
   def begin_pos_with_comment(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/active_record_callbacks_order.rb#133
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/active_record_callbacks_order.rb:133
   def buffer; end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/active_record_callbacks_order.rb#95
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/active_record_callbacks_order.rb:95
   def callback?(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/active_record_callbacks_order.rb#85
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/active_record_callbacks_order.rb:85
   def defined_callbacks(class_node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/active_record_callbacks_order.rb#106
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/active_record_callbacks_order.rb:106
   def end_position_for(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/active_record_callbacks_order.rb#125
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/active_record_callbacks_order.rb:125
   def inline_comment?(comment); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/active_record_callbacks_order.rb#99
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/active_record_callbacks_order.rb:99
   def source_range_with_comment(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/active_record_callbacks_order.rb#129
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/active_record_callbacks_order.rb:129
   def start_line_position(node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/active_record_callbacks_order.rb#27
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/active_record_callbacks_order.rb:27
 RuboCop::Cop::Rails::ActiveRecordCallbacksOrder::CALLBACKS_IN_ORDER = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/active_record_callbacks_order.rb#49
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/active_record_callbacks_order.rb:49
 RuboCop::Cop::Rails::ActiveRecordCallbacksOrder::CALLBACKS_ORDER_MAP = T.let(T.unsafe(nil), Hash)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/active_record_callbacks_order.rb#25
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/active_record_callbacks_order.rb:25
 RuboCop::Cop::Rails::ActiveRecordCallbacksOrder::MSG = T.let(T.unsafe(nil), String)
 
 # Checks for overriding built-in Active Record methods instead of using
@@ -2208,52 +2144,50 @@ RuboCop::Cop::Rails::ActiveRecordCallbacksOrder::MSG = T.let(T.unsafe(nil), Stri
 # @example
 #   # bad
 #   class Book < ApplicationRecord
-#   def save
-#   self.title = title.upcase!
-#   super
-#   end
+#     def save
+#       self.title = title.upcase!
+#       super
+#     end
 #   end
 #
 #   # good
 #   class Book < ApplicationRecord
-#   before_save :upcase_title
+#     before_save :upcase_title
 #
-#   def upcase_title
-#   self.title = title.upcase!
-#   end
+#     def upcase_title
+#       self.title = title.upcase!
+#     end
 #   end
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/active_record_override.rb#27
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/active_record_override.rb:27
 class RuboCop::Cop::Rails::ActiveRecordOverride < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/active_record_override.rb#32
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/active_record_override.rb:32
   def on_def(node); end
 
   private
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/active_record_override.rb#45
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/active_record_override.rb:45
   def active_model?(parent_class_name); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/active_record_override.rb#49
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/active_record_override.rb:49
   def callback_names(method_name); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/active_record_override.rb#63
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/active_record_override.rb:63
   def find_parent_class_name(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/active_record_override.rb#59
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/active_record_override.rb:59
   def message(method_name); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/active_record_override.rb#30
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/active_record_override.rb:30
 RuboCop::Cop::Rails::ActiveRecordOverride::ACTIVE_RECORD_CLASSES = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/active_record_override.rb#29
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/active_record_override.rb:29
 RuboCop::Cop::Rails::ActiveRecordOverride::BAD_METHODS = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/active_record_override.rb#28
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/active_record_override.rb:28
 RuboCop::Cop::Rails::ActiveRecordOverride::MSG = T.let(T.unsafe(nil), String)
 
 # Checks that ActiveSupport aliases to core ruby methods
@@ -2272,41 +2206,45 @@ RuboCop::Cop::Rails::ActiveRecordOverride::MSG = T.let(T.unsafe(nil), String)
 #   [1, 2, 'a'].append('b')
 #   [1, 2, 'a'].prepend('b')
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/active_support_aliases.rb#22
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/active_support_aliases.rb:22
 class RuboCop::Cop::Rails::ActiveSupportAliases < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/active_support_aliases.rb#40
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/active_support_aliases.rb:40
   def append(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/active_support_aliases.rb#40
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/active_support_aliases.rb:40
   def ends_with?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/active_support_aliases.rb#57
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/active_support_aliases.rb:57
   def on_csend(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/active_support_aliases.rb#43
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/active_support_aliases.rb:43
   def on_send(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/active_support_aliases.rb#40
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/active_support_aliases.rb:40
   def prepend(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/active_support_aliases.rb#40
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/active_support_aliases.rb:40
   def starts_with?(param0 = T.unsafe(nil)); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/active_support_aliases.rb#28
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/active_support_aliases.rb:28
 RuboCop::Cop::Rails::ActiveSupportAliases::ALIASES = T.let(T.unsafe(nil), Hash)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/active_support_aliases.rb#25
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/active_support_aliases.rb:25
 RuboCop::Cop::Rails::ActiveSupportAliases::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/active_support_aliases.rb#26
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/active_support_aliases.rb:26
 RuboCop::Cop::Rails::ActiveSupportAliases::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Checks for Rails framework classes that are patched directly instead of using Active Support load hooks. Direct
 # patching forcibly loads the framework referenced, using hooks defers loading until it's actually needed.
+#
+# @safety
+#   While using lazy load hooks is recommended, it changes the order in which is code is loaded and may reveal
+#   load order dependency bugs.
 #
 # @example
 #
@@ -2316,31 +2254,31 @@ RuboCop::Cop::Rails::ActiveSupportAliases::RESTRICT_ON_SEND = T.let(T.unsafe(nil
 #   # good
 #   ActiveSupport.on_load(:active_record) { include MyClass }
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/active_support_on_load.rb#20
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/active_support_on_load.rb:20
 class RuboCop::Cop::Rails::ActiveSupportOnLoad < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/active_support_on_load.rb#81
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/active_support_on_load.rb:81
   def hook_for_const(const_name); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/active_support_on_load.rb#71
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/active_support_on_load.rb:71
   def on_send(node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/active_support_on_load.rb#25
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/active_support_on_load.rb:25
 RuboCop::Cop::Rails::ActiveSupportOnLoad::LOAD_HOOKS = T.let(T.unsafe(nil), Hash)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/active_support_on_load.rb#23
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/active_support_on_load.rb:23
 RuboCop::Cop::Rails::ActiveSupportOnLoad::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/active_support_on_load.rb#58
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/active_support_on_load.rb:58
 RuboCop::Cop::Rails::ActiveSupportOnLoad::RAILS_5_2_LOAD_HOOKS = T.let(T.unsafe(nil), Hash)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/active_support_on_load.rb#62
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/active_support_on_load.rb:62
 RuboCop::Cop::Rails::ActiveSupportOnLoad::RAILS_7_1_LOAD_HOOKS = T.let(T.unsafe(nil), Hash)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/active_support_on_load.rb#24
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/active_support_on_load.rb:24
 RuboCop::Cop::Rails::ActiveSupportOnLoad::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Checks for migrations using `add_column` that have an `index`
@@ -2356,29 +2294,29 @@ RuboCop::Cop::Rails::ActiveSupportOnLoad::RESTRICT_ON_SEND = T.let(T.unsafe(nil)
 #   add_column :table, :column, :integer
 #   add_index :table, :column
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/add_column_index.rb#19
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/add_column_index.rb:19
 class RuboCop::Cop::Rails::AddColumnIndex < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::RangeHelp
   include ::RuboCop::Cop::MigrationsHelper
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/add_column_index.rb#28
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/add_column_index.rb:28
   def add_column_with_index(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/add_column_index.rb#35
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/add_column_index.rb:35
   def on_send(node); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/add_column_index.rb#56
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/add_column_index.rb:56
   def index_range(pair_node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/add_column_index.rb#24
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/add_column_index.rb:24
 RuboCop::Cop::Rails::AddColumnIndex::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/add_column_index.rb#25
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/add_column_index.rb:25
 RuboCop::Cop::Rails::AddColumnIndex::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Enforces that there is only one call to `after_commit`
@@ -2409,147 +2347,155 @@ RuboCop::Cop::Rails::AddColumnIndex::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Arr
 #   after_create_commit :log_create_action
 #   after_update_commit :log_update_action
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/after_commit_override.rb#34
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/after_commit_override.rb:34
 class RuboCop::Cop::Rails::AfterCommitOverride < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::ClassSendNodeHelper
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/after_commit_override.rb#47
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/after_commit_override.rb:47
   def on_class(class_node); end
 
   private
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/after_commit_override.rb#68
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/after_commit_override.rb:68
   def after_commit_callback?(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/after_commit_override.rb#62
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/after_commit_override.rb:62
   def each_after_commit_callback(class_node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/after_commit_override.rb#72
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/after_commit_override.rb:72
   def named_callback?(node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/after_commit_override.rb#39
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/after_commit_override.rb:39
 RuboCop::Cop::Rails::AfterCommitOverride::AFTER_COMMIT_CALLBACKS = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/after_commit_override.rb#37
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/after_commit_override.rb:37
 RuboCop::Cop::Rails::AfterCommitOverride::MSG = T.let(T.unsafe(nil), String)
 
 # Checks that controllers subclass `ApplicationController`.
 #
+# @safety
+#   This cop's autocorrection is unsafe because it may let the logic from `ApplicationController`
+#   sneak into a controller that is not purposed to inherit logic common among other controllers.
+#
 # @example
 #
-#   # good
-#   class MyController < ApplicationController
-#   # ...
-#   end
+#  # good
+#  class MyController < ApplicationController
+#    # ...
+#  end
 #
-#   # bad
-#   class MyController < ActionController::Base
-#   # ...
-#   end
+#  # bad
+#  class MyController < ActionController::Base
+#    # ...
+#  end
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/application_controller.rb#23
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/application_controller.rb:23
 class RuboCop::Cop::Rails::ApplicationController < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::EnforceSuperclass
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/application_controller.rb#31
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/application_controller.rb:31
   def class_definition(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/application_controller.rb#31
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/application_controller.rb:31
   def class_new_definition(param0 = T.unsafe(nil)); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/application_controller.rb#28
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/application_controller.rb:28
 RuboCop::Cop::Rails::ApplicationController::BASE_PATTERN = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/application_controller.rb#26
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/application_controller.rb:26
 RuboCop::Cop::Rails::ApplicationController::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/application_controller.rb#27
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/application_controller.rb:27
 RuboCop::Cop::Rails::ApplicationController::SUPERCLASS = T.let(T.unsafe(nil), String)
 
 # Checks that jobs subclass `ApplicationJob` with Rails 5.0.
 #
+# @safety
+#   This cop's autocorrection is unsafe because it may let the logic from `ApplicationJob`
+#   sneak into a job that is not purposed to inherit logic common among other jobs.
+#
 # @example
 #
-#   # good
-#   class Rails5Job < ApplicationJob
-#   # ...
-#   end
+#  # good
+#  class Rails5Job < ApplicationJob
+#    # ...
+#  end
 #
-#   # bad
-#   class Rails4Job < ActiveJob::Base
-#   # ...
-#   end
+#  # bad
+#  class Rails4Job < ActiveJob::Base
+#    # ...
+#  end
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/application_job.rb#23
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/application_job.rb:23
 class RuboCop::Cop::Rails::ApplicationJob < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::EnforceSuperclass
   extend ::RuboCop::Cop::AutoCorrector
   extend ::RuboCop::Cop::TargetRailsVersion
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/application_job.rb#37
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/application_job.rb:37
   def autocorrect(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/application_job.rb#34
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/application_job.rb:34
   def class_definition(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/application_job.rb#34
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/application_job.rb:34
   def class_new_definition(param0 = T.unsafe(nil)); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/application_job.rb#31
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/application_job.rb:31
 RuboCop::Cop::Rails::ApplicationJob::BASE_PATTERN = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/application_job.rb#29
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/application_job.rb:29
 RuboCop::Cop::Rails::ApplicationJob::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/application_job.rb#30
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/application_job.rb:30
 RuboCop::Cop::Rails::ApplicationJob::SUPERCLASS = T.let(T.unsafe(nil), String)
 
 # Checks that mailers subclass `ApplicationMailer` with Rails 5.0.
 #
+# @safety
+#   This cop's autocorrection is unsafe because it may let the logic from `ApplicationMailer`
+#   sneak into a mailer that is not purposed to inherit logic common among other mailers.
+#
 # @example
 #
-#   # good
-#   class MyMailer < ApplicationMailer
-#   # ...
-#   end
+#  # good
+#  class MyMailer < ApplicationMailer
+#    # ...
+#  end
 #
-#   # bad
-#   class MyMailer < ActionMailer::Base
-#   # ...
-#   end
+#  # bad
+#  class MyMailer < ActionMailer::Base
+#    # ...
+#  end
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/application_mailer.rb#23
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/application_mailer.rb:23
 class RuboCop::Cop::Rails::ApplicationMailer < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::EnforceSuperclass
   extend ::RuboCop::Cop::AutoCorrector
   extend ::RuboCop::Cop::TargetRailsVersion
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/application_mailer.rb#34
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/application_mailer.rb:34
   def class_definition(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/application_mailer.rb#34
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/application_mailer.rb:34
   def class_new_definition(param0 = T.unsafe(nil)); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/application_mailer.rb#31
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/application_mailer.rb:31
 RuboCop::Cop::Rails::ApplicationMailer::BASE_PATTERN = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/application_mailer.rb#29
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/application_mailer.rb:29
 RuboCop::Cop::Rails::ApplicationMailer::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/application_mailer.rb#30
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/application_mailer.rb:30
 RuboCop::Cop::Rails::ApplicationMailer::SUPERCLASS = T.let(T.unsafe(nil), String)
 
 # Checks that models subclass `ApplicationRecord` with Rails 5.0.
@@ -2558,39 +2504,44 @@ RuboCop::Cop::Rails::ApplicationMailer::SUPERCLASS = T.let(T.unsafe(nil), String
 # compatibility by avoiding loading any application code. And so migration files are excluded
 # by default for this cop.
 #
+# @safety
+#   This cop's autocorrection is unsafe because it may let the logic from `ApplicationRecord`
+#   sneak into an Active Record model that is not purposed to inherit logic common among other
+#   Active Record models.
+#
 # @example
 #
-#   # good
-#   class Rails5Model < ApplicationRecord
-#   # ...
-#   end
+#  # good
+#  class Rails5Model < ApplicationRecord
+#    # ...
+#  end
 #
-#   # bad
-#   class Rails4Model < ActiveRecord::Base
-#   # ...
-#   end
+#  # bad
+#  class Rails4Model < ActiveRecord::Base
+#    # ...
+#  end
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/application_record.rb#28
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/application_record.rb:28
 class RuboCop::Cop::Rails::ApplicationRecord < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::EnforceSuperclass
   extend ::RuboCop::Cop::AutoCorrector
   extend ::RuboCop::Cop::TargetRailsVersion
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/application_record.rb#39
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/application_record.rb:39
   def class_definition(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/application_record.rb#39
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/application_record.rb:39
   def class_new_definition(param0 = T.unsafe(nil)); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/application_record.rb#36
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/application_record.rb:36
 RuboCop::Cop::Rails::ApplicationRecord::BASE_PATTERN = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/application_record.rb#34
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/application_record.rb:34
 RuboCop::Cop::Rails::ApplicationRecord::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/application_record.rb#35
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/application_record.rb:35
 RuboCop::Cop::Rails::ApplicationRecord::SUPERCLASS = T.let(T.unsafe(nil), String)
 
 # Prevents usage of `"*"` on an Arel::Table column reference.
@@ -2600,6 +2551,12 @@ RuboCop::Cop::Rails::ApplicationRecord::SUPERCLASS = T.let(T.unsafe(nil), String
 # database to look for a column named `\*` (or `"*"`) as opposed
 # to expanding the column list as one would likely expect.
 #
+# @safety
+#   This cop's autocorrection is unsafe because it turns a quoted `\*` into
+#   an SQL `*`, unquoted. `\*` is a valid column name in certain databases
+#   supported by Rails, and even though it is usually a mistake,
+#   it might denote legitimate access to a column named `*`.
+#
 # @example
 #   # bad
 #   MyTable.arel_table["*"]
@@ -2607,22 +2564,22 @@ RuboCop::Cop::Rails::ApplicationRecord::SUPERCLASS = T.let(T.unsafe(nil), String
 #   # good
 #   MyTable.arel_table[Arel.star]
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/arel_star.rb#26
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/arel_star.rb:26
 class RuboCop::Cop::Rails::ArelStar < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/arel_star.rb#37
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/arel_star.rb:37
   def on_send(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/arel_star.rb#33
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/arel_star.rb:33
   def star_bracket?(param0 = T.unsafe(nil)); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/arel_star.rb#29
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/arel_star.rb:29
 RuboCop::Cop::Rails::ArelStar::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/arel_star.rb#31
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/arel_star.rb:31
 RuboCop::Cop::Rails::ArelStar::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Use `assert_not` instead of `assert !`.
@@ -2634,27 +2591,27 @@ RuboCop::Cop::Rails::ArelStar::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 #   # good
 #   assert_not x
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/assert_not.rb#15
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/assert_not.rb:15
 class RuboCop::Cop::Rails::AssertNot < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/assert_not.rb#21
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/assert_not.rb:21
   def offensive?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/assert_not.rb#23
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/assert_not.rb:23
   def on_send(node); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/assert_not.rb#35
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/assert_not.rb:35
   def corrected_source(source); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/assert_not.rb#18
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/assert_not.rb:18
 RuboCop::Cop::Rails::AssertNot::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/assert_not.rb#19
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/assert_not.rb:19
 RuboCop::Cop::Rails::AssertNot::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Looks for `attribute` class methods that specify a `:default` option
@@ -2665,77 +2622,77 @@ RuboCop::Cop::Rails::AssertNot::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 # @example
 #   # bad
 #   class User < ApplicationRecord
-#   attribute :confirmed_at, :datetime, default: Time.zone.now
+#     attribute :confirmed_at, :datetime, default: Time.zone.now
 #   end
 #
 #   # good
 #   class User < ApplicationRecord
-#   attribute :confirmed_at, :datetime, default: -> { Time.zone.now }
+#     attribute :confirmed_at, :datetime, default: -> { Time.zone.now }
 #   end
 #
 #   # bad
 #   class User < ApplicationRecord
-#   attribute :roles, :string, array: true, default: []
+#     attribute :roles, :string, array: true, default: []
 #   end
 #
 #   # good
 #   class User < ApplicationRecord
-#   attribute :roles, :string, array: true, default: -> { [] }
+#     attribute :roles, :string, array: true, default: -> { [] }
 #   end
 #
 #   # bad
 #   class User < ApplicationRecord
-#   attribute :configuration, default: {}
+#     attribute :configuration, default: {}
 #   end
 #
 #   # good
 #   class User < ApplicationRecord
-#   attribute :configuration, default: -> { {} }
+#     attribute :configuration, default: -> { {} }
 #   end
 #
 #   # good
 #   class User < ApplicationRecord
-#   attribute :role, :string, default: :customer
+#     attribute :role, :string, default: :customer
 #   end
 #
 #   # good
 #   class User < ApplicationRecord
-#   attribute :activated, :boolean, default: false
+#     attribute :activated, :boolean, default: false
 #   end
 #
 #   # good
 #   class User < ApplicationRecord
-#   attribute :login_count, :integer, default: 0
+#     attribute :login_count, :integer, default: 0
 #   end
 #
 #   # good
 #   class User < ApplicationRecord
-#   FOO = 123
-#   attribute :custom_attribute, :integer, default: FOO
+#     FOO = 123
+#     attribute :custom_attribute, :integer, default: FOO
 #   end
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/attribute_default_block_value.rb#62
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/attribute_default_block_value.rb:62
 class RuboCop::Cop::Rails::AttributeDefaultBlockValue < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/attribute_default_block_value.rb#73
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/attribute_default_block_value.rb:73
   def attribute(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/attribute_default_block_value.rb#69
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/attribute_default_block_value.rb:69
   def default_attribute(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/attribute_default_block_value.rb#75
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/attribute_default_block_value.rb:75
   def on_send(node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/attribute_default_block_value.rb#65
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/attribute_default_block_value.rb:65
 RuboCop::Cop::Rails::AttributeDefaultBlockValue::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/attribute_default_block_value.rb#66
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/attribute_default_block_value.rb:66
 RuboCop::Cop::Rails::AttributeDefaultBlockValue::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/attribute_default_block_value.rb#67
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/attribute_default_block_value.rb:67
 RuboCop::Cop::Rails::AttributeDefaultBlockValue::TYPE_OFFENDERS = T.let(T.unsafe(nil), Array)
 
 # Looks for belongs_to associations where we control whether the
@@ -2765,44 +2722,44 @@ RuboCop::Cop::Rails::AttributeDefaultBlockValue::TYPE_OFFENDERS = T.let(T.unsafe
 # @example
 #   # bad
 #   class Post < ApplicationRecord
-#   belongs_to :blog, required: false
+#     belongs_to :blog, required: false
 #   end
 #
 #   # good
 #   class Post < ApplicationRecord
-#   belongs_to :blog, optional: true
+#     belongs_to :blog, optional: true
 #   end
 #
 #   # bad
 #   class Post < ApplicationRecord
-#   belongs_to :blog, required: true
+#     belongs_to :blog, required: true
 #   end
 #
 #   # good
 #   class Post < ApplicationRecord
-#   belongs_to :blog, optional: false
+#     belongs_to :blog, optional: false
 #   end
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/belongs_to.rb#50
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/belongs_to.rb:50
 class RuboCop::Cop::Rails::BelongsTo < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   extend ::RuboCop::Cop::AutoCorrector
   extend ::RuboCop::Cop::TargetRailsVersion
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/belongs_to.rb#67
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/belongs_to.rb:67
   def match_belongs_to_with_options(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/belongs_to.rb#73
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/belongs_to.rb:73
   def on_send(node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/belongs_to.rb#65
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/belongs_to.rb:65
 RuboCop::Cop::Rails::BelongsTo::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/belongs_to.rb#56
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/belongs_to.rb:56
 RuboCop::Cop::Rails::BelongsTo::SUPERFLOUS_REQUIRE_FALSE_MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/belongs_to.rb#60
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/belongs_to.rb:60
 RuboCop::Cop::Rails::BelongsTo::SUPERFLOUS_REQUIRE_TRUE_MSG = T.let(T.unsafe(nil), String)
 
 # Checks for code that can be written with simpler conditionals
@@ -2813,6 +2770,11 @@ RuboCop::Cop::Rails::BelongsTo::SUPERFLOUS_REQUIRE_TRUE_MSG = T.let(T.unsafe(nil
 # context of `unless else` if `Style/UnlessElse` is enabled. This is
 # to prevent interference between the autocorrection of the two cops.
 #
+# @safety
+#   This cop is unsafe autocorrection, because `' '.empty?` returns false,
+#   but `' '.blank?` returns true. Therefore, autocorrection is not compatible
+#   if the receiver is a non-empty blank string, tab, or newline meta characters.
+#
 # @example NilOrEmpty: true (default)
 #   # Converts usages of `nil? || empty?` to `blank?`
 #
@@ -2822,6 +2784,7 @@ RuboCop::Cop::Rails::BelongsTo::SUPERFLOUS_REQUIRE_TRUE_MSG = T.let(T.unsafe(nil
 #
 #   # good
 #   foo.blank?
+#
 # @example NotPresent: true (default)
 #   # Converts usages of `!present?` to `blank?`
 #
@@ -2830,6 +2793,7 @@ RuboCop::Cop::Rails::BelongsTo::SUPERFLOUS_REQUIRE_TRUE_MSG = T.let(T.unsafe(nil
 #
 #   # good
 #   foo.blank?
+#
 # @example UnlessPresent: true (default)
 #   # Converts usages of `unless present?` to `if blank?`
 #
@@ -2841,67 +2805,67 @@ RuboCop::Cop::Rails::BelongsTo::SUPERFLOUS_REQUIRE_TRUE_MSG = T.let(T.unsafe(nil
 #
 #   # bad
 #   unless foo.present?
-#   something
+#     something
 #   end
 #
 #   # good
 #   if foo.blank?
-#   something
+#     something
 #   end
 #
 #   # good
 #   def blank?
-#   !present?
+#     !present?
 #   end
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/blank.rb#61
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/blank.rb:61
 class RuboCop::Cop::Rails::Blank < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/blank.rb#90
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/blank.rb:90
   def defining_blank?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/blank.rb#73
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/blank.rb:73
   def nil_or_empty?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/blank.rb#88
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/blank.rb:88
   def not_present?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/blank.rb#123
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/blank.rb:123
   def on_if(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/blank.rb#110
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/blank.rb:110
   def on_or(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/blank.rb#96
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/blank.rb:96
   def on_send(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/blank.rb#92
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/blank.rb:92
   def unless_present?(param0 = T.unsafe(nil)); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/blank.rb#140
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/blank.rb:140
   def autocorrect(corrector, node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/blank.rb#162
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/blank.rb:162
   def replacement(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/blank.rb#154
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/blank.rb:154
   def unless_condition(node, method_call); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/blank.rb#64
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/blank.rb:64
 RuboCop::Cop::Rails::Blank::MSG_NIL_OR_EMPTY = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/blank.rb#65
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/blank.rb:65
 RuboCop::Cop::Rails::Blank::MSG_NOT_PRESENT = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/blank.rb#66
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/blank.rb:66
 RuboCop::Cop::Rails::Blank::MSG_UNLESS_PRESENT = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/blank.rb#67
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/blank.rb:67
 RuboCop::Cop::Rails::Blank::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Checks whether alter queries are combinable.
@@ -2921,157 +2885,164 @@ RuboCop::Cop::Rails::Blank::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 # @example
 #   # bad
 #   def change
-#   add_column :users, :name, :string, null: false
-#   add_column :users, :nickname, :string
+#     add_column :users, :name, :string, null: false
+#     add_column :users, :nickname, :string
 #
-#   # ALTER TABLE `users` ADD `name` varchar(255) NOT NULL
-#   # ALTER TABLE `users` ADD `nickname` varchar(255)
+#     # ALTER TABLE `users` ADD `name` varchar(255) NOT NULL
+#     # ALTER TABLE `users` ADD `nickname` varchar(255)
 #   end
 #
 #   # good
 #   def change
-#   change_table :users, bulk: true do |t|
-#   t.string :name, null: false
-#   t.string :nickname
+#     change_table :users, bulk: true do |t|
+#       t.string :name, null: false
+#       t.string :nickname
+#     end
+#
+#     # ALTER TABLE `users` ADD `name` varchar(255) NOT NULL,
+#     #                     ADD `nickname` varchar(255)
 #   end
 #
-#   # ALTER TABLE `users` ADD `name` varchar(255) NOT NULL,
-#   #                     ADD `nickname` varchar(255)
-#   end
 # @example
 #   # bad
 #   def change
-#   change_table :users do |t|
-#   t.string :name, null: false
-#   t.string :nickname
-#   end
+#     change_table :users do |t|
+#       t.string :name, null: false
+#       t.string :nickname
+#     end
 #   end
 #
 #   # good
 #   def change
-#   change_table :users, bulk: true do |t|
-#   t.string :name, null: false
-#   t.string :nickname
-#   end
+#     change_table :users, bulk: true do |t|
+#       t.string :name, null: false
+#       t.string :nickname
+#     end
 #   end
 #
 #   # good
 #   # When you don't want to combine alter queries.
 #   def change
-#   change_table :users, bulk: false do |t|
-#   t.string :name, null: false
-#   t.string :nickname
-#   end
+#     change_table :users, bulk: false do |t|
+#       t.string :name, null: false
+#       t.string :nickname
+#     end
 #   end
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/bulk_change_table.rb#66
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/bulk_change_table.rb:66
 class RuboCop::Cop::Rails::BulkChangeTable < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::DatabaseTypeResolvable
   include ::RuboCop::Cop::MigrationsHelper
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/bulk_change_table.rb#122
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/bulk_change_table.rb:122
   def on_def(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/bulk_change_table.rb#140
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/bulk_change_table.rb:140
   def on_send(node); end
 
   private
 
   # @param node [RuboCop::AST::SendNode]
   #
-  # source://rubocop-rails//lib/rubocop/cop/rails/bulk_change_table.rb#220
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/bulk_change_table.rb:220
   def add_offense_for_alter_methods(node); end
 
   # @param node [RuboCop::AST::SendNode]
   #
-  # source://rubocop-rails//lib/rubocop/cop/rails/bulk_change_table.rb#230
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/bulk_change_table.rb:230
   def add_offense_for_change_table(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/bulk_change_table.rb#193
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/bulk_change_table.rb:193
   def call_to_combinable_alter_method?(child_node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/bulk_change_table.rb#197
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/bulk_change_table.rb:197
   def combinable_alter_methods; end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/bulk_change_table.rb#208
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/bulk_change_table.rb:208
   def combinable_transformations; end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/bulk_change_table.rb#161
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/bulk_change_table.rb:161
   def count_transformations(send_nodes); end
 
   # @param node [RuboCop::AST::SendNode] (send nil? :change_table ...)
-  # @return [Boolean]
   #
-  # source://rubocop-rails//lib/rubocop/cop/rails/bulk_change_table.rb#172
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/bulk_change_table.rb:172
   def include_bulk_options?(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/bulk_change_table.rb#153
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/bulk_change_table.rb:153
   def send_nodes_from_change_table_block(body); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/bulk_change_table.rb#180
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/bulk_change_table.rb:180
   def support_bulk_alter?; end
 end
 
 # Record combinable alter methods and register offensive nodes.
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/bulk_change_table.rb#235
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/bulk_change_table.rb:235
 class RuboCop::Cop::Rails::BulkChangeTable::AlterMethodsRecorder
-  # @return [AlterMethodsRecorder] a new instance of AlterMethodsRecorder
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/bulk_change_table.rb#236
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/bulk_change_table.rb:236
   def initialize; end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/bulk_change_table.rb#255
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/bulk_change_table.rb:255
   def flush; end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/bulk_change_table.rb#260
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/bulk_change_table.rb:260
   def offensive_nodes; end
 
   # @param new_node [RuboCop::AST::SendNode]
   #
-  # source://rubocop-rails//lib/rubocop/cop/rails/bulk_change_table.rb#242
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/bulk_change_table.rb:242
   def process(new_node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/bulk_change_table.rb#103
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/bulk_change_table.rb:103
 RuboCop::Cop::Rails::BulkChangeTable::COMBINABLE_ALTER_METHODS = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/bulk_change_table.rb#79
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/bulk_change_table.rb:79
 RuboCop::Cop::Rails::BulkChangeTable::COMBINABLE_TRANSFORMATIONS = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/bulk_change_table.rb#77
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/bulk_change_table.rb:77
 RuboCop::Cop::Rails::BulkChangeTable::MIGRATION_METHODS = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/bulk_change_table.rb#73
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/bulk_change_table.rb:73
 RuboCop::Cop::Rails::BulkChangeTable::MSG_FOR_ALTER_METHODS = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/bulk_change_table.rb#70
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/bulk_change_table.rb:70
 RuboCop::Cop::Rails::BulkChangeTable::MSG_FOR_CHANGE_TABLE = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/bulk_change_table.rb#114
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/bulk_change_table.rb:114
 RuboCop::Cop::Rails::BulkChangeTable::MYSQL_COMBINABLE_ALTER_METHODS = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/bulk_change_table.rb#112
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/bulk_change_table.rb:112
 RuboCop::Cop::Rails::BulkChangeTable::MYSQL_COMBINABLE_TRANSFORMATIONS = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/bulk_change_table.rb#119
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/bulk_change_table.rb:119
 RuboCop::Cop::Rails::BulkChangeTable::POSTGRESQL_COMBINABLE_ALTER_METHODS = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/bulk_change_table.rb#120
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/bulk_change_table.rb:120
 RuboCop::Cop::Rails::BulkChangeTable::POSTGRESQL_COMBINABLE_ALTER_METHODS_SINCE_6_1 = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/bulk_change_table.rb#116
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/bulk_change_table.rb:116
 RuboCop::Cop::Rails::BulkChangeTable::POSTGRESQL_COMBINABLE_TRANSFORMATIONS = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/bulk_change_table.rb#117
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/bulk_change_table.rb:117
 RuboCop::Cop::Rails::BulkChangeTable::POSTGRESQL_COMBINABLE_TRANSFORMATIONS_SINCE_6_1 = T.let(T.unsafe(nil), Array)
 
 # Checks if collection can be blank-compacted with `compact_blank`.
+#
+# @safety
+#   It is unsafe by default because false positives may occur in the
+#   blank check of block arguments to the receiver object.
+#
+#   For example, `[[1, 2], [3, nil]].reject { |first, second| second.blank? }` and
+#   `[[1, 2], [3, nil]].compact_blank` are not compatible. The same is true for `blank?`.
+#   This will work fine when the receiver is a hash object.
+#
+#   And `compact_blank!` has different implementations for `Array`, `Hash`, and
+#   `ActionController::Parameters`.
+#   `Array#compact_blank!`, `Hash#compact_blank!` are equivalent to `delete_if(&:blank?)`.
+#   If the cop makes a mistake, autocorrected code may get unexpected behavior.
 #
 # @example
 #
@@ -3095,59 +3066,53 @@ RuboCop::Cop::Rails::BulkChangeTable::POSTGRESQL_COMBINABLE_TRANSFORMATIONS_SINC
 #   # good
 #   collection.compact_blank!
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/compact_blank.rb#43
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/compact_blank.rb:43
 class RuboCop::Cop::Rails::CompactBlank < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::RangeHelp
   extend ::RuboCop::Cop::AutoCorrector
   extend ::RuboCop::Cop::TargetRailsVersion
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/compact_blank.rb#82
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/compact_blank.rb:82
   def on_send(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/compact_blank.rb#54
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/compact_blank.rb:54
   def reject_with_block?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/compact_blank.rb#62
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/compact_blank.rb:62
   def reject_with_block_pass?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/compact_blank.rb#68
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/compact_blank.rb:68
   def select_with_block?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/compact_blank.rb#76
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/compact_blank.rb:76
   def select_with_block_pass?(param0 = T.unsafe(nil)); end
 
   private
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/compact_blank.rb#95
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/compact_blank.rb:95
   def bad_method?(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/compact_blank.rb#116
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/compact_blank.rb:116
   def offense_range(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/compact_blank.rb#126
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/compact_blank.rb:126
   def preferred_method(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/compact_blank.rb#112
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/compact_blank.rb:112
   def use_hash_value_block_argument?(arguments, receiver_in_block); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/compact_blank.rb#108
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/compact_blank.rb:108
   def use_single_value_block_argument?(arguments, receiver_in_block); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/compact_blank.rb#50
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/compact_blank.rb:50
 RuboCop::Cop::Rails::CompactBlank::DESTRUCTIVE_METHODS = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/compact_blank.rb#48
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/compact_blank.rb:48
 RuboCop::Cop::Rails::CompactBlank::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/compact_blank.rb#49
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/compact_blank.rb:49
 RuboCop::Cop::Rails::CompactBlank::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Checks legacy syntax usage of `tag`
@@ -3157,59 +3122,53 @@ RuboCop::Cop::Rails::CompactBlank::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array
 # And this cop will be renamed to something like `LegacyTag` in the future. (e.g. RuboCop Rails 3.0)
 #
 # @example
-#   # bad
-#   tag(:p)
-#   tag(:br, class: 'classname')
+#  # bad
+#  tag(:p)
+#  tag(:br, class: 'classname')
 #
-#   # good
-#   tag.p
-#   tag.br(class: 'classname')
-#   tag(name, class: 'classname')
+#  # good
+#  tag.p
+#  tag.br(class: 'classname')
+#  tag(name, class: 'classname')
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/content_tag.rb#21
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/content_tag.rb:21
 class RuboCop::Cop::Rails::ContentTag < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::RangeHelp
   extend ::RuboCop::Cop::AutoCorrector
   extend ::RuboCop::Cop::TargetRailsVersion
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/content_tag.rb#31
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/content_tag.rb:31
   def on_new_investigation; end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/content_tag.rb#35
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/content_tag.rb:35
   def on_send(node); end
 
   private
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/content_tag.rb#54
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/content_tag.rb:54
   def allowed_argument?(argument); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/content_tag.rb#81
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/content_tag.rb:81
   def allowed_name?(argument); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/content_tag.rb#72
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/content_tag.rb:72
   def autocorrect(corrector, node, preferred_method); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/content_tag.rb#50
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/content_tag.rb:50
   def corrected_ancestor?(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/content_tag.rb#87
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/content_tag.rb:87
   def correction_range(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/content_tag.rb#63
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/content_tag.rb:63
   def register_offense(node, message, preferred_method); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/content_tag.rb#28
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/content_tag.rb:28
 RuboCop::Cop::Rails::ContentTag::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/content_tag.rb#29
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/content_tag.rb:29
 RuboCop::Cop::Rails::ContentTag::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Checks the migration for which timestamps are not included when creating a new table.
@@ -3224,72 +3183,70 @@ RuboCop::Cop::Rails::ContentTag::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 #
 #   # bad
 #   create_table :users do |t|
-#   t.string :name
-#   t.string :email
+#     t.string :name
+#     t.string :email
 #   end
 #
 #   # good
 #   create_table :users do |t|
-#   t.string :name
-#   t.string :email
+#     t.string :name
+#     t.string :email
 #
-#   t.timestamps
+#     t.timestamps
 #   end
 #
 #   # good
 #   create_table :users do |t|
-#   t.string :name
-#   t.string :email
+#     t.string :name
+#     t.string :email
 #
-#   t.datetime :created_at, default: -> { 'CURRENT_TIMESTAMP' }
+#     t.datetime :created_at, default: -> { 'CURRENT_TIMESTAMP' }
 #   end
 #
 #   # good
 #   create_table :users do |t|
-#   t.string :name
-#   t.string :email
+#     t.string :name
+#     t.string :email
 #
-#   t.datetime :updated_at, default: -> { 'CURRENT_TIMESTAMP' }
+#     t.datetime :updated_at, default: -> { 'CURRENT_TIMESTAMP' }
 #   end
 #
 #   # good
 #   create_table :users, articles, id: false do |t|
-#   t.integer :user_id
-#   t.integer :article_id
+#     t.integer :user_id
+#     t.integer :article_id
 #   end
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/create_table_with_timestamps.rb#52
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/create_table_with_timestamps.rb:52
 class RuboCop::Cop::Rails::CreateTableWithTimestamps < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::ActiveRecordMigrationsHelper
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/create_table_with_timestamps.rb#62
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/create_table_with_timestamps.rb:62
   def create_table_with_timestamps_proc?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/create_table_with_timestamps.rb#70
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/create_table_with_timestamps.rb:70
   def created_at_or_updated_at_included?(param0); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/create_table_with_timestamps.rb#76
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/create_table_with_timestamps.rb:76
   def on_send(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/create_table_with_timestamps.rb#66
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/create_table_with_timestamps.rb:66
   def timestamps_included?(param0); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/create_table_with_timestamps.rb#58
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/create_table_with_timestamps.rb:58
   def use_id_false_option?(param0); end
 
   private
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/create_table_with_timestamps.rb#92
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/create_table_with_timestamps.rb:92
   def time_columns_included?(node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/create_table_with_timestamps.rb#55
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/create_table_with_timestamps.rb:55
 RuboCop::Cop::Rails::CreateTableWithTimestamps::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/create_table_with_timestamps.rb#56
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/create_table_with_timestamps.rb:56
 RuboCop::Cop::Rails::CreateTableWithTimestamps::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Avoid dangerous column names.
@@ -3303,42 +3260,38 @@ RuboCop::Cop::Rails::CreateTableWithTimestamps::RESTRICT_ON_SEND = T.let(T.unsaf
 #   # good
 #   add_column :users, :saved
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/dangerous_column_names.rb#16
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/dangerous_column_names.rb:16
 class RuboCop::Cop::Rails::DangerousColumnNames < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::MigrationsHelper
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/dangerous_column_names.rb#415
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/dangerous_column_names.rb:415
   def on_send(node); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/dangerous_column_names.rb#425
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/dangerous_column_names.rb:425
   def column_name_node_from(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/dangerous_column_names.rb#442
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/dangerous_column_names.rb:442
   def dangerous_column_name?(column_name); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/dangerous_column_names.rb#436
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/dangerous_column_names.rb:436
   def dangerous_column_name_node?(node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/dangerous_column_names.rb#19
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/dangerous_column_names.rb:19
 RuboCop::Cop::Rails::DangerousColumnNames::COLUMN_TYPE_METHOD_NAMES = T.let(T.unsafe(nil), Set)
 
 # Generated from `ActiveRecord::AttributeMethods.dangerous_attribute_methods` on activerecord 7.1.3.
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/dangerous_column_names.rb#38
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/dangerous_column_names.rb:38
 RuboCop::Cop::Rails::DangerousColumnNames::DANGEROUS_COLUMN_NAMES = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/dangerous_column_names.rb#411
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/dangerous_column_names.rb:411
 RuboCop::Cop::Rails::DangerousColumnNames::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/dangerous_column_names.rb#413
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/dangerous_column_names.rb:413
 RuboCop::Cop::Rails::DangerousColumnNames::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Checks for the correct use of Date methods,
@@ -3360,12 +3313,9 @@ RuboCop::Cop::Rails::DangerousColumnNames::RESTRICT_ON_SEND = T.let(T.unsafe(nil
 # And you can set a warning for `to_time` with `AllowToTime: false`.
 # `AllowToTime` is `true` by default to prevent false positive on `DateTime` object.
 #
-# @example AllowToTime: false
-#   # bad
-#   date.to_time
-# @example AllowToTime: true (default)
-#   # good
-#   date.to_time
+# @safety
+#   This cop's autocorrection is unsafe because it may change handling time.
+#
 # @example EnforcedStyle: flexible (default)
 #   # bad
 #   Date.today
@@ -3376,6 +3326,7 @@ RuboCop::Cop::Rails::DangerousColumnNames::RESTRICT_ON_SEND = T.let(T.unsafe(nil
 #   Date.current
 #   Date.yesterday
 #   date.in_time_zone
+#
 # @example EnforcedStyle: strict
 #   # bad
 #   Date.current
@@ -3386,84 +3337,84 @@ RuboCop::Cop::Rails::DangerousColumnNames::RESTRICT_ON_SEND = T.let(T.unsafe(nil
 #   Time.zone.today
 #   Time.zone.today - 1.day
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/date.rb#56
+# @example AllowToTime: true (default)
+#   # good
+#   date.to_time
+#
+# @example AllowToTime: false
+#   # bad
+#   date.to_time
+#
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/date.rb:56
 class RuboCop::Cop::Rails::Date < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::ConfigurableEnforcedStyle
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/date.rb#73
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/date.rb:73
   def on_const(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/date.rb#90
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/date.rb:90
   def on_csend(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/date.rb#81
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/date.rb:81
   def on_send(node); end
 
   private
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/date.rb#153
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/date.rb:153
   def allow_to_time?; end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/date.rb#161
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/date.rb:161
   def bad_days; end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/date.rb#165
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/date.rb:165
   def bad_methods; end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/date.rb#106
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/date.rb:106
   def check_date_node(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/date.rb#94
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/date.rb:94
   def check_deprecated_methods(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/date.rb#123
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/date.rb:123
   def extract_method_chain(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/date.rb#157
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/date.rb:157
   def good_days; end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/date.rb#169
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/date.rb:169
   def good_methods; end
 
   # checks that parent node of send_type
   # and receiver is the given node
   #
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/date.rb#129
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/date.rb:129
   def method_send?(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/date.rb#135
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/date.rb:135
   def safe_chain?(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/date.rb#141
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/date.rb:141
   def safe_to_time?(node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/date.rb#67
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/date.rb:67
 RuboCop::Cop::Rails::Date::BAD_DAYS = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/date.rb#69
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/date.rb:69
 RuboCop::Cop::Rails::Date::DEPRECATED_METHODS = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/date.rb#71
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/date.rb:71
 RuboCop::Cop::Rails::Date::DEPRECATED_MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/date.rb#61
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/date.rb:61
 RuboCop::Cop::Rails::Date::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/date.rb#63
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/date.rb:63
 RuboCop::Cop::Rails::Date::MSG_SEND = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/date.rb#65
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/date.rb:65
 RuboCop::Cop::Rails::Date::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Looks for uses of `default_scope`.
@@ -3477,41 +3428,41 @@ RuboCop::Cop::Rails::Date::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 #
 #   # bad
 #   def self.default_scope
-#   where(hidden: false)
+#     where(hidden: false)
 #   end
 #
 #   # good
 #   def self.published
-#   where(hidden: false)
+#     where(hidden: false)
 #   end
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/default_scope.rb#25
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/default_scope.rb:25
 class RuboCop::Cop::Rails::DefaultScope < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/default_scope.rb#33
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/default_scope.rb:33
   def class_method_definition?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/default_scope.rb#37
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/default_scope.rb:37
   def eigenclass_method_definition?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/default_scope.rb#29
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/default_scope.rb:29
   def method_call?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/default_scope.rb#47
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/default_scope.rb:47
   def on_defs(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/default_scope.rb#53
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/default_scope.rb:53
   def on_sclass(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/default_scope.rb#41
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/default_scope.rb:41
   def on_send(node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/default_scope.rb#26
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/default_scope.rb:26
 RuboCop::Cop::Rails::DefaultScope::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/default_scope.rb#27
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/default_scope.rb:27
 RuboCop::Cop::Rails::DefaultScope::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Looks for delegations that could have been created
@@ -3532,7 +3483,7 @@ RuboCop::Cop::Rails::DefaultScope::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array
 # @example
 #   # bad
 #   def bar
-#   foo.bar
+#     foo.bar
 #   end
 #
 #   # good
@@ -3540,7 +3491,7 @@ RuboCop::Cop::Rails::DefaultScope::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array
 #
 #   # bad
 #   def bar
-#   self.bar
+#     self.bar
 #   end
 #
 #   # good
@@ -3548,100 +3499,88 @@ RuboCop::Cop::Rails::DefaultScope::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array
 #
 #   # good
 #   def bar
-#   foo&.bar
+#     foo&.bar
 #   end
 #
 #   # good
 #   private
 #   def bar
-#   foo.bar
-#   end
-# @example EnforceForPrefixed: false
-#   # good
-#   def foo_bar
-#   foo.bar
+#     foo.bar
 #   end
 #
-#   # good
-#   delegate :bar, to: :foo, prefix: true
 # @example EnforceForPrefixed: true (default)
 #   # bad
 #   def foo_bar
-#   foo.bar
+#     foo.bar
 #   end
 #
 #   # good
 #   delegate :bar, to: :foo, prefix: true
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/delegate.rb#66
+# @example EnforceForPrefixed: false
+#   # good
+#   def foo_bar
+#     foo.bar
+#   end
+#
+#   # good
+#   delegate :bar, to: :foo, prefix: true
+#
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/delegate.rb:66
 class RuboCop::Cop::Rails::Delegate < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::VisibilityHelp
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/delegate.rb#72
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/delegate.rb:72
   def delegate?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/delegate.rb#77
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/delegate.rb:77
   def on_def(node); end
 
   private
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/delegate.rb#131
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/delegate.rb:131
   def arguments_match?(arg_array, body); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/delegate.rb#110
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/delegate.rb:110
   def build_delegation(node, receiver); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/delegate.rb#155
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/delegate.rb:155
   def determine_prefixed_method_receiver_name(receiver); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/delegate.rb#96
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/delegate.rb:96
   def determine_register_offense_receiver(receiver); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/delegate.rb#116
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/delegate.rb:116
   def full_const_name(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/delegate.rb#145
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/delegate.rb:145
   def include_prefix_case?; end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/delegate.rb#141
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/delegate.rb:141
   def method_name_matches?(method_name, body); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/delegate.rb#170
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/delegate.rb:170
   def module_function_declared?(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/delegate.rb#149
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/delegate.rb:149
   def prefixed_method_name(body); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/delegate.rb#166
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/delegate.rb:166
   def private_or_protected_delegation?(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/delegate.rb#176
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/delegate.rb:176
   def private_or_protected_inline?(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/delegate.rb#87
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/delegate.rb:87
   def register_offense(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/delegate.rb#125
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/delegate.rb:125
   def trivial_delegate?(def_node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/delegate.rb#70
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/delegate.rb:70
 RuboCop::Cop::Rails::Delegate::MSG = T.let(T.unsafe(nil), String)
 
 # Looks for delegations that pass :allow_blank as an option
@@ -3655,26 +3594,31 @@ RuboCop::Cop::Rails::Delegate::MSG = T.let(T.unsafe(nil), String)
 #   # good
 #   delegate :foo, to: :bar, allow_nil: true
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/delegate_allow_blank.rb#16
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/delegate_allow_blank.rb:16
 class RuboCop::Cop::Rails::DelegateAllowBlank < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/delegate_allow_blank.rb#22
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/delegate_allow_blank.rb:22
   def allow_blank_option(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/delegate_allow_blank.rb#26
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/delegate_allow_blank.rb:26
   def on_send(node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/delegate_allow_blank.rb#19
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/delegate_allow_blank.rb:19
 RuboCop::Cop::Rails::DelegateAllowBlank::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/delegate_allow_blank.rb#20
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/delegate_allow_blank.rb:20
 RuboCop::Cop::Rails::DelegateAllowBlank::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Checks direct manipulation of ActiveModel#errors as hash.
 # These operations are deprecated in Rails 6.1 and will not work in Rails 7.
+#
+# @safety
+#   This cop is unsafe because it can report `errors` manipulation on non-ActiveModel,
+#   which is obviously valid.
+#   The cop has no way of knowing whether a variable is an ActiveModel or not.
 #
 # @example
 #   # bad
@@ -3697,74 +3641,70 @@ RuboCop::Cop::Rails::DelegateAllowBlank::RESTRICT_ON_SEND = T.let(T.unsafe(nil),
 #   # good
 #   user.errors.attribute_names.include?(:attr)
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/deprecated_active_model_errors_methods.rb#35
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/deprecated_active_model_errors_methods.rb:35
 class RuboCop::Cop::Rails::DeprecatedActiveModelErrorsMethods < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::RangeHelp
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/deprecated_active_model_errors_methods.rb#55
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/deprecated_active_model_errors_methods.rb:55
   def any_manipulation?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/deprecated_active_model_errors_methods.rb#81
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/deprecated_active_model_errors_methods.rb:81
   def errors_deprecated?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/deprecated_active_model_errors_methods.rb#99
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/deprecated_active_model_errors_methods.rb:99
   def messages_details_assignment?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/deprecated_active_model_errors_methods.rb#87
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/deprecated_active_model_errors_methods.rb:87
   def messages_details_manipulation?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/deprecated_active_model_errors_methods.rb#108
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/deprecated_active_model_errors_methods.rb:108
   def on_send(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/deprecated_active_model_errors_methods.rb#53
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/deprecated_active_model_errors_methods.rb:53
   def receiver_matcher_inside_model(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/deprecated_active_model_errors_methods.rb#52
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/deprecated_active_model_errors_methods.rb:52
   def receiver_matcher_outside_model(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/deprecated_active_model_errors_methods.rb#74
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/deprecated_active_model_errors_methods.rb:74
   def root_assignment?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/deprecated_active_model_errors_methods.rb#65
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/deprecated_active_model_errors_methods.rb:65
   def root_manipulation?(param0 = T.unsafe(nil)); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/deprecated_active_model_errors_methods.rb#129
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/deprecated_active_model_errors_methods.rb:129
   def autocorrect(corrector, node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/deprecated_active_model_errors_methods.rb#162
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/deprecated_active_model_errors_methods.rb:162
   def model_file?; end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/deprecated_active_model_errors_methods.rb#138
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/deprecated_active_model_errors_methods.rb:138
   def offense_range(node, receiver); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/deprecated_active_model_errors_methods.rb#158
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/deprecated_active_model_errors_methods.rb:158
   def receiver_matcher(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/deprecated_active_model_errors_methods.rb#143
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/deprecated_active_model_errors_methods.rb:143
   def replacement(node, receiver); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/deprecated_active_model_errors_methods.rb#122
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/deprecated_active_model_errors_methods.rb:122
   def skip_autocorrect?(node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/deprecated_active_model_errors_methods.rb#40
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/deprecated_active_model_errors_methods.rb:40
 RuboCop::Cop::Rails::DeprecatedActiveModelErrorsMethods::AUTOCORRECTABLE_METHODS = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/deprecated_active_model_errors_methods.rb#41
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/deprecated_active_model_errors_methods.rb:41
 RuboCop::Cop::Rails::DeprecatedActiveModelErrorsMethods::INCOMPATIBLE_METHODS = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/deprecated_active_model_errors_methods.rb#43
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/deprecated_active_model_errors_methods.rb:43
 RuboCop::Cop::Rails::DeprecatedActiveModelErrorsMethods::MANIPULATIVE_METHODS = T.let(T.unsafe(nil), Set)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/deprecated_active_model_errors_methods.rb#39
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/deprecated_active_model_errors_methods.rb:39
 RuboCop::Cop::Rails::DeprecatedActiveModelErrorsMethods::MSG = T.let(T.unsafe(nil), String)
 
 # Enforces the use of dot-separated locale keys instead of specifying the `:scope` option
@@ -3780,36 +3720,34 @@ RuboCop::Cop::Rails::DeprecatedActiveModelErrorsMethods::MSG = T.let(T.unsafe(ni
 #   I18n.t 'activerecord.errors.messages.record_invalid'
 #   I18n.t :record_invalid, scope: 'activerecord.errors.messages'
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/dot_separated_keys.rb#19
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/dot_separated_keys.rb:19
 class RuboCop::Cop::Rails::DotSeparatedKeys < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::RangeHelp
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/dot_separated_keys.rb#32
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/dot_separated_keys.rb:32
   def on_send(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/dot_separated_keys.rb#26
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/dot_separated_keys.rb:26
   def translate_with_scope?(param0 = T.unsafe(nil)); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/dot_separated_keys.rb#55
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/dot_separated_keys.rb:55
   def new_key(key_node, scope_node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/dot_separated_keys.rb#59
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/dot_separated_keys.rb:59
   def scopes(scope_node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/dot_separated_keys.rb#51
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/dot_separated_keys.rb:51
   def should_convert_scope?(scope_node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/dot_separated_keys.rb#23
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/dot_separated_keys.rb:23
 RuboCop::Cop::Rails::DotSeparatedKeys::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/dot_separated_keys.rb#24
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/dot_separated_keys.rb:24
 RuboCop::Cop::Rails::DotSeparatedKeys::TRANSLATE_METHODS = T.let(T.unsafe(nil), Array)
 
 # Looks for associations that have been defined multiple times in the same file.
@@ -3838,7 +3776,7 @@ RuboCop::Cop::Rails::DotSeparatedKeys::TRANSLATE_METHODS = T.let(T.unsafe(nil), 
 #   has_many :bar, class_name: 'Foo'
 #   has_one :foo
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/duplicate_association.rb#32
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/duplicate_association.rb:32
 class RuboCop::Cop::Rails::DuplicateAssociation < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::RangeHelp
@@ -3846,37 +3784,37 @@ class RuboCop::Cop::Rails::DuplicateAssociation < ::RuboCop::Cop::Base
   include ::RuboCop::Cop::ActiveRecordHelper
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/duplicate_association.rb#41
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/duplicate_association.rb:41
   def association(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/duplicate_association.rb#45
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/duplicate_association.rb:45
   def class_name(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/duplicate_association.rb#49
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/duplicate_association.rb:49
   def on_class(class_node); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/duplicate_association.rb#79
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/duplicate_association.rb:79
   def association_nodes(class_node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/duplicate_association.rb#85
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/duplicate_association.rb:85
   def duplicated_association_name_nodes(association_nodes); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/duplicate_association.rb#93
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/duplicate_association.rb:93
   def duplicated_class_name_nodes(association_nodes); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/duplicate_association.rb#109
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/duplicate_association.rb:109
   def leave_duplicated_association(grouped_associations); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/duplicate_association.rb#65
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/duplicate_association.rb:65
   def register_offense(name, nodes, message_template); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/duplicate_association.rb#38
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/duplicate_association.rb:38
 RuboCop::Cop::Rails::DuplicateAssociation::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/duplicate_association.rb#39
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/duplicate_association.rb:39
 RuboCop::Cop::Rails::DuplicateAssociation::MSG_CLASS_NAME = T.let(T.unsafe(nil), String)
 
 # Checks for multiple scopes in a model that have the same expression. This
@@ -3892,24 +3830,24 @@ RuboCop::Cop::Rails::DuplicateAssociation::MSG_CLASS_NAME = T.let(T.unsafe(nil),
 #   scope :visible, -> { where(visible: true) }
 #   scope :hidden, -> { where(visible: false) }
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/duplicate_scope.rb#19
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/duplicate_scope.rb:19
 class RuboCop::Cop::Rails::DuplicateScope < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::ClassSendNodeHelper
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/duplicate_scope.rb#28
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/duplicate_scope.rb:28
   def on_class(class_node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/duplicate_scope.rb#24
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/duplicate_scope.rb:24
   def scope(param0 = T.unsafe(nil)); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/duplicate_scope.rb#36
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/duplicate_scope.rb:36
   def offenses(class_node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/duplicate_scope.rb#22
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/duplicate_scope.rb:22
 RuboCop::Cop::Rails::DuplicateScope::MSG = T.let(T.unsafe(nil), String)
 
 # Checks if a duration is added to or subtracted from `Time.current`.
@@ -3928,68 +3866,45 @@ RuboCop::Cop::Rails::DuplicateScope::MSG = T.let(T.unsafe(nil), String)
 #   1.minute.ago
 #   2.days.from_now
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/duration_arithmetic.rb#21
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/duration_arithmetic.rb:21
 class RuboCop::Cop::Rails::DurationArithmetic < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   extend ::RuboCop::Cop::AutoCorrector
 
-  # Match a literal Duration
-  #
-  # @example source that matches
-  #   1.hour
-  # @example source that matches
-  #   9.5.weeks
-  # @param node [RuboCop::AST::Node]
-  # @return [Boolean] true if matches
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/duration_arithmetic.rb#58
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/duration_arithmetic.rb:58
   def duration?(param0 = T.unsafe(nil)); end
 
-  # Match duration subtraction or addition with current time.
-  #
-  # @example source that matches
-  #   Time.current - 1.hour
-  # @example source that matches
-  #   ::Time.zone.now + 1.hour
-  # @param node [RuboCop::AST::Node]
-  # @yield operator and duration
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/duration_arithmetic.rb#43
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/duration_arithmetic.rb:43
   def duration_arithmetic_argument?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/duration_arithmetic.rb#78
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/duration_arithmetic.rb:78
   def on_send(node); end
 
-  # Match Time.current
-  #
-  # @example source that matches
-  #   Time.current
-  # @example source that matches
-  #   ::Time.zone.now
-  # @param node [RuboCop::AST::Node]
-  # @return [Boolean] true if matches
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/duration_arithmetic.rb#71
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/duration_arithmetic.rb:71
   def time_current?(param0 = T.unsafe(nil)); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/duration_arithmetic.rb#88
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/duration_arithmetic.rb:88
   def corrected_source(operator, duration); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/duration_arithmetic.rb#28
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/duration_arithmetic.rb:28
 RuboCop::Cop::Rails::DurationArithmetic::DURATIONS = T.let(T.unsafe(nil), Set)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/duration_arithmetic.rb#24
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/duration_arithmetic.rb:24
 RuboCop::Cop::Rails::DurationArithmetic::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/duration_arithmetic.rb#26
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/duration_arithmetic.rb:26
 RuboCop::Cop::Rails::DurationArithmetic::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Checks dynamic `find_by_*` methods.
 # Use `find_by` instead of dynamic method.
 # See. https://rails.rubystyle.guide#find_by
+#
+# @safety
+#   It is certainly unsafe when not configured properly, i.e. user-defined `find_by_xxx`
+#   method is not added to cop's `AllowedMethods`.
 #
 # @example
 #   # bad
@@ -4001,6 +3916,7 @@ RuboCop::Cop::Rails::DurationArithmetic::RESTRICT_ON_SEND = T.let(T.unsafe(nil),
 #   User.find_by(name: name)
 #   User.find_by(name: name, email: email)
 #   User.find_by!(email: email)
+#
 # @example AllowedMethods: ['find_by_sql', 'find_by_token_for'] (default)
 #   # bad
 #   User.find_by_query(users_query)
@@ -4009,6 +3925,7 @@ RuboCop::Cop::Rails::DurationArithmetic::RESTRICT_ON_SEND = T.let(T.unsafe(nil),
 #   # good
 #   User.find_by_sql(users_sql)
 #   User.find_by_token_for(:password_reset, token)
+#
 # @example AllowedReceivers: ['Gem::Specification', 'page'] (default)
 #   # bad
 #   Specification.find_by_name('backend').gem_dir
@@ -4018,83 +3935,69 @@ RuboCop::Cop::Rails::DurationArithmetic::RESTRICT_ON_SEND = T.let(T.unsafe(nil),
 #   Gem::Specification.find_by_name('backend').gem_dir
 #   page.find_by_id('a_dom_id').click
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/dynamic_find_by.rb#42
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/dynamic_find_by.rb:42
 class RuboCop::Cop::Rails::DynamicFindBy < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::ActiveRecordHelper
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/dynamic_find_by.rb#63
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/dynamic_find_by.rb:63
   def on_csend(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/dynamic_find_by.rb#50
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/dynamic_find_by.rb:50
   def on_send(node); end
 
   private
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/dynamic_find_by.rb#72
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/dynamic_find_by.rb:72
   def allowed_invocation?(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/dynamic_find_by.rb#76
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/dynamic_find_by.rb:76
   def allowed_method?(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/dynamic_find_by.rb#82
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/dynamic_find_by.rb:82
   def allowed_receiver?(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/dynamic_find_by.rb#67
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/dynamic_find_by.rb:67
   def autocorrect(corrector, node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/dynamic_find_by.rb#100
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/dynamic_find_by.rb:100
   def autocorrect_argument_keywords(corrector, node, keywords); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/dynamic_find_by.rb#96
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/dynamic_find_by.rb:96
   def autocorrect_method_name(corrector, node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/dynamic_find_by.rb#106
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/dynamic_find_by.rb:106
   def column_keywords(method); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/dynamic_find_by.rb#120
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/dynamic_find_by.rb:120
   def dynamic_find_by_arguments?(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/dynamic_find_by.rb#124
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/dynamic_find_by.rb:124
   def dynamic_find_by_arguments_count?(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/dynamic_find_by.rb#128
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/dynamic_find_by.rb:128
   def dynamic_find_by_arguments_type?(node); end
 
   # Returns static method name.
   # If code isn't wrong, returns nil
   #
-  # source://rubocop-rails//lib/rubocop/cop/rails/dynamic_find_by.rb#113
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/dynamic_find_by.rb:113
   def static_method_name(method_name); end
 
   # config option `WhiteList` will be deprecated soon
   #
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/dynamic_find_by.rb#89
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/dynamic_find_by.rb:89
   def whitelisted?(node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/dynamic_find_by.rb#48
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/dynamic_find_by.rb:48
 RuboCop::Cop::Rails::DynamicFindBy::IGNORED_ARGUMENT_TYPES = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/dynamic_find_by.rb#47
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/dynamic_find_by.rb:47
 RuboCop::Cop::Rails::DynamicFindBy::METHOD_PATTERN = T.let(T.unsafe(nil), Regexp)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/dynamic_find_by.rb#46
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/dynamic_find_by.rb:46
 RuboCop::Cop::Rails::DynamicFindBy::MSG = T.let(T.unsafe(nil), String)
 
 # Checks that blocks are used for interpolated strings passed to
@@ -4114,35 +4017,35 @@ RuboCop::Cop::Rails::DynamicFindBy::MSG = T.let(T.unsafe(nil), String)
 #   # good
 #   Rails.logger.debug { "The time is #{Time.zone.now}." }
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/eager_evaluation_log_message.rb#23
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/eager_evaluation_log_message.rb:23
 class RuboCop::Cop::Rails::EagerEvaluationLogMessage < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/eager_evaluation_log_message.rb#29
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/eager_evaluation_log_message.rb:29
   def interpolated_string_passed_to_debug(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/eager_evaluation_log_message.rb#44
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/eager_evaluation_log_message.rb:44
   def on_send(node); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/eager_evaluation_log_message.rb#59
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/eager_evaluation_log_message.rb:59
   def replacement_range(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/eager_evaluation_log_message.rb#70
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/eager_evaluation_log_message.rb:70
   def replacement_source(node, arguments); end
 
   class << self
-    # source://rubocop-rails//lib/rubocop/cop/rails/eager_evaluation_log_message.rb#40
+    # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/eager_evaluation_log_message.rb:40
     def autocorrect_incompatible_with; end
   end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/eager_evaluation_log_message.rb#26
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/eager_evaluation_log_message.rb:26
 RuboCop::Cop::Rails::EagerEvaluationLogMessage::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/eager_evaluation_log_message.rb#27
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/eager_evaluation_log_message.rb:27
 RuboCop::Cop::Rails::EagerEvaluationLogMessage::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Looks for enums written with array syntax.
@@ -4165,42 +4068,42 @@ RuboCop::Cop::Rails::EagerEvaluationLogMessage::RESTRICT_ON_SEND = T.let(T.unsaf
 #   # good
 #   enum status: { active: 0, archived: 1 }
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/enum_hash.rb#26
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/enum_hash.rb:26
 class RuboCop::Cop::Rails::EnumHash < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/enum_hash.rb#40
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/enum_hash.rb:40
   def array_pair?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/enum_hash.rb#32
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/enum_hash.rb:32
   def enum_with_array?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/enum_hash.rb#36
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/enum_hash.rb:36
   def enum_with_old_syntax?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/enum_hash.rb#44
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/enum_hash.rb:44
   def on_send(node); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/enum_hash.rb#89
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/enum_hash.rb:89
   def build_hash(array); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/enum_hash.rb#69
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/enum_hash.rb:69
   def enum_name(key); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/enum_hash.rb#65
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/enum_hash.rb:65
   def message(key); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/enum_hash.rb#78
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/enum_hash.rb:78
   def source(elem); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/enum_hash.rb#29
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/enum_hash.rb:29
 RuboCop::Cop::Rails::EnumHash::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/enum_hash.rb#30
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/enum_hash.rb:30
 RuboCop::Cop::Rails::EnumHash::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Looks for enums written with keyword arguments syntax.
@@ -4215,68 +4118,64 @@ RuboCop::Cop::Rails::EnumHash::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 #   # good
 #   enum :status, { active: 0, archived: 1 }, prefix: true
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/enum_syntax.rb#18
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/enum_syntax.rb:18
 class RuboCop::Cop::Rails::EnumSyntax < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   extend ::RuboCop::Cop::AutoCorrector
   extend ::RuboCop::Cop::TargetRubyVersion
   extend ::RuboCop::Cop::TargetRailsVersion
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/enum_syntax.rb#34
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/enum_syntax.rb:34
   def enum?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/enum_syntax.rb#38
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/enum_syntax.rb:38
   def enum_with_options?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/enum_syntax.rb#42
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/enum_syntax.rb:42
   def on_send(node); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/enum_syntax.rb#49
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/enum_syntax.rb:49
   def check_and_correct_keyword_args(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/enum_syntax.rb#59
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/enum_syntax.rb:59
   def check_enum_options(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/enum_syntax.rb#71
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/enum_syntax.rb:71
   def correct_keyword_args(node, key, values, options); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/enum_syntax.rb#114
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/enum_syntax.rb:114
   def correct_options(options); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/enum_syntax.rb#97
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/enum_syntax.rb:97
   def enum_name(elem); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/enum_syntax.rb#88
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/enum_syntax.rb:88
   def enum_name_value(key); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/enum_syntax.rb#82
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/enum_syntax.rb:82
   def multiple_enum_definitions?(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/enum_syntax.rb#108
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/enum_syntax.rb:108
   def option_key?(pair); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/enum_syntax.rb#26
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/enum_syntax.rb:26
 RuboCop::Cop::Rails::EnumSyntax::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/enum_syntax.rb#27
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/enum_syntax.rb:27
 RuboCop::Cop::Rails::EnumSyntax::MSG_OPTIONS = T.let(T.unsafe(nil), String)
 
 # From https://github.com/rails/rails/blob/v7.2.1/activerecord/lib/active_record/enum.rb#L231
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/enum_syntax.rb#31
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/enum_syntax.rb:31
 RuboCop::Cop::Rails::EnumSyntax::OPTION_NAMES = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/enum_syntax.rb#28
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/enum_syntax.rb:28
 RuboCop::Cop::Rails::EnumSyntax::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/enum_syntax.rb#32
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/enum_syntax.rb:32
 RuboCop::Cop::Rails::EnumSyntax::UNDERSCORED_OPTION_NAMES = T.let(T.unsafe(nil), Array)
 
 # Looks for duplicate values in enum declarations.
@@ -4306,36 +4205,36 @@ RuboCop::Cop::Rails::EnumSyntax::UNDERSCORED_OPTION_NAMES = T.let(T.unsafe(nil),
 #   # good
 #   enum status: [:active, :archived]
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/enum_uniqueness.rb#32
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/enum_uniqueness.rb:32
 class RuboCop::Cop::Rails::EnumUniqueness < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::Duplication
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/enum_uniqueness.rb#38
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/enum_uniqueness.rb:38
   def enum?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/enum_uniqueness.rb#46
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/enum_uniqueness.rb:46
   def enum_values(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/enum_uniqueness.rb#42
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/enum_uniqueness.rb:42
   def enum_with_old_syntax?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/enum_uniqueness.rb#50
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/enum_uniqueness.rb:50
   def on_send(node); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/enum_uniqueness.rb#70
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/enum_uniqueness.rb:70
   def enum_name(key); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/enum_uniqueness.rb#79
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/enum_uniqueness.rb:79
   def message(key, item); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/enum_uniqueness.rb#35
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/enum_uniqueness.rb:35
 RuboCop::Cop::Rails::EnumUniqueness::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/enum_uniqueness.rb#36
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/enum_uniqueness.rb:36
 RuboCop::Cop::Rails::EnumUniqueness::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Checks for usage of `Rails.env` which can be replaced with Feature Flags
@@ -4347,14 +4246,14 @@ RuboCop::Cop::Rails::EnumUniqueness::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Arr
 #
 #   # good
 #   if FeatureFlag.enabled?(:new_feature)
-#   # new feature code
+#     # new feature code
 #   end
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/env.rb#18
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/env.rb:18
 class RuboCop::Cop::Rails::Env < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/env.rb#44
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/env.rb:44
   def on_send(node); end
 end
 
@@ -4362,13 +4261,13 @@ end
 # (Rails.env.methods - Object.instance_methods).select { |m| m.to_s.end_with?('?') }
 # and then removing the environment specific methods like development?, test?, production?, local?
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/env.rb#24
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/env.rb:24
 RuboCop::Cop::Rails::Env::ALLOWED_LIST = T.let(T.unsafe(nil), Set)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/env.rb#19
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/env.rb:19
 RuboCop::Cop::Rails::Env::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/env.rb#20
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/env.rb:20
 RuboCop::Cop::Rails::Env::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Checks for usage of `Rails.env.development? || Rails.env.test?` which
@@ -4382,40 +4281,40 @@ RuboCop::Cop::Rails::Env::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 #   # good
 #   Rails.env.local?
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/env_local.rb#17
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/env_local.rb:17
 class RuboCop::Cop::Rails::EnvLocal < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   extend ::RuboCop::Cop::AutoCorrector
   extend ::RuboCop::Cop::TargetRailsVersion
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/env_local.rb#33
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/env_local.rb:33
   def not_rails_env_local?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/env_local.rb#57
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/env_local.rb:57
   def on_and(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/env_local.rb#37
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/env_local.rb:37
   def on_or(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/env_local.rb#28
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/env_local.rb:28
   def rails_env_local?(param0 = T.unsafe(nil)); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/env_local.rb#79
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/env_local.rb:79
   def environments(nodes); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/env_local.rb#87
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/env_local.rb:87
   def offense_range(nodes); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/env_local.rb#23
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/env_local.rb:23
 RuboCop::Cop::Rails::EnvLocal::LOCAL_ENVIRONMENTS = T.let(T.unsafe(nil), Set)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/env_local.rb#21
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/env_local.rb:21
 RuboCop::Cop::Rails::EnvLocal::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/env_local.rb#22
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/env_local.rb:22
 RuboCop::Cop::Rails::EnvLocal::MSG_NEGATED = T.let(T.unsafe(nil), String)
 
 # Checks that `Rails.env` is compared using `.production?`-like
@@ -4432,53 +4331,51 @@ RuboCop::Cop::Rails::EnvLocal::MSG_NEGATED = T.let(T.unsafe(nil), String)
 #   # good
 #   Rails.env.production?
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/environment_comparison.rb#19
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/environment_comparison.rb:19
 class RuboCop::Cop::Rails::EnvironmentComparison < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/environment_comparison.rb#28
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/environment_comparison.rb:28
   def comparing_env_with_rails_env_on_lhs?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/environment_comparison.rb#43
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/environment_comparison.rb:43
   def comparing_env_with_rails_env_on_rhs?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/environment_comparison.rb#58
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/environment_comparison.rb:58
   def comparing_sym_env_with_rails_env_on_lhs?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/environment_comparison.rb#66
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/environment_comparison.rb:66
   def comparing_sym_env_with_rails_env_on_rhs?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/environment_comparison.rb#74
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/environment_comparison.rb:74
   def on_send(node); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/environment_comparison.rb#101
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/environment_comparison.rb:101
   def build_predicate_method(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/environment_comparison.rb#81
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/environment_comparison.rb:81
   def check_env_comparison_with_rails_env(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/environment_comparison.rb#92
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/environment_comparison.rb:92
   def check_sym_env_comparison_with_rails_env(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/environment_comparison.rb#110
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/environment_comparison.rb:110
   def extract_receiver_and_argument(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/environment_comparison.rb#118
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/environment_comparison.rb:118
   def rails_env_on_lhs?(node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/environment_comparison.rb#22
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/environment_comparison.rb:22
 RuboCop::Cop::Rails::EnvironmentComparison::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/environment_comparison.rb#26
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/environment_comparison.rb:26
 RuboCop::Cop::Rails::EnvironmentComparison::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/environment_comparison.rb#24
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/environment_comparison.rb:24
 RuboCop::Cop::Rails::EnvironmentComparison::SYM_MSG = T.let(T.unsafe(nil), String)
 
 # Looks for direct access to environment variables through the
@@ -4494,51 +4391,51 @@ RuboCop::Cop::Rails::EnvironmentComparison::SYM_MSG = T.let(T.unsafe(nil), Strin
 #   Rails.application.config.x.foo.bar
 #   Rails.application.secrets.foo
 #   Rails.application.config.foo = "bar"
+#
 # @example AllowReads: false (default)
 #   # bad
 #   ENV["FOO"]
 #   ENV.fetch("FOO")
+#
 # @example AllowReads: true
 #   # good
 #   ENV["FOO"]
 #   ENV.fetch("FOO")
+#
 # @example AllowWrites: false (default)
 #   # bad
 #   ENV["FOO"] = "bar"
+#
 # @example AllowWrites: true
 #   # good
 #   ENV["FOO"] = "bar"
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/environment_variable_access.rb#37
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/environment_variable_access.rb:37
 class RuboCop::Cop::Rails::EnvironmentVariableAccess < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/environment_variable_access.rb#46
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/environment_variable_access.rb:46
   def env_read?(param0); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/environment_variable_access.rb#50
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/environment_variable_access.rb:50
   def env_write?(param0); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/environment_variable_access.rb#41
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/environment_variable_access.rb:41
   def on_const(node); end
 
   private
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/environment_variable_access.rb#57
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/environment_variable_access.rb:57
   def allow_reads?; end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/environment_variable_access.rb#61
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/environment_variable_access.rb:61
   def allow_writes?; end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/environment_variable_access.rb#38
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/environment_variable_access.rb:38
 RuboCop::Cop::Rails::EnvironmentVariableAccess::READ_MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/environment_variable_access.rb#39
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/environment_variable_access.rb:39
 RuboCop::Cop::Rails::EnvironmentVariableAccess::WRITE_MSG = T.let(T.unsafe(nil), String)
 
 # Enforces that `exit` and `abort` calls are not used within a rails app.
@@ -4562,45 +4459,39 @@ RuboCop::Cop::Rails::EnvironmentVariableAccess::WRITE_MSG = T.let(T.unsafe(nil),
 #   # good
 #   raise 'a bad error has happened'
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/exit.rb#26
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/exit.rb:26
 class RuboCop::Cop::Rails::Exit < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::ConfigurableEnforcedStyle
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/exit.rb#33
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/exit.rb:33
   def on_send(node); end
 
   private
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/exit.rb#42
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/exit.rb:42
   def offending_node?(node); end
 
   # More than 1 argument likely means it is a different
   # `exit` implementation than the one we are preventing.
   #
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/exit.rb#48
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/exit.rb:48
   def right_argument_count?(arg_nodes); end
 
   # Only register if exit is being called explicitly on `Kernel`,
   # `Process`, or if receiver node is nil for plain `exit` calls.
   #
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/exit.rb#54
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/exit.rb:54
   def right_receiver?(receiver_node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/exit.rb#31
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/exit.rb:31
 RuboCop::Cop::Rails::Exit::EXPLICIT_RECEIVERS = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/exit.rb#29
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/exit.rb:29
 RuboCop::Cop::Rails::Exit::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/exit.rb#30
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/exit.rb:30
 RuboCop::Cop::Rails::Exit::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Checks for expanded date range. It only compatible `..` range is targeted.
@@ -4621,49 +4512,43 @@ RuboCop::Cop::Rails::Exit::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 #   date.all_quarter
 #   date.all_year
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/expanded_date_range.rb#24
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/expanded_date_range.rb:24
 class RuboCop::Cop::Rails::ExpandedDateRange < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   extend ::RuboCop::Cop::AutoCorrector
   extend ::RuboCop::Cop::TargetRailsVersion
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/expanded_date_range.rb#48
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/expanded_date_range.rb:48
   def on_irange(node); end
 
   private
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/expanded_date_range.rb#67
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/expanded_date_range.rb:67
   def allow?(begin_node, end_node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/expanded_date_range.rb#88
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/expanded_date_range.rb:88
   def any_arguments?(begin_node, end_node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/expanded_date_range.rb#84
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/expanded_date_range.rb:84
   def preferred_method(begin_node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/expanded_date_range.rb#74
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/expanded_date_range.rb:74
   def receiver_source(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/expanded_date_range.rb#92
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/expanded_date_range.rb:92
   def register_offense(node, preferred_method); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/expanded_date_range.rb#80
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/expanded_date_range.rb:80
   def same_argument?(begin_node, end_node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/expanded_date_range.rb#40
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/expanded_date_range.rb:40
 RuboCop::Cop::Rails::ExpandedDateRange::MAPPED_DATE_RANGE_METHODS = T.let(T.unsafe(nil), Hash)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/expanded_date_range.rb#28
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/expanded_date_range.rb:28
 RuboCop::Cop::Rails::ExpandedDateRange::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/expanded_date_range.rb#32
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/expanded_date_range.rb:32
 RuboCop::Cop::Rails::ExpandedDateRange::PREFERRED_METHODS = T.let(T.unsafe(nil), Hash)
 
 # Identifies usages of file path joining process to use `Rails.root.join` clause.
@@ -4672,19 +4557,6 @@ RuboCop::Cop::Rails::ExpandedDateRange::PREFERRED_METHODS = T.let(T.unsafe(nil),
 # NOTE: This cop ignores leading slashes in string literal arguments for `Rails.root.join`
 #       and multiple slashes in string literal arguments for `Rails.root.join` and `File.join`.
 #
-# @example EnforcedStyle: arguments
-#   # bad
-#   Rails.root.join('app/models/goober')
-#
-#   # good
-#   Rails.root.join('app', 'models', 'goober')
-#
-#   # bad
-#   File.join(Rails.root, 'app/models/goober')
-#   "#{Rails.root}/app/models/goober"
-#
-#   # good
-#   Rails.root.join('app', 'models', 'goober').to_s
 # @example EnforcedStyle: slashes (default)
 #   # bad
 #   Rails.root.join('app', 'models', 'goober')
@@ -4699,141 +4571,139 @@ RuboCop::Cop::Rails::ExpandedDateRange::PREFERRED_METHODS = T.let(T.unsafe(nil),
 #   # good
 #   Rails.root.join('app/models/goober').to_s
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/file_path.rb#40
+# @example EnforcedStyle: arguments
+#   # bad
+#   Rails.root.join('app/models/goober')
+#
+#   # good
+#   Rails.root.join('app', 'models', 'goober')
+#
+#   # bad
+#   File.join(Rails.root, 'app/models/goober')
+#   "#{Rails.root}/app/models/goober"
+#
+#   # good
+#   Rails.root.join('app', 'models', 'goober').to_s
+#
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/file_path.rb:40
 class RuboCop::Cop::Rails::FilePath < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::ConfigurableEnforcedStyle
   include ::RuboCop::Cop::RangeHelp
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/file_path.rb#50
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/file_path.rb:50
   def file_join_nodes?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/file_path.rb#62
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/file_path.rb:62
   def on_dstr(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/file_path.rb#70
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/file_path.rb:70
   def on_send(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/file_path.rb#58
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/file_path.rb:58
   def rails_root_join_nodes?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/file_path.rb#54
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/file_path.rb:54
   def rails_root_nodes?(param0); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/file_path.rb#275
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/file_path.rb:275
   def append_argument(corrector, node, argument_source); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/file_path.rb#237
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/file_path.rb:237
   def append_to_string_conversion(corrector, node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/file_path.rb#196
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/file_path.rb:196
   def autocorrect_extension_after_rails_root_join_in_dstr(corrector, node, rails_root_index, extension_node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/file_path.rb#204
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/file_path.rb:204
   def autocorrect_file_join(corrector, node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/file_path.rb#256
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/file_path.rb:256
   def autocorrect_rails_root_join_with_slash_separated_path(corrector, node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/file_path.rb#241
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/file_path.rb:241
   def autocorrect_rails_root_join_with_string_arguments(corrector, node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/file_path.rb#185
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/file_path.rb:185
   def autocorrect_slash_after_rails_root_in_dstr(corrector, node, rails_root_index); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/file_path.rb#172
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/file_path.rb:172
   def build_message(require_to_s); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/file_path.rb#91
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/file_path.rb:91
   def check_for_extension_after_rails_root_join_in_dstr(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/file_path.rb#101
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/file_path.rb:101
   def check_for_file_join_with_rails_root(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/file_path.rb#121
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/file_path.rb:121
   def check_for_rails_root_join_with_slash_separated_path(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/file_path.rb#110
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/file_path.rb:110
   def check_for_rails_root_join_with_string_arguments(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/file_path.rb#80
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/file_path.rb:80
   def check_for_slash_after_rails_root_in_dstr(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/file_path.rb#179
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/file_path.rb:179
   def dstr_separated_by_colon?(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/file_path.rb#287
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/file_path.rb:287
   def extension_node?(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/file_path.rb#283
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/file_path.rb:283
   def extract_rails_root_join_argument_source(node, rails_root_index); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/file_path.rb#271
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/file_path.rb:271
   def find_rails_root_index(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/file_path.rb#267
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/file_path.rb:267
   def inner_range_of(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/file_path.rb#227
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/file_path.rb:227
   def process_arguments(corrector, arguments); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/file_path.rb#163
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/file_path.rb:163
   def register_offense(node, require_to_s:, &block); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/file_path.rb#215
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/file_path.rb:215
   def remove_first_argument_with_comma(corrector, node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/file_path.rb#211
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/file_path.rb:211
   def replace_receiver_with_rails_root(corrector, node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/file_path.rb#279
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/file_path.rb:279
   def replace_with_rails_root_join(corrector, node, argument_source); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/file_path.rb#155
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/file_path.rb:155
   def string_contains_multiple_slashes?(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/file_path.rb#151
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/file_path.rb:151
   def string_contains_slash?(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/file_path.rb#159
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/file_path.rb:159
   def string_with_leading_slash?(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/file_path.rb#132
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/file_path.rb:132
   def valid_arguments_for_file_join_with_rails_root?(arguments); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/file_path.rb#145
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/file_path.rb:145
   def valid_slash_separated_path_for_rails_root_join?(arguments); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/file_path.rb#138
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/file_path.rb:138
   def valid_string_arguments_for_rails_root_join?(arguments); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/file_path.rb#47
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/file_path.rb:47
 RuboCop::Cop::Rails::FilePath::MSG_ARGUMENTS = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/file_path.rb#46
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/file_path.rb:46
 RuboCop::Cop::Rails::FilePath::MSG_SLASHES = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/file_path.rb#48
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/file_path.rb:48
 RuboCop::Cop::Rails::FilePath::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Identifies usages of `where.take` and change them to use `find_by` instead.
@@ -4849,48 +4719,46 @@ RuboCop::Cop::Rails::FilePath::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 #
 #   # good
 #   User.find_by(name: 'Bruce')
-# @example IgnoreWhereFirst: false
-#   # bad
-#   User.where(name: 'Bruce').first
+#
 # @example IgnoreWhereFirst: true (default)
 #   # good
 #   User.where(name: 'Bruce').first
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/find_by.rb#27
+# @example IgnoreWhereFirst: false
+#   # bad
+#   User.where(name: 'Bruce').first
+#
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/find_by.rb:27
 class RuboCop::Cop::Rails::FindBy < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::RangeHelp
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/find_by.rb#44
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/find_by.rb:44
   def on_csend(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/find_by.rb#34
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/find_by.rb:34
   def on_send(node); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/find_by.rb#58
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/find_by.rb:58
   def autocorrect(corrector, node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/find_by.rb#68
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/find_by.rb:68
   def ignore_where_first?; end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/find_by.rb#54
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/find_by.rb:54
   def offense_range(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/find_by.rb#48
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/find_by.rb:48
   def where_method?(receiver); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/find_by.rb#31
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/find_by.rb:31
 RuboCop::Cop::Rails::FindBy::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/find_by.rb#32
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/find_by.rb:32
 RuboCop::Cop::Rails::FindBy::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Enforces that `ActiveRecord#find` is used instead of
@@ -4906,43 +4774,43 @@ RuboCop::Cop::Rails::FindBy::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 #   # good
 #   User.find(id)
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/find_by_id.rb#19
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/find_by_id.rb:19
 class RuboCop::Cop::Rails::FindById < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::RangeHelp
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/find_by_id.rb#33
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/find_by_id.rb:33
   def find_by?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/find_by_id.rb#53
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/find_by_id.rb:53
   def on_csend(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/find_by_id.rb#40
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/find_by_id.rb:40
   def on_send(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/find_by_id.rb#26
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/find_by_id.rb:26
   def where_take?(param0 = T.unsafe(nil)); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/find_by_id.rb#74
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/find_by_id.rb:74
   def build_good_method(id_value); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/find_by_id.rb#70
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/find_by_id.rb:70
   def find_by_offense_range(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/find_by_id.rb#57
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/find_by_id.rb:57
   def register_offense(range, id_value); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/find_by_id.rb#66
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/find_by_id.rb:66
   def where_take_offense_range(node, where); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/find_by_id.rb#23
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/find_by_id.rb:23
 RuboCop::Cop::Rails::FindById::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/find_by_id.rb#24
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/find_by_id.rb:24
 RuboCop::Cop::Rails::FindById::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Avoid memoizing `find_by` results with `||=`.
@@ -4953,72 +4821,79 @@ RuboCop::Cop::Rails::FindById::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 # NOTE: Respecting the object shapes introduced in Ruby 3.2, instance variables used
 # for memoization that are initialized at object creation are ignored.
 #
+# @safety
+#   This cop is unsafe because detected `find_by` may not be Active Record's method,
+#   or the code may have a different purpose than memoization.
+#
 # @example
 #   # bad - exclusively doing memoization
 #   def current_user
-#   @current_user ||= User.find_by(id: session[:user_id])
+#     @current_user ||= User.find_by(id: session[:user_id])
 #   end
 #
 #   # good
 #   def current_user
-#   return @current_user if defined?(@current_user)
+#     return @current_user if defined?(@current_user)
 #
-#   @current_user = User.find_by(id: session[:user_id])
+#     @current_user = User.find_by(id: session[:user_id])
 #   end
 #
 #   # bad - method contains other code
 #   def current_user
-#   @current_user ||= User.find_by(id: session[:user_id])
-#   @current_user.do_something
+#     @current_user ||= User.find_by(id: session[:user_id])
+#     @current_user.do_something
 #   end
 #
 #   # good
 #   def current_user
-#   if defined?(@current_user)
-#   @current_user
-#   else
-#   @current_user = User.find_by(id: session[:user_id])
-#   end
-#   @current_user.do_something
+#     if defined?(@current_user)
+#       @current_user
+#     else
+#       @current_user = User.find_by(id: session[:user_id])
+#     end
+#     @current_user.do_something
 #   end
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/find_by_or_assignment_memoization.rb#46
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/find_by_or_assignment_memoization.rb:46
 class RuboCop::Cop::Rails::FindByOrAssignmentMemoization < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/find_by_or_assignment_memoization.rb#53
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/find_by_or_assignment_memoization.rb:53
   def find_by_or_assignment_memoization(param0 = T.unsafe(nil)); end
 
   # When a method body contains only memoization, the correction can be more succinct.
   #
-  # source://rubocop-rails//lib/rubocop/cop/rails/find_by_or_assignment_memoization.rb#61
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/find_by_or_assignment_memoization.rb:61
   def on_def(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/find_by_or_assignment_memoization.rb#80
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/find_by_or_assignment_memoization.rb:80
   def on_send(node); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/find_by_or_assignment_memoization.rb#115
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/find_by_or_assignment_memoization.rb:115
   def correct_to_regular_method_definition(corrector, node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/find_by_or_assignment_memoization.rb#111
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/find_by_or_assignment_memoization.rb:111
   def initialize_methods; end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/find_by_or_assignment_memoization.rb#103
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/find_by_or_assignment_memoization.rb:103
   def instance_variable_assigned?(instance_variable_name); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/find_by_or_assignment_memoization.rb#49
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/find_by_or_assignment_memoization.rb:49
 RuboCop::Cop::Rails::FindByOrAssignmentMemoization::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/find_by_or_assignment_memoization.rb#51
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/find_by_or_assignment_memoization.rb:51
 RuboCop::Cop::Rails::FindByOrAssignmentMemoization::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Identifies usages of `all.each` and change them to use `all.find_each` instead.
+#
+# @safety
+#   This cop is unsafe if the receiver object is not an Active Record object.
+#   Also, `all.each` returns an `Array` instance and `all.find_each` returns nil,
+#   so the return values are different.
 #
 # @example
 #   # bad
@@ -5026,14 +4901,16 @@ RuboCop::Cop::Rails::FindByOrAssignmentMemoization::RESTRICT_ON_SEND = T.let(T.u
 #
 #   # good
 #   User.all.find_each
+#
 # @example AllowedMethods: ['order']
 #   # good
 #   User.order(:foo).each
+#
 # @example AllowedPattern: ['order']
 #   # good
 #   User.order(:foo).each
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/find_each.rb#27
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/find_each.rb:27
 class RuboCop::Cop::Rails::FindEach < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::ActiveRecordHelper
@@ -5041,38 +4918,37 @@ class RuboCop::Cop::Rails::FindEach < ::RuboCop::Cop::Base
   include ::RuboCop::Cop::AllowedPattern
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/find_each.rb#41
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/find_each.rb:41
   def on_send(node); end
 
   private
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/find_each.rb#67
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/find_each.rb:67
   def active_model_error?(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/find_each.rb#63
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/find_each.rb:63
   def active_model_error_where?(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/find_each.rb#55
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/find_each.rb:55
   def ignored?(node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/find_each.rb#33
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/find_each.rb:33
 RuboCop::Cop::Rails::FindEach::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/find_each.rb#34
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/find_each.rb:34
 RuboCop::Cop::Rails::FindEach::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/find_each.rb#36
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/find_each.rb:36
 RuboCop::Cop::Rails::FindEach::SCOPE_METHODS = T.let(T.unsafe(nil), Array)
 
 # Identifies usages of `travel_to` with an argument of the current time and
 # change them to use `freeze_time` instead.
+#
+# @safety
+#   This cop’s autocorrection is unsafe because `freeze_time` just delegates to
+#   `travel_to` with a default `Time.now`, it is not strictly equivalent to `Time.now`
+#   if the argument of `travel_to` is the current time considering time zone.
 #
 # @example
 #   # bad
@@ -5087,44 +4963,40 @@ RuboCop::Cop::Rails::FindEach::SCOPE_METHODS = T.let(T.unsafe(nil), Array)
 #   # good
 #   freeze_time
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/freeze_time.rb#27
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/freeze_time.rb:27
 class RuboCop::Cop::Rails::FreezeTime < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   extend ::RuboCop::Cop::AutoCorrector
   extend ::RuboCop::Cop::TargetRailsVersion
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/freeze_time.rb#48
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/freeze_time.rb:48
   def on_send(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/freeze_time.rb#39
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/freeze_time.rb:39
   def time_now?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/freeze_time.rb#44
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/freeze_time.rb:44
   def zoned_time_now?(param0 = T.unsafe(nil)); end
 
   private
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/freeze_time.rb#62
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/freeze_time.rb:62
   def current_time?(node, method_name); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/freeze_time.rb#68
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/freeze_time.rb:68
   def current_time_with_convert?(node, method_name); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/freeze_time.rb#35
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/freeze_time.rb:35
 RuboCop::Cop::Rails::FreezeTime::CONVERT_METHODS = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/freeze_time.rb#33
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/freeze_time.rb:33
 RuboCop::Cop::Rails::FreezeTime::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/freeze_time.rb#34
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/freeze_time.rb:34
 RuboCop::Cop::Rails::FreezeTime::NOW_METHODS = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/freeze_time.rb#36
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/freeze_time.rb:36
 RuboCop::Cop::Rails::FreezeTime::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Checks for the use of the has_and_belongs_to_many macro.
@@ -5136,18 +5008,18 @@ RuboCop::Cop::Rails::FreezeTime::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 #   # good
 #   # has_many :ingredients, through: :recipe_ingredients
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/has_and_belongs_to_many.rb#14
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/has_and_belongs_to_many.rb:14
 class RuboCop::Cop::Rails::HasAndBelongsToMany < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/has_and_belongs_to_many.rb#18
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/has_and_belongs_to_many.rb:18
   def on_send(node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/has_and_belongs_to_many.rb#15
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/has_and_belongs_to_many.rb:15
 RuboCop::Cop::Rails::HasAndBelongsToMany::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/has_and_belongs_to_many.rb#16
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/has_and_belongs_to_many.rb:16
 RuboCop::Cop::Rails::HasAndBelongsToMany::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Looks for `has_many` or `has_one` associations that don't
@@ -5159,93 +5031,83 @@ RuboCop::Cop::Rails::HasAndBelongsToMany::RESTRICT_ON_SEND = T.let(T.unsafe(nil)
 # @example
 #   # bad
 #   class User < ActiveRecord::Base
-#   has_many :comments
-#   has_one :avatar
+#     has_many :comments
+#     has_one :avatar
 #   end
 #
 #   # good
 #   class User < ActiveRecord::Base
-#   has_many :comments, dependent: :restrict_with_exception
-#   has_one :avatar, dependent: :destroy
-#   has_many :articles, dependent: nil
-#   has_many :patients, through: :appointments
+#     has_many :comments, dependent: :restrict_with_exception
+#     has_one :avatar, dependent: :destroy
+#     has_many :articles, dependent: nil
+#     has_many :patients, through: :appointments
 #   end
 #
 #   class User < ActiveRecord::Base
-#   has_many :comments
-#   has_one :avatar
+#     has_many :comments
+#     has_one :avatar
 #
-#   def readonly?
-#   true
-#   end
+#     def readonly?
+#       true
+#     end
 #   end
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/has_many_or_has_one_dependent.rb#35
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/has_many_or_has_one_dependent.rb:35
 class RuboCop::Cop::Rails::HasManyOrHasOneDependent < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/has_many_or_has_one_dependent.rb#39
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/has_many_or_has_one_dependent.rb:39
   def active_resource_class?(param0); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/has_many_or_has_one_dependent.rb#66
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/has_many_or_has_one_dependent.rb:66
   def association_extension_block?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/has_many_or_has_one_dependent.rb#47
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/has_many_or_has_one_dependent.rb:47
   def association_with_options?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/has_many_or_has_one_dependent.rb#43
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/has_many_or_has_one_dependent.rb:43
   def association_without_options?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/has_many_or_has_one_dependent.rb#51
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/has_many_or_has_one_dependent.rb:51
   def dependent_option?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/has_many_or_has_one_dependent.rb#78
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/has_many_or_has_one_dependent.rb:78
   def on_send(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/has_many_or_has_one_dependent.rb#55
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/has_many_or_has_one_dependent.rb:55
   def present_option?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/has_many_or_has_one_dependent.rb#72
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/has_many_or_has_one_dependent.rb:72
   def readonly?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/has_many_or_has_one_dependent.rb#59
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/has_many_or_has_one_dependent.rb:59
   def with_options_block(param0 = T.unsafe(nil)); end
 
   private
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/has_many_or_has_one_dependent.rb#135
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/has_many_or_has_one_dependent.rb:135
   def active_resource?(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/has_many_or_has_one_dependent.rb#102
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/has_many_or_has_one_dependent.rb:102
   def contain_valid_options_in_with_options_block?(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/has_many_or_has_one_dependent.rb#127
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/has_many_or_has_one_dependent.rb:127
   def extract_option_if_kwsplat(options); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/has_many_or_has_one_dependent.rb#88
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/has_many_or_has_one_dependent.rb:88
   def readonly_model?(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/has_many_or_has_one_dependent.rb#114
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/has_many_or_has_one_dependent.rb:114
   def valid_options?(options); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/has_many_or_has_one_dependent.rb#94
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/has_many_or_has_one_dependent.rb:94
   def valid_options_in_with_options_block?(node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/has_many_or_has_one_dependent.rb#36
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/has_many_or_has_one_dependent.rb:36
 RuboCop::Cop::Rails::HasManyOrHasOneDependent::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/has_many_or_has_one_dependent.rb#37
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/has_many_or_has_one_dependent.rb:37
 RuboCop::Cop::Rails::HasManyOrHasOneDependent::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Checks for use of the helper methods which reference
@@ -5264,46 +5126,44 @@ RuboCop::Cop::Rails::HasManyOrHasOneDependent::RESTRICT_ON_SEND = T.let(T.unsafe
 # @example
 #   # bad
 #   def welcome_message
-#   "Hello #{@user.name}"
+#     "Hello #{@user.name}"
 #   end
 #
 #   # good
 #   def welcome_message(user)
-#   "Hello #{user.name}"
+#     "Hello #{user.name}"
 #   end
 #
 #   # good
 #   module ButtonHelper
-#   class Welcome
-#   def initialize(text:)
-#   @text = text
-#   end
+#     class Welcome
+#       def initialize(text:)
+#         @text = text
+#       end
+#     end
+#
+#     def welcome(**)
+#       render Welcome.new(**)
+#     end
 #   end
 #
-#   def welcome(**)
-#   render Welcome.new(**)
-#   end
-#   end
-#
-# source://rubocop-rails//lib/rubocop/cop/rails/helper_instance_variable.rb#43
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/helper_instance_variable.rb:43
 class RuboCop::Cop::Rails::HelperInstanceVariable < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/helper_instance_variable.rb#46
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/helper_instance_variable.rb:46
   def on_ivar(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/helper_instance_variable.rb#52
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/helper_instance_variable.rb:52
   def on_ivasgn(node); end
 
   private
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/helper_instance_variable.rb#60
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/helper_instance_variable.rb:60
   def instance_variable_belongs_to_class?(node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/helper_instance_variable.rb#44
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/helper_instance_variable.rb:44
 RuboCop::Cop::Rails::HelperInstanceVariable::MSG = T.let(T.unsafe(nil), String)
 
 # Identifies usages of http methods like `get`, `post`,
@@ -5324,100 +5184,72 @@ RuboCop::Cop::Rails::HelperInstanceVariable::MSG = T.let(T.unsafe(nil), String)
 #   get :new, params: { user_id: 1 }
 #   get :new, **options
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/http_positional_arguments.rb#23
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_positional_arguments.rb:23
 class RuboCop::Cop::Rails::HttpPositionalArguments < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::RangeHelp
   extend ::RuboCop::Cop::AutoCorrector
   extend ::RuboCop::Cop::TargetRailsVersion
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/http_positional_arguments.rb#43
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_positional_arguments.rb:43
   def forwarded_kwrestarg?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/http_positional_arguments.rb#35
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_positional_arguments.rb:35
   def http_request?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/http_positional_arguments.rb#47
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_positional_arguments.rb:47
   def include_rack_test_methods?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/http_positional_arguments.rb#39
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_positional_arguments.rb:39
   def kwsplat_hash?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/http_positional_arguments.rb#54
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_positional_arguments.rb:54
   def on_send(node); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/http_positional_arguments.rb#116
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_positional_arguments.rb:116
   def convert_hash_data(data, type); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/http_positional_arguments.rb#130
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_positional_arguments.rb:130
   def correction(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/http_positional_arguments.rb#143
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_positional_arguments.rb:143
   def correction_template(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/http_positional_arguments.rb#106
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_positional_arguments.rb:106
   def format_arg?(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/http_positional_arguments.rb#110
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_positional_arguments.rb:110
   def highlight_range(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/http_positional_arguments.rb#80
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_positional_arguments.rb:80
   def in_routing_block?(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/http_positional_arguments.rb#91
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_positional_arguments.rb:91
   def needs_conversion?(data); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/http_positional_arguments.rb#102
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_positional_arguments.rb:102
   def special_keyword_arg?(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/http_positional_arguments.rb#84
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_positional_arguments.rb:84
   def use_rack_test_methods?; end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/http_positional_arguments.rb#29
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_positional_arguments.rb:29
 RuboCop::Cop::Rails::HttpPositionalArguments::KEYWORD_ARGS = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/http_positional_arguments.rb#28
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_positional_arguments.rb:28
 RuboCop::Cop::Rails::HttpPositionalArguments::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/http_positional_arguments.rb#31
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_positional_arguments.rb:31
 RuboCop::Cop::Rails::HttpPositionalArguments::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/http_positional_arguments.rb#30
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_positional_arguments.rb:30
 RuboCop::Cop::Rails::HttpPositionalArguments::ROUTING_METHODS = T.let(T.unsafe(nil), Array)
 
 # Enforces use of symbolic or numeric value to define HTTP status.
 #
-# @example EnforcedStyle: numeric
-#   # bad
-#   render :foo, status: :ok
-#   render json: { foo: 'bar' }, status: :not_found
-#   render plain: 'foo/bar', status: :not_modified
-#   redirect_to root_url, status: :moved_permanently
-#   head :ok
-#   assert_response :ok
-#   assert_redirected_to '/some/path', status: :moved_permanently
-#
-#   # good
-#   render :foo, status: 200
-#   render json: { foo: 'bar' }, status: 404
-#   render plain: 'foo/bar', status: 304
-#   redirect_to root_url, status: 301
-#   head 200
-#   assert_response 200
-#   assert_redirected_to '/some/path', status: 301
 # @example EnforcedStyle: symbolic (default)
 #   # bad
 #   render :foo, status: 200
@@ -5438,117 +5270,120 @@ RuboCop::Cop::Rails::HttpPositionalArguments::ROUTING_METHODS = T.let(T.unsafe(n
 #   assert_response :ok
 #   assert_redirected_to '/some/path', status: :moved_permanently
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/http_status.rb#47
+# @example EnforcedStyle: numeric
+#   # bad
+#   render :foo, status: :ok
+#   render json: { foo: 'bar' }, status: :not_found
+#   render plain: 'foo/bar', status: :not_modified
+#   redirect_to root_url, status: :moved_permanently
+#   head :ok
+#   assert_response :ok
+#   assert_redirected_to '/some/path', status: :moved_permanently
+#
+#   # good
+#   render :foo, status: 200
+#   render json: { foo: 'bar' }, status: 404
+#   render plain: 'foo/bar', status: 304
+#   redirect_to root_url, status: 301
+#   head 200
+#   assert_response 200
+#   assert_redirected_to '/some/path', status: 301
+#
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_status.rb:47
 class RuboCop::Cop::Rails::HttpStatus < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::ConfigurableEnforcedStyle
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/http_status.rb#53
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_status.rb:53
   def http_status(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/http_status.rb#67
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_status.rb:67
   def on_send(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/http_status.rb#63
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_status.rb:63
   def status_code(param0 = T.unsafe(nil)); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/http_status.rb#87
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_status.rb:87
   def checker_class; end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/http_status.rb#135
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_status.rb:135
 class RuboCop::Cop::Rails::HttpStatus::NumericStyleChecker
-  # @return [NumericStyleChecker] a new instance of NumericStyleChecker
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/http_status.rb#142
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_status.rb:142
   def initialize(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/http_status.rb#150
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_status.rb:150
   def message; end
 
-  # Returns the value of attribute node.
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/http_status.rb#140
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_status.rb:140
   def node; end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/http_status.rb#146
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_status.rb:146
   def offensive?; end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/http_status.rb#154
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_status.rb:154
   def preferred_style; end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/http_status.rb#160
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_status.rb:160
   def number; end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/http_status.rb#168
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_status.rb:168
   def permitted_symbol?; end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/http_status.rb#164
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_status.rb:164
   def symbol; end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/http_status.rb#137
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_status.rb:137
 RuboCop::Cop::Rails::HttpStatus::NumericStyleChecker::DEFAULT_MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/http_status.rb#136
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_status.rb:136
 RuboCop::Cop::Rails::HttpStatus::NumericStyleChecker::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/http_status.rb#138
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_status.rb:138
 RuboCop::Cop::Rails::HttpStatus::NumericStyleChecker::PERMITTED_STATUS = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/http_status.rb#51
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_status.rb:51
 RuboCop::Cop::Rails::HttpStatus::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/http_status.rb#97
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_status.rb:97
 class RuboCop::Cop::Rails::HttpStatus::SymbolicStyleChecker
-  # @return [SymbolicStyleChecker] a new instance of SymbolicStyleChecker
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/http_status.rb#103
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_status.rb:103
   def initialize(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/http_status.rb#111
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_status.rb:111
   def message; end
 
-  # Returns the value of attribute node.
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/http_status.rb#101
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_status.rb:101
   def node; end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/http_status.rb#107
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_status.rb:107
   def offensive?; end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/http_status.rb#115
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_status.rb:115
   def preferred_style; end
 
   private
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/http_status.rb#129
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_status.rb:129
   def custom_http_status_code?; end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/http_status.rb#125
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_status.rb:125
   def number; end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/http_status.rb#121
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_status.rb:121
   def symbol; end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/http_status.rb#99
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_status.rb:99
 RuboCop::Cop::Rails::HttpStatus::SymbolicStyleChecker::DEFAULT_MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/http_status.rb#98
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_status.rb:98
 RuboCop::Cop::Rails::HttpStatus::SymbolicStyleChecker::MSG = T.let(T.unsafe(nil), String)
 
 # Enforces consistency by using the current HTTP status names.
@@ -5562,33 +5397,33 @@ RuboCop::Cop::Rails::HttpStatus::SymbolicStyleChecker::MSG = T.let(T.unsafe(nil)
 #   render json: { error: "Invalid data" }, status: :unprocessable_content
 #   head :content_too_large
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/http_status_name_consistency.rb#17
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_status_name_consistency.rb:17
 class RuboCop::Cop::Rails::HttpStatusNameConsistency < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/http_status_name_consistency.rb#45
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_status_name_consistency.rb:45
   def on_send(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/http_status_name_consistency.rb#41
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_status_name_consistency.rb:41
   def status_hash_value(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/http_status_name_consistency.rb#31
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_status_name_consistency.rb:31
   def status_method_call(param0 = T.unsafe(nil)); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/http_status_name_consistency.rb#61
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_status_name_consistency.rb:61
   def check_status_name_consistency(node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/http_status_name_consistency.rb#29
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_status_name_consistency.rb:29
 RuboCop::Cop::Rails::HttpStatusNameConsistency::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/http_status_name_consistency.rb#24
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_status_name_consistency.rb:24
 RuboCop::Cop::Rails::HttpStatusNameConsistency::PREFERRED_STATUSES = T.let(T.unsafe(nil), Hash)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/http_status_name_consistency.rb#22
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_status_name_consistency.rb:22
 RuboCop::Cop::Rails::HttpStatusNameConsistency::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Checks for places where I18n "lazy" lookup can be used.
@@ -5599,22 +5434,6 @@ RuboCop::Cop::Rails::HttpStatusNameConsistency::RESTRICT_ON_SEND = T.let(T.unsaf
 # When the EnforcedStyle is `explicit` then lazy lookups are added as
 # offenses.
 #
-# @example EnforcedStyle: explicit
-#   # bad
-#   class BooksController < ApplicationController
-#   def create
-#   # ...
-#   redirect_to books_url, notice: t('.success')
-#   end
-#   end
-#
-#   # good
-#   class BooksController < ApplicationController
-#   def create
-#   # ...
-#   redirect_to books_url, notice: t('books.create.success')
-#   end
-#   end
 # @example EnforcedStyle: lazy (default)
 #   # en.yml
 #   # en:
@@ -5624,58 +5443,75 @@ RuboCop::Cop::Rails::HttpStatusNameConsistency::RESTRICT_ON_SEND = T.let(T.unsaf
 #
 #   # bad
 #   class BooksController < ApplicationController
-#   def create
-#   # ...
-#   redirect_to books_url, notice: t('books.create.success')
-#   end
+#     def create
+#       # ...
+#       redirect_to books_url, notice: t('books.create.success')
+#     end
 #   end
 #
 #   # good
 #   class BooksController < ApplicationController
-#   def create
-#   # ...
-#   redirect_to books_url, notice: t('.success')
-#   end
+#     def create
+#       # ...
+#       redirect_to books_url, notice: t('.success')
+#     end
 #   end
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/i18n_lazy_lookup.rb#54
+# @example EnforcedStyle: explicit
+#   # bad
+#   class BooksController < ApplicationController
+#     def create
+#       # ...
+#       redirect_to books_url, notice: t('.success')
+#     end
+#   end
+#
+#   # good
+#   class BooksController < ApplicationController
+#     def create
+#       # ...
+#       redirect_to books_url, notice: t('books.create.success')
+#     end
+#   end
+#
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/i18n_lazy_lookup.rb:54
 class RuboCop::Cop::Rails::I18nLazyLookup < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::ConfigurableEnforcedStyle
   include ::RuboCop::Cop::VisibilityHelp
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/i18n_lazy_lookup.rb#67
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/i18n_lazy_lookup.rb:67
   def on_send(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/i18n_lazy_lookup.rb#63
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/i18n_lazy_lookup.rb:63
   def translate_call?(param0 = T.unsafe(nil)); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/i18n_lazy_lookup.rb#109
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/i18n_lazy_lookup.rb:109
   def controller_and_action(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/i18n_lazy_lookup.rb#127
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/i18n_lazy_lookup.rb:127
   def controller_path(controller); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/i18n_lazy_lookup.rb#119
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/i18n_lazy_lookup.rb:119
   def get_scoped_key(key_node, controller, action); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/i18n_lazy_lookup.rb#96
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/i18n_lazy_lookup.rb:96
   def handle_explicit_style(node, key_node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/i18n_lazy_lookup.rb#80
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/i18n_lazy_lookup.rb:80
   def handle_lazy_style(node, key_node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/i18n_lazy_lookup.rb#140
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/i18n_lazy_lookup.rb:140
   def message(_range); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/i18n_lazy_lookup.rb#59
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/i18n_lazy_lookup.rb:59
 RuboCop::Cop::Rails::I18nLazyLookup::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/i18n_lazy_lookup.rb#61
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/i18n_lazy_lookup.rb:61
 RuboCop::Cop::Rails::I18nLazyLookup::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Checks for the use of `I18n.locale=` method.
@@ -5693,21 +5529,21 @@ RuboCop::Cop::Rails::I18nLazyLookup::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Arr
 #   I18n.with_locale(:fr) do
 #   end
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/i18n_locale_assignment.rb#21
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/i18n_locale_assignment.rb:21
 class RuboCop::Cop::Rails::I18nLocaleAssignment < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/i18n_locale_assignment.rb#25
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/i18n_locale_assignment.rb:25
   def i18n_locale_assignment?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/i18n_locale_assignment.rb#29
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/i18n_locale_assignment.rb:29
   def on_send(node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/i18n_locale_assignment.rb#22
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/i18n_locale_assignment.rb:22
 RuboCop::Cop::Rails::I18nLocaleAssignment::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/i18n_locale_assignment.rb#23
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/i18n_locale_assignment.rb:23
 RuboCop::Cop::Rails::I18nLocaleAssignment::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Enforces use of I18n and locale files instead of locale specific strings.
@@ -5715,7 +5551,7 @@ RuboCop::Cop::Rails::I18nLocaleAssignment::RESTRICT_ON_SEND = T.let(T.unsafe(nil
 # @example
 #   # bad
 #   class User < ApplicationRecord
-#   validates :email, presence: { message: "must be present" }
+#     validates :email, presence: { message: "must be present" }
 #   end
 #
 #   # good
@@ -5728,15 +5564,15 @@ RuboCop::Cop::Rails::I18nLocaleAssignment::RESTRICT_ON_SEND = T.let(T.unsafe(nil
 #   #           blank: "must be present"
 #
 #   class User < ApplicationRecord
-#   validates :email, presence: true
+#     validates :email, presence: true
 #   end
 #
 #   # bad
 #   class PostsController < ApplicationController
-#   def create
-#   # ...
-#   redirect_to root_path, notice: "Post created!"
-#   end
+#     def create
+#       # ...
+#       redirect_to root_path, notice: "Post created!"
+#     end
 #   end
 #
 #   # good
@@ -5747,17 +5583,17 @@ RuboCop::Cop::Rails::I18nLocaleAssignment::RESTRICT_ON_SEND = T.let(T.unsafe(nil
 #   #       success: "Post created!"
 #
 #   class PostsController < ApplicationController
-#   def create
-#   # ...
-#   redirect_to root_path, notice: t(".success")
-#   end
+#     def create
+#       # ...
+#       redirect_to root_path, notice: t(".success")
+#     end
 #   end
 #
 #   # bad
 #   class UserMailer < ApplicationMailer
-#   def welcome(user)
-#   mail(to: user.email, subject: "Welcome to My Awesome Site")
-#   end
+#     def welcome(user)
+#       mail(to: user.email, subject: "Welcome to My Awesome Site")
+#     end
 #   end
 #
 #   # good
@@ -5768,35 +5604,35 @@ RuboCop::Cop::Rails::I18nLocaleAssignment::RESTRICT_ON_SEND = T.let(T.unsafe(nil
 #   #       subject: "Welcome to My Awesome Site"
 #
 #   class UserMailer < ApplicationMailer
-#   def welcome(user)
-#   mail(to: user.email)
-#   end
+#     def welcome(user)
+#       mail(to: user.email)
+#     end
 #   end
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/i18n_locale_texts.rb#69
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/i18n_locale_texts.rb:69
 class RuboCop::Cop::Rails::I18nLocaleTexts < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/i18n_locale_texts.rb#82
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/i18n_locale_texts.rb:82
   def flash_assignment?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/i18n_locale_texts.rb#90
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/i18n_locale_texts.rb:90
   def mail_subject(param0); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/i18n_locale_texts.rb#94
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/i18n_locale_texts.rb:94
   def on_send(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/i18n_locale_texts.rb#78
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/i18n_locale_texts.rb:78
   def redirect_to_flash(param0); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/i18n_locale_texts.rb#74
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/i18n_locale_texts.rb:74
   def validation_message(param0); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/i18n_locale_texts.rb#70
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/i18n_locale_texts.rb:70
 RuboCop::Cop::Rails::I18nLocaleTexts::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/i18n_locale_texts.rb#72
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/i18n_locale_texts.rb:72
 RuboCop::Cop::Rails::I18nLocaleTexts::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Looks for assignments of `ignored_columns` that may override previous
@@ -5810,38 +5646,38 @@ RuboCop::Cop::Rails::I18nLocaleTexts::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Ar
 #
 #   # bad
 #   class User < ActiveRecord::Base
-#   self.ignored_columns = [:one]
+#     self.ignored_columns = [:one]
 #   end
 #
 #   # bad
 #   class User < ActiveRecord::Base
-#   self.ignored_columns = [:one, :two]
+#     self.ignored_columns = [:one, :two]
 #   end
 #
 #   # good
 #   class User < ActiveRecord::Base
-#   self.ignored_columns += [:one, :two]
+#     self.ignored_columns += [:one, :two]
 #   end
 #
 #   # good
 #   class User < ActiveRecord::Base
-#   self.ignored_columns += [:one]
-#   self.ignored_columns += [:two]
+#     self.ignored_columns += [:one]
+#     self.ignored_columns += [:two]
 #   end
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/ignored_columns_assignment.rb#36
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/ignored_columns_assignment.rb:36
 class RuboCop::Cop::Rails::IgnoredColumnsAssignment < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/ignored_columns_assignment.rb#42
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/ignored_columns_assignment.rb:42
   def on_send(node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/ignored_columns_assignment.rb#39
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/ignored_columns_assignment.rb:39
 RuboCop::Cop::Rails::IgnoredColumnsAssignment::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/ignored_columns_assignment.rb#40
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/ignored_columns_assignment.rb:40
 RuboCop::Cop::Rails::IgnoredColumnsAssignment::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Checks that `if` and `only` (or `except`) are not used together
@@ -5854,66 +5690,63 @@ RuboCop::Cop::Rails::IgnoredColumnsAssignment::RESTRICT_ON_SEND = T.let(T.unsafe
 # @example
 #   # bad
 #   class MyPageController < ApplicationController
-#   skip_before_action :login_required,
-#   only: :show, if: :trusted_origin?
+#     skip_before_action :login_required,
+#       only: :show, if: :trusted_origin?
 #   end
 #
 #   # good
 #   class MyPageController < ApplicationController
-#   skip_before_action :login_required,
-#   if: -> { trusted_origin? && action_name == "show" }
+#     skip_before_action :login_required,
+#       if: -> { trusted_origin? && action_name == "show" }
 #   end
+#
 # @example
 #   # bad
 #   class MyPageController < ApplicationController
-#   skip_before_action :login_required,
-#   except: :admin, if: :trusted_origin?
+#     skip_before_action :login_required,
+#       except: :admin, if: :trusted_origin?
 #   end
 #
 #   # good
 #   class MyPageController < ApplicationController
-#   skip_before_action :login_required,
-#   if: -> { trusted_origin? && action_name != "admin" }
+#     skip_before_action :login_required,
+#       if: -> { trusted_origin? && action_name != "admin" }
 #   end
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/ignored_skip_action_filter_option.rb#38
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/ignored_skip_action_filter_option.rb:38
 class RuboCop::Cop::Rails::IgnoredSkipActionFilterOption < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::RangeHelp
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/ignored_skip_action_filter_option.rb#51
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/ignored_skip_action_filter_option.rb:51
   def filter_options(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/ignored_skip_action_filter_option.rb#59
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/ignored_skip_action_filter_option.rb:59
   def on_send(node); end
 
   private
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/ignored_skip_action_filter_option.rb#89
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/ignored_skip_action_filter_option.rb:89
   def if_and_except?(options); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/ignored_skip_action_filter_option.rb#85
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/ignored_skip_action_filter_option.rb:85
   def if_and_only?(options); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/ignored_skip_action_filter_option.rb#79
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/ignored_skip_action_filter_option.rb:79
   def options_hash(options); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/ignored_skip_action_filter_option.rb#93
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/ignored_skip_action_filter_option.rb:93
   def remove_node_with_left_space_and_comma(corrector, node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/ignored_skip_action_filter_option.rb#49
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/ignored_skip_action_filter_option.rb:49
 RuboCop::Cop::Rails::IgnoredSkipActionFilterOption::FILTERS = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/ignored_skip_action_filter_option.rb#43
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/ignored_skip_action_filter_option.rb:43
 RuboCop::Cop::Rails::IgnoredSkipActionFilterOption::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/ignored_skip_action_filter_option.rb#47
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/ignored_skip_action_filter_option.rb:47
 RuboCop::Cop::Rails::IgnoredSkipActionFilterOption::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Looks for uses of `each_with_object({}) { ... }`,
@@ -5931,27 +5764,27 @@ RuboCop::Cop::Rails::IgnoredSkipActionFilterOption::RESTRICT_ON_SEND = T.let(T.u
 #   # good
 #   [1, 2, 3].index_by { |el| foo(el) }
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/index_by.rb#20
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/index_by.rb:20
 class RuboCop::Cop::Rails::IndexBy < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::IndexMethod
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/index_by.rb#24
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/index_by.rb:24
   def on_bad_each_with_object(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/index_by.rb#63
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/index_by.rb:63
   def on_bad_hash_brackets_map(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/index_by.rb#46
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/index_by.rb:46
   def on_bad_map_to_h(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/index_by.rb#31
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/index_by.rb:31
   def on_bad_to_h(param0 = T.unsafe(nil)); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/index_by.rb#84
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/index_by.rb:84
   def new_method_name; end
 end
 
@@ -5959,6 +5792,11 @@ end
 # `map { ... }.to_h`, and `Hash[map { ... }]` that are transforming
 # an enumerable into a hash where the keys are the original elements.
 # Rails provides the `index_with` method for this purpose.
+#
+# @safety
+#   This cop is marked as unsafe autocorrection, because `nil.to_h` returns {}
+#   but `nil.with_index` throws `NoMethodError`. Therefore, autocorrection is not
+#   compatible if the receiver is nil.
 #
 # @example
 #   # bad
@@ -5970,28 +5808,28 @@ end
 #   # good
 #   [1, 2, 3].index_with { |el| foo(el) }
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/index_with.rb#25
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/index_with.rb:25
 class RuboCop::Cop::Rails::IndexWith < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::IndexMethod
   extend ::RuboCop::Cop::AutoCorrector
   extend ::RuboCop::Cop::TargetRailsVersion
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/index_with.rb#32
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/index_with.rb:32
   def on_bad_each_with_object(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/index_with.rb#71
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/index_with.rb:71
   def on_bad_hash_brackets_map(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/index_with.rb#54
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/index_with.rb:54
   def on_bad_map_to_h(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/index_with.rb#39
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/index_with.rb:39
   def on_bad_to_h(param0 = T.unsafe(nil)); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/index_with.rb#92
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/index_with.rb:92
   def new_method_name; end
 end
 
@@ -6014,21 +5852,21 @@ end
 #   pets = %w(cat dog)
 #   pets.include? 'cat'
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/inquiry.rb#25
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/inquiry.rb:25
 class RuboCop::Cop::Rails::Inquiry < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/inquiry.rb#36
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/inquiry.rb:36
   def on_csend(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/inquiry.rb#29
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/inquiry.rb:29
   def on_send(node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/inquiry.rb#26
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/inquiry.rb:26
 RuboCop::Cop::Rails::Inquiry::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/inquiry.rb#27
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/inquiry.rb:27
 RuboCop::Cop::Rails::Inquiry::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Looks for has_(one|many) and belongs_to associations where
@@ -6046,326 +5884,328 @@ RuboCop::Cop::Rails::Inquiry::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 # @example
 #   # good
 #   class Blog < ApplicationRecord
-#   has_many :posts
+#     has_many :posts
 #   end
 #
 #   class Post < ApplicationRecord
-#   belongs_to :blog
+#     belongs_to :blog
 #   end
+#
 # @example
 #   # bad
 #   class Blog < ApplicationRecord
-#   has_many :posts, -> { order(published_at: :desc) }
+#     has_many :posts, -> { order(published_at: :desc) }
 #   end
 #
 #   class Post < ApplicationRecord
-#   belongs_to :blog
+#     belongs_to :blog
 #   end
 #
 #   # good
 #   class Blog < ApplicationRecord
-#   has_many(:posts,
-#   -> { order(published_at: :desc) },
-#   inverse_of: :blog)
+#     has_many(:posts,
+#              -> { order(published_at: :desc) },
+#              inverse_of: :blog)
 #   end
 #
 #   class Post < ApplicationRecord
-#   belongs_to :blog
+#     belongs_to :blog
 #   end
 #
 #   # good
 #   class Blog < ApplicationRecord
-#   with_options inverse_of: :blog do
-#   has_many :posts, -> { order(published_at: :desc) }
-#   end
+#     with_options inverse_of: :blog do
+#       has_many :posts, -> { order(published_at: :desc) }
+#     end
 #   end
 #
 #   class Post < ApplicationRecord
-#   belongs_to :blog
+#     belongs_to :blog
 #   end
 #
 #   # good
 #   # When you don't want to use the inverse association.
 #   class Blog < ApplicationRecord
-#   has_many(:posts,
-#   -> { order(published_at: :desc) },
-#   inverse_of: false)
+#     has_many(:posts,
+#              -> { order(published_at: :desc) },
+#              inverse_of: false)
 #   end
+#
 # @example
 #   # bad
 #   class Picture < ApplicationRecord
-#   belongs_to :imageable, polymorphic: true
+#     belongs_to :imageable, polymorphic: true
 #   end
 #
 #   class Employee < ApplicationRecord
-#   has_many :pictures, as: :imageable
+#     has_many :pictures, as: :imageable
 #   end
 #
 #   class Product < ApplicationRecord
-#   has_many :pictures, as: :imageable
+#     has_many :pictures, as: :imageable
 #   end
 #
 #   # good
 #   class Picture < ApplicationRecord
-#   belongs_to :imageable, polymorphic: true
+#     belongs_to :imageable, polymorphic: true
 #   end
 #
 #   class Employee < ApplicationRecord
-#   has_many :pictures, as: :imageable, inverse_of: :imageable
+#     has_many :pictures, as: :imageable, inverse_of: :imageable
 #   end
 #
 #   class Product < ApplicationRecord
-#   has_many :pictures, as: :imageable, inverse_of: :imageable
+#     has_many :pictures, as: :imageable, inverse_of: :imageable
 #   end
+#
 # @example
 #   # bad
 #   # However, RuboCop can not detect this pattern...
 #   class Physician < ApplicationRecord
-#   has_many :appointments
-#   has_many :patients, through: :appointments
+#     has_many :appointments
+#     has_many :patients, through: :appointments
 #   end
 #
 #   class Appointment < ApplicationRecord
-#   belongs_to :physician
-#   belongs_to :patient
+#     belongs_to :physician
+#     belongs_to :patient
 #   end
 #
 #   class Patient < ApplicationRecord
-#   has_many :appointments
-#   has_many :physicians, through: :appointments
+#     has_many :appointments
+#     has_many :physicians, through: :appointments
 #   end
 #
 #   # good
 #   class Physician < ApplicationRecord
-#   has_many :appointments
-#   has_many :patients, through: :appointments
+#     has_many :appointments
+#     has_many :patients, through: :appointments
 #   end
 #
 #   class Appointment < ApplicationRecord
-#   belongs_to :physician, inverse_of: :appointments
-#   belongs_to :patient, inverse_of: :appointments
+#     belongs_to :physician, inverse_of: :appointments
+#     belongs_to :patient, inverse_of: :appointments
 #   end
 #
 #   class Patient < ApplicationRecord
-#   has_many :appointments
-#   has_many :physicians, through: :appointments
+#     has_many :appointments
+#     has_many :physicians, through: :appointments
 #   end
+#
 # @example IgnoreScopes: false (default)
 #   # bad
 #   class Blog < ApplicationRecord
-#   has_many :posts, -> { order(published_at: :desc) }
+#     has_many :posts, -> { order(published_at: :desc) }
 #   end
+#
 # @example IgnoreScopes: true
 #   # good
 #   class Blog < ApplicationRecord
-#   has_many :posts, -> { order(published_at: :desc) }
+#     has_many :posts, -> { order(published_at: :desc) }
 #   end
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/inverse_of.rb#140
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/inverse_of.rb:140
 class RuboCop::Cop::Rails::InverseOf < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/inverse_of.rb#165
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/inverse_of.rb:165
   def as_option?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/inverse_of.rb#145
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/inverse_of.rb:145
   def association_recv_arguments(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/inverse_of.rb#153
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/inverse_of.rb:153
   def conditions_option?(param0 = T.unsafe(nil)); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/inverse_of.rb#222
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/inverse_of.rb:222
   def dynamic_options?(options); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/inverse_of.rb#169
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/inverse_of.rb:169
   def foreign_key_option?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/inverse_of.rb#177
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/inverse_of.rb:177
   def inverse_of_nil_option?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/inverse_of.rb#173
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/inverse_of.rb:173
   def inverse_of_option?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/inverse_of.rb#182
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/inverse_of.rb:182
   def on_send(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/inverse_of.rb#226
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/inverse_of.rb:226
   def options_contain_inverse_of?(options); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/inverse_of.rb#149
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/inverse_of.rb:149
   def options_from_argument(param0 = T.unsafe(nil)); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/inverse_of.rb#216
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/inverse_of.rb:216
   def options_ignoring_inverse_of?(options); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/inverse_of.rb#206
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/inverse_of.rb:206
   def options_requiring_inverse_of?(options); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/inverse_of.rb#161
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/inverse_of.rb:161
   def polymorphic_option?(param0 = T.unsafe(nil)); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/inverse_of.rb#237
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/inverse_of.rb:237
   def same_context_in_with_options?(arg, recv); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/inverse_of.rb#202
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/inverse_of.rb:202
   def scope?(arguments); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/inverse_of.rb#157
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/inverse_of.rb:157
   def through_option?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/inverse_of.rb#230
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/inverse_of.rb:230
   def with_options_arguments(recv, node); end
 
   private
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/inverse_of.rb#253
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/inverse_of.rb:253
   def ignore_scopes?; end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/inverse_of.rb#245
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/inverse_of.rb:245
   def message(options); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/inverse_of.rb#142
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/inverse_of.rb:142
 RuboCop::Cop::Rails::InverseOf::NIL_MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/inverse_of.rb#143
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/inverse_of.rb:143
 RuboCop::Cop::Rails::InverseOf::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/inverse_of.rb#141
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/inverse_of.rb:141
 RuboCop::Cop::Rails::InverseOf::SPECIFY_MSG = T.let(T.unsafe(nil), String)
 
 # Checks that methods specified in the filter's `only` or
 # `except` options are defined within the same class or module.
 #
+# @safety
+#   You can technically specify methods of superclass or methods added by
+#   mixins on the filter, but these can confuse developers. If you specify
+#   methods that are defined in other classes or modules, you should
+#   define the filter in that class or module.
+#
+#   If you rely on behavior defined in the superclass actions, you must
+#   remember to invoke `super` in the subclass actions.
+#
 # @example
 #   # bad
 #   class LoginController < ApplicationController
-#   before_action :require_login, only: %i[index settings logout]
+#     before_action :require_login, only: %i[index settings logout]
 #
-#   def index
-#   end
+#     def index
+#     end
 #   end
 #
 #   # good
 #   class LoginController < ApplicationController
-#   before_action :require_login, only: %i[index settings logout]
+#     before_action :require_login, only: %i[index settings logout]
 #
-#   def index
+#     def index
+#     end
+#
+#     def settings
+#     end
+#
+#     def logout
+#     end
 #   end
 #
-#   def settings
-#   end
-#
-#   def logout
-#   end
-#   end
 # @example
 #   # bad
 #   module FooMixin
-#   extend ActiveSupport::Concern
+#     extend ActiveSupport::Concern
 #
-#   included do
-#   before_action proc { authenticate }, only: :foo
-#   end
+#     included do
+#       before_action proc { authenticate }, only: :foo
+#     end
 #   end
 #
 #   # good
 #   module FooMixin
-#   extend ActiveSupport::Concern
+#     extend ActiveSupport::Concern
 #
-#   included do
-#   before_action proc { authenticate }, only: :foo
+#     included do
+#       before_action proc { authenticate }, only: :foo
+#     end
+#
+#     def foo
+#       # something
+#     end
 #   end
 #
-#   def foo
-#   # something
-#   end
-#   end
 # @example
 #   class ContentController < ApplicationController
-#   def update
-#   @content.update(content_attributes)
-#   end
+#     def update
+#       @content.update(content_attributes)
+#     end
 #   end
 #
 #   class ArticlesController < ContentController
-#   before_action :load_article, only: [:update]
+#     before_action :load_article, only: [:update]
 #
-#   # the cop requires this method, but it relies on behavior defined
-#   # in the superclass, so needs to invoke `super`
-#   def update
-#   super
+#     # the cop requires this method, but it relies on behavior defined
+#     # in the superclass, so needs to invoke `super`
+#     def update
+#       super
+#     end
+#
+#     private
+#
+#     def load_article
+#       @content = Article.find(params[:article_id])
+#     end
 #   end
 #
-#   private
-#
-#   def load_article
-#   @content = Article.find(params[:article_id])
-#   end
-#   end
-#
-# source://rubocop-rails//lib/rubocop/cop/rails/lexically_scoped_action_filter.rb#86
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/lexically_scoped_action_filter.rb:86
 class RuboCop::Cop::Rails::LexicallyScopedActionFilter < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/lexically_scoped_action_filter.rb#118
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/lexically_scoped_action_filter.rb:118
   def delegated_methods(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/lexically_scoped_action_filter.rb#122
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/lexically_scoped_action_filter.rb:122
   def on_send(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/lexically_scoped_action_filter.rb#107
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/lexically_scoped_action_filter.rb:107
   def only_or_except_filter_methods(param0 = T.unsafe(nil)); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/lexically_scoped_action_filter.rb#164
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/lexically_scoped_action_filter.rb:164
   def alias_methods(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/lexically_scoped_action_filter.rb#155
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/lexically_scoped_action_filter.rb:155
   def aliased_action_methods(node, defined_methods); end
 
   # @param node [RuboCop::AST::Node]
   # @return [Array<Symbol>]
   #
-  # source://rubocop-rails//lib/rubocop/cop/rails/lexically_scoped_action_filter.rb#181
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/lexically_scoped_action_filter.rb:181
   def array_values(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/lexically_scoped_action_filter.rb#142
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/lexically_scoped_action_filter.rb:142
   def defined_action_methods(block); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/lexically_scoped_action_filter.rb#149
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/lexically_scoped_action_filter.rb:149
   def delegated_action_methods(node); end
 
   # @param methods [Array<String>]
   # @param parent [RuboCop::AST::Node]
   # @return [String]
   #
-  # source://rubocop-rails//lib/rubocop/cop/rails/lexically_scoped_action_filter.rb#204
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/lexically_scoped_action_filter.rb:204
   def message(methods, parent); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/lexically_scoped_action_filter.rb#105
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/lexically_scoped_action_filter.rb:105
 RuboCop::Cop::Rails::LexicallyScopedActionFilter::FILTERS = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/lexically_scoped_action_filter.rb#87
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/lexically_scoped_action_filter.rb:87
 RuboCop::Cop::Rails::LexicallyScopedActionFilter::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/lexically_scoped_action_filter.rb#89
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/lexically_scoped_action_filter.rb:89
 RuboCop::Cop::Rails::LexicallyScopedActionFilter::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Checks for calls to `link_to`, `link_to_if`, and `link_to_unless` methods that contain a
@@ -6386,50 +6226,52 @@ RuboCop::Cop::Rails::LexicallyScopedActionFilter::RESTRICT_ON_SEND = T.let(T.uns
 #   # good
 #   link_to 'Click here', url, target: '_blank', rel: 'noreferrer'
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/link_to_blank.rb#23
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/link_to_blank.rb:23
 class RuboCop::Cop::Rails::LinkToBlank < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/link_to_blank.rb#29
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/link_to_blank.rb:29
   def blank_target?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/link_to_blank.rb#33
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/link_to_blank.rb:33
   def includes_noopener?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/link_to_blank.rb#41
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/link_to_blank.rb:41
   def on_send(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/link_to_blank.rb#37
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/link_to_blank.rb:37
   def rel_node?(param0 = T.unsafe(nil)); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/link_to_blank.rb#75
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/link_to_blank.rb:75
   def add_rel(send_node, offense_node, corrector); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/link_to_blank.rb#69
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/link_to_blank.rb:69
   def append_to_rel(rel_node, corrector); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/link_to_blank.rb#56
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/link_to_blank.rb:56
   def autocorrect(corrector, send_node, node, option_nodes); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/link_to_blank.rb#88
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/link_to_blank.rb:88
   def contains_noopener?(value); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/link_to_blank.rb#26
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/link_to_blank.rb:26
 RuboCop::Cop::Rails::LinkToBlank::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/link_to_blank.rb#27
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/link_to_blank.rb:27
 RuboCop::Cop::Rails::LinkToBlank::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Enforces that mailer names end with `Mailer` suffix.
 #
 # Without the `Mailer` suffix it isn't immediately apparent what's a mailer
 # and which views are related to the mailer.
+#
+# @safety
+#   This cop's autocorrection is unsafe because renaming a constant is
+#   always an unsafe operation.
 #
 # @example
 #   # bad
@@ -6446,38 +6288,36 @@ RuboCop::Cop::Rails::LinkToBlank::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 #   class UserMailer < ApplicationMailer
 #   end
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/mailer_name.rb#30
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/mailer_name.rb:30
 class RuboCop::Cop::Rails::MailerName < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/mailer_name.rb#42
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/mailer_name.rb:42
   def class_definition?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/mailer_name.rb#46
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/mailer_name.rb:46
   def class_new_definition?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/mailer_name.rb#35
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/mailer_name.rb:35
   def mailer_base_class?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/mailer_name.rb#50
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/mailer_name.rb:50
   def on_class(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/mailer_name.rb#58
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/mailer_name.rb:58
   def on_send(node); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/mailer_name.rb#74
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/mailer_name.rb:74
   def autocorrect(corrector, node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/mailer_name.rb#84
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/mailer_name.rb:84
   def mailer_suffix?(mailer_name); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/mailer_name.rb#33
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/mailer_name.rb:33
 RuboCop::Cop::Rails::MailerName::MSG = T.let(T.unsafe(nil), String)
 
 # Identifies places where defining routes with `match`
@@ -6497,45 +6337,43 @@ RuboCop::Cop::Rails::MailerName::MSG = T.let(T.unsafe(nil), String)
 #   match 'photos/:id', to: 'photos#show', via: [:get, :post]
 #   match 'photos/:id', to: 'photos#show', via: :all
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/match_route.rb#23
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/match_route.rb:23
 class RuboCop::Cop::Rails::MatchRoute < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::RoutesHelper
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/match_route.rb#30
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/match_route.rb:30
   def match_method_call?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/match_route.rb#34
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/match_route.rb:34
   def on_send(node); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/match_route.rb#63
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/match_route.rb:63
   def extract_via(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/match_route.rb#82
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/match_route.rb:82
   def http_method?(method); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/match_route.rb#103
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/match_route.rb:103
   def http_method_and_options(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/match_route.rb#53
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/match_route.rb:53
   def register_offense(node, http_method); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/match_route.rb#86
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/match_route.rb:86
   def replacement(path_node, options_node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/match_route.rb#78
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/match_route.rb:78
   def via_pair(node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/match_route.rb#27
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/match_route.rb:27
 RuboCop::Cop::Rails::MatchRoute::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/match_route.rb#28
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/match_route.rb:28
 RuboCop::Cop::Rails::MatchRoute::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Makes sure that each migration file defines a migration class
@@ -6553,30 +6391,30 @@ RuboCop::Cop::Rails::MatchRoute::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 #   class CreateUsers < ActiveRecord::Migration[7.0]
 #   end
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/migration_class_name.rb#21
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/migration_class_name.rb:21
 class RuboCop::Cop::Rails::MigrationClassName < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::MigrationsHelper
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/migration_class_name.rb#27
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/migration_class_name.rb:27
   def on_class(node); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/migration_class_name.rb#45
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/migration_class_name.rb:45
   def basename_without_timestamp_and_suffix(filepath); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/migration_class_name.rb#57
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/migration_class_name.rb:57
   def camelize(word); end
 
   # e.g.: from `add_blobs.active_storage` to `add_blobs`.
   #
-  # source://rubocop-rails//lib/rubocop/cop/rails/migration_class_name.rb#53
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/migration_class_name.rb:53
   def remove_gem_suffix(file_name); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/migration_class_name.rb#25
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/migration_class_name.rb:25
 RuboCop::Cop::Rails::MigrationClassName::MSG = T.let(T.unsafe(nil), String)
 
 # Checks for mapping a route with multiple paths, which is deprecated and will be removed in Rails 8.1.
@@ -6590,32 +6428,36 @@ RuboCop::Cop::Rails::MigrationClassName::MSG = T.let(T.unsafe(nil), String)
 #   get '/users', to: 'users#index'
 #   get '/other_path', to: 'users#index'
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/multiple_route_paths.rb#17
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/multiple_route_paths.rb:17
 class RuboCop::Cop::Rails::MultipleRoutePaths < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::RoutesHelper
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/multiple_route_paths.rb#26
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/multiple_route_paths.rb:26
   def on_send(node); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/multiple_route_paths.rb#39
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/multiple_route_paths.rb:39
   def migrate_to_multiple_routes(node, route_paths); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/multiple_route_paths.rb#24
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/multiple_route_paths.rb:24
 RuboCop::Cop::Rails::MultipleRoutePaths::IGNORED_ARGUMENT_TYPES = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/multiple_route_paths.rb#21
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/multiple_route_paths.rb:21
 RuboCop::Cop::Rails::MultipleRoutePaths::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/multiple_route_paths.rb#22
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/multiple_route_paths.rb:22
 RuboCop::Cop::Rails::MultipleRoutePaths::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Enforces the use of `collection.exclude?(obj)`
 # over `!collection.include?(obj)`.
+#
+# @safety
+#   This cop is unsafe because false positive will occur for
+#   receiver objects that do not have an `exclude?` method. (e.g. `IPAddr`)
 #
 # @example
 #   # bad
@@ -6626,22 +6468,22 @@ RuboCop::Cop::Rails::MultipleRoutePaths::RESTRICT_ON_SEND = T.let(T.unsafe(nil),
 #   array.exclude?(2)
 #   hash.exclude?(:key)
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/negate_include.rb#22
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/negate_include.rb:22
 class RuboCop::Cop::Rails::NegateInclude < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/negate_include.rb#28
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/negate_include.rb:28
   def negate_include_call?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/negate_include.rb#32
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/negate_include.rb:32
   def on_send(node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/negate_include.rb#25
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/negate_include.rb:25
 RuboCop::Cop::Rails::NegateInclude::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/negate_include.rb#26
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/negate_include.rb:26
 RuboCop::Cop::Rails::NegateInclude::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Checks for add_column calls with a NOT NULL constraint without a default
@@ -6669,97 +6511,100 @@ RuboCop::Cop::Rails::NegateInclude::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Arra
 #   add_column :users, :name, :string, null: false
 #   add_reference :products, :category, null: false
 #   change_table :users do |t|
-#   t.string :name, null: false
+#     t.string :name, null: false
 #   end
 #
 #   # good
 #   add_column :users, :name, :string, null: true
 #   add_column :users, :name, :string, null: false, default: ''
 #   change_table :users do |t|
-#   t.string :name, null: false, default: ''
+#     t.string :name, null: false, default: ''
 #   end
 #   add_reference :products, :category
 #   change_column_null :products, :category_id, false
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/not_null_column.rb#42
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/not_null_column.rb:42
 class RuboCop::Cop::Rails::NotNullColumn < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::DatabaseTypeResolvable
   include ::RuboCop::Cop::MigrationsHelper
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/not_null_column.rb#52
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/not_null_column.rb:52
   def add_not_null_column?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/not_null_column.rb#64
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/not_null_column.rb:64
   def add_not_null_column_in_change_table?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/not_null_column.rb#68
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/not_null_column.rb:68
   def add_not_null_column_via_shortcut_in_change_table?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/not_null_column.rb#56
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/not_null_column.rb:56
   def add_not_null_reference?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/not_null_column.rb#72
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/not_null_column.rb:72
   def add_not_null_reference_in_change_table?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/not_null_column.rb#60
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/not_null_column.rb:60
   def change_table?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/not_null_column.rb#80
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/not_null_column.rb:80
   def default_option?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/not_null_column.rb#76
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/not_null_column.rb:76
   def null_false?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/not_null_column.rb#89
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/not_null_column.rb:89
   def on_block(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/not_null_column.rb#92
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/not_null_column.rb:92
   def on_numblock(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/not_null_column.rb#84
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/not_null_column.rb:84
   def on_send(node); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/not_null_column.rb#105
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/not_null_column.rb:105
   def check_add_column(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/not_null_column.rb#117
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/not_null_column.rb:117
   def check_add_column_in_change_table(node, table); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/not_null_column.rb#125
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/not_null_column.rb:125
   def check_add_column_via_shortcut_in_change_table(node, table); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/not_null_column.rb#111
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/not_null_column.rb:111
   def check_add_reference(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/not_null_column.rb#133
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/not_null_column.rb:133
   def check_add_reference_in_change_table(node, table); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/not_null_column.rb#141
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/not_null_column.rb:141
   def check_change_table(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/not_null_column.rb#96
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/not_null_column.rb:96
   def check_column(type, pairs); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/not_null_column.rb#154
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/not_null_column.rb:154
   def check_pairs(pairs); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/not_null_column.rb#46
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/not_null_column.rb:46
 RuboCop::Cop::Rails::NotNullColumn::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/not_null_column.rb#47
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/not_null_column.rb:47
 RuboCop::Cop::Rails::NotNullColumn::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/not_null_column.rb#50
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/not_null_column.rb:50
 RuboCop::Cop::Rails::NotNullColumn::TEXT_TYPE_VALUES = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/not_null_column.rb#49
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/not_null_column.rb:49
 RuboCop::Cop::Rails::NotNullColumn::VIRTUAL_TYPE_VALUES = T.let(T.unsafe(nil), Array)
 
 # Prefer symbol arguments over strings in `order` method.
+#
+# @safety
+#   Cop is unsafe because the receiver might not be an Active Record query.
 #
 # @example
 #   # bad
@@ -6770,47 +6615,45 @@ RuboCop::Cop::Rails::NotNullColumn::VIRTUAL_TYPE_VALUES = T.let(T.unsafe(nil), A
 #   User.order(:name)
 #   User.order(name: :desc)
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/order_arguments.rb#20
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/order_arguments.rb:20
 class RuboCop::Cop::Rails::OrderArguments < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/order_arguments.rb#42
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/order_arguments.rb:42
   def on_csend(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/order_arguments.rb#33
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/order_arguments.rb:33
   def on_send(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/order_arguments.rb#27
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/order_arguments.rb:27
   def string_order(param0 = T.unsafe(nil)); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/order_arguments.rb#60
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/order_arguments.rb:60
   def convert_to_preferred_arguments(order_expressions); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/order_arguments.rb#76
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/order_arguments.rb:76
   def extract_column_and_direction(order_expression); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/order_arguments.rb#46
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/order_arguments.rb:46
   def find_offense_range(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/order_arguments.rb#72
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/order_arguments.rb:72
   def positional_column?(column_name); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/order_arguments.rb#50
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/order_arguments.rb:50
   def replacement(order_expressions); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/order_arguments.rb#23
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/order_arguments.rb:23
 RuboCop::Cop::Rails::OrderArguments::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/order_arguments.rb#31
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/order_arguments.rb:31
 RuboCop::Cop::Rails::OrderArguments::ORDER_EXPRESSION_REGEX = T.let(T.unsafe(nil), Regexp)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/order_arguments.rb#25
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/order_arguments.rb:25
 RuboCop::Cop::Rails::OrderArguments::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Checks for places where ordering by `id` column is used.
@@ -6830,30 +6673,34 @@ RuboCop::Cop::Rails::OrderArguments::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Arr
 #   # good
 #   scope :chronological, -> { order(created_at: :asc) }
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/order_by_id.rb#23
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/order_by_id.rb:23
 class RuboCop::Cop::Rails::OrderById < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::RangeHelp
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/order_by_id.rb#39
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/order_by_id.rb:39
   def on_send(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/order_by_id.rb#29
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/order_by_id.rb:29
   def order_by_id?(param0 = T.unsafe(nil)); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/order_by_id.rb#45
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/order_by_id.rb:45
   def offense_range(node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/order_by_id.rb#26
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/order_by_id.rb:26
 RuboCop::Cop::Rails::OrderById::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/order_by_id.rb#27
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/order_by_id.rb:27
 RuboCop::Cop::Rails::OrderById::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Checks for the use of output calls like puts and print
+#
+# @safety
+#   This cop's autocorrection is unsafe because depending on the Rails log level configuration,
+#   changing from `puts` to `Rails.logger.debug` could result in no output being shown.
 #
 # @example
 #   # bad
@@ -6864,36 +6711,34 @@ RuboCop::Cop::Rails::OrderById::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 #   # good
 #   Rails.logger.debug 'A debug message'
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/output.rb#20
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/output.rb:20
 class RuboCop::Cop::Rails::Output < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::RangeHelp
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/output.rb#31
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/output.rb:31
   def io_output?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/output.rb#42
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/output.rb:42
   def on_send(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/output.rb#27
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/output.rb:27
   def output?(param0 = T.unsafe(nil)); end
 
   private
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/output.rb#57
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/output.rb:57
   def match_gvar?(sym); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/output.rb#61
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/output.rb:61
   def offense_range(node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/output.rb#24
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/output.rb:24
 RuboCop::Cop::Rails::Output::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/output.rb#25
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/output.rb:25
 RuboCop::Cop::Rails::Output::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Checks for the use of output safety calls like `html_safe`,
@@ -6956,46 +6801,38 @@ RuboCop::Cop::Rails::Output::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 #   # => ActiveSupport::SafeBuffer
 #   #    "&lt;b&gt;hi&lt;/b&gt; <span>&lt;b&gt;hi&lt;/b&gt;</span>"
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/output_safety.rb#65
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/output_safety.rb:65
 class RuboCop::Cop::Rails::OutputSafety < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/output_safety.rb#69
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/output_safety.rb:69
   def i18n_method?(param0); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/output_safety.rb#82
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/output_safety.rb:82
   def on_csend(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/output_safety.rb#73
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/output_safety.rb:73
   def on_send(node); end
 
   private
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/output_safety.rb#92
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/output_safety.rb:92
   def looks_like_rails_html_safe?(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/output_safety.rb#96
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/output_safety.rb:96
   def looks_like_rails_raw?(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/output_safety.rb#100
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/output_safety.rb:100
   def looks_like_rails_safe_concat?(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/output_safety.rb#86
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/output_safety.rb:86
   def non_interpolated_string?(node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/output_safety.rb#66
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/output_safety.rb:66
 RuboCop::Cop::Rails::OutputSafety::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/output_safety.rb#67
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/output_safety.rb:67
 RuboCop::Cop::Rails::OutputSafety::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Enforces the use of `pick` over `pluck(...).first`.
@@ -7008,6 +6845,13 @@ RuboCop::Cop::Rails::OutputSafety::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array
 # causes a subquery to be added. In most cases this is undesirable, and
 # care should be taken while resolving this violation.
 #
+# @safety
+#   This cop is unsafe because `pluck` is defined on both `ActiveRecord::Relation` and `Enumerable`,
+#   whereas `pick` is only defined on `ActiveRecord::Relation` in Rails 6.0. This was addressed
+#   in Rails 6.1 via rails/rails#38760, at which point the cop is safe.
+#
+#   See: https://github.com/rubocop/rubocop-rails/pull/249
+#
 # @example
 #   # bad
 #   Model.pluck(:a).first
@@ -7017,31 +6861,31 @@ RuboCop::Cop::Rails::OutputSafety::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array
 #   Model.pick(:a)
 #   [{ a: :b, c: :d }].pick(:a, :b)
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/pick.rb#31
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pick.rb:31
 class RuboCop::Cop::Rails::Pick < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   extend ::RuboCop::Cop::AutoCorrector
   extend ::RuboCop::Cop::TargetRailsVersion
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/pick.rb#59
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pick.rb:59
   def on_csend(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/pick.rb#44
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pick.rb:44
   def on_send(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/pick.rb#40
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pick.rb:40
   def pick_candidate?(param0 = T.unsafe(nil)); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/pick.rb#63
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pick.rb:63
   def message(receiver, current); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/pick.rb#35
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pick.rb:35
 RuboCop::Cop::Rails::Pick::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/pick.rb#36
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pick.rb:36
 RuboCop::Cop::Rails::Pick::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Enforces the use of `pluck` over `map`.
@@ -7071,6 +6915,18 @@ RuboCop::Cop::Rails::Pick::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 # If a method call has no receiver, like `do_something { users.map { |user| user[:foo] }`,
 # it is not considered part of an iteration and will be detected.
 #
+# @safety
+#   This cop is unsafe because model can use column aliases.
+#
+#   [source,ruby]
+#   ----
+#   # Original code
+#   User.select('name AS nickname').map { |user| user[:nickname] } # => array of nicknames
+#
+#   # After autocorrection
+#   User.select('name AS nickname').pluck(:nickname) # => raises ActiveRecord::StatementInvalid
+#   ----
+#
 # @example
 #   # bad
 #   Post.published.map { |post| post[:title] }
@@ -7080,50 +6936,49 @@ RuboCop::Cop::Rails::Pick::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 #   Post.published.pluck(:title)
 #   [{ a: :b, c: :d }].pluck(:a)
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/pluck.rb#53
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluck.rb:53
 class RuboCop::Cop::Rails::Pluck < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   extend ::RuboCop::Cop::AutoCorrector
   extend ::RuboCop::Cop::TargetRailsVersion
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/pluck.rb#66
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluck.rb:66
   def on_block(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/pluck.rb#87
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluck.rb:87
   def on_itblock(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/pluck.rb#86
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluck.rb:86
   def on_numblock(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/pluck.rb#61
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluck.rb:61
   def pluck_candidate?(param0 = T.unsafe(nil)); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/pluck.rb#117
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluck.rb:117
   def message(replacement, node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/pluck.rb#104
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluck.rb:104
   def offense_range(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/pluck.rb#108
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluck.rb:108
   def register_offense(node, key); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/pluck.rb#98
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluck.rb:98
   def use_block_argument_in_key?(block_argument, key); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/pluck.rb#91
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluck.rb:91
   def use_one_block_argument?(argument); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/pluck.rb#57
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluck.rb:57
 RuboCop::Cop::Rails::Pluck::MSG = T.let(T.unsafe(nil), String)
 
 # Enforces the use of `ids` over `pluck(:id)` and `pluck(primary_key)`.
+#
+# @safety
+#   This cop is unsafe if the receiver object is not an Active Record object.
 #
 # @example
 #   # bad
@@ -7131,7 +6986,7 @@ RuboCop::Cop::Rails::Pluck::MSG = T.let(T.unsafe(nil), String)
 #   user.posts.pluck(:id)
 #
 #   def self.user_ids
-#   pluck(primary_key)
+#     pluck(primary_key)
 #   end
 #
 #   # good
@@ -7139,35 +6994,35 @@ RuboCop::Cop::Rails::Pluck::MSG = T.let(T.unsafe(nil), String)
 #   user.posts.ids
 #
 #   def self.user_ids
-#   ids
+#     ids
 #   end
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/pluck_id.rb#28
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluck_id.rb:28
 class RuboCop::Cop::Rails::PluckId < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::RangeHelp
   include ::RuboCop::Cop::ActiveRecordHelper
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/pluck_id.rb#50
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluck_id.rb:50
   def on_csend(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/pluck_id.rb#40
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluck_id.rb:40
   def on_send(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/pluck_id.rb#36
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluck_id.rb:36
   def pluck_id_call?(param0 = T.unsafe(nil)); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/pluck_id.rb#54
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluck_id.rb:54
   def offense_range(node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/pluck_id.rb#33
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluck_id.rb:33
 RuboCop::Cop::Rails::PluckId::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/pluck_id.rb#34
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluck_id.rb:34
 RuboCop::Cop::Rails::PluckId::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Identifies places where `pluck` is used in `where` query methods
@@ -7181,6 +7036,20 @@ RuboCop::Cop::Rails::PluckId::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 # to `conservative` (the default), only calls to `pluck` on a constant
 # (e.g. a model class) within `where` are considered offenses.
 #
+# @safety
+#   When `EnforcedStyle` is set to `aggressive`, all calls to `pluck`
+#   within `where` are considered offenses. This might lead to false
+#   positives because the check cannot distinguish between calls to
+#   `pluck` on an `ActiveRecord::Relation` instance and calls to `pluck`
+#   on an `Array` instance.
+#
+#   Additionally, when using a subquery with the SQL `IN` operator,
+#   databases like PostgreSQL and MySQL can't optimize complex queries as
+#   well. They need to scan all records of the outer table against the
+#   subquery result sequentially, rather than using an index. This can
+#   cause significant performance issues compared to writing the query
+#   differently or using `pluck`.
+#
 # @example
 #   # bad
 #   Post.where(user_id: User.active.pluck(:id))
@@ -7191,39 +7060,41 @@ RuboCop::Cop::Rails::PluckId::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 #   Post.where(user_id: User.active.select(:id))
 #   Post.where(user_id: active_users.select(:id))
 #   Post.where.not(user_id: active_users.select(:id))
-# @example EnforcedStyle: aggressive
-#   # bad
-#   Post.where(user_id: active_users.pluck(:id))
+#
 # @example EnforcedStyle: conservative (default)
 #   # good
 #   Post.where(user_id: active_users.pluck(:id))
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/pluck_in_where.rb#50
+# @example EnforcedStyle: aggressive
+#   # bad
+#   Post.where(user_id: active_users.pluck(:id))
+#
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluck_in_where.rb:50
 class RuboCop::Cop::Rails::PluckInWhere < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::ActiveRecordHelper
   include ::RuboCop::Cop::ConfigurableEnforcedStyle
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/pluck_in_where.rb#77
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluck_in_where.rb:77
   def on_csend(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/pluck_in_where.rb#59
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluck_in_where.rb:59
   def on_send(node); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/pluck_in_where.rb#81
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluck_in_where.rb:81
   def root_receiver(node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/pluck_in_where.rb#56
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluck_in_where.rb:56
 RuboCop::Cop::Rails::PluckInWhere::MSG_IDS = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/pluck_in_where.rb#55
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluck_in_where.rb:55
 RuboCop::Cop::Rails::PluckInWhere::MSG_SELECT = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/pluck_in_where.rb#57
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluck_in_where.rb:57
 RuboCop::Cop::Rails::PluckInWhere::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Checks for correct grammar when using ActiveSupport's
@@ -7242,74 +7113,60 @@ RuboCop::Cop::Rails::PluckInWhere::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array
 #   5.megabytes
 #   1.gigabyte
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/pluralization_grammar.rb#21
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluralization_grammar.rb:21
 class RuboCop::Cop::Rails::PluralizationGrammar < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/pluralization_grammar.rb#49
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluralization_grammar.rb:49
   def on_send(node); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/pluralization_grammar.rb#67
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluralization_grammar.rb:67
   def correct_method(method_name); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/pluralization_grammar.rb#110
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluralization_grammar.rb:110
   def duration_method?(method_name); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/pluralization_grammar.rb#98
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluralization_grammar.rb:98
   def literal_number?(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/pluralization_grammar.rb#63
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluralization_grammar.rb:63
   def message(number, method_name); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/pluralization_grammar.rb#75
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluralization_grammar.rb:75
   def offense?(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/pluralization_grammar.rb#82
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluralization_grammar.rb:82
   def plural_method?(method_name); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/pluralization_grammar.rb#94
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluralization_grammar.rb:94
   def plural_receiver?(number); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/pluralization_grammar.rb#102
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluralization_grammar.rb:102
   def pluralize(method_name); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/pluralization_grammar.rb#86
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluralization_grammar.rb:86
   def singular_method?(method_name); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/pluralization_grammar.rb#90
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluralization_grammar.rb:90
   def singular_receiver?(number); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/pluralization_grammar.rb#106
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluralization_grammar.rb:106
   def singularize(method_name); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/pluralization_grammar.rb#47
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluralization_grammar.rb:47
 RuboCop::Cop::Rails::PluralizationGrammar::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/pluralization_grammar.rb#45
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluralization_grammar.rb:45
 RuboCop::Cop::Rails::PluralizationGrammar::PLURAL_METHODS = T.let(T.unsafe(nil), Hash)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/pluralization_grammar.rb#43
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluralization_grammar.rb:43
 RuboCop::Cop::Rails::PluralizationGrammar::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/pluralization_grammar.rb#24
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluralization_grammar.rb:24
 RuboCop::Cop::Rails::PluralizationGrammar::SINGULAR_METHODS = T.let(T.unsafe(nil), Hash)
 
 # Checks code that can be written more easily using
@@ -7330,6 +7187,7 @@ RuboCop::Cop::Rails::PluralizationGrammar::SINGULAR_METHODS = T.let(T.unsafe(nil
 #
 #   # good
 #   a.presence
+#
 # @example
 #   # bad
 #   a.present? ? a : b
@@ -7345,6 +7203,7 @@ RuboCop::Cop::Rails::PluralizationGrammar::SINGULAR_METHODS = T.let(T.unsafe(nil
 #
 #   # good
 #   a.presence || b
+#
 # @example
 #   # bad
 #   a.present? ? a.foo : nil
@@ -7371,72 +7230,64 @@ RuboCop::Cop::Rails::PluralizationGrammar::SINGULAR_METHODS = T.let(T.unsafe(nil
 #   a.present? ? a > 1 : nil
 #   a <= 0 if a.present?
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/presence.rb#66
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/presence.rb:66
 class RuboCop::Cop::Rails::Presence < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::RangeHelp
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/presence.rb#103
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/presence.rb:103
   def on_if(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/presence.rb#88
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/presence.rb:88
   def redundant_receiver_and_chain(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/presence.rb#73
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/presence.rb:73
   def redundant_receiver_and_other(param0 = T.unsafe(nil)); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/presence.rb#174
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/presence.rb:174
   def build_source_for_or_method(other); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/presence.rb#189
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/presence.rb:189
   def chain_replacement(receiver, chain, left_sibling); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/presence.rb#153
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/presence.rb:153
   def current(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/presence.rb#143
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/presence.rb:143
   def ignore_chain_node?(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/presence.rb#135
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/presence.rb:135
   def ignore_if_node?(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/presence.rb#139
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/presence.rb:139
   def ignore_other_node?(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/presence.rb#195
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/presence.rb:195
   def index_access_method?(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/presence.rb#147
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/presence.rb:147
   def message(node, replacement); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/presence.rb#185
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/presence.rb:185
   def method_range(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/presence.rb#128
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/presence.rb:128
   def register_chain_offense(node, receiver, chain); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/presence.rb#121
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/presence.rb:121
   def register_offense(node, receiver, other); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/presence.rb#161
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/presence.rb:161
   def replacement(receiver, other, left_sibling); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/presence.rb#71
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/presence.rb:71
 RuboCop::Cop::Rails::Presence::INDEX_ACCESS_METHODS = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/presence.rb#70
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/presence.rb:70
 RuboCop::Cop::Rails::Presence::MSG = T.let(T.unsafe(nil), String)
 
 # Checks for code that can be written with simpler conditionals
@@ -7446,6 +7297,18 @@ RuboCop::Cop::Rails::Presence::MSG = T.let(T.unsafe(nil), String)
 # The configuration of `NotBlank` will not produce an offense in the
 # context of `unless else` if `Style/UnlessElse` is enabled. This is
 # to prevent interference between the autocorrection of the two cops.
+#
+# @example NotNilAndNotEmpty: true (default)
+#   # Converts usages of `!nil? && !empty?` to `present?`
+#
+#   # bad
+#   !foo.nil? && !foo.empty?
+#
+#   # bad
+#   foo != nil && !foo.empty?
+#
+#   # good
+#   foo.present?
 #
 # @example NotBlank: true (default)
 #   # Converts usages of `!blank?` to `present?`
@@ -7458,17 +7321,7 @@ RuboCop::Cop::Rails::Presence::MSG = T.let(T.unsafe(nil), String)
 #
 #   # good
 #   foo.present?
-# @example NotNilAndNotEmpty: true (default)
-#   # Converts usages of `!nil? && !empty?` to `present?`
 #
-#   # bad
-#   !foo.nil? && !foo.empty?
-#
-#   # bad
-#   foo != nil && !foo.empty?
-#
-#   # good
-#   foo.present?
 # @example UnlessBlank: true (default)
 #   # Converts usages of `unless blank?` to `if present?`
 #
@@ -7478,54 +7331,54 @@ RuboCop::Cop::Rails::Presence::MSG = T.let(T.unsafe(nil), String)
 #   # good
 #   something if foo.present?
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/present.rb#46
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/present.rb:46
 class RuboCop::Cop::Rails::Present < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/present.rb#124
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/present.rb:124
   def autocorrect(corrector, node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/present.rb#54
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/present.rb:54
   def exists_and_not_empty?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/present.rb#68
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/present.rb:68
   def not_blank?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/present.rb#86
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/present.rb:86
   def on_and(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/present.rb#110
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/present.rb:110
   def on_if(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/present.rb#100
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/present.rb:100
   def on_or(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/present.rb#74
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/present.rb:74
   def on_send(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/present.rb#70
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/present.rb:70
   def unless_blank?(param0 = T.unsafe(nil)); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/present.rb#148
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/present.rb:148
   def replacement(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/present.rb#140
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/present.rb:140
   def unless_condition(node, method_call); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/present.rb#50
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/present.rb:50
 RuboCop::Cop::Rails::Present::MSG_EXISTS_AND_NOT_EMPTY = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/present.rb#49
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/present.rb:49
 RuboCop::Cop::Rails::Present::MSG_NOT_BLANK = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/present.rb#51
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/present.rb:51
 RuboCop::Cop::Rails::Present::MSG_UNLESS_BLANK = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/present.rb#52
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/present.rb:52
 RuboCop::Cop::Rails::Present::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Checks for Rake tasks without the `:environment` task
@@ -7539,59 +7392,58 @@ RuboCop::Cop::Rails::Present::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 # * The task does not need application code.
 # * The task invokes the `:environment` task.
 #
+# @safety
+#   Probably not a problem in most cases, but it is possible that calling `:environment` task
+#   will break a behavior. It's also slower. E.g. some task that only needs one gem to be
+#   loaded to run will run significantly faster without loading the whole application.
+#
 # @example
 #   # bad
 #   task :foo do
-#   do_something
+#     do_something
 #   end
 #
 #   # good
 #   task foo: :environment do
-#   do_something
+#     do_something
 #   end
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/rake_environment.rb#33
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/rake_environment.rb:33
 class RuboCop::Cop::Rails::RakeEnvironment < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/rake_environment.rb#42
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/rake_environment.rb:42
   def on_block(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/rake_environment.rb#38
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/rake_environment.rb:38
   def task_definition?(param0 = T.unsafe(nil)); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/rake_environment.rb#62
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/rake_environment.rb:62
   def correct_task_arguments_dependency(task_method); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/rake_environment.rb#66
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/rake_environment.rb:66
   def correct_task_dependency(task_name); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/rake_environment.rb#91
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/rake_environment.rb:91
   def task_arguments(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/rake_environment.rb#74
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/rake_environment.rb:74
   def task_name(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/rake_environment.rb#95
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/rake_environment.rb:95
   def with_arguments?(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/rake_environment.rb#99
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/rake_environment.rb:99
   def with_dependencies?(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/rake_environment.rb#114
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/rake_environment.rb:114
   def with_hash_style_dependencies?(hash_node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/rake_environment.rb#36
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/rake_environment.rb:36
 RuboCop::Cop::Rails::RakeEnvironment::MSG = T.let(T.unsafe(nil), String)
 
 # Checks for the use of the `read_attribute` or `write_attribute`
@@ -7605,10 +7457,6 @@ RuboCop::Cop::Rails::RakeEnvironment::MSG = T.let(T.unsafe(nil), String)
 # Explicitly raising an error in this situation is preferable, and that
 # is why rubocop recommends using square brackets.
 #
-# When called from within a method with the same name as the attribute,
-# `read_attribute` and `write_attribute` must be used to prevent an
-# infinite loop:
-#
 # @example
 #
 #   # bad
@@ -7618,54 +7466,57 @@ RuboCop::Cop::Rails::RakeEnvironment::MSG = T.let(T.unsafe(nil), String)
 #   # good
 #   x = self[:attr]
 #   self[:attr] = val
+#
+# When called from within a method with the same name as the attribute,
+# `read_attribute` and `write_attribute` must be used to prevent an
+# infinite loop:
+#
 # @example
 #
 #   # good
 #   def foo
-#   bar || read_attribute(:foo)
+#     bar || read_attribute(:foo)
 #   end
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/read_write_attribute.rb#37
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/read_write_attribute.rb:37
 class RuboCop::Cop::Rails::ReadWriteAttribute < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/read_write_attribute.rb#50
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/read_write_attribute.rb:50
   def on_send(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/read_write_attribute.rb#43
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/read_write_attribute.rb:43
   def read_write_attribute?(param0 = T.unsafe(nil)); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/read_write_attribute.rb#73
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/read_write_attribute.rb:73
   def build_message(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/read_write_attribute.rb#85
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/read_write_attribute.rb:85
   def multi_line_message(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/read_write_attribute.rb#93
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/read_write_attribute.rb:93
   def node_replacement(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/read_write_attribute.rb#102
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/read_write_attribute.rb:102
   def read_attribute_replacement(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/read_write_attribute.rb#81
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/read_write_attribute.rb:81
   def single_line_message(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/read_write_attribute.rb#61
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/read_write_attribute.rb:61
   def within_shadowing_method?(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/read_write_attribute.rb#106
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/read_write_attribute.rb:106
   def write_attribute_replacement(node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/read_write_attribute.rb#40
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/read_write_attribute.rb:40
 RuboCop::Cop::Rails::ReadWriteAttribute::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/read_write_attribute.rb#41
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/read_write_attribute.rb:41
 RuboCop::Cop::Rails::ReadWriteAttribute::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Checks for uses of `redirect_back(fallback_location: ...)` and
@@ -7687,40 +7538,40 @@ RuboCop::Cop::Rails::ReadWriteAttribute::RESTRICT_ON_SEND = T.let(T.unsafe(nil),
 #   # good
 #   redirect_back_or_to(root_path, allow_other_host: false)
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/redirect_back_or_to.rb#25
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redirect_back_or_to.rb:25
 class RuboCop::Cop::Rails::RedirectBackOrTo < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   extend ::RuboCop::Cop::AutoCorrector
   extend ::RuboCop::Cop::TargetRailsVersion
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/redirect_back_or_to.rb#40
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redirect_back_or_to.rb:40
   def on_send(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/redirect_back_or_to.rb#34
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redirect_back_or_to.rb:34
   def redirect_back_with_fallback_location(param0 = T.unsafe(nil)); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/redirect_back_or_to.rb#51
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redirect_back_or_to.rb:51
   def correct_redirect_back(corrector, node, fallback_pair, fallback_value, options); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/redirect_back_or_to.rb#69
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redirect_back_or_to.rb:69
   def remove_fallback_location_pair(corrector, hash_node, fallback_pair); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/redirect_back_or_to.rb#87
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redirect_back_or_to.rb:87
   def remove_first_pair(corrector, fallback_pair, next_pair); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/redirect_back_or_to.rb#92
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redirect_back_or_to.rb:92
   def remove_non_first_pair(corrector, fallback_pair, prev_pair); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/redirect_back_or_to.rb#82
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redirect_back_or_to.rb:82
   def wrap_with_parentheses(node, corrector); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/redirect_back_or_to.rb#31
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redirect_back_or_to.rb:31
 RuboCop::Cop::Rails::RedirectBackOrTo::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/redirect_back_or_to.rb#32
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redirect_back_or_to.rb:32
 RuboCop::Cop::Rails::RedirectBackOrTo::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Detect redundant `all` used as a receiver for Active Record query methods.
@@ -7730,6 +7581,9 @@ RuboCop::Cop::Rails::RedirectBackOrTo::RESTRICT_ON_SEND = T.let(T.unsafe(nil), A
 # This is because omitting `all` from an association changes the methods
 # from `ActiveRecord::Relation` to `ActiveRecord::Associations::CollectionProxy`,
 # which can affect their behavior.
+#
+# @safety
+#   This cop is unsafe for autocorrection if the receiver for `all` is not an Active Record object.
 #
 # @example
 #   # bad
@@ -7743,12 +7597,13 @@ RuboCop::Cop::Rails::RedirectBackOrTo::RESTRICT_ON_SEND = T.let(T.unsafe(nil), A
 #   User.order(:created_at)
 #   users.where(id: ids)
 #   user.articles.order(:created_at)
+#
 # @example AllowedReceivers: ['ActionMailer::Preview', 'ActiveSupport::TimeZone'] (default)
 #   # good
 #   ActionMailer::Preview.all.first
 #   ActiveSupport::TimeZone.all.first
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/redundant_active_record_all_method.rb#34
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_active_record_all_method.rb:34
 class RuboCop::Cop::Rails::RedundantActiveRecordAllMethod < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::ActiveRecordHelper
@@ -7756,43 +7611,39 @@ class RuboCop::Cop::Rails::RedundantActiveRecordAllMethod < ::RuboCop::Cop::Base
   include ::RuboCop::Cop::RangeHelp
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/redundant_active_record_all_method.rb#155
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_active_record_all_method.rb:155
   def followed_by_query_method?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/redundant_active_record_all_method.rb#159
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_active_record_all_method.rb:159
   def on_send(node); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/redundant_active_record_all_method.rb#184
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_active_record_all_method.rb:184
   def offense_range(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/redundant_active_record_all_method.rb#173
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_active_record_all_method.rb:173
   def possible_enumerable_block_method?(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/redundant_active_record_all_method.rb#180
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_active_record_all_method.rb:180
   def sensitive_association_method?(node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/redundant_active_record_all_method.rb#40
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_active_record_all_method.rb:40
 RuboCop::Cop::Rails::RedundantActiveRecordAllMethod::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/redundant_active_record_all_method.rb#152
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_active_record_all_method.rb:152
 RuboCop::Cop::Rails::RedundantActiveRecordAllMethod::POSSIBLE_ENUMERABLE_BLOCK_METHODS = T.let(T.unsafe(nil), Array)
 
 # Defined methods in `ActiveRecord::Querying::QUERYING_METHODS` on activerecord 7.1.0.
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/redundant_active_record_all_method.rb#45
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_active_record_all_method.rb:45
 RuboCop::Cop::Rails::RedundantActiveRecordAllMethod::QUERYING_METHODS = T.let(T.unsafe(nil), Set)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/redundant_active_record_all_method.rb#42
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_active_record_all_method.rb:42
 RuboCop::Cop::Rails::RedundantActiveRecordAllMethod::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/redundant_active_record_all_method.rb#153
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_active_record_all_method.rb:153
 RuboCop::Cop::Rails::RedundantActiveRecordAllMethod::SENSITIVE_METHODS_ON_ASSOCIATION = T.let(T.unsafe(nil), Array)
 
 # Checks Rails model validations for a redundant `allow_nil` when
@@ -7818,37 +7669,37 @@ RuboCop::Cop::Rails::RedundantActiveRecordAllMethod::SENSITIVE_METHODS_ON_ASSOCI
 #   # Here, `nil` is valid but `''` is not
 #   validates :x, length: { is: 5 }, allow_nil: true, allow_blank: false
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/redundant_allow_nil.rb#29
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_allow_nil.rb:29
 class RuboCop::Cop::Rails::RedundantAllowNil < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::RangeHelp
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/redundant_allow_nil.rb#39
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_allow_nil.rb:39
   def on_send(node); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/redundant_allow_nil.rb#70
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_allow_nil.rb:70
   def find_allow_nil_and_allow_blank(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/redundant_allow_nil.rb#89
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_allow_nil.rb:89
   def node_beg(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/redundant_allow_nil.rb#93
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_allow_nil.rb:93
   def node_end(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/redundant_allow_nil.rb#55
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_allow_nil.rb:55
   def register_offense(allow_nil, message); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/redundant_allow_nil.rb#35
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_allow_nil.rb:35
 RuboCop::Cop::Rails::RedundantAllowNil::MSG_ALLOW_NIL_FALSE = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/redundant_allow_nil.rb#33
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_allow_nil.rb:33
 RuboCop::Cop::Rails::RedundantAllowNil::MSG_SAME = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/redundant_allow_nil.rb#37
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_allow_nil.rb:37
 RuboCop::Cop::Rails::RedundantAllowNil::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Detects cases where the `:foreign_key` option on associations
@@ -7857,58 +7708,60 @@ RuboCop::Cop::Rails::RedundantAllowNil::RESTRICT_ON_SEND = T.let(T.unsafe(nil), 
 # @example
 #   # bad
 #   class Post
-#   has_many :comments, foreign_key: 'post_id'
+#     has_many :comments, foreign_key: 'post_id'
 #   end
 #
 #   class Comment
-#   belongs_to :post, foreign_key: 'post_id'
+#     belongs_to :post, foreign_key: 'post_id'
 #   end
 #
 #   # good
 #   class Post
-#   has_many :comments
+#     has_many :comments
 #   end
 #
 #   class Comment
-#   belongs_to :author, foreign_key: 'user_id'
+#     belongs_to :author, foreign_key: 'user_id'
 #   end
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/redundant_foreign_key.rb#27
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_foreign_key.rb:27
 class RuboCop::Cop::Rails::RedundantForeignKey < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::RangeHelp
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/redundant_foreign_key.rb#34
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_foreign_key.rb:34
   def association_with_foreign_key(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/redundant_foreign_key.rb#40
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_foreign_key.rb:40
   def on_send(node); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/redundant_foreign_key.rb#59
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_foreign_key.rb:59
   def default_foreign_key(node, association_type, association_name, options); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/redundant_foreign_key.rb#69
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_foreign_key.rb:69
   def find_as_option(options); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/redundant_foreign_key.rb#55
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_foreign_key.rb:55
   def redundant?(node, association_type, association_name, options, foreign_key); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/redundant_foreign_key.rb#31
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_foreign_key.rb:31
 RuboCop::Cop::Rails::RedundantForeignKey::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/redundant_foreign_key.rb#32
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_foreign_key.rb:32
 RuboCop::Cop::Rails::RedundantForeignKey::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Since Rails 5.0 the default for `belongs_to` is `optional: false`
 # unless `config.active_record.belongs_to_required_by_default` is
 # explicitly set to `false`. The presence validator is added
 # automatically, and explicit presence validation is redundant.
+#
+# @safety
+#   This cop's autocorrection is unsafe because it changes the default error message
+#   from "can't be blank" to "must exist".
 #
 # @example
 #   # bad
@@ -7929,137 +7782,76 @@ RuboCop::Cop::Rails::RedundantForeignKey::RESTRICT_ON_SEND = T.let(T.unsafe(nil)
 #   # good
 #   belongs_to :author, foreign_key: :user_id
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/redundant_presence_validation_on_belongs_to.rb#34
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_presence_validation_on_belongs_to.rb:34
 class RuboCop::Cop::Rails::RedundantPresenceValidationOnBelongsTo < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::RangeHelp
   extend ::RuboCop::Cop::AutoCorrector
   extend ::RuboCop::Cop::TargetRailsVersion
 
-  # Match a class with `belongs_to` with no regard to `foreign_key` option
-  #
-  # @example source that matches
-  #   belongs_to :user
-  # @example source that matches - regardless of `foreign_key`
-  #   belongs_to :author, foreign_key: :user_id
-  # @param association [Symbol]
-  # @param node [RuboCop::AST::Node]
-  # @return [Array<RuboCop::AST::Node>, nil] matching node
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/redundant_presence_validation_on_belongs_to.rb#109
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_presence_validation_on_belongs_to.rb:109
   def any_belongs_to?(param0 = T.unsafe(nil), association:); end
 
-  # Match a class with a matching association, either by name or an explicit
-  # `foreign_key` option
-  #
-  # @example source that does not match - explicit `foreign_key` does not match
-  #   belongs_to :user, foreign_key: :account_id
-  # @example source that matches - fk matches `foreign_key` option
-  #   belongs_to :author, foreign_key: :user_id
-  # @example source that matches - key matches association name
-  #   belongs_to :user
-  # @param fk [Symbol] e.g. `:user_id`
-  # @param key [Symbol] e.g. `:user`
-  # @param node [RuboCop::AST::Node]
-  # @return [Array<RuboCop::AST::Node>] matching nodes
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/redundant_presence_validation_on_belongs_to.rb#135
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_presence_validation_on_belongs_to.rb:135
   def belongs_to?(param0 = T.unsafe(nil), key:, fk:); end
 
-  # Match a matching `belongs_to` association with a matching explicit `foreign_key` option
-  #
-  # @example source that matches
-  #   belongs_to :author, foreign_key: :user_id
-  # @param fk [Symbol] e.g. `:user_id`
-  # @param node [RuboCop::AST::Node]
-  # @return [Array<RuboCop::AST::Node>] matching nodes
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/redundant_presence_validation_on_belongs_to.rb#170
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_presence_validation_on_belongs_to.rb:170
   def belongs_to_with_a_matching_fk?(param0 = T.unsafe(nil), param1); end
 
-  # Match a matching `belongs_to` association, without an explicit `foreign_key` option
-  #
-  # @param key [Symbol] e.g. `:user`
-  # @param node [RuboCop::AST::Node]
-  # @return [Array<RuboCop::AST::Node>] matching nodes
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/redundant_presence_validation_on_belongs_to.rb#153
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_presence_validation_on_belongs_to.rb:153
   def belongs_to_without_fk?(param0 = T.unsafe(nil), param1); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/redundant_presence_validation_on_belongs_to.rb#174
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_presence_validation_on_belongs_to.rb:174
   def on_send(node); end
 
-  # Match a `belongs_to` association with an optional option in a hash
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/redundant_presence_validation_on_belongs_to.rb#84
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_presence_validation_on_belongs_to.rb:84
   def optional?(param0 = T.unsafe(nil)); end
 
-  # Match an optional option in a hash
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/redundant_presence_validation_on_belongs_to.rb#90
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_presence_validation_on_belongs_to.rb:90
   def optional_option?(param0 = T.unsafe(nil)); end
 
-  # Match a `validates` statement with a presence check
-  #
-  # @example source that DOES NOT match - custom strict validation
-  #   validates :user_id, presence: true, strict: MissingUserError
-  # @example source that DOES NOT match - if condition
-  #   validates :user_id, presence: true, if: condition
-  # @example source that DOES NOT match - strict validation
-  #   validates :user_id, presence: true, strict: true
-  # @example source that DOES NOT match - unless condition
-  #   validates :user_id, presence: true, unless: condition
-  # @example source that matches - by a foreign key
-  #   validates :user_id, presence: true
-  # @example source that matches - by association
-  #   validates :user, presence: true
-  # @example source that matches - by association
-  #   validates :name, :user, presence: true
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/redundant_presence_validation_on_belongs_to.rb#70
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_presence_validation_on_belongs_to.rb:70
   def presence_validation?(param0 = T.unsafe(nil)); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/redundant_presence_validation_on_belongs_to.rb#191
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_presence_validation_on_belongs_to.rb:191
   def add_offense_and_correct(node, all_keys, keys, options, presence); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/redundant_presence_validation_on_belongs_to.rb#219
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_presence_validation_on_belongs_to.rb:219
   def belongs_to_for?(model_class_node, key); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/redundant_presence_validation_on_belongs_to.rb#251
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_presence_validation_on_belongs_to.rb:251
   def extract_validation_for_keys(corrector, node, keys, options); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/redundant_presence_validation_on_belongs_to.rb#207
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_presence_validation_on_belongs_to.rb:207
   def message_for(keys); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/redundant_presence_validation_on_belongs_to.rb#212
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_presence_validation_on_belongs_to.rb:212
   def non_optional_belongs_to(node, keys); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/redundant_presence_validation_on_belongs_to.rb#232
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_presence_validation_on_belongs_to.rb:232
   def remove_keys_from_validation(corrector, node, keys); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/redundant_presence_validation_on_belongs_to.rb#243
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_presence_validation_on_belongs_to.rb:243
   def remove_presence_option(corrector, presence); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/redundant_presence_validation_on_belongs_to.rb#228
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_presence_validation_on_belongs_to.rb:228
   def remove_validation(corrector, node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/redundant_presence_validation_on_belongs_to.rb#267
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_presence_validation_on_belongs_to.rb:267
   def validation_range(node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/redundant_presence_validation_on_belongs_to.rb#39
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_presence_validation_on_belongs_to.rb:39
 RuboCop::Cop::Rails::RedundantPresenceValidationOnBelongsTo::MSG = T.let(T.unsafe(nil), String)
 
 # From https://github.com/rails/rails/blob/7a0bf93b9dd291c7f61121a41b3a813ac8857e6a/activemodel/lib/active_model/validations/validates.rb#L157-L159
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/redundant_presence_validation_on_belongs_to.rb#43
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_presence_validation_on_belongs_to.rb:43
 RuboCop::Cop::Rails::RedundantPresenceValidationOnBelongsTo::NON_VALIDATION_OPTIONS = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/redundant_presence_validation_on_belongs_to.rb#40
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_presence_validation_on_belongs_to.rb:40
 RuboCop::Cop::Rails::RedundantPresenceValidationOnBelongsTo::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Checks for redundant receiver in `with_options`.
@@ -8068,38 +7860,39 @@ RuboCop::Cop::Rails::RedundantPresenceValidationOnBelongsTo::RESTRICT_ON_SEND = 
 # @example
 #   # bad
 #   class Account < ApplicationRecord
-#   with_options dependent: :destroy do |assoc|
-#   assoc.has_many :customers
-#   assoc.has_many :products
-#   assoc.has_many :invoices
-#   assoc.has_many :expenses
-#   end
+#     with_options dependent: :destroy do |assoc|
+#       assoc.has_many :customers
+#       assoc.has_many :products
+#       assoc.has_many :invoices
+#       assoc.has_many :expenses
+#     end
 #   end
 #
 #   # good
 #   class Account < ApplicationRecord
-#   with_options dependent: :destroy do
-#   has_many :customers
-#   has_many :products
-#   has_many :invoices
-#   has_many :expenses
+#     with_options dependent: :destroy do
+#       has_many :customers
+#       has_many :products
+#       has_many :invoices
+#       has_many :expenses
+#     end
 #   end
-#   end
+#
 # @example
 #   # bad
 #   with_options options: false do |merger|
-#   merger.invoke(merger.something)
+#     merger.invoke(merger.something)
 #   end
 #
 #   # good
 #   with_options options: false do
-#   invoke(something)
+#     invoke(something)
 #   end
 #
 #   # good
 #   client = Client.new
 #   with_options options: false do |merger|
-#   client.invoke(merger.something, something)
+#     client.invoke(merger.something, something)
 #   end
 #
 #   # ok
@@ -8107,56 +7900,52 @@ RuboCop::Cop::Rails::RedundantPresenceValidationOnBelongsTo::RESTRICT_ON_SEND = 
 #   # cannot be evaluated. Thus, it is ok to include the explicit
 #   # receiver.
 #   with_options options: false do |merger|
-#   merger.invoke
-#   with_another_method do |another_receiver|
-#   merger.invoke(another_receiver)
-#   end
+#     merger.invoke
+#     with_another_method do |another_receiver|
+#       merger.invoke(another_receiver)
+#     end
 #   end
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/redundant_receiver_in_with_options.rb#57
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_receiver_in_with_options.rb:57
 class RuboCop::Cop::Rails::RedundantReceiverInWithOptions < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::RangeHelp
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/redundant_receiver_in_with_options.rb#63
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_receiver_in_with_options.rb:63
   def all_block_nodes_in(param0); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/redundant_receiver_in_with_options.rb#67
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_receiver_in_with_options.rb:67
   def all_send_nodes_in(param0); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/redundant_receiver_in_with_options.rb#71
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_receiver_in_with_options.rb:71
   def on_block(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/redundant_receiver_in_with_options.rb#88
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_receiver_in_with_options.rb:88
   def on_itblock(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/redundant_receiver_in_with_options.rb#87
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_receiver_in_with_options.rb:87
   def on_numblock(node); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/redundant_receiver_in_with_options.rb#92
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_receiver_in_with_options.rb:92
   def autocorrect(corrector, send_node, node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/redundant_receiver_in_with_options.rb#115
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_receiver_in_with_options.rb:115
   def block_argument_range(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/redundant_receiver_in_with_options.rb#99
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_receiver_in_with_options.rb:99
   def redundant_receiver?(send_nodes, node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/redundant_receiver_in_with_options.rb#137
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_receiver_in_with_options.rb:137
   def same_value?(arg_node, recv_node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/redundant_receiver_in_with_options.rb#127
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_receiver_in_with_options.rb:127
   def search_begin_pos_of_space_before_block_argument(begin_pos); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/redundant_receiver_in_with_options.rb#61
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_receiver_in_with_options.rb:61
 RuboCop::Cop::Rails::RedundantReceiverInWithOptions::MSG = T.let(T.unsafe(nil), String)
 
 # Checks for redundant `travel_back` calls.
@@ -8166,45 +7955,49 @@ RuboCop::Cop::Rails::RedundantReceiverInWithOptions::MSG = T.let(T.unsafe(nil), 
 #
 #   # bad
 #   def teardown
-#   do_something
-#   travel_back
+#     do_something
+#     travel_back
 #   end
 #
 #   # good
 #   def teardown
-#   do_something
+#     do_something
 #   end
 #
 #   # bad
 #   after do
-#   do_something
-#   travel_back
+#     do_something
+#     travel_back
 #   end
 #
 #   # good
 #   after do
-#   do_something
+#     do_something
 #   end
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/redundant_travel_back.rb#33
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_travel_back.rb:33
 class RuboCop::Cop::Rails::RedundantTravelBack < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::RangeHelp
   extend ::RuboCop::Cop::AutoCorrector
   extend ::RuboCop::Cop::TargetRailsVersion
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/redundant_travel_back.rb#43
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_travel_back.rb:43
   def on_send(node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/redundant_travel_back.rb#40
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_travel_back.rb:40
 RuboCop::Cop::Rails::RedundantTravelBack::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/redundant_travel_back.rb#41
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_travel_back.rb:41
 RuboCop::Cop::Rails::RedundantTravelBack::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Checks if the value of the option `class_name`, in
 # the definition of a reflection is a string.
+#
+# @safety
+#   This cop is unsafe because it cannot be determined whether
+#   constant or method return value specified to `class_name` is a string.
 #
 # @example
 #   # bad
@@ -8214,46 +8007,42 @@ RuboCop::Cop::Rails::RedundantTravelBack::RESTRICT_ON_SEND = T.let(T.unsafe(nil)
 #   # good
 #   has_many :accounts, class_name: 'Account'
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/reflection_class_name.rb#20
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/reflection_class_name.rb:20
 class RuboCop::Cop::Rails::ReflectionClassName < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/reflection_class_name.rb#27
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/reflection_class_name.rb:27
   def association_with_reflection(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/reflection_class_name.rb#37
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/reflection_class_name.rb:37
   def const_or_string(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/reflection_class_name.rb#41
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/reflection_class_name.rb:41
   def on_send(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/reflection_class_name.rb#33
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/reflection_class_name.rb:33
   def reflection_class_name(param0 = T.unsafe(nil)); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/reflection_class_name.rb#76
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/reflection_class_name.rb:76
   def autocorrect(corrector, class_config); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/reflection_class_name.rb#68
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/reflection_class_name.rb:68
   def reflection_class_value?(class_value); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/reflection_class_name.rb#54
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/reflection_class_name.rb:54
   def str_assigned?(reflection_class_name); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/reflection_class_name.rb#25
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/reflection_class_name.rb:25
 RuboCop::Cop::Rails::ReflectionClassName::ALLOWED_REFLECTION_CLASS_TYPES = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/reflection_class_name.rb#23
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/reflection_class_name.rb:23
 RuboCop::Cop::Rails::ReflectionClassName::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/reflection_class_name.rb#24
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/reflection_class_name.rb:24
 RuboCop::Cop::Rails::ReflectionClassName::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Use `assert_not` methods instead of `refute` methods.
@@ -8268,6 +8057,7 @@ RuboCop::Cop::Rails::ReflectionClassName::RESTRICT_ON_SEND = T.let(T.unsafe(nil)
 #   assert_not false
 #   assert_not_empty [1, 2, 3]
 #   assert_not_equal true, false
+#
 # @example EnforcedStyle: refute
 #   # bad
 #   assert_not false
@@ -8279,112 +8069,113 @@ RuboCop::Cop::Rails::ReflectionClassName::RESTRICT_ON_SEND = T.let(T.unsafe(nil)
 #   refute_empty [1, 2, 3]
 #   refute_equal true, false
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/refute_methods.rb#30
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/refute_methods.rb:30
 class RuboCop::Cop::Rails::RefuteMethods < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::ConfigurableEnforcedStyle
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/refute_methods.rb#58
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/refute_methods.rb:58
   def offensive?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/refute_methods.rb#60
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/refute_methods.rb:60
   def on_send(node); end
 
   private
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/refute_methods.rb#74
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/refute_methods.rb:74
   def bad_method?(method_name); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/refute_methods.rb#86
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/refute_methods.rb:86
   def convert_good_method(bad_method); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/refute_methods.rb#82
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/refute_methods.rb:82
   def offense_message(method_name); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/refute_methods.rb#54
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/refute_methods.rb:54
 RuboCop::Cop::Rails::RefuteMethods::ASSERT_NOT_METHODS = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/refute_methods.rb#36
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/refute_methods.rb:36
 RuboCop::Cop::Rails::RefuteMethods::CORRECTIONS = T.let(T.unsafe(nil), Hash)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/refute_methods.rb#34
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/refute_methods.rb:34
 RuboCop::Cop::Rails::RefuteMethods::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/refute_methods.rb#53
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/refute_methods.rb:53
 RuboCop::Cop::Rails::RefuteMethods::REFUTE_METHODS = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/refute_methods.rb#56
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/refute_methods.rb:56
 RuboCop::Cop::Rails::RefuteMethods::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Checks whether constant value isn't relative date.
 # Because the relative date will be evaluated only once.
 #
+# @safety
+#   This cop's autocorrection is unsafe because its dependence on the constant is not corrected.
+#
 # @example
 #   # bad
 #   class SomeClass
-#   EXPIRED_AT = 1.week.since
+#     EXPIRED_AT = 1.week.since
 #   end
 #
 #   # good
 #   class SomeClass
-#   EXPIRES = 1.week
+#     EXPIRES = 1.week
 #
-#   def self.expired_at
-#   EXPIRES.since
-#   end
+#     def self.expired_at
+#       EXPIRES.since
+#     end
 #   end
 #
 #   # good
 #   class SomeClass
-#   def self.expired_at
-#   1.week.since
-#   end
+#     def self.expired_at
+#       1.week.since
+#     end
 #   end
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/relative_date_constant.rb#33
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/relative_date_constant.rb:33
 class RuboCop::Cop::Rails::RelativeDateConstant < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::RangeHelp
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/relative_date_constant.rb#40
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/relative_date_constant.rb:40
   def on_casgn(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/relative_date_constant.rb#48
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/relative_date_constant.rb:48
   def on_masgn(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/relative_date_constant.rb#64
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/relative_date_constant.rb:64
   def on_or_asgn(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/relative_date_constant.rb#106
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/relative_date_constant.rb:106
   def relative_date(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/relative_date_constant.rb#102
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/relative_date_constant.rb:102
   def relative_date_or_assignment(param0 = T.unsafe(nil)); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/relative_date_constant.rb#72
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/relative_date_constant.rb:72
   def autocorrect(corrector, node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/relative_date_constant.rb#84
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/relative_date_constant.rb:84
   def message(method_name); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/relative_date_constant.rb#92
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/relative_date_constant.rb:92
   def nested_relative_date(node, &callback); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/relative_date_constant.rb#88
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/relative_date_constant.rb:88
   def offense_range(name, value); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/relative_date_constant.rb#37
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/relative_date_constant.rb:37
 RuboCop::Cop::Rails::RelativeDateConstant::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/relative_date_constant.rb#38
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/relative_date_constant.rb:38
 RuboCop::Cop::Rails::RelativeDateConstant::RELATIVE_DATE_METHODS = T.let(T.unsafe(nil), Set)
 
 # Looks for inline rendering within controller actions.
@@ -8392,9 +8183,9 @@ RuboCop::Cop::Rails::RelativeDateConstant::RELATIVE_DATE_METHODS = T.let(T.unsaf
 # @example
 #   # bad
 #   class ProductsController < ApplicationController
-#   def index
-#   render inline: "<% products.each do |p| %><p><%= p.name %></p><% end %>", type: :erb
-#   end
+#     def index
+#       render inline: "<% products.each do |p| %><p><%= p.name %></p><% end %>", type: :erb
+#     end
 #   end
 #
 #   # good
@@ -8404,25 +8195,25 @@ RuboCop::Cop::Rails::RelativeDateConstant::RELATIVE_DATE_METHODS = T.let(T.unsaf
 #   # <% end %>
 #
 #   class ProductsController < ApplicationController
-#   def index
-#   end
+#     def index
+#     end
 #   end
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/render_inline.rb#27
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/render_inline.rb:27
 class RuboCop::Cop::Rails::RenderInline < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/render_inline.rb#35
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/render_inline.rb:35
   def on_send(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/render_inline.rb#31
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/render_inline.rb:31
   def render_with_inline_option?(param0 = T.unsafe(nil)); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/render_inline.rb#28
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/render_inline.rb:28
 RuboCop::Cop::Rails::RenderInline::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/render_inline.rb#29
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/render_inline.rb:29
 RuboCop::Cop::Rails::RenderInline::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Identifies places where `render text:` can be
@@ -8437,42 +8228,42 @@ RuboCop::Cop::Rails::RenderInline::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array
 #
 #   # good - explicit MIME type not to `text/plain`
 #   render text: 'Ruby!', content_type: 'text/html'
-# @example ContentTypeCompatibility: false
-#   # bad - sets MIME type to `text/html`
-#   render text: 'Ruby!'
+#
 # @example ContentTypeCompatibility: true (default)
 #   # good - sets MIME type to `text/html`
 #   render text: 'Ruby!'
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/render_plain_text.rb#27
+# @example ContentTypeCompatibility: false
+#   # bad - sets MIME type to `text/html`
+#   render text: 'Ruby!'
+#
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/render_plain_text.rb:27
 class RuboCop::Cop::Rails::RenderPlainText < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/render_plain_text.rb#37
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/render_plain_text.rb:37
   def on_send(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/render_plain_text.rb#33
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/render_plain_text.rb:33
   def render_plain_text?(param0 = T.unsafe(nil)); end
 
   private
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/render_plain_text.rb#56
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/render_plain_text.rb:56
   def compatible_content_type?(pair_node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/render_plain_text.rb#52
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/render_plain_text.rb:52
   def find_content_type(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/render_plain_text.rb#64
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/render_plain_text.rb:64
   def replacement(rest_options, option_value); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/render_plain_text.rb#30
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/render_plain_text.rb:30
 RuboCop::Cop::Rails::RenderPlainText::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/render_plain_text.rb#31
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/render_plain_text.rb:31
 RuboCop::Cop::Rails::RenderPlainText::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Checks for consistent uses of `request.referer` or
@@ -8484,6 +8275,7 @@ RuboCop::Cop::Rails::RenderPlainText::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Ar
 #
 #   # good
 #   request.referer
+#
 # @example EnforcedStyle: referrer
 #   # bad
 #   request.referer
@@ -8491,31 +8283,31 @@ RuboCop::Cop::Rails::RenderPlainText::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Ar
 #   # good
 #   request.referrer
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/request_referer.rb#22
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/request_referer.rb:22
 class RuboCop::Cop::Rails::RequestReferer < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::ConfigurableEnforcedStyle
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/request_referer.rb#33
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/request_referer.rb:33
   def on_send(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/request_referer.rb#29
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/request_referer.rb:29
   def referer?(param0 = T.unsafe(nil)); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/request_referer.rb#45
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/request_referer.rb:45
   def message(_range); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/request_referer.rb#49
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/request_referer.rb:49
   def wrong_method_name; end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/request_referer.rb#26
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/request_referer.rb:26
 RuboCop::Cop::Rails::RequestReferer::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/request_referer.rb#27
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/request_referer.rb:27
 RuboCop::Cop::Rails::RequestReferer::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Checks for the usage of `require_dependency`.
@@ -8533,25 +8325,31 @@ RuboCop::Cop::Rails::RequestReferer::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Arr
 #   # bad
 #   require_dependency 'some_lib'
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/require_dependency.rb#20
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/require_dependency.rb:20
 class RuboCop::Cop::Rails::RequireDependency < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   extend ::RuboCop::Cop::TargetRailsVersion
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/require_dependency.rb#32
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/require_dependency.rb:32
   def on_send(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/require_dependency.rb#28
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/require_dependency.rb:28
   def require_dependency_call?(param0 = T.unsafe(nil)); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/require_dependency.rb#25
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/require_dependency.rb:25
 RuboCop::Cop::Rails::RequireDependency::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/require_dependency.rb#26
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/require_dependency.rb:26
 RuboCop::Cop::Rails::RequireDependency::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Prefer `response.parsed_body` to custom parsing logic for `response.body`.
+#
+# @safety
+#   This cop is unsafe because Content-Type may not be `application/json` or `text/html`.
+#   For example, the proprietary Content-Type provided by corporate entities such as
+#   `application/vnd.github+json` is not supported at `response.parsed_body` by default,
+#   so you still have to use `JSON.parse(response.body)` there.
 #
 # @example
 #   # bad
@@ -8566,266 +8364,265 @@ RuboCop::Cop::Rails::RequireDependency::RESTRICT_ON_SEND = T.let(T.unsafe(nil), 
 #   # good
 #   response.parsed_body
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/response_parsed_body.rb#26
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/response_parsed_body.rb:26
 class RuboCop::Cop::Rails::ResponseParsedBody < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   extend ::RuboCop::Cop::AutoCorrector
   extend ::RuboCop::Cop::TargetRailsVersion
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/response_parsed_body.rb#35
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/response_parsed_body.rb:35
   def json_parse_response_body?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/response_parsed_body.rb#47
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/response_parsed_body.rb:47
   def nokogiri_html_parse_response_body(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/response_parsed_body.rb#61
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/response_parsed_body.rb:61
   def on_send(node); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/response_parsed_body.rb#71
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/response_parsed_body.rb:71
   def autocorrect(corrector, node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/response_parsed_body.rb#75
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/response_parsed_body.rb:75
   def check_json_parse_response_body(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/response_parsed_body.rb#86
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/response_parsed_body.rb:86
   def check_nokogiri_html_parse_response_body(node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/response_parsed_body.rb#30
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/response_parsed_body.rb:30
 RuboCop::Cop::Rails::ResponseParsedBody::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Checks whether the change method of the migration file is
 # reversible.
 #
 # @example
-#   # remove_index
-#
 #   # bad
 #   def change
-#   remove_index :users, name: :index_users_on_email
+#     change_table :users do |t|
+#       t.remove :name
+#     end
 #   end
 #
 #   # good
 #   def change
-#   remove_index :users, :email
+#     change_table :users do |t|
+#       t.remove :name, type: :string
+#     end
 #   end
 #
 #   # good
 #   def change
-#   remove_index :users, column: :email
+#     create_table :users do |t|
+#       t.string :name
+#     end
 #   end
+#
 # @example
 #   # drop_table
 #
 #   # bad
 #   def change
-#   drop_table :users
+#     drop_table :users
 #   end
 #
 #   # good
 #   def change
-#   drop_table :users do |t|
-#   t.string :name
+#     drop_table :users do |t|
+#       t.string :name
+#     end
 #   end
-#   end
+#
 # @example
 #   # change_column_default
 #
 #   # bad
 #   def change
-#   change_column_default(:suppliers, :qualification, 'new')
+#     change_column_default(:suppliers, :qualification, 'new')
 #   end
 #
 #   # good
 #   def change
-#   change_column_default(:posts, :state, from: nil, to: "draft")
+#     change_column_default(:posts, :state, from: nil, to: "draft")
 #   end
+#
 # @example
 #   # remove_column
 #
 #   # bad
 #   def change
-#   remove_column(:suppliers, :qualification)
+#     remove_column(:suppliers, :qualification)
 #   end
 #
 #   # good
 #   def change
-#   remove_column(:suppliers, :qualification, :string)
+#     remove_column(:suppliers, :qualification, :string)
 #   end
+#
 # @example
 #   # remove_foreign_key
 #
 #   # bad
 #   def change
-#   remove_foreign_key :accounts, column: :owner_id
+#     remove_foreign_key :accounts, column: :owner_id
 #   end
 #
 #   # good
 #   def change
-#   remove_foreign_key :accounts, :branches
+#     remove_foreign_key :accounts, :branches
 #   end
 #
 #   # good
 #   def change
-#   remove_foreign_key :accounts, to_table: :branches
+#     remove_foreign_key :accounts, to_table: :branches
 #   end
+#
 # @example
 #   # change_table
 #
 #   # bad
 #   def change
-#   change_table :users do |t|
-#   t.remove :name
-#   t.change_default :authorized, 1
-#   t.change :price, :string
-#   end
+#     change_table :users do |t|
+#       t.remove :name
+#       t.change_default :authorized, 1
+#       t.change :price, :string
+#     end
 #   end
 #
 #   # good
 #   def change
-#   change_table :users do |t|
-#   t.string :name
+#     change_table :users do |t|
+#       t.string :name
+#     end
 #   end
-#   end
+#
 # @example
 #   # remove_columns
 #
 #   # bad
 #   def change
-#   remove_columns :users, :name, :email
+#     remove_columns :users, :name, :email
 #   end
 #
 #   # good
 #   def change
-#   reversible do |dir|
-#   dir.up do
-#   remove_columns :users, :name, :email
-#   end
+#     reversible do |dir|
+#       dir.up do
+#         remove_columns :users, :name, :email
+#       end
 #
-#   dir.down do
-#   add_column :users, :name, :string
-#   add_column :users, :email, :string
-#   end
-#   end
+#       dir.down do
+#         add_column :users, :name, :string
+#         add_column :users, :email, :string
+#       end
+#     end
 #   end
 #
 #   # good (Rails >= 6.1, see https://github.com/rails/rails/pull/36589)
 #   def change
-#   remove_columns :users, :name, :email, type: :string
+#     remove_columns :users, :name, :email, type: :string
 #   end
+#
 # @example
+#   # remove_index
+#
 #   # bad
 #   def change
-#   change_table :users do |t|
-#   t.remove :name
-#   end
+#     remove_index :users, name: :index_users_on_email
 #   end
 #
 #   # good
 #   def change
-#   change_table :users do |t|
-#   t.remove :name, type: :string
-#   end
+#     remove_index :users, :email
 #   end
 #
 #   # good
 #   def change
-#   create_table :users do |t|
-#   t.string :name
-#   end
+#     remove_index :users, column: :email
 #   end
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/reversible_migration.rb#153
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/reversible_migration.rb:153
 class RuboCop::Cop::Rails::ReversibleMigration < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::MigrationsHelper
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/reversible_migration.rb#174
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/reversible_migration.rb:174
   def change_table_call(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/reversible_migration.rb#162
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/reversible_migration.rb:162
   def drop_table_call(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/reversible_migration.rb#158
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/reversible_migration.rb:158
   def irreversible_schema_statement_call(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/reversible_migration.rb#199
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/reversible_migration.rb:199
   def on_block(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/reversible_migration.rb#208
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/reversible_migration.rb:208
   def on_itblock(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/reversible_migration.rb#207
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/reversible_migration.rb:207
   def on_numblock(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/reversible_migration.rb#186
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/reversible_migration.rb:186
   def on_send(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/reversible_migration.rb#166
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/reversible_migration.rb:166
   def remove_column_call(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/reversible_migration.rb#178
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/reversible_migration.rb:178
   def remove_columns_call(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/reversible_migration.rb#170
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/reversible_migration.rb:170
   def remove_foreign_key_call(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/reversible_migration.rb#182
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/reversible_migration.rb:182
   def remove_index_call(param0 = T.unsafe(nil)); end
 
   private
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/reversible_migration.rb#317
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/reversible_migration.rb:317
   def all_hash_key?(args, *keys); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/reversible_migration.rb#248
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/reversible_migration.rb:248
   def check_change_table_node(node, block); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/reversible_migration.rb#278
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/reversible_migration.rb:278
   def check_change_table_offense(receiver, node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/reversible_migration.rb#218
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/reversible_migration.rb:218
   def check_drop_table_node(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/reversible_migration.rb#212
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/reversible_migration.rb:212
   def check_irreversible_schema_statement_node(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/reversible_migration.rb#234
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/reversible_migration.rb:234
   def check_remove_column_node(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/reversible_migration.rb#260
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/reversible_migration.rb:260
   def check_remove_columns_node(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/reversible_migration.rb#240
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/reversible_migration.rb:240
   def check_remove_foreign_key_node(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/reversible_migration.rb#270
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/reversible_migration.rb:270
   def check_remove_index_node(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/reversible_migration.rb#228
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/reversible_migration.rb:228
   def check_reversible_hash_node(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/reversible_migration.rb#291
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/reversible_migration.rb:291
   def reversible_change_table_call?(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/reversible_migration.rb#305
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/reversible_migration.rb:305
   def within_change_method?(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/reversible_migration.rb#311
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/reversible_migration.rb:311
   def within_reversible_or_up_only_block?(node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/reversible_migration.rb#156
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/reversible_migration.rb:156
 RuboCop::Cop::Rails::ReversibleMigration::MSG = T.let(T.unsafe(nil), String)
 
 # Checks whether the migration implements
@@ -8835,55 +8632,55 @@ RuboCop::Cop::Rails::ReversibleMigration::MSG = T.let(T.unsafe(nil), String)
 # @example
 #   # bad
 #   class SomeMigration < ActiveRecord::Migration[6.0]
-#   def up
-#   # up migration
-#   end
+#     def up
+#       # up migration
+#     end
 #
-#   # <----- missing down method
+#     # <----- missing down method
 #   end
 #
 #   class SomeMigration < ActiveRecord::Migration[6.0]
-#   # <----- missing up method
+#     # <----- missing up method
 #
-#   def down
-#   # down migration
-#   end
+#     def down
+#       # down migration
+#     end
 #   end
 #
 #   # good
 #   class SomeMigration < ActiveRecord::Migration[6.0]
-#   def change
-#   # reversible migration
-#   end
+#     def change
+#       # reversible migration
+#     end
 #   end
 #
 #   # good
 #   class SomeMigration < ActiveRecord::Migration[6.0]
-#   def up
-#   # up migration
+#     def up
+#       # up migration
+#     end
+#
+#     def down
+#       # down migration
+#     end
 #   end
 #
-#   def down
-#   # down migration
-#   end
-#   end
-#
-# source://rubocop-rails//lib/rubocop/cop/rails/reversible_migration_method_definition.rb#45
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/reversible_migration_method_definition.rb:45
 class RuboCop::Cop::Rails::ReversibleMigrationMethodDefinition < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::MigrationsHelper
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/reversible_migration_method_definition.rb#50
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/reversible_migration_method_definition.rb:50
   def change_method?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/reversible_migration_method_definition.rb#58
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/reversible_migration_method_definition.rb:58
   def on_class(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/reversible_migration_method_definition.rb#54
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/reversible_migration_method_definition.rb:54
   def up_and_down_methods?(param0 = T.unsafe(nil)); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/reversible_migration_method_definition.rb#48
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/reversible_migration_method_definition.rb:48
 RuboCop::Cop::Rails::ReversibleMigrationMethodDefinition::MSG = T.let(T.unsafe(nil), String)
 
 # Use a single `#join` instead of chaining on `Rails.root` or `Rails.public_path`.
@@ -8901,31 +8698,31 @@ RuboCop::Cop::Rails::ReversibleMigrationMethodDefinition::MSG = T.let(T.unsafe(n
 #   Rails.public_path.join('path', 'file.pdf')
 #   Rails.public_path.join('path', to, 'file.pdf')
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/root_join_chain.rb#21
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/root_join_chain.rb:21
 class RuboCop::Cop::Rails::RootJoinChain < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::RangeHelp
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/root_join_chain.rb#35
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/root_join_chain.rb:35
   def join?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/root_join_chain.rb#39
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/root_join_chain.rb:39
   def on_send(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/root_join_chain.rb#30
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/root_join_chain.rb:30
   def rails_root?(param0 = T.unsafe(nil)); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/root_join_chain.rb#52
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/root_join_chain.rb:52
   def evidence(node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/root_join_chain.rb#25
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/root_join_chain.rb:25
 RuboCop::Cop::Rails::RootJoinChain::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/root_join_chain.rb#27
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/root_join_chain.rb:27
 RuboCop::Cop::Rails::RootJoinChain::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Set)
 
 # Use `Rails.root` IO methods instead of passing it to `File`.
@@ -8935,6 +8732,10 @@ RuboCop::Cop::Rails::RootJoinChain::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Set)
 #
 # This cop works best when used together with
 # `Style/FileRead`, `Style/FileWrite` and `Rails/RootJoinChain`.
+#
+# @safety
+#   This cop is unsafe for autocorrection because ``Dir``'s `children`, `each_child`, `entries`, and `glob`
+#   methods return string element, but these methods of `Pathname` return `Pathname` element.
 #
 # @example
 #   # bad
@@ -8956,85 +8757,79 @@ RuboCop::Cop::Rails::RootJoinChain::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Set)
 #   Rails.root.join('db', 'schema.rb').binwrite(content)
 #   Rails.root.glob("db/schema.rb")
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/root_pathname_methods.rb#38
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/root_pathname_methods.rb:38
 class RuboCop::Cop::Rails::RootPathnameMethods < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::RangeHelp
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/root_pathname_methods.rb#175
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/root_pathname_methods.rb:175
   def dir_glob?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/root_pathname_methods.rb#192
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/root_pathname_methods.rb:192
   def on_send(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/root_pathname_methods.rb#166
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/root_pathname_methods.rb:166
   def pathname_method_for_ruby_2_4_or_lower(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/root_pathname_methods.rb#156
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/root_pathname_methods.rb:156
   def pathname_method_for_ruby_2_5_or_higher(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/root_pathname_methods.rb#188
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/root_pathname_methods.rb:188
   def rails_root?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/root_pathname_methods.rb#180
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/root_pathname_methods.rb:180
   def rails_root_pathname?(param0 = T.unsafe(nil)); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/root_pathname_methods.rb#224
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/root_pathname_methods.rb:224
   def build_path_glob_replacement(path); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/root_pathname_methods.rb#232
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/root_pathname_methods.rb:232
   def build_path_replacement(path, method, args); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/root_pathname_methods.rb#271
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/root_pathname_methods.rb:271
   def enforce_double_quotes?; end
 
-  # @yield [method, path, args, rails_root]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/root_pathname_methods.rb#209
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/root_pathname_methods.rb:209
   def evidence(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/root_pathname_methods.rb#249
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/root_pathname_methods.rb:249
   def include_interpolation?(arguments); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/root_pathname_methods.rb#255
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/root_pathname_methods.rb:255
   def join_arguments(arguments); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/root_pathname_methods.rb#216
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/root_pathname_methods.rb:216
   def pathname_method(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/root_pathname_methods.rb#275
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/root_pathname_methods.rb:275
   def string_literals_config; end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/root_pathname_methods.rb#44
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/root_pathname_methods.rb:44
 RuboCop::Cop::Rails::RootPathnameMethods::DIR_GLOB_METHODS = T.let(T.unsafe(nil), Set)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/root_pathname_methods.rb#59
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/root_pathname_methods.rb:59
 RuboCop::Cop::Rails::RootPathnameMethods::DIR_METHODS = T.let(T.unsafe(nil), Set)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/root_pathname_methods.rb#46
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/root_pathname_methods.rb:46
 RuboCop::Cop::Rails::RootPathnameMethods::DIR_NON_GLOB_METHODS = T.let(T.unsafe(nil), Set)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/root_pathname_methods.rb#61
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/root_pathname_methods.rb:61
 RuboCop::Cop::Rails::RootPathnameMethods::FILE_METHODS = T.let(T.unsafe(nil), Set)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/root_pathname_methods.rb#123
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/root_pathname_methods.rb:123
 RuboCop::Cop::Rails::RootPathnameMethods::FILE_TEST_METHODS = T.let(T.unsafe(nil), Set)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/root_pathname_methods.rb#151
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/root_pathname_methods.rb:151
 RuboCop::Cop::Rails::RootPathnameMethods::FILE_UTILS_METHODS = T.let(T.unsafe(nil), Set)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/root_pathname_methods.rb#42
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/root_pathname_methods.rb:42
 RuboCop::Cop::Rails::RootPathnameMethods::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/root_pathname_methods.rb#153
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/root_pathname_methods.rb:153
 RuboCop::Cop::Rails::RootPathnameMethods::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Set)
 
 # Favor `Rails.public_path` over `Rails.root` with `'public'`
@@ -9050,32 +8845,30 @@ RuboCop::Cop::Rails::RootPathnameMethods::RESTRICT_ON_SEND = T.let(T.unsafe(nil)
 #   Rails.public_path.join('file.pdf')
 #   Rails.public_path.join('file.pdf')
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/root_public_path.rb#19
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/root_public_path.rb:19
 class RuboCop::Cop::Rails::RootPublicPath < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/root_public_path.rb#35
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/root_public_path.rb:35
   def on_send(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/root_public_path.rb#28
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/root_public_path.rb:28
   def rails_root_public(param0 = T.unsafe(nil)); end
 
   private
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/root_public_path.rb#53
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/root_public_path.rb:53
   def public_path?(string); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/root_public_path.rb#22
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/root_public_path.rb:22
 RuboCop::Cop::Rails::RootPublicPath::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/root_public_path.rb#26
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/root_public_path.rb:26
 RuboCop::Cop::Rails::RootPublicPath::PATTERN = T.let(T.unsafe(nil), Regexp)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/root_public_path.rb#24
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/root_public_path.rb:24
 RuboCop::Cop::Rails::RootPublicPath::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Set)
 
 # Converts usages of `try!` to `&.`. It can also be configured
@@ -9098,6 +8891,7 @@ RuboCop::Cop::Rails::RootPublicPath::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Set
 #   foo&.bar
 #   foo&.bar(baz)
 #   foo&.bar { |e| e.baz }
+#
 # @example ConvertTry: true
 #   # bad
 #   foo.try!(:bar)
@@ -9112,41 +8906,54 @@ RuboCop::Cop::Rails::RootPublicPath::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Set
 #   foo&.bar(baz)
 #   foo&.bar { |e| e.baz }
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/safe_navigation.rb#40
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/safe_navigation.rb:40
 class RuboCop::Cop::Rails::SafeNavigation < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::RangeHelp
   extend ::RuboCop::Cop::AutoCorrector
   extend ::RuboCop::Cop::TargetRubyVersion
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/safe_navigation.rb#58
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/safe_navigation.rb:58
   def on_send(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/safe_navigation.rb#50
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/safe_navigation.rb:50
   def try_call(param0 = T.unsafe(nil)); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/safe_navigation.rb#71
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/safe_navigation.rb:71
   def autocorrect(corrector, node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/safe_navigation.rb#85
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/safe_navigation.rb:85
   def replacement(method, params); end
 
   class << self
-    # source://rubocop-rails//lib/rubocop/cop/rails/safe_navigation.rb#54
+    # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/safe_navigation.rb:54
     def autocorrect_incompatible_with; end
   end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/safe_navigation.rb#47
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/safe_navigation.rb:47
 RuboCop::Cop::Rails::SafeNavigation::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/safe_navigation.rb#48
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/safe_navigation.rb:48
 RuboCop::Cop::Rails::SafeNavigation::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Checks to make sure safe navigation isn't used with `blank?` in
 # a conditional.
+#
+# @safety
+#   While the safe navigation operator is generally a good idea, when
+#   checking `foo&.blank?` in a conditional, `foo` being `nil` will actually
+#   do the opposite of what the author intends.
+#
+#   For example:
+#
+#   [source,ruby]
+#   ----
+#   foo&.blank? #=> nil
+#   foo.blank? #=> true
+#   ----
 #
 # @example
 #   # bad
@@ -9157,19 +8964,19 @@ RuboCop::Cop::Rails::SafeNavigation::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Arr
 #   do_something if foo.blank?
 #   do_something unless foo.blank?
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/safe_navigation_with_blank.rb#31
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/safe_navigation_with_blank.rb:31
 class RuboCop::Cop::Rails::SafeNavigationWithBlank < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/safe_navigation_with_blank.rb#40
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/safe_navigation_with_blank.rb:40
   def on_if(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/safe_navigation_with_blank.rb#36
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/safe_navigation_with_blank.rb:36
   def safe_navigation_blank_in_conditional?(param0 = T.unsafe(nil)); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/safe_navigation_with_blank.rb#34
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/safe_navigation_with_blank.rb:34
 RuboCop::Cop::Rails::SafeNavigationWithBlank::MSG = T.let(T.unsafe(nil), String)
 
 # Identifies possible cases where Active Record save! or related
@@ -9194,6 +9001,25 @@ RuboCop::Cop::Rails::SafeNavigationWithBlank::MSG = T.let(T.unsafe(nil), String)
 # You can permit receivers that are giving false positives with
 # `AllowedReceivers: []`
 #
+# @safety
+#   This cop's autocorrection is unsafe because a custom `update` method call would be changed to `update!`,
+#   but the method name in the definition would be unchanged.
+#
+#   [source,ruby]
+#   ----
+#   # Original code
+#   def update_attributes
+#   end
+#
+#   update_attributes
+#
+#   # After running rubocop --safe-autocorrect
+#   def update_attributes
+#   end
+#
+#   update
+#   ----
+#
 # @example
 #
 #   # bad
@@ -9204,7 +9030,7 @@ RuboCop::Cop::Rails::SafeNavigationWithBlank::MSG = T.let(T.unsafe(nil), String)
 #
 #   # good
 #   unless user.save
-#   # ...
+#     # ...
 #   end
 #   user.save!
 #   user.update!(name: 'Joe')
@@ -9213,38 +9039,41 @@ RuboCop::Cop::Rails::SafeNavigationWithBlank::MSG = T.let(T.unsafe(nil), String)
 #
 #   user = User.find_or_create_by(name: 'Joe')
 #   unless user.persisted?
-#   # ...
+#     # ...
 #   end
 #
 #   def save_user
-#   return user.save
-#   end
-# @example AllowImplicitReturn: false
-#
-#   # bad
-#   users.each { |u| u.save }
-#   def save_user
-#   user.save
+#     return user.save
 #   end
 #
-#   # good
-#   users.each { |u| u.save! }
-#
-#   def save_user
-#   user.save!
-#   end
-#
-#   def save_user
-#   return user.save
-#   end
 # @example AllowImplicitReturn: true (default)
 #
 #   # good
 #   users.each { |u| u.save }
 #
 #   def save_user
-#   user.save
+#     user.save
 #   end
+#
+# @example AllowImplicitReturn: false
+#
+#   # bad
+#   users.each { |u| u.save }
+#   def save_user
+#     user.save
+#   end
+#
+#   # good
+#   users.each { |u| u.save! }
+#
+#   def save_user
+#     user.save!
+#   end
+#
+#   def save_user
+#     return user.save
+#   end
+#
 # @example AllowedReceivers: ['merchant.customers', 'Service::Mailer']
 #
 #   # bad
@@ -9253,7 +9082,7 @@ RuboCop::Cop::Rails::SafeNavigationWithBlank::MSG = T.let(T.unsafe(nil), String)
 #   Mailer.create
 #
 #   module Service::Mailer
-#   self.create
+#     self.create
 #   end
 #
 #   # good
@@ -9264,60 +9093,48 @@ RuboCop::Cop::Rails::SafeNavigationWithBlank::MSG = T.let(T.unsafe(nil), String)
 #   Services::Service::Mailer.update(message: 'Message')
 #   Service::Mailer::update
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/save_bang.rb#120
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:120
 class RuboCop::Cop::Rails::SaveBang < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::NegativeConditional
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/save_bang.rb#136
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:136
   def after_leaving_scope(scope, _variable_table); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/save_bang.rb#144
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:144
   def check_assignment(assignment); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/save_bang.rb#167
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:167
   def on_csend(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/save_bang.rb#155
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:155
   def on_send(node); end
 
   private
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/save_bang.rb#263
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:263
   def allowed_receiver?(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/save_bang.rb#321
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:321
   def argument?(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/save_bang.rb#223
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:223
   def array_parent(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/save_bang.rb#204
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:204
   def assignable_node(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/save_bang.rb#198
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:198
   def call_to_persisted?(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/save_bang.rb#230
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:230
   def check_used_in_condition_or_compound_boolean?(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/save_bang.rb#259
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:259
   def checked_immediately?(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/save_bang.rb#250
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:250
   def conditional?(parent); end
 
   # Const == Const
@@ -9329,95 +9146,75 @@ class RuboCop::Cop::Rails::SaveBang < ::RuboCop::Cop::Base
   # NameSpace::Const != ::Const
   # Const != NameSpace::Const
   #
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/save_bang.rb#296
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:296
   def const_matches?(const, allowed_const); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/save_bang.rb#254
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:254
   def deparenthesize(node); end
 
   # Check argument signature as no arguments or one hash
   #
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/save_bang.rb#341
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:341
   def expected_signature?(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/save_bang.rb#325
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:325
   def explicit_return?(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/save_bang.rb#313
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:313
   def find_method_with_sibling_index(node, sibling_index = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/save_bang.rb#213
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:213
   def hash_parent(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/save_bang.rb#303
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:303
   def implicit_return?(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/save_bang.rb#238
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:238
   def in_condition_or_compound_boolean?(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/save_bang.rb#246
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:246
   def operator_or_single_negative?(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/save_bang.rb#336
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:336
   def persist_method?(node, methods = T.unsafe(nil)); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/save_bang.rb#190
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:190
   def persisted_referenced?(assignment); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/save_bang.rb#273
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:273
   def receiver_chain_matches?(node, allowed_receiver); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/save_bang.rb#171
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:171
   def register_offense(node, msg); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/save_bang.rb#330
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:330
   def return_value_assigned?(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/save_bang.rb#182
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:182
   def right_assignment_node(assignment); end
 
   class << self
-    # source://rubocop-rails//lib/rubocop/cop/rails/save_bang.rb#132
+    # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:132
     def joining_forces; end
   end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/save_bang.rb#126
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:126
 RuboCop::Cop::Rails::SaveBang::CREATE_CONDITIONAL_MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/save_bang.rb#125
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:125
 RuboCop::Cop::Rails::SaveBang::CREATE_MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/save_bang.rb#128
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:128
 RuboCop::Cop::Rails::SaveBang::CREATE_PERSIST_METHODS = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/save_bang.rb#129
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:129
 RuboCop::Cop::Rails::SaveBang::MODIFY_PERSIST_METHODS = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/save_bang.rb#124
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:124
 RuboCop::Cop::Rails::SaveBang::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/save_bang.rb#130
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:130
 RuboCop::Cop::Rails::SaveBang::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Enforces the use of the `comment` option when adding a new table or column
@@ -9428,77 +9225,71 @@ RuboCop::Cop::Rails::SaveBang::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 #   add_column :table, :column, :integer
 #
 #   create_table :table do |t|
-#   t.type :column
+#     t.type :column
 #   end
 #
 #   # good
 #   add_column :table, :column, :integer, comment: 'Number of offenses'
 #
 #   create_table :table, comment: 'Table of offenses data' do |t|
-#   t.type :column, comment: 'Number of offenses'
+#     t.type :column, comment: 'Number of offenses'
 #   end
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/schema_comment.rb#24
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/schema_comment.rb:24
 class RuboCop::Cop::Rails::SchemaComment < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::ActiveRecordMigrationsHelper
   include ::RuboCop::Cop::MigrationsHelper
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/schema_comment.rb#46
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/schema_comment.rb:46
   def add_column?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/schema_comment.rb#51
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/schema_comment.rb:51
   def add_column_with_comment?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/schema_comment.rb#41
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/schema_comment.rb:41
   def comment_present?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/schema_comment.rb#56
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/schema_comment.rb:56
   def create_table?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/schema_comment.rb#61
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/schema_comment.rb:61
   def create_table_with_comment?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/schema_comment.rb#75
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/schema_comment.rb:75
   def on_send(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/schema_comment.rb#66
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/schema_comment.rb:66
   def t_column?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/schema_comment.rb#71
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/schema_comment.rb:71
   def t_column_with_comment?(param0 = T.unsafe(nil)); end
 
   private
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/schema_comment.rb#97
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/schema_comment.rb:97
   def add_column_without_comment?(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/schema_comment.rb#87
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/schema_comment.rb:87
   def check_column_within_create_table_block(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/schema_comment.rb#101
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/schema_comment.rb:101
   def create_table_without_comment?(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/schema_comment.rb#105
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/schema_comment.rb:105
   def t_column_without_comment?(node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/schema_comment.rb#28
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/schema_comment.rb:28
 RuboCop::Cop::Rails::SchemaComment::COLUMN_MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/schema_comment.rb#31
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/schema_comment.rb:31
 RuboCop::Cop::Rails::SchemaComment::CREATE_TABLE_COLUMN_METHODS = T.let(T.unsafe(nil), Set)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/schema_comment.rb#30
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/schema_comment.rb:30
 RuboCop::Cop::Rails::SchemaComment::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/schema_comment.rb#29
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/schema_comment.rb:29
 RuboCop::Cop::Rails::SchemaComment::TABLE_MSG = T.let(T.unsafe(nil), String)
 
 # Checks for scope calls where it was passed
@@ -9512,28 +9303,32 @@ RuboCop::Cop::Rails::SchemaComment::TABLE_MSG = T.let(T.unsafe(nil), String)
 #   # good
 #   scope :something, -> { where(something: true) }
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/scope_args.rb#16
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/scope_args.rb:16
 class RuboCop::Cop::Rails::ScopeArgs < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/scope_args.rb#24
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/scope_args.rb:24
   def on_send(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/scope_args.rb#22
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/scope_args.rb:22
   def scope?(param0 = T.unsafe(nil)); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/scope_args.rb#19
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/scope_args.rb:19
 RuboCop::Cop::Rails::ScopeArgs::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/scope_args.rb#20
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/scope_args.rb:20
 RuboCop::Cop::Rails::ScopeArgs::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Checks for uses of `select(:column_name)` with `map(&:column_name)`.
 # These can be replaced with `pluck(:column_name)`.
 #
 # There also should be some performance improvement since it skips instantiating the model class for matches.
+#
+# @safety
+#   This cop is unsafe because the model might override the attribute getter.
+#   Additionally, the model's `after_initialize` hooks are skipped when using `pluck`.
 #
 # @example
 #   # bad
@@ -9542,35 +9337,33 @@ RuboCop::Cop::Rails::ScopeArgs::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 #   # good
 #   Model.pluck(:column_name)
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/select_map.rb#22
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/select_map.rb:22
 class RuboCop::Cop::Rails::SelectMap < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/select_map.rb#43
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/select_map.rb:43
   def on_csend(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/select_map.rb#29
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/select_map.rb:29
   def on_send(node); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/select_map.rb#60
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/select_map.rb:60
   def autocorrect(corrector, select_node, node, preferred_method); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/select_map.rb#47
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/select_map.rb:47
   def find_select_node(node, column_name); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/select_map.rb#71
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/select_map.rb:71
   def match_column_name?(select_candidate, column_name); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/select_map.rb#25
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/select_map.rb:25
 RuboCop::Cop::Rails::SelectMap::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/select_map.rb#27
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/select_map.rb:27
 RuboCop::Cop::Rails::SelectMap::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Enforces that short forms of `I18n` methods are used:
@@ -9591,6 +9384,14 @@ RuboCop::Cop::Rails::SelectMap::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 #   # good
 #   I18n.t :key
 #   I18n.l Time.now
+#
+# @example EnforcedStyle: conservative (default)
+#   # good
+#   translate :key
+#   localize Time.now
+#   t :key
+#   l Time.now
+#
 # @example EnforcedStyle: aggressive
 #   # bad
 #   translate :key
@@ -9599,33 +9400,27 @@ RuboCop::Cop::Rails::SelectMap::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 #   # good
 #   t :key
 #   l Time.now
-# @example EnforcedStyle: conservative (default)
-#   # good
-#   translate :key
-#   localize Time.now
-#   t :key
-#   l Time.now
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/short_i18n.rb#41
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/short_i18n.rb:41
 class RuboCop::Cop::Rails::ShortI18n < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::ConfigurableEnforcedStyle
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/short_i18n.rb#51
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/short_i18n.rb:51
   def long_i18n?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/short_i18n.rb#55
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/short_i18n.rb:55
   def on_send(node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/short_i18n.rb#45
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/short_i18n.rb:45
 RuboCop::Cop::Rails::ShortI18n::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/short_i18n.rb#47
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/short_i18n.rb:47
 RuboCop::Cop::Rails::ShortI18n::PREFERRED_METHODS = T.let(T.unsafe(nil), Hash)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/short_i18n.rb#49
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/short_i18n.rb:49
 RuboCop::Cop::Rails::ShortI18n::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Checks for the use of methods which skip
@@ -9633,6 +9428,9 @@ RuboCop::Cop::Rails::ShortI18n::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 # https://guides.rubyonrails.org/active_record_validations.html#skipping-validations
 #
 # Methods may be ignored from this rule by configuring a `AllowedMethods`.
+#
+# @safety
+#   This cop is unsafe if the receiver object is not an Active Record object.
 #
 # @example
 #   # bad
@@ -9650,6 +9448,7 @@ RuboCop::Cop::Rails::ShortI18n::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 #   # good
 #   user.update(website: 'example.com')
 #   FileUtils.touch('file')
+#
 # @example AllowedMethods: ["touch"]
 #   # bad
 #   DiscussionBoard.decrement_counter(:post_count, 5)
@@ -9659,128 +9458,120 @@ RuboCop::Cop::Rails::ShortI18n::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 #   # good
 #   user.touch
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/skips_model_validations.rb#41
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/skips_model_validations.rb:41
 class RuboCop::Cop::Rails::SkipsModelValidations < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
 
-  # @return [SkipsModelValidations] a new instance of SkipsModelValidations
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/skips_model_validations.rb#86
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/skips_model_validations.rb:86
   def initialize(*_arg0); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/skips_model_validations.rb#68
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/skips_model_validations.rb:68
   def good_insert?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/skips_model_validations.rb#61
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/skips_model_validations.rb:61
   def good_touch?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/skips_model_validations.rb#84
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/skips_model_validations.rb:84
   def on_csend(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/skips_model_validations.rb#75
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/skips_model_validations.rb:75
   def on_send(node); end
 
   private
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/skips_model_validations.rb#98
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/skips_model_validations.rb:98
   def allowed_method?(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/skips_model_validations.rb#114
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/skips_model_validations.rb:114
   def allowed_methods; end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/skips_model_validations.rb#102
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/skips_model_validations.rb:102
   def forbidden_methods; end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/skips_model_validations.rb#94
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/skips_model_validations.rb:94
   def message(node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/skips_model_validations.rb#44
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/skips_model_validations.rb:44
 RuboCop::Cop::Rails::SkipsModelValidations::METHODS_WITH_ARGUMENTS = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/skips_model_validations.rb#42
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/skips_model_validations.rb:42
 RuboCop::Cop::Rails::SkipsModelValidations::MSG = T.let(T.unsafe(nil), String)
 
 # Checks SQL heredocs to use `.squish`.
 #
+# @safety
+#   Some SQL syntax (e.g. PostgreSQL comments and functions) requires newlines
+#   to be preserved in order to work, thus autocorrection for this cop is not safe.
+#
 # @example
 #   # bad
 #   <<-SQL
-#   SELECT * FROM posts;
+#     SELECT * FROM posts;
 #   SQL
 #
 #   <<-SQL
-#   SELECT * FROM posts
-#   WHERE id = 1
+#     SELECT * FROM posts
+#       WHERE id = 1
 #   SQL
 #
 #   execute(<<~SQL, "Post Load")
-#   SELECT * FROM posts
-#   WHERE post_id = 1
+#     SELECT * FROM posts
+#       WHERE post_id = 1
 #   SQL
 #
 #   # good
 #   <<-SQL.squish
-#   SELECT * FROM posts;
+#     SELECT * FROM posts;
 #   SQL
 #
 #   <<~SQL.squish
-#   SELECT * FROM table
-#   WHERE id = 1
+#     SELECT * FROM table
+#       WHERE id = 1
 #   SQL
 #
 #   execute(<<~SQL.squish, "Post Load")
-#   SELECT * FROM posts
-#   WHERE post_id = 1
+#     SELECT * FROM posts
+#       WHERE post_id = 1
 #   SQL
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/squished_sql_heredocs.rb#43
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/squished_sql_heredocs.rb:43
 class RuboCop::Cop::Rails::SquishedSQLHeredocs < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::Heredoc
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/squished_sql_heredocs.rb#52
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/squished_sql_heredocs.rb:52
   def on_heredoc(node); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/squished_sql_heredocs.rb#80
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/squished_sql_heredocs.rb:80
   def message(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/squished_sql_heredocs.rb#62
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/squished_sql_heredocs.rb:62
   def offense_detected?(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/squished_sql_heredocs.rb#74
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/squished_sql_heredocs.rb:74
   def singleline_comments_present?(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/squished_sql_heredocs.rb#66
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/squished_sql_heredocs.rb:66
   def sql_heredoc?(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/squished_sql_heredocs.rb#70
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/squished_sql_heredocs.rb:70
   def using_squish?(node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/squished_sql_heredocs.rb#49
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/squished_sql_heredocs.rb:49
 RuboCop::Cop::Rails::SquishedSQLHeredocs::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/squished_sql_heredocs.rb#47
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/squished_sql_heredocs.rb:47
 RuboCop::Cop::Rails::SquishedSQLHeredocs::SQL = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/squished_sql_heredocs.rb#50
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/squished_sql_heredocs.rb:50
 RuboCop::Cop::Rails::SquishedSQLHeredocs::SQL_IDENTIFIER_MARKERS = T.let(T.unsafe(nil), Regexp)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/squished_sql_heredocs.rb#48
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/squished_sql_heredocs.rb:48
 RuboCop::Cop::Rails::SquishedSQLHeredocs::SQUISH = T.let(T.unsafe(nil), String)
 
 # Enforces the use of squiggly heredoc over `strip_heredoc`.
@@ -9789,41 +9580,47 @@ RuboCop::Cop::Rails::SquishedSQLHeredocs::SQUISH = T.let(T.unsafe(nil), String)
 #
 #   # bad
 #   <<EOS.strip_heredoc
-#   some text
+#     some text
 #   EOS
 #
 #   # bad
 #   <<-EOS.strip_heredoc
-#   some text
+#     some text
 #   EOS
 #
 #   # good
 #   <<~EOS
-#   some text
+#     some text
 #   EOS
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/strip_heredoc.rb#25
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strip_heredoc.rb:25
 class RuboCop::Cop::Rails::StripHeredoc < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   extend ::RuboCop::Cop::AutoCorrector
   extend ::RuboCop::Cop::TargetRubyVersion
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/strip_heredoc.rb#34
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strip_heredoc.rb:34
   def on_send(node); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/strip_heredoc.rb#44
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strip_heredoc.rb:44
   def register_offense(node, heredoc); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/strip_heredoc.rb#29
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strip_heredoc.rb:29
 RuboCop::Cop::Rails::StripHeredoc::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/strip_heredoc.rb#30
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strip_heredoc.rb:30
 RuboCop::Cop::Rails::StripHeredoc::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Enforces the use of `ActionController::Parameters#expect` as a method for strong parameter handling.
+#
+# @safety
+#   This cop's autocorrection is considered unsafe because there are cases where the HTTP status may change
+#   from 500 to 400 when handling invalid parameters. This change, however, reflects an intentional
+#   incompatibility introduced for valid reasons by the `expect` method, which aligns better with
+#   strong parameter conventions.
 #
 # @example
 #
@@ -9834,40 +9631,40 @@ RuboCop::Cop::Rails::StripHeredoc::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array
 #   # good
 #   params.expect(user: [:name, :age])
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/strong_parameters_expect.rb#23
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:23
 class RuboCop::Cop::Rails::StrongParametersExpect < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   extend ::RuboCop::Cop::AutoCorrector
   extend ::RuboCop::Cop::TargetRailsVersion
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/strong_parameters_expect.rb#73
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:73
   def on_csend(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/strong_parameters_expect.rb#46
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:46
   def on_send(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/strong_parameters_expect.rb#38
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:38
   def params_permit_require(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/strong_parameters_expect.rb#32
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:32
   def params_require_permit(param0 = T.unsafe(nil)); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/strong_parameters_expect.rb#81
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:81
   def expect_method(require_method, permit_method); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/strong_parameters_expect.rb#77
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:77
   def offense_range(method_node, node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/strong_parameters_expect.rb#90
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:90
   def require_key(require_method); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/strong_parameters_expect.rb#27
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:27
 RuboCop::Cop::Rails::StrongParametersExpect::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/strong_parameters_expect.rb#28
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:28
 RuboCop::Cop::Rails::StrongParametersExpect::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Enforces the absence of explicit table name assignment.
@@ -9892,19 +9689,19 @@ RuboCop::Cop::Rails::StrongParametersExpect::RESTRICT_ON_SEND = T.let(T.unsafe(n
 #   self.table_name = 'some_table_name'
 #   self.table_name = :some_other_name
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/table_name_assignment.rb#27
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/table_name_assignment.rb:27
 class RuboCop::Cop::Rails::TableNameAssignment < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::ActiveRecordHelper
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/table_name_assignment.rb#32
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/table_name_assignment.rb:32
   def base_class?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/table_name_assignment.rb#36
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/table_name_assignment.rb:36
   def on_class(class_node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/table_name_assignment.rb#30
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/table_name_assignment.rb:30
 RuboCop::Cop::Rails::TableNameAssignment::MSG = T.let(T.unsafe(nil), String)
 
 # Enforces that boolean columns are created with default values (`false` or `true`) and
@@ -9921,33 +9718,33 @@ RuboCop::Cop::Rails::TableNameAssignment::MSG = T.let(T.unsafe(nil), String)
 #   t.column :active, :boolean, default: true, null: false
 #   t.boolean :active, default: true, null: false
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/three_state_boolean_column.rb#20
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/three_state_boolean_column.rb:20
 class RuboCop::Cop::Rails::ThreeStateBooleanColumn < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::MigrationsHelper
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/three_state_boolean_column.rb#38
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/three_state_boolean_column.rb:38
   def change_column_null?(param0, param1, param2); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/three_state_boolean_column.rb#42
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/three_state_boolean_column.rb:42
   def on_send(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/three_state_boolean_column.rb#34
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/three_state_boolean_column.rb:34
   def required_options?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/three_state_boolean_column.rb#26
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/three_state_boolean_column.rb:26
   def three_state_boolean?(param0 = T.unsafe(nil)); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/three_state_boolean_column.rb#58
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/three_state_boolean_column.rb:58
   def table_node(node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/three_state_boolean_column.rb#23
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/three_state_boolean_column.rb:23
 RuboCop::Cop::Rails::ThreeStateBooleanColumn::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/three_state_boolean_column.rb#24
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/three_state_boolean_column.rb:24
 RuboCop::Cop::Rails::ThreeStateBooleanColumn::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Checks for the use of Time methods without zone.
@@ -9960,6 +9757,9 @@ RuboCop::Cop::Rails::ThreeStateBooleanColumn::RESTRICT_ON_SEND = T.let(T.unsafe(
 #
 # When EnforcedStyle is 'flexible' then it's also allowed
 # to use `Time#in_time_zone`.
+#
+# @safety
+#   This cop's autocorrection is unsafe because it may change handling time.
 #
 # @example
 #   # bad
@@ -9974,97 +9774,85 @@ RuboCop::Cop::Rails::ThreeStateBooleanColumn::RESTRICT_ON_SEND = T.let(T.unsafe(
 #   Time.zone.parse('2015-03-02T19:05:37Z') # Respect ISO 8601 format with timezone specifier.
 #   Time.parse('2015-03-02T19:05:37Z') # Also respects ISO 8601
 #   '2015-03-02T19:05:37Z'.to_time # Also respects ISO 8601
+#
 # @example EnforcedStyle: flexible (default)
 #   # `flexible` allows usage of `in_time_zone` instead of `zone`.
 #
 #   # good
 #   Time.at(timestamp).in_time_zone
+#
 # @example EnforcedStyle: strict
 #   # `strict` means that `Time` should be used with `zone`.
 #
 #   # bad
 #   Time.at(timestamp).in_time_zone
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#45
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/time_zone.rb:45
 class RuboCop::Cop::Rails::TimeZone < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::ConfigurableEnforcedStyle
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#61
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/time_zone.rb:61
   def on_const(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#78
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/time_zone.rb:78
   def on_csend(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#70
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/time_zone.rb:70
   def on_send(node); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#232
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/time_zone.rb:232
   def acceptable_methods(klass, method_name, node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#137
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/time_zone.rb:137
   def attach_timezone_specifier?(date); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#82
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/time_zone.rb:82
   def autocorrect(corrector, node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#99
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/time_zone.rb:99
   def autocorrect_time_new(node, corrector); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#143
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/time_zone.rb:143
   def build_message(klass, method_name, node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#192
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/time_zone.rb:192
   def check_localtime(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#119
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/time_zone.rb:119
   def check_time_node(klass, node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#156
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/time_zone.rb:156
   def extract_method_chain(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#216
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/time_zone.rb:216
   def flexible?; end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#224
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/time_zone.rb:224
   def good_methods; end
 
   # Only add the method to the chain if the method being
   # called is part of the time class.
   #
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#167
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/time_zone.rb:167
   def method_from_time_class?(node); end
 
   # checks that parent node of send_type
   # and receiver is the given node
   #
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#178
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/time_zone.rb:178
   def method_send?(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#212
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/time_zone.rb:212
   def need_check_localtime?(chain); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#208
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/time_zone.rb:208
   def not_danger_chain?(chain); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#255
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/time_zone.rb:255
   def offset_option_provided?(node); end
 
   # Time.new, Time.at, and Time.now can be called with a time zone offset
@@ -10072,53 +9860,49 @@ class RuboCop::Cop::Rails::TimeZone < ::RuboCop::Cop::Base
   # Example:
   # Time.new(1988, 3, 15, 3, 0, 0, "-05:00")
   #
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#246
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/time_zone.rb:246
   def offset_provided?(node); end
 
   # remove redundant `.in_time_zone` from `Time.zone.now.in_time_zone`
   #
-  # source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#106
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/time_zone.rb:106
   def remove_redundant_in_time_zone(corrector, node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#263
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/time_zone.rb:263
   def replacement(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#184
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/time_zone.rb:184
   def safe_method(method_name, node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#220
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/time_zone.rb:220
   def strict?; end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#56
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/time_zone.rb:56
 RuboCop::Cop::Rails::TimeZone::ACCEPTED_METHODS = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#55
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/time_zone.rb:55
 RuboCop::Cop::Rails::TimeZone::DANGEROUS_METHODS = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#54
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/time_zone.rb:54
 RuboCop::Cop::Rails::TimeZone::GOOD_METHODS = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#49
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/time_zone.rb:49
 RuboCop::Cop::Rails::TimeZone::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#50
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/time_zone.rb:50
 RuboCop::Cop::Rails::TimeZone::MSG_ACCEPTABLE = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#51
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/time_zone.rb:51
 RuboCop::Cop::Rails::TimeZone::MSG_LOCALTIME = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#52
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/time_zone.rb:52
 RuboCop::Cop::Rails::TimeZone::MSG_STRING_TO_TIME = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#59
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/time_zone.rb:59
 RuboCop::Cop::Rails::TimeZone::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#57
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/time_zone.rb:57
 RuboCop::Cop::Rails::TimeZone::TIMEZONE_SPECIFIER = T.let(T.unsafe(nil), Regexp)
 
 # Checks for the use of `Time.zone=` method.
@@ -10136,33 +9920,26 @@ RuboCop::Cop::Rails::TimeZone::TIMEZONE_SPECIFIER = T.let(T.unsafe(nil), Regexp)
 #   Time.use_zone('EST') do
 #   end
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/time_zone_assignment.rb#21
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/time_zone_assignment.rb:21
 class RuboCop::Cop::Rails::TimeZoneAssignment < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/time_zone_assignment.rb#29
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/time_zone_assignment.rb:29
   def on_send(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/time_zone_assignment.rb#25
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/time_zone_assignment.rb:25
   def time_zone_assignment?(param0 = T.unsafe(nil)); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/time_zone_assignment.rb#22
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/time_zone_assignment.rb:22
 RuboCop::Cop::Rails::TimeZoneAssignment::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/time_zone_assignment.rb#23
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/time_zone_assignment.rb:23
 RuboCop::Cop::Rails::TimeZoneAssignment::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Checks for consistent uses of `to_fs` or `to_formatted_s`,
 # depending on the cop's configuration.
 #
-# @example EnforcedStyle: to_formatted_s
-#
-#   # bad
-#   time.to_fs(:db)
-#
-#   # good
-#   time.to_formatted_s(:db)
 # @example EnforcedStyle: to_fs (default)
 #
 #   # bad
@@ -10171,27 +9948,39 @@ RuboCop::Cop::Rails::TimeZoneAssignment::RESTRICT_ON_SEND = T.let(T.unsafe(nil),
 #   # good
 #   time.to_fs(:db)
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/to_formatted_s.rb#25
+# @example EnforcedStyle: to_formatted_s
+#
+#   # bad
+#   time.to_fs(:db)
+#
+#   # good
+#   time.to_formatted_s(:db)
+#
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/to_formatted_s.rb:25
 class RuboCop::Cop::Rails::ToFormattedS < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::ConfigurableEnforcedStyle
   extend ::RuboCop::Cop::AutoCorrector
   extend ::RuboCop::Cop::TargetRailsVersion
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/to_formatted_s.rb#42
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/to_formatted_s.rb:42
   def on_csend(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/to_formatted_s.rb#35
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/to_formatted_s.rb:35
   def on_send(node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/to_formatted_s.rb#32
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/to_formatted_s.rb:32
 RuboCop::Cop::Rails::ToFormattedS::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/to_formatted_s.rb#33
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/to_formatted_s.rb:33
 RuboCop::Cop::Rails::ToFormattedS::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Identifies passing any argument to `#to_s`.
+#
+# @safety
+#   This cop is marked as unsafe because it may detect `#to_s` calls
+#   that are not related to Active Support implementation.
 #
 # @example
 #
@@ -10201,23 +9990,21 @@ RuboCop::Cop::Rails::ToFormattedS::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array
 #   # good
 #   obj.to_formatted_s(:delimited)
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/to_s_with_argument.rb#20
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/to_s_with_argument.rb:20
 class RuboCop::Cop::Rails::ToSWithArgument < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   extend ::RuboCop::Cop::AutoCorrector
   extend ::RuboCop::Cop::TargetRailsVersion
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/to_s_with_argument.rb#68
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/to_s_with_argument.rb:68
   def on_csend(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/to_s_with_argument.rb#61
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/to_s_with_argument.rb:61
   def on_send(node); end
 
   private
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/to_s_with_argument.rb#72
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/to_s_with_argument.rb:72
   def rails_extended_to_s?(node); end
 end
 
@@ -10230,13 +10017,13 @@ end
 #   lib/active_support/core_ext/time/conversions.rb
 #   lib/active_support/time_with_zone.rb
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/to_s_with_argument.rb#32
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/to_s_with_argument.rb:32
 RuboCop::Cop::Rails::ToSWithArgument::EXTENDED_FORMAT_TYPES = T.let(T.unsafe(nil), Set)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/to_s_with_argument.rb#55
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/to_s_with_argument.rb:55
 RuboCop::Cop::Rails::ToSWithArgument::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/to_s_with_argument.rb#57
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/to_s_with_argument.rb:57
 RuboCop::Cop::Rails::ToSWithArgument::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Identifies top-level `HashWithIndifferentAccess`.
@@ -10249,30 +10036,27 @@ RuboCop::Cop::Rails::ToSWithArgument::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Ar
 #   # good
 #   ActiveSupport::HashWithIndifferentAccess.new(foo: 'bar')
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/top_level_hash_with_indifferent_access.rb#16
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/top_level_hash_with_indifferent_access.rb:16
 class RuboCop::Cop::Rails::TopLevelHashWithIndifferentAccess < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   extend ::RuboCop::Cop::AutoCorrector
   extend ::RuboCop::Cop::TargetRailsVersion
 
-  # @param node [RuboCop::AST::ConstNode]
+  # @param [RuboCop::AST::ConstNode] node
   #
-  # source://rubocop-rails//lib/rubocop/cop/rails/top_level_hash_with_indifferent_access.rb#32
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/top_level_hash_with_indifferent_access.rb:32
   def on_const(node); end
 
-  # @param node [RuboCop::AST::ConstNode]
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/top_level_hash_with_indifferent_access.rb#27
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/top_level_hash_with_indifferent_access.rb:27
   def top_level_hash_with_indifferent_access?(param0 = T.unsafe(nil)); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/top_level_hash_with_indifferent_access.rb#43
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/top_level_hash_with_indifferent_access.rb:43
   def autocorrect(corrector, node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/top_level_hash_with_indifferent_access.rb#22
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/top_level_hash_with_indifferent_access.rb:22
 RuboCop::Cop::Rails::TopLevelHashWithIndifferentAccess::MSG = T.let(T.unsafe(nil), String)
 
 # Checks for the use of exit statements (namely `return`,
@@ -10294,89 +10078,82 @@ RuboCop::Cop::Rails::TopLevelHashWithIndifferentAccess::MSG = T.let(T.unsafe(nil
 # @example
 #   # bad
 #   ApplicationRecord.transaction do
-#   return if user.active?
+#     return if user.active?
 #   end
 #
 #   # bad
 #   ApplicationRecord.transaction do
-#   break if user.active?
+#     break if user.active?
 #   end
 #
 #   # bad
 #   ApplicationRecord.transaction do
-#   throw if user.active?
+#     throw if user.active?
 #   end
 #
 #   # bad, as `with_lock` implicitly opens a transaction too
 #   user.with_lock do
-#   throw if user.active?
+#     throw if user.active?
 #   end
 #
 #   # bad, as `with_lock` implicitly opens a transaction too
 #   ApplicationRecord.with_lock do
-#   break if user.active?
+#     break if user.active?
 #   end
 #
 #   # good
 #   ApplicationRecord.transaction do
-#   # Rollback
-#   raise "User is active" if user.active?
+#     # Rollback
+#     raise "User is active" if user.active?
 #   end
 #
 #   # good
 #   ApplicationRecord.transaction do
-#   # Commit
-#   next if user.active?
+#     # Commit
+#     next if user.active?
 #   end
+#
 # @example TransactionMethods: ["custom_transaction"]
 #   # bad
 #   CustomModel.custom_transaction do
-#   return if user.active?
+#     return if user.active?
 #   end
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/transaction_exit_statement.rb#66
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/transaction_exit_statement.rb:66
 class RuboCop::Cop::Rails::TransactionExitStatement < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/transaction_exit_statement.rb#70
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/transaction_exit_statement.rb:70
   def exit_statements(param0); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/transaction_exit_statement.rb#82
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/transaction_exit_statement.rb:82
   def on_send(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/transaction_exit_statement.rb#74
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/transaction_exit_statement.rb:74
   def rescue_body_return_node?(param0 = T.unsafe(nil)); end
 
   private
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/transaction_exit_statement.rb#98
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/transaction_exit_statement.rb:98
   def in_transaction_block?(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/transaction_exit_statement.rb#118
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/transaction_exit_statement.rb:118
   def nested_block?(statement_node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/transaction_exit_statement.rb#108
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/transaction_exit_statement.rb:108
   def statement(statement_node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/transaction_exit_statement.rb#127
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/transaction_exit_statement.rb:127
   def transaction_method?(method_name); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/transaction_exit_statement.rb#123
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/transaction_exit_statement.rb:123
   def transaction_method_name?(method_name); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/transaction_exit_statement.rb#68
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/transaction_exit_statement.rb:68
 RuboCop::Cop::Rails::TransactionExitStatement::BUILT_IN_TRANSACTION_METHODS = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/transaction_exit_statement.rb#67
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/transaction_exit_statement.rb:67
 RuboCop::Cop::Rails::TransactionExitStatement::MSG = T.let(T.unsafe(nil), String)
 
 # Prefer using `distinct` before `pluck` instead of `uniq` after `pluck`.
@@ -10394,6 +10171,17 @@ RuboCop::Cop::Rails::TransactionExitStatement::MSG = T.let(T.unsafe(nil), String
 # ActiveRecord::Relation vs a call to pluck on an
 # ActiveRecord::Associations::CollectionProxy.
 #
+# @safety
+#   This cop is unsafe for autocorrection because the behavior may change
+#   depending on the database collation.
+#
+# @example EnforcedStyle: conservative (default)
+#   # bad - redundantly fetches duplicate values
+#   Album.pluck(:band_name).uniq
+#
+#   # good
+#   Album.distinct.pluck(:band_name)
+#
 # @example EnforcedStyle: aggressive
 #   # bad - redundantly fetches duplicate values
 #   Album.pluck(:band_name).uniq
@@ -10408,36 +10196,30 @@ RuboCop::Cop::Rails::TransactionExitStatement::MSG = T.let(T.unsafe(nil), String
 #   Album.distinct.pluck(:band_name)
 #   Album.distinct.where(year: 1985).pluck(:band_name)
 #   customer.favourites.distinct.pluck(:color)
-# @example EnforcedStyle: conservative (default)
-#   # bad - redundantly fetches duplicate values
-#   Album.pluck(:band_name).uniq
 #
-#   # good
-#   Album.distinct.pluck(:band_name)
-#
-# source://rubocop-rails//lib/rubocop/cop/rails/uniq_before_pluck.rb#47
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/uniq_before_pluck.rb:47
 class RuboCop::Cop::Rails::UniqBeforePluck < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::ConfigurableEnforcedStyle
   include ::RuboCop::Cop::RangeHelp
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/uniq_before_pluck.rb#57
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/uniq_before_pluck.rb:57
   def on_send(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/uniq_before_pluck.rb#55
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/uniq_before_pluck.rb:55
   def uniq_before_pluck(param0 = T.unsafe(nil)); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/uniq_before_pluck.rb#69
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/uniq_before_pluck.rb:69
   def autocorrect(corrector, uniq_node, pluck_node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/uniq_before_pluck.rb#52
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/uniq_before_pluck.rb:52
 RuboCop::Cop::Rails::UniqBeforePluck::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/uniq_before_pluck.rb#53
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/uniq_before_pluck.rb:53
 RuboCop::Cop::Rails::UniqBeforePluck::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # When you define a uniqueness validation in Active Record model,
@@ -10461,65 +10243,57 @@ RuboCop::Cop::Rails::UniqBeforePluck::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Ar
 #   # good - even if the schema does not have a unique index
 #   validates :account, length: { minimum: MIN_LENGTH }
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/unique_validation_without_index.rb#27
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unique_validation_without_index.rb:27
 class RuboCop::Cop::Rails::UniqueValidationWithoutIndex < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::ActiveRecordHelper
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/unique_validation_without_index.rb#33
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unique_validation_without_index.rb:33
   def on_send(node); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/unique_validation_without_index.rb#155
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unique_validation_without_index.rb:155
   def array_node_to_array(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/unique_validation_without_index.rb#122
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unique_validation_without_index.rb:122
   def class_node(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/unique_validation_without_index.rb#74
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unique_validation_without_index.rb:74
   def column_names(node, uniqueness_part); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/unique_validation_without_index.rb#93
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unique_validation_without_index.rb:93
   def column_names_from_scope(uniqueness_part); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/unique_validation_without_index.rb#146
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unique_validation_without_index.rb:146
   def condition_hash_part?(pairs, keys:); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/unique_validation_without_index.rb#137
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unique_validation_without_index.rb:137
   def condition_part?(node, uniqueness_node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/unique_validation_without_index.rb#47
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unique_validation_without_index.rb:47
   def find_schema_information(node, uniqueness_part); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/unique_validation_without_index.rb#109
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unique_validation_without_index.rb:109
   def find_scope(pairs); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/unique_validation_without_index.rb#66
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unique_validation_without_index.rb:66
   def include_column_names_in_expression_index?(index, column_names); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/unique_validation_without_index.rb#118
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unique_validation_without_index.rb:118
   def unfreeze_scope(scope); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/unique_validation_without_index.rb#126
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unique_validation_without_index.rb:126
   def uniqueness_part(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/unique_validation_without_index.rb#57
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unique_validation_without_index.rb:57
   def with_index?(klass, table, names); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/unique_validation_without_index.rb#30
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unique_validation_without_index.rb:30
 RuboCop::Cop::Rails::UniqueValidationWithoutIndex::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/unique_validation_without_index.rb#31
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unique_validation_without_index.rb:31
 RuboCop::Cop::Rails::UniqueValidationWithoutIndex::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Checks that environments called with `Rails.env` predicates
@@ -10537,48 +10311,44 @@ RuboCop::Cop::Rails::UniqueValidationWithoutIndex::RESTRICT_ON_SEND = T.let(T.un
 #   Rails.env.production?
 #   Rails.env == 'production'
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/unknown_env.rb#20
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unknown_env.rb:20
 class RuboCop::Cop::Rails::UnknownEnv < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/unknown_env.rb#41
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unknown_env.rb:41
   def on_send(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/unknown_env.rb#24
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unknown_env.rb:24
   def rails_env?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/unknown_env.rb#34
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unknown_env.rb:34
   def unknown_environment_equal?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/unknown_env.rb#30
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unknown_env.rb:30
   def unknown_environment_predicate?(param0 = T.unsafe(nil)); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/unknown_env.rb#54
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unknown_env.rb:54
   def collect_variable_like_names(_scope); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/unknown_env.rb#88
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unknown_env.rb:88
   def environments; end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/unknown_env.rb#58
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unknown_env.rb:58
   def message(name); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/unknown_env.rb#84
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unknown_env.rb:84
   def unknown_env_name?(name); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/unknown_env.rb#79
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unknown_env.rb:79
   def unknown_env_predicate?(name); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/unknown_env.rb#21
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unknown_env.rb:21
 RuboCop::Cop::Rails::UnknownEnv::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/unknown_env.rb#22
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unknown_env.rb:22
 RuboCop::Cop::Rails::UnknownEnv::MSG_SIMILAR = T.let(T.unsafe(nil), String)
 
 # Suggests you remove a column that does not exist in the schema from `ignored_columns`.
@@ -10594,50 +10364,50 @@ RuboCop::Cop::Rails::UnknownEnv::MSG_SIMILAR = T.let(T.unsafe(nil), String)
 # @example
 #   # bad
 #   class User < ApplicationRecord
-#   self.ignored_columns = [:already_removed_column]
+#     self.ignored_columns = [:already_removed_column]
 #   end
 #
 #   # good
 #   class User < ApplicationRecord
-#   self.ignored_columns = [:still_existing_column]
+#     self.ignored_columns = [:still_existing_column]
 #   end
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/unused_ignored_columns.rb#27
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unused_ignored_columns.rb:27
 class RuboCop::Cop::Rails::UnusedIgnoredColumns < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::ActiveRecordHelper
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/unused_ignored_columns.rb#37
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unused_ignored_columns.rb:37
   def appended_ignored_columns(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/unused_ignored_columns.rb#41
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unused_ignored_columns.rb:41
   def column_name(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/unused_ignored_columns.rb#33
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unused_ignored_columns.rb:33
   def ignored_columns(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/unused_ignored_columns.rb#56
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unused_ignored_columns.rb:56
   def on_op_asgn(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/unused_ignored_columns.rb#45
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unused_ignored_columns.rb:45
   def on_send(node); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/unused_ignored_columns.rb#60
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unused_ignored_columns.rb:60
   def check_column_existence(column_node, table); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/unused_ignored_columns.rb#69
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unused_ignored_columns.rb:69
   def class_node(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/unused_ignored_columns.rb#73
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unused_ignored_columns.rb:73
   def table(node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/unused_ignored_columns.rb#30
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unused_ignored_columns.rb:30
 RuboCop::Cop::Rails::UnusedIgnoredColumns::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/unused_ignored_columns.rb#31
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unused_ignored_columns.rb:31
 RuboCop::Cop::Rails::UnusedIgnoredColumns::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # If you try to render content along with a non-content status code (100-199, 204, 205, or 304),
@@ -10654,34 +10424,34 @@ RuboCop::Cop::Rails::UnusedIgnoredColumns::RESTRICT_ON_SEND = T.let(T.unsafe(nil
 #   head :continue
 #   head 100
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/unused_render_content.rb#19
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unused_render_content.rb:19
 class RuboCop::Cop::Rails::UnusedRenderContent < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::RangeHelp
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/unused_render_content.rb#45
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unused_render_content.rb:45
   def non_content_status?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/unused_render_content.rb#59
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unused_render_content.rb:59
   def on_send(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/unused_render_content.rb#52
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unused_render_content.rb:52
   def unused_render_content?(param0 = T.unsafe(nil)); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/unused_render_content.rb#28
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unused_render_content.rb:28
 RuboCop::Cop::Rails::UnusedRenderContent::BODY_OPTIONS = T.let(T.unsafe(nil), Set)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/unused_render_content.rb#22
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unused_render_content.rb:22
 RuboCop::Cop::Rails::UnusedRenderContent::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/unused_render_content.rb#25
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unused_render_content.rb:25
 RuboCop::Cop::Rails::UnusedRenderContent::NON_CONTENT_STATUSES = T.let(T.unsafe(nil), Set)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/unused_render_content.rb#24
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unused_render_content.rb:24
 RuboCop::Cop::Rails::UnusedRenderContent::NON_CONTENT_STATUS_CODES = T.let(T.unsafe(nil), Set)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/unused_render_content.rb#23
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unused_render_content.rb:23
 RuboCop::Cop::Rails::UnusedRenderContent::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Checks for the use of old-style attribute validation macros.
@@ -10715,58 +10485,60 @@ RuboCop::Cop::Rails::UnusedRenderContent::RESTRICT_ON_SEND = T.let(T.unsafe(nil)
 #   validates :foo, length: true
 #   validates :foo, uniqueness: true
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/validation.rb#37
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/validation.rb:37
 class RuboCop::Cop::Rails::Validation < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/validation.rb#60
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/validation.rb:60
   def on_send(node); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/validation.rb#135
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/validation.rb:135
   def braced_options(options); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/validation.rb#86
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/validation.rb:86
   def correct_validate_type(corrector, node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/validation.rb#111
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/validation.rb:111
   def correct_validate_type_for_array(corrector, node, arguments, loc); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/validation.rb#107
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/validation.rb:107
   def correct_validate_type_for_hash(corrector, node, arguments); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/validation.rb#131
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/validation.rb:131
   def frozen_array_argument?(argument); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/validation.rb#76
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/validation.rb:76
   def message(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/validation.rb#82
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/validation.rb:82
   def preferred_method(method); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/validation.rb#125
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/validation.rb:125
   def validate_type(node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/validation.rb#58
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/validation.rb:58
 RuboCop::Cop::Rails::Validation::ALLOWLIST = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/validation.rb#40
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/validation.rb:40
 RuboCop::Cop::Rails::Validation::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/validation.rb#57
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/validation.rb:57
 RuboCop::Cop::Rails::Validation::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/validation.rb#42
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/validation.rb:42
 RuboCop::Cop::Rails::Validation::TYPES = T.let(T.unsafe(nil), Array)
 
 # Identifies places where manually constructed SQL
 # in `where` and `where.not` can be replaced with
 # `where(attribute: value)` and `where.not(attribute: value)`.
+#
+# @safety
+#   This cop's autocorrection is unsafe because is may change SQL.
+#   See: https://github.com/rubocop/rubocop-rails/issues/403
 #
 # @example
 #   # bad
@@ -10785,67 +10557,63 @@ RuboCop::Cop::Rails::Validation::TYPES = T.let(T.unsafe(nil), Array)
 #   User.where(name: ['john', 'jane'])
 #   User.where(users: { name: 'Gabe' })
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/where_equals.rb#30
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_equals.rb:30
 class RuboCop::Cop::Rails::WhereEquals < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::RangeHelp
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/where_equals.rb#63
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_equals.rb:63
   def on_csend(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/where_equals.rb#44
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_equals.rb:44
   def on_send(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/where_equals.rb#37
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_equals.rb:37
   def where_method_call?(param0 = T.unsafe(nil)); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/where_equals.rb#101
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_equals.rb:101
   def build_good_method(method_name, column, value); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/where_equals.rb#78
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_equals.rb:78
   def extract_column_and_value(template_node, value_node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/where_equals.rb#73
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_equals.rb:73
   def offense_range(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/where_equals.rb#111
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_equals.rb:111
   def where_not?(node); end
 end
 
-# column = ?
-#
-# source://rubocop-rails//lib/rubocop/cop/rails/where_equals.rb#65
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_equals.rb:65
 RuboCop::Cop::Rails::WhereEquals::EQ_ANONYMOUS_RE = T.let(T.unsafe(nil), Regexp)
-
-# column = :column
-#
-# source://rubocop-rails//lib/rubocop/cop/rails/where_equals.rb#67
-RuboCop::Cop::Rails::WhereEquals::EQ_NAMED_RE = T.let(T.unsafe(nil), Regexp)
 
 # column IN (?)
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/where_equals.rb#66
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_equals.rb:67
+RuboCop::Cop::Rails::WhereEquals::EQ_NAMED_RE = T.let(T.unsafe(nil), Regexp)
+
+# column = ?
+#
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_equals.rb:66
 RuboCop::Cop::Rails::WhereEquals::IN_ANONYMOUS_RE = T.let(T.unsafe(nil), Regexp)
+
+# column = :column
+#
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_equals.rb:68
+RuboCop::Cop::Rails::WhereEquals::IN_NAMED_RE = T.let(T.unsafe(nil), Regexp)
 
 # column IN (:column)
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/where_equals.rb#68
-RuboCop::Cop::Rails::WhereEquals::IN_NAMED_RE = T.let(T.unsafe(nil), Regexp)
-
-# column IS NULL
-#
-# source://rubocop-rails//lib/rubocop/cop/rails/where_equals.rb#69
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_equals.rb:69
 RuboCop::Cop::Rails::WhereEquals::IS_NULL_RE = T.let(T.unsafe(nil), Regexp)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/where_equals.rb#34
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_equals.rb:34
 RuboCop::Cop::Rails::WhereEquals::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/where_equals.rb#35
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_equals.rb:35
 RuboCop::Cop::Rails::WhereEquals::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Enforces consistent style when using `exists?`.
@@ -10855,6 +10623,18 @@ RuboCop::Cop::Rails::WhereEquals::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 #
 # When EnforcedStyle is 'where' then the cop enforces
 # `where(...).exists?` over `exists?(...)`.
+#
+# @safety
+#   This cop is unsafe for autocorrection because the behavior may change on the following case:
+#
+#   [source,ruby]
+#   ----
+#   Author.includes(:articles).where(articles: {id: id}).exists?
+#   #=> Perform `eager_load` behavior (`LEFT JOIN` query) and get result.
+#
+#   Author.includes(:articles).exists?(articles: {id: id})
+#   #=> Perform `preload` behavior and `ActiveRecord::StatementInvalid` error occurs.
+#   ----
 #
 # @example EnforcedStyle: exists (default)
 #   # bad
@@ -10867,6 +10647,7 @@ RuboCop::Cop::Rails::WhereEquals::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 #   User.exists?(name: 'john')
 #   User.where('length(name) > 10').exists?
 #   user.posts.exists?(published: true)
+#
 # @example EnforcedStyle: where
 #   # bad
 #   User.exists?(name: 'john')
@@ -10880,63 +10661,55 @@ RuboCop::Cop::Rails::WhereEquals::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 #   user.posts.where(published: true).exists?
 #   User.where('length(name) > 10').exists?
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/where_exists.rb#50
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_exists.rb:50
 class RuboCop::Cop::Rails::WhereExists < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::ConfigurableEnforcedStyle
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/where_exists.rb#61
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_exists.rb:61
   def exists_with_arg?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/where_exists.rb#78
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_exists.rb:78
   def on_csend(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/where_exists.rb#65
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_exists.rb:65
   def on_send(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/where_exists.rb#57
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_exists.rb:57
   def where_exists_call?(param0 = T.unsafe(nil)); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/where_exists.rb#112
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_exists.rb:112
   def build_good_method(args, dot:); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/where_exists.rb#120
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_exists.rb:120
   def build_good_method_exists(args); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/where_exists.rb#128
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_exists.rb:128
   def build_good_method_where(args, dot_source); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/where_exists.rb#98
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_exists.rb:98
   def convertable_args?(args); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/where_exists.rb#104
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_exists.rb:104
   def correction_range(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/where_exists.rb#86
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_exists.rb:86
   def exists_style?; end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/where_exists.rb#90
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_exists.rb:90
   def find_offenses?(node, &block); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/where_exists.rb#82
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_exists.rb:82
   def where_style?; end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/where_exists.rb#54
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_exists.rb:54
 RuboCop::Cop::Rails::WhereExists::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/where_exists.rb#55
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_exists.rb:55
 RuboCop::Cop::Rails::WhereExists::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Use `where.missing(...)` to find missing relationship records.
@@ -10950,62 +10723,56 @@ RuboCop::Cop::Rails::WhereExists::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 #   # good
 #   Post.where.missing(:author)
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/where_missing.rb#17
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_missing.rb:17
 class RuboCop::Cop::Rails::WhereMissing < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::RangeHelp
   extend ::RuboCop::Cop::AutoCorrector
   extend ::RuboCop::Cop::TargetRailsVersion
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/where_missing.rb#34
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_missing.rb:34
   def missing_relationship(param0); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/where_missing.rb#38
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_missing.rb:38
   def on_send(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/where_missing.rb#29
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_missing.rb:29
   def where_node_and_argument(param0); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/where_missing.rb#115
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_missing.rb:115
   def message(node, where_argument); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/where_missing.rb#111
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_missing.rb:111
   def multi_condition?(where_arg); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/where_missing.rb#67
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_missing.rb:67
   def register_offense(node, where_node, where_argument, range); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/where_missing.rb#93
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_missing.rb:93
   def remove_where_method(corrector, node, where_node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/where_missing.rb#84
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_missing.rb:84
   def replace_range(child); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/where_missing.rb#78
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_missing.rb:78
   def replace_where_method(corrector, where_node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/where_missing.rb#54
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_missing.rb:54
   def root_receiver(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/where_missing.rb#107
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_missing.rb:107
   def same_line?(left_joins_node, where_node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/where_missing.rb#63
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_missing.rb:63
   def same_relationship?(where, left_joins); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/where_missing.rb#22
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_missing.rb:22
 RuboCop::Cop::Rails::WhereMissing::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/where_missing.rb#24
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_missing.rb:24
 RuboCop::Cop::Rails::WhereMissing::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Identifies places where manually constructed SQL
@@ -11028,62 +10795,60 @@ RuboCop::Cop::Rails::WhereMissing::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array
 #   User.where.not(name: ['john', 'jane'])
 #   User.where.not(users: { name: 'Gabe' })
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/where_not.rb#26
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_not.rb:26
 class RuboCop::Cop::Rails::WhereNot < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::RangeHelp
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/where_not.rb#57
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_not.rb:57
   def on_csend(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/where_not.rb#40
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_not.rb:40
   def on_send(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/where_not.rb#33
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_not.rb:33
   def where_method_call?(param0 = T.unsafe(nil)); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/where_not.rb#95
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_not.rb:95
   def build_good_method(dot, column, value); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/where_not.rb#72
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_not.rb:72
   def extract_column_and_value(template_node, value_node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/where_not.rb#67
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_not.rb:67
   def offense_range(node); end
 end
 
-# column IS NOT NULL
+# column NOT IN (:column)
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/where_not.rb#63
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_not.rb:63
 RuboCop::Cop::Rails::WhereNot::IS_NOT_NULL_RE = T.let(T.unsafe(nil), Regexp)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/where_not.rb#30
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_not.rb:30
 RuboCop::Cop::Rails::WhereNot::MSG = T.let(T.unsafe(nil), String)
 
-# column != ?, column <> ?
-#
-# source://rubocop-rails//lib/rubocop/cop/rails/where_not.rb#59
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_not.rb:59
 RuboCop::Cop::Rails::WhereNot::NOT_EQ_ANONYMOUS_RE = T.let(T.unsafe(nil), Regexp)
-
-# column != :column, column <> :column
-#
-# source://rubocop-rails//lib/rubocop/cop/rails/where_not.rb#61
-RuboCop::Cop::Rails::WhereNot::NOT_EQ_NAMED_RE = T.let(T.unsafe(nil), Regexp)
 
 # column NOT IN (?)
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/where_not.rb#60
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_not.rb:61
+RuboCop::Cop::Rails::WhereNot::NOT_EQ_NAMED_RE = T.let(T.unsafe(nil), Regexp)
+
+# column != ?, column <> ?
+#
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_not.rb:60
 RuboCop::Cop::Rails::WhereNot::NOT_IN_ANONYMOUS_RE = T.let(T.unsafe(nil), Regexp)
 
-# column NOT IN (:column)
+# column != :column, column <> :column
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/where_not.rb#62
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_not.rb:62
 RuboCop::Cop::Rails::WhereNot::NOT_IN_NAMED_RE = T.let(T.unsafe(nil), Regexp)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/where_not.rb#31
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_not.rb:31
 RuboCop::Cop::Rails::WhereNot::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Identifies calls to `where.not` with multiple hash arguments.
@@ -11106,32 +10871,38 @@ RuboCop::Cop::Rails::WhereNot::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 #   User.where.not(trashed: true).where.not(role: ['moderator', 'admin'])
 #   User.where.not('trashed = ? OR role = ?', true, 'admin')
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/where_not_with_multiple_conditions.rb#25
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_not_with_multiple_conditions.rb:25
 class RuboCop::Cop::Rails::WhereNotWithMultipleConditions < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/where_not_with_multiple_conditions.rb#33
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_not_with_multiple_conditions.rb:33
   def on_send(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/where_not_with_multiple_conditions.rb#29
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_not_with_multiple_conditions.rb:29
   def where_not_call?(param0 = T.unsafe(nil)); end
 
   private
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/where_not_with_multiple_conditions.rb#46
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_not_with_multiple_conditions.rb:46
   def multiple_arguments_hash?(hash); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/rails/where_not_with_multiple_conditions.rb#26
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_not_with_multiple_conditions.rb:26
 RuboCop::Cop::Rails::WhereNotWithMultipleConditions::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/where_not_with_multiple_conditions.rb#27
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_not_with_multiple_conditions.rb:27
 RuboCop::Cop::Rails::WhereNotWithMultipleConditions::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Identifies places where manually constructed SQL
 # in `where` can be replaced with ranges.
+#
+# @safety
+#   This cop's autocorrection is unsafe because it can change the query
+#   by explicitly attaching the column to the wrong table.
+#   For example, `Booking.joins(:events).where('end_at < ?', Time.current)` will correctly
+#   implicitly attach the `end_at` column to the `events` table. But when autocorrected to
+#   `Booking.joins(:events).where(end_at: ...Time.current)`, it will now be incorrectly
+#   explicitly attached to the `bookings` table.
 #
 # @example
 #   # bad
@@ -11153,7 +10924,7 @@ RuboCop::Cop::Rails::WhereNotWithMultipleConditions::RESTRICT_ON_SEND = T.let(T.
 #   # There are no beginless ranges in ruby.
 #   User.where('age > ?', 18)
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/where_range.rb#37
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_range.rb:37
 class RuboCop::Cop::Rails::WhereRange < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::RangeHelp
@@ -11161,102 +10932,92 @@ class RuboCop::Cop::Rails::WhereRange < ::RuboCop::Cop::Base
   extend ::RuboCop::Cop::TargetRubyVersion
   extend ::RuboCop::Cop::TargetRailsVersion
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/where_range.rb#70
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_range.rb:70
   def on_send(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/where_range.rb#63
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_range.rb:63
   def where_range_call?(param0 = T.unsafe(nil)); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/where_range.rb#174
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_range.rb:174
   def build_good_method(method_name, column, value); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/where_range.rb#96
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_range.rb:96
   def extract_column_and_value(template_node, values_node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/where_range.rb#166
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_range.rb:166
   def find_pair(hash_node, value); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/where_range.rb#170
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_range.rb:170
   def offense_range(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/where_range.rb#184
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_range.rb:184
   def parentheses_needed?(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/where_range.rb#188
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_range.rb:188
   def parentheses_not_needed?(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/where_range.rb#197
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_range.rb:197
   def parenthesized_call_node?(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/where_range.rb#162
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_range.rb:162
   def range_operator(comparison_operator); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/rails/where_range.rb#90
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_range.rb:90
   def where_not?(node); end
 end
 
 # column >= ?
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/where_range.rb#48
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_range.rb:48
 RuboCop::Cop::Rails::WhereRange::GTEQ_ANONYMOUS_RE = T.let(T.unsafe(nil), Regexp)
 
 # column >= :value
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/where_range.rb#54
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_range.rb:54
 RuboCop::Cop::Rails::WhereRange::GTEQ_NAMED_RE = T.let(T.unsafe(nil), Regexp)
 
 # column <[=] ?
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/where_range.rb#50
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_range.rb:50
 RuboCop::Cop::Rails::WhereRange::LTEQ_ANONYMOUS_RE = T.let(T.unsafe(nil), Regexp)
 
 # column <[=] :value
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/where_range.rb#56
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_range.rb:56
 RuboCop::Cop::Rails::WhereRange::LTEQ_NAMED_RE = T.let(T.unsafe(nil), Regexp)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/where_range.rb#43
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_range.rb:43
 RuboCop::Cop::Rails::WhereRange::MSG = T.let(T.unsafe(nil), String)
 
 # column >= ? AND column <[=] ?
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/where_range.rb#52
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_range.rb:52
 RuboCop::Cop::Rails::WhereRange::RANGE_ANONYMOUS_RE = T.let(T.unsafe(nil), Regexp)
 
 # column >= :value1 AND column <[=] :value2
 #
-# source://rubocop-rails//lib/rubocop/cop/rails/where_range.rb#58
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_range.rb:58
 RuboCop::Cop::Rails::WhereRange::RANGE_NAMED_RE = T.let(T.unsafe(nil), Regexp)
 
-# source://rubocop-rails//lib/rubocop/cop/rails/where_range.rb#45
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_range.rb:45
 RuboCop::Cop::Rails::WhereRange::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Common functionality for cops working with routes.
 #
-# source://rubocop-rails//lib/rubocop/cop/mixin/routes_helper.rb#6
+# pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/routes_helper.rb:6
 module RuboCop::Cop::RoutesHelper
   extend ::RuboCop::AST::NodePattern::Macros
 
-  # source://rubocop-rails//lib/rubocop/cop/mixin/routes_helper.rb#11
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/routes_helper.rb:11
   def routes_draw?(param0 = T.unsafe(nil)); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/mixin/routes_helper.rb#15
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/routes_helper.rb:15
   def within_routes?(node); end
 end
 
-# source://rubocop-rails//lib/rubocop/cop/mixin/routes_helper.rb#9
+# pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/routes_helper.rb:9
 RuboCop::Cop::RoutesHelper::HTTP_METHODS = T.let(T.unsafe(nil), Array)
 
 class RuboCop::Cop::Security::CompoundHash < ::RuboCop::Cop::Base
@@ -11452,6 +11213,10 @@ class RuboCop::Cop::Sorbet::RedundantExtendTSig < ::RuboCop::Cop::Base
 end
 
 class RuboCop::Cop::Sorbet::Refinement < ::RuboCop::Cop::Base
+  include ::RuboCop::Rails::MigrationFileSkippable
+end
+
+class RuboCop::Cop::Sorbet::RuntimeOnFailureDependsOnChecked < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
 end
 
@@ -11734,6 +11499,10 @@ class RuboCop::Cop::Style::EmptyCaseCondition < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
 end
 
+class RuboCop::Cop::Style::EmptyClassDefinition < ::RuboCop::Cop::Base
+  include ::RuboCop::Rails::MigrationFileSkippable
+end
+
 class RuboCop::Cop::Style::EmptyElse < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
 end
@@ -11810,6 +11579,10 @@ class RuboCop::Cop::Style::FileNull < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
 end
 
+class RuboCop::Cop::Style::FileOpen < ::RuboCop::Cop::Base
+  include ::RuboCop::Rails::MigrationFileSkippable
+end
+
 class RuboCop::Cop::Style::FileRead < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
 end
@@ -11878,6 +11651,10 @@ class RuboCop::Cop::Style::HashFetchChain < ::RuboCop::Cop::Base
 end
 
 class RuboCop::Cop::Style::HashLikeCase < ::RuboCop::Cop::Base
+  include ::RuboCop::Rails::MigrationFileSkippable
+end
+
+class RuboCop::Cop::Style::HashLookupMethod < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
 end
 
@@ -11990,6 +11767,10 @@ class RuboCop::Cop::Style::MapCompactWithConditionalBlock < ::RuboCop::Cop::Base
 end
 
 class RuboCop::Cop::Style::MapIntoArray < ::RuboCop::Cop::Base
+  include ::RuboCop::Rails::MigrationFileSkippable
+end
+
+class RuboCop::Cop::Style::MapJoin < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
 end
 
@@ -12107,6 +11888,10 @@ class RuboCop::Cop::Style::NegatedWhile < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
 end
 
+class RuboCop::Cop::Style::NegativeArrayIndex < ::RuboCop::Cop::Base
+  include ::RuboCop::Rails::MigrationFileSkippable
+end
+
 class RuboCop::Cop::Style::NestedFileDirname < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
 end
@@ -12167,6 +11952,10 @@ class RuboCop::Cop::Style::ObjectThen < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
 end
 
+class RuboCop::Cop::Style::OneClassPerFile < ::RuboCop::Cop::Base
+  include ::RuboCop::Rails::MigrationFileSkippable
+end
+
 class RuboCop::Cop::Style::OneLineConditional < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
 end
@@ -12203,6 +11992,10 @@ class RuboCop::Cop::Style::ParenthesesAroundCondition < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
 end
 
+class RuboCop::Cop::Style::PartitionInsteadOfDoubleSelect < ::RuboCop::Cop::Base
+  include ::RuboCop::Rails::MigrationFileSkippable
+end
+
 class RuboCop::Cop::Style::PercentLiteralDelimiters < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::RangeHelp
@@ -12214,6 +12007,10 @@ class RuboCop::Cop::Style::PercentQLiterals < ::RuboCop::Cop::Base
 end
 
 class RuboCop::Cop::Style::PerlBackrefs < ::RuboCop::Cop::Base
+  include ::RuboCop::Rails::MigrationFileSkippable
+end
+
+class RuboCop::Cop::Style::PredicateWithKind < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
 end
 
@@ -12234,6 +12031,10 @@ class RuboCop::Cop::Style::RaiseArgs < ::RuboCop::Cop::Base
 end
 
 class RuboCop::Cop::Style::RandomWithOffset < ::RuboCop::Cop::Base
+  include ::RuboCop::Rails::MigrationFileSkippable
+end
+
+class RuboCop::Cop::Style::ReduceToHash < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
 end
 
@@ -12332,6 +12133,10 @@ class RuboCop::Cop::Style::RedundantLineContinuation < ::RuboCop::Cop::Base
   include ::RuboCop::Cop::RangeHelp
 end
 
+class RuboCop::Cop::Style::RedundantMinMaxBy < ::RuboCop::Cop::Base
+  include ::RuboCop::Rails::MigrationFileSkippable
+end
+
 class RuboCop::Cop::Style::RedundantParentheses < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
 end
@@ -12385,6 +12190,10 @@ class RuboCop::Cop::Style::RedundantStringEscape < ::RuboCop::Cop::Base
   include ::RuboCop::Cop::RangeHelp
 end
 
+class RuboCop::Cop::Style::RedundantStructKeywordInit < ::RuboCop::Cop::Base
+  include ::RuboCop::Rails::MigrationFileSkippable
+end
+
 class RuboCop::Cop::Style::RegexpLiteral < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
 end
@@ -12409,6 +12218,10 @@ class RuboCop::Cop::Style::ReturnNilInPredicateMethodDefinition < ::RuboCop::Cop
   include ::RuboCop::Rails::MigrationFileSkippable
 end
 
+class RuboCop::Cop::Style::ReverseFind < ::RuboCop::Cop::Base
+  include ::RuboCop::Rails::MigrationFileSkippable
+end
+
 class RuboCop::Cop::Style::SafeNavigation < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::AllowedMethods
@@ -12419,6 +12232,14 @@ class RuboCop::Cop::Style::SafeNavigationChainLength < ::RuboCop::Cop::Base
 end
 
 class RuboCop::Cop::Style::Sample < ::RuboCop::Cop::Base
+  include ::RuboCop::Rails::MigrationFileSkippable
+end
+
+class RuboCop::Cop::Style::SelectByKind < ::RuboCop::Cop::Base
+  include ::RuboCop::Rails::MigrationFileSkippable
+end
+
+class RuboCop::Cop::Style::SelectByRange < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
 end
 
@@ -12542,6 +12363,10 @@ class RuboCop::Cop::Style::SymbolProc < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
 end
 
+class RuboCop::Cop::Style::TallyMethod < ::RuboCop::Cop::Base
+  include ::RuboCop::Rails::MigrationFileSkippable
+end
+
 class RuboCop::Cop::Style::TernaryParentheses < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::RangeHelp
@@ -12649,32 +12474,30 @@ end
 
 # Common functionality for checking target rails version.
 #
-# source://rubocop-rails//lib/rubocop/cop/mixin/target_rails_version.rb#6
+# pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/target_rails_version.rb:6
 module RuboCop::Cop::TargetRailsVersion
-  # source://rubocop-rails//lib/rubocop/cop/mixin/target_rails_version.rb#14
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/target_rails_version.rb:14
   def minimum_target_rails_version(version); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/cop/mixin/target_rails_version.rb#26
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/target_rails_version.rb:26
   def support_target_rails_version?(version); end
 end
 
 # Look for `railties` instead of `rails`, to support apps that only use a subset of `rails`
 # See https://github.com/rubocop/rubocop/pull/11289
 #
-# source://rubocop-rails//lib/rubocop/cop/mixin/target_rails_version.rb#12
+# pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/target_rails_version.rb:12
 RuboCop::Cop::TargetRailsVersion::TARGET_GEM_NAME = T.let(T.unsafe(nil), String)
 
 # Informs the base RuboCop gem that it the Rails version is checked via `requires_gem` API,
 # without needing to call this `#support_target_rails_version` method.
 #
-# source://rubocop-rails//lib/rubocop/cop/mixin/target_rails_version.rb#9
+# pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/target_rails_version.rb:9
 RuboCop::Cop::TargetRailsVersion::USES_REQUIRES_GEM_API = T.let(T.unsafe(nil), TrueClass)
 
 # RuboCop Rails project namespace.
 #
-# source://rubocop-rails//lib/rubocop/rails.rb#5
+# pkg:gem/rubocop-rails#lib/rubocop/rails.rb:5
 module RuboCop::Rails; end
 
 # This module allows cops to detect and ignore files that have already been migrated
@@ -12692,68 +12515,55 @@ module RuboCop::Rails; end
 #
 # @api private
 #
-# source://rubocop-rails//lib/rubocop/rails/migration_file_skippable.rb#19
+# pkg:gem/rubocop-rails#lib/rubocop/rails/migration_file_skippable.rb:19
 module RuboCop::Rails::MigrationFileSkippable
-  # @api private
-  #
-  # source://rubocop-rails//lib/rubocop/rails/migration_file_skippable.rb#20
+  # pkg:gem/rubocop-rails#lib/rubocop/rails/migration_file_skippable.rb:20
   def add_global_offense(message = T.unsafe(nil), severity: T.unsafe(nil)); end
 
-  # @api private
-  #
-  # source://rubocop-rails//lib/rubocop/rails/migration_file_skippable.rb#26
+  # pkg:gem/rubocop-rails#lib/rubocop/rails/migration_file_skippable.rb:26
   def add_offense(node_or_range, message: T.unsafe(nil), severity: T.unsafe(nil), &block); end
 
   private
 
-  # @api private
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/rails/migration_file_skippable.rb#38
+  # pkg:gem/rubocop-rails#lib/rubocop/rails/migration_file_skippable.rb:38
   def already_migrated_file?; end
 
-  # @api private
-  #
-  # source://rubocop-rails//lib/rubocop/rails/migration_file_skippable.rb#49
+  # pkg:gem/rubocop-rails#lib/rubocop/rails/migration_file_skippable.rb:49
   def migrated_schema_version; end
 
   class << self
-    # @api private
-    #
-    # source://rubocop-rails//lib/rubocop/rails/migration_file_skippable.rb#32
+    # pkg:gem/rubocop-rails#lib/rubocop/rails/migration_file_skippable.rb:32
     def apply_to_cops!; end
   end
 end
 
 # A plugin that integrates RuboCop Rails with RuboCop's plugin system.
 #
-# source://rubocop-rails//lib/rubocop/rails/plugin.rb#8
+# pkg:gem/rubocop-rails#lib/rubocop/rails/plugin.rb:8
 class RuboCop::Rails::Plugin < ::LintRoller::Plugin
-  # source://rubocop-rails//lib/rubocop/rails/plugin.rb#9
+  # pkg:gem/rubocop-rails#lib/rubocop/rails/plugin.rb:9
   def about; end
 
-  # source://rubocop-rails//lib/rubocop/rails/plugin.rb#22
+  # pkg:gem/rubocop-rails#lib/rubocop/rails/plugin.rb:22
   def rules(_context); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/rails/plugin.rb#18
+  # pkg:gem/rubocop-rails#lib/rubocop/rails/plugin.rb:18
   def supported?(context); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/rails/plugin.rb#39
+  # pkg:gem/rubocop-rails#lib/rubocop/rails/plugin.rb:39
   def without_warnings; end
 end
 
 # It loads db/schema.rb and return Schema object.
 # Cops refers database schema information with this module.
 #
-# source://rubocop-rails//lib/rubocop/rails/schema_loader.rb#7
+# pkg:gem/rubocop-rails#lib/rubocop/rails/schema_loader.rb:7
 module RuboCop::Rails::SchemaLoader
   extend ::RuboCop::Rails::SchemaLoader
 
-  # source://rubocop-rails//lib/rubocop/rails/schema_loader.rb#27
+  # pkg:gem/rubocop-rails#lib/rubocop/rails/schema_loader.rb:27
   def db_schema_path; end
 
   # It parses `db/schema.rb` and return it.
@@ -12762,188 +12572,150 @@ module RuboCop::Rails::SchemaLoader
   #
   # @return [Schema, nil]
   #
-  # source://rubocop-rails//lib/rubocop/rails/schema_loader.rb#15
+  # pkg:gem/rubocop-rails#lib/rubocop/rails/schema_loader.rb:15
   def load(target_ruby_version, parser_engine); end
 
-  # source://rubocop-rails//lib/rubocop/rails/schema_loader.rb#21
+  # pkg:gem/rubocop-rails#lib/rubocop/rails/schema_loader.rb:21
   def reset!; end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/rails/schema_loader.rb#41
+  # pkg:gem/rubocop-rails#lib/rubocop/rails/schema_loader.rb:41
   def load!(target_ruby_version, parser_engine); end
 end
 
 # Represent an `add_index`
 #
-# source://rubocop-rails//lib/rubocop/rails/schema_loader/schema.rb#177
+# pkg:gem/rubocop-rails#lib/rubocop/rails/schema_loader/schema.rb:177
 class RuboCop::Rails::SchemaLoader::AddIndex < ::RuboCop::Rails::SchemaLoader::Index
-  # @return [AddIndex] a new instance of AddIndex
-  #
-  # source://rubocop-rails//lib/rubocop/rails/schema_loader/schema.rb#180
+  # pkg:gem/rubocop-rails#lib/rubocop/rails/schema_loader/schema.rb:180
   def initialize(node); end
 
-  # Returns the value of attribute table_name.
-  #
-  # source://rubocop-rails//lib/rubocop/rails/schema_loader/schema.rb#178
+  # pkg:gem/rubocop-rails#lib/rubocop/rails/schema_loader/schema.rb:178
   def table_name; end
 end
 
 # Represent a column
 #
-# source://rubocop-rails//lib/rubocop/rails/schema_loader/schema.rb#117
+# pkg:gem/rubocop-rails#lib/rubocop/rails/schema_loader/schema.rb:117
 class RuboCop::Rails::SchemaLoader::Column
-  # @return [Column] a new instance of Column
-  #
-  # source://rubocop-rails//lib/rubocop/rails/schema_loader/schema.rb#120
+  # pkg:gem/rubocop-rails#lib/rubocop/rails/schema_loader/schema.rb:120
   def initialize(node); end
 
-  # Returns the value of attribute name.
-  #
-  # source://rubocop-rails//lib/rubocop/rails/schema_loader/schema.rb#118
+  # pkg:gem/rubocop-rails#lib/rubocop/rails/schema_loader/schema.rb:118
   def name; end
 
-  # Returns the value of attribute not_null.
-  #
-  # source://rubocop-rails//lib/rubocop/rails/schema_loader/schema.rb#118
+  # pkg:gem/rubocop-rails#lib/rubocop/rails/schema_loader/schema.rb:118
   def not_null; end
 
-  # Returns the value of attribute type.
-  #
-  # source://rubocop-rails//lib/rubocop/rails/schema_loader/schema.rb#118
+  # pkg:gem/rubocop-rails#lib/rubocop/rails/schema_loader/schema.rb:118
   def type; end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/rails/schema_loader/schema.rb#130
+  # pkg:gem/rubocop-rails#lib/rubocop/rails/schema_loader/schema.rb:130
   def analyze_keywords!(node); end
 end
 
 # Represent an index
 #
-# source://rubocop-rails//lib/rubocop/rails/schema_loader/schema.rb#141
+# pkg:gem/rubocop-rails#lib/rubocop/rails/schema_loader/schema.rb:141
 class RuboCop::Rails::SchemaLoader::Index
-  # @return [Index] a new instance of Index
-  #
-  # source://rubocop-rails//lib/rubocop/rails/schema_loader/schema.rb#144
+  # pkg:gem/rubocop-rails#lib/rubocop/rails/schema_loader/schema.rb:144
   def initialize(node); end
 
-  # Returns the value of attribute columns.
-  #
-  # source://rubocop-rails//lib/rubocop/rails/schema_loader/schema.rb#142
+  # pkg:gem/rubocop-rails#lib/rubocop/rails/schema_loader/schema.rb:142
   def columns; end
 
-  # Returns the value of attribute expression.
-  #
-  # source://rubocop-rails//lib/rubocop/rails/schema_loader/schema.rb#142
+  # pkg:gem/rubocop-rails#lib/rubocop/rails/schema_loader/schema.rb:142
   def expression; end
 
-  # Returns the value of attribute name.
-  #
-  # source://rubocop-rails//lib/rubocop/rails/schema_loader/schema.rb#142
+  # pkg:gem/rubocop-rails#lib/rubocop/rails/schema_loader/schema.rb:142
   def name; end
 
-  # Returns the value of attribute unique.
-  #
-  # source://rubocop-rails//lib/rubocop/rails/schema_loader/schema.rb#142
+  # pkg:gem/rubocop-rails#lib/rubocop/rails/schema_loader/schema.rb:142
   def unique; end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/rails/schema_loader/schema.rb#161
+  # pkg:gem/rubocop-rails#lib/rubocop/rails/schema_loader/schema.rb:161
   def analyze_keywords!(node); end
 
-  # source://rubocop-rails//lib/rubocop/rails/schema_loader/schema.rb#153
+  # pkg:gem/rubocop-rails#lib/rubocop/rails/schema_loader/schema.rb:153
   def build_columns_or_expr(columns); end
 end
 
 # Represent db/schema.rb
 #
-# source://rubocop-rails//lib/rubocop/rails/schema_loader/schema.rb#7
+# pkg:gem/rubocop-rails#lib/rubocop/rails/schema_loader/schema.rb:7
 class RuboCop::Rails::SchemaLoader::Schema
-  # @return [Schema] a new instance of Schema
-  #
-  # source://rubocop-rails//lib/rubocop/rails/schema_loader/schema.rb#10
+  # pkg:gem/rubocop-rails#lib/rubocop/rails/schema_loader/schema.rb:10
   def initialize(ast); end
 
-  # Returns the value of attribute add_indices.
-  #
-  # source://rubocop-rails//lib/rubocop/rails/schema_loader/schema.rb#8
+  # pkg:gem/rubocop-rails#lib/rubocop/rails/schema_loader/schema.rb:8
   def add_indices; end
 
-  # source://rubocop-rails//lib/rubocop/rails/schema_loader/schema.rb#23
+  # pkg:gem/rubocop-rails#lib/rubocop/rails/schema_loader/schema.rb:23
   def add_indices_by(table_name:); end
 
-  # source://rubocop-rails//lib/rubocop/rails/schema_loader/schema.rb#17
+  # pkg:gem/rubocop-rails#lib/rubocop/rails/schema_loader/schema.rb:17
   def table_by(name:); end
 
-  # Returns the value of attribute tables.
-  #
-  # source://rubocop-rails//lib/rubocop/rails/schema_loader/schema.rb#8
+  # pkg:gem/rubocop-rails#lib/rubocop/rails/schema_loader/schema.rb:8
   def tables; end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/rails/schema_loader/schema.rb#31
+  # pkg:gem/rubocop-rails#lib/rubocop/rails/schema_loader/schema.rb:31
   def build!(ast); end
 
-  # source://rubocop-rails//lib/rubocop/rails/schema_loader/schema.rb#60
+  # pkg:gem/rubocop-rails#lib/rubocop/rails/schema_loader/schema.rb:60
   def each_add_index(ast); end
 
-  # source://rubocop-rails//lib/rubocop/rails/schema_loader/schema.rb#47
+  # pkg:gem/rubocop-rails#lib/rubocop/rails/schema_loader/schema.rb:47
   def each_table(ast); end
 end
 
 # Represent a table
 #
-# source://rubocop-rails//lib/rubocop/rails/schema_loader/schema.rb#71
+# pkg:gem/rubocop-rails#lib/rubocop/rails/schema_loader/schema.rb:71
 class RuboCop::Rails::SchemaLoader::Table
-  # @return [Table] a new instance of Table
-  #
-  # source://rubocop-rails//lib/rubocop/rails/schema_loader/schema.rb#74
+  # pkg:gem/rubocop-rails#lib/rubocop/rails/schema_loader/schema.rb:74
   def initialize(node); end
 
-  # Returns the value of attribute columns.
-  #
-  # source://rubocop-rails//lib/rubocop/rails/schema_loader/schema.rb#72
+  # pkg:gem/rubocop-rails#lib/rubocop/rails/schema_loader/schema.rb:72
   def columns; end
 
-  # Returns the value of attribute indices.
-  #
-  # source://rubocop-rails//lib/rubocop/rails/schema_loader/schema.rb#72
+  # pkg:gem/rubocop-rails#lib/rubocop/rails/schema_loader/schema.rb:72
   def indices; end
 
-  # Returns the value of attribute name.
-  #
-  # source://rubocop-rails//lib/rubocop/rails/schema_loader/schema.rb#72
+  # pkg:gem/rubocop-rails#lib/rubocop/rails/schema_loader/schema.rb:72
   def name; end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-rails//lib/rubocop/rails/schema_loader/schema.rb#80
+  # pkg:gem/rubocop-rails#lib/rubocop/rails/schema_loader/schema.rb:80
   def with_column?(name:); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/rails/schema_loader/schema.rb#86
+  # pkg:gem/rubocop-rails#lib/rubocop/rails/schema_loader/schema.rb:86
   def build_columns(node); end
 
-  # source://rubocop-rails//lib/rubocop/rails/schema_loader/schema.rb#95
+  # pkg:gem/rubocop-rails#lib/rubocop/rails/schema_loader/schema.rb:95
   def build_indices(node); end
 
-  # source://rubocop-rails//lib/rubocop/rails/schema_loader/schema.rb#104
+  # pkg:gem/rubocop-rails#lib/rubocop/rails/schema_loader/schema.rb:104
   def each_content(node, &block); end
 end
 
 # This module holds the RuboCop Rails version information.
 #
-# source://rubocop-rails//lib/rubocop/rails/version.rb#6
+# pkg:gem/rubocop-rails#lib/rubocop/rails/version.rb:6
 module RuboCop::Rails::Version
   class << self
-    # source://rubocop-rails//lib/rubocop/rails/version.rb#9
+    # pkg:gem/rubocop-rails#lib/rubocop/rails/version.rb:9
     def document_version; end
   end
 end
 
-# source://rubocop-rails//lib/rubocop/rails/version.rb#7
+# pkg:gem/rubocop-rails#lib/rubocop/rails/version.rb:7
 RuboCop::Rails::Version::STRING = T.let(T.unsafe(nil), String)

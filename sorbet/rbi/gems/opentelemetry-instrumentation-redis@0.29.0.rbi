@@ -11,8 +11,20 @@
 #
 # The OpenTelemetry module provides global accessors for telemetry objects.
 # See the documentation for the `opentelemetry-api` gem for details.
+# Copyright The OpenTelemetry Authors
 #
-# source://opentelemetry-instrumentation-redis//lib/opentelemetry/instrumentation.rb#13
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+# pkg:gem/opentelemetry-instrumentation-redis#lib/opentelemetry/instrumentation.rb:13
 module OpenTelemetry; end
 
 # "Instrumentation" are specified by
@@ -20,31 +32,31 @@ module OpenTelemetry; end
 #
 # Instrumentation should be able to handle the case when the library is not installed on a user's system.
 #
-# source://opentelemetry-instrumentation-redis//lib/opentelemetry/instrumentation.rb#18
+# pkg:gem/opentelemetry-instrumentation-redis#lib/opentelemetry/instrumentation.rb:18
 module OpenTelemetry::Instrumentation; end
 
 # Contains the OpenTelemetry instrumentation for the Redis gem
 #
-# source://opentelemetry-instrumentation-redis//lib/opentelemetry/instrumentation/redis.rb#14
+# pkg:gem/opentelemetry-instrumentation-redis#lib/opentelemetry/instrumentation/redis.rb:14
 module OpenTelemetry::Instrumentation::Redis
   extend ::OpenTelemetry::Instrumentation::Redis
 
   # Returns the attributes hash representing the Redis client context found
   # in the optional context or the current context if none is provided.
   #
-  # @param context [optional Context] The context to lookup the current
+  # @param [optional Context] context The context to lookup the current
   #   attributes hash. Defaults to Context.current
   #
-  # source://opentelemetry-instrumentation-redis//lib/opentelemetry/instrumentation/redis.rb#26
+  # pkg:gem/opentelemetry-instrumentation-redis#lib/opentelemetry/instrumentation/redis.rb:26
   def attributes(context = T.unsafe(nil)); end
 
   # Returns a context containing the merged attributes hash, derived from the
   # optional parent context, or the current context if one was not provided.
   #
-  # @param context [optional Context] The context to use as the parent for
+  # @param [optional Context] context The context to use as the parent for
   #   the returned context
   #
-  # source://opentelemetry-instrumentation-redis//lib/opentelemetry/instrumentation/redis.rb#36
+  # pkg:gem/opentelemetry-instrumentation-redis#lib/opentelemetry/instrumentation/redis.rb:36
   def context_with_attributes(attributes_hash, parent_context: T.unsafe(nil)); end
 
   # Activates/deactivates the merged attributes hash within the current Context,
@@ -53,30 +65,30 @@ module OpenTelemetry::Instrumentation::Redis
   # On exit, the attributes hash that was active before calling this method
   # will be reactivated.
   #
-  # @param span [Span] the span to activate
+  # @param [Span] span the span to activate
   # @yield [Hash, Context] yields attributes hash and a context containing the
   #   attributes hash to the block.
   #
-  # source://opentelemetry-instrumentation-redis//lib/opentelemetry/instrumentation/redis.rb#50
+  # pkg:gem/opentelemetry-instrumentation-redis#lib/opentelemetry/instrumentation/redis.rb:50
   def with_attributes(attributes_hash); end
 end
 
-# source://opentelemetry-instrumentation-redis//lib/opentelemetry/instrumentation/redis.rb#17
+# pkg:gem/opentelemetry-instrumentation-redis#lib/opentelemetry/instrumentation/redis.rb:17
 OpenTelemetry::Instrumentation::Redis::CURRENT_ATTRIBUTES_HASH = T.let(T.unsafe(nil), OpenTelemetry::Context::Key)
 
 # The Instrumentation class contains logic to detect and install the Redis
 # instrumentation
 #
-# source://opentelemetry-instrumentation-redis//lib/opentelemetry/instrumentation/redis/instrumentation.rb#12
+# pkg:gem/opentelemetry-instrumentation-redis#lib/opentelemetry/instrumentation/redis/instrumentation.rb:12
 class OpenTelemetry::Instrumentation::Redis::Instrumentation < ::OpenTelemetry::Instrumentation::Base
   private
 
-  # source://opentelemetry-instrumentation-redis//lib/opentelemetry/instrumentation/redis/instrumentation.rb#33
+  # pkg:gem/opentelemetry-instrumentation-redis#lib/opentelemetry/instrumentation/redis/instrumentation.rb:33
   def patch_client; end
 
-  # source://opentelemetry-instrumentation-redis//lib/opentelemetry/instrumentation/redis/instrumentation.rb#28
+  # pkg:gem/opentelemetry-instrumentation-redis#lib/opentelemetry/instrumentation/redis/instrumentation.rb:28
   def require_dependencies; end
 end
 
-# source://opentelemetry-instrumentation-redis//lib/opentelemetry/instrumentation/redis/version.rb#10
+# pkg:gem/opentelemetry-instrumentation-redis#lib/opentelemetry/instrumentation/redis/version.rb:10
 OpenTelemetry::Instrumentation::Redis::VERSION = T.let(T.unsafe(nil), String)

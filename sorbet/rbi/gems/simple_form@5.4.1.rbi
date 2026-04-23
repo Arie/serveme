@@ -5,7 +5,7 @@
 # Please instead update this file by running `bin/tapioca gem simple_form`.
 
 
-# source://simple_form//lib/simple_form/action_view_extensions/builder.rb#34
+# pkg:gem/simple_form#lib/simple_form/action_view_extensions/builder.rb:34
 module ActionView::Helpers
   include ::ActionView::Helpers::SanitizeHelper
   include ::ActionView::Helpers::TextHelper
@@ -20,372 +20,363 @@ module ActionView::Helpers
   mixes_in_class_methods ::ActionView::Helpers::SanitizeHelper::ClassMethods
 end
 
-# source://simple_form//lib/simple_form/action_view_extensions/builder.rb#35
+# pkg:gem/simple_form#lib/simple_form/action_view_extensions/builder.rb:35
 class ActionView::Helpers::FormBuilder
   include ::SimpleForm::ActionViewExtensions::Builder
 end
 
-module ERB::Escape; end
-
-# source://simple_form//lib/simple_form/action_view_extensions/form_helper.rb#2
+# pkg:gem/simple_form#lib/simple_form/action_view_extensions/form_helper.rb:2
 module SimpleForm
   extend ::ActiveSupport::Autoload
 
-  # source://simple_form//lib/simple_form.rb#202
+  # pkg:gem/simple_form#lib/simple_form.rb:202
   def boolean_label_class; end
 
-  # source://simple_form//lib/simple_form.rb#202
+  # pkg:gem/simple_form#lib/simple_form.rb:202
   def boolean_label_class=(val); end
 
-  # source://simple_form//lib/simple_form.rb#113
+  # pkg:gem/simple_form#lib/simple_form.rb:113
   def boolean_style; end
 
-  # source://simple_form//lib/simple_form.rb#113
+  # pkg:gem/simple_form#lib/simple_form.rb:113
   def boolean_style=(val); end
 
-  # source://simple_form//lib/simple_form.rb#135
+  # pkg:gem/simple_form#lib/simple_form.rb:135
   def browser_validations; end
 
-  # source://simple_form//lib/simple_form.rb#135
+  # pkg:gem/simple_form#lib/simple_form.rb:135
   def browser_validations=(val); end
 
-  # source://simple_form//lib/simple_form.rb#182
+  # pkg:gem/simple_form#lib/simple_form.rb:182
   def button_class; end
 
-  # source://simple_form//lib/simple_form.rb#182
+  # pkg:gem/simple_form#lib/simple_form.rb:182
   def button_class=(val); end
 
-  # source://simple_form//lib/simple_form.rb#178
+  # pkg:gem/simple_form#lib/simple_form.rb:178
   def cache_discovery; end
 
-  # source://simple_form//lib/simple_form.rb#178
+  # pkg:gem/simple_form#lib/simple_form.rb:178
   def cache_discovery=(val); end
 
-  # source://simple_form//lib/simple_form.rb#77
+  # pkg:gem/simple_form#lib/simple_form.rb:77
   def collection_label_methods; end
 
-  # source://simple_form//lib/simple_form.rb#77
+  # pkg:gem/simple_form#lib/simple_form.rb:77
   def collection_label_methods=(val); end
 
-  # source://simple_form//lib/simple_form.rb#81
+  # pkg:gem/simple_form#lib/simple_form.rb:81
   def collection_value_methods; end
 
-  # source://simple_form//lib/simple_form.rb#81
+  # pkg:gem/simple_form#lib/simple_form.rb:81
   def collection_value_methods=(val); end
 
-  # source://simple_form//lib/simple_form.rb#89
+  # pkg:gem/simple_form#lib/simple_form.rb:89
   def collection_wrapper_class; end
 
-  # source://simple_form//lib/simple_form.rb#89
+  # pkg:gem/simple_form#lib/simple_form.rb:89
   def collection_wrapper_class=(val); end
 
-  # source://simple_form//lib/simple_form.rb#85
+  # pkg:gem/simple_form#lib/simple_form.rb:85
   def collection_wrapper_tag; end
 
-  # source://simple_form//lib/simple_form.rb#85
+  # pkg:gem/simple_form#lib/simple_form.rb:85
   def collection_wrapper_tag=(val); end
 
-  # source://simple_form//lib/simple_form.rb#165
+  # pkg:gem/simple_form#lib/simple_form.rb:165
   def country_priority; end
 
-  # source://simple_form//lib/simple_form.rb#165
+  # pkg:gem/simple_form#lib/simple_form.rb:165
   def country_priority=(val); end
 
-  # source://simple_form//lib/simple_form.rb#157
+  # pkg:gem/simple_form#lib/simple_form.rb:157
   def custom_inputs_namespaces; end
 
-  # source://simple_form//lib/simple_form.rb#157
+  # pkg:gem/simple_form#lib/simple_form.rb:157
   def custom_inputs_namespaces=(val); end
 
-  # source://simple_form//lib/simple_form.rb#123
+  # pkg:gem/simple_form#lib/simple_form.rb:123
   def default_form_class; end
 
-  # source://simple_form//lib/simple_form.rb#123
+  # pkg:gem/simple_form#lib/simple_form.rb:123
   def default_form_class=(val); end
 
-  # WRAPPER CONFIGURATION
-  # The default wrapper to be used by the FormBuilder.
-  #
-  # source://simple_form//lib/simple_form.rb#207
+  # pkg:gem/simple_form#lib/simple_form.rb:207
   def default_wrapper; end
 
-  # source://simple_form//lib/simple_form.rb#207
+  # pkg:gem/simple_form#lib/simple_form.rb:207
   def default_wrapper=(val); end
 
-  # source://simple_form//lib/simple_form.rb#65
+  # pkg:gem/simple_form#lib/simple_form.rb:65
   def error_method; end
 
-  # source://simple_form//lib/simple_form.rb#65
+  # pkg:gem/simple_form#lib/simple_form.rb:65
   def error_method=(val); end
 
-  # source://simple_form//lib/simple_form.rb#73
+  # pkg:gem/simple_form#lib/simple_form.rb:73
   def error_notification_class; end
 
-  # source://simple_form//lib/simple_form.rb#73
+  # pkg:gem/simple_form#lib/simple_form.rb:73
   def error_notification_class=(val); end
 
-  # source://simple_form//lib/simple_form.rb#69
+  # pkg:gem/simple_form#lib/simple_form.rb:69
   def error_notification_tag; end
 
-  # source://simple_form//lib/simple_form.rb#69
+  # pkg:gem/simple_form#lib/simple_form.rb:69
   def error_notification_tag=(val); end
 
-  # source://simple_form//lib/simple_form.rb#188
+  # pkg:gem/simple_form#lib/simple_form.rb:188
   def field_error_proc; end
 
-  # source://simple_form//lib/simple_form.rb#188
+  # pkg:gem/simple_form#lib/simple_form.rb:188
   def field_error_proc=(val); end
 
-  # source://simple_form//lib/simple_form.rb#118
+  # pkg:gem/simple_form#lib/simple_form.rb:118
   def form_class; end
 
-  # source://simple_form//lib/simple_form.rb#127
+  # pkg:gem/simple_form#lib/simple_form.rb:127
   def generate_additional_classes_for; end
 
-  # source://simple_form//lib/simple_form.rb#127
+  # pkg:gem/simple_form#lib/simple_form.rb:127
   def generate_additional_classes_for=(val); end
 
-  # source://simple_form//lib/simple_form.rb#211
+  # pkg:gem/simple_form#lib/simple_form.rb:211
   def i18n_scope; end
 
-  # source://simple_form//lib/simple_form.rb#211
+  # pkg:gem/simple_form#lib/simple_form.rb:211
   def i18n_scope=(val); end
 
-  # source://simple_form//lib/simple_form.rb#198
+  # pkg:gem/simple_form#lib/simple_form.rb:198
   def include_default_input_wrapper_class; end
 
-  # source://simple_form//lib/simple_form.rb#198
+  # pkg:gem/simple_form#lib/simple_form.rb:198
   def include_default_input_wrapper_class=(val); end
 
-  # source://simple_form//lib/simple_form.rb#194
+  # pkg:gem/simple_form#lib/simple_form.rb:194
   def input_class; end
 
-  # source://simple_form//lib/simple_form.rb#194
+  # pkg:gem/simple_form#lib/simple_form.rb:194
   def input_class=(val); end
 
-  # source://simple_form//lib/simple_form.rb#214
+  # pkg:gem/simple_form#lib/simple_form.rb:214
   def input_field_error_class; end
 
-  # source://simple_form//lib/simple_form.rb#214
+  # pkg:gem/simple_form#lib/simple_form.rb:214
   def input_field_error_class=(val); end
 
-  # source://simple_form//lib/simple_form.rb#217
+  # pkg:gem/simple_form#lib/simple_form.rb:217
   def input_field_valid_class; end
 
-  # source://simple_form//lib/simple_form.rb#217
+  # pkg:gem/simple_form#lib/simple_form.rb:217
   def input_field_valid_class=(val); end
 
-  # source://simple_form//lib/simple_form.rb#141
+  # pkg:gem/simple_form#lib/simple_form.rb:141
   def input_mappings; end
 
-  # source://simple_form//lib/simple_form.rb#141
+  # pkg:gem/simple_form#lib/simple_form.rb:141
   def input_mappings=(val); end
 
-  # source://simple_form//lib/simple_form.rb#174
+  # pkg:gem/simple_form#lib/simple_form.rb:174
   def inputs_discovery; end
 
-  # source://simple_form//lib/simple_form.rb#174
+  # pkg:gem/simple_form#lib/simple_form.rb:174
   def inputs_discovery=(val); end
 
-  # source://simple_form//lib/simple_form.rb#99
+  # pkg:gem/simple_form#lib/simple_form.rb:99
   def item_wrapper_class; end
 
-  # source://simple_form//lib/simple_form.rb#99
+  # pkg:gem/simple_form#lib/simple_form.rb:99
   def item_wrapper_class=(val); end
 
-  # source://simple_form//lib/simple_form.rb#95
+  # pkg:gem/simple_form#lib/simple_form.rb:95
   def item_wrapper_tag; end
 
-  # source://simple_form//lib/simple_form.rb#95
+  # pkg:gem/simple_form#lib/simple_form.rb:95
   def item_wrapper_tag=(val); end
 
-  # source://simple_form//lib/simple_form.rb#107
+  # pkg:gem/simple_form#lib/simple_form.rb:107
   def label_class; end
 
-  # source://simple_form//lib/simple_form.rb#107
+  # pkg:gem/simple_form#lib/simple_form.rb:107
   def label_class=(val); end
 
-  # source://simple_form//lib/simple_form.rb#103
+  # pkg:gem/simple_form#lib/simple_form.rb:103
   def label_text; end
 
-  # source://simple_form//lib/simple_form.rb#103
+  # pkg:gem/simple_form#lib/simple_form.rb:103
   def label_text=(val); end
 
-  # source://simple_form//lib/simple_form.rb#131
+  # pkg:gem/simple_form#lib/simple_form.rb:131
   def required_by_default; end
 
-  # source://simple_form//lib/simple_form.rb#131
+  # pkg:gem/simple_form#lib/simple_form.rb:131
   def required_by_default=(val); end
 
-  # source://simple_form//lib/simple_form.rb#161
+  # pkg:gem/simple_form#lib/simple_form.rb:161
   def time_zone_priority; end
 
-  # source://simple_form//lib/simple_form.rb#161
+  # pkg:gem/simple_form#lib/simple_form.rb:161
   def time_zone_priority=(val); end
 
-  # source://simple_form//lib/simple_form.rb#170
+  # pkg:gem/simple_form#lib/simple_form.rb:170
   def translate_labels; end
 
-  # source://simple_form//lib/simple_form.rb#170
+  # pkg:gem/simple_form#lib/simple_form.rb:170
   def translate_labels=(val); end
 
-  # source://simple_form//lib/simple_form.rb#149
+  # pkg:gem/simple_form#lib/simple_form.rb:149
   def wrapper_mappings; end
 
-  # source://simple_form//lib/simple_form.rb#149
+  # pkg:gem/simple_form#lib/simple_form.rb:149
   def wrapper_mappings=(val); end
 
   class << self
-    # source://simple_form//lib/simple_form.rb#264
+    # pkg:gem/simple_form#lib/simple_form.rb:264
     def additional_classes_for(component); end
 
-    # source://simple_form//lib/simple_form.rb#202
+    # pkg:gem/simple_form#lib/simple_form.rb:202
     def boolean_label_class; end
 
-    # source://simple_form//lib/simple_form.rb#202
+    # pkg:gem/simple_form#lib/simple_form.rb:202
     def boolean_label_class=(val); end
 
-    # source://simple_form//lib/simple_form.rb#113
+    # pkg:gem/simple_form#lib/simple_form.rb:113
     def boolean_style; end
 
-    # source://simple_form//lib/simple_form.rb#113
+    # pkg:gem/simple_form#lib/simple_form.rb:113
     def boolean_style=(val); end
 
-    # source://simple_form//lib/simple_form.rb#135
+    # pkg:gem/simple_form#lib/simple_form.rb:135
     def browser_validations; end
 
-    # source://simple_form//lib/simple_form.rb#135
+    # pkg:gem/simple_form#lib/simple_form.rb:135
     def browser_validations=(val); end
 
     # Builds a new wrapper using SimpleForm::Wrappers::Builder.
     #
-    # @yield [builder]
-    #
-    # source://simple_form//lib/simple_form.rb#242
+    # pkg:gem/simple_form#lib/simple_form.rb:242
     def build(options = T.unsafe(nil)); end
 
-    # source://simple_form//lib/simple_form.rb#182
+    # pkg:gem/simple_form#lib/simple_form.rb:182
     def button_class; end
 
-    # source://simple_form//lib/simple_form.rb#182
+    # pkg:gem/simple_form#lib/simple_form.rb:182
     def button_class=(val); end
 
-    # source://simple_form//lib/simple_form.rb#178
+    # pkg:gem/simple_form#lib/simple_form.rb:178
     def cache_discovery; end
 
-    # source://simple_form//lib/simple_form.rb#178
+    # pkg:gem/simple_form#lib/simple_form.rb:178
     def cache_discovery=(val); end
 
-    # source://simple_form//lib/simple_form.rb#77
+    # pkg:gem/simple_form#lib/simple_form.rb:77
     def collection_label_methods; end
 
-    # source://simple_form//lib/simple_form.rb#77
+    # pkg:gem/simple_form#lib/simple_form.rb:77
     def collection_label_methods=(val); end
 
-    # source://simple_form//lib/simple_form.rb#81
+    # pkg:gem/simple_form#lib/simple_form.rb:81
     def collection_value_methods; end
 
-    # source://simple_form//lib/simple_form.rb#81
+    # pkg:gem/simple_form#lib/simple_form.rb:81
     def collection_value_methods=(val); end
 
-    # source://simple_form//lib/simple_form.rb#89
+    # pkg:gem/simple_form#lib/simple_form.rb:89
     def collection_wrapper_class; end
 
-    # source://simple_form//lib/simple_form.rb#89
+    # pkg:gem/simple_form#lib/simple_form.rb:89
     def collection_wrapper_class=(val); end
 
-    # source://simple_form//lib/simple_form.rb#85
+    # pkg:gem/simple_form#lib/simple_form.rb:85
     def collection_wrapper_tag; end
 
-    # source://simple_form//lib/simple_form.rb#85
+    # pkg:gem/simple_form#lib/simple_form.rb:85
     def collection_wrapper_tag=(val); end
 
-    # @return [Boolean]
-    #
-    # source://simple_form//lib/simple_form.rb#54
+    # pkg:gem/simple_form#lib/simple_form.rb:54
     def configured?; end
 
-    # source://simple_form//lib/simple_form.rb#165
+    # pkg:gem/simple_form#lib/simple_form.rb:165
     def country_priority; end
 
-    # source://simple_form//lib/simple_form.rb#165
+    # pkg:gem/simple_form#lib/simple_form.rb:165
     def country_priority=(val); end
 
-    # source://simple_form//lib/simple_form.rb#157
+    # pkg:gem/simple_form#lib/simple_form.rb:157
     def custom_inputs_namespaces; end
 
-    # source://simple_form//lib/simple_form.rb#157
+    # pkg:gem/simple_form#lib/simple_form.rb:157
     def custom_inputs_namespaces=(val); end
 
-    # source://simple_form//lib/simple_form.rb#123
+    # pkg:gem/simple_form#lib/simple_form.rb:123
     def default_form_class; end
 
-    # source://simple_form//lib/simple_form.rb#123
+    # pkg:gem/simple_form#lib/simple_form.rb:123
     def default_form_class=(val); end
 
     # SETUP
     #
-    # source://simple_form//lib/simple_form.rb#270
+    # pkg:gem/simple_form#lib/simple_form.rb:270
     def default_input_size=(*_arg0); end
 
-    # source://simple_form//lib/simple_form.rb#207
+    # pkg:gem/simple_form#lib/simple_form.rb:207
     def default_wrapper; end
 
-    # source://simple_form//lib/simple_form.rb#207
+    # pkg:gem/simple_form#lib/simple_form.rb:207
     def default_wrapper=(val); end
 
-    # source://simple_form//lib/simple_form.rb#58
+    # pkg:gem/simple_form#lib/simple_form.rb:58
     def deprecator; end
 
-    # source://simple_form//lib/simple_form.rb#23
+    # pkg:gem/simple_form#lib/simple_form.rb:23
     def eager_load!; end
 
-    # source://simple_form//lib/simple_form.rb#65
+    # pkg:gem/simple_form#lib/simple_form.rb:65
     def error_method; end
 
-    # source://simple_form//lib/simple_form.rb#65
+    # pkg:gem/simple_form#lib/simple_form.rb:65
     def error_method=(val); end
 
-    # source://simple_form//lib/simple_form.rb#73
+    # pkg:gem/simple_form#lib/simple_form.rb:73
     def error_notification_class; end
 
-    # source://simple_form//lib/simple_form.rb#73
+    # pkg:gem/simple_form#lib/simple_form.rb:73
     def error_notification_class=(val); end
 
-    # source://simple_form//lib/simple_form.rb#69
+    # pkg:gem/simple_form#lib/simple_form.rb:69
     def error_notification_tag; end
 
-    # source://simple_form//lib/simple_form.rb#69
+    # pkg:gem/simple_form#lib/simple_form.rb:69
     def error_notification_tag=(val); end
 
-    # source://simple_form//lib/simple_form.rb#188
+    # pkg:gem/simple_form#lib/simple_form.rb:188
     def field_error_proc; end
 
-    # source://simple_form//lib/simple_form.rb#188
+    # pkg:gem/simple_form#lib/simple_form.rb:188
     def field_error_proc=(val); end
 
-    # source://simple_form//lib/simple_form.rb#284
+    # pkg:gem/simple_form#lib/simple_form.rb:284
     def file_methods; end
 
-    # source://simple_form//lib/simple_form.rb#279
+    # pkg:gem/simple_form#lib/simple_form.rb:279
     def file_methods=(file_methods); end
 
-    # source://simple_form//lib/simple_form.rb#118
+    # pkg:gem/simple_form#lib/simple_form.rb:118
     def form_class; end
 
-    # source://simple_form//lib/simple_form.rb#274
+    # pkg:gem/simple_form#lib/simple_form.rb:274
     def form_class=(value); end
 
-    # source://simple_form//lib/simple_form.rb#127
+    # pkg:gem/simple_form#lib/simple_form.rb:127
     def generate_additional_classes_for; end
 
-    # source://simple_form//lib/simple_form.rb#127
+    # pkg:gem/simple_form#lib/simple_form.rb:127
     def generate_additional_classes_for=(val); end
 
-    # source://simple_form//lib/simple_form.rb#211
+    # pkg:gem/simple_form#lib/simple_form.rb:211
     def i18n_scope; end
 
-    # source://simple_form//lib/simple_form.rb#211
+    # pkg:gem/simple_form#lib/simple_form.rb:211
     def i18n_scope=(val); end
 
     # Includes a component to be used by Simple Form. Methods defined in a
@@ -423,122 +414,119 @@ module SimpleForm
     #      <%= f.input :title, prepend: true %>
     #    <% end %>
     #
-    # source://simple_form//lib/simple_form.rb#331
+    # pkg:gem/simple_form#lib/simple_form.rb:331
     def include_component(component); end
 
-    # source://simple_form//lib/simple_form.rb#198
+    # pkg:gem/simple_form#lib/simple_form.rb:198
     def include_default_input_wrapper_class; end
 
-    # source://simple_form//lib/simple_form.rb#198
+    # pkg:gem/simple_form#lib/simple_form.rb:198
     def include_default_input_wrapper_class=(val); end
 
-    # source://simple_form//lib/simple_form.rb#194
+    # pkg:gem/simple_form#lib/simple_form.rb:194
     def input_class; end
 
-    # source://simple_form//lib/simple_form.rb#194
+    # pkg:gem/simple_form#lib/simple_form.rb:194
     def input_class=(val); end
 
-    # source://simple_form//lib/simple_form.rb#214
+    # pkg:gem/simple_form#lib/simple_form.rb:214
     def input_field_error_class; end
 
-    # source://simple_form//lib/simple_form.rb#214
+    # pkg:gem/simple_form#lib/simple_form.rb:214
     def input_field_error_class=(val); end
 
-    # source://simple_form//lib/simple_form.rb#217
+    # pkg:gem/simple_form#lib/simple_form.rb:217
     def input_field_valid_class; end
 
-    # source://simple_form//lib/simple_form.rb#217
+    # pkg:gem/simple_form#lib/simple_form.rb:217
     def input_field_valid_class=(val); end
 
-    # source://simple_form//lib/simple_form.rb#141
+    # pkg:gem/simple_form#lib/simple_form.rb:141
     def input_mappings; end
 
-    # source://simple_form//lib/simple_form.rb#141
+    # pkg:gem/simple_form#lib/simple_form.rb:141
     def input_mappings=(val); end
 
-    # source://simple_form//lib/simple_form.rb#174
+    # pkg:gem/simple_form#lib/simple_form.rb:174
     def inputs_discovery; end
 
-    # source://simple_form//lib/simple_form.rb#174
+    # pkg:gem/simple_form#lib/simple_form.rb:174
     def inputs_discovery=(val); end
 
-    # source://simple_form//lib/simple_form.rb#99
+    # pkg:gem/simple_form#lib/simple_form.rb:99
     def item_wrapper_class; end
 
-    # source://simple_form//lib/simple_form.rb#99
+    # pkg:gem/simple_form#lib/simple_form.rb:99
     def item_wrapper_class=(val); end
 
-    # source://simple_form//lib/simple_form.rb#95
+    # pkg:gem/simple_form#lib/simple_form.rb:95
     def item_wrapper_tag; end
 
-    # source://simple_form//lib/simple_form.rb#95
+    # pkg:gem/simple_form#lib/simple_form.rb:95
     def item_wrapper_tag=(val); end
 
-    # source://simple_form//lib/simple_form.rb#107
+    # pkg:gem/simple_form#lib/simple_form.rb:107
     def label_class; end
 
-    # source://simple_form//lib/simple_form.rb#107
+    # pkg:gem/simple_form#lib/simple_form.rb:107
     def label_class=(val); end
 
-    # source://simple_form//lib/simple_form.rb#103
+    # pkg:gem/simple_form#lib/simple_form.rb:103
     def label_text; end
 
-    # source://simple_form//lib/simple_form.rb#103
+    # pkg:gem/simple_form#lib/simple_form.rb:103
     def label_text=(val); end
 
-    # source://simple_form//lib/simple_form.rb#131
+    # pkg:gem/simple_form#lib/simple_form.rb:131
     def required_by_default; end
 
-    # source://simple_form//lib/simple_form.rb#131
+    # pkg:gem/simple_form#lib/simple_form.rb:131
     def required_by_default=(val); end
 
     # Default way to setup Simple Form. Run rails generate simple_form:install
     # to create a fresh initializer with all configuration values.
     #
-    # @yield [_self]
-    # @yieldparam _self [SimpleForm] the object that the method was called on
-    #
-    # source://simple_form//lib/simple_form.rb#291
+    # pkg:gem/simple_form#lib/simple_form.rb:291
     def setup; end
 
-    # source://simple_form//lib/simple_form.rb#161
+    # pkg:gem/simple_form#lib/simple_form.rb:161
     def time_zone_priority; end
 
-    # source://simple_form//lib/simple_form.rb#161
+    # pkg:gem/simple_form#lib/simple_form.rb:161
     def time_zone_priority=(val); end
 
-    # source://simple_form//lib/simple_form.rb#170
+    # pkg:gem/simple_form#lib/simple_form.rb:170
     def translate_labels; end
 
-    # source://simple_form//lib/simple_form.rb#170
+    # pkg:gem/simple_form#lib/simple_form.rb:170
     def translate_labels=(val); end
 
     # Retrieves a given wrapper
     #
-    # source://simple_form//lib/simple_form.rb#221
+    # pkg:gem/simple_form#lib/simple_form.rb:221
     def wrapper(name); end
 
-    # source://simple_form//lib/simple_form.rb#149
+    # pkg:gem/simple_form#lib/simple_form.rb:149
     def wrapper_mappings; end
 
-    # source://simple_form//lib/simple_form.rb#149
+    # pkg:gem/simple_form#lib/simple_form.rb:149
     def wrapper_mappings=(val); end
 
     # Define a new wrapper using SimpleForm::Wrappers::Builder
     # and store it in the given name.
     #
-    # source://simple_form//lib/simple_form.rb#231
+    # pkg:gem/simple_form#lib/simple_form.rb:231
     def wrappers(*args, &block); end
   end
 end
 
-# source://simple_form//lib/simple_form/action_view_extensions/form_helper.rb#3
+# pkg:gem/simple_form#lib/simple_form/action_view_extensions/form_helper.rb:3
 module SimpleForm::ActionViewExtensions; end
 
 # A collection of methods required by simple_form but added to rails default form.
 # This means that you can use such methods outside simple_form context.
 #
-# source://simple_form//lib/simple_form/action_view_extensions/builder.rb#6
+# pkg:gem/simple_form#lib/simple_form/action_view_extensions/builder.rb:6
 module SimpleForm::ActionViewExtensions::Builder
   # Wrapper for using SimpleForm inside a default rails form.
   # Example:
@@ -550,7 +538,7 @@ module SimpleForm::ActionViewExtensions::Builder
   #     end
   #   end
   #
-  # source://simple_form//lib/simple_form/action_view_extensions/builder.rb#17
+  # pkg:gem/simple_form#lib/simple_form/action_view_extensions/builder.rb:17
   def simple_fields_for(*args, &block); end
 end
 
@@ -562,24 +550,24 @@ end
 #     f.input :name, hint: 'My hint'
 #   end
 #
-# source://simple_form//lib/simple_form/action_view_extensions/form_helper.rb#12
+# pkg:gem/simple_form#lib/simple_form/action_view_extensions/form_helper.rb:12
 module SimpleForm::ActionViewExtensions::FormHelper
-  # source://simple_form//lib/simple_form/action_view_extensions/form_helper.rb#31
+  # pkg:gem/simple_form#lib/simple_form/action_view_extensions/form_helper.rb:31
   def simple_fields_for(record_name, record_object = T.unsafe(nil), options = T.unsafe(nil), &block); end
 
-  # source://simple_form//lib/simple_form/action_view_extensions/form_helper.rb#14
+  # pkg:gem/simple_form#lib/simple_form/action_view_extensions/form_helper.rb:14
   def simple_form_for(record, options = T.unsafe(nil), &block); end
 
   private
 
-  # source://simple_form//lib/simple_form/action_view_extensions/form_helper.rb#52
+  # pkg:gem/simple_form#lib/simple_form/action_view_extensions/form_helper.rb:52
   def simple_form_css_class(record, options); end
 
-  # source://simple_form//lib/simple_form/action_view_extensions/form_helper.rb#42
+  # pkg:gem/simple_form#lib/simple_form/action_view_extensions/form_helper.rb:42
   def with_simple_form_field_error_proc; end
 end
 
-# source://simple_form//lib/simple_form.rb#29
+# pkg:gem/simple_form#lib/simple_form.rb:29
 SimpleForm::CUSTOM_INPUT_DEPRECATION_WARN = T.let(T.unsafe(nil), String)
 
 # Components are a special type of helpers that can work on their own.
@@ -589,336 +577,308 @@ SimpleForm::CUSTOM_INPUT_DEPRECATION_WARN = T.let(T.unsafe(nil), String)
 # to the input in order to be enabled. On the other hand, things like
 # hints can generate output automatically by doing I18n lookups.
 #
-# source://simple_form//lib/simple_form/components.rb#9
+# pkg:gem/simple_form#lib/simple_form/components.rb:9
 module SimpleForm::Components
   extend ::ActiveSupport::Autoload
 end
 
-# source://simple_form//lib/simple_form/components/errors.rb#4
+# pkg:gem/simple_form#lib/simple_form/components/errors.rb:4
 module SimpleForm::Components::Errors
-  # source://simple_form//lib/simple_form/components/errors.rb#5
+  # pkg:gem/simple_form#lib/simple_form/components/errors.rb:5
   def error(wrapper_options = T.unsafe(nil)); end
 
-  # source://simple_form//lib/simple_form/components/errors.rb#9
+  # pkg:gem/simple_form#lib/simple_form/components/errors.rb:9
   def full_error(wrapper_options = T.unsafe(nil)); end
 
-  # @return [Boolean]
-  #
-  # source://simple_form//lib/simple_form/components/errors.rb#13
+  # pkg:gem/simple_form#lib/simple_form/components/errors.rb:13
   def has_errors?; end
 
-  # @return [Boolean]
-  #
-  # source://simple_form//lib/simple_form/components/errors.rb#17
+  # pkg:gem/simple_form#lib/simple_form/components/errors.rb:17
   def has_value?; end
 
-  # @return [Boolean]
-  #
-  # source://simple_form//lib/simple_form/components/errors.rb#21
+  # pkg:gem/simple_form#lib/simple_form/components/errors.rb:21
   def valid?; end
 
   protected
 
-  # source://simple_form//lib/simple_form/components/errors.rb#41
+  # pkg:gem/simple_form#lib/simple_form/components/errors.rb:41
   def error_method; end
 
-  # source://simple_form//lib/simple_form/components/errors.rb#27
+  # pkg:gem/simple_form#lib/simple_form/components/errors.rb:27
   def error_text; end
 
-  # source://simple_form//lib/simple_form/components/errors.rb#45
+  # pkg:gem/simple_form#lib/simple_form/components/errors.rb:45
   def errors; end
 
-  # source://simple_form//lib/simple_form/components/errors.rb#61
+  # pkg:gem/simple_form#lib/simple_form/components/errors.rb:61
   def errors_on_association; end
 
-  # source://simple_form//lib/simple_form/components/errors.rb#53
+  # pkg:gem/simple_form#lib/simple_form/components/errors.rb:53
   def errors_on_attribute; end
 
-  # source://simple_form//lib/simple_form/components/errors.rb#33
+  # pkg:gem/simple_form#lib/simple_form/components/errors.rb:33
   def full_error_text; end
 
-  # source://simple_form//lib/simple_form/components/errors.rb#49
+  # pkg:gem/simple_form#lib/simple_form/components/errors.rb:49
   def full_errors; end
 
-  # source://simple_form//lib/simple_form/components/errors.rb#65
+  # pkg:gem/simple_form#lib/simple_form/components/errors.rb:65
   def full_errors_on_association; end
 
-  # source://simple_form//lib/simple_form/components/errors.rb#57
+  # pkg:gem/simple_form#lib/simple_form/components/errors.rb:57
   def full_errors_on_attribute; end
 
-  # @return [Boolean]
-  #
-  # source://simple_form//lib/simple_form/components/errors.rb#69
+  # pkg:gem/simple_form#lib/simple_form/components/errors.rb:69
   def has_custom_error?; end
 
-  # @return [Boolean]
-  #
-  # source://simple_form//lib/simple_form/components/errors.rb#37
+  # pkg:gem/simple_form#lib/simple_form/components/errors.rb:37
   def object_with_errors?; end
 end
 
-# source://simple_form//lib/simple_form/components/html5.rb#4
+# pkg:gem/simple_form#lib/simple_form/components/html5.rb:4
 module SimpleForm::Components::HTML5
-  # source://simple_form//lib/simple_form/components/html5.rb#5
+  # pkg:gem/simple_form#lib/simple_form/components/html5.rb:5
   def initialize(*_arg0); end
 
-  # @return [Boolean]
-  #
-  # source://simple_form//lib/simple_form/components/html5.rb#25
+  # pkg:gem/simple_form#lib/simple_form/components/html5.rb:25
   def has_required?; end
 
-  # source://simple_form//lib/simple_form/components/html5.rb#9
+  # pkg:gem/simple_form#lib/simple_form/components/html5.rb:9
   def html5(wrapper_options = T.unsafe(nil)); end
 
-  # @return [Boolean]
-  #
-  # source://simple_form//lib/simple_form/components/html5.rb#17
+  # pkg:gem/simple_form#lib/simple_form/components/html5.rb:17
   def html5?; end
 
-  # source://simple_form//lib/simple_form/components/html5.rb#21
+  # pkg:gem/simple_form#lib/simple_form/components/html5.rb:21
   def input_html_required_option; end
 end
 
 # Needs to be enabled in order to do automatic lookups.
 #
-# source://simple_form//lib/simple_form/components/hints.rb#5
+# pkg:gem/simple_form#lib/simple_form/components/hints.rb:5
 module SimpleForm::Components::Hints
-  # @return [Boolean]
-  #
-  # source://simple_form//lib/simple_form/components/hints.rb#19
+  # pkg:gem/simple_form#lib/simple_form/components/hints.rb:19
   def has_hint?; end
 
-  # source://simple_form//lib/simple_form/components/hints.rb#6
+  # pkg:gem/simple_form#lib/simple_form/components/hints.rb:6
   def hint(wrapper_options = T.unsafe(nil)); end
 end
 
-# source://simple_form//lib/simple_form/components/label_input.rb#4
+# pkg:gem/simple_form#lib/simple_form/components/label_input.rb:4
 module SimpleForm::Components::LabelInput
   extend ::ActiveSupport::Concern
   include ::SimpleForm::Components::Labels
 
   mixes_in_class_methods ::SimpleForm::Components::Labels::ClassMethods
 
-  # source://simple_form//lib/simple_form/components/label_input.rb#11
+  # pkg:gem/simple_form#lib/simple_form/components/label_input.rb:11
   def label_input(wrapper_options = T.unsafe(nil)); end
 
   private
 
-  # source://simple_form//lib/simple_form/components/label_input.rb#21
+  # pkg:gem/simple_form#lib/simple_form/components/label_input.rb:21
   def deprecated_component(namespace, wrapper_options); end
 end
 
-# source://simple_form//lib/simple_form/components/labels.rb#4
+# pkg:gem/simple_form#lib/simple_form/components/labels.rb:4
 module SimpleForm::Components::Labels
   extend ::ActiveSupport::Concern
 
   mixes_in_class_methods ::SimpleForm::Components::Labels::ClassMethods
 
-  # source://simple_form//lib/simple_form/components/labels.rb#29
+  # pkg:gem/simple_form#lib/simple_form/components/labels.rb:29
   def label(wrapper_options = T.unsafe(nil)); end
 
-  # source://simple_form//lib/simple_form/components/labels.rb#48
+  # pkg:gem/simple_form#lib/simple_form/components/labels.rb:48
   def label_html_options; end
 
-  # source://simple_form//lib/simple_form/components/labels.rb#44
+  # pkg:gem/simple_form#lib/simple_form/components/labels.rb:44
   def label_target; end
 
-  # source://simple_form//lib/simple_form/components/labels.rb#39
+  # pkg:gem/simple_form#lib/simple_form/components/labels.rb:39
   def label_text(wrapper_options = T.unsafe(nil)); end
 
   protected
 
-  # @return [Boolean]
-  #
-  # source://simple_form//lib/simple_form/components/labels.rb#83
+  # pkg:gem/simple_form#lib/simple_form/components/labels.rb:83
   def generate_label_for_attribute?; end
 
   # First check labels translation and then human attribute name.
   #
-  # source://simple_form//lib/simple_form/components/labels.rb#73
+  # pkg:gem/simple_form#lib/simple_form/components/labels.rb:73
   def label_translation; end
 
-  # source://simple_form//lib/simple_form/components/labels.rb#63
+  # pkg:gem/simple_form#lib/simple_form/components/labels.rb:63
   def raw_label_text; end
 
   # Default required text when attribute is required.
   #
-  # source://simple_form//lib/simple_form/components/labels.rb#68
+  # pkg:gem/simple_form#lib/simple_form/components/labels.rb:68
   def required_label_text; end
 end
 
-# source://simple_form//lib/simple_form/components/labels.rb#7
+# pkg:gem/simple_form#lib/simple_form/components/labels.rb:7
 module SimpleForm::Components::Labels::ClassMethods
-  # source://simple_form//lib/simple_form/components/labels.rb#8
+  # pkg:gem/simple_form#lib/simple_form/components/labels.rb:8
   def translate_required_html; end
 
-  # source://simple_form//lib/simple_form/components/labels.rb#18
+  # pkg:gem/simple_form#lib/simple_form/components/labels.rb:18
   def translate_required_mark; end
 
-  # source://simple_form//lib/simple_form/components/labels.rb#14
+  # pkg:gem/simple_form#lib/simple_form/components/labels.rb:14
   def translate_required_text; end
 
   private
 
-  # source://simple_form//lib/simple_form/components/labels.rb#24
+  # pkg:gem/simple_form#lib/simple_form/components/labels.rb:24
   def i18n_scope; end
 end
 
 # Needs to be enabled in order to do automatic lookups.
 #
-# source://simple_form//lib/simple_form/components/maxlength.rb#5
+# pkg:gem/simple_form#lib/simple_form/components/maxlength.rb:5
 module SimpleForm::Components::Maxlength
-  # source://simple_form//lib/simple_form/components/maxlength.rb#6
+  # pkg:gem/simple_form#lib/simple_form/components/maxlength.rb:6
   def maxlength(wrapper_options = T.unsafe(nil)); end
 
   private
 
-  # source://simple_form//lib/simple_form/components/maxlength.rb#23
+  # pkg:gem/simple_form#lib/simple_form/components/maxlength.rb:23
   def find_length_validator; end
 
-  # source://simple_form//lib/simple_form/components/maxlength.rb#13
+  # pkg:gem/simple_form#lib/simple_form/components/maxlength.rb:13
   def maximum_length_from_validation; end
 
-  # source://simple_form//lib/simple_form/components/maxlength.rb#27
+  # pkg:gem/simple_form#lib/simple_form/components/maxlength.rb:27
   def maximum_length_value_from(length_validator); end
 end
 
-# source://simple_form//lib/simple_form/components/min_max.rb#4
+# pkg:gem/simple_form#lib/simple_form/components/min_max.rb:4
 module SimpleForm::Components::MinMax
-  # source://simple_form//lib/simple_form/components/min_max.rb#5
+  # pkg:gem/simple_form#lib/simple_form/components/min_max.rb:5
   def min_max(wrapper_options = T.unsafe(nil)); end
 
   private
 
-  # source://simple_form//lib/simple_form/components/min_max.rb#36
+  # pkg:gem/simple_form#lib/simple_form/components/min_max.rb:36
   def find_numericality_validator; end
 
-  # @return [Boolean]
-  #
-  # source://simple_form//lib/simple_form/components/min_max.rb#16
+  # pkg:gem/simple_form#lib/simple_form/components/min_max.rb:16
   def integer?; end
 
-  # source://simple_form//lib/simple_form/components/min_max.rb#28
+  # pkg:gem/simple_form#lib/simple_form/components/min_max.rb:28
   def maximum_value(validator_options); end
 
-  # source://simple_form//lib/simple_form/components/min_max.rb#20
+  # pkg:gem/simple_form#lib/simple_form/components/min_max.rb:20
   def minimum_value(validator_options); end
 end
 
 # Needs to be enabled in order to do automatic lookups.
 #
-# source://simple_form//lib/simple_form/components/minlength.rb#5
+# pkg:gem/simple_form#lib/simple_form/components/minlength.rb:5
 module SimpleForm::Components::Minlength
-  # source://simple_form//lib/simple_form/components/minlength.rb#6
+  # pkg:gem/simple_form#lib/simple_form/components/minlength.rb:6
   def minlength(wrapper_options = T.unsafe(nil)); end
 
   private
 
-  # source://simple_form//lib/simple_form/components/minlength.rb#23
+  # pkg:gem/simple_form#lib/simple_form/components/minlength.rb:23
   def find_length_validator; end
 
-  # source://simple_form//lib/simple_form/components/minlength.rb#13
+  # pkg:gem/simple_form#lib/simple_form/components/minlength.rb:13
   def minimum_length_from_validation; end
 
-  # source://simple_form//lib/simple_form/components/minlength.rb#27
+  # pkg:gem/simple_form#lib/simple_form/components/minlength.rb:27
   def minimum_length_value_from(length_validator); end
 end
 
 # Needs to be enabled in order to do automatic lookups.
 #
-# source://simple_form//lib/simple_form/components/pattern.rb#5
+# pkg:gem/simple_form#lib/simple_form/components/pattern.rb:5
 module SimpleForm::Components::Pattern
-  # source://simple_form//lib/simple_form/components/pattern.rb#6
+  # pkg:gem/simple_form#lib/simple_form/components/pattern.rb:6
   def pattern(wrapper_options = T.unsafe(nil)); end
 
   private
 
-  # source://simple_form//lib/simple_form/components/pattern.rb#22
+  # pkg:gem/simple_form#lib/simple_form/components/pattern.rb:22
   def find_pattern_validator; end
 
-  # source://simple_form//lib/simple_form/components/pattern.rb#13
+  # pkg:gem/simple_form#lib/simple_form/components/pattern.rb:13
   def pattern_source; end
 end
 
 # Needs to be enabled in order to do automatic lookups.
 #
-# source://simple_form//lib/simple_form/components/placeholders.rb#5
+# pkg:gem/simple_form#lib/simple_form/components/placeholders.rb:5
 module SimpleForm::Components::Placeholders
-  # source://simple_form//lib/simple_form/components/placeholders.rb#6
+  # pkg:gem/simple_form#lib/simple_form/components/placeholders.rb:6
   def placeholder(wrapper_options = T.unsafe(nil)); end
 
-  # source://simple_form//lib/simple_form/components/placeholders.rb#11
+  # pkg:gem/simple_form#lib/simple_form/components/placeholders.rb:11
   def placeholder_text(wrapper_options = T.unsafe(nil)); end
 end
 
 # Needs to be enabled in order to do automatic lookups.
 #
-# source://simple_form//lib/simple_form/components/readonly.rb#5
+# pkg:gem/simple_form#lib/simple_form/components/readonly.rb:5
 module SimpleForm::Components::Readonly
-  # source://simple_form//lib/simple_form/components/readonly.rb#6
+  # pkg:gem/simple_form#lib/simple_form/components/readonly.rb:6
   def readonly(wrapper_options = T.unsafe(nil)); end
 
   private
 
-  # @return [Boolean]
-  #
-  # source://simple_form//lib/simple_form/components/readonly.rb#16
+  # pkg:gem/simple_form#lib/simple_form/components/readonly.rb:16
   def readonly_attribute?; end
 end
 
-# source://simple_form//lib/simple_form/error_notification.rb#3
+# pkg:gem/simple_form#lib/simple_form/error_notification.rb:3
 class SimpleForm::ErrorNotification
-  # @return [ErrorNotification] a new instance of ErrorNotification
-  #
-  # source://simple_form//lib/simple_form/error_notification.rb#6
+  # pkg:gem/simple_form#lib/simple_form/error_notification.rb:6
   def initialize(builder, options); end
 
-  # source://simple_form//lib/simple_form/error_notification.rb#4
+  # pkg:gem/simple_form#lib/simple_form/error_notification.rb:4
   def object(*_arg0, **_arg1, &_arg2); end
 
-  # source://simple_form//lib/simple_form/error_notification.rb#4
+  # pkg:gem/simple_form#lib/simple_form/error_notification.rb:4
   def object_name(*_arg0, **_arg1, &_arg2); end
 
-  # source://simple_form//lib/simple_form/error_notification.rb#12
+  # pkg:gem/simple_form#lib/simple_form/error_notification.rb:12
   def render; end
 
-  # source://simple_form//lib/simple_form/error_notification.rb#4
+  # pkg:gem/simple_form#lib/simple_form/error_notification.rb:4
   def template(*_arg0, **_arg1, &_arg2); end
 
   protected
 
-  # source://simple_form//lib/simple_form/error_notification.rb#28
+  # pkg:gem/simple_form#lib/simple_form/error_notification.rb:28
   def error_message; end
 
-  # source://simple_form//lib/simple_form/error_notification.rb#32
+  # pkg:gem/simple_form#lib/simple_form/error_notification.rb:32
   def error_notification_tag; end
 
-  # source://simple_form//lib/simple_form/error_notification.rb#20
+  # pkg:gem/simple_form#lib/simple_form/error_notification.rb:20
   def errors; end
 
-  # @return [Boolean]
-  #
-  # source://simple_form//lib/simple_form/error_notification.rb#24
+  # pkg:gem/simple_form#lib/simple_form/error_notification.rb:24
   def has_errors?; end
 
-  # source://simple_form//lib/simple_form/error_notification.rb#36
+  # pkg:gem/simple_form#lib/simple_form/error_notification.rb:36
   def html_options; end
 
-  # source://simple_form//lib/simple_form/error_notification.rb#41
+  # pkg:gem/simple_form#lib/simple_form/error_notification.rb:41
   def translate_error_notification; end
 end
 
-# source://simple_form//lib/simple_form.rb#41
+# pkg:gem/simple_form#lib/simple_form.rb:41
 SimpleForm::FILE_METHODS_DEPRECATION_WARN = T.let(T.unsafe(nil), String)
 
-# source://simple_form//lib/simple_form/form_builder.rb#7
+# pkg:gem/simple_form#lib/simple_form/form_builder.rb:7
 class SimpleForm::FormBuilder < ::ActionView::Helpers::FormBuilder
   include ::SimpleForm::Inputs
   extend ::SimpleForm::MapType
 
-  # @return [FormBuilder] a new instance of FormBuilder
-  #
-  # source://simple_form//lib/simple_form/form_builder.rb#41
+  # pkg:gem/simple_form#lib/simple_form/form_builder.rb:41
   def initialize(*_arg0); end
 
   # Helper for dealing with association selects/radios, generating the
@@ -949,85 +909,13 @@ class SimpleForm::FormBuilder < ::ActionView::Helpers::FormBuilder
   #
   # Please note that the association helper is currently only tested with Active Record. Depending on the ORM you are using your mileage may vary.
   #
-  # @raise [ArgumentError]
-  #
-  # source://simple_form//lib/simple_form/form_builder.rb#207
+  # pkg:gem/simple_form#lib/simple_form/form_builder.rb:207
   def association(association, options = T.unsafe(nil), &block); end
 
-  # Basic input helper, combines all components in the stack to generate
-  # input html based on options the user define and some guesses through
-  # database column information. By default a call to input will generate
-  # label + input + hint (when defined) + errors (when exists), and all can
-  # be configured inside a wrapper html.
-  #
-  # If a block is given, the contents of the block will replace the input
-  # field that would otherwise be generated automatically. The content will
-  # be given a label and wrapper div to make it consistent with the other
-  # elements in the form.
-  #
-  # == Examples
-  #
-  #   # Imagine @user has error "can't be blank" on name
-  #   simple_form_for @user do |f|
-  #     f.input :name, hint: 'My hint'
-  #   end
-  #
-  # This is the output html (only the input portion, not the form):
-  #
-  #     <label class="string required" for="user_name">
-  #       <abbr title="required">*</abbr> Super User Name!
-  #     </label>
-  #     <input class="string required" id="user_name" maxlength="100"
-  #        name="user[name]" type="text" value="Carlos" />
-  #     <span class="hint">My hint</span>
-  #     <span class="error">can't be blank</span>
-  #
-  # Each database type will render a default input, based on some mappings and
-  # heuristic to determine which is the best option.
-  #
-  # You have some options for the input to enable/disable some functions:
-  #
-  #   as: allows you to define the input type you want, for instance you
-  #          can use it to generate a text field for a date column.
-  #
-  #   required: defines whether this attribute is required or not. True
-  #               by default.
-  #
-  # The fact SimpleForm is built in components allow the interface to be unified.
-  # So, for instance, if you need to disable :hint for a given input, you can pass
-  # hint: false. The same works for :error, :label and :wrapper.
-  #
-  # Besides the html for any component can be changed. So, if you want to change
-  # the label html you just need to give a hash to :label_html. To configure the
-  # input html, supply :input_html instead and so on.
-  #
-  # == Options
-  #
-  # Some inputs, as datetime, time and select allow you to give extra options, like
-  # prompt and/or include blank. Such options are given in plainly:
-  #
-  #    f.input :created_at, include_blank: true
-  #
-  # == Collection
-  #
-  # When playing with collections (:radio_buttons, :check_boxes and :select
-  # inputs), you have three extra options:
-  #
-  #   collection: use to determine the collection to generate the radio or select
-  #
-  #   label_method: the method to apply on the array collection to get the label
-  #
-  #   value_method: the method to apply on the array collection to get the value
-  #
-  # == Priority
-  #
-  # Some inputs, as :time_zone and :country accepts a :priority option. If none is
-  # given SimpleForm.time_zone_priority and SimpleForm.country_priority are used respectively.
-  #
-  # source://simple_form//lib/simple_form/form_builder.rb#126
+  # pkg:gem/simple_form#lib/simple_form/form_builder.rb:126
   def attribute(attribute_name, options = T.unsafe(nil), &block); end
 
-  # source://simple_form//lib/simple_form/form_builder.rb#237
+  # pkg:gem/simple_form#lib/simple_form/form_builder.rb:237
   def button(type, *args, &block); end
 
   # Creates a button:
@@ -1040,7 +928,7 @@ class SimpleForm::FormBuilder < ::ActionView::Helpers::FormBuilder
   # button implementation (3.2 forward (to delegate to the original when
   # calling `f.button :button`.
   #
-  # source://simple_form//lib/simple_form/form_builder.rb#236
+  # pkg:gem/simple_form#lib/simple_form/form_builder.rb:236
   def button_button(value = T.unsafe(nil), options = T.unsafe(nil), &block); end
 
   # Creates a collection of check boxes for each item in the collection,
@@ -1094,7 +982,7 @@ class SimpleForm::FormBuilder < ::ActionView::Helpers::FormBuilder
   #
   #   * a block                  => to generate the label + check box or any other component.
   #
-  # source://simple_form//lib/simple_form/form_builder.rb#451
+  # pkg:gem/simple_form#lib/simple_form/form_builder.rb:451
   def collection_check_boxes(method, collection, value_method, text_method, options = T.unsafe(nil), html_options = T.unsafe(nil), &block); end
 
   # Create a collection of radio inputs for the attribute. Basically this
@@ -1145,7 +1033,7 @@ class SimpleForm::FormBuilder < ::ActionView::Helpers::FormBuilder
   #
   #   * a block                  => to generate the label + radio or any other component.
   #
-  # source://simple_form//lib/simple_form/form_builder.rb#397
+  # pkg:gem/simple_form#lib/simple_form/form_builder.rb:397
   def collection_radio_buttons(method, collection, value_method, text_method, options = T.unsafe(nil), html_options = T.unsafe(nil), &block); end
 
   # Creates an error tag based on the given attribute, only when the attribute
@@ -1156,7 +1044,7 @@ class SimpleForm::FormBuilder < ::ActionView::Helpers::FormBuilder
   #    f.error :name
   #    f.error :name, id: "cool_error"
   #
-  # source://simple_form//lib/simple_form/form_builder.rb#256
+  # pkg:gem/simple_form#lib/simple_form/form_builder.rb:256
   def error(attribute_name, options = T.unsafe(nil)); end
 
   # Creates an error notification message that only appears when the form object
@@ -1170,7 +1058,7 @@ class SimpleForm::FormBuilder < ::ActionView::Helpers::FormBuilder
   #    f.error_notification message: 'Something went wrong'
   #    f.error_notification id: 'user_error_message', class: 'form_error'
   #
-  # source://simple_form//lib/simple_form/form_builder.rb#346
+  # pkg:gem/simple_form#lib/simple_form/form_builder.rb:346
   def error_notification(options = T.unsafe(nil)); end
 
   # Return the error but also considering its name. This is used
@@ -1180,7 +1068,7 @@ class SimpleForm::FormBuilder < ::ActionView::Helpers::FormBuilder
   #
   #    f.full_error :token #=> <span class="error">Token is invalid</span>
   #
-  # source://simple_form//lib/simple_form/form_builder.rb#273
+  # pkg:gem/simple_form#lib/simple_form/form_builder.rb:273
   def full_error(attribute_name, options = T.unsafe(nil)); end
 
   # Creates a hint tag for the given attribute. Accepts a symbol indicating
@@ -1193,7 +1081,7 @@ class SimpleForm::FormBuilder < ::ActionView::Helpers::FormBuilder
   #    f.hint :name, id: "cool_hint"
   #    f.hint "Don't forget to accept this"
   #
-  # source://simple_form//lib/simple_form/form_builder.rb#295
+  # pkg:gem/simple_form#lib/simple_form/form_builder.rb:295
   def hint(attribute_name, options = T.unsafe(nil)); end
 
   # Basic input helper, combines all components in the stack to generate
@@ -1266,7 +1154,7 @@ class SimpleForm::FormBuilder < ::ActionView::Helpers::FormBuilder
   # Some inputs, as :time_zone and :country accepts a :priority option. If none is
   # given SimpleForm.time_zone_priority and SimpleForm.country_priority are used respectively.
   #
-  # source://simple_form//lib/simple_form/form_builder.rb#118
+  # pkg:gem/simple_form#lib/simple_form/form_builder.rb:118
   def input(attribute_name, options = T.unsafe(nil), &block); end
 
   # Creates a input tag for the given attribute. All the given options
@@ -1306,7 +1194,7 @@ class SimpleForm::FormBuilder < ::ActionView::Helpers::FormBuilder
   #
   #     <input class="is-invalid string required" id="user_name" value="" />
   #
-  # source://simple_form//lib/simple_form/form_builder.rb#165
+  # pkg:gem/simple_form#lib/simple_form/form_builder.rb:165
   def input_field(attribute_name, options = T.unsafe(nil)); end
 
   # Creates a default label tag for the given attribute. You can give a label
@@ -1322,12 +1210,12 @@ class SimpleForm::FormBuilder < ::ActionView::Helpers::FormBuilder
   #    f.label :name, required: false
   #    f.label :name, id: "cool_label"
   #
-  # source://simple_form//lib/simple_form/form_builder.rb#324
+  # pkg:gem/simple_form#lib/simple_form/form_builder.rb:324
   def label(attribute_name, *args); end
 
   # The action to be used in lookup.
   #
-  # source://simple_form//lib/simple_form/form_builder.rb#474
+  # pkg:gem/simple_form#lib/simple_form/form_builder.rb:474
   def lookup_action; end
 
   # Extract the model names from the object_name mess, ignoring numeric and
@@ -1338,69 +1226,61 @@ class SimpleForm::FormBuilder < ::ActionView::Helpers::FormBuilder
   # route[blocks_attributes][0][blocks_learning_object_attributes][1][foo_attributes]
   # ["route", "blocks", "blocks_learning_object", "foo"]
   #
-  # source://simple_form//lib/simple_form/form_builder.rb#463
+  # pkg:gem/simple_form#lib/simple_form/form_builder.rb:463
   def lookup_model_names; end
 
-  # source://simple_form//lib/simple_form/form_builder.rb#18
+  # pkg:gem/simple_form#lib/simple_form/form_builder.rb:18
   def mappings; end
 
-  # source://simple_form//lib/simple_form/form_builder.rb#18
+  # pkg:gem/simple_form#lib/simple_form/form_builder.rb:18
   def mappings=(_arg0); end
 
-  # source://simple_form//lib/simple_form/form_builder.rb#18
+  # pkg:gem/simple_form#lib/simple_form/form_builder.rb:18
   def mappings?; end
 
-  # Returns the value of attribute object.
-  #
-  # source://simple_form//lib/simple_form/form_builder.rb#8
+  # pkg:gem/simple_form#lib/simple_form/form_builder.rb:8
   def object; end
 
-  # Returns the value of attribute object_name.
-  #
-  # source://simple_form//lib/simple_form/form_builder.rb#8
+  # pkg:gem/simple_form#lib/simple_form/form_builder.rb:8
   def object_name; end
 
-  # Returns the value of attribute template.
-  #
-  # source://simple_form//lib/simple_form/form_builder.rb#8
+  # pkg:gem/simple_form#lib/simple_form/form_builder.rb:8
   def template; end
 
-  # Returns the value of attribute wrapper.
-  #
-  # source://simple_form//lib/simple_form/form_builder.rb#8
+  # pkg:gem/simple_form#lib/simple_form/form_builder.rb:8
   def wrapper; end
 
   private
 
-  # source://simple_form//lib/simple_form/form_builder.rb#677
+  # pkg:gem/simple_form#lib/simple_form/form_builder.rb:677
   def attempt_mapping(mapping, at); end
 
-  # source://simple_form//lib/simple_form/form_builder.rb#687
+  # pkg:gem/simple_form#lib/simple_form/form_builder.rb:687
   def attempt_mapping_with_custom_namespace(input_name); end
 
-  # source://simple_form//lib/simple_form/form_builder.rb#508
+  # pkg:gem/simple_form#lib/simple_form/form_builder.rb:508
   def build_association_attribute(reflection, association, options); end
 
-  # source://simple_form//lib/simple_form/form_builder.rb#697
+  # pkg:gem/simple_form#lib/simple_form/form_builder.rb:697
   def build_input_field_components(components); end
 
-  # source://simple_form//lib/simple_form/form_builder.rb#707
+  # pkg:gem/simple_form#lib/simple_form/form_builder.rb:707
   def build_input_field_options; end
 
   # Attempt to guess the better input type given the defined options. By
   # default always fallback to the user :as option, or to a :select when a
   # collection is given.
   #
-  # source://simple_form//lib/simple_form/form_builder.rb#545
+  # pkg:gem/simple_form#lib/simple_form/form_builder.rb:545
   def default_input_type(attribute_name, column, options); end
 
   # If cache_discovery is enabled, use the class level cache that persists
   # between requests, otherwise use the instance one.
   #
-  # source://simple_form//lib/simple_form/form_builder.rb#660
+  # pkg:gem/simple_form#lib/simple_form/form_builder.rb:660
   def discovery_cache; end
 
-  # source://simple_form//lib/simple_form/form_builder.rb#485
+  # pkg:gem/simple_form#lib/simple_form/form_builder.rb:485
   def fetch_association_collection(reflection, options); end
 
   # Internal: Try to discover whether an attribute corresponds to a file or not.
@@ -1420,23 +1300,21 @@ class SimpleForm::FormBuilder < ::ActionView::Helpers::FormBuilder
   #
   # Returns a Boolean.
   #
-  # @return [Boolean]
-  #
-  # source://simple_form//lib/simple_form/form_builder.rb#592
+  # pkg:gem/simple_form#lib/simple_form/form_builder.rb:592
   def file_method?(attribute_name); end
 
-  # source://simple_form//lib/simple_form/form_builder.rb#612
+  # pkg:gem/simple_form#lib/simple_form/form_builder.rb:612
   def find_association_reflection(association); end
 
-  # source://simple_form//lib/simple_form/form_builder.rb#600
+  # pkg:gem/simple_form#lib/simple_form/form_builder.rb:600
   def find_attribute_column(attribute_name); end
 
-  # source://simple_form//lib/simple_form/form_builder.rb#570
+  # pkg:gem/simple_form#lib/simple_form/form_builder.rb:570
   def find_custom_type(attribute_name); end
 
   # Find an input based on the attribute name.
   #
-  # source://simple_form//lib/simple_form/form_builder.rb#531
+  # pkg:gem/simple_form#lib/simple_form/form_builder.rb:531
   def find_input(attribute_name, options = T.unsafe(nil), &block); end
 
   # Attempts to find a mapping. It follows the following rules:
@@ -1447,10 +1325,10 @@ class SimpleForm::FormBuilder < ::ActionView::Helpers::FormBuilder
   # 2) If not, fallbacks to #{input_type}Input
   # 3) If not, fallbacks to SimpleForm::Inputs::#{input_type}Input
   #
-  # source://simple_form//lib/simple_form/form_builder.rb#625
+  # pkg:gem/simple_form#lib/simple_form/form_builder.rb:625
   def find_mapping(input_type); end
 
-  # source://simple_form//lib/simple_form/form_builder.rb#650
+  # pkg:gem/simple_form#lib/simple_form/form_builder.rb:650
   def find_wrapper(input_type, options); end
 
   # Attempts to find a wrapper mapping. It follows the following rules:
@@ -1458,161 +1336,141 @@ class SimpleForm::FormBuilder < ::ActionView::Helpers::FormBuilder
   # 1) It tries to find a wrapper for the current form
   # 2) If not, it tries to find a config
   #
-  # source://simple_form//lib/simple_form/form_builder.rb#642
+  # pkg:gem/simple_form#lib/simple_form/form_builder.rb:642
   def find_wrapper_mapping(input_type); end
 
-  # source://simple_form//lib/simple_form/form_builder.rb#668
+  # pkg:gem/simple_form#lib/simple_form/form_builder.rb:668
   def mapping_override(klass); end
 
   class << self
-    # source://simple_form//lib/simple_form/form_builder.rb#37
+    # pkg:gem/simple_form#lib/simple_form/form_builder.rb:37
     def discovery_cache; end
 
-    # source://simple_form//lib/simple_form/form_builder.rb#18
+    # pkg:gem/simple_form#lib/simple_form/form_builder.rb:18
     def mappings; end
 
-    # source://simple_form//lib/simple_form/form_builder.rb#18
+    # pkg:gem/simple_form#lib/simple_form/form_builder.rb:18
     def mappings=(value); end
 
-    # source://simple_form//lib/simple_form/form_builder.rb#18
+    # pkg:gem/simple_form#lib/simple_form/form_builder.rb:18
     def mappings?; end
 
     private
 
-    # source://simple_form//lib/simple_form/form_builder.rb#18
+    # pkg:gem/simple_form#lib/simple_form/form_builder.rb:18
     def __class_attr_mappings; end
 
-    # source://simple_form//lib/simple_form/form_builder.rb#18
+    # pkg:gem/simple_form#lib/simple_form/form_builder.rb:18
     def __class_attr_mappings=(new_value); end
   end
 end
 
 # When action is create or update, we still should use new and edit
 #
-# source://simple_form//lib/simple_form/form_builder.rb#11
+# pkg:gem/simple_form#lib/simple_form/form_builder.rb:11
 SimpleForm::FormBuilder::ACTIONS = T.let(T.unsafe(nil), Hash)
 
-# source://simple_form//lib/simple_form/form_builder.rb#16
+# pkg:gem/simple_form#lib/simple_form/form_builder.rb:16
 SimpleForm::FormBuilder::ATTRIBUTE_COMPONENTS = T.let(T.unsafe(nil), Array)
 
 # Helpers are made of several helpers that cannot be turned on automatically.
 # For instance, disabled cannot be turned on automatically, it requires the
 # user to explicitly pass the option disabled: true so it may work.
 #
-# source://simple_form//lib/simple_form/helpers.rb#6
+# pkg:gem/simple_form#lib/simple_form/helpers.rb:6
 module SimpleForm::Helpers; end
 
-# source://simple_form//lib/simple_form/helpers/autofocus.rb#4
+# pkg:gem/simple_form#lib/simple_form/helpers/autofocus.rb:4
 module SimpleForm::Helpers::Autofocus
   private
 
-  # @return [Boolean]
-  #
-  # source://simple_form//lib/simple_form/helpers/autofocus.rb#7
+  # pkg:gem/simple_form#lib/simple_form/helpers/autofocus.rb:7
   def has_autofocus?; end
 end
 
-# source://simple_form//lib/simple_form/helpers/disabled.rb#4
+# pkg:gem/simple_form#lib/simple_form/helpers/disabled.rb:4
 module SimpleForm::Helpers::Disabled
   private
 
-  # source://simple_form//lib/simple_form/helpers/disabled.rb#11
+  # pkg:gem/simple_form#lib/simple_form/helpers/disabled.rb:11
   def disabled_class; end
 
-  # @return [Boolean]
-  #
-  # source://simple_form//lib/simple_form/helpers/disabled.rb#7
+  # pkg:gem/simple_form#lib/simple_form/helpers/disabled.rb:7
   def has_disabled?; end
 end
 
-# source://simple_form//lib/simple_form/helpers/readonly.rb#4
+# pkg:gem/simple_form#lib/simple_form/helpers/readonly.rb:4
 module SimpleForm::Helpers::Readonly
   private
 
-  # @return [Boolean]
-  #
-  # source://simple_form//lib/simple_form/helpers/readonly.rb#11
+  # pkg:gem/simple_form#lib/simple_form/helpers/readonly.rb:11
   def has_readonly?; end
 
-  # source://simple_form//lib/simple_form/helpers/readonly.rb#7
+  # pkg:gem/simple_form#lib/simple_form/helpers/readonly.rb:7
   def readonly_class; end
 end
 
-# source://simple_form//lib/simple_form/helpers/required.rb#4
+# pkg:gem/simple_form#lib/simple_form/helpers/required.rb:4
 module SimpleForm::Helpers::Required
   private
 
-  # source://simple_form//lib/simple_form/helpers/required.rb#11
+  # pkg:gem/simple_form#lib/simple_form/helpers/required.rb:11
   def calculate_required; end
 
-  # @return [Boolean]
-  #
-  # source://simple_form//lib/simple_form/helpers/required.rb#25
+  # pkg:gem/simple_form#lib/simple_form/helpers/required.rb:25
   def required_by_default?; end
 
-  # @return [Boolean]
-  #
-  # source://simple_form//lib/simple_form/helpers/required.rb#21
+  # pkg:gem/simple_form#lib/simple_form/helpers/required.rb:21
   def required_by_validators?; end
 
   # Do not use has_required? because we want to add the class
   # regardless of the required option.
   #
-  # source://simple_form//lib/simple_form/helpers/required.rb#31
+  # pkg:gem/simple_form#lib/simple_form/helpers/required.rb:31
   def required_class; end
 
-  # @return [Boolean]
-  #
-  # source://simple_form//lib/simple_form/helpers/required.rb#7
+  # pkg:gem/simple_form#lib/simple_form/helpers/required.rb:7
   def required_field?; end
 end
 
-# source://simple_form//lib/simple_form/helpers/validators.rb#4
+# pkg:gem/simple_form#lib/simple_form/helpers/validators.rb:4
 module SimpleForm::Helpers::Validators
-  # @return [Boolean]
-  #
-  # source://simple_form//lib/simple_form/helpers/validators.rb#5
+  # pkg:gem/simple_form#lib/simple_form/helpers/validators.rb:5
   def has_validators?; end
 
   private
 
-  # @return [Boolean]
-  #
-  # source://simple_form//lib/simple_form/helpers/validators.rb#27
+  # pkg:gem/simple_form#lib/simple_form/helpers/validators.rb:27
   def action_validator_match?(validator); end
 
-  # source://simple_form//lib/simple_form/helpers/validators.rb#11
+  # pkg:gem/simple_form#lib/simple_form/helpers/validators.rb:11
   def attribute_validators; end
 
-  # @return [Boolean]
-  #
-  # source://simple_form//lib/simple_form/helpers/validators.rb#23
+  # pkg:gem/simple_form#lib/simple_form/helpers/validators.rb:23
   def conditional_validators?(validator); end
 
-  # source://simple_form//lib/simple_form/helpers/validators.rb#40
+  # pkg:gem/simple_form#lib/simple_form/helpers/validators.rb:40
   def find_validator(kind); end
 
-  # source://simple_form//lib/simple_form/helpers/validators.rb#15
+  # pkg:gem/simple_form#lib/simple_form/helpers/validators.rb:15
   def reflection_validators; end
 
   # Implements `ActiveModel::Validations::ResolveValue`, introduced by Rails 7.1.
   # https://github.com/rails/rails/blob/v7.1.0/activemodel/lib/active_model/validations/resolve_value.rb
   #
-  # source://simple_form//lib/simple_form/helpers/validators.rb#46
+  # pkg:gem/simple_form#lib/simple_form/helpers/validators.rb:46
   def resolve_validator_value(value); end
 
-  # @return [Boolean]
-  #
-  # source://simple_form//lib/simple_form/helpers/validators.rb#19
+  # pkg:gem/simple_form#lib/simple_form/helpers/validators.rb:19
   def valid_validator?(validator); end
 end
 
-# source://simple_form//lib/simple_form/inputs.rb#3
+# pkg:gem/simple_form#lib/simple_form/inputs.rb:3
 module SimpleForm::Inputs
   extend ::ActiveSupport::Autoload
 end
 
-# source://simple_form//lib/simple_form/inputs/base.rb#7
+# pkg:gem/simple_form#lib/simple_form/inputs/base.rb:7
 class SimpleForm::Inputs::Base
   include ::ERB::Escape
   include ::ERB::Util
@@ -1640,135 +1498,111 @@ class SimpleForm::Inputs::Base
   include ::SimpleForm::Components::Readonly
   extend ::SimpleForm::Components::Labels::ClassMethods
 
-  # @return [Base] a new instance of Base
-  #
-  # source://simple_form//lib/simple_form/inputs/base.rb#54
+  # pkg:gem/simple_form#lib/simple_form/inputs/base.rb:54
   def initialize(builder, attribute_name, column, input_type, options = T.unsafe(nil)); end
 
-  # source://simple_form//lib/simple_form/inputs/base.rb#94
+  # pkg:gem/simple_form#lib/simple_form/inputs/base.rb:94
   def additional_classes; end
 
-  # Returns the value of attribute attribute_name.
-  #
-  # source://simple_form//lib/simple_form/inputs/base.rb#28
+  # pkg:gem/simple_form#lib/simple_form/inputs/base.rb:28
   def attribute_name; end
 
-  # Returns the value of attribute column.
-  #
-  # source://simple_form//lib/simple_form/inputs/base.rb#28
+  # pkg:gem/simple_form#lib/simple_form/inputs/base.rb:28
   def column; end
 
-  # source://simple_form//lib/simple_form/inputs/base.rb#9
+  # pkg:gem/simple_form#lib/simple_form/inputs/base.rb:9
   def debug_missing_translation; end
 
-  # source://simple_form//lib/simple_form/inputs/base.rb#9
+  # pkg:gem/simple_form#lib/simple_form/inputs/base.rb:9
   def debug_missing_translation=(val); end
 
-  # source://simple_form//lib/simple_form/inputs/base.rb#33
+  # pkg:gem/simple_form#lib/simple_form/inputs/base.rb:33
   def default_options; end
 
-  # source://simple_form//lib/simple_form/inputs/base.rb#33
+  # pkg:gem/simple_form#lib/simple_form/inputs/base.rb:33
   def default_options=(_arg0); end
 
-  # source://simple_form//lib/simple_form/inputs/base.rb#33
+  # pkg:gem/simple_form#lib/simple_form/inputs/base.rb:33
   def default_options?; end
 
-  # Returns the value of attribute html_classes.
-  #
-  # source://simple_form//lib/simple_form/inputs/base.rb#28
+  # pkg:gem/simple_form#lib/simple_form/inputs/base.rb:28
   def html_classes; end
 
-  # @raise [NotImplementedError]
-  #
-  # source://simple_form//lib/simple_form/inputs/base.rb#86
+  # pkg:gem/simple_form#lib/simple_form/inputs/base.rb:86
   def input(wrapper_options = T.unsafe(nil)); end
 
-  # source://simple_form//lib/simple_form/inputs/base.rb#98
+  # pkg:gem/simple_form#lib/simple_form/inputs/base.rb:98
   def input_class; end
 
-  # Returns the value of attribute input_html_classes.
-  #
-  # source://simple_form//lib/simple_form/inputs/base.rb#28
+  # pkg:gem/simple_form#lib/simple_form/inputs/base.rb:28
   def input_html_classes; end
 
-  # Returns the value of attribute input_html_options.
-  #
-  # source://simple_form//lib/simple_form/inputs/base.rb#28
+  # pkg:gem/simple_form#lib/simple_form/inputs/base.rb:28
   def input_html_options; end
 
-  # source://simple_form//lib/simple_form/inputs/base.rb#90
+  # pkg:gem/simple_form#lib/simple_form/inputs/base.rb:90
   def input_options; end
 
-  # Returns the value of attribute input_type.
-  #
-  # source://simple_form//lib/simple_form/inputs/base.rb#28
+  # pkg:gem/simple_form#lib/simple_form/inputs/base.rb:28
   def input_type; end
 
-  # source://simple_form//lib/simple_form/inputs/base.rb#31
+  # pkg:gem/simple_form#lib/simple_form/inputs/base.rb:31
   def lookup_action(*_arg0, **_arg1, &_arg2); end
 
-  # source://simple_form//lib/simple_form/inputs/base.rb#31
+  # pkg:gem/simple_form#lib/simple_form/inputs/base.rb:31
   def lookup_model_names(*_arg0, **_arg1, &_arg2); end
 
-  # source://simple_form//lib/simple_form/inputs/base.rb#31
+  # pkg:gem/simple_form#lib/simple_form/inputs/base.rb:31
   def object(*_arg0, **_arg1, &_arg2); end
 
-  # source://simple_form//lib/simple_form/inputs/base.rb#31
+  # pkg:gem/simple_form#lib/simple_form/inputs/base.rb:31
   def object_name(*_arg0, **_arg1, &_arg2); end
 
-  # Returns the value of attribute options.
-  #
-  # source://simple_form//lib/simple_form/inputs/base.rb#28
+  # pkg:gem/simple_form#lib/simple_form/inputs/base.rb:28
   def options; end
 
-  # Returns the value of attribute reflection.
-  #
-  # source://simple_form//lib/simple_form/inputs/base.rb#28
+  # pkg:gem/simple_form#lib/simple_form/inputs/base.rb:28
   def reflection; end
 
-  # source://simple_form//lib/simple_form/inputs/base.rb#31
+  # pkg:gem/simple_form#lib/simple_form/inputs/base.rb:31
   def template(*_arg0, **_arg1, &_arg2); end
 
   private
 
-  # source://simple_form//lib/simple_form/inputs/base.rb#110
+  # pkg:gem/simple_form#lib/simple_form/inputs/base.rb:110
   def column_limit; end
 
   # Add one for decimal point
   #
-  # source://simple_form//lib/simple_form/inputs/base.rb#115
+  # pkg:gem/simple_form#lib/simple_form/inputs/base.rb:115
   def decimal_limit; end
 
-  # @return [Boolean]
-  #
-  # source://simple_form//lib/simple_form/inputs/base.rb#119
+  # pkg:gem/simple_form#lib/simple_form/inputs/base.rb:119
   def decimal_or_float?; end
 
   # Retrieve options for the given namespace from the options hash
   #
-  # source://simple_form//lib/simple_form/inputs/base.rb#133
+  # pkg:gem/simple_form#lib/simple_form/inputs/base.rb:133
   def html_options_for(namespace, css_classes); end
 
-  # source://simple_form//lib/simple_form/inputs/base.rb#227
+  # pkg:gem/simple_form#lib/simple_form/inputs/base.rb:227
   def i18n_scope; end
 
-  # source://simple_form//lib/simple_form/inputs/base.rb#104
+  # pkg:gem/simple_form#lib/simple_form/inputs/base.rb:104
   def limit; end
 
-  # source://simple_form//lib/simple_form/inputs/base.rb#192
+  # pkg:gem/simple_form#lib/simple_form/inputs/base.rb:192
   def merge_wrapper_options(options, wrapper_options); end
 
-  # @return [Boolean]
-  #
-  # source://simple_form//lib/simple_form/inputs/base.rb#123
+  # pkg:gem/simple_form#lib/simple_form/inputs/base.rb:123
   def nested_boolean_style?; end
 
   # Find reflection name when available, otherwise use attribute
   #
-  # source://simple_form//lib/simple_form/inputs/base.rb#128
+  # pkg:gem/simple_form#lib/simple_form/inputs/base.rb:128
   def reflection_or_attribute_name; end
 
-  # source://simple_form//lib/simple_form/inputs/base.rb#211
+  # pkg:gem/simple_form#lib/simple_form/inputs/base.rb:211
   def set_input_classes(wrapper_options); end
 
   # Lookup translations for the given namespace using I18n, based on object name,
@@ -1805,63 +1639,61 @@ class SimpleForm::Inputs::Base
   #
   #  Take a look at our locale example file.
   #
-  # source://simple_form//lib/simple_form/inputs/base.rb#174
+  # pkg:gem/simple_form#lib/simple_form/inputs/base.rb:174
   def translate_from_namespace(namespace, default = T.unsafe(nil)); end
 
   class << self
-    # source://simple_form//lib/simple_form/inputs/base.rb#9
+    # pkg:gem/simple_form#lib/simple_form/inputs/base.rb:9
     def debug_missing_translation; end
 
-    # source://simple_form//lib/simple_form/inputs/base.rb#9
+    # pkg:gem/simple_form#lib/simple_form/inputs/base.rb:9
     def debug_missing_translation=(val); end
 
-    # source://simple_form//lib/simple_form/inputs/base.rb#33
+    # pkg:gem/simple_form#lib/simple_form/inputs/base.rb:33
     def default_options; end
 
-    # source://simple_form//lib/simple_form/inputs/base.rb#33
+    # pkg:gem/simple_form#lib/simple_form/inputs/base.rb:33
     def default_options=(value); end
 
-    # source://simple_form//lib/simple_form/inputs/base.rb#33
+    # pkg:gem/simple_form#lib/simple_form/inputs/base.rb:33
     def default_options?; end
 
-    # source://simple_form//lib/simple_form/inputs/base.rb#42
+    # pkg:gem/simple_form#lib/simple_form/inputs/base.rb:42
     def disable(*keys); end
 
-    # source://simple_form//lib/simple_form/inputs/base.rb#36
+    # pkg:gem/simple_form#lib/simple_form/inputs/base.rb:36
     def enable(*keys); end
 
     private
 
-    # source://simple_form//lib/simple_form/inputs/base.rb#33
+    # pkg:gem/simple_form#lib/simple_form/inputs/base.rb:33
     def __class_attr_default_options; end
 
-    # source://simple_form//lib/simple_form/inputs/base.rb#33
+    # pkg:gem/simple_form#lib/simple_form/inputs/base.rb:33
     def __class_attr_default_options=(new_value); end
   end
 end
 
-# source://simple_form//lib/simple_form/inputs/block_input.rb#4
+# pkg:gem/simple_form#lib/simple_form/inputs/block_input.rb:4
 class SimpleForm::Inputs::BlockInput < ::SimpleForm::Inputs::Base
-  # @return [BlockInput] a new instance of BlockInput
-  #
-  # source://simple_form//lib/simple_form/inputs/block_input.rb#5
+  # pkg:gem/simple_form#lib/simple_form/inputs/block_input.rb:5
   def initialize(*args, &block); end
 
-  # source://simple_form//lib/simple_form/inputs/block_input.rb#10
+  # pkg:gem/simple_form#lib/simple_form/inputs/block_input.rb:10
   def input(wrapper_options = T.unsafe(nil)); end
 end
 
-# source://simple_form//lib/simple_form/inputs/boolean_input.rb#4
+# pkg:gem/simple_form#lib/simple_form/inputs/boolean_input.rb:4
 class SimpleForm::Inputs::BooleanInput < ::SimpleForm::Inputs::Base
-  # source://simple_form//lib/simple_form/inputs/boolean_input.rb#5
+  # pkg:gem/simple_form#lib/simple_form/inputs/boolean_input.rb:5
   def input(wrapper_options = T.unsafe(nil)); end
 
-  # source://simple_form//lib/simple_form/inputs/boolean_input.rb#23
+  # pkg:gem/simple_form#lib/simple_form/inputs/boolean_input.rb:23
   def label_input(wrapper_options = T.unsafe(nil)); end
 
   private
 
-  # source://simple_form//lib/simple_form/inputs/boolean_input.rb#44
+  # pkg:gem/simple_form#lib/simple_form/inputs/boolean_input.rb:44
   def boolean_label_class; end
 
   # Build a checkbox tag using default unchecked value. This allows us to
@@ -1869,13 +1701,13 @@ class SimpleForm::Inputs::BooleanInput < ::SimpleForm::Inputs::Base
   # which won't generate the hidden checkbox. This is the default functionality
   # in Rails > 3.2.1, and is backported in SimpleForm AV helpers.
   #
-  # source://simple_form//lib/simple_form/inputs/boolean_input.rb#52
+  # pkg:gem/simple_form#lib/simple_form/inputs/boolean_input.rb:52
   def build_check_box(unchecked_value, options); end
 
   # Build a checkbox without generating the hidden field. See
   # #build_hidden_field_for_checkbox for more info.
   #
-  # source://simple_form//lib/simple_form/inputs/boolean_input.rb#58
+  # pkg:gem/simple_form#lib/simple_form/inputs/boolean_input.rb:58
   def build_check_box_without_hidden_field(options); end
 
   # Create a hidden field for the current checkbox, so we can simulate Rails
@@ -1883,78 +1715,66 @@ class SimpleForm::Inputs::BooleanInput < ::SimpleForm::Inputs::Base
   # we need the hidden field to be *outside* the label (otherwise it
   # generates invalid html - html5 only).
   #
-  # source://simple_form//lib/simple_form/inputs/boolean_input.rb#66
+  # pkg:gem/simple_form#lib/simple_form/inputs/boolean_input.rb:66
   def build_hidden_field_for_checkbox; end
 
-  # source://simple_form//lib/simple_form/inputs/boolean_input.rb#99
+  # pkg:gem/simple_form#lib/simple_form/inputs/boolean_input.rb:99
   def checked_value; end
 
-  # @return [Boolean]
-  #
-  # source://simple_form//lib/simple_form/inputs/boolean_input.rb#95
+  # pkg:gem/simple_form#lib/simple_form/inputs/boolean_input.rb:95
   def include_hidden?; end
 
-  # source://simple_form//lib/simple_form/inputs/boolean_input.rb#79
+  # pkg:gem/simple_form#lib/simple_form/inputs/boolean_input.rb:79
   def inline_label; end
 
-  # @return [Boolean]
-  #
-  # source://simple_form//lib/simple_form/inputs/boolean_input.rb#75
+  # pkg:gem/simple_form#lib/simple_form/inputs/boolean_input.rb:75
   def inline_label?; end
 
   # Booleans are not required by default because in most of the cases
   # it makes no sense marking them as required. The only exception is
   # Terms of Use usually presented at most sites sign up screen.
   #
-  # @return [Boolean]
-  #
-  # source://simple_form//lib/simple_form/inputs/boolean_input.rb#91
+  # pkg:gem/simple_form#lib/simple_form/inputs/boolean_input.rb:91
   def required_by_default?; end
 
-  # source://simple_form//lib/simple_form/inputs/boolean_input.rb#103
+  # pkg:gem/simple_form#lib/simple_form/inputs/boolean_input.rb:103
   def unchecked_value; end
 end
 
-# source://simple_form//lib/simple_form/inputs/collection_check_boxes_input.rb#4
+# pkg:gem/simple_form#lib/simple_form/inputs/collection_check_boxes_input.rb:4
 class SimpleForm::Inputs::CollectionCheckBoxesInput < ::SimpleForm::Inputs::CollectionRadioButtonsInput
   protected
 
-  # source://simple_form//lib/simple_form/inputs/collection_check_boxes_input.rb#13
+  # pkg:gem/simple_form#lib/simple_form/inputs/collection_check_boxes_input.rb:13
   def build_nested_boolean_style_item_tag(collection_builder); end
 
   # Checkbox components do not use the required html tag.
   # More info: https://github.com/heartcombo/simple_form/issues/340#issuecomment-2871956
   #
-  # @return [Boolean]
-  #
-  # source://simple_form//lib/simple_form/inputs/collection_check_boxes_input.rb#9
+  # pkg:gem/simple_form#lib/simple_form/inputs/collection_check_boxes_input.rb:9
   def has_required?; end
 
-  # source://simple_form//lib/simple_form/inputs/collection_check_boxes_input.rb#17
+  # pkg:gem/simple_form#lib/simple_form/inputs/collection_check_boxes_input.rb:17
   def item_wrapper_class; end
 end
 
-# source://simple_form//lib/simple_form/inputs/collection_input.rb#4
+# pkg:gem/simple_form#lib/simple_form/inputs/collection_input.rb:4
 class SimpleForm::Inputs::CollectionInput < ::SimpleForm::Inputs::Base
-  # @raise [NotImplementedError]
-  #
-  # source://simple_form//lib/simple_form/inputs/collection_input.rb#17
+  # pkg:gem/simple_form#lib/simple_form/inputs/collection_input.rb:17
   def input(wrapper_options = T.unsafe(nil)); end
 
-  # source://simple_form//lib/simple_form/inputs/collection_input.rb#22
+  # pkg:gem/simple_form#lib/simple_form/inputs/collection_input.rb:22
   def input_options; end
 
   private
 
-  # source://simple_form//lib/simple_form/inputs/collection_input.rb#34
+  # pkg:gem/simple_form#lib/simple_form/inputs/collection_input.rb:34
   def collection; end
 
-  # @return [Boolean]
-  #
-  # source://simple_form//lib/simple_form/inputs/collection_input.rb#94
+  # pkg:gem/simple_form#lib/simple_form/inputs/collection_input.rb:94
   def collection_includes_basic_objects?(collection_classes); end
 
-  # source://simple_form//lib/simple_form/inputs/collection_input.rb#90
+  # pkg:gem/simple_form#lib/simple_form/inputs/collection_input.rb:90
   def detect_collection_classes(some_collection = T.unsafe(nil)); end
 
   # Detect the right method to find the label and value for a collection.
@@ -1963,36 +1783,30 @@ class SimpleForm::Inputs::CollectionInput < ::SimpleForm::Inputs::Base
   # SimpleForm.collection_label_methods and
   # SimpleForm.collection_value_methods.
   #
-  # source://simple_form//lib/simple_form/inputs/collection_input.rb#59
+  # pkg:gem/simple_form#lib/simple_form/inputs/collection_input.rb:59
   def detect_collection_methods; end
 
-  # source://simple_form//lib/simple_form/inputs/collection_input.rb#71
+  # pkg:gem/simple_form#lib/simple_form/inputs/collection_input.rb:71
   def detect_common_display_methods(collection_classes = T.unsafe(nil)); end
 
-  # source://simple_form//lib/simple_form/inputs/collection_input.rb#83
+  # pkg:gem/simple_form#lib/simple_form/inputs/collection_input.rb:83
   def detect_method_from_class(collection_classes); end
 
-  # @return [Boolean]
-  #
-  # source://simple_form//lib/simple_form/inputs/collection_input.rb#41
+  # pkg:gem/simple_form#lib/simple_form/inputs/collection_input.rb:41
   def has_required?; end
 
-  # @return [Boolean]
-  #
-  # source://simple_form//lib/simple_form/inputs/collection_input.rb#50
+  # pkg:gem/simple_form#lib/simple_form/inputs/collection_input.rb:50
   def multiple?; end
 
   # Check if :include_blank must be included by default.
   #
-  # @return [Boolean]
-  #
-  # source://simple_form//lib/simple_form/inputs/collection_input.rb#46
+  # pkg:gem/simple_form#lib/simple_form/inputs/collection_input.rb:46
   def skip_include_blank?; end
 
-  # source://simple_form//lib/simple_form/inputs/collection_input.rb#98
+  # pkg:gem/simple_form#lib/simple_form/inputs/collection_input.rb:98
   def translate_collection; end
 
-  # source://simple_form//lib/simple_form/inputs/collection_input.rb#113
+  # pkg:gem/simple_form#lib/simple_form/inputs/collection_input.rb:113
   def translate_option(options, key); end
 
   class << self
@@ -2001,321 +1815,309 @@ class SimpleForm::Inputs::CollectionInput < ::SimpleForm::Inputs::Base
     # Texts can be translated using i18n in "simple_form.yes" and
     # "simple_form.no" keys. See the example locale file.
     #
-    # source://simple_form//lib/simple_form/inputs/collection_input.rb#12
+    # pkg:gem/simple_form#lib/simple_form/inputs/collection_input.rb:12
     def boolean_collection; end
   end
 end
 
-# source://simple_form//lib/simple_form/inputs/collection_input.rb#5
+# pkg:gem/simple_form#lib/simple_form/inputs/collection_input.rb:5
 SimpleForm::Inputs::CollectionInput::BASIC_OBJECT_CLASSES = T.let(T.unsafe(nil), Array)
 
-# source://simple_form//lib/simple_form/inputs/collection_radio_buttons_input.rb#4
+# pkg:gem/simple_form#lib/simple_form/inputs/collection_radio_buttons_input.rb:4
 class SimpleForm::Inputs::CollectionRadioButtonsInput < ::SimpleForm::Inputs::CollectionInput
-  # source://simple_form//lib/simple_form/inputs/collection_radio_buttons_input.rb#5
+  # pkg:gem/simple_form#lib/simple_form/inputs/collection_radio_buttons_input.rb:5
   def input(wrapper_options = T.unsafe(nil)); end
 
-  # source://simple_form//lib/simple_form/inputs/collection_radio_buttons_input.rb#17
+  # pkg:gem/simple_form#lib/simple_form/inputs/collection_radio_buttons_input.rb:17
   def input_options; end
 
   protected
 
-  # source://simple_form//lib/simple_form/inputs/collection_radio_buttons_input.rb#25
+  # pkg:gem/simple_form#lib/simple_form/inputs/collection_radio_buttons_input.rb:25
   def apply_default_collection_options!(options); end
 
-  # source://simple_form//lib/simple_form/inputs/collection_radio_buttons_input.rb#43
+  # pkg:gem/simple_form#lib/simple_form/inputs/collection_radio_buttons_input.rb:43
   def build_nested_boolean_style_item_tag(collection_builder); end
 
-  # source://simple_form//lib/simple_form/inputs/collection_radio_buttons_input.rb#37
+  # pkg:gem/simple_form#lib/simple_form/inputs/collection_radio_buttons_input.rb:37
   def collection_block_for_nested_boolean_style; end
 
   # Do not attempt to generate label[for] attributes by default, unless an
   # explicit html option is given. This avoids generating labels pointing to
   # non existent fields.
   #
-  # @return [Boolean]
-  #
-  # source://simple_form//lib/simple_form/inputs/collection_radio_buttons_input.rb#54
+  # pkg:gem/simple_form#lib/simple_form/inputs/collection_radio_buttons_input.rb:54
   def generate_label_for_attribute?; end
 
-  # source://simple_form//lib/simple_form/inputs/collection_radio_buttons_input.rb#47
+  # pkg:gem/simple_form#lib/simple_form/inputs/collection_radio_buttons_input.rb:47
   def item_wrapper_class; end
 end
 
-# source://simple_form//lib/simple_form/inputs/collection_select_input.rb#4
+# pkg:gem/simple_form#lib/simple_form/inputs/collection_select_input.rb:4
 class SimpleForm::Inputs::CollectionSelectInput < ::SimpleForm::Inputs::CollectionInput
-  # source://simple_form//lib/simple_form/inputs/collection_select_input.rb#5
+  # pkg:gem/simple_form#lib/simple_form/inputs/collection_select_input.rb:5
   def input(wrapper_options = T.unsafe(nil)); end
 end
 
-# source://simple_form//lib/simple_form/inputs/color_input.rb#4
+# pkg:gem/simple_form#lib/simple_form/inputs/color_input.rb:4
 class SimpleForm::Inputs::ColorInput < ::SimpleForm::Inputs::Base
-  # source://simple_form//lib/simple_form/inputs/color_input.rb#5
+  # pkg:gem/simple_form#lib/simple_form/inputs/color_input.rb:5
   def input(wrapper_options = T.unsafe(nil)); end
 end
 
-# source://simple_form//lib/simple_form/inputs/date_time_input.rb#4
+# pkg:gem/simple_form#lib/simple_form/inputs/date_time_input.rb:4
 class SimpleForm::Inputs::DateTimeInput < ::SimpleForm::Inputs::Base
-  # source://simple_form//lib/simple_form/inputs/date_time_input.rb#5
+  # pkg:gem/simple_form#lib/simple_form/inputs/date_time_input.rb:5
   def input(wrapper_options = T.unsafe(nil)); end
 
   private
 
-  # source://simple_form//lib/simple_form/inputs/date_time_input.rb#17
+  # pkg:gem/simple_form#lib/simple_form/inputs/date_time_input.rb:17
   def label_target; end
 
-  # @return [Boolean]
-  #
-  # source://simple_form//lib/simple_form/inputs/date_time_input.rb#34
+  # pkg:gem/simple_form#lib/simple_form/inputs/date_time_input.rb:34
   def use_html5_inputs?; end
 end
 
-# source://simple_form//lib/simple_form/inputs/file_input.rb#4
+# pkg:gem/simple_form#lib/simple_form/inputs/file_input.rb:4
 class SimpleForm::Inputs::FileInput < ::SimpleForm::Inputs::Base
-  # source://simple_form//lib/simple_form/inputs/file_input.rb#5
+  # pkg:gem/simple_form#lib/simple_form/inputs/file_input.rb:5
   def input(wrapper_options = T.unsafe(nil)); end
 end
 
-# source://simple_form//lib/simple_form/inputs/grouped_collection_select_input.rb#4
+# pkg:gem/simple_form#lib/simple_form/inputs/grouped_collection_select_input.rb:4
 class SimpleForm::Inputs::GroupedCollectionSelectInput < ::SimpleForm::Inputs::CollectionInput
-  # source://simple_form//lib/simple_form/inputs/grouped_collection_select_input.rb#5
+  # pkg:gem/simple_form#lib/simple_form/inputs/grouped_collection_select_input.rb:5
   def input(wrapper_options = T.unsafe(nil)); end
 
   private
 
   # Sample collection
   #
-  # source://simple_form//lib/simple_form/inputs/grouped_collection_select_input.rb#25
+  # pkg:gem/simple_form#lib/simple_form/inputs/grouped_collection_select_input.rb:25
   def collection; end
 
-  # source://simple_form//lib/simple_form/inputs/grouped_collection_select_input.rb#44
+  # pkg:gem/simple_form#lib/simple_form/inputs/grouped_collection_select_input.rb:44
   def detect_method_from_class(collection_classes); end
 
-  # source://simple_form//lib/simple_form/inputs/grouped_collection_select_input.rb#33
+  # pkg:gem/simple_form#lib/simple_form/inputs/grouped_collection_select_input.rb:33
   def group_label_method; end
 
-  # source://simple_form//lib/simple_form/inputs/grouped_collection_select_input.rb#29
+  # pkg:gem/simple_form#lib/simple_form/inputs/grouped_collection_select_input.rb:29
   def group_method; end
 
-  # source://simple_form//lib/simple_form/inputs/grouped_collection_select_input.rb#17
+  # pkg:gem/simple_form#lib/simple_form/inputs/grouped_collection_select_input.rb:17
   def grouped_collection; end
 end
 
-# source://simple_form//lib/simple_form/inputs/hidden_input.rb#4
+# pkg:gem/simple_form#lib/simple_form/inputs/hidden_input.rb:4
 class SimpleForm::Inputs::HiddenInput < ::SimpleForm::Inputs::Base
-  # source://simple_form//lib/simple_form/inputs/hidden_input.rb#7
+  # pkg:gem/simple_form#lib/simple_form/inputs/hidden_input.rb:7
   def input(wrapper_options = T.unsafe(nil)); end
 
   private
 
-  # source://simple_form//lib/simple_form/inputs/hidden_input.rb#15
+  # pkg:gem/simple_form#lib/simple_form/inputs/hidden_input.rb:15
   def required_class; end
 
   class << self
     private
 
-    # source://simple_form//lib/simple_form/inputs/hidden_input.rb#5
+    # pkg:gem/simple_form#lib/simple_form/inputs/hidden_input.rb:5
     def __class_attr_default_options; end
 
-    # source://simple_form//lib/simple_form/inputs/hidden_input.rb#5
+    # pkg:gem/simple_form#lib/simple_form/inputs/hidden_input.rb:5
     def __class_attr_default_options=(new_value); end
   end
 end
 
-# source://simple_form//lib/simple_form/inputs/numeric_input.rb#4
+# pkg:gem/simple_form#lib/simple_form/inputs/numeric_input.rb:4
 class SimpleForm::Inputs::NumericInput < ::SimpleForm::Inputs::Base
-  # source://simple_form//lib/simple_form/inputs/numeric_input.rb#7
+  # pkg:gem/simple_form#lib/simple_form/inputs/numeric_input.rb:7
   def input(wrapper_options = T.unsafe(nil)); end
 
   class << self
     private
 
-    # source://simple_form//lib/simple_form/inputs/numeric_input.rb#5
+    # pkg:gem/simple_form#lib/simple_form/inputs/numeric_input.rb:5
     def __class_attr_default_options; end
 
-    # source://simple_form//lib/simple_form/inputs/numeric_input.rb#5
+    # pkg:gem/simple_form#lib/simple_form/inputs/numeric_input.rb:5
     def __class_attr_default_options=(new_value); end
   end
 end
 
-# source://simple_form//lib/simple_form/inputs/password_input.rb#4
+# pkg:gem/simple_form#lib/simple_form/inputs/password_input.rb:4
 class SimpleForm::Inputs::PasswordInput < ::SimpleForm::Inputs::Base
-  # source://simple_form//lib/simple_form/inputs/password_input.rb#7
+  # pkg:gem/simple_form#lib/simple_form/inputs/password_input.rb:7
   def input(wrapper_options = T.unsafe(nil)); end
 
   class << self
     private
 
-    # source://simple_form//lib/simple_form/inputs/password_input.rb#5
+    # pkg:gem/simple_form#lib/simple_form/inputs/password_input.rb:5
     def __class_attr_default_options; end
 
-    # source://simple_form//lib/simple_form/inputs/password_input.rb#5
+    # pkg:gem/simple_form#lib/simple_form/inputs/password_input.rb:5
     def __class_attr_default_options=(new_value); end
   end
 end
 
-# source://simple_form//lib/simple_form/inputs/priority_input.rb#4
+# pkg:gem/simple_form#lib/simple_form/inputs/priority_input.rb:4
 class SimpleForm::Inputs::PriorityInput < ::SimpleForm::Inputs::CollectionSelectInput
-  # source://simple_form//lib/simple_form/inputs/priority_input.rb#5
+  # pkg:gem/simple_form#lib/simple_form/inputs/priority_input.rb:5
   def input(wrapper_options = T.unsafe(nil)); end
 
-  # source://simple_form//lib/simple_form/inputs/priority_input.rb#11
+  # pkg:gem/simple_form#lib/simple_form/inputs/priority_input.rb:11
   def input_priority; end
 
   protected
 
-  # source://simple_form//lib/simple_form/inputs/priority_input.rb#17
+  # pkg:gem/simple_form#lib/simple_form/inputs/priority_input.rb:17
   def country_input(merged_input_options); end
 
-  # @return [Boolean]
-  #
-  # source://simple_form//lib/simple_form/inputs/priority_input.rb#32
+  # pkg:gem/simple_form#lib/simple_form/inputs/priority_input.rb:32
   def skip_include_blank?; end
 
-  # source://simple_form//lib/simple_form/inputs/priority_input.rb#24
+  # pkg:gem/simple_form#lib/simple_form/inputs/priority_input.rb:24
   def time_zone_input(merged_input_options); end
 end
 
-# source://simple_form//lib/simple_form/inputs/range_input.rb#4
+# pkg:gem/simple_form#lib/simple_form/inputs/range_input.rb:4
 class SimpleForm::Inputs::RangeInput < ::SimpleForm::Inputs::NumericInput
-  # source://simple_form//lib/simple_form/inputs/range_input.rb#5
+  # pkg:gem/simple_form#lib/simple_form/inputs/range_input.rb:5
   def input(wrapper_options = T.unsafe(nil)); end
 end
 
-# source://simple_form//lib/simple_form/inputs/rich_text_area_input.rb#4
+# pkg:gem/simple_form#lib/simple_form/inputs/rich_text_area_input.rb:4
 class SimpleForm::Inputs::RichTextAreaInput < ::SimpleForm::Inputs::Base
-  # source://simple_form//lib/simple_form/inputs/rich_text_area_input.rb#7
+  # pkg:gem/simple_form#lib/simple_form/inputs/rich_text_area_input.rb:7
   def input(wrapper_options = T.unsafe(nil)); end
 
   class << self
     private
 
-    # source://simple_form//lib/simple_form/inputs/rich_text_area_input.rb#5
+    # pkg:gem/simple_form#lib/simple_form/inputs/rich_text_area_input.rb:5
     def __class_attr_default_options; end
 
-    # source://simple_form//lib/simple_form/inputs/rich_text_area_input.rb#5
+    # pkg:gem/simple_form#lib/simple_form/inputs/rich_text_area_input.rb:5
     def __class_attr_default_options=(new_value); end
   end
 end
 
-# source://simple_form//lib/simple_form/inputs/string_input.rb#4
+# pkg:gem/simple_form#lib/simple_form/inputs/string_input.rb:4
 class SimpleForm::Inputs::StringInput < ::SimpleForm::Inputs::Base
-  # source://simple_form//lib/simple_form/inputs/string_input.rb#7
+  # pkg:gem/simple_form#lib/simple_form/inputs/string_input.rb:7
   def input(wrapper_options = T.unsafe(nil)); end
 
   private
 
-  # @return [Boolean]
-  #
-  # source://simple_form//lib/simple_form/inputs/string_input.rb#20
+  # pkg:gem/simple_form#lib/simple_form/inputs/string_input.rb:20
   def string?; end
 
   class << self
     private
 
-    # source://simple_form//lib/simple_form/inputs/string_input.rb#5
+    # pkg:gem/simple_form#lib/simple_form/inputs/string_input.rb:5
     def __class_attr_default_options; end
 
-    # source://simple_form//lib/simple_form/inputs/string_input.rb#5
+    # pkg:gem/simple_form#lib/simple_form/inputs/string_input.rb:5
     def __class_attr_default_options=(new_value); end
   end
 end
 
-# source://simple_form//lib/simple_form/inputs/text_input.rb#4
+# pkg:gem/simple_form#lib/simple_form/inputs/text_input.rb:4
 class SimpleForm::Inputs::TextInput < ::SimpleForm::Inputs::Base
-  # source://simple_form//lib/simple_form/inputs/text_input.rb#7
+  # pkg:gem/simple_form#lib/simple_form/inputs/text_input.rb:7
   def input(wrapper_options = T.unsafe(nil)); end
 
   class << self
     private
 
-    # source://simple_form//lib/simple_form/inputs/text_input.rb#5
+    # pkg:gem/simple_form#lib/simple_form/inputs/text_input.rb:5
     def __class_attr_default_options; end
 
-    # source://simple_form//lib/simple_form/inputs/text_input.rb#5
+    # pkg:gem/simple_form#lib/simple_form/inputs/text_input.rb:5
     def __class_attr_default_options=(new_value); end
   end
 end
 
-# source://simple_form//lib/simple_form/inputs/weekday_input.rb#4
+# pkg:gem/simple_form#lib/simple_form/inputs/weekday_input.rb:4
 class SimpleForm::Inputs::WeekdayInput < ::SimpleForm::Inputs::CollectionSelectInput
-  # source://simple_form//lib/simple_form/inputs/weekday_input.rb#7
+  # pkg:gem/simple_form#lib/simple_form/inputs/weekday_input.rb:7
   def input(wrapper_options = T.unsafe(nil)); end
 
   class << self
     private
 
-    # source://simple_form//lib/simple_form/inputs/weekday_input.rb#5
+    # pkg:gem/simple_form#lib/simple_form/inputs/weekday_input.rb:5
     def __class_attr_default_options; end
 
-    # source://simple_form//lib/simple_form/inputs/weekday_input.rb#5
+    # pkg:gem/simple_form#lib/simple_form/inputs/weekday_input.rb:5
     def __class_attr_default_options=(new_value); end
   end
 end
 
-# source://simple_form//lib/simple_form/map_type.rb#5
+# pkg:gem/simple_form#lib/simple_form/map_type.rb:5
 module SimpleForm::MapType
-  # @raise [ArgumentError]
-  #
-  # source://simple_form//lib/simple_form/map_type.rb#11
+  # pkg:gem/simple_form#lib/simple_form/map_type.rb:11
   def map_type(*types); end
 
   class << self
-    # @private
-    #
-    # source://simple_form//lib/simple_form/map_type.rb#6
+    # pkg:gem/simple_form#lib/simple_form/map_type.rb:6
     def extended(base); end
   end
 end
 
-# source://simple_form//lib/simple_form/railtie.rb#5
+# pkg:gem/simple_form#lib/simple_form/railtie.rb:5
 class SimpleForm::Railtie < ::Rails::Railtie; end
 
-# source://simple_form//lib/simple_form/tags.rb#3
+# pkg:gem/simple_form#lib/simple_form/tags.rb:3
 module SimpleForm::Tags; end
 
-# source://simple_form//lib/simple_form/tags.rb#57
+# pkg:gem/simple_form#lib/simple_form/tags.rb:57
 class SimpleForm::Tags::CollectionCheckBoxes < ::ActionView::Helpers::Tags::CollectionCheckBoxes
   include ::SimpleForm::Tags::CollectionExtensions
 
-  # source://simple_form//lib/simple_form/tags.rb#60
+  # pkg:gem/simple_form#lib/simple_form/tags.rb:60
   def render; end
 
   private
 
-  # source://simple_form//lib/simple_form/tags.rb#66
+  # pkg:gem/simple_form#lib/simple_form/tags.rb:66
   def render_component(builder); end
 end
 
-# source://simple_form//lib/simple_form/tags.rb#4
+# pkg:gem/simple_form#lib/simple_form/tags.rb:4
 module SimpleForm::Tags::CollectionExtensions
   private
 
-  # source://simple_form//lib/simple_form/tags.rb#7
+  # pkg:gem/simple_form#lib/simple_form/tags.rb:7
   def render_collection; end
 
-  # source://simple_form//lib/simple_form/tags.rb#29
+  # pkg:gem/simple_form#lib/simple_form/tags.rb:29
   def wrap_rendered_collection(collection); end
 end
 
-# source://simple_form//lib/simple_form/tags.rb#41
+# pkg:gem/simple_form#lib/simple_form/tags.rb:41
 class SimpleForm::Tags::CollectionRadioButtons < ::ActionView::Helpers::Tags::CollectionRadioButtons
   include ::SimpleForm::Tags::CollectionExtensions
 
-  # source://simple_form//lib/simple_form/tags.rb#44
+  # pkg:gem/simple_form#lib/simple_form/tags.rb:44
   def render; end
 
   private
 
-  # source://simple_form//lib/simple_form/tags.rb#50
+  # pkg:gem/simple_form#lib/simple_form/tags.rb:50
   def render_component(builder); end
 end
 
 # Raised when fails to find a given wrapper name
 #
-# source://simple_form//lib/simple_form.rb#226
+# pkg:gem/simple_form#lib/simple_form.rb:226
 class SimpleForm::WrapperNotFound < ::StandardError; end
 
-# source://simple_form//lib/simple_form/wrappers.rb#3
+# pkg:gem/simple_form#lib/simple_form/wrappers.rb:3
 module SimpleForm::Wrappers; end
 
 # Provides the builder syntax for components. The builder provides
@@ -2358,42 +2160,36 @@ module SimpleForm::Wrappers; end
 # In the example above, hint defaults to false, which means it won't automatically
 # do the lookup anymore. It will only be triggered when :hint is explicitly set.
 #
-# source://simple_form//lib/simple_form/wrappers/builder.rb#43
+# pkg:gem/simple_form#lib/simple_form/wrappers/builder.rb:43
 class SimpleForm::Wrappers::Builder
-  # @return [Builder] a new instance of Builder
-  #
-  # source://simple_form//lib/simple_form/wrappers/builder.rb#44
+  # pkg:gem/simple_form#lib/simple_form/wrappers/builder.rb:44
   def initialize(options); end
 
-  # source://simple_form//lib/simple_form/wrappers/builder.rb#57
+  # pkg:gem/simple_form#lib/simple_form/wrappers/builder.rb:57
   def optional(name, options = T.unsafe(nil), &block); end
 
-  # source://simple_form//lib/simple_form/wrappers/builder.rb#75
+  # pkg:gem/simple_form#lib/simple_form/wrappers/builder.rb:75
   def to_a; end
 
-  # source://simple_form//lib/simple_form/wrappers/builder.rb#49
+  # pkg:gem/simple_form#lib/simple_form/wrappers/builder.rb:49
   def use(name, options = T.unsafe(nil)); end
 
-  # source://simple_form//lib/simple_form/wrappers/builder.rb#62
+  # pkg:gem/simple_form#lib/simple_form/wrappers/builder.rb:62
   def wrapper(name, options = T.unsafe(nil)); end
 end
 
-# source://simple_form//lib/simple_form/wrappers/leaf.rb#4
+# pkg:gem/simple_form#lib/simple_form/wrappers/leaf.rb:4
 class SimpleForm::Wrappers::Leaf
-  # @return [Leaf] a new instance of Leaf
-  #
-  # source://simple_form//lib/simple_form/wrappers/leaf.rb#7
+  # pkg:gem/simple_form#lib/simple_form/wrappers/leaf.rb:7
   def initialize(namespace, options = T.unsafe(nil)); end
 
-  # source://simple_form//lib/simple_form/wrappers/leaf.rb#24
+  # pkg:gem/simple_form#lib/simple_form/wrappers/leaf.rb:24
   def find(name); end
 
-  # Returns the value of attribute namespace.
-  #
-  # source://simple_form//lib/simple_form/wrappers/leaf.rb#5
+  # pkg:gem/simple_form#lib/simple_form/wrappers/leaf.rb:5
   def namespace; end
 
-  # source://simple_form//lib/simple_form/wrappers/leaf.rb#12
+  # pkg:gem/simple_form#lib/simple_form/wrappers/leaf.rb:12
   def render(input); end
 end
 
@@ -2406,92 +2202,78 @@ end
 # It may optionally receive a namespace, allowing it to be configured
 # on demand on input generation.
 #
-# source://simple_form//lib/simple_form/wrappers/many.rb#12
+# pkg:gem/simple_form#lib/simple_form/wrappers/many.rb:12
 class SimpleForm::Wrappers::Many
-  # @return [Many] a new instance of Many
-  #
-  # source://simple_form//lib/simple_form/wrappers/many.rb#15
+  # pkg:gem/simple_form#lib/simple_form/wrappers/many.rb:15
   def initialize(namespace, components, defaults = T.unsafe(nil)); end
 
-  # Returns the value of attribute components.
-  #
-  # source://simple_form//lib/simple_form/wrappers/many.rb#13
+  # pkg:gem/simple_form#lib/simple_form/wrappers/many.rb:13
   def components; end
 
-  # Returns the value of attribute defaults.
-  #
-  # source://simple_form//lib/simple_form/wrappers/many.rb#13
+  # pkg:gem/simple_form#lib/simple_form/wrappers/many.rb:13
   def defaults; end
 
-  # source://simple_form//lib/simple_form/wrappers/many.rb#36
+  # pkg:gem/simple_form#lib/simple_form/wrappers/many.rb:36
   def find(name); end
 
-  # Returns the value of attribute namespace.
-  #
-  # source://simple_form//lib/simple_form/wrappers/many.rb#13
+  # pkg:gem/simple_form#lib/simple_form/wrappers/many.rb:13
   def namespace; end
 
-  # source://simple_form//lib/simple_form/wrappers/many.rb#23
+  # pkg:gem/simple_form#lib/simple_form/wrappers/many.rb:23
   def render(input); end
 
   private
 
-  # source://simple_form//lib/simple_form/wrappers/many.rb#69
+  # pkg:gem/simple_form#lib/simple_form/wrappers/many.rb:69
   def html_classes(input, options); end
 
-  # source://simple_form//lib/simple_form/wrappers/many.rb#65
+  # pkg:gem/simple_form#lib/simple_form/wrappers/many.rb:65
   def html_options(options); end
 
-  # source://simple_form//lib/simple_form/wrappers/many.rb#52
+  # pkg:gem/simple_form#lib/simple_form/wrappers/many.rb:52
   def wrap(input, options, content); end
 end
 
 # `Root` is the root wrapper for all components. It is special cased to
 # always have a namespace and to add special html classes.
 #
-# source://simple_form//lib/simple_form/wrappers/root.rb#6
+# pkg:gem/simple_form#lib/simple_form/wrappers/root.rb:6
 class SimpleForm::Wrappers::Root < ::SimpleForm::Wrappers::Many
-  # @return [Root] a new instance of Root
-  #
-  # source://simple_form//lib/simple_form/wrappers/root.rb#9
+  # pkg:gem/simple_form#lib/simple_form/wrappers/root.rb:9
   def initialize(*args); end
 
   # Provide a fallback if name cannot be found.
   #
-  # source://simple_form//lib/simple_form/wrappers/root.rb#20
+  # pkg:gem/simple_form#lib/simple_form/wrappers/root.rb:20
   def find(name); end
 
-  # Returns the value of attribute options.
-  #
-  # source://simple_form//lib/simple_form/wrappers/root.rb#7
+  # pkg:gem/simple_form#lib/simple_form/wrappers/root.rb:7
   def options; end
 
-  # source://simple_form//lib/simple_form/wrappers/root.rb#14
+  # pkg:gem/simple_form#lib/simple_form/wrappers/root.rb:14
   def render(input); end
 
   private
 
-  # source://simple_form//lib/simple_form/wrappers/root.rb#37
+  # pkg:gem/simple_form#lib/simple_form/wrappers/root.rb:37
   def html_class(key, options); end
 
-  # source://simple_form//lib/simple_form/wrappers/root.rb#26
+  # pkg:gem/simple_form#lib/simple_form/wrappers/root.rb:26
   def html_classes(input, options); end
 end
 
 # `Single` is an optimization for a wrapper that has only one component.
 #
-# source://simple_form//lib/simple_form/wrappers/single.rb#5
+# pkg:gem/simple_form#lib/simple_form/wrappers/single.rb:5
 class SimpleForm::Wrappers::Single < ::SimpleForm::Wrappers::Many
-  # @return [Single] a new instance of Single
-  #
-  # source://simple_form//lib/simple_form/wrappers/single.rb#6
+  # pkg:gem/simple_form#lib/simple_form/wrappers/single.rb:6
   def initialize(name, wrapper_options = T.unsafe(nil), options = T.unsafe(nil)); end
 
-  # source://simple_form//lib/simple_form/wrappers/single.rb#12
+  # pkg:gem/simple_form#lib/simple_form/wrappers/single.rb:12
   def render(input); end
 
   private
 
-  # source://simple_form//lib/simple_form/wrappers/single.rb#22
+  # pkg:gem/simple_form#lib/simple_form/wrappers/single.rb:22
   def html_options(options); end
 end

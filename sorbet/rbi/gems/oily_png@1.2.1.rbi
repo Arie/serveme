@@ -21,81 +21,83 @@ module ChunkyPNG::Color
   extend ::OilyPNG::Color
 end
 
-# source://oily_png//lib/oily_png.rb#3
+# pkg:gem/oily_png#lib/oily_png.rb:3
 module OilyPNG
   class << self
-    # @private
-    #
-    # source://oily_png//lib/oily_png.rb#4
+    # pkg:gem/oily_png#lib/oily_png.rb:4
     def included(base); end
   end
 end
 
-# source://oily_png//lib/oily_png/canvas.rb#5
+# pkg:gem/oily_png#lib/oily_png/canvas.rb:5
 class OilyPNG::Canvas < ::ChunkyPNG::Canvas; end
 
-# source://oily_png//lib/oily_png/canvas.rb#12
+# pkg:gem/oily_png#lib/oily_png.rb:18
 module OilyPNG::Color
   extend ::OilyPNG::Color
 
-  # source://oily_png//lib/oily_png.rb#18
+  # pkg:gem/oily_png#lib/oily_png.rb:18
   def a(_arg0); end
 
-  # source://oily_png//lib/oily_png.rb#18
+  # pkg:gem/oily_png#lib/oily_png.rb:18
   def b(_arg0); end
 
-  # source://oily_png//lib/oily_png.rb#18
+  # pkg:gem/oily_png#lib/oily_png.rb:18
   def compose_quick(_arg0, _arg1); end
 
-  # source://oily_png//lib/oily_png.rb#18
+  # pkg:gem/oily_png#lib/oily_png.rb:18
   def euclidean_distance_rgba(_arg0, _arg1); end
 
-  # source://oily_png//lib/oily_png.rb#18
+  # pkg:gem/oily_png#lib/oily_png.rb:18
   def g(_arg0); end
 
-  # source://oily_png//lib/oily_png.rb#18
+  # pkg:gem/oily_png#lib/oily_png.rb:18
   def r(_arg0); end
 end
 
+# pkg:gem/oily_png#lib/oily_png.rb:18
 module OilyPNG::Operations
-  # source://oily_png//lib/oily_png.rb#18
+  # pkg:gem/oily_png#lib/oily_png.rb:18
   def compose!(*_arg0); end
 
-  # source://oily_png//lib/oily_png.rb#18
+  # pkg:gem/oily_png#lib/oily_png.rb:18
   def replace!(*_arg0); end
 
-  # source://oily_png//lib/oily_png.rb#18
+  # pkg:gem/oily_png#lib/oily_png.rb:18
   def rotate_left!; end
 
-  # source://oily_png//lib/oily_png.rb#18
+  # pkg:gem/oily_png#lib/oily_png.rb:18
   def rotate_right!; end
 end
 
+# pkg:gem/oily_png#lib/oily_png.rb:18
 module OilyPNG::PNGDecoding
-  # source://oily_png//lib/oily_png.rb#18
+  # pkg:gem/oily_png#lib/oily_png.rb:18
   def decode_png_image_pass(_arg0, _arg1, _arg2, _arg3, _arg4, _arg5, _arg6); end
 end
 
+# pkg:gem/oily_png#lib/oily_png.rb:18
 module OilyPNG::PNGEncoding
-  # source://oily_png//lib/oily_png.rb#18
+  # pkg:gem/oily_png#lib/oily_png.rb:18
   def encode_png_image_pass_to_stream(_arg0, _arg1, _arg2, _arg3); end
 end
 
+# pkg:gem/oily_png#lib/oily_png.rb:18
 module OilyPNG::Resampling
-  # source://oily_png//lib/oily_png.rb#18
+  # pkg:gem/oily_png#lib/oily_png.rb:18
   def resample_bilinear!(_arg0, _arg1); end
 
-  # source://oily_png//lib/oily_png.rb#18
+  # pkg:gem/oily_png#lib/oily_png.rb:18
   def resample_nearest_neighbor!(_arg0, _arg1); end
 
   private
 
-  # source://oily_png//lib/oily_png.rb#18
+  # pkg:gem/oily_png#lib/oily_png.rb:18
   def steps(_arg0, _arg1); end
 
-  # source://oily_png//lib/oily_png.rb#18
+  # pkg:gem/oily_png#lib/oily_png.rb:18
   def steps_residues(_arg0, _arg1); end
 end
 
-# source://oily_png//lib/oily_png/version.rb#2
+# pkg:gem/oily_png#lib/oily_png/version.rb:2
 OilyPNG::VERSION = T.let(T.unsafe(nil), String)

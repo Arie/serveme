@@ -5,7 +5,14 @@
 # Please instead update this file by running `bin/tapioca gem io-event`.
 
 
-# source://io-event//lib/io/event/version.rb#7
+# Released under the MIT License.
+# Copyright, 2021, by Wander Hillen.
+# Copyright, 2021-2026, by Samuel Williams.
+# Released under the MIT License.
+# Copyright, 2022-2026, by Samuel Williams.
+# @namespace
+#
+# pkg:gem/io-event#lib/io/event/version.rb:7
 class IO
   include ::Enumerable
   include ::File::Constants
@@ -90,7 +97,6 @@ IO::Buffer::PAGE_SIZE = T.let(T.unsafe(nil), Integer)
 IO::Buffer::PRIVATE = T.let(T.unsafe(nil), Integer)
 IO::Buffer::READONLY = T.let(T.unsafe(nil), Integer)
 IO::Buffer::SHARED = T.let(T.unsafe(nil), Integer)
-class IO::ConsoleMode; end
 
 class IO::EAGAINWaitReadable < ::Errno::EAGAIN
   include ::IO::WaitReadable
@@ -111,146 +117,165 @@ end
 IO::EWOULDBLOCKWaitReadable = IO::EAGAINWaitReadable
 IO::EWOULDBLOCKWaitWritable = IO::EAGAINWaitWritable
 
-# source://io-event//lib/io/event/version.rb#9
+# Released under the MIT License.
+# Copyright, 2021-2026, by Samuel Williams.
+# Released under the MIT License.
+# Copyright, 2021-2024, by Samuel Williams.
+# @namespace
+#
+# pkg:gem/io-event#lib/io/event/version.rb:9
 module IO::Event; end
 
-# source://io-event//lib/io/event/debug/selector.rb#8
+# @namespace
+#
+# pkg:gem/io-event#lib/io/event/debug/selector.rb:8
 module IO::Event::Debug; end
 
 # Enforces the selector interface and delegates operations to a wrapped selector instance.
 #
 # You can enable this in the default selector by setting the `IO_EVENT_DEBUG_SELECTOR` environment variable. In addition, you can log all selector operations to a file by setting the `IO_EVENT_DEBUG_SELECTOR_LOG` environment variable. This is useful for debugging and understanding the behavior of the event loop.
 #
-# source://io-event//lib/io/event/debug/selector.rb#12
+# pkg:gem/io-event#lib/io/event/debug/selector.rb:12
 class IO::Event::Debug::Selector
   # Initialize the debug selector with the given selector and optional log.
   #
-  # @return [Selector] a new instance of Selector
+  # @parameter selector [Selector] The selector to wrap.
+  # @parameter log [IO] The log to write debug messages to.
   #
-  # source://io-event//lib/io/event/debug/selector.rb#31
+  # pkg:gem/io-event#lib/io/event/debug/selector.rb:31
   def initialize(selector, log: T.unsafe(nil)); end
 
   # Run the given blocking operation and wait for its completion.
   #
-  # source://io-event//lib/io/event/debug/selector.rb#130
+  # pkg:gem/io-event#lib/io/event/debug/selector.rb:130
   def blocking_operation_wait(operation); end
 
   # Close the selector.
   #
-  # source://io-event//lib/io/event/debug/selector.rb#76
+  # pkg:gem/io-event#lib/io/event/debug/selector.rb:76
   def close; end
 
   # The idle duration of the underlying selector.
   #
-  # source://io-event//lib/io/event/debug/selector.rb#48
+  # @returns [Numeric] The idle duration.
+  #
+  # pkg:gem/io-event#lib/io/event/debug/selector.rb:48
   def idle_duration; end
 
   # Read from the given IO, forwarded to the underlying selector.
   #
-  # source://io-event//lib/io/event/debug/selector.rb#148
+  # pkg:gem/io-event#lib/io/event/debug/selector.rb:148
   def io_read(fiber, io, buffer, length, offset = T.unsafe(nil)); end
 
   # Wait for the given IO, forwarded to the underlying selector.
   #
-  # source://io-event//lib/io/event/debug/selector.rb#142
+  # pkg:gem/io-event#lib/io/event/debug/selector.rb:142
   def io_wait(fiber, io, events); end
 
   # Write to the given IO, forwarded to the underlying selector.
   #
-  # source://io-event//lib/io/event/debug/selector.rb#154
+  # pkg:gem/io-event#lib/io/event/debug/selector.rb:154
   def io_write(fiber, io, buffer, length, offset = T.unsafe(nil)); end
 
   # Log the given message.
   #
-  # source://io-event//lib/io/event/debug/selector.rb#62
+  # @asynchronous Will block the calling fiber and the entire event loop.
+  #
+  # pkg:gem/io-event#lib/io/event/debug/selector.rb:62
   def log(message); end
 
   # The current time.
   #
-  # source://io-event//lib/io/event/debug/selector.rb#55
+  # @returns [Numeric] The current time.
+  #
+  # pkg:gem/io-event#lib/io/event/debug/selector.rb:55
   def now; end
 
   # Wait for the given process, forwarded to the underlying selector.
   #
-  # source://io-event//lib/io/event/debug/selector.rb#136
+  # pkg:gem/io-event#lib/io/event/debug/selector.rb:136
   def process_wait(*arguments); end
 
   # Push the given fiber to the selector ready list, such that it will be resumed on the next call to {select}.
   #
-  # source://io-event//lib/io/event/debug/selector.rb#108
+  # @parameter fiber [Fiber] The fiber that is ready.
+  #
+  # pkg:gem/io-event#lib/io/event/debug/selector.rb:108
   def push(fiber); end
 
   # Raise the given exception on the given fiber.
   #
-  # source://io-event//lib/io/event/debug/selector.rb#117
+  # @parameter fiber [Fiber] The fiber to raise the exception on.
+  # @parameter arguments [Array] The arguments to use when raising the exception.
+  #
+  # pkg:gem/io-event#lib/io/event/debug/selector.rb:117
   def raise(fiber, *arguments, **options); end
 
   # Check if the selector is ready.
   #
-  # @return [Boolean]
+  # @returns [Boolean] Whether the selector is ready.
   #
-  # source://io-event//lib/io/event/debug/selector.rb#125
+  # pkg:gem/io-event#lib/io/event/debug/selector.rb:125
   def ready?; end
 
   # Forward the given method to the underlying selector.
   #
-  # @return [Boolean]
-  #
-  # source://io-event//lib/io/event/debug/selector.rb#160
+  # pkg:gem/io-event#lib/io/event/debug/selector.rb:160
   def respond_to?(name, include_private = T.unsafe(nil)); end
 
   # Resume the given fiber with the given arguments.
   #
-  # source://io-event//lib/io/event/debug/selector.rb#94
+  # pkg:gem/io-event#lib/io/event/debug/selector.rb:94
   def resume(*arguments); end
 
   # Select for the given duration, forwarded to the underlying selector.
   #
-  # source://io-event//lib/io/event/debug/selector.rb#165
+  # pkg:gem/io-event#lib/io/event/debug/selector.rb:165
   def select(duration = T.unsafe(nil)); end
 
   # Transfer from the calling fiber to the selector.
   #
-  # source://io-event//lib/io/event/debug/selector.rb#88
+  # pkg:gem/io-event#lib/io/event/debug/selector.rb:88
   def transfer; end
 
   # Wakeup the the selector.
   #
-  # source://io-event//lib/io/event/debug/selector.rb#71
+  # pkg:gem/io-event#lib/io/event/debug/selector.rb:71
   def wakeup; end
 
   # Yield to the selector.
   #
-  # source://io-event//lib/io/event/debug/selector.rb#100
+  # pkg:gem/io-event#lib/io/event/debug/selector.rb:100
   def yield; end
 
   class << self
     # Wrap the given selector with debugging.
     #
-    # source://io-event//lib/io/event/debug/selector.rb#17
+    # @parameter selector [Selector] The selector to wrap.
+    # @parameter env [Hash] The environment to read configuration from.
+    #
+    # pkg:gem/io-event#lib/io/event/debug/selector.rb:17
     def wrap(selector, env = T.unsafe(nil)); end
   end
 end
 
 # A thread safe synchronisation primative.
 #
-# source://io-event//lib/io/event/interrupt.rb#8
+# pkg:gem/io-event#lib/io/event/interrupt.rb:8
 class IO::Event::Interrupt
-  # @return [Interrupt] a new instance of Interrupt
-  #
-  # source://io-event//lib/io/event/interrupt.rb#13
+  # pkg:gem/io-event#lib/io/event/interrupt.rb:13
   def initialize(selector); end
 
-  # source://io-event//lib/io/event/interrupt.rb#36
+  # pkg:gem/io-event#lib/io/event/interrupt.rb:36
   def close; end
 
   # Send a sigle byte interrupt.
   #
-  # source://io-event//lib/io/event/interrupt.rb#29
+  # pkg:gem/io-event#lib/io/event/interrupt.rb:29
   def signal; end
 
   class << self
-    # source://io-event//lib/io/event/interrupt.rb#9
+    # pkg:gem/io-event#lib/io/event/interrupt.rb:9
     def attach(selector); end
   end
 end
@@ -259,31 +284,35 @@ end
 # of its contents to determine priority.
 # See <https://en.wikipedia.org/wiki/Binary_heap> for explanations of the main methods.
 #
-# source://io-event//lib/io/event/priority_heap.rb#12
+# pkg:gem/io-event#lib/io/event/priority_heap.rb:12
 class IO::Event::PriorityHeap
   # Initializes the heap.
   #
-  # @return [PriorityHeap] a new instance of PriorityHeap
-  #
-  # source://io-event//lib/io/event/priority_heap.rb#14
+  # pkg:gem/io-event#lib/io/event/priority_heap.rb:14
   def initialize; end
 
   # Empties out the heap, discarding all elements
   #
-  # source://io-event//lib/io/event/priority_heap.rb#100
+  # pkg:gem/io-event#lib/io/event/priority_heap.rb:100
   def clear!; end
 
   # Add multiple elements to the heap efficiently in O(n) time.
   # This is more efficient than calling push multiple times (O(n log n)).
   #
-  # source://io-event//lib/io/event/priority_heap.rb#87
+  # @parameter elements [Array] The elements to add to the heap.
+  # @returns [self] Returns self for method chaining.
+  #
+  # pkg:gem/io-event#lib/io/event/priority_heap.rb:87
   def concat(elements); end
 
   # Remove a specific element from the heap.
   #
   # O(n) where n is the number of elements in the heap.
   #
-  # source://io-event//lib/io/event/priority_heap.rb#110
+  # @parameter element [Object] The element to remove.
+  # @returns [Object | Nil] The removed element, or nil if not found.
+  #
+  # pkg:gem/io-event#lib/io/event/priority_heap.rb:110
   def delete(element); end
 
   # Remove elements matching the given block condition by rebuilding the heap.
@@ -292,40 +321,49 @@ class IO::Event::PriorityHeap
   #
   # O(n) where n is the number of elements in the heap.
   #
-  # source://io-event//lib/io/event/priority_heap.rb#149
+  # @yields [Object] Each element in the heap for testing
+  # @returns [Integer] The number of elements removed
+  #
+  # pkg:gem/io-event#lib/io/event/priority_heap.rb:149
   def delete_if; end
 
-  # @return [Boolean]
+  # @returns [Boolean] true if the heap is empty, false otherwise.
   #
-  # source://io-event//lib/io/event/priority_heap.rb#32
+  # pkg:gem/io-event#lib/io/event/priority_heap.rb:32
   def empty?; end
 
-  # source://io-event//lib/io/event/priority_heap.rb#22
+  # @returns [Object | Nil] the smallest element in the heap without removing it, or nil if the heap is empty.
+  #
+  # pkg:gem/io-event#lib/io/event/priority_heap.rb:22
   def peek; end
 
   # Removes and returns the smallest element in the heap, or nil if the heap is empty.
   #
-  # source://io-event//lib/io/event/priority_heap.rb#39
+  # @returns [Object | Nil] The smallest element in the heap, or nil if the heap is empty.
+  #
+  # pkg:gem/io-event#lib/io/event/priority_heap.rb:39
   def pop; end
 
   # Add a new element to the heap, then rearrange elements until the heap invariant is true again.
   #
-  # source://io-event//lib/io/event/priority_heap.rb#70
+  # @parameter element [Object] The element to add to the heap.
+  #
+  # pkg:gem/io-event#lib/io/event/priority_heap.rb:70
   def push(element); end
 
-  # source://io-event//lib/io/event/priority_heap.rb#27
+  # @returns [Integer] the number of elements in the heap.
+  #
+  # pkg:gem/io-event#lib/io/event/priority_heap.rb:27
   def size; end
 
   # Validate the heap invariant. Every element except the root must not be smaller than its parent element. Note that it MAY be equal.
   #
-  # @return [Boolean]
-  #
-  # source://io-event//lib/io/event/priority_heap.rb#167
+  # pkg:gem/io-event#lib/io/event/priority_heap.rb:167
   def valid?; end
 
   private
 
-  # source://io-event//lib/io/event/priority_heap.rb#206
+  # pkg:gem/io-event#lib/io/event/priority_heap.rb:206
   def bubble_down(index); end
 
   # Left here for reference, but unused.
@@ -333,372 +371,374 @@ class IO::Event::PriorityHeap
   # 	@contents[i], @contents[j] = @contents[j], @contents[i]
   # end
   #
-  # source://io-event//lib/io/event/priority_heap.rb#193
+  # pkg:gem/io-event#lib/io/event/priority_heap.rb:193
   def bubble_up(index); end
 
   # Rebuild the heap property from an arbitrary array in O(n) time.
   # Uses bottom-up heapify algorithm starting from the last non-leaf node.
   #
-  # source://io-event//lib/io/event/priority_heap.rb#176
+  # pkg:gem/io-event#lib/io/event/priority_heap.rb:176
   def heapify!; end
 end
 
-# source://io-event//lib/io/event/selector/select.rb#10
+# @namespace
+#
+# pkg:gem/io-event#lib/io/event/selector/select.rb:10
 module IO::Event::Selector
   class << self
     # The default selector implementation, which is chosen based on the environment and available implementations.
     #
-    # source://io-event//lib/io/event/selector.rb#16
+    # @parameter env [Hash] The environment to read configuration from.
+    # @returns [Class] The default selector implementation.
+    #
+    # pkg:gem/io-event#lib/io/event/selector.rb:16
     def default(env = T.unsafe(nil)); end
 
     # Create a new selector instance, according to the best available implementation.
     #
-    # source://io-event//lib/io/event/selector.rb#37
+    # @parameter loop [Fiber] The event loop fiber.
+    # @parameter env [Hash] The environment to read configuration from.
+    # @returns [Selector] The new selector instance.
+    #
+    # pkg:gem/io-event#lib/io/event/selector.rb:37
     def new(loop, env = T.unsafe(nil)); end
 
     # Execute the given block in non-blocking mode.
     #
-    # source://io-event//lib/io/event/native.rb#7
+    # @parameter io [IO] The IO object to operate on.
+    # @yields {...} The block to execute.
+    #
+    # pkg:gem/io-event#lib/io/event/native.rb:7
     def nonblock(_arg0); end
   end
 end
 
-class IO::Event::Selector::EPoll
-  # source://io-event//lib/io/event/native.rb#7
+# pkg:gem/io-event#lib/io/event/native.rb:7
+class IO::Event::Selector::KQueue
+  # pkg:gem/io-event#lib/io/event/native.rb:7
   def initialize(_arg0); end
 
-  # source://io-event//lib/io/event/native.rb#7
+  # pkg:gem/io-event#lib/io/event/native.rb:7
   def close; end
 
-  # source://io-event//lib/io/event/native.rb#7
+  # pkg:gem/io-event#lib/io/event/native.rb:7
   def idle_duration; end
 
-  # source://io-event//lib/io/event/native.rb#7
+  # pkg:gem/io-event#lib/io/event/native.rb:7
   def io_read(*_arg0); end
 
-  # source://io-event//lib/io/event/native.rb#7
+  # pkg:gem/io-event#lib/io/event/native.rb:7
   def io_wait(_arg0, _arg1, _arg2); end
 
-  # source://io-event//lib/io/event/native.rb#7
+  # pkg:gem/io-event#lib/io/event/native.rb:7
   def io_write(*_arg0); end
 
-  # source://io-event//lib/io/event/native.rb#7
+  # pkg:gem/io-event#lib/io/event/native.rb:7
   def loop; end
 
-  # source://io-event//lib/io/event/native.rb#7
+  # pkg:gem/io-event#lib/io/event/native.rb:7
   def process_wait(_arg0, _arg1, _arg2); end
 
-  # source://io-event//lib/io/event/native.rb#7
+  # pkg:gem/io-event#lib/io/event/native.rb:7
   def push(_arg0); end
 
-  # source://io-event//lib/io/event/native.rb#7
+  # pkg:gem/io-event#lib/io/event/native.rb:7
   def raise(*_arg0); end
 
-  # source://io-event//lib/io/event/native.rb#7
+  # pkg:gem/io-event#lib/io/event/native.rb:7
   def ready?; end
 
-  # source://io-event//lib/io/event/native.rb#7
+  # pkg:gem/io-event#lib/io/event/native.rb:7
   def resume(*_arg0); end
 
-  # source://io-event//lib/io/event/native.rb#7
+  # pkg:gem/io-event#lib/io/event/native.rb:7
   def select(_arg0); end
 
-  # source://io-event//lib/io/event/native.rb#7
+  # pkg:gem/io-event#lib/io/event/native.rb:7
   def transfer; end
 
-  # source://io-event//lib/io/event/native.rb#7
+  # pkg:gem/io-event#lib/io/event/native.rb:7
   def wakeup; end
 
-  # source://io-event//lib/io/event/native.rb#7
+  # pkg:gem/io-event#lib/io/event/native.rb:7
   def yield; end
 end
 
 # A pure-Ruby implementation of the event selector.
 #
-# source://io-event//lib/io/event/selector/select.rb#12
+# pkg:gem/io-event#lib/io/event/selector/select.rb:12
 class IO::Event::Selector::Select
   # Initialize the selector with the given event loop fiber.
   #
-  # @return [Select] a new instance of Select
-  #
-  # source://io-event//lib/io/event/selector/select.rb#14
+  # pkg:gem/io-event#lib/io/event/selector/select.rb:14
   def initialize(loop); end
 
   # Close the selector and release any resources.
   #
-  # source://io-event//lib/io/event/selector/select.rb#48
+  # pkg:gem/io-event#lib/io/event/selector/select.rb:48
   def close; end
 
-  # Returns the value of attribute idle_duration.
+  # @attribute [Float] This is the amount of time the event loop was idle during the last select call.
   #
-  # source://io-event//lib/io/event/selector/select.rb#34
+  # pkg:gem/io-event#lib/io/event/selector/select.rb:34
   def idle_duration; end
 
   # Read from the given IO to the buffer.
   #
-  # source://io-event//lib/io/event/selector/select.rb#190
+  # @parameter length [Integer] The minimum number of bytes to read.
+  # @parameter offset [Integer] The offset into the buffer to read to.
+  #
+  # pkg:gem/io-event#lib/io/event/selector/select.rb:190
   def io_read(fiber, io, buffer, length, offset = T.unsafe(nil)); end
 
   # Wait for multiple IO objects to become readable or writable.
   #
-  # source://io-event//lib/io/event/selector/select.rb#172
+  # @parameter readable [Array(IO)] The list of IO objects to wait for readability.
+  # @parameter writable [Array(IO)] The list of IO objects to wait for writability.
+  # @parameter priority [Array(IO)] The list of IO objects to wait for priority events.
+  #
+  # pkg:gem/io-event#lib/io/event/selector/select.rb:172
   def io_select(readable, writable, priority, timeout); end
 
   # Wait for the given IO to become readable or writable.
   #
-  # source://io-event//lib/io/event/selector/select.rb#159
+  # @parameter fiber [Fiber] The fiber that is waiting.
+  # @parameter io [IO] The IO object to wait on.
+  # @parameter events [Integer] The events to wait for.
+  #
+  # pkg:gem/io-event#lib/io/event/selector/select.rb:159
   def io_wait(fiber, io, events); end
 
   # Write to the given IO from the buffer.
   #
-  # source://io-event//lib/io/event/selector/select.rb#225
+  # @parameter length [Integer] The minimum number of bytes to write.
+  # @parameter offset [Integer] The offset into the buffer to write from.
+  #
+  # pkg:gem/io-event#lib/io/event/selector/select.rb:225
   def io_write(fiber, io, buffer, length, offset = T.unsafe(nil)); end
 
-  # Returns the value of attribute loop.
+  # @attribute [Fiber] The event loop fiber.
   #
-  # source://io-event//lib/io/event/selector/select.rb#31
+  # pkg:gem/io-event#lib/io/event/selector/select.rb:31
   def loop; end
 
   # Wait for a process to change state.
   #
-  # source://io-event//lib/io/event/selector/select.rb#262
+  # @parameter fiber [Fiber] The fiber to resume after waiting.
+  # @parameter pid [Integer] The process ID to wait for.
+  # @parameter flags [Integer] Flags to pass to Process::Status.wait.
+  # @returns [Process::Status] The status of the waited process.
+  #
+  # pkg:gem/io-event#lib/io/event/selector/select.rb:262
   def process_wait(fiber, pid, flags); end
 
   # Append the given fiber into the ready list.
   #
-  # source://io-event//lib/io/event/selector/select.rb#95
+  # pkg:gem/io-event#lib/io/event/selector/select.rb:95
   def push(fiber); end
 
   # Transfer to the given fiber and raise an exception. Put the current fiber into the ready list.
   #
-  # source://io-event//lib/io/event/selector/select.rb#100
+  # pkg:gem/io-event#lib/io/event/selector/select.rb:100
   def raise(fiber, *arguments, **options); end
 
-  # @return [Boolean]
+  # @returns [Boolean] Whether the ready list is not empty, i.e. there are fibers ready to be resumed.
   #
-  # source://io-event//lib/io/event/selector/select.rb#110
+  # pkg:gem/io-event#lib/io/event/selector/select.rb:110
   def ready?; end
 
   # Transfer from the current fiber to the specified fiber. Put the current fiber into the ready list.
   #
-  # source://io-event//lib/io/event/selector/select.rb#75
+  # pkg:gem/io-event#lib/io/event/selector/select.rb:75
   def resume(fiber, *arguments); end
 
   # Wait for IO events or a timeout.
   #
-  # source://io-event//lib/io/event/selector/select.rb#285
+  # @parameter duration [Numeric | Nil] The maximum time to wait, or nil for no timeout.
+  # @returns [Integer] The number of ready IO objects.
+  #
+  # pkg:gem/io-event#lib/io/event/selector/select.rb:285
   def select(duration = T.unsafe(nil)); end
 
   # Transfer from the current fiber to the event loop.
   #
-  # source://io-event//lib/io/event/selector/select.rb#70
+  # pkg:gem/io-event#lib/io/event/selector/select.rb:70
   def transfer; end
 
   # Wake up the event loop if it is currently sleeping.
   #
-  # source://io-event//lib/io/event/selector/select.rb#37
+  # pkg:gem/io-event#lib/io/event/selector/select.rb:37
   def wakeup; end
 
   # Yield from the current fiber back to the event loop. Put the current fiber into the ready list.
   #
-  # source://io-event//lib/io/event/selector/select.rb#85
+  # pkg:gem/io-event#lib/io/event/selector/select.rb:85
   def yield; end
 
   protected
 
   # Whether the given error code indicates that the operation should be retried.
   #
-  # @return [Boolean]
-  #
-  # source://io-event//lib/io/event/selector/select.rb#182
+  # pkg:gem/io-event#lib/io/event/selector/select.rb:182
   def again?(errno); end
 
   private
 
-  # source://io-event//lib/io/event/selector/select.rb#268
+  # pkg:gem/io-event#lib/io/event/selector/select.rb:268
   def pop_ready; end
 end
 
-# source://io-event//lib/io/event/selector/select.rb#178
+# pkg:gem/io-event#lib/io/event/selector/select.rb:178
 IO::Event::Selector::Select::EAGAIN = T.let(T.unsafe(nil), Integer)
 
-# source://io-event//lib/io/event/selector/select.rb#179
+# pkg:gem/io-event#lib/io/event/selector/select.rb:179
 IO::Event::Selector::Select::EWOULDBLOCK = T.let(T.unsafe(nil), Integer)
 
-# source://io-event//lib/io/event/selector/select.rb#55
+# pkg:gem/io-event#lib/io/event/selector/select.rb:55
 class IO::Event::Selector::Select::Optional < ::Struct
-  # @return [Boolean]
-  #
-  # source://io-event//lib/io/event/selector/select.rb#60
+  # pkg:gem/io-event#lib/io/event/selector/select.rb:60
   def alive?; end
 
-  # Returns the value of attribute fiber
-  #
-  # @return [Object] the current value of fiber
-  #
-  # source://io-event//lib/io/event/selector/select.rb#55
+  # pkg:gem/io-event#lib/io/event/selector/select.rb:55
   def fiber; end
 
-  # Sets the attribute fiber
-  #
-  # @param value [Object] the value to set the attribute fiber to.
-  # @return [Object] the newly set value
-  #
-  # source://io-event//lib/io/event/selector/select.rb#55
+  # pkg:gem/io-event#lib/io/event/selector/select.rb:55
   def fiber=(_); end
 
-  # source://io-event//lib/io/event/selector/select.rb#64
+  # pkg:gem/io-event#lib/io/event/selector/select.rb:64
   def nullify; end
 
-  # source://io-event//lib/io/event/selector/select.rb#56
+  # pkg:gem/io-event#lib/io/event/selector/select.rb:56
   def transfer(*arguments); end
 
   class << self
-    # source://io-event//lib/io/event/selector/select.rb#55
+    # pkg:gem/io-event#lib/io/event/selector/select.rb:55
     def [](*_arg0); end
 
-    # source://io-event//lib/io/event/selector/select.rb#55
+    # pkg:gem/io-event#lib/io/event/selector/select.rb:55
     def inspect; end
 
-    # source://io-event//lib/io/event/selector/select.rb#55
+    # pkg:gem/io-event#lib/io/event/selector/select.rb:55
     def keyword_init?; end
 
-    # source://io-event//lib/io/event/selector/select.rb#55
+    # pkg:gem/io-event#lib/io/event/selector/select.rb:55
     def members; end
 
-    # source://io-event//lib/io/event/selector/select.rb#55
+    # pkg:gem/io-event#lib/io/event/selector/select.rb:55
     def new(*_arg0); end
   end
 end
 
-# source://io-event//lib/io/event/selector/select.rb#114
+# pkg:gem/io-event#lib/io/event/selector/select.rb:114
 class IO::Event::Selector::Select::Waiter < ::Struct
-  # @return [Boolean]
-  #
-  # source://io-event//lib/io/event/selector/select.rb#115
+  # pkg:gem/io-event#lib/io/event/selector/select.rb:115
   def alive?; end
 
-  # Dispatch the given events to the list of waiting fibers. If the fiber was not waiting for the given events, it is reactivated by calling the given block.
-  #
-  # source://io-event//lib/io/event/selector/select.rb#120
+  # pkg:gem/io-event#lib/io/event/selector/select.rb:120
   def dispatch(events, &reactivate); end
 
-  # source://io-event//lib/io/event/selector/select.rb#145
+  # pkg:gem/io-event#lib/io/event/selector/select.rb:145
   def each(&block); end
 
-  # Returns the value of attribute events
-  #
-  # @return [Object] the current value of events
-  #
-  # source://io-event//lib/io/event/selector/select.rb#114
+  # pkg:gem/io-event#lib/io/event/selector/select.rb:114
   def events; end
 
-  # Sets the attribute events
-  #
-  # @param value [Object] the value to set the attribute events to.
-  # @return [Object] the newly set value
-  #
-  # source://io-event//lib/io/event/selector/select.rb#114
+  # pkg:gem/io-event#lib/io/event/selector/select.rb:114
   def events=(_); end
 
-  # Returns the value of attribute fiber
-  #
-  # @return [Object] the current value of fiber
-  #
-  # source://io-event//lib/io/event/selector/select.rb#114
+  # pkg:gem/io-event#lib/io/event/selector/select.rb:114
   def fiber; end
 
-  # Sets the attribute fiber
-  #
-  # @param value [Object] the value to set the attribute fiber to.
-  # @return [Object] the newly set value
-  #
-  # source://io-event//lib/io/event/selector/select.rb#114
+  # pkg:gem/io-event#lib/io/event/selector/select.rb:114
   def fiber=(_); end
 
-  # source://io-event//lib/io/event/selector/select.rb#141
+  # pkg:gem/io-event#lib/io/event/selector/select.rb:141
   def invalidate; end
 
-  # Returns the value of attribute tail
-  #
-  # @return [Object] the current value of tail
-  #
-  # source://io-event//lib/io/event/selector/select.rb#114
+  # pkg:gem/io-event#lib/io/event/selector/select.rb:114
   def tail; end
 
-  # Sets the attribute tail
-  #
-  # @param value [Object] the value to set the attribute tail to.
-  # @return [Object] the newly set value
-  #
-  # source://io-event//lib/io/event/selector/select.rb#114
+  # pkg:gem/io-event#lib/io/event/selector/select.rb:114
   def tail=(_); end
 
   class << self
-    # source://io-event//lib/io/event/selector/select.rb#114
+    # pkg:gem/io-event#lib/io/event/selector/select.rb:114
     def [](*_arg0); end
 
-    # source://io-event//lib/io/event/selector/select.rb#114
+    # pkg:gem/io-event#lib/io/event/selector/select.rb:114
     def inspect; end
 
-    # source://io-event//lib/io/event/selector/select.rb#114
+    # pkg:gem/io-event#lib/io/event/selector/select.rb:114
     def keyword_init?; end
 
-    # source://io-event//lib/io/event/selector/select.rb#114
+    # pkg:gem/io-event#lib/io/event/selector/select.rb:114
     def members; end
 
-    # source://io-event//lib/io/event/selector/select.rb#114
+    # pkg:gem/io-event#lib/io/event/selector/select.rb:114
     def new(*_arg0); end
   end
 end
 
-# source://io-event//lib/io/event/support.rb#9
+# @namespace
+#
+# pkg:gem/io-event#lib/io/event/support.rb:9
 module IO::Event::Support
   class << self
     # Check if the `IO::Buffer` class is available.
     #
-    # @return [Boolean]
-    #
-    # source://io-event//lib/io/event/support.rb#11
+    # pkg:gem/io-event#lib/io/event/support.rb:11
     def buffer?; end
   end
 end
 
 # An efficient sorted set of timers.
 #
-# source://io-event//lib/io/event/timers.rb#11
+# pkg:gem/io-event#lib/io/event/timers.rb:11
 class IO::Event::Timers
   # Initialize the timers.
   #
-  # @return [Timers] a new instance of Timers
-  #
-  # source://io-event//lib/io/event/timers.rb#62
+  # pkg:gem/io-event#lib/io/event/timers.rb:62
   def initialize; end
 
   # Schedule a block to be called after a specific time offset, relative to the current time as returned by {#now}.
   #
-  # source://io-event//lib/io/event/timers.rb#90
+  # @parameter offset [#to_f] The time offset from the current time at which the block should be called.
+  # @yields {|now| ...} When the timer fires.
+  #
+  # pkg:gem/io-event#lib/io/event/timers.rb:90
   def after(offset, &block); end
 
   # Fire all timers that are ready to fire.
   #
-  # source://io-event//lib/io/event/timers.rb#118
+  # @parameter now [Float] The current time.
+  #
+  # pkg:gem/io-event#lib/io/event/timers.rb:118
   def fire(now = T.unsafe(nil)); end
 
-  # source://io-event//lib/io/event/timers.rb#111
+  # @returns [Float] The current time.
+  #
+  # pkg:gem/io-event#lib/io/event/timers.rb:111
   def now; end
 
   # Schedule a block to be called at a specific time in the future.
   #
-  # source://io-event//lib/io/event/timers.rb#78
+  # @parameter time [Float] The time at which the block should be called, relative to {#now}.
+  # @parameter block [Proc] The block to call.
+  #
+  # pkg:gem/io-event#lib/io/event/timers.rb:78
   def schedule(time, block); end
 
-  # source://io-event//lib/io/event/timers.rb#68
+  # @returns [Integer] The number of timers in the heap.
+  #
+  # pkg:gem/io-event#lib/io/event/timers.rb:68
   def size; end
 
   # Compute the time interval until the next timer fires.
   #
-  # source://io-event//lib/io/event/timers.rb#98
+  # @parameter now [Float] The current time.
+  # @returns [Float | Nil] The time interval until the next timer fires, if any.
+  #
+  # pkg:gem/io-event#lib/io/event/timers.rb:98
   def wait_interval(now = T.unsafe(nil)); end
 
   protected
@@ -707,75 +747,83 @@ class IO::Event::Timers
   #
   # This is a small optimization which assumes that most timers (timeouts) will be cancelled.
   #
-  # source://io-event//lib/io/event/timers.rb#141
+  # pkg:gem/io-event#lib/io/event/timers.rb:141
   def flush!; end
 end
 
 # A handle to a scheduled timer.
 #
-# source://io-event//lib/io/event/timers.rb#13
+# pkg:gem/io-event#lib/io/event/timers.rb:13
 class IO::Event::Timers::Handle
   # Initialize the handle with the given time and block.
   #
-  # @return [Handle] a new instance of Handle
+  # @parameter time [Float] The time at which the block should be called.
+  # @parameter block [Proc] The block to call.
   #
-  # source://io-event//lib/io/event/timers.rb#18
+  # pkg:gem/io-event#lib/io/event/timers.rb:18
   def initialize(time, block); end
 
   # Compare the handle with another handle.
   #
-  # source://io-event//lib/io/event/timers.rb#33
+  # @parameter other [Handle] The other handle to compare with.
+  # @returns [Boolean] Whether the handle is less than the other handle.
+  #
+  # pkg:gem/io-event#lib/io/event/timers.rb:33
   def <(other); end
 
   # Compare the handle with another handle.
   #
-  # source://io-event//lib/io/event/timers.rb#41
+  # @parameter other [Handle] The other handle to compare with.
+  # @returns [Boolean] Whether the handle is greater than the other handle.
+  #
+  # pkg:gem/io-event#lib/io/event/timers.rb:41
   def >(other); end
 
-  # Returns the value of attribute block.
+  # @attribute [Proc | Nil] The block to call when the timer fires.
   #
-  # source://io-event//lib/io/event/timers.rb#27
+  # pkg:gem/io-event#lib/io/event/timers.rb:27
   def block; end
 
   # Invoke the block.
   #
-  # source://io-event//lib/io/event/timers.rb#46
+  # pkg:gem/io-event#lib/io/event/timers.rb:46
   def call(*_arg0, **_arg1, &_arg2); end
 
   # Cancel the timer.
   #
-  # source://io-event//lib/io/event/timers.rb#51
+  # pkg:gem/io-event#lib/io/event/timers.rb:51
   def cancel!; end
 
-  # @return [Boolean]
+  # @returns [Boolean] Whether the timer has been cancelled.
   #
-  # source://io-event//lib/io/event/timers.rb#56
+  # pkg:gem/io-event#lib/io/event/timers.rb:56
   def cancelled?; end
 
-  # Returns the value of attribute time.
+  # @attribute [Float] The time at which the block should be called.
   #
-  # source://io-event//lib/io/event/timers.rb#24
+  # pkg:gem/io-event#lib/io/event/timers.rb:24
   def time; end
 end
 
-# source://io-event//lib/io/event/version.rb#10
+# pkg:gem/io-event#lib/io/event/version.rb:10
 IO::Event::VERSION = T.let(T.unsafe(nil), String)
 
+# pkg:gem/io-event#lib/io/event/native.rb:7
 class IO::Event::WorkerPool
-  # source://io-event//lib/io/event/native.rb#7
+  # pkg:gem/io-event#lib/io/event/native.rb:7
   def initialize(*_arg0); end
 
-  # source://io-event//lib/io/event/native.rb#7
+  # pkg:gem/io-event#lib/io/event/native.rb:7
   def call(_arg0); end
 
-  # source://io-event//lib/io/event/native.rb#7
+  # pkg:gem/io-event#lib/io/event/native.rb:7
   def close; end
 
-  # source://io-event//lib/io/event/native.rb#7
+  # pkg:gem/io-event#lib/io/event/native.rb:7
   def statistics; end
 
   class << self
-    # source://io-event//lib/io/event/native.rb#7
+    # pkg:gem/io-event#lib/io/event/native.rb:7
     def busy(*_arg0); end
   end
 end

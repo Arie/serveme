@@ -11,18 +11,30 @@
 #
 # The OpenTelemetry module provides global accessors for telemetry objects.
 # See the documentation for the `opentelemetry-api` gem for details.
+# Copyright The OpenTelemetry Authors
 #
-# source://opentelemetry-instrumentation-action_pack//lib/opentelemetry/instrumentation.rb#13
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+# pkg:gem/opentelemetry-instrumentation-action_pack#lib/opentelemetry/instrumentation.rb:13
 module OpenTelemetry; end
 
 # Instrumentation should be able to handle the case when the library is not installed on a user's system.
 #
-# source://opentelemetry-instrumentation-action_pack//lib/opentelemetry/instrumentation.rb#15
+# pkg:gem/opentelemetry-instrumentation-action_pack#lib/opentelemetry/instrumentation.rb:15
 module OpenTelemetry::Instrumentation; end
 
 # Contains the OpenTelemetry instrumentation for the ActionPack gem
 #
-# source://opentelemetry-instrumentation-action_pack//lib/opentelemetry/instrumentation/action_pack.rb#13
+# pkg:gem/opentelemetry-instrumentation-action_pack#lib/opentelemetry/instrumentation/action_pack.rb:13
 module OpenTelemetry::Instrumentation::ActionPack; end
 
 # The {OpenTelemetry::Instrumentation::ActionPack::Instrumentation} class contains logic to detect and install the ActionPack instrumentation
@@ -44,32 +56,32 @@ module OpenTelemetry::Instrumentation::ActionPack; end
 #
 # @example An explicit default configuration
 #   OpenTelemetry::SDK.configure do |c|
-#   c.use_all({
-#   'OpenTelemetry::Instrumentation::ActionPack' => {
-#   span_naming: :class
-#   },
-#   })
+#     c.use_all({
+#       'OpenTelemetry::Instrumentation::ActionPack' => {
+#         span_naming: :class
+#       },
+#     })
 #   end
 #
-# source://opentelemetry-instrumentation-action_pack//lib/opentelemetry/instrumentation/action_pack/instrumentation.rb#35
+# pkg:gem/opentelemetry-instrumentation-action_pack#lib/opentelemetry/instrumentation/action_pack/instrumentation.rb:35
 class OpenTelemetry::Instrumentation::ActionPack::Instrumentation < ::OpenTelemetry::Instrumentation::Base
   private
 
-  # source://opentelemetry-instrumentation-action_pack//lib/opentelemetry/instrumentation/action_pack/instrumentation.rb#56
+  # pkg:gem/opentelemetry-instrumentation-action_pack#lib/opentelemetry/instrumentation/action_pack/instrumentation.rb:56
   def gem_version; end
 
-  # source://opentelemetry-instrumentation-action_pack//lib/opentelemetry/instrumentation/action_pack/instrumentation.rb#60
+  # pkg:gem/opentelemetry-instrumentation-action_pack#lib/opentelemetry/instrumentation/action_pack/instrumentation.rb:60
   def patch; end
 
-  # source://opentelemetry-instrumentation-action_pack//lib/opentelemetry/instrumentation/action_pack/instrumentation.rb#64
+  # pkg:gem/opentelemetry-instrumentation-action_pack#lib/opentelemetry/instrumentation/action_pack/instrumentation.rb:64
   def require_dependencies; end
 
-  # source://opentelemetry-instrumentation-action_pack//lib/opentelemetry/instrumentation/action_pack/instrumentation.rb#68
+  # pkg:gem/opentelemetry-instrumentation-action_pack#lib/opentelemetry/instrumentation/action_pack/instrumentation.rb:68
   def require_railtie; end
 end
 
-# source://opentelemetry-instrumentation-action_pack//lib/opentelemetry/instrumentation/action_pack/instrumentation.rb#36
+# pkg:gem/opentelemetry-instrumentation-action_pack#lib/opentelemetry/instrumentation/action_pack/instrumentation.rb:36
 OpenTelemetry::Instrumentation::ActionPack::Instrumentation::MINIMUM_VERSION = T.let(T.unsafe(nil), Gem::Version)
 
-# source://opentelemetry-instrumentation-action_pack//lib/opentelemetry/instrumentation/action_pack/version.rb#10
+# pkg:gem/opentelemetry-instrumentation-action_pack#lib/opentelemetry/instrumentation/action_pack/version.rb:10
 OpenTelemetry::Instrumentation::ActionPack::VERSION = T.let(T.unsafe(nil), String)

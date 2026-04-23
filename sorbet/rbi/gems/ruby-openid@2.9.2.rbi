@@ -7,105 +7,83 @@
 
 # Class representing an HTML comment
 #
-# source://ruby-openid//lib/openid/yadis/htmltokenizer.rb#209
+# pkg:gem/ruby-openid#lib/openid/yadis/htmltokenizer.rb:209
 class HTMLComment < ::HTMLToken
-  # @return [HTMLComment] a new instance of HTMLComment
-  #
-  # source://ruby-openid//lib/openid/yadis/htmltokenizer.rb#211
+  # pkg:gem/ruby-openid#lib/openid/yadis/htmltokenizer.rb:211
   def initialize(text); end
 
-  # Returns the value of attribute contents.
-  #
-  # source://ruby-openid//lib/openid/yadis/htmltokenizer.rb#210
+  # pkg:gem/ruby-openid#lib/openid/yadis/htmltokenizer.rb:210
   def contents; end
 
-  # Sets the attribute contents
-  #
-  # @param value the value to set the attribute contents to.
-  #
-  # source://ruby-openid//lib/openid/yadis/htmltokenizer.rb#210
+  # pkg:gem/ruby-openid#lib/openid/yadis/htmltokenizer.rb:210
   def contents=(_arg0); end
 end
 
 # Class representing an HTML tag
 #
-# source://ruby-openid//lib/openid/yadis/htmltokenizer.rb#223
+# pkg:gem/ruby-openid#lib/openid/yadis/htmltokenizer.rb:223
 class HTMLTag < ::HTMLToken
-  # @return [HTMLTag] a new instance of HTMLTag
-  #
-  # source://ruby-openid//lib/openid/yadis/htmltokenizer.rb#225
+  # pkg:gem/ruby-openid#lib/openid/yadis/htmltokenizer.rb:225
   def initialize(text); end
 
   # Retrieve a hash of all the tag's attributes.
   # Lazily done, so that if you don't look at a tag's attributes
   # things go quicker
   #
-  # source://ruby-openid//lib/openid/yadis/htmltokenizer.rb#254
+  # pkg:gem/ruby-openid#lib/openid/yadis/htmltokenizer.rb:254
   def attr_hash; end
 
-  # Returns the value of attribute end_tag.
-  #
-  # source://ruby-openid//lib/openid/yadis/htmltokenizer.rb#224
+  # pkg:gem/ruby-openid#lib/openid/yadis/htmltokenizer.rb:224
   def end_tag; end
 
-  # Returns the value of attribute tag_name.
-  #
-  # source://ruby-openid//lib/openid/yadis/htmltokenizer.rb#224
+  # pkg:gem/ruby-openid#lib/openid/yadis/htmltokenizer.rb:224
   def tag_name; end
 
   # Get the 'alt' text for a tag, if it exists, or an empty string otherwise
   #
-  # source://ruby-openid//lib/openid/yadis/htmltokenizer.rb#289
+  # pkg:gem/ruby-openid#lib/openid/yadis/htmltokenizer.rb:289
   def text; end
 end
 
 # Class representing text that isn't inside a tag
 #
-# source://ruby-openid//lib/openid/yadis/htmltokenizer.rb#202
+# pkg:gem/ruby-openid#lib/openid/yadis/htmltokenizer.rb:202
 class HTMLText < ::HTMLToken
-  # source://ruby-openid//lib/openid/yadis/htmltokenizer.rb#203
+  # pkg:gem/ruby-openid#lib/openid/yadis/htmltokenizer.rb:203
   def text; end
 end
 
 # The parent class for all three types of HTML tokens
 #
-# source://ruby-openid//lib/openid/yadis/htmltokenizer.rb#173
+# pkg:gem/ruby-openid#lib/openid/yadis/htmltokenizer.rb:173
 class HTMLToken
   # Initialize the token based on the raw text
   #
-  # @return [HTMLToken] a new instance of HTMLToken
-  #
-  # source://ruby-openid//lib/openid/yadis/htmltokenizer.rb#177
+  # pkg:gem/ruby-openid#lib/openid/yadis/htmltokenizer.rb:177
   def initialize(text); end
 
   # Compare to another based on the raw source
   #
-  # source://ruby-openid//lib/openid/yadis/htmltokenizer.rb#196
+  # pkg:gem/ruby-openid#lib/openid/yadis/htmltokenizer.rb:196
   def ==(other); end
 
-  # Returns the value of attribute raw.
-  #
-  # source://ruby-openid//lib/openid/yadis/htmltokenizer.rb#174
+  # pkg:gem/ruby-openid#lib/openid/yadis/htmltokenizer.rb:174
   def raw; end
 
-  # Sets the attribute raw
-  #
-  # @param value the value to set the attribute raw to.
-  #
-  # source://ruby-openid//lib/openid/yadis/htmltokenizer.rb#174
+  # pkg:gem/ruby-openid#lib/openid/yadis/htmltokenizer.rb:174
   def raw=(_arg0); end
 
   # By default tokens have no text representation
   #
-  # source://ruby-openid//lib/openid/yadis/htmltokenizer.rb#187
+  # pkg:gem/ruby-openid#lib/openid/yadis/htmltokenizer.rb:187
   def text; end
 
   # By default, return exactly the string used to create the text
   #
-  # source://ruby-openid//lib/openid/yadis/htmltokenizer.rb#182
+  # pkg:gem/ruby-openid#lib/openid/yadis/htmltokenizer.rb:182
   def to_s; end
 
-  # source://ruby-openid//lib/openid/yadis/htmltokenizer.rb#191
+  # pkg:gem/ruby-openid#lib/openid/yadis/htmltokenizer.rb:191
   def trimmed_text; end
 end
 
@@ -141,13 +119,11 @@ end
 #    assert(toke.getTag("IMG", "A").attr_hash['optional'])
 #    assert("_blank" == toke.getTag("IMG", "A").attr_hash['target'])
 #
-# source://ruby-openid//lib/openid/yadis/htmltokenizer.rb#46
+# pkg:gem/ruby-openid#lib/openid/yadis/htmltokenizer.rb:46
 class HTMLTokenizer
   # Create a new tokenizer, based on the content, used as a string.
   #
-  # @return [HTMLTokenizer] a new instance of HTMLTokenizer
-  #
-  # source://ruby-openid//lib/openid/yadis/htmltokenizer.rb#57
+  # pkg:gem/ruby-openid#lib/openid/yadis/htmltokenizer.rb:57
   def initialize(content); end
 
   # Get the next token, returns an instance of
@@ -155,7 +131,7 @@ class HTMLTokenizer
   # * HTMLToken
   # * HTMLTag
   #
-  # source://ruby-openid//lib/openid/yadis/htmltokenizer.rb#103
+  # pkg:gem/ruby-openid#lib/openid/yadis/htmltokenizer.rb:103
   def getNextToken; end
 
   # Get a tag from the specified set of desired tags.
@@ -163,118 +139,127 @@ class HTMLTokenizer
   # <tt>foo =  toke.getTag("h1", "h2", "h3")</tt>
   # Will return the next header tag encountered.
   #
-  # source://ruby-openid//lib/openid/yadis/htmltokenizer.rb#119
+  # pkg:gem/ruby-openid#lib/openid/yadis/htmltokenizer.rb:119
   def getTag(*sought_tags); end
 
   # Get all the text between the current position and the next tag
   # (if specified) or a specific later tag
   #
-  # source://ruby-openid//lib/openid/yadis/htmltokenizer.rb#133
+  # pkg:gem/ruby-openid#lib/openid/yadis/htmltokenizer.rb:133
   def getText(until_tag = T.unsafe(nil)); end
 
   # Like getText, but squeeze all whitespace, getting rid of
   # leading and trailing whitespace, and squeezing multiple
   # spaces into a single space.
   #
-  # source://ruby-openid//lib/openid/yadis/htmltokenizer.rb#163
+  # pkg:gem/ruby-openid#lib/openid/yadis/htmltokenizer.rb:163
   def getTrimmedText(until_tag = T.unsafe(nil)); end
 
-  # Returns the value of attribute page.
-  #
-  # source://ruby-openid//lib/openid/yadis/htmltokenizer.rb#54
+  # pkg:gem/ruby-openid#lib/openid/yadis/htmltokenizer.rb:54
   def page; end
 
   # Look at the next token, but don't actually grab it
   #
-  # source://ruby-openid//lib/openid/yadis/htmltokenizer.rb#68
+  # pkg:gem/ruby-openid#lib/openid/yadis/htmltokenizer.rb:68
   def peekNextToken; end
 
   # Reset the parser, setting the current position back at the stop
   #
-  # source://ruby-openid//lib/openid/yadis/htmltokenizer.rb#63
+  # pkg:gem/ruby-openid#lib/openid/yadis/htmltokenizer.rb:63
   def reset; end
 
   class << self
     # Get version of HTMLTokenizer lib
     #
-    # source://ruby-openid//lib/openid/yadis/htmltokenizer.rb#50
+    # pkg:gem/ruby-openid#lib/openid/yadis/htmltokenizer.rb:50
     def version; end
   end
 end
 
-# source://ruby-openid//lib/openid/yadis/htmltokenizer.rb#169
+# pkg:gem/ruby-openid#lib/openid/yadis/htmltokenizer.rb:169
 class HTMLTokenizerError < ::Exception; end
 
-# 10 MB (can be smaller, I guess)
-#
-# source://ruby-openid//lib/openid/fetchers.rb#13
+# pkg:gem/ruby-openid#lib/openid/fetchers.rb:13
 MAX_RESPONSE_KB = T.let(T.unsafe(nil), Integer)
 
-# source://ruby-openid//lib/openid/fetchers.rb#16
+# pkg:gem/ruby-openid#lib/openid/fetchers.rb:16
 class Net::HTTP < ::Net::Protocol
-  # @raise [OpenSSL::SSL::SSLError]
-  #
-  # source://ruby-openid//lib/openid/fetchers.rb#17
+  # pkg:gem/ruby-openid#lib/openid/fetchers.rb:17
   def post_connection_check(hostname); end
 end
 
-# source://ruby-openid//lib/openid.rb#15
+# Copyright 2006-2007 JanRain, Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License"); you
+# may not use this file except in compliance with the License. You may
+# obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+# implied. See the License for the specific language governing
+# permissions and limitations under the License.
+# See OpenID::Consumer or OpenID::Server modules, as well as the store classes
+#
+# pkg:gem/ruby-openid#lib/openid.rb:15
 module OpenID
   class << self
-    # source://ruby-openid//lib/openid/consumer/discovery.rb#347
+    # pkg:gem/ruby-openid#lib/openid/consumer/discovery.rb:347
     def arrange_by_type(service_list, preferred_types); end
 
-    # source://ruby-openid//lib/openid/consumer/discovery.rb#330
+    # pkg:gem/ruby-openid#lib/openid/consumer/discovery.rb:330
     def best_matching_service(service, preferred_types); end
 
     # raise ArgumentError if fieldname is not in the defined sreg fields
     #
-    # source://ruby-openid//lib/openid/extensions/sreg.rb#30
+    # pkg:gem/ruby-openid#lib/openid/extensions/sreg.rb:30
     def check_sreg_field_name(fieldname); end
 
-    # source://ruby-openid//lib/openid/consumer/discovery.rb#508
+    # pkg:gem/ruby-openid#lib/openid/consumer/discovery.rb:508
     def discover(identifier); end
 
-    # source://ruby-openid//lib/openid/consumer/discovery.rb#469
+    # pkg:gem/ruby-openid#lib/openid/consumer/discovery.rb:469
     def discover_no_yadis(uri); end
 
-    # source://ruby-openid//lib/openid/consumer/discovery.rb#483
+    # pkg:gem/ruby-openid#lib/openid/consumer/discovery.rb:483
     def discover_uri(uri); end
 
-    # source://ruby-openid//lib/openid/consumer/discovery.rb#437
+    # pkg:gem/ruby-openid#lib/openid/consumer/discovery.rb:437
     def discover_xri(iname); end
 
-    # source://ruby-openid//lib/openid/consumer/discovery.rb#391
+    # pkg:gem/ruby-openid#lib/openid/consumer/discovery.rb:391
     def discover_yadis(uri); end
 
-    # source://ruby-openid//lib/openid/fetchers.rb#87
+    # pkg:gem/ruby-openid#lib/openid/fetchers.rb:87
     def fetch(url, body = T.unsafe(nil), headers = T.unsafe(nil), redirect_limit = T.unsafe(nil)); end
 
-    # source://ruby-openid//lib/openid/fetchers.rb#92
+    # pkg:gem/ruby-openid#lib/openid/fetchers.rb:92
     def fetcher; end
 
-    # source://ruby-openid//lib/openid/fetchers.rb#100
+    # pkg:gem/ruby-openid#lib/openid/fetchers.rb:100
     def fetcher=(fetcher); end
 
     # Set the default fetcher to use the HTTP proxy defined in the environment
     # variable 'http_proxy'.
     #
-    # source://ruby-openid//lib/openid/fetchers.rb#106
+    # pkg:gem/ruby-openid#lib/openid/fetchers.rb:106
     def fetcher_use_env_http_proxy; end
 
-    # source://ruby-openid//lib/openid/consumer/html_parse.rb#130
+    # pkg:gem/ruby-openid#lib/openid/consumer/html_parse.rb:130
     def find_first_href(link_attrs_list, target_rel); end
 
-    # source://ruby-openid//lib/openid/consumer/html_parse.rb#113
+    # pkg:gem/ruby-openid#lib/openid/consumer/html_parse.rb:113
     def find_links_rel(link_attrs_list, target_rel); end
 
-    # source://ruby-openid//lib/openid/consumer/discovery.rb#261
+    # pkg:gem/ruby-openid#lib/openid/consumer/discovery.rb:261
     def find_op_local_identifier(service_element, type_uris); end
 
-    # source://ruby-openid//lib/openid/consumer/discovery.rb#370
+    # pkg:gem/ruby-openid#lib/openid/consumer/discovery.rb:370
     def get_op_or_user_services(openid_services); end
 
-    # source://ruby-openid//lib/openid/association.rb#8
+    # pkg:gem/ruby-openid#lib/openid/association.rb:8
     def get_secret_size(assoc_type); end
 
     # Extract the simple registration namespace URI from the given
@@ -282,51 +267,49 @@ module OpenID
     # namespace URIs found in the wild, as well as missing namespace
     # definitions (for OpenID 1)
     #
-    # source://ruby-openid//lib/openid/extensions/sreg.rb#45
+    # pkg:gem/ruby-openid#lib/openid/extensions/sreg.rb:45
     def get_sreg_ns(message); end
 
-    # source://ruby-openid//lib/openid/consumer/html_parse.rb#105
+    # pkg:gem/ruby-openid#lib/openid/consumer/html_parse.rb:105
     def link_has_rel(link_attrs, target_rel); end
 
     # Send the message to the server via HTTP POST and receive and parse
     # a response in KV Form
     #
-    # source://ruby-openid//lib/openid/kvpost.rb#50
+    # pkg:gem/ruby-openid#lib/openid/kvpost.rb:50
     def make_kv_post(request_message, server_url); end
 
-    # source://ruby-openid//lib/openid/consumer/discovery.rb#316
+    # pkg:gem/ruby-openid#lib/openid/consumer/discovery.rb:316
     def normalize_url(url); end
 
-    # source://ruby-openid//lib/openid/consumer/discovery.rb#309
+    # pkg:gem/ruby-openid#lib/openid/consumer/discovery.rb:309
     def normalize_xri(xri); end
 
-    # source://ruby-openid//lib/openid/consumer/html_parse.rb#23
+    # pkg:gem/ruby-openid#lib/openid/consumer/html_parse.rb:23
     def openid_unescape(s); end
 
-    # source://ruby-openid//lib/openid/consumer/html_parse.rb#36
+    # pkg:gem/ruby-openid#lib/openid/consumer/html_parse.rb:36
     def parse_link_attrs(html); end
 
-    # source://ruby-openid//lib/openid/consumer/html_parse.rb#91
+    # pkg:gem/ruby-openid#lib/openid/consumer/html_parse.rb:91
     def rel_matches(rel_attr, target_rel); end
 
     # Does the given endpoint advertise support for simple registration?
     #
-    # @return [Boolean]
-    #
-    # source://ruby-openid//lib/openid/extensions/sreg.rb#37
+    # pkg:gem/ruby-openid#lib/openid/extensions/sreg.rb:37
     def supports_sreg?(endpoint); end
 
-    # source://ruby-openid//lib/openid/consumer/html_parse.rb#27
+    # pkg:gem/ruby-openid#lib/openid/consumer/html_parse.rb:27
     def unescape_hash(h); end
   end
 end
 
-# source://ruby-openid//lib/openid/extensions/ax.rb#8
+# pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:8
 module OpenID::AX
   class << self
     # check alias for invalid characters, raise AXError if found
     #
-    # source://ruby-openid//lib/openid/extensions/ax.rb#14
+    # pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:14
     def check_alias(name); end
 
     # Given a namespace mapping and a string containing a
@@ -334,54 +317,34 @@ module OpenID::AX
     # URIs that correspond to those aliases.
     # namespace_map: OpenID::NamespaceMap
     #
-    # source://ruby-openid//lib/openid/extensions/ax.rb#104
+    # pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:104
     def to_type_uris(namespace_map, alias_list_s); end
   end
 end
 
 # Abstract class containing common code for attribute exchange messages
 #
-# source://ruby-openid//lib/openid/extensions/ax.rb#26
+# pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:26
 class OpenID::AX::AXMessage < ::OpenID::Extension
-  # @return [AXMessage] a new instance of AXMessage
-  #
-  # source://ruby-openid//lib/openid/extensions/ax.rb#37
+  # pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:37
   def initialize; end
 
-  # Returns the value of attribute mode.
-  #
-  # source://ruby-openid//lib/openid/extensions/ax.rb#27
+  # pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:27
   def mode; end
 
-  # Sets the attribute mode
-  #
-  # @param value the value to set the attribute mode to.
-  #
-  # source://ruby-openid//lib/openid/extensions/ax.rb#27
+  # pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:27
   def mode=(_arg0); end
 
-  # Returns the value of attribute ns_alias.
-  #
-  # source://ruby-openid//lib/openid/extensions/ax.rb#27
+  # pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:27
   def ns_alias; end
 
-  # Sets the attribute ns_alias
-  #
-  # @param value the value to set the attribute ns_alias to.
-  #
-  # source://ruby-openid//lib/openid/extensions/ax.rb#27
+  # pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:27
   def ns_alias=(_arg0); end
 
-  # Returns the value of attribute ns_uri.
-  #
-  # source://ruby-openid//lib/openid/extensions/ax.rb#27
+  # pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:27
   def ns_uri; end
 
-  # Sets the attribute ns_uri
-  #
-  # @param value the value to set the attribute ns_uri to.
-  #
-  # source://ruby-openid//lib/openid/extensions/ax.rb#27
+  # pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:27
   def ns_uri=(_arg0); end
 
   protected
@@ -389,74 +352,79 @@ class OpenID::AX::AXMessage < ::OpenID::Extension
   # Raise an exception if the mode in the attribute exchange
   # arguments does not match what is expected for this class.
   #
-  # source://ruby-openid//lib/openid/extensions/ax.rb#47
+  # pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:47
   def check_mode(ax_args); end
 
-  # source://ruby-openid//lib/openid/extensions/ax.rb#54
+  # pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:54
   def new_args; end
 end
 
-# source://ruby-openid//lib/openid/extensions/ax.rb#29
+# pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:29
 OpenID::AX::AXMessage::NS_URI = T.let(T.unsafe(nil), String)
 
 # Represents a single attribute in an attribute exchange
 # request. This should be added to an Request object in order to
 # request the attribute.
 #
-# source://ruby-openid//lib/openid/extensions/ax.rb#85
+# @ivar required: Whether the attribute will be marked as required
+#     when presented to the subject of the attribute exchange
+#     request.
+# @type required: bool
+#
+# @ivar count: How many values of this type to request from the
+#      subject. Defaults to one.
+# @type count: int
+#
+# @ivar type_uri: The identifier that determines what the attribute
+#      represents and how it is serialized. For example, one type URI
+#      representing dates could represent a Unix timestamp in base 10
+#      and another could represent a human-readable string.
+# @type type_uri: str
+#
+# @ivar ns_alias: The name that should be given to this alias in the
+#      request. If it is not supplied, a generic name will be
+#      assigned. For example, if you want to call a Unix timestamp
+#      value 'tstamp', set its alias to that value. If two attributes
+#      in the same message request to use the same alias, the request
+#      will fail to be generated.
+# @type alias: str or NoneType
+#
+# pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:85
 class OpenID::AX::AttrInfo
-  # @return [AttrInfo] a new instance of AttrInfo
-  #
-  # source://ruby-openid//lib/openid/extensions/ax.rb#88
+  # pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:88
   def initialize(type_uri, ns_alias = T.unsafe(nil), required = T.unsafe(nil), count = T.unsafe(nil)); end
 
-  # Returns the value of attribute count.
-  #
-  # source://ruby-openid//lib/openid/extensions/ax.rb#86
+  # pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:86
   def count; end
 
-  # Returns the value of attribute ns_alias.
-  #
-  # source://ruby-openid//lib/openid/extensions/ax.rb#86
+  # pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:86
   def ns_alias; end
 
-  # Returns the value of attribute required.
-  #
-  # source://ruby-openid//lib/openid/extensions/ax.rb#87
+  # pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:87
   def required; end
 
-  # Sets the attribute required
-  #
-  # @param value the value to set the attribute required to.
-  #
-  # source://ruby-openid//lib/openid/extensions/ax.rb#87
+  # pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:87
   def required=(_arg0); end
 
-  # Returns the value of attribute type_uri.
-  #
-  # source://ruby-openid//lib/openid/extensions/ax.rb#86
+  # pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:86
   def type_uri; end
 
-  # @return [Boolean]
-  #
-  # source://ruby-openid//lib/openid/extensions/ax.rb#95
+  # pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:95
   def wants_unlimited_values?; end
 end
 
 # Raised when data does not comply with AX 1.0 specification
 #
-# source://ruby-openid//lib/openid/extensions/ax.rb#22
+# pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:22
 class OpenID::AX::Error < ::ArgumentError; end
 
 # An attribute exchange 'fetch_request' message. This message is
 # sent by a relying party when it wishes to obtain attributes about
 # the subject of an OpenID authentication request.
 #
-# source://ruby-openid//lib/openid/extensions/ax.rb#117
+# pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:117
 class OpenID::AX::FetchRequest < ::OpenID::AX::AXMessage
-  # @return [FetchRequest] a new instance of FetchRequest
-  #
-  # source://ruby-openid//lib/openid/extensions/ax.rb#123
+  # pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:123
   def initialize(update_url = T.unsafe(nil)); end
 
   # Add an attribute to this attribute exchange request.
@@ -464,54 +432,44 @@ class OpenID::AX::FetchRequest < ::OpenID::AX::AXMessage
   # Raises IndexError if the requested attribute is already present
   #   in this request.
   #
-  # source://ruby-openid//lib/openid/extensions/ax.rb#134
+  # pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:134
   def add(attribute); end
 
   # return the list of AttrInfo objects contained in the FetchRequest
   #
-  # source://ruby-openid//lib/openid/extensions/ax.rb#255
+  # pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:255
   def attributes; end
 
   # Get the serialized form of this attribute fetch request.
   # returns a hash of the arguments
   #
-  # source://ruby-openid//lib/openid/extensions/ax.rb#143
+  # pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:143
   def get_extension_args; end
 
   # Get the type URIs for all attributes that have been marked
   # as required.
   #
-  # source://ruby-openid//lib/openid/extensions/ax.rb#176
+  # pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:176
   def get_required_attrs; end
 
-  # @return [Boolean]
-  #
-  # source://ruby-openid//lib/openid/extensions/ax.rb#264
+  # pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:264
   def member?(type_uri); end
 
-  # source://ruby-openid//lib/openid/extensions/ax.rb#211
+  # pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:211
   def parse_extension_args(ax_args); end
 
-  # Returns the value of attribute requested_attributes.
-  #
-  # source://ruby-openid//lib/openid/extensions/ax.rb#118
+  # pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:118
   def requested_attributes; end
 
   # return the list of requested attribute type URIs
   #
-  # source://ruby-openid//lib/openid/extensions/ax.rb#260
+  # pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:260
   def requested_types; end
 
-  # Returns the value of attribute update_url.
-  #
-  # source://ruby-openid//lib/openid/extensions/ax.rb#119
+  # pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:119
   def update_url; end
 
-  # Sets the attribute update_url
-  #
-  # @param value the value to set the attribute update_url to.
-  #
-  # source://ruby-openid//lib/openid/extensions/ax.rb#119
+  # pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:119
   def update_url=(_arg0); end
 
   class << self
@@ -519,21 +477,19 @@ class OpenID::AX::FetchRequest < ::OpenID::AX::AXMessage
     # message: OpenID::Message
     # return a FetchRequest or nil if AX arguments are not present
     #
-    # source://ruby-openid//lib/openid/extensions/ax.rb#189
+    # pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:189
     def from_openid_request(oidreq); end
   end
 end
 
-# source://ruby-openid//lib/openid/extensions/ax.rb#121
+# pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:121
 OpenID::AX::FetchRequest::MODE = T.let(T.unsafe(nil), String)
 
 # A fetch_response attribute exchange message
 #
-# source://ruby-openid//lib/openid/extensions/ax.rb#397
+# pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:397
 class OpenID::AX::FetchResponse < ::OpenID::AX::KeyValueMessage
-  # @return [FetchResponse] a new instance of FetchResponse
-  #
-  # source://ruby-openid//lib/openid/extensions/ax.rb#405
+  # pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:405
   def initialize(update_url = T.unsafe(nil)); end
 
   # Use the aliases variable to manually add alias names in the response.
@@ -541,7 +497,7 @@ class OpenID::AX::FetchResponse < ::OpenID::AX::KeyValueMessage
   #   openid.ax.type.email=http://openid.net/schema/contact/internet/email
   #   openid.ax.value.email=guy@example.com
   #
-  # source://ruby-openid//lib/openid/extensions/ax.rb#403
+  # pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:403
   def aliases; end
 
   # Use the aliases variable to manually add alias names in the response.
@@ -549,7 +505,7 @@ class OpenID::AX::FetchResponse < ::OpenID::AX::KeyValueMessage
   #   openid.ax.type.email=http://openid.net/schema/contact/internet/email
   #   openid.ax.value.email=guy@example.com
   #
-  # source://ruby-openid//lib/openid/extensions/ax.rb#403
+  # pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:403
   def aliases=(_arg0); end
 
   # Serialize this object into arguments in the attribute
@@ -558,22 +514,20 @@ class OpenID::AX::FetchResponse < ::OpenID::AX::KeyValueMessage
   # validated against this request, and empty responses for requested
   # fields with no data will be sent.
   #
-  # source://ruby-openid//lib/openid/extensions/ax.rb#417
+  # pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:417
   def get_extension_args(request = T.unsafe(nil)); end
 
-  # source://ruby-openid//lib/openid/extensions/ax.rb#467
+  # pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:467
   def parse_extension_args(ax_args); end
 
-  # Returns the value of attribute update_url.
-  #
-  # source://ruby-openid//lib/openid/extensions/ax.rb#398
+  # pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:398
   def update_url; end
 
   class << self
     # Construct a FetchResponse object from an OpenID library
     # SuccessResponse object.
     #
-    # source://ruby-openid//lib/openid/extensions/ax.rb#474
+    # pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:474
     def from_success_response(success_response, signed = T.unsafe(nil)); end
   end
 end
@@ -582,22 +536,20 @@ end
 # keys and values. It contains the common code between
 # fetch_response and store_request.
 #
-# source://ruby-openid//lib/openid/extensions/ax.rb#273
+# pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:273
 class OpenID::AX::KeyValueMessage < ::OpenID::AX::AXMessage
-  # @return [KeyValueMessage] a new instance of KeyValueMessage
-  #
-  # source://ruby-openid//lib/openid/extensions/ax.rb#275
+  # pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:275
   def initialize; end
 
   # retrieve the list of values for this attribute
   #
-  # source://ruby-openid//lib/openid/extensions/ax.rb#385
+  # pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:385
   def [](type_uri); end
 
   # Get the extension arguments for the key/value pairs
   # contained in this message.
   #
-  # source://ruby-openid//lib/openid/extensions/ax.rb#297
+  # pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:297
   def _get_extension_kv_args(aliases = T.unsafe(nil)); end
 
   # Add a single value for the given attribute type to the
@@ -605,56 +557,52 @@ class OpenID::AX::KeyValueMessage < ::OpenID::AX::AXMessage
   # this value will be sent in addition to the values already
   # specified.
   #
-  # source://ruby-openid//lib/openid/extensions/ax.rb#285
+  # pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:285
   def add_value(type_uri, value); end
 
   # get the number of responses for this attribute
   #
-  # source://ruby-openid//lib/openid/extensions/ax.rb#390
+  # pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:390
   def count(type_uri); end
 
-  # Returns the value of attribute data.
-  #
-  # source://ruby-openid//lib/openid/extensions/ax.rb#274
+  # pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:274
   def data; end
 
   # retrieve the list of values for this attribute
   #
-  # source://ruby-openid//lib/openid/extensions/ax.rb#380
+  # pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:380
   def get(type_uri); end
 
   # Get a single value for an attribute. If no value was sent
   # for this attribute, use the supplied default. If there is more
   # than one value for this attribute, this method will fail.
   #
-  # source://ruby-openid//lib/openid/extensions/ax.rb#369
+  # pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:369
   def get_single(type_uri, default = T.unsafe(nil)); end
 
   # Parse attribute exchange key/value arguments into this object.
   #
-  # source://ruby-openid//lib/openid/extensions/ax.rb#326
+  # pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:326
   def parse_extension_args(ax_args); end
 
   # Set the values for the given attribute type. This replaces
   # any values that have already been set for this attribute.
   #
-  # source://ruby-openid//lib/openid/extensions/ax.rb#291
+  # pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:291
   def set_values(type_uri, values); end
 end
 
-# source://ruby-openid//lib/openid/extensions/ax.rb#11
+# pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:11
 OpenID::AX::MINIMUM_SUPPORTED_ALIAS_LENGTH = T.let(T.unsafe(nil), Integer)
 
 # A store request attribute exchange message representation
 #
-# source://ruby-openid//lib/openid/extensions/ax.rb#492
+# pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:492
 class OpenID::AX::StoreRequest < ::OpenID::AX::KeyValueMessage
-  # @return [StoreRequest] a new instance of StoreRequest
-  #
-  # source://ruby-openid//lib/openid/extensions/ax.rb#496
+  # pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:496
   def initialize; end
 
-  # source://ruby-openid//lib/openid/extensions/ax.rb#513
+  # pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:513
   def get_extension_args(aliases = T.unsafe(nil)); end
 
   class << self
@@ -662,180 +610,156 @@ class OpenID::AX::StoreRequest < ::OpenID::AX::KeyValueMessage
     # message: OpenID::Message
     # return a StoreRequest or nil if AX arguments are not present
     #
-    # source://ruby-openid//lib/openid/extensions/ax.rb#504
+    # pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:504
     def from_openid_request(oidreq); end
   end
 end
 
-# source://ruby-openid//lib/openid/extensions/ax.rb#494
+# pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:494
 OpenID::AX::StoreRequest::MODE = T.let(T.unsafe(nil), String)
 
 # An indication that the store request was processed along with
 # this OpenID transaction.
 #
-# source://ruby-openid//lib/openid/extensions/ax.rb#523
+# pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:523
 class OpenID::AX::StoreResponse < ::OpenID::AX::AXMessage
-  # @return [StoreResponse] a new instance of StoreResponse
-  #
-  # source://ruby-openid//lib/openid/extensions/ax.rb#528
+  # pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:528
   def initialize(succeeded = T.unsafe(nil), error_message = T.unsafe(nil)); end
 
-  # Returns the value of attribute error_message.
-  #
-  # source://ruby-openid//lib/openid/extensions/ax.rb#526
+  # pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:526
   def error_message; end
 
-  # source://ruby-openid//lib/openid/extensions/ax.rb#550
+  # pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:550
   def get_extension_args; end
 
-  # @return [Boolean]
-  #
-  # source://ruby-openid//lib/openid/extensions/ax.rb#546
+  # pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:546
   def succeeded?; end
 
   class << self
-    # source://ruby-openid//lib/openid/extensions/ax.rb#541
+    # pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:541
     def from_success_response(success_response); end
   end
 end
 
-# source://ruby-openid//lib/openid/extensions/ax.rb#525
+# pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:525
 OpenID::AX::StoreResponse::FAILURE_MODE = T.let(T.unsafe(nil), String)
 
-# source://ruby-openid//lib/openid/extensions/ax.rb#524
+# pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:524
 OpenID::AX::StoreResponse::SUCCESS_MODE = T.let(T.unsafe(nil), String)
 
-# source://ruby-openid//lib/openid/extensions/ax.rb#10
+# pkg:gem/ruby-openid#lib/openid/extensions/ax.rb:10
 OpenID::AX::UNLIMITED_VALUES = T.let(T.unsafe(nil), String)
 
-# source://ruby-openid//lib/openid/util.rb#7
+# pkg:gem/ruby-openid#lib/openid/util.rb:7
 class OpenID::AssertionError < ::Exception; end
 
 # An Association holds the shared secret between a relying party and
 # an OpenID provider.
 #
-# source://ruby-openid//lib/openid/association.rb#20
+# pkg:gem/ruby-openid#lib/openid/association.rb:20
 class OpenID::Association
-  # @return [Association] a new instance of Association
-  #
-  # source://ruby-openid//lib/openid/association.rb#54
+  # pkg:gem/ruby-openid#lib/openid/association.rb:54
   def initialize(handle, secret, issued, lifetime, assoc_type); end
 
-  # source://ruby-openid//lib/openid/association.rb#136
+  # pkg:gem/ruby-openid#lib/openid/association.rb:136
   def ==(other); end
 
-  # Returns the value of attribute assoc_type.
-  #
-  # source://ruby-openid//lib/openid/association.rb#21
+  # pkg:gem/ruby-openid#lib/openid/association.rb:21
   def assoc_type; end
 
   # Return whether the message's signature passes
   #
-  # source://ruby-openid//lib/openid/association.rb#122
+  # pkg:gem/ruby-openid#lib/openid/association.rb:122
   def check_message_signature(message); end
 
   # The number of seconds until this association expires
   #
-  # source://ruby-openid//lib/openid/association.rb#81
+  # pkg:gem/ruby-openid#lib/openid/association.rb:81
   def expires_in(now = T.unsafe(nil)); end
 
   # Get the signature for this message
   #
-  # source://ruby-openid//lib/openid/association.rb#132
+  # pkg:gem/ruby-openid#lib/openid/association.rb:132
   def get_message_signature(message); end
 
-  # Returns the value of attribute handle.
-  #
-  # source://ruby-openid//lib/openid/association.rb#21
+  # pkg:gem/ruby-openid#lib/openid/association.rb:21
   def handle; end
 
-  # Returns the value of attribute issued.
-  #
-  # source://ruby-openid//lib/openid/association.rb#21
+  # pkg:gem/ruby-openid#lib/openid/association.rb:21
   def issued; end
 
-  # Returns the value of attribute lifetime.
-  #
-  # source://ruby-openid//lib/openid/association.rb#21
+  # pkg:gem/ruby-openid#lib/openid/association.rb:21
   def lifetime; end
 
   # Generate the list of pairs that form the signed elements of the
   # given message
   #
-  # source://ruby-openid//lib/openid/association.rb#111
+  # pkg:gem/ruby-openid#lib/openid/association.rb:111
   def make_pairs(message); end
 
-  # Returns the value of attribute secret.
-  #
-  # source://ruby-openid//lib/openid/association.rb#21
+  # pkg:gem/ruby-openid#lib/openid/association.rb:21
   def secret; end
 
   # Serialize the association to a form that's consistent across
   # JanRain OpenID libraries.
   #
-  # source://ruby-openid//lib/openid/association.rb#64
+  # pkg:gem/ruby-openid#lib/openid/association.rb:64
   def serialize; end
 
   # Generate a signature for a sequence of [key, value] pairs
   #
-  # source://ruby-openid//lib/openid/association.rb#96
+  # pkg:gem/ruby-openid#lib/openid/association.rb:96
   def sign(pairs); end
 
   # Add a signature (and a signed list) to a message.
   #
-  # source://ruby-openid//lib/openid/association.rb#151
+  # pkg:gem/ruby-openid#lib/openid/association.rb:151
   def sign_message(message); end
 
   class << self
     # Load a serialized Association
     #
-    # source://ruby-openid//lib/openid/association.rb#27
+    # pkg:gem/ruby-openid#lib/openid/association.rb:27
     def deserialize(serialized); end
 
     # Create an Association with an issued time of now
     #
-    # source://ruby-openid//lib/openid/association.rb#49
+    # pkg:gem/ruby-openid#lib/openid/association.rb:49
     def from_expires_in(expires_in, handle, secret, assoc_type); end
   end
 end
 
-# source://ruby-openid//lib/openid/association.rb#23
+# pkg:gem/ruby-openid#lib/openid/association.rb:23
 OpenID::Association::FIELD_ORDER = T.let(T.unsafe(nil), Array)
 
-# source://ruby-openid//lib/openid/association.rb#183
+# pkg:gem/ruby-openid#lib/openid/association.rb:183
 class OpenID::AssociationNegotiator
-  # @return [AssociationNegotiator] a new instance of AssociationNegotiator
-  #
-  # source://ruby-openid//lib/openid/association.rb#204
+  # pkg:gem/ruby-openid#lib/openid/association.rb:204
   def initialize(allowed_types); end
 
-  # source://ruby-openid//lib/openid/association.rb#219
+  # pkg:gem/ruby-openid#lib/openid/association.rb:219
   def add_allowed_type(assoc_type, session_type = T.unsafe(nil)); end
 
-  # @return [Boolean]
-  #
-  # source://ruby-openid//lib/openid/association.rb#231
+  # pkg:gem/ruby-openid#lib/openid/association.rb:231
   def allowed?(assoc_type, session_type); end
 
-  # Returns the value of attribute allowed_types.
-  #
-  # source://ruby-openid//lib/openid/association.rb#184
+  # pkg:gem/ruby-openid#lib/openid/association.rb:184
   def allowed_types; end
 
-  # source://ruby-openid//lib/openid/association.rb#212
+  # pkg:gem/ruby-openid#lib/openid/association.rb:212
   def allowed_types=(allowed_types); end
 
-  # source://ruby-openid//lib/openid/association.rb#208
+  # pkg:gem/ruby-openid#lib/openid/association.rb:208
   def copy; end
 
-  # source://ruby-openid//lib/openid/association.rb#235
+  # pkg:gem/ruby-openid#lib/openid/association.rb:235
   def get_allowed_type; end
 
   class << self
-    # source://ruby-openid//lib/openid/association.rb#197
+    # pkg:gem/ruby-openid#lib/openid/association.rb:197
     def check_session_type(assoc_type, session_type); end
 
-    # source://ruby-openid//lib/openid/association.rb#186
+    # pkg:gem/ruby-openid#lib/openid/association.rb:186
     def get_session_types(assoc_type); end
   end
 end
@@ -843,7 +767,7 @@ end
 # The top-level namespace, excluding all pairs with keys that start
 # with "openid."
 #
-# source://ruby-openid//lib/openid/message.rb#29
+# pkg:gem/ruby-openid#lib/openid/message.rb:29
 OpenID::BARE_NS = T.let(T.unsafe(nil), Symbol)
 
 # OpenID support for Relying Parties (aka Consumers).
@@ -1014,7 +938,7 @@ OpenID::BARE_NS = T.let(T.unsafe(nil), Symbol)
 # successful, and include any additional information appropriate for
 # their type.
 #
-# source://ruby-openid//lib/openid/consumer/idres.rb#17
+# pkg:gem/ruby-openid#lib/openid/consumer/idres.rb:17
 class OpenID::Consumer
   # Initialize a Consumer instance.
   #
@@ -1026,9 +950,7 @@ class OpenID::Consumer
   #
   # store: an object that implements the interface in Store.
   #
-  # @return [Consumer] a new instance of Consumer
-  #
-  # source://ruby-openid//lib/openid/consumer.rb#192
+  # pkg:gem/ruby-openid#lib/openid/consumer.rb:192
   def initialize(session, store); end
 
   # Start the OpenID authentication process. See steps 1-2 in the
@@ -1055,7 +977,7 @@ class OpenID::Consumer
   # Raises DiscoveryFailure when no OpenID server can be found for
   # this URL.
   #
-  # source://ruby-openid//lib/openid/consumer.rb#222
+  # pkg:gem/ruby-openid#lib/openid/consumer.rb:222
   def begin(openid_identifier, anonymous = T.unsafe(nil)); end
 
   # Start OpenID verification without doing OpenID server
@@ -1069,85 +991,79 @@ class OpenID::Consumer
   #
   # Returns an OpenID authentication request object.
   #
-  # source://ruby-openid//lib/openid/consumer.rb#244
+  # pkg:gem/ruby-openid#lib/openid/consumer.rb:244
   def begin_without_discovery(service, anonymous); end
 
   # Returns a subclass of Response. The type of response is
   # indicated by the status attribute, which will be one of
   # SUCCESS, CANCEL, FAILURE, or SETUP_NEEDED.
   #
-  # source://ruby-openid//lib/openid/consumer.rb#283
+  # pkg:gem/ruby-openid#lib/openid/consumer.rb:283
   def complete(query, current_url); end
 
-  # Returns the value of attribute session_key_prefix.
-  #
-  # source://ruby-openid//lib/openid/consumer.rb#181
+  # pkg:gem/ruby-openid#lib/openid/consumer.rb:181
   def session_key_prefix; end
 
-  # Sets the attribute session_key_prefix
-  #
-  # @param value the value to set the attribute session_key_prefix to.
-  #
-  # source://ruby-openid//lib/openid/consumer.rb#181
+  # pkg:gem/ruby-openid#lib/openid/consumer.rb:181
   def session_key_prefix=(_arg0); end
 
   protected
 
-  # source://ruby-openid//lib/openid/consumer.rb#342
+  # pkg:gem/ruby-openid#lib/openid/consumer.rb:342
   def association_manager(service); end
 
-  # source://ruby-openid//lib/openid/consumer.rb#321
+  # pkg:gem/ruby-openid#lib/openid/consumer.rb:321
   def cleanup_last_requested_endpoint; end
 
-  # source://ruby-openid//lib/openid/consumer.rb#329
+  # pkg:gem/ruby-openid#lib/openid/consumer.rb:329
   def cleanup_session; end
 
-  # source://ruby-openid//lib/openid/consumer.rb#357
+  # pkg:gem/ruby-openid#lib/openid/consumer.rb:357
   def complete_cancel(unused_message, unused_return_to); end
 
-  # source://ruby-openid//lib/openid/consumer.rb#361
+  # pkg:gem/ruby-openid#lib/openid/consumer.rb:361
   def complete_error(message, unused_return_to); end
 
-  # source://ruby-openid//lib/openid/consumer.rb#379
+  # pkg:gem/ruby-openid#lib/openid/consumer.rb:379
   def complete_id_res(message, current_url); end
 
-  # source://ruby-openid//lib/openid/consumer.rb#351
+  # pkg:gem/ruby-openid#lib/openid/consumer.rb:351
   def complete_invalid(message, unused_return_to); end
 
-  # source://ruby-openid//lib/openid/consumer.rb#370
+  # pkg:gem/ruby-openid#lib/openid/consumer.rb:370
   def complete_setup_needed(message, unused_return_to); end
 
-  # source://ruby-openid//lib/openid/consumer.rb#334
+  # pkg:gem/ruby-openid#lib/openid/consumer.rb:334
   def discover(identifier); end
 
-  # source://ruby-openid//lib/openid/consumer.rb#325
+  # pkg:gem/ruby-openid#lib/openid/consumer.rb:325
   def discovery_manager(openid_identifier); end
 
-  # source://ruby-openid//lib/openid/consumer.rb#347
+  # pkg:gem/ruby-openid#lib/openid/consumer.rb:347
   def handle_idres(message, current_url); end
 
-  # source://ruby-openid//lib/openid/consumer.rb#313
+  # pkg:gem/ruby-openid#lib/openid/consumer.rb:313
   def last_requested_endpoint; end
 
-  # source://ruby-openid//lib/openid/consumer.rb#317
+  # pkg:gem/ruby-openid#lib/openid/consumer.rb:317
   def last_requested_endpoint=(endpoint); end
 
-  # source://ruby-openid//lib/openid/consumer.rb#338
+  # pkg:gem/ruby-openid#lib/openid/consumer.rb:338
   def negotiator; end
 
-  # source://ruby-openid//lib/openid/consumer.rb#301
+  # pkg:gem/ruby-openid#lib/openid/consumer.rb:301
   def session_get(name); end
 
-  # source://ruby-openid//lib/openid/consumer.rb#309
+  # pkg:gem/ruby-openid#lib/openid/consumer.rb:309
   def session_key(suffix); end
 
-  # source://ruby-openid//lib/openid/consumer.rb#305
+  # pkg:gem/ruby-openid#lib/openid/consumer.rb:305
   def session_set(name, val); end
 
   class << self
     # See openid1_return_to_claimed_id_name=
     #
-    # source://ruby-openid//lib/openid/consumer/idres.rb#42
+    # pkg:gem/ruby-openid#lib/openid/consumer/idres.rb:42
     def openid1_return_to_claimed_id_name; end
 
     # Set the name of the query parameter that this library will use
@@ -1155,19 +1071,19 @@ class OpenID::Consumer
     # use when verifying discovered information). It will be appended
     # to the return_to URL.
     #
-    # source://ruby-openid//lib/openid/consumer/idres.rb#37
+    # pkg:gem/ruby-openid#lib/openid/consumer/idres.rb:37
     def openid1_return_to_claimed_id_name=(query_arg_name); end
 
     # See openid1_return_to_nonce_name= documentation
     #
-    # source://ruby-openid//lib/openid/consumer/idres.rb#29
+    # pkg:gem/ruby-openid#lib/openid/consumer/idres.rb:29
     def openid1_return_to_nonce_name; end
 
     # Set the name of the query parameter that this library will use
     # to thread a nonce through an OpenID 1 transaction. It will be
     # appended to the return_to URL.
     #
-    # source://ruby-openid//lib/openid/consumer/idres.rb#24
+    # pkg:gem/ruby-openid#lib/openid/consumer/idres.rb:24
     def openid1_return_to_nonce_name=(query_arg_name); end
   end
 end
@@ -1175,17 +1091,15 @@ end
 # An object that manages creating and storing associations for an
 # OpenID provider endpoint
 #
-# source://ruby-openid//lib/openid/consumer/associationmanager.rb#88
+# pkg:gem/ruby-openid#lib/openid/consumer/associationmanager.rb:88
 class OpenID::Consumer::AssociationManager
-  # @return [AssociationManager] a new instance of AssociationManager
-  #
-  # source://ruby-openid//lib/openid/consumer/associationmanager.rb#103
+  # pkg:gem/ruby-openid#lib/openid/consumer/associationmanager.rb:103
   def initialize(store, server_url, compatibility_mode = T.unsafe(nil), negotiator = T.unsafe(nil)); end
 
-  # source://ruby-openid//lib/openid/consumer/associationmanager.rb#111
+  # pkg:gem/ruby-openid#lib/openid/consumer/associationmanager.rb:111
   def get_association; end
 
-  # source://ruby-openid//lib/openid/consumer/associationmanager.rb#127
+  # pkg:gem/ruby-openid#lib/openid/consumer/associationmanager.rb:127
   def negotiate_association; end
 
   protected
@@ -1194,17 +1108,17 @@ class OpenID::Consumer::AssociationManager
   # session_type. Returns a pair of the association session object
   # and the request message that will be sent to the server.
   #
-  # source://ruby-openid//lib/openid/consumer/associationmanager.rb#215
+  # pkg:gem/ruby-openid#lib/openid/consumer/associationmanager.rb:215
   def create_associate_request(assoc_type, session_type); end
 
   # Attempt to extract an association from the response, given the
   # association response message and the established association
   # session.
   #
-  # source://ruby-openid//lib/openid/consumer/associationmanager.rb#284
+  # pkg:gem/ruby-openid#lib/openid/consumer/associationmanager.rb:284
   def extract_association(assoc_response, assoc_session); end
 
-  # source://ruby-openid//lib/openid/consumer/associationmanager.rb#154
+  # pkg:gem/ruby-openid#lib/openid/consumer/associationmanager.rb:154
   def extract_supported_association_type(server_error, assoc_type); end
 
   # Given an association response message, extract the OpenID 1.X
@@ -1216,7 +1130,7 @@ class OpenID::Consumer::AssociationManager
   # If the association type is plain-text, this function will
   # return 'no-encryption'
   #
-  # source://ruby-openid//lib/openid/consumer/associationmanager.rb#246
+  # pkg:gem/ruby-openid#lib/openid/consumer/associationmanager.rb:246
   def get_openid1_session_type(assoc_response); end
 
   # Make and process one association request to this endpoint's OP
@@ -1224,14 +1138,14 @@ class OpenID::Consumer::AssociationManager
   # association processing failed. Raises ServerError when the
   # remote OpenID server returns an error.
   #
-  # source://ruby-openid//lib/openid/consumer/associationmanager.rb#191
+  # pkg:gem/ruby-openid#lib/openid/consumer/associationmanager.rb:191
   def request_association(assoc_type, session_type); end
 
   class << self
-    # source://ruby-openid//lib/openid/consumer/associationmanager.rb#89
+    # pkg:gem/ruby-openid#lib/openid/consumer/associationmanager.rb:89
     def create_session(session_type); end
 
-    # source://ruby-openid//lib/openid/consumer/associationmanager.rb#272
+    # pkg:gem/ruby-openid#lib/openid/consumer/associationmanager.rb:272
     def extract_expires_in(message); end
   end
 end
@@ -1239,20 +1153,18 @@ end
 # Code returned by OpenIDConsumer.complete_auth when the user
 # cancels the operation from the server.
 #
-# source://ruby-openid//lib/openid/consumer/responses.rb#14
+# pkg:gem/ruby-openid#lib/openid/consumer/responses.rb:14
 OpenID::Consumer::CANCEL = T.let(T.unsafe(nil), Symbol)
 
-# source://ruby-openid//lib/openid/consumer/responses.rb#131
+# pkg:gem/ruby-openid#lib/openid/consumer/responses.rb:131
 class OpenID::Consumer::CancelResponse
   include ::OpenID::Consumer::Response
 
-  # @return [CancelResponse] a new instance of CancelResponse
-  #
-  # source://ruby-openid//lib/openid/consumer/responses.rb#134
+  # pkg:gem/ruby-openid#lib/openid/consumer/responses.rb:134
   def initialize(endpoint); end
 end
 
-# source://ruby-openid//lib/openid/consumer/responses.rb#133
+# pkg:gem/ruby-openid#lib/openid/consumer/responses.rb:133
 OpenID::Consumer::CancelResponse::STATUS = T.let(T.unsafe(nil), Symbol)
 
 # An object that holds the state necessary for generating an
@@ -1265,15 +1177,13 @@ OpenID::Consumer::CancelResponse::STATUS = T.let(T.unsafe(nil), Symbol)
 # server. It also has serialization options that let you encode
 # the authentication request as a URL or as a form POST.
 #
-# source://ruby-openid//lib/openid/consumer/checkid_request.rb#15
+# pkg:gem/ruby-openid#lib/openid/consumer/checkid_request.rb:15
 class OpenID::Consumer::CheckIDRequest
   # Users of this library should not create instances of this
   # class.  Instances of this class are created by the library
   # when needed.
   #
-  # @return [CheckIDRequest] a new instance of CheckIDRequest
-  #
-  # source://ruby-openid//lib/openid/consumer/checkid_request.rb#22
+  # pkg:gem/ruby-openid#lib/openid/consumer/checkid_request.rb:22
   def initialize(assoc, endpoint); end
 
   # Add an object that implements the extension interface for
@@ -1281,7 +1191,7 @@ class OpenID::Consumer::CheckIDRequest
   #
   # extension_request: an OpenID::Extension object.
   #
-  # source://ruby-openid//lib/openid/consumer/checkid_request.rb#51
+  # pkg:gem/ruby-openid#lib/openid/consumer/checkid_request.rb:51
   def add_extension(extension_request); end
 
   # Add an extension argument to this OpenID authentication
@@ -1292,12 +1202,10 @@ class OpenID::Consumer::CheckIDRequest
   # URL-escaped and appended to the redirect URL, which can easily
   # get quite long.
   #
-  # source://ruby-openid//lib/openid/consumer/checkid_request.rb#62
+  # pkg:gem/ruby-openid#lib/openid/consumer/checkid_request.rb:62
   def add_extension_arg(namespace, key, value); end
 
-  # Returns the value of attribute anonymous.
-  #
-  # source://ruby-openid//lib/openid/consumer/checkid_request.rb#30
+  # pkg:gem/ruby-openid#lib/openid/consumer/checkid_request.rb:30
   def anonymous; end
 
   # Set whether this request should be made anonymously. If a
@@ -1308,12 +1216,10 @@ class OpenID::Consumer::CheckIDRequest
   # Anonymous requests are not allowed when the request is made
   # with OpenID 1.
   #
-  # source://ruby-openid//lib/openid/consumer/checkid_request.rb#39
+  # pkg:gem/ruby-openid#lib/openid/consumer/checkid_request.rb:39
   def anonymous=(is_anonymous); end
 
-  # Returns the value of attribute endpoint.
-  #
-  # source://ruby-openid//lib/openid/consumer/checkid_request.rb#17
+  # pkg:gem/ruby-openid#lib/openid/consumer/checkid_request.rb:17
   def endpoint; end
 
   # Get html for a form to submit this request to the IDP.
@@ -1323,7 +1229,7 @@ class OpenID::Consumer::CheckIDRequest
   # overridden. If a value is supplied for 'action' or 'method',
   # it will be replaced.
   #
-  # source://ruby-openid//lib/openid/consumer/checkid_request.rb#155
+  # pkg:gem/ruby-openid#lib/openid/consumer/checkid_request.rb:155
   def form_markup(realm, return_to = T.unsafe(nil), immediate = T.unsafe(nil), form_tag_attrs = T.unsafe(nil)); end
 
   # Produce a OpenID::Message representing this request.
@@ -1338,26 +1244,20 @@ class OpenID::Consumer::CheckIDRequest
   # default case, as the user may need to provide credentials or
   # approve the request before a positive response can be sent.
   #
-  # source://ruby-openid//lib/openid/consumer/checkid_request.rb#77
+  # pkg:gem/ruby-openid#lib/openid/consumer/checkid_request.rb:77
   def get_message(realm, return_to = T.unsafe(nil), immediate = T.unsafe(nil)); end
 
   # Get a complete HTML document that autosubmits the request to the IDP
   # with javascript.  This method wraps form_markup - see that method's
   # documentation for help with the parameters.
   #
-  # source://ruby-openid//lib/openid/consumer/checkid_request.rb#164
+  # pkg:gem/ruby-openid#lib/openid/consumer/checkid_request.rb:164
   def html_markup(realm, return_to = T.unsafe(nil), immediate = T.unsafe(nil), form_tag_attrs = T.unsafe(nil)); end
 
-  # Returns the value of attribute message.
-  #
-  # source://ruby-openid//lib/openid/consumer/checkid_request.rb#16
+  # pkg:gem/ruby-openid#lib/openid/consumer/checkid_request.rb:16
   def message; end
 
-  # Sets the attribute message
-  #
-  # @param value the value to set the attribute message to.
-  #
-  # source://ruby-openid//lib/openid/consumer/checkid_request.rb#16
+  # pkg:gem/ruby-openid#lib/openid/consumer/checkid_request.rb:16
   def message=(_arg0); end
 
   # Returns a URL with an encoded OpenID request.
@@ -1369,19 +1269,13 @@ class OpenID::Consumer::CheckIDRequest
   # OpenID 2.0 endpoints also accept POST requests, see
   # 'send_redirect?' and 'form_markup'.
   #
-  # source://ruby-openid//lib/openid/consumer/checkid_request.rb#144
+  # pkg:gem/ruby-openid#lib/openid/consumer/checkid_request.rb:144
   def redirect_url(realm, return_to = T.unsafe(nil), immediate = T.unsafe(nil)); end
 
-  # Returns the value of attribute return_to_args.
-  #
-  # source://ruby-openid//lib/openid/consumer/checkid_request.rb#16
+  # pkg:gem/ruby-openid#lib/openid/consumer/checkid_request.rb:16
   def return_to_args; end
 
-  # Sets the attribute return_to_args
-  #
-  # @param value the value to set the attribute return_to_args to.
-  #
-  # source://ruby-openid//lib/openid/consumer/checkid_request.rb#16
+  # pkg:gem/ruby-openid#lib/openid/consumer/checkid_request.rb:16
   def return_to_args=(_arg0); end
 
   # Should this OpenID authentication request be sent as a HTTP
@@ -1389,64 +1283,52 @@ class OpenID::Consumer::CheckIDRequest
   #
   # This takes the same parameters as redirect_url or form_markup
   #
-  # @return [Boolean]
-  #
-  # source://ruby-openid//lib/openid/consumer/checkid_request.rb#176
+  # pkg:gem/ruby-openid#lib/openid/consumer/checkid_request.rb:176
   def send_redirect?(realm, return_to = T.unsafe(nil), immediate = T.unsafe(nil)); end
 end
 
 # A Diffie-Hellman association session that uses SHA1 as its hash
 # function
 #
-# source://ruby-openid//lib/openid/consumer/associationmanager.rb#52
+# pkg:gem/ruby-openid#lib/openid/consumer/associationmanager.rb:52
 class OpenID::Consumer::DiffieHellmanSHA1Session < ::OpenID::Consumer::DiffieHellmanSession; end
 
 # A Diffie-Hellman association session that uses SHA256 as its hash
 # function
 #
-# source://ruby-openid//lib/openid/consumer/associationmanager.rb#61
+# pkg:gem/ruby-openid#lib/openid/consumer/associationmanager.rb:61
 class OpenID::Consumer::DiffieHellmanSHA256Session < ::OpenID::Consumer::DiffieHellmanSession; end
 
 # A superclass for implementing Diffie-Hellman association sessions.
 #
-# source://ruby-openid//lib/openid/consumer/associationmanager.rb#12
+# pkg:gem/ruby-openid#lib/openid/consumer/associationmanager.rb:12
 class OpenID::Consumer::DiffieHellmanSession
-  # @return [DiffieHellmanSession] a new instance of DiffieHellmanSession
-  #
-  # source://ruby-openid//lib/openid/consumer/associationmanager.rb#18
+  # pkg:gem/ruby-openid#lib/openid/consumer/associationmanager.rb:18
   def initialize(dh = T.unsafe(nil)); end
 
   # Process the response from a successful association request and
   # return the shared secret for this association
   #
-  # source://ruby-openid//lib/openid/consumer/associationmanager.rb#39
+  # pkg:gem/ruby-openid#lib/openid/consumer/associationmanager.rb:39
   def extract_secret(response); end
 
   # Return the query parameters for requesting an association
   # using this Diffie-Hellman association session
   #
-  # source://ruby-openid//lib/openid/consumer/associationmanager.rb#27
+  # pkg:gem/ruby-openid#lib/openid/consumer/associationmanager.rb:27
   def get_request; end
 
   class << self
-    # Returns the value of attribute allowed_assoc_types.
-    #
-    # source://ruby-openid//lib/openid/consumer/associationmanager.rb#14
+    # pkg:gem/ruby-openid#lib/openid/consumer/associationmanager.rb:14
     def allowed_assoc_types; end
 
-    # Returns the value of attribute hashfunc.
-    #
-    # source://ruby-openid//lib/openid/consumer/associationmanager.rb#14
+    # pkg:gem/ruby-openid#lib/openid/consumer/associationmanager.rb:14
     def hashfunc; end
 
-    # Returns the value of attribute secret_size.
-    #
-    # source://ruby-openid//lib/openid/consumer/associationmanager.rb#14
+    # pkg:gem/ruby-openid#lib/openid/consumer/associationmanager.rb:14
     def secret_size; end
 
-    # Returns the value of attribute session_type.
-    #
-    # source://ruby-openid//lib/openid/consumer/associationmanager.rb#14
+    # pkg:gem/ruby-openid#lib/openid/consumer/associationmanager.rb:14
     def session_type; end
   end
 end
@@ -1454,44 +1336,34 @@ end
 # A set of discovered services, for tracking which providers have
 # been attempted for an OpenID identifier
 #
-# source://ruby-openid//lib/openid/consumer/discovery_manager.rb#6
+# pkg:gem/ruby-openid#lib/openid/consumer/discovery_manager.rb:6
 class OpenID::Consumer::DiscoveredServices
-  # @return [DiscoveredServices] a new instance of DiscoveredServices
-  #
-  # source://ruby-openid//lib/openid/consumer/discovery_manager.rb#9
+  # pkg:gem/ruby-openid#lib/openid/consumer/discovery_manager.rb:9
   def initialize(starting_url, yadis_url, services); end
 
-  # source://ruby-openid//lib/openid/consumer/discovery_manager.rb#44
+  # pkg:gem/ruby-openid#lib/openid/consumer/discovery_manager.rb:44
   def ==(other); end
 
-  # Returns the value of attribute current.
-  #
-  # source://ruby-openid//lib/openid/consumer/discovery_manager.rb#7
+  # pkg:gem/ruby-openid#lib/openid/consumer/discovery_manager.rb:7
   def current; end
 
-  # @return [Boolean]
-  #
-  # source://ruby-openid//lib/openid/consumer/discovery_manager.rb#28
+  # pkg:gem/ruby-openid#lib/openid/consumer/discovery_manager.rb:28
   def empty?; end
 
-  # @return [Boolean]
-  #
-  # source://ruby-openid//lib/openid/consumer/discovery_manager.rb#20
+  # pkg:gem/ruby-openid#lib/openid/consumer/discovery_manager.rb:20
   def for_url?(url); end
 
-  # source://ruby-openid//lib/openid/consumer/discovery_manager.rb#16
+  # pkg:gem/ruby-openid#lib/openid/consumer/discovery_manager.rb:16
   def next; end
 
-  # @return [Boolean]
-  #
-  # source://ruby-openid//lib/openid/consumer/discovery_manager.rb#24
+  # pkg:gem/ruby-openid#lib/openid/consumer/discovery_manager.rb:24
   def started?; end
 
-  # source://ruby-openid//lib/openid/consumer/discovery_manager.rb#32
+  # pkg:gem/ruby-openid#lib/openid/consumer/discovery_manager.rb:32
   def to_session_value; end
 
   class << self
-    # source://ruby-openid//lib/openid/consumer/discovery_manager.rb#48
+    # pkg:gem/ruby-openid#lib/openid/consumer/discovery_manager.rb:48
     def from_session_value(value); end
   end
 end
@@ -1499,117 +1371,101 @@ end
 # Manages calling discovery and tracking which endpoints have
 # already been attempted.
 #
-# source://ruby-openid//lib/openid/consumer/discovery_manager.rb#62
+# pkg:gem/ruby-openid#lib/openid/consumer/discovery_manager.rb:62
 class OpenID::Consumer::DiscoveryManager
-  # @return [DiscoveryManager] a new instance of DiscoveryManager
-  #
-  # source://ruby-openid//lib/openid/consumer/discovery_manager.rb#63
+  # pkg:gem/ruby-openid#lib/openid/consumer/discovery_manager.rb:63
   def initialize(session, url, session_key_suffix = T.unsafe(nil)); end
 
-  # source://ruby-openid//lib/openid/consumer/discovery_manager.rb#92
+  # pkg:gem/ruby-openid#lib/openid/consumer/discovery_manager.rb:92
   def cleanup(force = T.unsafe(nil)); end
 
-  # source://ruby-openid//lib/openid/consumer/discovery_manager.rb#70
+  # pkg:gem/ruby-openid#lib/openid/consumer/discovery_manager.rb:70
   def get_next_service; end
 
   protected
 
-  # source://ruby-openid//lib/openid/consumer/discovery_manager.rb#114
+  # pkg:gem/ruby-openid#lib/openid/consumer/discovery_manager.rb:114
   def create_manager(yadis_url, services); end
 
-  # source://ruby-openid//lib/openid/consumer/discovery_manager.rb#145
+  # pkg:gem/ruby-openid#lib/openid/consumer/discovery_manager.rb:145
   def destroy!; end
 
-  # source://ruby-openid//lib/openid/consumer/discovery_manager.rb#127
+  # pkg:gem/ruby-openid#lib/openid/consumer/discovery_manager.rb:127
   def destroy_manager(force = T.unsafe(nil)); end
 
-  # source://ruby-openid//lib/openid/consumer/discovery_manager.rb#105
+  # pkg:gem/ruby-openid#lib/openid/consumer/discovery_manager.rb:105
   def get_manager(force = T.unsafe(nil)); end
 
-  # source://ruby-openid//lib/openid/consumer/discovery_manager.rb#141
+  # pkg:gem/ruby-openid#lib/openid/consumer/discovery_manager.rb:141
   def load; end
 
-  # source://ruby-openid//lib/openid/consumer/discovery_manager.rb#133
+  # pkg:gem/ruby-openid#lib/openid/consumer/discovery_manager.rb:133
   def session_key; end
 
-  # source://ruby-openid//lib/openid/consumer/discovery_manager.rb#137
+  # pkg:gem/ruby-openid#lib/openid/consumer/discovery_manager.rb:137
   def store(manager); end
 end
 
 # Code OpenID::OpenIDConsumer.complete_auth
 # returns when the value it received indicated an invalid login.
 #
-# source://ruby-openid//lib/openid/consumer/responses.rb#10
+# pkg:gem/ruby-openid#lib/openid/consumer/responses.rb:10
 OpenID::Consumer::FAILURE = T.let(T.unsafe(nil), Symbol)
 
-# source://ruby-openid//lib/openid/consumer/responses.rb#118
+# pkg:gem/ruby-openid#lib/openid/consumer/responses.rb:118
 class OpenID::Consumer::FailureResponse
   include ::OpenID::Consumer::Response
 
-  # @return [FailureResponse] a new instance of FailureResponse
-  #
-  # source://ruby-openid//lib/openid/consumer/responses.rb#123
+  # pkg:gem/ruby-openid#lib/openid/consumer/responses.rb:123
   def initialize(endpoint, message, contact = T.unsafe(nil), reference = T.unsafe(nil)); end
 
-  # Returns the value of attribute contact.
-  #
-  # source://ruby-openid//lib/openid/consumer/responses.rb#122
+  # pkg:gem/ruby-openid#lib/openid/consumer/responses.rb:122
   def contact; end
 
-  # Returns the value of attribute message.
-  #
-  # source://ruby-openid//lib/openid/consumer/responses.rb#122
+  # pkg:gem/ruby-openid#lib/openid/consumer/responses.rb:122
   def message; end
 
-  # Returns the value of attribute reference.
-  #
-  # source://ruby-openid//lib/openid/consumer/responses.rb#122
+  # pkg:gem/ruby-openid#lib/openid/consumer/responses.rb:122
   def reference; end
 end
 
-# source://ruby-openid//lib/openid/consumer/responses.rb#120
+# pkg:gem/ruby-openid#lib/openid/consumer/responses.rb:120
 OpenID::Consumer::FailureResponse::STATUS = T.let(T.unsafe(nil), Symbol)
 
 # Handles an openid.mode=id_res response. This object is
 # instantiated and used by the Consumer.
 #
-# source://ruby-openid//lib/openid/consumer/idres.rb#48
+# pkg:gem/ruby-openid#lib/openid/consumer/idres.rb:48
 class OpenID::Consumer::IdResHandler
-  # @return [IdResHandler] a new instance of IdResHandler
-  #
-  # source://ruby-openid//lib/openid/consumer/idres.rb#51
+  # pkg:gem/ruby-openid#lib/openid/consumer/idres.rb:51
   def initialize(message, current_url, store = T.unsafe(nil), endpoint = T.unsafe(nil)); end
 
-  # Returns the value of attribute endpoint.
-  #
-  # source://ruby-openid//lib/openid/consumer/idres.rb#49
+  # pkg:gem/ruby-openid#lib/openid/consumer/idres.rb:49
   def endpoint; end
 
-  # Returns the value of attribute message.
-  #
-  # source://ruby-openid//lib/openid/consumer/idres.rb#49
+  # pkg:gem/ruby-openid#lib/openid/consumer/idres.rb:49
   def message; end
 
-  # source://ruby-openid//lib/openid/consumer/idres.rb#62
+  # pkg:gem/ruby-openid#lib/openid/consumer/idres.rb:62
   def signed_fields; end
 
   protected
 
-  # source://ruby-openid//lib/openid/consumer/idres.rb#228
+  # pkg:gem/ruby-openid#lib/openid/consumer/idres.rb:228
   def check_auth; end
 
-  # source://ruby-openid//lib/openid/consumer/idres.rb#104
+  # pkg:gem/ruby-openid#lib/openid/consumer/idres.rb:104
   def check_for_fields; end
 
-  # source://ruby-openid//lib/openid/consumer/idres.rb#277
+  # pkg:gem/ruby-openid#lib/openid/consumer/idres.rb:277
   def check_nonce; end
 
   # Raises ProtocolError if the signature is bad
   #
-  # source://ruby-openid//lib/openid/consumer/idres.rb#205
+  # pkg:gem/ruby-openid#lib/openid/consumer/idres.rb:205
   def check_signature; end
 
-  # source://ruby-openid//lib/openid/consumer/idres.rb#242
+  # pkg:gem/ruby-openid#lib/openid/consumer/idres.rb:242
   def create_check_auth_request; end
 
   # Given an endpoint object created from the information in an
@@ -1617,10 +1473,10 @@ class OpenID::Consumer::IdResHandler
   # results, returning the matching endpoint that is the result of
   # doing that discovery.
   #
-  # source://ruby-openid//lib/openid/consumer/idres.rb#418
+  # pkg:gem/ruby-openid#lib/openid/consumer/idres.rb:418
   def discover_and_verify(claimed_id, to_match_endpoints); end
 
-  # source://ruby-openid//lib/openid/consumer/idres.rb#88
+  # pkg:gem/ruby-openid#lib/openid/consumer/idres.rb:88
   def fetch(field, default = T.unsafe(nil)); end
 
   # This method will raise ProtocolError unless the request is a
@@ -1628,75 +1484,69 @@ class OpenID::Consumer::IdResHandler
   # 'endpoint', 'message', and 'signed_fields' contain the
   # verified information.
   #
-  # source://ruby-openid//lib/openid/consumer/idres.rb#72
+  # pkg:gem/ruby-openid#lib/openid/consumer/idres.rb:72
   def id_res; end
 
-  # source://ruby-openid//lib/openid/consumer/idres.rb#84
+  # pkg:gem/ruby-openid#lib/openid/consumer/idres.rb:84
   def openid_namespace; end
 
   # Process the response message from a check_authentication
   # request, invalidating associations if requested.
   #
-  # source://ruby-openid//lib/openid/consumer/idres.rb#258
+  # pkg:gem/ruby-openid#lib/openid/consumer/idres.rb:258
   def process_check_auth_response(response); end
 
-  # source://ruby-openid//lib/openid/consumer/idres.rb#80
+  # pkg:gem/ruby-openid#lib/openid/consumer/idres.rb:80
   def server_url; end
 
-  # source://ruby-openid//lib/openid/consumer/idres.rb#92
+  # pkg:gem/ruby-openid#lib/openid/consumer/idres.rb:92
   def signed_list; end
 
-  # @raise [ProtocolError]
-  #
-  # source://ruby-openid//lib/openid/consumer/idres.rb#431
+  # pkg:gem/ruby-openid#lib/openid/consumer/idres.rb:431
   def verify_discovered_services(claimed_id, services, to_match_endpoints); end
 
-  # source://ruby-openid//lib/openid/consumer/idres.rb#309
+  # pkg:gem/ruby-openid#lib/openid/consumer/idres.rb:309
   def verify_discovery_results; end
 
-  # source://ruby-openid//lib/openid/consumer/idres.rb#367
+  # pkg:gem/ruby-openid#lib/openid/consumer/idres.rb:367
   def verify_discovery_results_openid1; end
 
-  # source://ruby-openid//lib/openid/consumer/idres.rb#324
+  # pkg:gem/ruby-openid#lib/openid/consumer/idres.rb:324
   def verify_discovery_results_openid2; end
 
-  # source://ruby-openid//lib/openid/consumer/idres.rb#460
+  # pkg:gem/ruby-openid#lib/openid/consumer/idres.rb:460
   def verify_discovery_single(endpoint, to_match); end
 
-  # source://ruby-openid//lib/openid/consumer/idres.rb#140
+  # pkg:gem/ruby-openid#lib/openid/consumer/idres.rb:140
   def verify_return_to; end
 
-  # source://ruby-openid//lib/openid/consumer/idres.rb#153
+  # pkg:gem/ruby-openid#lib/openid/consumer/idres.rb:153
   def verify_return_to_args(msg_return_to); end
 
-  # source://ruby-openid//lib/openid/consumer/idres.rb#190
+  # pkg:gem/ruby-openid#lib/openid/consumer/idres.rb:190
   def verify_return_to_base(msg_return_to); end
 end
 
 # An association session that does not use encryption
 #
-# source://ruby-openid//lib/openid/consumer/associationmanager.rb#69
+# pkg:gem/ruby-openid#lib/openid/consumer/associationmanager.rb:69
 class OpenID::Consumer::NoEncryptionSession
-  # source://ruby-openid//lib/openid/consumer/associationmanager.rb#80
+  # pkg:gem/ruby-openid#lib/openid/consumer/associationmanager.rb:80
   def extract_secret(response); end
 
-  # source://ruby-openid//lib/openid/consumer/associationmanager.rb#76
+  # pkg:gem/ruby-openid#lib/openid/consumer/associationmanager.rb:76
   def get_request; end
 
   class << self
-    # Returns the value of attribute allowed_assoc_types.
-    #
-    # source://ruby-openid//lib/openid/consumer/associationmanager.rb#71
+    # pkg:gem/ruby-openid#lib/openid/consumer/associationmanager.rb:71
     def allowed_assoc_types; end
 
-    # Returns the value of attribute session_type.
-    #
-    # source://ruby-openid//lib/openid/consumer/associationmanager.rb#71
+    # pkg:gem/ruby-openid#lib/openid/consumer/associationmanager.rb:71
     def session_type; end
   end
 end
 
-# source://ruby-openid//lib/openid/consumer/responses.rb#22
+# pkg:gem/ruby-openid#lib/openid/consumer/responses.rb:22
 module OpenID::Consumer::Response
   # The display identifier is related to the Claimed Identifier, but the
   # two are not always identical.  The display identifier is something the
@@ -1712,21 +1562,19 @@ module OpenID::Consumer::Response
   # for querying your database or authorization server, or other
   # identifier equality comparisons.
   #
-  # source://ruby-openid//lib/openid/consumer/responses.rb#48
+  # pkg:gem/ruby-openid#lib/openid/consumer/responses.rb:48
   def display_identifier; end
 
-  # Returns the value of attribute endpoint.
-  #
-  # source://ruby-openid//lib/openid/consumer/responses.rb#23
+  # pkg:gem/ruby-openid#lib/openid/consumer/responses.rb:23
   def endpoint; end
 
   # The identity URL that has been authenticated; the Claimed Identifier.
   # See also display_identifier.
   #
-  # source://ruby-openid//lib/openid/consumer/responses.rb#31
+  # pkg:gem/ruby-openid#lib/openid/consumer/responses.rb:31
   def identity_url; end
 
-  # source://ruby-openid//lib/openid/consumer/responses.rb#25
+  # pkg:gem/ruby-openid#lib/openid/consumer/responses.rb:25
   def status; end
 end
 
@@ -1734,150 +1582,136 @@ end
 # OpenIDConsumer instance is in immediate mode and ther server sends back a
 # URL for the user to login with.
 #
-# source://ruby-openid//lib/openid/consumer/responses.rb#19
+# pkg:gem/ruby-openid#lib/openid/consumer/responses.rb:19
 OpenID::Consumer::SETUP_NEEDED = T.let(T.unsafe(nil), Symbol)
 
 # Code returned when either the of the
 # OpenID::OpenIDConsumer.begin_auth or OpenID::OpenIDConsumer.complete_auth
 # methods return successfully.
 #
-# source://ruby-openid//lib/openid/consumer/responses.rb#6
+# pkg:gem/ruby-openid#lib/openid/consumer/responses.rb:6
 OpenID::Consumer::SUCCESS = T.let(T.unsafe(nil), Symbol)
 
-# source://ruby-openid//lib/openid/consumer/session.rb#3
+# pkg:gem/ruby-openid#lib/openid/consumer/session.rb:3
 class OpenID::Consumer::Session
-  # @return [Session] a new instance of Session
-  #
-  # source://ruby-openid//lib/openid/consumer/session.rb#4
+  # pkg:gem/ruby-openid#lib/openid/consumer/session.rb:4
   def initialize(session, decode_klass = T.unsafe(nil)); end
 
-  # source://ruby-openid//lib/openid/consumer/session.rb#9
+  # pkg:gem/ruby-openid#lib/openid/consumer/session.rb:9
   def [](key); end
 
-  # source://ruby-openid//lib/openid/consumer/session.rb#14
+  # pkg:gem/ruby-openid#lib/openid/consumer/session.rb:14
   def []=(key, val); end
 
-  # source://ruby-openid//lib/openid/consumer/session.rb#18
+  # pkg:gem/ruby-openid#lib/openid/consumer/session.rb:18
   def keys; end
 
   private
 
-  # source://ruby-openid//lib/openid/consumer/session.rb#24
+  # pkg:gem/ruby-openid#lib/openid/consumer/session.rb:24
   def to_session_value(val); end
 end
 
-# source://ruby-openid//lib/openid/consumer/responses.rb#139
+# pkg:gem/ruby-openid#lib/openid/consumer/responses.rb:139
 class OpenID::Consumer::SetupNeededResponse
   include ::OpenID::Consumer::Response
 
-  # @return [SetupNeededResponse] a new instance of SetupNeededResponse
-  #
-  # source://ruby-openid//lib/openid/consumer/responses.rb#144
+  # pkg:gem/ruby-openid#lib/openid/consumer/responses.rb:144
   def initialize(endpoint, setup_url); end
 
-  # Returns the value of attribute setup_url.
-  #
-  # source://ruby-openid//lib/openid/consumer/responses.rb#143
+  # pkg:gem/ruby-openid#lib/openid/consumer/responses.rb:143
   def setup_url; end
 end
 
-# source://ruby-openid//lib/openid/consumer/responses.rb#141
+# pkg:gem/ruby-openid#lib/openid/consumer/responses.rb:141
 OpenID::Consumer::SetupNeededResponse::STATUS = T.let(T.unsafe(nil), Symbol)
 
 # A successful acknowledgement from the OpenID server that the
 # supplied URL is, indeed controlled by the requesting agent.
 #
-# source://ruby-openid//lib/openid/consumer/responses.rb#55
+# pkg:gem/ruby-openid#lib/openid/consumer/responses.rb:55
 class OpenID::Consumer::SuccessResponse
   include ::OpenID::Consumer::Response
 
-  # @return [SuccessResponse] a new instance of SuccessResponse
-  #
-  # source://ruby-openid//lib/openid/consumer/responses.rb#62
+  # pkg:gem/ruby-openid#lib/openid/consumer/responses.rb:62
   def initialize(endpoint, message, signed_fields); end
 
   # Return response arguments in the specified namespace.
   # If require_signed is true and the arguments are not signed,
   # return nil.
   #
-  # source://ruby-openid//lib/openid/consumer/responses.rb#109
+  # pkg:gem/ruby-openid#lib/openid/consumer/responses.rb:109
   def extension_response(namespace_uri, require_signed); end
 
   # Return the specified signed field if available, otherwise
   # return default
   #
-  # source://ruby-openid//lib/openid/consumer/responses.rb#85
+  # pkg:gem/ruby-openid#lib/openid/consumer/responses.rb:85
   def get_signed(ns_uri, ns_key, default = T.unsafe(nil)); end
 
   # Get signed arguments from the response message.  Return a dict
   # of all arguments in the specified namespace.  If any of the
   # arguments are not signed, return nil.
   #
-  # source://ruby-openid//lib/openid/consumer/responses.rb#96
+  # pkg:gem/ruby-openid#lib/openid/consumer/responses.rb:96
   def get_signed_ns(ns_uri); end
 
   # Was this authentication response an OpenID 1 authentication
   # response?
   #
-  # source://ruby-openid//lib/openid/consumer/responses.rb#73
+  # pkg:gem/ruby-openid#lib/openid/consumer/responses.rb:73
   def is_openid1; end
 
-  # Returns the value of attribute message.
-  #
-  # source://ruby-openid//lib/openid/consumer/responses.rb#60
+  # pkg:gem/ruby-openid#lib/openid/consumer/responses.rb:60
   def message; end
 
   # Return whether a particular key is signed, regardless of its
   # namespace alias
   #
-  # @return [Boolean]
-  #
-  # source://ruby-openid//lib/openid/consumer/responses.rb#79
+  # pkg:gem/ruby-openid#lib/openid/consumer/responses.rb:79
   def signed?(ns_uri, ns_key); end
 
-  # Returns the value of attribute signed_fields.
-  #
-  # source://ruby-openid//lib/openid/consumer/responses.rb#60
+  # pkg:gem/ruby-openid#lib/openid/consumer/responses.rb:60
   def signed_fields; end
 end
 
-# source://ruby-openid//lib/openid/consumer/responses.rb#58
+# pkg:gem/ruby-openid#lib/openid/consumer/responses.rb:58
 OpenID::Consumer::SuccessResponse::STATUS = T.let(T.unsafe(nil), Symbol)
 
 # This module contains everything needed to perform low-level
 # cryptograph and data manipulation tasks.
 #
-# source://ruby-openid//lib/openid/cryptutil.rb#21
+# pkg:gem/ruby-openid#lib/openid/cryptutil.rb:21
 module OpenID::CryptUtil
   class << self
     # Decode a base64 byte string to a number.
     #
-    # source://ruby-openid//lib/openid/cryptutil.rb#100
+    # pkg:gem/ruby-openid#lib/openid/cryptutil.rb:100
     def base64_to_num(s); end
 
     # Convert a string of bytes into a number.
     #
-    # source://ruby-openid//lib/openid/cryptutil.rb#83
+    # pkg:gem/ruby-openid#lib/openid/cryptutil.rb:83
     def binary_to_num(s); end
 
-    # source://ruby-openid//lib/openid/cryptutil.rb#104
+    # pkg:gem/ruby-openid#lib/openid/cryptutil.rb:104
     def const_eq(s1, s2); end
 
-    # source://ruby-openid//lib/openid/cryptutil.rb#39
+    # pkg:gem/ruby-openid#lib/openid/cryptutil.rb:39
     def hmac_sha1(key, text); end
 
-    # source://ruby-openid//lib/openid/cryptutil.rb#51
+    # pkg:gem/ruby-openid#lib/openid/cryptutil.rb:51
     def hmac_sha256(key, text); end
 
     # Encode a number as a base64-encoded byte string.
     #
-    # source://ruby-openid//lib/openid/cryptutil.rb#95
+    # pkg:gem/ruby-openid#lib/openid/cryptutil.rb:95
     def num_to_base64(l); end
 
     # Convert a number to its binary representation; return a string
     # of bytes.
     #
-    # source://ruby-openid//lib/openid/cryptutil.rb#75
+    # pkg:gem/ruby-openid#lib/openid/cryptutil.rb:75
     def num_to_binary(n); end
 
     # Generate a random number, doing a little extra work to make it
@@ -1888,25 +1722,25 @@ module OpenID::CryptUtil
     # for more information.  max is the largest possible value of such
     # a random number, where the result will be less than max.
     #
-    # source://ruby-openid//lib/openid/cryptutil.rb#30
+    # pkg:gem/ruby-openid#lib/openid/cryptutil.rb:30
     def rand(max); end
 
     # Generate a random string of the given length, composed of the
     # specified characters.  If chars is nil, generate a string
     # composed of characters in the range 0..255.
     #
-    # source://ruby-openid//lib/openid/cryptutil.rb#62
+    # pkg:gem/ruby-openid#lib/openid/cryptutil.rb:62
     def random_string(length, chars = T.unsafe(nil)); end
 
-    # source://ruby-openid//lib/openid/cryptutil.rb#35
+    # pkg:gem/ruby-openid#lib/openid/cryptutil.rb:35
     def sha1(text); end
 
-    # source://ruby-openid//lib/openid/cryptutil.rb#47
+    # pkg:gem/ruby-openid#lib/openid/cryptutil.rb:47
     def sha256(text); end
   end
 end
 
-# source://ruby-openid//lib/openid/association.rb#240
+# pkg:gem/ruby-openid#lib/openid/association.rb:240
 OpenID::DefaultNegotiator = T.let(T.unsafe(nil), OpenID::AssociationNegotiator)
 
 # Encapsulates a Diffie-Hellman key exchange.  This class is used
@@ -1915,331 +1749,285 @@ OpenID::DefaultNegotiator = T.let(T.unsafe(nil), OpenID::AssociationNegotiator)
 # Read more about Diffie-Hellman on wikipedia:
 # http://en.wikipedia.org/wiki/Diffie-Hellman
 #
-# source://ruby-openid//lib/openid/dh.rb#12
+# pkg:gem/ruby-openid#lib/openid/dh.rb:12
 class OpenID::DiffieHellman
-  # @return [DiffieHellman] a new instance of DiffieHellman
-  #
-  # source://ruby-openid//lib/openid/dh.rb#26
+  # pkg:gem/ruby-openid#lib/openid/dh.rb:26
   def initialize(modulus = T.unsafe(nil), generator = T.unsafe(nil), priv = T.unsafe(nil)); end
 
-  # Returns the value of attribute generator.
-  #
-  # source://ruby-openid//lib/openid/dh.rb#18
+  # pkg:gem/ruby-openid#lib/openid/dh.rb:18
   def generator; end
 
-  # source://ruby-openid//lib/openid/dh.rb#32
+  # pkg:gem/ruby-openid#lib/openid/dh.rb:32
   def get_shared_secret(composite); end
 
-  # Returns the value of attribute modulus.
-  #
-  # source://ruby-openid//lib/openid/dh.rb#18
+  # pkg:gem/ruby-openid#lib/openid/dh.rb:18
   def modulus; end
 
-  # Returns the value of attribute public.
-  #
-  # source://ruby-openid//lib/openid/dh.rb#18
+  # pkg:gem/ruby-openid#lib/openid/dh.rb:18
   def public; end
 
-  # @return [Boolean]
-  #
-  # source://ruby-openid//lib/openid/dh.rb#43
+  # pkg:gem/ruby-openid#lib/openid/dh.rb:43
   def using_default_values?; end
 
-  # source://ruby-openid//lib/openid/dh.rb#36
+  # pkg:gem/ruby-openid#lib/openid/dh.rb:36
   def xor_secret(algorithm, composite, secret); end
 
   private
 
-  # source://ruby-openid//lib/openid/dh.rb#48
+  # pkg:gem/ruby-openid#lib/openid/dh.rb:48
   def set_private(priv); end
 
   class << self
     # A new DiffieHellman object, using the modulus and generator from
     # the OpenID specification
     #
-    # source://ruby-openid//lib/openid/dh.rb#22
+    # pkg:gem/ruby-openid#lib/openid/dh.rb:22
     def from_defaults; end
 
     # This code is taken from this post:
     # <http://blade.nagaokaut.ac.jp/cgi-bin/scat.\rb/ruby/ruby-talk/19098>
     # by Eric Lee Green.
     #
-    # source://ruby-openid//lib/openid/dh.rb#71
+    # pkg:gem/ruby-openid#lib/openid/dh.rb:71
     def powermod(x, n, q); end
 
-    # source://ruby-openid//lib/openid/dh.rb#53
+    # pkg:gem/ruby-openid#lib/openid/dh.rb:53
     def strxor(s, t); end
   end
 end
 
 # Raised when a error occurs in the discovery process
 #
-# source://ruby-openid//lib/openid/yadis/discovery.rb#10
+# pkg:gem/ruby-openid#lib/openid/yadis/discovery.rb:10
 class OpenID::DiscoveryFailure < ::OpenID::OpenIDError
-  # @return [DiscoveryFailure] a new instance of DiscoveryFailure
-  #
-  # source://ruby-openid//lib/openid/yadis/discovery.rb#13
+  # pkg:gem/ruby-openid#lib/openid/yadis/discovery.rb:13
   def initialize(message, http_response); end
 
-  # Returns the value of attribute http_response.
-  #
-  # source://ruby-openid//lib/openid/yadis/discovery.rb#11
+  # pkg:gem/ruby-openid#lib/openid/yadis/discovery.rb:11
   def http_response; end
 
-  # Sets the attribute http_response
-  #
-  # @param value the value to set the attribute http_response to.
-  #
-  # source://ruby-openid//lib/openid/yadis/discovery.rb#11
+  # pkg:gem/ruby-openid#lib/openid/yadis/discovery.rb:11
   def http_response=(_arg0); end
 
-  # Returns the value of attribute identity_url.
-  #
-  # source://ruby-openid//lib/openid/yadis/discovery.rb#11
+  # pkg:gem/ruby-openid#lib/openid/yadis/discovery.rb:11
   def identity_url; end
 
-  # Sets the attribute identity_url
-  #
-  # @param value the value to set the attribute identity_url to.
-  #
-  # source://ruby-openid//lib/openid/yadis/discovery.rb#11
+  # pkg:gem/ruby-openid#lib/openid/yadis/discovery.rb:11
   def identity_url=(_arg0); end
 end
 
-# source://ruby-openid//lib/openid/association.rb#246
+# pkg:gem/ruby-openid#lib/openid/association.rb:246
 OpenID::EncryptedNegotiator = T.let(T.unsafe(nil), OpenID::AssociationNegotiator)
 
 # An interface for OpenID extensions.
 #
-# source://ruby-openid//lib/openid/extension.rb#5
+# pkg:gem/ruby-openid#lib/openid/extension.rb:5
 class OpenID::Extension
-  # @return [Extension] a new instance of Extension
-  #
-  # source://ruby-openid//lib/openid/extension.rb#7
+  # pkg:gem/ruby-openid#lib/openid/extension.rb:7
   def initialize; end
 
   # Get the string arguments that should be added to an OpenID
   # message for this extension.
   #
-  # @raise [NotImplementedError]
-  #
-  # source://ruby-openid//lib/openid/extension.rb#14
+  # pkg:gem/ruby-openid#lib/openid/extension.rb:14
   def get_extension_args; end
 
   # Add the arguments from this extension to the provided
   # message, or create a new message containing only those
   # arguments.  Returns the message with added extension args.
   #
-  # source://ruby-openid//lib/openid/extension.rb#21
+  # pkg:gem/ruby-openid#lib/openid/extension.rb:21
   def to_message(message = T.unsafe(nil)); end
 end
 
-# source://ruby-openid//lib/openid/fetchers.rb#76
+# pkg:gem/ruby-openid#lib/openid/fetchers.rb:76
 class OpenID::FetchingError < ::OpenID::OpenIDError; end
 
-# source://ruby-openid//lib/openid/fetchers.rb#79
+# pkg:gem/ruby-openid#lib/openid/fetchers.rb:79
 class OpenID::HTTPRedirectLimitReached < ::OpenID::FetchingError; end
 
 # Our HTTPResponse class extends Net::HTTPResponse with an additional
 # method, final_url.
 #
-# source://ruby-openid//lib/openid/fetchers.rb#49
+# pkg:gem/ruby-openid#lib/openid/fetchers.rb:49
 class OpenID::HTTPResponse
-  # Returns the value of attribute _response.
-  #
-  # source://ruby-openid//lib/openid/fetchers.rb#52
+  # pkg:gem/ruby-openid#lib/openid/fetchers.rb:52
   def _response; end
 
-  # Sets the attribute _response
-  #
-  # @param value the value to set the attribute _response to.
-  #
-  # source://ruby-openid//lib/openid/fetchers.rb#52
+  # pkg:gem/ruby-openid#lib/openid/fetchers.rb:52
   def _response=(_arg0); end
 
-  # source://ruby-openid//lib/openid/fetchers.rb#65
+  # pkg:gem/ruby-openid#lib/openid/fetchers.rb:65
   def body=(s); end
 
-  # Returns the value of attribute final_url.
-  #
-  # source://ruby-openid//lib/openid/fetchers.rb#50
+  # pkg:gem/ruby-openid#lib/openid/fetchers.rb:50
   def final_url; end
 
-  # Sets the attribute final_url
-  #
-  # @param value the value to set the attribute final_url to.
-  #
-  # source://ruby-openid//lib/openid/fetchers.rb#50
+  # pkg:gem/ruby-openid#lib/openid/fetchers.rb:50
   def final_url=(_arg0); end
 
-  # source://ruby-openid//lib/openid/fetchers.rb#61
+  # pkg:gem/ruby-openid#lib/openid/fetchers.rb:61
   def method_missing(method, *args); end
 
   class << self
-    # source://ruby-openid//lib/openid/fetchers.rb#54
+    # pkg:gem/ruby-openid#lib/openid/fetchers.rb:54
     def _from_net_response(response, final_url, headers = T.unsafe(nil)); end
   end
 end
 
-# source://ruby-openid//lib/openid/kvpost.rb#27
+# pkg:gem/ruby-openid#lib/openid/kvpost.rb:27
 class OpenID::HTTPStatusError < ::OpenID::OpenIDError; end
 
-# source://ruby-openid//lib/openid/message.rb#6
+# pkg:gem/ruby-openid#lib/openid/message.rb:6
 OpenID::IDENTIFIER_SELECT = T.let(T.unsafe(nil), String)
 
 # Raised if openid.ns is not a recognized value.
 # See Message class variable @@allowed_openid_namespaces
 #
-# source://ruby-openid//lib/openid/message.rb#61
+# pkg:gem/ruby-openid#lib/openid/message.rb:61
 class OpenID::InvalidOpenIDNamespace < ::Exception; end
 
-# source://ruby-openid//lib/openid/kvform.rb#4
+# pkg:gem/ruby-openid#lib/openid/kvform.rb:4
 class OpenID::KVFormError < ::Exception; end
 
-# source://ruby-openid//lib/openid/kvpost.rb#25
+# pkg:gem/ruby-openid#lib/openid/kvpost.rb:25
 class OpenID::KVPostNetworkError < ::OpenID::OpenIDError; end
 
-# source://ruby-openid//lib/openid/message.rb#63
+# pkg:gem/ruby-openid#lib/openid/message.rb:63
 class OpenID::Message
   # Raises InvalidNamespaceError if you try to instantiate a Message
   # with a namespace not in the above allowed list
   #
-  # @return [Message] a new instance of Message
-  #
-  # source://ruby-openid//lib/openid/message.rb#100
+  # pkg:gem/ruby-openid#lib/openid/message.rb:100
   def initialize(openid_namespace = T.unsafe(nil)); end
 
-  # source://ruby-openid//lib/openid/message.rb#420
+  # pkg:gem/ruby-openid#lib/openid/message.rb:420
   def ==(other); end
 
   # Convert an input value into the internally used values of this obejct.
   #
-  # source://ruby-openid//lib/openid/message.rb#318
+  # pkg:gem/ruby-openid#lib/openid/message.rb:318
   def _fix_ns(namespace); end
 
   # Raises InvalidNamespaceError if you try to instantiate a Message
   # with a namespace not in the above allowed list
   #
-  # source://ruby-openid//lib/openid/message.rb#147
+  # pkg:gem/ruby-openid#lib/openid/message.rb:147
   def _from_openid_args(openid_args); end
 
-  # source://ruby-openid//lib/openid/message.rb#188
+  # pkg:gem/ruby-openid#lib/openid/message.rb:188
   def _get_default_namespace(mystery_alias); end
 
-  # source://ruby-openid//lib/openid/message.rb#221
+  # pkg:gem/ruby-openid#lib/openid/message.rb:221
   def copy; end
 
   # Remove a single argument from this namespace.
   #
-  # source://ruby-openid//lib/openid/message.rb#414
+  # pkg:gem/ruby-openid#lib/openid/message.rb:414
   def del_arg(namespace, key); end
 
-  # source://ruby-openid//lib/openid/message.rb#424
+  # pkg:gem/ruby-openid#lib/openid/message.rb:424
   def get_aliased_arg(aliased_key, default = T.unsafe(nil)); end
 
   # Get a value for a namespaced key.
   #
-  # source://ruby-openid//lib/openid/message.rb#376
+  # pkg:gem/ruby-openid#lib/openid/message.rb:376
   def get_arg(namespace, key, default = T.unsafe(nil)); end
 
   # Get the arguments that are defined for this namespace URI.
   #
-  # source://ruby-openid//lib/openid/message.rb#388
+  # pkg:gem/ruby-openid#lib/openid/message.rb:388
   def get_args(namespace); end
 
   # Get the key for a particular namespaced argument
   #
-  # source://ruby-openid//lib/openid/message.rb#357
+  # pkg:gem/ruby-openid#lib/openid/message.rb:357
   def get_key(namespace, ns_key); end
 
-  # source://ruby-openid//lib/openid/message.rb#204
+  # pkg:gem/ruby-openid#lib/openid/message.rb:204
   def get_openid_namespace; end
 
-  # @return [Boolean]
-  #
-  # source://ruby-openid//lib/openid/message.rb#351
+  # pkg:gem/ruby-openid#lib/openid/message.rb:351
   def has_key?(namespace, ns_key); end
 
-  # source://ruby-openid//lib/openid/message.rb#208
+  # pkg:gem/ruby-openid#lib/openid/message.rb:208
   def is_openid1; end
 
-  # source://ruby-openid//lib/openid/message.rb#212
+  # pkg:gem/ruby-openid#lib/openid/message.rb:212
   def is_openid2; end
 
-  # Returns the value of attribute namespaces.
-  #
-  # source://ruby-openid//lib/openid/message.rb#64
+  # pkg:gem/ruby-openid#lib/openid/message.rb:64
   def namespaces; end
 
   # Set a single argument in this namespace
   #
-  # source://ruby-openid//lib/openid/message.rb#405
+  # pkg:gem/ruby-openid#lib/openid/message.rb:405
   def set_arg(namespace, key, value); end
 
-  # source://ruby-openid//lib/openid/message.rb#196
+  # pkg:gem/ruby-openid#lib/openid/message.rb:196
   def set_openid_namespace(openid_ns_uri, implicit); end
 
   # Return all namespaced arguments, failing if any non-namespaced arguments
   # exist.
   #
-  # source://ruby-openid//lib/openid/message.rb#253
+  # pkg:gem/ruby-openid#lib/openid/message.rb:253
   def to_args; end
 
   # Generate HTML form markup that contains the values in this
   # message, to be HTTP POSTed as x-www-form-urlencoded UTF-8.
   #
-  # source://ruby-openid//lib/openid/message.rb#268
+  # pkg:gem/ruby-openid#lib/openid/message.rb:268
   def to_form_markup(action_url, form_tag_attrs = T.unsafe(nil), submit_text = T.unsafe(nil)); end
 
   # Generate a KVForm string that contains the parameters in this message.
   # This will fail is the message contains arguments outside of the
   # "openid." prefix.
   #
-  # source://ruby-openid//lib/openid/message.rb#307
+  # pkg:gem/ruby-openid#lib/openid/message.rb:307
   def to_kvform; end
 
   # Return all arguments with "openid." in from of namespaced arguments.
   #
-  # source://ruby-openid//lib/openid/message.rb#226
+  # pkg:gem/ruby-openid#lib/openid/message.rb:226
   def to_post_args; end
 
   # Generate a GET URL with the paramters in this message attacked as
   # query parameters.
   #
-  # source://ruby-openid//lib/openid/message.rb#300
+  # pkg:gem/ruby-openid#lib/openid/message.rb:300
   def to_url(base_url); end
 
   # Generate an x-www-urlencoded string.
   #
-  # source://ruby-openid//lib/openid/message.rb#312
+  # pkg:gem/ruby-openid#lib/openid/message.rb:312
   def to_url_encoded; end
 
   # Set multiple key/value pairs in one call.
   #
-  # source://ruby-openid//lib/openid/message.rb#399
+  # pkg:gem/ruby-openid#lib/openid/message.rb:399
   def update_args(namespace, updates); end
 
   class << self
-    # source://ruby-openid//lib/openid/kvpost.rb#31
+    # pkg:gem/ruby-openid#lib/openid/kvpost.rb:31
     def from_http_response(response, server_url); end
 
     # Create a message from a KVForm string
     #
-    # source://ruby-openid//lib/openid/message.rb#217
+    # pkg:gem/ruby-openid#lib/openid/message.rb:217
     def from_kvform(kvform_string); end
 
     # Construct a Message from a parsed KVForm message.
     # Raises InvalidNamespaceError if you try to instantiate a Message
     # with a namespace not in the above allowed list
     #
-    # source://ruby-openid//lib/openid/message.rb#139
+    # pkg:gem/ruby-openid#lib/openid/message.rb:139
     def from_openid_args(openid_args); end
 
     # Construct a Message containing a set of POST arguments.
     # Raises InvalidNamespaceError if you try to instantiate a Message
     # with a namespace not in the above allowed list
     #
-    # source://ruby-openid//lib/openid/message.rb#114
+    # pkg:gem/ruby-openid#lib/openid/message.rb:114
     def from_post_args(args); end
 
     # Registers a (namespace URI, alias) mapping in a global namespace
@@ -2248,196 +2036,160 @@ class OpenID::Message
     # different value.  This function is required if you want to use a
     # namespace with an OpenID 1 message.
     #
-    # source://ruby-openid//lib/openid/message.rb#78
+    # pkg:gem/ruby-openid#lib/openid/message.rb:78
     def register_namespace_alias(namespace_uri, alias_); end
   end
 end
 
 # Raised when key lookup fails
 #
-# source://ruby-openid//lib/openid/message.rb#67
+# pkg:gem/ruby-openid#lib/openid/message.rb:67
 class OpenID::Message::KeyNotFound < ::IndexError; end
 
 # Sentinel used for Message implementation to indicate that getArg
 # should raise an exception instead of returning a default.
 #
-# source://ruby-openid//lib/openid/message.rb#50
+# pkg:gem/ruby-openid#lib/openid/message.rb:50
 OpenID::NO_DEFAULT = T.let(T.unsafe(nil), Symbol)
 
 # The namespace consisting of pairs with keys that are prefixed with
 # "openid." but not in another namespace.
 #
-# source://ruby-openid//lib/openid/message.rb#22
+# pkg:gem/ruby-openid#lib/openid/message.rb:22
 OpenID::NULL_NAMESPACE = T.let(T.unsafe(nil), Symbol)
 
 # Raised when an alias or namespace URI has already been registered.
 #
-# source://ruby-openid//lib/openid/message.rb#57
+# pkg:gem/ruby-openid#lib/openid/message.rb:57
 class OpenID::NamespaceAliasRegistrationError < ::Exception; end
 
 # Maintains a bidirectional map between namespace URIs and aliases.
 #
-# source://ruby-openid//lib/openid/message.rb#458
+# pkg:gem/ruby-openid#lib/openid/message.rb:458
 class OpenID::NamespaceMap
-  # @return [NamespaceMap] a new instance of NamespaceMap
-  #
-  # source://ruby-openid//lib/openid/message.rb#460
+  # pkg:gem/ruby-openid#lib/openid/message.rb:460
   def initialize; end
 
   # Add this namespace URI to the mapping, without caring what alias
   # it ends up with.
   #
-  # @raise [StandardError]
-  #
-  # source://ruby-openid//lib/openid/message.rb#510
+  # pkg:gem/ruby-openid#lib/openid/message.rb:510
   def add(namespace_uri); end
 
   # Add an alias from this namespace URI to the alias.
   #
-  # source://ruby-openid//lib/openid/message.rb#475
+  # pkg:gem/ruby-openid#lib/openid/message.rb:475
   def add_alias(namespace_uri, desired_alias, implicit = T.unsafe(nil)); end
 
-  # source://ruby-openid//lib/openid/message.rb#548
+  # pkg:gem/ruby-openid#lib/openid/message.rb:548
   def aliases; end
 
-  # source://ruby-openid//lib/openid/message.rb#535
+  # pkg:gem/ruby-openid#lib/openid/message.rb:535
   def each; end
 
-  # source://ruby-openid//lib/openid/message.rb#466
+  # pkg:gem/ruby-openid#lib/openid/message.rb:466
   def get_alias(namespace_uri); end
 
-  # source://ruby-openid//lib/openid/message.rb#470
+  # pkg:gem/ruby-openid#lib/openid/message.rb:470
   def get_namespace_uri(namespace_alias); end
 
-  # @return [Boolean]
-  #
-  # source://ruby-openid//lib/openid/message.rb#544
+  # pkg:gem/ruby-openid#lib/openid/message.rb:544
   def implicit?(namespace_uri); end
 
-  # @return [Boolean]
-  #
-  # source://ruby-openid//lib/openid/message.rb#531
+  # pkg:gem/ruby-openid#lib/openid/message.rb:531
   def member?(namespace_uri); end
 
-  # source://ruby-openid//lib/openid/message.rb#539
+  # pkg:gem/ruby-openid#lib/openid/message.rb:539
   def namespace_uris; end
 end
 
-# source://ruby-openid//lib/openid/store/nonce.rb#6
+# pkg:gem/ruby-openid#lib/openid/store/nonce.rb:6
 module OpenID::Nonce
   class << self
     # Is the timestamp that is part of the specified nonce string
     # within the allowed clock-skew of the current time?
     #
-    # source://ruby-openid//lib/openid/store/nonce.rb#37
+    # pkg:gem/ruby-openid#lib/openid/store/nonce.rb:37
     def check_timestamp(nonce_str, allowed_skew = T.unsafe(nil), now = T.unsafe(nil)); end
 
     # generate a nonce with the specified timestamp (defaults to now)
     #
-    # source://ruby-openid//lib/openid/store/nonce.rb#56
+    # pkg:gem/ruby-openid#lib/openid/store/nonce.rb:56
     def mk_nonce(time = T.unsafe(nil)); end
 
     # The allowed nonce time skew in seconds.  Defaults to 5 hours.
     # Used for checking nonce validity, and by stores' cleanup methods.
     #
-    # source://ruby-openid//lib/openid/store/nonce.rb#17
+    # pkg:gem/ruby-openid#lib/openid/store/nonce.rb:17
     def skew; end
 
-    # source://ruby-openid//lib/openid/store/nonce.rb#21
+    # pkg:gem/ruby-openid#lib/openid/store/nonce.rb:21
     def skew=(new_skew); end
 
     # Extract timestamp from a nonce string
     #
-    # @raise [ArgumentError]
-    #
-    # source://ruby-openid//lib/openid/store/nonce.rb#26
+    # pkg:gem/ruby-openid#lib/openid/store/nonce.rb:26
     def split_nonce(nonce_str); end
   end
 end
 
-# source://ruby-openid//lib/openid/store/nonce.rb#7
+# pkg:gem/ruby-openid#lib/openid/store/nonce.rb:7
 OpenID::Nonce::DEFAULT_SKEW = T.let(T.unsafe(nil), Integer)
 
-# source://ruby-openid//lib/openid/store/nonce.rb#8
+# pkg:gem/ruby-openid#lib/openid/store/nonce.rb:8
 OpenID::Nonce::TIME_FMT = T.let(T.unsafe(nil), String)
 
-# source://ruby-openid//lib/openid/store/nonce.rb#9
+# pkg:gem/ruby-openid#lib/openid/store/nonce.rb:9
 OpenID::Nonce::TIME_STR_LEN = T.let(T.unsafe(nil), Integer)
 
-# source://ruby-openid//lib/openid/store/nonce.rb#11
+# pkg:gem/ruby-openid#lib/openid/store/nonce.rb:11
 OpenID::Nonce::TIME_VALIDATOR = T.let(T.unsafe(nil), Regexp)
 
-# source://ruby-openid//lib/openid/extensions/oauth.rb#9
+# pkg:gem/ruby-openid#lib/openid/extensions/oauth.rb:9
 module OpenID::OAuth; end
 
-# source://ruby-openid//lib/openid/extensions/oauth.rb#10
+# pkg:gem/ruby-openid#lib/openid/extensions/oauth.rb:10
 OpenID::OAuth::NS_URI = T.let(T.unsafe(nil), String)
 
 # An OAuth token request, sent from a relying
 # party to a provider
 #
-# source://ruby-openid//lib/openid/extensions/oauth.rb#13
+# pkg:gem/ruby-openid#lib/openid/extensions/oauth.rb:13
 class OpenID::OAuth::Request < ::OpenID::Extension
-  # @return [Request] a new instance of Request
-  #
-  # source://ruby-openid//lib/openid/extensions/oauth.rb#15
+  # pkg:gem/ruby-openid#lib/openid/extensions/oauth.rb:15
   def initialize(consumer = T.unsafe(nil), scope = T.unsafe(nil)); end
 
-  # Returns the value of attribute consumer.
-  #
-  # source://ruby-openid//lib/openid/extensions/oauth.rb#14
+  # pkg:gem/ruby-openid#lib/openid/extensions/oauth.rb:14
   def consumer; end
 
-  # Sets the attribute consumer
-  #
-  # @param value the value to set the attribute consumer to.
-  #
-  # source://ruby-openid//lib/openid/extensions/oauth.rb#14
+  # pkg:gem/ruby-openid#lib/openid/extensions/oauth.rb:14
   def consumer=(_arg0); end
 
-  # source://ruby-openid//lib/openid/extensions/oauth.rb#23
+  # pkg:gem/ruby-openid#lib/openid/extensions/oauth.rb:23
   def get_extension_args; end
 
-  # Returns the value of attribute ns_alias.
-  #
-  # source://ruby-openid//lib/openid/extensions/oauth.rb#14
+  # pkg:gem/ruby-openid#lib/openid/extensions/oauth.rb:14
   def ns_alias; end
 
-  # Sets the attribute ns_alias
-  #
-  # @param value the value to set the attribute ns_alias to.
-  #
-  # source://ruby-openid//lib/openid/extensions/oauth.rb#14
+  # pkg:gem/ruby-openid#lib/openid/extensions/oauth.rb:14
   def ns_alias=(_arg0); end
 
-  # Returns the value of attribute ns_uri.
-  #
-  # source://ruby-openid//lib/openid/extensions/oauth.rb#14
+  # pkg:gem/ruby-openid#lib/openid/extensions/oauth.rb:14
   def ns_uri; end
 
-  # Sets the attribute ns_uri
-  #
-  # @param value the value to set the attribute ns_uri to.
-  #
-  # source://ruby-openid//lib/openid/extensions/oauth.rb#14
+  # pkg:gem/ruby-openid#lib/openid/extensions/oauth.rb:14
   def ns_uri=(_arg0); end
 
   # Set the state of this request to be that expressed in these
   # OAuth arguments
   #
-  # source://ruby-openid//lib/openid/extensions/oauth.rb#45
+  # pkg:gem/ruby-openid#lib/openid/extensions/oauth.rb:45
   def parse_extension_args(args); end
 
-  # Returns the value of attribute scope.
-  #
-  # source://ruby-openid//lib/openid/extensions/oauth.rb#14
+  # pkg:gem/ruby-openid#lib/openid/extensions/oauth.rb:14
   def scope; end
 
-  # Sets the attribute scope
-  #
-  # @param value the value to set the attribute scope to.
-  #
-  # source://ruby-openid//lib/openid/extensions/oauth.rb#14
+  # pkg:gem/ruby-openid#lib/openid/extensions/oauth.rb:14
   def scope=(_arg0); end
 
   class << self
@@ -2445,7 +2197,7 @@ class OpenID::OAuth::Request < ::OpenID::Extension
     # checkid_* OpenID message
     # return nil if the extension was not requested.
     #
-    # source://ruby-openid//lib/openid/extensions/oauth.rb#33
+    # pkg:gem/ruby-openid#lib/openid/extensions/oauth.rb:33
     def from_openid_request(oid_req); end
   end
 end
@@ -2453,14 +2205,12 @@ end
 # A OAuth request token response, sent from a provider
 # to a relying party
 #
-# source://ruby-openid//lib/openid/extensions/oauth.rb#54
+# pkg:gem/ruby-openid#lib/openid/extensions/oauth.rb:54
 class OpenID::OAuth::Response < ::OpenID::Extension
-  # @return [Response] a new instance of Response
-  #
-  # source://ruby-openid//lib/openid/extensions/oauth.rb#56
+  # pkg:gem/ruby-openid#lib/openid/extensions/oauth.rb:56
   def initialize(request_token = T.unsafe(nil), scope = T.unsafe(nil)); end
 
-  # source://ruby-openid//lib/openid/extensions/oauth.rb#81
+  # pkg:gem/ruby-openid#lib/openid/extensions/oauth.rb:81
   def get_extension_args; end
 
   # parse the oauth request arguments into the
@@ -2468,232 +2218,194 @@ class OpenID::OAuth::Response < ::OpenID::Extension
   # if strict is specified, raise an exception when bad data is
   # encountered
   #
-  # source://ruby-openid//lib/openid/extensions/oauth.rb#76
+  # pkg:gem/ruby-openid#lib/openid/extensions/oauth.rb:76
   def parse_extension_args(args, strict = T.unsafe(nil)); end
 
-  # Returns the value of attribute request_token.
-  #
-  # source://ruby-openid//lib/openid/extensions/oauth.rb#55
+  # pkg:gem/ruby-openid#lib/openid/extensions/oauth.rb:55
   def request_token; end
 
-  # Sets the attribute request_token
-  #
-  # @param value the value to set the attribute request_token to.
-  #
-  # source://ruby-openid//lib/openid/extensions/oauth.rb#55
+  # pkg:gem/ruby-openid#lib/openid/extensions/oauth.rb:55
   def request_token=(_arg0); end
 
-  # Returns the value of attribute scope.
-  #
-  # source://ruby-openid//lib/openid/extensions/oauth.rb#55
+  # pkg:gem/ruby-openid#lib/openid/extensions/oauth.rb:55
   def scope; end
 
-  # Sets the attribute scope
-  #
-  # @param value the value to set the attribute scope to.
-  #
-  # source://ruby-openid//lib/openid/extensions/oauth.rb#55
+  # pkg:gem/ruby-openid#lib/openid/extensions/oauth.rb:55
   def scope=(_arg0); end
 
   class << self
     # Create a Response object from an OpenID::Consumer::SuccessResponse
     #
-    # source://ruby-openid//lib/openid/extensions/oauth.rb#64
+    # pkg:gem/ruby-openid#lib/openid/extensions/oauth.rb:64
     def from_success_response(success_response); end
   end
 end
 
-# source://ruby-openid//lib/openid/message.rb#14
+# pkg:gem/ruby-openid#lib/openid/message.rb:14
 OpenID::OPENID11_NS = T.let(T.unsafe(nil), String)
 
-# source://ruby-openid//lib/openid/message.rb#15
+# pkg:gem/ruby-openid#lib/openid/message.rb:15
 OpenID::OPENID1_NAMESPACES = T.let(T.unsafe(nil), Array)
 
 # The OpenID 1.x namespace URIs
 #
-# source://ruby-openid//lib/openid/message.rb#13
+# pkg:gem/ruby-openid#lib/openid/message.rb:13
 OpenID::OPENID1_NS = T.let(T.unsafe(nil), String)
 
 # Limit, in bytes, of identity provider and return_to URLs,
 # including response payload.  See OpenID 1.1 specification,
 # Appendix D.
 #
-# source://ruby-openid//lib/openid/message.rb#34
+# pkg:gem/ruby-openid#lib/openid/message.rb:34
 OpenID::OPENID1_URL_LIMIT = T.let(T.unsafe(nil), Integer)
 
 # The OpenID 2.0 namespace URI
 #
-# source://ruby-openid//lib/openid/message.rb#18
+# pkg:gem/ruby-openid#lib/openid/message.rb:18
 OpenID::OPENID2_NS = T.let(T.unsafe(nil), String)
 
-# source://ruby-openid//lib/openid/consumer/discovery.rb#24
+# pkg:gem/ruby-openid#lib/openid/consumer/discovery.rb:24
 OpenID::OPENID_1_0_MESSAGE_NS = T.let(T.unsafe(nil), String)
 
-# source://ruby-openid//lib/openid/consumer/discovery.rb#18
+# pkg:gem/ruby-openid#lib/openid/consumer/discovery.rb:18
 OpenID::OPENID_1_0_NS = T.let(T.unsafe(nil), String)
 
-# source://ruby-openid//lib/openid/consumer/discovery.rb#22
+# pkg:gem/ruby-openid#lib/openid/consumer/discovery.rb:22
 OpenID::OPENID_1_0_TYPE = T.let(T.unsafe(nil), String)
 
-# source://ruby-openid//lib/openid/consumer/discovery.rb#21
+# pkg:gem/ruby-openid#lib/openid/consumer/discovery.rb:21
 OpenID::OPENID_1_1_TYPE = T.let(T.unsafe(nil), String)
 
-# source://ruby-openid//lib/openid/consumer/discovery.rb#25
+# pkg:gem/ruby-openid#lib/openid/consumer/discovery.rb:25
 OpenID::OPENID_2_0_MESSAGE_NS = T.let(T.unsafe(nil), String)
 
-# source://ruby-openid//lib/openid/consumer/discovery.rb#20
+# pkg:gem/ruby-openid#lib/openid/consumer/discovery.rb:20
 OpenID::OPENID_2_0_TYPE = T.let(T.unsafe(nil), String)
 
-# source://ruby-openid//lib/openid/consumer/discovery.rb#19
+# pkg:gem/ruby-openid#lib/openid/consumer/discovery.rb:19
 OpenID::OPENID_IDP_2_0_TYPE = T.let(T.unsafe(nil), String)
 
 # The null namespace, when it is an allowed OpenID namespace
 #
-# source://ruby-openid//lib/openid/message.rb#25
+# pkg:gem/ruby-openid#lib/openid/message.rb:25
 OpenID::OPENID_NS = T.let(T.unsafe(nil), Symbol)
 
 # All OpenID protocol fields.  Used to check namespace aliases.
 #
-# source://ruby-openid//lib/openid/message.rb#37
+# pkg:gem/ruby-openid#lib/openid/message.rb:37
 OpenID::OPENID_PROTOCOL_FIELDS = T.let(T.unsafe(nil), Array)
 
 # Exceptions that are raised by the library are subclasses of this
 # exception type, so if you want to catch all exceptions raised by
 # the library, you can catch OpenIDError
 #
-# source://ruby-openid//lib/openid/util.rb#13
+# pkg:gem/ruby-openid#lib/openid/util.rb:13
 class OpenID::OpenIDError < ::StandardError; end
 
 # Object representing an OpenID service endpoint.
 #
-# source://ruby-openid//lib/openid/consumer/discovery.rb#28
+# pkg:gem/ruby-openid#lib/openid/consumer/discovery.rb:28
 class OpenID::OpenIDServiceEndpoint
-  # @return [OpenIDServiceEndpoint] a new instance of OpenIDServiceEndpoint
-  #
-  # source://ruby-openid//lib/openid/consumer/discovery.rb#48
+  # pkg:gem/ruby-openid#lib/openid/consumer/discovery.rb:48
   def initialize; end
 
-  # source://ruby-openid//lib/openid/consumer/discovery.rb#143
+  # pkg:gem/ruby-openid#lib/openid/consumer/discovery.rb:143
   def ==(other); end
 
   # For XRI, the persistent identifier.
   #
-  # source://ruby-openid//lib/openid/consumer/discovery.rb#44
+  # pkg:gem/ruby-openid#lib/openid/consumer/discovery.rb:44
   def canonical_id; end
 
   # For XRI, the persistent identifier.
   #
-  # source://ruby-openid//lib/openid/consumer/discovery.rb#44
+  # pkg:gem/ruby-openid#lib/openid/consumer/discovery.rb:44
   def canonical_id=(_arg0); end
 
   # the verified identifier.
   #
-  # source://ruby-openid//lib/openid/consumer/discovery.rb#41
+  # pkg:gem/ruby-openid#lib/openid/consumer/discovery.rb:41
   def claimed_id; end
 
   # the verified identifier.
   #
-  # source://ruby-openid//lib/openid/consumer/discovery.rb#41
+  # pkg:gem/ruby-openid#lib/openid/consumer/discovery.rb:41
   def claimed_id=(_arg0); end
 
-  # source://ruby-openid//lib/openid/consumer/discovery.rb#104
+  # pkg:gem/ruby-openid#lib/openid/consumer/discovery.rb:104
   def compatibility_mode; end
 
-  # source://ruby-openid//lib/openid/consumer/discovery.rb#58
+  # pkg:gem/ruby-openid#lib/openid/consumer/discovery.rb:58
   def display_identifier; end
 
-  # source://ruby-openid//lib/openid/consumer/discovery.rb#77
+  # pkg:gem/ruby-openid#lib/openid/consumer/discovery.rb:77
   def display_identifier=(display_identifier); end
 
-  # source://ruby-openid//lib/openid/consumer/discovery.rb#129
+  # pkg:gem/ruby-openid#lib/openid/consumer/discovery.rb:129
   def get_local_id; end
 
-  # source://ruby-openid//lib/openid/consumer/discovery.rb#108
+  # pkg:gem/ruby-openid#lib/openid/consumer/discovery.rb:108
   def is_op_identifier; end
 
-  # Returns the value of attribute local_id.
-  #
-  # source://ruby-openid//lib/openid/consumer/discovery.rb#46
+  # pkg:gem/ruby-openid#lib/openid/consumer/discovery.rb:46
   def local_id; end
 
-  # Sets the attribute local_id
-  #
-  # @param value the value to set the attribute local_id to.
-  #
-  # source://ruby-openid//lib/openid/consumer/discovery.rb#46
+  # pkg:gem/ruby-openid#lib/openid/consumer/discovery.rb:46
   def local_id=(_arg0); end
 
-  # source://ruby-openid//lib/openid/consumer/discovery.rb#112
+  # pkg:gem/ruby-openid#lib/openid/consumer/discovery.rb:112
   def parse_service(yadis_url, uri, type_uris, service_element); end
 
-  # source://ruby-openid//lib/openid/consumer/discovery.rb#85
+  # pkg:gem/ruby-openid#lib/openid/consumer/discovery.rb:85
   def preferred_namespace; end
 
-  # Returns the value of attribute server_url.
-  #
-  # source://ruby-openid//lib/openid/consumer/discovery.rb#46
+  # pkg:gem/ruby-openid#lib/openid/consumer/discovery.rb:46
   def server_url; end
 
-  # Sets the attribute server_url
-  #
-  # @param value the value to set the attribute server_url to.
-  #
-  # source://ruby-openid//lib/openid/consumer/discovery.rb#46
+  # pkg:gem/ruby-openid#lib/openid/consumer/discovery.rb:46
   def server_url=(_arg0); end
 
-  # source://ruby-openid//lib/openid/consumer/discovery.rb#94
+  # pkg:gem/ruby-openid#lib/openid/consumer/discovery.rb:94
   def supports_type(type_uri); end
 
-  # source://ruby-openid//lib/openid/consumer/discovery.rb#253
+  # pkg:gem/ruby-openid#lib/openid/consumer/discovery.rb:253
   def to_s; end
 
-  # source://ruby-openid//lib/openid/consumer/discovery.rb#139
+  # pkg:gem/ruby-openid#lib/openid/consumer/discovery.rb:139
   def to_session_value; end
 
-  # Returns the value of attribute type_uris.
-  #
-  # source://ruby-openid//lib/openid/consumer/discovery.rb#46
+  # pkg:gem/ruby-openid#lib/openid/consumer/discovery.rb:46
   def type_uris; end
 
-  # Sets the attribute type_uris
-  #
-  # @param value the value to set the attribute type_uris to.
-  #
-  # source://ruby-openid//lib/openid/consumer/discovery.rb#46
+  # pkg:gem/ruby-openid#lib/openid/consumer/discovery.rb:46
   def type_uris=(_arg0); end
 
-  # Returns the value of attribute used_yadis.
-  #
-  # source://ruby-openid//lib/openid/consumer/discovery.rb#46
+  # pkg:gem/ruby-openid#lib/openid/consumer/discovery.rb:46
   def used_yadis; end
 
-  # Sets the attribute used_yadis
-  #
-  # @param value the value to set the attribute used_yadis to.
-  #
-  # source://ruby-openid//lib/openid/consumer/discovery.rb#46
+  # pkg:gem/ruby-openid#lib/openid/consumer/discovery.rb:46
   def used_yadis=(_arg0); end
 
-  # source://ruby-openid//lib/openid/consumer/discovery.rb#81
+  # pkg:gem/ruby-openid#lib/openid/consumer/discovery.rb:81
   def uses_extension(extension_uri); end
 
   class << self
-    # source://ruby-openid//lib/openid/consumer/discovery.rb#157
+    # pkg:gem/ruby-openid#lib/openid/consumer/discovery.rb:157
     def from_basic_service_endpoint(endpoint); end
 
-    # source://ruby-openid//lib/openid/consumer/discovery.rb#223
+    # pkg:gem/ruby-openid#lib/openid/consumer/discovery.rb:223
     def from_discovery_result(discoveryResult); end
 
-    # source://ruby-openid//lib/openid/consumer/discovery.rb#181
+    # pkg:gem/ruby-openid#lib/openid/consumer/discovery.rb:181
     def from_html(uri, html); end
 
-    # source://ruby-openid//lib/openid/consumer/discovery.rb#241
+    # pkg:gem/ruby-openid#lib/openid/consumer/discovery.rb:241
     def from_op_endpoint_url(op_endpoint_url); end
 
-    # source://ruby-openid//lib/openid/consumer/discovery.rb#147
+    # pkg:gem/ruby-openid#lib/openid/consumer/discovery.rb:147
     def from_session_value(value); end
 
-    # source://ruby-openid//lib/openid/consumer/discovery.rb#214
+    # pkg:gem/ruby-openid#lib/openid/consumer/discovery.rb:214
     def from_xrds(uri, xrds); end
   end
 end
@@ -2701,103 +2413,77 @@ end
 # OpenID service type URIs, listed in order of preference.  The
 # ordering of this list affects yadis and XRI service discovery.
 #
-# source://ruby-openid//lib/openid/consumer/discovery.rb#32
+# pkg:gem/ruby-openid#lib/openid/consumer/discovery.rb:32
 OpenID::OpenIDServiceEndpoint::OPENID_TYPE_URIS = T.let(T.unsafe(nil), Array)
 
-# source://ruby-openid//lib/openid/extensions/pape.rb#9
+# pkg:gem/ruby-openid#lib/openid/extensions/pape.rb:9
 module OpenID::PAPE; end
 
-# source://ruby-openid//lib/openid/extensions/pape.rb#13
+# pkg:gem/ruby-openid#lib/openid/extensions/pape.rb:13
 OpenID::PAPE::AUTH_MULTI_FACTOR = T.let(T.unsafe(nil), String)
 
-# source://ruby-openid//lib/openid/extensions/pape.rb#11
+# pkg:gem/ruby-openid#lib/openid/extensions/pape.rb:11
 OpenID::PAPE::AUTH_MULTI_FACTOR_PHYSICAL = T.let(T.unsafe(nil), String)
 
-# source://ruby-openid//lib/openid/extensions/pape.rb#15
+# pkg:gem/ruby-openid#lib/openid/extensions/pape.rb:15
 OpenID::PAPE::AUTH_PHISHING_RESISTANT = T.let(T.unsafe(nil), String)
 
-# source://ruby-openid//lib/openid/extensions/pape.rb#10
+# pkg:gem/ruby-openid#lib/openid/extensions/pape.rb:10
 OpenID::PAPE::NS_URI = T.let(T.unsafe(nil), String)
 
 # A Provider Authentication Policy request, sent from a relying
 # party to a provider
 #
-# source://ruby-openid//lib/openid/extensions/pape.rb#20
+# pkg:gem/ruby-openid#lib/openid/extensions/pape.rb:20
 class OpenID::PAPE::Request < ::OpenID::Extension
-  # @return [Request] a new instance of Request
-  #
-  # source://ruby-openid//lib/openid/extensions/pape.rb#22
+  # pkg:gem/ruby-openid#lib/openid/extensions/pape.rb:22
   def initialize(preferred_auth_policies = T.unsafe(nil), max_auth_age = T.unsafe(nil)); end
 
   # Add an acceptable authentication policy URI to this request
   # This method is intended to be used by the relying party to add
   # acceptable authentication types to the request.
   #
-  # source://ruby-openid//lib/openid/extensions/pape.rb#32
+  # pkg:gem/ruby-openid#lib/openid/extensions/pape.rb:32
   def add_policy_uri(policy_uri); end
 
-  # source://ruby-openid//lib/openid/extensions/pape.rb#38
+  # pkg:gem/ruby-openid#lib/openid/extensions/pape.rb:38
   def get_extension_args; end
 
-  # Returns the value of attribute max_auth_age.
-  #
-  # source://ruby-openid//lib/openid/extensions/pape.rb#21
+  # pkg:gem/ruby-openid#lib/openid/extensions/pape.rb:21
   def max_auth_age; end
 
-  # Sets the attribute max_auth_age
-  #
-  # @param value the value to set the attribute max_auth_age to.
-  #
-  # source://ruby-openid//lib/openid/extensions/pape.rb#21
+  # pkg:gem/ruby-openid#lib/openid/extensions/pape.rb:21
   def max_auth_age=(_arg0); end
 
-  # Returns the value of attribute ns_alias.
-  #
-  # source://ruby-openid//lib/openid/extensions/pape.rb#21
+  # pkg:gem/ruby-openid#lib/openid/extensions/pape.rb:21
   def ns_alias; end
 
-  # Sets the attribute ns_alias
-  #
-  # @param value the value to set the attribute ns_alias to.
-  #
-  # source://ruby-openid//lib/openid/extensions/pape.rb#21
+  # pkg:gem/ruby-openid#lib/openid/extensions/pape.rb:21
   def ns_alias=(_arg0); end
 
-  # Returns the value of attribute ns_uri.
-  #
-  # source://ruby-openid//lib/openid/extensions/pape.rb#21
+  # pkg:gem/ruby-openid#lib/openid/extensions/pape.rb:21
   def ns_uri; end
 
-  # Sets the attribute ns_uri
-  #
-  # @param value the value to set the attribute ns_uri to.
-  #
-  # source://ruby-openid//lib/openid/extensions/pape.rb#21
+  # pkg:gem/ruby-openid#lib/openid/extensions/pape.rb:21
   def ns_uri=(_arg0); end
 
   # Set the state of this request to be that expressed in these
   # PAPE arguments
   #
-  # source://ruby-openid//lib/openid/extensions/pape.rb#61
+  # pkg:gem/ruby-openid#lib/openid/extensions/pape.rb:61
   def parse_extension_args(args); end
 
-  # Returns the value of attribute preferred_auth_policies.
-  #
-  # source://ruby-openid//lib/openid/extensions/pape.rb#21
+  # pkg:gem/ruby-openid#lib/openid/extensions/pape.rb:21
   def preferred_auth_policies; end
 
-  # Sets the attribute preferred_auth_policies
-  #
-  # @param value the value to set the attribute preferred_auth_policies to.
-  #
-  # source://ruby-openid//lib/openid/extensions/pape.rb#21
+  # pkg:gem/ruby-openid#lib/openid/extensions/pape.rb:21
   def preferred_auth_policies=(_arg0); end
 
   # Given a list of authentication policy URIs that a provider
   # supports, this method returns the subset of those types
   # that are preferred by the relying party.
   #
-  # source://ruby-openid//lib/openid/extensions/pape.rb#81
+  # pkg:gem/ruby-openid#lib/openid/extensions/pape.rb:81
   def preferred_types(supported_types); end
 
   class << self
@@ -2805,7 +2491,7 @@ class OpenID::PAPE::Request < ::OpenID::Extension
     # checkid_* OpenID message
     # return nil if the extension was not requested.
     #
-    # source://ruby-openid//lib/openid/extensions/pape.rb#49
+    # pkg:gem/ruby-openid#lib/openid/extensions/pape.rb:49
     def from_openid_request(oid_req); end
   end
 end
@@ -2813,68 +2499,42 @@ end
 # A Provider Authentication Policy response, sent from a provider
 # to a relying party
 #
-# source://ruby-openid//lib/openid/extensions/pape.rb#88
+# pkg:gem/ruby-openid#lib/openid/extensions/pape.rb:88
 class OpenID::PAPE::Response < ::OpenID::Extension
-  # @return [Response] a new instance of Response
-  #
-  # source://ruby-openid//lib/openid/extensions/pape.rb#90
+  # pkg:gem/ruby-openid#lib/openid/extensions/pape.rb:90
   def initialize(auth_policies = T.unsafe(nil), auth_time = T.unsafe(nil), nist_auth_level = T.unsafe(nil)); end
 
   # Add a policy URI to the response
   # see http://openid.net/specs/openid-provider-authentication-policy-extension-1_0-01.html#auth_policies
   #
-  # source://ruby-openid//lib/openid/extensions/pape.rb#100
+  # pkg:gem/ruby-openid#lib/openid/extensions/pape.rb:100
   def add_policy_uri(policy_uri); end
 
-  # Returns the value of attribute auth_policies.
-  #
-  # source://ruby-openid//lib/openid/extensions/pape.rb#89
+  # pkg:gem/ruby-openid#lib/openid/extensions/pape.rb:89
   def auth_policies; end
 
-  # Sets the attribute auth_policies
-  #
-  # @param value the value to set the attribute auth_policies to.
-  #
-  # source://ruby-openid//lib/openid/extensions/pape.rb#89
+  # pkg:gem/ruby-openid#lib/openid/extensions/pape.rb:89
   def auth_policies=(_arg0); end
 
-  # Returns the value of attribute auth_time.
-  #
-  # source://ruby-openid//lib/openid/extensions/pape.rb#89
+  # pkg:gem/ruby-openid#lib/openid/extensions/pape.rb:89
   def auth_time; end
 
-  # Sets the attribute auth_time
-  #
-  # @param value the value to set the attribute auth_time to.
-  #
-  # source://ruby-openid//lib/openid/extensions/pape.rb#89
+  # pkg:gem/ruby-openid#lib/openid/extensions/pape.rb:89
   def auth_time=(_arg0); end
 
-  # source://ruby-openid//lib/openid/extensions/pape.rb#153
+  # pkg:gem/ruby-openid#lib/openid/extensions/pape.rb:153
   def get_extension_args; end
 
-  # Returns the value of attribute nist_auth_level.
-  #
-  # source://ruby-openid//lib/openid/extensions/pape.rb#89
+  # pkg:gem/ruby-openid#lib/openid/extensions/pape.rb:89
   def nist_auth_level; end
 
-  # Sets the attribute nist_auth_level
-  #
-  # @param value the value to set the attribute nist_auth_level to.
-  #
-  # source://ruby-openid//lib/openid/extensions/pape.rb#89
+  # pkg:gem/ruby-openid#lib/openid/extensions/pape.rb:89
   def nist_auth_level=(_arg0); end
 
-  # Returns the value of attribute ns_alias.
-  #
-  # source://ruby-openid//lib/openid/extensions/pape.rb#89
+  # pkg:gem/ruby-openid#lib/openid/extensions/pape.rb:89
   def ns_alias; end
 
-  # Sets the attribute ns_alias
-  #
-  # @param value the value to set the attribute ns_alias to.
-  #
-  # source://ruby-openid//lib/openid/extensions/pape.rb#89
+  # pkg:gem/ruby-openid#lib/openid/extensions/pape.rb:89
   def ns_alias=(_arg0); end
 
   # parse the provider authentication policy arguments into the
@@ -2882,62 +2542,60 @@ class OpenID::PAPE::Response < ::OpenID::Extension
   # if strict is specified, raise an exception when bad data is
   # encountered
   #
-  # source://ruby-openid//lib/openid/extensions/pape.rb#117
+  # pkg:gem/ruby-openid#lib/openid/extensions/pape.rb:117
   def parse_extension_args(args, strict = T.unsafe(nil)); end
 
   class << self
     # Create a Response object from an OpenID::Consumer::SuccessResponse
     #
-    # source://ruby-openid//lib/openid/extensions/pape.rb#105
+    # pkg:gem/ruby-openid#lib/openid/extensions/pape.rb:105
     def from_success_response(success_response); end
   end
 end
 
-# source://ruby-openid//lib/openid/extensions/pape.rb#17
+# pkg:gem/ruby-openid#lib/openid/extensions/pape.rb:17
 OpenID::PAPE::TIME_VALIDATOR = T.let(T.unsafe(nil), Regexp)
 
 # An error in the OpenID protocol
 #
-# source://ruby-openid//lib/openid/protocolerror.rb#6
+# pkg:gem/ruby-openid#lib/openid/protocolerror.rb:6
 class OpenID::ProtocolError < ::OpenID::OpenIDError; end
 
 # Stuff to remove before we start looking for tags
 #
-# source://ruby-openid//lib/openid/consumer/html_parse.rb#6
+# pkg:gem/ruby-openid#lib/openid/consumer/html_parse.rb:6
 OpenID::REMOVED_RE = T.let(T.unsafe(nil), Regexp)
 
-# source://ruby-openid//lib/openid/trustroot.rb#6
+# pkg:gem/ruby-openid#lib/openid/trustroot.rb:6
 class OpenID::RealmVerificationRedirected < ::Exception
   # Attempting to verify this realm resulted in a redirect.
   #
-  # @return [RealmVerificationRedirected] a new instance of RealmVerificationRedirected
-  #
-  # source://ruby-openid//lib/openid/trustroot.rb#8
+  # pkg:gem/ruby-openid#lib/openid/trustroot.rb:8
   def initialize(relying_party_url, rp_url_after_redirects); end
 
-  # source://ruby-openid//lib/openid/trustroot.rb#13
+  # pkg:gem/ruby-openid#lib/openid/trustroot.rb:13
   def to_s; end
 end
 
 # URI for Simple Registration extension, the only commonly deployed
 # OpenID 1.x extension, and so a special case.
 #
-# source://ruby-openid//lib/openid/message.rb#10
+# pkg:gem/ruby-openid#lib/openid/message.rb:10
 OpenID::SREG_URI = T.let(T.unsafe(nil), String)
 
-# source://ruby-openid//lib/openid/extensions/sreg.rb#6
+# pkg:gem/ruby-openid#lib/openid/extensions/sreg.rb:6
 module OpenID::SReg; end
 
-# source://ruby-openid//lib/openid/extensions/sreg.rb#7
+# pkg:gem/ruby-openid#lib/openid/extensions/sreg.rb:7
 OpenID::SReg::DATA_FIELDS = T.let(T.unsafe(nil), Hash)
 
-# source://ruby-openid//lib/openid/extensions/sreg.rb#21
+# pkg:gem/ruby-openid#lib/openid/extensions/sreg.rb:21
 OpenID::SReg::NS_URI = T.let(T.unsafe(nil), String)
 
-# source://ruby-openid//lib/openid/extensions/sreg.rb#19
+# pkg:gem/ruby-openid#lib/openid/extensions/sreg.rb:19
 OpenID::SReg::NS_URI_1_0 = T.let(T.unsafe(nil), String)
 
-# source://ruby-openid//lib/openid/extensions/sreg.rb#20
+# pkg:gem/ruby-openid#lib/openid/extensions/sreg.rb:20
 OpenID::SReg::NS_URI_1_1 = T.let(T.unsafe(nil), String)
 
 # The simple registration namespace was not found and could not
@@ -2952,22 +2610,20 @@ OpenID::SReg::NS_URI_1_1 = T.let(T.unsafe(nil), String)
 # should not happen unless some code has modified the namespaces for
 # the message that is being processed.
 #
-# source://ruby-openid//lib/openid/extensions/sreg.rb#72
+# pkg:gem/ruby-openid#lib/openid/extensions/sreg.rb:72
 class OpenID::SReg::NamespaceError < ::ArgumentError; end
 
 # An object to hold the state of a simple registration request.
 #
-# source://ruby-openid//lib/openid/extensions/sreg.rb#76
+# pkg:gem/ruby-openid#lib/openid/extensions/sreg.rb:76
 class OpenID::SReg::Request < ::OpenID::Extension
-  # @return [Request] a new instance of Request
-  #
-  # source://ruby-openid//lib/openid/extensions/sreg.rb#79
+  # pkg:gem/ruby-openid#lib/openid/extensions/sreg.rb:79
   def initialize(required = T.unsafe(nil), optional = T.unsafe(nil), policy_url = T.unsafe(nil), ns_uri = T.unsafe(nil)); end
 
   # A list of all of the simple registration fields that were
   # requested, whether they were required or optional.
   #
-  # source://ruby-openid//lib/openid/extensions/sreg.rb#153
+  # pkg:gem/ruby-openid#lib/openid/extensions/sreg.rb:153
   def all_requested_fields; end
 
   # Get a hash of unqualified simple registration arguments
@@ -2975,22 +2631,16 @@ class OpenID::SReg::Request < ::OpenID::Extension
   # This method is essentially the inverse of parse_extension_args.
   # This method serializes the simple registration request fields.
   #
-  # source://ruby-openid//lib/openid/extensions/sreg.rb#206
+  # pkg:gem/ruby-openid#lib/openid/extensions/sreg.rb:206
   def get_extension_args; end
 
-  # @return [Boolean]
-  #
-  # source://ruby-openid//lib/openid/extensions/sreg.rb#214
+  # pkg:gem/ruby-openid#lib/openid/extensions/sreg.rb:214
   def member?(field_name); end
 
-  # Returns the value of attribute ns_uri.
-  #
-  # source://ruby-openid//lib/openid/extensions/sreg.rb#77
+  # pkg:gem/ruby-openid#lib/openid/extensions/sreg.rb:77
   def ns_uri; end
 
-  # Returns the value of attribute optional.
-  #
-  # source://ruby-openid//lib/openid/extensions/sreg.rb#77
+  # pkg:gem/ruby-openid#lib/openid/extensions/sreg.rb:77
   def optional; end
 
   # Parse the unqualified simple registration request
@@ -3007,19 +2657,13 @@ class OpenID::SReg::Request < ::OpenID::Extension
   # OpenID server needs more control over how the arguments are
   # parsed than that method provides.
   #
-  # source://ruby-openid//lib/openid/extensions/sreg.rb#126
+  # pkg:gem/ruby-openid#lib/openid/extensions/sreg.rb:126
   def parse_extension_args(args, strict = T.unsafe(nil)); end
 
-  # Returns the value of attribute policy_url.
-  #
-  # source://ruby-openid//lib/openid/extensions/sreg.rb#78
+  # pkg:gem/ruby-openid#lib/openid/extensions/sreg.rb:78
   def policy_url; end
 
-  # Sets the attribute policy_url
-  #
-  # @param value the value to set the attribute policy_url to.
-  #
-  # source://ruby-openid//lib/openid/extensions/sreg.rb#78
+  # pkg:gem/ruby-openid#lib/openid/extensions/sreg.rb:78
   def policy_url=(_arg0); end
 
   # Request the specified field from the OpenID user
@@ -3032,26 +2676,20 @@ class OpenID::SReg::Request < ::OpenID::Extension
   # Raises ArgumentError if the field_name is not a simple registration
   # field, or if strict is set and a field is added more than once
   #
-  # source://ruby-openid//lib/openid/extensions/sreg.rb#171
+  # pkg:gem/ruby-openid#lib/openid/extensions/sreg.rb:171
   def request_field(field_name, required = T.unsafe(nil), strict = T.unsafe(nil)); end
 
   # Add the given list of fields to the request.
   #
-  # @raise [ArgumentError]
-  #
-  # source://ruby-openid//lib/openid/extensions/sreg.rb#196
+  # pkg:gem/ruby-openid#lib/openid/extensions/sreg.rb:196
   def request_fields(field_names, required = T.unsafe(nil), strict = T.unsafe(nil)); end
 
-  # Returns the value of attribute required.
-  #
-  # source://ruby-openid//lib/openid/extensions/sreg.rb#77
+  # pkg:gem/ruby-openid#lib/openid/extensions/sreg.rb:77
   def required; end
 
   # Have any simple registration fields been requested?
   #
-  # @return [Boolean]
-  #
-  # source://ruby-openid//lib/openid/extensions/sreg.rb#158
+  # pkg:gem/ruby-openid#lib/openid/extensions/sreg.rb:158
   def were_fields_requested?; end
 
   class << self
@@ -3061,7 +2699,7 @@ class OpenID::SReg::Request < ::OpenID::Extension
     # Takes an OpenID::CheckIDRequest, returns an OpenID::Sreg::Request
     # return nil if the extension was not requested.
     #
-    # source://ruby-openid//lib/openid/extensions/sreg.rb#101
+    # pkg:gem/ruby-openid#lib/openid/extensions/sreg.rb:101
     def from_openid_request(request); end
   end
 end
@@ -3071,45 +2709,37 @@ end
 # created by the OpenID server, added to the id_res response
 # object, and then extracted from the id_res message by the Consumer.
 #
-# source://ruby-openid//lib/openid/extensions/sreg.rb#224
+# pkg:gem/ruby-openid#lib/openid/extensions/sreg.rb:224
 class OpenID::SReg::Response < ::OpenID::Extension
-  # @return [Response] a new instance of Response
-  #
-  # source://ruby-openid//lib/openid/extensions/sreg.rb#227
+  # pkg:gem/ruby-openid#lib/openid/extensions/sreg.rb:227
   def initialize(data = T.unsafe(nil), ns_uri = T.unsafe(nil)); end
 
   # Read-only hashlike interface.
   # Raises an exception if the field name is bad
   #
-  # source://ruby-openid//lib/openid/extensions/sreg.rb#265
+  # pkg:gem/ruby-openid#lib/openid/extensions/sreg.rb:265
   def [](field_name); end
 
-  # Returns the value of attribute data.
-  #
-  # source://ruby-openid//lib/openid/extensions/sreg.rb#225
+  # pkg:gem/ruby-openid#lib/openid/extensions/sreg.rb:225
   def data; end
 
-  # @return [Boolean]
-  #
-  # source://ruby-openid//lib/openid/extensions/sreg.rb#270
+  # pkg:gem/ruby-openid#lib/openid/extensions/sreg.rb:270
   def empty?; end
 
   # Get the fields to put in the simple registration namespace
   # when adding them to an id_res message.
   #
-  # source://ruby-openid//lib/openid/extensions/sreg.rb#259
+  # pkg:gem/ruby-openid#lib/openid/extensions/sreg.rb:259
   def get_extension_args; end
 
-  # Returns the value of attribute ns_uri.
-  #
-  # source://ruby-openid//lib/openid/extensions/sreg.rb#225
+  # pkg:gem/ruby-openid#lib/openid/extensions/sreg.rb:225
   def ns_uri; end
 
   class << self
     # Take a Request and a hash of simple registration
     # values and create a Response object containing that data.
     #
-    # source://ruby-openid//lib/openid/extensions/sreg.rb#235
+    # pkg:gem/ruby-openid#lib/openid/extensions/sreg.rb:235
     def extract_response(request, data); end
 
     # Create an Response object from an
@@ -3117,20 +2747,20 @@ class OpenID::SReg::Response < ::OpenID::Extension
     # If you set the signed_only parameter to false, unsigned data from
     # the id_res message from the server will be processed.
     #
-    # source://ruby-openid//lib/openid/extensions/sreg.rb#245
+    # pkg:gem/ruby-openid#lib/openid/extensions/sreg.rb:245
     def from_success_response(success_response, signed_only = T.unsafe(nil)); end
   end
 end
 
-# source://ruby-openid//lib/openid/fetchers.rb#82
+# pkg:gem/ruby-openid#lib/openid/fetchers.rb:82
 class OpenID::SSLFetchingError < ::OpenID::FetchingError; end
 
-# source://ruby-openid//lib/openid/server.rb#14
+# pkg:gem/ruby-openid#lib/openid/server.rb:14
 module OpenID::Server; end
 
 # This response is already signed.
 #
-# source://ruby-openid//lib/openid/server.rb#1510
+# pkg:gem/ruby-openid#lib/openid/server.rb:1510
 class OpenID::Server::AlreadySigned < ::OpenID::Server::EncodingError; end
 
 # A request to establish an association.
@@ -3138,16 +2768,14 @@ class OpenID::Server::AlreadySigned < ::OpenID::Server::EncodingError; end
 # See OpenID Specs, Section 8: Establishing Associations
 # <http://openid.net/specs/openid-authentication-2_0-12.html#associations>
 #
-# source://ruby-openid//lib/openid/server.rb#284
+# pkg:gem/ruby-openid#lib/openid/server.rb:284
 class OpenID::Server::AssociateRequest < ::OpenID::Server::OpenIDRequest
   # Construct me.
   #
   # The session is assigned directly as a class attribute. See my
   # class documentation for its description.
   #
-  # @return [AssociateRequest] a new instance of AssociateRequest
-  #
-  # source://ruby-openid//lib/openid/server.rb#303
+  # pkg:gem/ruby-openid#lib/openid/server.rb:303
   def initialize(session, assoc_type); end
 
   # Respond to this request with an association.
@@ -3157,65 +2785,59 @@ class OpenID::Server::AssociateRequest < ::OpenID::Server::OpenIDRequest
   # Returns a response with the association information, encrypted
   # to the consumer's public key if appropriate.
   #
-  # source://ruby-openid//lib/openid/server.rb#363
+  # pkg:gem/ruby-openid#lib/openid/server.rb:363
   def answer(assoc); end
 
   # Respond to this request indicating that the association type
   # or association session type is not supported.
   #
-  # source://ruby-openid//lib/openid/server.rb#383
+  # pkg:gem/ruby-openid#lib/openid/server.rb:383
   def answer_unsupported(message, preferred_association_type = T.unsafe(nil), preferred_session_type = T.unsafe(nil)); end
 
   # The type of association. Supported values include HMAC-SHA256
   # and HMAC-SHA1
   #
-  # source://ruby-openid//lib/openid/server.rb#291
+  # pkg:gem/ruby-openid#lib/openid/server.rb:291
   def assoc_type; end
 
   # The type of association. Supported values include HMAC-SHA256
   # and HMAC-SHA1
   #
-  # source://ruby-openid//lib/openid/server.rb#291
+  # pkg:gem/ruby-openid#lib/openid/server.rb:291
   def assoc_type=(_arg0); end
 
   # An object that knows how to handle association requests of a
   # certain type.
   #
-  # source://ruby-openid//lib/openid/server.rb#287
+  # pkg:gem/ruby-openid#lib/openid/server.rb:287
   def session; end
 
   # An object that knows how to handle association requests of a
   # certain type.
   #
-  # source://ruby-openid//lib/openid/server.rb#287
+  # pkg:gem/ruby-openid#lib/openid/server.rb:287
   def session=(_arg0); end
 
   class << self
     # Construct me from an OpenID Message.
     #
-    # source://ruby-openid//lib/openid/server.rb#312
+    # pkg:gem/ruby-openid#lib/openid/server.rb:312
     def from_message(message, op_endpoint = T.unsafe(nil)); end
   end
 end
 
-# source://ruby-openid//lib/openid/server.rb#20
+# pkg:gem/ruby-openid#lib/openid/server.rb:20
 OpenID::Server::BROWSER_REQUEST_MODES = T.let(T.unsafe(nil), Array)
 
-# source://ruby-openid//lib/openid/server.rb#157
+# pkg:gem/ruby-openid#lib/openid/server.rb:157
 class OpenID::Server::BaseServerSession
-  # @return [BaseServerSession] a new instance of BaseServerSession
-  #
-  # source://ruby-openid//lib/openid/server.rb#160
+  # pkg:gem/ruby-openid#lib/openid/server.rb:160
   def initialize(session_type, allowed_assoc_types); end
 
-  # @return [Boolean]
-  #
-  # source://ruby-openid//lib/openid/server.rb#165
+  # pkg:gem/ruby-openid#lib/openid/server.rb:165
   def allowed_assoc_type?(typ); end
 
-  # Returns the value of attribute session_type.
-  #
-  # source://ruby-openid//lib/openid/server.rb#158
+  # pkg:gem/ruby-openid#lib/openid/server.rb:158
   def session_type; end
 end
 
@@ -3224,7 +2846,7 @@ end
 # See OpenID Specs, Verifying Directly with the OpenID Provider
 # <http://openid.net/specs/openid-authentication-2_0-12.html#verifying_signatures>
 #
-# source://ruby-openid//lib/openid/server.rb#53
+# pkg:gem/ruby-openid#lib/openid/server.rb:53
 class OpenID::Server::CheckAuthRequest < ::OpenID::Server::OpenIDRequest
   # Construct me.
   #
@@ -3236,9 +2858,7 @@ class OpenID::Server::CheckAuthRequest < ::OpenID::Server::OpenIDRequest
   # invalidate_handle:: An association handle that the relying
   #                     party is checking to see if it is invalid
   #
-  # @return [CheckAuthRequest] a new instance of CheckAuthRequest
-  #
-  # source://ruby-openid//lib/openid/server.rb#76
+  # pkg:gem/ruby-openid#lib/openid/server.rb:76
   def initialize(assoc_handle, signed, invalidate_handle = T.unsafe(nil)); end
 
   # Respond to this request.
@@ -3247,60 +2867,54 @@ class OpenID::Server::CheckAuthRequest < ::OpenID::Server::OpenIDRequest
   # and the invalidate_handle.  I return a response with an
   # is_valid (and, if appropriate invalidate_handle) field.
   #
-  # source://ruby-openid//lib/openid/server.rb#121
+  # pkg:gem/ruby-openid#lib/openid/server.rb:121
   def answer(signatory); end
 
   # The association handle the response was signed with.
   #
-  # source://ruby-openid//lib/openid/server.rb#56
+  # pkg:gem/ruby-openid#lib/openid/server.rb:56
   def assoc_handle; end
 
   # The association handle the response was signed with.
   #
-  # source://ruby-openid//lib/openid/server.rb#56
+  # pkg:gem/ruby-openid#lib/openid/server.rb:56
   def assoc_handle=(_arg0); end
 
   # An association handle the client is asking about the validity
   # of. May be nil.
   #
-  # source://ruby-openid//lib/openid/server.rb#63
+  # pkg:gem/ruby-openid#lib/openid/server.rb:63
   def invalidate_handle; end
 
   # An association handle the client is asking about the validity
   # of. May be nil.
   #
-  # source://ruby-openid//lib/openid/server.rb#63
+  # pkg:gem/ruby-openid#lib/openid/server.rb:63
   def invalidate_handle=(_arg0); end
 
-  # Returns the value of attribute sig.
-  #
-  # source://ruby-openid//lib/openid/server.rb#65
+  # pkg:gem/ruby-openid#lib/openid/server.rb:65
   def sig; end
 
-  # Sets the attribute sig
-  #
-  # @param value the value to set the attribute sig to.
-  #
-  # source://ruby-openid//lib/openid/server.rb#65
+  # pkg:gem/ruby-openid#lib/openid/server.rb:65
   def sig=(_arg0); end
 
   # The message with the signature which wants checking.
   #
-  # source://ruby-openid//lib/openid/server.rb#59
+  # pkg:gem/ruby-openid#lib/openid/server.rb:59
   def signed; end
 
   # The message with the signature which wants checking.
   #
-  # source://ruby-openid//lib/openid/server.rb#59
+  # pkg:gem/ruby-openid#lib/openid/server.rb:59
   def signed=(_arg0); end
 
-  # source://ruby-openid//lib/openid/server.rb#141
+  # pkg:gem/ruby-openid#lib/openid/server.rb:141
   def to_s; end
 
   class << self
     # Construct me from an OpenID::Message.
     #
-    # source://ruby-openid//lib/openid/server.rb#89
+    # pkg:gem/ruby-openid#lib/openid/server.rb:89
     def from_message(message, op_endpoint = T.unsafe(nil)); end
   end
 end
@@ -3310,7 +2924,7 @@ end
 # This class handles requests for openid modes
 # +checkid_immediate+ and +checkid_setup+ .
 #
-# source://ruby-openid//lib/openid/server.rb#411
+# pkg:gem/ruby-openid#lib/openid/server.rb:411
 class OpenID::Server::CheckIDRequest < ::OpenID::Server::OpenIDRequest
   # These parameters are assigned directly as attributes,
   # see the #CheckIDRequest class documentation for their
@@ -3319,9 +2933,7 @@ class OpenID::Server::CheckIDRequest < ::OpenID::Server::OpenIDRequest
   # Raises #MalformedReturnURL when the +return_to+ URL is not
   # a URL.
   #
-  # @return [CheckIDRequest] a new instance of CheckIDRequest
-  #
-  # source://ruby-openid//lib/openid/server.rb#447
+  # pkg:gem/ruby-openid#lib/openid/server.rb:447
   def initialize(identity, return_to, op_endpoint, trust_root = T.unsafe(nil), immediate = T.unsafe(nil), assoc_handle = T.unsafe(nil), claimed_id = T.unsafe(nil)); end
 
   # Respond to this request.
@@ -3366,96 +2978,90 @@ class OpenID::Server::CheckIDRequest < ::OpenID::Server::OpenIDRequest
   #
   # Version 2.0 deprecates +server_url+ and adds +claimed_id+.
   #
-  # source://ruby-openid//lib/openid/server.rb#657
+  # pkg:gem/ruby-openid#lib/openid/server.rb:657
   def answer(allow, server_url = T.unsafe(nil), identity = T.unsafe(nil), claimed_id = T.unsafe(nil)); end
 
   # Provided in smart mode requests, a handle for a previously
   # established association.  nil for dumb mode requests.
   #
-  # source://ruby-openid//lib/openid/server.rb#415
+  # pkg:gem/ruby-openid#lib/openid/server.rb:415
   def assoc_handle; end
 
   # Provided in smart mode requests, a handle for a previously
   # established association.  nil for dumb mode requests.
   #
-  # source://ruby-openid//lib/openid/server.rb#415
+  # pkg:gem/ruby-openid#lib/openid/server.rb:415
   def assoc_handle=(_arg0); end
 
-  # source://ruby-openid//lib/openid/server.rb#804
+  # pkg:gem/ruby-openid#lib/openid/server.rb:804
   def cancel_url; end
 
   # The claimed identifier.  Not present in OpenID 1.x
   # messages.
   #
-  # source://ruby-openid//lib/openid/server.rb#429
+  # pkg:gem/ruby-openid#lib/openid/server.rb:429
   def claimed_id; end
 
   # The claimed identifier.  Not present in OpenID 1.x
   # messages.
   #
-  # source://ruby-openid//lib/openid/server.rb#429
+  # pkg:gem/ruby-openid#lib/openid/server.rb:429
   def claimed_id=(_arg0); end
 
-  # source://ruby-openid//lib/openid/server.rb#769
+  # pkg:gem/ruby-openid#lib/openid/server.rb:769
   def encode_to_url(server_url); end
 
   # Is the identifier to be selected by the IDP?
   #
-  # source://ruby-openid//lib/openid/server.rb#573
+  # pkg:gem/ruby-openid#lib/openid/server.rb:573
   def id_select; end
 
   # The OP-local identifier being checked.
   #
-  # source://ruby-openid//lib/openid/server.rb#425
+  # pkg:gem/ruby-openid#lib/openid/server.rb:425
   def identity; end
 
   # The OP-local identifier being checked.
   #
-  # source://ruby-openid//lib/openid/server.rb#425
+  # pkg:gem/ruby-openid#lib/openid/server.rb:425
   def identity=(_arg0); end
 
   # Is this an immediate-mode request?
   #
-  # source://ruby-openid//lib/openid/server.rb#418
+  # pkg:gem/ruby-openid#lib/openid/server.rb:418
   def immediate; end
 
   # Is this an immediate-mode request?
   #
-  # source://ruby-openid//lib/openid/server.rb#418
+  # pkg:gem/ruby-openid#lib/openid/server.rb:418
   def immediate=(_arg0); end
 
   # mode:: +checkid_immediate+ or +checkid_setup+
   #
-  # source://ruby-openid//lib/openid/server.rb#437
+  # pkg:gem/ruby-openid#lib/openid/server.rb:437
   def mode; end
 
   # mode:: +checkid_immediate+ or +checkid_setup+
   #
-  # source://ruby-openid//lib/openid/server.rb#437
+  # pkg:gem/ruby-openid#lib/openid/server.rb:437
   def mode=(_arg0); end
 
-  # Returns the value of attribute op_endpoint.
-  #
-  # source://ruby-openid//lib/openid/server.rb#439
+  # pkg:gem/ruby-openid#lib/openid/server.rb:439
   def op_endpoint; end
 
-  # Sets the attribute op_endpoint
-  #
-  # @param value the value to set the attribute op_endpoint to.
-  #
-  # source://ruby-openid//lib/openid/server.rb#439
+  # pkg:gem/ruby-openid#lib/openid/server.rb:439
   def op_endpoint=(_arg0); end
 
   # The URL to send the user agent back to to reply to this
   # request.
   #
-  # source://ruby-openid//lib/openid/server.rb#422
+  # pkg:gem/ruby-openid#lib/openid/server.rb:422
   def return_to; end
 
   # The URL to send the user agent back to to reply to this
   # request.
   #
-  # source://ruby-openid//lib/openid/server.rb#422
+  # pkg:gem/ruby-openid#lib/openid/server.rb:422
   def return_to=(_arg0); end
 
   # Does the relying party publish the return_to URL for this
@@ -3475,29 +3081,29 @@ class OpenID::Server::CheckIDRequest < ::OpenID::Server::OpenIDRequest
   # Returns true if the realm publishes a document with the
   # return_to URL listed
   #
-  # source://ruby-openid//lib/openid/server.rb#612
+  # pkg:gem/ruby-openid#lib/openid/server.rb:612
   def return_to_verified; end
 
-  # source://ruby-openid//lib/openid/server.rb#829
+  # pkg:gem/ruby-openid#lib/openid/server.rb:829
   def to_s; end
 
   # This URL identifies the party making the request, and the user
   # will use that to make her decision about what answer she
   # trusts them to have. Referred to as "realm" in OpenID 2.0.
   #
-  # source://ruby-openid//lib/openid/server.rb#434
+  # pkg:gem/ruby-openid#lib/openid/server.rb:434
   def trust_root; end
 
   # This URL identifies the party making the request, and the user
   # will use that to make her decision about what answer she
   # trusts them to have. Referred to as "realm" in OpenID 2.0.
   #
-  # source://ruby-openid//lib/openid/server.rb#434
+  # pkg:gem/ruby-openid#lib/openid/server.rb:434
   def trust_root=(_arg0); end
 
   # Is my return_to under my trust_root?
   #
-  # source://ruby-openid//lib/openid/server.rb#579
+  # pkg:gem/ruby-openid#lib/openid/server.rb:579
   def trust_root_valid; end
 
   class << self
@@ -3517,21 +3123,19 @@ class OpenID::Server::CheckIDRequest < ::OpenID::Server::OpenIDRequest
     # UntrustedReturnURL:: When the +return_to+ URL is
     #                      outside the +trust_root+.
     #
-    # source://ruby-openid//lib/openid/server.rb#490
+    # pkg:gem/ruby-openid#lib/openid/server.rb:490
     def from_message(message, op_endpoint); end
   end
 end
 
 # I decode an incoming web request in to a OpenIDRequest.
 #
-# source://ruby-openid//lib/openid/server.rb#1218
+# pkg:gem/ruby-openid#lib/openid/server.rb:1218
 class OpenID::Server::Decoder
   # Construct a Decoder. The server is necessary because some
   # replies reference their server.
   #
-  # @return [Decoder] a new instance of Decoder
-  #
-  # source://ruby-openid//lib/openid/server.rb#1231
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1231
   def initialize(server); end
 
   # I transform query parameters into an OpenIDRequest.
@@ -3542,7 +3146,7 @@ class OpenID::Server::Decoder
   # Raises ProtocolError when the query does not seem to be a valid
   # OpenID request.
   #
-  # source://ruby-openid//lib/openid/server.rb#1242
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1242
   def decode(query); end
 
   # Called to decode queries when no handler for that mode is
@@ -3550,21 +3154,13 @@ class OpenID::Server::Decoder
   #
   # This implementation always raises ProtocolError.
   #
-  # @raise [ProtocolError]
-  #
-  # source://ruby-openid//lib/openid/server.rb#1270
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1270
   def default_decoder(message, server); end
 
-  # Returns the value of attribute server.
-  #
-  # source://ruby-openid//lib/openid/server.rb#1227
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1227
   def server; end
 
-  # Sets the attribute server
-  #
-  # @param value the value to set the attribute server to.
-  #
-  # source://ruby-openid//lib/openid/server.rb#1227
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1227
   def server=(_arg0); end
 end
 
@@ -3574,39 +3170,37 @@ end
 # See OpenID Specs, Section 8: Establishing Associations
 # <http://openid.net/specs/openid-authentication-2_0-12.html#associations>
 #
-# source://ruby-openid//lib/openid/server.rb#199
+# pkg:gem/ruby-openid#lib/openid/server.rb:199
 class OpenID::Server::DiffieHellmanSHA1ServerSession < ::OpenID::Server::BaseServerSession
-  # @return [DiffieHellmanSHA1ServerSession] a new instance of DiffieHellmanSHA1ServerSession
-  #
-  # source://ruby-openid//lib/openid/server.rb#210
+  # pkg:gem/ruby-openid#lib/openid/server.rb:210
   def initialize(dh, consumer_pubkey); end
 
-  # source://ruby-openid//lib/openid/server.rb#260
+  # pkg:gem/ruby-openid#lib/openid/server.rb:260
   def answer(secret); end
 
   # The public key sent by the consumer in the associate request
   #
-  # source://ruby-openid//lib/openid/server.rb#205
+  # pkg:gem/ruby-openid#lib/openid/server.rb:205
   def consumer_pubkey; end
 
   # The public key sent by the consumer in the associate request
   #
-  # source://ruby-openid//lib/openid/server.rb#205
+  # pkg:gem/ruby-openid#lib/openid/server.rb:205
   def consumer_pubkey=(_arg0); end
 
   # The Diffie-Hellman algorithm values for this request
   #
-  # source://ruby-openid//lib/openid/server.rb#202
+  # pkg:gem/ruby-openid#lib/openid/server.rb:202
   def dh; end
 
   # The Diffie-Hellman algorithm values for this request
   #
-  # source://ruby-openid//lib/openid/server.rb#202
+  # pkg:gem/ruby-openid#lib/openid/server.rb:202
   def dh=(_arg0); end
 
   # The session_type for this association session.
   #
-  # source://ruby-openid//lib/openid/server.rb#208
+  # pkg:gem/ruby-openid#lib/openid/server.rb:208
   def session_type; end
 
   class << self
@@ -3615,26 +3209,24 @@ class OpenID::Server::DiffieHellmanSHA1ServerSession < ::OpenID::Server::BaseSer
     # Raises ProtocolError when parameters required to establish the
     # session are missing.
     #
-    # source://ruby-openid//lib/openid/server.rb#222
+    # pkg:gem/ruby-openid#lib/openid/server.rb:222
     def from_message(message); end
   end
 end
 
-# source://ruby-openid//lib/openid/server.rb#271
+# pkg:gem/ruby-openid#lib/openid/server.rb:271
 class OpenID::Server::DiffieHellmanSHA256ServerSession < ::OpenID::Server::DiffieHellmanSHA1ServerSession
-  # @return [DiffieHellmanSHA256ServerSession] a new instance of DiffieHellmanSHA256ServerSession
-  #
-  # source://ruby-openid//lib/openid/server.rb#272
+  # pkg:gem/ruby-openid#lib/openid/server.rb:272
   def initialize(*args); end
 end
 
-# source://ruby-openid//lib/openid/server.rb#24
+# pkg:gem/ruby-openid#lib/openid/server.rb:24
 OpenID::Server::ENCODE_HTML_FORM = T.let(T.unsafe(nil), Array)
 
-# source://ruby-openid//lib/openid/server.rb#22
+# pkg:gem/ruby-openid#lib/openid/server.rb:22
 OpenID::Server::ENCODE_KVFORM = T.let(T.unsafe(nil), Array)
 
-# source://ruby-openid//lib/openid/server.rb#23
+# pkg:gem/ruby-openid#lib/openid/server.rb:23
 OpenID::Server::ENCODE_URL = T.let(T.unsafe(nil), Array)
 
 # I encode responses in to WebResponses.
@@ -3645,14 +3237,14 @@ OpenID::Server::ENCODE_URL = T.let(T.unsafe(nil), Array)
 # OpenIDResponse.encodeToURL, and
 # OpenIDResponse.encodeToKVForm.
 #
-# source://ruby-openid//lib/openid/server.rb#1146
+# pkg:gem/ruby-openid#lib/openid/server.rb:1146
 class OpenID::Server::Encoder
   # Encode a response to a WebResponse.
   #
   # Raises EncodingError when I can't figure out how to encode
   # this message.
   #
-  # source://ruby-openid//lib/openid/server.rb#1153
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1153
   def encode(response); end
 end
 
@@ -3660,91 +3252,71 @@ end
 #
 # You should probably render it and show it to the user.
 #
-# source://ruby-openid//lib/openid/server.rb#1499
+# pkg:gem/ruby-openid#lib/openid/server.rb:1499
 class OpenID::Server::EncodingError < ::Exception
-  # @return [EncodingError] a new instance of EncodingError
-  #
-  # source://ruby-openid//lib/openid/server.rb#1503
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1503
   def initialize(response); end
 
   # The response that failed to encode.
   #
-  # source://ruby-openid//lib/openid/server.rb#1501
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1501
   def response; end
 end
 
-# source://ruby-openid//lib/openid/server.rb#18
+# pkg:gem/ruby-openid#lib/openid/server.rb:18
 OpenID::Server::HTTP_ERROR = T.let(T.unsafe(nil), Integer)
 
-# source://ruby-openid//lib/openid/server.rb#16
+# pkg:gem/ruby-openid#lib/openid/server.rb:16
 OpenID::Server::HTTP_OK = T.let(T.unsafe(nil), Integer)
 
-# source://ruby-openid//lib/openid/server.rb#17
+# pkg:gem/ruby-openid#lib/openid/server.rb:17
 OpenID::Server::HTTP_REDIRECT = T.let(T.unsafe(nil), Integer)
 
 # The return_to URL doesn't look like a valid URL.
 #
-# source://ruby-openid//lib/openid/server.rb#1531
+# pkg:gem/ruby-openid#lib/openid/server.rb:1531
 class OpenID::Server::MalformedReturnURL < ::OpenID::Server::ProtocolError
-  # @return [MalformedReturnURL] a new instance of MalformedReturnURL
-  #
-  # source://ruby-openid//lib/openid/server.rb#1534
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1534
   def initialize(openid_message, return_to); end
 
-  # Returns the value of attribute return_to.
-  #
-  # source://ruby-openid//lib/openid/server.rb#1532
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1532
   def return_to; end
 end
 
 # The trust root is not well-formed.
 #
-# source://ruby-openid//lib/openid/server.rb#1541
+# pkg:gem/ruby-openid#lib/openid/server.rb:1541
 class OpenID::Server::MalformedTrustRoot < ::OpenID::Server::ProtocolError; end
 
 # Raised when a response to a request cannot be generated
 # because the request contains no return_to URL.
 #
-# source://ruby-openid//lib/openid/server.rb#1493
+# pkg:gem/ruby-openid#lib/openid/server.rb:1493
 class OpenID::Server::NoReturnToError < ::Exception; end
 
-# source://ruby-openid//lib/openid/server.rb#28
+# pkg:gem/ruby-openid#lib/openid/server.rb:28
 class OpenID::Server::OpenIDRequest
   # I represent an incoming OpenID request.
   #
   # Attributes:
   # mode:: The "openid.mode" of this request
   #
-  # @return [OpenIDRequest] a new instance of OpenIDRequest
-  #
-  # source://ruby-openid//lib/openid/server.rb#35
+  # pkg:gem/ruby-openid#lib/openid/server.rb:35
   def initialize; end
 
-  # Returns the value of attribute message.
-  #
-  # source://ruby-openid//lib/openid/server.rb#29
+  # pkg:gem/ruby-openid#lib/openid/server.rb:29
   def message; end
 
-  # Sets the attribute message
-  #
-  # @param value the value to set the attribute message to.
-  #
-  # source://ruby-openid//lib/openid/server.rb#29
+  # pkg:gem/ruby-openid#lib/openid/server.rb:29
   def message=(_arg0); end
 
-  # Returns the value of attribute mode.
-  #
-  # source://ruby-openid//lib/openid/server.rb#29
+  # pkg:gem/ruby-openid#lib/openid/server.rb:29
   def mode; end
 
-  # Sets the attribute mode
-  #
-  # @param value the value to set the attribute mode to.
-  #
-  # source://ruby-openid//lib/openid/server.rb#29
+  # pkg:gem/ruby-openid#lib/openid/server.rb:29
   def mode=(_arg0); end
 
-  # source://ruby-openid//lib/openid/server.rb#40
+  # pkg:gem/ruby-openid#lib/openid/server.rb:40
   def namespace; end
 end
 
@@ -3761,23 +3333,21 @@ end
 # over the wire, so this is just a loose wrapper around
 # #OpenIDResponse.fields.
 #
-# source://ruby-openid//lib/openid/server.rb#850
+# pkg:gem/ruby-openid#lib/openid/server.rb:850
 class OpenID::Server::OpenIDResponse
-  # @return [OpenIDResponse] a new instance of OpenIDResponse
-  #
-  # source://ruby-openid//lib/openid/server.rb#860
+  # pkg:gem/ruby-openid#lib/openid/server.rb:860
   def initialize(request); end
 
-  # source://ruby-openid//lib/openid/server.rb#922
+  # pkg:gem/ruby-openid#lib/openid/server.rb:922
   def add_extension(extension_response); end
 
-  # source://ruby-openid//lib/openid/server.rb#943
+  # pkg:gem/ruby-openid#lib/openid/server.rb:943
   def copy; end
 
-  # source://ruby-openid//lib/openid/server.rb#931
+  # pkg:gem/ruby-openid#lib/openid/server.rb:931
   def encode_to_kvform; end
 
-  # source://ruby-openid//lib/openid/server.rb#916
+  # pkg:gem/ruby-openid#lib/openid/server.rb:916
   def encode_to_url; end
 
   # An #OpenID::Message with the data to be returned.
@@ -3785,7 +3355,7 @@ class OpenID::Server::OpenIDResponse
   # leading openid. e.g. identity and mac_key
   # never openid.identity.
   #
-  # source://ruby-openid//lib/openid/server.rb#858
+  # pkg:gem/ruby-openid#lib/openid/server.rb:858
   def fields; end
 
   # An #OpenID::Message with the data to be returned.
@@ -3793,23 +3363,23 @@ class OpenID::Server::OpenIDResponse
   # leading openid. e.g. identity and mac_key
   # never openid.identity.
   #
-  # source://ruby-openid//lib/openid/server.rb#858
+  # pkg:gem/ruby-openid#lib/openid/server.rb:858
   def fields=(_arg0); end
 
-  # source://ruby-openid//lib/openid/server.rb#894
+  # pkg:gem/ruby-openid#lib/openid/server.rb:894
   def needs_signing; end
 
-  # source://ruby-openid//lib/openid/server.rb#888
+  # pkg:gem/ruby-openid#lib/openid/server.rb:888
   def render_as_form; end
 
   # The #OpenIDRequest I respond to.
   #
-  # source://ruby-openid//lib/openid/server.rb#852
+  # pkg:gem/ruby-openid#lib/openid/server.rb:852
   def request; end
 
   # The #OpenIDRequest I respond to.
   #
-  # source://ruby-openid//lib/openid/server.rb#852
+  # pkg:gem/ruby-openid#lib/openid/server.rb:852
   def request=(_arg0); end
 
   # form_tag_attrs is a hash of attributes to be added to the form
@@ -3818,21 +3388,21 @@ class OpenID::Server::OpenIDResponse
   # it will be replaced.
   # Returns the form markup for this response.
   #
-  # source://ruby-openid//lib/openid/server.rb#878
+  # pkg:gem/ruby-openid#lib/openid/server.rb:878
   def to_form_markup(form_tag_attrs = T.unsafe(nil)); end
 
   # Wraps the form tag from to_form_markup in a complete HTML document
   # that uses javascript to autosubmit the form.
   #
-  # source://ruby-openid//lib/openid/server.rb#884
+  # pkg:gem/ruby-openid#lib/openid/server.rb:884
   def to_html(form_tag_attrs = T.unsafe(nil)); end
 
-  # source://ruby-openid//lib/openid/server.rb#866
+  # pkg:gem/ruby-openid#lib/openid/server.rb:866
   def to_s; end
 
   # implements IEncodable
   #
-  # source://ruby-openid//lib/openid/server.rb#901
+  # pkg:gem/ruby-openid#lib/openid/server.rb:901
   def which_encoding; end
 end
 
@@ -3842,102 +3412,86 @@ end
 # See OpenID Specs, Section 8: Establishing Associations
 # <http://openid.net/specs/openid-authentication-2_0-12.html#associations>
 #
-# source://ruby-openid//lib/openid/server.rb#175
+# pkg:gem/ruby-openid#lib/openid/server.rb:175
 class OpenID::Server::PlainTextServerSession < ::OpenID::Server::BaseServerSession
-  # @return [PlainTextServerSession] a new instance of PlainTextServerSession
-  #
-  # source://ruby-openid//lib/openid/server.rb#181
+  # pkg:gem/ruby-openid#lib/openid/server.rb:181
   def initialize; end
 
-  # source://ruby-openid//lib/openid/server.rb#189
+  # pkg:gem/ruby-openid#lib/openid/server.rb:189
   def answer(secret); end
 
   # The session_type for this association session. There is no
   # type defined for plain-text in the OpenID specification, so we
   # use 'no-encryption'.
   #
-  # source://ruby-openid//lib/openid/server.rb#179
+  # pkg:gem/ruby-openid#lib/openid/server.rb:179
   def session_type; end
 
   class << self
-    # source://ruby-openid//lib/openid/server.rb#185
+    # pkg:gem/ruby-openid#lib/openid/server.rb:185
     def from_message(unused_request); end
   end
 end
 
 # A message did not conform to the OpenID protocol.
 #
-# source://ruby-openid//lib/openid/server.rb#1387
+# pkg:gem/ruby-openid#lib/openid/server.rb:1387
 class OpenID::Server::ProtocolError < ::Exception
   # text:: A message about the encountered error.
   #
-  # @return [ProtocolError] a new instance of ProtocolError
-  #
-  # source://ruby-openid//lib/openid/server.rb#1394
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1394
   def initialize(message, text = T.unsafe(nil), reference = T.unsafe(nil), contact = T.unsafe(nil)); end
 
-  # Returns the value of attribute contact.
-  #
-  # source://ruby-openid//lib/openid/server.rb#1391
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1391
   def contact; end
 
-  # Sets the attribute contact
-  #
-  # @param value the value to set the attribute contact to.
-  #
-  # source://ruby-openid//lib/openid/server.rb#1391
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1391
   def contact=(_arg0); end
 
-  # source://ruby-openid//lib/openid/server.rb#1441
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1441
   def encode_to_kvform; end
 
   # implements IEncodable
   #
-  # source://ruby-openid//lib/openid/server.rb#1437
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1437
   def encode_to_url; end
 
   # Get the return_to argument from the request, if any.
   #
-  # source://ruby-openid//lib/openid/server.rb#1403
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1403
   def get_return_to; end
 
   # Did this request have a return_to parameter?
   #
-  # source://ruby-openid//lib/openid/server.rb#1412
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1412
   def has_return_to; end
 
   # The query that is failing to be a valid OpenID request.
   #
-  # source://ruby-openid//lib/openid/server.rb#1389
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1389
   def openid_message; end
 
   # The query that is failing to be a valid OpenID request.
   #
-  # source://ruby-openid//lib/openid/server.rb#1389
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1389
   def openid_message=(_arg0); end
 
-  # Returns the value of attribute reference.
-  #
-  # source://ruby-openid//lib/openid/server.rb#1390
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1390
   def reference; end
 
-  # Sets the attribute reference
-  #
-  # @param value the value to set the attribute reference to.
-  #
-  # source://ruby-openid//lib/openid/server.rb#1390
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1390
   def reference=(_arg0); end
 
-  # source://ruby-openid//lib/openid/server.rb#1445
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1445
   def to_form_markup; end
 
-  # source://ruby-openid//lib/openid/server.rb#1449
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1449
   def to_html; end
 
   # Generate a Message object for sending to the relying party,
   # after encoding.
   #
-  # source://ruby-openid//lib/openid/server.rb#1418
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1418
   def to_message; end
 
   # How should I be encoded?
@@ -3946,7 +3500,7 @@ class OpenID::Server::ProtocolError < ::Exception
   # I cannot be encoded as a protocol message and should be
   # displayed to the user.
   #
-  # source://ruby-openid//lib/openid/server.rb#1458
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1458
   def which_encoding; end
 end
 
@@ -3963,13 +3517,11 @@ end
 # All my state is encapsulated in an store, which means I'm not
 # generally pickleable but I am easy to reconstruct.
 #
-# source://ruby-openid//lib/openid/server.rb#1289
+# pkg:gem/ruby-openid#lib/openid/server.rb:1289
 class OpenID::Server::Server
   # op_endpoint is new in library version 2.0.
   #
-  # @return [Server] a new instance of Server
-  #
-  # source://ruby-openid//lib/openid/server.rb#1314
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1314
   def initialize(store, op_endpoint); end
 
   # Transform query parameters into an OpenIDRequest.
@@ -3979,17 +3531,17 @@ class OpenID::Server::Server
   # If the query does not seem to be an OpenID request at all, I
   # return nil.
   #
-  # source://ruby-openid//lib/openid/server.rb#1370
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1370
   def decode_request(query); end
 
   # I'm using this to decode things.
   #
-  # source://ruby-openid//lib/openid/server.rb#1304
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1304
   def decoder; end
 
   # I'm using this to decode things.
   #
-  # source://ruby-openid//lib/openid/server.rb#1304
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1304
   def decoder=(_arg0); end
 
   # Encode a response to a WebResponse, signing it first if
@@ -4000,17 +3552,17 @@ class OpenID::Server::Server
   #
   # Raises AlreadySigned When this response is already signed.
   #
-  # source://ruby-openid//lib/openid/server.rb#1381
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1381
   def encode_response(response); end
 
   # I'm using this to encode things.
   #
-  # source://ruby-openid//lib/openid/server.rb#1301
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1301
   def encoder; end
 
   # I'm using this to encode things.
   #
-  # source://ruby-openid//lib/openid/server.rb#1301
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1301
   def encoder=(_arg0); end
 
   # Handle a request.
@@ -4020,59 +3572,59 @@ class OpenID::Server::Server
   # raise RuntimeError.  In that case, you can handle it yourself,
   # or add a method to me for handling that request type.
   #
-  # source://ruby-openid//lib/openid/server.rb#1329
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1329
   def handle_request(request); end
 
   # I use this instance of OpenID::AssociationNegotiator to
   # determine which kinds of associations I can make and how.
   #
-  # source://ruby-openid//lib/openid/server.rb#1308
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1308
   def negotiator; end
 
   # I use this instance of OpenID::AssociationNegotiator to
   # determine which kinds of associations I can make and how.
   #
-  # source://ruby-openid//lib/openid/server.rb#1308
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1308
   def negotiator=(_arg0); end
 
   # My URL.
   #
-  # source://ruby-openid//lib/openid/server.rb#1311
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1311
   def op_endpoint; end
 
   # My URL.
   #
-  # source://ruby-openid//lib/openid/server.rb#1311
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1311
   def op_endpoint=(_arg0); end
 
   # Handle and respond to associate requests.
   #
-  # source://ruby-openid//lib/openid/server.rb#1347
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1347
   def openid_associate(request); end
 
   # Handle and respond to check_authentication requests.
   #
-  # source://ruby-openid//lib/openid/server.rb#1342
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1342
   def openid_check_authentication(request); end
 
   # I'm using this for associate requests and to sign things.
   #
-  # source://ruby-openid//lib/openid/server.rb#1298
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1298
   def signatory; end
 
   # I'm using this for associate requests and to sign things.
   #
-  # source://ruby-openid//lib/openid/server.rb#1298
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1298
   def signatory=(_arg0); end
 
   # The back-end where my associations and nonces are stored.
   #
-  # source://ruby-openid//lib/openid/server.rb#1295
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1295
   def store; end
 
   # The back-end where my associations and nonces are stored.
   #
-  # source://ruby-openid//lib/openid/server.rb#1295
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1295
   def store=(_arg0); end
 end
 
@@ -4083,39 +3635,37 @@ end
 # All my state is encapsulated in a store, which means I'm not
 # generally pickleable but I am easy to reconstruct.
 #
-# source://ruby-openid//lib/openid/server.rb#986
+# pkg:gem/ruby-openid#lib/openid/server.rb:986
 class OpenID::Server::Signatory
   # Create a new Signatory. store is The back-end where my
   # associations are stored.
   #
-  # @return [Signatory] a new instance of Signatory
-  #
-  # source://ruby-openid//lib/openid/server.rb#1009
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1009
   def initialize(store); end
 
   # Make a new association.
   #
-  # source://ruby-openid//lib/openid/server.rb#1076
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1076
   def create_association(dumb = T.unsafe(nil), assoc_type = T.unsafe(nil)); end
 
   # Get the association with the specified handle.
   #
-  # source://ruby-openid//lib/openid/server.rb#1095
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1095
   def get_association(assoc_handle, dumb, checkExpiration = T.unsafe(nil)); end
 
   # Invalidates the association with the given handle.
   #
-  # source://ruby-openid//lib/openid/server.rb#1128
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1128
   def invalidate(assoc_handle, dumb); end
 
   # The number of seconds a secret remains valid. Defaults to 14 days.
   #
-  # source://ruby-openid//lib/openid/server.rb#988
+  # pkg:gem/ruby-openid#lib/openid/server.rb:988
   def secret_lifetime; end
 
   # The number of seconds a secret remains valid. Defaults to 14 days.
   #
-  # source://ruby-openid//lib/openid/server.rb#988
+  # pkg:gem/ruby-openid#lib/openid/server.rb:988
   def secret_lifetime=(_arg0); end
 
   # Sign a response.
@@ -4124,31 +3674,25 @@ class OpenID::Server::Signatory
   # its signed list, and return a new copy of the response object
   # with that signature included.
   #
-  # source://ruby-openid//lib/openid/server.rb#1040
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1040
   def sign(response); end
 
-  # Returns the value of attribute store.
-  #
-  # source://ruby-openid//lib/openid/server.rb#1005
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1005
   def store; end
 
-  # Sets the attribute store
-  #
-  # @param value the value to set the attribute store to.
-  #
-  # source://ruby-openid//lib/openid/server.rb#1005
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1005
   def store=(_arg0); end
 
   # Verify that the signature for some data is valid.
   #
-  # source://ruby-openid//lib/openid/server.rb#1016
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1016
   def verify(assoc_handle, message); end
 
   class << self
-    # source://ruby-openid//lib/openid/server.rb#1001
+    # pkg:gem/ruby-openid#lib/openid/server.rb:1001
     def _dumb_key; end
 
-    # source://ruby-openid//lib/openid/server.rb#997
+    # pkg:gem/ruby-openid#lib/openid/server.rb:997
     def _normal_key; end
   end
 end
@@ -4156,13 +3700,11 @@ end
 # I encode responses in to WebResponses, signing
 # them when required.
 #
-# source://ruby-openid//lib/openid/server.rb#1180
+# pkg:gem/ruby-openid#lib/openid/server.rb:1180
 class OpenID::Server::SigningEncoder < ::OpenID::Server::Encoder
   # Create a SigningEncoder given a Signatory
   #
-  # @return [SigningEncoder] a new instance of SigningEncoder
-  #
-  # source://ruby-openid//lib/openid/server.rb#1185
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1185
   def initialize(signatory); end
 
   # Encode a response to a WebResponse, signing it first if
@@ -4173,52 +3715,40 @@ class OpenID::Server::SigningEncoder < ::OpenID::Server::Encoder
   #
   # Raises AlreadySigned when this response is already signed.
   #
-  # source://ruby-openid//lib/openid/server.rb#1196
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1196
   def encode(response); end
 
-  # Returns the value of attribute signatory.
-  #
-  # source://ruby-openid//lib/openid/server.rb#1182
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1182
   def signatory; end
 
-  # Sets the attribute signatory
-  #
-  # @param value the value to set the attribute signatory to.
-  #
-  # source://ruby-openid//lib/openid/server.rb#1182
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1182
   def signatory=(_arg0); end
 end
 
-# source://ruby-openid//lib/openid/server.rb#26
+# pkg:gem/ruby-openid#lib/openid/server.rb:26
 OpenID::Server::UNUSED = T.let(T.unsafe(nil), T.untyped)
 
 # A return_to is outside the trust_root.
 #
-# source://ruby-openid//lib/openid/server.rb#1514
+# pkg:gem/ruby-openid#lib/openid/server.rb:1514
 class OpenID::Server::UntrustedReturnURL < ::OpenID::Server::ProtocolError
-  # @return [UntrustedReturnURL] a new instance of UntrustedReturnURL
-  #
-  # source://ruby-openid//lib/openid/server.rb#1517
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1517
   def initialize(message, return_to, trust_root); end
 
-  # Returns the value of attribute return_to.
-  #
-  # source://ruby-openid//lib/openid/server.rb#1515
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1515
   def return_to; end
 
-  # source://ruby-openid//lib/openid/server.rb#1523
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1523
   def to_s; end
 
-  # Returns the value of attribute trust_root.
-  #
-  # source://ruby-openid//lib/openid/server.rb#1515
+  # pkg:gem/ruby-openid#lib/openid/server.rb:1515
   def trust_root; end
 end
 
 # Raised when an operation was attempted that is not compatible
 # with the protocol version being used.
 #
-# source://ruby-openid//lib/openid/server.rb#1488
+# pkg:gem/ruby-openid#lib/openid/server.rb:1488
 class OpenID::Server::VersionError < ::Exception; end
 
 # I am a response to an OpenID request in terms a web server
@@ -4227,138 +3757,112 @@ class OpenID::Server::VersionError < ::Exception; end
 # I generally come from an #Encoder, either directly or from
 # #Server.encodeResponse.
 #
-# source://ruby-openid//lib/openid/server.rb#953
+# pkg:gem/ruby-openid#lib/openid/server.rb:953
 class OpenID::Server::WebResponse
-  # @return [WebResponse] a new instance of WebResponse
-  #
-  # source://ruby-openid//lib/openid/server.rb#964
+  # pkg:gem/ruby-openid#lib/openid/server.rb:964
   def initialize(code = T.unsafe(nil), headers = T.unsafe(nil), body = T.unsafe(nil)); end
 
   # The body of this response.
   #
-  # source://ruby-openid//lib/openid/server.rb#962
+  # pkg:gem/ruby-openid#lib/openid/server.rb:962
   def body; end
 
   # The body of this response.
   #
-  # source://ruby-openid//lib/openid/server.rb#962
+  # pkg:gem/ruby-openid#lib/openid/server.rb:962
   def body=(_arg0); end
 
   # The HTTP code of this response as an integer.
   #
-  # source://ruby-openid//lib/openid/server.rb#956
+  # pkg:gem/ruby-openid#lib/openid/server.rb:956
   def code; end
 
   # The HTTP code of this response as an integer.
   #
-  # source://ruby-openid//lib/openid/server.rb#956
+  # pkg:gem/ruby-openid#lib/openid/server.rb:956
   def code=(_arg0); end
 
   # #Hash of headers to include in this response.
   #
-  # source://ruby-openid//lib/openid/server.rb#959
+  # pkg:gem/ruby-openid#lib/openid/server.rb:959
   def headers; end
 
   # #Hash of headers to include in this response.
   #
-  # source://ruby-openid//lib/openid/server.rb#959
+  # pkg:gem/ruby-openid#lib/openid/server.rb:959
   def headers=(_arg0); end
 end
 
 # Exception that is raised when the server returns a 400 response
 # code to a direct request.
 #
-# source://ruby-openid//lib/openid/kvpost.rb#7
+# pkg:gem/ruby-openid#lib/openid/kvpost.rb:7
 class OpenID::ServerError < ::OpenID::OpenIDError
-  # @return [ServerError] a new instance of ServerError
-  #
-  # source://ruby-openid//lib/openid/kvpost.rb#10
+  # pkg:gem/ruby-openid#lib/openid/kvpost.rb:10
   def initialize(error_text, error_code, message); end
 
-  # Returns the value of attribute error_code.
-  #
-  # source://ruby-openid//lib/openid/kvpost.rb#8
+  # pkg:gem/ruby-openid#lib/openid/kvpost.rb:8
   def error_code; end
 
-  # Returns the value of attribute error_text.
-  #
-  # source://ruby-openid//lib/openid/kvpost.rb#8
+  # pkg:gem/ruby-openid#lib/openid/kvpost.rb:8
   def error_text; end
 
-  # Returns the value of attribute message.
-  #
-  # source://ruby-openid//lib/openid/kvpost.rb#8
+  # pkg:gem/ruby-openid#lib/openid/kvpost.rb:8
   def message; end
 
   class << self
-    # source://ruby-openid//lib/openid/kvpost.rb#17
+    # pkg:gem/ruby-openid#lib/openid/kvpost.rb:17
     def from_message(msg); end
   end
 end
 
-# source://ruby-openid//lib/openid/fetchers.rb#115
+# pkg:gem/ruby-openid#lib/openid/fetchers.rb:115
 class OpenID::StandardFetcher
   # I can fetch through a HTTP proxy; arguments are as for Net::HTTP::Proxy.
   #
-  # @return [StandardFetcher] a new instance of StandardFetcher
-  #
-  # source://ruby-openid//lib/openid/fetchers.rb#126
+  # pkg:gem/ruby-openid#lib/openid/fetchers.rb:126
   def initialize(proxy_addr = T.unsafe(nil), proxy_port = T.unsafe(nil), proxy_user = T.unsafe(nil), proxy_pass = T.unsafe(nil)); end
 
-  # Returns the value of attribute ca_file.
-  #
-  # source://ruby-openid//lib/openid/fetchers.rb#122
+  # pkg:gem/ruby-openid#lib/openid/fetchers.rb:122
   def ca_file; end
 
-  # Sets the attribute ca_file
-  #
-  # @param value the value to set the attribute ca_file to.
-  #
-  # source://ruby-openid//lib/openid/fetchers.rb#122
+  # pkg:gem/ruby-openid#lib/openid/fetchers.rb:122
   def ca_file=(_arg0); end
 
-  # source://ruby-openid//lib/openid/fetchers.rb#181
+  # pkg:gem/ruby-openid#lib/openid/fetchers.rb:181
   def fetch(url, body = T.unsafe(nil), headers = T.unsafe(nil), redirect_limit = T.unsafe(nil)); end
 
-  # source://ruby-openid//lib/openid/fetchers.rb#152
+  # pkg:gem/ruby-openid#lib/openid/fetchers.rb:152
   def make_connection(uri); end
 
-  # source://ruby-openid//lib/openid/fetchers.rb#137
+  # pkg:gem/ruby-openid#lib/openid/fetchers.rb:137
   def make_http(uri); end
 
-  # source://ruby-openid//lib/openid/fetchers.rb#144
+  # pkg:gem/ruby-openid#lib/openid/fetchers.rb:144
   def set_verified(conn, verify); end
 
-  # @return [Boolean]
-  #
-  # source://ruby-openid//lib/openid/fetchers.rb#133
+  # pkg:gem/ruby-openid#lib/openid/fetchers.rb:133
   def supports_ssl?(conn); end
 
-  # Returns the value of attribute timeout.
-  #
-  # source://ruby-openid//lib/openid/fetchers.rb#123
+  # pkg:gem/ruby-openid#lib/openid/fetchers.rb:123
   def timeout; end
 
-  # Sets the attribute timeout
-  #
-  # @param value the value to set the attribute timeout to.
-  #
-  # source://ruby-openid//lib/openid/fetchers.rb#123
+  # pkg:gem/ruby-openid#lib/openid/fetchers.rb:123
   def timeout=(_arg0); end
 
   private
 
-  # source://ruby-openid//lib/openid/fetchers.rb#252
+  # pkg:gem/ruby-openid#lib/openid/fetchers.rb:252
   def setup_encoding(response); end
 end
 
-# source://ruby-openid//lib/openid/fetchers.rb#119
+# pkg:gem/ruby-openid#lib/openid/fetchers.rb:119
 OpenID::StandardFetcher::REDIRECT_LIMIT = T.let(T.unsafe(nil), Integer)
 
-# source://ruby-openid//lib/openid/fetchers.rb#120
+# pkg:gem/ruby-openid#lib/openid/fetchers.rb:120
 OpenID::StandardFetcher::TIMEOUT = T.let(T.unsafe(nil), Integer)
 
-# source://ruby-openid//lib/openid/fetchers.rb#117
+# pkg:gem/ruby-openid#lib/openid/fetchers.rb:117
 OpenID::StandardFetcher::USER_AGENT = T.let(T.unsafe(nil), String)
 
 # Stores for Associations and nonces. Used by both the Consumer and
@@ -4366,7 +3870,7 @@ OpenID::StandardFetcher::USER_AGENT = T.let(T.unsafe(nil), String)
 # state storage in your application or framework already, you can
 # implement the store interface.
 #
-# source://ruby-openid//lib/openid/store/interface.rb#9
+# pkg:gem/ruby-openid#lib/openid/store/interface.rb:9
 module OpenID::Store; end
 
 # Abstract Store
@@ -4375,22 +3879,20 @@ module OpenID::Store; end
 # * changed use_nonce to support one-way nonces
 # * added cleanup_nonces, cleanup_associations, cleanup
 #
-# source://ruby-openid//lib/openid/store/interface.rb#15
+# pkg:gem/ruby-openid#lib/openid/store/interface.rb:15
 class OpenID::Store::Interface
   # Remove expired nonces and associations from the store
   # Not called during normal library operation, this method is for store
   # admins to keep their storage from filling up with expired data
   #
-  # source://ruby-openid//lib/openid/store/interface.rb#70
+  # pkg:gem/ruby-openid#lib/openid/store/interface.rb:70
   def cleanup; end
 
   # Remove expired associations from the store
   # Not called during normal library operation, this method is for store
   # admins to keep their storage from filling up with expired data
   #
-  # @raise [NotImplementedError]
-  #
-  # source://ruby-openid//lib/openid/store/interface.rb#63
+  # pkg:gem/ruby-openid#lib/openid/store/interface.rb:63
   def cleanup_associations; end
 
   # Remove expired nonces from the store
@@ -4398,9 +3900,7 @@ class OpenID::Store::Interface
   # Not called during normal library operation, this method is for store
   # admins to keep their storage from filling up with expired data
   #
-  # @raise [NotImplementedError]
-  #
-  # source://ruby-openid//lib/openid/store/interface.rb#56
+  # pkg:gem/ruby-openid#lib/openid/store/interface.rb:56
   def cleanup_nonces; end
 
   # Returns a Association object from storage that matches
@@ -4408,17 +3908,13 @@ class OpenID::Store::Interface
   # the one matching association is expired. (Is allowed to GC expired
   # associations when found.)
   #
-  # @raise [NotImplementedError]
-  #
-  # source://ruby-openid//lib/openid/store/interface.rb#29
+  # pkg:gem/ruby-openid#lib/openid/store/interface.rb:29
   def get_association(server_url, handle = T.unsafe(nil)); end
 
   # If there is a matching association, remove it from the store and
   # return true, otherwise return false.
   #
-  # @raise [NotImplementedError]
-  #
-  # source://ruby-openid//lib/openid/store/interface.rb#35
+  # pkg:gem/ruby-openid#lib/openid/store/interface.rb:35
   def remove_association(server_url, handle); end
 
   # Put a Association object into storage.
@@ -4426,9 +3922,7 @@ class OpenID::Store::Interface
   # on the character set of the server_url.  In particular, expect to see
   # unescaped non-url-safe characters in the server_url field.
   #
-  # @raise [NotImplementedError]
-  #
-  # source://ruby-openid//lib/openid/store/interface.rb#21
+  # pkg:gem/ruby-openid#lib/openid/store/interface.rb:21
   def store_association(server_url, association); end
 
   # Return true if the nonce has not been used before, and store it
@@ -4441,9 +3935,7 @@ class OpenID::Store::Interface
   # salt: A random string that makes two nonces issued by a server in
   #       the same second unique
   #
-  # @raise [NotImplementedError]
-  #
-  # source://ruby-openid//lib/openid/store/interface.rb#48
+  # pkg:gem/ruby-openid#lib/openid/store/interface.rb:48
   def use_nonce(server_url, timestamp, salt); end
 end
 
@@ -4453,83 +3945,53 @@ end
 #
 # You should probably be looking at OpenID::Store::Filesystem
 #
-# source://ruby-openid//lib/openid/store/memory.rb#9
+# pkg:gem/ruby-openid#lib/openid/store/memory.rb:9
 class OpenID::Store::Memory < ::OpenID::Store::Interface
-  # @return [Memory] a new instance of Memory
-  #
-  # source://ruby-openid//lib/openid/store/memory.rb#11
+  # pkg:gem/ruby-openid#lib/openid/store/memory.rb:11
   def initialize; end
 
-  # source://ruby-openid//lib/openid/store/memory.rb#50
+  # pkg:gem/ruby-openid#lib/openid/store/memory.rb:50
   def cleanup_associations; end
 
-  # source://ruby-openid//lib/openid/store/memory.rb#63
+  # pkg:gem/ruby-openid#lib/openid/store/memory.rb:63
   def cleanup_nonces; end
 
-  # source://ruby-openid//lib/openid/store/memory.rb#21
+  # pkg:gem/ruby-openid#lib/openid/store/memory.rb:21
   def get_association(server_url, handle = T.unsafe(nil)); end
 
-  # source://ruby-openid//lib/openid/store/memory.rb#33
+  # pkg:gem/ruby-openid#lib/openid/store/memory.rb:33
   def remove_association(server_url, handle); end
 
-  # source://ruby-openid//lib/openid/store/memory.rb#16
+  # pkg:gem/ruby-openid#lib/openid/store/memory.rb:16
   def store_association(server_url, assoc); end
 
-  # source://ruby-openid//lib/openid/store/memory.rb#42
+  # pkg:gem/ruby-openid#lib/openid/store/memory.rb:42
   def use_nonce(server_url, timestamp, salt); end
 
   protected
 
-  # source://ruby-openid//lib/openid/store/memory.rb#77
+  # pkg:gem/ruby-openid#lib/openid/store/memory.rb:77
   def deepcopy(o); end
 end
 
-# source://ruby-openid//lib/openid/trustroot.rb#19
+# pkg:gem/ruby-openid#lib/openid/trustroot.rb:19
 module OpenID::TrustRoot
   class << self
-    # If the endpoint is a relying party OpenID return_to endpoint,
-    # return the endpoint URL. Otherwise, return None.
-    #
-    # This function is intended to be used as a filter for the Yadis
-    # filtering interface.
-    #
-    # endpoint: An XRDS BasicServiceEndpoint, as returned by
-    # performing Yadis dicovery.
-    #
-    # returns the endpoint URL or None if the endpoint is not a
-    # relying party endpoint.
-    #
-    # source://ruby-openid//lib/openid/trustroot.rb#59
+    # pkg:gem/ruby-openid#lib/openid/trustroot.rb:59
     def _extract_return_url(endpoint); end
 
-    # Given a relying party discovery URL return a list of return_to
-    # URLs.
-    #
-    # source://ruby-openid//lib/openid/trustroot.rb#96
+    # pkg:gem/ruby-openid#lib/openid/trustroot.rb:96
     def get_allowed_return_urls(relying_party_url); end
 
-    # Is the return_to URL under one of the supplied allowed
-    # return_to URLs?
-    #
-    # source://ruby-openid//lib/openid/trustroot.rb#69
+    # pkg:gem/ruby-openid#lib/openid/trustroot.rb:69
     def return_to_matches(allowed_return_to_urls, return_to); end
 
-    # Verify that a return_to URL is valid for the given realm.
-    #
-    # This function builds a discovery URL, performs Yadis discovery
-    # on it, makes sure that the URL does not redirect, parses out
-    # the return_to URLs, and finally checks to see if the current
-    # return_to URL matches the return_to.
-    #
-    # raises DiscoveryFailure when Yadis discovery fails returns
-    # true if the return_to URL is valid for the realm
-    #
-    # source://ruby-openid//lib/openid/trustroot.rb#118
+    # pkg:gem/ruby-openid#lib/openid/trustroot.rb:118
     def verify_return_to(realm_str, return_to, _vrfy = T.unsafe(nil)); end
   end
 end
 
-# source://ruby-openid//lib/openid/trustroot.rb#40
+# pkg:gem/ruby-openid#lib/openid/trustroot.rb:40
 OpenID::TrustRoot::ALLOWED_PROTOCOLS = T.let(T.unsafe(nil), Array)
 
 # The URI for relying party discovery, used in realm verification.
@@ -4537,17 +3999,15 @@ OpenID::TrustRoot::ALLOWED_PROTOCOLS = T.let(T.unsafe(nil), Array)
 # XXX: This should probably live somewhere else (like in
 # OpenID or OpenID::Yadis somewhere)
 #
-# source://ruby-openid//lib/openid/trustroot.rb#46
+# pkg:gem/ruby-openid#lib/openid/trustroot.rb:46
 OpenID::TrustRoot::RP_RETURN_TO_URL_TYPE = T.let(T.unsafe(nil), String)
 
-# source://ruby-openid//lib/openid/trustroot.rb#20
+# pkg:gem/ruby-openid#lib/openid/trustroot.rb:20
 OpenID::TrustRoot::TOP_LEVEL_DOMAINS = T.let(T.unsafe(nil), Array)
 
-# source://ruby-openid//lib/openid/trustroot.rb#150
+# pkg:gem/ruby-openid#lib/openid/trustroot.rb:150
 class OpenID::TrustRoot::TrustRoot
-  # @return [TrustRoot] a new instance of TrustRoot
-  #
-  # source://ruby-openid//lib/openid/trustroot.rb#261
+  # pkg:gem/ruby-openid#lib/openid/trustroot.rb:261
   def initialize(unparsed, proto, wildcard, host, port, path); end
 
   # Return a discovery URL for this realm.
@@ -4561,187 +4021,165 @@ class OpenID::TrustRoot::TrustRoot
   # Returns the URL upon which relying party discovery should be
   # run in order to verify the return_to URL
   #
-  # source://ruby-openid//lib/openid/trustroot.rb#250
+  # pkg:gem/ruby-openid#lib/openid/trustroot.rb:250
   def build_discovery_url; end
 
-  # Returns the value of attribute host.
-  #
-  # source://ruby-openid//lib/openid/trustroot.rb#152
+  # pkg:gem/ruby-openid#lib/openid/trustroot.rb:152
   def host; end
 
-  # Returns the value of attribute path.
-  #
-  # source://ruby-openid//lib/openid/trustroot.rb#152
+  # pkg:gem/ruby-openid#lib/openid/trustroot.rb:152
   def path; end
 
-  # Returns the value of attribute port.
-  #
-  # source://ruby-openid//lib/openid/trustroot.rb#152
+  # pkg:gem/ruby-openid#lib/openid/trustroot.rb:152
   def port; end
 
-  # Returns the value of attribute proto.
-  #
-  # source://ruby-openid//lib/openid/trustroot.rb#152
+  # pkg:gem/ruby-openid#lib/openid/trustroot.rb:152
   def proto; end
 
-  # @return [Boolean]
-  #
-  # source://ruby-openid//lib/openid/trustroot.rb#270
+  # pkg:gem/ruby-openid#lib/openid/trustroot.rb:270
   def sane?; end
 
-  # Returns the value of attribute unparsed.
-  #
-  # source://ruby-openid//lib/openid/trustroot.rb#152
+  # pkg:gem/ruby-openid#lib/openid/trustroot.rb:152
   def unparsed; end
 
-  # source://ruby-openid//lib/openid/trustroot.rb#303
+  # pkg:gem/ruby-openid#lib/openid/trustroot.rb:303
   def validate_url(url); end
 
-  # Returns the value of attribute wildcard.
-  #
-  # source://ruby-openid//lib/openid/trustroot.rb#152
+  # pkg:gem/ruby-openid#lib/openid/trustroot.rb:152
   def wildcard; end
 
   class << self
-    # source://ruby-openid//lib/openid/trustroot.rb#156
+    # pkg:gem/ruby-openid#lib/openid/trustroot.rb:156
     def _build_path(path, query = T.unsafe(nil), frag = T.unsafe(nil)); end
 
-    # source://ruby-openid//lib/openid/trustroot.rb#173
+    # pkg:gem/ruby-openid#lib/openid/trustroot.rb:173
     def _parse_url(url); end
 
-    # source://ruby-openid//lib/openid/trustroot.rb#224
+    # pkg:gem/ruby-openid#lib/openid/trustroot.rb:224
     def check_sanity(trust_root_string); end
 
     # quick func for validating a url against a trust root.  See the
     # TrustRoot class if you need more control.
     #
-    # source://ruby-openid//lib/openid/trustroot.rb#235
+    # pkg:gem/ruby-openid#lib/openid/trustroot.rb:235
     def check_url(trust_root, url); end
 
-    # source://ruby-openid//lib/openid/trustroot.rb#194
+    # pkg:gem/ruby-openid#lib/openid/trustroot.rb:194
     def parse(trust_root); end
   end
 end
 
-# source://ruby-openid//lib/openid/consumer/idres.rb#8
+# pkg:gem/ruby-openid#lib/openid/consumer/idres.rb:8
 class OpenID::TypeURIMismatch < ::OpenID::ProtocolError
-  # @return [TypeURIMismatch] a new instance of TypeURIMismatch
-  #
-  # source://ruby-openid//lib/openid/consumer/idres.rb#11
+  # pkg:gem/ruby-openid#lib/openid/consumer/idres.rb:11
   def initialize(type_uri, endpoint); end
 
-  # Returns the value of attribute endpoint.
-  #
-  # source://ruby-openid//lib/openid/consumer/idres.rb#9
+  # pkg:gem/ruby-openid#lib/openid/consumer/idres.rb:9
   def endpoint; end
 
-  # Returns the value of attribute type_uri.
-  #
-  # source://ruby-openid//lib/openid/consumer/idres.rb#9
+  # pkg:gem/ruby-openid#lib/openid/consumer/idres.rb:9
   def type_uri; end
 end
 
-# source://ruby-openid//lib/openid/urinorm.rb#5
+# pkg:gem/ruby-openid#lib/openid/urinorm.rb:5
 module OpenID::URINorm
   class << self
-    # source://ruby-openid//lib/openid/urinorm.rb#39
+    # pkg:gem/ruby-openid#lib/openid/urinorm.rb:39
     def remove_dot_segments(path); end
 
-    # source://ruby-openid//lib/openid/urinorm.rb#35
+    # pkg:gem/ruby-openid#lib/openid/urinorm.rb:35
     def reserved(chr); end
 
-    # @raise [URI::InvalidURIError]
-    #
-    # source://ruby-openid//lib/openid/urinorm.rb#7
+    # pkg:gem/ruby-openid#lib/openid/urinorm.rb:7
     def urinorm(uri); end
   end
 end
 
-# source://ruby-openid//lib/openid/urinorm.rb#33
+# pkg:gem/ruby-openid#lib/openid/urinorm.rb:33
 OpenID::URINorm::PERCENT_ESCAPE_RE = T.let(T.unsafe(nil), Regexp)
 
-# source://ruby-openid//lib/openid/urinorm.rb#32
+# pkg:gem/ruby-openid#lib/openid/urinorm.rb:32
 OpenID::URINorm::RESERVED_RE = T.let(T.unsafe(nil), Regexp)
 
 # Raised if the generic OpenID namespace is accessed when there
 # is no OpenID namespace set for this message.
 #
-# source://ruby-openid//lib/openid/message.rb#54
+# pkg:gem/ruby-openid#lib/openid/message.rb:54
 class OpenID::UndefinedOpenIDNamespace < ::Exception; end
 
-# source://ruby-openid//lib/openid/util.rb#16
+# pkg:gem/ruby-openid#lib/openid/util.rb:16
 module OpenID::Util
   class << self
-    # source://ruby-openid//lib/openid/util.rb#67
+    # pkg:gem/ruby-openid#lib/openid/util.rb:67
     def append_args(url, args); end
 
-    # source://ruby-openid//lib/openid/util.rb#27
+    # pkg:gem/ruby-openid#lib/openid/util.rb:27
     def assert(value, message = T.unsafe(nil)); end
 
-    # source://ruby-openid//lib/openid/util.rb#95
+    # pkg:gem/ruby-openid#lib/openid/util.rb:95
     def auto_submit_html(form, title = T.unsafe(nil)); end
 
-    # source://ruby-openid//lib/openid/kvform.rb#127
+    # pkg:gem/ruby-openid#lib/openid/kvform.rb:127
     def dict_to_kv(d); end
 
-    # source://ruby-openid//lib/openid/util.rb#37
+    # pkg:gem/ruby-openid#lib/openid/util.rb:37
     def from_base64(s); end
 
     # Modified from ERb's html_encode
     #
-    # source://ruby-openid//lib/openid/util.rb#116
+    # pkg:gem/ruby-openid#lib/openid/util.rb:116
     def html_encode(str); end
 
-    # source://ruby-openid//lib/openid/kvform.rb#131
+    # pkg:gem/ruby-openid#lib/openid/kvform.rb:131
     def kv_to_dict(s); end
 
-    # source://ruby-openid//lib/openid/kvform.rb#63
+    # pkg:gem/ruby-openid#lib/openid/kvform.rb:63
     def kv_to_seq(data, strict = T.unsafe(nil)); end
 
     # change the message below to do whatever you like for logging
     #
-    # source://ruby-openid//lib/openid/util.rb#91
+    # pkg:gem/ruby-openid#lib/openid/util.rb:91
     def log(message); end
 
-    # source://ruby-openid//lib/openid/util.rb#86
+    # pkg:gem/ruby-openid#lib/openid/util.rb:86
     def logger; end
 
-    # source://ruby-openid//lib/openid/util.rb#82
+    # pkg:gem/ruby-openid#lib/openid/util.rb:82
     def logger=(logger); end
 
-    # source://ruby-openid//lib/openid/util.rb#61
+    # pkg:gem/ruby-openid#lib/openid/util.rb:61
     def parse_query(qs); end
 
-    # source://ruby-openid//lib/openid/kvform.rb#9
+    # pkg:gem/ruby-openid#lib/openid/kvform.rb:9
     def seq_to_kv(seq, strict = T.unsafe(nil)); end
 
-    # source://ruby-openid//lib/openid/util.rb#33
+    # pkg:gem/ruby-openid#lib/openid/util.rb:33
     def to_base64(s); end
 
-    # source://ruby-openid//lib/openid/util.rb#45
+    # pkg:gem/ruby-openid#lib/openid/util.rb:45
     def urlencode(args); end
   end
 end
 
-# source://ruby-openid//lib/openid/util.rb#18
+# pkg:gem/ruby-openid#lib/openid/util.rb:18
 OpenID::Util::BASE64_CHARS = T.let(T.unsafe(nil), String)
 
-# source://ruby-openid//lib/openid/util.rb#20
+# pkg:gem/ruby-openid#lib/openid/util.rb:20
 OpenID::Util::BASE64_RE = T.let(T.unsafe(nil), Regexp)
 
-# source://ruby-openid//lib/openid/util.rb#114
+# pkg:gem/ruby-openid#lib/openid/util.rb:114
 OpenID::Util::ESCAPE_TABLE = T.let(T.unsafe(nil), Hash)
 
-# source://ruby-openid//lib/openid/version.rb#2
+# pkg:gem/ruby-openid#lib/openid/version.rb:2
 OpenID::VERSION = T.let(T.unsafe(nil), String)
 
-# source://ruby-openid//lib/openid/yadis/accept.rb#3
+# pkg:gem/ruby-openid#lib/openid/yadis/accept.rb:3
 module OpenID::Yadis
   class << self
-    # source://ruby-openid//lib/openid/yadis/services.rb#27
+    # pkg:gem/ruby-openid#lib/openid/yadis/services.rb:27
     def apply_filter(normalized_uri, xrd_data, flt = T.unsafe(nil)); end
 
-    # source://ruby-openid//lib/openid/yadis/xrds.rb#110
+    # pkg:gem/ruby-openid#lib/openid/yadis/xrds.rb:110
     def disable_entity_expansion; end
 
     # Discover services for a given URI.
@@ -4756,44 +4194,40 @@ module OpenID::Yadis
     # Raises DiscoveryFailure when the HTTP response does not have
     # a 200 code.
     #
-    # source://ruby-openid//lib/openid/yadis/discovery.rb#74
+    # pkg:gem/ruby-openid#lib/openid/yadis/discovery.rb:74
     def discover(uri); end
 
     # aka iterServices in Python
     #
-    # source://ruby-openid//lib/openid/yadis/xrds.rb#135
+    # pkg:gem/ruby-openid#lib/openid/yadis/xrds.rb:135
     def each_service(xrds_tree, &block); end
 
-    # source://ruby-openid//lib/openid/yadis/xrds.rb#148
+    # pkg:gem/ruby-openid#lib/openid/yadis/xrds.rb:148
     def expand_service(service_element); end
 
     # Generate an accept header value
     #
     # [str or (str, float)] -> str
     #
-    # source://ruby-openid//lib/openid/yadis/accept.rb#8
+    # pkg:gem/ruby-openid#lib/openid/yadis/accept.rb:8
     def generate_accept_header(*elements); end
 
-    # source://ruby-openid//lib/openid/yadis/accept.rb#132
+    # pkg:gem/ruby-openid#lib/openid/yadis/accept.rb:132
     def get_acceptable(accept_header, have_types); end
 
-    # source://ruby-openid//lib/openid/yadis/xrds.rb#25
+    # pkg:gem/ruby-openid#lib/openid/yadis/xrds.rb:25
     def get_canonical_id(iname, xrd_tree); end
 
-    # source://ruby-openid//lib/openid/yadis/services.rb#8
+    # pkg:gem/ruby-openid#lib/openid/yadis/services.rb:8
     def get_service_endpoints(input_url, flt = T.unsafe(nil)); end
 
-    # @raise [XRDSError]
-    #
-    # source://ruby-openid//lib/openid/yadis/xrds.rb#125
+    # pkg:gem/ruby-openid#lib/openid/yadis/xrds.rb:125
     def get_yadis_xrd(xrds_tree); end
 
-    # source://ruby-openid//lib/openid/yadis/parsehtml.rb#6
+    # pkg:gem/ruby-openid#lib/openid/yadis/parsehtml.rb:6
     def html_yadis_location(html); end
 
-    # @return [Boolean]
-    #
-    # source://ruby-openid//lib/openid/yadis/xrds.rb#118
+    # pkg:gem/ruby-openid#lib/openid/yadis/xrds.rb:118
     def is_xrds?(xrds_tree); end
 
     # Convert a filter-convertable thing into a filter
@@ -4801,10 +4235,10 @@ module OpenID::Yadis
     # parts should be a filter, an endpoint, a callable, or a list of
     # any of these.
     #
-    # source://ruby-openid//lib/openid/yadis/filters.rb#145
+    # pkg:gem/ruby-openid#lib/openid/yadis/filters.rb:145
     def make_filter(parts); end
 
-    # source://ruby-openid//lib/openid/yadis/accept.rb#80
+    # pkg:gem/ruby-openid#lib/openid/yadis/accept.rb:80
     def match_types(accept_types, have_types); end
 
     # Create a filter out of a list of filter-like things
@@ -4813,21 +4247,21 @@ module OpenID::Yadis
     #
     # parts should be a list of things that can be passed to make_filter
     #
-    # source://ruby-openid//lib/openid/yadis/filters.rb#163
+    # pkg:gem/ruby-openid#lib/openid/yadis/filters.rb:163
     def mk_compound_filter(parts); end
 
-    # source://ruby-openid//lib/openid/yadis/xrds.rb#90
+    # pkg:gem/ruby-openid#lib/openid/yadis/xrds.rb:90
     def parseXRDS(text); end
 
-    # source://ruby-openid//lib/openid/yadis/accept.rb#39
+    # pkg:gem/ruby-openid#lib/openid/yadis/accept.rb:39
     def parse_accept_header(value); end
 
     # Sort a list of elements that have priority attributes.
     #
-    # source://ruby-openid//lib/openid/yadis/xrds.rb#159
+    # pkg:gem/ruby-openid#lib/openid/yadis/xrds.rb:159
     def prio_sort(elements); end
 
-    # source://ruby-openid//lib/openid/yadis/xrds.rb#140
+    # pkg:gem/ruby-openid#lib/openid/yadis/xrds.rb:140
     def services(xrds_tree); end
 
     # Given a HTTPResponse, return the location of the Yadis
@@ -4838,14 +4272,12 @@ module OpenID::Yadis
     #
     # [non-blocking]
     #
-    # @return [Boolean]
-    #
-    # source://ruby-openid//lib/openid/yadis/discovery.rb#124
+    # pkg:gem/ruby-openid#lib/openid/yadis/discovery.rb:124
     def where_is_yadis?(resp); end
   end
 end
 
-# source://ruby-openid//lib/openid/yadis/filters.rb#8
+# pkg:gem/ruby-openid#lib/openid/yadis/filters.rb:8
 class OpenID::Yadis::BasicServiceEndpoint
   # Generic endpoint object that contains parsed service
   # information, as well as a reference to the service element
@@ -4859,15 +4291,13 @@ class OpenID::Yadis::BasicServiceEndpoint
   # The simplest kind of filter you can write implements
   # fromBasicServiceEndpoint, which takes one of these objects.
   #
-  # @return [BasicServiceEndpoint] a new instance of BasicServiceEndpoint
-  #
-  # source://ruby-openid//lib/openid/yadis/filters.rb#22
+  # pkg:gem/ruby-openid#lib/openid/yadis/filters.rb:22
   def initialize(yadis_url, type_uris, uri, service_element); end
 
   # A hack to make both this class and its instances respond to
   # this message since Ruby doesn't support static methods.
   #
-  # source://ruby-openid//lib/openid/yadis/filters.rb#48
+  # pkg:gem/ruby-openid#lib/openid/yadis/filters.rb:48
   def from_basic_service_endpoint(endpoint); end
 
   # Query this endpoint to see if it has any of the given type
@@ -4875,27 +4305,19 @@ class OpenID::Yadis::BasicServiceEndpoint
   # that e.g. need to check for the presence of multiple
   # versions of a single protocol.
   #
-  # source://ruby-openid//lib/openid/yadis/filters.rb#33
+  # pkg:gem/ruby-openid#lib/openid/yadis/filters.rb:33
   def match_types(type_uris); end
 
-  # Returns the value of attribute service_element.
-  #
-  # source://ruby-openid//lib/openid/yadis/filters.rb#9
+  # pkg:gem/ruby-openid#lib/openid/yadis/filters.rb:9
   def service_element; end
 
-  # Returns the value of attribute type_uris.
-  #
-  # source://ruby-openid//lib/openid/yadis/filters.rb#9
+  # pkg:gem/ruby-openid#lib/openid/yadis/filters.rb:9
   def type_uris; end
 
-  # Returns the value of attribute uri.
-  #
-  # source://ruby-openid//lib/openid/yadis/filters.rb#9
+  # pkg:gem/ruby-openid#lib/openid/yadis/filters.rb:9
   def uri; end
 
-  # Returns the value of attribute yadis_url.
-  #
-  # source://ruby-openid//lib/openid/yadis/filters.rb#9
+  # pkg:gem/ruby-openid#lib/openid/yadis/filters.rb:9
   def yadis_url; end
 
   class << self
@@ -4905,118 +4327,98 @@ class OpenID::Yadis::BasicServiceEndpoint
     #
     # If you are subclassing this object, re-implement this function.
     #
-    # source://ruby-openid//lib/openid/yadis/filters.rb#42
+    # pkg:gem/ruby-openid#lib/openid/yadis/filters.rb:42
     def from_basic_service_endpoint(endpoint); end
   end
 end
 
-# source://ruby-openid//lib/openid/yadis/filters.rb#116
+# pkg:gem/ruby-openid#lib/openid/yadis/filters.rb:116
 class OpenID::Yadis::CompoundFilter
   # Create a new filter that applies a set of filters to an
   # endpoint and collects their results.
   #
-  # @return [CompoundFilter] a new instance of CompoundFilter
-  #
-  # source://ruby-openid//lib/openid/yadis/filters.rb#121
+  # pkg:gem/ruby-openid#lib/openid/yadis/filters.rb:121
   def initialize(subfilters); end
 
   # Generate all endpoint objects for all of the subfilters of
   # this filter and return their concatenation.
   #
-  # source://ruby-openid//lib/openid/yadis/filters.rb#127
+  # pkg:gem/ruby-openid#lib/openid/yadis/filters.rb:127
   def get_service_endpoints(yadis_url, service_element); end
 
-  # Returns the value of attribute subfilters.
-  #
-  # source://ruby-openid//lib/openid/yadis/filters.rb#117
+  # pkg:gem/ruby-openid#lib/openid/yadis/filters.rb:117
   def subfilters; end
 end
 
 # Contains the result of performing Yadis discovery on a URI
 #
-# source://ruby-openid//lib/openid/yadis/discovery.rb#23
+# pkg:gem/ruby-openid#lib/openid/yadis/discovery.rb:23
 class OpenID::Yadis::DiscoveryResult
-  # @return [DiscoveryResult] a new instance of DiscoveryResult
-  #
-  # source://ruby-openid//lib/openid/yadis/discovery.rb#40
+  # pkg:gem/ruby-openid#lib/openid/yadis/discovery.rb:40
   def initialize(request_uri); end
 
   # The content-type returned with the response_text
   #
-  # source://ruby-openid//lib/openid/yadis/discovery.rb#33
+  # pkg:gem/ruby-openid#lib/openid/yadis/discovery.rb:33
   def content_type; end
 
   # The content-type returned with the response_text
   #
-  # source://ruby-openid//lib/openid/yadis/discovery.rb#33
+  # pkg:gem/ruby-openid#lib/openid/yadis/discovery.rb:33
   def content_type=(_arg0); end
 
   # Is the response text supposed to be an XRDS document?
   #
-  # source://ruby-openid//lib/openid/yadis/discovery.rb#57
+  # pkg:gem/ruby-openid#lib/openid/yadis/discovery.rb:57
   def is_xrds; end
 
   # The result of following redirects from the request_uri
   #
-  # source://ruby-openid//lib/openid/yadis/discovery.rb#26
+  # pkg:gem/ruby-openid#lib/openid/yadis/discovery.rb:26
   def normalize_uri; end
 
   # The result of following redirects from the request_uri
   #
-  # source://ruby-openid//lib/openid/yadis/discovery.rb#26
+  # pkg:gem/ruby-openid#lib/openid/yadis/discovery.rb:26
   def normalize_uri=(_arg0); end
 
-  # Returns the value of attribute normalized_uri.
-  #
-  # source://ruby-openid//lib/openid/yadis/discovery.rb#38
+  # pkg:gem/ruby-openid#lib/openid/yadis/discovery.rb:38
   def normalized_uri; end
 
-  # Sets the attribute normalized_uri
-  #
-  # @param value the value to set the attribute normalized_uri to.
-  #
-  # source://ruby-openid//lib/openid/yadis/discovery.rb#38
+  # pkg:gem/ruby-openid#lib/openid/yadis/discovery.rb:38
   def normalized_uri=(_arg0); end
 
-  # Returns the value of attribute request_uri.
-  #
-  # source://ruby-openid//lib/openid/yadis/discovery.rb#38
+  # pkg:gem/ruby-openid#lib/openid/yadis/discovery.rb:38
   def request_uri; end
 
-  # Sets the attribute request_uri
-  #
-  # @param value the value to set the attribute request_uri to.
-  #
-  # source://ruby-openid//lib/openid/yadis/discovery.rb#38
+  # pkg:gem/ruby-openid#lib/openid/yadis/discovery.rb:38
   def request_uri=(_arg0); end
 
   # The document returned from the xrds_uri
   #
-  # source://ruby-openid//lib/openid/yadis/discovery.rb#36
+  # pkg:gem/ruby-openid#lib/openid/yadis/discovery.rb:36
   def response_text; end
 
   # The document returned from the xrds_uri
   #
-  # source://ruby-openid//lib/openid/yadis/discovery.rb#36
+  # pkg:gem/ruby-openid#lib/openid/yadis/discovery.rb:36
   def response_text=(_arg0); end
 
   # Was the Yadis protocol's indirection used?
   #
-  # @return [Boolean]
-  #
-  # source://ruby-openid//lib/openid/yadis/discovery.rb#52
+  # pkg:gem/ruby-openid#lib/openid/yadis/discovery.rb:52
   def used_yadis_location?; end
 
   # The URI from which the response text was returned (set to
   # nil if there was no XRDS document found)
   #
-  # source://ruby-openid//lib/openid/yadis/discovery.rb#30
+  # pkg:gem/ruby-openid#lib/openid/yadis/discovery.rb:30
   def xrds_uri; end
 
   # The URI from which the response text was returned (set to
   # nil if there was no XRDS document found)
   #
-  # source://ruby-openid//lib/openid/yadis/discovery.rb#30
+  # pkg:gem/ruby-openid#lib/openid/yadis/discovery.rb:30
   def xrds_uri=(_arg0); end
 end
 
@@ -5033,7 +4435,7 @@ end
 # Creates a BasicServiceEndpoint object and apply the filter
 # functions to it until one of them returns a value.
 #
-# source://ruby-openid//lib/openid/yadis/filters.rb#66
+# pkg:gem/ruby-openid#lib/openid/yadis/filters.rb:66
 class OpenID::Yadis::TransformFilterMaker
   # Initialize the filter maker's state
   #
@@ -5042,128 +4444,120 @@ class OpenID::Yadis::TransformFilterMaker
   # turn until one of them does not return nil, and the result
   # of that transformer is returned.
   #
-  # @return [TransformFilterMaker] a new instance of TransformFilterMaker
-  #
-  # source://ruby-openid//lib/openid/yadis/filters.rb#75
+  # pkg:gem/ruby-openid#lib/openid/yadis/filters.rb:75
   def initialize(filter_procs); end
 
-  # source://ruby-openid//lib/openid/yadis/filters.rb#100
+  # pkg:gem/ruby-openid#lib/openid/yadis/filters.rb:100
   def apply_filters(endpoint); end
 
-  # Returns the value of attribute filter_procs.
-  #
-  # source://ruby-openid//lib/openid/yadis/filters.rb#67
+  # pkg:gem/ruby-openid#lib/openid/yadis/filters.rb:67
   def filter_procs; end
 
   # Returns an array of endpoint objects produced by the
   # filter procs.
   #
-  # source://ruby-openid//lib/openid/yadis/filters.rb#81
+  # pkg:gem/ruby-openid#lib/openid/yadis/filters.rb:81
   def get_service_endpoints(yadis_url, service_element); end
 end
 
-# source://ruby-openid//lib/openid/yadis/xrds.rb#18
+# pkg:gem/ruby-openid#lib/openid/yadis/xrds.rb:18
 class OpenID::Yadis::XRDSError < ::StandardError; end
 
 # Raised when there's an assertion in the XRDS that it does not
 # have the authority to make.
 #
-# source://ruby-openid//lib/openid/yadis/xrds.rb#22
+# pkg:gem/ruby-openid#lib/openid/yadis/xrds.rb:22
 class OpenID::Yadis::XRDSFraud < ::OpenID::Yadis::XRDSError; end
 
-# source://ruby-openid//lib/openid/yadis/xrds.rb#13
+# pkg:gem/ruby-openid#lib/openid/yadis/xrds.rb:13
 OpenID::Yadis::XRDS_NAMESPACES = T.let(T.unsafe(nil), Hash)
 
-# source://ruby-openid//lib/openid/yadis/xrds.rb#11
+# pkg:gem/ruby-openid#lib/openid/yadis/xrds.rb:11
 OpenID::Yadis::XRDS_NS = T.let(T.unsafe(nil), String)
 
-# source://ruby-openid//lib/openid/yadis/xrds.rb#10
+# pkg:gem/ruby-openid#lib/openid/yadis/xrds.rb:10
 OpenID::Yadis::XRD_NS_2_0 = T.let(T.unsafe(nil), String)
 
-# source://ruby-openid//lib/openid/yadis/xri.rb#5
+# pkg:gem/ruby-openid#lib/openid/yadis/xri.rb:5
 module OpenID::Yadis::XRI
   class << self
-    # source://ruby-openid//lib/openid/yadis/xrires.rb#77
+    # pkg:gem/ruby-openid#lib/openid/yadis/xrires.rb:77
     def append_args(url, args); end
 
     # Note this is not not idempotent, so do not apply this more than
     # once.  XRI Syntax section 2.3.2
     #
-    # source://ruby-openid//lib/openid/yadis/xri.rb#33
+    # pkg:gem/ruby-openid#lib/openid/yadis/xri.rb:33
     def escape_for_iri(xri); end
 
-    # source://ruby-openid//lib/openid/yadis/xri.rb#11
+    # pkg:gem/ruby-openid#lib/openid/yadis/xri.rb:11
     def identifier_scheme(identifier); end
 
     # RFC 3987 section 3.1
     #
-    # source://ruby-openid//lib/openid/yadis/xri.rb#53
+    # pkg:gem/ruby-openid#lib/openid/yadis/xri.rb:53
     def iri_to_uri(iri); end
 
-    # source://ruby-openid//lib/openid/yadis/xri.rb#81
+    # pkg:gem/ruby-openid#lib/openid/yadis/xri.rb:81
     def make_xri(xri); end
 
-    # source://ruby-openid//lib/openid/yadis/xri.rb#60
+    # pkg:gem/ruby-openid#lib/openid/yadis/xri.rb:60
     def provider_is_authoritative(provider_id, canonical_id); end
 
-    # source://ruby-openid//lib/openid/yadis/xri.rb#67
+    # pkg:gem/ruby-openid#lib/openid/yadis/xri.rb:67
     def root_authority(xri); end
 
     # Transform an XRI reference to an IRI reference.  Note this is
     # not not idempotent, so do not apply this to an identifier more
     # than once.  XRI Syntax section 2.3.1
     #
-    # source://ruby-openid//lib/openid/yadis/xri.rb#25
+    # pkg:gem/ruby-openid#lib/openid/yadis/xri.rb:25
     def to_iri_normal(xri); end
 
     # Transform an XRI reference to a URI reference.  Note this is not
     # not idempotent, so do not apply this to an identifier more than
     # once.  XRI Syntax section 2.3.1
     #
-    # source://ruby-openid//lib/openid/yadis/xri.rb#48
+    # pkg:gem/ruby-openid#lib/openid/yadis/xri.rb:48
     def to_uri_normal(xri); end
 
-    # source://ruby-openid//lib/openid/yadis/xrires.rb#69
+    # pkg:gem/ruby-openid#lib/openid/yadis/xrires.rb:69
     def urlencode(args); end
   end
 end
 
-# source://ruby-openid//lib/openid/yadis/xrires.rb#14
+# pkg:gem/ruby-openid#lib/openid/yadis/xrires.rb:14
 class OpenID::Yadis::XRI::ProxyResolver
-  # @return [ProxyResolver] a new instance of ProxyResolver
-  #
-  # source://ruby-openid//lib/openid/yadis/xrires.rb#18
+  # pkg:gem/ruby-openid#lib/openid/yadis/xrires.rb:18
   def initialize(proxy_url = T.unsafe(nil)); end
 
-  # @raise [XRIHTTPError]
-  #
-  # source://ruby-openid//lib/openid/yadis/xrires.rb#45
+  # pkg:gem/ruby-openid#lib/openid/yadis/xrires.rb:45
   def query(xri); end
 
-  # source://ruby-openid//lib/openid/yadis/xrires.rb#28
+  # pkg:gem/ruby-openid#lib/openid/yadis/xrires.rb:28
   def query_url(xri, service_type = T.unsafe(nil)); end
 end
 
-# source://ruby-openid//lib/openid/yadis/xrires.rb#16
+# pkg:gem/ruby-openid#lib/openid/yadis/xrires.rb:16
 OpenID::Yadis::XRI::ProxyResolver::DEFAULT_PROXY = T.let(T.unsafe(nil), String)
 
-# source://ruby-openid//lib/openid/yadis/xrires.rb#12
+# pkg:gem/ruby-openid#lib/openid/yadis/xrires.rb:12
 class OpenID::Yadis::XRI::XRIHTTPError < ::StandardError; end
 
 # The '(' is for cross-reference authorities, and hopefully has a
 # matching ')' somewhere.
 #
-# source://ruby-openid//lib/openid/yadis/xri.rb#9
+# pkg:gem/ruby-openid#lib/openid/yadis/xri.rb:9
 OpenID::Yadis::XRI::XRI_AUTHORITIES = T.let(T.unsafe(nil), Array)
 
 # A value suitable for using as an accept header when performing
 # YADIS discovery, unless the application has special requirements
 #
-# source://ruby-openid//lib/openid/yadis/constants.rb#13
+# pkg:gem/ruby-openid#lib/openid/yadis/constants.rb:13
 OpenID::Yadis::YADIS_ACCEPT_HEADER = T.let(T.unsafe(nil), String)
 
-# source://ruby-openid//lib/openid/yadis/constants.rb#9
+# pkg:gem/ruby-openid#lib/openid/yadis/constants.rb:9
 OpenID::Yadis::YADIS_CONTENT_TYPE = T.let(T.unsafe(nil), String)
 
-# source://ruby-openid//lib/openid/yadis/constants.rb#8
+# pkg:gem/ruby-openid#lib/openid/yadis/constants.rb:8
 OpenID::Yadis::YADIS_HEADER_NAME = T.let(T.unsafe(nil), String)

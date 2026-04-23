@@ -11,32 +11,41 @@
 #
 # The OpenTelemetry module provides global accessors for telemetry objects.
 # See the documentation for the `opentelemetry-api` gem for details.
+# Copyright The OpenTelemetry Authors
 #
-# source://opentelemetry-instrumentation-anthropic//lib/opentelemetry/instrumentation.rb#13
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+# pkg:gem/opentelemetry-instrumentation-anthropic#lib/opentelemetry/instrumentation.rb:13
 module OpenTelemetry; end
 
 # Instrumentation should be able to handle the case when the library is not installed on a user's system.
 #
-# source://opentelemetry-instrumentation-anthropic//lib/opentelemetry/instrumentation.rb#15
+# pkg:gem/opentelemetry-instrumentation-anthropic#lib/opentelemetry/instrumentation.rb:15
 module OpenTelemetry::Instrumentation; end
 
 # Contains the OpenTelemetry instrumentation for the Anthropic gem
 #
-# source://opentelemetry-instrumentation-anthropic//lib/opentelemetry/instrumentation/anthropic.rb#13
+# pkg:gem/opentelemetry-instrumentation-anthropic#lib/opentelemetry/instrumentation/anthropic.rb:13
 module OpenTelemetry::Instrumentation::Anthropic; end
 
 # The Instrumentation class contains logic to detect and install the Anthropic instrumentation
 #
-# source://opentelemetry-instrumentation-anthropic//lib/opentelemetry/instrumentation/anthropic/instrumentation.rb#11
+# pkg:gem/opentelemetry-instrumentation-anthropic#lib/opentelemetry/instrumentation/anthropic/instrumentation.rb:11
 class OpenTelemetry::Instrumentation::Anthropic::Instrumentation < ::OpenTelemetry::Instrumentation::Base
   private
 
-  # source://opentelemetry-instrumentation-anthropic//lib/opentelemetry/instrumentation/anthropic/instrumentation.rb#23
+  # pkg:gem/opentelemetry-instrumentation-anthropic#lib/opentelemetry/instrumentation/anthropic/instrumentation.rb:23
   def patch; end
 
-  # source://opentelemetry-instrumentation-anthropic//lib/opentelemetry/instrumentation/anthropic/instrumentation.rb#27
+  # pkg:gem/opentelemetry-instrumentation-anthropic#lib/opentelemetry/instrumentation/anthropic/instrumentation.rb:27
   def require_dependencies; end
 end
 
-# source://opentelemetry-instrumentation-anthropic//lib/opentelemetry/instrumentation/anthropic/version.rb#10
+# pkg:gem/opentelemetry-instrumentation-anthropic#lib/opentelemetry/instrumentation/anthropic/version.rb:10
 OpenTelemetry::Instrumentation::Anthropic::VERSION = T.let(T.unsafe(nil), String)

@@ -5,40 +5,38 @@
 # Please instead update this file by running `bin/tapioca gem rack-utf8_sanitizer`.
 
 
-# source://rack-utf8_sanitizer//lib/rack/utf8_sanitizer.rb#8
+# pkg:gem/rack-utf8_sanitizer#lib/rack/utf8_sanitizer.rb:8
 module Rack; end
 
-# source://rack-utf8_sanitizer//lib/rack/utf8_sanitizer.rb#9
+# pkg:gem/rack-utf8_sanitizer#lib/rack/utf8_sanitizer.rb:9
 class Rack::UTF8Sanitizer
   # options[:sanitizable_content_types] Array
   # options[:additional_content_types] Array
   #
-  # @return [UTF8Sanitizer] a new instance of UTF8Sanitizer
-  #
-  # source://rack-utf8_sanitizer//lib/rack/utf8_sanitizer.rb#18
+  # pkg:gem/rack-utf8_sanitizer#lib/rack/utf8_sanitizer.rb:18
   def initialize(app, options = T.unsafe(nil)); end
 
-  # source://rack-utf8_sanitizer//lib/rack/utf8_sanitizer.rb#28
+  # pkg:gem/rack-utf8_sanitizer#lib/rack/utf8_sanitizer.rb:28
   def call(env); end
 
-  # source://rack-utf8_sanitizer//lib/rack/utf8_sanitizer.rb#84
+  # pkg:gem/rack-utf8_sanitizer#lib/rack/utf8_sanitizer.rb:84
   def sanitize(env); end
 
   protected
 
-  # source://rack-utf8_sanitizer//lib/rack/utf8_sanitizer.rb#111
+  # pkg:gem/rack-utf8_sanitizer#lib/rack/utf8_sanitizer.rb:111
   def build_strategy(options); end
 
-  # source://rack-utf8_sanitizer//lib/rack/utf8_sanitizer.rb#221
+  # pkg:gem/rack-utf8_sanitizer#lib/rack/utf8_sanitizer.rb:221
   def decode_string(input); end
 
   # Performs the reverse function of `unescape_unreserved`. Unlike
   # the previous function, we can reuse the logic in URI#encode
   #
-  # source://rack-utf8_sanitizer//lib/rack/utf8_sanitizer.rb#260
+  # pkg:gem/rack-utf8_sanitizer#lib/rack/utf8_sanitizer.rb:260
   def escape_unreserved(input); end
 
-  # source://rack-utf8_sanitizer//lib/rack/utf8_sanitizer.rb#216
+  # pkg:gem/rack-utf8_sanitizer#lib/rack/utf8_sanitizer.rb:216
   def reencode_string(decoded_value); end
 
   # Cookies need to be split and then sanitized as url encoded strings
@@ -47,18 +45,16 @@ class Rack::UTF8Sanitizer
   # later cookie parsing in the case that a cookie value contained an
   # encoded `;`.
   #
-  # source://rack-utf8_sanitizer//lib/rack/utf8_sanitizer.rb#193
+  # pkg:gem/rack-utf8_sanitizer#lib/rack/utf8_sanitizer.rb:193
   def sanitize_cookies(env); end
 
-  # @raise [InvalidStream]
-  #
-  # source://rack-utf8_sanitizer//lib/rack/utf8_sanitizer.rb#172
+  # pkg:gem/rack-utf8_sanitizer#lib/rack/utf8_sanitizer.rb:172
   def sanitize_io(io, uri_encoded = T.unsafe(nil), content_length = T.unsafe(nil)); end
 
-  # source://rack-utf8_sanitizer//lib/rack/utf8_sanitizer.rb#119
+  # pkg:gem/rack-utf8_sanitizer#lib/rack/utf8_sanitizer.rb:119
   def sanitize_rack_input(env); end
 
-  # source://rack-utf8_sanitizer//lib/rack/utf8_sanitizer.rb#268
+  # pkg:gem/rack-utf8_sanitizer#lib/rack/utf8_sanitizer.rb:268
   def sanitize_string(input); end
 
   # URI.encode/decode expect the input to be in ASCII-8BIT.
@@ -70,18 +66,16 @@ class Rack::UTF8Sanitizer
   #
   # The result is guaranteed to be UTF-8-safe.
   #
-  # source://rack-utf8_sanitizer//lib/rack/utf8_sanitizer.rb#210
+  # pkg:gem/rack-utf8_sanitizer#lib/rack/utf8_sanitizer.rb:210
   def sanitize_uri_encoded_string(input); end
 
-  # @return [Boolean]
-  #
-  # source://rack-utf8_sanitizer//lib/rack/utf8_sanitizer.rb#104
+  # pkg:gem/rack-utf8_sanitizer#lib/rack/utf8_sanitizer.rb:104
   def skip?(rack_env_key); end
 
-  # source://rack-utf8_sanitizer//lib/rack/utf8_sanitizer.rb#293
+  # pkg:gem/rack-utf8_sanitizer#lib/rack/utf8_sanitizer.rb:293
   def strip_byte_order_mark(input); end
 
-  # source://rack-utf8_sanitizer//lib/rack/utf8_sanitizer.rb#282
+  # pkg:gem/rack-utf8_sanitizer#lib/rack/utf8_sanitizer.rb:282
   def transfer_frozen(from, to); end
 
   # RFC3986, 2.2 states that the characters from 'reserved' group must be
@@ -90,67 +84,65 @@ class Rack::UTF8Sanitizer
   # However, the regexp approach used by URI.unescape is not sophisticated
   # enough for our task.
   #
-  # source://rack-utf8_sanitizer//lib/rack/utf8_sanitizer.rb#237
+  # pkg:gem/rack-utf8_sanitizer#lib/rack/utf8_sanitizer.rb:237
   def unescape_unreserved(input); end
 end
 
-# source://rack-utf8_sanitizer//lib/rack/utf8_sanitizer.rb#37
+# pkg:gem/rack-utf8_sanitizer#lib/rack/utf8_sanitizer.rb:37
 Rack::UTF8Sanitizer::DEFAULT_STRATEGIES = T.let(T.unsafe(nil), Hash)
 
-# source://rack-utf8_sanitizer//lib/rack/utf8_sanitizer.rb#82
+# pkg:gem/rack-utf8_sanitizer#lib/rack/utf8_sanitizer.rb:82
 Rack::UTF8Sanitizer::HTTP_ = T.let(T.unsafe(nil), String)
 
-# source://rack-utf8_sanitizer//lib/rack/utf8_sanitizer.rb#13
+# pkg:gem/rack-utf8_sanitizer#lib/rack/utf8_sanitizer.rb:13
 class Rack::UTF8Sanitizer::InvalidStream < ::IOError; end
 
-# source://rack-utf8_sanitizer//lib/rack/utf8_sanitizer.rb#11
+# pkg:gem/rack-utf8_sanitizer#lib/rack/utf8_sanitizer.rb:11
 Rack::UTF8Sanitizer::NULL_BYTE_REGEX = T.let(T.unsafe(nil), Regexp)
 
-# source://rack-utf8_sanitizer//lib/rack/utf8_sanitizer.rb#14
+# pkg:gem/rack-utf8_sanitizer#lib/rack/utf8_sanitizer.rb:14
 class Rack::UTF8Sanitizer::NullByteInString < ::StandardError; end
 
-# source://rack-utf8_sanitizer//lib/rack/utf8_sanitizer.rb#71
+# pkg:gem/rack-utf8_sanitizer#lib/rack/utf8_sanitizer.rb:71
 Rack::UTF8Sanitizer::SANITIZABLE_CONTENT_TYPES = T.let(T.unsafe(nil), Array)
 
 # Modeled after Rack::RewindableInput
 # TODO: Should this delegate any methods to the original io?
 #
-# source://rack-utf8_sanitizer//lib/rack/utf8_sanitizer.rb#139
+# pkg:gem/rack-utf8_sanitizer#lib/rack/utf8_sanitizer.rb:139
 class Rack::UTF8Sanitizer::SanitizedRackInput
-  # @return [SanitizedRackInput] a new instance of SanitizedRackInput
-  #
-  # source://rack-utf8_sanitizer//lib/rack/utf8_sanitizer.rb#140
+  # pkg:gem/rack-utf8_sanitizer#lib/rack/utf8_sanitizer.rb:140
   def initialize(original_io, sanitized_io); end
 
-  # source://rack-utf8_sanitizer//lib/rack/utf8_sanitizer.rb#166
+  # pkg:gem/rack-utf8_sanitizer#lib/rack/utf8_sanitizer.rb:166
   def close; end
 
-  # source://rack-utf8_sanitizer//lib/rack/utf8_sanitizer.rb#153
+  # pkg:gem/rack-utf8_sanitizer#lib/rack/utf8_sanitizer.rb:153
   def each(&block); end
 
-  # source://rack-utf8_sanitizer//lib/rack/utf8_sanitizer.rb#145
+  # pkg:gem/rack-utf8_sanitizer#lib/rack/utf8_sanitizer.rb:145
   def gets; end
 
-  # source://rack-utf8_sanitizer//lib/rack/utf8_sanitizer.rb#149
+  # pkg:gem/rack-utf8_sanitizer#lib/rack/utf8_sanitizer.rb:149
   def read(*args); end
 
-  # source://rack-utf8_sanitizer//lib/rack/utf8_sanitizer.rb#157
+  # pkg:gem/rack-utf8_sanitizer#lib/rack/utf8_sanitizer.rb:157
   def rewind; end
 
-  # source://rack-utf8_sanitizer//lib/rack/utf8_sanitizer.rb#161
+  # pkg:gem/rack-utf8_sanitizer#lib/rack/utf8_sanitizer.rb:161
   def size; end
 end
 
-# source://rack-utf8_sanitizer//lib/rack/utf8_sanitizer.rb#10
+# pkg:gem/rack-utf8_sanitizer#lib/rack/utf8_sanitizer.rb:10
 Rack::UTF8Sanitizer::StringIO = StringIO
 
 # This regexp matches all 'unreserved' characters from RFC3986 (2.3),
 # plus all multibyte UTF-8 characters.
 #
-# source://rack-utf8_sanitizer//lib/rack/utf8_sanitizer.rb#229
+# pkg:gem/rack-utf8_sanitizer#lib/rack/utf8_sanitizer.rb:229
 Rack::UTF8Sanitizer::UNRESERVED_OR_UTF8 = T.let(T.unsafe(nil), Regexp)
 
-# source://rack-utf8_sanitizer//lib/rack/utf8_sanitizer.rb#230
+# pkg:gem/rack-utf8_sanitizer#lib/rack/utf8_sanitizer.rb:230
 Rack::UTF8Sanitizer::UNRESERVED_OR_UTF8_OR_NULL = T.let(T.unsafe(nil), Regexp)
 
 # This regexp matches unsafe characters, i.e. everything except 'reserved'
@@ -160,19 +152,19 @@ Rack::UTF8Sanitizer::UNRESERVED_OR_UTF8_OR_NULL = T.let(T.unsafe(nil), Regexp)
 #
 # See also URI::REGEXP::PATTERN::{UNRESERVED,RESERVED}.
 #
-# source://rack-utf8_sanitizer//lib/rack/utf8_sanitizer.rb#256
+# pkg:gem/rack-utf8_sanitizer#lib/rack/utf8_sanitizer.rb:256
 Rack::UTF8Sanitizer::UNSAFE = T.let(T.unsafe(nil), Regexp)
 
-# source://rack-utf8_sanitizer//lib/rack/utf8_sanitizer.rb#78
+# pkg:gem/rack-utf8_sanitizer#lib/rack/utf8_sanitizer.rb:78
 Rack::UTF8Sanitizer::URI_ENCODED_CONTENT_TYPES = T.let(T.unsafe(nil), Array)
 
 # https://github.com/rack/rack/blob/main/SPEC.rdoc
 #
-# source://rack-utf8_sanitizer//lib/rack/utf8_sanitizer.rb#61
+# pkg:gem/rack-utf8_sanitizer#lib/rack/utf8_sanitizer.rb:61
 Rack::UTF8Sanitizer::URI_FIELDS = T.let(T.unsafe(nil), Array)
 
-# source://rack-utf8_sanitizer//lib/rack/utf8_sanitizer.rb#290
+# pkg:gem/rack-utf8_sanitizer#lib/rack/utf8_sanitizer.rb:290
 Rack::UTF8Sanitizer::UTF8_BOM = T.let(T.unsafe(nil), String)
 
-# source://rack-utf8_sanitizer//lib/rack/utf8_sanitizer.rb#291
+# pkg:gem/rack-utf8_sanitizer#lib/rack/utf8_sanitizer.rb:291
 Rack::UTF8Sanitizer::UTF8_BOM_SIZE = T.let(T.unsafe(nil), Integer)

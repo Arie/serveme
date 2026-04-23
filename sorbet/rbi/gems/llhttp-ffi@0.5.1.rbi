@@ -5,97 +5,97 @@
 # Please instead update this file by running `bin/tapioca gem llhttp-ffi`.
 
 
-# source://llhttp-ffi//lib/llhttp.rb#6
+# pkg:gem/llhttp-ffi#lib/llhttp.rb:6
 module LLHttp
   extend ::FFI::Library
 
-  # source://llhttp-ffi//lib/llhttp.rb#44
+  # pkg:gem/llhttp-ffi#lib/llhttp.rb:44
   def llhttp_errno_name(*_arg0); end
 
-  # source://llhttp-ffi//lib/llhttp.rb#43
+  # pkg:gem/llhttp-ffi#lib/llhttp.rb:43
   def llhttp_execute(*_arg0); end
 
-  # source://llhttp-ffi//lib/llhttp.rb#47
+  # pkg:gem/llhttp-ffi#lib/llhttp.rb:47
   def llhttp_finish(*_arg0); end
 
-  # source://llhttp-ffi//lib/llhttp.rb#45
+  # pkg:gem/llhttp-ffi#lib/llhttp.rb:45
   def llhttp_get_error_reason(*_arg0); end
 
-  # source://llhttp-ffi//lib/llhttp.rb#48
+  # pkg:gem/llhttp-ffi#lib/llhttp.rb:48
   def llhttp_reset(*_arg0); end
 
-  # source://llhttp-ffi//lib/llhttp.rb#46
+  # pkg:gem/llhttp-ffi#lib/llhttp.rb:46
   def llhttp_should_keep_alive(*_arg0); end
 
-  # source://llhttp-ffi//lib/llhttp.rb#36
+  # pkg:gem/llhttp-ffi#lib/llhttp.rb:36
   def rb_llhttp_content_length(*_arg0); end
 
-  # source://llhttp-ffi//lib/llhttp.rb#41
+  # pkg:gem/llhttp-ffi#lib/llhttp.rb:41
   def rb_llhttp_free(*_arg0); end
 
-  # source://llhttp-ffi//lib/llhttp.rb#39
+  # pkg:gem/llhttp-ffi#lib/llhttp.rb:39
   def rb_llhttp_http_major(*_arg0); end
 
-  # source://llhttp-ffi//lib/llhttp.rb#40
+  # pkg:gem/llhttp-ffi#lib/llhttp.rb:40
   def rb_llhttp_http_minor(*_arg0); end
 
-  # source://llhttp-ffi//lib/llhttp.rb#35
+  # pkg:gem/llhttp-ffi#lib/llhttp.rb:35
   def rb_llhttp_init(*_arg0); end
 
-  # source://llhttp-ffi//lib/llhttp.rb#37
+  # pkg:gem/llhttp-ffi#lib/llhttp.rb:37
   def rb_llhttp_method_name(*_arg0); end
 
-  # source://llhttp-ffi//lib/llhttp.rb#38
+  # pkg:gem/llhttp-ffi#lib/llhttp.rb:38
   def rb_llhttp_status_code(*_arg0); end
 
   class << self
-    # source://llhttp-ffi//lib/llhttp.rb#44
+    # pkg:gem/llhttp-ffi#lib/llhttp.rb:44
     def llhttp_errno_name(*_arg0); end
 
-    # source://llhttp-ffi//lib/llhttp.rb#43
+    # pkg:gem/llhttp-ffi#lib/llhttp.rb:43
     def llhttp_execute(*_arg0); end
 
-    # source://llhttp-ffi//lib/llhttp.rb#47
+    # pkg:gem/llhttp-ffi#lib/llhttp.rb:47
     def llhttp_finish(*_arg0); end
 
-    # source://llhttp-ffi//lib/llhttp.rb#45
+    # pkg:gem/llhttp-ffi#lib/llhttp.rb:45
     def llhttp_get_error_reason(*_arg0); end
 
-    # source://llhttp-ffi//lib/llhttp.rb#48
+    # pkg:gem/llhttp-ffi#lib/llhttp.rb:48
     def llhttp_reset(*_arg0); end
 
-    # source://llhttp-ffi//lib/llhttp.rb#46
+    # pkg:gem/llhttp-ffi#lib/llhttp.rb:46
     def llhttp_should_keep_alive(*_arg0); end
 
-    # source://llhttp-ffi//lib/llhttp.rb#36
+    # pkg:gem/llhttp-ffi#lib/llhttp.rb:36
     def rb_llhttp_content_length(*_arg0); end
 
-    # source://llhttp-ffi//lib/llhttp.rb#41
+    # pkg:gem/llhttp-ffi#lib/llhttp.rb:41
     def rb_llhttp_free(*_arg0); end
 
-    # source://llhttp-ffi//lib/llhttp.rb#39
+    # pkg:gem/llhttp-ffi#lib/llhttp.rb:39
     def rb_llhttp_http_major(*_arg0); end
 
-    # source://llhttp-ffi//lib/llhttp.rb#40
+    # pkg:gem/llhttp-ffi#lib/llhttp.rb:40
     def rb_llhttp_http_minor(*_arg0); end
 
-    # source://llhttp-ffi//lib/llhttp.rb#35
+    # pkg:gem/llhttp-ffi#lib/llhttp.rb:35
     def rb_llhttp_init(*_arg0); end
 
-    # source://llhttp-ffi//lib/llhttp.rb#37
+    # pkg:gem/llhttp-ffi#lib/llhttp.rb:37
     def rb_llhttp_method_name(*_arg0); end
 
-    # source://llhttp-ffi//lib/llhttp.rb#38
+    # pkg:gem/llhttp-ffi#lib/llhttp.rb:38
     def rb_llhttp_status_code(*_arg0); end
 
     # [public] LLHttp's current version.
     #
-    # source://llhttp-ffi//lib/llhttp/version.rb#8
+    # pkg:gem/llhttp-ffi#lib/llhttp/version.rb:8
     def version; end
   end
 end
 
-# source://llhttp-ffi//lib/llhttp.rb#18
+# pkg:gem/llhttp-ffi#lib/llhttp.rb:18
 class LLHttp::Callbacks < ::FFI::Struct; end
 
 # [public] Delegate for handling callbacks. Subclass this object and implement necessary methods.
@@ -158,12 +158,12 @@ class LLHttp::Callbacks < ::FFI::Struct; end
 #     end
 #   end
 #
-# source://llhttp-ffi//lib/llhttp/delegate.rb#64
+# pkg:gem/llhttp-ffi#lib/llhttp/delegate.rb:64
 class LLHttp::Delegate; end
 
 # [public] LLHttp's standard error object.
 #
-# source://llhttp-ffi//lib/llhttp/error.rb#6
+# pkg:gem/llhttp-ffi#lib/llhttp/error.rb:6
 class LLHttp::Error < ::StandardError; end
 
 # [public] Wraps an llhttp context for parsing http requests and responses.
@@ -195,131 +195,125 @@ class LLHttp::Error < ::StandardError; end
 #
 #   Call `LLHttp::Parser#finish` when processing is complete for the current request or response.
 #
-# source://llhttp-ffi//lib/llhttp/parser.rb#33
+# pkg:gem/llhttp-ffi#lib/llhttp/parser.rb:33
 class LLHttp::Parser
-  # @return [Parser] a new instance of Parser
-  #
-  # source://llhttp-ffi//lib/llhttp/parser.rb#60
+  # pkg:gem/llhttp-ffi#lib/llhttp/parser.rb:60
   def initialize(delegate, type: T.unsafe(nil)); end
 
-  # [public] Parse the given data.
-  #
-  # source://llhttp-ffi//lib/llhttp/parser.rb#82
+  # pkg:gem/llhttp-ffi#lib/llhttp/parser.rb:82
   def <<(data); end
 
   # [public] Get the content length of the current request.
   #
-  # source://llhttp-ffi//lib/llhttp/parser.rb#86
+  # pkg:gem/llhttp-ffi#lib/llhttp/parser.rb:86
   def content_length; end
 
   # [public] Tells the parser we are finished.
   #
-  # source://llhttp-ffi//lib/llhttp/parser.rb#122
+  # pkg:gem/llhttp-ffi#lib/llhttp/parser.rb:122
   def finish; end
 
   # [public] Get the major http version of the current request/response.
   #
-  # source://llhttp-ffi//lib/llhttp/parser.rb#104
+  # pkg:gem/llhttp-ffi#lib/llhttp/parser.rb:104
   def http_major; end
 
   # [public] Get the minor http version of the current request/response.
   #
-  # source://llhttp-ffi//lib/llhttp/parser.rb#110
+  # pkg:gem/llhttp-ffi#lib/llhttp/parser.rb:110
   def http_minor; end
 
   # [public] Returns `true` if there might be more messages.
   #
-  # @return [Boolean]
-  #
-  # source://llhttp-ffi//lib/llhttp/parser.rb#116
+  # pkg:gem/llhttp-ffi#lib/llhttp/parser.rb:116
   def keep_alive?; end
 
   # [public] Get the method of the current response.
   #
-  # source://llhttp-ffi//lib/llhttp/parser.rb#92
+  # pkg:gem/llhttp-ffi#lib/llhttp/parser.rb:92
   def method_name; end
 
   # [public] Parse the given data.
   #
-  # source://llhttp-ffi//lib/llhttp/parser.rb#78
+  # pkg:gem/llhttp-ffi#lib/llhttp/parser.rb:78
   def parse(data); end
 
   # [public] Get ready to parse the next request/response.
   #
-  # source://llhttp-ffi//lib/llhttp/parser.rb#128
+  # pkg:gem/llhttp-ffi#lib/llhttp/parser.rb:128
   def reset; end
 
   # [public] Get the status code of the current response.
   #
-  # source://llhttp-ffi//lib/llhttp/parser.rb#98
+  # pkg:gem/llhttp-ffi#lib/llhttp/parser.rb:98
   def status_code; end
 
   # [public] The parser type; one of: `:both`, `:request`, or `:response`.
   #
-  # source://llhttp-ffi//lib/llhttp/parser.rb#58
+  # pkg:gem/llhttp-ffi#lib/llhttp/parser.rb:58
   def type; end
 
   private
 
-  # source://llhttp-ffi//lib/llhttp/parser.rb#156
+  # pkg:gem/llhttp-ffi#lib/llhttp/parser.rb:156
   def build_error(errno); end
 
-  # source://llhttp-ffi//lib/llhttp/parser.rb#147
+  # pkg:gem/llhttp-ffi#lib/llhttp/parser.rb:147
   def on_body(buffer, length); end
 
-  # source://llhttp-ffi//lib/llhttp/parser.rb#133
+  # pkg:gem/llhttp-ffi#lib/llhttp/parser.rb:133
   def on_chunk_complete; end
 
-  # source://llhttp-ffi//lib/llhttp/parser.rb#133
+  # pkg:gem/llhttp-ffi#lib/llhttp/parser.rb:133
   def on_chunk_header; end
 
-  # source://llhttp-ffi//lib/llhttp/parser.rb#147
+  # pkg:gem/llhttp-ffi#lib/llhttp/parser.rb:147
   def on_header_field(buffer, length); end
 
-  # source://llhttp-ffi//lib/llhttp/parser.rb#133
+  # pkg:gem/llhttp-ffi#lib/llhttp/parser.rb:133
   def on_header_field_complete; end
 
-  # source://llhttp-ffi//lib/llhttp/parser.rb#147
+  # pkg:gem/llhttp-ffi#lib/llhttp/parser.rb:147
   def on_header_value(buffer, length); end
 
-  # source://llhttp-ffi//lib/llhttp/parser.rb#133
+  # pkg:gem/llhttp-ffi#lib/llhttp/parser.rb:133
   def on_header_value_complete; end
 
-  # source://llhttp-ffi//lib/llhttp/parser.rb#133
+  # pkg:gem/llhttp-ffi#lib/llhttp/parser.rb:133
   def on_headers_complete; end
 
-  # source://llhttp-ffi//lib/llhttp/parser.rb#133
+  # pkg:gem/llhttp-ffi#lib/llhttp/parser.rb:133
   def on_message_begin; end
 
-  # source://llhttp-ffi//lib/llhttp/parser.rb#133
+  # pkg:gem/llhttp-ffi#lib/llhttp/parser.rb:133
   def on_message_complete; end
 
-  # source://llhttp-ffi//lib/llhttp/parser.rb#147
+  # pkg:gem/llhttp-ffi#lib/llhttp/parser.rb:147
   def on_status(buffer, length); end
 
-  # source://llhttp-ffi//lib/llhttp/parser.rb#133
+  # pkg:gem/llhttp-ffi#lib/llhttp/parser.rb:133
   def on_status_complete; end
 
-  # source://llhttp-ffi//lib/llhttp/parser.rb#147
+  # pkg:gem/llhttp-ffi#lib/llhttp/parser.rb:147
   def on_url(buffer, length); end
 
-  # source://llhttp-ffi//lib/llhttp/parser.rb#133
+  # pkg:gem/llhttp-ffi#lib/llhttp/parser.rb:133
   def on_url_complete; end
 
   class << self
-    # source://llhttp-ffi//lib/llhttp/parser.rb#160
+    # pkg:gem/llhttp-ffi#lib/llhttp/parser.rb:160
     def free(pointer); end
   end
 end
 
-# source://llhttp-ffi//lib/llhttp/parser.rb#36
+# pkg:gem/llhttp-ffi#lib/llhttp/parser.rb:36
 LLHttp::Parser::CALLBACKS = T.let(T.unsafe(nil), Array)
 
-# source://llhttp-ffi//lib/llhttp/parser.rb#48
+# pkg:gem/llhttp-ffi#lib/llhttp/parser.rb:48
 LLHttp::Parser::CALLBACKS_WITH_DATA = T.let(T.unsafe(nil), Array)
 
-# source://llhttp-ffi//lib/llhttp/parser.rb#34
+# pkg:gem/llhttp-ffi#lib/llhttp/parser.rb:34
 LLHttp::Parser::LLHTTP_TYPES = T.let(T.unsafe(nil), Hash)
 
-# source://llhttp-ffi//lib/llhttp/version.rb#4
+# pkg:gem/llhttp-ffi#lib/llhttp/version.rb:4
 LLHttp::VERSION = T.let(T.unsafe(nil), String)

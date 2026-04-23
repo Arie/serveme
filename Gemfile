@@ -98,7 +98,7 @@ group :development do
   gem "rubocop-rails-omakase", require: false
   gem "rubocop-performance", require: false
   gem "rubocop-rails", require: false
-  gem "tapioca", "~> 0.17.10", require: false
+  gem "tapioca", git: "https://github.com/Shopify/tapioca.git", require: false
   gem "claude-on-rails"
   gem "tidewave"
 end

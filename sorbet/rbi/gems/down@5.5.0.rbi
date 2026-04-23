@@ -5,53 +5,56 @@
 # Please instead update this file by running `bin/tapioca gem down`.
 
 
-# source://down//lib/down/version.rb#3
+# frozen-string-literal: true
+# frozen-string-literal: true
+#
+# pkg:gem/down#lib/down/version.rb:3
 module Down
   private
 
   # Allows setting a backend via a symbol or a downloader object.
   #
-  # source://down//lib/down.rb#18
+  # pkg:gem/down#lib/down.rb:18
   def backend(value = T.unsafe(nil)); end
 
-  # source://down//lib/down.rb#9
+  # pkg:gem/down#lib/down.rb:9
   def download(*args, **options, &block); end
 
-  # source://down//lib/down.rb#13
+  # pkg:gem/down#lib/down.rb:13
   def open(*args, **options, &block); end
 
   class << self
     # Allows setting a backend via a symbol or a downloader object.
     #
-    # source://down//lib/down.rb#18
+    # pkg:gem/down#lib/down.rb:18
     def backend(value = T.unsafe(nil)); end
 
-    # source://down//lib/down.rb#9
+    # pkg:gem/down#lib/down.rb:9
     def download(*args, **options, &block); end
 
-    # source://down//lib/down.rb#13
+    # pkg:gem/down#lib/down.rb:13
     def open(*args, **options, &block); end
   end
 end
 
-# source://down//lib/down/backend.rb#11
+# pkg:gem/down#lib/down/backend.rb:11
 class Down::Backend
   private
 
   # If destination path is defined, move tempfile to the destination,
   # otherwise return the tempfile unchanged.
   #
-  # source://down//lib/down/backend.rb#24
+  # pkg:gem/down#lib/down/backend.rb:24
   def download_result(tempfile, destination); end
 
-  # source://down//lib/down/backend.rb#33
+  # pkg:gem/down#lib/down/backend.rb:33
   def normalize_headers(response_headers); end
 
   class << self
-    # source://down//lib/down/backend.rb#12
+    # pkg:gem/down#lib/down/backend.rb:12
     def download(*args, **options, &block); end
 
-    # source://down//lib/down/backend.rb#16
+    # pkg:gem/down#lib/down/backend.rb:16
     def open(*args, **options, &block); end
   end
 end
@@ -77,62 +80,44 @@ end
 # when Down::ChunkedIO is closed. One can also specify an `:on_close`
 # callback that will also get executed in those situations.
 #
-# source://down//lib/down/chunked_io.rb#27
+# pkg:gem/down#lib/down/chunked_io.rb:27
 class Down::ChunkedIO
-  # @return [ChunkedIO] a new instance of ChunkedIO
-  #
-  # source://down//lib/down/chunked_io.rb#30
+  # pkg:gem/down#lib/down/chunked_io.rb:30
   def initialize(chunks:, size: T.unsafe(nil), on_close: T.unsafe(nil), data: T.unsafe(nil), rewindable: T.unsafe(nil), encoding: T.unsafe(nil)); end
 
   # Implements IO#close semantics. Closes the Down::ChunkedIO by terminating
   # chunk retrieval and deleting the cached content.
   #
-  # source://down//lib/down/chunked_io.rb#255
+  # pkg:gem/down#lib/down/chunked_io.rb:255
   def close; end
 
   # Returns whether the Down::ChunkedIO has been closed.
   #
-  # @return [Boolean]
-  #
-  # source://down//lib/down/chunked_io.rb#265
+  # pkg:gem/down#lib/down/chunked_io.rb:265
   def closed?; end
 
-  # Returns the value of attribute data.
-  #
-  # source://down//lib/down/chunked_io.rb#28
+  # pkg:gem/down#lib/down/chunked_io.rb:28
   def data; end
 
-  # Sets the attribute data
-  #
-  # @param value the value to set the attribute data to.
-  #
-  # source://down//lib/down/chunked_io.rb#28
+  # pkg:gem/down#lib/down/chunked_io.rb:28
   def data=(_arg0); end
 
   # Yields elements of the underlying enumerator.
   #
-  # source://down//lib/down/chunked_io.rb#46
+  # pkg:gem/down#lib/down/chunked_io.rb:46
   def each_chunk; end
 
-  # Returns the value of attribute encoding.
-  #
-  # source://down//lib/down/chunked_io.rb#28
+  # pkg:gem/down#lib/down/chunked_io.rb:28
   def encoding; end
 
-  # Sets the attribute encoding
-  #
-  # @param value the value to set the attribute encoding to.
-  #
-  # source://down//lib/down/chunked_io.rb#28
+  # pkg:gem/down#lib/down/chunked_io.rb:28
   def encoding=(_arg0); end
 
   # Implements IO#eof? semantics. Returns whether we've reached end of file.
   # It returns true if cache is at the end and there is no more content to
   # retrieve. Raises IOError if closed.
   #
-  # @return [Boolean]
-  #
-  # source://down//lib/down/chunked_io.rb#235
+  # pkg:gem/down#lib/down/chunked_io.rb:235
   def eof?; end
 
   # Implements IO#gets semantics. Without arguments it retrieves lines of
@@ -150,18 +135,18 @@ class Down::ChunkedIO
   #
   # Returns nil if end of file is reached. Raises IOError if closed.
   #
-  # source://down//lib/down/chunked_io.rb#98
+  # pkg:gem/down#lib/down/chunked_io.rb:98
   def gets(separator_or_limit = T.unsafe(nil), limit = T.unsafe(nil)); end
 
   # Returns useful information about the Down::ChunkedIO object.
   #
-  # source://down//lib/down/chunked_io.rb#275
+  # pkg:gem/down#lib/down/chunked_io.rb:275
   def inspect; end
 
   # Implements IO#pos semantics. Returns the current position of the
   # Down::ChunkedIO.
   #
-  # source://down//lib/down/chunked_io.rb#227
+  # pkg:gem/down#lib/down/chunked_io.rb:227
   def pos; end
 
   # Implements IO#read semantics. Without arguments it retrieves and returns
@@ -176,7 +161,7 @@ class Down::ChunkedIO
   # If end of file is reached, returns empty string if called without
   # arguments, or nil if called with arguments. Raises IOError if closed.
   #
-  # source://down//lib/down/chunked_io.rb#65
+  # pkg:gem/down#lib/down/chunked_io.rb:65
   def read(length = T.unsafe(nil), outbuf = T.unsafe(nil)); end
 
   # Implements IO#readpartial semantics. If there is any content readily
@@ -195,44 +180,33 @@ class Down::ChunkedIO
   #
   # Raises EOFError if end of file is reached. Raises IOError if closed.
   #
-  # source://down//lib/down/chunked_io.rb#156
+  # pkg:gem/down#lib/down/chunked_io.rb:156
   def readpartial(maxlen = T.unsafe(nil), outbuf = T.unsafe(nil)); end
 
   # Implements IO#rewind semantics. Rewinds the Down::ChunkedIO by rewinding
   # the cache and setting the position to the beginning of the file. Raises
   # IOError if closed or not rewindable.
   #
-  # source://down//lib/down/chunked_io.rb#245
+  # pkg:gem/down#lib/down/chunked_io.rb:245
   def rewind; end
 
   # Returns whether the Down::ChunkedIO was specified as rewindable.
   #
-  # @return [Boolean]
-  #
-  # source://down//lib/down/chunked_io.rb#270
+  # pkg:gem/down#lib/down/chunked_io.rb:270
   def rewindable?; end
 
   # Implements IO#seek semantics.
   #
-  # source://down//lib/down/chunked_io.rb#196
+  # pkg:gem/down#lib/down/chunked_io.rb:196
   def seek(amount, whence = T.unsafe(nil)); end
 
-  # Returns the value of attribute size.
-  #
-  # source://down//lib/down/chunked_io.rb#28
+  # pkg:gem/down#lib/down/chunked_io.rb:28
   def size; end
 
-  # Sets the attribute size
-  #
-  # @param value the value to set the attribute size to.
-  #
-  # source://down//lib/down/chunked_io.rb#28
+  # pkg:gem/down#lib/down/chunked_io.rb:28
   def size=(_arg0); end
 
-  # Implements IO#pos semantics. Returns the current position of the
-  # Down::ChunkedIO.
-  #
-  # source://down//lib/down/chunked_io.rb#230
+  # pkg:gem/down#lib/down/chunked_io.rb:230
   def tell; end
 
   private
@@ -240,14 +214,12 @@ class Down::ChunkedIO
   # If Down::ChunkedIO is specified as rewindable, returns a new Tempfile for
   # writing read content to. This allows the Down::ChunkedIO to be rewinded.
   #
-  # source://down//lib/down/chunked_io.rb#292
+  # pkg:gem/down#lib/down/chunked_io.rb:292
   def cache; end
 
   # Returns whether there is any content left to retrieve.
   #
-  # @return [Boolean]
-  #
-  # source://down//lib/down/chunked_io.rb#312
+  # pkg:gem/down#lib/down/chunked_io.rb:312
   def chunks_depleted?; end
 
   # Creates a Fiber wrapper around the underlying enumerator. The advantage
@@ -255,225 +227,217 @@ class Down::ChunkedIO
   # way that executes any cleanup code that the enumerator potentially
   # carries. At the end of iteration the :on_close callback is executed.
   #
-  # source://down//lib/down/chunked_io.rb#320
+  # pkg:gem/down#lib/down/chunked_io.rb:320
   def chunks_fiber; end
 
   # Finds encoding by name. If the encoding couldn't be find, falls back to
   # the generic binary encoding.
   #
-  # source://down//lib/down/chunked_io.rb#335
+  # pkg:gem/down#lib/down/chunked_io.rb:335
   def find_encoding(encoding); end
 
   # Returns whether the filesystem has POSIX semantics.
   #
-  # @return [Boolean]
-  #
-  # source://down//lib/down/chunked_io.rb#342
+  # pkg:gem/down#lib/down/chunked_io.rb:342
   def posix?; end
 
   # Returns current chunk and retrieves the next chunk. If next chunk is nil,
   # we know we've reached EOF.
   #
-  # source://down//lib/down/chunked_io.rb#305
+  # pkg:gem/down#lib/down/chunked_io.rb:305
   def retrieve_chunk; end
 end
 
 # raised when response returned 4xx response
 #
-# source://down//lib/down/errors.rb#30
+# pkg:gem/down#lib/down/errors.rb:30
 class Down::ClientError < ::Down::ResponseError; end
 
 # raised when there was an error connecting to the server
 #
-# source://down//lib/down/errors.rb#39
+# pkg:gem/down#lib/down/errors.rb:39
 class Down::ConnectionError < ::Down::Error; end
 
 # generic error which is a superclass to all other errors
 #
-# source://down//lib/down/errors.rb#5
+# pkg:gem/down#lib/down/errors.rb:5
 class Down::Error < ::StandardError; end
 
 # raised when the given URL couldn't be parsed
 #
-# source://down//lib/down/errors.rb#11
+# pkg:gem/down#lib/down/errors.rb:11
 class Down::InvalidUrl < ::Down::Error; end
 
 # Provides streaming downloads implemented with Net::HTTP and open-uri.
 #
-# source://down//lib/down/net_http.rb#14
+# pkg:gem/down#lib/down/net_http.rb:14
 class Down::NetHttp < ::Down::Backend
   # Initializes the backend with common defaults.
   #
-  # @return [NetHttp] a new instance of NetHttp
-  #
-  # source://down//lib/down/net_http.rb#21
+  # pkg:gem/down#lib/down/net_http.rb:21
   def initialize(*args, **options); end
 
   # Downloads a remote file to disk using open-uri. Accepts any open-uri
   # options, and a few more.
   #
-  # source://down//lib/down/net_http.rb#33
+  # pkg:gem/down#lib/down/net_http.rb:33
   def download(url, *args, **options); end
 
   # Starts retrieving the remote file using Net::HTTP and returns an IO-like
   # object which downloads the response body on-demand.
   #
-  # source://down//lib/down/net_http.rb#109
+  # pkg:gem/down#lib/down/net_http.rb:109
   def open(url, *args, **options); end
 
   private
 
   # Build a Net::HTTP object for making a request.
   #
-  # source://down//lib/down/net_http.rb#256
+  # pkg:gem/down#lib/down/net_http.rb:256
   def create_net_http(uri, options); end
 
   # Converts the given IO into a Tempfile if it isn't one already (open-uri
   # returns a StringIO when there is less than 10KB of content), and gives
   # it the specified file extension.
   #
-  # source://down//lib/down/net_http.rb#192
+  # pkg:gem/down#lib/down/net_http.rb:192
   def ensure_tempfile(io, extension, tempfile_name = T.unsafe(nil)); end
 
   # Checks that the url is a valid URI and that its scheme is http or https.
   #
-  # source://down//lib/down/net_http.rb#303
+  # pkg:gem/down#lib/down/net_http.rb:303
   def ensure_uri(url, allow_relative: T.unsafe(nil)); end
 
   # Merge default and ad-hoc options, merging nested headers.
   #
-  # source://down//lib/down/net_http.rb#377
+  # pkg:gem/down#lib/down/net_http.rb:377
   def merge_options(options, headers = T.unsafe(nil), **new_options); end
 
   # Makes a Net::HTTP request and follows redirects.
   #
-  # source://down//lib/down/net_http.rb#210
+  # pkg:gem/down#lib/down/net_http.rb:210
   def net_http_request(uri, options, follows_remaining:, auth_on_redirect:, &block); end
 
   # Makes sure that the URL is properly encoded.
   #
-  # source://down//lib/down/net_http.rb#318
+  # pkg:gem/down#lib/down/net_http.rb:318
   def normalize_uri(url, uri_normalizer:); end
 
   # Calls open-uri's URI::HTTP#open method. Additionally handles redirects.
   #
-  # source://down//lib/down/net_http.rb#147
+  # pkg:gem/down#lib/down/net_http.rb:147
   def open_uri(uri, options, follows_remaining:, auth_on_redirect:); end
 
   # When open-uri raises an exception, it doesn't expose the response object.
   # Fortunately, the exception object holds response data that can be used to
   # rebuild the Net::HTTP response object.
   #
-  # source://down//lib/down/net_http.rb#327
+  # pkg:gem/down#lib/down/net_http.rb:327
   def rebuild_response_from_open_uri_exception(exception); end
 
   # Re-raise Net::HTTP exceptions as Down::Error exceptions.
   #
-  # source://down//lib/down/net_http.rb#361
+  # pkg:gem/down#lib/down/net_http.rb:361
   def request_error!(exception); end
 
   # Raises non-sucessful response as a Down::ResponseError.
   #
-  # source://down//lib/down/net_http.rb#346
+  # pkg:gem/down#lib/down/net_http.rb:346
   def response_error!(response); end
 
   # Yields chunks of the response body to the block.
   #
-  # source://down//lib/down/net_http.rb#296
+  # pkg:gem/down#lib/down/net_http.rb:296
   def stream_body(response, &block); end
 end
 
 # Defines some additional attributes for the returned Tempfile (on top of what
 # OpenURI::Meta already defines).
 #
-# source://down//lib/down/net_http.rb#396
+# pkg:gem/down#lib/down/net_http.rb:396
 module Down::NetHttp::DownloadedFile
-  # source://down//lib/down/net_http.rb#402
+  # pkg:gem/down#lib/down/net_http.rb:402
   def content_type; end
 
-  # source://down//lib/down/net_http.rb#397
+  # pkg:gem/down#lib/down/net_http.rb:397
   def original_filename; end
 end
 
-# source://down//lib/down/net_http.rb#15
+# pkg:gem/down#lib/down/net_http.rb:15
 Down::NetHttp::URI_NORMALIZER = T.let(T.unsafe(nil), Proc)
 
 # raised when response returned 404 response
 #
-# source://down//lib/down/errors.rb#33
+# pkg:gem/down#lib/down/errors.rb:33
 class Down::NotFound < ::Down::ClientError; end
 
 # raised when the requested resource has not been modified
 #
-# source://down//lib/down/errors.rb#17
+# pkg:gem/down#lib/down/errors.rb:17
 class Down::NotModified < ::Down::Error; end
 
 # raised when response returned 4xx or 5xx response
 #
-# source://down//lib/down/errors.rb#20
+# pkg:gem/down#lib/down/errors.rb:20
 class Down::ResponseError < ::Down::Error
-  # @return [ResponseError] a new instance of ResponseError
-  #
-  # source://down//lib/down/errors.rb#23
+  # pkg:gem/down#lib/down/errors.rb:23
   def initialize(message, response = T.unsafe(nil)); end
 
-  # Returns the value of attribute response.
-  #
-  # source://down//lib/down/errors.rb#21
+  # pkg:gem/down#lib/down/errors.rb:21
   def response; end
 end
 
 # raised when an SSL error was raised
 #
-# source://down//lib/down/errors.rb#45
+# pkg:gem/down#lib/down/errors.rb:45
 class Down::SSLError < ::Down::Error; end
 
 # raised when response returned 5xx response
 #
-# source://down//lib/down/errors.rb#36
+# pkg:gem/down#lib/down/errors.rb:36
 class Down::ServerError < ::Down::ResponseError; end
 
 # raised when connecting to the server too longer than the specified timeout
 #
-# source://down//lib/down/errors.rb#42
+# pkg:gem/down#lib/down/errors.rb:42
 class Down::TimeoutError < ::Down::ConnectionError; end
 
 # raised when the file is larger than the specified maximum size
 #
-# source://down//lib/down/errors.rb#8
+# pkg:gem/down#lib/down/errors.rb:8
 class Down::TooLarge < ::Down::Error; end
 
 # raised when the number of redirects was larger than the specified maximum
 #
-# source://down//lib/down/errors.rb#14
+# pkg:gem/down#lib/down/errors.rb:14
 class Down::TooManyRedirects < ::Down::Error; end
 
-# source://down//lib/down/utils.rb#4
+# pkg:gem/down#lib/down/utils.rb:4
 module Down::Utils
   private
 
   # Retrieves potential filename from the "Content-Disposition" header.
   #
-  # source://down//lib/down/utils.rb#8
+  # pkg:gem/down#lib/down/utils.rb:8
   def filename_from_content_disposition(content_disposition); end
 
   # Retrieves potential filename from the URL path.
   #
-  # source://down//lib/down/utils.rb#22
+  # pkg:gem/down#lib/down/utils.rb:22
   def filename_from_path(path); end
 
   class << self
     # Retrieves potential filename from the "Content-Disposition" header.
     #
-    # source://down//lib/down/utils.rb#8
+    # pkg:gem/down#lib/down/utils.rb:8
     def filename_from_content_disposition(content_disposition); end
 
     # Retrieves potential filename from the URL path.
     #
-    # source://down//lib/down/utils.rb#22
+    # pkg:gem/down#lib/down/utils.rb:22
     def filename_from_path(path); end
   end
 end
 
-# source://down//lib/down/version.rb#4
+# pkg:gem/down#lib/down/version.rb:4
 Down::VERSION = T.let(T.unsafe(nil), String)

@@ -7,15 +7,13 @@
 
 # A wrapper around the Terser interface
 #
-# source://terser//lib/terser/railtie.rb#5
+# pkg:gem/terser#lib/terser/railtie.rb:5
 class Terser
   # Initialize new context for Terser with given options
   #
   # @param options [Hash] optional overrides to +Terser::DEFAULTS+
-  # @raise [ArgumentError]
-  # @return [Terser] a new instance of Terser
   #
-  # source://terser//lib/terser.rb#151
+  # pkg:gem/terser#lib/terser.rb:151
   def initialize(options = T.unsafe(nil)); end
 
   # Minifies JavaScript code
@@ -24,7 +22,7 @@ class Terser
   # @param source_map_options [Hash] optional
   # @return [String] minified code.
   #
-  # source://terser//lib/terser.rb#163
+  # pkg:gem/terser#lib/terser.rb:163
   def compile(source, source_map_options = T.unsafe(nil)); end
 
   # Minifies JavaScript code and generates a source map
@@ -33,229 +31,213 @@ class Terser
   # @param source_map_options [Hash] optional
   # @return [Array(String, String)] minified code and source map.
   #
-  # source://terser//lib/terser.rb#180
+  # pkg:gem/terser#lib/terser.rb:180
   def compile_with_map(source, source_map_options = T.unsafe(nil)); end
 
-  # Minifies JavaScript code
-  #
-  # @param source [IO, String] valid JS source code.
-  # @param source_map_options [Hash] optional
-  # @return [String] minified code.
-  #
-  # source://terser//lib/terser.rb#173
+  # pkg:gem/terser#lib/terser.rb:173
   def compress(source, source_map_options = T.unsafe(nil)); end
 
   private
 
-  # source://terser//lib/terser.rb#517
+  # pkg:gem/terser#lib/terser.rb:517
   def base64_strict_decode64(str); end
 
-  # source://terser//lib/terser.rb#361
+  # pkg:gem/terser#lib/terser.rb:361
   def comment_options; end
 
-  # source://terser//lib/terser.rb#392
+  # pkg:gem/terser#lib/terser.rb:392
   def comment_setting; end
 
-  # source://terser//lib/terser.rb#336
+  # pkg:gem/terser#lib/terser.rb:336
   def compressor_options; end
 
-  # source://terser//lib/terser.rb#472
+  # pkg:gem/terser#lib/terser.rb:472
   def conditional_option(value, defaults, overrides = T.unsafe(nil)); end
 
-  # source://terser//lib/terser.rb#186
+  # pkg:gem/terser#lib/terser.rb:186
   def context; end
 
-  # source://terser//lib/terser.rb#265
+  # pkg:gem/terser#lib/terser.rb:265
   def context_lines_message(source, line_number, column); end
 
-  # source://terser//lib/terser.rb#452
+  # pkg:gem/terser#lib/terser.rb:452
   def enclose_options; end
 
-  # source://terser//lib/terser.rb#462
+  # pkg:gem/terser#lib/terser.rb:462
   def encode_regexp(regexp); end
 
-  # source://terser//lib/terser.rb#237
+  # pkg:gem/terser#lib/terser.rb:237
   def error_context_format_options(low, high, line_index, column); end
 
-  # source://terser//lib/terser.rb#233
+  # pkg:gem/terser#lib/terser.rb:233
   def error_context_lines; end
 
-  # source://terser//lib/terser.rb#279
+  # pkg:gem/terser#lib/terser.rb:279
   def error_message(result, options); end
 
-  # source://terser//lib/terser.rb#494
+  # pkg:gem/terser#lib/terser.rb:494
   def extract_source_mapping_url(source); end
 
-  # source://terser//lib/terser.rb#248
+  # pkg:gem/terser#lib/terser.rb:248
   def format_error_line(line, options); end
 
-  # source://terser//lib/terser.rb#255
+  # pkg:gem/terser#lib/terser.rb:255
   def format_lines(lines, options); end
 
-  # source://terser//lib/terser.rb#504
+  # pkg:gem/terser#lib/terser.rb:504
   def input_source_map(source, generate_map, options); end
 
-  # @return [Boolean]
-  #
-  # source://terser//lib/terser.rb#416
+  # pkg:gem/terser#lib/terser.rb:416
   def keep_classnames?(type); end
 
-  # @return [Boolean]
-  #
-  # source://terser//lib/terser.rb#407
+  # pkg:gem/terser#lib/terser.rb:407
   def keep_fnames?(type); end
 
-  # source://terser//lib/terser.rb#303
+  # pkg:gem/terser#lib/terser.rb:303
   def mangle_options; end
 
-  # source://terser//lib/terser.rb#317
+  # pkg:gem/terser#lib/terser.rb:317
   def mangle_properties_options; end
 
   # Prevent negate_iife when wrap_iife is true
   #
-  # source://terser//lib/terser.rb#353
+  # pkg:gem/terser#lib/terser.rb:353
   def negate_iife_block; end
 
-  # source://terser//lib/terser.rb#402
+  # pkg:gem/terser#lib/terser.rb:402
   def output_options; end
 
-  # source://terser//lib/terser.rb#439
+  # pkg:gem/terser#lib/terser.rb:439
   def parse_options(source_map_options); end
 
-  # @raise [Error]
-  #
-  # source://terser//lib/terser.rb#285
+  # pkg:gem/terser#lib/terser.rb:285
   def parse_result(result, generate_map, options, source_map_options = T.unsafe(nil)); end
 
-  # source://terser//lib/terser.rb#444
+  # pkg:gem/terser#lib/terser.rb:444
   def parse_source_map_options(source_map_options); end
 
-  # source://terser//lib/terser.rb#376
+  # pkg:gem/terser#lib/terser.rb:376
   def quote_style; end
 
-  # source://terser//lib/terser.rb#295
+  # pkg:gem/terser#lib/terser.rb:295
   def read_source(source); end
 
   # Run TerserJS for given source code
   #
-  # source://terser//lib/terser.rb#217
+  # pkg:gem/terser#lib/terser.rb:217
   def run_terserjs(input, generate_map, source_map_options = T.unsafe(nil)); end
 
-  # source://terser//lib/terser.rb#482
+  # pkg:gem/terser#lib/terser.rb:482
   def sanitize_map_root(map); end
 
-  # source://terser//lib/terser.rb#200
+  # pkg:gem/terser#lib/terser.rb:200
   def source_map_comments(source_map_options); end
 
-  # source://terser//lib/terser.rb#425
+  # pkg:gem/terser#lib/terser.rb:425
   def source_map_options(input_map, source_map_options); end
 
-  # source://terser//lib/terser.rb#209
+  # pkg:gem/terser#lib/terser.rb:209
   def source_with(path); end
 
   class << self
     # Minifies JavaScript code using implicit context.
     #
-    # @param options [Hash] optional overrides to +Terser::DEFAULTS+
     # @param source [IO, String] valid JS source code.
+    # @param options [Hash] optional overrides to +Terser::DEFAULTS+
     # @return [String] minified code.
     #
-    # source://terser//lib/terser.rb#135
+    # pkg:gem/terser#lib/terser.rb:135
     def compile(source, options = T.unsafe(nil)); end
 
     # Minifies JavaScript code and generates a source map using implicit context.
     #
-    # @param options [Hash] optional overrides to +Terser::DEFAULTS+
     # @param source [IO, String] valid JS source code.
+    # @param options [Hash] optional overrides to +Terser::DEFAULTS+
     # @return [Array(String, String)] minified code and source map.
     #
-    # source://terser//lib/terser.rb#144
+    # pkg:gem/terser#lib/terser.rb:144
     def compile_with_map(source, options = T.unsafe(nil)); end
   end
 end
 
 # A wrapper for Sprockets
 #
-# source://terser//lib/terser/compressor.rb#8
+# pkg:gem/terser#lib/terser/compressor.rb:8
 class Terser::Compressor
-  # @return [Compressor] a new instance of Compressor
-  #
-  # source://terser//lib/terser/compressor.rb#11
+  # pkg:gem/terser#lib/terser/compressor.rb:11
   def initialize(options = T.unsafe(nil)); end
 
-  # Returns the value of attribute cache_key.
-  #
-  # source://terser//lib/terser/compressor.rb#30
+  # pkg:gem/terser#lib/terser/compressor.rb:30
   def cache_key; end
 
-  # source://terser//lib/terser/compressor.rb#33
+  # pkg:gem/terser#lib/terser/compressor.rb:33
   def call(input); end
 
   class << self
-    # source://terser//lib/terser/compressor.rb#26
+    # pkg:gem/terser#lib/terser/compressor.rb:26
     def cache_key; end
 
-    # source://terser//lib/terser/compressor.rb#22
+    # pkg:gem/terser#lib/terser/compressor.rb:22
     def call(input); end
 
-    # source://terser//lib/terser/compressor.rb#18
+    # pkg:gem/terser#lib/terser/compressor.rb:18
     def instance; end
   end
 end
 
-# source://terser//lib/terser/compressor.rb#9
+# pkg:gem/terser#lib/terser/compressor.rb:9
 Terser::Compressor::VERSION = T.let(T.unsafe(nil), String)
 
 # Default options for compilation
 #
-# source://terser//lib/terser.rb#28
+# pkg:gem/terser#lib/terser.rb:28
 Terser::DEFAULTS = T.let(T.unsafe(nil), Hash)
 
 # ES5 shims source path
 #
-# source://terser//lib/terser.rb#21
+# pkg:gem/terser#lib/terser.rb:21
 Terser::ES5FallbackPath = T.let(T.unsafe(nil), String)
 
-# source://terser//lib/terser.rb#108
+# pkg:gem/terser#lib/terser.rb:108
 Terser::EXTRA_OPTIONS = T.let(T.unsafe(nil), Array)
 
 # Error class for compilation errors.
 #
-# source://terser//lib/terser.rb#14
+# pkg:gem/terser#lib/terser.rb:14
 class Terser::Error < ::StandardError; end
 
-# source://terser//lib/terser.rb#110
+# pkg:gem/terser#lib/terser.rb:110
 Terser::MANGLE_PROPERTIES_DEFAULTS = T.let(T.unsafe(nil), Hash)
 
 # Railtie for Rails
 #
-# source://terser//lib/terser/railtie.rb#7
+# pkg:gem/terser#lib/terser/railtie.rb:7
 class Terser::Railtie < ::Rails::Railtie; end
 
-# source://terser//lib/terser.rb#118
+# pkg:gem/terser#lib/terser.rb:118
 Terser::SOURCE_MAP_DEFAULTS = T.let(T.unsafe(nil), Hash)
 
 # Source Map path
 #
-# source://terser//lib/terser.rb#19
+# pkg:gem/terser#lib/terser.rb:19
 Terser::SourceMapPath = T.let(T.unsafe(nil), String)
 
 # TerserJS source path
 #
-# source://terser//lib/terser.rb#17
+# pkg:gem/terser#lib/terser.rb:17
 Terser::SourcePath = T.let(T.unsafe(nil), String)
 
 # String.split shim source path
 #
-# source://terser//lib/terser.rb#23
+# pkg:gem/terser#lib/terser.rb:23
 Terser::SplitFallbackPath = T.let(T.unsafe(nil), String)
 
 # TerserJS wrapper path
 #
-# source://terser//lib/terser.rb#25
+# pkg:gem/terser#lib/terser.rb:25
 Terser::TerserJSWrapperPath = T.let(T.unsafe(nil), String)
 
 # Current version of Terser.
 #
-# source://terser//lib/terser/version.rb#5
+# pkg:gem/terser#lib/terser/version.rb:5
 Terser::VERSION = T.let(T.unsafe(nil), String)

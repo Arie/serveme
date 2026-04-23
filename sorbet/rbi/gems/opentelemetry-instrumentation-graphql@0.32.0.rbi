@@ -11,53 +11,53 @@
 #
 # The OpenTelemetry module provides global accessors for telemetry objects.
 # See the documentation for the `opentelemetry-api` gem for details.
+# Copyright The OpenTelemetry Authors
 #
-# source://opentelemetry-instrumentation-graphql//lib/opentelemetry/instrumentation.rb#13
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+# pkg:gem/opentelemetry-instrumentation-graphql#lib/opentelemetry/instrumentation.rb:13
 module OpenTelemetry; end
 
 # Instrumentation should be able to handle the case when the library is not installed on a user's system.
 #
-# source://opentelemetry-instrumentation-graphql//lib/opentelemetry/instrumentation.rb#15
+# pkg:gem/opentelemetry-instrumentation-graphql#lib/opentelemetry/instrumentation.rb:15
 module OpenTelemetry::Instrumentation; end
 
 # Contains the OpenTelemetry instrumentation for the GraphQL gem
 #
-# source://opentelemetry-instrumentation-graphql//lib/opentelemetry/instrumentation/graphql.rb#13
+# pkg:gem/opentelemetry-instrumentation-graphql#lib/opentelemetry/instrumentation/graphql.rb:13
 module OpenTelemetry::Instrumentation::GraphQL; end
 
 # The Instrumentation class contains logic to detect and install the GraphQL instrumentation
 #
-# source://opentelemetry-instrumentation-graphql//lib/opentelemetry/instrumentation/graphql/instrumentation.rb#13
+# pkg:gem/opentelemetry-instrumentation-graphql#lib/opentelemetry/instrumentation/graphql/instrumentation.rb:13
 class OpenTelemetry::Instrumentation::GraphQL::Instrumentation < ::OpenTelemetry::Instrumentation::Base
-  # @return [Boolean]
-  #
-  # source://opentelemetry-instrumentation-graphql//lib/opentelemetry/instrumentation/graphql/instrumentation.rb#46
+  # pkg:gem/opentelemetry-instrumentation-graphql#lib/opentelemetry/instrumentation/graphql/instrumentation.rb:46
   def dataloader_has_spawn_fiber?; end
 
-  # @return [Boolean]
-  #
-  # source://opentelemetry-instrumentation-graphql//lib/opentelemetry/instrumentation/graphql/instrumentation.rb#38
+  # pkg:gem/opentelemetry-instrumentation-graphql#lib/opentelemetry/instrumentation/graphql/instrumentation.rb:38
   def supports_legacy_tracer?; end
 
-  # @return [Boolean]
-  #
-  # source://opentelemetry-instrumentation-graphql//lib/opentelemetry/instrumentation/graphql/instrumentation.rb#42
+  # pkg:gem/opentelemetry-instrumentation-graphql#lib/opentelemetry/instrumentation/graphql/instrumentation.rb:42
   def supports_new_tracer?; end
 
   private
 
-  # source://opentelemetry-instrumentation-graphql//lib/opentelemetry/instrumentation/graphql/instrumentation.rb#78
+  # pkg:gem/opentelemetry-instrumentation-graphql#lib/opentelemetry/instrumentation/graphql/instrumentation.rb:78
   def gem_version; end
 
-  # source://opentelemetry-instrumentation-graphql//lib/opentelemetry/instrumentation/graphql/instrumentation.rb#94
+  # pkg:gem/opentelemetry-instrumentation-graphql#lib/opentelemetry/instrumentation/graphql/instrumentation.rb:94
   def install_new_tracer(config = T.unsafe(nil)); end
 
-  # source://opentelemetry-instrumentation-graphql//lib/opentelemetry/instrumentation/graphql/instrumentation.rb#82
+  # pkg:gem/opentelemetry-instrumentation-graphql#lib/opentelemetry/instrumentation/graphql/instrumentation.rb:82
   def install_tracer(config = T.unsafe(nil)); end
 
-  # source://opentelemetry-instrumentation-graphql//lib/opentelemetry/instrumentation/graphql/instrumentation.rb#106
+  # pkg:gem/opentelemetry-instrumentation-graphql#lib/opentelemetry/instrumentation/graphql/instrumentation.rb:106
   def patch; end
 end
 
-# source://opentelemetry-instrumentation-graphql//lib/opentelemetry/instrumentation/graphql/version.rb#10
+# pkg:gem/opentelemetry-instrumentation-graphql#lib/opentelemetry/instrumentation/graphql/version.rb:10
 OpenTelemetry::Instrumentation::GraphQL::VERSION = T.let(T.unsafe(nil), String)

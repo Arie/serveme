@@ -5,45 +5,45 @@
 # Please instead update this file by running `bin/tapioca gem rails-controller-testing`.
 
 
-# source://rails-controller-testing//lib/rails/controller/testing/test_process.rb#3
+# pkg:gem/rails-controller-testing#lib/rails/controller/testing/test_process.rb:3
 module Rails; end
 
-# source://rails-controller-testing//lib/rails/controller/testing/test_process.rb#4
+# pkg:gem/rails-controller-testing#lib/rails/controller/testing/test_process.rb:4
 module Rails::Controller; end
 
-# source://rails-controller-testing//lib/rails/controller/testing/test_process.rb#5
+# pkg:gem/rails-controller-testing#lib/rails/controller/testing/test_process.rb:5
 module Rails::Controller::Testing
   class << self
-    # source://rails-controller-testing//lib/rails/controller/testing.rb#9
+    # pkg:gem/rails-controller-testing#lib/rails/controller/testing.rb:9
     def install; end
   end
 end
 
-# source://rails-controller-testing//lib/rails/controller/testing/integration.rb#6
+# pkg:gem/rails-controller-testing#lib/rails/controller/testing/integration.rb:6
 module Rails::Controller::Testing::Integration
-  # source://rails-controller-testing//lib/rails/controller/testing/integration.rb#14
+  # pkg:gem/rails-controller-testing#lib/rails/controller/testing/integration.rb:14
   def delete(*args, **kwargs); end
 
-  # source://rails-controller-testing//lib/rails/controller/testing/integration.rb#14
+  # pkg:gem/rails-controller-testing#lib/rails/controller/testing/integration.rb:14
   def get(*args, **kwargs); end
 
-  # source://rails-controller-testing//lib/rails/controller/testing/integration.rb#14
+  # pkg:gem/rails-controller-testing#lib/rails/controller/testing/integration.rb:14
   def head(*args, **kwargs); end
 
-  # source://rails-controller-testing//lib/rails/controller/testing/integration.rb#14
+  # pkg:gem/rails-controller-testing#lib/rails/controller/testing/integration.rb:14
   def patch(*args, **kwargs); end
 
-  # source://rails-controller-testing//lib/rails/controller/testing/integration.rb#14
+  # pkg:gem/rails-controller-testing#lib/rails/controller/testing/integration.rb:14
   def post(*args, **kwargs); end
 
-  # source://rails-controller-testing//lib/rails/controller/testing/integration.rb#14
+  # pkg:gem/rails-controller-testing#lib/rails/controller/testing/integration.rb:14
   def put(*args, **kwargs); end
 end
 
-# source://rails-controller-testing//lib/rails/controller/testing/railtie.rb#1
+# pkg:gem/rails-controller-testing#lib/rails/controller/testing/railtie.rb:1
 class Rails::Controller::Testing::Railtie < ::Rails::Railtie; end
 
-# source://rails-controller-testing//lib/rails/controller/testing/template_assertions.rb#6
+# pkg:gem/rails-controller-testing#lib/rails/controller/testing/template_assertions.rb:6
 module Rails::Controller::Testing::TemplateAssertions
   extend ::ActiveSupport::Concern
 
@@ -83,30 +83,30 @@ module Rails::Controller::Testing::TemplateAssertions
   #   # assert that the "_customer" partial was rendered with a specific object
   #   assert_template partial: '_customer', locals: { customer: @customer }
   #
-  # source://rails-controller-testing//lib/rails/controller/testing/template_assertions.rb#109
+  # pkg:gem/rails-controller-testing#lib/rails/controller/testing/template_assertions.rb:109
   def assert_template(options = T.unsafe(nil), message = T.unsafe(nil)); end
 
-  # source://rails-controller-testing//lib/rails/controller/testing/template_assertions.rb#60
+  # pkg:gem/rails-controller-testing#lib/rails/controller/testing/template_assertions.rb:60
   def process(*_arg0, **_arg1); end
 
-  # source://rails-controller-testing//lib/rails/controller/testing/template_assertions.rb#65
+  # pkg:gem/rails-controller-testing#lib/rails/controller/testing/template_assertions.rb:65
   def reset_template_assertion; end
 
-  # source://rails-controller-testing//lib/rails/controller/testing/template_assertions.rb#16
+  # pkg:gem/rails-controller-testing#lib/rails/controller/testing/template_assertions.rb:16
   def setup_subscriptions; end
 
-  # source://rails-controller-testing//lib/rails/controller/testing/template_assertions.rb#53
+  # pkg:gem/rails-controller-testing#lib/rails/controller/testing/template_assertions.rb:53
   def teardown_subscriptions; end
 end
 
-# source://rails-controller-testing//lib/rails/controller/testing/template_assertions.rb#14
+# pkg:gem/rails-controller-testing#lib/rails/controller/testing/template_assertions.rb:14
 Rails::Controller::Testing::TemplateAssertions::RENDER_TEMPLATE_INSTANCE_VARIABLES = T.let(T.unsafe(nil), Array)
 
-# source://rails-controller-testing//lib/rails/controller/testing/test_process.rb#6
+# pkg:gem/rails-controller-testing#lib/rails/controller/testing/test_process.rb:6
 module Rails::Controller::Testing::TestProcess
-  # source://rails-controller-testing//lib/rails/controller/testing/test_process.rb#7
+  # pkg:gem/rails-controller-testing#lib/rails/controller/testing/test_process.rb:7
   def assigns(key = T.unsafe(nil)); end
 end
 
-# source://rails-controller-testing//lib/rails/controller/testing/version.rb#4
+# pkg:gem/rails-controller-testing#lib/rails/controller/testing/version.rb:4
 Rails::Controller::Testing::VERSION = T.let(T.unsafe(nil), String)

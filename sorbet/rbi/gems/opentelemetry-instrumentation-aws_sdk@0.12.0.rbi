@@ -11,8 +11,29 @@
 #
 # The OpenTelemetry module provides global accessors for telemetry objects.
 # See the documentation for the `opentelemetry-api` gem for details.
+# Copyright The OpenTelemetry Authors
 #
-# source://opentelemetry-instrumentation-aws_sdk//lib/opentelemetry/instrumentation.rb#13
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+# pkg:gem/opentelemetry-instrumentation-aws_sdk#lib/opentelemetry/instrumentation.rb:13
 module OpenTelemetry; end
 
 # "Instrumentation" are specified by
@@ -20,12 +41,12 @@ module OpenTelemetry; end
 #
 # Instrumentation should be able to handle the case when the library is not installed on a user's system.
 #
-# source://opentelemetry-instrumentation-aws_sdk//lib/opentelemetry/instrumentation.rb#18
+# pkg:gem/opentelemetry-instrumentation-aws_sdk#lib/opentelemetry/instrumentation.rb:18
 module OpenTelemetry::Instrumentation; end
 
 # Contains the OpenTelemetry instrumentation for the Aws gem
 #
-# source://opentelemetry-instrumentation-aws_sdk//lib/opentelemetry/instrumentation/aws_sdk.rb#13
+# pkg:gem/opentelemetry-instrumentation-aws_sdk#lib/opentelemetry/instrumentation/aws_sdk.rb:13
 module OpenTelemetry::Instrumentation::AwsSdk; end
 
 # The `OpenTelemetry::Instrumentation::AwsSdk::Instrumentation` class contains
@@ -51,20 +72,20 @@ module OpenTelemetry::Instrumentation::AwsSdk; end
 #
 # @example An explicit default configuration
 #   OpenTelemetry::SDK.configure do |c|
-#   c.use 'OpenTelemetry::Instrumentation::AwsSdk', {
-#   inject_messaging_context: false,
-#   enable_internal_instrumentation: false
-#   }
+#     c.use 'OpenTelemetry::Instrumentation::AwsSdk', {
+#       inject_messaging_context: false,
+#       enable_internal_instrumentation: false
+#     }
 #   end
 #
-# source://opentelemetry-instrumentation-aws_sdk//lib/opentelemetry/instrumentation/aws_sdk/instrumentation.rb#38
+# pkg:gem/opentelemetry-instrumentation-aws_sdk#lib/opentelemetry/instrumentation/aws_sdk/instrumentation.rb:38
 class OpenTelemetry::Instrumentation::AwsSdk::Instrumentation < ::OpenTelemetry::Instrumentation::Base
-  # source://opentelemetry-instrumentation-aws_sdk//lib/opentelemetry/instrumentation/aws_sdk/instrumentation.rb#60
+  # pkg:gem/opentelemetry-instrumentation-aws_sdk#lib/opentelemetry/instrumentation/aws_sdk/instrumentation.rb:60
   def gem_version; end
 
   private
 
-  # source://opentelemetry-instrumentation-aws_sdk//lib/opentelemetry/instrumentation/aws_sdk/instrumentation.rb#89
+  # pkg:gem/opentelemetry-instrumentation-aws_sdk#lib/opentelemetry/instrumentation/aws_sdk/instrumentation.rb:89
   def add_plugins(*targets); end
 
   # This check does the following:
@@ -73,40 +94,34 @@ class OpenTelemetry::Instrumentation::AwsSdk::Instrumentation < ::OpenTelemetry:
   # note that Seahorse::Client::Base is a superclass for V3 clients
   # but for V2, it is Aws::Client
   #
-  # @return [Boolean]
-  #
-  # source://opentelemetry-instrumentation-aws_sdk//lib/opentelemetry/instrumentation/aws_sdk/instrumentation.rb#132
+  # pkg:gem/opentelemetry-instrumentation-aws_sdk#lib/opentelemetry/instrumentation/aws_sdk/instrumentation.rb:132
   def loaded_service?(constant, service_module); end
 
-  # source://opentelemetry-instrumentation-aws_sdk//lib/opentelemetry/instrumentation/aws_sdk/instrumentation.rb#113
+  # pkg:gem/opentelemetry-instrumentation-aws_sdk#lib/opentelemetry/instrumentation/aws_sdk/instrumentation.rb:113
   def loaded_service_clients; end
 
   # Patches AWS SDK V3's telemetry plugin for integration
   # This patch supports configuration set by this gem and
   # additional span attributes that were not provided by the plugin
   #
-  # source://opentelemetry-instrumentation-aws_sdk//lib/opentelemetry/instrumentation/aws_sdk/instrumentation.rb#109
+  # pkg:gem/opentelemetry-instrumentation-aws_sdk#lib/opentelemetry/instrumentation/aws_sdk/instrumentation.rb:109
   def patch_telemetry_plugin; end
 
-  # source://opentelemetry-instrumentation-aws_sdk//lib/opentelemetry/instrumentation/aws_sdk/instrumentation.rb#81
+  # pkg:gem/opentelemetry-instrumentation-aws_sdk#lib/opentelemetry/instrumentation/aws_sdk/instrumentation.rb:81
   def require_dependencies; end
 
-  # source://opentelemetry-instrumentation-aws_sdk//lib/opentelemetry/instrumentation/aws_sdk/instrumentation.rb#72
+  # pkg:gem/opentelemetry-instrumentation-aws_sdk#lib/opentelemetry/instrumentation/aws_sdk/instrumentation.rb:72
   def resolve_config(config); end
 
-  # @return [Boolean]
-  #
-  # source://opentelemetry-instrumentation-aws_sdk//lib/opentelemetry/instrumentation/aws_sdk/instrumentation.rb#97
+  # pkg:gem/opentelemetry-instrumentation-aws_sdk#lib/opentelemetry/instrumentation/aws_sdk/instrumentation.rb:97
   def supports_telemetry_plugin?(klass); end
 
-  # @return [Boolean]
-  #
-  # source://opentelemetry-instrumentation-aws_sdk//lib/opentelemetry/instrumentation/aws_sdk/instrumentation.rb#102
+  # pkg:gem/opentelemetry-instrumentation-aws_sdk#lib/opentelemetry/instrumentation/aws_sdk/instrumentation.rb:102
   def telemetry_plugin?; end
 end
 
-# source://opentelemetry-instrumentation-aws_sdk//lib/opentelemetry/instrumentation/aws_sdk/instrumentation.rb#39
+# pkg:gem/opentelemetry-instrumentation-aws_sdk#lib/opentelemetry/instrumentation/aws_sdk/instrumentation.rb:39
 OpenTelemetry::Instrumentation::AwsSdk::Instrumentation::MINIMUM_VERSION = T.let(T.unsafe(nil), Gem::Version)
 
-# source://opentelemetry-instrumentation-aws_sdk//lib/opentelemetry/instrumentation/aws_sdk/version.rb#10
+# pkg:gem/opentelemetry-instrumentation-aws_sdk#lib/opentelemetry/instrumentation/aws_sdk/version.rb:10
 OpenTelemetry::Instrumentation::AwsSdk::VERSION = T.let(T.unsafe(nil), String)

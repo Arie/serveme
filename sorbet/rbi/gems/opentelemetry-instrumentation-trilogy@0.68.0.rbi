@@ -11,45 +11,49 @@
 #
 # The OpenTelemetry module provides global accessors for telemetry objects.
 # See the documentation for the `opentelemetry-api` gem for details.
+# Copyright The OpenTelemetry Authors
 #
-# source://opentelemetry-instrumentation-trilogy//lib/opentelemetry/instrumentation.rb#13
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+# pkg:gem/opentelemetry-instrumentation-trilogy#lib/opentelemetry/instrumentation.rb:13
 module OpenTelemetry; end
 
 # Instrumentation should be able to handle the case when the library is not installed on a user's system.
 #
-# source://opentelemetry-instrumentation-trilogy//lib/opentelemetry/instrumentation.rb#15
+# pkg:gem/opentelemetry-instrumentation-trilogy#lib/opentelemetry/instrumentation.rb:15
 module OpenTelemetry::Instrumentation; end
 
 # Contains the OpenTelemetry instrumentation for the Trilogy gem
 #
-# source://opentelemetry-instrumentation-trilogy//lib/opentelemetry/instrumentation/trilogy.rb#14
+# pkg:gem/opentelemetry-instrumentation-trilogy#lib/opentelemetry/instrumentation/trilogy.rb:14
 module OpenTelemetry::Instrumentation::Trilogy
   extend ::OpenTelemetry::Helpers::Sql
 end
 
 # The Instrumentation class contains logic to detect and install the Trilogy instrumentation
 #
-# source://opentelemetry-instrumentation-trilogy//lib/opentelemetry/instrumentation/trilogy/instrumentation.rb#11
+# pkg:gem/opentelemetry-instrumentation-trilogy#lib/opentelemetry/instrumentation/trilogy/instrumentation.rb:11
 class OpenTelemetry::Instrumentation::Trilogy::Instrumentation < ::OpenTelemetry::Instrumentation::Base
-  # Returns the value of attribute propagator.
-  #
-  # source://opentelemetry-instrumentation-trilogy//lib/opentelemetry/instrumentation/trilogy/instrumentation.rb#33
+  # pkg:gem/opentelemetry-instrumentation-trilogy#lib/opentelemetry/instrumentation/trilogy/instrumentation.rb:33
   def propagator; end
 
   private
 
-  # source://opentelemetry-instrumentation-trilogy//lib/opentelemetry/instrumentation/trilogy/instrumentation.rb#45
+  # pkg:gem/opentelemetry-instrumentation-trilogy#lib/opentelemetry/instrumentation/trilogy/instrumentation.rb:45
   def configure_propagator(config); end
 
-  # source://opentelemetry-instrumentation-trilogy//lib/opentelemetry/instrumentation/trilogy/instrumentation.rb#56
+  # pkg:gem/opentelemetry-instrumentation-trilogy#lib/opentelemetry/instrumentation/trilogy/instrumentation.rb:56
   def fetch_propagator(name, class_name, gem_suffix = T.unsafe(nil)); end
 
-  # source://opentelemetry-instrumentation-trilogy//lib/opentelemetry/instrumentation/trilogy/instrumentation.rb#41
+  # pkg:gem/opentelemetry-instrumentation-trilogy#lib/opentelemetry/instrumentation/trilogy/instrumentation.rb:41
   def patch_client; end
 
-  # source://opentelemetry-instrumentation-trilogy//lib/opentelemetry/instrumentation/trilogy/instrumentation.rb#37
+  # pkg:gem/opentelemetry-instrumentation-trilogy#lib/opentelemetry/instrumentation/trilogy/instrumentation.rb:37
   def require_dependencies; end
 end
 
-# source://opentelemetry-instrumentation-trilogy//lib/opentelemetry/instrumentation/trilogy/version.rb#10
+# pkg:gem/opentelemetry-instrumentation-trilogy#lib/opentelemetry/instrumentation/trilogy/version.rb:10
 OpenTelemetry::Instrumentation::Trilogy::VERSION = T.let(T.unsafe(nil), String)

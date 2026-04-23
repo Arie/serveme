@@ -12,67 +12,61 @@
 # Uses Rack::BodyProxy, adapted from Rack::Lock's usage of the
 # same pattern.
 #
-# source://request_store//lib/request_store/version.rb#1
+# pkg:gem/request_store#lib/request_store/version.rb:1
 module RequestStore
   class << self
-    # source://request_store//lib/request_store.rb#34
+    # pkg:gem/request_store#lib/request_store.rb:34
     def [](key); end
 
-    # source://request_store//lib/request_store.rb#42
+    # pkg:gem/request_store#lib/request_store.rb:42
     def []=(key, value); end
 
-    # @return [Boolean]
-    #
-    # source://request_store//lib/request_store.rb#26
+    # pkg:gem/request_store#lib/request_store.rb:26
     def active?; end
 
-    # source://request_store//lib/request_store.rb#18
+    # pkg:gem/request_store#lib/request_store.rb:18
     def begin!; end
 
-    # source://request_store//lib/request_store.rb#14
+    # pkg:gem/request_store#lib/request_store.rb:14
     def clear!; end
 
-    # source://request_store//lib/request_store.rb#55
+    # pkg:gem/request_store#lib/request_store.rb:55
     def delete(key, &block); end
 
-    # source://request_store//lib/request_store.rb#22
+    # pkg:gem/request_store#lib/request_store.rb:22
     def end!; end
 
-    # @return [Boolean]
-    #
-    # source://request_store//lib/request_store.rb#46
+    # pkg:gem/request_store#lib/request_store.rb:46
     def exist?(key); end
 
-    # source://request_store//lib/request_store.rb#50
+    # pkg:gem/request_store#lib/request_store.rb:50
     def fetch(key); end
 
-    # source://request_store//lib/request_store.rb#30
+    # pkg:gem/request_store#lib/request_store.rb:30
     def read(key); end
 
-    # source://request_store//lib/request_store.rb#6
+    # pkg:gem/request_store#lib/request_store.rb:6
     def store; end
 
-    # source://request_store//lib/request_store.rb#10
+    # pkg:gem/request_store#lib/request_store.rb:10
     def store=(store); end
 
-    # source://request_store//lib/request_store.rb#38
+    # pkg:gem/request_store#lib/request_store.rb:38
     def write(key, value); end
   end
 end
 
-# source://request_store//lib/request_store/middleware.rb#11
+# pkg:gem/request_store#lib/request_store/middleware.rb:11
 class RequestStore::Middleware
-  # @return [Middleware] a new instance of Middleware
-  #
-  # source://request_store//lib/request_store/middleware.rb#12
+  # pkg:gem/request_store#lib/request_store/middleware.rb:12
   def initialize(app); end
 
-  # source://request_store//lib/request_store/middleware.rb#16
+  # pkg:gem/request_store#lib/request_store/middleware.rb:16
   def call(env); end
 end
 
-# source://request_store//lib/request_store/railtie.rb#2
+# pkg:gem/request_store#lib/request_store/railtie.rb:2
 class RequestStore::Railtie < ::Rails::Railtie; end
 
-# source://request_store//lib/request_store/version.rb#2
+# pkg:gem/request_store#lib/request_store/version.rb:2
 RequestStore::VERSION = T.let(T.unsafe(nil), String)

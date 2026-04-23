@@ -11,8 +11,20 @@
 #
 # The OpenTelemetry module provides global accessors for telemetry objects.
 # See the documentation for the `opentelemetry-api` gem for details.
+# Copyright The OpenTelemetry Authors
 #
-# source://opentelemetry-instrumentation-pg//lib/opentelemetry/instrumentation.rb#13
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+# pkg:gem/opentelemetry-instrumentation-pg#lib/opentelemetry/instrumentation.rb:13
 module OpenTelemetry; end
 
 # "Instrumentation" are specified by
@@ -20,42 +32,40 @@ module OpenTelemetry; end
 #
 # Instrumentation should be able to handle the case when the library is not installed on a user's system.
 #
-# source://opentelemetry-instrumentation-pg//lib/opentelemetry/instrumentation.rb#18
+# pkg:gem/opentelemetry-instrumentation-pg#lib/opentelemetry/instrumentation.rb:18
 module OpenTelemetry::Instrumentation; end
 
 # Contains the OpenTelemetry instrumentation for the Pg gem
 #
-# source://opentelemetry-instrumentation-pg//lib/opentelemetry/instrumentation/pg.rb#14
+# pkg:gem/opentelemetry-instrumentation-pg#lib/opentelemetry/instrumentation/pg.rb:14
 module OpenTelemetry::Instrumentation::PG
   extend ::OpenTelemetry::Helpers::Sql
 end
 
 # The Instrumentation class contains logic to detect and install the Pg instrumentation
 #
-# source://opentelemetry-instrumentation-pg//lib/opentelemetry/instrumentation/pg/instrumentation.rb#11
+# pkg:gem/opentelemetry-instrumentation-pg#lib/opentelemetry/instrumentation/pg/instrumentation.rb:11
 class OpenTelemetry::Instrumentation::PG::Instrumentation < ::OpenTelemetry::Instrumentation::Base
-  # Returns the value of attribute propagator.
-  #
-  # source://opentelemetry-instrumentation-pg//lib/opentelemetry/instrumentation/pg/instrumentation.rb#33
+  # pkg:gem/opentelemetry-instrumentation-pg#lib/opentelemetry/instrumentation/pg/instrumentation.rb:33
   def propagator; end
 
   private
 
-  # source://opentelemetry-instrumentation-pg//lib/opentelemetry/instrumentation/pg/instrumentation.rb#50
+  # pkg:gem/opentelemetry-instrumentation-pg#lib/opentelemetry/instrumentation/pg/instrumentation.rb:50
   def configure_propagator(config); end
 
-  # source://opentelemetry-instrumentation-pg//lib/opentelemetry/instrumentation/pg/instrumentation.rb#37
+  # pkg:gem/opentelemetry-instrumentation-pg#lib/opentelemetry/instrumentation/pg/instrumentation.rb:37
   def gem_version; end
 
-  # source://opentelemetry-instrumentation-pg//lib/opentelemetry/instrumentation/pg/instrumentation.rb#45
+  # pkg:gem/opentelemetry-instrumentation-pg#lib/opentelemetry/instrumentation/pg/instrumentation.rb:45
   def patch_client; end
 
-  # source://opentelemetry-instrumentation-pg//lib/opentelemetry/instrumentation/pg/instrumentation.rb#41
+  # pkg:gem/opentelemetry-instrumentation-pg#lib/opentelemetry/instrumentation/pg/instrumentation.rb:41
   def require_dependencies; end
 end
 
-# source://opentelemetry-instrumentation-pg//lib/opentelemetry/instrumentation/pg/instrumentation.rb#12
+# pkg:gem/opentelemetry-instrumentation-pg#lib/opentelemetry/instrumentation/pg/instrumentation.rb:12
 OpenTelemetry::Instrumentation::PG::Instrumentation::MINIMUM_VERSION = T.let(T.unsafe(nil), Gem::Version)
 
-# source://opentelemetry-instrumentation-pg//lib/opentelemetry/instrumentation/pg/version.rb#10
+# pkg:gem/opentelemetry-instrumentation-pg#lib/opentelemetry/instrumentation/pg/version.rb:10
 OpenTelemetry::Instrumentation::PG::VERSION = T.let(T.unsafe(nil), String)

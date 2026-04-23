@@ -11,18 +11,27 @@
 #
 # The OpenTelemetry module provides global accessors for telemetry objects.
 # See the documentation for the `opentelemetry-api` gem for details.
+# Copyright The OpenTelemetry Authors
 #
-# source://opentelemetry-instrumentation-grape//lib/opentelemetry/instrumentation.rb#13
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+# pkg:gem/opentelemetry-instrumentation-grape#lib/opentelemetry/instrumentation.rb:13
 module OpenTelemetry; end
 
 # Instrumentation should be able to handle the case when the library is not installed on a user's system.
 #
-# source://opentelemetry-instrumentation-grape//lib/opentelemetry/instrumentation.rb#15
+# pkg:gem/opentelemetry-instrumentation-grape#lib/opentelemetry/instrumentation.rb:15
 module OpenTelemetry::Instrumentation; end
 
 # Contains the OpenTelemetry instrumentation for the Grape gem
 #
-# source://opentelemetry-instrumentation-grape//lib/opentelemetry/instrumentation/grape.rb#13
+# pkg:gem/opentelemetry-instrumentation-grape#lib/opentelemetry/instrumentation/grape.rb:13
 module OpenTelemetry::Instrumentation::Grape; end
 
 # The Instrumentation class contains logic to detect and install the Grape instrumentation
@@ -37,29 +46,29 @@ module OpenTelemetry::Instrumentation::Grape; end
 # Default is `true`. Specifies whether or not to install the Rack instrumentation as part of installing the Grape instrumentation.
 # This is useful in cases where you have multiple Rack applications but want to manually specify where to insert the tracing middleware.
 #
-# source://opentelemetry-instrumentation-grape//lib/opentelemetry/instrumentation/grape/instrumentation.rb#21
+# pkg:gem/opentelemetry-instrumentation-grape#lib/opentelemetry/instrumentation/grape/instrumentation.rb:21
 class OpenTelemetry::Instrumentation::Grape::Instrumentation < ::OpenTelemetry::Instrumentation::Base
   private
 
-  # source://opentelemetry-instrumentation-grape//lib/opentelemetry/instrumentation/grape/instrumentation.rb#44
+  # pkg:gem/opentelemetry-instrumentation-grape#lib/opentelemetry/instrumentation/grape/instrumentation.rb:44
   def gem_version; end
 
-  # source://opentelemetry-instrumentation-grape//lib/opentelemetry/instrumentation/grape/instrumentation.rb#48
+  # pkg:gem/opentelemetry-instrumentation-grape#lib/opentelemetry/instrumentation/grape/instrumentation.rb:48
   def install_rack_instrumentation; end
 
-  # source://opentelemetry-instrumentation-grape//lib/opentelemetry/instrumentation/grape/instrumentation.rb#54
+  # pkg:gem/opentelemetry-instrumentation-grape#lib/opentelemetry/instrumentation/grape/instrumentation.rb:54
   def require_dependencies; end
 
-  # source://opentelemetry-instrumentation-grape//lib/opentelemetry/instrumentation/grape/instrumentation.rb#58
+  # pkg:gem/opentelemetry-instrumentation-grape#lib/opentelemetry/instrumentation/grape/instrumentation.rb:58
   def subscribe; end
 end
 
 # Minimum Grape version needed for compatibility with this instrumentation
 #
-# source://opentelemetry-instrumentation-grape//lib/opentelemetry/instrumentation/grape/instrumentation.rb#23
+# pkg:gem/opentelemetry-instrumentation-grape#lib/opentelemetry/instrumentation/grape/instrumentation.rb:23
 OpenTelemetry::Instrumentation::Grape::Instrumentation::MINIMUM_VERSION = T.let(T.unsafe(nil), Gem::Version)
 
 # Current gem version
 #
-# source://opentelemetry-instrumentation-grape//lib/opentelemetry/instrumentation/grape/version.rb#11
+# pkg:gem/opentelemetry-instrumentation-grape#lib/opentelemetry/instrumentation/grape/version.rb:11
 OpenTelemetry::Instrumentation::Grape::VERSION = T.let(T.unsafe(nil), String)

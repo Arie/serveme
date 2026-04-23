@@ -11268,8 +11268,6 @@ class IRB::Context
 
   def home_workspace(); end
 
-  def initialize(irb, workspace=T.unsafe(nil), input_method=T.unsafe(nil)); end
-
   def inspect_last_value(); end
 
   def newline_before_multiline_output(); end
@@ -11411,8 +11409,6 @@ class IRB::Irb
 
   def handle_exception(exc); end
 
-  def initialize(workspace=T.unsafe(nil), input_method=T.unsafe(nil), from_binding: T.unsafe(nil)); end
-
   def output_value(omit=T.unsafe(nil)); end
 
   def parse_command(code); end
@@ -11549,8 +11545,6 @@ class IRB::RelineInputMethod
   def display_document(matched); end
 
   def dynamic_prompt(&block); end
-
-  def initialize(completor); end
 
   def rdoc_ri_driver(); end
 
@@ -12425,7 +12419,6 @@ class Monitor
 end
 
 module MonitorMixin
-  def initialize(*arg, **arg1, &arg2); end
 end
 
 class MonitorMixin::ConditionVariable
@@ -19124,8 +19117,6 @@ class StringScanner
   def bol?(); end
 
   def fixed_anchor?(); end
-
-  def initialize(*arg); end
 
   def named_captures(); end
   Id = ::T.let(nil, ::T.untyped)

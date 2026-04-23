@@ -11,11 +11,47 @@
 # point when using the gem (i.e. +require 'steam-condenser').
 #
 # @author Sebastian Staudt
+# This module is used as a wrapper around Steam Condenser's Steam Community
+# classes
 #
-# source://steam-condenser//lib/steam-condenser.rb#12
+# It does not provide any own functionality, but this file is used to easily
+# require classes to interact with the Steam Community
+#
+# @author Sebastian Staudt
+# This error class is used as a base class for all errors related to Steam
+# Condenser's operation
+#
+# @author Sebastian Staudt
+# This module is used as a wrapper around Steam Condenser's server classes
+#
+# It does not provide any own functionality, but this file is used to easily
+# require classes to interact with servers
+#
+# @author Sebastian Staudt
+# This code is free software; you can redistribute it and/or modify it under
+# the terms of the new BSD License.
+#
+# Copyright (c) 2010-2015, Sebastian Staudt
+#
+# pkg:gem/steam-condenser#lib/steam-condenser.rb:12
 module SteamCondenser; end
 
-# source://steam-condenser//lib/steam-condenser/community.rb#14
+# @macro [new] cacheable
+#   @overload $0(${1--1}, fetch = true, bypass_cache = false)
+#   @param [Boolean] fetch if `true` the object's data is fetched after
+#          creation
+#   @param [Boolean] bypass_cache if `true` the object's data is fetched again
+#          even if it has been cached already
+# This code is free software; you can redistribute it and/or modify it under
+# the terms of the new BSD License.
+#
+# Copyright (c) 2011-2012, Sebastian Staudt
+# This code is free software; you can redistribute it and/or modify it under
+# the terms of the new BSD License.
+#
+# Copyright (c) 2012-2013, Sebastian Staudt
+#
+# pkg:gem/steam-condenser#lib/steam-condenser/community.rb:14
 module SteamCondenser::Community; end
 
 # This class represents Steam news and can be used to load a list of current
@@ -23,32 +59,31 @@ module SteamCondenser::Community; end
 #
 # @author Sebastian Staudt
 #
-# source://steam-condenser//lib/steam-condenser/community/app_news.rb#16
+# pkg:gem/steam-condenser#lib/steam-condenser/community/app_news.rb:16
 class SteamCondenser::Community::AppNews
   # Creates a new instance of an AppNews news item with the given data
   #
-  # @param app_id [Fixnum] The unique Steam Application ID of the game (e.g.
-  #   `440` for Team Fortress 2). See
-  #   http://developer.valvesoftware.com/wiki/Steam_Application_IDs for
-  #   all application IDs.
-  # @param news_data [Hash<Symbol, Object>] The news data extracted from JSON
-  # @return [AppNews] a new instance of AppNews
+  # @param [Fixnum] app_id The unique Steam Application ID of the game (e.g.
+  #        `440` for Team Fortress 2). See
+  #        http://developer.valvesoftware.com/wiki/Steam_Application_IDs for
+  #        all application IDs.
+  # @param [Hash<Symbol, Object>] news_data The news data extracted from JSON
   #
-  # source://steam-condenser//lib/steam-condenser/community/app_news.rb#122
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/app_news.rb:122
   def initialize(app_id, news_data); end
 
   # Returns the Steam Application ID of the game this news belongs to
   #
   # @return [Fixnum] The application ID of the game this news belongs to
   #
-  # source://steam-condenser//lib/steam-condenser/community/app_news.rb#21
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/app_news.rb:21
   def app_id; end
 
   # Returns the name of the author of this news
   #
   # @return [String] The author of this news
   #
-  # source://steam-condenser//lib/steam-condenser/community/app_news.rb#26
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/app_news.rb:26
   def author; end
 
   # Returns the contents of this news
@@ -56,17 +91,17 @@ class SteamCondenser::Community::AppNews
   # This might contain HTML code.
   #
   # @note Depending on the setting for the maximum length of a news (see
-  #   {.news_for_app}), the contents might be truncated.
-  # @return [String]  The contents of this news
+  #       {.news_for_app}), the contents might be truncated.
+  # @return [String] The contents of this news
   #
-  # source://steam-condenser//lib/steam-condenser/community/app_news.rb#35
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/app_news.rb:35
   def contents; end
 
   # Returns the date this news item has been published
   #
   # @return [Time] The date this news has been published
   #
-  # source://steam-condenser//lib/steam-condenser/community/app_news.rb#40
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/app_news.rb:40
   def date; end
 
   # Returns whether this news item originates from a source other than Steam
@@ -74,35 +109,35 @@ class SteamCondenser::Community::AppNews
   #
   # @return [Boolean] `true` if this news item is from an external source
   #
-  # source://steam-condenser//lib/steam-condenser/community/app_news.rb#99
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/app_news.rb:99
   def external?; end
 
   # Returns the name of the feed this news item belongs to
   #
   # @return [String] The name of the feed this news belongs to
   #
-  # source://steam-condenser//lib/steam-condenser/community/app_news.rb#45
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/app_news.rb:45
   def feed_label; end
 
   # Returns the symbolic name of the feed this news item belongs to
   #
   # @return [String] The symbolic name of the feed this news belongs to
   #
-  # source://steam-condenser//lib/steam-condenser/community/app_news.rb#50
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/app_news.rb:50
   def feed_name; end
 
   # Returns a unique identifier for this news
   #
   # @return [Fixnum] A unique identifier for this news
   #
-  # source://steam-condenser//lib/steam-condenser/community/app_news.rb#55
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/app_news.rb:55
   def gid; end
 
   # Returns the title of this news
   #
   # @return [String] The title of this news
   #
-  # source://steam-condenser//lib/steam-condenser/community/app_news.rb#60
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/app_news.rb:60
   def title; end
 
   # Returns a simple textual representation of this news item
@@ -112,7 +147,7 @@ class SteamCondenser::Community::AppNews
   #
   # @return [String] A simple text representing this news
   #
-  # source://steam-condenser//lib/steam-condenser/community/app_news.rb#109
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/app_news.rb:109
   def to_s; end
 
   # Returns the URL of the original news
@@ -122,25 +157,25 @@ class SteamCondenser::Community::AppNews
   #
   # @return [String] The URL of the original news
   #
-  # source://steam-condenser//lib/steam-condenser/community/app_news.rb#68
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/app_news.rb:68
   def url; end
 
   class << self
     # Loads the news for the given game with the given restrictions
     #
-    # @param app_id [Fixnum] The unique Steam Application ID of the game (e.g.
-    #   `440` for Team Fortress 2). See
-    #   http://developer.valvesoftware.com/wiki/Steam_Application_IDs for
-    #   all application IDs.
-    # @param count [Fixnum] The maximum number of news to load. There's no
-    #   reliable way to load all news. Use a really great number instead.
-    # @param max_length [Fixnum] The maximum content length of the news. If a
-    #   maximum length is defined, the content of the news will only be at
-    #   most `max_length` characters long plus an ellipsis.
+    # @param [Fixnum] app_id The unique Steam Application ID of the game (e.g.
+    #        `440` for Team Fortress 2). See
+    #        http://developer.valvesoftware.com/wiki/Steam_Application_IDs for
+    #        all application IDs.
+    # @param [Fixnum] count The maximum number of news to load. There's no
+    #        reliable way to load all news. Use a really great number instead.
+    # @param [Fixnum] max_length The maximum content length of the news. If a
+    #        maximum length is defined, the content of the news will only be at
+    #        most `max_length` characters long plus an ellipsis.
     # @return [Array<AppNews>] An array of news items for the specified game
-    #   with the given options
+    #         with the given options
     #
-    # source://steam-condenser//lib/steam-condenser/community/app_news.rb#83
+    # pkg:gem/steam-condenser#lib/steam-condenser/community/app_news.rb:83
     def news_for_app(app_id, count = T.unsafe(nil), max_length = T.unsafe(nil)); end
   end
 end
@@ -151,7 +186,7 @@ end
 #
 # @author Sebastian Staudt
 #
-# source://steam-condenser//lib/steam-condenser/community/cacheable.rb#20
+# pkg:gem/steam-condenser#lib/steam-condenser/community/cacheable.rb:20
 module SteamCondenser::Community::Cacheable
   mixes_in_class_methods ::SteamCondenser::Community::Cacheable::ClassMethods
 
@@ -159,41 +194,41 @@ module SteamCondenser::Community::Cacheable
   #
   # This will use the ID attributes selected for caching
   #
-  # source://steam-condenser//lib/steam-condenser/community/cacheable.rb#138
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/cacheable.rb:138
   def cache; end
 
   # Fetches the object from some data source
   #
   # @note This method should be overridden in cacheable object classes and
-  #   should implement the logic to retrieve the object's data. Updating
-  #   the time is handled dynamically and does not need to be implemented
-  #   separately.
+  #       should implement the logic to retrieve the object's data. Updating
+  #       the time is handled dynamically and does not need to be implemented
+  #       separately.
   #
-  # source://steam-condenser//lib/steam-condenser/community/cacheable.rb#153
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/cacheable.rb:153
   def fetch; end
 
   # Returns the time the object's data has been fetched the last time
   #
   # @return [Time] The time the object has been updated the last time
   #
-  # source://steam-condenser//lib/steam-condenser/community/cacheable.rb#133
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/cacheable.rb:133
   def fetch_time; end
 
   # Returns whether the data for this object has already been fetched
   #
   # @return [Boolean] `true` if this object's data is available
   #
-  # source://steam-condenser//lib/steam-condenser/community/cacheable.rb#159
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/cacheable.rb:159
   def fetched?; end
 
   private
 
   # Returns the value for the ID
   #
-  # @param id [Symbol] The name of an instance variable
+  # @param [Symbol] id The name of an instance variable
   # @return [Object] The value of the given instance variable
   #
-  # source://steam-condenser//lib/steam-condenser/community/cacheable.rb#195
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/cacheable.rb:195
   def cache_id_value(id); end
 
   # Returns a complete list of all values for the cache IDs of the cacheable
@@ -202,7 +237,7 @@ module SteamCondenser::Community::Cacheable
   # @return [Array<Object, Array<Object>>] The values for the cache IDs
   # @see #cache_id_value
   #
-  # source://steam-condenser//lib/steam-condenser/community/cacheable.rb#183
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/cacheable.rb:183
   def cache_ids; end
 
   # If available, returns the cached instance for the object it is called on
@@ -213,7 +248,7 @@ module SteamCondenser::Community::Cacheable
   #
   # @see #cache_ids
   #
-  # source://steam-condenser//lib/steam-condenser/community/cacheable.rb#172
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/cacheable.rb:172
   def cached_instance; end
 
   class << self
@@ -225,10 +260,10 @@ module SteamCondenser::Community::Cacheable
     # Additionally the class variable to save the attributes to cache (i.e. cache
     # IDs) and the cache class variable itself are initialized.
     #
-    # @param base [Class] The class to extend with caching functionality
+    # @param [Class] base The class to extend with caching functionality
     # @see ClassMethods
     #
-    # source://steam-condenser//lib/steam-condenser/community/cacheable.rb#32
+    # pkg:gem/steam-condenser#lib/steam-condenser/community/cacheable.rb:32
     def included(base); end
   end
 end
@@ -238,43 +273,43 @@ end
 #
 # @author Sebastian Staudt
 #
-# source://steam-condenser//lib/steam-condenser/community/cacheable.rb#57
+# pkg:gem/steam-condenser#lib/steam-condenser/community/cacheable.rb:57
 module SteamCondenser::Community::Cacheable::ClassMethods
   # Defines wich instance variables which should be used to index the
   # cached objects
   #
   # @note A call to this method is needed if you want a class including
-  #   this module to really use the cache.
-  # @param ids [Array<Symbol>] The symbolic names of the instance variables
-  #   representing a unique identifier for this object class
+  #       this module to really use the cache.
+  # @param [Array<Symbol>] ids The symbolic names of the instance variables
+  #        representing a unique identifier for this object class
   #
-  # source://steam-condenser//lib/steam-condenser/community/cacheable.rb#66
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/cacheable.rb:66
   def cacheable_with_ids(*ids); end
 
   # Returns whether an object with the given ID is already cached
   #
-  # @param id [Object] The ID of the desired object
+  # @param [Object] id The ID of the desired object
   # @return [Boolean] `true` if the object with the given ID is already
-  #   cached
+  #         cached
   #
-  # source://steam-condenser//lib/steam-condenser/community/cacheable.rb#75
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/cacheable.rb:75
   def cached?(id); end
 
   # Clears the object cache for the class this method is called on
   #
-  # source://steam-condenser//lib/steam-condenser/community/cacheable.rb#81
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/cacheable.rb:81
   def clear_cache; end
 
   # This checks the cache for an existing object. If it exists it is
   # returned, otherwise a new object is created.
   # Overrides the default `new` method of the cacheable object class.
   #
-  # @param args [Array<Object>] The parameters of the object that should be
-  #   created and if possible loaded from cache
+  # @param [Array<Object>] args The parameters of the object that should be
+  #        created and if possible loaded from cache
   # @see #cached?
   # @see #fetch
   #
-  # source://steam-condenser//lib/steam-condenser/community/cacheable.rb#93
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/cacheable.rb:93
   def new(*args); end
 
   private
@@ -283,14 +318,14 @@ module SteamCondenser::Community::Cacheable::ClassMethods
   #
   # @return [Hash<Object, Cacheable>] The cache for cacheable class
   #
-  # source://steam-condenser//lib/steam-condenser/community/cacheable.rb#117
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/cacheable.rb:117
   def cache; end
 
   # Returns the list of IDs used for caching objects
   #
   # @return [Array<Symbol, Array<Symbol>>] The IDs used for caching objects
   #
-  # source://steam-condenser//lib/steam-condenser/community/cacheable.rb#124
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/cacheable.rb:124
   def cache_ids; end
 end
 
@@ -298,50 +333,44 @@ end
 #
 # @author Sebastian Staudt
 #
-# source://steam-condenser//lib/steam-condenser/community/dota2/dota2_inventory.rb#13
+# pkg:gem/steam-condenser#lib/steam-condenser/community/dota2/dota2_inventory.rb:13
 class SteamCondenser::Community::Dota2Inventory < ::SteamCondenser::Community::GameInventory
   # Creates a new inventory object for the given SteamID64 in DotA 2
   # (App ID 570)
   #
-  # @overload initialize
-  # @param bypass_cache [Boolean] if `true` the object's data is fetched again
-  #   even if it has been cached already
-  # @param fetch [Boolean] if `true` the object's data is fetched after
-  #   creation
-  # @param steam_id64 [Fixnum] The 64bit SteamID of the player to get the
-  #   inventory for
-  # @return [Dota2Inventory] a new instance of Dota2Inventory
+  # @param [Fixnum] steam_id64 The 64bit SteamID of the player to get the
+  #        inventory for
+  # @macro cacheable
   #
-  # source://steam-condenser//lib/steam-condenser/community/dota2/dota2_inventory.rb#24
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/dota2/dota2_inventory.rb:24
   def initialize(steam_id64); end
 end
 
 # The Steam application ID of DotA 2
 #
-# source://steam-condenser//lib/steam-condenser/community/dota2/dota2_inventory.rb#16
+# pkg:gem/steam-condenser#lib/steam-condenser/community/dota2/dota2_inventory.rb:16
 SteamCondenser::Community::Dota2Inventory::APP_ID = T.let(T.unsafe(nil), Integer)
 
 # Represents a DotA 2 item
 #
 # @author Sebastian Staudt
 #
-# source://steam-condenser//lib/steam-condenser/community/dota2/dota2_item.rb#13
+# pkg:gem/steam-condenser#lib/steam-condenser/community/dota2/dota2_item.rb:13
 class SteamCondenser::Community::Dota2Item < ::SteamCondenser::Community::GameItem
   # Creates a new instance of a DotA 2 item with the given data
   #
-  # @param inventory [Dota2Inventory] The inventory this item is contained in
-  # @param item_data [Hash<Symbol, Object>] The data specifying this item
+  # @param [Dota2Inventory] inventory The inventory this item is contained in
+  # @param [Hash<Symbol, Object>] item_data The data specifying this item
   # @raise [Error::WebApi] on Web API errors
-  # @return [Dota2Item] a new instance of Dota2Item
   #
-  # source://steam-condenser//lib/steam-condenser/community/dota2/dota2_item.rb#20
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/dota2/dota2_item.rb:20
   def initialize(inventory, item_data); end
 
   # Returns whether this item is equipped by this player at all
   #
   # @return [Boolean] Whether this item is equipped by this player at all
   #
-  # source://steam-condenser//lib/steam-condenser/community/dota2/dota2_item.rb#29
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/dota2/dota2_item.rb:29
   def equipped?; end
 end
 
@@ -349,27 +378,22 @@ end
 #
 # @author Sebastian Staudt
 #
-# source://steam-condenser//lib/steam-condenser/community/dota2/dota2_test_inventory.rb#13
+# pkg:gem/steam-condenser#lib/steam-condenser/community/dota2/dota2_test_inventory.rb:13
 class SteamCondenser::Community::Dota2TestInventory < ::SteamCondenser::Community::GameInventory
   # Creates a new inventory object for the given SteamID64 in the DotA 2 beta
   # (App ID 205790)
   #
-  # @overload initialize
-  # @param bypass_cache [Boolean] if `true` the object's data is fetched again
-  #   even if it has been cached already
-  # @param fetch [Boolean] if `true` the object's data is fetched after
-  #   creation
-  # @param steam_id64 [Fixnum] The 64bit SteamID of the player to get the
-  #   inventory for
-  # @return [Dota2TestInventory] a new instance of Dota2TestInventory
+  # @param [Fixnum] steam_id64 The 64bit SteamID of the player to get the
+  #        inventory for
+  # @macro cacheable
   #
-  # source://steam-condenser//lib/steam-condenser/community/dota2/dota2_test_inventory.rb#24
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/dota2/dota2_test_inventory.rb:24
   def initialize(steam_id64); end
 end
 
 # The Steam application ID of the DotA 2 beta
 #
-# source://steam-condenser//lib/steam-condenser/community/dota2/dota2_test_inventory.rb#16
+# pkg:gem/steam-condenser#lib/steam-condenser/community/dota2/dota2_test_inventory.rb:16
 SteamCondenser::Community::Dota2TestInventory::APP_ID = T.let(T.unsafe(nil), Integer)
 
 # The GameAchievement class represents a specific achievement for a single
@@ -380,127 +404,120 @@ SteamCondenser::Community::Dota2TestInventory::APP_ID = T.let(T.unsafe(nil), Int
 #
 # @author Sebastian Staudt
 #
-# source://steam-condenser//lib/steam-condenser/community/game_achievement.rb#19
+# pkg:gem/steam-condenser#lib/steam-condenser/community/game_achievement.rb:19
 class SteamCondenser::Community::GameAchievement
   # Creates the achievement with the given name for the given user and game
   # and achievement data
   #
-  # @param data [Hash<String, Object>] The achievement data extracted from
-  #   the game schema
-  # @param schema [GameStatsSchema] The game this achievement belongs to
-  # @return [GameAchievement] a new instance of GameAchievement
+  # @param [GameStatsSchema] schema The game this achievement belongs to
+  # @param [Hash<String, Object>] data The achievement data extracted from
+  #        the game schema
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_achievement.rb#74
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_achievement.rb:74
   def initialize(schema, data); end
 
   # Returns the symbolic API name of this achievement
   #
-  # @return [String]  The API name of this achievement
+  # @return [String] The API name of this achievement
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_achievement.rb#24
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_achievement.rb:24
   def api_name; end
 
   # Returns the description of this achievement
   #
-  # @param language [Symbol]
-  # @return [String]  The description of this achievement
+  # @param [Symbol] language
+  # @return [String] The description of this achievement
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_achievement.rb#86
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_achievement.rb:86
   def description(language = T.unsafe(nil)); end
 
   # Returns whether this achievement is hidden
   #
   # @return [Boolean] `true` if this achievement is hidden
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_achievement.rb#29
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_achievement.rb:29
   def hidden; end
 
   # Returns the url for the closed icon of this achievement
   #
   # @return [String] The url of the closed achievement icon
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_achievement.rb#34
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_achievement.rb:34
   def icon_closed_url; end
 
   # Returns the url for the open icon of this achievement
   #
   # @return [String] The url of the open achievement icon
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_achievement.rb#39
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_achievement.rb:39
   def icon_open_url; end
 
-  # source://steam-condenser//lib/steam-condenser/community/game_achievement.rb#90
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_achievement.rb:90
   def inspect; end
 
   # Returns an instance of this achievement for the given user and the given
   # unlock state
   #
-  # @param unlocked [Boolean] The state of the achievement for this user
-  # @param user [SteamId] The user the instance should be returned for
+  # @param [SteamId] user The user the instance should be returned for
+  # @param [Boolean] unlocked The state of the achievement for this user
   # @return [Instance] The achievement instance for this user
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_achievement.rb#100
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_achievement.rb:100
   def instance(user, unlocked); end
 
   # Returns the name of this achievement
   #
-  # @param language [Symbol]
-  # @return [String]  The name of this achievement
+  # @param [Symbol] language
+  # @return [String] The name of this achievement
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_achievement.rb#108
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_achievement.rb:108
   def name(language = T.unsafe(nil)); end
 
   # Return the stats schema of the game this achievement belongs to
   #
   # @return [GameStatsSchema] The stats schema of game this achievement
-  #   belongs to
+  #         belongs to
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_achievement.rb#45
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_achievement.rb:45
   def schema; end
 
   class << self
     # Loads the global unlock percentages of all achievements for the game with
     # the given Steam Application ID
     #
-    # @param app_id [Fixnum] The unique Steam Application ID of the game (e.g.
-    #   `440` for Team Fortress 2). See
-    #   http://developer.valvesoftware.com/wiki/Steam_Application_IDs for
-    #   all application IDs
+    # @param [Fixnum] app_id The unique Steam Application ID of the game (e.g.
+    #        `440` for Team Fortress 2). See
+    #         http://developer.valvesoftware.com/wiki/Steam_Application_IDs for
+    #         all application IDs
     # @raise [Error::WebApi] if the request to Steam's Web API fails
     # @return [Hash<Symbol, Float>] The symbolic achievement names with their
-    #   corresponding unlock percentages
+    #         corresponding unlock percentages
     #
-    # source://steam-condenser//lib/steam-condenser/community/game_achievement.rb#57
+    # pkg:gem/steam-condenser#lib/steam-condenser/community/game_achievement.rb:57
     def global_percentages(app_id); end
   end
 end
 
-# source://steam-condenser//lib/steam-condenser/community/game_achievement.rb#112
+# pkg:gem/steam-condenser#lib/steam-condenser/community/game_achievement.rb:112
 class SteamCondenser::Community::GameAchievement::Instance
-  # @return [Instance] a new instance of Instance
-  #
-  # source://steam-condenser//lib/steam-condenser/community/game_achievement.rb#118
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_achievement.rb:118
   def initialize(achievement, user, unlocked); end
 
-  # Returns the value of attribute achievement.
-  #
-  # source://steam-condenser//lib/steam-condenser/community/game_achievement.rb#114
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_achievement.rb:114
   def achievement; end
 
-  # source://steam-condenser//lib/steam-condenser/community/game_achievement.rb#124
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_achievement.rb:124
   def inspect; end
 
   # Returns whether this achievement has been unlocked by its owner
   #
-  # @return [Boolean]  `true` if the achievement has been unlocked by the
-  #   user
+  # @return [Boolean] `true` if the achievement has been unlocked by the
+  #         user
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_achievement.rb#132
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_achievement.rb:132
   def unlocked?; end
 
-  # Returns the value of attribute user.
-  #
-  # source://steam-condenser//lib/steam-condenser/community/game_achievement.rb#116
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_achievement.rb:116
   def user; end
 end
 
@@ -508,7 +525,7 @@ end
 #
 # @author Sebastian Staudt
 #
-# source://steam-condenser//lib/steam-condenser/community/game_inventory.rb#13
+# pkg:gem/steam-condenser#lib/steam-condenser/community/game_inventory.rb:13
 class SteamCondenser::Community::GameInventory
   include ::SteamCondenser::Community::Cacheable
   extend ::SteamCondenser::Community::Cacheable::ClassMethods
@@ -517,17 +534,12 @@ class SteamCondenser::Community::GameInventory
   # calls update to fetch the data and create the item instances contained in
   # this players backpack
   #
-  # @overload initialize
-  # @param app_id [Fixnum] The application ID of the game
-  # @param bypass_cache [Boolean] if `true` the object's data is fetched again
-  #   even if it has been cached already
-  # @param fetch [Boolean] if `true` the object's data is fetched after
-  #   creation
-  # @param steam_id64 [Fixnum] The 64bit SteamID of the player to get the
-  #   inventory for
-  # @return [GameInventory] a new instance of GameInventory
+  # @param [Fixnum] app_id The application ID of the game
+  # @param [Fixnum] steam_id64 The 64bit SteamID of the player to get the
+  #        inventory for
+  # @macro cacheable
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_inventory.rb#112
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_inventory.rb:112
   def initialize(app_id, steam_id64); end
 
   # Returns the item at the given position in the inventory. The positions
@@ -535,69 +547,69 @@ class SteamCondenser::Community::GameInventory
   #
   # @return [GameItem] The item at the given position in the inventory
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_inventory.rb#128
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_inventory.rb:128
   def [](index); end
 
   # Returns the application ID of the game this inventory class belongs to
   #
   # @return [Fixnum] The application ID of the game
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_inventory.rb#36
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_inventory.rb:36
   def app_id; end
 
   # Updates the contents of the inventory using the Steam Web API
   #
-  # source://steam-condenser//lib/steam-condenser/community/cacheable.rb#43
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/cacheable.rb:43
   def fetch; end
 
   # Returns a short, human-readable string representation of this inventory
   #
   # @return [String] A string representation of this inventory
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_inventory.rb#154
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_inventory.rb:154
   def inspect; end
 
   # Returns the item schema for this inventory
   #
   # @return [GameItemSchema] The item schema for the game this inventory
-  #   belongs to
+  #         belongs to
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_inventory.rb#163
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_inventory.rb:163
   def item_schema; end
 
   # Returns an array of all items in this players inventory.
   #
   # @return [Array<GameItem>] All items in the backpack
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_inventory.rb#41
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_inventory.rb:41
   def items; end
 
-  # source://steam-condenser//lib/steam-condenser/community/game_inventory.rb#133
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_inventory.rb:133
   def original_fetch; end
 
   # Returns an array of all items that this player just found or traded
   #
   # @return [Array<GameItem>] All preliminary items of the inventory
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_inventory.rb#46
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_inventory.rb:46
   def preliminary_items; end
 
   # Returns the number of items in the user's inventory
   #
-  # @return [Fixnum]  The number of items in the inventory
+  # @return [Fixnum] The number of items in the inventory
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_inventory.rb#170
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_inventory.rb:170
   def size; end
 
   # Returns the Steam ID of the player owning this inventory
   #
   # @return [SteamId] The Steam ID of the owner of this inventory
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_inventory.rb#51
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_inventory.rb:51
   def user; end
 
   class << self
-    # source://steam-condenser//lib/steam-condenser/community/game_inventory.rb#30
+    # pkg:gem/steam-condenser#lib/steam-condenser/community/game_inventory.rb:30
     def method_added(name); end
 
     # This is a wrapper around all subclasses of `GameInventory` so that an
@@ -605,24 +617,20 @@ class SteamCondenser::Community::GameInventory
     # there's no specific subclass for an application ID exists, a generic
     # instance of `GameInventory` is created.
     #
-    # @overload new
-    # @param app_id [Fixnum] The application ID of the game
-    # @param bypass_cache [Boolean] if `true` the object's data is fetched again
-    #   even if it has been cached already
-    # @param fetch [Boolean] if `true` the object's data is fetched after
-    #   creation
-    # @param steam_id [Fixnum] The 64bit Steam ID or vanity URL of the user
-    # @raise [SteamCondenserException] if creating the inventory fails
+    # @param [Fixnum] app_id The application ID of the game
+    # @param [Fixnum] steam_id The 64bit Steam ID or vanity URL of the user
     # @return [GameInventory] The inventory for the given user and game
+    # @raise [SteamCondenserException] if creating the inventory fails
+    # @macro cacheable
     #
-    # source://steam-condenser//lib/steam-condenser/community/game_inventory.rb#67
+    # pkg:gem/steam-condenser#lib/steam-condenser/community/game_inventory.rb:67
     def new(app_id, steam_id = T.unsafe(nil), *args); end
 
     # Sets the language the schema should be fetched in (default is: `'en'`)
     #
-    # @param language [String] The ISO 639-1 code of the schema language
+    # @param [String] language The ISO 639-1 code of the schema language
     #
-    # source://steam-condenser//lib/steam-condenser/community/game_inventory.rb#100
+    # pkg:gem/steam-condenser#lib/steam-condenser/community/game_inventory.rb:100
     def schema_language=(language); end
   end
 end
@@ -632,106 +640,105 @@ end
 #
 # @author Sebastian Staudt
 #
-# source://steam-condenser//lib/steam-condenser/community/game_item.rb#14
+# pkg:gem/steam-condenser#lib/steam-condenser/community/game_item.rb:14
 class SteamCondenser::Community::GameItem
   # Creates a new instance of a GameItem with the given data
   #
-  # @param inventory [GameInventory] The inventory this item is contained in
-  # @param item_data [Hash<Symbol, Object>] The data representing this item
-  # @return [GameItem] a new instance of GameItem
+  # @param [GameInventory] inventory The inventory this item is contained in
+  # @param [Hash<Symbol, Object>] item_data The data representing this item
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_item.rb#90
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_item.rb:90
   def initialize(inventory, item_data); end
 
   # Return the attributes of this item
   #
   # @return [Hash<Symbol, Object>, nil] The attributes of this item
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_item.rb#19
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_item.rb:19
   def attributes; end
 
   # Returns the position of this item in the player's inventory
   #
   # @return [Fixnum] The position of this item in the player's inventory
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_item.rb#24
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_item.rb:24
   def backpack_position; end
 
   # Returns the number of items the player owns of this item
   #
   # @return [Fixnum] The quantity of this item
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_item.rb#29
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_item.rb:29
   def count; end
 
   # Returns whether this item is craftable
   #
   # @return [Boolean] `true` if this item is craftable
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_item.rb#129
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_item.rb:129
   def craftable?; end
 
   # Returns the index where the item is defined in the schema
   #
   # @return [Fixnum] The schema index of this item
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_item.rb#34
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_item.rb:34
   def defindex; end
 
   # Returns the ID of this item
   #
   # @return [Fixnum] The ID of this item
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_item.rb#39
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_item.rb:39
   def id; end
 
   # Returns the inventory this items belongs to
   #
   # @return [GameInventory] The inventory this item belongs to
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_item.rb#44
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_item.rb:44
   def inventory; end
 
   # Returns the class of this item
   #
   # @return [String] The class of this item
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_item.rb#49
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_item.rb:49
   def item_class; end
 
   # Returns the item set this item belongs to
   #
   # @return [Hash<Symbol, Object>, nil] The set this item belongs to
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_item.rb#54
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_item.rb:54
   def item_set; end
 
   # Returns the level of this item
   #
   # @return [Fixnum] The level of this item
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_item.rb#59
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_item.rb:59
   def level; end
 
   # Returns the level of this item
   #
   # @return [String] The level of this item
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_item.rb#64
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_item.rb:64
   def name; end
 
   # Returns the origin of this item
   #
   # @return [String] The origin of this item
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_item.rb#69
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_item.rb:69
   def origin; end
 
   # Returns the original ID of this item
   #
   # @return [Fixnum] The original ID of this item
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_item.rb#74
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_item.rb:74
   def original_id; end
 
   # Returns whether this item is preliminary
@@ -741,35 +748,35 @@ class SteamCondenser::Community::GameItem
   #
   # @return [Boolean] `true` if this item is preliminary
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_item.rb#139
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_item.rb:139
   def preliminary?; end
 
   # Returns the quality of this item
   #
   # @return [String] The quality of this item
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_item.rb#79
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_item.rb:79
   def quality; end
 
   # Returns the data for this item that's defined in the item schema
   #
   # @return [Hash<Symbol, Object>] The schema data for this item
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_item.rb#146
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_item.rb:146
   def schema_data; end
 
   # Returns whether this item is tradeable
   #
   # @return [Boolean] `true` if this item is tradeable
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_item.rb#153
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_item.rb:153
   def tradeable?; end
 
   # Returns the type of this item
   #
   # @return [String] The type of this item
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_item.rb#84
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_item.rb:84
   def type; end
 end
 
@@ -777,7 +784,7 @@ end
 #
 # @author Sebastian Staudt
 #
-# source://steam-condenser//lib/steam-condenser/community/game_item_schema.rb#13
+# pkg:gem/steam-condenser#lib/steam-condenser/community/game_item_schema.rb:13
 class SteamCondenser::Community::GameItemSchema
   include ::SteamCondenser::Community::Cacheable
   extend ::SteamCondenser::Community::Cacheable::ClassMethods
@@ -785,105 +792,100 @@ class SteamCondenser::Community::GameItemSchema
   # Creates a new item schema for the game with the given application ID and
   # with descriptions in the given language
   #
-  # @overload initialize
-  # @param app_id [Fixnum] The application ID of the game
-  # @param bypass_cache [Boolean] if `true` the object's data is fetched again
-  #   even if it has been cached already
-  # @param fetch [Boolean] if `true` the object's data is fetched after
-  #   creation
-  # @param language [Symbol] The language of description strings
-  # @return [GameItemSchema] a new instance of GameItemSchema
+  # @param [Fixnum] app_id The application ID of the game
+  # @param [Symbol] language The language of description strings
+  # @macro cacheable
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_item_schema.rb#74
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_item_schema.rb:74
   def initialize(app_id, language = T.unsafe(nil)); end
 
   # Returns the application ID of the game this item schema belongs to
   #
   # @return [Fixnum] The application ID of the game
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_item_schema.rb#21
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_item_schema.rb:21
   def app_id; end
 
   # The attributes defined for this game's items
   #
   # @return [Hash<Symbol, Object>] This item schema's attributes
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_item_schema.rb#26
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_item_schema.rb:26
   def attributes; end
 
   # The effects defined for this game's items
   #
   # @return [Hash<Symbol, Object>] This item schema's effects
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_item_schema.rb#31
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_item_schema.rb:31
   def effects; end
 
   # Updates the item definitions of this schema using the Steam Web API
   #
-  # source://steam-condenser//lib/steam-condenser/community/cacheable.rb#43
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/cacheable.rb:43
   def fetch; end
 
   # Returns a short, human-readable string representation of this item schema
   #
   # @return [String] A string representation of this item schema
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_item_schema.rb#128
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_item_schema.rb:128
   def inspect; end
 
   # The levels defined for this game's items
   #
   # @return [Hash<Symbol, Object>] This item schema's item levels
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_item_schema.rb#36
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_item_schema.rb:36
   def item_levels; end
 
   # A mapping from the item name to the item's defindex
   #
   # @return [Hash<Symbol, Object>] The item name mapping
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_item_schema.rb#41
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_item_schema.rb:41
   def item_names; end
 
   # The item sets defined for this game's items
   #
   # @return [Hash<Symbol, Object>] This item schema's item sets
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_item_schema.rb#46
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_item_schema.rb:46
   def item_sets; end
 
   # The items defined for this game
   #
   # @return [Hash<Symbol, Object>] The items in this schema
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_item_schema.rb#51
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_item_schema.rb:51
   def items; end
 
   # The language of this item schema
   #
   # @return [Symbol] The language of this item schema
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_item_schema.rb#56
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_item_schema.rb:56
   def language; end
 
-  # source://steam-condenser//lib/steam-condenser/community/game_item_schema.rb#80
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_item_schema.rb:80
   def original_fetch; end
 
   # The item origins defined for this game's items
   #
   # @return [Array<String>] This item schema's origins
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_item_schema.rb#61
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_item_schema.rb:61
   def origins; end
 
   # The item qualities defined for this game's items
   #
   # @return [Array<String>] This item schema's qualities
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_item_schema.rb#66
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_item_schema.rb:66
   def qualities; end
 
   class << self
-    # source://steam-condenser//lib/steam-condenser/community/game_item_schema.rb#15
+    # pkg:gem/steam-condenser#lib/steam-condenser/community/game_item_schema.rb:15
     def method_added(name); end
   end
 end
@@ -893,58 +895,53 @@ end
 #
 # @author Sebastian Staudt
 #
-# source://steam-condenser//lib/steam-condenser/community/game_leaderboard.rb#18
+# pkg:gem/steam-condenser#lib/steam-condenser/community/game_leaderboard.rb:18
 class SteamCondenser::Community::GameLeaderboard
   include ::SteamCondenser::Community::XMLData
 
   # Creates a new leaderboard instance with the given XML data
   #
-  # @param board_data [Hash<String, Object>] The XML data of the leaderboard
-  # @return [GameLeaderboard] a new instance of GameLeaderboard
+  # @param [Hash<String, Object>] board_data The XML data of the leaderboard
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_leaderboard.rb#170
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_leaderboard.rb:170
   def initialize(board_data); end
 
   # Returns the display type of the scores on this leaderboard
   #
   # @return [Fixnum] The display type of the scores
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_leaderboard.rb#36
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_leaderboard.rb:36
   def display_type; end
 
   # Returns the number of entries on this leaderboard
   #
   # @return [Fixnum] The number of entries on this leaderboard
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_leaderboard.rb#41
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_leaderboard.rb:41
   def entry_count; end
 
   # Returns the entry on this leaderboard for the user with the given SteamID
   #
+  # @param [Fixnum, SteamId] steam_id The 64bit SteamID or the `SteamId`
+  #        object of the user
+  # @return [GameLeaderboardEntry] The entry of the user if available
   # raise [SteamCondenserException] if an error occurs while fetching the
   #         leaderboard
   #
-  # @param steam_id [Fixnum, SteamId] The 64bit SteamID or the `SteamId`
-  #   object of the user
-  # @raise [SteamCondenser::Error]
-  # @return [GameLeaderboardEntry] The entry of the user if available
-  #
-  # source://steam-condenser//lib/steam-condenser/community/game_leaderboard.rb#92
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_leaderboard.rb:92
   def entry_for_steam_id(steam_id); end
 
   # Returns an array of entries on this leaderboard for the user with the
   # given SteamID and his/her friends
   #
+  # @param [Fixnum, SteamId] steam_id The 64bit SteamID or the `SteamId`
+  #        object of the user
+  # @return [Array<GameLeaderboardEntry>] The entries of the user and his/her
+  #         friends
   # raise [SteamCondenserException] if an error occurs while fetching the
   #         leaderboard
   #
-  # @param steam_id [Fixnum, SteamId] The 64bit SteamID or the `SteamId`
-  #   object of the user
-  # @raise [SteamCondenser::Error]
-  # @return [Array<GameLeaderboardEntry>] The entries of the user and his/her
-  #   friends
-  #
-  # source://steam-condenser//lib/steam-condenser/community/game_leaderboard.rb#118
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_leaderboard.rb:118
   def entry_for_steam_id_friends(steam_id); end
 
   # Returns the entries on this leaderboard for a given rank range
@@ -952,37 +949,35 @@ class SteamCondenser::Community::GameLeaderboard
   # The range is inclusive and a maximum of 5001 entries can be returned in a
   # single request.
   #
+  # @param [Fixnum] first The first entry to return from the leaderboard
+  # @param [Fixnum] last The last entry to return from the leaderboard
+  # @return [Array<GameLeaderboardEntry>] The entries that match the given
+  #         rank range
   # raise [SteamCondenserException] if an error occurs while fetching the
   #         leaderboard
   #
-  # @param first [Fixnum] The first entry to return from the leaderboard
-  # @param last [Fixnum] The last entry to return from the leaderboard
-  # @raise [SteamCondenser::Error]
-  # @return [Array<GameLeaderboardEntry>] The entries that match the given
-  #   rank range
-  #
-  # source://steam-condenser//lib/steam-condenser/community/game_leaderboard.rb#140
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_leaderboard.rb:140
   def entry_range(first, last); end
 
   # Returns the ID of the leaderboard
   #
   # @return [Fixnum] The ID of the leaderboard
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_leaderboard.rb#46
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_leaderboard.rb:46
   def id; end
 
   # Returns the name of the leaderboard
   #
   # @return [String] The name of the leaderboard
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_leaderboard.rb#51
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_leaderboard.rb:51
   def name; end
 
   # Returns the method that is used to sort the entries on the leaderboard
   #
   # @return [Fixnum] The sort method
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_leaderboard.rb#56
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_leaderboard.rb:56
   def sort_method; end
 
   private
@@ -991,102 +986,101 @@ class SteamCondenser::Community::GameLeaderboard
   #
   # @return [Array<GameLeaderboardEntry>] All available entries
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_leaderboard.rb#182
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_leaderboard.rb:182
   def parse_entries; end
 
   class << self
     # Returns the leaderboard for the given game and leaderboard ID or name
     #
-    # @param app_id [Fixnum] The application ID of the game
-    # @param id [Fixnum, String] The ID or name of the leaderboard to return
+    # @param [Fixnum] app_id The application ID of the game
+    # @param [Fixnum, String] id The ID or name of the leaderboard to return
     # @return [GameLeaderboard] The matching leaderboard if available
     #
-    # source://steam-condenser//lib/steam-condenser/community/game_leaderboard.rb#63
+    # pkg:gem/steam-condenser#lib/steam-condenser/community/game_leaderboard.rb:63
     def leaderboard(app_id, id); end
 
     # Returns an array containing all of a game's leaderboards
     #
-    # @param app_id [Fixnum] The application ID of the game
+    # @param [Fixnum] app_id The application ID of the game
     # @return [Array<GameLeaderboard>] The leaderboards for this game
     #
-    # source://steam-condenser//lib/steam-condenser/community/game_leaderboard.rb#79
+    # pkg:gem/steam-condenser#lib/steam-condenser/community/game_leaderboard.rb:79
     def leaderboards(app_id); end
 
     # Loads the leaderboards of the specified games into the cache
     #
-    # @param app_id [Fixnum] The application ID of the game
+    # @param [Fixnum] app_id The application ID of the game
     # @raise [SteamCondenserException] if an error occurs while fetching the
-    #   leaderboards
+    #         leaderboards
     #
-    # source://steam-condenser//lib/steam-condenser/community/game_leaderboard.rb#197
+    # pkg:gem/steam-condenser#lib/steam-condenser/community/game_leaderboard.rb:197
     def load_leaderboards(app_id); end
   end
 end
 
-# source://steam-condenser//lib/steam-condenser/community/game_leaderboard.rb#25
+# pkg:gem/steam-condenser#lib/steam-condenser/community/game_leaderboard.rb:25
 SteamCondenser::Community::GameLeaderboard::DISPLAY_TYPE_MILLISECONDS = T.let(T.unsafe(nil), Integer)
 
-# source://steam-condenser//lib/steam-condenser/community/game_leaderboard.rb#22
+# pkg:gem/steam-condenser#lib/steam-condenser/community/game_leaderboard.rb:22
 SteamCondenser::Community::GameLeaderboard::DISPLAY_TYPE_NONE = T.let(T.unsafe(nil), Integer)
 
-# source://steam-condenser//lib/steam-condenser/community/game_leaderboard.rb#23
+# pkg:gem/steam-condenser#lib/steam-condenser/community/game_leaderboard.rb:23
 SteamCondenser::Community::GameLeaderboard::DISPLAY_TYPE_NUMERIC = T.let(T.unsafe(nil), Integer)
 
-# source://steam-condenser//lib/steam-condenser/community/game_leaderboard.rb#24
+# pkg:gem/steam-condenser#lib/steam-condenser/community/game_leaderboard.rb:24
 SteamCondenser::Community::GameLeaderboard::DISPLAY_TYPE_SECONDS = T.let(T.unsafe(nil), Integer)
 
-# source://steam-condenser//lib/steam-condenser/community/game_leaderboard.rb#28
+# pkg:gem/steam-condenser#lib/steam-condenser/community/game_leaderboard.rb:28
 SteamCondenser::Community::GameLeaderboard::SORT_METHOD_ASC = T.let(T.unsafe(nil), Integer)
 
-# source://steam-condenser//lib/steam-condenser/community/game_leaderboard.rb#29
+# pkg:gem/steam-condenser#lib/steam-condenser/community/game_leaderboard.rb:29
 SteamCondenser::Community::GameLeaderboard::SORT_METHOD_DESC = T.let(T.unsafe(nil), Integer)
 
-# source://steam-condenser//lib/steam-condenser/community/game_leaderboard.rb#27
+# pkg:gem/steam-condenser#lib/steam-condenser/community/game_leaderboard.rb:27
 SteamCondenser::Community::GameLeaderboard::SORT_METHOD_NONE = T.let(T.unsafe(nil), Integer)
 
 # The GameLeaderboard class represents a single entry in a leaderboard
 #
 # @author Sebastian Staudt
 #
-# source://steam-condenser//lib/steam-condenser/community/game_leaderboard_entry.rb#11
+# pkg:gem/steam-condenser#lib/steam-condenser/community/game_leaderboard_entry.rb:11
 class SteamCondenser::Community::GameLeaderboardEntry
   # Creates new entry instance for the given XML data and leaderboard
   #
-  # @param entry_data [Hash<String, Object>] The XML data of the leaderboard
-  #   of the leaderboard entry
-  # @param leaderboard [GameLeaderboard] The leaderboard this entry belongs
-  #   to
-  # @return [GameLeaderboardEntry] a new instance of GameLeaderboardEntry
+  # @param [Hash<String, Object>] entry_data The XML data of the leaderboard
+  #        of the leaderboard entry
+  # @param [GameLeaderboard] leaderboard The leaderboard this entry belongs
+  #        to
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_leaderboard_entry.rb#39
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_leaderboard_entry.rb:39
   def initialize(entry_data, leaderboard); end
 
   # Returns the leaderboard this entry belongs to
   #
   # @return [GameLeaderboard] The leaderboard of this entry
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_leaderboard_entry.rb#31
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_leaderboard_entry.rb:31
   def leaderboard; end
 
   # Returns the rank where this entry is listed in the leaderboard
   #
   # @return [Fixnum] The rank of this entry
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_leaderboard_entry.rb#26
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_leaderboard_entry.rb:26
   def rank; end
 
   # Returns the score of this entry
   #
   # @return [Fixnum] The score of this player
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_leaderboard_entry.rb#21
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_leaderboard_entry.rb:21
   def score; end
 
   # Returns the Steam ID of this entry's player
   #
   # @return [SteamId] The Steam ID of the player
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_leaderboard_entry.rb#16
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_leaderboard_entry.rb:16
   def steam_id; end
 end
 
@@ -1095,7 +1089,7 @@ end
 #
 # @author Sebastian Staudt
 #
-# source://steam-condenser//lib/steam-condenser/community/game_stats.rb#17
+# pkg:gem/steam-condenser#lib/steam-condenser/community/game_stats.rb:17
 class SteamCondenser::Community::GameStats
   include ::SteamCondenser::Community::Cacheable
   extend ::SteamCondenser::Community::Cacheable::ClassMethods
@@ -1103,13 +1097,12 @@ class SteamCondenser::Community::GameStats
   # Creates a `GameStats` object and fetches data from the Steam Community
   # for the given user and game
   #
-  # @param game_id [String] The application ID or friendly name of the game
-  # @param user_id [String, Fixnum] The custom URL or the 64bit Steam ID of
-  #   the user
+  # @param [String, Fixnum] user_id The custom URL or the 64bit Steam ID of
+  #        the user
+  # @param [String] game_id The application ID or friendly name of the game
   # @raise [Error] if the stats cannot be fetched
-  # @return [GameStats] a new instance of GameStats
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_stats.rb#50
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_stats.rb:50
   def initialize(user_id, game_id); end
 
   # Returns the achievements for this stats' user and game
@@ -1117,9 +1110,9 @@ class SteamCondenser::Community::GameStats
   # If the achievements' data hasn't been parsed yet, parsing is done now.
   #
   # @return [Array<GameAchievement::Instance>] All achievements belonging to
-  #   this game
+  #         this game
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_stats.rb#28
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_stats.rb:28
   def achievements; end
 
   # Returns the number of achievements done by this player
@@ -1127,7 +1120,7 @@ class SteamCondenser::Community::GameStats
   # @return [Fixnum] The number of achievements completed
   # @see #achievements
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_stats.rb#81
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_stats.rb:81
   def achievements_done; end
 
   # Returns the percentage of achievements done by this player
@@ -1135,174 +1128,146 @@ class SteamCondenser::Community::GameStats
   # @return [Float] The percentage of achievements completed
   # @see #achievements_done
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_stats.rb#89
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_stats.rb:89
   def achievements_percentage; end
 
-  # source://steam-condenser//lib/steam-condenser/community/game_stats.rb#93
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_stats.rb:93
   def inspect; end
 
   # Returns the schema of the game these stats belong to
   #
   # @return [GameStatsSchema] The stats schema
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_stats.rb#38
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_stats.rb:38
   def schema; end
 
   # Returns the Steam ID of the player these stats belong to
   #
   # @return [SteamId] The Steam ID instance of the player
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_stats.rb#33
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_stats.rb:33
   def user; end
 
   # @return [Array<GameStatsValue::Instance>]
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_stats.rb#41
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_stats.rb:41
   def values; end
 
   class << self
-    # source://steam-condenser//lib/steam-condenser/community/game_stats.rb#19
+    # pkg:gem/steam-condenser#lib/steam-condenser/community/game_stats.rb:19
     def method_added(name); end
   end
 end
 
-# source://steam-condenser//lib/steam-condenser/community/game_stats_datum.rb#8
+# pkg:gem/steam-condenser#lib/steam-condenser/community/game_stats_datum.rb:8
 class SteamCondenser::Community::GameStatsDatum
-  # @param data [Hash<Symbol, Object>]
-  # @param schema [GameStatsSchema]
-  # @return [GameStatsDatum] a new instance of GameStatsDatum
+  # @param [GameStatsSchema] schema
+  # @param [Hash<Symbol, Object>] data
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_stats_datum.rb#18
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_stats_datum.rb:18
   def initialize(schema, data); end
 
-  # Returns the value of attribute api_name.
-  #
-  # source://steam-condenser//lib/steam-condenser/community/game_stats_datum.rb#10
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_stats_datum.rb:10
   def api_name; end
 
-  # Returns the value of attribute default_value.
-  #
-  # source://steam-condenser//lib/steam-condenser/community/game_stats_datum.rb#12
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_stats_datum.rb:12
   def default_value; end
 
-  # source://steam-condenser//lib/steam-condenser/community/game_stats_datum.rb#25
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_stats_datum.rb:25
   def inspect; end
 
-  # source://steam-condenser//lib/steam-condenser/community/game_stats_datum.rb#29
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_stats_datum.rb:29
   def instance(user, value); end
 
-  # source://steam-condenser//lib/steam-condenser/community/game_stats_datum.rb#33
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_stats_datum.rb:33
   def name(language = T.unsafe(nil)); end
 
-  # Returns the value of attribute schema.
-  #
-  # source://steam-condenser//lib/steam-condenser/community/game_stats_datum.rb#14
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_stats_datum.rb:14
   def schema; end
 end
 
-# source://steam-condenser//lib/steam-condenser/community/game_stats_datum.rb#37
+# pkg:gem/steam-condenser#lib/steam-condenser/community/game_stats_datum.rb:37
 class SteamCondenser::Community::GameStatsDatum::Instance
-  # @return [Instance] a new instance of Instance
-  #
-  # source://steam-condenser//lib/steam-condenser/community/game_stats_datum.rb#45
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_stats_datum.rb:45
   def initialize(user, datum, value); end
 
-  # Returns the value of attribute datum.
-  #
-  # source://steam-condenser//lib/steam-condenser/community/game_stats_datum.rb#39
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_stats_datum.rb:39
   def datum; end
 
-  # source://steam-condenser//lib/steam-condenser/community/game_stats_datum.rb#51
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_stats_datum.rb:51
   def inspect; end
 
-  # Returns the value of attribute user.
-  #
-  # source://steam-condenser//lib/steam-condenser/community/game_stats_datum.rb#41
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_stats_datum.rb:41
   def user; end
 
-  # Returns the value of attribute value.
-  #
-  # source://steam-condenser//lib/steam-condenser/community/game_stats_datum.rb#43
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_stats_datum.rb:43
   def value; end
 end
 
-# source://steam-condenser//lib/steam-condenser/community/game_stats_schema.rb#13
+# pkg:gem/steam-condenser#lib/steam-condenser/community/game_stats_schema.rb:13
 class SteamCondenser::Community::GameStatsSchema
   include ::SteamCondenser::Community::Cacheable
   extend ::SteamCondenser::Community::Cacheable::ClassMethods
 
-  # @overload initialize
-  # @param bypass_cache [Boolean] if `true` the object's data is fetched again
-  #   even if it has been cached already
-  # @param fetch [Boolean] if `true` the object's data is fetched after
-  #   creation
-  # @return [GameStatsSchema] a new instance of GameStatsSchema
+  # @macro cacheable
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_stats_schema.rb#40
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_stats_schema.rb:40
   def initialize(app_id); end
 
-  # source://steam-condenser//lib/steam-condenser/community/game_stats_schema.rb#44
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_stats_schema.rb:44
   def achievement(api_name); end
 
-  # source://steam-condenser//lib/steam-condenser/community/game_stats_schema.rb#52
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_stats_schema.rb:52
   def achievement_translations(language); end
 
   # @return [Hash<String, GameAchievement>]
   #
-  # source://steam-condenser//lib/steam-condenser/community/game_stats_schema.rb#21
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_stats_schema.rb:21
   def achievements; end
 
-  # Returns the value of attribute app_id.
-  #
-  # source://steam-condenser//lib/steam-condenser/community/game_stats_schema.rb#23
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_stats_schema.rb:23
   def app_id; end
 
-  # Returns the value of attribute app_name.
-  #
-  # source://steam-condenser//lib/steam-condenser/community/game_stats_schema.rb#25
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_stats_schema.rb:25
   def app_name; end
 
-  # Returns the value of attribute app_version.
-  #
-  # source://steam-condenser//lib/steam-condenser/community/game_stats_schema.rb#27
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_stats_schema.rb:27
   def app_version; end
 
-  # Returns the value of attribute data.
-  #
-  # source://steam-condenser//lib/steam-condenser/community/game_stats_schema.rb#29
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_stats_schema.rb:29
   def data; end
 
-  # source://steam-condenser//lib/steam-condenser/community/game_stats_schema.rb#57
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_stats_schema.rb:57
   def datum(api_name); end
 
-  # source://steam-condenser//lib/steam-condenser/community/game_stats_schema.rb#61
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_stats_schema.rb:61
   def datum_names(language); end
 
-  # source://steam-condenser//lib/steam-condenser/community/cacheable.rb#43
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/cacheable.rb:43
   def fetch; end
 
-  # source://steam-condenser//lib/steam-condenser/community/game_stats_schema.rb#66
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_stats_schema.rb:66
   def inspect; end
 
-  # source://steam-condenser//lib/steam-condenser/community/game_stats_schema.rb#48
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_stats_schema.rb:48
   def original_fetch; end
 
   protected
 
-  # source://steam-condenser//lib/steam-condenser/community/game_stats_schema.rb#72
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_stats_schema.rb:72
   def add_language(language); end
 
-  # source://steam-condenser//lib/steam-condenser/community/game_stats_schema.rb#100
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_stats_schema.rb:100
   def fetch_language(language); end
 
   class << self
-    # source://steam-condenser//lib/steam-condenser/community/game_stats_schema.rb#31
+    # pkg:gem/steam-condenser#lib/steam-condenser/community/game_stats_schema.rb:31
     def default_language; end
 
-    # source://steam-condenser//lib/steam-condenser/community/game_stats_schema.rb#35
+    # pkg:gem/steam-condenser#lib/steam-condenser/community/game_stats_schema.rb:35
     def default_language=(language); end
 
-    # source://steam-condenser//lib/steam-condenser/community/game_stats_schema.rb#17
+    # pkg:gem/steam-condenser#lib/steam-condenser/community/game_stats_schema.rb:17
     def method_added(name); end
   end
 end
@@ -1311,59 +1276,53 @@ end
 #
 # @author Sebastian Staudt
 #
-# source://steam-condenser//lib/steam-condenser/community/portal2/portal2_inventory.rb#13
+# pkg:gem/steam-condenser#lib/steam-condenser/community/portal2/portal2_inventory.rb:13
 class SteamCondenser::Community::Portal2Inventory < ::SteamCondenser::Community::GameInventory
   # Creates a new inventory object for the given SteamID64 in Portal 2 (App ID
   # 620)
   #
-  # @overload initialize
-  # @param bypass_cache [Boolean] if `true` the object's data is fetched again
-  #   even if it has been cached already
-  # @param fetch [Boolean] if `true` the object's data is fetched after
-  #   creation
-  # @param steam_id64 [Fixnum] The 64bit SteamID of the player to get the
-  #   inventory for
-  # @return [Portal2Inventory] a new instance of Portal2Inventory
+  # @param [Fixnum] steam_id64 The 64bit SteamID of the player to get the
+  #        inventory for
+  # @macro cacheable
   #
-  # source://steam-condenser//lib/steam-condenser/community/portal2/portal2_inventory.rb#24
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/portal2/portal2_inventory.rb:24
   def initialize(steam_id64); end
 end
 
 # The Steam application ID of Portal 2
 #
-# source://steam-condenser//lib/steam-condenser/community/portal2/portal2_inventory.rb#16
+# pkg:gem/steam-condenser#lib/steam-condenser/community/portal2/portal2_inventory.rb:16
 SteamCondenser::Community::Portal2Inventory::APP_ID = T.let(T.unsafe(nil), Integer)
 
 # Represents a Portal 2 item
 #
 # @author Sebastian Staudt
 #
-# source://steam-condenser//lib/steam-condenser/community/portal2/portal2_item.rb#13
+# pkg:gem/steam-condenser#lib/steam-condenser/community/portal2/portal2_item.rb:13
 class SteamCondenser::Community::Portal2Item < ::SteamCondenser::Community::GameItem
   # Creates a new instance of a Portal 2 item with the given data
   #
-  # @param inventory [Portal2Inventory] The inventory this item is contained
-  #   in
-  # @param item_data [Hash<Symbol, Object>] The data specifying this item
+  # @param [Portal2Inventory] inventory The inventory this item is contained
+  #        in
+  # @param [Hash<Symbol, Object>] item_data The data specifying this item
   # @raise [Error::WebApi] on Web API errors
-  # @return [Portal2Item] a new instance of Portal2Item
   #
-  # source://steam-condenser//lib/steam-condenser/community/portal2/portal2_item.rb#30
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/portal2/portal2_item.rb:30
   def initialize(inventory, item_data); end
 
   # Returns the symbols for each bot this player has equipped this item
   #
   # @return [Array<String>] The names of the bots this player has equipped
-  #   this item
+  #         this item
   #
-  # source://steam-condenser//lib/steam-condenser/community/portal2/portal2_item.rb#45
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/portal2/portal2_item.rb:45
   def bots_equipped?; end
 
   # Returns whether this item is equipped by this player at all
   #
   # @return [Boolean] `true` if the player has equipped this item at all
   #
-  # source://steam-condenser//lib/steam-condenser/community/portal2/portal2_item.rb#52
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/portal2/portal2_item.rb:52
   def equipped?; end
 
   # Returns the slot where this item can be equipped in or `nil` if this item
@@ -1371,20 +1330,20 @@ class SteamCondenser::Community::Portal2Item < ::SteamCondenser::Community::Game
   #
   # @return [String, nil] The slot where this item can be equipped in
   #
-  # source://steam-condenser//lib/steam-condenser/community/portal2/portal2_item.rb#22
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/portal2/portal2_item.rb:22
   def slot; end
 end
 
 # The names of the bots available in Portal 2
 #
-# source://steam-condenser//lib/steam-condenser/community/portal2/portal2_item.rb#16
+# pkg:gem/steam-condenser#lib/steam-condenser/community/portal2/portal2_item.rb:16
 SteamCondenser::Community::Portal2Item::BOTS = T.let(T.unsafe(nil), Array)
 
 # This class represents a game available on Steam
 #
 # @author Sebastian Staudt
 #
-# source://steam-condenser//lib/steam-condenser/community/steam_game.rb#16
+# pkg:gem/steam-condenser#lib/steam-condenser/community/steam_game.rb:16
 class SteamCondenser::Community::SteamGame
   include ::SteamCondenser::Community::Cacheable
   extend ::SteamCondenser::Community::Cacheable::ClassMethods
@@ -1392,133 +1351,127 @@ class SteamCondenser::Community::SteamGame
   # Creates a new instance of a game with the given data and caches it
   #
   # @note The real constructor of `SteamGame` is {.new}
-  # @param app_id [Fixnum] The application ID of the game
-  # @param game_data [Hash<Symbol, Object>, Hash<String, Object>] The JSON
-  #   data of the game
-  # @return [SteamGame] a new instance of SteamGame
+  # @param [Fixnum] app_id The application ID of the game
+  # @param [Hash<Symbol, Object>, Hash<String, Object>] game_data The JSON
+  #        data of the game
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_game.rb#153
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_game.rb:153
   def initialize(app_id, game_data); end
 
   # Returns the Steam application ID of this game
   #
   # @return [Fixnum] The Steam application ID of this game
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_game.rb#24
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_game.rb:24
   def app_id; end
 
   # Returns the URL for the icon image of this game
   #
   # @return [String] The URL for the game icon
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_game.rb#79
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_game.rb:79
   def icon_url; end
 
-  # Returns the Steam application ID of this game
-  #
-  # @return [Fixnum] The Steam application ID of this game
-  #
-  # source://steam-condenser//lib/steam-condenser/community/steam_game.rb#24
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_game.rb:24
   def id; end
 
   # Returns the leaderboard for this game and the given leaderboard ID or
   # name
   #
-  # @param id [Fixnum, String] The ID or name of the leaderboard to return
+  # @param [Fixnum, String] id The ID or name of the leaderboard to return
   # @return [GameLeaderboard] The matching leaderboard if available
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_game.rb#88
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_game.rb:88
   def leaderboard(id); end
 
   # Returns an array containing all of this game's leaderboards
   #
   # @return [Array<GameLeaderboard>] The leaderboards for this game
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_game.rb#95
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_game.rb:95
   def leaderboards; end
 
   # Returns the URL for the logo thumbnail image of this game
   #
   # @return [String] The URL for the game logo thumbnail
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_game.rb#109
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_game.rb:109
   def logo_thumbnail_url; end
 
   # Returns the URL for the logo image of this game
   #
   # @return [String] The URL for the game logo
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_game.rb#102
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_game.rb:102
   def logo_url; end
 
   # Returns the full name of this game
   #
   # @return [String] The full name of this game
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_game.rb#30
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_game.rb:30
   def name; end
 
   # Returns the overall number of players currently playing this game
   #
   # @return [Fixnum] The number of players playing this game
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_game.rb#116
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_game.rb:116
   def player_count; end
 
   # Returns the URL of this game's page in the Steam Store
   #
   # @return [String] This game's store page
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_game.rb#124
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_game.rb:124
   def store_url; end
 
   # Returns whether the given version of this game is up-to-date
   #
-  # @param version [Fixnum] The version to check against the Web API
+  # @param [Fixnum] version The version to check against the Web API
   # @return [Boolean] `true` if the given version is up-to-date
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_game.rb#132
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_game.rb:132
   def uptodate?(version); end
 
   # Creates a stats object for the given user and this game
   #
-  # @param steam_id [String, Fixnum] The custom URL or the 64bit Steam ID of
-  #   the user
+  # @param [String, Fixnum] steam_id The custom URL or the 64bit Steam ID of
+  #        the user
   # @return [GameStats] The stats of this game for the given user
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_game.rb#141
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_game.rb:141
   def user_stats(steam_id); end
 
   class << self
     # Checks if a game is up-to-date by reading information from a `steam.inf`
     # file and comparing it using the Web API
     #
-    # @param path [String] The file system path of the `steam.inf` file
+    # @param [String] path The file system path of the `steam.inf` file
     # @return [Boolean] `true` if the game is up-to-date
     #
-    # source://steam-condenser//lib/steam-condenser/community/steam_game.rb#37
+    # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_game.rb:37
     def check_steam_inf(path); end
 
-    # source://steam-condenser//lib/steam-condenser/community/steam_game.rb#18
+    # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_game.rb:18
     def method_added(name); end
 
     # Creates a new instance of a game with the given data and caches it
     #
-    # @param app_id [Fixnum] The application ID of the game
-    # @param game_data [Hash<String, Object>] The XML data of the game
+    # @param [Fixnum] app_id The application ID of the game
+    # @param [Hash<String, Object>] game_data The XML data of the game
     #
-    # source://steam-condenser//lib/steam-condenser/community/steam_game.rb#52
+    # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_game.rb:52
     def new(app_id, game_data = T.unsafe(nil)); end
 
     # Returns whether the given version of the game with the given application
     # ID is up-to-date
     #
-    # @param app_id [Fixnum] The application ID of the game to check
-    # @param version [Fixnum] The version to check against the Web API
-    # @raise [SteamCondenser::Error]
+    # @param [Fixnum] app_id The application ID of the game to check
+    # @param [Fixnum] version The version to check against the Web API
     # @return [Boolean] `true` if the given version is up-to-date
     #
-    # source://steam-condenser//lib/steam-condenser/community/steam_game.rb#68
+    # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_game.rb:68
     def uptodate?(app_id, version); end
   end
 end
@@ -1527,7 +1480,7 @@ end
 #
 # @author Sebastian Staudt
 #
-# source://steam-condenser//lib/steam-condenser/community/steam_group.rb#15
+# pkg:gem/steam-condenser#lib/steam-condenser/community/steam_group.rb:15
 class SteamCondenser::Community::SteamGroup
   include ::SteamCondenser::Community::Cacheable
   include ::SteamCondenser::Community::XMLData
@@ -1535,37 +1488,32 @@ class SteamCondenser::Community::SteamGroup
 
   # Creates a new `SteamGroup` instance for the group with the given ID
   #
-  # @overload initialize
-  # @param bypass_cache [Boolean] if `true` the object's data is fetched again
-  #   even if it has been cached already
-  # @param fetch [Boolean] if `true` the object's data is fetched after
-  #   creation
-  # @param id [String, Fixnum] The custom URL of the group specified by the
-  #   group admin or the 64bit group ID
-  # @return [SteamGroup] a new instance of SteamGroup
+  # @param [String, Fixnum] id The custom URL of the group specified by the
+  #        group admin or the 64bit group ID
+  # @macro cacheable
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_group.rb#57
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_group.rb:57
   def initialize(id); end
 
   # Returns the URL to this group's full avatar
   #
   # @return [String] The URL to this group's full avatar
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_group.rb#69
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_group.rb:69
   def avatar_full_url; end
 
   # Returns the URL to this group's icon avatar
   #
   # @return [String] The URL to this group's icon avatar
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_group.rb#78
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_group.rb:78
   def avatar_icon_url; end
 
   # Returns the URL to this group's medium avatar
   #
   # @return [String] The URL to this group's medium avatar
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_group.rb#87
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_group.rb:87
   def avatar_medium_url; end
 
   # Returns the base URL for this group's page
@@ -1574,7 +1522,7 @@ class SteamCondenser::Community::SteamGroup
   #
   # @return [String] The base URL for this group
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_group.rb#98
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_group.rb:98
   def base_url; end
 
   # Returns the custom URL of this group
@@ -1584,7 +1532,7 @@ class SteamCondenser::Community::SteamGroup
   #
   # @return [String] The custom URL of this group
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_group.rb#30
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_group.rb:30
   def custom_url; end
 
   # Loads information about and members of this group
@@ -1597,21 +1545,21 @@ class SteamCondenser::Community::SteamGroup
   #
   # @see Cacheable#fetch
   #
-  # source://steam-condenser//lib/steam-condenser/community/cacheable.rb#43
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/cacheable.rb:43
   def fetch; end
 
   # Returns this group's 64bit SteamID
   #
   # @return [Fixnum] This group's 64bit SteamID
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_group.rb#35
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_group.rb:35
   def group_id64; end
 
   # Returns this group's headline text
   #
   # @return [String] This group's headline text
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_group.rb#40
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_group.rb:40
   def headline; end
 
   # Returns the number of members this group has
@@ -1622,7 +1570,7 @@ class SteamCondenser::Community::SteamGroup
   #
   # @return [Fixnum] The number of this group's members
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_group.rb#134
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_group.rb:134
   def member_count; end
 
   # Returns the members of this group
@@ -1632,43 +1580,43 @@ class SteamCondenser::Community::SteamGroup
   # @return [Array<SteamId>] The Steam ID's of the members of this group
   # @see #fetch
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_group.rb#149
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_group.rb:149
   def members; end
 
   # Returns this group's name
   #
   # @return [String] This group's name
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_group.rb#45
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_group.rb:45
   def name; end
 
-  # source://steam-condenser//lib/steam-condenser/community/steam_group.rb#115
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_group.rb:115
   def original_fetch; end
 
   # Returns this group's summary text
   #
   # @return [String] This group's summary text
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_group.rb#50
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_group.rb:50
   def summary; end
 
   private
 
   # Fetches a specific page of the member listing of this group
   #
-  # @param page [Fixnum] The member page to fetch
+  # @param [Fixnum] page The member page to fetch
   # @return [Fixnum] The total number of pages of this group's member listing
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_group.rb#160
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_group.rb:160
   def fetch_page(page); end
 
   class << self
-    # source://steam-condenser//lib/steam-condenser/community/steam_group.rb#17
+    # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_group.rb:17
     def method_added(name); end
   end
 end
 
-# source://steam-condenser//lib/steam-condenser/community/steam_group.rb#22
+# pkg:gem/steam-condenser#lib/steam-condenser/community/steam_group.rb:22
 SteamCondenser::Community::SteamGroup::AVATAR_URL = T.let(T.unsafe(nil), String)
 
 # The SteamId class represents a Steam Community profile (also called Steam
@@ -1676,7 +1624,7 @@ SteamCondenser::Community::SteamGroup::AVATAR_URL = T.let(T.unsafe(nil), String)
 #
 # @author Sebastian Staudt
 #
-# source://steam-condenser//lib/steam-condenser/community/steam_id.rb#23
+# pkg:gem/steam-condenser#lib/steam-condenser/community/steam_id.rb:23
 class SteamCondenser::Community::SteamId
   include ::SteamCondenser::Community::Cacheable
   include ::SteamCondenser::Community::XMLData
@@ -1684,23 +1632,18 @@ class SteamCondenser::Community::SteamId
 
   # Creates a new `SteamId` instance for the given Steam ID
   #
-  # @overload initialize
-  # @param bypass_cache [Boolean] if `true` the object's data is fetched again
-  #   even if it has been cached already
-  # @param fetch [Boolean] if `true` the object's data is fetched after
-  #   creation
-  # @param id [String, Fixnum] The custom URL of the Steam ID specified by the
-  #   user or the 64bit SteamID
-  # @return [SteamId] a new instance of SteamId
+  # @param [String, Fixnum] id The custom URL of the Steam ID specified by the
+  #        user or the 64bit SteamID
+  # @macro cacheable
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_id.rb#181
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_id.rb:181
   def initialize(id); end
 
   # Returns whether the owner of this SteamID is VAC banned
   #
   # @return [Boolean] `true` if the user has been banned by VAC
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_id.rb#196
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_id.rb:196
   def banned?; end
 
   # Returns the base URL for this Steam ID
@@ -1709,7 +1652,7 @@ class SteamCondenser::Community::SteamId
   #
   # @return [String] The base URL for this SteamID
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_id.rb#206
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_id.rb:206
   def base_url; end
 
   # Returns the custom URL of this Steam ID
@@ -1720,17 +1663,17 @@ class SteamCondenser::Community::SteamId
   # @note The custom URL is not necessarily the same as the user's nickname.
   # @return [String] The custom URL of this Steam ID
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_id.rb#37
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_id.rb:37
   def custom_url; end
 
   # Fetches data from the Steam Community by querying the XML version of the
   # profile specified by the ID of this Steam ID
   #
   # @raise [Error] if the Steam ID data is not available, e.g. when it is
-  #   private
+  #        private
   # @see Cacheable#fetch
   #
-  # source://steam-condenser//lib/steam-condenser/community/cacheable.rb#43
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/cacheable.rb:43
   def fetch; end
 
   # Fetches the friends of this user
@@ -1741,7 +1684,7 @@ class SteamCondenser::Community::SteamId
   # @see #friends
   # @see #initialize
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_id.rb#262
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_id.rb:262
   def fetch_friends; end
 
   # Fetches information about the game the user is playing currently
@@ -1749,7 +1692,7 @@ class SteamCondenser::Community::SteamId
   # @return The user’s current game information
   # @see #game_info
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_id.rb#320
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_id.rb:320
   def fetch_game_info; end
 
   # Fetches the games this user owns
@@ -1760,7 +1703,7 @@ class SteamCondenser::Community::SteamId
   #
   # @see #games
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_id.rb#278
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_id.rb:278
   def fetch_games; end
 
   # Fetches the groups this user is member of
@@ -1770,24 +1713,24 @@ class SteamCondenser::Community::SteamId
   # @return [Array<SteamGroup>] The groups of this user
   # @see #groups
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_id.rb#305
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_id.rb:305
   def fetch_groups; end
 
   # Returns the Steam Community friends of this user
   #
   # If the friends haven't been fetched yet, this is done now.
   #
-  # @return [Array<SteamId>]  The friends of this user
+  # @return [Array<SteamId>] The friends of this user
   # @see #fetch_friends
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_id.rb#357
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_id.rb:357
   def friends; end
 
   # Returns the URL of the full-sized version of this user's avatar
   #
   # @return [String] The URL of the full-sized avatar
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_id.rb#336
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_id.rb:336
   def full_avatar_url; end
 
   # Returns information about the game the user is playing currently
@@ -1797,18 +1740,18 @@ class SteamCondenser::Community::SteamId
   # @return [Hash<Symbol, Object>] The user’s current game information
   # @see #fetch_game_info
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_id.rb#388
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_id.rb:388
   def game_info; end
 
   # Returns the stats for the given game for the owner of this SteamID
   #
-  # @param app_id [Fixnum] The application ID of the game stats should be
-  #   fetched for
-  # @raise [Error] if the user does not own this game or it does not have any
-  #   stats
+  # @param [Fixnum] app_id The application ID of the game stats should be
+  #        fetched for
   # @return [GameStats] The statistics for the game with the given name
+  # @raise [Error] if the user does not own this game or it does not have any
+  #        stats
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_id.rb#347
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_id.rb:347
   def game_stats(app_id); end
 
   # Returns the games this user owns
@@ -1821,7 +1764,7 @@ class SteamCondenser::Community::SteamId
   # @return [Hash<Fixnum, SteamGame>] The games this user owns
   # @see #fetch_games
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_id.rb#370
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_id.rb:370
   def games; end
 
   # Returns all groups where this user is a member
@@ -1829,14 +1772,14 @@ class SteamCondenser::Community::SteamId
   # @return [] The groups of this user
   # @see #fetch_groups
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_id.rb#378
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_id.rb:378
   def groups; end
 
   # Returns the URL of the icon version of this user's avatar
   #
   # @return [String] The URL of the icon-sized avatar
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_id.rb#395
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_id.rb:395
   def icon_url; end
 
   # Returns a unique identifier for this Steam ID
@@ -1845,42 +1788,38 @@ class SteamCondenser::Community::SteamId
   #
   # @return [Fixnum, String] The 64bit numeric SteamID or the custom URL
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_id.rb#404
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_id.rb:404
   def id; end
 
   # Returns whether the owner of this SteamId is playing a game
   #
   # @return [Boolean] `true` if the user is in-game
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_id.rb#411
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_id.rb:411
   def in_game?; end
 
-  # Returns whether the owner of this SteamID is VAC banned
-  #
-  # @return [Boolean] `true` if the user has been banned by VAC
-  #
-  # source://steam-condenser//lib/steam-condenser/community/steam_id.rb#196
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_id.rb:196
   def is_banned?; end
 
   # Returns whether this Steam account is limited
   #
   # @return [Boolean] `true` if this account is limited
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_id.rb#418
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_id.rb:418
   def limited?; end
 
   # Returns the location of the user
   #
   # @return [String] The location of the user
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_id.rb#42
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_id.rb:42
   def location; end
 
   # Returns the URL of the medium-sized version of this user's avatar
   #
   # @return [String] The URL of the medium-sized avatar
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_id.rb#425
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_id.rb:425
   def medium_avatar_url; end
 
   # Returns the date of registration for the Steam account belonging to this
@@ -1888,55 +1827,55 @@ class SteamCondenser::Community::SteamId
   #
   # @return [Time] The date of the Steam account registration
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_id.rb#48
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_id.rb:48
   def member_since; end
 
   # Returns the Steam nickname of the user
   #
   # @return [String] The Steam nickname of the user
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_id.rb#53
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_id.rb:53
   def nickname; end
 
   # Returns whether the owner of this SteamID is currently logged into Steam
   #
   # @return [Boolean] `true` if the user is online
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_id.rb#432
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_id.rb:432
   def online?; end
 
-  # source://steam-condenser//lib/steam-condenser/community/steam_id.rb#220
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_id.rb:220
   def original_fetch; end
 
   # Returns the privacy state of this Steam ID
   #
   # @return [String] The privacy state of this Steam ID
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_id.rb#58
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_id.rb:58
   def privacy_state; end
 
   # Returns whether this Steam ID is publicly accessible
   #
   # @return [Boolean] `true` if this Steam ID is public
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_id.rb#439
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_id.rb:439
   def public?; end
 
   # Returns the real name of this user
   #
   # @return [String] The real name of this user
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_id.rb#63
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_id.rb:63
   def real_name; end
 
   # Returns the time in minutes this user has played this game in the last
   # two weeks
   #
-  # @param app_id [Fixnum] The application ID of the game
+  # @param [Fixnum] app_id The application ID of the game
   # @return [Fixnum] The number of minutes this user played the given game in
-  #   the last two weeks
+  #         the last two weeks
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_id.rb#449
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_id.rb:449
   def recent_playtime(app_id); end
 
   # Returns the message corresponding to this user's online state
@@ -1945,7 +1884,7 @@ class SteamCondenser::Community::SteamId
   # @see #ingame?
   # @see #online?
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_id.rb#70
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_id.rb:70
   def state_message; end
 
   # Returns this user's 64bit SteamID
@@ -1955,7 +1894,7 @@ class SteamCondenser::Community::SteamId
   # @return [Fixnum] This user's 64bit SteamID
   # @see .resolve_vanity_url
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_id.rb#459
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_id.rb:459
   def steam_id64; end
 
   # Returns the current Steam level of this user
@@ -1965,30 +1904,30 @@ class SteamCondenser::Community::SteamId
   # @return [Fixnum] The current Steam level of this user
   # @see #update_steam_level
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_id.rb#469
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_id.rb:469
   def steam_level; end
 
   # Returns the summary this user has provided
   #
   # @return [String] This user's summary
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_id.rb#75
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_id.rb:75
   def summary; end
 
   # Returns the total time in minutes this user has played this game
   #
-  # @param app_id [Fixnum] The application ID of the game
+  # @param [Fixnum] app_id The application ID of the game
   # @return [Fixnum] The total number of minutes this user played the given
-  #   game
+  #         game
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_id.rb#478
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_id.rb:478
   def total_playtime(app_id); end
 
   # Returns this user's ban state in Steam's trading system
   #
   # @return [String] This user's trading ban state
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_id.rb#80
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_id.rb:80
   def trade_ban_state; end
 
   # Updates the Steam level of this user using the Web API
@@ -1996,37 +1935,37 @@ class SteamCondenser::Community::SteamId
   # @return [Fixnum] The current Steam level of this user
   # @see #steam_level
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_id.rb#486
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_id.rb:486
   def update_steam_level; end
 
   # Returns the visibility state of this Steam ID
   #
   # @return [Fixnum] This Steam ID's visibility State
   #
-  # source://steam-condenser//lib/steam-condenser/community/steam_id.rb#85
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_id.rb:85
   def visibility_state; end
 
   class << self
     # Converts a 64bit numeric SteamID as used by the Steam Community to the
     # legacy SteamID format
     #
-    # @param community_id [Fixnum] The SteamID string as used by the Steam
-    #   Community
+    # @param [Fixnum] community_id The SteamID string as used by the Steam
+    #        Community
     # @raise [Error] if the community ID is to small
     # @return [String] The converted SteamID, like `STEAM_0:0:12345`
     #
-    # source://steam-condenser//lib/steam-condenser/community/steam_id.rb#94
+    # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_id.rb:94
     def community_id_to_steam_id(community_id); end
 
     # Converts a 64bit numeric SteamID as used by the Steam Community to the
     # modern SteamID format (also known as SteamID 3)
     #
-    # @param community_id [Fixnum] The SteamID string as used by the Steam
-    #   Community
+    # @param [Fixnum] community_id The SteamID string as used by the Steam
+    #        Community
     # @raise [Error] if the community ID is to small
     # @return [String] The converted SteamID, like `[U:1:12345]`
     #
-    # source://steam-condenser//lib/steam-condenser/community/steam_id.rb#114
+    # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_id.rb:114
     def community_id_to_steam_id3(community_id); end
 
     # Creates a new `SteamId` instance using a SteamID as used on servers
@@ -2035,36 +1974,36 @@ class SteamCondenser::Community::SteamId
     # first before this is used to retrieve the corresponding Steam Community
     # profile.
     #
-    # @param steam_id [String] The SteamID string as used on servers, like
-    #   `STEAM_0:0:12345`
+    # @param [String] steam_id The SteamID string as used on servers, like
+    #        `STEAM_0:0:12345`
     # @return [SteamId] The `SteamId` belonging to the given SteamID
-    # @see #initialize
     # @see .convert_steam_id_to_community_id
+    # @see #initialize
     #
-    # source://steam-condenser//lib/steam-condenser/community/steam_id.rb#172
+    # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_id.rb:172
     def from_steam_id(steam_id); end
 
-    # source://steam-condenser//lib/steam-condenser/community/steam_id.rb#25
+    # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_id.rb:25
     def method_added(name); end
 
     # Resolves a vanity URL of a Steam Community profile to a 64bit numeric
     # SteamID
     #
-    # @param vanity_url [String] The vanity URL of a Steam Community profile
+    # @param [String] vanity_url The vanity URL of a Steam Community profile
     # @return [Fixnum] The 64bit numeric SteamID
     #
-    # source://steam-condenser//lib/steam-condenser/community/steam_id.rb#131
+    # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_id.rb:131
     def resolve_vanity_url(vanity_url); end
 
     # Converts a SteamID as reported by game servers to a 64bit numeric SteamID
     # as used by the Steam Community
     #
-    # @param steam_id [String] The SteamID string as used on servers, like
-    #   `STEAM_0:0:12345`
+    # @param [String] steam_id The SteamID string as used on servers, like
+    #        `STEAM_0:0:12345`
     # @raise [Error] if the SteamID doesn't have the correct format
     # @return [Fixnum] The converted 64bit numeric SteamID
     #
-    # source://steam-condenser//lib/steam-condenser/community/steam_id.rb#147
+    # pkg:gem/steam-condenser#lib/steam-condenser/community/steam_id.rb:147
     def steam_id_to_community_id(steam_id); end
   end
 end
@@ -2074,27 +2013,22 @@ end
 #
 # @author Sebastian Staudt
 #
-# source://steam-condenser//lib/steam-condenser/community/tf2/tf2_beta_inventory.rb#14
+# pkg:gem/steam-condenser#lib/steam-condenser/community/tf2/tf2_beta_inventory.rb:14
 class SteamCondenser::Community::TF2BetaInventory < ::SteamCondenser::Community::GameInventory
   # Creates a new inventory object for the given SteamID64 in the Team Fortress
   # 2 beta (App ID 520)
   #
-  # @overload initialize
-  # @param bypass_cache [Boolean] if `true` the object's data is fetched again
-  #   even if it has been cached already
-  # @param fetch [Boolean] if `true` the object's data is fetched after
-  #   creation
-  # @param steam_id64 [Fixnum] The 64bit SteamID of the player to get the
-  #   inventory for
-  # @return [TF2BetaInventory] a new instance of TF2BetaInventory
+  # @param [Fixnum] steam_id64 The 64bit SteamID of the player to get the
+  #        inventory for
+  # @macro cacheable
   #
-  # source://steam-condenser//lib/steam-condenser/community/tf2/tf2_beta_inventory.rb#25
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/tf2/tf2_beta_inventory.rb:25
   def initialize(steam_id64); end
 end
 
 # The Steam application ID of the Team Fortress 2 beta
 #
-# source://steam-condenser//lib/steam-condenser/community/tf2/tf2_beta_inventory.rb#17
+# pkg:gem/steam-condenser#lib/steam-condenser/community/tf2/tf2_beta_inventory.rb:17
 SteamCondenser::Community::TF2BetaInventory::APP_ID = T.let(T.unsafe(nil), Integer)
 
 # Represents the special Team Fortress 2 item Golden Wrench. It includes the
@@ -2103,52 +2037,51 @@ SteamCondenser::Community::TF2BetaInventory::APP_ID = T.let(T.unsafe(nil), Integ
 #
 # @author Sebastian Staudt
 #
-# source://steam-condenser//lib/steam-condenser/community/tf2/tf2_golden_wrench.rb#18
+# pkg:gem/steam-condenser#lib/steam-condenser/community/tf2/tf2_golden_wrench.rb:18
 class SteamCondenser::Community::TF2GoldenWrench
   # Creates a new instance of a Golden Wrench with the given data
   #
-  # @param wrench_data [Hash<Symbol, Object>] The JSON data for this wrench
-  # @return [TF2GoldenWrench] a new instance of TF2GoldenWrench
+  # @param [Hash<Symbol, Object>] wrench_data The JSON data for this wrench
   #
-  # source://steam-condenser//lib/steam-condenser/community/tf2/tf2_golden_wrench.rb#65
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/tf2/tf2_golden_wrench.rb:65
   def initialize(wrench_data); end
 
   # Returns the date this Golden Wrench has been crafted
   #
   # @return [Time] The crafting date of this wrench
   #
-  # source://steam-condenser//lib/steam-condenser/community/tf2/tf2_golden_wrench.rb#23
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/tf2/tf2_golden_wrench.rb:23
   def date; end
 
   # Returns the unique item ID of this Golden Wrench
   #
   # @return [Fixnum] The ID of this wrench
   #
-  # source://steam-condenser//lib/steam-condenser/community/tf2/tf2_golden_wrench.rb#28
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/tf2/tf2_golden_wrench.rb:28
   def id; end
 
   # Returns the serial number of this Golden Wrench
   #
   # @return [Fixnum] The serial of this wrench
   #
-  # source://steam-condenser//lib/steam-condenser/community/tf2/tf2_golden_wrench.rb#33
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/tf2/tf2_golden_wrench.rb:33
   def number; end
 
   # Returns the SteamID of the owner of this Golden Wrench
   #
   # @return [SteamId] The owner of this wrench
   #
-  # source://steam-condenser//lib/steam-condenser/community/tf2/tf2_golden_wrench.rb#38
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/tf2/tf2_golden_wrench.rb:38
   def owner; end
 
   class << self
     # Returns all Golden Wrenches
     #
     # @raise [Error] if an error occurs querying the Web API or the Steam
-    #   Community
+    #        Community
     # @return [Array<GoldenWrench>] All Golden Wrenches
     #
-    # source://steam-condenser//lib/steam-condenser/community/tf2/tf2_golden_wrench.rb#47
+    # pkg:gem/steam-condenser#lib/steam-condenser/community/tf2/tf2_golden_wrench.rb:47
     def golden_wrenches; end
   end
 end
@@ -2157,58 +2090,52 @@ end
 #
 # @author Sebastian Staudt
 #
-# source://steam-condenser//lib/steam-condenser/community/tf2/tf2_inventory.rb#13
+# pkg:gem/steam-condenser#lib/steam-condenser/community/tf2/tf2_inventory.rb:13
 class SteamCondenser::Community::TF2Inventory < ::SteamCondenser::Community::GameInventory
   # Creates a new inventory object for the given SteamID64 in Team Fortress 2
   # (App ID 440)
   #
-  # @overload initialize
-  # @param bypass_cache [Boolean] if `true` the object's data is fetched again
-  #   even if it has been cached already
-  # @param fetch [Boolean] if `true` the object's data is fetched after
-  #   creation
-  # @param steam_id64 [Fixnum] The 64bit SteamID of the player to get the
-  #   inventory for
-  # @return [TF2Inventory] a new instance of TF2Inventory
+  # @param [Fixnum] steam_id64 The 64bit SteamID of the player to get the
+  #        inventory for
+  # @macro cacheable
   #
-  # source://steam-condenser//lib/steam-condenser/community/tf2/tf2_inventory.rb#24
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/tf2/tf2_inventory.rb:24
   def initialize(steam_id64); end
 end
 
 # The Steam application ID of Team Fortress 2
 #
-# source://steam-condenser//lib/steam-condenser/community/tf2/tf2_inventory.rb#16
+# pkg:gem/steam-condenser#lib/steam-condenser/community/tf2/tf2_inventory.rb:16
 SteamCondenser::Community::TF2Inventory::APP_ID = T.let(T.unsafe(nil), Integer)
 
 # Represents a Team Fortress 2 item
 #
 # @author Sebastian Staudt
 #
-# source://steam-condenser//lib/steam-condenser/community/tf2/tf2_item.rb#13
+# pkg:gem/steam-condenser#lib/steam-condenser/community/tf2/tf2_item.rb:13
 class SteamCondenser::Community::TF2Item < ::SteamCondenser::Community::GameItem
   # Creates a new instance of a TF2 item with the given data
   #
-  # @param inventory [TF2Inventory] The inventory this item is contained in
-  # @param item_data [Hash<Symbol, Object>] The data specifying this item
+  # @param [TF2Inventory] inventory The inventory this item is contained in
+  # @param [Hash<Symbol, Object>] item_data The data specifying this item
   # @raise [Error::WebApi] on Web API errors
-  # @return [TF2Item] a new instance of TF2Item
   #
-  # source://steam-condenser//lib/steam-condenser/community/tf2/tf2_item.rb#29
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/tf2/tf2_item.rb:29
   def initialize(inventory, item_data); end
 
   # Returns the class symbols for each class this player has equipped this item
   #
   # @return [Array<String>] The names of the classes this player has equipped
-  #   this item
+  #         this item
   #
-  # source://steam-condenser//lib/steam-condenser/community/tf2/tf2_item.rb#44
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/tf2/tf2_item.rb:44
   def classes_equipped?; end
 
   # Returns whether this item is equipped by this player at all
   #
   # @return [Boolean] `true` if the player has equipped this item at all
   #
-  # source://steam-condenser//lib/steam-condenser/community/tf2/tf2_item.rb#51
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/tf2/tf2_item.rb:51
   def equipped?; end
 
   # Returns the slot where this item can be equipped in or `nil` if this item
@@ -2216,19 +2143,19 @@ class SteamCondenser::Community::TF2Item < ::SteamCondenser::Community::GameItem
   #
   # @return [String, nil] The slot where this item can be equipped in
   #
-  # source://steam-condenser//lib/steam-condenser/community/tf2/tf2_item.rb#22
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/tf2/tf2_item.rb:22
   def slot; end
 end
 
 # The names of the classes available in Team Fortress 2
 #
-# source://steam-condenser//lib/steam-condenser/community/tf2/tf2_item.rb#16
+# pkg:gem/steam-condenser#lib/steam-condenser/community/tf2/tf2_item.rb:16
 SteamCondenser::Community::TF2Item::CLASSES = T.let(T.unsafe(nil), Array)
 
-# source://steam-condenser//lib/steam-condenser/community/uri.rb#4
+# pkg:gem/steam-condenser#lib/steam-condenser/community/uri.rb:4
 module SteamCondenser::Community::URI
   class << self
-    # source://steam-condenser//lib/steam-condenser/community/uri.rb#6
+    # pkg:gem/steam-condenser#lib/steam-condenser/community/uri.rb:6
     def open(*args); end
   end
 end
@@ -2240,7 +2167,7 @@ end
 #
 # @author Sebastian Staudt
 #
-# source://steam-condenser//lib/steam-condenser/community/web_api.rb#19
+# pkg:gem/steam-condenser#lib/steam-condenser/community/web_api.rb:19
 module SteamCondenser::Community::WebApi
   include ::SteamCondenser::Logging
 
@@ -2249,36 +2176,36 @@ module SteamCondenser::Community::WebApi
     #
     # @return [String] The currently active Steam Web API key
     #
-    # source://steam-condenser//lib/steam-condenser/community/web_api.rb#30
+    # pkg:gem/steam-condenser#lib/steam-condenser/community/web_api.rb:30
     def api_key; end
 
     # Sets the Steam Web API key
     #
-    # @param api_key [String] The 128bit API key as a hexadecimal string that
-    #   has to be requested from http://steamcommunity.com/dev
+    # @param [String] api_key The 128bit API key as a hexadecimal string that
+    #        has to be requested from http://steamcommunity.com/dev
     # @raise [Error::WebApi] if the given API key is not a valid 128bit
-    #   hexadecimal string
+    #        hexadecimal string
     #
-    # source://steam-condenser//lib/steam-condenser/community/web_api.rb#40
+    # pkg:gem/steam-condenser#lib/steam-condenser/community/web_api.rb:40
     def api_key=(api_key); end
 
     # Fetches data from Steam Web API using the specified interface, method and
     # version. Additional parameters are supplied via HTTP GET. Data is
     # returned as a string in the given format.
     #
-    # @param format [Symbol] The format to load from the API (`:json`, `:vdf`,
-    #   or `:xml`)
-    # @param interface [String] The Web API interface to call, e.g.
-    #   `ISteamUser`
-    # @param method [String] The Web API method to call, e.g.
-    #   `GetPlayerSummaries`
-    # @param params [Hash<Symbol, Object>] Additional parameters to supply via
-    #   HTTP GET
-    # @param version [Fixnum] The API method version to use
+    # @param [Symbol] format The format to load from the API (`:json`, `:vdf`,
+    #        or `:xml`)
+    # @param [String] interface The Web API interface to call, e.g.
+    #        `ISteamUser`
+    # @param [String] method The Web API method to call, e.g.
+    #        `GetPlayerSummaries`
+    # @param [Fixnum] version The API method version to use
+    # @param [Hash<Symbol, Object>] params Additional parameters to supply via
+    #        HTTP GET
     # @raise [Error::WebApi] if the request to Steam's Web API fails
     # @return [String] The data as replied by the Web API in the desired format
     #
-    # source://steam-condenser//lib/steam-condenser/community/web_api.rb#123
+    # pkg:gem/steam-condenser#lib/steam-condenser/community/web_api.rb:123
     def get(format, interface, method, version = T.unsafe(nil), params = T.unsafe(nil)); end
 
     # Returns a raw list of interfaces and their methods that are available in
@@ -2289,51 +2216,51 @@ module SteamCondenser::Community::WebApi
     #
     # @return [Array<Hash>] The list of interfaces and methods
     #
-    # source://steam-condenser//lib/steam-condenser/community/web_api.rb#62
+    # pkg:gem/steam-condenser#lib/steam-condenser/community/web_api.rb:62
     def interfaces; end
 
     # Fetches JSON data from Steam Web API using the specified interface,
     # method and version. Additional parameters are supplied via HTTP GET.
     # Data is returned as a Hash containing the JSON data.
     #
-    # @param interface [String] The Web API interface to call, e.g.
-    #   `ISteamUser`
-    # @param method [String] The Web API method to call, e.g.
-    #   `GetPlayerSummaries`
-    # @param params [Hash<Symbol, Object>] Additional parameters to supply via
-    #   HTTP GET
-    # @param version [Fixnum] The API method version to use
+    # @param [String] interface The Web API interface to call, e.g.
+    #        `ISteamUser`
+    # @param [String] method The Web API method to call, e.g.
+    #        `GetPlayerSummaries`
+    # @param [Fixnum] version The API method version to use
+    # @param [Hash<Symbol, Object>] params Additional parameters to supply via
+    #        HTTP GET
     # @raise [Error::WebApi] if the request to Steam's Web API fails
     # @return [Hash<Symbol, Object>] The JSON data replied to the request
     #
-    # source://steam-condenser//lib/steam-condenser/community/web_api.rb#79
+    # pkg:gem/steam-condenser#lib/steam-condenser/community/web_api.rb:79
     def json(interface, method, version = T.unsafe(nil), params = T.unsafe(nil)); end
 
     # Fetches JSON data from Steam Web API using the specified interface,
     # method and version. Additional parameters are supplied via HTTP GET.
     # Data is returned as a Hash containing the JSON data.
     #
-    # @param interface [String] The Web API interface to call, e.g.
-    #   `ISteamUser`
-    # @param method [String] The Web API method to call, e.g.
-    #   `GetPlayerSummaries`
-    # @param params [Hash<Symbol, Object>] Additional parameters to supply via
-    #   HTTP GET
-    # @param version [Fixnum] The API method version to use
+    # @param [String] interface The Web API interface to call, e.g.
+    #        `ISteamUser`
+    # @param [String] method The Web API method to call, e.g.
+    #        `GetPlayerSummaries`
+    # @param [Fixnum] version The API method version to use
+    # @param [Hash<Symbol, Object>] params Additional parameters to supply via
+    #        HTTP GET
     # @raise [Error::WebApi] if the request to Steam's Web API fails
     # @return [Hash<Symbol, Object>] The JSON data replied to the request
     #
-    # source://steam-condenser//lib/steam-condenser/community/web_api.rb#97
+    # pkg:gem/steam-condenser#lib/steam-condenser/community/web_api.rb:97
     def json!(interface, method, version = T.unsafe(nil), params = T.unsafe(nil)); end
 
-    # source://steam-condenser//lib/steam-condenser/community/web_api.rb#21
+    # pkg:gem/steam-condenser#lib/steam-condenser/community/web_api.rb:21
     def log; end
 
     # Sets whether HTTPS should be used for the communication with the Web API
     #
-    # @param secure [Boolean] Whether to use HTTPS
+    # @param [Boolean] secure Whether to use HTTPS
     #
-    # source://steam-condenser//lib/steam-condenser/community/web_api.rb#51
+    # pkg:gem/steam-condenser#lib/steam-condenser/community/web_api.rb:51
     def secure=(secure); end
   end
 end
@@ -2342,61 +2269,132 @@ end
 #
 # @author Sebastian Staudt
 #
-# source://steam-condenser//lib/steam-condenser/community/xml_data.rb#14
+# pkg:gem/steam-condenser#lib/steam-condenser/community/xml_data.rb:14
 module SteamCondenser::Community::XMLData
   # Parse the given URL as XML data using `multi_xml`
   #
-  # @param url [String] The URL to parse
-  # @raise [Error] if an error occurs while parsing the XML data
+  # @param [String] url The URL to parse
   # @return [Hash<String, Object>] The data parsed from the XML document
+  # @raise [Error] if an error occurs while parsing the XML data
   #
-  # source://steam-condenser//lib/steam-condenser/community/xml_data.rb#20
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/xml_data.rb:20
   def parse(url); end
 end
 
-# source://steam-condenser//lib/steam-condenser/error.rb#11
+# pkg:gem/steam-condenser#lib/steam-condenser/error.rb:11
 class SteamCondenser::Error < ::StandardError
   # Creates a new `Error` instance
   #
-  # @param cause [Exception] The exception that caused this error
-  # @param message [String] The message to attach to the error
-  # @return [Error] a new instance of Error
+  # @param [String] message The message to attach to the error
+  # @param [Exception] cause The exception that caused this error
   #
-  # source://steam-condenser//lib/steam-condenser/error.rb#22
+  # pkg:gem/steam-condenser#lib/steam-condenser/error.rb:22
   def initialize(message, cause = T.unsafe(nil)); end
 
   # Returns the exception that caused this error
   #
   # @return [Exception] The exception that caused this error
   #
-  # source://steam-condenser//lib/steam-condenser/error.rb#16
+  # pkg:gem/steam-condenser#lib/steam-condenser/error.rb:16
   def cause; end
 end
 
-# source://steam-condenser//lib/steam-condenser/error/packet_format.rb#14
+# This error class indicates a problem when parsing packet data from the
+# responses received from a game or master server
+#
+# @author Sebastian Staudt
+#
+# pkg:gem/steam-condenser#lib/steam-condenser/error/packet_format.rb:14
 class SteamCondenser::Error::PacketFormat < ::SteamCondenser::Error; end
 
-# source://steam-condenser//lib/steam-condenser/error/rcon_ban.rb#18
+# This error class indicates that the IP address your accessing the game
+# server from has been banned by the server
+#
+# You or the server operator will have to unban your IP address on the
+# server.
+#
+# @author Sebastian Staudt
+# @see GameServer#rcon_auth
+#
+# pkg:gem/steam-condenser#lib/steam-condenser/error/rcon_ban.rb:18
 class SteamCondenser::Error::RCONBan < ::SteamCondenser::Error
-  # source://steam-condenser//lib/steam-condenser/error/rcon_ban.rb#21
+  # Creates a new `Error::RCONBan` instance
+  #
+  # pkg:gem/steam-condenser#lib/steam-condenser/error/rcon_ban.rb:21
   def initialize; end
 end
 
-# source://steam-condenser//lib/steam-condenser/error/rcon_no_auth.rb#16
+# This error class indicates that you have not authenticated yet with the
+# game server you're trying to send commands via RCON
+#
+# @author Sebastian Staudt
+# @see GameServer#rcon_auth
+# @see GameServer#rcon_exec
+#
+# pkg:gem/steam-condenser#lib/steam-condenser/error/rcon_no_auth.rb:16
 class SteamCondenser::Error::RCONNoAuth < ::SteamCondenser::Error
-  # source://steam-condenser//lib/steam-condenser/error/rcon_no_auth.rb#19
+  # Creates a new `Error::RCONNoAuth` instance
+  #
+  # pkg:gem/steam-condenser#lib/steam-condenser/error/rcon_no_auth.rb:19
   def initialize; end
 end
 
-# source://steam-condenser//lib/steam-condenser/error/timeout.rb#19
+# This error class indicates that an operation could not be finished within a
+# reasonable amount of time
+#
+# This usually indicates that a server could not be contacted because of
+# network problems.
+#
+# @author Sebastian Staudt
+# @note {SteamSocket.timeout=} allows to set a custom timeout for socket
+#       operations
+#
+# pkg:gem/steam-condenser#lib/steam-condenser/error/timeout.rb:19
 class SteamCondenser::Error::Timeout < ::SteamCondenser::Error
-  # source://steam-condenser//lib/steam-condenser/error/timeout.rb#22
+  # Creates a new `Error::Timeout` instance
+  #
+  # pkg:gem/steam-condenser#lib/steam-condenser/error/timeout.rb:22
   def initialize; end
 end
 
-# source://steam-condenser//lib/steam-condenser/error/web_api.rb#16
+# This error is raised when a Steam Web API request or a related action
+# fails. This can have various reasons like an invalid Web API key or a
+# broken request.
+#
+# @author Sebastian Staudt
+# @see WebApi
+#
+# pkg:gem/steam-condenser#lib/steam-condenser/error/web_api.rb:16
 class SteamCondenser::Error::WebApi < ::SteamCondenser::Error
-  # source://steam-condenser//lib/steam-condenser/error/web_api.rb#45
+  # Creates a new `Error::WebApi` with an error message according to the
+  # given `cause`. If this cause is `:status_bad` (which will origin from the
+  # Web API itself) or `:http_error` the details about this failed request
+  # will be taken from `status_code` and `status_message`.
+  #
+  # @param [:http_error, :invalid_key, :status_bad, :unauthorized] cause A
+  #        symbolic name for the problem which caused this error:
+  #
+  #        * `:http_error`: An error during the HTTP request itself will
+  #          result in an error with this reason.
+  #        * `:invalid_key`: This occurs when trying to set a Web API key
+  #          that isn't valid, i.e. a 128 bit integer in a hexadecimal
+  #          string.
+  #        * `:status_bad`: This is caused by a successful request that fails
+  #          for some Web API internal reason (e.g. an invalid argument).
+  #          Details about this failed request will be taken from
+  #          `status_code` and `status_message`.
+  #        * `:unauthorized`: This happens when a Steam Web API request is
+  #          rejected as unauthorized. This most likely means that you did
+  #          not specify a valid Web API key using {WebApi.api_key=}. A Web
+  #          API key can be obtained from
+  #          http://steamcommunity.com/dev/apikey.
+  #
+  #        Other undefined reasons will cause a generic error message.
+  # @param [Fixnum] status_code The HTTP status code returned by the Web API
+  # @param [String] status_message The status message returned in the
+  #        response
+  #
+  # pkg:gem/steam-condenser#lib/steam-condenser/error/web_api.rb:45
   def initialize(cause, status_code = T.unsafe(nil), status_message = T.unsafe(nil)); end
 end
 
@@ -2405,22 +2403,22 @@ end
 # It is a lightweight wrapper around Ruby's `Logger` class from the standard
 # library.
 #
-# source://steam-condenser//lib/steam-condenser/logging.rb#12
+# pkg:gem/steam-condenser#lib/steam-condenser/logging.rb:12
 module SteamCondenser::Logging
   # Returns the logger for the current class
   #
   # @return [Logger] The logger for the current class
   #
-  # source://steam-condenser//lib/steam-condenser/logging.rb#69
+  # pkg:gem/steam-condenser#lib/steam-condenser/logging.rb:69
   def log; end
 
   class << self
     # Sets the default formatter to use for all logging events in Steam
     # Condenser
     #
-    # @param formatter [#call] The formatter to use when logging
+    # @param [#call] formatter The formatter to use when logging
     #
-    # source://steam-condenser//lib/steam-condenser/logging.rb#46
+    # pkg:gem/steam-condenser#lib/steam-condenser/logging.rb:46
     def formatter=(formatter); end
 
     # Creates a logger for the class that includes this module
@@ -2428,30 +2426,30 @@ module SteamCondenser::Logging
     # Additionally it defines a `.log` singleton method for the class that
     # includes this module
     #
-    # @param klass [Class] The class that includes this module
+    # @param [Class] klass The class that includes this module
     #
-    # source://steam-condenser//lib/steam-condenser/logging.rb#26
+    # pkg:gem/steam-condenser#lib/steam-condenser/logging.rb:26
     def included(klass); end
 
     # Sets the default log level to use for filtering all logging events in
     # Steam Condenser
     #
-    # @param level [Fixnum] The log level to use when logging
+    # @param [Fixnum] level The log level to use when logging
     #
-    # source://steam-condenser//lib/steam-condenser/logging.rb#62
+    # pkg:gem/steam-condenser#lib/steam-condenser/logging.rb:62
     def level=(level); end
 
     # Sets the default logging device to use for all logging events in Steam
     # Condenser
     #
-    # @param logdev [IO] For example an output stream or file to log to
+    # @param [IO] logdev For example an output stream or file to log to
     #
-    # source://steam-condenser//lib/steam-condenser/logging.rb#54
+    # pkg:gem/steam-condenser#lib/steam-condenser/logging.rb:54
     def logdev=(logdev); end
   end
 end
 
-# source://steam-condenser//lib/steam-condenser/servers.rb#13
+# pkg:gem/steam-condenser#lib/steam-condenser/servers.rb:13
 module SteamCondenser::Servers; end
 
 # This module is included by all classes implementing server functionality
@@ -2461,40 +2459,40 @@ module SteamCondenser::Servers; end
 #
 # @author Sebastian Staudt
 #
-# source://steam-condenser//lib/steam-condenser/servers/base_server.rb#18
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/base_server.rb:18
 module SteamCondenser::Servers::BaseServer
   # Creates a new server instance with the given address and port
   #
-  # @param address [String] Either an IP address, a DNS name or one of them
-  #   combined with the port number. If a port number is given, e.g.
-  #   'server.example.com:27016' it will override the second argument.
-  # @param port [Fixnum] The port the server is listening on
-  # @raise [Error] if an host name cannot be resolved
+  # @param [String] address Either an IP address, a DNS name or one of them
+  #        combined with the port number. If a port number is given, e.g.
+  #        'server.example.com:27016' it will override the second argument.
+  # @param [Fixnum] port The port the server is listening on
   # @see init_socket
+  # @raise [Error] if an host name cannot be resolved
   #
-  # source://steam-condenser//lib/steam-condenser/servers/base_server.rb#38
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/base_server.rb:38
   def initialize(address, port = T.unsafe(nil)); end
 
   # Disconnect the connections to this server
   #
   # @note In the base implementation this does nothing, only connection-based
-  #   communication channels have to be disconnected.
+  #       communication channels have to be disconnected.
   #
-  # source://steam-condenser//lib/steam-condenser/servers/base_server.rb#62
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/base_server.rb:62
   def disconnect; end
 
   # Returns a list of host names associated with this server
   #
   # @return [Array<String>] The host names of this server
   #
-  # source://steam-condenser//lib/steam-condenser/servers/base_server.rb#23
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/base_server.rb:23
   def host_names; end
 
   # Returns a list of IP addresses associated with this server
   #
   # @return [Array<String>] The IP addresses of this server
   #
-  # source://steam-condenser//lib/steam-condenser/servers/base_server.rb#28
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/base_server.rb:28
   def ip_addresses; end
 
   # Rotate this server's IP address to the next one in the IP list
@@ -2507,11 +2505,11 @@ module SteamCondenser::Servers::BaseServer
   # `true` and the sockets will not be reinitialized.
   #
   # @return [Boolean] `true`, if the IP list reached its end. If the list
-  #   contains only one IP address, this method will instantly return
-  #   `true`
+  #         contains only one IP address, this method will instantly return
+  #         `true`
   # @see #init_socket
   #
-  # source://steam-condenser//lib/steam-condenser/servers/base_server.rb#78
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/base_server.rb:78
   def rotate_ip; end
 
   protected
@@ -2522,18 +2520,18 @@ module SteamCondenser::Servers::BaseServer
   # list and the execution will be repeated for the next IP address. If the IP
   # rotation reaches the end of the list, the error will be reraised.
   #
-  # @param proc [Proc] The action to be executed in a failsafe way
+  # @param [Proc] proc The action to be executed in a failsafe way
   # @see #rotate_ip
   #
-  # source://steam-condenser//lib/steam-condenser/servers/base_server.rb#99
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/base_server.rb:99
   def failsafe(&proc); end
 
   # Initializes the socket(s) to communicate with the server
   #
   # @abstract Must be implemented in including classes to prepare sockets for
-  #   server communication
+  #           server communication
   #
-  # source://steam-condenser//lib/steam-condenser/servers/base_server.rb#113
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/base_server.rb:113
   def init_socket; end
 end
 
@@ -2543,19 +2541,19 @@ end
 #
 # @author Sebastian Staudt
 #
-# source://steam-condenser//lib/steam-condenser/servers/game_server.rb#28
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/game_server.rb:28
 module SteamCondenser::Servers::GameServer
   include ::SteamCondenser::Servers::BaseServer
 
   # Creates a new instance of a game server object
   #
-  # @param address [String] Either an IP address, a DNS name or one of them
-  #   combined with the port number. If a port number is given, e.g.
-  #   'server.example.com:27016' it will override the second argument.
-  # @param port [Fixnum] The port the server is listening on
+  # @param [String] address Either an IP address, a DNS name or one of them
+  #        combined with the port number. If a port number is given, e.g.
+  #        'server.example.com:27016' it will override the second argument.
+  # @param [Fixnum] port The port the server is listening on
   # @raise [Error] if an host name cannot be resolved
   #
-  # source://steam-condenser//lib/steam-condenser/servers/game_server.rb#91
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/game_server.rb:91
   def initialize(address, port = T.unsafe(nil)); end
 
   # Sends the specified request to the server and handles the returned response
@@ -2563,15 +2561,15 @@ module SteamCondenser::Servers::GameServer
   # Depending on the given request type this will fill the various data
   # attributes of the server object.
   #
-  # @param repeat_on_failure [Boolean] Whether the request should be repeated,
-  #   if the replied packet isn't expected. This is useful to handle
-  #   missing challenge numbers, which will be automatically filled in,
-  #   although not requested explicitly.
-  # @param request_type [Symbol] The type of request to send to the server
+  # @param [Symbol] request_type The type of request to send to the server
+  # @param [Boolean] repeat_on_failure Whether the request should be repeated,
+  #        if the replied packet isn't expected. This is useful to handle
+  #        missing challenge numbers, which will be automatically filled in,
+  #        although not requested explicitly.
   # @raise [Error] if either the request type or the response
-  #   packet is not known
+  #        packet is not known
   #
-  # source://steam-condenser//lib/steam-condenser/servers/game_server.rb#207
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/game_server.rb:207
   def handle_response_for_request(request_type, repeat_on_failure = T.unsafe(nil)); end
 
   # Initializes this server object with basic information
@@ -2580,7 +2578,7 @@ module SteamCondenser::Servers::GameServer
   # @see #update_ping
   # @see #update_server_info
   #
-  # source://steam-condenser//lib/steam-condenser/servers/game_server.rb#255
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/game_server.rb:255
   def init; end
 
   # Returns the last measured response time of this server
@@ -2594,7 +2592,7 @@ module SteamCondenser::Servers::GameServer
   # @return [Fixnum] The latency of this server in milliseconds
   # @see #update_ping
   #
-  # source://steam-condenser//lib/steam-condenser/servers/game_server.rb#107
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/game_server.rb:107
   def ping; end
 
   # Returns a list of players currently playing on this server
@@ -2606,25 +2604,24 @@ module SteamCondenser::Servers::GameServer
   # list regularly by calling {#update_players} if you rely on this
   # information.
   #
-  # @param rcon_password [String] The RCON password of this server may be
-  #   provided to gather more detailed information on the players, like
-  #   STEAM_IDs.
+  # @param [String] rcon_password The RCON password of this server may be
+  #        provided to gather more detailed information on the players, like
+  #        STEAM_IDs.
   # @return [Hash] The players on this server
   # @see update_players
   #
-  # source://steam-condenser//lib/steam-condenser/servers/game_server.rb#126
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/game_server.rb:126
   def players(rcon_password = T.unsafe(nil)); end
 
   # Authenticates the connection for RCON communication with the server
   #
   # @abstract Must be be implemented by including classes to handle the
-  #   authentication
-  # @param password [String] The RCON password of the server
-  # @raise [NotImplementedError]
+  #           authentication
+  # @param [String] password The RCON password of the server
   # @return [Boolean] whether the authentication was successful
   # @see #rcon_exec
   #
-  # source://steam-condenser//lib/steam-condenser/servers/game_server.rb#138
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/game_server.rb:138
   def rcon_auth(password); end
 
   # Returns whether the RCON connection to this server is already authenticated
@@ -2632,19 +2629,18 @@ module SteamCondenser::Servers::GameServer
   # @return [Boolean] `true` if the RCON connection is authenticated
   # @see #rcon_auth
   #
-  # source://steam-condenser//lib/steam-condenser/servers/game_server.rb#146
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/game_server.rb:146
   def rcon_authenticated?; end
 
   # Remotely executes a command on the server via RCON
   #
   # @abstract Must be be implemented by including classes to handle the command
-  #   execution
-  # @param command [String] The command to execute on the server
-  # @raise [NotImplementedError]
+  #           execution
+  # @param [String] command The command to execute on the server
   # @return [String] The output of the executed command
   # @see #rcon_auth
   #
-  # source://steam-condenser//lib/steam-condenser/servers/game_server.rb#157
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/game_server.rb:157
   def rcon_exec(command); end
 
   # Returns the settings applied on the server. These settings are also called
@@ -2660,7 +2656,7 @@ module SteamCondenser::Servers::GameServer
   # @return [Hash<String, String>] The currently active server rules
   # @see #update_rules
   #
-  # source://steam-condenser//lib/steam-condenser/servers/game_server.rb#173
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/game_server.rb:173
   def rules; end
 
   # Returns a hash with basic information on the server.
@@ -2676,15 +2672,15 @@ module SteamCondenser::Servers::GameServer
   # @return [Hash] Server attributes with their values
   # @see #update_server_info
   #
-  # source://steam-condenser//lib/steam-condenser/servers/game_server.rb#190
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/game_server.rb:190
   def server_info; end
 
   # Returns a human-readable text representation of the server
   #
   # @return [String] Available information about the server in a human-readable
-  #   format
+  #         format
   #
-  # source://steam-condenser//lib/steam-condenser/servers/game_server.rb#355
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/game_server.rb:355
   def to_s; end
 
   # Sends a A2S_SERVERQUERY_GETCHALLENGE request to the server and updates the
@@ -2697,7 +2693,7 @@ module SteamCondenser::Servers::GameServer
   # @see #handle_response_for_request
   # @see #init
   #
-  # source://steam-condenser//lib/steam-condenser/servers/game_server.rb#331
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/game_server.rb:331
   def update_challenge_number; end
 
   # Sends a A2S_INFO request to the server and measures the time needed for the
@@ -2709,7 +2705,7 @@ module SteamCondenser::Servers::GameServer
   # @return [Fixnum] The latency of this server in milliseconds
   # @see #ping
   #
-  # source://steam-condenser//lib/steam-condenser/servers/game_server.rb#343
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/game_server.rb:343
   def update_ping; end
 
   # Sends a A2S_PLAYERS request to the server and updates the players' data for
@@ -2719,13 +2715,13 @@ module SteamCondenser::Servers::GameServer
   # list regularly by calling this method if you rely on this
   # information.
   #
-  # @param rcon_password [String] The RCON password of this server may be
-  #   provided to gather more detailed information on the players, like
-  #   STEAM_IDs.
+  # @param [String] rcon_password The RCON password of this server may be
+  #        provided to gather more detailed information on the players, like
+  #        STEAM_IDs.
   # @see #handle_response_for_request
   # @see #players
   #
-  # source://steam-condenser//lib/steam-condenser/servers/game_server.rb#273
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/game_server.rb:273
   def update_players(rcon_password = T.unsafe(nil)); end
 
   # Sends a A2S_RULES request to the server and updates the rules of this
@@ -2737,7 +2733,7 @@ module SteamCondenser::Servers::GameServer
   # @see #handle_response_for_request
   # @see #rules
   #
-  # source://steam-condenser//lib/steam-condenser/servers/game_server.rb#305
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/game_server.rb:305
   def update_rules; end
 
   # Sends a A2S_INFO request to the server and updates this server's basic
@@ -2750,28 +2746,28 @@ module SteamCondenser::Servers::GameServer
   # @see #handle_response_for_request
   # @see #server_info
   #
-  # source://steam-condenser//lib/steam-condenser/servers/game_server.rb#318
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/game_server.rb:318
   def update_server_info; end
 
   class << self
     # Parses the player attribute names supplied by `rcon status`
     #
-    # @param status_header [String] The header line provided by `rcon status`
+    # @param [String] status_header The header line provided by `rcon status`
     # @return [Array<Symbol>] Split player attribute names
     # @see .split_player_status
     #
-    # source://steam-condenser//lib/steam-condenser/servers/game_server.rb#37
+    # pkg:gem/steam-condenser#lib/steam-condenser/servers/game_server.rb:37
     def player_status_attributes(status_header); end
 
     # Splits the player status obtained with `rcon status`
     #
-    # @param attributes [Array<Symbol>] The attribute names
-    # @param player_status [String] The status line of a single player
+    # @param [Array<Symbol>] attributes The attribute names
+    # @param [String] player_status The status line of a single player
     # @return [Hash<Symbol, String>] The attributes with the corresponding values
-    #   for this player
+    #         for this player
     # @see .player_status_attributes
     #
-    # source://steam-condenser//lib/steam-condenser/servers/game_server.rb#57
+    # pkg:gem/steam-condenser#lib/steam-condenser/servers/game_server.rb:57
     def split_player_status(attributes, player_status); end
   end
 end
@@ -2786,7 +2782,7 @@ end
 # @author Sebastian Staudt
 # @see SourceServer
 #
-# source://steam-condenser//lib/steam-condenser/servers/goldsrc_server.rb#23
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/goldsrc_server.rb:23
 class SteamCondenser::Servers::GoldSrcServer
   include ::SteamCondenser::Servers::BaseServer
   include ::SteamCondenser::Servers::GameServer
@@ -2794,23 +2790,22 @@ class SteamCondenser::Servers::GoldSrcServer
 
   # Creates a new instance of a GoldSrc server object
   #
-  # @param address [String] Either an IP address, a DNS name or one of them
-  #   combined with the port number. If a port number is given, e.g.
-  #   'server.example.com:27016' it will override the second argument.
-  # @param is_hltv [Boolean] HLTV servers need special treatment, so this
-  #   is used to determine if the server is a HLTV server
-  # @param port [Fixnum] The port the server is listening on
+  # @param [String] address Either an IP address, a DNS name or one of them
+  #        combined with the port number. If a port number is given, e.g.
+  #        'server.example.com:27016' it will override the second argument.
+  # @param [Fixnum] port The port the server is listening on
   # @raise [Error] if an host name cannot be resolved
-  # @return [GoldSrcServer] a new instance of GoldSrcServer
+  # @param [Boolean] is_hltv HLTV servers need special treatment, so this
+  #        is used to determine if the server is a HLTV server
   #
-  # source://steam-condenser//lib/steam-condenser/servers/goldsrc_server.rb#45
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/goldsrc_server.rb:45
   def initialize(address, port = T.unsafe(nil), is_hltv = T.unsafe(nil)); end
 
   # Initializes the socket to communicate with the GoldSrc server
   #
   # @see GoldSrcSocket
   #
-  # source://steam-condenser//lib/steam-condenser/servers/goldsrc_server.rb#54
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/goldsrc_server.rb:54
   def init_socket; end
 
   # Tries to establish RCON authentication with the server with the given
@@ -2819,25 +2814,24 @@ class SteamCondenser::Servers::GoldSrcServer
   # This will send an empty command that will ensure the given password was
   # correct. If successful, the password is stored for future use.
   #
-  # @param password [String] The RCON password of the server
+  # @param [String] password The RCON password of the server
   # @return [Boolean] `true` if authentication was successful
   # @see #rcon_exec
   #
-  # source://steam-condenser//lib/steam-condenser/servers/goldsrc_server.rb#67
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/goldsrc_server.rb:67
   def rcon_auth(password); end
 
   # Remotely executes a command on the server via RCON
   #
-  # @param command [String] The command to execute on the server via RCON
-  # @raise [Error::RCONNoAuth]
+  # @param [String] command The command to execute on the server via RCON
   # @return [String] The output of the executed command
   # @see #rcon_auth
   #
-  # source://steam-condenser//lib/steam-condenser/servers/goldsrc_server.rb#85
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/goldsrc_server.rb:85
   def rcon_exec(command); end
 
   class << self
-    # source://steam-condenser//lib/steam-condenser/servers/goldsrc_server.rb#26
+    # pkg:gem/steam-condenser#lib/steam-condenser/servers/goldsrc_server.rb:26
     def log; end
 
     # Returns a master server instance for the default master server for
@@ -2845,7 +2839,7 @@ class SteamCondenser::Servers::GoldSrcServer
     #
     # @return [MasterServer] The GoldSrc master server
     #
-    # source://steam-condenser//lib/steam-condenser/servers/goldsrc_server.rb#32
+    # pkg:gem/steam-condenser#lib/steam-condenser/servers/goldsrc_server.rb:32
     def master; end
   end
 end
@@ -2859,7 +2853,7 @@ end
 #
 # @author Sebastian Staudt
 #
-# source://steam-condenser//lib/steam-condenser/servers/master_server.rb#23
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/master_server.rb:23
 class SteamCondenser::Servers::MasterServer
   include ::SteamCondenser::Servers::BaseServer
   include ::SteamCondenser::Logging
@@ -2868,7 +2862,7 @@ class SteamCondenser::Servers::MasterServer
   #
   # @see MasterServerSocket
   #
-  # source://steam-condenser//lib/steam-condenser/servers/master_server.rb#75
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/master_server.rb:75
   def init_socket; end
 
   # Returns a list of game server matching the given region and filters
@@ -2890,92 +2884,97 @@ class SteamCondenser::Servers::MasterServer
   # * `\proxy\1`: Request only spectator proxy servers
   #
   # @note Receiving all servers from the master server is taking quite some
-  #   time.
-  # @param filters [String] The filters that game servers should match
-  # @param force [Boolean] Return a list of servers even if an error occured
-  #   while fetching them from the master server
-  # @param region_code [Fixnum] The region code to specify a location of the
-  #   game servers
+  #       time.
+  # @param [Fixnum] region_code The region code to specify a location of the
+  #        game servers
+  # @param [String] filters The filters that game servers should match
+  # @param [Boolean] force Return a list of servers even if an error occured
+  #        while fetching them from the master server
   # @raise [Error::Timeout] if too many timeouts occur while querying the
-  #   master server
+  #        master server
   # @return [Array<Array<String>>] A list of game servers matching the given
-  #   region and filters
+  #         region and filters
   # @see A2M_GET_SERVERS_BATCH2_Packet
   # @see MasterServer.retries=
   #
-  # source://steam-condenser//lib/steam-condenser/servers/master_server.rb#110
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/master_server.rb:110
   def servers(region_code = T.unsafe(nil), filters = T.unsafe(nil), force = T.unsafe(nil)); end
 
   class << self
-    # source://steam-condenser//lib/steam-condenser/servers/master_server.rb#26
+    # pkg:gem/steam-condenser#lib/steam-condenser/servers/master_server.rb:26
     def log; end
 
     # Sets the number of consecutive requests that may fail, before getting
     # the server list is cancelled (default: 3)
     #
-    # @param retries [Fixnum] The number of allowed retries
+    # @param [Fixnum] retries The number of allowed retries
     #
-    # source://steam-condenser//lib/steam-condenser/servers/master_server.rb#68
+    # pkg:gem/steam-condenser#lib/steam-condenser/servers/master_server.rb:68
     def retries=(retries); end
   end
 end
 
 # The master server address to query for GoldSrc game servers
 #
-# source://steam-condenser//lib/steam-condenser/servers/master_server.rb#32
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/master_server.rb:32
 SteamCondenser::Servers::MasterServer::GOLDSRC_MASTER_SERVER = T.let(T.unsafe(nil), Array)
 
 # The region code for Africa
 #
-# source://steam-condenser//lib/steam-condenser/servers/master_server.rb#59
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/master_server.rb:59
 SteamCondenser::Servers::MasterServer::REGION_AFRICA = T.let(T.unsafe(nil), Integer)
 
 # The region code for the whole world
 #
-# source://steam-condenser//lib/steam-condenser/servers/master_server.rb#62
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/master_server.rb:62
 SteamCondenser::Servers::MasterServer::REGION_ALL = T.let(T.unsafe(nil), Integer)
 
 # The region code for Asia
 #
-# source://steam-condenser//lib/steam-condenser/servers/master_server.rb#50
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/master_server.rb:50
 SteamCondenser::Servers::MasterServer::REGION_ASIA = T.let(T.unsafe(nil), Integer)
 
 # The region code for Australia
 #
-# source://steam-condenser//lib/steam-condenser/servers/master_server.rb#53
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/master_server.rb:53
 SteamCondenser::Servers::MasterServer::REGION_AUSTRALIA = T.let(T.unsafe(nil), Integer)
 
 # The region code for Europe
 #
-# source://steam-condenser//lib/steam-condenser/servers/master_server.rb#47
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/master_server.rb:47
 SteamCondenser::Servers::MasterServer::REGION_EUROPE = T.let(T.unsafe(nil), Integer)
 
 # The region code for the Middle East
 #
-# source://steam-condenser//lib/steam-condenser/servers/master_server.rb#56
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/master_server.rb:56
 SteamCondenser::Servers::MasterServer::REGION_MIDDLE_EAST = T.let(T.unsafe(nil), Integer)
 
 # The region code for South America
 #
-# source://steam-condenser//lib/steam-condenser/servers/master_server.rb#44
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/master_server.rb:44
 SteamCondenser::Servers::MasterServer::REGION_SOUTH_AMERICA = T.let(T.unsafe(nil), Integer)
 
 # The region code for the US east coast
 #
-# source://steam-condenser//lib/steam-condenser/servers/master_server.rb#38
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/master_server.rb:38
 SteamCondenser::Servers::MasterServer::REGION_US_EAST_COAST = T.let(T.unsafe(nil), Integer)
 
 # The region code for the US west coast
 #
-# source://steam-condenser//lib/steam-condenser/servers/master_server.rb#41
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/master_server.rb:41
 SteamCondenser::Servers::MasterServer::REGION_US_WEST_COAST = T.let(T.unsafe(nil), Integer)
 
 # The master server address to query for Source game servers
 #
-# source://steam-condenser//lib/steam-condenser/servers/master_server.rb#35
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/master_server.rb:35
 SteamCondenser::Servers::MasterServer::SOURCE_MASTER_SERVER = T.let(T.unsafe(nil), Array)
 
-# source://steam-condenser//lib/steam-condenser/servers/packets/base_packet.rb#10
+# This code is free software; you can redistribute it and/or modify it under
+# the terms of the new BSD License.
+#
+# Copyright (c) 2008-2012, Sebastian Staudt
+#
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/base_packet.rb:10
 module SteamCondenser::Servers::Packets; end
 
 # This packet class represents a A2M_GET_SERVERS_BATCH2 request sent to a
@@ -3004,27 +3003,26 @@ module SteamCondenser::Servers::Packets; end
 # @author Sebastian Staudt
 # @see MasterServer#servers
 #
-# source://steam-condenser//lib/steam-condenser/servers/packets/a2m_get_servers_batch2_packet.rb#35
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/a2m_get_servers_batch2_packet.rb:35
 class SteamCondenser::Servers::Packets::A2M_GET_SERVERS_BATCH2_Packet
   include ::SteamCondenser::Servers::Packets::BasePacket
 
   # Creates a master server request, filtering by the given paramters
   #
-  # @param filter [String] The filters to apply in the form
-  #   "\filtername\value..."
-  # @param region_code [Numeric] The region code to filter servers by region
-  # @param start_ip [String] This should be the last IP received from the
-  #   master server or 0.0.0.0
-  # @return [A2M_GET_SERVERS_BATCH2_Packet] a new instance of A2M_GET_SERVERS_BATCH2_Packet
+  # @param [Numeric] region_code The region code to filter servers by region
+  # @param [String] start_ip This should be the last IP received from the
+  #        master server or 0.0.0.0
+  # @param [String] filter The filters to apply in the form
+  #        "\filtername\value..."
   #
-  # source://steam-condenser//lib/steam-condenser/servers/packets/a2m_get_servers_batch2_packet.rb#46
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/a2m_get_servers_batch2_packet.rb:46
   def initialize(region_code = T.unsafe(nil), start_ip = T.unsafe(nil), filter = T.unsafe(nil)); end
 
   # Returns the raw data representing this packet
   #
   # @return [String] A string containing the raw data of this request packet
   #
-  # source://steam-condenser//lib/steam-condenser/servers/packets/a2m_get_servers_batch2_packet.rb#57
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/a2m_get_servers_batch2_packet.rb:57
   def to_s; end
 end
 
@@ -3036,15 +3034,13 @@ end
 # @author Sebastian Staudt
 # @see GameServer#update_server_info
 #
-# source://steam-condenser//lib/steam-condenser/servers/packets/a2s_info_packet.rb#17
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/a2s_info_packet.rb:17
 class SteamCondenser::Servers::Packets::A2S_INFO_Packet
   include ::SteamCondenser::Servers::Packets::BasePacket
 
   # Creates a new A2S_INFO request object
   #
-  # @return [A2S_INFO_Packet] a new instance of A2S_INFO_Packet
-  #
-  # source://steam-condenser//lib/steam-condenser/servers/packets/a2s_info_packet.rb#22
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/a2s_info_packet.rb:22
   def initialize; end
 end
 
@@ -3058,18 +3054,17 @@ end
 # @author Sebastian Staudt
 # @see GameServer#update_player_info
 #
-# source://steam-condenser//lib/steam-condenser/servers/packets/a2s_player_packet.rb#20
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/a2s_player_packet.rb:20
 class SteamCondenser::Servers::Packets::A2S_PLAYER_Packet
   include ::SteamCondenser::Servers::Packets::BasePacket
   include ::SteamCondenser::Servers::Packets::RequestWithChallenge
 
   # Creates a new A2S_PLAYER request object including the challenge number
   #
-  # @param challenge_number [Numeric] The challenge number received from the
-  #   server
-  # @return [A2S_PLAYER_Packet] a new instance of A2S_PLAYER_Packet
+  # @param [Numeric] challenge_number The challenge number received from the
+  #        server
   #
-  # source://steam-condenser//lib/steam-condenser/servers/packets/a2s_player_packet.rb#29
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/a2s_player_packet.rb:29
   def initialize(challenge_number = T.unsafe(nil)); end
 end
 
@@ -3084,18 +3079,17 @@ end
 # @author Sebastian Staudt
 # @see GameServer#update_rules_info
 #
-# source://steam-condenser//lib/steam-condenser/servers/packets/a2s_rules_packet.rb#21
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/a2s_rules_packet.rb:21
 class SteamCondenser::Servers::Packets::A2S_RULES_Packet
   include ::SteamCondenser::Servers::Packets::BasePacket
   include ::SteamCondenser::Servers::Packets::RequestWithChallenge
 
   # Creates a new A2S_RULES request object including the challenge number
   #
-  # @param challenge_number [Numeric] The challenge number received from the
-  #   server
-  # @return [A2S_RULES_Packet] a new instance of A2S_RULES_Packet
+  # @param [Numeric] challenge_number The challenge number received from the
+  #        server
   #
-  # source://steam-condenser//lib/steam-condenser/servers/packets/a2s_rules_packet.rb#30
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/a2s_rules_packet.rb:30
   def initialize(challenge_number = T.unsafe(nil)); end
 end
 
@@ -3108,15 +3102,13 @@ end
 # @author Sebastian Staudt
 # @see GameServer#update_challenge_number
 #
-# source://steam-condenser//lib/steam-condenser/servers/packets/a2s_serverquery_getchallenge_packet.rb#18
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/a2s_serverquery_getchallenge_packet.rb:18
 class SteamCondenser::Servers::Packets::A2S_SERVERQUERY_GETCHALLENGE_Packet
   include ::SteamCondenser::Servers::Packets::BasePacket
 
   # Creates a new A2S_SERVERQUERY_GETCHALLENGE request object
   #
-  # @return [A2S_SERVERQUERY_GETCHALLENGE_Packet] a new instance of A2S_SERVERQUERY_GETCHALLENGE_Packet
-  #
-  # source://steam-condenser//lib/steam-condenser/servers/packets/a2s_serverquery_getchallenge_packet.rb#23
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/a2s_serverquery_getchallenge_packet.rb:23
   def initialize; end
 end
 
@@ -3126,70 +3118,70 @@ end
 # @author Sebastian Staudt
 # @see SteamPacketFactory
 #
-# source://steam-condenser//lib/steam-condenser/servers/packets/base_packet.rb#17
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/base_packet.rb:17
 module SteamCondenser::Servers::Packets::BasePacket
   # Creates a new packet object based on the given data
   #
-  # @param content_data [String] The raw data of the packet
-  # @param header_data [Fixnum] The packet header
+  # @param [Fixnum] header_data The packet header
+  # @param [String] content_data The raw data of the packet
   #
-  # source://steam-condenser//lib/steam-condenser/servers/packets/base_packet.rb#40
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/base_packet.rb:40
   def initialize(header_data, content_data = T.unsafe(nil)); end
 
   # Returns the raw data representing this packet
   #
   # @return [String] A string containing the raw data of this request packet
   #
-  # source://steam-condenser//lib/steam-condenser/servers/packets/base_packet.rb#48
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/base_packet.rb:48
   def to_s; end
 end
 
-# source://steam-condenser//lib/steam-condenser/servers/packets/base_packet.rb#19
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/base_packet.rb:19
 SteamCondenser::Servers::Packets::BasePacket::A2M_GET_SERVERS_BATCH2_HEADER = T.let(T.unsafe(nil), Integer)
 
-# source://steam-condenser//lib/steam-condenser/servers/packets/base_packet.rb#20
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/base_packet.rb:20
 SteamCondenser::Servers::Packets::BasePacket::A2S_INFO_HEADER = T.let(T.unsafe(nil), Integer)
 
-# source://steam-condenser//lib/steam-condenser/servers/packets/base_packet.rb#21
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/base_packet.rb:21
 SteamCondenser::Servers::Packets::BasePacket::A2S_PLAYER_HEADER = T.let(T.unsafe(nil), Integer)
 
-# source://steam-condenser//lib/steam-condenser/servers/packets/base_packet.rb#22
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/base_packet.rb:22
 SteamCondenser::Servers::Packets::BasePacket::A2S_RULES_HEADER = T.let(T.unsafe(nil), Integer)
 
-# source://steam-condenser//lib/steam-condenser/servers/packets/base_packet.rb#23
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/base_packet.rb:23
 SteamCondenser::Servers::Packets::BasePacket::A2S_SERVERQUERY_GETCHALLENGE_HEADER = T.let(T.unsafe(nil), Integer)
 
-# source://steam-condenser//lib/steam-condenser/servers/packets/base_packet.rb#24
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/base_packet.rb:24
 SteamCondenser::Servers::Packets::BasePacket::C2M_CHECKMD5_HEADER = T.let(T.unsafe(nil), Integer)
 
-# source://steam-condenser//lib/steam-condenser/servers/packets/base_packet.rb#25
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/base_packet.rb:25
 SteamCondenser::Servers::Packets::BasePacket::M2A_SERVER_BATCH_HEADER = T.let(T.unsafe(nil), Integer)
 
-# source://steam-condenser//lib/steam-condenser/servers/packets/base_packet.rb#26
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/base_packet.rb:26
 SteamCondenser::Servers::Packets::BasePacket::RCON_GOLDSRC_CHALLENGE_HEADER = T.let(T.unsafe(nil), Integer)
 
-# source://steam-condenser//lib/steam-condenser/servers/packets/base_packet.rb#27
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/base_packet.rb:27
 SteamCondenser::Servers::Packets::BasePacket::RCON_GOLDSRC_NO_CHALLENGE_HEADER = T.let(T.unsafe(nil), Integer)
 
-# source://steam-condenser//lib/steam-condenser/servers/packets/base_packet.rb#28
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/base_packet.rb:28
 SteamCondenser::Servers::Packets::BasePacket::RCON_GOLDSRC_RESPONSE_HEADER = T.let(T.unsafe(nil), Integer)
 
-# source://steam-condenser//lib/steam-condenser/servers/packets/base_packet.rb#30
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/base_packet.rb:30
 SteamCondenser::Servers::Packets::BasePacket::S2A_INFO2_HEADER = T.let(T.unsafe(nil), Integer)
 
-# source://steam-condenser//lib/steam-condenser/servers/packets/base_packet.rb#29
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/base_packet.rb:29
 SteamCondenser::Servers::Packets::BasePacket::S2A_INFO_DETAILED_HEADER = T.let(T.unsafe(nil), Integer)
 
-# source://steam-condenser//lib/steam-condenser/servers/packets/base_packet.rb#31
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/base_packet.rb:31
 SteamCondenser::Servers::Packets::BasePacket::S2A_PLAYER_HEADER = T.let(T.unsafe(nil), Integer)
 
-# source://steam-condenser//lib/steam-condenser/servers/packets/base_packet.rb#32
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/base_packet.rb:32
 SteamCondenser::Servers::Packets::BasePacket::S2A_RULES_HEADER = T.let(T.unsafe(nil), Integer)
 
-# source://steam-condenser//lib/steam-condenser/servers/packets/base_packet.rb#34
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/base_packet.rb:34
 SteamCondenser::Servers::Packets::BasePacket::S2C_CHALLENGE_HEADER = T.let(T.unsafe(nil), Integer)
 
-# source://steam-condenser//lib/steam-condenser/servers/packets/base_packet.rb#33
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/base_packet.rb:33
 SteamCondenser::Servers::Packets::BasePacket::S2C_CONNREJECT_HEADER = T.let(T.unsafe(nil), Integer)
 
 # This packet class represents a M2A_SERVER_BATCH response replied by a master
@@ -3201,29 +3193,28 @@ SteamCondenser::Servers::Packets::BasePacket::S2C_CONNREJECT_HEADER = T.let(T.un
 # @author Sebastian Staudt
 # @see MasterServer#servers
 #
-# source://steam-condenser//lib/steam-condenser/servers/packets/m2a_server_batch_packet.rb#19
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/m2a_server_batch_packet.rb:19
 class SteamCondenser::Servers::Packets::M2A_SERVER_BATCH_Packet
   include ::SteamCondenser::Servers::Packets::BasePacket
 
   # Creates a new M2A_SERVER_BATCH response object based on the given data
   #
-  # @param data [String] The raw packet data replied from the server
+  # @param [String] data The raw packet data replied from the server
   # @raise [Error::PacketFormat] if the packet data is not well formatted
-  # @return [M2A_SERVER_BATCH_Packet] a new instance of M2A_SERVER_BATCH_Packet
   #
-  # source://steam-condenser//lib/steam-condenser/servers/packets/m2a_server_batch_packet.rb#33
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/m2a_server_batch_packet.rb:33
   def initialize(data); end
 
   # Returns the list of servers returned from the server in this packet
   #
   # @return [Array<String>] An array of server addresses (i.e. IP addresses +
-  #   port numbers)
+  #         port numbers)
   #
-  # source://steam-condenser//lib/steam-condenser/servers/packets/m2a_server_batch_packet.rb#27
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/m2a_server_batch_packet.rb:27
   def servers; end
 end
 
-# source://steam-condenser//lib/steam-condenser/servers/packets/rcon/rcon_goldsrc_request.rb#8
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/rcon/rcon_goldsrc_request.rb:8
 module SteamCondenser::Servers::Packets::RCON; end
 
 # This module is included by all classes representing a packet used by
@@ -3235,54 +3226,54 @@ module SteamCondenser::Servers::Packets::RCON; end
 # @author Sebastian Staudt
 # @see RCONPacketFactory
 #
-# source://steam-condenser//lib/steam-condenser/servers/packets/rcon/base_packet.rb#20
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/rcon/base_packet.rb:20
 module SteamCondenser::Servers::Packets::RCON::BasePacket
   include ::SteamCondenser::Servers::Packets::BasePacket
 
   # Creates a new RCON packet object with the given request ID, type and
   # content data
   #
-  # @param rcon_data [String] The raw packet data
-  # @param rcon_header [Fixnum] The header for the packet type
-  # @param request_id [Fixnum] The request ID for the current RCON
-  #   communication
+  # @param [Fixnum] request_id The request ID for the current RCON
+  #        communication
+  # @param [Fixnum] rcon_header The header for the packet type
+  # @param [String] rcon_data The raw packet data
   #
-  # source://steam-condenser//lib/steam-condenser/servers/packets/rcon/base_packet.rb#48
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/rcon/base_packet.rb:48
   def initialize(request_id, rcon_header, rcon_data); end
 
   # Returns the request ID used to identify the RCON communication
   #
   # @return [Fixnum] The request ID used to identify the RCON communication
   #
-  # source://steam-condenser//lib/steam-condenser/servers/packets/rcon/base_packet.rb#39
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/rcon/base_packet.rb:39
   def request_id; end
 
   # Returns the raw data representing this packet
   #
   # @return [String] A string containing the raw data of this RCON packet
   #
-  # source://steam-condenser//lib/steam-condenser/servers/packets/rcon/base_packet.rb#57
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/rcon/base_packet.rb:57
   def to_s; end
 end
 
 # Header for authentication requests
 #
-# source://steam-condenser//lib/steam-condenser/servers/packets/rcon/base_packet.rb#25
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/rcon/base_packet.rb:25
 SteamCondenser::Servers::Packets::RCON::BasePacket::SERVERDATA_AUTH = T.let(T.unsafe(nil), Integer)
 
 # Header for replies to authentication attempts
 #
-# source://steam-condenser//lib/steam-condenser/servers/packets/rcon/base_packet.rb#28
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/rcon/base_packet.rb:28
 SteamCondenser::Servers::Packets::RCON::BasePacket::SERVERDATA_AUTH_RESPONSE = T.let(T.unsafe(nil), Integer)
 
 # Header for command execution requests
 #
-# source://steam-condenser//lib/steam-condenser/servers/packets/rcon/base_packet.rb#31
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/rcon/base_packet.rb:31
 SteamCondenser::Servers::Packets::RCON::BasePacket::SERVERDATA_EXECCOMMAND = T.let(T.unsafe(nil), Integer)
 
 # Header for packets with the output of a command execution
 #
-# source://steam-condenser//lib/steam-condenser/servers/packets/rcon/base_packet.rb#34
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/rcon/base_packet.rb:34
 SteamCondenser::Servers::Packets::RCON::BasePacket::SERVERDATA_RESPONSE_VALUE = T.let(T.unsafe(nil), Integer)
 
 # This packet class represents a SERVERDATA_AUTH request sent to a Source
@@ -3293,7 +3284,7 @@ SteamCondenser::Servers::Packets::RCON::BasePacket::SERVERDATA_RESPONSE_VALUE = 
 # @author Sebastian Staudt
 # @see SourceServer#rcon_auth
 #
-# source://steam-condenser//lib/steam-condenser/servers/packets/rcon/rcon_auth_request.rb#17
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/rcon/rcon_auth_request.rb:17
 class SteamCondenser::Servers::Packets::RCON::RCONAuthRequest
   include ::SteamCondenser::Servers::Packets::BasePacket
   include ::SteamCondenser::Servers::Packets::RCON::BasePacket
@@ -3301,11 +3292,10 @@ class SteamCondenser::Servers::Packets::RCON::RCONAuthRequest
   # Creates a RCON authentication request for the given request ID and RCON
   # password
   #
-  # @param rcon_password [String] The RCON password of the server
-  # @param request_id [Fixnum] The request ID of the RCON connection
-  # @return [RCONAuthRequest] a new instance of RCONAuthRequest
+  # @param [Fixnum] request_id The request ID of the RCON connection
+  # @param [String] rcon_password The RCON password of the server
   #
-  # source://steam-condenser//lib/steam-condenser/servers/packets/rcon/rcon_auth_request.rb#26
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/rcon/rcon_auth_request.rb:26
   def initialize(request_id, rcon_password); end
 end
 
@@ -3318,7 +3308,7 @@ end
 # @author Sebastian Staudt
 # @see SourceServer#rcon_auth
 #
-# source://steam-condenser//lib/steam-condenser/servers/packets/rcon/rcon_auth_response.rb#18
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/rcon/rcon_auth_response.rb:18
 class SteamCondenser::Servers::Packets::RCON::RCONAuthResponse
   include ::SteamCondenser::Servers::Packets::BasePacket
   include ::SteamCondenser::Servers::Packets::RCON::BasePacket
@@ -3328,10 +3318,9 @@ class SteamCondenser::Servers::Packets::RCON::RCONAuthResponse
   # The request ID of the packet will match the client's request if
   # authentication was successful
   #
-  # @param request_id [Fixnum] The request ID of the RCON connection
-  # @return [RCONAuthResponse] a new instance of RCONAuthResponse
+  # @param [Fixnum] request_id The request ID of the RCON connection
   #
-  # source://steam-condenser//lib/steam-condenser/servers/packets/rcon/rcon_auth_response.rb#28
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/rcon/rcon_auth_response.rb:28
   def initialize(request_id); end
 end
 
@@ -3343,7 +3332,7 @@ end
 # @author Sebastian Staudt
 # @see SourceServer#rcon_exec
 #
-# source://steam-condenser//lib/steam-condenser/servers/packets/rcon/rcon_exec_request.rb#17
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/rcon/rcon_exec_request.rb:17
 class SteamCondenser::Servers::Packets::RCON::RCONExecRequest
   include ::SteamCondenser::Servers::Packets::BasePacket
   include ::SteamCondenser::Servers::Packets::RCON::BasePacket
@@ -3351,11 +3340,10 @@ class SteamCondenser::Servers::Packets::RCON::RCONExecRequest
   # Creates a RCON command execution request for the given request ID and
   # command
   #
-  # @param rcon_command [String] The command to execute on the server
-  # @param request_id [Fixnum] The request ID of the RCON connection
-  # @return [RCONExecRequest] a new instance of RCONExecRequest
+  # @param [Fixnum] request_id The request ID of the RCON connection
+  # @param [String] rcon_command The command to execute on the server
   #
-  # source://steam-condenser//lib/steam-condenser/servers/packets/rcon/rcon_exec_request.rb#26
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/rcon/rcon_exec_request.rb:26
   def initialize(request_id, rcon_command); end
 end
 
@@ -3368,7 +3356,7 @@ end
 # @author Sebastian Staudt
 # @see SourceServer#rcon_exec
 #
-# source://steam-condenser//lib/steam-condenser/servers/packets/rcon/rcon_exec_response.rb#18
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/rcon/rcon_exec_response.rb:18
 class SteamCondenser::Servers::Packets::RCON::RCONExecResponse
   include ::SteamCondenser::Servers::Packets::BasePacket
   include ::SteamCondenser::Servers::Packets::RCON::BasePacket
@@ -3376,19 +3364,18 @@ class SteamCondenser::Servers::Packets::RCON::RCONExecResponse
   # Creates a RCON command response for the given request ID and command
   # output
   #
-  # @param command_response [String] The output of the command executed on
-  #   the server
-  # @param request_id [Fixnum] The request ID of the RCON connection
-  # @return [RCONExecResponse] a new instance of RCONExecResponse
+  # @param [Fixnum] request_id The request ID of the RCON connection
+  # @param [String] command_response The output of the command executed on
+  #        the server
   #
-  # source://steam-condenser//lib/steam-condenser/servers/packets/rcon/rcon_exec_response.rb#28
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/rcon/rcon_exec_response.rb:28
   def initialize(request_id, command_response); end
 
   # Returns the output of the command execution
   #
   # @return [String] The output of the command
   #
-  # source://steam-condenser//lib/steam-condenser/servers/packets/rcon/rcon_exec_response.rb#35
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/rcon/rcon_exec_response.rb:35
   def response; end
 end
 
@@ -3399,7 +3386,7 @@ end
 # @author Sebastian Staudt
 # @see GoldSrcServer#rcon_exec
 #
-# source://steam-condenser//lib/steam-condenser/servers/packets/rcon/rcon_goldsrc_request.rb#16
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/rcon/rcon_goldsrc_request.rb:16
 class SteamCondenser::Servers::Packets::RCON::RCONGoldSrcRequest
   include ::SteamCondenser::Servers::Packets::BasePacket
 
@@ -3408,17 +3395,16 @@ class SteamCondenser::Servers::Packets::RCON::RCONGoldSrcRequest
   # The request string has the form `rcon {challenge number} {RCON password}
   # {command}`.
   #
-  # @param request [String] The request string to send to the server
-  # @return [RCONGoldSrcRequest] a new instance of RCONGoldSrcRequest
+  # @param [String] request The request string to send to the server
   #
-  # source://steam-condenser//lib/steam-condenser/servers/packets/rcon/rcon_goldsrc_request.rb#26
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/rcon/rcon_goldsrc_request.rb:26
   def initialize(request); end
 
   # Returns the raw data representing this packet
   #
   # @return [String] A string containing the raw data of this request packet
   #
-  # source://steam-condenser//lib/steam-condenser/servers/packets/rcon/rcon_goldsrc_request.rb#33
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/rcon/rcon_goldsrc_request.rb:33
   def to_s; end
 end
 
@@ -3431,24 +3417,23 @@ end
 # @author Sebastian Staudt
 # @see GoldSrcServer#rcon_exec
 #
-# source://steam-condenser//lib/steam-condenser/servers/packets/rcon/rcon_goldsrc_response.rb#18
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/rcon/rcon_goldsrc_response.rb:18
 class SteamCondenser::Servers::Packets::RCON::RCONGoldSrcResponse
   include ::SteamCondenser::Servers::Packets::BasePacket
 
   # Creates a RCON command response for the given command output
   #
-  # @param command_response [String] The output of the command executed on
-  #   the server
-  # @return [RCONGoldSrcResponse] a new instance of RCONGoldSrcResponse
+  # @param [String] command_response The output of the command executed on
+  #        the server
   #
-  # source://steam-condenser//lib/steam-condenser/servers/packets/rcon/rcon_goldsrc_response.rb#26
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/rcon/rcon_goldsrc_response.rb:26
   def initialize(command_response); end
 
   # Returns the output of the command execution
   #
   # @return [String] The output of the command
   #
-  # source://steam-condenser//lib/steam-condenser/servers/packets/rcon/rcon_goldsrc_response.rb#33
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/rcon/rcon_goldsrc_response.rb:33
   def response; end
 end
 
@@ -3461,17 +3446,17 @@ end
 # @author Sebastian Staudt
 # @see BasePacket
 #
-# source://steam-condenser//lib/steam-condenser/servers/packets/rcon/rcon_packet_factory.rb#22
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/rcon/rcon_packet_factory.rb:22
 module SteamCondenser::Servers::Packets::RCON::RCONPacketFactory
   class << self
     # Creates a new packet object based on the header byte of the given raw
     # data
     #
-    # @param raw_data [String] The raw data of the packet
+    # @param [String] raw_data The raw data of the packet
     # @raise [Error::PacketFormat] if the packet header is not recognized
     # @return [BasePacket] The packet object generated from the packet data
     #
-    # source://steam-condenser//lib/steam-condenser/servers/packets/rcon/rcon_packet_factory.rb#30
+    # pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/rcon/rcon_packet_factory.rb:30
     def packet_from_data(raw_data); end
   end
 end
@@ -3486,18 +3471,17 @@ end
 # @author Sebastian Staudt
 # @see SourceServer#rcon_exec
 #
-# source://steam-condenser//lib/steam-condenser/servers/packets/rcon/rcon_terminator.rb#19
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/rcon/rcon_terminator.rb:19
 class SteamCondenser::Servers::Packets::RCON::RCONTerminator
   include ::SteamCondenser::Servers::Packets::BasePacket
   include ::SteamCondenser::Servers::Packets::RCON::BasePacket
 
   # Creates a new RCON terminator packet instance for the given request ID
   #
-  # @param request_id [Fixnum] The request ID for the current RCON
-  #   communication
-  # @return [RCONTerminator] a new instance of RCONTerminator
+  # @param [Fixnum] request_id The request ID for the current RCON
+  #        communication
   #
-  # source://steam-condenser//lib/steam-condenser/servers/packets/rcon/rcon_terminator.rb#27
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/rcon/rcon_terminator.rb:27
   def initialize(request_id); end
 end
 
@@ -3506,13 +3490,13 @@ end
 #
 # @author Sebastian Staudt
 #
-# source://steam-condenser//lib/steam-condenser/servers/packets/request_with_challenge.rb#12
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/request_with_challenge.rb:12
 module SteamCondenser::Servers::Packets::RequestWithChallenge
   # Returns the raw data representing this packet
   #
   # @return [String] A string containing the raw data of this request packet
   #
-  # source://steam-condenser//lib/steam-condenser/servers/packets/request_with_challenge.rb#17
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/request_with_challenge.rb:17
   def to_s; end
 end
 
@@ -3525,44 +3509,43 @@ end
 # @author Sebastian Staudt
 # @see GameServer#update_server_info
 #
-# source://steam-condenser//lib/steam-condenser/servers/packets/s2a_info2_packet.rb#18
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/s2a_info2_packet.rb:18
 class SteamCondenser::Servers::Packets::S2A_INFO2_Packet
   include ::SteamCondenser::Servers::Packets::BasePacket
   include ::SteamCondenser::Servers::Packets::S2A_INFO_BasePacket
 
   # Creates a new S2A_INFO2 response object based on the given data
   #
-  # @param data [String] The raw packet data replied from the server
-  # @return [S2A_INFO2_Packet] a new instance of S2A_INFO2_Packet
+  # @param [String] data The raw packet data replied from the server
   # @see S2A_INFO_BasePacket#generate_info_hash
   #
-  # source://steam-condenser//lib/steam-condenser/servers/packets/s2a_info2_packet.rb#32
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/s2a_info2_packet.rb:32
   def initialize(data); end
 end
 
-# source://steam-condenser//lib/steam-condenser/servers/packets/s2a_info2_packet.rb#22
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/s2a_info2_packet.rb:22
 SteamCondenser::Servers::Packets::S2A_INFO2_Packet::EDF_GAME_ID = T.let(T.unsafe(nil), Integer)
 
-# source://steam-condenser//lib/steam-condenser/servers/packets/s2a_info2_packet.rb#23
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/s2a_info2_packet.rb:23
 SteamCondenser::Servers::Packets::S2A_INFO2_Packet::EDF_GAME_PORT = T.let(T.unsafe(nil), Integer)
 
-# source://steam-condenser//lib/steam-condenser/servers/packets/s2a_info2_packet.rb#24
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/s2a_info2_packet.rb:24
 SteamCondenser::Servers::Packets::S2A_INFO2_Packet::EDF_SERVER_ID = T.let(T.unsafe(nil), Integer)
 
-# source://steam-condenser//lib/steam-condenser/servers/packets/s2a_info2_packet.rb#25
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/s2a_info2_packet.rb:25
 SteamCondenser::Servers::Packets::S2A_INFO2_Packet::EDF_SERVER_TAGS = T.let(T.unsafe(nil), Integer)
 
-# source://steam-condenser//lib/steam-condenser/servers/packets/s2a_info2_packet.rb#26
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/s2a_info2_packet.rb:26
 SteamCondenser::Servers::Packets::S2A_INFO2_Packet::EDF_SOURCE_TV = T.let(T.unsafe(nil), Integer)
 
 # This module implements methods to generate and access server information
 # from S2A_INFO_DETAILED and S2A_INFO2 response packets
 #
 # @author Sebastian Staudt
-# @see S2A_INFO2_Packet
 # @see S2A_INFO_DETAILED_Packet
+# @see S2A_INFO2_Packet
 #
-# source://steam-condenser//lib/steam-condenser/servers/packets/s2a_info_base_packet.rb#16
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/s2a_info_base_packet.rb:16
 module SteamCondenser::Servers::Packets::S2A_INFO_BasePacket
   include ::SteamCondenser::Servers::Packets::BasePacket
 
@@ -3570,7 +3553,7 @@ module SteamCondenser::Servers::Packets::S2A_INFO_BasePacket
   #
   # @return [Hash<String, Object>] The information provided by the server
   #
-  # source://steam-condenser//lib/steam-condenser/servers/packets/s2a_info_base_packet.rb#23
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/s2a_info_base_packet.rb:23
   def info; end
 end
 
@@ -3579,22 +3562,21 @@ end
 #
 # @author Sebastian Staudt
 # @deprecated Only outdated GoldSrc servers (before 10/24/2008) use this
-#   format. Newer ones use the same format as Source servers now
-#   (see {S2A_INFO2_Packet}).
+#             format. Newer ones use the same format as Source servers now
+#             (see {S2A_INFO2_Packet}).
 # @see GameServer#update_server_info
 #
-# source://steam-condenser//lib/steam-condenser/servers/packets/s2a_info_detailed_packet.rb#18
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/s2a_info_detailed_packet.rb:18
 class SteamCondenser::Servers::Packets::S2A_INFO_DETAILED_Packet
   include ::SteamCondenser::Servers::Packets::BasePacket
   include ::SteamCondenser::Servers::Packets::S2A_INFO_BasePacket
 
   # Creates a new S2A_INFO_DETAILED response object based on the given data
   #
-  # @param data [String] The raw packet data replied from the server
-  # @return [S2A_INFO_DETAILED_Packet] a new instance of S2A_INFO_DETAILED_Packet
+  # @param [String] data The raw packet data replied from the server
   # @see S2A_INFO_BasePacket#generate_info_hash
   #
-  # source://steam-condenser//lib/steam-condenser/servers/packets/s2a_info_detailed_packet.rb#26
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/s2a_info_detailed_packet.rb:26
   def initialize(data); end
 end
 
@@ -3602,23 +3584,22 @@ end
 #
 # @author Sebastian Staudt
 #
-# source://steam-condenser//lib/steam-condenser/servers/packets/s2a_logstring_packet.rb#13
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/s2a_logstring_packet.rb:13
 class SteamCondenser::Servers::Packets::S2A_LOGSTRING_Packet
   include ::SteamCondenser::Servers::Packets::BasePacket
 
   # Creates a new S2A_LOGSTRING object based on the given data
   #
-  # @param data [String] The raw packet data sent by the server
-  # @return [S2A_LOGSTRING_Packet] a new instance of S2A_LOGSTRING_Packet
+  # @param [String] data The raw packet data sent by the server
   #
-  # source://steam-condenser//lib/steam-condenser/servers/packets/s2a_logstring_packet.rb#25
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/s2a_logstring_packet.rb:25
   def initialize(data); end
 
   # Returns the log message contained in this packet
   #
   # @return [String] The log message
   #
-  # source://steam-condenser//lib/steam-condenser/servers/packets/s2a_logstring_packet.rb#20
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/s2a_logstring_packet.rb:20
   def message; end
 end
 
@@ -3629,24 +3610,23 @@ end
 # @author Sebastian Staudt
 # @see GameServer#update_player_info
 #
-# source://steam-condenser//lib/steam-condenser/servers/packets/s2a_player_packet.rb#17
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/s2a_player_packet.rb:17
 class SteamCondenser::Servers::Packets::S2A_PLAYER_Packet
   include ::SteamCondenser::Servers::Packets::BasePacket
 
   # Creates a new S2A_PLAYER response object based on the given data
   #
-  # @param content_data [String] The raw packet data sent by the server
+  # @param [String] content_data The raw packet data sent by the server
   # @raise [Error::PacketFormat] if the packet data is not well formatted
-  # @return [S2A_PLAYER_Packet] a new instance of S2A_PLAYER_Packet
   #
-  # source://steam-condenser//lib/steam-condenser/servers/packets/s2a_player_packet.rb#30
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/s2a_player_packet.rb:30
   def initialize(content_data); end
 
   # Returns the list of active players provided by the server
   #
   # @return [Hash<String, SteamPlayer>] All active players on the server
   #
-  # source://steam-condenser//lib/steam-condenser/servers/packets/s2a_player_packet.rb#24
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/s2a_player_packet.rb:24
   def player_hash; end
 end
 
@@ -3658,23 +3638,22 @@ end
 # @author Sebastian Staudt
 # @see GameServer#update_rules_info
 #
-# source://steam-condenser//lib/steam-condenser/servers/packets/s2a_rules_packet.rb#17
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/s2a_rules_packet.rb:17
 class SteamCondenser::Servers::Packets::S2A_RULES_Packet
   include ::SteamCondenser::Servers::Packets::BasePacket
 
   # Creates a new S2A_RULES response object based on the given data
   #
-  # @param content_data [String] The raw packet data sent by the server
-  # @return [S2A_RULES_Packet] a new instance of S2A_RULES_Packet
+  # @param [String] content_data The raw packet data sent by the server
   #
-  # source://steam-condenser//lib/steam-condenser/servers/packets/s2a_rules_packet.rb#29
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/s2a_rules_packet.rb:29
   def initialize(content_data); end
 
   # Returns the list of server rules (a.k.a. CVars) with the current values
   #
   # @return [Hash<String, String>] A list of server rules
   #
-  # source://steam-condenser//lib/steam-condenser/servers/packets/s2a_rules_packet.rb#24
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/s2a_rules_packet.rb:24
   def rules_hash; end
 end
 
@@ -3687,24 +3666,23 @@ end
 # @author Sebastian Staudt
 # @see GameServer#update_challenge_number
 #
-# source://steam-condenser//lib/steam-condenser/servers/packets/s2c_challenge_packet.rb#18
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/s2c_challenge_packet.rb:18
 class SteamCondenser::Servers::Packets::S2C_CHALLENGE_Packet
   include ::SteamCondenser::Servers::Packets::BasePacket
 
   # Creates a new S2C_CHALLENGE response object based on the given data
   #
-  # @param challenge_number [String] The raw packet data replied from the
-  #   server
-  # @return [S2C_CHALLENGE_Packet] a new instance of S2C_CHALLENGE_Packet
+  # @param [String] challenge_number The raw packet data replied from the
+  #        server
   #
-  # source://steam-condenser//lib/steam-condenser/servers/packets/s2c_challenge_packet.rb#26
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/s2c_challenge_packet.rb:26
   def initialize(challenge_number); end
 
   # Returns the challenge number received from the game server
   #
   # @return [Fixnum] The challenge number provided by the game server
   #
-  # source://steam-condenser//lib/steam-condenser/servers/packets/s2c_challenge_packet.rb#33
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/s2c_challenge_packet.rb:33
   def challenge_number; end
 end
 
@@ -3715,38 +3693,38 @@ end
 # @author Sebastian Staudt
 # @see BasePacket
 #
-# source://steam-condenser//lib/steam-condenser/servers/packets/steam_packet_factory.rb#31
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/steam_packet_factory.rb:31
 module SteamCondenser::Servers::Packets::SteamPacketFactory
   class << self
     # Creates a new packet object based on the header byte of the given raw
     # data
     #
-    # @param raw_data [String] The raw data of the packet
+    # @param [String] raw_data The raw data of the packet
     # @raise [Error::PacketFormat] if the packet header is not recognized
     # @return [BasePacket] The packet object generated from the packet data
     #
-    # source://steam-condenser//lib/steam-condenser/servers/packets/steam_packet_factory.rb#39
+    # pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/steam_packet_factory.rb:39
     def packet_from_data(raw_data); end
 
     # Reassembles the data of a split and/or compressed packet into a single
     # packet object
     #
-    # @param is_compressed [Boolean] whether the data of this packet is
-    #   compressed
-    # @param packet_checksum [Fixnum] The CRC32 checksum of the decompressed
-    #   packet data
-    # @param split_packets [Array<String>] An array of packet data
+    # @param [Array<String>] split_packets An array of packet data
+    # @param [Boolean] is_compressed whether the data of this packet is
+    #        compressed
+    # @param [Fixnum] packet_checksum The CRC32 checksum of the decompressed
+    #        packet data
     # @raise [Error::PacketFormat] if the calculated CRC32 checksum does not
-    #   match the expected value
+    #        match the expected value
     # @return [BasePacket] The reassembled packet
     # @see packet_from_data
     #
-    # source://steam-condenser//lib/steam-condenser/servers/packets/steam_packet_factory.rb#87
+    # pkg:gem/steam-condenser#lib/steam-condenser/servers/packets/steam_packet_factory.rb:87
     def reassemble_packet(split_packets, is_compressed = T.unsafe(nil), packet_checksum = T.unsafe(nil)); end
   end
 end
 
-# source://steam-condenser//lib/steam-condenser/servers/sockets/base_socket.rb#14
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/sockets/base_socket.rb:14
 module SteamCondenser::Servers::Sockets; end
 
 # This module implements common functionality for sockets used to connect to
@@ -3754,32 +3732,32 @@ module SteamCondenser::Servers::Sockets; end
 #
 # @author Sebastian Staudt
 #
-# source://steam-condenser//lib/steam-condenser/servers/sockets/base_socket.rb#20
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/sockets/base_socket.rb:20
 module SteamCondenser::Servers::Sockets::BaseSocket
   # Creates a new UDP socket to communicate with the server on the given IP
   # address and port
   #
-  # @param ip_address [String] Either the IP address or the DNS name of the
-  #   server
-  # @param port [Fixnum] The port the server is listening on
+  # @param [String] ip_address Either the IP address or the DNS name of the
+  #        server
+  # @param [Fixnum] port The port the server is listening on
   #
-  # source://steam-condenser//lib/steam-condenser/servers/sockets/base_socket.rb#42
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/sockets/base_socket.rb:42
   def initialize(ip_address, port = T.unsafe(nil)); end
 
   # Closes the underlying socket
   #
-  # source://steam-condenser//lib/steam-condenser/servers/sockets/base_socket.rb#48
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/sockets/base_socket.rb:48
   def close; end
 
   # Reads the given amount of data from the socket and wraps it into the
   # buffer
   #
-  # @param buffer_length [Fixnum] The data length to read from the socket
+  # @param [Fixnum] buffer_length The data length to read from the socket
   # @raise [Error::Timeout] if no packet is received on time
   # @return [Fixnum] The number of bytes that have been read from the socket
   # @see StringIO
   #
-  # source://steam-condenser//lib/steam-condenser/servers/sockets/base_socket.rb#59
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/sockets/base_socket.rb:59
   def receive_packet(buffer_length = T.unsafe(nil)); end
 
   # Sends the given packet to the server
@@ -3787,11 +3765,11 @@ module SteamCondenser::Servers::Sockets::BaseSocket
   # This converts the packet into a byte stream first before writing it to
   # the socket.
   #
-  # @param data_packet [Packets::BasePacket] The packet to send to the
-  #   server
+  # @param [Packets::BasePacket] data_packet The packet to send to the
+  #        server
   # @see Packets::BasePacket#to_s
   #
-  # source://steam-condenser//lib/steam-condenser/servers/sockets/base_socket.rb#91
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/sockets/base_socket.rb:91
   def send_packet(data_packet); end
 
   class << self
@@ -3800,10 +3778,10 @@ module SteamCondenser::Servers::Sockets::BaseSocket
     # Any request that takes longer than this time will cause a
     # {Error::Timeout}.
     #
-    # @param timeout [Fixnum] The amount of milliseconds before a request times
-    #   out
+    # @param [Fixnum] timeout The amount of milliseconds before a request times
+    #        out
     #
-    # source://steam-condenser//lib/steam-condenser/servers/sockets/base_socket.rb#32
+    # pkg:gem/steam-condenser#lib/steam-condenser/servers/sockets/base_socket.rb:32
     def timeout=(timeout); end
   end
 end
@@ -3813,7 +3791,7 @@ end
 #
 # @author Sebastian Staudt
 #
-# source://steam-condenser//lib/steam-condenser/servers/sockets/goldsrc_socket.rb#20
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/sockets/goldsrc_socket.rb:20
 class SteamCondenser::Servers::Sockets::GoldSrcSocket
   include ::SteamCondenser::Servers::Sockets::BaseSocket
   include ::SteamCondenser::Logging
@@ -3821,47 +3799,46 @@ class SteamCondenser::Servers::Sockets::GoldSrcSocket
   # Creates a new socket to communicate with the server on the given IP
   # address and port
   #
-  # @param ipaddress [String] Either the IP address or the DNS name of the
-  #   server
-  # @param is_hltv [Boolean] `true` if the target server is a HTLV instance.
-  #   HLTV behaves slightly different for RCON commands, this flag
-  #   increases compatibility.
-  # @param port_number [Fixnum] The port the server is listening on
-  # @return [GoldSrcSocket] a new instance of GoldSrcSocket
+  # @param [String] ipaddress Either the IP address or the DNS name of the
+  #        server
+  # @param [Fixnum] port_number The port the server is listening on
+  # @param [Boolean] is_hltv `true` if the target server is a HTLV instance.
+  #        HLTV behaves slightly different for RCON commands, this flag
+  #        increases compatibility.
   #
-  # source://steam-condenser//lib/steam-condenser/servers/sockets/goldsrc_socket.rb#35
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/sockets/goldsrc_socket.rb:35
   def initialize(ipaddress, port_number = T.unsafe(nil), is_hltv = T.unsafe(nil)); end
 
   # Requests a challenge number from the server to be used for further
   # requests
   #
   # @raise [Error::RCONBan] if the IP of the local machine has been banned on
-  #   the game server
+  #        the game server
   # @see #rcon_send
   #
-  # source://steam-condenser//lib/steam-condenser/servers/sockets/goldsrc_socket.rb#130
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/sockets/goldsrc_socket.rb:130
   def rcon_challenge; end
 
   # Executes the given command on the server via RCON
   #
-  # @param command [String] The command to execute on the server
-  # @param password [String] The password to authenticate with the server
+  # @param [String] password The password to authenticate with the server
+  # @param [String] command The command to execute on the server
   # @raise [Error::RCONBan] if the IP of the local machine has been banned on
-  #   the game server
+  #        the game server
   # @raise [Error::RCONNoAuth] if the password is incorrect
   # @return [RCONGoldSrcResponse] The response replied by the server
   # @see #rcon_challenge
   # @see #rcon_send
   #
-  # source://steam-condenser//lib/steam-condenser/servers/sockets/goldsrc_socket.rb#94
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/sockets/goldsrc_socket.rb:94
   def rcon_exec(password, command); end
 
   # Wraps the given command in a RCON request packet and send it to the
   # server
   #
-  # @param command [String] The RCON command to send to the server
+  # @param [String] command The RCON command to send to the server
   #
-  # source://steam-condenser//lib/steam-condenser/servers/sockets/goldsrc_socket.rb#145
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/sockets/goldsrc_socket.rb:145
   def rcon_send(command); end
 
   # Reads a packet from the socket
@@ -3872,11 +3849,11 @@ class SteamCondenser::Servers::Sockets::GoldSrcSocket
   #
   # @return [BasePacket] The packet replied from the server
   #
-  # source://steam-condenser//lib/steam-condenser/servers/sockets/goldsrc_socket.rb#48
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/sockets/goldsrc_socket.rb:48
   def reply; end
 
   class << self
-    # source://steam-condenser//lib/steam-condenser/servers/sockets/goldsrc_socket.rb#24
+    # pkg:gem/steam-condenser#lib/steam-condenser/servers/sockets/goldsrc_socket.rb:24
     def log; end
   end
 end
@@ -3885,7 +3862,7 @@ end
 #
 # @author Sebastian Staudt
 #
-# source://steam-condenser//lib/steam-condenser/servers/sockets/master_server_socket.rb#14
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/sockets/master_server_socket.rb:14
 class SteamCondenser::Servers::Sockets::MasterServerSocket
   include ::SteamCondenser::Servers::Sockets::BaseSocket
   include ::SteamCondenser::Logging
@@ -3895,11 +3872,11 @@ class SteamCondenser::Servers::Sockets::MasterServerSocket
   # @raise [Error::PacketFormat] if the packet has the wrong format
   # @return [BasePacket] The packet replied from the server
   #
-  # source://steam-condenser//lib/steam-condenser/servers/sockets/master_server_socket.rb#23
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/sockets/master_server_socket.rb:23
   def reply; end
 
   class << self
-    # source://steam-condenser//lib/steam-condenser/servers/sockets/master_server_socket.rb#17
+    # pkg:gem/steam-condenser#lib/steam-condenser/servers/sockets/master_server_socket.rb:17
     def log; end
   end
 end
@@ -3913,7 +3890,7 @@ end
 #
 # @author Sebastian Staudt
 #
-# source://steam-condenser//lib/steam-condenser/servers/sockets/rcon_socket.rb#26
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/sockets/rcon_socket.rb:26
 class SteamCondenser::Servers::Sockets::RCONSocket
   include ::SteamCondenser::Servers::Sockets::BaseSocket
   include ::SteamCondenser::Logging
@@ -3921,27 +3898,26 @@ class SteamCondenser::Servers::Sockets::RCONSocket
   # Creates a new TCP socket to communicate with the server on the given IP
   # address and port
   #
-  # @param ip [String, IPAddr] Either the IP address or the DNS name of the
-  #   server
-  # @param port [Fixnum] The port the server is listening on
-  # @return [RCONSocket] a new instance of RCONSocket
+  # @param [String, IPAddr] ip Either the IP address or the DNS name of the
+  #        server
+  # @param [Fixnum] port The port the server is listening on
   #
-  # source://steam-condenser//lib/steam-condenser/servers/sockets/rcon_socket.rb#37
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/sockets/rcon_socket.rb:37
   def initialize(ip, port); end
 
   # Closes the underlying TCP socket if it exists
   #
   # SteamSocket#close
   #
-  # source://steam-condenser//lib/steam-condenser/servers/sockets/rcon_socket.rb#47
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/sockets/rcon_socket.rb:47
   def close; end
 
   # Connects a new TCP socket to the server
   #
   # @raise [Error::Timeout] if the connection could not be
-  #   established
+  #        established
   #
-  # source://steam-condenser//lib/steam-condenser/servers/sockets/rcon_socket.rb#55
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/sockets/rcon_socket.rb:55
   def connect; end
 
   # Reads a packet from the socket
@@ -3951,25 +3927,25 @@ class SteamCondenser::Servers::Sockets::RCONSocket
   # concatenated into a single response packet.
   #
   # @raise [Error::RCONBan] if the IP of the local machine has been banned on
-  #   the game server
+  #        the game server
   # @raise [Error::RCONNoAuth] if an authenticated connection has been
-  #   dropped by the server
+  #        dropped by the server
   # @return [Packets::RCON::BasePacket] The packet replied from the server
   #
-  # source://steam-condenser//lib/steam-condenser/servers/sockets/rcon_socket.rb#85
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/sockets/rcon_socket.rb:85
   def reply; end
 
   # Sends the given RCON packet to the server
   #
-  # @param data_packet [Packets::RCON::BasePacket] The RCON packet to send to
-  #   the server
+  # @param [Packets::RCON::BasePacket] data_packet The RCON packet to send to
+  #        the server
   # @see #connect
   #
-  # source://steam-condenser//lib/steam-condenser/servers/sockets/rcon_socket.rb#68
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/sockets/rcon_socket.rb:68
   def send_packet(data_packet); end
 
   class << self
-    # source://steam-condenser//lib/steam-condenser/servers/sockets/rcon_socket.rb#29
+    # pkg:gem/steam-condenser#lib/steam-condenser/servers/sockets/rcon_socket.rb:29
     def log; end
   end
 end
@@ -3979,7 +3955,7 @@ end
 #
 # @author Sebastian Staudt
 #
-# source://steam-condenser//lib/steam-condenser/servers/sockets/source_socket.rb#16
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/sockets/source_socket.rb:16
 class SteamCondenser::Servers::Sockets::SourceSocket
   include ::SteamCondenser::Servers::Sockets::BaseSocket
   include ::SteamCondenser::Logging
@@ -3993,11 +3969,11 @@ class SteamCondenser::Servers::Sockets::SourceSocket
   #
   # @return [BasePacket] The packet replied from the server
   #
-  # source://steam-condenser//lib/steam-condenser/servers/sockets/source_socket.rb#29
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/sockets/source_socket.rb:29
   def reply; end
 
   class << self
-    # source://steam-condenser//lib/steam-condenser/servers/sockets/source_socket.rb#19
+    # pkg:gem/steam-condenser#lib/steam-condenser/servers/sockets/source_socket.rb:19
     def log; end
   end
 end
@@ -4012,7 +3988,7 @@ end
 # @author Sebastian Staudt
 # @see GoldSrcServer
 #
-# source://steam-condenser//lib/steam-condenser/servers/source_server.rb#30
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/source_server.rb:30
 class SteamCondenser::Servers::SourceServer
   include ::SteamCondenser::Servers::BaseServer
   include ::SteamCondenser::Servers::GameServer
@@ -4021,21 +3997,20 @@ class SteamCondenser::Servers::SourceServer
   # Creates a new instance of a server object representing a Source server,
   # i.e. SrcDS instance
   #
-  # @param address [String] Either an IP address, a DNS name or one of them
-  #   combined with the port number. If a port number is given, e.g.
-  #   'server.example.com:27016' it will override the second argument.
-  # @param port [Fixnum] The port the server is listening on
+  # @param [String] address Either an IP address, a DNS name or one of them
+  #        combined with the port number. If a port number is given, e.g.
+  #        'server.example.com:27016' it will override the second argument.
+  # @param [Fixnum] port The port the server is listening on
   # @raise [Error] if an host name cannot be resolved
-  # @return [SourceServer] a new instance of SourceServer
   #
-  # source://steam-condenser//lib/steam-condenser/servers/source_server.rb#51
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/source_server.rb:51
   def initialize(address, port = T.unsafe(nil)); end
 
   # Disconnects the TCP-based channel used for RCON commands
   #
   # @see RCONSocket#close
   #
-  # source://steam-condenser//lib/steam-condenser/servers/source_server.rb#58
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/source_server.rb:58
   def disconnect; end
 
   # Initializes the sockets to communicate with the Source server
@@ -4043,34 +4018,33 @@ class SteamCondenser::Servers::SourceServer
   # @see RCONSocket
   # @see SourceSocket
   #
-  # source://steam-condenser//lib/steam-condenser/servers/source_server.rb#66
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/source_server.rb:66
   def init_socket; end
 
   # Authenticates the connection for RCON communication with the server
   #
-  # @param password [String] The RCON password of the server
-  # @raise [Error::RCONBan]
+  # @param [String] password The RCON password of the server
   # @return [Boolean] whether authentication was successful
   # @see #rcon_authenticated?
   # @see #rcon_exec
   #
-  # source://steam-condenser//lib/steam-condenser/servers/source_server.rb#77
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/source_server.rb:77
   def rcon_auth(password); end
 
   # Remotely executes a command on the server via RCON
   #
-  # @param command [String] The command to execute on the server via RCON
-  # @raise [RCONBanException] if the IP of the local machine has been banned on
-  #   the game server
-  # @raise [RCONNoAuthException] if not authenticated with the server
+  # @param [String] command The command to execute on the server via RCON
   # @return [String] The output of the executed command
+  # @raise [RCONBanException] if the IP of the local machine has been banned on
+  #        the game server
+  # @raise [RCONNoAuthException] if not authenticated with the server
   # @see #rcon_auth
   #
-  # source://steam-condenser//lib/steam-condenser/servers/source_server.rb#96
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/source_server.rb:96
   def rcon_exec(command); end
 
   class << self
-    # source://steam-condenser//lib/steam-condenser/servers/source_server.rb#33
+    # pkg:gem/steam-condenser#lib/steam-condenser/servers/source_server.rb:33
     def log; end
 
     # Returns a master server instance for the default master server for Source
@@ -4078,7 +4052,7 @@ class SteamCondenser::Servers::SourceServer
     #
     # @return [MasterServer] The Source master server
     #
-    # source://steam-condenser//lib/steam-condenser/servers/source_server.rb#39
+    # pkg:gem/steam-condenser#lib/steam-condenser/servers/source_server.rb:39
     def master; end
   end
 end
@@ -4087,139 +4061,138 @@ end
 #
 # @author Sebastian Staudt
 #
-# source://steam-condenser//lib/steam-condenser/servers/steam_player.rb#13
+# pkg:gem/steam-condenser#lib/steam-condenser/servers/steam_player.rb:13
 class SteamCondenser::Servers::SteamPlayer
   # Creates a new player instance with the given information
   #
-  # @param connect_time [Float] The time the player is connected to the
-  #   server
-  # @param id [Fixnum] The ID of the player on the server
-  # @param name [String] The name of the player
-  # @param score [Fixnum] The score of the player
-  # @return [SteamPlayer] a new instance of SteamPlayer
+  # @param [Fixnum] id The ID of the player on the server
+  # @param [String] name The name of the player
+  # @param [Fixnum] score The score of the player
+  # @param [Float] connect_time The time the player is connected to the
+  #        server
   #
-  # source://steam-condenser//lib/steam-condenser/servers/steam_player.rb#82
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/steam_player.rb:82
   def initialize(id, name, score, connect_time); end
 
   # Extends a player object with information retrieved from a RCON call to
   # the status command
   #
-  # @param player_data [String] The player data retrieved from `rcon status`
+  # @param [String] player_data The player data retrieved from `rcon status`
   # @raise [Error] if the information belongs to another player
   #
-  # source://steam-condenser//lib/steam-condenser/servers/steam_player.rb#95
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/steam_player.rb:95
   def add_info(player_data); end
 
   # Returns whether this player is a bot
   #
-  # @return [Boolean] bool `true` if this player is a bot
+  # @return bool `true` if this player is a bot
   #
-  # source://steam-condenser//lib/steam-condenser/servers/steam_player.rb#122
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/steam_player.rb:122
   def bot?; end
 
   # Returns the client port of this player
   #
   # @return [Fixnum] The client port of the player
   #
-  # source://steam-condenser//lib/steam-condenser/servers/steam_player.rb#18
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/steam_player.rb:18
   def client_port; end
 
   # Returns the time this player is connected to the server
   #
   # @return [Float] The connection time of the player
   #
-  # source://steam-condenser//lib/steam-condenser/servers/steam_player.rb#28
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/steam_player.rb:28
   def connect_time; end
 
   # Returns the connection ID (as used on the server) of this player
   #
   # @return [Fixnum] The connection ID of this player
   #
-  # source://steam-condenser//lib/steam-condenser/servers/steam_player.rb#23
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/steam_player.rb:23
   def connection_id; end
 
   # Returns whether this player object has extended information gathered
   # using RCON
   #
-  # @return [Boolean] bool `true` if extended information for this player is available
+  # @return bool `true` if extended information for this player is available
   #
-  # source://steam-condenser//lib/steam-condenser/servers/steam_player.rb#130
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/steam_player.rb:130
   def extended?; end
 
   # Returns the ID of this player
   #
   # @return [Fixnum] The ID of this player
   #
-  # source://steam-condenser//lib/steam-condenser/servers/steam_player.rb#33
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/steam_player.rb:33
   def id; end
 
   # Returns the IP address of this player
   #
   # @return [String] The IP address of this player
   #
-  # source://steam-condenser//lib/steam-condenser/servers/steam_player.rb#38
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/steam_player.rb:38
   def ip_address; end
 
   # Returns the packet loss of this player's connection
   #
   # @return [String] The packet loss of this player's connection
   #
-  # source://steam-condenser//lib/steam-condenser/servers/steam_player.rb#48
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/steam_player.rb:48
   def loss; end
 
   # Returns the nickname of this player
   #
   # @return [String] The name of this player
   #
-  # source://steam-condenser//lib/steam-condenser/servers/steam_player.rb#43
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/steam_player.rb:43
   def name; end
 
   # Returns the ping of this player
   #
   # @return [Fixnum] The ping of this player
   #
-  # source://steam-condenser//lib/steam-condenser/servers/steam_player.rb#53
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/steam_player.rb:53
   def ping; end
 
   # Returns the rate of this player
   #
   # @return [Fixnum] The rate of this player
   #
-  # source://steam-condenser//lib/steam-condenser/servers/steam_player.rb#58
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/steam_player.rb:58
   def rate; end
 
   # Returns the score of this player
   #
   # @return [Fixnum] The score of this player
   #
-  # source://steam-condenser//lib/steam-condenser/servers/steam_player.rb#63
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/steam_player.rb:63
   def score; end
 
   # Returns the connection state of this player
   #
   # @return [String] The connection state of this player
   #
-  # source://steam-condenser//lib/steam-condenser/servers/steam_player.rb#68
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/steam_player.rb:68
   def state; end
 
   # Returns the SteamID of this player
   #
   # @return [String] The SteamID of this player
   #
-  # source://steam-condenser//lib/steam-condenser/servers/steam_player.rb#73
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/steam_player.rb:73
   def steam_id; end
 
   # Returns a string representation of this player
   #
   # @return [String] A string representing this player
   #
-  # source://steam-condenser//lib/steam-condenser/servers/steam_player.rb#137
+  # pkg:gem/steam-condenser#lib/steam-condenser/servers/steam_player.rb:137
   def to_s; end
 end
 
 # The current version of Steam Condenser
 #
-# source://steam-condenser//lib/steam-condenser/version.rb#9
+# pkg:gem/steam-condenser#lib/steam-condenser/version.rb:9
 SteamCondenser::VERSION = T.let(T.unsafe(nil), String)
 
 # This extends the `StringIO` class from Ruby's standard library. It adds some
@@ -4227,7 +4200,7 @@ SteamCondenser::VERSION = T.let(T.unsafe(nil), String)
 #
 # @author Sebastian Staudt
 #
-# source://steam-condenser//lib/core_ext/stringio.rb#12
+# pkg:gem/steam-condenser#lib/core_ext/stringio.rb:12
 class StringIO
   include ::Enumerable
 
@@ -4239,7 +4212,7 @@ class StringIO
   #
   # @return [String] The zero-byte terminated string read from the byte stream
   #
-  # source://steam-condenser//lib/core_ext/stringio.rb#80
+  # pkg:gem/steam-condenser#lib/core_ext/stringio.rb:80
   def cstring; end
 
   # Reads a floating-point integer (32 bit) from the current position of the
@@ -4247,16 +4220,16 @@ class StringIO
   #
   # @return [Float] The floating-point integer read from the byte stream
   #
-  # source://steam-condenser//lib/core_ext/stringio.rb#28
+  # pkg:gem/steam-condenser#lib/core_ext/stringio.rb:28
   def float; end
 
   # Reads the whole remaining content of the byte stream from the current
   # position to the end
   #
   # @return [String] The remainder of the byte stream starting from the current
-  #   position of the byte stream
+  #         position of the byte stream
   #
-  # source://steam-condenser//lib/core_ext/stringio.rb#37
+  # pkg:gem/steam-condenser#lib/core_ext/stringio.rb:37
   def get; end
 
   # Reads an unsigned long integer (32 bit) from the current position of the
@@ -4264,7 +4237,7 @@ class StringIO
   #
   # @return [Fixnum] The unsigned long integer read from the byte stream
   #
-  # source://steam-condenser//lib/core_ext/stringio.rb#45
+  # pkg:gem/steam-condenser#lib/core_ext/stringio.rb:45
   def long; end
 
   # Returns the remaining number of bytes from the current position to the end
@@ -4272,7 +4245,7 @@ class StringIO
   #
   # @return [Fixnum] The number of bytes until the end of the stream
   #
-  # source://steam-condenser//lib/core_ext/stringio.rb#53
+  # pkg:gem/steam-condenser#lib/core_ext/stringio.rb:53
   def remaining; end
 
   # Reads an unsigned short integer (16 bit) from the current position of the
@@ -4280,7 +4253,7 @@ class StringIO
   #
   # @return [Fixnum] The unsigned short integer read from the byte stream
   #
-  # source://steam-condenser//lib/core_ext/stringio.rb#61
+  # pkg:gem/steam-condenser#lib/core_ext/stringio.rb:61
   def short; end
 
   # Reads a signed long integer (32 bit) from the current position of the byte
@@ -4288,18 +4261,18 @@ class StringIO
   #
   # @return [Fixnum] The signed long integer read from the byte stream
   #
-  # source://steam-condenser//lib/core_ext/stringio.rb#69
+  # pkg:gem/steam-condenser#lib/core_ext/stringio.rb:69
   def signed_long; end
 
   class << self
     # Creates a new instance of `StringIO` with the given size and fills it with
     # zero-bytes.
     #
-    # @param size [Fixnum] The size the new instance should have
+    # @param [Fixnum] size The size the new instance should have
     # @return [StringIO] A new `StringIO` instance with the given size, filled
-    #   with zero-bytes
+    #         with zero-bytes
     #
-    # source://steam-condenser//lib/core_ext/stringio.rb#20
+    # pkg:gem/steam-condenser#lib/core_ext/stringio.rb:20
     def alloc(size); end
   end
 end

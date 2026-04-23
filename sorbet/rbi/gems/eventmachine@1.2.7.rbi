@@ -11,7 +11,7 @@
 # by which entities are delimited.  In this respect it's ideally paired with
 # something like EventMachine (http://rubyeventmachine.com/).
 #
-# source://eventmachine//lib/em/buftok.rb#6
+# pkg:gem/eventmachine#lib/em/buftok.rb:6
 class BufferedTokenizer
   # New BufferedTokenizers will operate on lines delimited by a delimiter,
   # which is by default the global input delimiter $/ ("\n").
@@ -22,9 +22,7 @@ class BufferedTokenizer
   # which is only joined when a token is reached, substantially reducing the
   # number of objects required for the operation.
   #
-  # @return [BufferedTokenizer] a new instance of BufferedTokenizer
-  #
-  # source://eventmachine//lib/em/buftok.rb#15
+  # pkg:gem/eventmachine#lib/em/buftok.rb:15
   def initialize(delimiter = T.unsafe(nil)); end
 
   # Extract takes an arbitrary string of input data and returns an array of
@@ -36,21 +34,458 @@ class BufferedTokenizer
   # Using -1 makes split to return "" if the token is at the end of
   # the string, meaning the last element is the start of the next chunk.
   #
-  # source://eventmachine//lib/em/buftok.rb#30
+  # pkg:gem/eventmachine#lib/em/buftok.rb:30
   def extract(data); end
 
   # Flush the contents of the input buffer, i.e. return the input buffer even though
   # a token has not yet been encountered
   #
-  # source://eventmachine//lib/em/buftok.rb#52
+  # pkg:gem/eventmachine#lib/em/buftok.rb:52
   def flush; end
 end
 
 # Alias for {EventMachine}
 #
-# source://eventmachine//lib/eventmachine.rb#1599
+# pkg:gem/eventmachine#lib/eventmachine.rb:1599
 EM = EventMachine
 
+# = EM::Completion
+#
+# A completion is a callback container for various states of completion. In
+# its most basic form it has a start state and a finish state.
+#
+# This implementation includes some hold-back from the EM::Deferrable
+# interface in order to be compatible - but it has a much cleaner
+# implementation.
+#
+# In general it is preferred that this implementation be used as a state
+# callback container than EM::DefaultDeferrable or other classes including
+# EM::Deferrable. This is because it is generally more sane to keep this level
+# of state in a dedicated state-back container. This generally leads to more
+# malleable interfaces and software designs, as well as eradicating nasty bugs
+# that result from abstraction leakage.
+#
+# == Basic Usage
+#
+# As already mentioned, the basic usage of a Completion is simply for its two
+# final states, :succeeded and :failed.
+#
+# An asynchronous operation will complete at some future point in time, and
+# users often want to react to this event. API authors will want to expose
+# some common interface to react to these events.
+#
+# In the following example, the user wants to know when a short lived
+# connection has completed its exchange with the remote server. The simple
+# protocol just waits for an ack to its message.
+#
+#    class Protocol < EM::Connection
+#      include EM::P::LineText2
+#
+#      def initialize(message, completion)
+#        @message, @completion = message, completion
+#        @completion.completion { close_connection }
+#        @completion.timeout(1, :timeout)
+#      end
+#
+#      def post_init
+#        send_data(@message)
+#      end
+#
+#      def receive_line(line)
+#        case line
+#        when /ACK/i
+#          @completion.succeed line
+#        when /ERR/i
+#          @completion.fail :error, line
+#        else
+#          @completion.fail :unknown, line
+#        end
+#      end
+#
+#      def unbind
+#        @completion.fail :disconnected unless @completion.completed?
+#      end
+#    end
+#
+#    class API
+#      attr_reader :host, :port
+#
+#      def initialize(host = 'example.org', port = 8000)
+#        @host, @port = host, port
+#      end
+#
+#      def request(message)
+#        completion = EM::Deferrable::Completion.new
+#        EM.connect(host, port, Protocol, message, completion)
+#        completion
+#      end
+#    end
+#
+#    api = API.new
+#    completion = api.request('stuff')
+#    completion.callback do |line|
+#      puts "API responded with: #{line}"
+#    end
+#    completion.errback do |type, line|
+#      case type
+#      when :error
+#        puts "API error: #{line}"
+#      when :unknown
+#        puts "API returned unknown response: #{line}"
+#      when :disconnected
+#        puts "API server disconnected prematurely"
+#      when :timeout
+#        puts "API server did not respond in a timely fashion"
+#      end
+#    end
+#
+# == Advanced Usage
+#
+# This completion implementation also supports more state callbacks and
+# arbitrary states (unlike the original Deferrable API). This allows for basic
+# stateful process encapsulation. One might use this to setup state callbacks
+# for various states in an exchange like in the basic usage example, except
+# where the applicaiton could be made to react to "connected" and
+# "disconnected" states additionally.
+#
+#    class Protocol < EM::Connection
+#      def initialize(completion)
+#        @response = []
+#        @completion = completion
+#        @completion.stateback(:disconnected) do
+#          @completion.succeed @response.join
+#        end
+#      end
+#
+#      def connection_completed
+#        @host, @port = Socket.unpack_sockaddr_in get_peername
+#        @completion.change_state(:connected, @host, @port)
+#        send_data("GET http://example.org/ HTTP/1.0\r\n\r\n")
+#      end
+#
+#      def receive_data(data)
+#        @response << data
+#      end
+#
+#      def unbind
+#        @completion.change_state(:disconnected, @host, @port)
+#      end
+#    end
+#
+#    completion = EM::Deferrable::Completion.new
+#    completion.stateback(:connected) do |host, port|
+#      puts "Connected to #{host}:#{port}"
+#    end
+#    completion.stateback(:disconnected) do |host, port|
+#      puts "Disconnected from #{host}:#{port}"
+#    end
+#    completion.callback do |response|
+#      puts response
+#    end
+#
+#    EM.connect('example.org', 80, Protocol, completion)
+#
+# == Timeout
+#
+# The Completion also has a timeout. The timeout is global and is not aware of
+# states apart from completion states. The timeout is only engaged if #timeout
+# is called, and it will call fail if it is reached.
+#
+# == Completion states
+#
+# By default there are two completion states, :succeeded and :failed. These
+# states can be modified by subclassing and overrding the #completion_states
+# method. Completion states are special, in that callbacks for all completion
+# states are explcitly cleared when a completion state is entered. This
+# prevents errors that could arise from accidental unterminated timeouts, and
+# other such user errors.
+#
+# == Other notes
+#
+# Several APIs have been carried over from EM::Deferrable for compatibility
+# reasons during a transitionary period. Specifically cancel_errback and
+# cancel_callback are implemented, but their usage is to be strongly
+# discouraged. Due to the already complex nature of reaction systems, dynamic
+# callback deletion only makes the problem much worse. It is always better to
+# add correct conditionals to the callback code, or use more states, than to
+# address such implementaiton issues with conditional callbacks.
+# --
+#
+# Author:: Francis Cianfrocca (gmail: blackhedd)
+# Homepage::  http://rubyeventmachine.com
+# Date:: 16 Jul 2006
+#
+# See EventMachine and EventMachine::Connection for documentation and
+# usage examples.
+#
+# ----------------------------------------------------------------------------
+#
+# Copyright (C) 2006-07 by Francis Cianfrocca. All Rights Reserved.
+# Gmail: blackhedd
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of either: 1) the GNU General Public License
+# as published by the Free Software Foundation; either version 2 of the
+# License, or (at your option) any later version; or 2) Ruby's License.
+#
+# See the file COPYING for complete licensing information.
+#
+# ---------------------------------------------------------------------------
+#
+#
+# --
+# This defines EventMachine::Deferrable#future, which requires
+# that the rest of EventMachine::Deferrable has already been seen.
+# (It's in deferrable.rb.)
+# --
+#
+# Author:: Francis Cianfrocca (gmail: blackhedd)
+# Homepage::  http://rubyeventmachine.com
+# Date:: 15 Nov 2006
+#
+# See EventMachine and EventMachine::Connection for documentation and
+# usage examples.
+#
+# ----------------------------------------------------------------------------
+#
+# Copyright (C) 2006-07 by Francis Cianfrocca. All Rights Reserved.
+# Gmail: blackhedd
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of either: 1) the GNU General Public License
+# as published by the Free Software Foundation; either version 2 of the
+# License, or (at your option) any later version; or 2) Ruby's License.
+#
+# See the file COPYING for complete licensing information.
+#
+# ---------------------------------------------------------------------------
+#
+#
+# --
+#
+# Author:: Francis Cianfrocca (gmail: blackhedd)
+# Homepage::  http://rubyeventmachine.com
+# Date:: 16 July 2006
+#
+# See EventMachine and EventMachine::Connection for documentation and
+# usage examples.
+#
+# ----------------------------------------------------------------------------
+#
+# Copyright (C) 2006-07 by Francis Cianfrocca. All Rights Reserved.
+# Gmail: blackhedd
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of either: 1) the GNU General Public License
+# as published by the Free Software Foundation; either version 2 of the
+# License, or (at your option) any later version; or 2) Ruby's License.
+#
+# See the file COPYING for complete licensing information.
+#
+# ---------------------------------------------------------------------------
+#
+#
+# --
+#
+# Author:: Francis Cianfrocca (gmail: blackhedd)
+# Homepage::  http://rubyeventmachine.com
+# Date:: 16 July 2006
+#
+# See EventMachine and EventMachine::Connection for documentation and
+# usage examples.
+#
+# ----------------------------------------------------------------------------
+#
+# Copyright (C) 2006-07 by Francis Cianfrocca. All Rights Reserved.
+# Gmail: blackhedd
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of either: 1) the GNU General Public License
+# as published by the Free Software Foundation; either version 2 of the
+# License, or (at your option) any later version; or 2) Ruby's License.
+#
+# See the file COPYING for complete licensing information.
+#
+# ---------------------------------------------------------------------------
+#
+#
+# --
+#
+# Author:: Francis Cianfrocca (gmail: blackhedd)
+# Homepage::  http://rubyeventmachine.com
+# Date:: 15 November 2006
+#
+# See EventMachine and EventMachine::Connection for documentation and
+# usage examples.
+#
+# ----------------------------------------------------------------------------
+#
+# Copyright (C) 2006-07 by Francis Cianfrocca. All Rights Reserved.
+# Gmail: blackhedd
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of either: 1) the GNU General Public License
+# as published by the Free Software Foundation; either version 2 of the
+# License, or (at your option) any later version; or 2) Ruby's License.
+#
+# See the file COPYING for complete licensing information.
+#
+# ---------------------------------------------------------------------------
+#
+#
+#
+# --
+#
+# Author:: Francis Cianfrocca (gmail: blackhedd)
+# Homepage::  http://rubyeventmachine.com
+# Date:: 15 November 2006
+#
+# See EventMachine and EventMachine::Connection for documentation and
+# usage examples.
+#
+# ----------------------------------------------------------------------------
+#
+# Copyright (C) 2006-07 by Francis Cianfrocca. All Rights Reserved.
+# Gmail: blackhedd
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of either: 1) the GNU General Public License
+# as published by the Free Software Foundation; either version 2 of the
+# License, or (at your option) any later version; or 2) Ruby's License.
+#
+# See the file COPYING for complete licensing information.
+#
+# ---------------------------------------------------------------------------
+#
+#
+# --
+#
+# Author:: Francis Cianfrocca (gmail: blackhedd)
+# Homepage::  http://rubyeventmachine.com
+# Date:: 15 November 2006
+#
+# See EventMachine and EventMachine::Connection for documentation and
+# usage examples.
+#
+# ----------------------------------------------------------------------------
+#
+# Copyright (C) 2006-07 by Francis Cianfrocca. All Rights Reserved.
+# Gmail: blackhedd
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of either: 1) the GNU General Public License
+# as published by the Free Software Foundation; either version 2 of the
+# License, or (at your option) any later version; or 2) Ruby's License.
+#
+# See the file COPYING for complete licensing information.
+#
+# ---------------------------------------------------------------------------
+#
+#
+#
+# --
+#
+# Author:: Francis Cianfrocca (gmail: blackhedd)
+# Homepage::  http://rubyeventmachine.com
+# Date:: 16 July 2006
+#
+# See EventMachine and EventMachine::Connection for documentation and
+# usage examples.
+#
+# ----------------------------------------------------------------------------
+#
+# Copyright (C) 2006-07 by Francis Cianfrocca. All Rights Reserved.
+# Gmail: blackhedd
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of either: 1) the GNU General Public License
+# as published by the Free Software Foundation; either version 2 of the
+# License, or (at your option) any later version; or 2) Ruby's License.
+#
+# See the file COPYING for complete licensing information.
+#
+# ---------------------------------------------------------------------------
+#
+#
+# --
+#
+# Author:: Francis Cianfrocca (gmail: blackhedd)
+# Homepage::  http://rubyeventmachine.com
+# Date:: 15 November 2006
+#
+# See EventMachine and EventMachine::Connection for documentation and
+# usage examples.
+#
+# ----------------------------------------------------------------------------
+#
+# Copyright (C) 2006-07 by Francis Cianfrocca. All Rights Reserved.
+# Gmail: blackhedd
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of either: 1) the GNU General Public License
+# as published by the Free Software Foundation; either version 2 of the
+# License, or (at your option) any later version; or 2) Ruby's License.
+#
+# See the file COPYING for complete licensing information.
+#
+# ---------------------------------------------------------------------------
+#
+#
+#
+# --
+#
+# Author:: Francis Cianfrocca (gmail: blackhedd)
+# Homepage::  http://rubyeventmachine.com
+# Date:: 16 July 2006
+#
+# See EventMachine and EventMachine::Connection for documentation and
+# usage examples.
+#
+# ----------------------------------------------------------------------------
+#
+# Copyright (C) 2006-07 by Francis Cianfrocca. All Rights Reserved.
+# Gmail: blackhedd
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of either: 1) the GNU General Public License
+# as published by the Free Software Foundation; either version 2 of the
+# License, or (at your option) any later version; or 2) Ruby's License.
+#
+# See the file COPYING for complete licensing information.
+#
+# ---------------------------------------------------------------------------
+#
+#
+#
+# @private
+# --------------------------------------------------------------
+# --------------------------------------------------------------
+# --------------------------------------------------------------
+# @private
+# --
+#
+# Author:: Francis Cianfrocca (gmail: blackhedd)
+# Homepage::  http://rubyeventmachine.com
+# Date:: 25 Aug 2007
+#
+# See EventMachine and EventMachine::Connection for documentation and
+# usage examples.
+#
+# ----------------------------------------------------------------------------
+#
+# Copyright (C) 2006-07 by Francis Cianfrocca. All Rights Reserved.
+# Gmail: blackhedd
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of either: 1) the GNU General Public License
+# as published by the Free Software Foundation; either version 2 of the
+# License, or (at your option) any later version; or 2) Ruby's License.
+#
+# See the file COPYING for complete licensing information.
+#
+# ---------------------------------------------------------------------------
+#
+#
 # Top-level EventMachine namespace. If you are looking for EventMachine examples, see {file:docs/GettingStarted.md EventMachine tutorial}.
 #
 # ## Key methods ##
@@ -83,245 +518,245 @@ EM = EventMachine
 # * {EventMachine.enable_proxy}
 # * {EventMachine.disable_proxy}
 #
-# source://eventmachine//lib/em/version.rb#1
+# pkg:gem/eventmachine#lib/eventmachine.rb:8
 module EventMachine
   private
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def add_oneshot_timer(_arg0); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def attach_fd(_arg0, _arg1); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def attach_sd(_arg0); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def bind_connect_server(_arg0, _arg1, _arg2, _arg3); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def close_connection(_arg0, _arg1); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def connect_server(_arg0, _arg1); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def connect_unix_server(_arg0); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def connection_paused?(_arg0); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def current_time; end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def detach_fd(_arg0); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def epoll; end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def epoll=(_arg0); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def epoll?; end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def get_cipher_bits(_arg0); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def get_cipher_name(_arg0); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def get_cipher_protocol(_arg0); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def get_comm_inactivity_timeout(_arg0); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def get_connection_count; end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def get_file_descriptor(_arg0); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def get_heartbeat_interval; end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def get_idle_time(_arg0); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def get_max_timer_count; end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def get_peer_cert(_arg0); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def get_peername(_arg0); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def get_pending_connect_timeout(_arg0); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def get_proxied_bytes(_arg0); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def get_simultaneous_accept_count; end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def get_sni_hostname(_arg0); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def get_sock_opt(_arg0, _arg1, _arg2); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def get_sockname(_arg0); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def get_subprocess_pid(_arg0); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def get_subprocess_status(_arg0); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def initialize_event_machine; end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def invoke_popen(_arg0); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def is_notify_readable(_arg0); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def is_notify_writable(_arg0); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def kqueue; end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def kqueue=(_arg0); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def kqueue?; end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def library_type; end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def num_close_scheduled; end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def open_udp_socket(_arg0, _arg1); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def pause_connection(_arg0); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def read_keyboard; end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def release_machine; end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def report_connection_error_status(_arg0); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def resume_connection(_arg0); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def run_machine; end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def run_machine_once; end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def run_machine_without_threads; end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def send_data(_arg0, _arg1, _arg2); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def send_datagram(_arg0, _arg1, _arg2, _arg3, _arg4); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def send_file_data(_arg0, _arg1); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def set_comm_inactivity_timeout(_arg0, _arg1); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def set_heartbeat_interval(_arg0); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def set_max_timer_count(_arg0); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def set_notify_readable(_arg0, _arg1); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def set_notify_writable(_arg0, _arg1); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def set_pending_connect_timeout(_arg0, _arg1); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def set_rlimit_nofile(_arg0); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def set_simultaneous_accept_count(_arg0); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def set_sock_opt(_arg0, _arg1, _arg2, _arg3); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def set_timer_quantum(_arg0); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def set_tls_parms(_arg0, _arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7, _arg8, _arg9); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def setuid_string(_arg0); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def signal_loopbreak; end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def ssl?; end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def start_proxy(_arg0, _arg1, _arg2, _arg3); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def start_tcp_server(_arg0, _arg1); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def start_tls(_arg0); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def start_unix_server(_arg0); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def stop; end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def stop_proxy(_arg0); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def stop_tcp_server(_arg0); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def stopping?; end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def unwatch_filename(_arg0); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def unwatch_pid(_arg0); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def watch_filename(_arg0); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def watch_pid(_arg0); end
 
   class << self
@@ -331,41 +766,59 @@ module EventMachine
     #
     # @example EventMachine.Callback used with a block. Returns that block.
     #
-    #   cb = EventMachine.Callback do |msg|
-    #   puts(msg)
-    #   end
-    #   # returned object is a callable
-    #   cb.call('hello world')
+    #  cb = EventMachine.Callback do |msg|
+    #    puts(msg)
+    #  end
+    #  # returned object is a callable
+    #  cb.call('hello world')
+    #
+    #
     # @example EventMachine.Callback used with an object (to be more specific, class object) and a method name, returns an object that responds to #call
     #
-    #   cb = EventMachine.Callback(Object, :puts)
-    #   # returned object is a callable that delegates to Kernel#puts (in this case Object.puts)
-    #   cb.call('hello world')
+    #  cb = EventMachine.Callback(Object, :puts)
+    #  # returned object is a callable that delegates to Kernel#puts (in this case Object.puts)
+    #  cb.call('hello world')
+    #
+    #
     # @example EventMachine.Callback used with an object that responds to #call. Returns the argument.
     #
-    #   cb = EventMachine.Callback(proc{ |msg| puts(msg) })
-    #   # returned object is a callable
-    #   cb.call('hello world')
-    # @overload Callback
-    # @overload Callback
-    # @overload Callback
+    #  cb = EventMachine.Callback(proc{ |msg| puts(msg) })
+    #  # returned object is a callable
+    #  cb.call('hello world')
+    #
+    #
+    # @overload Callback(object, method)
+    #   Wraps `method` invocation on `object` into an object that responds to #call that proxies all the arguments to that method
+    #   @param [Object] Object to invoke method on
+    #   @param [Symbol] Method name
+    #   @return [<#call>] An object that responds to #call that takes any number of arguments and invokes method on object with those arguments
+    #
+    # @overload Callback(object)
+    #   Returns callable object as is, without any coercion
+    #   @param [<#call>] An object that responds to #call
+    #   @return [<#call>] Its argument
+    #
+    # @overload Callback(&block)
+    #   Returns block passed to it without any coercion
+    #   @return [<#call>] Block passed to this method
+    #
     # @raise [ArgumentError] When argument doesn't respond to #call, method name is missing or when invoked without arguments and block isn't given
+    #
     # @return [<#call>]
     #
-    # source://eventmachine//lib/em/callback.rb#47
+    # pkg:gem/eventmachine#lib/em/callback.rb:47
     def Callback(object = T.unsafe(nil), method = T.unsafe(nil), &blk); end
 
     # @private
     #
-    # source://eventmachine//lib/eventmachine.rb#1563
+    # pkg:gem/eventmachine#lib/eventmachine.rb:1563
     def _open_file_for_writing(filename, handler = T.unsafe(nil)); end
 
     # Changed 04Oct06: intervals from the caller are now in milliseconds, but our native-ruby
     # processor still wants them in seconds.
-    #
     # @private
     #
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def add_oneshot_timer(_arg0); end
 
     # Adds a periodic timer to the event loop.
@@ -376,14 +829,16 @@ module EventMachine
     #
     # @example Write a dollar-sign to stderr every five seconds, without blocking
     #
-    #   EventMachine.run {
-    #   EventMachine.add_periodic_timer( 5 ) { $stderr.write "$" }
-    #   }
-    # @param delay [Integer] Delay in seconds
-    # @see EventMachine.add_timer
-    # @see EventMachine::PeriodicTimer
+    #  EventMachine.run {
+    #    EventMachine.add_periodic_timer( 5 ) { $stderr.write "$" }
+    #  }
     #
-    # source://eventmachine//lib/eventmachine.rb#351
+    # @param [Integer] delay Delay in seconds
+    #
+    # @see EventMachine::PeriodicTimer
+    # @see EventMachine.add_timer
+    #
+    # pkg:gem/eventmachine#lib/eventmachine.rb:351
     def add_periodic_timer(*args, &block); end
 
     # Adds a block to call as the reactor is shutting down.
@@ -393,16 +848,16 @@ module EventMachine
     # @example Scheduling operations to be run when EventMachine event loop is stopped
     #
     #   EventMachine.run do
-    #   EventMachine.add_shutdown_hook { puts "b" }
-    #   EventMachine.add_shutdown_hook { puts "a" }
-    #   EventMachine.stop
+    #     EventMachine.add_shutdown_hook { puts "b" }
+    #     EventMachine.add_shutdown_hook { puts "a" }
+    #     EventMachine.stop
     #   end
     #
     #   # Outputs:
     #   #   a
     #   #   b
     #
-    # source://eventmachine//lib/eventmachine.rb#291
+    # pkg:gem/eventmachine#lib/eventmachine.rb:291
     def add_shutdown_hook(&block); end
 
     # Adds a one-shot timer to the event loop.
@@ -424,16 +879,17 @@ module EventMachine
     #
     # @example Setting a one-shot timer with EventMachine
     #
-    #   EventMachine.run {
-    #   puts "Starting the run now: #{Time.now}"
-    #   EventMachine.add_timer 5, proc { puts "Executing timer event: #{Time.now}" }
-    #   EventMachine.add_timer(10) { puts "Executing timer event: #{Time.now}" }
-    #   }
-    # @param delay [Integer] Delay in seconds
-    # @see EventMachine.add_periodic_timer
-    # @see EventMachine::Timer
+    #  EventMachine.run {
+    #    puts "Starting the run now: #{Time.now}"
+    #    EventMachine.add_timer 5, proc { puts "Executing timer event: #{Time.now}" }
+    #    EventMachine.add_timer(10) { puts "Executing timer event: #{Time.now}" }
+    #  }
     #
-    # source://eventmachine//lib/eventmachine.rb#323
+    # @param [Integer] delay Delay in seconds
+    # @see EventMachine::Timer
+    # @see EventMachine.add_periodic_timer
+    #
+    # pkg:gem/eventmachine#lib/eventmachine.rb:323
     def add_timer(*args, &block); end
 
     # Attaches an IO object or file descriptor to the eventloop as a regular connection.
@@ -443,26 +899,26 @@ module EventMachine
     # To watch a fd instead, use {EventMachine.watch}, which will not alter the state of the socket
     # and fire notify_readable and notify_writable events instead.
     #
-    # source://eventmachine//lib/eventmachine.rb#741
+    # pkg:gem/eventmachine#lib/eventmachine.rb:741
     def attach(io, handler = T.unsafe(nil), *args, &blk); end
 
     # @private
     #
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def attach_fd(_arg0, _arg1); end
 
     # @private
     #
-    # source://eventmachine//lib/eventmachine.rb#746
+    # pkg:gem/eventmachine#lib/eventmachine.rb:746
     def attach_io(io, watch_mode, handler = T.unsafe(nil), *args); end
 
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def attach_sd(_arg0); end
 
     # Attach to an existing socket's file descriptor. The socket may have been
     # started with {EventMachine.start_server}.
     #
-    # source://eventmachine//lib/eventmachine.rb#541
+    # pkg:gem/eventmachine#lib/eventmachine.rb:541
     def attach_server(sock, handler = T.unsafe(nil), *args, &block); end
 
     # This method is like {EventMachine.connect}, but allows for a local address/port
@@ -470,30 +926,30 @@ module EventMachine
     #
     # @see EventMachine.connect
     #
-    # source://eventmachine//lib/eventmachine.rb#661
+    # pkg:gem/eventmachine#lib/eventmachine.rb:661
     def bind_connect(bind_addr, bind_port, server, port = T.unsafe(nil), handler = T.unsafe(nil), *args); end
 
     # @private
     #
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def bind_connect_server(_arg0, _arg1, _arg2, _arg3); end
 
     # Cancel a timer (can be a callback or an {EventMachine::Timer} instance).
     #
-    # @param timer_or_sig [#cancel, #call] A timer to cancel
+    # @param [#cancel, #call] timer_or_sig A timer to cancel
     # @see EventMachine::Timer#cancel
     #
-    # source://eventmachine//lib/eventmachine.rb#363
+    # pkg:gem/eventmachine#lib/eventmachine.rb:363
     def cancel_timer(timer_or_sig); end
 
     # Clean up Ruby space following a release_machine
     #
-    # source://eventmachine//lib/eventmachine.rb#261
+    # pkg:gem/eventmachine#lib/eventmachine.rb:261
     def cleanup_machine; end
 
     # @private
     #
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def close_connection(_arg0, _arg1); end
 
     # Initiates a TCP connection to a remote server and sets up event handling for the connection.
@@ -507,77 +963,84 @@ module EventMachine
     # Learn more about connection lifecycle callbacks in the {file:docs/GettingStarted.md EventMachine tutorial} and
     # {file:docs/ConnectionLifecycleCallbacks.md Connection lifecycle guide}.
     #
+    #
     # @example
     #
-    #   # Here's a program which connects to a web server, sends a naive
-    #   # request, parses the HTTP header of the response, and then
-    #   # (antisocially) ends the event loop, which automatically drops the connection
-    #   # (and incidentally calls the connection's unbind method).
-    #   module DumbHttpClient
-    #   def post_init
-    #   send_data "GET / HTTP/1.1\r\nHost: _\r\n\r\n"
-    #   @data = ""
-    #   @parsed = false
-    #   end
+    #  # Here's a program which connects to a web server, sends a naive
+    #  # request, parses the HTTP header of the response, and then
+    #  # (antisocially) ends the event loop, which automatically drops the connection
+    #  # (and incidentally calls the connection's unbind method).
+    #  module DumbHttpClient
+    #    def post_init
+    #      send_data "GET / HTTP/1.1\r\nHost: _\r\n\r\n"
+    #      @data = ""
+    #      @parsed = false
+    #    end
     #
-    #   def receive_data data
-    #   @data << data
-    #   if !@parsed and @data =~ /[\n][\r]*[\n]/m
-    #   @parsed = true
-    #   puts "RECEIVED HTTP HEADER:"
-    #   $`.each {|line| puts ">>> #{line}" }
+    #    def receive_data data
+    #      @data << data
+    #      if !@parsed and @data =~ /[\n][\r]*[\n]/m
+    #        @parsed = true
+    #        puts "RECEIVED HTTP HEADER:"
+    #        $`.each {|line| puts ">>> #{line}" }
     #
-    #   puts "Now we'll terminate the loop, which will also close the connection"
-    #   EventMachine::stop_event_loop
-    #   end
-    #   end
+    #        puts "Now we'll terminate the loop, which will also close the connection"
+    #        EventMachine::stop_event_loop
+    #      end
+    #    end
     #
-    #   def unbind
-    #   puts "A connection has terminated"
-    #   end
-    #   end
+    #    def unbind
+    #      puts "A connection has terminated"
+    #    end
+    #  end
     #
-    #   EventMachine.run {
-    #   EventMachine.connect "www.bayshorenetworks.com", 80, DumbHttpClient
-    #   }
-    #   puts "The event loop has ended"
+    #  EventMachine.run {
+    #    EventMachine.connect "www.bayshorenetworks.com", 80, DumbHttpClient
+    #  }
+    #  puts "The event loop has ended"
+    #
+    #
     # @example Defining protocol handler as a class
     #
-    #   class MyProtocolHandler < EventMachine::Connection
-    #   def initialize *args
-    #   super
-    #   # whatever else you want to do here
-    #   end
+    #  class MyProtocolHandler < EventMachine::Connection
+    #    def initialize *args
+    #      super
+    #      # whatever else you want to do here
+    #    end
     #
-    #   # ...
-    #   end
-    # @param handler [Module, Class] A module or class that implements connection lifecycle callbacks
-    # @param port [Integer] Port to connect to
-    # @param server [String] Host to connect to
+    #    # ...
+    #  end
+    #
+    #
+    # @param [String] server         Host to connect to
+    # @param [Integer] port          Port to connect to
+    # @param [Module, Class] handler A module or class that implements connection lifecycle callbacks
+    #
     # @see EventMachine.start_server
     # @see file:docs/GettingStarted.md EventMachine tutorial
     #
-    # source://eventmachine//lib/eventmachine.rb#631
+    # pkg:gem/eventmachine#lib/eventmachine.rb:631
     def connect(server, port = T.unsafe(nil), handler = T.unsafe(nil), *args, &blk); end
 
     # @private
     #
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def connect_server(_arg0, _arg1); end
 
     # Make a connection to a Unix-domain socket. This method is simply an alias for {.connect},
     # which can connect to both TCP and Unix-domain sockets. Make sure that your process has sufficient
     # permissions to open the socket it is given.
     #
-    # @note UNIX sockets, as the name suggests, are not available on Microsoft Windows.
-    # @param socketname [String] Unix domain socket (local fully-qualified path) you want to connect to.
+    # @param [String] socketname Unix domain socket (local fully-qualified path) you want to connect to.
     #
-    # source://eventmachine//lib/eventmachine.rb#813
+    # @note UNIX sockets, as the name suggests, are not available on Microsoft Windows.
+    #
+    # pkg:gem/eventmachine#lib/eventmachine.rb:813
     def connect_unix_domain(socketname, *args, &blk); end
 
     # @private
     #
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def connect_unix_server(_arg0); end
 
     # Returns the total number of connections (file descriptors) currently held by the reactor.
@@ -586,34 +1049,35 @@ module EventMachine
     #
     # @example
     #
-    #   EventMachine.run {
-    #   EventMachine.connect("rubyeventmachine.com", 80)
-    #   # count will be 0 in this case, because connection is not
-    #   # established yet
-    #   count = EventMachine.connection_count
-    #   }
+    #  EventMachine.run {
+    #    EventMachine.connect("rubyeventmachine.com", 80)
+    #    # count will be 0 in this case, because connection is not
+    #    # established yet
+    #    count = EventMachine.connection_count
+    #  }
+    #
+    #
     # @example
     #
-    #   EventMachine.run {
-    #   EventMachine.connect("rubyeventmachine.com", 80)
+    #  EventMachine.run {
+    #    EventMachine.connect("rubyeventmachine.com", 80)
     #
-    #   EventMachine.next_tick {
-    #   # In this example, count will be 1 since the connection has been established in
-    #   # the next loop of the reactor.
-    #   count = EventMachine.connection_count
-    #   }
-    #   }
+    #    EventMachine.next_tick {
+    #      # In this example, count will be 1 since the connection has been established in
+    #      # the next loop of the reactor.
+    #      count = EventMachine.connection_count
+    #    }
+    #  }
+    #
     # @return [Integer] Number of connections currently held by the reactor.
     #
-    # source://eventmachine//lib/eventmachine.rb#955
+    # pkg:gem/eventmachine#lib/eventmachine.rb:955
     def connection_count; end
 
-    # @return [Boolean]
-    #
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def connection_paused?(_arg0); end
 
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def current_time; end
 
     # EventMachine.defer is used for integrating blocking operations into EventMachine's control flow.
@@ -647,45 +1111,45 @@ module EventMachine
     #
     # @example
     #
-    #   operation = proc {
-    #   # perform a long-running operation here, such as a database query.
-    #   "result" # as usual, the last expression evaluated in the block will be the return value.
-    #   }
-    #   callback = proc {|result|
-    #   # do something with result here, such as send it back to a network client.
-    #   }
-    #   errback = proc {|error|
-    #   # do something with error here, such as re-raising or logging.
-    #   }
+    #  operation = proc {
+    #    # perform a long-running operation here, such as a database query.
+    #    "result" # as usual, the last expression evaluated in the block will be the return value.
+    #  }
+    #  callback = proc {|result|
+    #    # do something with result here, such as send it back to a network client.
+    #  }
+    #  errback = proc {|error|
+    #    # do something with error here, such as re-raising or logging.
+    #  }
     #
-    #   EventMachine.defer(operation, callback, errback)
-    # @param callback [#call] A callback that will be run on the event loop thread after `operation` finishes.
-    # @param errback [#call] An errback that will be run on the event loop thread after `operation` raises an exception.
-    # @param op [#call] An operation you want to offload to EventMachine thread pool
+    #  EventMachine.defer(operation, callback, errback)
+    #
+    # @param [#call] op       An operation you want to offload to EventMachine thread pool
+    # @param [#call] callback A callback that will be run on the event loop thread after `operation` finishes.
+    # @param [#call] errback  An errback that will be run on the event loop thread after `operation` raises an exception.
+    #
     # @see EventMachine.threadpool_size
     #
-    # source://eventmachine//lib/eventmachine.rb#1043
+    # pkg:gem/eventmachine#lib/eventmachine.rb:1043
     def defer(op = T.unsafe(nil), callback = T.unsafe(nil), errback = T.unsafe(nil), &blk); end
 
     # Returns +true+ if all deferred actions are done executing and their
     # callbacks have been fired.
     #
-    # @return [Boolean]
-    #
-    # source://eventmachine//lib/eventmachine.rb#1095
+    # pkg:gem/eventmachine#lib/eventmachine.rb:1095
     def defers_finished?; end
 
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def detach_fd(_arg0); end
 
     # Takes just one argument, a {Connection} that has proxying enabled via {EventMachine.enable_proxy}.
     # Calling this method will remove that functionality and your connection will begin receiving
     # data via {Connection#receive_data} again.
     #
-    # @param from [EventMachine::Connection] Source of data that is being proxied
+    # @param [EventMachine::Connection] from    Source of data that is being proxied
     # @see EventMachine.enable_proxy
     #
-    # source://eventmachine//lib/eventmachine.rb#1440
+    # pkg:gem/eventmachine#lib/eventmachine.rb:1440
     def disable_proxy(from); end
 
     # This method allows for direct writing of incoming data back out to another descriptor, at the C++ level in the reactor.
@@ -706,66 +1170,62 @@ module EventMachine
     #
     # @example
     #
-    #   module ProxyConnection
-    #   def initialize(client, request)
-    #   @client, @request = client, request
-    #   end
+    #  module ProxyConnection
+    #    def initialize(client, request)
+    #      @client, @request = client, request
+    #    end
     #
-    #   def post_init
-    #   EM::enable_proxy(self, @client)
-    #   end
+    #    def post_init
+    #      EM::enable_proxy(self, @client)
+    #    end
     #
-    #   def connection_completed
-    #   send_data @request
-    #   end
+    #    def connection_completed
+    #      send_data @request
+    #    end
     #
-    #   def proxy_target_unbound
-    #   close_connection
-    #   end
+    #    def proxy_target_unbound
+    #      close_connection
+    #    end
     #
-    #   def unbind
-    #   @client.close_connection_after_writing
-    #   end
-    #   end
+    #    def unbind
+    #      @client.close_connection_after_writing
+    #    end
+    #  end
     #
-    #   module ProxyServer
-    #   def receive_data(data)
-    #   (@buf ||= "") << data
-    #   if @buf =~ /\r\n\r\n/ # all http headers received
-    #   EventMachine.connect("10.0.0.15", 80, ProxyConnection, self, data)
-    #   end
-    #   end
-    #   end
+    #  module ProxyServer
+    #    def receive_data(data)
+    #      (@buf ||= "") << data
+    #      if @buf =~ /\r\n\r\n/ # all http headers received
+    #        EventMachine.connect("10.0.0.15", 80, ProxyConnection, self, data)
+    #      end
+    #    end
+    #  end
     #
-    #   EventMachine.run {
-    #   EventMachine.start_server("127.0.0.1", 8080, ProxyServer)
-    #   }
-    # @param bufsize [Integer] Buffer size to use
-    # @param from [EventMachine::Connection] Source of data to be proxies/streamed.
-    # @param length [Integer] Maximum number of bytes to proxy.
-    # @param to [EventMachine::Connection] Destination of data to be proxies/streamed.
+    #  EventMachine.run {
+    #    EventMachine.start_server("127.0.0.1", 8080, ProxyServer)
+    #  }
+    #
+    # @param [EventMachine::Connection] from    Source of data to be proxies/streamed.
+    # @param [EventMachine::Connection] to      Destination of data to be proxies/streamed.
+    # @param [Integer]                  bufsize Buffer size to use
+    # @param [Integer]                  length  Maximum number of bytes to proxy.
+    #
     # @see EventMachine.disable_proxy
     #
-    # source://eventmachine//lib/eventmachine.rb#1430
+    # pkg:gem/eventmachine#lib/eventmachine.rb:1430
     def enable_proxy(from, to, bufsize = T.unsafe(nil), length = T.unsafe(nil)); end
 
     # This method is a harmless no-op in the pure-Ruby implementation. This is intended to ensure
     # that user code behaves properly across different EM implementations.
-    #
     # @private
     #
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def epoll; end
 
-    # Epoll is a no-op for Java.
-    # The latest Java versions run epoll when possible in NIO.
-    #
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def epoll=(_arg0); end
 
-    # @return [Boolean]
-    #
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def epoll?; end
 
     # Catch-all for errors raised during event loop callbacks.
@@ -773,91 +1233,92 @@ module EventMachine
     # @example
     #
     #   EventMachine.error_handler{ |e|
-    #   puts "Error raised during event loop: #{e.message}"
+    #     puts "Error raised during event loop: #{e.message}"
     #   }
-    # @param cb [#call] Global catch-all errback
     #
-    # source://eventmachine//lib/eventmachine.rb#1363
+    # @param [#call] cb Global catch-all errback
+    #
+    # pkg:gem/eventmachine#lib/eventmachine.rb:1363
     def error_handler(cb = T.unsafe(nil), &blk); end
 
     # @private
     #
-    # source://eventmachine//lib/eventmachine.rb#1463
+    # pkg:gem/eventmachine#lib/eventmachine.rb:1463
     def event_callback(conn_binding, opcode, data); end
 
     # Forks a new process, properly stops the reactor and then calls {EventMachine.run} inside of it again, passing your block.
     #
-    # source://eventmachine//lib/eventmachine.rb#243
+    # pkg:gem/eventmachine#lib/eventmachine.rb:243
     def fork_reactor(&block); end
 
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def get_cipher_bits(_arg0); end
 
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def get_cipher_name(_arg0); end
 
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def get_cipher_protocol(_arg0); end
 
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def get_comm_inactivity_timeout(_arg0); end
 
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def get_connection_count; end
 
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def get_file_descriptor(_arg0); end
 
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def get_heartbeat_interval; end
 
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def get_idle_time(_arg0); end
 
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def get_max_timer_count; end
 
     # Gets the current maximum number of allowed timers
     #
     # @return [Integer] Maximum number of timers that may be outstanding at any given time
     #
-    # source://eventmachine//lib/eventmachine.rb#924
+    # pkg:gem/eventmachine#lib/eventmachine.rb:924
     def get_max_timers; end
 
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def get_peer_cert(_arg0); end
 
     # @private
     #
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def get_peername(_arg0); end
 
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def get_pending_connect_timeout(_arg0); end
 
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def get_proxied_bytes(_arg0); end
 
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def get_simultaneous_accept_count; end
 
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def get_sni_hostname(_arg0); end
 
     # @private
     #
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def get_sock_opt(_arg0, _arg1, _arg2); end
 
     # @private
     #
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def get_sockname(_arg0); end
 
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def get_subprocess_pid(_arg0); end
 
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def get_subprocess_status(_arg0); end
 
     # Retrieve the heartbeat interval. This is how often EventMachine will check for dead connections
@@ -866,16 +1327,16 @@ module EventMachine
     #
     # @return [Integer] Heartbeat interval, in seconds
     #
-    # source://eventmachine//lib/eventmachine.rb#1449
+    # pkg:gem/eventmachine#lib/eventmachine.rb:1449
     def heartbeat_interval; end
 
     # Set the heartbeat interval. This is how often EventMachine will check for dead connections
     # that have had an inactivity timeout set via {Connection#set_comm_inactivity_timeout}.
     # Takes a Numeric number of seconds. Default is 2.
     #
-    # @param time [Integer] Heartbeat interval, in seconds
+    # @param [Integer] time Heartbeat interval, in seconds
     #
-    # source://eventmachine//lib/eventmachine.rb#1458
+    # pkg:gem/eventmachine#lib/eventmachine.rb:1458
     def heartbeat_interval=(time); end
 
     # class Connection < com.rubyeventmachine.Connection
@@ -883,42 +1344,40 @@ module EventMachine
     #     # No-op for the time being.
     #   end
     # end
+    # @private
     #
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def initialize_event_machine; end
 
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def invoke_popen(_arg0); end
 
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def is_notify_readable(_arg0); end
 
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def is_notify_writable(_arg0); end
 
     # @private
     #
-    # source://eventmachine//lib/eventmachine.rb#1574
+    # pkg:gem/eventmachine#lib/eventmachine.rb:1574
     def klass_from_handler(klass = T.unsafe(nil), handler = T.unsafe(nil), *args); end
 
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def kqueue; end
 
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def kqueue=(_arg0); end
 
-    # @return [Boolean]
-    #
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def kqueue?; end
 
     # This is mostly useful for automated tests.
     # Return a distinctive symbol so the caller knows whether he's dealing
     # with an extension or with a pure-Ruby library.
-    #
     # @private
     #
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def library_type; end
 
     # Schedules a proc for execution immediately after the next "turn" through the reactor
@@ -928,13 +1387,12 @@ module EventMachine
     #
     # This method takes either a single argument (which must be a callable object) or a block.
     #
-    # @param pr [#call] A callable object to run
-    # @raise [ArgumentError]
+    # @param [#call] pr A callable object to run
     #
-    # source://eventmachine//lib/eventmachine.rb#1121
+    # pkg:gem/eventmachine#lib/eventmachine.rb:1121
     def next_tick(pr = T.unsafe(nil), &block); end
 
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def num_close_scheduled; end
 
     # Used for UDP-based protocols. Its usage is similar to that of {EventMachine.start_server}.
@@ -988,54 +1446,54 @@ module EventMachine
     # because there is no "peer," as #send_data requires (inside of {EventMachine::Connection#receive_data},
     # {EventMachine::Connection#send_data} "fakes" the peer as described above).
     #
-    # @param address [String] IP address
-    # @param handler [Class, Module] A class or a module that implements connection lifecycle callbacks.
-    # @param port [String] Port
+    # @param [String]         address IP address
+    # @param [String]         port    Port
+    # @param [Class, Module]  handler A class or a module that implements connection lifecycle callbacks.
     #
-    # source://eventmachine//lib/eventmachine.rb#872
+    # pkg:gem/eventmachine#lib/eventmachine.rb:872
     def open_datagram_socket(address, port, handler = T.unsafe(nil), *args); end
 
     # (Experimental)
     #
     # @private
     #
-    # source://eventmachine//lib/eventmachine.rb#1235
+    # pkg:gem/eventmachine#lib/eventmachine.rb:1235
     def open_keyboard(handler = T.unsafe(nil), *args); end
 
-    # Currently a no-op for Java.
+    # @private
     #
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def open_udp_socket(_arg0, _arg1); end
 
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def pause_connection(_arg0); end
 
     # Runs an external process.
     #
     # @example
     #
-    #   module RubyCounter
-    #   def post_init
-    #   # count up to 5
-    #   send_data "5\n"
-    #   end
-    #   def receive_data data
-    #   puts "ruby sent me: #{data}"
-    #   end
-    #   def unbind
-    #   puts "ruby died with exit status: #{get_status.exitstatus}"
-    #   end
-    #   end
+    #  module RubyCounter
+    #    def post_init
+    #      # count up to 5
+    #      send_data "5\n"
+    #    end
+    #    def receive_data data
+    #      puts "ruby sent me: #{data}"
+    #    end
+    #    def unbind
+    #      puts "ruby died with exit status: #{get_status.exitstatus}"
+    #    end
+    #  end
     #
-    #   EventMachine.run {
-    #   EventMachine.popen("ruby -e' $stdout.sync = true; gets.to_i.times{ |i| puts i+1; sleep 1 } '", RubyCounter)
-    #   }
+    #  EventMachine.run {
+    #    EventMachine.popen("ruby -e' $stdout.sync = true; gets.to_i.times{ |i| puts i+1; sleep 1 } '", RubyCounter)
+    #  }
+    #
     # @note This method is not supported on Microsoft Windows
-    # @see EventMachine.system
     # @see EventMachine::DeferrableChildProcess
-    # @yield [c]
+    # @see EventMachine.system
     #
-    # source://eventmachine//lib/eventmachine.rb#1198
+    # pkg:gem/eventmachine#lib/eventmachine.rb:1198
     def popen(cmd, handler = T.unsafe(nil), *args); end
 
     # Tells you whether the EventMachine reactor loop is currently running.
@@ -1048,7 +1506,7 @@ module EventMachine
     #
     # @return [Boolean] true if the EventMachine reactor loop is currently running
     #
-    # source://eventmachine//lib/eventmachine.rb#1227
+    # pkg:gem/eventmachine#lib/eventmachine.rb:1227
     def reactor_running?; end
 
     # Exposed to allow joining on the thread, when run in a multithreaded
@@ -1057,17 +1515,17 @@ module EventMachine
     #
     # @return [Thread]
     #
-    # source://eventmachine//lib/eventmachine.rb#79
+    # pkg:gem/eventmachine#lib/eventmachine.rb:79
     def reactor_thread; end
 
     # @return [Boolean] true if the calling thread is the same thread as the reactor.
     #
-    # source://eventmachine//lib/eventmachine.rb#227
+    # pkg:gem/eventmachine#lib/eventmachine.rb:227
     def reactor_thread?; end
 
     # @private
     #
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def read_keyboard; end
 
     # Connect to a given host/port and re-use the provided {EventMachine::Connection} instance.
@@ -1075,20 +1533,20 @@ module EventMachine
     #
     # @see EventMachine::Connection#reconnect
     #
-    # source://eventmachine//lib/eventmachine.rb#781
+    # pkg:gem/eventmachine#lib/eventmachine.rb:781
     def reconnect(server, port, handler); end
 
     # @private
     #
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def release_machine; end
 
     # @private
     #
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def report_connection_error_status(_arg0); end
 
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def resume_connection(_arg0); end
 
     # Initializes and runs an event loop. This method only returns if code inside the block passed to this method
@@ -1113,11 +1571,7 @@ module EventMachine
     # that calling {EventMachine.run} on the same thread is not an option (it will result in Web server never binding to the socket).
     # In that case, start event loop in a separate thread as demonstrated below.
     #
-    # @example Starting EventMachine event loop in a separate thread
     #
-    #   # doesn't block current thread, can be used with Ruby on Rails, Sinatra, Merb, Rack
-    #   # and any other application server that occupies main Ruby thread.
-    #   Thread.new { EventMachine.run }
     # @example Starting EventMachine event loop in the current thread to run the "Hello, world"-like Echo server example
     #
     #   #!/usr/bin/env ruby
@@ -1126,21 +1580,30 @@ module EventMachine
     #   require 'eventmachine'
     #
     #   class EchoServer < EM::Connection
-    #   def receive_data(data)
-    #   send_data(data)
-    #   end
+    #     def receive_data(data)
+    #       send_data(data)
+    #     end
     #   end
     #
     #   EventMachine.run do
-    #   EventMachine.start_server("0.0.0.0", 10000, EchoServer)
+    #     EventMachine.start_server("0.0.0.0", 10000, EchoServer)
     #   end
-    # @note This method blocks calling thread. If you need to start EventMachine event loop from a Web app
-    #   running on a non event-driven server (Unicorn, Apache Passenger, Mongrel), do it in a separate thread like demonstrated
-    #   in one of the examples.
-    # @see EventMachine.stop_event_loop
-    # @see file:docs/GettingStarted.md Getting started with EventMachine
     #
-    # source://eventmachine//lib/eventmachine.rb#149
+    #
+    # @example Starting EventMachine event loop in a separate thread
+    #
+    #   # doesn't block current thread, can be used with Ruby on Rails, Sinatra, Merb, Rack
+    #   # and any other application server that occupies main Ruby thread.
+    #   Thread.new { EventMachine.run }
+    #
+    #
+    # @note This method blocks calling thread. If you need to start EventMachine event loop from a Web app
+    #       running on a non event-driven server (Unicorn, Apache Passenger, Mongrel), do it in a separate thread like demonstrated
+    #       in one of the examples.
+    # @see file:docs/GettingStarted.md Getting started with EventMachine
+    # @see EventMachine.stop_event_loop
+    #
+    # pkg:gem/eventmachine#lib/eventmachine.rb:149
     def run(blk = T.unsafe(nil), tail = T.unsafe(nil), &block); end
 
     # Sugars a common use case. Will pass the given block to #run, but will terminate
@@ -1148,7 +1611,7 @@ module EventMachine
     # (Normally, {EventMachine.run} keeps running indefinitely, even after the block supplied to it
     # finishes running, until user code calls {EventMachine.stop})
     #
-    # source://eventmachine//lib/eventmachine.rb#218
+    # pkg:gem/eventmachine#lib/eventmachine.rb:218
     def run_block(&block); end
 
     # The is the responder for the loopback-signalled event.
@@ -1160,47 +1623,46 @@ module EventMachine
     #
     # @private
     #
-    # source://eventmachine//lib/eventmachine.rb#967
+    # pkg:gem/eventmachine#lib/eventmachine.rb:967
     def run_deferred_callbacks; end
 
     # @private
     #
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def run_machine; end
 
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def run_machine_once; end
 
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def run_machine_without_threads; end
 
     # Runs the given callback on the reactor thread, or immediately if called
     # from the reactor thread. Accepts the same arguments as {EventMachine::Callback}
     #
-    # source://eventmachine//lib/eventmachine.rb#233
+    # pkg:gem/eventmachine#lib/eventmachine.rb:233
     def schedule(*a, &b); end
 
     # @private
     #
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def send_data(_arg0, _arg1, _arg2); end
 
     # This is currently only for UDP!
     # We need to make it work with unix-domain sockets as well.
-    #
     # @private
     #
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def send_datagram(_arg0, _arg1, _arg2, _arg3, _arg4); end
 
     # @private
     #
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def send_file_data(_arg0, _arg1); end
 
     # @private
     #
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def set_comm_inactivity_timeout(_arg0, _arg1); end
 
     # Sets the maximum number of file or socket descriptors that your process may open.
@@ -1215,10 +1677,10 @@ module EventMachine
     # default limit usually requires superuser privileges. (See {.set_effective_user}
     # for a way to drop superuser privileges while your program is running.)
     #
-    # @param n_descriptors [Integer] The maximum number of file or socket descriptors that your process may open
+    # @param [Integer] n_descriptors The maximum number of file or socket descriptors that your process may open
     # @return [Integer] The new descriptor table size.
     #
-    # source://eventmachine//lib/eventmachine.rb#1168
+    # pkg:gem/eventmachine#lib/eventmachine.rb:1168
     def set_descriptor_table_size(n_descriptors = T.unsafe(nil)); end
 
     # A wrapper over the setuid system call. Particularly useful when opening a network
@@ -1229,22 +1691,22 @@ module EventMachine
     # This method is intended for use in enforcing security requirements, consequently
     # it will throw a fatal error and end your program if it fails.
     #
-    # @note This method has no effective implementation on Windows or in the pure-Ruby
-    #   implementation of EventMachine
-    # @param username [String] The effective name of the user whose privilege-level your process should attain.
+    # @param [String] username The effective name of the user whose privilege-level your process should attain.
     #
-    # source://eventmachine//lib/eventmachine.rb#1149
+    # @note This method has no effective implementation on Windows or in the pure-Ruby
+    #       implementation of EventMachine
+    #
+    # pkg:gem/eventmachine#lib/eventmachine.rb:1149
     def set_effective_user(username); end
 
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def set_heartbeat_interval(_arg0); end
 
     # This method is a harmless no-op in pure Ruby, which doesn't have a built-in limit
     # on the number of available timers.
-    #
     # @private
     #
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def set_max_timer_count(_arg0); end
 
     # Sets the maximum number of timers and periodic timers that may be outstanding at any
@@ -1252,23 +1714,25 @@ module EventMachine
     # number of timers, which on most platforms is 1000.
     #
     # @note This method has to be used *before* event loop is started.
-    # @param ct [Integer] Maximum number of timers that may be outstanding at any given time
-    # @see EventMachine.add_periodic_timer
+    #
+    # @param [Integer] ct Maximum number of timers that may be outstanding at any given time
+    #
     # @see EventMachine.add_timer
+    # @see EventMachine.add_periodic_timer
     # @see EventMachine::Timer
     #
-    # source://eventmachine//lib/eventmachine.rb#917
+    # pkg:gem/eventmachine#lib/eventmachine.rb:917
     def set_max_timers(ct); end
 
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def set_notify_readable(_arg0, _arg1); end
 
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def set_notify_writable(_arg0, _arg1); end
 
     # @private
     #
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def set_pending_connect_timeout(_arg0, _arg1); end
 
     # For advanced users. This function sets the default timer granularity, which by default is
@@ -1281,74 +1745,71 @@ module EventMachine
     #
     # This method only can be used if event loop is running.
     #
-    # @param mills [Integer] New timer granularity, in milliseconds
-    # @see EventMachine.add_periodic_timer
-    # @see EventMachine.add_timer
-    # @see EventMachine.run
-    # @see EventMachine::Timer
+    # @param [Integer] mills New timer granularity, in milliseconds
     #
-    # source://eventmachine//lib/eventmachine.rb#902
+    # @see EventMachine.add_timer
+    # @see EventMachine.add_periodic_timer
+    # @see EventMachine::Timer
+    # @see EventMachine.run
+    #
+    # pkg:gem/eventmachine#lib/eventmachine.rb:902
     def set_quantum(mills); end
 
     # This method is a no-op in the pure-Ruby implementation. We simply return Ruby's built-in
     # per-process file-descriptor limit.
-    #
     # @private
     #
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def set_rlimit_nofile(_arg0); end
 
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def set_simultaneous_accept_count(_arg0); end
 
     # @private
     #
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def set_sock_opt(_arg0, _arg1, _arg2, _arg3); end
 
     # Sets reactor quantum in milliseconds. The underlying Reactor function wants a (possibly
     # fractional) number of seconds.
-    #
     # @private
     #
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def set_timer_quantum(_arg0); end
 
     # This method takes a series of positional arguments for specifying such
     # things as private keys and certificate chains. It's expected that the
     # parameter list will grow as we add more supported features. ALL of these
     # parameters are optional, and can be specified as empty or nil strings.
-    #
     # @private
     #
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def set_tls_parms(_arg0, _arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7, _arg8, _arg9); end
 
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def setuid_string(_arg0); end
 
     # @private
     #
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def signal_loopbreak; end
 
     # Spawn an erlang-style process
     #
-    # source://eventmachine//lib/em/spawnable.rb#69
+    # pkg:gem/eventmachine#lib/em/spawnable.rb:69
     def spawn(&block); end
 
     # @private
     #
-    # source://eventmachine//lib/eventmachine.rb#1065
+    # pkg:gem/eventmachine#lib/eventmachine.rb:1065
     def spawn_threadpool; end
 
     # @private
-    # @return [Boolean]
     #
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def ssl?; end
 
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def start_proxy(_arg0, _arg1, _arg2, _arg3); end
 
     # Initiates a TCP server (socket acceptor) on the specified IP address and port.
@@ -1401,59 +1862,62 @@ module EventMachine
     #
     # @example
     #
-    #   require 'rubygems'
-    #   require 'eventmachine'
+    #  require 'rubygems'
+    #  require 'eventmachine'
     #
-    #   # Here is an example of a server that counts lines of input from the remote
-    #   # peer and sends back the total number of lines received, after each line.
-    #   # Try the example with more than one client connection opened via telnet,
-    #   # and you will see that the line count increments independently on each
-    #   # of the client connections. Also very important to note, is that the
-    #   # handler for the receive_data function, which our handler redefines, may
-    #   # not assume that the data it receives observes any kind of message boundaries.
-    #   # Also, to use this example, be sure to change the server and port parameters
-    #   # to the start_server call to values appropriate for your environment.
-    #   module LineCounter
-    #   MaxLinesPerConnection = 10
+    #  # Here is an example of a server that counts lines of input from the remote
+    #  # peer and sends back the total number of lines received, after each line.
+    #  # Try the example with more than one client connection opened via telnet,
+    #  # and you will see that the line count increments independently on each
+    #  # of the client connections. Also very important to note, is that the
+    #  # handler for the receive_data function, which our handler redefines, may
+    #  # not assume that the data it receives observes any kind of message boundaries.
+    #  # Also, to use this example, be sure to change the server and port parameters
+    #  # to the start_server call to values appropriate for your environment.
+    #  module LineCounter
+    #    MaxLinesPerConnection = 10
     #
-    #   def post_init
-    #   puts "Received a new connection"
-    #   @data_received = ""
-    #   @line_count = 0
-    #   end
+    #    def post_init
+    #      puts "Received a new connection"
+    #      @data_received = ""
+    #      @line_count = 0
+    #    end
     #
-    #   def receive_data data
-    #   @data_received << data
-    #   while @data_received.slice!( /^[^\n]*[\n]/m )
-    #   @line_count += 1
-    #   send_data "received #{@line_count} lines so far\r\n"
-    #   @line_count == MaxLinesPerConnection and close_connection_after_writing
-    #   end
-    #   end
-    #   end
+    #    def receive_data data
+    #      @data_received << data
+    #      while @data_received.slice!( /^[^\n]*[\n]/m )
+    #        @line_count += 1
+    #        send_data "received #{@line_count} lines so far\r\n"
+    #        @line_count == MaxLinesPerConnection and close_connection_after_writing
+    #      end
+    #    end
+    #  end
     #
-    #   EventMachine.run {
-    #   host, port = "192.168.0.100", 8090
-    #   EventMachine.start_server host, port, LineCounter
-    #   puts "Now accepting connections on address #{host}, port #{port}..."
-    #   EventMachine.add_periodic_timer(10) { $stderr.write "*" }
-    #   }
+    #  EventMachine.run {
+    #    host, port = "192.168.0.100", 8090
+    #    EventMachine.start_server host, port, LineCounter
+    #    puts "Now accepting connections on address #{host}, port #{port}..."
+    #    EventMachine.add_periodic_timer(10) { $stderr.write "*" }
+    #  }
+    #
+    # @param [String] server         Host to bind to.
+    # @param [Integer] port          Port to bind to.
+    # @param [Module, Class] handler A module or class that implements connection callbacks
+    #
     # @note Don't forget that in order to bind to ports < 1024 on Linux, *BSD and Mac OS X your process must have superuser privileges.
-    # @param handler [Module, Class] A module or class that implements connection callbacks
-    # @param port [Integer] Port to bind to.
-    # @param server [String] Host to bind to.
-    # @see EventMachine.stop_server
-    # @see file:docs/GettingStarted.md EventMachine tutorial
     #
-    # source://eventmachine//lib/eventmachine.rb#517
+    # @see file:docs/GettingStarted.md EventMachine tutorial
+    # @see EventMachine.stop_server
+    #
+    # pkg:gem/eventmachine#lib/eventmachine.rb:517
     def start_server(server, port = T.unsafe(nil), handler = T.unsafe(nil), *args, &block); end
 
     # @private
     #
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def start_tcp_server(_arg0, _arg1); end
 
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def start_tls(_arg0); end
 
     # Start a Unix-domain server.
@@ -1463,17 +1927,17 @@ module EventMachine
     #
     # @see EventMachine.start_server
     #
-    # source://eventmachine//lib/eventmachine.rb#561
+    # pkg:gem/eventmachine#lib/eventmachine.rb:561
     def start_unix_domain_server(filename, *args, &block); end
 
     # @private
     #
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def start_unix_server(_arg0); end
 
     # @private
     #
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def stop; end
 
     # Causes the processing loop to stop executing, which will cause all open connections and accepting servers
@@ -1485,62 +1949,59 @@ module EventMachine
     #
     # @example Stopping a running EventMachine event loop
     #
-    #   require 'rubygems'
-    #   require 'eventmachine'
+    #  require 'rubygems'
+    #  require 'eventmachine'
     #
-    #   module Redmond
-    #   def post_init
-    #   puts "We're sending a dumb HTTP request to the remote peer."
-    #   send_data "GET / HTTP/1.1\r\nHost: www.microsoft.com\r\n\r\n"
-    #   end
+    #  module Redmond
+    #    def post_init
+    #      puts "We're sending a dumb HTTP request to the remote peer."
+    #      send_data "GET / HTTP/1.1\r\nHost: www.microsoft.com\r\n\r\n"
+    #    end
     #
-    #   def receive_data data
-    #   puts "We received #{data.length} bytes from the remote peer."
-    #   puts "We're going to stop the event loop now."
-    #   EventMachine::stop_event_loop
-    #   end
+    #    def receive_data data
+    #      puts "We received #{data.length} bytes from the remote peer."
+    #      puts "We're going to stop the event loop now."
+    #      EventMachine::stop_event_loop
+    #    end
     #
-    #   def unbind
-    #   puts "A connection has terminated."
-    #   end
-    #   end
+    #    def unbind
+    #      puts "A connection has terminated."
+    #    end
+    #  end
     #
-    #   puts "We're starting the event loop now."
-    #   EventMachine.run {
-    #   EventMachine.connect "www.microsoft.com", 80, Redmond
-    #   }
-    #   puts "The event loop has stopped."
+    #  puts "We're starting the event loop now."
+    #  EventMachine.run {
+    #    EventMachine.connect "www.microsoft.com", 80, Redmond
+    #  }
+    #  puts "The event loop has stopped."
     #
-    #   # This program will produce approximately the following output:
-    #   #
-    #   # We're starting the event loop now.
-    #   # We're sending a dumb HTTP request to the remote peer.
-    #   # We received 1440 bytes from the remote peer.
-    #   # We're going to stop the event loop now.
-    #   # A connection has terminated.
-    #   # The event loop has stopped.
+    #  # This program will produce approximately the following output:
+    #  #
+    #  # We're starting the event loop now.
+    #  # We're sending a dumb HTTP request to the remote peer.
+    #  # We received 1440 bytes from the remote peer.
+    #  # We're going to stop the event loop now.
+    #  # A connection has terminated.
+    #  # The event loop has stopped.
     #
-    # source://eventmachine//lib/eventmachine.rb#417
+    # pkg:gem/eventmachine#lib/eventmachine.rb:417
     def stop_event_loop; end
 
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def stop_proxy(_arg0); end
 
     # Stop a TCP server socket that was started with {EventMachine.start_server}.
-    #
     # @see EventMachine.start_server
     #
-    # source://eventmachine//lib/eventmachine.rb#551
+    # pkg:gem/eventmachine#lib/eventmachine.rb:551
     def stop_server(signature); end
 
     # @private
     #
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def stop_tcp_server(_arg0); end
 
-    # @return [Boolean]
-    #
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def stopping?; end
 
     # EM::system is a simple wrapper for EM::popen. It is similar to Kernel::system, but requires a
@@ -1567,37 +2028,35 @@ module EventMachine
     # Like EventMachine.popen, EventMachine.system currently does not work on windows.
     # It returns the pid of the spawned process.
     #
-    # source://eventmachine//lib/em/processes.rb#112
+    # pkg:gem/eventmachine#lib/em/processes.rb:112
     def system(cmd, *args, &cb); end
 
     # @private
     #
-    # source://eventmachine//lib/eventmachine.rb#1105
+    # pkg:gem/eventmachine#lib/eventmachine.rb:1105
     def threadpool; end
 
     # Size of the EventMachine.defer threadpool (defaults to 20)
-    #
     # @return [Number]
     #
-    # source://eventmachine//lib/eventmachine.rb#1109
+    # pkg:gem/eventmachine#lib/eventmachine.rb:1109
     def threadpool_size; end
 
     # Size of the EventMachine.defer threadpool (defaults to 20)
-    #
     # @return [Number]
     #
-    # source://eventmachine//lib/eventmachine.rb#1109
+    # pkg:gem/eventmachine#lib/eventmachine.rb:1109
     def threadpool_size=(_arg0); end
 
     # Creates and immediately starts an EventMachine::TickLoop
     #
-    # source://eventmachine//lib/em/tick_loop.rb#3
+    # pkg:gem/eventmachine#lib/em/tick_loop.rb:3
     def tick_loop(*a, &b); end
 
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def unwatch_filename(_arg0); end
 
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def unwatch_pid(_arg0); end
 
     # {EventMachine.watch} registers a given file descriptor or IO object with the eventloop. The
@@ -1611,37 +2070,38 @@ module EventMachine
     #
     # To detach the file descriptor, use {EventMachine::Connection#detach}
     #
-    # @author Riham Aldakkak (eSpace Technologies)
     # @example
     #
-    #   module SimpleHttpClient
-    #   def notify_readable
-    #   header = @io.readline
+    #  module SimpleHttpClient
+    #    def notify_readable
+    #      header = @io.readline
     #
-    #   if header == "\r\n"
-    #   # detach returns the file descriptor number (fd == @io.fileno)
-    #   fd = detach
-    #   end
-    #   rescue EOFError
-    #   detach
-    #   end
+    #      if header == "\r\n"
+    #        # detach returns the file descriptor number (fd == @io.fileno)
+    #        fd = detach
+    #      end
+    #    rescue EOFError
+    #      detach
+    #    end
     #
-    #   def unbind
-    #   EM.next_tick do
-    #   # socket is detached from the eventloop, but still open
-    #   data = @io.read
-    #   end
-    #   end
-    #   end
+    #    def unbind
+    #      EM.next_tick do
+    #        # socket is detached from the eventloop, but still open
+    #        data = @io.read
+    #      end
+    #    end
+    #  end
     #
-    #   EventMachine.run {
-    #   sock = TCPSocket.new('site.com', 80)
-    #   sock.write("GET / HTTP/1.0\r\n\r\n")
-    #   conn = EventMachine.watch(sock, SimpleHttpClient)
-    #   conn.notify_readable = true
-    #   }
+    #  EventMachine.run {
+    #    sock = TCPSocket.new('site.com', 80)
+    #    sock.write("GET / HTTP/1.0\r\n\r\n")
+    #    conn = EventMachine.watch(sock, SimpleHttpClient)
+    #    conn.notify_readable = true
+    #  }
     #
-    # source://eventmachine//lib/eventmachine.rb#731
+    # @author Riham Aldakkak (eSpace Technologies)
+    #
+    # pkg:gem/eventmachine#lib/eventmachine.rb:731
     def watch(io, handler = T.unsafe(nil), *args, &blk); end
 
     # EventMachine's file monitoring API. Currently supported are the following events
@@ -1671,81 +2131,84 @@ module EventMachine
     #
     # @example
     #
-    #   # Before running this example, make sure we have a file to monitor:
-    #   # $ echo "bar" > /tmp/foo
+    #  # Before running this example, make sure we have a file to monitor:
+    #  # $ echo "bar" > /tmp/foo
     #
-    #   module Handler
-    #   def file_modified
-    #   puts "#{path} modified"
-    #   end
+    #  module Handler
+    #    def file_modified
+    #      puts "#{path} modified"
+    #    end
     #
-    #   def file_moved
-    #   puts "#{path} moved"
-    #   end
+    #    def file_moved
+    #      puts "#{path} moved"
+    #    end
     #
-    #   def file_deleted
-    #   puts "#{path} deleted"
-    #   end
+    #    def file_deleted
+    #      puts "#{path} deleted"
+    #    end
     #
-    #   def unbind
-    #   puts "#{path} monitoring ceased"
-    #   end
-    #   end
+    #    def unbind
+    #      puts "#{path} monitoring ceased"
+    #    end
+    #  end
     #
-    #   # for efficient file watching, use kqueue on Mac OS X
-    #   EventMachine.kqueue = true if EventMachine.kqueue?
+    #  # for efficient file watching, use kqueue on Mac OS X
+    #  EventMachine.kqueue = true if EventMachine.kqueue?
     #
-    #   EventMachine.run {
-    #   EventMachine.watch_file("/tmp/foo", Handler)
-    #   }
+    #  EventMachine.run {
+    #    EventMachine.watch_file("/tmp/foo", Handler)
+    #  }
     #
-    #   # $ echo "baz" >> /tmp/foo    =>    "/tmp/foo modified"
-    #   # $ mv /tmp/foo /tmp/oof      =>    "/tmp/foo moved"
-    #   # $ rm /tmp/oof               =>    "/tmp/foo deleted"
+    #  # $ echo "baz" >> /tmp/foo    =>    "/tmp/foo modified"
+    #  # $ mv /tmp/foo /tmp/oof      =>    "/tmp/foo moved"
+    #  # $ rm /tmp/oof               =>    "/tmp/foo deleted"
+    #
     # @note The ability to pick up on the new filename after a rename is not yet supported.
-    #   Calling #path will always return the filename you originally used.
-    # @param filename [String] Local path to the file to watch.
-    # @param handler [Class, Module] A class or module that implements event handlers associated with the file.
+    #       Calling #path will always return the filename you originally used.
     #
-    # source://eventmachine//lib/eventmachine.rb#1309
+    # @param [String]        filename Local path to the file to watch.
+    # @param [Class, Module] handler  A class or module that implements event handlers associated with the file.
+    #
+    # pkg:gem/eventmachine#lib/eventmachine.rb:1309
     def watch_file(filename, handler = T.unsafe(nil), *args); end
 
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def watch_filename(_arg0); end
 
-    # source://eventmachine//lib/eventmachine.rb#8
+    # pkg:gem/eventmachine#lib/eventmachine.rb:8
     def watch_pid(_arg0); end
 
     # EventMachine's process monitoring API. On Mac OS X and *BSD this method is implemented using kqueue.
     #
     # @example
     #
-    #   module ProcessWatcher
-    #   def process_exited
-    #   put 'the forked child died!'
-    #   end
-    #   end
+    #  module ProcessWatcher
+    #    def process_exited
+    #      put 'the forked child died!'
+    #    end
+    #  end
     #
-    #   pid = fork{ sleep }
+    #  pid = fork{ sleep }
     #
-    #   EventMachine.run {
-    #   EventMachine.watch_process(pid, ProcessWatcher)
-    #   EventMachine.add_timer(1){ Process.kill('TERM', pid) }
-    #   }
-    # @param handler [Class, Module] A class or module that implements event handlers associated with the file.
-    # @param pid [Integer] PID of the process to watch.
+    #  EventMachine.run {
+    #    EventMachine.watch_process(pid, ProcessWatcher)
+    #    EventMachine.add_timer(1){ Process.kill('TERM', pid) }
+    #  }
     #
-    # source://eventmachine//lib/eventmachine.rb#1340
+    # @param [Integer]       pid     PID of the process to watch.
+    # @param [Class, Module] handler A class or module that implements event handlers associated with the file.
+    #
+    # pkg:gem/eventmachine#lib/eventmachine.rb:1340
     def watch_process(pid, handler = T.unsafe(nil), *args); end
 
     # @private
     #
-    # source://eventmachine//lib/em/spawnable.rb#76
+    # pkg:gem/eventmachine#lib/em/spawnable.rb:76
     def yield(&block); end
 
     # @private
     #
-    # source://eventmachine//lib/em/spawnable.rb#81
+    # pkg:gem/eventmachine#lib/em/spawnable.rb:81
     def yield_and_notify(&block); end
   end
 end
@@ -1755,37 +2218,33 @@ end
 #
 # @example
 #
-#   channel = EventMachine::Channel.new
-#   sid     = channel.subscribe { |msg| p [:got, msg] }
+#  channel = EventMachine::Channel.new
+#  sid     = channel.subscribe { |msg| p [:got, msg] }
 #
-#   channel.push('hello world')
-#   channel.unsubscribe(sid)
+#  channel.push('hello world')
+#  channel.unsubscribe(sid)
 #
-# source://eventmachine//lib/em/channel.rb#14
+# pkg:gem/eventmachine#lib/em/channel.rb:14
 class EventMachine::Channel
-  # @return [Channel] a new instance of Channel
-  #
-  # source://eventmachine//lib/em/channel.rb#15
+  # pkg:gem/eventmachine#lib/em/channel.rb:15
   def initialize; end
 
-  # Add items to the channel, which are pushed out to all subscribers.
-  #
-  # source://eventmachine//lib/em/channel.rb#50
+  # pkg:gem/eventmachine#lib/em/channel.rb:50
   def <<(*items); end
 
   # Return the number of current subscribers.
   #
-  # source://eventmachine//lib/em/channel.rb#21
+  # pkg:gem/eventmachine#lib/em/channel.rb:21
   def num_subscribers; end
 
   # Fetches one message from the channel.
   #
-  # source://eventmachine//lib/em/channel.rb#53
+  # pkg:gem/eventmachine#lib/em/channel.rb:53
   def pop(*a, &b); end
 
   # Add items to the channel, which are pushed out to all subscribers.
   #
-  # source://eventmachine//lib/em/channel.rb#46
+  # pkg:gem/eventmachine#lib/em/channel.rb:46
   def push(*items); end
 
   # Takes any arguments suitable for EM::Callback() and returns a subscriber
@@ -1794,137 +2253,125 @@ class EventMachine::Channel
   # @return [Integer] Subscribe identifier
   # @see #unsubscribe
   #
-  # source://eventmachine//lib/em/channel.rb#30
+  # pkg:gem/eventmachine#lib/em/channel.rb:30
   def subscribe(*a, &b); end
 
   # Removes subscriber from the list.
   #
-  # @param Subscriber [Integer] identifier
+  # @param [Integer] Subscriber identifier
   # @see #subscribe
   #
-  # source://eventmachine//lib/em/channel.rb#41
+  # pkg:gem/eventmachine#lib/em/channel.rb:41
   def unsubscribe(name); end
 
   private
 
   # @private
   #
-  # source://eventmachine//lib/em/channel.rb#65
+  # pkg:gem/eventmachine#lib/em/channel.rb:65
   def gen_id; end
 end
 
-# source://eventmachine//lib/em/completion.rb#164
+# pkg:gem/eventmachine#lib/em/completion.rb:164
 class EventMachine::Completion
   include ::EventMachine::Deferrable
 
-  # @return [Completion] a new instance of Completion
-  #
-  # source://eventmachine//lib/em/completion.rb#171
+  # pkg:gem/eventmachine#lib/em/completion.rb:171
   def initialize; end
 
   # Callbacks are called when you enter (or are in) a :succeeded state.
   #
-  # source://eventmachine//lib/em/completion.rb#206
+  # pkg:gem/eventmachine#lib/em/completion.rb:206
   def callback(*a, &b); end
 
   # Remove a callback. N.B. Some callbacks cannot be deleted. Usage is NOT
   # recommended, this is an anti-pattern.
   #
-  # source://eventmachine//lib/em/completion.rb#272
+  # pkg:gem/eventmachine#lib/em/completion.rb:272
   def cancel_callback(*a, &b); end
 
   # Remove an errback. N.B. Some errbacks cannot be deleted. Usage is NOT
   # recommended, this is an anti-pattern.
   #
-  # source://eventmachine//lib/em/completion.rb#266
+  # pkg:gem/eventmachine#lib/em/completion.rb:266
   def cancel_errback(*a, &b); end
 
   # Disable the timeout
   #
-  # source://eventmachine//lib/em/completion.rb#257
+  # pkg:gem/eventmachine#lib/em/completion.rb:257
   def cancel_timeout; end
 
   # Enter a new state, setting the result value if given. If the state is one
   # of :succeeded or :failed, then :completed callbacks will also be called.
   #
-  # source://eventmachine//lib/em/completion.rb#224
+  # pkg:gem/eventmachine#lib/em/completion.rb:224
   def change_state(state, *args); end
 
   # Indicates that we've reached some kind of completion state, by default
   # this is :succeeded or :failed. Due to these semantics, the :completed
   # state is reserved for internal use.
   #
-  # @return [Boolean]
-  #
-  # source://eventmachine//lib/em/completion.rb#237
+  # pkg:gem/eventmachine#lib/em/completion.rb:237
   def completed?; end
 
   # Completions are called when you enter (or are in) either a :failed or a
   # :succeeded state. They are stored as a special (reserved) state called
   # :completed.
   #
-  # source://eventmachine//lib/em/completion.rb#218
+  # pkg:gem/eventmachine#lib/em/completion.rb:218
   def completion(*a, &b); end
 
   # Completion states simply returns a list of completion states, by default
   # this is :succeeded and :failed.
   #
-  # source://eventmachine//lib/em/completion.rb#243
+  # pkg:gem/eventmachine#lib/em/completion.rb:243
   def completion_states; end
 
   # Errbacks are called when you enter (or are in) a :failed state.
   #
-  # source://eventmachine//lib/em/completion.rb#211
+  # pkg:gem/eventmachine#lib/em/completion.rb:211
   def errback(*a, &b); end
 
   # Enter the :failed state, setting the result value if given.
   #
-  # source://eventmachine//lib/em/completion.rb#186
+  # pkg:gem/eventmachine#lib/em/completion.rb:186
   def fail(*args); end
 
-  # Enter the :failed state, setting the result value if given.
   # The old EM method:
   #
-  # source://eventmachine//lib/em/completion.rb#190
+  # pkg:gem/eventmachine#lib/em/completion.rb:190
   def set_deferred_failure(*args); end
 
-  # Enter a new state, setting the result value if given. If the state is one
-  # of :succeeded or :failed, then :completed callbacks will also be called.
   # The old EM method:
   #
-  # source://eventmachine//lib/em/completion.rb#232
+  # pkg:gem/eventmachine#lib/em/completion.rb:232
   def set_deferred_status(state, *args); end
 
-  # Enter the :succeeded state, setting the result value if given.
   # The old EM method:
   #
-  # source://eventmachine//lib/em/completion.rb#183
+  # pkg:gem/eventmachine#lib/em/completion.rb:183
   def set_deferred_success(*args); end
 
-  # Returns the value of attribute state.
-  #
-  # source://eventmachine//lib/em/completion.rb#169
+  # pkg:gem/eventmachine#lib/em/completion.rb:169
   def state; end
 
   # Statebacks are called when you enter (or are in) the named state.
   #
-  # source://eventmachine//lib/em/completion.rb#193
+  # pkg:gem/eventmachine#lib/em/completion.rb:193
   def stateback(state, *a, &b); end
 
   # Enter the :succeeded state, setting the result value if given.
   #
-  # source://eventmachine//lib/em/completion.rb#179
+  # pkg:gem/eventmachine#lib/em/completion.rb:179
   def succeed(*args); end
 
   # Schedule a time which if passes before we enter a completion state, this
   # deferrable will be failed with the given arguments.
   #
-  # source://eventmachine//lib/em/completion.rb#249
+  # pkg:gem/eventmachine#lib/em/completion.rb:249
   def timeout(time, *args); end
 
-  # Returns the value of attribute value.
-  #
-  # source://eventmachine//lib/em/completion.rb#169
+  # pkg:gem/eventmachine#lib/em/completion.rb:169
   def value; end
 
   private
@@ -1933,34 +2380,65 @@ class EventMachine::Completion
   # callback chains are completed. This means that operation specific
   # callbacks can't be dual-called, which is most common user error.
   #
-  # source://eventmachine//lib/em/completion.rb#298
+  # pkg:gem/eventmachine#lib/em/completion.rb:298
   def clear_dead_callbacks; end
 
   # Execute all callbacks for the current state. If in a completed state, then
   # call any statebacks associated with the completed state.
   #
-  # source://eventmachine//lib/em/completion.rb#279
+  # pkg:gem/eventmachine#lib/em/completion.rb:279
   def execute_callbacks; end
 
   # Iterate all callbacks for a given state, and remove then call them.
   #
-  # source://eventmachine//lib/em/completion.rb#289
+  # pkg:gem/eventmachine#lib/em/completion.rb:289
   def execute_state_callbacks(state); end
 end
 
+# EventMachine::Connection is a class that is instantiated
+# by EventMachine's processing loop whenever a new connection
+# is created. (New connections can be either initiated locally
+# to a remote server or accepted locally from a remote client.)
+# When a Connection object is instantiated, it <i>mixes in</i>
+# the functionality contained in the user-defined module
+# specified in calls to {EventMachine.connect} or {EventMachine.start_server}.
+# User-defined handler modules may redefine any or all of the standard
+# methods defined here, as well as add arbitrary additional code
+# that will also be mixed in.
+#
+# EventMachine manages one object inherited from EventMachine::Connection
+# (and containing the mixed-in user code) for every network connection
+# that is active at any given time.
+# The event loop will automatically call methods on EventMachine::Connection
+# objects whenever specific events occur on the corresponding connections,
+# as described below.
+#
+# This class is never instantiated by user code, and does not publish an
+# initialize method. The instance methods of EventMachine::Connection
+# which may be called by the event loop are:
+#
+# * {#post_init}
+# * {#connection_completed}
+# * {#receive_data}
+# * {#unbind}
+# * {#ssl_verify_peer} (if TLS is used)
+# * {#ssl_handshake_completed}
+#
+# All of the other instance methods defined here are called  only by user code.
+#
+# @see file:docs/GettingStarted.md EventMachine tutorial
 # @private
 #
-# source://eventmachine//lib/em/connection.rb#37
+# pkg:gem/eventmachine#lib/eventmachine.rb:8
 class EventMachine::Connection
   # Stubbed initialize so legacy superclasses can safely call super
   #
   # @private
-  # @return [Connection] a new instance of Connection
   #
-  # source://eventmachine//lib/em/connection.rb#67
+  # pkg:gem/eventmachine#lib/em/connection.rb:67
   def initialize(*args); end
 
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def associate_callback_target(_arg0); end
 
   # EventMachine::Connection#close_connection is called only by user code, and never
@@ -1981,7 +2459,7 @@ class EventMachine::Connection
   # yet been sent across the network. If you want to avoid this behavior, use
   # {EventMachine::Connection#close_connection_after_writing}.
   #
-  # source://eventmachine//lib/em/connection.rb#265
+  # pkg:gem/eventmachine#lib/em/connection.rb:265
   def close_connection(after_writing = T.unsafe(nil)); end
 
   # A variant of {#close_connection}.
@@ -2004,7 +2482,7 @@ class EventMachine::Connection
   # @see #close_connection
   # @see #send_data
   #
-  # source://eventmachine//lib/em/connection.rb#302
+  # pkg:gem/eventmachine#lib/em/connection.rb:302
   def close_connection_after_writing; end
 
   # comm_inactivity_timeout returns the current value (float in seconds) of the inactivity-timeout
@@ -2013,7 +2491,7 @@ class EventMachine::Connection
   # activity takes place for at least that number of seconds.
   # A zero value (the default) specifies that no automatic timeout will take place.
   #
-  # source://eventmachine//lib/em/connection.rb#647
+  # pkg:gem/eventmachine#lib/em/connection.rb:647
   def comm_inactivity_timeout; end
 
   # Allows you to set the inactivity-timeout property for
@@ -2023,7 +2501,7 @@ class EventMachine::Connection
   # Specify a value of zero to indicate that no automatic timeout should take place.
   # Zero is the default value.
   #
-  # source://eventmachine//lib/em/connection.rb#657
+  # pkg:gem/eventmachine#lib/em/connection.rb:657
   def comm_inactivity_timeout=(value); end
 
   # Called by the event loop when a remote TCP connection attempt completes successfully.
@@ -2038,13 +2516,13 @@ class EventMachine::Connection
   # @see Connection#unbind
   # @see file:docs/GettingStarted.md EventMachine tutorial
   #
-  # source://eventmachine//lib/em/connection.rb#362
+  # pkg:gem/eventmachine#lib/em/connection.rb:362
   def connection_completed; end
 
   # Removes given connection from the event loop.
   # The connection's socket remains open and its file descriptor number is returned.
   #
-  # source://eventmachine//lib/em/connection.rb#271
+  # pkg:gem/eventmachine#lib/em/connection.rb:271
   def detach; end
 
   # Returns true if the connection is in an error state, false otherwise.
@@ -2056,26 +2534,26 @@ class EventMachine::Connection
   #
   # @return [Boolean] true if the connection is in an error state, false otherwise
   #
-  # source://eventmachine//lib/em/connection.rb#339
+  # pkg:gem/eventmachine#lib/em/connection.rb:339
   def error?; end
 
-  # source://eventmachine//lib/em/connection.rb#534
+  # pkg:gem/eventmachine#lib/em/connection.rb:534
   def get_cipher_bits; end
 
-  # source://eventmachine//lib/em/connection.rb#538
+  # pkg:gem/eventmachine#lib/em/connection.rb:538
   def get_cipher_name; end
 
-  # source://eventmachine//lib/em/connection.rb#542
+  # pkg:gem/eventmachine#lib/em/connection.rb:542
   def get_cipher_protocol; end
 
   # The number of seconds since the last send/receive activity on this connection.
   #
-  # source://eventmachine//lib/em/connection.rb#638
+  # pkg:gem/eventmachine#lib/em/connection.rb:638
   def get_idle_time; end
 
-  # No-op for the time being
+  # @private
   #
-  # source://eventmachine//lib/eventmachine.rb#8
+  # pkg:gem/eventmachine#lib/eventmachine.rb:8
   def get_outbound_data_size; end
 
   # If [TLS](http://en.wikipedia.org/wiki/Transport_Layer_Security) is active on the connection, returns the remote [X509 certificate](http://en.wikipedia.org/wiki/X.509)
@@ -2095,57 +2573,59 @@ class EventMachine::Connection
   # * Remote peer for any other reason has not presented a certificate
   #
   #
+  # @example Getting peer TLS certificate information in EventMachine
+  #
+  #  module Handler
+  #    def post_init
+  #      puts "Starting TLS"
+  #      start_tls
+  #    end
+  #
+  #    def ssl_handshake_completed
+  #      puts get_peer_cert
+  #      close_connection
+  #    end
+  #
+  #    def unbind
+  #      EventMachine::stop_event_loop
+  #    end
+  #  end
+  #
+  #   EventMachine.run do
+  #     EventMachine.connect "mail.google.com", 443, Handler
+  #  end
+  #
+  #  # Will output:
+  #  # -----BEGIN CERTIFICATE-----
+  #  # MIIDIjCCAougAwIBAgIQbldpChBPqv+BdPg4iwgN8TANBgkqhkiG9w0BAQUFADBM
+  #  # MQswCQYDVQQGEwJaQTElMCMGA1UEChMcVGhhd3RlIENvbnN1bHRpbmcgKFB0eSkg
+  #  # THRkLjEWMBQGA1UEAxMNVGhhd3RlIFNHQyBDQTAeFw0wODA1MDIxNjMyNTRaFw0w
+  #  # OTA1MDIxNjMyNTRaMGkxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpDYWxpZm9ybmlh
+  #  # MRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRMwEQYDVQQKEwpHb29nbGUgSW5jMRgw
+  #  # FgYDVQQDEw9tYWlsLmdvb2dsZS5jb20wgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJ
+  #  # AoGBALlkxdh2QXegdElukCSOV2+8PKiONIS+8Tu9K7MQsYpqtLNC860zwOPQ2NLI
+  #  # 3Zp4jwuXVTrtzGuiqf5Jioh35Ig3CqDXtLyZoypjZUQcq4mlLzHlhIQ4EhSjDmA7
+  #  # Ffw9y3ckSOQgdBQWNLbquHh9AbEUjmhkrYxIqKXeCnRKhv6nAgMBAAGjgecwgeQw
+  #  # KAYDVR0lBCEwHwYIKwYBBQUHAwEGCCsGAQUFBwMCBglghkgBhvhCBAEwNgYDVR0f
+  #  # BC8wLTAroCmgJ4YlaHR0cDovL2NybC50aGF3dGUuY29tL1RoYXd0ZVNHQ0NBLmNy
+  #  # bDByBggrBgEFBQcBAQRmMGQwIgYIKwYBBQUHMAGGFmh0dHA6Ly9vY3NwLnRoYXd0
+  #  # ZS5jb20wPgYIKwYBBQUHMAKGMmh0dHA6Ly93d3cudGhhd3RlLmNvbS9yZXBvc2l0
+  #  # b3J5L1RoYXd0ZV9TR0NfQ0EuY3J0MAwGA1UdEwEB/wQCMAAwDQYJKoZIhvcNAQEF
+  #  # BQADgYEAsRwpLg1dgCR1gYDK185MFGukXMeQFUvhGqF8eT/CjpdvezyKVuz84gSu
+  #  # 6ccMXgcPQZGQN/F4Xug+Q01eccJjRSVfdvR5qwpqCj+6BFl5oiKDBsveSkrmL5dz
+  #  # s2bn7TdTSYKcLeBkjXxDLHGBqLJ6TNCJ3c4/cbbG5JhGvoema94=
+  #  # -----END CERTIFICATE-----
+  #
   # You can do whatever you want with the certificate String, such as load it
   # as a certificate object using the OpenSSL library, and check its fields.
   #
-  # @example Getting peer TLS certificate information in EventMachine
-  #
-  #   module Handler
-  #   def post_init
-  #   puts "Starting TLS"
-  #   start_tls
-  #   end
-  #
-  #   def ssl_handshake_completed
-  #   puts get_peer_cert
-  #   close_connection
-  #   end
-  #
-  #   def unbind
-  #   EventMachine::stop_event_loop
-  #   end
-  #   end
-  #
-  #   EventMachine.run do
-  #   EventMachine.connect "mail.google.com", 443, Handler
-  #   end
-  #
-  #   # Will output:
-  #   # -----BEGIN CERTIFICATE-----
-  #   # MIIDIjCCAougAwIBAgIQbldpChBPqv+BdPg4iwgN8TANBgkqhkiG9w0BAQUFADBM
-  #   # MQswCQYDVQQGEwJaQTElMCMGA1UEChMcVGhhd3RlIENvbnN1bHRpbmcgKFB0eSkg
-  #   # THRkLjEWMBQGA1UEAxMNVGhhd3RlIFNHQyBDQTAeFw0wODA1MDIxNjMyNTRaFw0w
-  #   # OTA1MDIxNjMyNTRaMGkxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpDYWxpZm9ybmlh
-  #   # MRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRMwEQYDVQQKEwpHb29nbGUgSW5jMRgw
-  #   # FgYDVQQDEw9tYWlsLmdvb2dsZS5jb20wgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJ
-  #   # AoGBALlkxdh2QXegdElukCSOV2+8PKiONIS+8Tu9K7MQsYpqtLNC860zwOPQ2NLI
-  #   # 3Zp4jwuXVTrtzGuiqf5Jioh35Ig3CqDXtLyZoypjZUQcq4mlLzHlhIQ4EhSjDmA7
-  #   # Ffw9y3ckSOQgdBQWNLbquHh9AbEUjmhkrYxIqKXeCnRKhv6nAgMBAAGjgecwgeQw
-  #   # KAYDVR0lBCEwHwYIKwYBBQUHAwEGCCsGAQUFBwMCBglghkgBhvhCBAEwNgYDVR0f
-  #   # BC8wLTAroCmgJ4YlaHR0cDovL2NybC50aGF3dGUuY29tL1RoYXd0ZVNHQ0NBLmNy
-  #   # bDByBggrBgEFBQcBAQRmMGQwIgYIKwYBBQUHMAGGFmh0dHA6Ly9vY3NwLnRoYXd0
-  #   # ZS5jb20wPgYIKwYBBQUHMAKGMmh0dHA6Ly93d3cudGhhd3RlLmNvbS9yZXBvc2l0
-  #   # b3J5L1RoYXd0ZV9TR0NfQ0EuY3J0MAwGA1UdEwEB/wQCMAAwDQYJKoZIhvcNAQEF
-  #   # BQADgYEAsRwpLg1dgCR1gYDK185MFGukXMeQFUvhGqF8eT/CjpdvezyKVuz84gSu
-  #   # 6ccMXgcPQZGQN/F4Xug+Q01eccJjRSVfdvR5qwpqCj+6BFl5oiKDBsveSkrmL5dz
-  #   # s2bn7TdTSYKcLeBkjXxDLHGBqLJ6TNCJ3c4/cbbG5JhGvoema94=
-  #   # -----END CERTIFICATE-----
   # @return [String] the remote [X509 certificate](http://en.wikipedia.org/wiki/X.509), in the popular [PEM format](http://en.wikipedia.org/wiki/Privacy_Enhanced_Mail),
-  #   if TLS is active on the connection
-  # @see Connection#ssl_handshake_completed
-  # @see Connection#start_tls
+  #                  if TLS is active on the connection
   #
-  # source://eventmachine//lib/em/connection.rb#530
+  # @see Connection#start_tls
+  # @see Connection#ssl_handshake_completed
+  #
+  # pkg:gem/eventmachine#lib/em/connection.rb:530
   def get_peer_cert; end
 
   # This method is used with stream-connections to obtain the identity
@@ -2156,16 +2636,16 @@ class EventMachine::Connection
   #
   # @example How to get peer IP address and port with EventMachine
   #
-  #   require 'socket'
+  #  require 'socket'
   #
-  #   module Handler
-  #   def receive_data data
-  #   port, ip = Socket.unpack_sockaddr_in(get_peername)
-  #   puts "got #{data.inspect} from #{ip}:#{port}"
-  #   end
-  #   end
+  #  module Handler
+  #    def receive_data data
+  #      port, ip = Socket.unpack_sockaddr_in(get_peername)
+  #      puts "got #{data.inspect} from #{ip}:#{port}"
+  #    end
+  #  end
   #
-  # source://eventmachine//lib/em/connection.rb#596
+  # pkg:gem/eventmachine#lib/em/connection.rb:596
   def get_peername; end
 
   # Returns the PID (kernel process identifier) of a subprocess
@@ -2174,19 +2654,19 @@ class EventMachine::Connection
   #
   # @return [Integer]
   #
-  # source://eventmachine//lib/em/connection.rb#625
+  # pkg:gem/eventmachine#lib/em/connection.rb:625
   def get_pid; end
 
   # The number of bytes proxied to another connection. Reset to zero when
   # EventMachine::Connection#proxy_incoming_to is called, and incremented whenever data is proxied.
   #
-  # source://eventmachine//lib/em/connection.rb#243
+  # pkg:gem/eventmachine#lib/em/connection.rb:243
   def get_proxied_bytes; end
 
-  # source://eventmachine//lib/em/connection.rb#546
+  # pkg:gem/eventmachine#lib/em/connection.rb:546
   def get_sni_hostname; end
 
-  # source://eventmachine//lib/em/connection.rb#275
+  # pkg:gem/eventmachine#lib/em/connection.rb:275
   def get_sock_opt(level, option); end
 
   # Used with stream-connections to obtain the identity
@@ -2197,16 +2677,16 @@ class EventMachine::Connection
   #
   # @example
   #
-  #   require 'socket'
+  #  require 'socket'
   #
-  #   module Handler
-  #   def receive_data data
-  #   port, ip = Socket.unpack_sockaddr_in(get_sockname)
-  #   puts "got #{data.inspect}"
-  #   end
-  #   end
+  #  module Handler
+  #    def receive_data data
+  #      port, ip = Socket.unpack_sockaddr_in(get_sockname)
+  #      puts "got #{data.inspect}"
+  #    end
+  #  end
   #
-  # source://eventmachine//lib/em/connection.rb#616
+  # pkg:gem/eventmachine#lib/em/connection.rb:616
   def get_sockname; end
 
   # Returns a subprocess exit status. Only useful for {EventMachine.popen}. Call it in your
@@ -2214,7 +2694,7 @@ class EventMachine::Connection
   #
   # @return [Integer]
   #
-  # source://eventmachine//lib/em/connection.rb#633
+  # pkg:gem/eventmachine#lib/em/connection.rb:633
   def get_status; end
 
   # Watches connection for readability. Only possible if the connection was created
@@ -2222,12 +2702,12 @@ class EventMachine::Connection
   #
   # @see #notify_readable?
   #
-  # source://eventmachine//lib/em/connection.rb#729
+  # pkg:gem/eventmachine#lib/em/connection.rb:729
   def notify_readable=(mode); end
 
   # @return [Boolean] true if the connection is being watched for readability.
   #
-  # source://eventmachine//lib/em/connection.rb#734
+  # pkg:gem/eventmachine#lib/em/connection.rb:734
   def notify_readable?; end
 
   # Watches connection for writeability. Only possible if the connection was created
@@ -2235,33 +2715,30 @@ class EventMachine::Connection
   #
   # @see #notify_writable?
   #
-  # source://eventmachine//lib/em/connection.rb#742
+  # pkg:gem/eventmachine#lib/em/connection.rb:742
   def notify_writable=(mode); end
 
   # Returns true if the connection is being watched for writability.
   #
-  # @return [Boolean]
-  #
-  # source://eventmachine//lib/em/connection.rb#747
+  # pkg:gem/eventmachine#lib/em/connection.rb:747
   def notify_writable?; end
 
   # @private
   #
-  # source://eventmachine//lib/em/connection.rb#42
+  # pkg:gem/eventmachine#lib/em/connection.rb:42
   def original_method(_arg0); end
 
   # Pause a connection so that {#send_data} and {#receive_data} events are not fired until {#resume} is called.
-  #
   # @see #resume
   #
-  # source://eventmachine//lib/em/connection.rb#753
+  # pkg:gem/eventmachine#lib/em/connection.rb:753
   def pause; end
 
   # @return [Boolean] true if the connect was paused using {EventMachine::Connection#pause}.
   # @see #pause
   # @see #resume
   #
-  # source://eventmachine//lib/em/connection.rb#766
+  # pkg:gem/eventmachine#lib/em/connection.rb:766
   def paused?; end
 
   # The duration after which a TCP connection in the connecting state will fail.
@@ -2271,15 +2748,15 @@ class EventMachine::Connection
   #
   # @return [Float] The duration after which a TCP connection in the connecting state will fail, in seconds.
   #
-  # source://eventmachine//lib/em/connection.rb#668
+  # pkg:gem/eventmachine#lib/em/connection.rb:668
   def pending_connect_timeout; end
 
   # Sets the duration after which a TCP connection in a
   # connecting state will fail.
   #
-  # @param value [Float, #to_f] Connection timeout in seconds
+  # @param [Float, #to_f] value Connection timeout in seconds
   #
-  # source://eventmachine//lib/em/connection.rb#676
+  # pkg:gem/eventmachine#lib/em/connection.rb:676
   def pending_connect_timeout=(value); end
 
   # Called by the event loop immediately after the network connection has been established,
@@ -2290,17 +2767,17 @@ class EventMachine::Connection
   # be used throughout the lifetime of the network connection.
   #
   # @see #connection_completed
-  # @see #receive_data
-  # @see #send_data
   # @see #unbind
+  # @see #send_data
+  # @see #receive_data
   #
-  # source://eventmachine//lib/em/connection.rb#81
+  # pkg:gem/eventmachine#lib/em/connection.rb:81
   def post_init; end
 
   # called when the reactor finished proxying all
   # of the requested bytes.
   #
-  # source://eventmachine//lib/em/connection.rb#224
+  # pkg:gem/eventmachine#lib/em/connection.rb:224
   def proxy_completed; end
 
   # EventMachine::Connection#proxy_incoming_to is called only by user code. It sets up
@@ -2309,7 +2786,7 @@ class EventMachine::Connection
   #
   # @see EventMachine.enable_proxy
   #
-  # source://eventmachine//lib/em/connection.rb#232
+  # pkg:gem/eventmachine#lib/em/connection.rb:232
   def proxy_incoming_to(conn, bufsize = T.unsafe(nil)); end
 
   # Called by the reactor after attempting to relay incoming data to a descriptor (set as a proxy target descriptor with
@@ -2317,7 +2794,7 @@ class EventMachine::Connection
   #
   # @see EventMachine.enable_proxy
   #
-  # source://eventmachine//lib/em/connection.rb#219
+  # pkg:gem/eventmachine#lib/em/connection.rb:219
   def proxy_target_unbound; end
 
   # Called by the event loop whenever data has been received by the network connection.
@@ -2342,32 +2819,32 @@ class EventMachine::Connection
   # The base-class implementation (which will be invoked only if you didn't override it in your protocol handler)
   # simply prints incoming data packet size to stdout.
   #
+  # @param [String] data Opaque incoming data.
   # @note Depending on the protocol, buffer sizes and OS networking stack configuration, incoming data may or may not be "a complete message".
-  #   It is up to this handler to detect content boundaries to determine whether all the content (for example, full HTTP request)
-  #   has been received and can be processed.
-  # @param data [String] Opaque incoming data.
-  # @see #connection_completed
+  #       It is up to this handler to detect content boundaries to determine whether all the content (for example, full HTTP request)
+  #       has been received and can be processed.
+  #
   # @see #post_init
-  # @see #send_data
+  # @see #connection_completed
   # @see #unbind
+  # @see #send_data
   # @see file:docs/GettingStarted.md EventMachine tutorial
   #
-  # source://eventmachine//lib/em/connection.rb#116
+  # pkg:gem/eventmachine#lib/em/connection.rb:116
   def receive_data(data); end
 
   # Reconnect to a given host/port with the current instance
   #
-  # @param port [Integer] Port to reconnect to
-  # @param server [String] Hostname or IP address
+  # @param [String] server Hostname or IP address
+  # @param [Integer] port  Port to reconnect to
   #
-  # source://eventmachine//lib/em/connection.rb#685
+  # pkg:gem/eventmachine#lib/em/connection.rb:685
   def reconnect(server, port); end
 
   # Resume a connection's {#send_data} and {#receive_data} events.
-  #
   # @see #pause
   #
-  # source://eventmachine//lib/em/connection.rb#759
+  # pkg:gem/eventmachine#lib/em/connection.rb:759
   def resume; end
 
   # Call this method to send data to the remote end of the network connection. It takes a single String argument,
@@ -2381,13 +2858,15 @@ class EventMachine::Connection
   # If you want to send some data and then immediately close the connection, make sure to use {#close_connection_after_writing}
   # instead of {#close_connection}.
   #
-  # @param data [String] Data to send asynchronously
-  # @see Connection#post_init
-  # @see Connection#receive_data
-  # @see Connection#unbind
-  # @see file:docs/GettingStarted.md EventMachine tutorial
   #
-  # source://eventmachine//lib/em/connection.rb#324
+  # @param [String] data Data to send asynchronously
+  #
+  # @see file:docs/GettingStarted.md EventMachine tutorial
+  # @see Connection#receive_data
+  # @see Connection#post_init
+  # @see Connection#unbind
+  #
+  # pkg:gem/eventmachine#lib/em/connection.rb:324
   def send_data(data); end
 
   # Sends UDP messages.
@@ -2409,11 +2888,11 @@ class EventMachine::Connection
   # size (typically about 1400 bytes). Some very restrictive WANs
   # will either drop or truncate packets larger than about 500 bytes.
   #
-  # @param data [String] Data to send asynchronously
-  # @param recipient_address [String] IP address of the recipient
-  # @param recipient_port [String] Port of the recipient
+  # @param [String] data              Data to send asynchronously
+  # @param [String] recipient_address IP address of the recipient
+  # @param [String] recipient_port    Port of the recipient
   #
-  # source://eventmachine//lib/em/connection.rb#572
+  # pkg:gem/eventmachine#lib/em/connection.rb:572
   def send_datagram(data, recipient_address, recipient_port); end
 
   # Like {EventMachine::Connection#send_data}, this sends data to the remote end of
@@ -2421,42 +2900,31 @@ class EventMachine::Connection
   # filename as an argument, though, and sends the contents of the file, in one
   # chunk.
   #
-  # @author Kirk Haines
-  # @param filename [String] Local path of the file to send
-  # @see #send_data
+  # @param [String] filename Local path of the file to send
   #
-  # source://eventmachine//lib/em/connection.rb#699
+  # @see #send_data
+  # @author Kirk Haines
+  #
+  # pkg:gem/eventmachine#lib/em/connection.rb:699
   def send_file_data(filename); end
 
-  # Allows you to set the inactivity-timeout property for
-  # a network connection or datagram socket. Specify a non-negative float value in seconds.
-  # If the value is greater than zero, the connection or socket will automatically be closed
-  # if no read or write activity takes place for at least that number of seconds.
-  # Specify a value of zero to indicate that no automatic timeout should take place.
-  # Zero is the default value.
-  #
-  # source://eventmachine//lib/em/connection.rb#660
+  # pkg:gem/eventmachine#lib/em/connection.rb:660
   def set_comm_inactivity_timeout(value); end
 
-  # Sets the duration after which a TCP connection in a
-  # connecting state will fail.
-  #
-  # @param value [Float, #to_f] Connection timeout in seconds
-  #
-  # source://eventmachine//lib/em/connection.rb#679
+  # pkg:gem/eventmachine#lib/em/connection.rb:679
   def set_pending_connect_timeout(value); end
 
-  # source://eventmachine//lib/em/connection.rb#279
+  # pkg:gem/eventmachine#lib/em/connection.rb:279
   def set_sock_opt(level, optname, optval); end
 
   # @private
   #
-  # source://eventmachine//lib/em/connection.rb#39
+  # pkg:gem/eventmachine#lib/em/connection.rb:39
   def signature; end
 
   # @private
   #
-  # source://eventmachine//lib/em/connection.rb#39
+  # pkg:gem/eventmachine#lib/em/connection.rb:39
   def signature=(_arg0); end
 
   # Called by EventMachine when the SSL/TLS handshake has
@@ -2467,7 +2935,7 @@ class EventMachine::Connection
   #
   # @see #get_peer_cert
   #
-  # source://eventmachine//lib/em/connection.rb#127
+  # pkg:gem/eventmachine#lib/em/connection.rb:127
   def ssl_handshake_completed; end
 
   # Called by EventMachine when :verify_peer => true has been passed to {#start_tls}.
@@ -2481,38 +2949,41 @@ class EventMachine::Connection
   # @example This server always accepts all peers
   #
   #   module AcceptServer
-  #   def post_init
-  #   start_tls(:verify_peer => true)
+  #     def post_init
+  #       start_tls(:verify_peer => true)
+  #     end
+  #
+  #     def ssl_verify_peer(cert)
+  #       true
+  #     end
+  #
+  #     def ssl_handshake_completed
+  #       $server_handshake_completed = true
+  #     end
   #   end
   #
-  #   def ssl_verify_peer(cert)
-  #   true
-  #   end
   #
-  #   def ssl_handshake_completed
-  #   $server_handshake_completed = true
-  #   end
-  #   end
   # @example This server never accepts any peers
   #
   #   module DenyServer
-  #   def post_init
-  #   start_tls(:verify_peer => true)
+  #     def post_init
+  #       start_tls(:verify_peer => true)
+  #     end
+  #
+  #     def ssl_verify_peer(cert)
+  #       # Do not accept the peer. This should now cause the connection to shut down
+  #       # without the SSL handshake being completed.
+  #       false
+  #     end
+  #
+  #     def ssl_handshake_completed
+  #       $server_handshake_completed = true
+  #     end
   #   end
   #
-  #   def ssl_verify_peer(cert)
-  #   # Do not accept the peer. This should now cause the connection to shut down
-  #   # without the SSL handshake being completed.
-  #   false
-  #   end
-  #
-  #   def ssl_handshake_completed
-  #   $server_handshake_completed = true
-  #   end
-  #   end
   # @see #start_tls
   #
-  # source://eventmachine//lib/em/connection.rb#174
+  # pkg:gem/eventmachine#lib/em/connection.rb:174
   def ssl_verify_peer(cert); end
 
   # Call {#start_tls} at any point to initiate TLS encryption on connected streams.
@@ -2522,42 +2993,58 @@ class EventMachine::Connection
   # an outbound connection.
   #
   #
-  # for encrypted private keys.
-  # just filenames.
+  # @option args [String] :cert_chain_file (nil) local path of a readable file that contants  a chain of X509 certificates in
+  #                                              the [PEM format](http://en.wikipedia.org/wiki/Privacy_Enhanced_Mail),
+  #                                              with the most-resolved certificate at the top of the file, successive intermediate
+  #                                              certs in the middle, and the root (or CA) cert at the bottom.
+  #
+  # @option args [String] :private_key_file (nil) local path of a readable file that must contain a private key in the [PEM format](http://en.wikipedia.org/wiki/Privacy_Enhanced_Mail).
+  #
+  # @option args [Boolean] :verify_peer (false)   indicates whether a server should request a certificate from a peer, to be verified by user code.
+  #                                               If true, the {#ssl_verify_peer} callback on the {EventMachine::Connection} object is called with each certificate
+  #                                               in the certificate chain provided by the peer. See documentation on {#ssl_verify_peer} for how to use this.
+  #
+  # @option args [Boolean] :fail_if_no_peer_cert (false)   Used in conjunction with verify_peer. If set the SSL handshake will be terminated if the peer does not provide a certificate.
+  #
+  #
+  # @option args [String] :cipher_list ("ALL:!ADH:!LOW:!EXP:!DES-CBC3-SHA:@STRENGTH") indicates the available SSL cipher values. Default value is "ALL:!ADH:!LOW:!EXP:!DES-CBC3-SHA:@STRENGTH". Check the format of the OpenSSL cipher string at http://www.openssl.org/docs/apps/ciphers.html#CIPHER_LIST_FORMAT.
+  #
+  # @option args [String] :ecdh_curve (nil)  The curve for ECDHE ciphers. See available ciphers with 'openssl ecparam -list_curves'
+  #
+  # @option args [String] :dhparam (nil)  The local path of a file containing DH parameters for EDH ciphers in [PEM format](http://en.wikipedia.org/wiki/Privacy_Enhanced_Mail) See: 'openssl dhparam'
+  #
+  # @option args [Array] :ssl_version (TLSv1 TLSv1_1 TLSv1_2) indicates the allowed SSL/TLS versions. Possible values are: {SSLv2}, {SSLv3}, {TLSv1}, {TLSv1_1}, {TLSv1_2}.
   #
   # @example Using TLS with EventMachine
   #
-  #   require 'rubygems'
-  #   require 'eventmachine'
+  #  require 'rubygems'
+  #  require 'eventmachine'
   #
-  #   module Handler
-  #   def post_init
-  #   start_tls(:private_key_file => '/tmp/server.key', :cert_chain_file => '/tmp/server.crt', :verify_peer => false)
-  #   end
-  #   end
+  #  module Handler
+  #    def post_init
+  #      start_tls(:private_key_file => '/tmp/server.key', :cert_chain_file => '/tmp/server.crt', :verify_peer => false)
+  #    end
+  #  end
   #
   #   EventMachine.run do
-  #   EventMachine.start_server("127.0.0.1", 9999, Handler)
-  #   end
-  # @option args
-  # @option args
-  # @option args
-  # @option args
-  # @option args
-  # @option args
-  # @option args
-  # @option args
-  # @param args [Hash]
-  # @see #ssl_verify_peer
-  # @todo support passing an encryption parameter, which can be string or Proc, to get a passphrase
-  # @todo support passing key material via raw strings or Procs that return strings instead of
+  #    EventMachine.start_server("127.0.0.1", 9999, Handler)
+  #  end
   #
-  # source://eventmachine//lib/em/connection.rb#417
+  # @param [Hash] args
+  #
+  # @todo support passing an encryption parameter, which can be string or Proc, to get a passphrase
+  # for encrypted private keys.
+  # @todo support passing key material via raw strings or Procs that return strings instead of
+  # just filenames.
+  #
+  # @see #ssl_verify_peer
+  #
+  # pkg:gem/eventmachine#lib/em/connection.rb:417
   def start_tls(args = T.unsafe(nil)); end
 
   # A helper method for {EventMachine.disable_proxy}
   #
-  # source://eventmachine//lib/em/connection.rb#237
+  # pkg:gem/eventmachine#lib/em/connection.rb:237
   def stop_proxying; end
 
   # Open a file on the filesystem and send it to the remote peer. This returns an
@@ -2571,12 +3058,15 @@ class EventMachine::Connection
   # evma_fastfilereader. You must install this extension in order to use {#stream_file_data}
   # with files larger than a certain size (currently 8192 bytes).
   #
-  # @option args
-  # @param args [Hash] Options
-  # @param filename [String] Local path of the file to stream
+  # @option args [Boolean] :http_chunks (false) If true, this method will stream the file data in a format
+  #                                             compatible with the HTTP chunked-transfer encoding
+  #
+  # @param [String] filename Local path of the file to stream
+  # @param [Hash] args Options
+  #
   # @return [EventMachine::Deferrable]
   #
-  # source://eventmachine//lib/em/connection.rb#721
+  # pkg:gem/eventmachine#lib/em/connection.rb:721
   def stream_file_data(filename, args = T.unsafe(nil)); end
 
   # called by the framework whenever a connection (either a server or client connection) is closed.
@@ -2594,27 +3084,28 @@ class EventMachine::Connection
   #
   #   class MyProtocolHandler < EventMachine::Connection
   #
-  #   # ...
+  #     # ...
   #
-  #   def close_connection(*args)
-  #   @intentionally_closed_connection = true
-  #   super(*args)
+  #     def close_connection(*args)
+  #       @intentionally_closed_connection = true
+  #       super(*args)
+  #     end
+  #
+  #     def unbind
+  #       if @intentionally_closed_connection
+  #         # ...
+  #       end
+  #     end
+  #
+  #     # ...
+  #
   #   end
   #
-  #   def unbind
-  #   if @intentionally_closed_connection
-  #   # ...
-  #   end
-  #   end
-  #
-  #   # ...
-  #
-  #   end
-  # @see #connection_completed
   # @see #post_init
+  # @see #connection_completed
   # @see file:docs/GettingStarted.md EventMachine tutorial
   #
-  # source://eventmachine//lib/em/connection.rb#212
+  # pkg:gem/eventmachine#lib/em/connection.rb:212
   def unbind; end
 
   class << self
@@ -2623,168 +3114,161 @@ class EventMachine::Connection
     #
     # @private
     #
-    # source://eventmachine//lib/em/connection.rb#48
+    # pkg:gem/eventmachine#lib/em/connection.rb:48
     def new(sig, *args); end
   end
 end
 
 # @private
+# @private
 EventMachine::ConnectionAccepted = T.let(T.unsafe(nil), Integer)
 
+# @private
 # @private
 EventMachine::ConnectionCompleted = T.let(T.unsafe(nil), Integer)
 
 # @private
+# @private
 EventMachine::ConnectionData = T.let(T.unsafe(nil), Integer)
 
+# @private
 # Exceptions that are defined in rubymain.cpp
+#
+# pkg:gem/eventmachine#lib/eventmachine.rb:8
 class EventMachine::ConnectionError < ::RuntimeError; end
 
 # @private
+#
+# pkg:gem/eventmachine#lib/eventmachine.rb:8
 class EventMachine::ConnectionNotBound < ::RuntimeError; end
 
+# @private
 # @private
 EventMachine::ConnectionNotifyReadable = T.let(T.unsafe(nil), Integer)
 
 # @private
+# @private
 EventMachine::ConnectionNotifyWritable = T.let(T.unsafe(nil), Integer)
 
 # @private
+# @private
 EventMachine::ConnectionUnbound = T.let(T.unsafe(nil), Integer)
 
-# source://eventmachine//lib/em/resolver.rb#2
+# pkg:gem/eventmachine#lib/em/resolver.rb:2
 module EventMachine::DNS; end
 
-# source://eventmachine//lib/em/resolver.rb#157
+# pkg:gem/eventmachine#lib/em/resolver.rb:157
 class EventMachine::DNS::Request
   include ::EventMachine::Deferrable
 
-  # @return [Request] a new instance of Request
-  #
-  # source://eventmachine//lib/em/resolver.rb#161
+  # pkg:gem/eventmachine#lib/em/resolver.rb:161
   def initialize(socket, hostname); end
 
-  # Returns the value of attribute max_tries.
-  #
-  # source://eventmachine//lib/em/resolver.rb#159
+  # pkg:gem/eventmachine#lib/em/resolver.rb:159
   def max_tries; end
 
-  # Sets the attribute max_tries
-  #
-  # @param value the value to set the attribute max_tries to.
-  #
-  # source://eventmachine//lib/em/resolver.rb#159
+  # pkg:gem/eventmachine#lib/em/resolver.rb:159
   def max_tries=(_arg0); end
 
-  # source://eventmachine//lib/em/resolver.rb#187
+  # pkg:gem/eventmachine#lib/em/resolver.rb:187
   def receive_answer(msg); end
 
-  # Returns the value of attribute retry_interval.
-  #
-  # source://eventmachine//lib/em/resolver.rb#159
+  # pkg:gem/eventmachine#lib/em/resolver.rb:159
   def retry_interval; end
 
-  # Sets the attribute retry_interval
-  #
-  # @param value the value to set the attribute retry_interval to.
-  #
-  # source://eventmachine//lib/em/resolver.rb#159
+  # pkg:gem/eventmachine#lib/em/resolver.rb:159
   def retry_interval=(_arg0); end
 
-  # source://eventmachine//lib/em/resolver.rb#176
+  # pkg:gem/eventmachine#lib/em/resolver.rb:176
   def tick; end
 
   private
 
-  # source://eventmachine//lib/em/resolver.rb#211
+  # pkg:gem/eventmachine#lib/em/resolver.rb:211
   def id; end
 
-  # source://eventmachine//lib/em/resolver.rb#222
+  # pkg:gem/eventmachine#lib/em/resolver.rb:222
   def packet; end
 
-  # source://eventmachine//lib/em/resolver.rb#205
+  # pkg:gem/eventmachine#lib/em/resolver.rb:205
   def send; end
 end
 
-# source://eventmachine//lib/em/resolver.rb#79
+# pkg:gem/eventmachine#lib/em/resolver.rb:79
 class EventMachine::DNS::RequestIdAlreadyUsed < ::RuntimeError; end
 
-# source://eventmachine//lib/em/resolver.rb#3
+# pkg:gem/eventmachine#lib/em/resolver.rb:3
 class EventMachine::DNS::Resolver
   class << self
-    # source://eventmachine//lib/em/resolver.rb#60
+    # pkg:gem/eventmachine#lib/em/resolver.rb:60
     def hosts; end
 
-    # source://eventmachine//lib/em/resolver.rb#56
+    # pkg:gem/eventmachine#lib/em/resolver.rb:56
     def nameserver; end
 
-    # source://eventmachine//lib/em/resolver.rb#36
+    # pkg:gem/eventmachine#lib/em/resolver.rb:36
     def nameservers; end
 
-    # source://eventmachine//lib/em/resolver.rb#32
+    # pkg:gem/eventmachine#lib/em/resolver.rb:32
     def nameservers=(ns); end
 
-    # source://eventmachine//lib/em/resolver.rb#20
+    # pkg:gem/eventmachine#lib/em/resolver.rb:20
     def resolve(hostname); end
 
-    # source://eventmachine//lib/em/resolver.rb#24
+    # pkg:gem/eventmachine#lib/em/resolver.rb:24
     def socket; end
 
-    # @return [Boolean]
-    #
-    # source://eventmachine//lib/em/resolver.rb#5
+    # pkg:gem/eventmachine#lib/em/resolver.rb:5
     def windows?; end
   end
 end
 
-# source://eventmachine//lib/em/resolver.rb#14
+# pkg:gem/eventmachine#lib/em/resolver.rb:14
 EventMachine::DNS::Resolver::HOSTS_FILE = T.let(T.unsafe(nil), String)
 
-# source://eventmachine//lib/em/resolver.rb#81
+# pkg:gem/eventmachine#lib/em/resolver.rb:81
 class EventMachine::DNS::Socket < ::EventMachine::Connection
-  # @return [Socket] a new instance of Socket
-  #
-  # source://eventmachine//lib/em/resolver.rb#86
+  # pkg:gem/eventmachine#lib/em/resolver.rb:86
   def initialize; end
 
-  # source://eventmachine//lib/em/resolver.rb#122
+  # pkg:gem/eventmachine#lib/em/resolver.rb:122
   def deregister_request(id, req); end
 
-  # source://eventmachine//lib/em/resolver.rb#135
+  # pkg:gem/eventmachine#lib/em/resolver.rb:135
   def nameserver; end
 
-  # source://eventmachine//lib/em/resolver.rb#131
+  # pkg:gem/eventmachine#lib/em/resolver.rb:131
   def nameserver=(ns); end
 
-  # source://eventmachine//lib/em/resolver.rb#90
+  # pkg:gem/eventmachine#lib/em/resolver.rb:90
   def post_init; end
 
   # Decodes the packet, looks for the request and passes the
   # response over to the requester
   #
-  # source://eventmachine//lib/em/resolver.rb#141
+  # pkg:gem/eventmachine#lib/em/resolver.rb:141
   def receive_data(data); end
 
-  # source://eventmachine//lib/em/resolver.rb#112
+  # pkg:gem/eventmachine#lib/em/resolver.rb:112
   def register_request(id, req); end
 
-  # source://eventmachine//lib/em/resolver.rb#127
+  # pkg:gem/eventmachine#lib/em/resolver.rb:127
   def send_packet(pkt); end
 
-  # source://eventmachine//lib/em/resolver.rb#94
+  # pkg:gem/eventmachine#lib/em/resolver.rb:94
   def start_timer; end
 
-  # source://eventmachine//lib/em/resolver.rb#98
+  # pkg:gem/eventmachine#lib/em/resolver.rb:98
   def stop_timer; end
 
-  # source://eventmachine//lib/em/resolver.rb#106
+  # pkg:gem/eventmachine#lib/em/resolver.rb:106
   def tick; end
 
-  # source://eventmachine//lib/em/resolver.rb#103
+  # pkg:gem/eventmachine#lib/em/resolver.rb:103
   def unbind; end
 
   class << self
-    # source://eventmachine//lib/em/resolver.rb#82
+    # pkg:gem/eventmachine#lib/em/resolver.rb:82
     def open; end
   end
 end
@@ -2793,12 +3277,12 @@ end
 # This is very useful when you just need to return a Deferrable object
 # as a way of communicating deferred status to some other part of a program.
 #
-# source://eventmachine//lib/em/deferrable.rb#207
+# pkg:gem/eventmachine#lib/em/deferrable.rb:207
 class EventMachine::DefaultDeferrable
   include ::EventMachine::Deferrable
 end
 
-# source://eventmachine//lib/em/deferrable.rb#27
+# pkg:gem/eventmachine#lib/em/deferrable.rb:27
 module EventMachine::Deferrable
   # Specify a block to be executed if and when the Deferrable object receives
   # a status of :succeeded. See #set_deferred_status for more information.
@@ -2814,22 +3298,22 @@ module EventMachine::Deferrable
   # If status is succeeded, execute the callback immediately.
   # If status is failed, do nothing.
   #
-  # source://eventmachine//lib/em/deferrable.rb#44
+  # pkg:gem/eventmachine#lib/em/deferrable.rb:44
   def callback(&block); end
 
   # Cancels an outstanding callback to &block if any. Undoes the action of #callback.
   #
-  # source://eventmachine//lib/em/deferrable.rb#58
+  # pkg:gem/eventmachine#lib/em/deferrable.rb:58
   def cancel_callback(block); end
 
   # Cancels an outstanding errback to &block if any. Undoes the action of #errback.
   #
-  # source://eventmachine//lib/em/deferrable.rb#84
+  # pkg:gem/eventmachine#lib/em/deferrable.rb:84
   def cancel_errback(block); end
 
   # Cancels an outstanding timeout if any. Undoes the action of #timeout.
   #
-  # source://eventmachine//lib/em/deferrable.rb#179
+  # pkg:gem/eventmachine#lib/em/deferrable.rb:179
   def cancel_timeout; end
 
   # Specify a block to be executed if and when the Deferrable object receives
@@ -2839,17 +3323,15 @@ module EventMachine::Deferrable
   # If status is failed, execute the errback immediately.
   # If status is succeeded, do nothing.
   #
-  # source://eventmachine//lib/em/deferrable.rb#70
+  # pkg:gem/eventmachine#lib/em/deferrable.rb:70
   def errback(&block); end
 
   # Sugar for set_deferred_status(:failed, ...)
   #
-  # source://eventmachine//lib/em/deferrable.rb#197
+  # pkg:gem/eventmachine#lib/em/deferrable.rb:197
   def fail(*args); end
 
-  # Sugar for set_deferred_status(:failed, ...)
-  #
-  # source://eventmachine//lib/em/deferrable.rb#200
+  # pkg:gem/eventmachine#lib/em/deferrable.rb:200
   def set_deferred_failure(*args); end
 
   # Sets the "disposition" (status) of the Deferrable object. See also the large set of
@@ -2904,17 +3386,15 @@ module EventMachine::Deferrable
   # if a Deferrable was timed out and then an attempt was made to succeed it. See the
   # comments under the new method #timeout.
   #
-  # source://eventmachine//lib/em/deferrable.rb#141
+  # pkg:gem/eventmachine#lib/em/deferrable.rb:141
   def set_deferred_status(status, *args); end
 
-  # Sugar for set_deferred_status(:succeeded, ...)
-  #
-  # source://eventmachine//lib/em/deferrable.rb#193
+  # pkg:gem/eventmachine#lib/em/deferrable.rb:193
   def set_deferred_success(*args); end
 
   # Sugar for set_deferred_status(:succeeded, ...)
   #
-  # source://eventmachine//lib/em/deferrable.rb#190
+  # pkg:gem/eventmachine#lib/em/deferrable.rb:190
   def succeed(*args); end
 
   # Setting a timeout on a Deferrable causes it to go into the failed state after
@@ -2922,7 +3402,7 @@ module EventMachine::Deferrable
   # Setting the status at any time prior to a call to the expiration of the timeout
   # will cause the timer to be cancelled.
   #
-  # source://eventmachine//lib/em/deferrable.rb#170
+  # pkg:gem/eventmachine#lib/em/deferrable.rb:170
   def timeout(seconds, *args); end
 
   class << self
@@ -2937,12 +3417,12 @@ module EventMachine::Deferrable
     # use the supplied block (if any) as the callback.
     # Then return arg.
     #
-    # source://eventmachine//lib/em/future.rb#44
+    # pkg:gem/eventmachine#lib/em/future.rb:44
     def future(arg, cb = T.unsafe(nil), eb = T.unsafe(nil), &blk); end
   end
 end
 
-# source://eventmachine//lib/em/deferrable/pool.rb#2
+# pkg:gem/eventmachine#lib/em/deferrable/pool.rb:2
 EventMachine::Deferrable::Pool = EventMachine::Pool
 
 # EM::DeferrableChildProcess is a sugaring of a common use-case
@@ -2955,24 +3435,23 @@ EventMachine::Deferrable::Pool = EventMachine::Pool
 # and execute its callbacks, passing the data that the child process
 # wrote to stdout.
 #
-# source://eventmachine//lib/em/processes.rb#39
+# pkg:gem/eventmachine#lib/em/processes.rb:39
 class EventMachine::DeferrableChildProcess < ::EventMachine::Connection
   include ::EventMachine::Deferrable
 
   # @private
-  # @return [DeferrableChildProcess] a new instance of DeferrableChildProcess
   #
-  # source://eventmachine//lib/em/processes.rb#43
+  # pkg:gem/eventmachine#lib/em/processes.rb:43
   def initialize; end
 
   # @private
   #
-  # source://eventmachine//lib/em/processes.rb#65
+  # pkg:gem/eventmachine#lib/em/processes.rb:65
   def receive_data(data); end
 
   # @private
   #
-  # source://eventmachine//lib/em/processes.rb#70
+  # pkg:gem/eventmachine#lib/em/processes.rb:70
   def unbind; end
 
   class << self
@@ -2988,34 +3467,38 @@ class EventMachine::DeferrableChildProcess < ::EventMachine::Connection
     # #open calls its callbacks, passing the data returned
     # from the child process.
     #
-    # source://eventmachine//lib/em/processes.rb#60
+    # pkg:gem/eventmachine#lib/em/processes.rb:60
     def open(cmd); end
   end
 end
 
 # @private
+# @private
 EventMachine::EM_PROTO_SSLv2 = T.let(T.unsafe(nil), Integer)
 
+# @private
 # @private
 EventMachine::EM_PROTO_SSLv3 = T.let(T.unsafe(nil), Integer)
 
 # @private
+# @private
 EventMachine::EM_PROTO_TLSv1 = T.let(T.unsafe(nil), Integer)
 
+# @private
 # @private
 EventMachine::EM_PROTO_TLSv1_1 = T.let(T.unsafe(nil), Integer)
 
 # @private
+# @private
 EventMachine::EM_PROTO_TLSv1_2 = T.let(T.unsafe(nil), Integer)
 
 # System errnos
-#
 # @private
 #
-# source://eventmachine//lib/eventmachine.rb#90
+# pkg:gem/eventmachine#lib/eventmachine.rb:90
 EventMachine::ERRNOS = T.let(T.unsafe(nil), Hash)
 
-# source://eventmachine//lib/em/connection.rb#2
+# pkg:gem/eventmachine#lib/em/connection.rb:2
 class EventMachine::FileNotFoundException < ::Exception; end
 
 # Streams a file over a given connection. Streaming begins once the object is
@@ -3024,37 +3507,37 @@ class EventMachine::FileNotFoundException < ::Exception; end
 # Streaming uses buffering for files larger than 16K and uses so-called fast file reader (a C++ extension)
 # if available (it is part of eventmachine gem itself).
 #
-# @author Francis Cianfrocca
 # @example
 #
-#   module FileSender
-#   def post_init
-#   streamer = EventMachine::FileStreamer.new(self, '/tmp/bigfile.tar')
-#   streamer.callback{
-#   # file was sent successfully
-#   close_connection_after_writing
-#   }
-#   end
-#   end
+#  module FileSender
+#    def post_init
+#      streamer = EventMachine::FileStreamer.new(self, '/tmp/bigfile.tar')
+#      streamer.callback{
+#        # file was sent successfully
+#        close_connection_after_writing
+#      }
+#    end
+#  end
 #
-# source://eventmachine//lib/em/streamer.rb#22
+#
+# @author Francis Cianfrocca
+#
+# pkg:gem/eventmachine#lib/em/streamer.rb:22
 class EventMachine::FileStreamer
   include ::EventMachine::Deferrable
 
-  # @option args
-  # @param args [Hash] a customizable set of options
-  # @param connection [EventMachine::Connection]
-  # @param filename [String] File path
-  # @return [FileStreamer] a new instance of FileStreamer
+  # @param [EventMachine::Connection] connection
+  # @param [String] filename File path
   #
-  # source://eventmachine//lib/em/streamer.rb#36
+  # @option args [Boolean] :http_chunks (false) Use HTTP 1.1 style chunked-encoding semantics.
+  #
+  # pkg:gem/eventmachine#lib/em/streamer.rb:36
   def initialize(connection, filename, args = T.unsafe(nil)); end
 
   # Used internally to stream one chunk at a time over multiple reactor ticks
-  #
   # @private
   #
-  # source://eventmachine//lib/em/streamer.rb#77
+  # pkg:gem/eventmachine#lib/em/streamer.rb:77
   def stream_one_chunk; end
 
   private
@@ -3069,33 +3552,33 @@ class EventMachine::FileStreamer
   #
   # @private
   #
-  # source://eventmachine//lib/em/streamer.rb#112
+  # pkg:gem/eventmachine#lib/em/streamer.rb:112
   def ensure_mapping_extension_is_present; end
 
   # @private
   #
-  # source://eventmachine//lib/em/streamer.rb#66
+  # pkg:gem/eventmachine#lib/em/streamer.rb:66
   def stream_with_mapping(filename); end
 
   # @private
   #
-  # source://eventmachine//lib/em/streamer.rb#53
+  # pkg:gem/eventmachine#lib/em/streamer.rb:53
   def stream_without_mapping(filename); end
 end
 
 # Wait until next tick to send more data when 50k is still in the outgoing buffer
 #
-# source://eventmachine//lib/em/streamer.rb#28
+# pkg:gem/eventmachine#lib/em/streamer.rb:28
 EventMachine::FileStreamer::BackpressureLevel = T.let(T.unsafe(nil), Integer)
 
 # Send 16k chunks at a time
 #
-# source://eventmachine//lib/em/streamer.rb#30
+# pkg:gem/eventmachine#lib/em/streamer.rb:30
 EventMachine::FileStreamer::ChunkSize = T.let(T.unsafe(nil), Integer)
 
 # Use mapped streamer for files bigger than 16k
 #
-# source://eventmachine//lib/em/streamer.rb#26
+# pkg:gem/eventmachine#lib/em/streamer.rb:26
 EventMachine::FileStreamer::MappingThreshold = T.let(T.unsafe(nil), Integer)
 
 # Utility class that is useful for file monitoring. Supported events are
@@ -3105,47 +3588,50 @@ EventMachine::FileStreamer::MappingThreshold = T.let(T.unsafe(nil), Integer)
 # * File is moved
 #
 # @note On Mac OS X, file watching only works when kqueue is enabled
+#
 # @see EventMachine.watch_file
 #
-# source://eventmachine//lib/em/file_watch.rb#11
+# pkg:gem/eventmachine#lib/em/file_watch.rb:11
 class EventMachine::FileWatch < ::EventMachine::Connection
   # Will be called when the file is deleted. Supposed to be redefined by subclasses.
   # When the file is deleted, stop_watching will be called after this to make sure everything is
   # cleaned up correctly.
   #
-  # @abstract
   # @note On Linux (with {http://en.wikipedia.org/wiki/Inotify inotify}), this method will not be called until *all* open file descriptors to
-  #   the file have been closed.
+  #       the file have been closed.
   #
-  # source://eventmachine//lib/em/file_watch.rb#56
+  # @abstract
+  #
+  # pkg:gem/eventmachine#lib/em/file_watch.rb:56
   def file_deleted; end
 
   # Will be called when the file is modified. Supposed to be redefined by subclasses.
   #
   # @abstract
   #
-  # source://eventmachine//lib/em/file_watch.rb#45
+  # pkg:gem/eventmachine#lib/em/file_watch.rb:45
   def file_modified; end
 
   # Will be called when the file is moved or renamed. Supposed to be redefined by subclasses.
   #
   # @abstract
   #
-  # source://eventmachine//lib/em/file_watch.rb#62
+  # pkg:gem/eventmachine#lib/em/file_watch.rb:62
   def file_moved; end
 
   # Returns the path that is being monitored.
   #
   # @note Current implementation does not pick up on the new filename after a rename occurs.
+  #
   # @return [String]
   # @see EventMachine.watch_file
   #
-  # source://eventmachine//lib/em/file_watch.rb#38
+  # pkg:gem/eventmachine#lib/em/file_watch.rb:38
   def path; end
 
   # @private
   #
-  # source://eventmachine//lib/em/file_watch.rb#21
+  # pkg:gem/eventmachine#lib/em/file_watch.rb:21
   def receive_data(data); end
 
   # Discontinue monitoring of the file.
@@ -3153,25 +3639,26 @@ class EventMachine::FileWatch < ::EventMachine::Connection
   # This involves cleaning up the underlying monitoring details with kqueue/inotify, and in turn firing {EventMachine::Connection#unbind}.
   # This will be called automatically when a file is deleted. User code may call it as well.
   #
-  # source://eventmachine//lib/em/file_watch.rb#69
+  # pkg:gem/eventmachine#lib/em/file_watch.rb:69
   def stop_watching; end
 end
 
 # @private
 #
-# source://eventmachine//lib/em/file_watch.rb#15
+# pkg:gem/eventmachine#lib/em/file_watch.rb:15
 EventMachine::FileWatch::Cdeleted = T.let(T.unsafe(nil), String)
 
 # @private
 #
-# source://eventmachine//lib/em/file_watch.rb#13
+# pkg:gem/eventmachine#lib/em/file_watch.rb:13
 EventMachine::FileWatch::Cmodified = T.let(T.unsafe(nil), String)
 
 # @private
 #
-# source://eventmachine//lib/em/file_watch.rb#17
+# pkg:gem/eventmachine#lib/em/file_watch.rb:17
 EventMachine::FileWatch::Cmoved = T.let(T.unsafe(nil), String)
 
+# pkg:gem/eventmachine#lib/eventmachine.rb:8
 class EventMachine::InvalidSignature < ::RuntimeError; end
 
 # A simple iterator for concurrent asynchronous work.
@@ -3215,7 +3702,7 @@ class EventMachine::InvalidSignature < ::RuntimeError; end
 #     async_http_get(url){ iter.next }
 #   end
 #
-# source://eventmachine//lib/em/iterator.rb#43
+# pkg:gem/eventmachine#lib/em/iterator.rb:43
 class EventMachine::Iterator
   # Create a new parallel async iterator with specified concurrency.
   #
@@ -3228,21 +3715,16 @@ class EventMachine::Iterator
   # to be processed each time it is called.  If a proc is used, it must return
   # EventMachine::Iterator::Stop to signal the end of the iterations.
   #
-  # @raise [ArgumentError]
-  # @return [Iterator] a new instance of Iterator
-  #
-  # source://eventmachine//lib/em/iterator.rb#56
+  # pkg:gem/eventmachine#lib/em/iterator.rb:56
   def initialize(list, concurrency = T.unsafe(nil)); end
 
-  # Returns the value of attribute concurrency.
-  #
-  # source://eventmachine//lib/em/iterator.rb#82
+  # pkg:gem/eventmachine#lib/em/iterator.rb:82
   def concurrency; end
 
   # Change the concurrency of this iterator. Workers will automatically be spawned or destroyed
   # to accomodate the new concurrency level.
   #
-  # source://eventmachine//lib/em/iterator.rb#76
+  # pkg:gem/eventmachine#lib/em/iterator.rb:76
   def concurrency=(val); end
 
   # Iterate over a set of items using the specified block or proc.
@@ -3259,9 +3741,7 @@ class EventMachine::Iterator
   #     proc{ puts 'all done' }
   #   )
   #
-  # @raise [ArgumentError]
-  #
-  # source://eventmachine//lib/em/iterator.rb#98
+  # pkg:gem/eventmachine#lib/em/iterator.rb:98
   def each(foreach = T.unsafe(nil), after = T.unsafe(nil), &blk); end
 
   # Inject the results of an asynchronous iteration onto a given object.
@@ -3275,7 +3755,7 @@ class EventMachine::Iterator
   #     p results
   #   })
   #
-  # source://eventmachine//lib/em/iterator.rb#199
+  # pkg:gem/eventmachine#lib/em/iterator.rb:199
   def inject(obj, foreach, after); end
 
   # Collect the results of an asynchronous iteration into an array.
@@ -3288,7 +3768,7 @@ class EventMachine::Iterator
   #     p results
   #   })
   #
-  # source://eventmachine//lib/em/iterator.rb#160
+  # pkg:gem/eventmachine#lib/em/iterator.rb:160
   def map(foreach, after); end
 
   private
@@ -3296,121 +3776,117 @@ class EventMachine::Iterator
   # Return the next item from @list or @list_proc.
   # Once items have run out, will return EM::Iterator::Stop.  Procs must supply this themselves
   #
-  # source://eventmachine//lib/em/iterator.rb#240
+  # pkg:gem/eventmachine#lib/em/iterator.rb:240
   def next_item; end
 
   # Spawn workers to consume items from the iterator's enumerator based on the current concurrency level.
   #
-  # source://eventmachine//lib/em/iterator.rb#226
+  # pkg:gem/eventmachine#lib/em/iterator.rb:226
   def spawn_workers; end
 end
 
-# source://eventmachine//lib/em/iterator.rb#44
+# pkg:gem/eventmachine#lib/em/iterator.rb:44
 EventMachine::Iterator::Stop = T.let(T.unsafe(nil), String)
 
 # @private
+# @private
 EventMachine::LoopbreakSignalled = T.let(T.unsafe(nil), Integer)
 
+# pkg:gem/eventmachine#lib/eventmachine.rb:8
 class EventMachine::NoHandlerForAcceptedConnection < ::RuntimeError; end
 
-# Alias for {EventMachine::Protocols}
-#
-# source://eventmachine//lib/eventmachine.rb#1601
+# pkg:gem/eventmachine#lib/eventmachine.rb:1601
 EventMachine::P = EventMachine::Protocols
 
 # Creates a periodic timer
 #
 # @example
-#   n = 0
-#   timer = EventMachine::PeriodicTimer.new(5) do
-#   puts "the time is #{Time.now}"
-#   timer.cancel if (n+=1) > 5
-#   end
+#  n = 0
+#  timer = EventMachine::PeriodicTimer.new(5) do
+#    puts "the time is #{Time.now}"
+#    timer.cancel if (n+=1) > 5
+#  end
 #
-# source://eventmachine//lib/em/timers.rb#30
+# pkg:gem/eventmachine#lib/em/timers.rb:30
 class EventMachine::PeriodicTimer
   # Create a new periodic timer that executes every interval seconds
   #
-  # @return [PeriodicTimer] a new instance of PeriodicTimer
-  #
-  # source://eventmachine//lib/em/timers.rb#32
+  # pkg:gem/eventmachine#lib/em/timers.rb:32
   def initialize(interval, callback = T.unsafe(nil), &block); end
 
   # Cancel the periodic timer
   #
-  # source://eventmachine//lib/em/timers.rb#41
+  # pkg:gem/eventmachine#lib/em/timers.rb:41
   def cancel; end
 
   # @private
   #
-  # source://eventmachine//lib/em/timers.rb#54
+  # pkg:gem/eventmachine#lib/em/timers.rb:54
   def fire; end
 
   # Fire the timer every interval seconds
   #
-  # source://eventmachine//lib/em/timers.rb#46
+  # pkg:gem/eventmachine#lib/em/timers.rb:46
   def interval; end
 
   # Fire the timer every interval seconds
   #
-  # source://eventmachine//lib/em/timers.rb#46
+  # pkg:gem/eventmachine#lib/em/timers.rb:46
   def interval=(_arg0); end
 
   # @private
   #
-  # source://eventmachine//lib/em/timers.rb#49
+  # pkg:gem/eventmachine#lib/em/timers.rb:49
   def schedule; end
 end
 
 # A simple async resource pool based on a resource and work queue. Resources
 # are enqueued and work waits for resources to become available.
 #
-# Resources are expected to be controlled by an object responding to a
-# deferrable/completion style API with callback and errback blocks.
-#
 # @example
 #   require 'em-http-request'
 #
 #   EM.run do
-#   pool  = EM::Pool.new
-#   spawn = lambda { pool.add EM::HttpRequest.new('http://example.org') }
-#   10.times { spawn[] }
-#   done, scheduled = 0, 0
+#     pool  = EM::Pool.new
+#     spawn = lambda { pool.add EM::HttpRequest.new('http://example.org') }
+#     10.times { spawn[] }
+#     done, scheduled = 0, 0
 #
-#   check = lambda do
-#   done += 1
-#   if done >= scheduled
-#   EM.stop
+#     check = lambda do
+#       done += 1
+#       if done >= scheduled
+#         EM.stop
+#       end
+#     end
+#
+#     pool.on_error { |conn| spawn[] }
+#
+#     100.times do |i|
+#       scheduled += 1
+#       pool.perform do |conn|
+#         req = conn.get :path => '/', :keepalive => true
+#
+#         req.callback do
+#           p [:success, conn.object_id, i, req.response.size]
+#           check[]
+#         end
+#
+#         req.errback { check[] }
+#
+#         req
+#       end
+#     end
 #   end
-#   end
 #
-#   pool.on_error { |conn| spawn[] }
+# Resources are expected to be controlled by an object responding to a
+# deferrable/completion style API with callback and errback blocks.
 #
-#   100.times do |i|
-#   scheduled += 1
-#   pool.perform do |conn|
-#   req = conn.get :path => '/', :keepalive => true
-#
-#   req.callback do
-#   p [:success, conn.object_id, i, req.response.size]
-#   check[]
-#   end
-#
-#   req.errback { check[] }
-#
-#   req
-#   end
-#   end
-#   end
-#
-# source://eventmachine//lib/em/pool.rb#43
+# pkg:gem/eventmachine#lib/em/pool.rb:43
 class EventMachine::Pool
-  # @return [Pool] a new instance of Pool
-  #
-  # source://eventmachine//lib/em/pool.rb#45
+  # pkg:gem/eventmachine#lib/em/pool.rb:45
   def initialize; end
 
-  # source://eventmachine//lib/em/pool.rb#52
+  # pkg:gem/eventmachine#lib/em/pool.rb:52
   def add(resource); end
 
   # Returns a list for introspection purposes only. You should *NEVER* call
@@ -3421,12 +3897,12 @@ class EventMachine::Pool
   # @example
   #   pool.contents.inject(0) { |sum, connection| connection.num_bytes }
   #
-  # source://eventmachine//lib/em/pool.rb#69
+  # pkg:gem/eventmachine#lib/em/pool.rb:69
   def contents; end
 
   # A peek at the number of enqueued jobs waiting for resources
   #
-  # source://eventmachine//lib/em/pool.rb#107
+  # pkg:gem/eventmachine#lib/em/pool.rb:107
   def num_waiting; end
 
   # Define a default catch-all for when the deferrables returned by work
@@ -3436,7 +3912,7 @@ class EventMachine::Pool
   # In other words, it is generally assumed that on_error blocks explicitly
   # handle the rest of the lifetime of the resource.
   #
-  # source://eventmachine//lib/em/pool.rb#79
+  # pkg:gem/eventmachine#lib/em/pool.rb:79
   def on_error(*a, &b); end
 
   # Perform a given #call-able object or block. The callable object will be
@@ -3449,93 +3925,81 @@ class EventMachine::Pool
   # If on_error is defined, then objects are not automatically returned to the
   # pool.
   #
-  # source://eventmachine//lib/em/pool.rb#92
+  # pkg:gem/eventmachine#lib/em/pool.rb:92
   def perform(*a, &b); end
 
-  # source://eventmachine//lib/em/pool.rb#57
+  # pkg:gem/eventmachine#lib/em/pool.rb:57
   def remove(resource); end
 
   # Removed will show resources in a partial pruned state. Resources in the
   # removed list may not appear in the contents list if they are currently in
   # use.
   #
-  # @return [Boolean]
-  #
-  # source://eventmachine//lib/em/pool.rb#114
+  # pkg:gem/eventmachine#lib/em/pool.rb:114
   def removed?(resource); end
 
-  # Perform a given #call-able object or block. The callable object will be
-  # called with a resource from the pool as soon as one is available, and is
-  # expected to return a deferrable.
-  #
-  # The deferrable will have callback and errback added such that when the
-  # deferrable enters a finished state, the object is returned to the pool.
-  #
-  # If on_error is defined, then objects are not automatically returned to the
-  # pool.
-  #
-  # source://eventmachine//lib/em/pool.rb#104
+  # pkg:gem/eventmachine#lib/em/pool.rb:104
   def reschedule(*a, &b); end
 
   protected
 
-  # source://eventmachine//lib/em/pool.rb#134
+  # pkg:gem/eventmachine#lib/em/pool.rb:134
   def completion(deferrable, resource); end
 
-  # source://eventmachine//lib/em/pool.rb#123
+  # pkg:gem/eventmachine#lib/em/pool.rb:123
   def failure(resource); end
 
-  # source://eventmachine//lib/em/pool.rb#139
+  # pkg:gem/eventmachine#lib/em/pool.rb:139
   def process(work, resource); end
 
-  # source://eventmachine//lib/em/pool.rb#119
+  # pkg:gem/eventmachine#lib/em/pool.rb:119
   def requeue(resource); end
 end
 
 # This is subclassed from EventMachine::Connection for use with the process monitoring API. Read the
 # documentation on the instance methods of this class, and for a full explanation see EventMachine.watch_process.
 #
-# source://eventmachine//lib/em/process_watch.rb#5
+# pkg:gem/eventmachine#lib/em/process_watch.rb:5
 class EventMachine::ProcessWatch < ::EventMachine::Connection
   # Returns the pid that EventMachine::watch_process was originally called with.
   #
-  # source://eventmachine//lib/em/process_watch.rb#22
+  # pkg:gem/eventmachine#lib/em/process_watch.rb:22
   def pid; end
 
   # Should be redefined with the user's custom callback that will be fired when the process exits.
   #
   # stop_watching is called automatically after this callback
   #
-  # source://eventmachine//lib/em/process_watch.rb#35
+  # pkg:gem/eventmachine#lib/em/process_watch.rb:35
   def process_exited; end
 
   # Should be redefined with the user's custom callback that will be fired when the prcess is forked.
   #
   # There is currently not an easy way to get the pid of the forked child.
   #
-  # source://eventmachine//lib/em/process_watch.rb#29
+  # pkg:gem/eventmachine#lib/em/process_watch.rb:29
   def process_forked; end
 
   # @private
   #
-  # source://eventmachine//lib/em/process_watch.rb#12
+  # pkg:gem/eventmachine#lib/em/process_watch.rb:12
   def receive_data(data); end
 
   # Discontinue monitoring of the process.
   # This will be called automatically when a process dies. User code may call it as well.
   #
-  # source://eventmachine//lib/em/process_watch.rb#40
+  # pkg:gem/eventmachine#lib/em/process_watch.rb:40
   def stop_watching; end
 end
 
 # @private
 #
-# source://eventmachine//lib/em/process_watch.rb#9
+# pkg:gem/eventmachine#lib/em/process_watch.rb:9
 EventMachine::ProcessWatch::Cexit = T.let(T.unsafe(nil), String)
 
 # @private
 #
-# source://eventmachine//lib/em/process_watch.rb#7
+# pkg:gem/eventmachine#lib/em/process_watch.rb:7
 EventMachine::ProcessWatch::Cfork = T.let(T.unsafe(nil), String)
 
 # This module contains various protocol implementations, including:
@@ -3554,7 +4018,7 @@ EventMachine::ProcessWatch::Cfork = T.let(T.unsafe(nil), String)
 #
 # EventMachine::Protocols is also aliased to EM::P for easier usage.
 #
-# source://eventmachine//lib/em/protocols.rb#18
+# pkg:gem/eventmachine#lib/em/protocols.rb:18
 module EventMachine::Protocols; end
 
 # === Usage
@@ -3575,46 +4039,58 @@ module EventMachine::Protocols; end
 # handle the transitions between lines and binary text.
 # Changed 13Sep08 by FCianfrocca.
 #
-# source://eventmachine//lib/em/protocols/header_and_content.rb#46
+# pkg:gem/eventmachine#lib/em/protocols/header_and_content.rb:46
 class EventMachine::Protocols::HeaderAndContentProtocol < ::EventMachine::Connection
   include ::EventMachine::Protocols::LineText2
 
-  # @return [HeaderAndContentProtocol] a new instance of HeaderAndContentProtocol
-  #
-  # source://eventmachine//lib/em/protocols/header_and_content.rb#51
+  # pkg:gem/eventmachine#lib/em/protocols/header_and_content.rb:51
   def initialize(*args); end
 
   # Basically a convenience method. We might create a subclass that does this
   # automatically. But it's such a performance killer.
   #
-  # source://eventmachine//lib/em/protocols/header_and_content.rb#119
+  # pkg:gem/eventmachine#lib/em/protocols/header_and_content.rb:119
   def headers_2_hash(hdrs); end
 
-  # source://eventmachine//lib/em/protocols/header_and_content.rb#92
+  # pkg:gem/eventmachine#lib/em/protocols/header_and_content.rb:92
   def receive_binary_data(text); end
 
-  # source://eventmachine//lib/em/protocols/header_and_content.rb#56
+  # pkg:gem/eventmachine#lib/em/protocols/header_and_content.rb:56
   def receive_line(line); end
 
   private
 
-  # source://eventmachine//lib/em/protocols/header_and_content.rb#97
+  # pkg:gem/eventmachine#lib/em/protocols/header_and_content.rb:97
   def dispatch_request; end
 
-  # source://eventmachine//lib/em/protocols/header_and_content.rb#105
+  # pkg:gem/eventmachine#lib/em/protocols/header_and_content.rb:105
   def init_for_request; end
 
   class << self
-    # source://eventmachine//lib/em/protocols/header_and_content.rb#124
+    # pkg:gem/eventmachine#lib/em/protocols/header_and_content.rb:124
     def headers_2_hash(hdrs); end
   end
 end
 
-# source://eventmachine//lib/em/protocols/header_and_content.rb#49
+# pkg:gem/eventmachine#lib/em/protocols/header_and_content.rb:49
 EventMachine::Protocols::HeaderAndContentProtocol::ContentLengthPattern = T.let(T.unsafe(nil), Regexp)
 
 # <b>Note:</b> This class is deprecated and will be removed. Please use EM-HTTP-Request instead.
 #
+# @example
+#  EventMachine.run {
+#    http = EventMachine::Protocols::HttpClient.request(
+#      :host => server,
+#      :port => 80,
+#      :request => "/index.html",
+#      :query_string => "parm1=value1&parm2=value2"
+#    )
+#    http.callback {|response|
+#      puts response[:status]
+#      puts response[:headers]
+#      puts response[:content]
+#    }
+#  }
 # --
 # TODO:
 # Add streaming so we can support enormous POSTs. Current max is 20meg.
@@ -3629,28 +4105,11 @@ EventMachine::Protocols::HeaderAndContentProtocol::ContentLengthPattern = T.let(
 # Refactor this code so that protocol errors all get handled one way (an exception?),
 # instead of sprinkling set_deferred_status :failed calls everywhere.
 #
-# @example
-#   EventMachine.run {
-#   http = EventMachine::Protocols::HttpClient.request(
-#   :host => server,
-#   :port => 80,
-#   :request => "/index.html",
-#   :query_string => "parm1=value1&parm2=value2"
-#   )
-#   http.callback {|response|
-#   puts response[:status]
-#   puts response[:headers]
-#   puts response[:content]
-#   }
-#   }
-#
-# source://eventmachine//lib/em/protocols/httpclient.rb#58
+# pkg:gem/eventmachine#lib/em/protocols/httpclient.rb:58
 class EventMachine::Protocols::HttpClient < ::EventMachine::Connection
   include ::EventMachine::Deferrable
 
-  # @return [HttpClient] a new instance of HttpClient
-  #
-  # source://eventmachine//lib/em/protocols/httpclient.rb#63
+  # pkg:gem/eventmachine#lib/em/protocols/httpclient.rb:63
   def initialize; end
 
   # We send the request when we get a connection.
@@ -3659,22 +4118,22 @@ class EventMachine::Protocols::HttpClient < ::EventMachine::Connection
   # NB: This naive technique won't work when we have to support multiple
   # requests on a single connection.
   #
-  # source://eventmachine//lib/em/protocols/httpclient.rb#98
+  # pkg:gem/eventmachine#lib/em/protocols/httpclient.rb:98
   def connection_completed; end
 
-  # source://eventmachine//lib/em/protocols/httpclient.rb#280
+  # pkg:gem/eventmachine#lib/em/protocols/httpclient.rb:280
   def dispatch_response; end
 
-  # source://eventmachine//lib/em/protocols/httpclient.rb#87
+  # pkg:gem/eventmachine#lib/em/protocols/httpclient.rb:87
   def post_init; end
 
-  # source://eventmachine//lib/em/protocols/httpclient.rb#175
+  # pkg:gem/eventmachine#lib/em/protocols/httpclient.rb:175
   def receive_data(data); end
 
-  # source://eventmachine//lib/em/protocols/httpclient.rb#103
+  # pkg:gem/eventmachine#lib/em/protocols/httpclient.rb:103
   def send_request(args); end
 
-  # source://eventmachine//lib/em/protocols/httpclient.rb#291
+  # pkg:gem/eventmachine#lib/em/protocols/httpclient.rb:291
   def unbind; end
 
   private
@@ -3683,23 +4142,23 @@ class EventMachine::Protocols::HttpClient < ::EventMachine::Connection
   # It's an opportunity to throw an exception or trigger other exceptional
   # handling.
   #
-  # source://eventmachine//lib/em/protocols/httpclient.rb#268
+  # pkg:gem/eventmachine#lib/em/protocols/httpclient.rb:268
   def parse_response_line; end
 
   class << self
-    # @option args
-    # @option args
-    # @option args
-    # @option args
-    # @option args
-    # @option args
-    # @option args
-    # @option args
-    # @option args
-    # @option args
     # @param args [Hash] The request arguments
+    # @option args [String] :host The host IP/DNS name
+    # @option args [Integer] :port The port to connect too
+    # @option args [String] :verb The request type [GET | POST | DELETE | PUT]
+    # @option args [String] :request The request path
+    # @option args [Hash] :basic_auth The basic auth credentials (:username and :password)
+    # @option args [String] :content The request content
+    # @option args [String] :contenttype The content type (e.g. text/plain)
+    # @option args [String] :query_string The query string
+    # @option args [String] :host_header The host header to set
+    # @option args [String] :cookie Cookies to set
     #
-    # source://eventmachine//lib/em/protocols/httpclient.rb#79
+    # pkg:gem/eventmachine#lib/em/protocols/httpclient.rb:79
     def request(args = T.unsafe(nil)); end
   end
 end
@@ -3719,18 +4178,16 @@ end
 #    }
 #  }
 #
-# source://eventmachine//lib/em/protocols/httpclient2.rb#43
+# pkg:gem/eventmachine#lib/em/protocols/httpclient2.rb:43
 class EventMachine::Protocols::HttpClient2 < ::EventMachine::Connection
   include ::EventMachine::Protocols::LineText2
 
-  # @return [HttpClient2] a new instance of HttpClient2
-  #
-  # source://eventmachine//lib/em/protocols/httpclient2.rb#46
+  # pkg:gem/eventmachine#lib/em/protocols/httpclient2.rb:46
   def initialize; end
 
   # @private
   #
-  # source://eventmachine//lib/em/protocols/httpclient2.rb#309
+  # pkg:gem/eventmachine#lib/em/protocols/httpclient2.rb:309
   def connection_completed; end
 
   # Get a url
@@ -3738,7 +4195,7 @@ class EventMachine::Protocols::HttpClient2 < ::EventMachine::Connection
   #  req = conn.get(:uri => '/')
   #  req.callback{|response| puts response.content }
   #
-  # source://eventmachine//lib/em/protocols/httpclient2.rb#265
+  # pkg:gem/eventmachine#lib/em/protocols/httpclient2.rb:265
   def get(args); end
 
   # --
@@ -3746,7 +4203,7 @@ class EventMachine::Protocols::HttpClient2 < ::EventMachine::Connection
   #
   # @private
   #
-  # source://eventmachine//lib/em/protocols/httpclient2.rb#366
+  # pkg:gem/eventmachine#lib/em/protocols/httpclient2.rb:366
   def pop_request; end
 
   # Post to a url
@@ -3756,27 +4213,27 @@ class EventMachine::Protocols::HttpClient2 < ::EventMachine::Connection
   # --
   # XXX there's no way to supply a POST body.. wtf?
   #
-  # source://eventmachine//lib/em/protocols/httpclient2.rb#279
+  # pkg:gem/eventmachine#lib/em/protocols/httpclient2.rb:279
   def post(args); end
 
   # @private
   #
-  # source://eventmachine//lib/em/protocols/httpclient2.rb#303
+  # pkg:gem/eventmachine#lib/em/protocols/httpclient2.rb:303
   def post_init; end
 
   # @private
   #
-  # source://eventmachine//lib/em/protocols/httpclient2.rb#358
+  # pkg:gem/eventmachine#lib/em/protocols/httpclient2.rb:358
   def receive_binary_data(text); end
 
   # @private
   #
-  # source://eventmachine//lib/em/protocols/httpclient2.rb#348
+  # pkg:gem/eventmachine#lib/em/protocols/httpclient2.rb:348
   def receive_line(ln); end
 
   # @private
   #
-  # source://eventmachine//lib/em/protocols/httpclient2.rb#334
+  # pkg:gem/eventmachine#lib/em/protocols/httpclient2.rb:334
   def request(args); end
 
   # --
@@ -3785,7 +4242,7 @@ class EventMachine::Protocols::HttpClient2 < ::EventMachine::Connection
   #
   # @private
   #
-  # source://eventmachine//lib/em/protocols/httpclient2.rb#293
+  # pkg:gem/eventmachine#lib/em/protocols/httpclient2.rb:293
   def set_default_host_header(host, port, ssl); end
 
   # --
@@ -3802,7 +4259,7 @@ class EventMachine::Protocols::HttpClient2 < ::EventMachine::Connection
   #
   # @private
   #
-  # source://eventmachine//lib/em/protocols/httpclient2.rb#327
+  # pkg:gem/eventmachine#lib/em/protocols/httpclient2.rb:327
   def unbind; end
 
   class << self
@@ -3814,107 +4271,93 @@ class EventMachine::Protocols::HttpClient2 < ::EventMachine::Connection
     #  :port => a port number
     #  :ssl => true to enable ssl
     #
-    # source://eventmachine//lib/em/protocols/httpclient2.rb#246
+    # pkg:gem/eventmachine#lib/em/protocols/httpclient2.rb:246
     def connect(*args); end
   end
 end
 
 # @private
 #
-# source://eventmachine//lib/em/protocols/httpclient2.rb#55
+# pkg:gem/eventmachine#lib/em/protocols/httpclient2.rb:55
 class EventMachine::Protocols::HttpClient2::Request
   include ::EventMachine::Deferrable
 
-  # @return [Request] a new instance of Request
-  #
-  # source://eventmachine//lib/em/protocols/httpclient2.rb#65
+  # pkg:gem/eventmachine#lib/em/protocols/httpclient2.rb:65
   def initialize(conn, args); end
 
-  # Returns the value of attribute content.
-  #
-  # source://eventmachine//lib/em/protocols/httpclient2.rb#62
+  # pkg:gem/eventmachine#lib/em/protocols/httpclient2.rb:62
   def content; end
 
-  # Returns the value of attribute header_lines.
-  #
-  # source://eventmachine//lib/em/protocols/httpclient2.rb#60
+  # pkg:gem/eventmachine#lib/em/protocols/httpclient2.rb:60
   def header_lines; end
 
-  # Returns the value of attribute headers.
-  #
-  # source://eventmachine//lib/em/protocols/httpclient2.rb#61
+  # pkg:gem/eventmachine#lib/em/protocols/httpclient2.rb:61
   def headers; end
 
-  # Returns the value of attribute internal_error.
-  #
-  # source://eventmachine//lib/em/protocols/httpclient2.rb#63
+  # pkg:gem/eventmachine#lib/em/protocols/httpclient2.rb:63
   def internal_error; end
 
   # --
   # Cf RFC 2616 pgh 3.6.1 for the format of HTTP chunks.
   #
-  # source://eventmachine//lib/em/protocols/httpclient2.rb#137
+  # pkg:gem/eventmachine#lib/em/protocols/httpclient2.rb:137
   def receive_chunk_header(ln); end
 
   # --
   #
-  # source://eventmachine//lib/em/protocols/httpclient2.rb#102
+  # pkg:gem/eventmachine#lib/em/protocols/httpclient2.rb:102
   def receive_chunk_trailer(ln); end
 
   # --
   # We get a single chunk. Append it to the incoming content and switch back to line mode.
   #
-  # source://eventmachine//lib/em/protocols/httpclient2.rb#157
+  # pkg:gem/eventmachine#lib/em/protocols/httpclient2.rb:157
   def receive_chunked_text(text); end
 
   # --
   # Allow up to ten blank lines before we get a real response line.
   # Allow no more than 100 lines in the header.
   #
-  # source://eventmachine//lib/em/protocols/httpclient2.rb#115
+  # pkg:gem/eventmachine#lib/em/protocols/httpclient2.rb:115
   def receive_header_line(ln); end
 
   # --
   #
-  # source://eventmachine//lib/em/protocols/httpclient2.rb#90
+  # pkg:gem/eventmachine#lib/em/protocols/httpclient2.rb:90
   def receive_line(ln); end
 
   # --
   # At the present time, we only handle contents that have a length
   # specified by the content-length header.
   #
-  # source://eventmachine//lib/em/protocols/httpclient2.rb#232
+  # pkg:gem/eventmachine#lib/em/protocols/httpclient2.rb:232
   def receive_sized_text(text); end
 
-  # source://eventmachine//lib/em/protocols/httpclient2.rb#224
+  # pkg:gem/eventmachine#lib/em/protocols/httpclient2.rb:224
   def receive_text(text); end
 
-  # source://eventmachine//lib/em/protocols/httpclient2.rb#75
+  # pkg:gem/eventmachine#lib/em/protocols/httpclient2.rb:75
   def send_request; end
 
-  # Returns the value of attribute status.
-  #
-  # source://eventmachine//lib/em/protocols/httpclient2.rb#59
+  # pkg:gem/eventmachine#lib/em/protocols/httpclient2.rb:59
   def status; end
 
-  # Returns the value of attribute version.
-  #
-  # source://eventmachine//lib/em/protocols/httpclient2.rb#58
+  # pkg:gem/eventmachine#lib/em/protocols/httpclient2.rb:58
   def version; end
 
   private
 
-  # source://eventmachine//lib/em/protocols/httpclient2.rb#173
+  # pkg:gem/eventmachine#lib/em/protocols/httpclient2.rb:173
   def process_header; end
 end
 
-# source://eventmachine//lib/em/protocols/httpclient2.rb#170
+# pkg:gem/eventmachine#lib/em/protocols/httpclient2.rb:170
 EventMachine::Protocols::HttpClient2::Request::ChunkedRE = T.let(T.unsafe(nil), Regexp)
 
-# source://eventmachine//lib/em/protocols/httpclient2.rb#169
+# pkg:gem/eventmachine#lib/em/protocols/httpclient2.rb:169
 EventMachine::Protocols::HttpClient2::Request::ClenRE = T.let(T.unsafe(nil), Regexp)
 
-# source://eventmachine//lib/em/protocols/httpclient2.rb#171
+# pkg:gem/eventmachine#lib/em/protocols/httpclient2.rb:171
 EventMachine::Protocols::HttpClient2::Request::ColonRE = T.let(T.unsafe(nil), Regexp)
 
 # --
@@ -3922,10 +4365,10 @@ EventMachine::Protocols::HttpClient2::Request::ColonRE = T.let(T.unsafe(nil), Re
 # make sure we don't have problems in detecting chunked-encoding, content-length,
 # etc.
 #
-# source://eventmachine//lib/em/protocols/httpclient2.rb#168
+# pkg:gem/eventmachine#lib/em/protocols/httpclient2.rb:168
 EventMachine::Protocols::HttpClient2::Request::HttpResponseRE = T.let(T.unsafe(nil), Regexp)
 
-# source://eventmachine//lib/em/protocols/httpclient.rb#61
+# pkg:gem/eventmachine#lib/em/protocols/httpclient.rb:61
 EventMachine::Protocols::HttpClient::MaxPostContentLength = T.let(T.unsafe(nil), Integer)
 
 # A protocol that handles line-oriented data with interspersed binary text.
@@ -3934,14 +4377,12 @@ EventMachine::Protocols::HttpClient::MaxPostContentLength = T.let(T.unsafe(nil),
 # for a version which is optimized for correctness with regard to binary text blocks
 # that can switch back to line mode.
 #
-# source://eventmachine//lib/em/protocols/line_and_text.rb#34
+# pkg:gem/eventmachine#lib/em/protocols/line_and_text.rb:34
 class EventMachine::Protocols::LineAndTextProtocol < ::EventMachine::Connection
-  # @return [LineAndTextProtocol] a new instance of LineAndTextProtocol
-  #
-  # source://eventmachine//lib/em/protocols/line_and_text.rb#37
+  # pkg:gem/eventmachine#lib/em/protocols/line_and_text.rb:37
   def initialize(*args); end
 
-  # source://eventmachine//lib/em/protocols/line_and_text.rb#42
+  # pkg:gem/eventmachine#lib/em/protocols/line_and_text.rb:42
   def receive_data(data); end
 
   # Set up to read the supplied number of binary bytes.
@@ -3954,10 +4395,10 @@ class EventMachine::Protocols::LineAndTextProtocol < ::EventMachine::Connection
   # Specifying nil for the limit (the default) means there is no limit.
   # Specifiyng zero for the limit will cause an immediate transition back to line mode.
   #
-  # source://eventmachine//lib/em/protocols/line_and_text.rb#95
+  # pkg:gem/eventmachine#lib/em/protocols/line_and_text.rb:95
   def set_binary_mode(size = T.unsafe(nil)); end
 
-  # source://eventmachine//lib/em/protocols/line_and_text.rb#77
+  # pkg:gem/eventmachine#lib/em/protocols/line_and_text.rb:77
   def unbind; end
 
   private
@@ -3965,11 +4406,11 @@ class EventMachine::Protocols::LineAndTextProtocol < ::EventMachine::Connection
   # --
   # For internal use, establish protocol baseline for handling lines.
   #
-  # source://eventmachine//lib/em/protocols/line_and_text.rb#118
+  # pkg:gem/eventmachine#lib/em/protocols/line_and_text.rb:118
   def lbp_init_line_state; end
 end
 
-# source://eventmachine//lib/em/protocols/line_and_text.rb#35
+# pkg:gem/eventmachine#lib/em/protocols/line_and_text.rb:35
 EventMachine::Protocols::LineAndTextProtocol::MaxBinaryLength = T.let(T.unsafe(nil), Integer)
 
 # LineProtocol will parse out newline terminated strings from a receive_data stream
@@ -3982,16 +4423,16 @@ EventMachine::Protocols::LineAndTextProtocol::MaxBinaryLength = T.let(T.unsafe(n
 #    end
 #  end
 #
-# source://eventmachine//lib/em/protocols/line_protocol.rb#13
+# pkg:gem/eventmachine#lib/em/protocols/line_protocol.rb:13
 module EventMachine::Protocols::LineProtocol
   # @private
   #
-  # source://eventmachine//lib/em/protocols/line_protocol.rb#15
+  # pkg:gem/eventmachine#lib/em/protocols/line_protocol.rb:15
   def receive_data(data); end
 
   # Invoked with lines received over the network
   #
-  # source://eventmachine//lib/em/protocols/line_protocol.rb#24
+  # pkg:gem/eventmachine#lib/em/protocols/line_protocol.rb:24
   def receive_line(line); end
 end
 
@@ -4003,11 +4444,11 @@ end
 # permits the line-delimiter to change in midstream.
 # This was originally written to support Stomp.
 #
-# source://eventmachine//lib/em/protocols/linetext2.rb#35
+# pkg:gem/eventmachine#lib/em/protocols/linetext2.rb:35
 module EventMachine::Protocols::LineText2
   # Stub. Should be subclassed by user code.
   #
-  # source://eventmachine//lib/em/protocols/linetext2.rb#166
+  # pkg:gem/eventmachine#lib/em/protocols/linetext2.rb:166
   def receive_binary_data(data); end
 
   # --
@@ -4015,7 +4456,7 @@ module EventMachine::Protocols::LineText2
   # That way the user-defined handlers we call can modify the
   # handling characteristics on a per-token basis.
   #
-  # source://eventmachine//lib/em/protocols/linetext2.rb#47
+  # pkg:gem/eventmachine#lib/em/protocols/linetext2.rb:47
   def receive_data(data); end
 
   # Stub. Should be subclassed by user code.
@@ -4023,24 +4464,24 @@ module EventMachine::Protocols::LineText2
   # back to line mode. Useful when client code doesn't want
   # to keep track of how much data it's received.
   #
-  # source://eventmachine//lib/em/protocols/linetext2.rb#174
+  # pkg:gem/eventmachine#lib/em/protocols/linetext2.rb:174
   def receive_end_of_binary_data; end
 
   # Stub. Should be subclassed by user code.
   #
-  # source://eventmachine//lib/em/protocols/linetext2.rb#161
+  # pkg:gem/eventmachine#lib/em/protocols/linetext2.rb:161
   def receive_line(ln); end
 
   # Alias for #set_text_mode, added for back-compatibility with LineAndTextProtocol.
   #
-  # source://eventmachine//lib/em/protocols/linetext2.rb#146
+  # pkg:gem/eventmachine#lib/em/protocols/linetext2.rb:146
   def set_binary_mode(size = T.unsafe(nil)); end
 
   # The line delimiter may be a regular expression or a string.  Anything
   # passed to set_delimiter other than a regular expression will be
   # converted to a string.
   #
-  # source://eventmachine//lib/em/protocols/linetext2.rb#114
+  # pkg:gem/eventmachine#lib/em/protocols/linetext2.rb:114
   def set_delimiter(delim); end
 
   # Called internally but also exposed to user code, for the case in which
@@ -4049,17 +4490,17 @@ module EventMachine::Protocols::LineText2
   # be an umprocessed chunk of the transmitted binary data, or something else
   # entirely.
   #
-  # source://eventmachine//lib/em/protocols/linetext2.rb#128
+  # pkg:gem/eventmachine#lib/em/protocols/linetext2.rb:128
   def set_line_mode(data = T.unsafe(nil)); end
 
-  # source://eventmachine//lib/em/protocols/linetext2.rb#134
+  # pkg:gem/eventmachine#lib/em/protocols/linetext2.rb:134
   def set_text_mode(size = T.unsafe(nil)); end
 
   # In case of a dropped connection, we'll send a partial buffer to user code
   # when in sized text mode. User overrides of #receive_binary_data need to
   # be aware that they may get a short buffer.
   #
-  # source://eventmachine//lib/em/protocols/linetext2.rb#153
+  # pkg:gem/eventmachine#lib/em/protocols/linetext2.rb:153
   def unbind; end
 end
 
@@ -4067,7 +4508,7 @@ end
 # When we get around to that, call #receive_error if the user defined it, otherwise
 # throw exceptions.
 #
-# source://eventmachine//lib/em/protocols/linetext2.rb#40
+# pkg:gem/eventmachine#lib/em/protocols/linetext2.rb:40
 EventMachine::Protocols::LineText2::MaxBinaryLength = T.let(T.unsafe(nil), Integer)
 
 # Implements the Memcache protocol (http://code.sixapart.com/svn/memcached/trunk/server/doc/protocol.txt).
@@ -4096,26 +4537,21 @@ EventMachine::Protocols::LineText2::MaxBinaryLength = T.let(T.unsafe(nil), Integ
 #     cache.get(:missing){ |m| p [:missing=, m] }
 #   }
 #
-# source://eventmachine//lib/em/protocols/memcache.rb#29
+# pkg:gem/eventmachine#lib/em/protocols/memcache.rb:29
 module EventMachine::Protocols::Memcache
   include ::EventMachine::Deferrable
 
   # @private
   #
-  # source://eventmachine//lib/em/protocols/memcache.rb#134
+  # pkg:gem/eventmachine#lib/em/protocols/memcache.rb:134
   def initialize(host, port = T.unsafe(nil)); end
 
   # @private
   #
-  # source://eventmachine//lib/em/protocols/memcache.rb#139
+  # pkg:gem/eventmachine#lib/em/protocols/memcache.rb:139
   def connection_completed; end
 
-  # Delete the value associated with a key
-  #
-  #  cache.del :a
-  #  cache.del(:b){ puts "deleted the value!" }
-  #
-  # source://eventmachine//lib/em/protocols/memcache.rb#111
+  # pkg:gem/eventmachine#lib/em/protocols/memcache.rb:111
   def del(key, expires = T.unsafe(nil), &cb); end
 
   # Delete the value associated with a key
@@ -4123,7 +4559,7 @@ module EventMachine::Protocols::Memcache
   #  cache.del :a
   #  cache.del(:b){ puts "deleted the value!" }
   #
-  # source://eventmachine//lib/em/protocols/memcache.rb#105
+  # pkg:gem/eventmachine#lib/em/protocols/memcache.rb:105
   def delete(key, expires = T.unsafe(nil), &cb); end
 
   # Get the value associated with one or multiple keys
@@ -4131,36 +4567,30 @@ module EventMachine::Protocols::Memcache
   #  cache.get(:a){ |v| p v }
   #  cache.get(:a,:b,:c,:d){ |a,b,c,d| p [a,b,c,d] }
   #
-  # @raise [ArgumentError]
-  #
-  # source://eventmachine//lib/em/protocols/memcache.rb#61
+  # pkg:gem/eventmachine#lib/em/protocols/memcache.rb:61
   def get(*keys); end
 
   # Gets multiple values as a hash
   #
   #  cache.get_hash(:a, :b, :c, :d){ |h| puts h[:a] }
   #
-  # @raise [ArgumentError]
-  #
-  # source://eventmachine//lib/em/protocols/memcache.rb#92
+  # pkg:gem/eventmachine#lib/em/protocols/memcache.rb:92
   def get_hash(*keys); end
 
   # --
   # def receive_line line
-  #
   # @private
   #
-  # source://eventmachine//lib/em/protocols/memcache.rb#175
+  # pkg:gem/eventmachine#lib/em/protocols/memcache.rb:175
   def process_cmd(line); end
 
   # --
   # 19Feb09 Switched to a custom parser, LineText2 is recursive and can cause
   #         stack overflows when there is too much data.
   # include EM::P::LineText2
-  #
   # @private
   #
-  # source://eventmachine//lib/em/protocols/memcache.rb#158
+  # pkg:gem/eventmachine#lib/em/protocols/memcache.rb:158
   def receive_data(data); end
 
   # Set the value for a given key
@@ -4168,65 +4598,65 @@ module EventMachine::Protocols::Memcache
   #  cache.set :a, 'hello'
   #  cache.set(:missing, 'abc'){ puts "stored the value!" }
   #
-  # source://eventmachine//lib/em/protocols/memcache.rb#78
+  # pkg:gem/eventmachine#lib/em/protocols/memcache.rb:78
   def set(key, val, exptime = T.unsafe(nil), &cb); end
 
   # @private
   #
-  # source://eventmachine//lib/em/protocols/memcache.rb#221
+  # pkg:gem/eventmachine#lib/em/protocols/memcache.rb:221
   def unbind; end
 
   private
 
-  # source://eventmachine//lib/em/protocols/memcache.rb#118
+  # pkg:gem/eventmachine#lib/em/protocols/memcache.rb:118
   def send_cmd(cmd, key, flags = T.unsafe(nil), exptime = T.unsafe(nil), bytes = T.unsafe(nil), noreply = T.unsafe(nil)); end
 
   class << self
     # Connect to a memcached server (must support NOREPLY, memcached >= 1.2.4)
     #
-    # source://eventmachine//lib/em/protocols/memcache.rb#114
+    # pkg:gem/eventmachine#lib/em/protocols/memcache.rb:114
     def connect(host = T.unsafe(nil), port = T.unsafe(nil)); end
   end
 end
 
 # @private
 #
-# source://eventmachine//lib/em/protocols/memcache.rb#41
+# pkg:gem/eventmachine#lib/em/protocols/memcache.rb:41
 EventMachine::Protocols::Memcache::Cdeleted = T.let(T.unsafe(nil), String)
 
 # @private
 #
-# source://eventmachine//lib/em/protocols/memcache.rb#50
+# pkg:gem/eventmachine#lib/em/protocols/memcache.rb:50
 EventMachine::Protocols::Memcache::Cdelimiter = T.let(T.unsafe(nil), String)
 
 # @private
 #
-# source://eventmachine//lib/em/protocols/memcache.rb#48
+# pkg:gem/eventmachine#lib/em/protocols/memcache.rb:48
 EventMachine::Protocols::Memcache::Cempty = T.let(T.unsafe(nil), String)
 
 # @private
 #
-# source://eventmachine//lib/em/protocols/memcache.rb#39
+# pkg:gem/eventmachine#lib/em/protocols/memcache.rb:39
 EventMachine::Protocols::Memcache::Cend = T.let(T.unsafe(nil), String)
 
 # @private
 #
-# source://eventmachine//lib/em/protocols/memcache.rb#45
+# pkg:gem/eventmachine#lib/em/protocols/memcache.rb:45
 EventMachine::Protocols::Memcache::Cerror = T.let(T.unsafe(nil), String)
 
 # @private
 #
-# source://eventmachine//lib/em/protocols/memcache.rb#37
+# pkg:gem/eventmachine#lib/em/protocols/memcache.rb:37
 EventMachine::Protocols::Memcache::Cstored = T.let(T.unsafe(nil), String)
 
 # @private
 #
-# source://eventmachine//lib/em/protocols/memcache.rb#43
+# pkg:gem/eventmachine#lib/em/protocols/memcache.rb:43
 EventMachine::Protocols::Memcache::Cunknown = T.let(T.unsafe(nil), String)
 
 # @private
 #
-# source://eventmachine//lib/em/protocols/memcache.rb#127
+# pkg:gem/eventmachine#lib/em/protocols/memcache.rb:127
 class EventMachine::Protocols::Memcache::ParserError < ::StandardError; end
 
 # ObjectProtocol allows for easy communication using marshaled ruby objects
@@ -4239,27 +4669,27 @@ class EventMachine::Protocols::Memcache::ParserError < ::StandardError; end
 #    end
 #  end
 #
-# source://eventmachine//lib/em/protocols/object_protocol.rb#13
+# pkg:gem/eventmachine#lib/em/protocols/object_protocol.rb:13
 module EventMachine::Protocols::ObjectProtocol
   # @private
   #
-  # source://eventmachine//lib/em/protocols/object_protocol.rb#21
+  # pkg:gem/eventmachine#lib/em/protocols/object_protocol.rb:21
   def receive_data(data); end
 
   # Invoked with ruby objects received over the network
   #
-  # source://eventmachine//lib/em/protocols/object_protocol.rb#35
+  # pkg:gem/eventmachine#lib/em/protocols/object_protocol.rb:35
   def receive_object(obj); end
 
   # Sends a ruby object over the network
   #
-  # source://eventmachine//lib/em/protocols/object_protocol.rb#40
+  # pkg:gem/eventmachine#lib/em/protocols/object_protocol.rb:40
   def send_object(obj); end
 
   # By default returns Marshal, override to return JSON or YAML, or any
   # other serializer/deserializer responding to #dump and #load.
   #
-  # source://eventmachine//lib/em/protocols/object_protocol.rb#16
+  # pkg:gem/eventmachine#lib/em/protocols/object_protocol.rb:16
   def serializer; end
 end
 
@@ -4315,19 +4745,19 @@ end
 # The code we use to parse out the values is ugly and probably slow.
 # Improvements welcome.
 #
-# source://eventmachine//lib/em/protocols/saslauth.rb#82
+# pkg:gem/eventmachine#lib/em/protocols/saslauth.rb:82
 module EventMachine::Protocols::SASLauth
-  # source://eventmachine//lib/em/protocols/saslauth.rb#85
+  # pkg:gem/eventmachine#lib/em/protocols/saslauth.rb:85
   def post_init; end
 
-  # source://eventmachine//lib/em/protocols/saslauth.rb#91
+  # pkg:gem/eventmachine#lib/em/protocols/saslauth.rb:91
   def receive_data(data); end
 
-  # source://eventmachine//lib/em/protocols/saslauth.rb#109
+  # pkg:gem/eventmachine#lib/em/protocols/saslauth.rb:109
   def validate(username, psw, sysname, realm); end
 end
 
-# source://eventmachine//lib/em/protocols/saslauth.rb#84
+# pkg:gem/eventmachine#lib/em/protocols/saslauth.rb:84
 EventMachine::Protocols::SASLauth::MaxFieldSize = T.let(T.unsafe(nil), Integer)
 
 # Implements the SASL authd client protocol.
@@ -4348,24 +4778,40 @@ EventMachine::Protocols::SASLauth::MaxFieldSize = T.let(T.unsafe(nil), Integer)
 # a Deferrable which will either succeed or fail, depending
 # on the status of the authentication operation.
 #
-# source://eventmachine//lib/em/protocols/saslauth.rb#136
+# pkg:gem/eventmachine#lib/em/protocols/saslauth.rb:136
 module EventMachine::Protocols::SASLauthclient
-  # source://eventmachine//lib/em/protocols/saslauth.rb#151
+  # pkg:gem/eventmachine#lib/em/protocols/saslauth.rb:151
   def post_init; end
 
-  # source://eventmachine//lib/em/protocols/saslauth.rb#156
+  # pkg:gem/eventmachine#lib/em/protocols/saslauth.rb:156
   def receive_data(data); end
 
-  # @return [Boolean]
-  #
-  # source://eventmachine//lib/em/protocols/saslauth.rb#139
+  # pkg:gem/eventmachine#lib/em/protocols/saslauth.rb:139
   def validate?(username, psw, sysname = T.unsafe(nil), realm = T.unsafe(nil)); end
 end
 
-# source://eventmachine//lib/em/protocols/saslauth.rb#137
+# pkg:gem/eventmachine#lib/em/protocols/saslauth.rb:137
 EventMachine::Protocols::SASLauthclient::MaxFieldSize = T.let(T.unsafe(nil), Integer)
 
 # Simple SMTP client
+#
+# @example
+#   email = EM::Protocols::SmtpClient.send(
+#     :domain=>"example.com",
+#     :host=>'localhost',
+#     :port=>25, # optional, defaults 25
+#     :starttls=>true, # use ssl
+#     :from=>"sender@example.com",
+#     :to=> ["to_1@example.com", "to_2@example.com"],
+#     :header=> {"Subject" => "This is a subject line"},
+#     :body=> "This is the body of the email"
+#   )
+#   email.callback{
+#     puts 'Email sent!'
+#   }
+#   email.errback{ |e|
+#     puts 'Email failed!'
+#   }
 #
 # Sending generated emails (using Mail)
 #
@@ -4383,54 +4829,30 @@ EventMachine::Protocols::SASLauthclient::MaxFieldSize = T.let(T.unsafe(nil), Int
 #     :message=>mail.to_s
 #   )
 #
-# @example
-#   email = EM::Protocols::SmtpClient.send(
-#   :domain=>"example.com",
-#   :host=>'localhost',
-#   :port=>25, # optional, defaults 25
-#   :starttls=>true, # use ssl
-#   :from=>"sender@example.com",
-#   :to=> ["to_1@example.com", "to_2@example.com"],
-#   :header=> {"Subject" => "This is a subject line"},
-#   :body=> "This is the body of the email"
-#   )
-#   email.callback{
-#   puts 'Email sent!'
-#   }
-#   email.errback{ |e|
-#   puts 'Email failed!'
-#   }
-#
-# source://eventmachine//lib/em/protocols/smtpclient.rb#67
+# pkg:gem/eventmachine#lib/em/protocols/smtpclient.rb:67
 class EventMachine::Protocols::SmtpClient < ::EventMachine::Connection
   include ::EventMachine::Deferrable
   include ::EventMachine::Protocols::LineText2
 
-  # @return [SmtpClient] a new instance of SmtpClient
-  #
-  # source://eventmachine//lib/em/protocols/smtpclient.rb#71
+  # pkg:gem/eventmachine#lib/em/protocols/smtpclient.rb:71
   def initialize; end
 
-  # Sets the attribute args
-  #
-  # @param value the value to set the attribute args to.
-  #
-  # source://eventmachine//lib/em/protocols/smtpclient.rb#169
+  # pkg:gem/eventmachine#lib/em/protocols/smtpclient.rb:169
   def args=(_arg0); end
 
   # @private
   #
-  # source://eventmachine//lib/em/protocols/smtpclient.rb#178
+  # pkg:gem/eventmachine#lib/em/protocols/smtpclient.rb:178
   def connection_completed; end
 
   # @private
   #
-  # source://eventmachine//lib/em/protocols/smtpclient.rb#172
+  # pkg:gem/eventmachine#lib/em/protocols/smtpclient.rb:172
   def post_init; end
 
   # @private
   #
-  # source://eventmachine//lib/em/protocols/smtpclient.rb#200
+  # pkg:gem/eventmachine#lib/em/protocols/smtpclient.rb:200
   def receive_line(ln); end
 
   # We can get here in a variety of ways, all of them being failures unless
@@ -4440,75 +4862,75 @@ class EventMachine::Protocols::SmtpClient < ::EventMachine::Connection
   #
   # @private
   #
-  # source://eventmachine//lib/em/protocols/smtpclient.rb#189
+  # pkg:gem/eventmachine#lib/em/protocols/smtpclient.rb:189
   def unbind; end
 
   private
 
-  # source://eventmachine//lib/em/protocols/smtpclient.rb#335
+  # pkg:gem/eventmachine#lib/em/protocols/smtpclient.rb:335
   def escape_leading_dots(s); end
 
   # Perform an authentication. If the caller didn't request one, then fall through
   # to the mail-from state.
   #
-  # source://eventmachine//lib/em/protocols/smtpclient.rb#282
+  # pkg:gem/eventmachine#lib/em/protocols/smtpclient.rb:282
   def invoke_auth; end
 
-  # source://eventmachine//lib/em/protocols/smtpclient.rb#339
+  # pkg:gem/eventmachine#lib/em/protocols/smtpclient.rb:339
   def invoke_data; end
 
-  # source://eventmachine//lib/em/protocols/smtpclient.rb#271
+  # pkg:gem/eventmachine#lib/em/protocols/smtpclient.rb:271
   def invoke_ehlo_over_tls; end
 
   # We encountered an error from the server and will close the connection.
   # Use the error and message the server returned.
   #
-  # source://eventmachine//lib/em/protocols/smtpclient.rb#217
+  # pkg:gem/eventmachine#lib/em/protocols/smtpclient.rb:217
   def invoke_error; end
 
   # We encountered an error on our side of the protocol and will close the connection.
   # Use an extra-protocol error code (900) and use the message from the caller.
   #
-  # source://eventmachine//lib/em/protocols/smtpclient.rb#230
+  # pkg:gem/eventmachine#lib/em/protocols/smtpclient.rb:230
   def invoke_internal_error(msg = T.unsafe(nil)); end
 
-  # source://eventmachine//lib/em/protocols/smtpclient.rb#305
+  # pkg:gem/eventmachine#lib/em/protocols/smtpclient.rb:305
   def invoke_mail_from; end
 
-  # source://eventmachine//lib/em/protocols/smtpclient.rb#314
+  # pkg:gem/eventmachine#lib/em/protocols/smtpclient.rb:314
   def invoke_rcpt_to; end
 
-  # source://eventmachine//lib/em/protocols/smtpclient.rb#255
+  # pkg:gem/eventmachine#lib/em/protocols/smtpclient.rb:255
   def invoke_starttls; end
 
-  # source://eventmachine//lib/em/protocols/smtpclient.rb#300
+  # pkg:gem/eventmachine#lib/em/protocols/smtpclient.rb:300
   def receive_auth_response; end
 
-  # source://eventmachine//lib/em/protocols/smtpclient.rb#343
+  # pkg:gem/eventmachine#lib/em/protocols/smtpclient.rb:343
   def receive_data_response; end
 
-  # source://eventmachine//lib/em/protocols/smtpclient.rb#275
+  # pkg:gem/eventmachine#lib/em/protocols/smtpclient.rb:275
   def receive_ehlo_over_tls_response; end
 
-  # source://eventmachine//lib/em/protocols/smtpclient.rb#249
+  # pkg:gem/eventmachine#lib/em/protocols/smtpclient.rb:249
   def receive_ehlo_response; end
 
-  # source://eventmachine//lib/em/protocols/smtpclient.rb#309
+  # pkg:gem/eventmachine#lib/em/protocols/smtpclient.rb:309
   def receive_mail_from_response; end
 
-  # source://eventmachine//lib/em/protocols/smtpclient.rb#381
+  # pkg:gem/eventmachine#lib/em/protocols/smtpclient.rb:381
   def receive_message_response; end
 
-  # source://eventmachine//lib/em/protocols/smtpclient.rb#330
+  # pkg:gem/eventmachine#lib/em/protocols/smtpclient.rb:330
   def receive_rcpt_to_response; end
 
-  # source://eventmachine//lib/em/protocols/smtpclient.rb#244
+  # pkg:gem/eventmachine#lib/em/protocols/smtpclient.rb:244
   def receive_signon; end
 
-  # source://eventmachine//lib/em/protocols/smtpclient.rb#265
+  # pkg:gem/eventmachine#lib/em/protocols/smtpclient.rb:265
   def receive_starttls_response; end
 
-  # source://eventmachine//lib/em/protocols/smtpclient.rb#240
+  # pkg:gem/eventmachine#lib/em/protocols/smtpclient.rb:240
   def send_ehlo; end
 
   class << self
@@ -4572,7 +4994,7 @@ class EventMachine::Protocols::SmtpClient < ::EventMachine::Connection
     #   If true, will cause a lot of information (including the server-side of the
     #   conversation) to be dumped to $>.
     #
-    # source://eventmachine//lib/em/protocols/smtpclient.rb#138
+    # pkg:gem/eventmachine#lib/em/protocols/smtpclient.rb:138
     def send(args = T.unsafe(nil)); end
   end
 end
@@ -4674,35 +5096,33 @@ end
 # non-optional use of TLS.
 # Non-optional TLS does not apply to EHLO, NOOP, QUIT or STARTTLS.
 #
-# source://eventmachine//lib/em/protocols/smtpserver.rb#125
+# pkg:gem/eventmachine#lib/em/protocols/smtpserver.rb:125
 class EventMachine::Protocols::SmtpServer < ::EventMachine::Connection
   include ::EventMachine::Protocols::LineText2
 
-  # @return [SmtpServer] a new instance of SmtpServer
-  #
-  # source://eventmachine//lib/em/protocols/smtpserver.rb#162
+  # pkg:gem/eventmachine#lib/em/protocols/smtpserver.rb:162
   def initialize(*args); end
 
   # Sent when the remote peer has ended the connection.
   #
-  # source://eventmachine//lib/em/protocols/smtpserver.rb#629
+  # pkg:gem/eventmachine#lib/em/protocols/smtpserver.rb:629
   def connection_ended; end
 
   # The domain name returned in the first line of the response to a
   # successful EHLO or HELO command.
   #
-  # source://eventmachine//lib/em/protocols/smtpserver.rb#589
+  # pkg:gem/eventmachine#lib/em/protocols/smtpserver.rb:589
   def get_server_domain; end
 
   # The greeting returned in the initial connection message to the client.
   #
-  # source://eventmachine//lib/em/protocols/smtpserver.rb#584
+  # pkg:gem/eventmachine#lib/em/protocols/smtpserver.rb:584
   def get_server_greeting; end
 
-  # source://eventmachine//lib/em/protocols/smtpserver.rb#278
+  # pkg:gem/eventmachine#lib/em/protocols/smtpserver.rb:278
   def init_protocol_state; end
 
-  # source://eventmachine//lib/em/protocols/smtpserver.rb#168
+  # pkg:gem/eventmachine#lib/em/protocols/smtpserver.rb:168
   def parms=(parms = T.unsafe(nil)); end
 
   # In SMTP, the server talks first. But by a (perhaps flawed) axiom in EM,
@@ -4716,7 +5136,7 @@ class EventMachine::Protocols::SmtpServer < ::EventMachine::Connection
   #
   # OBSOLETE, now we have @@parms. But the spawn is nice to keep as an illustration.
   #
-  # source://eventmachine//lib/em/protocols/smtpserver.rb#183
+  # pkg:gem/eventmachine#lib/em/protocols/smtpserver.rb:183
   def post_init; end
 
   # --
@@ -4724,10 +5144,10 @@ class EventMachine::Protocols::SmtpServer < ::EventMachine::Connection
   # TODO, support clients that send AUTH PLAIN with no parameter, expecting a 3xx
   # response and a continuation of the auth conversation.
   #
-  # source://eventmachine//lib/em/protocols/smtpserver.rb#348
+  # pkg:gem/eventmachine#lib/em/protocols/smtpserver.rb:348
   def process_auth(str); end
 
-  # source://eventmachine//lib/em/protocols/smtpserver.rb#366
+  # pkg:gem/eventmachine#lib/em/protocols/smtpserver.rb:366
   def process_auth_line(line); end
 
   # --
@@ -4735,7 +5155,7 @@ class EventMachine::Protocols::SmtpServer < ::EventMachine::Connection
   # This was added to deal with a special case in a particular application, but
   # it would be a nice idea to add it to the other user-code callbacks.
   #
-  # source://eventmachine//lib/em/protocols/smtpserver.rb#394
+  # pkg:gem/eventmachine#lib/em/protocols/smtpserver.rb:394
   def process_data; end
 
   # Send the incoming data to the application one chunk at a time, rather than
@@ -4754,7 +5174,7 @@ class EventMachine::Protocols::SmtpServer < ::EventMachine::Connection
   #
   # User-written code can return a Deferrable as a response from receive_message.
   #
-  # source://eventmachine//lib/em/protocols/smtpserver.rb#542
+  # pkg:gem/eventmachine#lib/em/protocols/smtpserver.rb:542
   def process_data_line(ln); end
 
   # --
@@ -4775,20 +5195,20 @@ class EventMachine::Protocols::SmtpServer < ::EventMachine::Connection
   # Now clearly, we can't discard tls after its been negotiated
   # without dropping the connection, so that flag doesn't get cleared.
   #
-  # source://eventmachine//lib/em/protocols/smtpserver.rb#301
+  # pkg:gem/eventmachine#lib/em/protocols/smtpserver.rb:301
   def process_ehlo(domain); end
 
   # TODO - implement this properly, the implementation is a stub!
   #
-  # source://eventmachine//lib/em/protocols/smtpserver.rb#248
+  # pkg:gem/eventmachine#lib/em/protocols/smtpserver.rb:248
   def process_expn; end
 
-  # source://eventmachine//lib/em/protocols/smtpserver.rb#320
+  # pkg:gem/eventmachine#lib/em/protocols/smtpserver.rb:320
   def process_helo(domain); end
 
   # TODO - implement this properly, the implementation is a stub!
   #
-  # source://eventmachine//lib/em/protocols/smtpserver.rb#232
+  # pkg:gem/eventmachine#lib/em/protocols/smtpserver.rb:232
   def process_help; end
 
   # --
@@ -4801,13 +5221,13 @@ class EventMachine::Protocols::SmtpServer < ::EventMachine::Connection
   # the reverse-path (like whether it should be null), and notifying the reverse
   # path in case of delivery problems. All of that is left to the calling application.
   #
-  # source://eventmachine//lib/em/protocols/smtpserver.rb#464
+  # pkg:gem/eventmachine#lib/em/protocols/smtpserver.rb:464
   def process_mail_from(sender); end
 
-  # source://eventmachine//lib/em/protocols/smtpserver.rb#335
+  # pkg:gem/eventmachine#lib/em/protocols/smtpserver.rb:335
   def process_noop; end
 
-  # source://eventmachine//lib/em/protocols/smtpserver.rb#330
+  # pkg:gem/eventmachine#lib/em/protocols/smtpserver.rb:330
   def process_quit; end
 
   # --
@@ -4822,10 +5242,10 @@ class EventMachine::Protocols::SmtpServer < ::EventMachine::Connection
   #
   # User-written code can return a deferrable from receive_recipient.
   #
-  # source://eventmachine//lib/em/protocols/smtpserver.rb#493
+  # pkg:gem/eventmachine#lib/em/protocols/smtpserver.rb:493
   def process_rcpt_to(rcpt); end
 
-  # source://eventmachine//lib/em/protocols/smtpserver.rb#418
+  # pkg:gem/eventmachine#lib/em/protocols/smtpserver.rb:418
   def process_rset; end
 
   # --
@@ -4837,10 +5257,10 @@ class EventMachine::Protocols::SmtpServer < ::EventMachine::Connection
   # your own certificate
   # e.g. {:cert_chain_file => "/etc/ssl/cert.pem", :private_key_file => "/etc/ssl/private/cert.key"}
   #
-  # source://eventmachine//lib/em/protocols/smtpserver.rb#437
+  # pkg:gem/eventmachine#lib/em/protocols/smtpserver.rb:437
   def process_starttls; end
 
-  # source://eventmachine//lib/em/protocols/smtpserver.rb#339
+  # pkg:gem/eventmachine#lib/em/protocols/smtpserver.rb:339
   def process_unknown; end
 
   # RFC2821, 3.5.3 Meaning of VRFY or EXPN Success Response:
@@ -4852,7 +5272,7 @@ class EventMachine::Protocols::SmtpServer < ::EventMachine::Connection
   #
   # TODO - implement this properly, the implementation is a stub!
   #
-  # source://eventmachine//lib/em/protocols/smtpserver.rb#244
+  # pkg:gem/eventmachine#lib/em/protocols/smtpserver.rb:244
   def process_vrfy; end
 
   # Sent when data from the remote peer is available. The size can be controlled
@@ -4860,7 +5280,7 @@ class EventMachine::Protocols::SmtpServer < ::EventMachine::Connection
   # The goal is to strike a balance between sending the data to the application one
   # line at a time, and holding all of a very large message in memory.
   #
-  # source://eventmachine//lib/em/protocols/smtpserver.rb#646
+  # pkg:gem/eventmachine#lib/em/protocols/smtpserver.rb:646
   def receive_data_chunk(data); end
 
   # Called when the remote peer sends the DATA command.
@@ -4868,54 +5288,54 @@ class EventMachine::Protocols::SmtpServer < ::EventMachine::Connection
   # This can be useful for dealing with problems that arise from processing
   # the whole set of sender and recipients.
   #
-  # source://eventmachine//lib/em/protocols/smtpserver.rb#637
+  # pkg:gem/eventmachine#lib/em/protocols/smtpserver.rb:637
   def receive_data_command; end
 
   # A false response from this user-overridable method will cause a
   # 550 error to be returned to the remote client.
   #
-  # source://eventmachine//lib/em/protocols/smtpserver.rb#596
+  # pkg:gem/eventmachine#lib/em/protocols/smtpserver.rb:596
   def receive_ehlo_domain(domain); end
 
-  # source://eventmachine//lib/em/protocols/smtpserver.rb#193
+  # pkg:gem/eventmachine#lib/em/protocols/smtpserver.rb:193
   def receive_line(ln); end
 
   # Sent after a message has been completely received. User code
   # must return true or false to indicate whether the message has
   # been accepted for delivery.
   #
-  # source://eventmachine//lib/em/protocols/smtpserver.rb#655
+  # pkg:gem/eventmachine#lib/em/protocols/smtpserver.rb:655
   def receive_message; end
 
   # Return true or false to indicate that the authentication is acceptable.
   #
-  # source://eventmachine//lib/em/protocols/smtpserver.rb#601
+  # pkg:gem/eventmachine#lib/em/protocols/smtpserver.rb:601
   def receive_plain_auth(user, password); end
 
   # Receives the argument of a RCPT TO command. Can be given multiple
   # times per transaction. Return false to reject the recipient.
   #
-  # source://eventmachine//lib/em/protocols/smtpserver.rb#616
+  # pkg:gem/eventmachine#lib/em/protocols/smtpserver.rb:616
   def receive_recipient(rcpt); end
 
   # Sent when the remote peer issues the RSET command.
   # Since RSET is not allowed to fail (according to the protocol),
   # we ignore any return value from user overrides of this method.
   #
-  # source://eventmachine//lib/em/protocols/smtpserver.rb#624
+  # pkg:gem/eventmachine#lib/em/protocols/smtpserver.rb:624
   def receive_reset; end
 
   # Receives the argument of the MAIL FROM command. Return false to
   # indicate to the remote client that the sender is not accepted.
   # This can only be successfully called once per transaction.
   #
-  # source://eventmachine//lib/em/protocols/smtpserver.rb#609
+  # pkg:gem/eventmachine#lib/em/protocols/smtpserver.rb:609
   def receive_sender(sender); end
 
   # This is called when the protocol state is reset. It happens
   # when the remote client calls EHLO/HELO or RSET.
   #
-  # source://eventmachine//lib/em/protocols/smtpserver.rb#662
+  # pkg:gem/eventmachine#lib/em/protocols/smtpserver.rb:662
   def receive_transaction; end
 
   # --
@@ -4937,58 +5357,58 @@ class EventMachine::Protocols::SmtpServer < ::EventMachine::Connection
   # The standard may allow multiple DATA segments with the same set of
   # senders and recipients.
   #
-  # source://eventmachine//lib/em/protocols/smtpserver.rb#271
+  # pkg:gem/eventmachine#lib/em/protocols/smtpserver.rb:271
   def reset_protocol_state; end
 
-  # source://eventmachine//lib/em/protocols/smtpserver.rb#189
+  # pkg:gem/eventmachine#lib/em/protocols/smtpserver.rb:189
   def send_server_greeting; end
 
-  # source://eventmachine//lib/em/protocols/smtpserver.rb#424
+  # pkg:gem/eventmachine#lib/em/protocols/smtpserver.rb:424
   def unbind; end
 
   class << self
-    # source://eventmachine//lib/em/protocols/smtpserver.rb#156
+    # pkg:gem/eventmachine#lib/em/protocols/smtpserver.rb:156
     def parms=(parms = T.unsafe(nil)); end
   end
 end
 
-# source://eventmachine//lib/em/protocols/smtpserver.rb#140
+# pkg:gem/eventmachine#lib/em/protocols/smtpserver.rb:140
 EventMachine::Protocols::SmtpServer::AuthRegex = T.let(T.unsafe(nil), Regexp)
 
-# source://eventmachine//lib/em/protocols/smtpserver.rb#133
+# pkg:gem/eventmachine#lib/em/protocols/smtpserver.rb:133
 EventMachine::Protocols::SmtpServer::DataRegex = T.let(T.unsafe(nil), Regexp)
 
-# source://eventmachine//lib/em/protocols/smtpserver.rb#129
+# pkg:gem/eventmachine#lib/em/protocols/smtpserver.rb:129
 EventMachine::Protocols::SmtpServer::EhloRegex = T.let(T.unsafe(nil), Regexp)
 
-# source://eventmachine//lib/em/protocols/smtpserver.rb#137
+# pkg:gem/eventmachine#lib/em/protocols/smtpserver.rb:137
 EventMachine::Protocols::SmtpServer::ExpnRegex = T.let(T.unsafe(nil), Regexp)
 
-# source://eventmachine//lib/em/protocols/smtpserver.rb#128
+# pkg:gem/eventmachine#lib/em/protocols/smtpserver.rb:128
 EventMachine::Protocols::SmtpServer::HeloRegex = T.let(T.unsafe(nil), Regexp)
 
-# source://eventmachine//lib/em/protocols/smtpserver.rb#138
+# pkg:gem/eventmachine#lib/em/protocols/smtpserver.rb:138
 EventMachine::Protocols::SmtpServer::HelpRegex = T.let(T.unsafe(nil), Regexp)
 
-# source://eventmachine//lib/em/protocols/smtpserver.rb#131
+# pkg:gem/eventmachine#lib/em/protocols/smtpserver.rb:131
 EventMachine::Protocols::SmtpServer::MailFromRegex = T.let(T.unsafe(nil), Regexp)
 
-# source://eventmachine//lib/em/protocols/smtpserver.rb#134
+# pkg:gem/eventmachine#lib/em/protocols/smtpserver.rb:134
 EventMachine::Protocols::SmtpServer::NoopRegex = T.let(T.unsafe(nil), Regexp)
 
-# source://eventmachine//lib/em/protocols/smtpserver.rb#130
+# pkg:gem/eventmachine#lib/em/protocols/smtpserver.rb:130
 EventMachine::Protocols::SmtpServer::QuitRegex = T.let(T.unsafe(nil), Regexp)
 
-# source://eventmachine//lib/em/protocols/smtpserver.rb#132
+# pkg:gem/eventmachine#lib/em/protocols/smtpserver.rb:132
 EventMachine::Protocols::SmtpServer::RcptToRegex = T.let(T.unsafe(nil), Regexp)
 
-# source://eventmachine//lib/em/protocols/smtpserver.rb#135
+# pkg:gem/eventmachine#lib/em/protocols/smtpserver.rb:135
 EventMachine::Protocols::SmtpServer::RsetRegex = T.let(T.unsafe(nil), Regexp)
 
-# source://eventmachine//lib/em/protocols/smtpserver.rb#139
+# pkg:gem/eventmachine#lib/em/protocols/smtpserver.rb:139
 EventMachine::Protocols::SmtpServer::StarttlsRegex = T.let(T.unsafe(nil), Regexp)
 
-# source://eventmachine//lib/em/protocols/smtpserver.rb#136
+# pkg:gem/eventmachine#lib/em/protocols/smtpserver.rb:136
 EventMachine::Protocols::SmtpServer::VrfyRegex = T.let(T.unsafe(nil), Regexp)
 
 # Basic SOCKS v4 client implementation
@@ -5007,23 +5427,21 @@ EventMachine::Protocols::SmtpServer::VrfyRegex = T.let(T.unsafe(nil), Regexp)
 #
 # EM.connect socks_host, socks_port, MyConn, host, port
 #
-# source://eventmachine//lib/em/protocols/socks4.rb#19
+# pkg:gem/eventmachine#lib/em/protocols/socks4.rb:19
 class EventMachine::Protocols::Socks4 < ::EventMachine::Connection
-  # @return [Socks4] a new instance of Socks4
-  #
-  # source://eventmachine//lib/em/protocols/socks4.rb#20
+  # pkg:gem/eventmachine#lib/em/protocols/socks4.rb:20
   def initialize(host, port); end
 
-  # source://eventmachine//lib/em/protocols/socks4.rb#35
+  # pkg:gem/eventmachine#lib/em/protocols/socks4.rb:35
   def restore_methods; end
 
-  # source://eventmachine//lib/em/protocols/socks4.rb#28
+  # pkg:gem/eventmachine#lib/em/protocols/socks4.rb:28
   def setup_methods; end
 
-  # source://eventmachine//lib/em/protocols/socks4.rb#42
+  # pkg:gem/eventmachine#lib/em/protocols/socks4.rb:42
   def socks_post_init; end
 
-  # source://eventmachine//lib/em/protocols/socks4.rb#47
+  # pkg:gem/eventmachine#lib/em/protocols/socks4.rb:47
   def socks_receive_data(data); end
 end
 
@@ -5052,7 +5470,7 @@ end
 #    EM.connect 'localhost', 61613, StompClient
 #  }
 #
-# source://eventmachine//lib/em/protocols/stomp.rb#55
+# pkg:gem/eventmachine#lib/em/protocols/stomp.rb:55
 module EventMachine::Protocols::Stomp
   include ::EventMachine::Protocols::LineText2
 
@@ -5075,122 +5493,119 @@ module EventMachine::Protocols::Stomp
   #    end
   #  end
   #
-  # source://eventmachine//lib/em/protocols/stomp.rb#198
+  # pkg:gem/eventmachine#lib/em/protocols/stomp.rb:198
   def ack(msgid); end
 
   # CONNECT command, for authentication
   #
   #  connect :login => 'guest', :passcode => 'guest'
   #
-  # source://eventmachine//lib/em/protocols/stomp.rb#159
+  # pkg:gem/eventmachine#lib/em/protocols/stomp.rb:159
   def connect(parms = T.unsafe(nil)); end
 
   # @private
   #
-  # source://eventmachine//lib/em/protocols/stomp.rb#143
+  # pkg:gem/eventmachine#lib/em/protocols/stomp.rb:143
   def init_message_reader; end
 
   # @private
   #
-  # source://eventmachine//lib/em/protocols/stomp.rb#136
+  # pkg:gem/eventmachine#lib/em/protocols/stomp.rb:136
   def receive_binary_data(data); end
 
   # @private
   #
-  # source://eventmachine//lib/em/protocols/stomp.rb#121
+  # pkg:gem/eventmachine#lib/em/protocols/stomp.rb:121
   def receive_line(line); end
 
   # Invoked with an incoming Stomp::Message received from the STOMP server
   #
-  # source://eventmachine//lib/em/protocols/stomp.rb#151
+  # pkg:gem/eventmachine#lib/em/protocols/stomp.rb:151
   def receive_msg(msg); end
 
   # SEND command, for publishing messages to a topic
   #
   #  send '/topic/name', 'some message here'
   #
-  # source://eventmachine//lib/em/protocols/stomp.rb#167
+  # pkg:gem/eventmachine#lib/em/protocols/stomp.rb:167
   def send(destination, body, parms = T.unsafe(nil)); end
 
   # @private
   #
-  # source://eventmachine//lib/em/protocols/stomp.rb#106
+  # pkg:gem/eventmachine#lib/em/protocols/stomp.rb:106
   def send_frame(verb, headers = T.unsafe(nil), body = T.unsafe(nil)); end
 
   # SUBSCRIBE command, for subscribing to topics
   #
   #  subscribe '/topic/name', false
   #
-  # source://eventmachine//lib/em/protocols/stomp.rb#175
+  # pkg:gem/eventmachine#lib/em/protocols/stomp.rb:175
   def subscribe(dest, ack = T.unsafe(nil)); end
 end
 
-# source://eventmachine//lib/em/protocols/stomp.rb#58
+# pkg:gem/eventmachine#lib/em/protocols/stomp.rb:58
 class EventMachine::Protocols::Stomp::Message
   # @private
-  # @return [Message] a new instance of Message
   #
-  # source://eventmachine//lib/em/protocols/stomp.rb#68
+  # pkg:gem/eventmachine#lib/em/protocols/stomp.rb:68
   def initialize; end
 
   # Body of the message
   #
-  # source://eventmachine//lib/em/protocols/stomp.rb#65
+  # pkg:gem/eventmachine#lib/em/protocols/stomp.rb:65
   def body; end
 
   # Body of the message
   #
-  # source://eventmachine//lib/em/protocols/stomp.rb#65
+  # pkg:gem/eventmachine#lib/em/protocols/stomp.rb:65
   def body=(_arg0); end
 
   # The command associated with the message, usually 'CONNECTED' or 'MESSAGE'
   #
-  # source://eventmachine//lib/em/protocols/stomp.rb#60
+  # pkg:gem/eventmachine#lib/em/protocols/stomp.rb:60
   def command; end
 
   # The command associated with the message, usually 'CONNECTED' or 'MESSAGE'
   #
-  # source://eventmachine//lib/em/protocols/stomp.rb#60
+  # pkg:gem/eventmachine#lib/em/protocols/stomp.rb:60
   def command=(_arg0); end
 
   # @private
   #
-  # source://eventmachine//lib/em/protocols/stomp.rb#74
+  # pkg:gem/eventmachine#lib/em/protocols/stomp.rb:74
   def consume_line(line); end
 
   # Hash containing headers such as destination and message-id
   #
-  # source://eventmachine//lib/em/protocols/stomp.rb#62
+  # pkg:gem/eventmachine#lib/em/protocols/stomp.rb:62
   def header; end
 
   # Hash containing headers such as destination and message-id
   #
-  # source://eventmachine//lib/em/protocols/stomp.rb#62
+  # pkg:gem/eventmachine#lib/em/protocols/stomp.rb:62
   def header=(_arg0); end
 
-  # Hash containing headers such as destination and message-id
-  #
-  # source://eventmachine//lib/em/protocols/stomp.rb#63
+  # pkg:gem/eventmachine#lib/em/protocols/stomp.rb:63
   def headers; end
 end
 
 # @private
 #
-# source://eventmachine//lib/em/protocols/tcptest.rb#31
+# pkg:gem/eventmachine#lib/em/protocols/tcptest.rb:31
 class EventMachine::Protocols::TcpConnectTester < ::EventMachine::Connection
   include ::EventMachine::Deferrable
 
-  # source://eventmachine//lib/em/protocols/tcptest.rb#42
+  # pkg:gem/eventmachine#lib/em/protocols/tcptest.rb:42
   def connection_completed; end
 
-  # source://eventmachine//lib/em/protocols/tcptest.rb#38
+  # pkg:gem/eventmachine#lib/em/protocols/tcptest.rb:38
   def post_init; end
 
-  # source://eventmachine//lib/em/protocols/tcptest.rb#48
+  # pkg:gem/eventmachine#lib/em/protocols/tcptest.rb:48
   def unbind; end
 
   class << self
-    # source://eventmachine//lib/em/protocols/tcptest.rb#34
+    # pkg:gem/eventmachine#lib/em/protocols/tcptest.rb:34
     def test(host, port); end
   end
 end
@@ -5205,36 +5620,30 @@ end
 #
 # @example
 #
-#   q = EM::Queue.new
-#   q.push('one', 'two', 'three')
-#   3.times do
-#   q.pop { |msg| puts(msg) }
-#   end
+#  q = EM::Queue.new
+#  q.push('one', 'two', 'three')
+#  3.times do
+#    q.pop { |msg| puts(msg) }
+#  end
 #
-# source://eventmachine//lib/em/queue.rb#18
+# pkg:gem/eventmachine#lib/em/queue.rb:18
 class EventMachine::Queue
-  # @return [Queue] a new instance of Queue
-  #
-  # source://eventmachine//lib/em/queue.rb#19
+  # pkg:gem/eventmachine#lib/em/queue.rb:19
   def initialize; end
 
-  # Push items onto the queue in the reactor thread. The items will not appear
-  # in the queue immediately, but will be scheduled for addition during the
-  # next reactor tick.
-  #
-  # source://eventmachine//lib/em/queue.rb#59
+  # pkg:gem/eventmachine#lib/em/queue.rb:59
   def <<(*items); end
 
-  # @note This is a peek, it's not thread safe, and may only tend toward accuracy.
   # @return [Boolean]
+  # @note This is a peek, it's not thread safe, and may only tend toward accuracy.
   #
-  # source://eventmachine//lib/em/queue.rb#63
+  # pkg:gem/eventmachine#lib/em/queue.rb:63
   def empty?; end
 
-  # @note This is a peek at the number of jobs that are currently waiting on the Queue
   # @return [Integer] Waiting size
+  # @note This is a peek at the number of jobs that are currently waiting on the Queue
   #
-  # source://eventmachine//lib/em/queue.rb#75
+  # pkg:gem/eventmachine#lib/em/queue.rb:75
   def num_waiting; end
 
   # Pop items off the queue, running the block on the reactor thread. The pop
@@ -5243,66 +5652,63 @@ class EventMachine::Queue
   #
   # @return [NilClass] nil
   #
-  # source://eventmachine//lib/em/queue.rb#30
+  # pkg:gem/eventmachine#lib/em/queue.rb:30
   def pop(*a, &b); end
 
   # Push items onto the queue in the reactor thread. The items will not appear
   # in the queue immediately, but will be scheduled for addition during the
   # next reactor tick.
   #
-  # source://eventmachine//lib/em/queue.rb#49
+  # pkg:gem/eventmachine#lib/em/queue.rb:49
   def push(*items); end
 
-  # @note This is a peek, it's not thread safe, and may only tend toward accuracy.
   # @return [Integer] Queue size
+  # @note This is a peek, it's not thread safe, and may only tend toward accuracy.
   #
-  # source://eventmachine//lib/em/queue.rb#69
+  # pkg:gem/eventmachine#lib/em/queue.rb:69
   def size; end
 end
 
 # Support for Erlang-style processes.
 #
-# source://eventmachine//lib/em/spawnable.rb#29
+# pkg:gem/eventmachine#lib/em/spawnable.rb:29
 class EventMachine::SpawnedProcess
   # Send a message to the spawned process
   #
-  # source://eventmachine//lib/em/spawnable.rb#31
+  # pkg:gem/eventmachine#lib/em/spawnable.rb:31
   def notify(*x); end
 
-  # Send a message to the spawned process
-  #
-  # source://eventmachine//lib/em/spawnable.rb#46
+  # pkg:gem/eventmachine#lib/em/spawnable.rb:46
   def resume(*x); end
 
-  # Send a message to the spawned process
-  # for formulations like (EM.spawn {xxx}).run
-  #
-  # source://eventmachine//lib/em/spawnable.rb#47
+  # pkg:gem/eventmachine#lib/em/spawnable.rb:47
   def run(*x); end
 
-  # source://eventmachine//lib/em/spawnable.rb#49
+  # for formulations like (EM.spawn {xxx}).run
+  #
+  # pkg:gem/eventmachine#lib/em/spawnable.rb:49
   def set_receiver(blk); end
 end
 
 # @private
+# @private
 EventMachine::SslHandshakeCompleted = T.let(T.unsafe(nil), Integer)
 
+# @private
 # @private
 EventMachine::SslVerify = T.let(T.unsafe(nil), Integer)
 
 # @private
 #
-# source://eventmachine//lib/em/processes.rb#76
+# pkg:gem/eventmachine#lib/em/processes.rb:76
 class EventMachine::SystemCmd < ::EventMachine::Connection
-  # @return [SystemCmd] a new instance of SystemCmd
-  #
-  # source://eventmachine//lib/em/processes.rb#77
+  # pkg:gem/eventmachine#lib/em/processes.rb:77
   def initialize(cb); end
 
-  # source://eventmachine//lib/em/processes.rb#81
+  # pkg:gem/eventmachine#lib/em/processes.rb:81
   def receive_data(data); end
 
-  # source://eventmachine//lib/em/processes.rb#84
+  # pkg:gem/eventmachine#lib/em/processes.rb:84
   def unbind; end
 end
 
@@ -5358,92 +5764,83 @@ end
 #      completion
 #    end
 #
-# source://eventmachine//lib/em/threaded_resource.rb#53
+# pkg:gem/eventmachine#lib/em/threaded_resource.rb:53
 class EventMachine::ThreadedResource
   # The block should return the resource that will be yielded in a dispatch.
   #
-  # @return [ThreadedResource] a new instance of ThreadedResource
-  #
-  # source://eventmachine//lib/em/threaded_resource.rb#56
+  # pkg:gem/eventmachine#lib/em/threaded_resource.rb:56
   def initialize; end
 
   # Called on the EM thread, generally in a perform block to return a
   # completion for the work.
   #
-  # source://eventmachine//lib/em/threaded_resource.rb#68
+  # pkg:gem/eventmachine#lib/em/threaded_resource.rb:68
   def dispatch; end
 
   # Kill the internal thread. should only be used to cleanup - generally
   # only required for tests.
   #
-  # source://eventmachine//lib/em/threaded_resource.rb#83
+  # pkg:gem/eventmachine#lib/em/threaded_resource.rb:83
   def shutdown; end
 end
 
 # A TickLoop is useful when one needs to distribute amounts of work
 # throughout ticks in order to maintain response times. It is also useful for
 # simple repeated checks and metrics.
-#
 # @example
-#   # Here we run through an array one item per tick until it is empty,
-#   # printing each element.
-#   # When the array is empty, we return :stop from the callback, and the
-#   # loop will terminate.
-#   # When the loop terminates, the on_stop callbacks will be called.
-#   EM.run do
-#   array = (1..100).to_a
+#    # Here we run through an array one item per tick until it is empty,
+#    # printing each element.
+#    # When the array is empty, we return :stop from the callback, and the
+#    # loop will terminate.
+#    # When the loop terminates, the on_stop callbacks will be called.
+#    EM.run do
+#      array = (1..100).to_a
 #
-#   tickloop = EM.tick_loop do
-#   if array.empty?
-#   :stop
-#   else
-#   puts array.shift
-#   end
-#   end
+#      tickloop = EM.tick_loop do
+#        if array.empty?
+#          :stop
+#        else
+#          puts array.shift
+#        end
+#      end
 #
-#   tickloop.on_stop { EM.stop }
-#   end
+#      tickloop.on_stop { EM.stop }
+#    end
 #
-# source://eventmachine//lib/em/tick_loop.rb#30
+# pkg:gem/eventmachine#lib/em/tick_loop.rb:30
 class EventMachine::TickLoop
   # Arguments: A callback (EM::Callback) to call each tick. If the call
   # returns +:stop+ then the loop will be stopped. Any other value is
   # ignored.
   #
-  # @return [TickLoop] a new instance of TickLoop
-  #
-  # source://eventmachine//lib/em/tick_loop.rb#35
+  # pkg:gem/eventmachine#lib/em/tick_loop.rb:35
   def initialize(*a, &b); end
 
   # Arguments: A callback (EM::Callback) to call once on the next stop (or
   # immediately if already stopped).
   #
-  # source://eventmachine//lib/em/tick_loop.rb#43
+  # pkg:gem/eventmachine#lib/em/tick_loop.rb:43
   def on_stop(*a, &b); end
 
   # Start the tick loop, will raise argument error if the loop is already
   # running.
   #
-  # @raise [ArgumentError]
-  #
-  # source://eventmachine//lib/em/tick_loop.rb#66
+  # pkg:gem/eventmachine#lib/em/tick_loop.rb:66
   def start; end
 
   # Stop the tick loop immediately, and call it's on_stop callbacks.
   #
-  # source://eventmachine//lib/em/tick_loop.rb#52
+  # pkg:gem/eventmachine#lib/em/tick_loop.rb:52
   def stop; end
 
   # Query if the loop is stopped.
   #
-  # @return [Boolean]
-  #
-  # source://eventmachine//lib/em/tick_loop.rb#60
+  # pkg:gem/eventmachine#lib/em/tick_loop.rb:60
   def stopped?; end
 
   private
 
-  # source://eventmachine//lib/em/tick_loop.rb#73
+  # pkg:gem/eventmachine#lib/em/tick_loop.rb:73
   def schedule; end
 end
 
@@ -5454,45 +5851,45 @@ end
 #  end
 #  timer.cancel
 #
-# source://eventmachine//lib/em/timers.rb#9
+# pkg:gem/eventmachine#lib/em/timers.rb:9
 class EventMachine::Timer
   # Create a new timer that fires after a given number of seconds
   #
-  # @return [Timer] a new instance of Timer
-  #
-  # source://eventmachine//lib/em/timers.rb#11
+  # pkg:gem/eventmachine#lib/em/timers.rb:11
   def initialize(interval, callback = T.unsafe(nil), &block); end
 
   # Cancel the timer
   #
-  # source://eventmachine//lib/em/timers.rb#16
+  # pkg:gem/eventmachine#lib/em/timers.rb:16
   def cancel; end
 end
 
+# @private
 # TODO: These event numbers are defined in way too many places.
 # DRY them up.
-#
 # @private
 EventMachine::TimerFired = T.let(T.unsafe(nil), Integer)
 
 # @private
+#
+# pkg:gem/eventmachine#lib/eventmachine.rb:8
 class EventMachine::UnknownTimerFired < ::RuntimeError; end
 
 # @private
+#
+# pkg:gem/eventmachine#lib/eventmachine.rb:8
 class EventMachine::Unsupported < ::RuntimeError; end
 
-# source://eventmachine//lib/em/version.rb#2
+# pkg:gem/eventmachine#lib/em/version.rb:2
 EventMachine::VERSION = T.let(T.unsafe(nil), String)
 
 # @private
 #
-# source://eventmachine//lib/em/spawnable.rb#59
+# pkg:gem/eventmachine#lib/em/spawnable.rb:59
 class EventMachine::YieldBlockFromSpawnedProcess
-  # @return [YieldBlockFromSpawnedProcess] a new instance of YieldBlockFromSpawnedProcess
-  #
-  # source://eventmachine//lib/em/spawnable.rb#60
+  # pkg:gem/eventmachine#lib/em/spawnable.rb:60
   def initialize(block, notify); end
 
-  # source://eventmachine//lib/em/spawnable.rb#63
+  # pkg:gem/eventmachine#lib/em/spawnable.rb:63
   def pull_out_yield_block; end
 end

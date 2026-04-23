@@ -5,67 +5,66 @@
 # Please instead update this file by running `bin/tapioca gem dry-inflector`.
 
 
-# source://dry-inflector//lib/dry/inflector.rb#3
+# pkg:gem/dry-inflector#lib/dry/inflector.rb:3
 module Dry; end
 
 # dry-inflector
 #
 # @since 0.1.0
 #
-# source://dry-inflector//lib/dry/inflector.rb#7
+# pkg:gem/dry-inflector#lib/dry/inflector.rb:7
 class Dry::Inflector
   # Instantiate the inflector
+  #
+  # @param blk [Proc] an optional block to specify custom inflection rules
+  # @yieldparam [Dry::Inflector::Inflections] the inflection rules
+  #
+  # @return [Dry::Inflector] the inflector
+  #
+  # @since 0.1.0
   #
   # @example Basic usage
   #   require "dry/inflector"
   #
   #   inflector = Dry::Inflector.new
+  #
   # @example Custom inflection rules
   #   require "dry/inflector"
   #
   #   inflector = Dry::Inflector.new do |inflections|
-  #   inflections.plural      "virus",   "viruses" # specify a rule for #pluralize
-  #   inflections.singular    "thieves", "thief"   # specify a rule for #singularize
-  #   inflections.uncountable "dry-inflector"      # add an exception for an uncountable word
+  #     inflections.plural      "virus",   "viruses" # specify a rule for #pluralize
+  #     inflections.singular    "thieves", "thief"   # specify a rule for #singularize
+  #     inflections.uncountable "dry-inflector"      # add an exception for an uncountable word
   #   end
-  # @param blk [Proc] an optional block to specify custom inflection rules
-  # @return [Dry::Inflector] the inflector
-  # @since 0.1.0
-  # @yieldparam the [Dry::Inflector::Inflections] inflection rules
   #
-  # source://dry-inflector//lib/dry/inflector.rb#33
+  # pkg:gem/dry-inflector#lib/dry/inflector.rb:33
   def initialize(&_arg0); end
 
-  # Upper camelize a string
-  #
-  # @example
-  #   require "dry/inflector"
-  #
-  #   inflector = Dry::Inflector.new
-  #   inflector.camelize_upper("data_mapper") # => "DataMapper"
-  #   inflector.camelize_upper("dry/inflector") # => "Dry::Inflector"
-  # @param input [String, Symbol] the input
-  # @return [String] the upper camelized string
-  # @since 0.1.3
-  #
-  # source://dry-inflector//lib/dry/inflector.rb#70
+  # pkg:gem/dry-inflector#lib/dry/inflector.rb:70
   def camelize(input); end
 
   # Lower camelize a string
+  #
+  # @param input [String,Symbol] the input
+  # @return [String] the lower camelized string
+  #
+  # @since 0.1.3
   #
   # @example
   #   require "dry/inflector"
   #
   #   inflector = Dry::Inflector.new
   #   inflector.camelize_lower("data_mapper") # => "dataMapper"
-  # @param input [String, Symbol] the input
-  # @return [String] the lower camelized string
-  # @since 0.1.3
   #
-  # source://dry-inflector//lib/dry/inflector.rb#49
+  # pkg:gem/dry-inflector#lib/dry/inflector.rb:49
   def camelize_lower(input); end
 
   # Upper camelize a string
+  #
+  # @param input [String,Symbol] the input
+  # @return [String] the upper camelized string
+  #
+  # @since 0.1.3
   #
   # @example
   #   require "dry/inflector"
@@ -73,25 +72,24 @@ class Dry::Inflector
   #   inflector = Dry::Inflector.new
   #   inflector.camelize_upper("data_mapper") # => "DataMapper"
   #   inflector.camelize_upper("dry/inflector") # => "Dry::Inflector"
-  # @param input [String, Symbol] the input
-  # @return [String] the upper camelized string
-  # @since 0.1.3
   #
-  # source://dry-inflector//lib/dry/inflector.rb#66
+  # pkg:gem/dry-inflector#lib/dry/inflector.rb:66
   def camelize_upper(input); end
 
   # Classify a string
+  #
+  # @param input [String,Symbol] the input
+  # @return [String] the classified string
+  #
+  # @since 0.1.0
   #
   # @example
   #   require "dry/inflector"
   #
   #   inflector = Dry::Inflector.new
   #   inflector.classify("books") # => "Book"
-  # @param input [String, Symbol] the input
-  # @return [String] the classified string
-  # @since 0.1.0
   #
-  # source://dry-inflector//lib/dry/inflector.rb#104
+  # pkg:gem/dry-inflector#lib/dry/inflector.rb:104
   def classify(input); end
 
   # Find a constant with the name specified in the argument string
@@ -99,62 +97,73 @@ class Dry::Inflector
   # The name is assumed to be the one of a top-level constant,
   # constant scope of caller is ignored
   #
+  # @param input [String,Symbol] the input
+  # @return [Class, Module] the class or module
+  #
+  # @since 0.1.0
+  #
   # @example
   #   require "dry/inflector"
   #
   #   inflector = Dry::Inflector.new
   #   inflector.constantize("Module")         # => Module
   #   inflector.constantize("Dry::Inflector") # => Dry::Inflector
-  # @param input [String, Symbol] the input
-  # @return [Class, Module] the class or module
-  # @since 0.1.0
   #
-  # source://dry-inflector//lib/dry/inflector.rb#88
+  # pkg:gem/dry-inflector#lib/dry/inflector.rb:88
   def constantize(input); end
 
   # Dasherize a string
+  #
+  # @param input [String,Symbol] the input
+  # @return [String] the dasherized string
+  #
+  # @since 0.1.0
   #
   # @example
   #   require "dry/inflector"
   #
   #   inflector = Dry::Inflector.new
   #   inflector.dasherize("dry_inflector") # => "dry-inflector"
-  # @param input [String, Symbol] the input
-  # @return [String] the dasherized string
-  # @since 0.1.0
   #
-  # source://dry-inflector//lib/dry/inflector.rb#120
+  # pkg:gem/dry-inflector#lib/dry/inflector.rb:120
   def dasherize(input); end
 
   # Demodulize a string
+  #
+  # @param input [String,Symbol] the input
+  # @return [String] the demodulized string
+  #
+  # @since 0.1.0
   #
   # @example
   #   require "dry/inflector"
   #
   #   inflector = Dry::Inflector.new
   #   inflector.demodulize("Dry::Inflector") # => "Inflector"
-  # @param input [String, Symbol] the input
-  # @return [String] the demodulized string
-  # @since 0.1.0
   #
-  # source://dry-inflector//lib/dry/inflector.rb#136
+  # pkg:gem/dry-inflector#lib/dry/inflector.rb:136
   def demodulize(input); end
 
   # Creates a foreign key name
+  #
+  # @param input [String, Symbol] the input
+  # @return [String] foreign key
   #
   # @example
   #   require "dry/inflector"
   #
   #   inflector = Dry::Inflector.new
   #   inflector.foreign_key("Message") => "message_id"
-  # @param input [String, Symbol] the input
-  # @return [String] foreign key
-  # @since 0.1.0
   #
-  # source://dry-inflector//lib/dry/inflector.rb#175
+  # pkg:gem/dry-inflector#lib/dry/inflector.rb:175
   def foreign_key(input); end
 
   # Humanize a string
+  #
+  # @param input [String,Symbol] the input
+  # @return [String] the humanized string
+  #
+  # @since 0.1.0
   #
   # @example
   #   require "dry/inflector"
@@ -162,21 +171,19 @@ class Dry::Inflector
   #   inflector = Dry::Inflector.new
   #   inflector.humanize("dry_inflector") # => "Dry inflector"
   #   inflector.humanize("author_id")     # => "Author"
-  # @param input [String, Symbol] the input
-  # @return [String] the humanized string
-  # @since 0.1.0
   #
-  # source://dry-inflector//lib/dry/inflector.rb#153
+  # pkg:gem/dry-inflector#lib/dry/inflector.rb:153
   def humanize(input); end
 
-  # @api public
-  # @return [String]
-  # @since 0.2.0
-  #
-  # source://dry-inflector//lib/dry/inflector.rb#313
+  # pkg:gem/dry-inflector#lib/dry/inflector.rb:313
   def inspect; end
 
   # Ordinalize a number
+  #
+  # @param number [Integer] the input
+  # @return [String] the ordinalized number
+  #
+  # @since 0.1.0
   #
   # @example
   #   require "dry/inflector"
@@ -187,14 +194,16 @@ class Dry::Inflector
   #   inflector.ordinalize(3)  # => "3rd"
   #   inflector.ordinalize(10) # => "10th"
   #   inflector.ordinalize(23) # => "23rd"
-  # @param number [Integer] the input
-  # @return [String] the ordinalized number
-  # @since 0.1.0
   #
-  # source://dry-inflector//lib/dry/inflector.rb#195
+  # pkg:gem/dry-inflector#lib/dry/inflector.rb:195
   def ordinalize(number); end
 
   # Pluralize a string
+  #
+  # @param input [String,Symbol] the input
+  # @return [String] the pluralized string
+  #
+  # @since 0.1.0
   #
   # @example
   #   require "dry/inflector"
@@ -202,14 +211,16 @@ class Dry::Inflector
   #   inflector = Dry::Inflector.new
   #   inflector.pluralize("book")  # => "books"
   #   inflector.pluralize("money") # => "money"
-  # @param input [String, Symbol] the input
-  # @return [String] the pluralized string
-  # @since 0.1.0
   #
-  # source://dry-inflector//lib/dry/inflector.rb#223
+  # pkg:gem/dry-inflector#lib/dry/inflector.rb:223
   def pluralize(input); end
 
   # Singularize a string
+  #
+  # @param input [String] the input
+  # @return [String] the singularized string
+  #
+  # @since 0.1.0
   #
   # @example
   #   require "dry/inflector"
@@ -217,133 +228,131 @@ class Dry::Inflector
   #   inflector = Dry::Inflector.new
   #   inflector.singularize("books") # => "book"
   #   inflector.singularize("money") # => "money"
-  # @param input [String] the input
-  # @return [String] the singularized string
-  # @since 0.1.0
   #
-  # source://dry-inflector//lib/dry/inflector.rb#243
+  # pkg:gem/dry-inflector#lib/dry/inflector.rb:243
   def singularize(input); end
 
   # Tableize a string
+  #
+  # @param input [String,Symbol] the input
+  # @return [String] the tableized string
+  #
+  # @since 0.1.0
   #
   # @example
   #   require "dry/inflector"
   #
   #   inflector = Dry::Inflector.new
   #   inflector.tableize("Book") # => "books"
-  # @param input [String, Symbol] the input
-  # @return [String] the tableized string
-  # @since 0.1.0
   #
-  # source://dry-inflector//lib/dry/inflector.rb#262
+  # pkg:gem/dry-inflector#lib/dry/inflector.rb:262
   def tableize(input); end
 
-  # @api public
   # @return [String]
-  # @since 0.2.0
   #
-  # source://dry-inflector//lib/dry/inflector.rb#310
+  # @since 0.2.0
+  # @api public
+  #
+  # pkg:gem/dry-inflector#lib/dry/inflector.rb:310
   def to_s; end
 
   # Check if the input is an uncountable word
   #
-  # @api private
   # @param input [String] the input
-  # @return [TrueClass, FalseClass] the result of the check
-  # @since 0.1.0
+  # @return [TrueClass,FalseClass] the result of the check
   #
-  # source://dry-inflector//lib/dry/inflector.rb#300
+  # @since 0.1.0
+  # @api private
+  #
+  # pkg:gem/dry-inflector#lib/dry/inflector.rb:300
   def uncountable?(input); end
 
   # Underscore a string
+  #
+  # @param input [String,Symbol] the input
+  # @return [String] the underscored string
+  #
+  # @since 0.1.0
   #
   # @example
   #   require "dry/inflector"
   #
   #   inflector = Dry::Inflector.new
   #   inflector.underscore("dry-inflector") # => "dry_inflector"
-  # @param input [String, Symbol] the input
-  # @return [String] the underscored string
-  # @since 0.1.0
   #
-  # source://dry-inflector//lib/dry/inflector.rb#279
+  # pkg:gem/dry-inflector#lib/dry/inflector.rb:279
   def underscore(input); end
 
   private
 
-  # @since 0.1.0
-  #
-  # source://dry-inflector//lib/dry/inflector.rb#325
+  # pkg:gem/dry-inflector#lib/dry/inflector.rb:325
   def inflections; end
 
-  # @api private
   # @since 0.1.3
+  # @api private
   #
-  # source://dry-inflector//lib/dry/inflector.rb#329
+  # pkg:gem/dry-inflector#lib/dry/inflector.rb:329
   def internal_camelize(input, upper); end
 end
 
 # A set of acronyms
 #
-# @api private
 # @since 0.1.2
+# @api private
 #
-# source://dry-inflector//lib/dry/inflector/acronyms.rb#9
+# pkg:gem/dry-inflector#lib/dry/inflector/acronyms.rb:9
 class Dry::Inflector::Acronyms
-  # @api private
-  # @return [Acronyms] a new instance of Acronyms
   # @since 0.1.2
+  # @api private
   #
-  # source://dry-inflector//lib/dry/inflector/acronyms.rb#14
+  # pkg:gem/dry-inflector#lib/dry/inflector/acronyms.rb:14
   def initialize; end
 
-  # @api private
   # @since 0.1.2
+  # @api private
   #
-  # source://dry-inflector//lib/dry/inflector/acronyms.rb#27
+  # pkg:gem/dry-inflector#lib/dry/inflector/acronyms.rb:27
   def add(rule, replacement); end
 
-  # @api private
   # @since 0.1.2
+  # @api private
   #
-  # source://dry-inflector//lib/dry/inflector/acronyms.rb#21
+  # pkg:gem/dry-inflector#lib/dry/inflector/acronyms.rb:21
   def apply_to(word, capitalize: T.unsafe(nil)); end
 
-  # @api private
-  # @since 0.1.2
-  #
-  # source://dry-inflector//lib/dry/inflector/acronyms.rb#10
+  # pkg:gem/dry-inflector#lib/dry/inflector/acronyms.rb:10
   def regex; end
 
   private
 
-  # @api private
   # @since 0.1.2
+  # @api private
   #
-  # source://dry-inflector//lib/dry/inflector/acronyms.rb#36
+  # pkg:gem/dry-inflector#lib/dry/inflector/acronyms.rb:36
   def define_regex_patterns; end
 end
 
-# @api private
 # @since 0.1.2
+# @api private
 #
-# source://dry-inflector//lib/dry/inflector.rb#323
+# pkg:gem/dry-inflector#lib/dry/inflector.rb:323
 Dry::Inflector::DEFAULT_SEPARATOR = T.let(T.unsafe(nil), String)
 
 # Inflections
 #
 # @since 0.1.0
 #
-# source://dry-inflector//lib/dry/inflector/inflections.rb#11
+# pkg:gem/dry-inflector#lib/dry/inflector/inflections.rb:11
 class Dry::Inflector::Inflections
   # Instantiate the rules
   #
-  # @api private
   # @return [Dry::Inflector::Inflections]
-  # @since 0.1.0
   # @yieldparam [self]
   #
-  # source://dry-inflector//lib/dry/inflector/inflections.rb#75
+  # @since 0.1.0
+  # @api private
+  #
+  # pkg:gem/dry-inflector#lib/dry/inflector/inflections.rb:75
   def initialize; end
 
   # Add one or more acronyms
@@ -351,28 +360,31 @@ class Dry::Inflector::Inflections
   # Acronyms affect how basic operations are performed, such
   # as camelize/underscore.
   #
+  # @param words [Array<String>] a list of acronyms
+  #
+  # @since 0.1.2
+  #
   # @example
   #   require "dry/inflector"
   #
   #   inflector = Dry::Inflector.new do |inflections|
-  #   inflections.acronym "HTML"
+  #     inflections.acronym "HTML"
   #   end
   #
   #   inflector.camelize("html")        # => "HTML"
   #   inflector.underscore("HTMLIsFun") # => "html_is_fun"
-  # @param words [Array<String>] a list of acronyms
-  # @since 0.1.2
   #
-  # source://dry-inflector//lib/dry/inflector/inflections.rb#196
+  # pkg:gem/dry-inflector#lib/dry/inflector/inflections.rb:196
   def acronym(*words); end
 
   # Acronyms
   #
-  # @api private
   # @return [Dry::Inflector::Acronyms]
-  # @since 0.1.2
   #
-  # source://dry-inflector//lib/dry/inflector/inflections.rb#66
+  # @since 0.1.2
+  # @api private
+  #
+  # pkg:gem/dry-inflector#lib/dry/inflector/inflections.rb:66
   def acronyms; end
 
   # Add a custom humanize rule
@@ -386,27 +398,30 @@ class Dry::Inflector::Inflections
   # When a string is used, the human form should be specified as desired
   # (example: `"The name"`, not `"the_name"`)
   #
+  # @param rule [String, Regexp] the rule
+  # @param replacement [String] the replacement
+  #
+  # @since 0.1.0
+  #
   # @example
   #   require "dry/inflector"
   #
   #   inflector = Dry::Inflector.new do |inflections|
-  #   inflections.human(/_cnt$/i, '\1_count')
-  #   inflections.human("legacy_col_person_name", "Name")
+  #     inflections.human(/_cnt$/i, '\1_count')
+  #     inflections.human("legacy_col_person_name", "Name")
   #   end
-  # @param replacement [String] the replacement
-  # @param rule [String, Regexp] the rule
-  # @since 0.1.0
   #
-  # source://dry-inflector//lib/dry/inflector/inflections.rb#223
+  # pkg:gem/dry-inflector#lib/dry/inflector/inflections.rb:223
   def human(rule, replacement); end
 
   # Human rules
   #
-  # @api private
   # @return [Dry::Inflector::Rules]
-  # @since 0.1.0
   #
-  # source://dry-inflector//lib/dry/inflector/inflections.rb#58
+  # @since 0.1.0
+  # @api private
+  #
+  # pkg:gem/dry-inflector#lib/dry/inflector/inflections.rb:58
   def humans; end
 
   # Add a custom pluralization rule
@@ -417,17 +432,19 @@ class Dry::Inflector::Inflections
   # This can only be used for strings, not regular expressions.
   # You simply pass the irregular in singular and plural form.
   #
+  # @param singular [String] the singular
+  # @param plural [String] the plural
+  #
+  # @since 0.1.0
+  #
   # @example
   #   require "dry/inflector"
   #
   #   inflector = Dry::Inflector.new do |inflections|
-  #   inflections.singular "octopus", "octopi"
+  #     inflections.singular "octopus", "octopi"
   #   end
-  # @param plural [String] the plural
-  # @param singular [String] the singular
-  # @since 0.1.0
   #
-  # source://dry-inflector//lib/dry/inflector/inflections.rb#150
+  # pkg:gem/dry-inflector#lib/dry/inflector/inflections.rb:150
   def irregular(singular, plural); end
 
   # Add a custom pluralization rule
@@ -438,26 +455,29 @@ class Dry::Inflector::Inflections
   # The replacement should always be a string that may include
   # references to the matched data from the rule.
   #
+  # @param rule [String, Regexp] the rule
+  # @param replacement [String] the replacement
+  #
+  # @since 0.1.0
+  #
   # @example
   #   require "dry/inflector"
   #
   #   inflector = Dry::Inflector.new do |inflections|
-  #   inflections.plural "virus", "viruses"
+  #     inflections.plural "virus", "viruses"
   #   end
-  # @param replacement [String] the replacement
-  # @param rule [String, Regexp] the rule
-  # @since 0.1.0
   #
-  # source://dry-inflector//lib/dry/inflector/inflections.rb#104
+  # pkg:gem/dry-inflector#lib/dry/inflector/inflections.rb:104
   def plural(rule, replacement); end
 
   # Pluralization rules
   #
-  # @api private
   # @return [Dry::Inflector::Rules]
-  # @since 0.1.0
   #
-  # source://dry-inflector//lib/dry/inflector/inflections.rb#34
+  # @since 0.1.0
+  # @api private
+  #
+  # pkg:gem/dry-inflector#lib/dry/inflector/inflections.rb:34
   def plurals; end
 
   # Add a custom singularization rule
@@ -468,175 +488,183 @@ class Dry::Inflector::Inflections
   # The replacement should always be a string that may include
   # references to the matched data from the rule.
   #
+  # @param rule [String, Regexp] the rule
+  # @param replacement [String] the replacement
+  #
+  # @since 0.1.0
+  #
   # @example
   #   require "dry/inflector"
   #
   #   inflector = Dry::Inflector.new do |inflections|
-  #   inflections.singular "thieves", "thief"
+  #     inflections.singular "thieves", "thief"
   #   end
-  # @param replacement [String] the replacement
-  # @param rule [String, Regexp] the rule
-  # @since 0.1.0
   #
-  # source://dry-inflector//lib/dry/inflector/inflections.rb#127
+  # pkg:gem/dry-inflector#lib/dry/inflector/inflections.rb:127
   def singular(rule, replacement); end
 
   # Singularization rules
   #
-  # @api private
   # @return [Dry::Inflector::Rules]
-  # @since 0.1.0
   #
-  # source://dry-inflector//lib/dry/inflector/inflections.rb#42
+  # @since 0.1.0
+  # @api private
+  #
+  # pkg:gem/dry-inflector#lib/dry/inflector/inflections.rb:42
   def singulars; end
 
   # Add a custom rule for uncountable words
   #
   # Uncountable will not be inflected
   #
+  # @param [Enumerable<String>] words
+  #
+  # @since 0.1.0
+  #
   # @example
   #   require "dry/inflector"
   #
   #   inflector = Dry::Inflector.new do |inflections|
-  #   inflections.uncountable "money"
-  #   inflections.uncountable "money", "information"
-  #   inflections.uncountable %w(money information rice)
+  #     inflections.uncountable "money"
+  #     inflections.uncountable "money", "information"
+  #     inflections.uncountable %w(money information rice)
   #   end
-  # @param words [Enumerable<String>]
-  # @since 0.1.0
   #
-  # source://dry-inflector//lib/dry/inflector/inflections.rb#174
+  # pkg:gem/dry-inflector#lib/dry/inflector/inflections.rb:174
   def uncountable(*words); end
 
   # Uncountable rules
   #
-  # @api private
   # @return [Set]
-  # @since 0.1.0
   #
-  # source://dry-inflector//lib/dry/inflector/inflections.rb#50
+  # @since 0.1.0
+  # @api private
+  #
+  # pkg:gem/dry-inflector#lib/dry/inflector/inflections.rb:50
   def uncountables; end
 
   private
 
   # Add irregular inflection
   #
-  # @api private
-  # @param replacement [String] the replacement
   # @param rule [String] the rule
-  # @return [undefined]
-  # @since 0.1.0
+  # @param replacement [String] the replacement
   #
-  # source://dry-inflector//lib/dry/inflector/inflections.rb#238
+  # @return [undefined]
+  #
+  # @since 0.1.0
+  # @api private
+  #
+  # pkg:gem/dry-inflector#lib/dry/inflector/inflections.rb:238
   def add_irregular(rule, replacement, target); end
 
   # Add a new rule
   #
-  # @api private
-  # @param replacement [String, Regexp] the replacement
   # @param rule [String, Regexp] the rule
+  # @param replacement [String, Regexp] the replacement
   # @param target [Dry::Inflector::Rules] the target
-  # @since 0.1.0
   #
-  # source://dry-inflector//lib/dry/inflector/inflections.rb#251
+  # @since 0.1.0
+  # @api private
+  #
+  # pkg:gem/dry-inflector#lib/dry/inflector/inflections.rb:251
   def rule(rule, replacement, target); end
 
   class << self
     # Instantiate a set of inflection rules.
     # It adds the default rules and the optional customizations, passed as a block.
     #
-    # @api private
     # @param blk [Proc] the optional, custom rules
-    # @since 0.1.0
     #
-    # source://dry-inflector//lib/dry/inflector/inflections.rb#21
+    # @since 0.1.0
+    # @api private
+    #
+    # pkg:gem/dry-inflector#lib/dry/inflector/inflections.rb:21
     def build(&blk); end
   end
 end
 
 # Default inflections
 #
-#
-# @api private
 # @since 0.1.0
+# @api private
 #
-# source://dry-inflector//lib/dry/inflector/inflections/defaults.rb#12
+# pkg:gem/dry-inflector#lib/dry/inflector/inflections/defaults.rb:12
 module Dry::Inflector::Inflections::Defaults
   class << self
-    # @api private
     # @since 0.1.0
+    # @api private
     #
-    # source://dry-inflector//lib/dry/inflector/inflections/defaults.rb#15
+    # pkg:gem/dry-inflector#lib/dry/inflector/inflections/defaults.rb:15
     def call(inflect); end
 
     private
 
-    # @api private
     # @since 0.1.2
+    # @api private
     #
-    # source://dry-inflector//lib/dry/inflector/inflections/defaults.rb#111
+    # pkg:gem/dry-inflector#lib/dry/inflector/inflections/defaults.rb:111
     def acronyms(inflect); end
 
-    # @api private
     # @since 0.1.0
+    # @api private
     #
-    # source://dry-inflector//lib/dry/inflector/inflections/defaults.rb#89
+    # pkg:gem/dry-inflector#lib/dry/inflector/inflections/defaults.rb:89
     def irregular(inflect); end
 
-    # @api private
     # @since 0.1.0
+    # @api private
     #
-    # source://dry-inflector//lib/dry/inflector/inflections/defaults.rb#25
+    # pkg:gem/dry-inflector#lib/dry/inflector/inflections/defaults.rb:25
     def plural(inflect); end
 
-    # @api private
     # @since 0.1.0
+    # @api private
     #
-    # source://dry-inflector//lib/dry/inflector/inflections/defaults.rb#53
+    # pkg:gem/dry-inflector#lib/dry/inflector/inflections/defaults.rb:53
     def singular(inflect); end
 
-    # @api private
     # @since 0.1.0
+    # @api private
     #
-    # source://dry-inflector//lib/dry/inflector/inflections/defaults.rb#104
+    # pkg:gem/dry-inflector#lib/dry/inflector/inflections/defaults.rb:104
     def uncountable(inflect); end
   end
 end
 
-# @api private
 # @since 0.1.0
+# @api private
 #
-# source://dry-inflector//lib/dry/inflector.rb#319
+# pkg:gem/dry-inflector#lib/dry/inflector.rb:319
 Dry::Inflector::ORDINALIZE_TH = T.let(T.unsafe(nil), Hash)
 
 # A set of inflection rules
 #
-# @api private
 # @since 0.1.0
+# @api private
 #
-# source://dry-inflector//lib/dry/inflector/rules.rb#9
+# pkg:gem/dry-inflector#lib/dry/inflector/rules.rb:9
 class Dry::Inflector::Rules
-  # @api private
-  # @return [Rules] a new instance of Rules
   # @since 0.1.0
+  # @api private
   #
-  # source://dry-inflector//lib/dry/inflector/rules.rb#12
+  # pkg:gem/dry-inflector#lib/dry/inflector/rules.rb:12
   def initialize; end
 
-  # @api private
   # @since 0.1.0
+  # @api private
   #
-  # source://dry-inflector//lib/dry/inflector/rules.rb#18
+  # pkg:gem/dry-inflector#lib/dry/inflector/rules.rb:18
   def apply_to(word); end
 
-  # @api private
   # @since 0.1.0
+  # @api private
   #
-  # source://dry-inflector//lib/dry/inflector/rules.rb#29
+  # pkg:gem/dry-inflector#lib/dry/inflector/rules.rb:29
   def insert(index, array); end
 end
 
 # @since 0.1.0
 #
-# source://dry-inflector//lib/dry/inflector/version.rb#6
+# pkg:gem/dry-inflector#lib/dry/inflector/version.rb:6
 Dry::Inflector::VERSION = T.let(T.unsafe(nil), String)

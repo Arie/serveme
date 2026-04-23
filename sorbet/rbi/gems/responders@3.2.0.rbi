@@ -5,7 +5,7 @@
 # Please instead update this file by running `bin/tapioca gem responders`.
 
 
-# source://responders//lib/responders.rb#6
+# pkg:gem/responders#lib/responders.rb:6
 module ActionController; end
 
 class ActionController::API < ::ActionController::Metal
@@ -28,7 +28,7 @@ class ActionController::Base < ::ActionController::Metal
   extend ::ActionController::Renderers::DeprecatedEscapeJsonResponses
 end
 
-# source://responders//lib/action_controller/respond_with.rb#7
+# pkg:gem/responders#lib/action_controller/respond_with.rb:7
 module ActionController::RespondWith
   extend ::ActiveSupport::Concern
   include GeneratedInstanceMethods
@@ -176,7 +176,7 @@ module ActionController::RespondWith
   #
   #    respond_with(resource, render: { template: 'path/to/template', status: 418 })
   #
-  # source://responders//lib/action_controller/respond_with.rb#201
+  # pkg:gem/responders#lib/action_controller/respond_with.rb:201
   def respond_with(*resources, &block); end
 
   protected
@@ -184,19 +184,10 @@ module ActionController::RespondWith
   # Collect mimes declared in the class method respond_to valid for the
   # current action.
   #
-  # source://responders//lib/action_controller/respond_with.rb#245
+  # pkg:gem/responders#lib/action_controller/respond_with.rb:245
   def collect_mimes_from_class_level; end
 
-  # Before action callback that can be used to prevent requests that do not
-  # match the mime types defined through <tt>respond_to</tt> from being executed.
-  #
-  #   class PeopleController < ApplicationController
-  #     respond_to :html, :xml, :json
-  #
-  #     before_action :verify_requested_format!
-  #   end
-  #
-  # source://responders//lib/action_controller/respond_with.rb#241
+  # pkg:gem/responders#lib/action_controller/respond_with.rb:241
   def verify_request_format!; end
 
   # Before action callback that can be used to prevent requests that do not
@@ -208,7 +199,7 @@ module ActionController::RespondWith
   #     before_action :verify_requested_format!
   #   end
   #
-  # source://responders//lib/action_controller/respond_with.rb#232
+  # pkg:gem/responders#lib/action_controller/respond_with.rb:232
   def verify_requested_format!; end
 
   module GeneratedClassMethods
@@ -230,11 +221,11 @@ module ActionController::RespondWith
   end
 end
 
-# source://responders//lib/action_controller/respond_with.rb#16
+# pkg:gem/responders#lib/action_controller/respond_with.rb:16
 module ActionController::RespondWith::ClassMethods
   # Clear all mime types in <tt>respond_to</tt>.
   #
-  # source://responders//lib/action_controller/respond_with.rb#57
+  # pkg:gem/responders#lib/action_controller/respond_with.rb:57
   def clear_respond_to; end
 
   # Defines mime types that are rendered by default when invoking
@@ -260,7 +251,7 @@ module ActionController::RespondWith::ClassMethods
   # This specifies that the <tt>:create</tt> action and no other responds
   # to <tt>:json</tt>.
   #
-  # source://responders//lib/action_controller/respond_with.rb#39
+  # pkg:gem/responders#lib/action_controller/respond_with.rb:39
   def respond_to(*mimes); end
 end
 
@@ -381,121 +372,102 @@ end
 #
 # Using <code>respond_with</code> with a block follows the same syntax as <code>respond_to</code>.
 #
-# source://responders//lib/action_controller/responder.rb#122
+# pkg:gem/responders#lib/action_controller/responder.rb:122
 class ActionController::Responder
-  # @return [Responder] a new instance of Responder
-  #
-  # source://responders//lib/action_controller/responder.rb#134
+  # pkg:gem/responders#lib/action_controller/responder.rb:134
   def initialize(controller, resources, options = T.unsafe(nil)); end
 
-  # Returns the value of attribute controller.
-  #
-  # source://responders//lib/action_controller/responder.rb#126
+  # pkg:gem/responders#lib/action_controller/responder.rb:126
   def controller; end
 
-  # source://responders//lib/action_controller/responder.rb#151
+  # pkg:gem/responders#lib/action_controller/responder.rb:151
   def delete?(*_arg0, **_arg1, &_arg2); end
 
-  # source://responders//lib/action_controller/responder.rb#123
+  # pkg:gem/responders#lib/action_controller/responder.rb:123
   def error_status; end
 
-  # Returns the value of attribute format.
-  #
-  # source://responders//lib/action_controller/responder.rb#126
+  # pkg:gem/responders#lib/action_controller/responder.rb:126
   def format; end
 
-  # source://responders//lib/action_controller/responder.rb#151
+  # pkg:gem/responders#lib/action_controller/responder.rb:151
   def get?(*_arg0, **_arg1, &_arg2); end
 
-  # source://responders//lib/action_controller/responder.rb#150
+  # pkg:gem/responders#lib/action_controller/responder.rb:150
   def head(*_arg0, **_arg1, &_arg2); end
 
-  # Returns the value of attribute options.
-  #
-  # source://responders//lib/action_controller/responder.rb#126
+  # pkg:gem/responders#lib/action_controller/responder.rb:126
   def options; end
 
-  # source://responders//lib/action_controller/responder.rb#151
+  # pkg:gem/responders#lib/action_controller/responder.rb:151
   def patch?(*_arg0, **_arg1, &_arg2); end
 
-  # source://responders//lib/action_controller/responder.rb#151
+  # pkg:gem/responders#lib/action_controller/responder.rb:151
   def post?(*_arg0, **_arg1, &_arg2); end
 
-  # source://responders//lib/action_controller/responder.rb#151
+  # pkg:gem/responders#lib/action_controller/responder.rb:151
   def put?(*_arg0, **_arg1, &_arg2); end
 
-  # source://responders//lib/action_controller/responder.rb#124
+  # pkg:gem/responders#lib/action_controller/responder.rb:124
   def redirect_status; end
 
-  # source://responders//lib/action_controller/responder.rb#150
+  # pkg:gem/responders#lib/action_controller/responder.rb:150
   def redirect_to(*_arg0, **_arg1, &_arg2); end
 
-  # source://responders//lib/action_controller/responder.rb#150
+  # pkg:gem/responders#lib/action_controller/responder.rb:150
   def render(*_arg0, **_arg1, &_arg2); end
 
-  # Returns the value of attribute request.
-  #
-  # source://responders//lib/action_controller/responder.rb#126
+  # pkg:gem/responders#lib/action_controller/responder.rb:126
   def request; end
 
-  # Returns the value of attribute resource.
-  #
-  # source://responders//lib/action_controller/responder.rb#126
+  # pkg:gem/responders#lib/action_controller/responder.rb:126
   def resource; end
 
-  # Returns the value of attribute resources.
-  #
-  # source://responders//lib/action_controller/responder.rb#126
+  # pkg:gem/responders#lib/action_controller/responder.rb:126
   def resources; end
 
   # Main entry point for responder responsible to dispatch to the proper format.
   #
-  # source://responders//lib/action_controller/responder.rb#166
+  # pkg:gem/responders#lib/action_controller/responder.rb:166
   def respond; end
 
   # All other formats follow the procedure below. First we try to render a
   # template, if the template is not available, we verify if the resource
   # responds to :to_format and display it.
   #
-  # source://responders//lib/action_controller/responder.rb#189
+  # pkg:gem/responders#lib/action_controller/responder.rb:189
   def to_format; end
 
   # HTML format does not render the resource, it always attempt to render a
   # template.
   #
-  # source://responders//lib/action_controller/responder.rb#174
+  # pkg:gem/responders#lib/action_controller/responder.rb:174
   def to_html; end
 
   # to_js simply tries to render a template. If no template is found, raises the error.
   #
-  # source://responders//lib/action_controller/responder.rb#181
+  # pkg:gem/responders#lib/action_controller/responder.rb:181
   def to_js; end
 
   protected
 
   # This is the common behavior for formats associated with APIs, such as :xml and :json.
   #
-  # @raise [MissingRenderer]
-  #
-  # source://responders//lib/action_controller/responder.rb#215
+  # pkg:gem/responders#lib/action_controller/responder.rb:215
   def api_behavior; end
 
-  # Returns the resource location by retrieving it from the options or
-  # returning the resources array.
-  #
-  # source://responders//lib/action_controller/responder.rb#234
+  # pkg:gem/responders#lib/action_controller/responder.rb:234
   def api_location; end
 
   # By default, render the <code>:edit</code> action for HTML requests with errors, unless
   # the verb was POST.
   #
-  # source://responders//lib/action_controller/responder.rb#294
+  # pkg:gem/responders#lib/action_controller/responder.rb:294
   def default_action; end
 
   # If a response block was given, use it, otherwise call render on
   # controller.
   #
-  # source://responders//lib/action_controller/responder.rb#239
+  # pkg:gem/responders#lib/action_controller/responder.rb:239
   def default_render; end
 
   # Display is just a shortcut to render a resource with the current format.
@@ -515,107 +487,96 @@ class ActionController::Responder
   #
   #   render xml: @user, status: :created
   #
-  # source://responders//lib/action_controller/responder.rb#266
+  # pkg:gem/responders#lib/action_controller/responder.rb:266
   def display(resource, given_options = T.unsafe(nil)); end
 
-  # source://responders//lib/action_controller/responder.rb#270
+  # pkg:gem/responders#lib/action_controller/responder.rb:270
   def display_errors; end
 
-  # source://responders//lib/action_controller/responder.rb#310
+  # pkg:gem/responders#lib/action_controller/responder.rb:310
   def error_rendering_options; end
 
   # Check whether the resource has errors.
   #
-  # @return [Boolean]
-  #
-  # source://responders//lib/action_controller/responder.rb#278
+  # pkg:gem/responders#lib/action_controller/responder.rb:278
   def has_errors?; end
 
   # Check whether the necessary Renderer is available
   #
-  # @return [Boolean]
-  #
-  # source://responders//lib/action_controller/responder.rb#283
+  # pkg:gem/responders#lib/action_controller/responder.rb:283
   def has_renderer?; end
 
-  # @return [Boolean]
-  #
-  # source://responders//lib/action_controller/responder.rb#287
+  # pkg:gem/responders#lib/action_controller/responder.rb:287
   def has_view_rendering?; end
 
-  # source://responders//lib/action_controller/responder.rb#302
+  # pkg:gem/responders#lib/action_controller/responder.rb:302
   def json_resource_errors; end
 
   # This is the common behavior for formats associated with browsing, like :html, :iphone and so forth.
   #
-  # source://responders//lib/action_controller/responder.rb#204
+  # pkg:gem/responders#lib/action_controller/responder.rb:204
   def navigation_behavior(error); end
 
-  # Returns the resource location by retrieving it from the options or
-  # returning the resources array.
-  #
-  # source://responders//lib/action_controller/responder.rb#233
+  # pkg:gem/responders#lib/action_controller/responder.rb:233
   def navigation_location; end
 
-  # source://responders//lib/action_controller/responder.rb#298
+  # pkg:gem/responders#lib/action_controller/responder.rb:298
   def resource_errors; end
 
   # Returns the resource location by retrieving it from the options or
   # returning the resources array.
   #
-  # source://responders//lib/action_controller/responder.rb#230
+  # pkg:gem/responders#lib/action_controller/responder.rb:230
   def resource_location; end
 
-  # @return [Boolean]
-  #
-  # source://responders//lib/action_controller/responder.rb#306
+  # pkg:gem/responders#lib/action_controller/responder.rb:306
   def response_overridden?; end
 
   class << self
     # Initializes a new responder and invokes the proper format. If the format is
     # not defined, call to_format.
     #
-    # source://responders//lib/action_controller/responder.rb#160
+    # pkg:gem/responders#lib/action_controller/responder.rb:160
     def call(*args); end
 
-    # source://responders//lib/action_controller/responder.rb#123
+    # pkg:gem/responders#lib/action_controller/responder.rb:123
     def error_status; end
 
-    # source://responders//lib/action_controller/responder.rb#123
+    # pkg:gem/responders#lib/action_controller/responder.rb:123
     def error_status=(value); end
 
-    # source://responders//lib/action_controller/responder.rb#124
+    # pkg:gem/responders#lib/action_controller/responder.rb:124
     def redirect_status; end
 
-    # source://responders//lib/action_controller/responder.rb#124
+    # pkg:gem/responders#lib/action_controller/responder.rb:124
     def redirect_status=(value); end
 
     private
 
-    # source://responders//lib/action_controller/responder.rb#123
+    # pkg:gem/responders#lib/action_controller/responder.rb:123
     def __class_attr_error_status; end
 
-    # source://responders//lib/action_controller/responder.rb#123
+    # pkg:gem/responders#lib/action_controller/responder.rb:123
     def __class_attr_error_status=(new_value); end
 
-    # source://responders//lib/action_controller/responder.rb#124
+    # pkg:gem/responders#lib/action_controller/responder.rb:124
     def __class_attr_redirect_status; end
 
-    # source://responders//lib/action_controller/responder.rb#124
+    # pkg:gem/responders#lib/action_controller/responder.rb:124
     def __class_attr_redirect_status=(new_value); end
   end
 end
 
-# source://responders//lib/action_controller/responder.rb#128
+# pkg:gem/responders#lib/action_controller/responder.rb:128
 ActionController::Responder::DEFAULT_ACTIONS_FOR_VERBS = T.let(T.unsafe(nil), Hash)
 
-# source://responders//lib/responders.rb#11
+# pkg:gem/responders#lib/responders.rb:11
 module Responders; end
 
 # This responder modifies your current responder to redirect
 # to the collection page on POST/PUT/DELETE.
 #
-# source://responders//lib/responders/collection_responder.rb#6
+# pkg:gem/responders#lib/responders/collection_responder.rb:6
 module Responders::CollectionResponder
   protected
 
@@ -631,11 +592,11 @@ module Responders::CollectionResponder
   #   [:admin, @post] #=> admin_posts_url
   #   [@user, @post]  #=> user_posts_url(@user.to_param)
   #
-  # source://responders//lib/responders/collection_responder.rb#21
+  # pkg:gem/responders#lib/responders/collection_responder.rb:21
   def navigation_location; end
 end
 
-# source://responders//lib/responders/controller_method.rb#4
+# pkg:gem/responders#lib/responders/controller_method.rb:4
 module Responders::ControllerMethod
   # Adds the given responders to the current controller's responder, allowing you to cherry-pick
   # which responders you want per controller.
@@ -653,7 +614,7 @@ module Responders::ControllerMethod
   #
   #    responders :flash, MyCustomResponder
   #
-  # source://responders//lib/responders/controller_method.rb#21
+  # pkg:gem/responders#lib/responders/controller_method.rb:21
   def responders(*responders); end
 end
 
@@ -740,70 +701,54 @@ end
 # However, the options :notice and :alert to respond_with are kept :notice
 # and :alert.
 #
-# source://responders//lib/responders/flash_responder.rb#87
+# pkg:gem/responders#lib/responders/flash_responder.rb:87
 module Responders::FlashResponder
-  # source://responders//lib/responders/flash_responder.rb#95
+  # pkg:gem/responders#lib/responders/flash_responder.rb:95
   def initialize(controller, resources, options = T.unsafe(nil)); end
 
-  # source://responders//lib/responders/flash_responder.rb#103
+  # pkg:gem/responders#lib/responders/flash_responder.rb:103
   def to_html; end
 
-  # source://responders//lib/responders/flash_responder.rb#108
+  # pkg:gem/responders#lib/responders/flash_responder.rb:108
   def to_js; end
 
   protected
 
-  # source://responders//lib/responders/flash_responder.rb#162
+  # pkg:gem/responders#lib/responders/flash_responder.rb:162
   def controller_interpolation_options; end
 
-  # source://responders//lib/responders/flash_responder.rb#174
+  # pkg:gem/responders#lib/responders/flash_responder.rb:174
   def flash_defaults_by_namespace(status); end
 
-  # source://responders//lib/responders/flash_responder.rb#147
+  # pkg:gem/responders#lib/responders/flash_responder.rb:147
   def mount_i18n_options(status); end
 
-  # source://responders//lib/responders/flash_responder.rb#166
+  # pkg:gem/responders#lib/responders/flash_responder.rb:166
   def resource_name; end
 
-  # source://responders//lib/responders/flash_responder.rb#131
+  # pkg:gem/responders#lib/responders/flash_responder.rb:131
   def set_flash(key, value); end
 
-  # source://responders//lib/responders/flash_responder.rb#115
+  # pkg:gem/responders#lib/responders/flash_responder.rb:115
   def set_flash_message!; end
 
-  # @return [Boolean]
-  #
-  # source://responders//lib/responders/flash_responder.rb#143
+  # pkg:gem/responders#lib/responders/flash_responder.rb:143
   def set_flash_message?; end
 
-  # @return [Boolean]
-  #
-  # source://responders//lib/responders/flash_responder.rb#138
+  # pkg:gem/responders#lib/responders/flash_responder.rb:138
   def set_flash_now?; end
 
   class << self
-    # Returns the value of attribute flash_keys.
-    #
-    # source://responders//lib/responders/flash_responder.rb#89
+    # pkg:gem/responders#lib/responders/flash_responder.rb:89
     def flash_keys; end
 
-    # Sets the attribute flash_keys
-    #
-    # @param value the value to set the attribute flash_keys to.
-    #
-    # source://responders//lib/responders/flash_responder.rb#89
+    # pkg:gem/responders#lib/responders/flash_responder.rb:89
     def flash_keys=(_arg0); end
 
-    # Returns the value of attribute namespace_lookup.
-    #
-    # source://responders//lib/responders/flash_responder.rb#89
+    # pkg:gem/responders#lib/responders/flash_responder.rb:89
     def namespace_lookup; end
 
-    # Sets the attribute namespace_lookup
-    #
-    # @param value the value to set the attribute namespace_lookup to.
-    #
-    # source://responders//lib/responders/flash_responder.rb#89
+    # pkg:gem/responders#lib/responders/flash_responder.rb:89
     def namespace_lookup=(_arg0); end
   end
 end
@@ -817,29 +762,25 @@ end
 # widgets... that are better handled with other strategies, as fragment caches and
 # the digest of the body.
 #
-# source://responders//lib/responders/http_cache_responder.rb#13
+# pkg:gem/responders#lib/responders/http_cache_responder.rb:13
 module Responders::HttpCacheResponder
-  # source://responders//lib/responders/http_cache_responder.rb#14
+  # pkg:gem/responders#lib/responders/http_cache_responder.rb:14
   def initialize(controller, resources, options = T.unsafe(nil)); end
 
-  # source://responders//lib/responders/http_cache_responder.rb#19
+  # pkg:gem/responders#lib/responders/http_cache_responder.rb:19
   def to_format; end
 
   protected
 
-  # source://responders//lib/responders/http_cache_responder.rb#26
+  # pkg:gem/responders#lib/responders/http_cache_responder.rb:26
   def do_http_cache!; end
 
-  # @return [Boolean]
-  #
-  # source://responders//lib/responders/http_cache_responder.rb#37
+  # pkg:gem/responders#lib/responders/http_cache_responder.rb:37
   def do_http_cache?; end
 
-  # @return [Boolean]
-  #
-  # source://responders//lib/responders/http_cache_responder.rb#42
+  # pkg:gem/responders#lib/responders/http_cache_responder.rb:42
   def persisted?; end
 end
 
-# source://responders//lib/responders.rb#18
+# pkg:gem/responders#lib/responders.rb:18
 class Responders::Railtie < ::Rails::Railtie; end

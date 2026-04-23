@@ -5,56 +5,56 @@
 # Please instead update this file by running `bin/tapioca gem cucumber-ci-environment`.
 
 
-# source://cucumber-ci-environment//lib/cucumber/ci_environment/variable_expression.rb#3
+# pkg:gem/cucumber-ci-environment#lib/cucumber/ci_environment/variable_expression.rb:3
 module Cucumber; end
 
-# source://cucumber-ci-environment//lib/cucumber/ci_environment/variable_expression.rb#4
+# pkg:gem/cucumber-ci-environment#lib/cucumber/ci_environment/variable_expression.rb:4
 module Cucumber::CiEnvironment
   extend ::Cucumber::CiEnvironment::VariableExpression
 
   private
 
-  # source://cucumber-ci-environment//lib/cucumber/ci_environment.rb#24
+  # pkg:gem/cucumber-ci-environment#lib/cucumber/ci_environment.rb:24
   def detect(ci_environment, env); end
 
-  # source://cucumber-ci-environment//lib/cucumber/ci_environment.rb#14
+  # pkg:gem/cucumber-ci-environment#lib/cucumber/ci_environment.rb:14
   def detect_ci_environment(env); end
 
-  # source://cucumber-ci-environment//lib/cucumber/ci_environment.rb#39
+  # pkg:gem/cucumber-ci-environment#lib/cucumber/ci_environment.rb:39
   def detect_git(ci_environment, env); end
 
-  # source://cucumber-ci-environment//lib/cucumber/ci_environment.rb#58
+  # pkg:gem/cucumber-ci-environment#lib/cucumber/ci_environment.rb:58
   def detect_revision(ci_environment, env); end
 
-  # source://cucumber-ci-environment//lib/cucumber/ci_environment.rb#69
+  # pkg:gem/cucumber-ci-environment#lib/cucumber/ci_environment.rb:69
   def remove_userinfo_from_url(value); end
 
   class << self
-    # source://cucumber-ci-environment//lib/cucumber/ci_environment.rb#24
+    # pkg:gem/cucumber-ci-environment#lib/cucumber/ci_environment.rb:24
     def detect(ci_environment, env); end
 
-    # source://cucumber-ci-environment//lib/cucumber/ci_environment.rb#14
+    # pkg:gem/cucumber-ci-environment#lib/cucumber/ci_environment.rb:14
     def detect_ci_environment(env); end
 
-    # source://cucumber-ci-environment//lib/cucumber/ci_environment.rb#39
+    # pkg:gem/cucumber-ci-environment#lib/cucumber/ci_environment.rb:39
     def detect_git(ci_environment, env); end
 
-    # source://cucumber-ci-environment//lib/cucumber/ci_environment.rb#58
+    # pkg:gem/cucumber-ci-environment#lib/cucumber/ci_environment.rb:58
     def detect_revision(ci_environment, env); end
 
-    # source://cucumber-ci-environment//lib/cucumber/ci_environment.rb#69
+    # pkg:gem/cucumber-ci-environment#lib/cucumber/ci_environment.rb:69
     def remove_userinfo_from_url(value); end
   end
 end
 
-# source://cucumber-ci-environment//lib/cucumber/ci_environment.rb#10
+# pkg:gem/cucumber-ci-environment#lib/cucumber/ci_environment.rb:10
 Cucumber::CiEnvironment::CI_ENVIRONMENTS_PATH = T.let(T.unsafe(nil), String)
 
-# source://cucumber-ci-environment//lib/cucumber/ci_environment/variable_expression.rb#5
+# pkg:gem/cucumber-ci-environment#lib/cucumber/ci_environment/variable_expression.rb:5
 module Cucumber::CiEnvironment::VariableExpression
-  # source://cucumber-ci-environment//lib/cucumber/ci_environment/variable_expression.rb#6
+  # pkg:gem/cucumber-ci-environment#lib/cucumber/ci_environment/variable_expression.rb:6
   def evaluate(expression, env); end
 
-  # source://cucumber-ci-environment//lib/cucumber/ci_environment/variable_expression.rb#36
+  # pkg:gem/cucumber-ci-environment#lib/cucumber/ci_environment/variable_expression.rb:36
   def get_value(variable, env); end
 end

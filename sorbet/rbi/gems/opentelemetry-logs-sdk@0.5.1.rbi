@@ -5,13 +5,51 @@
 # Please instead update this file by running `bin/tapioca gem opentelemetry-logs-sdk`.
 
 
-# source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/version.rb#7
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+# pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/version.rb:7
 module OpenTelemetry; end
 
-# source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/version.rb#8
+# pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/version.rb:8
 module OpenTelemetry::SDK; end
-
-class OpenTelemetry::SDK::ConfigurationError < ::OpenTelemetry::Error; end
 
 class OpenTelemetry::SDK::Configurator
   include ::OpenTelemetry::SDK::Logs::ConfiguratorPatch
@@ -20,39 +58,39 @@ end
 # The Logs module contains the OpenTelemetry logs reference
 # implementation.
 #
-# source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/version.rb#9
+# pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/version.rb:9
 module OpenTelemetry::SDK::Logs; end
 
 # The ConfiguratorPatch implements a hook to configure the logs portion
 # of the SDK.
 #
-# source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/configurator_patch.rb#14
+# pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/configurator_patch.rb:14
 module OpenTelemetry::SDK::Logs::ConfiguratorPatch
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/configurator_patch.rb#21
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/configurator_patch.rb:21
   def initialize; end
 
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/configurator_patch.rb#15
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/configurator_patch.rb:15
   def add_log_record_processor(log_record_processor); end
 
   private
 
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/configurator_patch.rb#33
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/configurator_patch.rb:33
   def configure_log_record_processors; end
 
   # The logs_configuration_hook method is where we define the setup
   # process for logs SDK.
   #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/configurator_patch.rb#28
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/configurator_patch.rb:28
   def logs_configuration_hook; end
 
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/configurator_patch.rb#38
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/configurator_patch.rb:38
   def wrapped_log_exporters_from_env; end
 end
 
 # The Export module contains the built-in exporters and log record
 # processors for the OpenTelemetry reference implementation.
 #
-# source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/export.rb#12
+# pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/export.rb:12
 module OpenTelemetry::SDK::Logs::Export; end
 
 # WARNING - The spec has some differences from the LogRecord version of this processor
@@ -63,27 +101,28 @@ module OpenTelemetry::SDK::Logs::Export; end
 # Typically, the BatchLogRecordProcessor will be more suitable for
 # production environments than the SimpleLogRecordProcessor.
 #
-# source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/export/batch_log_record_processor.rb#36
+# pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/export/batch_log_record_processor.rb:36
 class OpenTelemetry::SDK::Logs::Export::BatchLogRecordProcessor < ::OpenTelemetry::SDK::Logs::LogRecordProcessor
   # Returns a new instance of the {BatchLogRecordProcessor}.
   #
-  # @param exporter [LogRecordExporter] The (duck type) LogRecordExporter to where the
+  # @param [LogRecordExporter] exporter The (duck type) LogRecordExporter to where the
   #   recorded LogRecords are pushed after batching.
-  # @param exporter_timeout [Numeric] The maximum allowed time to export data.
+  # @param [Numeric] exporter_timeout The maximum allowed time to export data.
   #   Defaults to the value of the OTEL_BLRP_EXPORT_TIMEOUT
   #   environment variable, if set, or 30,000 (30 seconds).
-  # @param max_export_batch_size [Integer] the maximum batch size in log records.
-  #   Defaults to the value of the OTEL_BLRP_MAX_EXPORT_BATCH_SIZE environment
-  #   variable, if set, or 512.
-  # @param max_queue_size [Integer] the maximum queue size in log records.
-  #   Defaults to the value of the OTEL_BLRP_MAX_QUEUE_SIZE environment
-  #   variable, if set, or 2048.
-  # @param schedule_delay [Numeric] the delay interval between two consecutive exports.
+  # @param [Numeric] schedule_delay the delay interval between two consecutive exports.
   #   Defaults to the value of the OTEL_BLRP_SCHEDULE_DELAY environment
   #   variable, if set, or 1,000 (1 second).
+  # @param [Integer] max_queue_size the maximum queue size in log records.
+  #   Defaults to the value of the OTEL_BLRP_MAX_QUEUE_SIZE environment
+  #   variable, if set, or 2048.
+  # @param [Integer] max_export_batch_size the maximum batch size in log records.
+  #   Defaults to the value of the OTEL_BLRP_MAX_EXPORT_BATCH_SIZE environment
+  #   variable, if set, or 512.
+  #
   # @return a new instance of the {BatchLogRecordProcessor}.
   #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/export/batch_log_record_processor.rb#37
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/export/batch_log_record_processor.rb:37
   def initialize(exporter, exporter_timeout: T.unsafe(nil), schedule_delay: T.unsafe(nil), max_queue_size: T.unsafe(nil), max_export_batch_size: T.unsafe(nil), start_thread_on_boot: T.unsafe(nil)); end
 
   # Export all emitted log records that have not yet been exported to
@@ -94,64 +133,58 @@ class OpenTelemetry::SDK::Logs::Export::BatchLogRecordProcessor < ::OpenTelemetr
   # the process after an invocation, but before the `Processor` exports
   # the completed log records.
   #
-  # @param timeout [optional Numeric] An optional timeout in seconds.
+  # @param [optional Numeric] timeout An optional timeout in seconds.
   # @return [Integer] SUCCESS if no error occurred, FAILURE if a
   #   non-specific failure occurred, TIMEOUT if a timeout occurred.
   #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/export/batch_log_record_processor.rb#96
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/export/batch_log_record_processor.rb:96
   def force_flush(timeout: T.unsafe(nil)); end
 
   # Adds a log record to the batch. Thread-safe; may block on lock.
   #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/export/batch_log_record_processor.rb#70
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/export/batch_log_record_processor.rb:70
   def on_emit(log_record, _context); end
 
   # Shuts the consumer thread down and flushes the current accumulated
   # buffer will block until the thread is finished.
   #
-  # @param timeout [optional Numeric] An optional timeout in seconds.
+  # @param [optional Numeric] timeout An optional timeout in seconds.
   # @return [Integer] SUCCESS if no error occurred, FAILURE if a
   #   non-specific failure occurred, TIMEOUT if a timeout occurred.
   #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/export/batch_log_record_processor.rb#137
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/export/batch_log_record_processor.rb:137
   def shutdown(timeout: T.unsafe(nil)); end
 
   private
 
-  # Returns the value of attribute batch_size.
-  #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/export/batch_log_record_processor.rb#158
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/export/batch_log_record_processor.rb:158
   def batch_size; end
 
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/export/batch_log_record_processor.rb#185
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/export/batch_log_record_processor.rb:185
   def export_batch(batch, timeout: T.unsafe(nil)); end
 
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/export/batch_log_record_processor.rb#207
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/export/batch_log_record_processor.rb:207
   def fetch_batch; end
 
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/export/batch_log_record_processor.rb#211
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/export/batch_log_record_processor.rb:211
   def lock(&block); end
 
-  # Returns the value of attribute log_records.
-  #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/export/batch_log_record_processor.rb#158
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/export/batch_log_record_processor.rb:158
   def log_records; end
 
-  # Returns the value of attribute max_queue_size.
-  #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/export/batch_log_record_processor.rb#158
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/export/batch_log_record_processor.rb:158
   def max_queue_size; end
 
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/export/batch_log_record_processor.rb#203
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/export/batch_log_record_processor.rb:203
   def report_dropped_log_records(count, reason:); end
 
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/export/batch_log_record_processor.rb#194
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/export/batch_log_record_processor.rb:194
   def report_result(result_code, batch); end
 
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/export/batch_log_record_processor.rb#174
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/export/batch_log_record_processor.rb:174
   def reset_on_fork(restart_thread: T.unsafe(nil)); end
 
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/export/batch_log_record_processor.rb#160
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/export/batch_log_record_processor.rb:160
   def work; end
 end
 
@@ -159,43 +192,42 @@ end
 #
 # Potentially useful for exploratory purposes.
 #
-# source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/export/console_log_record_exporter.rb#14
+# pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/export/console_log_record_exporter.rb:14
 class OpenTelemetry::SDK::Logs::Export::ConsoleLogRecordExporter
-  # @return [ConsoleLogRecordExporter] a new instance of ConsoleLogRecordExporter
-  #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/export/console_log_record_exporter.rb#15
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/export/console_log_record_exporter.rb:15
   def initialize; end
 
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/export/console_log_record_exporter.rb#19
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/export/console_log_record_exporter.rb:19
   def export(log_records, timeout: T.unsafe(nil)); end
 
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/export/console_log_record_exporter.rb#27
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/export/console_log_record_exporter.rb:27
   def force_flush(timeout: T.unsafe(nil)); end
 
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/export/console_log_record_exporter.rb#31
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/export/console_log_record_exporter.rb:31
   def shutdown(timeout: T.unsafe(nil)); end
 end
 
+# pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/export.rb:13
 class OpenTelemetry::SDK::Logs::Export::ExportError < ::OpenTelemetry::Error; end
 
 # The operation finished with an error.
 #
-# source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/export.rb#18
+# pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/export.rb:18
 OpenTelemetry::SDK::Logs::Export::FAILURE = T.let(T.unsafe(nil), Integer)
 
-# refute_nil(log_records)
+#       refute_nil(log_records)
 #       assert_equal(1, log_records.size)
 #       assert_equal(log_records[0].body, 'log')
 #     end
 #   end
 #
-# source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/export/in_memory_log_record_exporter.rb#32
+# pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/export/in_memory_log_record_exporter.rb:32
 class OpenTelemetry::SDK::Logs::Export::InMemoryLogRecordExporter
   # Returns a new instance of the {InMemoryLogRecordExporter}.
   #
   # @return a new instance of the {InMemoryLogRecordExporter}.
   #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/export/in_memory_log_record_exporter.rb#36
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/export/in_memory_log_record_exporter.rb:36
   def initialize; end
 
   # Returns a frozen array of the emitted {LogRecordData}s, represented by
@@ -203,45 +235,45 @@ class OpenTelemetry::SDK::Logs::Export::InMemoryLogRecordExporter
   #
   # @return [Array<LogRecordData>] a frozen array of the emitted {LogRecordData}s.
   #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/export/in_memory_log_record_exporter.rb#46
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/export/in_memory_log_record_exporter.rb:46
   def emitted_log_records; end
 
   # Called to export {LogRecordData}s.
   #
-  # @param log_record_datas [Enumerable<LogRecordData>] the list of {LogRecordData}s to be
+  # @param [Enumerable<LogRecordData>] log_record_datas the list of {LogRecordData}s to be
   #   exported.
-  # @param timeout [optional Numeric] An optional timeout in seconds.
+  # @param [optional Numeric] timeout An optional timeout in seconds.
   # @return [Integer] the result of the export, SUCCESS or
   #   FAILURE
   #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/export/in_memory_log_record_exporter.rb#68
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/export/in_memory_log_record_exporter.rb:68
   def export(log_record_datas, timeout: T.unsafe(nil)); end
 
   # Called when {LoggerProvider#force_flush} is called, if this exporter is
   # registered to a {LoggerProvider} object.
   #
-  # @param timeout [optional Numeric] An optional timeout in seconds.
+  # @param [optional Numeric] timeout An optional timeout in seconds.
   # @return [Integer] SUCCESS if no error occurred, FAILURE if a
   #   non-specific failure occurred, TIMEOUT if a timeout occurred.
   #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/export/in_memory_log_record_exporter.rb#83
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/export/in_memory_log_record_exporter.rb:83
   def force_flush(timeout: T.unsafe(nil)); end
 
   # Clears the internal collection of emitted {LogRecord}s.
   #
   # Does not reset the state of this exporter if already shutdown.
   #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/export/in_memory_log_record_exporter.rb#55
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/export/in_memory_log_record_exporter.rb:55
   def reset; end
 
   # Called when {LoggerProvider#shutdown} is called, if this exporter is
   # registered to a {LoggerProvider} object.
   #
-  # @param timeout [optional Numeric] An optional timeout in seconds.
+  # @param [optional Numeric] timeout An optional timeout in seconds.
   # @return [Integer] SUCCESS if no error occurred, FAILURE if a
   #   non-specific failure occurred, TIMEOUT if a timeout occurred.
   #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/export/in_memory_log_record_exporter.rb#93
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/export/in_memory_log_record_exporter.rb:93
   def shutdown(timeout: T.unsafe(nil)); end
 end
 
@@ -253,46 +285,44 @@ end
 # To export data an exporter MUST be registered to the {LoggerProvider}
 # using a {LogRecordProcessor} implementation.
 #
-# source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/export/log_record_exporter.rb#18
+# pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/export/log_record_exporter.rb:18
 class OpenTelemetry::SDK::Logs::Export::LogRecordExporter
-  # @return [LogRecordExporter] a new instance of LogRecordExporter
-  #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/export/log_record_exporter.rb#19
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/export/log_record_exporter.rb:19
   def initialize; end
 
   # Called to export {LogRecordData}s.
   #
+  # @param [Enumerable<LogRecordData>] log_record_data the list of
   # {LogRecordData} to be exported.
+  # @param [optional Numeric] timeout An optional timeout in seconds.
   #
-  # @param log_record_data [Enumerable<LogRecordData>] the list of
-  # @param timeout [optional Numeric] An optional timeout in seconds.
   # @return [Integer] the result of the export.
   #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/export/log_record_exporter.rb#30
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/export/log_record_exporter.rb:30
   def export(log_record_data, timeout: T.unsafe(nil)); end
 
   # Called when {LoggerProvider#force_flush} is called, if this exporter is
   # registered to a {LoggerProvider} object.
   #
-  # @param timeout [optional Numeric] An optional timeout in seconds.
+  # @param [optional Numeric] timeout An optional timeout in seconds.
   # @return [Integer] SUCCESS if no error occurred, FAILURE if a
   #   non-specific failure occurred, TIMEOUT if a timeout occurred.
   #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/export/log_record_exporter.rb#42
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/export/log_record_exporter.rb:42
   def force_flush(timeout: T.unsafe(nil)); end
 
   # Called when {LoggerProvider#shutdown} is called, if this exporter is
   # registered to a {LoggerProvider} object.
   #
-  # @param timeout [optional Numeric] An optional timeout in seconds.
+  # @param [optional Numeric] timeout An optional timeout in seconds.
   #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/export/log_record_exporter.rb#50
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/export/log_record_exporter.rb:50
   def shutdown(timeout: T.unsafe(nil)); end
 end
 
 # The operation finished successfully.
 #
-# source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/export.rb#15
+# pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/export.rb:15
 OpenTelemetry::SDK::Logs::Export::SUCCESS = T.let(T.unsafe(nil), Integer)
 
 # An implementation of {LogRecordProcessor} that converts the LogRecord
@@ -306,7 +336,7 @@ OpenTelemetry::SDK::Logs::Export::SUCCESS = T.let(T.unsafe(nil), Integer)
 # attributes should be added to individual log records based on code
 # scopes.
 #
-# source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/export/simple_log_record_processor.rb#21
+# pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/export/simple_log_record_processor.rb:21
 class OpenTelemetry::SDK::Logs::Export::SimpleLogRecordProcessor < ::OpenTelemetry::SDK::Logs::LogRecordProcessor
   # Returns a new {SimpleLogRecordProcessor} that converts log records
   # to {ReadableLogRecords} and forwards them to the given
@@ -314,10 +344,10 @@ class OpenTelemetry::SDK::Logs::Export::SimpleLogRecordProcessor < ::OpenTelemet
   #
   # @param log_record_exporter the LogRecordExporter to push the
   #   recorded log records.
-  # @raise ArgumentError if the log_record_exporter is invalid or nil.
   # @return [SimpleLogRecordProcessor]
+  # @raise ArgumentError if the log_record_exporter is invalid or nil.
   #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/export/simple_log_record_processor.rb#30
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/export/simple_log_record_processor.rb:30
   def initialize(log_record_exporter); end
 
   # Export all log records to the configured `Exporter` that have not
@@ -328,13 +358,12 @@ class OpenTelemetry::SDK::Logs::Export::SimpleLogRecordProcessor < ::OpenTelemet
   # the process after an invocation, but before the `Processor` exports
   # the completed log records.
   #
-  # TODO: Should a rescue/handle error be added here for non-specific failures?
-  #
-  # @param timeout [optional Numeric] An optional timeout in seconds.
+  # @param [optional Numeric] timeout An optional timeout in seconds.
   # @return [Integer] SUCCESS if no error occurred, FAILURE if a
   #   non-specific failure occurred, TIMEOUT if a timeout occurred.
+  # TODO: Should a rescue/handle error be added here for non-specific failures?
   #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/export/simple_log_record_processor.rb#65
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/export/simple_log_record_processor.rb:65
   def force_flush(timeout: T.unsafe(nil)); end
 
   # Called when a LogRecord is emitted.
@@ -343,451 +372,279 @@ class OpenTelemetry::SDK::Logs::Export::SimpleLogRecordProcessor < ::OpenTelemet
   # should not throw or block the execution thread. It may not be called
   # after shutdown.
   #
-  # @param _context [Context] The current {Context}
-  # @param log_record [LogRecord] The emitted {LogRecord}
+  # @param [LogRecord] log_record The emitted {LogRecord}
+  # @param [Context] _context The current {Context}
   #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/export/simple_log_record_processor.rb#45
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/export/simple_log_record_processor.rb:45
   def on_emit(log_record, _context); end
 
   # Called when {LoggerProvider#shutdown} is called.
   #
-  # TODO: Should a rescue/handle error be added here for non-specific failures?
-  #
-  # @param timeout [optional Numeric] An optional timeout in seconds.
+  # @param [optional Numeric] timeout An optional timeout in seconds.
   # @return [Integer] SUCCESS if no error occurred, FAILURE if a
   #   non-specific failure occurred, TIMEOUT if a timeout occurred.
+  # TODO: Should a rescue/handle error be added here for non-specific failures?
   #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/export/simple_log_record_processor.rb#77
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/export/simple_log_record_processor.rb:77
   def shutdown(timeout: T.unsafe(nil)); end
 end
 
 # The operation timed out.
 #
-# source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/export.rb#21
+# pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/export.rb:21
 OpenTelemetry::SDK::Logs::Export::TIMEOUT = T.let(T.unsafe(nil), Integer)
 
 # Implementation of OpenTelemetry::Logs::LogRecord that records log events.
 #
-# source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record.rb#11
+# pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:11
 class OpenTelemetry::SDK::Logs::LogRecord < ::OpenTelemetry::Logs::LogRecord
   # Creates a new {LogRecord}.
   #
-  # @param OpenTelemetry::SDK::LogRecordLimits] [optional] log_record_limits
-  #   Attribute limits
-  # @param attributes [optional Hash{String => String, Numeric, Boolean,
-  # Array<String, Numeric, Boolean>}] Attributes to associate
-  #   with the {LogRecord}.
-  # @param body [optional String, Numeric, Boolean, Array<String, Numeric,
-  # Boolean>, Hash{String => String, Numeric, Boolean, Array<String,
-  # Numeric, Boolean>}] The body of the {LogRecord}.
-  # @param instrumentation_scope [optional OpenTelemetry::SDK::InstrumentationScope] The instrumentation scope, derived from the emitting Logger
-  # @param observed_timestamp [optional Time] Time when the event
+  # @param [optional Time] timestamp Time when the event occurred.
+  # @param [optional Time] observed_timestamp Time when the event
   #   was observed by the collection system. If nil, will first attempt
   #   to set to `timestamp`. If `timestamp` is nil, will set to Time.now.
-  # @param resource [optional OpenTelemetry::SDK::Resources::Resource] The
-  #   source of the log, desrived from the LoggerProvider.
-  # @param severity_number [optional Integer] The numerical value of the
-  #   log severity.
-  # @param severity_text [optional String] The log severity, also known as
-  #   log level.
-  # @param span_context [optional OpenTelemetry::Trace::SpanContext] The
+  # @param [optional OpenTelemetry::Trace::SpanContext] span_context The
   #   OpenTelemetry::Trace::SpanContext to associate with the LogRecord.
-  # @param span_id [optional String] The span ID associated with the
+  # @param [optional String] severity_text The log severity, also known as
+  #   log level.
+  # @param [optional Integer] severity_number The numerical value of the
+  #   log severity.
+  # @param [optional String, Numeric, Boolean, Array<String, Numeric,
+  #   Boolean>, Hash{String => String, Numeric, Boolean, Array<String,
+  #   Numeric, Boolean>}] body The body of the {LogRecord}.
+  # @param [optional Hash{String => String, Numeric, Boolean,
+  #   Array<String, Numeric, Boolean>}] attributes Attributes to associate
+  #   with the {LogRecord}.
+  # @param [optional String] trace_id The trace ID associated with the
   #   current context.
-  # @param timestamp [optional Time] Time when the event occurred.
-  # @param trace_flags [optional OpenTelemetry::Trace::TraceFlags] The
+  # @param [optional String] span_id The span ID associated with the
+  #   current context.
+  # @param [optional OpenTelemetry::Trace::TraceFlags] trace_flags The
   #   trace flags associated with the current context.
-  # @param trace_id [optional String] The trace ID associated with the
-  #   current context.
+  # @param [optional OpenTelemetry::SDK::Resources::Resource] resource The
+  #   source of the log, desrived from the LoggerProvider.
+  # @param [optional OpenTelemetry::SDK::InstrumentationScope] instrumentation_scope
+  #   The instrumentation scope, derived from the emitting Logger
+  # @param [optional] OpenTelemetry::SDK::LogRecordLimits] log_record_limits
+  #   Attribute limits
+  #
+  #
   # @return [LogRecord]
   #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record.rb#61
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:61
   def initialize(timestamp: T.unsafe(nil), observed_timestamp: T.unsafe(nil), severity_text: T.unsafe(nil), severity_number: T.unsafe(nil), body: T.unsafe(nil), attributes: T.unsafe(nil), trace_id: T.unsafe(nil), span_id: T.unsafe(nil), trace_flags: T.unsafe(nil), resource: T.unsafe(nil), instrumentation_scope: T.unsafe(nil), log_record_limits: T.unsafe(nil)); end
 
-  # Returns the value of attribute attributes.
-  #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record.rb#16
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:16
   def attributes; end
 
-  # Sets the attribute attributes
-  #
-  # @param value the value to set the attribute attributes to.
-  #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record.rb#16
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:16
   def attributes=(_arg0); end
 
-  # Returns the value of attribute body.
-  #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record.rb#16
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:16
   def body; end
 
-  # Sets the attribute body
-  #
-  # @param value the value to set the attribute body to.
-  #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record.rb#16
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:16
   def body=(_arg0); end
 
-  # Returns the value of attribute instrumentation_scope.
-  #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record.rb#16
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:16
   def instrumentation_scope; end
 
-  # Sets the attribute instrumentation_scope
-  #
-  # @param value the value to set the attribute instrumentation_scope to.
-  #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record.rb#16
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:16
   def instrumentation_scope=(_arg0); end
 
-  # Returns the value of attribute observed_timestamp.
-  #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record.rb#16
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:16
   def observed_timestamp; end
 
-  # Sets the attribute observed_timestamp
-  #
-  # @param value the value to set the attribute observed_timestamp to.
-  #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record.rb#16
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:16
   def observed_timestamp=(_arg0); end
 
-  # Returns the value of attribute resource.
-  #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record.rb#16
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:16
   def resource; end
 
-  # Sets the attribute resource
-  #
-  # @param value the value to set the attribute resource to.
-  #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record.rb#16
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:16
   def resource=(_arg0); end
 
-  # Returns the value of attribute severity_number.
-  #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record.rb#16
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:16
   def severity_number; end
 
-  # Sets the attribute severity_number
-  #
-  # @param value the value to set the attribute severity_number to.
-  #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record.rb#16
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:16
   def severity_number=(_arg0); end
 
-  # Returns the value of attribute severity_text.
-  #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record.rb#16
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:16
   def severity_text; end
 
-  # Sets the attribute severity_text
-  #
-  # @param value the value to set the attribute severity_text to.
-  #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record.rb#16
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:16
   def severity_text=(_arg0); end
 
-  # Returns the value of attribute span_id.
-  #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record.rb#16
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:16
   def span_id; end
 
-  # Sets the attribute span_id
-  #
-  # @param value the value to set the attribute span_id to.
-  #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record.rb#16
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:16
   def span_id=(_arg0); end
 
-  # Returns the value of attribute timestamp.
-  #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record.rb#16
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:16
   def timestamp; end
 
-  # Sets the attribute timestamp
-  #
-  # @param value the value to set the attribute timestamp to.
-  #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record.rb#16
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:16
   def timestamp=(_arg0); end
 
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record.rb#92
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:92
   def to_log_record_data; end
 
-  # Returns the value of attribute trace_flags.
-  #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record.rb#16
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:16
   def trace_flags; end
 
-  # Sets the attribute trace_flags
-  #
-  # @param value the value to set the attribute trace_flags to.
-  #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record.rb#16
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:16
   def trace_flags=(_arg0); end
 
-  # Returns the value of attribute trace_id.
-  #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record.rb#16
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:16
   def trace_id; end
 
-  # Sets the attribute trace_id
-  #
-  # @param value the value to set the attribute trace_id to.
-  #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record.rb#16
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:16
   def trace_id=(_arg0); end
 
   private
 
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record.rb#111
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:111
   def to_integer_nanoseconds(timestamp); end
 
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record.rb#117
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:117
   def trim_attributes(attributes); end
 
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record.rb#155
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:155
   def truncate_attribute_values(attributes, attribute_length_limit); end
 
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record.rb#132
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:132
   def truncate_attributes(attributes, attribute_limit); end
 
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record.rb#137
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:137
   def validate_attributes(attrs); end
 end
 
-# source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record.rb#12
+# pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:12
 OpenTelemetry::SDK::Logs::LogRecord::EMPTY_ATTRIBUTES = T.let(T.unsafe(nil), Hash)
 
 # LogRecordData is a Struct containing {LogRecord} data for export.
 #
-# source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record_data.rb#11
+# pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record_data.rb:11
 class OpenTelemetry::SDK::Logs::LogRecordData < ::Struct
-  # Returns the value of attribute attributes
-  #
-  # @return [Object] the current value of attributes
-  #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record_data.rb#11
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record_data.rb:11
   def attributes; end
 
-  # Sets the attribute attributes
-  #
-  # @param value [Object] the value to set the attribute attributes to.
-  # @return [Object] the newly set value
-  #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record_data.rb#11
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record_data.rb:11
   def attributes=(_); end
 
-  # Returns the value of attribute body
-  #
-  # @return [Object] the current value of body
-  #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record_data.rb#11
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record_data.rb:11
   def body; end
 
-  # Sets the attribute body
-  #
-  # @param value [Object] the value to set the attribute body to.
-  # @return [Object] the newly set value
-  #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record_data.rb#11
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record_data.rb:11
   def body=(_); end
 
-  # Returns the value of attribute instrumentation_scope
-  #
-  # @return [Object] the current value of instrumentation_scope
-  #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record_data.rb#11
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record_data.rb:11
   def instrumentation_scope; end
 
-  # Sets the attribute instrumentation_scope
-  #
-  # @param value [Object] the value to set the attribute instrumentation_scope to.
-  # @return [Object] the newly set value
-  #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record_data.rb#11
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record_data.rb:11
   def instrumentation_scope=(_); end
 
-  # Returns the value of attribute observed_timestamp
-  #
-  # @return [Object] the current value of observed_timestamp
-  #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record_data.rb#11
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record_data.rb:11
   def observed_timestamp; end
 
-  # Sets the attribute observed_timestamp
-  #
-  # @param value [Object] the value to set the attribute observed_timestamp to.
-  # @return [Object] the newly set value
-  #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record_data.rb#11
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record_data.rb:11
   def observed_timestamp=(_); end
 
-  # Returns the value of attribute resource
-  #
-  # @return [Object] the current value of resource
-  #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record_data.rb#11
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record_data.rb:11
   def resource; end
 
-  # Sets the attribute resource
-  #
-  # @param value [Object] the value to set the attribute resource to.
-  # @return [Object] the newly set value
-  #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record_data.rb#11
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record_data.rb:11
   def resource=(_); end
 
-  # Returns the value of attribute severity_number
-  #
-  # @return [Object] the current value of severity_number
-  #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record_data.rb#11
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record_data.rb:11
   def severity_number; end
 
-  # Sets the attribute severity_number
-  #
-  # @param value [Object] the value to set the attribute severity_number to.
-  # @return [Object] the newly set value
-  #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record_data.rb#11
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record_data.rb:11
   def severity_number=(_); end
 
-  # Returns the value of attribute severity_text
-  #
-  # @return [Object] the current value of severity_text
-  #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record_data.rb#11
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record_data.rb:11
   def severity_text; end
 
-  # Sets the attribute severity_text
-  #
-  # @param value [Object] the value to set the attribute severity_text to.
-  # @return [Object] the newly set value
-  #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record_data.rb#11
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record_data.rb:11
   def severity_text=(_); end
 
-  # Returns the value of attribute span_id
-  #
-  # @return [Object] the current value of span_id
-  #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record_data.rb#11
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record_data.rb:11
   def span_id; end
 
-  # Sets the attribute span_id
-  #
-  # @param value [Object] the value to set the attribute span_id to.
-  # @return [Object] the newly set value
-  #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record_data.rb#11
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record_data.rb:11
   def span_id=(_); end
 
-  # Returns the value of attribute timestamp
-  #
-  # @return [Object] the current value of timestamp
-  #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record_data.rb#11
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record_data.rb:11
   def timestamp; end
 
-  # Sets the attribute timestamp
-  #
-  # @param value [Object] the value to set the attribute timestamp to.
-  # @return [Object] the newly set value
-  #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record_data.rb#11
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record_data.rb:11
   def timestamp=(_); end
 
-  # Returns the value of attribute total_recorded_attributes
-  #
-  # @return [Object] the current value of total_recorded_attributes
-  #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record_data.rb#11
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record_data.rb:11
   def total_recorded_attributes; end
 
-  # Sets the attribute total_recorded_attributes
-  #
-  # @param value [Object] the value to set the attribute total_recorded_attributes to.
-  # @return [Object] the newly set value
-  #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record_data.rb#11
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record_data.rb:11
   def total_recorded_attributes=(_); end
 
-  # Returns the value of attribute trace_flags
-  #
-  # @return [Object] the current value of trace_flags
-  #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record_data.rb#11
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record_data.rb:11
   def trace_flags; end
 
-  # Sets the attribute trace_flags
-  #
-  # @param value [Object] the value to set the attribute trace_flags to.
-  # @return [Object] the newly set value
-  #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record_data.rb#11
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record_data.rb:11
   def trace_flags=(_); end
 
-  # Returns the value of attribute trace_id
-  #
-  # @return [Object] the current value of trace_id
-  #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record_data.rb#11
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record_data.rb:11
   def trace_id; end
 
-  # Sets the attribute trace_id
-  #
-  # @param value [Object] the value to set the attribute trace_id to.
-  # @return [Object] the newly set value
-  #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record_data.rb#11
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record_data.rb:11
   def trace_id=(_); end
 
   class << self
-    # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record_data.rb#11
+    # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record_data.rb:11
     def [](*_arg0); end
 
-    # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record_data.rb#11
+    # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record_data.rb:11
     def inspect; end
 
-    # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record_data.rb#11
+    # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record_data.rb:11
     def keyword_init?; end
 
-    # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record_data.rb#11
+    # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record_data.rb:11
     def members; end
 
-    # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record_data.rb#11
+    # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record_data.rb:11
     def new(*_arg0); end
   end
 end
 
 # Class that holds log record attribute limit parameters.
 #
-# source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record_limits.rb#11
+# pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record_limits.rb:11
 class OpenTelemetry::SDK::Logs::LogRecordLimits
   # Returns a {LogRecordLimits} with the desired values.
   #
-  # @raise [ArgumentError] if any of the max numbers are not positive.
   # @return [LogRecordLimits] with the desired values.
+  # @raise [ArgumentError] if any of the max numbers are not positive.
   #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record_limits.rb#22
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record_limits.rb:22
   def initialize(attribute_count_limit: T.unsafe(nil), attribute_length_limit: T.unsafe(nil)); end
 
   # The global default max number of attributes per {LogRecord}.
   #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record_limits.rb#13
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record_limits.rb:13
   def attribute_count_limit; end
 
   # The global default max length of attribute value per {LogRecord}.
   #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record_limits.rb#16
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record_limits.rb:16
   def attribute_length_limit; end
 end
 
 # The default {LogRecordLimits}.
 #
-# source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record_limits.rb#39
+# pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record_limits.rb:39
 OpenTelemetry::SDK::Logs::LogRecordLimits::DEFAULT = T.let(T.unsafe(nil), OpenTelemetry::SDK::Logs::LogRecordLimits)
 
 # LogRecordProcessor describes a duck type and provides a synchronous no-op hook for when a
@@ -795,7 +652,7 @@ OpenTelemetry::SDK::Logs::LogRecordLimits::DEFAULT = T.let(T.unsafe(nil), OpenTe
 # class to provide an implementation of LogRecordProcessor, provided the interface is
 # satisfied.
 #
-# source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record_processor.rb#14
+# pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record_processor.rb:14
 class OpenTelemetry::SDK::Logs::LogRecordProcessor
   # Export all log records to the configured `Exporter` that have not yet
   # been exported.
@@ -805,111 +662,114 @@ class OpenTelemetry::SDK::Logs::LogRecordProcessor
   # the process after an invocation, but before the `Processor` exports
   # the completed spans.
   #
-  # @param timeout [optional Numeric] An optional timeout in seconds.
+  # @param [optional Numeric] timeout An optional timeout in seconds.
   # @return [Integer] Export::SUCCESS if no error occurred, Export::FAILURE if
   #   a non-specific failure occurred, Export::TIMEOUT if a timeout occurred.
   #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record_processor.rb#32
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record_processor.rb:32
   def force_flush(timeout: T.unsafe(nil)); end
 
   # Called when a {LogRecord} is emitted. Subsequent calls are not
   # permitted after shutdown is called.
+  # @param [LogRecord] log_record The emitted {LogRecord}
+  # @param [Context] context The {Context}
   #
-  # @param context [Context] The {Context}
-  # @param log_record [LogRecord] The emitted {LogRecord}
-  #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record_processor.rb#19
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record_processor.rb:19
   def on_emit(log_record, context); end
 
   # Called when {LoggerProvider#shutdown} is called.
   #
-  # @param timeout [optional Numeric] An optional timeout in seconds.
+  # @param [optional Numeric] timeout An optional timeout in seconds.
   # @return [Integer] Export::SUCCESS if no error occurred, Export::FAILURE if
   #   a non-specific failure occurred, Export::TIMEOUT if a timeout occurred.
   #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/log_record_processor.rb#41
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record_processor.rb:41
   def shutdown(timeout: T.unsafe(nil)); end
 end
 
 # The SDK implementation of OpenTelemetry::Logs::Logger
 #
-# source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/logger.rb#11
+# pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/logger.rb:11
 class OpenTelemetry::SDK::Logs::Logger < ::OpenTelemetry::Logs::Logger
+  # @api private
+  #
   # Returns a new {OpenTelemetry::SDK::Logs::Logger} instance. This should
   # not be called directly. New loggers should be created using
   # {LoggerProvider#logger}.
   #
-  # @api private
-  # @param logger_provider [LoggerProvider] The {LoggerProvider} that
+  # @param [String] name Instrumentation package name
+  # @param [String] version Instrumentation package version
+  # @param [LoggerProvider] logger_provider The {LoggerProvider} that
   #   initialized the logger
-  # @param name [String] Instrumentation package name
-  # @param version [String] Instrumentation package version
+  #
   # @return [OpenTelemetry::SDK::Logs::Logger]
   #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/logger.rb#24
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/logger.rb:24
   def initialize(name, version, logger_provider); end
 
   # Emit a {LogRecord} to the processing pipeline.
   #
-  # @api public
-  # @param attributes [optional Hash{String => String, Numeric, Boolean,
-  # Array<String, Numeric, Boolean>}] Additional information
-  #   about the event.
-  # @param body [optional String, Numeric, Boolean, Array<String, Numeric,
-  # Boolean>, Hash{String => String, Numeric, Boolean, Array<String,
-  # Numeric, Boolean>}] A value containing the body of the log record.
-  # @param context [optional OpenTelemetry::Context] The OpenTelemetry::Context
-  #   to associate with the {LogRecord}.
-  # @param observed_timestamp [optional Time] Time when the event was
+  # @param [optional Time] timestamp Time when the event occurred.
+  # @param [optional Time] observed_timestamp Time when the event was
   #   observed by the collection system.
+  # @param [optional OpenTelemetry::Trace::SpanContext] span_context The
+  #   OpenTelemetry::Trace::SpanContext to associate with the
+  #   {LogRecord}.
+  # @param [optional String] severity_text Original string representation of
+  #   the severity as it is known at the source. Also known as log level.
   # @param severity_number [optional Integer] Numerical value of the
   #   severity. Smaller numerical values correspond to less severe events
   #   (such as debug events), larger numerical values correspond to more
   #   severe events (such as errors and critical events).
-  # @param severity_text [optional String] Original string representation of
-  #   the severity as it is known at the source. Also known as log level.
-  # @param span_context [optional OpenTelemetry::Trace::SpanContext] The
-  #   OpenTelemetry::Trace::SpanContext to associate with the
-  #   {LogRecord}.
-  # @param span_id [optional String (8-byte binary)] Span id. Can be set
-  #   for logs that are part of a particular processing span. If span_id
-  #   is present trace_id should also be present.
-  # @param timestamp [optional Time] Time when the event occurred.
-  # @param trace_flags [optional Integer (8-bit byte of bit flags)] Trace
-  #   flag as defined in {https://www.w3.org/TR/trace-context/#trace-flags W3C Trace Context}
-  #   specification. At the time of writing the specification defines one
-  #   flag - the SAMPLED flag.
-  # @param trace_id [optional String (16-byte binary)] Request trace id as
+  # @param [optional String, Numeric, Boolean, Array<String, Numeric,
+  #   Boolean>, Hash{String => String, Numeric, Boolean, Array<String,
+  #   Numeric, Boolean>}] body A value containing the body of the log record.
+  # @param [optional Hash{String => String, Numeric, Boolean,
+  #   Array<String, Numeric, Boolean>}] attributes Additional information
+  #   about the event.
+  # @param [optional String (16-byte binary)] trace_id Request trace id as
   #   defined in {https://www.w3.org/TR/trace-context/#trace-id W3C Trace Context}.
   #   Can be set for logs that are part of request processing and have an
   #   assigned trace id.
+  # @param [optional String (8-byte binary)] span_id Span id. Can be set
+  #   for logs that are part of a particular processing span. If span_id
+  #   is present trace_id should also be present.
+  # @param [optional Integer (8-bit byte of bit flags)] trace_flags Trace
+  #   flag as defined in {https://www.w3.org/TR/trace-context/#trace-flags W3C Trace Context}
+  #   specification. At the time of writing the specification defines one
+  #   flag - the SAMPLED flag.
+  # @param [optional OpenTelemetry::Context] context The OpenTelemetry::Context
+  #   to associate with the {LogRecord}.
   #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/logger.rb#64
+  # @api public
+  #
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/logger.rb:64
   def on_emit(timestamp: T.unsafe(nil), observed_timestamp: T.unsafe(nil), severity_text: T.unsafe(nil), severity_number: T.unsafe(nil), body: T.unsafe(nil), attributes: T.unsafe(nil), trace_id: T.unsafe(nil), span_id: T.unsafe(nil), trace_flags: T.unsafe(nil), context: T.unsafe(nil)); end
 end
 
 # The SDK implementation of OpenTelemetry::Logs::LoggerProvider.
 #
-# source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/logger_provider.rb#11
+# pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/logger_provider.rb:11
 class OpenTelemetry::SDK::Logs::LoggerProvider < ::OpenTelemetry::Logs::LoggerProvider
   # Returns a new LoggerProvider instance.
   #
-  # @param log_record_limits [optional LogRecordLimits] The limits for
-  #   attributes count and attribute length for LogRecords.
-  # @param resource [optional Resource] The resource to associate with
+  # @param [optional Resource] resource The resource to associate with
   #   new LogRecords created by {Logger}s created by this LoggerProvider.
+  # @param [optional LogRecordLimits] log_record_limits The limits for
+  #   attributes count and attribute length for LogRecords.
+  #
   # @return [OpenTelemetry::SDK::Logs::LoggerProvider]
   #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/logger_provider.rb#28
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/logger_provider.rb:28
   def initialize(resource: T.unsafe(nil), log_record_limits: T.unsafe(nil)); end
 
   # Adds a new log record processor to this LoggerProvider's
   # log_record_processors.
   #
-  # @param log_record_processor [LogRecordProcessor] The
+  # @param [LogRecordProcessor] log_record_processor The
   #   {LogRecordProcessor} to add to this LoggerProvider.
   #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/logger_provider.rb#62
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/logger_provider.rb:62
   def add_log_record_processor(log_record_processor); end
 
   # Immediately export all {LogRecord}s that have not yet been exported
@@ -920,25 +780,26 @@ class OpenTelemetry::SDK::Logs::LoggerProvider < ::OpenTelemetry::Logs::LoggerPr
   # the process after an invocation, but before the {LogRecordProcessor}
   # exports the completed {LogRecord}s.
   #
-  # @param timeout [optional Numeric] An optional timeout in seconds.
+  # @param [optional Numeric] timeout An optional timeout in seconds.
   # @return [Integer] Export::SUCCESS if no error occurred, Export::FAILURE if
   #   a non-specific failure occurred, Export::TIMEOUT if a timeout occurred.
   #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/logger_provider.rb#116
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/logger_provider.rb:116
   def force_flush(timeout: T.unsafe(nil)); end
 
   # Returns an {OpenTelemetry::SDK::Logs::Logger} instance.
   #
-  # @param name [String] Instrumentation package name
-  # @param version [optional String] Instrumentation package version
+  # @param [String] name Instrumentation package name
+  # @param [optional String] version Instrumentation package version
+  #
   # @return [OpenTelemetry::SDK::Logs::Logger]
   #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/logger_provider.rb#44
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/logger_provider.rb:44
   def logger(name:, version: T.unsafe(nil)); end
 
   # @api private
   #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/logger_provider.rb#133
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/logger_provider.rb:133
   def on_emit(timestamp: T.unsafe(nil), observed_timestamp: T.unsafe(nil), severity_text: T.unsafe(nil), severity_number: T.unsafe(nil), body: T.unsafe(nil), attributes: T.unsafe(nil), trace_id: T.unsafe(nil), span_id: T.unsafe(nil), trace_flags: T.unsafe(nil), instrumentation_scope: T.unsafe(nil), context: T.unsafe(nil)); end
 
   # Attempts to stop all the activity for this LoggerProvider. Calls
@@ -950,68 +811,50 @@ class OpenTelemetry::SDK::Logs::LoggerProvider < ::OpenTelemetry::Logs::LoggerPr
   #
   # After this is called all newly created {LogRecord}s will be no-op.
   #
-  # @param timeout [optional Numeric] An optional timeout in seconds.
+  # @param [optional Numeric] timeout An optional timeout in seconds.
   # @return [Integer] Export::SUCCESS if no error occurred, Export::FAILURE if
   #   a non-specific failure occurred, Export::TIMEOUT if a timeout occurred.
   #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/logger_provider.rb#85
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/logger_provider.rb:85
   def shutdown(timeout: T.unsafe(nil)); end
 end
 
-# source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/logger_provider.rb#12
+# pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/logger_provider.rb:12
 class OpenTelemetry::SDK::Logs::LoggerProvider::Key < ::Struct
-  # Returns the value of attribute name
-  #
-  # @return [Object] the current value of name
-  #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/logger_provider.rb#12
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/logger_provider.rb:12
   def name; end
 
-  # Sets the attribute name
-  #
-  # @param value [Object] the value to set the attribute name to.
-  # @return [Object] the newly set value
-  #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/logger_provider.rb#12
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/logger_provider.rb:12
   def name=(_); end
 
-  # Returns the value of attribute version
-  #
-  # @return [Object] the current value of version
-  #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/logger_provider.rb#12
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/logger_provider.rb:12
   def version; end
 
-  # Sets the attribute version
-  #
-  # @param value [Object] the value to set the attribute version to.
-  # @return [Object] the newly set value
-  #
-  # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/logger_provider.rb#12
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/logger_provider.rb:12
   def version=(_); end
 
   class << self
-    # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/logger_provider.rb#12
+    # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/logger_provider.rb:12
     def [](*_arg0); end
 
-    # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/logger_provider.rb#12
+    # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/logger_provider.rb:12
     def inspect; end
 
-    # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/logger_provider.rb#12
+    # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/logger_provider.rb:12
     def keyword_init?; end
 
-    # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/logger_provider.rb#12
+    # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/logger_provider.rb:12
     def members; end
 
-    # source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/logger_provider.rb#12
+    # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/logger_provider.rb:12
     def new(*_arg0); end
   end
 end
 
-# source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/logger_provider.rb#15
+# pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/logger_provider.rb:15
 OpenTelemetry::SDK::Logs::LoggerProvider::UNEXPECTED_ERROR_MESSAGE = T.let(T.unsafe(nil), String)
 
 # Current OpenTelemetry logs sdk version
 #
-# source://opentelemetry-logs-sdk//lib/opentelemetry/sdk/logs/version.rb#11
+# pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/version.rb:11
 OpenTelemetry::SDK::Logs::VERSION = T.let(T.unsafe(nil), String)

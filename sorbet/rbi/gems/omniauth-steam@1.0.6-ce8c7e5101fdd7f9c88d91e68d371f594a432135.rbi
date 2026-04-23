@@ -5,59 +5,55 @@
 # Please instead update this file by running `bin/tapioca gem omniauth-steam`.
 
 
-# source://omniauth-steam//lib/omniauth-steam/version.rb#1
+# pkg:gem/omniauth-steam#lib/omniauth-steam/version.rb:1
 module OmniAuth; end
 
-# source://omniauth-steam//lib/omniauth-steam/version.rb#2
+# pkg:gem/omniauth-steam#lib/omniauth-steam/version.rb:2
 module OmniAuth::Steam; end
 
-# source://omniauth-steam//lib/omniauth-steam/version.rb#3
+# pkg:gem/omniauth-steam#lib/omniauth-steam/version.rb:3
 OmniAuth::Steam::VERSION = T.let(T.unsafe(nil), String)
 
-# source://omniauth-steam//lib/omniauth/strategies/steam.rb#6
+# pkg:gem/omniauth-steam#lib/omniauth/strategies/steam.rb:6
 module OmniAuth::Strategies; end
 
-# source://omniauth-steam//lib/omniauth/strategies/steam.rb#7
+# pkg:gem/omniauth-steam#lib/omniauth/strategies/steam.rb:7
 class OmniAuth::Strategies::Steam < ::OmniAuth::Strategies::OpenID
-  # source://omniauth-steam//lib/omniauth/strategies/steam.rb#61
+  # pkg:gem/omniauth-steam#lib/omniauth/strategies/steam.rb:61
   def callback_phase; end
 
-  # source://omniauth-steam//lib/omniauth/strategies/steam.rb#24
+  # pkg:gem/omniauth-steam#lib/omniauth/strategies/steam.rb:24
   def setup_phase; end
 
   private
 
-  # source://omniauth-steam//lib/omniauth/strategies/steam.rb#81
+  # pkg:gem/omniauth-steam#lib/omniauth/strategies/steam.rb:81
   def allowed_params; end
 
-  # source://omniauth-steam//lib/omniauth/strategies/steam.rb#120
+  # pkg:gem/omniauth-steam#lib/omniauth/strategies/steam.rb:120
   def friend_list_url; end
 
-  # source://omniauth-steam//lib/omniauth/strategies/steam.rb#101
+  # pkg:gem/omniauth-steam#lib/omniauth/strategies/steam.rb:101
   def player; end
 
-  # source://omniauth-steam//lib/omniauth/strategies/steam.rb#116
+  # pkg:gem/omniauth-steam#lib/omniauth/strategies/steam.rb:116
   def player_profile_uri; end
 
-  # source://omniauth-steam//lib/omniauth/strategies/steam.rb#97
+  # pkg:gem/omniauth-steam#lib/omniauth/strategies/steam.rb:97
   def raw_info; end
 
-  # source://omniauth-steam//lib/omniauth/strategies/steam.rb#105
+  # pkg:gem/omniauth-steam#lib/omniauth/strategies/steam.rb:105
   def steam_id; end
 
-  # @return [Boolean]
-  #
-  # source://omniauth-steam//lib/omniauth/strategies/steam.rb#69
+  # pkg:gem/omniauth-steam#lib/omniauth/strategies/steam.rb:69
   def valid_openid?; end
 
-  # @return [Boolean]
-  #
-  # source://omniauth-steam//lib/omniauth/strategies/steam.rb#75
+  # pkg:gem/omniauth-steam#lib/omniauth/strategies/steam.rb:75
   def valid_params?; end
 end
 
-# source://omniauth-steam//lib/omniauth/strategies/steam.rb#8
+# pkg:gem/omniauth-steam#lib/omniauth/strategies/steam.rb:8
 class OmniAuth::Strategies::Steam::SteamFetcher < ::OpenID::StandardFetcher
-  # source://omniauth-steam//lib/omniauth/strategies/steam.rb#9
+  # pkg:gem/omniauth-steam#lib/omniauth/strategies/steam.rb:9
   def fetch(url, body = T.unsafe(nil), headers = T.unsafe(nil), redirect_limit = T.unsafe(nil)); end
 end

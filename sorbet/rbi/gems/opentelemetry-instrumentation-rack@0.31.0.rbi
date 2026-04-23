@@ -11,36 +11,45 @@
 #
 # The OpenTelemetry module provides global accessors for telemetry objects.
 # See the documentation for the `opentelemetry-api` gem for details.
+# Copyright The OpenTelemetry Authors
 #
-# source://opentelemetry-instrumentation-rack//lib/opentelemetry/instrumentation.rb#13
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+# pkg:gem/opentelemetry-instrumentation-rack#lib/opentelemetry/instrumentation.rb:13
 module OpenTelemetry; end
 
 # Instrumentation should be able to handle the case when the library is not installed on a user's system.
 #
-# source://opentelemetry-instrumentation-rack//lib/opentelemetry/instrumentation.rb#15
+# pkg:gem/opentelemetry-instrumentation-rack#lib/opentelemetry/instrumentation.rb:15
 module OpenTelemetry::Instrumentation; end
 
 # Contains the OpenTelemetry instrumentation for the Rack gem
 #
-# source://opentelemetry-instrumentation-rack//lib/opentelemetry/instrumentation/rack.rb#13
+# pkg:gem/opentelemetry-instrumentation-rack#lib/opentelemetry/instrumentation/rack.rb:13
 module OpenTelemetry::Instrumentation::Rack
   extend ::OpenTelemetry::Instrumentation::Rack
 
   # Returns a context containing the span, derived from the optional parent
   # context, or the current context if one was not provided.
   #
-  # @param context [optional Context] The context to use as the parent for
+  # @param [optional Context] context The context to use as the parent for
   #   the returned context
   #
-  # source://opentelemetry-instrumentation-rack//lib/opentelemetry/instrumentation/rack.rb#33
+  # pkg:gem/opentelemetry-instrumentation-rack#lib/opentelemetry/instrumentation/rack.rb:33
   def context_with_span(span, parent_context: T.unsafe(nil)); end
 
   # Returns the current span from the current or provided context
   #
-  # @param context [optional Context] The context to lookup the current
+  # @param [optional Context] context The context to lookup the current
   #   {Span} from. Defaults to Context.current
   #
-  # source://opentelemetry-instrumentation-rack//lib/opentelemetry/instrumentation/rack.rb#23
+  # pkg:gem/opentelemetry-instrumentation-rack#lib/opentelemetry/instrumentation/rack.rb:23
   def current_span(context = T.unsafe(nil)); end
 
   # Activates/deactivates the Span within the current Context, which makes the "current span"
@@ -48,94 +57,94 @@ module OpenTelemetry::Instrumentation::Rack
   #
   # On exit, the Span that was active before calling this method will be reactivated.
   #
-  # @param span [Span] the span to activate
+  # @param [Span] span the span to activate
   # @yield [span, context] yields span and a context containing the span to the block.
   #
-  # source://opentelemetry-instrumentation-rack//lib/opentelemetry/instrumentation/rack.rb#44
+  # pkg:gem/opentelemetry-instrumentation-rack#lib/opentelemetry/instrumentation/rack.rb:44
   def with_span(span); end
 end
 
-# source://opentelemetry-instrumentation-rack//lib/opentelemetry/instrumentation/rack.rb#16
+# pkg:gem/opentelemetry-instrumentation-rack#lib/opentelemetry/instrumentation/rack.rb:16
 OpenTelemetry::Instrumentation::Rack::CURRENT_SPAN_KEY = T.let(T.unsafe(nil), OpenTelemetry::Context::Key)
 
 # The Instrumentation class contains logic to detect and install the Rack
 # instrumentation
 #
-# source://opentelemetry-instrumentation-rack//lib/opentelemetry/instrumentation/rack/instrumentation.rb#14
+# pkg:gem/opentelemetry-instrumentation-rack#lib/opentelemetry/instrumentation/rack/instrumentation.rb:14
 class OpenTelemetry::Instrumentation::Rack::Instrumentation < ::OpenTelemetry::Instrumentation::Base
-  # source://opentelemetry-instrumentation-rack//lib/opentelemetry/instrumentation/rack/instrumentation.rb#35
+  # pkg:gem/opentelemetry-instrumentation-rack#lib/opentelemetry/instrumentation/rack/instrumentation.rb:35
   def middleware_args; end
 
-  # source://opentelemetry-instrumentation-rack//lib/opentelemetry/instrumentation/rack/instrumentation.rb#56
+  # pkg:gem/opentelemetry-instrumentation-rack#lib/opentelemetry/instrumentation/rack/instrumentation.rb:56
   def middleware_args_dup; end
 
   # Temporary Helper for Sinatra and ActionPack middleware to use during installation
   #
   # @example Default usage
   #   Rack::Builder.new do
-  #   use *OpenTelemetry::Instrumentation::Rack::Instrumentation.instance.middleware_args
-  #   run lambda { |_arg| [200, { 'Content-Type' => 'text/plain' }, body] }
+  #     use *OpenTelemetry::Instrumentation::Rack::Instrumentation.instance.middleware_args
+  #     run lambda { |_arg| [200, { 'Content-Type' => 'text/plain' }, body] }
   #   end
   # @return [Array] consisting of a middleware and arguments used in rack builders
   #
-  # source://opentelemetry-instrumentation-rack//lib/opentelemetry/instrumentation/rack/instrumentation.rb#48
+  # pkg:gem/opentelemetry-instrumentation-rack#lib/opentelemetry/instrumentation/rack/instrumentation.rb:48
   def middleware_args_old; end
 
-  # source://opentelemetry-instrumentation-rack//lib/opentelemetry/instrumentation/rack/instrumentation.rb#64
+  # pkg:gem/opentelemetry-instrumentation-rack#lib/opentelemetry/instrumentation/rack/instrumentation.rb:64
   def middleware_args_stable; end
 
   private
 
-  # source://opentelemetry-instrumentation-rack//lib/opentelemetry/instrumentation/rack/instrumentation.rb#129
+  # pkg:gem/opentelemetry-instrumentation-rack#lib/opentelemetry/instrumentation/rack/instrumentation.rb:129
   def build_attribute_name(prefix, suffix); end
 
-  # source://opentelemetry-instrumentation-rack//lib/opentelemetry/instrumentation/rack/instrumentation.rb#108
+  # pkg:gem/opentelemetry-instrumentation-rack#lib/opentelemetry/instrumentation/rack/instrumentation.rb:108
   def config_options(user_config); end
 
-  # source://opentelemetry-instrumentation-rack//lib/opentelemetry/instrumentation/rack/instrumentation.rb#74
+  # pkg:gem/opentelemetry-instrumentation-rack#lib/opentelemetry/instrumentation/rack/instrumentation.rb:74
   def determine_semconv; end
 
-  # source://opentelemetry-instrumentation-rack//lib/opentelemetry/instrumentation/rack/instrumentation.rb#89
+  # pkg:gem/opentelemetry-instrumentation-rack#lib/opentelemetry/instrumentation/rack/instrumentation.rb:89
   def emit_old_semconv_deprecation_warning(option); end
 
-  # source://opentelemetry-instrumentation-rack//lib/opentelemetry/instrumentation/rack/instrumentation.rb#103
+  # pkg:gem/opentelemetry-instrumentation-rack#lib/opentelemetry/instrumentation/rack/instrumentation.rb:103
   def require_dependencies_dup; end
 
-  # source://opentelemetry-instrumentation-rack//lib/opentelemetry/instrumentation/rack/instrumentation.rb#93
+  # pkg:gem/opentelemetry-instrumentation-rack#lib/opentelemetry/instrumentation/rack/instrumentation.rb:93
   def require_dependencies_old; end
 
-  # source://opentelemetry-instrumentation-rack//lib/opentelemetry/instrumentation/rack/instrumentation.rb#98
+  # pkg:gem/opentelemetry-instrumentation-rack#lib/opentelemetry/instrumentation/rack/instrumentation.rb:98
   def require_dependencies_stable; end
 end
 
 # Provides utilities methods for creating Rack spans
 #
-# source://opentelemetry-instrumentation-rack//lib/opentelemetry/instrumentation/rack/util.rb#11
+# pkg:gem/opentelemetry-instrumentation-rack#lib/opentelemetry/instrumentation/rack/util.rb:11
 module OpenTelemetry::Instrumentation::Rack::Util; end
 
 # QueueTime simply...
 #
-# source://opentelemetry-instrumentation-rack//lib/opentelemetry/instrumentation/rack/util/queue_time.rb#12
+# pkg:gem/opentelemetry-instrumentation-rack#lib/opentelemetry/instrumentation/rack/util/queue_time.rb:12
 module OpenTelemetry::Instrumentation::Rack::Util::QueueTime
   private
 
-  # source://opentelemetry-instrumentation-rack//lib/opentelemetry/instrumentation/rack/util/queue_time.rb#19
+  # pkg:gem/opentelemetry-instrumentation-rack#lib/opentelemetry/instrumentation/rack/util/queue_time.rb:19
   def get_request_start(env, now = T.unsafe(nil)); end
 
   class << self
-    # source://opentelemetry-instrumentation-rack//lib/opentelemetry/instrumentation/rack/util/queue_time.rb#19
+    # pkg:gem/opentelemetry-instrumentation-rack#lib/opentelemetry/instrumentation/rack/util/queue_time.rb:19
     def get_request_start(env, now = T.unsafe(nil)); end
   end
 end
 
-# source://opentelemetry-instrumentation-rack//lib/opentelemetry/instrumentation/rack/util/queue_time.rb#15
+# pkg:gem/opentelemetry-instrumentation-rack#lib/opentelemetry/instrumentation/rack/util/queue_time.rb:15
 OpenTelemetry::Instrumentation::Rack::Util::QueueTime::MINIMUM_ACCEPTABLE_TIME_VALUE = T.let(T.unsafe(nil), Integer)
 
-# source://opentelemetry-instrumentation-rack//lib/opentelemetry/instrumentation/rack/util/queue_time.rb#14
+# pkg:gem/opentelemetry-instrumentation-rack#lib/opentelemetry/instrumentation/rack/util/queue_time.rb:14
 OpenTelemetry::Instrumentation::Rack::Util::QueueTime::QUEUE_START = T.let(T.unsafe(nil), String)
 
-# source://opentelemetry-instrumentation-rack//lib/opentelemetry/instrumentation/rack/util/queue_time.rb#13
+# pkg:gem/opentelemetry-instrumentation-rack#lib/opentelemetry/instrumentation/rack/util/queue_time.rb:13
 OpenTelemetry::Instrumentation::Rack::Util::QueueTime::REQUEST_START = T.let(T.unsafe(nil), String)
 
-# source://opentelemetry-instrumentation-rack//lib/opentelemetry/instrumentation/rack/version.rb#10
+# pkg:gem/opentelemetry-instrumentation-rack#lib/opentelemetry/instrumentation/rack/version.rb:10
 OpenTelemetry::Instrumentation::Rack::VERSION = T.let(T.unsafe(nil), String)

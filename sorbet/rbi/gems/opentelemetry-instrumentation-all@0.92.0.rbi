@@ -11,17 +11,20 @@
 #
 # The OpenTelemetry module provides global accessors for telemetry objects.
 # See the documentation for the `opentelemetry-api` gem for details.
+# Copyright The OpenTelemetry Authors
 #
-# source://opentelemetry-instrumentation-all//lib/opentelemetry/instrumentation/all.rb#58
+# SPDX-License-Identifier: Apache-2.0
+#
+# pkg:gem/opentelemetry-instrumentation-all#lib/opentelemetry/instrumentation/all.rb:58
 module OpenTelemetry; end
 
-# source://opentelemetry-instrumentation-all//lib/opentelemetry/instrumentation/all.rb#59
+# pkg:gem/opentelemetry-instrumentation-all#lib/opentelemetry/instrumentation/all.rb:59
 module OpenTelemetry::Instrumentation; end
 
 # Namespace for the Opentelemetry all-in-one gem
 #
-# source://opentelemetry-instrumentation-all//lib/opentelemetry/instrumentation/all.rb#61
+# pkg:gem/opentelemetry-instrumentation-all#lib/opentelemetry/instrumentation/all.rb:61
 module OpenTelemetry::Instrumentation::All; end
 
-# source://opentelemetry-instrumentation-all//lib/opentelemetry/instrumentation/all/version.rb#10
+# pkg:gem/opentelemetry-instrumentation-all#lib/opentelemetry/instrumentation/all/version.rb:10
 OpenTelemetry::Instrumentation::All::VERSION = T.let(T.unsafe(nil), String)

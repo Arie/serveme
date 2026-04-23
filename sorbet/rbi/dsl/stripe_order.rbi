@@ -124,7 +124,7 @@ class StripeOrder
     def delete_all; end
 
     sig { params(args: T.untyped).returns(Integer) }
-    def delete_by(args); end
+    def delete_by(*args); end
 
     sig do
       params(
@@ -140,7 +140,7 @@ class StripeOrder
     def destroy_all; end
 
     sig { params(args: T.untyped).returns(T::Array[::StripeOrder]) }
-    def destroy_by(args); end
+    def destroy_by(*args); end
 
     sig { params(conditions: T.untyped).returns(T::Boolean) }
     def exists?(conditions = :none); end
@@ -177,7 +177,7 @@ class StripeOrder
         batch_size: Integer,
         error_on_ignore: T.untyped,
         cursor: T.untyped,
-        order: Symbol,
+        order: T.any(Symbol, T::Array[Symbol]),
         block: T.proc.params(object: ::StripeOrder).void
       ).void
     end
@@ -188,7 +188,7 @@ class StripeOrder
         batch_size: Integer,
         error_on_ignore: T.untyped,
         cursor: T.untyped,
-        order: Symbol
+        order: T.any(Symbol, T::Array[Symbol])
       ).returns(T::Enumerator[::StripeOrder])
     end
     def find_each(start: nil, finish: nil, batch_size: 1000, error_on_ignore: nil, cursor: primary_key, order: :asc, &block); end
@@ -200,7 +200,7 @@ class StripeOrder
         batch_size: Integer,
         error_on_ignore: T.untyped,
         cursor: T.untyped,
-        order: Symbol,
+        order: T.any(Symbol, T::Array[Symbol]),
         block: T.proc.params(object: T::Array[::StripeOrder]).void
       ).void
     end
@@ -211,8 +211,8 @@ class StripeOrder
         batch_size: Integer,
         error_on_ignore: T.untyped,
         cursor: T.untyped,
-        order: Symbol
-      ).returns(T::Enumerator[T::Enumerator[::StripeOrder]])
+        order: T.any(Symbol, T::Array[Symbol])
+      ).returns(T::Enumerator[T::Array[::StripeOrder]])
     end
     def find_in_batches(start: nil, finish: nil, batch_size: 1000, error_on_ignore: nil, cursor: primary_key, order: :asc, &block); end
 
@@ -297,7 +297,7 @@ class StripeOrder
         load: T.untyped,
         error_on_ignore: T.untyped,
         cursor: T.untyped,
-        order: Symbol,
+        order: T.any(Symbol, T::Array[Symbol]),
         use_ranges: T.untyped,
         block: T.proc.params(object: PrivateRelation).void
       ).void
@@ -310,7 +310,7 @@ class StripeOrder
         load: T.untyped,
         error_on_ignore: T.untyped,
         cursor: T.untyped,
-        order: Symbol,
+        order: T.any(Symbol, T::Array[Symbol]),
         use_ranges: T.untyped
       ).returns(::ActiveRecord::Batches::BatchEnumerator)
     end
@@ -605,6 +605,10 @@ class StripeOrder
 
     sig { params(args: T.untyped, blk: T.untyped).returns(PrivateAssociationRelation) }
     def unscope(*args, &blk); end
+
+    sig { returns(PrivateAssociationRelation) }
+    sig { type_parameters(:U).params(block: T.proc.returns(T.type_parameter(:U))).returns(T.type_parameter(:U)) }
+    def unscoped(&block); end
 
     sig { returns(PrivateAssociationRelationWhereChain) }
     sig { params(args: T.untyped).returns(PrivateAssociationRelation) }
@@ -1379,6 +1383,10 @@ class StripeOrder
 
     sig { params(args: T.untyped, blk: T.untyped).returns(PrivateRelation) }
     def unscope(*args, &blk); end
+
+    sig { returns(PrivateRelation) }
+    sig { type_parameters(:U).params(block: T.proc.returns(T.type_parameter(:U))).returns(T.type_parameter(:U)) }
+    def unscoped(&block); end
 
     sig { returns(PrivateRelationWhereChain) }
     sig { params(args: T.untyped).returns(PrivateRelation) }

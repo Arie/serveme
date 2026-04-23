@@ -11,37 +11,40 @@
 #
 # The OpenTelemetry module provides global accessors for telemetry objects.
 # See the documentation for the `opentelemetry-api` gem for details.
+# Copyright The OpenTelemetry Authors
 #
-# source://opentelemetry-helpers-sql//lib/opentelemetry/helpers.rb#13
+# SPDX-License-Identifier: Apache-2.0
+#
+# pkg:gem/opentelemetry-helpers-sql#lib/opentelemetry/helpers.rb:13
 module OpenTelemetry; end
 
 # Helpers should be able to handle the case when the library is not installed on a user's system.
 #
-# source://opentelemetry-helpers-sql//lib/opentelemetry/helpers.rb#15
+# pkg:gem/opentelemetry-helpers-sql#lib/opentelemetry/helpers.rb:15
 module OpenTelemetry::Helpers; end
 
 # Contains helpers for OpenTelemetry instrumentation related to SQL
 #
-# source://opentelemetry-helpers-sql//lib/opentelemetry/helpers/sql.rb#12
+# pkg:gem/opentelemetry-helpers-sql#lib/opentelemetry/helpers/sql.rb:12
 module OpenTelemetry::Helpers::Sql
   extend ::OpenTelemetry::Helpers::Sql
 
   # Returns the attributes hash representing the SQL adapter context found
   # in the optional context or the current context if none is provided.
   #
-  # @param context [optional Context] The context to lookup the current
+  # @param [optional Context] context The context to lookup the current
   #   attributes hash. Defaults to Context.current
   #
-  # source://opentelemetry-helpers-sql//lib/opentelemetry/helpers/sql.rb#24
+  # pkg:gem/opentelemetry-helpers-sql#lib/opentelemetry/helpers/sql.rb:24
   def attributes(context = T.unsafe(nil)); end
 
   # Returns a context containing the merged attributes hash, derived from the
   # optional parent context, or the current context if one was not provided.
   #
-  # @param context [optional Context] The context to use as the parent for
+  # @param [optional Context] context The context to use as the parent for
   #   the returned context
   #
-  # source://opentelemetry-helpers-sql//lib/opentelemetry/helpers/sql.rb#34
+  # pkg:gem/opentelemetry-helpers-sql#lib/opentelemetry/helpers/sql.rb:34
   def context_with_attributes(attributes_hash, parent_context: T.unsafe(nil)); end
 
   # Activates/deactivates the merged attributes hash within the current Context,
@@ -50,16 +53,16 @@ module OpenTelemetry::Helpers::Sql
   # On exit, the attributes hash that was active before calling this method
   # will be reactivated.
   #
-  # @param span [Span] the span to activate
+  # @param [Span] span the span to activate
   # @yield [Hash, Context] yields attributes hash and a context containing the
   #   attributes hash to the block.
   #
-  # source://opentelemetry-helpers-sql//lib/opentelemetry/helpers/sql.rb#48
+  # pkg:gem/opentelemetry-helpers-sql#lib/opentelemetry/helpers/sql.rb:48
   def with_attributes(attributes_hash); end
 end
 
-# source://opentelemetry-helpers-sql//lib/opentelemetry/helpers/sql.rb#15
+# pkg:gem/opentelemetry-helpers-sql#lib/opentelemetry/helpers/sql.rb:15
 OpenTelemetry::Helpers::Sql::CURRENT_ATTRIBUTES_KEY = T.let(T.unsafe(nil), OpenTelemetry::Context::Key)
 
-# source://opentelemetry-helpers-sql//lib/opentelemetry/helpers/sql/version.rb#10
+# pkg:gem/opentelemetry-helpers-sql#lib/opentelemetry/helpers/sql/version.rb:10
 OpenTelemetry::Helpers::Sql::VERSION = T.let(T.unsafe(nil), String)

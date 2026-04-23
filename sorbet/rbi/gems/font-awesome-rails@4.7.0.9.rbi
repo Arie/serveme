@@ -5,16 +5,16 @@
 # Please instead update this file by running `bin/tapioca gem font-awesome-rails`.
 
 
-# source://font-awesome-rails//lib/font-awesome-rails/version.rb#1
+# pkg:gem/font-awesome-rails#lib/font-awesome-rails/version.rb:1
 module FontAwesome; end
 
-# source://font-awesome-rails//lib/font-awesome-rails/version.rb#2
+# pkg:gem/font-awesome-rails#lib/font-awesome-rails/version.rb:2
 module FontAwesome::Rails; end
 
-# source://font-awesome-rails//lib/font-awesome-rails/engine.rb#3
+# pkg:gem/font-awesome-rails#lib/font-awesome-rails/engine.rb:3
 class FontAwesome::Rails::Engine < ::Rails::Engine; end
 
-# source://font-awesome-rails//lib/font-awesome-rails/version.rb#3
+# pkg:gem/font-awesome-rails#lib/font-awesome-rails/version.rb:3
 FontAwesome::Rails::FA_VERSION = T.let(T.unsafe(nil), String)
 
 module FontAwesome::Rails::IconHelper
@@ -32,5 +32,5 @@ module FontAwesome::Rails::IconHelper::Private
   end
 end
 
-# source://font-awesome-rails//lib/font-awesome-rails/version.rb#4
+# pkg:gem/font-awesome-rails#lib/font-awesome-rails/version.rb:4
 FontAwesome::Rails::VERSION = T.let(T.unsafe(nil), String)

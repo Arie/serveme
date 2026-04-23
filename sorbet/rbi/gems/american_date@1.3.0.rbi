@@ -9,24 +9,24 @@ class Date
   include ::Comparable
 
   class << self
-    # source://american_date//lib/american_date.rb#30
+    # pkg:gem/american_date#lib/american_date.rb:30
     def _parse(string, comp = T.unsafe(nil), limit: T.unsafe(nil)); end
 
-    # source://american_date//lib/american_date.rb#27
+    # pkg:gem/american_date#lib/american_date.rb:27
     def _parse_without_american_date(*_arg0); end
 
-    # source://american_date//lib/american_date.rb#51
+    # pkg:gem/american_date#lib/american_date.rb:51
     def parse(string, comp = T.unsafe(nil), start = T.unsafe(nil), limit: T.unsafe(nil)); end
 
-    # source://american_date//lib/american_date.rb#48
+    # pkg:gem/american_date#lib/american_date.rb:48
     def parse_without_american_date(*_arg0); end
 
     private
 
-    # source://american_date//lib/american_date.rb#69
+    # pkg:gem/american_date#lib/american_date.rb:69
     def convert_american_to_iso(string); end
   end
 end
 
-# source://american_date//lib/american_date.rb#18
+# pkg:gem/american_date#lib/american_date.rb:18
 Date::AMERICAN_DATE_RE = T.let(T.unsafe(nil), Regexp)

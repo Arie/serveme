@@ -10,170 +10,158 @@
 # So now this is effectively duplicate logic with C/C++ code.
 # Maybe one day it can be actually shared again between both backends.
 #
-# source://mini_racer//lib/mini_racer/version.rb#3
+# pkg:gem/mini_racer#lib/mini_racer/version.rb:3
 module MiniRacer; end
 
-# source://mini_racer//lib/mini_racer.rb#5
+# pkg:gem/mini_racer#lib/mini_racer.rb:5
 class MiniRacer::Binary
-  # @raise [TypeError]
-  # @return [Binary] a new instance of Binary
-  #
-  # source://mini_racer//lib/mini_racer.rb#8
+  # pkg:gem/mini_racer#lib/mini_racer.rb:8
   def initialize(data); end
 
-  # Returns the value of attribute data.
-  #
-  # source://mini_racer//lib/mini_racer.rb#6
+  # pkg:gem/mini_racer#lib/mini_racer.rb:6
   def data; end
 end
 
 # eval is defined in the C class
 #
-# source://mini_racer//lib/mini_racer.rb#91
+# pkg:gem/mini_racer#lib/mini_racer.rb:33
 class MiniRacer::Context
-  # @return [Context] a new instance of Context
-  #
-  # source://mini_racer//lib/mini_racer.rb#33
+  # pkg:gem/mini_racer#lib/mini_racer.rb:33
   def initialize(*_arg0); end
 
-  # @raise [ContextDisposedError]
-  #
-  # source://mini_racer//lib/mini_racer.rb#33
+  # pkg:gem/mini_racer#lib/mini_racer.rb:33
   def attach(_arg0, _arg1); end
 
-  # source://mini_racer//lib/mini_racer.rb#33
+  # pkg:gem/mini_racer#lib/mini_racer.rb:33
   def call(*_arg0); end
 
-  # source://mini_racer//lib/mini_racer.rb#33
+  # pkg:gem/mini_racer#lib/mini_racer.rb:33
   def dispose; end
 
-  # source://mini_racer//lib/mini_racer.rb#33
+  # pkg:gem/mini_racer#lib/mini_racer.rb:33
   def eval(*_arg0); end
 
-  # source://mini_racer//lib/mini_racer.rb#33
+  # pkg:gem/mini_racer#lib/mini_racer.rb:33
   def heap_snapshot; end
 
-  # @raise [ContextDisposedError]
-  #
-  # source://mini_racer//lib/mini_racer.rb#33
+  # pkg:gem/mini_racer#lib/mini_racer.rb:33
   def heap_stats; end
 
-  # source://mini_racer//lib/mini_racer.rb#92
+  # pkg:gem/mini_racer#lib/mini_racer.rb:92
   def load(filename); end
 
-  # source://mini_racer//lib/mini_racer.rb#33
+  # pkg:gem/mini_racer#lib/mini_racer.rb:33
   def low_memory_notification; end
 
-  # source://mini_racer//lib/mini_racer.rb#33
+  # pkg:gem/mini_racer#lib/mini_racer.rb:33
   def pump_message_loop; end
 
-  # source://mini_racer//lib/mini_racer.rb#33
+  # pkg:gem/mini_racer#lib/mini_racer.rb:33
   def stop; end
 
-  # source://mini_racer//lib/mini_racer.rb#96
+  # pkg:gem/mini_racer#lib/mini_racer.rb:96
   def write_heap_snapshot(file_or_io); end
 end
 
-# source://mini_racer//lib/mini_racer.rb#44
+# pkg:gem/mini_racer#lib/mini_racer.rb:33
 class MiniRacer::ContextDisposedError < ::MiniRacer::Error; end
 
-# source://mini_racer//lib/mini_racer.rb#42
+# pkg:gem/mini_racer#lib/mini_racer.rb:33
 class MiniRacer::Error < ::StandardError; end
 
-# source://mini_racer//lib/mini_racer.rb#47
+# pkg:gem/mini_racer#lib/mini_racer.rb:33
 class MiniRacer::EvalError < ::MiniRacer::Error; end
 
+# pkg:gem/mini_racer#lib/mini_racer.rb:33
 class MiniRacer::InternalError < ::MiniRacer::EvalError; end
 
 # helper class returned when we have a JavaScript function
+#
+# pkg:gem/mini_racer#lib/mini_racer.rb:33
 class MiniRacer::JavaScriptFunction; end
 
-# source://mini_racer//lib/mini_racer/version.rb#5
+# pkg:gem/mini_racer#lib/mini_racer/version.rb:5
 MiniRacer::LIBV8_NODE_VERSION = T.let(T.unsafe(nil), String)
 
+# pkg:gem/mini_racer#lib/mini_racer.rb:21
 module MiniRacer::Loader
   class << self
-    # source://mini_racer//lib/mini_racer.rb#21
+    # pkg:gem/mini_racer#lib/mini_racer.rb:21
     def load(_arg0); end
   end
 end
 
-# source://mini_racer//lib/mini_racer.rb#48
+# pkg:gem/mini_racer#lib/mini_racer.rb:33
 class MiniRacer::ParseError < ::MiniRacer::EvalError; end
 
+# pkg:gem/mini_racer#lib/mini_racer.rb:33
 class MiniRacer::Platform
   class << self
-    # source://mini_racer//lib/mini_racer.rb#33
+    # pkg:gem/mini_racer#lib/mini_racer.rb:33
     def set_flags!(*_arg0); end
   end
 end
 
-# source://mini_racer//lib/mini_racer.rb#45
+# pkg:gem/mini_racer#lib/mini_racer.rb:33
 class MiniRacer::PlatformAlreadyInitialized < ::MiniRacer::Error; end
 
-# source://mini_racer//lib/mini_racer.rb#52
+# pkg:gem/mini_racer#lib/mini_racer.rb:33
 class MiniRacer::RuntimeError < ::MiniRacer::EvalError
-  # @return [RuntimeError] a new instance of RuntimeError
-  #
-  # source://mini_racer//lib/mini_racer.rb#53
+  # pkg:gem/mini_racer#lib/mini_racer.rb:53
   def initialize(message); end
 
-  # source://mini_racer//lib/mini_racer.rb#59
+  # pkg:gem/mini_racer#lib/mini_racer.rb:59
   def backtrace; end
 end
 
-# source://mini_racer//lib/mini_racer.rb#65
+# pkg:gem/mini_racer#lib/mini_racer.rb:33
 class MiniRacer::ScriptError < ::MiniRacer::EvalError
-  # @return [ScriptError] a new instance of ScriptError
-  #
-  # source://mini_racer//lib/mini_racer.rb#66
+  # pkg:gem/mini_racer#lib/mini_racer.rb:66
   def initialize(message); end
 
-  # source://mini_racer//lib/mini_racer.rb#72
+  # pkg:gem/mini_racer#lib/mini_racer.rb:72
   def backtrace; end
 
-  # source://mini_racer//lib/mini_racer.rb#33
+  # pkg:gem/mini_racer#lib/mini_racer.rb:33
   def cause; end
 end
 
-# source://mini_racer//lib/mini_racer.rb#49
+# pkg:gem/mini_racer#lib/mini_racer.rb:33
 class MiniRacer::ScriptTerminatedError < ::MiniRacer::EvalError; end
 
 # `size` and `warmup!` public methods are defined in the C class
+#
+# pkg:gem/mini_racer#lib/mini_racer.rb:33
 class MiniRacer::Snapshot
-  # @return [Snapshot] a new instance of Snapshot
-  #
-  # source://mini_racer//lib/mini_racer.rb#33
+  # pkg:gem/mini_racer#lib/mini_racer.rb:33
   def initialize(*_arg0); end
 
-  # source://mini_racer//lib/mini_racer.rb#33
+  # pkg:gem/mini_racer#lib/mini_racer.rb:33
   def dump; end
 
-  # source://mini_racer//lib/mini_racer.rb#33
+  # pkg:gem/mini_racer#lib/mini_racer.rb:33
   def size; end
 
-  # source://mini_racer//lib/mini_racer.rb#33
+  # pkg:gem/mini_racer#lib/mini_racer.rb:33
   def warmup!(_arg0); end
 
   class << self
-    # source://mini_racer//lib/mini_racer.rb#33
+    # pkg:gem/mini_racer#lib/mini_racer.rb:33
     def load(_arg0); end
   end
 end
 
-# source://mini_racer//lib/mini_racer.rb#78
+# pkg:gem/mini_racer#lib/mini_racer.rb:33
 class MiniRacer::SnapshotError < ::MiniRacer::Error
-  # @return [SnapshotError] a new instance of SnapshotError
-  #
-  # source://mini_racer//lib/mini_racer.rb#79
+  # pkg:gem/mini_racer#lib/mini_racer.rb:79
   def initialize(message); end
 
-  # source://mini_racer//lib/mini_racer.rb#85
+  # pkg:gem/mini_racer#lib/mini_racer.rb:85
   def backtrace; end
 end
 
-# source://mini_racer//lib/mini_racer.rb#50
+# pkg:gem/mini_racer#lib/mini_racer.rb:33
 class MiniRacer::V8OutOfMemoryError < ::MiniRacer::EvalError; end
 
-# source://mini_racer//lib/mini_racer/version.rb#4
+# pkg:gem/mini_racer#lib/mini_racer/version.rb:4
 MiniRacer::VERSION = T.let(T.unsafe(nil), String)

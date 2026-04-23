@@ -5,1236 +5,1068 @@
 # Please instead update this file by running `bin/tapioca gem fast-mcp`.
 
 
-# source://fast-mcp//lib/mcp/railtie.rb#15
+# pkg:gem/fast-mcp#lib/mcp/railtie.rb:15
 module ActionResource; end
 
-# source://fast-mcp//lib/mcp/railtie.rb#16
+# pkg:gem/fast-mcp#lib/mcp/railtie.rb:16
 ActionResource::Base = FastMcp::Resource
 
-# source://fast-mcp//lib/mcp/railtie.rb#9
+# pkg:gem/fast-mcp#lib/mcp/railtie.rb:9
 module ActionTool; end
 
-# source://fast-mcp//lib/mcp/railtie.rb#10
+# pkg:gem/fast-mcp#lib/mcp/railtie.rb:10
 ActionTool::Base = FastMcp::Tool
 
+# Extend Dry::Schema macros to support description
 # Extend Dry::Schema DSL to store metadata
 #
-# source://fast-mcp//lib/mcp/tool.rb#8
+# pkg:gem/fast-mcp#lib/mcp/tool.rb:8
 module Dry; end
 
-# source://fast-mcp//lib/mcp/tool.rb#9
+# pkg:gem/fast-mcp#lib/mcp/tool.rb:9
 module Dry::Schema; end
 
-# source://fast-mcp//lib/mcp/tool.rb#150
+# pkg:gem/fast-mcp#lib/mcp/tool.rb:150
 class Dry::Schema::DSL
-  # source://fast-mcp//lib/mcp/tool.rb#151
+  # pkg:gem/fast-mcp#lib/mcp/tool.rb:151
   def meta(key_name, meta_key, value); end
 
-  # source://fast-mcp//lib/mcp/tool.rb#163
+  # pkg:gem/fast-mcp#lib/mcp/tool.rb:163
   def meta_data; end
 end
 
-class Dry::Schema::InvalidSchemaError < ::StandardError; end
-
-# source://fast-mcp//lib/mcp/tool.rb#10
+# pkg:gem/fast-mcp#lib/mcp/tool.rb:10
 module Dry::Schema::Macros; end
 
 # Add description method to Hash macro
 #
-# source://fast-mcp//lib/mcp/tool.rb#63
+# pkg:gem/fast-mcp#lib/mcp/tool.rb:63
 class Dry::Schema::Macros::Hash < ::Dry::Schema::Macros::Schema
-  # source://fast-mcp//lib/mcp/tool.rb#85
+  # pkg:gem/fast-mcp#lib/mcp/tool.rb:85
   def call(*args, &block); end
 
-  # source://fast-mcp//lib/mcp/tool.rb#64
+  # pkg:gem/fast-mcp#lib/mcp/tool.rb:64
   def description(text); end
 
-  # source://fast-mcp//lib/mcp/tool.rb#73
+  # pkg:gem/fast-mcp#lib/mcp/tool.rb:73
   def hidden(hidden = T.unsafe(nil)); end
 
   # Override call method to manage nested context
   #
-  # source://fast-mcp//lib/mcp/tool.rb#83
+  # pkg:gem/fast-mcp#lib/mcp/tool.rb:83
   def original_call(*args, &block); end
 end
 
 # Add description method to Optional macro
 #
-# source://fast-mcp//lib/mcp/tool.rb#46
+# pkg:gem/fast-mcp#lib/mcp/tool.rb:46
 class Dry::Schema::Macros::Optional < ::Dry::Schema::Macros::Key
-  # source://fast-mcp//lib/mcp/tool.rb#47
+  # pkg:gem/fast-mcp#lib/mcp/tool.rb:47
   def description(text); end
 
-  # source://fast-mcp//lib/mcp/tool.rb#54
+  # pkg:gem/fast-mcp#lib/mcp/tool.rb:54
   def hidden(hidden = T.unsafe(nil)); end
 end
 
 # Add description method to Required macro
 #
-# source://fast-mcp//lib/mcp/tool.rb#29
+# pkg:gem/fast-mcp#lib/mcp/tool.rb:29
 class Dry::Schema::Macros::Required < ::Dry::Schema::Macros::Key
-  # source://fast-mcp//lib/mcp/tool.rb#30
+  # pkg:gem/fast-mcp#lib/mcp/tool.rb:30
   def description(text); end
 
-  # source://fast-mcp//lib/mcp/tool.rb#37
+  # pkg:gem/fast-mcp#lib/mcp/tool.rb:37
   def hidden(hidden = T.unsafe(nil)); end
 end
 
 # Add description method to Value macro
 #
-# source://fast-mcp//lib/mcp/tool.rb#12
+# pkg:gem/fast-mcp#lib/mcp/tool.rb:12
 class Dry::Schema::Macros::Value < ::Dry::Schema::Macros::DSL
-  # source://fast-mcp//lib/mcp/tool.rb#13
+  # pkg:gem/fast-mcp#lib/mcp/tool.rb:13
   def description(text); end
 
-  # source://fast-mcp//lib/mcp/tool.rb#20
+  # pkg:gem/fast-mcp#lib/mcp/tool.rb:20
   def hidden(hidden = T.unsafe(nil)); end
 end
 
+# Define the MCP module
+# Convenience method to create a Rack middleware
 # This class is not used yet.
 #
-# source://fast-mcp//lib/fast_mcp.rb#7
+# pkg:gem/fast-mcp#lib/fast_mcp.rb:7
 module FastMcp
   class << self
     # Create a Rack middleware for the MCP server with authentication
-    #
-    # @option options
-    # @option options
-    # @option options
-    # @option options
     # @param app [#call] The Rack application
     # @param options [Hash] Options for the middleware
-    # @return [#call] The Rack middleware
+    # @option options [String] :name The name of the server
+    # @option options [String] :version The version of the server
+    # @option options [String] :auth_token The authentication token
+    # @option options [Array<String,Regexp>] :allowed_origins List of allowed origins for DNS rebinding protection
     # @yield [server] A block to configure the server
     # @yieldparam server [FastMcp::Server] The server to configure
+    # @return [#call] The Rack middleware
     #
-    # source://fast-mcp//lib/fast_mcp.rb#71
+    # pkg:gem/fast-mcp#lib/fast_mcp.rb:71
     def authenticated_rack_middleware(app, options = T.unsafe(nil)); end
 
-    # source://fast-mcp//lib/fast_mcp.rb#159
+    # pkg:gem/fast-mcp#lib/fast_mcp.rb:159
     def default_rails_allowed_origins(rail_app); end
 
     # Mount the MCP middleware in a Rails application
-    #
-    # @option options
-    # @option options
-    # @option options
-    # @option options
-    # @option options
-    # @option options
-    # @option options
-    # @option options
-    # @option options
     # @param app [Rails::Application] The Rails application
     # @param options [Hash] Options for the middleware
-    # @return [#call] The Rack middleware
+    # @option options [String] :name The name of the server
+    # @option options [String] :version The version of the server
+    # @option options [String] :path_prefix The path prefix for the MCP endpoints
+    # @option options [String] :messages_route The route for the messages endpoint
+    # @option options [String] :sse_route The route for the SSE endpoint
+    # @option options [Logger] :logger The logger to use
+    # @option options [Boolean] :authenticate Whether to use authentication
+    # @option options [String] :auth_token The authentication token
+    # @option options [Array<String,Regexp>] :allowed_origins List of allowed origins for DNS rebinding protection
     # @yield [server] A block to configure the server
     # @yieldparam server [FastMcp::Server] The server to configure
+    # @return [#call] The Rack middleware
     #
-    # source://fast-mcp//lib/fast_mcp.rb#123
+    # pkg:gem/fast-mcp#lib/fast_mcp.rb:123
     def mount_in_rails(app, options = T.unsafe(nil)); end
 
     # Notify the server that a resource has been updated
-    #
     # @param uri [String] The URI of the resource
     #
-    # source://fast-mcp//lib/fast_mcp.rb#175
+    # pkg:gem/fast-mcp#lib/fast_mcp.rb:175
     def notify_resource_updated(uri); end
 
     # Create a Rack middleware for the MCP server
-    #
-    # @option options
-    # @option options
-    # @option options
-    # @option options
-    # @option options
-    # @option options
-    # @option options
-    # @option options
     # @param app [#call] The Rack application
     # @param options [Hash] Options for the middleware
-    # @return [#call] The Rack middleware
+    # @option options [String] :name The name of the server
+    # @option options [String] :version The version of the server
+    # @option options [String] :path_prefix The path prefix for the MCP endpoints
+    # @option options [String] :messages_route The route for the messages endpoint
+    # @option options [String] :sse_route The route for the SSE endpoint
+    # @option options [Logger] :logger The logger to use
+    # @option options [Class] :transport The transport class to use
+    # @option options [Array<String,Regexp>] :allowed_origins List of allowed origins for DNS rebinding protection
     # @yield [server] A block to configure the server
     # @yieldparam server [FastMcp::Server] The server to configure
+    # @return [#call] The Rack middleware
     #
-    # source://fast-mcp//lib/fast_mcp.rb#44
+    # pkg:gem/fast-mcp#lib/fast_mcp.rb:44
     def rack_middleware(app, options = T.unsafe(nil)); end
 
     # Register a resource with the MCP server
-    #
     # @param resource [FastMcp::Resource] The resource to register
     # @return [FastMcp::Resource] The registered resource
     #
-    # source://fast-mcp//lib/fast_mcp.rb#95
+    # pkg:gem/fast-mcp#lib/fast_mcp.rb:95
     def register_resource(resource); end
 
     # Register multiple resources at once
-    #
     # @param resources [Array<FastMcp::Resource>] The resources to register
     # @return [Array<FastMcp::Resource>] The registered resources
     #
-    # source://fast-mcp//lib/fast_mcp.rb#103
+    # pkg:gem/fast-mcp#lib/fast_mcp.rb:103
     def register_resources(*resources); end
 
     # Register a tool with the MCP server
-    #
     # @param tool [FastMcp::Tool] The tool to register
     # @return [FastMcp::Tool] The registered tool
     #
-    # source://fast-mcp//lib/fast_mcp.rb#79
+    # pkg:gem/fast-mcp#lib/fast_mcp.rb:79
     def register_tool(tool); end
 
     # Register multiple tools at once
-    #
     # @param tools [Array<FastMcp::Tool>] The tools to register
     # @return [Array<FastMcp::Tool>] The registered tools
     #
-    # source://fast-mcp//lib/fast_mcp.rb#87
+    # pkg:gem/fast-mcp#lib/fast_mcp.rb:87
     def register_tools(*tools); end
 
-    # Returns the value of attribute server.
-    #
-    # source://fast-mcp//lib/fast_mcp.rb#9
+    # pkg:gem/fast-mcp#lib/fast_mcp.rb:9
     def server; end
 
-    # Sets the attribute server
-    #
-    # @param value the value to set the attribute server to.
-    #
-    # source://fast-mcp//lib/fast_mcp.rb#9
+    # pkg:gem/fast-mcp#lib/fast_mcp.rb:9
     def server=(_arg0); end
   end
 end
 
-# source://fast-mcp//lib/mcp/logger.rb#5
+# pkg:gem/fast-mcp#lib/mcp/logger.rb:5
 class FastMcp::Logger < ::Logger
-  # @return [Logger] a new instance of Logger
-  #
-  # source://fast-mcp//lib/mcp/logger.rb#6
+  # pkg:gem/fast-mcp#lib/mcp/logger.rb:6
   def initialize(transport: T.unsafe(nil)); end
 
-  # source://fast-mcp//lib/mcp/logger.rb#21
+  # pkg:gem/fast-mcp#lib/mcp/logger.rb:21
   def add(severity, message = T.unsafe(nil), progname = T.unsafe(nil), &block); end
 
-  # Returns the value of attribute client_initialized.
-  #
-  # source://fast-mcp//lib/mcp/logger.rb#14
+  # pkg:gem/fast-mcp#lib/mcp/logger.rb:14
   def client_initialized; end
 
-  # Sets the attribute client_initialized
-  #
-  # @param value the value to set the attribute client_initialized to.
-  #
-  # source://fast-mcp//lib/mcp/logger.rb#14
+  # pkg:gem/fast-mcp#lib/mcp/logger.rb:14
   def client_initialized=(_arg0); end
 
-  # Returns the value of attribute client_initialized.
-  #
-  # source://fast-mcp//lib/mcp/logger.rb#15
+  # pkg:gem/fast-mcp#lib/mcp/logger.rb:15
   def client_initialized?; end
 
-  # @return [Boolean]
-  #
-  # source://fast-mcp//lib/mcp/logger.rb#28
+  # pkg:gem/fast-mcp#lib/mcp/logger.rb:28
   def rack_transport?; end
 
-  # @return [Boolean]
-  #
-  # source://fast-mcp//lib/mcp/logger.rb#17
+  # pkg:gem/fast-mcp#lib/mcp/logger.rb:17
   def stdio_transport?; end
 
-  # Returns the value of attribute transport.
-  #
-  # source://fast-mcp//lib/mcp/logger.rb#14
+  # pkg:gem/fast-mcp#lib/mcp/logger.rb:14
   def transport; end
 
-  # Sets the attribute transport
-  #
-  # @param value the value to set the attribute transport to.
-  #
-  # source://fast-mcp//lib/mcp/logger.rb#14
+  # pkg:gem/fast-mcp#lib/mcp/logger.rb:14
   def transport=(_arg0); end
 end
 
 # Railtie for integrating Fast MCP with Rails applications
 #
-# source://fast-mcp//lib/mcp/railtie.rb#22
+# pkg:gem/fast-mcp#lib/mcp/railtie.rb:22
 class FastMcp::Railtie < ::Rails::Railtie; end
 
 # Resource class for MCP Resources feature
 # Represents a resource that can be exposed to clients
 #
-# source://fast-mcp//lib/mcp/resource.rb#11
+# pkg:gem/fast-mcp#lib/mcp/resource.rb:11
 class FastMcp::Resource
   # Initialize with instance variables
-  #
   # @param params [Hash] The parameters for this resource instance
-  # @return [Resource] a new instance of Resource
   #
-  # source://fast-mcp//lib/mcp/resource.rb#161
+  # pkg:gem/fast-mcp#lib/mcp/resource.rb:161
   def initialize(params = T.unsafe(nil)); end
 
   # Check if the resource is binary
-  #
   # @return [Boolean] true if the resource is binary, false otherwise
   #
-  # source://fast-mcp//lib/mcp/resource.rb#201
+  # pkg:gem/fast-mcp#lib/mcp/resource.rb:201
   def binary?; end
 
   # Method to be overridden by subclasses to dynamically generate content
-  #
-  # @raise [NotImplementedError]
   # @return [String, nil] Generated content for this resource
   #
-  # source://fast-mcp//lib/mcp/resource.rb#195
+  # pkg:gem/fast-mcp#lib/mcp/resource.rb:195
   def content; end
 
   # Description of the resource - delegates to class method
-  #
   # @return [String, nil] The description for this resource
   #
-  # source://fast-mcp//lib/mcp/resource.rb#179
+  # pkg:gem/fast-mcp#lib/mcp/resource.rb:179
   def description; end
 
   # MIME type of the resource - delegates to class method
-  #
   # @return [String, nil] The MIME type for this resource
   #
-  # source://fast-mcp//lib/mcp/resource.rb#185
+  # pkg:gem/fast-mcp#lib/mcp/resource.rb:185
   def mime_type; end
 
   # Name of the resource - delegates to class method
-  #
   # @return [String, nil] The name for this resource
   #
-  # source://fast-mcp//lib/mcp/resource.rb#173
+  # pkg:gem/fast-mcp#lib/mcp/resource.rb:173
   def name; end
 
   # Get parameters from the URI template
-  #
   # @return [Hash] The parameters extracted from the URI
   #
-  # source://fast-mcp//lib/mcp/resource.rb#191
+  # pkg:gem/fast-mcp#lib/mcp/resource.rb:191
   def params; end
 
   # URI of the resource - delegates to class method
-  #
   # @return [String, nil] The URI for this resource
   #
-  # source://fast-mcp//lib/mcp/resource.rb#167
+  # pkg:gem/fast-mcp#lib/mcp/resource.rb:167
   def uri; end
 
   class << self
     # Get the Addressable::Template for this resource
-    #
     # @return [Addressable::Template] The Addressable::Template for this resource
     #
-    # source://fast-mcp//lib/mcp/resource.rb#33
+    # pkg:gem/fast-mcp#lib/mcp/resource.rb:33
     def addressable_template; end
 
     # Define description for this resource
-    #
     # @param value [String, nil] The description for this resource
     # @return [String] The description for this resource
     #
-    # source://fast-mcp//lib/mcp/resource.rb#94
+    # pkg:gem/fast-mcp#lib/mcp/resource.rb:94
     def description(value = T.unsafe(nil)); end
 
     # Load content from a file (class method)
-    #
     # @param file_path [String] Path to the file
     # @return [Resource] New resource instance with content loaded from file
     #
-    # source://fast-mcp//lib/mcp/resource.rb#130
+    # pkg:gem/fast-mcp#lib/mcp/resource.rb:130
     def from_file(file_path, name: T.unsafe(nil), description: T.unsafe(nil)); end
 
     # Initialize a new instance from the given URI
-    #
     # @param uri [String] The URI to initialize from
     # @return [Resource] A new resource instance
     #
-    # source://fast-mcp//lib/mcp/resource.rb#65
+    # pkg:gem/fast-mcp#lib/mcp/resource.rb:65
     def initialize_from_uri(uri); end
 
     # Match the given URI against the resource's addressable template
-    #
     # @param uri [String] The URI to match
     # @return [Addressable::Template::MatchData, nil] The match data if the URI matches, nil otherwise
     #
-    # source://fast-mcp//lib/mcp/resource.rb#58
+    # pkg:gem/fast-mcp#lib/mcp/resource.rb:58
     def match(uri); end
 
     # Get the resource metadata (without content)
-    #
     # @return [Hash] Resource metadata
     #
-    # source://fast-mcp//lib/mcp/resource.rb#109
+    # pkg:gem/fast-mcp#lib/mcp/resource.rb:109
     def metadata; end
 
     # Define MIME type for this resource
-    #
     # @param value [String, nil] The MIME type for this resource
     # @return [String] The MIME type for this resource
     #
-    # source://fast-mcp//lib/mcp/resource.rb#102
+    # pkg:gem/fast-mcp#lib/mcp/resource.rb:102
     def mime_type(value = T.unsafe(nil)); end
 
-    # source://fast-mcp//lib/mcp/resource.rb#85
+    # pkg:gem/fast-mcp#lib/mcp/resource.rb:85
     def name; end
 
     # Check if this resource has a non-templated URI
-    #
     # @return [Boolean] true if the URI does not contain template parameters
     #
-    # source://fast-mcp//lib/mcp/resource.rb#51
+    # pkg:gem/fast-mcp#lib/mcp/resource.rb:51
     def non_templated?; end
 
-    # source://fast-mcp//lib/mcp/resource.rb#84
+    # pkg:gem/fast-mcp#lib/mcp/resource.rb:84
     def original_name; end
 
     # Get the parameters from the given URI
-    #
     # @param uri [String] The URI to get the parameters from
     # @return [Hash] The parameters from the URI
     #
-    # source://fast-mcp//lib/mcp/resource.rb#72
+    # pkg:gem/fast-mcp#lib/mcp/resource.rb:72
     def params_from_uri(uri); end
 
     # Define name for this resource
-    #
     # @param value [String, nil] The name for this resource
     # @return [String] The name for this resource
     #
-    # source://fast-mcp//lib/mcp/resource.rb#79
+    # pkg:gem/fast-mcp#lib/mcp/resource.rb:79
     def resource_name(value = T.unsafe(nil)); end
 
-    # Returns the value of attribute server.
-    #
-    # source://fast-mcp//lib/mcp/resource.rb#13
+    # pkg:gem/fast-mcp#lib/mcp/resource.rb:13
     def server; end
 
-    # Sets the attribute server
-    #
-    # @param value the value to set the attribute server to.
-    #
-    # source://fast-mcp//lib/mcp/resource.rb#13
+    # pkg:gem/fast-mcp#lib/mcp/resource.rb:13
     def server=(_arg0); end
 
     # Get the template variables for this resource
-    #
     # @return [Array] The template variables for this resource
     #
-    # source://fast-mcp//lib/mcp/resource.rb#39
+    # pkg:gem/fast-mcp#lib/mcp/resource.rb:39
     def template_variables; end
 
     # Check if this resource has a templated URI
-    #
     # @return [Boolean] true if the URI contains template parameters
     #
-    # source://fast-mcp//lib/mcp/resource.rb#45
+    # pkg:gem/fast-mcp#lib/mcp/resource.rb:45
     def templated?; end
 
     # Define URI for this resource
-    #
     # @param value [String, nil] The URI for this resource
     # @return [String] The URI for this resource
     #
-    # source://fast-mcp//lib/mcp/resource.rb#18
+    # pkg:gem/fast-mcp#lib/mcp/resource.rb:18
     def uri(value = T.unsafe(nil)); end
 
     # Variabilize the URI with the given params
-    #
     # @param params [Hash] The parameters to variabilize the URI with
     # @return [String] The variabilized URI
     #
-    # source://fast-mcp//lib/mcp/resource.rb#27
+    # pkg:gem/fast-mcp#lib/mcp/resource.rb:27
     def variabilized_uri(params = T.unsafe(nil)); end
   end
 end
 
-# source://fast-mcp//lib/mcp/server.rb#14
+# pkg:gem/fast-mcp#lib/mcp/server.rb:14
 class FastMcp::Server
   include ::FastMcp::ServerFiltering
 
-  # @return [Server] a new instance of Server
-  #
-  # source://fast-mcp//lib/mcp/server.rb#29
+  # pkg:gem/fast-mcp#lib/mcp/server.rb:29
   def initialize(name:, version:, logger: T.unsafe(nil), capabilities: T.unsafe(nil)); end
 
-  # Returns the value of attribute capabilities.
-  #
-  # source://fast-mcp//lib/mcp/server.rb#17
+  # pkg:gem/fast-mcp#lib/mcp/server.rb:17
   def capabilities; end
 
   # Handle a JSON-RPC request and return the response as a JSON string
   #
-  # source://fast-mcp//lib/mcp/server.rb#135
+  # pkg:gem/fast-mcp#lib/mcp/server.rb:135
   def handle_json_request(request, headers: T.unsafe(nil)); end
 
   # Handle incoming JSON-RPC request
   #
-  # source://fast-mcp//lib/mcp/server.rb#142
+  # pkg:gem/fast-mcp#lib/mcp/server.rb:142
   def handle_request(json_str, headers: T.unsafe(nil)); end
 
-  # Returns the value of attribute logger.
-  #
-  # source://fast-mcp//lib/mcp/server.rb#47
+  # pkg:gem/fast-mcp#lib/mcp/server.rb:47
   def logger; end
 
-  # Sets the attribute logger
-  #
-  # @param value the value to set the attribute logger to.
-  #
-  # source://fast-mcp//lib/mcp/server.rb#47
+  # pkg:gem/fast-mcp#lib/mcp/server.rb:47
   def logger=(_arg0); end
 
-  # Returns the value of attribute name.
-  #
-  # source://fast-mcp//lib/mcp/server.rb#17
+  # pkg:gem/fast-mcp#lib/mcp/server.rb:17
   def name; end
 
   # Notify subscribers about a resource update
   #
-  # source://fast-mcp//lib/mcp/server.rb#191
+  # pkg:gem/fast-mcp#lib/mcp/server.rb:191
   def notify_resource_updated(uri); end
 
-  # source://fast-mcp//lib/mcp/server.rb#84
+  # pkg:gem/fast-mcp#lib/mcp/server.rb:84
   def on_error_result(&block); end
 
-  # source://fast-mcp//lib/mcp/server.rb#209
+  # pkg:gem/fast-mcp#lib/mcp/server.rb:209
   def read_resource(uri); end
 
   # Register a resource with the server
   #
-  # source://fast-mcp//lib/mcp/server.rb#73
+  # pkg:gem/fast-mcp#lib/mcp/server.rb:73
   def register_resource(resource); end
 
   # Register multiple resources at once
-  #
   # @param resources [Array<Resource>] Resources to register
   #
-  # source://fast-mcp//lib/mcp/server.rb#66
+  # pkg:gem/fast-mcp#lib/mcp/server.rb:66
   def register_resources(*resources); end
 
   # Register a tool with the server
   #
-  # source://fast-mcp//lib/mcp/server.rb#58
+  # pkg:gem/fast-mcp#lib/mcp/server.rb:58
   def register_tool(tool); end
 
   # Register multiple tools at once
-  #
   # @param tools [Array<Tool>] Tools to register
   #
-  # source://fast-mcp//lib/mcp/server.rb#51
+  # pkg:gem/fast-mcp#lib/mcp/server.rb:51
   def register_tools(*tools); end
 
   # Remove a resource from the server
   #
-  # source://fast-mcp//lib/mcp/server.rb#89
+  # pkg:gem/fast-mcp#lib/mcp/server.rb:89
   def remove_resource(uri); end
 
-  # Returns the value of attribute resources.
-  #
-  # source://fast-mcp//lib/mcp/server.rb#17
+  # pkg:gem/fast-mcp#lib/mcp/server.rb:17
   def resources; end
 
   # Start the server using stdio transport
   #
-  # source://fast-mcp//lib/mcp/server.rb#106
+  # pkg:gem/fast-mcp#lib/mcp/server.rb:106
   def start; end
 
   # Start the server as a Rack middleware
   #
-  # source://fast-mcp//lib/mcp/server.rb#119
+  # pkg:gem/fast-mcp#lib/mcp/server.rb:119
   def start_rack(app, options = T.unsafe(nil)); end
 
-  # Returns the value of attribute tools.
-  #
-  # source://fast-mcp//lib/mcp/server.rb#17
+  # pkg:gem/fast-mcp#lib/mcp/server.rb:17
   def tools; end
 
-  # Returns the value of attribute transport.
-  #
-  # source://fast-mcp//lib/mcp/server.rb#47
+  # pkg:gem/fast-mcp#lib/mcp/server.rb:47
   def transport; end
 
-  # Sets the attribute transport
-  #
-  # @param value the value to set the attribute transport to.
-  #
-  # source://fast-mcp//lib/mcp/server.rb#47
+  # pkg:gem/fast-mcp#lib/mcp/server.rb:47
   def transport=(_arg0); end
 
-  # Returns the value of attribute transport_klass.
-  #
-  # source://fast-mcp//lib/mcp/server.rb#47
+  # pkg:gem/fast-mcp#lib/mcp/server.rb:47
   def transport_klass; end
 
-  # Sets the attribute transport_klass
-  #
-  # @param value the value to set the attribute transport_klass to.
-  #
-  # source://fast-mcp//lib/mcp/server.rb#47
+  # pkg:gem/fast-mcp#lib/mcp/server.rb:47
   def transport_klass=(_arg0); end
 
-  # Returns the value of attribute version.
-  #
-  # source://fast-mcp//lib/mcp/server.rb#17
+  # pkg:gem/fast-mcp#lib/mcp/server.rb:17
   def version; end
 
   private
 
-  # source://fast-mcp//lib/mcp/server.rb#217
+  # pkg:gem/fast-mcp#lib/mcp/server.rb:217
   def handle_initialize(params, id); end
 
-  # source://fast-mcp//lib/mcp/server.rb#277
+  # pkg:gem/fast-mcp#lib/mcp/server.rb:277
   def handle_initialized_notification; end
 
   # Handle resources/list request
   #
-  # source://fast-mcp//lib/mcp/server.rb#375
+  # pkg:gem/fast-mcp#lib/mcp/server.rb:375
   def handle_resources_list(id); end
 
   # Handle a resource read
   #
-  # source://fast-mcp//lib/mcp/server.rb#242
+  # pkg:gem/fast-mcp#lib/mcp/server.rb:242
   def handle_resources_read(params, id); end
 
   # Handle resources/subscribe request
   #
-  # source://fast-mcp//lib/mcp/server.rb#390
+  # pkg:gem/fast-mcp#lib/mcp/server.rb:390
   def handle_resources_subscribe(params, id); end
 
   # Handle resources/templates/list request
   #
-  # source://fast-mcp//lib/mcp/server.rb#382
+  # pkg:gem/fast-mcp#lib/mcp/server.rb:382
   def handle_resources_templates_list(id); end
 
   # Handle resources/unsubscribe request
   #
-  # source://fast-mcp//lib/mcp/server.rb#411
+  # pkg:gem/fast-mcp#lib/mcp/server.rb:411
   def handle_resources_unsubscribe(params, id); end
 
   # Handle tools/call request
   #
-  # source://fast-mcp//lib/mcp/server.rb#314
+  # pkg:gem/fast-mcp#lib/mcp/server.rb:314
   def handle_tools_call(params, headers, id); end
 
   # Handle tools/list request
   #
-  # source://fast-mcp//lib/mcp/server.rb#287
+  # pkg:gem/fast-mcp#lib/mcp/server.rb:287
   def handle_tools_list(id); end
 
   # Notify clients about resource list changes
   #
-  # source://fast-mcp//lib/mcp/server.rb#431
+  # pkg:gem/fast-mcp#lib/mcp/server.rb:431
   def notify_resource_list_changed; end
 
   # Send a JSON-RPC error response
   #
-  # source://fast-mcp//lib/mcp/server.rb#458
+  # pkg:gem/fast-mcp#lib/mcp/server.rb:458
   def send_error(code, message, id = T.unsafe(nil)); end
 
   # Format and send error result
   #
-  # source://fast-mcp//lib/mcp/server.rb#362
+  # pkg:gem/fast-mcp#lib/mcp/server.rb:362
   def send_error_result(message, id); end
 
   # Format and send successful result
   #
-  # source://fast-mcp//lib/mcp/server.rb#346
+  # pkg:gem/fast-mcp#lib/mcp/server.rb:346
   def send_formatted_result(result, id, metadata); end
 
   # Send a JSON-RPC response
   #
-  # source://fast-mcp//lib/mcp/server.rb#472
+  # pkg:gem/fast-mcp#lib/mcp/server.rb:472
   def send_response(response); end
 
   # Send a JSON-RPC result response
   #
-  # source://fast-mcp//lib/mcp/server.rb#444
+  # pkg:gem/fast-mcp#lib/mcp/server.rb:444
   def send_result(result, id, metadata: T.unsafe(nil)); end
 
   # Helper method to convert string keys to symbols
   #
-  # source://fast-mcp//lib/mcp/server.rb#483
+  # pkg:gem/fast-mcp#lib/mcp/server.rb:483
   def symbolize_keys(hash); end
 end
 
-# source://fast-mcp//lib/mcp/server.rb#19
+# pkg:gem/fast-mcp#lib/mcp/server.rb:19
 FastMcp::Server::DEFAULT_CAPABILITIES = T.let(T.unsafe(nil), Hash)
 
-# source://fast-mcp//lib/mcp/server.rb#215
+# pkg:gem/fast-mcp#lib/mcp/server.rb:215
 FastMcp::Server::PROTOCOL_VERSION = T.let(T.unsafe(nil), String)
 
 # Module for handling server filtering functionality
 #
-# source://fast-mcp//lib/mcp/server_filtering.rb#5
+# pkg:gem/fast-mcp#lib/mcp/server_filtering.rb:5
 module FastMcp::ServerFiltering
   # Check if filters are configured
   #
-  # @return [Boolean]
-  #
-  # source://fast-mcp//lib/mcp/server_filtering.rb#17
+  # pkg:gem/fast-mcp#lib/mcp/server_filtering.rb:17
   def contains_filters?; end
 
   # Create a filtered copy for a specific request
   #
-  # source://fast-mcp//lib/mcp/server_filtering.rb#22
+  # pkg:gem/fast-mcp#lib/mcp/server_filtering.rb:22
   def create_filtered_copy(request); end
 
   # Add filter for resources
   #
-  # source://fast-mcp//lib/mcp/server_filtering.rb#12
+  # pkg:gem/fast-mcp#lib/mcp/server_filtering.rb:12
   def filter_resources(&block); end
 
   # Add filter for tools
   #
-  # source://fast-mcp//lib/mcp/server_filtering.rb#7
+  # pkg:gem/fast-mcp#lib/mcp/server_filtering.rb:7
   def filter_tools(&block); end
 
   private
 
   # Apply all resource filters to the resources collection
   #
-  # source://fast-mcp//lib/mcp/server_filtering.rb#72
+  # pkg:gem/fast-mcp#lib/mcp/server_filtering.rb:72
   def apply_resource_filters(request); end
 
   # Apply all tool filters to the tools collection
   #
-  # source://fast-mcp//lib/mcp/server_filtering.rb#63
+  # pkg:gem/fast-mcp#lib/mcp/server_filtering.rb:63
   def apply_tool_filters(request); end
 
   # Apply resource filters and register filtered resources
   #
-  # source://fast-mcp//lib/mcp/server_filtering.rb#53
+  # pkg:gem/fast-mcp#lib/mcp/server_filtering.rb:53
   def register_filtered_resources(filtered_server, request); end
 
   # Apply tool filters and register filtered tools
   #
-  # source://fast-mcp//lib/mcp/server_filtering.rb#43
+  # pkg:gem/fast-mcp#lib/mcp/server_filtering.rb:43
   def register_filtered_tools(filtered_server, request); end
 end
 
 # Main Tool class that represents an MCP Tool
 #
-# source://fast-mcp//lib/mcp/tool.rb#262
+# pkg:gem/fast-mcp#lib/mcp/tool.rb:262
 class FastMcp::Tool
-  # @return [Tool] a new instance of Tool
-  #
-  # source://fast-mcp//lib/mcp/tool.rb#338
+  # pkg:gem/fast-mcp#lib/mcp/tool.rb:338
   def initialize(headers: T.unsafe(nil)); end
 
-  # Returns the value of attribute _meta.
-  #
-  # source://fast-mcp//lib/mcp/tool.rb#363
+  # pkg:gem/fast-mcp#lib/mcp/tool.rb:363
   def _meta; end
 
-  # Sets the attribute _meta
-  #
-  # @param value the value to set the attribute _meta to.
-  #
-  # source://fast-mcp//lib/mcp/tool.rb#363
+  # pkg:gem/fast-mcp#lib/mcp/tool.rb:363
   def _meta=(_arg0); end
 
-  # @raise [InvalidArgumentsError]
-  # @return [Boolean]
-  #
-  # source://fast-mcp//lib/mcp/tool.rb#343
+  # pkg:gem/fast-mcp#lib/mcp/tool.rb:343
   def authorized?(**args); end
 
-  # @raise [InvalidArgumentsError]
-  #
-  # source://fast-mcp//lib/mcp/tool.rb#370
+  # pkg:gem/fast-mcp#lib/mcp/tool.rb:370
   def call_with_schema_validation!(**args); end
 
-  # Returns the value of attribute headers.
-  #
-  # source://fast-mcp//lib/mcp/tool.rb#364
+  # pkg:gem/fast-mcp#lib/mcp/tool.rb:364
   def headers; end
 
-  # source://fast-mcp//lib/mcp/tool.rb#366
+  # pkg:gem/fast-mcp#lib/mcp/tool.rb:366
   def notify_resource_updated(uri); end
 
   class << self
-    # source://fast-mcp//lib/mcp/tool.rb#318
+    # pkg:gem/fast-mcp#lib/mcp/tool.rb:318
     def annotations(annotations_hash = T.unsafe(nil)); end
 
-    # source://fast-mcp//lib/mcp/tool.rb#289
+    # pkg:gem/fast-mcp#lib/mcp/tool.rb:289
     def arguments(&block); end
 
-    # source://fast-mcp//lib/mcp/tool.rb#324
+    # pkg:gem/fast-mcp#lib/mcp/tool.rb:324
     def authorize(&block); end
 
-    # @raise [NotImplementedError]
-    #
-    # source://fast-mcp//lib/mcp/tool.rb#329
+    # pkg:gem/fast-mcp#lib/mcp/tool.rb:329
     def call(**args); end
 
-    # source://fast-mcp//lib/mcp/tool.rb#312
+    # pkg:gem/fast-mcp#lib/mcp/tool.rb:312
     def description(description = T.unsafe(nil)); end
 
-    # source://fast-mcp//lib/mcp/tool.rb#299
+    # pkg:gem/fast-mcp#lib/mcp/tool.rb:299
     def input_schema; end
 
-    # source://fast-mcp//lib/mcp/tool.rb#333
+    # pkg:gem/fast-mcp#lib/mcp/tool.rb:333
     def input_schema_to_json; end
 
     # Add metadata support for tools
     #
-    # source://fast-mcp//lib/mcp/tool.rb#278
+    # pkg:gem/fast-mcp#lib/mcp/tool.rb:278
     def metadata(key = T.unsafe(nil), value = T.unsafe(nil)); end
 
-    # Returns the value of attribute server.
-    #
-    # source://fast-mcp//lib/mcp/tool.rb#266
+    # pkg:gem/fast-mcp#lib/mcp/tool.rb:266
     def server; end
 
-    # Sets the attribute server
-    #
-    # @param value the value to set the attribute server to.
-    #
-    # source://fast-mcp//lib/mcp/tool.rb#266
+    # pkg:gem/fast-mcp#lib/mcp/tool.rb:266
     def server=(_arg0); end
 
     # Add tagging support for tools
     #
-    # source://fast-mcp//lib/mcp/tool.rb#269
+    # pkg:gem/fast-mcp#lib/mcp/tool.rb:269
     def tags(*tag_list); end
 
-    # source://fast-mcp//lib/mcp/tool.rb#303
+    # pkg:gem/fast-mcp#lib/mcp/tool.rb:303
     def tool_name(name = T.unsafe(nil)); end
   end
 end
 
-# source://fast-mcp//lib/mcp/tool.rb#263
+# pkg:gem/fast-mcp#lib/mcp/tool.rb:263
 class FastMcp::Tool::InvalidArgumentsError < ::StandardError; end
 
-# source://fast-mcp//lib/mcp/transports/base_transport.rb#4
+# pkg:gem/fast-mcp#lib/mcp/transports/base_transport.rb:4
 module FastMcp::Transports; end
 
-# source://fast-mcp//lib/mcp/transports/authenticated_rack_transport.rb#7
+# pkg:gem/fast-mcp#lib/mcp/transports/authenticated_rack_transport.rb:7
 class FastMcp::Transports::AuthenticatedRackTransport < ::FastMcp::Transports::RackTransport
-  # @return [AuthenticatedRackTransport] a new instance of AuthenticatedRackTransport
-  #
-  # source://fast-mcp//lib/mcp/transports/authenticated_rack_transport.rb#8
+  # pkg:gem/fast-mcp#lib/mcp/transports/authenticated_rack_transport.rb:8
   def initialize(app, server, options = T.unsafe(nil)); end
 
-  # source://fast-mcp//lib/mcp/transports/authenticated_rack_transport.rb#17
+  # pkg:gem/fast-mcp#lib/mcp/transports/authenticated_rack_transport.rb:17
   def handle_mcp_request(request, env); end
 
   private
 
-  # @return [Boolean]
-  #
-  # source://fast-mcp//lib/mcp/transports/authenticated_rack_transport.rb#30
+  # pkg:gem/fast-mcp#lib/mcp/transports/authenticated_rack_transport.rb:30
   def auth_enabled?; end
 
-  # @return [Boolean]
-  #
-  # source://fast-mcp//lib/mcp/transports/authenticated_rack_transport.rb#34
+  # pkg:gem/fast-mcp#lib/mcp/transports/authenticated_rack_transport.rb:34
   def exempt_from_auth?(path); end
 
-  # source://fast-mcp//lib/mcp/transports/authenticated_rack_transport.rb#58
+  # pkg:gem/fast-mcp#lib/mcp/transports/authenticated_rack_transport.rb:58
   def extract_request_id(request); end
 
-  # source://fast-mcp//lib/mcp/transports/authenticated_rack_transport.rb#42
+  # pkg:gem/fast-mcp#lib/mcp/transports/authenticated_rack_transport.rb:42
   def unauthorized_response(request); end
 
-  # @return [Boolean]
-  #
-  # source://fast-mcp//lib/mcp/transports/authenticated_rack_transport.rb#38
+  # pkg:gem/fast-mcp#lib/mcp/transports/authenticated_rack_transport.rb:38
   def valid_token?(token); end
 end
 
 # Base class for all MCP transports
 # This defines the interface that all transports must implement
 #
-# source://fast-mcp//lib/mcp/transports/base_transport.rb#7
+# pkg:gem/fast-mcp#lib/mcp/transports/base_transport.rb:7
 class FastMcp::Transports::BaseTransport
-  # @return [BaseTransport] a new instance of BaseTransport
-  #
-  # source://fast-mcp//lib/mcp/transports/base_transport.rb#10
+  # pkg:gem/fast-mcp#lib/mcp/transports/base_transport.rb:10
   def initialize(server, logger: T.unsafe(nil)); end
 
-  # Returns the value of attribute logger.
-  #
-  # source://fast-mcp//lib/mcp/transports/base_transport.rb#8
+  # pkg:gem/fast-mcp#lib/mcp/transports/base_transport.rb:8
   def logger; end
 
   # Process an incoming message
   # This is a helper method that can be used by subclasses
   #
-  # source://fast-mcp//lib/mcp/transports/base_transport.rb#35
+  # pkg:gem/fast-mcp#lib/mcp/transports/base_transport.rb:35
   def process_message(message, headers: T.unsafe(nil)); end
 
   # Send a message to the client
   # This method should be implemented by subclasses
   #
-  # @raise [NotImplementedError]
-  #
-  # source://fast-mcp//lib/mcp/transports/base_transport.rb#29
+  # pkg:gem/fast-mcp#lib/mcp/transports/base_transport.rb:29
   def send_message(message); end
 
-  # Returns the value of attribute server.
-  #
-  # source://fast-mcp//lib/mcp/transports/base_transport.rb#8
+  # pkg:gem/fast-mcp#lib/mcp/transports/base_transport.rb:8
   def server; end
 
   # Start the transport
   # This method should be implemented by subclasses
   #
-  # @raise [NotImplementedError]
-  #
-  # source://fast-mcp//lib/mcp/transports/base_transport.rb#17
+  # pkg:gem/fast-mcp#lib/mcp/transports/base_transport.rb:17
   def start; end
 
   # Stop the transport
   # This method should be implemented by subclasses
   #
-  # @raise [NotImplementedError]
-  #
-  # source://fast-mcp//lib/mcp/transports/base_transport.rb#23
+  # pkg:gem/fast-mcp#lib/mcp/transports/base_transport.rb:23
   def stop; end
 end
 
 # Rack middleware transport for MCP
 # This transport can be mounted in any Rack-compatible web framework
 #
-# source://fast-mcp//lib/mcp/transports/rack_transport.rb#12
+# pkg:gem/fast-mcp#lib/mcp/transports/rack_transport.rb:12
 class FastMcp::Transports::RackTransport < ::FastMcp::Transports::BaseTransport
-  # @return [RackTransport] a new instance of RackTransport
-  #
-  # source://fast-mcp//lib/mcp/transports/rack_transport.rb#35
+  # pkg:gem/fast-mcp#lib/mcp/transports/rack_transport.rb:35
   def initialize(app, server, options = T.unsafe(nil), &_block); end
 
-  # Returns the value of attribute allowed_ips.
-  #
-  # source://fast-mcp//lib/mcp/transports/rack_transport.rb#32
+  # pkg:gem/fast-mcp#lib/mcp/transports/rack_transport.rb:32
   def allowed_ips; end
 
-  # Returns the value of attribute allowed_origins.
-  #
-  # source://fast-mcp//lib/mcp/transports/rack_transport.rb#32
+  # pkg:gem/fast-mcp#lib/mcp/transports/rack_transport.rb:32
   def allowed_origins; end
 
-  # Returns the value of attribute app.
-  #
-  # source://fast-mcp//lib/mcp/transports/rack_transport.rb#32
+  # pkg:gem/fast-mcp#lib/mcp/transports/rack_transport.rb:32
   def app; end
 
   # Rack call method
   #
-  # source://fast-mcp//lib/mcp/transports/rack_transport.rb#121
+  # pkg:gem/fast-mcp#lib/mcp/transports/rack_transport.rb:121
   def call(env); end
 
-  # Returns the value of attribute localhost_only.
-  #
-  # source://fast-mcp//lib/mcp/transports/rack_transport.rb#32
+  # pkg:gem/fast-mcp#lib/mcp/transports/rack_transport.rb:32
   def localhost_only; end
 
-  # Returns the value of attribute messages_route.
-  #
-  # source://fast-mcp//lib/mcp/transports/rack_transport.rb#32
+  # pkg:gem/fast-mcp#lib/mcp/transports/rack_transport.rb:32
   def messages_route; end
 
-  # Returns the value of attribute path_prefix.
-  #
-  # source://fast-mcp//lib/mcp/transports/rack_transport.rb#32
+  # pkg:gem/fast-mcp#lib/mcp/transports/rack_transport.rb:32
   def path_prefix; end
 
   # Register a new SSE client
   #
-  # source://fast-mcp//lib/mcp/transports/rack_transport.rb#105
+  # pkg:gem/fast-mcp#lib/mcp/transports/rack_transport.rb:105
   def register_sse_client(client_id, stream, mutex = T.unsafe(nil)); end
 
   # Send a message to all connected SSE clients
   #
-  # source://fast-mcp//lib/mcp/transports/rack_transport.rb#74
+  # pkg:gem/fast-mcp#lib/mcp/transports/rack_transport.rb:74
   def send_message(message); end
 
-  # Returns the value of attribute sse_clients.
-  #
-  # source://fast-mcp//lib/mcp/transports/rack_transport.rb#32
+  # pkg:gem/fast-mcp#lib/mcp/transports/rack_transport.rb:32
   def sse_clients; end
 
-  # Returns the value of attribute sse_route.
-  #
-  # source://fast-mcp//lib/mcp/transports/rack_transport.rb#32
+  # pkg:gem/fast-mcp#lib/mcp/transports/rack_transport.rb:32
   def sse_route; end
 
   # Start the transport
   #
-  # source://fast-mcp//lib/mcp/transports/rack_transport.rb#51
+  # pkg:gem/fast-mcp#lib/mcp/transports/rack_transport.rb:51
   def start; end
 
   # Stop the transport
   #
-  # source://fast-mcp//lib/mcp/transports/rack_transport.rb#58
+  # pkg:gem/fast-mcp#lib/mcp/transports/rack_transport.rb:58
   def stop; end
 
   # Unregister an SSE client
   #
-  # source://fast-mcp//lib/mcp/transports/rack_transport.rb#113
+  # pkg:gem/fast-mcp#lib/mcp/transports/rack_transport.rb:113
   def unregister_sse_client(client_id); end
 
   private
 
   # Clean up SSE connection
   #
-  # source://fast-mcp//lib/mcp/transports/rack_transport.rb#495
+  # pkg:gem/fast-mcp#lib/mcp/transports/rack_transport.rb:495
   def cleanup_sse_connection(client_id, io); end
 
   # Detect browser type from user agent
   #
-  # source://fast-mcp//lib/mcp/transports/rack_transport.rb#344
+  # pkg:gem/fast-mcp#lib/mcp/transports/rack_transport.rb:344
   def detect_browser_type(user_agent); end
 
   # Return a 404 endpoint not found response
   #
-  # source://fast-mcp//lib/mcp/transports/rack_transport.rb#256
+  # pkg:gem/fast-mcp#lib/mcp/transports/rack_transport.rb:256
   def endpoint_not_found_response; end
 
   # Extract client ID from request or generate a new one
   #
-  # source://fast-mcp//lib/mcp/transports/rack_transport.rb#318
+  # pkg:gem/fast-mcp#lib/mcp/transports/rack_transport.rb:318
   def extract_client_id(env); end
 
   # Extract hostname from a URL
   #
-  # source://fast-mcp//lib/mcp/transports/rack_transport.rb#184
+  # pkg:gem/fast-mcp#lib/mcp/transports/rack_transport.rb:184
   def extract_hostname(url); end
 
   # Extract headers that might be relevant for filtering
   #
-  # source://fast-mcp//lib/mcp/transports/rack_transport.rb#617
+  # pkg:gem/fast-mcp#lib/mcp/transports/rack_transport.rb:617
   def extract_relevant_headers(request); end
 
-  # source://fast-mcp//lib/mcp/transports/rack_transport.rb#241
+  # pkg:gem/fast-mcp#lib/mcp/transports/rack_transport.rb:241
   def forbidden_response(message); end
 
   # Generate a cache key based on filter-relevant request attributes
   #
-  # source://fast-mcp//lib/mcp/transports/rack_transport.rb#606
+  # pkg:gem/fast-mcp#lib/mcp/transports/rack_transport.rb:606
   def generate_cache_key(request); end
 
   # Get the appropriate server for this request
   #
-  # source://fast-mcp//lib/mcp/transports/rack_transport.rb#583
+  # pkg:gem/fast-mcp#lib/mcp/transports/rack_transport.rb:583
   def get_server_for_request(request, env); end
 
   # Handle client reconnection
   #
-  # source://fast-mcp//lib/mcp/transports/rack_transport.rb#364
+  # pkg:gem/fast-mcp#lib/mcp/transports/rack_transport.rb:364
   def handle_client_reconnection(client_id, browser_type); end
 
   # Handle internal server errors
   #
-  # source://fast-mcp//lib/mcp/transports/rack_transport.rb#566
+  # pkg:gem/fast-mcp#lib/mcp/transports/rack_transport.rb:566
   def handle_internal_error(error); end
 
   # Handle MCP-specific requests
   #
-  # source://fast-mcp//lib/mcp/transports/rack_transport.rb#205
+  # pkg:gem/fast-mcp#lib/mcp/transports/rack_transport.rb:205
   def handle_mcp_request(request, env); end
 
   # Handle message POST request with specific server
   #
-  # source://fast-mcp//lib/mcp/transports/rack_transport.rb#525
+  # pkg:gem/fast-mcp#lib/mcp/transports/rack_transport.rb:525
   def handle_message_request_with_server(request, server); end
 
   # Handle JSON parse errors
   #
-  # source://fast-mcp//lib/mcp/transports/rack_transport.rb#560
+  # pkg:gem/fast-mcp#lib/mcp/transports/rack_transport.rb:560
   def handle_parse_error(error); end
 
   # Handle SSE with Rack hijacking (e.g., Puma)
   #
-  # source://fast-mcp//lib/mcp/transports/rack_transport.rb#379
+  # pkg:gem/fast-mcp#lib/mcp/transports/rack_transport.rb:379
   def handle_rack_hijack_sse(env); end
 
   # Handle SSE with Rails ActionController::Live
   #
-  # source://fast-mcp//lib/mcp/transports/rack_transport.rb#512
+  # pkg:gem/fast-mcp#lib/mcp/transports/rack_transport.rb:512
   def handle_rails_sse(env); end
 
   # Handle SSE connection request
   #
-  # source://fast-mcp//lib/mcp/transports/rack_transport.rb#271
+  # pkg:gem/fast-mcp#lib/mcp/transports/rack_transport.rb:271
   def handle_sse_request(request, env); end
 
   # Handle streaming based on the framework
   #
-  # source://fast-mcp//lib/mcp/transports/rack_transport.rb#282
+  # pkg:gem/fast-mcp#lib/mcp/transports/rack_transport.rb:282
   def handle_streaming(env); end
 
-  # source://fast-mcp//lib/mcp/transports/rack_transport.rb#571
+  # pkg:gem/fast-mcp#lib/mcp/transports/rack_transport.rb:571
   def json_rpc_error_response(http_status, code, message, id = T.unsafe(nil)); end
 
   # Run the keep-alive loop
   #
-  # source://fast-mcp//lib/mcp/transports/rack_transport.rb#450
+  # pkg:gem/fast-mcp#lib/mcp/transports/rack_transport.rb:450
   def keep_alive_loop(io, client_id); end
 
   # Return a method not allowed error response
   #
-  # source://fast-mcp//lib/mcp/transports/rack_transport.rb#555
+  # pkg:gem/fast-mcp#lib/mcp/transports/rack_transport.rb:555
   def method_not_allowed_response; end
 
-  # source://fast-mcp//lib/mcp/transports/rack_transport.rb#538
+  # pkg:gem/fast-mcp#lib/mcp/transports/rack_transport.rb:538
   def process_json_request_with_server(request, server); end
 
   # Check if Rails live streaming is available
   #
-  # @return [Boolean]
-  #
-  # source://fast-mcp//lib/mcp/transports/rack_transport.rb#300
+  # pkg:gem/fast-mcp#lib/mcp/transports/rack_transport.rb:300
   def rails_live_streaming?(env); end
 
   # Send a keep-alive ping and return the updated ping count
   #
-  # source://fast-mcp//lib/mcp/transports/rack_transport.rb#469
+  # pkg:gem/fast-mcp#lib/mcp/transports/rack_transport.rb:469
   def send_keep_alive_ping(io, client_id, ping_count); end
 
   # Send a ping event
   #
-  # source://fast-mcp//lib/mcp/transports/rack_transport.rb#484
+  # pkg:gem/fast-mcp#lib/mcp/transports/rack_transport.rb:484
   def send_ping_event(io); end
 
   # Set up CORS headers for preflight requests
   #
-  # source://fast-mcp//lib/mcp/transports/rack_transport.rb#307
+  # pkg:gem/fast-mcp#lib/mcp/transports/rack_transport.rb:307
   def setup_cors_headers; end
 
   # Set up the SSE connection
   #
-  # source://fast-mcp//lib/mcp/transports/rack_transport.rb#395
+  # pkg:gem/fast-mcp#lib/mcp/transports/rack_transport.rb:395
   def setup_sse_connection(client_id, io, env); end
 
   # Start a keep-alive thread for SSE connection
   #
-  # source://fast-mcp//lib/mcp/transports/rack_transport.rb#437
+  # pkg:gem/fast-mcp#lib/mcp/transports/rack_transport.rb:437
   def start_keep_alive_thread(client_id, io); end
 
-  # @return [Boolean]
-  #
-  # source://fast-mcp//lib/mcp/transports/rack_transport.rb#139
+  # pkg:gem/fast-mcp#lib/mcp/transports/rack_transport.rb:139
   def valid_client_ip?(request); end
 
   # Validate the Origin header to prevent DNS rebinding attacks
   #
-  # source://fast-mcp//lib/mcp/transports/rack_transport.rb#152
+  # pkg:gem/fast-mcp#lib/mcp/transports/rack_transport.rb:152
   def validate_origin(request, env); end
 end
 
-# source://fast-mcp//lib/mcp/transports/rack_transport.rb#15
+# pkg:gem/fast-mcp#lib/mcp/transports/rack_transport.rb:15
 FastMcp::Transports::RackTransport::DEFAULT_ALLOWED_IPS = T.let(T.unsafe(nil), Array)
 
-# source://fast-mcp//lib/mcp/transports/rack_transport.rb#14
+# pkg:gem/fast-mcp#lib/mcp/transports/rack_transport.rb:14
 FastMcp::Transports::RackTransport::DEFAULT_ALLOWED_ORIGINS = T.let(T.unsafe(nil), Array)
 
-# source://fast-mcp//lib/mcp/transports/rack_transport.rb#13
+# pkg:gem/fast-mcp#lib/mcp/transports/rack_transport.rb:13
 FastMcp::Transports::RackTransport::DEFAULT_PATH_PREFIX = T.let(T.unsafe(nil), String)
 
-# source://fast-mcp//lib/mcp/transports/rack_transport.rb#16
+# pkg:gem/fast-mcp#lib/mcp/transports/rack_transport.rb:16
 FastMcp::Transports::RackTransport::SERVER_ENV_KEY = T.let(T.unsafe(nil), String)
 
-# source://fast-mcp//lib/mcp/transports/rack_transport.rb#18
+# pkg:gem/fast-mcp#lib/mcp/transports/rack_transport.rb:18
 FastMcp::Transports::RackTransport::SSE_HEADERS = T.let(T.unsafe(nil), Hash)
 
 # STDIO transport for MCP
 # This transport uses standard input/output for communication
 #
-# source://fast-mcp//lib/mcp/transports/stdio_transport.rb#9
+# pkg:gem/fast-mcp#lib/mcp/transports/stdio_transport.rb:9
 class FastMcp::Transports::StdioTransport < ::FastMcp::Transports::BaseTransport
-  # @return [StdioTransport] a new instance of StdioTransport
-  #
-  # source://fast-mcp//lib/mcp/transports/stdio_transport.rb#10
+  # pkg:gem/fast-mcp#lib/mcp/transports/stdio_transport.rb:10
   def initialize(server, logger: T.unsafe(nil)); end
 
   # Send a message to the client
   #
-  # source://fast-mcp//lib/mcp/transports/stdio_transport.rb#39
+  # pkg:gem/fast-mcp#lib/mcp/transports/stdio_transport.rb:39
   def send_message(message); end
 
   # Start the transport
   #
-  # source://fast-mcp//lib/mcp/transports/stdio_transport.rb#16
+  # pkg:gem/fast-mcp#lib/mcp/transports/stdio_transport.rb:16
   def start; end
 
   # Stop the transport
   #
-  # source://fast-mcp//lib/mcp/transports/stdio_transport.rb#33
+  # pkg:gem/fast-mcp#lib/mcp/transports/stdio_transport.rb:33
   def stop; end
 
   private
 
   # Send a JSON-RPC error response
   #
-  # source://fast-mcp//lib/mcp/transports/stdio_transport.rb#49
+  # pkg:gem/fast-mcp#lib/mcp/transports/stdio_transport.rb:49
   def send_error(code, message, id = T.unsafe(nil)); end
 end
 
-# source://fast-mcp//lib/mcp/version.rb#4
+# pkg:gem/fast-mcp#lib/mcp/version.rb:4
 FastMcp::VERSION = T.let(T.unsafe(nil), String)
 
 # Context object for managing nested metadata collection
 #
-# source://fast-mcp//lib/mcp/tool.rb#106
+# pkg:gem/fast-mcp#lib/mcp/tool.rb:106
 class MetadataContext
-  # @return [MetadataContext] a new instance of MetadataContext
-  #
-  # source://fast-mcp//lib/mcp/tool.rb#107
+  # pkg:gem/fast-mcp#lib/mcp/tool.rb:107
   def initialize; end
 
-  # source://fast-mcp//lib/mcp/tool.rb#129
+  # pkg:gem/fast-mcp#lib/mcp/tool.rb:129
   def current_path; end
 
-  # Returns the value of attribute metadata.
-  #
-  # source://fast-mcp//lib/mcp/tool.rb#112
+  # pkg:gem/fast-mcp#lib/mcp/tool.rb:112
   def metadata; end
 
-  # source://fast-mcp//lib/mcp/tool.rb#114
+  # pkg:gem/fast-mcp#lib/mcp/tool.rb:114
   def store(property_name, meta_key, value); end
 
-  # source://fast-mcp//lib/mcp/tool.rb#122
+  # pkg:gem/fast-mcp#lib/mcp/tool.rb:122
   def with_nested(parent_property); end
 
   class << self
     # Class method to set/get current context for thread-safe access
     #
-    # source://fast-mcp//lib/mcp/tool.rb#134
+    # pkg:gem/fast-mcp#lib/mcp/tool.rb:134
     def current; end
 
-    # source://fast-mcp//lib/mcp/tool.rb#138
+    # pkg:gem/fast-mcp#lib/mcp/tool.rb:138
     def with_context(context); end
   end
 end
 
 # Schema metadata processor for handling custom predicates in JSON schema output
 #
-# source://fast-mcp//lib/mcp/tool.rb#171
+# pkg:gem/fast-mcp#lib/mcp/tool.rb:171
 class SchemaMetadataProcessor
   class << self
-    # source://fast-mcp//lib/mcp/tool.rb#172
+    # pkg:gem/fast-mcp#lib/mcp/tool.rb:172
     def process(schema, collected_metadata = T.unsafe(nil)); end
 
     private
 
-    # source://fast-mcp//lib/mcp/tool.rb#204
+    # pkg:gem/fast-mcp#lib/mcp/tool.rb:204
     def apply_metadata_to_schema(base_schema, metadata); end
 
-    # source://fast-mcp//lib/mcp/tool.rb#184
+    # pkg:gem/fast-mcp#lib/mcp/tool.rb:184
     def extract_metadata(schema); end
 
-    # source://fast-mcp//lib/mcp/tool.rb#251
+    # pkg:gem/fast-mcp#lib/mcp/tool.rb:251
     def filter_required_properties(required_array, properties); end
 
-    # source://fast-mcp//lib/mcp/tool.rb#189
+    # pkg:gem/fast-mcp#lib/mcp/tool.rb:189
     def merge_metadata(traditional, collected); end
 
-    # source://fast-mcp//lib/mcp/tool.rb#212
+    # pkg:gem/fast-mcp#lib/mcp/tool.rb:212
     def process_properties_recursively(properties, metadata, path_prefix = T.unsafe(nil)); end
   end
 end

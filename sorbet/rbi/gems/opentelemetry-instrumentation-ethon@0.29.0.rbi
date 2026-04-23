@@ -11,8 +11,29 @@
 #
 # The OpenTelemetry module provides global accessors for telemetry objects.
 # See the documentation for the `opentelemetry-api` gem for details.
+# Copyright The OpenTelemetry Authors
 #
-# source://opentelemetry-instrumentation-ethon//lib/opentelemetry/instrumentation.rb#13
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+# pkg:gem/opentelemetry-instrumentation-ethon#lib/opentelemetry/instrumentation.rb:13
 module OpenTelemetry; end
 
 # "Instrumentation" are specified by
@@ -20,112 +41,81 @@ module OpenTelemetry; end
 #
 # Instrumentation should be able to handle the case when the library is not installed on a user's system.
 #
-# source://opentelemetry-instrumentation-ethon//lib/opentelemetry/instrumentation.rb#18
+# pkg:gem/opentelemetry-instrumentation-ethon#lib/opentelemetry/instrumentation.rb:18
 module OpenTelemetry::Instrumentation; end
 
 # Contains the OpenTelemetry instrumentation for the Ethon gem
 #
-# source://opentelemetry-instrumentation-ethon//lib/opentelemetry/instrumentation/ethon.rb#13
+# pkg:gem/opentelemetry-instrumentation-ethon#lib/opentelemetry/instrumentation/ethon.rb:13
 module OpenTelemetry::Instrumentation::Ethon; end
 
 # Helper module for HTTP method normalization
-#
 # @api private
 #
-# source://opentelemetry-instrumentation-ethon//lib/opentelemetry/instrumentation/ethon/http_helper.rb#12
+# pkg:gem/opentelemetry-instrumentation-ethon#lib/opentelemetry/instrumentation/ethon/http_helper.rb:12
 module OpenTelemetry::Instrumentation::Ethon::HttpHelper
   class << self
     # Prepares span data using both old and stable semantic conventions
-    #
-    # @api private
     # @param method [String, Symbol] The HTTP method
     # @return [SpanCreationAttributes] struct containing span_name and attributes hash
     #
-    # source://opentelemetry-instrumentation-ethon//lib/opentelemetry/instrumentation/ethon/http_helper.rb#107
+    # pkg:gem/opentelemetry-instrumentation-ethon#lib/opentelemetry/instrumentation/ethon/http_helper.rb:107
     def span_attrs_for_dup(method); end
 
     # Prepares span data using old semantic conventions
-    #
-    # @api private
     # @param method [String, Symbol] The HTTP method
     # @return [SpanCreationAttributes] struct containing span_name and attributes hash
     #
-    # source://opentelemetry-instrumentation-ethon//lib/opentelemetry/instrumentation/ethon/http_helper.rb#58
+    # pkg:gem/opentelemetry-instrumentation-ethon#lib/opentelemetry/instrumentation/ethon/http_helper.rb:58
     def span_attrs_for_old(method); end
 
     # Prepares span data using stable semantic conventions
-    #
-    # @api private
     # @param method [String, Symbol] The HTTP method
     # @return [SpanCreationAttributes] struct containing span_name and attributes hash
     #
-    # source://opentelemetry-instrumentation-ethon//lib/opentelemetry/instrumentation/ethon/http_helper.rb#80
+    # pkg:gem/opentelemetry-instrumentation-ethon#lib/opentelemetry/instrumentation/ethon/http_helper.rb:80
     def span_attrs_for_stable(method); end
   end
 end
 
 # Pre-computed mapping to avoid string allocations during normalization
 #
-# @api private
-#
-# source://opentelemetry-instrumentation-ethon//lib/opentelemetry/instrumentation/ethon/http_helper.rb#17
+# pkg:gem/opentelemetry-instrumentation-ethon#lib/opentelemetry/instrumentation/ethon/http_helper.rb:17
 OpenTelemetry::Instrumentation::Ethon::HttpHelper::METHOD_CACHE = T.let(T.unsafe(nil), Hash)
 
-# @api private
-#
-# source://opentelemetry-instrumentation-ethon//lib/opentelemetry/instrumentation/ethon/http_helper.rb#49
+# pkg:gem/opentelemetry-instrumentation-ethon#lib/opentelemetry/instrumentation/ethon/http_helper.rb:49
 OpenTelemetry::Instrumentation::Ethon::HttpHelper::OLD_SPAN_NAMES_BY_METHOD = T.let(T.unsafe(nil), Hash)
 
 # Lightweight struct to hold span creation attributes
 #
-# @api private
-#
-# source://opentelemetry-instrumentation-ethon//lib/opentelemetry/instrumentation/ethon/http_helper.rb#14
+# pkg:gem/opentelemetry-instrumentation-ethon#lib/opentelemetry/instrumentation/ethon/http_helper.rb:14
 class OpenTelemetry::Instrumentation::Ethon::HttpHelper::SpanCreationAttributes < ::Struct
-  # Returns the value of attribute attributes
-  #
-  # @return [Object] the current value of attributes
-  #
-  # source://opentelemetry-instrumentation-ethon//lib/opentelemetry/instrumentation/ethon/http_helper.rb#14
+  # pkg:gem/opentelemetry-instrumentation-ethon#lib/opentelemetry/instrumentation/ethon/http_helper.rb:14
   def attributes; end
 
-  # Sets the attribute attributes
-  #
-  # @param value [Object] the value to set the attribute attributes to.
-  # @return [Object] the newly set value
-  #
-  # source://opentelemetry-instrumentation-ethon//lib/opentelemetry/instrumentation/ethon/http_helper.rb#14
+  # pkg:gem/opentelemetry-instrumentation-ethon#lib/opentelemetry/instrumentation/ethon/http_helper.rb:14
   def attributes=(_); end
 
-  # Returns the value of attribute span_name
-  #
-  # @return [Object] the current value of span_name
-  #
-  # source://opentelemetry-instrumentation-ethon//lib/opentelemetry/instrumentation/ethon/http_helper.rb#14
+  # pkg:gem/opentelemetry-instrumentation-ethon#lib/opentelemetry/instrumentation/ethon/http_helper.rb:14
   def span_name; end
 
-  # Sets the attribute span_name
-  #
-  # @param value [Object] the value to set the attribute span_name to.
-  # @return [Object] the newly set value
-  #
-  # source://opentelemetry-instrumentation-ethon//lib/opentelemetry/instrumentation/ethon/http_helper.rb#14
+  # pkg:gem/opentelemetry-instrumentation-ethon#lib/opentelemetry/instrumentation/ethon/http_helper.rb:14
   def span_name=(_); end
 
   class << self
-    # source://opentelemetry-instrumentation-ethon//lib/opentelemetry/instrumentation/ethon/http_helper.rb#14
+    # pkg:gem/opentelemetry-instrumentation-ethon#lib/opentelemetry/instrumentation/ethon/http_helper.rb:14
     def [](*_arg0); end
 
-    # source://opentelemetry-instrumentation-ethon//lib/opentelemetry/instrumentation/ethon/http_helper.rb#14
+    # pkg:gem/opentelemetry-instrumentation-ethon#lib/opentelemetry/instrumentation/ethon/http_helper.rb:14
     def inspect; end
 
-    # source://opentelemetry-instrumentation-ethon//lib/opentelemetry/instrumentation/ethon/http_helper.rb#14
+    # pkg:gem/opentelemetry-instrumentation-ethon#lib/opentelemetry/instrumentation/ethon/http_helper.rb:14
     def keyword_init?; end
 
-    # source://opentelemetry-instrumentation-ethon//lib/opentelemetry/instrumentation/ethon/http_helper.rb#14
+    # pkg:gem/opentelemetry-instrumentation-ethon#lib/opentelemetry/instrumentation/ethon/http_helper.rb:14
     def members; end
 
-    # source://opentelemetry-instrumentation-ethon//lib/opentelemetry/instrumentation/ethon/http_helper.rb#14
+    # pkg:gem/opentelemetry-instrumentation-ethon#lib/opentelemetry/instrumentation/ethon/http_helper.rb:14
     def new(*_arg0); end
   end
 end
@@ -133,34 +123,34 @@ end
 # The Instrumentation class contains logic to detect and install the Ethon
 # instrumentation
 #
-# source://opentelemetry-instrumentation-ethon//lib/opentelemetry/instrumentation/ethon/instrumentation.rb#12
+# pkg:gem/opentelemetry-instrumentation-ethon#lib/opentelemetry/instrumentation/ethon/instrumentation.rb:12
 class OpenTelemetry::Instrumentation::Ethon::Instrumentation < ::OpenTelemetry::Instrumentation::Base
   private
 
-  # source://opentelemetry-instrumentation-ethon//lib/opentelemetry/instrumentation/ethon/instrumentation.rb#61
+  # pkg:gem/opentelemetry-instrumentation-ethon#lib/opentelemetry/instrumentation/ethon/instrumentation.rb:61
   def add_patches_dup; end
 
-  # source://opentelemetry-instrumentation-ethon//lib/opentelemetry/instrumentation/ethon/instrumentation.rb#71
+  # pkg:gem/opentelemetry-instrumentation-ethon#lib/opentelemetry/instrumentation/ethon/instrumentation.rb:71
   def add_patches_old; end
 
-  # source://opentelemetry-instrumentation-ethon//lib/opentelemetry/instrumentation/ethon/instrumentation.rb#66
+  # pkg:gem/opentelemetry-instrumentation-ethon#lib/opentelemetry/instrumentation/ethon/instrumentation.rb:66
   def add_patches_stable; end
 
-  # source://opentelemetry-instrumentation-ethon//lib/opentelemetry/instrumentation/ethon/instrumentation.rb#27
+  # pkg:gem/opentelemetry-instrumentation-ethon#lib/opentelemetry/instrumentation/ethon/instrumentation.rb:27
   def determine_semconv; end
 
-  # source://opentelemetry-instrumentation-ethon//lib/opentelemetry/instrumentation/ethon/instrumentation.rb#42
+  # pkg:gem/opentelemetry-instrumentation-ethon#lib/opentelemetry/instrumentation/ethon/instrumentation.rb:42
   def emit_old_semconv_deprecation_warning(option); end
 
-  # source://opentelemetry-instrumentation-ethon//lib/opentelemetry/instrumentation/ethon/instrumentation.rb#46
+  # pkg:gem/opentelemetry-instrumentation-ethon#lib/opentelemetry/instrumentation/ethon/instrumentation.rb:46
   def require_dependencies_dup; end
 
-  # source://opentelemetry-instrumentation-ethon//lib/opentelemetry/instrumentation/ethon/instrumentation.rb#56
+  # pkg:gem/opentelemetry-instrumentation-ethon#lib/opentelemetry/instrumentation/ethon/instrumentation.rb:56
   def require_dependencies_old; end
 
-  # source://opentelemetry-instrumentation-ethon//lib/opentelemetry/instrumentation/ethon/instrumentation.rb#51
+  # pkg:gem/opentelemetry-instrumentation-ethon#lib/opentelemetry/instrumentation/ethon/instrumentation.rb:51
   def require_dependencies_stable; end
 end
 
-# source://opentelemetry-instrumentation-ethon//lib/opentelemetry/instrumentation/ethon/version.rb#10
+# pkg:gem/opentelemetry-instrumentation-ethon#lib/opentelemetry/instrumentation/ethon/version.rb:10
 OpenTelemetry::Instrumentation::Ethon::VERSION = T.let(T.unsafe(nil), String)

@@ -11,8 +11,17 @@
 #
 # The OpenTelemetry module provides global accessors for telemetry objects.
 # See the documentation for the `opentelemetry-api` gem for details.
+# Copyright The OpenTelemetry Authors
 #
-# source://opentelemetry-instrumentation-mongo//lib/opentelemetry/instrumentation.rb#13
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+# pkg:gem/opentelemetry-instrumentation-mongo#lib/opentelemetry/instrumentation.rb:13
 module OpenTelemetry; end
 
 # "Instrumentation" are specified by
@@ -20,37 +29,35 @@ module OpenTelemetry; end
 #
 # Instrumentation should be able to handle the case when the library is not installed on a user's system.
 #
-# source://opentelemetry-instrumentation-mongo//lib/opentelemetry/instrumentation.rb#18
+# pkg:gem/opentelemetry-instrumentation-mongo#lib/opentelemetry/instrumentation.rb:18
 module OpenTelemetry::Instrumentation; end
 
 # Contains the OpenTelemetry instrumentation for the Mongo gem
 #
-# source://opentelemetry-instrumentation-mongo//lib/opentelemetry/instrumentation/mongo.rb#13
+# pkg:gem/opentelemetry-instrumentation-mongo#lib/opentelemetry/instrumentation/mongo.rb:13
 module OpenTelemetry::Instrumentation::Mongo; end
 
 # Instrumentation class that detects and installs the Mongo instrumentation
 #
-# source://opentelemetry-instrumentation-mongo//lib/opentelemetry/instrumentation/mongo/instrumentation.rb#11
+# pkg:gem/opentelemetry-instrumentation-mongo#lib/opentelemetry/instrumentation/mongo/instrumentation.rb:11
 class OpenTelemetry::Instrumentation::Mongo::Instrumentation < ::OpenTelemetry::Instrumentation::Base
   private
 
-  # source://opentelemetry-instrumentation-mongo//lib/opentelemetry/instrumentation/mongo/instrumentation.rb#40
+  # pkg:gem/opentelemetry-instrumentation-mongo#lib/opentelemetry/instrumentation/mongo/instrumentation.rb:40
   def gem_version; end
 
-  # source://opentelemetry-instrumentation-mongo//lib/opentelemetry/instrumentation/mongo/instrumentation.rb#48
+  # pkg:gem/opentelemetry-instrumentation-mongo#lib/opentelemetry/instrumentation/mongo/instrumentation.rb:48
   def register_subscriber; end
 
-  # source://opentelemetry-instrumentation-mongo//lib/opentelemetry/instrumentation/mongo/instrumentation.rb#44
+  # pkg:gem/opentelemetry-instrumentation-mongo#lib/opentelemetry/instrumentation/mongo/instrumentation.rb:44
   def require_dependencies; end
 end
 
-# Mongo 2.23.0+ has native OpenTelemetry instrumentation
-#
-# source://opentelemetry-instrumentation-mongo//lib/opentelemetry/instrumentation/mongo/instrumentation.rb#13
+# pkg:gem/opentelemetry-instrumentation-mongo#lib/opentelemetry/instrumentation/mongo/instrumentation.rb:13
 OpenTelemetry::Instrumentation::Mongo::Instrumentation::MAX_VERSION = T.let(T.unsafe(nil), Gem::Version)
 
-# source://opentelemetry-instrumentation-mongo//lib/opentelemetry/instrumentation/mongo/instrumentation.rb#12
+# pkg:gem/opentelemetry-instrumentation-mongo#lib/opentelemetry/instrumentation/mongo/instrumentation.rb:12
 OpenTelemetry::Instrumentation::Mongo::Instrumentation::MINIMUM_VERSION = T.let(T.unsafe(nil), Gem::Version)
 
-# source://opentelemetry-instrumentation-mongo//lib/opentelemetry/instrumentation/mongo/version.rb#10
+# pkg:gem/opentelemetry-instrumentation-mongo#lib/opentelemetry/instrumentation/mongo/version.rb:10
 OpenTelemetry::Instrumentation::Mongo::VERSION = T.let(T.unsafe(nil), String)

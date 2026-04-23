@@ -11,33 +11,51 @@
 #
 # The OpenTelemetry module provides global accessors for telemetry objects.
 # See the documentation for the `opentelemetry-api` gem for details.
+# Copyright The OpenTelemetry Authors
 #
-# source://opentelemetry-instrumentation-bunny//lib/opentelemetry/instrumentation.rb#13
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+# pkg:gem/opentelemetry-instrumentation-bunny#lib/opentelemetry/instrumentation.rb:13
 module OpenTelemetry; end
 
 # Instrumentation should be able to handle the case when the library is not installed on a user's system.
 #
-# source://opentelemetry-instrumentation-bunny//lib/opentelemetry/instrumentation.rb#15
+# pkg:gem/opentelemetry-instrumentation-bunny#lib/opentelemetry/instrumentation.rb:15
 module OpenTelemetry::Instrumentation; end
 
 # Contains the OpenTelemetry instrumentation for the bunny gem
 #
-# source://opentelemetry-instrumentation-bunny//lib/opentelemetry/instrumentation/bunny.rb#12
+# pkg:gem/opentelemetry-instrumentation-bunny#lib/opentelemetry/instrumentation/bunny.rb:12
 module OpenTelemetry::Instrumentation::Bunny; end
 
 # The Instrumentation class contains logic to detect and install the
 # bunny instrumentation
 #
-# source://opentelemetry-instrumentation-bunny//lib/opentelemetry/instrumentation/bunny/instrumentation.rb#14
+# pkg:gem/opentelemetry-instrumentation-bunny#lib/opentelemetry/instrumentation/bunny/instrumentation.rb:14
 class OpenTelemetry::Instrumentation::Bunny::Instrumentation < ::OpenTelemetry::Instrumentation::Base
   private
 
-  # source://opentelemetry-instrumentation-bunny//lib/opentelemetry/instrumentation/bunny/instrumentation.rb#34
+  # pkg:gem/opentelemetry-instrumentation-bunny#lib/opentelemetry/instrumentation/bunny/instrumentation.rb:34
   def patch; end
 
-  # source://opentelemetry-instrumentation-bunny//lib/opentelemetry/instrumentation/bunny/instrumentation.rb#26
+  # pkg:gem/opentelemetry-instrumentation-bunny#lib/opentelemetry/instrumentation/bunny/instrumentation.rb:26
   def require_patches; end
 end
 
-# source://opentelemetry-instrumentation-bunny//lib/opentelemetry/instrumentation/bunny/version.rb#10
+# pkg:gem/opentelemetry-instrumentation-bunny#lib/opentelemetry/instrumentation/bunny/version.rb:10
 OpenTelemetry::Instrumentation::Bunny::VERSION = T.let(T.unsafe(nil), String)

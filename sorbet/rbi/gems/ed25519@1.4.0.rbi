@@ -7,189 +7,177 @@
 
 # The Ed25519 digital signatre algorithm
 #
-# source://ed25519//lib/ed25519/version.rb#3
+# pkg:gem/ed25519#lib/ed25519/version.rb:3
 module Ed25519
   private
 
   # Perform a self-test to ensure the selected provider is working
   #
-  # source://ed25519//lib/ed25519.rb#48
+  # pkg:gem/ed25519#lib/ed25519.rb:48
   def self_test; end
 
   # Ensure a serialized key meets the requirements
   #
-  # source://ed25519//lib/ed25519.rb#40
+  # pkg:gem/ed25519#lib/ed25519.rb:40
   def validate_key_bytes(key_bytes); end
 
   class << self
     # Obtain the backend provider module used to perform signatures
     #
-    # source://ed25519//lib/ed25519.rb#26
+    # pkg:gem/ed25519#lib/ed25519.rb:26
     def provider; end
 
     # Obtain the backend provider module used to perform signatures
     #
-    # source://ed25519//lib/ed25519.rb#26
+    # pkg:gem/ed25519#lib/ed25519.rb:26
     def provider=(_arg0); end
 
     # Perform a self-test to ensure the selected provider is working
     #
-    # @raise [SelfTestFailure]
-    #
-    # source://ed25519//lib/ed25519.rb#48
+    # pkg:gem/ed25519#lib/ed25519.rb:48
     def self_test; end
 
     # Ensure a serialized key meets the requirements
     #
-    # @raise [TypeError]
-    #
-    # source://ed25519//lib/ed25519.rb#40
+    # pkg:gem/ed25519#lib/ed25519.rb:40
     def validate_key_bytes(key_bytes); end
   end
 end
 
 # Size of an Ed25519 key (public or private) in bytes
 #
-# source://ed25519//lib/ed25519.rb#13
+# pkg:gem/ed25519#lib/ed25519.rb:13
 Ed25519::KEY_SIZE = T.let(T.unsafe(nil), Integer)
 
+# pkg:gem/ed25519#lib/ed25519.rb:35
 module Ed25519::Provider; end
 
+# pkg:gem/ed25519#lib/ed25519.rb:35
 module Ed25519::Provider::Ref10
   class << self
-    # source://ed25519//lib/ed25519.rb#35
+    # pkg:gem/ed25519#lib/ed25519.rb:35
     def create_keypair(_arg0); end
 
-    # source://ed25519//lib/ed25519.rb#35
+    # pkg:gem/ed25519#lib/ed25519.rb:35
     def sign(_arg0, _arg1); end
 
-    # source://ed25519//lib/ed25519.rb#35
+    # pkg:gem/ed25519#lib/ed25519.rb:35
     def verify(_arg0, _arg1, _arg2); end
   end
 end
 
 # Size of an Ed25519 signature in bytes
 #
-# source://ed25519//lib/ed25519.rb#16
+# pkg:gem/ed25519#lib/ed25519.rb:16
 Ed25519::SIGNATURE_SIZE = T.let(T.unsafe(nil), Integer)
 
 # Raised when the built-in self-test fails
+#
+# pkg:gem/ed25519#lib/ed25519.rb:22
 class Ed25519::SelfTestFailure < ::StandardError; end
 
 # Private key for producing digital signatures
 #
-# source://ed25519//lib/ed25519/signing_key.rb#7
+# pkg:gem/ed25519#lib/ed25519/signing_key.rb:7
 class Ed25519::SigningKey
   # Create a new Ed25519::SigningKey from the given seed value
   #
   # @param seed [String] 32-byte seed value from which the key should be derived
-  # @return [SigningKey] a new instance of SigningKey
   #
-  # source://ed25519//lib/ed25519/signing_key.rb#30
+  # pkg:gem/ed25519#lib/ed25519/signing_key.rb:30
   def initialize(seed); end
 
   # String inspection that does not leak secret values
   #
-  # source://ed25519//lib/ed25519/signing_key.rb#48
+  # pkg:gem/ed25519#lib/ed25519/signing_key.rb:48
   def inspect; end
 
-  # Returns the value of attribute keypair.
-  #
-  # source://ed25519//lib/ed25519/signing_key.rb#8
+  # pkg:gem/ed25519#lib/ed25519/signing_key.rb:8
   def keypair; end
 
-  # Returns the value of attribute seed.
-  #
-  # source://ed25519//lib/ed25519/signing_key.rb#8
+  # pkg:gem/ed25519#lib/ed25519/signing_key.rb:8
   def seed; end
 
   # Sign the given message, returning an Ed25519 signature
   #
   # @param message [String] message to be signed
+  #
   # @return [String] 64-byte Ed25519 signature
   #
-  # source://ed25519//lib/ed25519/signing_key.rb#43
+  # pkg:gem/ed25519#lib/ed25519/signing_key.rb:43
   def sign(message); end
 
   # Return a bytestring representation of this signing key
   #
   # @return [String] signing key converted to a bytestring
   #
-  # source://ed25519//lib/ed25519/signing_key.rb#55
+  # pkg:gem/ed25519#lib/ed25519/signing_key.rb:55
   def to_bytes; end
 
-  # Return a bytestring representation of this signing key
-  #
-  # @return [String] signing key converted to a bytestring
-  #
-  # source://ed25519//lib/ed25519/signing_key.rb#58
+  # pkg:gem/ed25519#lib/ed25519/signing_key.rb:58
   def to_str; end
 
-  # Returns the value of attribute verify_key.
-  #
-  # source://ed25519//lib/ed25519/signing_key.rb#8
+  # pkg:gem/ed25519#lib/ed25519/signing_key.rb:8
   def verify_key; end
 
   class << self
     # Create a SigningKey from a 64-byte Ed25519 keypair (i.e. public + private)
     #
     # @param keypair [String] 64-byte keypair value containing both seed + public key
-    # @raise [TypeError]
     #
-    # source://ed25519//lib/ed25519/signing_key.rb#18
+    # pkg:gem/ed25519#lib/ed25519/signing_key.rb:18
     def from_keypair(keypair); end
 
     # Generate a random Ed25519 signing key (i.e. private scalar)
     #
-    # source://ed25519//lib/ed25519/signing_key.rb#11
+    # pkg:gem/ed25519#lib/ed25519/signing_key.rb:11
     def generate; end
   end
 end
 
-# source://ed25519//lib/ed25519/version.rb#4
+# pkg:gem/ed25519#lib/ed25519/version.rb:4
 Ed25519::VERSION = T.let(T.unsafe(nil), String)
 
 # Raised when a signature fails to verify
+#
+# pkg:gem/ed25519#lib/ed25519.rb:19
 class Ed25519::VerifyError < ::StandardError; end
 
 # Public key for verifying digital signatures
 #
-# source://ed25519//lib/ed25519/verify_key.rb#5
+# pkg:gem/ed25519#lib/ed25519/verify_key.rb:5
 class Ed25519::VerifyKey
   # Create a Ed25519::VerifyKey from its serialized Twisted Edwards representation
   #
   # @param key [String] 32-byte string representing a serialized public key
-  # @return [VerifyKey] a new instance of VerifyKey
   #
-  # source://ed25519//lib/ed25519/verify_key.rb#9
+  # pkg:gem/ed25519#lib/ed25519/verify_key.rb:9
   def initialize(key); end
 
   # Show hex representation of serialized coordinate in string inspection
   #
-  # source://ed25519//lib/ed25519/verify_key.rb#41
+  # pkg:gem/ed25519#lib/ed25519/verify_key.rb:41
   def inspect; end
 
   # Return a compressed twisted Edwards coordinate representing the public key
   #
   # @return [String] bytestring serialization of this public key
   #
-  # source://ed25519//lib/ed25519/verify_key.rb#35
+  # pkg:gem/ed25519#lib/ed25519/verify_key.rb:35
   def to_bytes; end
 
-  # Return a compressed twisted Edwards coordinate representing the public key
-  #
-  # @return [String] bytestring serialization of this public key
-  #
-  # source://ed25519//lib/ed25519/verify_key.rb#38
+  # pkg:gem/ed25519#lib/ed25519/verify_key.rb:38
   def to_str; end
 
   # Verify an Ed25519 signature against the message
   #
-  # @param message [String] string containing message to be verified
   # @param signature [String] 64-byte string containing an Ed25519 signature
+  # @param message [String] string containing message to be verified
+  #
   # @raise Ed25519::VerifyError signature verification failed
+  #
   # @return [true] message verified successfully
   #
-  # source://ed25519//lib/ed25519/verify_key.rb#22
+  # pkg:gem/ed25519#lib/ed25519/verify_key.rb:22
   def verify(signature, message); end
 end

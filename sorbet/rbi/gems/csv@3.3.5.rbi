@@ -5,7 +5,7 @@
 # Please instead update this file by running `bin/tapioca gem csv`.
 
 
-# source://csv//lib/csv/core_ext/array.rb#1
+# pkg:gem/csv#lib/csv/core_ext/array.rb:1
 class Array
   include ::Enumerable
 
@@ -14,7 +14,7 @@ class Array
   #   ["CSV", "data"].to_csv
   #     #=> "CSV,data\n"
   #
-  # source://csv//lib/csv/core_ext/array.rb#6
+  # pkg:gem/csv#lib/csv/core_ext/array.rb:6
   def to_csv(**options); end
 end
 
@@ -763,7 +763,7 @@ end
 # Please feel free to {report}[mailto:james@grayproductions.net] any issues you
 # find with it.
 #
-# source://csv//lib/csv/fields_converter.rb#3
+# pkg:gem/csv#lib/csv/fields_converter.rb:3
 class CSV
   include ::Enumerable
   extend ::Forwardable
@@ -804,10 +804,7 @@ class CSV
   #   # Raises ArgumentError (Cannot parse nil as CSV):
   #   CSV.new(nil)
   #
-  # @raise [ArgumentError]
-  # @return [CSV] a new instance of CSV
-  #
-  # source://csv//lib/csv.rb#2034
+  # pkg:gem/csv#lib/csv.rb:2034
   def initialize(data, col_sep: T.unsafe(nil), row_sep: T.unsafe(nil), quote_char: T.unsafe(nil), field_size_limit: T.unsafe(nil), max_field_size: T.unsafe(nil), converters: T.unsafe(nil), unconverted_fields: T.unsafe(nil), headers: T.unsafe(nil), return_headers: T.unsafe(nil), write_headers: T.unsafe(nil), header_converters: T.unsafe(nil), skip_blanks: T.unsafe(nil), force_quotes: T.unsafe(nil), skip_lines: T.unsafe(nil), liberal_parsing: T.unsafe(nil), internal_encoding: T.unsafe(nil), external_encoding: T.unsafe(nil), encoding: T.unsafe(nil), nil_value: T.unsafe(nil), empty_value: T.unsafe(nil), strip: T.unsafe(nil), quote_empty: T.unsafe(nil), write_converters: T.unsafe(nil), write_nil_value: T.unsafe(nil), write_empty_value: T.unsafe(nil)); end
 
   # :call-seq:
@@ -861,81 +858,28 @@ class CSV
   #     end
   #   end
   #
-  # source://csv//lib/csv.rb#2507
+  # pkg:gem/csv#lib/csv.rb:2507
   def <<(row); end
 
-  # :call-seq:
-  #   csv << row -> self
-  #
-  # Appends a row to +self+.
-  #
-  # - Argument +row+ must be an \Array object or a CSV::Row object.
-  # - The output stream must be open for writing.
-  #
-  # ---
-  #
-  # Append Arrays:
-  #   CSV.generate do |csv|
-  #     csv << ['foo', 0]
-  #     csv << ['bar', 1]
-  #     csv << ['baz', 2]
-  #   end # => "foo,0\nbar,1\nbaz,2\n"
-  #
-  # Append CSV::Rows:
-  #   headers = []
-  #   CSV.generate do |csv|
-  #     csv << CSV::Row.new(headers, ['foo', 0])
-  #     csv << CSV::Row.new(headers, ['bar', 1])
-  #     csv << CSV::Row.new(headers, ['baz', 2])
-  #   end # => "foo,0\nbar,1\nbaz,2\n"
-  #
-  # Headers in CSV::Row objects are not appended:
-  #   headers = ['Name', 'Count']
-  #   CSV.generate do |csv|
-  #     csv << CSV::Row.new(headers, ['foo', 0])
-  #     csv << CSV::Row.new(headers, ['bar', 1])
-  #     csv << CSV::Row.new(headers, ['baz', 2])
-  #   end # => "foo,0\nbar,1\nbaz,2\n"
-  #
-  # ---
-  #
-  # Raises an exception if +row+ is not an \Array or \CSV::Row:
-  #   CSV.generate do |csv|
-  #     # Raises NoMethodError (undefined method `collect' for :foo:Symbol)
-  #     csv << :foo
-  #   end
-  #
-  # Raises an exception if the output stream is not opened for writing:
-  #   path = 't.csv'
-  #   File.write(path, '')
-  #   File.open(path) do |file|
-  #     CSV.open(file) do |csv|
-  #       # Raises IOError (not opened for writing)
-  #       csv << ['foo', 0]
-  #     end
-  #   end
-  #
-  # source://csv//lib/csv.rb#2511
+  # pkg:gem/csv#lib/csv.rb:2511
   def add_row(row); end
 
-  # source://csv//lib/csv.rb#2389
+  # pkg:gem/csv#lib/csv.rb:2389
   def binmode(*_arg0, **_arg1, &_arg2); end
 
-  # @return [Boolean]
-  #
-  # source://csv//lib/csv.rb#2396
+  # pkg:gem/csv#lib/csv.rb:2396
   def binmode?; end
 
-  # source://csv//lib/csv.rb#2389
+  # pkg:gem/csv#lib/csv.rb:2389
   def close(*_arg0, **_arg1, &_arg2); end
 
-  # source://csv//lib/csv.rb#2389
+  # pkg:gem/csv#lib/csv.rb:2389
   def close_read(*_arg0, **_arg1, &_arg2); end
 
-  # source://csv//lib/csv.rb#2389
+  # pkg:gem/csv#lib/csv.rb:2389
   def close_write(*_arg0, **_arg1, &_arg2); end
 
-  # source://csv//lib/csv.rb#2389
+  # pkg:gem/csv#lib/csv.rb:2389
   def closed?(*_arg0, **_arg1, &_arg2); end
 
   # :call-seq:
@@ -945,7 +889,7 @@ class CSV
   # see {Option +col_sep+}[#class-CSV-label-Option+col_sep]:
   #   CSV.new('').col_sep # => ","
   #
-  # source://csv//lib/csv.rb#2144
+  # pkg:gem/csv#lib/csv.rb:2144
   def col_sep; end
 
   # :call-seq:
@@ -1013,7 +957,7 @@ class CSV
   #   # Raises NoMethodError (undefined method `arity' for nil:NilClass)
   #   csv.read
   #
-  # source://csv//lib/csv.rb#2578
+  # pkg:gem/csv#lib/csv.rb:2578
   def convert(name = T.unsafe(nil), &converter); end
 
   # :call-seq:
@@ -1032,7 +976,7 @@ class CSV
   # +Ractor.make_shareable(CSV::Converters)+ on the main Ractor to use
   # this method.
   #
-  # source://csv//lib/csv.rb#2217
+  # pkg:gem/csv#lib/csv.rb:2217
   def converters; end
 
   # :call-seq:
@@ -1075,7 +1019,7 @@ class CSV
   #     p row
   #   end
   #
-  # source://csv//lib/csv.rb#2689
+  # pkg:gem/csv#lib/csv.rb:2689
   def each(&block); end
 
   # :call-seq:
@@ -1085,23 +1029,19 @@ class CSV
   # see {Character Encodings (M17n or Multilingualization)}[#class-CSV-label-Character+Encodings+-28M17n+or+Multilingualization-29]:
   #   CSV.new('').encoding # => #<Encoding:UTF-8>
   #
-  # source://csv//lib/csv.rb#2327
+  # pkg:gem/csv#lib/csv.rb:2327
   def encoding; end
 
-  # @return [Boolean]
-  #
-  # source://csv//lib/csv.rb#2444
+  # pkg:gem/csv#lib/csv.rb:2444
   def eof; end
 
-  # @return [Boolean]
-  #
-  # source://csv//lib/csv.rb#2432
+  # pkg:gem/csv#lib/csv.rb:2432
   def eof?; end
 
-  # source://csv//lib/csv.rb#2389
+  # pkg:gem/csv#lib/csv.rb:2389
   def external_encoding(*_arg0, **_arg1, &_arg2); end
 
-  # source://csv//lib/csv.rb#2389
+  # pkg:gem/csv#lib/csv.rb:2389
   def fcntl(*_arg0, **_arg1, &_arg2); end
 
   # :call-seq:
@@ -1113,18 +1053,16 @@ class CSV
   #
   # Deprecated since 3.2.3. Use +max_field_size+ instead.
   #
-  # source://csv//lib/csv.rb#2176
+  # pkg:gem/csv#lib/csv.rb:2176
   def field_size_limit; end
 
-  # source://csv//lib/csv.rb#2389
+  # pkg:gem/csv#lib/csv.rb:2389
   def fileno(*_arg0, **_arg1, &_arg2); end
 
-  # @raise [NotImplementedError]
-  #
-  # source://csv//lib/csv.rb#2404
+  # pkg:gem/csv#lib/csv.rb:2404
   def flock(*args); end
 
-  # source://csv//lib/csv.rb#2389
+  # pkg:gem/csv#lib/csv.rb:2389
   def flush(*_arg0, **_arg1, &_arg2); end
 
   # :call-seq:
@@ -1135,49 +1073,13 @@ class CSV
   # see {Option +force_quotes+}[#class-CSV-label-Option+force_quotes]:
   #   CSV.new('').force_quotes? # => false
   #
-  # @return [Boolean]
-  #
-  # source://csv//lib/csv.rb#2307
+  # pkg:gem/csv#lib/csv.rb:2307
   def force_quotes?; end
 
-  # source://csv//lib/csv.rb#2389
+  # pkg:gem/csv#lib/csv.rb:2389
   def fsync(*_arg0, **_arg1, &_arg2); end
 
-  # :call-seq:
-  #   csv.shift -> array, csv_row, or nil
-  #
-  # Returns the next row of data as:
-  # - An \Array if no headers are used.
-  # - A CSV::Row object if headers are used.
-  #
-  # The data source must be opened for reading.
-  #
-  # Without headers:
-  #   string = "foo,0\nbar,1\nbaz,2\n"
-  #   csv = CSV.new(string)
-  #   csv.shift # => ["foo", "0"]
-  #   csv.shift # => ["bar", "1"]
-  #   csv.shift # => ["baz", "2"]
-  #   csv.shift # => nil
-  #
-  # With headers:
-  #   string = "Name,Value\nfoo,0\nbar,1\nbaz,2\n"
-  #   csv = CSV.new(string, headers: true)
-  #   csv.shift # => #<CSV::Row "Name":"foo" "Value":"0">
-  #   csv.shift # => #<CSV::Row "Name":"bar" "Value":"1">
-  #   csv.shift # => #<CSV::Row "Name":"baz" "Value":"2">
-  #   csv.shift # => nil
-  #
-  # ---
-  #
-  # Raises an exception if the source is not opened for reading:
-  #   string = "foo,0\nbar,1\nbaz,2\n"
-  #   csv = CSV.new(string)
-  #   csv.close
-  #   # Raises IOError (not opened for reading)
-  #   csv.shift
-  #
-  # source://csv//lib/csv.rb#2814
+  # pkg:gem/csv#lib/csv.rb:2814
   def gets; end
 
   # The block need not return a \String object:
@@ -1200,7 +1102,7 @@ class CSV
   #   # Raises NoMethodError (undefined method `arity' for nil:NilClass)
   #   csv.read
   #
-  # source://csv//lib/csv.rb#2644
+  # pkg:gem/csv#lib/csv.rb:2644
   def header_convert(name = T.unsafe(nil), &converter); end
 
   # :call-seq:
@@ -1214,7 +1116,7 @@ class CSV
   # +Ractor.make_shareable(CSV::HeaderConverters)+ on the main Ractor
   # to use this method.
   #
-  # source://csv//lib/csv.rb#2283
+  # pkg:gem/csv#lib/csv.rb:2283
   def header_converters; end
 
   # :call-seq:
@@ -1244,9 +1146,7 @@ class CSV
   #   # Raises IOError (not opened for reading)
   #   csv.header_row?
   #
-  # @return [Boolean]
-  #
-  # source://csv//lib/csv.rb#2766
+  # pkg:gem/csv#lib/csv.rb:2766
   def header_row?; end
 
   # :call-seq:
@@ -1256,7 +1156,7 @@ class CSV
   # see {Option +headers+}[#class-CSV-label-Option+headers]:
   #   CSV.new('').headers # => nil
   #
-  # source://csv//lib/csv.rb#2241
+  # pkg:gem/csv#lib/csv.rb:2241
   def headers; end
 
   # :call-seq:
@@ -1267,18 +1167,16 @@ class CSV
   #   csv = CSV.new(string, headers: true)
   #   s = csv.inspect
   #
-  # source://csv//lib/csv.rb#2825
+  # pkg:gem/csv#lib/csv.rb:2825
   def inspect; end
 
-  # source://csv//lib/csv.rb#2389
+  # pkg:gem/csv#lib/csv.rb:2389
   def internal_encoding(*_arg0, **_arg1, &_arg2); end
 
-  # @raise [NotImplementedError]
-  #
-  # source://csv//lib/csv.rb#2409
+  # pkg:gem/csv#lib/csv.rb:2409
   def ioctl(*args); end
 
-  # source://csv//lib/csv.rb#2389
+  # pkg:gem/csv#lib/csv.rb:2389
   def isatty(*_arg0, **_arg1, &_arg2); end
 
   # :call-seq:
@@ -1288,9 +1186,7 @@ class CSV
   # see {Option +liberal_parsing+}[#class-CSV-label-Option+liberal_parsing]:
   #   CSV.new('').liberal_parsing? # => false
   #
-  # @return [Boolean]
-  #
-  # source://csv//lib/csv.rb#2317
+  # pkg:gem/csv#lib/csv.rb:2317
   def liberal_parsing?; end
 
   # :call-seq:
@@ -1310,7 +1206,7 @@ class CSV
   #   [2, "bar,1\n"]
   #   [3, "baz,2\n"]
   #
-  # source://csv//lib/csv.rb#2382
+  # pkg:gem/csv#lib/csv.rb:2382
   def line; end
 
   # :call-seq:
@@ -1343,7 +1239,7 @@ class CSV
   #   1
   #   2
   #
-  # source://csv//lib/csv.rb#2358
+  # pkg:gem/csv#lib/csv.rb:2358
   def lineno; end
 
   # :call-seq:
@@ -1355,73 +1251,22 @@ class CSV
   #
   # Since 3.2.3.
   #
-  # source://csv//lib/csv.rb#2188
+  # pkg:gem/csv#lib/csv.rb:2188
   def max_field_size; end
 
-  # source://csv//lib/csv.rb#2414
+  # pkg:gem/csv#lib/csv.rb:2414
   def path; end
 
-  # source://csv//lib/csv.rb#2389
+  # pkg:gem/csv#lib/csv.rb:2389
   def pid(*_arg0, **_arg1, &_arg2); end
 
-  # source://csv//lib/csv.rb#2389
+  # pkg:gem/csv#lib/csv.rb:2389
   def pos(*_arg0, **_arg1, &_arg2); end
 
-  # source://csv//lib/csv.rb#2389
+  # pkg:gem/csv#lib/csv.rb:2389
   def pos=(*_arg0, **_arg1, &_arg2); end
 
-  # :call-seq:
-  #   csv << row -> self
-  #
-  # Appends a row to +self+.
-  #
-  # - Argument +row+ must be an \Array object or a CSV::Row object.
-  # - The output stream must be open for writing.
-  #
-  # ---
-  #
-  # Append Arrays:
-  #   CSV.generate do |csv|
-  #     csv << ['foo', 0]
-  #     csv << ['bar', 1]
-  #     csv << ['baz', 2]
-  #   end # => "foo,0\nbar,1\nbaz,2\n"
-  #
-  # Append CSV::Rows:
-  #   headers = []
-  #   CSV.generate do |csv|
-  #     csv << CSV::Row.new(headers, ['foo', 0])
-  #     csv << CSV::Row.new(headers, ['bar', 1])
-  #     csv << CSV::Row.new(headers, ['baz', 2])
-  #   end # => "foo,0\nbar,1\nbaz,2\n"
-  #
-  # Headers in CSV::Row objects are not appended:
-  #   headers = ['Name', 'Count']
-  #   CSV.generate do |csv|
-  #     csv << CSV::Row.new(headers, ['foo', 0])
-  #     csv << CSV::Row.new(headers, ['bar', 1])
-  #     csv << CSV::Row.new(headers, ['baz', 2])
-  #   end # => "foo,0\nbar,1\nbaz,2\n"
-  #
-  # ---
-  #
-  # Raises an exception if +row+ is not an \Array or \CSV::Row:
-  #   CSV.generate do |csv|
-  #     # Raises NoMethodError (undefined method `collect' for :foo:Symbol)
-  #     csv << :foo
-  #   end
-  #
-  # Raises an exception if the output stream is not opened for writing:
-  #   path = 't.csv'
-  #   File.write(path, '')
-  #   File.open(path) do |file|
-  #     CSV.open(file) do |csv|
-  #       # Raises IOError (not opened for writing)
-  #       csv << ['foo', 0]
-  #     end
-  #   end
-  #
-  # source://csv//lib/csv.rb#2512
+  # pkg:gem/csv#lib/csv.rb:2512
   def puts(row); end
 
   # :call-seq:
@@ -1431,7 +1276,7 @@ class CSV
   # see {Option +quote_char+}[#class-CSV-label-Option+quote_char]:
   #   CSV.new('').quote_char # => "\""
   #
-  # source://csv//lib/csv.rb#2164
+  # pkg:gem/csv#lib/csv.rb:2164
   def quote_char; end
 
   # :call-seq:
@@ -1466,82 +1311,16 @@ class CSV
   #   # Raises IOError (not opened for reading)
   #   csv.read
   #
-  # source://csv//lib/csv.rb#2730
+  # pkg:gem/csv#lib/csv.rb:2730
   def read; end
 
-  # :call-seq:
-  #   csv.shift -> array, csv_row, or nil
-  #
-  # Returns the next row of data as:
-  # - An \Array if no headers are used.
-  # - A CSV::Row object if headers are used.
-  #
-  # The data source must be opened for reading.
-  #
-  # Without headers:
-  #   string = "foo,0\nbar,1\nbaz,2\n"
-  #   csv = CSV.new(string)
-  #   csv.shift # => ["foo", "0"]
-  #   csv.shift # => ["bar", "1"]
-  #   csv.shift # => ["baz", "2"]
-  #   csv.shift # => nil
-  #
-  # With headers:
-  #   string = "Name,Value\nfoo,0\nbar,1\nbaz,2\n"
-  #   csv = CSV.new(string, headers: true)
-  #   csv.shift # => #<CSV::Row "Name":"foo" "Value":"0">
-  #   csv.shift # => #<CSV::Row "Name":"bar" "Value":"1">
-  #   csv.shift # => #<CSV::Row "Name":"baz" "Value":"2">
-  #   csv.shift # => nil
-  #
-  # ---
-  #
-  # Raises an exception if the source is not opened for reading:
-  #   string = "foo,0\nbar,1\nbaz,2\n"
-  #   csv = CSV.new(string)
-  #   csv.close
-  #   # Raises IOError (not opened for reading)
-  #   csv.shift
-  #
-  # source://csv//lib/csv.rb#2815
+  # pkg:gem/csv#lib/csv.rb:2815
   def readline; end
 
-  # :call-seq:
-  #   csv.read -> array or csv_table
-  #
-  # Forms the remaining rows from +self+ into:
-  # - A CSV::Table object, if headers are in use.
-  # - An \Array of Arrays, otherwise.
-  #
-  # The data source must be opened for reading.
-  #
-  # Without headers:
-  #   string = "foo,0\nbar,1\nbaz,2\n"
-  #   path = 't.csv'
-  #   File.write(path, string)
-  #   csv = CSV.open(path)
-  #   csv.read # => [["foo", "0"], ["bar", "1"], ["baz", "2"]]
-  #
-  # With headers:
-  #   string = "Name,Value\nfoo,0\nbar,1\nbaz,2\n"
-  #   path = 't.csv'
-  #   File.write(path, string)
-  #   csv = CSV.open(path, headers: true)
-  #   csv.read # => #<CSV::Table mode:col_or_row row_count:4>
-  #
-  # ---
-  #
-  # Raises an exception if the source is not opened for reading:
-  #   string = "foo,0\nbar,1\nbaz,2\n"
-  #   csv = CSV.new(string)
-  #   csv.close
-  #   # Raises IOError (not opened for reading)
-  #   csv.read
-  #
-  # source://csv//lib/csv.rb#2738
+  # pkg:gem/csv#lib/csv.rb:2738
   def readlines; end
 
-  # source://csv//lib/csv.rb#2389
+  # pkg:gem/csv#lib/csv.rb:2389
   def reopen(*_arg0, **_arg1, &_arg2); end
 
   # :call-seq:
@@ -1551,14 +1330,12 @@ class CSV
   # see {Option +return_headers+}[#class-CSV-label-Option+return_headers]:
   #   CSV.new('').return_headers? # => false
   #
-  # @return [Boolean]
-  #
-  # source://csv//lib/csv.rb#2259
+  # pkg:gem/csv#lib/csv.rb:2259
   def return_headers?; end
 
   # Rewinds the underlying IO object and resets CSV's lineno() counter.
   #
-  # source://csv//lib/csv.rb#2447
+  # pkg:gem/csv#lib/csv.rb:2447
   def rewind; end
 
   # :call-seq:
@@ -1568,10 +1345,10 @@ class CSV
   # see {Option +row_sep+}[#class-CSV-label-Option+row_sep]:
   #   CSV.new('').row_sep # => "\n"
   #
-  # source://csv//lib/csv.rb#2154
+  # pkg:gem/csv#lib/csv.rb:2154
   def row_sep; end
 
-  # source://csv//lib/csv.rb#2389
+  # pkg:gem/csv#lib/csv.rb:2389
   def seek(*_arg0, **_arg1, &_arg2); end
 
   # :call-seq:
@@ -1608,7 +1385,7 @@ class CSV
   #   # Raises IOError (not opened for reading)
   #   csv.shift
   #
-  # source://csv//lib/csv.rb#2803
+  # pkg:gem/csv#lib/csv.rb:2803
   def shift; end
 
   # :call-seq:
@@ -1618,9 +1395,7 @@ class CSV
   # see {Option +skip_blanks+}[#class-CSV-label-Option+skip_blanks]:
   #   CSV.new('').skip_blanks? # => false
   #
-  # @return [Boolean]
-  #
-  # source://csv//lib/csv.rb#2296
+  # pkg:gem/csv#lib/csv.rb:2296
   def skip_blanks?; end
 
   # :call-seq:
@@ -1630,38 +1405,34 @@ class CSV
   # see {Option +skip_lines+}[#class-CSV-label-Option+skip_lines]:
   #   CSV.new('').skip_lines # => nil
   #
-  # source://csv//lib/csv.rb#2198
+  # pkg:gem/csv#lib/csv.rb:2198
   def skip_lines; end
 
-  # @raise [NotImplementedError]
-  #
-  # source://csv//lib/csv.rb#2418
+  # pkg:gem/csv#lib/csv.rb:2418
   def stat(*args); end
 
-  # source://csv//lib/csv.rb#2389
+  # pkg:gem/csv#lib/csv.rb:2389
   def string(*_arg0, **_arg1, &_arg2); end
 
-  # source://csv//lib/csv.rb#2389
+  # pkg:gem/csv#lib/csv.rb:2389
   def sync(*_arg0, **_arg1, &_arg2); end
 
-  # source://csv//lib/csv.rb#2389
+  # pkg:gem/csv#lib/csv.rb:2389
   def sync=(*_arg0, **_arg1, &_arg2); end
 
-  # source://csv//lib/csv.rb#2389
+  # pkg:gem/csv#lib/csv.rb:2389
   def tell(*_arg0, **_arg1, &_arg2); end
 
-  # @raise [NotImplementedError]
-  #
-  # source://csv//lib/csv.rb#2423
+  # pkg:gem/csv#lib/csv.rb:2423
   def to_i; end
 
-  # source://csv//lib/csv.rb#2428
+  # pkg:gem/csv#lib/csv.rb:2428
   def to_io; end
 
-  # source://csv//lib/csv.rb#2389
+  # pkg:gem/csv#lib/csv.rb:2389
   def truncate(*_arg0, **_arg1, &_arg2); end
 
-  # source://csv//lib/csv.rb#2389
+  # pkg:gem/csv#lib/csv.rb:2389
   def tty?(*_arg0, **_arg1, &_arg2); end
 
   # :call-seq:
@@ -1672,9 +1443,7 @@ class CSV
   # see {Option +unconverted_fields+}[#class-CSV-label-Option+unconverted_fields]:
   #   CSV.new('').unconverted_fields? # => nil
   #
-  # @return [Boolean]
-  #
-  # source://csv//lib/csv.rb#2231
+  # pkg:gem/csv#lib/csv.rb:2231
   def unconverted_fields?; end
 
   # :call-seq:
@@ -1684,23 +1453,21 @@ class CSV
   # see {Option +write_headers+}[#class-CSV-label-Option+write_headers]:
   #   CSV.new('').write_headers? # => nil
   #
-  # @return [Boolean]
-  #
-  # source://csv//lib/csv.rb#2269
+  # pkg:gem/csv#lib/csv.rb:2269
   def write_headers?; end
 
   private
 
-  # source://csv//lib/csv.rb#2957
+  # pkg:gem/csv#lib/csv.rb:2957
   def build_fields_converter(initial_converters, options); end
 
-  # source://csv//lib/csv.rb#2939
+  # pkg:gem/csv#lib/csv.rb:2939
   def build_header_fields_converter; end
 
-  # source://csv//lib/csv.rb#2927
+  # pkg:gem/csv#lib/csv.rb:2927
   def build_parser_fields_converter; end
 
-  # source://csv//lib/csv.rb#2952
+  # pkg:gem/csv#lib/csv.rb:2952
   def build_writer_fields_converter; end
 
   # Processes +fields+ with <tt>@converters</tt>, or <tt>@header_converters</tt>
@@ -1709,42 +1476,42 @@ class CSV
   # the pipeline of conversion for that field. This is primarily an efficiency
   # shortcut.
   #
-  # source://csv//lib/csv.rb#2902
+  # pkg:gem/csv#lib/csv.rb:2902
   def convert_fields(fields, headers = T.unsafe(nil)); end
 
-  # source://csv//lib/csv.rb#2865
+  # pkg:gem/csv#lib/csv.rb:2865
   def determine_encoding(encoding, internal_encoding); end
 
-  # source://csv//lib/csv.rb#2935
+  # pkg:gem/csv#lib/csv.rb:2935
   def header_fields_converter; end
 
-  # source://csv//lib/csv.rb#2880
+  # pkg:gem/csv#lib/csv.rb:2880
   def normalize_converters(converters); end
 
-  # source://csv//lib/csv.rb#2965
+  # pkg:gem/csv#lib/csv.rb:2965
   def parser; end
 
-  # source://csv//lib/csv.rb#2974
+  # pkg:gem/csv#lib/csv.rb:2974
   def parser_enumerator; end
 
-  # source://csv//lib/csv.rb#2923
+  # pkg:gem/csv#lib/csv.rb:2923
   def parser_fields_converter; end
 
-  # source://csv//lib/csv.rb#2969
+  # pkg:gem/csv#lib/csv.rb:2969
   def parser_options; end
 
   # Returns the encoding of the internal IO object.
   #
-  # source://csv//lib/csv.rb#2913
+  # pkg:gem/csv#lib/csv.rb:2913
   def raw_encoding; end
 
-  # source://csv//lib/csv.rb#2978
+  # pkg:gem/csv#lib/csv.rb:2978
   def writer; end
 
-  # source://csv//lib/csv.rb#2948
+  # pkg:gem/csv#lib/csv.rb:2948
   def writer_fields_converter; end
 
-  # source://csv//lib/csv.rb#2982
+  # pkg:gem/csv#lib/csv.rb:2982
   def writer_options; end
 
   class << self
@@ -1965,7 +1732,7 @@ class CSV
     #
     #   CSV.filter(in_col_sep: ';', col_sep: '|') # '|' for both parsing(!) and generating.
     #
-    # source://csv//lib/csv.rb#1259
+    # pkg:gem/csv#lib/csv.rb:1259
     def filter(input = T.unsafe(nil), output = T.unsafe(nil), **options); end
 
     # :call-seq:
@@ -2053,7 +1820,7 @@ class CSV
     #   would read +UTF-32BE+ data from the file
     #   but transcode it to +UTF-8+ before parsing.
     #
-    # source://csv//lib/csv.rb#1389
+    # pkg:gem/csv#lib/csv.rb:1389
     def foreach(path, mode = T.unsafe(nil), **options, &block); end
 
     # :call-seq:
@@ -2114,9 +1881,7 @@ class CSV
     #   # Raises TypeError (no implicit conversion of Integer into String)
     #   CSV.generate(0)
     #
-    # @yield [csv]
-    #
-    # source://csv//lib/csv.rb#1455
+    # pkg:gem/csv#lib/csv.rb:1455
     def generate(str = T.unsafe(nil), **options); end
 
     # :call-seq:
@@ -2151,7 +1916,7 @@ class CSV
     #   # Raises NoMethodError (undefined method `find' for :foo:Symbol)
     #   CSV.generate_line(:foo)
     #
-    # source://csv//lib/csv.rb#1503
+    # pkg:gem/csv#lib/csv.rb:1503
     def generate_line(row, **options); end
 
     # :call-seq:
@@ -2186,7 +1951,7 @@ class CSV
     #   # Raises NoMethodError (undefined method `each' for :foo:Symbol)
     #   CSV.generate_lines(:foo)
     #
-    # source://csv//lib/csv.rb#1558
+    # pkg:gem/csv#lib/csv.rb:1558
     def generate_lines(rows, **options); end
 
     # :call-seq:
@@ -2233,7 +1998,7 @@ class CSV
     # \CSV object; returns the block's return value:
     #   CSV.instance(s0) {|csv| :foo } # => :foo
     #
-    # source://csv//lib/csv.rb#1026
+    # pkg:gem/csv#lib/csv.rb:1026
     def instance(data = T.unsafe(nil), **options); end
 
     # :call-seq:
@@ -2307,7 +2072,7 @@ class CSV
     #   # Raises TypeError (no implicit conversion of Symbol into String)
     #   CSV.open(:foo)
     #
-    # source://csv//lib/csv.rb#1647
+    # pkg:gem/csv#lib/csv.rb:1647
     def open(filename_or_io, mode = T.unsafe(nil), **options); end
 
     # :call-seq:
@@ -2438,7 +2203,7 @@ class CSV
     #   # "bar"
     #   # "baz"
     #
-    # source://csv//lib/csv.rb#1825
+    # pkg:gem/csv#lib/csv.rb:1825
     def parse(str, **options, &block); end
 
     # :call-seq:
@@ -2501,7 +2266,7 @@ class CSV
     #   # Raises ArgumentError (Cannot parse nil as CSV):
     #   CSV.parse_line(nil)
     #
-    # source://csv//lib/csv.rb#1898
+    # pkg:gem/csv#lib/csv.rb:1898
     def parse_line(line, **options); end
 
     # :call-seq:
@@ -2524,7 +2289,7 @@ class CSV
     #   File.write(path, string)
     #   CSV.read(path, headers: true) # => #<CSV::Table mode:col_or_row row_count:4>
     #
-    # source://csv//lib/csv.rb#1922
+    # pkg:gem/csv#lib/csv.rb:1922
     def read(path, **options); end
 
     # :call-seq:
@@ -2532,7 +2297,7 @@ class CSV
     #
     # Alias for CSV.read.
     #
-    # source://csv//lib/csv.rb#1930
+    # pkg:gem/csv#lib/csv.rb:1930
     def readlines(path, **options); end
 
     # :call-seq:
@@ -2551,32 +2316,32 @@ class CSV
     #   File.write(path, string)
     #   CSV.table(path) # => #<CSV::Table mode:col_or_row row_count:4>
     #
-    # source://csv//lib/csv.rb#1949
+    # pkg:gem/csv#lib/csv.rb:1949
     def table(path, **options); end
 
     private
 
-    # source://csv//lib/csv.rb#1990
+    # pkg:gem/csv#lib/csv.rb:1990
     def create_stringio(str, mode, opts); end
 
-    # source://csv//lib/csv.rb#1963
+    # pkg:gem/csv#lib/csv.rb:1963
     def may_enable_bom_detection_automatically(filename_or_io, mode, options, file_opts); end
   end
 end
 
 # The encoding used by all converters.
 #
-# source://csv//lib/csv.rb#895
+# pkg:gem/csv#lib/csv.rb:895
 CSV::ConverterEncoding = T.let(T.unsafe(nil), Encoding)
 
 # A Regexp used to find and convert some common Date formats.
 #
-# source://csv//lib/csv.rb#884
+# pkg:gem/csv#lib/csv.rb:884
 CSV::DateMatcher = T.let(T.unsafe(nil), Regexp)
 
 # A Regexp used to find and convert some common (Date)Time formats.
 #
-# source://csv//lib/csv.rb#887
+# pkg:gem/csv#lib/csv.rb:887
 CSV::DateTimeMatcher = T.let(T.unsafe(nil), Regexp)
 
 # A FieldInfo Struct contains details about a field's position in the data
@@ -2589,81 +2354,50 @@ CSV::DateTimeMatcher = T.let(T.unsafe(nil), Regexp)
 # <b><tt>header</tt></b>:: The header for the column, when available.
 # <b><tt>quoted?</tt></b>:: True or false, whether the original value is quoted or not.
 #
-# source://csv//lib/csv.rb#881
+# pkg:gem/csv#lib/csv.rb:881
 class CSV::FieldInfo < ::Struct
-  # Returns the value of attribute header
-  #
-  # @return [Object] the current value of header
-  #
-  # source://csv//lib/csv.rb#881
+  # pkg:gem/csv#lib/csv.rb:881
   def header; end
 
-  # Sets the attribute header
-  #
-  # @param value [Object] the value to set the attribute header to.
-  # @return [Object] the newly set value
-  #
-  # source://csv//lib/csv.rb#881
+  # pkg:gem/csv#lib/csv.rb:881
   def header=(_); end
 
-  # Returns the value of attribute index
-  #
-  # @return [Object] the current value of index
-  #
-  # source://csv//lib/csv.rb#881
+  # pkg:gem/csv#lib/csv.rb:881
   def index; end
 
-  # Sets the attribute index
-  #
-  # @param value [Object] the value to set the attribute index to.
-  # @return [Object] the newly set value
-  #
-  # source://csv//lib/csv.rb#881
+  # pkg:gem/csv#lib/csv.rb:881
   def index=(_); end
 
-  # Returns the value of attribute line
-  #
-  # @return [Object] the current value of line
-  #
-  # source://csv//lib/csv.rb#881
+  # pkg:gem/csv#lib/csv.rb:881
   def line; end
 
-  # Sets the attribute line
-  #
-  # @param value [Object] the value to set the attribute line to.
-  # @return [Object] the newly set value
-  #
-  # source://csv//lib/csv.rb#881
+  # pkg:gem/csv#lib/csv.rb:881
   def line=(_); end
 
-  # Returns the value of attribute quoted?
-  #
-  # @return [Object] the current value of quoted?
-  #
-  # source://csv//lib/csv.rb#881
+  # pkg:gem/csv#lib/csv.rb:881
   def quoted?; end
 
   class << self
-    # source://csv//lib/csv.rb#881
+    # pkg:gem/csv#lib/csv.rb:881
     def [](*_arg0); end
 
-    # source://csv//lib/csv.rb#881
+    # pkg:gem/csv#lib/csv.rb:881
     def inspect; end
 
-    # source://csv//lib/csv.rb#881
+    # pkg:gem/csv#lib/csv.rb:881
     def keyword_init?; end
 
-    # source://csv//lib/csv.rb#881
+    # pkg:gem/csv#lib/csv.rb:881
     def members; end
 
-    # source://csv//lib/csv.rb#881
+    # pkg:gem/csv#lib/csv.rb:881
     def new(*_arg0); end
   end
 end
 
 # Note: Don't use this class directly. This is an internal class.
 #
-# source://csv//lib/csv/fields_converter.rb#5
+# pkg:gem/csv#lib/csv/fields_converter.rb:5
 class CSV::FieldsConverter
   include ::Enumerable
 
@@ -2671,42 +2405,34 @@ class CSV::FieldsConverter
   # fields converter properties to be passed as a parameter
   # when parsing a new file (e.g. CSV::Parser.new(@io, parser_options))
   #
-  # @return [FieldsConverter] a new instance of FieldsConverter
-  #
-  # source://csv//lib/csv/fields_converter.rb#20
+  # pkg:gem/csv#lib/csv/fields_converter.rb:20
   def initialize(options = T.unsafe(nil)); end
 
-  # source://csv//lib/csv/fields_converter.rb#30
+  # pkg:gem/csv#lib/csv/fields_converter.rb:30
   def add_converter(name = T.unsafe(nil), &converter); end
 
-  # source://csv//lib/csv/fields_converter.rb#54
+  # pkg:gem/csv#lib/csv/fields_converter.rb:54
   def convert(fields, headers, lineno, quoted_fields = T.unsafe(nil)); end
 
-  # source://csv//lib/csv/fields_converter.rb#46
+  # pkg:gem/csv#lib/csv/fields_converter.rb:46
   def each(&block); end
 
-  # @return [Boolean]
-  #
-  # source://csv//lib/csv/fields_converter.rb#50
+  # pkg:gem/csv#lib/csv/fields_converter.rb:50
   def empty?; end
 
   private
 
-  # source://csv//lib/csv/fields_converter.rb#92
+  # pkg:gem/csv#lib/csv/fields_converter.rb:92
   def builtin_converters; end
 
-  # @return [Boolean]
-  #
-  # source://csv//lib/csv/fields_converter.rb#87
+  # pkg:gem/csv#lib/csv/fields_converter.rb:87
   def need_convert?; end
 
-  # @return [Boolean]
-  #
-  # source://csv//lib/csv/fields_converter.rb#83
+  # pkg:gem/csv#lib/csv/fields_converter.rb:83
   def need_static_convert?; end
 end
 
-# source://csv//lib/csv/fields_converter.rb#8
+# pkg:gem/csv#lib/csv/fields_converter.rb:8
 CSV::FieldsConverter::NO_QUOTED_FIELDS = T.let(T.unsafe(nil), Array)
 
 # A \Hash containing the names and \Procs for the built-in header converters.
@@ -2716,119 +2442,95 @@ CSV::FieldsConverter::NO_QUOTED_FIELDS = T.let(T.unsafe(nil), Array)
 # custom field converters.
 # See {Custom Header Converters}[#class-CSV-label-Custom+Header+Converters].
 #
-# source://csv//lib/csv.rb#944
+# pkg:gem/csv#lib/csv.rb:944
 CSV::HeaderConverters = T.let(T.unsafe(nil), Hash)
 
-# source://csv//lib/csv/input_record_separator.rb#5
+# pkg:gem/csv#lib/csv/input_record_separator.rb:5
 module CSV::InputRecordSeparator
   class << self
-    # source://csv//lib/csv/input_record_separator.rb#8
+    # pkg:gem/csv#lib/csv/input_record_separator.rb:8
     def value; end
   end
 end
 
 # The error thrown when the parser encounters invalid encoding in CSV.
 #
-# source://csv//lib/csv.rb#862
+# pkg:gem/csv#lib/csv.rb:862
 class CSV::InvalidEncodingError < ::CSV::MalformedCSVError
-  # @return [InvalidEncodingError] a new instance of InvalidEncodingError
-  #
-  # source://csv//lib/csv.rb#864
+  # pkg:gem/csv#lib/csv.rb:864
   def initialize(encoding, line_number); end
 
-  # Returns the value of attribute encoding.
-  #
-  # source://csv//lib/csv.rb#863
+  # pkg:gem/csv#lib/csv.rb:863
   def encoding; end
 end
 
 # The error thrown when the parser encounters illegal CSV formatting.
 #
-# source://csv//lib/csv.rb#852
+# pkg:gem/csv#lib/csv.rb:852
 class CSV::MalformedCSVError < ::RuntimeError
-  # @return [MalformedCSVError] a new instance of MalformedCSVError
-  #
-  # source://csv//lib/csv.rb#855
+  # pkg:gem/csv#lib/csv.rb:855
   def initialize(message, line_number); end
 
-  # Returns the value of attribute line_number.
-  #
-  # source://csv//lib/csv.rb#853
+  # pkg:gem/csv#lib/csv.rb:853
   def line_number; end
 
-  # Returns the value of attribute line_number.
-  #
-  # source://csv//lib/csv.rb#854
+  # pkg:gem/csv#lib/csv.rb:854
   def lineno; end
 end
 
 # Note: Don't use this class directly. This is an internal class.
 #
-# source://csv//lib/csv/parser.rb#11
+# pkg:gem/csv#lib/csv/parser.rb:11
 class CSV::Parser
-  # @return [Parser] a new instance of Parser
-  #
-  # source://csv//lib/csv/parser.rb#348
+  # pkg:gem/csv#lib/csv/parser.rb:348
   def initialize(input, options); end
 
-  # source://csv//lib/csv/parser.rb#356
+  # pkg:gem/csv#lib/csv/parser.rb:356
   def column_separator; end
 
-  # source://csv//lib/csv/parser.rb#368
+  # pkg:gem/csv#lib/csv/parser.rb:368
   def field_size_limit; end
 
-  # @return [Boolean]
-  #
-  # source://csv//lib/csv/parser.rb#388
+  # pkg:gem/csv#lib/csv/parser.rb:388
   def header_row?; end
 
-  # source://csv//lib/csv/parser.rb#384
+  # pkg:gem/csv#lib/csv/parser.rb:384
   def headers; end
 
-  # @return [Boolean]
-  #
-  # source://csv//lib/csv/parser.rb#400
+  # pkg:gem/csv#lib/csv/parser.rb:400
   def liberal_parsing?; end
 
-  # source://csv//lib/csv/parser.rb#408
+  # pkg:gem/csv#lib/csv/parser.rb:408
   def line; end
 
-  # source://csv//lib/csv/parser.rb#404
+  # pkg:gem/csv#lib/csv/parser.rb:404
   def lineno; end
 
-  # source://csv//lib/csv/parser.rb#372
+  # pkg:gem/csv#lib/csv/parser.rb:372
   def max_field_size; end
 
-  # source://csv//lib/csv/parser.rb#412
+  # pkg:gem/csv#lib/csv/parser.rb:412
   def parse(&block); end
 
-  # source://csv//lib/csv/parser.rb#364
+  # pkg:gem/csv#lib/csv/parser.rb:364
   def quote_character; end
 
-  # @return [Boolean]
-  #
-  # source://csv//lib/csv/parser.rb#392
+  # pkg:gem/csv#lib/csv/parser.rb:392
   def return_headers?; end
 
-  # source://csv//lib/csv/parser.rb#360
+  # pkg:gem/csv#lib/csv/parser.rb:360
   def row_separator; end
 
-  # @return [Boolean]
-  #
-  # source://csv//lib/csv/parser.rb#396
+  # pkg:gem/csv#lib/csv/parser.rb:396
   def skip_blanks?; end
 
-  # source://csv//lib/csv/parser.rb#376
+  # pkg:gem/csv#lib/csv/parser.rb:376
   def skip_lines; end
 
-  # @return [Boolean]
-  #
-  # source://csv//lib/csv/parser.rb#380
+  # pkg:gem/csv#lib/csv/parser.rb:380
   def unconverted_fields?; end
 
-  # @return [Boolean]
-  #
-  # source://csv//lib/csv/parser.rb#447
+  # pkg:gem/csv#lib/csv/parser.rb:447
   def use_headers?; end
 
   private
@@ -2837,119 +2539,111 @@ class CSV::Parser
   # +row+ and an accessor method for +row+ called unconverted_fields().  The
   # variable is set to the contents of +fields+.
   #
-  # source://csv//lib/csv/parser.rb#1294
+  # pkg:gem/csv#lib/csv/parser.rb:1294
   def add_unconverted_fields(row, fields); end
 
-  # source://csv//lib/csv/parser.rb#806
+  # pkg:gem/csv#lib/csv/parser.rb:806
   def adjust_headers(headers, quoted_fields); end
 
-  # source://csv//lib/csv/parser.rb#881
+  # pkg:gem/csv#lib/csv/parser.rb:881
   def build_scanner; end
 
-  # source://csv//lib/csv/parser.rb#728
+  # pkg:gem/csv#lib/csv/parser.rb:728
   def detect_row_separator(sample, cr, lf); end
 
-  # @yield [row]
-  #
-  # source://csv//lib/csv/parser.rb#1265
+  # pkg:gem/csv#lib/csv/parser.rb:1265
   def emit_row(row, quoted_fields = T.unsafe(nil), &block); end
 
-  # source://csv//lib/csv/parser.rb#1250
+  # pkg:gem/csv#lib/csv/parser.rb:1250
   def ignore_broken_line; end
 
-  # source://csv//lib/csv/parser.rb#758
+  # pkg:gem/csv#lib/csv/parser.rb:758
   def last_line; end
 
-  # @return [Boolean]
-  #
-  # source://csv//lib/csv/parser.rb#823
+  # pkg:gem/csv#lib/csv/parser.rb:823
   def may_quoted?; end
 
-  # source://csv//lib/csv/parser.rb#1205
+  # pkg:gem/csv#lib/csv/parser.rb:1205
   def parse_column_end; end
 
-  # source://csv//lib/csv/parser.rb#1105
+  # pkg:gem/csv#lib/csv/parser.rb:1105
   def parse_column_value; end
 
-  # source://csv//lib/csv/parser.rb#792
+  # pkg:gem/csv#lib/csv/parser.rb:792
   def parse_headers(row); end
 
-  # source://csv//lib/csv/parser.rb#945
+  # pkg:gem/csv#lib/csv/parser.rb:945
   def parse_no_quote(&block); end
 
-  # source://csv//lib/csv/parser.rb#974
+  # pkg:gem/csv#lib/csv/parser.rb:974
   def parse_quotable_loose(&block); end
 
-  # source://csv//lib/csv/parser.rb#1035
+  # pkg:gem/csv#lib/csv/parser.rb:1035
   def parse_quotable_robust(&block); end
 
-  # source://csv//lib/csv/parser.rb#1163
+  # pkg:gem/csv#lib/csv/parser.rb:1163
   def parse_quoted_column_value; end
 
-  # source://csv//lib/csv/parser.rb#1219
+  # pkg:gem/csv#lib/csv/parser.rb:1219
   def parse_row_end; end
 
-  # source://csv//lib/csv/parser.rb#1135
+  # pkg:gem/csv#lib/csv/parser.rb:1135
   def parse_unquoted_column_value; end
 
   # A set of tasks to prepare the file in order to parse it
   #
-  # source://csv//lib/csv/parser.rb#453
+  # pkg:gem/csv#lib/csv/parser.rb:453
   def prepare; end
 
-  # source://csv//lib/csv/parser.rb#508
+  # pkg:gem/csv#lib/csv/parser.rb:508
   def prepare_backslash; end
 
-  # source://csv//lib/csv/parser.rb#766
+  # pkg:gem/csv#lib/csv/parser.rb:766
   def prepare_header; end
 
-  # source://csv//lib/csv/parser.rb#752
+  # pkg:gem/csv#lib/csv/parser.rb:752
   def prepare_line; end
 
-  # source://csv//lib/csv/parser.rb#812
+  # pkg:gem/csv#lib/csv/parser.rb:812
   def prepare_parser; end
 
-  # source://csv//lib/csv/parser.rb#492
+  # pkg:gem/csv#lib/csv/parser.rb:492
   def prepare_quote_character; end
 
-  # source://csv//lib/csv/parser.rb#648
+  # pkg:gem/csv#lib/csv/parser.rb:648
   def prepare_quoted; end
 
-  # source://csv//lib/csv/parser.rb#580
+  # pkg:gem/csv#lib/csv/parser.rb:580
   def prepare_separators; end
 
-  # source://csv//lib/csv/parser.rb#523
+  # pkg:gem/csv#lib/csv/parser.rb:523
   def prepare_skip_lines; end
 
-  # source://csv//lib/csv/parser.rb#540
+  # pkg:gem/csv#lib/csv/parser.rb:540
   def prepare_strip; end
 
-  # source://csv//lib/csv/parser.rb#675
+  # pkg:gem/csv#lib/csv/parser.rb:675
   def prepare_unquoted; end
 
-  # source://csv//lib/csv/parser.rb#468
+  # pkg:gem/csv#lib/csv/parser.rb:468
   def prepare_variable; end
 
-  # source://csv//lib/csv/parser.rb#688
+  # pkg:gem/csv#lib/csv/parser.rb:688
   def resolve_row_separator(separator); end
 
-  # @return [Boolean]
-  #
-  # source://csv//lib/csv/parser.rb#925
+  # pkg:gem/csv#lib/csv/parser.rb:925
   def skip_line?(line); end
 
-  # source://csv//lib/csv/parser.rb#908
+  # pkg:gem/csv#lib/csv/parser.rb:908
   def skip_needless_lines; end
 
-  # source://csv//lib/csv/parser.rb#1256
+  # pkg:gem/csv#lib/csv/parser.rb:1256
   def start_row; end
 
-  # source://csv//lib/csv/parser.rb#1232
+  # pkg:gem/csv#lib/csv/parser.rb:1232
   def strip_value(value); end
 
-  # @raise [MalformedCSVError]
-  #
-  # source://csv//lib/csv/parser.rb#937
+  # pkg:gem/csv#lib/csv/parser.rb:937
   def validate_field_size(field); end
 
   # This method verifies that there are no (obvious) ambiguities with the
@@ -2957,16 +2651,14 @@ class CSV::Parser
   # and +strip+ were both equal to +\t+, then there would be no clear way to
   # parse the input.
   #
-  # source://csv//lib/csv/parser.rb#630
+  # pkg:gem/csv#lib/csv/parser.rb:630
   def validate_strip_and_col_sep_options; end
 
   class << self
     # Convenient method to check whether the give input reached EOF
     # or not.
     #
-    # @return [Boolean]
-    #
-    # source://csv//lib/csv/parser.rb#25
+    # pkg:gem/csv#lib/csv/parser.rb:25
     def eof?(input); end
   end
 end
@@ -2982,68 +2674,62 @@ end
 # CSV::InputsScanner.rest() returns the "rest" of the string (i.e. everything after the scan pointer).
 # If there is no more data (eos? = true), it returns "".
 #
-# source://csv//lib/csv/parser.rb#99
+# pkg:gem/csv#lib/csv/parser.rb:99
 class CSV::Parser::InputsScanner
-  # @return [InputsScanner] a new instance of InputsScanner
-  #
-  # source://csv//lib/csv/parser.rb#100
+  # pkg:gem/csv#lib/csv/parser.rb:100
   def initialize(inputs, encoding, row_separator, chunk_size: T.unsafe(nil)); end
 
-  # source://csv//lib/csv/parser.rb#270
+  # pkg:gem/csv#lib/csv/parser.rb:270
   def check(pattern); end
 
-  # @yield [buffer]
-  #
-  # source://csv//lib/csv/parser.rb#110
+  # pkg:gem/csv#lib/csv/parser.rb:110
   def each_line(row_separator); end
 
-  # @return [Boolean]
-  #
-  # source://csv//lib/csv/parser.rb#183
+  # pkg:gem/csv#lib/csv/parser.rb:183
   def eos?; end
 
-  # source://csv//lib/csv/parser.rb#210
+  # pkg:gem/csv#lib/csv/parser.rb:210
   def keep_back; end
 
-  # source://csv//lib/csv/parser.rb#249
+  # pkg:gem/csv#lib/csv/parser.rb:249
   def keep_drop; end
 
-  # source://csv//lib/csv/parser.rb#194
+  # pkg:gem/csv#lib/csv/parser.rb:194
   def keep_end; end
 
-  # source://csv//lib/csv/parser.rb#187
+  # pkg:gem/csv#lib/csv/parser.rb:187
   def keep_start; end
 
-  # source://csv//lib/csv/parser.rb#266
+  # pkg:gem/csv#lib/csv/parser.rb:266
   def rest; end
 
-  # source://csv//lib/csv/parser.rb#156
+  # pkg:gem/csv#lib/csv/parser.rb:156
   def scan(pattern); end
 
-  # source://csv//lib/csv/parser.rb#167
+  # pkg:gem/csv#lib/csv/parser.rb:167
   def scan_all(pattern); end
 
   private
 
-  # source://csv//lib/csv/parser.rb#279
+  # pkg:gem/csv#lib/csv/parser.rb:279
   def adjust_last_keep; end
 
-  # source://csv//lib/csv/parser.rb#307
+  # pkg:gem/csv#lib/csv/parser.rb:307
   def read_chunk; end
 
-  # source://csv//lib/csv/parser.rb#275
+  # pkg:gem/csv#lib/csv/parser.rb:275
   def trace(*args); end
 end
 
 # Raised when encoding is invalid.
 #
-# source://csv//lib/csv/parser.rb#35
+# pkg:gem/csv#lib/csv/parser.rb:35
 class CSV::Parser::InvalidEncoding < ::StandardError; end
 
-# source://csv//lib/csv/parser.rb#855
+# pkg:gem/csv#lib/csv/parser.rb:855
 CSV::Parser::SCANNER_TEST = T.let(T.unsafe(nil), FalseClass)
 
-# source://csv//lib/csv/parser.rb#577
+# pkg:gem/csv#lib/csv/parser.rb:577
 CSV::Parser::STRING_SCANNER_SCAN_ACCEPT_STRING = T.let(T.unsafe(nil), TrueClass)
 
 # CSV::Scanner receives a CSV output, scans it and return the content.
@@ -3055,53 +2741,47 @@ CSV::Parser::STRING_SCANNER_SCAN_ACCEPT_STRING = T.let(T.unsafe(nil), TrueClass)
 # on the methods. For more information, please visit:
 # https://docs.ruby-lang.org/en/master/StringScanner.html
 #
-# source://csv//lib/csv/parser.rb#52
+# pkg:gem/csv#lib/csv/parser.rb:52
 class CSV::Parser::Scanner < ::StringScanner
-  # @return [Scanner] a new instance of Scanner
-  #
-  # source://csv//lib/csv/parser.rb#55
+  # pkg:gem/csv#lib/csv/parser.rb:55
   def initialize(*args); end
 
-  # source://csv//lib/csv/parser.rb#60
+  # pkg:gem/csv#lib/csv/parser.rb:60
   def each_line(row_separator); end
 
-  # source://csv//lib/csv/parser.rb#78
+  # pkg:gem/csv#lib/csv/parser.rb:78
   def keep_back; end
 
-  # source://csv//lib/csv/parser.rb#82
+  # pkg:gem/csv#lib/csv/parser.rb:82
   def keep_drop; end
 
-  # source://csv//lib/csv/parser.rb#73
+  # pkg:gem/csv#lib/csv/parser.rb:73
   def keep_end; end
 
-  # source://csv//lib/csv/parser.rb#69
+  # pkg:gem/csv#lib/csv/parser.rb:69
   def keep_start; end
 
-  # source://csv//lib/csv/parser.rb#53
+  # pkg:gem/csv#lib/csv/parser.rb:53
   def scan_all(_arg0); end
 end
 
 # Raised when unexpected case is happen.
 #
-# source://csv//lib/csv/parser.rb#39
+# pkg:gem/csv#lib/csv/parser.rb:39
 class CSV::Parser::UnexpectedError < ::StandardError; end
 
-# source://csv//lib/csv/parser.rb#837
+# pkg:gem/csv#lib/csv/parser.rb:837
 class CSV::Parser::UnoptimizedStringIO
-  # @return [UnoptimizedStringIO] a new instance of UnoptimizedStringIO
-  #
-  # source://csv//lib/csv/parser.rb#838
+  # pkg:gem/csv#lib/csv/parser.rb:838
   def initialize(string); end
 
-  # source://csv//lib/csv/parser.rb#846
+  # pkg:gem/csv#lib/csv/parser.rb:846
   def each_line(*args, &block); end
 
-  # @return [Boolean]
-  #
-  # source://csv//lib/csv/parser.rb#850
+  # pkg:gem/csv#lib/csv/parser.rb:850
   def eof?; end
 
-  # source://csv//lib/csv/parser.rb#842
+  # pkg:gem/csv#lib/csv/parser.rb:842
   def gets(*args); end
 end
 
@@ -3179,7 +2859,7 @@ end
 #   row['Value'] = 1
 #   row # => #<CSV::Row "Name":"bar" "Value":1>
 #
-# source://csv//lib/csv/row.rb#80
+# pkg:gem/csv#lib/csv/row.rb:80
 class CSV::Row
   include ::Enumerable
   extend ::Forwardable
@@ -3209,9 +2889,7 @@ class CSV::Row
   #   row.field_row? # => false
   #   row.header_row? # => true
   #
-  # @return [Row] a new instance of Row
-  #
-  # source://csv//lib/csv/row.rb#105
+  # pkg:gem/csv#lib/csv/row.rb:105
   def initialize(headers, fields, header_row = T.unsafe(nil)); end
 
   # :call-seq:
@@ -3244,7 +2922,7 @@ class CSV::Row
   #   row << 'Bag'
   #   row # => #<CSV::Row "Name":"Foo" "Name":"Bar" "Name":"Baz" nil:"Bag">
   #
-  # source://csv//lib/csv/row.rb#389
+  # pkg:gem/csv#lib/csv/row.rb:389
   def <<(arg); end
 
   # :call-seq:
@@ -3261,50 +2939,10 @@ class CSV::Row
   #   other_row = table[1]
   #   row == other_row # => false
   #
-  # source://csv//lib/csv/row.rb#633
+  # pkg:gem/csv#lib/csv/row.rb:633
   def ==(other); end
 
-  # :call-seq:
-  #   field(index) -> value
-  #   field(header) -> value
-  #   field(header, offset) -> value
-  #
-  # Returns the field value for the given +index+ or +header+.
-  #
-  # ---
-  #
-  # Fetch field value by \Integer index:
-  #   source = "Name,Value\nfoo,0\nbar,1\nbaz,2\n"
-  #   table = CSV.parse(source, headers: true)
-  #   row = table[0]
-  #   row.field(0) # => "foo"
-  #   row.field(1) # => "bar"
-  #
-  # Counts backward from the last column if +index+ is negative:
-  #   row.field(-1) # => "0"
-  #   row.field(-2) # => "foo"
-  #
-  # Returns +nil+ if +index+ is out of range:
-  #   row.field(2) # => nil
-  #   row.field(-3) # => nil
-  #
-  # ---
-  #
-  # Fetch field value by header (first found):
-  #   source = "Name,Name,Name\nFoo,Bar,Baz\n"
-  #   table = CSV.parse(source, headers: true)
-  #   row = table[0]
-  #   row.field('Name') # => "Foo"
-  #
-  # Fetch field value by header, ignoring +offset+ leading fields:
-  #   source = "Name,Name,Name\nFoo,Bar,Baz\n"
-  #   table = CSV.parse(source, headers: true)
-  #   row = table[0]
-  #   row.field('Name', 2) # => "Baz"
-  #
-  # Returns +nil+ if the header does not exist.
-  #
-  # source://csv//lib/csv/row.rb#215
+  # pkg:gem/csv#lib/csv/row.rb:215
   def [](header_or_index, minimum_index = T.unsafe(nil)); end
 
   # :call-seq:
@@ -3359,7 +2997,7 @@ class CSV::Row
   #   row['New'] = 6
   #   row# => #<CSV::Row "Name":"foo" "Value":"0" "New":6>
   #
-  # source://csv//lib/csv/row.rb#339
+  # pkg:gem/csv#lib/csv/row.rb:339
   def []=(*args); end
 
   # :call-seq:
@@ -3368,7 +3006,7 @@ class CSV::Row
   # Returns the new \Array suitable for pattern matching containing the values
   # of the row.
   #
-  # source://csv//lib/csv/row.rb#682
+  # pkg:gem/csv#lib/csv/row.rb:682
   def deconstruct; end
 
   # :call-seq:
@@ -3377,7 +3015,7 @@ class CSV::Row
   # Returns the new \Hash suitable for pattern matching containing only the
   # keys specified as an argument.
   #
-  # source://csv//lib/csv/row.rb#667
+  # pkg:gem/csv#lib/csv/row.rb:667
   def deconstruct_keys(keys); end
 
   # :call-seq:
@@ -3415,7 +3053,7 @@ class CSV::Row
   #   row.delete('Name', 1) # => ["Name", "Bar"]
   #   row.delete('NAME', 1) # => []
   #
-  # source://csv//lib/csv/row.rb#451
+  # pkg:gem/csv#lib/csv/row.rb:451
   def delete(header_or_index, minimum_index = T.unsafe(nil)); end
 
   # :call-seq:
@@ -3434,7 +3072,7 @@ class CSV::Row
   # If no block is given, returns a new Enumerator:
   #   row.delete_if # => #<Enumerator: #<CSV::Row "Name":"Foo">:delete_if>
   #
-  # source://csv//lib/csv/row.rb#476
+  # pkg:gem/csv#lib/csv/row.rb:476
   def delete_if(&block); end
 
   # :call-seq:
@@ -3454,7 +3092,7 @@ class CSV::Row
   #   row.dig('Value') # => "0"
   #   row.dig(5) # => nil
   #
-  # source://csv//lib/csv/row.rb#715
+  # pkg:gem/csv#lib/csv/row.rb:715
   def dig(index_or_header, *indexes); end
 
   # :call-seq:
@@ -3473,29 +3111,13 @@ class CSV::Row
   # If no block is given, returns a new Enumerator:
   #   row.each # => #<Enumerator: #<CSV::Row "Name":"Foo" "Name":"Bar" "Name":"Baz">:each>
   #
-  # source://csv//lib/csv/row.rb#610
+  # pkg:gem/csv#lib/csv/row.rb:610
   def each(&block); end
 
-  # :call-seq:
-  #   row.each {|header, value| ... } -> self
-  #
-  # Calls the block with each header-value pair; returns +self+:
-  #   source = "Name,Name,Name\nFoo,Bar,Baz\n"
-  #   table = CSV.parse(source, headers: true)
-  #   row = table[0]
-  #   row.each {|header, value| p [header, value] }
-  # Output:
-  #   ["Name", "Foo"]
-  #   ["Name", "Bar"]
-  #   ["Name", "Baz"]
-  #
-  # If no block is given, returns a new Enumerator:
-  #   row.each # => #<Enumerator: #<CSV::Row "Name":"Foo" "Name":"Bar" "Name":"Baz">:each>
-  #
-  # source://csv//lib/csv/row.rb#618
+  # pkg:gem/csv#lib/csv/row.rb:618
   def each_pair(&block); end
 
-  # source://csv//lib/csv/row.rb#124
+  # pkg:gem/csv#lib/csv/row.rb:124
   def empty?(*_arg0, **_arg1, &_arg2); end
 
   # :call-seq:
@@ -3539,9 +3161,7 @@ class CSV::Row
   #   row.fetch('Name') {|header| fail 'Cannot happen' } # => "Foo"
   #   row.fetch(:nosuch) {|header| "Header '#{header} not found'" } # => "Header 'nosuch not found'"
   #
-  # @raise [ArgumentError]
-  #
-  # source://csv//lib/csv/row.rb#258
+  # pkg:gem/csv#lib/csv/row.rb:258
   def fetch(header, *varargs); end
 
   # :call-seq:
@@ -3584,7 +3204,7 @@ class CSV::Row
   #
   # Returns +nil+ if the header does not exist.
   #
-  # source://csv//lib/csv/row.rb#203
+  # pkg:gem/csv#lib/csv/row.rb:203
   def field(header_or_index, minimum_index = T.unsafe(nil)); end
 
   # :call-seq:
@@ -3597,9 +3217,7 @@ class CSV::Row
   #   row.field?('Bar') # => true
   #   row.field?('BAR') # => false
   #
-  # @return [Boolean]
-  #
-  # source://csv//lib/csv/row.rb#589
+  # pkg:gem/csv#lib/csv/row.rb:589
   def field?(data); end
 
   # :call-seq:
@@ -3607,9 +3225,7 @@ class CSV::Row
   #
   # Returns +true+ if this is a field row, +false+ otherwise.
   #
-  # @return [Boolean]
-  #
-  # source://csv//lib/csv/row.rb#148
+  # pkg:gem/csv#lib/csv/row.rb:148
   def field_row?; end
 
   # :call-seq:
@@ -3659,7 +3275,7 @@ class CSV::Row
   # Returns all fields if no argument given:
   #   row.fields # => ["Foo", "Bar", "Baz"]
   #
-  # source://csv//lib/csv/row.rb#530
+  # pkg:gem/csv#lib/csv/row.rb:530
   def fields(*headers_and_or_indices); end
 
   # :call-seq:
@@ -3668,20 +3284,10 @@ class CSV::Row
   # Returns +true+ if there is a field with the given +header+,
   # +false+ otherwise.
   #
-  # @return [Boolean]
-  #
-  # source://csv//lib/csv/row.rb#279
+  # pkg:gem/csv#lib/csv/row.rb:279
   def has_key?(header); end
 
-  # :call-seq:
-  #   row.has_key?(header) -> true or false
-  #
-  # Returns +true+ if there is a field with the given +header+,
-  # +false+ otherwise.
-  #
-  # @return [Boolean]
-  #
-  # source://csv//lib/csv/row.rb#285
+  # pkg:gem/csv#lib/csv/row.rb:285
   def header?(header); end
 
   # :call-seq:
@@ -3689,9 +3295,7 @@ class CSV::Row
   #
   # Returns +true+ if this is a header row, +false+ otherwise.
   #
-  # @return [Boolean]
-  #
-  # source://csv//lib/csv/row.rb#140
+  # pkg:gem/csv#lib/csv/row.rb:140
   def header_row?; end
 
   # :call-seq:
@@ -3703,18 +3307,10 @@ class CSV::Row
   #   row = table.first
   #   row.headers # => ["Name", "Value"]
   #
-  # source://csv//lib/csv/row.rb#160
+  # pkg:gem/csv#lib/csv/row.rb:160
   def headers; end
 
-  # :call-seq:
-  #   row.has_key?(header) -> true or false
-  #
-  # Returns +true+ if there is a field with the given +header+,
-  # +false+ otherwise.
-  #
-  # @return [Boolean]
-  #
-  # source://csv//lib/csv/row.rb#282
+  # pkg:gem/csv#lib/csv/row.rb:282
   def include?(header); end
 
   # :call-seq:
@@ -3738,7 +3334,7 @@ class CSV::Row
   #   row.index('Name', 1) # => 1
   #   row.index('Name', 3) # => nil
   #
-  # source://csv//lib/csv/row.rb#573
+  # pkg:gem/csv#lib/csv/row.rb:573
   def index(header, minimum_index = T.unsafe(nil)); end
 
   # :call-seq:
@@ -3753,32 +3349,16 @@ class CSV::Row
   #   row = table[0]
   #   row.inspect # => "#<CSV::Row \"Name\":\"foo\" \"Value\":\"0\">"
   #
-  # source://csv//lib/csv/row.rb#740
+  # pkg:gem/csv#lib/csv/row.rb:740
   def inspect; end
 
-  # :call-seq:
-  #   row.has_key?(header) -> true or false
-  #
-  # Returns +true+ if there is a field with the given +header+,
-  # +false+ otherwise.
-  #
-  # @return [Boolean]
-  #
-  # source://csv//lib/csv/row.rb#283
+  # pkg:gem/csv#lib/csv/row.rb:283
   def key?(header); end
 
-  # source://csv//lib/csv/row.rb#124
+  # pkg:gem/csv#lib/csv/row.rb:124
   def length(*_arg0, **_arg1, &_arg2); end
 
-  # :call-seq:
-  #   row.has_key?(header) -> true or false
-  #
-  # Returns +true+ if there is a field with the given +header+,
-  # +false+ otherwise.
-  #
-  # @return [Boolean]
-  #
-  # source://csv//lib/csv/row.rb#284
+  # pkg:gem/csv#lib/csv/row.rb:284
   def member?(header); end
 
   # :call-seq:
@@ -3791,13 +3371,13 @@ class CSV::Row
   #   row.push('Bat', 'Bam')
   #   row # => #<CSV::Row "Name":"Foo" "Name":"Bar" "Name":"Baz" nil:"Bat" nil:"Bam">
   #
-  # source://csv//lib/csv/row.rb#410
+  # pkg:gem/csv#lib/csv/row.rb:410
   def push(*args); end
 
-  # source://csv//lib/csv/row.rb#124
+  # pkg:gem/csv#lib/csv/row.rb:124
   def size(*_arg0, **_arg1, &_arg2); end
 
-  # source://csv//lib/csv/row.rb#675
+  # pkg:gem/csv#lib/csv/row.rb:675
   def to_ary(*_arg0); end
 
   # :call-seq:
@@ -3809,7 +3389,7 @@ class CSV::Row
   #   row = table[0]
   #   row.to_csv # => "foo,0\n"
   #
-  # source://csv//lib/csv/row.rb#694
+  # pkg:gem/csv#lib/csv/row.rb:694
   def to_csv(**options); end
 
   # :call-seq:
@@ -3828,95 +3408,23 @@ class CSV::Row
   #   row = table[0]
   #   row.to_h # => {"Name"=>"Foo"}
   #
-  # source://csv//lib/csv/row.rb#653
+  # pkg:gem/csv#lib/csv/row.rb:653
   def to_h; end
 
-  # :call-seq:
-  #   row.to_h -> hash
-  #
-  # Returns the new \Hash formed by adding each header-value pair in +self+
-  # as a key-value pair in the \Hash.
-  #   source = "Name,Value\nfoo,0\nbar,1\nbaz,2\n"
-  #   table = CSV.parse(source, headers: true)
-  #   row = table[0]
-  #   row.to_h # => {"Name"=>"foo", "Value"=>"0"}
-  #
-  # Header order is preserved, but repeated headers are ignored:
-  #   source = "Name,Name,Name\nFoo,Bar,Baz\n"
-  #   table = CSV.parse(source, headers: true)
-  #   row = table[0]
-  #   row.to_h # => {"Name"=>"Foo"}
-  #
-  # source://csv//lib/csv/row.rb#660
+  # pkg:gem/csv#lib/csv/row.rb:660
   def to_hash; end
 
-  # :call-seq:
-  #   row.to_csv -> csv_string
-  #
-  # Returns the row as a \CSV String. Headers are not included:
-  #   source = "Name,Value\nfoo,0\nbar,1\nbaz,2\n"
-  #   table = CSV.parse(source, headers: true)
-  #   row = table[0]
-  #   row.to_csv # => "foo,0\n"
-  #
-  # source://csv//lib/csv/row.rb#697
+  # pkg:gem/csv#lib/csv/row.rb:697
   def to_s(**options); end
 
-  # :call-seq:
-  #   self.fields(*specifiers) -> array_of_fields
-  #
-  # Returns field values per the given +specifiers+, which may be any mixture of:
-  # - \Integer index.
-  # - \Range of \Integer indexes.
-  # - 2-element \Array containing a header and offset.
-  # - Header.
-  # - \Range of headers.
-  #
-  # For +specifier+ in one of the first four cases above,
-  # returns the result of <tt>self.field(specifier)</tt>;  see #field.
-  #
-  # Although there may be any number of +specifiers+,
-  # the examples here will illustrate one at a time.
-  #
-  # When the specifier is an \Integer +index+,
-  # returns <tt>self.field(index)</tt>L
-  #   source = "Name,Name,Name\nFoo,Bar,Baz\n"
-  #   table = CSV.parse(source, headers: true)
-  #   row = table[0]
-  #   row.fields(1) # => ["Bar"]
-  #
-  # When the specifier is a \Range of \Integers +range+,
-  # returns <tt>self.field(range)</tt>:
-  #   row.fields(1..2) # => ["Bar", "Baz"]
-  #
-  # When the specifier is a 2-element \Array +array+,
-  # returns <tt>self.field(array)</tt>L
-  #   row.fields('Name', 1) # => ["Foo", "Bar"]
-  #
-  # When the specifier is a header +header+,
-  # returns <tt>self.field(header)</tt>L
-  #   row.fields('Name') # => ["Foo"]
-  #
-  # When the specifier is a \Range of headers +range+,
-  # forms a new \Range +new_range+ from the indexes of
-  # <tt>range.start</tt> and <tt>range.end</tt>,
-  # and returns <tt>self.field(new_range)</tt>:
-  #   source = "Name,NAME,name\nFoo,Bar,Baz\n"
-  #   table = CSV.parse(source, headers: true)
-  #   row = table[0]
-  #   row.fields('Name'..'NAME') # => ["Foo", "Bar"]
-  #
-  # Returns all fields if no argument given:
-  #   row.fields # => ["Foo", "Bar", "Baz"]
-  #
-  # source://csv//lib/csv/row.rb#551
+  # pkg:gem/csv#lib/csv/row.rb:551
   def values_at(*headers_and_or_indices); end
 
   protected
 
   # Internal data format used to compare equality.
   #
-  # source://csv//lib/csv/row.rb#118
+  # pkg:gem/csv#lib/csv/row.rb:118
   def row; end
 
   private
@@ -3926,15 +3434,13 @@ class CSV::Row
   #
   # Calls superclass method.
   #
-  # source://csv//lib/csv/row.rb#130
+  # pkg:gem/csv#lib/csv/row.rb:130
   def initialize_copy(other); end
 end
 
-# source://csv//lib/csv.rb#2132
+# pkg:gem/csv#lib/csv.rb:2132
 class CSV::TSV < ::CSV
-  # @return [TSV] a new instance of TSV
-  #
-  # source://csv//lib/csv.rb#2133
+  # pkg:gem/csv#lib/csv.rb:2133
   def initialize(data, **options); end
 end
 
@@ -4077,7 +3583,7 @@ end
 #   table['Name'] = ['Foo', 'Bar', 'Baz']
 #   table['Name'] # => ["Foo", "Bar", "Baz"]
 #
-# source://csv//lib/csv/table.rb#144
+# pkg:gem/csv#lib/csv/table.rb:144
 class CSV::Table
   include ::Enumerable
   extend ::Forwardable
@@ -4137,9 +3643,7 @@ class CSV::Table
   #   # Raises NoMethodError (undefined method `headers' for :foo:Symbol):
   #   CSV::Table.new([:foo])
   #
-  # @return [Table] a new instance of Table
-  #
-  # source://csv//lib/csv/table.rb#199
+  # pkg:gem/csv#lib/csv/table.rb:199
   def initialize(array_of_rows, headers: T.unsafe(nil)); end
 
   # :call-seq:
@@ -4157,7 +3661,7 @@ class CSV::Table
   #   table << ['bam', 4]
   #   table[4] # => #<CSV::Row "Name":"bam" "Value":4>
   #
-  # source://csv//lib/csv/table.rb#762
+  # pkg:gem/csv#lib/csv/table.rb:762
   def <<(row_or_array); end
 
   # :call-seq:
@@ -4182,7 +3686,7 @@ class CSV::Table
   #   other_table << ['bat', 3]
   #   table == other_table # => false
   #
-  # source://csv//lib/csv/table.rb#965
+  # pkg:gem/csv#lib/csv/table.rb:965
   def ==(other); end
 
   # :call-seq:
@@ -4332,7 +3836,7 @@ class CSV::Table
   # Returns an \Array of +nil+ values if there is no such column:
   #   table['Nosuch'] # => [nil, nil, nil]
   #
-  # source://csv//lib/csv/table.rb#514
+  # pkg:gem/csv#lib/csv/table.rb:514
   def [](index_or_header); end
 
   # :call-seq:
@@ -4462,7 +3966,7 @@ class CSV::Table
   #   table['Value'] = 'bat'
   #   table['Value'] # => ["bat", "bat", "bat"]
   #
-  # source://csv//lib/csv/table.rb#649
+  # pkg:gem/csv#lib/csv/table.rb:649
   def []=(index_or_header, value); end
 
   # :call-seq:
@@ -4483,7 +3987,7 @@ class CSV::Table
   #
   # Also note that changes to the duplicate table will not affect the original.
   #
-  # source://csv//lib/csv/table.rb#242
+  # pkg:gem/csv#lib/csv/table.rb:242
   def by_col; end
 
   # :call-seq:
@@ -4498,7 +4002,7 @@ class CSV::Table
   #   table.mode # => :col
   #   table1.equal?(table) # => true # Returned self
   #
-  # source://csv//lib/csv/table.rb#257
+  # pkg:gem/csv#lib/csv/table.rb:257
   def by_col!; end
 
   # :call-seq:
@@ -4519,7 +4023,7 @@ class CSV::Table
   #
   # Also note that changes to the duplicate table will not affect the original.
   #
-  # source://csv//lib/csv/table.rb#280
+  # pkg:gem/csv#lib/csv/table.rb:280
   def by_col_or_row; end
 
   # :call-seq:
@@ -4534,7 +4038,7 @@ class CSV::Table
   #   table.mode # => :col_or_row
   #   table1.equal?(table) # => true # Returned self
   #
-  # source://csv//lib/csv/table.rb#295
+  # pkg:gem/csv#lib/csv/table.rb:295
   def by_col_or_row!; end
 
   # :call-seq:
@@ -4555,7 +4059,7 @@ class CSV::Table
   #
   # Also note that changes to the duplicate table will not affect the original.
   #
-  # source://csv//lib/csv/table.rb#318
+  # pkg:gem/csv#lib/csv/table.rb:318
   def by_row; end
 
   # :call-seq:
@@ -4570,7 +4074,7 @@ class CSV::Table
   #   table.mode # => :row
   #   table1.equal?(table) # => true # Returned self
   #
-  # source://csv//lib/csv/table.rb#333
+  # pkg:gem/csv#lib/csv/table.rb:333
   def by_row!; end
 
   # :call-seq:
@@ -4614,7 +4118,7 @@ class CSV::Table
   #   deleted_values = table.delete('Value', 'Name')
   #   deleted_values # => [["0", "1", "2"], ["foo", "bar", "baz"]]
   #
-  # source://csv//lib/csv/table.rb#834
+  # pkg:gem/csv#lib/csv/table.rb:834
   def delete(*indexes_or_headers); end
 
   # :call-seq:
@@ -4647,13 +4151,13 @@ class CSV::Table
   #   table = CSV.parse(source, headers: true)
   #   table.delete_if # => #<Enumerator: #<CSV::Table mode:col_or_row row_count:4>:delete_if>
   #
-  # source://csv//lib/csv/table.rb#887
+  # pkg:gem/csv#lib/csv/table.rb:887
   def delete_if(&block); end
 
   # Extracts the nested value specified by the sequence of +index+ or +header+ objects by calling dig at each step,
   # returning nil if any intermediate step is nil.
   #
-  # source://csv//lib/csv/table.rb#1021
+  # pkg:gem/csv#lib/csv/table.rb:1021
   def dig(index_or_header, *index_or_headers); end
 
   # :call-seq:
@@ -4684,10 +4188,10 @@ class CSV::Table
   # Returns a new \Enumerator if no block is given:
   #   table.each # => #<Enumerator: #<CSV::Table mode:col row_count:4>:each>
   #
-  # source://csv//lib/csv/table.rb#930
+  # pkg:gem/csv#lib/csv/table.rb:930
   def each(&block); end
 
-  # source://csv//lib/csv/table.rb#223
+  # pkg:gem/csv#lib/csv/table.rb:223
   def empty?(*_arg0, **_arg1, &_arg2); end
 
   # :call-seq:
@@ -4712,7 +4216,7 @@ class CSV::Table
   #   table.delete(0)
   #   table.headers # => ["Foo", "Bar"]
   #
-  # source://csv//lib/csv/table.rb#360
+  # pkg:gem/csv#lib/csv/table.rb:360
   def headers; end
 
   # :call-seq:
@@ -4728,15 +4232,15 @@ class CSV::Table
   #   table = CSV.parse(source, headers: true)
   #   table.inspect # => "#<CSV::Table mode:col_or_row row_count:4>\nName,Value\nfoo,0\nbar,1\nbaz,2\n"
   #
-  # source://csv//lib/csv/table.rb#1048
+  # pkg:gem/csv#lib/csv/table.rb:1048
   def inspect; end
 
-  # source://csv//lib/csv/table.rb#223
+  # pkg:gem/csv#lib/csv/table.rb:223
   def length(*_arg0, **_arg1, &_arg2); end
 
   # The current access mode for indexing and iteration.
   #
-  # source://csv//lib/csv/table.rb#214
+  # pkg:gem/csv#lib/csv/table.rb:214
   def mode; end
 
   # :call-seq:
@@ -4755,10 +4259,10 @@ class CSV::Table
   #   table.push(*rows)
   #   table[3..4] # => [#<CSV::Row "Name":"bat" "Value":3>, #<CSV::Row "Name":"bam" "Value":4>]
   #
-  # source://csv//lib/csv/table.rb#788
+  # pkg:gem/csv#lib/csv/table.rb:788
   def push(*rows); end
 
-  # source://csv//lib/csv/table.rb#223
+  # pkg:gem/csv#lib/csv/table.rb:223
   def size(*_arg0, **_arg1, &_arg2); end
 
   # :call-seq:
@@ -4770,7 +4274,7 @@ class CSV::Table
   #   table = CSV.parse(source, headers: true)
   #   table.to_a # => [["Name", "Value"], ["foo", "0"], ["bar", "1"], ["baz", "2"]]
   #
-  # source://csv//lib/csv/table.rb#978
+  # pkg:gem/csv#lib/csv/table.rb:978
   def to_a; end
 
   # :call-seq:
@@ -4791,28 +4295,10 @@ class CSV::Table
   # Limit rows if option +limit+ is given like +2+:
   #   table.to_csv(limit: 2) # => "Name,Value\nfoo,0\nbar,1\n"
   #
-  # source://csv//lib/csv/table.rb#1004
+  # pkg:gem/csv#lib/csv/table.rb:1004
   def to_csv(write_headers: T.unsafe(nil), limit: T.unsafe(nil), **options); end
 
-  # :call-seq:
-  #   table.to_csv(**options) -> csv_string
-  #
-  # Returns the table as \CSV string.
-  # See {Options for Generating}[../CSV.html#class-CSV-label-Options+for+Generating].
-  #
-  # Defaults option +write_headers+ to +true+:
-  #   source = "Name,Value\nfoo,0\nbar,1\nbaz,2\n"
-  #   table = CSV.parse(source, headers: true)
-  #   table.to_csv # => "Name,Value\nfoo,0\nbar,1\nbaz,2\n"
-  #
-  # Omits the headers if option +write_headers+ is given as +false+
-  # (see {Option +write_headers+}[../CSV.html#class-CSV-label-Option+write_headers]):
-  #   table.to_csv(write_headers: false) # => "foo,0\nbar,1\nbaz,2\n"
-  #
-  # Limit rows if option +limit+ is given like +2+:
-  #   table.to_csv(limit: 2) # => "Name,Value\nfoo,0\nbar,1\n"
-  #
-  # source://csv//lib/csv/table.rb#1015
+  # pkg:gem/csv#lib/csv/table.rb:1015
   def to_s(write_headers: T.unsafe(nil), limit: T.unsafe(nil), **options); end
 
   # :call-seq:
@@ -4868,68 +4354,64 @@ class CSV::Table
   #   values = table.values_at('Value', 'Name')
   #   values # => [["0", "foo"], ["1", "bar"], ["2", "baz"]]
   #
-  # source://csv//lib/csv/table.rb#734
+  # pkg:gem/csv#lib/csv/table.rb:734
   def values_at(*indices_or_headers); end
 
   protected
 
   # Internal data format used to compare equality.
   #
-  # source://csv//lib/csv/table.rb#217
+  # pkg:gem/csv#lib/csv/table.rb:217
   def table; end
 end
 
 # Note: Don't use this class directly. This is an internal class.
 #
-# source://csv//lib/csv/writer.rb#8
+# pkg:gem/csv#lib/csv/writer.rb:8
 class CSV::Writer
-  # @return [Writer] a new instance of Writer
-  #
-  # source://csv//lib/csv/writer.rb#16
+  # pkg:gem/csv#lib/csv/writer.rb:16
   def initialize(output, options); end
 
   # Adds a new row
   #
-  # source://csv//lib/csv/writer.rb#31
+  # pkg:gem/csv#lib/csv/writer.rb:31
   def <<(row); end
 
-  # Returns the value of attribute headers.
-  #
-  # source://csv//lib/csv/writer.rb#14
+  # pkg:gem/csv#lib/csv/writer.rb:14
   def headers; end
 
   # A CSV::Writer receives an output, prepares the header, format and output.
   # It allows us to write new rows in the object and rewind it.
   #
-  # source://csv//lib/csv/writer.rb#13
+  # pkg:gem/csv#lib/csv/writer.rb:13
   def lineno; end
 
   # Winds back to the beginning
   #
-  # source://csv//lib/csv/writer.rb#63
+  # pkg:gem/csv#lib/csv/writer.rb:63
   def rewind; end
 
   private
 
-  # source://csv//lib/csv/writer.rb#69
+  # pkg:gem/csv#lib/csv/writer.rb:69
   def prepare; end
 
-  # source://csv//lib/csv/writer.rb#105
+  # pkg:gem/csv#lib/csv/writer.rb:105
   def prepare_force_quotes_fields(force_quotes); end
 
-  # source://csv//lib/csv/writer.rb#132
+  # pkg:gem/csv#lib/csv/writer.rb:132
   def prepare_format; end
 
-  # source://csv//lib/csv/writer.rb#77
+  # pkg:gem/csv#lib/csv/writer.rb:77
   def prepare_header; end
 
-  # source://csv//lib/csv/writer.rb#162
+  # pkg:gem/csv#lib/csv/writer.rb:162
   def prepare_output; end
 
-  # source://csv//lib/csv/writer.rb#189
+  # pkg:gem/csv#lib/csv/writer.rb:189
   def quote(field, i); end
 
-  # source://csv//lib/csv/writer.rb#180
+  # pkg:gem/csv#lib/csv/writer.rb:180
   def quote_field(field); end
 end
 
@@ -4939,11 +4421,34 @@ class Object < ::BasicObject
 
   private
 
-  # source://csv//lib/csv.rb#3011
+  # Passes +args+ to CSV::instance.
+  #
+  #   CSV("CSV,data").read
+  #     #=> [["CSV", "data"]]
+  #
+  # If a block is given, the instance is passed the block and the return value
+  # becomes the return value of the block.
+  #
+  #   CSV("CSV,data") { |c|
+  #     c.read.any? { |a| a.include?("data") }
+  #   } #=> true
+  #
+  #   CSV("CSV,data") { |c|
+  #     c.read.any? { |a| a.include?("zombies") }
+  #   } #=> false
+  #
+  # CSV options may also be given.
+  #
+  #   io = StringIO.new
+  #   CSV(io, col_sep: ";") { |csv| csv << ["a", "b", "c"] }
+  #
+  # This API is not Ractor-safe.
+  #
+  # pkg:gem/csv#lib/csv.rb:3011
   def CSV(*args, **options, &block); end
 end
 
-# source://csv//lib/csv/core_ext/string.rb#1
+# pkg:gem/csv#lib/csv/core_ext/string.rb:1
 class String
   include ::Comparable
 
@@ -4952,6 +4457,6 @@ class String
   #   "CSV,data".parse_csv
   #     #=> ["CSV", "data"]
   #
-  # source://csv//lib/csv/core_ext/string.rb#6
+  # pkg:gem/csv#lib/csv/core_ext/string.rb:6
   def parse_csv(**options); end
 end

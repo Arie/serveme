@@ -11,8 +11,14 @@
 #
 # The OpenTelemetry module provides global accessors for telemetry objects.
 # See the documentation for the `opentelemetry-api` gem for details.
+# Copyright The OpenTelemetry Authors
 #
-# source://opentelemetry-instrumentation-active_model_serializers//lib/opentelemetry/instrumentation.rb#13
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+# pkg:gem/opentelemetry-instrumentation-active_model_serializers#lib/opentelemetry/instrumentation.rb:13
 module OpenTelemetry; end
 
 # "Instrumentation" are specified by
@@ -20,48 +26,48 @@ module OpenTelemetry; end
 #
 # Instrumentation should be able to handle the case when the library is not installed on a user's system.
 #
-# source://opentelemetry-instrumentation-active_model_serializers//lib/opentelemetry/instrumentation.rb#18
+# pkg:gem/opentelemetry-instrumentation-active_model_serializers#lib/opentelemetry/instrumentation.rb:18
 module OpenTelemetry::Instrumentation; end
 
 # Contains the OpenTelemetry instrumentation for the ActiveModelSerializers gem
 #
-# source://opentelemetry-instrumentation-active_model_serializers//lib/opentelemetry/instrumentation/active_model_serializers.rb#13
+# pkg:gem/opentelemetry-instrumentation-active_model_serializers#lib/opentelemetry/instrumentation/active_model_serializers.rb:13
 module OpenTelemetry::Instrumentation::ActiveModelSerializers; end
 
 # Instrumentation class that detects and installs the ActiveModelSerializers instrumentation
 #
-# source://opentelemetry-instrumentation-active_model_serializers//lib/opentelemetry/instrumentation/active_model_serializers/instrumentation.rb#13
+# pkg:gem/opentelemetry-instrumentation-active_model_serializers#lib/opentelemetry/instrumentation/active_model_serializers/instrumentation.rb:13
 class OpenTelemetry::Instrumentation::ActiveModelSerializers::Instrumentation < ::OpenTelemetry::Instrumentation::Base
-  # source://opentelemetry-instrumentation-active_model_serializers//lib/opentelemetry/instrumentation/active_model_serializers/instrumentation.rb#35
+  # pkg:gem/opentelemetry-instrumentation-active_model_serializers#lib/opentelemetry/instrumentation/active_model_serializers/instrumentation.rb:35
   def subscribe; end
 
   private
 
-  # source://opentelemetry-instrumentation-active_model_serializers//lib/opentelemetry/instrumentation/active_model_serializers/instrumentation.rb#44
+  # pkg:gem/opentelemetry-instrumentation-active_model_serializers#lib/opentelemetry/instrumentation/active_model_serializers/instrumentation.rb:44
   def _tracer; end
 
-  # source://opentelemetry-instrumentation-active_model_serializers//lib/opentelemetry/instrumentation/active_model_serializers/instrumentation.rb#60
+  # pkg:gem/opentelemetry-instrumentation-active_model_serializers#lib/opentelemetry/instrumentation/active_model_serializers/instrumentation.rb:60
   def default_attribute_transformer; end
 
-  # source://opentelemetry-instrumentation-active_model_serializers//lib/opentelemetry/instrumentation/active_model_serializers/instrumentation.rb#48
+  # pkg:gem/opentelemetry-instrumentation-active_model_serializers#lib/opentelemetry/instrumentation/active_model_serializers/instrumentation.rb:48
   def gem_version; end
 
-  # source://opentelemetry-instrumentation-active_model_serializers//lib/opentelemetry/instrumentation/active_model_serializers/instrumentation.rb#52
+  # pkg:gem/opentelemetry-instrumentation-active_model_serializers#lib/opentelemetry/instrumentation/active_model_serializers/instrumentation.rb:52
   def install_active_support_instrumenation; end
 
-  # source://opentelemetry-instrumentation-active_model_serializers//lib/opentelemetry/instrumentation/active_model_serializers/instrumentation.rb#56
+  # pkg:gem/opentelemetry-instrumentation-active_model_serializers#lib/opentelemetry/instrumentation/active_model_serializers/instrumentation.rb:56
   def require_dependencies; end
 end
 
 # Minimum supported version of the `active_model_serializers` gem
 #
-# source://opentelemetry-instrumentation-active_model_serializers//lib/opentelemetry/instrumentation/active_model_serializers/instrumentation.rb#15
+# pkg:gem/opentelemetry-instrumentation-active_model_serializers#lib/opentelemetry/instrumentation/active_model_serializers/instrumentation.rb:15
 OpenTelemetry::Instrumentation::ActiveModelSerializers::Instrumentation::MINIMUM_VERSION = T.let(T.unsafe(nil), Gem::Version)
 
 # ActiveSupport::Notification topics to which the instrumentation subscribes
 #
-# source://opentelemetry-instrumentation-active_model_serializers//lib/opentelemetry/instrumentation/active_model_serializers/instrumentation.rb#18
+# pkg:gem/opentelemetry-instrumentation-active_model_serializers#lib/opentelemetry/instrumentation/active_model_serializers/instrumentation.rb:18
 OpenTelemetry::Instrumentation::ActiveModelSerializers::Instrumentation::SUBSCRIPTIONS = T.let(T.unsafe(nil), Array)
 
-# source://opentelemetry-instrumentation-active_model_serializers//lib/opentelemetry/instrumentation/active_model_serializers/version.rb#10
+# pkg:gem/opentelemetry-instrumentation-active_model_serializers#lib/opentelemetry/instrumentation/active_model_serializers/version.rb:10
 OpenTelemetry::Instrumentation::ActiveModelSerializers::VERSION = T.let(T.unsafe(nil), String)

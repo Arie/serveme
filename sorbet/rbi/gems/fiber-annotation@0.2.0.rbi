@@ -5,28 +5,34 @@
 # Please instead update this file by running `bin/tapioca gem fiber-annotation`.
 
 
-# source://fiber-annotation//lib/fiber/annotation.rb#8
+# Released under the MIT License.
+# Copyright, 2023, by Samuel Williams.
+#
+# pkg:gem/fiber-annotation#lib/fiber/annotation.rb:8
 class Fiber
   include ::Fiber::Annotation
 
-  # source://fiber-annotation//lib/fiber/annotation.rb#13
+  # pkg:gem/fiber-annotation#lib/fiber/annotation.rb:13
   def initialize(annotation: T.unsafe(nil), **options, &block); end
 
   class << self
+    # @scope Fiber
+    # @name self.annotate
     # Annotate the current fiber with the given annotation.
     #
-    # source://fiber-annotation//lib/fiber/annotation.rb#55
+    # pkg:gem/fiber-annotation#lib/fiber/annotation.rb:55
     def annotate(*_arg0, **_arg1, &_arg2); end
   end
 end
 
 # A mechanism for annotating fibers.
 #
-# source://fiber-annotation//lib/fiber/annotation.rb#10
+# pkg:gem/fiber-annotation#lib/fiber/annotation.rb:10
 module Fiber::Annotation
   # Annotate the current fiber with the given annotation.
+  # @parameter annotation [Object] The annotation to set.
   #
-  # source://fiber-annotation//lib/fiber/annotation.rb#13
+  # pkg:gem/fiber-annotation#lib/fiber/annotation.rb:13
   def initialize(annotation: T.unsafe(nil), **options, &block); end
 
   # Annotate the current fiber with the given annotation.
@@ -35,16 +41,22 @@ module Fiber::Annotation
   #
   # The block form of this method should only be invoked on the current fiber.
   #
-  # source://fiber-annotation//lib/fiber/annotation.rb#31
+  # @parameter annotation [Object] The annotation to set.
+  # @yields {} The block to execute with the given annotation.
+  # @returns [Object] The return value of the block.
+  #
+  # pkg:gem/fiber-annotation#lib/fiber/annotation.rb:31
   def annotate(annotation); end
 
   # Get the current annotation.
+  # @returns [Object] The current annotation.
   #
-  # source://fiber-annotation//lib/fiber/annotation.rb#20
+  # pkg:gem/fiber-annotation#lib/fiber/annotation.rb:20
   def annotation; end
 
   # Get the current annotation.
+  # @returns [Object] The current annotation.
   #
-  # source://fiber-annotation//lib/fiber/annotation.rb#20
+  # pkg:gem/fiber-annotation#lib/fiber/annotation.rb:20
   def annotation=(_arg0); end
 end

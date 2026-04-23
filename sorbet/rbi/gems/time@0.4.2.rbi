@@ -7,7 +7,7 @@
 
 # #
 #
-# source://time//lib/time.rb#28
+# pkg:gem/time#lib/time.rb:28
 class Time
   include ::Comparable
 
@@ -25,7 +25,7 @@ class Time
   #
   # You must require 'time' to use this method.
   #
-  # source://time//lib/time.rb#698
+  # pkg:gem/time#lib/time.rb:698
   def httpdate; end
 
   # Returns a string which represents the time as date-time defined by RFC 2822:
@@ -43,25 +43,10 @@ class Time
   #
   # You must require 'time' to use this method.
   #
-  # source://time//lib/time.rb#678
+  # pkg:gem/time#lib/time.rb:678
   def rfc2822; end
 
-  # Returns a string which represents the time as date-time defined by RFC 2822:
-  #
-  #   day-of-week, DD month-name CCYY hh:mm:ss zone
-  #
-  # where zone is [+-]hhmm.
-  #
-  # If +self+ is a UTC time, -0000 is used as zone.
-  #
-  #     require 'time'
-  #
-  #     t = Time.now
-  #     t.rfc2822  # => "Wed, 05 Oct 2011 22:26:12 -0400"
-  #
-  # You must require 'time' to use this method.
-  #
-  # source://time//lib/time.rb#681
+  # pkg:gem/time#lib/time.rb:681
   def rfc822; end
 
   class << self
@@ -80,26 +65,10 @@ class Time
     #
     # You must require 'time' to use this method.
     #
-    # source://time//lib/time.rb#572
+    # pkg:gem/time#lib/time.rb:572
     def httpdate(date); end
 
-    # Parses +time+ as a dateTime defined by the XML Schema and converts it to
-    # a Time object.  The format is a restricted version of the format defined
-    # by ISO 8601.
-    #
-    # ArgumentError is raised if +time+ is not compliant with the format or if
-    # the Time class cannot represent the specified time.
-    #
-    # See #xmlschema for more information on this format.
-    #
-    #     require 'time'
-    #
-    #     Time.xmlschema("2011-10-05T22:26:12-04:00")
-    #     #=> 2011-10-05 22:26:12-04:00
-    #
-    # You must require 'time' to use this method.
-    #
-    # source://time//lib/time.rb#659
+    # pkg:gem/time#lib/time.rb:659
     def iso8601(time); end
 
     # Takes a string representation of a Time and attempts to parse it
@@ -205,7 +174,7 @@ class Time
     #
     # You must require 'time' to use this method.
     #
-    # source://time//lib/time.rb#385
+    # pkg:gem/time#lib/time.rb:385
     def parse(date, now = T.unsafe(nil)); end
 
     # Parses +date+ as date-time defined by RFC 2822 and converts it to a Time
@@ -224,26 +193,10 @@ class Time
     #
     # You must require 'time' to use this method.
     #
-    # source://time//lib/time.rb#514
+    # pkg:gem/time#lib/time.rb:514
     def rfc2822(date); end
 
-    # Parses +date+ as date-time defined by RFC 2822 and converts it to a Time
-    # object.  The format is identical to the date format defined by RFC 822 and
-    # updated by RFC 1123.
-    #
-    # ArgumentError is raised if +date+ is not compliant with RFC 2822
-    # or if the Time class cannot represent specified date.
-    #
-    # See #rfc2822 for more information on this format.
-    #
-    #     require 'time'
-    #
-    #     Time.rfc2822("Wed, 05 Oct 2011 22:26:12 -0400")
-    #     #=> 2010-10-05 22:26:12 -0400
-    #
-    # You must require 'time' to use this method.
-    #
-    # source://time//lib/time.rb#554
+    # pkg:gem/time#lib/time.rb:554
     def rfc822(date); end
 
     # Works similar to +parse+ except that instead of using a
@@ -314,9 +267,7 @@ class Time
     #
     # You must require 'time' to use this method.
     #
-    # @raise [ArgumentError]
-    #
-    # source://time//lib/time.rb#462
+    # pkg:gem/time#lib/time.rb:462
     def strptime(date, format, now = T.unsafe(nil)); end
 
     # Parses +time+ as a dateTime defined by the XML Schema and converts it to
@@ -335,7 +286,7 @@ class Time
     #
     # You must require 'time' to use this method.
     #
-    # source://time//lib/time.rb#626
+    # pkg:gem/time#lib/time.rb:626
     def xmlschema(time); end
 
     # Return the number of seconds the specified time zone differs
@@ -363,31 +314,29 @@ class Time
     #
     # You must require 'time' to use this method.
     #
-    # source://time//lib/time.rb#83
+    # pkg:gem/time#lib/time.rb:83
     def zone_offset(zone, year = T.unsafe(nil)); end
 
     private
 
-    # source://time//lib/time.rb#157
+    # pkg:gem/time#lib/time.rb:157
     def apply_offset(year, mon, day, hour, min, sec, off); end
 
-    # source://time//lib/time.rb#128
+    # pkg:gem/time#lib/time.rb:128
     def force_zone!(t, zone, offset = T.unsafe(nil)); end
 
-    # source://time//lib/time.rb#201
+    # pkg:gem/time#lib/time.rb:201
     def make_time(date, year, yday, mon, day, hour, min, sec, sec_fraction, zone, now); end
 
-    # source://time//lib/time.rb#148
+    # pkg:gem/time#lib/time.rb:148
     def month_days(y, m); end
 
     # :stopdoc:
     #
-    # @return [Boolean]
-    #
-    # source://time//lib/time.rb#104
+    # pkg:gem/time#lib/time.rb:104
     def zone_utc?(zone); end
   end
 end
 
-# source://time//lib/time.rb#30
+# pkg:gem/time#lib/time.rb:30
 Time::VERSION = T.let(T.unsafe(nil), String)

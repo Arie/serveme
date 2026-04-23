@@ -5,57 +5,56 @@
 # Please instead update this file by running `bin/tapioca gem pry-nav`.
 
 
-# source://pry-nav//lib/pry-nav/version.rb#1
+# pkg:gem/pry-nav#lib/pry-nav/version.rb:1
 module PryNav
   extend ::PryNav
 
+  # Ensures that a command is executed in a local file context.
   # Checks that a binding is in a local file context. Extracted from
   # https://github.com/pry/pry/blob/master/lib/pry/default_commands/context.rb
   #
-  # source://pry-nav//lib/pry-nav.rb#16
+  # pkg:gem/pry-nav#lib/pry-nav.rb:16
   def check_file_context(target); end
 
   # Reference to currently running pry-remote server. Used by the tracer.
   #
-  # source://pry-nav//lib/pry-nav.rb#27
+  # pkg:gem/pry-nav#lib/pry-nav.rb:27
   def current_remote_server; end
 
   # Reference to currently running pry-remote server. Used by the tracer.
   #
-  # source://pry-nav//lib/pry-nav.rb#27
+  # pkg:gem/pry-nav#lib/pry-nav.rb:27
   def current_remote_server=(_arg0); end
 end
 
-# source://pry-nav//lib/pry-nav/commands.rb#4
+# pkg:gem/pry-nav#lib/pry-nav/commands.rb:4
 PryNav::Commands = T.let(T.unsafe(nil), Pry::CommandSet)
 
-# source://pry-nav//lib/pry-nav.rb#10
+# pkg:gem/pry-nav#lib/pry-nav.rb:10
 PryNav::TRACE_IGNORE_FILES = T.let(T.unsafe(nil), Array)
 
-# source://pry-nav//lib/pry-nav/tracer.rb#4
+# pkg:gem/pry-nav#lib/pry-nav/tracer.rb:4
 class PryNav::Tracer
-  # @return [Tracer] a new instance of Tracer
-  #
-  # source://pry-nav//lib/pry-nav/tracer.rb#5
+  # pkg:gem/pry-nav#lib/pry-nav/tracer.rb:5
   def initialize(pry_start_options = T.unsafe(nil)); end
 
-  # source://pry-nav//lib/pry-nav/tracer.rb#42
+  # pkg:gem/pry-nav#lib/pry-nav/tracer.rb:42
   def process_command(command = T.unsafe(nil)); end
 
-  # source://pry-nav//lib/pry-nav/tracer.rb#12
+  # pkg:gem/pry-nav#lib/pry-nav/tracer.rb:12
   def run; end
 
-  # source://pry-nav//lib/pry-nav/tracer.rb#34
+  # pkg:gem/pry-nav#lib/pry-nav/tracer.rb:34
   def start; end
 
-  # source://pry-nav//lib/pry-nav/tracer.rb#38
+  # pkg:gem/pry-nav#lib/pry-nav/tracer.rb:38
   def stop; end
 
   private
 
-  # source://pry-nav//lib/pry-nav/tracer.rb#62
+  # pkg:gem/pry-nav#lib/pry-nav/tracer.rb:62
   def tracer(event, file, _line, _id, binding, _klass); end
 end
 
-# source://pry-nav//lib/pry-nav/version.rb#2
+# pkg:gem/pry-nav#lib/pry-nav/version.rb:2
 PryNav::VERSION = T.let(T.unsafe(nil), String)

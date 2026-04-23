@@ -8,736 +8,638 @@
 # WebSocket protocol implementation in Ruby
 # This module does not provide a WebSocket server or client, but is made for using
 # in http servers or clients to provide WebSocket support.
-#
 # @author Bernard "Imanel" Potocki
 # @see http://github.com/imanel/websocket-ruby main repository
 #
-# source://websocket//lib/websocket.rb#8
+# pkg:gem/websocket#lib/websocket.rb:8
 module WebSocket
   class << self
     # Limit of frame size payload in bytes
     #
-    # source://websocket//lib/websocket.rb#20
+    # pkg:gem/websocket#lib/websocket.rb:20
     def max_frame_size; end
 
     # Set limit of frame size payload in bytes
     #
-    # source://websocket//lib/websocket.rb#25
+    # pkg:gem/websocket#lib/websocket.rb:25
     def max_frame_size=(val); end
 
     # If set to true error will be raised instead of setting `error` method.
     # All errors inherit from WebSocket::Error.
     #
-    # source://websocket//lib/websocket.rb#31
+    # pkg:gem/websocket#lib/websocket.rb:31
     def should_raise; end
 
     # Should protocol errors raise ruby errors? If false then `error` flag is set instead.
     #
-    # source://websocket//lib/websocket.rb#36
+    # pkg:gem/websocket#lib/websocket.rb:36
     def should_raise=(val); end
   end
 end
 
 # Default WebSocket version to use
 #
-# source://websocket//lib/websocket.rb#10
+# pkg:gem/websocket#lib/websocket.rb:10
 WebSocket::DEFAULT_VERSION = T.let(T.unsafe(nil), Integer)
 
-# source://websocket//lib/websocket/error.rb#4
+# pkg:gem/websocket#lib/websocket/error.rb:4
 class WebSocket::Error < ::RuntimeError; end
 
-# source://websocket//lib/websocket/error.rb#5
+# pkg:gem/websocket#lib/websocket/error.rb:5
 class WebSocket::Error::Frame < ::WebSocket::Error; end
 
-# source://websocket//lib/websocket/error.rb#6
+# pkg:gem/websocket#lib/websocket/error.rb:6
 class WebSocket::Error::Frame::ControlFramePayloadTooLong < ::WebSocket::Error::Frame
-  # source://websocket//lib/websocket/error.rb#7
+  # pkg:gem/websocket#lib/websocket/error.rb:7
   def message; end
 end
 
-# source://websocket//lib/websocket/error.rb#12
+# pkg:gem/websocket#lib/websocket/error.rb:12
 class WebSocket::Error::Frame::DataFrameInsteadContinuation < ::WebSocket::Error::Frame
-  # source://websocket//lib/websocket/error.rb#13
+  # pkg:gem/websocket#lib/websocket/error.rb:13
   def message; end
 end
 
-# source://websocket//lib/websocket/error.rb#18
+# pkg:gem/websocket#lib/websocket/error.rb:18
 class WebSocket::Error::Frame::FragmentedControlFrame < ::WebSocket::Error::Frame
-  # source://websocket//lib/websocket/error.rb#19
+  # pkg:gem/websocket#lib/websocket/error.rb:19
   def message; end
 end
 
-# source://websocket//lib/websocket/error.rb#24
+# pkg:gem/websocket#lib/websocket/error.rb:24
 class WebSocket::Error::Frame::Invalid < ::WebSocket::Error::Frame
-  # source://websocket//lib/websocket/error.rb#25
+  # pkg:gem/websocket#lib/websocket/error.rb:25
   def message; end
 end
 
-# source://websocket//lib/websocket/error.rb#30
+# pkg:gem/websocket#lib/websocket/error.rb:30
 class WebSocket::Error::Frame::InvalidPayloadEncoding < ::WebSocket::Error::Frame
-  # source://websocket//lib/websocket/error.rb#31
+  # pkg:gem/websocket#lib/websocket/error.rb:31
   def message; end
 end
 
-# source://websocket//lib/websocket/error.rb#36
+# pkg:gem/websocket#lib/websocket/error.rb:36
 class WebSocket::Error::Frame::MaskTooShort < ::WebSocket::Error::Frame
-  # source://websocket//lib/websocket/error.rb#37
+  # pkg:gem/websocket#lib/websocket/error.rb:37
   def message; end
 end
 
-# source://websocket//lib/websocket/error.rb#42
+# pkg:gem/websocket#lib/websocket/error.rb:42
 class WebSocket::Error::Frame::ReservedBitUsed < ::WebSocket::Error::Frame
-  # source://websocket//lib/websocket/error.rb#43
+  # pkg:gem/websocket#lib/websocket/error.rb:43
   def message; end
 end
 
-# source://websocket//lib/websocket/error.rb#48
+# pkg:gem/websocket#lib/websocket/error.rb:48
 class WebSocket::Error::Frame::TooLong < ::WebSocket::Error::Frame
-  # source://websocket//lib/websocket/error.rb#49
+  # pkg:gem/websocket#lib/websocket/error.rb:49
   def message; end
 end
 
-# source://websocket//lib/websocket/error.rb#54
+# pkg:gem/websocket#lib/websocket/error.rb:54
 class WebSocket::Error::Frame::UnexpectedContinuationFrame < ::WebSocket::Error::Frame
-  # source://websocket//lib/websocket/error.rb#55
+  # pkg:gem/websocket#lib/websocket/error.rb:55
   def message; end
 end
 
-# source://websocket//lib/websocket/error.rb#72
+# pkg:gem/websocket#lib/websocket/error.rb:72
 class WebSocket::Error::Frame::UnknownCloseCode < ::WebSocket::Error::Frame
-  # source://websocket//lib/websocket/error.rb#73
+  # pkg:gem/websocket#lib/websocket/error.rb:73
   def message; end
 end
 
-# source://websocket//lib/websocket/error.rb#60
+# pkg:gem/websocket#lib/websocket/error.rb:60
 class WebSocket::Error::Frame::UnknownFrameType < ::WebSocket::Error::Frame
-  # source://websocket//lib/websocket/error.rb#61
+  # pkg:gem/websocket#lib/websocket/error.rb:61
   def message; end
 end
 
-# source://websocket//lib/websocket/error.rb#66
+# pkg:gem/websocket#lib/websocket/error.rb:66
 class WebSocket::Error::Frame::UnknownOpcode < ::WebSocket::Error::Frame
-  # source://websocket//lib/websocket/error.rb#67
+  # pkg:gem/websocket#lib/websocket/error.rb:67
   def message; end
 end
 
-# source://websocket//lib/websocket/error.rb#78
+# pkg:gem/websocket#lib/websocket/error.rb:78
 class WebSocket::Error::Frame::UnknownVersion < ::WebSocket::Error::Frame
-  # source://websocket//lib/websocket/error.rb#79
+  # pkg:gem/websocket#lib/websocket/error.rb:79
   def message; end
 end
 
-# source://websocket//lib/websocket/error.rb#85
+# pkg:gem/websocket#lib/websocket/error.rb:85
 class WebSocket::Error::Handshake < ::WebSocket::Error; end
 
-# source://websocket//lib/websocket/error.rb#86
+# pkg:gem/websocket#lib/websocket/error.rb:86
 class WebSocket::Error::Handshake::GetRequestRequired < ::WebSocket::Error::Handshake
-  # source://websocket//lib/websocket/error.rb#87
+  # pkg:gem/websocket#lib/websocket/error.rb:87
   def message; end
 end
 
-# source://websocket//lib/websocket/error.rb#92
+# pkg:gem/websocket#lib/websocket/error.rb:92
 class WebSocket::Error::Handshake::InvalidAuthentication < ::WebSocket::Error::Handshake
-  # source://websocket//lib/websocket/error.rb#93
+  # pkg:gem/websocket#lib/websocket/error.rb:93
   def message; end
 end
 
-# source://websocket//lib/websocket/error.rb#98
+# pkg:gem/websocket#lib/websocket/error.rb:98
 class WebSocket::Error::Handshake::InvalidHeader < ::WebSocket::Error::Handshake
-  # source://websocket//lib/websocket/error.rb#99
+  # pkg:gem/websocket#lib/websocket/error.rb:99
   def message; end
 end
 
-# source://websocket//lib/websocket/error.rb#110
+# pkg:gem/websocket#lib/websocket/error.rb:110
 class WebSocket::Error::Handshake::InvalidStatusCode < ::WebSocket::Error::Handshake
-  # source://websocket//lib/websocket/error.rb#111
+  # pkg:gem/websocket#lib/websocket/error.rb:111
   def message; end
 end
 
-# source://websocket//lib/websocket/error.rb#116
+# pkg:gem/websocket#lib/websocket/error.rb:116
 class WebSocket::Error::Handshake::NoHostProvided < ::WebSocket::Error::Handshake
-  # source://websocket//lib/websocket/error.rb#117
+  # pkg:gem/websocket#lib/websocket/error.rb:117
   def message; end
 end
 
-# source://websocket//lib/websocket/error.rb#122
+# pkg:gem/websocket#lib/websocket/error.rb:122
 class WebSocket::Error::Handshake::UnknownVersion < ::WebSocket::Error::Handshake
-  # source://websocket//lib/websocket/error.rb#123
+  # pkg:gem/websocket#lib/websocket/error.rb:123
   def message; end
 end
 
-# source://websocket//lib/websocket/error.rb#104
+# pkg:gem/websocket#lib/websocket/error.rb:104
 class WebSocket::Error::Handshake::UnsupportedProtocol < ::WebSocket::Error::Handshake
-  # source://websocket//lib/websocket/error.rb#105
+  # pkg:gem/websocket#lib/websocket/error.rb:105
   def message; end
 end
 
-# source://websocket//lib/websocket/exception_handler.rb#4
+# pkg:gem/websocket#lib/websocket/exception_handler.rb:4
 module WebSocket::ExceptionHandler
   mixes_in_class_methods ::WebSocket::ExceptionHandler::ClassMethods
 
-  # Returns the value of attribute error.
-  #
-  # source://websocket//lib/websocket/exception_handler.rb#5
+  # pkg:gem/websocket#lib/websocket/exception_handler.rb:5
   def error; end
 
-  # Sets the attribute error
-  #
-  # @param value the value to set the attribute error to.
-  #
-  # source://websocket//lib/websocket/exception_handler.rb#5
+  # pkg:gem/websocket#lib/websocket/exception_handler.rb:5
   def error=(_arg0); end
 
   class << self
-    # @private
-    #
-    # source://websocket//lib/websocket/exception_handler.rb#7
+    # pkg:gem/websocket#lib/websocket/exception_handler.rb:7
     def included(base); end
   end
 end
 
-# source://websocket//lib/websocket/exception_handler.rb#11
+# pkg:gem/websocket#lib/websocket/exception_handler.rb:11
 module WebSocket::ExceptionHandler::ClassMethods
   # Rescue from WebSocket::Error errors.
   #
-  # @option options
-  # @param method_name [String] Name of method that should be wrapped and rescued
-  # @param options [Hash] Options for rescue
+  # @param [String] method_name Name of method that should be wrapped and rescued
+  # @param [Hash] options Options for rescue
   #
-  # source://websocket//lib/websocket/exception_handler.rb#18
+  # @option options [Any] :return Value that should be returned instead of raised error
+  #
+  # pkg:gem/websocket#lib/websocket/exception_handler.rb:18
   def rescue_method(method_name, options = T.unsafe(nil)); end
 end
 
-# source://websocket//lib/websocket/frame.rb#4
+# pkg:gem/websocket#lib/websocket/frame.rb:4
 module WebSocket::Frame; end
 
 # @abstract Subclass and override to implement custom frames
 #
-# source://websocket//lib/websocket/frame/base.rb#6
+# pkg:gem/websocket#lib/websocket/frame/base.rb:6
 class WebSocket::Frame::Base
   include ::WebSocket::ExceptionHandler
   include ::WebSocket::NiceInspect
   extend ::WebSocket::ExceptionHandler::ClassMethods
 
   # Initialize frame
-  #
-  # @option args
-  # @option args
-  # @option args
-  # @option args
   # @param args [Hash] Arguments for frame
-  # @return [Base] a new instance of Base
+  # @option args [String]  :data default data for frame
+  # @option args [String]  :type Type of frame - available types are "text", "binary", "ping", "pong" and "close"(support depends on draft version)
+  # @option args [Integer] :code Code for close frame. Supported by drafts > 05.
+  # @option args [Integer] :version Version of draft. Currently supported version are 75, 76 and 00-13.
   #
-  # source://websocket//lib/websocket/frame/base.rb#19
+  # pkg:gem/websocket#lib/websocket/frame/base.rb:19
   def initialize(*args); end
 
-  # Returns the value of attribute code.
-  #
-  # source://websocket//lib/websocket/frame/base.rb#11
+  # pkg:gem/websocket#lib/websocket/frame/base.rb:11
   def code; end
 
-  # Sets the attribute code
-  #
-  # @param value the value to set the attribute code to.
-  #
-  # source://websocket//lib/websocket/frame/base.rb#11
+  # pkg:gem/websocket#lib/websocket/frame/base.rb:11
   def code=(_arg0); end
 
-  # Returns the value of attribute data.
-  #
-  # source://websocket//lib/websocket/frame/base.rb#11
+  # pkg:gem/websocket#lib/websocket/frame/base.rb:11
   def data; end
 
-  # Sets the attribute data
-  #
-  # @param value the value to set the attribute data to.
-  #
-  # source://websocket//lib/websocket/frame/base.rb#11
+  # pkg:gem/websocket#lib/websocket/frame/base.rb:11
   def data=(_arg0); end
 
-  # Returns the value of attribute error.
-  #
-  # source://websocket//lib/websocket/frame/base.rb#10
+  # pkg:gem/websocket#lib/websocket/frame/base.rb:10
   def error; end
 
   # Check if some errors occured
-  #
   # @return [Boolean] True if error is set
   #
-  # source://websocket//lib/websocket/frame/base.rb#31
+  # pkg:gem/websocket#lib/websocket/frame/base.rb:31
   def error?; end
 
-  # source://websocket//lib/websocket/frame/base.rb#27
+  # pkg:gem/websocket#lib/websocket/frame/base.rb:27
   def initialize_with_rescue(*args); end
 
   # Is selected type supported for selected handler?
   #
-  # @return [Boolean]
-  #
-  # source://websocket//lib/websocket/frame/base.rb#36
+  # pkg:gem/websocket#lib/websocket/frame/base.rb:36
   def support_type?; end
 
   # Implement in submodules
   #
-  # @raise [NotImplementedError]
-  #
-  # source://websocket//lib/websocket/frame/base.rb#41
+  # pkg:gem/websocket#lib/websocket/frame/base.rb:41
   def supported_frames; end
 
-  # Returns the value of attribute type.
-  #
-  # source://websocket//lib/websocket/frame/base.rb#10
+  # pkg:gem/websocket#lib/websocket/frame/base.rb:10
   def type; end
 
-  # Returns the value of attribute version.
-  #
-  # source://websocket//lib/websocket/frame/base.rb#10
+  # pkg:gem/websocket#lib/websocket/frame/base.rb:10
   def version; end
 
   private
 
   # Include set of methods for selected protocol version
-  #
   # @return [Boolean] false if protocol number is unknown, otherwise true
   #
-  # source://websocket//lib/websocket/frame/base.rb#49
+  # pkg:gem/websocket#lib/websocket/frame/base.rb:49
   def include_version; end
 
-  # source://websocket//lib/websocket/frame/base.rb#27
+  # pkg:gem/websocket#lib/websocket/frame/base.rb:27
   def initialize_without_rescue(args = T.unsafe(nil)); end
 end
 
-# source://websocket//lib/websocket/frame/data.rb#5
+# pkg:gem/websocket#lib/websocket/frame/data.rb:5
 class WebSocket::Frame::Data < ::String
-  # @return [Data] a new instance of Data
-  #
-  # source://websocket//lib/websocket/frame/data.rb#6
+  # pkg:gem/websocket#lib/websocket/frame/data.rb:6
   def initialize(*args); end
 
-  # source://websocket//lib/websocket/frame/data.rb#11
+  # pkg:gem/websocket#lib/websocket/frame/data.rb:11
   def <<(*args); end
 
   # Convert all arguments to ASCII-8BIT for easier traversing
   #
-  # source://websocket//lib/websocket/frame/data.rb#16
+  # pkg:gem/websocket#lib/websocket/frame/data.rb:16
   def convert_args(args); end
 
   # Extract `count` bytes starting from `start_index` and unmask it if needed.
   #
-  # source://websocket//lib/websocket/frame/data.rb#32
+  # pkg:gem/websocket#lib/websocket/frame/data.rb:32
   def getbytes(start_index, count); end
 
   # Mask whole payload using mask key
   #
-  # source://websocket//lib/websocket/frame/data.rb#39
+  # pkg:gem/websocket#lib/websocket/frame/data.rb:39
   def mask(payload, mask); end
 
   # Extract mask from 4 first bytes according to spec
   #
-  # @raise [WebSocket::Error::Frame::MaskTooShort]
-  #
-  # source://websocket//lib/websocket/frame/data.rb#21
+  # pkg:gem/websocket#lib/websocket/frame/data.rb:21
   def set_mask; end
 
   # Remove mask flag - it will still be present in payload
   #
-  # source://websocket//lib/websocket/frame/data.rb#27
+  # pkg:gem/websocket#lib/websocket/frame/data.rb:27
   def unset_mask; end
 end
 
-# source://websocket//lib/websocket/frame/handler.rb#5
+# pkg:gem/websocket#lib/websocket/frame/handler.rb:5
 module WebSocket::Frame::Handler; end
 
-# source://websocket//lib/websocket/frame/handler/base.rb#6
+# pkg:gem/websocket#lib/websocket/frame/handler/base.rb:6
 class WebSocket::Frame::Handler::Base
-  # @return [Base] a new instance of Base
-  #
-  # source://websocket//lib/websocket/frame/handler/base.rb#7
+  # pkg:gem/websocket#lib/websocket/frame/handler/base.rb:7
   def initialize(frame); end
 
   # Convert raw data to decoded frame
-  #
-  # @raise [NotImplementedError]
   # @return [WebSocket::Frame::Incoming] Frame if found, nil otherwise
   #
-  # source://websocket//lib/websocket/frame/handler/base.rb#19
+  # pkg:gem/websocket#lib/websocket/frame/handler/base.rb:19
   def decode_frame; end
 
   # Convert data to raw frame ready to send to client
-  #
-  # @raise [NotImplementedError]
   # @return [String] Encoded frame
   #
-  # source://websocket//lib/websocket/frame/handler/base.rb#13
+  # pkg:gem/websocket#lib/websocket/frame/handler/base.rb:13
   def encode_frame; end
 
   private
 
   # Check if frame is one of control frames
-  #
-  # @param frame_type [Symbol] Frame type
+  # @param [Symbol] frame_type Frame type
   # @return [Boolean] True if given frame type is control frame
   #
-  # source://websocket//lib/websocket/frame/handler/base.rb#28
+  # pkg:gem/websocket#lib/websocket/frame/handler/base.rb:28
   def control_frame?(frame_type); end
 
   # Check if frame is one of data frames
-  #
-  # @param frame_type [Symbol] Frame type
+  # @param [Symbol] frame_type Frame type
   # @return [Boolean] True if given frame type is data frame
   #
-  # source://websocket//lib/websocket/frame/handler/base.rb#35
+  # pkg:gem/websocket#lib/websocket/frame/handler/base.rb:35
   def data_frame?(frame_type); end
 end
 
-# source://websocket//lib/websocket/frame/handler/handler03.rb#9
+# pkg:gem/websocket#lib/websocket/frame/handler/handler03.rb:9
 class WebSocket::Frame::Handler::Handler03 < ::WebSocket::Frame::Handler::Base
-  # @return [Handler03] a new instance of Handler03
-  #
-  # source://websocket//lib/websocket/frame/handler/handler03.rb#23
+  # pkg:gem/websocket#lib/websocket/frame/handler/handler03.rb:23
   def initialize(frame); end
 
   # @see WebSocket::Frame::Handler::Base#decode_frame
   #
-  # source://websocket//lib/websocket/frame/handler/handler03.rb#48
+  # pkg:gem/websocket#lib/websocket/frame/handler/handler03.rb:48
   def decode_frame; end
 
   # @see WebSocket::Frame::Handler::Base#encode_frame
   #
-  # source://websocket//lib/websocket/frame/handler/handler03.rb#34
+  # pkg:gem/websocket#lib/websocket/frame/handler/handler03.rb:34
   def encode_frame; end
 
   # Allow turning on or off masking
   #
-  # @return [Boolean]
-  #
-  # source://websocket//lib/websocket/frame/handler/handler03.rb#68
+  # pkg:gem/websocket#lib/websocket/frame/handler/handler03.rb:68
   def masking?; end
 
   # @see WebSocket::Frame::Base#supported_frames
   #
-  # source://websocket//lib/websocket/frame/handler/handler03.rb#29
+  # pkg:gem/websocket#lib/websocket/frame/handler/handler03.rb:29
   def supported_frames; end
 
   private
 
-  # @return [Boolean]
-  #
-  # source://websocket//lib/websocket/frame/handler/handler03.rb#138
+  # pkg:gem/websocket#lib/websocket/frame/handler/handler03.rb:138
   def buffer_exists?(buffer_number); end
 
-  # source://websocket//lib/websocket/frame/handler/handler03.rb#205
+  # pkg:gem/websocket#lib/websocket/frame/handler/handler03.rb:205
   def decode_continuation_frame(application_data, frame_type); end
 
-  # @raise [WebSocket::Error::Frame::UnexpectedContinuationFrame]
-  #
-  # source://websocket//lib/websocket/frame/handler/handler03.rb#211
+  # pkg:gem/websocket#lib/websocket/frame/handler/handler03.rb:211
   def decode_finish_continuation_frame(application_data); end
 
-  # @raise [WebSocket::Error::Frame::ReservedBitUsed]
-  #
-  # source://websocket//lib/websocket/frame/handler/handler03.rb#142
+  # pkg:gem/websocket#lib/websocket/frame/handler/handler03.rb:142
   def decode_first_byte; end
 
-  # @raise [WebSocket::Error::Frame::TooLong]
-  #
-  # source://websocket//lib/websocket/frame/handler/handler03.rb#118
+  # pkg:gem/websocket#lib/websocket/frame/handler/handler03.rb:118
   def decode_header; end
 
-  # source://websocket//lib/websocket/frame/handler/handler03.rb#188
+  # pkg:gem/websocket#lib/websocket/frame/handler/handler03.rb:188
   def decode_payload(payload_length, mask); end
 
-  # source://websocket//lib/websocket/frame/handler/handler03.rb#169
+  # pkg:gem/websocket#lib/websocket/frame/handler/handler03.rb:169
   def decode_payload_length(length); end
 
-  # @raise [WebSocket::Error::Frame::ControlFramePayloadTooLong]
-  #
-  # source://websocket//lib/websocket/frame/handler/handler03.rb#156
+  # pkg:gem/websocket#lib/websocket/frame/handler/handler03.rb:156
   def decode_second_byte(frame_type); end
 
-  # source://websocket//lib/websocket/frame/handler/handler03.rb#95
+  # pkg:gem/websocket#lib/websocket/frame/handler/handler03.rb:95
   def encode_header; end
 
-  # source://websocket//lib/websocket/frame/handler/handler03.rb#104
+  # pkg:gem/websocket#lib/websocket/frame/handler/handler03.rb:104
   def encode_payload_length(length, mask); end
 
   # This allows flipping the more bit to fin for draft 04
   #
-  # source://websocket//lib/websocket/frame/handler/handler03.rb#75
+  # pkg:gem/websocket#lib/websocket/frame/handler/handler03.rb:75
   def fin; end
 
   # Convert frame opcode to type name
-  #
-  # @param opcode [Integer] Opcode
-  # @raise [WebSocket::Error] if frame type name is not known
+  # @param [Integer] opcode Opcode
   # @return [Symbol] Frame type name or nil
+  # @raise [WebSocket::Error] if frame type name is not known
   #
-  # source://websocket//lib/websocket/frame/handler/handler03.rb#91
+  # pkg:gem/websocket#lib/websocket/frame/handler/handler03.rb:91
   def opcode_to_type(opcode); end
 
   # Convert frame type name to opcode
-  #
-  # @param frame_type [Symbol] Frame type name
-  # @raise [WebSocket::Error] if frame opcode is not known
+  # @param [Symbol] frame_type Frame type name
   # @return [Integer] opcode or nil
+  # @raise [WebSocket::Error] if frame opcode is not known
   #
-  # source://websocket//lib/websocket/frame/handler/handler03.rb#83
+  # pkg:gem/websocket#lib/websocket/frame/handler/handler03.rb:83
   def type_to_opcode(frame_type); end
 end
 
 # Hash of frame names and it's opcodes
 #
-# source://websocket//lib/websocket/frame/handler/handler03.rb#11
+# pkg:gem/websocket#lib/websocket/frame/handler/handler03.rb:11
 WebSocket::Frame::Handler::Handler03::FRAME_TYPES = T.let(T.unsafe(nil), Hash)
 
 # Hash of frame opcodes and it's names
 #
-# source://websocket//lib/websocket/frame/handler/handler03.rb#21
+# pkg:gem/websocket#lib/websocket/frame/handler/handler03.rb:21
 WebSocket::Frame::Handler::Handler03::FRAME_TYPES_INVERSE = T.let(T.unsafe(nil), Hash)
 
-# source://websocket//lib/websocket/frame/handler/handler04.rb#7
+# pkg:gem/websocket#lib/websocket/frame/handler/handler04.rb:7
 class WebSocket::Frame::Handler::Handler04 < ::WebSocket::Frame::Handler::Handler03
   private
 
   # The only difference between draft 03 framing and draft 04 framing is
   # that the MORE bit has been changed to a FIN bit
   #
-  # source://websocket//lib/websocket/frame/handler/handler04.rb#12
+  # pkg:gem/websocket#lib/websocket/frame/handler/handler04.rb:12
   def fin; end
 end
 
-# source://websocket//lib/websocket/frame/handler/handler05.rb#7
+# pkg:gem/websocket#lib/websocket/frame/handler/handler05.rb:7
 class WebSocket::Frame::Handler::Handler05 < ::WebSocket::Frame::Handler::Handler04
   # Since handler 5 masking should be enabled by default
   #
-  # @return [Boolean]
-  #
-  # source://websocket//lib/websocket/frame/handler/handler05.rb#9
+  # pkg:gem/websocket#lib/websocket/frame/handler/handler05.rb:9
   def masking?; end
 end
 
-# source://websocket//lib/websocket/frame/handler/handler07.rb#7
+# pkg:gem/websocket#lib/websocket/frame/handler/handler07.rb:7
 class WebSocket::Frame::Handler::Handler07 < ::WebSocket::Frame::Handler::Handler05
-  # source://websocket//lib/websocket/frame/handler/handler07.rb#31
+  # pkg:gem/websocket#lib/websocket/frame/handler/handler07.rb:31
   def decode_frame; end
 
-  # source://websocket//lib/websocket/frame/handler/handler07.rb#21
+  # pkg:gem/websocket#lib/websocket/frame/handler/handler07.rb:21
   def encode_frame; end
 
   private
 
-  # @return [Boolean]
-  #
-  # source://websocket//lib/websocket/frame/handler/handler07.rb#56
+  # pkg:gem/websocket#lib/websocket/frame/handler/handler07.rb:56
   def close_code?(frame); end
 
   # Convert frame opcode to type name
-  #
-  # @param opcode [Integer] Opcode
-  # @raise [WebSocket::Error] if frame type name is not known
+  # @param [Integer] opcode Opcode
   # @return [Symbol] Frame type name or nil
+  # @raise [WebSocket::Error] if frame type name is not known
   #
-  # source://websocket//lib/websocket/frame/handler/handler07.rb#72
+  # pkg:gem/websocket#lib/websocket/frame/handler/handler07.rb:72
   def opcode_to_type(opcode); end
 
   # Convert frame type name to opcode
-  #
-  # @param frame_type [Symbol] Frame type name
-  # @raise [WebSocket::Error] if frame opcode is not known
+  # @param [Symbol] frame_type Frame type name
   # @return [Integer] opcode or nil
+  # @raise [WebSocket::Error] if frame opcode is not known
   #
-  # source://websocket//lib/websocket/frame/handler/handler07.rb#64
+  # pkg:gem/websocket#lib/websocket/frame/handler/handler07.rb:64
   def type_to_opcode(frame_type); end
 
-  # @return [Boolean]
-  #
-  # source://websocket//lib/websocket/frame/handler/handler07.rb#44
+  # pkg:gem/websocket#lib/websocket/frame/handler/handler07.rb:44
   def valid_code?(code); end
 
-  # @return [Boolean]
-  #
-  # source://websocket//lib/websocket/frame/handler/handler07.rb#48
+  # pkg:gem/websocket#lib/websocket/frame/handler/handler07.rb:48
   def valid_encoding?(data); end
 end
 
 # Hash of frame names and it's opcodes
 #
-# source://websocket//lib/websocket/frame/handler/handler07.rb#9
+# pkg:gem/websocket#lib/websocket/frame/handler/handler07.rb:9
 WebSocket::Frame::Handler::Handler07::FRAME_TYPES = T.let(T.unsafe(nil), Hash)
 
 # Hash of frame opcodes and it's names
 #
-# source://websocket//lib/websocket/frame/handler/handler07.rb#19
+# pkg:gem/websocket#lib/websocket/frame/handler/handler07.rb:19
 WebSocket::Frame::Handler::Handler07::FRAME_TYPES_INVERSE = T.let(T.unsafe(nil), Hash)
 
-# source://websocket//lib/websocket/frame/handler/handler75.rb#7
+# pkg:gem/websocket#lib/websocket/frame/handler/handler75.rb:7
 class WebSocket::Frame::Handler::Handler75 < ::WebSocket::Frame::Handler::Base
   # @see WebSocket::Frame::Handler::Base#decode_frame
   #
-  # source://websocket//lib/websocket/frame/handler/handler75.rb#26
+  # pkg:gem/websocket#lib/websocket/frame/handler/handler75.rb:26
   def decode_frame; end
 
   # @see WebSocket::Frame::Handler::Base#encode_frame
   #
-  # source://websocket//lib/websocket/frame/handler/handler75.rb#14
+  # pkg:gem/websocket#lib/websocket/frame/handler/handler75.rb:14
   def encode_frame; end
 
   # @see WebSocket::Frame::Base#supported_frames
   #
-  # source://websocket//lib/websocket/frame/handler/handler75.rb#9
+  # pkg:gem/websocket#lib/websocket/frame/handler/handler75.rb:9
   def supported_frames; end
 end
 
 # Construct or parse incoming WebSocket Frame.
+# @note You should NEVER use this class directly - use Client or Server subclasses instead, as they contain additional frame options(i.e. Client-side masking in draft 04)
 #
 # @example
 #   frame = WebSocket::Frame::Incoming::Server.new(version: @handshake.version)
 #   frame << "\x81\x05\x48\x65\x6c\x6c\x6f\x81\x06\x77\x6f\x72\x6c\x64\x21"
 #   frame.next # "Hello"
 #   frame.next # "world!""
-# @note You should NEVER use this class directly - use Client or Server subclasses instead, as they contain additional frame options(i.e. Client-side masking in draft 04)
 #
-# source://websocket//lib/websocket/frame/incoming.rb#13
+# pkg:gem/websocket#lib/websocket/frame/incoming.rb:13
 class WebSocket::Frame::Incoming < ::WebSocket::Frame::Base
-  # @return [Incoming] a new instance of Incoming
-  #
-  # source://websocket//lib/websocket/frame/incoming.rb#17
+  # pkg:gem/websocket#lib/websocket/frame/incoming.rb:17
   def initialize(args = T.unsafe(nil)); end
 
   # Add provided string as raw incoming frame.
-  #
   # @param data [String] Raw frame
   #
-  # source://websocket//lib/websocket/frame/incoming.rb#32
+  # pkg:gem/websocket#lib/websocket/frame/incoming.rb:32
   def <<(data); end
 
   # If data is still encoded after receiving then this is false. After calling "next" you will receive
   # another instance of incoming frame, but with data decoded - this function will return true and
   # to_s will return frame content instead of raw data.
-  #
   # @return [Boolean] If frame already decoded?
   #
-  # source://websocket//lib/websocket/frame/incoming.rb#26
+  # pkg:gem/websocket#lib/websocket/frame/incoming.rb:26
   def decoded?; end
 
   # Return next complete frame.
   # This function will merge together splitted frames and return as combined content.
   # Check #error if nil received to check for eventual parsing errors
-  #
   # @return [WebSocket::Frame::Incoming] Single incoming frame or nil if no complete frame is available.
   #
-  # source://websocket//lib/websocket/frame/incoming.rb#40
+  # pkg:gem/websocket#lib/websocket/frame/incoming.rb:40
   def next(*args); end
 
-  # source://websocket//lib/websocket/frame/incoming.rb#43
+  # pkg:gem/websocket#lib/websocket/frame/incoming.rb:43
   def next_with_rescue(*args); end
 
-  # source://websocket//lib/websocket/frame/incoming.rb#43
+  # pkg:gem/websocket#lib/websocket/frame/incoming.rb:43
   def next_without_rescue; end
 
   # If decoded then this will return frame content. Otherwise it will return raw frame.
-  #
   # @return [String] Data of frame
   #
-  # source://websocket//lib/websocket/frame/incoming.rb#47
+  # pkg:gem/websocket#lib/websocket/frame/incoming.rb:47
   def to_s; end
 end
 
-# source://websocket//lib/websocket/frame/incoming/client.rb#6
+# pkg:gem/websocket#lib/websocket/frame/incoming/client.rb:6
 class WebSocket::Frame::Incoming::Client < ::WebSocket::Frame::Incoming
-  # @return [Boolean]
-  #
-  # source://websocket//lib/websocket/frame/incoming/client.rb#7
+  # pkg:gem/websocket#lib/websocket/frame/incoming/client.rb:7
   def incoming_masking?; end
 
-  # @return [Boolean]
-  #
-  # source://websocket//lib/websocket/frame/incoming/client.rb#11
+  # pkg:gem/websocket#lib/websocket/frame/incoming/client.rb:11
   def outgoing_masking?; end
 end
 
-# source://websocket//lib/websocket/frame/incoming/server.rb#6
+# pkg:gem/websocket#lib/websocket/frame/incoming/server.rb:6
 class WebSocket::Frame::Incoming::Server < ::WebSocket::Frame::Incoming
-  # @return [Boolean]
-  #
-  # source://websocket//lib/websocket/frame/incoming/server.rb#7
+  # pkg:gem/websocket#lib/websocket/frame/incoming/server.rb:7
   def incoming_masking?; end
 
-  # @return [Boolean]
-  #
-  # source://websocket//lib/websocket/frame/incoming/server.rb#11
+  # pkg:gem/websocket#lib/websocket/frame/incoming/server.rb:11
   def outgoing_masking?; end
 end
 
 # Construct or parse outgoing WebSocket Frame.
+# @note You should NEVER use this class directly - use Client or Server subclasses instead, as they contain additional frame options(i.e. Client-side masking in draft 04)
 #
 # @example
 #   frame = WebSocket::Frame::Outgoing::Server.new(version: @handshake.version, data: "Hello", type: :text)
 #   frame.to_s # "\x81\x05\x48\x65\x6c\x6c\x6f"
-# @note You should NEVER use this class directly - use Client or Server subclasses instead, as they contain additional frame options(i.e. Client-side masking in draft 04)
 #
-# source://websocket//lib/websocket/frame/outgoing.rb#11
+# pkg:gem/websocket#lib/websocket/frame/outgoing.rb:11
 class WebSocket::Frame::Outgoing < ::WebSocket::Frame::Base
   # Should current frame be sent? Exclude empty frames etc.
-  #
   # @return [Boolean] true if frame should be sent
   #
-  # source://websocket//lib/websocket/frame/outgoing.rb#23
+  # pkg:gem/websocket#lib/websocket/frame/outgoing.rb:23
   def require_sending?; end
 
   # Is selected type supported by current draft version?
-  #
   # @return [Boolean] true if frame type is supported
   #
-  # source://websocket//lib/websocket/frame/outgoing.rb#17
+  # pkg:gem/websocket#lib/websocket/frame/outgoing.rb:17
   def supported?; end
 
   # Return raw frame formatted for sending.
   #
-  # @raise [WebSocket::Error::Frame::UnknownFrameType]
-  #
-  # source://websocket//lib/websocket/frame/outgoing.rb#28
+  # pkg:gem/websocket#lib/websocket/frame/outgoing.rb:28
   def to_s(*args); end
 
-  # source://websocket//lib/websocket/frame/outgoing.rb#32
+  # pkg:gem/websocket#lib/websocket/frame/outgoing.rb:32
   def to_s_with_rescue(*args); end
 
-  # source://websocket//lib/websocket/frame/outgoing.rb#32
+  # pkg:gem/websocket#lib/websocket/frame/outgoing.rb:32
   def to_s_without_rescue; end
 end
 
-# source://websocket//lib/websocket/frame/outgoing/client.rb#6
+# pkg:gem/websocket#lib/websocket/frame/outgoing/client.rb:6
 class WebSocket::Frame::Outgoing::Client < ::WebSocket::Frame::Outgoing
-  # @return [Boolean]
-  #
-  # source://websocket//lib/websocket/frame/outgoing/client.rb#7
+  # pkg:gem/websocket#lib/websocket/frame/outgoing/client.rb:7
   def incoming_masking?; end
 
-  # @return [Boolean]
-  #
-  # source://websocket//lib/websocket/frame/outgoing/client.rb#11
+  # pkg:gem/websocket#lib/websocket/frame/outgoing/client.rb:11
   def outgoing_masking?; end
 end
 
-# source://websocket//lib/websocket/frame/outgoing/server.rb#6
+# pkg:gem/websocket#lib/websocket/frame/outgoing/server.rb:6
 class WebSocket::Frame::Outgoing::Server < ::WebSocket::Frame::Outgoing
-  # @return [Boolean]
-  #
-  # source://websocket//lib/websocket/frame/outgoing/server.rb#7
+  # pkg:gem/websocket#lib/websocket/frame/outgoing/server.rb:7
   def incoming_masking?; end
 
-  # @return [Boolean]
-  #
-  # source://websocket//lib/websocket/frame/outgoing/server.rb#11
+  # pkg:gem/websocket#lib/websocket/frame/outgoing/server.rb:11
   def outgoing_masking?; end
 end
 
-# source://websocket//lib/websocket/handshake.rb#4
+# pkg:gem/websocket#lib/websocket/handshake.rb:4
 module WebSocket::Handshake; end
 
 # @abstract Subclass and override to implement custom handshakes
 #
-# source://websocket//lib/websocket/handshake/base.rb#6
+# pkg:gem/websocket#lib/websocket/handshake/base.rb:6
 class WebSocket::Handshake::Base
   include ::WebSocket::ExceptionHandler
   include ::WebSocket::NiceInspect
@@ -745,146 +647,116 @@ class WebSocket::Handshake::Base
 
   # Initialize new WebSocket Handshake and set it's state to :new
   #
-  # @return [Base] a new instance of Base
-  #
-  # source://websocket//lib/websocket/handshake/base.rb#15
+  # pkg:gem/websocket#lib/websocket/handshake/base.rb:15
   def initialize(args = T.unsafe(nil)); end
 
   # @abstract Add data to handshake
   #
-  # source://websocket//lib/websocket/handshake/base.rb#34
+  # pkg:gem/websocket#lib/websocket/handshake/base.rb:34
   def <<(data); end
 
   # Return default port for protocol (80 for ws, 443 for wss)
   #
-  # source://websocket//lib/websocket/handshake/base.rb#70
+  # pkg:gem/websocket#lib/websocket/handshake/base.rb:70
   def default_port; end
 
   # Check if provided port is a default one
   #
-  # @return [Boolean]
-  #
-  # source://websocket//lib/websocket/handshake/base.rb#75
+  # pkg:gem/websocket#lib/websocket/handshake/base.rb:75
   def default_port?; end
 
   # Is parsing of data finished?
-  #
   # @return [Boolena] True if request was completely parsed or error occured. False otherwise
   #
-  # source://websocket//lib/websocket/handshake/base.rb#47
+  # pkg:gem/websocket#lib/websocket/handshake/base.rb:47
   def finished?; end
 
-  # Returns the value of attribute headers.
-  #
-  # source://websocket//lib/websocket/handshake/base.rb#10
+  # pkg:gem/websocket#lib/websocket/handshake/base.rb:10
   def headers; end
 
-  # Returns the value of attribute host.
-  #
-  # source://websocket//lib/websocket/handshake/base.rb#10
+  # pkg:gem/websocket#lib/websocket/handshake/base.rb:10
   def host; end
 
   # Data left from parsing. Sometimes data that doesn't belong to handshake are added - use this method to retrieve them.
-  #
   # @return [String] String if some data are available. Nil otherwise
   #
-  # source://websocket//lib/websocket/handshake/base.rb#65
+  # pkg:gem/websocket#lib/websocket/handshake/base.rb:65
   def leftovers; end
 
-  # Returns the value of attribute path.
-  #
-  # source://websocket//lib/websocket/handshake/base.rb#10
+  # pkg:gem/websocket#lib/websocket/handshake/base.rb:10
   def path; end
 
-  # source://websocket//lib/websocket/handshake/base.rb#79
+  # pkg:gem/websocket#lib/websocket/handshake/base.rb:79
   def port; end
 
-  # Returns the value of attribute protocols.
-  #
-  # source://websocket//lib/websocket/handshake/base.rb#10
+  # pkg:gem/websocket#lib/websocket/handshake/base.rb:10
   def protocols; end
 
-  # Returns the value of attribute query.
-  #
-  # source://websocket//lib/websocket/handshake/base.rb#10
+  # pkg:gem/websocket#lib/websocket/handshake/base.rb:10
   def query; end
 
-  # Returns the value of attribute secure.
-  #
-  # source://websocket//lib/websocket/handshake/base.rb#10
+  # pkg:gem/websocket#lib/websocket/handshake/base.rb:10
   def secure; end
 
   # @abstract Should send data after parsing is finished?
-  # @raise [NotImplementedError]
-  # @return [Boolean]
   #
-  # source://websocket//lib/websocket/handshake/base.rb#59
+  # pkg:gem/websocket#lib/websocket/handshake/base.rb:59
   def should_respond?; end
 
-  # Returns the value of attribute state.
-  #
-  # source://websocket//lib/websocket/handshake/base.rb#10
+  # pkg:gem/websocket#lib/websocket/handshake/base.rb:10
   def state; end
 
   # Return textual representation of handshake request or response
-  #
   # @return [String] text of response
   #
-  # source://websocket//lib/websocket/handshake/base.rb#40
+  # pkg:gem/websocket#lib/websocket/handshake/base.rb:40
   def to_s(*args); end
 
-  # source://websocket//lib/websocket/handshake/base.rb#43
+  # pkg:gem/websocket#lib/websocket/handshake/base.rb:43
   def to_s_with_rescue(*args); end
 
-  # source://websocket//lib/websocket/handshake/base.rb#43
+  # pkg:gem/websocket#lib/websocket/handshake/base.rb:43
   def to_s_without_rescue; end
 
   # URI of request.
-  #
+  # @return [String] Full URI with protocol
   # @example
   #   @handshake.uri #=> "ws://example.com/path?query=true"
-  # @return [String] Full URI with protocol
   #
-  # source://websocket//lib/websocket/handshake/base.rb#87
+  # pkg:gem/websocket#lib/websocket/handshake/base.rb:87
   def uri; end
 
   # Is parsed data valid?
-  #
   # @return [Boolean] False if some errors occured. Reason for error could be found in error method
   #
-  # source://websocket//lib/websocket/handshake/base.rb#53
+  # pkg:gem/websocket#lib/websocket/handshake/base.rb:53
   def valid?(*args); end
 
-  # Returns the value of attribute version.
-  #
-  # source://websocket//lib/websocket/handshake/base.rb#10
+  # pkg:gem/websocket#lib/websocket/handshake/base.rb:10
   def version; end
 
   private
 
   # Changes state to error and sets error message
+  # @param [String] message Error message to set
   #
-  # @param message [String] Error message to set
-  #
-  # source://websocket//lib/websocket/handshake/base.rb#106
+  # pkg:gem/websocket#lib/websocket/handshake/base.rb:106
   def error=(message); end
 
   # Parse data imported to handshake and sets state to finished if necessary.
-  #
   # @return [Boolean] True if finished parsing. False if not all data received yet.
   #
-  # source://websocket//lib/websocket/handshake/base.rb#115
+  # pkg:gem/websocket#lib/websocket/handshake/base.rb:115
   def parse_data; end
 
   # Number of lines after header that should be handled as belonging to handshake. Any data after those lines will be handled as leftovers.
-  #
   # @return [Integer] Number of lines
   #
-  # source://websocket//lib/websocket/handshake/base.rb#100
+  # pkg:gem/websocket#lib/websocket/handshake/base.rb:100
   def reserved_leftover_lines; end
 end
 
-# source://websocket//lib/websocket/handshake/base.rb#111
+# pkg:gem/websocket#lib/websocket/handshake/base.rb:111
 WebSocket::Handshake::Base::HEADER = T.let(T.unsafe(nil), Regexp)
 
 # Construct or parse a client WebSocket handshake.
@@ -894,12 +766,12 @@ WebSocket::Handshake::Base::HEADER = T.let(T.unsafe(nil), Regexp)
 #
 #   # Create request
 #   @handshake.to_s # GET /demo HTTP/1.1
-#   # Upgrade: websocket
-#   # Connection: Upgrade
-#   # Host: example.com
-#   # Origin: http://example.com
-#   # Sec-WebSocket-Version: 13
-#   # Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==
+#                   # Upgrade: websocket
+#                   # Connection: Upgrade
+#                   # Host: example.com
+#                   # Origin: http://example.com
+#                   # Sec-WebSocket-Version: 13
+#                   # Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==
 #
 #   # Parse server response
 #   @handshake << <<EOF
@@ -916,31 +788,33 @@ WebSocket::Handshake::Base::HEADER = T.let(T.unsafe(nil), Regexp)
 #   # No parsing errors?
 #   @handshake.valid?
 #
-# source://websocket//lib/websocket/handshake/client.rb#36
+# pkg:gem/websocket#lib/websocket/handshake/client.rb:36
 class WebSocket::Handshake::Client < ::WebSocket::Handshake::Base
   # Initialize new WebSocket Client
   #
+  # @param [Hash] args Arguments for client
+  #
+  # @option args [String]         :host Host of request. Required if no :url param was provided.
+  # @option args [String]         :origin Origin of request. Optional, should be used mostly by browsers. Default: nil
+  # @option args [String]         :path Path of request. Should start with '/'. Default: '/'
+  # @option args [Integer]        :port Port of request. Default: nil
+  # @option args [String]         :query. Query for request. Should be in format "aaa=bbb&ccc=ddd"
+  # @option args [Boolean]        :secure Defines protocol to use. If true then wss://, otherwise ws://. This option will not change default port - it should be handled by programmer.
+  # @option args [String]         :url URL of request. Must by in format like ws://example.com/path?query=true. Every part of this url will be overriden by more specific arguments.
+  # @option args [String]         :uri Alias to :url
+  # @option args [Array<String>]  :protocols An array of supported sub-protocols
+  # @option args [Integer]        :version Version of WebSocket to use. Default: 13 (this is version from RFC)
+  # @option args [Hash]           :headers HTTP headers to use in the handshake
+  #
   # @example
   #   Websocket::Handshake::Client.new(url: "ws://example.com/path?query=true")
-  # @option args
-  # @option args
-  # @option args
-  # @option args
-  # @option args
-  # @option args
-  # @option args
-  # @option args
-  # @option args
-  # @option args
-  # @option args
-  # @param args [Hash] Arguments for client
-  # @raise [WebSocket::Error::Handshake::NoHostProvided]
-  # @return [Client] a new instance of Client
   #
-  # source://websocket//lib/websocket/handshake/client.rb#57
+  # pkg:gem/websocket#lib/websocket/handshake/client.rb:57
   def initialize(*args); end
 
   # Add text of response from Server. This method will parse content immediately and update state and error(if neccessary)
+  #
+  # @param [String] data Data to add
   #
   # @example
   #   @handshake << <<EOF
@@ -950,397 +824,357 @@ class WebSocket::Handshake::Client < ::WebSocket::Handshake::Base
   #   Sec-WebSocket-Accept: s3pPLMBiTxaQ9kYGzzhZRbK+xOo=
   #
   #   EOF
-  # @param data [String] Data to add
   #
-  # source://websocket//lib/websocket/handshake/client.rb#90
+  # pkg:gem/websocket#lib/websocket/handshake/client.rb:90
   def <<(*args); end
 
-  # Returns the value of attribute headers.
-  #
-  # source://websocket//lib/websocket/handshake/client.rb#37
+  # pkg:gem/websocket#lib/websocket/handshake/client.rb:37
   def headers; end
 
-  # source://websocket//lib/websocket/handshake/client.rb#76
+  # pkg:gem/websocket#lib/websocket/handshake/client.rb:76
   def initialize_with_rescue(*args); end
 
-  # Returns the value of attribute origin.
-  #
-  # source://websocket//lib/websocket/handshake/client.rb#37
+  # pkg:gem/websocket#lib/websocket/handshake/client.rb:37
   def origin; end
 
   # Should send content to server after finished parsing?
-  #
   # @return [Boolean] false
   #
-  # source://websocket//lib/websocket/handshake/client.rb#98
+  # pkg:gem/websocket#lib/websocket/handshake/client.rb:98
   def should_respond?; end
 
   private
 
   # Include set of methods for selected protocol version
-  #
   # @return [Boolean] false if protocol number is unknown, otherwise true
   #
-  # source://websocket//lib/websocket/handshake/client.rb#106
+  # pkg:gem/websocket#lib/websocket/handshake/client.rb:106
   def include_version; end
 
-  # source://websocket//lib/websocket/handshake/client.rb#76
+  # pkg:gem/websocket#lib/websocket/handshake/client.rb:76
   def initialize_without_rescue(args = T.unsafe(nil)); end
 
   # Parse first line of Server response.
-  #
-  # @param line [String] Line to parse
-  # @raise [WebSocket::Error::Handshake::InvalidHeader]
+  # @param [String] line Line to parse
   # @return [Boolean] True if parsed correctly. False otherwise
   #
-  # source://websocket//lib/websocket/handshake/client.rb#122
+  # pkg:gem/websocket#lib/websocket/handshake/client.rb:122
   def parse_first_line(line); end
 end
 
-# source://websocket//lib/websocket/handshake/client.rb#117
+# pkg:gem/websocket#lib/websocket/handshake/client.rb:117
 WebSocket::Handshake::Client::FIRST_LINE = T.let(T.unsafe(nil), Regexp)
 
-# source://websocket//lib/websocket/handshake/handler.rb#5
+# pkg:gem/websocket#lib/websocket/handshake/handler.rb:5
 module WebSocket::Handshake::Handler; end
 
 # This class and it's descendants are included in client or server handshake in order to extend basic functionality
 #
-# source://websocket//lib/websocket/handshake/handler/base.rb#7
+# pkg:gem/websocket#lib/websocket/handshake/handler/base.rb:7
 class WebSocket::Handshake::Handler::Base
-  # @return [Base] a new instance of Base
-  #
-  # source://websocket//lib/websocket/handshake/handler/base.rb#8
+  # pkg:gem/websocket#lib/websocket/handshake/handler/base.rb:8
   def initialize(handshake); end
 
   # @see WebSocket::Handshake::Base#to_s
   #
-  # source://websocket//lib/websocket/handshake/handler/base.rb#13
+  # pkg:gem/websocket#lib/websocket/handshake/handler/base.rb:13
   def to_s; end
 
-  # @return [Boolean]
-  #
-  # source://websocket//lib/websocket/handshake/handler/base.rb#23
+  # pkg:gem/websocket#lib/websocket/handshake/handler/base.rb:23
   def valid?; end
 
   private
 
   # Set data to send after headers. In most cases it will be blank data.
-  #
   # @return [String] data
   #
-  # source://websocket//lib/websocket/handshake/handler/base.rb#43
+  # pkg:gem/websocket#lib/websocket/handshake/handler/base.rb:43
   def finishing_line; end
 
   # Set handshake headers. Provided as array because some protocol version require specific order of fields.
-  #
   # @return [Array] List of headers as arrays [key, value]
   #
-  # source://websocket//lib/websocket/handshake/handler/base.rb#37
+  # pkg:gem/websocket#lib/websocket/handshake/handler/base.rb:37
   def handshake_keys; end
 
   # Set first line of text representation according to specification.
-  #
   # @return [String] First line of HTTP header
   #
-  # source://websocket//lib/websocket/handshake/handler/base.rb#31
+  # pkg:gem/websocket#lib/websocket/handshake/handler/base.rb:31
   def header_line; end
 end
 
-# source://websocket//lib/websocket/handshake/handler/client.rb#6
+# pkg:gem/websocket#lib/websocket/handshake/handler/client.rb:6
 class WebSocket::Handshake::Handler::Client < ::WebSocket::Handshake::Handler::Base
   private
 
   # @see WebSocket::Handshake::Handler::Base#header_handshake_keys
   #
-  # source://websocket//lib/websocket/handshake/handler/client.rb#17
+  # pkg:gem/websocket#lib/websocket/handshake/handler/client.rb:17
   def handshake_keys; end
 
   # @see WebSocket::Handshake::Handler::Base#header_line
   #
-  # source://websocket//lib/websocket/handshake/handler/client.rb#10
+  # pkg:gem/websocket#lib/websocket/handshake/handler/client.rb:10
   def header_line; end
 
   # Verify if received header matches with one of the sent ones
-  #
-  # @raise [WebSocket::Error::Handshake::UnsupportedProtocol]
   # @return [Boolean] True if matching. False otherwise(appropriate error is set)
   #
-  # source://websocket//lib/websocket/handshake/handler/client.rb#23
+  # pkg:gem/websocket#lib/websocket/handshake/handler/client.rb:23
   def verify_protocol; end
 end
 
-# source://websocket//lib/websocket/handshake/handler/client01.rb#8
+# pkg:gem/websocket#lib/websocket/handshake/handler/client01.rb:8
 class WebSocket::Handshake::Handler::Client01 < ::WebSocket::Handshake::Handler::Client76
   private
 
   # @see WebSocket::Handshake::Handler::Base#handshake_keys
   #
-  # source://websocket//lib/websocket/handshake/handler/client01.rb#12
+  # pkg:gem/websocket#lib/websocket/handshake/handler/client01.rb:12
   def handshake_keys; end
 end
 
-# source://websocket//lib/websocket/handshake/handler/client04.rb#8
+# pkg:gem/websocket#lib/websocket/handshake/handler/client04.rb:8
 class WebSocket::Handshake::Handler::Client04 < ::WebSocket::Handshake::Handler::Client
-  # @return [Boolean]
   # @see WebSocket::Handshake::Base#valid?
   #
-  # source://websocket//lib/websocket/handshake/handler/client04.rb#10
+  # pkg:gem/websocket#lib/websocket/handshake/handler/client04.rb:10
   def valid?; end
 
   private
 
   # Value of Sec-WebSocket-Accept that should be delivered back by server
-  #
   # @return [Sering] accept
   #
-  # source://websocket//lib/websocket/handshake/handler/client04.rb#41
+  # pkg:gem/websocket#lib/websocket/handshake/handler/client04.rb:41
   def accept; end
 
   # @see WebSocket::Handshake::Handler::Base#handshake_keys
   #
-  # source://websocket//lib/websocket/handshake/handler/client04.rb#17
+  # pkg:gem/websocket#lib/websocket/handshake/handler/client04.rb:17
   def handshake_keys; end
 
   # Sec-WebSocket-Key value
-  #
   # @return [String] key
   #
-  # source://websocket//lib/websocket/handshake/handler/client04.rb#35
+  # pkg:gem/websocket#lib/websocket/handshake/handler/client04.rb:35
   def key; end
 
-  # source://websocket//lib/websocket/handshake/handler/client04.rb#56
+  # pkg:gem/websocket#lib/websocket/handshake/handler/client04.rb:56
   def provided_protocols; end
 
-  # source://websocket//lib/websocket/handshake/handler/client04.rb#52
+  # pkg:gem/websocket#lib/websocket/handshake/handler/client04.rb:52
   def supported_protocols; end
 
   # Verify if received header Sec-WebSocket-Accept matches generated one.
-  #
-  # @raise [WebSocket::Error::Handshake::InvalidAuthentication]
   # @return [Boolean] True if accept is matching. False otherwise(appropriate error is set)
   #
-  # source://websocket//lib/websocket/handshake/handler/client04.rb#47
+  # pkg:gem/websocket#lib/websocket/handshake/handler/client04.rb:47
   def verify_accept; end
 end
 
-# source://websocket//lib/websocket/handshake/handler/client11.rb#6
+# pkg:gem/websocket#lib/websocket/handshake/handler/client11.rb:6
 class WebSocket::Handshake::Handler::Client11 < ::WebSocket::Handshake::Handler::Client04
   private
 
   # @see WebSocket::Handshake::Handler::Base#handshake_keys
   #
-  # source://websocket//lib/websocket/handshake/handler/client11.rb#10
+  # pkg:gem/websocket#lib/websocket/handshake/handler/client11.rb:10
   def handshake_keys; end
 end
 
-# source://websocket//lib/websocket/handshake/handler/client75.rb#6
+# pkg:gem/websocket#lib/websocket/handshake/handler/client75.rb:6
 class WebSocket::Handshake::Handler::Client75 < ::WebSocket::Handshake::Handler::Client
-  # @return [Boolean]
   # @see WebSocket::Handshake::Base#valid?
   #
-  # source://websocket//lib/websocket/handshake/handler/client75.rb#8
+  # pkg:gem/websocket#lib/websocket/handshake/handler/client75.rb:8
   def valid?; end
 
   private
 
   # @see WebSocket::Handshake::Handler::Base#handshake_keys
   #
-  # source://websocket//lib/websocket/handshake/handler/client75.rb#15
+  # pkg:gem/websocket#lib/websocket/handshake/handler/client75.rb:15
   def handshake_keys; end
 
-  # source://websocket//lib/websocket/handshake/handler/client75.rb#33
+  # pkg:gem/websocket#lib/websocket/handshake/handler/client75.rb:33
   def provided_protocols; end
 
-  # source://websocket//lib/websocket/handshake/handler/client75.rb#29
+  # pkg:gem/websocket#lib/websocket/handshake/handler/client75.rb:29
   def supported_protocols; end
 end
 
-# source://websocket//lib/websocket/handshake/handler/client76.rb#8
+# pkg:gem/websocket#lib/websocket/handshake/handler/client76.rb:8
 class WebSocket::Handshake::Handler::Client76 < ::WebSocket::Handshake::Handler::Client75
-  # @return [Boolean]
   # @see WebSocket::Handshake::Base#valid?
   #
-  # source://websocket//lib/websocket/handshake/handler/client76.rb#10
+  # pkg:gem/websocket#lib/websocket/handshake/handler/client76.rb:10
   def valid?; end
 
   private
 
   # Expected challenge that should be sent by server
-  #
   # @return [String] challenge
   #
-  # source://websocket//lib/websocket/handshake/handler/client76.rb#54
+  # pkg:gem/websocket#lib/websocket/handshake/handler/client76.rb:54
   def challenge; end
 
   # @see WebSocket::Handshake::Handler::Base#finishing_line
   #
-  # source://websocket//lib/websocket/handshake/handler/client76.rb#30
+  # pkg:gem/websocket#lib/websocket/handshake/handler/client76.rb:30
   def finishing_line; end
 
   # Generate Sec-WebSocket-Key1 and Sec-WebSocket-Key2
-  #
   # @param key [String] name of key. Will be used to set number variable needed later. Valid values: key1, key2
   # @return [String] generated key
   #
-  # source://websocket//lib/websocket/handshake/handler/client76.rb#76
+  # pkg:gem/websocket#lib/websocket/handshake/handler/client76.rb:76
   def generate_key(key); end
 
   # Generate third key
   #
-  # source://websocket//lib/websocket/handshake/handler/client76.rb#95
+  # pkg:gem/websocket#lib/websocket/handshake/handler/client76.rb:95
   def generate_key3; end
 
   # @see WebSocket::Handshake::Handler::Base#handshake_keys
   #
-  # source://websocket//lib/websocket/handshake/handler/client76.rb#22
+  # pkg:gem/websocket#lib/websocket/handshake/handler/client76.rb:22
   def handshake_keys; end
 
   # Sec-WebSocket-Key1 value
-  #
   # @return [String] key
   #
-  # source://websocket//lib/websocket/handshake/handler/client76.rb#36
+  # pkg:gem/websocket#lib/websocket/handshake/handler/client76.rb:36
   def key1; end
 
   # Sec-WebSocket-Key2 value
-  #
   # @return [String] key
   #
-  # source://websocket//lib/websocket/handshake/handler/client76.rb#42
+  # pkg:gem/websocket#lib/websocket/handshake/handler/client76.rb:42
   def key2; end
 
   # Value of third key, sent in body
-  #
   # @return [String] key
   #
-  # source://websocket//lib/websocket/handshake/handler/client76.rb#48
+  # pkg:gem/websocket#lib/websocket/handshake/handler/client76.rb:48
   def key3; end
 
-  # source://websocket//lib/websocket/handshake/handler/client76.rb#99
+  # pkg:gem/websocket#lib/websocket/handshake/handler/client76.rb:99
   def provided_protocols; end
 
   # @see WebSocket::Handshake::Base#reserved_leftover_lines
   #
-  # source://websocket//lib/websocket/handshake/handler/client76.rb#17
+  # pkg:gem/websocket#lib/websocket/handshake/handler/client76.rb:17
   def reserved_leftover_lines; end
 
   # Verify if challenge sent by server match generated one
-  #
-  # @raise [WebSocket::Error::Handshake::InvalidAuthentication]
   # @return [Boolena] True if challenge matches, false otherwise(sets appropriate error)
   #
-  # source://websocket//lib/websocket/handshake/handler/client76.rb#66
+  # pkg:gem/websocket#lib/websocket/handshake/handler/client76.rb:66
   def verify_challenge; end
 end
 
-# source://websocket//lib/websocket/handshake/handler/client76.rb#71
+# pkg:gem/websocket#lib/websocket/handshake/handler/client76.rb:71
 WebSocket::Handshake::Handler::Client76::NOISE_CHARS = T.let(T.unsafe(nil), Array)
 
-# source://websocket//lib/websocket/handshake/handler/server.rb#6
+# pkg:gem/websocket#lib/websocket/handshake/handler/server.rb:6
 class WebSocket::Handshake::Handler::Server < ::WebSocket::Handshake::Handler::Base; end
 
-# source://websocket//lib/websocket/handshake/handler/server04.rb#8
+# pkg:gem/websocket#lib/websocket/handshake/handler/server04.rb:8
 class WebSocket::Handshake::Handler::Server04 < ::WebSocket::Handshake::Handler::Server
-  # @return [Boolean]
   # @see WebSocket::Handshake::Base#valid?
   #
-  # source://websocket//lib/websocket/handshake/handler/server04.rb#10
+  # pkg:gem/websocket#lib/websocket/handshake/handler/server04.rb:10
   def valid?; end
 
   private
 
   # @see WebSocket::Handshake::Handler::Base#handshake_keys
   #
-  # source://websocket//lib/websocket/handshake/handler/server04.rb#22
+  # pkg:gem/websocket#lib/websocket/handshake/handler/server04.rb:22
   def handshake_keys; end
 
   # @see WebSocket::Handshake::Handler::Base#header_line
   #
-  # source://websocket//lib/websocket/handshake/handler/server04.rb#17
+  # pkg:gem/websocket#lib/websocket/handshake/handler/server04.rb:17
   def header_line; end
 
-  # source://websocket//lib/websocket/handshake/handler/server04.rb#43
+  # pkg:gem/websocket#lib/websocket/handshake/handler/server04.rb:43
   def key; end
 
-  # source://websocket//lib/websocket/handshake/handler/server04.rb#47
+  # pkg:gem/websocket#lib/websocket/handshake/handler/server04.rb:47
   def protocol; end
 
   # Signature of response, created from client request Sec-WebSocket-Key
-  #
   # @return [String] signature
   #
-  # source://websocket//lib/websocket/handshake/handler/server04.rb#32
+  # pkg:gem/websocket#lib/websocket/handshake/handler/server04.rb:32
   def signature; end
 
-  # @raise [WebSocket::Error::Handshake::InvalidAuthentication]
-  #
-  # source://websocket//lib/websocket/handshake/handler/server04.rb#38
+  # pkg:gem/websocket#lib/websocket/handshake/handler/server04.rb:38
   def verify_key; end
 end
 
-# source://websocket//lib/websocket/handshake/handler/server75.rb#6
+# pkg:gem/websocket#lib/websocket/handshake/handler/server75.rb:6
 class WebSocket::Handshake::Handler::Server75 < ::WebSocket::Handshake::Handler::Server
   private
 
   # @see WebSocket::Handshake::Handler::Base#handshake_keys
   #
-  # source://websocket//lib/websocket/handshake/handler/server75.rb#23
+  # pkg:gem/websocket#lib/websocket/handshake/handler/server75.rb:23
   def handshake_keys; end
 
   # @see WebSocket::Handshake::Handler::Base#header_line
   #
-  # source://websocket//lib/websocket/handshake/handler/server75.rb#18
+  # pkg:gem/websocket#lib/websocket/handshake/handler/server75.rb:18
   def header_line; end
 
-  # source://websocket//lib/websocket/handshake/handler/server75.rb#9
+  # pkg:gem/websocket#lib/websocket/handshake/handler/server75.rb:9
   def headers; end
 
-  # source://websocket//lib/websocket/handshake/handler/server75.rb#32
+  # pkg:gem/websocket#lib/websocket/handshake/handler/server75.rb:32
   def protocol; end
 end
 
-# source://websocket//lib/websocket/handshake/handler/server76.rb#8
+# pkg:gem/websocket#lib/websocket/handshake/handler/server76.rb:8
 class WebSocket::Handshake::Handler::Server76 < ::WebSocket::Handshake::Handler::Server75
-  # @return [Boolean]
   # @see WebSocket::Handshake::Base#valid?
   #
-  # source://websocket//lib/websocket/handshake/handler/server76.rb#10
+  # pkg:gem/websocket#lib/websocket/handshake/handler/server76.rb:10
   def valid?; end
 
   private
 
   # Response to client challenge from request Sec-WebSocket-Key1, Sec-WebSocket-Key2 and leftovers
-  #
   # @return [String] Challenge response or nil if error occured
   #
-  # source://websocket//lib/websocket/handshake/handler/server76.rb#41
+  # pkg:gem/websocket#lib/websocket/handshake/handler/server76.rb:41
   def challenge_response; end
 
   # @see WebSocket::Handshake::Handler::Base#finishing_line
   #
-  # source://websocket//lib/websocket/handshake/handler/server76.rb#35
+  # pkg:gem/websocket#lib/websocket/handshake/handler/server76.rb:35
   def finishing_line; end
 
   # @see WebSocket::Handshake::Handler::Base#header_line
   #
-  # source://websocket//lib/websocket/handshake/handler/server76.rb#30
+  # pkg:gem/websocket#lib/websocket/handshake/handler/server76.rb:30
   def header_line; end
 
-  # source://websocket//lib/websocket/handshake/handler/server76.rb#16
+  # pkg:gem/websocket#lib/websocket/handshake/handler/server76.rb:16
   def headers; end
 
   # Calculate numbers over spaces, according to spec 5.2
-  #
-  # @param string [String] Key to parse
-  # @raise [WebSocket::Error::Handshake::InvalidAuthentication]
+  # @param [String] string Key to parse
   # @return [Integer] Result of calculations or nil if error occured
   #
-  # source://websocket//lib/websocket/handshake/handler/server76.rb#56
+  # pkg:gem/websocket#lib/websocket/handshake/handler/server76.rb:56
   def numbers_over_spaces(string); end
 
   # @see WebSocket::Handshake::Base#reserved_leftover_lines
   #
-  # source://websocket//lib/websocket/handshake/handler/server76.rb#25
+  # pkg:gem/websocket#lib/websocket/handshake/handler/server76.rb:25
   def reserved_leftover_lines; end
 end
 
@@ -1369,25 +1203,28 @@ end
 #
 #   # Create response
 #   @handshake.to_s # HTTP/1.1 101 Switching Protocols
-#   # Upgrade: websocket
-#   # Connection: Upgrade
-#   # Sec-WebSocket-Accept: s3pPLMBiTxaQ9kYGzzhZRbK+xOo=
+#                   # Upgrade: websocket
+#                   # Connection: Upgrade
+#                   # Sec-WebSocket-Accept: s3pPLMBiTxaQ9kYGzzhZRbK+xOo=
 #
-# source://websocket//lib/websocket/handshake/server.rb#34
+# pkg:gem/websocket#lib/websocket/handshake/server.rb:34
 class WebSocket::Handshake::Server < ::WebSocket::Handshake::Base
   # Initialize new WebSocket Server
   #
+  # @param [Hash] args Arguments for server
+  #
+  # @option args [Boolean] :secure If true then server will use wss:// protocol
+  # @option args [Array<String>] :protocols an array of supported sub-protocols
+  #
   # @example
   #   Websocket::Handshake::Server.new(secure: true)
-  # @option args
-  # @option args
-  # @param args [Hash] Arguments for server
-  # @return [Server] a new instance of Server
   #
-  # source://websocket//lib/websocket/handshake/server.rb#44
+  # pkg:gem/websocket#lib/websocket/handshake/server.rb:44
   def initialize(args = T.unsafe(nil)); end
 
   # Add text of request from Client. This method will parse content immediately and update version, state and error(if neccessary)
+  #
+  # @param [String] data Data to add
   #
   # @example
   #   @handshake << <<EOF
@@ -1400,90 +1237,81 @@ class WebSocket::Handshake::Server < ::WebSocket::Handshake::Base
   #   Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==
   #
   #   EOF
-  # @param data [String] Data to add
   #
-  # source://websocket//lib/websocket/handshake/server.rb#64
+  # pkg:gem/websocket#lib/websocket/handshake/server.rb:64
   def <<(*args); end
 
   # Parse the request from hash
+  # @param hash Hash to import data
+  # @option hash [Hash] :headers HTTP headers of request, downcased
+  # @option hash [String] :path Path for request(without host and query string)
+  # @option hash [String] :query Query string for request
+  # @option hash [String] :body Body of request(if exists)
   #
   # @example
   #   @handshake.from_hash(hash)
-  # @option hash
-  # @option hash
-  # @option hash
-  # @option hash
-  # @param hash Hash to import data
   #
-  # source://websocket//lib/websocket/handshake/server.rb#113
+  # pkg:gem/websocket#lib/websocket/handshake/server.rb:113
   def from_hash(hash); end
 
   # Parse the request from a rack environment
+  # @param env Rack Environment
   #
   # @example
   #   @handshake.from_rack(env)
-  # @param env Rack Environment
   #
-  # source://websocket//lib/websocket/handshake/server.rb#75
+  # pkg:gem/websocket#lib/websocket/handshake/server.rb:75
   def from_rack(env); end
 
   # Host of server according to client header
-  #
   # @return [String] host
   #
-  # source://websocket//lib/websocket/handshake/server.rb#131
+  # pkg:gem/websocket#lib/websocket/handshake/server.rb:131
   def host; end
 
   # Port of server according to client header
-  #
   # @return [Integer] port
   #
-  # source://websocket//lib/websocket/handshake/server.rb#137
+  # pkg:gem/websocket#lib/websocket/handshake/server.rb:137
   def port; end
 
   # Should send content to client after finished parsing?
-  #
   # @return [Boolean] true
   #
-  # source://websocket//lib/websocket/handshake/server.rb#125
+  # pkg:gem/websocket#lib/websocket/handshake/server.rb:125
   def should_respond?; end
 
   private
 
   # Include set of methods for selected protocol version
-  #
   # @return [Boolean] false if protocol number is unknown, otherwise true
   #
-  # source://websocket//lib/websocket/handshake/server.rb#154
+  # pkg:gem/websocket#lib/websocket/handshake/server.rb:154
   def include_version; end
 
   # Parse first line of Client response.
-  #
-  # @param line [String] Line to parse
-  # @raise [WebSocket::Error::Handshake::InvalidHeader]
+  # @param [String] line Line to parse
   # @return [Boolean] True if parsed correctly. False otherwise
   #
-  # source://websocket//lib/websocket/handshake/server.rb#168
+  # pkg:gem/websocket#lib/websocket/handshake/server.rb:168
   def parse_first_line(line); end
 
   # Set version of protocol basing on client requets. AFter cotting method calls include_version.
   #
-  # source://websocket//lib/websocket/handshake/server.rb#144
+  # pkg:gem/websocket#lib/websocket/handshake/server.rb:144
   def set_version; end
 end
 
-# source://websocket//lib/websocket/handshake/server.rb#163
+# pkg:gem/websocket#lib/websocket/handshake/server.rb:163
 WebSocket::Handshake::Server::PATH = T.let(T.unsafe(nil), Regexp)
 
-module WebSocket::Mask; end
-
-# source://websocket//lib/websocket/nice_inspect.rb#4
+# pkg:gem/websocket#lib/websocket/nice_inspect.rb:4
 module WebSocket::NiceInspect
   # Recreate inspect as #to_s will be overwritten
   #
-  # source://websocket//lib/websocket/nice_inspect.rb#6
+  # pkg:gem/websocket#lib/websocket/nice_inspect.rb:6
   def inspect; end
 end
 
-# source://websocket//lib/websocket.rb#11
+# pkg:gem/websocket#lib/websocket.rb:11
 WebSocket::ROOT = T.let(T.unsafe(nil), String)

@@ -5,12 +5,15 @@
 # Please instead update this file by running `bin/tapioca gem warden`.
 
 
-# source://warden//lib/warden/mixins/common.rb#3
+# pkg:gem/warden#lib/warden/mixins/common.rb:3
 module Warden
   class << self
     # Provides helper methods to warden for testing.
     #
     # To setup warden in test mode call the +test_mode!+ method on warden
+    #
+    # @example
+    #   Warden.test_mode!
     #
     # This will provide a number of methods.
     # Warden.on_next_request(&blk) - captures a block which is yielded the warden proxy on the next request
@@ -18,10 +21,7 @@ module Warden
     #
     # Warden.test_reset! should be called in after blocks for rspec, or teardown methods for Test::Unit
     #
-    # @example
-    #   Warden.test_mode!
-    #
-    # source://warden//lib/warden.rb#34
+    # pkg:gem/warden#lib/warden.rb:34
     def test_mode!; end
   end
 end
@@ -29,80 +29,76 @@ end
 # This class is yielded inside Warden::Manager. If you have a plugin and want to
 # add more configuration to warden, you just need to extend this class.
 #
-# source://warden//lib/warden/config.rb#7
+# pkg:gem/warden#lib/warden/config.rb:7
 class Warden::Config < ::Hash
-  # @return [Config] a new instance of Config
-  #
-  # source://warden//lib/warden/config.rb#37
+  # pkg:gem/warden#lib/warden/config.rb:37
   def initialize(other = T.unsafe(nil)); end
 
-  # source://warden//lib/warden/config.rb#23
+  # pkg:gem/warden#lib/warden/config.rb:23
   def default_scope; end
 
-  # source://warden//lib/warden/config.rb#23
+  # pkg:gem/warden#lib/warden/config.rb:23
   def default_scope=(value); end
 
   # Set the default strategies to use.
   # :api: public
   #
-  # source://warden//lib/warden/config.rb#63
+  # pkg:gem/warden#lib/warden/config.rb:63
   def default_strategies(*strategies); end
 
-  # source://warden//lib/warden/config.rb#23
+  # pkg:gem/warden#lib/warden/config.rb:23
   def failure_app; end
 
-  # source://warden//lib/warden/config.rb#23
+  # pkg:gem/warden#lib/warden/config.rb:23
   def failure_app=(value); end
 
-  # source://warden//lib/warden/config.rb#23
+  # pkg:gem/warden#lib/warden/config.rb:23
   def intercept_401; end
 
-  # source://warden//lib/warden/config.rb#23
+  # pkg:gem/warden#lib/warden/config.rb:23
   def intercept_401=(value); end
 
   # A short hand way to set up a particular scope
   # :api: public
   #
-  # source://warden//lib/warden/config.rb#74
+  # pkg:gem/warden#lib/warden/config.rb:74
   def scope_defaults(scope, opts = T.unsafe(nil)); end
 
   # Hook from configuration to serialize_from_session.
   # :api: public
   #
-  # source://warden//lib/warden/config.rb#101
+  # pkg:gem/warden#lib/warden/config.rb:101
   def serialize_from_session(*args, &block); end
 
   # Hook from configuration to serialize_into_session.
   # :api: public
   #
-  # source://warden//lib/warden/config.rb#95
+  # pkg:gem/warden#lib/warden/config.rb:95
   def serialize_into_session(*args, &block); end
 
   # Do not raise an error if a missing strategy is given.
   # :api: plugin
   #
-  # source://warden//lib/warden/config.rb#53
+  # pkg:gem/warden#lib/warden/config.rb:53
   def silence_missing_strategies!; end
 
-  # @return [Boolean]
-  #
-  # source://warden//lib/warden/config.rb#57
+  # pkg:gem/warden#lib/warden/config.rb:57
   def silence_missing_strategies?; end
 
   # Quick accessor to strategies from manager
   # :api: public
   #
-  # source://warden//lib/warden/config.rb#89
+  # pkg:gem/warden#lib/warden/config.rb:89
   def strategies; end
 
   protected
 
-  # source://warden//lib/warden/config.rb#107
+  # pkg:gem/warden#lib/warden/config.rb:107
   def deep_dup(key, other); end
 
   private
 
-  # source://warden//lib/warden/config.rb#45
+  # pkg:gem/warden#lib/warden/config.rb:45
   def initialize_copy(other); end
 
   class << self
@@ -119,46 +115,46 @@ class Warden::Config < ::Hash
     #   config[:failure_app] = Bar
     #   config.failure_app #=> Bar
     #
-    # source://warden//lib/warden/config.rb#21
+    # pkg:gem/warden#lib/warden/config.rb:21
     def hash_accessor(*names); end
   end
 end
 
-# source://warden//lib/warden/hooks.rb#4
+# pkg:gem/warden#lib/warden/hooks.rb:4
 module Warden::Hooks
   # Provides access to the callback array for after_failed_fetch
   # :api: private
   #
-  # source://warden//lib/warden/hooks.rb#145
+  # pkg:gem/warden#lib/warden/hooks.rb:145
   def _after_failed_fetch; end
 
   # Provides access to the array of after_set_user blocks to run
   # :api: private
   #
-  # source://warden//lib/warden/hooks.rb#67
+  # pkg:gem/warden#lib/warden/hooks.rb:67
   def _after_set_user; end
 
   # Provides access to the callback array for before_failure
   # :api: private
   #
-  # source://warden//lib/warden/hooks.rb#117
+  # pkg:gem/warden#lib/warden/hooks.rb:117
   def _before_failure; end
 
   # Provides access to the callback array for before_logout
   # :api: private
   #
-  # source://warden//lib/warden/hooks.rb#173
+  # pkg:gem/warden#lib/warden/hooks.rb:173
   def _before_logout; end
 
   # Provides access to the callback array for before_logout
   # :api: private
   #
-  # source://warden//lib/warden/hooks.rb#198
+  # pkg:gem/warden#lib/warden/hooks.rb:198
   def _on_request; end
 
   # Hook to _run_callbacks asserting for conditions.
   #
-  # source://warden//lib/warden/hooks.rb#7
+  # pkg:gem/warden#lib/warden/hooks.rb:7
   def _run_callbacks(kind, *args); end
 
   # after_authentication is just a wrapper to after_set_user, which is only invoked
@@ -167,7 +163,7 @@ module Warden::Hooks
   #
   # :api: public
   #
-  # source://warden//lib/warden/hooks.rb#76
+  # pkg:gem/warden#lib/warden/hooks.rb:76
   def after_authentication(options = T.unsafe(nil), method = T.unsafe(nil), &block); end
 
   # A callback that runs if no user could be fetched, meaning there is now no user logged in.
@@ -188,9 +184,7 @@ module Warden::Hooks
   #
   # :api: public
   #
-  # @raise [BlockNotGiven]
-  #
-  # source://warden//lib/warden/hooks.rb#138
+  # pkg:gem/warden#lib/warden/hooks.rb:138
   def after_failed_fetch(options = T.unsafe(nil), method = T.unsafe(nil), &block); end
 
   # after_fetch is just a wrapper to after_set_user, which is only invoked
@@ -199,7 +193,7 @@ module Warden::Hooks
   #
   # :api: public
   #
-  # source://warden//lib/warden/hooks.rb#85
+  # pkg:gem/warden#lib/warden/hooks.rb:85
   def after_fetch(options = T.unsafe(nil), method = T.unsafe(nil), &block); end
 
   # A callback hook set to run every time after a user is set.
@@ -237,9 +231,7 @@ module Warden::Hooks
   #
   # :api: public
   #
-  # @raise [BlockNotGiven]
-  #
-  # source://warden//lib/warden/hooks.rb#53
+  # pkg:gem/warden#lib/warden/hooks.rb:53
   def after_set_user(options = T.unsafe(nil), method = T.unsafe(nil), &block); end
 
   # A callback that runs just prior to the failure application being called.
@@ -264,9 +256,7 @@ module Warden::Hooks
   #
   # :api: public
   #
-  # @raise [BlockNotGiven]
-  #
-  # source://warden//lib/warden/hooks.rb#110
+  # pkg:gem/warden#lib/warden/hooks.rb:110
   def before_failure(options = T.unsafe(nil), method = T.unsafe(nil), &block); end
 
   # A callback that runs just prior to the logout of each scope.
@@ -287,9 +277,7 @@ module Warden::Hooks
   #
   # :api: public
   #
-  # @raise [BlockNotGiven]
-  #
-  # source://warden//lib/warden/hooks.rb#166
+  # pkg:gem/warden#lib/warden/hooks.rb:166
   def before_logout(options = T.unsafe(nil), method = T.unsafe(nil), &block); end
 
   # A callback that runs on each request, just after the proxy is initialized
@@ -307,27 +295,25 @@ module Warden::Hooks
   #
   # :api: public
   #
-  # @raise [BlockNotGiven]
-  #
-  # source://warden//lib/warden/hooks.rb#191
+  # pkg:gem/warden#lib/warden/hooks.rb:191
   def on_request(options = T.unsafe(nil), method = T.unsafe(nil), &block); end
 
-  # source://warden//lib/warden/hooks.rb#205
+  # pkg:gem/warden#lib/warden/hooks.rb:205
   def prepend_after_authentication(options = T.unsafe(nil), &block); end
 
-  # source://warden//lib/warden/hooks.rb#205
+  # pkg:gem/warden#lib/warden/hooks.rb:205
   def prepend_after_fetch(options = T.unsafe(nil), &block); end
 
-  # source://warden//lib/warden/hooks.rb#205
+  # pkg:gem/warden#lib/warden/hooks.rb:205
   def prepend_after_set_user(options = T.unsafe(nil), &block); end
 
-  # source://warden//lib/warden/hooks.rb#205
+  # pkg:gem/warden#lib/warden/hooks.rb:205
   def prepend_before_failure(options = T.unsafe(nil), &block); end
 
-  # source://warden//lib/warden/hooks.rb#205
+  # pkg:gem/warden#lib/warden/hooks.rb:205
   def prepend_before_logout(options = T.unsafe(nil), &block); end
 
-  # source://warden//lib/warden/hooks.rb#205
+  # pkg:gem/warden#lib/warden/hooks.rb:205
   def prepend_on_request(options = T.unsafe(nil), &block); end
 end
 
@@ -336,7 +322,7 @@ end
 # The middleware injects an authentication object into
 # the rack environment hash
 #
-# source://warden//lib/warden/manager.rb#11
+# pkg:gem/warden#lib/warden/manager.rb:11
 class Warden::Manager
   extend ::Warden::Hooks
 
@@ -344,34 +330,25 @@ class Warden::Manager
   # configure the Warden::Manager.
   # :api: public
   #
-  # @return [Manager] a new instance of Manager
-  # @yield [@config]
-  #
-  # source://warden//lib/warden/manager.rb#19
+  # pkg:gem/warden#lib/warden/manager.rb:19
   def initialize(app, options = T.unsafe(nil)); end
 
   # :api: private
   #
-  # source://warden//lib/warden/manager.rb#51
+  # pkg:gem/warden#lib/warden/manager.rb:51
   def _run_callbacks(*args); end
 
   # Invoke the application guarding for throw :warden.
   # If this is downstream from another warden instance, don't do anything.
   # :api: private
   #
-  # source://warden//lib/warden/manager.rb#30
+  # pkg:gem/warden#lib/warden/manager.rb:30
   def call(env); end
 
-  # Returns the value of attribute config.
-  #
-  # source://warden//lib/warden/manager.rb#14
+  # pkg:gem/warden#lib/warden/manager.rb:14
   def config; end
 
-  # Sets the attribute config
-  #
-  # @param value the value to set the attribute config to.
-  #
-  # source://warden//lib/warden/manager.rb#14
+  # pkg:gem/warden#lib/warden/manager.rb:14
   def config=(_arg0); end
 
   private
@@ -380,22 +357,20 @@ class Warden::Manager
   # The before_failure hooks are run on each failure
   # :api: private
   #
-  # source://warden//lib/warden/manager.rb#136
+  # pkg:gem/warden#lib/warden/manager.rb:136
   def call_failure_app(env, options = T.unsafe(nil)); end
 
-  # source://warden//lib/warden/manager.rb#97
+  # pkg:gem/warden#lib/warden/manager.rb:97
   def handle_chain_result(status, result, env); end
 
-  # @return [Boolean]
-  #
-  # source://warden//lib/warden/manager.rb#105
+  # pkg:gem/warden#lib/warden/manager.rb:105
   def intercept_401?(env); end
 
   # When a request is unauthenticated, here's where the processing occurs.
   # It looks at the result of the proxy to see if it's been executed and what action to take.
   # :api: private
   #
-  # source://warden//lib/warden/manager.rb#112
+  # pkg:gem/warden#lib/warden/manager.rb:112
   def process_unauthenticated(env, options = T.unsafe(nil)); end
 
   class << self
@@ -410,7 +385,7 @@ class Warden::Manager
     #
     # :api: public
     #
-    # source://warden//lib/warden/manager.rb#84
+    # pkg:gem/warden#lib/warden/manager.rb:84
     def serialize_from_session(scope = T.unsafe(nil), &block); end
 
     # Prepares the user to serialize into the session.
@@ -427,76 +402,69 @@ class Warden::Manager
     #
     # :api: public
     #
-    # source://warden//lib/warden/manager.rb#69
+    # pkg:gem/warden#lib/warden/manager.rb:69
     def serialize_into_session(scope = T.unsafe(nil), &block); end
   end
 end
 
-# source://warden//lib/warden/mixins/common.rb#4
+# pkg:gem/warden#lib/warden/mixins/common.rb:4
 module Warden::Mixins; end
 
-# source://warden//lib/warden/mixins/common.rb#5
+# pkg:gem/warden#lib/warden/mixins/common.rb:5
 module Warden::Mixins::Common
   # Convenience method to access the rack request params
   # :api: public
   #
-  # source://warden//lib/warden/mixins/common.rb#32
+  # pkg:gem/warden#lib/warden/mixins/common.rb:32
   def params; end
 
-  # Convenience method to access the session
-  # :api: public
   # Alias :session to :raw_session since the former will be user API for storing scoped data.
   #
-  # source://warden//lib/warden/mixins/common.rb#14
+  # pkg:gem/warden#lib/warden/mixins/common.rb:14
   def raw_session; end
 
   # Convenience method to access the rack request.
   # :api: public
   #
-  # source://warden//lib/warden/mixins/common.rb#18
+  # pkg:gem/warden#lib/warden/mixins/common.rb:18
   def request; end
 
   # Resets the session.  By using this non-hash like sessions can
   # be cleared by overwriting this method in a plugin
-  #
   # @api overwritable
   #
-  # source://warden//lib/warden/mixins/common.rb#39
+  # pkg:gem/warden#lib/warden/mixins/common.rb:39
   def reset_session!; end
 
   # Convenience method to access the session
   # :api: public
   #
-  # source://warden//lib/warden/mixins/common.rb#9
+  # pkg:gem/warden#lib/warden/mixins/common.rb:9
   def session; end
 
   # Provides a warden repository for cookies. Those are sent to the client
   # when the response is streamed back from the app.
   # :api: public
   #
-  # source://warden//lib/warden/mixins/common.rb#25
+  # pkg:gem/warden#lib/warden/mixins/common.rb:25
   def warden_cookies; end
 end
 
-# source://warden//lib/warden.rb#14
+# pkg:gem/warden#lib/warden.rb:14
 class Warden::NotAuthenticated < ::StandardError; end
 
-# source://warden//lib/warden/proxy.rb#7
+# pkg:gem/warden#lib/warden/proxy.rb:7
 class Warden::Proxy
   include ::Warden::Mixins::Common
   extend ::Forwardable
 
-  # @return [Proxy] a new instance of Proxy
-  #
-  # source://warden//lib/warden/proxy.rb#28
+  # pkg:gem/warden#lib/warden/proxy.rb:28
   def initialize(env, manager); end
 
   # Check to see if this is an asset request
   # :api: public
   #
-  # @return [Boolean]
-  #
-  # source://warden//lib/warden/proxy.rb#314
+  # pkg:gem/warden#lib/warden/proxy.rb:314
   def asset_request?; end
 
   # Run the authentication strategies for the given strategies.
@@ -513,7 +481,7 @@ class Warden::Proxy
   #
   # :api: public
   #
-  # source://warden//lib/warden/proxy.rb#109
+  # pkg:gem/warden#lib/warden/proxy.rb:109
   def authenticate(*args); end
 
   # The same as +authenticate+ except on failure it will throw an :warden symbol causing the request to be halted
@@ -524,7 +492,7 @@ class Warden::Proxy
   #
   # :api: public
   #
-  # source://warden//lib/warden/proxy.rb#132
+  # pkg:gem/warden#lib/warden/proxy.rb:132
   def authenticate!(*args); end
 
   # Same API as authenticate, but returns a boolean instead of a user.
@@ -533,9 +501,7 @@ class Warden::Proxy
   # authenticated, and the second relies on already performed ones.
   # :api: public
   #
-  # @return [Boolean]
-  #
-  # source://warden//lib/warden/proxy.rb#119
+  # pkg:gem/warden#lib/warden/proxy.rb:119
   def authenticate?(*args); end
 
   # Check to see if there is an authenticated user for the given scope.
@@ -550,9 +516,7 @@ class Warden::Proxy
   #
   # :api: public
   #
-  # @return [Boolean]
-  #
-  # source://warden//lib/warden/proxy.rb#149
+  # pkg:gem/warden#lib/warden/proxy.rb:149
   def authenticated?(scope = T.unsafe(nil)); end
 
   # Clear the cache of performed strategies so far. Warden runs each
@@ -579,52 +543,50 @@ class Warden::Proxy
   #
   # :api: public
   #
-  # source://warden//lib/warden/proxy.rb#77
+  # pkg:gem/warden#lib/warden/proxy.rb:77
   def clear_strategies_cache!(*args); end
 
   # An accessor to the rack env hash, the proxy owner and its config
   # :api: public
   #
-  # source://warden//lib/warden/proxy.rb#14
+  # pkg:gem/warden#lib/warden/proxy.rb:14
   def config; end
 
   # Provides a way to return a 401 without warden deferring to the failure app
   # The result is a direct passthrough of your own response
   # :api: public
   #
-  # source://warden//lib/warden/proxy.rb#298
+  # pkg:gem/warden#lib/warden/proxy.rb:298
   def custom_failure!; end
 
   # Check to see if the custom failure flag has been set
   # :api: public
   #
-  # @return [Boolean]
-  #
-  # source://warden//lib/warden/proxy.rb#304
+  # pkg:gem/warden#lib/warden/proxy.rb:304
   def custom_failure?; end
 
-  # source://warden//lib/warden/proxy.rb#23
+  # pkg:gem/warden#lib/warden/proxy.rb:23
   def custom_response(*_arg0, **_arg1, &_arg2); end
 
-  # source://warden//lib/warden/proxy.rb#26
+  # pkg:gem/warden#lib/warden/proxy.rb:26
   def default_strategies(*_arg0, **_arg1, &_arg2); end
 
   # An accessor to the rack env hash, the proxy owner and its config
   # :api: public
   #
-  # source://warden//lib/warden/proxy.rb#14
+  # pkg:gem/warden#lib/warden/proxy.rb:14
   def env; end
 
   # Lazily initiate errors object in session.
   # :api: public
   #
-  # source://warden//lib/warden/proxy.rb#42
+  # pkg:gem/warden#lib/warden/proxy.rb:42
   def errors; end
 
-  # source://warden//lib/warden/proxy.rb#23
+  # pkg:gem/warden#lib/warden/proxy.rb:23
   def headers(*_arg0, **_arg1, &_arg2); end
 
-  # source://warden//lib/warden/proxy.rb#318
+  # pkg:gem/warden#lib/warden/proxy.rb:318
   def inspect(*args); end
 
   # Locks the proxy so new users cannot authenticate during the
@@ -634,7 +596,7 @@ class Warden::Proxy
   #
   # :api: public
   #
-  # source://warden//lib/warden/proxy.rb#92
+  # pkg:gem/warden#lib/warden/proxy.rb:92
   def lock!; end
 
   # Provides logout functionality.
@@ -655,31 +617,31 @@ class Warden::Proxy
   #
   # :api: public
   #
-  # source://warden//lib/warden/proxy.rb#266
+  # pkg:gem/warden#lib/warden/proxy.rb:266
   def logout(*scopes); end
 
   # An accessor to the rack env hash, the proxy owner and its config
   # :api: public
   #
-  # source://warden//lib/warden/proxy.rb#14
+  # pkg:gem/warden#lib/warden/proxy.rb:14
   def manager; end
 
   # Proxy through to the authentication strategy to find out the message that was generated.
   # :api: public
   #
-  # source://warden//lib/warden/proxy.rb#291
+  # pkg:gem/warden#lib/warden/proxy.rb:291
   def message; end
 
   # Run the on_request callbacks
   # :api: private
   #
-  # source://warden//lib/warden/proxy.rb#36
+  # pkg:gem/warden#lib/warden/proxy.rb:36
   def on_request; end
 
   # proxy methods through to the winning strategy
   # :api: private
   #
-  # source://warden//lib/warden/proxy.rb#285
+  # pkg:gem/warden#lib/warden/proxy.rb:285
   def result; end
 
   # Provides a scoped session data for authenticated users.
@@ -694,9 +656,7 @@ class Warden::Proxy
   #
   # :api: public
   #
-  # @raise [NotAuthenticated]
-  #
-  # source://warden//lib/warden/proxy.rb#244
+  # pkg:gem/warden#lib/warden/proxy.rb:244
   def session(scope = T.unsafe(nil)); end
 
   # Points to a SessionSerializer instance responsible for handling
@@ -704,7 +664,7 @@ class Warden::Proxy
   # session.
   # :api: public
   #
-  # source://warden//lib/warden/proxy.rb#50
+  # pkg:gem/warden#lib/warden/proxy.rb:50
   def session_serializer; end
 
   # Manually set the user into the session and auth proxy
@@ -715,21 +675,19 @@ class Warden::Proxy
   #
   # :api: public
   #
-  # source://warden//lib/warden/proxy.rb#170
+  # pkg:gem/warden#lib/warden/proxy.rb:170
   def set_user(user, opts = T.unsafe(nil)); end
 
-  # source://warden//lib/warden/proxy.rb#23
+  # pkg:gem/warden#lib/warden/proxy.rb:23
   def status(*_arg0, **_arg1, &_arg2); end
 
-  # source://warden//lib/warden/proxy.rb#322
+  # pkg:gem/warden#lib/warden/proxy.rb:322
   def to_s(*args); end
 
   # Same API as authenticated?, but returns false when authenticated.
   # :api: public
   #
-  # @return [Boolean]
-  #
-  # source://warden//lib/warden/proxy.rb#157
+  # pkg:gem/warden#lib/warden/proxy.rb:157
   def unauthenticated?(scope = T.unsafe(nil)); end
 
   # Provides access to the user object in a given scope for a request.
@@ -754,197 +712,172 @@ class Warden::Proxy
   #
   # :api: public
   #
-  # source://warden//lib/warden/proxy.rb#217
+  # pkg:gem/warden#lib/warden/proxy.rb:217
   def user(argument = T.unsafe(nil)); end
 
   # An accessor to the rack env hash, the proxy owner and its config
   # :api: public
   #
-  # source://warden//lib/warden/proxy.rb#14
+  # pkg:gem/warden#lib/warden/proxy.rb:14
   def winning_strategies; end
 
   # An accessor to the winning strategy
   # :api: private
   #
-  # source://warden//lib/warden/proxy.rb#10
+  # pkg:gem/warden#lib/warden/proxy.rb:10
   def winning_strategy; end
 
   # An accessor to the winning strategy
   # :api: private
   #
-  # source://warden//lib/warden/proxy.rb#10
+  # pkg:gem/warden#lib/warden/proxy.rb:10
   def winning_strategy=(_arg0); end
 
   private
 
   # Fetches strategies and keep them in a hash cache.
   #
-  # source://warden//lib/warden/proxy.rb#379
+  # pkg:gem/warden#lib/warden/proxy.rb:379
   def _fetch_strategy(name, scope); end
 
-  # source://warden//lib/warden/proxy.rb#328
+  # pkg:gem/warden#lib/warden/proxy.rb:328
   def _perform_authentication(*args); end
 
-  # source://warden//lib/warden/proxy.rb#345
+  # pkg:gem/warden#lib/warden/proxy.rb:345
   def _retrieve_scope_and_opts(args); end
 
   # Run the strategies for a given scope
   #
-  # source://warden//lib/warden/proxy.rb#353
+  # pkg:gem/warden#lib/warden/proxy.rb:353
   def _run_strategies_for(scope, args); end
 
   # Updates the winning strategy for a given scope
   #
-  # source://warden//lib/warden/proxy.rb#390
+  # pkg:gem/warden#lib/warden/proxy.rb:390
   def _update_winning_strategy(strategy, scope); end
 end
 
-# source://warden//lib/warden/proxy.rb#20
+# pkg:gem/warden#lib/warden/proxy.rb:20
 Warden::Proxy::ENV_SESSION_OPTIONS = T.let(T.unsafe(nil), String)
 
-# source://warden//lib/warden/proxy.rb#19
+# pkg:gem/warden#lib/warden/proxy.rb:19
 Warden::Proxy::ENV_WARDEN_ERRORS = T.let(T.unsafe(nil), String)
 
 # Lifted from DataMapper's dm-validations plugin :)
-#
 # @author Guy van den Berg
-# @since DM 0.9
+# @since  DM 0.9
 #
-# source://warden//lib/warden/errors.rb#8
+# pkg:gem/warden#lib/warden/errors.rb:8
 class Warden::Proxy::Errors
   include ::Enumerable
 
   # Add a authentication error. Use the field_name :general if the errors does
   # not apply to a specific field of the Resource.
   #
-  # @param field_name [Symbol] the name of the field that caused the error
-  # @param message [String] the message to add
-  # @since DM 0.9
+  # @param <Symbol> field_name the name of the field that caused the error
+  # @param <String> message    the message to add
   #
-  # source://warden//lib/warden/errors.rb#22
+  # pkg:gem/warden#lib/warden/errors.rb:22
   def add(field_name, message); end
 
   # Clear existing authentication errors.
   #
-  # @since DM 0.9
-  #
-  # source://warden//lib/warden/errors.rb#13
+  # pkg:gem/warden#lib/warden/errors.rb:13
   def clear!; end
 
-  # @since DM 0.9
-  #
-  # source://warden//lib/warden/errors.rb#41
+  # pkg:gem/warden#lib/warden/errors.rb:41
   def each; end
 
-  # @return [Boolean]
-  # @since DM 0.9
-  #
-  # source://warden//lib/warden/errors.rb#48
+  # pkg:gem/warden#lib/warden/errors.rb:48
   def empty?; end
 
   # Collect all errors into a single list.
   #
-  # @since DM 0.9
-  #
-  # source://warden//lib/warden/errors.rb#27
+  # pkg:gem/warden#lib/warden/errors.rb:27
   def full_messages; end
 
-  # @since DM 0.9
-  #
-  # source://warden//lib/warden/errors.rb#52
+  # pkg:gem/warden#lib/warden/errors.rb:52
   def method_missing(meth, *args, &block); end
 
   # Return authentication errors for a particular field_name.
   #
-  # @param field_name [Symbol] the name of the field you want an error for
-  # @since DM 0.9
+  # @param <Symbol> field_name the name of the field you want an error for
   #
-  # source://warden//lib/warden/errors.rb#36
+  # pkg:gem/warden#lib/warden/errors.rb:36
   def on(field_name); end
 
   private
 
-  # @return [Boolean]
-  # @since DM 0.9
-  #
-  # source://warden//lib/warden/errors.rb#61
+  # pkg:gem/warden#lib/warden/errors.rb:61
   def blank?(thing); end
 
-  # @since DM 0.9
-  #
-  # source://warden//lib/warden/errors.rb#57
+  # pkg:gem/warden#lib/warden/errors.rb:57
   def errors; end
 end
 
-# source://warden//lib/warden/session_serializer.rb#4
+# pkg:gem/warden#lib/warden/session_serializer.rb:4
 class Warden::SessionSerializer
-  # @return [SessionSerializer] a new instance of SessionSerializer
-  #
-  # source://warden//lib/warden/session_serializer.rb#7
+  # pkg:gem/warden#lib/warden/session_serializer.rb:7
   def initialize(env); end
 
-  # source://warden//lib/warden/session_serializer.rb#44
+  # pkg:gem/warden#lib/warden/session_serializer.rb:44
   def delete(scope, user = T.unsafe(nil)); end
 
-  # source://warden//lib/warden/session_serializer.rb#19
+  # pkg:gem/warden#lib/warden/session_serializer.rb:19
   def deserialize(key); end
 
-  # Returns the value of attribute env.
-  #
-  # source://warden//lib/warden/session_serializer.rb#5
+  # pkg:gem/warden#lib/warden/session_serializer.rb:5
   def env; end
 
-  # source://warden//lib/warden/session_serializer.rb#30
+  # pkg:gem/warden#lib/warden/session_serializer.rb:30
   def fetch(scope); end
 
-  # source://warden//lib/warden/session_serializer.rb#11
+  # pkg:gem/warden#lib/warden/session_serializer.rb:11
   def key_for(scope); end
 
-  # source://warden//lib/warden/session_serializer.rb#15
+  # pkg:gem/warden#lib/warden/session_serializer.rb:15
   def serialize(user); end
 
   # We can't cache this result because the session can be lazy loaded
   #
-  # source://warden//lib/warden/session_serializer.rb#49
+  # pkg:gem/warden#lib/warden/session_serializer.rb:49
   def session; end
 
-  # source://warden//lib/warden/session_serializer.rb#23
+  # pkg:gem/warden#lib/warden/session_serializer.rb:23
   def store(user, scope); end
 
-  # @return [Boolean]
-  #
-  # source://warden//lib/warden/session_serializer.rb#40
+  # pkg:gem/warden#lib/warden/session_serializer.rb:40
   def stored?(scope); end
 end
 
-# source://warden//lib/warden/strategies.rb#4
+# pkg:gem/warden#lib/warden/strategies.rb:4
 module Warden::Strategies
   class << self
     # Provides access to strategies by label
     # :api: public
     #
-    # source://warden//lib/warden/strategies.rb#32
+    # pkg:gem/warden#lib/warden/strategies.rb:32
     def [](label); end
 
     # :api: private
     #
-    # source://warden//lib/warden/strategies.rb#43
+    # pkg:gem/warden#lib/warden/strategies.rb:43
     def _strategies; end
 
     # Add a strategy and store it in a hash.
     #
-    # source://warden//lib/warden/strategies.rb#7
+    # pkg:gem/warden#lib/warden/strategies.rb:7
     def add(label, strategy = T.unsafe(nil), &block); end
 
     # Clears all declared.
     # :api: public
     #
-    # source://warden//lib/warden/strategies.rb#38
+    # pkg:gem/warden#lib/warden/strategies.rb:38
     def clear!; end
 
     # Update a previously given strategy.
     #
-    # source://warden//lib/warden/strategies.rb#24
+    # pkg:gem/warden#lib/warden/strategies.rb:24
     def update(label, &block); end
   end
 end
@@ -975,60 +908,58 @@ end
 #    Class Declared Strategy:
 #      Warden::Strategies.add(:foo, MyStrategy)
 #
-# source://warden//lib/warden/strategies/base.rb#31
+# pkg:gem/warden#lib/warden/strategies/base.rb:31
 class Warden::Strategies::Base
   include ::Warden::Mixins::Common
 
   # :api: private
   #
-  # @return [Base] a new instance of Base
-  #
-  # source://warden//lib/warden/strategies/base.rb#44
+  # pkg:gem/warden#lib/warden/strategies/base.rb:44
   def initialize(env, scope = T.unsafe(nil)); end
 
   # The method that is called from above. This method calls the underlying authenticate! method
   # :api: private
   #
-  # source://warden//lib/warden/strategies/base.rb#53
+  # pkg:gem/warden#lib/warden/strategies/base.rb:53
   def _run!; end
 
   # Marks this strategy as not performed.
   # :api: private
   #
-  # source://warden//lib/warden/strategies/base.rb#67
+  # pkg:gem/warden#lib/warden/strategies/base.rb:67
   def clear!; end
 
   # Return a custom rack array.  You must throw an :warden symbol to activate this
   # :api: public
   #
-  # source://warden//lib/warden/strategies/base.rb#174
+  # pkg:gem/warden#lib/warden/strategies/base.rb:174
   def custom!(response); end
 
   # :api: private
   #
-  # source://warden//lib/warden/strategies/base.rb#36
+  # pkg:gem/warden#lib/warden/strategies/base.rb:36
   def custom_response; end
 
   # :api: private
   #
-  # source://warden//lib/warden/strategies/base.rb#36
+  # pkg:gem/warden#lib/warden/strategies/base.rb:36
   def custom_response=(_arg0); end
 
   # :api: public
   #
-  # source://warden//lib/warden/strategies/base.rb#39
+  # pkg:gem/warden#lib/warden/strategies/base.rb:39
   def env; end
 
   # Access to the errors object.
   # :api: public
   #
-  # source://warden//lib/warden/strategies/base.rb#87
+  # pkg:gem/warden#lib/warden/strategies/base.rb:87
   def errors; end
 
   # Causes the strategy to fail, but not halt.  The strategies will cascade after this failure and warden will check the next strategy.  The last strategy to fail will have it's message displayed.
   # :api: public
   #
-  # source://warden//lib/warden/strategies/base.rb#145
+  # pkg:gem/warden#lib/warden/strategies/base.rb:145
   def fail(message = T.unsafe(nil)); end
 
   # This causes the strategy to fail.  It does not throw an :warden symbol to drop the request out to the failure application
@@ -1036,51 +967,47 @@ class Warden::Strategies::Base
   # Halts the strategies so that this is the last strategy checked
   # :api: public
   #
-  # source://warden//lib/warden/strategies/base.rb#137
+  # pkg:gem/warden#lib/warden/strategies/base.rb:137
   def fail!(message = T.unsafe(nil)); end
 
   # Cause the processing of the strategies to stop and cascade no further
   # :api: public
   #
-  # source://warden//lib/warden/strategies/base.rb#93
+  # pkg:gem/warden#lib/warden/strategies/base.rb:93
   def halt!; end
 
   # Checks to see if a strategy was halted
   # :api: public
   #
-  # @return [Boolean]
-  #
-  # source://warden//lib/warden/strategies/base.rb#99
+  # pkg:gem/warden#lib/warden/strategies/base.rb:99
   def halted?; end
 
   # Provides access to the headers hash for setting custom headers
   # :api: public
   #
-  # source://warden//lib/warden/strategies/base.rb#79
+  # pkg:gem/warden#lib/warden/strategies/base.rb:79
   def headers(header = T.unsafe(nil)); end
 
   # :api: public
   #
-  # source://warden//lib/warden/strategies/base.rb#33
+  # pkg:gem/warden#lib/warden/strategies/base.rb:33
   def message; end
 
   # :api: public
   #
-  # source://warden//lib/warden/strategies/base.rb#33
+  # pkg:gem/warden#lib/warden/strategies/base.rb:33
   def message=(_arg0); end
 
   # A simple method to return from authenticate! if you want to ignore this strategy
   # :api: public
   #
-  # source://warden//lib/warden/strategies/base.rb#111
+  # pkg:gem/warden#lib/warden/strategies/base.rb:111
   def pass; end
 
   # Returns if this strategy was already performed.
   # :api: private
   #
-  # @return [Boolean]
-  #
-  # source://warden//lib/warden/strategies/base.rb#61
+  # pkg:gem/warden#lib/warden/strategies/base.rb:61
   def performed?; end
 
   # Causes the authentication to redirect.  An :warden symbol must be thrown to actually execute this redirect
@@ -1093,35 +1020,33 @@ class Warden::Strategies::Base
   #
   # :api: public
   #
-  # source://warden//lib/warden/strategies/base.rb#159
+  # pkg:gem/warden#lib/warden/strategies/base.rb:159
   def redirect!(url, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
   # :api: private
   #
-  # source://warden//lib/warden/strategies/base.rb#36
+  # pkg:gem/warden#lib/warden/strategies/base.rb:36
   def result; end
 
   # :api: private
   #
-  # source://warden//lib/warden/strategies/base.rb#36
+  # pkg:gem/warden#lib/warden/strategies/base.rb:36
   def result=(_arg0); end
 
   # :api: public
   #
-  # source://warden//lib/warden/strategies/base.rb#39
+  # pkg:gem/warden#lib/warden/strategies/base.rb:39
   def scope; end
 
   # :api: public
   #
-  # source://warden//lib/warden/strategies/base.rb#39
+  # pkg:gem/warden#lib/warden/strategies/base.rb:39
   def status; end
 
   # Checks to see if a strategy should result in a permanent login
   # :api: public
   #
-  # @return [Boolean]
-  #
-  # source://warden//lib/warden/strategies/base.rb#105
+  # pkg:gem/warden#lib/warden/strategies/base.rb:105
   def store?; end
 
   # Whenever you want to provide a user object as "authenticated" use the +success!+ method.
@@ -1133,24 +1058,22 @@ class Warden::Strategies::Base
   #
   # :api: public
   #
-  # source://warden//lib/warden/strategies/base.rb#126
+  # pkg:gem/warden#lib/warden/strategies/base.rb:126
   def success!(user, message = T.unsafe(nil)); end
 
   # Returns true only if the result is a success and a user was assigned.
   #
-  # @return [Boolean]
-  #
-  # source://warden//lib/warden/strategies/base.rb#114
+  # pkg:gem/warden#lib/warden/strategies/base.rb:114
   def successful?; end
 
   # :api: public
   #
-  # source://warden//lib/warden/strategies/base.rb#33
+  # pkg:gem/warden#lib/warden/strategies/base.rb:33
   def user; end
 
   # :api: public
   #
-  # source://warden//lib/warden/strategies/base.rb#33
+  # pkg:gem/warden#lib/warden/strategies/base.rb:33
   def user=(_arg0); end
 
   # Acts as a guarding method for the strategy.
@@ -1158,44 +1081,38 @@ class Warden::Strategies::Base
   # Overwrite with your own logic
   # :api: overwritable
   #
-  # @return [Boolean]
-  #
-  # source://warden//lib/warden/strategies/base.rb#75
+  # pkg:gem/warden#lib/warden/strategies/base.rb:75
   def valid?; end
 end
 
-# source://warden//lib/warden.rb#16
+# pkg:gem/warden#lib/warden.rb:16
 module Warden::Test; end
 
 # A collection of test helpers for testing full stack rack applications using Warden
 # These provide the ability to login and logout on any given request
 # Note: During the teardown phase of your specs you should include: Warden.test_reset!
 #
-# source://warden//lib/warden/test/helpers.rb#9
+# pkg:gem/warden#lib/warden/test/helpers.rb:9
 module Warden::Test::Helpers
   # A helper method that will perform a login of a user in warden for the next request.
   # Provide it the same options as you would to Warden::Proxy#set_user
-  #
-  # @api public
   # @see Warden::Proxy#set_user
+  # @api public
   #
-  # source://warden//lib/warden/test/helpers.rb#18
+  # pkg:gem/warden#lib/warden/test/helpers.rb:18
   def login_as(user, opts = T.unsafe(nil)); end
 
   # Logs out a user from the session.
   # Without arguments, all users will be logged out
   # Provide a list of scopes to only log out users with that scope.
-  #
-  # @api public
   # @see Warden::Proxy#logout
+  # @api public
   #
-  # source://warden//lib/warden/test/helpers.rb#30
+  # pkg:gem/warden#lib/warden/test/helpers.rb:30
   def logout(*scopes); end
 
   class << self
-    # @private
-    #
-    # source://warden//lib/warden/test/helpers.rb#10
+    # pkg:gem/warden#lib/warden/test/helpers.rb:10
     def included(_base); end
   end
 end
@@ -1203,95 +1120,79 @@ end
 # A mock of an application to get a Warden object to test on
 # Note: During the teardown phase of your specs you should include: Warden.test_reset!
 #
-# source://warden//lib/warden/test/mock.rb#10
+# pkg:gem/warden#lib/warden/test/mock.rb:10
 module Warden::Test::Mock
   # A helper method that provides the warden object by mocking the env variable.
-  #
   # @api public
   #
-  # source://warden//lib/warden/test/mock.rb#17
+  # pkg:gem/warden#lib/warden/test/mock.rb:17
   def warden; end
 
   private
 
-  # source://warden//lib/warden/test/mock.rb#37
+  # pkg:gem/warden#lib/warden/test/mock.rb:37
   def app; end
 
-  # source://warden//lib/warden/test/mock.rb#25
+  # pkg:gem/warden#lib/warden/test/mock.rb:25
   def env; end
 
   class << self
-    # @private
-    #
-    # source://warden//lib/warden/test/mock.rb#11
+    # pkg:gem/warden#lib/warden/test/mock.rb:11
     def included(_base); end
   end
 end
 
-# source://warden//lib/warden/test/mock.rb#56
+# pkg:gem/warden#lib/warden/test/mock.rb:56
 class Warden::Test::Mock::Session
-  # @return [Session] a new instance of Session
-  #
-  # source://warden//lib/warden/test/mock.rb#58
+  # pkg:gem/warden#lib/warden/test/mock.rb:58
   def initialize(app, _configs = T.unsafe(nil)); end
 
-  # Returns the value of attribute app.
-  #
-  # source://warden//lib/warden/test/mock.rb#57
+  # pkg:gem/warden#lib/warden/test/mock.rb:57
   def app; end
 
-  # Sets the attribute app
-  #
-  # @param value the value to set the attribute app to.
-  #
-  # source://warden//lib/warden/test/mock.rb#57
+  # pkg:gem/warden#lib/warden/test/mock.rb:57
   def app=(_arg0); end
 
-  # source://warden//lib/warden/test/mock.rb#62
+  # pkg:gem/warden#lib/warden/test/mock.rb:62
   def call(e); end
 end
 
-# source://warden//lib/warden/test/warden_helpers.rb#7
+# pkg:gem/warden#lib/warden/test/warden_helpers.rb:7
 module Warden::Test::WardenHelpers
   # A container for the on_next_request items.
-  #
   # @api private
   #
-  # source://warden//lib/warden/test/warden_helpers.rb#38
+  # pkg:gem/warden#lib/warden/test/warden_helpers.rb:38
   def _on_next_request; end
 
   # Returns list of regex objects that match paths expected to be an asset
-  #
-  # @api public
   # @see Warden::Proxy#asset_request?
+  # @api public
   #
-  # source://warden//lib/warden/test/warden_helpers.rb#11
+  # pkg:gem/warden#lib/warden/test/warden_helpers.rb:11
   def asset_paths; end
 
   # Sets list of regex objects that match paths expected to be an asset
-  #
-  # @api public
   # @see Warden::Proxy#asset_request?
+  # @api public
   #
-  # source://warden//lib/warden/test/warden_helpers.rb#18
+  # pkg:gem/warden#lib/warden/test/warden_helpers.rb:18
   def asset_paths=(*vals); end
 
   # Adds a block to be executed on the next request when the stack reaches warden.
   # The warden proxy is yielded to the block
-  #
   # @api public
   #
-  # source://warden//lib/warden/test/warden_helpers.rb#25
+  # pkg:gem/warden#lib/warden/test/warden_helpers.rb:25
   def on_next_request(&blk); end
 
   # resets wardens tests
   # any blocks queued to execute will be removed
-  #
   # @api public
   #
-  # source://warden//lib/warden/test/warden_helpers.rb#32
+  # pkg:gem/warden#lib/warden/test/warden_helpers.rb:32
   def test_reset!; end
 end
 
-# source://warden//lib/warden/proxy.rb#5
+# pkg:gem/warden#lib/warden/proxy.rb:5
 class Warden::UserNotSet < ::RuntimeError; end

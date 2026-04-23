@@ -11,8 +11,35 @@
 #
 # The OpenTelemetry module provides global accessors for telemetry objects.
 # See the documentation for the `opentelemetry-api` gem for details.
+# Copyright The OpenTelemetry Authors
 #
-# source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation.rb#13
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+# pkg:gem/opentelemetry-instrumentation-faraday#lib/opentelemetry/instrumentation.rb:13
 module OpenTelemetry; end
 
 # "Instrumentation" are specified by
@@ -20,141 +47,104 @@ module OpenTelemetry; end
 #
 # Instrumentation should be able to handle the case when the library is not installed on a user's system.
 #
-# source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation.rb#18
+# pkg:gem/opentelemetry-instrumentation-faraday#lib/opentelemetry/instrumentation.rb:18
 module OpenTelemetry::Instrumentation; end
 
 # Contains the OpenTelemetry instrumentation for the Faraday gem
 #
-# source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation/faraday.rb#14
+# pkg:gem/opentelemetry-instrumentation-faraday#lib/opentelemetry/instrumentation/faraday.rb:14
 module OpenTelemetry::Instrumentation::Faraday; end
 
 # Utility module for HTTP-related helper methods
-#
 # @api private
 #
-# source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation/faraday/http_helper.rb#12
+# pkg:gem/opentelemetry-instrumentation-faraday#lib/opentelemetry/instrumentation/faraday/http_helper.rb:12
 module OpenTelemetry::Instrumentation::Faraday::HttpHelper
   private
 
   # Prepares span data using both old and stable semantic conventions
-  #
-  # @api private
   # @param method [String, Symbol] The HTTP method
   # @return [SpanCreationAttributes] struct containing span_name and attributes hash
   #
-  # source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation/faraday/http_helper.rb#109
+  # pkg:gem/opentelemetry-instrumentation-faraday#lib/opentelemetry/instrumentation/faraday/http_helper.rb:109
   def span_attrs_for_dup(method); end
 
   # Prepares span data using old semantic conventions
-  #
-  # @api private
   # @param method [String, Symbol] The HTTP method
   # @return [SpanCreationAttributes] struct containing span_name and attributes hash
   #
-  # source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation/faraday/http_helper.rb#60
+  # pkg:gem/opentelemetry-instrumentation-faraday#lib/opentelemetry/instrumentation/faraday/http_helper.rb:60
   def span_attrs_for_old(method); end
 
   # Prepares span data using stable semantic conventions
-  #
-  # @api private
   # @param method [String, Symbol] The HTTP method
   # @return [SpanCreationAttributes] struct containing span_name and attributes hash
   #
-  # source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation/faraday/http_helper.rb#82
+  # pkg:gem/opentelemetry-instrumentation-faraday#lib/opentelemetry/instrumentation/faraday/http_helper.rb:82
   def span_attrs_for_stable(method); end
 
   class << self
     # Prepares span data using both old and stable semantic conventions
-    #
-    # @api private
     # @param method [String, Symbol] The HTTP method
     # @return [SpanCreationAttributes] struct containing span_name and attributes hash
     #
-    # source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation/faraday/http_helper.rb#109
+    # pkg:gem/opentelemetry-instrumentation-faraday#lib/opentelemetry/instrumentation/faraday/http_helper.rb:109
     def span_attrs_for_dup(method); end
 
     # Prepares span data using old semantic conventions
-    #
-    # @api private
     # @param method [String, Symbol] The HTTP method
     # @return [SpanCreationAttributes] struct containing span_name and attributes hash
     #
-    # source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation/faraday/http_helper.rb#60
+    # pkg:gem/opentelemetry-instrumentation-faraday#lib/opentelemetry/instrumentation/faraday/http_helper.rb:60
     def span_attrs_for_old(method); end
 
     # Prepares span data using stable semantic conventions
-    #
-    # @api private
     # @param method [String, Symbol] The HTTP method
     # @return [SpanCreationAttributes] struct containing span_name and attributes hash
     #
-    # source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation/faraday/http_helper.rb#82
+    # pkg:gem/opentelemetry-instrumentation-faraday#lib/opentelemetry/instrumentation/faraday/http_helper.rb:82
     def span_attrs_for_stable(method); end
   end
 end
 
 # Pre-computed mapping to avoid string allocations during normalization
 #
-# @api private
-#
-# source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation/faraday/http_helper.rb#17
+# pkg:gem/opentelemetry-instrumentation-faraday#lib/opentelemetry/instrumentation/faraday/http_helper.rb:17
 OpenTelemetry::Instrumentation::Faraday::HttpHelper::METHOD_CACHE = T.let(T.unsafe(nil), Hash)
 
-# @api private
-#
-# source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation/faraday/http_helper.rb#49
+# pkg:gem/opentelemetry-instrumentation-faraday#lib/opentelemetry/instrumentation/faraday/http_helper.rb:49
 OpenTelemetry::Instrumentation::Faraday::HttpHelper::OLD_SPAN_NAMES_BY_METHOD = T.let(T.unsafe(nil), Hash)
 
 # Lightweight struct to hold span creation attributes
 #
-# @api private
-#
-# source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation/faraday/http_helper.rb#14
+# pkg:gem/opentelemetry-instrumentation-faraday#lib/opentelemetry/instrumentation/faraday/http_helper.rb:14
 class OpenTelemetry::Instrumentation::Faraday::HttpHelper::SpanCreationAttributes < ::Struct
-  # Returns the value of attribute attributes
-  #
-  # @return [Object] the current value of attributes
-  #
-  # source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation/faraday/http_helper.rb#14
+  # pkg:gem/opentelemetry-instrumentation-faraday#lib/opentelemetry/instrumentation/faraday/http_helper.rb:14
   def attributes; end
 
-  # Sets the attribute attributes
-  #
-  # @param value [Object] the value to set the attribute attributes to.
-  # @return [Object] the newly set value
-  #
-  # source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation/faraday/http_helper.rb#14
+  # pkg:gem/opentelemetry-instrumentation-faraday#lib/opentelemetry/instrumentation/faraday/http_helper.rb:14
   def attributes=(_); end
 
-  # Returns the value of attribute span_name
-  #
-  # @return [Object] the current value of span_name
-  #
-  # source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation/faraday/http_helper.rb#14
+  # pkg:gem/opentelemetry-instrumentation-faraday#lib/opentelemetry/instrumentation/faraday/http_helper.rb:14
   def span_name; end
 
-  # Sets the attribute span_name
-  #
-  # @param value [Object] the value to set the attribute span_name to.
-  # @return [Object] the newly set value
-  #
-  # source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation/faraday/http_helper.rb#14
+  # pkg:gem/opentelemetry-instrumentation-faraday#lib/opentelemetry/instrumentation/faraday/http_helper.rb:14
   def span_name=(_); end
 
   class << self
-    # source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation/faraday/http_helper.rb#14
+    # pkg:gem/opentelemetry-instrumentation-faraday#lib/opentelemetry/instrumentation/faraday/http_helper.rb:14
     def [](*_arg0); end
 
-    # source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation/faraday/http_helper.rb#14
+    # pkg:gem/opentelemetry-instrumentation-faraday#lib/opentelemetry/instrumentation/faraday/http_helper.rb:14
     def inspect; end
 
-    # source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation/faraday/http_helper.rb#14
+    # pkg:gem/opentelemetry-instrumentation-faraday#lib/opentelemetry/instrumentation/faraday/http_helper.rb:14
     def keyword_init?; end
 
-    # source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation/faraday/http_helper.rb#14
+    # pkg:gem/opentelemetry-instrumentation-faraday#lib/opentelemetry/instrumentation/faraday/http_helper.rb:14
     def members; end
 
-    # source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation/faraday/http_helper.rb#14
+    # pkg:gem/opentelemetry-instrumentation-faraday#lib/opentelemetry/instrumentation/faraday/http_helper.rb:14
     def new(*_arg0); end
   end
 end
@@ -162,49 +152,49 @@ end
 # The Instrumentation class contains logic to detect and install the Faraday
 # instrumentation
 #
-# source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation/faraday/instrumentation.rb#12
+# pkg:gem/opentelemetry-instrumentation-faraday#lib/opentelemetry/instrumentation/faraday/instrumentation.rb:12
 class OpenTelemetry::Instrumentation::Faraday::Instrumentation < ::OpenTelemetry::Instrumentation::Base
   private
 
-  # source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation/faraday/instrumentation.rb#40
+  # pkg:gem/opentelemetry-instrumentation-faraday#lib/opentelemetry/instrumentation/faraday/instrumentation.rb:40
   def determine_semconv; end
 
-  # source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation/faraday/instrumentation.rb#55
+  # pkg:gem/opentelemetry-instrumentation-faraday#lib/opentelemetry/instrumentation/faraday/instrumentation.rb:55
   def emit_old_semconv_deprecation_warning(option); end
 
-  # source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation/faraday/instrumentation.rb#36
+  # pkg:gem/opentelemetry-instrumentation-faraday#lib/opentelemetry/instrumentation/faraday/instrumentation.rb:36
   def gem_version; end
 
-  # source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation/faraday/instrumentation.rb#74
+  # pkg:gem/opentelemetry-instrumentation-faraday#lib/opentelemetry/instrumentation/faraday/instrumentation.rb:74
   def register_tracer_middleware_dup; end
 
-  # source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation/faraday/instrumentation.rb#80
+  # pkg:gem/opentelemetry-instrumentation-faraday#lib/opentelemetry/instrumentation/faraday/instrumentation.rb:80
   def register_tracer_middleware_old; end
 
-  # source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation/faraday/instrumentation.rb#86
+  # pkg:gem/opentelemetry-instrumentation-faraday#lib/opentelemetry/instrumentation/faraday/instrumentation.rb:86
   def register_tracer_middleware_stable; end
 
-  # source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation/faraday/instrumentation.rb#59
+  # pkg:gem/opentelemetry-instrumentation-faraday#lib/opentelemetry/instrumentation/faraday/instrumentation.rb:59
   def require_dependencies_dup; end
 
-  # source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation/faraday/instrumentation.rb#64
+  # pkg:gem/opentelemetry-instrumentation-faraday#lib/opentelemetry/instrumentation/faraday/instrumentation.rb:64
   def require_dependencies_old; end
 
-  # source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation/faraday/instrumentation.rb#69
+  # pkg:gem/opentelemetry-instrumentation-faraday#lib/opentelemetry/instrumentation/faraday/instrumentation.rb:69
   def require_dependencies_stable; end
 
-  # source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation/faraday/instrumentation.rb#92
+  # pkg:gem/opentelemetry-instrumentation-faraday#lib/opentelemetry/instrumentation/faraday/instrumentation.rb:92
   def use_middleware_by_default_dup; end
 
-  # source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation/faraday/instrumentation.rb#96
+  # pkg:gem/opentelemetry-instrumentation-faraday#lib/opentelemetry/instrumentation/faraday/instrumentation.rb:96
   def use_middleware_by_default_old; end
 
-  # source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation/faraday/instrumentation.rb#100
+  # pkg:gem/opentelemetry-instrumentation-faraday#lib/opentelemetry/instrumentation/faraday/instrumentation.rb:100
   def use_middleware_by_default_stable; end
 end
 
-# source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation/faraday/instrumentation.rb#13
+# pkg:gem/opentelemetry-instrumentation-faraday#lib/opentelemetry/instrumentation/faraday/instrumentation.rb:13
 OpenTelemetry::Instrumentation::Faraday::Instrumentation::MINIMUM_VERSION = T.let(T.unsafe(nil), Gem::Version)
 
-# source://opentelemetry-instrumentation-faraday//lib/opentelemetry/instrumentation/faraday/version.rb#10
+# pkg:gem/opentelemetry-instrumentation-faraday#lib/opentelemetry/instrumentation/faraday/version.rb:10
 OpenTelemetry::Instrumentation::Faraday::VERSION = T.let(T.unsafe(nil), String)

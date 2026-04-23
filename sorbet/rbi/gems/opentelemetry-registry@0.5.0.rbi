@@ -5,19 +5,26 @@
 # Please instead update this file by running `bin/tapioca gem opentelemetry-registry`.
 
 
-# source://opentelemetry-registry//lib/opentelemetry/instrumentation/registry.rb#7
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+# pkg:gem/opentelemetry-registry#lib/opentelemetry/instrumentation/registry.rb:7
 module OpenTelemetry; end
 
 # Instrumentation should be able to handle the case when the library is not installed on a user's system.
 #
-# source://opentelemetry-registry//lib/opentelemetry/instrumentation/registry.rb#8
+# pkg:gem/opentelemetry-registry#lib/opentelemetry/instrumentation/registry.rb:8
 module OpenTelemetry::Instrumentation
   extend ::OpenTelemetry::Instrumentation
 
   # @return [Registry] registry containing all known
-  #   instrumentation
+  #  instrumentation
   #
-  # source://opentelemetry-registry//lib/opentelemetry/instrumentation.rb#21
+  # pkg:gem/opentelemetry-registry#lib/opentelemetry/instrumentation.rb:21
   def registry; end
 end
 
@@ -26,55 +33,53 @@ end
 # configuration. This functionality is primarily useful for SDK
 # implementers.
 #
-# source://opentelemetry-registry//lib/opentelemetry/instrumentation/registry.rb#13
+# pkg:gem/opentelemetry-registry#lib/opentelemetry/instrumentation/registry.rb:13
 class OpenTelemetry::Instrumentation::Registry
-  # @return [Registry] a new instance of Registry
-  #
-  # source://opentelemetry-registry//lib/opentelemetry/instrumentation/registry.rb#14
+  # pkg:gem/opentelemetry-registry#lib/opentelemetry/instrumentation/registry.rb:14
   def initialize; end
 
   # Install the specified instrumentation with optionally specified configuration.
   #
-  # @param instrumentation_config_map [optional Hash<String, Hash>] A map of
+  # @param [Array<String>] instrumentation_names An array of instrumentation names to
+  #   install
+  # @param [optional Hash<String, Hash>] instrumentation_config_map A map of
   #   instrumentation_name to config. This argument is optional and config can be
   #   passed for as many or as few instrumentations as desired.
-  # @param instrumentation_names [Array<String>] An array of instrumentation names to
-  #   install
   #
-  # source://opentelemetry-registry//lib/opentelemetry/instrumentation/registry.rb#44
+  # pkg:gem/opentelemetry-registry#lib/opentelemetry/instrumentation/registry.rb:44
   def install(instrumentation_names, instrumentation_config_map = T.unsafe(nil)); end
 
   # Install all instrumentation available and installable in this process.
   #
-  # @param instrumentation_config_map [optional Hash<String, Hash>] A map of
+  # @param [optional Hash<String, Hash>] instrumentation_config_map A map of
   #   instrumentation_name to config. This argument is optional and config can be
   #   passed for as many or as few instrumentations as desired.
   #
-  # source://opentelemetry-registry//lib/opentelemetry/instrumentation/registry.rb#62
+  # pkg:gem/opentelemetry-registry#lib/opentelemetry/instrumentation/registry.rb:62
   def install_all(instrumentation_config_map = T.unsafe(nil)); end
 
   # Lookup an instrumentation definition by name. Returns nil if +instrumentation_name+
   # is not found.
   #
-  # @param instrumentation_name [String] A stringified class name for an instrumentation
+  # @param [String] instrumentation_name A stringified class name for an instrumentation
   # @return [Instrumentation]
   #
-  # source://opentelemetry-registry//lib/opentelemetry/instrumentation/registry.rb#31
+  # pkg:gem/opentelemetry-registry#lib/opentelemetry/instrumentation/registry.rb:31
   def lookup(instrumentation_name); end
 
   # @api private
   #
-  # source://opentelemetry-registry//lib/opentelemetry/instrumentation/registry.rb#20
+  # pkg:gem/opentelemetry-registry#lib/opentelemetry/instrumentation/registry.rb:20
   def register(instrumentation); end
 
   private
 
-  # source://opentelemetry-registry//lib/opentelemetry/instrumentation/registry.rb#72
+  # pkg:gem/opentelemetry-registry#lib/opentelemetry/instrumentation/registry.rb:72
   def find_instrumentation(instrumentation_name); end
 
-  # source://opentelemetry-registry//lib/opentelemetry/instrumentation/registry.rb#77
+  # pkg:gem/opentelemetry-registry#lib/opentelemetry/instrumentation/registry.rb:77
   def install_instrumentation(instrumentation, config); end
 end
 
-# source://opentelemetry-registry//lib/opentelemetry/instrumentation/registry/version.rb#10
+# pkg:gem/opentelemetry-registry#lib/opentelemetry/instrumentation/registry/version.rb:10
 OpenTelemetry::Instrumentation::Registry::VERSION = T.let(T.unsafe(nil), String)

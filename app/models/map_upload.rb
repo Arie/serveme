@@ -76,7 +76,7 @@ class MapUpload < ActiveRecord::Base
       blob_key = upload.file_attachment&.blob&.key
       next unless blob_key&.start_with?("maps/")
 
-      map_name = blob_key.match(%r{maps/(.*)\.bsp})[1]
+      map_name = T.must(blob_key.match(%r{maps/(.*)\.bsp}))[1]
       next unless map_name
 
       # Prioritize ActiveStorage uploads over CarrierWave ones for the same map name

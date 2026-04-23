@@ -5,13 +5,13 @@
 # Please instead update this file by running `bin/tapioca gem rack-protection`.
 
 
-# source://rack-protection//lib/rack/protection/version.rb#3
+# pkg:gem/rack-protection#lib/rack/protection/version.rb:3
 module Rack; end
 
-# source://rack-protection//lib/rack/protection/version.rb#4
+# pkg:gem/rack-protection#lib/rack/protection/version.rb:4
 module Rack::Protection
   class << self
-    # source://rack-protection//lib/rack/protection.rb#27
+    # pkg:gem/rack-protection#lib/rack/protection.rb:27
     def new(app, options = T.unsafe(nil)); end
   end
 end
@@ -104,195 +104,172 @@ end
 # <tt>:authenticity_param</tt> option:
 #   use Rack::Protection::AuthenticityToken, authenticity_param: 'your_token_param_name'
 #
-# source://rack-protection//lib/rack/protection/authenticity_token.rb#98
+# pkg:gem/rack-protection#lib/rack/protection/authenticity_token.rb:98
 class Rack::Protection::AuthenticityToken < ::Rack::Protection::Base
-  # @return [Boolean]
-  #
-  # source://rack-protection//lib/rack/protection/authenticity_token.rb#113
+  # pkg:gem/rack-protection#lib/rack/protection/authenticity_token.rb:113
   def accepts?(env); end
 
-  # source://rack-protection//lib/rack/protection/authenticity_token.rb#101
+  # pkg:gem/rack-protection#lib/rack/protection/authenticity_token.rb:101
   def default_options; end
 
-  # source://rack-protection//lib/rack/protection/authenticity_token.rb#125
+  # pkg:gem/rack-protection#lib/rack/protection/authenticity_token.rb:125
   def mask_authenticity_token(session, path: T.unsafe(nil), method: T.unsafe(nil)); end
 
   private
 
-  # source://rack-protection//lib/rack/protection/authenticity_token.rb#207
+  # pkg:gem/rack-protection#lib/rack/protection/authenticity_token.rb:207
   def compare_with_global_token(token, session); end
 
-  # source://rack-protection//lib/rack/protection/authenticity_token.rb#211
+  # pkg:gem/rack-protection#lib/rack/protection/authenticity_token.rb:211
   def compare_with_per_form_token(token, session, request); end
 
-  # source://rack-protection//lib/rack/protection/authenticity_token.rb#203
+  # pkg:gem/rack-protection#lib/rack/protection/authenticity_token.rb:203
   def compare_with_real_token(token, session); end
 
-  # source://rack-protection//lib/rack/protection/authenticity_token.rb#232
+  # pkg:gem/rack-protection#lib/rack/protection/authenticity_token.rb:232
   def decode_token(token); end
 
-  # source://rack-protection//lib/rack/protection/authenticity_token.rb#228
+  # pkg:gem/rack-protection#lib/rack/protection/authenticity_token.rb:228
   def encode_token(token); end
 
-  # source://rack-protection//lib/rack/protection/authenticity_token.rb#220
+  # pkg:gem/rack-protection#lib/rack/protection/authenticity_token.rb:220
   def global_token(session); end
 
   # Creates a masked version of the authenticity token that varies
   # on each request. The masking is used to mitigate SSL attacks
   # like BREACH.
   #
-  # source://rack-protection//lib/rack/protection/authenticity_token.rb#178
+  # pkg:gem/rack-protection#lib/rack/protection/authenticity_token.rb:178
   def mask_token(token); end
 
-  # @return [Boolean]
-  #
-  # source://rack-protection//lib/rack/protection/authenticity_token.rb#199
+  # pkg:gem/rack-protection#lib/rack/protection/authenticity_token.rb:199
   def masked_token?(token); end
 
-  # source://rack-protection//lib/rack/protection/authenticity_token.rb#224
+  # pkg:gem/rack-protection#lib/rack/protection/authenticity_token.rb:224
   def per_form_token(session, path, method); end
 
-  # source://rack-protection//lib/rack/protection/authenticity_token.rb#216
+  # pkg:gem/rack-protection#lib/rack/protection/authenticity_token.rb:216
   def real_token(session); end
 
-  # source://rack-protection//lib/rack/protection/authenticity_token.rb#142
+  # pkg:gem/rack-protection#lib/rack/protection/authenticity_token.rb:142
   def set_token(session); end
 
-  # source://rack-protection//lib/rack/protection/authenticity_token.rb#236
+  # pkg:gem/rack-protection#lib/rack/protection/authenticity_token.rb:236
   def token_hmac(session, identifier); end
 
   # Essentially the inverse of +mask_token+.
   #
-  # source://rack-protection//lib/rack/protection/authenticity_token.rb#186
+  # pkg:gem/rack-protection#lib/rack/protection/authenticity_token.rb:186
   def unmask_token(masked_token); end
 
-  # @return [Boolean]
-  #
-  # source://rack-protection//lib/rack/protection/authenticity_token.rb#195
+  # pkg:gem/rack-protection#lib/rack/protection/authenticity_token.rb:195
   def unmasked_token?(token); end
 
   # Checks the client's masked token to see if it matches the
   # session token.
   #
-  # @return [Boolean]
-  #
-  # source://rack-protection//lib/rack/protection/authenticity_token.rb#148
+  # pkg:gem/rack-protection#lib/rack/protection/authenticity_token.rb:148
   def valid_token?(env, token); end
 
-  # source://rack-protection//lib/rack/protection/authenticity_token.rb#244
+  # pkg:gem/rack-protection#lib/rack/protection/authenticity_token.rb:244
   def xor_byte_strings(s1, s2); end
 
   class << self
-    # source://rack-protection//lib/rack/protection/authenticity_token.rb#109
+    # pkg:gem/rack-protection#lib/rack/protection/authenticity_token.rb:109
     def random_token; end
 
-    # source://rack-protection//lib/rack/protection/authenticity_token.rb#105
+    # pkg:gem/rack-protection#lib/rack/protection/authenticity_token.rb:105
     def token(session, path: T.unsafe(nil), method: T.unsafe(nil)); end
   end
 end
 
-# source://rack-protection//lib/rack/protection/authenticity_token.rb#137
+# pkg:gem/rack-protection#lib/rack/protection/authenticity_token.rb:137
 Rack::Protection::AuthenticityToken::GLOBAL_TOKEN_IDENTIFIER = T.let(T.unsafe(nil), String)
 
-# source://rack-protection//lib/rack/protection/authenticity_token.rb#99
+# pkg:gem/rack-protection#lib/rack/protection/authenticity_token.rb:99
 Rack::Protection::AuthenticityToken::TOKEN_LENGTH = T.let(T.unsafe(nil), Integer)
 
-# source://rack-protection//lib/rack/protection/base.rb#11
+# pkg:gem/rack-protection#lib/rack/protection/base.rb:11
 class Rack::Protection::Base
-  # @return [Base] a new instance of Base
-  #
-  # source://rack-protection//lib/rack/protection/base.rb#35
+  # pkg:gem/rack-protection#lib/rack/protection/base.rb:35
   def initialize(app, options = T.unsafe(nil)); end
 
-  # @raise [NotImplementedError]
-  # @return [Boolean]
-  #
-  # source://rack-protection//lib/rack/protection/base.rb#44
+  # pkg:gem/rack-protection#lib/rack/protection/base.rb:44
   def accepts?(env); end
 
-  # Returns the value of attribute app.
-  #
-  # source://rack-protection//lib/rack/protection/base.rb#21
+  # pkg:gem/rack-protection#lib/rack/protection/base.rb:21
   def app; end
 
-  # source://rack-protection//lib/rack/protection/base.rb#48
+  # pkg:gem/rack-protection#lib/rack/protection/base.rb:48
   def call(env); end
 
-  # source://rack-protection//lib/rack/protection/base.rb#61
+  # pkg:gem/rack-protection#lib/rack/protection/base.rb:61
   def debug(env, message); end
 
-  # source://rack-protection//lib/rack/protection/base.rb#31
+  # pkg:gem/rack-protection#lib/rack/protection/base.rb:31
   def default_options; end
 
-  # source://rack-protection//lib/rack/protection/base.rb#138
+  # pkg:gem/rack-protection#lib/rack/protection/base.rb:138
   def default_reaction(env); end
 
-  # source://rack-protection//lib/rack/protection/base.rb#82
+  # pkg:gem/rack-protection#lib/rack/protection/base.rb:82
   def deny(env); end
 
-  # source://rack-protection//lib/rack/protection/base.rb#102
+  # pkg:gem/rack-protection#lib/rack/protection/base.rb:102
   def drop_session(env); end
 
-  # source://rack-protection//lib/rack/protection/base.rb#130
+  # pkg:gem/rack-protection#lib/rack/protection/base.rb:130
   def encrypt(value); end
 
-  # @return [Boolean]
-  #
-  # source://rack-protection//lib/rack/protection/base.rb#140
+  # pkg:gem/rack-protection#lib/rack/protection/base.rb:140
   def html?(headers); end
 
-  # source://rack-protection//lib/rack/protection/base.rb#75
+  # pkg:gem/rack-protection#lib/rack/protection/base.rb:75
   def instrument(env); end
 
-  # Returns the value of attribute options.
-  #
-  # source://rack-protection//lib/rack/protection/base.rb#21
+  # pkg:gem/rack-protection#lib/rack/protection/base.rb:21
   def options; end
 
-  # source://rack-protection//lib/rack/protection/base.rb#120
+  # pkg:gem/rack-protection#lib/rack/protection/base.rb:120
   def origin(env); end
 
-  # source://rack-protection//lib/rack/protection/base.rb#124
+  # pkg:gem/rack-protection#lib/rack/protection/base.rb:124
   def random_string(secure = T.unsafe(nil)); end
 
-  # source://rack-protection//lib/rack/protection/base.rb#56
+  # pkg:gem/rack-protection#lib/rack/protection/base.rb:56
   def react(env); end
 
-  # source://rack-protection//lib/rack/protection/base.rb#112
+  # pkg:gem/rack-protection#lib/rack/protection/base.rb:112
   def referrer(env); end
 
-  # source://rack-protection//lib/rack/protection/base.rb#87
+  # pkg:gem/rack-protection#lib/rack/protection/base.rb:87
   def report(env); end
 
-  # @return [Boolean]
-  #
-  # source://rack-protection//lib/rack/protection/base.rb#40
+  # pkg:gem/rack-protection#lib/rack/protection/base.rb:40
   def safe?(env); end
 
-  # source://rack-protection//lib/rack/protection/base.rb#134
+  # pkg:gem/rack-protection#lib/rack/protection/base.rb:134
   def secure_compare(a, b); end
 
-  # source://rack-protection//lib/rack/protection/base.rb#96
+  # pkg:gem/rack-protection#lib/rack/protection/base.rb:96
   def session(env); end
 
-  # @return [Boolean]
-  #
-  # source://rack-protection//lib/rack/protection/base.rb#92
+  # pkg:gem/rack-protection#lib/rack/protection/base.rb:92
   def session?(env); end
 
-  # source://rack-protection//lib/rack/protection/base.rb#68
+  # pkg:gem/rack-protection#lib/rack/protection/base.rb:68
   def warn(env, message); end
 
   class << self
-    # source://rack-protection//lib/rack/protection/base.rb#23
+    # pkg:gem/rack-protection#lib/rack/protection/base.rb:23
     def default_options(options); end
 
-    # source://rack-protection//lib/rack/protection/base.rb#27
+    # pkg:gem/rack-protection#lib/rack/protection/base.rb:27
     def default_reaction(reaction); end
   end
 end
 
-# source://rack-protection//lib/rack/protection/base.rb#12
+# pkg:gem/rack-protection#lib/rack/protection/base.rb:12
 Rack::Protection::Base::DEFAULT_OPTIONS = T.let(T.unsafe(nil), Hash)
 
 # Prevented attack::   XSS and others
@@ -326,22 +303,22 @@ Rack::Protection::Base::DEFAULT_OPTIONS = T.let(T.unsafe(nil), Hash)
 #          presented in the options hash with a boolean 'true' in order
 #          to be used in a policy.
 #
-# source://rack-protection//lib/rack/protection/content_security_policy.rb#39
+# pkg:gem/rack-protection#lib/rack/protection/content_security_policy.rb:39
 class Rack::Protection::ContentSecurityPolicy < ::Rack::Protection::Base
-  # source://rack-protection//lib/rack/protection/content_security_policy.rb#72
+  # pkg:gem/rack-protection#lib/rack/protection/content_security_policy.rb:72
   def call(env); end
 
-  # source://rack-protection//lib/rack/protection/content_security_policy.rb#53
+  # pkg:gem/rack-protection#lib/rack/protection/content_security_policy.rb:53
   def csp_policy; end
 
-  # source://rack-protection//lib/rack/protection/content_security_policy.rb#40
+  # pkg:gem/rack-protection#lib/rack/protection/content_security_policy.rb:40
   def default_options; end
 end
 
-# source://rack-protection//lib/rack/protection/content_security_policy.rb#42
+# pkg:gem/rack-protection#lib/rack/protection/content_security_policy.rb:42
 Rack::Protection::ContentSecurityPolicy::DIRECTIVES = T.let(T.unsafe(nil), Array)
 
-# source://rack-protection//lib/rack/protection/content_security_policy.rb#50
+# pkg:gem/rack-protection#lib/rack/protection/content_security_policy.rb:50
 Rack::Protection::ContentSecurityPolicy::NO_ARG_DIRECTIVES = T.let(T.unsafe(nil), Array)
 
 # Prevented attack::   Cookie Tossing
@@ -355,35 +332,33 @@ Rack::Protection::ContentSecurityPolicy::NO_ARG_DIRECTIVES = T.let(T.unsafe(nil)
 #
 # session_key:: The name of the session cookie (default: 'rack.session')
 #
-# source://rack-protection//lib/rack/protection/cookie_tossing.rb#19
+# pkg:gem/rack-protection#lib/rack/protection/cookie_tossing.rb:19
 class Rack::Protection::CookieTossing < ::Rack::Protection::Base
-  # @return [Boolean]
-  #
-  # source://rack-protection//lib/rack/protection/cookie_tossing.rb#30
+  # pkg:gem/rack-protection#lib/rack/protection/cookie_tossing.rb:30
   def accepts?(env); end
 
-  # source://rack-protection//lib/rack/protection/cookie_tossing.rb#57
+  # pkg:gem/rack-protection#lib/rack/protection/cookie_tossing.rb:57
   def bad_cookies; end
 
-  # source://rack-protection//lib/rack/protection/cookie_tossing.rb#22
+  # pkg:gem/rack-protection#lib/rack/protection/cookie_tossing.rb:22
   def call(env); end
 
-  # source://rack-protection//lib/rack/protection/cookie_tossing.rb#61
+  # pkg:gem/rack-protection#lib/rack/protection/cookie_tossing.rb:61
   def cookie_paths(path); end
 
-  # source://rack-protection//lib/rack/protection/cookie_tossing.rb#20
+  # pkg:gem/rack-protection#lib/rack/protection/cookie_tossing.rb:20
   def default_reaction(env); end
 
-  # source://rack-protection//lib/rack/protection/cookie_tossing.rb#68
+  # pkg:gem/rack-protection#lib/rack/protection/cookie_tossing.rb:68
   def empty_cookie(host, path); end
 
-  # source://rack-protection//lib/rack/protection/cookie_tossing.rb#51
+  # pkg:gem/rack-protection#lib/rack/protection/cookie_tossing.rb:51
   def redirect(env); end
 
-  # source://rack-protection//lib/rack/protection/cookie_tossing.rb#42
+  # pkg:gem/rack-protection#lib/rack/protection/cookie_tossing.rb:42
   def remove_bad_cookies(request, response); end
 
-  # source://rack-protection//lib/rack/protection/cookie_tossing.rb#72
+  # pkg:gem/rack-protection#lib/rack/protection/cookie_tossing.rb:72
   def session_key; end
 end
 
@@ -398,40 +373,38 @@ end
 # escape:: What escaping modes to use, should be Symbol or Array of Symbols.
 #          Available: :html (default), :javascript, :url
 #
-# source://rack-protection//lib/rack/protection/escaped_params.rb#25
+# pkg:gem/rack-protection#lib/rack/protection/escaped_params.rb:25
 class Rack::Protection::EscapedParams < ::Rack::Protection::Base
   extend ::Rack::Utils
 
-  # @return [EscapedParams] a new instance of EscapedParams
-  #
-  # source://rack-protection//lib/rack/protection/escaped_params.rb#36
+  # pkg:gem/rack-protection#lib/rack/protection/escaped_params.rb:36
   def initialize(*_arg0); end
 
-  # source://rack-protection//lib/rack/protection/escaped_params.rb#50
+  # pkg:gem/rack-protection#lib/rack/protection/escaped_params.rb:50
   def call(env); end
 
-  # source://rack-protection//lib/rack/protection/escaped_params.rb#33
+  # pkg:gem/rack-protection#lib/rack/protection/escaped_params.rb:33
   def default_options; end
 
-  # source://rack-protection//lib/rack/protection/escaped_params.rb#70
+  # pkg:gem/rack-protection#lib/rack/protection/escaped_params.rb:70
   def escape(object); end
 
-  # source://rack-protection//lib/rack/protection/escaped_params.rb#79
+  # pkg:gem/rack-protection#lib/rack/protection/escaped_params.rb:79
   def escape_hash(hash); end
 
-  # source://rack-protection//lib/rack/protection/escaped_params.rb#85
+  # pkg:gem/rack-protection#lib/rack/protection/escaped_params.rb:85
   def escape_string(str); end
 
-  # source://rack-protection//lib/rack/protection/escaped_params.rb#64
+  # pkg:gem/rack-protection#lib/rack/protection/escaped_params.rb:64
   def handle(hash); end
 
   class << self
-    # source://rack-protection//lib/rack/protection/escaped_params.rb#30
+    # pkg:gem/rack-protection#lib/rack/protection/escaped_params.rb:30
     def escape_html(_arg0); end
 
     private
 
-    # source://rack-protection//lib/rack/protection/escaped_params.rb#29
+    # pkg:gem/rack-protection#lib/rack/protection/escaped_params.rb:29
     def escape_url(s); end
   end
 end
@@ -448,11 +421,9 @@ end
 #
 # Compatible with rack-csrf.
 #
-# source://rack-protection//lib/rack/protection/form_token.rb#19
+# pkg:gem/rack-protection#lib/rack/protection/form_token.rb:19
 class Rack::Protection::FormToken < ::Rack::Protection::AuthenticityToken
-  # @return [Boolean]
-  #
-  # source://rack-protection//lib/rack/protection/form_token.rb#20
+  # pkg:gem/rack-protection#lib/rack/protection/form_token.rb:20
   def accepts?(env); end
 end
 
@@ -470,15 +441,15 @@ end
 #                 frame. Use :deny to forbid any embedding, :sameorigin
 #                 to allow embedding from the same origin (default).
 #
-# source://rack-protection//lib/rack/protection/frame_options.rb#21
+# pkg:gem/rack-protection#lib/rack/protection/frame_options.rb:21
 class Rack::Protection::FrameOptions < ::Rack::Protection::Base
-  # source://rack-protection//lib/rack/protection/frame_options.rb#32
+  # pkg:gem/rack-protection#lib/rack/protection/frame_options.rb:32
   def call(env); end
 
-  # source://rack-protection//lib/rack/protection/frame_options.rb#22
+  # pkg:gem/rack-protection#lib/rack/protection/frame_options.rb:22
   def default_options; end
 
-  # source://rack-protection//lib/rack/protection/frame_options.rb#24
+  # pkg:gem/rack-protection#lib/rack/protection/frame_options.rb:24
   def frame_options; end
 end
 
@@ -496,57 +467,45 @@ end
 #
 # The `:allow_if` option can also be set to a proc to use custom allow/deny logic.
 #
-# source://rack-protection//lib/rack/protection/host_authorization.rb#22
+# pkg:gem/rack-protection#lib/rack/protection/host_authorization.rb:22
 class Rack::Protection::HostAuthorization < ::Rack::Protection::Base
-  # @return [HostAuthorization] a new instance of HostAuthorization
-  #
-  # source://rack-protection//lib/rack/protection/host_authorization.rb#33
+  # pkg:gem/rack-protection#lib/rack/protection/host_authorization.rb:33
   def initialize(*_arg0); end
 
-  # @return [Boolean]
-  #
-  # source://rack-protection//lib/rack/protection/host_authorization.rb#55
+  # pkg:gem/rack-protection#lib/rack/protection/host_authorization.rb:55
   def accepts?(env); end
 
-  # source://rack-protection//lib/rack/protection/host_authorization.rb#30
+  # pkg:gem/rack-protection#lib/rack/protection/host_authorization.rb:30
   def default_options; end
 
-  # source://rack-protection//lib/rack/protection/host_authorization.rb#29
+  # pkg:gem/rack-protection#lib/rack/protection/host_authorization.rb:29
   def default_reaction(env); end
 
   private
 
-  # @return [Boolean]
-  #
-  # source://rack-protection//lib/rack/protection/host_authorization.rb#96
+  # pkg:gem/rack-protection#lib/rack/protection/host_authorization.rb:96
   def domain_match?(host); end
 
-  # @return [Boolean]
-  #
-  # source://rack-protection//lib/rack/protection/host_authorization.rb#92
+  # pkg:gem/rack-protection#lib/rack/protection/host_authorization.rb:92
   def exact_match?(host); end
 
-  # source://rack-protection//lib/rack/protection/host_authorization.rb#84
+  # pkg:gem/rack-protection#lib/rack/protection/host_authorization.rb:84
   def extract_host(authority); end
 
-  # @return [Boolean]
-  #
-  # source://rack-protection//lib/rack/protection/host_authorization.rb#88
+  # pkg:gem/rack-protection#lib/rack/protection/host_authorization.rb:88
   def host_permitted?(host); end
 
-  # @return [Boolean]
-  #
-  # source://rack-protection//lib/rack/protection/host_authorization.rb#103
+  # pkg:gem/rack-protection#lib/rack/protection/host_authorization.rb:103
   def ip_match?(host); end
 end
 
-# source://rack-protection//lib/rack/protection/host_authorization.rb#23
+# pkg:gem/rack-protection#lib/rack/protection/host_authorization.rb:23
 Rack::Protection::HostAuthorization::DOT = T.let(T.unsafe(nil), String)
 
-# source://rack-protection//lib/rack/protection/host_authorization.rb#24
+# pkg:gem/rack-protection#lib/rack/protection/host_authorization.rb:24
 Rack::Protection::HostAuthorization::PORT_REGEXP = T.let(T.unsafe(nil), Regexp)
 
-# source://rack-protection//lib/rack/protection/host_authorization.rb#25
+# pkg:gem/rack-protection#lib/rack/protection/host_authorization.rb:25
 Rack::Protection::HostAuthorization::SUBDOMAINS = T.let(T.unsafe(nil), Regexp)
 
 # Prevented attack::   CSRF
@@ -563,24 +522,22 @@ Rack::Protection::HostAuthorization::SUBDOMAINS = T.let(T.unsafe(nil), Regexp)
 #
 # The `:allow_if` option can also be set to a proc to use custom allow/deny logic.
 #
-# source://rack-protection//lib/rack/protection/http_origin.rb#21
+# pkg:gem/rack-protection#lib/rack/protection/http_origin.rb:21
 class Rack::Protection::HttpOrigin < ::Rack::Protection::Base
-  # @return [Boolean]
-  #
-  # source://rack-protection//lib/rack/protection/http_origin.rb#32
+  # pkg:gem/rack-protection#lib/rack/protection/http_origin.rb:32
   def accepts?(env); end
 
-  # source://rack-protection//lib/rack/protection/http_origin.rb#26
+  # pkg:gem/rack-protection#lib/rack/protection/http_origin.rb:26
   def base_url(env); end
 
-  # source://rack-protection//lib/rack/protection/http_origin.rb#24
+  # pkg:gem/rack-protection#lib/rack/protection/http_origin.rb:24
   def default_options; end
 
-  # source://rack-protection//lib/rack/protection/http_origin.rb#23
+  # pkg:gem/rack-protection#lib/rack/protection/http_origin.rb:23
   def default_reaction(env); end
 end
 
-# source://rack-protection//lib/rack/protection/http_origin.rb#22
+# pkg:gem/rack-protection#lib/rack/protection/http_origin.rb:22
 Rack::Protection::HttpOrigin::DEFAULT_PORTS = T.let(T.unsafe(nil), Hash)
 
 # Prevented attack::   IP spoofing
@@ -589,14 +546,12 @@ Rack::Protection::HttpOrigin::DEFAULT_PORTS = T.let(T.unsafe(nil), Hash)
 #
 # Detect (some) IP spoofing attacks.
 #
-# source://rack-protection//lib/rack/protection/ip_spoofing.rb#13
+# pkg:gem/rack-protection#lib/rack/protection/ip_spoofing.rb:13
 class Rack::Protection::IPSpoofing < ::Rack::Protection::Base
-  # @return [Boolean]
-  #
-  # source://rack-protection//lib/rack/protection/ip_spoofing.rb#16
+  # pkg:gem/rack-protection#lib/rack/protection/ip_spoofing.rb:16
   def accepts?(env); end
 
-  # source://rack-protection//lib/rack/protection/ip_spoofing.rb#14
+  # pkg:gem/rack-protection#lib/rack/protection/ip_spoofing.rb:14
   def default_reaction(env); end
 end
 
@@ -614,26 +569,24 @@ end
 #
 # The `:allow_if` option can be set to a proc to use custom allow/deny logic.
 #
-# source://rack-protection//lib/rack/protection/json_csrf.rb#21
+# pkg:gem/rack-protection#lib/rack/protection/json_csrf.rb:21
 class Rack::Protection::JsonCsrf < ::Rack::Protection::Base
-  # source://rack-protection//lib/rack/protection/json_csrf.rb#26
+  # pkg:gem/rack-protection#lib/rack/protection/json_csrf.rb:26
   def call(env); end
 
-  # source://rack-protection//lib/rack/protection/json_csrf.rb#55
+  # pkg:gem/rack-protection#lib/rack/protection/json_csrf.rb:55
   def close_body(body); end
 
-  # source://rack-protection//lib/rack/protection/json_csrf.rb#22
+  # pkg:gem/rack-protection#lib/rack/protection/json_csrf.rb:22
   def default_options; end
 
-  # @return [Boolean]
-  #
-  # source://rack-protection//lib/rack/protection/json_csrf.rb#39
+  # pkg:gem/rack-protection#lib/rack/protection/json_csrf.rb:39
   def has_vector?(request, headers); end
 
-  # source://rack-protection//lib/rack/protection/json_csrf.rb#24
+  # pkg:gem/rack-protection#lib/rack/protection/json_csrf.rb:24
   def react(env); end
 
-  # source://rack-protection//lib/rack/protection/json_csrf.rb#47
+  # pkg:gem/rack-protection#lib/rack/protection/json_csrf.rb:47
   def react_and_close(env, body); end
 end
 
@@ -644,12 +597,12 @@ end
 # Unescapes '/' and '.', expands +path_info+.
 # Thus <tt>GET /foo/%2e%2e%2fbar</tt> becomes <tt>GET /bar</tt>.
 #
-# source://rack-protection//lib/rack/protection/path_traversal.rb#14
+# pkg:gem/rack-protection#lib/rack/protection/path_traversal.rb:14
 class Rack::Protection::PathTraversal < ::Rack::Protection::Base
-  # source://rack-protection//lib/rack/protection/path_traversal.rb#15
+  # pkg:gem/rack-protection#lib/rack/protection/path_traversal.rb:15
   def call(env); end
 
-  # source://rack-protection//lib/rack/protection/path_traversal.rb#23
+  # pkg:gem/rack-protection#lib/rack/protection/path_traversal.rb:23
   def cleanup(path); end
 end
 
@@ -663,12 +616,12 @@ end
 # Options:
 # referrer_policy:: The policy to use (default: 'strict-origin-when-cross-origin')
 #
-# source://rack-protection//lib/rack/protection/referrer_policy.rb#17
+# pkg:gem/rack-protection#lib/rack/protection/referrer_policy.rb:17
 class Rack::Protection::ReferrerPolicy < ::Rack::Protection::Base
-  # source://rack-protection//lib/rack/protection/referrer_policy.rb#20
+  # pkg:gem/rack-protection#lib/rack/protection/referrer_policy.rb:20
   def call(env); end
 
-  # source://rack-protection//lib/rack/protection/referrer_policy.rb#18
+  # pkg:gem/rack-protection#lib/rack/protection/referrer_policy.rb:18
   def default_options; end
 end
 
@@ -679,14 +632,12 @@ end
 # Does not accept unsafe HTTP requests if the Referer [sic] header is set to
 # a different host.
 #
-# source://rack-protection//lib/rack/protection/remote_referrer.rb#14
+# pkg:gem/rack-protection#lib/rack/protection/remote_referrer.rb:14
 class Rack::Protection::RemoteReferrer < ::Rack::Protection::Base
-  # @return [Boolean]
-  #
-  # source://rack-protection//lib/rack/protection/remote_referrer.rb#17
+  # pkg:gem/rack-protection#lib/rack/protection/remote_referrer.rb:17
   def accepts?(env); end
 
-  # source://rack-protection//lib/rack/protection/remote_referrer.rb#15
+  # pkg:gem/rack-protection#lib/rack/protection/remote_referrer.rb:15
   def default_reaction(env); end
 end
 
@@ -699,14 +650,12 @@ end
 #
 # Compatible with rack-csrf.
 #
-# source://rack-protection//lib/rack/protection/remote_token.rb#16
+# pkg:gem/rack-protection#lib/rack/protection/remote_token.rb:16
 class Rack::Protection::RemoteToken < ::Rack::Protection::AuthenticityToken
-  # @return [Boolean]
-  #
-  # source://rack-protection//lib/rack/protection/remote_token.rb#19
+  # pkg:gem/rack-protection#lib/rack/protection/remote_token.rb:19
   def accepts?(env); end
 
-  # source://rack-protection//lib/rack/protection/remote_token.rb#17
+  # pkg:gem/rack-protection#lib/rack/protection/remote_token.rb:17
   def default_reaction(env); end
 end
 
@@ -719,20 +668,18 @@ end
 # from Firesheep. Since all headers taken into consideration can be
 # spoofed, too, this will not prevent determined hijacking attempts.
 #
-# source://rack-protection//lib/rack/protection/session_hijacking.rb#16
+# pkg:gem/rack-protection#lib/rack/protection/session_hijacking.rb:16
 class Rack::Protection::SessionHijacking < ::Rack::Protection::Base
-  # @return [Boolean]
-  #
-  # source://rack-protection//lib/rack/protection/session_hijacking.rb#21
+  # pkg:gem/rack-protection#lib/rack/protection/session_hijacking.rb:21
   def accepts?(env); end
 
-  # source://rack-protection//lib/rack/protection/session_hijacking.rb#18
+  # pkg:gem/rack-protection#lib/rack/protection/session_hijacking.rb:18
   def default_options; end
 
-  # source://rack-protection//lib/rack/protection/session_hijacking.rb#17
+  # pkg:gem/rack-protection#lib/rack/protection/session_hijacking.rb:17
   def default_reaction(env); end
 
-  # source://rack-protection//lib/rack/protection/session_hijacking.rb#32
+  # pkg:gem/rack-protection#lib/rack/protection/session_hijacking.rb:32
   def encode(value); end
 end
 
@@ -750,19 +697,19 @@ end
 # include_subdomains:: If all present and future subdomains will be HTTPS
 # preload:: Allow this domain to be included in browsers HSTS preload list. See https://hstspreload.appspot.com/
 #
-# source://rack-protection//lib/rack/protection/strict_transport.rb#22
+# pkg:gem/rack-protection#lib/rack/protection/strict_transport.rb:22
 class Rack::Protection::StrictTransport < ::Rack::Protection::Base
-  # source://rack-protection//lib/rack/protection/strict_transport.rb#34
+  # pkg:gem/rack-protection#lib/rack/protection/strict_transport.rb:34
   def call(env); end
 
-  # source://rack-protection//lib/rack/protection/strict_transport.rb#23
+  # pkg:gem/rack-protection#lib/rack/protection/strict_transport.rb:23
   def default_options; end
 
-  # source://rack-protection//lib/rack/protection/strict_transport.rb#25
+  # pkg:gem/rack-protection#lib/rack/protection/strict_transport.rb:25
   def strict_transport; end
 end
 
-# source://rack-protection//lib/rack/protection/version.rb#5
+# pkg:gem/rack-protection#lib/rack/protection/version.rb:5
 Rack::Protection::VERSION = T.let(T.unsafe(nil), String)
 
 # Prevented attack::   Non-permanent XSS
@@ -774,11 +721,11 @@ Rack::Protection::VERSION = T.let(T.unsafe(nil), String)
 # Options:
 # xss_mode:: How the browser should prevent the attack (default: :block)
 #
-# source://rack-protection//lib/rack/protection/xss_header.rb#16
+# pkg:gem/rack-protection#lib/rack/protection/xss_header.rb:16
 class Rack::Protection::XSSHeader < ::Rack::Protection::Base
-  # source://rack-protection//lib/rack/protection/xss_header.rb#19
+  # pkg:gem/rack-protection#lib/rack/protection/xss_header.rb:19
   def call(env); end
 
-  # source://rack-protection//lib/rack/protection/xss_header.rb#17
+  # pkg:gem/rack-protection#lib/rack/protection/xss_header.rb:17
   def default_options; end
 end

@@ -5,11 +5,11 @@
 # Please instead update this file by running `bin/tapioca gem actionpack-action_caching`.
 
 
-# source://actionpack-action_caching//lib/actionpack/action_caching/railtie.rb#3
+# pkg:gem/actionpack-action_caching#lib/actionpack/action_caching/railtie.rb:3
 module ActionPack; end
 
-# source://actionpack-action_caching//lib/actionpack/action_caching/railtie.rb#4
+# pkg:gem/actionpack-action_caching#lib/actionpack/action_caching/railtie.rb:4
 module ActionPack::ActionCaching; end
 
-# source://actionpack-action_caching//lib/actionpack/action_caching/railtie.rb#5
+# pkg:gem/actionpack-action_caching#lib/actionpack/action_caching/railtie.rb:5
 class ActionPack::ActionCaching::Railtie < ::Rails::Railtie; end

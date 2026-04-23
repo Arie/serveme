@@ -5,215 +5,151 @@
 # Please instead update this file by running `bin/tapioca gem logs_tf`.
 
 
-# source://logs_tf//lib/logs_tf/version.rb#1
+# pkg:gem/logs_tf#lib/logs_tf/version.rb:1
 module LogsTF; end
 
-# source://logs_tf//lib/logs_tf/log.rb#3
+# pkg:gem/logs_tf#lib/logs_tf/log.rb:3
 class LogsTF::Log
-  # @return [Log] a new instance of Log
-  #
-  # source://logs_tf//lib/logs_tf/log.rb#7
+  # pkg:gem/logs_tf#lib/logs_tf/log.rb:7
   def initialize(file, map_name = T.unsafe(nil), title = T.unsafe(nil), api_key = T.unsafe(nil)); end
 
-  # Returns the value of attribute api_key.
-  #
-  # source://logs_tf//lib/logs_tf/log.rb#5
+  # pkg:gem/logs_tf#lib/logs_tf/log.rb:5
   def api_key; end
 
-  # Sets the attribute api_key
-  #
-  # @param value the value to set the attribute api_key to.
-  #
-  # source://logs_tf//lib/logs_tf/log.rb#5
+  # pkg:gem/logs_tf#lib/logs_tf/log.rb:5
   def api_key=(_arg0); end
 
-  # Returns the value of attribute file.
-  #
-  # source://logs_tf//lib/logs_tf/log.rb#5
+  # pkg:gem/logs_tf#lib/logs_tf/log.rb:5
   def file; end
 
-  # Sets the attribute file
-  #
-  # @param value the value to set the attribute file to.
-  #
-  # source://logs_tf//lib/logs_tf/log.rb#5
+  # pkg:gem/logs_tf#lib/logs_tf/log.rb:5
   def file=(_arg0); end
 
-  # source://logs_tf//lib/logs_tf/log.rb#14
+  # pkg:gem/logs_tf#lib/logs_tf/log.rb:14
   def filename; end
 
-  # Returns the value of attribute map_name.
-  #
-  # source://logs_tf//lib/logs_tf/log.rb#5
+  # pkg:gem/logs_tf#lib/logs_tf/log.rb:5
   def map_name; end
 
-  # Sets the attribute map_name
-  #
-  # @param value the value to set the attribute map_name to.
-  #
-  # source://logs_tf//lib/logs_tf/log.rb#5
+  # pkg:gem/logs_tf#lib/logs_tf/log.rb:5
   def map_name=(_arg0); end
 
-  # Returns the value of attribute title.
-  #
-  # source://logs_tf//lib/logs_tf/log.rb#5
+  # pkg:gem/logs_tf#lib/logs_tf/log.rb:5
   def title; end
 
-  # Sets the attribute title
-  #
-  # @param value the value to set the attribute title to.
-  #
-  # source://logs_tf//lib/logs_tf/log.rb#5
+  # pkg:gem/logs_tf#lib/logs_tf/log.rb:5
   def title=(_arg0); end
 end
 
-# source://logs_tf//lib/logs_tf/upload.rb#7
+# pkg:gem/logs_tf#lib/logs_tf/upload.rb:7
 class LogsTF::Upload
-  # @return [Upload] a new instance of Upload
-  #
-  # source://logs_tf//lib/logs_tf/upload.rb#11
+  # pkg:gem/logs_tf#lib/logs_tf/upload.rb:11
   def initialize(log, logs_tf_url = T.unsafe(nil)); end
 
-  # Sets the attribute api_key
-  #
-  # @param value the value to set the attribute api_key to.
-  #
-  # source://logs_tf//lib/logs_tf/upload.rb#9
+  # pkg:gem/logs_tf#lib/logs_tf/upload.rb:9
   def api_key=(_arg0); end
 
-  # source://logs_tf//lib/logs_tf/upload.rb#60
+  # pkg:gem/logs_tf#lib/logs_tf/upload.rb:60
   def error; end
 
-  # Returns the value of attribute log.
-  #
-  # source://logs_tf//lib/logs_tf/upload.rb#9
+  # pkg:gem/logs_tf#lib/logs_tf/upload.rb:9
   def log; end
 
-  # Sets the attribute log
-  #
-  # @param value the value to set the attribute log to.
-  #
-  # source://logs_tf//lib/logs_tf/upload.rb#9
+  # pkg:gem/logs_tf#lib/logs_tf/upload.rb:9
   def log=(_arg0); end
 
-  # Returns the value of attribute logs_tf_url.
-  #
-  # source://logs_tf//lib/logs_tf/upload.rb#9
+  # pkg:gem/logs_tf#lib/logs_tf/upload.rb:9
   def logs_tf_url; end
 
-  # Sets the attribute logs_tf_url
-  #
-  # @param value the value to set the attribute logs_tf_url to.
-  #
-  # source://logs_tf//lib/logs_tf/upload.rb#9
+  # pkg:gem/logs_tf#lib/logs_tf/upload.rb:9
   def logs_tf_url=(_arg0); end
 
-  # @raise [error_class]
-  #
-  # source://logs_tf//lib/logs_tf/upload.rb#31
+  # pkg:gem/logs_tf#lib/logs_tf/upload.rb:31
   def raise_logs_tf_error; end
 
-  # @return [Boolean]
-  #
-  # source://logs_tf//lib/logs_tf/upload.rb#72
+  # pkg:gem/logs_tf#lib/logs_tf/upload.rb:72
   def request_success?; end
 
-  # Returns the value of attribute response.
-  #
-  # source://logs_tf//lib/logs_tf/upload.rb#9
+  # pkg:gem/logs_tf#lib/logs_tf/upload.rb:9
   def response; end
 
-  # Sets the attribute response
-  #
-  # @param value the value to set the attribute response to.
-  #
-  # source://logs_tf//lib/logs_tf/upload.rb#9
+  # pkg:gem/logs_tf#lib/logs_tf/upload.rb:9
   def response=(_arg0); end
 
-  # Returns the value of attribute response_body.
-  #
-  # source://logs_tf//lib/logs_tf/upload.rb#9
+  # pkg:gem/logs_tf#lib/logs_tf/upload.rb:9
   def response_body; end
 
-  # Sets the attribute response_body
-  #
-  # @param value the value to set the attribute response_body to.
-  #
-  # source://logs_tf//lib/logs_tf/upload.rb#9
+  # pkg:gem/logs_tf#lib/logs_tf/upload.rb:9
   def response_body=(_arg0); end
 
-  # source://logs_tf//lib/logs_tf/upload.rb#16
+  # pkg:gem/logs_tf#lib/logs_tf/upload.rb:16
   def send; end
 
-  # @return [Boolean]
-  #
-  # source://logs_tf//lib/logs_tf/upload.rb#68
+  # pkg:gem/logs_tf#lib/logs_tf/upload.rb:68
   def upload_success?; end
 
-  # source://logs_tf//lib/logs_tf/upload.rb#27
+  # pkg:gem/logs_tf#lib/logs_tf/upload.rb:27
   def url; end
 
   private
 
-  # Returns the value of attribute api_key.
-  #
-  # source://logs_tf//lib/logs_tf/upload.rb#9
+  # pkg:gem/logs_tf#lib/logs_tf/upload.rb:9
   def api_key; end
 
-  # source://logs_tf//lib/logs_tf/upload.rb#101
+  # pkg:gem/logs_tf#lib/logs_tf/upload.rb:101
   def connection; end
 
-  # source://logs_tf//lib/logs_tf/upload.rb#85
+  # pkg:gem/logs_tf#lib/logs_tf/upload.rb:85
   def logfile; end
 
-  # source://logs_tf//lib/logs_tf/upload.rb#93
+  # pkg:gem/logs_tf#lib/logs_tf/upload.rb:93
   def map_name; end
 
-  # source://logs_tf//lib/logs_tf/upload.rb#78
+  # pkg:gem/logs_tf#lib/logs_tf/upload.rb:78
   def post_options; end
 
-  # source://logs_tf//lib/logs_tf/upload.rb#89
+  # pkg:gem/logs_tf#lib/logs_tf/upload.rb:89
   def title; end
 end
 
-# source://logs_tf//lib/logs_tf/upload.rb#109
+# pkg:gem/logs_tf#lib/logs_tf/upload.rb:109
 class LogsTF::Upload::Error < ::StandardError; end
 
-# source://logs_tf//lib/logs_tf/upload.rb#120
+# pkg:gem/logs_tf#lib/logs_tf/upload.rb:120
 class LogsTF::Upload::GuruMeditationError < ::LogsTF::Upload::Error; end
 
-# source://logs_tf//lib/logs_tf/upload.rb#114
+# pkg:gem/logs_tf#lib/logs_tf/upload.rb:114
 class LogsTF::Upload::InvalidAPIKeyError < ::LogsTF::Upload::Error; end
 
-# source://logs_tf//lib/logs_tf/upload.rb#111
+# pkg:gem/logs_tf#lib/logs_tf/upload.rb:111
 class LogsTF::Upload::InvalidLogError < ::LogsTF::Upload::Error; end
 
-# source://logs_tf//lib/logs_tf/upload.rb#117
+# pkg:gem/logs_tf#lib/logs_tf/upload.rb:117
 class LogsTF::Upload::LogIsEmptyError < ::LogsTF::Upload::Error; end
 
-# source://logs_tf//lib/logs_tf/upload.rb#119
+# pkg:gem/logs_tf#lib/logs_tf/upload.rb:119
 class LogsTF::Upload::MissingAPIKeyOrLoginError < ::LogsTF::Upload::Error; end
 
-# source://logs_tf//lib/logs_tf/upload.rb#112
+# pkg:gem/logs_tf#lib/logs_tf/upload.rb:112
 class LogsTF::Upload::MissingLogError < ::LogsTF::Upload::Error; end
 
-# source://logs_tf//lib/logs_tf/upload.rb#115
+# pkg:gem/logs_tf#lib/logs_tf/upload.rb:115
 class LogsTF::Upload::NoValidRoundsError < ::LogsTF::Upload::Error; end
 
-# source://logs_tf//lib/logs_tf/upload.rb#113
+# pkg:gem/logs_tf#lib/logs_tf/upload.rb:113
 class LogsTF::Upload::NotAuthenticatedError < ::LogsTF::Upload::Error; end
 
-# source://logs_tf//lib/logs_tf/upload.rb#116
+# pkg:gem/logs_tf#lib/logs_tf/upload.rb:116
 class LogsTF::Upload::NotEnoughPlayersError < ::LogsTF::Upload::Error; end
 
-# source://logs_tf//lib/logs_tf/upload.rb#118
+# pkg:gem/logs_tf#lib/logs_tf/upload.rb:118
 class LogsTF::Upload::ParsingFailedError < ::LogsTF::Upload::Error; end
 
-# source://logs_tf//lib/logs_tf/upload.rb#110
+# pkg:gem/logs_tf#lib/logs_tf/upload.rb:110
 class LogsTF::Upload::RequestError < ::LogsTF::Upload::Error; end
 
-# source://logs_tf//lib/logs_tf/upload.rb#121
+# pkg:gem/logs_tf#lib/logs_tf/upload.rb:121
 class LogsTF::Upload::UnknownLogsTfError < ::LogsTF::Upload::Error; end
 
-# source://logs_tf//lib/logs_tf/version.rb#2
+# pkg:gem/logs_tf#lib/logs_tf/version.rb:2
 LogsTF::VERSION = T.let(T.unsafe(nil), String)

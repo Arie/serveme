@@ -11,8 +11,35 @@
 #
 # The OpenTelemetry module provides global accessors for telemetry objects.
 # See the documentation for the `opentelemetry-api` gem for details.
+# Copyright The OpenTelemetry Authors
 #
-# source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation.rb#13
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+# pkg:gem/opentelemetry-instrumentation-excon#lib/opentelemetry/instrumentation.rb:13
 module OpenTelemetry; end
 
 # "Instrumentation" are specified by
@@ -20,145 +47,108 @@ module OpenTelemetry; end
 #
 # Instrumentation should be able to handle the case when the library is not installed on a user's system.
 #
-# source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation.rb#18
+# pkg:gem/opentelemetry-instrumentation-excon#lib/opentelemetry/instrumentation.rb:18
 module OpenTelemetry::Instrumentation; end
 
-# source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation/concerns/untraced_hosts.rb#9
+# pkg:gem/opentelemetry-instrumentation-excon#lib/opentelemetry/instrumentation/concerns/untraced_hosts.rb:9
 module OpenTelemetry::Instrumentation::Concerns; end
 
 # The untraced hosts concerns allows instrumentation to skip traces on hostnames in an exclusion list.
 # If the current OpenTelemetry context is untraced, all hosts will be treated as untraced.
 # When included in a class that extends OpenTelemetry::Instrumentation::Base, this module defines an option named :untraced_hosts.
 #
-# source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation/concerns/untraced_hosts.rb#13
+# pkg:gem/opentelemetry-instrumentation-excon#lib/opentelemetry/instrumentation/concerns/untraced_hosts.rb:13
 module OpenTelemetry::Instrumentation::Concerns::UntracedHosts
   # Checks whether the given host should be treated as untraced.
   # If the current OpenTelemetry context is untraced, all hosts will be treated as untraced.
   # The given host must be a String.
   #
-  # @return [Boolean]
-  #
-  # source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation/concerns/untraced_hosts.rb#27
+  # pkg:gem/opentelemetry-instrumentation-excon#lib/opentelemetry/instrumentation/concerns/untraced_hosts.rb:27
   def untraced?(host); end
 
   private
 
-  # @return [Boolean]
-  #
-  # source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation/concerns/untraced_hosts.rb#33
+  # pkg:gem/opentelemetry-instrumentation-excon#lib/opentelemetry/instrumentation/concerns/untraced_hosts.rb:33
   def untraced_host?(host); end
 
   class << self
-    # @private
-    #
-    # source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation/concerns/untraced_hosts.rb#14
+    # pkg:gem/opentelemetry-instrumentation-excon#lib/opentelemetry/instrumentation/concerns/untraced_hosts.rb:14
     def included(klass); end
   end
 end
 
 # Contains the OpenTelemetry instrumentation for the Excon gem
 #
-# source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation/excon.rb#13
+# pkg:gem/opentelemetry-instrumentation-excon#lib/opentelemetry/instrumentation/excon.rb:13
 module OpenTelemetry::Instrumentation::Excon; end
 
 # Utility module for HTTP-related helper methods
-#
 # @api private
 #
-# source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation/excon/http_helper.rb#12
+# pkg:gem/opentelemetry-instrumentation-excon#lib/opentelemetry/instrumentation/excon/http_helper.rb:12
 module OpenTelemetry::Instrumentation::Excon::HttpHelper
   class << self
     # Prepares span data using both old and stable semantic conventions
-    #
-    # @api private
     # @param method [String, Symbol] The HTTP method
     # @return [SpanCreationAttributes] struct containing span_name and attributes hash
     #
-    # source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation/excon/http_helper.rb#107
+    # pkg:gem/opentelemetry-instrumentation-excon#lib/opentelemetry/instrumentation/excon/http_helper.rb:107
     def span_attrs_for_dup(method); end
 
     # Prepares span data using old semantic conventions
-    #
-    # @api private
     # @param method [String, Symbol] The HTTP method
     # @return [SpanCreationAttributes] struct containing span_name and attributes hash
     #
-    # source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation/excon/http_helper.rb#58
+    # pkg:gem/opentelemetry-instrumentation-excon#lib/opentelemetry/instrumentation/excon/http_helper.rb:58
     def span_attrs_for_old(method); end
 
     # Prepares span data using stable semantic conventions
-    #
-    # @api private
     # @param method [String, Symbol] The HTTP method
     # @return [SpanCreationAttributes] struct containing span_name and attributes hash
     #
-    # source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation/excon/http_helper.rb#80
+    # pkg:gem/opentelemetry-instrumentation-excon#lib/opentelemetry/instrumentation/excon/http_helper.rb:80
     def span_attrs_for_stable(method); end
   end
 end
 
 # Pre-computed mapping to avoid string allocations during normalization
 #
-# @api private
-#
-# source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation/excon/http_helper.rb#17
+# pkg:gem/opentelemetry-instrumentation-excon#lib/opentelemetry/instrumentation/excon/http_helper.rb:17
 OpenTelemetry::Instrumentation::Excon::HttpHelper::METHOD_CACHE = T.let(T.unsafe(nil), Hash)
 
-# @api private
-#
-# source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation/excon/http_helper.rb#49
+# pkg:gem/opentelemetry-instrumentation-excon#lib/opentelemetry/instrumentation/excon/http_helper.rb:49
 OpenTelemetry::Instrumentation::Excon::HttpHelper::OLD_SPAN_NAMES_BY_METHOD = T.let(T.unsafe(nil), Hash)
 
 # Lightweight struct to hold span creation data
 #
-# @api private
-#
-# source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation/excon/http_helper.rb#14
+# pkg:gem/opentelemetry-instrumentation-excon#lib/opentelemetry/instrumentation/excon/http_helper.rb:14
 class OpenTelemetry::Instrumentation::Excon::HttpHelper::SpanCreationAttributes < ::Struct
-  # Returns the value of attribute attributes
-  #
-  # @return [Object] the current value of attributes
-  #
-  # source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation/excon/http_helper.rb#14
+  # pkg:gem/opentelemetry-instrumentation-excon#lib/opentelemetry/instrumentation/excon/http_helper.rb:14
   def attributes; end
 
-  # Sets the attribute attributes
-  #
-  # @param value [Object] the value to set the attribute attributes to.
-  # @return [Object] the newly set value
-  #
-  # source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation/excon/http_helper.rb#14
+  # pkg:gem/opentelemetry-instrumentation-excon#lib/opentelemetry/instrumentation/excon/http_helper.rb:14
   def attributes=(_); end
 
-  # Returns the value of attribute span_name
-  #
-  # @return [Object] the current value of span_name
-  #
-  # source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation/excon/http_helper.rb#14
+  # pkg:gem/opentelemetry-instrumentation-excon#lib/opentelemetry/instrumentation/excon/http_helper.rb:14
   def span_name; end
 
-  # Sets the attribute span_name
-  #
-  # @param value [Object] the value to set the attribute span_name to.
-  # @return [Object] the newly set value
-  #
-  # source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation/excon/http_helper.rb#14
+  # pkg:gem/opentelemetry-instrumentation-excon#lib/opentelemetry/instrumentation/excon/http_helper.rb:14
   def span_name=(_); end
 
   class << self
-    # source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation/excon/http_helper.rb#14
+    # pkg:gem/opentelemetry-instrumentation-excon#lib/opentelemetry/instrumentation/excon/http_helper.rb:14
     def [](*_arg0); end
 
-    # source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation/excon/http_helper.rb#14
+    # pkg:gem/opentelemetry-instrumentation-excon#lib/opentelemetry/instrumentation/excon/http_helper.rb:14
     def inspect; end
 
-    # source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation/excon/http_helper.rb#14
+    # pkg:gem/opentelemetry-instrumentation-excon#lib/opentelemetry/instrumentation/excon/http_helper.rb:14
     def keyword_init?; end
 
-    # source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation/excon/http_helper.rb#14
+    # pkg:gem/opentelemetry-instrumentation-excon#lib/opentelemetry/instrumentation/excon/http_helper.rb:14
     def members; end
 
-    # source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation/excon/http_helper.rb#14
+    # pkg:gem/opentelemetry-instrumentation-excon#lib/opentelemetry/instrumentation/excon/http_helper.rb:14
     def new(*_arg0); end
   end
 end
@@ -166,45 +156,45 @@ end
 # The Instrumentation class contains logic to detect and install the Excon
 # instrumentation
 #
-# source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation/excon/instrumentation.rb#14
+# pkg:gem/opentelemetry-instrumentation-excon#lib/opentelemetry/instrumentation/excon/instrumentation.rb:14
 class OpenTelemetry::Instrumentation::Excon::Instrumentation < ::OpenTelemetry::Instrumentation::Base
   include ::OpenTelemetry::Instrumentation::Concerns::UntracedHosts
 
   private
 
-  # source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation/excon/instrumentation.rb#66
+  # pkg:gem/opentelemetry-instrumentation-excon#lib/opentelemetry/instrumentation/excon/instrumentation.rb:66
   def add_middleware_dup; end
 
-  # source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation/excon/instrumentation.rb#74
+  # pkg:gem/opentelemetry-instrumentation-excon#lib/opentelemetry/instrumentation/excon/instrumentation.rb:74
   def add_middleware_old; end
 
-  # source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation/excon/instrumentation.rb#70
+  # pkg:gem/opentelemetry-instrumentation-excon#lib/opentelemetry/instrumentation/excon/instrumentation.rb:70
   def add_middleware_stable; end
 
-  # source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation/excon/instrumentation.rb#32
+  # pkg:gem/opentelemetry-instrumentation-excon#lib/opentelemetry/instrumentation/excon/instrumentation.rb:32
   def determine_semconv; end
 
-  # source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation/excon/instrumentation.rb#47
+  # pkg:gem/opentelemetry-instrumentation-excon#lib/opentelemetry/instrumentation/excon/instrumentation.rb:47
   def emit_old_semconv_deprecation_warning(option); end
 
-  # source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation/excon/instrumentation.rb#78
+  # pkg:gem/opentelemetry-instrumentation-excon#lib/opentelemetry/instrumentation/excon/instrumentation.rb:78
   def patch_dup; end
 
-  # source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation/excon/instrumentation.rb#86
+  # pkg:gem/opentelemetry-instrumentation-excon#lib/opentelemetry/instrumentation/excon/instrumentation.rb:86
   def patch_old; end
 
-  # source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation/excon/instrumentation.rb#82
+  # pkg:gem/opentelemetry-instrumentation-excon#lib/opentelemetry/instrumentation/excon/instrumentation.rb:82
   def patch_stable; end
 
-  # source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation/excon/instrumentation.rb#51
+  # pkg:gem/opentelemetry-instrumentation-excon#lib/opentelemetry/instrumentation/excon/instrumentation.rb:51
   def require_dependencies_dup; end
 
-  # source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation/excon/instrumentation.rb#61
+  # pkg:gem/opentelemetry-instrumentation-excon#lib/opentelemetry/instrumentation/excon/instrumentation.rb:61
   def require_dependencies_old; end
 
-  # source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation/excon/instrumentation.rb#56
+  # pkg:gem/opentelemetry-instrumentation-excon#lib/opentelemetry/instrumentation/excon/instrumentation.rb:56
   def require_dependencies_stable; end
 end
 
-# source://opentelemetry-instrumentation-excon//lib/opentelemetry/instrumentation/excon/version.rb#10
+# pkg:gem/opentelemetry-instrumentation-excon#lib/opentelemetry/instrumentation/excon/version.rb:10
 OpenTelemetry::Instrumentation::Excon::VERSION = T.let(T.unsafe(nil), String)

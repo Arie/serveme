@@ -5,44 +5,44 @@
 # Please instead update this file by running `bin/tapioca gem draper`.
 
 
-# source://draper//lib/draper/railtie.rb#3
+# pkg:gem/draper#lib/draper/railtie.rb:3
 module ActiveModel; end
 
-# source://draper//lib/draper/railtie.rb#4
+# pkg:gem/draper#lib/draper/railtie.rb:4
 class ActiveModel::Railtie < ::Rails::Railtie; end
 
-# source://draper//lib/draper/version.rb#1
+# pkg:gem/draper#lib/draper/version.rb:1
 module Draper
   extend ::Draper::Configuration
 
   class << self
-    # source://draper//lib/draper.rb#37
+    # pkg:gem/draper#lib/draper.rb:37
     def setup_action_controller(base); end
 
-    # source://draper//lib/draper.rb#48
+    # pkg:gem/draper#lib/draper.rb:48
     def setup_action_mailer(base); end
 
-    # source://draper//lib/draper/undecorate.rb#2
+    # pkg:gem/draper#lib/draper/undecorate.rb:2
     def undecorate(object); end
 
-    # source://draper//lib/draper/undecorate.rb#10
+    # pkg:gem/draper#lib/draper/undecorate.rb:10
     def undecorate_chain(object); end
   end
 end
 
-# source://draper//lib/draper/automatic_delegation.rb#2
+# pkg:gem/draper#lib/draper/automatic_delegation.rb:2
 module Draper::AutomaticDelegation
   extend ::ActiveSupport::Concern
 
   mixes_in_class_methods ::Draper::AutomaticDelegation::ClassMethods
 
   # @private
-  # @return [Boolean]
+  # @private
   #
-  # source://draper//lib/draper/automatic_delegation.rb#24
+  # pkg:gem/draper#lib/draper/automatic_delegation.rb:24
   def delegatable?(method); end
 
-  # source://draper//lib/draper/automatic_delegation.rb#9
+  # pkg:gem/draper#lib/draper/automatic_delegation.rb:9
   def method_missing(method, *args, **_arg2, &block); end
 
   private
@@ -50,29 +50,25 @@ module Draper::AutomaticDelegation
   # Checks if the decorator responds to an instance method, or is able to
   # proxy it to the source object.
   #
-  # @return [Boolean]
-  #
-  # source://draper//lib/draper/automatic_delegation.rb#17
+  # pkg:gem/draper#lib/draper/automatic_delegation.rb:17
   def respond_to_missing?(method, include_private = T.unsafe(nil)); end
 end
 
-# source://draper//lib/draper/automatic_delegation.rb#38
+# pkg:gem/draper#lib/draper/automatic_delegation.rb:38
 module Draper::AutomaticDelegation::ClassMethods
+  # @private
   # Avoids reloading the model class when ActiveSupport clears autoloaded
   # dependencies in development mode.
   #
-  # @private
-  #
-  # source://draper//lib/draper/automatic_delegation.rb#60
+  # pkg:gem/draper#lib/draper/automatic_delegation.rb:60
   def before_remove_const; end
 
   # @private
-  # @return [Boolean]
   #
-  # source://draper//lib/draper/automatic_delegation.rb#53
+  # pkg:gem/draper#lib/draper/automatic_delegation.rb:53
   def delegatable?(method); end
 
-  # source://draper//lib/draper/automatic_delegation.rb#40
+  # pkg:gem/draper#lib/draper/automatic_delegation.rb:40
   def method_missing(method, *args, **_arg2, &block); end
 
   private
@@ -80,13 +76,11 @@ module Draper::AutomaticDelegation::ClassMethods
   # Checks if the decorator responds to a class method, or is able to proxy
   # it to the source class.
   #
-  # @return [Boolean]
-  #
-  # source://draper//lib/draper/automatic_delegation.rb#48
+  # pkg:gem/draper#lib/draper/automatic_delegation.rb:48
   def respond_to_missing?(method, include_private = T.unsafe(nil)); end
 end
 
-# source://draper//lib/draper/collection_decorator.rb#2
+# pkg:gem/draper#lib/draper/collection_decorator.rb:2
 class Draper::CollectionDecorator
   include ::Enumerable
   include ::Draper::ViewHelpers
@@ -94,596 +88,589 @@ class Draper::CollectionDecorator
   extend ::Draper::ViewHelpers::ClassMethods
   extend ::Draper::Delegation
 
-  # @option options
-  # @option options
-  # @param object [Enumerable] collection to decorate.
-  # @param options [Hash] a customizable set of options
-  # @return [CollectionDecorator] a new instance of CollectionDecorator
+  # @param [Enumerable] object
+  #   collection to decorate.
+  # @option options [Class, nil] :with (nil)
+  #   the decorator class used to decorate each item. When `nil`, each item's
+  #   {Decoratable#decorate decorate} method will be used.
+  # @option options [Hash] :context ({})
+  #   extra data to be stored in the collection decorator and used in
+  #   user-defined methods, and passed to each item's decorator.
   #
-  # source://draper//lib/draper/collection_decorator.rb#30
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:30
   def initialize(object, options = T.unsafe(nil)); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def &(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def *(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def +(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def -(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def <<(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def ==(arg); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def [](*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def []=(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def all?(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def any?(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def append(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def as_json(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def assoc(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def at(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def bsearch(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def bsearch_index(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def chain(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def chunk(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def chunk_while(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def clear(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def collect(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def collect!(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def collect_concat(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def combination(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def compact(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def compact!(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def compact_blank(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def compact_blank!(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def concat(*_arg0, **_arg1, &_arg2); end
 
   # @return [Hash] extra data to be used in user-defined methods, and passed
   #   to each item's decorator.
   #
-  # source://draper//lib/draper/collection_decorator.rb#17
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:17
   def context; end
 
-  # @return [Hash] extra data to be used in user-defined methods, and passed
-  #   to each item's decorator.
-  #
-  # source://draper//lib/draper/collection_decorator.rb#17
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:17
   def context=(value); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def count(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def cycle(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def deconstruct(*_arg0, **_arg1, &_arg2); end
 
   # @return [true]
   #
-  # source://draper//lib/draper/collection_decorator.rb#58
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:58
   def decorated?; end
 
   # @return [Array] the decorated items.
   #
-  # source://draper//lib/draper/collection_decorator.rb#42
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:42
   def decorated_collection; end
 
-  # source://draper//lib/draper/collection_decorator.rb#62
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:62
   def decorated_with?(_arg0); end
 
   # @return [Class] the decorator class used to decorate each item, as set by
   #   {#initialize}.
   #
-  # source://draper//lib/draper/collection_decorator.rb#13
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:13
   def decorator_class; end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def delete(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def delete_at(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def delete_if(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def detect(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def difference(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def dig(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def drop(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def drop_while(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def each(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def each_cons(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def each_entry(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def each_index(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def each_slice(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def each_with_index(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def each_with_object(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def empty?(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def entries(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def exclude?(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def excluding(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def extract!(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def extract_options!(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def fetch(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def fetch_values(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def fifth(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def fill(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def filter(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def filter!(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def filter_map(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def find(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def find_all(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def find_index(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def first(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def flat_map(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def flatten(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def flatten!(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def forty_two(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def fourth(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def from(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def grep(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def grep_v(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def group_by(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def in_order_of(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def include?(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def including(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def index(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def index_by(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def index_with(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def inject(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def insert(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def intersect?(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def intersection(*_arg0, **_arg1, &_arg2); end
 
-  # @return [Boolean]
-  #
-  # source://draper//lib/draper/collection_decorator.rb#68
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:68
   def is_a?(klass); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def join(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def keep_if(*_arg0, **_arg1, &_arg2); end
 
-  # @return [Boolean]
-  #
-  # source://draper//lib/draper/collection_decorator.rb#64
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:64
   def kind_of?(klass); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def last(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def lazy(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def length(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def many?(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def map(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def map!(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def max(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def max_by(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def maximum(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def member?(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def min(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def min_by(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def minimum(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def minmax(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def minmax_by(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def none?(*_arg0, **_arg1, &_arg2); end
 
   # @return the collection being decorated.
   #
-  # source://draper//lib/draper/collection_decorator.rb#9
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:9
   def object; end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def one?(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def pack(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def partition(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def permutation(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def pick(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
-  def place(*_arg0, **_arg1, &_arg2); end
-
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def pluck(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def pop(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def prepend(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def product(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def push(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def rassoc(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def reduce(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def reject(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def reject!(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def repeated_combination(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def repeated_permutation(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def replace(other); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def reverse(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def reverse!(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def reverse_each(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def rfind(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def rindex(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def rotate(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def rotate!(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def sample(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def second(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def second_to_last(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def select(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def select!(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def shelljoin(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def shift(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def shuffle(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def shuffle!(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def size(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def slice(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def slice!(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def slice_after(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def slice_before(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def slice_when(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def sole(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def sort(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def sort!(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def sort_by(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def sort_by!(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def sum(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def take(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def take_while(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def tally(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def third(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def third_to_last(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def to(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def to_a(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def to_ary(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def to_formatted_s(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def to_fs(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def to_h(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def to_msgpack(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#48
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:48
   def to_s; end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def to_sentence(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def to_set(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def to_xml(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def transpose(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def union(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def uniq(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def uniq!(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def unshift(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def values_at(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def without(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def zip(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#20
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:20
   def |(*_arg0, **_arg1, &_arg2); end
 
   protected
 
   # Decorates the given item.
   #
-  # source://draper//lib/draper/collection_decorator.rb#78
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:78
   def decorate_item(item); end
 
   private
 
-  # source://draper//lib/draper/collection_decorator.rb#84
+  # pkg:gem/draper#lib/draper/collection_decorator.rb:84
   def item_decorator; end
 
   class << self
-    # source://draper//lib/draper/collection_decorator.rb#38
+    # pkg:gem/draper#lib/draper/collection_decorator.rb:38
     def decorate(*_arg0); end
   end
 end
 
-# source://draper//lib/draper/compatibility/api_only.rb#2
+# pkg:gem/draper#lib/draper/compatibility/api_only.rb:2
 module Draper::Compatibility; end
 
 # Draper expects your `ApplicationController` to include `ActionView::Rendering`. The
@@ -697,7 +684,7 @@ module Draper::Compatibility; end
 # for more detail: https://github.com/rails/rails/issues/27211). This hack is meant to be a
 # temporary solution until we can find a way to not rely on the controller layer.
 #
-# source://draper//lib/draper/compatibility/api_only.rb#13
+# pkg:gem/draper#lib/draper/compatibility/api_only.rb:13
 module Draper::Compatibility::ApiOnly
   extend ::ActiveSupport::Concern
 end
@@ -708,11 +695,11 @@ end
 # This compatibility patch fixes the issue by overriding the original defaults to decorate the
 # object, that's passed to the partial in a local variable.
 #
-# source://draper//lib/draper/compatibility/broadcastable.rb#10
+# pkg:gem/draper#lib/draper/compatibility/broadcastable.rb:10
 module Draper::Compatibility::Broadcastable
   private
 
-  # source://draper//lib/draper/compatibility/broadcastable.rb#13
+  # pkg:gem/draper#lib/draper/compatibility/broadcastable.rb:13
   def broadcast_rendering_with_defaults(options); end
 end
 
@@ -726,7 +713,7 @@ end
 # This means you can pass decorated objects to background jobs and they will be decorated when
 # deserialized.
 #
-# source://draper//lib/draper/compatibility/global_id.rb#12
+# pkg:gem/draper#lib/draper/compatibility/global_id.rb:12
 module Draper::Compatibility::GlobalID
   extend ::ActiveSupport::Concern
   include ::GlobalID::Identification
@@ -734,29 +721,27 @@ module Draper::Compatibility::GlobalID
   mixes_in_class_methods ::Draper::Compatibility::GlobalID::ClassMethods
 end
 
+# pkg:gem/draper#lib/draper/compatibility/global_id.rb:19
 module Draper::Compatibility::GlobalID::ClassMethods
-  # source://draper//lib/draper/compatibility/global_id.rb#20
+  # pkg:gem/draper#lib/draper/compatibility/global_id.rb:20
   def find(*args); end
 end
 
-# source://draper//lib/draper/configuration.rb#2
+# pkg:gem/draper#lib/draper/configuration.rb:2
 module Draper::Configuration
-  # @yield [_self]
-  # @yieldparam _self [Draper::Configuration] the object that the method was called on
-  #
-  # source://draper//lib/draper/configuration.rb#3
+  # pkg:gem/draper#lib/draper/configuration.rb:3
   def configure; end
 
-  # source://draper//lib/draper/configuration.rb#7
+  # pkg:gem/draper#lib/draper/configuration.rb:7
   def default_controller; end
 
-  # source://draper//lib/draper/configuration.rb#11
+  # pkg:gem/draper#lib/draper/configuration.rb:11
   def default_controller=(controller); end
 
-  # source://draper//lib/draper/configuration.rb#15
+  # pkg:gem/draper#lib/draper/configuration.rb:15
   def default_query_methods_strategy; end
 
-  # source://draper//lib/draper/configuration.rb#19
+  # pkg:gem/draper#lib/draper/configuration.rb:19
   def default_query_methods_strategy=(strategy); end
 end
 
@@ -767,7 +752,7 @@ end
 # `Mongoid::Document`, but you're using another ORM, or want to decorate
 # plain old Ruby objects, you can include it manually.
 #
-# source://draper//lib/draper/decoratable/equality.rb#2
+# pkg:gem/draper#lib/draper/decoratable/equality.rb:2
 module Draper::Decoratable
   include ::Draper::Decoratable::Equality
   extend ::ActiveSupport::Concern
@@ -778,61 +763,55 @@ module Draper::Decoratable
   #
   # @return [Array<Class>] `[]`
   #
-  # source://draper//lib/draper/decoratable.rb#40
+  # pkg:gem/draper#lib/draper/decoratable.rb:40
   def applied_decorators; end
 
   # Decorates the object using the inferred {#decorator_class}.
+  # @param [Hash] options
+  #   see {Decorator#initialize}
   #
-  # @param options [Hash] see {Decorator#initialize}
-  #
-  # source://draper//lib/draper/decoratable.rb#24
+  # pkg:gem/draper#lib/draper/decoratable.rb:24
   def decorate(options = T.unsafe(nil)); end
 
   # Checks if this object is decorated.
   #
   # @return [false]
   #
-  # source://draper//lib/draper/decoratable.rb#53
+  # pkg:gem/draper#lib/draper/decoratable.rb:53
   def decorated?; end
 
-  # Checks if a given decorator has been applied to the object.
-  #
-  # @param decorator_class [Class]
+  # (see Decorator#decorated_with?)
   # @return [false]
   #
-  # source://draper//lib/draper/decoratable.rb#46
+  # pkg:gem/draper#lib/draper/decoratable.rb:46
   def decorated_with?(decorator_class); end
 
-  # Infers the decorator class to be used by {Decoratable#decorate} (e.g.
-  # `Product` maps to `ProductDecorator`).
+  # (see ClassMethods#decorator_class)
   #
-  # @return [Class] the inferred decorator class.
-  #
-  # source://draper//lib/draper/decoratable.rb#29
+  # pkg:gem/draper#lib/draper/decoratable.rb:29
   def decorator_class; end
 
-  # @return [Boolean]
-  #
-  # source://draper//lib/draper/decoratable.rb#33
+  # pkg:gem/draper#lib/draper/decoratable.rb:33
   def decorator_class?; end
 end
 
-# source://draper//lib/draper/decoratable.rb#57
+# pkg:gem/draper#lib/draper/decoratable.rb:57
 module Draper::Decoratable::ClassMethods
   # Compares with possibly-decorated objects.
   #
   # @return [Boolean]
   #
-  # source://draper//lib/draper/decoratable.rb#94
+  # pkg:gem/draper#lib/draper/decoratable.rb:94
   def ===(other); end
 
   # Decorates a collection of objects. Used at the end of a scope chain.
   #
   # @example
   #   Product.popular.decorate
-  # @param options [Hash] see {Decorator.decorate_collection}.
+  # @param [Hash] options
+  #   see {Decorator.decorate_collection}.
   #
-  # source://draper//lib/draper/decoratable.rb#64
+  # pkg:gem/draper#lib/draper/decoratable.rb:64
   def decorate(options = T.unsafe(nil)); end
 
   # Infers the decorator class to be used by {Decoratable#decorate} (e.g.
@@ -840,34 +819,33 @@ module Draper::Decoratable::ClassMethods
   #
   # @return [Class] the inferred decorator class.
   #
-  # source://draper//lib/draper/decoratable.rb#78
+  # pkg:gem/draper#lib/draper/decoratable.rb:78
   def decorator_class(called_on = T.unsafe(nil)); end
 
-  # @return [Boolean]
-  #
-  # source://draper//lib/draper/decoratable.rb#68
+  # pkg:gem/draper#lib/draper/decoratable.rb:68
   def decorator_class?; end
 end
 
-# source://draper//lib/draper/decoratable/collection_proxy.rb#3
+# pkg:gem/draper#lib/draper/decoratable/collection_proxy.rb:3
 module Draper::Decoratable::CollectionProxy
   # Decorates a collection of objects. Used at the end of a scope chain.
   #
   # @example
   #   company.products.popular.decorate
-  # @param options [Hash] see {Decorator.decorate_collection}.
+  # @param [Hash] options
+  #   see {Decorator.decorate_collection}.
   #
-  # source://draper//lib/draper/decoratable/collection_proxy.rb#10
+  # pkg:gem/draper#lib/draper/decoratable/collection_proxy.rb:10
   def decorate(options = T.unsafe(nil)); end
 end
 
-# source://draper//lib/draper/decoratable/equality.rb#3
+# pkg:gem/draper#lib/draper/decoratable/equality.rb:3
 module Draper::Decoratable::Equality
   # Compares self with a possibly-decorated object.
   #
   # @return [Boolean]
   #
-  # source://draper//lib/draper/decoratable/equality.rb#7
+  # pkg:gem/draper#lib/draper/decoratable/equality.rb:7
   def ==(other); end
 
   class << self
@@ -875,63 +853,77 @@ module Draper::Decoratable::Equality
     #
     # @return [Boolean]
     #
-    # source://draper//lib/draper/decoratable/equality.rb#14
+    # pkg:gem/draper#lib/draper/decoratable/equality.rb:14
     def test(object, other); end
 
     # @private
     #
-    # source://draper//lib/draper/decoratable/equality.rb#20
+    # pkg:gem/draper#lib/draper/decoratable/equality.rb:20
     def test_for_decorator(object, other); end
   end
 end
 
 # @private
 #
-# source://draper//lib/draper/decorated_association.rb#3
+# pkg:gem/draper#lib/draper/decorated_association.rb:3
 class Draper::DecoratedAssociation
-  # @return [DecoratedAssociation] a new instance of DecoratedAssociation
-  #
-  # source://draper//lib/draper/decorated_association.rb#4
+  # pkg:gem/draper#lib/draper/decorated_association.rb:4
   def initialize(owner, association, options); end
 
-  # source://draper//lib/draper/decorated_association.rb#17
+  # pkg:gem/draper#lib/draper/decorated_association.rb:17
   def call; end
 
   private
 
-  # Returns the value of attribute association.
-  #
-  # source://draper//lib/draper/decorated_association.rb#24
+  # pkg:gem/draper#lib/draper/decorated_association.rb:24
   def association; end
 
-  # source://draper//lib/draper/decorated_association.rb#26
+  # pkg:gem/draper#lib/draper/decorated_association.rb:26
   def decorate; end
 
-  # Returns the value of attribute factory.
-  #
-  # source://draper//lib/draper/decorated_association.rb#24
+  # pkg:gem/draper#lib/draper/decorated_association.rb:24
   def factory; end
 
-  # Returns the value of attribute owner.
-  #
-  # source://draper//lib/draper/decorated_association.rb#24
+  # pkg:gem/draper#lib/draper/decorated_association.rb:24
   def owner; end
 
-  # Returns the value of attribute scope.
-  #
-  # source://draper//lib/draper/decorated_association.rb#24
+  # pkg:gem/draper#lib/draper/decorated_association.rb:24
   def scope; end
 end
 
-# source://draper//lib/draper/decorates_assigned.rb#2
+# pkg:gem/draper#lib/draper/decorates_assigned.rb:2
 module Draper::DecoratesAssigned
-  # @overload decorates_assigned
+  # @overload decorates_assigned(*variables, options = {})
+  #   Defines a helper method to access decorated instance variables.
   #
-  # source://draper//lib/draper/decorates_assigned.rb#28
+  #   @example
+  #     # app/controllers/articles_controller.rb
+  #     class ArticlesController < ApplicationController
+  #       decorates_assigned :article
+  #
+  #       def show
+  #         @article = Article.find(params[:id])
+  #       end
+  #     end
+  #
+  #     # app/views/articles/show.html.erb
+  #     <%= article.decorated_title %>
+  #
+  #   @param [Symbols*] variables
+  #     names of the instance variables to decorate (without the `@`).
+  #   @param [Hash] options
+  #   @option options [Decorator, CollectionDecorator] :with (nil)
+  #     decorator class to use. If nil, it is inferred from the instance
+  #     variable.
+  #   @option options [Hash, #call] :context
+  #     extra data to be stored in the decorator. If a Proc is given, it will
+  #     be passed the controller and should return a new context hash.
+  #
+  # pkg:gem/draper#lib/draper/decorates_assigned.rb:28
   def decorates_assigned(*variables); end
 end
 
-# source://draper//lib/draper/decorator.rb#4
+# pkg:gem/draper#lib/draper/decorator.rb:4
 class Draper::Decorator
   include ::Draper::ViewHelpers
   include ::Draper::Compatibility::GlobalID
@@ -950,67 +942,66 @@ class Draper::Decorator
   # decorator to an instance of itself will create a decorator with the same
   # source as the original, rather than redecorating the other instance.
   #
-  # @option options
-  # @param object [Object] object to decorate.
-  # @param options [Hash] a customizable set of options
-  # @return [Decorator] a new instance of Decorator
+  # @param [Object] object
+  #   object to decorate.
+  # @option options [Hash] :context ({})
+  #   extra data to be stored in the decorator and used in user-defined
+  #   methods.
   #
-  # source://draper//lib/draper/decorator.rb#32
+  # pkg:gem/draper#lib/draper/decorator.rb:32
   def initialize(object, options = T.unsafe(nil)); end
 
   # Compares the source object with a possibly-decorated object.
   #
   # @return [Boolean]
   #
-  # source://draper//lib/draper/decorator.rb#169
+  # pkg:gem/draper#lib/draper/decorator.rb:169
   def ==(other); end
 
   # @return [Array<Class>] the list of decorators that have been applied to
   #   the object.
   #
-  # source://draper//lib/draper/decorator.rb#147
+  # pkg:gem/draper#lib/draper/decorator.rb:147
   def applied_decorators; end
 
+  # @return [Hash] the object's attributes, sliced to only include those
   # implemented by the decorator.
   #
-  # @return [Hash] the object's attributes, sliced to only include those
-  #
-  # source://draper//lib/draper/decorator.rb#217
+  # pkg:gem/draper#lib/draper/decorator.rb:217
   def attributes; end
 
-  # source://draper//lib/draper/decorator.rb#207
+  # pkg:gem/draper#lib/draper/decorator.rb:207
   def blank?(*_arg0, **_arg1, &_arg2); end
 
   # @return [Hash] extra data to be used in user-defined methods.
   #
-  # source://draper//lib/draper/decorator.rb#19
+  # pkg:gem/draper#lib/draper/decorator.rb:19
   def context; end
 
   # @return [Hash] extra data to be used in user-defined methods.
   #
-  # source://draper//lib/draper/decorator.rb#19
+  # pkg:gem/draper#lib/draper/decorator.rb:19
   def context=(_arg0); end
 
   # Checks if this object is decorated.
   #
   # @return [true]
   #
-  # source://draper//lib/draper/decorator.rb#162
+  # pkg:gem/draper#lib/draper/decorator.rb:162
   def decorated?; end
 
   # Checks if a given decorator has been applied to the object.
   #
-  # @param decorator_class [Class]
-  # @return [Boolean]
+  # @param [Class] decorator_class
   #
-  # source://draper//lib/draper/decorator.rb#155
+  # pkg:gem/draper#lib/draper/decorator.rb:155
   def decorated_with?(decorator_class); end
 
   # Delegates equality to :== as expected
   #
   # @return [Boolean]
   #
-  # source://draper//lib/draper/decorator.rb#176
+  # pkg:gem/draper#lib/draper/decorator.rb:176
   def eql?(other); end
 
   # Returns a unique hash for a decorated object based on
@@ -1018,92 +1009,82 @@ class Draper::Decorator
   #
   # @return [Fixnum]
   #
-  # source://draper//lib/draper/decorator.rb#184
+  # pkg:gem/draper#lib/draper/decorator.rb:184
   def hash; end
 
-  # source://draper//lib/draper/decorator.rb#10
+  # pkg:gem/draper#lib/draper/decorator.rb:10
   def include_root_in_json; end
 
-  # source://draper//lib/draper/decorator.rb#10
+  # pkg:gem/draper#lib/draper/decorator.rb:10
   def include_root_in_json?; end
 
   # Checks if `self.instance_of?(klass)` or `object.instance_of?(klass)`
   #
-  # @param klass [Class]
-  # @return [Boolean]
+  # @param [Class] klass
   #
-  # source://draper//lib/draper/decorator.rb#200
+  # pkg:gem/draper#lib/draper/decorator.rb:200
   def instance_of?(klass); end
 
-  # Checks if `self.kind_of?(klass)` or `object.kind_of?(klass)`
-  #
-  # @param klass [Class]
-  # @return [Boolean]
-  #
-  # source://draper//lib/draper/decorator.rb#195
+  # pkg:gem/draper#lib/draper/decorator.rb:195
   def is_a?(klass); end
 
   # Checks if `self.kind_of?(klass)` or `object.kind_of?(klass)`
   #
-  # @param klass [Class]
-  # @return [Boolean]
+  # @param [Class] klass
   #
-  # source://draper//lib/draper/decorator.rb#191
+  # pkg:gem/draper#lib/draper/decorator.rb:191
   def kind_of?(klass); end
 
-  # @return the object being decorated.
-  #
-  # source://draper//lib/draper/decorator.rb#16
+  # pkg:gem/draper#lib/draper/decorator.rb:16
   def model; end
 
-  # source://draper//lib/draper/decorator.rb#10
+  # pkg:gem/draper#lib/draper/decorator.rb:10
   def model_name(&_arg0); end
 
   # @return the object being decorated.
   #
-  # source://draper//lib/draper/decorator.rb#14
+  # pkg:gem/draper#lib/draper/decorator.rb:14
   def object; end
 
-  # source://draper//lib/draper/decorator.rb#207
+  # pkg:gem/draper#lib/draper/decorator.rb:207
   def present?(*_arg0, **_arg1, &_arg2); end
 
   # ActiveModel compatibility
-  #
   # @private
   #
-  # source://draper//lib/draper/decorator.rb#211
+  # pkg:gem/draper#lib/draper/decorator.rb:211
   def to_model; end
 
-  # source://draper//lib/draper/decorator.rb#222
+  # pkg:gem/draper#lib/draper/decorator.rb:222
   def to_param(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/decorator.rb#222
+  # pkg:gem/draper#lib/draper/decorator.rb:222
   def to_partial_path(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/decorator.rb#204
+  # pkg:gem/draper#lib/draper/decorator.rb:204
   def to_s(*_arg0, **_arg1, &_arg2); end
 
   private
 
-  # source://draper//lib/draper/decorator.rb#275
+  # pkg:gem/draper#lib/draper/decorator.rb:275
   def decorated_associations; end
 
-  # source://draper//lib/draper/decorator.rb#266
+  # pkg:gem/draper#lib/draper/decorator.rb:266
   def handle_multiple_decoration(options); end
 
   class << self
-    # source://draper//lib/draper/decorator.rb#242
+    # pkg:gem/draper#lib/draper/decorator.rb:242
     def alias_object_to_object_class_name; end
 
     # @return [Class] the class created by {decorate_collection}.
     #
-    # source://draper//lib/draper/decorator.rb#228
+    # pkg:gem/draper#lib/draper/decorator.rb:228
     def collection_decorator_class; end
 
-    # source://draper//lib/draper/decorator.rb#259
+    # pkg:gem/draper#lib/draper/decorator.rb:259
     def collection_decorator_name; end
 
-    # source://draper//lib/draper/decorator.rb#40
+    # pkg:gem/draper#lib/draper/decorator.rb:40
     def decorate(*_arg0); end
 
     # Decorates a collection of objects. The class of the collection decorator
@@ -1111,12 +1092,15 @@ class Draper::Decorator
     # maps to `ProductsDecorator`), but otherwise defaults to
     # {Draper::CollectionDecorator}.
     #
-    # @option options
-    # @option options
-    # @param object [Object] collection to decorate.
-    # @param options [Hash] a customizable set of options
+    # @param [Object] object
+    #   collection to decorate.
+    # @option options [Class, nil] :with (self)
+    #   the decorator class used to decorate each item. When `nil`, it is
+    #   inferred from each item.
+    # @option options [Hash] :context
+    #   extra data to be stored in the collection decorator.
     #
-    # source://draper//lib/draper/decorator.rb#140
+    # pkg:gem/draper#lib/draper/decorator.rb:140
     def decorate_collection(object, options = T.unsafe(nil)); end
 
     # Sets the source class corresponding to the decorator class.
@@ -1125,27 +1109,40 @@ class Draper::Decorator
     #   source (including when using {decorates_finders}), and the source class
     #   cannot be inferred from the decorator class (e.g. `ProductDecorator`
     #   maps to `Product`).
-    # @param object_class [String, Symbol, Class] source class (or class name) that corresponds to this decorator.
+    # @param [String, Symbol, Class] object_class
+    #   source class (or class name) that corresponds to this decorator.
     # @return [void]
     #
-    # source://draper//lib/draper/decorator.rb#60
+    # pkg:gem/draper#lib/draper/decorator.rb:60
     def decorates(object_class); end
 
     # Automatically decorate an association.
     #
-    # @option options
-    # @option options
-    # @option options
-    # @param association [Symbol] name of the association to decorate (e.g. `:products`).
-    # @param options [Hash] a customizable set of options
+    # @param [Symbol] association
+    #   name of the association to decorate (e.g. `:products`).
+    # @option options [Class] :with
+    #   the decorator to apply to the association.
+    # @option options [Symbol] :scope
+    #   a scope to apply when fetching the association.
+    # @option options [Hash, #call] :context
+    #   extra data to be stored in the associated decorator. If omitted, the
+    #   associated decorator's context will be the same as the parent
+    #   decorator's. If a Proc is given, it will be called with the parent's
+    #   context and should return a new context hash for the association.
     # @return [void]
     #
-    # source://draper//lib/draper/decorator.rb#106
+    # pkg:gem/draper#lib/draper/decorator.rb:106
     def decorates_association(association, options = T.unsafe(nil)); end
 
-    # @overload decorates_associations
+    # @overload decorates_associations(*associations, options = {})
+    #   Automatically decorate multiple associations.
+    #   @param [Symbols*] associations
+    #     names of the associations to decorate.
+    #   @param [Hash] options
+    #     see {decorates_association}.
+    #   @return [void]
     #
-    # source://draper//lib/draper/decorator.rb#121
+    # pkg:gem/draper#lib/draper/decorator.rb:121
     def decorates_associations(*associations); end
 
     # Automatically decorates ActiveRecord finder methods, so that you can use
@@ -1156,7 +1153,7 @@ class Draper::Decorator
     #
     # @return [void]
     #
-    # source://draper//lib/draper/decorator.rb#88
+    # pkg:gem/draper#lib/draper/decorator.rb:88
     def decorates_finders; end
 
     # Automatically delegates instance methods to the source object. Class
@@ -1164,29 +1161,25 @@ class Draper::Decorator
     #
     # @return [void]
     #
-    # source://draper//lib/draper/decorator.rb#47
+    # pkg:gem/draper#lib/draper/decorator.rb:47
     def delegate_all; end
 
-    # source://draper//lib/draper/decorator.rb#10
+    # pkg:gem/draper#lib/draper/decorator.rb:10
     def include_root_in_json; end
 
-    # source://draper//lib/draper/decorator.rb#10
+    # pkg:gem/draper#lib/draper/decorator.rb:10
     def include_root_in_json=(value); end
 
-    # source://draper//lib/draper/decorator.rb#10
+    # pkg:gem/draper#lib/draper/decorator.rb:10
     def include_root_in_json?; end
 
-    # @raise [Draper::UninferrableObjectError]
-    #
-    # source://draper//lib/draper/decorator.rb#251
+    # pkg:gem/draper#lib/draper/decorator.rb:251
     def inferred_object_class; end
 
-    # @private
-    #
-    # source://draper//lib/draper/decorator.rb#237
+    # pkg:gem/draper#lib/draper/decorator.rb:237
     def inherited(subclass); end
 
-    # source://draper//lib/draper/decorator.rb#225
+    # pkg:gem/draper#lib/draper/decorator.rb:225
     def model_name(*_arg0, **_arg1, &_arg2); end
 
     # Returns the source class corresponding to the decorator class, as set by
@@ -1195,120 +1188,112 @@ class Draper::Decorator
     #
     # @return [Class] the source class that corresponds to this decorator.
     #
-    # source://draper//lib/draper/decorator.rb#70
+    # pkg:gem/draper#lib/draper/decorator.rb:70
     def object_class; end
 
     # Checks whether this decorator class has a corresponding {object_class}.
     #
-    # @return [Boolean]
-    #
-    # source://draper//lib/draper/decorator.rb#75
+    # pkg:gem/draper#lib/draper/decorator.rb:75
     def object_class?; end
 
-    # source://draper//lib/draper/decorator.rb#246
+    # pkg:gem/draper#lib/draper/decorator.rb:246
     def object_class_name; end
 
     private
 
-    # source://draper//lib/draper/decorator.rb#10
+    # pkg:gem/draper#lib/draper/decorator.rb:10
     def __class_attr_include_root_in_json; end
 
-    # source://draper//lib/draper/decorator.rb#10
+    # pkg:gem/draper#lib/draper/decorator.rb:10
     def __class_attr_include_root_in_json=(new_value); end
   end
 end
 
-# source://draper//lib/draper/delegation.rb#2
+# pkg:gem/draper#lib/draper/delegation.rb:2
 module Draper::Delegation
-  # @overload delegate
+  # @overload delegate(*methods, options = {})
+  #   Overrides {http://api.rubyonrails.org/classes/Module.html#method-i-delegate Module.delegate}
+  #   to make `:object` the default delegation target.
   #
-  # source://draper//lib/draper/delegation.rb#8
+  #   @return [void]
+  #
+  # pkg:gem/draper#lib/draper/delegation.rb:8
   def delegate(*methods); end
 end
 
-# source://draper//lib/draper/factory.rb#2
+# pkg:gem/draper#lib/draper/factory.rb:2
 class Draper::Factory
   # Creates a decorator factory.
   #
-  # @option options
-  # @option options
-  # @param options [Hash] a customizable set of options
-  # @return [Factory] a new instance of Factory
+  # @option options [Decorator, CollectionDecorator] :with (nil)
+  #   decorator class to use. If nil, it is inferred from the object
+  #   passed to {#decorate}.
+  # @option options [Hash, #call] context
+  #   extra data to be stored in created decorators. If a proc is given, it
+  #   will be called each time {#decorate} is called and its return value
+  #   will be used as the context.
   #
-  # source://draper//lib/draper/factory.rb#12
+  # pkg:gem/draper#lib/draper/factory.rb:12
   def initialize(options = T.unsafe(nil)); end
 
   # Decorates an object, inferring whether to create a singular or collection
   # decorator from the type of object passed.
   #
-  # @option options
-  # @option options
-  # @param object [Object] object to decorate.
-  # @param options [Hash] a customizable set of options
+  # @param [Object] object
+  #   object to decorate.
+  # @option options [Hash] context
+  #   extra data to be stored in the decorator. Overrides any context passed
+  #   to the constructor.
+  # @option options [Object, Array] context_args (nil)
+  #   argument(s) to be passed to the context proc.
   # @return [Decorator, CollectionDecorator] the decorated object.
   #
-  # source://draper//lib/draper/factory.rb#29
+  # pkg:gem/draper#lib/draper/factory.rb:29
   def decorate(object, options = T.unsafe(nil)); end
 
   private
 
-  # Returns the value of attribute decorator_class.
-  #
-  # source://draper//lib/draper/factory.rb#36
+  # pkg:gem/draper#lib/draper/factory.rb:36
   def decorator_class; end
 
-  # Returns the value of attribute default_options.
-  #
-  # source://draper//lib/draper/factory.rb#36
+  # pkg:gem/draper#lib/draper/factory.rb:36
   def default_options; end
 end
 
 # @private
 #
-# source://draper//lib/draper/factory.rb#39
+# pkg:gem/draper#lib/draper/factory.rb:39
 class Draper::Factory::Worker
-  # @return [Worker] a new instance of Worker
-  #
-  # source://draper//lib/draper/factory.rb#40
+  # pkg:gem/draper#lib/draper/factory.rb:40
   def initialize(decorator_class, object); end
 
-  # source://draper//lib/draper/factory.rb#45
+  # pkg:gem/draper#lib/draper/factory.rb:45
   def call(options); end
 
-  # @raise [Draper::UninferrableDecoratorError]
-  #
-  # source://draper//lib/draper/factory.rb#50
+  # pkg:gem/draper#lib/draper/factory.rb:50
   def decorator; end
 
   private
 
-  # @return [Boolean]
-  #
-  # source://draper//lib/draper/factory.rb#77
+  # pkg:gem/draper#lib/draper/factory.rb:77
   def collection?; end
 
-  # @return [Boolean]
-  #
-  # source://draper//lib/draper/factory.rb#81
+  # pkg:gem/draper#lib/draper/factory.rb:81
   def decoratable?; end
 
-  # Returns the value of attribute decorator_class.
-  #
-  # source://draper//lib/draper/factory.rb#59
+  # pkg:gem/draper#lib/draper/factory.rb:59
   def decorator_class; end
 
-  # source://draper//lib/draper/factory.rb#69
+  # pkg:gem/draper#lib/draper/factory.rb:69
   def decorator_method(klass); end
 
-  # Returns the value of attribute object.
-  #
-  # source://draper//lib/draper/factory.rb#59
+  # pkg:gem/draper#lib/draper/factory.rb:59
   def object; end
 
-  # source://draper//lib/draper/factory.rb#61
+  # pkg:gem/draper#lib/draper/factory.rb:61
   def object_decorator; end
 
-  # source://draper//lib/draper/factory.rb#85
+  # pkg:gem/draper#lib/draper/factory.rb:85
   def update_context(options); end
 end
 
@@ -1316,48 +1301,45 @@ end
 # do not have to extend this module directly; it is extended by
 # {Decorator.decorates_finders}.
 #
-# source://draper//lib/draper/finders.rb#5
+# pkg:gem/draper#lib/draper/finders.rb:5
 module Draper::Finders
-  # source://draper//lib/draper/finders.rb#10
+  # pkg:gem/draper#lib/draper/finders.rb:10
   def all(options = T.unsafe(nil)); end
 
-  # source://draper//lib/draper/finders.rb#6
+  # pkg:gem/draper#lib/draper/finders.rb:6
   def find(id, options = T.unsafe(nil)); end
 
-  # source://draper//lib/draper/finders.rb#14
+  # pkg:gem/draper#lib/draper/finders.rb:14
   def first(options = T.unsafe(nil)); end
 
-  # source://draper//lib/draper/finders.rb#18
+  # pkg:gem/draper#lib/draper/finders.rb:18
   def last(options = T.unsafe(nil)); end
 
   # Decorates dynamic finder methods (`find_all_by_` and friends).
   #
-  # source://draper//lib/draper/finders.rb#23
+  # pkg:gem/draper#lib/draper/finders.rb:23
   def method_missing(method, *args, &block); end
 end
 
 # Provides access to helper methods - both Rails built-in helpers, and those
 # defined in your application.
 #
-# source://draper//lib/draper/helper_proxy.rb#4
+# pkg:gem/draper#lib/draper/helper_proxy.rb:4
 class Draper::HelperProxy
-  # @overload initialize
-  # @return [HelperProxy] a new instance of HelperProxy
+  # @overload initialize(view_context)
   #
-  # source://draper//lib/draper/helper_proxy.rb#6
+  # pkg:gem/draper#lib/draper/helper_proxy.rb:6
   def initialize(view_context); end
 
-  # source://draper//lib/draper/helper_proxy.rb#22
+  # pkg:gem/draper#lib/draper/helper_proxy.rb:22
   def capture(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/helper_proxy.rb#11
+  # pkg:gem/draper#lib/draper/helper_proxy.rb:11
   def method_missing(method, *args, **_arg2, &block); end
 
   protected
 
-  # Returns the value of attribute view_context.
-  #
-  # source://draper//lib/draper/helper_proxy.rb#26
+  # pkg:gem/draper#lib/draper/helper_proxy.rb:26
   def view_context; end
 
   private
@@ -1365,20 +1347,18 @@ class Draper::HelperProxy
   # Checks if the context responds to an instance method, or is able to
   # proxy it to the view context.
   #
-  # @return [Boolean]
-  #
-  # source://draper//lib/draper/helper_proxy.rb#18
+  # pkg:gem/draper#lib/draper/helper_proxy.rb:18
   def respond_to_missing?(method, include_private = T.unsafe(nil)); end
 
   class << self
-    # source://draper//lib/draper/helper_proxy.rb#30
+    # pkg:gem/draper#lib/draper/helper_proxy.rb:30
     def define_proxy(name); end
   end
 end
 
-# source://draper//lib/draper/helper_support.rb#1
+# pkg:gem/draper#lib/draper/helper_support.rb:1
 module Draper::HelperSupport
-  # source://draper//lib/draper/helper_support.rb#2
+  # pkg:gem/draper#lib/draper/helper_support.rb:2
   def decorate(input, &block); end
 end
 
@@ -1386,137 +1366,126 @@ end
 # so that you can stop typing `h.` everywhere, at the cost of mixing in a
 # bazillion methods.
 #
-# source://draper//lib/draper/lazy_helpers.rb#5
+# pkg:gem/draper#lib/draper/lazy_helpers.rb:5
 module Draper::LazyHelpers
-  # source://draper//lib/draper/lazy_helpers.rb#7
+  # pkg:gem/draper#lib/draper/lazy_helpers.rb:7
   def method_missing(method, *args, **_arg2, &block); end
 end
 
-# source://draper//lib/draper/query_methods/load_strategy.rb#2
+# pkg:gem/draper#lib/draper/query_methods/load_strategy.rb:2
 module Draper::QueryMethods
-  # source://draper//lib/draper/query_methods.rb#6
+  # pkg:gem/draper#lib/draper/query_methods.rb:6
   def method_missing(method, *args, **_arg2, &block); end
 
   private
 
-  # @return [Boolean]
-  #
-  # source://draper//lib/draper/query_methods.rb#12
+  # pkg:gem/draper#lib/draper/query_methods.rb:12
   def respond_to_missing?(method, include_private = T.unsafe(nil)); end
 
   # Configures the strategy used to proxy the query methods, which defaults to `:active_record`.
   #
-  # source://draper//lib/draper/query_methods.rb#19
+  # pkg:gem/draper#lib/draper/query_methods.rb:19
   def strategy; end
 end
 
-# source://draper//lib/draper/query_methods/load_strategy.rb#3
+# pkg:gem/draper#lib/draper/query_methods/load_strategy.rb:3
 module Draper::QueryMethods::LoadStrategy
   class << self
-    # source://draper//lib/draper/query_methods/load_strategy.rb#4
+    # pkg:gem/draper#lib/draper/query_methods/load_strategy.rb:4
     def new(name); end
   end
 end
 
-# source://draper//lib/draper/query_methods/load_strategy.rb#8
+# pkg:gem/draper#lib/draper/query_methods/load_strategy.rb:8
 class Draper::QueryMethods::LoadStrategy::ActiveRecord
-  # @return [Boolean]
-  #
-  # source://draper//lib/draper/query_methods/load_strategy.rb#9
+  # pkg:gem/draper#lib/draper/query_methods/load_strategy.rb:9
   def allowed?(method); end
 end
 
-# source://draper//lib/draper/query_methods/load_strategy.rb#14
+# pkg:gem/draper#lib/draper/query_methods/load_strategy.rb:14
 class Draper::QueryMethods::LoadStrategy::Mongoid
-  # @raise [NotImplementedError]
-  # @return [Boolean]
-  #
-  # source://draper//lib/draper/query_methods/load_strategy.rb#15
+  # pkg:gem/draper#lib/draper/query_methods/load_strategy.rb:15
   def allowed?(method); end
 end
 
-# source://draper//lib/draper/railtie.rb#13
+# pkg:gem/draper#lib/draper/railtie.rb:13
 class Draper::Railtie < ::Rails::Railtie
-  # source://draper//lib/draper/railtie.rb#53
+  # pkg:gem/draper#lib/draper/railtie.rb:53
   def initialize_view_context; end
 end
 
-# source://draper//lib/draper.rb#54
+# pkg:gem/draper#lib/draper.rb:54
 class Draper::UninferrableDecoratorError < ::NameError
-  # @return [UninferrableDecoratorError] a new instance of UninferrableDecoratorError
-  #
-  # source://draper//lib/draper.rb#55
+  # pkg:gem/draper#lib/draper.rb:55
   def initialize(klass); end
 end
 
-# source://draper//lib/draper.rb#60
+# pkg:gem/draper#lib/draper.rb:60
 class Draper::UninferrableObjectError < ::NameError
-  # @return [UninferrableObjectError] a new instance of UninferrableObjectError
-  #
-  # source://draper//lib/draper.rb#61
+  # pkg:gem/draper#lib/draper.rb:61
   def initialize(klass); end
 end
 
-# source://draper//lib/draper/version.rb#2
+# pkg:gem/draper#lib/draper/version.rb:2
 Draper::VERSION = T.let(T.unsafe(nil), String)
 
-# source://draper//lib/draper/view_context/build_strategy.rb#2
+# pkg:gem/draper#lib/draper/view_context/build_strategy.rb:2
 module Draper::ViewContext
   # Set the current controller
   #
-  # source://draper//lib/draper/view_context.rb#14
+  # pkg:gem/draper#lib/draper/view_context.rb:14
   def activate_draper; end
 
   # Hooks into a controller or mailer to save the view context in {current}.
   #
-  # source://draper//lib/draper/view_context.rb#7
+  # pkg:gem/draper#lib/draper/view_context.rb:7
   def view_context; end
 
   class << self
     # Builds a new view context for usage in tests. See {test_strategy} for
     # details of how the view context is built.
     #
-    # source://draper//lib/draper/view_context.rb#50
+    # pkg:gem/draper#lib/draper/view_context.rb:50
     def build; end
 
     # Builds a new view context and sets it as the current view context.
     #
     # @return [HelperProxy]
     #
-    # source://draper//lib/draper/view_context.rb#57
+    # pkg:gem/draper#lib/draper/view_context.rb:57
     def build!; end
 
     # @private
     #
-    # source://draper//lib/draper/view_context.rb#84
+    # pkg:gem/draper#lib/draper/view_context.rb:84
     def build_strategy; end
 
     # Clears the saved controller and view context.
     #
-    # source://draper//lib/draper/view_context.rb#43
+    # pkg:gem/draper#lib/draper/view_context.rb:43
     def clear!; end
 
     # Returns the current controller.
     #
-    # source://draper//lib/draper/view_context.rb#19
+    # pkg:gem/draper#lib/draper/view_context.rb:19
     def controller; end
 
     # Sets the current controller. Clears view context when we are setting
     # different controller.
     #
-    # source://draper//lib/draper/view_context.rb#25
+    # pkg:gem/draper#lib/draper/view_context.rb:25
     def controller=(controller); end
 
     # Returns the current view context, or builds one if none is saved.
     #
     # @return [HelperProxy]
     #
-    # source://draper//lib/draper/view_context.rb#33
+    # pkg:gem/draper#lib/draper/view_context.rb:33
     def current; end
 
     # Sets the current view context.
     #
-    # source://draper//lib/draper/view_context.rb#38
+    # pkg:gem/draper#lib/draper/view_context.rb:38
     def current=(view_context); end
 
     # Configures the strategy used to build view contexts in tests, which
@@ -1525,9 +1494,11 @@ module Draper::ViewContext
     #
     # @example Pass a block to add helper methods to the view context:
     #   Draper::ViewContext.test_strategy :fast do
-    #   include ApplicationHelper
+    #     include ApplicationHelper
     #   end
-    # @param name [:full, :fast] the strategy to use:
+    #
+    # @param [:full, :fast] name
+    #   the strategy to use:
     #
     #   `:full` - build a fully-working view context. Your Rails environment
     #   must be loaded, including your `ApplicationController`.
@@ -1535,75 +1506,62 @@ module Draper::ViewContext
     #   `:fast` - build a minimal view context in tests, with no dependencies
     #   on other components of your application.
     #
-    # source://draper//lib/draper/view_context.rb#79
+    # pkg:gem/draper#lib/draper/view_context.rb:79
     def test_strategy(name, &block); end
   end
 end
 
 # @private
 #
-# source://draper//lib/draper/view_context/build_strategy.rb#4
+# pkg:gem/draper#lib/draper/view_context/build_strategy.rb:4
 module Draper::ViewContext::BuildStrategy
   class << self
-    # source://draper//lib/draper/view_context/build_strategy.rb#5
+    # pkg:gem/draper#lib/draper/view_context/build_strategy.rb:5
     def new(name, &block); end
   end
 end
 
-# source://draper//lib/draper/view_context/build_strategy.rb#9
+# pkg:gem/draper#lib/draper/view_context/build_strategy.rb:9
 class Draper::ViewContext::BuildStrategy::Fast
-  # @return [Fast] a new instance of Fast
-  #
-  # source://draper//lib/draper/view_context/build_strategy.rb#10
+  # pkg:gem/draper#lib/draper/view_context/build_strategy.rb:10
   def initialize(&block); end
 
-  # source://draper//lib/draper/view_context/build_strategy.rb#14
+  # pkg:gem/draper#lib/draper/view_context/build_strategy.rb:14
   def call; end
 
   private
 
-  # Returns the value of attribute view_context_class.
-  #
-  # source://draper//lib/draper/view_context/build_strategy.rb#20
+  # pkg:gem/draper#lib/draper/view_context/build_strategy.rb:20
   def view_context_class; end
 end
 
-# source://draper//lib/draper/view_context/build_strategy.rb#23
+# pkg:gem/draper#lib/draper/view_context/build_strategy.rb:23
 class Draper::ViewContext::BuildStrategy::Full
-  # @return [Full] a new instance of Full
-  #
-  # source://draper//lib/draper/view_context/build_strategy.rb#24
+  # pkg:gem/draper#lib/draper/view_context/build_strategy.rb:24
   def initialize(&block); end
 
-  # source://draper//lib/draper/view_context/build_strategy.rb#28
+  # pkg:gem/draper#lib/draper/view_context/build_strategy.rb:28
   def call; end
 
   private
 
-  # Returns the value of attribute block.
-  #
-  # source://draper//lib/draper/view_context/build_strategy.rb#36
+  # pkg:gem/draper#lib/draper/view_context/build_strategy.rb:36
   def block; end
 
-  # source://draper//lib/draper/view_context/build_strategy.rb#38
+  # pkg:gem/draper#lib/draper/view_context/build_strategy.rb:38
   def controller; end
 end
 
 # Provides the {#helpers} method used in {Decorator} and {CollectionDecorator}
 # to call the Rails helpers.
 #
-# source://draper//lib/draper/view_helpers.rb#4
+# pkg:gem/draper#lib/draper/view_helpers.rb:4
 module Draper::ViewHelpers
   extend ::ActiveSupport::Concern
 
   mixes_in_class_methods ::Draper::ViewHelpers::ClassMethods
 
-  # Access the helpers proxy to call built-in and user-defined
-  # Rails helpers. Aliased to `h` for convenience.
-  #
-  # @return [HelperProxy] the helpers proxy
-  #
-  # source://draper//lib/draper/view_helpers.rb#27
+  # pkg:gem/draper#lib/draper/view_helpers.rb:27
   def h; end
 
   # Access the helpers proxy to call built-in and user-defined
@@ -1611,24 +1569,19 @@ module Draper::ViewHelpers
   #
   # @return [HelperProxy] the helpers proxy
   #
-  # source://draper//lib/draper/view_helpers.rb#23
+  # pkg:gem/draper#lib/draper/view_helpers.rb:23
   def helpers; end
 
-  # source://draper//lib/draper/view_helpers.rb#35
+  # pkg:gem/draper#lib/draper/view_helpers.rb:35
   def l(*args, **_arg1); end
 
-  # source://draper//lib/draper/view_helpers.rb#31
+  # pkg:gem/draper#lib/draper/view_helpers.rb:31
   def localize(*args, **_arg1); end
 end
 
-# source://draper//lib/draper/view_helpers.rb#7
+# pkg:gem/draper#lib/draper/view_helpers.rb:7
 module Draper::ViewHelpers::ClassMethods
-  # Access the helpers proxy to call built-in and user-defined
-  # Rails helpers from a class context.
-  #
-  # @return [HelperProxy] the helpers proxy
-  #
-  # source://draper//lib/draper/view_helpers.rb#16
+  # pkg:gem/draper#lib/draper/view_helpers.rb:16
   def h; end
 
   # Access the helpers proxy to call built-in and user-defined
@@ -1636,6 +1589,6 @@ module Draper::ViewHelpers::ClassMethods
   #
   # @return [HelperProxy] the helpers proxy
   #
-  # source://draper//lib/draper/view_helpers.rb#12
+  # pkg:gem/draper#lib/draper/view_helpers.rb:12
   def helpers; end
 end

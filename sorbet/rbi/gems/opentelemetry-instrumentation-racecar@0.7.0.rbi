@@ -11,41 +11,50 @@
 #
 # The OpenTelemetry module provides global accessors for telemetry objects.
 # See the documentation for the `opentelemetry-api` gem for details.
+# Copyright The OpenTelemetry Authors
 #
-# source://opentelemetry-instrumentation-racecar//lib/opentelemetry/instrumentation.rb#13
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+# pkg:gem/opentelemetry-instrumentation-racecar#lib/opentelemetry/instrumentation.rb:13
 module OpenTelemetry; end
 
 # Instrumentation should be able to handle the case when the library is not installed on a user's system.
 #
-# source://opentelemetry-instrumentation-racecar//lib/opentelemetry/instrumentation.rb#15
+# pkg:gem/opentelemetry-instrumentation-racecar#lib/opentelemetry/instrumentation.rb:15
 module OpenTelemetry::Instrumentation; end
 
 # Contains the OpenTelemetry instrumentation for the Racecar gem
 #
-# source://opentelemetry-instrumentation-racecar//lib/opentelemetry/instrumentation/racecar.rb#13
+# pkg:gem/opentelemetry-instrumentation-racecar#lib/opentelemetry/instrumentation/racecar.rb:13
 module OpenTelemetry::Instrumentation::Racecar; end
 
 # The Instrumentation class contains logic to detect and install the Racecar instrumentation
 #
-# source://opentelemetry-instrumentation-racecar//lib/opentelemetry/instrumentation/racecar/instrumentation.rb#11
+# pkg:gem/opentelemetry-instrumentation-racecar#lib/opentelemetry/instrumentation/racecar/instrumentation.rb:11
 class OpenTelemetry::Instrumentation::Racecar::Instrumentation < ::OpenTelemetry::Instrumentation::Base
   private
 
-  # source://opentelemetry-instrumentation-racecar//lib/opentelemetry/instrumentation/racecar/instrumentation.rb#34
+  # pkg:gem/opentelemetry-instrumentation-racecar#lib/opentelemetry/instrumentation/racecar/instrumentation.rb:34
   def add_subscribers; end
 
-  # source://opentelemetry-instrumentation-racecar//lib/opentelemetry/instrumentation/racecar/instrumentation.rb#44
+  # pkg:gem/opentelemetry-instrumentation-racecar#lib/opentelemetry/instrumentation/racecar/instrumentation.rb:44
   def gem_version; end
 
-  # source://opentelemetry-instrumentation-racecar//lib/opentelemetry/instrumentation/racecar/instrumentation.rb#40
+  # pkg:gem/opentelemetry-instrumentation-racecar#lib/opentelemetry/instrumentation/racecar/instrumentation.rb:40
   def patch; end
 
-  # source://opentelemetry-instrumentation-racecar//lib/opentelemetry/instrumentation/racecar/instrumentation.rb#30
+  # pkg:gem/opentelemetry-instrumentation-racecar#lib/opentelemetry/instrumentation/racecar/instrumentation.rb:30
   def require_patches; end
 end
 
-# source://opentelemetry-instrumentation-racecar//lib/opentelemetry/instrumentation/racecar/instrumentation.rb#12
+# pkg:gem/opentelemetry-instrumentation-racecar#lib/opentelemetry/instrumentation/racecar/instrumentation.rb:12
 OpenTelemetry::Instrumentation::Racecar::Instrumentation::MINIMUM_VERSION = T.let(T.unsafe(nil), Gem::Version)
 
-# source://opentelemetry-instrumentation-racecar//lib/opentelemetry/instrumentation/racecar/version.rb#10
+# pkg:gem/opentelemetry-instrumentation-racecar#lib/opentelemetry/instrumentation/racecar/version.rb:10
 OpenTelemetry::Instrumentation::Racecar::VERSION = T.let(T.unsafe(nil), String)

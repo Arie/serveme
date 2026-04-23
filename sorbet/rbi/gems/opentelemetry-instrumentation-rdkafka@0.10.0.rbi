@@ -11,32 +11,44 @@
 #
 # The OpenTelemetry module provides global accessors for telemetry objects.
 # See the documentation for the `opentelemetry-api` gem for details.
+# Copyright The OpenTelemetry Authors
 #
-# source://opentelemetry-instrumentation-rdkafka//lib/opentelemetry/instrumentation.rb#13
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+# pkg:gem/opentelemetry-instrumentation-rdkafka#lib/opentelemetry/instrumentation.rb:13
 module OpenTelemetry; end
 
 # Instrumentation should be able to handle the case when the library is not installed on a user's system.
 #
-# source://opentelemetry-instrumentation-rdkafka//lib/opentelemetry/instrumentation.rb#15
+# pkg:gem/opentelemetry-instrumentation-rdkafka#lib/opentelemetry/instrumentation.rb:15
 module OpenTelemetry::Instrumentation; end
 
 # Contains the OpenTelemetry instrumentation for the Rdkafka gem
 #
-# source://opentelemetry-instrumentation-rdkafka//lib/opentelemetry/instrumentation/rdkafka.rb#13
+# pkg:gem/opentelemetry-instrumentation-rdkafka#lib/opentelemetry/instrumentation/rdkafka.rb:13
 module OpenTelemetry::Instrumentation::Rdkafka; end
 
 # The Instrumentation class contains logic to detect and install the Rdkafka instrumentation
 #
-# source://opentelemetry-instrumentation-rdkafka//lib/opentelemetry/instrumentation/rdkafka/instrumentation.rb#11
+# pkg:gem/opentelemetry-instrumentation-rdkafka#lib/opentelemetry/instrumentation/rdkafka/instrumentation.rb:11
 class OpenTelemetry::Instrumentation::Rdkafka::Instrumentation < ::OpenTelemetry::Instrumentation::Base
   private
 
-  # source://opentelemetry-instrumentation-rdkafka//lib/opentelemetry/instrumentation/rdkafka/instrumentation.rb#33
+  # pkg:gem/opentelemetry-instrumentation-rdkafka#lib/opentelemetry/instrumentation/rdkafka/instrumentation.rb:33
   def patch; end
 
-  # source://opentelemetry-instrumentation-rdkafka//lib/opentelemetry/instrumentation/rdkafka/instrumentation.rb#28
+  # pkg:gem/opentelemetry-instrumentation-rdkafka#lib/opentelemetry/instrumentation/rdkafka/instrumentation.rb:28
   def require_patches; end
 end
 
-# source://opentelemetry-instrumentation-rdkafka//lib/opentelemetry/instrumentation/rdkafka/version.rb#10
+# pkg:gem/opentelemetry-instrumentation-rdkafka#lib/opentelemetry/instrumentation/rdkafka/version.rb:10
 OpenTelemetry::Instrumentation::Rdkafka::VERSION = T.let(T.unsafe(nil), String)

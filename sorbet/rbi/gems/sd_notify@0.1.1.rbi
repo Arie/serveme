@@ -14,20 +14,20 @@
 #
 # @see https://www.freedesktop.org/software/systemd/man/sd_notify.html
 #
-# source://sd_notify//lib/sd_notify.rb#13
+# pkg:gem/sd_notify#lib/sd_notify.rb:13
 module SdNotify
   class << self
     # @param errno [Integer]
     #
-    # source://sd_notify//lib/sd_notify.rb#45
+    # pkg:gem/sd_notify#lib/sd_notify.rb:45
     def errno(errno, unset_env = T.unsafe(nil)); end
 
-    # source://sd_notify//lib/sd_notify.rb#58
+    # pkg:gem/sd_notify#lib/sd_notify.rb:58
     def fdstore(unset_env = T.unsafe(nil)); end
 
     # @param pid [Integer]
     #
-    # source://sd_notify//lib/sd_notify.rb#50
+    # pkg:gem/sd_notify#lib/sd_notify.rb:50
     def mainpid(pid, unset_env = T.unsafe(nil)); end
 
     # Notify systemd with the provided state, via the notification socket, if
@@ -38,74 +38,77 @@ module SdNotify
     #
     # @param state [String]
     # @param unset_env [Boolean]
-    # @raise [NotifyError] if there was an error communicating with the systemd
-    #   socket
+    #
     # @return [Fixnum, nil] the number of bytes written to the notification
     #   socket or nil if there was no socket to report to (eg. the program wasn't
     #   started by systemd)
+    #
+    # @raise [NotifyError] if there was an error communicating with the systemd
+    #   socket
+    #
     # @see https://www.freedesktop.org/software/systemd/man/sd_notify.html
     #
-    # source://sd_notify//lib/sd_notify.rb#106
+    # pkg:gem/sd_notify#lib/sd_notify.rb:106
     def notify(state, unset_env = T.unsafe(nil)); end
 
-    # source://sd_notify//lib/sd_notify.rb#26
+    # pkg:gem/sd_notify#lib/sd_notify.rb:26
     def ready(unset_env = T.unsafe(nil)); end
 
-    # source://sd_notify//lib/sd_notify.rb#30
+    # pkg:gem/sd_notify#lib/sd_notify.rb:30
     def reloading(unset_env = T.unsafe(nil)); end
 
     # @param status [String] a custom status string that describes the current
     #   state of the service
     #
-    # source://sd_notify//lib/sd_notify.rb#40
+    # pkg:gem/sd_notify#lib/sd_notify.rb:40
     def status(status, unset_env = T.unsafe(nil)); end
 
-    # source://sd_notify//lib/sd_notify.rb#34
+    # pkg:gem/sd_notify#lib/sd_notify.rb:34
     def stopping(unset_env = T.unsafe(nil)); end
 
-    # source://sd_notify//lib/sd_notify.rb#54
+    # pkg:gem/sd_notify#lib/sd_notify.rb:54
     def watchdog(unset_env = T.unsafe(nil)); end
 
+    # @param [Boolean] true if the service manager expects watchdog keep-alive
+    #   notification messages to be sent from this process.
+    #
     # If the $WATCHDOG_USEC environment variable is set,
     # and the $WATCHDOG_PID variable is unset or set to the PID of the current
     # process
     #
     # @note Unlike sd_watchdog_enabled(3), this method does not mutate the
     #   environment.
-    # @param true [Boolean] if the service manager expects watchdog keep-alive
-    #   notification messages to be sent from this process.
-    # @return [Boolean]
     #
-    # source://sd_notify//lib/sd_notify.rb#71
+    # pkg:gem/sd_notify#lib/sd_notify.rb:71
     def watchdog?; end
   end
 end
 
-# source://sd_notify//lib/sd_notify.rb#21
+# pkg:gem/sd_notify#lib/sd_notify.rb:21
 SdNotify::ERRNO = T.let(T.unsafe(nil), String)
 
-# source://sd_notify//lib/sd_notify.rb#24
+# pkg:gem/sd_notify#lib/sd_notify.rb:24
 SdNotify::FDSTORE = T.let(T.unsafe(nil), String)
 
-# source://sd_notify//lib/sd_notify.rb#22
+# pkg:gem/sd_notify#lib/sd_notify.rb:22
 SdNotify::MAINPID = T.let(T.unsafe(nil), String)
 
 # Exception raised when there's an error writing to the notification socket
 #
-# source://sd_notify//lib/sd_notify.rb#15
+# pkg:gem/sd_notify#lib/sd_notify.rb:15
 class SdNotify::NotifyError < ::RuntimeError; end
 
-# source://sd_notify//lib/sd_notify.rb#17
+# pkg:gem/sd_notify#lib/sd_notify.rb:17
 SdNotify::READY = T.let(T.unsafe(nil), String)
 
-# source://sd_notify//lib/sd_notify.rb#18
+# pkg:gem/sd_notify#lib/sd_notify.rb:18
 SdNotify::RELOADING = T.let(T.unsafe(nil), String)
 
-# source://sd_notify//lib/sd_notify.rb#20
+# pkg:gem/sd_notify#lib/sd_notify.rb:20
 SdNotify::STATUS = T.let(T.unsafe(nil), String)
 
-# source://sd_notify//lib/sd_notify.rb#19
+# pkg:gem/sd_notify#lib/sd_notify.rb:19
 SdNotify::STOPPING = T.let(T.unsafe(nil), String)
 
-# source://sd_notify//lib/sd_notify.rb#23
+# pkg:gem/sd_notify#lib/sd_notify.rb:23
 SdNotify::WATCHDOG = T.let(T.unsafe(nil), String)

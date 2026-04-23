@@ -6,66 +6,92 @@
 
 
 # The top-level PG namespace.
+# -*- ruby -*-
+# -*- ruby -*-
+# -*- ruby -*-
+# -*- ruby -*-
+# -*- ruby -*-
+# -*- ruby -*-
+# -*- ruby -*-
+# -*- ruby -*-
+# -*- ruby -*-
+# -*- ruby -*-
 #
-# source://pg//lib/pg.rb#6
+# pkg:gem/pg#lib/pg.rb:6
 module PG
   include ::PG::Constants
 
   class << self
     # Convenience alias for PG::Connection.new.
     #
-    # source://pg//lib/pg.rb#87
+    # pkg:gem/pg#lib/pg.rb:87
     def connect(*args, &block); end
 
-    # source://pg//lib/pg.rb#52
+    # pkg:gem/pg#lib/pg.rb:52
     def init_openssl(_arg0, _arg1); end
 
-    # source://pg//lib/pg.rb#52
+    # pkg:gem/pg#lib/pg.rb:52
     def init_ssl(_arg0); end
 
-    # source://pg//lib/pg.rb#52
+    # pkg:gem/pg#lib/pg.rb:52
     def is_threadsafe?; end
 
-    # source://pg//lib/pg.rb#52
+    # pkg:gem/pg#lib/pg.rb:52
     def isthreadsafe; end
 
-    # source://pg//lib/pg.rb#52
+    # pkg:gem/pg#lib/pg.rb:52
     def library_version; end
 
-    # source://pg//lib/pg.rb#92
+    # pkg:gem/pg#lib/pg.rb:92
     def make_shareable(obj); end
 
     # Ruby-3.4+ prints a warning, if bigdecimal is required but not in the Gemfile.
     # But it's a false positive, since we enable bigdecimal depending features only if it's available.
     # And most people don't need these features.
     #
-    # source://pg//lib/pg.rb#158
+    # pkg:gem/pg#lib/pg.rb:158
     def require_bigdecimal_without_warning; end
 
-    # source://pg//lib/pg.rb#52
+    # pkg:gem/pg#lib/pg.rb:52
     def threadsafe?; end
 
     # Get the PG library version.
     #
     # +include_buildnum+ is no longer used and any value passed will be ignored.
     #
-    # source://pg//lib/pg.rb#81
+    # pkg:gem/pg#lib/pg.rb:81
     def version_string(include_buildnum = T.unsafe(nil)); end
   end
 end
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::ActiveSqlTransaction < ::PG::InvalidTransactionState; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::AdminShutdown < ::PG::OperatorIntervention; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::AmbiguousAlias < ::PG::SyntaxErrorOrAccessRuleViolation; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::AmbiguousColumn < ::PG::SyntaxErrorOrAccessRuleViolation; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::AmbiguousFunction < ::PG::SyntaxErrorOrAccessRuleViolation; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::AmbiguousParameter < ::PG::SyntaxErrorOrAccessRuleViolation; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::ArraySubscriptError < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::AssertFailure < ::PG::PlpgsqlError; end
 
-# source://pg//lib/pg.rb#42
+# pkg:gem/pg#lib/pg.rb:42
 PG::BUNDLED_LIBPQ_WITH_UNIXSOCKET = T.let(T.unsafe(nil), T.untyped)
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::BadCopyFileFormat < ::PG::DataException; end
 
 # Simple set of rules for type casting common PostgreSQL types from Ruby
@@ -118,13 +144,11 @@ class PG::BadCopyFileFormat < ::PG::DataException; end
 # database types using binary copy and value format.
 # Binary COPY is faster than text format but less portable and less readable and pg offers fewer en-/decoders of database types.
 #
-# source://pg//lib/pg/basic_type_map_based_on_result.rb#56
+# pkg:gem/pg#lib/pg/basic_type_map_based_on_result.rb:56
 class PG::BasicTypeMapBasedOnResult < ::PG::TypeMapByOid
   include ::PG::BasicTypeRegistry::Checker
 
-  # @return [BasicTypeMapBasedOnResult] a new instance of BasicTypeMapBasedOnResult
-  #
-  # source://pg//lib/pg/basic_type_map_based_on_result.rb#59
+  # pkg:gem/pg#lib/pg/basic_type_map_based_on_result.rb:59
   def initialize(connection_or_coder_maps, registry: T.unsafe(nil)); end
 end
 
@@ -147,7 +171,7 @@ end
 #   # The format of the parameter is set to 0 (text) and the OID of this parameter is set to 20 (int8).
 #   res = conn.exec_params( "SELECT $1", [5] )
 #
-# source://pg//lib/pg/basic_type_map_for_queries.rb#24
+# pkg:gem/pg#lib/pg/basic_type_map_for_queries.rb:24
 class PG::BasicTypeMapForQueries < ::PG::TypeMapByClass
   include ::PG::BasicTypeRegistry::Checker
 
@@ -159,14 +183,10 @@ class PG::BasicTypeMapForQueries < ::PG::TypeMapByClass
   #   The +Proc+ object is called with the name and format of the missing type.
   #   Its return value is not used.
   #
-  # @return [BasicTypeMapForQueries] a new instance of BasicTypeMapForQueries
-  #
-  # source://pg//lib/pg/basic_type_map_for_queries.rb#52
+  # pkg:gem/pg#lib/pg/basic_type_map_for_queries.rb:52
   def initialize(connection_or_coder_maps, registry: T.unsafe(nil), if_undefined: T.unsafe(nil)); end
 
-  # Returns the value of attribute encode_array_as.
-  #
-  # source://pg//lib/pg/basic_type_map_for_queries.rb#94
+  # pkg:gem/pg#lib/pg/basic_type_map_for_queries.rb:94
   def encode_array_as; end
 
   # Change the mechanism that is used to encode ruby array values
@@ -181,27 +201,27 @@ class PG::BasicTypeMapForQueries < ::PG::TypeMapByClass
   #   If there's an encoder registered for the elements +type+, it will be used.
   #   Otherwise a string conversion (by +value.to_s+) is done.
   #
-  # source://pg//lib/pg/basic_type_map_for_queries.rb#79
+  # pkg:gem/pg#lib/pg/basic_type_map_for_queries.rb:79
   def encode_array_as=(pg_type); end
 
   private
 
-  # source://pg//lib/pg/basic_type_map_for_queries.rb#156
+  # pkg:gem/pg#lib/pg/basic_type_map_for_queries.rb:156
   def array_encoders_by_klass; end
 
-  # source://pg//lib/pg/basic_type_map_for_queries.rb#104
+  # pkg:gem/pg#lib/pg/basic_type_map_for_queries.rb:104
   def coder_by_name(format, direction, name); end
 
-  # source://pg//lib/pg/basic_type_map_for_queries.rb#163
+  # pkg:gem/pg#lib/pg/basic_type_map_for_queries.rb:163
   def get_array_type(value); end
 
-  # source://pg//lib/pg/basic_type_map_for_queries.rb#98
+  # pkg:gem/pg#lib/pg/basic_type_map_for_queries.rb:98
   def init_encoders; end
 
-  # source://pg//lib/pg/basic_type_map_for_queries.rb#113
+  # pkg:gem/pg#lib/pg/basic_type_map_for_queries.rb:113
   def populate_encoder_list; end
 
-  # source://pg//lib/pg/basic_type_map_for_queries.rb#109
+  # pkg:gem/pg#lib/pg/basic_type_map_for_queries.rb:109
   def undefined(name, format); end
 end
 
@@ -218,26 +238,24 @@ end
 #   bd = PG::BasicTypeMapForQueries::BinaryData.new("ab\xff\0cd")
 #   conn.exec_params("INSERT INTO test (data) VALUES ($1)", [bd])
 #
-# source://pg//lib/pg/basic_type_map_for_queries.rb#37
+# pkg:gem/pg#lib/pg/basic_type_map_for_queries.rb:37
 class PG::BasicTypeMapForQueries::BinaryData < ::String; end
 
-# source://pg//lib/pg/basic_type_map_for_queries.rb#196
+# pkg:gem/pg#lib/pg/basic_type_map_for_queries.rb:196
 PG::BasicTypeMapForQueries::DEFAULT_ARRAY_TYPE_MAP = T.let(T.unsafe(nil), Hash)
 
-# source://pg//lib/pg/basic_type_map_for_queries.rb#179
+# pkg:gem/pg#lib/pg/basic_type_map_for_queries.rb:179
 PG::BasicTypeMapForQueries::DEFAULT_TYPE_MAP = T.let(T.unsafe(nil), Hash)
 
-# source://pg//lib/pg/basic_type_map_for_queries.rb#60
+# pkg:gem/pg#lib/pg/basic_type_map_for_queries.rb:60
 class PG::BasicTypeMapForQueries::UndefinedDefault
   class << self
-    # @raise [UndefinedEncoder]
-    #
-    # source://pg//lib/pg/basic_type_map_for_queries.rb#61
+    # pkg:gem/pg#lib/pg/basic_type_map_for_queries.rb:61
     def call(oid_name, format); end
   end
 end
 
-# source://pg//lib/pg/basic_type_map_for_queries.rb#40
+# pkg:gem/pg#lib/pg/basic_type_map_for_queries.rb:40
 class PG::BasicTypeMapForQueries::UndefinedEncoder < ::RuntimeError; end
 
 # Simple set of rules for type casting common PostgreSQL types to Ruby.
@@ -305,24 +323,20 @@ class PG::BasicTypeMapForQueries::UndefinedEncoder < ::RuntimeError; end
 #
 # See also PG::BasicTypeMapBasedOnResult for the encoder direction and PG::BasicTypeRegistry for the definition of additional types.
 #
-# source://pg//lib/pg/basic_type_map_for_results.rb#70
+# pkg:gem/pg#lib/pg/basic_type_map_for_results.rb:70
 class PG::BasicTypeMapForResults < ::PG::TypeMapByOid
   include ::PG::BasicTypeRegistry::Checker
 
-  # @return [BasicTypeMapForResults] a new instance of BasicTypeMapForResults
-  #
-  # source://pg//lib/pg/basic_type_map_for_results.rb#93
+  # pkg:gem/pg#lib/pg/basic_type_map_for_results.rb:93
   def initialize(connection_or_coder_maps, registry: T.unsafe(nil)); end
 end
 
-# source://pg//lib/pg/basic_type_map_for_results.rb#73
+# pkg:gem/pg#lib/pg/basic_type_map_for_results.rb:73
 class PG::BasicTypeMapForResults::WarningTypeMap < ::PG::TypeMapInRuby
-  # @return [WarningTypeMap] a new instance of WarningTypeMap
-  #
-  # source://pg//lib/pg/basic_type_map_for_results.rb#74
+  # pkg:gem/pg#lib/pg/basic_type_map_for_results.rb:74
   def initialize(typenames); end
 
-  # source://pg//lib/pg/basic_type_map_for_results.rb#79
+  # pkg:gem/pg#lib/pg/basic_type_map_for_results.rb:79
   def typecast_result_value(result, _tuple, field); end
 end
 
@@ -349,30 +363,26 @@ end
 #   regi.register_type(0, 'inet', InetEncoder, InetDecoder)
 #   conn.type_map_for_results = PG::BasicTypeMapForResults.new(conn, registry: regi)
 #
-# source://pg//lib/pg/basic_type_registry.rb#28
+# pkg:gem/pg#lib/pg/basic_type_registry.rb:28
 class PG::BasicTypeRegistry
   include ::PG::BasicTypeRegistry::Checker
 
-  # @return [BasicTypeRegistry] a new instance of BasicTypeRegistry
-  #
-  # source://pg//lib/pg/basic_type_registry.rb#173
+  # pkg:gem/pg#lib/pg/basic_type_registry.rb:173
   def initialize; end
 
   # Alias the +old+ type to the +new+ type.
   #
-  # source://pg//lib/pg/basic_type_registry.rb#216
+  # pkg:gem/pg#lib/pg/basic_type_registry.rb:216
   def alias_type(format, new, old); end
 
   # Retrieve a Hash of all en- or decoders for a given wire format.
   # The hash key is the name as defined in table +pg_type+.
   # The hash value is the registered coder object.
   #
-  # source://pg//lib/pg/basic_type_registry.rb#188
+  # pkg:gem/pg#lib/pg/basic_type_registry.rb:188
   def coders_for(format, direction); end
 
-  # Populate the registry with all builtin types of ruby-pg
-  #
-  # source://pg//lib/pg/basic_type_registry.rb#307
+  # pkg:gem/pg#lib/pg/basic_type_registry.rb:307
   def define_default_types; end
 
   # Register an encoder or decoder instance for casting a PostgreSQL type.
@@ -380,12 +390,12 @@ class PG::BasicTypeRegistry
   # Coder#name must correspond to the +typname+ column in the +pg_type+ table.
   # Coder#format can be 0 for text format and 1 for binary.
   #
-  # source://pg//lib/pg/basic_type_registry.rb#197
+  # pkg:gem/pg#lib/pg/basic_type_registry.rb:197
   def register_coder(coder); end
 
   # Populate the registry with all builtin types of ruby-pg
   #
-  # source://pg//lib/pg/basic_type_registry.rb#229
+  # pkg:gem/pg#lib/pg/basic_type_registry.rb:229
   def register_default_types; end
 
   # Register the given +encoder_class+ and/or +decoder_class+ for casting a PostgreSQL type.
@@ -393,27 +403,25 @@ class PG::BasicTypeRegistry
   # +name+ must correspond to the +typname+ column in the +pg_type+ table.
   # +format+ can be 0 for text format and 1 for binary.
   #
-  # source://pg//lib/pg/basic_type_registry.rb#209
+  # pkg:gem/pg#lib/pg/basic_type_registry.rb:209
   def register_type(format, name, encoder_class, decoder_class); end
 end
 
-# source://pg//lib/pg/basic_type_registry.rb#151
+# pkg:gem/pg#lib/pg/basic_type_registry.rb:151
 module PG::BasicTypeRegistry::Checker
   protected
 
-  # source://pg//lib/pg/basic_type_registry.rb#161
+  # pkg:gem/pg#lib/pg/basic_type_registry.rb:161
   def build_coder_maps(conn_or_maps, registry: T.unsafe(nil)); end
 
-  # @raise [ArgumentError]
-  #
-  # source://pg//lib/pg/basic_type_registry.rb#156
+  # pkg:gem/pg#lib/pg/basic_type_registry.rb:156
   def check_format_and_direction(format, direction); end
 end
 
-# source://pg//lib/pg/basic_type_registry.rb#153
+# pkg:gem/pg#lib/pg/basic_type_registry.rb:153
 PG::BasicTypeRegistry::Checker::ValidDirections = T.let(T.unsafe(nil), Hash)
 
-# source://pg//lib/pg/basic_type_registry.rb#152
+# pkg:gem/pg#lib/pg/basic_type_registry.rb:152
 PG::BasicTypeRegistry::Checker::ValidFormats = T.let(T.unsafe(nil), Hash)
 
 # An instance of this class stores the coders that should be used for a particular wire format (text or binary)
@@ -421,39 +429,31 @@ PG::BasicTypeRegistry::Checker::ValidFormats = T.let(T.unsafe(nil), Hash)
 #
 # Each coder object is filled with the PostgreSQL type name, OID, wire format and array coders are filled with the base elements_type.
 #
-# source://pg//lib/pg/basic_type_registry.rb#33
+# pkg:gem/pg#lib/pg/basic_type_registry.rb:33
 class PG::BasicTypeRegistry::CoderMap
-  # @return [CoderMap] a new instance of CoderMap
-  #
-  # source://pg//lib/pg/basic_type_registry.rb#45
+  # pkg:gem/pg#lib/pg/basic_type_registry.rb:45
   def initialize(result, coders_by_name, format, arraycoder); end
 
-  # source://pg//lib/pg/basic_type_registry.rb#85
+  # pkg:gem/pg#lib/pg/basic_type_registry.rb:85
   def coder_by_name(name); end
 
-  # source://pg//lib/pg/basic_type_registry.rb#89
+  # pkg:gem/pg#lib/pg/basic_type_registry.rb:89
   def coder_by_oid(oid); end
 
-  # Returns the value of attribute coders.
-  #
-  # source://pg//lib/pg/basic_type_registry.rb#81
+  # pkg:gem/pg#lib/pg/basic_type_registry.rb:81
   def coders; end
 
-  # Returns the value of attribute coders_by_name.
-  #
-  # source://pg//lib/pg/basic_type_registry.rb#83
+  # pkg:gem/pg#lib/pg/basic_type_registry.rb:83
   def coders_by_name; end
 
-  # Returns the value of attribute coders_by_oid.
-  #
-  # source://pg//lib/pg/basic_type_registry.rb#82
+  # pkg:gem/pg#lib/pg/basic_type_registry.rb:82
   def coders_by_oid; end
 end
 
 # Hash of text types that don't require quotation, when used within composite types.
 #   type.name => true
 #
-# source://pg//lib/pg/basic_type_registry.rb#36
+# pkg:gem/pg#lib/pg/basic_type_registry.rb:36
 PG::BasicTypeRegistry::CoderMap::DONT_QUOTE_TYPES = T.let(T.unsafe(nil), Hash)
 
 # An instance of this class stores CoderMap instances to be used for text and binary wire formats
@@ -472,322 +472,319 @@ PG::BasicTypeRegistry::CoderMap::DONT_QUOTE_TYPES = T.let(T.unsafe(nil), Hash)
 #   maps = PG::BasicTypeRegistry::CoderMapsBundle.new(conn)
 #   conn.type_map_for_results = PG::BasicTypeMapForResults.new(maps)
 #
-# source://pg//lib/pg/basic_type_registry.rb#110
+# pkg:gem/pg#lib/pg/basic_type_registry.rb:110
 class PG::BasicTypeRegistry::CoderMapsBundle
-  # @return [CoderMapsBundle] a new instance of CoderMapsBundle
-  #
-  # source://pg//lib/pg/basic_type_registry.rb#113
+  # pkg:gem/pg#lib/pg/basic_type_registry.rb:113
   def initialize(connection, registry: T.unsafe(nil)); end
 
-  # source://pg//lib/pg/basic_type_registry.rb#142
+  # pkg:gem/pg#lib/pg/basic_type_registry.rb:142
   def each_format(direction); end
 
-  # source://pg//lib/pg/basic_type_registry.rb#146
+  # pkg:gem/pg#lib/pg/basic_type_registry.rb:146
   def map_for(format, direction); end
 
-  # Returns the value of attribute typenames_by_oid.
-  #
-  # source://pg//lib/pg/basic_type_registry.rb#111
+  # pkg:gem/pg#lib/pg/basic_type_registry.rb:111
   def typenames_by_oid; end
 
   private
 
-  # source://pg//lib/pg/basic_type_registry.rb#126
+  # pkg:gem/pg#lib/pg/basic_type_registry.rb:126
   def init_maps(registry, result); end
 end
 
-# source://pg//lib/pg/basic_type_registry.rb#309
+# pkg:gem/pg#lib/pg/basic_type_registry.rb:309
 PG::BasicTypeRegistry::DEFAULT_TYPE_REGISTRY = T.let(T.unsafe(nil), PG::BasicTypeRegistry)
 
-# source://pg//lib/pg.rb#101
+# pkg:gem/pg#lib/pg.rb:52
 module PG::BinaryDecoder
   class << self
     private
 
-    # source://pg//lib/pg.rb#52
+    # pkg:gem/pg#lib/pg.rb:52
     def init_date; end
   end
 end
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::BinaryDecoder::Array < ::PG::CompositeDecoder
   include ::PG::Coder::BinaryFormatting
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def decode(*_arg0); end
 end
 
 PG::BinaryDecoder::Array::CFUNC = T.let(T.unsafe(nil), Object)
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::BinaryDecoder::Boolean < ::PG::SimpleDecoder
   include ::PG::Coder::BinaryFormatting
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def decode(*_arg0); end
 end
 
 PG::BinaryDecoder::Boolean::CFUNC = T.let(T.unsafe(nil), Object)
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::BinaryDecoder::Bytea < ::PG::SimpleDecoder
   include ::PG::Coder::BinaryFormatting
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def decode(*_arg0); end
 end
 
 PG::BinaryDecoder::Bytea::CFUNC = T.let(T.unsafe(nil), Object)
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::BinaryDecoder::CopyRow < ::PG::CopyDecoder
   include ::PG::Coder::BinaryFormatting
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def decode(*_arg0); end
 end
 
 PG::BinaryDecoder::CopyRow::CFUNC = T.let(T.unsafe(nil), Object)
 
+# pkg:gem/pg#lib/pg/binary_decoder/date.rb:7
 class PG::BinaryDecoder::Date < ::PG::SimpleDecoder
   include ::PG::Coder::BinaryFormatting
 
-  # source://pg//lib/pg/binary_decoder/date.rb#7
+  # pkg:gem/pg#lib/pg/binary_decoder/date.rb:7
   def decode(*_arg0); end
 end
 
-# source://pg//lib/pg/binary_decoder/date.rb#7
+# pkg:gem/pg#lib/pg/binary_decoder/date.rb:7
 PG::BinaryDecoder::Date::CFUNC = T.let(T.unsafe(nil), Object)
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::BinaryDecoder::Float < ::PG::SimpleDecoder
   include ::PG::Coder::BinaryFormatting
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def decode(*_arg0); end
 end
 
 PG::BinaryDecoder::Float::CFUNC = T.let(T.unsafe(nil), Object)
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::BinaryDecoder::Integer < ::PG::SimpleDecoder
   include ::PG::Coder::BinaryFormatting
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def decode(*_arg0); end
 end
 
 PG::BinaryDecoder::Integer::CFUNC = T.let(T.unsafe(nil), Object)
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::BinaryDecoder::String < ::PG::SimpleDecoder
   include ::PG::Coder::BinaryFormatting
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def decode(*_arg0); end
 end
 
 PG::BinaryDecoder::String::CFUNC = T.let(T.unsafe(nil), Object)
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::BinaryDecoder::Timestamp < ::PG::SimpleDecoder
   include ::PG::Coder::BinaryFormatting
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def decode(*_arg0); end
 end
 
 PG::BinaryDecoder::Timestamp::CFUNC = T.let(T.unsafe(nil), Object)
 
-# source://pg//lib/pg/binary_decoder/timestamp.rb#19
+# pkg:gem/pg#lib/pg/binary_decoder/timestamp.rb:19
 class PG::BinaryDecoder::TimestampLocal < ::PG::BinaryDecoder::Timestamp
-  # @return [TimestampLocal] a new instance of TimestampLocal
-  #
-  # source://pg//lib/pg/binary_decoder/timestamp.rb#20
+  # pkg:gem/pg#lib/pg/binary_decoder/timestamp.rb:20
   def initialize(hash = T.unsafe(nil), **kwargs); end
 end
 
 # Convenience classes for timezone options
 #
-# source://pg//lib/pg/binary_decoder/timestamp.rb#7
+# pkg:gem/pg#lib/pg/binary_decoder/timestamp.rb:7
 class PG::BinaryDecoder::TimestampUtc < ::PG::BinaryDecoder::Timestamp
-  # @return [TimestampUtc] a new instance of TimestampUtc
-  #
-  # source://pg//lib/pg/binary_decoder/timestamp.rb#8
+  # pkg:gem/pg#lib/pg/binary_decoder/timestamp.rb:8
   def initialize(hash = T.unsafe(nil), **kwargs); end
 end
 
-# source://pg//lib/pg/binary_decoder/timestamp.rb#13
+# pkg:gem/pg#lib/pg/binary_decoder/timestamp.rb:13
 class PG::BinaryDecoder::TimestampUtcToLocal < ::PG::BinaryDecoder::Timestamp
-  # @return [TimestampUtcToLocal] a new instance of TimestampUtcToLocal
-  #
-  # source://pg//lib/pg/binary_decoder/timestamp.rb#14
+  # pkg:gem/pg#lib/pg/binary_decoder/timestamp.rb:14
   def initialize(hash = T.unsafe(nil), **kwargs); end
 end
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::BinaryDecoder::ToBase64 < ::PG::CompositeDecoder
   include ::PG::Coder::BinaryFormatting
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def decode(*_arg0); end
 end
 
 PG::BinaryDecoder::ToBase64::CFUNC = T.let(T.unsafe(nil), Object)
 
-# source://pg//lib/pg.rb#107
+# pkg:gem/pg#lib/pg.rb:52
 module PG::BinaryEncoder; end
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::BinaryEncoder::Array < ::PG::CompositeEncoder
   include ::PG::Coder::BinaryFormatting
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def encode(*_arg0); end
 end
 
 PG::BinaryEncoder::Array::CFUNC = T.let(T.unsafe(nil), Object)
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::BinaryEncoder::Boolean < ::PG::SimpleEncoder
   include ::PG::Coder::BinaryFormatting
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def encode(*_arg0); end
 end
 
 PG::BinaryEncoder::Boolean::CFUNC = T.let(T.unsafe(nil), Object)
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::BinaryEncoder::Bytea < ::PG::SimpleEncoder
   include ::PG::Coder::BinaryFormatting
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def encode(*_arg0); end
 end
 
 PG::BinaryEncoder::Bytea::CFUNC = T.let(T.unsafe(nil), Object)
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::BinaryEncoder::CopyRow < ::PG::CopyEncoder
   include ::PG::Coder::BinaryFormatting
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def encode(*_arg0); end
 end
 
 PG::BinaryEncoder::CopyRow::CFUNC = T.let(T.unsafe(nil), Object)
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::BinaryEncoder::Date < ::PG::SimpleEncoder
   include ::PG::Coder::BinaryFormatting
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def encode(*_arg0); end
 end
 
 PG::BinaryEncoder::Date::CFUNC = T.let(T.unsafe(nil), Object)
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::BinaryEncoder::Float4 < ::PG::SimpleEncoder
   include ::PG::Coder::BinaryFormatting
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def encode(*_arg0); end
 end
 
 PG::BinaryEncoder::Float4::CFUNC = T.let(T.unsafe(nil), Object)
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::BinaryEncoder::Float8 < ::PG::SimpleEncoder
   include ::PG::Coder::BinaryFormatting
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def encode(*_arg0); end
 end
 
 PG::BinaryEncoder::Float8::CFUNC = T.let(T.unsafe(nil), Object)
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::BinaryEncoder::FromBase64 < ::PG::CompositeEncoder
   include ::PG::Coder::BinaryFormatting
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def encode(*_arg0); end
 end
 
 PG::BinaryEncoder::FromBase64::CFUNC = T.let(T.unsafe(nil), Object)
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::BinaryEncoder::Int2 < ::PG::SimpleEncoder
   include ::PG::Coder::BinaryFormatting
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def encode(*_arg0); end
 end
 
 PG::BinaryEncoder::Int2::CFUNC = T.let(T.unsafe(nil), Object)
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::BinaryEncoder::Int4 < ::PG::SimpleEncoder
   include ::PG::Coder::BinaryFormatting
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def encode(*_arg0); end
 end
 
 PG::BinaryEncoder::Int4::CFUNC = T.let(T.unsafe(nil), Object)
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::BinaryEncoder::Int8 < ::PG::SimpleEncoder
   include ::PG::Coder::BinaryFormatting
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def encode(*_arg0); end
 end
 
 PG::BinaryEncoder::Int8::CFUNC = T.let(T.unsafe(nil), Object)
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::BinaryEncoder::String < ::PG::SimpleEncoder
   include ::PG::Coder::BinaryFormatting
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def encode(*_arg0); end
 end
 
 PG::BinaryEncoder::String::CFUNC = T.let(T.unsafe(nil), Object)
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::BinaryEncoder::Timestamp < ::PG::SimpleEncoder
   include ::PG::Coder::BinaryFormatting
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def encode(*_arg0); end
 end
 
 PG::BinaryEncoder::Timestamp::CFUNC = T.let(T.unsafe(nil), Object)
 
-# source://pg//lib/pg/binary_encoder/timestamp.rb#13
+# pkg:gem/pg#lib/pg/binary_encoder/timestamp.rb:13
 class PG::BinaryEncoder::TimestampLocal < ::PG::BinaryEncoder::Timestamp
-  # @return [TimestampLocal] a new instance of TimestampLocal
-  #
-  # source://pg//lib/pg/binary_encoder/timestamp.rb#14
+  # pkg:gem/pg#lib/pg/binary_encoder/timestamp.rb:14
   def initialize(hash = T.unsafe(nil), **kwargs); end
 end
 
 # Convenience classes for timezone options
 #
-# source://pg//lib/pg/binary_encoder/timestamp.rb#7
+# pkg:gem/pg#lib/pg/binary_encoder/timestamp.rb:7
 class PG::BinaryEncoder::TimestampUtc < ::PG::BinaryEncoder::Timestamp
-  # @return [TimestampUtc] a new instance of TimestampUtc
-  #
-  # source://pg//lib/pg/binary_encoder/timestamp.rb#8
+  # pkg:gem/pg#lib/pg/binary_encoder/timestamp.rb:8
   def initialize(hash = T.unsafe(nil), **kwargs); end
 end
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::BranchTransactionAlreadyActive < ::PG::InvalidTransactionState; end
 
-# source://pg//lib/pg/cancel_connection.rb#7
+# pkg:gem/pg#lib/pg.rb:52
 class PG::CancelConnection
   include ::Enumerable
   include ::PG::Connection::Pollable
 
-  # @return [CancelConnection] a new instance of CancelConnection
-  #
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def initialize(conn); end
 
-  # call-seq:
-  #    conn.cancel
-  #
-  # Requests that the server abandons processing of the current command in a blocking manner.
-  #
-  # If the cancel request wasn't successfully dispatched an error message is raised.
-  #
-  # Successful dispatch of the cancellation is no guarantee that the request will have any effect, however.
-  # If the cancellation is effective, the command being canceled will terminate early and raises an error.
-  # If the cancellation fails (say, because the server was already done processing the command), then there will be no visible result at all.
-  #
-  # source://pg//lib/pg/cancel_connection.rb#44
+  # pkg:gem/pg#lib/pg/cancel_connection.rb:44
   def async_cancel; end
 
   # call-seq:
@@ -801,127 +798,130 @@ class PG::CancelConnection
   # If the cancellation is effective, the command being canceled will terminate early and raises an error.
   # If the cancellation fails (say, because the server was already done processing the command), then there will be no visible result at all.
   #
-  # source://pg//lib/pg/cancel_connection.rb#40
+  # pkg:gem/pg#lib/pg/cancel_connection.rb:40
   def cancel; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def error_message; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def finish; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def poll; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def reset; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def socket_io; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def start; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def status; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def sync_cancel; end
 
   private
 
-  # source://pg//lib/pg/cancel_connection.rb#10
+  # pkg:gem/pg#lib/pg/cancel_connection.rb:10
   def c_initialize(_arg0); end
 
-  # Returns the value of attribute conninfo_hash.
-  #
-  # source://pg//lib/pg/cancel_connection.rb#51
+  # pkg:gem/pg#lib/pg/cancel_connection.rb:51
   def conninfo_hash; end
 
-  # Returns the value of attribute host.
-  #
-  # source://pg//lib/pg/cancel_connection.rb#48
+  # pkg:gem/pg#lib/pg/cancel_connection.rb:48
   def host; end
 
-  # Returns the value of attribute hostaddr.
-  #
-  # source://pg//lib/pg/cancel_connection.rb#49
+  # pkg:gem/pg#lib/pg/cancel_connection.rb:49
   def hostaddr; end
 
-  # Returns the value of attribute port.
-  #
-  # source://pg//lib/pg/cancel_connection.rb#50
+  # pkg:gem/pg#lib/pg/cancel_connection.rb:50
   def port; end
 end
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::CannotCoerce < ::PG::SyntaxErrorOrAccessRuleViolation; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::CannotConnectNow < ::PG::OperatorIntervention; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::CantChangeRuntimeParam < ::PG::ObjectNotInPrerequisiteState; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::CardinalityViolation < ::PG::ServerError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::CaseNotFound < ::PG::ServerError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::CharacterNotInRepertoire < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::CheckViolation < ::PG::IntegrityConstraintViolation; end
 
-# source://pg//lib/pg/coder.rb#6
+# pkg:gem/pg#lib/pg.rb:52
 class PG::Coder
   # Create a new coder object based on the attribute Hash.
   #
-  # @return [Coder] a new instance of Coder
-  #
-  # source://pg//lib/pg/coder.rb#17
+  # pkg:gem/pg#lib/pg/coder.rb:17
   def initialize(hash = T.unsafe(nil), **kwargs); end
 
-  # source://pg//lib/pg/coder.rb#39
+  # pkg:gem/pg#lib/pg/coder.rb:39
   def ==(v); end
 
-  # source://pg//lib/pg/coder.rb#25
+  # pkg:gem/pg#lib/pg/coder.rb:25
   def dup; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def flags; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def flags=(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def format; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def format=(_arg0); end
 
-  # source://pg//lib/pg/coder.rb#51
+  # pkg:gem/pg#lib/pg/coder.rb:51
   def inspect; end
 
-  # source://pg//lib/pg/coder.rb#60
+  # pkg:gem/pg#lib/pg/coder.rb:60
   def inspect_short; end
 
-  # source://pg//lib/pg/coder.rb#43
+  # pkg:gem/pg#lib/pg/coder.rb:43
   def marshal_dump; end
 
-  # source://pg//lib/pg/coder.rb#47
+  # pkg:gem/pg#lib/pg/coder.rb:47
   def marshal_load(str); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def name; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def name=(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def oid; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def oid=(_arg0); end
 
   # Returns coder attributes as Hash.
   #
-  # source://pg//lib/pg/coder.rb#30
+  # pkg:gem/pg#lib/pg/coder.rb:30
   def to_h; end
 end
 
-# source://pg//lib/pg/coder.rb#8
+# pkg:gem/pg#lib/pg.rb:52
 module PG::Coder::BinaryFormatting
-  # source://pg//lib/pg/coder.rb#9
+  # pkg:gem/pg#lib/pg/coder.rb:9
   def initialize(hash = T.unsafe(nil), **kwargs); end
 end
 
@@ -933,44 +933,53 @@ PG::Coder::TIMESTAMP_APP_LOCAL = T.let(T.unsafe(nil), Integer)
 PG::Coder::TIMESTAMP_APP_UTC = T.let(T.unsafe(nil), Integer)
 PG::Coder::TIMESTAMP_DB_LOCAL = T.let(T.unsafe(nil), Integer)
 PG::Coder::TIMESTAMP_DB_UTC = T.let(T.unsafe(nil), Integer)
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::CollationMismatch < ::PG::SyntaxErrorOrAccessRuleViolation; end
 
-# source://pg//lib/pg/coder.rb#73
+# pkg:gem/pg#lib/pg.rb:52
 class PG::CompositeCoder < ::PG::Coder
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def delimiter; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def delimiter=(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def dimensions; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def dimensions=(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def elements_type; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def elements_type=(_arg0); end
 
-  # source://pg//lib/pg/coder.rb#84
+  # pkg:gem/pg#lib/pg/coder.rb:84
   def inspect; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def needs_quotation=(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def needs_quotation?; end
 
-  # source://pg//lib/pg/coder.rb#74
+  # pkg:gem/pg#lib/pg/coder.rb:74
   def to_h; end
 end
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::CompositeDecoder < ::PG::CompositeCoder; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::CompositeEncoder < ::PG::CompositeCoder; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::ConfigFileError < ::PG::ServerError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::ConfigurationLimitExceeded < ::PG::InsufficientResources; end
 
 # The PostgreSQL connection class. The interface for this class is based on
@@ -996,212 +1005,97 @@ class PG::ConfigurationLimitExceeded < ::PG::InsufficientResources; end
 #
 # Sync and async version of the method can be switched by Connection.async_api= , however it is not recommended to change the default.
 #
-# source://pg//lib/pg/connection.rb#30
+# pkg:gem/pg#lib/pg.rb:52
 class PG::Connection
   include ::PG::Constants
   include ::PG::Connection::Pollable
 
-  # PostgreSQL < 17
-  #
-  # source://pg//lib/pg/connection.rb#673
+  # pkg:gem/pg#lib/pg/connection.rb:673
   def async_cancel; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def async_close_portal(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def async_close_prepared(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def async_describe_portal(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def async_describe_prepared(_arg0); end
 
-  # call-seq:
-  #    conn.encrypt_password( password, username, algorithm=nil ) -> String
-  #
-  # This function is intended to be used by client applications that wish to send commands like <tt>ALTER USER joe PASSWORD 'pwd'</tt>.
-  # It is good practice not to send the original cleartext password in such a command, because it might be exposed in command logs, activity displays, and so on.
-  # Instead, use this function to convert the password to encrypted form before it is sent.
-  #
-  # The +password+ and +username+ arguments are the cleartext password, and the SQL name of the user it is for.
-  # +algorithm+ specifies the encryption algorithm to use to encrypt the password.
-  # Currently supported algorithms are +md5+ and +scram-sha-256+ (+on+ and +off+ are also accepted as aliases for +md5+, for compatibility with older server versions).
-  # Note that support for +scram-sha-256+ was introduced in PostgreSQL version 10, and will not work correctly with older server versions.
-  # If algorithm is omitted or +nil+, this function will query the server for the current value of the +password_encryption+ setting.
-  # That can block, and will fail if the current transaction is aborted, or if the connection is busy executing another query.
-  # If you wish to use the default algorithm for the server but want to avoid blocking, query +password_encryption+ yourself before calling #encrypt_password, and pass that value as the algorithm.
-  #
-  # Return value is the encrypted password.
-  # The caller can assume the string doesn't contain any special characters that would require escaping.
-  #
-  # Available since PostgreSQL-10.
-  # See also corresponding {libpq function}[https://www.postgresql.org/docs/current/libpq-misc.html#LIBPQ-PQENCRYPTPASSWORDCONN].
-  #
-  # source://pg//lib/pg/connection.rb#583
+  # pkg:gem/pg#lib/pg/connection.rb:583
   def async_encrypt_password(password, username, algorithm = T.unsafe(nil)); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def async_exec(*_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def async_exec_params(*_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def async_exec_prepared(*_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def async_flush; end
 
-  # call-seq:
-  #    conn.get_copy_data( [ nonblock = false [, decoder = nil ]] ) -> Object
-  #
-  # Return one row of data, +nil+
-  # if the copy is done, or +false+ if the call would
-  # block (only possible if _nonblock_ is true).
-  #
-  # If _decoder_ is not set or +nil+, data is returned as binary string.
-  #
-  # If _decoder_ is set to a PG::Coder derivation, the return type depends on this decoder.
-  # PG::TextDecoder::CopyRow decodes the received data fields from one row of PostgreSQL's
-  # COPY text format to an Array of Strings.
-  # Optionally the decoder can type cast the single fields to various Ruby types in one step,
-  # if PG::TextDecoder::CopyRow#type_map is set accordingly.
-  #
-  # See also #copy_data.
-  #
-  # source://pg//lib/pg/connection.rb#439
+  # pkg:gem/pg#lib/pg/connection.rb:439
   def async_get_copy_data(async = T.unsafe(nil), decoder = T.unsafe(nil)); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def async_get_last_result; end
 
-  # call-seq:
-  #    conn.get_result() -> PG::Result
-  #    conn.get_result() {|pg_result| block }
-  #
-  # Blocks waiting for the next result from a call to
-  # #send_query (or another asynchronous command), and returns
-  # it. Returns +nil+ if no more results are available.
-  #
-  # Note: call this function repeatedly until it returns +nil+, or else
-  # you will not be able to issue further commands.
-  #
-  # If the optional code block is given, it will be passed <i>result</i> as an argument,
-  # and the PG::Result object will  automatically be cleared when the block terminates.
-  # In this instance, <code>conn.exec</code> returns the value of the block.
-  #
-  # source://pg//lib/pg/connection.rb#409
+  # pkg:gem/pg#lib/pg/connection.rb:409
   def async_get_result; end
 
-  # call-seq:
-  #    conn.isnonblocking() -> Boolean
-  #
-  # Returns the blocking status of the database connection.
-  # Returns +true+ if the connection is set to nonblocking mode and +false+ if blocking.
-  #
-  # source://pg//lib/pg/connection.rb#479
+  # pkg:gem/pg#lib/pg/connection.rb:479
   def async_isnonblocking; end
 
-  # call-seq:
-  #    conn.pipeline_sync
-  #
-  # Marks a synchronization point in a pipeline by sending a sync message and flushing the send buffer.
-  # This serves as the delimiter of an implicit transaction and an error recovery point.
-  #
-  # See enter_pipeline_mode
-  #
-  # Raises PG::Error if the connection is not in pipeline mode or sending a sync message failed.
-  #
-  # Available since PostgreSQL-14
-  #
-  # source://pg//lib/pg/connection.rb#555
+  # pkg:gem/pg#lib/pg/connection.rb:555
   def async_pipeline_sync(*args); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def async_prepare(*_arg0); end
 
-  # call-seq:
-  #    conn.put_copy_data( buffer [, encoder] ) -> Boolean
-  #
-  # Transmits _buffer_ as copy data to the server.
-  # Returns true if the data was sent, false if it was
-  # not sent (false is only possible if the connection
-  # is in nonblocking mode, and this command would block).
-  #
-  # _encoder_ can be a PG::Coder derivation (typically PG::TextEncoder::CopyRow).
-  # This encodes the data fields given as _buffer_ from an Array of Strings to
-  # PostgreSQL's COPY text format inclusive proper escaping. Optionally
-  # the encoder can type cast the fields from various Ruby types in one step,
-  # if PG::TextEncoder::CopyRow#type_map is set accordingly.
-  #
-  # Raises an exception if an error occurs.
-  #
-  # See also #copy_data.
-  #
-  # source://pg//lib/pg/connection.rb#516
+  # pkg:gem/pg#lib/pg/connection.rb:516
   def async_put_copy_data(buffer, encoder = T.unsafe(nil)); end
 
-  # call-seq:
-  #    conn.put_copy_end( [ error_message ] ) -> Boolean
-  #
-  # Sends end-of-data indication to the server.
-  #
-  # _error_message_ is an optional parameter, and if set,
-  # forces the COPY command to fail with the string
-  # _error_message_.
-  #
-  # Returns true if the end-of-data was sent, #false* if it was
-  # not sent (*false* is only possible if the connection
-  # is in nonblocking mode, and this command would block).
-  #
-  # source://pg//lib/pg/connection.rb#537
+  # pkg:gem/pg#lib/pg/connection.rb:537
   def async_put_copy_end(*args); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def async_query(*_arg0); end
 
-  # call-seq:
-  #   conn.reset()
-  #
-  # Resets the backend connection. This method closes the
-  # backend connection and tries to re-connect.
-  #
-  # source://pg//lib/pg/connection.rb#603
+  # pkg:gem/pg#lib/pg/connection.rb:603
   def async_reset; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def async_set_client_encoding(_arg0); end
 
-  # call-seq:
-  #    conn.setnonblocking(Boolean) -> nil
-  #
-  # Sets the nonblocking status of the connection.
-  # In the blocking state, calls to #send_query
-  # will block until the message is sent to the server,
-  # but will not wait for the query results.
-  # In the nonblocking state, calls to #send_query
-  # will return an error if the socket is not ready for
-  # writing.
-  # Note: This function does not affect #exec, because
-  # that function doesn't return until the server has
-  # processed the query and returned the results.
-  #
-  # Returns +nil+.
-  #
-  # source://pg//lib/pg/connection.rb#467
+  # pkg:gem/pg#lib/pg/connection.rb:467
   def async_setnonblocking(enabled); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def backend_pid; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def block(*_arg0); end
 
+  # call-seq:
+  #    conn.cancel() -> String
+  #
+  # Requests cancellation of the command currently being
+  # processed.
+  #
+  # Returns +nil+ on success, or a string containing the
+  # error message if a failure occurs.
+  #
+  # On PostgreSQL-17+ client libaray the class PG::CancelConnection is used.
+  # On older client library a pure ruby implementation is used.
   # PostgreSQL < 17
   #
-  # source://pg//lib/pg/connection.rb#626
+  # pkg:gem/pg#lib/pg/connection.rb:626
   def cancel; end
 
   # Read all pending socket input to internal memory and raise an exception in case of errors.
@@ -1215,43 +1109,43 @@ class PG::Connection
   # The method doesn't verify that the server is still responding.
   # To verify that the communication to the server works, it is recommended to use something like <tt>conn.exec('')</tt> instead.
   #
-  # source://pg//lib/pg/connection.rb#384
+  # pkg:gem/pg#lib/pg/connection.rb:384
   def check_socket; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def client_encoding=(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def close; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def close_portal(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def close_prepared(_arg0); end
 
   # Returns an array of Hashes with connection defaults. See ::conndefaults
   # for details.
   #
-  # source://pg//lib/pg/connection.rb#329
+  # pkg:gem/pg#lib/pg/connection.rb:329
   def conndefaults; end
 
   # Returns a Hash with connection defaults. See ::conndefaults_hash
   # for details.
   #
-  # source://pg//lib/pg/connection.rb#345
+  # pkg:gem/pg#lib/pg/connection.rb:345
   def conndefaults_hash; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def connect_poll; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def connection_needs_password; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def connection_used_password; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def conninfo; end
 
   # Return the Postgres connection info structure as a Hash keyed by option
@@ -1259,13 +1153,13 @@ class PG::Connection
   #
   # See also #conninfo
   #
-  # source://pg//lib/pg/connection.rb#353
+  # pkg:gem/pg#lib/pg/connection.rb:353
   def conninfo_hash; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def consume_input; end
 
-  # call-seq:
+  #  call-seq:
   #     conn.copy_data( sql [, coder] ) {|sql_result| ... } -> PG::Result
   #
   # Execute a copy process for transferring data to or from the server.
@@ -1356,33 +1250,31 @@ class PG::Connection
   #   ["some", "data", "to", "copy"]
   #   ["more", "data", "to", "copy"]
   #
-  # @raise [PG::NotInBlockingMode]
-  #
-  # source://pg//lib/pg/connection.rb#214
+  # pkg:gem/pg#lib/pg/connection.rb:214
   def copy_data(sql, coder = T.unsafe(nil)); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def db; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def decoder_for_get_copy_data; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def decoder_for_get_copy_data=(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def describe_portal(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def describe_prepared(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def discard_results; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def encoder_for_put_copy_data; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def encoder_for_put_copy_data=(_arg0); end
 
   # call-seq:
@@ -1406,61 +1298,61 @@ class PG::Connection
   # Available since PostgreSQL-10.
   # See also corresponding {libpq function}[https://www.postgresql.org/docs/current/libpq-misc.html#LIBPQ-PQENCRYPTPASSWORDCONN].
   #
-  # source://pg//lib/pg/connection.rb#579
+  # pkg:gem/pg#lib/pg/connection.rb:579
   def encrypt_password(password, username, algorithm = T.unsafe(nil)); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def enter_pipeline_mode; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def error_message; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def escape(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def escape_bytea(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def escape_identifier(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def escape_literal(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def escape_string(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def exec(*_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def exec_params(*_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def exec_prepared(*_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def exit_pipeline_mode; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def external_encoding; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def field_name_type; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def field_name_type=(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def finish; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def finished?; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def flush; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def get_client_encoding; end
 
   # call-seq:
@@ -1480,10 +1372,10 @@ class PG::Connection
   #
   # See also #copy_data.
   #
-  # source://pg//lib/pg/connection.rb#428
+  # pkg:gem/pg#lib/pg/connection.rb:428
   def get_copy_data(async = T.unsafe(nil), decoder = T.unsafe(nil)); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def get_last_result; end
 
   # call-seq:
@@ -1501,27 +1393,27 @@ class PG::Connection
   # and the PG::Result object will  automatically be cleared when the block terminates.
   # In this instance, <code>conn.exec</code> returns the value of the block.
   #
-  # source://pg//lib/pg/connection.rb#405
+  # pkg:gem/pg#lib/pg/connection.rb:405
   def get_result; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def host; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def hostaddr; end
 
   # Return a String representation of the object suitable for debugging.
   #
-  # source://pg//lib/pg/connection.rb#100
+  # pkg:gem/pg#lib/pg/connection.rb:100
   def inspect; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def internal_encoding; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def internal_encoding=(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def is_busy; end
 
   # call-seq:
@@ -1530,115 +1422,109 @@ class PG::Connection
   # Returns the blocking status of the database connection.
   # Returns +true+ if the connection is set to nonblocking mode and +false+ if blocking.
   #
-  # source://pg//lib/pg/connection.rb#476
+  # pkg:gem/pg#lib/pg/connection.rb:476
   def isnonblocking; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def lo_close(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def lo_creat(*_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def lo_create(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def lo_export(_arg0, _arg1); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def lo_import(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def lo_lseek(_arg0, _arg1, _arg2); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def lo_open(*_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def lo_read(_arg0, _arg1); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def lo_seek(_arg0, _arg1, _arg2); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def lo_tell(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def lo_truncate(_arg0, _arg1); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def lo_unlink(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def lo_write(_arg0, _arg1); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def loclose(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def locreat(*_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def locreate(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def loexport(_arg0, _arg1); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def loimport(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def lolseek(_arg0, _arg1, _arg2); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def loopen(*_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def loread(_arg0, _arg1); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def loseek(_arg0, _arg1, _arg2); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def lotell(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def lotruncate(_arg0, _arg1); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def lounlink(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def lowrite(_arg0, _arg1); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def make_empty_pgresult(_arg0); end
 
-  # call-seq:
-  #    conn.isnonblocking() -> Boolean
-  #
-  # Returns the blocking status of the database connection.
-  # Returns +true+ if the connection is set to nonblocking mode and +false+ if blocking.
-  #
-  # source://pg//lib/pg/connection.rb#480
+  # pkg:gem/pg#lib/pg/connection.rb:480
   def nonblocking?; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def notifies; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def notifies_wait(*_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def options; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def parameter_status(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def pass; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def pipeline_status; end
 
   # call-seq:
@@ -1653,16 +1539,16 @@ class PG::Connection
   #
   # Available since PostgreSQL-14
   #
-  # source://pg//lib/pg/connection.rb#551
+  # pkg:gem/pg#lib/pg/connection.rb:551
   def pipeline_sync(*args); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def port; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def prepare(*_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def protocol_version; end
 
   # call-seq:
@@ -1683,7 +1569,7 @@ class PG::Connection
   #
   # See also #copy_data.
   #
-  # source://pg//lib/pg/connection.rb#500
+  # pkg:gem/pg#lib/pg/connection.rb:500
   def put_copy_data(buffer, encoder = T.unsafe(nil)); end
 
   # call-seq:
@@ -1699,13 +1585,13 @@ class PG::Connection
   # not sent (*false* is only possible if the connection
   # is in nonblocking mode, and this command would block).
   #
-  # source://pg//lib/pg/connection.rb#530
+  # pkg:gem/pg#lib/pg/connection.rb:530
   def put_copy_end(*args); end
 
-  # source://pg//lib/pg/connection.rb#1084
+  # pkg:gem/pg#lib/pg/connection.rb:1084
   def query(*_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def quote_ident(_arg0); end
 
   # call-seq:
@@ -1714,64 +1600,64 @@ class PG::Connection
   # Resets the backend connection. This method closes the
   # backend connection and tries to re-connect.
   #
-  # source://pg//lib/pg/connection.rb#591
+  # pkg:gem/pg#lib/pg/connection.rb:591
   def reset; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def reset_poll; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def reset_start; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def send_describe_portal(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def send_describe_prepared(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def send_flush_request; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def send_pipeline_sync; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def send_prepare(*_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def send_query(*_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def send_query_params(*_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def send_query_prepared(*_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def server_version; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def set_chunked_rows_mode(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def set_client_encoding(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def set_default_encoding; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def set_error_context_visibility(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def set_error_verbosity(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def set_notice_processor; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def set_notice_receiver; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def set_single_row_mode; end
 
   # call-seq:
@@ -1790,19 +1676,19 @@ class PG::Connection
   #
   # Returns +nil+.
   #
-  # source://pg//lib/pg/connection.rb#462
+  # pkg:gem/pg#lib/pg/connection.rb:462
   def setnonblocking(enabled); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def socket; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def socket_io; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def ssl_attribute(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def ssl_attribute_names; end
 
   # call-seq:
@@ -1815,81 +1701,81 @@ class PG::Connection
   #
   # See also #ssl_attribute
   #
-  # source://pg//lib/pg/connection.rb#368
+  # pkg:gem/pg#lib/pg/connection.rb:368
   def ssl_attributes; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def ssl_in_use?; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def status; end
 
   # PostgreSQL-17+
   #
-  # source://pg//lib/pg/connection.rb#608
+  # pkg:gem/pg#lib/pg/connection.rb:608
   def sync_cancel; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def sync_close_portal(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def sync_close_prepared(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def sync_describe_portal(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def sync_describe_prepared(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def sync_encrypt_password(*_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def sync_exec(*_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def sync_exec_params(*_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def sync_exec_prepared(*_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def sync_flush; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def sync_get_copy_data(*_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def sync_get_last_result; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def sync_get_result; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def sync_isnonblocking; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def sync_pipeline_sync; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def sync_prepare(*_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def sync_put_copy_data(*_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def sync_put_copy_end(*_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def sync_reset; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def sync_set_client_encoding(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def sync_setnonblocking(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def trace(_arg0); end
 
   # call-seq:
@@ -1899,48 +1785,48 @@ class PG::Connection
   # and a +COMMIT+ at the end of the block, or
   # +ROLLBACK+ if any exception occurs.
   #
-  # source://pg//lib/pg/connection.rb#308
+  # pkg:gem/pg#lib/pg/connection.rb:308
   def transaction; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def transaction_status; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def tty; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def type_map_for_queries; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def type_map_for_queries=(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def type_map_for_results; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def type_map_for_results=(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def unescape_bytea(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def untrace; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def user; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def wait_for_notify(*_arg0); end
 
   private
 
-  # source://pg//lib/pg/connection.rb#793
+  # pkg:gem/pg#lib/pg/connection.rb:793
   def async_connect_or_reset(poll_meth); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def flush_data=(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def reset_start2(_arg0); end
 
   class << self
@@ -1960,108 +1846,22 @@ class PG::Connection
     # Do not use this method in production code.
     # Any issues with the default setting of <tt>async_api=true</tt> should be reported to the maintainers instead.
     #
-    # source://pg//lib/pg/connection.rb#1080
+    # pkg:gem/pg#lib/pg/connection.rb:1080
     def async_api=(enable); end
 
-    # call-seq:
-    #    PG::Connection.new -> conn
-    #    PG::Connection.new(connection_hash) -> conn
-    #    PG::Connection.new(connection_string) -> conn
-    #    PG::Connection.new(host, port, options, tty, dbname, user, password) ->  conn
-    #
-    # === Create a connection to the specified server.
-    #
-    # +connection_hash+ must be a ruby Hash with connection parameters.
-    # See the {list of valid parameters}[https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-PARAMKEYWORDS] in the PostgreSQL documentation.
-    #
-    # There are two accepted formats for +connection_string+: plain <code>keyword = value</code> strings and URIs.
-    # See the documentation of {connection strings}[https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-CONNSTRING].
-    #
-    # The positional parameter form has the same functionality except that the missing parameters will always take on default values. The parameters are:
-    # [+host+]
-    #   server hostname
-    # [+port+]
-    #   server port number
-    # [+options+]
-    #   backend options
-    # [+tty+]
-    #   (ignored in all versions of PostgreSQL)
-    # [+dbname+]
-    #   connecting database name
-    # [+user+]
-    #   login user name
-    # [+password+]
-    #   login password
-    #
-    #
-    # If the Ruby default internal encoding is set (i.e., <code>Encoding.default_internal != nil</code>), the
-    # connection will have its +client_encoding+ set accordingly.
-    #
-    # Raises a PG::Error if the connection fails.
-    #
-    # === Examples:
-    #
-    #   # Connect using all defaults
-    #   PG::Connection.new
-    #
-    #   # As a Hash
-    #   PG::Connection.new( dbname: 'test', port: 5432 )
-    #
-    #   # As a String
-    #   PG::Connection.new( "dbname=test port=5432" )
-    #
-    #   # As an Array
-    #   PG::Connection.new( nil, 5432, nil, nil, 'test', nil, nil )
-    #
-    #   # As an URI
-    #   PG::Connection.new( "postgresql://user:pass@pgsql.example.com:5432/testdb?sslmode=require" )
-    #
-    # === Specifying Multiple Hosts
-    #
-    # It is possible to specify multiple hosts to connect to, so that they are tried in the given order or optionally in random order.
-    # In the Keyword/Value format, the host, hostaddr, and port options accept comma-separated lists of values.
-    # The {details to libpq}[https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-MULTIPLE-HOSTS] describe how it works, but there are two small differences how ruby-pg handles multiple hosts:
-    # - All hosts are resolved before the first connection is tried.
-    #   This means that when +load_balance_hosts+ is set to +random+, then all resolved addresses are tried randomly in one level.
-    #   When a host resolves to more than one address, it is therefore tried more often than a host that has only one address.
-    # - When a timeout occurs due to the value of +connect_timeout+, then the given +host+, +hostaddr+ and +port+ combination is not tried a second time, even if it's specified several times.
-    #   It's still possible to do load balancing with +load_balance_hosts+ set to +random+ and to increase the number of connections a node gets, when the hostname is provided multiple times in the host string.
-    #   This is because in non-timeout cases the host is tried multiple times.
-    #
-    # source://pg//lib/pg/connection.rb#882
+    # pkg:gem/pg#lib/pg/connection.rb:882
     def async_connect(*args); end
 
-    # call-seq:
-    #    PG::Connection.ping(connection_hash)       -> Integer
-    #    PG::Connection.ping(connection_string)     -> Integer
-    #    PG::Connection.ping(host, port, options, tty, dbname, login, password) ->  Integer
-    #
-    # PQpingParams reports the status of the server.
-    #
-    # It accepts connection parameters identical to those of PQ::Connection.new .
-    # It is not necessary to supply correct user name, password, or database name values to obtain the server status; however, if incorrect values are provided, the server will log a failed connection attempt.
-    #
-    # See PG::Connection.new for a description of the parameters.
-    #
-    # Returns one of:
-    # [+PQPING_OK+]
-    #   server is accepting connections
-    # [+PQPING_REJECT+]
-    #   server is alive but rejecting connections
-    # [+PQPING_NO_RESPONSE+]
-    #   could not establish connection
-    # [+PQPING_NO_ATTEMPT+]
-    #   connection not attempted (bad params)
-    #
-    # See also check_socket for a way to check the connection without doing any server communication.
-    #
-    # source://pg//lib/pg/connection.rb#994
+    # pkg:gem/pg#lib/pg/connection.rb:994
     def async_ping(*args); end
 
-    # source://pg//lib/pg/connection.rb#1057
+    # pkg:gem/pg#lib/pg/connection.rb:1057
     def async_send_api=(enable); end
 
-    # source://pg//lib/pg.rb#52
+    # Returns an array of Hashes with connection defaults. See ::conndefaults
+    # for details.
+    #
+    # pkg:gem/pg#lib/pg.rb:52
     def conndefaults; end
 
     # Return the Postgres connection defaults structure as a Hash keyed by option
@@ -2069,103 +1869,59 @@ class PG::Connection
     #
     # See also #conndefaults
     #
-    # source://pg//lib/pg/connection.rb#337
+    # pkg:gem/pg#lib/pg/connection.rb:337
     def conndefaults_hash; end
 
-    # call-seq:
-    #    PG::Connection.new -> conn
-    #    PG::Connection.new(connection_hash) -> conn
-    #    PG::Connection.new(connection_string) -> conn
-    #    PG::Connection.new(host, port, options, tty, dbname, user, password) ->  conn
-    #
-    # === Create a connection to the specified server.
-    #
-    # +connection_hash+ must be a ruby Hash with connection parameters.
-    # See the {list of valid parameters}[https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-PARAMKEYWORDS] in the PostgreSQL documentation.
-    #
-    # There are two accepted formats for +connection_string+: plain <code>keyword = value</code> strings and URIs.
-    # See the documentation of {connection strings}[https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-CONNSTRING].
-    #
-    # The positional parameter form has the same functionality except that the missing parameters will always take on default values. The parameters are:
-    # [+host+]
-    #   server hostname
-    # [+port+]
-    #   server port number
-    # [+options+]
-    #   backend options
-    # [+tty+]
-    #   (ignored in all versions of PostgreSQL)
-    # [+dbname+]
-    #   connecting database name
-    # [+user+]
-    #   login user name
-    # [+password+]
-    #   login password
-    #
-    #
-    # If the Ruby default internal encoding is set (i.e., <code>Encoding.default_internal != nil</code>), the
-    # connection will have its +client_encoding+ set accordingly.
-    #
-    # Raises a PG::Error if the connection fails.
-    #
-    # === Examples:
-    #
-    #   # Connect using all defaults
-    #   PG::Connection.new
-    #
-    #   # As a Hash
-    #   PG::Connection.new( dbname: 'test', port: 5432 )
-    #
-    #   # As a String
-    #   PG::Connection.new( "dbname=test port=5432" )
-    #
-    #   # As an Array
-    #   PG::Connection.new( nil, 5432, nil, nil, 'test', nil, nil )
-    #
-    #   # As an URI
-    #   PG::Connection.new( "postgresql://user:pass@pgsql.example.com:5432/testdb?sslmode=require" )
-    #
-    # === Specifying Multiple Hosts
-    #
-    # It is possible to specify multiple hosts to connect to, so that they are tried in the given order or optionally in random order.
-    # In the Keyword/Value format, the host, hostaddr, and port options accept comma-separated lists of values.
-    # The {details to libpq}[https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-MULTIPLE-HOSTS] describe how it works, but there are two small differences how ruby-pg handles multiple hosts:
-    # - All hosts are resolved before the first connection is tried.
-    #   This means that when +load_balance_hosts+ is set to +random+, then all resolved addresses are tried randomly in one level.
-    #   When a host resolves to more than one address, it is therefore tried more often than a host that has only one address.
-    # - When a timeout occurs due to the value of +connect_timeout+, then the given +host+, +hostaddr+ and +port+ combination is not tried a second time, even if it's specified several times.
-    #   It's still possible to do load balancing with +load_balance_hosts+ set to +random+ and to increase the number of connections a node gets, when the hostname is provided multiple times in the host string.
-    #   This is because in non-timeout cases the host is tried multiple times.
-    #
-    # source://pg//lib/pg/connection.rb#883
+    # pkg:gem/pg#lib/pg/connection.rb:883
     def connect(*args); end
 
     # Convert Hash options to connection String
     #
     # Values are properly quoted and escaped.
     #
-    # source://pg//lib/pg/connection.rb#44
+    # pkg:gem/pg#lib/pg/connection.rb:44
     def connect_hash_to_string(hash); end
 
-    # source://pg//lib/pg.rb#52
+    # pkg:gem/pg#lib/pg.rb:52
     def connect_start(*_arg0); end
 
-    # source://pg//lib/pg.rb#52
+    # pkg:gem/pg#lib/pg.rb:52
     def conninfo_parse(_arg0); end
 
-    # source://pg//lib/pg.rb#52
+    # call-seq:
+    #    conn.encrypt_password( password, username, algorithm=nil ) -> String
+    #
+    # This function is intended to be used by client applications that wish to send commands like <tt>ALTER USER joe PASSWORD 'pwd'</tt>.
+    # It is good practice not to send the original cleartext password in such a command, because it might be exposed in command logs, activity displays, and so on.
+    # Instead, use this function to convert the password to encrypted form before it is sent.
+    #
+    # The +password+ and +username+ arguments are the cleartext password, and the SQL name of the user it is for.
+    # +algorithm+ specifies the encryption algorithm to use to encrypt the password.
+    # Currently supported algorithms are +md5+ and +scram-sha-256+ (+on+ and +off+ are also accepted as aliases for +md5+, for compatibility with older server versions).
+    # Note that support for +scram-sha-256+ was introduced in PostgreSQL version 10, and will not work correctly with older server versions.
+    # If algorithm is omitted or +nil+, this function will query the server for the current value of the +password_encryption+ setting.
+    # That can block, and will fail if the current transaction is aborted, or if the connection is busy executing another query.
+    # If you wish to use the default algorithm for the server but want to avoid blocking, query +password_encryption+ yourself before calling #encrypt_password, and pass that value as the algorithm.
+    #
+    # Return value is the encrypted password.
+    # The caller can assume the string doesn't contain any special characters that would require escaping.
+    #
+    # Available since PostgreSQL-10.
+    # See also corresponding {libpq function}[https://www.postgresql.org/docs/current/libpq-misc.html#LIBPQ-PQENCRYPTPASSWORDCONN].
+    #
+    # pkg:gem/pg#lib/pg.rb:52
     def encrypt_password(_arg0, _arg1); end
 
-    # source://pg//lib/pg.rb#52
+    # pkg:gem/pg#lib/pg.rb:52
     def escape(_arg0); end
 
-    # source://pg//lib/pg.rb#52
+    # pkg:gem/pg#lib/pg.rb:52
     def escape_bytea(_arg0); end
 
-    # source://pg//lib/pg.rb#52
+    # pkg:gem/pg#lib/pg.rb:52
     def escape_string(_arg0); end
 
-    # source://pg//lib/pg/connection.rb#298
+    # pkg:gem/pg#lib/pg/connection.rb:298
     def isthreadsafe; end
 
     # call-seq:
@@ -2233,75 +1989,10 @@ class PG::Connection
     #   It's still possible to do load balancing with +load_balance_hosts+ set to +random+ and to increase the number of connections a node gets, when the hostname is provided multiple times in the host string.
     #   This is because in non-timeout cases the host is tried multiple times.
     #
-    # source://pg//lib/pg/connection.rb#870
+    # pkg:gem/pg#lib/pg/connection.rb:870
     def new(*args); end
 
-    # call-seq:
-    #    PG::Connection.new -> conn
-    #    PG::Connection.new(connection_hash) -> conn
-    #    PG::Connection.new(connection_string) -> conn
-    #    PG::Connection.new(host, port, options, tty, dbname, user, password) ->  conn
-    #
-    # === Create a connection to the specified server.
-    #
-    # +connection_hash+ must be a ruby Hash with connection parameters.
-    # See the {list of valid parameters}[https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-PARAMKEYWORDS] in the PostgreSQL documentation.
-    #
-    # There are two accepted formats for +connection_string+: plain <code>keyword = value</code> strings and URIs.
-    # See the documentation of {connection strings}[https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-CONNSTRING].
-    #
-    # The positional parameter form has the same functionality except that the missing parameters will always take on default values. The parameters are:
-    # [+host+]
-    #   server hostname
-    # [+port+]
-    #   server port number
-    # [+options+]
-    #   backend options
-    # [+tty+]
-    #   (ignored in all versions of PostgreSQL)
-    # [+dbname+]
-    #   connecting database name
-    # [+user+]
-    #   login user name
-    # [+password+]
-    #   login password
-    #
-    #
-    # If the Ruby default internal encoding is set (i.e., <code>Encoding.default_internal != nil</code>), the
-    # connection will have its +client_encoding+ set accordingly.
-    #
-    # Raises a PG::Error if the connection fails.
-    #
-    # === Examples:
-    #
-    #   # Connect using all defaults
-    #   PG::Connection.new
-    #
-    #   # As a Hash
-    #   PG::Connection.new( dbname: 'test', port: 5432 )
-    #
-    #   # As a String
-    #   PG::Connection.new( "dbname=test port=5432" )
-    #
-    #   # As an Array
-    #   PG::Connection.new( nil, 5432, nil, nil, 'test', nil, nil )
-    #
-    #   # As an URI
-    #   PG::Connection.new( "postgresql://user:pass@pgsql.example.com:5432/testdb?sslmode=require" )
-    #
-    # === Specifying Multiple Hosts
-    #
-    # It is possible to specify multiple hosts to connect to, so that they are tried in the given order or optionally in random order.
-    # In the Keyword/Value format, the host, hostaddr, and port options accept comma-separated lists of values.
-    # The {details to libpq}[https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-MULTIPLE-HOSTS] describe how it works, but there are two small differences how ruby-pg handles multiple hosts:
-    # - All hosts are resolved before the first connection is tried.
-    #   This means that when +load_balance_hosts+ is set to +random+, then all resolved addresses are tried randomly in one level.
-    #   When a host resolves to more than one address, it is therefore tried more often than a host that has only one address.
-    # - When a timeout occurs due to the value of +connect_timeout+, then the given +host+, +hostaddr+ and +port+ combination is not tried a second time, even if it's specified several times.
-    #   It's still possible to do load balancing with +load_balance_hosts+ set to +random+ and to increase the number of connections a node gets, when the hostname is provided multiple times in the host string.
-    #   This is because in non-timeout cases the host is tried multiple times.
-    #
-    # source://pg//lib/pg/connection.rb#884
+    # pkg:gem/pg#lib/pg/connection.rb:884
     def open(*args); end
 
     # Parse the connection +args+ into a connection-parameter string.
@@ -2317,7 +2008,7 @@ class PG::Connection
     # The method adds the option "fallback_application_name" if it isn't already set.
     # It returns a connection string with "key=value" pairs.
     #
-    # source://pg//lib/pg/connection.rb#64
+    # pkg:gem/pg#lib/pg/connection.rb:64
     def parse_connect_args(*args); end
 
     # call-seq:
@@ -2344,189 +2035,63 @@ class PG::Connection
     #
     # See also check_socket for a way to check the connection without doing any server communication.
     #
-    # source://pg//lib/pg/connection.rb#985
+    # pkg:gem/pg#lib/pg/connection.rb:985
     def ping(*args); end
 
     # Quote a single +value+ for use in a connection-parameter string.
     #
-    # source://pg//lib/pg/connection.rb#37
+    # pkg:gem/pg#lib/pg/connection.rb:37
     def quote_connstr(value); end
 
-    # source://pg//lib/pg.rb#52
+    # pkg:gem/pg#lib/pg.rb:52
     def quote_ident(_arg0); end
 
-    # call-seq:
-    #    PG::Connection.new -> conn
-    #    PG::Connection.new(connection_hash) -> conn
-    #    PG::Connection.new(connection_string) -> conn
-    #    PG::Connection.new(host, port, options, tty, dbname, user, password) ->  conn
-    #
-    # === Create a connection to the specified server.
-    #
-    # +connection_hash+ must be a ruby Hash with connection parameters.
-    # See the {list of valid parameters}[https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-PARAMKEYWORDS] in the PostgreSQL documentation.
-    #
-    # There are two accepted formats for +connection_string+: plain <code>keyword = value</code> strings and URIs.
-    # See the documentation of {connection strings}[https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-CONNSTRING].
-    #
-    # The positional parameter form has the same functionality except that the missing parameters will always take on default values. The parameters are:
-    # [+host+]
-    #   server hostname
-    # [+port+]
-    #   server port number
-    # [+options+]
-    #   backend options
-    # [+tty+]
-    #   (ignored in all versions of PostgreSQL)
-    # [+dbname+]
-    #   connecting database name
-    # [+user+]
-    #   login user name
-    # [+password+]
-    #   login password
-    #
-    #
-    # If the Ruby default internal encoding is set (i.e., <code>Encoding.default_internal != nil</code>), the
-    # connection will have its +client_encoding+ set accordingly.
-    #
-    # Raises a PG::Error if the connection fails.
-    #
-    # === Examples:
-    #
-    #   # Connect using all defaults
-    #   PG::Connection.new
-    #
-    #   # As a Hash
-    #   PG::Connection.new( dbname: 'test', port: 5432 )
-    #
-    #   # As a String
-    #   PG::Connection.new( "dbname=test port=5432" )
-    #
-    #   # As an Array
-    #   PG::Connection.new( nil, 5432, nil, nil, 'test', nil, nil )
-    #
-    #   # As an URI
-    #   PG::Connection.new( "postgresql://user:pass@pgsql.example.com:5432/testdb?sslmode=require" )
-    #
-    # === Specifying Multiple Hosts
-    #
-    # It is possible to specify multiple hosts to connect to, so that they are tried in the given order or optionally in random order.
-    # In the Keyword/Value format, the host, hostaddr, and port options accept comma-separated lists of values.
-    # The {details to libpq}[https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-MULTIPLE-HOSTS] describe how it works, but there are two small differences how ruby-pg handles multiple hosts:
-    # - All hosts are resolved before the first connection is tried.
-    #   This means that when +load_balance_hosts+ is set to +random+, then all resolved addresses are tried randomly in one level.
-    #   When a host resolves to more than one address, it is therefore tried more often than a host that has only one address.
-    # - When a timeout occurs due to the value of +connect_timeout+, then the given +host+, +hostaddr+ and +port+ combination is not tried a second time, even if it's specified several times.
-    #   It's still possible to do load balancing with +load_balance_hosts+ set to +random+ and to increase the number of connections a node gets, when the hostname is provided multiple times in the host string.
-    #   This is because in non-timeout cases the host is tried multiple times.
-    #
-    # source://pg//lib/pg/connection.rb#885
+    # pkg:gem/pg#lib/pg/connection.rb:885
     def setdb(*args); end
 
-    # call-seq:
-    #    PG::Connection.new -> conn
-    #    PG::Connection.new(connection_hash) -> conn
-    #    PG::Connection.new(connection_string) -> conn
-    #    PG::Connection.new(host, port, options, tty, dbname, user, password) ->  conn
-    #
-    # === Create a connection to the specified server.
-    #
-    # +connection_hash+ must be a ruby Hash with connection parameters.
-    # See the {list of valid parameters}[https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-PARAMKEYWORDS] in the PostgreSQL documentation.
-    #
-    # There are two accepted formats for +connection_string+: plain <code>keyword = value</code> strings and URIs.
-    # See the documentation of {connection strings}[https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-CONNSTRING].
-    #
-    # The positional parameter form has the same functionality except that the missing parameters will always take on default values. The parameters are:
-    # [+host+]
-    #   server hostname
-    # [+port+]
-    #   server port number
-    # [+options+]
-    #   backend options
-    # [+tty+]
-    #   (ignored in all versions of PostgreSQL)
-    # [+dbname+]
-    #   connecting database name
-    # [+user+]
-    #   login user name
-    # [+password+]
-    #   login password
-    #
-    #
-    # If the Ruby default internal encoding is set (i.e., <code>Encoding.default_internal != nil</code>), the
-    # connection will have its +client_encoding+ set accordingly.
-    #
-    # Raises a PG::Error if the connection fails.
-    #
-    # === Examples:
-    #
-    #   # Connect using all defaults
-    #   PG::Connection.new
-    #
-    #   # As a Hash
-    #   PG::Connection.new( dbname: 'test', port: 5432 )
-    #
-    #   # As a String
-    #   PG::Connection.new( "dbname=test port=5432" )
-    #
-    #   # As an Array
-    #   PG::Connection.new( nil, 5432, nil, nil, 'test', nil, nil )
-    #
-    #   # As an URI
-    #   PG::Connection.new( "postgresql://user:pass@pgsql.example.com:5432/testdb?sslmode=require" )
-    #
-    # === Specifying Multiple Hosts
-    #
-    # It is possible to specify multiple hosts to connect to, so that they are tried in the given order or optionally in random order.
-    # In the Keyword/Value format, the host, hostaddr, and port options accept comma-separated lists of values.
-    # The {details to libpq}[https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-MULTIPLE-HOSTS] describe how it works, but there are two small differences how ruby-pg handles multiple hosts:
-    # - All hosts are resolved before the first connection is tried.
-    #   This means that when +load_balance_hosts+ is set to +random+, then all resolved addresses are tried randomly in one level.
-    #   When a host resolves to more than one address, it is therefore tried more often than a host that has only one address.
-    # - When a timeout occurs due to the value of +connect_timeout+, then the given +host+, +hostaddr+ and +port+ combination is not tried a second time, even if it's specified several times.
-    #   It's still possible to do load balancing with +load_balance_hosts+ set to +random+ and to increase the number of connections a node gets, when the hostname is provided multiple times in the host string.
-    #   This is because in non-timeout cases the host is tried multiple times.
-    #
-    # source://pg//lib/pg/connection.rb#886
+    # pkg:gem/pg#lib/pg/connection.rb:886
     def setdblogin(*args); end
 
-    # source://pg//lib/pg.rb#52
+    # pkg:gem/pg#lib/pg.rb:52
     def sync_connect(*_arg0); end
 
-    # source://pg//lib/pg.rb#52
+    # pkg:gem/pg#lib/pg.rb:52
     def sync_ping(*_arg0); end
 
-    # source://pg//lib/pg.rb#52
+    # pkg:gem/pg#lib/pg.rb:52
     def unescape_bytea(_arg0); end
 
     private
 
-    # source://pg//lib/pg/connection.rb#922
+    # pkg:gem/pg#lib/pg/connection.rb:922
     def connect_to_hosts(*args); end
 
-    # source://pg//lib/pg/connection.rb#955
+    # pkg:gem/pg#lib/pg/connection.rb:955
     def host_is_named_pipe?(host_string); end
 
-    # source://pg//lib/pg/connection.rb#891
+    # Resolve DNS in Ruby to avoid blocking state while connecting.
+    # Multiple comma-separated values are generated, if the hostname resolves to both IPv4 and IPv6 addresses.
+    # This requires PostgreSQL-10+, so no DNS resolving is done on earlier versions.
+    #
+    # pkg:gem/pg#lib/pg/connection.rb:891
     def resolve_hosts(iopts); end
   end
 end
 
-# source://pg//lib/pg/connection.rb#120
+# pkg:gem/pg#lib/pg/connection.rb:120
 PG::Connection::BinarySignature = T.let(T.unsafe(nil), String)
 
 # The order the options are passed to the ::connect method.
 #
-# source://pg//lib/pg/connection.rb#33
+# pkg:gem/pg#lib/pg/connection.rb:33
 PG::Connection::CONNECT_ARGUMENT_ORDER = T.let(T.unsafe(nil), Array)
 
 # Shareable program name for Ractor
 #
-# source://pg//lib/pg/connection.rb#49
+# pkg:gem/pg#lib/pg/connection.rb:49
 PG::Connection::PROGRAM_NAME = T.let(T.unsafe(nil), String)
 
-# source://pg//lib/pg/connection.rb#675
+# pkg:gem/pg#lib/pg/connection.rb:675
 module PG::Connection::Pollable
   private
 
@@ -2541,7 +2106,7 @@ module PG::Connection::Pollable
   #
   # The downside is that this connects only once to hosts which are listed twice when they timeout.
   #
-  # source://pg//lib/pg/connection.rb#686
+  # pkg:gem/pg#lib/pg/connection.rb:686
   def polling_loop(poll_meth); end
 
   # Remove the host to which the connection is currently established from the option hash.
@@ -2552,15 +2117,25 @@ module PG::Connection::Pollable
   #
   # Return the number of remaining hosts.
   #
-  # source://pg//lib/pg/connection.rb#762
+  # pkg:gem/pg#lib/pg/connection.rb:762
   def remove_current_host(iopts); end
 end
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::ConnectionBad < ::PG::Error; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::ConnectionDoesNotExist < ::PG::ConnectionException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::ConnectionException < ::PG::ServerError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::ConnectionFailure < ::PG::ConnectionException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 module PG::Constants; end
+
 PG::Constants::CONNECTION_ALLOCATED = T.let(T.unsafe(nil), Integer)
 PG::Constants::CONNECTION_AUTH_OK = T.let(T.unsafe(nil), Integer)
 PG::Constants::CONNECTION_AWAITING_RESPONSE = T.let(T.unsafe(nil), Integer)
@@ -2639,315 +2214,667 @@ PG::Constants::SEEK_CUR = T.let(T.unsafe(nil), Integer)
 PG::Constants::SEEK_END = T.let(T.unsafe(nil), Integer)
 PG::Constants::SEEK_SET = T.let(T.unsafe(nil), Integer)
 
-# source://pg//lib/pg/coder.rb#91
+# pkg:gem/pg#lib/pg.rb:52
 class PG::CopyCoder < ::PG::Coder
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def delimiter; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def delimiter=(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def null_string; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def null_string=(_arg0); end
 
-  # source://pg//lib/pg/coder.rb#92
+  # pkg:gem/pg#lib/pg/coder.rb:92
   def to_h; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def type_map; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def type_map=(_arg0); end
 end
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::CopyDecoder < ::PG::CopyCoder; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::CopyEncoder < ::PG::CopyCoder; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::CrashShutdown < ::PG::OperatorIntervention; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::DataCorrupted < ::PG::InternalError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::DataException < ::PG::ServerError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::DatabaseDropped < ::PG::OperatorIntervention; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::DatatypeMismatch < ::PG::SyntaxErrorOrAccessRuleViolation; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::DatetimeFieldOverflow < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::DependentObjectsStillExist < ::PG::DependentPrivilegeDescriptorsStillExist; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::DependentPrivilegeDescriptorsStillExist < ::PG::ServerError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::DiagnosticsException < ::PG::ServerError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::DiskFull < ::PG::InsufficientResources; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::DivisionByZero < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::DuplicateAlias < ::PG::SyntaxErrorOrAccessRuleViolation; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::DuplicateColumn < ::PG::SyntaxErrorOrAccessRuleViolation; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::DuplicateCursor < ::PG::SyntaxErrorOrAccessRuleViolation; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::DuplicateDatabase < ::PG::SyntaxErrorOrAccessRuleViolation; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::DuplicateFile < ::PG::SystemError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::DuplicateFunction < ::PG::SyntaxErrorOrAccessRuleViolation; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::DuplicateJsonObjectKeyValue < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::DuplicateObject < ::PG::SyntaxErrorOrAccessRuleViolation; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::DuplicatePstatement < ::PG::SyntaxErrorOrAccessRuleViolation; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::DuplicateSchema < ::PG::SyntaxErrorOrAccessRuleViolation; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::DuplicateTable < ::PG::SyntaxErrorOrAccessRuleViolation; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::EREContainingSqlNotPermitted < ::PG::ExternalRoutineException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::EREModifyingSqlDataNotPermitted < ::PG::ExternalRoutineException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::EREProhibitedSqlStatementAttempted < ::PG::ExternalRoutineException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::EREReadingSqlDataNotPermitted < ::PG::ExternalRoutineException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::ERIEEventTriggerProtocolViolated < ::PG::ExternalRoutineInvocationException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::ERIEInvalidSqlstateReturned < ::PG::ExternalRoutineInvocationException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::ERIENullValueNotAllowed < ::PG::ExternalRoutineInvocationException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::ERIESrfProtocolViolated < ::PG::ExternalRoutineInvocationException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::ERIETriggerProtocolViolated < ::PG::ExternalRoutineInvocationException; end
+
 PG::ERROR_CLASSES = T.let(T.unsafe(nil), Hash)
 
-# source://pg//lib/pg/exceptions.rb#9
+# pkg:gem/pg#lib/pg.rb:52
 class PG::Error < ::StandardError
-  # @return [Error] a new instance of Error
-  #
-  # source://pg//lib/pg/exceptions.rb#10
+  # pkg:gem/pg#lib/pg/exceptions.rb:10
   def initialize(msg = T.unsafe(nil), connection: T.unsafe(nil), result: T.unsafe(nil)); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def connection; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def error; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def result; end
 end
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::ErrorInAssignment < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::EscapeCharacterConflict < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::ExclusionViolation < ::PG::IntegrityConstraintViolation; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::ExternalRoutineException < ::PG::ServerError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::ExternalRoutineInvocationException < ::PG::ServerError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::FdwColumnNameNotFound < ::PG::FdwError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::FdwDynamicParameterValueNeeded < ::PG::FdwError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::FdwError < ::PG::ServerError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::FdwFunctionSequenceError < ::PG::FdwError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::FdwInconsistentDescriptorInformation < ::PG::FdwError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::FdwInvalidAttributeValue < ::PG::FdwError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::FdwInvalidColumnName < ::PG::FdwError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::FdwInvalidColumnNumber < ::PG::FdwError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::FdwInvalidDataType < ::PG::FdwError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::FdwInvalidDataTypeDescriptors < ::PG::FdwError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::FdwInvalidDescriptorFieldIdentifier < ::PG::FdwError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::FdwInvalidHandle < ::PG::FdwError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::FdwInvalidOptionIndex < ::PG::FdwError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::FdwInvalidOptionName < ::PG::FdwError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::FdwInvalidStringFormat < ::PG::FdwError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::FdwInvalidStringLengthOrBufferLength < ::PG::FdwError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::FdwInvalidUseOfNullPointer < ::PG::FdwError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::FdwNoSchemas < ::PG::FdwError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::FdwOptionNameNotFound < ::PG::FdwError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::FdwOutOfMemory < ::PG::FdwError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::FdwReplyHandle < ::PG::FdwError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::FdwSchemaNotFound < ::PG::FdwError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::FdwTableNotFound < ::PG::FdwError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::FdwTooManyHandles < ::PG::FdwError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::FdwUnableToCreateExecution < ::PG::FdwError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::FdwUnableToCreateReply < ::PG::FdwError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::FdwUnableToEstablishConnection < ::PG::FdwError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::FeatureNotSupported < ::PG::ServerError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::FileNameTooLong < ::PG::SystemError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::FloatingPointException < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::ForeignKeyViolation < ::PG::IntegrityConstraintViolation; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::GeneratedAlways < ::PG::SyntaxErrorOrAccessRuleViolation; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::GroupingError < ::PG::SyntaxErrorOrAccessRuleViolation; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::HeldCursorRequiresSameIsolationLevel < ::PG::InvalidTransactionState; end
+
 PG::IS_BINARY_GEM = T.let(T.unsafe(nil), TrueClass)
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::IdleInTransactionSessionTimeout < ::PG::InvalidTransactionState; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::IdleSessionTimeout < ::PG::OperatorIntervention; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InFailedSqlTransaction < ::PG::InvalidTransactionState; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InappropriateAccessModeForBranchTransaction < ::PG::InvalidTransactionState; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InappropriateIsolationLevelForBranchTransaction < ::PG::InvalidTransactionState; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::IndeterminateCollation < ::PG::SyntaxErrorOrAccessRuleViolation; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::IndeterminateDatatype < ::PG::SyntaxErrorOrAccessRuleViolation; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::IndexCorrupted < ::PG::InternalError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::IndicatorOverflow < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InsufficientPrivilege < ::PG::SyntaxErrorOrAccessRuleViolation; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InsufficientResources < ::PG::ServerError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::IntegrityConstraintViolation < ::PG::ServerError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InternalError < ::PG::ServerError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::IntervalFieldOverflow < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidArgumentForLog < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidArgumentForNthValue < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidArgumentForNtile < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidArgumentForPowerFunction < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidArgumentForSqlJsonDatetimeFunction < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidArgumentForWidthBucketFunction < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidArgumentForXquery < ::PG::ServerError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidAuthorizationSpecification < ::PG::ServerError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidBinaryRepresentation < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidCatalogName < ::PG::ServerError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidChangeOfResultFields < ::PG::Error; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidCharacterValueForCast < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidColumnDefinition < ::PG::SyntaxErrorOrAccessRuleViolation; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidColumnReference < ::PG::SyntaxErrorOrAccessRuleViolation; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidCursorDefinition < ::PG::SyntaxErrorOrAccessRuleViolation; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidCursorName < ::PG::ServerError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidCursorState < ::PG::ServerError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidDatabaseDefinition < ::PG::SyntaxErrorOrAccessRuleViolation; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidDatetimeFormat < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidEscapeCharacter < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidEscapeOctet < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidEscapeSequence < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidForeignKey < ::PG::SyntaxErrorOrAccessRuleViolation; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidFunctionDefinition < ::PG::SyntaxErrorOrAccessRuleViolation; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidGrantOperation < ::PG::InvalidGrantor; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidGrantor < ::PG::ServerError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidIndicatorParameterValue < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidJsonText < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidName < ::PG::SyntaxErrorOrAccessRuleViolation; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidObjectDefinition < ::PG::SyntaxErrorOrAccessRuleViolation; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidParameterValue < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidPassword < ::PG::InvalidAuthorizationSpecification; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidPrecedingOrFollowingSize < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidPstatementDefinition < ::PG::SyntaxErrorOrAccessRuleViolation; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidRecursion < ::PG::SyntaxErrorOrAccessRuleViolation; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidRegularExpression < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidResultStatus < ::PG::Error; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidRoleSpecification < ::PG::ServerError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidRowCountInLimitClause < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidRowCountInResultOffsetClause < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidSchemaDefinition < ::PG::SyntaxErrorOrAccessRuleViolation; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidSchemaName < ::PG::ServerError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidSqlJsonSubscript < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidSqlStatementName < ::PG::ServerError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidTableDefinition < ::PG::SyntaxErrorOrAccessRuleViolation; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidTablesampleArgument < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidTablesampleRepeat < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidTextRepresentation < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidTimeZoneDisplacementValue < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidTransactionInitiation < ::PG::ServerError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidTransactionState < ::PG::ServerError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidTransactionTermination < ::PG::ServerError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidUseOfEscapeCharacter < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidXmlComment < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidXmlContent < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidXmlDocument < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::InvalidXmlProcessingInstruction < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::IoError < ::PG::SystemError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::LEInvalidSpecification < ::PG::LocatorException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::LocatorException < ::PG::ServerError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::LockFileExists < ::PG::ConfigFileError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::LockNotAvailable < ::PG::ObjectNotInPrerequisiteState; end
 
-# source://pg//lib/pg/exceptions.rb#19
+# pkg:gem/pg#lib/pg/exceptions.rb:19
 class PG::LostCopyState < ::PG::Error; end
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::MoreThanOneSqlJsonItem < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::MostSpecificTypeMismatch < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::NameTooLong < ::PG::SyntaxErrorOrAccessRuleViolation; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::NoActiveSqlTransaction < ::PG::InvalidTransactionState; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::NoActiveSqlTransactionForBranchTransaction < ::PG::InvalidTransactionState; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::NoDataFound < ::PG::PlpgsqlError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::NoResultError < ::PG::Error; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::NoSqlJsonItem < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::NonNumericSqlJsonItem < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::NonUniqueKeysInAJsonObject < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::NonstandardUseOfEscapeCharacter < ::PG::DataException; end
 
-# source://pg//lib/pg/exceptions.rb#17
+# pkg:gem/pg#lib/pg/exceptions.rb:17
 class PG::NotAllCopyDataRetrieved < ::PG::Error; end
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::NotAnXmlDocument < ::PG::DataException; end
 
-# source://pg//lib/pg/exceptions.rb#21
+# pkg:gem/pg#lib/pg/exceptions.rb:21
 class PG::NotInBlockingMode < ::PG::Error; end
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::NotNullViolation < ::PG::IntegrityConstraintViolation; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::NullValueNoIndicatorParameter < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::NullValueNotAllowed < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::NumericValueOutOfRange < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::ObjectInUse < ::PG::ObjectNotInPrerequisiteState; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::ObjectNotInPrerequisiteState < ::PG::ServerError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::OperatorIntervention < ::PG::ServerError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::OutOfMemory < ::PG::InsufficientResources; end
 
-# source://pg//lib/pg.rb#13
+# rake-compiler doesn't use regular "make install", but uses it's own install tasks.
+# It therefore doesn't copy pg/postgresql_lib_path.rb in case of "rake compile".
+#
+# pkg:gem/pg#lib/pg.rb:13
 PG::POSTGRESQL_LIB_PATH = T.let(T.unsafe(nil), String)
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::PlpgsqlError < ::PG::ServerError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::ProgramLimitExceeded < ::PG::ServerError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::ProtocolViolation < ::PG::ConnectionException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::QueryCanceled < ::PG::OperatorIntervention; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::RaiseException < ::PG::PlpgsqlError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::ReadOnlySqlTransaction < ::PG::InvalidTransactionState; end
 
-# source://pg//lib/pg/coder.rb#101
+# pkg:gem/pg#lib/pg.rb:52
 class PG::RecordCoder < ::PG::Coder
-  # source://pg//lib/pg/coder.rb#102
+  # pkg:gem/pg#lib/pg/coder.rb:102
   def to_h; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def type_map; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def type_map=(_arg0); end
 end
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::RecordDecoder < ::PG::RecordCoder; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::RecordEncoder < ::PG::RecordCoder; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::ReservedName < ::PG::SyntaxErrorOrAccessRuleViolation; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::RestrictViolation < ::PG::IntegrityConstraintViolation; end
 
-# source://pg//lib/pg/result.rb#7
+# pkg:gem/pg#lib/pg.rb:52
 class PG::Result
   include ::Enumerable
   include ::PG::Constants
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def [](_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def autoclear?; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def binary_tuples; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def check; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def check_result; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def clear; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def cleared?; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def cmd_status; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def cmd_tuples; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def cmdtuples; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def column_values(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def each; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def each_row; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def error_field(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def error_message; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def fformat(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def field_name_type; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def field_name_type=(_arg0); end
 
   # Set the data type for all field name returning methods.
@@ -2956,51 +2883,51 @@ class PG::Result
   #
   # This method is equal to #field_name_type= , but returns self, so that calls can be chained.
   #
-  # source://pg//lib/pg/result.rb#26
+  # pkg:gem/pg#lib/pg/result.rb:26
   def field_names_as(type); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def field_values(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def fields; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def fmod(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def fname(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def fnumber(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def freeze; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def fsize(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def ftable(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def ftablecol(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def ftype(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def getisnull(_arg0, _arg1); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def getlength(_arg0, _arg1); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def getvalue(_arg0, _arg1); end
 
   # Return a String representation of the object suitable for debugging.
   #
-  # source://pg//lib/pg/result.rb#32
+  # pkg:gem/pg#lib/pg/result.rb:32
   def inspect; end
 
   # Apply a type map for all value retrieving methods.
@@ -3011,74 +2938,74 @@ class PG::Result
   #
   # See also PG::BasicTypeMapForResults
   #
-  # source://pg//lib/pg/result.rb#16
+  # pkg:gem/pg#lib/pg/result.rb:16
   def map_types!(type_map); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def nfields; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def nparams; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def ntuples; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def num_fields; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def num_tuples; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def oid_value; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def paramtype(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def res_status(*_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def result_error_field(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def result_error_message; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def result_status; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def result_verbose_error_message(_arg0, _arg1); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def stream_each; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def stream_each_row; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def stream_each_tuple; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def tuple(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def tuple_values(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def type_map; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def type_map=(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def values; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def verbose_error_message(_arg0, _arg1); end
 
   class << self
-    # source://pg//lib/pg.rb#52
+    # pkg:gem/pg#lib/pg.rb:52
     def res_status(_arg0); end
   end
 end
@@ -3087,83 +3014,156 @@ end
 # Normally, raising an exception will cause the .transaction method to rollback the database transaction and pass on the exception.
 # But if you raise an PG::RollbackTransaction exception, then the database transaction will be rolled back, without passing on the exception.
 #
-# source://pg//lib/pg/exceptions.rb#27
+# pkg:gem/pg#lib/pg/exceptions.rb:27
 class PG::RollbackTransaction < ::StandardError; end
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::SEInvalidSpecification < ::PG::SavepointException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::SREFunctionExecutedNoReturnStatement < ::PG::SqlRoutineException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::SREModifyingSqlDataNotPermitted < ::PG::SqlRoutineException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::SREProhibitedSqlStatementAttempted < ::PG::SqlRoutineException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::SREReadingSqlDataNotPermitted < ::PG::SqlRoutineException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::SavepointException < ::PG::ServerError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::SchemaAndDataStatementMixingNotSupported < ::PG::InvalidTransactionState; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::SequenceGeneratorLimitExceeded < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::ServerError < ::PG::Error; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::SimpleCoder < ::PG::Coder; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::SimpleDecoder < ::PG::SimpleCoder; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::SimpleEncoder < ::PG::SimpleCoder; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::SingletonSqlJsonItemRequired < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::SqlJsonArrayNotFound < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::SqlJsonItemCannotBeCastToTargetType < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::SqlJsonMemberNotFound < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::SqlJsonNumberNotFound < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::SqlJsonObjectNotFound < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::SqlJsonScalarRequired < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::SqlRoutineException < ::PG::ServerError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::SqlStatementNotYetComplete < ::PG::ServerError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::SqlclientUnableToEstablishSqlconnection < ::PG::ConnectionException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::SqlserverRejectedEstablishmentOfSqlconnection < ::PG::ConnectionException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::StackedDiagnosticsAccessedWithoutActiveHandler < ::PG::DiagnosticsException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::StatementTooComplex < ::PG::ProgramLimitExceeded; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::StringDataLengthMismatch < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::StringDataRightTruncation < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::SubstringError < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::SyntaxError < ::PG::SyntaxErrorOrAccessRuleViolation; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::SyntaxErrorOrAccessRuleViolation < ::PG::ServerError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::SystemError < ::PG::ServerError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::TRDeadlockDetected < ::PG::TransactionRollback; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::TRIntegrityConstraintViolation < ::PG::TransactionRollback; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::TRSerializationFailure < ::PG::TransactionRollback; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::TRStatementCompletionUnknown < ::PG::TransactionRollback; end
 
-# source://pg//lib/pg.rb#112
+# pkg:gem/pg#lib/pg.rb:52
 module PG::TextDecoder
   class << self
     private
 
-    # source://pg//lib/pg.rb#52
+    # pkg:gem/pg#lib/pg.rb:52
     def init_inet; end
 
-    # source://pg//lib/pg.rb#52
+    # pkg:gem/pg#lib/pg.rb:52
     def init_numeric; end
   end
 end
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::TextDecoder::Array < ::PG::CompositeDecoder
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def decode(*_arg0); end
 end
 
 PG::TextDecoder::Array::CFUNC = T.let(T.unsafe(nil), Object)
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::TextDecoder::Boolean < ::PG::SimpleDecoder
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def decode(*_arg0); end
 end
 
 PG::TextDecoder::Boolean::CFUNC = T.let(T.unsafe(nil), Object)
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::TextDecoder::Bytea < ::PG::SimpleDecoder
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def decode(*_arg0); end
 end
 
 PG::TextDecoder::Bytea::CFUNC = T.let(T.unsafe(nil), Object)
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::TextDecoder::CopyRow < ::PG::CopyDecoder
   include ::PG::Coder::BinaryFormatting
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def decode(*_arg0); end
 end
 
@@ -3173,43 +3173,48 @@ PG::TextDecoder::CopyRow::CFUNC = T.let(T.unsafe(nil), Object)
 #
 # As soon as this class is used, it requires the ruby standard library 'date'.
 #
-# source://pg//lib/pg/text_decoder/date.rb#11
+# pkg:gem/pg#lib/pg/text_decoder/date.rb:11
 class PG::TextDecoder::Date < ::PG::SimpleDecoder
-  # source://pg//lib/pg/text_decoder/date.rb#12
+  # pkg:gem/pg#lib/pg/text_decoder/date.rb:12
   def decode(string, tuple = T.unsafe(nil), field = T.unsafe(nil)); end
 end
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::TextDecoder::Float < ::PG::SimpleDecoder
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def decode(*_arg0); end
 end
 
 PG::TextDecoder::Float::CFUNC = T.let(T.unsafe(nil), Object)
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::TextDecoder::FromBase64 < ::PG::CompositeDecoder
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def decode(*_arg0); end
 end
 
 PG::TextDecoder::FromBase64::CFUNC = T.let(T.unsafe(nil), Object)
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::TextDecoder::Identifier < ::PG::SimpleDecoder
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def decode(*_arg0); end
 end
 
 PG::TextDecoder::Identifier::CFUNC = T.let(T.unsafe(nil), Object)
 
+# pkg:gem/pg#lib/pg/text_decoder/inet.rb:7
 class PG::TextDecoder::Inet < ::PG::SimpleDecoder
-  # source://pg//lib/pg/text_decoder/inet.rb#7
+  # pkg:gem/pg#lib/pg/text_decoder/inet.rb:7
   def decode(*_arg0); end
 end
 
-# source://pg//lib/pg/text_decoder/inet.rb#7
+# pkg:gem/pg#lib/pg/text_decoder/inet.rb:7
 PG::TextDecoder::Inet::CFUNC = T.let(T.unsafe(nil), Object)
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::TextDecoder::Integer < ::PG::SimpleDecoder
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def decode(*_arg0); end
 end
 
@@ -3219,110 +3224,112 @@ PG::TextDecoder::Integer::CFUNC = T.let(T.unsafe(nil), Object)
 #
 # As soon as this class is used, it requires the ruby standard library 'json'.
 #
-# source://pg//lib/pg/text_decoder/json.rb#11
+# pkg:gem/pg#lib/pg/text_decoder/json.rb:11
 class PG::TextDecoder::JSON < ::PG::SimpleDecoder
-  # source://pg//lib/pg/text_decoder/json.rb#12
+  # pkg:gem/pg#lib/pg/text_decoder/json.rb:12
   def decode(string, tuple = T.unsafe(nil), field = T.unsafe(nil)); end
 end
 
+# pkg:gem/pg#lib/pg/text_decoder/numeric.rb:7
 class PG::TextDecoder::Numeric < ::PG::SimpleDecoder
-  # source://pg//lib/pg/text_decoder/numeric.rb#7
+  # pkg:gem/pg#lib/pg/text_decoder/numeric.rb:7
   def decode(*_arg0); end
 end
 
-# source://pg//lib/pg/text_decoder/numeric.rb#7
+# pkg:gem/pg#lib/pg/text_decoder/numeric.rb:7
 PG::TextDecoder::Numeric::CFUNC = T.let(T.unsafe(nil), Object)
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::TextDecoder::Record < ::PG::RecordDecoder
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def decode(*_arg0); end
 end
 
 PG::TextDecoder::Record::CFUNC = T.let(T.unsafe(nil), Object)
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::TextDecoder::String < ::PG::SimpleDecoder
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def decode(*_arg0); end
 end
 
 PG::TextDecoder::String::CFUNC = T.let(T.unsafe(nil), Object)
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::TextDecoder::Timestamp < ::PG::SimpleDecoder
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def decode(*_arg0); end
 end
 
 PG::TextDecoder::Timestamp::CFUNC = T.let(T.unsafe(nil), Object)
 
-# source://pg//lib/pg/text_decoder/timestamp.rb#19
+# pkg:gem/pg#lib/pg/text_decoder/timestamp.rb:19
 class PG::TextDecoder::TimestampLocal < ::PG::TextDecoder::Timestamp
-  # @return [TimestampLocal] a new instance of TimestampLocal
-  #
-  # source://pg//lib/pg/text_decoder/timestamp.rb#20
+  # pkg:gem/pg#lib/pg/text_decoder/timestamp.rb:20
   def initialize(hash = T.unsafe(nil), **kwargs); end
 end
 
 # Convenience classes for timezone options
 #
-# source://pg//lib/pg/text_decoder/timestamp.rb#7
+# pkg:gem/pg#lib/pg/text_decoder/timestamp.rb:7
 class PG::TextDecoder::TimestampUtc < ::PG::TextDecoder::Timestamp
-  # @return [TimestampUtc] a new instance of TimestampUtc
-  #
-  # source://pg//lib/pg/text_decoder/timestamp.rb#8
+  # pkg:gem/pg#lib/pg/text_decoder/timestamp.rb:8
   def initialize(hash = T.unsafe(nil), **kwargs); end
 end
 
-# source://pg//lib/pg/text_decoder/timestamp.rb#13
+# pkg:gem/pg#lib/pg/text_decoder/timestamp.rb:13
 class PG::TextDecoder::TimestampUtcToLocal < ::PG::TextDecoder::Timestamp
-  # @return [TimestampUtcToLocal] a new instance of TimestampUtcToLocal
-  #
-  # source://pg//lib/pg/text_decoder/timestamp.rb#14
+  # pkg:gem/pg#lib/pg/text_decoder/timestamp.rb:14
   def initialize(hash = T.unsafe(nil), **kwargs); end
 end
 
-# source://pg//lib/pg/text_decoder/timestamp.rb#28
+# pkg:gem/pg#lib/pg/text_decoder/timestamp.rb:28
 PG::TextDecoder::TimestampWithTimeZone = PG::TextDecoder::Timestamp
 
 # For backward compatibility:
 #
-# source://pg//lib/pg/text_decoder/timestamp.rb#27
+# pkg:gem/pg#lib/pg/text_decoder/timestamp.rb:27
 PG::TextDecoder::TimestampWithoutTimeZone = PG::TextDecoder::TimestampLocal
 
-# source://pg//lib/pg.rb#121
+# pkg:gem/pg#lib/pg.rb:52
 module PG::TextEncoder
   class << self
     private
 
-    # source://pg//lib/pg.rb#52
+    # pkg:gem/pg#lib/pg.rb:52
     def init_numeric; end
   end
 end
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::TextEncoder::Array < ::PG::CompositeEncoder
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def encode(*_arg0); end
 end
 
 PG::TextEncoder::Array::CFUNC = T.let(T.unsafe(nil), Object)
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::TextEncoder::Boolean < ::PG::SimpleEncoder
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def encode(*_arg0); end
 end
 
 PG::TextEncoder::Boolean::CFUNC = T.let(T.unsafe(nil), Object)
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::TextEncoder::Bytea < ::PG::SimpleEncoder
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def encode(*_arg0); end
 end
 
 PG::TextEncoder::Bytea::CFUNC = T.let(T.unsafe(nil), Object)
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::TextEncoder::CopyRow < ::PG::CopyEncoder
   include ::PG::Coder::BinaryFormatting
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def encode(*_arg0); end
 end
 
@@ -3330,21 +3337,23 @@ PG::TextEncoder::CopyRow::CFUNC = T.let(T.unsafe(nil), Object)
 
 # This is a encoder class for conversion of Ruby Date values to PostgreSQL date type.
 #
-# source://pg//lib/pg/text_encoder/date.rb#7
+# pkg:gem/pg#lib/pg/text_encoder/date.rb:7
 class PG::TextEncoder::Date < ::PG::SimpleEncoder
-  # source://pg//lib/pg/text_encoder/date.rb#8
+  # pkg:gem/pg#lib/pg/text_encoder/date.rb:8
   def encode(value); end
 end
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::TextEncoder::Float < ::PG::SimpleEncoder
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def encode(*_arg0); end
 end
 
 PG::TextEncoder::Float::CFUNC = T.let(T.unsafe(nil), Object)
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::TextEncoder::Identifier < ::PG::SimpleEncoder
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def encode(*_arg0); end
 end
 
@@ -3354,14 +3363,15 @@ PG::TextEncoder::Identifier::CFUNC = T.let(T.unsafe(nil), Object)
 #
 # As soon as this class is used, it requires the ruby standard library 'ipaddr'.
 #
-# source://pg//lib/pg/text_encoder/inet.rb#11
+# pkg:gem/pg#lib/pg/text_encoder/inet.rb:11
 class PG::TextEncoder::Inet < ::PG::SimpleEncoder
-  # source://pg//lib/pg/text_encoder/inet.rb#12
+  # pkg:gem/pg#lib/pg/text_encoder/inet.rb:12
   def encode(value); end
 end
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::TextEncoder::Integer < ::PG::SimpleEncoder
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def encode(*_arg0); end
 end
 
@@ -3371,255 +3381,315 @@ PG::TextEncoder::Integer::CFUNC = T.let(T.unsafe(nil), Object)
 #
 # As soon as this class is used, it requires the ruby standard library 'json'.
 #
-# source://pg//lib/pg/text_encoder/json.rb#11
+# pkg:gem/pg#lib/pg/text_encoder/json.rb:11
 class PG::TextEncoder::JSON < ::PG::SimpleEncoder
-  # source://pg//lib/pg/text_encoder/json.rb#12
+  # pkg:gem/pg#lib/pg/text_encoder/json.rb:12
   def encode(value); end
 end
 
+# pkg:gem/pg#lib/pg/text_encoder/numeric.rb:7
 class PG::TextEncoder::Numeric < ::PG::SimpleEncoder
-  # source://pg//lib/pg/text_encoder/numeric.rb#7
+  # pkg:gem/pg#lib/pg/text_encoder/numeric.rb:7
   def encode(*_arg0); end
 end
 
-# source://pg//lib/pg/text_encoder/numeric.rb#7
+# pkg:gem/pg#lib/pg/text_encoder/numeric.rb:7
 PG::TextEncoder::Numeric::CFUNC = T.let(T.unsafe(nil), Object)
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::TextEncoder::QuotedLiteral < ::PG::CompositeEncoder
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def encode(*_arg0); end
 end
 
 PG::TextEncoder::QuotedLiteral::CFUNC = T.let(T.unsafe(nil), Object)
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::TextEncoder::Record < ::PG::RecordEncoder
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def encode(*_arg0); end
 end
 
 PG::TextEncoder::Record::CFUNC = T.let(T.unsafe(nil), Object)
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::TextEncoder::String < ::PG::SimpleEncoder
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def encode(*_arg0); end
 end
 
 PG::TextEncoder::String::CFUNC = T.let(T.unsafe(nil), Object)
 
-# source://pg//lib/pg/text_encoder/timestamp.rb#12
+# pkg:gem/pg#lib/pg/text_encoder/timestamp.rb:12
 class PG::TextEncoder::TimestampUtc < ::PG::SimpleEncoder
-  # source://pg//lib/pg/text_encoder/timestamp.rb#13
+  # pkg:gem/pg#lib/pg/text_encoder/timestamp.rb:13
   def encode(value); end
 end
 
-# source://pg//lib/pg/text_encoder/timestamp.rb#18
+# pkg:gem/pg#lib/pg/text_encoder/timestamp.rb:18
 class PG::TextEncoder::TimestampWithTimeZone < ::PG::SimpleEncoder
-  # source://pg//lib/pg/text_encoder/timestamp.rb#19
+  # pkg:gem/pg#lib/pg/text_encoder/timestamp.rb:19
   def encode(value); end
 end
 
-# source://pg//lib/pg/text_encoder/timestamp.rb#6
+# pkg:gem/pg#lib/pg/text_encoder/timestamp.rb:6
 class PG::TextEncoder::TimestampWithoutTimeZone < ::PG::SimpleEncoder
-  # source://pg//lib/pg/text_encoder/timestamp.rb#7
+  # pkg:gem/pg#lib/pg/text_encoder/timestamp.rb:7
   def encode(value); end
 end
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::TextEncoder::ToBase64 < ::PG::CompositeEncoder
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def encode(*_arg0); end
 end
 
 PG::TextEncoder::ToBase64::CFUNC = T.let(T.unsafe(nil), Object)
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::TooManyArguments < ::PG::ProgramLimitExceeded; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::TooManyColumns < ::PG::ProgramLimitExceeded; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::TooManyConnections < ::PG::InsufficientResources; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::TooManyJsonArrayElements < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::TooManyJsonObjectMembers < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::TooManyRows < ::PG::PlpgsqlError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::TransactionResolutionUnknown < ::PG::ConnectionException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::TransactionRollback < ::PG::ServerError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::TransactionTimeout < ::PG::InvalidTransactionState; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::TriggeredActionException < ::PG::ServerError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::TriggeredDataChangeViolation < ::PG::ServerError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::TrimError < ::PG::DataException; end
 
-# source://pg//lib/pg/tuple.rb#7
+# pkg:gem/pg#lib/pg.rb:52
 class PG::Tuple
   include ::Enumerable
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def [](_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def each; end
 
-  # source://pg//lib/pg/tuple.rb#23
+  # pkg:gem/pg#lib/pg/tuple.rb:23
   def each_key(&block); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def each_value; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def fetch(*_arg0); end
 
-  # @return [Boolean]
-  #
-  # source://pg//lib/pg/tuple.rb#14
+  # pkg:gem/pg#lib/pg/tuple.rb:14
   def has_key?(key); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def index(_arg0); end
 
   # Return a String representation of the object suitable for debugging.
   #
-  # source://pg//lib/pg/tuple.rb#10
+  # pkg:gem/pg#lib/pg/tuple.rb:10
   def inspect; end
 
-  # @return [Boolean]
-  #
-  # source://pg//lib/pg/tuple.rb#17
+  # pkg:gem/pg#lib/pg/tuple.rb:17
   def key?(key); end
 
-  # source://pg//lib/pg/tuple.rb#19
+  # pkg:gem/pg#lib/pg/tuple.rb:19
   def keys; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def length; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def size; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def values; end
 
   private
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def field_map; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def field_names; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def marshal_dump; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def marshal_load(_arg0); end
 end
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::TypeMap; end
 
+# pkg:gem/pg#lib/pg.rb:52
 module PG::TypeMap::DefaultTypeMappable
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def default_type_map; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def default_type_map=(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def with_default_type_map(_arg0); end
 end
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::TypeMapAllStrings < ::PG::TypeMap; end
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::TypeMapByClass < ::PG::TypeMap
   include ::PG::TypeMap::DefaultTypeMappable
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def [](_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def []=(_arg0, _arg1); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def coders; end
 end
 
-# source://pg//lib/pg/type_map_by_column.rb#6
+# pkg:gem/pg#lib/pg.rb:52
 class PG::TypeMapByColumn < ::PG::TypeMap
   include ::PG::TypeMap::DefaultTypeMappable
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def initialize(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def coders; end
 
-  # source://pg//lib/pg/type_map_by_column.rb#12
+  # pkg:gem/pg#lib/pg/type_map_by_column.rb:12
   def inspect; end
 
   # Returns the type oids of the assigned coders.
   #
-  # source://pg//lib/pg/type_map_by_column.rb#8
+  # pkg:gem/pg#lib/pg/type_map_by_column.rb:8
   def oids; end
 end
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::TypeMapByMriType < ::PG::TypeMap
   include ::PG::TypeMap::DefaultTypeMappable
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def [](_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def []=(_arg0, _arg1); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def coders; end
 end
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::TypeMapByOid < ::PG::TypeMap
   include ::PG::TypeMap::DefaultTypeMappable
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def add_coder(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def build_column_map(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def coders; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def max_rows_for_online_lookup; end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def max_rows_for_online_lookup=(_arg0); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def rm_coder(_arg0, _arg1); end
 end
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::TypeMapInRuby < ::PG::TypeMap
   include ::PG::TypeMap::DefaultTypeMappable
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def typecast_copy_get(_arg0, _arg1, _arg2, _arg3); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def typecast_query_param(_arg0, _arg1); end
 
-  # source://pg//lib/pg.rb#52
+  # pkg:gem/pg#lib/pg.rb:52
   def typecast_result_value(_arg0, _arg1, _arg2); end
 end
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::UnableToSend < ::PG::Error; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::UndefinedColumn < ::PG::SyntaxErrorOrAccessRuleViolation; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::UndefinedFile < ::PG::SystemError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::UndefinedFunction < ::PG::SyntaxErrorOrAccessRuleViolation; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::UndefinedObject < ::PG::SyntaxErrorOrAccessRuleViolation; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::UndefinedParameter < ::PG::SyntaxErrorOrAccessRuleViolation; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::UndefinedTable < ::PG::SyntaxErrorOrAccessRuleViolation; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::UniqueViolation < ::PG::IntegrityConstraintViolation; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::UnsafeNewEnumValueUsage < ::PG::ObjectNotInPrerequisiteState; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::UnterminatedCString < ::PG::DataException; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::UntranslatableCharacter < ::PG::DataException; end
 
 # Library version
 #
-# source://pg//lib/pg/version.rb#4
+# pkg:gem/pg#lib/pg/version.rb:4
 PG::VERSION = T.let(T.unsafe(nil), String)
 
+# pkg:gem/pg#lib/pg.rb:52
 class PG::WindowingError < ::PG::SyntaxErrorOrAccessRuleViolation; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::WithCheckOptionViolation < ::PG::ServerError; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::WrongObjectType < ::PG::SyntaxErrorOrAccessRuleViolation; end
+
+# pkg:gem/pg#lib/pg.rb:52
 class PG::ZeroLengthCharacterString < ::PG::DataException; end

@@ -5,138 +5,140 @@
 # Please instead update this file by running `bin/tapioca gem sys-uname`.
 
 
+# The Sys module is a namespace only.
+# The Sys module serves as a namespace only.
 # The Sys module provides a namespace only.
 #
-# source://sys-uname//lib/sys/uname.rb#3
+# pkg:gem/sys-uname#lib/sys/uname.rb:3
 module Sys; end
 
 # The Platform class provides singleton methods to tell you what OS you're on.
 #
-# source://sys-uname//lib/sys/uname.rb#9
+# pkg:gem/sys-uname#lib/sys/uname.rb:9
 class Sys::Platform
   class << self
     # Returns whether or not you're on any BSD platform
     #
-    # @return [Boolean]
-    #
-    # source://sys-uname//lib/sys/platform.rb#47
+    # pkg:gem/sys-uname#lib/sys/platform.rb:47
     def bsd?; end
 
     # Returns whether or not you're on Linux
     #
-    # @return [Boolean]
-    #
-    # source://sys-uname//lib/sys/platform.rb#42
+    # pkg:gem/sys-uname#lib/sys/platform.rb:42
     def linux?; end
 
     # Returns whether or not you're on a mac, i.e. OSX
     #
-    # @return [Boolean]
-    #
-    # source://sys-uname//lib/sys/platform.rb#37
+    # pkg:gem/sys-uname#lib/sys/platform.rb:37
     def mac?; end
 
     # Returns whether or not you're on a Unixy (non-Windows) OS
     #
-    # @return [Boolean]
-    #
-    # source://sys-uname//lib/sys/platform.rb#32
+    # pkg:gem/sys-uname#lib/sys/platform.rb:32
     def unix?; end
 
     # Returns whether or not you're on a Windows OS
     #
-    # @return [Boolean]
-    #
-    # source://sys-uname//lib/sys/platform.rb#27
+    # pkg:gem/sys-uname#lib/sys/platform.rb:27
     def windows?; end
   end
 end
 
 # The CPU architecture
 #
-# source://sys-uname//lib/sys/platform.rb#8
+# pkg:gem/sys-uname#lib/sys/platform.rb:8
 Sys::Platform::ARCH = T.let(T.unsafe(nil), Symbol)
 
 # Returns the OS type, :macosx, :linux, :mingw32, etc
 #
-# source://sys-uname//lib/sys/platform.rb#14
+# pkg:gem/sys-uname#lib/sys/platform.rb:14
 Sys::Platform::IMPL = T.let(T.unsafe(nil), Symbol)
 
 # Returns a basic OS family, either :windows or :unix
 #
-# source://sys-uname//lib/sys/platform.rb#11
+# pkg:gem/sys-uname#lib/sys/platform.rb:11
 Sys::Platform::OS = T.let(T.unsafe(nil), Symbol)
 
 # The version of the sys-uname gem.
 #
-# source://sys-uname//lib/sys/uname.rb#11
+# pkg:gem/sys-uname#lib/sys/uname.rb:11
 Sys::Platform::VERSION = T.let(T.unsafe(nil), String)
 
+# The Uname class encapsulates information about the system.
 # The Uname class encapsulates uname (platform) information.
 #
-# source://sys-uname//lib/sys/uname.rb#4
+# pkg:gem/sys-uname#lib/sys/uname.rb:4
 class Sys::Uname
   extend ::FFI::Library
   extend ::Memoist::InstanceMethods
 
-  # source://sys-uname//lib/sys/unix/uname.rb#43
-  def sysinfo(*_arg0); end
+  # pkg:gem/sys-uname#lib/sys/unix/uname.rb:33
+  def sysctl(*_arg0); end
 
-  # source://sys-uname//lib/sys/unix/uname.rb#29
+  # pkg:gem/sys-uname#lib/sys/unix/uname.rb:29
   def uname_c(*_arg0); end
 
   class << self
-    # source://sys-uname//lib/sys/unix/uname.rb#256
+    # pkg:gem/sys-uname#lib/sys/unix/uname.rb:256
     def _unmemoized_machine; end
 
-    # source://sys-uname//lib/sys/unix/uname.rb#253
+    # pkg:gem/sys-uname#lib/sys/unix/uname.rb:253
     def _unmemoized_nodename; end
 
-    # source://sys-uname//lib/sys/unix/uname.rb#254
+    # pkg:gem/sys-uname#lib/sys/unix/uname.rb:254
     def _unmemoized_release; end
 
-    # source://sys-uname//lib/sys/unix/uname.rb#252
+    # pkg:gem/sys-uname#lib/sys/unix/uname.rb:252
     def _unmemoized_sysname; end
 
-    # source://sys-uname//lib/sys/unix/uname.rb#255
+    # pkg:gem/sys-uname#lib/sys/unix/uname.rb:255
     def _unmemoized_version; end
 
+    # The  basic instruction  set  architecture  of  the current
+    # system, e.g. sparc, i386, etc.
+    #
     # Returns the CPU architecture, e.g. "x86"
     #
-    # source://sys-uname//lib/sys/unix/uname.rb#205
+    # pkg:gem/sys-uname#lib/sys/unix/uname.rb:205
     def architecture; end
 
     # The string consisting of the ASCII hexidecimal encoding of the name
     # of the interface configured by boot(1M) followed by the DHCPACK reply
     # from the server.
     #
-    # source://sys-uname//lib/sys/unix/uname.rb#219
+    # pkg:gem/sys-uname#lib/sys/unix/uname.rb:219
     def dhcp_cache; end
 
     # The name of the of the hardware provider.
     #
-    # source://sys-uname//lib/sys/unix/uname.rb#239
+    # pkg:gem/sys-uname#lib/sys/unix/uname.rb:239
     def hw_provider; end
 
     # The ASCII representation of the hardware-specific serial number
     # of the physical machine on which the function is executed.
     #
-    # source://sys-uname//lib/sys/unix/uname.rb#233
+    # pkg:gem/sys-uname#lib/sys/unix/uname.rb:233
     def hw_serial; end
 
     # The variant instruction set architectures executable on the
     # current system.
     #
-    # source://sys-uname//lib/sys/unix/uname.rb#226
+    # pkg:gem/sys-uname#lib/sys/unix/uname.rb:226
     def isa_list; end
 
+    # Returns the machine hardware type.
+    #
+    # Example:
+    #
+    #  Uname.machine # => 'i686'
+    #
     # Returns the machine hardware type.  e.g. "i686".
     # --
     # This may or may not return the expected value because some CPU types
     # were unknown to the OS when the OS was originally released.  It
     # appears that MS doesn't necessarily patch this, either.
     #
-    # source://sys-uname//lib/sys/unix/uname.rb#185
+    # pkg:gem/sys-uname#lib/sys/unix/uname.rb:185
     def machine(reload = T.unsafe(nil)); end
 
     # Returns the model type.
@@ -145,42 +147,81 @@ class Sys::Uname
     #
     #  Uname.model # => 'MacBookPro5,3'
     #
-    # source://sys-uname//lib/sys/unix/uname.rb#196
+    # pkg:gem/sys-uname#lib/sys/unix/uname.rb:196
     def model; end
 
+    # Returns the name of this node within the communications network to
+    # which this node is attached, if any. This is often, but not
+    # necessarily, the same as the host name.
+    #
+    # Example:
+    #
+    #  Uname.nodename # => 'your_host.foo.com'
+    #
     # Returns the nodename.  This is usually, but not necessarily, the
     # same as the system's hostname.
     #
-    # source://sys-uname//lib/sys/unix/uname.rb#155
+    # pkg:gem/sys-uname#lib/sys/unix/uname.rb:155
     def nodename(reload = T.unsafe(nil)); end
 
     # The specific model of the hardware platform, e.g Sun-Blade-1500, etc.
     #
-    # source://sys-uname//lib/sys/unix/uname.rb#211
+    # pkg:gem/sys-uname#lib/sys/unix/uname.rb:211
     def platform; end
 
+    # Returns the current release level of your operating system.
+    #
+    # Example:
+    #
+    #  Uname.release # => '2.2.16-3'
+    #
     # Returns the release number, e.g. 5.1.2600.
     #
-    # source://sys-uname//lib/sys/unix/uname.rb#165
+    # pkg:gem/sys-uname#lib/sys/unix/uname.rb:165
     def release(reload = T.unsafe(nil)); end
 
     # The Secure Remote Procedure Call domain name.
     #
-    # source://sys-uname//lib/sys/unix/uname.rb#245
+    # pkg:gem/sys-uname#lib/sys/unix/uname.rb:245
     def srpc_domain; end
 
+    # Returns the name of this implementation of the operating system.
+    #
+    # Example:
+    #
+    #  Uname.sysname # => 'Darwin'
+    #
     # Returns the operating system name, e.g. "Microsoft Windows XP Home"
     #
-    # source://sys-uname//lib/sys/unix/uname.rb#143
+    # pkg:gem/sys-uname#lib/sys/unix/uname.rb:143
     def sysname(reload = T.unsafe(nil)); end
 
+    # Returns a struct that contains the sysname, nodename, machine, version
+    # and release of your system.
+    #
+    # On OS X and BSD platforms it will also include the model.
+    #
+    # On HP-UX, it will also include the id_number.
+    #
+    # Example:
+    #
+    #   require 'sys/uname'
+    #
+    #   p Sys::Uname.uname
+    #
     # Returns a struct of type UnameStruct that contains sysname, nodename,
     # machine, version, and release, as well as a plethora of other fields.
     # Please see the MSDN documentation for what each of these fields mean.
     #
-    # source://sys-uname//lib/sys/unix/uname.rb#109
+    # pkg:gem/sys-uname#lib/sys/unix/uname.rb:109
     def uname; end
 
+    # Returns the current version level of your operating system.
+    #
+    # Example:
+    #
+    #  Uname.version # => '5.9'
+    #
     # Returns the version plus patch information of the operating system,
     # separated by a hyphen, e.g. "2915-Service Pack 2".
     # --
@@ -188,79 +229,53 @@ class Sys::Uname
     # the 'InstancesOf' method to get the data we need, rather than
     # including it as part of the connection.
     #
-    # source://sys-uname//lib/sys/unix/uname.rb#175
+    # pkg:gem/sys-uname#lib/sys/unix/uname.rb:175
     def version(reload = T.unsafe(nil)); end
 
     private
 
     # Returns the model for systems that define sysctl().
     #
-    # source://sys-uname//lib/sys/unix/uname.rb#263
+    # pkg:gem/sys-uname#lib/sys/unix/uname.rb:263
     def get_model; end
 
-    # source://sys-uname//lib/sys/unix/uname.rb#43
-    def sysinfo(*_arg0); end
+    # pkg:gem/sys-uname#lib/sys/unix/uname.rb:33
+    def sysctl(*_arg0); end
 
-    # source://sys-uname//lib/sys/unix/uname.rb#29
+    # pkg:gem/sys-uname#lib/sys/unix/uname.rb:29
     def uname_c(*_arg0); end
   end
 end
 
-# source://sys-uname//lib/sys/unix/uname.rb#22
+# pkg:gem/sys-uname#lib/sys/unix/uname.rb:26
 Sys::Uname::BUFSIZE = T.let(T.unsafe(nil), Integer)
 
+# pkg:gem/sys-uname#lib/sys/unix/uname.rb:36
+Sys::Uname::CTL_HW = T.let(T.unsafe(nil), Integer)
+
+# Error raised if the uname() function fails.
 # This is the error raised if any of the Sys::Uname methods should fail.
 #
-# source://sys-uname//lib/sys/unix/uname.rb#15
+# pkg:gem/sys-uname#lib/sys/unix/uname.rb:15
 class Sys::Uname::Error < ::StandardError; end
 
-# source://sys-uname//lib/sys/unix/uname.rb#51
-Sys::Uname::SI_ARCHITECTURE = T.let(T.unsafe(nil), Integer)
-
-# source://sys-uname//lib/sys/unix/uname.rb#57
-Sys::Uname::SI_DHCP_CACHE = T.let(T.unsafe(nil), Integer)
-
-# source://sys-uname//lib/sys/unix/uname.rb#47
-Sys::Uname::SI_HOSTNAME = T.let(T.unsafe(nil), Integer)
-
-# source://sys-uname//lib/sys/unix/uname.rb#53
-Sys::Uname::SI_HW_PROVIDER = T.let(T.unsafe(nil), Integer)
-
-# source://sys-uname//lib/sys/unix/uname.rb#52
-Sys::Uname::SI_HW_SERIAL = T.let(T.unsafe(nil), Integer)
-
-# source://sys-uname//lib/sys/unix/uname.rb#56
-Sys::Uname::SI_ISALIST = T.let(T.unsafe(nil), Integer)
-
-# source://sys-uname//lib/sys/unix/uname.rb#50
-Sys::Uname::SI_MACHINE = T.let(T.unsafe(nil), Integer)
-
-# source://sys-uname//lib/sys/unix/uname.rb#55
-Sys::Uname::SI_PLATFORM = T.let(T.unsafe(nil), Integer)
-
-# source://sys-uname//lib/sys/unix/uname.rb#48
-Sys::Uname::SI_RELEASE = T.let(T.unsafe(nil), Integer)
-
-# source://sys-uname//lib/sys/unix/uname.rb#54
-Sys::Uname::SI_SRPC_DOMAIN = T.let(T.unsafe(nil), Integer)
-
-# source://sys-uname//lib/sys/unix/uname.rb#46
-Sys::Uname::SI_SYSNAME = T.let(T.unsafe(nil), Integer)
-
-# source://sys-uname//lib/sys/unix/uname.rb#49
-Sys::Uname::SI_VERSION = T.let(T.unsafe(nil), Integer)
+# Generic hardware/cpu
+#
+# pkg:gem/sys-uname#lib/sys/unix/uname.rb:37
+Sys::Uname::HW_MODEL = T.let(T.unsafe(nil), Integer)
 
 # FFI class passed to the underlying C uname function.
 #
-# source://sys-uname//lib/sys/unix/uname.rb#63
+# pkg:gem/sys-uname#lib/sys/unix/uname.rb:63
 class Sys::Uname::UnameFFIStruct < ::FFI::Struct; end
 
+# :startdoc:
 # The UnameStruct is used to store platform information for some methods.
 #
-# source://sys-uname//lib/sys/unix/uname.rb#94
+# pkg:gem/sys-uname#lib/sys/unix/uname.rb:94
 Sys::Uname::UnameStruct = Struct
 
 # The version of the sys-uname gem.
 #
-# source://sys-uname//lib/sys/uname.rb#6
+# pkg:gem/sys-uname#lib/sys/uname.rb:6
 Sys::Uname::VERSION = T.let(T.unsafe(nil), String)

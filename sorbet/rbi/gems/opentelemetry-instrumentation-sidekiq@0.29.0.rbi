@@ -11,8 +11,29 @@
 #
 # The OpenTelemetry module provides global accessors for telemetry objects.
 # See the documentation for the `opentelemetry-api` gem for details.
+# Copyright The OpenTelemetry Authors
 #
-# source://opentelemetry-instrumentation-sidekiq//lib/opentelemetry/instrumentation.rb#13
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+# pkg:gem/opentelemetry-instrumentation-sidekiq#lib/opentelemetry/instrumentation.rb:13
 module OpenTelemetry; end
 
 # "Instrumentation" are specified by
@@ -20,10 +41,12 @@ module OpenTelemetry; end
 #
 # Instrumentation should be able to handle the case when the library is not installed on a user's system.
 #
-# source://opentelemetry-instrumentation-sidekiq//lib/opentelemetry/instrumentation.rb#18
+# pkg:gem/opentelemetry-instrumentation-sidekiq#lib/opentelemetry/instrumentation.rb:18
 module OpenTelemetry::Instrumentation; end
 
-# source://opentelemetry-instrumentation-sidekiq//lib/opentelemetry/instrumentation/sidekiq.rb#13
+# (see {OpenTelemetry::Instrumentation::Sidekiq::Instrumentation})
+#
+# pkg:gem/opentelemetry-instrumentation-sidekiq#lib/opentelemetry/instrumentation/sidekiq.rb:13
 module OpenTelemetry::Instrumentation::Sidekiq; end
 
 # The `OpenTelemetry::Instrumentation::Sidekiq::Instrumentation` class contains logic to detect and install the Sidekiq instrumentation
@@ -93,37 +116,37 @@ module OpenTelemetry::Instrumentation::Sidekiq; end
 #
 # @example An explicit default configuration
 #   OpenTelemetry::SDK.configure do |c|
-#   c.use_all({
-#   'OpenTelemetry::Instrumentation::Sidekiq' => {
-#   span_naming: :queue,
-#   propagation_style: :link,
-#   trace_launcher_heartbeat: true,
-#   },
-#   })
+#     c.use_all({
+#       'OpenTelemetry::Instrumentation::Sidekiq' => {
+#         span_naming: :queue,
+#         propagation_style: :link,
+#         trace_launcher_heartbeat: true,
+#       },
+#     })
 #   end
 #
-# source://opentelemetry-instrumentation-sidekiq//lib/opentelemetry/instrumentation/sidekiq/instrumentation.rb#85
+# pkg:gem/opentelemetry-instrumentation-sidekiq#lib/opentelemetry/instrumentation/sidekiq/instrumentation.rb:85
 class OpenTelemetry::Instrumentation::Sidekiq::Instrumentation < ::OpenTelemetry::Instrumentation::Base
   private
 
-  # source://opentelemetry-instrumentation-sidekiq//lib/opentelemetry/instrumentation/sidekiq/instrumentation.rb#140
+  # pkg:gem/opentelemetry-instrumentation-sidekiq#lib/opentelemetry/instrumentation/sidekiq/instrumentation.rb:140
   def add_client_middleware; end
 
-  # source://opentelemetry-instrumentation-sidekiq//lib/opentelemetry/instrumentation/sidekiq/instrumentation.rb#148
+  # pkg:gem/opentelemetry-instrumentation-sidekiq#lib/opentelemetry/instrumentation/sidekiq/instrumentation.rb:148
   def add_server_middleware; end
 
-  # source://opentelemetry-instrumentation-sidekiq//lib/opentelemetry/instrumentation/sidekiq/instrumentation.rb#113
+  # pkg:gem/opentelemetry-instrumentation-sidekiq#lib/opentelemetry/instrumentation/sidekiq/instrumentation.rb:113
   def gem_version; end
 
-  # source://opentelemetry-instrumentation-sidekiq//lib/opentelemetry/instrumentation/sidekiq/instrumentation.rb#126
+  # pkg:gem/opentelemetry-instrumentation-sidekiq#lib/opentelemetry/instrumentation/sidekiq/instrumentation.rb:126
   def patch_on_startup; end
 
-  # source://opentelemetry-instrumentation-sidekiq//lib/opentelemetry/instrumentation/sidekiq/instrumentation.rb#117
+  # pkg:gem/opentelemetry-instrumentation-sidekiq#lib/opentelemetry/instrumentation/sidekiq/instrumentation.rb:117
   def require_dependencies; end
 end
 
-# source://opentelemetry-instrumentation-sidekiq//lib/opentelemetry/instrumentation/sidekiq/instrumentation.rb#86
+# pkg:gem/opentelemetry-instrumentation-sidekiq#lib/opentelemetry/instrumentation/sidekiq/instrumentation.rb:86
 OpenTelemetry::Instrumentation::Sidekiq::Instrumentation::MINIMUM_VERSION = T.let(T.unsafe(nil), Gem::Version)
 
-# source://opentelemetry-instrumentation-sidekiq//lib/opentelemetry/instrumentation/sidekiq/version.rb#10
+# pkg:gem/opentelemetry-instrumentation-sidekiq#lib/opentelemetry/instrumentation/sidekiq/version.rb:10
 OpenTelemetry::Instrumentation::Sidekiq::VERSION = T.let(T.unsafe(nil), String)

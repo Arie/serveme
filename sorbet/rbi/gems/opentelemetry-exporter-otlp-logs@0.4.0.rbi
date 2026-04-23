@@ -5,6 +5,9 @@
 # Please instead update this file by running `bin/tapioca gem opentelemetry-exporter-otlp-logs`.
 
 
+# Copyright The OpenTelemetry Authors
+#
+# SPDX-License-Identifier: Apache-2.0
 # OpenTelemetry is an open source observability framework, providing a
 # general-purpose API, SDK, and related tools required for the instrumentation
 # of cloud-native software, frameworks, and libraries.
@@ -12,55 +15,52 @@
 # The OpenTelemetry module provides global accessors for telemetry objects.
 # See the documentation for the `opentelemetry-api` gem for details.
 #
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/exporter/otlp/logs/version.rb#7
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/version.rb:7
 module OpenTelemetry; end
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/exporter/otlp/logs/version.rb#8
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/version.rb:8
 module OpenTelemetry::Exporter; end
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/exporter/otlp/logs/version.rb#9
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/version.rb:9
 module OpenTelemetry::Exporter::OTLP; end
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/exporter/otlp/logs/version.rb#10
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/version.rb:10
 module OpenTelemetry::Exporter::OTLP::Logs; end
 
 # An OpenTelemetry log exporter that sends log records over HTTP as Protobuf encoded OTLP ExportLogsServiceRequests.
 #
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb#26
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb:26
 class OpenTelemetry::Exporter::OTLP::Logs::LogsExporter
-  # @raise [ArgumentError]
-  # @return [LogsExporter] a new instance of LogsExporter
-  #
-  # source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb#51
+  # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb:51
   def initialize(endpoint: T.unsafe(nil), certificate_file: T.unsafe(nil), client_certificate_file: T.unsafe(nil), client_key_file: T.unsafe(nil), ssl_verify_mode: T.unsafe(nil), headers: T.unsafe(nil), compression: T.unsafe(nil), timeout: T.unsafe(nil)); end
 
   # Called to export sampled {OpenTelemetry::SDK::Logs::LogRecordData} structs.
   #
-  # @param log_record_data [Enumerable<OpenTelemetry::SDK::Logs::LogRecordData>] the
+  # @param [Enumerable<OpenTelemetry::SDK::Logs::LogRecordData>] log_record_data the
   #   list of recorded {OpenTelemetry::SDK::Logs::LogRecordData} structs to be
   #   exported.
-  # @param timeout [optional Numeric] An optional timeout in seconds.
+  # @param [optional Numeric] timeout An optional timeout in seconds.
   # @return [Integer] the result of the export.
   #
-  # source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb#84
+  # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb:84
   def export(log_record_data, timeout: T.unsafe(nil)); end
 
   # Called when {OpenTelemetry::SDK::Logs::LoggerProvider#force_flush} is called, if
   # this exporter is registered to a {OpenTelemetry::SDK::Logs::LoggerProvider}
   # object.
   #
-  # @param timeout [optional Numeric] An optional timeout in seconds.
+  # @param [optional Numeric] timeout An optional timeout in seconds.
   #
-  # source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb#96
+  # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb:96
   def force_flush(timeout: T.unsafe(nil)); end
 
   # Called when {OpenTelemetry::SDK::Logs::LoggerProvider#shutdown} is called, if
   # this exporter is registered to a {OpenTelemetry::SDK::Logs::LoggerProvider}
   # object.
   #
-  # @param timeout [optional Numeric] An optional timeout in seconds.
+  # @param [optional Numeric] timeout An optional timeout in seconds.
   #
-  # source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb#105
+  # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb:105
   def shutdown(timeout: T.unsafe(nil)); end
 
   private
@@ -73,339 +73,379 @@ class OpenTelemetry::Exporter::OTLP::Logs::LogsExporter
   # and override this method's behaviour to explicitly record the HTTP request.
   # This would allow you to create log records for your export pipeline.
   #
-  # source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb#135
+  # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb:135
   def around_request; end
 
-  # source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb#325
+  # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb:325
   def as_otlp_any_value(value); end
 
-  # source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb#317
+  # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb:317
   def as_otlp_key_value(key, value); end
 
-  # source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb#302
+  # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb:302
   def as_otlp_log_record(log_record_data); end
 
-  # @return [Boolean]
-  #
-  # source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb#247
+  # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb:247
   def backoff?(retry_count:, retry_after: T.unsafe(nil)); end
 
-  # source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb#272
+  # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb:272
   def encode(log_record_data); end
 
-  # source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb#113
+  # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb:113
   def handle_http_error(response); end
 
-  # source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb#232
+  # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb:232
   def handle_redirect(location); end
 
-  # source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb#117
+  # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb:117
   def http_connection(uri, ssl_verify_mode, certificate_file, client_certificate_file, client_key_file); end
 
-  # source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb#236
+  # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb:236
   def log_status(body); end
 
-  # @raise [ArgumentError]
-  #
-  # source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb#359
+  # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb:359
   def parse_headers(raw); end
 
-  # source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb#346
+  # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb:346
   def prepare_headers(config_headers); end
 
-  # source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb#139
+  # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb:139
   def send_bytes(bytes, timeout:); end
 
   class << self
-    # source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb#41
+    # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb:41
     def ssl_verify_mode; end
   end
 end
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb#39
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb:39
 OpenTelemetry::Exporter::OTLP::Logs::LogsExporter::DEFAULT_USER_AGENT = T.let(T.unsafe(nil), String)
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb#36
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb:36
 OpenTelemetry::Exporter::OTLP::Logs::LogsExporter::ERROR_MESSAGE_INVALID_HEADERS = T.let(T.unsafe(nil), String)
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb#28
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb:28
 OpenTelemetry::Exporter::OTLP::Logs::LogsExporter::FAILURE = T.let(T.unsafe(nil), Integer)
 
 # Default timeouts in seconds.
 #
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb#32
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb:32
 OpenTelemetry::Exporter::OTLP::Logs::LogsExporter::KEEP_ALIVE_TIMEOUT = T.let(T.unsafe(nil), Integer)
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb#33
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb:33
 OpenTelemetry::Exporter::OTLP::Logs::LogsExporter::RETRY_COUNT = T.let(T.unsafe(nil), Integer)
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb#27
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb:27
 OpenTelemetry::Exporter::OTLP::Logs::LogsExporter::SUCCESS = T.let(T.unsafe(nil), Integer)
 
 # Current OpenTelemetry OTLP logs exporter version
 #
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/exporter/otlp/logs/version.rb#12
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/version.rb:12
 OpenTelemetry::Exporter::OTLP::Logs::VERSION = T.let(T.unsafe(nil), String)
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/common/v1/common_pb.rb#13
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/common/v1/common_pb.rb:13
 module Opentelemetry; end
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/common/v1/common_pb.rb#14
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/common/v1/common_pb.rb:14
 module Opentelemetry::Proto; end
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/collector/trace/v1/trace_service_pb.rb#17
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/collector/trace/v1/trace_service_pb.rb:17
 module Opentelemetry::Proto::Collector; end
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/collector/logs/v1/logs_service_pb.rb#18
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/collector/logs/v1/logs_service_pb.rb:18
 module Opentelemetry::Proto::Collector::Logs; end
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/collector/logs/v1/logs_service_pb.rb#19
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/collector/logs/v1/logs_service_pb.rb:19
 module Opentelemetry::Proto::Collector::Logs::V1; end
 
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/collector/logs/v1/logs_service_pb.rb:22
 class Opentelemetry::Proto::Collector::Logs::V1::ExportLogsPartialSuccess < ::Google::Protobuf::AbstractMessage; end
+
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/collector/logs/v1/logs_service_pb.rb:20
 class Opentelemetry::Proto::Collector::Logs::V1::ExportLogsServiceRequest < ::Google::Protobuf::AbstractMessage; end
+
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/collector/logs/v1/logs_service_pb.rb:21
 class Opentelemetry::Proto::Collector::Logs::V1::ExportLogsServiceResponse < ::Google::Protobuf::AbstractMessage; end
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/collector/trace/v1/trace_service_pb.rb#18
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/collector/trace/v1/trace_service_pb.rb:18
 module Opentelemetry::Proto::Collector::Trace; end
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/collector/trace/v1/trace_service_pb.rb#19
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/collector/trace/v1/trace_service_pb.rb:19
 module Opentelemetry::Proto::Collector::Trace::V1; end
 
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/collector/trace/v1/trace_service_pb.rb:22
 class Opentelemetry::Proto::Collector::Trace::V1::ExportTracePartialSuccess < ::Google::Protobuf::AbstractMessage; end
+
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/collector/trace/v1/trace_service_pb.rb:20
 class Opentelemetry::Proto::Collector::Trace::V1::ExportTraceServiceRequest < ::Google::Protobuf::AbstractMessage; end
+
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/collector/trace/v1/trace_service_pb.rb:21
 class Opentelemetry::Proto::Collector::Trace::V1::ExportTraceServiceResponse < ::Google::Protobuf::AbstractMessage; end
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/common/v1/common_pb.rb#15
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/common/v1/common_pb.rb:15
 module Opentelemetry::Proto::Common; end
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/common/v1/common_pb.rb#16
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/common/v1/common_pb.rb:16
 module Opentelemetry::Proto::Common::V1; end
 
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/common/v1/common_pb.rb:17
 class Opentelemetry::Proto::Common::V1::AnyValue < ::Google::Protobuf::AbstractMessage; end
+
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/common/v1/common_pb.rb:18
 class Opentelemetry::Proto::Common::V1::ArrayValue < ::Google::Protobuf::AbstractMessage; end
+
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/common/v1/common_pb.rb:22
 class Opentelemetry::Proto::Common::V1::EntityRef < ::Google::Protobuf::AbstractMessage; end
+
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/common/v1/common_pb.rb:21
 class Opentelemetry::Proto::Common::V1::InstrumentationScope < ::Google::Protobuf::AbstractMessage; end
+
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/common/v1/common_pb.rb:20
 class Opentelemetry::Proto::Common::V1::KeyValue < ::Google::Protobuf::AbstractMessage; end
+
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/common/v1/common_pb.rb:19
 class Opentelemetry::Proto::Common::V1::KeyValueList < ::Google::Protobuf::AbstractMessage; end
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/logs/v1/logs_pb.rb#18
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/logs/v1/logs_pb.rb:18
 module Opentelemetry::Proto::Logs; end
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/logs/v1/logs_pb.rb#19
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/logs/v1/logs_pb.rb:19
 module Opentelemetry::Proto::Logs::V1; end
 
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/logs/v1/logs_pb.rb:23
 class Opentelemetry::Proto::Logs::V1::LogRecord < ::Google::Protobuf::AbstractMessage; end
 
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/logs/v1/logs_pb.rb:25
 module Opentelemetry::Proto::Logs::V1::LogRecordFlags
   class << self
-    # source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/logs/v1/logs_pb.rb#25
+    # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/logs/v1/logs_pb.rb:25
     def descriptor; end
 
-    # source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/logs/v1/logs_pb.rb#25
+    # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/logs/v1/logs_pb.rb:25
     def lookup(_arg0); end
 
-    # source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/logs/v1/logs_pb.rb#25
+    # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/logs/v1/logs_pb.rb:25
     def resolve(_arg0); end
   end
 end
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/logs/v1/logs_pb.rb#25
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/logs/v1/logs_pb.rb:25
 Opentelemetry::Proto::Logs::V1::LogRecordFlags::LOG_RECORD_FLAGS_DO_NOT_USE = T.let(T.unsafe(nil), Integer)
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/logs/v1/logs_pb.rb#25
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/logs/v1/logs_pb.rb:25
 Opentelemetry::Proto::Logs::V1::LogRecordFlags::LOG_RECORD_FLAGS_TRACE_FLAGS_MASK = T.let(T.unsafe(nil), Integer)
 
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/logs/v1/logs_pb.rb:20
 class Opentelemetry::Proto::Logs::V1::LogsData < ::Google::Protobuf::AbstractMessage; end
+
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/logs/v1/logs_pb.rb:21
 class Opentelemetry::Proto::Logs::V1::ResourceLogs < ::Google::Protobuf::AbstractMessage; end
+
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/logs/v1/logs_pb.rb:22
 class Opentelemetry::Proto::Logs::V1::ScopeLogs < ::Google::Protobuf::AbstractMessage; end
 
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/logs/v1/logs_pb.rb:24
 module Opentelemetry::Proto::Logs::V1::SeverityNumber
   class << self
-    # source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/logs/v1/logs_pb.rb#24
+    # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/logs/v1/logs_pb.rb:24
     def descriptor; end
 
-    # source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/logs/v1/logs_pb.rb#24
+    # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/logs/v1/logs_pb.rb:24
     def lookup(_arg0); end
 
-    # source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/logs/v1/logs_pb.rb#24
+    # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/logs/v1/logs_pb.rb:24
     def resolve(_arg0); end
   end
 end
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/logs/v1/logs_pb.rb#24
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/logs/v1/logs_pb.rb:24
 Opentelemetry::Proto::Logs::V1::SeverityNumber::SEVERITY_NUMBER_DEBUG = T.let(T.unsafe(nil), Integer)
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/logs/v1/logs_pb.rb#24
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/logs/v1/logs_pb.rb:24
 Opentelemetry::Proto::Logs::V1::SeverityNumber::SEVERITY_NUMBER_DEBUG2 = T.let(T.unsafe(nil), Integer)
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/logs/v1/logs_pb.rb#24
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/logs/v1/logs_pb.rb:24
 Opentelemetry::Proto::Logs::V1::SeverityNumber::SEVERITY_NUMBER_DEBUG3 = T.let(T.unsafe(nil), Integer)
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/logs/v1/logs_pb.rb#24
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/logs/v1/logs_pb.rb:24
 Opentelemetry::Proto::Logs::V1::SeverityNumber::SEVERITY_NUMBER_DEBUG4 = T.let(T.unsafe(nil), Integer)
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/logs/v1/logs_pb.rb#24
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/logs/v1/logs_pb.rb:24
 Opentelemetry::Proto::Logs::V1::SeverityNumber::SEVERITY_NUMBER_ERROR = T.let(T.unsafe(nil), Integer)
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/logs/v1/logs_pb.rb#24
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/logs/v1/logs_pb.rb:24
 Opentelemetry::Proto::Logs::V1::SeverityNumber::SEVERITY_NUMBER_ERROR2 = T.let(T.unsafe(nil), Integer)
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/logs/v1/logs_pb.rb#24
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/logs/v1/logs_pb.rb:24
 Opentelemetry::Proto::Logs::V1::SeverityNumber::SEVERITY_NUMBER_ERROR3 = T.let(T.unsafe(nil), Integer)
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/logs/v1/logs_pb.rb#24
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/logs/v1/logs_pb.rb:24
 Opentelemetry::Proto::Logs::V1::SeverityNumber::SEVERITY_NUMBER_ERROR4 = T.let(T.unsafe(nil), Integer)
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/logs/v1/logs_pb.rb#24
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/logs/v1/logs_pb.rb:24
 Opentelemetry::Proto::Logs::V1::SeverityNumber::SEVERITY_NUMBER_FATAL = T.let(T.unsafe(nil), Integer)
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/logs/v1/logs_pb.rb#24
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/logs/v1/logs_pb.rb:24
 Opentelemetry::Proto::Logs::V1::SeverityNumber::SEVERITY_NUMBER_FATAL2 = T.let(T.unsafe(nil), Integer)
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/logs/v1/logs_pb.rb#24
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/logs/v1/logs_pb.rb:24
 Opentelemetry::Proto::Logs::V1::SeverityNumber::SEVERITY_NUMBER_FATAL3 = T.let(T.unsafe(nil), Integer)
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/logs/v1/logs_pb.rb#24
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/logs/v1/logs_pb.rb:24
 Opentelemetry::Proto::Logs::V1::SeverityNumber::SEVERITY_NUMBER_FATAL4 = T.let(T.unsafe(nil), Integer)
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/logs/v1/logs_pb.rb#24
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/logs/v1/logs_pb.rb:24
 Opentelemetry::Proto::Logs::V1::SeverityNumber::SEVERITY_NUMBER_INFO = T.let(T.unsafe(nil), Integer)
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/logs/v1/logs_pb.rb#24
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/logs/v1/logs_pb.rb:24
 Opentelemetry::Proto::Logs::V1::SeverityNumber::SEVERITY_NUMBER_INFO2 = T.let(T.unsafe(nil), Integer)
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/logs/v1/logs_pb.rb#24
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/logs/v1/logs_pb.rb:24
 Opentelemetry::Proto::Logs::V1::SeverityNumber::SEVERITY_NUMBER_INFO3 = T.let(T.unsafe(nil), Integer)
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/logs/v1/logs_pb.rb#24
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/logs/v1/logs_pb.rb:24
 Opentelemetry::Proto::Logs::V1::SeverityNumber::SEVERITY_NUMBER_INFO4 = T.let(T.unsafe(nil), Integer)
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/logs/v1/logs_pb.rb#24
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/logs/v1/logs_pb.rb:24
 Opentelemetry::Proto::Logs::V1::SeverityNumber::SEVERITY_NUMBER_TRACE = T.let(T.unsafe(nil), Integer)
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/logs/v1/logs_pb.rb#24
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/logs/v1/logs_pb.rb:24
 Opentelemetry::Proto::Logs::V1::SeverityNumber::SEVERITY_NUMBER_TRACE2 = T.let(T.unsafe(nil), Integer)
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/logs/v1/logs_pb.rb#24
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/logs/v1/logs_pb.rb:24
 Opentelemetry::Proto::Logs::V1::SeverityNumber::SEVERITY_NUMBER_TRACE3 = T.let(T.unsafe(nil), Integer)
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/logs/v1/logs_pb.rb#24
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/logs/v1/logs_pb.rb:24
 Opentelemetry::Proto::Logs::V1::SeverityNumber::SEVERITY_NUMBER_TRACE4 = T.let(T.unsafe(nil), Integer)
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/logs/v1/logs_pb.rb#24
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/logs/v1/logs_pb.rb:24
 Opentelemetry::Proto::Logs::V1::SeverityNumber::SEVERITY_NUMBER_UNSPECIFIED = T.let(T.unsafe(nil), Integer)
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/logs/v1/logs_pb.rb#24
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/logs/v1/logs_pb.rb:24
 Opentelemetry::Proto::Logs::V1::SeverityNumber::SEVERITY_NUMBER_WARN = T.let(T.unsafe(nil), Integer)
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/logs/v1/logs_pb.rb#24
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/logs/v1/logs_pb.rb:24
 Opentelemetry::Proto::Logs::V1::SeverityNumber::SEVERITY_NUMBER_WARN2 = T.let(T.unsafe(nil), Integer)
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/logs/v1/logs_pb.rb#24
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/logs/v1/logs_pb.rb:24
 Opentelemetry::Proto::Logs::V1::SeverityNumber::SEVERITY_NUMBER_WARN3 = T.let(T.unsafe(nil), Integer)
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/logs/v1/logs_pb.rb#24
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/logs/v1/logs_pb.rb:24
 Opentelemetry::Proto::Logs::V1::SeverityNumber::SEVERITY_NUMBER_WARN4 = T.let(T.unsafe(nil), Integer)
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/resource/v1/resource_pb.rb#17
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/resource/v1/resource_pb.rb:17
 module Opentelemetry::Proto::Resource; end
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/resource/v1/resource_pb.rb#18
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/resource/v1/resource_pb.rb:18
 module Opentelemetry::Proto::Resource::V1; end
 
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/resource/v1/resource_pb.rb:19
 class Opentelemetry::Proto::Resource::V1::Resource < ::Google::Protobuf::AbstractMessage; end
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/trace/v1/trace_pb.rb#18
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/trace/v1/trace_pb.rb:18
 module Opentelemetry::Proto::Trace; end
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/trace/v1/trace_pb.rb#19
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/trace/v1/trace_pb.rb:19
 module Opentelemetry::Proto::Trace::V1; end
 
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/trace/v1/trace_pb.rb:21
 class Opentelemetry::Proto::Trace::V1::ResourceSpans < ::Google::Protobuf::AbstractMessage; end
+
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/trace/v1/trace_pb.rb:22
 class Opentelemetry::Proto::Trace::V1::ScopeSpans < ::Google::Protobuf::AbstractMessage; end
+
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/trace/v1/trace_pb.rb:23
 class Opentelemetry::Proto::Trace::V1::Span < ::Google::Protobuf::AbstractMessage; end
+
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/trace/v1/trace_pb.rb:24
 class Opentelemetry::Proto::Trace::V1::Span::Event < ::Google::Protobuf::AbstractMessage; end
+
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/trace/v1/trace_pb.rb:25
 class Opentelemetry::Proto::Trace::V1::Span::Link < ::Google::Protobuf::AbstractMessage; end
 
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/trace/v1/trace_pb.rb:26
 module Opentelemetry::Proto::Trace::V1::Span::SpanKind
   class << self
-    # source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/trace/v1/trace_pb.rb#26
+    # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/trace/v1/trace_pb.rb:26
     def descriptor; end
 
-    # source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/trace/v1/trace_pb.rb#26
+    # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/trace/v1/trace_pb.rb:26
     def lookup(_arg0); end
 
-    # source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/trace/v1/trace_pb.rb#26
+    # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/trace/v1/trace_pb.rb:26
     def resolve(_arg0); end
   end
 end
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/trace/v1/trace_pb.rb#26
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/trace/v1/trace_pb.rb:26
 Opentelemetry::Proto::Trace::V1::Span::SpanKind::SPAN_KIND_CLIENT = T.let(T.unsafe(nil), Integer)
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/trace/v1/trace_pb.rb#26
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/trace/v1/trace_pb.rb:26
 Opentelemetry::Proto::Trace::V1::Span::SpanKind::SPAN_KIND_CONSUMER = T.let(T.unsafe(nil), Integer)
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/trace/v1/trace_pb.rb#26
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/trace/v1/trace_pb.rb:26
 Opentelemetry::Proto::Trace::V1::Span::SpanKind::SPAN_KIND_INTERNAL = T.let(T.unsafe(nil), Integer)
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/trace/v1/trace_pb.rb#26
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/trace/v1/trace_pb.rb:26
 Opentelemetry::Proto::Trace::V1::Span::SpanKind::SPAN_KIND_PRODUCER = T.let(T.unsafe(nil), Integer)
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/trace/v1/trace_pb.rb#26
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/trace/v1/trace_pb.rb:26
 Opentelemetry::Proto::Trace::V1::Span::SpanKind::SPAN_KIND_SERVER = T.let(T.unsafe(nil), Integer)
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/trace/v1/trace_pb.rb#26
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/trace/v1/trace_pb.rb:26
 Opentelemetry::Proto::Trace::V1::Span::SpanKind::SPAN_KIND_UNSPECIFIED = T.let(T.unsafe(nil), Integer)
 
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/trace/v1/trace_pb.rb:29
 module Opentelemetry::Proto::Trace::V1::SpanFlags
   class << self
-    # source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/trace/v1/trace_pb.rb#29
+    # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/trace/v1/trace_pb.rb:29
     def descriptor; end
 
-    # source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/trace/v1/trace_pb.rb#29
+    # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/trace/v1/trace_pb.rb:29
     def lookup(_arg0); end
 
-    # source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/trace/v1/trace_pb.rb#29
+    # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/trace/v1/trace_pb.rb:29
     def resolve(_arg0); end
   end
 end
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/trace/v1/trace_pb.rb#29
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/trace/v1/trace_pb.rb:29
 Opentelemetry::Proto::Trace::V1::SpanFlags::SPAN_FLAGS_CONTEXT_HAS_IS_REMOTE_MASK = T.let(T.unsafe(nil), Integer)
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/trace/v1/trace_pb.rb#29
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/trace/v1/trace_pb.rb:29
 Opentelemetry::Proto::Trace::V1::SpanFlags::SPAN_FLAGS_CONTEXT_IS_REMOTE_MASK = T.let(T.unsafe(nil), Integer)
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/trace/v1/trace_pb.rb#29
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/trace/v1/trace_pb.rb:29
 Opentelemetry::Proto::Trace::V1::SpanFlags::SPAN_FLAGS_DO_NOT_USE = T.let(T.unsafe(nil), Integer)
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/trace/v1/trace_pb.rb#29
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/trace/v1/trace_pb.rb:29
 Opentelemetry::Proto::Trace::V1::SpanFlags::SPAN_FLAGS_TRACE_FLAGS_MASK = T.let(T.unsafe(nil), Integer)
 
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/trace/v1/trace_pb.rb:27
 class Opentelemetry::Proto::Trace::V1::Status < ::Google::Protobuf::AbstractMessage; end
 
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/trace/v1/trace_pb.rb:28
 module Opentelemetry::Proto::Trace::V1::Status::StatusCode
   class << self
-    # source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/trace/v1/trace_pb.rb#28
+    # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/trace/v1/trace_pb.rb:28
     def descriptor; end
 
-    # source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/trace/v1/trace_pb.rb#28
+    # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/trace/v1/trace_pb.rb:28
     def lookup(_arg0); end
 
-    # source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/trace/v1/trace_pb.rb#28
+    # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/trace/v1/trace_pb.rb:28
     def resolve(_arg0); end
   end
 end
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/trace/v1/trace_pb.rb#28
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/trace/v1/trace_pb.rb:28
 Opentelemetry::Proto::Trace::V1::Status::StatusCode::STATUS_CODE_ERROR = T.let(T.unsafe(nil), Integer)
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/trace/v1/trace_pb.rb#28
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/trace/v1/trace_pb.rb:28
 Opentelemetry::Proto::Trace::V1::Status::StatusCode::STATUS_CODE_OK = T.let(T.unsafe(nil), Integer)
 
-# source://opentelemetry-exporter-otlp-logs//lib/opentelemetry/proto/trace/v1/trace_pb.rb#28
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/trace/v1/trace_pb.rb:28
 Opentelemetry::Proto::Trace::V1::Status::StatusCode::STATUS_CODE_UNSET = T.let(T.unsafe(nil), Integer)
 
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/trace/v1/trace_pb.rb:20
 class Opentelemetry::Proto::Trace::V1::TracesData < ::Google::Protobuf::AbstractMessage; end

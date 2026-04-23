@@ -5,15 +5,15 @@
 # Please instead update this file by running `bin/tapioca gem mime-types-data`.
 
 
-# source://mime-types-data//lib/mime/types/data.rb#3
+# pkg:gem/mime-types-data#lib/mime/types/data.rb:3
 module MIME; end
 
-# source://mime-types-data//lib/mime/types/data.rb#4
+# pkg:gem/mime-types-data#lib/mime/types/data.rb:4
 class MIME::Types
   extend ::Enumerable
 end
 
-# source://mime-types-data//lib/mime/types/data.rb#5
+# pkg:gem/mime-types-data#lib/mime/types/data.rb:5
 module MIME::Types::Data; end
 
 # The path that will be used for loading the MIME::Types data. The
@@ -27,8 +27,8 @@ module MIME::Types::Data; end
 # mime-types for your system. It is recommended that the path be
 # something like /usr/share/ruby/mime-types/.
 #
-# source://mime-types-data//lib/mime/types/data.rb#18
+# pkg:gem/mime-types-data#lib/mime/types/data.rb:18
 MIME::Types::Data::PATH = T.let(T.unsafe(nil), String)
 
-# source://mime-types-data//lib/mime/types/data.rb#6
+# pkg:gem/mime-types-data#lib/mime/types/data.rb:6
 MIME::Types::Data::VERSION = T.let(T.unsafe(nil), String)

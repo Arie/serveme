@@ -163,7 +163,7 @@ RUN cd /home/tf2/hlserver/tf2/tf/cfg \
 
 # RGL + ozfortress configs
 RUN cd /home/tf2/hlserver/tf2/tf \
-    && wget -nv "https://github.com/RGLgg/server-resources-updater/releases/download/v365/server-resources-updater.zip" -O rgl.zip \
+    && wget -nv "https://github.com/RGLgg/server-resources-updater/releases/download/v372/server-resources-updater.zip" -O rgl.zip \
     && unzip -o rgl.zip \
     && rm rgl.zip \
     && sed -i '/^sm_updater/d' cfg/rgl_base.cfg \

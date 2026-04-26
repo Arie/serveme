@@ -88,12 +88,12 @@ class Down::ChunkedIO
   # Implements IO#close semantics. Closes the Down::ChunkedIO by terminating
   # chunk retrieval and deleting the cached content.
   #
-  # pkg:gem/down#lib/down/chunked_io.rb:255
+  # pkg:gem/down#lib/down/chunked_io.rb:263
   def close; end
 
   # Returns whether the Down::ChunkedIO has been closed.
   #
-  # pkg:gem/down#lib/down/chunked_io.rb:265
+  # pkg:gem/down#lib/down/chunked_io.rb:273
   def closed?; end
 
   # pkg:gem/down#lib/down/chunked_io.rb:28
@@ -104,7 +104,7 @@ class Down::ChunkedIO
 
   # Yields elements of the underlying enumerator.
   #
-  # pkg:gem/down#lib/down/chunked_io.rb:46
+  # pkg:gem/down#lib/down/chunked_io.rb:51
   def each_chunk; end
 
   # pkg:gem/down#lib/down/chunked_io.rb:28
@@ -113,11 +113,14 @@ class Down::ChunkedIO
   # pkg:gem/down#lib/down/chunked_io.rb:28
   def encoding=(_arg0); end
 
+  # pkg:gem/down#lib/down/chunked_io.rb:248
+  def eof; end
+
   # Implements IO#eof? semantics. Returns whether we've reached end of file.
   # It returns true if cache is at the end and there is no more content to
   # retrieve. Raises IOError if closed.
   #
-  # pkg:gem/down#lib/down/chunked_io.rb:235
+  # pkg:gem/down#lib/down/chunked_io.rb:242
   def eof?; end
 
   # Implements IO#gets semantics. Without arguments it retrieves lines of
@@ -135,18 +138,23 @@ class Down::ChunkedIO
   #
   # Returns nil if end of file is reached. Raises IOError if closed.
   #
-  # pkg:gem/down#lib/down/chunked_io.rb:98
+  # pkg:gem/down#lib/down/chunked_io.rb:103
   def gets(separator_or_limit = T.unsafe(nil), limit = T.unsafe(nil)); end
 
   # Returns useful information about the Down::ChunkedIO object.
   #
-  # pkg:gem/down#lib/down/chunked_io.rb:275
+  # pkg:gem/down#lib/down/chunked_io.rb:283
   def inspect; end
+
+  # For compatibility with multipart-post gem.
+  #
+  # pkg:gem/down#lib/down/chunked_io.rb:46
+  def length; end
 
   # Implements IO#pos semantics. Returns the current position of the
   # Down::ChunkedIO.
   #
-  # pkg:gem/down#lib/down/chunked_io.rb:227
+  # pkg:gem/down#lib/down/chunked_io.rb:234
   def pos; end
 
   # Implements IO#read semantics. Without arguments it retrieves and returns
@@ -161,7 +169,7 @@ class Down::ChunkedIO
   # If end of file is reached, returns empty string if called without
   # arguments, or nil if called with arguments. Raises IOError if closed.
   #
-  # pkg:gem/down#lib/down/chunked_io.rb:65
+  # pkg:gem/down#lib/down/chunked_io.rb:70
   def read(length = T.unsafe(nil), outbuf = T.unsafe(nil)); end
 
   # Implements IO#readpartial semantics. If there is any content readily
@@ -180,24 +188,24 @@ class Down::ChunkedIO
   #
   # Raises EOFError if end of file is reached. Raises IOError if closed.
   #
-  # pkg:gem/down#lib/down/chunked_io.rb:156
+  # pkg:gem/down#lib/down/chunked_io.rb:163
   def readpartial(maxlen = T.unsafe(nil), outbuf = T.unsafe(nil)); end
 
   # Implements IO#rewind semantics. Rewinds the Down::ChunkedIO by rewinding
   # the cache and setting the position to the beginning of the file. Raises
   # IOError if closed or not rewindable.
   #
-  # pkg:gem/down#lib/down/chunked_io.rb:245
+  # pkg:gem/down#lib/down/chunked_io.rb:253
   def rewind; end
 
   # Returns whether the Down::ChunkedIO was specified as rewindable.
   #
-  # pkg:gem/down#lib/down/chunked_io.rb:270
+  # pkg:gem/down#lib/down/chunked_io.rb:278
   def rewindable?; end
 
   # Implements IO#seek semantics.
   #
-  # pkg:gem/down#lib/down/chunked_io.rb:196
+  # pkg:gem/down#lib/down/chunked_io.rb:203
   def seek(amount, whence = T.unsafe(nil)); end
 
   # pkg:gem/down#lib/down/chunked_io.rb:28
@@ -206,7 +214,7 @@ class Down::ChunkedIO
   # pkg:gem/down#lib/down/chunked_io.rb:28
   def size=(_arg0); end
 
-  # pkg:gem/down#lib/down/chunked_io.rb:230
+  # pkg:gem/down#lib/down/chunked_io.rb:237
   def tell; end
 
   private
@@ -214,12 +222,12 @@ class Down::ChunkedIO
   # If Down::ChunkedIO is specified as rewindable, returns a new Tempfile for
   # writing read content to. This allows the Down::ChunkedIO to be rewinded.
   #
-  # pkg:gem/down#lib/down/chunked_io.rb:292
+  # pkg:gem/down#lib/down/chunked_io.rb:300
   def cache; end
 
   # Returns whether there is any content left to retrieve.
   #
-  # pkg:gem/down#lib/down/chunked_io.rb:312
+  # pkg:gem/down#lib/down/chunked_io.rb:320
   def chunks_depleted?; end
 
   # Creates a Fiber wrapper around the underlying enumerator. The advantage
@@ -227,24 +235,24 @@ class Down::ChunkedIO
   # way that executes any cleanup code that the enumerator potentially
   # carries. At the end of iteration the :on_close callback is executed.
   #
-  # pkg:gem/down#lib/down/chunked_io.rb:320
+  # pkg:gem/down#lib/down/chunked_io.rb:328
   def chunks_fiber; end
 
   # Finds encoding by name. If the encoding couldn't be find, falls back to
   # the generic binary encoding.
   #
-  # pkg:gem/down#lib/down/chunked_io.rb:335
+  # pkg:gem/down#lib/down/chunked_io.rb:343
   def find_encoding(encoding); end
 
   # Returns whether the filesystem has POSIX semantics.
   #
-  # pkg:gem/down#lib/down/chunked_io.rb:342
+  # pkg:gem/down#lib/down/chunked_io.rb:350
   def posix?; end
 
   # Returns current chunk and retrieves the next chunk. If next chunk is nil,
   # we know we've reached EOF.
   #
-  # pkg:gem/down#lib/down/chunked_io.rb:305
+  # pkg:gem/down#lib/down/chunked_io.rb:313
   def retrieve_chunk; end
 end
 
@@ -293,7 +301,7 @@ class Down::NetHttp < ::Down::Backend
 
   # Build a Net::HTTP object for making a request.
   #
-  # pkg:gem/down#lib/down/net_http.rb:256
+  # pkg:gem/down#lib/down/net_http.rb:259
   def create_net_http(uri, options); end
 
   # Converts the given IO into a Tempfile if it isn't one already (open-uri

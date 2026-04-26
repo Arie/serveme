@@ -26,7 +26,7 @@ class Pagy
 
   # Merge all the DEFAULT constants of the class hierarchy with the options
   #
-  # pkg:gem/pagy#lib/pagy.rb:66
+  # pkg:gem/pagy#lib/pagy.rb:73
   def assign_options(**options); end
 
   # pkg:gem/pagy#lib/pagy.rb:40
@@ -70,6 +70,9 @@ class Pagy
 
   # pkg:gem/pagy#lib/pagy.rb:48
   def search?; end
+
+  # pkg:gem/pagy#lib/pagy.rb:65
+  def validate_string_values(options); end
 end
 
 # pkg:gem/pagy#lib/pagy.rb:18
@@ -1123,7 +1126,7 @@ end
 
 # Hook module for numeric UI helpers
 #
-# pkg:gem/pagy#lib/pagy.rb:82
+# pkg:gem/pagy#lib/pagy.rb:91
 module Pagy::NumericHelpers
   include ::Pagy::NumericHelperLoader
 end

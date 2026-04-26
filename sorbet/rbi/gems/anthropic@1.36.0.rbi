@@ -11450,6 +11450,69 @@ module Anthropic
         end
       end
 
+      class BetaManagedAgentsDeletedMemoryStore < Anthropic::Internal::Type::BaseModel
+        sig { returns(String) }
+        attr_accessor :id
+
+        sig { returns(Anthropic::Beta::BetaManagedAgentsDeletedMemoryStore::Type::TaggedSymbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              id: String,
+              type:
+                Anthropic::Beta::BetaManagedAgentsDeletedMemoryStore::Type::TaggedSymbol
+            })
+        end
+        def to_hash; end
+
+        class << self
+          sig do
+            params(
+              id: String,
+              type: Anthropic::Beta::BetaManagedAgentsDeletedMemoryStore::Type::OrSymbol
+            ).returns(T.attached_class)
+          end
+          def new(id:, type:); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsDeletedMemoryStore,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsDeletedMemoryStore::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          MEMORY_STORE_DELETED = T.let(
+              :memory_store_deleted,
+              Anthropic::Beta::BetaManagedAgentsDeletedMemoryStore::Type::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsDeletedMemoryStore::Type
+              )
+            end
+        end
+      end
+
       class BetaManagedAgentsDeletedSession < Anthropic::Internal::Type::BaseModel
         sig { returns(String) }
         attr_accessor :id
@@ -12357,6 +12420,243 @@ module Anthropic
         end
       end
 
+      class BetaManagedAgentsMemoryStore < Anthropic::Internal::Type::BaseModel
+        # A timestamp in RFC 3339 format
+        sig { returns(T.nilable(Time)) }
+        attr_accessor :archived_at
+
+        # A timestamp in RFC 3339 format
+        sig { returns(Time) }
+        attr_accessor :created_at
+
+        sig { returns(T.nilable(String)) }
+        attr_reader :description
+
+        sig { params(description: String).void }
+        attr_writer :description
+
+        sig { returns(String) }
+        attr_accessor :id
+
+        sig { returns(T.nilable(T::Hash[Symbol, String])) }
+        attr_reader :metadata
+
+        sig { params(metadata: T::Hash[Symbol, String]).void }
+        attr_writer :metadata
+
+        sig { returns(String) }
+        attr_accessor :name
+
+        sig { returns(Anthropic::Beta::BetaManagedAgentsMemoryStore::Type::TaggedSymbol) }
+        attr_accessor :type
+
+        # A timestamp in RFC 3339 format
+        sig { returns(Time) }
+        attr_accessor :updated_at
+
+        sig do
+          override
+            .returns({
+              id: String,
+              created_at: Time,
+              name: String,
+              type:
+                Anthropic::Beta::BetaManagedAgentsMemoryStore::Type::TaggedSymbol,
+              updated_at: Time,
+              archived_at: T.nilable(Time),
+              description: String,
+              metadata: T::Hash[Symbol, String]
+            })
+        end
+        def to_hash; end
+
+        class << self
+          sig do
+            params(
+              id: String,
+              created_at: Time,
+              name: String,
+              type: Anthropic::Beta::BetaManagedAgentsMemoryStore::Type::OrSymbol,
+              updated_at: Time,
+              archived_at: T.nilable(Time),
+              description: String,
+              metadata: T::Hash[Symbol, String]
+            ).returns(T.attached_class)
+          end
+          def new(
+            id:,
+            created_at:, # A timestamp in RFC 3339 format
+            name:,
+            type:,
+            updated_at:, # A timestamp in RFC 3339 format
+            archived_at: nil, # A timestamp in RFC 3339 format
+            description: nil,
+            metadata: nil
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsMemoryStore,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsMemoryStore::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          MEMORY_STORE = T.let(
+              :memory_store,
+              Anthropic::Beta::BetaManagedAgentsMemoryStore::Type::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(Symbol, Anthropic::Beta::BetaManagedAgentsMemoryStore::Type)
+            end
+        end
+      end
+
+      class BetaManagedAgentsMemoryStoreResourceParam < Anthropic::Internal::Type::BaseModel
+        # Access mode for an attached memory store.
+        sig do
+          returns(T.nilable(
+              Anthropic::Beta::BetaManagedAgentsMemoryStoreResourceParam::Access::OrSymbol
+            ))
+        end
+        attr_accessor :access
+
+        # Per-attachment guidance for the agent on how to use this store. Rendered into
+        # the memory section of the system prompt. Max 4096 chars.
+        sig { returns(T.nilable(String)) }
+        attr_accessor :instructions
+
+        # The memory store ID (memstore\_...). Must belong to the caller's organization
+        # and workspace.
+        sig { returns(String) }
+        attr_accessor :memory_store_id
+
+        sig { returns(Anthropic::Beta::BetaManagedAgentsMemoryStoreResourceParam::Type::OrSymbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              memory_store_id: String,
+              type:
+                Anthropic::Beta::BetaManagedAgentsMemoryStoreResourceParam::Type::OrSymbol,
+              access:
+                T.nilable(
+                  Anthropic::Beta::BetaManagedAgentsMemoryStoreResourceParam::Access::OrSymbol
+                ),
+              instructions: T.nilable(String)
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # Parameters for attaching a memory store to an agent session.
+          sig do
+            params(
+              memory_store_id: String,
+              type: Anthropic::Beta::BetaManagedAgentsMemoryStoreResourceParam::Type::OrSymbol,
+              access: T.nilable(
+                Anthropic::Beta::BetaManagedAgentsMemoryStoreResourceParam::Access::OrSymbol
+              ),
+              instructions: T.nilable(String)
+            ).returns(T.attached_class)
+          end
+          def new(
+            memory_store_id:, # The memory store ID (memstore\_...). Must belong to the caller's organization
+                              # and workspace.
+            type:,
+            access: nil, # Access mode for an attached memory store.
+            instructions: nil # Per-attachment guidance for the agent on how to use this store. Rendered into
+                              # the memory section of the system prompt. Max 4096 chars.
+); end
+        end
+
+        # Access mode for an attached memory store.
+        module Access
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsMemoryStoreResourceParam::Access::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          READ_ONLY = T.let(
+              :read_only,
+              Anthropic::Beta::BetaManagedAgentsMemoryStoreResourceParam::Access::TaggedSymbol
+            )
+
+          READ_WRITE = T.let(
+              :read_write,
+              Anthropic::Beta::BetaManagedAgentsMemoryStoreResourceParam::Access::TaggedSymbol
+            )
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsMemoryStoreResourceParam::Access
+              )
+            end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsMemoryStoreResourceParam,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsMemoryStoreResourceParam::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          MEMORY_STORE = T.let(
+              :memory_store,
+              Anthropic::Beta::BetaManagedAgentsMemoryStoreResourceParam::Type::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsMemoryStoreResourceParam::Type
+              )
+            end
+        end
+      end
+
       # The model that will power your agent.\n\nSee
       # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
       # details and options.
@@ -12727,7 +13027,8 @@ module Anthropic
               resources: T::Array[
                 T.any(
                   Anthropic::Beta::Sessions::BetaManagedAgentsGitHubRepositoryResource::OrHash,
-                  Anthropic::Beta::Sessions::BetaManagedAgentsFileResource::OrHash
+                  Anthropic::Beta::Sessions::BetaManagedAgentsFileResource::OrHash,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsMemoryStoreResource::OrHash
                 )
               ],
               stats: Anthropic::Beta::BetaManagedAgentsSessionStats::OrHash,
@@ -24105,6 +24406,2283 @@ module Anthropic
           end
       end
 
+      class MemoryStoreArchiveParams < Anthropic::Internal::Type::BaseModel
+        extend Anthropic::Internal::Type::RequestParameters::Converter
+        include Anthropic::Internal::Type::RequestParameters
+
+        # Optional header to specify the beta version(s) you want to use.
+        sig do
+          returns(T.nilable(
+              T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]
+            ))
+        end
+        attr_reader :betas
+
+        sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
+        attr_writer :betas
+
+        sig { returns(String) }
+        attr_accessor :memory_store_id
+
+        sig do
+          override
+            .returns({
+              memory_store_id: String,
+              betas:
+                T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions
+            })
+        end
+        def to_hash; end
+
+        class << self
+          sig do
+            params(
+              memory_store_id: String,
+              betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions::OrHash
+            ).returns(T.attached_class)
+          end
+          def new(
+            memory_store_id:,
+            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            request_options: {}
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::MemoryStoreArchiveParams,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
+      class MemoryStoreCreateParams < Anthropic::Internal::Type::BaseModel
+        extend Anthropic::Internal::Type::RequestParameters::Converter
+        include Anthropic::Internal::Type::RequestParameters
+
+        # Optional header to specify the beta version(s) you want to use.
+        sig do
+          returns(T.nilable(
+              T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]
+            ))
+        end
+        attr_reader :betas
+
+        sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
+        attr_writer :betas
+
+        sig { returns(T.nilable(String)) }
+        attr_reader :description
+
+        sig { params(description: String).void }
+        attr_writer :description
+
+        sig { returns(T.nilable(T::Hash[Symbol, String])) }
+        attr_reader :metadata
+
+        sig { params(metadata: T::Hash[Symbol, String]).void }
+        attr_writer :metadata
+
+        sig { returns(String) }
+        attr_accessor :name
+
+        sig do
+          override
+            .returns({
+              name: String,
+              description: String,
+              metadata: T::Hash[Symbol, String],
+              betas:
+                T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions
+            })
+        end
+        def to_hash; end
+
+        class << self
+          sig do
+            params(
+              name: String,
+              description: String,
+              metadata: T::Hash[Symbol, String],
+              betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions::OrHash
+            ).returns(T.attached_class)
+          end
+          def new(
+            name:,
+            description: nil,
+            metadata: nil,
+            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            request_options: {}
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::MemoryStoreCreateParams,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
+      class MemoryStoreDeleteParams < Anthropic::Internal::Type::BaseModel
+        extend Anthropic::Internal::Type::RequestParameters::Converter
+        include Anthropic::Internal::Type::RequestParameters
+
+        # Optional header to specify the beta version(s) you want to use.
+        sig do
+          returns(T.nilable(
+              T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]
+            ))
+        end
+        attr_reader :betas
+
+        sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
+        attr_writer :betas
+
+        sig { returns(String) }
+        attr_accessor :memory_store_id
+
+        sig do
+          override
+            .returns({
+              memory_store_id: String,
+              betas:
+                T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions
+            })
+        end
+        def to_hash; end
+
+        class << self
+          sig do
+            params(
+              memory_store_id: String,
+              betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions::OrHash
+            ).returns(T.attached_class)
+          end
+          def new(
+            memory_store_id:,
+            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            request_options: {}
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::MemoryStoreDeleteParams,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
+      class MemoryStoreListParams < Anthropic::Internal::Type::BaseModel
+        extend Anthropic::Internal::Type::RequestParameters::Converter
+        include Anthropic::Internal::Type::RequestParameters
+
+        # Optional header to specify the beta version(s) you want to use.
+        sig do
+          returns(T.nilable(
+              T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]
+            ))
+        end
+        attr_reader :betas
+
+        sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
+        attr_writer :betas
+
+        # Return stores created at or after this time (inclusive).
+        sig { returns(T.nilable(Time)) }
+        attr_reader :created_at_gte
+
+        sig { params(created_at_gte: Time).void }
+        attr_writer :created_at_gte
+
+        # Return stores created at or before this time (inclusive).
+        sig { returns(T.nilable(Time)) }
+        attr_reader :created_at_lte
+
+        sig { params(created_at_lte: Time).void }
+        attr_writer :created_at_lte
+
+        # Query parameter for include_archived
+        sig { returns(T.nilable(T::Boolean)) }
+        attr_reader :include_archived
+
+        sig { params(include_archived: T::Boolean).void }
+        attr_writer :include_archived
+
+        # Query parameter for limit
+        sig { returns(T.nilable(Integer)) }
+        attr_reader :limit
+
+        sig { params(limit: Integer).void }
+        attr_writer :limit
+
+        # Query parameter for page
+        sig { returns(T.nilable(String)) }
+        attr_reader :page
+
+        sig { params(page: String).void }
+        attr_writer :page
+
+        sig do
+          override
+            .returns({
+              created_at_gte: Time,
+              created_at_lte: Time,
+              include_archived: T::Boolean,
+              limit: Integer,
+              page: String,
+              betas:
+                T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions
+            })
+        end
+        def to_hash; end
+
+        class << self
+          sig do
+            params(
+              created_at_gte: Time,
+              created_at_lte: Time,
+              include_archived: T::Boolean,
+              limit: Integer,
+              page: String,
+              betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions::OrHash
+            ).returns(T.attached_class)
+          end
+          def new(
+            created_at_gte: nil, # Return stores created at or after this time (inclusive).
+            created_at_lte: nil, # Return stores created at or before this time (inclusive).
+            include_archived: nil, # Query parameter for include_archived
+            limit: nil, # Query parameter for limit
+            page: nil, # Query parameter for page
+            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            request_options: {}
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::MemoryStoreListParams,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
+      class MemoryStoreRetrieveParams < Anthropic::Internal::Type::BaseModel
+        extend Anthropic::Internal::Type::RequestParameters::Converter
+        include Anthropic::Internal::Type::RequestParameters
+
+        # Optional header to specify the beta version(s) you want to use.
+        sig do
+          returns(T.nilable(
+              T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]
+            ))
+        end
+        attr_reader :betas
+
+        sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
+        attr_writer :betas
+
+        sig { returns(String) }
+        attr_accessor :memory_store_id
+
+        sig do
+          override
+            .returns({
+              memory_store_id: String,
+              betas:
+                T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions
+            })
+        end
+        def to_hash; end
+
+        class << self
+          sig do
+            params(
+              memory_store_id: String,
+              betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions::OrHash
+            ).returns(T.attached_class)
+          end
+          def new(
+            memory_store_id:,
+            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            request_options: {}
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::MemoryStoreRetrieveParams,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
+      class MemoryStoreUpdateParams < Anthropic::Internal::Type::BaseModel
+        extend Anthropic::Internal::Type::RequestParameters::Converter
+        include Anthropic::Internal::Type::RequestParameters
+
+        # Optional header to specify the beta version(s) you want to use.
+        sig do
+          returns(T.nilable(
+              T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]
+            ))
+        end
+        attr_reader :betas
+
+        sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
+        attr_writer :betas
+
+        sig { returns(T.nilable(String)) }
+        attr_accessor :description
+
+        sig { returns(String) }
+        attr_accessor :memory_store_id
+
+        # Metadata patch. Set a key to a string to upsert it, or to null to delete it.
+        # Omit the field to preserve. The stored bag is limited to 16 keys (up to 64 chars
+        # each) with values up to 512 chars.
+        sig { returns(T.nilable(T::Hash[Symbol, T.nilable(String)])) }
+        attr_accessor :metadata
+
+        sig { returns(T.nilable(String)) }
+        attr_accessor :name
+
+        sig do
+          override
+            .returns({
+              memory_store_id: String,
+              description: T.nilable(String),
+              metadata: T.nilable(T::Hash[Symbol, T.nilable(String)]),
+              name: T.nilable(String),
+              betas:
+                T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions
+            })
+        end
+        def to_hash; end
+
+        class << self
+          sig do
+            params(
+              memory_store_id: String,
+              description: T.nilable(String),
+              metadata: T.nilable(T::Hash[Symbol, T.nilable(String)]),
+              name: T.nilable(String),
+              betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions::OrHash
+            ).returns(T.attached_class)
+          end
+          def new(
+            memory_store_id:,
+            description: nil,
+            metadata: nil, # Metadata patch. Set a key to a string to upsert it, or to null to delete it.
+                           # Omit the field to preserve. The stored bag is limited to 16 keys (up to 64 chars
+                           # each) with values up to 512 chars.
+            name: nil,
+            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            request_options: {}
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::MemoryStoreUpdateParams,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
+      module MemoryStores
+        class BetaManagedAgentsAPIActor < Anthropic::Internal::Type::BaseModel
+          sig { returns(String) }
+          attr_accessor :api_key_id
+
+          sig { returns(Anthropic::Beta::MemoryStores::BetaManagedAgentsAPIActor::Type::TaggedSymbol) }
+          attr_accessor :type
+
+          sig do
+            override
+              .returns({
+                api_key_id: String,
+                type:
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsAPIActor::Type::TaggedSymbol
+              })
+          end
+          def to_hash; end
+
+          class << self
+            sig do
+              params(
+                api_key_id: String,
+                type: Anthropic::Beta::MemoryStores::BetaManagedAgentsAPIActor::Type::OrSymbol
+              ).returns(T.attached_class)
+            end
+            def new(api_key_id:, type:); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::MemoryStores::BetaManagedAgentsAPIActor,
+                Anthropic::Internal::AnyHash
+              )
+            end
+
+          module Type
+            extend Anthropic::Internal::Type::Enum
+
+            class << self
+              sig do
+                override
+                  .returns(T::Array[
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsAPIActor::Type::TaggedSymbol
+                ])
+              end
+              def values; end
+            end
+
+            API_ACTOR = T.let(
+                :api_actor,
+                Anthropic::Beta::MemoryStores::BetaManagedAgentsAPIActor::Type::TaggedSymbol
+              )
+
+            OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+            TaggedSymbol = T.type_alias do
+                T.all(
+                  Symbol,
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsAPIActor::Type
+                )
+              end
+          end
+        end
+
+        module BetaManagedAgentsActor
+          extend Anthropic::Internal::Type::Union
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::MemoryStores::BetaManagedAgentsActor::Variants
+              ])
+            end
+            def variants; end
+          end
+
+          Variants = T.type_alias do
+              T.any(
+                Anthropic::Beta::MemoryStores::BetaManagedAgentsSessionActor,
+                Anthropic::Beta::MemoryStores::BetaManagedAgentsAPIActor,
+                Anthropic::Beta::MemoryStores::BetaManagedAgentsUserActor
+              )
+            end
+        end
+
+        class BetaManagedAgentsConflictError < Anthropic::Internal::Type::BaseModel
+          sig { returns(T.nilable(String)) }
+          attr_reader :message
+
+          sig { params(message: String).void }
+          attr_writer :message
+
+          sig { returns(Anthropic::Beta::MemoryStores::BetaManagedAgentsConflictError::Type::OrSymbol) }
+          attr_accessor :type
+
+          sig do
+            override
+              .returns({
+                type:
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsConflictError::Type::OrSymbol,
+                message: String
+              })
+          end
+          def to_hash; end
+
+          class << self
+            sig do
+              params(
+                type: Anthropic::Beta::MemoryStores::BetaManagedAgentsConflictError::Type::OrSymbol,
+                message: String
+              ).returns(T.attached_class)
+            end
+            def new(type:, message: nil); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::MemoryStores::BetaManagedAgentsConflictError,
+                Anthropic::Internal::AnyHash
+              )
+            end
+
+          module Type
+            extend Anthropic::Internal::Type::Enum
+
+            class << self
+              sig do
+                override
+                  .returns(T::Array[
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsConflictError::Type::TaggedSymbol
+                ])
+              end
+              def values; end
+            end
+
+            CONFLICT_ERROR = T.let(
+                :conflict_error,
+                Anthropic::Beta::MemoryStores::BetaManagedAgentsConflictError::Type::TaggedSymbol
+              )
+
+            OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+            TaggedSymbol = T.type_alias do
+                T.all(
+                  Symbol,
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsConflictError::Type
+                )
+              end
+          end
+        end
+
+        class BetaManagedAgentsContentSha256Precondition < Anthropic::Internal::Type::BaseModel
+          sig { returns(T.nilable(String)) }
+          attr_reader :content_sha256
+
+          sig { params(content_sha256: String).void }
+          attr_writer :content_sha256
+
+          sig { returns(Anthropic::Beta::MemoryStores::BetaManagedAgentsContentSha256Precondition::Type::OrSymbol) }
+          attr_accessor :type
+
+          sig do
+            override
+              .returns({
+                type:
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsContentSha256Precondition::Type::OrSymbol,
+                content_sha256: String
+              })
+          end
+          def to_hash; end
+
+          class << self
+            sig do
+              params(
+                type: Anthropic::Beta::MemoryStores::BetaManagedAgentsContentSha256Precondition::Type::OrSymbol,
+                content_sha256: String
+              ).returns(T.attached_class)
+            end
+            def new(type:, content_sha256: nil); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::MemoryStores::BetaManagedAgentsContentSha256Precondition,
+                Anthropic::Internal::AnyHash
+              )
+            end
+
+          module Type
+            extend Anthropic::Internal::Type::Enum
+
+            class << self
+              sig do
+                override
+                  .returns(T::Array[
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsContentSha256Precondition::Type::TaggedSymbol
+                ])
+              end
+              def values; end
+            end
+
+            CONTENT_SHA256 = T.let(
+                :content_sha256,
+                Anthropic::Beta::MemoryStores::BetaManagedAgentsContentSha256Precondition::Type::TaggedSymbol
+              )
+
+            OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+            TaggedSymbol = T.type_alias do
+                T.all(
+                  Symbol,
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsContentSha256Precondition::Type
+                )
+              end
+          end
+        end
+
+        class BetaManagedAgentsDeletedMemory < Anthropic::Internal::Type::BaseModel
+          sig { returns(String) }
+          attr_accessor :id
+
+          sig { returns(Anthropic::Beta::MemoryStores::BetaManagedAgentsDeletedMemory::Type::TaggedSymbol) }
+          attr_accessor :type
+
+          sig do
+            override
+              .returns({
+                id: String,
+                type:
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsDeletedMemory::Type::TaggedSymbol
+              })
+          end
+          def to_hash; end
+
+          class << self
+            sig do
+              params(
+                id: String,
+                type: Anthropic::Beta::MemoryStores::BetaManagedAgentsDeletedMemory::Type::OrSymbol
+              ).returns(T.attached_class)
+            end
+            def new(id:, type:); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::MemoryStores::BetaManagedAgentsDeletedMemory,
+                Anthropic::Internal::AnyHash
+              )
+            end
+
+          module Type
+            extend Anthropic::Internal::Type::Enum
+
+            class << self
+              sig do
+                override
+                  .returns(T::Array[
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsDeletedMemory::Type::TaggedSymbol
+                ])
+              end
+              def values; end
+            end
+
+            MEMORY_DELETED = T.let(
+                :memory_deleted,
+                Anthropic::Beta::MemoryStores::BetaManagedAgentsDeletedMemory::Type::TaggedSymbol
+              )
+
+            OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+            TaggedSymbol = T.type_alias do
+                T.all(
+                  Symbol,
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsDeletedMemory::Type
+                )
+              end
+          end
+        end
+
+        module BetaManagedAgentsError
+          extend Anthropic::Internal::Type::Union
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::MemoryStores::BetaManagedAgentsError::Variants
+              ])
+            end
+            def variants; end
+          end
+
+          Variants = T.type_alias do
+              T.any(
+                Anthropic::BetaInvalidRequestError,
+                Anthropic::BetaAuthenticationError,
+                Anthropic::BetaBillingError,
+                Anthropic::BetaPermissionError,
+                Anthropic::BetaNotFoundError,
+                Anthropic::BetaRateLimitError,
+                Anthropic::BetaGatewayTimeoutError,
+                Anthropic::BetaAPIError,
+                Anthropic::BetaOverloadedError,
+                Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryPreconditionFailedError,
+                Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryPathConflictError,
+                Anthropic::Beta::MemoryStores::BetaManagedAgentsConflictError
+              )
+            end
+        end
+
+        class BetaManagedAgentsMemory < Anthropic::Internal::Type::BaseModel
+          sig { returns(T.nilable(String)) }
+          attr_accessor :content
+
+          sig { returns(String) }
+          attr_accessor :content_sha256
+
+          sig { returns(Integer) }
+          attr_accessor :content_size_bytes
+
+          # A timestamp in RFC 3339 format
+          sig { returns(Time) }
+          attr_accessor :created_at
+
+          sig { returns(String) }
+          attr_accessor :id
+
+          sig { returns(String) }
+          attr_accessor :memory_store_id
+
+          sig { returns(String) }
+          attr_accessor :memory_version_id
+
+          sig { returns(String) }
+          attr_accessor :path
+
+          sig { returns(Anthropic::Beta::MemoryStores::BetaManagedAgentsMemory::Type::TaggedSymbol) }
+          attr_accessor :type
+
+          # A timestamp in RFC 3339 format
+          sig { returns(Time) }
+          attr_accessor :updated_at
+
+          sig do
+            override
+              .returns({
+                id: String,
+                content_sha256: String,
+                content_size_bytes: Integer,
+                created_at: Time,
+                memory_store_id: String,
+                memory_version_id: String,
+                path: String,
+                type:
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsMemory::Type::TaggedSymbol,
+                updated_at: Time,
+                content: T.nilable(String)
+              })
+          end
+          def to_hash; end
+
+          class << self
+            sig do
+              params(
+                id: String,
+                content_sha256: String,
+                content_size_bytes: Integer,
+                created_at: Time,
+                memory_store_id: String,
+                memory_version_id: String,
+                path: String,
+                type: Anthropic::Beta::MemoryStores::BetaManagedAgentsMemory::Type::OrSymbol,
+                updated_at: Time,
+                content: T.nilable(String)
+              ).returns(T.attached_class)
+            end
+            def new(
+              id:,
+              content_sha256:,
+              content_size_bytes:,
+              created_at:, # A timestamp in RFC 3339 format
+              memory_store_id:,
+              memory_version_id:,
+              path:,
+              type:,
+              updated_at:, # A timestamp in RFC 3339 format
+              content: nil
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::MemoryStores::BetaManagedAgentsMemory,
+                Anthropic::Internal::AnyHash
+              )
+            end
+
+          module Type
+            extend Anthropic::Internal::Type::Enum
+
+            class << self
+              sig do
+                override
+                  .returns(T::Array[
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsMemory::Type::TaggedSymbol
+                ])
+              end
+              def values; end
+            end
+
+            MEMORY = T.let(
+                :memory,
+                Anthropic::Beta::MemoryStores::BetaManagedAgentsMemory::Type::TaggedSymbol
+              )
+
+            OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+            TaggedSymbol = T.type_alias do
+                T.all(
+                  Symbol,
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsMemory::Type
+                )
+              end
+          end
+        end
+
+        module BetaManagedAgentsMemoryListItem
+          extend Anthropic::Internal::Type::Union
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryListItem::Variants
+              ])
+            end
+            def variants; end
+          end
+
+          Variants = T.type_alias do
+              T.any(
+                Anthropic::Beta::MemoryStores::BetaManagedAgentsMemory,
+                Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryPrefix
+              )
+            end
+        end
+
+        class BetaManagedAgentsMemoryPathConflictError < Anthropic::Internal::Type::BaseModel
+          sig { returns(T.nilable(String)) }
+          attr_reader :conflicting_memory_id
+
+          sig { params(conflicting_memory_id: String).void }
+          attr_writer :conflicting_memory_id
+
+          sig { returns(T.nilable(String)) }
+          attr_reader :conflicting_path
+
+          sig { params(conflicting_path: String).void }
+          attr_writer :conflicting_path
+
+          sig { returns(T.nilable(String)) }
+          attr_reader :message
+
+          sig { params(message: String).void }
+          attr_writer :message
+
+          sig { returns(Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryPathConflictError::Type::OrSymbol) }
+          attr_accessor :type
+
+          sig do
+            override
+              .returns({
+                type:
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryPathConflictError::Type::OrSymbol,
+                conflicting_memory_id: String,
+                conflicting_path: String,
+                message: String
+              })
+          end
+          def to_hash; end
+
+          class << self
+            sig do
+              params(
+                type: Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryPathConflictError::Type::OrSymbol,
+                conflicting_memory_id: String,
+                conflicting_path: String,
+                message: String
+              ).returns(T.attached_class)
+            end
+            def new(type:, conflicting_memory_id: nil, conflicting_path: nil, message: nil); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryPathConflictError,
+                Anthropic::Internal::AnyHash
+              )
+            end
+
+          module Type
+            extend Anthropic::Internal::Type::Enum
+
+            class << self
+              sig do
+                override
+                  .returns(T::Array[
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryPathConflictError::Type::TaggedSymbol
+                ])
+              end
+              def values; end
+            end
+
+            MEMORY_PATH_CONFLICT_ERROR = T.let(
+                :memory_path_conflict_error,
+                Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryPathConflictError::Type::TaggedSymbol
+              )
+
+            OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+            TaggedSymbol = T.type_alias do
+                T.all(
+                  Symbol,
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryPathConflictError::Type
+                )
+              end
+          end
+        end
+
+        class BetaManagedAgentsMemoryPreconditionFailedError < Anthropic::Internal::Type::BaseModel
+          sig { returns(T.nilable(String)) }
+          attr_reader :message
+
+          sig { params(message: String).void }
+          attr_writer :message
+
+          sig do
+            returns(Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryPreconditionFailedError::Type::OrSymbol)
+          end
+          attr_accessor :type
+
+          sig do
+            override
+              .returns({
+                type:
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryPreconditionFailedError::Type::OrSymbol,
+                message: String
+              })
+          end
+          def to_hash; end
+
+          class << self
+            sig do
+              params(
+                type: Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryPreconditionFailedError::Type::OrSymbol,
+                message: String
+              ).returns(T.attached_class)
+            end
+            def new(type:, message: nil); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryPreconditionFailedError,
+                Anthropic::Internal::AnyHash
+              )
+            end
+
+          module Type
+            extend Anthropic::Internal::Type::Enum
+
+            class << self
+              sig do
+                override
+                  .returns(T::Array[
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryPreconditionFailedError::Type::TaggedSymbol
+                ])
+              end
+              def values; end
+            end
+
+            MEMORY_PRECONDITION_FAILED_ERROR = T.let(
+                :memory_precondition_failed_error,
+                Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryPreconditionFailedError::Type::TaggedSymbol
+              )
+
+            OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+            TaggedSymbol = T.type_alias do
+                T.all(
+                  Symbol,
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryPreconditionFailedError::Type
+                )
+              end
+          end
+        end
+
+        class BetaManagedAgentsMemoryPrefix < Anthropic::Internal::Type::BaseModel
+          sig { returns(String) }
+          attr_accessor :path
+
+          sig { returns(Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryPrefix::Type::TaggedSymbol) }
+          attr_accessor :type
+
+          sig do
+            override
+              .returns({
+                path: String,
+                type:
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryPrefix::Type::TaggedSymbol
+              })
+          end
+          def to_hash; end
+
+          class << self
+            sig do
+              params(
+                path: String,
+                type: Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryPrefix::Type::OrSymbol
+              ).returns(T.attached_class)
+            end
+            def new(path:, type:); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryPrefix,
+                Anthropic::Internal::AnyHash
+              )
+            end
+
+          module Type
+            extend Anthropic::Internal::Type::Enum
+
+            class << self
+              sig do
+                override
+                  .returns(T::Array[
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryPrefix::Type::TaggedSymbol
+                ])
+              end
+              def values; end
+            end
+
+            MEMORY_PREFIX = T.let(
+                :memory_prefix,
+                Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryPrefix::Type::TaggedSymbol
+              )
+
+            OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+            TaggedSymbol = T.type_alias do
+                T.all(
+                  Symbol,
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryPrefix::Type
+                )
+              end
+          end
+        end
+
+        class BetaManagedAgentsMemoryVersion < Anthropic::Internal::Type::BaseModel
+          sig { returns(T.nilable(String)) }
+          attr_accessor :content
+
+          sig { returns(T.nilable(String)) }
+          attr_accessor :content_sha256
+
+          sig { returns(T.nilable(Integer)) }
+          attr_accessor :content_size_bytes
+
+          # A timestamp in RFC 3339 format
+          sig { returns(Time) }
+          attr_accessor :created_at
+
+          sig do
+            returns(T.nilable(
+                Anthropic::Beta::MemoryStores::BetaManagedAgentsActor::Variants
+              ))
+          end
+          attr_reader :created_by
+
+          sig do
+            params(
+              created_by: T.any(
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsSessionActor::OrHash,
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsAPIActor::OrHash,
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsUserActor::OrHash
+                )
+            ).void
+          end
+          attr_writer :created_by
+
+          sig { returns(String) }
+          attr_accessor :id
+
+          sig { returns(String) }
+          attr_accessor :memory_id
+
+          sig { returns(String) }
+          attr_accessor :memory_store_id
+
+          # MemoryVersionOperation enum
+          sig { returns(Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryVersionOperation::TaggedSymbol) }
+          attr_accessor :operation
+
+          sig { returns(T.nilable(String)) }
+          attr_accessor :path
+
+          # A timestamp in RFC 3339 format
+          sig { returns(T.nilable(Time)) }
+          attr_accessor :redacted_at
+
+          sig do
+            returns(T.nilable(
+                Anthropic::Beta::MemoryStores::BetaManagedAgentsActor::Variants
+              ))
+          end
+          attr_reader :redacted_by
+
+          sig do
+            params(
+              redacted_by: T.any(
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsSessionActor::OrHash,
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsAPIActor::OrHash,
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsUserActor::OrHash
+                )
+            ).void
+          end
+          attr_writer :redacted_by
+
+          sig { returns(Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryVersion::Type::TaggedSymbol) }
+          attr_accessor :type
+
+          sig do
+            override
+              .returns({
+                id: String,
+                created_at: Time,
+                memory_id: String,
+                memory_store_id: String,
+                operation:
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryVersionOperation::TaggedSymbol,
+                type:
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryVersion::Type::TaggedSymbol,
+                content: T.nilable(String),
+                content_sha256: T.nilable(String),
+                content_size_bytes: T.nilable(Integer),
+                created_by:
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsActor::Variants,
+                path: T.nilable(String),
+                redacted_at: T.nilable(Time),
+                redacted_by:
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsActor::Variants
+              })
+          end
+          def to_hash; end
+
+          class << self
+            sig do
+              params(
+                id: String,
+                created_at: Time,
+                memory_id: String,
+                memory_store_id: String,
+                operation: Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryVersionOperation::OrSymbol,
+                type: Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryVersion::Type::OrSymbol,
+                content: T.nilable(String),
+                content_sha256: T.nilable(String),
+                content_size_bytes: T.nilable(Integer),
+                created_by: T.any(
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsSessionActor::OrHash,
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsAPIActor::OrHash,
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsUserActor::OrHash
+                ),
+                path: T.nilable(String),
+                redacted_at: T.nilable(Time),
+                redacted_by: T.any(
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsSessionActor::OrHash,
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsAPIActor::OrHash,
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsUserActor::OrHash
+                )
+              ).returns(T.attached_class)
+            end
+            def new(
+              id:,
+              created_at:, # A timestamp in RFC 3339 format
+              memory_id:,
+              memory_store_id:,
+              operation:, # MemoryVersionOperation enum
+              type:,
+              content: nil,
+              content_sha256: nil,
+              content_size_bytes: nil,
+              created_by: nil,
+              path: nil,
+              redacted_at: nil, # A timestamp in RFC 3339 format
+              redacted_by: nil
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryVersion,
+                Anthropic::Internal::AnyHash
+              )
+            end
+
+          module Type
+            extend Anthropic::Internal::Type::Enum
+
+            class << self
+              sig do
+                override
+                  .returns(T::Array[
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryVersion::Type::TaggedSymbol
+                ])
+              end
+              def values; end
+            end
+
+            MEMORY_VERSION = T.let(
+                :memory_version,
+                Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryVersion::Type::TaggedSymbol
+              )
+
+            OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+            TaggedSymbol = T.type_alias do
+                T.all(
+                  Symbol,
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryVersion::Type
+                )
+              end
+          end
+        end
+
+        # MemoryVersionOperation enum
+        module BetaManagedAgentsMemoryVersionOperation
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryVersionOperation::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          CREATED = T.let(
+              :created,
+              Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryVersionOperation::TaggedSymbol
+            )
+
+          DELETED = T.let(
+              :deleted,
+              Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryVersionOperation::TaggedSymbol
+            )
+
+          MODIFIED = T.let(
+              :modified,
+              Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryVersionOperation::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryVersionOperation
+              )
+            end
+        end
+
+        # MemoryView enum
+        module BetaManagedAgentsMemoryView
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryView::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          BASIC = T.let(
+              :basic,
+              Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryView::TaggedSymbol
+            )
+
+          FULL = T.let(
+              :full,
+              Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryView::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryView
+              )
+            end
+        end
+
+        class BetaManagedAgentsPrecondition < Anthropic::Internal::Type::BaseModel
+          sig { returns(T.nilable(String)) }
+          attr_reader :content_sha256
+
+          sig { params(content_sha256: String).void }
+          attr_writer :content_sha256
+
+          sig { returns(Anthropic::Beta::MemoryStores::BetaManagedAgentsPrecondition::Type::OrSymbol) }
+          attr_accessor :type
+
+          sig do
+            override
+              .returns({
+                type:
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsPrecondition::Type::OrSymbol,
+                content_sha256: String
+              })
+          end
+          def to_hash; end
+
+          class << self
+            sig do
+              params(
+                type: Anthropic::Beta::MemoryStores::BetaManagedAgentsPrecondition::Type::OrSymbol,
+                content_sha256: String
+              ).returns(T.attached_class)
+            end
+            def new(type:, content_sha256: nil); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::MemoryStores::BetaManagedAgentsPrecondition,
+                Anthropic::Internal::AnyHash
+              )
+            end
+
+          module Type
+            extend Anthropic::Internal::Type::Enum
+
+            class << self
+              sig do
+                override
+                  .returns(T::Array[
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsPrecondition::Type::TaggedSymbol
+                ])
+              end
+              def values; end
+            end
+
+            CONTENT_SHA256 = T.let(
+                :content_sha256,
+                Anthropic::Beta::MemoryStores::BetaManagedAgentsPrecondition::Type::TaggedSymbol
+              )
+
+            OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+            TaggedSymbol = T.type_alias do
+                T.all(
+                  Symbol,
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsPrecondition::Type
+                )
+              end
+          end
+        end
+
+        class BetaManagedAgentsSessionActor < Anthropic::Internal::Type::BaseModel
+          sig { returns(String) }
+          attr_accessor :session_id
+
+          sig { returns(Anthropic::Beta::MemoryStores::BetaManagedAgentsSessionActor::Type::TaggedSymbol) }
+          attr_accessor :type
+
+          sig do
+            override
+              .returns({
+                session_id: String,
+                type:
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsSessionActor::Type::TaggedSymbol
+              })
+          end
+          def to_hash; end
+
+          class << self
+            sig do
+              params(
+                session_id: String,
+                type: Anthropic::Beta::MemoryStores::BetaManagedAgentsSessionActor::Type::OrSymbol
+              ).returns(T.attached_class)
+            end
+            def new(session_id:, type:); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::MemoryStores::BetaManagedAgentsSessionActor,
+                Anthropic::Internal::AnyHash
+              )
+            end
+
+          module Type
+            extend Anthropic::Internal::Type::Enum
+
+            class << self
+              sig do
+                override
+                  .returns(T::Array[
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsSessionActor::Type::TaggedSymbol
+                ])
+              end
+              def values; end
+            end
+
+            OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+            SESSION_ACTOR = T.let(
+                :session_actor,
+                Anthropic::Beta::MemoryStores::BetaManagedAgentsSessionActor::Type::TaggedSymbol
+              )
+
+            TaggedSymbol = T.type_alias do
+                T.all(
+                  Symbol,
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsSessionActor::Type
+                )
+              end
+          end
+        end
+
+        class BetaManagedAgentsUserActor < Anthropic::Internal::Type::BaseModel
+          sig { returns(Anthropic::Beta::MemoryStores::BetaManagedAgentsUserActor::Type::TaggedSymbol) }
+          attr_accessor :type
+
+          sig { returns(String) }
+          attr_accessor :user_id
+
+          sig do
+            override
+              .returns({
+                type:
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsUserActor::Type::TaggedSymbol,
+                user_id: String
+              })
+          end
+          def to_hash; end
+
+          class << self
+            sig do
+              params(
+                type: Anthropic::Beta::MemoryStores::BetaManagedAgentsUserActor::Type::OrSymbol,
+                user_id: String
+              ).returns(T.attached_class)
+            end
+            def new(type:, user_id:); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::MemoryStores::BetaManagedAgentsUserActor,
+                Anthropic::Internal::AnyHash
+              )
+            end
+
+          module Type
+            extend Anthropic::Internal::Type::Enum
+
+            class << self
+              sig do
+                override
+                  .returns(T::Array[
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsUserActor::Type::TaggedSymbol
+                ])
+              end
+              def values; end
+            end
+
+            OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+            TaggedSymbol = T.type_alias do
+                T.all(
+                  Symbol,
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsUserActor::Type
+                )
+              end
+
+            USER_ACTOR = T.let(
+                :user_actor,
+                Anthropic::Beta::MemoryStores::BetaManagedAgentsUserActor::Type::TaggedSymbol
+              )
+          end
+        end
+
+        class MemoryCreateParams < Anthropic::Internal::Type::BaseModel
+          extend Anthropic::Internal::Type::RequestParameters::Converter
+          include Anthropic::Internal::Type::RequestParameters
+
+          # Optional header to specify the beta version(s) you want to use.
+          sig do
+            returns(T.nilable(
+                T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]
+              ))
+          end
+          attr_reader :betas
+
+          sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
+          attr_writer :betas
+
+          sig { returns(T.nilable(String)) }
+          attr_accessor :content
+
+          sig { returns(String) }
+          attr_accessor :memory_store_id
+
+          sig { returns(String) }
+          attr_accessor :path
+
+          # Query parameter for view
+          sig do
+            returns(T.nilable(
+                Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryView::OrSymbol
+              ))
+          end
+          attr_reader :view
+
+          sig { params(view: Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryView::OrSymbol).void }
+          attr_writer :view
+
+          sig do
+            override
+              .returns({
+                memory_store_id: String,
+                content: T.nilable(String),
+                path: String,
+                view:
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryView::OrSymbol,
+                betas:
+                  T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                request_options: Anthropic::RequestOptions
+              })
+          end
+          def to_hash; end
+
+          class << self
+            sig do
+              params(
+                memory_store_id: String,
+                content: T.nilable(String),
+                path: String,
+                view: Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryView::OrSymbol,
+                betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                request_options: Anthropic::RequestOptions::OrHash
+              ).returns(T.attached_class)
+            end
+            def new(
+              memory_store_id:,
+              content:,
+              path:,
+              view: nil, # Query parameter for view
+              betas: nil, # Optional header to specify the beta version(s) you want to use.
+              request_options: {}
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::MemoryStores::MemoryCreateParams,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        class MemoryDeleteParams < Anthropic::Internal::Type::BaseModel
+          extend Anthropic::Internal::Type::RequestParameters::Converter
+          include Anthropic::Internal::Type::RequestParameters
+
+          # Optional header to specify the beta version(s) you want to use.
+          sig do
+            returns(T.nilable(
+                T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]
+              ))
+          end
+          attr_reader :betas
+
+          sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
+          attr_writer :betas
+
+          # Query parameter for expected_content_sha256
+          sig { returns(T.nilable(String)) }
+          attr_reader :expected_content_sha256
+
+          sig { params(expected_content_sha256: String).void }
+          attr_writer :expected_content_sha256
+
+          sig { returns(String) }
+          attr_accessor :memory_id
+
+          sig { returns(String) }
+          attr_accessor :memory_store_id
+
+          sig do
+            override
+              .returns({
+                memory_store_id: String,
+                memory_id: String,
+                expected_content_sha256: String,
+                betas:
+                  T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                request_options: Anthropic::RequestOptions
+              })
+          end
+          def to_hash; end
+
+          class << self
+            sig do
+              params(
+                memory_store_id: String,
+                memory_id: String,
+                expected_content_sha256: String,
+                betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                request_options: Anthropic::RequestOptions::OrHash
+              ).returns(T.attached_class)
+            end
+            def new(
+              memory_store_id:,
+              memory_id:,
+              expected_content_sha256: nil, # Query parameter for expected_content_sha256
+              betas: nil, # Optional header to specify the beta version(s) you want to use.
+              request_options: {}
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::MemoryStores::MemoryDeleteParams,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        class MemoryListParams < Anthropic::Internal::Type::BaseModel
+          extend Anthropic::Internal::Type::RequestParameters::Converter
+          include Anthropic::Internal::Type::RequestParameters
+
+          # Optional header to specify the beta version(s) you want to use.
+          sig do
+            returns(T.nilable(
+                T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]
+              ))
+          end
+          attr_reader :betas
+
+          sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
+          attr_writer :betas
+
+          # Query parameter for depth
+          sig { returns(T.nilable(Integer)) }
+          attr_reader :depth
+
+          sig { params(depth: Integer).void }
+          attr_writer :depth
+
+          # Query parameter for limit
+          sig { returns(T.nilable(Integer)) }
+          attr_reader :limit
+
+          sig { params(limit: Integer).void }
+          attr_writer :limit
+
+          sig { returns(String) }
+          attr_accessor :memory_store_id
+
+          # Query parameter for order
+          sig do
+            returns(T.nilable(
+                Anthropic::Beta::MemoryStores::MemoryListParams::Order::OrSymbol
+              ))
+          end
+          attr_reader :order
+
+          sig { params(order: Anthropic::Beta::MemoryStores::MemoryListParams::Order::OrSymbol).void }
+          attr_writer :order
+
+          # Query parameter for order_by
+          sig { returns(T.nilable(String)) }
+          attr_reader :order_by
+
+          sig { params(order_by: String).void }
+          attr_writer :order_by
+
+          # Query parameter for page
+          sig { returns(T.nilable(String)) }
+          attr_reader :page
+
+          sig { params(page: String).void }
+          attr_writer :page
+
+          # Optional path prefix filter (raw string-prefix match; include a trailing slash
+          # for directory-scoped lists). This value appears in request URLs. Do not include
+          # secrets or personally identifiable information.
+          sig { returns(T.nilable(String)) }
+          attr_reader :path_prefix
+
+          sig { params(path_prefix: String).void }
+          attr_writer :path_prefix
+
+          # Query parameter for view
+          sig do
+            returns(T.nilable(
+                Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryView::OrSymbol
+              ))
+          end
+          attr_reader :view
+
+          sig { params(view: Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryView::OrSymbol).void }
+          attr_writer :view
+
+          sig do
+            override
+              .returns({
+                memory_store_id: String,
+                depth: Integer,
+                limit: Integer,
+                order:
+                  Anthropic::Beta::MemoryStores::MemoryListParams::Order::OrSymbol,
+                order_by: String,
+                page: String,
+                path_prefix: String,
+                view:
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryView::OrSymbol,
+                betas:
+                  T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                request_options: Anthropic::RequestOptions
+              })
+          end
+          def to_hash; end
+
+          class << self
+            sig do
+              params(
+                memory_store_id: String,
+                depth: Integer,
+                limit: Integer,
+                order: Anthropic::Beta::MemoryStores::MemoryListParams::Order::OrSymbol,
+                order_by: String,
+                page: String,
+                path_prefix: String,
+                view: Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryView::OrSymbol,
+                betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                request_options: Anthropic::RequestOptions::OrHash
+              ).returns(T.attached_class)
+            end
+            def new(
+              memory_store_id:,
+              depth: nil, # Query parameter for depth
+              limit: nil, # Query parameter for limit
+              order: nil, # Query parameter for order
+              order_by: nil, # Query parameter for order_by
+              page: nil, # Query parameter for page
+              path_prefix: nil, # Optional path prefix filter (raw string-prefix match; include a trailing slash
+                                # for directory-scoped lists). This value appears in request URLs. Do not include
+                                # secrets or personally identifiable information.
+              view: nil, # Query parameter for view
+              betas: nil, # Optional header to specify the beta version(s) you want to use.
+              request_options: {}
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::MemoryStores::MemoryListParams,
+                Anthropic::Internal::AnyHash
+              )
+            end
+
+          # Query parameter for order
+          module Order
+            extend Anthropic::Internal::Type::Enum
+
+            class << self
+              sig do
+                override
+                  .returns(T::Array[
+                  Anthropic::Beta::MemoryStores::MemoryListParams::Order::TaggedSymbol
+                ])
+              end
+              def values; end
+            end
+
+            ASC = T.let(
+                :asc,
+                Anthropic::Beta::MemoryStores::MemoryListParams::Order::TaggedSymbol
+              )
+
+            DESC = T.let(
+                :desc,
+                Anthropic::Beta::MemoryStores::MemoryListParams::Order::TaggedSymbol
+              )
+
+            OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+            TaggedSymbol = T.type_alias do
+                T.all(
+                  Symbol,
+                  Anthropic::Beta::MemoryStores::MemoryListParams::Order
+                )
+              end
+          end
+        end
+
+        class MemoryRetrieveParams < Anthropic::Internal::Type::BaseModel
+          extend Anthropic::Internal::Type::RequestParameters::Converter
+          include Anthropic::Internal::Type::RequestParameters
+
+          # Optional header to specify the beta version(s) you want to use.
+          sig do
+            returns(T.nilable(
+                T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]
+              ))
+          end
+          attr_reader :betas
+
+          sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
+          attr_writer :betas
+
+          sig { returns(String) }
+          attr_accessor :memory_id
+
+          sig { returns(String) }
+          attr_accessor :memory_store_id
+
+          # Query parameter for view
+          sig do
+            returns(T.nilable(
+                Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryView::OrSymbol
+              ))
+          end
+          attr_reader :view
+
+          sig { params(view: Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryView::OrSymbol).void }
+          attr_writer :view
+
+          sig do
+            override
+              .returns({
+                memory_store_id: String,
+                memory_id: String,
+                view:
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryView::OrSymbol,
+                betas:
+                  T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                request_options: Anthropic::RequestOptions
+              })
+          end
+          def to_hash; end
+
+          class << self
+            sig do
+              params(
+                memory_store_id: String,
+                memory_id: String,
+                view: Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryView::OrSymbol,
+                betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                request_options: Anthropic::RequestOptions::OrHash
+              ).returns(T.attached_class)
+            end
+            def new(
+              memory_store_id:,
+              memory_id:,
+              view: nil, # Query parameter for view
+              betas: nil, # Optional header to specify the beta version(s) you want to use.
+              request_options: {}
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::MemoryStores::MemoryRetrieveParams,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        class MemoryUpdateParams < Anthropic::Internal::Type::BaseModel
+          extend Anthropic::Internal::Type::RequestParameters::Converter
+          include Anthropic::Internal::Type::RequestParameters
+
+          # Optional header to specify the beta version(s) you want to use.
+          sig do
+            returns(T.nilable(
+                T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]
+              ))
+          end
+          attr_reader :betas
+
+          sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
+          attr_writer :betas
+
+          sig { returns(T.nilable(String)) }
+          attr_accessor :content
+
+          sig { returns(String) }
+          attr_accessor :memory_id
+
+          sig { returns(String) }
+          attr_accessor :memory_store_id
+
+          sig { returns(T.nilable(String)) }
+          attr_accessor :path
+
+          sig do
+            returns(T.nilable(
+                Anthropic::Beta::MemoryStores::BetaManagedAgentsPrecondition
+              ))
+          end
+          attr_reader :precondition
+
+          sig { params(precondition: Anthropic::Beta::MemoryStores::BetaManagedAgentsPrecondition::OrHash).void }
+          attr_writer :precondition
+
+          # Query parameter for view
+          sig do
+            returns(T.nilable(
+                Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryView::OrSymbol
+              ))
+          end
+          attr_reader :view
+
+          sig { params(view: Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryView::OrSymbol).void }
+          attr_writer :view
+
+          sig do
+            override
+              .returns({
+                memory_store_id: String,
+                memory_id: String,
+                view:
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryView::OrSymbol,
+                content: T.nilable(String),
+                path: T.nilable(String),
+                precondition:
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsPrecondition,
+                betas:
+                  T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                request_options: Anthropic::RequestOptions
+              })
+          end
+          def to_hash; end
+
+          class << self
+            sig do
+              params(
+                memory_store_id: String,
+                memory_id: String,
+                view: Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryView::OrSymbol,
+                content: T.nilable(String),
+                path: T.nilable(String),
+                precondition: Anthropic::Beta::MemoryStores::BetaManagedAgentsPrecondition::OrHash,
+                betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                request_options: Anthropic::RequestOptions::OrHash
+              ).returns(T.attached_class)
+            end
+            def new(
+              memory_store_id:,
+              memory_id:,
+              view: nil, # Query parameter for view
+              content: nil,
+              path: nil,
+              precondition: nil,
+              betas: nil, # Optional header to specify the beta version(s) you want to use.
+              request_options: {}
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::MemoryStores::MemoryUpdateParams,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        class MemoryVersionListParams < Anthropic::Internal::Type::BaseModel
+          extend Anthropic::Internal::Type::RequestParameters::Converter
+          include Anthropic::Internal::Type::RequestParameters
+
+          # Query parameter for api_key_id
+          sig { returns(T.nilable(String)) }
+          attr_reader :api_key_id
+
+          sig { params(api_key_id: String).void }
+          attr_writer :api_key_id
+
+          # Optional header to specify the beta version(s) you want to use.
+          sig do
+            returns(T.nilable(
+                T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]
+              ))
+          end
+          attr_reader :betas
+
+          sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
+          attr_writer :betas
+
+          # Return versions created at or after this time (inclusive).
+          sig { returns(T.nilable(Time)) }
+          attr_reader :created_at_gte
+
+          sig { params(created_at_gte: Time).void }
+          attr_writer :created_at_gte
+
+          # Return versions created at or before this time (inclusive).
+          sig { returns(T.nilable(Time)) }
+          attr_reader :created_at_lte
+
+          sig { params(created_at_lte: Time).void }
+          attr_writer :created_at_lte
+
+          # Query parameter for limit
+          sig { returns(T.nilable(Integer)) }
+          attr_reader :limit
+
+          sig { params(limit: Integer).void }
+          attr_writer :limit
+
+          # Query parameter for memory_id
+          sig { returns(T.nilable(String)) }
+          attr_reader :memory_id
+
+          sig { params(memory_id: String).void }
+          attr_writer :memory_id
+
+          sig { returns(String) }
+          attr_accessor :memory_store_id
+
+          # Query parameter for operation
+          sig do
+            returns(T.nilable(
+                Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryVersionOperation::OrSymbol
+              ))
+          end
+          attr_reader :operation
+
+          sig do
+            params(
+              operation: Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryVersionOperation::OrSymbol
+            ).void
+          end
+          attr_writer :operation
+
+          # Query parameter for page
+          sig { returns(T.nilable(String)) }
+          attr_reader :page
+
+          sig { params(page: String).void }
+          attr_writer :page
+
+          # Query parameter for session_id
+          sig { returns(T.nilable(String)) }
+          attr_reader :session_id
+
+          sig { params(session_id: String).void }
+          attr_writer :session_id
+
+          # Query parameter for view
+          sig do
+            returns(T.nilable(
+                Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryView::OrSymbol
+              ))
+          end
+          attr_reader :view
+
+          sig { params(view: Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryView::OrSymbol).void }
+          attr_writer :view
+
+          sig do
+            override
+              .returns({
+                memory_store_id: String,
+                api_key_id: String,
+                created_at_gte: Time,
+                created_at_lte: Time,
+                limit: Integer,
+                memory_id: String,
+                operation:
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryVersionOperation::OrSymbol,
+                page: String,
+                session_id: String,
+                view:
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryView::OrSymbol,
+                betas:
+                  T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                request_options: Anthropic::RequestOptions
+              })
+          end
+          def to_hash; end
+
+          class << self
+            sig do
+              params(
+                memory_store_id: String,
+                api_key_id: String,
+                created_at_gte: Time,
+                created_at_lte: Time,
+                limit: Integer,
+                memory_id: String,
+                operation: Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryVersionOperation::OrSymbol,
+                page: String,
+                session_id: String,
+                view: Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryView::OrSymbol,
+                betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                request_options: Anthropic::RequestOptions::OrHash
+              ).returns(T.attached_class)
+            end
+            def new(
+              memory_store_id:,
+              api_key_id: nil, # Query parameter for api_key_id
+              created_at_gte: nil, # Return versions created at or after this time (inclusive).
+              created_at_lte: nil, # Return versions created at or before this time (inclusive).
+              limit: nil, # Query parameter for limit
+              memory_id: nil, # Query parameter for memory_id
+              operation: nil, # Query parameter for operation
+              page: nil, # Query parameter for page
+              session_id: nil, # Query parameter for session_id
+              view: nil, # Query parameter for view
+              betas: nil, # Optional header to specify the beta version(s) you want to use.
+              request_options: {}
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::MemoryStores::MemoryVersionListParams,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        class MemoryVersionRedactParams < Anthropic::Internal::Type::BaseModel
+          extend Anthropic::Internal::Type::RequestParameters::Converter
+          include Anthropic::Internal::Type::RequestParameters
+
+          # Optional header to specify the beta version(s) you want to use.
+          sig do
+            returns(T.nilable(
+                T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]
+              ))
+          end
+          attr_reader :betas
+
+          sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
+          attr_writer :betas
+
+          sig { returns(String) }
+          attr_accessor :memory_store_id
+
+          sig { returns(String) }
+          attr_accessor :memory_version_id
+
+          sig do
+            override
+              .returns({
+                memory_store_id: String,
+                memory_version_id: String,
+                betas:
+                  T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                request_options: Anthropic::RequestOptions
+              })
+          end
+          def to_hash; end
+
+          class << self
+            sig do
+              params(
+                memory_store_id: String,
+                memory_version_id: String,
+                betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                request_options: Anthropic::RequestOptions::OrHash
+              ).returns(T.attached_class)
+            end
+            def new(
+              memory_store_id:,
+              memory_version_id:,
+              betas: nil, # Optional header to specify the beta version(s) you want to use.
+              request_options: {}
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::MemoryStores::MemoryVersionRedactParams,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        class MemoryVersionRetrieveParams < Anthropic::Internal::Type::BaseModel
+          extend Anthropic::Internal::Type::RequestParameters::Converter
+          include Anthropic::Internal::Type::RequestParameters
+
+          # Optional header to specify the beta version(s) you want to use.
+          sig do
+            returns(T.nilable(
+                T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]
+              ))
+          end
+          attr_reader :betas
+
+          sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
+          attr_writer :betas
+
+          sig { returns(String) }
+          attr_accessor :memory_store_id
+
+          sig { returns(String) }
+          attr_accessor :memory_version_id
+
+          # Query parameter for view
+          sig do
+            returns(T.nilable(
+                Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryView::OrSymbol
+              ))
+          end
+          attr_reader :view
+
+          sig { params(view: Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryView::OrSymbol).void }
+          attr_writer :view
+
+          sig do
+            override
+              .returns({
+                memory_store_id: String,
+                memory_version_id: String,
+                view:
+                  Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryView::OrSymbol,
+                betas:
+                  T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                request_options: Anthropic::RequestOptions
+              })
+          end
+          def to_hash; end
+
+          class << self
+            sig do
+              params(
+                memory_store_id: String,
+                memory_version_id: String,
+                view: Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryView::OrSymbol,
+                betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                request_options: Anthropic::RequestOptions::OrHash
+              ).returns(T.attached_class)
+            end
+            def new(
+              memory_store_id:,
+              memory_version_id:,
+              view: nil, # Query parameter for view
+              betas: nil, # Optional header to specify the beta version(s) you want to use.
+              request_options: {}
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::MemoryStores::MemoryVersionRetrieveParams,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+      end
+
       class MessageCountTokensParams < Anthropic::Internal::Type::BaseModel
         extend Anthropic::Internal::Type::RequestParameters::Converter
         include Anthropic::Internal::Type::RequestParameters
@@ -25287,8 +27865,7 @@ module Anthropic
         # Used to remove "long tail" low probability responses.
         # [Learn more technical details here](https://towardsdatascience.com/how-to-sample-from-language-models-682bceb97277).
         #
-        # Recommended for advanced use cases only. You usually only need to use
-        # `temperature`.
+        # Recommended for advanced use cases only.
         sig { returns(T.nilable(Integer)) }
         attr_reader :top_k
 
@@ -25299,11 +27876,9 @@ module Anthropic
         #
         # In nucleus sampling, we compute the cumulative distribution over all the options
         # for each subsequent token in decreasing probability order and cut it off once it
-        # reaches a particular probability specified by `top_p`. You should either alter
-        # `temperature` or `top_p`, but not both.
+        # reaches a particular probability specified by `top_p`.
         #
-        # Recommended for advanced use cases only. You usually only need to use
-        # `temperature`.
+        # Recommended for advanced use cases only.
         sig { returns(T.nilable(Float)) }
         attr_reader :top_p
 
@@ -25633,15 +28208,12 @@ module Anthropic
             top_k: nil, # Only sample from the top K options for each subsequent token.
                         # Used to remove "long tail" low probability responses.
                         # [Learn more technical details here](https://towardsdatascience.com/how-to-sample-from-language-models-682bceb97277).
-                        # Recommended for advanced use cases only. You usually only need to use
-                        # `temperature`.
+                        # Recommended for advanced use cases only.
             top_p: nil, # Use nucleus sampling.
                         # In nucleus sampling, we compute the cumulative distribution over all the options
                         # for each subsequent token in decreasing probability order and cut it off once it
-                        # reaches a particular probability specified by `top_p`. You should either alter
-                        # `temperature` or `top_p`, but not both.
-                        # Recommended for advanced use cases only. You usually only need to use
-                        # `temperature`.
+                        # reaches a particular probability specified by `top_p`.
+                        # Recommended for advanced use cases only.
             user_profile_id: nil, # The user profile ID to attribute this request to. Use when acting on behalf of a
                                   # party other than your organization.
             betas: nil, # Optional header to specify the beta version(s) you want to use.
@@ -26385,8 +28957,7 @@ module Anthropic
               # Used to remove "long tail" low probability responses.
               # [Learn more technical details here](https://towardsdatascience.com/how-to-sample-from-language-models-682bceb97277).
               #
-              # Recommended for advanced use cases only. You usually only need to use
-              # `temperature`.
+              # Recommended for advanced use cases only.
               sig { returns(T.nilable(Integer)) }
               attr_reader :top_k
 
@@ -26397,11 +28968,9 @@ module Anthropic
               #
               # In nucleus sampling, we compute the cumulative distribution over all the options
               # for each subsequent token in decreasing probability order and cut it off once it
-              # reaches a particular probability specified by `top_p`. You should either alter
-              # `temperature` or `top_p`, but not both.
+              # reaches a particular probability specified by `top_p`.
               #
-              # Recommended for advanced use cases only. You usually only need to use
-              # `temperature`.
+              # Recommended for advanced use cases only.
               sig { returns(T.nilable(Float)) }
               attr_reader :top_p
 
@@ -26749,15 +29318,12 @@ module Anthropic
                   top_k: nil, # Only sample from the top K options for each subsequent token.
                               # Used to remove "long tail" low probability responses.
                               # [Learn more technical details here](https://towardsdatascience.com/how-to-sample-from-language-models-682bceb97277).
-                              # Recommended for advanced use cases only. You usually only need to use
-                              # `temperature`.
+                              # Recommended for advanced use cases only.
                   top_p: nil, # Use nucleus sampling.
                               # In nucleus sampling, we compute the cumulative distribution over all the options
                               # for each subsequent token in decreasing probability order and cut it off once it
-                              # reaches a particular probability specified by `top_p`. You should either alter
-                              # `temperature` or `top_p`, but not both.
-                              # Recommended for advanced use cases only. You usually only need to use
-                              # `temperature`.
+                              # reaches a particular probability specified by `top_p`.
+                              # Recommended for advanced use cases only.
                   user_profile_id: nil # The user profile ID to attribute this request to. Use when acting on behalf of a
                                        # party other than your organization.
 ); end
@@ -27820,7 +30386,8 @@ module Anthropic
               T::Array[
                 T.any(
                   Anthropic::Beta::BetaManagedAgentsGitHubRepositoryResourceParams,
-                  Anthropic::Beta::BetaManagedAgentsFileResourceParams
+                  Anthropic::Beta::BetaManagedAgentsFileResourceParams,
+                  Anthropic::Beta::BetaManagedAgentsMemoryStoreResourceParam
                 )
               ]
             ))
@@ -27832,7 +30399,8 @@ module Anthropic
             resources: T::Array[
                 T.any(
                   Anthropic::Beta::BetaManagedAgentsGitHubRepositoryResourceParams::OrHash,
-                  Anthropic::Beta::BetaManagedAgentsFileResourceParams::OrHash
+                  Anthropic::Beta::BetaManagedAgentsFileResourceParams::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsMemoryStoreResourceParam::OrHash
                 )
               ]
           ).void
@@ -27861,7 +30429,8 @@ module Anthropic
                 T::Array[
                   T.any(
                     Anthropic::Beta::BetaManagedAgentsGitHubRepositoryResourceParams,
-                    Anthropic::Beta::BetaManagedAgentsFileResourceParams
+                    Anthropic::Beta::BetaManagedAgentsFileResourceParams,
+                    Anthropic::Beta::BetaManagedAgentsMemoryStoreResourceParam
                   )
                 ],
               title: T.nilable(String),
@@ -27885,7 +30454,8 @@ module Anthropic
               resources: T::Array[
                 T.any(
                   Anthropic::Beta::BetaManagedAgentsGitHubRepositoryResourceParams::OrHash,
-                  Anthropic::Beta::BetaManagedAgentsFileResourceParams::OrHash
+                  Anthropic::Beta::BetaManagedAgentsFileResourceParams::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsMemoryStoreResourceParam::OrHash
                 )
               ],
               title: T.nilable(String),
@@ -27942,7 +30512,8 @@ module Anthropic
           Variants = T.type_alias do
               T.any(
                 Anthropic::Beta::BetaManagedAgentsGitHubRepositoryResourceParams,
-                Anthropic::Beta::BetaManagedAgentsFileResourceParams
+                Anthropic::Beta::BetaManagedAgentsFileResourceParams,
+                Anthropic::Beta::BetaManagedAgentsMemoryStoreResourceParam
               )
             end
         end
@@ -30389,6 +32960,165 @@ module Anthropic
           end
         end
 
+        class BetaManagedAgentsMemoryStoreResource < Anthropic::Internal::Type::BaseModel
+          # Access mode for an attached memory store.
+          sig do
+            returns(T.nilable(
+                Anthropic::Beta::Sessions::BetaManagedAgentsMemoryStoreResource::Access::TaggedSymbol
+              ))
+          end
+          attr_accessor :access
+
+          # Description of the memory store, snapshotted at attach time. Rendered into the
+          # agent's system prompt. Empty string when the store has no description.
+          sig { returns(T.nilable(String)) }
+          attr_reader :description
+
+          sig { params(description: String).void }
+          attr_writer :description
+
+          # Per-attachment guidance for the agent on how to use this store. Rendered into
+          # the memory section of the system prompt. Max 4096 chars.
+          sig { returns(T.nilable(String)) }
+          attr_accessor :instructions
+
+          # The memory store ID (memstore\_...). Must belong to the caller's organization
+          # and workspace.
+          sig { returns(String) }
+          attr_accessor :memory_store_id
+
+          # Filesystem path where the store is mounted in the session container, e.g.
+          # /mnt/memory/user-preferences. Derived from the store's name. Output-only.
+          sig { returns(T.nilable(String)) }
+          attr_accessor :mount_path
+
+          # Display name of the memory store, snapshotted at attach time. Later edits to the
+          # store's name do not propagate to this resource.
+          sig { returns(T.nilable(String)) }
+          attr_accessor :name
+
+          sig { returns(Anthropic::Beta::Sessions::BetaManagedAgentsMemoryStoreResource::Type::TaggedSymbol) }
+          attr_accessor :type
+
+          sig do
+            override
+              .returns({
+                memory_store_id: String,
+                type:
+                  Anthropic::Beta::Sessions::BetaManagedAgentsMemoryStoreResource::Type::TaggedSymbol,
+                access:
+                  T.nilable(
+                    Anthropic::Beta::Sessions::BetaManagedAgentsMemoryStoreResource::Access::TaggedSymbol
+                  ),
+                description: String,
+                instructions: T.nilable(String),
+                mount_path: T.nilable(String),
+                name: T.nilable(String)
+              })
+          end
+          def to_hash; end
+
+          class << self
+            # A memory store attached to an agent session.
+            sig do
+              params(
+                memory_store_id: String,
+                type: Anthropic::Beta::Sessions::BetaManagedAgentsMemoryStoreResource::Type::OrSymbol,
+                access: T.nilable(
+                  Anthropic::Beta::Sessions::BetaManagedAgentsMemoryStoreResource::Access::OrSymbol
+                ),
+                description: String,
+                instructions: T.nilable(String),
+                mount_path: T.nilable(String),
+                name: T.nilable(String)
+              ).returns(T.attached_class)
+            end
+            def new(
+              memory_store_id:, # The memory store ID (memstore\_...). Must belong to the caller's organization
+                                # and workspace.
+              type:,
+              access: nil, # Access mode for an attached memory store.
+              description: nil, # Description of the memory store, snapshotted at attach time. Rendered into the
+                                # agent's system prompt. Empty string when the store has no description.
+              instructions: nil, # Per-attachment guidance for the agent on how to use this store. Rendered into
+                                 # the memory section of the system prompt. Max 4096 chars.
+              mount_path: nil, # Filesystem path where the store is mounted in the session container, e.g.
+                               # /mnt/memory/user-preferences. Derived from the store's name. Output-only.
+              name: nil # Display name of the memory store, snapshotted at attach time. Later edits to the
+                        # store's name do not propagate to this resource.
+); end
+          end
+
+          # Access mode for an attached memory store.
+          module Access
+            extend Anthropic::Internal::Type::Enum
+
+            class << self
+              sig do
+                override
+                  .returns(T::Array[
+                  Anthropic::Beta::Sessions::BetaManagedAgentsMemoryStoreResource::Access::TaggedSymbol
+                ])
+              end
+              def values; end
+            end
+
+            OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+            READ_ONLY = T.let(
+                :read_only,
+                Anthropic::Beta::Sessions::BetaManagedAgentsMemoryStoreResource::Access::TaggedSymbol
+              )
+
+            READ_WRITE = T.let(
+                :read_write,
+                Anthropic::Beta::Sessions::BetaManagedAgentsMemoryStoreResource::Access::TaggedSymbol
+              )
+
+            TaggedSymbol = T.type_alias do
+                T.all(
+                  Symbol,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsMemoryStoreResource::Access
+                )
+              end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Sessions::BetaManagedAgentsMemoryStoreResource,
+                Anthropic::Internal::AnyHash
+              )
+            end
+
+          module Type
+            extend Anthropic::Internal::Type::Enum
+
+            class << self
+              sig do
+                override
+                  .returns(T::Array[
+                  Anthropic::Beta::Sessions::BetaManagedAgentsMemoryStoreResource::Type::TaggedSymbol
+                ])
+              end
+              def values; end
+            end
+
+            MEMORY_STORE = T.let(
+                :memory_store,
+                Anthropic::Beta::Sessions::BetaManagedAgentsMemoryStoreResource::Type::TaggedSymbol
+              )
+
+            OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+            TaggedSymbol = T.type_alias do
+                T.all(
+                  Symbol,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsMemoryStoreResource::Type
+                )
+              end
+          end
+        end
+
         class BetaManagedAgentsModelOverloadedError < Anthropic::Internal::Type::BaseModel
           # Human-readable error description.
           sig { returns(String) }
@@ -31443,6 +34173,7 @@ module Anthropic
           end
         end
 
+        # A memory store attached to an agent session.
         module BetaManagedAgentsSessionResource
           extend Anthropic::Internal::Type::Union
 
@@ -31459,7 +34190,8 @@ module Anthropic
           Variants = T.type_alias do
               T.any(
                 Anthropic::Beta::Sessions::BetaManagedAgentsGitHubRepositoryResource,
-                Anthropic::Beta::Sessions::BetaManagedAgentsFileResource
+                Anthropic::Beta::Sessions::BetaManagedAgentsFileResource,
+                Anthropic::Beta::Sessions::BetaManagedAgentsMemoryStoreResource
               )
             end
         end
@@ -33943,7 +36675,8 @@ module Anthropic
           Variants = T.type_alias do
               T.any(
                 Anthropic::Beta::Sessions::BetaManagedAgentsGitHubRepositoryResource,
-                Anthropic::Beta::Sessions::BetaManagedAgentsFileResource
+                Anthropic::Beta::Sessions::BetaManagedAgentsFileResource,
+                Anthropic::Beta::Sessions::BetaManagedAgentsMemoryStoreResource
               )
             end
         end
@@ -34032,7 +36765,8 @@ module Anthropic
           Variants = T.type_alias do
               T.any(
                 Anthropic::Beta::Sessions::BetaManagedAgentsGitHubRepositoryResource,
-                Anthropic::Beta::Sessions::BetaManagedAgentsFileResource
+                Anthropic::Beta::Sessions::BetaManagedAgentsFileResource,
+                Anthropic::Beta::Sessions::BetaManagedAgentsMemoryStoreResource
               )
             end
         end
@@ -38334,6 +41068,9 @@ module Anthropic
     BetaManagedAgentsCustomToolInputSchema = Beta::BetaManagedAgentsCustomToolInputSchema
 
     BetaManagedAgentsCustomToolParams = Beta::BetaManagedAgentsCustomToolParams
+
+    BetaManagedAgentsDeletedMemoryStore = Beta::BetaManagedAgentsDeletedMemoryStore
+
     BetaManagedAgentsDeletedSession = Beta::BetaManagedAgentsDeletedSession
     BetaManagedAgentsDeletedVault = Beta::BetaManagedAgentsDeletedVault
 
@@ -38354,6 +41091,10 @@ module Anthropic
     BetaManagedAgentsMCPToolsetDefaultConfigParams = Beta::BetaManagedAgentsMCPToolsetDefaultConfigParams
 
     BetaManagedAgentsMCPToolsetParams = Beta::BetaManagedAgentsMCPToolsetParams
+    BetaManagedAgentsMemoryStore = Beta::BetaManagedAgentsMemoryStore
+
+    BetaManagedAgentsMemoryStoreResourceParam = Beta::BetaManagedAgentsMemoryStoreResourceParam
+
     BetaManagedAgentsModel = Beta::BetaManagedAgentsModel
     BetaManagedAgentsModelConfig = Beta::BetaManagedAgentsModelConfig
 
@@ -40380,8 +43121,7 @@ module Anthropic
       # Used to remove "long tail" low probability responses.
       # [Learn more technical details here](https://towardsdatascience.com/how-to-sample-from-language-models-682bceb97277).
       #
-      # Recommended for advanced use cases only. You usually only need to use
-      # `temperature`.
+      # Recommended for advanced use cases only.
       sig { returns(T.nilable(Integer)) }
       attr_reader :top_k
 
@@ -40392,11 +43132,9 @@ module Anthropic
       #
       # In nucleus sampling, we compute the cumulative distribution over all the options
       # for each subsequent token in decreasing probability order and cut it off once it
-      # reaches a particular probability specified by `top_p`. You should either alter
-      # `temperature` or `top_p`, but not both.
+      # reaches a particular probability specified by `top_p`.
       #
-      # Recommended for advanced use cases only. You usually only need to use
-      # `temperature`.
+      # Recommended for advanced use cases only.
       sig { returns(T.nilable(Float)) }
       attr_reader :top_p
 
@@ -40465,15 +43203,12 @@ module Anthropic
           top_k: nil, # Only sample from the top K options for each subsequent token.
                       # Used to remove "long tail" low probability responses.
                       # [Learn more technical details here](https://towardsdatascience.com/how-to-sample-from-language-models-682bceb97277).
-                      # Recommended for advanced use cases only. You usually only need to use
-                      # `temperature`.
+                      # Recommended for advanced use cases only.
           top_p: nil, # Use nucleus sampling.
                       # In nucleus sampling, we compute the cumulative distribution over all the options
                       # for each subsequent token in decreasing probability order and cut it off once it
-                      # reaches a particular probability specified by `top_p`. You should either alter
-                      # `temperature` or `top_p`, but not both.
-                      # Recommended for advanced use cases only. You usually only need to use
-                      # `temperature`.
+                      # reaches a particular probability specified by `top_p`.
+                      # Recommended for advanced use cases only.
           betas: nil, # Optional header to specify the beta version(s) you want to use.
           request_options: {}
 ); end
@@ -42692,8 +45427,7 @@ module Anthropic
       # Used to remove "long tail" low probability responses.
       # [Learn more technical details here](https://towardsdatascience.com/how-to-sample-from-language-models-682bceb97277).
       #
-      # Recommended for advanced use cases only. You usually only need to use
-      # `temperature`.
+      # Recommended for advanced use cases only.
       sig { returns(T.nilable(Integer)) }
       attr_reader :top_k
 
@@ -42704,11 +45438,9 @@ module Anthropic
       #
       # In nucleus sampling, we compute the cumulative distribution over all the options
       # for each subsequent token in decreasing probability order and cut it off once it
-      # reaches a particular probability specified by `top_p`. You should either alter
-      # `temperature` or `top_p`, but not both.
+      # reaches a particular probability specified by `top_p`.
       #
-      # Recommended for advanced use cases only. You usually only need to use
-      # `temperature`.
+      # Recommended for advanced use cases only.
       sig { returns(T.nilable(Float)) }
       attr_reader :top_p
 
@@ -42984,15 +45716,12 @@ module Anthropic
           top_k: nil, # Only sample from the top K options for each subsequent token.
                       # Used to remove "long tail" low probability responses.
                       # [Learn more technical details here](https://towardsdatascience.com/how-to-sample-from-language-models-682bceb97277).
-                      # Recommended for advanced use cases only. You usually only need to use
-                      # `temperature`.
+                      # Recommended for advanced use cases only.
           top_p: nil, # Use nucleus sampling.
                       # In nucleus sampling, we compute the cumulative distribution over all the options
                       # for each subsequent token in decreasing probability order and cut it off once it
-                      # reaches a particular probability specified by `top_p`. You should either alter
-                      # `temperature` or `top_p`, but not both.
-                      # Recommended for advanced use cases only. You usually only need to use
-                      # `temperature`.
+                      # reaches a particular probability specified by `top_p`.
+                      # Recommended for advanced use cases only.
           request_options: {}
 ); end
       end
@@ -43710,8 +46439,7 @@ module Anthropic
             # Used to remove "long tail" low probability responses.
             # [Learn more technical details here](https://towardsdatascience.com/how-to-sample-from-language-models-682bceb97277).
             #
-            # Recommended for advanced use cases only. You usually only need to use
-            # `temperature`.
+            # Recommended for advanced use cases only.
             sig { returns(T.nilable(Integer)) }
             attr_reader :top_k
 
@@ -43722,11 +46450,9 @@ module Anthropic
             #
             # In nucleus sampling, we compute the cumulative distribution over all the options
             # for each subsequent token in decreasing probability order and cut it off once it
-            # reaches a particular probability specified by `top_p`. You should either alter
-            # `temperature` or `top_p`, but not both.
+            # reaches a particular probability specified by `top_p`.
             #
-            # Recommended for advanced use cases only. You usually only need to use
-            # `temperature`.
+            # Recommended for advanced use cases only.
             sig { returns(T.nilable(Float)) }
             attr_reader :top_p
 
@@ -44010,15 +46736,12 @@ module Anthropic
                 top_k: nil, # Only sample from the top K options for each subsequent token.
                             # Used to remove "long tail" low probability responses.
                             # [Learn more technical details here](https://towardsdatascience.com/how-to-sample-from-language-models-682bceb97277).
-                            # Recommended for advanced use cases only. You usually only need to use
-                            # `temperature`.
+                            # Recommended for advanced use cases only.
                 top_p: nil # Use nucleus sampling.
                            # In nucleus sampling, we compute the cumulative distribution over all the options
                            # for each subsequent token in decreasing probability order and cut it off once it
-                           # reaches a particular probability specified by `top_p`. You should either alter
-                           # `temperature` or `top_p`, but not both.
-                           # Recommended for advanced use cases only. You usually only need to use
-                           # `temperature`.
+                           # reaches a particular probability specified by `top_p`.
+                           # Recommended for advanced use cases only.
 ); end
             end
 
@@ -51380,6 +54103,9 @@ module Anthropic
       sig { returns(Anthropic::Resources::Beta::Files) }
       attr_reader :files
 
+      sig { returns(Anthropic::Resources::Beta::MemoryStores) }
+      attr_reader :memory_stores
+
       sig { returns(Anthropic::Resources::Beta::Messages) }
       attr_reader :messages
 
@@ -51818,6 +54544,322 @@ module Anthropic
           # @api private
           sig { params(client: Anthropic::Client).returns(T.attached_class) }
           def new(client:); end
+        end
+      end
+
+      class MemoryStores
+        sig { returns(Anthropic::Resources::Beta::MemoryStores::Memories) }
+        attr_reader :memories
+
+        sig { returns(Anthropic::Resources::Beta::MemoryStores::MemoryVersions) }
+        attr_reader :memory_versions
+
+        # ArchiveMemoryStore
+        sig do
+          params(
+            memory_store_id: String,
+            betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            request_options: Anthropic::RequestOptions::OrHash
+          ).returns(Anthropic::Beta::BetaManagedAgentsMemoryStore)
+        end
+        def archive(
+          memory_store_id, # Path parameter memory_store_id
+          betas: nil, # Optional header to specify the beta version(s) you want to use.
+          request_options: {}
+); end
+
+        # CreateMemoryStore
+        sig do
+          params(
+            name: String,
+            description: String,
+            metadata: T::Hash[Symbol, String],
+            betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            request_options: Anthropic::RequestOptions::OrHash
+          ).returns(Anthropic::Beta::BetaManagedAgentsMemoryStore)
+        end
+        def create(
+          name:, # Body param
+          description: nil, # Body param
+          metadata: nil, # Body param
+          betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          request_options: {}
+); end
+
+        # DeleteMemoryStore
+        sig do
+          params(
+            memory_store_id: String,
+            betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            request_options: Anthropic::RequestOptions::OrHash
+          ).returns(Anthropic::Beta::BetaManagedAgentsDeletedMemoryStore)
+        end
+        def delete(
+          memory_store_id, # Path parameter memory_store_id
+          betas: nil, # Optional header to specify the beta version(s) you want to use.
+          request_options: {}
+); end
+
+        # ListMemoryStores
+        sig do
+          params(
+            created_at_gte: Time,
+            created_at_lte: Time,
+            include_archived: T::Boolean,
+            limit: Integer,
+            page: String,
+            betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            request_options: Anthropic::RequestOptions::OrHash
+          ).returns(Anthropic::Internal::PageCursor[
+              Anthropic::Beta::BetaManagedAgentsMemoryStore
+            ])
+        end
+        def list(
+          created_at_gte: nil, # Query param: Return stores created at or after this time (inclusive).
+          created_at_lte: nil, # Query param: Return stores created at or before this time (inclusive).
+          include_archived: nil, # Query param: Query parameter for include_archived
+          limit: nil, # Query param: Query parameter for limit
+          page: nil, # Query param: Query parameter for page
+          betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          request_options: {}
+); end
+
+        # GetMemoryStore
+        sig do
+          params(
+            memory_store_id: String,
+            betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            request_options: Anthropic::RequestOptions::OrHash
+          ).returns(Anthropic::Beta::BetaManagedAgentsMemoryStore)
+        end
+        def retrieve(
+          memory_store_id, # Path parameter memory_store_id
+          betas: nil, # Optional header to specify the beta version(s) you want to use.
+          request_options: {}
+); end
+
+        # UpdateMemoryStore
+        sig do
+          params(
+            memory_store_id: String,
+            description: T.nilable(String),
+            metadata: T.nilable(T::Hash[Symbol, T.nilable(String)]),
+            name: T.nilable(String),
+            betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            request_options: Anthropic::RequestOptions::OrHash
+          ).returns(Anthropic::Beta::BetaManagedAgentsMemoryStore)
+        end
+        def update(
+          memory_store_id, # Path param: Path parameter memory_store_id
+          description: nil, # Body param
+          metadata: nil, # Body param: Metadata patch. Set a key to a string to upsert it, or to null to
+                         # delete it. Omit the field to preserve. The stored bag is limited to 16 keys (up
+                         # to 64 chars each) with values up to 512 chars.
+          name: nil, # Body param
+          betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          request_options: {}
+); end
+
+        class << self
+          # @api private
+          sig { params(client: Anthropic::Client).returns(T.attached_class) }
+          def new(client:); end
+        end
+
+        class Memories
+          # CreateMemory
+          sig do
+            params(
+              memory_store_id: String,
+              content: T.nilable(String),
+              path: String,
+              view: Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryView::OrSymbol,
+              betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions::OrHash
+            ).returns(Anthropic::Beta::MemoryStores::BetaManagedAgentsMemory)
+          end
+          def create(
+            memory_store_id, # Path param: Path parameter memory_store_id
+            content:, # Body param
+            path:, # Body param
+            view: nil, # Query param: Query parameter for view
+            betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            request_options: {}
+); end
+
+          # DeleteMemory
+          sig do
+            params(
+              memory_id: String,
+              memory_store_id: String,
+              expected_content_sha256: String,
+              betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions::OrHash
+            ).returns(Anthropic::Beta::MemoryStores::BetaManagedAgentsDeletedMemory)
+          end
+          def delete(
+            memory_id, # Path param: Path parameter memory_id
+            memory_store_id:, # Path param: Path parameter memory_store_id
+            expected_content_sha256: nil, # Query param: Query parameter for expected_content_sha256
+            betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            request_options: {}
+); end
+
+          # ListMemories
+          sig do
+            params(
+              memory_store_id: String,
+              depth: Integer,
+              limit: Integer,
+              order: Anthropic::Beta::MemoryStores::MemoryListParams::Order::OrSymbol,
+              order_by: String,
+              page: String,
+              path_prefix: String,
+              view: Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryView::OrSymbol,
+              betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions::OrHash
+            ).returns(Anthropic::Internal::PageCursor[
+                Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryListItem::Variants
+              ])
+          end
+          def list(
+            memory_store_id, # Path param: Path parameter memory_store_id
+            depth: nil, # Query param: Query parameter for depth
+            limit: nil, # Query param: Query parameter for limit
+            order: nil, # Query param: Query parameter for order
+            order_by: nil, # Query param: Query parameter for order_by
+            page: nil, # Query param: Query parameter for page
+            path_prefix: nil, # Query param: Optional path prefix filter (raw string-prefix match; include a
+                              # trailing slash for directory-scoped lists). This value appears in request URLs.
+                              # Do not include secrets or personally identifiable information.
+            view: nil, # Query param: Query parameter for view
+            betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            request_options: {}
+); end
+
+          # GetMemory
+          sig do
+            params(
+              memory_id: String,
+              memory_store_id: String,
+              view: Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryView::OrSymbol,
+              betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions::OrHash
+            ).returns(Anthropic::Beta::MemoryStores::BetaManagedAgentsMemory)
+          end
+          def retrieve(
+            memory_id, # Path param: Path parameter memory_id
+            memory_store_id:, # Path param: Path parameter memory_store_id
+            view: nil, # Query param: Query parameter for view
+            betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            request_options: {}
+); end
+
+          # UpdateMemory
+          sig do
+            params(
+              memory_id: String,
+              memory_store_id: String,
+              view: Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryView::OrSymbol,
+              content: T.nilable(String),
+              path: T.nilable(String),
+              precondition: Anthropic::Beta::MemoryStores::BetaManagedAgentsPrecondition::OrHash,
+              betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions::OrHash
+            ).returns(Anthropic::Beta::MemoryStores::BetaManagedAgentsMemory)
+          end
+          def update(
+            memory_id, # Path param: Path parameter memory_id
+            memory_store_id:, # Path param: Path parameter memory_store_id
+            view: nil, # Query param: Query parameter for view
+            content: nil, # Body param
+            path: nil, # Body param
+            precondition: nil, # Body param
+            betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            request_options: {}
+); end
+
+          class << self
+            # @api private
+            sig { params(client: Anthropic::Client).returns(T.attached_class) }
+            def new(client:); end
+          end
+        end
+
+        class MemoryVersions
+          # ListMemoryVersions
+          sig do
+            params(
+              memory_store_id: String,
+              api_key_id: String,
+              created_at_gte: Time,
+              created_at_lte: Time,
+              limit: Integer,
+              memory_id: String,
+              operation: Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryVersionOperation::OrSymbol,
+              page: String,
+              session_id: String,
+              view: Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryView::OrSymbol,
+              betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions::OrHash
+            ).returns(Anthropic::Internal::PageCursor[
+                Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryVersion
+              ])
+          end
+          def list(
+            memory_store_id, # Path param: Path parameter memory_store_id
+            api_key_id: nil, # Query param: Query parameter for api_key_id
+            created_at_gte: nil, # Query param: Return versions created at or after this time (inclusive).
+            created_at_lte: nil, # Query param: Return versions created at or before this time (inclusive).
+            limit: nil, # Query param: Query parameter for limit
+            memory_id: nil, # Query param: Query parameter for memory_id
+            operation: nil, # Query param: Query parameter for operation
+            page: nil, # Query param: Query parameter for page
+            session_id: nil, # Query param: Query parameter for session_id
+            view: nil, # Query param: Query parameter for view
+            betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            request_options: {}
+); end
+
+          # RedactMemoryVersion
+          sig do
+            params(
+              memory_version_id: String,
+              memory_store_id: String,
+              betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions::OrHash
+            ).returns(Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryVersion)
+          end
+          def redact(
+            memory_version_id, # Path param: Path parameter memory_version_id
+            memory_store_id:, # Path param: Path parameter memory_store_id
+            betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            request_options: {}
+); end
+
+          # GetMemoryVersion
+          sig do
+            params(
+              memory_version_id: String,
+              memory_store_id: String,
+              view: Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryView::OrSymbol,
+              betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions::OrHash
+            ).returns(Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryVersion)
+          end
+          def retrieve(
+            memory_version_id, # Path param: Path parameter memory_version_id
+            memory_store_id:, # Path param: Path parameter memory_store_id
+            view: nil, # Query param: Query parameter for view
+            betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            request_options: {}
+); end
+
+          class << self
+            # @api private
+            sig { params(client: Anthropic::Client).returns(T.attached_class) }
+            def new(client:); end
+          end
         end
       end
 
@@ -52288,15 +55330,12 @@ module Anthropic
           top_k: nil, # Body param: Only sample from the top K options for each subsequent token.
                       # Used to remove "long tail" low probability responses.
                       # [Learn more technical details here](https://towardsdatascience.com/how-to-sample-from-language-models-682bceb97277).
-                      # Recommended for advanced use cases only. You usually only need to use
-                      # `temperature`.
+                      # Recommended for advanced use cases only.
           top_p: nil, # Body param: Use nucleus sampling.
                       # In nucleus sampling, we compute the cumulative distribution over all the options
                       # for each subsequent token in decreasing probability order and cut it off once it
-                      # reaches a particular probability specified by `top_p`. You should either alter
-                      # `temperature` or `top_p`, but not both.
-                      # Recommended for advanced use cases only. You usually only need to use
-                      # `temperature`.
+                      # reaches a particular probability specified by `top_p`.
+                      # Recommended for advanced use cases only.
           user_profile_id: nil, # Body param: The user profile ID to attribute this request to. Use when acting on
                                 # behalf of a party other than your organization.
           betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
@@ -52558,15 +55597,12 @@ module Anthropic
           top_k: nil, # Body param: Only sample from the top K options for each subsequent token.
                       # Used to remove "long tail" low probability responses.
                       # [Learn more technical details here](https://towardsdatascience.com/how-to-sample-from-language-models-682bceb97277).
-                      # Recommended for advanced use cases only. You usually only need to use
-                      # `temperature`.
+                      # Recommended for advanced use cases only.
           top_p: nil, # Body param: Use nucleus sampling.
                       # In nucleus sampling, we compute the cumulative distribution over all the options
                       # for each subsequent token in decreasing probability order and cut it off once it
-                      # reaches a particular probability specified by `top_p`. You should either alter
-                      # `temperature` or `top_p`, but not both.
-                      # Recommended for advanced use cases only. You usually only need to use
-                      # `temperature`.
+                      # reaches a particular probability specified by `top_p`.
+                      # Recommended for advanced use cases only.
           user_profile_id: nil, # Body param: The user profile ID to attribute this request to. Use when acting on
                                 # behalf of a party other than your organization.
           betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
@@ -53040,7 +56076,8 @@ module Anthropic
             resources: T::Array[
                 T.any(
                   Anthropic::Beta::BetaManagedAgentsGitHubRepositoryResourceParams::OrHash,
-                  Anthropic::Beta::BetaManagedAgentsFileResourceParams::OrHash
+                  Anthropic::Beta::BetaManagedAgentsFileResourceParams::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsMemoryStoreResourceParam::OrHash
                 )
               ],
             title: T.nilable(String),
@@ -53895,15 +56932,12 @@ module Anthropic
         top_k: nil, # Body param: Only sample from the top K options for each subsequent token.
                     # Used to remove "long tail" low probability responses.
                     # [Learn more technical details here](https://towardsdatascience.com/how-to-sample-from-language-models-682bceb97277).
-                    # Recommended for advanced use cases only. You usually only need to use
-                    # `temperature`.
+                    # Recommended for advanced use cases only.
         top_p: nil, # Body param: Use nucleus sampling.
                     # In nucleus sampling, we compute the cumulative distribution over all the options
                     # for each subsequent token in decreasing probability order and cut it off once it
-                    # reaches a particular probability specified by `top_p`. You should either alter
-                    # `temperature` or `top_p`, but not both.
-                    # Recommended for advanced use cases only. You usually only need to use
-                    # `temperature`.
+                    # reaches a particular probability specified by `top_p`.
+                    # Recommended for advanced use cases only.
         betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
         stream: false, # There is no need to provide `stream:`. Instead, use `#create_streaming` or
                        # `#create` for streaming and non-streaming use cases, respectively.
@@ -53965,15 +56999,12 @@ module Anthropic
         top_k: nil, # Body param: Only sample from the top K options for each subsequent token.
                     # Used to remove "long tail" low probability responses.
                     # [Learn more technical details here](https://towardsdatascience.com/how-to-sample-from-language-models-682bceb97277).
-                    # Recommended for advanced use cases only. You usually only need to use
-                    # `temperature`.
+                    # Recommended for advanced use cases only.
         top_p: nil, # Body param: Use nucleus sampling.
                     # In nucleus sampling, we compute the cumulative distribution over all the options
                     # for each subsequent token in decreasing probability order and cut it off once it
-                    # reaches a particular probability specified by `top_p`. You should either alter
-                    # `temperature` or `top_p`, but not both.
-                    # Recommended for advanced use cases only. You usually only need to use
-                    # `temperature`.
+                    # reaches a particular probability specified by `top_p`.
+                    # Recommended for advanced use cases only.
         betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
         stream: true, # There is no need to provide `stream:`. Instead, use `#create_streaming` or
                       # `#create` for streaming and non-streaming use cases, respectively.
@@ -54398,15 +57429,12 @@ module Anthropic
         top_k: nil, # Only sample from the top K options for each subsequent token.
                     # Used to remove "long tail" low probability responses.
                     # [Learn more technical details here](https://towardsdatascience.com/how-to-sample-from-language-models-682bceb97277).
-                    # Recommended for advanced use cases only. You usually only need to use
-                    # `temperature`.
+                    # Recommended for advanced use cases only.
         top_p: nil, # Use nucleus sampling.
                     # In nucleus sampling, we compute the cumulative distribution over all the options
                     # for each subsequent token in decreasing probability order and cut it off once it
-                    # reaches a particular probability specified by `top_p`. You should either alter
-                    # `temperature` or `top_p`, but not both.
-                    # Recommended for advanced use cases only. You usually only need to use
-                    # `temperature`.
+                    # reaches a particular probability specified by `top_p`.
+                    # Recommended for advanced use cases only.
         stream: false, # There is no need to provide `stream:`. Instead, use `#stream_raw` or `#create`
                        # for streaming and non-streaming use cases, respectively.
         request_options: {}
@@ -54867,15 +57895,12 @@ module Anthropic
         top_k: nil, # Only sample from the top K options for each subsequent token.
                     # Used to remove "long tail" low probability responses.
                     # [Learn more technical details here](https://towardsdatascience.com/how-to-sample-from-language-models-682bceb97277).
-                    # Recommended for advanced use cases only. You usually only need to use
-                    # `temperature`.
+                    # Recommended for advanced use cases only.
         top_p: nil, # Use nucleus sampling.
                     # In nucleus sampling, we compute the cumulative distribution over all the options
                     # for each subsequent token in decreasing probability order and cut it off once it
-                    # reaches a particular probability specified by `top_p`. You should either alter
-                    # `temperature` or `top_p`, but not both.
-                    # Recommended for advanced use cases only. You usually only need to use
-                    # `temperature`.
+                    # reaches a particular probability specified by `top_p`.
+                    # Recommended for advanced use cases only.
         stream: true, # There is no need to provide `stream:`. Instead, use `#stream_raw` or `#create`
                       # for streaming and non-streaming use cases, respectively.
         request_options: {}

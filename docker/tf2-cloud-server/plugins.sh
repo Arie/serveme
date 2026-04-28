@@ -11,6 +11,12 @@ wget -nv "https://github.com/sapphonie/StAC-tf2/releases/latest/download/stac.zi
 unzip -o stac.zip
 rm stac.zip
 
+# RIPext (required by MGEMod auto cfg downloader)
+cd "$HOME/hlserver/tf2/tf"
+wget -nv "https://github.com/ErikMinekus/sm-ripext/releases/download/1.3.2/sm-ripext-1.3.2-linux.zip" -O "ripext.zip"
+unzip -o ripext.zip
+rm ripext.zip
+
 # MGE Mod (zip contents are relative to tf/)
 cd "$HOME/hlserver/tf2/tf"
 wget -nv "https://github.com/mgetf/MGEMod/releases/latest/download/mge.zip" -O "mge.zip"

@@ -13,9 +13,14 @@ rm stac.zip
 
 # MGE Mod (zip contents are relative to tf/)
 cd "$HOME/hlserver/tf2/tf"
-wget -nv "https://github.com/Arie/MGEMod/releases/latest/download/mge.zip" -O "mge.zip"
+wget -nv "https://github.com/mgetf/MGEMod/releases/latest/download/mge.zip" -O "mge.zip"
 unzip -o mge.zip
 rm mge.zip
+
+cd "$HOME/hlserver/tf2/tf/addons/sourcemod"
+wget -nv "https://github.com/mgetf/mge-config-downloader/releases/latest/download/mge_config_downloader.zip" -O "mge_config_downloader.zip"
+unzip -o mge_config_downloader.zip
+rm mge_config_downloader.zip
 
 
 # tf2rue (TFTrue replacement, zip contents are relative to addons/sourcemod/)

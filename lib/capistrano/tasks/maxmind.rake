@@ -1,10 +1,10 @@
 # typed: false
 
 namespace :maxmind do
-  desc "Update MaxMind GeoLite2 databases"
-  task :update do
+  desc "Upload GeoLite2 databases from doc/ to the stage and restart"
+  task :upload do
     on roles(:app) do
-      info "Starting MaxMind database update..."
+      info "Starting MaxMind database upload..."
 
       invoke "maintenance:enable"
 
@@ -22,7 +22,7 @@ namespace :maxmind do
 
       invoke "maintenance:disable"
 
-      info "MaxMind database update completed!"
+      info "MaxMind database upload completed!"
     end
   end
 end

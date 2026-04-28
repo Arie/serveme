@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# Refresh GeoLite2 databases from MaxMind and roll them out to all regions.
+# Runs `rake maxmind:fetch` locally, then `cap <stage> maxmind:upload` for
+# each region in series. Each region briefly enters maintenance mode while
+# its puma/sidekiq restart, so this takes a few minutes overall.
+
+set -euo pipefail
+
+cd "$(dirname "$0")/.."
+
+bundle exec rake maxmind:fetch
+
+for stage in eu na au sea; do
+  echo "=== Uploading to $stage ==="
+  bundle exec cap "$stage" maxmind:upload
+done

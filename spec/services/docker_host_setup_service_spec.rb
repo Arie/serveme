@@ -200,6 +200,33 @@ describe DockerHostSetupService do
       expect(script).to include("docker compose up -d --remove-orphans")
     end
 
+    context "when runs_caddy is false (web-app host with its own nginx)" do
+      let(:docker_host) { create(:docker_host, hostname: "new.fakkelbrigade.eu", ip: "1.2.3.4", runs_caddy: false) }
+
+      it "omits the caddy service + caddy volumes from the compose file" do
+        compose = subject.send(:compose_yml)
+        expect(compose).not_to include("caddy:")
+        expect(compose).not_to include("caddy_data")
+        expect(compose).not_to include("caddy_config")
+        expect(compose).to include("websocket-echo:")
+        expect(compose).to include("image: serveme/websocket-echo:latest")
+      end
+
+      it "does not disable nginx and does not write a Caddyfile" do
+        script = subject.send(:install_compose_services_script)
+        expect(script).not_to include("systemctl disable --now nginx.service")
+        expect(script).not_to match(%r{> /opt/serveme-host/Caddyfile})
+        expect(script).to include("rm -f /opt/serveme-host/Caddyfile")
+      end
+
+      it "still disables certbot + legacy caddy/websocket systemd units" do
+        script = subject.send(:install_compose_services_script)
+        expect(script).to include("systemctl disable --now caddy.service")
+        expect(script).to include("systemctl disable --now certbot.timer certbot.service")
+        expect(script).to include("systemctl disable --now websocket-echo.service websocket-echo-server.service")
+      end
+    end
+
     it "installs Docker via apt with signed repository (not via curl|sh)" do
       script = subject.send(:install_docker_script)
       expect(script).to include("/etc/apt/keyrings/docker.gpg")

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_28_221613) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_29_130537) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -77,6 +77,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_28_221613) do
     t.string "provider"
     t.string "provider_location"
     t.string "provider_server_id"
+    t.boolean "runs_caddy", default: true, null: false
     t.string "setup_status", default: "pending", null: false
     t.integer "ssh_port", default: 22
     t.string "ssh_user", default: "tf2"

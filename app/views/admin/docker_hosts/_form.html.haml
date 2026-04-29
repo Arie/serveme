@@ -17,6 +17,7 @@
   = f.input :latitude, input_html: { step: "any" }
   = f.input :longitude, input_html: { step: "any" }
   = f.input :active
+  = f.input :runs_caddy, label: "Run Caddy on this host", hint: "Uncheck for hosts that already serve /ping via their own nginx (regional web app hosts)."
 
 :javascript
   (function() {

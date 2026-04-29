@@ -280,17 +280,27 @@ class DockerHostSetupService
 
   def install_compose_services_script
     compose_b64 = Base64.strict_encode64(compose_yml)
-    caddyfile_b64 = Base64.strict_encode64(caddyfile_content)
+    caddyfile_drop = if docker_host.runs_caddy?
+      caddyfile_b64 = Base64.strict_encode64(caddyfile_content)
+      "echo '#{caddyfile_b64}' | base64 -d > #{COMPOSE_DIR}/Caddyfile"
+    else
+      "rm -f #{COMPOSE_DIR}/Caddyfile"
+    end
+    # Skip the nginx disable on hosts where it's load-bearing for the
+    # regional web app (runs_caddy=false). Their nginx already terminates
+    # TLS and proxies /ping → 127.0.0.1:8083 — exactly what the compose
+    # websocket-echo binds.
+    nginx_disable = docker_host.runs_caddy? ? "systemctl disable --now nginx.service 2>/dev/null || true" : ""
     <<~BASH
       set -e
       install -d -m 0755 #{COMPOSE_DIR}
       echo '#{compose_b64}' | base64 -d > #{COMPOSE_DIR}/docker-compose.yml
-      echo '#{caddyfile_b64}' | base64 -d > #{COMPOSE_DIR}/Caddyfile
+      #{caddyfile_drop}
 
       # Disable services from prior provisioning eras so they release
       # ports 80 / 443 / 8083 before compose claims them. All idempotent.
       rm -f #{COMPOSE_DIR}/.env
-      systemctl disable --now nginx.service 2>/dev/null || true
+      #{nginx_disable}
       systemctl disable --now caddy.service 2>/dev/null || true
       systemctl disable --now certbot.timer certbot.service 2>/dev/null || true
       systemctl disable --now websocket-echo.service websocket-echo-server.service 2>/dev/null || true
@@ -302,6 +312,10 @@ class DockerHostSetupService
   end
 
   def compose_yml
+    docker_host.runs_caddy? ? compose_yml_with_caddy : compose_yml_without_caddy
+  end
+
+  def compose_yml_with_caddy
     <<~YAML
       services:
         caddy:
@@ -324,6 +338,20 @@ class DockerHostSetupService
       volumes:
         caddy_data:
         caddy_config:
+    YAML
+  end
+
+  def compose_yml_without_caddy
+    <<~YAML
+      services:
+        websocket-echo:
+          image: #{WEBSOCKET_ECHO_IMAGE}
+          container_name: serveme-host-websocket-echo
+          network_mode: host
+          restart: unless-stopped
+          environment:
+            BIND_PORT: "8083"
+            BIND_ADDRESS: "127.0.0.1"
     YAML
   end
 

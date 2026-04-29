@@ -1294,6 +1294,9 @@ class DockerHost
     def restore_provider_server_id!; end
 
     sig { void }
+    def restore_runs_caddy!; end
+
+    sig { void }
     def restore_setup_status!; end
 
     sig { void }
@@ -1307,6 +1310,51 @@ class DockerHost
 
     sig { void }
     def restore_updated_at!; end
+
+    sig { returns(T::Boolean) }
+    def runs_caddy; end
+
+    sig { params(value: T::Boolean).returns(T::Boolean) }
+    def runs_caddy=(value); end
+
+    sig { returns(T::Boolean) }
+    def runs_caddy?; end
+
+    sig { returns(T.nilable(T::Boolean)) }
+    def runs_caddy_before_last_save; end
+
+    sig { returns(T.untyped) }
+    def runs_caddy_before_type_cast; end
+
+    sig { returns(T::Boolean) }
+    def runs_caddy_came_from_user?; end
+
+    sig { returns(T.nilable([T::Boolean, T::Boolean])) }
+    def runs_caddy_change; end
+
+    sig { returns(T.nilable([T::Boolean, T::Boolean])) }
+    def runs_caddy_change_to_be_saved; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def runs_caddy_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(T::Boolean)) }
+    def runs_caddy_in_database; end
+
+    sig { returns(T.nilable([T::Boolean, T::Boolean])) }
+    def runs_caddy_previous_change; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def runs_caddy_previously_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(T::Boolean)) }
+    def runs_caddy_previously_was; end
+
+    sig { returns(T.nilable(T::Boolean)) }
+    def runs_caddy_was; end
+
+    sig { void }
+    def runs_caddy_will_change!; end
 
     sig { returns(T.nilable([T.nilable(T::Boolean), T.nilable(T::Boolean)])) }
     def saved_change_to_active; end
@@ -1391,6 +1439,12 @@ class DockerHost
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def saved_change_to_provider_server_id?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable([T::Boolean, T::Boolean])) }
+    def saved_change_to_runs_caddy; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def saved_change_to_runs_caddy?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
     sig { returns(T.nilable([::String, ::String])) }
     def saved_change_to_setup_status; end
@@ -1688,6 +1742,9 @@ class DockerHost
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def will_save_change_to_provider_server_id?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def will_save_change_to_runs_caddy?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def will_save_change_to_setup_status?(from: T.unsafe(nil), to: T.unsafe(nil)); end

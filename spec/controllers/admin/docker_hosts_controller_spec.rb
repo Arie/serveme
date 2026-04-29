@@ -28,6 +28,16 @@ describe Admin::DockerHostsController do
     end
   end
 
+  describe "#new" do
+    it "renders the new form along with the setup documentation" do
+      get :new
+      expect(response).to be_successful
+      expect(response.body).to include("Setup procedure")
+      expect(response.body).to include("Bare-metal host prep")
+      expect(response.body).to include("serveme-bootstrap")
+    end
+  end
+
   describe "#create" do
     let(:location) { create(:location) }
 

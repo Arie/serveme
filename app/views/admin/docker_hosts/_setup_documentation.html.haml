@@ -1,0 +1,191 @@
+.card.mb-3
+  .card-body
+    %h5.card-title
+      %i.fa.fa-book
+      Setup procedure
+    %p.text-muted.small.mb-3 Click any section to expand. Read the troubleshooting one before panicking.
+
+    %details.mb-2
+      %summary.small
+        %strong Overview — the three flavours of host
+      .ms-3.mt-2
+        %ul.mb-0
+          %li
+            %strong Provider-managed VM (Hetzner / Vultr) —
+            pick a Provider + Provider Location, leave IP blank. The "Create VM" step provisions the box automatically.
+          %li
+            %strong Pure bare-metal —
+            set Provider to "Manual", fill in the IP, type
+            %code tf2
+            (or your container user) into SSH User. Most existing fakkelbrigade.eu hosts.
+          %li
+            %strong Web-app host (also runs the regional Rails site) —
+            same as bare-metal, but uncheck "Run Caddy on this host" so we don't fight the existing nginx for ports 80/443.
+
+    %details.mb-2
+      %summary.small
+        %strong Filling out the form
+      .ms-3.mt-2
+        %dl.row.mb-0.small
+          %dt.col-sm-3 Hostname
+          %dd.col-sm-9
+            FQDN you'll point DNS at, e.g.
+            %code de1.serveme.tf
+            \.
+            %code .serveme.tf
+            hostnames get DNS auto-managed via Cloudflare; anything else expects you to set the A record yourself.
+          %dt.col-sm-3 IP Address
+          %dd.col-sm-9 Leave blank for Hetzner/Vultr (assigned during Create VM). Fill in for bare-metal.
+          %dt.col-sm-3 SSH User
+          %dd.col-sm-9
+            The non-privileged user that owns containers on the host. Defaults to
+            %code tf2
+            \. On hosts where
+            %code tf2
+            is the regional deploy user (EU, NA web hosts), use a different account like
+            %code tf2server
+            so provisioning doesn't touch the deploy user's home/sudoers.
+          %dt.col-sm-3 SSH Port
+          %dd.col-sm-9 22 unless your host runs sshd on a non-standard port.
+          %dt.col-sm-3 Start Port
+          %dd.col-sm-9 Lowest TF2 game port to allocate on this host. Hosts get a 100-port range starting here.
+          %dt.col-sm-3 Max Containers
+          %dd.col-sm-9 Hard cap on simultaneous reservations the host accepts. Tune to the host's RAM/CPU.
+          %dt.col-sm-3 Run Caddy on this host
+          %dd.col-sm-9 Default on. Uncheck for the regional web-app hosts (their nginx already handles <code>/ping</code> and HTTPS) so the compose stack only ships websocket-echo and leaves nginx alone.
+
+    %details.mb-2
+      %summary.small
+        %strong Bare-metal host prep — do this before clicking Provision
+      .ms-3.mt-2
+        %ol.small.mb-0
+          %li
+            %strong DNS:
+            for non-<code>.serveme.tf</code> hostnames, create the A record at your DNS provider pointing at the host's IP. Wait for it to resolve before clicking the DNS step.
+          %li
+            %strong SSH key access:
+            this region's Rails deploy user (<code>tf2@&lt;eu/na/au/sea&gt;</code>) needs to be able to SSH to the host's SSH User. The
+            %code setup_app_user
+            step appends keys idempotently, but it can't do its first run without an existing key path in.
+          %li
+            %strong Free up ports 80, 443, 8083:
+            stop any nginx/certbot/screen-based websocket-echo running on the host. Provisioning will
+            %code systemctl disable --now nginx caddy certbot.timer websocket-echo*
+            for you, but it can't kill processes started by
+            %code screen
+            or other init mechanisms — those need
+            %code screen -S websocket-echo -X quit
+            (or similar) and removal of any
+            %code @reboot
+            crontab entry that re-launches them.
+          %li
+            %strong Grant the SSH User passwordless sudo for the migration:
+            provisioning runs four
+            %code sudo bash -c '<script>'
+            calls. Drop the bootstrap sudoers file:
+            %pre.bg-dark.text-light.p-2.small.mb-2.mt-2
+              :preserve
+                echo '<USER> ALL=(ALL) NOPASSWD:ALL' | sudo tee /etc/sudoers.d/serveme-bootstrap
+                sudo chmod 440 /etc/sudoers.d/serveme-bootstrap
+            The last action of the Provision step removes
+            %code /etc/sudoers.d/serveme-bootstrap
+            automatically once everything succeeded; the persistent narrow rule lives in
+            %code /etc/sudoers.d/serveme-iptables
+            \.
+
+    %details.mb-2
+      %summary.small
+        %strong Web-app hosts (runs_caddy = false)
+      .ms-3.mt-2.small
+        %p
+          Hosts that also serve the regional Rails site (e.g.
+          %code new.fakkelbrigade.eu
+          for EU,
+          %code chi1
+          /
+          %code direct.na.serveme.tf
+          for NA) keep their existing nginx in charge of port 80/443 and the
+          %code= "/ping"
+          reverse-proxy. On these hosts:
+        %ul
+          %li
+            Set
+            %strong SSH User
+            to the non-deploy user that runs containers (e.g.
+            %code tf2server
+            on EU). The deploy user's
+            %code /etc/sudoers.d/&lt;deploy_user&gt;
+            never gets touched.
+          %li
+            Uncheck
+            %strong Run Caddy on this host.
+            Compose only ships websocket-echo, bound to
+            %code= "127.0.0.1:8083"
+            — exactly what the existing nginx
+            %code= "/ping"
+            block reverse-proxies to.
+          %li
+            The
+            %code install_compose_services
+            step skips the
+            %code systemctl disable --now nginx
+            line entirely on these hosts.
+        %p.mb-0
+          %strong Net effect:
+          nginx unchanged, the website keeps serving, the screen-based websocket-echo gets replaced by a compose container at
+          %code= "127.0.0.1:8083"
+          with no rebind.
+
+    %details.mb-2
+      %summary.small
+        %strong What each setup step does
+      .ms-3.mt-2
+        %dl.row.mb-0.small
+          %dt.col-sm-3 Create VM
+          %dd.col-sm-9 (Provider-managed only.) Calls Hetzner/Vultr API to provision a server, polls until it's running, stores the assigned IP.
+          %dt.col-sm-3 DNS
+          %dd.col-sm-9 For <code>.serveme.tf</code>: creates/updates the A record via Cloudflare API. For everything else: <code>Resolv.getaddress</code> verifies the hostname points at the recorded IP.
+          %dt.col-sm-3 SSH
+          %dd.col-sm-9 Connects, runs <code>hostname</code>, confirms the connection works.
+          %dt.col-sm-3 Provision
+          %dd.col-sm-9 Four sub-scripts in one SSH session: install_prerequisites (apt + UFW rules), install_docker (apt-installed docker-ce, skipped if already present), setup_app_user (user, docker group, authorized_keys append+dedup, <code>/etc/sudoers.d/serveme-iptables</code>), install_compose_services (drops compose stack, disables legacy services, <code>docker compose pull && up -d</code>, removes <code>/etc/sudoers.d/serveme-bootstrap</code>). Full output of every sub-step lands in the Recent Setup Logs panel below.
+          %dt.col-sm-3 SSL Verification
+          %dd.col-sm-9 Hits <code>https://hostname/ping</code>. Caddy auto-issues via HTTP-01 (or falls back to TLS-ALPN-01); first cert can take a minute. If it fails the first time, wait 60s and retry.
+          %dt.col-sm-3 Pull Docker Image
+          %dd.col-sm-9 <code>docker pull serveme/tf2-cloud-server:latest</code>. Marks the host <code>ready</code>.
+
+    %details.mb-2
+      %summary.small
+        %strong Troubleshooting
+      .ms-3.mt-2
+        %dl.row.mb-0.small
+          %dt.col-sm-4 install_compose_services failed (exit 1). Last line: sudo: a password is required
+          %dd.col-sm-8
+            You forgot the
+            %code /etc/sudoers.d/serveme-bootstrap
+            file, or it was already removed. SSH in as a user with broader sudo, recreate it (see "Bare-metal host prep"), and re-click Provision.
+          %dt.col-sm-4 docker compose pull fails / can't reach Docker Hub
+          %dd.col-sm-8
+            Make sure the EU server has built and pushed
+            %code serveme/caddy-cloudflare:latest
+            and
+            %code serveme/websocket-echo:latest
+            (MCP tools
+            %code build_caddy_cloudflare_image
+            and
+            %code build_websocket_echo_image
+            \, both EU-only). Compose tolerates pull failures and uses local images, but on a fresh host there are none.
+          %dt.col-sm-4 Caddy logs "No such authorization" 404
+          %dd.col-sm-8
+            Transient ACME-side issue. Caddy retries automatically and falls back to TLS-ALPN-01 on port 443. Wait ~60s, then
+            %code curl -I https://hostname/ping
+            — if it returns a non-error status the cert is in. Only worry if it's still failing after 5 minutes.
+          %dt.col-sm-4 setup_app_user clobbered my custom authorized_keys
+          %dd.col-sm-8 Shouldn't happen — the script appends and dedupes against the existing file. If you're seeing this, you're on a stale deploy that predates the dedup change. Re-deploy and re-add your key.
+          %dt.col-sm-4 Provision fails on a host running the website
+          %dd.col-sm-8
+            You forgot to uncheck "Run Caddy on this host". Edit the host record, save with
+            %code= "runs_caddy = false"
+            \, and re-click Provision. nginx will be left alone on the next run.
+          %dt.col-sm-4 Where do I see the actual error?
+          %dd.col-sm-8 The Recent Setup Logs panel under each step shows the full stdout+stderr, exit code, and timestamp per step. Click a row to expand it.

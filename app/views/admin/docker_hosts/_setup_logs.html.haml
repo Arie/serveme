@@ -7,22 +7,17 @@
     - if logs.empty?
       %p.text-muted.mb-0 No logs yet — provision steps will record their full output here.
     - else
-      .accordion{id: "setup-logs-accordion"}
-        - logs.each do |log|
-          .accordion-item
-            %h2.accordion-header{id: "log-heading-#{log.id}"}
-              %button.accordion-button.collapsed.py-2{type: "button", data: { bs_toggle: "collapse", bs_target: "#log-collapse-#{log.id}" }, aria: { expanded: "false", controls: "log-collapse-#{log.id}" }}
-                - if log.success
-                  %i.fa.fa-check-circle.text-success.me-2
-                - else
-                  %i.fa.fa-times-circle.text-danger.me-2
-                .flex-grow-1
-                  %strong= log.label
-                  %span.text-muted.ms-2.small
-                    = log.created_at.to_fs(:short)
-                    - if log.exit_status
-                      = " · exit #{log.exit_status}"
-            .accordion-collapse.collapse{id: "log-collapse-#{log.id}", aria: { labelledby: "log-heading-#{log.id}" }, data: { bs_parent: "#setup-logs-accordion" }}
-              .accordion-body
-                %pre.mb-0.bg-dark.text-light.p-2.small{style: "max-height: 400px; overflow: auto;"}
-                  = log.output.presence || "(no output)"
+      - logs.each do |log|
+        %details.mb-2
+          %summary.small
+            - if log.success
+              %i.fa.fa-check-circle.text-success.me-1
+            - else
+              %i.fa.fa-times-circle.text-danger.me-1
+            %strong= log.label
+            %span.text-muted.ms-2
+              = log.created_at.to_fs(:short)
+              - if log.exit_status
+                = " · exit #{log.exit_status}"
+          %pre.mt-2.mb-0.bg-dark.text-light.p-2.small{style: "max-height: 400px; overflow: auto;"}
+            = log.output.presence || "(no output)"

@@ -64,56 +64,24 @@ describe Admin::DockerHostsController do
 
   describe "#run_setup_step" do
     let(:docker_host) { create(:docker_host, hostname: "de1.serveme.tf", setup_status: "pending") }
-    let(:setup_service) { instance_double(DockerHostSetupService) }
 
-    before do
-      allow(DockerHostSetupService).to receive(:new).and_return(setup_service)
+    %w[create_vm dns ssh provision ssl pull_image].each do |step|
+      it "enqueues a DockerHostSetupStepWorker for the #{step.inspect} step instead of running synchronously" do
+        expect {
+          post :run_setup_step, params: { id: docker_host.id, step: step }, format: :turbo_stream
+        }.to change(DockerHostSetupStepWorker.jobs, :size).by(1)
+        expect(DockerHostSetupStepWorker.jobs.last["args"]).to eq([ docker_host.id, step ])
+        expect(response).to be_successful
+        expect(response.body).to include("Running")
+      end
     end
 
-    it "runs the dns step" do
-      allow(setup_service).to receive(:check_dns).and_return({ success: true, message: "DNS record created" })
-
-      post :run_setup_step, params: { id: docker_host.id, step: "dns" }, format: :turbo_stream
+    it "rejects unknown steps without enqueuing" do
+      expect {
+        post :run_setup_step, params: { id: docker_host.id, step: "evil-step" }, format: :turbo_stream
+      }.not_to change(DockerHostSetupStepWorker.jobs, :size)
       expect(response).to be_successful
-      expect(setup_service).to have_received(:check_dns)
-    end
-
-    it "runs the ssh step" do
-      allow(setup_service).to receive(:check_ssh).and_return({ success: true, message: "SSH OK" })
-
-      post :run_setup_step, params: { id: docker_host.id, step: "ssh" }, format: :turbo_stream
-      expect(response).to be_successful
-      expect(setup_service).to have_received(:check_ssh)
-    end
-
-    it "runs the provision step" do
-      allow(setup_service).to receive(:provision_host).and_return({ success: true, message: "Provisioned" })
-
-      post :run_setup_step, params: { id: docker_host.id, step: "provision" }, format: :turbo_stream
-      expect(response).to be_successful
-      expect(setup_service).to have_received(:provision_host)
-    end
-
-    it "runs the ssl step" do
-      allow(setup_service).to receive(:check_ssl).and_return({ success: true, message: "SSL OK" })
-
-      post :run_setup_step, params: { id: docker_host.id, step: "ssl" }, format: :turbo_stream
-      expect(response).to be_successful
-      expect(setup_service).to have_received(:check_ssl)
-    end
-
-    it "runs the pull_image step" do
-      allow(setup_service).to receive(:pull_image).and_return({ success: true, message: "Image pulled" })
-
-      post :run_setup_step, params: { id: docker_host.id, step: "pull_image" }, format: :turbo_stream
-      expect(response).to be_successful
-      expect(setup_service).to have_received(:pull_image)
-    end
-
-    it "rejects invalid steps" do
-      post :run_setup_step, params: { id: docker_host.id, step: "invalid" }, format: :turbo_stream
-      expect(response).to be_successful
-      expect(setup_service).not_to have_received(:check_dns) if setup_service.respond_to?(:check_dns)
+      expect(response.body).to include("Unknown step")
     end
   end
 

@@ -1,10 +1,11 @@
-- if result.present?
-  .mt-2
-    - if result[:success]
-      .alert.alert-success.mb-0.py-2
-        %i.fa.fa-check-circle
-        = result[:message]
-    - else
-      .alert.alert-danger.mb-0.py-2
-        %i.fa.fa-times-circle
-        = result[:message]
+%div{id: "step-#{step}-result"}
+  - if result.present?
+    .mt-2
+      - if result[:success]
+        .alert.alert-success.mb-0.py-2
+          %i.fa.fa-check-circle
+          = result[:message]
+      - else
+        .alert.alert-danger.mb-0.py-2
+          %i.fa.fa-times-circle
+          = result[:message]

@@ -1,8 +1,18 @@
 # typed: false
 # frozen_string_literal: true
 
+require "base64"
+
 class DockerHostSetupService
   DOCKER_IMAGE = "serveme/tf2-cloud-server:latest"
+  CADDY_IMAGE = "serveme/caddy-cloudflare:latest"
+  WEBSOCKET_ECHO_IMAGE = "serveme/websocket-echo:latest"
+
+  # Set to e.g. "5:27.5.1-1~ubuntu.24.04~noble" to lock the docker-ce
+  # package; empty string tracks the apt repo's current.
+  DOCKER_CE_VERSION = ""
+
+  COMPOSE_DIR = "/opt/serveme-host"
 
   attr_reader :docker_host
 
@@ -48,11 +58,10 @@ class DockerHostSetupService
 
   def provision_host
     ssh_to_host do |ssh|
-      run_script(ssh, install_prerequisites_script)
-      run_script(ssh, install_docker_script)
-      run_script(ssh, setup_app_user_script)
-      run_script(ssh, install_caddy_script)
-      run_script(ssh, install_websocket_echo_server_script)
+      run_script(ssh, "install_prerequisites", install_prerequisites_script)
+      run_script(ssh, "install_docker", install_docker_script)
+      run_script(ssh, "setup_app_user", setup_app_user_script)
+      run_script(ssh, "install_compose_services", install_compose_services_script)
       docker_host.update!(setup_status: "provisioned")
       { success: true, message: "Host provisioned successfully" }
     end
@@ -160,23 +169,86 @@ class DockerHostSetupService
     Net::SSH.start(host, user, **opts, &block)
   end
 
-  def run_script(ssh, script)
-    output = ssh.exec!("sudo bash -c #{Shellwords.shellescape(script)}")
-    Rails.logger.info "DockerHostSetupService[#{docker_host.hostname}]: #{output&.strip&.lines&.last}"
+  # Raises on non-zero exit so a failed step doesn't silently let the next
+  # one run — `ssh.exec!` discarded exit codes and used to mask failures.
+  def run_script(ssh, step, script)
+    cmd = "sudo bash -c #{Shellwords.shellescape(script)} 2>&1"
+    output, exit_status = ssh_exec_with_status(ssh, cmd)
+
+    success = exit_status == 0
+    docker_host.setup_logs.create!(step: step, success: success, output: output, exit_status: exit_status) if docker_host.persisted?
+    Rails.logger.info "DockerHostSetupService[#{docker_host.hostname}] #{step}: exit=#{exit_status}, last=#{output.lines.last&.strip}"
+    raise "#{step} failed (exit #{exit_status}). Last line: #{output.lines.last&.strip}" unless success
     output
+  end
+
+  def ssh_exec_with_status(ssh, cmd)
+    output = +""
+    exit_status = nil
+    channel = ssh.open_channel do |ch|
+      ch.exec(cmd) do |c, ok|
+        raise "ssh exec failed" unless ok
+        c.on_data { |_, data| output << data }
+        c.on_extended_data { |_, _, data| output << data }
+        c.on_request("exit-status") { |_, data| exit_status = data.read_long }
+      end
+    end
+    channel.wait
+    [ output, exit_status ]
   end
 
   def install_prerequisites_script
     <<~BASH
+      set -e
       export DEBIAN_FRONTEND=noninteractive
-      apt-get update -qq
-      apt-get install -y -qq curl git
-      if command -v ufw &>/dev/null && ufw status | grep -q "Status: active"; then
+      missing=()
+      for pkg in curl ca-certificates gnupg; do
+        dpkg -s "$pkg" >/dev/null 2>&1 || missing+=("$pkg")
+      done
+      if [ ${#missing[@]} -gt 0 ]; then
+        apt-get update -qq
+        apt-get install -y -qq "${missing[@]}"
+      fi
+      if command -v ufw >/dev/null && ufw status | grep -q "Status: active"; then
         ufw allow 80/tcp
         ufw allow 443/tcp
         ufw allow #{docker_host.start_port}:#{docker_host.start_port + 100}/tcp
         ufw allow #{docker_host.start_port}:#{docker_host.start_port + 100}/udp
       fi
+    BASH
+  end
+
+  def install_docker_script
+    pin = DOCKER_CE_VERSION.empty? ? "" : "=#{DOCKER_CE_VERSION}"
+    <<~BASH
+      set -e
+      export DEBIAN_FRONTEND=noninteractive
+      if command -v docker >/dev/null && docker compose version >/dev/null 2>&1; then
+        systemctl enable --now docker >/dev/null 2>&1 || true
+        docker --version
+        docker compose version
+        exit 0
+      fi
+      . /etc/os-release
+      case "$ID" in
+        ubuntu) repo_path=ubuntu ;;
+        debian) repo_path=debian ;;
+        *) echo "Unsupported OS for Docker apt repo: $ID" >&2; exit 1 ;;
+      esac
+      install -m 0755 -d /etc/apt/keyrings
+      curl -fsSL "https://download.docker.com/linux/$repo_path/gpg" \
+        | gpg --batch --yes --dearmor -o /etc/apt/keyrings/docker.gpg
+      chmod a+r /etc/apt/keyrings/docker.gpg
+      arch="$(dpkg --print-architecture)"
+      echo "deb [arch=$arch signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/$repo_path $VERSION_CODENAME stable" \
+        > /etc/apt/sources.list.d/docker.list
+      apt-get update -qq
+      apt-get install -y -qq \
+        docker-ce#{pin} docker-ce-cli#{pin} containerd.io \
+        docker-buildx-plugin docker-compose-plugin
+      systemctl enable --now docker >/dev/null 2>&1 || true
+      docker --version
+      docker compose version
     BASH
   end
 
@@ -187,11 +259,11 @@ class DockerHostSetupService
     raise "No SSH public key found" unless pub_key
 
     <<~BASH
+      set -e
       export DEBIAN_FRONTEND=noninteractive
       id #{username} &>/dev/null || useradd -m -s /bin/bash #{username}
       usermod -aG docker #{username}
-      mkdir -p /home/#{username}/.ssh
-      chmod 700 /home/#{username}/.ssh
+      install -d -m 0700 -o #{username} -g #{username} /home/#{username}/.ssh
       echo '#{pub_key}' > /home/#{username}/.ssh/authorized_keys
       #{"echo '#{cloud_pub_key}' >> /home/#{username}/.ssh/authorized_keys" if cloud_pub_key}
       chmod 600 /home/#{username}/.ssh/authorized_keys
@@ -199,6 +271,65 @@ class DockerHostSetupService
       echo '#{username} ALL=(root) NOPASSWD: /usr/sbin/iptables' > /etc/sudoers.d/#{username}
       chmod 440 /etc/sudoers.d/#{username}
     BASH
+  end
+
+  def install_compose_services_script
+    compose_b64 = Base64.strict_encode64(compose_yml)
+    caddyfile_b64 = Base64.strict_encode64(caddyfile_content)
+    <<~BASH
+      set -e
+      install -d -m 0755 #{COMPOSE_DIR}
+      echo '#{compose_b64}' | base64 -d > #{COMPOSE_DIR}/docker-compose.yml
+      echo '#{caddyfile_b64}' | base64 -d > #{COMPOSE_DIR}/Caddyfile
+
+      # Disable services from prior provisioning eras so they release
+      # ports 80 / 443 / 8083 before compose claims them. All idempotent.
+      rm -f #{COMPOSE_DIR}/.env
+      systemctl disable --now nginx.service 2>/dev/null || true
+      systemctl disable --now caddy.service 2>/dev/null || true
+      systemctl disable --now certbot.timer certbot.service 2>/dev/null || true
+      systemctl disable --now websocket-echo.service websocket-echo-server.service 2>/dev/null || true
+
+      cd #{COMPOSE_DIR}
+      docker compose pull 2>&1 || echo "[install_compose_services] pull failed; relying on local images"
+      docker compose up -d --remove-orphans
+    BASH
+  end
+
+  def compose_yml
+    <<~YAML
+      services:
+        caddy:
+          image: #{CADDY_IMAGE}
+          container_name: serveme-host-caddy
+          network_mode: host
+          restart: unless-stopped
+          volumes:
+            - ./Caddyfile:/etc/caddy/Caddyfile:ro
+            - caddy_data:/data
+            - caddy_config:/config
+        websocket-echo:
+          image: #{WEBSOCKET_ECHO_IMAGE}
+          container_name: serveme-host-websocket-echo
+          network_mode: host
+          restart: unless-stopped
+          environment:
+            BIND_PORT: "8083"
+            BIND_ADDRESS: "127.0.0.1"
+      volumes:
+        caddy_data:
+        caddy_config:
+    YAML
+  end
+
+  # Port 80 must be reachable from the public internet at this hostname —
+  # Caddy auto-issues via HTTP-01.
+  def caddyfile_content
+    <<~CADDYFILE
+      #{docker_host.hostname} {
+        reverse_proxy /ping localhost:8083
+      }
+    CADDYFILE
   end
 
   def local_ssh_public_key
@@ -217,95 +348,5 @@ class DockerHostSetupService
     "#{key.ssh_type} #{[ key.to_blob ].pack('m0')}"
   rescue StandardError
     nil
-  end
-
-  def install_docker_script
-    <<~BASH
-      export DEBIAN_FRONTEND=noninteractive
-      if ! command -v docker &> /dev/null; then
-        curl -fsSL https://get.docker.com | sh
-      fi
-    BASH
-  end
-
-  def cloudflare_api_token
-    Rails.application.credentials.dig(:cloudflare, :dns_api_token)
-  end
-
-  def install_caddy_script
-    <<~BASH
-      export DEBIAN_FRONTEND=noninteractive
-      if ! command -v caddy &> /dev/null || ! caddy list-modules 2>/dev/null | grep -q cloudflare; then
-        apt-get install -y debian-keyring debian-archive-keyring apt-transport-https curl
-        curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
-        curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | tee /etc/apt/sources.list.d/caddy-stable.list
-        apt-get update -qq
-        apt-get install -y caddy
-
-        # Replace with custom build that includes Cloudflare DNS plugin
-        systemctl stop caddy
-        caddy_arch=$(dpkg --print-architecture)
-        curl -fsSL "https://caddyserver.com/api/download?os=linux&arch=${caddy_arch}&p=github.com/caddy-dns/cloudflare" -o /usr/bin/caddy
-        chmod +x /usr/bin/caddy
-        systemctl start caddy
-      fi
-      cat > /etc/caddy/Caddyfile <<'CADDYFILE'
-#{caddy_config}
-CADDYFILE
-      mkdir -p /etc/systemd/system/caddy.service.d
-      cat > /etc/systemd/system/caddy.service.d/override.conf <<OVERRIDE
-[Service]
-Environment=CLOUDFLARE_API_TOKEN=#{cloudflare_api_token}
-OVERRIDE
-      chmod 600 /etc/systemd/system/caddy.service.d/override.conf
-      systemctl daemon-reload
-      systemctl restart caddy
-    BASH
-  end
-
-  def caddy_config
-    <<~CADDYFILE
-      #{docker_host.hostname} {
-        tls {
-          dns cloudflare {env.CLOUDFLARE_API_TOKEN}
-          resolvers 1.1.1.1 8.8.8.8
-        }
-        reverse_proxy /ping localhost:8083
-      }
-    CADDYFILE
-  end
-
-  def install_websocket_echo_server_script
-    <<~BASH
-      export DEBIAN_FRONTEND=noninteractive
-      if ! command -v node &> /dev/null; then
-        curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
-        apt-get install -y nodejs
-      fi
-      if [ ! -d /opt/websocket-echo-server ]; then
-        git clone https://github.com/websockets/websocket-echo-server.git /opt/websocket-echo-server
-        cd /opt/websocket-echo-server && npm install
-      fi
-      cat > /etc/systemd/system/websocket-echo.service <<'SYSTEMD'
-[Unit]
-Description=WebSocket Echo Server
-After=network.target
-
-[Service]
-Type=simple
-WorkingDirectory=/opt/websocket-echo-server
-ExecStart=/usr/bin/node index.js
-Environment=BIND_PORT=8083
-Environment=BIND_ADDRESS=127.0.0.1
-Restart=always
-RestartSec=5
-
-[Install]
-WantedBy=multi-user.target
-SYSTEMD
-      systemctl daemon-reload
-      systemctl enable websocket-echo
-      systemctl restart websocket-echo
-    BASH
   end
 end

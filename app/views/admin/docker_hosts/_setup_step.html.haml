@@ -1,4 +1,4 @@
-.card.mb-3{id: "step-#{key}-card"}
+.card.mb-3
   .card-body
     .d-flex.justify-content-between.align-items-start
       .flex-grow-1
@@ -6,35 +6,5 @@
           %i.fa{class: icon}
           = title
         %p.card-text.text-muted= description
-        %div{id: "step-#{key}-result"}
-          = render partial: "admin/docker_hosts/step_result", locals: { step: key, result: nil }
-      .flex-shrink-0.ms-3.text-end
-        %span.text-muted.me-2{id: "step-#{key}-timer", style: "display:none"}
-        = button_to "Run", run_setup_step_admin_docker_host_path(docker_host, step: key), method: :post, form: { data: { turbo: true }, id: "step-#{key}-form" }, class: "btn btn-primary btn-sm", id: "step-#{key}-btn"
-
-:javascript
-  (function() {
-    var form = document.getElementById("step-#{key}-form");
-    var btn = document.getElementById("step-#{key}-btn");
-    var timer = document.getElementById("step-#{key}-timer");
-    var interval;
-
-    form.addEventListener("turbo:submit-start", function() {
-      btn.disabled = true;
-      btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1" role="status"></span> Running...';
-      timer.style.display = "inline";
-      var start = Date.now();
-      timer.textContent = "0s";
-      interval = setInterval(function() {
-        var elapsed = Math.floor((Date.now() - start) / 1000);
-        timer.textContent = elapsed + "s";
-      }, 1000);
-    });
-
-    form.addEventListener("turbo:submit-end", function() {
-      clearInterval(interval);
-      btn.disabled = false;
-      btn.innerHTML = "Run";
-      timer.style.display = "none";
-    });
-  })();
+        = render partial: "admin/docker_hosts/step_result", locals: { step: key, result: nil }
+      = render partial: "admin/docker_hosts/step_controls", locals: { docker_host: docker_host, step: key, running: false }

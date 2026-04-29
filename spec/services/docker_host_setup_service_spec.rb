@@ -145,26 +145,88 @@ describe DockerHostSetupService do
 
     before do
       allow(Net::SSH).to receive(:start).and_yield(ssh)
+      allow(subject).to receive(:local_ssh_public_key).and_return("ssh-ed25519 AAAA fake-key")
     end
 
-    it "installs Docker, Caddy, and websocket echo server" do
-      allow(ssh).to receive(:exec!).and_return("ok")
-      allow(subject).to receive(:local_ssh_public_key).and_return("ssh-ed25519 AAAA fake-key")
+    it "runs each step, persists a setup log per step, and marks the host provisioned" do
+      allow(subject).to receive(:ssh_exec_with_status).and_return([ "ok\n", 0 ])
 
       result = subject.provision_host
 
-      expect(ssh).to have_received(:exec!).at_least(3).times
       expect(result).to eq({ success: true, message: "Host provisioned successfully" })
       expect(docker_host.reload.setup_status).to eq("provisioned")
+
+      logs = docker_host.setup_logs.order(:created_at)
+      expect(logs.map(&:step)).to eq(%w[install_prerequisites install_docker setup_app_user install_compose_services])
+      expect(logs.map(&:success)).to all(be true)
+      expect(logs.map(&:exit_status)).to all(eq(0))
+      expect(logs.map(&:output)).to all(include("ok"))
     end
 
-    it "returns an error when provisioning fails" do
-      allow(Net::SSH).to receive(:start).and_raise(StandardError, "connection refused")
+    it "stops at the first failed step, persists the failure log, and reports the error" do
+      call_count = 0
+      allow(subject).to receive(:ssh_exec_with_status) do
+        call_count += 1
+        if call_count == 2
+          [ "apt failure: package not found\n", 100 ]
+        else
+          [ "ok\n", 0 ]
+        end
+      end
 
       result = subject.provision_host
 
       expect(result[:success]).to be false
-      expect(result[:message]).to include("Provisioning failed")
+      expect(result[:message]).to include("install_docker failed")
+      expect(docker_host.setup_logs.count).to eq(2)
+      expect(docker_host.setup_logs.last.success).to be false
+      expect(docker_host.setup_logs.last.exit_status).to eq(100)
+      expect(docker_host.setup_logs.last.output).to include("apt failure")
+    end
+
+    it "writes a compose file that pulls the EU-built images from Docker Hub" do
+      script = subject.send(:install_compose_services_script)
+      decoded_b64 = script.scan(/echo '([^']+)' \| base64 -d > .*docker-compose\.yml/).flatten.first
+      compose = Base64.decode64(decoded_b64)
+      expect(compose).to include("image: serveme/caddy-cloudflare:latest")
+      expect(compose).to include("image: serveme/websocket-echo:latest")
+      expect(compose).to include("network_mode: host")
+      expect(compose).not_to include("build:")
+    end
+
+    it "runs docker compose pull and then up -d on the host" do
+      script = subject.send(:install_compose_services_script)
+      expect(script).to include("docker compose pull")
+      expect(script).to include("docker compose up -d --remove-orphans")
+    end
+
+    it "installs Docker via apt with signed repository (not via curl|sh)" do
+      script = subject.send(:install_docker_script)
+      expect(script).to include("/etc/apt/keyrings/docker.gpg")
+      expect(script).to include("download.docker.com/linux/$repo_path")
+      expect(script).to include("docker-ce")
+      expect(script).to include("docker-compose-plugin")
+      expect(script).not_to include("get.docker.com")
+    end
+
+    it "skips the Docker install when docker + compose are already present" do
+      script = subject.send(:install_docker_script)
+      expect(script).to include("if command -v docker")
+      expect(script).to include("docker compose version >/dev/null 2>&1")
+      expect(script).to match(/exit 0\b/)
+    end
+
+    it "supports both Ubuntu and Debian apt repos" do
+      script = subject.send(:install_docker_script)
+      expect(script).to include("ubuntu) repo_path=ubuntu")
+      expect(script).to include("debian) repo_path=debian")
+    end
+
+    it "only apt-installs the prerequisites that are actually missing" do
+      script = subject.send(:install_prerequisites_script)
+      expect(script).to include("dpkg -s")
+      expect(script).to include("missing+=(")
+      expect(script).to include('"${missing[@]}"')
     end
   end
 

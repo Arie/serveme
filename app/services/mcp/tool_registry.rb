@@ -20,6 +20,8 @@ module Mcp
       Mcp::Tools::CreateWhitelistTool,
       Mcp::Tools::UpdateWhitelistTool,
       Mcp::Tools::BuildCloudImageTool,
+      Mcp::Tools::BuildCaddyCloudflareImageTool,
+      Mcp::Tools::BuildWebsocketEchoImageTool,
       Mcp::Tools::CreateCloudSnapshotTool,
       Mcp::Tools::UploadFilesToServersTool,
       # Public tools (for Discord bot integration)

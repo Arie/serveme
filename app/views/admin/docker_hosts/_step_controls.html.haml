@@ -1,0 +1,7 @@
+.flex-shrink-0.ms-3.text-end{id: "step-#{step}-controls"}
+  - if running
+    %button.btn.btn-secondary.btn-sm{disabled: true}
+      %span.spinner-border.spinner-border-sm.me-1{role: "status"}
+      Running…
+  - else
+    = button_to "Run", run_setup_step_admin_docker_host_path(docker_host, step: step), method: :post, form: { data: { turbo: true } }, class: "btn btn-primary btn-sm"

@@ -45,30 +45,19 @@ module Admin
     def run_setup_step
       step = params[:step]
       unless SETUP_STEPS.include?(step)
-        @result = { success: false, message: "Unknown step: #{step}" }
         respond_to do |format|
-          format.turbo_stream { render turbo_stream: turbo_stream.replace("step-#{step}-result", partial: "admin/docker_hosts/step_result", locals: { step: step, result: @result }) }
+          format.turbo_stream { render turbo_stream: turbo_stream.replace("step-#{step}-result", partial: "admin/docker_hosts/step_result", locals: { step: step, result: { success: false, message: "Unknown step: #{step}" } }) }
         end
         return
       end
 
-      service = DockerHostSetupService.new(@docker_host)
-      @result = case step
-      when "create_vm" then service.create_vm
-      when "dns" then service.check_dns
-      when "ssh" then service.check_ssh
-      when "provision" then service.provision_host
-      when "ssl" then service.check_ssl
-      when "pull_image" then service.pull_image
-      end
-
-      @docker_host.reload
+      DockerHostSetupStepWorker.perform_async(@docker_host.id, step)
 
       respond_to do |format|
         format.turbo_stream do
           render turbo_stream: [
-            turbo_stream.replace("step-#{step}-result", partial: "admin/docker_hosts/step_result", locals: { step: step, result: @result }),
-            turbo_stream.replace("setup-status", partial: "admin/docker_hosts/setup_status", locals: { docker_host: @docker_host })
+            turbo_stream.replace("step-#{step}-result", partial: "admin/docker_hosts/step_running", locals: { step: step }),
+            turbo_stream.replace("step-#{step}-controls", partial: "admin/docker_hosts/step_controls", locals: { docker_host: @docker_host, step: step, running: true })
           ]
         end
       end

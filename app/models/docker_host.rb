@@ -10,6 +10,7 @@ class DockerHost < ActiveRecord::Base
   PROVIDERS = %w[hetzner vultr].freeze
 
   belongs_to :location
+  has_many :setup_logs, class_name: "DockerHostSetupLog", dependent: :destroy
 
   geocoded_by :ip do |host, results|
     if (result = results.first)

@@ -437,6 +437,20 @@ class DockerHost
 
     sig { void }
     def reset_location; end
+
+    sig { returns(T::Array[T.untyped]) }
+    def setup_log_ids; end
+
+    sig { params(ids: T::Array[T.untyped]).returns(T::Array[T.untyped]) }
+    def setup_log_ids=(ids); end
+
+    # This method is created by ActiveRecord on the `DockerHost` class because it declared `has_many :setup_logs`.
+    # 🔗 [Rails guide for `has_many` association](https://guides.rubyonrails.org/association_basics.html#the-has-many-association)
+    sig { returns(::DockerHostSetupLog::PrivateCollectionProxy) }
+    def setup_logs; end
+
+    sig { params(value: T::Enumerable[::DockerHostSetupLog]).void }
+    def setup_logs=(value); end
   end
 
   module GeneratedAssociationRelationMethods

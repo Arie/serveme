@@ -1,0 +1,111 @@
+#!/usr/bin/env bash
+# Local equivalence harness for DockerHostSetupService.
+#
+# Usage: script/test_docker_host_provisioning [LABEL]
+#
+# Builds a privileged Ubuntu test-host container, SSHes in via the bundled key,
+# runs `DockerHostSetupService#provision_host` against it, then captures the
+# resulting host state into tmp/test_docker_host/<LABEL>-report.yml.
+#
+# Run twice (once on the BEFORE branch, once on AFTER) and `diff` the reports.
+
+set -euo pipefail
+
+LABEL="${1:-current}"
+WORKDIR="$(pwd)/tmp/test_docker_host"
+KEY="$WORKDIR/key"
+SSH_PORT=12222
+HOST_PORT_HTTP=12180
+HOST_PORT_HTTPS=12443
+HOST_PORT_WS=12083
+CONTAINER=serveme-test-host
+
+mkdir -p "$WORKDIR"
+
+if [[ ! -f "$KEY" ]]; then
+  ssh-keygen -t ed25519 -f "$KEY" -N '' -q -C 'serveme-test-host'
+fi
+PUBKEY="$(cat "$KEY.pub")"
+
+echo "[harness] Building docker/test-host image…"
+docker build \
+  --build-arg TEST_SSH_PUBKEY="$PUBKEY" \
+  -t serveme/test-host:latest \
+  docker/test-host >/dev/null
+
+echo "[harness] (Re)starting test container…"
+docker rm -f "$CONTAINER" >/dev/null 2>&1 || true
+# tmpfs /var/lib/docker + fuse-overlayfs avoids nested-overlay kernel rejections.
+docker run -d \
+  --name "$CONTAINER" \
+  --privileged \
+  --cgroupns=host \
+  -v /sys/fs/cgroup:/sys/fs/cgroup:rw \
+  -p "$SSH_PORT:22" \
+  -p "$HOST_PORT_HTTP:80" \
+  -p "$HOST_PORT_HTTPS:443" \
+  -p "$HOST_PORT_WS:8083" \
+  --tmpfs /tmp --tmpfs /run --tmpfs /run/lock \
+  --tmpfs /var/lib/docker:size=6g \
+  --tmpfs /var/lib/containerd:size=2g \
+  serveme/test-host:latest >/dev/null
+
+echo "[harness] Configuring inner dockerd storage driver…"
+# fuse-overlayfs (userspace) works nested where kernel overlay can't.
+# containerd-snapshotter:false routes through dockerd's graph driver so
+# the storage-driver setting actually applies.
+docker exec -i "$CONTAINER" bash -c 'install -d -m 0755 /etc/docker && cat > /etc/docker/daemon.json' <<'EOF'
+{
+  "storage-driver": "fuse-overlayfs",
+  "features": { "containerd-snapshotter": false }
+}
+EOF
+
+echo "[harness] Waiting for sshd…"
+for i in {1..60}; do
+  if ssh -i "$KEY" \
+       -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+       -o ConnectTimeout=2 -p "$SSH_PORT" ubuntu@127.0.0.1 'true' 2>/dev/null; then
+    echo "[harness] SSH ready."
+    break
+  fi
+  sleep 1
+  if [[ $i -eq 60 ]]; then
+    echo "[harness] sshd never came up." >&2
+    docker logs "$CONTAINER" >&2 || true
+    exit 1
+  fi
+done
+
+# For AFTER, build the same images the EU CloudImage build workers would
+# push to Docker Hub. The compose file references :latest; we side-load
+# matching tags into the inner dockerd after provisioning installs Docker.
+if [[ "$LABEL" == "after" ]]; then
+  echo "[harness] Building serveme/caddy-cloudflare:latest + serveme/websocket-echo:latest locally…"
+  docker build -t serveme/caddy-cloudflare:latest docker/caddy-cloudflare >/dev/null
+  docker build -t serveme/websocket-echo:latest docker/websocket-echo >/dev/null
+fi
+
+echo "[harness] Running provisioning…"
+bin/rails runner script/test_provision_host.rb "$LABEL" "$KEY" "$SSH_PORT" || {
+  echo "[harness] provisioning step failed (continuing to capture state for report)." >&2
+}
+
+if [[ "$LABEL" == "after" ]]; then
+  echo "[harness] Side-loading compose images into the inner dockerd and re-upping…"
+  docker save serveme/caddy-cloudflare:latest serveme/websocket-echo:latest \
+    | docker exec -i "$CONTAINER" docker load >/dev/null
+  ssh -i "$KEY" -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+      -o LogLevel=ERROR -p "$SSH_PORT" root@127.0.0.1 \
+      'cd /opt/serveme-host && docker compose up -d' >/dev/null 2>&1 || true
+  sleep 5
+  bin/rails runner script/test_capture_state.rb "$LABEL"
+fi
+
+if [[ "${KEEP_CONTAINER:-}" == "1" ]]; then
+  echo "[harness] KEEP_CONTAINER=1 — leaving '$CONTAINER' running for inspection."
+else
+  echo "[harness] Tearing down container."
+  docker rm -f "$CONTAINER" >/dev/null 2>&1 || true
+fi
+echo "[harness] Done. Report: $WORKDIR/$LABEL-report.yml"

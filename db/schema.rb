@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_19_170000) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_28_221613) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -50,6 +50,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_19_170000) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "docker_host_setup_logs", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "docker_host_id", null: false
+    t.integer "exit_status"
+    t.text "output"
+    t.string "step", null: false
+    t.boolean "success", default: false, null: false
+    t.datetime "updated_at", null: false
+    t.index ["docker_host_id", "created_at"], name: "index_docker_host_setup_logs_on_docker_host_id_and_created_at"
+    t.index ["docker_host_id"], name: "index_docker_host_setup_logs_on_docker_host_id"
   end
 
   create_table "docker_hosts", force: :cascade do |t|
@@ -525,6 +537,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_19_170000) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "docker_host_setup_logs", "docker_hosts"
   add_foreign_key "docker_hosts", "locations"
   add_foreign_key "file_upload_permissions", "users"
 end

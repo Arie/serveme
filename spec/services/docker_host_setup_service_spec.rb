@@ -228,6 +228,17 @@ describe DockerHostSetupService do
       expect(script).to include("missing+=(")
       expect(script).to include('"${missing[@]}"')
     end
+
+    it "appends managed SSH keys to authorized_keys without removing operator-added ones" do
+      allow(subject).to receive(:local_ssh_public_key).and_return("ssh-ed25519 LOCAL operator@admin")
+      allow(subject).to receive(:cloud_ssh_public_key).and_return("ssh-ed25519 CLOUD cloud@worker")
+      script = subject.send(:setup_app_user_script)
+      expect(script).to include("touch \"$auth_keys\"")
+      expect(script).to include("managed_keys=( 'ssh-ed25519 LOCAL operator@admin' )")
+      expect(script).to include("managed_keys+=( 'ssh-ed25519 CLOUD cloud@worker' )")
+      expect(script).to include('grep -qxF "$key" "$auth_keys" || echo "$key" >> "$auth_keys"')
+      expect(script).not_to include("> /home/tf2/.ssh/authorized_keys")
+    end
   end
 
   describe "#check_ssl" do

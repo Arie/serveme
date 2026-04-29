@@ -264,9 +264,14 @@ class DockerHostSetupService
       id #{username} &>/dev/null || useradd -m -s /bin/bash #{username}
       usermod -aG docker #{username}
       install -d -m 0700 -o #{username} -g #{username} /home/#{username}/.ssh
-      echo '#{pub_key}' > /home/#{username}/.ssh/authorized_keys
-      #{"echo '#{cloud_pub_key}' >> /home/#{username}/.ssh/authorized_keys" if cloud_pub_key}
-      chmod 600 /home/#{username}/.ssh/authorized_keys
+      auth_keys=/home/#{username}/.ssh/authorized_keys
+      touch "$auth_keys"
+      managed_keys=( '#{pub_key}' )
+      #{"managed_keys+=( '#{cloud_pub_key}' )" if cloud_pub_key}
+      for key in "${managed_keys[@]}"; do
+        grep -qxF "$key" "$auth_keys" || echo "$key" >> "$auth_keys"
+      done
+      chmod 600 "$auth_keys"
       chown -R #{username}:#{username} /home/#{username}/.ssh
       echo '#{username} ALL=(root) NOPASSWD: /usr/sbin/iptables' > /etc/sudoers.d/#{username}
       chmod 440 /etc/sudoers.d/#{username}

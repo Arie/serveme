@@ -34,7 +34,7 @@ module TestCaptureState
     state["compose_available"] = exec_string("docker compose version 2>&1 | head -1 || echo MISSING")
     state["app_user_exists"] = exec_yn("id ubuntu > /dev/null 2>&1")
     state["app_user_in_docker_group"] = exec_yn("id -nG ubuntu 2>/dev/null | tr ' ' '\\n' | grep -qx docker")
-    state["sudoers_iptables_only"] = exec_yn("grep -q '^ubuntu ALL=(root) NOPASSWD: /usr/sbin/iptables' /etc/sudoers.d/ubuntu 2>/dev/null")
+    state["sudoers_iptables_only"] = exec_yn("grep -q '^ubuntu ALL=(root) NOPASSWD: /usr/sbin/iptables' /etc/sudoers.d/serveme-iptables 2>/dev/null")
     state["caddyfile_systemd_path"] = exec_yn("test -f /etc/caddy/Caddyfile")
     state["caddyfile_compose_path"] = exec_yn("test -f /opt/serveme-host/Caddyfile")
     state["compose_file_present"] = exec_yn("test -f /opt/serveme-host/docker-compose.yml")

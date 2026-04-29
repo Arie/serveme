@@ -273,8 +273,10 @@ class DockerHostSetupService
       done
       chmod 600 "$auth_keys"
       chown -R #{username}:#{username} /home/#{username}/.ssh
-      echo '#{username} ALL=(root) NOPASSWD: /usr/sbin/iptables' > /etc/sudoers.d/#{username}
-      chmod 440 /etc/sudoers.d/#{username}
+      # Add iptables sudo as a separate file so we never overwrite an
+      # operator-managed /etc/sudoers.d/<user>. Sudoers files merge.
+      echo '#{username} ALL=(root) NOPASSWD: /usr/sbin/iptables' > /etc/sudoers.d/serveme-iptables
+      chmod 440 /etc/sudoers.d/serveme-iptables
     BASH
   end
 
@@ -308,6 +310,10 @@ class DockerHostSetupService
       cd #{COMPOSE_DIR}
       docker compose pull 2>&1 || echo "[install_compose_services] pull failed; relying on local images"
       docker compose up -d --remove-orphans
+
+      # Self-clean the operator's migration-time broad sudo grant. By the
+      # time we're here every step that needed broad sudo has succeeded.
+      rm -f /etc/sudoers.d/serveme-bootstrap
     BASH
   end
 

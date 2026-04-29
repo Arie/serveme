@@ -200,6 +200,15 @@ describe DockerHostSetupService do
       expect(script).to include("docker compose up -d --remove-orphans")
     end
 
+    it "removes the migration bootstrap sudo file as the very last action" do
+      script = subject.send(:install_compose_services_script)
+      expect(script).to include("rm -f /etc/sudoers.d/serveme-bootstrap")
+      lines = script.lines.map(&:strip).reject(&:empty?)
+      compose_up_idx = lines.index { |l| l.start_with?("docker compose up -d") }
+      bootstrap_rm_idx = lines.index { |l| l == "rm -f /etc/sudoers.d/serveme-bootstrap" }
+      expect(bootstrap_rm_idx).to be > compose_up_idx
+    end
+
     context "when runs_caddy is false (web-app host with its own nginx)" do
       let(:docker_host) { create(:docker_host, hostname: "new.fakkelbrigade.eu", ip: "1.2.3.4", runs_caddy: false) }
 
@@ -265,6 +274,15 @@ describe DockerHostSetupService do
       expect(script).to include("managed_keys+=( 'ssh-ed25519 CLOUD cloud@worker' )")
       expect(script).to include('grep -qxF "$key" "$auth_keys" || echo "$key" >> "$auth_keys"')
       expect(script).not_to include("> /home/tf2/.ssh/authorized_keys")
+    end
+
+    it "writes iptables sudo to /etc/sudoers.d/serveme-iptables (never the operator-managed user file)" do
+      allow(subject).to receive(:local_ssh_public_key).and_return("ssh-ed25519 LOCAL operator@admin")
+      script = subject.send(:setup_app_user_script)
+      expect(script).to include("> /etc/sudoers.d/serveme-iptables")
+      expect(script).to include("chmod 440 /etc/sudoers.d/serveme-iptables")
+      expect(script).to include("tf2 ALL=(root) NOPASSWD: /usr/sbin/iptables")
+      expect(script).not_to match(%r{> /etc/sudoers\.d/tf2\b})
     end
   end
 

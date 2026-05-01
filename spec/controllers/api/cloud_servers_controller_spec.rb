@@ -41,6 +41,34 @@ describe Api::CloudServersController do
       end
     end
 
+    context 'when reservation has already ended (e.g. cancelled mid-provision)' do
+      before { reservation.update_columns(ended: true) }
+
+      it 'does not flip the cloud server back to ready/active on tf2_ready' do
+        cloud_server.update_columns(cloud_status: 'ssh_ready', active: false)
+        expect(CloudServerRconPollWorker).not_to receive(:perform_async)
+
+        request.headers['X-Callback-Token'] = callback_token
+        post :ready, params: { id: cloud_server.id, status: 'tf2_ready' }
+
+        expect(response).to have_http_status(:ok)
+        cloud_server.reload
+        expect(cloud_server.cloud_status).to eq('ssh_ready')
+        expect(cloud_server.active).to eq(false)
+      end
+
+      it 'does not transition cloud server to ssh_ready on ssh_ready' do
+        cloud_server.update_columns(cloud_status: 'provisioning')
+        expect(ReservationWorker).not_to receive(:perform_async)
+
+        request.headers['X-Callback-Token'] = callback_token
+        post :ready, params: { id: cloud_server.id, status: 'ssh_ready' }
+
+        expect(response).to have_http_status(:ok)
+        expect(cloud_server.reload.cloud_status).to eq('provisioning')
+      end
+    end
+
     it 'returns unauthorized with missing token' do
       post :ready, params: { id: cloud_server.id }
 

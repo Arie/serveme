@@ -25,6 +25,9 @@ module Api
     private
 
     def handle_ssh_ready(cloud_server)
+      reservation = Reservation.find(T.must(cloud_server.cloud_reservation_id))
+      return if reservation.ended?
+
       updates = { cloud_status: "ssh_ready", cloud_ssh_ready_at: Time.current }
       # The callback comes from the VM itself — use its IP if we don't have one yet
       if cloud_server.ip.blank? || cloud_server.ip == "0.0.0.0"
@@ -35,14 +38,14 @@ module Api
         .update_all(updates)
       return unless updated > 0
 
-      reservation = Reservation.find(T.must(cloud_server.cloud_reservation_id))
-      return if reservation.ended?
-
       reservation.status_update("Server ready, sending config files")
       ReservationWorker.perform_async(reservation.id, "start")
     end
 
     def handle_tf2_ready(cloud_server)
+      reservation = Reservation.find(T.must(cloud_server.cloud_reservation_id))
+      return if reservation.ended?
+
       # Ignore duplicate callbacks (e.g. after Kamatera reboot)
       return if cloud_server.cloud_status == "ready"
 
@@ -50,8 +53,6 @@ module Api
         cloud_server.update!(ip: request.remote_ip)
       end
       cloud_server.mark_ready!
-      reservation = Reservation.find(T.must(cloud_server.cloud_reservation_id))
-      return if reservation.ended?
       return if reservation.provisioned?
 
       reservation.status_update("TF2 port open, checking server readiness")

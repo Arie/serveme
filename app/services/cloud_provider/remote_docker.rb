@@ -36,6 +36,11 @@ module CloudProvider
 
       docker_run_parts = [
         "docker run -d --net=host",
+        "--security-opt seccomp=unconfined",
+        "--cap-drop=ALL",
+        "--cap-add=SETUID --cap-add=SETGID --cap-add=CHOWN --cap-add=FOWNER",
+        "--cap-add=FSETID --cap-add=DAC_OVERRIDE --cap-add=KILL",
+        "--cap-add=SYS_CHROOT --cap-add=AUDIT_WRITE",
         "--name #{Shellwords.shellescape(container_name)}",
         "-e CALLBACK_URL=#{callback_url(cloud_server)}",
         "-e CALLBACK_TOKEN=#{cloud_server.cloud_callback_token}",

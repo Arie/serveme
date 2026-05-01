@@ -24,6 +24,9 @@ RSpec.describe CloudProvider::Docker do
 
       expect(provider).to have_received(:system) do |*args|
         expect(args).to include("docker", "run", "-d", "--net=host")
+        expect(args).to include("--security-opt", "seccomp=unconfined")
+        expect(args).to include("--cap-drop=ALL")
+        expect(args).to include("--cap-add=SETUID", "--cap-add=SETGID", "--cap-add=SYS_CHROOT", "--cap-add=AUDIT_WRITE")
         expect(args).to include("--name", "res-#{cloud_server.cloud_reservation_id}-cloud-#{cloud_server.id}")
         expect(args).to include("-e", "CALLBACK_URL=https://localhost/api/cloud_servers/#{cloud_server.id}/ready")
         expect(args).to include("-e", "CALLBACK_TOKEN=test-token")

@@ -286,6 +286,12 @@ module CloudProvider
       "NA" => "ord"
     }.freeze
 
+    # Mirror pulls are wrapped in `timeout` so a stalled vultrcr.com
+    # connection (open socket, no progress) cannot block the chain — the
+    # `||` fallback only fires on non-zero exit, not on a hang.
+    MIRROR_PULL_TIMEOUT = "90s"
+    UPSTREAM_PULL_TIMEOUT = "300s"
+
     def cloud_init_docker_pull(cloud_server, image)
       region = cloud_server.cloud_location || default_region
       location_info = LOCATIONS[region]
@@ -293,12 +299,12 @@ module CloudProvider
       mirror = "#{region}.vultrcr.com/docker.io/serveme/tf2-cloud-server:latest"
 
       pull_commands = []
-      pull_commands << "(docker pull #{mirror} && docker tag #{mirror} #{image})"
+      pull_commands << "(timeout --kill-after=10s #{MIRROR_PULL_TIMEOUT} docker pull #{mirror} && docker tag #{mirror} #{image})"
       if fallback_region && fallback_region != region
         fallback_mirror = "#{fallback_region}.vultrcr.com/docker.io/serveme/tf2-cloud-server:latest"
-        pull_commands << "(docker pull #{fallback_mirror} && docker tag #{fallback_mirror} #{image})"
+        pull_commands << "(timeout --kill-after=10s #{MIRROR_PULL_TIMEOUT} docker pull #{fallback_mirror} && docker tag #{fallback_mirror} #{image})"
       end
-      pull_commands << "docker pull #{image}"
+      pull_commands << "timeout --kill-after=10s #{UPSTREAM_PULL_TIMEOUT} docker pull #{image}"
 
       <<~BASH.strip
         if ! docker image inspect #{image} >/dev/null 2>&1; then

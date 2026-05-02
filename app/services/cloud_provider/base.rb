@@ -2,6 +2,7 @@
 # frozen_string_literal: true
 
 require "shellwords"
+require "base64"
 
 module CloudProvider
   class Base
@@ -137,8 +138,10 @@ module CloudProvider
       <<~CLOUD_INIT
         #!/bin/bash
         #{cloud_init_pre_docker}
+        #{cloud_init_seccomp_profile}
         #{cloud_init_docker_pull(cloud_server, image)}
         docker run -d --restart unless-stopped --cap-add=NET_ADMIN --network host \
+          --security-opt seccomp=/etc/docker/seccomp-tf2.json \
           -e CALLBACK_URL=#{callback_url(cloud_server)} \
           -e CALLBACK_TOKEN=#{callback_token} \
           -e SSH_AUTHORIZED_KEYS="#{ssh_public_key}" \
@@ -148,6 +151,16 @@ module CloudProvider
           -e EXPECTED_TF2_VERSION=#{Server.latest_version} \
           #{image}
       CLOUD_INIT
+    end
+
+    def cloud_init_seccomp_profile
+      profile_path = Rails.root.join("config/docker/seccomp-tf2.json")
+      profile_b64 = Base64.strict_encode64(File.read(profile_path))
+      <<~BASH.strip
+        install -d -m 0755 /etc/docker
+        echo '#{profile_b64}' | base64 -d > /etc/docker/seccomp-tf2.json
+        chmod 0644 /etc/docker/seccomp-tf2.json
+      BASH
     end
 
     def cloud_init_pre_docker

@@ -25,5 +25,16 @@ RSpec.describe CloudProvider::Base do
         expect(script).to include("-e RCON_PASSWORD=\\$\\(whoami\\)")
       end
     end
+
+    context "seccomp profile" do
+      let(:rcon_password) { "rcon" }
+
+      it "writes the custom seccomp profile and applies it to docker run" do
+        script = provider.send(:cloud_init_script, cloud_server)
+
+        expect(script).to include("/etc/docker/seccomp-tf2.json")
+        expect(script).to match(%r{--security-opt seccomp=/etc/docker/seccomp-tf2\.json})
+      end
+    end
   end
 end

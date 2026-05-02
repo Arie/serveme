@@ -60,6 +60,7 @@ class DockerHostSetupService
     ssh_to_host do |ssh|
       run_script(ssh, "install_prerequisites", install_prerequisites_script)
       run_script(ssh, "install_docker", install_docker_script)
+      run_script(ssh, "install_seccomp_profile", install_seccomp_profile_script)
       run_script(ssh, "setup_app_user", setup_app_user_script)
       run_script(ssh, "install_compose_services", install_compose_services_script)
       docker_host.update!(setup_status: "provisioned")
@@ -249,6 +250,20 @@ class DockerHostSetupService
       systemctl enable --now docker >/dev/null 2>&1 || true
       docker --version
       docker compose version
+    BASH
+  end
+
+  def install_seccomp_profile_script
+    profile_path = Rails.root.join("config/docker/seccomp-tf2.json")
+    profile_b64 = Base64.strict_encode64(File.read(profile_path))
+    <<~BASH
+      set -e
+      install -d -m 0755 /etc/docker
+      echo '#{profile_b64}' | base64 -d > /etc/docker/seccomp-tf2.json
+      chmod 0644 /etc/docker/seccomp-tf2.json
+      # Sanity-check it parses
+      python3 -c 'import json,sys; json.load(open("/etc/docker/seccomp-tf2.json"))' \
+        2>/dev/null || jq empty /etc/docker/seccomp-tf2.json
     BASH
   end
 

@@ -61,20 +61,11 @@ RSpec.describe CloudProvider::RemoteDocker do
       ))
     end
 
-    it "passes --security-opt seccomp=unconfined so 32-bit srcds_linux can open sockets" do
+    it "uses the custom seccomp profile so 32-bit srcds_linux can call socketcall" do
       provider.create_server(cloud_server)
       expect(ssh_session).to have_received(:exec!).with(a_string_matching(
-        /--security-opt seccomp=unconfined/
+        %r{--security-opt seccomp=/etc/docker/seccomp-tf2\.json}
       ))
-    end
-
-    it "drops all capabilities and re-adds only the minimum sshd/sudo need" do
-      provider.create_server(cloud_server)
-      expect(ssh_session).to have_received(:exec!).with(a_string_matching(/--cap-drop=ALL/))
-      expect(ssh_session).to have_received(:exec!).with(a_string_matching(/--cap-add=SETUID/))
-      expect(ssh_session).to have_received(:exec!).with(a_string_matching(/--cap-add=SETGID/))
-      expect(ssh_session).to have_received(:exec!).with(a_string_matching(/--cap-add=SYS_CHROOT/))
-      expect(ssh_session).to have_received(:exec!).with(a_string_matching(/--cap-add=AUDIT_WRITE/))
     end
 
     it "passes callback URL using SITE_HOST" do

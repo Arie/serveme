@@ -157,7 +157,7 @@ describe DockerHostSetupService do
       expect(docker_host.reload.setup_status).to eq("provisioned")
 
       logs = docker_host.setup_logs.order(:created_at)
-      expect(logs.map(&:step)).to eq(%w[install_prerequisites install_docker setup_app_user install_compose_services])
+      expect(logs.map(&:step)).to eq(%w[install_prerequisites install_docker install_seccomp_profile setup_app_user install_compose_services])
       expect(logs.map(&:success)).to all(be true)
       expect(logs.map(&:exit_status)).to all(eq(0))
       expect(logs.map(&:output)).to all(include("ok"))

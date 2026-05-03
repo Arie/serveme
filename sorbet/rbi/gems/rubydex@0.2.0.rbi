@@ -71,6 +71,10 @@ class Rubydex::ConstantAlias < ::Rubydex::Declaration
   # pkg:gem/rubydex#lib/rubydex.rb:11
   sig { returns(T::Enumerable[Rubydex::ConstantReference]) }
   def references; end
+
+  # pkg:gem/rubydex#lib/rubydex.rb:11
+  sig { returns(T.nilable(Rubydex::Declaration)) }
+  def target; end
 end
 
 # pkg:gem/rubydex#lib/rubydex.rb:11
@@ -265,7 +269,7 @@ class Rubydex::GlobalVariableDefinition < ::Rubydex::Definition; end
 class Rubydex::Graph
   # pkg:gem/rubydex#lib/rubydex/graph.rb:24
   sig { params(workspace_path: T.nilable(String)).void }
-  def initialize(workspace_path: T.unsafe(nil)); end
+  def initialize(workspace_path: nil); end
 
   # pkg:gem/rubydex#lib/rubydex.rb:11
   sig { params(fully_qualified_name: String).returns(T.nilable(Rubydex::Declaration)) }
@@ -324,6 +328,10 @@ class Rubydex::Graph
   # pkg:gem/rubydex#lib/rubydex.rb:11
   sig { returns(T::Array[Rubydex::Diagnostic]) }
   def diagnostics; end
+
+  # pkg:gem/rubydex#lib/rubydex.rb:11
+  sig { params(uri: String).returns(T.nilable(Rubydex::Document)) }
+  def document(uri); end
 
   # pkg:gem/rubydex#lib/rubydex.rb:11
   sig { returns(T::Enumerable[Rubydex::Document]) }
@@ -547,6 +555,10 @@ class Rubydex::MethodReference < ::Rubydex::Reference
   # pkg:gem/rubydex#lib/rubydex.rb:11
   sig { returns(String) }
   def name; end
+
+  # pkg:gem/rubydex#lib/rubydex.rb:11
+  sig { returns(T.nilable(Rubydex::Declaration)) }
+  def receiver; end
 end
 
 # pkg:gem/rubydex#lib/rubydex.rb:11

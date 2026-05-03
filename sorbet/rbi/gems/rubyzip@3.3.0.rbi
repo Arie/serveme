@@ -490,7 +490,7 @@ class Zip::DecryptedIo
   def initialize(io, decrypter, compressed_size); end
 
   # pkg:gem/rubyzip#lib/zip/crypto/decrypted_io.rb:14
-  def read(length = T.unsafe(nil), outbuf = T.unsafe(nil)); end
+  def read(maxlen = T.unsafe(nil)); end
 
   private
 
@@ -952,7 +952,7 @@ class Zip::Entry
 
   private
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:779
+  # pkg:gem/rubyzip#lib/zip/entry.rb:778
   def create_directory(dest_path); end
 
   # pkg:gem/rubyzip#lib/zip/entry.rb:752
@@ -960,22 +960,22 @@ class Zip::Entry
 
   # BUG: create_symlink() does not use &block
   #
-  # pkg:gem/rubyzip#lib/zip/entry.rb:793
+  # pkg:gem/rubyzip#lib/zip/entry.rb:792
   def create_symlink(dest_path); end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:813
+  # pkg:gem/rubyzip#lib/zip/entry.rb:812
   def parse_aes_extra; end
 
   # apply missing data from the zip64 extra information field, if present
   # (required when file sizes exceed 2**32, but can be used for all files)
   #
-  # pkg:gem/rubyzip#lib/zip/entry.rb:801
+  # pkg:gem/rubyzip#lib/zip/entry.rb:800
   def parse_zip64_extra(for_local_header); end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:865
+  # pkg:gem/rubyzip#lib/zip/entry.rb:864
   def prep_cdir_zip64_extra; end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:849
+  # pkg:gem/rubyzip#lib/zip/entry.rb:848
   def prep_local_zip64_extra; end
 
   # pkg:gem/rubyzip#lib/zip/entry.rb:736
@@ -990,7 +990,7 @@ class Zip::Entry
   #
   # It's safe to simply OR these flags here as compression_level is read only.
   #
-  # pkg:gem/rubyzip#lib/zip/entry.rb:835
+  # pkg:gem/rubyzip#lib/zip/entry.rb:834
   def set_compression_level_flags; end
 
   # pkg:gem/rubyzip#lib/zip/entry.rb:746
@@ -1937,7 +1937,7 @@ module Zip::IOExtras
 end
 
 # Implements many of the convenience methods of IO
-# such as gets, getc, readline and readlines
+# such as gets, getc, read, readline and readlines
 # depends on: input_finished?, produce_input and read
 #
 # pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:8
@@ -1949,45 +1949,136 @@ module Zip::IOExtras::AbstractInputStream
   # pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:12
   def initialize; end
 
-  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:118
-  def each(a_sep_string = T.unsafe(nil)); end
+  # Calls the block with each remaining line read from the stream.
+  # Does nothing if already at end-of-stream. See the Line IO
+  # documentation in the IO class for more information.
+  #
+  # With no arguments given, reads lines as determined by line separator
+  # `$/`. With only string argument `sep` given, reads lines as determined
+  # by line separator `sep`. See the Line Separator documentation in the
+  # IO class for more information. The two special values for `sep`
+  # (`nil` and `""`) are honoured.
+  #
+  # With only integer argument `limit` given, limits the number of bytes
+  # in each line; see the Line Limit documentation in the IO class for
+  # more information.
+  #
+  # With arguments `sep` and `limit` given, combines the two behaviors.
+  #
+  # Optional keyword argument `chomp` specifies whether line separators
+  # are to be omitted.
+  #
+  # Returns an `Enumerator` if no block is given.
+  #
+  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:189
+  def each(sep = T.unsafe(nil), limit = T.unsafe(nil), chomp: T.unsafe(nil)); end
 
-  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:112
-  def each_line(a_sep_string = T.unsafe(nil)); end
+  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:197
+  def each_line(sep = T.unsafe(nil), limit = T.unsafe(nil), chomp: T.unsafe(nil)); end
 
   # Alias for compatibility. Remove for version 4.
   #
-  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:125
+  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:207
   def eof; end
 
-  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:120
+  # Returns `true` if the stream is positioned at its end, `false`
+  # otherwise. See Position documentation in the IO class for more
+  # information.
+  #
+  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:202
   def eof?; end
 
-  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:99
+  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:154
   def flush; end
 
-  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:60
-  def gets(a_sep_string = T.unsafe(nil), number_of_bytes = T.unsafe(nil)); end
+  # Reads and returns a line from the stream. See the Line IO
+  # documentation in the IO class for more information.
+  #
+  # With no arguments given, returns the next line as determined by line
+  # separator `$/`, or `nil` if none.
+  #
+  # With only string argument `sep` given, returns the next line as
+  # determined by line separator `sep`, or `nil` if none. See the
+  # Line Separator documentation in the IO class for more information.
+  # The two special values for `sep` (`nil` and `""`) are honoured.
+  #
+  # With only integer argument `limit` given, limits the number of bytes
+  # in the line; see the Line Limit documentation in the IO class for more
+  # information.
+  #
+  # With arguments `sep` and `limit` given, combines the two behaviors.
+  #
+  # Optional keyword argument `chomp` specifies whether line separators
+  # are to be omitted.
+  #
+  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:112
+  def gets(sep = T.unsafe(nil), limit = T.unsafe(nil), chomp: T.unsafe(nil)); end
 
-  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:19
+  # Returns (or sets) the current line number in the decompressed
+  # (possibly decrypted) data stream. See the Line Number documentation
+  # for the IO class for more information.
+  #
+  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:22
   def lineno; end
 
-  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:19
+  # Returns (or sets) the current line number in the decompressed
+  # (possibly decrypted) data stream. See the Line Number documentation
+  # for the IO class for more information.
+  #
+  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:22
   def lineno=(_arg0); end
 
-  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:20
+  # Returns the current position (in bytes) in the decompressed (possibly
+  # decrypted) data stream.
+  #
+  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:26
   def pos; end
 
-  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:22
-  def read(number_of_bytes = T.unsafe(nil), buf = T.unsafe(nil)); end
+  # Reads bytes from the stream decompressed (possibly decrypted) data
+  # stream. If `maxlen` is `nil`, reads all bytes; otherwise, reads up to
+  # `maxlen` bytes. If `maxlen` is zero, returns an empty string.
+  #
+  # Returns a string (either a new string or the given `out_string`)
+  # containing the bytes read. The string's encoding is the unchanged
+  # encoding of `out_string`, if `out_string` is given; `ASCII-8BIT`,
+  # otherwise.
+  #
+  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:36
+  def read(maxlen = T.unsafe(nil), out_string = T.unsafe(nil)); end
 
-  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:105
-  def readline(a_sep_string = T.unsafe(nil)); end
+  # Reads a line as with #gets, but raises `EOFError` if already at
+  # end-of-stream.
+  #
+  # Optional keyword argument `chomp` specifies whether line separators
+  # are to be omitted.
+  #
+  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:163
+  def readline(sep = T.unsafe(nil), limit = T.unsafe(nil), chomp: T.unsafe(nil)); end
 
-  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:54
-  def readlines(a_sep_string = T.unsafe(nil)); end
+  # Reads and returns all remaining lines from the stream. See the Line IO
+  # documentation in the IO class for more information.
+  #
+  # With no arguments given, returns lines as determined by line
+  # separator `$/`, or `nil` if none.
+  #
+  # With only string argument `sep` given, returns lines as
+  # determined by line separator `sep`, or `nil` if none. See the
+  # Line Separator documentation in the IO class for more information.
+  # The two special values for `sep` (`nil` and `""`) are honoured.
+  #
+  # With only integer argument `limit` given, limits the number of bytes
+  # in each line; see the Line Limit documentation in the IO class for more
+  # information.
+  #
+  # With arguments `sep` and `limit` given, combines the two behaviors.
+  #
+  # Optional keyword argument `chomp` specifies whether line separators
+  # are to be omitted.
+  #
+  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:89
+  def readlines(sep = T.unsafe(nil), limit = T.unsafe(nil), chomp: T.unsafe(nil)); end
 
-  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:95
+  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:150
   def ungetc(byte); end
 end
 
@@ -2039,7 +2130,7 @@ class Zip::Inflater < ::Zip::Decompressor
   def eof?; end
 
   # pkg:gem/rubyzip#lib/zip/inflater.rb:12
-  def read(length = T.unsafe(nil), outbuf = T.unsafe(nil)); end
+  def read(maxlen = T.unsafe(nil)); end
 
   private
 
@@ -2125,43 +2216,53 @@ class Zip::InputStream
 
   # Returns the size of the current entry, or `nil` if there isn't one.
   #
-  # pkg:gem/rubyzip#lib/zip/input_stream.rb:98
+  # pkg:gem/rubyzip#lib/zip/input_stream.rb:117
   def size; end
 
-  # Modeled after IO.sysread
+  # Modelled after IO#sysread.
   #
-  # pkg:gem/rubyzip#lib/zip/input_stream.rb:93
-  def sysread(length = T.unsafe(nil), outbuf = T.unsafe(nil)); end
+  # Reads up to maxlen bytes from the stream; returns a string
+  # (either a new string or the given out_string).
+  # Its encoding is the unchanged encoding of out_string, if out_string is
+  # given; ASCII-8BIT, otherwise. Output contains maxlen bytes from the
+  # stream, if available; otherwise contains all available bytes, if any
+  # available; otherwise is an empty string.
+  #
+  # This method should not be used with buffered input stream-reader methods,
+  # such as #read, #readline, #gets.
+  #
+  # pkg:gem/rubyzip#lib/zip/input_stream.rb:103
+  def sysread(maxlen, out_string = T.unsafe(nil)); end
 
   protected
 
-  # pkg:gem/rubyzip#lib/zip/input_stream.rb:147
+  # pkg:gem/rubyzip#lib/zip/input_stream.rb:166
   def assemble_io; end
 
-  # pkg:gem/rubyzip#lib/zip/input_stream.rb:179
+  # pkg:gem/rubyzip#lib/zip/input_stream.rb:198
   def get_decompressor(io); end
 
-  # pkg:gem/rubyzip#lib/zip/input_stream.rb:159
+  # pkg:gem/rubyzip#lib/zip/input_stream.rb:178
   def get_decrypted_io; end
 
-  # pkg:gem/rubyzip#lib/zip/input_stream.rb:122
+  # pkg:gem/rubyzip#lib/zip/input_stream.rb:141
   def get_io(io_or_file, offset = T.unsafe(nil)); end
 
-  # pkg:gem/rubyzip#lib/zip/input_stream.rb:204
+  # pkg:gem/rubyzip#lib/zip/input_stream.rb:223
   def input_finished?; end
 
-  # pkg:gem/rubyzip#lib/zip/input_stream.rb:134
+  # pkg:gem/rubyzip#lib/zip/input_stream.rb:153
   def open_entry; end
 
-  # pkg:gem/rubyzip#lib/zip/input_stream.rb:200
-  def produce_input; end
+  # pkg:gem/rubyzip#lib/zip/input_stream.rb:219
+  def produce_input(maxlen = T.unsafe(nil)); end
 
   class << self
     # Same as #initialize but if a block is passed the opened
     # stream is passed to the block and closed when the block
     # returns.
     #
-    # pkg:gem/rubyzip#lib/zip/input_stream.rb:108
+    # pkg:gem/rubyzip#lib/zip/input_stream.rb:127
     def open(filename_or_io, offset: T.unsafe(nil), decrypter: T.unsafe(nil)); end
   end
 end
@@ -2386,7 +2487,7 @@ class Zip::PassThruDecompressor < ::Zip::Decompressor
   def eof?; end
 
   # pkg:gem/rubyzip#lib/zip/pass_thru_decompressor.rb:10
-  def read(length = T.unsafe(nil), outbuf = T.unsafe(nil)); end
+  def read(maxlen = T.unsafe(nil)); end
 end
 
 # :stopdoc:

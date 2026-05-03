@@ -2873,7 +2873,7 @@ Puma::IS_ARM = T.let(T.unsafe(nil), FalseClass)
 Puma::IS_JRUBY = T.let(T.unsafe(nil), FalseClass)
 
 # pkg:gem/puma#lib/puma/detect.rb:19
-Puma::IS_LINUX = T.let(T.unsafe(nil), FalseClass)
+Puma::IS_LINUX = T.let(T.unsafe(nil), TrueClass)
 
 # @version 5.2.0
 #
@@ -2881,7 +2881,7 @@ Puma::IS_LINUX = T.let(T.unsafe(nil), FalseClass)
 Puma::IS_MRI = T.let(T.unsafe(nil), TrueClass)
 
 # pkg:gem/puma#lib/puma/detect.rb:15
-Puma::IS_OSX = T.let(T.unsafe(nil), TrueClass)
+Puma::IS_OSX = T.let(T.unsafe(nil), FalseClass)
 
 # pkg:gem/puma#lib/puma/detect.rb:17
 Puma::IS_WINDOWS = T.let(T.unsafe(nil), FalseClass)
@@ -3140,31 +3140,31 @@ class Puma::Launcher::BundlePruner
 
   private
 
-  # pkg:gem/puma#lib/puma/launcher/bundle_pruner.rb:75
+  # pkg:gem/puma#lib/puma/launcher/bundle_pruner.rb:73
   def extra_runtime_deps_paths; end
 
-  # pkg:gem/puma#lib/puma/launcher/bundle_pruner.rb:99
+  # pkg:gem/puma#lib/puma/launcher/bundle_pruner.rb:97
   def log(str); end
 
-  # pkg:gem/puma#lib/puma/launcher/bundle_pruner.rb:71
+  # pkg:gem/puma#lib/puma/launcher/bundle_pruner.rb:69
   def paths_to_require_after_prune; end
 
-  # pkg:gem/puma#lib/puma/launcher/bundle_pruner.rb:87
+  # pkg:gem/puma#lib/puma/launcher/bundle_pruner.rb:85
   def puma_require_paths; end
 
-  # pkg:gem/puma#lib/puma/launcher/bundle_pruner.rb:57
+  # pkg:gem/puma#lib/puma/launcher/bundle_pruner.rb:55
   def puma_wild_path; end
 
-  # pkg:gem/puma#lib/puma/launcher/bundle_pruner.rb:95
+  # pkg:gem/puma#lib/puma/launcher/bundle_pruner.rb:93
   def require_paths_for_gem(gem_spec); end
 
-  # pkg:gem/puma#lib/puma/launcher/bundle_pruner.rb:48
+  # pkg:gem/puma#lib/puma/launcher/bundle_pruner.rb:46
   def require_rubygems_min_version!; end
 
-  # pkg:gem/puma#lib/puma/launcher/bundle_pruner.rb:91
+  # pkg:gem/puma#lib/puma/launcher/bundle_pruner.rb:89
   def spec_for_gem(gem_name); end
 
-  # pkg:gem/puma#lib/puma/launcher/bundle_pruner.rb:62
+  # pkg:gem/puma#lib/puma/launcher/bundle_pruner.rb:60
   def with_unbundled_env; end
 end
 
@@ -3183,7 +3183,7 @@ class Puma::LogWriter
   # and +text+ additional info
   # @version 5.0.0
   #
-  # pkg:gem/puma#lib/puma/log_writer.rb:111
+  # pkg:gem/puma#lib/puma/log_writer.rb:117
   def connection_error(error, req, text = T.unsafe(nil)); end
 
   # pkg:gem/puma#lib/puma/log_writer.rb:31
@@ -3193,7 +3193,7 @@ class Puma::LogWriter
   def custom_logger=(_arg0); end
 
   # pkg:gem/puma#lib/puma/log_writer.rb:93
-  def debug(str); end
+  def debug(str = T.unsafe(nil), &block); end
 
   # pkg:gem/puma#lib/puma/log_writer.rb:89
   def debug?; end
@@ -3203,15 +3203,15 @@ class Puma::LogWriter
   # and +text+ additional info
   # @version 5.0.0
   #
-  # pkg:gem/puma#lib/puma/log_writer.rb:143
+  # pkg:gem/puma#lib/puma/log_writer.rb:149
   def debug_error(error, req = T.unsafe(nil), text = T.unsafe(nil)); end
 
   # Write +str+ to +@stderr+
   #
-  # pkg:gem/puma#lib/puma/log_writer.rb:98
+  # pkg:gem/puma#lib/puma/log_writer.rb:104
   def error(str); end
 
-  # pkg:gem/puma#lib/puma/log_writer.rb:103
+  # pkg:gem/puma#lib/puma/log_writer.rb:109
   def format(str); end
 
   # pkg:gem/puma#lib/puma/log_writer.rb:31
@@ -3229,14 +3229,14 @@ class Puma::LogWriter
   # +error+ a parsing exception,
   # and +req+ the request.
   #
-  # pkg:gem/puma#lib/puma/log_writer.rb:118
+  # pkg:gem/puma#lib/puma/log_writer.rb:124
   def parse_error(error, req); end
 
   # An SSL error has occurred.
   # @param error <Puma::MiniSSL::SSLError>
   # @param ssl_socket <Puma::MiniSSL::Socket>
   #
-  # pkg:gem/puma#lib/puma/log_writer.rb:125
+  # pkg:gem/puma#lib/puma/log_writer.rb:131
   def ssl_error(error, ssl_socket); end
 
   # pkg:gem/puma#lib/puma/log_writer.rb:28
@@ -3249,7 +3249,7 @@ class Puma::LogWriter
   # +error+ an exception object, +req+ the request,
   # and +text+ additional info
   #
-  # pkg:gem/puma#lib/puma/log_writer.rb:135
+  # pkg:gem/puma#lib/puma/log_writer.rb:141
   def unknown_error(error, req = T.unsafe(nil), text = T.unsafe(nil)); end
 
   # pkg:gem/puma#lib/puma/log_writer.rb:70
@@ -4136,7 +4136,7 @@ class Puma::Server
   # pkg:gem/puma#lib/puma/server.rb:555
   def close_client_safely(client); end
 
-  # pkg:gem/puma#lib/puma/server.rb:222
+  # pkg:gem/puma#lib/puma/server.rb:206
   def closed_socket?(socket); end
 
   # @!attribute [r] connected_ports
@@ -4148,7 +4148,7 @@ class Puma::Server
   # 3 == TCP_CORK
   # 1/0 == turn on/off
   #
-  # pkg:gem/puma#lib/puma/server.rb:196
+  # pkg:gem/puma#lib/puma/server.rb:180
   def cork_socket(socket); end
 
   # @todo the following may be deprecated in the future
@@ -4316,7 +4316,7 @@ class Puma::Server
   # pkg:gem/puma#lib/puma/server.rb:45
   def thread; end
 
-  # pkg:gem/puma#lib/puma/server.rb:199
+  # pkg:gem/puma#lib/puma/server.rb:188
   def uncork_socket(socket); end
 
   # Updates the minimum and maximum number of threads in the thread pool.
@@ -4393,6 +4393,9 @@ end
 #
 # pkg:gem/puma#lib/puma/server.rb:679
 Puma::Server::STAT_METHODS = T.let(T.unsafe(nil), Array)
+
+# pkg:gem/puma#lib/puma/server.rb:204
+Puma::Server::UNPACK_TCP_STATE_FROM_TCP_INFO = T.let(T.unsafe(nil), String)
 
 # ServerPluginControl provides a control interface for server plugins to
 # interact with and manage server settings dynamically.

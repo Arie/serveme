@@ -480,7 +480,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @param params ({})
   # @api private
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:11189
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:11352
   def build_request(operation_name, params = T.unsafe(nil)); end
 
   # Cancels the deletion of a KMS key. When this operation succeeds, the
@@ -2548,11 +2548,13 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # key state. For details, see [Key states of KMS keys][8] in the *Key
   # Management Service Developer Guide*.
   #
-  # **Cross-account use**: Yes. If you use the `KeyId` parameter to
-  # identify a KMS key in a different Amazon Web Services account, specify
-  # the key ARN or the alias ARN of the KMS key.
+  # **Cross-account use**: Yes. To specify a KMS key in a different Amazon
+  # Web Services account, use the [key ARN][9] or [alias ARN][10]. A short
+  # [key ID][11] is also acceptable when decrypting symmetric ciphertexts,
+  # though using a full key ARN is recommended to be more explicit about
+  # the intended KMS key.
   #
-  # **Required permissions**: [kms:Decrypt][9] (key policy)
+  # **Required permissions**: [kms:Decrypt][12] (key policy)
   #
   # **Related operations:**
   #
@@ -2565,7 +2567,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # * ReEncrypt
   #
   # **Eventual consistency**: The KMS API follows an eventual consistency
-  # model. For more information, see [KMS eventual consistency][10].
+  # model. For more information, see [KMS eventual consistency][13].
   #
   #
   #
@@ -2577,8 +2579,11 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # [6]: https://docs.aws.amazon.com/enclaves/latest/user/developing-applications.html#sdk
   # [7]: https://docs.aws.amazon.com/kms/latest/developerguide/cryptographic-attestation.html
   # [8]: https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html
-  # [9]: https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html
-  # [10]: https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency
+  # [9]: https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN
+  # [10]: https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-alias-ARN
+  # [11]: https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-id
+  # [12]: https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html
+  # [13]: https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency
   #
   # @option params [String, StringIO, File] :ciphertext_blob
   #   Ciphertext to be decrypted. The blob includes metadata.
@@ -2639,7 +2644,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   #
   #   To specify a KMS key, use its key ID, key ARN, alias name, or alias
   #   ARN. When using an alias name, prefix it with `"alias/"`. To specify a
-  #   KMS key in a different Amazon Web Services account, you must use the
+  #   KMS key in a different Amazon Web Services account, you should use the
   #   key ARN or alias ARN.
   #
   #   For example:
@@ -2821,7 +2826,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload decrypt(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:2835
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:2840
   def decrypt(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Deletes the specified alias.
@@ -2898,7 +2903,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload delete_alias(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:2913
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:2918
   def delete_alias(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Deletes a [custom key store][1]. This operation does not affect any
@@ -3000,7 +3005,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload delete_custom_key_store(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:3016
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:3021
   def delete_custom_key_store(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Deletes key material that was previously imported. This operation
@@ -3108,7 +3113,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload delete_imported_key_material(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:3125
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:3130
   def delete_imported_key_material(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Derives a shared secret using a key agreement algorithm.
@@ -3401,7 +3406,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload derive_shared_secret(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:3419
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:3424
   def derive_shared_secret(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Gets information about [custom key stores][1] in the account and
@@ -3636,7 +3641,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload describe_custom_key_stores(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:3655
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:3660
   def describe_custom_key_stores(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Provides detailed information about a KMS key. You can run
@@ -4025,7 +4030,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload describe_key(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:4045
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:4050
   def describe_key(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Sets the state of a KMS key to disabled. This change temporarily
@@ -4090,7 +4095,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload disable_key(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:4111
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:4116
   def disable_key(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Disables [automatic rotation of the key material][1] of the specified
@@ -4199,7 +4204,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload disable_key_rotation(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:4221
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:4226
   def disable_key_rotation(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Disconnects the [custom key store][1] from its backing key store. This
@@ -4293,7 +4298,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload disconnect_custom_key_store(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:4316
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:4321
   def disconnect_custom_key_store(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Sets the key state of a KMS key to enabled. This allows you to use the
@@ -4357,7 +4362,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload enable_key(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:4381
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:4386
   def enable_key(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Enables [automatic rotation of the key material][1] of the specified
@@ -4516,7 +4521,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload enable_key_rotation(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:4541
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:4546
   def enable_key_rotation(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Encrypts plaintext of up to 4,096 bytes using a KMS key. You can use a
@@ -4762,7 +4767,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload encrypt(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:4788
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:4793
   def encrypt(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns a unique symmetric data key for use outside of KMS. This
@@ -5083,7 +5088,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload generate_data_key(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:5110
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:5115
   def generate_data_key(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns a unique asymmetric data key pair for use outside of KMS. This
@@ -5399,7 +5404,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload generate_data_key_pair(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:5427
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:5432
   def generate_data_key_pair(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns a unique asymmetric data key pair for use outside of KMS. This
@@ -5610,7 +5615,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload generate_data_key_pair_without_plaintext(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:5639
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:5644
   def generate_data_key_pair_without_plaintext(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns a unique symmetric data key for use outside of KMS. This
@@ -5827,7 +5832,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload generate_data_key_without_plaintext(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:5857
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:5862
   def generate_data_key_without_plaintext(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Generates a hash-based message authentication code (HMAC) for a
@@ -5972,7 +5977,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload generate_mac(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:6003
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:6008
   def generate_mac(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns a random byte string that is cryptographically secure.
@@ -6118,8 +6123,144 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload generate_random(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:6150
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:6155
   def generate_random(params = T.unsafe(nil), options = T.unsafe(nil)); end
+
+  # Returns usage information about the last successful cryptographic
+  # operation performed with a specified KMS key, including the operation
+  # type, timestamp, and associated CloudTrail event ID.
+  #
+  # The `TrackingStartDate` in the `GetKeyLastUsage` response indicates
+  # the date from which KMS began recording cryptographic activity for a
+  # given key. Use this value together with `KeyCreationDate` to
+  # understand the key's usage history:
+  #
+  # * If the `KeyLastUsage` response element is *present*, the key has
+  #   been used for a successful cryptographic operation since the
+  #   `TrackingStartDate`. The response includes the operation type,
+  #   timestamp, and associated CloudTrail event ID.
+  #
+  # * If the `KeyLastUsage` response element is *empty* and
+  #   `KeyCreationDate` is on or after `TrackingStartDate`, the key has
+  #   not been used for a successful cryptographic operation since it was
+  #   created.
+  #
+  # * If the `KeyLastUsage` response element is *empty* and
+  #   `KeyCreationDate` is before `TrackingStartDate`, there is no record
+  #   of the key being used for a successful cryptographic operation since
+  #   the `TrackingStartDate`. However, the key may have been used before
+  #   tracking began. To determine whether the key was used before the
+  #   `TrackingStartDate`, examine your past CloudTrail logs.
+  #
+  # For multi-Region KMS keys, primary and replica keys track last usage
+  # independently. Each key in a multi-Region key set maintains its own
+  # usage information.
+  #
+  # The `ReEncrypt` operation uses two keys: a source key for decryption
+  # and a destination key for encryption. Usage information is recorded
+  # for both keys independently, each with the CloudTrail event ID from
+  # the respective key owner's account.
+  #
+  # <note markdown="1"> Do not use `GetKeyLastUsage` as the sole indicator when scheduling a
+  # key for deletion. Instead, first [disable the key][1] and monitor
+  # CloudTrail for `DisabledException` entries, as there could be
+  # infrequent workflows that are dependent on the key. By looking for
+  # this exception, you can identify potential dependencies and workload
+  # failures before they occur.
+  #
+  #  </note>
+  #
+  # **Cross-account use**: No. You cannot perform this operation on a KMS
+  # key in a different Amazon Web Services account.
+  #
+  # **Required permissions**: [kms:GetKeyLastUsage][2] (key policy)
+  #
+  # **Related operations:**
+  #
+  # * DescribeKey
+  #
+  # * DisableKey
+  #
+  # * ScheduleKeyDeletion
+  #
+  # **Eventual consistency**: The KMS API follows an eventual consistency
+  # model. For more information, see [KMS eventual consistency][3].
+  #
+  #
+  #
+  # [1]: https://docs.aws.amazon.com/kms/latest/developerguide/enabling-keys.html
+  # [2]: https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html
+  # [3]: https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency
+  #
+  # @option params [required, String] :key_id
+  #   Identifies the KMS key to get usage information for. To specify a KMS
+  #   key, use its key ID or key ARN. Alias names are not supported.
+  #
+  #   Specify the key ID or key ARN of the KMS key.
+  #
+  #   For example:
+  #
+  #   * Key ID: `1234abcd-12ab-34cd-56ef-1234567890ab`
+  #
+  #   * Key ARN:
+  #     `arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab`
+  #
+  #   To get the key ID and key ARN for a KMS key, use ListKeys or
+  #   DescribeKey.
+  #
+  # @return [Types::GetKeyLastUsageResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+  #
+  #   * {Types::GetKeyLastUsageResponse#key_id #key_id} => String
+  #   * {Types::GetKeyLastUsageResponse#key_last_usage #key_last_usage} => Types::KeyLastUsageData
+  #   * {Types::GetKeyLastUsageResponse#tracking_start_date #tracking_start_date} => Time
+  #   * {Types::GetKeyLastUsageResponse#key_creation_date #key_creation_date} => Time
+  #
+  #
+  # @example Example: To retrieve the last usage for a KMS key
+  #
+  #   # The following example retrieves usage information about the last successful cryptographic operation performed with the
+  #   # specified KMS key, including the operation type, timestamp, and associated AWS CloudTrail event ID.
+  #
+  #   resp = client.get_key_last_usage({
+  #     key_id: "1234abcd-12ab-34cd-56ef-1234567890ab", # The identifier of the KMS key to get usage information for. You can use the key ID or the Amazon Resource Name (ARN) of the KMS key. Alias names are not supported.
+  #   })
+  #
+  #   resp.to_h outputs the following:
+  #   {
+  #     key_creation_date: Time.parse(1773253425.56), # The date and time when the KMS key was created.
+  #     key_id: "1234abcd-12ab-34cd-56ef-1234567890ab", # The globally unique identifier for the KMS key.
+  #     key_last_usage: {
+  #       cloud_trail_event_id: "2cfd5892-ea8c-4342-ad49-4b9594b06a8b",
+  #       kms_request_id: "040cce3e-9ef3-4651-b8cf-e47c9bafdc9b",
+  #       operation: "Encrypt",
+  #       timestamp: Time.parse(1773253497.0),
+  #     }, # Contains usage information about the last time the KMS key was used for a successful cryptographic operation.
+  #     tracking_start_date: Time.parse(1773253425.56), # The date from which AWS KMS began recording cryptographic activity for this key, or the date the KMS key was created, whichever is later.
+  #   }
+  #
+  # @example Request syntax with placeholder values
+  #
+  #   resp = client.get_key_last_usage({
+  #     key_id: "KeyIdType", # required
+  #   })
+  #
+  # @example Response structure
+  #
+  #   resp.key_id #=> String
+  #   resp.key_last_usage.operation #=> String, one of "Decrypt", "DeriveSharedSecret", "Encrypt", "GenerateDataKey", "GenerateDataKeyPair", "GenerateDataKeyPairWithoutPlaintext", "GenerateDataKeyWithoutPlaintext", "GenerateMac", "ReEncrypt", "Sign", "Verify", "VerifyMac"
+  #   resp.key_last_usage.timestamp #=> Time
+  #   resp.key_last_usage.cloud_trail_event_id #=> String
+  #   resp.key_last_usage.kms_request_id #=> String
+  #   resp.tracking_start_date #=> Time
+  #   resp.key_creation_date #=> Time
+  #
+  # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/GetKeyLastUsage AWS API Documentation
+  #
+  # @overload get_key_last_usage(params = {})
+  # @param [Hash] params ({})
+  #
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:6292
+  def get_key_last_usage(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Gets a key policy attached to the specified KMS key.
   #
@@ -6196,7 +6337,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload get_key_policy(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:6229
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:6371
   def get_key_policy(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Provides detailed information about the rotation status for a KMS key,
@@ -6344,7 +6485,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload get_key_rotation_status(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:6378
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:6520
   def get_key_rotation_status(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns the public key and an import token you need to import or
@@ -6604,7 +6745,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload get_parameters_for_import(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:6639
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:6781
   def get_parameters_for_import(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns the public key of an asymmetric KMS key. Unlike the private
@@ -6773,7 +6914,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload get_public_key(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:6809
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:6951
   def get_public_key(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Imports or reimports key material into an existing KMS key that was
@@ -7103,7 +7244,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload import_key_material(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:7140
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:7282
   def import_key_material(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Gets a list of aliases in the caller's Amazon Web Services account
@@ -7271,7 +7412,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload list_aliases(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:7309
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:7451
   def list_aliases(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Gets a list of all grants for the specified KMS key.
@@ -7468,7 +7609,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload list_grants(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:7507
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:7649
   def list_grants(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Gets the names of the key policies that are attached to a KMS key.
@@ -7572,7 +7713,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload list_key_policies(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:7612
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:7754
   def list_key_policies(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns information about the key materials associated with the
@@ -7716,7 +7857,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload list_key_rotations(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:7757
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:7899
   def list_key_rotations(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Gets a list of all KMS keys in the caller's Amazon Web Services
@@ -7830,7 +7971,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload list_keys(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:7872
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:8014
   def list_keys(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns all tags on the specified KMS key.
@@ -7953,7 +8094,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload list_resource_tags(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:7996
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:8138
   def list_resource_tags(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns information about all grants in the Amazon Web Services
@@ -8108,7 +8249,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload list_retirable_grants(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:8152
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:8294
   def list_retirable_grants(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Attaches a key policy to the specified KMS key.
@@ -8266,7 +8407,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload put_key_policy(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:8311
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:8453
   def put_key_policy(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Decrypts ciphertext and then reencrypts it entirely within KMS. You
@@ -8335,21 +8476,25 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # **Cross-account use**: Yes. The source KMS key and destination KMS key
   # can be in different Amazon Web Services accounts. Either or both KMS
   # keys can be in a different account than the caller. To specify a KMS
-  # key in a different account, you must use its key ARN or alias ARN.
+  # key in a different account, use the [key ARN][7] or [alias ARN][8]. A
+  # short [key ID][9] is also acceptable for the source key when
+  # decrypting symmetric ciphertexts, though using a full key ARN is
+  # recommended to be more explicit about the intended KMS key.
   #
   # **Required permissions**:
   #
-  # * [kms:ReEncryptFrom][7] permission on the source KMS key (key policy)
+  # * [kms:ReEncryptFrom][10] permission on the source KMS key (key
+  #   policy)
   #
-  # * [kms:ReEncryptTo][7] permission on the destination KMS key (key
+  # * [kms:ReEncryptTo][10] permission on the destination KMS key (key
   #   policy)
   #
   # To permit reencryption from or to a KMS key, include the
-  # `"kms:ReEncrypt*"` permission in your [key policy][8]. This permission
-  # is automatically included in the key policy when you use the console
-  # to create a KMS key. But you must include it manually when you create
-  # a KMS key programmatically or when you use the PutKeyPolicy operation
-  # to set a key policy.
+  # `"kms:ReEncrypt*"` permission in your [key policy][11]. This
+  # permission is automatically included in the key policy when you use
+  # the console to create a KMS key. But you must include it manually when
+  # you create a KMS key programmatically or when you use the PutKeyPolicy
+  # operation to set a key policy.
   #
   # **Related operations:**
   #
@@ -8362,7 +8507,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # * GenerateDataKeyPair
   #
   # **Eventual consistency**: The KMS API follows an eventual consistency
-  # model. For more information, see [KMS eventual consistency][9].
+  # model. For more information, see [KMS eventual consistency][12].
   #
   #
   #
@@ -8372,9 +8517,12 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # [4]: https://docs.aws.amazon.com/encryption-sdk/latest/developer-guide/
   # [5]: https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingClientSideEncryption.html
   # [6]: https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html
-  # [7]: https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html
-  # [8]: https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html
-  # [9]: https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency
+  # [7]: https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN
+  # [8]: https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-alias-ARN
+  # [9]: https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-id
+  # [10]: https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html
+  # [11]: https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html
+  # [12]: https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency
   #
   # @option params [String, StringIO, File] :ciphertext_blob
   #   Ciphertext of the data to reencrypt.
@@ -8420,7 +8568,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   #
   #   To specify a KMS key, use its key ID, key ARN, alias name, or alias
   #   ARN. When using an alias name, prefix it with `"alias/"`. To specify a
-  #   KMS key in a different Amazon Web Services account, you must use the
+  #   KMS key in a different Amazon Web Services account, you should use the
   #   key ARN or alias ARN.
   #
   #   For example:
@@ -8615,7 +8763,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload re_encrypt(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:8661
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:8810
   def re_encrypt(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Replicates a multi-Region key into the specified Region. This
@@ -8999,7 +9147,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload replicate_key(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:9046
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:9195
   def replicate_key(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Deletes a grant. Typically, you retire a grant when you no longer need
@@ -9113,7 +9261,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload retire_grant(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:9161
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:9310
   def retire_grant(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Deletes the specified grant. You revoke a grant to terminate the
@@ -9218,7 +9366,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload revoke_grant(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:9267
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:9416
   def revoke_grant(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Immediately initiates rotation of the key material of the specified
@@ -9365,7 +9513,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload rotate_key_on_demand(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:9415
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:9564
   def rotate_key_on_demand(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Schedules the deletion of a KMS key. By default, KMS applies a waiting
@@ -9518,7 +9666,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload schedule_key_deletion(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:9569
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:9718
   def schedule_key_deletion(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Creates a [digital signature][1] for a message or message digest by
@@ -9649,6 +9797,11 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   #   * ED25519\_PH\_SHA\_512 signing algorithm requires KMS
   #     `MessageType:DIGEST`
   #
+  #   When you specify the ED25519\_PH\_SHA\_512 signing algorithm with
+  #   `MessageType:DIGEST`, KMS still performs the SHA-512 prehash described
+  #   in [Step 1 of Section 7.8.1 in FIPS 186-5][1]. This means the input is
+  #   hashed twice: once by you and once by KMS.
+  #
   #   When the value of `MessageType` is `DIGEST`, the length of the
   #   `Message` value must match the length of hashed messages for the
   #   specified signing algorithm.
@@ -9677,11 +9830,12 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   #     algorithm.
   #
   #   * SM2DSA uses the SM3 hashing algorithm. For details, see [Offline
-  #     verification with SM2 key pairs][1].
+  #     verification with SM2 key pairs][2].
   #
   #
   #
-  #   [1]: https://docs.aws.amazon.com/kms/latest/developerguide/offline-operations.html#key-spec-sm-offline-verification
+  #   [1]: https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.186-5.pdf#page=39
+  #   [2]: https://docs.aws.amazon.com/kms/latest/developerguide/offline-operations.html#key-spec-sm-offline-verification
   #
   # @option params [Array<String>] :grant_tokens
   #   A list of grant tokens.
@@ -9783,7 +9937,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload sign(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:9835
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:9990
   def sign(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Adds or edits tags on a [customer managed key][1].
@@ -9908,7 +10062,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload tag_resource(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:9961
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:10116
   def tag_resource(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Deletes tags from a [customer managed key][1]. To delete a tag,
@@ -10007,7 +10161,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload untag_resource(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:10061
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:10216
   def untag_resource(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Associates an existing KMS alias with a different KMS key. Each alias
@@ -10138,7 +10292,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload update_alias(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:10193
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:10348
   def update_alias(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Changes the properties of a custom key store. You can use this
@@ -10185,8 +10339,10 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # about a change to the `kmsuser` crypto user password
   # (`KeyStorePassword`), or to associate the custom key store with a
   # different, but related, CloudHSM cluster (`CloudHsmClusterId`). To
-  # update any property of an CloudHSM key store, the `ConnectionState` of
-  # the CloudHSM key store must be `DISCONNECTED`.
+  # update most properties of an CloudHSM key store, the `ConnectionState`
+  # of the CloudHSM key store must be `DISCONNECTED`. However, you can
+  # update the `CustomKeyStoreName` of an AWS CloudHSM key store when it
+  # is in the `CONNECTED` or `DISCONNECTED` state.
   #
   # For an external key store, you can use this operation to change the
   # custom key store friendly name (`NewCustomKeyStoreName`), or to tell
@@ -10259,8 +10415,8 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   #   This field may be displayed in plaintext in CloudTrail logs and other
   #   output.
   #
-  #   To change this value, an CloudHSM key store must be disconnected. An
-  #   external key store can be connected or disconnected.
+  #   To change this value, the custom key store can be connected or
+  #   disconnected.
   #
   # @option params [String] :key_store_password
   #   Enter the current password of the `kmsuser` crypto user (CU) in the
@@ -10502,7 +10658,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload update_custom_key_store(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:10558
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:10715
   def update_custom_key_store(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Updates the description of a KMS key. To see the description of a KMS
@@ -10578,7 +10734,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload update_key_description(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:10635
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:10792
   def update_key_description(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Changes the primary key of a multi-Region key.
@@ -10721,7 +10877,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload update_primary_region(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:10779
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:10936
   def update_primary_region(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Verifies a digital signature that was generated by the Sign operation.
@@ -10845,6 +11001,11 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   #   * ED25519\_PH\_SHA\_512 signing algorithm requires KMS
   #     `MessageType:DIGEST`
   #
+  #   When you specify the ED25519\_PH\_SHA\_512 signing algorithm with
+  #   `MessageType:DIGEST`, KMS still performs the SHA-512 prehash described
+  #   in [Step 1 of Section 7.8.1 in FIPS 186-5][1]. This means the input is
+  #   hashed twice: once by you and once by KMS.
+  #
   #   When the value of `MessageType` is `DIGEST`, the length of the
   #   `Message` value must match the length of hashed messages for the
   #   specified signing algorithm.
@@ -10873,11 +11034,12 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   #     algorithm.
   #
   #   * SM2DSA uses the SM3 hashing algorithm. For details, see [Offline
-  #     verification with SM2 key pairs][1].
+  #     verification with SM2 key pairs][2].
   #
   #
   #
-  #   [1]: https://docs.aws.amazon.com/kms/latest/developerguide/offline-operations.html#key-spec-sm-offline-verification
+  #   [1]: https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.186-5.pdf#page=39
+  #   [2]: https://docs.aws.amazon.com/kms/latest/developerguide/offline-operations.html#key-spec-sm-offline-verification
   #
   # @option params [required, String, StringIO, File] :signature
   #   The signature that the `Sign` operation generated.
@@ -10981,7 +11143,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload verify(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:11040
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:11203
   def verify(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Verifies the hash-based message authentication code (HMAC) for a
@@ -11120,20 +11282,20 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload verify_mac(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:11180
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:11343
   def verify_mac(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # @api private
   # @deprecated
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:11209
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:11372
   def waiter_names; end
 
   class << self
-    # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:11219
+    # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:11382
     def errors_module; end
 
-    # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:11216
+    # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:11379
     def identifier; end
   end
 end
@@ -11147,7 +11309,7 @@ end
 
 # @api private
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:1054
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:1075
 Aws::KMS::ClientApi::API = T.let(T.unsafe(nil), Seahorse::Model::Api)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:17
@@ -11214,669 +11376,687 @@ Aws::KMS::ClientApi::CloudHsmClusterNotFoundException = T.let(T.unsafe(nil), Sea
 Aws::KMS::ClientApi::CloudHsmClusterNotRelatedException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:38
-Aws::KMS::ClientApi::ConflictException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::CloudTrailEventIdType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:39
-Aws::KMS::ClientApi::ConnectCustomKeyStoreRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::ConflictException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:40
-Aws::KMS::ClientApi::ConnectCustomKeyStoreResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::ConnectCustomKeyStoreRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:41
-Aws::KMS::ClientApi::ConnectionErrorCodeType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::KMS::ClientApi::ConnectCustomKeyStoreResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:42
-Aws::KMS::ClientApi::ConnectionStateType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::KMS::ClientApi::ConnectionErrorCodeType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:43
-Aws::KMS::ClientApi::CreateAliasRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::ConnectionStateType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:44
-Aws::KMS::ClientApi::CreateCustomKeyStoreRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::CreateAliasRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:45
-Aws::KMS::ClientApi::CreateCustomKeyStoreResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::CreateCustomKeyStoreRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:46
-Aws::KMS::ClientApi::CreateGrantRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::CreateCustomKeyStoreResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:47
-Aws::KMS::ClientApi::CreateGrantResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::CreateGrantRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:48
-Aws::KMS::ClientApi::CreateKeyRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::CreateGrantResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:49
-Aws::KMS::ClientApi::CreateKeyResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::CreateKeyRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:50
-Aws::KMS::ClientApi::CustomKeyStoreHasCMKsException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::CreateKeyResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:51
-Aws::KMS::ClientApi::CustomKeyStoreIdType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::KMS::ClientApi::CustomKeyStoreHasCMKsException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:52
-Aws::KMS::ClientApi::CustomKeyStoreInvalidStateException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::CustomKeyStoreIdType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:53
-Aws::KMS::ClientApi::CustomKeyStoreNameInUseException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::CustomKeyStoreInvalidStateException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:54
-Aws::KMS::ClientApi::CustomKeyStoreNameType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::KMS::ClientApi::CustomKeyStoreNameInUseException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:55
-Aws::KMS::ClientApi::CustomKeyStoreNotFoundException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::CustomKeyStoreNameType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:56
-Aws::KMS::ClientApi::CustomKeyStoreType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::KMS::ClientApi::CustomKeyStoreNotFoundException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:57
-Aws::KMS::ClientApi::CustomKeyStoresList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
+Aws::KMS::ClientApi::CustomKeyStoreType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:58
-Aws::KMS::ClientApi::CustomKeyStoresListEntry = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::CustomKeyStoresList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:59
-Aws::KMS::ClientApi::CustomerMasterKeySpec = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::KMS::ClientApi::CustomKeyStoresListEntry = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:60
-Aws::KMS::ClientApi::DataKeyPairSpec = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::KMS::ClientApi::CustomerMasterKeySpec = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:61
-Aws::KMS::ClientApi::DataKeySpec = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::KMS::ClientApi::DataKeyPairSpec = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:62
-Aws::KMS::ClientApi::DateType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::TimestampShape)
+Aws::KMS::ClientApi::DataKeySpec = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:63
-Aws::KMS::ClientApi::DecryptRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::DateType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::TimestampShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:64
-Aws::KMS::ClientApi::DecryptResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::DecryptRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:65
-Aws::KMS::ClientApi::DeleteAliasRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::DecryptResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:66
-Aws::KMS::ClientApi::DeleteCustomKeyStoreRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::DeleteAliasRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:67
-Aws::KMS::ClientApi::DeleteCustomKeyStoreResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::DeleteCustomKeyStoreRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:68
-Aws::KMS::ClientApi::DeleteImportedKeyMaterialRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::DeleteCustomKeyStoreResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:69
-Aws::KMS::ClientApi::DeleteImportedKeyMaterialResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::DeleteImportedKeyMaterialRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:70
-Aws::KMS::ClientApi::DependencyTimeoutException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::DeleteImportedKeyMaterialResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:71
-Aws::KMS::ClientApi::DeriveSharedSecretRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::DependencyTimeoutException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:72
-Aws::KMS::ClientApi::DeriveSharedSecretResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::DeriveSharedSecretRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:73
-Aws::KMS::ClientApi::DescribeCustomKeyStoresRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::DeriveSharedSecretResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:74
-Aws::KMS::ClientApi::DescribeCustomKeyStoresResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::DescribeCustomKeyStoresRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:75
-Aws::KMS::ClientApi::DescribeKeyRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::DescribeCustomKeyStoresResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:76
-Aws::KMS::ClientApi::DescribeKeyResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::DescribeKeyRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:77
-Aws::KMS::ClientApi::DescriptionType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::KMS::ClientApi::DescribeKeyResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:78
-Aws::KMS::ClientApi::DisableKeyRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::DescriptionType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:79
-Aws::KMS::ClientApi::DisableKeyRotationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::DisableKeyRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:80
-Aws::KMS::ClientApi::DisabledException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::DisableKeyRotationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:81
-Aws::KMS::ClientApi::DisconnectCustomKeyStoreRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::DisabledException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:82
-Aws::KMS::ClientApi::DisconnectCustomKeyStoreResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::DisconnectCustomKeyStoreRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:83
-Aws::KMS::ClientApi::DryRunModifierList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
+Aws::KMS::ClientApi::DisconnectCustomKeyStoreResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:84
-Aws::KMS::ClientApi::DryRunModifierType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::KMS::ClientApi::DryRunModifierList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:85
-Aws::KMS::ClientApi::DryRunOperationException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::DryRunModifierType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:86
-Aws::KMS::ClientApi::EnableKeyRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::DryRunOperationException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:87
-Aws::KMS::ClientApi::EnableKeyRotationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::EnableKeyRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:88
-Aws::KMS::ClientApi::EncryptRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::EnableKeyRotationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:89
-Aws::KMS::ClientApi::EncryptResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::EncryptRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:90
-Aws::KMS::ClientApi::EncryptionAlgorithmSpec = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::KMS::ClientApi::EncryptResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:91
-Aws::KMS::ClientApi::EncryptionAlgorithmSpecList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
+Aws::KMS::ClientApi::EncryptionAlgorithmSpec = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:92
-Aws::KMS::ClientApi::EncryptionContextKey = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::KMS::ClientApi::EncryptionAlgorithmSpecList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:93
-Aws::KMS::ClientApi::EncryptionContextType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::MapShape)
+Aws::KMS::ClientApi::EncryptionContextKey = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:94
-Aws::KMS::ClientApi::EncryptionContextValue = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::KMS::ClientApi::EncryptionContextType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::MapShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:95
-Aws::KMS::ClientApi::ErrorMessageType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::KMS::ClientApi::EncryptionContextValue = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:96
-Aws::KMS::ClientApi::ExpirationModelType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::KMS::ClientApi::ErrorMessageType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:97
-Aws::KMS::ClientApi::ExpiredImportTokenException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::ExpirationModelType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:98
-Aws::KMS::ClientApi::GenerateDataKeyPairRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::ExpiredImportTokenException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:99
-Aws::KMS::ClientApi::GenerateDataKeyPairResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::GenerateDataKeyPairRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:100
-Aws::KMS::ClientApi::GenerateDataKeyPairWithoutPlaintextRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::GenerateDataKeyPairResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:101
-Aws::KMS::ClientApi::GenerateDataKeyPairWithoutPlaintextResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::GenerateDataKeyPairWithoutPlaintextRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:102
-Aws::KMS::ClientApi::GenerateDataKeyRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::GenerateDataKeyPairWithoutPlaintextResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:103
-Aws::KMS::ClientApi::GenerateDataKeyResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::GenerateDataKeyRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:104
-Aws::KMS::ClientApi::GenerateDataKeyWithoutPlaintextRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::GenerateDataKeyResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:105
-Aws::KMS::ClientApi::GenerateDataKeyWithoutPlaintextResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::GenerateDataKeyWithoutPlaintextRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:106
-Aws::KMS::ClientApi::GenerateMacRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::GenerateDataKeyWithoutPlaintextResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:107
-Aws::KMS::ClientApi::GenerateMacResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::GenerateMacRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:108
-Aws::KMS::ClientApi::GenerateRandomRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::GenerateMacResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:109
-Aws::KMS::ClientApi::GenerateRandomResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::GenerateRandomRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:110
-Aws::KMS::ClientApi::GetKeyPolicyRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::GenerateRandomResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:111
-Aws::KMS::ClientApi::GetKeyPolicyResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::GetKeyLastUsageRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:112
-Aws::KMS::ClientApi::GetKeyRotationStatusRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::GetKeyLastUsageResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:113
-Aws::KMS::ClientApi::GetKeyRotationStatusResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::GetKeyPolicyRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:114
-Aws::KMS::ClientApi::GetParametersForImportRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::GetKeyPolicyResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:115
-Aws::KMS::ClientApi::GetParametersForImportResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::GetKeyRotationStatusRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:116
-Aws::KMS::ClientApi::GetPublicKeyRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::GetKeyRotationStatusResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:117
-Aws::KMS::ClientApi::GetPublicKeyResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::GetParametersForImportRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:118
-Aws::KMS::ClientApi::GrantConstraints = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::GetParametersForImportResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:119
-Aws::KMS::ClientApi::GrantIdType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::KMS::ClientApi::GetPublicKeyRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:120
-Aws::KMS::ClientApi::GrantList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
+Aws::KMS::ClientApi::GetPublicKeyResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:121
-Aws::KMS::ClientApi::GrantListEntry = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::GrantConstraints = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:122
-Aws::KMS::ClientApi::GrantNameType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::KMS::ClientApi::GrantIdType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:123
-Aws::KMS::ClientApi::GrantOperation = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::KMS::ClientApi::GrantList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:124
-Aws::KMS::ClientApi::GrantOperationList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
+Aws::KMS::ClientApi::GrantListEntry = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:125
-Aws::KMS::ClientApi::GrantTokenList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
+Aws::KMS::ClientApi::GrantNameType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:126
-Aws::KMS::ClientApi::GrantTokenType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::KMS::ClientApi::GrantOperation = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:127
-Aws::KMS::ClientApi::ImportKeyMaterialRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::GrantOperationList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:128
-Aws::KMS::ClientApi::ImportKeyMaterialResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::GrantTokenList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:129
-Aws::KMS::ClientApi::ImportState = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::KMS::ClientApi::GrantTokenType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:130
-Aws::KMS::ClientApi::ImportType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::KMS::ClientApi::ImportKeyMaterialRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:131
-Aws::KMS::ClientApi::IncludeKeyMaterial = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::KMS::ClientApi::ImportKeyMaterialResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:132
-Aws::KMS::ClientApi::IncorrectKeyException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::ImportState = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:133
-Aws::KMS::ClientApi::IncorrectKeyMaterialException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::ImportType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:134
-Aws::KMS::ClientApi::IncorrectTrustAnchorException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::IncludeKeyMaterial = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:135
-Aws::KMS::ClientApi::InvalidAliasNameException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::IncorrectKeyException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:136
-Aws::KMS::ClientApi::InvalidArnException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::IncorrectKeyMaterialException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:137
-Aws::KMS::ClientApi::InvalidCiphertextException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::IncorrectTrustAnchorException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:138
-Aws::KMS::ClientApi::InvalidGrantIdException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::InvalidAliasNameException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:139
-Aws::KMS::ClientApi::InvalidGrantTokenException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::InvalidArnException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:140
-Aws::KMS::ClientApi::InvalidImportTokenException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::InvalidCiphertextException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:141
-Aws::KMS::ClientApi::InvalidKeyUsageException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::InvalidGrantIdException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:142
-Aws::KMS::ClientApi::InvalidMarkerException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::InvalidGrantTokenException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:143
-Aws::KMS::ClientApi::KMSInternalException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::InvalidImportTokenException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:144
-Aws::KMS::ClientApi::KMSInvalidMacException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::InvalidKeyUsageException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:145
-Aws::KMS::ClientApi::KMSInvalidSignatureException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::InvalidMarkerException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:146
-Aws::KMS::ClientApi::KMSInvalidStateException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::KMSInternalException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:147
-Aws::KMS::ClientApi::KeyAgreementAlgorithmSpec = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::KMS::ClientApi::KMSInvalidMacException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:148
-Aws::KMS::ClientApi::KeyAgreementAlgorithmSpecList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
+Aws::KMS::ClientApi::KMSInvalidSignatureException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:149
-Aws::KMS::ClientApi::KeyEncryptionMechanism = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::KMS::ClientApi::KMSInvalidStateException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:150
-Aws::KMS::ClientApi::KeyIdType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::KMS::ClientApi::KeyAgreementAlgorithmSpec = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:151
-Aws::KMS::ClientApi::KeyList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
+Aws::KMS::ClientApi::KeyAgreementAlgorithmSpecList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:152
-Aws::KMS::ClientApi::KeyListEntry = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::KeyEncryptionMechanism = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:153
-Aws::KMS::ClientApi::KeyManagerType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::KMS::ClientApi::KeyIdType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:154
-Aws::KMS::ClientApi::KeyMaterialDescriptionType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::KMS::ClientApi::KeyLastUsageData = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:155
-Aws::KMS::ClientApi::KeyMaterialState = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::KMS::ClientApi::KeyLastUsageTrackingOperation = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:156
-Aws::KMS::ClientApi::KeyMetadata = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::KeyList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:157
-Aws::KMS::ClientApi::KeySpec = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::KMS::ClientApi::KeyListEntry = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:158
-Aws::KMS::ClientApi::KeyState = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::KMS::ClientApi::KeyManagerType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:159
-Aws::KMS::ClientApi::KeyStorePasswordType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::KMS::ClientApi::KeyMaterialDescriptionType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:160
-Aws::KMS::ClientApi::KeyUnavailableException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::KeyMaterialState = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:161
-Aws::KMS::ClientApi::KeyUsageType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::KMS::ClientApi::KeyMetadata = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:162
-Aws::KMS::ClientApi::LimitExceededException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::KeySpec = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:163
-Aws::KMS::ClientApi::LimitType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
+Aws::KMS::ClientApi::KeyState = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:164
-Aws::KMS::ClientApi::ListAliasesRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::KeyStorePasswordType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:165
-Aws::KMS::ClientApi::ListAliasesResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::KeyUnavailableException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:166
-Aws::KMS::ClientApi::ListGrantsRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::KeyUsageType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:167
-Aws::KMS::ClientApi::ListGrantsResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::KmsRequestIdType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:168
-Aws::KMS::ClientApi::ListKeyPoliciesRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::LimitExceededException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:169
-Aws::KMS::ClientApi::ListKeyPoliciesResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::LimitType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:170
-Aws::KMS::ClientApi::ListKeyRotationsRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::ListAliasesRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:171
-Aws::KMS::ClientApi::ListKeyRotationsResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::ListAliasesResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:172
-Aws::KMS::ClientApi::ListKeysRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::ListGrantsRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:173
-Aws::KMS::ClientApi::ListKeysResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::ListGrantsResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:174
-Aws::KMS::ClientApi::ListResourceTagsRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::ListKeyPoliciesRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:175
-Aws::KMS::ClientApi::ListResourceTagsResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::ListKeyPoliciesResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:176
-Aws::KMS::ClientApi::ListRetirableGrantsRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::ListKeyRotationsRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:177
-Aws::KMS::ClientApi::MacAlgorithmSpec = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::KMS::ClientApi::ListKeyRotationsResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:178
-Aws::KMS::ClientApi::MacAlgorithmSpecList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
+Aws::KMS::ClientApi::ListKeysRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:179
-Aws::KMS::ClientApi::MalformedPolicyDocumentException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::ListKeysResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:180
-Aws::KMS::ClientApi::MarkerType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::KMS::ClientApi::ListResourceTagsRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:181
-Aws::KMS::ClientApi::MessageType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::KMS::ClientApi::ListResourceTagsResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:182
-Aws::KMS::ClientApi::MultiRegionConfiguration = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::ListRetirableGrantsRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:183
-Aws::KMS::ClientApi::MultiRegionKey = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::MacAlgorithmSpec = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:184
-Aws::KMS::ClientApi::MultiRegionKeyList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
+Aws::KMS::ClientApi::MacAlgorithmSpecList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:185
-Aws::KMS::ClientApi::MultiRegionKeyType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::KMS::ClientApi::MalformedPolicyDocumentException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:186
-Aws::KMS::ClientApi::NotFoundException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::MarkerType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:187
-Aws::KMS::ClientApi::NullableBooleanType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::BooleanShape)
+Aws::KMS::ClientApi::MessageType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:188
-Aws::KMS::ClientApi::NumberOfBytesType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
+Aws::KMS::ClientApi::MultiRegionConfiguration = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:189
-Aws::KMS::ClientApi::OriginType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::KMS::ClientApi::MultiRegionKey = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:190
-Aws::KMS::ClientApi::PendingWindowInDaysType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
+Aws::KMS::ClientApi::MultiRegionKeyList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:191
-Aws::KMS::ClientApi::PlaintextType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::BlobShape)
+Aws::KMS::ClientApi::MultiRegionKeyType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:192
-Aws::KMS::ClientApi::PolicyNameList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
+Aws::KMS::ClientApi::NotFoundException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:193
-Aws::KMS::ClientApi::PolicyNameType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::KMS::ClientApi::NullableBooleanType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::BooleanShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:194
-Aws::KMS::ClientApi::PolicyType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::KMS::ClientApi::NumberOfBytesType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:195
-Aws::KMS::ClientApi::PrincipalIdType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::KMS::ClientApi::OriginType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:196
-Aws::KMS::ClientApi::PublicKeyType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::BlobShape)
+Aws::KMS::ClientApi::PendingWindowInDaysType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:197
-Aws::KMS::ClientApi::PutKeyPolicyRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::PlaintextType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::BlobShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:198
-Aws::KMS::ClientApi::ReEncryptRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::PolicyNameList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:199
-Aws::KMS::ClientApi::ReEncryptResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::PolicyNameType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:200
-Aws::KMS::ClientApi::RecipientInfo = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::PolicyType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:201
-Aws::KMS::ClientApi::RegionType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::KMS::ClientApi::PrincipalIdType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:202
-Aws::KMS::ClientApi::ReplicateKeyRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::PublicKeyType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::BlobShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:203
-Aws::KMS::ClientApi::ReplicateKeyResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::PutKeyPolicyRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:204
-Aws::KMS::ClientApi::RetireGrantRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::ReEncryptRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:205
-Aws::KMS::ClientApi::RevokeGrantRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::ReEncryptResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:206
-Aws::KMS::ClientApi::RotateKeyOnDemandRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::RecipientInfo = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:207
-Aws::KMS::ClientApi::RotateKeyOnDemandResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::RegionType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:208
-Aws::KMS::ClientApi::RotationPeriodInDaysType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
+Aws::KMS::ClientApi::ReplicateKeyRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:209
-Aws::KMS::ClientApi::RotationType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::KMS::ClientApi::ReplicateKeyResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:210
-Aws::KMS::ClientApi::RotationsList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
+Aws::KMS::ClientApi::RetireGrantRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:211
-Aws::KMS::ClientApi::RotationsListEntry = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::RevokeGrantRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:212
-Aws::KMS::ClientApi::ScheduleKeyDeletionRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::RotateKeyOnDemandRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:213
-Aws::KMS::ClientApi::ScheduleKeyDeletionResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::RotateKeyOnDemandResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:214
-Aws::KMS::ClientApi::SignRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::RotationPeriodInDaysType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:215
-Aws::KMS::ClientApi::SignResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::RotationType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:216
-Aws::KMS::ClientApi::SigningAlgorithmSpec = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::KMS::ClientApi::RotationsList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:217
-Aws::KMS::ClientApi::SigningAlgorithmSpecList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
+Aws::KMS::ClientApi::RotationsListEntry = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:218
-Aws::KMS::ClientApi::Tag = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::ScheduleKeyDeletionRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:219
-Aws::KMS::ClientApi::TagException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::ScheduleKeyDeletionResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:220
-Aws::KMS::ClientApi::TagKeyList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
+Aws::KMS::ClientApi::SignRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:221
-Aws::KMS::ClientApi::TagKeyType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::KMS::ClientApi::SignResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:222
-Aws::KMS::ClientApi::TagList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
+Aws::KMS::ClientApi::SigningAlgorithmSpec = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:223
-Aws::KMS::ClientApi::TagResourceRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::SigningAlgorithmSpecList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:224
-Aws::KMS::ClientApi::TagValueType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::KMS::ClientApi::Tag = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:225
-Aws::KMS::ClientApi::TrustAnchorCertificateType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::KMS::ClientApi::TagException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:226
-Aws::KMS::ClientApi::UnsupportedOperationException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::TagKeyList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:227
-Aws::KMS::ClientApi::UntagResourceRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::TagKeyType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:228
-Aws::KMS::ClientApi::UpdateAliasRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::TagList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:229
-Aws::KMS::ClientApi::UpdateCustomKeyStoreRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::TagResourceRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:230
-Aws::KMS::ClientApi::UpdateCustomKeyStoreResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::TagValueType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:231
-Aws::KMS::ClientApi::UpdateKeyDescriptionRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::TrustAnchorCertificateType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:232
-Aws::KMS::ClientApi::UpdatePrimaryRegionRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::UnsupportedOperationException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:233
-Aws::KMS::ClientApi::VerifyMacRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::UntagResourceRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:234
-Aws::KMS::ClientApi::VerifyMacResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::UpdateAliasRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:235
-Aws::KMS::ClientApi::VerifyRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::UpdateCustomKeyStoreRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:236
-Aws::KMS::ClientApi::VerifyResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::UpdateCustomKeyStoreResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:237
-Aws::KMS::ClientApi::WrappingKeySpec = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::KMS::ClientApi::UpdateKeyDescriptionRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:238
-Aws::KMS::ClientApi::XksKeyAlreadyInUseException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::UpdatePrimaryRegionRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:239
-Aws::KMS::ClientApi::XksKeyConfigurationType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::VerifyMacRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:240
-Aws::KMS::ClientApi::XksKeyIdType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::KMS::ClientApi::VerifyMacResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:241
-Aws::KMS::ClientApi::XksKeyInvalidConfigurationException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::VerifyRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:242
-Aws::KMS::ClientApi::XksKeyNotFoundException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::VerifyResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:243
-Aws::KMS::ClientApi::XksProxyAuthenticationAccessKeyIdType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::KMS::ClientApi::WrappingKeySpec = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:244
-Aws::KMS::ClientApi::XksProxyAuthenticationCredentialType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::XksKeyAlreadyInUseException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:245
-Aws::KMS::ClientApi::XksProxyAuthenticationRawSecretAccessKeyType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::KMS::ClientApi::XksKeyConfigurationType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:246
-Aws::KMS::ClientApi::XksProxyConfigurationType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::XksKeyIdType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:247
-Aws::KMS::ClientApi::XksProxyConnectivityType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::KMS::ClientApi::XksKeyInvalidConfigurationException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:248
-Aws::KMS::ClientApi::XksProxyIncorrectAuthenticationCredentialException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::XksKeyNotFoundException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:249
-Aws::KMS::ClientApi::XksProxyInvalidConfigurationException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::XksProxyAuthenticationAccessKeyIdType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:250
-Aws::KMS::ClientApi::XksProxyInvalidResponseException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::XksProxyAuthenticationCredentialType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:251
-Aws::KMS::ClientApi::XksProxyUriEndpointInUseException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::XksProxyAuthenticationRawSecretAccessKeyType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:252
-Aws::KMS::ClientApi::XksProxyUriEndpointType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::KMS::ClientApi::XksProxyConfigurationType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:253
-Aws::KMS::ClientApi::XksProxyUriInUseException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::XksProxyConnectivityType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:254
-Aws::KMS::ClientApi::XksProxyUriPathType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::KMS::ClientApi::XksProxyIncorrectAuthenticationCredentialException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:255
-Aws::KMS::ClientApi::XksProxyUriUnreachableException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::XksProxyInvalidConfigurationException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:256
-Aws::KMS::ClientApi::XksProxyVpcEndpointServiceInUseException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::XksProxyInvalidResponseException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:257
-Aws::KMS::ClientApi::XksProxyVpcEndpointServiceInvalidConfigurationException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::KMS::ClientApi::XksProxyUriEndpointInUseException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:258
-Aws::KMS::ClientApi::XksProxyVpcEndpointServiceNameType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::KMS::ClientApi::XksProxyUriEndpointType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:259
+Aws::KMS::ClientApi::XksProxyUriInUseException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:260
+Aws::KMS::ClientApi::XksProxyUriPathType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:261
+Aws::KMS::ClientApi::XksProxyUriUnreachableException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:262
+Aws::KMS::ClientApi::XksProxyVpcEndpointServiceInUseException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:263
+Aws::KMS::ClientApi::XksProxyVpcEndpointServiceInvalidConfigurationException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:264
+Aws::KMS::ClientApi::XksProxyVpcEndpointServiceNameType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client_api.rb:265
 Aws::KMS::ClientApi::XksProxyVpcEndpointServiceNotFoundException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # Endpoint parameters used to influence endpoints per request.
@@ -14053,9 +14233,11 @@ Aws::KMS::Types::CustomKeyStoreHasCMKsException::SENSITIVE = T.let(T.unsafe(nil)
 #   This operation is valid for all other `ConnectionState` values.
 #
 # * You requested the UpdateCustomKeyStore or DeleteCustomKeyStore
-#   operation on a custom key store that is not disconnected. This
-#   operation is valid only when the custom key store `ConnectionState`
-#   is `DISCONNECTED`.
+#   operation on a custom key store that is not disconnected.
+#   `UpdateCustomKeyStore` can be called on a custom key store in the
+#   `CONNECTED` state only to update `NewCustomKeyStoreName`. For all
+#   other properties, the custom key store `ConnectionState` must be
+#   `DISCONNECTED`.
 #
 # * You requested the GenerateRandom operation in an CloudHSM key store
 #   that is not connected. This operation is valid only when the
@@ -14066,12 +14248,12 @@ Aws::KMS::Types::CustomKeyStoreHasCMKsException::SENSITIVE = T.let(T.unsafe(nil)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/CustomKeyStoreInvalidStateException AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:1262
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:1264
 class Aws::KMS::Types::CustomKeyStoreInvalidStateException < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:1263
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:1265
 Aws::KMS::Types::CustomKeyStoreInvalidStateException::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The request was rejected because the specified custom key store name
@@ -14083,12 +14265,12 @@ Aws::KMS::Types::CustomKeyStoreInvalidStateException::SENSITIVE = T.let(T.unsafe
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/CustomKeyStoreNameInUseException AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:1277
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:1279
 class Aws::KMS::Types::CustomKeyStoreNameInUseException < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:1278
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:1280
 Aws::KMS::Types::CustomKeyStoreNameInUseException::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The request was rejected because KMS cannot find a custom key store
@@ -14099,12 +14281,12 @@ Aws::KMS::Types::CustomKeyStoreNameInUseException::SENSITIVE = T.let(T.unsafe(ni
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/CustomKeyStoreNotFoundException AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:1291
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:1293
 class Aws::KMS::Types::CustomKeyStoreNotFoundException < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:1292
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:1294
 Aws::KMS::Types::CustomKeyStoreNotFoundException::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Contains information about each custom key store in the custom key
@@ -14356,12 +14538,12 @@ Aws::KMS::Types::CustomKeyStoreNotFoundException::SENSITIVE = T.let(T.unsafe(nil
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/CustomKeyStoresListEntry AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:1554
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:1556
 class Aws::KMS::Types::CustomKeyStoresListEntry < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:1555
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:1557
 Aws::KMS::Types::CustomKeyStoresListEntry::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] ciphertext_blob
@@ -14427,7 +14609,7 @@ Aws::KMS::Types::CustomKeyStoresListEntry::SENSITIVE = T.let(T.unsafe(nil), Arra
 #
 #   To specify a KMS key, use its key ID, key ARN, alias name, or alias
 #   ARN. When using an alias name, prefix it with `"alias/"`. To specify
-#   a KMS key in a different Amazon Web Services account, you must use
+#   a KMS key in a different Amazon Web Services account, you should use
 #   the key ARN or alias ARN.
 #
 #   For example:
@@ -14518,12 +14700,12 @@ Aws::KMS::Types::CustomKeyStoresListEntry::SENSITIVE = T.let(T.unsafe(nil), Arra
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/DecryptRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:1721
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:1723
 class Aws::KMS::Types::DecryptRequest < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:1722
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:1724
 Aws::KMS::Types::DecryptRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] key_id
@@ -14575,12 +14757,12 @@ Aws::KMS::Types::DecryptRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/DecryptResponse AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:1780
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:1782
 class Aws::KMS::Types::DecryptResponse < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:1781
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:1783
 Aws::KMS::Types::DecryptResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] alias_name
@@ -14590,12 +14772,12 @@ Aws::KMS::Types::DecryptResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/DeleteAliasRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:1793
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:1795
 class Aws::KMS::Types::DeleteAliasRequest < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:1794
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:1796
 Aws::KMS::Types::DeleteAliasRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] custom_key_store_id
@@ -14605,17 +14787,17 @@ Aws::KMS::Types::DeleteAliasRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/DeleteCustomKeyStoreRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:1806
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:1808
 class Aws::KMS::Types::DeleteCustomKeyStoreRequest < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:1807
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:1809
 Aws::KMS::Types::DeleteCustomKeyStoreRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/DeleteCustomKeyStoreResponse AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:1813
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:1815
 class Aws::KMS::Types::DeleteCustomKeyStoreResponse < ::Aws::EmptyStructure; end
 
 # @!attribute [rw] key_id
@@ -14647,12 +14829,12 @@ class Aws::KMS::Types::DeleteCustomKeyStoreResponse < ::Aws::EmptyStructure; end
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/DeleteImportedKeyMaterialRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:1846
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:1848
 class Aws::KMS::Types::DeleteImportedKeyMaterialRequest < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:1847
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:1849
 Aws::KMS::Types::DeleteImportedKeyMaterialRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] key_id
@@ -14670,12 +14852,12 @@ Aws::KMS::Types::DeleteImportedKeyMaterialRequest::SENSITIVE = T.let(T.unsafe(ni
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/DeleteImportedKeyMaterialResponse AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:1868
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:1870
 class Aws::KMS::Types::DeleteImportedKeyMaterialResponse < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:1869
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:1871
 Aws::KMS::Types::DeleteImportedKeyMaterialResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The system timed out while trying to fulfill the request. You can
@@ -14686,12 +14868,12 @@ Aws::KMS::Types::DeleteImportedKeyMaterialResponse::SENSITIVE = T.let(T.unsafe(n
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/DependencyTimeoutException AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:1882
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:1884
 class Aws::KMS::Types::DependencyTimeoutException < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:1883
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:1885
 Aws::KMS::Types::DependencyTimeoutException::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] key_id
@@ -14819,12 +15001,12 @@ Aws::KMS::Types::DependencyTimeoutException::SENSITIVE = T.let(T.unsafe(nil), Ar
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/DeriveSharedSecretRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2018
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2020
 class Aws::KMS::Types::DeriveSharedSecretRequest < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2019
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2021
 Aws::KMS::Types::DeriveSharedSecretRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] key_id
@@ -14876,12 +15058,12 @@ Aws::KMS::Types::DeriveSharedSecretRequest::SENSITIVE = T.let(T.unsafe(nil), Arr
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/DeriveSharedSecretResponse AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2077
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2079
 class Aws::KMS::Types::DeriveSharedSecretResponse < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2078
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2080
 Aws::KMS::Types::DeriveSharedSecretResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] custom_key_store_id
@@ -14918,12 +15100,12 @@ Aws::KMS::Types::DeriveSharedSecretResponse::SENSITIVE = T.let(T.unsafe(nil), Ar
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/DescribeCustomKeyStoresRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2120
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2122
 class Aws::KMS::Types::DescribeCustomKeyStoresRequest < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2121
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2123
 Aws::KMS::Types::DescribeCustomKeyStoresRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] custom_key_stores
@@ -14944,12 +15126,12 @@ Aws::KMS::Types::DescribeCustomKeyStoresRequest::SENSITIVE = T.let(T.unsafe(nil)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/DescribeCustomKeyStoresResponse AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2146
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2148
 class Aws::KMS::Types::DescribeCustomKeyStoresResponse < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2147
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2149
 Aws::KMS::Types::DescribeCustomKeyStoresResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] key_id
@@ -15000,12 +15182,12 @@ Aws::KMS::Types::DescribeCustomKeyStoresResponse::SENSITIVE = T.let(T.unsafe(nil
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/DescribeKeyRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2201
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2203
 class Aws::KMS::Types::DescribeKeyRequest < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2202
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2204
 Aws::KMS::Types::DescribeKeyRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] key_metadata
@@ -15014,12 +15196,12 @@ Aws::KMS::Types::DescribeKeyRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/DescribeKeyResponse AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2213
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2215
 class Aws::KMS::Types::DescribeKeyResponse < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2214
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2216
 Aws::KMS::Types::DescribeKeyResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] key_id
@@ -15040,12 +15222,12 @@ Aws::KMS::Types::DescribeKeyResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/DisableKeyRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2237
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2239
 class Aws::KMS::Types::DisableKeyRequest < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2238
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2240
 Aws::KMS::Types::DisableKeyRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] key_id
@@ -15076,12 +15258,12 @@ Aws::KMS::Types::DisableKeyRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/DisableKeyRotationRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2271
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2273
 class Aws::KMS::Types::DisableKeyRotationRequest < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2272
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2274
 Aws::KMS::Types::DisableKeyRotationRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The request was rejected because the specified KMS key is not enabled.
@@ -15091,12 +15273,12 @@ Aws::KMS::Types::DisableKeyRotationRequest::SENSITIVE = T.let(T.unsafe(nil), Arr
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/DisabledException AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2284
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2286
 class Aws::KMS::Types::DisabledException < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2285
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2287
 Aws::KMS::Types::DisabledException::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] custom_key_store_id
@@ -15107,17 +15289,17 @@ Aws::KMS::Types::DisabledException::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/DisconnectCustomKeyStoreRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2298
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2300
 class Aws::KMS::Types::DisconnectCustomKeyStoreRequest < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2299
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2301
 Aws::KMS::Types::DisconnectCustomKeyStoreRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/DisconnectCustomKeyStoreResponse AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2305
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2307
 class Aws::KMS::Types::DisconnectCustomKeyStoreResponse < ::Aws::EmptyStructure; end
 
 # The request was rejected because the DryRun parameter was specified.
@@ -15127,12 +15309,12 @@ class Aws::KMS::Types::DisconnectCustomKeyStoreResponse < ::Aws::EmptyStructure;
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/DryRunOperationException AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2315
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2317
 class Aws::KMS::Types::DryRunOperationException < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2316
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2318
 Aws::KMS::Types::DryRunOperationException::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] key_id
@@ -15153,12 +15335,12 @@ Aws::KMS::Types::DryRunOperationException::SENSITIVE = T.let(T.unsafe(nil), Arra
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/EnableKeyRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2339
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2341
 class Aws::KMS::Types::EnableKeyRequest < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2340
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2342
 Aws::KMS::Types::EnableKeyRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] key_id
@@ -15211,12 +15393,12 @@ Aws::KMS::Types::EnableKeyRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/EnableKeyRotationRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2396
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2398
 class Aws::KMS::Types::EnableKeyRotationRequest < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2397
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2399
 Aws::KMS::Types::EnableKeyRotationRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] key_id
@@ -15318,12 +15500,12 @@ Aws::KMS::Types::EnableKeyRotationRequest::SENSITIVE = T.let(T.unsafe(nil), Arra
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/EncryptRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2506
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2508
 class Aws::KMS::Types::EncryptRequest < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2507
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2509
 Aws::KMS::Types::EncryptRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] ciphertext_blob
@@ -15347,12 +15529,12 @@ Aws::KMS::Types::EncryptRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/EncryptResponse AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2535
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2537
 class Aws::KMS::Types::EncryptResponse < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2536
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2538
 Aws::KMS::Types::EncryptResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The request was rejected because the specified import token is
@@ -15365,12 +15547,12 @@ Aws::KMS::Types::EncryptResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/ExpiredImportTokenException AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2551
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2553
 class Aws::KMS::Types::ExpiredImportTokenException < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2552
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2554
 Aws::KMS::Types::ExpiredImportTokenException::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] encryption_context
@@ -15502,12 +15684,12 @@ Aws::KMS::Types::ExpiredImportTokenException::SENSITIVE = T.let(T.unsafe(nil), A
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/GenerateDataKeyPairRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2691
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2693
 class Aws::KMS::Types::GenerateDataKeyPairRequest < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2692
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2694
 Aws::KMS::Types::GenerateDataKeyPairRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] private_key_ciphertext_blob
@@ -15568,12 +15750,12 @@ Aws::KMS::Types::GenerateDataKeyPairRequest::SENSITIVE = T.let(T.unsafe(nil), Ar
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/GenerateDataKeyPairResponse AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2761
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2763
 class Aws::KMS::Types::GenerateDataKeyPairResponse < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2762
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2764
 Aws::KMS::Types::GenerateDataKeyPairResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] encryption_context
@@ -15667,12 +15849,12 @@ Aws::KMS::Types::GenerateDataKeyPairResponse::SENSITIVE = T.let(T.unsafe(nil), A
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/GenerateDataKeyPairWithoutPlaintextRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2862
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2864
 class Aws::KMS::Types::GenerateDataKeyPairWithoutPlaintextRequest < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2863
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2865
 Aws::KMS::Types::GenerateDataKeyPairWithoutPlaintextRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] private_key_ciphertext_blob
@@ -15706,12 +15888,12 @@ Aws::KMS::Types::GenerateDataKeyPairWithoutPlaintextRequest::SENSITIVE = T.let(T
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/GenerateDataKeyPairWithoutPlaintextResponse AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2903
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2905
 class Aws::KMS::Types::GenerateDataKeyPairWithoutPlaintextResponse < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2904
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:2906
 Aws::KMS::Types::GenerateDataKeyPairWithoutPlaintextResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] key_id
@@ -15844,12 +16026,12 @@ Aws::KMS::Types::GenerateDataKeyPairWithoutPlaintextResponse::SENSITIVE = T.let(
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/GenerateDataKeyRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3045
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3047
 class Aws::KMS::Types::GenerateDataKeyRequest < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3046
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3048
 Aws::KMS::Types::GenerateDataKeyRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] ciphertext_blob
@@ -15903,12 +16085,12 @@ Aws::KMS::Types::GenerateDataKeyRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/GenerateDataKeyResponse AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3106
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3108
 class Aws::KMS::Types::GenerateDataKeyResponse < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3107
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3109
 Aws::KMS::Types::GenerateDataKeyResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] key_id
@@ -16002,12 +16184,12 @@ Aws::KMS::Types::GenerateDataKeyResponse::SENSITIVE = T.let(T.unsafe(nil), Array
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/GenerateDataKeyWithoutPlaintextRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3208
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3210
 class Aws::KMS::Types::GenerateDataKeyWithoutPlaintextRequest < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3209
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3211
 Aws::KMS::Types::GenerateDataKeyWithoutPlaintextRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] ciphertext_blob
@@ -16031,12 +16213,12 @@ Aws::KMS::Types::GenerateDataKeyWithoutPlaintextRequest::SENSITIVE = T.let(T.uns
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/GenerateDataKeyWithoutPlaintextResponse AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3237
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3239
 class Aws::KMS::Types::GenerateDataKeyWithoutPlaintextResponse < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3238
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3240
 Aws::KMS::Types::GenerateDataKeyWithoutPlaintextResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] message
@@ -16096,12 +16278,12 @@ Aws::KMS::Types::GenerateDataKeyWithoutPlaintextResponse::SENSITIVE = T.let(T.un
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/GenerateMacRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3304
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3306
 class Aws::KMS::Types::GenerateMacRequest < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3305
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3307
 Aws::KMS::Types::GenerateMacRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] mac
@@ -16125,12 +16307,12 @@ Aws::KMS::Types::GenerateMacRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/GenerateMacResponse AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3333
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3335
 class Aws::KMS::Types::GenerateMacResponse < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3334
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3336
 Aws::KMS::Types::GenerateMacResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] number_of_bytes
@@ -16179,12 +16361,12 @@ Aws::KMS::Types::GenerateMacResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/GenerateRandomRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3387
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3389
 class Aws::KMS::Types::GenerateRandomRequest < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3388
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3390
 Aws::KMS::Types::GenerateRandomRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] plaintext
@@ -16216,13 +16398,69 @@ Aws::KMS::Types::GenerateRandomRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/GenerateRandomResponse AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3423
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3425
 class Aws::KMS::Types::GenerateRandomResponse < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3424
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3426
 Aws::KMS::Types::GenerateRandomResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
+
+# @!attribute [rw] key_id
+#   Identifies the KMS key to get usage information for. To specify a
+#   KMS key, use its key ID or key ARN. Alias names are not supported.
+#
+#   Specify the key ID or key ARN of the KMS key.
+#
+#   For example:
+#
+#   * Key ID: `1234abcd-12ab-34cd-56ef-1234567890ab`
+#
+#   * Key ARN:
+#     `arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab`
+#
+#   To get the key ID and key ARN for a KMS key, use ListKeys or
+#   DescribeKey.
+#   @return [String]
+#
+# @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/GetKeyLastUsageRequest AWS API Documentation
+#
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3450
+class Aws::KMS::Types::GetKeyLastUsageRequest < ::Struct
+  include ::Aws::Structure
+end
+
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3451
+Aws::KMS::Types::GetKeyLastUsageRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
+
+# @!attribute [rw] key_id
+#   The globally unique identifier for the KMS key.
+#   @return [String]
+#
+# @!attribute [rw] key_last_usage
+#   Contains usage information about the last time the KMS key was used
+#   for a successful cryptographic operation. If the key has not been
+#   used since tracking began, this response element is empty.
+#   @return [Types::KeyLastUsageData]
+#
+# @!attribute [rw] tracking_start_date
+#   The date from which KMS began recording cryptographic activity for
+#   this key, or the date the KMS key was created, whichever is later.
+#   @return [Time]
+#
+# @!attribute [rw] key_creation_date
+#   The date and time when the KMS key was created.
+#   @return [Time]
+#
+# @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/GetKeyLastUsageResponse AWS API Documentation
+#
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3480
+class Aws::KMS::Types::GetKeyLastUsageResponse < ::Struct
+  include ::Aws::Structure
+end
+
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3481
+Aws::KMS::Types::GetKeyLastUsageResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] key_id
 #   Gets the key policy for the specified KMS key.
@@ -16248,12 +16486,12 @@ Aws::KMS::Types::GenerateRandomResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/GetKeyPolicyRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3454
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3511
 class Aws::KMS::Types::GetKeyPolicyRequest < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3455
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3512
 Aws::KMS::Types::GetKeyPolicyRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] policy
@@ -16266,12 +16504,12 @@ Aws::KMS::Types::GetKeyPolicyRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/GetKeyPolicyResponse AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3471
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3528
 class Aws::KMS::Types::GetKeyPolicyResponse < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3472
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3529
 Aws::KMS::Types::GetKeyPolicyResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] key_id
@@ -16294,12 +16532,12 @@ Aws::KMS::Types::GetKeyPolicyResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/GetKeyRotationStatusRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3497
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3554
 class Aws::KMS::Types::GetKeyRotationStatusRequest < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3498
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3555
 Aws::KMS::Types::GetKeyRotationStatusRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] key_rotation_enabled
@@ -16333,12 +16571,12 @@ Aws::KMS::Types::GetKeyRotationStatusRequest::SENSITIVE = T.let(T.unsafe(nil), A
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/GetKeyRotationStatusResponse AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3538
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3595
 class Aws::KMS::Types::GetKeyRotationStatusResponse < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3539
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3596
 Aws::KMS::Types::GetKeyRotationStatusResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] key_id
@@ -16419,12 +16657,12 @@ Aws::KMS::Types::GetKeyRotationStatusResponse::SENSITIVE = T.let(T.unsafe(nil), 
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/GetParametersForImportRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3624
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3681
 class Aws::KMS::Types::GetParametersForImportRequest < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3625
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3682
 Aws::KMS::Types::GetParametersForImportRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] key_id
@@ -16455,12 +16693,12 @@ Aws::KMS::Types::GetParametersForImportRequest::SENSITIVE = T.let(T.unsafe(nil),
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/GetParametersForImportResponse AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3661
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3718
 class Aws::KMS::Types::GetParametersForImportResponse < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3662
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3719
 Aws::KMS::Types::GetParametersForImportResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] key_id
@@ -16502,12 +16740,12 @@ Aws::KMS::Types::GetParametersForImportResponse::SENSITIVE = T.let(T.unsafe(nil)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/GetPublicKeyRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3707
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3764
 class Aws::KMS::Types::GetPublicKeyRequest < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3708
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3765
 Aws::KMS::Types::GetPublicKeyRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] key_id
@@ -16581,12 +16819,12 @@ Aws::KMS::Types::GetPublicKeyRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/GetPublicKeyResponse AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3791
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3848
 class Aws::KMS::Types::GetPublicKeyResponse < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3792
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3849
 Aws::KMS::Types::GetPublicKeyResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Use this structure to allow [cryptographic operations][1] in the grant
@@ -16646,12 +16884,12 @@ Aws::KMS::Types::GetPublicKeyResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/GrantConstraints AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3855
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3912
 class Aws::KMS::Types::GrantConstraints < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3856
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3913
 Aws::KMS::Types::GrantConstraints::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Contains information about a grant.
@@ -16708,12 +16946,12 @@ Aws::KMS::Types::GrantConstraints::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/GrantListEntry AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3923
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3980
 class Aws::KMS::Types::GrantListEntry < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3924
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:3981
 Aws::KMS::Types::GrantListEntry::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] key_id
@@ -16846,12 +17084,12 @@ Aws::KMS::Types::GrantListEntry::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/ImportKeyMaterialRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4066
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4123
 class Aws::KMS::Types::ImportKeyMaterialRequest < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4067
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4124
 Aws::KMS::Types::ImportKeyMaterialRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] key_id
@@ -16869,12 +17107,12 @@ Aws::KMS::Types::ImportKeyMaterialRequest::SENSITIVE = T.let(T.unsafe(nil), Arra
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/ImportKeyMaterialResponse AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4088
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4145
 class Aws::KMS::Types::ImportKeyMaterialResponse < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4089
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4146
 Aws::KMS::Types::ImportKeyMaterialResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The request was rejected because the specified KMS key cannot decrypt
@@ -16887,12 +17125,12 @@ Aws::KMS::Types::ImportKeyMaterialResponse::SENSITIVE = T.let(T.unsafe(nil), Arr
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/IncorrectKeyException AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4104
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4161
 class Aws::KMS::Types::IncorrectKeyException < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4105
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4162
 Aws::KMS::Types::IncorrectKeyException::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The request was rejected because the key material in the request is,
@@ -16906,12 +17144,12 @@ Aws::KMS::Types::IncorrectKeyException::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/IncorrectKeyMaterialException AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4121
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4178
 class Aws::KMS::Types::IncorrectKeyMaterialException < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4122
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4179
 Aws::KMS::Types::IncorrectKeyMaterialException::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The request was rejected because the trust anchor certificate in the
@@ -16930,12 +17168,12 @@ Aws::KMS::Types::IncorrectKeyMaterialException::SENSITIVE = T.let(T.unsafe(nil),
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/IncorrectTrustAnchorException AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4143
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4200
 class Aws::KMS::Types::IncorrectTrustAnchorException < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4144
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4201
 Aws::KMS::Types::IncorrectTrustAnchorException::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The request was rejected because the specified alias name is not
@@ -16946,12 +17184,12 @@ Aws::KMS::Types::IncorrectTrustAnchorException::SENSITIVE = T.let(T.unsafe(nil),
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/InvalidAliasNameException AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4157
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4214
 class Aws::KMS::Types::InvalidAliasNameException < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4158
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4215
 Aws::KMS::Types::InvalidAliasNameException::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The request was rejected because a specified ARN, or an ARN in a key
@@ -16962,12 +17200,12 @@ Aws::KMS::Types::InvalidAliasNameException::SENSITIVE = T.let(T.unsafe(nil), Arr
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/InvalidArnException AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4171
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4228
 class Aws::KMS::Types::InvalidArnException < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4172
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4229
 Aws::KMS::Types::InvalidArnException::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # From the Decrypt or ReEncrypt operation, the request was rejected
@@ -16983,12 +17221,12 @@ Aws::KMS::Types::InvalidArnException::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/InvalidCiphertextException AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4190
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4247
 class Aws::KMS::Types::InvalidCiphertextException < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4191
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4248
 Aws::KMS::Types::InvalidCiphertextException::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The request was rejected because the specified `GrantId` is not valid.
@@ -16998,12 +17236,12 @@ Aws::KMS::Types::InvalidCiphertextException::SENSITIVE = T.let(T.unsafe(nil), Ar
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/InvalidGrantIdException AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4203
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4260
 class Aws::KMS::Types::InvalidGrantIdException < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4204
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4261
 Aws::KMS::Types::InvalidGrantIdException::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The request was rejected because the specified grant token is not
@@ -17014,12 +17252,12 @@ Aws::KMS::Types::InvalidGrantIdException::SENSITIVE = T.let(T.unsafe(nil), Array
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/InvalidGrantTokenException AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4217
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4274
 class Aws::KMS::Types::InvalidGrantTokenException < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4218
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4275
 Aws::KMS::Types::InvalidGrantTokenException::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The request was rejected because the provided import token is invalid
@@ -17030,12 +17268,12 @@ Aws::KMS::Types::InvalidGrantTokenException::SENSITIVE = T.let(T.unsafe(nil), Ar
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/InvalidImportTokenException AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4231
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4288
 class Aws::KMS::Types::InvalidImportTokenException < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4232
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4289
 Aws::KMS::Types::InvalidImportTokenException::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The request was rejected for one of the following reasons:
@@ -17063,12 +17301,12 @@ Aws::KMS::Types::InvalidImportTokenException::SENSITIVE = T.let(T.unsafe(nil), A
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/InvalidKeyUsageException AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4262
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4319
 class Aws::KMS::Types::InvalidKeyUsageException < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4263
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4320
 Aws::KMS::Types::InvalidKeyUsageException::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The request was rejected because the marker that specifies where
@@ -17079,12 +17317,12 @@ Aws::KMS::Types::InvalidKeyUsageException::SENSITIVE = T.let(T.unsafe(nil), Arra
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/InvalidMarkerException AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4276
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4333
 class Aws::KMS::Types::InvalidMarkerException < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4277
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4334
 Aws::KMS::Types::InvalidMarkerException::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The request was rejected because an internal exception occurred. The
@@ -17095,12 +17333,12 @@ Aws::KMS::Types::InvalidMarkerException::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/KMSInternalException AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4290
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4347
 class Aws::KMS::Types::KMSInternalException < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4291
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4348
 Aws::KMS::Types::KMSInternalException::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The request was rejected because the HMAC verification failed. HMAC
@@ -17113,12 +17351,12 @@ Aws::KMS::Types::KMSInternalException::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/KMSInvalidMacException AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4306
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4363
 class Aws::KMS::Types::KMSInvalidMacException < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4307
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4364
 Aws::KMS::Types::KMSInvalidMacException::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The request was rejected because the signature verification failed.
@@ -17131,12 +17369,12 @@ Aws::KMS::Types::KMSInvalidMacException::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/KMSInvalidSignatureException AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4322
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4379
 class Aws::KMS::Types::KMSInvalidSignatureException < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4323
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4380
 Aws::KMS::Types::KMSInvalidSignatureException::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The request was rejected because the state of the specified resource
@@ -17165,13 +17403,49 @@ Aws::KMS::Types::KMSInvalidSignatureException::SENSITIVE = T.let(T.unsafe(nil), 
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/KMSInvalidStateException AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4354
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4411
 class Aws::KMS::Types::KMSInvalidStateException < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4355
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4412
 Aws::KMS::Types::KMSInvalidStateException::SENSITIVE = T.let(T.unsafe(nil), Array)
+
+# Contains usage information about the last time the KMS key was used
+# for a successful cryptographic operation.
+#
+# @!attribute [rw] operation
+#   The last successful cryptographic operation the KMS key was used
+#   for. Absent if the key has not been used since KMS began tracking.
+#   @return [String]
+#
+# @!attribute [rw] timestamp
+#   The date and time when the KMS key was most recently used for a
+#   successful cryptographic operation. Absent if the key has not been
+#   used since KMS began tracking.
+#   @return [Time]
+#
+# @!attribute [rw] cloud_trail_event_id
+#   The CloudTrail `eventId` associated with the last successful
+#   cryptographic operation. Absent if the key has not been used since
+#   KMS began tracking.
+#   @return [String]
+#
+# @!attribute [rw] kms_request_id
+#   The KMS request ID associated with the last successful cryptographic
+#   operation. Absent if the key has not been used since KMS began
+#   tracking.
+#   @return [String]
+#
+# @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/KeyLastUsageData AWS API Documentation
+#
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4448
+class Aws::KMS::Types::KeyLastUsageData < ::Struct
+  include ::Aws::Structure
+end
+
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4449
+Aws::KMS::Types::KeyLastUsageData::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Contains information about each entry in the key list.
 #
@@ -17185,12 +17459,12 @@ Aws::KMS::Types::KMSInvalidStateException::SENSITIVE = T.let(T.unsafe(nil), Arra
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/KeyListEntry AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4373
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4467
 class Aws::KMS::Types::KeyListEntry < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4374
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4468
 Aws::KMS::Types::KeyListEntry::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Contains metadata about a KMS key.
@@ -17432,12 +17706,12 @@ Aws::KMS::Types::KeyListEntry::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/KeyMetadata AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4643
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4737
 class Aws::KMS::Types::KeyMetadata < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4644
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4738
 Aws::KMS::Types::KeyMetadata::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The request was rejected because the specified KMS key was not
@@ -17448,12 +17722,12 @@ Aws::KMS::Types::KeyMetadata::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/KeyUnavailableException AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4657
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4751
 class Aws::KMS::Types::KeyUnavailableException < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4658
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4752
 Aws::KMS::Types::KeyUnavailableException::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The request was rejected because a length constraint or quota was
@@ -17469,12 +17743,12 @@ Aws::KMS::Types::KeyUnavailableException::SENSITIVE = T.let(T.unsafe(nil), Array
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/LimitExceededException AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4676
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4770
 class Aws::KMS::Types::LimitExceededException < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4677
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4771
 Aws::KMS::Types::LimitExceededException::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] key_id
@@ -17515,12 +17789,12 @@ Aws::KMS::Types::LimitExceededException::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/ListAliasesRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4722
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4816
 class Aws::KMS::Types::ListAliasesRequest < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4723
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4817
 Aws::KMS::Types::ListAliasesRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] aliases
@@ -17541,12 +17815,12 @@ Aws::KMS::Types::ListAliasesRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/ListAliasesResponse AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4748
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4842
 class Aws::KMS::Types::ListAliasesResponse < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4749
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4843
 Aws::KMS::Types::ListAliasesResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] limit
@@ -17596,12 +17870,12 @@ Aws::KMS::Types::ListAliasesResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/ListGrantsRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4805
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4899
 class Aws::KMS::Types::ListGrantsRequest < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4806
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4900
 Aws::KMS::Types::ListGrantsRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] grants
@@ -17622,12 +17896,12 @@ Aws::KMS::Types::ListGrantsRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/ListGrantsResponse AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4831
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4925
 class Aws::KMS::Types::ListGrantsResponse < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4832
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4926
 Aws::KMS::Types::ListGrantsResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] key_id
@@ -17666,12 +17940,12 @@ Aws::KMS::Types::ListGrantsResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/ListKeyPoliciesRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4875
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4969
 class Aws::KMS::Types::ListKeyPoliciesRequest < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4876
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4970
 Aws::KMS::Types::ListKeyPoliciesRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] policy_names
@@ -17692,12 +17966,12 @@ Aws::KMS::Types::ListKeyPoliciesRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/ListKeyPoliciesResponse AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4901
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4995
 class Aws::KMS::Types::ListKeyPoliciesResponse < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4902
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4996
 Aws::KMS::Types::ListKeyPoliciesResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] key_id
@@ -17746,12 +18020,12 @@ Aws::KMS::Types::ListKeyPoliciesResponse::SENSITIVE = T.let(T.unsafe(nil), Array
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/ListKeyRotationsRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4956
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5050
 class Aws::KMS::Types::ListKeyRotationsRequest < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4957
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5051
 Aws::KMS::Types::ListKeyRotationsRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] rotations
@@ -17775,12 +18049,12 @@ Aws::KMS::Types::ListKeyRotationsRequest::SENSITIVE = T.let(T.unsafe(nil), Array
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/ListKeyRotationsResponse AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4985
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5079
 class Aws::KMS::Types::ListKeyRotationsResponse < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:4986
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5080
 Aws::KMS::Types::ListKeyRotationsResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] limit
@@ -17801,12 +18075,12 @@ Aws::KMS::Types::ListKeyRotationsResponse::SENSITIVE = T.let(T.unsafe(nil), Arra
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/ListKeysRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5010
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5104
 class Aws::KMS::Types::ListKeysRequest < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5011
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5105
 Aws::KMS::Types::ListKeysRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] keys
@@ -17827,12 +18101,12 @@ Aws::KMS::Types::ListKeysRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/ListKeysResponse AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5036
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5130
 class Aws::KMS::Types::ListKeysResponse < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5037
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5131
 Aws::KMS::Types::ListKeysResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] key_id
@@ -17871,12 +18145,12 @@ Aws::KMS::Types::ListKeysResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/ListResourceTagsRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5080
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5174
 class Aws::KMS::Types::ListResourceTagsRequest < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5081
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5175
 Aws::KMS::Types::ListResourceTagsRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] tags
@@ -17909,12 +18183,12 @@ Aws::KMS::Types::ListResourceTagsRequest::SENSITIVE = T.let(T.unsafe(nil), Array
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/ListResourceTagsResponse AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5118
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5212
 class Aws::KMS::Types::ListResourceTagsResponse < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5119
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5213
 Aws::KMS::Types::ListResourceTagsResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] limit
@@ -17952,12 +18226,12 @@ Aws::KMS::Types::ListResourceTagsResponse::SENSITIVE = T.let(T.unsafe(nil), Arra
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/ListRetirableGrantsRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5161
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5255
 class Aws::KMS::Types::ListRetirableGrantsRequest < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5162
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5256
 Aws::KMS::Types::ListRetirableGrantsRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The request was rejected because the specified policy is not
@@ -17968,12 +18242,12 @@ Aws::KMS::Types::ListRetirableGrantsRequest::SENSITIVE = T.let(T.unsafe(nil), Ar
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/MalformedPolicyDocumentException AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5175
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5269
 class Aws::KMS::Types::MalformedPolicyDocumentException < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5176
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5270
 Aws::KMS::Types::MalformedPolicyDocumentException::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Describes the configuration of this multi-Region key. This field
@@ -17999,12 +18273,12 @@ Aws::KMS::Types::MalformedPolicyDocumentException::SENSITIVE = T.let(T.unsafe(ni
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/MultiRegionConfiguration AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5206
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5300
 class Aws::KMS::Types::MultiRegionConfiguration < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5207
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5301
 Aws::KMS::Types::MultiRegionConfiguration::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Describes the primary or replica key in a multi-Region key.
@@ -18021,12 +18295,12 @@ Aws::KMS::Types::MultiRegionConfiguration::SENSITIVE = T.let(T.unsafe(nil), Arra
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/MultiRegionKey AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5227
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5321
 class Aws::KMS::Types::MultiRegionKey < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5228
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5322
 Aws::KMS::Types::MultiRegionKey::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The request was rejected because the specified entity or resource
@@ -18037,12 +18311,12 @@ Aws::KMS::Types::MultiRegionKey::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/NotFoundException AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5241
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5335
 class Aws::KMS::Types::NotFoundException < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5242
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5336
 Aws::KMS::Types::NotFoundException::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] key_id
@@ -18153,12 +18427,12 @@ Aws::KMS::Types::NotFoundException::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/PutKeyPolicyRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5358
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5452
 class Aws::KMS::Types::PutKeyPolicyRequest < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5359
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5453
 Aws::KMS::Types::PutKeyPolicyRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] ciphertext_blob
@@ -18208,7 +18482,7 @@ Aws::KMS::Types::PutKeyPolicyRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 #   To specify a KMS key, use its key ID, key ARN, alias name, or alias
 #   ARN. When using an alias name, prefix it with `"alias/"`. To specify
-#   a KMS key in a different Amazon Web Services account, you must use
+#   a KMS key in a different Amazon Web Services account, you should use
 #   the key ARN or alias ARN.
 #
 #   For example:
@@ -18349,12 +18623,12 @@ Aws::KMS::Types::PutKeyPolicyRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/ReEncryptRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5561
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5655
 class Aws::KMS::Types::ReEncryptRequest < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5562
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5656
 Aws::KMS::Types::ReEncryptRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] ciphertext_blob
@@ -18400,12 +18674,12 @@ Aws::KMS::Types::ReEncryptRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/ReEncryptResponse AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5616
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5710
 class Aws::KMS::Types::ReEncryptResponse < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5617
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5711
 Aws::KMS::Types::ReEncryptResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Contains information about the party that receives the response from
@@ -18436,12 +18710,12 @@ Aws::KMS::Types::ReEncryptResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/RecipientInfo AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5651
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5745
 class Aws::KMS::Types::RecipientInfo < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5652
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5746
 Aws::KMS::Types::RecipientInfo::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] key_id
@@ -18622,12 +18896,12 @@ Aws::KMS::Types::RecipientInfo::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/ReplicateKeyRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5840
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5934
 class Aws::KMS::Types::ReplicateKeyRequest < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5841
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5935
 Aws::KMS::Types::ReplicateKeyRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] replica_key_metadata
@@ -18654,12 +18928,12 @@ Aws::KMS::Types::ReplicateKeyRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/ReplicateKeyResponse AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5872
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5966
 class Aws::KMS::Types::ReplicateKeyResponse < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5873
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5967
 Aws::KMS::Types::ReplicateKeyResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] grant_token
@@ -18709,12 +18983,12 @@ Aws::KMS::Types::ReplicateKeyResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/RetireGrantRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5928
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6022
 class Aws::KMS::Types::RetireGrantRequest < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5929
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6023
 Aws::KMS::Types::RetireGrantRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] key_id
@@ -18756,12 +19030,12 @@ Aws::KMS::Types::RetireGrantRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/RevokeGrantRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5975
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6069
 class Aws::KMS::Types::RevokeGrantRequest < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:5976
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6070
 Aws::KMS::Types::RevokeGrantRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] key_id
@@ -18795,12 +19069,12 @@ Aws::KMS::Types::RevokeGrantRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/RotateKeyOnDemandRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6012
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6106
 class Aws::KMS::Types::RotateKeyOnDemandRequest < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6013
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6107
 Aws::KMS::Types::RotateKeyOnDemandRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] key_id
@@ -18810,12 +19084,12 @@ Aws::KMS::Types::RotateKeyOnDemandRequest::SENSITIVE = T.let(T.unsafe(nil), Arra
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/RotateKeyOnDemandResponse AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6025
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6119
 class Aws::KMS::Types::RotateKeyOnDemandResponse < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6026
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6120
 Aws::KMS::Types::RotateKeyOnDemandResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Each entry contains information about one of the key materials
@@ -18901,12 +19175,12 @@ Aws::KMS::Types::RotateKeyOnDemandResponse::SENSITIVE = T.let(T.unsafe(nil), Arr
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/RotationsListEntry AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6122
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6216
 class Aws::KMS::Types::RotationsListEntry < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6123
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6217
 Aws::KMS::Types::RotationsListEntry::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] key_id
@@ -18946,12 +19220,12 @@ Aws::KMS::Types::RotationsListEntry::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/ScheduleKeyDeletionRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6166
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6260
 class Aws::KMS::Types::ScheduleKeyDeletionRequest < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6167
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6261
 Aws::KMS::Types::ScheduleKeyDeletionRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] key_id
@@ -18993,12 +19267,12 @@ Aws::KMS::Types::ScheduleKeyDeletionRequest::SENSITIVE = T.let(T.unsafe(nil), Ar
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/ScheduleKeyDeletionResponse AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6214
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6308
 class Aws::KMS::Types::ScheduleKeyDeletionResponse < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6215
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6309
 Aws::KMS::Types::ScheduleKeyDeletionResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] key_id
@@ -19062,6 +19336,11 @@ Aws::KMS::Types::ScheduleKeyDeletionResponse::SENSITIVE = T.let(T.unsafe(nil), A
 #   * ED25519\_PH\_SHA\_512 signing algorithm requires KMS
 #     `MessageType:DIGEST`
 #
+#   When you specify the ED25519\_PH\_SHA\_512 signing algorithm with
+#   `MessageType:DIGEST`, KMS still performs the SHA-512 prehash
+#   described in [Step 1 of Section 7.8.1 in FIPS 186-5][1]. This means
+#   the input is hashed twice: once by you and once by KMS.
+#
 #   When the value of `MessageType` is `DIGEST`, the length of the
 #   `Message` value must match the length of hashed messages for the
 #   specified signing algorithm.
@@ -19090,11 +19369,12 @@ Aws::KMS::Types::ScheduleKeyDeletionResponse::SENSITIVE = T.let(T.unsafe(nil), A
 #     hashing algorithm.
 #
 #   * SM2DSA uses the SM3 hashing algorithm. For details, see [Offline
-#     verification with SM2 key pairs][1].
+#     verification with SM2 key pairs][2].
 #
 #
 #
-#   [1]: https://docs.aws.amazon.com/kms/latest/developerguide/offline-operations.html#key-spec-sm-offline-verification
+#   [1]: https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.186-5.pdf#page=39
+#   [2]: https://docs.aws.amazon.com/kms/latest/developerguide/offline-operations.html#key-spec-sm-offline-verification
 #   @return [String]
 #
 # @!attribute [rw] grant_tokens
@@ -19134,12 +19414,12 @@ Aws::KMS::Types::ScheduleKeyDeletionResponse::SENSITIVE = T.let(T.unsafe(nil), A
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/SignRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6358
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6458
 class Aws::KMS::Types::SignRequest < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6359
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6459
 Aws::KMS::Types::SignRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] key_id
@@ -19178,12 +19458,12 @@ Aws::KMS::Types::SignRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/SignResponse AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6402
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6502
 class Aws::KMS::Types::SignResponse < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6403
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6503
 Aws::KMS::Types::SignResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # A key-value pair. A tag consists of a tag key and a tag value. Tag
@@ -19212,12 +19492,12 @@ Aws::KMS::Types::SignResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/Tag AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6435
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6535
 class Aws::KMS::Types::Tag < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6436
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6536
 Aws::KMS::Types::Tag::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The request was rejected because one or more tags are not valid.
@@ -19227,12 +19507,12 @@ Aws::KMS::Types::Tag::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/TagException AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6448
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6548
 class Aws::KMS::Types::TagException < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6449
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6549
 Aws::KMS::Types::TagException::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] key_id
@@ -19266,12 +19546,12 @@ Aws::KMS::Types::TagException::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/TagResourceRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6486
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6586
 class Aws::KMS::Types::TagResourceRequest < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6487
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6587
 Aws::KMS::Types::TagResourceRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The request was rejected because a specified parameter is not
@@ -19282,12 +19562,12 @@ Aws::KMS::Types::TagResourceRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/UnsupportedOperationException AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6500
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6600
 class Aws::KMS::Types::UnsupportedOperationException < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6501
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6601
 Aws::KMS::Types::UnsupportedOperationException::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] key_id
@@ -19312,12 +19592,12 @@ Aws::KMS::Types::UnsupportedOperationException::SENSITIVE = T.let(T.unsafe(nil),
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/UntagResourceRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6529
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6629
 class Aws::KMS::Types::UntagResourceRequest < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6530
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6630
 Aws::KMS::Types::UntagResourceRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] alias_name
@@ -19364,12 +19644,12 @@ Aws::KMS::Types::UntagResourceRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/UpdateAliasRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6580
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6680
 class Aws::KMS::Types::UpdateAliasRequest < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6581
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6681
 Aws::KMS::Types::UpdateAliasRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] custom_key_store_id
@@ -19387,8 +19667,8 @@ Aws::KMS::Types::UpdateAliasRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 #   This field may be displayed in plaintext in CloudTrail logs and
 #   other output.
 #
-#   To change this value, an CloudHSM key store must be disconnected. An
-#   external key store can be connected or disconnected.
+#   To change this value, the custom key store can be connected or
+#   disconnected.
 #   @return [String]
 #
 # @!attribute [rw] key_store_password
@@ -19523,17 +19803,17 @@ Aws::KMS::Types::UpdateAliasRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/UpdateCustomKeyStoreRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6746
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6846
 class Aws::KMS::Types::UpdateCustomKeyStoreRequest < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6747
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6847
 Aws::KMS::Types::UpdateCustomKeyStoreRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/UpdateCustomKeyStoreResponse AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6753
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6853
 class Aws::KMS::Types::UpdateCustomKeyStoreResponse < ::Aws::EmptyStructure; end
 
 # @!attribute [rw] key_id
@@ -19562,12 +19842,12 @@ class Aws::KMS::Types::UpdateCustomKeyStoreResponse < ::Aws::EmptyStructure; end
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/UpdateKeyDescriptionRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6783
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6883
 class Aws::KMS::Types::UpdateKeyDescriptionRequest < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6784
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6884
 Aws::KMS::Types::UpdateKeyDescriptionRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] key_id
@@ -19598,12 +19878,12 @@ Aws::KMS::Types::UpdateKeyDescriptionRequest::SENSITIVE = T.let(T.unsafe(nil), A
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/UpdatePrimaryRegionRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6818
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6918
 class Aws::KMS::Types::UpdatePrimaryRegionRequest < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6819
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6919
 Aws::KMS::Types::UpdatePrimaryRegionRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] message
@@ -19663,12 +19943,12 @@ Aws::KMS::Types::UpdatePrimaryRegionRequest::SENSITIVE = T.let(T.unsafe(nil), Ar
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/VerifyMacRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6886
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6986
 class Aws::KMS::Types::VerifyMacRequest < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6887
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6987
 Aws::KMS::Types::VerifyMacRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] key_id
@@ -19691,12 +19971,12 @@ Aws::KMS::Types::VerifyMacRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/VerifyMacResponse AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6914
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7014
 class Aws::KMS::Types::VerifyMacResponse < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:6915
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7015
 Aws::KMS::Types::VerifyMacResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] key_id
@@ -19761,6 +20041,11 @@ Aws::KMS::Types::VerifyMacResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 #   * ED25519\_PH\_SHA\_512 signing algorithm requires KMS
 #     `MessageType:DIGEST`
 #
+#   When you specify the ED25519\_PH\_SHA\_512 signing algorithm with
+#   `MessageType:DIGEST`, KMS still performs the SHA-512 prehash
+#   described in [Step 1 of Section 7.8.1 in FIPS 186-5][1]. This means
+#   the input is hashed twice: once by you and once by KMS.
+#
 #   When the value of `MessageType` is `DIGEST`, the length of the
 #   `Message` value must match the length of hashed messages for the
 #   specified signing algorithm.
@@ -19790,11 +20075,12 @@ Aws::KMS::Types::VerifyMacResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 #     hashing algorithm.
 #
 #   * SM2DSA uses the SM3 hashing algorithm. For details, see [Offline
-#     verification with SM2 key pairs][1].
+#     verification with SM2 key pairs][2].
 #
 #
 #
-#   [1]: https://docs.aws.amazon.com/kms/latest/developerguide/offline-operations.html#key-spec-sm-offline-verification
+#   [1]: https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.186-5.pdf#page=39
+#   [2]: https://docs.aws.amazon.com/kms/latest/developerguide/offline-operations.html#key-spec-sm-offline-verification
 #   @return [String]
 #
 # @!attribute [rw] signature
@@ -19834,12 +20120,12 @@ Aws::KMS::Types::VerifyMacResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/VerifyRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7061
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7167
 class Aws::KMS::Types::VerifyRequest < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7062
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7168
 Aws::KMS::Types::VerifyRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @!attribute [rw] key_id
@@ -19865,12 +20151,12 @@ Aws::KMS::Types::VerifyRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/VerifyResponse AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7092
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7198
 class Aws::KMS::Types::VerifyResponse < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7093
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7199
 Aws::KMS::Types::VerifyResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The request was rejected because the (`XksKeyId`) is already
@@ -19883,12 +20169,12 @@ Aws::KMS::Types::VerifyResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/XksKeyAlreadyInUseException AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7108
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7214
 class Aws::KMS::Types::XksKeyAlreadyInUseException < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7109
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7215
 Aws::KMS::Types::XksKeyAlreadyInUseException::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Information about the [external key ][1]that is associated with a KMS
@@ -19916,12 +20202,12 @@ Aws::KMS::Types::XksKeyAlreadyInUseException::SENSITIVE = T.let(T.unsafe(nil), A
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/XksKeyConfigurationType AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7139
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7245
 class Aws::KMS::Types::XksKeyConfigurationType < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7140
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7246
 Aws::KMS::Types::XksKeyConfigurationType::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The request was rejected because the external key specified by the
@@ -19936,12 +20222,12 @@ Aws::KMS::Types::XksKeyConfigurationType::SENSITIVE = T.let(T.unsafe(nil), Array
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/XksKeyInvalidConfigurationException AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7157
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7263
 class Aws::KMS::Types::XksKeyInvalidConfigurationException < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7158
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7264
 Aws::KMS::Types::XksKeyInvalidConfigurationException::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The request was rejected because the external key store proxy could
@@ -19959,12 +20245,12 @@ Aws::KMS::Types::XksKeyInvalidConfigurationException::SENSITIVE = T.let(T.unsafe
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/XksKeyNotFoundException AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7178
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7284
 class Aws::KMS::Types::XksKeyNotFoundException < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7179
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7285
 Aws::KMS::Types::XksKeyNotFoundException::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # KMS uses the authentication credential to sign requests that it sends
@@ -19985,12 +20271,12 @@ Aws::KMS::Types::XksKeyNotFoundException::SENSITIVE = T.let(T.unsafe(nil), Array
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/XksProxyAuthenticationCredentialType AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7203
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7309
 class Aws::KMS::Types::XksProxyAuthenticationCredentialType < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7204
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7310
 Aws::KMS::Types::XksProxyAuthenticationCredentialType::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Detailed information about the external key store proxy (XKS proxy).
@@ -20044,12 +20330,12 @@ Aws::KMS::Types::XksProxyAuthenticationCredentialType::SENSITIVE = T.let(T.unsaf
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/XksProxyConfigurationType AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7265
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7371
 class Aws::KMS::Types::XksProxyConfigurationType < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7266
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7372
 Aws::KMS::Types::XksProxyConfigurationType::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The request was rejected because the proxy credentials failed to
@@ -20063,12 +20349,12 @@ Aws::KMS::Types::XksProxyConfigurationType::SENSITIVE = T.let(T.unsafe(nil), Arr
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/XksProxyIncorrectAuthenticationCredentialException AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7282
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7388
 class Aws::KMS::Types::XksProxyIncorrectAuthenticationCredentialException < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7283
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7389
 Aws::KMS::Types::XksProxyIncorrectAuthenticationCredentialException::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The request was rejected because the external key store proxy is not
@@ -20080,12 +20366,12 @@ Aws::KMS::Types::XksProxyIncorrectAuthenticationCredentialException::SENSITIVE =
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/XksProxyInvalidConfigurationException AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7297
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7403
 class Aws::KMS::Types::XksProxyInvalidConfigurationException < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7298
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7404
 Aws::KMS::Types::XksProxyInvalidConfigurationException::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # KMS cannot interpret the response it received from the external key
@@ -20098,12 +20384,12 @@ Aws::KMS::Types::XksProxyInvalidConfigurationException::SENSITIVE = T.let(T.unsa
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/XksProxyInvalidResponseException AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7313
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7419
 class Aws::KMS::Types::XksProxyInvalidResponseException < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7314
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7420
 Aws::KMS::Types::XksProxyInvalidResponseException::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The request was rejected because the `XksProxyUriEndpoint` is already
@@ -20116,12 +20402,12 @@ Aws::KMS::Types::XksProxyInvalidResponseException::SENSITIVE = T.let(T.unsafe(ni
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/XksProxyUriEndpointInUseException AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7329
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7435
 class Aws::KMS::Types::XksProxyUriEndpointInUseException < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7330
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7436
 Aws::KMS::Types::XksProxyUriEndpointInUseException::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The request was rejected because the concatenation of the
@@ -20135,12 +20421,12 @@ Aws::KMS::Types::XksProxyUriEndpointInUseException::SENSITIVE = T.let(T.unsafe(n
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/XksProxyUriInUseException AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7346
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7452
 class Aws::KMS::Types::XksProxyUriInUseException < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7347
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7453
 Aws::KMS::Types::XksProxyUriInUseException::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # KMS was unable to reach the specified `XksProxyUriPath`. The path must
@@ -20156,12 +20442,12 @@ Aws::KMS::Types::XksProxyUriInUseException::SENSITIVE = T.let(T.unsafe(nil), Arr
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/XksProxyUriUnreachableException AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7365
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7471
 class Aws::KMS::Types::XksProxyUriUnreachableException < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7366
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7472
 Aws::KMS::Types::XksProxyUriUnreachableException::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The request was rejected because the specified Amazon VPC endpoint
@@ -20174,12 +20460,12 @@ Aws::KMS::Types::XksProxyUriUnreachableException::SENSITIVE = T.let(T.unsafe(nil
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/XksProxyVpcEndpointServiceInUseException AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7381
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7487
 class Aws::KMS::Types::XksProxyVpcEndpointServiceInUseException < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7382
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7488
 Aws::KMS::Types::XksProxyVpcEndpointServiceInUseException::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The request was rejected because the Amazon VPC endpoint service
@@ -20197,12 +20483,12 @@ Aws::KMS::Types::XksProxyVpcEndpointServiceInUseException::SENSITIVE = T.let(T.u
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/XksProxyVpcEndpointServiceInvalidConfigurationException AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7402
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7508
 class Aws::KMS::Types::XksProxyVpcEndpointServiceInvalidConfigurationException < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7403
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7509
 Aws::KMS::Types::XksProxyVpcEndpointServiceInvalidConfigurationException::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The request was rejected because KMS could not find the specified VPC
@@ -20217,10 +20503,10 @@ Aws::KMS::Types::XksProxyVpcEndpointServiceInvalidConfigurationException::SENSIT
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/kms-2014-11-01/XksProxyVpcEndpointServiceNotFoundException AWS API Documentation
 #
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7420
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7526
 class Aws::KMS::Types::XksProxyVpcEndpointServiceNotFoundException < ::Struct
   include ::Aws::Structure
 end
 
-# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7421
+# pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/types.rb:7527
 Aws::KMS::Types::XksProxyVpcEndpointServiceNotFoundException::SENSITIVE = T.let(T.unsafe(nil), Array)

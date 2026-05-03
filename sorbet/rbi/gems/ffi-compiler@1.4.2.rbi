@@ -14,7 +14,7 @@ module FFI::Compiler; end
 # pkg:gem/ffi-compiler#lib/ffi-compiler/loader.rb:7
 module FFI::Compiler::Loader
   class << self
-    # pkg:gem/ffi-compiler#lib/ffi-compiler/loader.rb:28
+    # pkg:gem/ffi-compiler#lib/ffi-compiler/loader.rb:41
     def caller_path(line = T.unsafe(nil)); end
 
     # pkg:gem/ffi-compiler#lib/ffi-compiler/loader.rb:8

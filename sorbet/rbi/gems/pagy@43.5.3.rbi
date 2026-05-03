@@ -11,10 +11,7 @@
 # to avoid breaking changes in the current version, respecting the Semantic Version contract.
 # avoid circular require (also from pagy itself)
 # :nocov:
-# inheritable
 # Handle pagination response headers
-# inherited use
-# inherited use
 # Relegate internal functions. Make overriding navs easier.
 #
 # pkg:gem/pagy#lib/pagy/classes/exceptions.rb:3
@@ -570,6 +567,9 @@ class Pagy::EscapedValue < ::String; end
 # pkg:gem/pagy#lib/pagy/toolbox/helpers/loaders.rb:27
 module Pagy::HelperLoader
   # pkg:gem/pagy#lib/pagy/toolbox/helpers/loaders.rb:13
+  def _pagy_loader_for_a_lambda(*args, **kwargs); end
+
+  # pkg:gem/pagy#lib/pagy/toolbox/helpers/loaders.rb:13
   def _pagy_loader_for_data_hash(*args, **kwargs); end
 
   # pkg:gem/pagy#lib/pagy/toolbox/helpers/loaders.rb:13
@@ -579,7 +579,13 @@ module Pagy::HelperLoader
   def _pagy_loader_for_next_tag(*args, **kwargs); end
 
   # pkg:gem/pagy#lib/pagy/toolbox/helpers/loaders.rb:13
+  def _pagy_loader_for_page_label(*args, **kwargs); end
+
+  # pkg:gem/pagy#lib/pagy/toolbox/helpers/loaders.rb:13
   def _pagy_loader_for_page_url(*args, **kwargs); end
+
+  # pkg:gem/pagy#lib/pagy/toolbox/helpers/loaders.rb:13
+  def _pagy_loader_for_series(*args, **kwargs); end
 
   # pkg:gem/pagy#lib/pagy/toolbox/helpers/loaders.rb:13
   def _pagy_loader_for_urls_hash(*args, **kwargs); end
@@ -598,6 +604,17 @@ module Pagy::HelperLoader
 
   # pkg:gem/pagy#lib/pagy/toolbox/helpers/loaders.rb:20
   def urls_hash(*args, **kwargs); end
+
+  protected
+
+  # pkg:gem/pagy#lib/pagy/toolbox/helpers/loaders.rb:20
+  def a_lambda(*args, **kwargs); end
+
+  # pkg:gem/pagy#lib/pagy/toolbox/helpers/loaders.rb:20
+  def page_label(*args, **kwargs); end
+
+  # pkg:gem/pagy#lib/pagy/toolbox/helpers/loaders.rb:20
+  def series(*args, **kwargs); end
 end
 
 # Faster and lighter Pagy i18n implementation, compatible with the I18n gem
@@ -1047,7 +1064,7 @@ module Pagy::Method
   def pagy(paginator = T.unsafe(nil), collection, **options); end
 end
 
-# pkg:gem/pagy#lib/pagy/toolbox/helpers/loaders.rb:38
+# pkg:gem/pagy#lib/pagy/toolbox/helpers/loaders.rb:41
 module Pagy::NumericHelperLoader
   # pkg:gem/pagy#lib/pagy/toolbox/helpers/loaders.rb:13
   def _pagy_loader_for_bootstrap_input_nav_js(*args, **kwargs); end

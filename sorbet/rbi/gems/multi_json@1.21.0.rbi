@@ -7,7 +7,7 @@
 
 # A unified interface for JSON libraries in Ruby
 #
-# MultiJson allows swapping between JSON backends without changing your code.
+# MultiJSON allows swapping between JSON backends without changing your code.
 # It auto-detects available JSON libraries and uses the fastest one available.
 #
 # ## Method-definition patterns
@@ -16,9 +16,9 @@
 #
 # 1. ``module_function`` creates both a class method and a private instance
 #    method from a single ``def``. This is used for the hot-path API
-#    (``adapter``, ``use``, ``adapter=``, ``load``, ``dump``,
-#    ``current_adapter``) so that both ``MultiJson.load(...)`` and legacy
-#    ``Class.new { include MultiJson }.new.send(:load, ...)`` invocations
+#    (``adapter``, ``use``, ``adapter=``, ``parse``, ``generate``,
+#    ``current_adapter``) so that both ``MultiJSON.parse(...)`` and legacy
+#    ``Class.new { include MultiJSON }.new.send(:parse, ...)`` invocations
 #    work through the same body. The instance versions are re-publicized
 #    below so YARD renders them as part of the public API.
 # 2. ``def self.foo`` creates only a singleton method, giving mutation
@@ -26,32 +26,32 @@
 #    {.with_adapter}, which needs precise mutation coverage of its
 #    fiber-local save/restore logic.
 #
-# Deprecated public API (``decode``, ``encode``, ``engine``, etc.) lives in
-# {file:lib/multi_json/deprecated.rb} so this file stays focused on the
-# current surface.
+# Deprecated public API (``decode``, ``encode``, ``engine``, ``load``,
+# ``dump``, etc.) lives in {file:lib/multi_json/deprecated.rb} so this
+# file stays focused on the current surface.
 #
 # @example Basic usage
-#   MultiJson.load('{"foo":"bar"}')  #=> {"foo" => "bar"}
-#   MultiJson.dump({foo: "bar"})     #=> '{"foo":"bar"}'
+#   MultiJSON.parse('{"foo":"bar"}')  #=> {"foo" => "bar"}
+#   MultiJSON.generate({foo: "bar"})  #=> '{"foo":"bar"}'
 #
 # @example Specifying an adapter
-#   MultiJson.use(:oj)
-#   MultiJson.load('{"foo":"bar"}', adapter: :json_gem)
+#   MultiJSON.use(:oj)
+#   MultiJSON.parse('{"foo":"bar"}', adapter: :json_gem)
 #
 # @api public
 # Deprecated public API kept around for one major release
 #
 # Each method here emits a one-time deprecation warning on first call and
 # delegates to its current-API counterpart. The whole file is loaded by
-# {MultiJson} so the deprecation surface stays out of the main module
+# {MultiJSON} so the deprecation surface stays out of the main module
 # definition.
 #
 # @api private
 #
 # pkg:gem/multi_json#lib/multi_json/concurrency.rb:3
-module MultiJson
-  extend ::MultiJson::Options
-  extend ::MultiJson::AdapterSelector
+module MultiJSON
+  extend ::MultiJSON::Options
+  extend ::MultiJSON::AdapterSelector
 
   # Returns the current adapter class
   #
@@ -62,9 +62,9 @@ module MultiJson
   # @api public
   # @return [Class] the current adapter class
   # @example
-  #   MultiJson.adapter  #=> MultiJson::Adapters::Oj
+  #   MultiJSON.adapter  #=> MultiJSON::Adapters::Oj
   #
-  # pkg:gem/multi_json#lib/multi_json.rb:126
+  # pkg:gem/multi_json#lib/multi_json.rb:127
   def adapter; end
 
   # Sets the adapter to use for JSON operations
@@ -72,9 +72,9 @@ module MultiJson
   # @api public
   # @return [Class] the loaded adapter class
   # @example
-  #   MultiJson.adapter = :json_gem
+  #   MultiJSON.adapter = :json_gem
   #
-  # pkg:gem/multi_json#lib/multi_json.rb:158
+  # pkg:gem/multi_json#lib/multi_json.rb:159
   def adapter=(new_adapter); end
 
   # Returns the adapter to use for the given options
@@ -88,9 +88,9 @@ module MultiJson
   #   nil to use the process default
   # @return [Class] adapter class
   # @example
-  #   MultiJson.current_adapter(adapter: :oj)  #=> MultiJson::Adapters::Oj
+  #   MultiJSON.current_adapter(adapter: :oj)  #=> MultiJSON::Adapters::Oj
   #
-  # pkg:gem/multi_json#lib/multi_json.rb:199
+  # pkg:gem/multi_json#lib/multi_json.rb:200
   def current_adapter(options = T.unsafe(nil)); end
 
   # Serializes a Ruby object to a JSON string
@@ -100,10 +100,10 @@ module MultiJson
   # @param options [Hash] serialization options (adapter-specific)
   # @return [String] JSON string
   # @example
-  #   MultiJson.dump({foo: "bar"})  #=> '{"foo":"bar"}'
+  #   MultiJSON.generate({foo: "bar"})  #=> '{"foo":"bar"}'
   #
-  # pkg:gem/multi_json#lib/multi_json.rb:213
-  def dump(object, options = T.unsafe(nil)); end
+  # pkg:gem/multi_json#lib/multi_json.rb:214
+  def generate(object, options = T.unsafe(nil)); end
 
   # Parses a JSON string into a Ruby object
   #
@@ -118,12 +118,12 @@ module MultiJson
   # @raise [ParseError] if parsing fails
   # @raise [AdapterError] if the adapter doesn't define a ``ParseError`` constant
   # @example
-  #   MultiJson.load('{"foo":"bar"}')  #=> {"foo" => "bar"}
-  #   MultiJson.load("")               #=> nil
-  #   MultiJson.load("   \n")          #=> nil
+  #   MultiJSON.parse('{"foo":"bar"}')  #=> {"foo" => "bar"}
+  #   MultiJSON.parse("")               #=> nil
+  #   MultiJSON.parse("   \n")          #=> nil
   #
-  # pkg:gem/multi_json#lib/multi_json.rb:177
-  def load(string, options = T.unsafe(nil)); end
+  # pkg:gem/multi_json#lib/multi_json.rb:178
+  def parse(string, options = T.unsafe(nil)); end
 
   # Sets the adapter to use for JSON operations
   #
@@ -135,9 +135,9 @@ module MultiJson
   # @param new_adapter [Symbol, String, Module, nil] adapter specification
   # @return [Class] the loaded adapter class
   # @example
-  #   MultiJson.use(:oj)
+  #   MultiJSON.use(:oj)
   #
-  # pkg:gem/multi_json#lib/multi_json.rb:144
+  # pkg:gem/multi_json#lib/multi_json.rb:145
   def use(new_adapter); end
 
   private
@@ -145,39 +145,39 @@ module MultiJson
   # Instance-method delegate for the deprecated default_options getter
   #
   # @api private
-  # @deprecated Use {MultiJson.load_options} or {MultiJson.dump_options} instead
+  # @deprecated Use {MultiJSON.load_options} or {MultiJSON.dump_options} instead
   # @return [Hash] the current load options
   # @example
-  #   class Foo; include MultiJson; end
+  #   class Foo; include MultiJSON; end
   #   Foo.new.send(:default_options)
   #
-  # pkg:gem/multi_json#lib/multi_json/deprecated.rb:107
+  # pkg:gem/multi_json#lib/multi_json/deprecated.rb:110
   def default_options; end
 
   # Instance-method delegate for the deprecated default_options setter
   #
   # @api private
-  # @deprecated Use {MultiJson.load_options=} and {MultiJson.dump_options=} instead
+  # @deprecated Use {MultiJSON.load_options=} and {MultiJSON.dump_options=} instead
   # @param value [Hash] options hash
   # @return [Hash] the options hash
   # @example
-  #   class Foo; include MultiJson; end
+  #   class Foo; include MultiJSON; end
   #   Foo.new.send(:default_options=, symbolize_keys: true)
   #
-  # pkg:gem/multi_json#lib/multi_json/deprecated.rb:95
+  # pkg:gem/multi_json#lib/multi_json/deprecated.rb:98
   def default_options=(value); end
 
-  # Instance-method delegate for {MultiJson.with_adapter}
+  # Instance-method delegate for {MultiJSON.with_adapter}
   #
   # @api private
   # @param new_adapter [Symbol, String, Module] adapter to use
   # @yield block to execute with the temporary adapter
   # @return [Object] result of the block
   # @example
-  #   class Foo; include MultiJson; end
+  #   class Foo; include MultiJSON; end
   #   Foo.new.send(:with_adapter, :json_gem) { ... }
   #
-  # pkg:gem/multi_json#lib/multi_json.rb:263
+  # pkg:gem/multi_json#lib/multi_json.rb:264
   def with_adapter(new_adapter, &_arg1); end
 
   class << self
@@ -190,9 +190,9 @@ module MultiJson
     # @api public
     # @return [Class] the current adapter class
     # @example
-    #   MultiJson.adapter  #=> MultiJson::Adapters::Oj
+    #   MultiJSON.adapter  #=> MultiJSON::Adapters::Oj
     #
-    # pkg:gem/multi_json#lib/multi_json.rb:126
+    # pkg:gem/multi_json#lib/multi_json.rb:127
     def adapter; end
 
     # Returns the current adapter class
@@ -204,12 +204,12 @@ module MultiJson
     # @api public
     # @return [Class] the current adapter class
     # @example
-    #   MultiJson.adapter  #=> MultiJson::Adapters::Oj
+    #   MultiJSON.adapter  #=> MultiJSON::Adapters::Oj
     #
-    # pkg:gem/multi_json#lib/multi_json.rb:159
+    # pkg:gem/multi_json#lib/multi_json.rb:160
     def adapter=(new_adapter); end
 
-    # pkg:gem/multi_json#lib/multi_json/deprecated.rb:54
+    # pkg:gem/multi_json#lib/multi_json/deprecated.rb:55
     def cached_options(*args, **kwargs); end
 
     # Returns the adapter to use for the given options
@@ -223,41 +223,53 @@ module MultiJson
     #   nil to use the process default
     # @return [Class] adapter class
     # @example
-    #   MultiJson.current_adapter(adapter: :oj)  #=> MultiJson::Adapters::Oj
+    #   MultiJSON.current_adapter(adapter: :oj)  #=> MultiJSON::Adapters::Oj
     #
-    # pkg:gem/multi_json#lib/multi_json.rb:199
+    # pkg:gem/multi_json#lib/multi_json.rb:200
     def current_adapter(options = T.unsafe(nil)); end
 
-    # pkg:gem/multi_json#lib/multi_json/deprecated.rb:31
+    # pkg:gem/multi_json#lib/multi_json/deprecated.rb:32
     def decode(*args, **kwargs, &block); end
 
-    # pkg:gem/multi_json#lib/multi_json/deprecated.rb:31
+    # pkg:gem/multi_json#lib/multi_json/deprecated.rb:32
     def default_engine(*args, **kwargs, &block); end
 
     # Instance-method delegate for the deprecated default_options getter
     #
     # @api private
-    # @deprecated Use {MultiJson.load_options} or {MultiJson.dump_options} instead
+    # @deprecated Use {MultiJSON.load_options} or {MultiJSON.dump_options} instead
     # @return [Hash] the current load options
     # @example
-    #   class Foo; include MultiJson; end
+    #   class Foo; include MultiJSON; end
     #   Foo.new.send(:default_options)
     #
-    # pkg:gem/multi_json#lib/multi_json/deprecated.rb:54
+    # pkg:gem/multi_json#lib/multi_json/deprecated.rb:55
     def default_options(*args, **kwargs); end
 
     # Instance-method delegate for the deprecated default_options setter
     #
     # @api private
-    # @deprecated Use {MultiJson.load_options=} and {MultiJson.dump_options=} instead
+    # @deprecated Use {MultiJSON.load_options=} and {MultiJSON.dump_options=} instead
     # @param value [Hash] options hash
     # @return [Hash] the options hash
     # @example
-    #   class Foo; include MultiJson; end
+    #   class Foo; include MultiJSON; end
     #   Foo.new.send(:default_options=, symbolize_keys: true)
     #
-    # pkg:gem/multi_json#lib/multi_json/deprecated.rb:54
+    # pkg:gem/multi_json#lib/multi_json/deprecated.rb:55
     def default_options=(*args, **kwargs); end
+
+    # pkg:gem/multi_json#lib/multi_json/deprecated.rb:32
+    def dump(*args, **kwargs, &block); end
+
+    # pkg:gem/multi_json#lib/multi_json/deprecated.rb:32
+    def encode(*args, **kwargs, &block); end
+
+    # pkg:gem/multi_json#lib/multi_json/deprecated.rb:32
+    def engine(*args, **kwargs, &block); end
+
+    # pkg:gem/multi_json#lib/multi_json/deprecated.rb:32
+    def engine=(*args, **kwargs, &block); end
 
     # Serializes a Ruby object to a JSON string
     #
@@ -266,19 +278,13 @@ module MultiJson
     # @param options [Hash] serialization options (adapter-specific)
     # @return [String] JSON string
     # @example
-    #   MultiJson.dump({foo: "bar"})  #=> '{"foo":"bar"}'
+    #   MultiJSON.generate({foo: "bar"})  #=> '{"foo":"bar"}'
     #
-    # pkg:gem/multi_json#lib/multi_json.rb:213
-    def dump(object, options = T.unsafe(nil)); end
+    # pkg:gem/multi_json#lib/multi_json.rb:214
+    def generate(object, options = T.unsafe(nil)); end
 
-    # pkg:gem/multi_json#lib/multi_json/deprecated.rb:31
-    def encode(*args, **kwargs, &block); end
-
-    # pkg:gem/multi_json#lib/multi_json/deprecated.rb:31
-    def engine(*args, **kwargs, &block); end
-
-    # pkg:gem/multi_json#lib/multi_json/deprecated.rb:31
-    def engine=(*args, **kwargs, &block); end
+    # pkg:gem/multi_json#lib/multi_json/deprecated.rb:32
+    def load(*args, **kwargs, &block); end
 
     # Parses a JSON string into a Ruby object
     #
@@ -293,17 +299,17 @@ module MultiJson
     # @raise [ParseError] if parsing fails
     # @raise [AdapterError] if the adapter doesn't define a ``ParseError`` constant
     # @example
-    #   MultiJson.load('{"foo":"bar"}')  #=> {"foo" => "bar"}
-    #   MultiJson.load("")               #=> nil
-    #   MultiJson.load("   \n")          #=> nil
+    #   MultiJSON.parse('{"foo":"bar"}')  #=> {"foo" => "bar"}
+    #   MultiJSON.parse("")               #=> nil
+    #   MultiJSON.parse("   \n")          #=> nil
     #
-    # pkg:gem/multi_json#lib/multi_json.rb:177
-    def load(string, options = T.unsafe(nil)); end
+    # pkg:gem/multi_json#lib/multi_json.rb:178
+    def parse(string, options = T.unsafe(nil)); end
 
     # Resolve the ``ParseError`` constant for an adapter class
     #
     # The result is memoized on the adapter class itself in a
-    # ``@_multi_json_parse_error`` ivar so subsequent ``MultiJson.load``
+    # ``@_multi_json_parse_error`` ivar so subsequent ``MultiJSON.load``
     # calls skip the constant lookup entirely. The lookup is performed
     # with ``inherit: false`` so a stray top-level ``::ParseError``
     # constant in the host process is correctly ignored on every
@@ -318,10 +324,10 @@ module MultiJson
     # @return [Class] the adapter's ParseError class
     # @raise [AdapterError] when the adapter doesn't define ParseError
     #
-    # pkg:gem/multi_json#lib/multi_json.rb:99
+    # pkg:gem/multi_json#lib/multi_json.rb:100
     def parse_error_class_for(adapter_class); end
 
-    # pkg:gem/multi_json#lib/multi_json/deprecated.rb:54
+    # pkg:gem/multi_json#lib/multi_json/deprecated.rb:55
     def reset_cached_options!(*args, **kwargs); end
 
     # Sets the adapter to use for JSON operations
@@ -334,10 +340,33 @@ module MultiJson
     # @param new_adapter [Symbol, String, Module, nil] adapter specification
     # @return [Class] the loaded adapter class
     # @example
-    #   MultiJson.use(:oj)
+    #   MultiJSON.use(:oj)
     #
-    # pkg:gem/multi_json#lib/multi_json.rb:144
+    # pkg:gem/multi_json#lib/multi_json.rb:145
     def use(new_adapter); end
+
+    # Emit a deprecation warning at most once per process for the given key
+    #
+    # Defined as a singleton method (rather than via module_function) so
+    # there is exactly one definition for mutation tests to target.
+    # Public so the deprecated ``load_options`` / ``dump_options``
+    # aliases on the {Options} mixin can invoke it without routing
+    # through ``MultiJSON.send(...)``.
+    #
+    # The warning is tagged with the ``:deprecated`` category so callers
+    # can silence the whole set with ``Warning[:deprecated] = false`` or
+    # surface it via ``ruby -W:deprecated`` — the standard Ruby idiom for
+    # library deprecations since 2.7.
+    #
+    # @api private
+    # @param key [Symbol] identifier for the deprecation (typically the method name)
+    # @param message [String] warning message to emit on first call
+    # @return [void]
+    # @example
+    #   MultiJSON.warn_deprecation_once(:foo, "MultiJSON.foo is deprecated")
+    #
+    # pkg:gem/multi_json#lib/multi_json.rb:74
+    def warn_deprecation_once(key, message); end
 
     # Executes a block using the specified adapter
     #
@@ -352,12 +381,12 @@ module MultiJson
     # @yield block to execute with the temporary adapter
     # @return [Object] result of the block
     # @example
-    #   MultiJson.with_adapter(:json_gem) { MultiJson.dump({}) }
+    #   MultiJSON.with_adapter(:json_gem) { MultiJSON.dump({}) }
     #
-    # pkg:gem/multi_json#lib/multi_json.rb:240
+    # pkg:gem/multi_json#lib/multi_json.rb:241
     def with_adapter(new_adapter); end
 
-    # pkg:gem/multi_json#lib/multi_json/deprecated.rb:31
+    # pkg:gem/multi_json#lib/multi_json/deprecated.rb:32
     def with_engine(*args, **kwargs, &block); end
 
     private
@@ -367,17 +396,18 @@ module MultiJson
     # The generated singleton method emits a one-time deprecation
     # warning naming the replacement, then forwards all positional and
     # keyword arguments plus any block to ``replacement``. Used for the
-    # ``decode`` / ``encode`` / ``engine*`` / ``with_engine`` /
-    # ``default_engine`` aliases that are scheduled for removal in v2.0.
+    # ``load`` / ``dump`` / ``decode`` / ``encode`` / ``engine*`` /
+    # ``with_engine`` / ``default_engine`` aliases that are scheduled
+    # for removal in v2.0.
     #
     # @api private
     # @param name [Symbol] deprecated method name
     # @param replacement [Symbol] current-API method to delegate to
     # @return [Symbol] the defined method name
     # @example
-    #   deprecate_alias :decode, :load
+    #   deprecate_alias :load, :parse
     #
-    # pkg:gem/multi_json#lib/multi_json/deprecated.rb:29
+    # pkg:gem/multi_json#lib/multi_json/deprecated.rb:30
     def deprecate_alias(name, replacement); end
 
     # Define a deprecated method whose body needs custom delegation
@@ -386,8 +416,8 @@ module MultiJson
     # whose body fans out to multiple replacement methods, and for the
     # ``cached_options`` / ``reset_cached_options!`` no-op stubs that
     # have no current-API counterpart at all. The block runs in its
-    # own lexical ``self``, which is the ``MultiJson`` module since
-    # every call site sits inside ``module MultiJson`` below.
+    # own lexical ``self``, which is the ``MultiJSON`` module since
+    # every call site sits inside ``module MultiJSON`` below.
     #
     # @api private
     # @param name [Symbol] deprecated method name
@@ -397,26 +427,8 @@ module MultiJson
     # @example
     #   deprecate_method(:cached_options, "...") { nil }
     #
-    # pkg:gem/multi_json#lib/multi_json/deprecated.rb:53
+    # pkg:gem/multi_json#lib/multi_json/deprecated.rb:54
     def deprecate_method(name, message, &body); end
-
-    # Emit a deprecation warning at most once per process for the given key
-    #
-    # Defined as a singleton method (rather than via module_function) so
-    # there is exactly one definition for mutation tests to target. The
-    # deprecated method bodies invoke this via ``warn_deprecation_once(...)``
-    # (singleton callers) and via the private instance delegates routing
-    # through the singleton for legacy ``include MultiJson`` consumers.
-    #
-    # @api private
-    # @param key [Symbol] identifier for the deprecation (typically the method name)
-    # @param message [String] warning message to emit on first call
-    # @return [void]
-    # @example
-    #   MultiJson.send(:warn_deprecation_once, :foo, "MultiJson.foo is deprecated")
-    #
-    # pkg:gem/multi_json#lib/multi_json.rb:72
-    def warn_deprecation_once(key, message); end
   end
 end
 
@@ -433,22 +445,40 @@ end
 # @api private
 #
 # pkg:gem/multi_json#lib/multi_json/adapter.rb:18
-class MultiJson::Adapter
+class MultiJSON::Adapter
   include ::Singleton::SingletonInstanceMethods
   include ::Singleton
-  extend ::MultiJson::Options
+  extend ::MultiJSON::Options
   extend ::Singleton::SingletonClassMethods
 
   class << self
-    # Get default dump options, walking the superclass chain
+    # Get default generate options, walking the superclass chain
+    #
+    # @api private
+    # @deprecated Use {.default_generate_options} instead. Will be removed in v2.0.
+    # @return [Hash] frozen options hash
+    #
+    # pkg:gem/multi_json#lib/multi_json/adapter.rb:62
+    def default_dump_options; end
+
+    # Get default generate options, walking the superclass chain
     #
     # @api private
     # @return [Hash] frozen options hash
     #
     # pkg:gem/multi_json#lib/multi_json/adapter.rb:44
-    def default_dump_options; end
+    def default_generate_options; end
 
-    # Get default load options, walking the superclass chain
+    # Get default parse options, walking the superclass chain
+    #
+    # @api private
+    # @deprecated Use {.default_parse_options} instead. Will be removed in v2.0.
+    # @return [Hash] frozen options hash
+    #
+    # pkg:gem/multi_json#lib/multi_json/adapter.rb:53
+    def default_load_options; end
+
+    # Get default parse options, walking the superclass chain
     #
     # Returns the closest ancestor's `@default_load_options` ivar so a
     # parent class calling {.defaults} after a subclass has been
@@ -459,7 +489,7 @@ class MultiJson::Adapter
     # @return [Hash] frozen options hash
     #
     # pkg:gem/multi_json#lib/multi_json/adapter.rb:36
-    def default_load_options; end
+    def default_parse_options; end
 
     # DSL for setting adapter-specific default options
     #
@@ -475,11 +505,11 @@ class MultiJson::Adapter
     # @raise [ArgumentError] when action is anything other than :load
     #   or :dump, or when value isn't a Hash
     # @example Set load defaults for an adapter
-    #   class MyAdapter < MultiJson::Adapter
+    #   class MyAdapter < MultiJSON::Adapter
     #     defaults :load, symbolize_keys: false
     #   end
     #
-    # pkg:gem/multi_json#lib/multi_json/adapter.rb:65
+    # pkg:gem/multi_json#lib/multi_json/adapter.rb:83
     def defaults(action, value); end
 
     # Serialize a Ruby object to JSON
@@ -489,7 +519,7 @@ class MultiJson::Adapter
     # @param options [Hash] serialization options
     # @return [String] JSON string
     #
-    # pkg:gem/multi_json#lib/multi_json/adapter.rb:91
+    # pkg:gem/multi_json#lib/multi_json/adapter.rb:109
     def dump(object, options = T.unsafe(nil)); end
 
     # Parse a JSON string into a Ruby object
@@ -499,7 +529,7 @@ class MultiJson::Adapter
     # @param options [Hash] parsing options
     # @return [Object, nil] parsed object or nil for blank input
     #
-    # pkg:gem/multi_json#lib/multi_json/adapter.rb:78
+    # pkg:gem/multi_json#lib/multi_json/adapter.rb:96
     def load(string, options = T.unsafe(nil)); end
 
     private
@@ -525,29 +555,53 @@ class MultiJson::Adapter
     # @param input [String, nil] input to check
     # @return [Boolean] true if input is blank
     #
-    # pkg:gem/multi_json#lib/multi_json/adapter.rb:135
+    # pkg:gem/multi_json#lib/multi_json/adapter.rb:153
     def blank?(input); end
 
-    # Merges dump options from adapter, global, and call-site
+    # Merges generate options from adapter, global, and call-site
     #
     # @api private
     # @param options [Hash] call-site options
     # @return [Hash] merged options hash
     #
-    # pkg:gem/multi_json#lib/multi_json/adapter.rb:147
+    # pkg:gem/multi_json#lib/multi_json/adapter.rb:165
     def merged_dump_options(options); end
 
-    # Merges load options from adapter, global, and call-site
+    # Merges parse options from adapter, global, and call-site
+    #
+    # Each layer is normalized first so a deprecated ``:symbolize_keys``
+    # key in any source becomes the canonical ``:symbolize_names`` —
+    # done per-layer rather than post-merge so the expected override
+    # semantics (call-site > global > adapter default) still apply
+    # when a caller mixes the deprecated and canonical names across
+    # layers.
     #
     # @api private
     # @param options [Hash] call-site options
     # @return [Hash] merged options hash
     #
-    # pkg:gem/multi_json#lib/multi_json/adapter.rb:159
+    # pkg:gem/multi_json#lib/multi_json/adapter.rb:184
     def merged_load_options(options); end
 
     # pkg:gem/multi_json#lib/multi_json/adapter.rb:20
     def new(*_arg0); end
+
+    # Translate the deprecated ``:symbolize_keys`` option to ``:symbolize_names``
+    #
+    # Matches Ruby stdlib's ``JSON.parse`` naming. Emits a one-time
+    # deprecation warning on first encounter of ``:symbolize_keys``.
+    # When both names appear in the same layer (unusual — only
+    # possible if the caller explicitly set both), the canonical
+    # ``:symbolize_names`` value wins and ``:symbolize_keys`` is
+    # silently dropped.
+    #
+    # @api private
+    # @param options [Hash] options layer to normalize
+    # @return [Hash] hash with ``:symbolize_keys`` translated, or the
+    #   original hash when no translation is needed
+    #
+    # pkg:gem/multi_json#lib/multi_json/adapter.rb:207
+    def normalize_symbolize_option(options); end
 
     # Removes the :adapter key from options for cache key
     #
@@ -558,7 +612,7 @@ class MultiJson::Adapter
     # @param options [Hash, #to_h] original options (may be JSON::State or similar)
     # @return [Hash] frozen options without :adapter key
     #
-    # pkg:gem/multi_json#lib/multi_json/adapter.rb:174
+    # pkg:gem/multi_json#lib/multi_json/adapter.rb:226
     def strip_adapter_key(options); end
 
     # Walk the superclass chain looking for a default options ivar
@@ -572,7 +626,7 @@ class MultiJson::Adapter
     # @param ivar [Symbol] ivar name (`:@default_load_options` or `:@default_dump_options`)
     # @return [Hash] frozen options hash
     #
-    # pkg:gem/multi_json#lib/multi_json/adapter.rb:107
+    # pkg:gem/multi_json#lib/multi_json/adapter.rb:125
     def walk_default_options(ivar); end
   end
 end
@@ -582,7 +636,7 @@ end
 # @api public
 #
 # pkg:gem/multi_json#lib/multi_json/adapter_error.rb:7
-class MultiJson::AdapterError < ::ArgumentError
+class MultiJSON::AdapterError < ::ArgumentError
   # Create a new AdapterError
   #
   # @api public
@@ -625,8 +679,8 @@ end
 # @api private
 #
 # pkg:gem/multi_json#lib/multi_json/adapter_selector.rb:12
-module MultiJson::AdapterSelector
-  extend ::MultiJson::AdapterSelector
+module MultiJSON::AdapterSelector
+  extend ::MultiJSON::AdapterSelector
 
   # Returns the default adapter to use
   #
@@ -635,22 +689,22 @@ module MultiJson::AdapterSelector
   # @example
   #   AdapterSelector.default_adapter  #=> :oj
   #
-  # pkg:gem/multi_json#lib/multi_json/adapter_selector.rb:41
+  # pkg:gem/multi_json#lib/multi_json/adapter_selector.rb:61
   def default_adapter; end
 
   # Returns the default adapter class, excluding the given adapter name
   #
   # Used by adapters that only implement one direction (e.g.
   # FastJsonparser only parses) so the other direction can be delegated
-  # to whichever library MultiJson would otherwise pick.
+  # to whichever library MultiJSON would otherwise pick.
   #
   # @api private
   # @param excluded [Symbol] adapter name to skip during detection
   # @return [Class] the adapter class
   # @example
-  #   AdapterSelector.default_adapter_excluding(:fast_jsonparser)  #=> MultiJson::Adapters::Oj
+  #   AdapterSelector.default_adapter_excluding(:fast_jsonparser)  #=> MultiJSON::Adapters::Oj
   #
-  # pkg:gem/multi_json#lib/multi_json/adapter_selector.rb:56
+  # pkg:gem/multi_json#lib/multi_json/adapter_selector.rb:76
   def default_adapter_excluding(excluded); end
 
   private
@@ -660,7 +714,7 @@ module MultiJson::AdapterSelector
   # @api private
   # @return [Symbol] adapter name
   #
-  # pkg:gem/multi_json#lib/multi_json/adapter_selector.rb:71
+  # pkg:gem/multi_json#lib/multi_json/adapter_selector.rb:91
   def detect_best_adapter; end
 
   # Returns the fallback adapter when no others available
@@ -673,7 +727,7 @@ module MultiJson::AdapterSelector
   # @api private
   # @return [Symbol] the json_gem adapter name
   #
-  # pkg:gem/multi_json#lib/multi_json/adapter_selector.rb:122
+  # pkg:gem/multi_json#lib/multi_json/adapter_selector.rb:142
   def fallback_adapter; end
 
   # Tries to require and use an installable adapter
@@ -682,7 +736,7 @@ module MultiJson::AdapterSelector
   # @param excluding [Symbol, nil] adapter name to skip during detection
   # @return [Symbol, nil] adapter name if successfully required
   #
-  # pkg:gem/multi_json#lib/multi_json/adapter_selector.rb:93
+  # pkg:gem/multi_json#lib/multi_json/adapter_selector.rb:113
   def installable_adapter(excluding: T.unsafe(nil)); end
 
   # Loads an adapter from a specification
@@ -691,7 +745,7 @@ module MultiJson::AdapterSelector
   # @param adapter_spec [Symbol, String, Module, nil, false] adapter specification
   # @return [Class] the adapter class
   #
-  # pkg:gem/multi_json#lib/multi_json/adapter_selector.rb:144
+  # pkg:gem/multi_json#lib/multi_json/adapter_selector.rb:164
   def load_adapter(adapter_spec); end
 
   # Loads an adapter by its string name
@@ -704,7 +758,7 @@ module MultiJson::AdapterSelector
   # @param name [String] adapter name
   # @return [Class] the adapter class
   #
-  # pkg:gem/multi_json#lib/multi_json/adapter_selector.rb:166
+  # pkg:gem/multi_json#lib/multi_json/adapter_selector.rb:186
   def load_adapter_by_name(name); end
 
   # Finds an already-loaded JSON library
@@ -713,7 +767,7 @@ module MultiJson::AdapterSelector
   # @param excluding [Symbol, nil] adapter name to skip during detection
   # @return [Symbol, nil] adapter name if found
   #
-  # pkg:gem/multi_json#lib/multi_json/adapter_selector.rb:80
+  # pkg:gem/multi_json#lib/multi_json/adapter_selector.rb:100
   def loaded_adapter(excluding: T.unsafe(nil)); end
 
   # Attempts to require a JSON library
@@ -722,7 +776,7 @@ module MultiJson::AdapterSelector
   # @param adapter_name [Symbol] adapter to require
   # @return [Boolean] true if require succeeded
   #
-  # pkg:gem/multi_json#lib/multi_json/adapter_selector.rb:106
+  # pkg:gem/multi_json#lib/multi_json/adapter_selector.rb:126
   def try_require(adapter_name); end
 
   # Validate that an adapter satisfies the documented contract
@@ -737,7 +791,7 @@ module MultiJson::AdapterSelector
   # @raise [AdapterError] when the adapter is missing a required class method
   #   or ParseError constant
   #
-  # pkg:gem/multi_json#lib/multi_json/adapter_selector.rb:186
+  # pkg:gem/multi_json#lib/multi_json/adapter_selector.rb:206
   def validate_adapter!(adapter); end
 
   # Warns the user about reaching the last-resort fallback
@@ -745,7 +799,7 @@ module MultiJson::AdapterSelector
   # @api private
   # @return [void]
   #
-  # pkg:gem/multi_json#lib/multi_json/adapter_selector.rb:132
+  # pkg:gem/multi_json#lib/multi_json/adapter_selector.rb:152
   def warn_about_fallback; end
 end
 
@@ -755,15 +809,23 @@ end
 # loaded. ``loaded`` is a ``::``-separated path so we can walk it
 # without an explicit ``defined?`` check.
 #
-# pkg:gem/multi_json#lib/multi_json/adapter_selector.rb:20
-MultiJson::AdapterSelector::ADAPTERS = T.let(T.unsafe(nil), Hash)
+# The hash order is split per platform: on MRI/TruffleRuby the
+# bundled benchmark suite ranks json_gem ahead of fast_jsonparser/
+# oj/yajl on Ruby 3.4+; on JRuby the FFI-vs-pure-Ruby tradeoff
+# hasn't been re-benchmarked yet, so jr_jackson stays first there.
+# CI re-runs the benchmark with ``--verify-preference`` to fail
+# if the observed ranking diverges.
+# :nocov:
+#
+# pkg:gem/multi_json#lib/multi_json/adapter_selector.rb:28
+MultiJSON::AdapterSelector::ADAPTERS = T.let(T.unsafe(nil), Hash)
 
 # Backwards-compatible view of {ADAPTERS} that exposes only the
 # require paths. Tests still poke at this constant to stub or break
 # the require step.
 #
-# pkg:gem/multi_json#lib/multi_json/adapter_selector.rb:33
-MultiJson::AdapterSelector::REQUIREMENT_MAP = T.let(T.unsafe(nil), Hash)
+# pkg:gem/multi_json#lib/multi_json/adapter_selector.rb:53
+MultiJSON::AdapterSelector::REQUIREMENT_MAP = T.let(T.unsafe(nil), Hash)
 
 # Namespace for JSON adapter implementations
 #
@@ -771,12 +833,12 @@ MultiJson::AdapterSelector::REQUIREMENT_MAP = T.let(T.unsafe(nil), Hash)
 # interface for loading and dumping JSON data.
 #
 # pkg:gem/multi_json#lib/multi_json/adapters/json_gem.rb:7
-module MultiJson::Adapters; end
+module MultiJSON::Adapters; end
 
 # Use the JSON gem to dump/load.
 #
 # pkg:gem/multi_json#lib/multi_json/adapters/json_gem.rb:9
-class MultiJson::Adapters::JsonGem < ::MultiJson::Adapter
+class MultiJSON::Adapters::JsonGem < ::MultiJSON::Adapter
   # Serialize a Ruby object to JSON
   #
   # @api private
@@ -811,32 +873,17 @@ class MultiJson::Adapters::JsonGem < ::MultiJson::Adapter
   #
   # pkg:gem/multi_json#lib/multi_json/adapters/json_gem.rb:41
   def load(string, options = T.unsafe(nil)); end
-
-  private
-
-  # Translate ``:symbolize_keys`` into JSON gem's ``:symbolize_names``
-  #
-  # Returns a new hash without mutating the input. ``options`` is the
-  # cached hash returned from {Adapter.merged_load_options}, so in-place
-  # edits would pollute the cache and corrupt subsequent calls.
-  #
-  # @api private
-  # @param options [Hash] merged load options
-  # @return [Hash] options with ``:symbolize_keys`` translated
-  #
-  # pkg:gem/multi_json#lib/multi_json/adapters/json_gem.rb:82
-  def translate_load_options(options); end
 end
 
 # pkg:gem/multi_json#lib/multi_json/adapters/json_gem.rb:15
-MultiJson::Adapters::JsonGem::PRETTY_STATE_PROTOTYPE = T.let(T.unsafe(nil), Hash)
+MultiJSON::Adapters::JsonGem::PRETTY_STATE_PROTOTYPE = T.let(T.unsafe(nil), Hash)
 
 # Exception raised when JSON parsing fails
 #
 # pkg:gem/multi_json#lib/multi_json/adapters/json_gem.rb:11
-MultiJson::Adapters::JsonGem::ParseError = JSON::ParserError
+MultiJSON::Adapters::JsonGem::ParseError = JSON::ParserError
 
-# Catalog of process-wide mutexes used to serialize MultiJson's lazy
+# Catalog of process-wide mutexes used to serialize MultiJSON's lazy
 # initializers and adapter swaps. Each mutex protects a distinct
 # piece of mutable state. Callers go through {.synchronize} rather
 # than touching the mutex constants directly so the constants
@@ -846,7 +893,7 @@ MultiJson::Adapters::JsonGem::ParseError = JSON::ParserError
 # @api private
 #
 # pkg:gem/multi_json#lib/multi_json/concurrency.rb:12
-module MultiJson::Concurrency
+module MultiJSON::Concurrency
   class << self
     # Run a block while holding the named mutex
     #
@@ -861,7 +908,7 @@ module MultiJson::Concurrency
     # @return [Object] the block's return value
     # @raise [KeyError] when ``name`` does not match a known mutex
     # @example
-    #   MultiJson::Concurrency.synchronize(:adapter) { ... }
+    #   MultiJSON::Concurrency.synchronize(:adapter) { ... }
     #
     # pkg:gem/multi_json#lib/multi_json/concurrency.rb:53
     def synchronize(name, &_arg1); end
@@ -874,96 +921,162 @@ end
 # what each mutex protects without leaving this file.
 #
 # pkg:gem/multi_json#lib/multi_json/concurrency.rb:17
-MultiJson::Concurrency::MUTEXES = T.let(T.unsafe(nil), Hash)
+MultiJSON::Concurrency::MUTEXES = T.let(T.unsafe(nil), Hash)
 
 # Tracks which deprecation warnings have already been emitted so each one
 # fires at most once per process. Stored as a Set rather than a Hash so
 # presence checks have unambiguous semantics for mutation tests.
 #
 # pkg:gem/multi_json#lib/multi_json.rb:52
-MultiJson::DEPRECATION_WARNINGS_SHOWN = T.let(T.unsafe(nil), Set)
+MultiJSON::DEPRECATION_WARNINGS_SHOWN = T.let(T.unsafe(nil), Set)
 
 # Legacy aliases for backward compatibility
 #
 # pkg:gem/multi_json#lib/multi_json/parse_error.rb:102
-MultiJson::DecodeError = MultiJson::ParseError
+MultiJSON::DecodeError = MultiJSON::ParseError
 
 # pkg:gem/multi_json#lib/multi_json/parse_error.rb:102
-MultiJson::LoadError = MultiJson::ParseError
+MultiJSON::LoadError = MultiJSON::ParseError
 
-# Mixin providing configurable load/dump options
+# Mixin providing configurable parse/generate options
 #
 # Supports static hashes or dynamic callables (procs/lambdas).
-# Extended by both MultiJson (global options) and Adapter classes.
+# Extended by both MultiJSON (global options) and Adapter classes.
 #
 # @api private
 #
 # pkg:gem/multi_json#lib/multi_json/options.rb:10
-module MultiJson::Options
-  # Get default dump options
+module MultiJSON::Options
+  # Get default generate options
+  #
+  # @api private
+  # @deprecated Use {#default_generate_options} instead. Will be removed in v2.0.
+  # @return [Hash] frozen empty hash
+  #
+  # pkg:gem/multi_json#lib/multi_json/options.rb:155
+  def default_dump_options; end
+
+  # Get default generate options
   #
   # @api private
   # @return [Hash] frozen empty hash
   #
   # pkg:gem/multi_json#lib/multi_json/options.rb:81
-  def default_dump_options; end
+  def default_generate_options; end
 
-  # Get default load options
+  # Get default parse options
+  #
+  # @api private
+  # @deprecated Use {#default_parse_options} instead. Will be removed in v2.0.
+  # @return [Hash] frozen empty hash
+  #
+  # pkg:gem/multi_json#lib/multi_json/options.rb:146
+  def default_load_options; end
+
+  # Get default parse options
   #
   # @api private
   # @return [Hash] frozen empty hash
   #
   # pkg:gem/multi_json#lib/multi_json/options.rb:73
-  def default_load_options; end
+  def default_parse_options; end
 
-  # Get options for dump operations
+  # Get options for generate operations
+  #
+  # @api public
+  # @deprecated Use {#generate_options} instead. Will be removed in v2.0.
+  # @param args [Array<Object>] forwarded to the callable, ignored otherwise
+  # @return [Hash] resolved options hash
+  # @example
+  #   MultiJSON.dump_options  #=> {}
+  #
+  # pkg:gem/multi_json#lib/multi_json/options.rb:135
+  def dump_options(*args); end
+
+  # Set options for generate operations
+  #
+  # @api public
+  # @deprecated Use {#generate_options=} instead. Will be removed in v2.0.
+  # @param options [Hash, Proc] options hash or callable
+  # @return [Hash, Proc] the options
+  # @example
+  #   MultiJSON.dump_options = {pretty: true}
+  #
+  # pkg:gem/multi_json#lib/multi_json/options.rb:107
+  def dump_options=(options); end
+
+  # Get options for generate operations
   #
   # @api public
   # @param args [Array<Object>] forwarded to the callable, ignored otherwise
   # @return [Hash] resolved options hash
   # @example
-  #   MultiJson.dump_options  #=> {}
+  #   MultiJSON.generate_options  #=> {}
   #
   # pkg:gem/multi_json#lib/multi_json/options.rb:65
-  def dump_options(*args); end
+  def generate_options(*args); end
 
-  # Set options for dump operations
+  # Set options for generate operations
   #
   # @api public
   # @param options [Hash, Proc] options hash or callable
   # @return [Hash, Proc] the options
   # @example
-  #   MultiJson.dump_options = {pretty: true}
+  #   MultiJSON.generate_options = {pretty: true}
   #
   # pkg:gem/multi_json#lib/multi_json/options.rb:37
-  def dump_options=(options); end
+  def generate_options=(options); end
 
-  # Get options for load operations
+  # Get options for parse operations
   #
-  # When `@load_options` is a callable (proc/lambda), it's invoked
+  # @api public
+  # @deprecated Use {#parse_options} instead. Will be removed in v2.0.
+  # @param args [Array<Object>] forwarded to the callable, ignored otherwise
+  # @return [Hash] resolved options hash
+  # @example
+  #   MultiJSON.load_options  #=> {}
+  #
+  # pkg:gem/multi_json#lib/multi_json/options.rb:121
+  def load_options(*args); end
+
+  # Set options for parse operations
+  #
+  # @api public
+  # @deprecated Use {#parse_options=} instead. Will be removed in v2.0.
+  # @param options [Hash, Proc] options hash or callable
+  # @return [Hash, Proc] the options
+  # @example
+  #   MultiJSON.load_options = {symbolize_keys: true}
+  #
+  # pkg:gem/multi_json#lib/multi_json/options.rb:93
+  def load_options=(options); end
+
+  # Get options for parse operations
+  #
+  # When `@parse_options` is a callable (proc/lambda), it's invoked
   # with `args` as positional arguments — typically the merged
-  # options hash from `Adapter.merged_load_options`. When it's a
+  # options hash from `Adapter.merged_parse_options`. When it's a
   # plain hash, `args` is ignored.
   #
   # @api public
   # @param args [Array<Object>] forwarded to the callable, ignored otherwise
   # @return [Hash] resolved options hash
   # @example
-  #   MultiJson.load_options  #=> {}
+  #   MultiJSON.parse_options  #=> {}
   #
   # pkg:gem/multi_json#lib/multi_json/options.rb:54
-  def load_options(*args); end
+  def parse_options(*args); end
 
-  # Set options for load operations
+  # Set options for parse operations
   #
   # @api public
   # @param options [Hash, Proc] options hash or callable
   # @return [Hash, Proc] the options
   # @example
-  #   MultiJson.load_options = {symbolize_keys: true}
+  #   MultiJSON.parse_options = {symbolize_keys: true}
   #
   # pkg:gem/multi_json#lib/multi_json/options.rb:25
-  def load_options=(options); end
+  def parse_options=(options); end
 
   private
 
@@ -974,7 +1087,7 @@ module MultiJson::Options
   # @param args [Array<Object>] arguments forwarded when the callable is non-arity-zero
   # @return [Hash] options returned by the callable
   #
-  # pkg:gem/multi_json#lib/multi_json/options.rb:108
+  # pkg:gem/multi_json#lib/multi_json/options.rb:182
   def invoke_callable(callable, *args); end
 
   # Resolves options from a hash or callable
@@ -984,7 +1097,7 @@ module MultiJson::Options
   # @param args [Array<Object>] arguments forwarded to a callable provider
   # @return [Hash, nil] resolved options hash
   #
-  # pkg:gem/multi_json#lib/multi_json/options.rb:93
+  # pkg:gem/multi_json#lib/multi_json/options.rb:167
   def resolve_options(options, *args); end
 end
 
@@ -995,7 +1108,7 @@ end
 # because the `#:` cast only applies to method-call results.
 #
 # pkg:gem/multi_json#lib/multi_json/options.rb:16
-MultiJson::Options::EMPTY_OPTIONS = T.let(T.unsafe(nil), Hash)
+MultiJSON::Options::EMPTY_OPTIONS = T.let(T.unsafe(nil), Hash)
 
 # Thread-safe bounded cache for merged options hashes
 #
@@ -1009,7 +1122,7 @@ MultiJson::Options::EMPTY_OPTIONS = T.let(T.unsafe(nil), Hash)
 # @api private
 #
 # pkg:gem/multi_json#lib/multi_json/options_cache.rb:14
-module MultiJson::OptionsCache
+module MultiJSON::OptionsCache
   class << self
     # Get the dump options cache
     #
@@ -1036,8 +1149,8 @@ module MultiJson::OptionsCache
     # @api public
     # @return [Integer] current cache size limit
     # @example
-    #   MultiJson::OptionsCache.max_cache_size = 5000
-    #   MultiJson::OptionsCache.max_cache_size  #=> 5000
+    #   MultiJSON::OptionsCache.max_cache_size = 5000
+    #   MultiJSON::OptionsCache.max_cache_size  #=> 5000
     #
     # pkg:gem/multi_json#lib/multi_json/options_cache.rb:44
     def max_cache_size; end
@@ -1049,7 +1162,7 @@ module MultiJson::OptionsCache
     # @return [Integer] the validated value
     # @raise [ArgumentError] when value is not a positive Integer
     # @example
-    #   MultiJson::OptionsCache.max_cache_size = 5000
+    #   MultiJSON::OptionsCache.max_cache_size = 5000
     #
     # pkg:gem/multi_json#lib/multi_json/options_cache.rb:54
     def max_cache_size=(value); end
@@ -1070,14 +1183,14 @@ end
 # JRuby's line coverage below 100%.
 #
 # pkg:gem/multi_json#lib/multi_json/options_cache.rb:80
-MultiJson::OptionsCache::BACKENDS = T.let(T.unsafe(nil), Hash)
+MultiJSON::OptionsCache::BACKENDS = T.let(T.unsafe(nil), Hash)
 
 # Default bound on the number of cached entries per store. Applications
 # that dynamically generate many distinct option hashes can raise this
 # via {.max_cache_size=}.
 #
 # pkg:gem/multi_json#lib/multi_json/options_cache.rb:18
-MultiJson::OptionsCache::DEFAULT_MAX_CACHE_SIZE = T.let(T.unsafe(nil), Integer)
+MultiJSON::OptionsCache::DEFAULT_MAX_CACHE_SIZE = T.let(T.unsafe(nil), Integer)
 
 # Thread-safe cache store backed by a Hash guarded by a Mutex
 #
@@ -1090,7 +1203,7 @@ MultiJson::OptionsCache::DEFAULT_MAX_CACHE_SIZE = T.let(T.unsafe(nil), Integer)
 # @api private
 #
 # pkg:gem/multi_json#lib/multi_json/options_cache/mutex_store.rb:14
-class MultiJson::OptionsCache::Store
+class MultiJSON::OptionsCache::Store
   # Create a new cache store
   #
   # @api private
@@ -1144,7 +1257,7 @@ end
 # @api public
 #
 # pkg:gem/multi_json#lib/multi_json/parse_error.rb:13
-class MultiJson::ParseError < ::StandardError
+class MultiJSON::ParseError < ::StandardError
   # Create a new ParseError
   #
   # @api public
@@ -1232,19 +1345,19 @@ end
 # is optional so messages like ``"at line 5"`` still yield a line.
 #
 # pkg:gem/multi_json#lib/multi_json/parse_error.rb:19
-MultiJson::ParseError::LOCATION_PATTERN = T.let(T.unsafe(nil), Regexp)
+MultiJSON::ParseError::LOCATION_PATTERN = T.let(T.unsafe(nil), Regexp)
 
 # Current version string in semver format
 #
 # pkg:gem/multi_json#lib/multi_json/version.rb:29
-MultiJson::VERSION = T.let(T.unsafe(nil), String)
+MultiJSON::VERSION = T.let(T.unsafe(nil), String)
 
-# Version information for MultiJson
+# Version information for MultiJSON
 #
 # @api private
 #
 # pkg:gem/multi_json#lib/multi_json/version.rb:7
-class MultiJson::Version
+class MultiJSON::Version
   class << self
     # Return the version string
     #
@@ -1259,19 +1372,80 @@ end
 # Major version number
 #
 # pkg:gem/multi_json#lib/multi_json/version.rb:9
-MultiJson::Version::MAJOR = T.let(T.unsafe(nil), Integer)
+MultiJSON::Version::MAJOR = T.let(T.unsafe(nil), Integer)
 
 # Minor version number
 #
 # pkg:gem/multi_json#lib/multi_json/version.rb:11
-MultiJson::Version::MINOR = T.let(T.unsafe(nil), Integer)
+MultiJSON::Version::MINOR = T.let(T.unsafe(nil), Integer)
 
 # Patch version number
 #
 # pkg:gem/multi_json#lib/multi_json/version.rb:13
-MultiJson::Version::PATCH = T.let(T.unsafe(nil), Integer)
+MultiJSON::Version::PATCH = T.let(T.unsafe(nil), Integer)
 
 # Pre-release version suffix
 #
 # pkg:gem/multi_json#lib/multi_json/version.rb:15
-MultiJson::Version::PRE = T.let(T.unsafe(nil), T.untyped)
+MultiJSON::Version::PRE = T.let(T.unsafe(nil), T.untyped)
+
+# Backward-compatible alias for the legacy ``MultiJson`` constant name
+#
+# Downstream code that still writes ``MultiJson.parse(...)`` or
+# ``rescue MultiJson::ParseError`` continues to work, but emits a
+# one-time deprecation warning pointing at ``MultiJSON``. The module
+# forwards every method call to {MultiJSON} via {.method_missing} and
+# resolves constant access via {.const_missing}, so both dotted calls
+# and ``::`` constant lookups (including rescue clauses) route through
+# the canonical module.
+#
+# @api public
+# @deprecated Use {MultiJSON} (all-caps) instead. Will be removed in v2.0.
+#
+# pkg:gem/multi_json#lib/multi_json.rb:283
+module MultiJson
+  class << self
+    # Resolve missing constants to their {MultiJSON} counterparts
+    #
+    # Enables ``rescue MultiJson::ParseError`` and
+    # ``MultiJson::Adapters::Oj`` to keep working during the
+    # deprecation cycle.
+    #
+    # @api public
+    # @param name [Symbol] constant name
+    # @return [Object] the resolved constant from {MultiJSON}
+    # @example
+    #   MultiJson::ParseError  # returns MultiJSON::ParseError
+    #
+    # pkg:gem/multi_json#lib/multi_json.rb:332
+    def const_missing(name); end
+
+    # Forward method calls to {MultiJSON}, emitting a one-time warning
+    #
+    # Uses explicit ``*args, **kwargs, &block`` forwarding because
+    # mutant's AST structure table on the current parser version does
+    # not yet recognize ``...`` forwarding nodes, so the module would
+    # crash mutation analysis. The rubocop exclusions below document
+    # that intent.
+    #
+    # @api public
+    # @return [Object] the delegated call's return value
+    # @example
+    #   MultiJson.parse('{"a":1}')   # delegates to MultiJSON.parse
+    #
+    # pkg:gem/multi_json#lib/multi_json.rb:298
+    def method_missing(name, *args, **kwargs, &block); end
+
+    # Respond to any method {MultiJSON} responds to
+    #
+    # @api public
+    # @param name [Symbol] method name
+    # @param include_private [Boolean] include private methods
+    # @return [Boolean] true if {MultiJSON} responds to the method
+    # @example
+    #   MultiJson.respond_to?(:parse)  #=> true
+    #
+    # pkg:gem/multi_json#lib/multi_json.rb:317
+    def respond_to_missing?(name, include_private); end
+  end
+end

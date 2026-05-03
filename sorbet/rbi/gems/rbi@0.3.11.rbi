@@ -323,9 +323,6 @@ class RBI::Class < ::RBI::Scope
   sig { returns(::String) }
   def name; end
 
-  # pkg:gem/rbi#lib/rbi/model.rb:219
-  def name=(_arg0); end
-
   # pkg:gem/rbi#lib/rbi/model.rb:222
   sig { returns(T.nilable(::String)) }
   def superclass_name; end
@@ -367,24 +364,24 @@ end
 # end
 # ~~~
 #
-# pkg:gem/rbi#lib/rbi/rewriters/merge_trees.rb:589
+# pkg:gem/rbi#lib/rbi/rewriters/merge_trees.rb:591
 class RBI::ConflictTree < ::RBI::Tree
-  # pkg:gem/rbi#lib/rbi/rewriters/merge_trees.rb:597
+  # pkg:gem/rbi#lib/rbi/rewriters/merge_trees.rb:599
   sig { params(left_name: ::String, right_name: ::String).void }
   def initialize(left_name: T.unsafe(nil), right_name: T.unsafe(nil)); end
 
-  # pkg:gem/rbi#lib/rbi/rewriters/merge_trees.rb:591
+  # pkg:gem/rbi#lib/rbi/rewriters/merge_trees.rb:593
   sig { returns(::RBI::Tree) }
   def left; end
 
-  # pkg:gem/rbi#lib/rbi/rewriters/merge_trees.rb:594
+  # pkg:gem/rbi#lib/rbi/rewriters/merge_trees.rb:596
   sig { returns(::String) }
   def left_name; end
 
-  # pkg:gem/rbi#lib/rbi/rewriters/merge_trees.rb:591
+  # pkg:gem/rbi#lib/rbi/rewriters/merge_trees.rb:593
   def right; end
 
-  # pkg:gem/rbi#lib/rbi/rewriters/merge_trees.rb:594
+  # pkg:gem/rbi#lib/rbi/rewriters/merge_trees.rb:596
   def right_name; end
 end
 
@@ -460,7 +457,7 @@ class RBI::Extend < ::RBI::Mixin
 
   # @override
   #
-  # pkg:gem/rbi#lib/rbi/rewriters/merge_trees.rb:522
+  # pkg:gem/rbi#lib/rbi/rewriters/merge_trees.rb:524
   sig { override.params(other: ::RBI::Node).returns(T::Boolean) }
   def compatible_with?(other); end
 
@@ -665,7 +662,7 @@ class RBI::Helper < ::RBI::NodeWithComments
 
   # @override
   #
-  # pkg:gem/rbi#lib/rbi/rewriters/merge_trees.rb:538
+  # pkg:gem/rbi#lib/rbi/rewriters/merge_trees.rb:540
   sig { override.params(other: ::RBI::Node).returns(T::Boolean) }
   def compatible_with?(other); end
 
@@ -704,7 +701,7 @@ class RBI::Include < ::RBI::Mixin
 
   # @override
   #
-  # pkg:gem/rbi#lib/rbi/rewriters/merge_trees.rb:514
+  # pkg:gem/rbi#lib/rbi/rewriters/merge_trees.rb:516
   sig { override.params(other: ::RBI::Node).returns(T::Boolean) }
   def compatible_with?(other); end
 
@@ -1032,9 +1029,6 @@ class RBI::Method < ::RBI::NodeWithComments
   sig { returns(::String) }
   def name; end
 
-  # pkg:gem/rbi#lib/rbi/model.rb:456
-  def name=(_arg0); end
-
   # pkg:gem/rbi#lib/rbi/model.rb:459
   sig { returns(T::Array[::RBI::Param]) }
   def params; end
@@ -1066,7 +1060,7 @@ class RBI::Method < ::RBI::NodeWithComments
 
   private
 
-  # pkg:gem/rbi#lib/rbi/rewriters/merge_trees.rb:496
+  # pkg:gem/rbi#lib/rbi/rewriters/merge_trees.rb:498
   sig { params(other: ::RBI::Method).returns(T::Boolean) }
   def at_most_one_side_anonymous?(other); end
 end
@@ -1089,7 +1083,7 @@ class RBI::MixesInClassMethods < ::RBI::Mixin
 
   # @override
   #
-  # pkg:gem/rbi#lib/rbi/rewriters/merge_trees.rb:530
+  # pkg:gem/rbi#lib/rbi/rewriters/merge_trees.rb:532
   sig { override.params(other: ::RBI::Node).returns(T::Boolean) }
   def compatible_with?(other); end
 
@@ -1125,7 +1119,7 @@ class RBI::Mixin < ::RBI::NodeWithComments
 
   # @override
   #
-  # pkg:gem/rbi#lib/rbi/rewriters/merge_trees.rb:506
+  # pkg:gem/rbi#lib/rbi/rewriters/merge_trees.rb:508
   sig { override.params(other: ::RBI::Node).returns(T::Boolean) }
   def compatible_with?(other); end
 
@@ -1162,9 +1156,6 @@ class RBI::Module < ::RBI::Scope
   # pkg:gem/rbi#lib/rbi/model.rb:199
   sig { returns(::String) }
   def name; end
-
-  # pkg:gem/rbi#lib/rbi/model.rb:199
-  def name=(_arg0); end
 end
 
 # @abstract
@@ -3371,24 +3362,24 @@ end
 # end
 # ~~~
 #
-# pkg:gem/rbi#lib/rbi/rewriters/merge_trees.rb:620
+# pkg:gem/rbi#lib/rbi/rewriters/merge_trees.rb:622
 class RBI::ScopeConflict < ::RBI::Tree
-  # pkg:gem/rbi#lib/rbi/rewriters/merge_trees.rb:628
+  # pkg:gem/rbi#lib/rbi/rewriters/merge_trees.rb:630
   sig { params(left: ::RBI::Scope, right: ::RBI::Scope, left_name: ::String, right_name: ::String).void }
   def initialize(left:, right:, left_name: T.unsafe(nil), right_name: T.unsafe(nil)); end
 
-  # pkg:gem/rbi#lib/rbi/rewriters/merge_trees.rb:622
+  # pkg:gem/rbi#lib/rbi/rewriters/merge_trees.rb:624
   sig { returns(::RBI::Scope) }
   def left; end
 
-  # pkg:gem/rbi#lib/rbi/rewriters/merge_trees.rb:625
+  # pkg:gem/rbi#lib/rbi/rewriters/merge_trees.rb:627
   sig { returns(::String) }
   def left_name; end
 
-  # pkg:gem/rbi#lib/rbi/rewriters/merge_trees.rb:622
+  # pkg:gem/rbi#lib/rbi/rewriters/merge_trees.rb:624
   def right; end
 
-  # pkg:gem/rbi#lib/rbi/rewriters/merge_trees.rb:625
+  # pkg:gem/rbi#lib/rbi/rewriters/merge_trees.rb:627
   def right_name; end
 end
 
@@ -3424,7 +3415,7 @@ class RBI::Send < ::RBI::NodeWithComments
 
   # @override
   #
-  # pkg:gem/rbi#lib/rbi/rewriters/merge_trees.rb:546
+  # pkg:gem/rbi#lib/rbi/rewriters/merge_trees.rb:548
   sig { override.params(other: ::RBI::Node).returns(T::Boolean) }
   def compatible_with?(other); end
 
@@ -3650,9 +3641,6 @@ class RBI::Struct < ::RBI::Scope
   # pkg:gem/rbi#lib/rbi/model.rb:262
   sig { returns(::String) }
   def name; end
-
-  # pkg:gem/rbi#lib/rbi/model.rb:262
-  def name=(_arg0); end
 end
 
 # Sorbet's T::Enum
@@ -3773,7 +3761,7 @@ class RBI::TStructConst < ::RBI::TStructField
 
   # @override
   #
-  # pkg:gem/rbi#lib/rbi/rewriters/merge_trees.rb:562
+  # pkg:gem/rbi#lib/rbi/rewriters/merge_trees.rb:564
   sig { override.params(other: ::RBI::Node).returns(T::Boolean) }
   def compatible_with?(other); end
 
@@ -3816,7 +3804,7 @@ class RBI::TStructField < ::RBI::NodeWithComments
 
   # @override
   #
-  # pkg:gem/rbi#lib/rbi/rewriters/merge_trees.rb:554
+  # pkg:gem/rbi#lib/rbi/rewriters/merge_trees.rb:556
   sig { override.params(other: ::RBI::Node).returns(T::Boolean) }
   def compatible_with?(other); end
 
@@ -3836,9 +3824,6 @@ class RBI::TStructField < ::RBI::NodeWithComments
   # pkg:gem/rbi#lib/rbi/model.rb:1057
   sig { returns(::String) }
   def name; end
-
-  # pkg:gem/rbi#lib/rbi/model.rb:1057
-  def name=(_arg0); end
 
   # pkg:gem/rbi#lib/rbi/model.rb:1060
   sig { returns(T.any(::RBI::Type, ::String)) }
@@ -3867,7 +3852,7 @@ class RBI::TStructProp < ::RBI::TStructField
 
   # @override
   #
-  # pkg:gem/rbi#lib/rbi/rewriters/merge_trees.rb:570
+  # pkg:gem/rbi#lib/rbi/rewriters/merge_trees.rb:572
   sig { override.params(other: ::RBI::Node).returns(T::Boolean) }
   def compatible_with?(other); end
 

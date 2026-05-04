@@ -34,7 +34,7 @@ RSpec.describe Mcp::Tools::BuildCloudImageTool do
       end
 
       it "creates a CloudImageBuild record and enqueues the worker by id" do
-        allow(Server).to receive(:latest_version).and_return("100000000")
+        allow(Server).to receive(:latest_version).and_return(100000000)
         expect(CloudImageBuildWorker).to receive(:perform_async).with(kind_of(Integer))
 
         expect { tool.execute({}) }.to change(CloudImageBuild, :count).by(1)
@@ -46,13 +46,13 @@ RSpec.describe Mcp::Tools::BuildCloudImageTool do
       end
 
       it "returns the build_id in the response" do
-        allow(Server).to receive(:latest_version).and_return("100000000")
+        allow(Server).to receive(:latest_version).and_return(100000000)
         allow(CloudImageBuildWorker).to receive(:perform_async)
 
         result = tool.execute({})
 
         expect(result[:status]).to eq("queued")
-        expect(result[:version]).to eq("100000000")
+        expect(result[:version]).to eq(100000000)
         expect(result[:build_id]).to eq(CloudImageBuild.last.id)
       end
     end

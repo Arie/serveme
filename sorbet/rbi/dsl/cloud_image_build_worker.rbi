@@ -7,25 +7,18 @@
 
 class CloudImageBuildWorker
   class << self
-    sig { params(version: T.untyped, force_pull: T.untyped).returns(String) }
-    def perform_async(version, force_pull = T.unsafe(nil)); end
+    sig { params(cloud_image_build_id: T.untyped).returns(String) }
+    def perform_async(cloud_image_build_id); end
 
     sig do
       params(
         interval: T.any(DateTime, Time, ActiveSupport::TimeWithZone),
-        version: T.untyped,
-        force_pull: T.untyped
+        cloud_image_build_id: T.untyped
       ).returns(String)
     end
-    def perform_at(interval, version, force_pull = T.unsafe(nil)); end
+    def perform_at(interval, cloud_image_build_id); end
 
-    sig do
-      params(
-        interval: T.any(Numeric, ActiveSupport::Duration),
-        version: T.untyped,
-        force_pull: T.untyped
-      ).returns(String)
-    end
-    def perform_in(interval, version, force_pull = T.unsafe(nil)); end
+    sig { params(interval: T.any(Numeric, ActiveSupport::Duration), cloud_image_build_id: T.untyped).returns(String) }
+    def perform_in(interval, cloud_image_build_id); end
   end
 end

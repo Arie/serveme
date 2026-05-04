@@ -12,6 +12,12 @@ class CleanupWorker
     grant_api_keys_to_week_old_users
     remove_orphaned_temp_directories
     PopulateResolvedIpsService.call
+    prune_cloud_image_builds
+  end
+
+  def prune_cloud_image_builds
+    CloudImageBuild.where(status: %w[succeeded skipped_locked]).where("created_at < ?", 30.days.ago).delete_all
+    CloudImageBuild.where(status: "failed").where("created_at < ?", 90.days.ago).delete_all
   end
 
   def remove_old_reservation_logs_and_zips

@@ -1,0 +1,11 @@
+- content_for(:title) { "Cloud Image Builds" }
+
+= turbo_stream_from "cloud_image_builds_index"
+
+.row
+  .col-md-12.col-lg-10.offset-lg-1
+    .d-flex.justify-content-between.align-items-center.mb-4
+      %h2.mb-0 Cloud Image Builds
+    = render "status_card", local_digest: @local_digest, registry_digest: @registry_digest
+    = render "trigger_card", in_progress: @in_progress
+    = render "history", builds: @builds

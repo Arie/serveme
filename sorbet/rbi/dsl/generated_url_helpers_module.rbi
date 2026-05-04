@@ -10,6 +10,12 @@ module GeneratedUrlHelpersModule
   include ::ActionDispatch::Routing::PolymorphicRoutes
 
   sig { params(args: T.untyped).returns(String) }
+  def admin_cloud_image_build_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def admin_cloud_image_builds_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def admin_docker_host_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
@@ -380,6 +386,9 @@ module GeneratedUrlHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def private_servers_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def pull_now_admin_cloud_image_builds_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def rails_blob_representation_proxy_url(*args); end

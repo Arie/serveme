@@ -146,6 +146,10 @@
               = link_to admin_docker_hosts_path, class: "dropdown-item" do
                 %i.fa.fa-server
                 Docker Hosts
+              - if SITE_HOST == "serveme.tf"
+                = link_to admin_cloud_image_builds_path, class: "dropdown-item" do
+                  %i.fa.fa-cube
+                  Cloud Image
               = link_to admin_server_notifications_path, class: "dropdown-item" do
                 %i.fa.fa-bell
                 Server Notifications

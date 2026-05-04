@@ -9,6 +9,8 @@ class NightlyCloudImageBuildWorker
     version = Rails.cache.read("latest_server_version")
     return unless version
 
-    CloudImageBuildWorker.perform_async(version, true)
+    build = CloudImageBuild.create!(version: version.to_s, force_pull: true, status: "queued")
+    CloudImageBuildWorker.perform_async(build.id)
+    CloudImageBuild.broadcast_history
   end
 end

@@ -147,4 +147,40 @@ describe CleanupWorker do
       worker.cleanup_ssh_orphaned_temp_directories
     end
   end
+
+  describe "#prune_cloud_image_builds" do
+    let(:worker) { described_class.new }
+
+    it "deletes succeeded builds older than 30 days" do
+      old = CloudImageBuild.create!(version: "1", status: "succeeded", finished_at: 31.days.ago, created_at: 31.days.ago)
+      keep = CloudImageBuild.create!(version: "2", status: "succeeded", finished_at: 29.days.ago, created_at: 29.days.ago)
+
+      worker.prune_cloud_image_builds
+
+      expect(CloudImageBuild.where(id: old.id)).to be_empty
+      expect(CloudImageBuild.where(id: keep.id)).to exist
+    end
+
+    it "deletes skipped_locked builds older than 30 days" do
+      old = CloudImageBuild.create!(version: "1", status: "skipped_locked", created_at: 31.days.ago)
+      worker.prune_cloud_image_builds
+      expect(CloudImageBuild.where(id: old.id)).to be_empty
+    end
+
+    it "keeps failed builds for 90 days" do
+      old = CloudImageBuild.create!(version: "1", status: "failed", finished_at: 31.days.ago, created_at: 31.days.ago)
+      really_old = CloudImageBuild.create!(version: "2", status: "failed", finished_at: 91.days.ago, created_at: 91.days.ago)
+
+      worker.prune_cloud_image_builds
+
+      expect(CloudImageBuild.where(id: old.id)).to exist
+      expect(CloudImageBuild.where(id: really_old.id)).to be_empty
+    end
+
+    it "never deletes in-progress builds" do
+      running = CloudImageBuild.create!(version: "1", status: "running", created_at: 200.days.ago)
+      worker.prune_cloud_image_builds
+      expect(CloudImageBuild.where(id: running.id)).to exist
+    end
+  end
 end

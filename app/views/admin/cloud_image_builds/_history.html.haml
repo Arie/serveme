@@ -1,0 +1,33 @@
+.card#build-history
+  .card-body
+    %h5.card-title
+      %i.fa.fa-history
+      Recent builds
+    - if builds.empty?
+      %p.text-muted.mb-0 No builds yet.
+    - else
+      %table.table.table-sm.table-hover.mb-0
+        %thead
+          %tr
+            %th Started
+            %th Version
+            %th Triggered by
+            %th Force pull
+            %th Status
+            %th Duration
+            %th Digest
+        %tbody
+          - builds.each do |build|
+            %tr{ onclick: "window.location='#{admin_cloud_image_build_path(build)}'", style: "cursor: pointer;" }
+              %td= build.created_at.to_fs(:short)
+              %td= build.version
+              %td= build.triggered_by_label
+              %td= build.force_pull ? "✓" : "–"
+              %td
+                %span.badge{ class: status_badge_class(build.status) }= build.status
+              %td
+                - if build.duration
+                  = "#{build.duration.round}s"
+              %td
+                - if build.digest
+                  %code= build.digest.sub(/\Asha256:/, "").first(8)

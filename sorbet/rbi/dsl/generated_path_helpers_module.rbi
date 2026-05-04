@@ -10,6 +10,12 @@ module GeneratedPathHelpersModule
   include ::ActionDispatch::Routing::PolymorphicRoutes
 
   sig { params(args: T.untyped).returns(String) }
+  def admin_cloud_image_build_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def admin_cloud_image_builds_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def admin_docker_host_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
@@ -380,6 +386,9 @@ module GeneratedPathHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def private_servers_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def pull_now_admin_cloud_image_builds_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def rails_blob_path(*args); end

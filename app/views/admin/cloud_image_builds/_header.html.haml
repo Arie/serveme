@@ -1,0 +1,29 @@
+.card.mb-3{ id: "build-header-#{build.id}" }
+  .card-body
+    .d-flex.justify-content-between.align-items-center.mb-2
+      %h4.mb-0
+        Build ##{build.id}
+        %small.text-muted.ms-2 TF2 v#{build.version}
+      %span.badge.fs-6{ class: status_badge_class(build.status) }
+        - if build.status == "running"
+          %span.spinner-border.spinner-border-sm.me-1
+        = build.status
+        - if build.current_phase
+          %small.ms-1= "(#{build.current_phase})"
+    %dl.row.mb-0
+      %dt.col-sm-3 Triggered by
+      %dd.col-sm-9= build.triggered_by_label
+      %dt.col-sm-3 Force pull
+      %dd.col-sm-9= build.force_pull ? "yes" : "no"
+      %dt.col-sm-3 Started
+      %dd.col-sm-9= build.started_at&.to_fs(:short) || "—"
+      %dt.col-sm-3 Finished
+      %dd.col-sm-9= build.finished_at&.to_fs(:short) || "—"
+      %dt.col-sm-3 Duration
+      %dd.col-sm-9= build.duration ? "#{build.duration.round}s" : "—"
+      %dt.col-sm-3 Digest
+      %dd.col-sm-9
+        - if build.digest
+          %code= build.digest
+        - else
+          %span.text-muted —

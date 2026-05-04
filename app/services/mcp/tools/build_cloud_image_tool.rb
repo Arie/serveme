@@ -14,17 +14,14 @@ module Mcp
       sig { override.returns(String) }
       def self.description
         "Build and push a new TF2 cloud server Docker image. " \
-        "Triggers a background build on the EU server that pulls the latest base image, " \
+        "Creates a CloudImageBuild record, then a background worker pulls the latest base image, " \
         "rebuilds with current plugins/configs, and pushes to Docker Hub. " \
         "Only runs on the EU region (serveme.tf)."
       end
 
       sig { override.returns(T::Hash[Symbol, T.untyped]) }
       def self.input_schema
-        {
-          type: "object",
-          properties: {}
-        }
+        { type: "object", properties: {} }
       end
 
       sig { override.returns(Symbol) }
@@ -39,9 +36,11 @@ module Mcp
         version = Server.latest_version
         return { error: "Could not fetch latest TF2 version from Steam API" } unless version
 
-        CloudImageBuildWorker.perform_async(version)
+        build = CloudImageBuild.create!(version: version.to_s, force_pull: false, status: "queued")
+        CloudImageBuildWorker.perform_async(build.id)
+        CloudImageBuild.broadcast_history
 
-        { status: "queued", version: version, message: "Cloud image build queued for TF2 version #{version}" }
+        { status: "queued", build_id: build.id, version: version, message: "Cloud image build queued for TF2 version #{version}" }
       end
     end
   end

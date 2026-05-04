@@ -162,6 +162,11 @@ Serveme::Application.routes.draw do
         post :run_setup_step
       end
     end
+    resources :cloud_image_builds, only: [ :index, :show, :create ] do
+      collection do
+        post :pull_now
+      end
+    end
     resource :site_settings, only: [ :edit, :update ]
     resources :scoreboards, only: [ :index ]
   end

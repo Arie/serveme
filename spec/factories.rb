@@ -257,4 +257,10 @@ FactoryBot.define do
     detection_type { 'SilentAim' }
     count { 1 }
   end
+
+  factory :cloud_image_build do
+    version { "1234567" }
+    force_pull { false }
+    status { "queued" }
+  end
 end

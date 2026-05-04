@@ -1,0 +1,16 @@
+.card.mb-3#trigger-card
+  .card-body
+    %h5.card-title
+      %i.fa.fa-play-circle
+      Build new image
+    - if in_progress
+      .alert.alert-info
+        Build ##{in_progress.id} is already running
+        \(started #{time_ago_in_words(in_progress.started_at || in_progress.created_at)} ago).
+        = link_to "View it →", admin_cloud_image_build_path(in_progress)
+    - else
+      = form_with url: admin_cloud_image_builds_path, method: :post, local: true do |f|
+        .form-check.mb-2
+          = f.check_box :force_pull, class: "form-check-input"
+          = f.label :force_pull, "Force pull base image (docker build --pull)", class: "form-check-label"
+        = f.submit "Build New Image", class: "btn btn-primary"

@@ -99,4 +99,15 @@ module ApplicationHelper
 
     current_user.reservations.current.exists?
   end
+
+  def status_badge_class(status)
+    case status
+    when "succeeded"      then "bg-success"
+    when "failed"         then "bg-danger"
+    when "running"        then "bg-primary"
+    when "queued"         then "bg-secondary"
+    when "skipped_locked" then "bg-warning text-dark"
+    else "bg-secondary"
+    end
+  end
 end

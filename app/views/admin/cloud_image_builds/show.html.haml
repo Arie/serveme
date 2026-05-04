@@ -1,0 +1,14 @@
+- content_for(:title) { "Cloud Image Build ##{@build.id}" }
+
+= turbo_stream_from [ @build, "output" ]
+= turbo_stream_from @build
+
+.row
+  .col-md-12.col-lg-10.offset-lg-1
+    = link_to "← Back to builds", admin_cloud_image_builds_path, class: "btn btn-secondary btn-sm mb-3"
+    = render "header", build: @build
+    .card
+      .card-body
+        %h5.card-title Build output
+        %pre#build-output.bg-dark.text-light.small.mb-0{ style: "max-height: 600px; overflow: auto;" }
+          = @build.output

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_29_130537) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_04_113601) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -50,6 +50,22 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_29_130537) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "cloud_image_builds", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "current_phase"
+    t.string "digest"
+    t.datetime "finished_at"
+    t.boolean "force_pull", default: false, null: false
+    t.text "output", default: "", null: false
+    t.datetime "started_at"
+    t.string "status", default: "queued", null: false
+    t.bigint "triggered_by_user_id"
+    t.datetime "updated_at", null: false
+    t.string "version", null: false
+    t.index ["created_at"], name: "index_cloud_image_builds_on_created_at"
+    t.index ["triggered_by_user_id"], name: "index_cloud_image_builds_on_triggered_by_user_id"
   end
 
   create_table "docker_host_setup_logs", force: :cascade do |t|
@@ -538,6 +554,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_29_130537) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "cloud_image_builds", "users", column: "triggered_by_user_id"
   add_foreign_key "docker_host_setup_logs", "docker_hosts"
   add_foreign_key "docker_hosts", "locations"
   add_foreign_key "file_upload_permissions", "users"

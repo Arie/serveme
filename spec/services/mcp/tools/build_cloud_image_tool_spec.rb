@@ -33,13 +33,27 @@ RSpec.describe Mcp::Tools::BuildCloudImageTool do
         stub_const("SITE_HOST", "serveme.tf")
       end
 
-      it "queues a CloudImageBuildWorker" do
-        expect(CloudImageBuildWorker).to receive(:perform_async).with(100_000_000)
+      it "creates a CloudImageBuild record and enqueues the worker by id" do
+        allow(Server).to receive(:latest_version).and_return("100000000")
+        expect(CloudImageBuildWorker).to receive(:perform_async).with(kind_of(Integer))
+
+        expect { tool.execute({}) }.to change(CloudImageBuild, :count).by(1)
+
+        build = CloudImageBuild.last
+        expect(build.version).to eq("100000000")
+        expect(build.force_pull).to eq(false)
+        expect(build.status).to eq("queued")
+      end
+
+      it "returns the build_id in the response" do
+        allow(Server).to receive(:latest_version).and_return("100000000")
+        allow(CloudImageBuildWorker).to receive(:perform_async)
 
         result = tool.execute({})
 
         expect(result[:status]).to eq("queued")
-        expect(result[:version]).to eq(100_000_000)
+        expect(result[:version]).to eq("100000000")
+        expect(result[:build_id]).to eq(CloudImageBuild.last.id)
       end
     end
 

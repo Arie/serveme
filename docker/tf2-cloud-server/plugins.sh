@@ -7,7 +7,7 @@ wget -nv "https://github.com/Arie/serveme/raw/refs/heads/master/doc/web_rcon.smx
 
 # STAC anti-cheat (zip contents are relative to addons/sourcemod/)
 cd "$HOME/hlserver/tf2/tf/addons/sourcemod"
-wget -nv "https://github.com/sapphonie/StAC-tf2/releases/latest/download/stac.zip" -O "stac.zip"
+wget -nv "https://github.com/sapphonie/StAC-tf2/releases/download/v6.3.9/stac.zip" -O "stac.zip"
 unzip -o stac.zip
 rm stac.zip
 

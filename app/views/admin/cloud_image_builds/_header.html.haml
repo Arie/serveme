@@ -4,7 +4,7 @@
       %h4.mb-0
         Build ##{build.id}
         %small.text-muted.ms-2 TF2 v#{build.version}
-      %span.badge.fs-6{ class: status_badge_class(build.status) }
+      %span.badge.fs-6.text-light{ class: status_badge_class(build.status) }
         - if build.status == "running"
           %span.spinner-border.spinner-border-sm.me-1
         = build.status

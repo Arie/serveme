@@ -23,7 +23,7 @@
           %td.fw-bold Sync
           %td
             - if local_digest.present? && registry_digest.present? && local_digest == registry_digest
-              %span.badge.bg-success In sync
+              %span.badge.bg-success.text-light In sync
             - else
               %span.badge.bg-warning.text-light Out of sync
     = button_to pull_now_admin_cloud_image_builds_path, class: "btn btn-outline-primary btn-sm text-light" do

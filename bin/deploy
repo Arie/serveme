@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Deploy the currently-checked-out git SHA to the given region(s).
+# Image must already be pushed (run bin/build first).
+#
+# Usage:
+#   bin/deploy            # deploy to all four regions in parallel
+#   bin/deploy eu         # one region
+#   bin/deploy eu na      # subset, in parallel
+set -euo pipefail
+cd "$(dirname "$0")/.."
+
+regions=("$@")
+[[ ${#regions[@]} -eq 0 ]] && regions=(eu na au sea)
+
+for d in "${regions[@]}"; do
+  bin/kamal deploy --skip-push -d "$d" &
+done
+wait

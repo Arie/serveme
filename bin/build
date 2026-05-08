@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Build the serveme image and push to GHCR. Tagged only with the
+# current git SHA (no per-region "latest" tags — one image, four
+# regions). Uses the active docker buildx builder; on a dev laptop
+# that should be the proxmox-via-SSH context so we build amd64 natively.
+set -euo pipefail
+cd "$(dirname "$0")/.."
+SHA=$(git rev-parse HEAD)
+TAG="ghcr.io/arie/serveme:$SHA"
+echo "==> Building $TAG"
+docker buildx build --push --platform linux/amd64 -t "$TAG" .
+echo "==> Pushed $TAG"

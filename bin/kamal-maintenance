@@ -1,0 +1,113 @@
+#!/usr/bin/env bash
+# Toggle the kamal-proxy maintenance switch for serveme-web. Renders the
+# given message into public/503.html (at the <!--MSG-->...<!--/MSG-->
+# marker), pushes the rendered file to each host's kamal-proxy
+# error_pages dir, and stops/resumes the service.
+#
+# Usage:
+#   bin/kamal-maintenance on [message]
+#   bin/kamal-maintenance off
+#   bin/kamal-maintenance status
+#
+# ENV:
+#   DESTINATION=eu       — uses config/deploy.eu.yml instead of config/deploy.yml
+#   SERVICE=serveme-web  — kamal-proxy service name
+set -euo pipefail
+
+DEST=${DESTINATION:-}
+
+# Mirror kamal CLI's `-d <dest>` flag wherever it appears in args.
+ARGS=()
+while (($#)); do
+  case $1 in
+    -d|--destination) DEST=$2; shift 2 ;;
+    *) ARGS+=("$1"); shift ;;
+  esac
+done
+set -- "${ARGS[@]}"
+
+DEPLOY_YML="config/deploy${DEST:+.${DEST}}.yml"
+SERVICE=${SERVICE:-serveme-web${DEST:+-${DEST}}}
+TEMPLATE="public/503.html"
+[[ -f $DEPLOY_YML ]] || { echo "Missing $DEPLOY_YML" >&2; exit 1; }
+
+read_yaml() {
+  ruby -ryaml -e "
+    cfg = YAML.safe_load_file('$DEPLOY_YML', aliases: true)
+    case ARGV[0]
+    when 'hosts'
+      hosts = []
+      cfg['servers'].each_value do |s|
+        hosts.concat(case s when Hash then Array(s['hosts']) when Array then s when String then [s] else [] end)
+      end
+      puts hosts.uniq
+    when 'user' then puts cfg.dig('ssh', 'user') || 'root'
+    when 'key'  then puts (Array(cfg.dig('ssh', 'keys')).first || '').gsub(/^~/, ENV['HOME'].to_s)
+    end
+  " "$1"
+}
+
+USER=$(read_yaml user)
+KEY=$(read_yaml key)
+SSH_OPTS=(-o StrictHostKeyChecking=accept-new)
+[[ -n $KEY ]] && SSH_OPTS+=(-i "$KEY")
+
+HOSTS=()
+while IFS= read -r h; do [[ -n $h ]] && HOSTS+=("$h"); done < <(read_yaml hosts)
+
+# HTML-escape the message, then substitute it into the marker.
+render_template() {
+  local message=$1
+  ruby -e '
+    escaped = ARGV[0].gsub("&", "&amp;").gsub("<", "&lt;").gsub(">", "&gt;").gsub("\"", "&quot;")
+    src = File.read(ARGV[1])
+    print src.sub(/<!--MSG-->.*?<!--\/MSG-->/, escaped)
+  ' "$message" "$TEMPLATE"
+}
+
+push_and_reload() {
+  local host=$1 rendered=$2
+  scp "${SSH_OPTS[@]}" "$rendered" "$USER@$host:/tmp/kamal-maintenance-503.html"
+  ssh "${SSH_OPTS[@]}" "$USER@$host" \
+    'F=$(find .kamal/proxy/apps-config/serveme/error_pages -name 503.html | head -1); install -m 0644 /tmp/kamal-maintenance-503.html "$F"; rm -f /tmp/kamal-maintenance-503.html; docker restart kamal-proxy >/dev/null'
+  for _ in $(seq 1 20); do
+    if ssh "${SSH_OPTS[@]}" "$USER@$host" 'docker exec kamal-proxy kamal-proxy list >/dev/null 2>&1'; then
+      return 0
+    fi
+    sleep 0.3
+  done
+  echo "warning: kamal-proxy on $host did not come back within 6s" >&2
+}
+
+case ${1:-status} in
+  on)
+    msg=${2:-"upgrades"}
+    [[ -f $TEMPLATE ]] || { echo "Missing $TEMPLATE" >&2; exit 1; }
+
+    rendered=$(mktemp)
+    trap 'rm -f "$rendered"' EXIT
+    render_template "$msg" > "$rendered"
+
+    for host in "${HOSTS[@]}"; do
+      echo "==> $USER@$host"
+      ssh "${SSH_OPTS[@]}" "$USER@$host" "docker exec kamal-proxy kamal-proxy stop $SERVICE --message $(printf %q "$msg")" || true
+      push_and_reload "$host" "$rendered"
+    done
+    ;;
+  off)
+    for host in "${HOSTS[@]}"; do
+      echo "==> $USER@$host: kamal-proxy resume $SERVICE"
+      ssh "${SSH_OPTS[@]}" "$USER@$host" "docker exec kamal-proxy kamal-proxy resume $SERVICE"
+    done
+    ;;
+  status)
+    for host in "${HOSTS[@]}"; do
+      echo "==> $USER@$host"
+      ssh "${SSH_OPTS[@]}" "$USER@$host" "docker exec kamal-proxy kamal-proxy list"
+    done
+    ;;
+  *)
+    echo "Usage: $0 {on [message]|off|status}" >&2
+    exit 1
+    ;;
+esac

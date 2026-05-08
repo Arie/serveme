@@ -1,0 +1,40 @@
+# Standalone websocket-echo Kamal app — backs the regional /ping latency
+# tester. Registers with kamal-proxy as a path-prefix service (/ping)
+# under the same hosts as the main serveme app, inheriting the cert.
+service: serveme-ws-echo
+image: arie/serveme-ws-echo
+require_destination: true
+
+registry:
+  server: ghcr.io
+  username: Arie
+  password:
+    - KAMAL_REGISTRY_PASSWORD
+
+builder:
+  arch: amd64
+  context: docker/websocket-echo
+  dockerfile: docker/websocket-echo/Dockerfile
+
+# Container's native bind is 127.0.0.1; flip to the bridge interface.
+env:
+  clear:
+    BIND_ADDRESS: "0.0.0.0"
+    BIND_PORT: "8083"
+
+ssh:
+  user: kamal
+  keys: ["~/.ssh/id_kamal"]
+
+proxy:
+  ssl: false                # root-path serveme app owns TLS
+  app_port: 8083
+  path_prefixes: ["/ping"]
+  strip_path_prefix: true
+  healthcheck:
+    path: /health
+    interval: 3
+    timeout: 5
+
+aliases:
+  ws-logs: app logs -f -c config/deploy.ws-echo.yml

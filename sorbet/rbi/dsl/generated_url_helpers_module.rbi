@@ -406,6 +406,9 @@ module GeneratedUrlHelpersModule
   def rails_disk_service_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def rails_health_check_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def rails_info_notes_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }

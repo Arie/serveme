@@ -1,16 +1,20 @@
 #!/usr/bin/env bash
-# Refresh GeoLite2 databases from MaxMind and roll them out to all regions.
-# Runs `rake maxmind:fetch` locally, then `cap <stage> maxmind:upload` for
-# each region in series. Each region briefly enters maintenance mode while
-# its puma/sidekiq restart, so this takes a few minutes overall.
-
+# Fetch fresh GeoLite2 databases from MaxMind and roll them to every
+# region. `kamal app boot` is a start-new/wait-healthy/stop-old cycle —
+# zero user-visible downtime for web; sidekiq drains gracefully.
 set -euo pipefail
-
 cd "$(dirname "$0")/.."
 
-bundle exec rake maxmind:fetch
+mise x -- bundle exec rake maxmind:fetch
 
-for stage in eu na au sea; do
-  echo "=== Uploading to $stage ==="
-  bundle exec cap "$stage" maxmind:upload
-done
+roll_region() {
+  local region=$1 deploy_user=$2 roles=$3
+  DEPLOY_SSH_USER="$deploy_user" bin/kamal-bootstrap "$region"
+  mise x -- kamal app boot -d "$region" -r "$roles"
+}
+
+roll_region eu  tf2  web,sidekiq,sidekiq2,discord_bot &
+roll_region na  arie web,sidekiq,sidekiq2,discord_bot &
+roll_region au  tf2  web,sidekiq,discord_bot &
+roll_region sea arie web,sidekiq,discord_bot &
+wait

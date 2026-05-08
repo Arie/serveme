@@ -1,0 +1,83 @@
+# See https://docs.docker.com/engine/reference/builder/#dockerignore-file for more about ignoring files.
+
+# Ignore git directory.
+/.git/
+/.gitignore
+
+# Ignore bundler config.
+/.bundle
+
+# Ignore all environment files.
+/.env*
+
+# Ignore all default key files.
+/config/master.key
+/config/credentials/*.key
+
+# Ignore all logfiles and tempfiles.
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
+
+# Ignore pidfiles, but keep the directory.
+/tmp/pids/*
+!/tmp/pids/.keep
+
+# Ignore storage (uploaded files in development and any SQLite databases).
+/storage/*
+!/storage/.keep
+/tmp/storage/*
+!/tmp/storage/.keep
+
+# Server-side accumulated data — provided by host volumes in production.
+/server_logs/
+/public/uploads/
+/public/system/*
+!/public/system/.keep
+
+# Ignore CI service files.
+/.github
+
+# Ignore development files.
+/.devcontainer
+
+# Ignore Docker-related files.
+/.dockerignore
+/Dockerfile*
+/docker-compose*.yml
+
+# Ignore Kamal files.
+/.kamal/secrets*
+/config/deploy*.yml
+
+# Ignore IDE/editor configs.
+/.idea
+/.vscode
+/.ruby-lsp
+/.sass-cache
+
+# Ignore tooling caches.
+/coverage/
+/spec/tmp/
+
+# Ignore test files (kept out of production image).
+/spec/
+/features/
+/cucumber.html
+/rspec.html
+
+# Ignore Sorbet metadata that can be regenerated.
+/sorbet/rbi/gems
+/sorbet/rbi/dsl
+
+# Ignore claude-on-rails / claude session artifacts.
+/.claude
+/.claude-on-rails
+/.claude-swarm
+/claude-swarm.yml
+/claude-swarm.log
+/.mcp.json
+
+# Discord bot ships as a Kamal role using the same image (per-region).
+# Bot needs discord_bot/bot.rb + discord_bot/lib/, so don't ignore.

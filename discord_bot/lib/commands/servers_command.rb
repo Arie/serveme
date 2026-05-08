@@ -46,20 +46,24 @@ module ServemeBot
           }
         end
 
-        # Include Docker hosts as on-demand cloud servers
-        DockerHost.active.includes(:location).each do |host|
-          available_slots = (host.max_containers || 4) - host.container_count_during(starts_at, ends_at)
+        # Include Docker hosts as on-demand cloud servers, grouped by city
+        # (the booking handler picks any host in the city, and Discord rejects
+        # duplicate button custom_ids, so multiple hosts per city must collapse
+        # into one entry).
+        DockerHost.active.includes(:location).group_by(&:city).each do |city, hosts|
+          first = hosts.first
+          available_slots = hosts.sum { |h| (h.max_containers || 4) - h.container_count_during(starts_at, ends_at) }
+          total_slots = hosts.sum { |h| h.max_containers || 4 }
           servers << {
-            "id" => host.virtual_server_id,
-            "name" => host.city,
-            "ip" => host.ip,
-            "location" => host.location&.name,
-            "flag" => host.location&.flag,
+            "id" => first.virtual_server_id,
+            "name" => city,
+            "ip" => first.ip,
+            "location" => first.location&.name,
+            "flag" => first.location&.flag,
             "available" => available_slots > 0,
             "cloud" => true,
-            "docker_host_id" => host.id,
             "available_slots" => [ available_slots, 0 ].max,
-            "total_slots" => host.max_containers || 4
+            "total_slots" => total_slots
           }
         end
 

@@ -50,6 +50,7 @@ gem "pagy"
 gem "paypal-sdk-rest"
 gem "pg"
 gem "puma"
+gem "thruster", require: false
 gem "rack-attack"
 gem "rack-utf8_sanitizer"
 gem "rails", "~> 8.1.0"
@@ -85,14 +86,6 @@ gem "rswag-ui"
 
 group :development do
   gem "better_errors"
-  gem "capistrano", require: false
-  gem "capistrano3-puma"
-  gem "capistrano-bundler", require: false
-  gem "capistrano-faster-assets", require: false
-  gem "capistrano-maintenance", require: false
-  gem "capistrano-rails", require: false
-  gem "capistrano-rvm", require: false
-  gem "capistrano-sidekiq", git: "https://github.com/Pharmony/capistrano-sidekiq.git", require: false
   gem "rubocop", require: false
   gem "rubocop-sorbet", require: false
   gem "rubocop-rails-omakase", require: false

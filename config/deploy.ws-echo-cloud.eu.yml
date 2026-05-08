@@ -1,0 +1,7 @@
+servers:
+  web:
+    hosts: [new.fakkelbrigade.eu]
+
+proxy:
+  hosts:
+    - new.fakkelbrigade.eu

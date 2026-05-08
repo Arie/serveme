@@ -1,0 +1,111 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+#
+# Stage host-mounted files on each Kamal target host. Run before
+# `kamal setup` and any time the staged files change locally (fresh
+# MaxMind mmdb, paypal credentials, etc).
+#
+# Usage:
+#   bin/kamal-bootstrap <destination>
+#
+# ENV:
+#   DEPLOY_SSH_USER=<user>   Also rsyncs /home/<user>/.ssh/ on the host
+#                            into /etc/serveme/.ssh/ for the rails container.
+
+require "yaml"
+require "shellwords"
+require "fileutils"
+
+FILES = {
+  "doc/GeoLite2-City.mmdb" => "/etc/serveme/GeoLite2-City.mmdb",
+  "doc/GeoLite2-ASN.mmdb"  => "/etc/serveme/GeoLite2-ASN.mmdb",
+  "config/paypal.yml"      => "/etc/serveme/paypal.yml",
+  "config/cacert.pem"      => "/etc/serveme/cacert.pem"
+}.freeze
+
+destination = ARGV[0]
+deploy_file = destination ? "config/deploy.#{destination}.yml" : "config/deploy.yml"
+abort "Missing #{deploy_file}" unless File.exist?(deploy_file)
+
+config = YAML.safe_load_file(deploy_file, aliases: true, permitted_classes: [Symbol])
+
+ssh_user = config.dig("ssh", "user") || "root"
+ssh_keys = Array(config.dig("ssh", "keys"))
+ssh_key  = ssh_keys.first&.gsub(/^~/, ENV["HOME"])
+ssh_opts = ["-o", "StrictHostKeyChecking=accept-new"]
+ssh_opts.push("-i", ssh_key) if ssh_key
+
+hosts = []
+config["servers"].each_value do |spec|
+  case spec
+  when Hash   then hosts.concat(Array(spec["hosts"]))
+  when Array  then hosts.concat(spec)
+  when String then hosts << spec
+  end
+end
+hosts.uniq!
+abort "No hosts in #{deploy_file}" if hosts.empty?
+
+def run!(*cmd)
+  puts "    $ #{cmd.shelljoin}"
+  system(*cmd) || abort("    failed: #{cmd.shelljoin}")
+end
+
+hosts.each do |host|
+  puts "==> #{ssh_user}@#{host}"
+
+  FILES.each do |src, dest|
+    unless File.exist?(src)
+      puts "    skip #{src} (not present locally)"
+      next
+    end
+
+    dest_dir = File.dirname(dest)
+    puts "    -> #{dest} (#{File.size(src)} bytes)"
+
+    staging = "/tmp/kamal-bootstrap.#{File.basename(dest)}.#{$$}"
+    run!("ssh", *ssh_opts, "#{ssh_user}@#{host}", "sudo mkdir -p #{dest_dir.shellescape}")
+    run!("scp", *ssh_opts, src, "#{ssh_user}@#{host}:#{staging}")
+    run!("ssh", *ssh_opts, "#{ssh_user}@#{host}",
+         "sudo install -m 0644 -o root -g root #{staging.shellescape} #{dest.shellescape} && rm -f #{staging.shellescape}")
+  end
+
+  if (deploy_ssh_user = ENV["DEPLOY_SSH_USER"])
+    puts "    -> /etc/serveme/.ssh/ (rsync from /home/#{deploy_ssh_user}/.ssh/, owned UID 1000)"
+    # ControlMaster needs a writable ControlPath; the bind mount is ro.
+    # Prepend a `Host *` block (first match wins) before existing config.
+    override_path = "/tmp/kamal-bootstrap.ssh-override.#{$$}"
+    File.write(override_path, <<~OVERRIDE)
+      Host *
+        ControlMaster auto
+        ControlPath /tmp/cm_%C
+        ControlPersist 600
+
+    OVERRIDE
+    run!("scp", *ssh_opts, override_path, "#{ssh_user}@#{host}:#{override_path}")
+    File.unlink(override_path)
+
+    # Run the whole sequence under one sudo bash. After chmod 700 + chown
+    # the SSH session user can't traverse the dir, so [ -f ] would
+    # silently fail outside sudo.
+    cmd = <<~SH
+      sudo bash -eu <<'INNER'
+      rsync -a --delete --exclude=cm_socket /home/#{deploy_ssh_user.shellescape}/.ssh/ /etc/serveme/.ssh/
+      cp #{override_path.shellescape} /etc/serveme/.ssh/config.new
+      if [ -f /etc/serveme/.ssh/config ]; then
+        cat /etc/serveme/.ssh/config >> /etc/serveme/.ssh/config.new
+      fi
+      mv /etc/serveme/.ssh/config.new /etc/serveme/.ssh/config
+      chown -R 1000:1000 /etc/serveme/.ssh
+      chmod 700 /etc/serveme/.ssh
+      find /etc/serveme/.ssh -type f -exec chmod 600 {} +
+      find /etc/serveme/.ssh -name '*.pub' -exec chmod 644 {} +
+      INNER
+      rm -f #{override_path.shellescape}
+    SH
+    run!("ssh", *ssh_opts, "#{ssh_user}@#{host}", cmd)
+  end
+end
+
+puts
+puts "Done. #{hosts.size} host(s) staged."

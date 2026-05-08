@@ -1,0 +1,17 @@
+# SEA — 139.99.42.241 (OVH VPS, 1C/1.9G). Builds happen on the dev box
+# because the host is too small (`builder.local`).
+servers:
+  web:         { hosts: [139.99.42.241] }
+  sidekiq:     { hosts: [139.99.42.241] }
+  discord_bot: { hosts: [139.99.42.241] }
+  logdaemon:   { hosts: [139.99.42.241] }
+
+proxy:
+  hosts:
+    - sea.serveme.tf
+    - direct.sea.serveme.tf
+
+env:
+  clear:
+    SITE_HOST: sea.serveme.tf
+    SITE_URL:  https://sea.serveme.tf

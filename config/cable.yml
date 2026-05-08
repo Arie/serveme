@@ -1,6 +1,6 @@
 development:
   adapter: redis
-  url: redis://localhost:6379
+  url: <%= ENV.fetch("REDIS_URL", "redis://localhost:6379") %>
   channel_prefix: serveme_hotwire_development
 
 test:
@@ -8,5 +8,5 @@ test:
 
 production:
   adapter: redis
-  url: redis://localhost:6379
+  url: <%= ENV.fetch("REDIS_URL", "redis://localhost:6379") %>
   channel_prefix: serveme_hotwire_production

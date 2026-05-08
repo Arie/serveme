@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Wraps the real kamal CLI with our project-local Ruby patch
+# (.kamal/patches.rb) so the logdaemon role can use --network host.
+# Use this script anywhere you'd otherwise type `mise x -- kamal …`.
+set -euo pipefail
+cd "$(dirname "$0")/.."
+export RUBYOPT="${RUBYOPT:-} -r$(pwd)/.kamal/patches.rb"
+exec mise x -- kamal "$@"

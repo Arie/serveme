@@ -1,0 +1,16 @@
+# AU — direct.au.serveme.tf (OVH VPS). No local TF2 servers, no /ping.
+servers:
+  web:         { hosts: [direct.au.serveme.tf] }
+  sidekiq:     { hosts: [direct.au.serveme.tf] }
+  discord_bot: { hosts: [direct.au.serveme.tf] }
+  logdaemon:   { hosts: [direct.au.serveme.tf] }
+
+proxy:
+  hosts:
+    - au.serveme.tf
+    - direct.au.serveme.tf
+
+env:
+  clear:
+    SITE_HOST: au.serveme.tf
+    SITE_URL:  https://au.serveme.tf

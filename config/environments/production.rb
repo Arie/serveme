@@ -11,7 +11,8 @@ Serveme::Application.configure do
   config.consider_all_requests_local       = false
   config.action_controller.perform_caching = true
 
-  # Disable Rails's static asset server (Apache or nginx will already do this)
+  # Disable Rails's static asset server — Thruster (in front of puma) serves
+  # public/ directly, so static-file requests never reach Rails.
   config.public_file_server.enabled = false
 
   # Compress JavaScripts and CSS

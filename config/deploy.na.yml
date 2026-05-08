@@ -11,6 +11,7 @@ servers:
     options:
       add-host: host.docker.internal:host-gateway
   discord_bot: { hosts: [direct.na.serveme.tf] }
+  logdaemon: { hosts: [direct.na.serveme.tf] }
 
 proxy:
   hosts:

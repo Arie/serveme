@@ -11,6 +11,7 @@ servers:
     options:
       add-host: host.docker.internal:host-gateway
   discord_bot: { hosts: [new.fakkelbrigade.eu] }
+  logdaemon: { hosts: [new.fakkelbrigade.eu] }
 
 proxy:
   hosts:

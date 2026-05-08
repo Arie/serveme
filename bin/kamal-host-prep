@@ -8,8 +8,7 @@
 # group, id_kamal authorized_keys), patch Postgres (listen_addresses +
 # pg_hba), patch Redis (bind 0.0.0.0, protected-mode no), flip otelcol's
 # bind, add iptables filter for host services reachable via the docker
-# bridge, install the serveme-logdaemon@.service template, create
-# /etc/serveme/.
+# bridge, create /etc/serveme/.
 #
 # Does NOT touch the nginx vhost — that's a manual cutover step.
 #
@@ -59,39 +58,6 @@ config["servers"].each_value do |spec|
 end
 hosts.uniq!
 abort "No hosts in #{deploy_file}" if hosts.empty?
-
-LOGDAEMON_UNIT = <<~UNIT
-  [Unit]
-  Description=Serveme TF2 logdaemon (instance %i)
-  Documentation=https://serveme.tf
-  After=docker.service network-online.target redis-server.service
-  Wants=network-online.target
-  Requires=docker.service
-
-  [Service]
-  Type=simple
-  EnvironmentFile=/etc/serveme/logdaemon.env
-  Restart=always
-  RestartSec=2
-  TimeoutStartSec=0
-
-  ExecStartPre=-/usr/bin/docker rm -f serveme-logdaemon-%i
-
-  # --network host so SO_REUSEPORT lets blue/green peers share UDP/40001.
-  ExecStart=/usr/bin/docker run --rm \\
-    --name serveme-logdaemon-%i \\
-    --network host \\
-    --env-file /etc/serveme/logdaemon.env \\
-    --volume /var/www/serveme/shared/server_logs:/rails/server_logs \\
-    --volume /var/www/serveme/shared/log:/rails/log \\
-    ${IMAGE} \\
-    bundle exec ruby script/logdaemon
-
-  ExecStop=/usr/bin/docker stop -t 5 serveme-logdaemon-%i
-
-  [Install]
-  WantedBy=multi-user.target
-UNIT
 
 SUDOERS_BODY = "#{kamal_user} ALL=(ALL) NOPASSWD: ALL\n"
 
@@ -195,10 +161,6 @@ PREP_SCRIPT = <<~'SH'
   fi
   sudo netfilter-persistent save >/dev/null
 
-  echo "==> logdaemon systemd template"
-  sudo install -m 644 -o root -g root __UNIT_PATH__ /etc/systemd/system/serveme-logdaemon@.service
-  sudo systemctl daemon-reload
-
   echo "==> /etc/serveme/"
   sudo install -d -m 755 -o root -g root /etc/serveme
 
@@ -216,35 +178,29 @@ end
 
 sudoers_local = "/tmp/kamal-host-prep.sudoers.#{$$}"
 File.write(sudoers_local, SUDOERS_BODY)
-unit_local = "/tmp/kamal-host-prep.logdaemon-unit.#{$$}"
-File.write(unit_local, LOGDAEMON_UNIT)
 
 hosts.each do |host|
   puts "==> #{admin_user}@#{host}"
 
   pubkey_remote  = "/tmp/kamal-host-prep.id_kamal.pub.#{$$}"
-  unit_remote    = "/tmp/kamal-host-prep.logdaemon-unit.#{$$}"
   sudoers_remote = "/tmp/kamal-host-prep.sudoers.#{$$}"
 
   run!("scp", *ssh_opts, pubkey_path,   "#{admin_user}@#{host}:#{pubkey_remote}")
-  run!("scp", *ssh_opts, unit_local,    "#{admin_user}@#{host}:#{unit_remote}")
   run!("scp", *ssh_opts, sudoers_local, "#{admin_user}@#{host}:#{sudoers_remote}")
 
   script = PREP_SCRIPT
     .gsub("__KAMAL_USER__",   kamal_user)
     .gsub("__PG_USER__",      pg_user)
     .gsub("__PUBKEY_PATH__",  pubkey_remote)
-    .gsub("__UNIT_PATH__",    unit_remote)
     .gsub("__SUDOERS_PATH__", sudoers_remote)
     .gsub("__DEST__",         destination)
 
   run!("ssh", *ssh_opts, "#{admin_user}@#{host}", script)
   run!("ssh", *ssh_opts, "#{admin_user}@#{host}",
-       "rm -f #{[pubkey_remote, unit_remote, sudoers_remote].map(&:shellescape).join(' ')}")
+       "rm -f #{[pubkey_remote, sudoers_remote].map(&:shellescape).join(' ')}")
 end
 
 File.unlink(sudoers_local)
-File.unlink(unit_local)
 
 puts
 puts "Done. #{hosts.size} host(s) prepped."

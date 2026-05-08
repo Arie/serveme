@@ -49,6 +49,24 @@ servers:
     proxy: false
     options:
       add-host: host.docker.internal:host-gateway
+  # Listens on UDP/40001 for srcds log packets. network: host so
+  # SO_REUSEPORT propagates to the kernel — old and new containers can
+  # bind 40001 concurrently during a deploy and the kernel hashes
+  # incoming datagrams between them (no packet loss). REDIS_URL is
+  # overridden because host.docker.internal isn't routable in host
+  # network mode; 127.0.0.1 reaches the host's redis directly.
+  logdaemon:
+    cmd: bundle exec ruby script/logdaemon
+    proxy: false
+    options:
+      network: host
+      health-cmd: "bash -c '> /dev/tcp/127.0.0.1/40002'"
+      health-interval: 5s
+      health-timeout: 3s
+      health-retries: 3
+    env:
+      clear:
+        REDIS_URL: redis://127.0.0.1:6379/0
 
 # EU overrides this full list — its server_logs and log/streaming under
 # /var/www/serveme/shared/ are symlinks and Docker can't bind across.

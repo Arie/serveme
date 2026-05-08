@@ -4,6 +4,7 @@ servers:
   web:         { hosts: [139.99.42.241] }
   sidekiq:     { hosts: [139.99.42.241] }
   discord_bot: { hosts: [139.99.42.241] }
+  logdaemon:   { hosts: [139.99.42.241] }
 
 proxy:
   hosts:

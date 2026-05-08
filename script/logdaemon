@@ -117,6 +117,21 @@ else
            s
 end
 
+control_port = ENV.fetch('LOGDAEMON_CONTROL_PORT', 40002).to_i
+control_server = Socket.new(:INET, :STREAM)
+control_server.setsockopt(Socket::SOL_SOCKET, Socket::SO_REUSEPORT, 1)
+control_server.bind(Socket.pack_sockaddr_in(control_port, '127.0.0.1'))
+control_server.listen(8)
+Thread.new do
+  loop do
+    client, _ = control_server.accept
+    client.write("ok\n")
+    client.close
+  rescue => e
+    warn "Control socket error: #{e.message}"
+  end
+end
+
 handler = LogHandler.new(STREAMING_LOG_DIR)
 
 running = true

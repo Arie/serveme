@@ -70,27 +70,6 @@ hosts.each do |host|
          "sudo install -m 0644 -o root -g root #{staging.shellescape} #{dest.shellescape} && rm -f #{staging.shellescape}")
   end
 
-  # logdaemon.env feeds the host-systemd serveme-logdaemon@.service.
-  # Per-region (image tag varies); 0600 because it carries the master key.
-  if destination && File.exist?("config/credentials/production.key")
-    master_key = File.read("config/credentials/production.key").strip
-    env_body = <<~ENV
-      IMAGE=ghcr.io/arie/serveme:latest-#{destination}
-      REDIS_URL=redis://127.0.0.1:6379/0
-      RAILS_ENV=production
-      RAILS_LOG_TO_STDOUT=1
-      RAILS_MASTER_KEY=#{master_key}
-    ENV
-    env_local  = "/tmp/kamal-bootstrap.logdaemon.env.#{$$}"
-    env_remote = env_local
-    File.write(env_local, env_body)
-    puts "    -> /etc/serveme/logdaemon.env (#{env_body.bytesize} bytes)"
-    run!("scp", *ssh_opts, env_local, "#{ssh_user}@#{host}:#{env_remote}")
-    run!("ssh", *ssh_opts, "#{ssh_user}@#{host}",
-         "sudo install -m 0600 -o root -g root #{env_remote.shellescape} /etc/serveme/logdaemon.env && rm -f #{env_remote.shellescape}")
-    File.unlink(env_local)
-  end
-
   if (deploy_ssh_user = ENV["DEPLOY_SSH_USER"])
     puts "    -> /etc/serveme/.ssh/ (rsync from /home/#{deploy_ssh_user}/.ssh/, owned UID 1000)"
     # ControlMaster needs a writable ControlPath; the bind mount is ro.

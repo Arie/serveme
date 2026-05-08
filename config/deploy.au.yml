@@ -3,6 +3,7 @@ servers:
   web:         { hosts: [direct.au.serveme.tf] }
   sidekiq:     { hosts: [direct.au.serveme.tf] }
   discord_bot: { hosts: [direct.au.serveme.tf] }
+  logdaemon:   { hosts: [direct.au.serveme.tf] }
 
 proxy:
   hosts:

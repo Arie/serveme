@@ -33,10 +33,15 @@ RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y build-essential git pkg-config libmaxminddb0 libmaxminddb-dev libpq-dev libyaml-dev && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
-# Install application gems
+# Install application gems. Cache mount on the gem download cache
+# preserves *.gem archives across layer invalidations, so a Gemfile
+# bump only re-downloads the gems whose versions actually changed.
+# NB: target uses Ruby's API version (4.0.x → 4.0.0). Bump to 4.1.x
+# means updating the cache path or you'll lose the cache for one build.
 COPY Gemfile Gemfile.lock ./
-RUN bundle install && \
-    rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
+RUN --mount=type=cache,target=/usr/local/bundle/ruby/4.0.0/cache,sharing=locked \
+    bundle install && \
+    rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
     bundle exec bootsnap precompile --gemfile
 
 # Copy application code
@@ -49,8 +54,11 @@ RUN bundle config set bin 'bin' && bundle binstubs thruster --force
 # Precompile bootsnap code for faster boot times
 RUN bundle exec bootsnap precompile app/ lib/
 
-# Precompiling assets for production without requiring secret RAILS_MASTER_KEY
-RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
+# Precompiling assets for production without requiring secret RAILS_MASTER_KEY.
+# Cache mount on tmp/cache covers sprockets manifests + bootsnap caches
+# so an app-only edit doesn't redo the full asset pipeline.
+RUN --mount=type=cache,target=/rails/tmp/cache,sharing=locked \
+    SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
 
 
 

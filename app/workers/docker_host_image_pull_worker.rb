@@ -20,7 +20,7 @@ class DockerHostImagePullWorker
   private
 
   def pull_image_on_host(host)
-    opts = { timeout: 5, keepalive: true, keepalive_interval: 5, keepalive_maxcount: 2, port: host.ssh_port }
+    opts = { timeout: 5, keepalive: true, keepalive_interval: 5, keepalive_maxcount: 2, bind_address: "0.0.0.0", port: host.ssh_port }
     if host.provider?
       key_data = Rails.application.credentials.dig(:cloud_servers, :ssh_private_key)
       if key_data.present?

@@ -151,7 +151,7 @@ class DockerHostSetupService
   end
 
   def ssh_to_host(&block)
-    opts = { timeout: 5, keepalive: true, keepalive_interval: 5, keepalive_maxcount: 2, bind_address: "0.0.0.0" }
+    opts = { timeout: 5, keepalive: true, keepalive_interval: 5, keepalive_maxcount: 2 }
 
     if docker_host.provider?
       host = docker_host.ip

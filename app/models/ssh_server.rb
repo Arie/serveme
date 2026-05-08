@@ -7,7 +7,7 @@ class SshServer < RemoteServer
 
   sig { returns(T.nilable(Net::SSH::Connection::Session)) }
   def ssh
-    @ssh ||= Net::SSH.start(ip, nil, timeout: 5, keepalive: true, keepalive_interval: 5, keepalive_maxcount: 2, bind_address: "0.0.0.0")
+    @ssh ||= Net::SSH.start(ip, nil, timeout: 5, keepalive: true, keepalive_interval: 5, keepalive_maxcount: 2)
   end
 
   sig { returns(T::Boolean) }
@@ -33,6 +33,6 @@ class SshServer < RemoteServer
   end
 
   def sftp_start(&block)
-    Net::SFTP.start(ip, nil, timeout: 5, bind_address: "0.0.0.0", &block)
+    Net::SFTP.start(ip, nil, timeout: 5, &block)
   end
 end

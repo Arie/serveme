@@ -11,9 +11,9 @@ Serveme::Application.configure do
   config.consider_all_requests_local       = false
   config.action_controller.perform_caching = true
 
-  # Serve static assets from Rails when RAILS_SERVE_STATIC_FILES is set
-  # (e.g. Kamal/containers). When fronted by nginx (Capistrano), leave it unset.
-  config.public_file_server.enabled = ENV["RAILS_SERVE_STATIC_FILES"].present?
+  # Disable Rails's static asset server — Thruster (in front of puma) serves
+  # public/ directly, so static-file requests never reach Rails.
+  config.public_file_server.enabled = false
 
   # Compress JavaScripts and CSS
   config.assets.compress = true

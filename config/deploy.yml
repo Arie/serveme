@@ -21,7 +21,6 @@ builder:
 env:
   clear:
     RAILS_LOG_TO_STDOUT: "1"
-    RAILS_SERVE_STATIC_FILES: "1"
     MAPS_DIR: /rails/tmp/maps
     OTEL_EXPORTER_OTLP_ENDPOINT: http://host.docker.internal:4318
   secret:

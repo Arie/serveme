@@ -1,34 +1,20 @@
 #!/usr/bin/env bash
-# Refresh GeoLite2 databases from MaxMind and roll them out to all regions.
-# Runs `rake maxmind:fetch` locally to download into doc/, then for each
-# region: re-runs bin/kamal-bootstrap to push the new mmdb files to
-# /etc/serveme/GeoLite2-*.mmdb, and reboots the app roles so the
-# maxminddb gem re-mmaps the new files (it reads them once at boot).
+# Fetch fresh GeoLite2 databases from MaxMind and roll them to every
+# region. `kamal app boot` is a start-new/wait-healthy/stop-old cycle —
+# zero user-visible downtime for web; sidekiq drains gracefully.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-# 1. Local fetch into doc/GeoLite2-{ASN,City}.mmdb
-mise x ruby@4.0.3 -- bundle exec rake maxmind:fetch
+mise x -- bundle exec rake maxmind:fetch
 
-# 2. For each region: stage the new files on host, then reboot the
-#    Kamal containers that load mmdb at boot.
-for region in eu na au sea; do
-  echo
-  echo "=== $region: bin/kamal-bootstrap ==="
-  case "$region" in
-    eu|au)  DEPLOY_SSH_USER=tf2 bin/kamal-bootstrap "$region" ;;
-    na|sea) DEPLOY_SSH_USER=arie bin/kamal-bootstrap "$region" ;;
-  esac
-  echo
-  echo "=== $region: reboot app roles to pick up new mmdb ==="
-  # Only roles that load mmdb at boot. logdaemon, kamal-proxy, ws-echo
-  # don't read it.
-  case "$region" in
-    eu|na)  ROLES="web,sidekiq,sidekiq2,discord_bot" ;;
-    au|sea) ROLES="web,sidekiq,discord_bot" ;;
-  esac
-  mise x ruby@4.0.3 -- kamal app boot -d "$region" -r "$ROLES"
-done
+roll_region() {
+  local region=$1 deploy_user=$2 roles=$3
+  DEPLOY_SSH_USER="$deploy_user" bin/kamal-bootstrap "$region"
+  mise x -- kamal app boot -d "$region" -r "$roles"
+}
 
-echo
-echo "Done. New mmdb files live in all four regions."
+roll_region eu  tf2  web,sidekiq,sidekiq2,discord_bot &
+roll_region na  arie web,sidekiq,sidekiq2,discord_bot &
+roll_region au  tf2  web,sidekiq,discord_bot &
+roll_region sea arie web,sidekiq,discord_bot &
+wait

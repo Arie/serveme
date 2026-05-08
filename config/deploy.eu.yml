@@ -1,6 +1,6 @@
-# EU — new.fakkelbrigade.eu (Hetzner bare metal). Hosts 16 local TF2
-# srcds processes; also a RemoteDocker host. Cloud-host /ping
-# (new.fakkelbrigade.eu) is served by deploy.ws-echo-cloud.yml.
+# EU — new.fakkelbrigade.eu (Hetzner bare metal). Also a RemoteDocker
+# host. Cloud-host /ping (new.fakkelbrigade.eu) is served by
+# deploy.ws-echo-cloud.yml.
 servers:
   web: { hosts: [new.fakkelbrigade.eu] }
   sidekiq: &sk { hosts: [new.fakkelbrigade.eu] }

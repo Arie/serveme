@@ -4,8 +4,6 @@
 servers:
   web: { hosts: [direct.na.serveme.tf] }
   sidekiq: &sk { hosts: [direct.na.serveme.tf] }
-  # GIL bottlenecks one multi-thread sidekiq on CPU-bound jobs;
-  # NA is busy enough to warrant a second OS process.
   sidekiq2:
     <<: *sk
     cmd: bundle exec sidekiq -c 10

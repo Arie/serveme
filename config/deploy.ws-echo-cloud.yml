@@ -1,0 +1,38 @@
+# Cloud-host websocket-echo — registers as the *root* service on
+# cloud-host hostnames where no other Kamal app lives, owning their LE
+# certs. kamal-proxy's "TLS only on root" rule is why this is a separate
+# Kamal service from `serveme-ws-echo`.
+service: serveme-ws-echo-cloud
+image: arie/serveme-ws-echo-cloud
+require_destination: true
+
+registry:
+  server: ghcr.io
+  username: Arie
+  password:
+    - KAMAL_REGISTRY_PASSWORD
+
+builder:
+  arch: amd64
+  context: docker/websocket-echo
+  dockerfile: docker/websocket-echo/Dockerfile
+
+env:
+  clear:
+    BIND_ADDRESS: "0.0.0.0"
+    BIND_PORT: "8083"
+
+ssh:
+  user: kamal
+  keys: ["~/.ssh/id_kamal"]
+
+proxy:
+  ssl: true
+  app_port: 8083
+  healthcheck:
+    path: /health
+    interval: 3
+    timeout: 5
+
+aliases:
+  ws-cloud-logs: app logs -f -c config/deploy.ws-echo-cloud.yml

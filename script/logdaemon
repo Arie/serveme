@@ -91,65 +91,51 @@ end
 
 FileUtils.mkdir_p(STREAMING_LOG_DIR)
 
-# Check for systemd socket activation
+# Acquire the listening socket. Two paths:
+#   1. systemd socket activation: kernel-held fd survives restarts (zero loss).
+#   2. SO_REUSEPORT self-bind: multiple instances can bind 40001 concurrently,
+#      so blue/green container swaps don't drop UDP packets.
 listen_fds = ENV.fetch('LISTEN_FDS', 0).to_i
 listen_pid = ENV.fetch('LISTEN_PID', 0).to_i
 
-if listen_fds > 0 && listen_pid == Process.pid
-  # Systemd socket activation: FD 3 is the first passed socket
-  # EventMachine doesn't support attaching existing UDP sockets,
-  # so we use plain Ruby sockets instead
-  puts "Using systemd socket activation (#{listen_fds} socket(s) passed)"
-
-  socket = UDPSocket.for_fd(3)
-  handler = LogHandler.new(STREAMING_LOG_DIR)
-
-  # Handle SIGTERM gracefully for systemd stop/restart
-  running = true
-  Signal.trap('TERM') { running = false }
-  Signal.trap('INT') { running = false }
-
-  while running
-    begin
-      # Use IO.select with timeout to allow signal handling
-      ready = IO.select([ socket ], nil, nil, 1)
-      next unless ready
-
-      data, = socket.recvfrom_nonblock(65535)
-      handler.process_data(data)
-    rescue IO::WaitReadable
-      # No data available, continue loop
-    rescue => e
-      warn "Error processing log line: #{e.message}"
-      warn e.backtrace.first(5).join("\n")
-    end
-  end
-
-  puts "Shutting down gracefully"
+socket = if listen_fds > 0 && listen_pid == Process.pid
+           puts "Using systemd socket activation (#{listen_fds} socket(s) passed)"
+           UDPSocket.for_fd(3)
 else
-  # Fallback for development/manual usage - use EventMachine
-  require 'eventmachine'
-  require 'optparse'
+           require 'optparse'
+           opts_h = { ip: '0.0.0.0', port: 40001 }
+           OptionParser.new do |opts|
+             opts.banner = "Usage: #{$PROGRAM_NAME} [options]"
+             opts.on('-i', '--ip IP', 'IP to bind to') { |ip| opts_h[:ip] = ip }
+             opts.on('-p', '--port PORT', Integer, 'Port to bind to') { |port| opts_h[:port] = port }
+           end.parse!
 
-  # Store handler in a constant so EMHandler can access it
-  LOG_HANDLER = LogHandler.new(STREAMING_LOG_DIR)
+           s = UDPSocket.new
+           s.setsockopt(Socket::SOL_SOCKET, Socket::SO_REUSEPORT, 1)
+           s.bind(opts_h[:ip], opts_h[:port])
+           puts "Listening on #{opts_h[:ip]}:#{opts_h[:port]} (SO_REUSEPORT)..."
+           s
+end
 
-  class EMHandler < EM::Connection
-    def receive_data(data)
-      LOG_HANDLER.process_data(data)
-    end
-  end
+handler = LogHandler.new(STREAMING_LOG_DIR)
 
-  options = { ip: '0.0.0.0', port: 40001 }
-  OptionParser.new do |opts|
-    opts.banner = "Usage: #{$PROGRAM_NAME} [options]"
-    opts.on('-i', '--ip IP', 'IP to bind to') { |ip| options[:ip] = ip }
-    opts.on('-p', '--port PORT', Integer, 'Port to bind to') { |port| options[:port] = port }
-  end.parse!
+running = true
+Signal.trap('TERM') { running = false }
+Signal.trap('INT') { running = false }
 
-  puts "Listening on #{options[:ip]}:#{options[:port]}..."
+while running
+  begin
+    ready = IO.select([ socket ], nil, nil, 1)
+    next unless ready
 
-  EM.run do
-    EM.open_datagram_socket(options[:ip], options[:port], EMHandler)
+    data, = socket.recvfrom_nonblock(65535)
+    handler.process_data(data)
+  rescue IO::WaitReadable
+    # No data available, continue loop
+  rescue => e
+    warn "Error processing log line: #{e.message}"
+    warn e.backtrace.first(5).join("\n")
   end
 end
+
+puts "Shutting down gracefully"

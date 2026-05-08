@@ -1,0 +1,39 @@
+# EU — new.fakkelbrigade.eu (Hetzner bare metal). Hosts 16 local TF2
+# srcds processes; also a RemoteDocker host. Cloud-host /ping
+# (new.fakkelbrigade.eu) is served by deploy.ws-echo-cloud.yml.
+servers:
+  web: { hosts: [new.fakkelbrigade.eu] }
+  sidekiq: &sk { hosts: [new.fakkelbrigade.eu] }
+  sidekiq2:
+    <<: *sk
+    cmd: bundle exec sidekiq -c 10
+    proxy: false
+    options:
+      add-host: host.docker.internal:host-gateway
+  discord_bot: { hosts: [new.fakkelbrigade.eu] }
+
+proxy:
+  hosts:
+    - serveme.tf
+    - direct.serveme.tf
+
+builder:
+  remote: ssh://kamal@new.fakkelbrigade.eu
+
+env:
+  clear:
+    SITE_HOST: serveme.tf
+    SITE_URL:  https://serveme.tf
+
+# /var/www/serveme/shared/{server_logs,log/streaming} are symlinks to
+# /home/tf2/serveme/{server_logs,streaming}; bind across the real path.
+volumes:
+  - "/home/tf2/serveme/server_logs:/rails/server_logs"
+  - "/home/tf2/serveme/streaming:/rails/log/streaming"
+  - "/var/www/serveme/shared/public/uploads:/rails/public/uploads"
+  - "/var/www/serveme/shared/public/system:/rails/public/system"
+  - "/etc/serveme/paypal.yml:/rails/config/paypal.yml:ro"
+  - "/etc/serveme/cacert.pem:/rails/config/cacert.pem:ro"
+  - "/etc/serveme/GeoLite2-City.mmdb:/rails/doc/GeoLite2-City.mmdb:ro"
+  - "/etc/serveme/GeoLite2-ASN.mmdb:/rails/doc/GeoLite2-ASN.mmdb:ro"
+  - "/etc/serveme/.ssh:/home/rails/.ssh:ro"

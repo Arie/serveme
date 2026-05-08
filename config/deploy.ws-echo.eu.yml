@@ -1,0 +1,8 @@
+servers:
+  web:
+    hosts: [new.fakkelbrigade.eu]
+
+proxy:
+  hosts:
+    - serveme.tf
+    - direct.serveme.tf

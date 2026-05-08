@@ -6,6 +6,7 @@ require "sidekiq/cron/web"
 
 # rubocop:disable Metrics/BlockLength
 Serveme::Application.routes.draw do
+  get "/up", to: "rails/health#show", as: :rails_health_check
   get "/404", to: "pages#not_found"
   get "/500", to: "pages#error"
 

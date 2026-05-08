@@ -1,0 +1,8 @@
+servers:
+  web:
+    hosts: [139.99.42.241]
+
+proxy:
+  hosts:
+    - sea.serveme.tf
+    - direct.sea.serveme.tf

@@ -1,0 +1,62 @@
+# LXC test box at 192.168.1.248 (Proxmox CT 128). Self-contained:
+# in-LXC insecure registry, Postgres+Redis as Kamal accessories,
+# no Cloudflare, kamal-proxy on :80.
+
+# Inherits `discord_bot` from base but doesn't run one — suppress error.
+allow_empty_roles: true
+
+servers:
+  web:
+    hosts: [192.168.1.248]
+  sidekiq:
+    hosts: [192.168.1.248]
+    cmd: bundle exec sidekiq
+    proxy: false
+
+proxy:
+  ssl: false
+
+registry:
+  server: 192.168.1.248:5000
+  username: kamal
+  password:
+    - KAMAL_REGISTRY_PASSWORD
+
+builder:
+  remote: ssh://kamal@192.168.1.248
+
+env:
+  clear:
+    SITE_HOST: 192.168.1.248
+    SITE_URL:  http://192.168.1.248
+
+volumes:
+  - "/var/lib/serveme/log:/rails/log"
+  - "/var/lib/serveme/server_logs:/rails/server_logs"
+  - "/var/lib/serveme/uploads:/rails/public/uploads"
+  - "/var/lib/serveme/public_system:/rails/public/system"
+  - "/var/lib/serveme/maps:/rails/tmp/maps"
+  - "/etc/serveme/paypal.yml:/rails/config/paypal.yml:ro"
+  - "/etc/serveme/cacert.pem:/rails/config/cacert.pem:ro"
+  - "/etc/serveme/GeoLite2-City.mmdb:/rails/doc/GeoLite2-City.mmdb:ro"
+  - "/etc/serveme/GeoLite2-ASN.mmdb:/rails/doc/GeoLite2-ASN.mmdb:ro"
+
+accessories:
+  postgres:
+    image: postgres:14
+    host: 192.168.1.248
+    port: "127.0.0.1:5432:5432"
+    env:
+      clear:
+        POSTGRES_USER: serveme
+        POSTGRES_DB:   serveme_production
+      secret:
+        - POSTGRES_PASSWORD
+    volumes:
+      - /var/lib/serveme/postgres:/var/lib/postgresql/data
+  redis:
+    image: redis:7
+    host: 192.168.1.248
+    port: "127.0.0.1:6379:6379"
+    volumes:
+      - /var/lib/serveme/redis:/data

@@ -1,0 +1,250 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+#
+# One-time per-host pre-flight for Kamal cutover. Idempotent. Run from
+# the dev box; SSHes into each host via an admin user.
+#
+# Steps: install Docker, create the `kamal` user (NOPASSWD sudo, docker
+# group, id_kamal authorized_keys), patch Postgres (listen_addresses +
+# pg_hba), patch Redis (bind 0.0.0.0, protected-mode no), flip otelcol's
+# bind, add iptables filter for host services reachable via the docker
+# bridge, install the serveme-logdaemon@.service template, create
+# /etc/serveme/.
+#
+# Does NOT touch the nginx vhost — that's a manual cutover step.
+#
+# Usage: bin/kamal-host-prep <destination>
+# ENV:   ADMIN_SSH_USER, ADMIN_SSH_KEY, KAMAL_SSH_PUBKEY, PG_USER
+
+require "yaml"
+require "shellwords"
+
+destination = ARGV[0] or abort "Usage: bin/kamal-host-prep <destination>"
+deploy_file = "config/deploy.#{destination}.yml"
+abort "Missing #{deploy_file}" unless File.exist?(deploy_file)
+
+config = YAML.safe_load_file(deploy_file, aliases: true, permitted_classes: [Symbol])
+
+admin_user  = ENV.fetch("ADMIN_SSH_USER", "arie")
+admin_key   = File.expand_path(ENV.fetch("ADMIN_SSH_KEY", "~/.ssh/id_rsa"))
+pubkey_path = File.expand_path(ENV.fetch("KAMAL_SSH_PUBKEY", "~/.ssh/id_kamal.pub"))
+kamal_user  = config.dig("ssh", "user") || "kamal"
+
+# Discover the DB user from .kamal/secrets.<dest> so the pg_hba trust
+# line matches what the container actually connects as. Override with
+# PG_USER=...
+secrets_file = ".kamal/secrets.#{destination}"
+discovered_pg_user = "arie"
+if File.exist?(secrets_file)
+  if (line = File.read(secrets_file).lines.find { |l| l.start_with?("DATABASE_URL=") })
+    if (m = line.match(%r{DATABASE_URL=postgres(?:ql)?://([^:@/]+)}))
+      discovered_pg_user = m[1]
+    end
+  end
+end
+pg_user = ENV.fetch("PG_USER", discovered_pg_user)
+
+abort "Missing pubkey #{pubkey_path}" unless File.exist?(pubkey_path)
+abort "Missing admin key #{admin_key}" unless File.exist?(admin_key)
+
+ssh_opts = ["-o", "StrictHostKeyChecking=accept-new", "-i", admin_key]
+
+hosts = []
+config["servers"].each_value do |spec|
+  case spec
+  when Hash   then hosts.concat(Array(spec["hosts"]))
+  when Array  then hosts.concat(spec)
+  when String then hosts << spec
+  end
+end
+hosts.uniq!
+abort "No hosts in #{deploy_file}" if hosts.empty?
+
+LOGDAEMON_UNIT = <<~UNIT
+  [Unit]
+  Description=Serveme TF2 logdaemon (instance %i)
+  Documentation=https://serveme.tf
+  After=docker.service network-online.target redis-server.service
+  Wants=network-online.target
+  Requires=docker.service
+
+  [Service]
+  Type=simple
+  EnvironmentFile=/etc/serveme/logdaemon.env
+  Restart=always
+  RestartSec=2
+  TimeoutStartSec=0
+
+  ExecStartPre=-/usr/bin/docker rm -f serveme-logdaemon-%i
+
+  # --network host so SO_REUSEPORT lets blue/green peers share UDP/40001.
+  ExecStart=/usr/bin/docker run --rm \\
+    --name serveme-logdaemon-%i \\
+    --network host \\
+    --env-file /etc/serveme/logdaemon.env \\
+    --volume /var/www/serveme/shared/server_logs:/rails/server_logs \\
+    --volume /var/www/serveme/shared/log:/rails/log \\
+    ${IMAGE} \\
+    bundle exec ruby script/logdaemon
+
+  ExecStop=/usr/bin/docker stop -t 5 serveme-logdaemon-%i
+
+  [Install]
+  WantedBy=multi-user.target
+UNIT
+
+SUDOERS_BODY = "#{kamal_user} ALL=(ALL) NOPASSWD: ALL\n"
+
+PREP_SCRIPT = <<~'SH'
+  set -euo pipefail
+
+  echo "==> Docker"
+  if ! command -v docker >/dev/null 2>&1; then
+    curl -fsSL https://get.docker.com | sudo sh
+  else
+    echo "    already installed: $(docker --version)"
+  fi
+
+  echo "==> kamal user"
+  if ! id __KAMAL_USER__ >/dev/null 2>&1; then
+    sudo useradd --create-home --shell /bin/bash --groups docker __KAMAL_USER__
+  else
+    sudo usermod -aG docker __KAMAL_USER__ || true
+  fi
+
+  echo "==> kamal authorized_keys"
+  sudo install -d -m 700 -o __KAMAL_USER__ -g __KAMAL_USER__ /home/__KAMAL_USER__/.ssh
+  PUBKEY_LINE=$(sudo cat __PUBKEY_PATH__)
+  AUTH_FILE=/home/__KAMAL_USER__/.ssh/authorized_keys
+  if ! sudo grep -qsF "$PUBKEY_LINE" "$AUTH_FILE" 2>/dev/null; then
+    echo "$PUBKEY_LINE" | sudo tee -a "$AUTH_FILE" >/dev/null
+  fi
+  sudo chown -R __KAMAL_USER__:__KAMAL_USER__ /home/__KAMAL_USER__/.ssh
+  sudo chmod 600 "$AUTH_FILE"
+
+  echo "==> sudoers"
+  sudo install -m 440 -o root -g root __SUDOERS_PATH__ /etc/sudoers.d/kamal
+  sudo visudo -cf /etc/sudoers.d/kamal
+
+  echo "==> Postgres"
+  PG_RUNNING=$(systemctl list-units 'postgresql@*' --state=running --no-legend 2>/dev/null | awk '{print $1}' | head -1)
+  if [ -n "${PG_RUNNING:-}" ]; then
+    PG_VER=$(echo "$PG_RUNNING" | sed -n 's|postgresql@\([0-9]*\)-main.service|\1|p')
+    PG_CONF="/etc/postgresql/${PG_VER}/main/postgresql.conf"
+    PG_HBA="/etc/postgresql/${PG_VER}/main/pg_hba.conf"
+    echo "    Postgres ${PG_VER}"
+    if ! sudo grep -Eq "^[[:space:]]*listen_addresses[[:space:]]*=[[:space:]]*'\*'" "$PG_CONF"; then
+      sudo cp "$PG_CONF" "$PG_CONF.kamal-bak.$(date +%s)"
+      sudo sed -i -E "s|^[#[:space:]]*listen_addresses[[:space:]]*=.*$|listen_addresses = '*'|" "$PG_CONF"
+    fi
+    HBA_LINE="host serveme_production __PG_USER__ 172.16.0.0/12 trust"
+    if ! sudo grep -qF "$HBA_LINE" "$PG_HBA"; then
+      sudo cp "$PG_HBA" "$PG_HBA.kamal-bak.$(date +%s)"
+      echo "$HBA_LINE  # kamal docker bridge" | sudo tee -a "$PG_HBA" >/dev/null
+    fi
+    sudo systemctl restart "postgresql@${PG_VER}-main"
+  else
+    echo "    no running postgresql@<ver>-main; skipping"
+  fi
+
+  echo "==> Redis"
+  # `sudo test -f` because /etc/redis is 770 redis:redis on Debian — a
+  # bare [ -f ] would silently report not-found from the SSH session user.
+  REDIS_CONF=/etc/redis/redis.conf
+  if sudo test -f "$REDIS_CONF"; then
+    sudo cp "$REDIS_CONF" "$REDIS_CONF.kamal-bak.$(date +%s)"
+    sudo sed -i -E 's|^bind 127\.0\.0\.1.*$|bind 0.0.0.0 -::1|' "$REDIS_CONF"
+    sudo sed -i -E 's|^protected-mode yes$|protected-mode no|' "$REDIS_CONF"
+    sudo systemctl restart redis-server 2>/dev/null || sudo systemctl restart redis
+  else
+    echo "    $REDIS_CONF not found; skipping"
+  fi
+
+  echo "==> otelcol-contrib"
+  OTEL_CONF=/etc/otelcol-contrib/config.yaml
+  if sudo test -f "$OTEL_CONF"; then
+    if sudo grep -qE "endpoint: 127\.0\.0\.1:431[78]" "$OTEL_CONF"; then
+      sudo cp "$OTEL_CONF" "$OTEL_CONF.kamal-bak.$(date +%s)"
+      sudo sed -i -E "s|endpoint: 127\.0\.0\.1:(4317\|4318)|endpoint: 0.0.0.0:\1|g" "$OTEL_CONF"
+      sudo systemctl restart otelcol-contrib
+      echo "    flipped + restarted"
+    else
+      echo "    already binds 0.0.0.0"
+    fi
+  else
+    echo "    $OTEL_CONF not found; skipping"
+  fi
+
+  echo "==> iptables filter for host services on docker bridge"
+  # Locks 5432/6379/4317/4318 to loopback + docker bridges only.
+  HOST_PORTS=5432,6379,4317,4318
+  add_rule() {
+    if ! sudo iptables -C INPUT "$@" 2>/dev/null; then
+      sudo iptables -I INPUT 1 "$@"
+    fi
+  }
+  # Insert in reverse so final order: [lo accept, docker accept, drop].
+  add_rule -p tcp -m multiport --dports "$HOST_PORTS" -j DROP
+  add_rule -s 172.16.0.0/12 -p tcp -m multiport --dports "$HOST_PORTS" -j ACCEPT
+  add_rule -i lo -p tcp -m multiport --dports "$HOST_PORTS" -j ACCEPT
+  if ! dpkg -l iptables-persistent 2>/dev/null | grep -q "^ii"; then
+    DEBIAN_FRONTEND=noninteractive
+    echo "iptables-persistent iptables-persistent/autosave_v4 boolean false" | sudo debconf-set-selections
+    echo "iptables-persistent iptables-persistent/autosave_v6 boolean false" | sudo debconf-set-selections
+    sudo -E apt-get install -y --no-install-recommends iptables-persistent >/dev/null
+  fi
+  sudo netfilter-persistent save >/dev/null
+
+  echo "==> logdaemon systemd template"
+  sudo install -m 644 -o root -g root __UNIT_PATH__ /etc/systemd/system/serveme-logdaemon@.service
+  sudo systemctl daemon-reload
+
+  echo "==> /etc/serveme/"
+  sudo install -d -m 755 -o root -g root /etc/serveme
+
+  echo
+  echo "Pre-flight done. Next:"
+  echo "  1. Review nginx default vhost (manual cutover step)."
+  echo "  2. DEPLOY_SSH_USER=<user> bin/kamal-bootstrap __DEST__"
+  echo "  3. kamal setup -d __DEST__"
+SH
+
+def run!(*cmd)
+  puts "    $ #{cmd.shelljoin}"
+  system(*cmd) || abort("    failed: #{cmd.shelljoin}")
+end
+
+sudoers_local = "/tmp/kamal-host-prep.sudoers.#{$$}"
+File.write(sudoers_local, SUDOERS_BODY)
+unit_local = "/tmp/kamal-host-prep.logdaemon-unit.#{$$}"
+File.write(unit_local, LOGDAEMON_UNIT)
+
+hosts.each do |host|
+  puts "==> #{admin_user}@#{host}"
+
+  pubkey_remote  = "/tmp/kamal-host-prep.id_kamal.pub.#{$$}"
+  unit_remote    = "/tmp/kamal-host-prep.logdaemon-unit.#{$$}"
+  sudoers_remote = "/tmp/kamal-host-prep.sudoers.#{$$}"
+
+  run!("scp", *ssh_opts, pubkey_path,   "#{admin_user}@#{host}:#{pubkey_remote}")
+  run!("scp", *ssh_opts, unit_local,    "#{admin_user}@#{host}:#{unit_remote}")
+  run!("scp", *ssh_opts, sudoers_local, "#{admin_user}@#{host}:#{sudoers_remote}")
+
+  script = PREP_SCRIPT
+    .gsub("__KAMAL_USER__",   kamal_user)
+    .gsub("__PG_USER__",      pg_user)
+    .gsub("__PUBKEY_PATH__",  pubkey_remote)
+    .gsub("__UNIT_PATH__",    unit_remote)
+    .gsub("__SUDOERS_PATH__", sudoers_remote)
+    .gsub("__DEST__",         destination)
+
+  run!("ssh", *ssh_opts, "#{admin_user}@#{host}", script)
+  run!("ssh", *ssh_opts, "#{admin_user}@#{host}",
+       "rm -f #{[pubkey_remote, unit_remote, sudoers_remote].map(&:shellescape).join(' ')}")
+end
+
+File.unlink(sudoers_local)
+File.unlink(unit_local)
+
+puts
+puts "Done. #{hosts.size} host(s) prepped."

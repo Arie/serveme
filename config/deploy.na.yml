@@ -1,0 +1,28 @@
+# NA — direct.na.serveme.tf (chi1, NetEarth bare metal). Hosts 4 local
+# TF2 srcds processes. Also a RemoteDocker host. Cloud-host /ping
+# subdomains (chi1, tc2-chi1) are served by deploy.ws-echo-cloud.yml.
+servers:
+  web: { hosts: [direct.na.serveme.tf] }
+  sidekiq: &sk { hosts: [direct.na.serveme.tf] }
+  # GIL bottlenecks one multi-thread sidekiq on CPU-bound jobs;
+  # NA is busy enough to warrant a second OS process.
+  sidekiq2:
+    <<: *sk
+    cmd: bundle exec sidekiq -c 10
+    proxy: false
+    options:
+      add-host: host.docker.internal:host-gateway
+  discord_bot: { hosts: [direct.na.serveme.tf] }
+
+proxy:
+  hosts:
+    - na.serveme.tf
+    - direct.na.serveme.tf
+
+builder:
+  remote: ssh://kamal@direct.na.serveme.tf
+
+env:
+  clear:
+    SITE_HOST: na.serveme.tf
+    SITE_URL:  https://na.serveme.tf

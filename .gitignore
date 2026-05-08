@@ -38,3 +38,10 @@ discord_bot/config.yml
 # Ignore key files for decrypting credentials and more.
 /config/credentials/*.key
 
+
+# Kamal local secrets
+.kamal/secrets*.local
+.env.kamal*
+
+# Playwright MCP server's working dir (debug logs / screenshots)
+.playwright-mcp/

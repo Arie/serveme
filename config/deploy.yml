@@ -1,0 +1,80 @@
+# Kamal base config. Per-destination overrides live in
+# config/deploy.<destination>.yml — eu, na, au, sea, staging.
+service: serveme
+image: arie/serveme
+require_destination: true
+
+error_pages_path: public
+
+registry:
+  server: ghcr.io
+  username: Arie
+  password:
+    - KAMAL_REGISTRY_PASSWORD
+
+builder:
+  arch: amd64
+  # Default is `git archive` — would drop uncommitted changes and the
+  # gitignored doc/GeoLite2-*.mmdb files.
+  context: .
+
+env:
+  clear:
+    RAILS_LOG_TO_STDOUT: "1"
+    RAILS_SERVE_STATIC_FILES: "1"
+    MAPS_DIR: /rails/tmp/maps
+    OTEL_EXPORTER_OTLP_ENDPOINT: http://host.docker.internal:4318
+  secret:
+    - RAILS_MASTER_KEY
+    - DATABASE_URL
+    - REDIS_URL
+
+ssh:
+  user: kamal
+  keys: ["~/.ssh/id_kamal"]
+
+# Per-destination supplies `hosts` per role and may add `sidekiq2:`.
+# `add-host: host.docker.internal:host-gateway` lets containers reach
+# the host's Postgres/Redis/otelcol via the bridge gateway.
+servers:
+  web:
+    options:
+      add-host: host.docker.internal:host-gateway
+  sidekiq:
+    cmd: bundle exec sidekiq -c 10
+    proxy: false
+    options:
+      add-host: host.docker.internal:host-gateway
+  discord_bot:
+    cmd: bundle exec ruby discord_bot/bot.rb
+    proxy: false
+    options:
+      add-host: host.docker.internal:host-gateway
+
+# EU overrides this full list — its server_logs and log/streaming under
+# /var/www/serveme/shared/ are symlinks and Docker can't bind across.
+volumes:
+  - "/var/www/serveme/shared/server_logs:/rails/server_logs"
+  - "/var/www/serveme/shared/log/streaming:/rails/log/streaming"
+  - "/var/www/serveme/shared/public/uploads:/rails/public/uploads"
+  - "/var/www/serveme/shared/public/system:/rails/public/system"
+  - "/etc/serveme/paypal.yml:/rails/config/paypal.yml:ro"
+  - "/etc/serveme/cacert.pem:/rails/config/cacert.pem:ro"
+  - "/etc/serveme/GeoLite2-City.mmdb:/rails/doc/GeoLite2-City.mmdb:ro"
+  - "/etc/serveme/GeoLite2-ASN.mmdb:/rails/doc/GeoLite2-ASN.mmdb:ro"
+  - "/etc/serveme/.ssh:/home/rails/.ssh:ro"
+
+proxy:
+  ssl: true
+  app_port: 80
+  healthcheck:
+    path: /up
+    interval: 3
+    timeout: 30
+
+aliases:
+  console: app exec --interactive --reuse "bin/rails console"
+  shell:   app exec --interactive --reuse "bash"
+  logs:    app logs -f
+  dbc:     app exec --interactive --reuse "bin/rails dbconsole"
+  rake:    app exec --reuse "bin/rails"

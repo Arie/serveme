@@ -1,0 +1,8 @@
+servers:
+  web:
+    hosts: [direct.na.serveme.tf]
+
+proxy:
+  hosts:
+    - chi1.serveme.tf
+    - tc2-chi1.serveme.tf

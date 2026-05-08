@@ -80,10 +80,6 @@ RUN apt-get update -qq && \
 COPY --from=build "${BUNDLE_PATH}" "${BUNDLE_PATH}"
 COPY --from=build /rails /rails
 
-# Some gems and some app files have restrictive perms (0600); the runtime
-# user must be able to read them, so widen perms after the COPYs above.
-RUN chmod -R a+rX "${BUNDLE_PATH}" /rails
-
 # Run and own only the runtime files as a non-root user for security
 RUN groupadd --system --gid 1000 rails && \
     useradd rails --uid 1000 --gid 1000 --create-home --shell /bin/bash && \

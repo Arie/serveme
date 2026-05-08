@@ -5,6 +5,10 @@ class SshServer < RemoteServer
   extend T::Sig
   include SshExecution
 
+  # `bind_address: "0.0.0.0"` forces IPv4 — some hosts publish AAAA records
+  # whose routes don't actually work, raising Errno::ENETUNREACH otherwise.
+  # Same reason `scp_command` below uses `-4`. Mirror this on every Net::SSH
+  # / Net::SFTP / scp call we add against remote hosts.
   sig { returns(T.nilable(Net::SSH::Connection::Session)) }
   def ssh
     @ssh ||= Net::SSH.start(ip, nil, timeout: 5, keepalive: true, keepalive_interval: 5, keepalive_maxcount: 2, bind_address: "0.0.0.0")

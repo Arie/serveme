@@ -66,6 +66,7 @@ volumes:
 proxy:
   ssl: true
   app_port: 80
+  forward_headers: true   # pass Cloudflare's X-Forwarded-For through to Rails
   healthcheck:
     path: /up
     interval: 3

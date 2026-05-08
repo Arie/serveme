@@ -10,9 +10,6 @@ proxy:
     - sea.serveme.tf
     - direct.sea.serveme.tf
 
-builder:
-  local: true
-
 env:
   clear:
     SITE_HOST: sea.serveme.tf

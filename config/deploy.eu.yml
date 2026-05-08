@@ -17,9 +17,6 @@ proxy:
     - serveme.tf
     - direct.serveme.tf
 
-builder:
-  remote: ssh://kamal@new.fakkelbrigade.eu
-
 env:
   clear:
     SITE_HOST: serveme.tf

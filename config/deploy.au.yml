@@ -9,9 +9,6 @@ proxy:
     - au.serveme.tf
     - direct.au.serveme.tf
 
-builder:
-  remote: ssh://kamal@direct.au.serveme.tf
-
 env:
   clear:
     SITE_HOST: au.serveme.tf

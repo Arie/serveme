@@ -17,9 +17,6 @@ proxy:
     - na.serveme.tf
     - direct.na.serveme.tf
 
-builder:
-  remote: ssh://kamal@direct.na.serveme.tf
-
 env:
   clear:
     SITE_HOST: na.serveme.tf

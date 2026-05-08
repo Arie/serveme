@@ -1,4 +1,4 @@
-# typed: ignore
+# typed: false
 # frozen_string_literal: true
 
 # WEB_CONCURRENCY > 0 puts puma in cluster mode with that many forked

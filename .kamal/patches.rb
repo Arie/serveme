@@ -1,3 +1,4 @@
+# typed: ignore
 # frozen_string_literal: true
 #
 # Kamal 2.11 hardcodes `--network kamal` in Kamal::Commands::App#run.

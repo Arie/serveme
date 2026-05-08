@@ -58,6 +58,8 @@ RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
 # Final stage for app image
 FROM base
 
+LABEL service=serveme
+
 # Runtime libraries + tools the app shells out to:
 #   libpq5, libmaxminddb0    — Rails DB / GeoIP
 #   openssh-client           — `scp` (cloud_server.rb#scp_command), `ssh`, `sftp`

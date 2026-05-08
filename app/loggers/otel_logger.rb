@@ -55,7 +55,7 @@ class OtelLogger
         "http.status_code" => payload[:status],
         "http.controller" => payload[:controller],
         "http.action" => payload[:action],
-        "http.format" => payload[:format],
+        "http.format" => payload[:format]&.to_s,
         "http.duration_ms" => event.duration.round(2),
         "http.view_runtime_ms" => payload[:view_runtime]&.round(2),
         "http.db_runtime_ms" => payload[:db_runtime]&.round(2),

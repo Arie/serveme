@@ -26,3 +26,5 @@ env:
   clear:
     SITE_HOST: na.serveme.tf
     SITE_URL:  https://na.serveme.tf
+    WEB_CONCURRENCY: "4"
+    RAILS_MAX_THREADS: "8"

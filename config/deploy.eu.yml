@@ -24,6 +24,8 @@ env:
   clear:
     SITE_HOST: serveme.tf
     SITE_URL:  https://serveme.tf
+    WEB_CONCURRENCY: "4"
+    RAILS_MAX_THREADS: "8"
 
 # /var/www/serveme/shared/{server_logs,log/streaming} are symlinks to
 # /home/tf2/serveme/{server_logs,streaming}; bind across the real path.

@@ -33,7 +33,8 @@ TEMPLATE="public/503.html"
 
 read_yaml() {
   ruby -ryaml -e "
-    cfg = YAML.safe_load_file('$DEPLOY_YML', aliases: true)
+    cfg  = YAML.safe_load_file('$DEPLOY_YML', aliases: true) || {}
+    base = File.exist?('config/deploy.yml') ? (YAML.safe_load_file('config/deploy.yml', aliases: true) || {}) : {}
     case ARGV[0]
     when 'hosts'
       hosts = []
@@ -41,8 +42,11 @@ read_yaml() {
         hosts.concat(case s when Hash then Array(s['hosts']) when Array then s when String then [s] else [] end)
       end
       puts hosts.uniq
-    when 'user' then puts cfg.dig('ssh', 'user') || 'root'
-    when 'key'  then puts (Array(cfg.dig('ssh', 'keys')).first || '').gsub(/^~/, ENV['HOME'].to_s)
+    when 'user' then puts cfg.dig('ssh', 'user') || base.dig('ssh', 'user') || 'root'
+    when 'key'
+      keys = Array(cfg.dig('ssh', 'keys'))
+      keys = Array(base.dig('ssh', 'keys')) if keys.empty?
+      puts (keys.first || '').gsub(/^~/, ENV['HOME'].to_s)
     end
   " "$1"
 }

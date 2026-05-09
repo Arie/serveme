@@ -786,6 +786,8 @@ GEM
     rack (3.2.6)
     rack-attack (6.8.0)
       rack (>= 1.0, < 4)
+    rack-mini-profiler (4.0.1)
+      rack (>= 1.2.0)
     rack-openid (1.4.2)
       rack (>= 1.1.0)
       ruby-openid (>= 2.1.8)
@@ -1174,6 +1176,7 @@ DEPENDENCIES
   pry-nav
   puma
   rack-attack
+  rack-mini-profiler
   rack-utf8_sanitizer
   rails (~> 8.1.0)
   rails-controller-testing

@@ -124,6 +124,7 @@ end
 
 group :development, :production do
   gem "hive_geoip2"
+  gem "rack-mini-profiler"
 end
 
 # Discord bot dependencies

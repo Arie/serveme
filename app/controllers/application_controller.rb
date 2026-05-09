@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery
   before_action :authenticate_user!
+  before_action :authorize_mini_profiler
   before_action :set_time_zone
   before_action :redirect_if_country_banned
   before_action :store_current_location, unless: :devise_controller?
@@ -111,6 +112,12 @@ class ApplicationController < ActionController::Base
 
   def require_admin
     redirect_to root_path unless current_admin
+  end
+
+  def authorize_mini_profiler
+    return unless defined?(Rack::MiniProfiler)
+
+    Rack::MiniProfiler.authorize_request if current_user&.admin?
   end
 
   def require_admin_or_streamer

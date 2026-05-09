@@ -28,6 +28,7 @@ set -- "${ARGS[@]}"
 
 DEPLOY_YML="config/deploy${DEST:+.${DEST}}.yml"
 SERVICE=${SERVICE:-serveme-web${DEST:+-${DEST}}}
+APP_NAME="serveme${DEST:+-${DEST}}"   # kamal-proxy apps-config dir name
 TEMPLATE="public/503.html"
 [[ -f $DEPLOY_YML ]] || { echo "Missing $DEPLOY_YML" >&2; exit 1; }
 
@@ -73,7 +74,7 @@ push_and_reload() {
   local host=$1 rendered=$2
   scp "${SSH_OPTS[@]}" "$rendered" "$USER@$host:/tmp/kamal-maintenance-503.html"
   ssh "${SSH_OPTS[@]}" "$USER@$host" \
-    'F=$(find .kamal/proxy/apps-config/serveme/error_pages -name 503.html | head -1); install -m 0644 /tmp/kamal-maintenance-503.html "$F"; rm -f /tmp/kamal-maintenance-503.html; docker restart kamal-proxy >/dev/null'
+    "F=\$(find .kamal/proxy/apps-config/$APP_NAME/error_pages -name 503.html | head -1); install -m 0644 /tmp/kamal-maintenance-503.html \"\$F\"; rm -f /tmp/kamal-maintenance-503.html; docker restart kamal-proxy >/dev/null"
   for _ in $(seq 1 20); do
     if ssh "${SSH_OPTS[@]}" "$USER@$host" 'docker exec kamal-proxy kamal-proxy list >/dev/null 2>&1'; then
       return 0

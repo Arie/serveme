@@ -4,6 +4,11 @@ service: serveme
 image: arie/serveme
 require_destination: true
 
+# Once the primary (web) role's barrier opens, boot all other roles
+# concurrently instead of one-at-a-time.
+boot:
+  parallel_roles: true
+
 error_pages_path: public
 
 registry:

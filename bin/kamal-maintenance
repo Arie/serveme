@@ -72,16 +72,14 @@ render_template() {
 
 push_and_reload() {
   local host=$1 rendered=$2
+  # kamal-proxy reads error_pages on each request, so installing a new
+  # 503.html takes effect immediately — no proxy restart needed. (The
+  # earlier `docker restart kamal-proxy` here would clobber Docker's
+  # iptables rules for the kamal bridge on Docker 29.x and break
+  # ingress; see the post-AU-2026-05-09 incident.)
   scp "${SSH_OPTS[@]}" "$rendered" "$USER@$host:/tmp/kamal-maintenance-503.html"
   ssh "${SSH_OPTS[@]}" "$USER@$host" \
-    "F=\$(find .kamal/proxy/apps-config/$APP_NAME/error_pages -name 503.html | head -1); install -m 0644 /tmp/kamal-maintenance-503.html \"\$F\"; rm -f /tmp/kamal-maintenance-503.html; docker restart kamal-proxy >/dev/null"
-  for _ in $(seq 1 20); do
-    if ssh "${SSH_OPTS[@]}" "$USER@$host" 'docker exec kamal-proxy kamal-proxy list >/dev/null 2>&1'; then
-      return 0
-    fi
-    sleep 0.3
-  done
-  echo "warning: kamal-proxy on $host did not come back within 6s" >&2
+    "F=\$(find .kamal/proxy/apps-config/$APP_NAME/error_pages -name 503.html | head -1); install -m 0644 /tmp/kamal-maintenance-503.html \"\$F\"; rm -f /tmp/kamal-maintenance-503.html"
 }
 
 case ${1:-status} in

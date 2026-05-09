@@ -125,6 +125,10 @@ end
 group :development, :production do
   gem "hive_geoip2"
   gem "rack-mini-profiler"
+  # Companions to rack-mini-profiler — enable ?pp=flamegraph and
+  # ?pp=profile-memory respectively. Dormant unless invoked.
+  gem "stackprof"
+  gem "memory_profiler"
 end
 
 # Discord bot dependencies

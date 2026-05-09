@@ -5,6 +5,8 @@ require "spec_helper"
 
 describe NightlyCloudImageBuildWorker do
   describe "#perform" do
+    after { Rails.cache.delete("latest_server_version") }
+
     it "creates a CloudImageBuild with force_pull and enqueues the build worker" do
       Rails.cache.write("latest_server_version", "1234567")
       expect(CloudImageBuildWorker).to receive(:perform_async).with(kind_of(Integer))

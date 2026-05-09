@@ -55,8 +55,9 @@ class Reservation < ActiveRecord::Base
 
   sig { params(start_time: ActiveSupport::TimeWithZone, end_time: ActiveSupport::TimeWithZone).returns(Array) }
   def self.within_time_range(start_time, end_time)
-    (ordered.where(starts_at: start_time...end_time) +
-     ordered.where(ends_at: start_time...end_time))
+    scope = order(starts_at: :desc)
+    (scope.where(starts_at: start_time...end_time) +
+     scope.where(ends_at: start_time...end_time))
   end
 
   sig { returns(T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy)) }

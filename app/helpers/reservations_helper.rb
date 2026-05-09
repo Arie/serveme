@@ -98,7 +98,8 @@ module ReservationsHelper
 
       s = @reservation.starts_at || Time.current
       e = @reservation.ends_at || 2.hours.from_now
-      DockerHost.active.includes(:location).select { |dh| !dh.full_during?(s, e) }
+      counts = DockerHost.container_counts_during(s, e)
+      DockerHost.active.includes(:location).reject { |dh| counts.fetch(dh.id.to_s, 0) >= (dh.max_containers || 4) }
     end
   end
 

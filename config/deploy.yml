@@ -68,11 +68,13 @@ servers:
       clear:
         REDIS_URL: redis://127.0.0.1:6379/0
 
+# /rails/log is bound to the host so production.log persists across
+# container churn and the existing logrotate (52w archives) keeps working.
 # EU overrides this full list — its server_logs and log/streaming under
 # /var/www/serveme/shared/ are symlinks and Docker can't bind across.
 volumes:
   - "/var/www/serveme/shared/server_logs:/rails/server_logs"
-  - "/var/www/serveme/shared/log/streaming:/rails/log/streaming"
+  - "/var/www/serveme/shared/log:/rails/log"
   - "/var/www/serveme/shared/public/uploads:/rails/public/uploads"
   - "/var/www/serveme/shared/public/system:/rails/public/system"
   - "/etc/serveme/paypal.yml:/rails/config/paypal.yml:ro"

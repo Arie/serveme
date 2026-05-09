@@ -27,8 +27,12 @@ env:
 
 # /var/www/serveme/shared/{server_logs,log/streaming} are symlinks to
 # /home/tf2/serveme/{server_logs,streaming}; bind across the real path.
+# /rails/log is mounted from the (real) /var/www/serveme/shared/log dir
+# so production.log persists + logrotate works; the streaming symlink
+# inside it is overridden by the nested bind below.
 volumes:
   - "/home/tf2/serveme/server_logs:/rails/server_logs"
+  - "/var/www/serveme/shared/log:/rails/log"
   - "/home/tf2/serveme/streaming:/rails/log/streaming"
   - "/var/www/serveme/shared/public/uploads:/rails/public/uploads"
   - "/var/www/serveme/shared/public/system:/rails/public/system"

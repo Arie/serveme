@@ -103,11 +103,7 @@ class Server < ActiveRecord::Base
 
   sig { returns(T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy)) }
   def self.without_group
-    if with_group.exists?
-      where.not(id: with_group.select(:id))
-    else
-      all
-    end
+    where.not(id: with_group.select(:id))
   end
 
   sig { returns(T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy)) }
@@ -149,7 +145,7 @@ class Server < ActiveRecord::Base
 
   sig { returns(ActiveRecord::Relation) }
   def self.team_comtress_servers
-    member_of_groups(Group.where(id: Group.team_comtress_group.id))
+    joins(:groups).where(groups: { id: Group.team_comtress_group.id }).group(:id)
   end
 
   sig { params(latest_version: T.nilable(Integer)).returns(ActiveRecord::Relation) }
@@ -640,7 +636,7 @@ class Server < ActiveRecord::Base
   def team_comtress_server?
     return @team_comtress_server if defined?(@team_comtress_server)
 
-    @team_comtress_server = groups.exists?(id: Group.team_comtress_group.id)
+    @team_comtress_server = groups.any? { |g| g.id == Group.team_comtress_group.id }
   end
 
   sig { returns(T.nilable(Integer)) }

@@ -60,6 +60,15 @@ class DockerHost < ActiveRecord::Base
     find(server_id.to_i - VIRTUAL_ID_OFFSET)
   end
 
+  sig { params(starts_at: T.any(Time, ActiveSupport::TimeWithZone), ends_at: T.any(Time, ActiveSupport::TimeWithZone)).returns(T::Hash[String, Integer]) }
+  def self.container_counts_during(starts_at, ends_at)
+    Reservation.joins(:server)
+      .where(servers: { type: "CloudServer", cloud_provider: "remote_docker" })
+      .where.not(servers: { cloud_status: "destroyed" })
+      .where("reservations.starts_at < ? AND reservations.ends_at > ?", ends_at, starts_at)
+      .group("servers.cloud_location").count
+  end
+
   sig { params(starts_at: T.any(Time, ActiveSupport::TimeWithZone), ends_at: T.any(Time, ActiveSupport::TimeWithZone)).returns(Integer) }
   def container_count_during(starts_at, ends_at)
     Reservation.joins(:server)

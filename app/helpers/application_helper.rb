@@ -43,11 +43,15 @@ module ApplicationHelper
   end
 
   def docker_hosts_used_count
-    @docker_hosts_used_count ||= DockerHost.active.sum(&:current_container_count)
+    @docker_hosts_used_count ||= begin
+      counts = DockerHost.container_counts_during(Time.current, Time.current)
+      DockerHost.active.sum { |dh| counts.fetch(dh.id.to_s, 0) }
+    end
   end
 
   def docker_hosts_available_during(starts_at, ends_at)
-    DockerHost.active.sum { |dh| [ dh.max_containers - dh.container_count_during(starts_at, ends_at), 0 ].max }
+    counts = DockerHost.container_counts_during(starts_at, ends_at)
+    DockerHost.active.sum { |dh| [ dh.max_containers - counts.fetch(dh.id.to_s, 0), 0 ].max }
   end
 
   def eu_system?

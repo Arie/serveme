@@ -173,4 +173,13 @@ describe LogBatchWorker do
       expect(attacker[:kills]).to eq(1)
     end
   end
+
+  describe 'reservation pre-loading' do
+    it 'does not call find_by_id per log line in a multi-line batch' do
+      reservation # ensure reservation is persisted via let
+      expect(Reservation).not_to receive(:find_by_id)
+
+      LogBatchWorker.new.perform([ say_line, kill_line, mapstart_line ])
+    end
+  end
 end

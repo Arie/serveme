@@ -27,7 +27,7 @@ production:
   database: serveme_production
   username: serveme
   encoding: unicode
-  pool: 5
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 12 } %>
   timeout: 5000
 
 cucumber:

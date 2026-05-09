@@ -10,7 +10,7 @@ class LogWorker
   extend T::Sig
   sidekiq_options retry: 1
 
-  attr_accessor :raw_line, :line, :message, :skip_broadcast
+  attr_accessor :raw_line, :line, :message, :skip_broadcast, :preloaded_reservations
   attr_reader :parsed_secret, :parsed_event
 
   MAP_START         = /(Started map\ "(\w+)")/
@@ -316,7 +316,15 @@ class LogWorker
 
   sig { returns(T.nilable(Reservation)) }
   def reservation
-    @reservation ||= Reservation.current.includes(:user).find_by_id(reservation_id) if reservation_id
+    return @reservation if defined?(@reservation)
+
+    rid = reservation_id
+    @reservation =
+      if preloaded_reservations && @parsed_secret && preloaded_reservations.key?(@parsed_secret)
+        preloaded_reservations[@parsed_secret]
+      elsif rid
+        Reservation.current.includes(:user).find_by_id(rid)
+      end
   end
 
   sig { returns(T.nilable(Integer)) }

@@ -27,10 +27,12 @@ class LogBatchWorker
     grouped_lines = Hash.new { |h, k| h[k] = [] }
     grouped_events = Hash.new { |h, k| h[k] = [] }
     active_logsecrets = Set.new
+    preloaded_reservations = preload_reservations(log_lines)
 
     log_lines.each do |raw_line|
       worker = LogWorker.new
       worker.skip_broadcast = true
+      worker.preloaded_reservations = preloaded_reservations
       worker.perform(raw_line)
 
       secret = worker.parsed_secret
@@ -50,6 +52,13 @@ class LogBatchWorker
   end
 
   private
+
+  def preload_reservations(log_lines)
+    secrets = log_lines.filter_map { |line| line.match(LogWorker::LOG_LINE_REGEX)&.[](:secret) }.compact_blank.uniq
+    return {} if secrets.empty?
+
+    Reservation.current.where(logsecret: secrets).includes(:user).index_by(&:logsecret)
+  end
 
   def resolve_reservation_ids(logsecrets)
     result = {}

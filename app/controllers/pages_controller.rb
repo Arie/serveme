@@ -17,7 +17,15 @@ class PagesController < ApplicationController
   def credits; end
 
   def recent_reservations
-    @pagy, @recent_reservations = pagy(Reservation.order(starts_at: :desc).includes(user: :groups, server: :location), limit: 50)
+    approximate_count = Reservation.connection.select_value(
+      "SELECT reltuples::bigint FROM pg_class WHERE relname = 'reservations'"
+    ).to_i
+    approximate_count = Reservation.count if approximate_count < 0
+    @pagy, @recent_reservations = pagy(
+      Reservation.order(starts_at: :desc).includes(user: :groups, server: :location),
+      limit: 50,
+      count: approximate_count
+    )
   end
 
   def statistics

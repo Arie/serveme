@@ -12,9 +12,6 @@ return unless defined?(Rack::MiniProfiler)
 Rack::MiniProfiler.config.authorization_mode = Rails.env.production? ? :allow_authorized : :allow_all
 Rack::MiniProfiler.config.position = "bottom-right"
 
-# Unlocks ?pp=flamegraph (stackprof), ?pp=profile-memory (memory_profiler),
-# ?pp=profile-gc, etc. Off by default in mini-profiler 4.x; safe here
-# because the authorization_mode above already restricts access to admins.
 Rack::MiniProfiler.config.enable_advanced_debugging_tools = true
 
 # Production needs shared storage across puma workers; dev keeps it in-process.

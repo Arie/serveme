@@ -151,9 +151,11 @@ class DockerHostSetupService
   end
 
   def ssh_to_host(&block)
-    opts = { timeout: 5, keepalive: true, keepalive_interval: 5, keepalive_maxcount: 2, bind_address: "0.0.0.0" }
+    opts = { timeout: 5, keepalive: true, keepalive_interval: 5, keepalive_maxcount: 2, bind_address: "0.0.0.0", port: docker_host.ssh_port }
 
     if docker_host.provider?
+      # Hetzner pre-installs the cloud key on root only; docker_host.ssh_user
+      # doesn't exist until provision_host runs setup_app_user.
       host = docker_host.ip
       user = "root"
       key_data = Rails.application.credentials.dig(:cloud_servers, :ssh_private_key)
@@ -164,7 +166,7 @@ class DockerHostSetupService
       opts[:verify_host_key] = :never
     else
       host = docker_host.hostname
-      user = nil
+      user = docker_host.ssh_user
     end
 
     Net::SSH.start(host, user, **opts, &block)

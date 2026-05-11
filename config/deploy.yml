@@ -102,4 +102,4 @@ aliases:
   shell:   app exec --interactive --reuse "bash"
   logs:    app logs -f
   dbc:     app exec --interactive --reuse "bin/rails dbconsole"
-  rake:    app exec --reuse "bin/rails"
+  rake:    app exec --reuse --roles web "bin/rails"

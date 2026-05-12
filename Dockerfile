@@ -72,8 +72,9 @@ LABEL service=serveme
 #   libpq5, libmaxminddb0    — Rails DB / GeoIP
 #   openssh-client           — `scp` (cloud_server.rb#scp_command), `ssh`, `sftp`
 #   zip                      — local_zip_file_creator (Open3.capture3 "zip")
+#   ripgrep                  — log_streaming_service.rb shells out to `rg` for search
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y libpq5 libmaxminddb0 libyaml-0-2 openssh-client zip && \
+    apt-get install --no-install-recommends -y libpq5 libmaxminddb0 libyaml-0-2 openssh-client zip ripgrep && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Copy built artifacts: gems, application

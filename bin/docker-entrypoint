@@ -6,5 +6,16 @@ set -e
 # Remove a potentially pre-existing server.pid for Rails
 rm -f /rails/tmp/pids/server.pid
 
+# Seed the host-mounted public/assets with this image's compiled assets.
+# `cp -an` preserves any fingerprints already in the shared dir from
+# prior deploys, so HTML cached in Cloudflare / browsers can still
+# resolve old asset URLs after we ship a new image. New fingerprints
+# (including this release's .sprockets-manifest-*.json) get added.
+# See Dockerfile for the matching mv into assets-bundled.
+if [ -d /rails/public/assets-bundled ]; then
+  mkdir -p /rails/public/assets
+  cp -an /rails/public/assets-bundled/. /rails/public/assets/
+fi
+
 # Then exec the container's main process (what's set as CMD in the Dockerfile)
 exec "$@"

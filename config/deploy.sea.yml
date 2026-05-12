@@ -1,10 +1,10 @@
-# SEA — 139.99.42.241 (OVH VPS, 1C/1.9G). Builds happen on the dev box
-# because the host is too small (`builder.local`).
+# SEA — 15.235.200.251 (OVH VPS Singapore, 2C/3.7G/50G). Pulls images from
+# ghcr.io like other regions; no local builder.
 servers:
-  web:         { hosts: [139.99.42.241] }
-  sidekiq:     { hosts: [139.99.42.241] }
-  discord_bot: { hosts: [139.99.42.241] }
-  logdaemon:   { hosts: [139.99.42.241] }
+  web:         { hosts: [15.235.200.251] }
+  sidekiq:     { hosts: [15.235.200.251] }
+  discord_bot: { hosts: [15.235.200.251] }
+  logdaemon:   { hosts: [15.235.200.251] }
 
 proxy:
   hosts:

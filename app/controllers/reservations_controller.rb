@@ -147,14 +147,16 @@ class ReservationsController < ApplicationController
     setup_log_viewing
     @initial_query = params[:q].to_s.strip.presence
 
+    unless File.exist?(streaming_log_path)
+      flash[:error] = "No such streaming logfile #{@logsecret}.log"
+      return redirect_to(reservation_path(reservation))
+    end
+
     # For virtual scrolling, we only need the total line count on initial load
     # The frontend will fetch specific ranges as needed
     service = LogStreamingService.new(streaming_log_path)
     @total_lines = service.total_line_count
     @timestamp_index = service.timestamp_index
-  rescue Errno::ENOENT
-    flash[:error] = "No such streaming logfile #{@logsecret}.log"
-    redirect_to reservation_path(reservation)
   end
 
   # Virtual scrolling view endpoint - returns rendered lines for a viewport position
@@ -175,8 +177,6 @@ class ReservationsController < ApplicationController
     service = LogStreamingService.new(streaming_log_path)
     @total_lines = service.total_line_count
     @timestamp_index = service.timestamp_index
-  rescue Errno::ENOENT
-    @total_lines = 0
   end
 
   def rcon_command
@@ -299,8 +299,6 @@ class ReservationsController < ApplicationController
       is_search: result[:is_search],
       line_indices: result[:line_indices]
     }
-  rescue Errno::ENOENT
-    render json: { error: "Log file not found", html: "", total: 0 }, status: :not_found
   end
 
   def shared_rcon_command(return_path)

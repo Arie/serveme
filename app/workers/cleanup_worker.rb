@@ -21,9 +21,14 @@ class CleanupWorker
   end
 
   def remove_old_reservation_logs_and_zips
-    `find /var/www/serveme/shared/server_logs/ -type d -ctime +#{Reservation.cleanup_age_in_days} -exec rm -rf {} \\;`
-    `find /var/www/serveme/shared/log/streaming/*.log -type f -mtime +#{Reservation.cleanup_age_in_days} -exec rm -f {} \\;`
-    `find /var/www/serveme/shared/public/uploads/*.zip -type f -mtime +#{Reservation.cleanup_age_in_days} -exec rm -f {} \\;`
+    age = Reservation.cleanup_age_in_days
+    server_logs = Rails.root.join("server_logs").to_s
+    streaming_logs = Rails.root.join("log", "streaming").to_s
+    uploads = Rails.root.join("public", "uploads").to_s
+
+    `find #{server_logs.shellescape} -mindepth 1 -type d -ctime +#{age.to_i} -exec rm -rf {} +`
+    `find #{streaming_logs.shellescape} -type f -name '*.log' -mtime +#{age.to_i} -delete`
+    `find #{uploads.shellescape} -type f -name '*.zip' -mtime +#{age.to_i} -delete`
   end
 
   def remove_old_statistics

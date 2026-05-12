@@ -36,7 +36,6 @@ volumes:
   - "/home/tf2/serveme/streaming:/rails/log/streaming"
   - "/var/www/serveme/shared/public/uploads:/rails/public/uploads"
   - "/var/www/serveme/shared/public/system:/rails/public/system"
-  - "/var/www/serveme/shared/public/assets:/rails/public/assets"
   - "/etc/serveme/paypal.yml:/rails/config/paypal.yml:ro"
   - "/etc/serveme/cacert.pem:/rails/config/cacert.pem:ro"
   - "/etc/serveme/GeoLite2-City.mmdb:/rails/doc/GeoLite2-City.mmdb:ro"

@@ -58,14 +58,12 @@ RUN bundle exec bootsnap precompile app/ lib/
 # Cache mount on tmp/cache covers sprockets manifests + bootsnap caches
 # so an app-only edit doesn't redo the full asset pipeline.
 #
-# Move the compiled output aside: at runtime a host volume is bind-mounted
-# at public/assets so fingerprints from prior deploys survive (cached
-# HTML in Cloudflare keeps referencing them for the CF TTL after a
-# deploy). bin/docker-entrypoint copies from assets-bundled into the
-# mounted dir with `cp -an` — old fingerprints stay, new ones get added.
+# Kamal's asset_path: /rails/public/assets in config/deploy.yml owns
+# retention across deploys — on the host it extracts public/assets from
+# this image, cross-syncs with the previous release, and mounts the
+# per-version volume back over public/assets at run time.
 RUN --mount=type=cache,target=/rails/tmp/cache,sharing=locked \
-    SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile && \
-    mv public/assets public/assets-bundled
+    SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
 
 
 

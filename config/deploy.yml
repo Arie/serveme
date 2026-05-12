@@ -11,6 +11,13 @@ boot:
 
 error_pages_path: public
 
+# Kamal extracts public/assets from each built image into
+# .kamal/apps/serveme-<dest>/assets/{extracted,volumes}/web-<sha>/ on
+# the host, cross-syncs new + previous versions so cached HTML can still
+# resolve either fingerprint, mounts the per-version volume back here,
+# and prunes older sibling dirs after a healthy boot.
+asset_path: /rails/public/assets
+
 registry:
   server: ghcr.io
   username: Arie
@@ -82,7 +89,6 @@ volumes:
   - "/var/www/serveme/shared/log:/rails/log"
   - "/var/www/serveme/shared/public/uploads:/rails/public/uploads"
   - "/var/www/serveme/shared/public/system:/rails/public/system"
-  - "/var/www/serveme/shared/public/assets:/rails/public/assets"
   - "/etc/serveme/paypal.yml:/rails/config/paypal.yml:ro"
   - "/etc/serveme/cacert.pem:/rails/config/cacert.pem:ro"
   - "/etc/serveme/GeoLite2-City.mmdb:/rails/doc/GeoLite2-City.mmdb:ro"

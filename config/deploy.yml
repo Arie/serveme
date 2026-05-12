@@ -102,7 +102,7 @@ proxy:
   healthcheck:
     path: /up
     interval: 3
-    timeout: 30
+    timeout: 5
 
 aliases:
   console: app exec --interactive --reuse "bin/rails console"

@@ -44,6 +44,28 @@ class OtelLogger
     setup_rails_logger_broadcast(otel_logger)
   end
 
+  # Pulls trace context + Sidekiq job context from the current thread so every
+  # OTel log record can be correlated to its trace (and, for jobs, to its jid).
+  def self.correlation_attributes
+    attrs = {}
+
+    span_context = OpenTelemetry::Trace.current_span.context
+    if span_context.valid?
+      attrs["trace.trace_id"] = span_context.hex_trace_id
+      attrs["trace.span_id"] = span_context.hex_span_id
+    end
+
+    if defined?(Sidekiq::Context)
+      ctx = Sidekiq::Context.current
+      unless ctx.empty?
+        attrs["sidekiq.jid"] = ctx[:jid] if ctx[:jid]
+        attrs["sidekiq.worker"] = ctx[:class] if ctx[:class]
+      end
+    end
+
+    attrs
+  end
+
   def self.setup_request_subscriber(otel_logger)
     ActiveSupport::Notifications.subscribe("process_action.action_controller") do |*args|
       event = ActiveSupport::Notifications::Event.new(*args)
@@ -60,9 +82,10 @@ class OtelLogger
         "http.view_runtime_ms" => payload[:view_runtime]&.round(2),
         "http.db_runtime_ms" => payload[:db_runtime]&.round(2),
         "http.allocations" => payload[:allocations],
+        "http.request_id" => payload[:request_id],
         "user.id" => payload[:user_id],
         "user.ip" => payload[:ip]
-      }.compact
+      }.compact.merge(correlation_attributes)
 
       body = "#{payload[:method]} #{payload[:path]} - #{payload[:status]} (#{event.duration.round(2)}ms)"
 
@@ -106,7 +129,7 @@ class OtelLogger
         timestamp: Time.now,
         severity_text: severity_text,
         body: body,
-        attributes: {}
+        attributes: OtelLogger.correlation_attributes
       )
 
       true

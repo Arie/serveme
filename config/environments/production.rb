@@ -66,7 +66,8 @@ Serveme::Application.configure do
   config.lograge.custom_options = lambda do |event|
     {
       ip: event.payload[:ip],
-      user_id: event.payload[:user_id]
+      user_id: event.payload[:user_id],
+      request_id: event.payload[:request_id]
     }
   end
 

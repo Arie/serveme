@@ -6,6 +6,7 @@ module LogrageControllerOverride
     super
     payload[:ip] = request.remote_ip
     payload[:user_id] = current_user.try(:id)
+    payload[:request_id] = request.request_id
   end
 end
 

@@ -147,7 +147,7 @@ module RuboCop::Cop::DatabaseTypeResolvable
   def database_from_yaml; end
 
   # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/database_type_resolvable.rb:43
-  def database_yaml; end
+  def database_yaml(environment = T.unsafe(nil)); end
 end
 
 # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/database_type_resolvable.rb:11
@@ -5590,6 +5590,28 @@ RuboCop::Cop::Rails::I18nLocaleAssignment::RESTRICT_ON_SEND = T.let(T.unsafe(nil
 #   end
 #
 #   # bad
+#   class PostsController < ApplicationController
+#     def update
+#       # ...
+#       redirect_back_or_to root_path, alert: "Failed to update!"
+#     end
+#   end
+#
+#   # good
+#   # config/locales/en.yml
+#   # en:
+#   #   posts:
+#   #     update:
+#   #       failure: "Failed to update!"
+#
+#   class PostsController < ApplicationController
+#     def update
+#       # ...
+#       redirect_back_or_to root_path, alert: t(".failure")
+#     end
+#   end
+#
+#   # bad
 #   class UserMailer < ApplicationMailer
 #     def welcome(user)
 #       mail(to: user.email, subject: "Welcome to My Awesome Site")
@@ -5609,30 +5631,30 @@ RuboCop::Cop::Rails::I18nLocaleAssignment::RESTRICT_ON_SEND = T.let(T.unsafe(nil
 #     end
 #   end
 #
-# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/i18n_locale_texts.rb:69
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/i18n_locale_texts.rb:91
 class RuboCop::Cop::Rails::I18nLocaleTexts < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/i18n_locale_texts.rb:82
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/i18n_locale_texts.rb:104
   def flash_assignment?(param0 = T.unsafe(nil)); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/i18n_locale_texts.rb:90
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/i18n_locale_texts.rb:112
   def mail_subject(param0); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/i18n_locale_texts.rb:94
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/i18n_locale_texts.rb:116
   def on_send(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/i18n_locale_texts.rb:78
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/i18n_locale_texts.rb:100
   def redirect_to_flash(param0); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/i18n_locale_texts.rb:74
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/i18n_locale_texts.rb:96
   def validation_message(param0); end
 end
 
-# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/i18n_locale_texts.rb:70
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/i18n_locale_texts.rb:92
 RuboCop::Cop::Rails::I18nLocaleTexts::MSG = T.let(T.unsafe(nil), String)
 
-# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/i18n_locale_texts.rb:72
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/i18n_locale_texts.rb:94
 RuboCop::Cop::Rails::I18nLocaleTexts::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Looks for assignments of `ignored_columns` that may override previous
@@ -6553,10 +6575,10 @@ class RuboCop::Cop::Rails::NotNullColumn < ::RuboCop::Cop::Base
   # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/not_null_column.rb:76
   def null_false?(param0 = T.unsafe(nil)); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/not_null_column.rb:89
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/not_null_column.rb:90
   def on_block(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/not_null_column.rb:92
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/not_null_column.rb:93
   def on_numblock(node); end
 
   # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/not_null_column.rb:84
@@ -6564,28 +6586,28 @@ class RuboCop::Cop::Rails::NotNullColumn < ::RuboCop::Cop::Base
 
   private
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/not_null_column.rb:105
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/not_null_column.rb:107
   def check_add_column(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/not_null_column.rb:117
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/not_null_column.rb:119
   def check_add_column_in_change_table(node, table); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/not_null_column.rb:125
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/not_null_column.rb:127
   def check_add_column_via_shortcut_in_change_table(node, table); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/not_null_column.rb:111
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/not_null_column.rb:113
   def check_add_reference(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/not_null_column.rb:133
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/not_null_column.rb:135
   def check_add_reference_in_change_table(node, table); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/not_null_column.rb:141
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/not_null_column.rb:143
   def check_change_table(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/not_null_column.rb:96
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/not_null_column.rb:98
   def check_column(type, pairs); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/not_null_column.rb:154
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/not_null_column.rb:156
   def check_pairs(pairs); end
 end
 
@@ -7220,6 +7242,7 @@ RuboCop::Cop::Rails::PluralizationGrammar::SINGULAR_METHODS = T.let(T.unsafe(nil
 #   # good
 #   a.presence&.foo
 #
+# @example
 #   # good
 #   a.present? ? a[1] : nil
 #
@@ -7228,66 +7251,68 @@ RuboCop::Cop::Rails::PluralizationGrammar::SINGULAR_METHODS = T.let(T.unsafe(nil
 #
 #   # good
 #   a.present? ? a > 1 : nil
+#
+#   # good
 #   a <= 0 if a.present?
 #
-# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/presence.rb:66
+#   # good
+#   a << "bar" if a.present?
+#
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/presence.rb:72
 class RuboCop::Cop::Rails::Presence < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::RangeHelp
   extend ::RuboCop::Cop::AutoCorrector
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/presence.rb:103
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/presence.rb:108
   def on_if(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/presence.rb:88
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/presence.rb:93
   def redundant_receiver_and_chain(param0 = T.unsafe(nil)); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/presence.rb:73
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/presence.rb:78
   def redundant_receiver_and_other(param0 = T.unsafe(nil)); end
 
   private
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/presence.rb:174
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/presence.rb:185
   def build_source_for_or_method(other); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/presence.rb:189
-  def chain_replacement(receiver, chain, left_sibling); end
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/presence.rb:200
+  def chain_replacement(receiver, chain); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/presence.rb:153
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/presence.rb:158
   def current(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/presence.rb:143
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/presence.rb:148
   def ignore_chain_node?(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/presence.rb:135
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/presence.rb:140
   def ignore_if_node?(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/presence.rb:139
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/presence.rb:144
   def ignore_other_node?(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/presence.rb:195
-  def index_access_method?(node); end
-
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/presence.rb:147
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/presence.rb:152
   def message(node, replacement); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/presence.rb:185
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/presence.rb:196
   def method_range(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/presence.rb:128
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/presence.rb:133
   def register_chain_offense(node, receiver, chain); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/presence.rb:121
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/presence.rb:126
   def register_offense(node, receiver, other); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/presence.rb:161
-  def replacement(receiver, other, left_sibling); end
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/presence.rb:166
+  def replacement(node, receiver, other); end
+
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/presence.rb:179
+  def require_parentheses?(node, or_source); end
 end
 
-# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/presence.rb:71
-RuboCop::Cop::Rails::Presence::INDEX_ACCESS_METHODS = T.let(T.unsafe(nil), Array)
-
-# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/presence.rb:70
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/presence.rb:76
 RuboCop::Cop::Rails::Presence::MSG = T.let(T.unsafe(nil), String)
 
 # Checks for code that can be written with simpler conditionals
@@ -8354,44 +8379,71 @@ RuboCop::Cop::Rails::RequireDependency::RESTRICT_ON_SEND = T.let(T.unsafe(nil), 
 # @example
 #   # bad
 #   JSON.parse(response.body)
-#
-#   # bad
+#   Nokogiri::HTML(response.body)
+#   Nokogiri::HTML4(response.body)
+#   Nokogiri::HTML5(response.body)
 #   Nokogiri::HTML.parse(response.body)
-#
-#   # bad
+#   Nokogiri::HTML4.parse(response.body)
 #   Nokogiri::HTML5.parse(response.body)
+#   Nokogiri::HTML::Document.parse(response.body)
+#   Nokogiri::HTML4::Document.parse(response.body)
+#   Nokogiri::HTML5::Document.parse(response.body)
 #
 #   # good
 #   response.parsed_body
 #
-# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/response_parsed_body.rb:26
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/response_parsed_body.rb:29
 class RuboCop::Cop::Rails::ResponseParsedBody < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   extend ::RuboCop::Cop::AutoCorrector
   extend ::RuboCop::Cop::TargetRailsVersion
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/response_parsed_body.rb:35
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/response_parsed_body.rb:62
+  def json?(param0 = T.unsafe(nil)); end
+
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/response_parsed_body.rb:42
   def json_parse_response_body?(param0 = T.unsafe(nil)); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/response_parsed_body.rb:47
-  def nokogiri_html_parse_response_body(param0 = T.unsafe(nil)); end
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/response_parsed_body.rb:67
+  def nokogiri?(param0 = T.unsafe(nil)); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/response_parsed_body.rb:61
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/response_parsed_body.rb:72
+  def nokogiri_html?(param0 = T.unsafe(nil)); end
+
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/response_parsed_body.rb:57
+  def nokogiri_html_document_parse_response_body?(param0 = T.unsafe(nil)); end
+
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/response_parsed_body.rb:52
+  def nokogiri_html_parse_response_body?(param0 = T.unsafe(nil)); end
+
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/response_parsed_body.rb:47
+  def nokogiri_html_response_body?(param0 = T.unsafe(nil)); end
+
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/response_parsed_body.rb:81
   def on_send(node); end
+
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/response_parsed_body.rb:77
+  def response_body?(param0 = T.unsafe(nil)); end
 
   private
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/response_parsed_body.rb:71
-  def autocorrect(corrector, node); end
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/response_parsed_body.rb:91
+  def html_offense?(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/response_parsed_body.rb:75
-  def check_json_parse_response_body(node); end
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/response_parsed_body.rb:98
+  def json_offense?(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/response_parsed_body.rb:86
-  def check_nokogiri_html_parse_response_body(node); end
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/response_parsed_body.rb:102
+  def support_response_parsed_body_for_html?; end
 end
 
-# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/response_parsed_body.rb:30
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/response_parsed_body.rb:35
+RuboCop::Cop::Rails::ResponseParsedBody::HTML = T.let(T.unsafe(nil), Set)
+
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/response_parsed_body.rb:33
+RuboCop::Cop::Rails::ResponseParsedBody::MSG = T.let(T.unsafe(nil), String)
+
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/response_parsed_body.rb:37
 RuboCop::Cop::Rails::ResponseParsedBody::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Checks whether the change method of the migration file is
@@ -9350,14 +9402,17 @@ class RuboCop::Cop::Rails::SelectMap < ::RuboCop::Cop::Base
 
   private
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/select_map.rb:60
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/select_map.rb:62
   def autocorrect(corrector, select_node, node, preferred_method); end
 
   # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/select_map.rb:47
   def find_select_node(node, column_name); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/select_map.rb:71
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/select_map.rb:73
   def match_column_name?(select_candidate, column_name); end
+
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/select_map.rb:87
+  def receiver_chain?(map_node, select_node); end
 end
 
 # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/select_map.rb:25
@@ -9616,6 +9671,15 @@ RuboCop::Cop::Rails::StripHeredoc::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array
 
 # Enforces the use of `ActionController::Parameters#expect` as a method for strong parameter handling.
 #
+# In the following cases, `params[:key]` is treated as a key that is expected to be passed from the HTTP client,
+# and the cop detects it using the `expect` method.
+#
+# - Method calls on `params[:key]` without comparison methods
+# - Passing `params[:key]` as an argument to finder methods that raise on missing records
+# - Strong parameter methods using `require` or `permit`
+#
+# Other cases are not detected, as they are cases where `params[:key]` may not be passed from the HTTP client.
+#
 # @safety
 #   This cop's autocorrection is considered unsafe because there are cases where the HTTP status may change
 #   from 500 to 400 when handling invalid parameters. This change, however, reflects an intentional
@@ -9625,46 +9689,82 @@ RuboCop::Cop::Rails::StripHeredoc::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array
 # @example
 #
 #   # bad
+#   params[:key].do_something
+#
+#   # good
+#   params.expect(:key).do_something
+#
+#   # bad
+#   Model.find(params[:id])
+#
+#   # good
+#   Model.find(params.expect(:id))
+#
+#   # bad
+#   Model.find_by!(key: params[:key])
+#
+#   # good
+#   Model.find_by!(key: params.expect(:key))
+#
+#   # bad
 #   params.require(:user).permit(:name, :age)
 #   params.permit(user: [:name, :age]).require(:user)
 #
 #   # good
 #   params.expect(user: [:name, :age])
 #
-# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:23
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:50
 class RuboCop::Cop::Rails::StrongParametersExpect < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   extend ::RuboCop::Cop::AutoCorrector
   extend ::RuboCop::Cop::TargetRailsVersion
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:73
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:111
   def on_csend(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:46
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:79
   def on_send(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:38
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:61
+  def params_bracket_access(param0 = T.unsafe(nil)); end
+
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:71
   def params_permit_require(param0 = T.unsafe(nil)); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:32
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:65
   def params_require_permit(param0 = T.unsafe(nil)); end
 
   private
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:81
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:151
   def expect_method(require_method, permit_method); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:77
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:147
   def offense_range(method_node, node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:90
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:127
+  def offensive_bracket_access?(node); end
+
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:143
+  def raising_finder_method?(node); end
+
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:115
+  def register_bracket_access_offense(node, params_key); end
+
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:160
   def require_key(require_method); end
 end
 
-# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:27
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:54
 RuboCop::Cop::Rails::StrongParametersExpect::MSG = T.let(T.unsafe(nil), String)
 
-# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:28
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:56
+RuboCop::Cop::Rails::StrongParametersExpect::PRESENCE_CHECK_METHODS = T.let(T.unsafe(nil), Array)
+
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:57
+RuboCop::Cop::Rails::StrongParametersExpect::RAISING_FINDER_METHODS = T.let(T.unsafe(nil), Array)
+
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:55
 RuboCop::Cop::Rails::StrongParametersExpect::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Enforces the absence of explicit table name assignment.
@@ -10306,49 +10406,67 @@ RuboCop::Cop::Rails::UniqueValidationWithoutIndex::RESTRICT_ON_SEND = T.let(T.un
 #   # bad
 #   Rails.env.proudction?
 #   Rails.env == 'proudction'
+#   Rails.env != 'proudction'
 #
 #   # good
 #   Rails.env.production?
 #   Rails.env == 'production'
+#   Rails.env != 'production'
 #
-# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unknown_env.rb:20
+# @example
+#   # bad
+#   case Rails.env
+#   when 'proudction'
+#     do_something
+#   end
+#
+#   # good
+#   case Rails.env
+#   when 'production'
+#     do_something
+#   end
+#
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unknown_env.rb:36
 class RuboCop::Cop::Rails::UnknownEnv < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unknown_env.rb:41
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unknown_env.rb:68
+  def on_case(node); end
+
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unknown_env.rb:57
   def on_send(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unknown_env.rb:24
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unknown_env.rb:40
   def rails_env?(param0 = T.unsafe(nil)); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unknown_env.rb:34
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unknown_env.rb:50
   def unknown_environment_equal?(param0 = T.unsafe(nil)); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unknown_env.rb:30
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unknown_env.rb:46
   def unknown_environment_predicate?(param0 = T.unsafe(nil)); end
 
   private
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unknown_env.rb:54
-  def collect_variable_like_names(_scope); end
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unknown_env.rb:113
+  def environments(with_local: T.unsafe(nil)); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unknown_env.rb:88
-  def environments; end
-
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unknown_env.rb:58
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unknown_env.rb:83
   def message(name); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unknown_env.rb:84
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unknown_env.rb:119
+  def supports_local?; end
+
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unknown_env.rb:109
   def unknown_env_name?(name); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unknown_env.rb:79
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unknown_env.rb:104
   def unknown_env_predicate?(name); end
 end
 
-# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unknown_env.rb:21
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unknown_env.rb:37
 RuboCop::Cop::Rails::UnknownEnv::MSG = T.let(T.unsafe(nil), String)
 
-# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unknown_env.rb:22
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/unknown_env.rb:38
 RuboCop::Cop::Rails::UnknownEnv::MSG_SIMILAR = T.let(T.unsafe(nil), String)
 
 # Suggests you remove a column that does not exist in the schema from `ignored_columns`.
@@ -12479,7 +12597,7 @@ module RuboCop::Cop::TargetRailsVersion
   # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/target_rails_version.rb:14
   def minimum_target_rails_version(version); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/target_rails_version.rb:26
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/target_rails_version.rb:21
   def support_target_rails_version?(version); end
 end
 

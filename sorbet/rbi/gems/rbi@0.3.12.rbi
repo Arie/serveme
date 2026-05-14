@@ -2139,19 +2139,19 @@ class RBI::RBS::TypeTranslator
 
     private
 
-    # pkg:gem/rbi#lib/rbi/rbs/type_translator.rb:114
+    # pkg:gem/rbi#lib/rbi/rbs/type_translator.rb:117
     sig { params(type: ::RBS::Types::ClassInstance).returns(::RBI::Type) }
     def translate_class_instance(type); end
 
-    # pkg:gem/rbi#lib/rbi/rbs/type_translator.rb:122
+    # pkg:gem/rbi#lib/rbi/rbs/type_translator.rb:125
     sig { params(type: ::RBS::Types::Function).returns(::RBI::Type) }
     def translate_function(type); end
 
-    # pkg:gem/rbi#lib/rbi/rbs/type_translator.rb:169
+    # pkg:gem/rbi#lib/rbi/rbs/type_translator.rb:172
     sig { params(type_name: ::String).returns(::String) }
     def translate_t_generic_type(type_name); end
 
-    # pkg:gem/rbi#lib/rbi/rbs/type_translator.rb:102
+    # pkg:gem/rbi#lib/rbi/rbs/type_translator.rb:105
     sig { params(type: ::RBS::Types::Alias).returns(::RBI::Type) }
     def translate_type_alias(type); end
   end

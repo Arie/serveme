@@ -8,16 +8,16 @@
 # pkg:gem/cucumber-gherkin#lib/gherkin/ast_node.rb:3
 module Gherkin
   class << self
-    # pkg:gem/cucumber-gherkin#lib/gherkin.rb:32
+    # pkg:gem/cucumber-gherkin#lib/gherkin.rb:24
     def encode_source_message(uri, data); end
 
     # pkg:gem/cucumber-gherkin#lib/gherkin.rb:12
     def from_paths(paths, options = T.unsafe(nil)); end
 
-    # pkg:gem/cucumber-gherkin#lib/gherkin.rb:28
+    # pkg:gem/cucumber-gherkin#lib/gherkin.rb:20
     def from_source(uri, data, options = T.unsafe(nil)); end
 
-    # pkg:gem/cucumber-gherkin#lib/gherkin.rb:20
+    # pkg:gem/cucumber-gherkin#lib/gherkin.rb:16
     def from_sources(sources, options = T.unsafe(nil)); end
   end
 end
@@ -227,10 +227,10 @@ class Gherkin::Parser
   # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:114
   def get_result; end
 
-  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:3210
+  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:3168
   def lookahead0(context, current_token); end
 
-  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:3233
+  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:3189
   def lookahead1(context, current_token); end
 
   # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:164
@@ -285,207 +285,207 @@ class Gherkin::Parser
 
   # GherkinDocument:0>Feature:0>FeatureHeader:0>#Language:0
   #
-  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:355
+  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:354
   def match_token_at_state1(token, context); end
 
   # GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:0>#ScenarioLine:0
   #
-  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:864
+  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:854
   def match_token_at_state10(token, context); end
 
   # GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:1>DescriptionHelper:1>Description:0>__alt1:0>#Other:0
   #
-  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:950
+  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:939
   def match_token_at_state11(token, context); end
 
   # GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:2>Step:0>#StepLine:0
   #
-  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:1038
+  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:1026
   def match_token_at_state12(token, context); end
 
   # GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:0>DataTable:0>#TableRow:0
   #
-  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:1136
+  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:1123
   def match_token_at_state13(token, context); end
 
   # GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:0>Tags:0>#TagLine:0
   #
-  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:1236
+  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:1222
   def match_token_at_state14(token, context); end
 
   # GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:0>#ExamplesLine:0
   #
-  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:1265
+  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:1250
   def match_token_at_state15(token, context); end
 
   # GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:1>DescriptionHelper:1>Description:0>__alt1:0>#Other:0
   #
-  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:1365
+  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:1349
   def match_token_at_state16(token, context); end
 
   # GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:2>ExamplesTable:0>#TableRow:0
   #
-  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:1467
+  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:1450
   def match_token_at_state17(token, context); end
 
   # GherkinDocument:0>Feature:3>Rule:0>RuleHeader:0>Tags:0>#TagLine:0
   #
-  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:1567
+  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:1549
   def match_token_at_state18(token, context); end
 
   # GherkinDocument:0>Feature:3>Rule:0>RuleHeader:1>#RuleLine:0
   #
-  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:1595
+  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:1576
   def match_token_at_state19(token, context); end
 
   # GherkinDocument:0>Feature:0>FeatureHeader:1>Tags:0>#TagLine:0
   #
-  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:383
+  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:381
   def match_token_at_state2(token, context); end
 
   # GherkinDocument:0>Feature:3>Rule:0>RuleHeader:2>DescriptionHelper:1>Description:0>__alt1:0>#Other:0
   #
-  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:1666
+  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:1646
   def match_token_at_state20(token, context); end
 
   # GherkinDocument:0>Feature:3>Rule:1>Background:0>#BackgroundLine:0
   #
-  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:1737
+  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:1716
   def match_token_at_state21(token, context); end
 
   # GherkinDocument:0>Feature:3>Rule:1>Background:1>DescriptionHelper:1>Description:0>__alt1:0>#Other:0
   #
-  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:1807
+  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:1785
   def match_token_at_state22(token, context); end
 
   # GherkinDocument:0>Feature:3>Rule:1>Background:2>Step:0>#StepLine:0
   #
-  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:1877
+  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:1854
   def match_token_at_state23(token, context); end
 
   # GherkinDocument:0>Feature:3>Rule:1>Background:2>Step:1>StepArg:0>__alt0:0>DataTable:0>#TableRow:0
   #
-  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:1957
+  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:1933
   def match_token_at_state24(token, context); end
 
   # GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:0>Tags:0>#TagLine:0
   #
-  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:2037
+  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:2012
   def match_token_at_state25(token, context); end
 
   # GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:0>#ScenarioLine:0
   #
-  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:2066
+  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:2040
   def match_token_at_state26(token, context); end
 
   # GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:1>DescriptionHelper:1>Description:0>__alt1:0>#Other:0
   #
-  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:2155
+  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:2128
   def match_token_at_state27(token, context); end
 
   # GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:2>Step:0>#StepLine:0
   #
-  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:2246
+  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:2218
   def match_token_at_state28(token, context); end
 
   # GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:0>DataTable:0>#TableRow:0
   #
-  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:2347
+  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:2318
   def match_token_at_state29(token, context); end
 
   # GherkinDocument:0>Feature:0>FeatureHeader:2>#FeatureLine:0
   #
-  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:411
+  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:408
   def match_token_at_state3(token, context); end
 
   # GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:0>Tags:0>#TagLine:0
   #
-  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:2450
+  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:2420
   def match_token_at_state30(token, context); end
 
   # GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:0>#ExamplesLine:0
   #
-  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:2479
+  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:2448
   def match_token_at_state31(token, context); end
 
   # GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:1>DescriptionHelper:1>Description:0>__alt1:0>#Other:0
   #
-  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:2582
+  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:2550
   def match_token_at_state32(token, context); end
 
   # GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:2>ExamplesTable:0>#TableRow:0
   #
-  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:2687
+  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:2654
   def match_token_at_state33(token, context); end
 
   # GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:1>DocString:0>#DocStringSeparator:0
   #
-  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:2790
+  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:2756
   def match_token_at_state35(token, context); end
 
   # GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:1>DocString:2>#DocStringSeparator:0
   #
-  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:2809
+  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:2774
   def match_token_at_state36(token, context); end
 
   # GherkinDocument:0>Feature:3>Rule:1>Background:2>Step:1>StepArg:0>__alt0:1>DocString:0>#DocStringSeparator:0
   #
-  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:2908
+  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:2872
   def match_token_at_state37(token, context); end
 
   # GherkinDocument:0>Feature:3>Rule:1>Background:2>Step:1>StepArg:0>__alt0:1>DocString:2>#DocStringSeparator:0
   #
-  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:2927
+  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:2890
   def match_token_at_state38(token, context); end
 
   # GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:1>DocString:0>#DocStringSeparator:0
   #
-  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:3003
+  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:2965
   def match_token_at_state39(token, context); end
 
   # GherkinDocument:0>Feature:0>FeatureHeader:3>DescriptionHelper:1>Description:0>__alt1:0>#Other:0
   #
-  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:479
+  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:475
   def match_token_at_state4(token, context); end
 
   # GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:1>DocString:2>#DocStringSeparator:0
   #
-  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:3022
+  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:2983
   def match_token_at_state40(token, context); end
 
   # GherkinDocument:0>Feature:1>Background:2>Step:1>StepArg:0>__alt0:1>DocString:0>#DocStringSeparator:0
   #
-  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:3118
+  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:3078
   def match_token_at_state41(token, context); end
 
   # GherkinDocument:0>Feature:1>Background:2>Step:1>StepArg:0>__alt0:1>DocString:2>#DocStringSeparator:0
   #
-  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:3137
+  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:3096
   def match_token_at_state42(token, context); end
 
   # GherkinDocument:0>Feature:1>Background:0>#BackgroundLine:0
   #
-  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:547
+  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:542
   def match_token_at_state5(token, context); end
 
   # GherkinDocument:0>Feature:1>Background:1>DescriptionHelper:1>Description:0>__alt1:0>#Other:0
   #
-  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:614
+  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:608
   def match_token_at_state6(token, context); end
 
   # GherkinDocument:0>Feature:1>Background:2>Step:0>#StepLine:0
   #
-  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:681
+  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:674
   def match_token_at_state7(token, context); end
 
   # GherkinDocument:0>Feature:1>Background:2>Step:1>StepArg:0>__alt0:0>DataTable:0>#TableRow:0
   #
-  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:758
+  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:750
   def match_token_at_state8(token, context); end
 
   # GherkinDocument:0>Feature:2>ScenarioDefinition:0>Tags:0>#TagLine:0
   #
-  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:835
+  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:826
   def match_token_at_state9(token, context); end
 
   # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:64
@@ -505,10 +505,10 @@ class Gherkin::Parser
 
   private
 
-  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:3258
+  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:3212
   def handle_ast_error(context, &_arg1); end
 
-  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:3262
+  # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:3216
   def handle_external_error(context, default_value, &action); end
 end
 
@@ -627,34 +627,31 @@ end
 # pkg:gem/cucumber-gherkin#lib/gherkin/parser.rb:10
 Gherkin::RULE_TYPE = T.let(T.unsafe(nil), Array)
 
-# pkg:gem/cucumber-gherkin#lib/gherkin/stream/parser_message_stream.rb:9
+# pkg:gem/cucumber-gherkin#lib/gherkin/stream/parser_message_stream.rb:10
 module Gherkin::Stream; end
 
-# pkg:gem/cucumber-gherkin#lib/gherkin/stream/parser_message_stream.rb:10
+# pkg:gem/cucumber-gherkin#lib/gherkin/stream/parser_message_stream.rb:11
 class Gherkin::Stream::ParserMessageStream
-  # pkg:gem/cucumber-gherkin#lib/gherkin/stream/parser_message_stream.rb:11
-  def initialize(paths, sources, options); end
+  # pkg:gem/cucumber-gherkin#lib/gherkin/stream/parser_message_stream.rb:12
+  def initialize(paths: T.unsafe(nil), sources: T.unsafe(nil), options: T.unsafe(nil)); end
 
-  # pkg:gem/cucumber-gherkin#lib/gherkin/stream/parser_message_stream.rb:21
+  # pkg:gem/cucumber-gherkin#lib/gherkin/stream/parser_message_stream.rb:22
   def messages; end
 
   private
 
-  # pkg:gem/cucumber-gherkin#lib/gherkin/stream/parser_message_stream.rb:87
+  # pkg:gem/cucumber-gherkin#lib/gherkin/stream/parser_message_stream.rb:88
   def build_gherkin_document(source); end
 
-  # pkg:gem/cucumber-gherkin#lib/gherkin/stream/parser_message_stream.rb:71
+  # pkg:gem/cucumber-gherkin#lib/gherkin/stream/parser_message_stream.rb:72
   def sources; end
 
-  # pkg:gem/cucumber-gherkin#lib/gherkin/stream/parser_message_stream.rb:55
+  # pkg:gem/cucumber-gherkin#lib/gherkin/stream/parser_message_stream.rb:56
   def yield_parse_errors(yielder, errors, uri); end
 end
 
 # pkg:gem/cucumber-gherkin#lib/gherkin/token.rb:4
 class Gherkin::Token < ::Struct
-  # pkg:gem/cucumber-gherkin#lib/gherkin/token.rb:12
-  def detach; end
-
   # pkg:gem/cucumber-gherkin#lib/gherkin/token.rb:8
   def eof?; end
 
@@ -700,7 +697,7 @@ class Gherkin::Token < ::Struct
   # pkg:gem/cucumber-gherkin#lib/gherkin/token.rb:5
   def matched_type=(_arg0); end
 
-  # pkg:gem/cucumber-gherkin#lib/gherkin/token.rb:16
+  # pkg:gem/cucumber-gherkin#lib/gherkin/token.rb:12
   def token_value; end
 end
 

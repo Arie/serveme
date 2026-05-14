@@ -285,12 +285,6 @@ MultiXML::FILE_CONVERTER = T.let(T.unsafe(nil), Proc)
 #
 # pkg:gem/multi_xml#lib/multi_xml/file_like.rb:13
 module MultiXML::FileLike
-  # Get the content type
-  #
-  # @api public
-  # @return [String] the content type or "application/octet-stream" if not set
-  # @example Get content type
-  #   io.content_type #=> "application/pdf"
   # Set the content type
   #
   # @api public
@@ -298,16 +292,16 @@ module MultiXML::FileLike
   # @return [String] the content type that was set
   # @example Set content type
   #   io.content_type = "application/pdf"
+  # Get the content type
+  #
+  # @api public
+  # @return [String] the content type or "application/octet-stream" if not set
+  # @example Get content type
+  #   io.content_type #=> "application/pdf"
   #
   # pkg:gem/multi_xml#lib/multi_xml/file_like.rb:58
   def content_type; end
 
-  # Get the content type
-  #
-  # @api public
-  # @return [String] the content type or "application/octet-stream" if not set
-  # @example Get content type
-  #   io.content_type #=> "application/pdf"
   # Set the content type
   #
   # @api public
@@ -315,16 +309,16 @@ module MultiXML::FileLike
   # @return [String] the content type that was set
   # @example Set content type
   #   io.content_type = "application/pdf"
+  # Get the content type
+  #
+  # @api public
+  # @return [String] the content type or "application/octet-stream" if not set
+  # @example Get content type
+  #   io.content_type #=> "application/pdf"
   #
   # pkg:gem/multi_xml#lib/multi_xml/file_like.rb:40
   def content_type=(_arg0); end
 
-  # Get the original filename
-  #
-  # @api public
-  # @return [String] the original filename or "untitled" if not set
-  # @example Get filename
-  #   io.original_filename #=> "document.pdf"
   # Set the original filename
   #
   # @api public
@@ -332,16 +326,16 @@ module MultiXML::FileLike
   # @return [String] the filename that was set
   # @example Set filename
   #   io.original_filename = "report.pdf"
+  # Get the original filename
+  #
+  # @api public
+  # @return [String] the original filename or "untitled" if not set
+  # @example Get filename
+  #   io.original_filename #=> "document.pdf"
   #
   # pkg:gem/multi_xml#lib/multi_xml/file_like.rb:48
   def original_filename; end
 
-  # Get the original filename
-  #
-  # @api public
-  # @return [String] the original filename or "untitled" if not set
-  # @example Get filename
-  #   io.original_filename #=> "document.pdf"
   # Set the original filename
   #
   # @api public
@@ -349,6 +343,12 @@ module MultiXML::FileLike
   # @return [String] the filename that was set
   # @example Set filename
   #   io.original_filename = "report.pdf"
+  # Get the original filename
+  #
+  # @api public
+  # @return [String] the original filename or "untitled" if not set
+  # @example Get filename
+  #   io.original_filename #=> "document.pdf"
   #
   # pkg:gem/multi_xml#lib/multi_xml/file_like.rb:31
   def original_filename=(_arg0); end
@@ -1259,17 +1259,21 @@ MultiXML::TYPE_CONVERTERS = T.let(T.unsafe(nil), Hash)
 #
 # Downstream code that still writes MultiXml.parse(...) or
 # rescue MultiXml::ParseError continues to work, but emits a one-time
-# deprecation warning pointing at MultiXML. The module forwards every
-# method call to {MultiXML} via {.method_missing} and resolves constant
-# access via {.const_missing}, so both dotted calls and :: constant
-# lookups (including rescue clauses) route through the canonical module.
+# deprecation warning pointing at MultiXML. Each public method on
+# {MultiXML} gets an explicit forwarder defined on this module, and
+# constant access resolves via {.const_missing}, so both dotted calls
+# and :: constant lookups (including rescue clauses) route through
+# the canonical module.
 #
 # @api public
 # @deprecated Use {MultiXML} (all-caps) instead. Will be removed in v1.0.
 #
-# pkg:gem/multi_xml#lib/multi_xml.rb:167
+# pkg:gem/multi_xml#lib/multi_xml.rb:168
 module MultiXml
   class << self
+    # pkg:gem/multi_xml#lib/multi_xml.rb:181
+    def append_features(*args, **kwargs, &block); end
+
     # Resolve missing constants to their {MultiXML} counterparts
     #
     # The lookup is performed with ``inherit: false`` so a stray
@@ -1284,29 +1288,37 @@ module MultiXml
     # @example
     #   MultiXml::Parsers::Ox  # returns MultiXML::Parsers::Ox
     #
-    # pkg:gem/multi_xml#lib/multi_xml.rb:212
+    # pkg:gem/multi_xml#lib/multi_xml.rb:202
     def const_missing(name); end
 
-    # Forward method calls to {MultiXML}, emitting a one-time warning
-    #
-    # @api public
-    # @return [Object] the delegated call's return value
-    # @example
-    #   MultiXml.parse("<a>1</a>")  # delegates to MultiXML.parse
-    #
-    # pkg:gem/multi_xml#lib/multi_xml.rb:176
-    def method_missing(name, *args, **kwargs, &block); end
+    # pkg:gem/multi_xml#lib/multi_xml.rb:181
+    def extend_object(*args, **kwargs, &block); end
 
-    # Respond to any method {MultiXML} responds to
-    #
-    # @api public
-    # @param name [Symbol] method name
-    # @param include_private [Boolean] include private methods
-    # @return [Boolean] true if {MultiXML} responds to the method
-    # @example
-    #   MultiXml.respond_to?(:parse)  #=> true
-    #
-    # pkg:gem/multi_xml#lib/multi_xml.rb:195
-    def respond_to_missing?(name, include_private); end
+    # pkg:gem/multi_xml#lib/multi_xml.rb:181
+    def load(*args, **kwargs, &block); end
+
+    # pkg:gem/multi_xml#lib/multi_xml.rb:181
+    def parse(*args, **kwargs, &block); end
+
+    # pkg:gem/multi_xml#lib/multi_xml.rb:181
+    def parse_options(*args, **kwargs, &block); end
+
+    # pkg:gem/multi_xml#lib/multi_xml.rb:181
+    def parse_options=(*args, **kwargs, &block); end
+
+    # pkg:gem/multi_xml#lib/multi_xml.rb:181
+    def parser(*args, **kwargs, &block); end
+
+    # pkg:gem/multi_xml#lib/multi_xml.rb:181
+    def parser=(*args, **kwargs, &block); end
+
+    # pkg:gem/multi_xml#lib/multi_xml.rb:181
+    def prepend_features(*args, **kwargs, &block); end
+
+    # pkg:gem/multi_xml#lib/multi_xml.rb:181
+    def warn_deprecation_once(*args, **kwargs, &block); end
+
+    # pkg:gem/multi_xml#lib/multi_xml.rb:181
+    def with_parser(*args, **kwargs, &block); end
   end
 end

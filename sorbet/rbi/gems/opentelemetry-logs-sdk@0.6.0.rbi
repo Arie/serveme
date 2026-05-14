@@ -101,7 +101,7 @@ module OpenTelemetry::SDK::Logs::Export; end
 # Typically, the BatchLogRecordProcessor will be more suitable for
 # production environments than the SimpleLogRecordProcessor.
 #
-# pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/export/batch_log_record_processor.rb:36
+# pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/export/batch_log_record_processor.rb:18
 class OpenTelemetry::SDK::Logs::Export::BatchLogRecordProcessor < ::OpenTelemetry::SDK::Logs::LogRecordProcessor
   # Returns a new instance of the {BatchLogRecordProcessor}.
   #
@@ -416,6 +416,8 @@ class OpenTelemetry::SDK::Logs::LogRecord < ::OpenTelemetry::Logs::LogRecord
   # @param [optional Hash{String => String, Numeric, Boolean,
   #   Array<String, Numeric, Boolean>}] attributes Attributes to associate
   #   with the {LogRecord}.
+  # @param [optional String] event_name A name that identifies the class
+  #   or the type of the event.
   # @param [optional String] trace_id The trace ID associated with the
   #   current context.
   # @param [optional String] span_id The span ID associated with the
@@ -432,8 +434,8 @@ class OpenTelemetry::SDK::Logs::LogRecord < ::OpenTelemetry::Logs::LogRecord
   #
   # @return [LogRecord]
   #
-  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:61
-  def initialize(timestamp: T.unsafe(nil), observed_timestamp: T.unsafe(nil), severity_text: T.unsafe(nil), severity_number: T.unsafe(nil), body: T.unsafe(nil), attributes: T.unsafe(nil), trace_id: T.unsafe(nil), span_id: T.unsafe(nil), trace_flags: T.unsafe(nil), resource: T.unsafe(nil), instrumentation_scope: T.unsafe(nil), log_record_limits: T.unsafe(nil)); end
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:64
+  def initialize(timestamp: T.unsafe(nil), observed_timestamp: T.unsafe(nil), severity_text: T.unsafe(nil), severity_number: T.unsafe(nil), body: T.unsafe(nil), attributes: T.unsafe(nil), event_name: T.unsafe(nil), trace_id: T.unsafe(nil), span_id: T.unsafe(nil), trace_flags: T.unsafe(nil), resource: T.unsafe(nil), instrumentation_scope: T.unsafe(nil), log_record_limits: T.unsafe(nil)); end
 
   # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:16
   def attributes; end
@@ -446,6 +448,12 @@ class OpenTelemetry::SDK::Logs::LogRecord < ::OpenTelemetry::Logs::LogRecord
 
   # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:16
   def body=(_arg0); end
+
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:16
+  def event_name; end
+
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:16
+  def event_name=(_arg0); end
 
   # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:16
   def instrumentation_scope; end
@@ -489,7 +497,7 @@ class OpenTelemetry::SDK::Logs::LogRecord < ::OpenTelemetry::Logs::LogRecord
   # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:16
   def timestamp=(_arg0); end
 
-  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:92
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:97
   def to_log_record_data; end
 
   # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:16
@@ -506,19 +514,19 @@ class OpenTelemetry::SDK::Logs::LogRecord < ::OpenTelemetry::Logs::LogRecord
 
   private
 
-  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:111
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:117
   def to_integer_nanoseconds(timestamp); end
 
-  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:117
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:123
   def trim_attributes(attributes); end
 
-  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:155
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:161
   def truncate_attribute_values(attributes, attribute_length_limit); end
 
-  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:132
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:138
   def truncate_attributes(attributes, attribute_limit); end
 
-  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:137
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:143
   def validate_attributes(attrs); end
 end
 
@@ -540,6 +548,12 @@ class OpenTelemetry::SDK::Logs::LogRecordData < ::Struct
 
   # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record_data.rb:11
   def body=(_); end
+
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record_data.rb:11
+  def event_name; end
+
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record_data.rb:11
+  def event_name=(_); end
 
   # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record_data.rb:11
   def instrumentation_scope; end
@@ -727,6 +741,8 @@ class OpenTelemetry::SDK::Logs::Logger < ::OpenTelemetry::Logs::Logger
   # @param [optional Hash{String => String, Numeric, Boolean,
   #   Array<String, Numeric, Boolean>}] attributes Additional information
   #   about the event.
+  # @param [optional String] event_name A name that identifies the class
+  #   or the type of the event.
   # @param [optional String (16-byte binary)] trace_id Request trace id as
   #   defined in {https://www.w3.org/TR/trace-context/#trace-id W3C Trace Context}.
   #   Can be set for logs that are part of request processing and have an
@@ -743,8 +759,8 @@ class OpenTelemetry::SDK::Logs::Logger < ::OpenTelemetry::Logs::Logger
   #
   # @api public
   #
-  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/logger.rb:64
-  def on_emit(timestamp: T.unsafe(nil), observed_timestamp: T.unsafe(nil), severity_text: T.unsafe(nil), severity_number: T.unsafe(nil), body: T.unsafe(nil), attributes: T.unsafe(nil), trace_id: T.unsafe(nil), span_id: T.unsafe(nil), trace_flags: T.unsafe(nil), context: T.unsafe(nil)); end
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/logger.rb:66
+  def on_emit(timestamp: T.unsafe(nil), observed_timestamp: T.unsafe(nil), severity_text: T.unsafe(nil), severity_number: T.unsafe(nil), body: T.unsafe(nil), attributes: T.unsafe(nil), event_name: T.unsafe(nil), trace_id: T.unsafe(nil), span_id: T.unsafe(nil), trace_flags: T.unsafe(nil), context: T.unsafe(nil)); end
 end
 
 # The SDK implementation of OpenTelemetry::Logs::LoggerProvider.
@@ -800,7 +816,7 @@ class OpenTelemetry::SDK::Logs::LoggerProvider < ::OpenTelemetry::Logs::LoggerPr
   # @api private
   #
   # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/logger_provider.rb:133
-  def on_emit(timestamp: T.unsafe(nil), observed_timestamp: T.unsafe(nil), severity_text: T.unsafe(nil), severity_number: T.unsafe(nil), body: T.unsafe(nil), attributes: T.unsafe(nil), trace_id: T.unsafe(nil), span_id: T.unsafe(nil), trace_flags: T.unsafe(nil), instrumentation_scope: T.unsafe(nil), context: T.unsafe(nil)); end
+  def on_emit(timestamp: T.unsafe(nil), observed_timestamp: T.unsafe(nil), severity_text: T.unsafe(nil), severity_number: T.unsafe(nil), body: T.unsafe(nil), attributes: T.unsafe(nil), event_name: T.unsafe(nil), trace_id: T.unsafe(nil), span_id: T.unsafe(nil), trace_flags: T.unsafe(nil), instrumentation_scope: T.unsafe(nil), context: T.unsafe(nil)); end
 
   # Attempts to stop all the activity for this LoggerProvider. Calls
   # {LogRecordProcessor#shutdown} for all registered {LogRecordProcessor}s.

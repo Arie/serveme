@@ -89,28 +89,28 @@ end
 # pkg:gem/dry-configurable#lib/dry/configurable/errors.rb:14
 class Dry::Configurable::AlreadyIncludedError < ::Dry::Configurable::Error; end
 
-# pkg:gem/dry-configurable#lib/dry/configurable/class_methods.rb:7
+# pkg:gem/dry-configurable#lib/dry/configurable/class_methods.rb:5
 module Dry::Configurable::ClassMethods
   include ::Dry::Configurable::Methods
 
   # @api private
   #
-  # pkg:gem/dry-configurable#lib/dry/configurable/class_methods.rb:72
+  # pkg:gem/dry-configurable#lib/dry/configurable/class_methods.rb:70
   def __config_build__(settings = T.unsafe(nil)); end
 
   # @api private
   #
-  # pkg:gem/dry-configurable#lib/dry/configurable/class_methods.rb:82
+  # pkg:gem/dry-configurable#lib/dry/configurable/class_methods.rb:80
   def __config_dsl__; end
 
   # @api private
   #
-  # pkg:gem/dry-configurable#lib/dry/configurable/class_methods.rb:77
+  # pkg:gem/dry-configurable#lib/dry/configurable/class_methods.rb:75
   def __config_extension__; end
 
   # @api private
   #
-  # pkg:gem/dry-configurable#lib/dry/configurable/class_methods.rb:90
+  # pkg:gem/dry-configurable#lib/dry/configurable/class_methods.rb:88
   def __config_reader__; end
 
   # Return configuration
@@ -119,12 +119,12 @@ module Dry::Configurable::ClassMethods
   #
   # @api public
   #
-  # pkg:gem/dry-configurable#lib/dry/configurable/class_methods.rb:67
+  # pkg:gem/dry-configurable#lib/dry/configurable/class_methods.rb:65
   def config; end
 
   # @api private
   #
-  # pkg:gem/dry-configurable#lib/dry/configurable/class_methods.rb:11
+  # pkg:gem/dry-configurable#lib/dry/configurable/class_methods.rb:9
   def inherited(subclass); end
 
   # Add a setting to the configuration
@@ -144,7 +144,7 @@ module Dry::Configurable::ClassMethods
   #
   # @api public
   #
-  # pkg:gem/dry-configurable#lib/dry/configurable/class_methods.rb:43
+  # pkg:gem/dry-configurable#lib/dry/configurable/class_methods.rb:41
   def setting(*_arg0, **_arg1, &_arg2); end
 
   # Returns the defined settings for the class.
@@ -153,7 +153,7 @@ module Dry::Configurable::ClassMethods
   #
   # @api public
   #
-  # pkg:gem/dry-configurable#lib/dry/configurable/class_methods.rb:58
+  # pkg:gem/dry-configurable#lib/dry/configurable/class_methods.rb:56
   def settings; end
 end
 
@@ -186,13 +186,13 @@ end
 #
 # @api public
 #
-# pkg:gem/dry-configurable#lib/dry/configurable/config.rb:10
+# pkg:gem/dry-configurable#lib/dry/configurable/config.rb:8
 class Dry::Configurable::Config
   include ::Dry::Core::Equalizer::Methods
 
   # @api private
   #
-  # pkg:gem/dry-configurable#lib/dry/configurable/config.rb:24
+  # pkg:gem/dry-configurable#lib/dry/configurable/config.rb:22
   def initialize(settings, values: T.unsafe(nil)); end
 
   # Get config value by a key
@@ -201,7 +201,7 @@ class Dry::Configurable::Config
   #
   # @return Config value
   #
-  # pkg:gem/dry-configurable#lib/dry/configurable/config.rb:47
+  # pkg:gem/dry-configurable#lib/dry/configurable/config.rb:45
   def [](name); end
 
   # Set config value.
@@ -210,22 +210,22 @@ class Dry::Configurable::Config
   # @param [String,Symbol] name
   # @param [Object] value
   #
-  # pkg:gem/dry-configurable#lib/dry/configurable/config.rb:69
+  # pkg:gem/dry-configurable#lib/dry/configurable/config.rb:67
   def []=(name, value); end
 
   # @api private
   #
-  # pkg:gem/dry-configurable#lib/dry/configurable/config.rb:149
+  # pkg:gem/dry-configurable#lib/dry/configurable/config.rb:147
   def _dry_equalizer_hash; end
 
   # @api private
   #
-  # pkg:gem/dry-configurable#lib/dry/configurable/config.rb:14
+  # pkg:gem/dry-configurable#lib/dry/configurable/config.rb:12
   def _settings; end
 
   # @api private
   #
-  # pkg:gem/dry-configurable#lib/dry/configurable/config.rb:17
+  # pkg:gem/dry-configurable#lib/dry/configurable/config.rb:15
   def _values; end
 
   # Returns true if the value for the given key has been set on this config.
@@ -240,28 +240,66 @@ class Dry::Configurable::Config
   #
   # @api public
   #
-  # pkg:gem/dry-configurable#lib/dry/configurable/config.rb:116
+  # pkg:gem/dry-configurable#lib/dry/configurable/config.rb:114
   def configured?(key); end
 
   # @api private
   #
-  # pkg:gem/dry-configurable#lib/dry/configurable/config.rb:38
+  # pkg:gem/dry-configurable#lib/dry/configurable/config.rb:36
   def dup_for_settings(settings); end
 
   # @api public
   #
-  # pkg:gem/dry-configurable#lib/dry/configurable/config.rb:159
+  # pkg:gem/dry-configurable#lib/dry/configurable/config.rb:199
   def finalize!(freeze_values: T.unsafe(nil)); end
 
   # @api public
   #
-  # pkg:gem/dry-configurable#lib/dry/configurable/config.rb:152
+  # pkg:gem/dry-configurable#lib/dry/configurable/config.rb:150
   def hash; end
 
   # @api private
   #
-  # pkg:gem/dry-configurable#lib/dry/configurable/config.rb:181
+  # pkg:gem/dry-configurable#lib/dry/configurable/config.rb:221
   def pristine; end
+
+  # Returns a frozen {Data} representation of the config's resolved values.
+  #
+  # The Data exposes each setting as a real method, sidestepping the {method_missing}
+  # dispatch on the read path. Intended for performance-sensitive code that reads the same
+  # config repeatedly (e.g. per-request render hot paths). A new object is returned per call,
+  # so consumers should memoize the result.
+  #
+  # Only available on a finalized config. Nested configs are converted recursively to nested
+  # Data instances. Values are captured by reference, so in-place mutation of a captured
+  # value remains visible through the Data; finalize with `freeze_values: true` if you want
+  # to prevent that.
+  #
+  # The returned Data uses Ruby's default structural `==`/`eql?`/`hash`. If you want to use
+  # it as an identity-based cache key (e.g. to skip walking N members on every lookup),
+  # memoize the reference yourself and either:
+  #
+  #   1. key it by `object_id` directly:
+  #
+  #        @cached = view_class.config.to_data
+  #        cache[@cached.object_id] = ...
+  #
+  #   2. use a `compare_by_identity` cache:
+  #
+  #        cache = {}.compare_by_identity
+  #        cache[@cached] = ...
+  #
+  # Either avoids the contract-breaking `hash = object_id` override and keeps Data's
+  # structural equality available for general use.
+  #
+  # @return [Data]
+  #
+  # @raise [FrozenConfigError] if the config is not yet finalized
+  #
+  # @api public
+  #
+  # pkg:gem/dry-configurable#lib/dry/configurable/config.rb:190
+  def to_data; end
 
   # Returns config values as a hash, with nested values also converted from {Config} instances
   # into hashes.
@@ -270,7 +308,7 @@ class Dry::Configurable::Config
   #
   # @api public
   #
-  # pkg:gem/dry-configurable#lib/dry/configurable/config.rb:144
+  # pkg:gem/dry-configurable#lib/dry/configurable/config.rb:142
   def to_h; end
 
   # Update config with new values
@@ -281,7 +319,7 @@ class Dry::Configurable::Config
   #
   # @api public
   #
-  # pkg:gem/dry-configurable#lib/dry/configurable/config.rb:90
+  # pkg:gem/dry-configurable#lib/dry/configurable/config.rb:88
   def update(values); end
 
   # Returns the current config values.
@@ -292,34 +330,37 @@ class Dry::Configurable::Config
   #
   # @api public
   #
-  # pkg:gem/dry-configurable#lib/dry/configurable/config.rb:131
+  # pkg:gem/dry-configurable#lib/dry/configurable/config.rb:129
   def values; end
 
   protected
 
   # @api private
   #
-  # pkg:gem/dry-configurable#lib/dry/configurable/config.rb:20
+  # pkg:gem/dry-configurable#lib/dry/configurable/config.rb:18
   def _configured; end
 
   private
 
-  # pkg:gem/dry-configurable#lib/dry/configurable/config.rb:208
+  # pkg:gem/dry-configurable#lib/dry/configurable/config.rb:254
   def dup_values; end
 
   # @api private
   #
-  # pkg:gem/dry-configurable#lib/dry/configurable/config.rb:31
+  # pkg:gem/dry-configurable#lib/dry/configurable/config.rb:29
   def initialize_copy(source); end
 
-  # pkg:gem/dry-configurable#lib/dry/configurable/config.rb:187
+  # pkg:gem/dry-configurable#lib/dry/configurable/config.rb:233
   def method_missing(name, *args); end
 
-  # pkg:gem/dry-configurable#lib/dry/configurable/config.rb:200
+  # pkg:gem/dry-configurable#lib/dry/configurable/config.rb:246
   def respond_to_missing?(meth, include_private = T.unsafe(nil)); end
 
-  # pkg:gem/dry-configurable#lib/dry/configurable/config.rb:204
+  # pkg:gem/dry-configurable#lib/dry/configurable/config.rb:250
   def setting_name_from_method(method_name); end
+
+  # pkg:gem/dry-configurable#lib/dry/configurable/config.rb:227
+  def to_data_attrs; end
 end
 
 # Setting DSL used by the class API
@@ -328,22 +369,22 @@ end
 #
 # pkg:gem/dry-configurable#lib/dry/configurable/dsl.rb:8
 class Dry::Configurable::DSL
-  # pkg:gem/dry-configurable#lib/dry/configurable/dsl.rb:17
+  # pkg:gem/dry-configurable#lib/dry/configurable/dsl.rb:21
   def initialize(**options, &block); end
 
-  # pkg:gem/dry-configurable#lib/dry/configurable/dsl.rb:13
+  # pkg:gem/dry-configurable#lib/dry/configurable/dsl.rb:17
   def ast; end
 
-  # pkg:gem/dry-configurable#lib/dry/configurable/dsl.rb:11
+  # pkg:gem/dry-configurable#lib/dry/configurable/dsl.rb:15
   def compiler; end
 
-  # pkg:gem/dry-configurable#lib/dry/configurable/dsl.rb:49
+  # pkg:gem/dry-configurable#lib/dry/configurable/dsl.rb:59
   def config_class; end
 
-  # pkg:gem/dry-configurable#lib/dry/configurable/dsl.rb:53
+  # pkg:gem/dry-configurable#lib/dry/configurable/dsl.rb:63
   def default; end
 
-  # pkg:gem/dry-configurable#lib/dry/configurable/dsl.rb:15
+  # pkg:gem/dry-configurable#lib/dry/configurable/dsl.rb:19
   def options; end
 
   # Registers a new setting node and compile it into a setting object
@@ -352,20 +393,26 @@ class Dry::Configurable::DSL
   # @api private
   # @return Setting
   #
-  # pkg:gem/dry-configurable#lib/dry/configurable/dsl.rb:29
+  # pkg:gem/dry-configurable#lib/dry/configurable/dsl.rb:33
   def setting(name, **options, &block); end
 
   private
 
-  # pkg:gem/dry-configurable#lib/dry/configurable/dsl.rb:59
+  # pkg:gem/dry-configurable#lib/dry/configurable/dsl.rb:69
   def ensure_valid_options(options); end
 
   # Returns a tuple of valid and invalid options hashes derived from the options hash
   # given to the setting
   #
-  # pkg:gem/dry-configurable#lib/dry/configurable/dsl.rb:69
+  # pkg:gem/dry-configurable#lib/dry/configurable/dsl.rb:79
   def valid_and_invalid_options(options); end
 end
+
+# Method names defined on `Data` (and its ancestors) that cannot be used as setting
+# names because `Data.define` would reject them, which would break {Config#to_data}.
+#
+# pkg:gem/dry-configurable#lib/dry/configurable/dsl.rb:13
+Dry::Configurable::DSL::DATA_RESERVED_NAMES = T.let(T.unsafe(nil), Set)
 
 # pkg:gem/dry-configurable#lib/dry/configurable/dsl.rb:9
 Dry::Configurable::DSL::VALID_NAME = T.let(T.unsafe(nil), Regexp)
@@ -474,78 +521,78 @@ end
 #
 # @api public
 #
-# pkg:gem/dry-configurable#lib/dry/configurable/setting.rb:10
+# pkg:gem/dry-configurable#lib/dry/configurable/setting.rb:8
 class Dry::Configurable::Setting
   include ::Dry::Core::Equalizer::Methods
 
   # @api private
   #
-  # pkg:gem/dry-configurable#lib/dry/configurable/setting.rb:43
+  # pkg:gem/dry-configurable#lib/dry/configurable/setting.rb:41
   def initialize(name, default:, constructor: T.unsafe(nil), children: T.unsafe(nil), **options); end
 
   # @api public
   #
-  # pkg:gem/dry-configurable#lib/dry/configurable/setting.rb:32
+  # pkg:gem/dry-configurable#lib/dry/configurable/setting.rb:30
   def children; end
 
-  # pkg:gem/dry-configurable#lib/dry/configurable/setting.rb:70
+  # pkg:gem/dry-configurable#lib/dry/configurable/setting.rb:68
   def cloneable?; end
 
   # @api public
   #
-  # pkg:gem/dry-configurable#lib/dry/configurable/setting.rb:29
+  # pkg:gem/dry-configurable#lib/dry/configurable/setting.rb:27
   def constructor; end
 
   # @api public
   #
-  # pkg:gem/dry-configurable#lib/dry/configurable/setting.rb:23
+  # pkg:gem/dry-configurable#lib/dry/configurable/setting.rb:21
   def default; end
 
   # @api public
   #
-  # pkg:gem/dry-configurable#lib/dry/configurable/setting.rb:26
+  # pkg:gem/dry-configurable#lib/dry/configurable/setting.rb:24
   def mutable; end
 
   # @api public
   #
-  # pkg:gem/dry-configurable#lib/dry/configurable/setting.rb:67
+  # pkg:gem/dry-configurable#lib/dry/configurable/setting.rb:65
   def mutable?; end
 
   # @api public
   #
-  # pkg:gem/dry-configurable#lib/dry/configurable/setting.rb:20
+  # pkg:gem/dry-configurable#lib/dry/configurable/setting.rb:18
   def name; end
 
   # @api public
   #
-  # pkg:gem/dry-configurable#lib/dry/configurable/setting.rb:35
+  # pkg:gem/dry-configurable#lib/dry/configurable/setting.rb:33
   def options; end
 
   # @api private
   #
-  # pkg:gem/dry-configurable#lib/dry/configurable/setting.rb:62
+  # pkg:gem/dry-configurable#lib/dry/configurable/setting.rb:60
   def reader?; end
 
   # @api private
   #
-  # pkg:gem/dry-configurable#lib/dry/configurable/setting.rb:73
+  # pkg:gem/dry-configurable#lib/dry/configurable/setting.rb:71
   def to_value; end
 
   class << self
     # @api private
     #
-    # pkg:gem/dry-configurable#lib/dry/configurable/setting.rb:38
+    # pkg:gem/dry-configurable#lib/dry/configurable/setting.rb:36
     def mutable_value?(value); end
   end
 end
 
-# pkg:gem/dry-configurable#lib/dry/configurable/setting.rb:15
+# pkg:gem/dry-configurable#lib/dry/configurable/setting.rb:13
 Dry::Configurable::Setting::DEFAULT_CONSTRUCTOR = T.let(T.unsafe(nil), Proc)
 
-# pkg:gem/dry-configurable#lib/dry/configurable/setting.rb:17
+# pkg:gem/dry-configurable#lib/dry/configurable/setting.rb:15
 Dry::Configurable::Setting::MUTABLE_VALUE_TYPES = T.let(T.unsafe(nil), Array)
 
-# pkg:gem/dry-configurable#lib/dry/configurable/setting.rb:13
+# pkg:gem/dry-configurable#lib/dry/configurable/setting.rb:11
 Dry::Configurable::Setting::OPTIONS = T.let(T.unsafe(nil), Array)
 
 # A collection of defined settings on a given class.
@@ -564,7 +611,7 @@ class Dry::Configurable::Settings
 
   # @api private
   #
-  # pkg:gem/dry-configurable#lib/dry/configurable/settings.rb:27
+  # pkg:gem/dry-configurable#lib/dry/configurable/settings.rb:28
   def <<(setting); end
 
   # Returns the setting for the given name, if found.
@@ -573,12 +620,22 @@ class Dry::Configurable::Settings
   #
   # @api public
   #
-  # pkg:gem/dry-configurable#lib/dry/configurable/settings.rb:37
+  # pkg:gem/dry-configurable#lib/dry/configurable/settings.rb:49
   def [](name); end
+
+  # Returns a {Data} class with one member per defined setting, memoized for the lifetime of
+  # the schema. Invalidated when new settings are added.
+  #
+  # @return [Class]
+  #
+  # @api private
+  #
+  # pkg:gem/dry-configurable#lib/dry/configurable/settings.rb:40
+  def data_class; end
 
   # @api public
   #
-  # pkg:gem/dry-configurable#lib/dry/configurable/settings.rb:60
+  # pkg:gem/dry-configurable#lib/dry/configurable/settings.rb:72
   def each(&_arg0); end
 
   # Returns true if a setting for the given name is defined.
@@ -587,7 +644,7 @@ class Dry::Configurable::Settings
   #
   # @api public
   #
-  # pkg:gem/dry-configurable#lib/dry/configurable/settings.rb:46
+  # pkg:gem/dry-configurable#lib/dry/configurable/settings.rb:58
   def key?(name); end
 
   # Returns the list of defined setting names.
@@ -596,7 +653,7 @@ class Dry::Configurable::Settings
   #
   # @api public
   #
-  # pkg:gem/dry-configurable#lib/dry/configurable/settings.rb:55
+  # pkg:gem/dry-configurable#lib/dry/configurable/settings.rb:67
   def keys; end
 
   # @api private

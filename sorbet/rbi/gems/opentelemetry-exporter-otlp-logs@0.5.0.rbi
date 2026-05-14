@@ -76,10 +76,10 @@ class OpenTelemetry::Exporter::OTLP::Logs::LogsExporter
   # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb:135
   def around_request; end
 
-  # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb:325
+  # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb:326
   def as_otlp_any_value(value); end
 
-  # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb:317
+  # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb:318
   def as_otlp_key_value(key, value); end
 
   # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb:302
@@ -103,10 +103,10 @@ class OpenTelemetry::Exporter::OTLP::Logs::LogsExporter
   # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb:236
   def log_status(body); end
 
-  # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb:359
+  # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb:360
   def parse_headers(raw); end
 
-  # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb:346
+  # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb:347
   def prepare_headers(config_headers); end
 
   # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb:139

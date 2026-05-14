@@ -76,7 +76,7 @@ class OpenTelemetry::Internal::ProxyLogger < ::OpenTelemetry::Logs::Logger
   def delegate=(_arg0); end
 
   # pkg:gem/opentelemetry-logs-api#lib/opentelemetry/internal/proxy_logger.rb:25
-  def on_emit(timestamp: T.unsafe(nil), observed_timestamp: T.unsafe(nil), severity_number: T.unsafe(nil), severity_text: T.unsafe(nil), body: T.unsafe(nil), trace_id: T.unsafe(nil), span_id: T.unsafe(nil), trace_flags: T.unsafe(nil), attributes: T.unsafe(nil), context: T.unsafe(nil)); end
+  def on_emit(timestamp: T.unsafe(nil), observed_timestamp: T.unsafe(nil), severity_number: T.unsafe(nil), severity_text: T.unsafe(nil), body: T.unsafe(nil), trace_id: T.unsafe(nil), span_id: T.unsafe(nil), trace_flags: T.unsafe(nil), attributes: T.unsafe(nil), event_name: T.unsafe(nil), context: T.unsafe(nil)); end
 end
 
 # @api private
@@ -191,13 +191,15 @@ class OpenTelemetry::Logs::Logger
   # @param [optional Hash{String => String, Numeric, Boolean,
   #   Array<String, Numeric, Boolean>}] attributes Additional information
   #   about the event.
+  # @param [optional String] event_name A name that identifies the class or
+  #   type of the event.
   # @param [optional Context] context The Context to associate with the
   #   LogRecord. Intended default: OpenTelemetry::Context.current
   #
   # @api public
   #
-  # pkg:gem/opentelemetry-logs-api#lib/opentelemetry/logs/logger.rb:42
-  def on_emit(timestamp: T.unsafe(nil), observed_timestamp: T.unsafe(nil), severity_number: T.unsafe(nil), severity_text: T.unsafe(nil), body: T.unsafe(nil), trace_id: T.unsafe(nil), span_id: T.unsafe(nil), trace_flags: T.unsafe(nil), attributes: T.unsafe(nil), context: T.unsafe(nil)); end
+  # pkg:gem/opentelemetry-logs-api#lib/opentelemetry/logs/logger.rb:44
+  def on_emit(timestamp: T.unsafe(nil), observed_timestamp: T.unsafe(nil), severity_number: T.unsafe(nil), severity_text: T.unsafe(nil), body: T.unsafe(nil), trace_id: T.unsafe(nil), span_id: T.unsafe(nil), trace_flags: T.unsafe(nil), attributes: T.unsafe(nil), event_name: T.unsafe(nil), context: T.unsafe(nil)); end
 end
 
 # No-op implementation of a logger provider.

@@ -1393,11 +1393,11 @@ MultiJSON::Version::PRE = T.let(T.unsafe(nil), T.untyped)
 #
 # Downstream code that still writes ``MultiJson.parse(...)`` or
 # ``rescue MultiJson::ParseError`` continues to work, but emits a
-# one-time deprecation warning pointing at ``MultiJSON``. The module
-# forwards every method call to {MultiJSON} via {.method_missing} and
-# resolves constant access via {.const_missing}, so both dotted calls
-# and ``::`` constant lookups (including rescue clauses) route through
-# the canonical module.
+# one-time deprecation warning pointing at ``MultiJSON``. Each public
+# method on {MultiJSON} gets an explicit forwarder defined on this
+# module, and constant access resolves via {.const_missing}, so both
+# dotted calls and ``::`` constant lookups (including rescue clauses)
+# route through the canonical module.
 #
 # @api public
 # @deprecated Use {MultiJSON} (all-caps) instead. Will be removed in v2.0.
@@ -1405,6 +1405,18 @@ MultiJSON::Version::PRE = T.let(T.unsafe(nil), T.untyped)
 # pkg:gem/multi_json#lib/multi_json.rb:283
 module MultiJson
   class << self
+    # pkg:gem/multi_json#lib/multi_json.rb:295
+    def adapter(*args, **kwargs, &block); end
+
+    # pkg:gem/multi_json#lib/multi_json.rb:295
+    def adapter=(*args, **kwargs, &block); end
+
+    # pkg:gem/multi_json#lib/multi_json.rb:295
+    def append_features(*args, **kwargs, &block); end
+
+    # pkg:gem/multi_json#lib/multi_json.rb:295
+    def cached_options(*args, **kwargs, &block); end
+
     # Resolve missing constants to their {MultiJSON} counterparts
     #
     # Enables ``rescue MultiJson::ParseError`` and
@@ -1417,35 +1429,109 @@ module MultiJson
     # @example
     #   MultiJson::ParseError  # returns MultiJSON::ParseError
     #
-    # pkg:gem/multi_json#lib/multi_json.rb:332
+    # pkg:gem/multi_json#lib/multi_json.rb:314
     def const_missing(name); end
 
-    # Forward method calls to {MultiJSON}, emitting a one-time warning
-    #
-    # Uses explicit ``*args, **kwargs, &block`` forwarding because
-    # mutant's AST structure table on the current parser version does
-    # not yet recognize ``...`` forwarding nodes, so the module would
-    # crash mutation analysis. The rubocop exclusions below document
-    # that intent.
-    #
-    # @api public
-    # @return [Object] the delegated call's return value
-    # @example
-    #   MultiJson.parse('{"a":1}')   # delegates to MultiJSON.parse
-    #
-    # pkg:gem/multi_json#lib/multi_json.rb:298
-    def method_missing(name, *args, **kwargs, &block); end
+    # pkg:gem/multi_json#lib/multi_json.rb:295
+    def current_adapter(*args, **kwargs, &block); end
 
-    # Respond to any method {MultiJSON} responds to
-    #
-    # @api public
-    # @param name [Symbol] method name
-    # @param include_private [Boolean] include private methods
-    # @return [Boolean] true if {MultiJSON} responds to the method
-    # @example
-    #   MultiJson.respond_to?(:parse)  #=> true
-    #
-    # pkg:gem/multi_json#lib/multi_json.rb:317
-    def respond_to_missing?(name, include_private); end
+    # pkg:gem/multi_json#lib/multi_json.rb:295
+    def decode(*args, **kwargs, &block); end
+
+    # pkg:gem/multi_json#lib/multi_json.rb:295
+    def default_adapter(*args, **kwargs, &block); end
+
+    # pkg:gem/multi_json#lib/multi_json.rb:295
+    def default_adapter_excluding(*args, **kwargs, &block); end
+
+    # pkg:gem/multi_json#lib/multi_json.rb:295
+    def default_dump_options(*args, **kwargs, &block); end
+
+    # pkg:gem/multi_json#lib/multi_json.rb:295
+    def default_engine(*args, **kwargs, &block); end
+
+    # pkg:gem/multi_json#lib/multi_json.rb:295
+    def default_generate_options(*args, **kwargs, &block); end
+
+    # pkg:gem/multi_json#lib/multi_json.rb:295
+    def default_load_options(*args, **kwargs, &block); end
+
+    # pkg:gem/multi_json#lib/multi_json.rb:295
+    def default_options(*args, **kwargs, &block); end
+
+    # pkg:gem/multi_json#lib/multi_json.rb:295
+    def default_options=(*args, **kwargs, &block); end
+
+    # pkg:gem/multi_json#lib/multi_json.rb:295
+    def default_parse_options(*args, **kwargs, &block); end
+
+    # pkg:gem/multi_json#lib/multi_json.rb:295
+    def dump(*args, **kwargs, &block); end
+
+    # pkg:gem/multi_json#lib/multi_json.rb:295
+    def dump_options(*args, **kwargs, &block); end
+
+    # pkg:gem/multi_json#lib/multi_json.rb:295
+    def dump_options=(*args, **kwargs, &block); end
+
+    # pkg:gem/multi_json#lib/multi_json.rb:295
+    def encode(*args, **kwargs, &block); end
+
+    # pkg:gem/multi_json#lib/multi_json.rb:295
+    def engine(*args, **kwargs, &block); end
+
+    # pkg:gem/multi_json#lib/multi_json.rb:295
+    def engine=(*args, **kwargs, &block); end
+
+    # pkg:gem/multi_json#lib/multi_json.rb:295
+    def extend_object(*args, **kwargs, &block); end
+
+    # pkg:gem/multi_json#lib/multi_json.rb:295
+    def generate(*args, **kwargs, &block); end
+
+    # pkg:gem/multi_json#lib/multi_json.rb:295
+    def generate_options(*args, **kwargs, &block); end
+
+    # pkg:gem/multi_json#lib/multi_json.rb:295
+    def generate_options=(*args, **kwargs, &block); end
+
+    # pkg:gem/multi_json#lib/multi_json.rb:295
+    def load(*args, **kwargs, &block); end
+
+    # pkg:gem/multi_json#lib/multi_json.rb:295
+    def load_options(*args, **kwargs, &block); end
+
+    # pkg:gem/multi_json#lib/multi_json.rb:295
+    def load_options=(*args, **kwargs, &block); end
+
+    # pkg:gem/multi_json#lib/multi_json.rb:295
+    def parse(*args, **kwargs, &block); end
+
+    # pkg:gem/multi_json#lib/multi_json.rb:295
+    def parse_error_class_for(*args, **kwargs, &block); end
+
+    # pkg:gem/multi_json#lib/multi_json.rb:295
+    def parse_options(*args, **kwargs, &block); end
+
+    # pkg:gem/multi_json#lib/multi_json.rb:295
+    def parse_options=(*args, **kwargs, &block); end
+
+    # pkg:gem/multi_json#lib/multi_json.rb:295
+    def prepend_features(*args, **kwargs, &block); end
+
+    # pkg:gem/multi_json#lib/multi_json.rb:295
+    def reset_cached_options!(*args, **kwargs, &block); end
+
+    # pkg:gem/multi_json#lib/multi_json.rb:295
+    def use(*args, **kwargs, &block); end
+
+    # pkg:gem/multi_json#lib/multi_json.rb:295
+    def warn_deprecation_once(*args, **kwargs, &block); end
+
+    # pkg:gem/multi_json#lib/multi_json.rb:295
+    def with_adapter(*args, **kwargs, &block); end
+
+    # pkg:gem/multi_json#lib/multi_json.rb:295
+    def with_engine(*args, **kwargs, &block); end
   end
 end

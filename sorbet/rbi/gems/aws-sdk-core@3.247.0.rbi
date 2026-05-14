@@ -3376,7 +3376,7 @@ class Aws::Json::ErrorHandler < ::Aws::ErrorHandler
 
   private
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/json/error_handler.rb:93
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/json/error_handler.rb:94
   def apply_error_headers(rule, context, data); end
 
   # pkg:gem/aws-sdk-core#lib/aws-sdk-core/json/error_handler.rb:48
@@ -3394,7 +3394,7 @@ class Aws::Json::ErrorHandler < ::Aws::ErrorHandler
   # pkg:gem/aws-sdk-core#lib/aws-sdk-core/json/error_handler.rb:17
   def extract_error(body, context); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/json/error_handler.rb:75
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/json/error_handler.rb:76
   def parse_error_data(context, body, code); end
 
   # pkg:gem/aws-sdk-core#lib/aws-sdk-core/json/error_handler.rb:59
@@ -5838,13 +5838,13 @@ class Aws::Plugins::UserAgent::Handler::UserAgent
   # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/user_agent.rb:144
   def api_metadata; end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/user_agent.rb:183
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/user_agent.rb:192
   def app_id_metadata; end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/user_agent.rb:177
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/user_agent.rb:186
   def env_metadata; end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/user_agent.rb:191
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/user_agent.rb:200
   def framework_metadata; end
 
   # Used to be RUBY_ENGINE/RUBY_VERSION
@@ -5852,7 +5852,7 @@ class Aws::Plugins::UserAgent::Handler::UserAgent
   # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/user_agent.rb:173
   def language_metadata; end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/user_agent.rb:208
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/user_agent.rb:217
   def metric_metadata; end
 
   # Used to be RUBY_PLATFORM
@@ -8006,7 +8006,7 @@ module Aws::SSO::Types; end
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sso-2019-06-10/AccountInfo AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-sso/types.rb:32
+# pkg:gem/aws-sdk-core#lib/aws-sdk-sso/types.rb:29
 class Aws::SSO::Types::AccountInfo < ::Struct
   include ::Aws::Structure
 end
@@ -8034,7 +8034,7 @@ Aws::SSO::Types::AccountInfo::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sso-2019-06-10/GetRoleCredentialsRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-sso/types.rb:60
+# pkg:gem/aws-sdk-core#lib/aws-sdk-sso/types.rb:57
 class Aws::SSO::Types::GetRoleCredentialsRequest < ::Struct
   include ::Aws::Structure
 end
@@ -8048,7 +8048,7 @@ Aws::SSO::Types::GetRoleCredentialsRequest::SENSITIVE = T.let(T.unsafe(nil), Arr
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sso-2019-06-10/GetRoleCredentialsResponse AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-sso/types.rb:72
+# pkg:gem/aws-sdk-core#lib/aws-sdk-sso/types.rb:71
 class Aws::SSO::Types::GetRoleCredentialsResponse < ::Struct
   include ::Aws::Structure
 end
@@ -8064,7 +8064,7 @@ Aws::SSO::Types::GetRoleCredentialsResponse::SENSITIVE = T.let(T.unsafe(nil), Ar
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sso-2019-06-10/InvalidRequestException AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-sso/types.rb:86
+# pkg:gem/aws-sdk-core#lib/aws-sdk-sso/types.rb:85
 class Aws::SSO::Types::InvalidRequestException < ::Struct
   include ::Aws::Structure
 end
@@ -8097,7 +8097,7 @@ Aws::SSO::Types::InvalidRequestException::SENSITIVE = T.let(T.unsafe(nil), Array
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sso-2019-06-10/ListAccountRolesRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-sso/types.rb:120
+# pkg:gem/aws-sdk-core#lib/aws-sdk-sso/types.rb:116
 class Aws::SSO::Types::ListAccountRolesRequest < ::Struct
   include ::Aws::Structure
 end
@@ -8116,7 +8116,7 @@ Aws::SSO::Types::ListAccountRolesRequest::SENSITIVE = T.let(T.unsafe(nil), Array
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sso-2019-06-10/ListAccountRolesResponse AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-sso/types.rb:138
+# pkg:gem/aws-sdk-core#lib/aws-sdk-sso/types.rb:136
 class Aws::SSO::Types::ListAccountRolesResponse < ::Struct
   include ::Aws::Structure
 end
@@ -8145,7 +8145,7 @@ Aws::SSO::Types::ListAccountRolesResponse::SENSITIVE = T.let(T.unsafe(nil), Arra
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sso-2019-06-10/ListAccountsRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-sso/types.rb:167
+# pkg:gem/aws-sdk-core#lib/aws-sdk-sso/types.rb:164
 class Aws::SSO::Types::ListAccountsRequest < ::Struct
   include ::Aws::Structure
 end
@@ -8164,7 +8164,7 @@ Aws::SSO::Types::ListAccountsRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sso-2019-06-10/ListAccountsResponse AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-sso/types.rb:185
+# pkg:gem/aws-sdk-core#lib/aws-sdk-sso/types.rb:183
 class Aws::SSO::Types::ListAccountsResponse < ::Struct
   include ::Aws::Structure
 end
@@ -8184,7 +8184,7 @@ Aws::SSO::Types::ListAccountsResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sso-2019-06-10/LogoutRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-sso/types.rb:203
+# pkg:gem/aws-sdk-core#lib/aws-sdk-sso/types.rb:202
 class Aws::SSO::Types::LogoutRequest < ::Struct
   include ::Aws::Structure
 end
@@ -8199,7 +8199,7 @@ Aws::SSO::Types::LogoutRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sso-2019-06-10/ResourceNotFoundException AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-sso/types.rb:216
+# pkg:gem/aws-sdk-core#lib/aws-sdk-sso/types.rb:215
 class Aws::SSO::Types::ResourceNotFoundException < ::Struct
   include ::Aws::Structure
 end
@@ -8246,7 +8246,7 @@ Aws::SSO::Types::ResourceNotFoundException::SENSITIVE = T.let(T.unsafe(nil), Arr
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sso-2019-06-10/RoleCredentials AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-sso/types.rb:264
+# pkg:gem/aws-sdk-core#lib/aws-sdk-sso/types.rb:260
 class Aws::SSO::Types::RoleCredentials < ::Struct
   include ::Aws::Structure
 end
@@ -8266,7 +8266,7 @@ Aws::SSO::Types::RoleCredentials::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sso-2019-06-10/RoleInfo AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-sso/types.rb:283
+# pkg:gem/aws-sdk-core#lib/aws-sdk-sso/types.rb:281
 class Aws::SSO::Types::RoleInfo < ::Struct
   include ::Aws::Structure
 end
@@ -8282,7 +8282,7 @@ Aws::SSO::Types::RoleInfo::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sso-2019-06-10/TooManyRequestsException AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-sso/types.rb:297
+# pkg:gem/aws-sdk-core#lib/aws-sdk-sso/types.rb:296
 class Aws::SSO::Types::TooManyRequestsException < ::Struct
   include ::Aws::Structure
 end
@@ -8298,7 +8298,7 @@ Aws::SSO::Types::TooManyRequestsException::SENSITIVE = T.let(T.unsafe(nil), Arra
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sso-2019-06-10/UnauthorizedException AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-sso/types.rb:311
+# pkg:gem/aws-sdk-core#lib/aws-sdk-sso/types.rb:310
 class Aws::SSO::Types::UnauthorizedException < ::Struct
   include ::Aws::Structure
 end
@@ -10144,7 +10144,7 @@ module Aws::SSOOIDC::Types; end
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sso-oidc-2019-06-10/AccessDeniedException AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/types.rb:34
+# pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/types.rb:31
 class Aws::SSOOIDC::Types::AccessDeniedException < ::Struct
   include ::Aws::Structure
 end
@@ -10167,7 +10167,7 @@ Aws::SSOOIDC::Types::AccessDeniedException::SENSITIVE = T.let(T.unsafe(nil), Arr
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sso-oidc-2019-06-10/AuthorizationPendingException AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/types.rb:56
+# pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/types.rb:54
 class Aws::SSOOIDC::Types::AuthorizationPendingException < ::Struct
   include ::Aws::Structure
 end
@@ -10194,7 +10194,7 @@ Aws::SSOOIDC::Types::AuthorizationPendingException::SENSITIVE = T.let(T.unsafe(n
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sso-oidc-2019-06-10/AwsAdditionalDetails AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/types.rb:81
+# pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/types.rb:80
 class Aws::SSOOIDC::Types::AwsAdditionalDetails < ::Struct
   include ::Aws::Structure
 end
@@ -10272,7 +10272,7 @@ Aws::SSOOIDC::Types::AwsAdditionalDetails::SENSITIVE = T.let(T.unsafe(nil), Arra
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sso-oidc-2019-06-10/CreateTokenRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/types.rb:165
+# pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/types.rb:156
 class Aws::SSOOIDC::Types::CreateTokenRequest < ::Struct
   include ::Aws::Structure
 end
@@ -10324,7 +10324,7 @@ Aws::SSOOIDC::Types::CreateTokenRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sso-oidc-2019-06-10/CreateTokenResponse AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/types.rb:219
+# pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/types.rb:214
 class Aws::SSOOIDC::Types::CreateTokenResponse < ::Struct
   include ::Aws::Structure
 end
@@ -10432,7 +10432,7 @@ Aws::SSOOIDC::Types::CreateTokenResponse::SENSITIVE = T.let(T.unsafe(nil), Array
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sso-oidc-2019-06-10/CreateTokenWithIAMRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/types.rb:335
+# pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/types.rb:324
 class Aws::SSOOIDC::Types::CreateTokenWithIAMRequest < ::Struct
   include ::Aws::Structure
 end
@@ -10494,7 +10494,7 @@ Aws::SSOOIDC::Types::CreateTokenWithIAMRequest::SENSITIVE = T.let(T.unsafe(nil),
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sso-oidc-2019-06-10/CreateTokenWithIAMResponse AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/types.rb:402
+# pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/types.rb:394
 class Aws::SSOOIDC::Types::CreateTokenWithIAMResponse < ::Struct
   include ::Aws::Structure
 end
@@ -10517,7 +10517,7 @@ Aws::SSOOIDC::Types::CreateTokenWithIAMResponse::SENSITIVE = T.let(T.unsafe(nil)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sso-oidc-2019-06-10/ExpiredTokenException AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/types.rb:424
+# pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/types.rb:422
 class Aws::SSOOIDC::Types::ExpiredTokenException < ::Struct
   include ::Aws::Structure
 end
@@ -10540,7 +10540,7 @@ Aws::SSOOIDC::Types::ExpiredTokenException::SENSITIVE = T.let(T.unsafe(nil), Arr
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sso-oidc-2019-06-10/InternalServerException AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/types.rb:446
+# pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/types.rb:444
 class Aws::SSOOIDC::Types::InternalServerException < ::Struct
   include ::Aws::Structure
 end
@@ -10564,7 +10564,7 @@ Aws::SSOOIDC::Types::InternalServerException::SENSITIVE = T.let(T.unsafe(nil), A
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sso-oidc-2019-06-10/InvalidClientException AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/types.rb:469
+# pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/types.rb:467
 class Aws::SSOOIDC::Types::InvalidClientException < ::Struct
   include ::Aws::Structure
 end
@@ -10587,7 +10587,7 @@ Aws::SSOOIDC::Types::InvalidClientException::SENSITIVE = T.let(T.unsafe(nil), Ar
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sso-oidc-2019-06-10/InvalidClientMetadataException AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/types.rb:491
+# pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/types.rb:489
 class Aws::SSOOIDC::Types::InvalidClientMetadataException < ::Struct
   include ::Aws::Structure
 end
@@ -10610,7 +10610,7 @@ Aws::SSOOIDC::Types::InvalidClientMetadataException::SENSITIVE = T.let(T.unsafe(
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sso-oidc-2019-06-10/InvalidGrantException AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/types.rb:513
+# pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/types.rb:511
 class Aws::SSOOIDC::Types::InvalidGrantException < ::Struct
   include ::Aws::Structure
 end
@@ -10633,7 +10633,7 @@ Aws::SSOOIDC::Types::InvalidGrantException::SENSITIVE = T.let(T.unsafe(nil), Arr
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sso-oidc-2019-06-10/InvalidRedirectUriException AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/types.rb:535
+# pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/types.rb:533
 class Aws::SSOOIDC::Types::InvalidRedirectUriException < ::Struct
   include ::Aws::Structure
 end
@@ -10660,7 +10660,7 @@ Aws::SSOOIDC::Types::InvalidRedirectUriException::SENSITIVE = T.let(T.unsafe(nil
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sso-oidc-2019-06-10/InvalidRequestException AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/types.rb:562
+# pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/types.rb:559
 class Aws::SSOOIDC::Types::InvalidRequestException < ::Struct
   include ::Aws::Structure
 end
@@ -10693,7 +10693,7 @@ Aws::SSOOIDC::Types::InvalidRequestException::SENSITIVE = T.let(T.unsafe(nil), A
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sso-oidc-2019-06-10/InvalidRequestRegionException AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/types.rb:596
+# pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/types.rb:592
 class Aws::SSOOIDC::Types::InvalidRequestRegionException < ::Struct
   include ::Aws::Structure
 end
@@ -10715,7 +10715,7 @@ Aws::SSOOIDC::Types::InvalidRequestRegionException::SENSITIVE = T.let(T.unsafe(n
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sso-oidc-2019-06-10/InvalidScopeException AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/types.rb:617
+# pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/types.rb:615
 class Aws::SSOOIDC::Types::InvalidScopeException < ::Struct
   include ::Aws::Structure
 end
@@ -10773,7 +10773,7 @@ Aws::SSOOIDC::Types::InvalidScopeException::SENSITIVE = T.let(T.unsafe(nil), Arr
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sso-oidc-2019-06-10/RegisterClientRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/types.rb:679
+# pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/types.rb:672
 class Aws::SSOOIDC::Types::RegisterClientRequest < ::Struct
   include ::Aws::Structure
 end
@@ -10811,7 +10811,7 @@ Aws::SSOOIDC::Types::RegisterClientRequest::SENSITIVE = T.let(T.unsafe(nil), Arr
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sso-oidc-2019-06-10/RegisterClientResponse AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/types.rb:720
+# pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/types.rb:714
 class Aws::SSOOIDC::Types::RegisterClientResponse < ::Struct
   include ::Aws::Structure
 end
@@ -10833,7 +10833,7 @@ Aws::SSOOIDC::Types::RegisterClientResponse::SENSITIVE = T.let(T.unsafe(nil), Ar
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sso-oidc-2019-06-10/SlowDownException AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/types.rb:741
+# pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/types.rb:739
 class Aws::SSOOIDC::Types::SlowDownException < ::Struct
   include ::Aws::Structure
 end
@@ -10864,7 +10864,7 @@ Aws::SSOOIDC::Types::SlowDownException::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sso-oidc-2019-06-10/StartDeviceAuthorizationRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/types.rb:772
+# pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/types.rb:769
 class Aws::SSOOIDC::Types::StartDeviceAuthorizationRequest < ::Struct
   include ::Aws::Structure
 end
@@ -10905,7 +10905,7 @@ Aws::SSOOIDC::Types::StartDeviceAuthorizationRequest::SENSITIVE = T.let(T.unsafe
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sso-oidc-2019-06-10/StartDeviceAuthorizationResponse AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/types.rb:816
+# pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/types.rb:810
 class Aws::SSOOIDC::Types::StartDeviceAuthorizationResponse < ::Struct
   include ::Aws::Structure
 end
@@ -10929,7 +10929,7 @@ Aws::SSOOIDC::Types::StartDeviceAuthorizationResponse::SENSITIVE = T.let(T.unsaf
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sso-oidc-2019-06-10/UnauthorizedClientException AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/types.rb:839
+# pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/types.rb:837
 class Aws::SSOOIDC::Types::UnauthorizedClientException < ::Struct
   include ::Aws::Structure
 end
@@ -10952,7 +10952,7 @@ Aws::SSOOIDC::Types::UnauthorizedClientException::SENSITIVE = T.let(T.unsafe(nil
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sso-oidc-2019-06-10/UnsupportedGrantTypeException AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/types.rb:861
+# pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/types.rb:859
 class Aws::SSOOIDC::Types::UnsupportedGrantTypeException < ::Struct
   include ::Aws::Structure
 end
@@ -14628,7 +14628,7 @@ module Aws::STS::Types; end
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/AssumeRoleRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:332
+# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:320
 class Aws::STS::Types::AssumeRoleRequest < ::Struct
   include ::Aws::Structure
 end
@@ -14693,7 +14693,7 @@ Aws::STS::Types::AssumeRoleRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/AssumeRoleResponse AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:398
+# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:394
 class Aws::STS::Types::AssumeRoleResponse < ::Struct
   include ::Aws::Structure
 end
@@ -14834,7 +14834,7 @@ Aws::STS::Types::AssumeRoleResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/AssumeRoleWithSAMLRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:542
+# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:536
 class Aws::STS::Types::AssumeRoleWithSAMLRequest < ::Struct
   include ::Aws::Structure
 end
@@ -14947,7 +14947,7 @@ Aws::STS::Types::AssumeRoleWithSAMLRequest::SENSITIVE = T.let(T.unsafe(nil), Arr
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/AssumeRoleWithSAMLResponse AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:661
+# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:652
 class Aws::STS::Types::AssumeRoleWithSAMLResponse < ::Struct
   include ::Aws::Structure
 end
@@ -15134,7 +15134,7 @@ Aws::STS::Types::AssumeRoleWithSAMLResponse::SENSITIVE = T.let(T.unsafe(nil), Ar
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/AssumeRoleWithWebIdentityRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:852
+# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:845
 class Aws::STS::Types::AssumeRoleWithWebIdentityRequest < ::Struct
   include ::Aws::Structure
 end
@@ -15231,7 +15231,7 @@ Aws::STS::Types::AssumeRoleWithWebIdentityRequest::SENSITIVE = T.let(T.unsafe(ni
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/AssumeRoleWithWebIdentityResponse AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:953
+# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:946
 class Aws::STS::Types::AssumeRoleWithWebIdentityResponse < ::Struct
   include ::Aws::Structure
 end
@@ -15278,7 +15278,7 @@ Aws::STS::Types::AssumeRoleWithWebIdentityResponse::SENSITIVE = T.let(T.unsafe(n
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/AssumeRootRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1000
+# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:997
 class Aws::STS::Types::AssumeRootRequest < ::Struct
   include ::Aws::Structure
 end
@@ -15318,7 +15318,7 @@ Aws::STS::Types::AssumeRootRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/AssumeRootResponse AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1039
+# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1037
 class Aws::STS::Types::AssumeRootResponse < ::Struct
   include ::Aws::Structure
 end
@@ -15348,7 +15348,7 @@ Aws::STS::Types::AssumeRootResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/AssumedRoleUser AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1068
+# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1066
 class Aws::STS::Types::AssumedRoleUser < ::Struct
   include ::Aws::Structure
 end
@@ -15378,7 +15378,7 @@ Aws::STS::Types::AssumedRoleUser::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/Credentials AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1099
+# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1095
 class Aws::STS::Types::Credentials < ::Struct
   include ::Aws::Structure
 end
@@ -15392,7 +15392,7 @@ Aws::STS::Types::Credentials::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/DecodeAuthorizationMessageRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1111
+# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1110
 class Aws::STS::Types::DecodeAuthorizationMessageRequest < ::Struct
   include ::Aws::Structure
 end
@@ -15410,7 +15410,7 @@ Aws::STS::Types::DecodeAuthorizationMessageRequest::SENSITIVE = T.let(T.unsafe(n
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/DecodeAuthorizationMessageResponse AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1127
+# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1126
 class Aws::STS::Types::DecodeAuthorizationMessageResponse < ::Struct
   include ::Aws::Structure
 end
@@ -15427,7 +15427,7 @@ Aws::STS::Types::DecodeAuthorizationMessageResponse::SENSITIVE = T.let(T.unsafe(
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/ExpiredTokenException AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1142
+# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1141
 class Aws::STS::Types::ExpiredTokenException < ::Struct
   include ::Aws::Structure
 end
@@ -15444,7 +15444,7 @@ Aws::STS::Types::ExpiredTokenException::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/ExpiredTradeInTokenException AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1157
+# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1156
 class Aws::STS::Types::ExpiredTradeInTokenException < ::Struct
   include ::Aws::Structure
 end
@@ -15472,7 +15472,7 @@ Aws::STS::Types::ExpiredTradeInTokenException::SENSITIVE = T.let(T.unsafe(nil), 
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/FederatedUser AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1184
+# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1182
 class Aws::STS::Types::FederatedUser < ::Struct
   include ::Aws::Structure
 end
@@ -15490,7 +15490,7 @@ Aws::STS::Types::FederatedUser::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/GetAccessKeyInfoRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1200
+# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1199
 class Aws::STS::Types::GetAccessKeyInfoRequest < ::Struct
   include ::Aws::Structure
 end
@@ -15504,7 +15504,7 @@ Aws::STS::Types::GetAccessKeyInfoRequest::SENSITIVE = T.let(T.unsafe(nil), Array
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/GetAccessKeyInfoResponse AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1212
+# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1211
 class Aws::STS::Types::GetAccessKeyInfoResponse < ::Struct
   include ::Aws::Structure
 end
@@ -15545,7 +15545,7 @@ class Aws::STS::Types::GetCallerIdentityRequest < ::Aws::EmptyStructure; end
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/GetCallerIdentityResponse AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1252
+# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1249
 class Aws::STS::Types::GetCallerIdentityResponse < ::Struct
   include ::Aws::Structure
 end
@@ -15560,7 +15560,7 @@ Aws::STS::Types::GetCallerIdentityResponse::SENSITIVE = T.let(T.unsafe(nil), Arr
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/GetDelegatedAccessTokenRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1265
+# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1264
 class Aws::STS::Types::GetDelegatedAccessTokenRequest < ::Struct
   include ::Aws::Structure
 end
@@ -15588,7 +15588,7 @@ Aws::STS::Types::GetDelegatedAccessTokenRequest::SENSITIVE = T.let(T.unsafe(nil)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/GetDelegatedAccessTokenResponse AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1293
+# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1290
 class Aws::STS::Types::GetDelegatedAccessTokenResponse < ::Struct
   include ::Aws::Structure
 end
@@ -15759,7 +15759,7 @@ Aws::STS::Types::GetDelegatedAccessTokenResponse::SENSITIVE = T.let(T.unsafe(nil
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/GetFederationTokenRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1466
+# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1461
 class Aws::STS::Types::GetFederationTokenRequest < ::Struct
   include ::Aws::Structure
 end
@@ -15798,7 +15798,7 @@ Aws::STS::Types::GetFederationTokenRequest::SENSITIVE = T.let(T.unsafe(nil), Arr
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/GetFederationTokenResponse AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1505
+# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1502
 class Aws::STS::Types::GetFederationTokenResponse < ::Struct
   include ::Aws::Structure
 end
@@ -15846,7 +15846,7 @@ Aws::STS::Types::GetFederationTokenResponse::SENSITIVE = T.let(T.unsafe(nil), Ar
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/GetSessionTokenRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1553
+# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1550
 class Aws::STS::Types::GetSessionTokenRequest < ::Struct
   include ::Aws::Structure
 end
@@ -15871,7 +15871,7 @@ Aws::STS::Types::GetSessionTokenRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/GetSessionTokenResponse AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1576
+# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1575
 class Aws::STS::Types::GetSessionTokenResponse < ::Struct
   include ::Aws::Structure
 end
@@ -15910,7 +15910,7 @@ Aws::STS::Types::GetSessionTokenResponse::SENSITIVE = T.let(T.unsafe(nil), Array
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/GetWebIdentityTokenRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1616
+# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1612
 class Aws::STS::Types::GetWebIdentityTokenRequest < ::Struct
   include ::Aws::Structure
 end
@@ -15938,7 +15938,7 @@ Aws::STS::Types::GetWebIdentityTokenRequest::SENSITIVE = T.let(T.unsafe(nil), Ar
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/GetWebIdentityTokenResponse AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1643
+# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1641
 class Aws::STS::Types::GetWebIdentityTokenResponse < ::Struct
   include ::Aws::Structure
 end
@@ -15958,7 +15958,7 @@ Aws::STS::Types::GetWebIdentityTokenResponse::SENSITIVE = T.let(T.unsafe(nil), A
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/IDPCommunicationErrorException AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1661
+# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1660
 class Aws::STS::Types::IDPCommunicationErrorException < ::Struct
   include ::Aws::Structure
 end
@@ -15978,7 +15978,7 @@ Aws::STS::Types::IDPCommunicationErrorException::SENSITIVE = T.let(T.unsafe(nil)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/IDPRejectedClaimException AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1679
+# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1678
 class Aws::STS::Types::IDPRejectedClaimException < ::Struct
   include ::Aws::Structure
 end
@@ -15996,7 +15996,7 @@ Aws::STS::Types::IDPRejectedClaimException::SENSITIVE = T.let(T.unsafe(nil), Arr
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/InvalidAuthorizationMessageException AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1695
+# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1694
 class Aws::STS::Types::InvalidAuthorizationMessageException < ::Struct
   include ::Aws::Structure
 end
@@ -16013,7 +16013,7 @@ Aws::STS::Types::InvalidAuthorizationMessageException::SENSITIVE = T.let(T.unsaf
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/InvalidIdentityTokenException AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1710
+# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1709
 class Aws::STS::Types::InvalidIdentityTokenException < ::Struct
   include ::Aws::Structure
 end
@@ -16030,7 +16030,7 @@ Aws::STS::Types::InvalidIdentityTokenException::SENSITIVE = T.let(T.unsafe(nil),
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/JWTPayloadSizeExceededException AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1725
+# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1724
 class Aws::STS::Types::JWTPayloadSizeExceededException < ::Struct
   include ::Aws::Structure
 end
@@ -16046,7 +16046,7 @@ Aws::STS::Types::JWTPayloadSizeExceededException::SENSITIVE = T.let(T.unsafe(nil
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/MalformedPolicyDocumentException AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1739
+# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1738
 class Aws::STS::Types::MalformedPolicyDocumentException < ::Struct
   include ::Aws::Structure
 end
@@ -16063,7 +16063,7 @@ Aws::STS::Types::MalformedPolicyDocumentException::SENSITIVE = T.let(T.unsafe(ni
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/OutboundWebIdentityFederationDisabledException AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1754
+# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1753
 class Aws::STS::Types::OutboundWebIdentityFederationDisabledException < ::Struct
   include ::Aws::Structure
 end
@@ -16094,7 +16094,7 @@ Aws::STS::Types::OutboundWebIdentityFederationDisabledException::SENSITIVE = T.l
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/PackedPolicyTooLargeException AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1783
+# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1782
 class Aws::STS::Types::PackedPolicyTooLargeException < ::Struct
   include ::Aws::Structure
 end
@@ -16118,7 +16118,7 @@ Aws::STS::Types::PackedPolicyTooLargeException::SENSITIVE = T.let(T.unsafe(nil),
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/PolicyDescriptorType AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1805
+# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1804
 class Aws::STS::Types::PolicyDescriptorType < ::Struct
   include ::Aws::Structure
 end
@@ -16143,7 +16143,7 @@ Aws::STS::Types::PolicyDescriptorType::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/ProvidedContext AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1829
+# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1827
 class Aws::STS::Types::ProvidedContext < ::Struct
   include ::Aws::Structure
 end
@@ -16166,7 +16166,7 @@ Aws::STS::Types::ProvidedContext::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/RegionDisabledException AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1850
+# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1849
 class Aws::STS::Types::RegionDisabledException < ::Struct
   include ::Aws::Structure
 end
@@ -16184,7 +16184,7 @@ Aws::STS::Types::RegionDisabledException::SENSITIVE = T.let(T.unsafe(nil), Array
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/SessionDurationEscalationException AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1866
+# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1865
 class Aws::STS::Types::SessionDurationEscalationException < ::Struct
   include ::Aws::Structure
 end
@@ -16228,7 +16228,7 @@ Aws::STS::Types::SessionDurationEscalationException::SENSITIVE = T.let(T.unsafe(
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/Tag AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1909
+# pkg:gem/aws-sdk-core#lib/aws-sdk-sts/types.rb:1907
 class Aws::STS::Types::Tag < ::Struct
   include ::Aws::Structure
 end
@@ -17534,7 +17534,7 @@ module Aws::Signin::Types; end
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/signin-2023-01-01/AccessDeniedException AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-signin/types.rb:41
+# pkg:gem/aws-sdk-core#lib/aws-sdk-signin/types.rb:39
 class Aws::Signin::Types::AccessDeniedException < ::Struct
   include ::Aws::Structure
 end
@@ -17562,7 +17562,7 @@ Aws::Signin::Types::AccessDeniedException::SENSITIVE = T.let(T.unsafe(nil), Arra
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/signin-2023-01-01/AccessToken AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-signin/types.rb:69
+# pkg:gem/aws-sdk-core#lib/aws-sdk-signin/types.rb:66
 class Aws::Signin::Types::AccessToken < ::Struct
   include ::Aws::Structure
 end
@@ -17583,7 +17583,7 @@ Aws::Signin::Types::AccessToken::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/signin-2023-01-01/CreateOAuth2TokenRequest AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-signin/types.rb:88
+# pkg:gem/aws-sdk-core#lib/aws-sdk-signin/types.rb:87
 class Aws::Signin::Types::CreateOAuth2TokenRequest < ::Struct
   include ::Aws::Structure
 end
@@ -17631,7 +17631,7 @@ Aws::Signin::Types::CreateOAuth2TokenRequest::SENSITIVE = T.let(T.unsafe(nil), A
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/signin-2023-01-01/CreateOAuth2TokenRequestBody AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-signin/types.rb:139
+# pkg:gem/aws-sdk-core#lib/aws-sdk-signin/types.rb:133
 class Aws::Signin::Types::CreateOAuth2TokenRequestBody < ::Struct
   include ::Aws::Structure
 end
@@ -17652,7 +17652,7 @@ Aws::Signin::Types::CreateOAuth2TokenRequestBody::SENSITIVE = T.let(T.unsafe(nil
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/signin-2023-01-01/CreateOAuth2TokenResponse AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-signin/types.rb:158
+# pkg:gem/aws-sdk-core#lib/aws-sdk-signin/types.rb:157
 class Aws::Signin::Types::CreateOAuth2TokenResponse < ::Struct
   include ::Aws::Structure
 end
@@ -17698,7 +17698,7 @@ Aws::Signin::Types::CreateOAuth2TokenResponse::SENSITIVE = T.let(T.unsafe(nil), 
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/signin-2023-01-01/CreateOAuth2TokenResponseBody AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-signin/types.rb:206
+# pkg:gem/aws-sdk-core#lib/aws-sdk-signin/types.rb:201
 class Aws::Signin::Types::CreateOAuth2TokenResponseBody < ::Struct
   include ::Aws::Structure
 end
@@ -17725,7 +17725,7 @@ Aws::Signin::Types::CreateOAuth2TokenResponseBody::SENSITIVE = T.let(T.unsafe(ni
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/signin-2023-01-01/InternalServerException AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-signin/types.rb:232
+# pkg:gem/aws-sdk-core#lib/aws-sdk-signin/types.rb:230
 class Aws::Signin::Types::InternalServerException < ::Struct
   include ::Aws::Structure
 end
@@ -17760,7 +17760,7 @@ Aws::Signin::Types::InternalServerException::SENSITIVE = T.let(T.unsafe(nil), Ar
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/signin-2023-01-01/TooManyRequestsError AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-signin/types.rb:266
+# pkg:gem/aws-sdk-core#lib/aws-sdk-signin/types.rb:264
 class Aws::Signin::Types::TooManyRequestsError < ::Struct
   include ::Aws::Structure
 end
@@ -17787,7 +17787,7 @@ Aws::Signin::Types::TooManyRequestsError::SENSITIVE = T.let(T.unsafe(nil), Array
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/signin-2023-01-01/ValidationException AWS API Documentation
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-signin/types.rb:292
+# pkg:gem/aws-sdk-core#lib/aws-sdk-signin/types.rb:290
 class Aws::Signin::Types::ValidationException < ::Struct
   include ::Aws::Structure
 end

@@ -54,10 +54,10 @@ module Bootsnap
     # pkg:gem/bootsnap#lib/bootsnap.rb:26
     def logger=(logger); end
 
-    # Allow the C extension to redefine `rb_get_path` without warning.
     # This is a semi-accurate ruby implementation of the native `rb_get_path(VALUE)` function.
     # The native version is very intricate and may behave differently on windows etc.
     # But we only use it for non-MRI platform.
+    # Allow the C extension to redefine `rb_get_path` without warning.
     #
     # pkg:gem/bootsnap#lib/bootsnap.rb:176
     def rb_get_path(_arg0); end
@@ -101,7 +101,7 @@ module Bootsnap::CompileCache::ISeq
     # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:13
     def cache_dir=(cache_dir); end
 
-    # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:124
+    # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:180
     def compile_option_updated; end
 
     # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:11
@@ -110,25 +110,31 @@ module Bootsnap::CompileCache::ISeq
     # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:11
     def compiler_selector=(_arg0); end
 
+    # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:159
+    def coverage_on?; end
+
     # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:11
     def default_compiler; end
 
     # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:11
     def default_compiler=(_arg0); end
 
-    # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:84
+    # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:115
     def fetch(path, cache_dir: T.unsafe(nil)); end
 
-    # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:131
+    # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:187
     def install!(cache_dir); end
 
-    # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:95
+    # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:144
     def precompile(path); end
 
     # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:17
     def supported?; end
   end
 end
+
+# pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:111
+Bootsnap::CompileCache::ISeq::COVERAGE_SUPPORTED = T.let(T.unsafe(nil), FalseClass)
 
 # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:22
 class Bootsnap::CompileCache::ISeq::Compiler
@@ -138,36 +144,42 @@ class Bootsnap::CompileCache::ISeq::Compiler
   # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:23
   def compile_options; end
 
-  # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:68
+  # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:96
   def input_to_output(source, path, _kwargs); end
 
-  # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:50
+  # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:76
   def input_to_storage(_, path); end
 
   # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:23
   def namespace; end
 
-  # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:55
+  # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:83
   def storage_to_output(binary, _args); end
 end
 
-# pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:79
-Bootsnap::CompileCache::ISeq::DEFAULT = T.let(T.unsafe(nil), Bootsnap::CompileCache::ISeq::Compiler)
+# pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:49
+module Bootsnap::CompileCache::ISeq::Compiler::PatchRubyBug22023
+  # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:50
+  def compile_file(path, options = T.unsafe(nil)); end
 
-# pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:80
-Bootsnap::CompileCache::ISeq::FROZEN_STRING_LITERAL = T.let(T.unsafe(nil), Bootsnap::CompileCache::ISeq::Compiler)
-
-# pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:105
-module Bootsnap::CompileCache::ISeq::InstructionSequenceMixin
-  # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:118
-  def compile_option=(hash); end
-
-  # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:106
-  def load_iseq(path); end
+  # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:60
+  def compile_file_prism(path, options = T.unsafe(nil)); end
 end
 
-# pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:81
-Bootsnap::CompileCache::ISeq::MUTABLE_STRING_LITERAL = T.let(T.unsafe(nil), Bootsnap::CompileCache::ISeq::Compiler)
+# pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:109
+Bootsnap::CompileCache::ISeq::DEFAULT = T.let(T.unsafe(nil), Bootsnap::CompileCache::ISeq::Compiler)
+
+# pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:110
+Bootsnap::CompileCache::ISeq::FROZEN_STRING_LITERAL = T.let(T.unsafe(nil), Bootsnap::CompileCache::ISeq::Compiler)
+
+# pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:164
+module Bootsnap::CompileCache::ISeq::InstructionSequenceMixin
+  # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:174
+  def compile_option=(hash); end
+
+  # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:165
+  def load_iseq(path); end
+end
 
 # pkg:gem/bootsnap#lib/bootsnap/load_path_cache/path_scanner.rb:37
 module Bootsnap::CompileCache::Native
@@ -875,5 +887,6 @@ end
 
 class RubyVM::InstructionSequence
   extend ::RequireHooks::LoadIseq
+  extend ::Bootsnap::CompileCache::ISeq::Compiler::PatchRubyBug22023
   extend ::Bootsnap::CompileCache::ISeq::InstructionSequenceMixin
 end

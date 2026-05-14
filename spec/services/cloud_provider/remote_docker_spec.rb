@@ -20,6 +20,13 @@ RSpec.describe CloudProvider::RemoteDocker do
     it "returns empty hash when no active hosts" do
       expect(described_class.locations).to eq({})
     end
+
+    it "returns empty hash when the docker image is stale" do
+      create(:docker_host, active: true)
+      allow(DockerImageReadiness).to receive(:stale?).and_return(true)
+
+      expect(described_class.locations).to eq({})
+    end
   end
 
   describe "#create_server" do
@@ -52,6 +59,15 @@ RSpec.describe CloudProvider::RemoteDocker do
     it "pulls the image first" do
       provider.create_server(cloud_server)
       expect(ssh_session).to have_received(:exec!).with("timeout 600 docker pull serveme/tf2-cloud-server:latest")
+    end
+
+    it "pulls and runs :latest even when an image version has been recorded" do
+      SiteSetting.set(DockerImageReadiness::VERSION_SETTING_KEY, "9876543")
+
+      provider.create_server(cloud_server)
+
+      expect(ssh_session).to have_received(:exec!).with("timeout 600 docker pull serveme/tf2-cloud-server:latest")
+      expect(ssh_session).to have_received(:exec!).with(a_string_matching(%r{docker run .* serveme/tf2-cloud-server:latest\z}))
     end
 
     it "runs docker with host networking and port env vars" do

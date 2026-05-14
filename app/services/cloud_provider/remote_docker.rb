@@ -7,6 +7,8 @@ require "shellwords"
 module CloudProvider
   class RemoteDocker < Base
     def self.locations(starts_at: Time.current, ends_at: 2.hours.from_now)
+      return {} if DockerImageReadiness.stale?
+
       DockerHost.active.includes(:location).each_with_object({}) do |host, hash|
         next if host.full_during?(starts_at, ends_at)
 

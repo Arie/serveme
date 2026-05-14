@@ -17,6 +17,7 @@ module ReservationValidations
       validates_with Reservations::StartsNotTooFarInFutureValidator,          unless: :donator?
       validates_with Reservations::CloudServerConcurrencyValidator,           on: :create
       validates_with Reservations::DockerHostCapacityValidator,               on: :create
+      validates_with Reservations::DockerImageStaleValidator,                 on: :create
       validates_with Reservations::MapIsValidValidator
       validates_with Reservations::CustomWhitelistValidator
       validates_with Reservations::PasswordValidator, fields: %i[password tv_password tv_relaypassword rcon]

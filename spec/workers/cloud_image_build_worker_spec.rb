@@ -29,8 +29,9 @@ describe CloudImageBuildWorker do
     allow(Turbo::StreamsChannel).to receive(:broadcast_append_to)
     allow(Turbo::StreamsChannel).to receive(:broadcast_replace_to)
     allow(DockerHostImagePullWorker).to receive(:perform_async)
-    stub_streamed_command([ "docker", "build", "--build-arg", "TF2_VERSION=#{version}", "-t", "serveme/tf2-cloud-server:latest", CloudImageBuildWorker::DOCKER_DIR ], success_status, "build line\n")
+    stub_streamed_command([ "docker", "build", "--build-arg", "TF2_VERSION=#{version}", "-t", "serveme/tf2-cloud-server:latest", "-t", "serveme/tf2-cloud-server:#{version}", CloudImageBuildWorker::DOCKER_DIR ], success_status, "build line\n")
     stub_streamed_command([ "docker", "push", "serveme/tf2-cloud-server:latest" ], success_status, "push line\n")
+    stub_streamed_command([ "docker", "push", "serveme/tf2-cloud-server:#{version}" ], success_status, "push version line\n")
     allow(Open3).to receive(:capture2e).with("docker", "inspect", anything, anything).and_return([ "serveme/tf2-cloud-server@sha256:newdigest\n", success_status ])
   end
 
@@ -53,7 +54,7 @@ describe CloudImageBuildWorker do
 
     it "passes --pull when force_pull is true" do
       build.update!(force_pull: true)
-      stub_streamed_command([ "docker", "build", "--pull", "--build-arg", "TF2_VERSION=#{version}", "-t", "serveme/tf2-cloud-server:latest", CloudImageBuildWorker::DOCKER_DIR ], success_status, "")
+      stub_streamed_command([ "docker", "build", "--pull", "--build-arg", "TF2_VERSION=#{version}", "-t", "serveme/tf2-cloud-server:latest", "-t", "serveme/tf2-cloud-server:#{version}", CloudImageBuildWorker::DOCKER_DIR ], success_status, "")
 
       worker.perform(build.id)
       expect(build.reload.status).to eq("succeeded")
@@ -80,7 +81,7 @@ describe CloudImageBuildWorker do
     end
 
     it "marks build as failed and records exception output when docker build fails" do
-      stub_streamed_command([ "docker", "build", "--build-arg", "TF2_VERSION=#{version}", "-t", "serveme/tf2-cloud-server:latest", CloudImageBuildWorker::DOCKER_DIR ], failure_status, "Error! App state\n")
+      stub_streamed_command([ "docker", "build", "--build-arg", "TF2_VERSION=#{version}", "-t", "serveme/tf2-cloud-server:latest", "-t", "serveme/tf2-cloud-server:#{version}", CloudImageBuildWorker::DOCKER_DIR ], failure_status, "Error! App state\n")
 
       expect { worker.perform(build.id) }.not_to raise_error
 
@@ -103,6 +104,39 @@ describe CloudImageBuildWorker do
     it "writes new digest to SiteSetting on success" do
       worker.perform(build.id)
       expect(SiteSetting.get(DockerImagePollWorker::DIGEST_SETTING_KEY)).to eq("sha256:newdigest")
+    end
+
+    it "tags the image with the TF2 version alongside latest" do
+      worker.perform(build.id)
+      expect(Open3).to have_received(:popen2e).with(
+        "docker", "build", "--build-arg", "TF2_VERSION=#{version}",
+        "-t", "serveme/tf2-cloud-server:latest",
+        "-t", "serveme/tf2-cloud-server:#{version}",
+        CloudImageBuildWorker::DOCKER_DIR
+      )
+    end
+
+    it "pushes both the latest and version-specific tags" do
+      worker.perform(build.id)
+      expect(Open3).to have_received(:popen2e).with("docker", "push", "serveme/tf2-cloud-server:latest")
+      expect(Open3).to have_received(:popen2e).with("docker", "push", "serveme/tf2-cloud-server:#{version}")
+    end
+
+    it "records the built TF2 version in SiteSetting on success" do
+      worker.perform(build.id)
+      expect(SiteSetting.get(DockerImageReadiness::VERSION_SETTING_KEY)).to eq(version)
+    end
+
+    it "includes the built version in the cross-region notification payload" do
+      allow(Rails.application.credentials).to receive(:dig).with(:serveme, anything).and_return("test-api-key")
+      %w[na.serveme.tf sea.serveme.tf au.serveme.tf].each do |host|
+        stub_request(:post, "https://direct.#{host}/api/docker_image_updates").to_return(status: 200)
+      end
+
+      worker.perform(build.id)
+
+      expect(WebMock).to have_requested(:post, "https://direct.na.serveme.tf/api/docker_image_updates")
+        .with { |req| JSON.parse(req.body)["version"] == version }
     end
 
     it "notifies other regions after successful push" do

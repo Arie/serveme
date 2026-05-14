@@ -95,6 +95,7 @@ module ReservationsHelper
   def free_docker_hosts
     @free_docker_hosts ||= begin
       return [] if free_server_limit_reached_for_reservation?
+      return [] if DockerImageReadiness.stale?
 
       s = @reservation.starts_at || Time.current
       e = @reservation.ends_at || 2.hours.from_now

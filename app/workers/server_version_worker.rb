@@ -14,8 +14,9 @@ class ServerVersionWorker
 
     ServerUpdateWorker.perform_async(latest_version)
 
-    if latest_version != previous_version
-      CloudImageBuildWorker.perform_async(latest_version)
+    if latest_version != previous_version && SITE_HOST == "serveme.tf"
+      build = CloudImageBuild.create!(version: latest_version.to_s, status: "queued")
+      CloudImageBuildWorker.perform_async(build.id)
     end
   rescue Faraday::ConnectionFailed
     Rails.logger.info "Failed to fetch latest TF2 version from api.steampowered.com"

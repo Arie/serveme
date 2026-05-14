@@ -39,6 +39,14 @@ describe Api::DockerImageUpdatesController do
 
         expect(response).to have_http_status(:ok)
       end
+
+      it "records the propagated TF2 image version in SiteSetting" do
+        allow(DockerHostImagePullWorker).to receive(:perform_async)
+
+        post :create, params: { version: "9876543" }, format: :json
+
+        expect(SiteSetting.get(DockerImageReadiness::VERSION_SETTING_KEY)).to eq("9876543")
+      end
     end
   end
 end

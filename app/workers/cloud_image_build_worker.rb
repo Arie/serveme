@@ -26,7 +26,10 @@ class CloudImageBuildWorker
       @lock_held = true
 
       run_phase("building") { run_streamed!(*build_command) }
-      run_phase("pushing")  { run_streamed!("docker", "push", tag) }
+      run_phase("pushing") do
+        run_streamed!("docker", "push", tag)
+        run_streamed!("docker", "push", versioned_tag)
+      end
 
       run_phase("notifying") do
         digest = pushed_digest
@@ -34,6 +37,7 @@ class CloudImageBuildWorker
           SiteSetting.set(DockerImagePollWorker::DIGEST_SETTING_KEY, digest)
           Rails.cache.delete("cloud_image_registry_digest")
         end
+        SiteSetting.set(DockerImageReadiness::VERSION_SETTING_KEY, @build.version)
         @streamer.append("Notifying other regions...\n")
         notify_other_regions(digest)
         @build.update!(digest: digest) if digest
@@ -63,10 +67,14 @@ class CloudImageBuildWorker
     "#{DOCKERHUB_IMAGE}:latest"
   end
 
+  def versioned_tag
+    "#{DOCKERHUB_IMAGE}:#{@build.version}"
+  end
+
   def build_command
     args = [ "docker", "build" ]
     args << "--pull" if @build.force_pull
-    args.push("--build-arg", "TF2_VERSION=#{@build.version}", "-t", tag, DOCKER_DIR)
+    args.push("--build-arg", "TF2_VERSION=#{@build.version}", "-t", tag, "-t", versioned_tag, DOCKER_DIR)
     args
   end
 
@@ -131,7 +139,7 @@ class CloudImageBuildWorker
         end
         conn.post("/api/docker_image_updates") do |req|
           req.headers["Authorization"] = "Bearer #{api_key}"
-          req.body = { digest: digest }.compact.to_json
+          req.body = { digest: digest, version: @build.version }.compact.to_json
         end
         @streamer.append("  -> notified #{region_key}\n")
       rescue Faraday::Error => e

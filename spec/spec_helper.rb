@@ -41,11 +41,8 @@ RSpec.configure do |config|
     Sidekiq::Testing.inline! { example.run }
   end
 
-  config.before(:suite) do
-    Rails.cache.clear
-  end
-
   config.before do
+    Rails.cache.clear
     allow(SteamCondenser::Servers::SourceServer).to receive(:new).and_return(
       double(SteamCondenser::Servers::SourceServer).as_null_object
     )

@@ -82,15 +82,20 @@ class AiCommandHandler
     rescue JSON::ParserError, NoMethodError => e
       Rails.logger.error("[AI ##{reservation&.id || 'N/A'}] Error processing AI response structure: #{e.message}")
       Rails.logger.error(e.backtrace.join("\n"))
-      { "success" => false, "response" => "Sorry, I had trouble understanding the AI's response format. Please try again.", "command" => nil }
+      respond_with_error("Sorry, I had trouble understanding the AI's response format. Please try again.")
     rescue StandardError => e
       Rails.logger.error("[AI ##{reservation&.id || 'N/A'}] General error processing AI request: #{e.message}")
       Rails.logger.error(e.backtrace.join("\n"))
-      { "success" => false, "response" => "An unexpected error occurred. Please try again.", "command" => nil }
+      respond_with_error("An unexpected error occurred. Please try again.")
     end
   end
 
   private
+
+  def respond_with_error(message)
+    reservation&.server&.rcon_say(message)
+    { "success" => false, "response" => message, "command" => nil }
+  end
 
   def server_status
     reservation.server.rcon_exec("status;mp_tournament_whitelist;sv_gravity;sv_cheats;mp_timelimit;mp_winlimit;mp_windifference;tf_weapon_criticals;host_timescale;sv_password;tv_status;sm plugins list;tftrue_whitelist_id").gsub(/(\b[0-9]{1,3}\.){3}[0-9]{1,3}\b/, "0.0.0.0")
@@ -367,7 +372,6 @@ class AiCommandHandler
   def call_openai_and_handle_tools(messages)
     response = OpenaiClient.chat({
       messages: messages,
-      reasoning_effort: "minimal",
       tools: AVAILABLE_TOOLS,
       tool_choice: "required"
     })
@@ -425,7 +429,6 @@ class AiCommandHandler
     final_response = OpenaiClient.chat({
       messages: messages,
       tools: AVAILABLE_TOOLS, # Still provide all tools
-      reasoning_effort: "minimal",
       tool_choice: { type: "function", function: { name: "submit_server_action" } } # Force the final tool
     })
 

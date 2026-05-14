@@ -384,6 +384,22 @@ RSpec.describe AiCommandHandler do
          expect(result["response"]).to match(/Internal error|AI failed to provide a structured final response/)
        end
     end
+
+    context 'when the OpenAI request raises an error' do
+      before do
+        allow(OpenaiClient).to receive(:chat).and_raise(StandardError, "the server responded with status 400")
+      end
+
+      it 'reports the error to the player in-game and returns a failure result' do
+        expect(server).to receive(:rcon_say).with("An unexpected error occurred. Please try again.")
+
+        result = handler.process_request("how is my ping looking?")
+
+        expect(result["success"]).to be false
+        expect(result["response"]).to eq("An unexpected error occurred. Please try again.")
+        expect(result["command"]).to be_nil
+      end
+    end
   end
 
   describe '#process_request with reservation modification' do

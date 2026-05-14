@@ -82,6 +82,14 @@ RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y libpq5 libmaxminddb0 libyaml-0-2 openssh-client zip ripgrep && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
+# docker CLI — CloudImageBuildWorker (EU only) shells out to `docker build`
+# and `docker push` to rebuild the tf2-cloud-server image, talking to the
+# host daemon over a bind-mounted /var/run/docker.sock. CLI binary only,
+# no daemon; pinned to the EU host's docker version.
+ARG DOCKER_CLI_VERSION=29.4.2
+RUN curl -fsSL "https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKER_CLI_VERSION}.tgz" \
+    | tar -xzC /usr/local/bin --strip-components=1 docker/docker
+
 # Copy built artifacts: gems, application
 COPY --from=build "${BUNDLE_PATH}" "${BUNDLE_PATH}"
 COPY --from=build /rails /rails

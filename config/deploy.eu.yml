@@ -3,13 +3,23 @@
 # deploy.ws-echo-cloud.yml.
 servers:
   web: { hosts: [new.fakkelbrigade.eu] }
-  sidekiq: &sk { hosts: [new.fakkelbrigade.eu] }
+  # CloudImageBuildWorker runs on sidekiq (EU only) and shells out to
+  # `docker build`/`docker push` to rebuild the tf2-cloud-server image.
+  # Bind-mount the host docker socket + a staged Docker Hub push
+  # credential, and add the host `docker` group (gid 994) so the
+  # container's uid 1000 can use the socket. sidekiq2 inherits this.
+  sidekiq: &sk
+    hosts: [new.fakkelbrigade.eu]
+    options:
+      add-host: host.docker.internal:host-gateway
+      group-add: "994"
+      volume:
+        - /var/run/docker.sock:/var/run/docker.sock
+        - /etc/serveme/.docker/config.json:/home/rails/.docker/config.json:ro
   sidekiq2:
     <<: *sk
     cmd: bundle exec sidekiq -c 10
     proxy: false
-    options:
-      add-host: host.docker.internal:host-gateway
   discord_bot: { hosts: [new.fakkelbrigade.eu] }
   logdaemon: { hosts: [new.fakkelbrigade.eu] }
 

@@ -1,13 +1,26 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
+APP_ROOT = File.expand_path("..", __dir__)
+
+# Self-bootstrap before anything Bundler-managed gets required (lib/test_runner
+# uses sorbet-runtime, etc.). Keep this above OptionParser so the re-exec
+# preserves the original ARGV. chdir to APP_ROOT first so `bundle check`
+# resolves the right Gemfile no matter where we were invoked from.
+unless ENV["BUNDLE_GEMFILE"]
+  Dir.chdir(APP_ROOT) do
+    unless system("bundle", "check", out: File::NULL, err: File::NULL)
+      system("bundle", "install") || abort("bundle install failed")
+    end
+  end
+  exec("bundle", "exec", $PROGRAM_NAME, *ARGV)
+end
+
 require "optparse"
 require "fileutils"
 require "yaml"
 require_relative "../lib/test_runner"
 require_relative "../lib/timing"
-
-APP_ROOT = File.expand_path("..", __dir__)
 
 # ============================================================================
 # Helper Functions
@@ -46,7 +59,7 @@ def resolve_dependencies(task_name, task_config)
   Array(depends_on).map(&:to_sym)
 end
 
-def resolve_task_with_dependencies(task_name, config)
+def resolve_task_with_dependencies(task_name, config, skip: [])
   tasks = config["tasks"]
   task_config = tasks[task_name]
 
@@ -55,12 +68,14 @@ def resolve_task_with_dependencies(task_name, config)
     exit 1
   end
 
+  skip_set = skip.map(&:to_s).to_set
   result = Set.new
   queue = [ task_name ]
 
   while queue.any?
     current_task = queue.shift
     next if result.include?(current_task)
+    next if skip_set.include?(current_task)
 
     result.add(current_task)
 
@@ -74,11 +89,14 @@ def resolve_task_with_dependencies(task_name, config)
   result.to_a
 end
 
-def register_section_tasks(runner, config, section_tasks, autocorrect:, seed: nil, verbose: false)
+def register_section_tasks(runner, config, section_tasks, autocorrect:, seed: nil, verbose: false, skip: [])
   tasks = config["tasks"]
+  skip_set = skip.map(&:to_sym).to_set
 
   section_tasks.each do |task_name|
     task_name_sym = task_name.to_sym
+    next if skip_set.include?(task_name_sym)
+
     task_config = tasks[task_name]
 
     if task_config.nil?
@@ -87,7 +105,7 @@ def register_section_tasks(runner, config, section_tasks, autocorrect:, seed: ni
     end
 
     command = resolve_command(task_name, task_config, autocorrect: autocorrect, seed: seed, verbose: verbose)
-    dependencies = resolve_dependencies(task_name, task_config)
+    dependencies = resolve_dependencies(task_name, task_config).reject { |dep| skip_set.include?(dep) }
     is_autocorrect = autocorrect && task_config["autocorrect"] ? true : false
 
     runner.define_task(
@@ -110,8 +128,9 @@ options = {
   formatter: nil,
   sections: nil,
   task: nil,
-  max_parallel: false,
-  fail_fast: false
+  max_parallel: true,
+  fail_fast: false,
+  skip: (ENV["SERVEME_TEST_SKIP_TASKS"] || "").split(",").map(&:strip).reject(&:empty?)
 }
 
 OptionParser.new do |parser|
@@ -141,12 +160,16 @@ OptionParser.new do |parser|
     options[:task] = t
   end
 
-  parser.on("-P", "--max-parallel", "Run all sections in parallel (dependencies still respected)") do
-    options[:max_parallel] = true
+  parser.on("-P", "--[no-]max-parallel", "Run all sections in parallel (default; --no-max-parallel runs sections sequentially)") do |v|
+    options[:max_parallel] = v
   end
 
   parser.on("-F", "--fail-fast", "Stop starting new tasks after a failure") do
     options[:fail_fast] = true
+  end
+
+  parser.on("--skip TASKS", Array, "Skip these tasks (comma-separated). Their reverse dependencies still run.") do |tasks|
+    options[:skip] = (options[:skip] + tasks).map(&:strip).reject(&:empty?).uniq
   end
 
   parser.on("-L", "--lint", "DEPRECATED: Use --section=checks instead. Only run the checks section") do
@@ -202,7 +225,7 @@ FileUtils.chdir APP_ROOT do
   # Determine which sections/tasks to run
   if options[:task]
     # Run a single task with its dependencies
-    task_list = resolve_task_with_dependencies(options[:task], config)
+    task_list = resolve_task_with_dependencies(options[:task], config, skip: options[:skip])
     sections_to_run = [ "tasks" ]
     # Override sections config with synthetic section containing just this task and dependencies
     config["sections"]["tasks"] = { "tasks" => task_list }
@@ -228,13 +251,13 @@ FileUtils.chdir APP_ROOT do
     # Merge all sections into one runner
     all_tasks = sections_to_run
                 .flat_map { |name| config["sections"][name]&.dig("tasks") || [] }
-                .flat_map { |task| resolve_task_with_dependencies(task, config) }
+                .flat_map { |task| resolve_task_with_dependencies(task, config, skip: options[:skip]) }
                 .uniq
 
     formatter.start_section("all")
 
     runner = TestRunner::Runner.new(formatter: formatter, verbose: options[:verbose], manage_formatter: false, fail_fast: options[:fail_fast])
-    register_section_tasks(runner, config, all_tasks, autocorrect: options[:autocorrect], seed: options[:seed], verbose: options[:verbose])
+    register_section_tasks(runner, config, all_tasks, autocorrect: options[:autocorrect], seed: options[:seed], verbose: options[:verbose], skip: options[:skip])
     result = runner.run
 
     formatter.complete_section("all")
@@ -258,7 +281,7 @@ FileUtils.chdir APP_ROOT do
 
       # Resolve all tasks with their dependencies
       section_tasks = section_config["tasks"]
-      all_tasks_with_deps = section_tasks.flat_map { |task| resolve_task_with_dependencies(task, config) }.uniq
+      all_tasks_with_deps = section_tasks.flat_map { |task| resolve_task_with_dependencies(task, config, skip: options[:skip]) }.uniq
 
       # Run section (formatter lifecycle is managed externally)
       section_runner = TestRunner::Runner.new(formatter: formatter, verbose: options[:verbose], manage_formatter: false, fail_fast: options[:fail_fast])
@@ -271,7 +294,7 @@ FileUtils.chdir APP_ROOT do
         end
       end
 
-      register_section_tasks(section_runner, config, tasks_to_register, autocorrect: options[:autocorrect], seed: options[:seed], verbose: options[:verbose])
+      register_section_tasks(section_runner, config, tasks_to_register, autocorrect: options[:autocorrect], seed: options[:seed], verbose: options[:verbose], skip: options[:skip])
       section_result = section_runner.run
 
       # Track completed tasks for subsequent sections

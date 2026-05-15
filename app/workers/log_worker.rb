@@ -362,7 +362,10 @@ class LogWorker
     Rails.logger.info "Processing AI command #{message} from #{event.player.name} (#{SteamCondenser::Community::SteamId.steam_id_to_community_id(event.player.steam_id)})"
 
     ai_command = message.match(AI_COMMAND)[1]
-    AiCommandHandler.new(reservation).process_request(ai_command)
+    AiCommandHandler.new(reservation).process_request(
+      ai_command,
+      sayer: { name: event.player.name, steam_uid: sayer_steam_uid }
+    )
   end
 
   sig { void }

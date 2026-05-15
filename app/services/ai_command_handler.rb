@@ -72,7 +72,8 @@ class AiCommandHandler
     @reservation = reservation
   end
 
-  def process_request(request)
+  def process_request(request, sayer: nil)
+    @sayer = sayer
     begin
       Rails.logger.info("[AI ##{reservation&.id || 'N/A'}] Processing request: #{request}")
       messages = build_openai_messages(request)
@@ -365,8 +366,38 @@ class AiCommandHandler
       content: "Current Server Status (all IP addresses hidden for privacy):\n#{server_status}"
     }
 
+    sayer_message = sayer_info_message
+    messages << { role: "system", content: sayer_message } if sayer_message
+
     messages << { role: "user", content: request }
     messages
+  end
+
+  def sayer_info_message
+    return unless @sayer
+
+    in_game_name = @sayer[:name]
+    steam_uid = @sayer[:steam_uid].to_s
+    return if steam_uid.blank?
+
+    user = User.find_by(uid: steam_uid)
+    is_reserver = reservation&.user&.uid == steam_uid
+
+    lines = [ "The player who sent the chat message has the following identity:" ]
+    lines << "- In-game name: #{in_game_name}" if in_game_name.present?
+    lines << "- Steam ID (steamID64): #{steam_uid}"
+    if user
+      flags = [ "registered on serveme.tf" ]
+      flags << "admin" if user.admin?
+      flags << "donator" if user.donator?
+      lines << "- Account: #{flags.join(', ')}"
+      lines << "- Site nickname: #{user.nickname}" if user.nickname.present? && user.nickname != in_game_name
+    else
+      lines << "- Account: not registered on serveme.tf"
+    end
+    lines << "- Is the reservation creator: #{is_reserver ? 'yes' : 'no'}"
+
+    lines.join("\n")
   end
 
   def call_openai_and_handle_tools(messages)

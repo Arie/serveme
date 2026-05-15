@@ -271,7 +271,10 @@ describe LogWorker do
     end
 
     it 'allows the reservation owner to use AI commands' do
-      expect(ai_handler).to receive(:process_request).with("change map to process")
+      expect(ai_handler).to receive(:process_request).with(
+        "change map to process",
+        sayer: hash_including(:name, :steam_uid)
+      )
       LogWorker.perform_async(ai_command_line)
     end
   end

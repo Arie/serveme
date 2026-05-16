@@ -37,17 +37,21 @@ tasks:
     autocorrect: "bundle exec rake rswag:specs:swaggerize"
     depends_on: db_test_prepare
 
-  db_copy:
-    command: "(dropdb serveme_test_cucumber 2>/dev/null || true) && createdb --template serveme_test serveme_test_cucumber"
+  db_copy_rspec:
+    command: "for i in $(seq 2 %{rspec_worker_count}); do (dropdb serveme_test$i 2>/dev/null || true) && createdb --template serveme_test serveme_test$i || exit 1; done"
+    depends_on: db_test_prepare
+
+  db_copy_cucumber:
+    command: "(dropdb serveme_test_cucumber 2>/dev/null || true) && createdb --template serveme_test serveme_test_cucumber && for i in $(seq 2 %{cucumber_worker_count}); do (dropdb serveme_test_cucumber$i 2>/dev/null || true) && createdb --template serveme_test serveme_test_cucumber$i || exit 1; done"
     depends_on: db_test_prepare
 
   rspec:
-    command: "REDIS_CACHE_DB=2 REDIS_LOCK_DB=3 bundle exec rspec spec%{seed_arg}"
-    depends_on: db_copy
+    command: "REDIS_LOCK_DB=2 bundle exec parallel_rspec -n %{rspec_worker_count}%{rspec_seed_arg} spec"
+    depends_on: db_copy_rspec
 
   cucumber:
-    command: "%{debug}TEST_DATABASE=serveme_test_cucumber REDIS_CACHE_DB=4 REDIS_LOCK_DB=5 SESSION_KEY_SUFFIX=_cucumber bundle exec cucumber%{seed_arg}"
-    depends_on: db_copy
+    command: "%{debug}TEST_DATABASE=serveme_test_cucumber REDIS_LOCK_DB=6 SESSION_KEY_SUFFIX=_cucumber bundle exec parallel_cucumber -n %{cucumber_worker_count}%{cucumber_seed_arg}"
+    depends_on: db_copy_cucumber
 
 # Sections define which tasks to run and in what order
 # Sections run sequentially, tasks within a section run in parallel (respecting dependencies)

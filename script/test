@@ -22,6 +22,9 @@ require "yaml"
 require_relative "../lib/test_runner"
 require_relative "../lib/timing"
 
+RSPEC_WORKERS = Integer(ENV.fetch("RSPEC_WORKERS", "3"))
+CUCUMBER_WORKERS = Integer(ENV.fetch("CUCUMBER_WORKERS", "1"))
+
 # ============================================================================
 # Helper Functions
 # ============================================================================
@@ -41,10 +44,16 @@ def resolve_command(task_name, task_config, autocorrect:, seed: nil, verbose: fa
   command = autocorrect && task_config["autocorrect"] ? task_config["autocorrect"] : task_config["command"]
 
   seed_arg = seed ? " --order random:#{seed}" : ""
+  rspec_seed_arg = seed ? " --test-options '--order random:#{seed}'" : ""
+  cucumber_seed_arg = seed ? " --test-options '--order random:#{seed}'" : ""
   debug = verbose ? "DEBUG=1 " : ""
 
   command % {
     seed_arg: seed_arg,
+    rspec_seed_arg: rspec_seed_arg,
+    cucumber_seed_arg: cucumber_seed_arg,
+    rspec_worker_count: RSPEC_WORKERS,
+    cucumber_worker_count: CUCUMBER_WORKERS,
     debug: debug
   }
 rescue KeyError

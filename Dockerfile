@@ -14,10 +14,11 @@ FROM docker.io/library/ruby:$RUBY_VERSION-slim AS base
 # Rails app lives here
 WORKDIR /rails
 
-# Install base packages
+# Install base packages. Pre-create dirs that the final-stage COPYs would otherwise materialize with build-time mtimes (BuildKit --link parent-dir reproducibility quirk).
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y curl libjemalloc2 libvips  && \
-    rm -rf /var/lib/apt/lists /var/cache/apt/archives
+    rm -rf /var/lib/apt/lists /var/cache/apt/archives && \
+    mkdir -p /var/cache/bootsnap /rails/public/assets
 
 # Set production environment. LD_PRELOAD activates jemalloc for the Ruby process.
 ENV RAILS_ENV="production" \
@@ -25,7 +26,8 @@ ENV RAILS_ENV="production" \
     BUNDLE_PATH="/usr/local/bundle" \
     BUNDLE_WITHOUT="development:test" \
     LD_PRELOAD="libjemalloc.so.2" \
-    MALLOC_CONF="dirty_decay_ms:1000,narenas:2,background_thread:true"
+    MALLOC_CONF="dirty_decay_ms:1000,narenas:2,background_thread:true" \
+    BOOTSNAP_CACHE_DIR="/var/cache/bootsnap"
 
 # Throw-away build stage to reduce size of final image
 FROM base AS build
@@ -64,7 +66,16 @@ COPY . .
 # this image, cross-syncs with the previous release, and mounts the
 # per-version volume back over public/assets at run time.
 RUN --mount=type=cache,target=/rails/tmp/cache,sharing=locked \
-    SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
+    --mount=type=cache,target=/var/cache/bootsnap,sharing=locked \
+    SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile && \
+    sed -i 's/"mtime":"[^"]*"/"mtime":"1970-01-01T00:00:00+00:00"/g' public/assets/.sprockets-manifest-*.json && \
+    cd public/assets && \
+    OLD=$(ls .sprockets-manifest-*.json) && \
+    NEW=".sprockets-manifest-$(sha256sum "$OLD" | cut -c1-32).json" && \
+    [ "$OLD" = "$NEW" ] || mv "$OLD" "$NEW" && \
+    cd /rails && \
+    find public/assets -name '*.gz' | while read gz; do src="${gz%.gz}"; [ -f "$src" ] && gzip -9 -n < "$src" > "$gz"; done && \
+    find public/assets -exec touch -d '@0' {} +
 
 
 
@@ -94,8 +105,7 @@ RUN curl -fsSL "https://download.docker.com/linux/static/stable/x86_64/docker-${
 # Final-stage COPYs ordered by churn frequency. --link makes each layer's digest content-addressable so identical sources cache-hit on the registry.
 COPY --from=build --link /rails/public/assets /rails/public/assets
 COPY --from=build --link "${BUNDLE_PATH}" "${BUNDLE_PATH}"
-
-# Everything else — keeps tmp/ so the gem-bootsnap cache from line 45 survives.
+COPY --from=build --link /var/cache/bootsnap /var/cache/bootsnap
 COPY --from=build --link --exclude=public/assets /rails /rails
 
 # Run and own only the runtime files as a non-root user for security

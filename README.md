@@ -1,7 +1,7 @@
-# [FakkelBrigade server reservations](http://serveme.tf)
+# [serveme.tf](http://serveme.tf)
 
 
-A web-interface to reserve TF2 gameservers
+Competitive TF2 servers worldwide in 60 seconds or less
 
 ## Requirements
 

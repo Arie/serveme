@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# Runs migrations once per destination on the primary web host before the rolling restart so a long migration can't be killed by web-role health-checks.
+
+set -euo pipefail
+
+exec kamal app exec --roles web ${KAMAL_DESTINATION:+-d "$KAMAL_DESTINATION"} --version="$KAMAL_VERSION" 'bin/rails db:prepare'

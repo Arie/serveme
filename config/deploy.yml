@@ -29,6 +29,10 @@ builder:
   # Default is `git archive` — would drop uncommitted changes and the
   # gitignored doc/GeoLite2-*.mmdb files.
   context: .
+  # Pushes BuildKit cache to GHCR so Gemfile-unchanged rebuilds reuse the gems layer instead of re-uploading 568 MB.
+  cache:
+    type: registry
+    options: mode=max,image-manifest=true
 
 env:
   clear:

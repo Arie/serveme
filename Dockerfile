@@ -19,11 +19,13 @@ RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y curl libjemalloc2 libvips  && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
-# Set production environment
+# Set production environment. LD_PRELOAD activates jemalloc for the Ruby process.
 ENV RAILS_ENV="production" \
     BUNDLE_DEPLOYMENT="1" \
     BUNDLE_PATH="/usr/local/bundle" \
-    BUNDLE_WITHOUT="development"
+    BUNDLE_WITHOUT="development:test" \
+    LD_PRELOAD="libjemalloc.so.2" \
+    MALLOC_CONF="dirty_decay_ms:1000,narenas:2,background_thread:true"
 
 # Throw-away build stage to reduce size of final image
 FROM base AS build
@@ -39,20 +41,19 @@ RUN apt-get update -qq && \
 # NB: target uses Ruby's API version (4.0.x → 4.0.0). Bump to 4.1.x
 # means updating the cache path or you'll lose the cache for one build.
 COPY Gemfile Gemfile.lock ./
+# `bundle config set bin 'bin'` is run inside this cached layer so the resulting /usr/local/bundle/config is stable across code-only rebuilds. Doing it later would mutate /usr/local/bundle every build and break the gems-layer cache.
 RUN --mount=type=cache,target=/usr/local/bundle/ruby/4.0.0/cache,sharing=locked \
+    bundle config set bin 'bin' && \
     bundle install && \
     rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
-    bundle exec bootsnap precompile --gemfile
+    bundle exec bootsnap precompile --gemfile && \
+    mkdir -p bin && \
+    bundle binstubs thruster --force
 
 # Copy application code
 COPY . .
 
-# Generate the bin/thrust binstub (Thruster's binary is in BUNDLE_PATH/bin
-# but the Dockerfile CMD expects ./bin/thrust at WORKDIR).
-RUN bundle config set bin 'bin' && bundle binstubs thruster --force
-
-# Precompile bootsnap code for faster boot times
-RUN bundle exec bootsnap precompile app/ lib/
+# Skip `bootsnap precompile app/ lib/` — churns the code layer for ~200ms boot.
 
 # Precompiling assets for production without requiring secret RAILS_MASTER_KEY.
 # Cache mount on tmp/cache covers sprockets manifests + bootsnap caches
@@ -90,9 +91,12 @@ ARG DOCKER_CLI_VERSION=29.4.2
 RUN curl -fsSL "https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKER_CLI_VERSION}.tgz" \
     | tar -xzC /usr/local/bin --strip-components=1 docker/docker
 
-# Copy built artifacts: gems, application
-COPY --from=build "${BUNDLE_PATH}" "${BUNDLE_PATH}"
-COPY --from=build /rails /rails
+# Final-stage COPYs ordered by churn frequency. --link makes each layer's digest content-addressable so identical sources cache-hit on the registry.
+COPY --from=build --link /rails/public/assets /rails/public/assets
+COPY --from=build --link "${BUNDLE_PATH}" "${BUNDLE_PATH}"
+
+# Everything else — keeps tmp/ so the gem-bootsnap cache from line 45 survives.
+COPY --from=build --link --exclude=public/assets /rails /rails
 
 # Run and own only the runtime files as a non-root user for security
 RUN groupadd --system --gid 1000 rails && \
@@ -101,7 +105,6 @@ RUN groupadd --system --gid 1000 rails && \
     chown -R rails:rails db log storage tmp
 USER 1000:1000
 
-# Entrypoint prepares the database.
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
 # Start server via Thruster by default, this can be overwritten at runtime

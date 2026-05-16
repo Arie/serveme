@@ -5,7 +5,7 @@ A web-interface to reserve TF2 gameservers
 
 ## Requirements
 
-* Ruby, preferbly 3.1+, but other versions might work. You should use [ruby-build](https://github.com/sstephenson/ruby-build/) to install Ruby.
+* Ruby 4.0+ — install via [mise](https://mise.jdx.dev/). See `.ruby-version` for the exact version.
 * A Steam API key for user sign in
 * Postgres database
 * Redis
@@ -20,22 +20,27 @@ A web-interface to reserve TF2 gameservers
 ## Running locally
 1. Make sure you've installed the requirements.
 2. Review the yaml files in the `config` directory.
-3. Get a steam api key https://steamcommunity.com/dev/apikey
-4. Create a new file at `config/initializers/steam.rb` with the folowing:
-```ruby
-STEAM_WEB_API_KEY = '<your_api_key_here>'
+3. Get a Steam API key from https://steamcommunity.com/dev/apikey.
+4. Add the Steam API key (and any other secrets) to Rails credentials via `bin/rails credentials:edit`:
+```yaml
+steam:
+  api_key: <your_api_key_here>
 ```
-5. Go to https://dev.maxmind.com/geoip/geoip2/geolite2/ and download the `GeoLite2 City` DB file. unzip and place in `/doc/` folder.
-6. Install required libraries for nokogiri [(doc can be found here)](http://www.nokogiri.org/tutorials/installing_nokogiri.html#install_with_included_libraries__recommended_)
-7. Install the required gems using bundler: `gem install bundler && bundle` Hint you may need to install some header files for  for
-8. Edit the seed data in db/seeds.rb i.e the servers list
-9. Setup and migrate the databases: rake db:create db:migrate db:seed RAILS_ENV=development
-10. Start the webserver: `rails s`
-11. Add `exec reservation.cfg` to the server.cfg of the gameserver
+5. Go to https://dev.maxmind.com/geoip/geoip2/geolite2/ and download the `GeoLite2 City` DB file. Unzip and place in `/doc/`.
+6. Install required libraries for nokogiri [(doc can be found here)](http://www.nokogiri.org/tutorials/installing_nokogiri.html#install_with_included_libraries__recommended_).
+7. Install the required gems: `gem install bundler && bundle install`. You may need development header packages for native extensions (postgres, libmaxminddb, libvips).
+8. Edit the seed data in `db/seeds.rb`, i.e. the servers list.
+9. Set up and migrate the databases: `bin/rails db:setup RAILS_ENV=development`.
+10. Start the webserver: `bin/rails s`.
+11. Add `exec reservation.cfg` to the `server.cfg` of the gameserver.
+
+### Running the test suite
+`script/test -a` runs the full check: RuboCop, Brakeman, RSpec, import-map verification, Tapioca, and Swagger regeneration.
 
 
 ## Servers
 There's currently no web interface for adding/editing servers (pull requests welcome). So you'll have to enter them manually in the database or using the rails console.
+
 
 Here's how you add a local server:
 ```ruby

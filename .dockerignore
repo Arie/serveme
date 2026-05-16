@@ -36,6 +36,9 @@
 /public/system/*
 !/public/system/.keep
 
+# MaxMind databases — bind-mounted from /etc/serveme/ in production.
+/doc/GeoLite2-*.mmdb
+
 # Ignore CI service files.
 /.github
 

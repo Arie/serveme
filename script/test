@@ -23,7 +23,7 @@ require_relative "../lib/test_runner"
 require_relative "../lib/timing"
 
 RSPEC_WORKERS = Integer(ENV.fetch("RSPEC_WORKERS", "3"))
-CUCUMBER_WORKERS = Integer(ENV.fetch("CUCUMBER_WORKERS", "1"))
+CUCUMBER_WORKERS = Integer(ENV.fetch("CUCUMBER_WORKERS", "2"))
 
 # ============================================================================
 # Helper Functions

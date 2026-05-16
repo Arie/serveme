@@ -1,0 +1,98 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+#
+# Refresh MaxMind GeoLite2 dbs on prod hosts and redeploy.
+# Usage: bin/update-maxmind [destinations...]   # default: eu na au sea
+
+require "yaml"
+require "shellwords"
+
+DEFAULT_DESTINATIONS = %w[eu na au sea].freeze
+
+FILES = {
+  "doc/GeoLite2-City.mmdb" => "/etc/serveme/GeoLite2-City.mmdb",
+  "doc/GeoLite2-ASN.mmdb"  => "/etc/serveme/GeoLite2-ASN.mmdb"
+}.freeze
+
+Dir.chdir(File.expand_path("..", __dir__))
+
+destinations = ARGV.empty? ? DEFAULT_DESTINATIONS : ARGV
+destinations.each do |d|
+  abort "Missing config/deploy.#{d}.yml" unless File.exist?("config/deploy.#{d}.yml")
+end
+
+def run!(*cmd)
+  puts "    $ #{cmd.shelljoin}"
+  system(*cmd) || abort("    failed: #{cmd.shelljoin}")
+end
+
+def base_config
+  @base_config ||= YAML.safe_load_file("config/deploy.yml", aliases: true, permitted_classes: [Symbol])
+end
+
+def deploy_config(destination)
+  YAML.safe_load_file("config/deploy.#{destination}.yml", aliases: true, permitted_classes: [Symbol])
+end
+
+def ssh_for(destination)
+  cfg  = deploy_config(destination)
+  user = cfg.dig("ssh", "user") || base_config.dig("ssh", "user") || "root"
+  keys = Array(cfg.dig("ssh", "keys"))
+  keys = Array(base_config.dig("ssh", "keys")) if keys.empty?
+  key  = keys.first&.gsub(/^~/, ENV["HOME"].to_s)
+  opts = ["-o", "StrictHostKeyChecking=accept-new"]
+  opts.push("-i", key) if key && !key.empty?
+  [user, opts]
+end
+
+def hosts_for(destination)
+  hosts = []
+  deploy_config(destination)["servers"].each_value do |spec|
+    case spec
+    when Hash   then hosts.concat(Array(spec["hosts"]))
+    when Array  then hosts.concat(spec)
+    when String then hosts << spec
+    end
+  end
+  hosts.uniq
+end
+
+# Pin --version on app boot so a dirty working tree can't fall through to a build.
+def current_version(destination)
+  output = `bin/kamal app version -d #{destination.shellescape} 2>&1`
+  abort "kamal app version failed for #{destination}:\n#{output}" unless $?.success?
+
+  versions = output.each_line.filter_map { |l| l.strip[/\A[a-f0-9]{40}(?:_[a-z0-9]+)?\z/i] }.uniq
+
+  abort "Could not parse a version from kamal output for #{destination}:\n#{output}" if versions.empty?
+  abort "Hosts in #{destination} report divergent versions: #{versions.inspect}" if versions.size > 1
+
+  versions.first
+end
+
+puts "==> Fetching fresh GeoLite2 databases"
+run!("bin/rake", "maxmind:fetch")
+FILES.each_key { |src| abort "Missing #{src} after fetch" unless File.exist?(src) }
+
+destinations.each do |destination|
+  user, ssh_opts = ssh_for(destination)
+  hosts_for(destination).each do |host|
+    puts "==> #{destination}: #{user}@#{host}"
+    FILES.each do |src, dest|
+      staging = "/tmp/update-maxmind.#{File.basename(dest)}.#{$$}"
+      run!("ssh", *ssh_opts, "#{user}@#{host}", "sudo mkdir -p #{File.dirname(dest).shellescape}")
+      run!("scp", *ssh_opts, src, "#{user}@#{host}:#{staging}")
+      run!("ssh", *ssh_opts, "#{user}@#{host}",
+           "sudo install -m 0644 -o root -g root #{staging.shellescape} #{dest.shellescape} && rm -f #{staging.shellescape}")
+    end
+  end
+end
+
+destinations.each do |destination|
+  version = current_version(destination)
+  puts "==> #{destination}: kamal app boot --version=#{version}"
+  run!("bin/kamal", "app", "boot", "--version=#{version}", "-d", destination)
+end
+
+puts
+puts "Done. Updated #{destinations.size} region(s)."

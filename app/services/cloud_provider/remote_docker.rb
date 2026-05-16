@@ -5,7 +5,7 @@ require "net/ssh"
 require "shellwords"
 
 module CloudProvider
-  class RemoteDocker < Base
+  class RemoteDocker < DockerContainerProvider
     def self.locations(starts_at: Time.current, ends_at: 2.hours.from_now)
       return {} if DockerImageReadiness.stale?
 
@@ -21,49 +21,25 @@ module CloudProvider
       end
     end
 
+    def docker_image
+      "serveme/tf2-cloud-server:latest"
+    end
+
     def create_server(cloud_server)
       Rails.logger.info "RemoteDocker: Creating container for cloud_server #{cloud_server.id}"
       docker_host = DockerHost.find(cloud_server.cloud_location)
-      public_key = cloud_server.cloud_ssh_public_key
-      container_name = "res-#{cloud_server.cloud_reservation_id}-cloud-#{cloud_server.id}"
-
-      game_port = cloud_server.port.to_i
-      tv_port = game_port + 5
-      port_offset = (game_port - 27015) / 10
-      ssh_port = 22000 + port_offset
-      client_port = 40001 + port_offset
-      steam_port = 30001 + port_offset
-
-      discord_webhook = ENV["DISCORD_STAC_WEBHOOK_URL"] || Rails.application.credentials.dig(:discord, :stac_webhook_url)
-
-      docker_run_parts = [
-        "docker run -d --net=host",
-        "--security-opt seccomp=/etc/docker/seccomp-tf2.json",
-        "--name #{Shellwords.shellescape(container_name)}",
-        "-e CALLBACK_URL=#{callback_url(cloud_server)}",
-        "-e CALLBACK_TOKEN=#{cloud_server.cloud_callback_token}",
-        "-e SSH_AUTHORIZED_KEYS=#{Shellwords.shellescape(public_key)}",
-        "-e RCON_PASSWORD=#{Shellwords.shellescape(cloud_server.rcon)}",
-        "-e PORT=#{game_port}",
-        "-e TV_PORT=#{tv_port}",
-        "-e SSH_PORT=#{ssh_port}",
-        "-e CLIENT_PORT=#{client_port}",
-        "-e STEAM_PORT=#{steam_port}",
-        "-e ENABLE_FAKEIP=1",
-        "-e EXPECTED_TF2_VERSION=#{Server.latest_version}"
-      ]
-      docker_run_parts << "-e DISCORD_STAC_WEBHOOK_URL=#{Shellwords.shellescape(discord_webhook)}" if discord_webhook.present?
-      docker_run_parts << "serveme/tf2-cloud-server:latest"
-      docker_run_cmd = docker_run_parts.join(" ")
+      name = container_name(cloud_server)
+      run_cmd = docker_run_command(cloud_server)
 
       ssh_to_host(docker_host) do |ssh|
-        ssh.exec!("timeout 600 docker pull serveme/tf2-cloud-server:latest")
-        output = ssh.exec!(docker_run_cmd)
+        ssh.exec!("timeout 600 docker pull #{docker_image}")
+        output = ssh.exec!(run_cmd)
         raise "RemoteDocker container failed to start on #{docker_host.ip}: #{output}" if output.nil? || output.strip.empty?
-        Rails.logger.info "RemoteDocker: Created container #{container_name} on #{docker_host.ip}"
+
+        Rails.logger.info "RemoteDocker: Created container #{name} on #{docker_host.ip}"
       end
 
-      "#{docker_host.id}:#{container_name}"
+      "#{docker_host.id}:#{name}"
     end
 
     def estimated_provision_time
@@ -81,21 +57,16 @@ module CloudProvider
     end
 
     def server_status(provider_id)
-      docker_host_id, container_name = provider_id.split(":", 2)
+      docker_host_id, name = provider_id.split(":", 2)
       docker_host = DockerHost.find(docker_host_id)
 
       output = ssh_to_host(docker_host) do |ssh|
-        ssh.exec!("docker inspect -f '{{.State.Status}}' #{Shellwords.shellescape(container_name)}")
+        ssh.exec!("docker inspect -f '{{.State.Status}}' #{Shellwords.shellescape(name)}")
       end
 
       return "provisioning" if output.nil?
 
-      case output.strip
-      when "running" then "running"
-      when "created", "restarting" then "provisioning"
-      when "exited", "dead", "removing" then "stopped"
-      else "provisioning"
-      end
+      parse_docker_state(output)
     end
 
     def server_ip(provider_id)
@@ -104,15 +75,15 @@ module CloudProvider
     end
 
     def destroy_server(provider_id)
-      docker_host_id, container_name = provider_id.split(":", 2)
+      docker_host_id, name = provider_id.split(":", 2)
       docker_host = DockerHost.find(docker_host_id)
 
-      Rails.logger.info "RemoteDocker: Destroying container #{container_name} on #{docker_host.ip}"
+      Rails.logger.info "RemoteDocker: Destroying container #{name} on #{docker_host.ip}"
       output = ssh_to_host(docker_host) do |ssh|
-        ssh.exec!("docker rm -f #{Shellwords.shellescape(container_name)}")
+        ssh.exec!("docker rm -f #{Shellwords.shellescape(name)}")
       end
       result = output.present?
-      Rails.logger.info "RemoteDocker: Destroy container #{container_name} result: #{result}"
+      Rails.logger.info "RemoteDocker: Destroy container #{name} result: #{result}"
       result
     end
 

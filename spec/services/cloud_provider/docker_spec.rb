@@ -53,6 +53,45 @@ RSpec.describe CloudProvider::Docker do
         end
       end
     end
+
+    context "DISCORD_STAC_WEBHOOK_URL" do
+      before do
+        allow(ENV).to receive(:[]).and_call_original
+        allow(Rails.application.credentials).to receive(:dig).and_call_original
+      end
+
+      it "uses the ENV var when set" do
+        allow(ENV).to receive(:[]).with("DISCORD_STAC_WEBHOOK_URL")
+          .and_return("https://discord.com/api/webhooks/local/env")
+
+        provider.create_server(cloud_server)
+        expect(provider).to have_received(:system) do |*args|
+          expect(args).to include("-e", "DISCORD_STAC_WEBHOOK_URL=https://discord.com/api/webhooks/local/env")
+        end
+      end
+
+      it "falls back to the discord.stac_webhook_url credential when ENV is unset" do
+        allow(ENV).to receive(:[]).with("DISCORD_STAC_WEBHOOK_URL").and_return(nil)
+        allow(Rails.application.credentials).to receive(:dig)
+          .with(:discord, :stac_webhook_url).and_return("https://discord.com/api/webhooks/local/cred")
+
+        provider.create_server(cloud_server)
+        expect(provider).to have_received(:system) do |*args|
+          expect(args).to include("-e", "DISCORD_STAC_WEBHOOK_URL=https://discord.com/api/webhooks/local/cred")
+        end
+      end
+
+      it "omits the flag when neither source is set" do
+        allow(ENV).to receive(:[]).with("DISCORD_STAC_WEBHOOK_URL").and_return(nil)
+        allow(Rails.application.credentials).to receive(:dig)
+          .with(:discord, :stac_webhook_url).and_return(nil)
+
+        provider.create_server(cloud_server)
+        expect(provider).to have_received(:system) do |*args|
+          expect(args.grep(/DISCORD_STAC_WEBHOOK_URL/)).to be_empty
+        end
+      end
+    end
   end
 
   describe "#server_status" do

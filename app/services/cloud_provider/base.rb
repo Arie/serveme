@@ -131,24 +131,22 @@ module CloudProvider
     end
 
     def cloud_init_script(cloud_server)
-      callback_token = cloud_server.cloud_callback_token
-      ssh_public_key = Rails.application.credentials.dig(:cloud_servers, :ssh_public_key)
       image = cloud_init_docker_image(cloud_server)
+      env = ContainerEnv.build(
+        cloud_server,
+        ssh_public_key: Rails.application.credentials.dig(:cloud_servers, :ssh_public_key),
+        mode: :vm
+      )
+      env_lines = ContainerEnv.to_shell_args(env).map { |arg| "  #{arg} \\" }.join("\n")
 
       <<~CLOUD_INIT
         #!/bin/bash
         #{cloud_init_pre_docker}
         #{cloud_init_seccomp_profile}
         #{cloud_init_docker_pull(cloud_server, image)}
-        docker run -d --restart unless-stopped --cap-add=NET_ADMIN --network host \
-          --security-opt seccomp=/etc/docker/seccomp-tf2.json \
-          -e CALLBACK_URL=#{callback_url(cloud_server)} \
-          -e CALLBACK_TOKEN=#{callback_token} \
-          -e SSH_AUTHORIZED_KEYS="#{ssh_public_key}" \
-          -e RCON_PASSWORD=#{Shellwords.shellescape(cloud_server.rcon)} \
-          -e SSH_PORT=2222 \
-          -e ENABLE_FAKEIP=1 \
-          -e EXPECTED_TF2_VERSION=#{Server.latest_version} \
+        docker run -d --restart unless-stopped --cap-add=NET_ADMIN --network host \\
+          --security-opt seccomp=/etc/docker/seccomp-tf2.json \\
+        #{env_lines}
           #{image}
       CLOUD_INIT
     end
@@ -181,18 +179,6 @@ module CloudProvider
           docker pull #{image}
         fi
       BASH
-    end
-
-    # Build the callback URL for the cloud-init script.
-    # In production uses SITE_HOST with https.
-    # Set CLOUD_CALLBACK_HOST env var to override for local testing
-    # (e.g. CLOUD_CALLBACK_HOST=ariekanarie.nl:3000).
-    def callback_url(cloud_server)
-      if ENV["CLOUD_CALLBACK_HOST"]
-        "http://#{ENV['CLOUD_CALLBACK_HOST']}/api/cloud_servers/#{cloud_server.id}/ready"
-      else
-        "https://#{SITE_HOST}/api/cloud_servers/#{cloud_server.id}/ready"
-      end
     end
   end
 end

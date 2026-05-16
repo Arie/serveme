@@ -203,7 +203,7 @@ class CloudServer < RemoteServer
     end
 
     attrs = {
-      name: "#{location_name} (#{provider_name == "remote_docker" ? SITE_HOST : provider_name.titleize})",
+      name: "#{location_name} (#{provider_name == "remote_docker" ? T.must(docker_host).hostname : provider_name.titleize})",
       ip: provider_name == "remote_docker" ? T.must(docker_host).ip : "0.0.0.0",
       port: game_port.to_s,
       path: "/home/tf2/hlserver/tf2",

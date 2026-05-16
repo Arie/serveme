@@ -229,28 +229,26 @@ RSpec.describe Mcp::Tools::SearchCoPlayersTool do
 
     context "with limit parameter" do
       let!(:many_co_players) do
-        5.times.map do |i|
-          reservations = 3.times.map do
-            reservation = create(:reservation)
-            ReservationPlayer.insert!({
-              reservation_id: reservation.id,
-              steam_uid: target_steam_uid,
-              ip: "10.0.0.1",
-              name: "TargetPlayer"
-            })
-            ReservationPlayer.insert!({
-              reservation_id: reservation.id,
-              steam_uid: "7656119800#{i}000000",
-              ip: "10.0.#{i}.1",
-              name: "BulkPlayer#{i}"
-            })
-            reservation
-          end
+        4.times.map do |i|
+          reservation = create(:reservation)
+          ReservationPlayer.insert!({
+            reservation_id: reservation.id,
+            steam_uid: target_steam_uid,
+            ip: "10.0.0.1",
+            name: "TargetPlayer"
+          })
+          ReservationPlayer.insert!({
+            reservation_id: reservation.id,
+            steam_uid: "7656119800#{i}000000",
+            ip: "10.0.#{i}.1",
+            name: "BulkPlayer#{i}"
+          })
+          reservation
         end
       end
 
       it "respects the limit" do
-        result = tool.execute(steam_uid: target_steam_uid, limit: 3)
+        result = tool.execute(steam_uid: target_steam_uid, limit: 3, min_shared: 1)
 
         expect(result[:co_players].size).to eq(3)
       end

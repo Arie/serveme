@@ -68,7 +68,11 @@
         %dl.row.mb-0
           %dt.col-sm-7 Lifetime Value:
           %dd.col-sm-5.text-end
-            %strong= number_to_currency(@lifetime_value)
+            - if @lifetime_value_by_currency.any?
+              - @lifetime_value_by_currency.each do |currency, amount|
+                %strong.d-block= format_currency(amount, currency)
+            - else
+              %strong= format_currency(0, nil)
 
           %dt.col-sm-7 Total Donations:
           %dd.col-sm-5.text-end= @total_donations
@@ -155,7 +159,7 @@
                   %tr
                     %td= l(order.created_at, format: :long)
                     %td= order.product.name
-                    %td= number_to_currency(order.product.price)
+                    %td= format_currency(order.product.price, order.product.currency)
                     %td
                       - if order.gift?
                         - if order.voucher&.claimed?
@@ -197,7 +201,7 @@
                   %tr
                     %td= l(voucher.claimed_at, format: :long)
                     %td= voucher.product.name
-                    %td= number_to_currency(voucher.product.price)
+                    %td= format_currency(voucher.product.price, voucher.product.currency)
                     %td
                       - if voucher.order&.user
                         = link_to voucher.order.user.nickname, admin_user_path(voucher.order.user), class: "text-decoration-none text-decoration-underline-hover"

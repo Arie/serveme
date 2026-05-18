@@ -74,7 +74,7 @@ describe Admin::UsersController do
       assigns(:vouchers).should include(voucher)
       assigns(:reservations).should include(reservation)
 
-      assigns(:lifetime_value).should eql 25.0
+      assigns(:lifetime_value_by_currency).should eql({ 'EUR' => 25.0 })
       assigns(:total_donations).should eql 1
       assigns(:total_reservations).should eql 1
       assigns(:total_reservation_hours).should eql 1.0

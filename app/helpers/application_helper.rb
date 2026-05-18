@@ -114,4 +114,19 @@ module ApplicationHelper
     else "bg-secondary"
     end
   end
+
+  def format_currency(amount, currency_code)
+    I18n.with_locale(locale_for_currency(currency_code)) do
+      number_to_currency(amount)
+    end
+  end
+
+  def locale_for_currency(currency_code)
+    case currency_code.to_s.upcase
+    when "USD" then :"en-US"
+    when "AUD" then :"en-AU"
+    when "SGD" then :"en-SG"
+    else :en
+    end
+  end
 end

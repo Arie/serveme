@@ -191,7 +191,7 @@ module Admin
     end
 
     def calculate_user_statistics
-      @lifetime_value = @orders.joins(:product).sum(:price)
+      @lifetime_value_by_currency = @orders.joins(:product).reorder(nil).group("products.currency").sum(:price)
       @total_donations = @orders.count
       @total_reservations = @user.reservations.count
       @total_reservation_hours = (@user.reservations.sum(:duration) / 3600.0).round(1)

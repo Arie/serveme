@@ -10,6 +10,7 @@
 # Copyright, 2023-2024, by Samuel Williams.
 # Released under the MIT License.
 # Copyright, 2021-2025, by Samuel Williams.
+# Copyright, 2026, by William T. Nelson.
 # Released under the MIT License.
 # Copyright, 2019-2025, by Samuel Williams.
 # Released under the MIT License.
@@ -17,6 +18,7 @@
 # Copyright, 2019, by Bryan Powell.
 # Copyright, 2020, by Michael Adams.
 # Copyright, 2021, by Robert Schulze.
+# Copyright, 2026, by Copilot.
 # Released under the MIT License.
 # Copyright, 2023-2025, by Samuel Williams.
 # Released under the MIT License.
@@ -30,7 +32,7 @@
 # Released under the MIT License.
 # Copyright, 2019-2025, by Samuel Williams.
 # Released under the MIT License.
-# Copyright, 2019-2025, by Samuel Williams.
+# Copyright, 2019-2026, by Samuel Williams.
 #
 # pkg:gem/console#lib/console/version.rb:6
 module Console
@@ -39,7 +41,7 @@ end
 
 # A simple clock utility for tracking and formatting time.
 #
-# pkg:gem/console#lib/console/clock.rb:8
+# pkg:gem/console#lib/console/clock.rb:9
 module Console::Clock
   class << self
     # Format a duration in seconds as a human readable string.
@@ -47,12 +49,12 @@ module Console::Clock
     # @parameter duration [Numeric] The duration in seconds.
     # @returns [String] The formatted duration.
     #
-    # pkg:gem/console#lib/console/clock.rb:13
+    # pkg:gem/console#lib/console/clock.rb:14
     def formatted_duration(duration); end
 
     # @returns [Time] The current monotonic time.
     #
-    # pkg:gem/console#lib/console/clock.rb:36
+    # pkg:gem/console#lib/console/clock.rb:37
     def now; end
   end
 end
@@ -325,7 +327,7 @@ end
 
 # A log filter which can be used to filter log messages based on severity, subject, and other criteria.
 #
-# pkg:gem/console#lib/console/filter.rb:13
+# pkg:gem/console#lib/console/filter.rb:14
 class Console::Filter
   # Create a new log filter.
   #
@@ -334,12 +336,12 @@ class Console::Filter
   # @parameter level [Integer] The log level.
   # @parameter options [Hash] Additional options.
   #
-  # pkg:gem/console#lib/console/filter.rb:77
+  # pkg:gem/console#lib/console/filter.rb:78
   def initialize(output, verbose: T.unsafe(nil), level: T.unsafe(nil), **options); end
 
   # Enable all logging.
   #
-  # pkg:gem/console#lib/console/filter.rb:147
+  # pkg:gem/console#lib/console/filter.rb:148
   def all!; end
 
   # Log a message with the given severity.
@@ -354,28 +356,28 @@ class Console::Filter
   # @parameter block [Proc] A block passed to the output.
   # @returns [Nil] Always returns nil.
   #
-  # pkg:gem/console#lib/console/filter.rb:222
+  # pkg:gem/console#lib/console/filter.rb:223
   def call(subject, *arguments, **options, &block); end
 
   # Clear any specific filters for the given class.
   #
   # @parameter subject [Module] The class to disable.
   #
-  # pkg:gem/console#lib/console/filter.rb:203
+  # pkg:gem/console#lib/console/filter.rb:204
   def clear(subject); end
 
   # Disable logging for the given class.
   #
   # @parameter name [Module] The class to disable.
   #
-  # pkg:gem/console#lib/console/filter.rb:195
+  # pkg:gem/console#lib/console/filter.rb:196
   def disable(subject); end
 
   # Enable specific log level for the given class.
   #
   # @parameter name [Module] The class to enable.
   #
-  # pkg:gem/console#lib/console/filter.rb:187
+  # pkg:gem/console#lib/console/filter.rb:188
   def enable(subject, level = T.unsafe(nil)); end
 
   # Whether logging is enabled for the given subject and log level.
@@ -386,7 +388,7 @@ class Console::Filter
   # @parameter level [Integer] The log level.
   # @returns [Boolean] Whether logging is enabled.
   #
-  # pkg:gem/console#lib/console/filter.rb:172
+  # pkg:gem/console#lib/console/filter.rb:173
   def enabled?(subject, level = T.unsafe(nil)); end
 
   # Filter log messages based on the subject and log level.
@@ -396,61 +398,61 @@ class Console::Filter
   # @parameter subject [Module] The subject to filter.
   # @parameter level [Integer] The log level.
   #
-  # pkg:gem/console#lib/console/filter.rb:157
+  # pkg:gem/console#lib/console/filter.rb:158
   def filter(subject, level); end
 
   # @attribute [Integer] The current log level.
   #
-  # pkg:gem/console#lib/console/filter.rb:114
+  # pkg:gem/console#lib/console/filter.rb:115
   def level; end
 
   # Set the log level.
   #
   # @parameter level [Integer | Symbol] The log level.
   #
-  # pkg:gem/console#lib/console/filter.rb:125
+  # pkg:gem/console#lib/console/filter.rb:126
   def level=(level); end
 
   # Disable all logging.
   #
-  # pkg:gem/console#lib/console/filter.rb:142
+  # pkg:gem/console#lib/console/filter.rb:143
   def off!; end
 
   # @attribute [Hash] Additional options.
   #
-  # pkg:gem/console#lib/console/filter.rb:120
+  # pkg:gem/console#lib/console/filter.rb:121
   def options; end
 
   # @attribute [Hash] Additional options.
   #
-  # pkg:gem/console#lib/console/filter.rb:120
+  # pkg:gem/console#lib/console/filter.rb:121
   def options=(_arg0); end
 
   # @attribute [Console::Output] The output destination.
   #
-  # pkg:gem/console#lib/console/filter.rb:108
+  # pkg:gem/console#lib/console/filter.rb:109
   def output; end
 
   # @attribute [Console::Output] The output destination.
   #
-  # pkg:gem/console#lib/console/filter.rb:108
+  # pkg:gem/console#lib/console/filter.rb:109
   def output=(_arg0); end
 
   # @attribute [Hash(Module, Integer)] The log levels for specific subject (classes).
   #
-  # pkg:gem/console#lib/console/filter.rb:117
+  # pkg:gem/console#lib/console/filter.rb:118
   def subjects; end
 
   # @attribute [Boolean] Whether to enable verbose output.
   #
-  # pkg:gem/console#lib/console/filter.rb:111
+  # pkg:gem/console#lib/console/filter.rb:112
   def verbose; end
 
   # Set verbose output (enable by default with no arguments).
   #
   # @parameter value [Boolean] Enable or disable verbose output.
   #
-  # pkg:gem/console#lib/console/filter.rb:136
+  # pkg:gem/console#lib/console/filter.rb:137
   def verbose!(value = T.unsafe(nil)); end
 
   # Create a new log filter with the given options, from an existing log filter.
@@ -460,7 +462,7 @@ class Console::Filter
   # @parameter options [Hash] Additional options.
   # @returns [Console::Filter] The new log filter.
   #
-  # pkg:gem/console#lib/console/filter.rb:99
+  # pkg:gem/console#lib/console/filter.rb:100
   def with(level: T.unsafe(nil), verbose: T.unsafe(nil), **options); end
 
   class << self
@@ -472,13 +474,13 @@ class Console::Filter
     #
     # @parameter levels [Hash(Symbol, Integer)] A hash of log levels.
     #
-    # pkg:gem/console#lib/console/filter.rb:34
+    # pkg:gem/console#lib/console/filter.rb:35
     def [](**levels); end
 
     # Define a method.
     # Define a method which can be shared between ractors.
     #
-    # pkg:gem/console#lib/console/filter.rb:16
+    # pkg:gem/console#lib/console/filter.rb:17
     def define_immutable_method(name, &block); end
   end
 end
@@ -1465,7 +1467,7 @@ Console::Terminal::XTerm::ATTRIBUTES = T.let(T.unsafe(nil), Hash)
 # pkg:gem/console#lib/console/terminal/xterm.rb:16
 Console::Terminal::XTerm::COLORS = T.let(T.unsafe(nil), Hash)
 
-# pkg:gem/console#lib/console/filter.rb:10
+# pkg:gem/console#lib/console/filter.rb:11
 Console::UNKNOWN = T.let(T.unsafe(nil), Symbol)
 
 # pkg:gem/console#lib/console/version.rb:7

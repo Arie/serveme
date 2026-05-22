@@ -83,7 +83,7 @@ class OpenTelemetry::Instrumentation::Base
   # Calls the compatible block of the Instrumentation subclasses, if no block is provided
   # it's assumed to be compatible
   #
-  # pkg:gem/opentelemetry-instrumentation-base#lib/opentelemetry/instrumentation/base.rb:246
+  # pkg:gem/opentelemetry-instrumentation-base#lib/opentelemetry/instrumentation/base.rb:248
   def compatible?; end
 
   # pkg:gem/opentelemetry-instrumentation-base#lib/opentelemetry/instrumentation/base.rb:192
@@ -95,7 +95,7 @@ class OpenTelemetry::Instrumentation::Base
   #
   # @param [optional Hash] config The local config
   #
-  # pkg:gem/opentelemetry-instrumentation-base#lib/opentelemetry/instrumentation/base.rb:257
+  # pkg:gem/opentelemetry-instrumentation-base#lib/opentelemetry/instrumentation/base.rb:259
   def enabled?(config = T.unsafe(nil)); end
 
   # Install instrumentation with the given config. The present? and compatible?
@@ -104,7 +104,7 @@ class OpenTelemetry::Instrumentation::Base
   #
   # @param [Hash] config The config for this instrumentation
   #
-  # pkg:gem/opentelemetry-instrumentation-base#lib/opentelemetry/instrumentation/base.rb:216
+  # pkg:gem/opentelemetry-instrumentation-base#lib/opentelemetry/instrumentation/base.rb:218
   def install(config = T.unsafe(nil)); end
 
   # Whether or not this instrumentation is installable in the current process. Will
@@ -113,7 +113,7 @@ class OpenTelemetry::Instrumentation::Base
   #
   # @param [Hash] config The config for this instrumentation
   #
-  # pkg:gem/opentelemetry-instrumentation-base#lib/opentelemetry/instrumentation/base.rb:232
+  # pkg:gem/opentelemetry-instrumentation-base#lib/opentelemetry/instrumentation/base.rb:234
   def installable?(config = T.unsafe(nil)); end
 
   # pkg:gem/opentelemetry-instrumentation-base#lib/opentelemetry/instrumentation/base.rb:192
@@ -128,7 +128,7 @@ class OpenTelemetry::Instrumentation::Base
   # Calls the present block of the Instrumentation subclasses, if no block is provided
   # it's assumed the instrumentation is not present
   #
-  # pkg:gem/opentelemetry-instrumentation-base#lib/opentelemetry/instrumentation/base.rb:238
+  # pkg:gem/opentelemetry-instrumentation-base#lib/opentelemetry/instrumentation/base.rb:240
   def present?; end
 
   # pkg:gem/opentelemetry-instrumentation-base#lib/opentelemetry/instrumentation/base.rb:192
@@ -139,7 +139,7 @@ class OpenTelemetry::Instrumentation::Base
 
   private
 
-  # pkg:gem/opentelemetry-instrumentation-base#lib/opentelemetry/instrumentation/base.rb:363
+  # pkg:gem/opentelemetry-instrumentation-base#lib/opentelemetry/instrumentation/base.rb:365
   def coerce_env_var(env_var, validation_type); end
 
   # The config_options method is responsible for validating that the user supplied
@@ -149,7 +149,7 @@ class OpenTelemetry::Instrumentation::Base
   #
   # @param [Hash] user_config The user supplied configuration hash
   #
-  # pkg:gem/opentelemetry-instrumentation-base#lib/opentelemetry/instrumentation/base.rb:272
+  # pkg:gem/opentelemetry-instrumentation-base#lib/opentelemetry/instrumentation/base.rb:274
   def config_options(user_config); end
 
   # Checks to see if the user has passed any environment variables that set options
@@ -165,7 +165,7 @@ class OpenTelemetry::Instrumentation::Base
   # For integer, string, enum, set the value as a string (e.g., option=string).
   # Callable options are not allowed to be set through environment variables.
   #
-  # pkg:gem/opentelemetry-instrumentation-base#lib/opentelemetry/instrumentation/base.rb:341
+  # pkg:gem/opentelemetry-instrumentation-base#lib/opentelemetry/instrumentation/base.rb:343
   def config_overrides_from_env; end
 
   # Checks to see if this instrumentation is enabled by env var. By convention, the
@@ -175,7 +175,7 @@ class OpenTelemetry::Instrumentation::Base
   # will be OTEL_RUBY_INSTRUMENTATION_SINATRA_ENABLED. A value of 'false' will disable
   # the instrumentation, all other values will enable it.
   #
-  # pkg:gem/opentelemetry-instrumentation-base#lib/opentelemetry/instrumentation/base.rb:319
+  # pkg:gem/opentelemetry-instrumentation-base#lib/opentelemetry/instrumentation/base.rb:321
   def enabled_by_env_var?; end
 
   class << self

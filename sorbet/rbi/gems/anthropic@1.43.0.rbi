@@ -3158,6 +3158,11 @@ module Anthropic
 
       SKILLS_2025_10_02 = T.let(:"skills-2025-10-02", Anthropic::AnthropicBeta::TaggedSymbol)
 
+      THINKING_TOKEN_COUNT_2026_05_13 = T.let(
+          :"thinking-token-count-2026-05-13",
+          Anthropic::AnthropicBeta::TaggedSymbol
+        )
+
       TOKEN_COUNTING_2024_11_01 = T.let(
           :"token-counting-2024-11-01",
           Anthropic::AnthropicBeta::TaggedSymbol
@@ -8433,10 +8438,10 @@ module Anthropic
         sig do
           override
             .returns({
-              content: T.nilable(String),
               type: Symbol,
               cache_control:
                 T.nilable(Anthropic::Beta::BetaCacheControlEphemeral),
+              content: T.nilable(String),
               encrypted_content: T.nilable(String)
             })
         end
@@ -8452,15 +8457,15 @@ module Anthropic
           # treats these as no-ops. Empty string content is not allowed.
           sig do
             params(
-              content: T.nilable(String),
               cache_control: T.nilable(Anthropic::Beta::BetaCacheControlEphemeral::OrHash),
+              content: T.nilable(String),
               encrypted_content: T.nilable(String),
               type: Symbol
             ).returns(T.attached_class)
           end
           def new(
-            content:, # Summary of previously compacted content, or null if compaction failed
             cache_control: nil, # Create a cache control breakpoint at this content block.
+            content: nil, # Summary of previously compacted content, or null if compaction failed
             encrypted_content: nil, # Opaque metadata from prior compaction, to be round-tripped verbatim
             type: :compaction
 ); end
@@ -9544,12 +9549,9 @@ module Anthropic
         sig { returns(T.nilable(String)) }
         attr_accessor :archived_at
 
-        # `cloud` environment configuration.
-        sig { returns(Anthropic::Beta::BetaCloudConfig) }
-        attr_reader :config
-
-        sig { params(config: Anthropic::Beta::BetaCloudConfig::OrHash).void }
-        attr_writer :config
+        # Environment configuration (either Anthropic Cloud or self-hosted)
+        sig { returns(Anthropic::Beta::BetaEnvironment::Config::Variants) }
+        attr_accessor :config
 
         # RFC 3339 timestamp when environment was created
         sig { returns(String) }
@@ -9571,6 +9573,14 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :name
 
+        # The visibility scope for this environment. 'organization' means visible to all
+        # accounts. 'account' means visible only to the owning account.
+        sig { returns(T.nilable(Anthropic::Beta::BetaEnvironment::Scope::TaggedSymbol)) }
+        attr_reader :scope
+
+        sig { params(scope: Anthropic::Beta::BetaEnvironment::Scope::OrSymbol).void }
+        attr_writer :scope
+
         # The type of object (always 'environment')
         sig { returns(Symbol) }
         attr_accessor :type
@@ -9584,13 +9594,14 @@ module Anthropic
             .returns({
               id: String,
               archived_at: T.nilable(String),
-              config: Anthropic::Beta::BetaCloudConfig,
+              config: Anthropic::Beta::BetaEnvironment::Config::Variants,
               created_at: String,
               description: String,
               metadata: T::Hash[Symbol, String],
               name: String,
               type: Symbol,
-              updated_at: String
+              updated_at: String,
+              scope: Anthropic::Beta::BetaEnvironment::Scope::TaggedSymbol
             })
         end
         def to_hash; end
@@ -9601,26 +9612,49 @@ module Anthropic
             params(
               id: String,
               archived_at: T.nilable(String),
-              config: Anthropic::Beta::BetaCloudConfig::OrHash,
+              config: T.any(
+                Anthropic::Beta::BetaCloudConfig::OrHash,
+                Anthropic::Beta::BetaSelfHostedConfig::OrHash
+              ),
               created_at: String,
               description: String,
               metadata: T::Hash[Symbol, String],
               name: String,
               updated_at: String,
+              scope: Anthropic::Beta::BetaEnvironment::Scope::OrSymbol,
               type: Symbol
             ).returns(T.attached_class)
           end
           def new(
             id:, # Environment identifier (e.g., 'env\_...')
             archived_at:, # RFC 3339 timestamp when environment was archived, or null if not archived
-            config:, # `cloud` environment configuration.
+            config:, # Environment configuration (either Anthropic Cloud or self-hosted)
             created_at:, # RFC 3339 timestamp when environment was created
             description:, # User-provided description for the environment
             metadata:, # User-provided metadata key-value pairs
             name:, # Human-readable name for the environment
             updated_at:, # RFC 3339 timestamp when environment was last updated
+            scope: nil, # The visibility scope for this environment. 'organization' means visible to all
+                        # accounts. 'account' means visible only to the owning account.
             type: :environment # The type of object (always 'environment')
 ); end
+        end
+
+        # Environment configuration (either Anthropic Cloud or self-hosted)
+        module Config
+          extend Anthropic::Internal::Type::Union
+
+          class << self
+            sig { override.returns(T::Array[Anthropic::Beta::BetaEnvironment::Config::Variants]) }
+            def variants; end
+          end
+
+          Variants = T.type_alias do
+              T.any(
+                Anthropic::Beta::BetaCloudConfig,
+                Anthropic::Beta::BetaSelfHostedConfig
+              )
+            end
         end
 
         OrHash = T.type_alias do
@@ -9629,6 +9663,33 @@ module Anthropic
               Anthropic::Internal::AnyHash
             )
           end
+
+        # The visibility scope for this environment. 'organization' means visible to all
+        # accounts. 'account' means visible only to the owning account.
+        module Scope
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig { override.returns(T::Array[Anthropic::Beta::BetaEnvironment::Scope::TaggedSymbol]) }
+            def values; end
+          end
+
+          ACCOUNT = T.let(
+              :account,
+              Anthropic::Beta::BetaEnvironment::Scope::TaggedSymbol
+            )
+
+          ORGANIZATION = T.let(
+              :organization,
+              Anthropic::Beta::BetaEnvironment::Scope::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(Symbol, Anthropic::Beta::BetaEnvironment::Scope)
+            end
+        end
       end
 
       class BetaEnvironmentDeleteResponse < Anthropic::Internal::Type::BaseModel
@@ -11108,6 +11169,187 @@ module Anthropic
         end
       end
 
+      class BetaManagedAgentsAgentToolset20260401BashInput < Anthropic::Internal::Type::BaseModel
+        # Shell command to execute. Omit only when `restart` is true.
+        sig { returns(T.nilable(String)) }
+        attr_reader :command
+
+        sig { params(command: String).void }
+        attr_writer :command
+
+        # When true, restart the persistent bash session instead of running a command.
+        # Subsequent calls without `restart` will run against the fresh session.
+        sig { returns(T.nilable(T::Boolean)) }
+        attr_reader :restart
+
+        sig { params(restart: T::Boolean).void }
+        attr_writer :restart
+
+        # Per-call timeout in milliseconds. Defaults to the runner-wide tool timeout when
+        # omitted or zero.
+        sig { returns(T.nilable(Integer)) }
+        attr_reader :timeout_ms
+
+        sig { params(timeout_ms: Integer).void }
+        attr_writer :timeout_ms
+
+        sig { override.returns({ command: String, restart: T::Boolean, timeout_ms: Integer }) }
+        def to_hash; end
+
+        class << self
+          # Input payload for the `bash` tool of the `agent_toolset_20260401` toolset. All
+          # fields are optional; a normal invocation supplies `command`, while
+          # `restart=true` (with no `command`) reboots the runner-side bash session.
+          sig { params(command: String, restart: T::Boolean, timeout_ms: Integer).returns(T.attached_class) }
+          def new(
+            command: nil, # Shell command to execute. Omit only when `restart` is true.
+            restart: nil, # When true, restart the persistent bash session instead of running a command.
+                          # Subsequent calls without `restart` will run against the fresh session.
+            timeout_ms: nil # Per-call timeout in milliseconds. Defaults to the runner-wide tool timeout when
+                            # omitted or zero.
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsAgentToolset20260401BashInput,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
+      class BetaManagedAgentsAgentToolset20260401EditInput < Anthropic::Internal::Type::BaseModel
+        # Path of the file to edit.
+        sig { returns(String) }
+        attr_accessor :file_path
+
+        # Replacement text.
+        sig { returns(String) }
+        attr_accessor :new_string
+
+        # Substring to find and replace.
+        sig { returns(String) }
+        attr_accessor :old_string
+
+        # When true, replace every occurrence of `old_string` instead of requiring a
+        # unique match.
+        sig { returns(T.nilable(T::Boolean)) }
+        attr_reader :replace_all
+
+        sig { params(replace_all: T::Boolean).void }
+        attr_writer :replace_all
+
+        sig do
+          override
+            .returns({
+              file_path: String,
+              new_string: String,
+              old_string: String,
+              replace_all: T::Boolean
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # Input payload for the `edit` tool. Performs a string replacement in the named
+          # file; by default `old_string` must occur exactly once.
+          sig do
+            params(
+              file_path: String,
+              new_string: String,
+              old_string: String,
+              replace_all: T::Boolean
+            ).returns(T.attached_class)
+          end
+          def new(
+            file_path:, # Path of the file to edit.
+            new_string:, # Replacement text.
+            old_string:, # Substring to find and replace.
+            replace_all: nil # When true, replace every occurrence of `old_string` instead of requiring a
+                             # unique match.
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsAgentToolset20260401EditInput,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
+      class BetaManagedAgentsAgentToolset20260401GlobInput < Anthropic::Internal::Type::BaseModel
+        # Optional directory root to search under. Defaults to the runner's working
+        # directory.
+        sig { returns(T.nilable(String)) }
+        attr_reader :path
+
+        sig { params(path: String).void }
+        attr_writer :path
+
+        # Doublestar glob pattern (e.g. `**/*.go`). Absolute patterns are only permitted
+        # when the runner is configured to allow them.
+        sig { returns(String) }
+        attr_accessor :pattern
+
+        sig { override.returns({ pattern: String, path: String }) }
+        def to_hash; end
+
+        class << self
+          # Input payload for the `glob` tool. Returns paths matching a doublestar glob
+          # pattern, newest first.
+          sig { params(pattern: String, path: String).returns(T.attached_class) }
+          def new(
+            pattern:, # Doublestar glob pattern (e.g. `**/*.go`). Absolute patterns are only permitted
+                      # when the runner is configured to allow them.
+            path: nil # Optional directory root to search under. Defaults to the runner's working
+                      # directory.
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsAgentToolset20260401GlobInput,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
+      class BetaManagedAgentsAgentToolset20260401GrepInput < Anthropic::Internal::Type::BaseModel
+        # Optional directory root to search under. Defaults to the runner's working
+        # directory.
+        sig { returns(T.nilable(String)) }
+        attr_reader :path
+
+        sig { params(path: String).void }
+        attr_writer :path
+
+        # Regular expression to search for.
+        sig { returns(String) }
+        attr_accessor :pattern
+
+        sig { override.returns({ pattern: String, path: String }) }
+        def to_hash; end
+
+        class << self
+          # Input payload for the `grep` tool. Searches file contents for a regular
+          # expression, returning matching lines.
+          sig { params(pattern: String, path: String).returns(T.attached_class) }
+          def new(
+            pattern:, # Regular expression to search for.
+            path: nil # Optional directory root to search under. Defaults to the runner's working
+                      # directory.
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsAgentToolset20260401GrepInput,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
       class BetaManagedAgentsAgentToolset20260401Params < Anthropic::Internal::Type::BaseModel
         # Per-tool configuration overrides.
         sig do
@@ -11218,6 +11460,71 @@ module Anthropic
               )
             end
         end
+      end
+
+      class BetaManagedAgentsAgentToolset20260401ReadInput < Anthropic::Internal::Type::BaseModel
+        # Path of the file to read.
+        sig { returns(String) }
+        attr_accessor :file_path
+
+        # Optional `[start_line, end_line]` 1-indexed inclusive range. When omitted the
+        # entire file is returned. `end_line` of 0 or negative means "to end of file".
+        sig { returns(T.nilable(T::Array[Integer])) }
+        attr_reader :view_range
+
+        sig { params(view_range: T::Array[Integer]).void }
+        attr_writer :view_range
+
+        sig { override.returns({ file_path: String, view_range: T::Array[Integer] }) }
+        def to_hash; end
+
+        class << self
+          # Input payload for the `read` tool. Reads file contents relative to the runner's
+          # working directory (or absolute when the runner permits).
+          sig { params(file_path: String, view_range: T::Array[Integer]).returns(T.attached_class) }
+          def new(
+            file_path:, # Path of the file to read.
+            view_range: nil # Optional `[start_line, end_line]` 1-indexed inclusive range. When omitted the
+                            # entire file is returned. `end_line` of 0 or negative means "to end of file".
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsAgentToolset20260401ReadInput,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
+      class BetaManagedAgentsAgentToolset20260401WriteInput < Anthropic::Internal::Type::BaseModel
+        # Full file contents to write.
+        sig { returns(String) }
+        attr_accessor :content
+
+        # Path of the file to write.
+        sig { returns(String) }
+        attr_accessor :file_path
+
+        sig { override.returns({ content: String, file_path: String }) }
+        def to_hash; end
+
+        class << self
+          # Input payload for the `write` tool. Writes (overwriting) the entire file
+          # contents.
+          sig { params(content: String, file_path: String).returns(T.attached_class) }
+          def new(
+            content:, # Full file contents to write.
+            file_path: # Path of the file to write.
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsAgentToolset20260401WriteInput,
+              Anthropic::Internal::AnyHash
+            )
+          end
       end
 
       class BetaManagedAgentsAgentToolsetDefaultConfig < Anthropic::Internal::Type::BaseModel
@@ -14701,13 +15008,130 @@ module Anthropic
         end
       end
 
+      class BetaManagedAgentsSessionAgentUpdate < Anthropic::Internal::Type::BaseModel
+        # Replacement MCP server list. Full replacement: the provided array becomes the
+        # new value. Send an empty array to clear; omit to preserve.
+        sig do
+          returns(T.nilable(
+              T::Array[Anthropic::Beta::BetaManagedAgentsURLMCPServerParams]
+            ))
+        end
+        attr_reader :mcp_servers
+
+        sig do
+          params(
+            mcp_servers: T::Array[
+                Anthropic::Beta::BetaManagedAgentsURLMCPServerParams::OrHash
+              ]
+          ).void
+        end
+        attr_writer :mcp_servers
+
+        # Replacement tool list. Full replacement: the provided array becomes the new
+        # value. Send an empty array to clear; omit to preserve.
+        sig do
+          returns(T.nilable(
+              T::Array[
+                T.any(
+                  Anthropic::Beta::BetaManagedAgentsAgentToolset20260401Params,
+                  Anthropic::Beta::BetaManagedAgentsMCPToolsetParams,
+                  Anthropic::Beta::BetaManagedAgentsCustomToolParams
+                )
+              ]
+            ))
+        end
+        attr_reader :tools
+
+        sig do
+          params(
+            tools: T::Array[
+                T.any(
+                  Anthropic::Beta::BetaManagedAgentsAgentToolset20260401Params::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsMCPToolsetParams::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsCustomToolParams::OrHash
+                )
+              ]
+          ).void
+        end
+        attr_writer :tools
+
+        sig do
+          override
+            .returns({
+              mcp_servers:
+                T::Array[Anthropic::Beta::BetaManagedAgentsURLMCPServerParams],
+              tools:
+                T::Array[
+                  T.any(
+                    Anthropic::Beta::BetaManagedAgentsAgentToolset20260401Params,
+                    Anthropic::Beta::BetaManagedAgentsMCPToolsetParams,
+                    Anthropic::Beta::BetaManagedAgentsCustomToolParams
+                  )
+                ]
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # Mid-session agent configuration update. Only `tools` and `mcp_servers` are
+          # updatable. Full replacement: the provided array becomes the new value. To
+          # preserve existing entries, GET the session, modify the array, and POST it back.
+          sig do
+            params(
+              mcp_servers: T::Array[
+                Anthropic::Beta::BetaManagedAgentsURLMCPServerParams::OrHash
+              ],
+              tools: T::Array[
+                T.any(
+                  Anthropic::Beta::BetaManagedAgentsAgentToolset20260401Params::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsMCPToolsetParams::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsCustomToolParams::OrHash
+                )
+              ]
+            ).returns(T.attached_class)
+          end
+          def new(
+            mcp_servers: nil, # Replacement MCP server list. Full replacement: the provided array becomes the
+                              # new value. Send an empty array to clear; omit to preserve.
+            tools: nil # Replacement tool list. Full replacement: the provided array becomes the new
+                       # value. Send an empty array to clear; omit to preserve.
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsSessionAgentUpdate,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        # Union type for tool configurations in the tools array.
+        module Tool
+          extend Anthropic::Internal::Type::Union
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsSessionAgentUpdate::Tool::Variants
+              ])
+            end
+            def variants; end
+          end
+
+          Variants = T.type_alias do
+              T.any(
+                Anthropic::Beta::BetaManagedAgentsAgentToolset20260401Params,
+                Anthropic::Beta::BetaManagedAgentsMCPToolsetParams,
+                Anthropic::Beta::BetaManagedAgentsCustomToolParams
+              )
+            end
+        end
+      end
+
       class BetaManagedAgentsSessionMultiagentCoordinator < Anthropic::Internal::Type::BaseModel
         # Full `agent` definitions the coordinator may spawn as session threads.
-        sig do
-          returns(T::Array[
-              Anthropic::Beta::Sessions::BetaManagedAgentsSessionThreadAgent
-            ])
-        end
+        sig { returns(T::Array[Anthropic::Beta::BetaManagedAgentsSessionThreadAgent]) }
         attr_accessor :agents
 
         sig { returns(Anthropic::Beta::BetaManagedAgentsSessionMultiagentCoordinator::Type::TaggedSymbol) }
@@ -14717,9 +15141,7 @@ module Anthropic
           override
             .returns({
               agents:
-                T::Array[
-                  Anthropic::Beta::Sessions::BetaManagedAgentsSessionThreadAgent
-                ],
+                T::Array[Anthropic::Beta::BetaManagedAgentsSessionThreadAgent],
               type:
                 Anthropic::Beta::BetaManagedAgentsSessionMultiagentCoordinator::Type::TaggedSymbol
             })
@@ -14732,7 +15154,7 @@ module Anthropic
           sig do
             params(
               agents: T::Array[
-                Anthropic::Beta::Sessions::BetaManagedAgentsSessionThreadAgent::OrHash
+                Anthropic::Beta::BetaManagedAgentsSessionThreadAgent::OrHash
               ],
               type: Anthropic::Beta::BetaManagedAgentsSessionMultiagentCoordinator::Type::OrSymbol
             ).returns(T.attached_class)
@@ -14816,6 +15238,310 @@ module Anthropic
               Anthropic::Internal::AnyHash
             )
           end
+      end
+
+      class BetaManagedAgentsSessionThreadAgent < Anthropic::Internal::Type::BaseModel
+        sig { returns(T.nilable(String)) }
+        attr_accessor :description
+
+        sig { returns(String) }
+        attr_accessor :id
+
+        sig { returns(T::Array[Anthropic::Beta::BetaManagedAgentsMCPServerURLDefinition]) }
+        attr_accessor :mcp_servers
+
+        # Model identifier and configuration.
+        sig { returns(Anthropic::Beta::BetaManagedAgentsModelConfig) }
+        attr_reader :model
+
+        sig { params(model: Anthropic::Beta::BetaManagedAgentsModelConfig::OrHash).void }
+        attr_writer :model
+
+        sig { returns(String) }
+        attr_accessor :name
+
+        sig do
+          returns(T::Array[
+              Anthropic::Beta::BetaManagedAgentsSessionThreadAgent::Skill::Variants
+            ])
+        end
+        attr_accessor :skills
+
+        sig { returns(T.nilable(String)) }
+        attr_accessor :system_
+
+        sig do
+          returns(T::Array[
+              Anthropic::Beta::BetaManagedAgentsSessionThreadAgent::Tool::Variants
+            ])
+        end
+        attr_accessor :tools
+
+        sig { returns(Anthropic::Beta::BetaManagedAgentsSessionThreadAgent::Type::TaggedSymbol) }
+        attr_accessor :type
+
+        sig { returns(Integer) }
+        attr_accessor :version
+
+        sig do
+          override
+            .returns({
+              id: String,
+              description: T.nilable(String),
+              mcp_servers:
+                T::Array[
+                  Anthropic::Beta::BetaManagedAgentsMCPServerURLDefinition
+                ],
+              model: Anthropic::Beta::BetaManagedAgentsModelConfig,
+              name: String,
+              skills:
+                T::Array[
+                  Anthropic::Beta::BetaManagedAgentsSessionThreadAgent::Skill::Variants
+                ],
+              system_: T.nilable(String),
+              tools:
+                T::Array[
+                  Anthropic::Beta::BetaManagedAgentsSessionThreadAgent::Tool::Variants
+                ],
+              type:
+                Anthropic::Beta::BetaManagedAgentsSessionThreadAgent::Type::TaggedSymbol,
+              version: Integer
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # Resolved `agent` definition for a single `session_thread`. Snapshot of the agent
+          # at thread creation time. The multiagent roster is not repeated here; read it
+          # from `Session.agent`.
+          sig do
+            params(
+              id: String,
+              description: T.nilable(String),
+              mcp_servers: T::Array[
+                Anthropic::Beta::BetaManagedAgentsMCPServerURLDefinition::OrHash
+              ],
+              model: Anthropic::Beta::BetaManagedAgentsModelConfig::OrHash,
+              name: String,
+              skills: T::Array[
+                T.any(
+                  Anthropic::Beta::BetaManagedAgentsAnthropicSkill::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsCustomSkill::OrHash
+                )
+              ],
+              system_: T.nilable(String),
+              tools: T::Array[
+                T.any(
+                  Anthropic::Beta::BetaManagedAgentsAgentToolset20260401::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsMCPToolset::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsCustomTool::OrHash
+                )
+              ],
+              type: Anthropic::Beta::BetaManagedAgentsSessionThreadAgent::Type::OrSymbol,
+              version: Integer
+            ).returns(T.attached_class)
+          end
+          def new(
+            id:,
+            description:,
+            mcp_servers:,
+            model:, # Model identifier and configuration.
+            name:,
+            skills:,
+            system_:,
+            tools:,
+            type:,
+            version:
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsSessionThreadAgent,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        # Resolved skill as returned in API responses.
+        module Skill
+          extend Anthropic::Internal::Type::Union
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsSessionThreadAgent::Skill::Variants
+              ])
+            end
+            def variants; end
+          end
+
+          Variants = T.type_alias do
+              T.any(
+                Anthropic::Beta::BetaManagedAgentsAnthropicSkill,
+                Anthropic::Beta::BetaManagedAgentsCustomSkill
+              )
+            end
+        end
+
+        # Union type for tool configurations returned in API responses.
+        module Tool
+          extend Anthropic::Internal::Type::Union
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsSessionThreadAgent::Tool::Variants
+              ])
+            end
+            def variants; end
+          end
+
+          Variants = T.type_alias do
+              T.any(
+                Anthropic::Beta::BetaManagedAgentsAgentToolset20260401,
+                Anthropic::Beta::BetaManagedAgentsMCPToolset,
+                Anthropic::Beta::BetaManagedAgentsCustomTool
+              )
+            end
+        end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsSessionThreadAgent::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          AGENT = T.let(
+              :agent,
+              Anthropic::Beta::BetaManagedAgentsSessionThreadAgent::Type::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsSessionThreadAgent::Type
+              )
+            end
+        end
+      end
+
+      class BetaManagedAgentsSessionUpdatedEvent < Anthropic::Internal::Type::BaseModel
+        # Resolved `agent` definition for a `session`. Snapshot of the `agent` at
+        # `session` creation time.
+        sig { returns(T.nilable(Anthropic::Beta::BetaManagedAgentsSessionAgent)) }
+        attr_reader :agent
+
+        sig { params(agent: T.nilable(Anthropic::Beta::BetaManagedAgentsSessionAgent::OrHash)).void }
+        attr_writer :agent
+
+        # Unique identifier for this event.
+        sig { returns(String) }
+        attr_accessor :id
+
+        # The session's full metadata bag after the update. Present when the update set
+        # non-empty metadata; absent when metadata was unchanged or cleared to empty.
+        sig { returns(T.nilable(T::Hash[Symbol, String])) }
+        attr_reader :metadata
+
+        sig { params(metadata: T::Hash[Symbol, String]).void }
+        attr_writer :metadata
+
+        # A timestamp in RFC 3339 format
+        sig { returns(Time) }
+        attr_accessor :processed_at
+
+        # The session's new title. Present only when the update changed it.
+        sig { returns(T.nilable(String)) }
+        attr_accessor :title
+
+        sig { returns(Anthropic::Beta::BetaManagedAgentsSessionUpdatedEvent::Type::TaggedSymbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              id: String,
+              processed_at: Time,
+              type:
+                Anthropic::Beta::BetaManagedAgentsSessionUpdatedEvent::Type::TaggedSymbol,
+              agent: T.nilable(Anthropic::Beta::BetaManagedAgentsSessionAgent),
+              metadata: T::Hash[Symbol, String],
+              title: T.nilable(String)
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # Emitted when an UpdateSession request changed at least one field. Carries only
+          # the fields that changed; absent fields were not part of the update. The new
+          # configuration applies from the next turn.
+          sig do
+            params(
+              id: String,
+              processed_at: Time,
+              type: Anthropic::Beta::BetaManagedAgentsSessionUpdatedEvent::Type::OrSymbol,
+              agent: T.nilable(Anthropic::Beta::BetaManagedAgentsSessionAgent::OrHash),
+              metadata: T::Hash[Symbol, String],
+              title: T.nilable(String)
+            ).returns(T.attached_class)
+          end
+          def new(
+            id:, # Unique identifier for this event.
+            processed_at:, # A timestamp in RFC 3339 format
+            type:,
+            agent: nil, # Resolved `agent` definition for a `session`. Snapshot of the `agent` at
+                        # `session` creation time.
+            metadata: nil, # The session's full metadata bag after the update. Present when the update set
+                           # non-empty metadata; absent when metadata was unchanged or cleared to empty.
+            title: nil # The session's new title. Present only when the update changed it.
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsSessionUpdatedEvent,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsSessionUpdatedEvent::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          SESSION_UPDATED = T.let(
+              :"session.updated",
+              Anthropic::Beta::BetaManagedAgentsSessionUpdatedEvent::Type::TaggedSymbol
+            )
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsSessionUpdatedEvent::Type
+              )
+            end
+        end
       end
 
       class BetaManagedAgentsSessionUsage < Anthropic::Internal::Type::BaseModel
@@ -14975,6 +15701,174 @@ module Anthropic
           URL = T.let(
               :url,
               Anthropic::Beta::BetaManagedAgentsURLMCPServerParams::Type::TaggedSymbol
+            )
+        end
+      end
+
+      class BetaManagedAgentsUserToolResultEvent < Anthropic::Internal::Type::BaseModel
+        # The result content returned by the tool.
+        sig do
+          returns(T.nilable(
+              T::Array[
+                Anthropic::Beta::BetaManagedAgentsUserToolResultEvent::Content::Variants
+              ]
+            ))
+        end
+        attr_reader :content
+
+        sig do
+          params(
+            content: T::Array[
+                T.any(
+                  Anthropic::Beta::Sessions::BetaManagedAgentsTextBlock::OrHash,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsImageBlock::OrHash,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsDocumentBlock::OrHash,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsSearchResultBlock::OrHash
+                )
+              ]
+          ).void
+        end
+        attr_writer :content
+
+        # Unique identifier for this event.
+        sig { returns(String) }
+        attr_accessor :id
+
+        # Whether the tool execution resulted in an error.
+        sig { returns(T.nilable(T::Boolean)) }
+        attr_accessor :is_error
+
+        # A timestamp in RFC 3339 format
+        sig { returns(T.nilable(Time)) }
+        attr_accessor :processed_at
+
+        # Routes this result to a subagent thread. Copy from the `agent.tool_use` event's
+        # `session_thread_id`.
+        sig { returns(T.nilable(String)) }
+        attr_accessor :session_thread_id
+
+        # The id of the `agent.tool_use` event this result corresponds to, which can be
+        # found in the last `session.status_idle`
+        # [event's](https://platform.claude.com/docs/en/api/beta/sessions/events/list#beta_managed_agents_session_requires_action.event_ids)
+        # `stop_reason.event_ids` field.
+        sig { returns(String) }
+        attr_accessor :tool_use_id
+
+        sig { returns(Anthropic::Beta::BetaManagedAgentsUserToolResultEvent::Type::TaggedSymbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              id: String,
+              tool_use_id: String,
+              type:
+                Anthropic::Beta::BetaManagedAgentsUserToolResultEvent::Type::TaggedSymbol,
+              content:
+                T::Array[
+                  Anthropic::Beta::BetaManagedAgentsUserToolResultEvent::Content::Variants
+                ],
+              is_error: T.nilable(T::Boolean),
+              processed_at: T.nilable(Time),
+              session_thread_id: T.nilable(String)
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # Event sent by the client providing the result of an agent-toolset tool
+          # execution. Only valid on `self_hosted` environments, where sandbox-routed tools
+          # are executed by the client rather than the server.
+          sig do
+            params(
+              id: String,
+              tool_use_id: String,
+              type: Anthropic::Beta::BetaManagedAgentsUserToolResultEvent::Type::OrSymbol,
+              content: T::Array[
+                T.any(
+                  Anthropic::Beta::Sessions::BetaManagedAgentsTextBlock::OrHash,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsImageBlock::OrHash,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsDocumentBlock::OrHash,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsSearchResultBlock::OrHash
+                )
+              ],
+              is_error: T.nilable(T::Boolean),
+              processed_at: T.nilable(Time),
+              session_thread_id: T.nilable(String)
+            ).returns(T.attached_class)
+          end
+          def new(
+            id:, # Unique identifier for this event.
+            tool_use_id:, # The id of the `agent.tool_use` event this result corresponds to, which can be
+                          # found in the last `session.status_idle`
+                          # [event's](https://platform.claude.com/docs/en/api/beta/sessions/events/list#beta_managed_agents_session_requires_action.event_ids)
+                          # `stop_reason.event_ids` field.
+            type:,
+            content: nil, # The result content returned by the tool.
+            is_error: nil, # Whether the tool execution resulted in an error.
+            processed_at: nil, # A timestamp in RFC 3339 format
+            session_thread_id: nil # Routes this result to a subagent thread. Copy from the `agent.tool_use` event's
+                                   # `session_thread_id`.
+); end
+        end
+
+        # Content block in a tool result. Can be `text`, `image`, `document`, or
+        # `search_result`.
+        module Content
+          extend Anthropic::Internal::Type::Union
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsUserToolResultEvent::Content::Variants
+              ])
+            end
+            def variants; end
+          end
+
+          Variants = T.type_alias do
+              T.any(
+                Anthropic::Beta::Sessions::BetaManagedAgentsTextBlock,
+                Anthropic::Beta::Sessions::BetaManagedAgentsImageBlock,
+                Anthropic::Beta::Sessions::BetaManagedAgentsDocumentBlock,
+                Anthropic::Beta::Sessions::BetaManagedAgentsSearchResultBlock
+              )
+            end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsUserToolResultEvent,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsUserToolResultEvent::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsUserToolResultEvent::Type
+              )
+            end
+
+          USER_TOOL_RESULT = T.let(
+              :"user.tool_result",
+              Anthropic::Beta::BetaManagedAgentsUserToolResultEvent::Type::TaggedSymbol
             )
         end
       end
@@ -17497,6 +18391,54 @@ module Anthropic
           end
       end
 
+      class BetaSelfHostedConfig < Anthropic::Internal::Type::BaseModel
+        # Environment type
+        sig { returns(Symbol) }
+        attr_accessor :type
+
+        sig { override.returns({ type: Symbol }) }
+        def to_hash; end
+
+        class << self
+          # Configuration for self-hosted environments.
+          sig { params(type: Symbol).returns(T.attached_class) }
+          def new(
+            type: :self_hosted # Environment type
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaSelfHostedConfig,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
+      class BetaSelfHostedConfigParams < Anthropic::Internal::Type::BaseModel
+        # Environment type
+        sig { returns(Symbol) }
+        attr_accessor :type
+
+        sig { override.returns({ type: Symbol }) }
+        def to_hash; end
+
+        class << self
+          # Request params for `self_hosted` environment configuration.
+          sig { params(type: Symbol).returns(T.attached_class) }
+          def new(
+            type: :self_hosted # Environment type
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaSelfHostedConfigParams,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
       class BetaServerToolCaller < Anthropic::Internal::Type::BaseModel
         sig { returns(String) }
         attr_accessor :tool_id
@@ -19318,18 +20260,53 @@ module Anthropic
       end
 
       class BetaThinkingDelta < Anthropic::Internal::Type::BaseModel
+        # Per-frame increment of a coarse, running estimate of the tokens this thinking
+        # block has produced so far. Present whenever the
+        # `thinking-token-count-2026-05-13` beta is set; `null` unless `thinking.display`
+        # resolves to `"omitted"` and a count is due this frame. Sum the increments across
+        # `thinking_delta` frames on this block for a progress indicator. Each increment
+        # is a non-negative multiple of a fixed quantum and the cadence is rate-limited,
+        # so this is a deliberately lossy display hint, not a billable count;
+        # `usage.output_tokens` remains authoritative.
+        sig { returns(T.nilable(Integer)) }
+        attr_accessor :estimated_tokens
+
         sig { returns(String) }
         attr_accessor :thinking
 
         sig { returns(Symbol) }
         attr_accessor :type
 
-        sig { override.returns({ thinking: String, type: Symbol }) }
+        sig do
+          override
+            .returns({
+              estimated_tokens: T.nilable(Integer),
+              thinking: String,
+              type: Symbol
+            })
+        end
         def to_hash; end
 
         class << self
-          sig { params(thinking: String, type: Symbol).returns(T.attached_class) }
-          def new(thinking:, type: :thinking_delta); end
+          sig do
+            params(
+              estimated_tokens: T.nilable(Integer),
+              thinking: String,
+              type: Symbol
+            ).returns(T.attached_class)
+          end
+          def new(
+            estimated_tokens:, # Per-frame increment of a coarse, running estimate of the tokens this thinking
+                               # block has produced so far. Present whenever the
+                               # `thinking-token-count-2026-05-13` beta is set; `null` unless `thinking.display`
+                               # resolves to `"omitted"` and a count is due this frame. Sum the increments across
+                               # `thinking_delta` frames on this block for a progress indicator. Each increment
+                               # is a non-negative multiple of a fixed quantum and the cadence is rate-limited,
+                               # so this is a deliberately lossy display hint, not a billable count;
+                               # `usage.output_tokens` remains authoritative.
+            thinking:,
+            type: :thinking_delta
+); end
         end
 
         OrHash = T.type_alias do
@@ -26481,14 +27458,16 @@ module Anthropic
         sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
         attr_writer :betas
 
-        # Request params for `cloud` environment configuration.
-        #
-        # Fields default to null; on update, omitted fields preserve the existing value.
-        sig { returns(T.nilable(Anthropic::Beta::BetaCloudConfigParams)) }
-        attr_reader :config
-
-        sig { params(config: T.nilable(Anthropic::Beta::BetaCloudConfigParams::OrHash)).void }
-        attr_writer :config
+        # Environment configuration
+        sig do
+          returns(T.nilable(
+              T.any(
+                Anthropic::Beta::BetaCloudConfigParams,
+                Anthropic::Beta::BetaSelfHostedConfigParams
+              )
+            ))
+        end
+        attr_accessor :config
 
         # Optional description of the environment
         sig { returns(T.nilable(String)) }
@@ -26505,13 +27484,30 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :name
 
+        # The visibility scope for this environment. 'organization' makes the environment
+        # visible to all accounts. 'account' restricts visibility to the owning account
+        # only. Only applicable for self-hosted environments. If not specified, defaults
+        # based on organization type.
+        sig { returns(T.nilable(Anthropic::Beta::EnvironmentCreateParams::Scope::OrSymbol)) }
+        attr_accessor :scope
+
         sig do
           override
             .returns({
               name: String,
-              config: T.nilable(Anthropic::Beta::BetaCloudConfigParams),
+              config:
+                T.nilable(
+                  T.any(
+                    Anthropic::Beta::BetaCloudConfigParams,
+                    Anthropic::Beta::BetaSelfHostedConfigParams
+                  )
+                ),
               description: T.nilable(String),
               metadata: T::Hash[Symbol, String],
+              scope:
+                T.nilable(
+                  Anthropic::Beta::EnvironmentCreateParams::Scope::OrSymbol
+                ),
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
               request_options: Anthropic::RequestOptions
@@ -26523,22 +27519,55 @@ module Anthropic
           sig do
             params(
               name: String,
-              config: T.nilable(Anthropic::Beta::BetaCloudConfigParams::OrHash),
+              config: T.nilable(
+                T.any(
+                  Anthropic::Beta::BetaCloudConfigParams::OrHash,
+                  Anthropic::Beta::BetaSelfHostedConfigParams::OrHash
+                )
+              ),
               description: T.nilable(String),
               metadata: T::Hash[Symbol, String],
+              scope: T.nilable(
+                Anthropic::Beta::EnvironmentCreateParams::Scope::OrSymbol
+              ),
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
           def new(
             name:, # Human-readable name for the environment
-            config: nil, # Request params for `cloud` environment configuration.
-                         # Fields default to null; on update, omitted fields preserve the existing value.
+            config: nil, # Environment configuration
             description: nil, # Optional description of the environment
             metadata: nil, # User-provided metadata key-value pairs
+            scope: nil, # The visibility scope for this environment. 'organization' makes the environment
+                        # visible to all accounts. 'account' restricts visibility to the owning account
+                        # only. Only applicable for self-hosted environments. If not specified, defaults
+                        # based on organization type.
             betas: nil, # Optional header to specify the beta version(s) you want to use.
             request_options: {}
 ); end
+        end
+
+        # Environment configuration
+        module Config
+          extend Anthropic::Internal::Type::Union
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::EnvironmentCreateParams::Config::Variants
+              ])
+            end
+            def variants; end
+          end
+
+          Variants = T.type_alias do
+              T.any(
+                Anthropic::Beta::BetaCloudConfigParams,
+                Anthropic::Beta::BetaSelfHostedConfigParams
+              )
+            end
         end
 
         OrHash = T.type_alias do
@@ -26547,6 +27576,40 @@ module Anthropic
               Anthropic::Internal::AnyHash
             )
           end
+
+        # The visibility scope for this environment. 'organization' makes the environment
+        # visible to all accounts. 'account' restricts visibility to the owning account
+        # only. Only applicable for self-hosted environments. If not specified, defaults
+        # based on organization type.
+        module Scope
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::EnvironmentCreateParams::Scope::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          ACCOUNT = T.let(
+              :account,
+              Anthropic::Beta::EnvironmentCreateParams::Scope::TaggedSymbol
+            )
+
+          ORGANIZATION = T.let(
+              :organization,
+              Anthropic::Beta::EnvironmentCreateParams::Scope::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(Symbol, Anthropic::Beta::EnvironmentCreateParams::Scope)
+            end
+        end
       end
 
       class EnvironmentDeleteParams < Anthropic::Internal::Type::BaseModel
@@ -26743,14 +27806,16 @@ module Anthropic
         sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
         attr_writer :betas
 
-        # Request params for `cloud` environment configuration.
-        #
-        # Fields default to null; on update, omitted fields preserve the existing value.
-        sig { returns(T.nilable(Anthropic::Beta::BetaCloudConfigParams)) }
-        attr_reader :config
-
-        sig { params(config: T.nilable(Anthropic::Beta::BetaCloudConfigParams::OrHash)).void }
-        attr_writer :config
+        # Updated environment configuration
+        sig do
+          returns(T.nilable(
+              T.any(
+                Anthropic::Beta::BetaCloudConfigParams,
+                Anthropic::Beta::BetaSelfHostedConfigParams
+              )
+            ))
+        end
+        attr_accessor :config
 
         # Updated description of the environment
         sig { returns(T.nilable(String)) }
@@ -26771,14 +27836,30 @@ module Anthropic
         sig { returns(T.nilable(String)) }
         attr_accessor :name
 
+        # The visibility scope for this environment. 'organization' makes the environment
+        # visible to all accounts. 'account' restricts visibility to the owning account
+        # only.
+        sig { returns(T.nilable(Anthropic::Beta::EnvironmentUpdateParams::Scope::OrSymbol)) }
+        attr_accessor :scope
+
         sig do
           override
             .returns({
               environment_id: String,
-              config: T.nilable(Anthropic::Beta::BetaCloudConfigParams),
+              config:
+                T.nilable(
+                  T.any(
+                    Anthropic::Beta::BetaCloudConfigParams,
+                    Anthropic::Beta::BetaSelfHostedConfigParams
+                  )
+                ),
               description: T.nilable(String),
               metadata: T::Hash[Symbol, T.nilable(String)],
               name: T.nilable(String),
+              scope:
+                T.nilable(
+                  Anthropic::Beta::EnvironmentUpdateParams::Scope::OrSymbol
+                ),
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
               request_options: Anthropic::RequestOptions
@@ -26790,25 +27871,57 @@ module Anthropic
           sig do
             params(
               environment_id: String,
-              config: T.nilable(Anthropic::Beta::BetaCloudConfigParams::OrHash),
+              config: T.nilable(
+                T.any(
+                  Anthropic::Beta::BetaCloudConfigParams::OrHash,
+                  Anthropic::Beta::BetaSelfHostedConfigParams::OrHash
+                )
+              ),
               description: T.nilable(String),
               metadata: T::Hash[Symbol, T.nilable(String)],
               name: T.nilable(String),
+              scope: T.nilable(
+                Anthropic::Beta::EnvironmentUpdateParams::Scope::OrSymbol
+              ),
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
           def new(
             environment_id:,
-            config: nil, # Request params for `cloud` environment configuration.
-                         # Fields default to null; on update, omitted fields preserve the existing value.
+            config: nil, # Updated environment configuration
             description: nil, # Updated description of the environment
             metadata: nil, # User-provided metadata key-value pairs. Set a value to null or empty string to
                            # delete the key.
             name: nil, # Updated name for the environment
+            scope: nil, # The visibility scope for this environment. 'organization' makes the environment
+                        # visible to all accounts. 'account' restricts visibility to the owning account
+                        # only.
             betas: nil, # Optional header to specify the beta version(s) you want to use.
             request_options: {}
 ); end
+        end
+
+        # Updated environment configuration
+        module Config
+          extend Anthropic::Internal::Type::Union
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::EnvironmentUpdateParams::Config::Variants
+              ])
+            end
+            def variants; end
+          end
+
+          Variants = T.type_alias do
+              T.any(
+                Anthropic::Beta::BetaCloudConfigParams,
+                Anthropic::Beta::BetaSelfHostedConfigParams
+              )
+            end
         end
 
         OrHash = T.type_alias do
@@ -26817,6 +27930,1031 @@ module Anthropic
               Anthropic::Internal::AnyHash
             )
           end
+
+        # The visibility scope for this environment. 'organization' makes the environment
+        # visible to all accounts. 'account' restricts visibility to the owning account
+        # only.
+        module Scope
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::EnvironmentUpdateParams::Scope::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          ACCOUNT = T.let(
+              :account,
+              Anthropic::Beta::EnvironmentUpdateParams::Scope::TaggedSymbol
+            )
+
+          ORGANIZATION = T.let(
+              :organization,
+              Anthropic::Beta::EnvironmentUpdateParams::Scope::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(Symbol, Anthropic::Beta::EnvironmentUpdateParams::Scope)
+            end
+        end
+      end
+
+      module Environments
+        class BetaSelfHostedWork < Anthropic::Internal::Type::BaseModel
+          # RFC 3339 timestamp when the work item was acknowledged and assigned to a
+          # self-hosted sandbox
+          sig { returns(T.nilable(String)) }
+          attr_accessor :acknowledged_at
+
+          # RFC 3339 timestamp when work was created
+          sig { returns(String) }
+          attr_accessor :created_at
+
+          # The actual work to be performed
+          sig { returns(Anthropic::Beta::Environments::BetaSessionWorkData) }
+          attr_reader :data
+
+          sig { params(data: Anthropic::Beta::Environments::BetaSessionWorkData::OrHash).void }
+          attr_writer :data
+
+          # Environment identifier this work belongs to (e.g., `env_...`)
+          sig { returns(String) }
+          attr_accessor :environment_id
+
+          # Work identifier (e.g., 'work\_...')
+          sig { returns(String) }
+          attr_accessor :id
+
+          # RFC 3339 timestamp of the most recent heartbeat
+          sig { returns(T.nilable(String)) }
+          attr_accessor :latest_heartbeat_at
+
+          # User-provided metadata key-value pairs associated with this work item
+          sig { returns(T::Hash[Symbol, String]) }
+          attr_accessor :metadata
+
+          # RFC 3339 timestamp when work execution started
+          sig { returns(T.nilable(String)) }
+          attr_accessor :started_at
+
+          # Current state of the work item
+          sig { returns(Anthropic::Beta::Environments::BetaSelfHostedWork::State::TaggedSymbol) }
+          attr_accessor :state
+
+          # RFC 3339 timestamp when stop was requested
+          sig { returns(T.nilable(String)) }
+          attr_accessor :stop_requested_at
+
+          # RFC 3339 timestamp when work execution stopped
+          sig { returns(T.nilable(String)) }
+          attr_accessor :stopped_at
+
+          # The type of object (always 'work')
+          sig { returns(Symbol) }
+          attr_accessor :type
+
+          sig do
+            override
+              .returns({
+                id: String,
+                acknowledged_at: T.nilable(String),
+                created_at: String,
+                data: Anthropic::Beta::Environments::BetaSessionWorkData,
+                environment_id: String,
+                latest_heartbeat_at: T.nilable(String),
+                metadata: T::Hash[Symbol, String],
+                started_at: T.nilable(String),
+                state:
+                  Anthropic::Beta::Environments::BetaSelfHostedWork::State::TaggedSymbol,
+                stop_requested_at: T.nilable(String),
+                stopped_at: T.nilable(String),
+                type: Symbol
+              })
+          end
+          def to_hash; end
+
+          class << self
+            # Work resource representing a unit of work in a self-hosted environment.
+            #
+            # Work items are queued when sessions are created or when long-dormant sessions
+            # receive new messages. The environment worker polls for work to execute in a
+            # self-hosted sandbox.
+            sig do
+              params(
+                id: String,
+                acknowledged_at: T.nilable(String),
+                created_at: String,
+                data: Anthropic::Beta::Environments::BetaSessionWorkData::OrHash,
+                environment_id: String,
+                latest_heartbeat_at: T.nilable(String),
+                metadata: T::Hash[Symbol, String],
+                started_at: T.nilable(String),
+                state: Anthropic::Beta::Environments::BetaSelfHostedWork::State::OrSymbol,
+                stop_requested_at: T.nilable(String),
+                stopped_at: T.nilable(String),
+                type: Symbol
+              ).returns(T.attached_class)
+            end
+            def new(
+              id:, # Work identifier (e.g., 'work\_...')
+              acknowledged_at:, # RFC 3339 timestamp when the work item was acknowledged and assigned to a
+                                # self-hosted sandbox
+              created_at:, # RFC 3339 timestamp when work was created
+              data:, # The actual work to be performed
+              environment_id:, # Environment identifier this work belongs to (e.g., `env_...`)
+              latest_heartbeat_at:, # RFC 3339 timestamp of the most recent heartbeat
+              metadata:, # User-provided metadata key-value pairs associated with this work item
+              started_at:, # RFC 3339 timestamp when work execution started
+              state:, # Current state of the work item
+              stop_requested_at:, # RFC 3339 timestamp when stop was requested
+              stopped_at:, # RFC 3339 timestamp when work execution stopped
+              type: :work # The type of object (always 'work')
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Environments::BetaSelfHostedWork,
+                Anthropic::Internal::AnyHash
+              )
+            end
+
+          # Current state of the work item
+          module State
+            extend Anthropic::Internal::Type::Enum
+
+            class << self
+              sig do
+                override
+                  .returns(T::Array[
+                  Anthropic::Beta::Environments::BetaSelfHostedWork::State::TaggedSymbol
+                ])
+              end
+              def values; end
+            end
+
+            ACTIVE = T.let(
+                :active,
+                Anthropic::Beta::Environments::BetaSelfHostedWork::State::TaggedSymbol
+              )
+
+            OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+            QUEUED = T.let(
+                :queued,
+                Anthropic::Beta::Environments::BetaSelfHostedWork::State::TaggedSymbol
+              )
+
+            STARTING = T.let(
+                :starting,
+                Anthropic::Beta::Environments::BetaSelfHostedWork::State::TaggedSymbol
+              )
+
+            STOPPED = T.let(
+                :stopped,
+                Anthropic::Beta::Environments::BetaSelfHostedWork::State::TaggedSymbol
+              )
+
+            STOPPING = T.let(
+                :stopping,
+                Anthropic::Beta::Environments::BetaSelfHostedWork::State::TaggedSymbol
+              )
+
+            TaggedSymbol = T.type_alias do
+                T.all(
+                  Symbol,
+                  Anthropic::Beta::Environments::BetaSelfHostedWork::State
+                )
+              end
+          end
+        end
+
+        class BetaSelfHostedWorkHeartbeatResponse < Anthropic::Internal::Type::BaseModel
+          # RFC 3339 timestamp of the actual heartbeat from DB
+          sig { returns(String) }
+          attr_accessor :last_heartbeat
+
+          # Whether the heartbeat succeeded in extending the lease
+          sig { returns(T::Boolean) }
+          attr_accessor :lease_extended
+
+          # Current state of the work item (active/stopping/stopped)
+          sig { returns(Anthropic::Beta::Environments::BetaSelfHostedWorkHeartbeatResponse::State::TaggedSymbol) }
+          attr_accessor :state
+
+          # Effective TTL applied to the lease
+          sig { returns(Integer) }
+          attr_accessor :ttl_seconds
+
+          # The type of response
+          sig { returns(Symbol) }
+          attr_accessor :type
+
+          sig do
+            override
+              .returns({
+                last_heartbeat: String,
+                lease_extended: T::Boolean,
+                state:
+                  Anthropic::Beta::Environments::BetaSelfHostedWorkHeartbeatResponse::State::TaggedSymbol,
+                ttl_seconds: Integer,
+                type: Symbol
+              })
+          end
+          def to_hash; end
+
+          class << self
+            # Response after recording a heartbeat for a work item.
+            sig do
+              params(
+                last_heartbeat: String,
+                lease_extended: T::Boolean,
+                state: Anthropic::Beta::Environments::BetaSelfHostedWorkHeartbeatResponse::State::OrSymbol,
+                ttl_seconds: Integer,
+                type: Symbol
+              ).returns(T.attached_class)
+            end
+            def new(
+              last_heartbeat:, # RFC 3339 timestamp of the actual heartbeat from DB
+              lease_extended:, # Whether the heartbeat succeeded in extending the lease
+              state:, # Current state of the work item (active/stopping/stopped)
+              ttl_seconds:, # Effective TTL applied to the lease
+              type: :work_heartbeat # The type of response
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Environments::BetaSelfHostedWorkHeartbeatResponse,
+                Anthropic::Internal::AnyHash
+              )
+            end
+
+          # Current state of the work item (active/stopping/stopped)
+          module State
+            extend Anthropic::Internal::Type::Enum
+
+            class << self
+              sig do
+                override
+                  .returns(T::Array[
+                  Anthropic::Beta::Environments::BetaSelfHostedWorkHeartbeatResponse::State::TaggedSymbol
+                ])
+              end
+              def values; end
+            end
+
+            ACTIVE = T.let(
+                :active,
+                Anthropic::Beta::Environments::BetaSelfHostedWorkHeartbeatResponse::State::TaggedSymbol
+              )
+
+            OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+            QUEUED = T.let(
+                :queued,
+                Anthropic::Beta::Environments::BetaSelfHostedWorkHeartbeatResponse::State::TaggedSymbol
+              )
+
+            STARTING = T.let(
+                :starting,
+                Anthropic::Beta::Environments::BetaSelfHostedWorkHeartbeatResponse::State::TaggedSymbol
+              )
+
+            STOPPED = T.let(
+                :stopped,
+                Anthropic::Beta::Environments::BetaSelfHostedWorkHeartbeatResponse::State::TaggedSymbol
+              )
+
+            STOPPING = T.let(
+                :stopping,
+                Anthropic::Beta::Environments::BetaSelfHostedWorkHeartbeatResponse::State::TaggedSymbol
+              )
+
+            TaggedSymbol = T.type_alias do
+                T.all(
+                  Symbol,
+                  Anthropic::Beta::Environments::BetaSelfHostedWorkHeartbeatResponse::State
+                )
+              end
+          end
+        end
+
+        class BetaSelfHostedWorkListResponse < Anthropic::Internal::Type::BaseModel
+          # List of work items
+          sig { returns(T::Array[Anthropic::Beta::Environments::BetaSelfHostedWork]) }
+          attr_accessor :data
+
+          # Opaque cursor for fetching the next page of results
+          sig { returns(T.nilable(String)) }
+          attr_accessor :next_page
+
+          sig do
+            override
+              .returns({
+                data:
+                  T::Array[Anthropic::Beta::Environments::BetaSelfHostedWork],
+                next_page: T.nilable(String)
+              })
+          end
+          def to_hash; end
+
+          class << self
+            # Response when listing work items with cursor-based pagination.
+            sig do
+              params(
+                data: T::Array[
+                  Anthropic::Beta::Environments::BetaSelfHostedWork::OrHash
+                ],
+                next_page: T.nilable(String)
+              ).returns(T.attached_class)
+            end
+            def new(
+              data:, # List of work items
+              next_page: # Opaque cursor for fetching the next page of results
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Environments::BetaSelfHostedWorkListResponse,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        class BetaSelfHostedWorkQueueStats < Anthropic::Internal::Type::BaseModel
+          # Number of work items waiting to be picked up (lag from consumer group)
+          sig { returns(Integer) }
+          attr_accessor :depth
+
+          # RFC 3339 timestamp of oldest item in the work stream (includes both queued and
+          # pending items), null if stream empty
+          sig { returns(T.nilable(String)) }
+          attr_accessor :oldest_queued_at
+
+          # Number of work items being processed (polled but not acknowledged)
+          sig { returns(Integer) }
+          attr_accessor :pending
+
+          # The type of object
+          sig { returns(Symbol) }
+          attr_accessor :type
+
+          # Number of workers that have polled for work in the last 30 seconds. Requires
+          # worker_id to be sent with poll requests.
+          sig { returns(T.nilable(Integer)) }
+          attr_accessor :workers_polling
+
+          sig do
+            override
+              .returns({
+                depth: Integer,
+                oldest_queued_at: T.nilable(String),
+                pending: Integer,
+                type: Symbol,
+                workers_polling: T.nilable(Integer)
+              })
+          end
+          def to_hash; end
+
+          class << self
+            # Statistics about the work queue for an environment.
+            #
+            # Uses Redis Stream consumer group metrics for O(1) queries.
+            sig do
+              params(
+                depth: Integer,
+                oldest_queued_at: T.nilable(String),
+                pending: Integer,
+                workers_polling: T.nilable(Integer),
+                type: Symbol
+              ).returns(T.attached_class)
+            end
+            def new(
+              depth:, # Number of work items waiting to be picked up (lag from consumer group)
+              oldest_queued_at:, # RFC 3339 timestamp of oldest item in the work stream (includes both queued and
+                                 # pending items), null if stream empty
+              pending:, # Number of work items being processed (polled but not acknowledged)
+              workers_polling:, # Number of workers that have polled for work in the last 30 seconds. Requires
+                                # worker_id to be sent with poll requests.
+              type: :work_queue_stats # The type of object
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Environments::BetaSelfHostedWorkQueueStats,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        class BetaSelfHostedWorkStopRequest < Anthropic::Internal::Type::BaseModel
+          # If true, immediately stop work without graceful shutdown
+          sig { returns(T.nilable(T::Boolean)) }
+          attr_reader :force
+
+          sig { params(force: T::Boolean).void }
+          attr_writer :force
+
+          sig { override.returns({ force: T::Boolean }) }
+          def to_hash; end
+
+          class << self
+            # Request to stop a work item.
+            sig { params(force: T::Boolean).returns(T.attached_class) }
+            def new(
+              force: nil # If true, immediately stop work without graceful shutdown
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Environments::BetaSelfHostedWorkStopRequest,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        class BetaSelfHostedWorkUpdateRequest < Anthropic::Internal::Type::BaseModel
+          # Metadata patch. Set a key to a string to upsert it, or to null to delete it.
+          # Omit the field to preserve existing metadata.
+          sig { returns(T::Hash[Symbol, T.nilable(String)]) }
+          attr_accessor :metadata
+
+          sig { override.returns({ metadata: T::Hash[Symbol, T.nilable(String)] }) }
+          def to_hash; end
+
+          class << self
+            # Request to update work item metadata.
+            sig { params(metadata: T::Hash[Symbol, T.nilable(String)]).returns(T.attached_class) }
+            def new(
+              metadata: # Metadata patch. Set a key to a string to upsert it, or to null to delete it.
+                        # Omit the field to preserve existing metadata.
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Environments::BetaSelfHostedWorkUpdateRequest,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        class BetaSessionWorkData < Anthropic::Internal::Type::BaseModel
+          # Session identifier (e.g., 'session\_...')
+          sig { returns(String) }
+          attr_accessor :id
+
+          # Type of work data
+          sig { returns(Symbol) }
+          attr_accessor :type
+
+          sig { override.returns({ id: String, type: Symbol }) }
+          def to_hash; end
+
+          class << self
+            # Work data for session work items.
+            #
+            # This resource type is used when work represents a session that needs to be
+            # executed in a self-hosted environment.
+            sig { params(id: String, type: Symbol).returns(T.attached_class) }
+            def new(
+              id:, # Session identifier (e.g., 'session\_...')
+              type: :session # Type of work data
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Environments::BetaSessionWorkData,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        class WorkAckParams < Anthropic::Internal::Type::BaseModel
+          extend Anthropic::Internal::Type::RequestParameters::Converter
+          include Anthropic::Internal::Type::RequestParameters
+
+          # Optional header to specify the beta version(s) you want to use.
+          sig do
+            returns(T.nilable(
+                T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]
+              ))
+          end
+          attr_reader :betas
+
+          sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
+          attr_writer :betas
+
+          sig { returns(String) }
+          attr_accessor :environment_id
+
+          sig { returns(String) }
+          attr_accessor :work_id
+
+          sig do
+            override
+              .returns({
+                environment_id: String,
+                work_id: String,
+                betas:
+                  T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                request_options: Anthropic::RequestOptions
+              })
+          end
+          def to_hash; end
+
+          class << self
+            sig do
+              params(
+                environment_id: String,
+                work_id: String,
+                betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                request_options: Anthropic::RequestOptions::OrHash
+              ).returns(T.attached_class)
+            end
+            def new(
+              environment_id:,
+              work_id:,
+              betas: nil, # Optional header to specify the beta version(s) you want to use.
+              request_options: {}
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Environments::WorkAckParams,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        class WorkHeartbeatParams < Anthropic::Internal::Type::BaseModel
+          extend Anthropic::Internal::Type::RequestParameters::Converter
+          include Anthropic::Internal::Type::RequestParameters
+
+          # Optional header to specify the beta version(s) you want to use.
+          sig do
+            returns(T.nilable(
+                T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]
+              ))
+          end
+          attr_reader :betas
+
+          sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
+          attr_writer :betas
+
+          # Desired TTL in seconds
+          sig { returns(T.nilable(Integer)) }
+          attr_accessor :desired_ttl_seconds
+
+          sig { returns(String) }
+          attr_accessor :environment_id
+
+          # Expected last_heartbeat for conditional update (optimistic concurrency). Use
+          # literal 'NO_HEARTBEAT' to claim an unclaimed lease (first heartbeat). For
+          # subsequent heartbeats, echo the server's previous last_heartbeat value exactly.
+          # Returns 412 Precondition Failed if the actual value doesn't match.
+          sig { returns(T.nilable(String)) }
+          attr_accessor :expected_last_heartbeat
+
+          sig { returns(String) }
+          attr_accessor :work_id
+
+          sig do
+            override
+              .returns({
+                environment_id: String,
+                work_id: String,
+                desired_ttl_seconds: T.nilable(Integer),
+                expected_last_heartbeat: T.nilable(String),
+                betas:
+                  T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                request_options: Anthropic::RequestOptions
+              })
+          end
+          def to_hash; end
+
+          class << self
+            sig do
+              params(
+                environment_id: String,
+                work_id: String,
+                desired_ttl_seconds: T.nilable(Integer),
+                expected_last_heartbeat: T.nilable(String),
+                betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                request_options: Anthropic::RequestOptions::OrHash
+              ).returns(T.attached_class)
+            end
+            def new(
+              environment_id:,
+              work_id:,
+              desired_ttl_seconds: nil, # Desired TTL in seconds
+              expected_last_heartbeat: nil, # Expected last_heartbeat for conditional update (optimistic concurrency). Use
+                                            # literal 'NO_HEARTBEAT' to claim an unclaimed lease (first heartbeat). For
+                                            # subsequent heartbeats, echo the server's previous last_heartbeat value exactly.
+                                            # Returns 412 Precondition Failed if the actual value doesn't match.
+              betas: nil, # Optional header to specify the beta version(s) you want to use.
+              request_options: {}
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Environments::WorkHeartbeatParams,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        class WorkListParams < Anthropic::Internal::Type::BaseModel
+          extend Anthropic::Internal::Type::RequestParameters::Converter
+          include Anthropic::Internal::Type::RequestParameters
+
+          # Optional header to specify the beta version(s) you want to use.
+          sig do
+            returns(T.nilable(
+                T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]
+              ))
+          end
+          attr_reader :betas
+
+          sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
+          attr_writer :betas
+
+          sig { returns(String) }
+          attr_accessor :environment_id
+
+          # Maximum number of work items to return
+          sig { returns(T.nilable(Integer)) }
+          attr_reader :limit
+
+          sig { params(limit: Integer).void }
+          attr_writer :limit
+
+          # Opaque cursor from previous response for pagination
+          sig { returns(T.nilable(String)) }
+          attr_accessor :page
+
+          sig do
+            override
+              .returns({
+                environment_id: String,
+                limit: Integer,
+                page: T.nilable(String),
+                betas:
+                  T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                request_options: Anthropic::RequestOptions
+              })
+          end
+          def to_hash; end
+
+          class << self
+            sig do
+              params(
+                environment_id: String,
+                limit: Integer,
+                page: T.nilable(String),
+                betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                request_options: Anthropic::RequestOptions::OrHash
+              ).returns(T.attached_class)
+            end
+            def new(
+              environment_id:,
+              limit: nil, # Maximum number of work items to return
+              page: nil, # Opaque cursor from previous response for pagination
+              betas: nil, # Optional header to specify the beta version(s) you want to use.
+              request_options: {}
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Environments::WorkListParams,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        class WorkPollParams < Anthropic::Internal::Type::BaseModel
+          extend Anthropic::Internal::Type::RequestParameters::Converter
+          include Anthropic::Internal::Type::RequestParameters
+
+          # Unique identifier for the specific worker polling, used to track aggregated
+          # environment-level work metrics in Console
+          sig { returns(T.nilable(String)) }
+          attr_reader :anthropic_worker_id
+
+          sig { params(anthropic_worker_id: String).void }
+          attr_writer :anthropic_worker_id
+
+          # Optional header to specify the beta version(s) you want to use.
+          sig do
+            returns(T.nilable(
+                T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]
+              ))
+          end
+          attr_reader :betas
+
+          sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
+          attr_writer :betas
+
+          # How long to wait for work to arrive before returning. Must be 1-999 in
+          # milliseconds. Defaults to non-blocking (returns immediately if no work is
+          # available).
+          sig { returns(T.nilable(Integer)) }
+          attr_accessor :block_ms
+
+          sig { returns(String) }
+          attr_accessor :environment_id
+
+          # Reclaim unacknowledged work items older than this many milliseconds. If omitted,
+          # uses the default (5000ms).
+          sig { returns(T.nilable(Integer)) }
+          attr_accessor :reclaim_older_than_ms
+
+          sig do
+            override
+              .returns({
+                environment_id: String,
+                block_ms: T.nilable(Integer),
+                reclaim_older_than_ms: T.nilable(Integer),
+                betas:
+                  T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                anthropic_worker_id: String,
+                request_options: Anthropic::RequestOptions
+              })
+          end
+          def to_hash; end
+
+          class << self
+            sig do
+              params(
+                environment_id: String,
+                block_ms: T.nilable(Integer),
+                reclaim_older_than_ms: T.nilable(Integer),
+                betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                anthropic_worker_id: String,
+                request_options: Anthropic::RequestOptions::OrHash
+              ).returns(T.attached_class)
+            end
+            def new(
+              environment_id:,
+              block_ms: nil, # How long to wait for work to arrive before returning. Must be 1-999 in
+                             # milliseconds. Defaults to non-blocking (returns immediately if no work is
+                             # available).
+              reclaim_older_than_ms: nil, # Reclaim unacknowledged work items older than this many milliseconds. If omitted,
+                                          # uses the default (5000ms).
+              betas: nil, # Optional header to specify the beta version(s) you want to use.
+              anthropic_worker_id: nil, # Unique identifier for the specific worker polling, used to track aggregated
+                                        # environment-level work metrics in Console
+              request_options: {}
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Environments::WorkPollParams,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        class WorkRetrieveParams < Anthropic::Internal::Type::BaseModel
+          extend Anthropic::Internal::Type::RequestParameters::Converter
+          include Anthropic::Internal::Type::RequestParameters
+
+          # Optional header to specify the beta version(s) you want to use.
+          sig do
+            returns(T.nilable(
+                T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]
+              ))
+          end
+          attr_reader :betas
+
+          sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
+          attr_writer :betas
+
+          sig { returns(String) }
+          attr_accessor :environment_id
+
+          sig { returns(String) }
+          attr_accessor :work_id
+
+          sig do
+            override
+              .returns({
+                environment_id: String,
+                work_id: String,
+                betas:
+                  T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                request_options: Anthropic::RequestOptions
+              })
+          end
+          def to_hash; end
+
+          class << self
+            sig do
+              params(
+                environment_id: String,
+                work_id: String,
+                betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                request_options: Anthropic::RequestOptions::OrHash
+              ).returns(T.attached_class)
+            end
+            def new(
+              environment_id:,
+              work_id:,
+              betas: nil, # Optional header to specify the beta version(s) you want to use.
+              request_options: {}
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Environments::WorkRetrieveParams,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        class WorkStatsParams < Anthropic::Internal::Type::BaseModel
+          extend Anthropic::Internal::Type::RequestParameters::Converter
+          include Anthropic::Internal::Type::RequestParameters
+
+          # Optional header to specify the beta version(s) you want to use.
+          sig do
+            returns(T.nilable(
+                T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]
+              ))
+          end
+          attr_reader :betas
+
+          sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
+          attr_writer :betas
+
+          sig { returns(String) }
+          attr_accessor :environment_id
+
+          sig do
+            override
+              .returns({
+                environment_id: String,
+                betas:
+                  T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                request_options: Anthropic::RequestOptions
+              })
+          end
+          def to_hash; end
+
+          class << self
+            sig do
+              params(
+                environment_id: String,
+                betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                request_options: Anthropic::RequestOptions::OrHash
+              ).returns(T.attached_class)
+            end
+            def new(
+              environment_id:,
+              betas: nil, # Optional header to specify the beta version(s) you want to use.
+              request_options: {}
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Environments::WorkStatsParams,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        class WorkStopParams < Anthropic::Models::Beta::Environments::BetaSelfHostedWorkStopRequest
+          extend Anthropic::Internal::Type::RequestParameters::Converter
+          include Anthropic::Internal::Type::RequestParameters
+
+          # Optional header to specify the beta version(s) you want to use.
+          sig do
+            returns(T.nilable(
+                T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]
+              ))
+          end
+          attr_reader :betas
+
+          sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
+          attr_writer :betas
+
+          sig { returns(String) }
+          attr_accessor :environment_id
+
+          sig { returns(String) }
+          attr_accessor :work_id
+
+          sig do
+            override
+              .returns({
+                environment_id: String,
+                work_id: String,
+                betas:
+                  T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                request_options: Anthropic::RequestOptions
+              })
+          end
+          def to_hash; end
+
+          class << self
+            sig do
+              params(
+                environment_id: String,
+                work_id: String,
+                betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                request_options: Anthropic::RequestOptions::OrHash
+              ).returns(T.attached_class)
+            end
+            def new(
+              environment_id:,
+              work_id:,
+              betas: nil, # Optional header to specify the beta version(s) you want to use.
+              request_options: {}
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Environments::WorkStopParams,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        class WorkUpdateParams < Anthropic::Models::Beta::Environments::BetaSelfHostedWorkUpdateRequest
+          extend Anthropic::Internal::Type::RequestParameters::Converter
+          include Anthropic::Internal::Type::RequestParameters
+
+          # Optional header to specify the beta version(s) you want to use.
+          sig do
+            returns(T.nilable(
+                T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]
+              ))
+          end
+          attr_reader :betas
+
+          sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
+          attr_writer :betas
+
+          sig { returns(String) }
+          attr_accessor :environment_id
+
+          sig { returns(String) }
+          attr_accessor :work_id
+
+          sig do
+            override
+              .returns({
+                environment_id: String,
+                work_id: String,
+                betas:
+                  T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                request_options: Anthropic::RequestOptions
+              })
+          end
+          def to_hash; end
+
+          class << self
+            sig do
+              params(
+                environment_id: String,
+                work_id: String,
+                betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                request_options: Anthropic::RequestOptions::OrHash
+              ).returns(T.attached_class)
+            end
+            def new(
+              environment_id:,
+              work_id:,
+              betas: nil, # Optional header to specify the beta version(s) you want to use.
+              request_options: {}
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Environments::WorkUpdateParams,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
       end
 
       class FileDeleteParams < Anthropic::Internal::Type::BaseModel
@@ -33957,6 +36095,15 @@ module Anthropic
         extend Anthropic::Internal::Type::RequestParameters::Converter
         include Anthropic::Internal::Type::RequestParameters
 
+        # Mid-session agent configuration update. Only `tools` and `mcp_servers` are
+        # updatable. Full replacement: the provided array becomes the new value. To
+        # preserve existing entries, GET the session, modify the array, and POST it back.
+        sig { returns(T.nilable(Anthropic::Beta::BetaManagedAgentsSessionAgentUpdate)) }
+        attr_reader :agent
+
+        sig { params(agent: Anthropic::Beta::BetaManagedAgentsSessionAgentUpdate::OrHash).void }
+        attr_writer :agent
+
         # Optional header to specify the beta version(s) you want to use.
         sig do
           returns(T.nilable(
@@ -33992,6 +36139,7 @@ module Anthropic
           override
             .returns({
               session_id: String,
+              agent: Anthropic::Beta::BetaManagedAgentsSessionAgentUpdate,
               metadata: T.nilable(T::Hash[Symbol, T.nilable(String)]),
               title: T.nilable(String),
               vault_ids: T::Array[String],
@@ -34006,6 +36154,7 @@ module Anthropic
           sig do
             params(
               session_id: String,
+              agent: Anthropic::Beta::BetaManagedAgentsSessionAgentUpdate::OrHash,
               metadata: T.nilable(T::Hash[Symbol, T.nilable(String)]),
               title: T.nilable(String),
               vault_ids: T::Array[String],
@@ -34015,6 +36164,9 @@ module Anthropic
           end
           def new(
             session_id:,
+            agent: nil, # Mid-session agent configuration update. Only `tools` and `mcp_servers` are
+                        # updatable. Full replacement: the provided array becomes the new value. To
+                        # preserve existing entries, GET the session, modify the array, and POST it back.
             metadata: nil, # Metadata patch. Set a key to a string to upsert it, or to null to delete it.
                            # Omit the field to preserve.
             title: nil, # Human-readable session title.
@@ -35742,7 +37894,8 @@ module Anthropic
                 Anthropic::Beta::Sessions::BetaManagedAgentsUserInterruptEventParams,
                 Anthropic::Beta::Sessions::BetaManagedAgentsUserToolConfirmationEventParams,
                 Anthropic::Beta::Sessions::BetaManagedAgentsUserCustomToolResultEventParams,
-                Anthropic::Beta::Sessions::BetaManagedAgentsUserDefineOutcomeEventParams
+                Anthropic::Beta::Sessions::BetaManagedAgentsUserDefineOutcomeEventParams,
+                Anthropic::Beta::Sessions::BetaManagedAgentsUserToolResultEventParams
               )
             end
         end
@@ -37538,7 +39691,8 @@ module Anthropic
                     Anthropic::Beta::Sessions::BetaManagedAgentsUserInterruptEvent::OrHash,
                     Anthropic::Beta::Sessions::BetaManagedAgentsUserToolConfirmationEvent::OrHash,
                     Anthropic::Beta::Sessions::BetaManagedAgentsUserCustomToolResultEvent::OrHash,
-                    Anthropic::Beta::Sessions::BetaManagedAgentsUserDefineOutcomeEvent::OrHash
+                    Anthropic::Beta::Sessions::BetaManagedAgentsUserDefineOutcomeEvent::OrHash,
+                    Anthropic::Beta::BetaManagedAgentsUserToolResultEvent::OrHash
                   )
                 ]
             ).void
@@ -37566,7 +39720,8 @@ module Anthropic
                     Anthropic::Beta::Sessions::BetaManagedAgentsUserInterruptEvent::OrHash,
                     Anthropic::Beta::Sessions::BetaManagedAgentsUserToolConfirmationEvent::OrHash,
                     Anthropic::Beta::Sessions::BetaManagedAgentsUserCustomToolResultEvent::OrHash,
-                    Anthropic::Beta::Sessions::BetaManagedAgentsUserDefineOutcomeEvent::OrHash
+                    Anthropic::Beta::Sessions::BetaManagedAgentsUserDefineOutcomeEvent::OrHash,
+                    Anthropic::Beta::BetaManagedAgentsUserToolResultEvent::OrHash
                   )
                 ]
               ).returns(T.attached_class)
@@ -37596,7 +39751,8 @@ module Anthropic
                   Anthropic::Beta::Sessions::BetaManagedAgentsUserInterruptEvent,
                   Anthropic::Beta::Sessions::BetaManagedAgentsUserToolConfirmationEvent,
                   Anthropic::Beta::Sessions::BetaManagedAgentsUserCustomToolResultEvent,
-                  Anthropic::Beta::Sessions::BetaManagedAgentsUserDefineOutcomeEvent
+                  Anthropic::Beta::Sessions::BetaManagedAgentsUserDefineOutcomeEvent,
+                  Anthropic::Beta::BetaManagedAgentsUserToolResultEvent
                 )
               end
           end
@@ -37914,7 +40070,9 @@ module Anthropic
                 Anthropic::Beta::Sessions::BetaManagedAgentsSessionThreadStatusRunningEvent,
                 Anthropic::Beta::Sessions::BetaManagedAgentsSessionThreadStatusIdleEvent,
                 Anthropic::Beta::Sessions::BetaManagedAgentsSessionThreadStatusTerminatedEvent,
-                Anthropic::Beta::Sessions::BetaManagedAgentsSessionThreadStatusRescheduledEvent
+                Anthropic::Beta::BetaManagedAgentsUserToolResultEvent,
+                Anthropic::Beta::Sessions::BetaManagedAgentsSessionThreadStatusRescheduledEvent,
+                Anthropic::Beta::BetaManagedAgentsSessionUpdatedEvent
               )
             end
         end
@@ -38416,10 +40574,10 @@ module Anthropic
           # Resolved `agent` definition for a single `session_thread`. Snapshot of the agent
           # at thread creation time. The multiagent roster is not repeated here; read it
           # from `Session.agent`.
-          sig { returns(Anthropic::Beta::Sessions::BetaManagedAgentsSessionThreadAgent) }
+          sig { returns(Anthropic::Beta::BetaManagedAgentsSessionThreadAgent) }
           attr_reader :agent
 
-          sig { params(agent: Anthropic::Beta::Sessions::BetaManagedAgentsSessionThreadAgent::OrHash).void }
+          sig { params(agent: Anthropic::Beta::BetaManagedAgentsSessionThreadAgent::OrHash).void }
           attr_writer :agent
 
           # A timestamp in RFC 3339 format
@@ -38491,8 +40649,7 @@ module Anthropic
             override
               .returns({
                 id: String,
-                agent:
-                  Anthropic::Beta::Sessions::BetaManagedAgentsSessionThreadAgent,
+                agent: Anthropic::Beta::BetaManagedAgentsSessionThreadAgent,
                 archived_at: T.nilable(Time),
                 created_at: Time,
                 parent_thread_id: T.nilable(String),
@@ -38520,7 +40677,7 @@ module Anthropic
             sig do
               params(
                 id: String,
-                agent: Anthropic::Beta::Sessions::BetaManagedAgentsSessionThreadAgent::OrHash,
+                agent: Anthropic::Beta::BetaManagedAgentsSessionThreadAgent::OrHash,
                 archived_at: T.nilable(Time),
                 created_at: Time,
                 parent_thread_id: T.nilable(String),
@@ -38584,202 +40741,6 @@ module Anthropic
                 T.all(
                   Symbol,
                   Anthropic::Beta::Sessions::BetaManagedAgentsSessionThread::Type
-                )
-              end
-          end
-        end
-
-        class BetaManagedAgentsSessionThreadAgent < Anthropic::Internal::Type::BaseModel
-          sig { returns(T.nilable(String)) }
-          attr_accessor :description
-
-          sig { returns(String) }
-          attr_accessor :id
-
-          sig { returns(T::Array[Anthropic::Beta::BetaManagedAgentsMCPServerURLDefinition]) }
-          attr_accessor :mcp_servers
-
-          # Model identifier and configuration.
-          sig { returns(Anthropic::Beta::BetaManagedAgentsModelConfig) }
-          attr_reader :model
-
-          sig { params(model: Anthropic::Beta::BetaManagedAgentsModelConfig::OrHash).void }
-          attr_writer :model
-
-          sig { returns(String) }
-          attr_accessor :name
-
-          sig do
-            returns(T::Array[
-                Anthropic::Beta::Sessions::BetaManagedAgentsSessionThreadAgent::Skill::Variants
-              ])
-          end
-          attr_accessor :skills
-
-          sig { returns(T.nilable(String)) }
-          attr_accessor :system_
-
-          sig do
-            returns(T::Array[
-                Anthropic::Beta::Sessions::BetaManagedAgentsSessionThreadAgent::Tool::Variants
-              ])
-          end
-          attr_accessor :tools
-
-          sig { returns(Anthropic::Beta::Sessions::BetaManagedAgentsSessionThreadAgent::Type::TaggedSymbol) }
-          attr_accessor :type
-
-          sig { returns(Integer) }
-          attr_accessor :version
-
-          sig do
-            override
-              .returns({
-                id: String,
-                description: T.nilable(String),
-                mcp_servers:
-                  T::Array[
-                    Anthropic::Beta::BetaManagedAgentsMCPServerURLDefinition
-                  ],
-                model: Anthropic::Beta::BetaManagedAgentsModelConfig,
-                name: String,
-                skills:
-                  T::Array[
-                    Anthropic::Beta::Sessions::BetaManagedAgentsSessionThreadAgent::Skill::Variants
-                  ],
-                system_: T.nilable(String),
-                tools:
-                  T::Array[
-                    Anthropic::Beta::Sessions::BetaManagedAgentsSessionThreadAgent::Tool::Variants
-                  ],
-                type:
-                  Anthropic::Beta::Sessions::BetaManagedAgentsSessionThreadAgent::Type::TaggedSymbol,
-                version: Integer
-              })
-          end
-          def to_hash; end
-
-          class << self
-            # Resolved `agent` definition for a single `session_thread`. Snapshot of the agent
-            # at thread creation time. The multiagent roster is not repeated here; read it
-            # from `Session.agent`.
-            sig do
-              params(
-                id: String,
-                description: T.nilable(String),
-                mcp_servers: T::Array[
-                  Anthropic::Beta::BetaManagedAgentsMCPServerURLDefinition::OrHash
-                ],
-                model: Anthropic::Beta::BetaManagedAgentsModelConfig::OrHash,
-                name: String,
-                skills: T::Array[
-                  T.any(
-                    Anthropic::Beta::BetaManagedAgentsAnthropicSkill::OrHash,
-                    Anthropic::Beta::BetaManagedAgentsCustomSkill::OrHash
-                  )
-                ],
-                system_: T.nilable(String),
-                tools: T::Array[
-                  T.any(
-                    Anthropic::Beta::BetaManagedAgentsAgentToolset20260401::OrHash,
-                    Anthropic::Beta::BetaManagedAgentsMCPToolset::OrHash,
-                    Anthropic::Beta::BetaManagedAgentsCustomTool::OrHash
-                  )
-                ],
-                type: Anthropic::Beta::Sessions::BetaManagedAgentsSessionThreadAgent::Type::OrSymbol,
-                version: Integer
-              ).returns(T.attached_class)
-            end
-            def new(
-              id:,
-              description:,
-              mcp_servers:,
-              model:, # Model identifier and configuration.
-              name:,
-              skills:,
-              system_:,
-              tools:,
-              type:,
-              version:
-); end
-          end
-
-          OrHash = T.type_alias do
-              T.any(
-                Anthropic::Beta::Sessions::BetaManagedAgentsSessionThreadAgent,
-                Anthropic::Internal::AnyHash
-              )
-            end
-
-          # Resolved skill as returned in API responses.
-          module Skill
-            extend Anthropic::Internal::Type::Union
-
-            class << self
-              sig do
-                override
-                  .returns(T::Array[
-                  Anthropic::Beta::Sessions::BetaManagedAgentsSessionThreadAgent::Skill::Variants
-                ])
-              end
-              def variants; end
-            end
-
-            Variants = T.type_alias do
-                T.any(
-                  Anthropic::Beta::BetaManagedAgentsAnthropicSkill,
-                  Anthropic::Beta::BetaManagedAgentsCustomSkill
-                )
-              end
-          end
-
-          # Union type for tool configurations returned in API responses.
-          module Tool
-            extend Anthropic::Internal::Type::Union
-
-            class << self
-              sig do
-                override
-                  .returns(T::Array[
-                  Anthropic::Beta::Sessions::BetaManagedAgentsSessionThreadAgent::Tool::Variants
-                ])
-              end
-              def variants; end
-            end
-
-            Variants = T.type_alias do
-                T.any(
-                  Anthropic::Beta::BetaManagedAgentsAgentToolset20260401,
-                  Anthropic::Beta::BetaManagedAgentsMCPToolset,
-                  Anthropic::Beta::BetaManagedAgentsCustomTool
-                )
-              end
-          end
-
-          module Type
-            extend Anthropic::Internal::Type::Enum
-
-            class << self
-              sig do
-                override
-                  .returns(T::Array[
-                  Anthropic::Beta::Sessions::BetaManagedAgentsSessionThreadAgent::Type::TaggedSymbol
-                ])
-              end
-              def values; end
-            end
-
-            AGENT = T.let(
-                :agent,
-                Anthropic::Beta::Sessions::BetaManagedAgentsSessionThreadAgent::Type::TaggedSymbol
-              )
-
-            OrSymbol = T.type_alias { T.any(Symbol, String) }
-
-            TaggedSymbol = T.type_alias do
-                T.all(
-                  Symbol,
-                  Anthropic::Beta::Sessions::BetaManagedAgentsSessionThreadAgent::Type
                 )
               end
           end
@@ -40114,7 +42075,9 @@ module Anthropic
                 Anthropic::Beta::Sessions::BetaManagedAgentsSessionThreadStatusRunningEvent,
                 Anthropic::Beta::Sessions::BetaManagedAgentsSessionThreadStatusIdleEvent,
                 Anthropic::Beta::Sessions::BetaManagedAgentsSessionThreadStatusTerminatedEvent,
-                Anthropic::Beta::Sessions::BetaManagedAgentsSessionThreadStatusRescheduledEvent
+                Anthropic::Beta::BetaManagedAgentsUserToolResultEvent,
+                Anthropic::Beta::Sessions::BetaManagedAgentsSessionThreadStatusRescheduledEvent,
+                Anthropic::Beta::BetaManagedAgentsSessionUpdatedEvent
               )
             end
         end
@@ -40165,7 +42128,9 @@ module Anthropic
                 Anthropic::Beta::Sessions::BetaManagedAgentsSessionThreadStatusRunningEvent,
                 Anthropic::Beta::Sessions::BetaManagedAgentsSessionThreadStatusIdleEvent,
                 Anthropic::Beta::Sessions::BetaManagedAgentsSessionThreadStatusTerminatedEvent,
-                Anthropic::Beta::Sessions::BetaManagedAgentsSessionThreadStatusRescheduledEvent
+                Anthropic::Beta::BetaManagedAgentsUserToolResultEvent,
+                Anthropic::Beta::Sessions::BetaManagedAgentsSessionThreadStatusRescheduledEvent,
+                Anthropic::Beta::BetaManagedAgentsSessionUpdatedEvent
               )
             end
         end
@@ -41850,6 +43815,161 @@ module Anthropic
           end
         end
 
+        class BetaManagedAgentsUserToolResultEventParams < Anthropic::Internal::Type::BaseModel
+          # The result content returned by the tool.
+          sig do
+            returns(T.nilable(
+                T::Array[
+                  T.any(
+                    Anthropic::Beta::Sessions::BetaManagedAgentsTextBlock,
+                    Anthropic::Beta::Sessions::BetaManagedAgentsImageBlock,
+                    Anthropic::Beta::Sessions::BetaManagedAgentsDocumentBlock,
+                    Anthropic::Beta::Sessions::BetaManagedAgentsSearchResultBlock
+                  )
+                ]
+              ))
+          end
+          attr_reader :content
+
+          sig do
+            params(
+              content: T::Array[
+                  T.any(
+                    Anthropic::Beta::Sessions::BetaManagedAgentsTextBlock::OrHash,
+                    Anthropic::Beta::Sessions::BetaManagedAgentsImageBlock::OrHash,
+                    Anthropic::Beta::Sessions::BetaManagedAgentsDocumentBlock::OrHash,
+                    Anthropic::Beta::Sessions::BetaManagedAgentsSearchResultBlock::OrHash
+                  )
+                ]
+            ).void
+          end
+          attr_writer :content
+
+          # Whether the tool execution resulted in an error.
+          sig { returns(T.nilable(T::Boolean)) }
+          attr_accessor :is_error
+
+          # The id of the `agent.tool_use` event this result corresponds to, which can be
+          # found in the last `session.status_idle`
+          # [event's](https://platform.claude.com/docs/en/api/beta/sessions/events/list#beta_managed_agents_session_requires_action.event_ids)
+          # `stop_reason.event_ids` field.
+          sig { returns(String) }
+          attr_accessor :tool_use_id
+
+          sig { returns(Anthropic::Beta::Sessions::BetaManagedAgentsUserToolResultEventParams::Type::OrSymbol) }
+          attr_accessor :type
+
+          sig do
+            override
+              .returns({
+                tool_use_id: String,
+                type:
+                  Anthropic::Beta::Sessions::BetaManagedAgentsUserToolResultEventParams::Type::OrSymbol,
+                content:
+                  T::Array[
+                    T.any(
+                      Anthropic::Beta::Sessions::BetaManagedAgentsTextBlock,
+                      Anthropic::Beta::Sessions::BetaManagedAgentsImageBlock,
+                      Anthropic::Beta::Sessions::BetaManagedAgentsDocumentBlock,
+                      Anthropic::Beta::Sessions::BetaManagedAgentsSearchResultBlock
+                    )
+                  ],
+                is_error: T.nilable(T::Boolean)
+              })
+          end
+          def to_hash; end
+
+          class << self
+            # Parameters for providing the result of an agent-toolset tool execution. Only
+            # valid on `self_hosted` environments, where sandbox-routed tools are executed by
+            # the client rather than the server.
+            sig do
+              params(
+                tool_use_id: String,
+                type: Anthropic::Beta::Sessions::BetaManagedAgentsUserToolResultEventParams::Type::OrSymbol,
+                content: T::Array[
+                  T.any(
+                    Anthropic::Beta::Sessions::BetaManagedAgentsTextBlock::OrHash,
+                    Anthropic::Beta::Sessions::BetaManagedAgentsImageBlock::OrHash,
+                    Anthropic::Beta::Sessions::BetaManagedAgentsDocumentBlock::OrHash,
+                    Anthropic::Beta::Sessions::BetaManagedAgentsSearchResultBlock::OrHash
+                  )
+                ],
+                is_error: T.nilable(T::Boolean)
+              ).returns(T.attached_class)
+            end
+            def new(
+              tool_use_id:, # The id of the `agent.tool_use` event this result corresponds to, which can be
+                            # found in the last `session.status_idle`
+                            # [event's](https://platform.claude.com/docs/en/api/beta/sessions/events/list#beta_managed_agents_session_requires_action.event_ids)
+                            # `stop_reason.event_ids` field.
+              type:,
+              content: nil, # The result content returned by the tool.
+              is_error: nil # Whether the tool execution resulted in an error.
+); end
+          end
+
+          # Content block in a tool result. Can be `text`, `image`, `document`, or
+          # `search_result`.
+          module Content
+            extend Anthropic::Internal::Type::Union
+
+            class << self
+              sig do
+                override
+                  .returns(T::Array[
+                  Anthropic::Beta::Sessions::BetaManagedAgentsUserToolResultEventParams::Content::Variants
+                ])
+              end
+              def variants; end
+            end
+
+            Variants = T.type_alias do
+                T.any(
+                  Anthropic::Beta::Sessions::BetaManagedAgentsTextBlock,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsImageBlock,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsDocumentBlock,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsSearchResultBlock
+                )
+              end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Sessions::BetaManagedAgentsUserToolResultEventParams,
+                Anthropic::Internal::AnyHash
+              )
+            end
+
+          module Type
+            extend Anthropic::Internal::Type::Enum
+
+            class << self
+              sig do
+                override
+                  .returns(T::Array[
+                  Anthropic::Beta::Sessions::BetaManagedAgentsUserToolResultEventParams::Type::TaggedSymbol
+                ])
+              end
+              def values; end
+            end
+
+            OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+            TaggedSymbol = T.type_alias do
+                T.all(
+                  Symbol,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsUserToolResultEventParams::Type
+                )
+              end
+
+            USER_TOOL_RESULT = T.let(
+                :"user.tool_result",
+                Anthropic::Beta::Sessions::BetaManagedAgentsUserToolResultEventParams::Type::TaggedSymbol
+              )
+          end
+        end
+
         class EventListParams < Anthropic::Internal::Type::BaseModel
           extend Anthropic::Internal::Type::RequestParameters::Converter
           include Anthropic::Internal::Type::RequestParameters
@@ -42046,7 +44166,8 @@ module Anthropic
                   Anthropic::Beta::Sessions::BetaManagedAgentsUserInterruptEventParams,
                   Anthropic::Beta::Sessions::BetaManagedAgentsUserToolConfirmationEventParams,
                   Anthropic::Beta::Sessions::BetaManagedAgentsUserCustomToolResultEventParams,
-                  Anthropic::Beta::Sessions::BetaManagedAgentsUserDefineOutcomeEventParams
+                  Anthropic::Beta::Sessions::BetaManagedAgentsUserDefineOutcomeEventParams,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsUserToolResultEventParams
                 )
               ])
           end
@@ -42066,7 +44187,8 @@ module Anthropic
                       Anthropic::Beta::Sessions::BetaManagedAgentsUserInterruptEventParams,
                       Anthropic::Beta::Sessions::BetaManagedAgentsUserToolConfirmationEventParams,
                       Anthropic::Beta::Sessions::BetaManagedAgentsUserCustomToolResultEventParams,
-                      Anthropic::Beta::Sessions::BetaManagedAgentsUserDefineOutcomeEventParams
+                      Anthropic::Beta::Sessions::BetaManagedAgentsUserDefineOutcomeEventParams,
+                      Anthropic::Beta::Sessions::BetaManagedAgentsUserToolResultEventParams
                     )
                   ],
                 betas:
@@ -42086,7 +44208,8 @@ module Anthropic
                     Anthropic::Beta::Sessions::BetaManagedAgentsUserInterruptEventParams::OrHash,
                     Anthropic::Beta::Sessions::BetaManagedAgentsUserToolConfirmationEventParams::OrHash,
                     Anthropic::Beta::Sessions::BetaManagedAgentsUserCustomToolResultEventParams::OrHash,
-                    Anthropic::Beta::Sessions::BetaManagedAgentsUserDefineOutcomeEventParams::OrHash
+                    Anthropic::Beta::Sessions::BetaManagedAgentsUserDefineOutcomeEventParams::OrHash,
+                    Anthropic::Beta::Sessions::BetaManagedAgentsUserToolResultEventParams::OrHash
                   )
                 ],
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
@@ -43696,6 +45819,72 @@ module Anthropic
           OrHash = T.type_alias do
               T.any(
                 Anthropic::Models::Beta::Skills::VersionDeleteResponse,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        class VersionDownloadParams < Anthropic::Internal::Type::BaseModel
+          extend Anthropic::Internal::Type::RequestParameters::Converter
+          include Anthropic::Internal::Type::RequestParameters
+
+          # Optional header to specify the beta version(s) you want to use.
+          sig do
+            returns(T.nilable(
+                T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]
+              ))
+          end
+          attr_reader :betas
+
+          sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
+          attr_writer :betas
+
+          # Unique identifier for the skill.
+          #
+          # The format and length of IDs may change over time.
+          sig { returns(String) }
+          attr_accessor :skill_id
+
+          # Version identifier for the skill.
+          #
+          # Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
+          sig { returns(String) }
+          attr_accessor :version
+
+          sig do
+            override
+              .returns({
+                skill_id: String,
+                version: String,
+                betas:
+                  T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                request_options: Anthropic::RequestOptions
+              })
+          end
+          def to_hash; end
+
+          class << self
+            sig do
+              params(
+                skill_id: String,
+                version: String,
+                betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                request_options: Anthropic::RequestOptions::OrHash
+              ).returns(T.attached_class)
+            end
+            def new(
+              skill_id:, # Unique identifier for the skill.
+                         # The format and length of IDs may change over time.
+              version:, # Version identifier for the skill.
+                        # Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
+              betas: nil, # Optional header to specify the beta version(s) you want to use.
+              request_options: {}
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Skills::VersionDownloadParams,
                 Anthropic::Internal::AnyHash
               )
             end
@@ -47808,7 +49997,19 @@ module Anthropic
 
     BetaManagedAgentsAgentToolset20260401 = Beta::BetaManagedAgentsAgentToolset20260401
 
+    BetaManagedAgentsAgentToolset20260401BashInput = Beta::BetaManagedAgentsAgentToolset20260401BashInput
+
+    BetaManagedAgentsAgentToolset20260401EditInput = Beta::BetaManagedAgentsAgentToolset20260401EditInput
+
+    BetaManagedAgentsAgentToolset20260401GlobInput = Beta::BetaManagedAgentsAgentToolset20260401GlobInput
+
+    BetaManagedAgentsAgentToolset20260401GrepInput = Beta::BetaManagedAgentsAgentToolset20260401GrepInput
+
     BetaManagedAgentsAgentToolset20260401Params = Beta::BetaManagedAgentsAgentToolset20260401Params
+
+    BetaManagedAgentsAgentToolset20260401ReadInput = Beta::BetaManagedAgentsAgentToolset20260401ReadInput
+
+    BetaManagedAgentsAgentToolset20260401WriteInput = Beta::BetaManagedAgentsAgentToolset20260401WriteInput
 
     BetaManagedAgentsAgentToolsetDefaultConfig = Beta::BetaManagedAgentsAgentToolsetDefaultConfig
 
@@ -47884,13 +50085,22 @@ module Anthropic
     BetaManagedAgentsSession = Beta::BetaManagedAgentsSession
     BetaManagedAgentsSessionAgent = Beta::BetaManagedAgentsSessionAgent
 
+    BetaManagedAgentsSessionAgentUpdate = Beta::BetaManagedAgentsSessionAgentUpdate
+
     BetaManagedAgentsSessionMultiagentCoordinator = Beta::BetaManagedAgentsSessionMultiagentCoordinator
 
     BetaManagedAgentsSessionStats = Beta::BetaManagedAgentsSessionStats
+
+    BetaManagedAgentsSessionThreadAgent = Beta::BetaManagedAgentsSessionThreadAgent
+
+    BetaManagedAgentsSessionUpdatedEvent = Beta::BetaManagedAgentsSessionUpdatedEvent
+
     BetaManagedAgentsSessionUsage = Beta::BetaManagedAgentsSessionUsage
     BetaManagedAgentsSkillParams = Beta::BetaManagedAgentsSkillParams
 
     BetaManagedAgentsURLMCPServerParams = Beta::BetaManagedAgentsURLMCPServerParams
+
+    BetaManagedAgentsUserToolResultEvent = Beta::BetaManagedAgentsUserToolResultEvent
 
     BetaManagedAgentsVault = Beta::BetaManagedAgentsVault
     BetaMemoryTool20250818 = Beta::BetaMemoryTool20250818
@@ -48023,6 +50233,8 @@ module Anthropic
     BetaRequestMCPToolResultBlockParam = Beta::BetaRequestMCPToolResultBlockParam
 
     BetaSearchResultBlockParam = Beta::BetaSearchResultBlockParam
+    BetaSelfHostedConfig = Beta::BetaSelfHostedConfig
+    BetaSelfHostedConfigParams = Beta::BetaSelfHostedConfigParams
     BetaServerToolCaller = Beta::BetaServerToolCaller
     BetaServerToolCaller20260120 = Beta::BetaServerToolCaller20260120
     BetaServerToolUsage = Beta::BetaServerToolUsage
@@ -61330,6 +63542,9 @@ module Anthropic
       end
 
       class Environments
+        sig { returns(Anthropic::Resources::Beta::Environments::Work) }
+        attr_reader :work
+
         # Archive an environment by ID. Archived environments cannot be used to create new
         # sessions.
         sig do
@@ -61349,19 +63564,30 @@ module Anthropic
         sig do
           params(
             name: String,
-            config: T.nilable(Anthropic::Beta::BetaCloudConfigParams::OrHash),
+            config: T.nilable(
+                T.any(
+                  Anthropic::Beta::BetaCloudConfigParams::OrHash,
+                  Anthropic::Beta::BetaSelfHostedConfigParams::OrHash
+                )
+              ),
             description: T.nilable(String),
             metadata: T::Hash[Symbol, String],
+            scope: T.nilable(
+                Anthropic::Beta::EnvironmentCreateParams::Scope::OrSymbol
+              ),
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Beta::BetaEnvironment)
         end
         def create(
           name:, # Body param: Human-readable name for the environment
-          config: nil, # Body param: Request params for `cloud` environment configuration.
-                       # Fields default to null; on update, omitted fields preserve the existing value.
+          config: nil, # Body param: Environment configuration
           description: nil, # Body param: Optional description of the environment
           metadata: nil, # Body param: User-provided metadata key-value pairs
+          scope: nil, # Body param: The visibility scope for this environment. 'organization' makes the
+                      # environment visible to all accounts. 'account' restricts visibility to the
+                      # owning account only. Only applicable for self-hosted environments. If not
+                      # specified, defaults based on organization type.
           betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
           request_options: {}
 ); end
@@ -61417,22 +63643,32 @@ module Anthropic
         sig do
           params(
             environment_id: String,
-            config: T.nilable(Anthropic::Beta::BetaCloudConfigParams::OrHash),
+            config: T.nilable(
+                T.any(
+                  Anthropic::Beta::BetaCloudConfigParams::OrHash,
+                  Anthropic::Beta::BetaSelfHostedConfigParams::OrHash
+                )
+              ),
             description: T.nilable(String),
             metadata: T::Hash[Symbol, T.nilable(String)],
             name: T.nilable(String),
+            scope: T.nilable(
+                Anthropic::Beta::EnvironmentUpdateParams::Scope::OrSymbol
+              ),
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Beta::BetaEnvironment)
         end
         def update(
           environment_id, # Path param
-          config: nil, # Body param: Request params for `cloud` environment configuration.
-                       # Fields default to null; on update, omitted fields preserve the existing value.
+          config: nil, # Body param: Updated environment configuration
           description: nil, # Body param: Updated description of the environment
           metadata: nil, # Body param: User-provided metadata key-value pairs. Set a value to null or empty
                          # string to delete the key.
           name: nil, # Body param: Updated name for the environment
+          scope: nil, # Body param: The visibility scope for this environment. 'organization' makes the
+                      # environment visible to all accounts. 'account' restricts visibility to the
+                      # owning account only.
           betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
           request_options: {}
 ); end
@@ -61441,6 +63677,201 @@ module Anthropic
           # @api private
           sig { params(client: Anthropic::Client).returns(T.attached_class) }
           def new(client:); end
+        end
+
+        class Work
+          # Note: these endpoints are called automatically by the pre-built environment
+          # worker provided in the SDKs and CLI, for orchestrating sessions with self-hosted
+          # sandbox environments. They are included here as a reference; you do not need to
+          # invoke them directly.
+          #
+          # Acknowledge receipt of a work item, transitioning it from 'queued' to 'starting'
+          # and removing it from the queue.
+          sig do
+            params(
+              work_id: String,
+              environment_id: String,
+              betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions::OrHash
+            ).returns(Anthropic::Beta::Environments::BetaSelfHostedWork)
+          end
+          def ack(
+            work_id, # Path param
+            environment_id:, # Path param
+            betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            request_options: {}
+); end
+
+          # Note: these endpoints are called automatically by the pre-built environment
+          # worker provided in the SDKs and CLI, for orchestrating sessions with self-hosted
+          # sandbox environments. They are included here as a reference; you do not need to
+          # invoke them directly.
+          #
+          # Record a heartbeat for a work item to maintain the lease.
+          sig do
+            params(
+              work_id: String,
+              environment_id: String,
+              desired_ttl_seconds: T.nilable(Integer),
+              expected_last_heartbeat: T.nilable(String),
+              betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions::OrHash
+            ).returns(Anthropic::Beta::Environments::BetaSelfHostedWorkHeartbeatResponse)
+          end
+          def heartbeat(
+            work_id, # Path param
+            environment_id:, # Path param
+            desired_ttl_seconds: nil, # Query param: Desired TTL in seconds
+            expected_last_heartbeat: nil, # Query param: Expected last_heartbeat for conditional update (optimistic
+                                          # concurrency). Use literal 'NO_HEARTBEAT' to claim an unclaimed lease (first
+                                          # heartbeat). For subsequent heartbeats, echo the server's previous last_heartbeat
+                                          # value exactly. Returns 412 Precondition Failed if the actual value doesn't
+                                          # match.
+            betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            request_options: {}
+); end
+
+          # Note: these endpoints are called automatically by the pre-built environment
+          # worker provided in the SDKs and CLI, for orchestrating sessions with self-hosted
+          # sandbox environments. They are included here as a reference; you do not need to
+          # invoke them directly.
+          #
+          # List work items in an environment.
+          sig do
+            params(
+              environment_id: String,
+              limit: Integer,
+              page: T.nilable(String),
+              betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions::OrHash
+            ).returns(Anthropic::Internal::PageCursor[
+                Anthropic::Beta::Environments::BetaSelfHostedWork
+              ])
+          end
+          def list(
+            environment_id, # Path param
+            limit: nil, # Query param: Maximum number of work items to return
+            page: nil, # Query param: Opaque cursor from previous response for pagination
+            betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            request_options: {}
+); end
+
+          # Note: these endpoints are called automatically by the pre-built environment
+          # worker provided in the SDKs and CLI, for orchestrating sessions with self-hosted
+          # sandbox environments. They are included here as a reference; you do not need to
+          # invoke them directly.
+          #
+          # Long poll for work items in the queue.
+          sig do
+            params(
+              environment_id: String,
+              block_ms: T.nilable(Integer),
+              reclaim_older_than_ms: T.nilable(Integer),
+              betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              anthropic_worker_id: String,
+              request_options: Anthropic::RequestOptions::OrHash
+            ).returns(T.nilable(Anthropic::Beta::Environments::BetaSelfHostedWork))
+          end
+          def poll(
+            environment_id, # Path param
+            block_ms: nil, # Query param: How long to wait for work to arrive before returning. Must be 1-999
+                           # in milliseconds. Defaults to non-blocking (returns immediately if no work is
+                           # available).
+            reclaim_older_than_ms: nil, # Query param: Reclaim unacknowledged work items older than this many
+                                        # milliseconds. If omitted, uses the default (5000ms).
+            betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            anthropic_worker_id: nil, # Header param: Unique identifier for the specific worker polling, used to track
+                                      # aggregated environment-level work metrics in Console
+            request_options: {}
+); end
+
+          # Note: these endpoints are called automatically by the pre-built environment
+          # worker provided in the SDKs and CLI, for orchestrating sessions with self-hosted
+          # sandbox environments. They are included here as a reference; you do not need to
+          # invoke them directly.
+          #
+          # Retrieve detailed information about a specific work item.
+          sig do
+            params(
+              work_id: String,
+              environment_id: String,
+              betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions::OrHash
+            ).returns(Anthropic::Beta::Environments::BetaSelfHostedWork)
+          end
+          def retrieve(
+            work_id, # Path param
+            environment_id:, # Path param
+            betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            request_options: {}
+); end
+
+          # Get statistics about the work queue for an environment.
+          sig do
+            params(
+              environment_id: String,
+              betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions::OrHash
+            ).returns(Anthropic::Beta::Environments::BetaSelfHostedWorkQueueStats)
+          end
+          def stats(
+            environment_id,
+            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            request_options: {}
+); end
+
+          # Note: these endpoints are called automatically by the pre-built environment
+          # worker provided in the SDKs and CLI, for orchestrating sessions with self-hosted
+          # sandbox environments. They are included here as a reference; you do not need to
+          # invoke them directly.
+          #
+          # Stop a work item, initiating graceful or forced shutdown.
+          sig do
+            params(
+              work_id: String,
+              environment_id: String,
+              force: T::Boolean,
+              betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions::OrHash
+            ).returns(Anthropic::Beta::Environments::BetaSelfHostedWork)
+          end
+          def stop(
+            work_id, # Path param
+            environment_id:, # Path param
+            force: nil, # Body param: If true, immediately stop work without graceful shutdown
+            betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            request_options: {}
+); end
+
+          # Note: these endpoints are called automatically by the pre-built environment
+          # worker provided in the SDKs and CLI, for orchestrating sessions with self-hosted
+          # sandbox environments. They are included here as a reference; you do not need to
+          # invoke them directly.
+          #
+          # Update work item metadata with merge semantics.
+          sig do
+            params(
+              work_id: String,
+              environment_id: String,
+              metadata: T::Hash[Symbol, T.nilable(String)],
+              betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions::OrHash
+            ).returns(Anthropic::Beta::Environments::BetaSelfHostedWork)
+          end
+          def update(
+            work_id, # Path param
+            environment_id:, # Path param
+            metadata:, # Body param: Metadata patch. Set a key to a string to upsert it, or to null to
+                       # delete it. Omit the field to preserve existing metadata.
+            betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            request_options: {}
+); end
+
+          class << self
+            # @api private
+            sig { params(client: Anthropic::Client).returns(T.attached_class) }
+            def new(client:); end
+          end
         end
       end
 
@@ -63206,6 +65637,7 @@ module Anthropic
         sig do
           params(
             session_id: String,
+            agent: Anthropic::Beta::BetaManagedAgentsSessionAgentUpdate::OrHash,
             metadata: T.nilable(T::Hash[Symbol, T.nilable(String)]),
             title: T.nilable(String),
             vault_ids: T::Array[String],
@@ -63215,6 +65647,10 @@ module Anthropic
         end
         def update(
           session_id, # Path param: Path parameter session_id
+          agent: nil, # Body param: Mid-session agent configuration update. Only `tools` and
+                      # `mcp_servers` are updatable. Full replacement: the provided array becomes the
+                      # new value. To preserve existing entries, GET the session, modify the array, and
+                      # POST it back.
           metadata: nil, # Body param: Metadata patch. Set a key to a string to upsert it, or to null to
                          # delete it. Omit the field to preserve.
           title: nil, # Body param: Human-readable session title.
@@ -63276,7 +65712,8 @@ module Anthropic
                     Anthropic::Beta::Sessions::BetaManagedAgentsUserInterruptEventParams::OrHash,
                     Anthropic::Beta::Sessions::BetaManagedAgentsUserToolConfirmationEventParams::OrHash,
                     Anthropic::Beta::Sessions::BetaManagedAgentsUserCustomToolResultEventParams::OrHash,
-                    Anthropic::Beta::Sessions::BetaManagedAgentsUserDefineOutcomeEventParams::OrHash
+                    Anthropic::Beta::Sessions::BetaManagedAgentsUserDefineOutcomeEventParams::OrHash,
+                    Anthropic::Beta::Sessions::BetaManagedAgentsUserToolResultEventParams::OrHash
                   )
                 ],
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
@@ -63643,6 +66080,24 @@ module Anthropic
             ).returns(Anthropic::Models::Beta::Skills::VersionDeleteResponse)
           end
           def delete(
+            version, # Path param: Version identifier for the skill.
+                     # Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
+            skill_id:, # Path param: Unique identifier for the skill.
+                       # The format and length of IDs may change over time.
+            betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            request_options: {}
+); end
+
+          # Download a skill version's content as a zip archive.
+          sig do
+            params(
+              version: String,
+              skill_id: String,
+              betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions::OrHash
+            ).returns(StringIO)
+          end
+          def download(
             version, # Path param: Version identifier for the skill.
                      # Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
             skill_id:, # Path param: Unique identifier for the skill.

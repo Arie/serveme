@@ -7,7 +7,7 @@
 
 # pkg:gem/jbuilder#lib/jbuilder/version.rb:3
 class Jbuilder < ::BasicObject
-  # pkg:gem/jbuilder#lib/jbuilder.rb:16
+  # pkg:gem/jbuilder#lib/jbuilder.rb:17
   def initialize(key_formatter: T.unsafe(nil), ignore_nil: T.unsafe(nil), deep_format_keys: T.unsafe(nil), &block); end
 
   # Turns the current element into an array and iterates over the passed collection, adding each iteration as
@@ -41,15 +41,15 @@ class Jbuilder < ::BasicObject
   #
   #   [1,2,3]
   #
-  # pkg:gem/jbuilder#lib/jbuilder.rb:209
+  # pkg:gem/jbuilder#lib/jbuilder.rb:181
   def array!(collection = T.unsafe(nil), *attributes, &block); end
 
   # Returns the attributes of the current builder.
   #
-  # pkg:gem/jbuilder#lib/jbuilder.rb:260
+  # pkg:gem/jbuilder#lib/jbuilder.rb:222
   def attributes!; end
 
-  # pkg:gem/jbuilder#lib/jbuilder.rb:244
+  # pkg:gem/jbuilder#lib/jbuilder.rb:206
   def call(object, *attributes, &block); end
 
   # Turns the current element into an array and yields a builder to add a hash.
@@ -69,7 +69,7 @@ class Jbuilder < ::BasicObject
   #     json.content comment.formatted_content
   #   end
   #
-  # pkg:gem/jbuilder#lib/jbuilder.rb:174
+  # pkg:gem/jbuilder#lib/jbuilder.rb:146
   def child!; end
 
   # Deeply apply key format to nested hashes and arrays passed to
@@ -88,7 +88,7 @@ class Jbuilder < ::BasicObject
   #
   #   { "settings": { "someValue": "abc" }}
   #
-  # pkg:gem/jbuilder#lib/jbuilder.rb:149
+  # pkg:gem/jbuilder#lib/jbuilder.rb:121
   def deep_format_keys!(value = T.unsafe(nil)); end
 
   # Extracts the mentioned attributes or hash elements from the passed object and turns them into attributes of the JSON.
@@ -109,7 +109,7 @@ class Jbuilder < ::BasicObject
   #
   #   json.(@person, :name, :age)
   #
-  # pkg:gem/jbuilder#lib/jbuilder.rb:240
+  # pkg:gem/jbuilder#lib/jbuilder.rb:202
   def extract!(object, *attributes); end
 
   # If you want to skip adding nil values to your JSON hash. This is useful
@@ -127,7 +127,7 @@ class Jbuilder < ::BasicObject
   #
   #   {}
   #
-  # pkg:gem/jbuilder#lib/jbuilder.rb:124
+  # pkg:gem/jbuilder#lib/jbuilder.rb:96
   def ignore_nil!(value = T.unsafe(nil)); end
 
   # Specifies formatting to be applied to the key. Passing in a name of a function
@@ -158,90 +158,96 @@ class Jbuilder < ::BasicObject
   #
   #   { "_first_name": "David" }
   #
-  # pkg:gem/jbuilder#lib/jbuilder.rb:100
+  # pkg:gem/jbuilder#lib/jbuilder.rb:72
   def key_format!(*_arg0, **_arg1, &_arg2); end
 
   # Merges hash, array, or Jbuilder instance into current builder.
   #
-  # pkg:gem/jbuilder#lib/jbuilder.rb:265
+  # pkg:gem/jbuilder#lib/jbuilder.rb:227
   def merge!(object); end
-
-  # pkg:gem/jbuilder#lib/jbuilder.rb:277
-  def method_missing(key, value = T.unsafe(nil), *args, &block); end
 
   # Returns the nil JSON.
   #
-  # pkg:gem/jbuilder#lib/jbuilder.rb:253
+  # pkg:gem/jbuilder#lib/jbuilder.rb:215
   def nil!; end
 
-  # pkg:gem/jbuilder#lib/jbuilder.rb:257
+  # pkg:gem/jbuilder#lib/jbuilder.rb:219
   def null!; end
 
-  # pkg:gem/jbuilder#lib/jbuilder.rb:37
+  # pkg:gem/jbuilder#lib/jbuilder.rb:40
   def set!(key, value = T.unsafe(nil), *args, &block); end
 
   # Encodes the current builder as JSON.
   #
-  # pkg:gem/jbuilder#lib/jbuilder.rb:271
+  # pkg:gem/jbuilder#lib/jbuilder.rb:233
   def target!; end
 
   private
 
-  # pkg:gem/jbuilder#lib/jbuilder.rb:365
+  # pkg:gem/jbuilder#lib/jbuilder.rb:277
+  def _array(collection = T.unsafe(nil), attributes = T.unsafe(nil), &block); end
+
+  # pkg:gem/jbuilder#lib/jbuilder.rb:379
   def _blank?(value = T.unsafe(nil)); end
 
-  # pkg:gem/jbuilder#lib/jbuilder.rb:279
+  # pkg:gem/jbuilder#lib/jbuilder.rb:291
   def _extract(object, attributes); end
 
-  # pkg:gem/jbuilder#lib/jbuilder.rb:287
+  # pkg:gem/jbuilder#lib/jbuilder.rb:299
   def _extract_hash_values(object, attributes); end
 
-  # pkg:gem/jbuilder#lib/jbuilder.rb:291
+  # pkg:gem/jbuilder#lib/jbuilder.rb:303
   def _extract_method_values(object, attributes); end
 
-  # pkg:gem/jbuilder#lib/jbuilder.rb:326
+  # pkg:gem/jbuilder#lib/jbuilder.rb:338
   def _format_keys(hash_or_array); end
 
-  # pkg:gem/jbuilder#lib/jbuilder.rb:361
+  # pkg:gem/jbuilder#lib/jbuilder.rb:375
   def _is_collection?(object); end
 
-  # pkg:gem/jbuilder#lib/jbuilder.rb:316
+  # pkg:gem/jbuilder#lib/jbuilder.rb:328
   def _key(key); end
 
-  # pkg:gem/jbuilder#lib/jbuilder.rb:346
+  # pkg:gem/jbuilder#lib/jbuilder.rb:358
   def _map_collection(collection); end
 
-  # pkg:gem/jbuilder#lib/jbuilder.rb:295
+  # pkg:gem/jbuilder#lib/jbuilder.rb:307
   def _merge_block(key); end
 
-  # pkg:gem/jbuilder#lib/jbuilder.rb:302
+  # pkg:gem/jbuilder#lib/jbuilder.rb:314
   def _merge_values(current_value, updates); end
 
-  # pkg:gem/jbuilder#lib/jbuilder.rb:352
+  # pkg:gem/jbuilder#lib/jbuilder.rb:366
   def _scope; end
 
-  # pkg:gem/jbuilder#lib/jbuilder.rb:338
+  # pkg:gem/jbuilder#lib/jbuilder.rb:242
+  def _set(key, value = T.unsafe(nil), attributes = T.unsafe(nil), &block); end
+
+  # pkg:gem/jbuilder#lib/jbuilder.rb:350
   def _set_value(key, value); end
+
+  # pkg:gem/jbuilder#lib/jbuilder.rb:237
+  def method_missing(key, value = T.unsafe(nil), *args, &block); end
 
   class << self
     # Same as instance method deep_format_keys! except sets the default.
     #
-    # pkg:gem/jbuilder#lib/jbuilder.rb:154
+    # pkg:gem/jbuilder#lib/jbuilder.rb:126
     def deep_format_keys(value = T.unsafe(nil)); end
 
     # Yields a builder and automatically turns the result into a JSON string
     #
-    # pkg:gem/jbuilder#lib/jbuilder.rb:31
+    # pkg:gem/jbuilder#lib/jbuilder.rb:32
     def encode(*_arg0, **_arg1, &_arg2); end
 
     # Same as instance method ignore_nil! except sets the default.
     #
-    # pkg:gem/jbuilder#lib/jbuilder.rb:129
+    # pkg:gem/jbuilder#lib/jbuilder.rb:101
     def ignore_nil(value = T.unsafe(nil)); end
 
     # Same as the instance method key_format! except sets the default.
     #
-    # pkg:gem/jbuilder#lib/jbuilder.rb:105
+    # pkg:gem/jbuilder#lib/jbuilder.rb:77
     def key_format(*_arg0, **_arg1, &_arg2); end
   end
 end
@@ -254,7 +260,7 @@ class Jbuilder::ArrayError < ::StandardError
   end
 end
 
-# pkg:gem/jbuilder#lib/jbuilder.rb:35
+# pkg:gem/jbuilder#lib/jbuilder.rb:36
 Jbuilder::BLANK = T.let(T.unsafe(nil), Jbuilder::Blank)
 
 # pkg:gem/jbuilder#lib/jbuilder/blank.rb:4
@@ -298,6 +304,9 @@ class Jbuilder::CollectionRenderer::ScopedIterator < ::SimpleDelegator
   def each_with_info; end
 end
 
+# pkg:gem/jbuilder#lib/jbuilder.rb:37
+Jbuilder::EMPTY_ARRAY = T.let(T.unsafe(nil), Array)
+
 # pkg:gem/jbuilder#lib/jbuilder/collection_renderer.rb:52
 class Jbuilder::EnumerableCompat < ::SimpleDelegator
   # Rails 6.1 requires this.
@@ -337,22 +346,22 @@ class Jbuilder::Railtie < ::Rails::Railtie; end
 # pkg:gem/jbuilder#lib/jbuilder/version.rb:4
 Jbuilder::VERSION = T.let(T.unsafe(nil), String)
 
-# pkg:gem/jbuilder#lib/jbuilder/jbuilder_template.rb:257
+# pkg:gem/jbuilder#lib/jbuilder/jbuilder_template.rb:254
 class JbuilderHandler
-  # pkg:gem/jbuilder#lib/jbuilder/jbuilder_template.rb:258
+  # pkg:gem/jbuilder#lib/jbuilder/jbuilder_template.rb:255
   def default_format; end
 
-  # pkg:gem/jbuilder#lib/jbuilder/jbuilder_template.rb:258
+  # pkg:gem/jbuilder#lib/jbuilder/jbuilder_template.rb:255
   def default_format=(val); end
 
   class << self
-    # pkg:gem/jbuilder#lib/jbuilder/jbuilder_template.rb:261
+    # pkg:gem/jbuilder#lib/jbuilder/jbuilder_template.rb:258
     def call(template, source = T.unsafe(nil)); end
 
-    # pkg:gem/jbuilder#lib/jbuilder/jbuilder_template.rb:258
+    # pkg:gem/jbuilder#lib/jbuilder/jbuilder_template.rb:255
     def default_format; end
 
-    # pkg:gem/jbuilder#lib/jbuilder/jbuilder_template.rb:258
+    # pkg:gem/jbuilder#lib/jbuilder/jbuilder_template.rb:255
     def default_format=(val); end
   end
 end
@@ -363,7 +372,7 @@ class JbuilderTemplate < ::Jbuilder
   def initialize(context, options = T.unsafe(nil)); end
 
   # pkg:gem/jbuilder#lib/jbuilder/jbuilder_template.rb:122
-  def array!(collection = T.unsafe(nil), *args); end
+  def array!(collection = T.unsafe(nil), *args, &block); end
 
   # Caches the json constructed within the block passed. Has the same signature as the `cache` helper
   # method in `ActionView::Helpers::CacheHelper` and so can be used in the same way.
@@ -405,9 +414,6 @@ class JbuilderTemplate < ::Jbuilder
   # pkg:gem/jbuilder#lib/jbuilder/jbuilder_template.rb:95
   def cache_root!(key = T.unsafe(nil), options = T.unsafe(nil)); end
 
-  # pkg:gem/jbuilder#lib/jbuilder/jbuilder_template.rb:146
-  def method_missing(name, object = T.unsafe(nil), *args); end
-
   # Generates JSON using the template specified with the `:partial` option. For example, the code below will render
   # the file `views/comments/_comments.json.jbuilder`, and set a local variable comments with all this message's
   # comments, which can be used inside the partial.
@@ -416,7 +422,7 @@ class JbuilderTemplate < ::Jbuilder
   #
   #   json.partial! 'comments/comments', comments: @message.comments
   #
-  # There are multiple ways to generate a collection of elements as JSON, as ilustrated below:
+  # There are multiple ways to generate a collection of elements as JSON, as illustrated below:
   #
   # Example:
   #
@@ -444,45 +450,45 @@ class JbuilderTemplate < ::Jbuilder
   def partial!(*args); end
 
   # pkg:gem/jbuilder#lib/jbuilder/jbuilder_template.rb:134
-  def set!(name, object = T.unsafe(nil), *args); end
+  def set!(name, object = T.unsafe(nil), *args, &block); end
 
   # pkg:gem/jbuilder#lib/jbuilder/jbuilder_template.rb:118
   def target!; end
 
   private
 
-  # pkg:gem/jbuilder#lib/jbuilder/jbuilder_template.rb:186
+  # pkg:gem/jbuilder#lib/jbuilder/jbuilder_template.rb:183
   def _cache_fragment_for(key, options, &block); end
 
-  # pkg:gem/jbuilder#lib/jbuilder/jbuilder_template.rb:205
+  # pkg:gem/jbuilder#lib/jbuilder/jbuilder_template.rb:202
   def _cache_key(key, options); end
 
-  # pkg:gem/jbuilder#lib/jbuilder/jbuilder_template.rb:218
+  # pkg:gem/jbuilder#lib/jbuilder/jbuilder_template.rb:215
   def _fragment_name_with_digest(key, options); end
 
-  # pkg:gem/jbuilder#lib/jbuilder/jbuilder_template.rb:230
+  # pkg:gem/jbuilder#lib/jbuilder/jbuilder_template.rb:227
   def _is_active_model?(object); end
 
-  # pkg:gem/jbuilder#lib/jbuilder/jbuilder_template.rb:226
+  # pkg:gem/jbuilder#lib/jbuilder/jbuilder_template.rb:223
   def _partial_options?(options); end
 
-  # pkg:gem/jbuilder#lib/jbuilder/jbuilder_template.rb:191
+  # pkg:gem/jbuilder#lib/jbuilder/jbuilder_template.rb:188
   def _read_fragment_cache(key, options = T.unsafe(nil)); end
 
-  # pkg:gem/jbuilder#lib/jbuilder/jbuilder_template.rb:252
+  # pkg:gem/jbuilder#lib/jbuilder/jbuilder_template.rb:249
   def _render_active_model_partial(object); end
 
-  # pkg:gem/jbuilder#lib/jbuilder/jbuilder_template.rb:181
-  def _render_partial(options); end
-
-  # pkg:gem/jbuilder#lib/jbuilder/jbuilder_template.rb:148
+  # pkg:gem/jbuilder#lib/jbuilder/jbuilder_template.rb:149
   def _render_partial_with_options(options); end
 
-  # pkg:gem/jbuilder#lib/jbuilder/jbuilder_template.rb:234
+  # pkg:gem/jbuilder#lib/jbuilder/jbuilder_template.rb:231
   def _set_inline_partial(name, object, options); end
 
-  # pkg:gem/jbuilder#lib/jbuilder/jbuilder_template.rb:197
+  # pkg:gem/jbuilder#lib/jbuilder/jbuilder_template.rb:194
   def _write_fragment_cache(key, options = T.unsafe(nil)); end
+
+  # pkg:gem/jbuilder#lib/jbuilder/jbuilder_template.rb:144
+  def method_missing(name, object = T.unsafe(nil), *args, &block); end
 
   class << self
     # pkg:gem/jbuilder#lib/jbuilder/jbuilder_template.rb:10

@@ -1216,6 +1216,15 @@ module MockRedis::ZsetMethods
   include ::MockRedis::Assertions
   include ::MockRedis::UtilityMethods
 
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:310
+  def bzmpop(timeout, *keys, **options); end
+
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:270
+  def bzpopmax(*args); end
+
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:256
+  def bzpopmin(*args); end
+
   # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:10
   def zadd(key, *args); end
 
@@ -1230,6 +1239,9 @@ module MockRedis::ZsetMethods
 
   # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:116
   def zinterstore(destination, keys, options = T.unsafe(nil)); end
+
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:284
+  def zmpop(*keys, **options); end
 
   # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:240
   def zmscore(key, *members); end
@@ -1281,40 +1293,43 @@ module MockRedis::ZsetMethods
 
   private
 
-  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:258
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:344
   def apply_limit(collection, limit); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:353
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:439
   def assert_coercible_zsety(key); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:374
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:460
   def assert_range_args(min, max); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:364
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:450
   def assert_scorey(value, message = T.unsafe(nil)); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:347
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:433
   def assert_zsety(key); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:309
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:395
   def coerce_to_zset(set); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:343
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:429
   def coercible_zsety?(key); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:281
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:367
   def combine_weighted_zsets(keys, options, how); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:359
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:466
+  def first_nonempty_zset(keys); end
+
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:445
   def looks_like_float?(x); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:271
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:357
   def to_response(score_member_pairs, options); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:317
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:403
   def with_zset_at(key, coercible: T.unsafe(nil), &blk); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:327
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:413
   def with_zsets_at(*keys, coercible: T.unsafe(nil), &blk); end
 
   # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:62
@@ -1323,6 +1338,6 @@ module MockRedis::ZsetMethods
   # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:31
   def zadd_one_member(key, score, member, zadd_options = T.unsafe(nil)); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:339
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:425
   def zsety?(key); end
 end

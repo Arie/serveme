@@ -121,7 +121,7 @@ RUN cd /home/tf2/hlserver/tf2/tf \
     && rm sm-websocket.zip \
     # F2 plugins (MedicStats, SupStats, LogsTF, RecordSTV, WaitForStv, AFK, RestoreScore, FixStvSlot, Updater)
     && cd /home/tf2/hlserver/tf2/tf/addons/sourcemod/plugins \
-    && wget -nv "https://github.com/F2/F2s-sourcemod-plugins/releases/download/20250908-1757334414124/f2-sourcemod-plugins.zip" -O "f2-sourcemod-plugins.zip" \
+    && wget -nv "https://github.com/Arie/F2s-sourcemod-plugins/releases/latest/download/f2-sourcemod-plugins.zip" -O "f2-sourcemod-plugins.zip" \
     && unzip -o f2-sourcemod-plugins.zip \
     && rm f2-sourcemod-plugins.zip \
     # mapdownloader

@@ -86,7 +86,7 @@ describe Statistic do
       create :reservation, user: user_2, starts_at: tomorrow + 15.hour, ends_at: tomorrow + 16.hours
       create :reservation, user: user_3, starts_at: tomorrow + 17.hour, ends_at: tomorrow + 18.hours
 
-      Rails.cache.delete('reservations_per_day')  # Clear only the specific cache key
+      Rails.cache.delete("reservations_per_day_#{Date.current}")
       stats = Statistic.reservations_per_day
       count = stats.first.last
       count.should == 3

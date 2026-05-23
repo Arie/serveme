@@ -162,6 +162,7 @@ describe LogBatchWorker do
 
   describe 'live match stats' do
     it 'updates live match stats from log lines' do
+      LiveMatchStats.clear(reservation.id)
       round_start_line = '7654321L 03/22/2026 - 20:01:00: World triggered "Round_Start"'
 
       LogBatchWorker.new.perform([ round_start_line, kill_line ])

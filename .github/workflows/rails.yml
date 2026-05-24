@@ -91,18 +91,19 @@ jobs:
           ruby-version: .ruby-version
           bundler-cache: true
 
-      - name: Setup test database
-        env:
-          RAILS_ENV: test
-          PGHOST: localhost
-          PGUSER: serveme
-          PGPASSWORD: secret
-        run: bin/rails db:create db:migrate
-
       - name: Write development credentials key
         env:
           RAILS_DEVELOPMENT_KEY: ${{ secrets.RAILS_DEVELOPMENT_KEY }}
         run: printf '%s' "$RAILS_DEVELOPMENT_KEY" > config/credentials/development.key
+
+      - name: Setup databases
+        env:
+          PGHOST: localhost
+          PGUSER: serveme
+          PGPASSWORD: secret
+        run: |
+          RAILS_ENV=test bin/rails db:create db:migrate
+          RAILS_ENV=development bin/rails db:create db:migrate
 
       - name: Verify Tapioca DSL
         env:

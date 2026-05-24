@@ -4178,6 +4178,8 @@ CarrierWave::VERSION = T.let(T.unsafe(nil), String)
 module CarrierWave::Vips
   extend ::ActiveSupport::Concern
 
+  mixes_in_class_methods ::CarrierWave::Vips::ClassMethods
+
   # Changes the image encoding format to the given format
   #
   # See https://libvips.github.io/libvips/API/current/using-cli.html#using-command-line-conversion

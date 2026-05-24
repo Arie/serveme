@@ -773,27 +773,27 @@ end
 #
 # pkg:gem/pagy#lib/pagy/classes/keyset/keyset.rb:8
 class Pagy::Keyset < ::Pagy
-  # pkg:gem/pagy#lib/pagy/classes/keyset/keyset.rb:51
+  # pkg:gem/pagy#lib/pagy/classes/keyset/keyset.rb:58
   def initialize(set, **_arg1); end
 
   # The next page (i.e., the cutoff of the current page)
   #
-  # pkg:gem/pagy#lib/pagy/classes/keyset/keyset.rb:73
+  # pkg:gem/pagy#lib/pagy/classes/keyset/keyset.rb:80
   def next; end
 
   # The array of records for the current page
   #
-  # pkg:gem/pagy#lib/pagy/classes/keyset/keyset.rb:65
+  # pkg:gem/pagy#lib/pagy/classes/keyset/keyset.rb:72
   def records; end
 
   protected
 
   # The prefixed arguments from a cutoff
   #
-  # pkg:gem/pagy#lib/pagy/classes/keyset/keyset.rb:139
+  # pkg:gem/pagy#lib/pagy/classes/keyset/keyset.rb:144
   def arguments_from(cutoff, prefix = T.unsafe(nil)); end
 
-  # pkg:gem/pagy#lib/pagy/classes/keyset/keyset.rb:84
+  # pkg:gem/pagy#lib/pagy/classes/keyset/keyset.rb:91
   def assign_page; end
 
   # Compose the parameterized predicate used to extract the page records.
@@ -810,19 +810,24 @@ class Pagy::Keyset < ::Pagy
   #
   #     ("pets"."animal", "pets"."name", "pets"."id") > (:animal, :name, :id)
   #
-  # pkg:gem/pagy#lib/pagy/classes/keyset/keyset.rb:111
+  # pkg:gem/pagy#lib/pagy/classes/keyset/keyset.rb:116
   def compose_predicate(prefix = T.unsafe(nil)); end
 
-  # pkg:gem/pagy#lib/pagy/classes/keyset/keyset.rb:144
+  # pkg:gem/pagy#lib/pagy/classes/keyset/keyset.rb:149
   def extract_cutoff; end
 
-  # pkg:gem/pagy#lib/pagy/classes/keyset/keyset.rb:90
+  # pkg:gem/pagy#lib/pagy/classes/keyset/keyset.rb:95
   def fetch_records; end
 
-  # pkg:gem/pagy#lib/pagy/classes/keyset/keyset.rb:82
+  # pkg:gem/pagy#lib/pagy/classes/keyset/keyset.rb:89
   def keyset?; end
 
   class << self
+    # Decode the page option (Keyset.decode function)
+    #
+    # pkg:gem/pagy#lib/pagy/classes/keyset/keyset.rb:52
+    def decode(page); end
+
     # Lazy-include the adapter module
     #
     # pkg:gem/pagy#lib/pagy/classes/keyset/keyset.rb:46

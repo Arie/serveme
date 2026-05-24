@@ -99,20 +99,16 @@ jobs:
           PGPASSWORD: secret
         run: bin/rails db:create db:migrate
 
-      - name: Debug RAILS_MASTER_KEY (temporary)
+      - name: Write development credentials key
         env:
-          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
-        run: |
-          printf 'len=%s sha256=%s\n' "${#RAILS_MASTER_KEY}" "$(printf '%s' "$RAILS_MASTER_KEY" | sha256sum | cut -d' ' -f1)"
-          printf 'credentials.yml.enc sha256=%s\n' "$(sha256sum config/credentials.yml.enc | cut -d' ' -f1)"
+          RAILS_DEVELOPMENT_KEY: ${{ secrets.RAILS_DEVELOPMENT_KEY }}
+        run: printf '%s' "$RAILS_DEVELOPMENT_KEY" > config/credentials/development.key
 
       - name: Verify Tapioca DSL
         env:
-          RAILS_ENV: test
           PGHOST: localhost
           PGUSER: serveme
           PGPASSWORD: secret
-          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
         run: bin/tapioca dsl --verify
 
       - name: Verify swagger.yaml is in sync with swagger specs

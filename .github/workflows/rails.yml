@@ -41,6 +41,9 @@ jobs:
           ruby-version: .ruby-version
           bundler-cache: true
 
+      - name: Check CSV files are sorted and deduplicated
+        run: script/sort_and_dedup_csv
+
       - name: Scan for common Rails security vulnerabilities using static analysis
         run: bin/brakeman --no-pager
 
@@ -95,6 +98,24 @@ jobs:
           PGUSER: serveme
           PGPASSWORD: secret
         run: bin/rails db:create db:migrate
+
+      - name: Verify Tapioca DSL
+        env:
+          RAILS_ENV: test
+          PGHOST: localhost
+          PGUSER: serveme
+          PGPASSWORD: secret
+          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+        run: bin/tapioca dsl --verify
+
+      - name: Verify swagger.yaml is in sync with swagger specs
+        env:
+          RAILS_ENV: test
+          PGHOST: localhost
+          PGUSER: serveme
+          PGPASSWORD: secret
+          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+        run: script/check_swagger_sync
 
       - name: Run RSpec tests
         env:

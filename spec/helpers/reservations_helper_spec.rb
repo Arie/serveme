@@ -26,4 +26,40 @@ describe ReservationsHelper do
       expect(helper.free_docker_hosts).to eq([])
     end
   end
+
+  describe "#starts_at" do
+    it "parses a future starts_at string from params" do
+      future = 1.hour.from_now
+      allow(helper).to receive(:params).and_return(
+        ActionController::Parameters.new(starts_at: future.iso8601)
+      )
+
+      expect(helper.send(:starts_at)).to be_within(1.second).of(future)
+    end
+
+    it "returns Time.current when starts_at string is in the past" do
+      allow(helper).to receive(:params).and_return(
+        ActionController::Parameters.new(starts_at: 1.hour.ago.iso8601)
+      )
+
+      expect(helper.send(:starts_at)).to be_within(1.second).of(Time.current)
+    end
+
+    it "returns Time.current when starts_at string is unparseable" do
+      allow(helper).to receive(:params).and_return(
+        ActionController::Parameters.new(starts_at: "garbage")
+      )
+
+      expect(helper.send(:starts_at)).to be_within(1.second).of(Time.current)
+    end
+
+    it "parses a future starts_at string from nested reservation params" do
+      future = 1.hour.from_now
+      allow(helper).to receive(:params).and_return(
+        ActionController::Parameters.new(reservation: { starts_at: future.iso8601 })
+      )
+
+      expect(helper.send(:starts_at)).to be_within(1.second).of(future)
+    end
+  end
 end

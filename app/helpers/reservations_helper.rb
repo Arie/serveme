@@ -161,9 +161,10 @@ module ReservationsHelper
   end
 
   def starts_at
-    starts_at = (params[:reservation] && params[:reservation][:starts_at].presence) || params[:starts_at].presence
-    if starts_at && starts_at >= Time.current
-      starts_at
+    raw = (params[:reservation] && params[:reservation][:starts_at].presence) || params[:starts_at].presence
+    parsed = raw && Time.zone.parse(raw) rescue nil
+    if parsed && parsed >= Time.current
+      parsed
     else
       Time.current
     end

@@ -99,6 +99,13 @@ jobs:
           PGPASSWORD: secret
         run: bin/rails db:create db:migrate
 
+      - name: Debug RAILS_MASTER_KEY (temporary)
+        env:
+          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+        run: |
+          printf 'len=%s sha256=%s\n' "${#RAILS_MASTER_KEY}" "$(printf '%s' "$RAILS_MASTER_KEY" | sha256sum | cut -d' ' -f1)"
+          printf 'credentials.yml.enc sha256=%s\n' "$(sha256sum config/credentials.yml.enc | cut -d' ' -f1)"
+
       - name: Verify Tapioca DSL
         env:
           RAILS_ENV: test

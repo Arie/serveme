@@ -14,8 +14,8 @@
 
 .match-scoreboard.mb-3
   .d-flex.justify-content-center.align-items-center.mb-3
-    %span.fs-2.fw-bold.px-4.py-2.text-white.bg-team-red= red_score
     %span.fs-2.fw-bold.px-4.py-2.text-white.bg-team-blue= blue_score
+    %span.fs-2.fw-bold.px-4.py-2.text-white.bg-team-red= red_score
 
   - if red_sorted.any? || blue_sorted.any?
     .table-responsive
@@ -40,7 +40,7 @@
               %th.text-end Loss
               %th ISP
         %tbody
-          - [["Red", "bg-team-red", red_sorted], ["Blue", "bg-team-blue", blue_sorted]].each do |team_name, team_class, team_players|
+          - [["Blue", "bg-team-blue", blue_sorted], ["Red", "bg-team-red", red_sorted]].each do |team_name, team_class, team_players|
             - team_players.each do |stats|
               - tf2_class = stats[:tf2_class] || "unknown"
               - kills = stats[:kills] || 0

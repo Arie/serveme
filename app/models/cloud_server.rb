@@ -61,8 +61,8 @@ class CloudServer < RemoteServer
           err << data if stream == :stderr
         end
       end
-      logger.info "SSH STDERR while executing #{command}:\n#{err.join("\n")}" if log_stderr && err.any?
-      out.join("\n")
+      logger.info "SSH STDERR while executing #{command}:\n#{err.join}" if log_stderr && err.any?
+      out.join
     else
       ssh_exec(command, log_stderr: log_stderr)
     end

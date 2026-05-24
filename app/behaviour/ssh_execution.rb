@@ -74,8 +74,8 @@ module SshExecution
         out << data if stream == :stdout
         err << data if stream == :stderr
       end
-      logger.info "SSH STDERR while executing #{command}:\n#{err.join("\n")}" if log_stderr && err.any?
-      out.join("\n")
+      logger.info "SSH STDERR while executing #{command}:\n#{err.join}" if log_stderr && err.any?
+      out.join
     end
   end
 
@@ -93,8 +93,8 @@ module SshExecution
         err << data if stream == :stderr
       end
 
-      stdout_text = out.join("\n")
-      stderr_text = err.join("\n")
+      stdout_text = out.join
+      stderr_text = err.join
       success = stdout_text.include?("__CMD_SUCCESS__")
 
       stdout_text = stdout_text.gsub(/\n?__CMD_(SUCCESS|FAILURE)__\n?/, "")

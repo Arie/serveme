@@ -11,6 +11,12 @@ wget -nv "https://github.com/sapphonie/StAC-tf2/releases/download/v6.3.9/stac.zi
 unzip -o stac.zip
 rm stac.zip
 
+# p4sstime (zip contents are relative to addons/sourcemod/)
+cd "$HOME/hlserver/tf2/tf/addons/sourcemod"
+wget -nv "https://github.com/p4sstime/p4sstime-server-resources/releases/latest/download/p4sstime.zip" -O "p4sstime.zip"
+unzip -o p4sstime.zip
+rm p4sstime.zip
+
 # MGE Mod (zip contents are relative to tf/)
 cd "$HOME/hlserver/tf2/tf"
 wget -nv "https://github.com/Arie/MGEMod/releases/latest/download/mge.zip" -O "mge.zip"

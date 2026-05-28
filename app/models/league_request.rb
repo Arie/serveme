@@ -28,7 +28,7 @@ class LeagueRequest
   sig { returns(ActiveRecord::Relation) }
   def search
     @target = [ @ip, @steam_uid, @reservation_ids ].reject(&:blank?).join(", ")
-    if @cross_reference
+    if @cross_reference && (@ip.present? || @steam_uid.present?)
       Rails.logger.info("Cross reference search started by #{@user.name} (#{@user.uid}) for #{@target}")
       find_with_cross_reference(ip: @ip, steam_uid: @steam_uid)
     elsif @ip.present?

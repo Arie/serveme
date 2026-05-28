@@ -69,6 +69,18 @@ describe LeagueRequest do
       expect(results.map(&:id).sort).to eql([ player.id, alt.id, other_ip.id ])
     end
 
+    it 'falls back to reservation search when cross-referencing with only a reservation id' do
+      reservation = create(:reservation)
+      other_reservation = create(:reservation)
+      player = ReservationPlayer.create!(reservation: reservation, steam_uid: 'abc', ip: '8.8.8.8', name: 'p1')
+      ReservationPlayer.create!(reservation: other_reservation, steam_uid: 'def', ip: '1.1.1.1', name: 'p2')
+
+      request = LeagueRequest.new(user, ip: '', steam_uid: '', reservation_ids: reservation.id.to_s, cross_reference: '1', include_vpn_results: '1')
+
+      expect { request.search }.not_to raise_error
+      expect(request.search.map(&:id)).to eql([ player.id ])
+    end
+
     it 'can filter by reservation_ids' do
       reservation = create :reservation
       other_reservation = create :reservation

@@ -11,6 +11,16 @@ describe User do
     end
   end
 
+  describe 'logs.tf/demos.tf API keys' do
+    it 'strips leading and trailing whitespace from the logs.tf API key' do
+      subject.logs_tf_api_key = "  abc123  "
+      expect(subject.logs_tf_api_key).to eql 'abc123'
+
+      subject.demos_tf_api_key = "\tabc123\n"
+      expect(subject.demos_tf_api_key).to eql 'abc123'
+    end
+  end
+
   describe '.find_for_steam_auth' do
     before do
       @auth = double(provider: 'steam',

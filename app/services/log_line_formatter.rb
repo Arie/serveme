@@ -18,6 +18,52 @@ class LogLineFormatter
   LOGADDRESS_DEL_REGEX = /logaddress_del \S+"/
   LOGSECRET_REGEX = /sv_logsecret \S+/
 
+  EVENT_TYPE_MAP = {
+    TF2LineParser::Events::Kill => :kill,
+    TF2LineParser::Events::Say => :say,
+    TF2LineParser::Events::TeamSay => :team_say,
+    TF2LineParser::Events::Connect => :connect,
+    TF2LineParser::Events::Disconnect => :disconnect,
+    TF2LineParser::Events::PointCapture => :point_capture,
+    TF2LineParser::Events::CaptureBlock => :capture_block,
+    TF2LineParser::Events::RoundWin => :round_win,
+    TF2LineParser::Events::RoundStart => :round_start,
+    TF2LineParser::Events::RoundStalemate => :round_stalemate,
+    TF2LineParser::Events::RoundLength => :round_length,
+    TF2LineParser::Events::CurrentScore => :current_score,
+    TF2LineParser::Events::FinalScore => :final_score,
+    TF2LineParser::Events::MatchEnd => :match_end,
+    TF2LineParser::Events::RconCommand => :rcon,
+    TF2LineParser::Events::ConsoleSay => :console_say,
+    TF2LineParser::Events::Suicide => :suicide,
+    TF2LineParser::Events::RoleChange => :role_change,
+    TF2LineParser::Events::Spawn => :spawn,
+    TF2LineParser::Events::Domination => :domination,
+    TF2LineParser::Events::Revenge => :revenge,
+    TF2LineParser::Events::PickupItem => :pickup_item,
+    TF2LineParser::Events::AirshotHeal => :airshot_heal,
+    TF2LineParser::Events::Heal => :heal,
+    TF2LineParser::Events::ChargeDeployed => :charge_deployed,
+    TF2LineParser::Events::ChargeReady => :charge_ready,
+    TF2LineParser::Events::ChargeEnded => :charge_ended,
+    TF2LineParser::Events::LostUberAdvantage => :lost_uber_advantage,
+    TF2LineParser::Events::EmptyUber => :empty_uber,
+    TF2LineParser::Events::FirstHealAfterSpawn => :first_heal_after_spawn,
+    TF2LineParser::Events::PlayerExtinguished => :player_extinguished,
+    TF2LineParser::Events::JoinedTeam => :joined_team,
+    TF2LineParser::Events::BuiltObject => :builtobject,
+    TF2LineParser::Events::Airshot => :airshot,
+    TF2LineParser::Events::HeadshotDamage => :headshot_damage,
+    TF2LineParser::Events::Damage => :damage,
+    TF2LineParser::Events::MedicDeath => :medic_death,
+    TF2LineParser::Events::MedicDeathEx => :medic_death_ex,
+    TF2LineParser::Events::KilledObject => :killedobject,
+    TF2LineParser::Events::ShotFired => :shot_fired,
+    TF2LineParser::Events::ShotHit => :shot_hit,
+    TF2LineParser::Events::Assist => :assist,
+    TF2LineParser::Events::PositionReport => :position_report
+  }.freeze
+
   # Memoization cache for Steam ID conversions (cleared per-request via middleware or manually)
   @steam_id_cache = {}
   class << self
@@ -45,98 +91,11 @@ class LogLineFormatter
 
   sig { returns(Symbol) }
   def event_type
-    return :unknown if parsed_event.nil?
+    event = parsed_event
+    return :unknown if event.nil?
 
-    case parsed_event
-    when TF2LineParser::Events::Kill
-      :kill
-    when TF2LineParser::Events::Say
-      :say
-    when TF2LineParser::Events::TeamSay
-      :team_say
-    when TF2LineParser::Events::Connect
-      :connect
-    when TF2LineParser::Events::Disconnect
-      :disconnect
-    when TF2LineParser::Events::PointCapture
-      :point_capture
-    when TF2LineParser::Events::CaptureBlock
-      :capture_block
-    when TF2LineParser::Events::RoundWin
-      :round_win
-    when TF2LineParser::Events::RoundStart
-      :round_start
-    when TF2LineParser::Events::RoundStalemate
-      :round_stalemate
-    when TF2LineParser::Events::RoundLength
-      :round_length
-    when TF2LineParser::Events::CurrentScore
-      :current_score
-    when TF2LineParser::Events::FinalScore
-      :final_score
-    when TF2LineParser::Events::MatchEnd
-      :match_end
-    when TF2LineParser::Events::RconCommand
-      :rcon
-    when TF2LineParser::Events::ConsoleSay
-      :console_say
-    when TF2LineParser::Events::Suicide
-      :suicide
-    when TF2LineParser::Events::RoleChange
-      :role_change
-    when TF2LineParser::Events::Spawn
-      :spawn
-    when TF2LineParser::Events::Domination
-      :domination
-    when TF2LineParser::Events::Revenge
-      :revenge
-    when TF2LineParser::Events::PickupItem
-      :pickup_item
-    when TF2LineParser::Events::AirshotHeal
-      :airshot_heal
-    when TF2LineParser::Events::Heal
-      :heal
-    when TF2LineParser::Events::ChargeDeployed
-      :charge_deployed
-    when TF2LineParser::Events::ChargeReady
-      :charge_ready
-    when TF2LineParser::Events::ChargeEnded
-      :charge_ended
-    when TF2LineParser::Events::LostUberAdvantage
-      :lost_uber_advantage
-    when TF2LineParser::Events::EmptyUber
-      :empty_uber
-    when TF2LineParser::Events::FirstHealAfterSpawn
-      :first_heal_after_spawn
-    when TF2LineParser::Events::PlayerExtinguished
-      :player_extinguished
-    when TF2LineParser::Events::JoinedTeam
-      :joined_team
-    when TF2LineParser::Events::BuiltObject
-      :builtobject
-    when TF2LineParser::Events::Airshot
-      :airshot
-    when TF2LineParser::Events::HeadshotDamage
-      :headshot_damage
-    when TF2LineParser::Events::Damage
-      :damage
-    when TF2LineParser::Events::MedicDeath
-      :medic_death
-    when TF2LineParser::Events::MedicDeathEx
-      :medic_death_ex
-    when TF2LineParser::Events::KilledObject
-      :killedobject
-    when TF2LineParser::Events::ShotFired
-      :shot_fired
-    when TF2LineParser::Events::ShotHit
-      :shot_hit
-    when TF2LineParser::Events::Assist
-      :assist
-    when TF2LineParser::Events::PositionReport
-      :position_report
-    else
-      :unknown
-    end
+    EVENT_TYPE_MAP.each { |klass, type| return type if event.is_a?(klass) }
+    :unknown
   end
 
   sig { params(steam_id: String).returns(T.nilable(Integer)) }

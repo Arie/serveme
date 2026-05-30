@@ -106,4 +106,80 @@ RSpec.describe Server do
       server.rcon_exec(command)
     end
   end
+
+  describe '#detailed_location' do
+    let(:server) { build_stubbed(:server, ip: '1.2.3.4') }
+
+    before do
+      # Bypass caching so each example exercises the resolver directly.
+      allow(Rails.cache).to receive(:fetch) { |*_args, &block| block.call }
+    end
+
+    context 'when the server has no ip' do
+      let(:server) { build_stubbed(:server, ip: nil) }
+
+      it 'returns Unknown' do
+        expect(server.detailed_location).to eq('Unknown')
+      end
+    end
+
+    context 'with a geocoding override' do
+      it 'returns "City, State" for a USA location with a state' do
+        allow(server).to receive(:geocoding_override_for).and_return(
+          'city' => 'Chicago', 'state' => 'Illinois', 'country' => 'USA'
+        )
+        expect(server.detailed_location).to eq('Chicago, Illinois')
+      end
+
+      it 'returns "City, Country" for a non-USA location' do
+        allow(server).to receive(:geocoding_override_for).and_return(
+          'city' => 'Amsterdam', 'state' => 'North Holland', 'country' => 'Netherlands'
+        )
+        expect(server.detailed_location).to eq('Amsterdam, Netherlands')
+      end
+
+      it 'returns "City, Germany" for a German location with a state' do
+        allow(server).to receive(:geocoding_override_for).and_return(
+          'city' => 'Falkenstein', 'state' => 'Saxony', 'country' => 'Germany'
+        )
+        expect(server.detailed_location).to eq('Falkenstein, Germany')
+      end
+    end
+
+    context 'without an override, using the geocoder' do
+      before { allow(server).to receive(:geocoding_override_for).and_return(nil) }
+
+      it 'returns "City, StateCode" for a USA result, using the subdivision iso code' do
+        allow(server).to receive(:location).and_return(nil)
+        result = double('GeoResult', city: 'New York', state: 'New York',
+                                     country: 'USA',
+                                     data: { 'subdivisions' => [ { 'iso_code' => 'NY' } ] })
+        allow(Geocoder).to receive(:search).with('1.2.3.4').and_return([ result ])
+
+        expect(server.detailed_location).to eq('New York, NY')
+      end
+
+      it 'prefers the server location name as the country for a non-USA result' do
+        allow(server).to receive(:location).and_return(double('Location', name: 'Netherlands'))
+        result = double('GeoResult', city: 'Amsterdam', state: nil, country: 'Netherlands')
+        allow(Geocoder).to receive(:search).with('1.2.3.4').and_return([ result ])
+
+        expect(server.detailed_location).to eq('Amsterdam, Netherlands')
+      end
+
+      it 'falls back to the location name when the geocoder has no usable result' do
+        allow(server).to receive(:location).and_return(double('Location', name: 'Netherlands'))
+        allow(Geocoder).to receive(:search).with('1.2.3.4').and_return([])
+
+        expect(server.detailed_location).to eq('Netherlands')
+      end
+
+      it 'falls back to the location name when geocoding raises' do
+        allow(server).to receive(:location).and_return(double('Location', name: 'Netherlands'))
+        allow(Geocoder).to receive(:search).and_raise(StandardError, 'boom')
+
+        expect(server.detailed_location).to eq('Netherlands')
+      end
+    end
+  end
 end

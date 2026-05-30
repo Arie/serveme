@@ -87,6 +87,73 @@ describe LogLineFormatter do
     end
   end
 
+  describe "#event_type" do
+    # Characterization test: locks the exact event-class -> symbol mapping
+    # (including subclass-ordering behaviour) before refactoring the giant
+    # case statement into a lookup table. Uses real (allocated) event
+    # instances so is_a?-based dispatch behaves exactly as in production.
+    {
+      TF2LineParser::Events::Kill => :kill,
+      TF2LineParser::Events::Say => :say,
+      TF2LineParser::Events::TeamSay => :team_say,
+      TF2LineParser::Events::Connect => :connect,
+      TF2LineParser::Events::Disconnect => :disconnect,
+      TF2LineParser::Events::PointCapture => :point_capture,
+      TF2LineParser::Events::CaptureBlock => :capture_block,
+      TF2LineParser::Events::RoundWin => :round_win,
+      TF2LineParser::Events::RoundStart => :round_start,
+      TF2LineParser::Events::RoundStalemate => :round_stalemate,
+      TF2LineParser::Events::RoundLength => :round_length,
+      TF2LineParser::Events::CurrentScore => :current_score,
+      TF2LineParser::Events::FinalScore => :final_score,
+      TF2LineParser::Events::MatchEnd => :match_end,
+      TF2LineParser::Events::RconCommand => :rcon,
+      TF2LineParser::Events::ConsoleSay => :console_say,
+      TF2LineParser::Events::Suicide => :suicide,
+      TF2LineParser::Events::RoleChange => :role_change,
+      TF2LineParser::Events::Domination => :domination,
+      TF2LineParser::Events::Revenge => :revenge,
+      TF2LineParser::Events::PickupItem => :pickup_item,
+      TF2LineParser::Events::AirshotHeal => :airshot_heal,
+      TF2LineParser::Events::Heal => :heal,
+      TF2LineParser::Events::ChargeDeployed => :charge_deployed,
+      TF2LineParser::Events::ChargeReady => :charge_ready,
+      TF2LineParser::Events::ChargeEnded => :charge_ended,
+      TF2LineParser::Events::LostUberAdvantage => :lost_uber_advantage,
+      TF2LineParser::Events::EmptyUber => :empty_uber,
+      TF2LineParser::Events::FirstHealAfterSpawn => :first_heal_after_spawn,
+      TF2LineParser::Events::PlayerExtinguished => :player_extinguished,
+      TF2LineParser::Events::JoinedTeam => :joined_team,
+      TF2LineParser::Events::BuiltObject => :builtobject,
+      TF2LineParser::Events::Airshot => :airshot,
+      TF2LineParser::Events::HeadshotDamage => :headshot_damage,
+      TF2LineParser::Events::Damage => :damage,
+      TF2LineParser::Events::MedicDeath => :medic_death,
+      TF2LineParser::Events::MedicDeathEx => :medic_death_ex,
+      TF2LineParser::Events::KilledObject => :killedobject,
+      TF2LineParser::Events::ShotFired => :shot_fired,
+      TF2LineParser::Events::ShotHit => :shot_hit,
+      TF2LineParser::Events::Assist => :assist,
+      TF2LineParser::Events::PositionReport => :position_report
+    }.each do |event_class, expected_type|
+      it "maps #{event_class.name.demodulize} to #{expected_type.inspect}" do
+        formatter = described_class.new("irrelevant")
+        formatter.instance_variable_set(:@parsed_event, event_class.allocate)
+        expect(formatter.event_type).to eq(expected_type)
+      end
+    end
+
+    it "maps a Spawn event to :role_change (Spawn < RoleChange, caught by the earlier branch)" do
+      formatter = described_class.new("irrelevant")
+      formatter.instance_variable_set(:@parsed_event, TF2LineParser::Events::Spawn.allocate)
+      expect(formatter.event_type).to eq(:role_change)
+    end
+
+    it "returns :unknown when the line cannot be parsed into an event" do
+      expect(described_class.new("not a parseable log line").event_type).to eq(:unknown)
+    end
+  end
+
   describe ".steam_id_to_community_id" do
     it "converts Steam ID3 format" do
       expect(described_class.steam_id_to_community_id("[U:1:231702]")).to eq(76561197960497430)

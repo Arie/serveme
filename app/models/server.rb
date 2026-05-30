@@ -39,39 +39,8 @@ class Server < ActiveRecord::Base
     return "Unknown" unless ip.present?
 
     Rails.cache.fetch("server_detailed_location_v5_#{id}", expires_in: 1.week) do
-      # Check for overrides first
       override = geocoding_override_for(T.must(ip))
-
-      if override
-        city = override["city"]
-        state = override["state"]
-        country = override["country"] || location&.name
-
-        if country == "USA" && state.present?
-          "#{city}, #{state}"
-        elsif state.present? && country == "Germany"
-          "#{city}, #{country}"
-        else
-          "#{city}, #{country}"
-        end
-      else
-        # Use regular geocoding
-        result = Geocoder.search(ip).first
-        if result && result.city.present?
-          city = result.city
-          state = result.state
-          country = location&.name || result.country
-
-          if country == "USA" && state.present?
-            state_code = result.data.dig("subdivisions", 0, "iso_code") || state
-            "#{city}, #{state_code}"
-          else
-            "#{city}, #{country}"
-          end
-        else
-          location&.name || "Unknown"
-        end
-      end
+      override ? detailed_location_from_override(override) : detailed_location_from_geocoder
     end
   rescue => e
     Rails.logger.error "Geocoding error for server #{id}: #{e.message}"
@@ -827,6 +796,29 @@ class Server < ActiveRecord::Base
   end
 
   private
+
+  sig { params(override: T::Hash[String, T.untyped]).returns(String) }
+  def detailed_location_from_override(override)
+    format_location(override["city"], override["state"], override["country"] || location&.name)
+  end
+
+  sig { returns(String) }
+  def detailed_location_from_geocoder
+    result = Geocoder.search(ip).first
+    return location&.name || "Unknown" unless result && result.city.present?
+
+    country = location&.name || result.country
+    region = result.state
+    region = result.data.dig("subdivisions", 0, "iso_code") || region if country == "USA" && region.present?
+    format_location(result.city, region, country)
+  end
+
+  sig { params(city: T.untyped, region: T.untyped, country: T.untyped).returns(String) }
+  def format_location(city, region, country)
+    return "#{city}, #{region}" if country == "USA" && region.present?
+
+    "#{city}, #{country}"
+  end
 
   sig { params(last_status: String).returns(T.nilable(String)) }
   def provision_current_phase(last_status)

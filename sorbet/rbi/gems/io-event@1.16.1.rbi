@@ -431,7 +431,7 @@ module IO::Event::Selector
 end
 
 # pkg:gem/io-event#lib/io/event/native.rb:7
-class IO::Event::Selector::KQueue
+class IO::Event::Selector::EPoll
   # pkg:gem/io-event#lib/io/event/native.rb:7
   def initialize(_arg0); end
 

@@ -262,7 +262,7 @@ class Puma::Client
   # without waiting for the configured idle/shutdown timeout.
   # @version 5.0.0
   #
-  # pkg:gem/puma#lib/puma/client.rb:372
+  # pkg:gem/puma#lib/puma/client.rb:388
   def can_close?; end
 
   # pkg:gem/puma#lib/puma/client.rb:194
@@ -273,7 +273,7 @@ class Puma::Client
   # pkg:gem/puma#lib/puma/client.rb:125
   def closed?; end
 
-  # pkg:gem/puma#lib/puma/client.rb:269
+  # pkg:gem/puma#lib/puma/client.rb:285
   def eagerly_finish; end
 
   # pkg:gem/puma#lib/puma/client.rb:75
@@ -288,10 +288,10 @@ class Puma::Client
   # pkg:gem/puma#lib/puma/client.rb:75
   def error_status_code; end
 
-  # pkg:gem/puma#lib/puma/client.rb:377
+  # pkg:gem/puma#lib/puma/client.rb:393
   def expect_proxy_proto=(val); end
 
-  # pkg:gem/puma#lib/puma/client.rb:277
+  # pkg:gem/puma#lib/puma/client.rb:293
   def finish(timeout); end
 
   # For the full hijack protocol, `env['rack.hijack']` is set to
@@ -346,13 +346,13 @@ class Puma::Client
   # Wraps `@parser.execute` and adds meaningful error messages
   # @return [Integer] bytes of buffer read by parser
   #
-  # pkg:gem/puma#lib/puma/client.rb:285
+  # pkg:gem/puma#lib/puma/client.rb:301
   def parser_execute; end
 
-  # pkg:gem/puma#lib/puma/client.rb:358
+  # pkg:gem/puma#lib/puma/client.rb:374
   def peer_family; end
 
-  # pkg:gem/puma#lib/puma/client.rb:346
+  # pkg:gem/puma#lib/puma/client.rb:362
   def peerip; end
 
   # pkg:gem/puma#lib/puma/client.rb:79
@@ -365,7 +365,7 @@ class Puma::Client
 
   # processes the `env` and the request body
   #
-  # pkg:gem/puma#lib/puma/client.rb:326
+  # pkg:gem/puma#lib/puma/client.rb:342
   def process_env_body; end
 
   # pkg:gem/puma#lib/puma/client.rb:75
@@ -401,7 +401,7 @@ class Puma::Client
   # pkg:gem/puma#lib/puma/client.rb:158
   def timeout; end
 
-  # pkg:gem/puma#lib/puma/client.rb:334
+  # pkg:gem/puma#lib/puma/client.rb:350
   def timeout!; end
 
   # pkg:gem/puma#lib/puma/client.rb:75
@@ -410,7 +410,7 @@ class Puma::Client
   # pkg:gem/puma#lib/puma/client.rb:75
   def to_io; end
 
-  # pkg:gem/puma#lib/puma/client.rb:235
+  # pkg:gem/puma#lib/puma/client.rb:251
   def try_to_finish; end
 
   # If necessary, read the PROXY protocol from the buffer. Returns
@@ -419,49 +419,49 @@ class Puma::Client
   # pkg:gem/puma#lib/puma/client.rb:213
   def try_to_parse_proxy_protocol; end
 
-  # pkg:gem/puma#lib/puma/client.rb:339
+  # pkg:gem/puma#lib/puma/client.rb:355
   def write_error(status_code); end
 
   private
 
-  # pkg:gem/puma#lib/puma/client.rb:602
+  # pkg:gem/puma#lib/puma/client.rb:618
   def decode_chunk(chunk); end
 
-  # pkg:gem/puma#lib/puma/client.rb:731
+  # pkg:gem/puma#lib/puma/client.rb:747
   def raise_above_http_content_limit; end
 
-  # pkg:gem/puma#lib/puma/client.rb:509
+  # pkg:gem/puma#lib/puma/client.rb:525
   def read_body; end
 
-  # pkg:gem/puma#lib/puma/client.rb:550
+  # pkg:gem/puma#lib/puma/client.rb:566
   def read_chunked_body; end
 
-  # pkg:gem/puma#lib/puma/client.rb:723
+  # pkg:gem/puma#lib/puma/client.rb:739
   def set_ready; end
 
   # Checks the request `Transfer-Encoding` and/or `Content-Length` to see if
   # they are valid.  Raises errors if not, otherwise reads the body.
   # @return [Boolean] true if the body can be completely read, false otherwise
   #
-  # pkg:gem/puma#lib/puma/client.rb:408
+  # pkg:gem/puma#lib/puma/client.rb:424
   def setup_body; end
 
-  # pkg:gem/puma#lib/puma/client.rb:575
+  # pkg:gem/puma#lib/puma/client.rb:591
   def setup_chunked_body(body); end
 
-  # pkg:gem/puma#lib/puma/client.rb:393
+  # pkg:gem/puma#lib/puma/client.rb:409
   def socket_peerip; end
 
   # Converts IPv4-mapped IPv6 addresses (e.g. ::ffff:127.0.0.1) back to
   # their IPv4 form. These addresses appear when IPv4 clients connect to
   # a dual-stack IPv6 socket.
   #
-  # pkg:gem/puma#lib/puma/client.rb:400
+  # pkg:gem/puma#lib/puma/client.rb:416
   def unmap_ipv6(addr); end
 
   # @version 5.0.0
   #
-  # pkg:gem/puma#lib/puma/client.rb:594
+  # pkg:gem/puma#lib/puma/client.rb:610
   def write_chunk(str); end
 end
 
@@ -492,7 +492,7 @@ Puma::Client::CONTENT_LENGTH_VALUE_INVALID = T.let(T.unsafe(nil), Regexp)
 # pkg:gem/puma#lib/puma/client.rb:73
 Puma::Client::EmptyBody = T.let(T.unsafe(nil), Puma::NullIO)
 
-# pkg:gem/puma#lib/puma/client.rb:390
+# pkg:gem/puma#lib/puma/client.rb:406
 Puma::Client::IPV4_MAPPED_IPV6_PREFIX = T.let(T.unsafe(nil), String)
 
 # The maximum amount of excess data the client sends
@@ -1272,6 +1272,9 @@ Puma::Const::PORT_443 = T.let(T.unsafe(nil), String)
 # pkg:gem/puma#lib/puma/const.rb:209
 Puma::Const::PORT_80 = T.let(T.unsafe(nil), String)
 
+# pkg:gem/puma#lib/puma/const.rb:295
+Puma::Const::PROXY_PROTOCOL_V1_MAX_LENGTH = T.let(T.unsafe(nil), Integer)
+
 # pkg:gem/puma#lib/puma/const.rb:294
 Puma::Const::PROXY_PROTOCOL_V1_REGEX = T.let(T.unsafe(nil), Regexp)
 
@@ -1295,28 +1298,28 @@ Puma::Const::PUMA_VERSION = T.let(T.unsafe(nil), String)
 
 # All constants are prefixed with `PIPE_` to avoid name collisions.
 #
-# pkg:gem/puma#lib/puma/const.rb:297
+# pkg:gem/puma#lib/puma/const.rb:298
 module Puma::Const::PipeRequest; end
 
-# pkg:gem/puma#lib/puma/const.rb:299
+# pkg:gem/puma#lib/puma/const.rb:300
 Puma::Const::PipeRequest::PIPE_BOOT = T.let(T.unsafe(nil), String)
 
-# pkg:gem/puma#lib/puma/const.rb:301
+# pkg:gem/puma#lib/puma/const.rb:302
 Puma::Const::PipeRequest::PIPE_EXTERNAL_TERM = T.let(T.unsafe(nil), String)
 
-# pkg:gem/puma#lib/puma/const.rb:300
+# pkg:gem/puma#lib/puma/const.rb:301
 Puma::Const::PipeRequest::PIPE_FORK = T.let(T.unsafe(nil), String)
 
-# pkg:gem/puma#lib/puma/const.rb:304
+# pkg:gem/puma#lib/puma/const.rb:305
 Puma::Const::PipeRequest::PIPE_IDLE = T.let(T.unsafe(nil), String)
 
-# pkg:gem/puma#lib/puma/const.rb:303
+# pkg:gem/puma#lib/puma/const.rb:304
 Puma::Const::PipeRequest::PIPE_PING = T.let(T.unsafe(nil), String)
 
-# pkg:gem/puma#lib/puma/const.rb:302
+# pkg:gem/puma#lib/puma/const.rb:303
 Puma::Const::PipeRequest::PIPE_TERM = T.let(T.unsafe(nil), String)
 
-# pkg:gem/puma#lib/puma/const.rb:298
+# pkg:gem/puma#lib/puma/const.rb:299
 Puma::Const::PipeRequest::PIPE_WAKEUP = T.let(T.unsafe(nil), String)
 
 # pkg:gem/puma#lib/puma/const.rb:115
@@ -2839,10 +2842,10 @@ class Puma::IOBuffer < ::StringIO
   # pkg:gem/puma#lib/puma/io_buffer.rb:7
   def initialize; end
 
-  # Ruby 3+
-  #   StringIO.new.write("a", "b") # => 2
   # truffleruby (24.2.1, like ruby 3.3.7)
   #   StringIO.new.write("a", "b") # => `write': wrong number of arguments (given 2, expected 1) (ArgumentError)
+  # Ruby 3+
+  #   StringIO.new.write("a", "b") # => 2
   #
   # pkg:gem/puma#lib/puma/io_buffer.rb:47
   def append(*_arg0); end

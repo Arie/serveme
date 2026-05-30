@@ -9739,25 +9739,25 @@ class RuboCop::Cop::Rails::StrongParametersExpect < ::RuboCop::Cop::Base
 
   private
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:162
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:163
   def block_call?(send_node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:170
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:171
   def expect_method(require_method, permit_method); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:166
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:167
   def offense_range(method_node, node); end
 
   # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:141
   def offensive_bracket_access?(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:158
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:159
   def raising_finder_method?(node); end
 
   # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:129
   def register_bracket_access_offense(node, params_key); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:179
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:180
   def require_key(require_method); end
 end
 

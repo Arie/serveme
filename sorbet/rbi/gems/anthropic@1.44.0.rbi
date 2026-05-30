@@ -3038,6 +3038,9 @@ module Anthropic
   MessageTokensCount = Anthropic::Models::MessageTokensCount
   Messages = Anthropic::Models::Messages
   Metadata = Anthropic::Models::Metadata
+
+  MidConversationSystemBlockParam = Anthropic::Models::MidConversationSystemBlockParam
+
   Model = Anthropic::Models::Model
   ModelCapabilities = Anthropic::Models::ModelCapabilities
   ModelInfo = Anthropic::Models::ModelInfo
@@ -4581,8 +4584,9 @@ module Anthropic
         sig { returns(Integer) }
         attr_accessor :input_tokens
 
-        # The model that will complete your prompt.\n\nSee
-        # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
+        # The model that will complete your prompt.
+        #
+        # See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
         # details and options.
         sig { returns(Anthropic::Model::Variants) }
         attr_accessor :model
@@ -4627,8 +4631,8 @@ module Anthropic
             cache_creation_input_tokens:, # The number of input tokens used to create the cache entry.
             cache_read_input_tokens:, # The number of input tokens read from the cache.
             input_tokens:, # The number of input tokens which were used.
-            model:, # The model that will complete your prompt.\n\nSee
-                    # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
+            model:, # The model that will complete your prompt.
+                    # See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
                     # details and options.
             output_tokens:, # The number of output tokens which were used.
             type: :advisor_message # Usage for an advisor sub-inference iteration
@@ -4649,17 +4653,37 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :encrypted_content
 
+        # The advisor sub-inference's stop reason (same values as the top-level message
+        # `stop_reason`).
+        sig { returns(T.nilable(String)) }
+        attr_accessor :stop_reason
+
         sig { returns(Symbol) }
         attr_accessor :type
 
-        sig { override.returns({ encrypted_content: String, type: Symbol }) }
+        sig do
+          override
+            .returns({
+              encrypted_content: String,
+              stop_reason: T.nilable(String),
+              type: Symbol
+            })
+        end
         def to_hash; end
 
         class << self
-          sig { params(encrypted_content: String, type: Symbol).returns(T.attached_class) }
+          sig do
+            params(
+              encrypted_content: String,
+              stop_reason: T.nilable(String),
+              type: Symbol
+            ).returns(T.attached_class)
+          end
           def new(
             encrypted_content:, # Opaque blob containing the advisor's output. Round-trip verbatim; do not inspect
                                 # or modify.
+            stop_reason:, # The advisor sub-inference's stop reason (same values as the top-level message
+                          # `stop_reason`).
             type: :advisor_redacted_result
 ); end
         end
@@ -4677,16 +4701,33 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :encrypted_content
 
+        sig { returns(T.nilable(String)) }
+        attr_accessor :stop_reason
+
         sig { returns(Symbol) }
         attr_accessor :type
 
-        sig { override.returns({ encrypted_content: String, type: Symbol }) }
+        sig do
+          override
+            .returns({
+              encrypted_content: String,
+              type: Symbol,
+              stop_reason: T.nilable(String)
+            })
+        end
         def to_hash; end
 
         class << self
-          sig { params(encrypted_content: String, type: Symbol).returns(T.attached_class) }
+          sig do
+            params(
+              encrypted_content: String,
+              stop_reason: T.nilable(String),
+              type: Symbol
+            ).returns(T.attached_class)
+          end
           def new(
             encrypted_content:, # Opaque blob produced by a prior response; must be round-tripped verbatim.
+            stop_reason: nil,
             type: :advisor_redacted_result
 ); end
         end
@@ -4700,18 +4741,30 @@ module Anthropic
       end
 
       class BetaAdvisorResultBlock < Anthropic::Internal::Type::BaseModel
+        # The advisor sub-inference's stop reason (same values as the top-level message
+        # `stop_reason`). `max_tokens` indicates the advisor's output was truncated at the
+        # tool's `max_tokens` value or the advisor model's policy cap.
+        sig { returns(T.nilable(String)) }
+        attr_accessor :stop_reason
+
         sig { returns(String) }
         attr_accessor :text
 
         sig { returns(Symbol) }
         attr_accessor :type
 
-        sig { override.returns({ text: String, type: Symbol }) }
+        sig { override.returns({ stop_reason: T.nilable(String), text: String, type: Symbol }) }
         def to_hash; end
 
         class << self
-          sig { params(text: String, type: Symbol).returns(T.attached_class) }
-          def new(text:, type: :advisor_result); end
+          sig { params(stop_reason: T.nilable(String), text: String, type: Symbol).returns(T.attached_class) }
+          def new(
+            stop_reason:, # The advisor sub-inference's stop reason (same values as the top-level message
+                          # `stop_reason`). `max_tokens` indicates the advisor's output was truncated at the
+                          # tool's `max_tokens` value or the advisor model's policy cap.
+            text:,
+            type: :advisor_result
+); end
         end
 
         OrHash = T.type_alias do
@@ -4723,18 +4776,21 @@ module Anthropic
       end
 
       class BetaAdvisorResultBlockParam < Anthropic::Internal::Type::BaseModel
+        sig { returns(T.nilable(String)) }
+        attr_accessor :stop_reason
+
         sig { returns(String) }
         attr_accessor :text
 
         sig { returns(Symbol) }
         attr_accessor :type
 
-        sig { override.returns({ text: String, type: Symbol }) }
+        sig { override.returns({ text: String, type: Symbol, stop_reason: T.nilable(String) }) }
         def to_hash; end
 
         class << self
-          sig { params(text: String, type: Symbol).returns(T.attached_class) }
-          def new(text:, type: :advisor_result); end
+          sig { params(text: String, stop_reason: T.nilable(String), type: Symbol).returns(T.attached_class) }
+          def new(text:, stop_reason: nil, type: :advisor_result); end
         end
 
         OrHash = T.type_alias do
@@ -4792,8 +4848,9 @@ module Anthropic
         sig { returns(T.nilable(Integer)) }
         attr_accessor :max_uses
 
-        # The model that will complete your prompt.\n\nSee
-        # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
+        # The model that will complete your prompt.
+        #
+        # See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
         # details and options.
         sig { returns(T.any(Anthropic::Model::OrSymbol, String)) }
         attr_accessor :model
@@ -4851,8 +4908,8 @@ module Anthropic
             ).returns(T.attached_class)
           end
           def new(
-            model:, # The model that will complete your prompt.\n\nSee
-                    # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
+            model:, # The model that will complete your prompt.
+                    # See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
                     # details and options.
             allowed_callers: nil,
             cache_control: nil, # Create a cache control breakpoint at this content block.
@@ -8814,7 +8871,8 @@ module Anthropic
               Anthropic::Beta::BetaMCPToolUseBlockParam,
               Anthropic::Beta::BetaRequestMCPToolResultBlockParam,
               Anthropic::Beta::BetaContainerUploadBlockParam,
-              Anthropic::Beta::BetaCompactionBlockParam
+              Anthropic::Beta::BetaCompactionBlockParam,
+              Anthropic::Beta::BetaMidConversationSystemBlockParam
             )
           end
       end
@@ -13753,8 +13811,9 @@ module Anthropic
         end
       end
 
-      # The model that will power your agent.\n\nSee
-      # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
+      # The model that will power your agent.
+      #
+      # See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
       # details and options.
       module BetaManagedAgentsModel
         extend Anthropic::Internal::Type::Union
@@ -13800,6 +13859,12 @@ module Anthropic
             Anthropic::Beta::BetaManagedAgentsModel::TaggedSymbol
           )
 
+        # Frontier intelligence for long-running agents and coding
+        CLAUDE_OPUS_4_8 = T.let(
+            :"claude-opus-4-8",
+            Anthropic::Beta::BetaManagedAgentsModel::TaggedSymbol
+          )
+
         # High-performance model for agents and coding
         CLAUDE_SONNET_4_5 = T.let(
             :"claude-sonnet-4-5",
@@ -13830,8 +13895,9 @@ module Anthropic
       end
 
       class BetaManagedAgentsModelConfig < Anthropic::Internal::Type::BaseModel
-        # The model that will power your agent.\n\nSee
-        # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
+        # The model that will power your agent.
+        #
+        # See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
         # details and options.
         sig { returns(Anthropic::Beta::BetaManagedAgentsModel::Variants) }
         attr_accessor :id
@@ -13868,8 +13934,8 @@ module Anthropic
             ).returns(T.attached_class)
           end
           def new(
-            id:, # The model that will power your agent.\n\nSee
-                 # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
+            id:, # The model that will power your agent.
+                 # See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
                  # details and options.
             speed: nil # Inference speed mode. `fast` provides significantly faster output token
                        # generation at premium pricing. Not all models support `fast`; invalid
@@ -13922,8 +13988,9 @@ module Anthropic
       end
 
       class BetaManagedAgentsModelConfigParams < Anthropic::Internal::Type::BaseModel
-        # The model that will power your agent.\n\nSee
-        # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
+        # The model that will power your agent.
+        #
+        # See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
         # details and options.
         sig { returns(T.any(Anthropic::Beta::BetaManagedAgentsModel::OrSymbol, String)) }
         attr_accessor :id
@@ -13965,8 +14032,8 @@ module Anthropic
             ).returns(T.attached_class)
           end
           def new(
-            id:, # The model that will power your agent.\n\nSee
-                 # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
+            id:, # The model that will power your agent.
+                 # See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
                  # details and options.
             speed: nil # Inference speed mode. `fast` provides significantly faster output token
                        # generation at premium pricing. Not all models support `fast`; invalid
@@ -16433,8 +16500,9 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :id
 
-        # The model that will complete your prompt.\n\nSee
-        # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
+        # The model that will complete your prompt.
+        #
+        # See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
         # details and options.
         sig { returns(Anthropic::Model::Variants) }
         attr_accessor :model
@@ -16597,8 +16665,8 @@ module Anthropic
                                  # Information about context management strategies applied during the request.
             diagnostics:, # Response envelope for request-level diagnostics. Present (possibly null)
                           # whenever the caller supplied `diagnostics` on the request.
-            model:, # The model that will complete your prompt.\n\nSee
-                    # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
+            model:, # The model that will complete your prompt.
+                    # See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
                     # details and options.
             stop_details:, # Structured information about a refusal.
             stop_reason:, # The reason that we stopped.
@@ -16671,6 +16739,18 @@ module Anthropic
         sig { returns(Integer) }
         attr_accessor :output_tokens
 
+        # Breakdown of output tokens by category.
+        #
+        # `output_tokens` remains the inclusive, authoritative total used for billing.
+        # This object provides a read-only decomposition for observability — for example,
+        # how many of the billed output tokens were spent on internal reasoning that may
+        # have been summarized before being returned to you.
+        sig { returns(T.nilable(Anthropic::Beta::BetaOutputTokensDetails)) }
+        attr_reader :output_tokens_details
+
+        sig { params(output_tokens_details: T.nilable(Anthropic::Beta::BetaOutputTokensDetails::OrHash)).void }
+        attr_writer :output_tokens_details
+
         # The number of server tool requests.
         sig { returns(T.nilable(Anthropic::Beta::BetaServerToolUsage)) }
         attr_reader :server_tool_use
@@ -16689,6 +16769,8 @@ module Anthropic
                   T::Array[Anthropic::Beta::BetaIterationsUsageItem::Variants]
                 ),
               output_tokens: Integer,
+              output_tokens_details:
+                T.nilable(Anthropic::Beta::BetaOutputTokensDetails),
               server_tool_use: T.nilable(Anthropic::Beta::BetaServerToolUsage)
             })
         end
@@ -16710,6 +16792,7 @@ module Anthropic
                 ]
               ),
               output_tokens: Integer,
+              output_tokens_details: T.nilable(Anthropic::Beta::BetaOutputTokensDetails::OrHash),
               server_tool_use: T.nilable(Anthropic::Beta::BetaServerToolUsage::OrHash)
             ).returns(T.attached_class)
           end
@@ -16724,6 +16807,11 @@ module Anthropic
                          # - Calculate the true context window size from the last iteration
                          # - Understand token accumulation across server-side tool use loops
             output_tokens:, # The cumulative number of output tokens which were used.
+            output_tokens_details:, # Breakdown of output tokens by category.
+                                    # `output_tokens` remains the inclusive, authoritative total used for billing.
+                                    # This object provides a read-only decomposition for observability — for example,
+                                    # how many of the billed output tokens were spent on internal reasoning that may
+                                    # have been summarized before being returned to you.
             server_tool_use: # The number of server tool requests.
 ); end
         end
@@ -16878,6 +16966,11 @@ module Anthropic
 
           OrSymbol = T.type_alias { T.any(Symbol, String) }
 
+          SYSTEM = T.let(
+              :system,
+              Anthropic::Beta::BetaMessageParam::Role::TaggedSymbol
+            )
+
           TaggedSymbol = T.type_alias do
               T.all(Symbol, Anthropic::Beta::BetaMessageParam::Role)
             end
@@ -16965,6 +17058,60 @@ module Anthropic
 
         OrHash = T.type_alias do
             T.any(Anthropic::Beta::BetaMetadata, Anthropic::Internal::AnyHash)
+          end
+      end
+
+      class BetaMidConversationSystemBlockParam < Anthropic::Internal::Type::BaseModel
+        # Create a cache control breakpoint at this content block.
+        sig { returns(T.nilable(Anthropic::Beta::BetaCacheControlEphemeral)) }
+        attr_reader :cache_control
+
+        sig { params(cache_control: T.nilable(Anthropic::Beta::BetaCacheControlEphemeral::OrHash)).void }
+        attr_writer :cache_control
+
+        # System instruction text blocks.
+        sig { returns(T::Array[Anthropic::Beta::BetaTextBlockParam]) }
+        attr_accessor :content
+
+        sig { returns(Symbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              content: T::Array[Anthropic::Beta::BetaTextBlockParam],
+              type: Symbol,
+              cache_control:
+                T.nilable(Anthropic::Beta::BetaCacheControlEphemeral)
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # System instructions that appear mid-conversation.
+          #
+          # Use this block to provide or update system-level instructions at a specific
+          # point in the conversation, rather than only via the top-level `system`
+          # parameter.
+          sig do
+            params(
+              content: T::Array[Anthropic::Beta::BetaTextBlockParam::OrHash],
+              cache_control: T.nilable(Anthropic::Beta::BetaCacheControlEphemeral::OrHash),
+              type: Symbol
+            ).returns(T.attached_class)
+          end
+          def new(
+            content:, # System instruction text blocks.
+            cache_control: nil, # Create a cache control breakpoint at this content block.
+            type: :mid_conv_system
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaMidConversationSystemBlockParam,
+              Anthropic::Internal::AnyHash
+            )
           end
       end
 
@@ -17249,6 +17396,42 @@ module Anthropic
         OrHash = T.type_alias do
             T.any(
               Anthropic::Beta::BetaOutputConfig,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
+      class BetaOutputTokensDetails < Anthropic::Internal::Type::BaseModel
+        # Number of output tokens the model generated as internal reasoning, including the
+        # thinking-block delimiter tokens.
+        #
+        # Reflects the raw reasoning the model produced, not the (possibly shorter)
+        # summarized thinking text returned in the response body. Computed by
+        # re-tokenizing the raw reasoning text, so it may differ from the model's exact
+        # generation count by a small number of tokens. Always ≤ `output_tokens`;
+        # `output_tokens - thinking_tokens` approximates the non-reasoning output.
+        sig { returns(Integer) }
+        attr_accessor :thinking_tokens
+
+        sig { override.returns({ thinking_tokens: Integer }) }
+        def to_hash; end
+
+        class << self
+          sig { params(thinking_tokens: Integer).returns(T.attached_class) }
+          def new(
+            thinking_tokens: # Number of output tokens the model generated as internal reasoning, including the
+                             # thinking-block delimiter tokens.
+                             # Reflects the raw reasoning the model produced, not the (possibly shorter)
+                             # summarized thinking text returned in the response body. Computed by
+                             # re-tokenizing the raw reasoning text, so it may differ from the model's exact
+                             # generation count by a small number of tokens. Always ≤ `output_tokens`;
+                             # `output_tokens - thinking_tokens` approximates the non-reasoning output.
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaOutputTokensDetails,
               Anthropic::Internal::AnyHash
             )
           end
@@ -23615,6 +23798,18 @@ module Anthropic
         sig { returns(Integer) }
         attr_accessor :output_tokens
 
+        # Breakdown of output tokens by category.
+        #
+        # `output_tokens` remains the inclusive, authoritative total used for billing.
+        # This object provides a read-only decomposition for observability — for example,
+        # how many of the billed output tokens were spent on internal reasoning that may
+        # have been summarized before being returned to you.
+        sig { returns(T.nilable(Anthropic::Beta::BetaOutputTokensDetails)) }
+        attr_reader :output_tokens_details
+
+        sig { params(output_tokens_details: T.nilable(Anthropic::Beta::BetaOutputTokensDetails::OrHash)).void }
+        attr_writer :output_tokens_details
+
         # The number of server tool requests.
         sig { returns(T.nilable(Anthropic::Beta::BetaServerToolUsage)) }
         attr_reader :server_tool_use
@@ -23643,6 +23838,8 @@ module Anthropic
                   T::Array[Anthropic::Beta::BetaIterationsUsageItem::Variants]
                 ),
               output_tokens: Integer,
+              output_tokens_details:
+                T.nilable(Anthropic::Beta::BetaOutputTokensDetails),
               server_tool_use: T.nilable(Anthropic::Beta::BetaServerToolUsage),
               service_tier:
                 T.nilable(
@@ -23671,6 +23868,7 @@ module Anthropic
                 ]
               ),
               output_tokens: Integer,
+              output_tokens_details: T.nilable(Anthropic::Beta::BetaOutputTokensDetails::OrHash),
               server_tool_use: T.nilable(Anthropic::Beta::BetaServerToolUsage::OrHash),
               service_tier: T.nilable(Anthropic::Beta::BetaUsage::ServiceTier::OrSymbol),
               speed: T.nilable(Anthropic::Beta::BetaUsage::Speed::OrSymbol)
@@ -23689,6 +23887,11 @@ module Anthropic
                          # - Calculate the true context window size from the last iteration
                          # - Understand token accumulation across server-side tool use loops
             output_tokens:, # The number of output tokens which were used.
+            output_tokens_details:, # Breakdown of output tokens by category.
+                                    # `output_tokens` remains the inclusive, authoritative total used for billing.
+                                    # This object provides a read-only decomposition for observability — for example,
+                                    # how many of the billed output tokens were spent on internal reasoning that may
+                                    # have been summarized before being returned to you.
             server_tool_use:, # The number of server tool requests.
             service_tier:, # If the request used the priority, standard, or batch tier.
             speed: # The inference speed mode used for this request.
@@ -25177,6 +25380,11 @@ module Anthropic
 
         URL_NOT_ALLOWED = T.let(
             :url_not_allowed,
+            Anthropic::Beta::BetaWebFetchToolResultErrorCode::TaggedSymbol
+          )
+
+        URL_NOT_IN_PRIOR_CONTEXT = T.let(
+            :url_not_in_prior_context,
             Anthropic::Beta::BetaWebFetchToolResultErrorCode::TaggedSymbol
           )
 
@@ -31993,8 +32201,9 @@ module Anthropic
         sig { returns(T::Array[Anthropic::Beta::BetaMessageParam]) }
         attr_accessor :messages
 
-        # The model that will complete your prompt.\n\nSee
-        # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
+        # The model that will complete your prompt.
+        #
+        # See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
         # details and options.
         sig { returns(T.any(Anthropic::Model::OrSymbol, String)) }
         attr_accessor :model
@@ -32415,8 +32624,8 @@ module Anthropic
                        # top-level `system` parameter — there is no `"system"` role for input messages in
                        # the Messages API.
                        # There is a limit of 100,000 messages in a single request.
-            model:, # The model that will complete your prompt.\n\nSee
-                    # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
+            model:, # The model that will complete your prompt.
+                    # See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
                     # details and options.
             cache_control: nil, # Top-level cache control automatically applies a cache_control marker to the last
                                 # cacheable block in the request.
@@ -32782,8 +32991,9 @@ module Anthropic
         sig { params(metadata: Anthropic::Beta::BetaMetadata::OrHash).void }
         attr_writer :metadata
 
-        # The model that will complete your prompt.\n\nSee
-        # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
+        # The model that will complete your prompt.
+        #
+        # See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
         # details and options.
         sig { returns(T.any(Anthropic::Model::OrSymbol, String)) }
         attr_accessor :model
@@ -33301,8 +33511,8 @@ module Anthropic
                        # top-level `system` parameter — there is no `"system"` role for input messages in
                        # the Messages API.
                        # There is a limit of 100,000 messages in a single request.
-            model:, # The model that will complete your prompt.\n\nSee
-                    # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
+            model:, # The model that will complete your prompt.
+                    # See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
                     # details and options.
             cache_control: nil, # Top-level cache control automatically applies a cache_control marker to the last
                                 # cacheable block in the request.
@@ -33868,8 +34078,9 @@ module Anthropic
               sig { params(metadata: Anthropic::Beta::BetaMetadata::OrHash).void }
               attr_writer :metadata
 
-              # The model that will complete your prompt.\n\nSee
-              # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
+              # The model that will complete your prompt.
+              #
+              # See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
               # details and options.
               sig { returns(T.any(Anthropic::Model::OrSymbol, String)) }
               attr_accessor :model
@@ -34429,8 +34640,8 @@ module Anthropic
                              # top-level `system` parameter — there is no `"system"` role for input messages in
                              # the Messages API.
                              # There is a limit of 100,000 messages in a single request.
-                  model:, # The model that will complete your prompt.\n\nSee
-                          # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
+                  model:, # The model that will complete your prompt.
+                          # See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
                           # details and options.
                   cache_control: nil, # Top-level cache control automatically applies a cache_control marker to the last
                                       # cacheable block in the request.
@@ -50123,6 +50334,9 @@ module Anthropic
     BetaMessageParam = Beta::BetaMessageParam
     BetaMessageTokensCount = Beta::BetaMessageTokensCount
     BetaMetadata = Beta::BetaMetadata
+
+    BetaMidConversationSystemBlockParam = Beta::BetaMidConversationSystemBlockParam
+
     BetaModelCapabilities = Beta::BetaModelCapabilities
     BetaModelInfo = Beta::BetaModelInfo
 
@@ -50147,6 +50361,7 @@ module Anthropic
     end
 
     BetaOutputConfig = Beta::BetaOutputConfig
+    BetaOutputTokensDetails = Beta::BetaOutputTokensDetails
 
     class BetaOverloadedError < Anthropic::Internal::Type::BaseModel
       sig { returns(String) }
@@ -52147,8 +52362,9 @@ module Anthropic
       sig { returns(String) }
       attr_accessor :id
 
-      # The model that will complete your prompt.\n\nSee
-      # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
+      # The model that will complete your prompt.
+      #
+      # See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
       # details and options.
       sig { returns(Anthropic::Model::Variants) }
       attr_accessor :model
@@ -52195,8 +52411,8 @@ module Anthropic
           id:, # Unique object identifier.
                # The format and length of IDs may change over time.
           completion:, # The resulting completion up to and excluding the stop sequences.
-          model:, # The model that will complete your prompt.\n\nSee
-                  # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
+          model:, # The model that will complete your prompt.
+                  # See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
                   # details and options.
           stop_reason:, # The reason that we stopped.
                         # This may be one the following values:
@@ -52238,8 +52454,9 @@ module Anthropic
       sig { params(metadata: Anthropic::Metadata::OrHash).void }
       attr_writer :metadata
 
-      # The model that will complete your prompt.\n\nSee
-      # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
+      # The model that will complete your prompt.
+      #
+      # See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
       # details and options.
       sig { returns(T.any(Anthropic::Model::OrSymbol, String)) }
       attr_accessor :model
@@ -52345,8 +52562,8 @@ module Anthropic
           max_tokens_to_sample:, # The maximum number of tokens to generate before stopping.
                                  # Note that our models may stop _before_ reaching this maximum. This parameter
                                  # only specifies the absolute maximum number of tokens to generate.
-          model:, # The model that will complete your prompt.\n\nSee
-                  # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
+          model:, # The model that will complete your prompt.
+                  # See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
                   # details and options.
           prompt:, # The prompt that you want Claude to complete.
                    # For proper response generation you will need to format your prompt using
@@ -52537,7 +52754,8 @@ module Anthropic
             Anthropic::BashCodeExecutionToolResultBlockParam,
             Anthropic::TextEditorCodeExecutionToolResultBlockParam,
             Anthropic::ToolSearchToolResultBlockParam,
-            Anthropic::ContainerUploadBlockParam
+            Anthropic::ContainerUploadBlockParam,
+            Anthropic::MidConversationSystemBlockParam
           )
         end
     end
@@ -53461,8 +53679,9 @@ module Anthropic
       sig { returns(String) }
       attr_accessor :id
 
-      # The model that will complete your prompt.\n\nSee
-      # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
+      # The model that will complete your prompt.
+      #
+      # See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
       # details and options.
       sig { returns(Anthropic::Model::Variants) }
       attr_accessor :model
@@ -53612,8 +53831,8 @@ module Anthropic
                     # ```json
                     # [{ "type": "text", "text": "B)" }]
                     # ```
-          model:, # The model that will complete your prompt.\n\nSee
-                  # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
+          model:, # The model that will complete your prompt.
+                  # See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
                   # details and options.
           stop_details:, # Structured information about a refusal.
           stop_reason:, # The reason that we stopped.
@@ -53741,8 +53960,9 @@ module Anthropic
       sig { returns(T::Array[Anthropic::MessageParam]) }
       attr_accessor :messages
 
-      # The model that will complete your prompt.\n\nSee
-      # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
+      # The model that will complete your prompt.
+      #
+      # See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
       # details and options.
       sig { returns(T.any(Anthropic::Model::OrSymbol, String)) }
       attr_accessor :model
@@ -54089,8 +54309,8 @@ module Anthropic
                      # top-level `system` parameter — there is no `"system"` role for input messages in
                      # the Messages API.
                      # There is a limit of 100,000 messages in a single request.
-          model:, # The model that will complete your prompt.\n\nSee
-                  # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
+          model:, # The model that will complete your prompt.
+                  # See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
                   # details and options.
           cache_control: nil, # Top-level cache control automatically applies a cache_control marker to the last
                               # cacheable block in the request.
@@ -54346,8 +54566,9 @@ module Anthropic
       sig { params(metadata: Anthropic::Metadata::OrHash).void }
       attr_writer :metadata
 
-      # The model that will complete your prompt.\n\nSee
-      # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
+      # The model that will complete your prompt.
+      #
+      # See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
       # details and options.
       sig { returns(T.any(Anthropic::Model::OrSymbol, String)) }
       attr_accessor :model
@@ -54785,8 +55006,8 @@ module Anthropic
                      # top-level `system` parameter — there is no `"system"` role for input messages in
                      # the Messages API.
                      # There is a limit of 100,000 messages in a single request.
-          model:, # The model that will complete your prompt.\n\nSee
-                  # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
+          model:, # The model that will complete your prompt.
+                  # See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
                   # details and options.
           cache_control: nil, # Top-level cache control automatically applies a cache_control marker to the last
                               # cacheable block in the request.
@@ -54974,6 +55195,18 @@ module Anthropic
       sig { returns(Integer) }
       attr_accessor :output_tokens
 
+      # Breakdown of output tokens by category.
+      #
+      # `output_tokens` remains the inclusive, authoritative total used for billing.
+      # This object provides a read-only decomposition for observability — for example,
+      # how many of the billed output tokens were spent on internal reasoning that may
+      # have been summarized before being returned to you.
+      sig { returns(T.nilable(Anthropic::OutputTokensDetails)) }
+      attr_reader :output_tokens_details
+
+      sig { params(output_tokens_details: T.nilable(Anthropic::OutputTokensDetails::OrHash)).void }
+      attr_writer :output_tokens_details
+
       # The number of server tool requests.
       sig { returns(T.nilable(Anthropic::ServerToolUsage)) }
       attr_reader :server_tool_use
@@ -54988,6 +55221,7 @@ module Anthropic
             cache_read_input_tokens: T.nilable(Integer),
             input_tokens: T.nilable(Integer),
             output_tokens: Integer,
+            output_tokens_details: T.nilable(Anthropic::OutputTokensDetails),
             server_tool_use: T.nilable(Anthropic::ServerToolUsage)
           })
       end
@@ -55000,6 +55234,7 @@ module Anthropic
             cache_read_input_tokens: T.nilable(Integer),
             input_tokens: T.nilable(Integer),
             output_tokens: Integer,
+            output_tokens_details: T.nilable(Anthropic::OutputTokensDetails::OrHash),
             server_tool_use: T.nilable(Anthropic::ServerToolUsage::OrHash)
           ).returns(T.attached_class)
         end
@@ -55008,6 +55243,11 @@ module Anthropic
           cache_read_input_tokens:, # The cumulative number of input tokens read from the cache.
           input_tokens:, # The cumulative number of input tokens which were used.
           output_tokens:, # The cumulative number of output tokens which were used.
+          output_tokens_details:, # Breakdown of output tokens by category.
+                                  # `output_tokens` remains the inclusive, authoritative total used for billing.
+                                  # This object provides a read-only decomposition for observability — for example,
+                                  # how many of the billed output tokens were spent on internal reasoning that may
+                                  # have been summarized before being returned to you.
           server_tool_use: # The number of server tool requests.
 ); end
       end
@@ -55078,6 +55318,7 @@ module Anthropic
         ASSISTANT = T.let(:assistant, Anthropic::MessageParam::Role::TaggedSymbol)
 
         OrSymbol = T.type_alias { T.any(Symbol, String) }
+        SYSTEM = T.let(:system, Anthropic::MessageParam::Role::TaggedSymbol)
 
         TaggedSymbol = T.type_alias { T.all(Symbol, Anthropic::MessageParam::Role) }
 
@@ -55344,8 +55585,9 @@ module Anthropic
             sig { params(metadata: Anthropic::Metadata::OrHash).void }
             attr_writer :metadata
 
-            # The model that will complete your prompt.\n\nSee
-            # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
+            # The model that will complete your prompt.
+            #
+            # See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
             # details and options.
             sig { returns(T.any(Anthropic::Model::OrSymbol, String)) }
             attr_accessor :model
@@ -55810,8 +56052,8 @@ module Anthropic
                            # top-level `system` parameter — there is no `"system"` role for input messages in
                            # the Messages API.
                            # There is a limit of 100,000 messages in a single request.
-                model:, # The model that will complete your prompt.\n\nSee
-                        # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
+                model:, # The model that will complete your prompt.
+                        # See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
                         # details and options.
                 cache_control: nil, # Top-level cache control automatically applies a cache_control marker to the last
                                     # cacheable block in the request.
@@ -56659,8 +56901,62 @@ module Anthropic
         end
     end
 
-    # The model that will complete your prompt.\n\nSee
-    # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
+    class MidConversationSystemBlockParam < Anthropic::Internal::Type::BaseModel
+      # Create a cache control breakpoint at this content block.
+      sig { returns(T.nilable(Anthropic::CacheControlEphemeral)) }
+      attr_reader :cache_control
+
+      sig { params(cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash)).void }
+      attr_writer :cache_control
+
+      # System instruction text blocks.
+      sig { returns(T::Array[Anthropic::TextBlockParam]) }
+      attr_accessor :content
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig do
+        override
+          .returns({
+            content: T::Array[Anthropic::TextBlockParam],
+            type: Symbol,
+            cache_control: T.nilable(Anthropic::CacheControlEphemeral)
+          })
+      end
+      def to_hash; end
+
+      class << self
+        # System instructions that appear mid-conversation.
+        #
+        # Use this block to provide or update system-level instructions at a specific
+        # point in the conversation, rather than only via the top-level `system`
+        # parameter.
+        sig do
+          params(
+            content: T::Array[Anthropic::TextBlockParam::OrHash],
+            cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash),
+            type: Symbol
+          ).returns(T.attached_class)
+        end
+        def new(
+          content:, # System instruction text blocks.
+          cache_control: nil, # Create a cache control breakpoint at this content block.
+          type: :mid_conv_system
+); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(
+            Anthropic::MidConversationSystemBlockParam,
+            Anthropic::Internal::AnyHash
+          )
+        end
+    end
+
+    # The model that will complete your prompt.
+    #
+    # See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
     # details and options.
     module Model
       extend Anthropic::Internal::Type::Union
@@ -56705,6 +57001,9 @@ module Anthropic
 
       # Frontier intelligence for long-running agents and coding
       CLAUDE_OPUS_4_7 = T.let(:"claude-opus-4-7", Anthropic::Model::TaggedSymbol)
+
+      # Frontier intelligence for long-running agents and coding
+      CLAUDE_OPUS_4_8 = T.let(:"claude-opus-4-8", Anthropic::Model::TaggedSymbol)
 
       # High-performance model with extended thinking
       CLAUDE_SONNET_4_0 = T.let(:"claude-sonnet-4-0", Anthropic::Model::TaggedSymbol)
@@ -57116,6 +57415,39 @@ module Anthropic
 
       OrHash = T.type_alias do
           T.any(Anthropic::OutputConfig, Anthropic::Internal::AnyHash)
+        end
+    end
+
+    class OutputTokensDetails < Anthropic::Internal::Type::BaseModel
+      # Number of output tokens the model generated as internal reasoning, including the
+      # thinking-block delimiter tokens.
+      #
+      # Reflects the raw reasoning the model produced, not the (possibly shorter)
+      # summarized thinking text returned in the response body. Computed by
+      # re-tokenizing the raw reasoning text, so it may differ from the model's exact
+      # generation count by a small number of tokens. Always ≤ `output_tokens`;
+      # `output_tokens - thinking_tokens` approximates the non-reasoning output.
+      sig { returns(Integer) }
+      attr_accessor :thinking_tokens
+
+      sig { override.returns({ thinking_tokens: Integer }) }
+      def to_hash; end
+
+      class << self
+        sig { params(thinking_tokens: Integer).returns(T.attached_class) }
+        def new(
+          thinking_tokens: # Number of output tokens the model generated as internal reasoning, including the
+                           # thinking-block delimiter tokens.
+                           # Reflects the raw reasoning the model produced, not the (possibly shorter)
+                           # summarized thinking text returned in the response body. Computed by
+                           # re-tokenizing the raw reasoning text, so it may differ from the model's exact
+                           # generation count by a small number of tokens. Always ≤ `output_tokens`;
+                           # `output_tokens - thinking_tokens` approximates the non-reasoning output.
+); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(Anthropic::OutputTokensDetails, Anthropic::Internal::AnyHash)
         end
     end
 
@@ -61334,6 +61666,18 @@ module Anthropic
       sig { returns(Integer) }
       attr_accessor :output_tokens
 
+      # Breakdown of output tokens by category.
+      #
+      # `output_tokens` remains the inclusive, authoritative total used for billing.
+      # This object provides a read-only decomposition for observability — for example,
+      # how many of the billed output tokens were spent on internal reasoning that may
+      # have been summarized before being returned to you.
+      sig { returns(T.nilable(Anthropic::OutputTokensDetails)) }
+      attr_reader :output_tokens_details
+
+      sig { params(output_tokens_details: T.nilable(Anthropic::OutputTokensDetails::OrHash)).void }
+      attr_writer :output_tokens_details
+
       # The number of server tool requests.
       sig { returns(T.nilable(Anthropic::ServerToolUsage)) }
       attr_reader :server_tool_use
@@ -61354,6 +61698,7 @@ module Anthropic
             inference_geo: T.nilable(String),
             input_tokens: Integer,
             output_tokens: Integer,
+            output_tokens_details: T.nilable(Anthropic::OutputTokensDetails),
             server_tool_use: T.nilable(Anthropic::ServerToolUsage),
             service_tier: T.nilable(Anthropic::Usage::ServiceTier::TaggedSymbol)
           })
@@ -61369,6 +61714,7 @@ module Anthropic
             inference_geo: T.nilable(String),
             input_tokens: Integer,
             output_tokens: Integer,
+            output_tokens_details: T.nilable(Anthropic::OutputTokensDetails::OrHash),
             server_tool_use: T.nilable(Anthropic::ServerToolUsage::OrHash),
             service_tier: T.nilable(Anthropic::Usage::ServiceTier::OrSymbol)
           ).returns(T.attached_class)
@@ -61380,6 +61726,11 @@ module Anthropic
           inference_geo:, # The geographic region where inference was performed for this request.
           input_tokens:, # The number of input tokens which were used.
           output_tokens:, # The number of output tokens which were used.
+          output_tokens_details:, # Breakdown of output tokens by category.
+                                  # `output_tokens` remains the inclusive, authoritative total used for billing.
+                                  # This object provides a read-only decomposition for observability — for example,
+                                  # how many of the billed output tokens were spent on internal reasoning that may
+                                  # have been summarized before being returned to you.
           server_tool_use:, # The number of server tool requests.
           service_tier: # If the request used the priority, standard, or batch tier.
 ); end
@@ -62429,6 +62780,11 @@ module Anthropic
           Anthropic::WebFetchToolResultErrorCode::TaggedSymbol
         )
 
+      URL_NOT_IN_PRIOR_CONTEXT = T.let(
+          :url_not_in_prior_context,
+          Anthropic::WebFetchToolResultErrorCode::TaggedSymbol
+        )
+
       URL_TOO_LONG = T.let(
           :url_too_long,
           Anthropic::WebFetchToolResultErrorCode::TaggedSymbol
@@ -63209,6 +63565,7 @@ module Anthropic
 
   NotFoundError = Anthropic::Models::NotFoundError
   OutputConfig = Anthropic::Models::OutputConfig
+  OutputTokensDetails = Anthropic::Models::OutputTokensDetails
   OverloadedError = Anthropic::Models::OverloadedError
   PermissionError = Anthropic::Models::PermissionError
   PlainTextSource = Anthropic::Models::PlainTextSource
@@ -64427,8 +64784,8 @@ module Anthropic
                      # top-level `system` parameter — there is no `"system"` role for input messages in
                      # the Messages API.
                      # There is a limit of 100,000 messages in a single request.
-          model:, # Body param: The model that will complete your prompt.\n\nSee
-                  # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
+          model:, # Body param: The model that will complete your prompt.
+                  # See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
                   # details and options.
           cache_control: nil, # Body param: Top-level cache control automatically applies a cache_control marker
                               # to the last cacheable block in the request.
@@ -64662,8 +65019,8 @@ module Anthropic
                      # top-level `system` parameter — there is no `"system"` role for input messages in
                      # the Messages API.
                      # There is a limit of 100,000 messages in a single request.
-          model:, # Body param: The model that will complete your prompt.\n\nSee
-                  # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
+          model:, # Body param: The model that will complete your prompt.
+                  # See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
                   # details and options.
           cache_control: nil, # Body param: Top-level cache control automatically applies a cache_control marker
                               # to the last cacheable block in the request.
@@ -64935,8 +65292,8 @@ module Anthropic
                      # top-level `system` parameter — there is no `"system"` role for input messages in
                      # the Messages API.
                      # There is a limit of 100,000 messages in a single request.
-          model:, # Body param: The model that will complete your prompt.\n\nSee
-                  # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
+          model:, # Body param: The model that will complete your prompt.
+                  # See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
                   # details and options.
           cache_control: nil, # Body param: Top-level cache control automatically applies a cache_control marker
                               # to the last cacheable block in the request.
@@ -66577,8 +66934,8 @@ module Anthropic
         max_tokens_to_sample:, # Body param: The maximum number of tokens to generate before stopping.
                                # Note that our models may stop _before_ reaching this maximum. This parameter
                                # only specifies the absolute maximum number of tokens to generate.
-        model:, # Body param: The model that will complete your prompt.\n\nSee
-                # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
+        model:, # Body param: The model that will complete your prompt.
+                # See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
                 # details and options.
         prompt:, # Body param: The prompt that you want Claude to complete.
                  # For proper response generation you will need to format your prompt using
@@ -66644,8 +67001,8 @@ module Anthropic
         max_tokens_to_sample:, # Body param: The maximum number of tokens to generate before stopping.
                                # Note that our models may stop _before_ reaching this maximum. This parameter
                                # only specifies the absolute maximum number of tokens to generate.
-        model:, # Body param: The model that will complete your prompt.\n\nSee
-                # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
+        model:, # Body param: The model that will complete your prompt.
+                # See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
                 # details and options.
         prompt:, # Body param: The prompt that you want Claude to complete.
                  # For proper response generation you will need to format your prompt using
@@ -66792,8 +67149,8 @@ module Anthropic
                    # top-level `system` parameter — there is no `"system"` role for input messages in
                    # the Messages API.
                    # There is a limit of 100,000 messages in a single request.
-        model:, # The model that will complete your prompt.\n\nSee
-                # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
+        model:, # The model that will complete your prompt.
+                # See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
                 # details and options.
         cache_control: nil, # Top-level cache control automatically applies a cache_control marker to the last
                             # cacheable block in the request.
@@ -66997,8 +67354,8 @@ module Anthropic
                    # top-level `system` parameter — there is no `"system"` role for input messages in
                    # the Messages API.
                    # There is a limit of 100,000 messages in a single request.
-        model:, # The model that will complete your prompt.\n\nSee
-                # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
+        model:, # The model that will complete your prompt.
+                # See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
                 # details and options.
         cache_control: nil, # Top-level cache control automatically applies a cache_control marker to the last
                             # cacheable block in the request.
@@ -67466,8 +67823,8 @@ module Anthropic
                    # top-level `system` parameter — there is no `"system"` role for input messages in
                    # the Messages API.
                    # There is a limit of 100,000 messages in a single request.
-        model:, # The model that will complete your prompt.\n\nSee
-                # [models](https://docs.anthropic.com/en/docs/models-overview) for additional
+        model:, # The model that will complete your prompt.
+                # See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
                 # details and options.
         cache_control: nil, # Top-level cache control automatically applies a cache_control marker to the last
                             # cacheable block in the request.

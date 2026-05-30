@@ -552,7 +552,7 @@ class Aws::Cbor::Decoder
   # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:7
   def initialize(bytes); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:12
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:13
   def decode; end
 
   private
@@ -560,20 +560,20 @@ class Aws::Cbor::Decoder
   # high level, generic decode. Based on the next type. Consumes and returns
   # the next item as a ruby object.
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:31
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:33
   def decode_item; end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:301
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:302
   def peek(n_bytes); end
 
   # low level streaming interface
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:81
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:88
   def peek_type; end
 
   # returns only the length of the array, caller must read the correct number of values after this
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:140
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:146
   def read_array; end
 
   # A decimal fraction or a bigfloat is represented as a tagged array
@@ -581,35 +581,35 @@ class Aws::Cbor::Decoder
   # an exponent e and a mantissa m
   # See: https://www.rfc-editor.org/rfc/rfc8949.html#name-decimal-fractions-and-bigfl
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:263
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:264
   def read_big_decimal; end
 
   # tag type 2 or 3
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:242
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:245
   def read_bignum(tag_value); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:129
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:135
   def read_binary_string; end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:180
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:185
   def read_boolean; end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:111
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:118
   def read_break_stop_code; end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:279
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:280
   def read_count(add_info); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:236
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:239
   def read_double; end
 
   # returns nothing but consumes and checks the type/info.
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:158
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:164
   def read_end_indefinite_collection; end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:231
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:234
   def read_float; end
 
   # 16 bit IEEE 754 half-precision floats
@@ -619,68 +619,71 @@ class Aws::Cbor::Decoder
   # exponent - 5 bits
   # precision - 10 bits
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:208
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:211
   def read_half; end
 
   # return a tuple of major_type, add_info
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:274
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:275
   def read_info; end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:116
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:123
   def read_integer; end
 
   # returns only the length of the array, caller must read the correct number of key value pairs after this
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:163
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:169
   def read_map; end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:192
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:195
   def read_nil; end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:174
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:180
   def read_reserved_undefined; end
 
   # returns nothing but consumes and checks the type/info.
   # Caller must keep reading until encountering the stop sequence
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:147
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:153
   def read_start_indefinite_array; end
 
   # returns nothing but consumes and checks the type/info.
   # Caller must keep reading until encountering the stop sequence
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:153
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:159
   def read_start_indefinite_map; end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:134
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:140
   def read_string; end
 
   # returns only the tag, caller must interpret the tag and read another value as appropriate
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:169
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:175
   def read_tag; end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:197
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:200
   def read_undefined; end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:292
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:293
   def take(n_bytes); end
 end
 
-# pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:23
+# pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:24
 Aws::Cbor::Decoder::FIVE_BIT_MASK = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:27
+# pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:29
+Aws::Cbor::Decoder::MAX_DEPTH = T.let(T.unsafe(nil), Integer)
+
+# pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:28
 Aws::Cbor::Decoder::TAG_TYPE_BIGDEC = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:25
+# pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:26
 Aws::Cbor::Decoder::TAG_TYPE_BIGNUM = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:24
+# pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:25
 Aws::Cbor::Decoder::TAG_TYPE_EPOCH = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:26
+# pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:27
 Aws::Cbor::Decoder::TAG_TYPE_NEG_BIGNUM = T.let(T.unsafe(nil), Integer)
 
 # Pure ruby implementation of CBOR encoder.

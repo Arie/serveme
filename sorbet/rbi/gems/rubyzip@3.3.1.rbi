@@ -377,7 +377,7 @@ end
 # pkg:gem/rubyzip#lib/zip.rb:59
 Zip::DEFAULT_RESTORE_OPTIONS = T.let(T.unsafe(nil), Hash)
 
-# pkg:gem/rubyzip#lib/zip/dos_time.rb:7
+# pkg:gem/rubyzip#lib/zip/dos_time.rb:6
 class Zip::DOSTime < ::Time
   include ::Zip::DOSTime::JRubyCMP
 
@@ -2216,7 +2216,7 @@ class Zip::InputStream
 
   # Returns the size of the current entry, or `nil` if there isn't one.
   #
-  # pkg:gem/rubyzip#lib/zip/input_stream.rb:117
+  # pkg:gem/rubyzip#lib/zip/input_stream.rb:118
   def size; end
 
   # Modelled after IO#sysread.
@@ -2232,29 +2232,29 @@ class Zip::InputStream
   # such as #read, #readline, #gets.
   #
   # pkg:gem/rubyzip#lib/zip/input_stream.rb:103
-  def sysread(maxlen, out_string = T.unsafe(nil)); end
+  def sysread(maxlen = T.unsafe(nil), out_string = T.unsafe(nil)); end
 
   protected
 
-  # pkg:gem/rubyzip#lib/zip/input_stream.rb:166
+  # pkg:gem/rubyzip#lib/zip/input_stream.rb:167
   def assemble_io; end
 
-  # pkg:gem/rubyzip#lib/zip/input_stream.rb:198
+  # pkg:gem/rubyzip#lib/zip/input_stream.rb:199
   def get_decompressor(io); end
 
-  # pkg:gem/rubyzip#lib/zip/input_stream.rb:178
+  # pkg:gem/rubyzip#lib/zip/input_stream.rb:179
   def get_decrypted_io; end
 
-  # pkg:gem/rubyzip#lib/zip/input_stream.rb:141
+  # pkg:gem/rubyzip#lib/zip/input_stream.rb:142
   def get_io(io_or_file, offset = T.unsafe(nil)); end
 
-  # pkg:gem/rubyzip#lib/zip/input_stream.rb:223
+  # pkg:gem/rubyzip#lib/zip/input_stream.rb:224
   def input_finished?; end
 
-  # pkg:gem/rubyzip#lib/zip/input_stream.rb:153
+  # pkg:gem/rubyzip#lib/zip/input_stream.rb:154
   def open_entry; end
 
-  # pkg:gem/rubyzip#lib/zip/input_stream.rb:219
+  # pkg:gem/rubyzip#lib/zip/input_stream.rb:220
   def produce_input(maxlen = T.unsafe(nil)); end
 
   class << self
@@ -2262,7 +2262,7 @@ class Zip::InputStream
     # stream is passed to the block and closed when the block
     # returns.
     #
-    # pkg:gem/rubyzip#lib/zip/input_stream.rb:127
+    # pkg:gem/rubyzip#lib/zip/input_stream.rb:128
     def open(filename_or_io, offset: T.unsafe(nil), decrypter: T.unsafe(nil)); end
   end
 end

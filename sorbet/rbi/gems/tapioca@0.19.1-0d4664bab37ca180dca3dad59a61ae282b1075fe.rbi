@@ -61,9 +61,6 @@ class Module
   # pkg:gem/tapioca#lib/tapioca/runtime/trackers/mixin.rb:105
   def extend_object(obj); end
 
-  # pkg:gem/tapioca#lib/tapioca/runtime/trackers/method_definition.rb:59
-  def method_added(method_name); end
-
   # pkg:gem/tapioca#lib/tapioca/runtime/trackers/mixin.rb:85
   def prepend_features(constant); end
 end
@@ -1310,13 +1307,13 @@ class Tapioca::Dsl::Pipeline
 
   private
 
-  # pkg:gem/tapioca#lib/tapioca/dsl/pipeline.rb:197
+  # pkg:gem/tapioca#lib/tapioca/dsl/pipeline.rb:173
   sig { void }
   def abort_if_pending_migrations!; end
 
   # pkg:gem/tapioca#lib/tapioca/dsl/pipeline.rb:143
   sig { params(constants: T::Set[T::Module[T.anything]]).returns(T::Set[T::Module[T.anything]]) }
-  def filter_anonymous_and_reloaded_constants(constants); end
+  def filter_anonymous_constants(constants); end
 
   # pkg:gem/tapioca#lib/tapioca/dsl/pipeline.rb:113
   sig do
@@ -1337,11 +1334,11 @@ class Tapioca::Dsl::Pipeline
   end
   def gather_constants(requested_constants, requested_paths, skipped_constants); end
 
-  # pkg:gem/tapioca#lib/tapioca/dsl/pipeline.rb:172
+  # pkg:gem/tapioca#lib/tapioca/dsl/pipeline.rb:148
   sig { params(constant: T::Module[T.anything]).returns(T.nilable(::RBI::File)) }
   def rbi_for_constant(constant); end
 
-  # pkg:gem/tapioca#lib/tapioca/dsl/pipeline.rb:191
+  # pkg:gem/tapioca#lib/tapioca/dsl/pipeline.rb:167
   sig { params(error: ::String).void }
   def report_error(error); end
 end

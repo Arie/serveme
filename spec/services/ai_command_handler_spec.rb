@@ -235,7 +235,8 @@ RSpec.describe AiCommandHandler do
         expect(Rails.logger).to receive(:error).with(include("Proposed disallowed command:"))
         expect(server).not_to receive(:rcon_exec) # Explicitly check it's not called
         expect(server).to receive(:rcon_say).with("Sorry, I can't run that command as parts of it might not be allowed.")
-        expect(Rails.cache).not_to receive(:write)
+        # Context is now persisted even on failure so follow-up confirmations have history
+        expect(Rails.cache).to receive(:write).with(/ai_context_history/, anything, expires_in: 1.hour)
 
         result = handler.process_request("do invalid thing")
         expect(result["success"]).to be false
@@ -265,7 +266,8 @@ RSpec.describe AiCommandHandler do
         expect(Rails.logger).to receive(:error).with(include("Proposed disallowed command:"))
         expect(server).not_to receive(:rcon_exec) # Explicitly check it's not called
         expect(server).to receive(:rcon_say).with("Sorry, I can't run that command as parts of it might not be allowed.")
-        expect(Rails.cache).not_to receive(:write)
+        # Context is now persisted even on failure so follow-up confirmations have history
+        expect(Rails.cache).to receive(:write).with(/ai_context_history/, anything, expires_in: 1.hour)
 
         result = handler.process_request("do mixed things")
         expect(result["success"]).to be false
@@ -511,8 +513,10 @@ RSpec.describe AiCommandHandler do
           expect(result).to eq({ "command" => nil, "response" => final_response_message, "success" => false })
         end
 
-        it 'does not save the context on failure' do # Renamed for clarity
-          expect(handler).not_to receive(:save_context) # Should not save on failure
+        it 'still saves the context on failure so follow-up confirmations have history' do
+          expect(handler).to receive(:save_context)
+            .with(request_text, hash_including("success" => false))
+            .once
           handler.process_request(request_text)
         end
       end
@@ -602,8 +606,10 @@ RSpec.describe AiCommandHandler do
           expect(result).to eq({ "command" => nil, "response" => final_response_message, "success" => false })
         end
 
-        it 'does not save the context on failure' do # Renamed for clarity
-          expect(handler).not_to receive(:save_context)
+        it 'still saves the context on failure so follow-up confirmations have history' do
+          expect(handler).to receive(:save_context)
+            .with(request_text, hash_including("success" => false))
+            .once
           handler.process_request(request_text)
         end
       end
@@ -658,11 +664,83 @@ RSpec.describe AiCommandHandler do
           expect(result).to eq({ "command" => nil, "response" => final_response_message, "success" => false })
         end
 
-        it 'does not save the context on error' do # Renamed for clarity
-          expect(handler).not_to receive(:save_context) # Should not save on failure
+        it 'still saves the context on error so follow-up confirmations have history' do
+          expect(handler).to receive(:save_context)
+            .with(request_text, hash_including("success" => false))
+            .once
           handler.process_request(request_text)
         end
       end
+    end
+  end
+
+  describe 'conversation history replay' do
+    before do
+      allow(reservation.server).to receive(:rcon_exec)
+      allow(reservation.server).to receive(:rcon_say)
+      allow(LeagueMaps).to receive(:grouped_league_maps).and_return([])
+    end
+
+    it 'replays prior turns (including failed clarifications) as submit_server_action tool call/result pairs' do
+      history = [
+        { "request" => "change to gully", "response" => "Right then.", "command" => "changelevel cp_gullywash_f9", "success" => true },
+        { "request" => "rename blue team?", "response" => "Which name do you want?", "command" => nil, "success" => false }
+      ]
+      allow(handler).to receive(:get_previous_context).and_return(history)
+
+      captured_messages = nil
+      allow(OpenaiClient).to receive(:chat) do |args|
+        captured_messages = args[:messages]
+        build_openai_submit_response({ command: nil, response: "ok", success: true })
+      end
+
+      handler.process_request("yes")
+
+      assistant_tool_calls = captured_messages
+        .select { |m| m[:role] == "assistant" }
+        .flat_map { |m| m[:tool_calls] || [] }
+      tool_messages = captured_messages.select { |m| m[:role] == "tool" }
+
+      expect(assistant_tool_calls.size).to eq(2)
+      expect(assistant_tool_calls.map { |tc| tc[:function][:name] }).to all(eq("submit_server_action"))
+      # every assistant tool_call is answered by a matching tool result (valid OpenAI message order)
+      expect(tool_messages.map { |m| m[:tool_call_id] }).to match_array(assistant_tool_calls.map { |tc| tc[:id] })
+
+      # the failed clarification is preserved so a bare "yes" has context to confirm against
+      replayed = assistant_tool_calls.map { |tc| JSON.parse(tc[:function][:arguments]) }
+      expect(replayed).to include(hash_including("success" => false, "response" => "Which name do you want?", "command" => nil))
+    end
+  end
+
+  describe '#save_context' do
+    let(:store) { ActiveSupport::Cache::MemoryStore.new }
+
+    before { allow(Rails).to receive(:cache).and_return(store) }
+
+    it 'persists a failed clarification turn so follow-ups can resolve it' do
+      handler.send(:save_context, "rename blue team?", { "response" => "Which name?", "command" => nil, "success" => false })
+
+      saved = store.read("ai_context_history:#{reservation.id}")
+      expect(saved.last).to include("request" => "rename blue team?", "command" => nil, "success" => false)
+    end
+  end
+
+  describe 'system prompt safety rails' do
+    before { allow(LeagueMaps).to receive(:grouped_league_maps).and_return([]) }
+
+    let(:prompt) { handler.send(:system_prompt, reservation) }
+
+    it 'documents the destructive-guessing, no-substitution, scope and confirmation rules' do
+      expect(prompt).to include("NO DESTRUCTIVE GUESSING")
+      expect(prompt).to include("NO SUBSTITUTING A DIFFERENT ACTION")
+      expect(prompt).to include('move to spectator')
+      expect(prompt).to include("CONFIRMATIONS")
+      expect(prompt).to include("EXACT COMMANDS")
+    end
+
+    it 'documents the whitelist-id and per-player rename rules' do
+      expect(prompt).to include("tftrue_whitelist_id 18740")
+      expect(prompt).to include("one sm_rename per userid")
     end
   end
 end

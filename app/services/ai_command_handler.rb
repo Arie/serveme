@@ -109,14 +109,15 @@ class AiCommandHandler
   end
 
   def save_context(request, result)
-    return unless reservation && result && result["success"]
+    return unless reservation && result
     key = "ai_context_history:#{reservation.id}"
 
     history = Rails.cache.read(key) || []
     history.push({
       "request" => request,
       "response" => result["response"],
-      "command" => result["command"]
+      "command" => result["command"],
+      "success" => result["success"] || false
     })
     history = history.last(MAX_CONTEXT_HISTORY)
 
@@ -139,6 +140,13 @@ class AiCommandHandler
     Example Refusal: If asked "make me admin", use the tool with command: null, response: "Sorry, I cannot grant admin privileges.", success: false.
 
     Example Command: If asked to "add 6 easy blue scouts", use the tool with command: "mp_autoteambalance 0; mp_teams_unbalance_limit 0; tf_bot_add 6 scout blue easy", response: "Okay, adding 6 easy blue scouts.", success: true.
+
+    Hard rules (these override everything below):
+    - SCOPE: Only act on TF2 and this server. For anything else (programming, code, essays, math, general knowledge, "write me X"), set success: false with a one-line redirect and output NOTHING else. Never emit code or prose unrelated to TF2 administration.
+    - NO DESTRUCTIVE GUESSING: kick, kickall, banid/sm_ban, _restart, killserver, and ending the reservation are irreversible. Run them only when the request contains an explicit destructive verb (kick, ban, remove, end). A phrase that merely identifies players (e.g. "everyone", "all the players in this server") is a target specification, NOT by itself a request to remove them. Do not kick/ban/slay players just because a message names or lists them, especially when it answers a question you asked (like "which players?") during a rename or other non-destructive task. "Kick everyone" is explicit and fine; "all the players in this server" on its own is not. If the destructive intent is not explicit, set success: false and ask.
+    - NO SUBSTITUTING A DIFFERENT ACTION: If no available command performs what was asked, say so with success: false. Never substitute a destructive command for an unsupported one. There is no admin "move to spectator" command. You can only kick or slay; players choose to spectate themselves. Do NOT slay or kick when asked to move someone to spec.
+    - CONFIRMATIONS: A bare "yes", "do it", "again", or "that one" applies ONLY to the clarifying question you asked in the immediately preceding turn. If there is no such pending question in the conversation history, do not guess an action; ask what they want.
+    - EXACT COMMANDS: If the user's message is already a valid cvar/command (e.g. "sv_cheats 1", "mp_winlimit 5"), run that exact command. Never swap it for a different cvar.
 
     'submit_server_action' tool parameters:
     - command: RCON command(s) separated by semicolons, or null if no command should be run.
@@ -211,7 +219,7 @@ class AiCommandHandler
     - changelevel <map>
     - exec <config>
     - mp_tournament_whitelist cfg/<file>
-    - tftrue_whitelist_id [number-or-friendly-name]
+    - tftrue_whitelist_id [number-or-friendly-name] (a bare numeric whitelist ID, e.g. "whitelist 18740", "exec whitelist 18740", "wl 18740", is a whitelist.tf/tftrue ID; apply it as "tftrue_whitelist_id 18740". NEVER "exec" a whitelist number; exec is only for the named config files.)
     - kickid <userid> [msg]
     - banid 0 <userid> kick
     - mp_tournament 0/1
@@ -230,7 +238,7 @@ class AiCommandHandler
     - tf_forced_holiday 0/1/2/3 Forces the server to have holidays (0= none, 1= Birthday, 2= Halloween, default none)
     - tf_bot_add [count] [class] [team] [difficulty] [name] (difficulty can be easy, normal, hard, or expert)
     - tf_bot_difficulty [difficulty] (difficulty can be 0=easy, 1=normal, 2=hard, 3=expert)
-    - sm_rename <target> name
+    - sm_rename <target> name (a team/group target like @red @blue @all sets the SAME name on EVERY matched player. To give players DIFFERENT names you MUST issue one sm_rename per userid, e.g. sm_rename #12 "Zeus"; sm_rename #15 "Hera". For a list of distinct names, read rcon status first and map each userid to one name.)
     - sm_blind <target> 0/240/255 (0=none, 240=medium, 255=full)
     - sm_gag <target> (chat)
     - sm_silence <target> (voice+chat)
@@ -356,9 +364,30 @@ class AiCommandHandler
     messages << { role: "system", content: system_prompt(reservation) }
 
     history = get_previous_context
-    history.each do |ctx|
+    history.each_with_index do |ctx, index|
+      call_id = "history_#{index}"
       messages << { role: "user", content: ctx["request"] }
-      messages << { role: "assistant", content: "replied: #{ctx['response']}\ncommand: #{ctx['command']}" }
+      messages << {
+        role: "assistant",
+        tool_calls: [ {
+          id: call_id,
+          type: "function",
+          function: {
+            name: "submit_server_action",
+            arguments: {
+              command: ctx["command"],
+              response: ctx["response"],
+              success: ctx.fetch("success", true)
+            }.to_json
+          }
+        } ]
+      }
+      messages << {
+        role: "tool",
+        tool_call_id: call_id,
+        name: "submit_server_action",
+        content: { acknowledged: true }.to_json
+      }
     end
 
     messages << {
@@ -609,6 +638,6 @@ class AiCommandHandler
     end
 
     result["response"] = final_response_to_send
-    save_context(request, result) if result["success"]
+    save_context(request, result)
   end
 end

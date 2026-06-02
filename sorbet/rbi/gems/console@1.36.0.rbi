@@ -486,6 +486,7 @@ class Console::Filter
 end
 
 # @namespace
+# @namespace
 #
 # pkg:gem/console#lib/console/format/safe.rb:10
 module Console::Format
@@ -494,59 +495,124 @@ module Console::Format
     #
     # @returns [Console::Format::Safe]
     #
-    # pkg:gem/console#lib/console/format.rb:13
+    # pkg:gem/console#lib/console/format.rb:14
     def default; end
   end
 end
 
 # A safe format for converting objects to strings.
 #
-# Handles issues like circular references and encoding errors.
+# Handles issues like circular references, encoding errors, excessive nesting depth, and excessive output size.
 #
 # pkg:gem/console#lib/console/format/safe.rb:14
 class Console::Format::Safe
   # Create a new safe format.
   #
   # @parameter format [JSON] The format to use for serialization.
-  # @parameter limit [Integer] The maximum depth to recurse into objects.
+  # @parameter depth_limit [Integer] The maximum depth to recurse into objects (the JSON `max_nesting`).
+  # @parameter size_limit [Integer | Nil] The maximum byte size of the serialized output, or `nil` to disable size limiting. Limits below {TRUNCATED} (the minimal marker) cannot be honoured.
   # @parameter encoding [Encoding] The encoding to use for strings.
+  # @parameter limit [Integer | Nil] Deprecated alias for `depth_limit`.
   #
-  # pkg:gem/console#lib/console/format/safe.rb:20
-  def initialize(format: T.unsafe(nil), limit: T.unsafe(nil), encoding: T.unsafe(nil)); end
+  # pkg:gem/console#lib/console/format/safe.rb:25
+  def initialize(format: T.unsafe(nil), depth_limit: T.unsafe(nil), size_limit: T.unsafe(nil), encoding: T.unsafe(nil), limit: T.unsafe(nil)); end
+
+  # @attribute [Integer] The maximum depth to recurse into objects.
+  #
+  # pkg:gem/console#lib/console/format/safe.rb:38
+  def depth_limit; end
 
   # Dump the given object to a string.
+  #
+  # The common case is a single fast serialization. If that fails (e.g. circular
+  # references, excessive nesting, or encoding errors) or its output exceeds
+  # {size_limit}, it falls back to {safe_dump}, which rebuilds the record
+  # field-by-field within the limit.
   #
   # @parameter object [Object] The object to dump.
   # @returns [String] The dumped object.
   #
-  # pkg:gem/console#lib/console/format/safe.rb:30
+  # pkg:gem/console#lib/console/format/safe.rb:52
   def dump(object); end
+
+  # @attribute [Integer | Nil] The maximum byte size of the serialized output.
+  #
+  # pkg:gem/console#lib/console/format/safe.rb:41
+  def size_limit; end
 
   private
 
   # Create a new hash with identity comparison.
   #
-  # pkg:gem/console#lib/console/format/safe.rb:100
+  # pkg:gem/console#lib/console/format/safe.rb:227
   def default_objects; end
+
+  # Serialize a single top-level `"key":value` pair, safely handling values that
+  # cannot be serialized directly.
+  #
+  # @parameter key [Object] The field key.
+  # @parameter value [Object] The field value.
+  # @returns [Array(String, Exception | Nil)] The `"key":value` fragment and the error, if recovery was needed.
+  #
+  # pkg:gem/console#lib/console/format/safe.rb:149
+  def dump_pair(key, value); end
+
+  # Serialize a string as a JSON string, encoding it safely first.
+  #
+  # @parameter value [String] The string to serialize.
+  # @returns [String] The serialized (quoted) string.
+  #
+  # pkg:gem/console#lib/console/format/safe.rb:169
+  def dump_string(value); end
+
+  # Serialize a single value, falling back to a safe representation on failure.
+  #
+  # @parameter value [Object] The value to serialize.
+  # @returns [Array(String, Exception | Nil)] The serialized value and the error, if recovery was needed.
+  #
+  # pkg:gem/console#lib/console/format/safe.rb:159
+  def dump_value(value); end
+
+  # Build a safe, primitive representation of an error for inclusion as an `"error"` field.
+  #
+  # @parameter error [Exception] The error that occurred while dumping the object.
+  # @returns [Hash] The error details (class, message, filtered backtrace).
+  #
+  # pkg:gem/console#lib/console/format/safe.rb:218
+  def error_info(error); end
 
   # Filter the backtrace to remove duplicate frames and reduce verbosity.
   #
   # @parameter error [Exception] The exception to filter.
   # @returns [Array(String)] The filtered backtrace.
   #
-  # pkg:gem/console#lib/console/format/safe.rb:42
+  # pkg:gem/console#lib/console/format/safe.rb:177
   def filter_backtrace(error); end
 
-  # Dump the given object to a string, replacing it with a safe representation if there is an error.
+  # Produce a safe, size-limited serialization of the given object. This is the
+  # fallback path, used both when direct serialization fails (an exception) and
+  # when its output exceeds {size_limit}.
   #
-  # This is a slow path so we try to avoid it.
+  # Each top-level value is serialized independently and defensively, so a single
+  # un-serializable or oversized value cannot break or bloat the whole record.
+  # Whenever a field is degraded, the reason is recorded in a trailing `"truncated"`
+  # object that maps the field name to why it was truncated:
   #
-  # @parameter object [Object] The object to dump.
-  # @parameter error [Exception] The error that occurred while dumping the object.
-  # @returns [Hash] The dumped (truncated) object including error details.
+  # - `"key": true` — the value was dropped because it did not fit the size limit.
+  # - `"key": {error}` — the value could not be serialized directly; a safe
+  #   representation was kept in its place and the triggering error is recorded.
   #
-  # pkg:gem/console#lib/console/format/safe.rb:86
-  def safe_dump(object, error); end
+  # Fields are kept while they fit, always reserving room for at least a minimal
+  # `"truncated":true` marker. The detailed reason map is then emitted only if it
+  # fits in the remaining space; otherwise it degrades to `"truncated":true`. This
+  # is best-effort — in the worst case the per-field detail is lost — but it keeps
+  # the bookkeeping simple and the size guarantee hard.
+  #
+  # @parameter object [Object] The object to serialize.
+  # @returns [String] The safe, size-limited serialized record.
+  #
+  # pkg:gem/console#lib/console/format/safe.rb:87
+  def safe_dump(object); end
 
   # This will recursively generate a safe version of the object. Nested hashes and arrays will be transformed recursively. Strings will be encoded with the given encoding. Primitive values will be returned as-is. Other values will be converted using `as_json` if available, otherwise `to_s`.
   #
@@ -555,9 +621,14 @@ class Console::Format::Safe
   # @parameter objects [Hash] The objects that have already been visited.
   # @returns [Object] The dumped object as a primitive representation.
   #
-  # pkg:gem/console#lib/console/format/safe.rb:110
+  # pkg:gem/console#lib/console/format/safe.rb:237
   def safe_dump_recurse(object, limit = T.unsafe(nil), objects = T.unsafe(nil)); end
 end
+
+# The JSON fragment used as the truncation marker when dropped fields cannot be named.
+#
+# pkg:gem/console#lib/console/format/safe.rb:16
+Console::Format::Safe::TRUNCATED = T.let(T.unsafe(nil), String)
 
 # The public logger interface.
 #

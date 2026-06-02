@@ -7,22 +7,22 @@
 
 # Abstract strategy class for orm adapter gems to subclass
 #
-# pkg:gem/database_cleaner-core#lib/database_cleaner/version.rb:1
+# pkg:gem/database_cleaner-core#lib/database_cleaner/version.rb:3
 module DatabaseCleaner
   class << self
     # pkg:gem/database_cleaner-core#lib/database_cleaner/core.rb:8
     def [](*_arg0, **_arg1, &_arg2); end
 
-    # pkg:gem/database_cleaner-core#lib/database_cleaner/core.rb:17
+    # pkg:gem/database_cleaner-core#lib/database_cleaner/core.rb:18
     def allow_production; end
 
-    # pkg:gem/database_cleaner-core#lib/database_cleaner/core.rb:17
+    # pkg:gem/database_cleaner-core#lib/database_cleaner/core.rb:18
     def allow_production=(_arg0); end
 
-    # pkg:gem/database_cleaner-core#lib/database_cleaner/core.rb:17
+    # pkg:gem/database_cleaner-core#lib/database_cleaner/core.rb:18
     def allow_remote_database_url; end
 
-    # pkg:gem/database_cleaner-core#lib/database_cleaner/core.rb:17
+    # pkg:gem/database_cleaner-core#lib/database_cleaner/core.rb:18
     def allow_remote_database_url=(_arg0); end
 
     # pkg:gem/database_cleaner-core#lib/database_cleaner/core.rb:8
@@ -31,10 +31,10 @@ module DatabaseCleaner
     # pkg:gem/database_cleaner-core#lib/database_cleaner/core.rb:8
     def clean_with(*_arg0, **_arg1, &_arg2); end
 
-    # pkg:gem/database_cleaner-core#lib/database_cleaner/core.rb:22
+    # pkg:gem/database_cleaner-core#lib/database_cleaner/core.rb:23
     def cleaners; end
 
-    # pkg:gem/database_cleaner-core#lib/database_cleaner/core.rb:25
+    # pkg:gem/database_cleaner-core#lib/database_cleaner/core.rb:26
     def cleaners=(_arg0); end
 
     # pkg:gem/database_cleaner-core#lib/database_cleaner/core.rb:8
@@ -44,18 +44,21 @@ module DatabaseCleaner
     def start(*_arg0, **_arg1, &_arg2); end
 
     # pkg:gem/database_cleaner-core#lib/database_cleaner/core.rb:8
+    def strategy(*_arg0, **_arg1, &_arg2); end
+
+    # pkg:gem/database_cleaner-core#lib/database_cleaner/core.rb:8
     def strategy=(*_arg0, **_arg1, &_arg2); end
 
-    # pkg:gem/database_cleaner-core#lib/database_cleaner/core.rb:17
+    # pkg:gem/database_cleaner-core#lib/database_cleaner/core.rb:18
     def url_allowlist; end
 
-    # pkg:gem/database_cleaner-core#lib/database_cleaner/core.rb:17
+    # pkg:gem/database_cleaner-core#lib/database_cleaner/core.rb:18
     def url_allowlist=(_arg0); end
 
-    # pkg:gem/database_cleaner-core#lib/database_cleaner/core.rb:19
+    # pkg:gem/database_cleaner-core#lib/database_cleaner/core.rb:20
     def url_whitelist; end
 
-    # pkg:gem/database_cleaner-core#lib/database_cleaner/core.rb:20
+    # pkg:gem/database_cleaner-core#lib/database_cleaner/core.rb:21
     def url_whitelist=(_arg0); end
   end
 end
@@ -141,27 +144,46 @@ class DatabaseCleaner::Cleaners < ::Hash
   # pkg:gem/database_cleaner-core#lib/database_cleaner/cleaners.rb:11
   def [](orm, **opts); end
 
-  # pkg:gem/database_cleaner-core#lib/database_cleaner/cleaners.rb:26
+  # pkg:gem/database_cleaner-core#lib/database_cleaner/cleaners.rb:45
   def clean; end
 
-  # pkg:gem/database_cleaner-core#lib/database_cleaner/cleaners.rb:38
+  # pkg:gem/database_cleaner-core#lib/database_cleaner/cleaners.rb:57
   def clean_with(*args); end
 
-  # pkg:gem/database_cleaner-core#lib/database_cleaner/cleaners.rb:31
+  # pkg:gem/database_cleaner-core#lib/database_cleaner/cleaners.rb:50
   def cleaning(&inner_block); end
 
-  # pkg:gem/database_cleaner-core#lib/database_cleaner/cleaners.rb:21
+  # pkg:gem/database_cleaner-core#lib/database_cleaner/cleaners.rb:40
   def start; end
 
-  # pkg:gem/database_cleaner-core#lib/database_cleaner/cleaners.rb:16
+  # It returns a hash with all the strategies associated with
+  # all the cleaners.
+  #
+  # For example:
+  #
+  # ```
+  # cleaners.strategy
+  # => {
+  #      :active_record_1 => :truncation,
+  #      :active_record_2 => :truncation,
+  #      :data_mapper_1 => :truncation
+  # }
+  # ```
+  #
+  # @return [Hash]
+  #
+  # pkg:gem/database_cleaner-core#lib/database_cleaner/cleaners.rb:31
+  def strategy; end
+
+  # pkg:gem/database_cleaner-core#lib/database_cleaner/cleaners.rb:35
   def strategy=(strategy); end
 
   private
 
-  # pkg:gem/database_cleaner-core#lib/database_cleaner/cleaners.rb:45
+  # pkg:gem/database_cleaner-core#lib/database_cleaner/cleaners.rb:64
   def add_cleaner(orm, **opts); end
 
-  # pkg:gem/database_cleaner-core#lib/database_cleaner/cleaners.rb:49
+  # pkg:gem/database_cleaner-core#lib/database_cleaner/cleaners.rb:68
   def remove_duplicates; end
 end
 
@@ -180,88 +202,88 @@ class DatabaseCleaner::NullStrategy
   def start; end
 end
 
-# pkg:gem/database_cleaner-core#lib/database_cleaner/safeguard.rb:2
+# pkg:gem/database_cleaner-core#lib/database_cleaner/safeguard.rb:4
 class DatabaseCleaner::Safeguard
-  # pkg:gem/database_cleaner-core#lib/database_cleaner/safeguard.rb:103
+  # pkg:gem/database_cleaner-core#lib/database_cleaner/safeguard.rb:105
   def run; end
 end
 
-# pkg:gem/database_cleaner-core#lib/database_cleaner/safeguard.rb:23
+# pkg:gem/database_cleaner-core#lib/database_cleaner/safeguard.rb:25
 class DatabaseCleaner::Safeguard::AllowedUrl
-  # pkg:gem/database_cleaner-core#lib/database_cleaner/safeguard.rb:24
+  # pkg:gem/database_cleaner-core#lib/database_cleaner/safeguard.rb:26
   def run; end
 
   private
 
-  # pkg:gem/database_cleaner-core#lib/database_cleaner/safeguard.rb:31
+  # pkg:gem/database_cleaner-core#lib/database_cleaner/safeguard.rb:33
   def database_url_not_allowed?; end
 
-  # pkg:gem/database_cleaner-core#lib/database_cleaner/safeguard.rb:35
+  # pkg:gem/database_cleaner-core#lib/database_cleaner/safeguard.rb:37
   def skip?; end
 end
 
-# pkg:gem/database_cleaner-core#lib/database_cleaner/safeguard.rb:97
+# pkg:gem/database_cleaner-core#lib/database_cleaner/safeguard.rb:99
 DatabaseCleaner::Safeguard::CHECKS = T.let(T.unsafe(nil), Array)
 
-# pkg:gem/database_cleaner-core#lib/database_cleaner/safeguard.rb:3
+# pkg:gem/database_cleaner-core#lib/database_cleaner/safeguard.rb:5
 class DatabaseCleaner::Safeguard::Error < ::Exception; end
 
-# pkg:gem/database_cleaner-core#lib/database_cleaner/safeguard.rb:10
+# pkg:gem/database_cleaner-core#lib/database_cleaner/safeguard.rb:12
 class DatabaseCleaner::Safeguard::Error::ProductionEnv < ::DatabaseCleaner::Safeguard::Error
-  # pkg:gem/database_cleaner-core#lib/database_cleaner/safeguard.rb:11
+  # pkg:gem/database_cleaner-core#lib/database_cleaner/safeguard.rb:13
   def initialize(env); end
 end
 
-# pkg:gem/database_cleaner-core#lib/database_cleaner/safeguard.rb:4
+# pkg:gem/database_cleaner-core#lib/database_cleaner/safeguard.rb:6
 class DatabaseCleaner::Safeguard::Error::RemoteDatabaseUrl < ::DatabaseCleaner::Safeguard::Error
-  # pkg:gem/database_cleaner-core#lib/database_cleaner/safeguard.rb:5
+  # pkg:gem/database_cleaner-core#lib/database_cleaner/safeguard.rb:7
   def initialize; end
 end
 
-# pkg:gem/database_cleaner-core#lib/database_cleaner/safeguard.rb:16
+# pkg:gem/database_cleaner-core#lib/database_cleaner/safeguard.rb:18
 class DatabaseCleaner::Safeguard::Error::UrlNotAllowed < ::DatabaseCleaner::Safeguard::Error
-  # pkg:gem/database_cleaner-core#lib/database_cleaner/safeguard.rb:17
+  # pkg:gem/database_cleaner-core#lib/database_cleaner/safeguard.rb:19
   def initialize; end
 end
 
-# pkg:gem/database_cleaner-core#lib/database_cleaner/safeguard.rb:74
+# pkg:gem/database_cleaner-core#lib/database_cleaner/safeguard.rb:76
 class DatabaseCleaner::Safeguard::Production
-  # pkg:gem/database_cleaner-core#lib/database_cleaner/safeguard.rb:77
+  # pkg:gem/database_cleaner-core#lib/database_cleaner/safeguard.rb:79
   def run; end
 
   private
 
-  # pkg:gem/database_cleaner-core#lib/database_cleaner/safeguard.rb:83
+  # pkg:gem/database_cleaner-core#lib/database_cleaner/safeguard.rb:85
   def given?; end
 
-  # pkg:gem/database_cleaner-core#lib/database_cleaner/safeguard.rb:87
+  # pkg:gem/database_cleaner-core#lib/database_cleaner/safeguard.rb:89
   def key; end
 
-  # pkg:gem/database_cleaner-core#lib/database_cleaner/safeguard.rb:91
+  # pkg:gem/database_cleaner-core#lib/database_cleaner/safeguard.rb:93
   def skip?; end
 end
 
-# pkg:gem/database_cleaner-core#lib/database_cleaner/safeguard.rb:75
+# pkg:gem/database_cleaner-core#lib/database_cleaner/safeguard.rb:77
 DatabaseCleaner::Safeguard::Production::KEYS = T.let(T.unsafe(nil), Array)
 
-# pkg:gem/database_cleaner-core#lib/database_cleaner/safeguard.rb:41
+# pkg:gem/database_cleaner-core#lib/database_cleaner/safeguard.rb:43
 class DatabaseCleaner::Safeguard::RemoteDatabaseUrl
-  # pkg:gem/database_cleaner-core#lib/database_cleaner/safeguard.rb:44
+  # pkg:gem/database_cleaner-core#lib/database_cleaner/safeguard.rb:46
   def run; end
 
   private
 
-  # pkg:gem/database_cleaner-core#lib/database_cleaner/safeguard.rb:50
+  # pkg:gem/database_cleaner-core#lib/database_cleaner/safeguard.rb:53
   def given?; end
 
-  # pkg:gem/database_cleaner-core#lib/database_cleaner/safeguard.rb:54
+  # pkg:gem/database_cleaner-core#lib/database_cleaner/safeguard.rb:57
   def remote?(url); end
 
-  # pkg:gem/database_cleaner-core#lib/database_cleaner/safeguard.rb:67
+  # pkg:gem/database_cleaner-core#lib/database_cleaner/safeguard.rb:69
   def skip?; end
 end
 
-# pkg:gem/database_cleaner-core#lib/database_cleaner/safeguard.rb:42
+# pkg:gem/database_cleaner-core#lib/database_cleaner/safeguard.rb:44
 DatabaseCleaner::Safeguard::RemoteDatabaseUrl::LOCAL = T.let(T.unsafe(nil), Array)
 
 # pkg:gem/database_cleaner-core#lib/database_cleaner/strategy.rb:4
@@ -294,5 +316,5 @@ end
 # pkg:gem/database_cleaner-core#lib/database_cleaner/cleaner.rb:6
 class DatabaseCleaner::UnknownStrategySpecified < ::ArgumentError; end
 
-# pkg:gem/database_cleaner-core#lib/database_cleaner/version.rb:2
+# pkg:gem/database_cleaner-core#lib/database_cleaner/version.rb:4
 DatabaseCleaner::VERSION = T.let(T.unsafe(nil), String)

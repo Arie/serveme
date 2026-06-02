@@ -147,10 +147,10 @@ class Sentry::Sidekiq::ErrorHandler
   # Tries to fetch the retry limit from the job config first,
   # then falls back to Sidekiq's configuration.
   #
-  # pkg:gem/sentry-sidekiq#lib/sentry/sidekiq/error_handler.rb:70
+  # pkg:gem/sentry-sidekiq#lib/sentry/sidekiq/error_handler.rb:74
   def retry_limit(context, sidekiq_config); end
 
-  # pkg:gem/sentry-sidekiq#lib/sentry/sidekiq/error_handler.rb:61
+  # pkg:gem/sentry-sidekiq#lib/sentry/sidekiq/error_handler.rb:65
   def retryable?(context); end
 end
 

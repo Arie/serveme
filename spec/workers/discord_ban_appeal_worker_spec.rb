@@ -96,6 +96,60 @@ describe DiscordBanAppealWorker do
       end
     end
 
+    context "when enrichment data exceeds Discord embed field limits" do
+      let(:many_alts) do
+        Array.new(15) do |i|
+          {
+            steam_uid: "765611980000000#{i.to_s.rjust(2, '0')}",
+            name: "AltAccountWithAFairlyLongDisplayName#{i}",
+            region: "eu",
+            reservation_count: 12,
+            banned: true,
+            ban_reason: "cheating, with a reason long enough to take up space"
+          }
+        end
+      end
+
+      before do
+        allow_any_instance_of(BanAppealEnrichmentService).to receive(:collect).and_return({
+          found: true,
+          steam_uid: "76561198012345678",
+          nickname: "BannedPlayer",
+          banned: true,
+          ban_reason: "cheating",
+          reservation_count: 42,
+          first_seen: "2023-01-15",
+          last_seen: "2025-12-01",
+          regions: [ "eu" ],
+          ips: [],
+          alts: many_alts,
+          ip_lookups: [],
+          stac_detections: []
+        })
+      end
+
+      it "truncates field values to Discord's 1024 character limit" do
+        stub_request(:post, "https://discord.com/api/v10/channels/appeals_channel_123/threads")
+          .to_return(status: 200, body: { id: thread_id }.to_json)
+        stub_request(:put, "https://discord.com/api/v10/channels/#{thread_id}/thread-members/#{discord_user_id}")
+          .to_return(status: 204)
+        stub_request(:post, "https://discord.com/api/v10/channels/#{thread_id}/messages")
+          .to_return(status: 200, body: { id: "msg_user_123" }.to_json)
+        stub_request(:post, "https://discord.com/api/v10/channels/admin_channel_456/messages")
+          .to_return(status: 200, body: { id: admin_message_id }.to_json)
+        stub_request(:patch, "https://discord.com/api/v10/webhooks/client_123/#{interaction_token}/messages/@original")
+          .to_return(status: 200, body: "{}".to_json)
+
+        described_class.new.perform(user.id, discord_user_id, interaction_token)
+
+        expect(WebMock).to have_requested(:post, "https://discord.com/api/v10/channels/admin_channel_456/messages")
+          .with { |req|
+            embeds = JSON.parse(req.body)["embeds"]
+            embeds.all? { |embed| (embed["fields"] || []).all? { |field| field["value"].length <= 1024 } }
+          }
+      end
+    end
+
     context "when user is not found on any region" do
       before do
         allow_any_instance_of(BanAppealEnrichmentService).to receive(:collect).and_return({ found: false })

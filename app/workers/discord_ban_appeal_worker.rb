@@ -8,6 +8,7 @@ class DiscordBanAppealWorker
 
   COOLDOWN_TTL = 86_400 # 24 hours
   OPEN_APPEAL_TTL = 604_800 # 7 days
+  DISCORD_FIELD_VALUE_LIMIT = 1024 # Discord rejects embed field values longer than this
 
   def perform(user_id, discord_user_id, interaction_token)
     user = User.find_by(id: user_id)
@@ -87,7 +88,7 @@ class DiscordBanAppealWorker
     embed = {
       title: "Ban Appeal",
       color: 0xFFA500,
-      fields: fields
+      fields: truncate_field_values(fields)
     }
 
     DiscordApiClient.send_message(channel_id: thread_id, embeds: [ embed ])
@@ -156,7 +157,7 @@ class DiscordBanAppealWorker
     embed = {
       title: "Ban Appeal - #{enrichment[:nickname]}",
       color: 0xFF0000,
-      fields: fields
+      fields: truncate_field_values(fields)
     }
 
     components = [
@@ -183,6 +184,22 @@ class DiscordBanAppealWorker
     DiscordApiClient.update_interaction_response(interaction_token: interaction_token, content: content)
   rescue StandardError => e
     Rails.logger.warn "[BanAppeal] Failed to update interaction: #{e.message}"
+  end
+
+  # Discord rejects the whole message (400) if any embed field value exceeds
+  # DISCORD_FIELD_VALUE_LIMIT, so clamp each value, preferring to cut on a line
+  # boundary to avoid breaking markdown links mid-URL.
+  def truncate_field_values(fields)
+    fields.map do |field|
+      value = field[:value].to_s
+      next field if value.length <= DISCORD_FIELD_VALUE_LIMIT
+
+      ellipsis = "\n…"
+      cutoff = value[0, DISCORD_FIELD_VALUE_LIMIT - ellipsis.length]
+      last_newline = cutoff.rindex("\n")
+      cutoff = cutoff[0, last_newline] if last_newline
+      field.merge(value: "#{cutoff}#{ellipsis}")
+    end
   end
 
   def region_base_url(region)

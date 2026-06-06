@@ -1,10 +1,10 @@
 # SEA — 15.235.200.251 (OVH VPS Singapore, 2C/3.7G/50G). Pulls images from
 # ghcr.io like other regions; no local builder.
 servers:
-  web:         { hosts: [15.235.200.251] }
-  sidekiq:     { hosts: [15.235.200.251] }
-  discord_bot: { hosts: [15.235.200.251] }
-  logdaemon:   { hosts: [15.235.200.251] }
+  web:         { hosts: [direct.sea.serveme.tf] }
+  sidekiq:     { hosts: [direct.sea.serveme.tf] }
+  discord_bot: { hosts: [direct.sea.serveme.tf] }
+  logdaemon:   { hosts: [direct.sea.serveme.tf] }
 
 proxy:
   hosts:

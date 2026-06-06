@@ -1,6 +1,6 @@
 servers:
   web:
-    hosts: [15.235.200.251]
+    hosts: [direct.sea.serveme.tf]
 
 proxy:
   hosts:

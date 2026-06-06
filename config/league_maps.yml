@@ -36,7 +36,7 @@ league_maps:
   active: true
   maps:
   - ultiduo_baloo_v2
-  - ultiduo_champions_b1
+  - ulti_signal_a6
   - ultiduo_ozf_r
   - ultiduo_swine_b06
 - name: ozfortress 6v6

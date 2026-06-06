@@ -101,7 +101,7 @@ module Bootsnap::CompileCache::ISeq
     # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:13
     def cache_dir=(cache_dir); end
 
-    # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:197
+    # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:199
     def compile_option_updated; end
 
     # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:11
@@ -110,7 +110,7 @@ module Bootsnap::CompileCache::ISeq
     # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:11
     def compiler_selector=(_arg0); end
 
-    # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:176
+    # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:178
     def coverage_on?; end
 
     # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:11
@@ -119,13 +119,13 @@ module Bootsnap::CompileCache::ISeq
     # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:11
     def default_compiler=(_arg0); end
 
-    # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:132
+    # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:134
     def fetch(path, cache_dir: T.unsafe(nil)); end
 
-    # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:205
+    # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:207
     def install!(cache_dir); end
 
-    # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:161
+    # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:163
     def precompile(path); end
 
     # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:17
@@ -133,7 +133,7 @@ module Bootsnap::CompileCache::ISeq
   end
 end
 
-# pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:127
+# pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:129
 Bootsnap::CompileCache::ISeq::COVERAGE_SUPPORTED = T.let(T.unsafe(nil), FalseClass)
 
 # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:23
@@ -141,43 +141,43 @@ class Bootsnap::CompileCache::ISeq::Compiler
   # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:26
   def initialize(namespace = T.unsafe(nil), compile_options = T.unsafe(nil)); end
 
-  # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:108
+  # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:110
   def input_to_output(source, path, _kwargs); end
 
-  # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:88
+  # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:90
   def input_to_storage(_, path); end
 
   # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:24
   def namespace; end
 
-  # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:95
+  # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:97
   def storage_to_output(binary, _args); end
 
   # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:32
   def update_options; end
 end
 
-# pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:61
+# pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:63
 module Bootsnap::CompileCache::ISeq::Compiler::PatchRubyBug22023
-  # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:62
+  # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:64
   def compile_file(path, options = T.unsafe(nil)); end
 
-  # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:72
+  # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:74
   def compile_file_prism(path, options = T.unsafe(nil)); end
 end
 
-# pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:125
+# pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:127
 Bootsnap::CompileCache::ISeq::DEFAULT = T.let(T.unsafe(nil), Bootsnap::CompileCache::ISeq::Compiler)
 
-# pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:126
+# pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:128
 Bootsnap::CompileCache::ISeq::FROZEN_STRING_LITERAL = T.let(T.unsafe(nil), Bootsnap::CompileCache::ISeq::Compiler)
 
-# pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:181
+# pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:183
 module Bootsnap::CompileCache::ISeq::InstructionSequenceMixin
-  # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:191
+  # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:193
   def compile_option=(hash); end
 
-  # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:182
+  # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:184
   def load_iseq(path); end
 end
 

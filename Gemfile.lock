@@ -25,7 +25,7 @@ GIT
 
 GIT
   remote: https://github.com/Shopify/tapioca.git
-  revision: 0d4664bab37ca180dca3dad59a61ae282b1075fe
+  revision: 90305ce7064c9282f9bcd612b7e80c63332882e7
   specs:
     tapioca (0.19.1)
       benchmark
@@ -126,7 +126,7 @@ GEM
     addressable (2.9.0)
       public_suffix (>= 2.0.2, < 8.0)
     american_date (1.3.0)
-    anthropic (1.44.0)
+    anthropic (1.45.0)
       cgi
       connection_pool
       standardwebhooks
@@ -138,8 +138,8 @@ GEM
       metrics (~> 0.12)
       traces (~> 0.18)
     aws-eventstream (1.4.0)
-    aws-partitions (1.1255.0)
-    aws-sdk-core (3.250.0)
+    aws-partitions (1.1258.0)
+    aws-sdk-core (3.251.0)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.992.0)
       aws-sigv4 (~> 1.9)
@@ -150,7 +150,7 @@ GEM
     aws-sdk-kms (1.129.0)
       aws-sdk-core (~> 3, >= 3.248.0)
       aws-sigv4 (~> 1.5)
-    aws-sdk-s3 (1.224.0)
+    aws-sdk-s3 (1.225.0)
       aws-sdk-core (~> 3, >= 3.248.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.5)
@@ -165,7 +165,7 @@ GEM
       rack (>= 0.9.0)
       rouge (>= 1.0.0)
     bigdecimal (4.1.2)
-    bootsnap (1.24.5)
+    bootsnap (1.24.6)
       msgpack (~> 1.2)
     bootstrap (5.3.8)
       popper_js (>= 2.11.8, < 3)
@@ -431,7 +431,7 @@ GEM
       rails-dom-testing (>= 1, < 3)
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
-    json (2.19.7)
+    json (2.19.8)
     json-schema (6.2.0)
       addressable (~> 2.8)
       bigdecimal (>= 3.1, < 5)
@@ -493,7 +493,7 @@ GEM
     minitest (6.0.6)
       drb (~> 2.0)
       prism (~> 1.5)
-    mock_redis (0.54.0)
+    mock_redis (0.55.0)
       redis (~> 5)
     msgpack (1.8.1)
     multi_json (1.21.1)
@@ -559,7 +559,7 @@ GEM
       opentelemetry-common (~> 0.20)
       opentelemetry-sdk (~> 1.10)
       opentelemetry-semantic_conventions
-    opentelemetry-exporter-otlp-logs (0.5.0)
+    opentelemetry-exporter-otlp-logs (0.5.1)
       google-protobuf (>= 3.18)
       googleapis-common-protos-types (~> 1.3)
       opentelemetry-api (~> 1.1)
@@ -576,7 +576,7 @@ GEM
     opentelemetry-helpers-sql-processor (0.5.0)
       opentelemetry-api (~> 1.0)
       opentelemetry-common (~> 0.21)
-    opentelemetry-instrumentation-action_mailer (0.8.0)
+    opentelemetry-instrumentation-action_mailer (0.8.1)
       opentelemetry-instrumentation-active_support (~> 0.10)
     opentelemetry-instrumentation-action_pack (0.18.0)
       opentelemetry-instrumentation-rack (~> 0.29)
@@ -588,7 +588,7 @@ GEM
       opentelemetry-instrumentation-active_support (>= 0.7.0)
     opentelemetry-instrumentation-active_record (0.13.0)
       opentelemetry-instrumentation-base (~> 0.25)
-    opentelemetry-instrumentation-active_storage (0.5.0)
+    opentelemetry-instrumentation-active_storage (0.5.1)
       opentelemetry-instrumentation-active_support (~> 0.10)
     opentelemetry-instrumentation-active_support (0.12.0)
       opentelemetry-instrumentation-base (~> 0.25)
@@ -736,7 +736,7 @@ GEM
       opentelemetry-common (~> 0.20)
       opentelemetry-registry (~> 0.2)
       opentelemetry-semantic_conventions
-    opentelemetry-semantic_conventions (1.38.0)
+    opentelemetry-semantic_conventions (1.39.0)
       opentelemetry-api (~> 1.0)
     opus-ruby (1.0.1)
       ffi
@@ -838,7 +838,7 @@ GEM
     rb-fsevent (0.11.2)
     rb-inotify (0.11.1)
       ffi (~> 1.0)
-    rbi (0.3.12)
+    rbi (0.3.13)
       prism (~> 1.0)
       rbs (>= 4.0.1)
     rbs (4.0.2)
@@ -1007,15 +1007,15 @@ GEM
     simple_form (5.4.1)
       actionpack (>= 7.0)
       activemodel (>= 7.0)
-    sorbet (0.6.13270)
-      sorbet-static (= 0.6.13270)
-    sorbet-runtime (0.6.13270)
-    sorbet-static (0.6.13270-aarch64-linux)
-    sorbet-static (0.6.13270-universal-darwin)
-    sorbet-static (0.6.13270-x86_64-linux)
-    sorbet-static-and-runtime (0.6.13270)
-      sorbet (= 0.6.13270)
-      sorbet-runtime (= 0.6.13270)
+    sorbet (0.6.13286)
+      sorbet-static (= 0.6.13286)
+    sorbet-runtime (0.6.13286)
+    sorbet-static (0.6.13286-aarch64-linux)
+    sorbet-static (0.6.13286-universal-darwin)
+    sorbet-static (0.6.13286-x86_64-linux)
+    sorbet-static-and-runtime (0.6.13286)
+      sorbet (= 0.6.13286)
+      sorbet-runtime (= 0.6.13286)
     spoom (1.7.16)
       erubi (>= 1.10.0)
       prism (>= 0.28.0)
@@ -1075,7 +1075,7 @@ GEM
     uri (1.1.1)
     useragent (0.16.11)
     vcr (6.4.0)
-    version_gem (1.1.9)
+    version_gem (1.1.10)
     warden (1.2.9)
       rack (>= 2.0.9)
     webmock (3.26.2)
@@ -1088,7 +1088,7 @@ GEM
       event_emitter
       mutex_m
       websocket
-    websocket-driver (0.8.0)
+    websocket-driver (0.8.1)
       base64
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)

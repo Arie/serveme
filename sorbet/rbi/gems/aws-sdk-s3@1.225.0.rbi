@@ -758,8 +758,8 @@ class Aws::S3::Bucket
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/bucket.rb:1275
   def lifecycle_configuration; end
 
-  # @raise [NotImplementedError]
   # @api private
+  # @raise [NotImplementedError]
   # @api private
   #
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/bucket.rb:78
@@ -41270,11 +41270,6 @@ class Aws::S3::ObjectSummary
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/customizations/object_summary.rb:7
   def content_length; end
 
-  # Make the method redefinable
-  # @param (see Object#copy_from)
-  # @options (see Object#copy_from)
-  # @return (see Object#copy_from)
-  # @see Object#copy_from
   # @example Request syntax with placeholder values
   #
   #   object_summary.copy_from({
@@ -42034,6 +42029,11 @@ class Aws::S3::ObjectSummary
   #   the request fails with the HTTP status code `403 Forbidden` (access
   #   denied).
   # @return [Types::CopyObjectOutput]
+  # Make the method redefinable
+  # @param (see Object#copy_from)
+  # @options (see Object#copy_from)
+  # @return (see Object#copy_from)
+  # @see Object#copy_from
   #
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object_summary.rb:1097
   def copy_from(source, options = T.unsafe(nil)); end

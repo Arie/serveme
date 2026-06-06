@@ -146,6 +146,9 @@ end
 # pkg:gem/version_gem#lib/version_gem/error.rb:5
 class VersionGem::Error < ::RuntimeError; end
 
+# pkg:gem/version_gem#lib/version_gem/version.rb:7
+VersionGem::VERSION = T.let(T.unsafe(nil), String)
+
 # pkg:gem/version_gem#lib/version_gem/version.rb:4
 module VersionGem::Version
   extend ::VersionGem::Basic

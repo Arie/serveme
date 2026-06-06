@@ -2094,25 +2094,25 @@ class RBI::RBS::MethodTypeTranslator
   sig { returns(::RBI::Sig) }
   def result; end
 
-  # pkg:gem/rbi#lib/rbi/rbs/method_type_translator.rb:28
+  # pkg:gem/rbi#lib/rbi/rbs/method_type_translator.rb:29
   sig { params(type: ::RBS::MethodType).void }
   def visit(type); end
 
   private
 
-  # pkg:gem/rbi#lib/rbi/rbs/method_type_translator.rb:100
+  # pkg:gem/rbi#lib/rbi/rbs/method_type_translator.rb:101
   sig { params(param: ::RBS::Types::Function::Param, index: ::Integer).returns(::RBI::SigParam) }
   def translate_function_param(param, index); end
 
-  # pkg:gem/rbi#lib/rbi/rbs/method_type_translator.rb:115
+  # pkg:gem/rbi#lib/rbi/rbs/method_type_translator.rb:116
   sig { params(type: T.untyped).returns(::RBI::Type) }
   def translate_type(type); end
 
-  # pkg:gem/rbi#lib/rbi/rbs/method_type_translator.rb:42
+  # pkg:gem/rbi#lib/rbi/rbs/method_type_translator.rb:43
   sig { params(type: ::RBS::Types::Block).void }
   def visit_block_type(type); end
 
-  # pkg:gem/rbi#lib/rbi/rbs/method_type_translator.rb:57
+  # pkg:gem/rbi#lib/rbi/rbs/method_type_translator.rb:58
   sig { params(type: ::RBS::Types::Function).void }
   def visit_function_type(type); end
 
@@ -2128,6 +2128,32 @@ class RBI::RBS::MethodTypeTranslator::Error < ::RBI::Error; end
 
 # pkg:gem/rbi#lib/rbi/rbs/type_translator.rb:6
 class RBI::RBS::TypeTranslator
+  # pkg:gem/rbi#lib/rbi/rbs/type_translator.rb:39
+  sig do
+    params(
+      type: T.any(::RBS::Types::Alias, ::RBS::Types::Bases::Any, ::RBS::Types::Bases::Bool, ::RBS::Types::Bases::Bottom, ::RBS::Types::Bases::Class, ::RBS::Types::Bases::Instance, ::RBS::Types::Bases::Nil, ::RBS::Types::Bases::Self, ::RBS::Types::Bases::Top, ::RBS::Types::Bases::Void, ::RBS::Types::ClassInstance, ::RBS::Types::ClassSingleton, ::RBS::Types::Function, ::RBS::Types::Interface, ::RBS::Types::Intersection, ::RBS::Types::Literal, ::RBS::Types::Optional, ::RBS::Types::Proc, ::RBS::Types::Record, ::RBS::Types::Tuple, ::RBS::Types::Union, ::RBS::Types::UntypedFunction, ::RBS::Types::Variable)
+    ).returns(::RBI::Type)
+  end
+  def translate(type); end
+
+  private
+
+  # pkg:gem/rbi#lib/rbi/rbs/type_translator.rb:123
+  sig { params(type: ::RBS::Types::ClassInstance).returns(::RBI::Type) }
+  def translate_class_instance(type); end
+
+  # pkg:gem/rbi#lib/rbi/rbs/type_translator.rb:131
+  sig { params(type: ::RBS::Types::Function).returns(::RBI::Type) }
+  def translate_function(type); end
+
+  # pkg:gem/rbi#lib/rbi/rbs/type_translator.rb:178
+  sig { params(type_name: ::String).returns(::String) }
+  def translate_t_generic_type(type_name); end
+
+  # pkg:gem/rbi#lib/rbi/rbs/type_translator.rb:111
+  sig { params(type: ::RBS::Types::Alias).returns(::RBI::Type) }
+  def translate_type_alias(type); end
+
   class << self
     # pkg:gem/rbi#lib/rbi/rbs/type_translator.rb:33
     sig do
@@ -2136,26 +2162,10 @@ class RBI::RBS::TypeTranslator
       ).returns(::RBI::Type)
     end
     def translate(type); end
-
-    private
-
-    # pkg:gem/rbi#lib/rbi/rbs/type_translator.rb:117
-    sig { params(type: ::RBS::Types::ClassInstance).returns(::RBI::Type) }
-    def translate_class_instance(type); end
-
-    # pkg:gem/rbi#lib/rbi/rbs/type_translator.rb:125
-    sig { params(type: ::RBS::Types::Function).returns(::RBI::Type) }
-    def translate_function(type); end
-
-    # pkg:gem/rbi#lib/rbi/rbs/type_translator.rb:172
-    sig { params(type_name: ::String).returns(::String) }
-    def translate_t_generic_type(type_name); end
-
-    # pkg:gem/rbi#lib/rbi/rbs/type_translator.rb:105
-    sig { params(type: ::RBS::Types::Alias).returns(::RBI::Type) }
-    def translate_type_alias(type); end
   end
 end
+
+RBI::RBS::TypeTranslator::RbsType = T.type_alias { T.any(::RBS::Types::Alias, ::RBS::Types::Bases::Any, ::RBS::Types::Bases::Bool, ::RBS::Types::Bases::Bottom, ::RBS::Types::Bases::Class, ::RBS::Types::Bases::Instance, ::RBS::Types::Bases::Nil, ::RBS::Types::Bases::Self, ::RBS::Types::Bases::Top, ::RBS::Types::Bases::Void, ::RBS::Types::ClassInstance, ::RBS::Types::ClassSingleton, ::RBS::Types::Function, ::RBS::Types::Interface, ::RBS::Types::Intersection, ::RBS::Types::Literal, ::RBS::Types::Optional, ::RBS::Types::Proc, ::RBS::Types::Record, ::RBS::Types::Tuple, ::RBS::Types::Union, ::RBS::Types::UntypedFunction, ::RBS::Types::Variable) }
 
 # A comment representing a RBS type prefixed with `#:`
 #
@@ -3292,23 +3302,27 @@ end
 #
 # pkg:gem/rbi#lib/rbi/rewriters/translate_rbs_sigs.rb:7
 class RBI::Rewriters::TranslateRBSSigs < ::RBI::Visitor
+  # pkg:gem/rbi#lib/rbi/rewriters/translate_rbs_sigs.rb:11
+  sig { void }
+  def initialize; end
+
   # @override
   #
-  # pkg:gem/rbi#lib/rbi/rewriters/translate_rbs_sigs.rb:12
+  # pkg:gem/rbi#lib/rbi/rewriters/translate_rbs_sigs.rb:18
   sig { override.params(node: T.nilable(::RBI::Node)).void }
   def visit(node); end
 
   private
 
-  # pkg:gem/rbi#lib/rbi/rewriters/translate_rbs_sigs.rb:34
+  # pkg:gem/rbi#lib/rbi/rewriters/translate_rbs_sigs.rb:40
   sig { params(node: T.any(::RBI::Attr, ::RBI::Method)).returns(T::Array[::RBI::RBSComment]) }
   def extract_rbs_comments(node); end
 
-  # pkg:gem/rbi#lib/rbi/rewriters/translate_rbs_sigs.rb:61
+  # pkg:gem/rbi#lib/rbi/rewriters/translate_rbs_sigs.rb:67
   sig { params(node: ::RBI::Attr, comment: ::RBI::RBSComment).returns(::RBI::Sig) }
   def translate_rbs_attr_type(node, comment); end
 
-  # pkg:gem/rbi#lib/rbi/rewriters/translate_rbs_sigs.rb:53
+  # pkg:gem/rbi#lib/rbi/rewriters/translate_rbs_sigs.rb:59
   sig { params(node: ::RBI::Method, comment: ::RBI::RBSComment).returns(::RBI::Sig) }
   def translate_rbs_method_type(node, comment); end
 end
@@ -3962,7 +3976,7 @@ class RBI::Tree < ::RBI::NodeWithComments
   sig { void }
   def sort_nodes!; end
 
-  # pkg:gem/rbi#lib/rbi/rewriters/translate_rbs_sigs.rb:82
+  # pkg:gem/rbi#lib/rbi/rewriters/translate_rbs_sigs.rb:88
   sig { void }
   def translate_rbs_sigs!; end
 end

@@ -15,6 +15,8 @@
       %dd.col-sm-9= build.triggered_by_label
       %dt.col-sm-3 Force pull
       %dd.col-sm-9= build.force_pull ? "yes" : "no"
+      %dt.col-sm-3 No cache
+      %dd.col-sm-9= build.no_cache ? "yes" : "no"
       %dt.col-sm-3 Started
       %dd.col-sm-9= build.started_at&.to_fs(:short) || "—"
       %dt.col-sm-3 Finished

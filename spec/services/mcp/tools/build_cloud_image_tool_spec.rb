@@ -42,7 +42,18 @@ RSpec.describe Mcp::Tools::BuildCloudImageTool do
         build = CloudImageBuild.last
         expect(build.version).to eq("100000000")
         expect(build.force_pull).to eq(false)
+        expect(build.no_cache).to eq(false)
         expect(build.status).to eq("queued")
+      end
+
+      it "honors the no_cache param" do
+        allow(Server).to receive(:latest_version).and_return(100000000)
+        allow(CloudImageBuildWorker).to receive(:perform_async)
+
+        result = tool.execute({ no_cache: true })
+
+        expect(CloudImageBuild.last.no_cache).to eq(true)
+        expect(result[:no_cache]).to eq(true)
       end
 
       it "returns the build_id in the response" do

@@ -124,6 +124,12 @@ describe Admin::CloudImageBuildsController do
       expect(CloudImageBuild.last.force_pull).to eq(true)
     end
 
+    it "honors no_cache param" do
+      allow(CloudImageBuildWorker).to receive(:perform_async)
+      post :create, params: { no_cache: "1" }
+      expect(CloudImageBuild.last.no_cache).to eq(true)
+    end
+
     it "redirects with alert if version cannot be fetched" do
       allow(Server).to receive(:latest_version).and_return(nil)
       expect(CloudImageBuildWorker).not_to receive(:perform_async)

@@ -13,6 +13,7 @@
             %th Version
             %th Triggered by
             %th Force pull
+            %th No cache
             %th Status
             %th Duration
             %th Digest
@@ -23,6 +24,7 @@
               %td= build.version
               %td= build.triggered_by_label
               %td= build.force_pull ? "✓" : "–"
+              %td= build.no_cache ? "✓" : "–"
               %td
                 %span.badge{ class: status_badge_class(build.status) }= build.status
               %td

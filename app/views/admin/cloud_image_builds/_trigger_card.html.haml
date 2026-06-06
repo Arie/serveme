@@ -13,4 +13,7 @@
         .form-check.mb-2
           = f.check_box :force_pull, class: "form-check-input"
           = f.label :force_pull, "Force pull base image (docker build --pull)", class: "form-check-label"
+        .form-check.mb-2
+          = f.check_box :no_cache, class: "form-check-input"
+          = f.label :no_cache, "Rebuild SourceMod + plugins + configs from scratch (keeps TF2 game files cached)", class: "form-check-label"
         = f.submit "Build New Image", class: "btn btn-primary"

@@ -63,7 +63,14 @@ COPY --from=rcon-build /tmp/rcon/rcon /home/tf2/hlserver/rcon
 # ============================================================
 FROM tf2-base AS tf2-sourcemod
 
-RUN cd /home/tf2/hlserver/tf2/tf \
+# SOURCEMOD_CACHEBUST invalidates this stage (and everything downstream) so the
+# "stable" MetaMod/SourceMod downloads below are refreshed. The worker only sets a
+# unique value on a no_cache build, so by default this stage stays cached while the
+# tf2-base steamcmd game download is always kept. Keeps tf2-base out of the rebuild.
+ARG SOURCEMOD_CACHEBUST=0
+
+RUN echo "Sourcemod cache bust: ${SOURCEMOD_CACHEBUST}" \
+    && cd /home/tf2/hlserver/tf2/tf \
     && mm_url=$(wget -q -O - "https://www.metamodsource.net/downloads.php?branch=stable" | grep -oP -m1 "https://[a-z.]+/mmsdrop/[0-9.]+/mmsource-(.*)-linux.tar.gz") \
     && sm_url=$(wget -q -O - "http://www.sourcemod.net/downloads.php?branch=stable" | grep -oP -m1 "https://[a-z.]+/smdrop/[0-9.]+/sourcemod-(.*)-linux.tar.gz") \
     && wget -nv $mm_url \
@@ -80,8 +87,15 @@ RUN cd /home/tf2/hlserver/tf2/tf \
 # ============================================================
 FROM tf2-sourcemod AS tf2-plugins
 
+# CACHEBUST invalidates this stage (and the dependent tf2-configs/final stages) on
+# every build so the "latest"/master downloads below — plugins plus the ETF2L, RGL
+# and ozfortress configs — are always refreshed, while the expensive TF2 base and
+# sourcemod layers stay cached. The worker sets it to a unique value per build.
+ARG CACHEBUST=0
+
 COPY --chown=tf2:tf2 ExtendHumiliation.smx /tmp/ExtendHumiliation.smx
-RUN cd /home/tf2/hlserver/tf2/tf \
+RUN echo "Cache bust: ${CACHEBUST}" \
+    && cd /home/tf2/hlserver/tf2/tf \
     # SteamWorks
     && wget -nv "https://github.com/KyleSanderson/SteamWorks/releases/download/1.2.3c/package-lin.tgz" -O "steamworks.tar.gz" \
     && tar -xf steamworks.tar.gz --strip-components 1 \

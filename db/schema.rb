@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_17_061110) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_06_074049) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -58,6 +58,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_17_061110) do
     t.string "digest"
     t.datetime "finished_at"
     t.boolean "force_pull", default: false, null: false
+    t.boolean "no_cache", default: false, null: false
     t.text "output", default: "", null: false
     t.datetime "started_at"
     t.string "status", default: "queued", null: false

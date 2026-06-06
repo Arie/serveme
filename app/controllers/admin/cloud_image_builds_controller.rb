@@ -26,6 +26,7 @@ module Admin
       build = CloudImageBuild.create!(
         version: version.to_s,
         force_pull: ActiveModel::Type::Boolean.new.cast(params[:force_pull]) || false,
+        no_cache: ActiveModel::Type::Boolean.new.cast(params[:no_cache]) || false,
         triggered_by_user: current_user,
         status: "queued"
       )

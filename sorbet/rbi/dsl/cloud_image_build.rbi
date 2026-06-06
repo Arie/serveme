@@ -919,6 +919,51 @@ class CloudImageBuild
     sig { void }
     def id_will_change!; end
 
+    sig { returns(T::Boolean) }
+    def no_cache; end
+
+    sig { params(value: T::Boolean).returns(T::Boolean) }
+    def no_cache=(value); end
+
+    sig { returns(T::Boolean) }
+    def no_cache?; end
+
+    sig { returns(T.nilable(T::Boolean)) }
+    def no_cache_before_last_save; end
+
+    sig { returns(T.untyped) }
+    def no_cache_before_type_cast; end
+
+    sig { returns(T::Boolean) }
+    def no_cache_came_from_user?; end
+
+    sig { returns(T.nilable([T::Boolean, T::Boolean])) }
+    def no_cache_change; end
+
+    sig { returns(T.nilable([T::Boolean, T::Boolean])) }
+    def no_cache_change_to_be_saved; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def no_cache_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(T::Boolean)) }
+    def no_cache_in_database; end
+
+    sig { returns(T.nilable([T::Boolean, T::Boolean])) }
+    def no_cache_previous_change; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def no_cache_previously_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(T::Boolean)) }
+    def no_cache_previously_was; end
+
+    sig { returns(T.nilable(T::Boolean)) }
+    def no_cache_was; end
+
+    sig { void }
+    def no_cache_will_change!; end
+
     sig { returns(::String) }
     def output; end
 
@@ -986,6 +1031,9 @@ class CloudImageBuild
     def restore_id_value!; end
 
     sig { void }
+    def restore_no_cache!; end
+
+    sig { void }
     def restore_output!; end
 
     sig { void }
@@ -1044,6 +1092,12 @@ class CloudImageBuild
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def saved_change_to_id_value?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable([T::Boolean, T::Boolean])) }
+    def saved_change_to_no_cache; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def saved_change_to_no_cache?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
     sig { returns(T.nilable([::String, ::String])) }
     def saved_change_to_output; end
@@ -1326,6 +1380,9 @@ class CloudImageBuild
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def will_save_change_to_id_value?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def will_save_change_to_no_cache?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def will_save_change_to_output?(from: T.unsafe(nil), to: T.unsafe(nil)); end

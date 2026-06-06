@@ -74,7 +74,11 @@ class CloudImageBuildWorker
   def build_command
     args = [ "docker", "build" ]
     args << "--pull" if @build.force_pull
-    args.push("--build-arg", "TF2_VERSION=#{@build.version}", "-t", tag, "-t", versioned_tag, DOCKER_DIR)
+    args.push("--build-arg", "TF2_VERSION=#{@build.version}", "--build-arg", "CACHEBUST=#{@build.id}")
+    # SOURCEMOD_CACHEBUST is only passed on a no_cache build, so the tf2-sourcemod
+    # stage (MetaMod/SourceMod) rebuilds while tf2-base (steamcmd) stays cached.
+    args.push("--build-arg", "SOURCEMOD_CACHEBUST=#{@build.id}") if @build.no_cache
+    args.push("-t", tag, "-t", versioned_tag, DOCKER_DIR)
     args
   end
 

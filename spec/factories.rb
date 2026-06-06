@@ -261,6 +261,7 @@ FactoryBot.define do
   factory :cloud_image_build do
     version { "1234567" }
     force_pull { false }
+    no_cache { false }
     status { "queued" }
   end
 end

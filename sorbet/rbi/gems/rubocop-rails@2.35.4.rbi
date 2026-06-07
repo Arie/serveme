@@ -9689,6 +9689,18 @@ RuboCop::Cop::Rails::StripHeredoc::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array
 #   incompatibility introduced for valid reasons by the `expect` method, which aligns better with
 #   strong parameter conventions.
 #
+#   It is also unsafe because `expect` is stricter about the structure of the parameters than
+#   `require`/`permit`. Nested attributes that hold an array of records need an extra array wrapper,
+#   such as `expect(user: [{ pets_attributes: [[:name]] }])`. The cop cannot tell a single nested hash
+#   from an array of nested hashes, so it always generates the single-hash form, which can turn
+#   a previously successful request into a failure.
+#
+#   It is also unsafe when `params[:key]` is passed to a finder method such as `find`, because
+#   `find` accepts an array of IDs. `Model.find(params[:id])` loads every record for an array of IDs,
+#   but the corrected `Model.find(params.expect(:id))` raises `ActionController::ParameterMissing`
+#   for an array value, since `expect` requires a scalar. The cop cannot tell a scalar ID from
+#   an array of IDs, so the autocorrection can turn a previously successful request into a failure.
+#
 # @example
 #
 #   # bad
@@ -9716,48 +9728,48 @@ RuboCop::Cop::Rails::StripHeredoc::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array
 #   # good
 #   params.expect(user: [:name, :age])
 #
-# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:53
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:65
 class RuboCop::Cop::Rails::StrongParametersExpect < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   extend ::RuboCop::Cop::AutoCorrector
   extend ::RuboCop::Cop::TargetRailsVersion
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:125
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:145
   def on_csend(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:93
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:113
   def on_send(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:75
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:87
   def params_bracket_access(param0 = T.unsafe(nil)); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:85
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:105
   def params_permit_require(param0 = T.unsafe(nil)); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:79
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:96
   def params_require_permit(param0 = T.unsafe(nil)); end
 
   private
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:163
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:183
   def block_call?(send_node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:171
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:191
   def expect_method(require_method, permit_method); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:167
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:187
   def offense_range(method_node, node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:141
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:161
   def offensive_bracket_access?(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:159
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:179
   def raising_finder_method?(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:129
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:149
   def register_bracket_access_offense(node, params_key); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:180
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:200
   def require_key(require_method); end
 end
 
@@ -9765,16 +9777,16 @@ end
 # Covers presence/nil checks, nil-safe conversions and type checks, key-check methods,
 # and collection methods that imply `params[:key]` is a Hash/Array.
 #
-# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:62
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:74
 RuboCop::Cop::Rails::StrongParametersExpect::IGNORED_METHODS = T.let(T.unsafe(nil), Array)
 
-# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:57
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:69
 RuboCop::Cop::Rails::StrongParametersExpect::MSG = T.let(T.unsafe(nil), String)
 
-# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:71
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:83
 RuboCop::Cop::Rails::StrongParametersExpect::RAISING_FINDER_METHODS = T.let(T.unsafe(nil), Array)
 
-# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:58
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:70
 RuboCop::Cop::Rails::StrongParametersExpect::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Enforces the absence of explicit table name assignment.

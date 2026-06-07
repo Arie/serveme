@@ -3777,7 +3777,7 @@ module Anthropic
         sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
         attr_writer :betas
 
-        # Description of what the agent does. Up to 2048 characters.
+        # Description of what the agent does.
         sig { returns(T.nilable(String)) }
         attr_accessor :description
 
@@ -3834,11 +3834,11 @@ module Anthropic
         end
         attr_writer :multiagent
 
-        # Human-readable name for the agent. 1-256 characters.
+        # Human-readable name for the agent.
         sig { returns(String) }
         attr_accessor :name
 
-        # Skills available to the agent. Maximum 20.
+        # Skills available to the agent.
         sig do
           returns(T.nilable(
               T::Array[
@@ -3863,7 +3863,7 @@ module Anthropic
         end
         attr_writer :skills
 
-        # System prompt for the agent. Up to 100,000 characters.
+        # System prompt for the agent.
         sig { returns(T.nilable(String)) }
         attr_accessor :system_
 
@@ -3974,16 +3974,16 @@ module Anthropic
                     # [model string](https://platform.claude.com/docs/en/about-claude/models/overview#latest-models-comparison),
                     # e.g. `claude-opus-4-6`, or a `model_config` object for additional configuration
                     # control
-            name:, # Human-readable name for the agent. 1-256 characters.
-            description: nil, # Description of what the agent does. Up to 2048 characters.
+            name:, # Human-readable name for the agent.
+            description: nil, # Description of what the agent does.
             mcp_servers: nil, # MCP servers this agent connects to. Maximum 20. Names must be unique within the
                               # array.
             metadata: nil, # Arbitrary key-value metadata. Maximum 16 pairs, keys up to 64 chars, values up
                            # to 512 chars.
             multiagent: nil, # A coordinator topology: the session's primary thread orchestrates work by
                              # spawning session threads, each running an agent drawn from the `agents` roster.
-            skills: nil, # Skills available to the agent. Maximum 20.
-            system_: nil, # System prompt for the agent. Up to 100,000 characters.
+            skills: nil, # Skills available to the agent.
+            system_: nil, # System prompt for the agent.
             tools: nil, # Tool configurations available to the agent. Maximum of 128 tools across all
                         # toolsets allowed.
             betas: nil, # Optional header to specify the beta version(s) you want to use.
@@ -4215,8 +4215,7 @@ module Anthropic
         sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
         attr_writer :betas
 
-        # Description. Up to 2048 characters. Omit to preserve; send empty string or null
-        # to clear.
+        # Description. Omit to preserve; send empty string or null to clear.
         sig { returns(T.nilable(String)) }
         attr_accessor :description
 
@@ -4275,7 +4274,7 @@ module Anthropic
         end
         attr_writer :multiagent
 
-        # Human-readable name. 1-256 characters. Omit to preserve. Cannot be cleared.
+        # Human-readable name. Must be non-empty. Omit to preserve. Cannot be cleared.
         sig { returns(T.nilable(String)) }
         attr_reader :name
 
@@ -4283,7 +4282,6 @@ module Anthropic
         attr_writer :name
 
         # Skills. Full replacement. Omit to preserve; send empty array or null to clear.
-        # Maximum 20.
         sig do
           returns(T.nilable(
               T::Array[
@@ -4296,8 +4294,7 @@ module Anthropic
         end
         attr_accessor :skills
 
-        # System prompt. Up to 100,000 characters. Omit to preserve; send empty string or
-        # null to clear.
+        # System prompt. Omit to preserve; send empty string or null to clear.
         sig { returns(T.nilable(String)) }
         attr_accessor :system_
 
@@ -4418,8 +4415,7 @@ module Anthropic
             version:, # The agent's current version, used to prevent concurrent overwrites. Obtain this
                       # value from a create or retrieve response. The request fails if this does not
                       # match the server's current version.
-            description: nil, # Description. Up to 2048 characters. Omit to preserve; send empty string or null
-                              # to clear.
+            description: nil, # Description. Omit to preserve; send empty string or null to clear.
             mcp_servers: nil, # MCP servers. Full replacement. Omit to preserve; send empty array or null to
                               # clear. Names must be unique. Maximum 20.
             metadata: nil, # Metadata patch. Set a key to a string to upsert it, or to null to delete it.
@@ -4431,11 +4427,9 @@ module Anthropic
                         # control. Omit to preserve. Cannot be cleared.
             multiagent: nil, # A coordinator topology: the session's primary thread orchestrates work by
                              # spawning session threads, each running an agent drawn from the `agents` roster.
-            name: nil, # Human-readable name. 1-256 characters. Omit to preserve. Cannot be cleared.
+            name: nil, # Human-readable name. Must be non-empty. Omit to preserve. Cannot be cleared.
             skills: nil, # Skills. Full replacement. Omit to preserve; send empty array or null to clear.
-                         # Maximum 20.
-            system_: nil, # System prompt. Up to 100,000 characters. Omit to preserve; send empty string or
-                          # null to clear.
+            system_: nil, # System prompt. Omit to preserve; send empty string or null to clear.
             tools: nil, # Tool configurations available to the agent. Full replacement. Omit to preserve;
                         # send empty array or null to clear. Maximum of 128 tools across all toolsets
                         # allowed.
@@ -4844,6 +4838,16 @@ module Anthropic
         sig { params(defer_loading: T::Boolean).void }
         attr_writer :defer_loading
 
+        # Bounds the advisor's total output (thinking + text) per call. When the advisor
+        # hits this cap, the returned advisor_result or advisor_redacted_result block
+        # carries stop_reason='max_tokens', and a truncation note is appended to the
+        # advice text the worker model sees (inside the encrypted blob in redacted mode).
+        # When set, the server also emits a remaining-tokens budget block in the advisor's
+        # prompt so the advisor self-shapes toward the cap. When omitted, the advisor
+        # model's default output cap applies and no budget block is emitted.
+        sig { returns(T.nilable(Integer)) }
+        attr_accessor :max_tokens
+
         # Maximum number of times the tool can be used in the API request.
         sig { returns(T.nilable(Integer)) }
         attr_accessor :max_uses
@@ -4885,6 +4889,7 @@ module Anthropic
                 T.nilable(Anthropic::Beta::BetaCacheControlEphemeral),
               caching: T.nilable(Anthropic::Beta::BetaCacheControlEphemeral),
               defer_loading: T::Boolean,
+              max_tokens: T.nilable(Integer),
               max_uses: T.nilable(Integer),
               strict: T::Boolean
             })
@@ -4901,6 +4906,7 @@ module Anthropic
               cache_control: T.nilable(Anthropic::Beta::BetaCacheControlEphemeral::OrHash),
               caching: T.nilable(Anthropic::Beta::BetaCacheControlEphemeral::OrHash),
               defer_loading: T::Boolean,
+              max_tokens: T.nilable(Integer),
               max_uses: T.nilable(Integer),
               strict: T::Boolean,
               name: Symbol,
@@ -4918,6 +4924,13 @@ module Anthropic
                           # stable prefix. When omitted, the advisor prompt is not cached.
             defer_loading: nil, # If true, tool will not be included in initial system prompt. Only loaded when
                                 # returned via tool_reference from tool search.
+            max_tokens: nil, # Bounds the advisor's total output (thinking + text) per call. When the advisor
+                             # hits this cap, the returned advisor_result or advisor_redacted_result block
+                             # carries stop_reason='max_tokens', and a truncation note is appended to the
+                             # advice text the worker model sees (inside the encrypted blob in redacted mode).
+                             # When set, the server also emits a remaining-tokens budget block in the advisor's
+                             # prompt so the advisor self-shapes toward the cap. When omitted, the advisor
+                             # model's default output cap applies and no budget block is emitted.
             max_uses: nil, # Maximum number of times the tool can be used in the API request.
             strict: nil, # When true, guarantees schema validation on tool names and inputs
             name: :advisor, # Name of the tool.
@@ -5185,6 +5198,11 @@ module Anthropic
               Anthropic::Beta::BetaAdvisorToolResultError::ErrorCode::TaggedSymbol
             )
 
+          MODEL_NOT_FOUND = T.let(
+              :model_not_found,
+              Anthropic::Beta::BetaAdvisorToolResultError::ErrorCode::TaggedSymbol
+            )
+
           OVERLOADED = T.let(
               :overloaded,
               Anthropic::Beta::BetaAdvisorToolResultError::ErrorCode::TaggedSymbol
@@ -5270,6 +5288,11 @@ module Anthropic
 
           MAX_USES_EXCEEDED = T.let(
               :max_uses_exceeded,
+              Anthropic::Beta::BetaAdvisorToolResultErrorParam::ErrorCode::TaggedSymbol
+            )
+
+          MODEL_NOT_FOUND = T.let(
+              :model_not_found,
               Anthropic::Beta::BetaAdvisorToolResultErrorParam::ErrorCode::TaggedSymbol
             )
 
@@ -12397,35 +12420,21 @@ module Anthropic
       end
 
       class BetaManagedAgentsCustomToolInputSchema < Anthropic::Internal::Type::BaseModel
-        # JSON Schema properties defining the tool's input parameters.
         sig { returns(T.nilable(T::Hash[Symbol, T.anything])) }
         attr_accessor :properties
 
-        # List of required property names.
         sig { returns(T.nilable(T::Array[String])) }
-        attr_reader :required
+        attr_accessor :required
 
-        sig { params(required: T::Array[String]).void }
-        attr_writer :required
-
-        # Must be 'object' for tool input schemas.
-        sig do
-          returns(T.nilable(
-              Anthropic::Beta::BetaManagedAgentsCustomToolInputSchema::Type::OrSymbol
-            ))
-        end
-        attr_reader :type
-
-        sig { params(type: Anthropic::Beta::BetaManagedAgentsCustomToolInputSchema::Type::OrSymbol).void }
-        attr_writer :type
+        sig { returns(Symbol) }
+        attr_accessor :type
 
         sig do
           override
             .returns({
+              type: Symbol,
               properties: T.nilable(T::Hash[Symbol, T.anything]),
-              required: T::Array[String],
-              type:
-                Anthropic::Beta::BetaManagedAgentsCustomToolInputSchema::Type::OrSymbol
+              required: T.nilable(T::Array[String])
             })
         end
         def to_hash; end
@@ -12435,15 +12444,11 @@ module Anthropic
           sig do
             params(
               properties: T.nilable(T::Hash[Symbol, T.anything]),
-              required: T::Array[String],
-              type: Anthropic::Beta::BetaManagedAgentsCustomToolInputSchema::Type::OrSymbol
+              required: T.nilable(T::Array[String]),
+              type: Symbol
             ).returns(T.attached_class)
           end
-          def new(
-            properties: nil, # JSON Schema properties defining the tool's input parameters.
-            required: nil, # List of required property names.
-            type: nil # Must be 'object' for tool input schemas.
-); end
+          def new(properties: nil, required: nil, type: :object); end
         end
 
         OrHash = T.type_alias do
@@ -12452,35 +12457,6 @@ module Anthropic
               Anthropic::Internal::AnyHash
             )
           end
-
-        # Must be 'object' for tool input schemas.
-        module Type
-          extend Anthropic::Internal::Type::Enum
-
-          class << self
-            sig do
-              override
-                .returns(T::Array[
-                Anthropic::Beta::BetaManagedAgentsCustomToolInputSchema::Type::TaggedSymbol
-              ])
-            end
-            def values; end
-          end
-
-          OBJECT = T.let(
-              :object,
-              Anthropic::Beta::BetaManagedAgentsCustomToolInputSchema::Type::TaggedSymbol
-            )
-
-          OrSymbol = T.type_alias { T.any(Symbol, String) }
-
-          TaggedSymbol = T.type_alias do
-              T.all(
-                Symbol,
-                Anthropic::Beta::BetaManagedAgentsCustomToolInputSchema::Type
-              )
-            end
-        end
       end
 
       class BetaManagedAgentsCustomToolParams < Anthropic::Internal::Type::BaseModel
@@ -22633,6 +22609,9 @@ module Anthropic
         sig { returns(Anthropic::Beta::BetaToolSearchToolResultErrorParam::ErrorCode::OrSymbol) }
         attr_accessor :error_code
 
+        sig { returns(T.nilable(String)) }
+        attr_accessor :error_message
+
         sig { returns(Symbol) }
         attr_accessor :type
 
@@ -22641,7 +22620,8 @@ module Anthropic
             .returns({
               error_code:
                 Anthropic::Beta::BetaToolSearchToolResultErrorParam::ErrorCode::OrSymbol,
-              type: Symbol
+              type: Symbol,
+              error_message: T.nilable(String)
             })
         end
         def to_hash; end
@@ -22650,10 +22630,11 @@ module Anthropic
           sig do
             params(
               error_code: Anthropic::Beta::BetaToolSearchToolResultErrorParam::ErrorCode::OrSymbol,
+              error_message: T.nilable(String),
               type: Symbol
             ).returns(T.attached_class)
           end
-          def new(error_code:, type: :tool_search_tool_result_error); end
+          def new(error_code:, error_message: nil, type: :tool_search_tool_result_error); end
         end
 
         module ErrorCode
@@ -26414,7 +26395,7 @@ module Anthropic
       end
 
       class BetaWebhookSessionArchivedEventData < Anthropic::Internal::Type::BaseModel
-        # ID of the resource that triggered the event.
+        # ID of the session that triggered the event.
         sig { returns(String) }
         attr_accessor :id
 
@@ -26448,7 +26429,7 @@ module Anthropic
             ).returns(T.attached_class)
           end
           def new(
-            id:, # ID of the resource that triggered the event.
+            id:, # ID of the session that triggered the event.
             organization_id:,
             workspace_id:,
             type: :"session.archived"
@@ -26464,7 +26445,7 @@ module Anthropic
       end
 
       class BetaWebhookSessionCreatedEventData < Anthropic::Internal::Type::BaseModel
-        # ID of the resource that triggered the event.
+        # ID of the session that triggered the event.
         sig { returns(String) }
         attr_accessor :id
 
@@ -26498,7 +26479,7 @@ module Anthropic
             ).returns(T.attached_class)
           end
           def new(
-            id:, # ID of the resource that triggered the event.
+            id:, # ID of the session that triggered the event.
             organization_id:,
             workspace_id:,
             type: :"session.created"
@@ -26514,7 +26495,7 @@ module Anthropic
       end
 
       class BetaWebhookSessionDeletedEventData < Anthropic::Internal::Type::BaseModel
-        # ID of the resource that triggered the event.
+        # ID of the session that triggered the event.
         sig { returns(String) }
         attr_accessor :id
 
@@ -26548,7 +26529,7 @@ module Anthropic
             ).returns(T.attached_class)
           end
           def new(
-            id:, # ID of the resource that triggered the event.
+            id:, # ID of the session that triggered the event.
             organization_id:,
             workspace_id:,
             type: :"session.deleted"
@@ -26564,7 +26545,7 @@ module Anthropic
       end
 
       class BetaWebhookSessionIdledEventData < Anthropic::Internal::Type::BaseModel
-        # ID of the resource that triggered the event.
+        # ID of the session that triggered the event.
         sig { returns(String) }
         attr_accessor :id
 
@@ -26598,7 +26579,7 @@ module Anthropic
             ).returns(T.attached_class)
           end
           def new(
-            id:, # ID of the resource that triggered the event.
+            id:, # ID of the session that triggered the event.
             organization_id:,
             workspace_id:,
             type: :"session.idled"
@@ -26614,7 +26595,7 @@ module Anthropic
       end
 
       class BetaWebhookSessionOutcomeEvaluationEndedEventData < Anthropic::Internal::Type::BaseModel
-        # ID of the resource that triggered the event.
+        # ID of the session that triggered the event.
         sig { returns(String) }
         attr_accessor :id
 
@@ -26648,7 +26629,7 @@ module Anthropic
             ).returns(T.attached_class)
           end
           def new(
-            id:, # ID of the resource that triggered the event.
+            id:, # ID of the session that triggered the event.
             organization_id:,
             workspace_id:,
             type: :"session.outcome_evaluation_ended"
@@ -26664,7 +26645,7 @@ module Anthropic
       end
 
       class BetaWebhookSessionPendingEventData < Anthropic::Internal::Type::BaseModel
-        # ID of the resource that triggered the event.
+        # ID of the session that triggered the event.
         sig { returns(String) }
         attr_accessor :id
 
@@ -26698,7 +26679,7 @@ module Anthropic
             ).returns(T.attached_class)
           end
           def new(
-            id:, # ID of the resource that triggered the event.
+            id:, # ID of the session that triggered the event.
             organization_id:,
             workspace_id:,
             type: :"session.pending"
@@ -26714,7 +26695,7 @@ module Anthropic
       end
 
       class BetaWebhookSessionRequiresActionEventData < Anthropic::Internal::Type::BaseModel
-        # ID of the resource that triggered the event.
+        # ID of the session that triggered the event.
         sig { returns(String) }
         attr_accessor :id
 
@@ -26748,7 +26729,7 @@ module Anthropic
             ).returns(T.attached_class)
           end
           def new(
-            id:, # ID of the resource that triggered the event.
+            id:, # ID of the session that triggered the event.
             organization_id:,
             workspace_id:,
             type: :"session.requires_action"
@@ -26764,7 +26745,7 @@ module Anthropic
       end
 
       class BetaWebhookSessionRunningEventData < Anthropic::Internal::Type::BaseModel
-        # ID of the resource that triggered the event.
+        # ID of the session that triggered the event.
         sig { returns(String) }
         attr_accessor :id
 
@@ -26798,7 +26779,7 @@ module Anthropic
             ).returns(T.attached_class)
           end
           def new(
-            id:, # ID of the resource that triggered the event.
+            id:, # ID of the session that triggered the event.
             organization_id:,
             workspace_id:,
             type: :"session.running"
@@ -26814,7 +26795,7 @@ module Anthropic
       end
 
       class BetaWebhookSessionStatusIdledEventData < Anthropic::Internal::Type::BaseModel
-        # ID of the resource that triggered the event.
+        # ID of the session that triggered the event.
         sig { returns(String) }
         attr_accessor :id
 
@@ -26848,7 +26829,7 @@ module Anthropic
             ).returns(T.attached_class)
           end
           def new(
-            id:, # ID of the resource that triggered the event.
+            id:, # ID of the session that triggered the event.
             organization_id:,
             workspace_id:,
             type: :"session.status_idled"
@@ -26864,7 +26845,7 @@ module Anthropic
       end
 
       class BetaWebhookSessionStatusRescheduledEventData < Anthropic::Internal::Type::BaseModel
-        # ID of the resource that triggered the event.
+        # ID of the session that triggered the event.
         sig { returns(String) }
         attr_accessor :id
 
@@ -26898,7 +26879,7 @@ module Anthropic
             ).returns(T.attached_class)
           end
           def new(
-            id:, # ID of the resource that triggered the event.
+            id:, # ID of the session that triggered the event.
             organization_id:,
             workspace_id:,
             type: :"session.status_rescheduled"
@@ -26914,7 +26895,7 @@ module Anthropic
       end
 
       class BetaWebhookSessionStatusRunStartedEventData < Anthropic::Internal::Type::BaseModel
-        # ID of the resource that triggered the event.
+        # ID of the session that triggered the event.
         sig { returns(String) }
         attr_accessor :id
 
@@ -26948,7 +26929,7 @@ module Anthropic
             ).returns(T.attached_class)
           end
           def new(
-            id:, # ID of the resource that triggered the event.
+            id:, # ID of the session that triggered the event.
             organization_id:,
             workspace_id:,
             type: :"session.status_run_started"
@@ -26964,7 +26945,7 @@ module Anthropic
       end
 
       class BetaWebhookSessionStatusTerminatedEventData < Anthropic::Internal::Type::BaseModel
-        # ID of the resource that triggered the event.
+        # ID of the session that triggered the event.
         sig { returns(String) }
         attr_accessor :id
 
@@ -26998,7 +26979,7 @@ module Anthropic
             ).returns(T.attached_class)
           end
           def new(
-            id:, # ID of the resource that triggered the event.
+            id:, # ID of the session that triggered the event.
             organization_id:,
             workspace_id:,
             type: :"session.status_terminated"
@@ -27014,7 +26995,7 @@ module Anthropic
       end
 
       class BetaWebhookSessionThreadCreatedEventData < Anthropic::Internal::Type::BaseModel
-        # ID of the resource that triggered the event.
+        # ID of the session that triggered the event.
         sig { returns(String) }
         attr_accessor :id
 
@@ -27048,7 +27029,7 @@ module Anthropic
             ).returns(T.attached_class)
           end
           def new(
-            id:, # ID of the resource that triggered the event.
+            id:, # ID of the session that triggered the event.
             organization_id:,
             workspace_id:,
             type: :"session.thread_created"
@@ -27064,7 +27045,7 @@ module Anthropic
       end
 
       class BetaWebhookSessionThreadIdledEventData < Anthropic::Internal::Type::BaseModel
-        # ID of the resource that triggered the event.
+        # ID of the session that triggered the event.
         sig { returns(String) }
         attr_accessor :id
 
@@ -27098,7 +27079,7 @@ module Anthropic
             ).returns(T.attached_class)
           end
           def new(
-            id:, # ID of the resource that triggered the event.
+            id:, # ID of the session that triggered the event.
             organization_id:,
             workspace_id:,
             type: :"session.thread_idled"
@@ -27114,7 +27095,7 @@ module Anthropic
       end
 
       class BetaWebhookSessionThreadTerminatedEventData < Anthropic::Internal::Type::BaseModel
-        # ID of the resource that triggered the event.
+        # ID of the session that triggered the event.
         sig { returns(String) }
         attr_accessor :id
 
@@ -27148,7 +27129,7 @@ module Anthropic
             ).returns(T.attached_class)
           end
           def new(
-            id:, # ID of the resource that triggered the event.
+            id:, # ID of the session that triggered the event.
             organization_id:,
             workspace_id:,
             type: :"session.thread_terminated"
@@ -27164,7 +27145,7 @@ module Anthropic
       end
 
       class BetaWebhookVaultArchivedEventData < Anthropic::Internal::Type::BaseModel
-        # ID of the resource that triggered the event.
+        # ID of the vault that triggered the event.
         sig { returns(String) }
         attr_accessor :id
 
@@ -27198,7 +27179,7 @@ module Anthropic
             ).returns(T.attached_class)
           end
           def new(
-            id:, # ID of the resource that triggered the event.
+            id:, # ID of the vault that triggered the event.
             organization_id:,
             workspace_id:,
             type: :"vault.archived"
@@ -27214,7 +27195,7 @@ module Anthropic
       end
 
       class BetaWebhookVaultCreatedEventData < Anthropic::Internal::Type::BaseModel
-        # ID of the resource that triggered the event.
+        # ID of the vault that triggered the event.
         sig { returns(String) }
         attr_accessor :id
 
@@ -27248,7 +27229,7 @@ module Anthropic
             ).returns(T.attached_class)
           end
           def new(
-            id:, # ID of the resource that triggered the event.
+            id:, # ID of the vault that triggered the event.
             organization_id:,
             workspace_id:,
             type: :"vault.created"
@@ -27264,7 +27245,7 @@ module Anthropic
       end
 
       class BetaWebhookVaultCredentialArchivedEventData < Anthropic::Internal::Type::BaseModel
-        # ID of the resource that triggered the event.
+        # ID of the vault credential that triggered the event.
         sig { returns(String) }
         attr_accessor :id
 
@@ -27304,7 +27285,7 @@ module Anthropic
             ).returns(T.attached_class)
           end
           def new(
-            id:, # ID of the resource that triggered the event.
+            id:, # ID of the vault credential that triggered the event.
             organization_id:,
             vault_id:, # ID of the vault that owns this credential.
             workspace_id:,
@@ -27321,7 +27302,7 @@ module Anthropic
       end
 
       class BetaWebhookVaultCredentialCreatedEventData < Anthropic::Internal::Type::BaseModel
-        # ID of the resource that triggered the event.
+        # ID of the vault credential that triggered the event.
         sig { returns(String) }
         attr_accessor :id
 
@@ -27361,7 +27342,7 @@ module Anthropic
             ).returns(T.attached_class)
           end
           def new(
-            id:, # ID of the resource that triggered the event.
+            id:, # ID of the vault credential that triggered the event.
             organization_id:,
             vault_id:, # ID of the vault that owns this credential.
             workspace_id:,
@@ -27378,7 +27359,7 @@ module Anthropic
       end
 
       class BetaWebhookVaultCredentialDeletedEventData < Anthropic::Internal::Type::BaseModel
-        # ID of the resource that triggered the event.
+        # ID of the vault credential that triggered the event.
         sig { returns(String) }
         attr_accessor :id
 
@@ -27418,7 +27399,7 @@ module Anthropic
             ).returns(T.attached_class)
           end
           def new(
-            id:, # ID of the resource that triggered the event.
+            id:, # ID of the vault credential that triggered the event.
             organization_id:,
             vault_id:, # ID of the vault that owns this credential.
             workspace_id:,
@@ -27435,7 +27416,7 @@ module Anthropic
       end
 
       class BetaWebhookVaultCredentialRefreshFailedEventData < Anthropic::Internal::Type::BaseModel
-        # ID of the resource that triggered the event.
+        # ID of the vault credential that triggered the event.
         sig { returns(String) }
         attr_accessor :id
 
@@ -27475,7 +27456,7 @@ module Anthropic
             ).returns(T.attached_class)
           end
           def new(
-            id:, # ID of the resource that triggered the event.
+            id:, # ID of the vault credential that triggered the event.
             organization_id:,
             vault_id:, # ID of the vault that owns this credential.
             workspace_id:,
@@ -27492,7 +27473,7 @@ module Anthropic
       end
 
       class BetaWebhookVaultDeletedEventData < Anthropic::Internal::Type::BaseModel
-        # ID of the resource that triggered the event.
+        # ID of the vault that triggered the event.
         sig { returns(String) }
         attr_accessor :id
 
@@ -27526,7 +27507,7 @@ module Anthropic
             ).returns(T.attached_class)
           end
           def new(
-            id:, # ID of the resource that triggered the event.
+            id:, # ID of the vault that triggered the event.
             organization_id:,
             workspace_id:,
             type: :"vault.deleted"
@@ -36100,7 +36081,7 @@ module Anthropic
         sig { params(order: Anthropic::Beta::SessionListParams::Order::OrSymbol).void }
         attr_writer :order
 
-        # Opaque pagination cursor from a previous response's next_page.
+        # Opaque pagination cursor from a previous response.
         sig { returns(T.nilable(String)) }
         attr_reader :page
 
@@ -36174,7 +36155,7 @@ module Anthropic
                                   # ID.
             order: nil, # Sort direction for results, ordered by created_at. Defaults to desc (newest
                         # first).
-            page: nil, # Opaque pagination cursor from a previous response's next_page.
+            page: nil, # Opaque pagination cursor from a previous response.
             statuses: nil, # Filter by session status. Repeat the parameter to match any of multiple
                            # statuses.
             betas: nil, # Optional header to specify the beta version(s) you want to use.
@@ -60858,6 +60839,9 @@ module Anthropic
       sig { returns(Anthropic::ToolSearchToolResultErrorCode::OrSymbol) }
       attr_accessor :error_code
 
+      sig { returns(T.nilable(String)) }
+      attr_accessor :error_message
+
       sig { returns(Symbol) }
       attr_accessor :type
 
@@ -60865,7 +60849,8 @@ module Anthropic
         override
           .returns({
             error_code: Anthropic::ToolSearchToolResultErrorCode::OrSymbol,
-            type: Symbol
+            type: Symbol,
+            error_message: T.nilable(String)
           })
       end
       def to_hash; end
@@ -60874,10 +60859,11 @@ module Anthropic
         sig do
           params(
             error_code: Anthropic::ToolSearchToolResultErrorCode::OrSymbol,
+            error_message: T.nilable(String),
             type: Symbol
           ).returns(T.attached_class)
         end
-        def new(error_code:, type: :tool_search_tool_result_error); end
+        def new(error_code:, error_message: nil, type: :tool_search_tool_result_error); end
       end
 
       OrHash = T.type_alias do
@@ -63730,8 +63716,8 @@ module Anthropic
                   # [model string](https://platform.claude.com/docs/en/about-claude/models/overview#latest-models-comparison),
                   # e.g. `claude-opus-4-6`, or a `model_config` object for additional configuration
                   # control
-          name:, # Body param: Human-readable name for the agent. 1-256 characters.
-          description: nil, # Body param: Description of what the agent does. Up to 2048 characters.
+          name:, # Body param: Human-readable name for the agent.
+          description: nil, # Body param: Description of what the agent does.
           mcp_servers: nil, # Body param: MCP servers this agent connects to. Maximum 20. Names must be unique
                             # within the array.
           metadata: nil, # Body param: Arbitrary key-value metadata. Maximum 16 pairs, keys up to 64 chars,
@@ -63739,8 +63725,8 @@ module Anthropic
           multiagent: nil, # Body param: A coordinator topology: the session's primary thread orchestrates
                            # work by spawning session threads, each running an agent drawn from the `agents`
                            # roster.
-          skills: nil, # Body param: Skills available to the agent. Maximum 20.
-          system_: nil, # Body param: System prompt for the agent. Up to 100,000 characters.
+          skills: nil, # Body param: Skills available to the agent.
+          system_: nil, # Body param: System prompt for the agent.
           tools: nil, # Body param: Tool configurations available to the agent. Maximum of 128 tools
                       # across all toolsets allowed.
           betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
@@ -63836,8 +63822,7 @@ module Anthropic
           version:, # Body param: The agent's current version, used to prevent concurrent overwrites.
                     # Obtain this value from a create or retrieve response. The request fails if this
                     # does not match the server's current version.
-          description: nil, # Body param: Description. Up to 2048 characters. Omit to preserve; send empty
-                            # string or null to clear.
+          description: nil, # Body param: Description. Omit to preserve; send empty string or null to clear.
           mcp_servers: nil, # Body param: MCP servers. Full replacement. Omit to preserve; send empty array or
                             # null to clear. Names must be unique. Maximum 20.
           metadata: nil, # Body param: Metadata patch. Set a key to a string to upsert it, or to null to
@@ -63850,12 +63835,11 @@ module Anthropic
           multiagent: nil, # Body param: A coordinator topology: the session's primary thread orchestrates
                            # work by spawning session threads, each running an agent drawn from the `agents`
                            # roster.
-          name: nil, # Body param: Human-readable name. 1-256 characters. Omit to preserve. Cannot be
+          name: nil, # Body param: Human-readable name. Must be non-empty. Omit to preserve. Cannot be
                      # cleared.
           skills: nil, # Body param: Skills. Full replacement. Omit to preserve; send empty array or null
-                       # to clear. Maximum 20.
-          system_: nil, # Body param: System prompt. Up to 100,000 characters. Omit to preserve; send
-                        # empty string or null to clear.
+                       # to clear.
+          system_: nil, # Body param: System prompt. Omit to preserve; send empty string or null to clear.
           tools: nil, # Body param: Tool configurations available to the agent. Full replacement. Omit
                       # to preserve; send empty array or null to clear. Maximum of 128 tools across all
                       # toolsets allowed.
@@ -65969,7 +65953,7 @@ module Anthropic
                                 # memory store ID.
           order: nil, # Query param: Sort direction for results, ordered by created_at. Defaults to desc
                       # (newest first).
-          page: nil, # Query param: Opaque pagination cursor from a previous response's next_page.
+          page: nil, # Query param: Opaque pagination cursor from a previous response.
           statuses: nil, # Query param: Filter by session status. Repeat the parameter to match any of
                          # multiple statuses.
           betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.

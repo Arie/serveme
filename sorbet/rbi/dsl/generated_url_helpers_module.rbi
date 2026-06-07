@@ -91,6 +91,9 @@ module GeneratedUrlHelpersModule
   def api_reservations_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def api_sdr_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def api_servers_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }

@@ -30,7 +30,7 @@ class Server < ActiveRecord::Base
   end
 
   before_save :geocode, if: :should_geocode?
-  after_save :update_resolved_ip, if: :ip_changed?
+  after_save :update_resolved_ip, if: :saved_change_to_ip?
 
   delegate :flag, to: :location, prefix: true, allow_nil: true
 

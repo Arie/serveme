@@ -182,4 +182,28 @@ RSpec.describe Server do
       end
     end
   end
+
+  describe 'resolved_ip maintenance' do
+    it 'resolves the ip after it changes on save' do
+      server = create(:server, ip: '1.2.3.4', port: '27015')
+
+      expect_any_instance_of(PopulateResolvedIpsService).to receive(:update_server).with(server)
+
+      server.update!(ip: '5.6.7.8')
+    end
+
+    it 'resolves the ip when a new server is created' do
+      expect_any_instance_of(PopulateResolvedIpsService).to receive(:update_server)
+
+      create(:server, ip: '1.2.3.4', port: '27015')
+    end
+
+    it 'does not re-resolve when the ip is unchanged' do
+      server = create(:server, ip: '1.2.3.4', port: '27015')
+
+      expect_any_instance_of(PopulateResolvedIpsService).not_to receive(:update_server)
+
+      server.update!(name: 'renamed but same ip')
+    end
+  end
 end

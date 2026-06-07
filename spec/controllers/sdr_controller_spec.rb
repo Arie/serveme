@@ -88,29 +88,5 @@ RSpec.describe SdrController, type: :controller do
         expect(assigns(:result)).to eq('connect 5.6.7.8:27015; password "foobarwidget"')
       end
     end
-
-    context "with resolved ip when server has hostname and resolved_ip is NULL (fallback DNS)" do
-      let(:server) { create(:server, ip: "elzas.fakkelbrigade.eu", port: 27215) }
-      let(:reservation) { create(:reservation, server: server, sdr_ip: "5.6.7.8", sdr_port: 27215) }
-
-      before do
-        allow(Addrinfo).to receive(:getaddrinfo).with("elzas.fakkelbrigade.eu", nil, Socket::AF_INET)
-          .and_return([ double(ip_address: "141.94.96.119") ])
-        reservation
-        get :index, params: { ip_port: "141.94.96.119:27215" }
-      end
-
-      it "returns success" do
-        expect(response).to be_successful
-      end
-
-      it "finds server by resolving hostname and returns sdr ip port" do
-        expect(assigns(:result)).to eq("5.6.7.8:27215")
-      end
-
-      it "caches the resolved_ip on the server" do
-        expect(server.reload.resolved_ip).to eq("141.94.96.119")
-      end
-    end
   end
 end

@@ -181,6 +181,7 @@ Serveme::Application.routes.draw do
     resources :league_requests, only: :index
     resources :maps, only: :index
     resources :servers, only: :index
+    resource :sdr, only: :show, controller: :sdr
     resources :donators, except: %i[edit update index]
     resources :ip_lookups, only: :create
     resource :ban_appeals, only: [] do

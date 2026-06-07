@@ -175,6 +175,55 @@ paths:
                               type: string
         '401':
           description: Unauthorized
+  "/api/sdr":
+    get:
+      summary: Resolve a connect string to SDR (Steam Datagram Relay) details
+      tags:
+      - SDR
+      description: Resolves a TF2 connect string (or bare ip:port) for a serveme.tf
+        server to its current Steam Datagram Relay connect details. Mirrors the /sdr
+        web page.
+      parameters:
+      - name: ip_port
+        in: query
+        required: true
+        description: A connect string ("connect 1.2.3.4:27015; password \"foo\"")
+          or a bare ip:port
+        schema:
+          type: string
+      - name: api_key
+        in: query
+        required: false
+        description: API key for authentication
+        schema:
+          type: string
+      security:
+      - api_key: []
+      - token_auth: []
+      - bearer_token: []
+      responses:
+        '200':
+          description: SDR details resolved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ip_port:
+                    type: string
+                    description: The original input that was supplied
+                  sdr_ip:
+                    type: string
+                  sdr_port:
+                    type: string
+                  connect_string:
+                    type: string
+                    description: A connect string when one was supplied, otherwise
+                      the bare SDR ip:port
+        '404':
+          description: No matching server or SDR details found
+        '401':
+          description: Unauthorized
   "/api/reservations/new":
     get:
       summary: Get prefilled reservation template (Step 1)

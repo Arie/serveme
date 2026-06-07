@@ -129,6 +129,62 @@ RSpec.describe 'serveme.tf API', type: :request do
     end
   end
 
+  path '/api/sdr' do
+    get 'Resolve a connect string to SDR (Steam Datagram Relay) details' do
+      tags 'SDR'
+      description 'Resolves a TF2 connect string (or bare ip:port) for a serveme.tf server ' \
+                  'to its current Steam Datagram Relay connect details. Mirrors the /sdr web page.'
+      parameter name: :ip_port, in: :query, type: :string, required: true,
+                description: 'A connect string ("connect 1.2.3.4:27015; password \"foo\"") or a bare ip:port'
+      parameter name: :api_key, in: :query, type: :string, required: false, description: 'API key for authentication'
+      security [ { api_key: [] }, { token_auth: [] }, { bearer_token: [] } ]
+
+      produces 'application/json'
+
+      let!(:sdr_server) do
+        create(:server, ip: '176.9.138.143', port: '27015',
+                        last_sdr_ip: '169.254.1.2', last_sdr_port: '12345')
+      end
+
+      response '200', 'SDR details resolved' do
+        schema type: :object,
+               properties: {
+                 ip_port: { type: :string, description: 'The original input that was supplied' },
+                 sdr_ip: { type: :string },
+                 sdr_port: { type: :string },
+                 connect_string: {
+                   type: :string,
+                   description: 'A connect string when one was supplied, otherwise the bare SDR ip:port'
+                 }
+               }
+
+        let(:ip_port) { '176.9.138.143:27015' }
+        let(:api_key) { user.api_key }
+
+        run_test! do |response|
+          data = JSON.parse(response.body)
+          expect(data['sdr_ip']).to eq('169.254.1.2')
+          expect(data['sdr_port']).to eq('12345')
+          expect(data['connect_string']).to eq('169.254.1.2:12345')
+        end
+      end
+
+      response '404', 'No matching server or SDR details found' do
+        let(:ip_port) { '1.1.1.1:27015' }
+        let(:api_key) { user.api_key }
+
+        run_test!
+      end
+
+      response '401', 'Unauthorized' do
+        let(:ip_port) { '176.9.138.143:27015' }
+        let(:api_key) { 'invalid' }
+
+        run_test!
+      end
+    end
+  end
+
   # Reservations API
   path '/api/reservations/new' do
     get 'Get prefilled reservation template (Step 1)' do

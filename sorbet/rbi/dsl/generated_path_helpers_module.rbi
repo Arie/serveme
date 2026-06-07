@@ -91,6 +91,9 @@ module GeneratedPathHelpersModule
   def api_reservations_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def api_sdr_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def api_servers_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }

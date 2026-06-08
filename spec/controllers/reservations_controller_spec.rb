@@ -134,6 +134,15 @@ describe ReservationsController do
     end
   end
 
+  describe '#create' do
+    it 'renders the new form with an error when an unparseable date is given' do
+      post :create, params: { reservation: { starts_at: 'garbage', ends_at: 'garbage', password: 'x', rcon: 'y' } }
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(flash[:alert]).to include('Invalid date or time')
+    end
+  end
+
   describe '#find_servers_for_reservation' do
     render_views
 

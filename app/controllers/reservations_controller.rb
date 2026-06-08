@@ -34,6 +34,7 @@ class ReservationsController < ApplicationController
     begin
       starts_at = reservation_params[:starts_at].present? ? Time.zone.parse(reservation_params[:starts_at].to_s) : Time.current
       ends_at = reservation_params[:ends_at].present? ? Time.zone.parse(reservation_params[:ends_at].to_s) : 2.hours.from_now
+      raise ArgumentError if starts_at.nil? || ends_at.nil?
     rescue ArgumentError
       @reservation = current_user.reservations.build(reservation_params.except(:starts_at, :ends_at))
       @servers = Server.active.not_cloud.ordered.includes(:location)

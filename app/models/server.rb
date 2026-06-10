@@ -138,6 +138,11 @@ class Server < ActiveRecord::Base
     ip
   end
 
+  sig { returns(T.nilable(String)) }
+  def host_hostname
+    ip
+  end
+
   sig { returns(T.nilable(T.any(Integer, String))) }
   def public_port
     return last_sdr_port if sdr?

@@ -174,13 +174,32 @@ describe ReservationsController do
     end
 
     it "shows an error if I'm not so lucky" do
-      reservation = double(:reservation, human_timerange: 'the_timerange', save: false, valid?: false)
-      lucky = double(:lucky, build_reservation: reservation)
+      reservation = double(:reservation, human_timerange: 'the_timerange', server: nil, save: false, valid?: false)
+      lucky = double(:lucky, build_reservation: reservation, available_docker_host: nil)
       IAmFeelingLucky.should_receive(:new).and_return(lucky)
 
       post :i_am_feeling_lucky
 
       response.should redirect_to root_path
+    end
+
+    it "books a remote-docker host when no regular server is free" do
+      docker_host = create(:docker_host)
+      created = create(:reservation, user: @user)
+      reservation = double(:reservation, server: nil, valid?: false)
+      lucky = double(:lucky,
+        build_reservation: reservation,
+        available_docker_host: docker_host,
+        docker_host_reservation_params: { password: 'secret' }.with_indifferent_access)
+      IAmFeelingLucky.should_receive(:new).and_return(lucky)
+      creator = double(:creator, create!: created)
+      DockerHostReservationCreator.should_receive(:new)
+        .with(hash_including(user: @user, docker_host_id: docker_host.id))
+        .and_return(creator)
+
+      post :i_am_feeling_lucky
+
+      response.should redirect_to reservation_path(created)
     end
   end
 

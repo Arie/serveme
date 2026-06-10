@@ -12,6 +12,18 @@ class CloudServer < RemoteServer
 
   belongs_to :cloud_reservation, class_name: "Reservation", optional: true
 
+  sig { returns(T.nilable(DockerHost)) }
+  def docker_host
+    return nil unless cloud_provider == "remote_docker" && cloud_location.present?
+
+    @docker_host ||= DockerHost.find_by(id: cloud_location)
+  end
+
+  sig { returns(T.nilable(String)) }
+  def host_hostname
+    docker_host&.hostname || ip
+  end
+
   sig { returns(T.nilable(Net::SSH::Connection::Session)) }
   def ssh
     raise "Cannot SSH to cloud server #{id}: no IP assigned yet (#{ip})" if ip.blank? || ip == "0.0.0.0"

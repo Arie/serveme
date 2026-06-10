@@ -63,12 +63,15 @@ class ReservationsController < ApplicationController
       return
     end
 
-    @reservation = IAmFeelingLucky.new(current_user).build_reservation
-    if @reservation.valid?
+    lucky = IAmFeelingLucky.new(current_user)
+    @reservation = lucky.build_reservation
+    if @reservation.server && @reservation.valid?
       $lock.synchronize("save-reservation-server-#{@reservation.server_id}") do
         @reservation.save!
       end
       reservation_saved if @reservation.persisted?
+    elsif @reservation.server.nil? && (docker_host = lucky.available_docker_host)
+      create_lucky_docker_host_reservation(lucky, docker_host)
     else
       flash[:alert] = "You're not very lucky, no server is available for the timerange #{@reservation.human_timerange} :("
       redirect_to root_path
@@ -398,6 +401,20 @@ class ReservationsController < ApplicationController
     respond_to do |format|
       format.html { render :new, status: :unprocessable_entity }
     end
+  end
+
+  def create_lucky_docker_host_reservation(lucky, docker_host)
+    creator = DockerHostReservationCreator.new(
+      user: current_user,
+      docker_host_id: docker_host.id,
+      reservation_params: lucky.docker_host_reservation_params
+    )
+    @reservation = creator.create!
+    flash[:notice] = "Reservation created on #{@reservation.server_name}. The server is being configured, give it a minute to start.".html_safe
+    redirect_to reservation_path(@reservation)
+  rescue DockerHostReservationCreator::CapacityError, DockerHostReservationCreator::ValidationError
+    flash[:alert] = "You're not very lucky, no server is available right now :("
+    redirect_to root_path
   end
 
   def reservation_saved

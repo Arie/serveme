@@ -70,6 +70,14 @@ class DockerHost < ActiveRecord::Base
       .group("servers.cloud_location").count
   end
 
+  sig { params(starts_at: T.any(Time, ActiveSupport::TimeWithZone), ends_at: T.any(Time, ActiveSupport::TimeWithZone)).returns(T::Array[DockerHost]) }
+  def self.available_during(starts_at, ends_at)
+    return [] if DockerImageReadiness.stale?
+
+    counts = container_counts_during(starts_at, ends_at)
+    active.ordered.reject { |dh| counts.fetch(dh.id.to_s, 0) >= (dh.max_containers || 4) }
+  end
+
   sig { params(starts_at: T.any(Time, ActiveSupport::TimeWithZone), ends_at: T.any(Time, ActiveSupport::TimeWithZone)).returns(Integer) }
   def container_count_during(starts_at, ends_at)
     Reservation.joins(:server)

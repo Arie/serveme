@@ -57,7 +57,7 @@ class IAmFeelingLucky
   end
 
   def available_servers_on_previous_host
-    available_servers.where(ip: previous_server.ip)
+    available_servers.where(ip: previous_server.host_hostname)
   end
 
   def available_server_in_same_location
@@ -74,6 +74,39 @@ class IAmFeelingLucky
 
   def first_available_server
     available_servers.first
+  end
+
+  # Remote-docker fallback: when no regular server is free, pick a docker host
+  # with spare capacity, with the same affinity as best_matching_server.
+  # Returns nil when none.
+  def available_docker_host
+    @available_docker_host ||= best_matching_docker_host(DockerHost.available_during(starts_at, ends_at))
+  end
+
+  # Prefer a docker host running on the same machine as the user's previous
+  # server (matched by hostname), then one in the same location, then any.
+  def best_matching_docker_host(hosts)
+    return hosts.first unless previous_reservation
+
+    docker_host_on_previous_host(hosts) || docker_host_in_previous_location(hosts) || hosts.first
+  end
+
+  def docker_host_on_previous_host(hosts)
+    hostname = previous_server.host_hostname
+    hosts.find { |host| host.hostname == hostname }
+  end
+
+  # Attributes for DockerHostReservationCreator, reusing the same settings the
+  # regular lucky reservation would have gotten, minus the server reference.
+  def docker_host_reservation_params
+    base_attributes.except("server", "server_id").merge(
+      "starts_at" => starts_at,
+      "ends_at" => ends_at
+    ).with_indifferent_access
+  end
+
+  def docker_host_in_previous_location(hosts)
+    hosts.find { |host| host.location_id == previous_server.location_id }
   end
 
   def starts_at

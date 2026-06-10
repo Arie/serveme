@@ -95,12 +95,10 @@ module ReservationsHelper
   def free_docker_hosts
     @free_docker_hosts ||= begin
       return [] if free_server_limit_reached_for_reservation?
-      return [] if DockerImageReadiness.stale?
 
       s = @reservation.starts_at || Time.current
       e = @reservation.ends_at || 2.hours.from_now
-      counts = DockerHost.container_counts_during(s, e)
-      DockerHost.active.includes(:location).reject { |dh| counts.fetch(dh.id.to_s, 0) >= (dh.max_containers || 4) }
+      DockerHost.available_during(s, e)
     end
   end
 

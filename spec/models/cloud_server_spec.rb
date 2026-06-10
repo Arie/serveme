@@ -12,6 +12,27 @@ describe CloudServer do
     end
   end
 
+  describe '#host_hostname' do
+    it 'returns the docker host hostname for remote_docker servers' do
+      docker_host = create(:docker_host, hostname: 'chi3.serveme.tf')
+      server = create(:cloud_server, cloud_provider: 'remote_docker', cloud_location: docker_host.id.to_s, ip: '1.2.3.4')
+
+      expect(server.host_hostname).to eq('chi3.serveme.tf')
+    end
+
+    it 'falls back to the ip for non-docker cloud servers' do
+      server = create(:cloud_server, cloud_provider: 'hetzner', ip: '5.6.7.8')
+
+      expect(server.host_hostname).to eq('5.6.7.8')
+    end
+
+    it 'falls back to the ip when the docker host no longer exists' do
+      server = create(:cloud_server, cloud_provider: 'remote_docker', cloud_location: '999999', ip: '9.9.9.9')
+
+      expect(server.host_hostname).to eq('9.9.9.9')
+    end
+  end
+
   describe '#ssh' do
     it 'uses explicit key auth with key_data, keys_only, and verify_host_key' do
       subject.stub(ip: '1.2.3.4')

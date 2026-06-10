@@ -102,9 +102,15 @@ module Mcp
           return { error: "Duration exceeds your maximum of #{max_minutes} minutes" }
         end
 
-        # Find or validate server
+        # Find or validate server (supports / falls back to remote-docker hosts)
         server_result = find_server(target_user, params[:server_id], starts_at, ends_at)
         return server_result if server_result[:error]
+
+        if server_result[:docker_host]
+          return create_docker_host_reservation(
+            target_user, T.cast(server_result[:docker_host], DockerHost), params, starts_at, ends_at, password
+          )
+        end
 
         server = T.cast(server_result[:server], Server)
 
@@ -150,6 +156,14 @@ module Mcp
       sig { params(user: User, server_id: T.nilable(Integer), starts_at: ActiveSupport::TimeWithZone, ends_at: ActiveSupport::TimeWithZone).returns(T::Hash[Symbol, T.untyped]) }
       def find_server(user, server_id, starts_at, ends_at)
         if server_id.present?
+          # Remote-docker hosts are addressed by a virtual id (offset + host id)
+          if DockerHost.docker_host_id?(server_id)
+            docker_host = DockerHost.active.find_by(id: server_id.to_i - DockerHost::VIRTUAL_ID_OFFSET)
+            return { error: "Server not found" } unless docker_host
+
+            return { docker_host: docker_host }
+          end
+
           server = Server.find_by(id: server_id)
           return { error: "Server not found" } unless server
 
@@ -161,12 +175,45 @@ module Mcp
 
           { server: server }
         else
-          # Auto-select first available server
+          # Auto-select first available server, then fall back to a remote-docker host
           servers = ServerForUserFinder.new(user, starts_at, ends_at).servers
-          return { error: "No servers available. Try again later or choose a different time." } if servers.empty?
+          return { server: servers.first } if servers.any?
 
-          { server: servers.first }
+          docker_host = DockerHost.available_during(starts_at, ends_at).first
+          return { docker_host: docker_host } if docker_host
+
+          { error: "No servers available. Try again later or choose a different time." }
         end
+      end
+
+      sig { params(user: User, docker_host: DockerHost, params: T::Hash[Symbol, T.untyped], starts_at: ActiveSupport::TimeWithZone, ends_at: ActiveSupport::TimeWithZone, password: String).returns(T::Hash[Symbol, T.untyped]) }
+      def create_docker_host_reservation(user, docker_host, params, starts_at, ends_at, password)
+        reservation = DockerHostReservationCreator.new(
+          user: user,
+          docker_host_id: docker_host.id,
+          reservation_params: docker_host_reservation_params(params, starts_at, ends_at, password)
+        ).create!
+        format_created_reservation(reservation)
+      rescue DockerHostReservationCreator::CapacityError => e
+        { error: e.message }
+      rescue DockerHostReservationCreator::ValidationError => e
+        { error: e.reservation.errors.full_messages.join(", ").presence || e.message }
+      end
+
+      sig { params(params: T::Hash[Symbol, T.untyped], starts_at: ActiveSupport::TimeWithZone, ends_at: ActiveSupport::TimeWithZone, password: String).returns(T::Hash[Symbol, T.untyped]) }
+      def docker_host_reservation_params(params, starts_at, ends_at, password)
+        {
+          starts_at: starts_at,
+          ends_at: ends_at,
+          password: password,
+          rcon: params[:rcon].presence || generate_rcon,
+          first_map: params[:first_map].presence || "cp_badlands",
+          server_config_id: params[:server_config_id],
+          whitelist_id: params[:whitelist_id],
+          enable_plugins: params[:enable_plugins] || false,
+          enable_demos_tf: params[:enable_demos_tf] || false,
+          auto_end: true
+        }
       end
 
       sig { returns(String) }

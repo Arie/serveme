@@ -101,7 +101,27 @@ describe IAmFeelingLucky do
       expect(subject.available_docker_host).to be_nil
     end
 
-    it 'prefers a docker host in the previous reservation location' do
+    it 'prefers a docker host on the same machine as the previous server (by hostname)' do
+      previous_reservation = create :reservation, user: user
+      previous_reservation.update_column(:ends_at, 1.hour.ago)
+      previous_server = previous_reservation.server
+      create(:docker_host, location: previous_server.location)
+      same_host = create(:docker_host, hostname: previous_server.ip, location: build(:location))
+
+      expect(subject.available_docker_host).to eq(same_host)
+    end
+
+    it 'matches a remote-docker previous server back to its docker host by hostname' do
+      docker_host = create(:docker_host, hostname: 'chi3.serveme.tf')
+      previous_cloud_server = create(:cloud_server, cloud_provider: 'remote_docker', cloud_location: docker_host.id.to_s, ip: '1.2.3.4', location: build(:location))
+      previous_reservation = create :reservation, user: user, server: previous_cloud_server
+      previous_reservation.update_column(:ends_at, 1.hour.ago)
+      create(:docker_host, hostname: 'other.serveme.tf', location: build(:location))
+
+      expect(subject.available_docker_host).to eq(docker_host)
+    end
+
+    it 'prefers a docker host in the previous reservation location when no host matches' do
       previous_reservation = create :reservation, user: user
       previous_reservation.update_column(:ends_at, 1.hour.ago)
       create(:docker_host, location: build(:location))

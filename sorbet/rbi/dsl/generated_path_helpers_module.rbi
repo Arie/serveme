@@ -10,6 +10,9 @@ module GeneratedPathHelpersModule
   include ::ActionDispatch::Routing::PolymorphicRoutes
 
   sig { params(args: T.untyped).returns(String) }
+  def activate_admin_docker_host_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def admin_cloud_image_build_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }

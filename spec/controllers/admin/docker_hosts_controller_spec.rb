@@ -107,6 +107,26 @@ describe Admin::DockerHostsController do
     end
   end
 
+  describe "#destroy" do
+    let(:docker_host) { create(:docker_host, hostname: "de1.serveme.tf", active: true) }
+
+    it "deactivates the docker host" do
+      delete :destroy, params: { id: docker_host.id }
+      expect(docker_host.reload.active).to be false
+      expect(response).to redirect_to(admin_docker_hosts_path)
+    end
+  end
+
+  describe "#activate" do
+    let(:docker_host) { create(:docker_host, hostname: "de1.serveme.tf", active: false) }
+
+    it "activates the docker host" do
+      post :activate, params: { id: docker_host.id }
+      expect(docker_host.reload.active).to be true
+      expect(response).to redirect_to(admin_docker_hosts_path)
+    end
+  end
+
   context "for non-admin users" do
     before { sign_in create(:user) }
 

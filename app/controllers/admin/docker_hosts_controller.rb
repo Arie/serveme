@@ -4,7 +4,7 @@
 module Admin
   class DockerHostsController < ApplicationController
     before_action :require_admin
-    before_action :set_docker_host, only: [ :edit, :update, :destroy, :setup, :run_setup_step ]
+    before_action :set_docker_host, only: [ :edit, :update, :destroy, :activate, :setup, :run_setup_step ]
 
     SETUP_STEPS = %w[create_vm dns ssh provision ssl pull_image].freeze
 
@@ -38,6 +38,11 @@ module Admin
     def destroy
       @docker_host.update(active: false)
       redirect_to admin_docker_hosts_path, notice: "Docker host was successfully deactivated."
+    end
+
+    def activate
+      @docker_host.update(active: true)
+      redirect_to admin_docker_hosts_path, notice: "Docker host was successfully activated."
     end
 
     def setup; end

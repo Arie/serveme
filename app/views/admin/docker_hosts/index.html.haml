@@ -60,3 +60,5 @@
                       = link_to("Edit", edit_admin_docker_host_path(docker_host), class: "btn btn-warning")
                       - if docker_host.active
                         = link_to("Deactivate", admin_docker_host_path(docker_host), method: :delete, data: { confirm: "Are you sure you want to deactivate this Docker host?" }, class: "btn btn-danger")
+                      - else
+                        = link_to("Activate", activate_admin_docker_host_path(docker_host), method: :post, class: "btn btn-success")

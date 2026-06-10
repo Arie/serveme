@@ -161,6 +161,7 @@ Serveme::Application.routes.draw do
       member do
         get :setup
         post :run_setup_step
+        post :activate
       end
     end
     resources :cloud_image_builds, only: [ :index, :show, :create ] do

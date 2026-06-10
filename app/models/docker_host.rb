@@ -29,6 +29,7 @@ class DockerHost < ActiveRecord::Base
   validates :provider, inclusion: { in: PROVIDERS }, allow_nil: true
   validates :provider_location, presence: true, if: :provider?
   scope :active, -> { where(active: true) }
+  scope :ordered, -> { eager_load(:location).order("locations.name", :city, :hostname) }
 
   sig { returns(T::Boolean) }
   def provider?

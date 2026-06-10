@@ -9,7 +9,7 @@ module Admin
     SETUP_STEPS = %w[create_vm dns ssh provision ssl pull_image].freeze
 
     def index
-      @docker_hosts = DockerHost.includes(:location).order(:city)
+      @docker_hosts = DockerHost.ordered
     end
 
     def new

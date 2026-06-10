@@ -20,7 +20,7 @@ class ReservationsController < ApplicationController
     end
     @reservation ||= new_reservation
     @servers = Server.active.not_cloud.ordered.includes(:location)
-    @docker_hosts = DockerHost.active.includes(:location)
+    @docker_hosts = DockerHost.active.ordered
     if params[:ip].present?
       available_servers = ServerForUserFinder.new(current_user, @reservation.starts_at, @reservation.ends_at).servers
       matching_servers = available_servers.where(ip: params[:ip])
@@ -38,7 +38,7 @@ class ReservationsController < ApplicationController
     rescue ArgumentError
       @reservation = current_user.reservations.build(reservation_params.except(:starts_at, :ends_at))
       @servers = Server.active.not_cloud.ordered.includes(:location)
-      @docker_hosts = DockerHost.active.includes(:location)
+      @docker_hosts = DockerHost.active.ordered
       flash.now[:alert] = "Invalid date or time entered, please try again."
       render :new, status: :unprocessable_entity
       return
@@ -93,7 +93,7 @@ class ReservationsController < ApplicationController
 
   def edit
     @servers = Server.active.not_cloud.ordered.includes(:location)
-    @docker_hosts = DockerHost.active.includes(:location)
+    @docker_hosts = DockerHost.active.ordered
     @reservation = reservation
   end
 
@@ -371,7 +371,7 @@ class ReservationsController < ApplicationController
       reservation_saved
     else
       @servers = Server.active.not_cloud.ordered.includes(:location)
-      @docker_hosts = DockerHost.active.includes(:location)
+      @docker_hosts = DockerHost.active.ordered
       respond_to do |format|
         format.html { render :new, status: :unprocessable_entity }
       end
@@ -394,7 +394,7 @@ class ReservationsController < ApplicationController
   rescue DockerHostReservationCreator::ValidationError => e
     @reservation = e.reservation
     @servers = Server.active.not_cloud.ordered.includes(:location)
-    @docker_hosts = DockerHost.active.includes(:location)
+    @docker_hosts = DockerHost.active.ordered
     respond_to do |format|
       format.html { render :new, status: :unprocessable_entity }
     end

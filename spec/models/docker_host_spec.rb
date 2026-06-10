@@ -97,4 +97,57 @@ describe DockerHost do
       expect(host.location).to be_a(Location)
     end
   end
+
+  describe '.ordered' do
+    it 'sorts by country, then city, then hostname' do
+      nl = create(:location, name: 'Netherlands')
+      us = create(:location, name: 'United States')
+      chi2 = create(:docker_host, location: us, city: 'Chicago', hostname: 'chi2.serveme.tf', ip: '10.0.0.2')
+      ams = create(:docker_host, location: nl, city: 'Amsterdam', hostname: 'ams1.serveme.tf', ip: '10.0.0.3')
+      chi1 = create(:docker_host, location: us, city: 'Chicago', hostname: 'chi1.serveme.tf', ip: '10.0.0.4')
+      dal = create(:docker_host, location: us, city: 'Dallas', hostname: 'dal.serveme.tf', ip: '10.0.0.5')
+
+      expect(described_class.ordered).to eq([ ams, chi1, chi2, dal ])
+    end
+  end
+
+  describe '.available_during' do
+    let(:window) { [ Time.current, 2.hours.from_now ] }
+
+    before { allow(DockerImageReadiness).to receive(:stale?).and_return(false) }
+
+    it 'returns active hosts with free capacity' do
+      host = create(:docker_host)
+
+      expect(described_class.available_during(*window)).to eq([ host ])
+    end
+
+    it 'returns hosts in country, city, hostname order' do
+      us = create(:location, name: 'United States')
+      chi = create(:docker_host, location: us, city: 'Chicago', hostname: 'chi1.serveme.tf', ip: '10.0.0.2')
+      ams = create(:docker_host, city: 'Amsterdam', hostname: 'ams1.serveme.tf', ip: '10.0.0.3')
+
+      expect(described_class.available_during(*window)).to eq([ ams, chi ])
+    end
+
+    it 'excludes inactive hosts' do
+      create(:docker_host, active: false)
+
+      expect(described_class.available_during(*window)).to be_empty
+    end
+
+    it 'excludes hosts that are at capacity for the window' do
+      host = create(:docker_host, max_containers: 1)
+      allow(described_class).to receive(:container_counts_during).and_return({ host.id.to_s => 1 })
+
+      expect(described_class.available_during(*window)).to be_empty
+    end
+
+    it 'returns nothing when the docker image is stale' do
+      create(:docker_host)
+      allow(DockerImageReadiness).to receive(:stale?).and_return(true)
+
+      expect(described_class.available_during(*window)).to be_empty
+    end
+  end
 end

@@ -77,4 +77,50 @@ describe IAmFeelingLucky do
       reservation.server.should == some_fallback_server
     end
   end
+
+  context 'when no regular server is available' do
+    before { allow(DockerImageReadiness).to receive(:stale?).and_return(false) }
+
+    it 'has no server to build a reservation with' do
+      create(:docker_host)
+
+      expect(subject.first_available_server).to be_nil
+      expect(subject.build_reservation.server).to be_nil
+    end
+
+    it 'falls back to a docker host with free capacity' do
+      docker_host = create(:docker_host)
+
+      expect(subject.available_docker_host).to eq(docker_host)
+    end
+
+    it 'returns no docker host when the image is stale' do
+      create(:docker_host)
+      allow(DockerImageReadiness).to receive(:stale?).and_return(true)
+
+      expect(subject.available_docker_host).to be_nil
+    end
+
+    it 'prefers a docker host in the previous reservation location' do
+      previous_reservation = create :reservation, user: user
+      previous_reservation.update_column(:ends_at, 1.hour.ago)
+      create(:docker_host, location: build(:location))
+      same_location_host = create(:docker_host, location: previous_reservation.server.location)
+
+      expect(subject.available_docker_host).to eq(same_location_host)
+    end
+
+    it 'reuses the previous reservation settings in the docker host params, without a server' do
+      previous_reservation = create :reservation, user: user, rcon: 'the_rcon'
+      previous_reservation.update_column(:ends_at, 1.hour.ago)
+
+      params = subject.docker_host_reservation_params
+
+      expect(params[:rcon]).to eq('the_rcon')
+      expect(params[:server]).to be_nil
+      expect(params[:server_id]).to be_nil
+      expect(params[:starts_at]).to be_present
+      expect(params[:ends_at]).to be_present
+    end
+  end
 end

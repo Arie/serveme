@@ -15,73 +15,79 @@ class Tidewave
 
   private
 
-  # pkg:gem/tidewave#lib/tidewave.rb:310
+  # pkg:gem/tidewave#lib/tidewave.rb:325
   def build_tool_registry; end
 
-  # pkg:gem/tidewave#lib/tidewave.rb:127
-  def config_data; end
+  # pkg:gem/tidewave#lib/tidewave.rb:129
+  def config_data(request); end
 
-  # pkg:gem/tidewave#lib/tidewave.rb:105
-  def config_endpoint(_request); end
+  # pkg:gem/tidewave#lib/tidewave.rb:107
+  def config_endpoint(request); end
 
-  # pkg:gem/tidewave#lib/tidewave.rb:142
+  # pkg:gem/tidewave#lib/tidewave.rb:145
   def forbidden(message); end
 
-  # pkg:gem/tidewave#lib/tidewave.rb:217
+  # pkg:gem/tidewave#lib/tidewave.rb:232
   def handle_initialize(request_id, params); end
 
-  # pkg:gem/tidewave#lib/tidewave.rb:188
+  # pkg:gem/tidewave#lib/tidewave.rb:203
   def handle_mcp_message(message); end
 
-  # pkg:gem/tidewave#lib/tidewave.rb:240
+  # pkg:gem/tidewave#lib/tidewave.rb:255
   def handle_tool_call(request_id, params); end
 
-  # pkg:gem/tidewave#lib/tidewave.rb:88
+  # pkg:gem/tidewave#lib/tidewave.rb:90
   def home_endpoint(_request); end
 
-  # pkg:gem/tidewave#lib/tidewave.rb:137
-  def json_response(payload, status: T.unsafe(nil)); end
-
-  # pkg:gem/tidewave#lib/tidewave.rb:264
-  def jsonrpc_error_response(request_id, code, message); end
-
-  # pkg:gem/tidewave#lib/tidewave.rb:268
-  def jsonrpc_error_response_body(request_id, code, message); end
-
-  # pkg:gem/tidewave#lib/tidewave.rb:256
-  def jsonrpc_success_response_body(request_id, result); end
-
-  # pkg:gem/tidewave#lib/tidewave.rb:109
-  def mcp_endpoint(request); end
-
-  # pkg:gem/tidewave#lib/tidewave.rb:147
-  def not_found; end
-
-  # pkg:gem/tidewave#lib/tidewave.rb:155
-  def response_headers(content_type, body); end
-
-  # pkg:gem/tidewave#lib/tidewave.rb:82
-  def strip_x_frame_options(response); end
-
-  # pkg:gem/tidewave#lib/tidewave.rb:303
-  def text_content(text); end
-
-  # pkg:gem/tidewave#lib/tidewave.rb:151
-  def text_response(status, message); end
+  # pkg:gem/tidewave#lib/tidewave.rb:140
+  def json_response(payload, status: T.unsafe(nil), headers: T.unsafe(nil)); end
 
   # pkg:gem/tidewave#lib/tidewave.rb:279
-  def tool_definitions; end
+  def jsonrpc_error_response(request_id, code, message); end
 
   # pkg:gem/tidewave#lib/tidewave.rb:283
+  def jsonrpc_error_response_body(request_id, code, message); end
+
+  # pkg:gem/tidewave#lib/tidewave.rb:271
+  def jsonrpc_success_response_body(request_id, result); end
+
+  # pkg:gem/tidewave#lib/tidewave.rb:169
+  def local_port(request); end
+
+  # pkg:gem/tidewave#lib/tidewave.rb:111
+  def mcp_endpoint(request); end
+
+  # pkg:gem/tidewave#lib/tidewave.rb:150
+  def not_found; end
+
+  # pkg:gem/tidewave#lib/tidewave.rb:165
+  def origin_allowed_path?(path); end
+
+  # pkg:gem/tidewave#lib/tidewave.rb:158
+  def response_headers(content_type, body); end
+
+  # pkg:gem/tidewave#lib/tidewave.rb:84
+  def strip_x_frame_options(response); end
+
+  # pkg:gem/tidewave#lib/tidewave.rb:318
+  def text_content(text); end
+
+  # pkg:gem/tidewave#lib/tidewave.rb:154
+  def text_response(status, message); end
+
+  # pkg:gem/tidewave#lib/tidewave.rb:294
+  def tool_definitions; end
+
+  # pkg:gem/tidewave#lib/tidewave.rb:298
   def tool_error_result(message); end
 
-  # pkg:gem/tidewave#lib/tidewave.rb:290
+  # pkg:gem/tidewave#lib/tidewave.rb:305
   def tool_result(result); end
 
-  # pkg:gem/tidewave#lib/tidewave.rb:162
+  # pkg:gem/tidewave#lib/tidewave.rb:177
   def valid_client_ip?(request); end
 
-  # pkg:gem/tidewave#lib/tidewave.rb:174
+  # pkg:gem/tidewave#lib/tidewave.rb:189
   def validate_jsonrpc_message(message); end
 end
 

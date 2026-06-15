@@ -1093,7 +1093,7 @@ class RedisClient::RubyConnection
   # unknown POSIX
   # unknown
   #
-  # pkg:gem/redis-client#lib/redis_client/ruby_connection.rb:179
+  # pkg:gem/redis-client#lib/redis_client/ruby_connection.rb:172
   def enable_socket_keep_alive(socket); end
 
   class << self

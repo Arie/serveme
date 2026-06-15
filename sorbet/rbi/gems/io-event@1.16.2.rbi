@@ -305,21 +305,20 @@ end
 class IO::Event::PriorityHeap
   # Initializes the heap.
   #
-  # pkg:gem/io-event#lib/io/event/priority_heap.rb:14
+  # pkg:gem/io-event#lib/io/event/priority_heap.rb:16
   def initialize; end
 
   # Empties out the heap, discarding all elements
   #
-  # pkg:gem/io-event#lib/io/event/priority_heap.rb:100
+  # pkg:gem/io-event#lib/io/event/priority_heap.rb:118
   def clear!; end
 
-  # Add multiple elements to the heap efficiently in O(n) time.
-  # This is more efficient than calling push multiple times (O(n log n)).
+  # Add multiple elements to the heap efficiently.
   #
   # @parameter elements [Array] The elements to add to the heap.
   # @returns [self] Returns self for method chaining.
   #
-  # pkg:gem/io-event#lib/io/event/priority_heap.rb:87
+  # pkg:gem/io-event#lib/io/event/priority_heap.rb:88
   def concat(elements); end
 
   # Remove a specific element from the heap.
@@ -329,7 +328,7 @@ class IO::Event::PriorityHeap
   # @parameter element [Object] The element to remove.
   # @returns [Object | Nil] The removed element, or nil if not found.
   #
-  # pkg:gem/io-event#lib/io/event/priority_heap.rb:110
+  # pkg:gem/io-event#lib/io/event/priority_heap.rb:128
   def delete(element); end
 
   # Remove elements matching the given block condition by rebuilding the heap.
@@ -341,46 +340,56 @@ class IO::Event::PriorityHeap
   # @yields [Object] Each element in the heap for testing
   # @returns [Integer] The number of elements removed
   #
-  # pkg:gem/io-event#lib/io/event/priority_heap.rb:149
+  # pkg:gem/io-event#lib/io/event/priority_heap.rb:167
   def delete_if; end
 
   # @returns [Boolean] true if the heap is empty, false otherwise.
   #
-  # pkg:gem/io-event#lib/io/event/priority_heap.rb:32
+  # pkg:gem/io-event#lib/io/event/priority_heap.rb:34
   def empty?; end
+
+  # Mutate the heap contents directly, then rebuild the heap property.
+  #
+  # This supports batched operations that can be completed with a single `O(n)` heapify instead of multiple `O(log n)` heap operations.
+  #
+  # @yields {|contents| ...} The heap contents array.
+  # @returns [self] Returns self for method chaining.
+  #
+  # pkg:gem/io-event#lib/io/event/priority_heap.rb:108
+  def heapify; end
 
   # @returns [Object | Nil] the smallest element in the heap without removing it, or nil if the heap is empty.
   #
-  # pkg:gem/io-event#lib/io/event/priority_heap.rb:22
+  # pkg:gem/io-event#lib/io/event/priority_heap.rb:24
   def peek; end
 
   # Removes and returns the smallest element in the heap, or nil if the heap is empty.
   #
   # @returns [Object | Nil] The smallest element in the heap, or nil if the heap is empty.
   #
-  # pkg:gem/io-event#lib/io/event/priority_heap.rb:39
+  # pkg:gem/io-event#lib/io/event/priority_heap.rb:41
   def pop; end
 
   # Add a new element to the heap, then rearrange elements until the heap invariant is true again.
   #
   # @parameter element [Object] The element to add to the heap.
   #
-  # pkg:gem/io-event#lib/io/event/priority_heap.rb:70
+  # pkg:gem/io-event#lib/io/event/priority_heap.rb:72
   def push(element); end
 
   # @returns [Integer] the number of elements in the heap.
   #
-  # pkg:gem/io-event#lib/io/event/priority_heap.rb:27
+  # pkg:gem/io-event#lib/io/event/priority_heap.rb:29
   def size; end
 
   # Validate the heap invariant. Every element except the root must not be smaller than its parent element. Note that it MAY be equal.
   #
-  # pkg:gem/io-event#lib/io/event/priority_heap.rb:167
+  # pkg:gem/io-event#lib/io/event/priority_heap.rb:185
   def valid?; end
 
   private
 
-  # pkg:gem/io-event#lib/io/event/priority_heap.rb:206
+  # pkg:gem/io-event#lib/io/event/priority_heap.rb:224
   def bubble_down(index); end
 
   # Left here for reference, but unused.
@@ -388,15 +397,18 @@ class IO::Event::PriorityHeap
   # 	@contents[i], @contents[j] = @contents[j], @contents[i]
   # end
   #
-  # pkg:gem/io-event#lib/io/event/priority_heap.rb:193
+  # pkg:gem/io-event#lib/io/event/priority_heap.rb:211
   def bubble_up(index); end
 
   # Rebuild the heap property from an arbitrary array in O(n) time.
   # Uses bottom-up heapify algorithm starting from the last non-leaf node.
   #
-  # pkg:gem/io-event#lib/io/event/priority_heap.rb:176
+  # pkg:gem/io-event#lib/io/event/priority_heap.rb:194
   def heapify!; end
 end
+
+# pkg:gem/io-event#lib/io/event/priority_heap.rb:13
+IO::Event::PriorityHeap::HEAPIFY_INSERT_RATIO = T.let(T.unsafe(nil), Integer)
 
 # @namespace
 #
@@ -714,7 +726,7 @@ end
 class IO::Event::Timers
   # Initialize the timers.
   #
-  # pkg:gem/io-event#lib/io/event/timers.rb:62
+  # pkg:gem/io-event#lib/io/event/timers.rb:82
   def initialize; end
 
   # Schedule a block to be called after a specific time offset, relative to the current time as returned by {#now}.
@@ -722,19 +734,24 @@ class IO::Event::Timers
   # @parameter offset [#to_f] The time offset from the current time at which the block should be called.
   # @yields {|now| ...} When the timer fires.
   #
-  # pkg:gem/io-event#lib/io/event/timers.rb:90
+  # pkg:gem/io-event#lib/io/event/timers.rb:111
   def after(offset, &block); end
+
+  # Track cancelled timers that are still retained in the heap.
+  #
+  # pkg:gem/io-event#lib/io/event/timers.rb:211
+  def cancelled!(handle); end
 
   # Fire all timers that are ready to fire.
   #
   # @parameter now [Float] The current time.
   #
-  # pkg:gem/io-event#lib/io/event/timers.rb:118
+  # pkg:gem/io-event#lib/io/event/timers.rb:141
   def fire(now = T.unsafe(nil)); end
 
   # @returns [Float] The current time.
   #
-  # pkg:gem/io-event#lib/io/event/timers.rb:111
+  # pkg:gem/io-event#lib/io/event/timers.rb:134
   def now; end
 
   # Schedule a block to be called at a specific time in the future.
@@ -742,12 +759,12 @@ class IO::Event::Timers
   # @parameter time [Float] The time at which the block should be called, relative to {#now}.
   # @parameter block [Proc] The block to call.
   #
-  # pkg:gem/io-event#lib/io/event/timers.rb:78
+  # pkg:gem/io-event#lib/io/event/timers.rb:99
   def schedule(time, block); end
 
   # @returns [Integer] The number of timers in the heap.
   #
-  # pkg:gem/io-event#lib/io/event/timers.rb:68
+  # pkg:gem/io-event#lib/io/event/timers.rb:89
   def size; end
 
   # Compute the time interval until the next timer fires.
@@ -755,29 +772,32 @@ class IO::Event::Timers
   # @parameter now [Float] The current time.
   # @returns [Float | Nil] The time interval until the next timer fires, if any.
   #
-  # pkg:gem/io-event#lib/io/event/timers.rb:98
+  # pkg:gem/io-event#lib/io/event/timers.rb:119
   def wait_interval(now = T.unsafe(nil)); end
 
   protected
 
   # Flush all scheduled timers into the heap.
   #
-  # This is a small optimization which assumes that most timers (timeouts) will be cancelled.
+  # Scheduling appends to `@scheduled` and cancellation is `O(1)`. We pay the cost of filtering and heap repair here, where we can batch work and choose between incremental insertion and one `heapify` pass.
   #
-  # pkg:gem/io-event#lib/io/event/timers.rb:141
+  # pkg:gem/io-event#lib/io/event/timers.rb:167
   def flush!; end
 end
 
+# pkg:gem/io-event#lib/io/event/timers.rb:12
+IO::Event::Timers::COMPACT_MINIMUM_COUNT = T.let(T.unsafe(nil), Integer)
+
 # A handle to a scheduled timer.
 #
-# pkg:gem/io-event#lib/io/event/timers.rb:13
+# pkg:gem/io-event#lib/io/event/timers.rb:15
 class IO::Event::Timers::Handle
   # Initialize the handle with the given time and block.
   #
   # @parameter time [Float] The time at which the block should be called.
   # @parameter block [Proc] The block to call.
   #
-  # pkg:gem/io-event#lib/io/event/timers.rb:18
+  # pkg:gem/io-event#lib/io/event/timers.rb:20
   def initialize(time, block); end
 
   # Compare the handle with another handle.
@@ -785,7 +805,7 @@ class IO::Event::Timers::Handle
   # @parameter other [Handle] The other handle to compare with.
   # @returns [Boolean] Whether the handle is less than the other handle.
   #
-  # pkg:gem/io-event#lib/io/event/timers.rb:33
+  # pkg:gem/io-event#lib/io/event/timers.rb:46
   def <(other); end
 
   # Compare the handle with another handle.
@@ -793,32 +813,42 @@ class IO::Event::Timers::Handle
   # @parameter other [Handle] The other handle to compare with.
   # @returns [Boolean] Whether the handle is greater than the other handle.
   #
-  # pkg:gem/io-event#lib/io/event/timers.rb:41
+  # pkg:gem/io-event#lib/io/event/timers.rb:54
   def >(other); end
 
   # @attribute [Proc | Nil] The block to call when the timer fires.
   #
-  # pkg:gem/io-event#lib/io/event/timers.rb:27
+  # pkg:gem/io-event#lib/io/event/timers.rb:30
   def block; end
 
   # Invoke the block.
   #
-  # pkg:gem/io-event#lib/io/event/timers.rb:46
+  # pkg:gem/io-event#lib/io/event/timers.rb:59
   def call(*_arg0, **_arg1, &_arg2); end
 
   # Cancel the timer.
   #
-  # pkg:gem/io-event#lib/io/event/timers.rb:51
+  # pkg:gem/io-event#lib/io/event/timers.rb:64
   def cancel!; end
 
   # @returns [Boolean] Whether the timer has been cancelled.
   #
-  # pkg:gem/io-event#lib/io/event/timers.rb:56
+  # pkg:gem/io-event#lib/io/event/timers.rb:76
   def cancelled?; end
+
+  # Mark the timer as removed from the heap.
+  #
+  # pkg:gem/io-event#lib/io/event/timers.rb:38
+  def removed!; end
+
+  # Mark the timer as inserted into the heap.
+  #
+  # pkg:gem/io-event#lib/io/event/timers.rb:33
+  def schedule!(timers); end
 
   # @attribute [Float] The time at which the block should be called.
   #
-  # pkg:gem/io-event#lib/io/event/timers.rb:24
+  # pkg:gem/io-event#lib/io/event/timers.rb:27
   def time; end
 end
 

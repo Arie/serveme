@@ -34739,7 +34739,7 @@ class Aws::S3::FileDownloader
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:62
   def download_with_executor(part_list, total_size, opts); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:223
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:225
   def execute_checksum_callback(resp, opts); end
 
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:136
@@ -34769,25 +34769,25 @@ class Aws::S3::FileDownloader
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:192
   def resolve_temp_path(opts); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:208
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:210
   def single_part_progress(opts); end
 
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:198
   def single_request(opts); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:214
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:216
   def update_progress(progress, part); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:229
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:231
   def validate_destination!(destination); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:236
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:238
   def validate_opts!(opts); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:256
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:258
   def validate_range(actual, expected); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:262
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:264
   def write(body, range, opts); end
 end
 
@@ -34805,44 +34805,44 @@ Aws::S3::FileDownloader::MIN_CHUNK_SIZE = T.let(T.unsafe(nil), Integer)
 
 # @api private
 #
-# pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:298
+# pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:300
 class Aws::S3::FileDownloader::MultipartProgress
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:299
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:301
   def initialize(parts, total_size, progress_callback); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:308
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:310
   def call(part_number, bytes_received, total); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:306
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:308
   def progress_callback; end
 end
 
 # @api private
 #
-# pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:268
+# pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:270
 class Aws::S3::FileDownloader::Part < ::Struct
   include ::Aws::Structure
 end
 
 # @api private
 #
-# pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:273
+# pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:275
 class Aws::S3::FileDownloader::PartList
   include ::Enumerable
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:275
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:277
   def initialize(parts = T.unsafe(nil)); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:288
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:290
   def clear!; end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:292
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:294
   def each(&block); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:280
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:282
   def shift; end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:284
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:286
   def size; end
 end
 
@@ -35347,6 +35347,24 @@ class Aws::S3::MultipartUpload
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_upload.rb:123
   def client; end
 
+  # Completes the upload, requires a list of completed parts. You can
+  # provide the list of parts with `:part_number` and `:etag` values.
+  #
+  #     upload.complete(multipart_upload: { parts: [
+  #       { part_number: 1, etag:'etag1' },
+  #       { part_number: 2, etag:'etag2' },
+  #       ...
+  #     ]})
+  #
+  # Alternatively, you can pass **`compute_parts: true`** and the part
+  # list will be computed by calling {Client#list_parts}.
+  #
+  #     upload.complete(compute_parts: true)
+  #
+  # @option options [Boolean] :compute_parts (false) When `true`,
+  #   the {Client#list_parts} method will be called to determine
+  #   the list of required part numbers and their ETags.
+  #
   # @example Request syntax with placeholder values
   #
   #   object = multipart_upload.complete({
@@ -35607,23 +35625,6 @@ class Aws::S3::MultipartUpload
   #
   #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html
   # @return [Object]
-  # Completes the upload, requires a list of completed parts. You can
-  # provide the list of parts with `:part_number` and `:etag` values.
-  #
-  #     upload.complete(multipart_upload: { parts: [
-  #       { part_number: 1, etag:'etag1' },
-  #       { part_number: 2, etag:'etag2' },
-  #       ...
-  #     ]})
-  #
-  # Alternatively, you can pass **`compute_parts: true`** and the part
-  # list will be computed by calling {Client#list_parts}.
-  #
-  #     upload.complete(compute_parts: true)
-  #
-  # @option options [Boolean] :compute_parts (false) When `true`,
-  #   the {Client#list_parts} method will be called to determine
-  #   the list of required part numbers and their ETags.
   #
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_upload.rb:563
   def complete(options = T.unsafe(nil)); end
@@ -36947,74 +36948,6 @@ class Aws::S3::Object
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object.rb:352
   def content_type; end
 
-  # Make the method redefinable
-  # Copies another object to this object. Use `multipart_copy: true`
-  # for large objects. This is required for objects that exceed 5GB.
-  #
-  # @param [S3::Object, S3::ObjectVersion, S3::ObjectSummary, String, Hash]
-  #   source Where to copy object data from. `source` must be one of the
-  #   following:
-  #
-  #   * {Aws::S3::Object}
-  #   * {Aws::S3::ObjectSummary}
-  #   * {Aws::S3::ObjectVersion}
-  #   * Hash - with `:bucket` and `:key` and optional `:version_id`
-  #   * String - formatted like `"source-bucket-name/uri-escaped-key"`
-  #     or `"source-bucket-name/uri-escaped-key?versionId=version-id"`
-  #
-  # @option options [Boolean] :multipart_copy (false) When `true`,
-  #   the object will be copied using the multipart APIs. This is
-  #   necessary for objects larger than 5GB and can provide
-  #   performance improvements on large objects. Amazon S3 does
-  #   not accept multipart copies for objects smaller than 5MB.
-  #   Object metadata such as Content-Type will be copied, however,
-  #   Checksums are not copied.
-  #
-  # @option options [Integer] :content_length Only used when
-  #   `:multipart_copy` is `true`. Passing this options avoids a HEAD
-  #   request to query the source object size but prevents object metadata
-  #   from being copied. Raises an `ArgumentError` if
-  #   this option is provided when `:multipart_copy` is `false` or not set.
-  #
-  # @option options [S3::Client] :copy_source_client Only used when
-  #   `:multipart_copy` is `true` and the source object is in a
-  #   different region. You do not need to specify this option
-  #   if you have provided `:content_length`.
-  #
-  # @option options [String] :copy_source_region Only used when
-  #   `:multipart_copy` is `true` and the source object is in a
-  #   different region. You do not need to specify this option
-  #   if you have provided a `:source_client` or a `:content_length`.
-  #
-  # @option options [Boolean] :use_source_parts (false) Only used when
-  #   `:multipart_copy` is `true`. Use part sizes defined on the source
-  #   object if any exist. If copying or moving an object that
-  #   is already multipart, this does not re-part the object, instead
-  #   re-using the part definitions on the original. That means the etag
-  #   and any checksums will not change. This is especially useful if the
-  #   source object has parts with varied sizes.
-  #
-  # @example Basic object copy
-  #
-  #   bucket = Aws::S3::Bucket.new('target-bucket')
-  #   object = bucket.object('target-key')
-  #
-  #   # source as String
-  #   object.copy_from('source-bucket/source-key')
-  #
-  #   # source as Hash
-  #   object.copy_from(bucket:'source-bucket', key:'source-key')
-  #
-  #   # source as Aws::S3::Object
-  #   object.copy_from(bucket.object('source-key'))
-  #
-  # @example Managed copy of large objects
-  #
-  #   # uses multipart upload APIs to copy object
-  #   object.copy_from('src-bucket/src-key', multipart_copy: true)
-  #
-  # @see #copy_to
-  #
   # @example Request syntax with placeholder values
   #
   #   object.copy_from({
@@ -37774,6 +37707,73 @@ class Aws::S3::Object
   #   the request fails with the HTTP status code `403 Forbidden` (access
   #   denied).
   # @return [Types::CopyObjectOutput]
+  # Make the method redefinable
+  # Copies another object to this object. Use `multipart_copy: true`
+  # for large objects. This is required for objects that exceed 5GB.
+  #
+  # @param [S3::Object, S3::ObjectVersion, S3::ObjectSummary, String, Hash]
+  #   source Where to copy object data from. `source` must be one of the
+  #   following:
+  #
+  #   * {Aws::S3::Object}
+  #   * {Aws::S3::ObjectSummary}
+  #   * {Aws::S3::ObjectVersion}
+  #   * Hash - with `:bucket` and `:key` and optional `:version_id`
+  #   * String - formatted like `"source-bucket-name/uri-escaped-key"`
+  #     or `"source-bucket-name/uri-escaped-key?versionId=version-id"`
+  #
+  # @option options [Boolean] :multipart_copy (false) When `true`,
+  #   the object will be copied using the multipart APIs. This is
+  #   necessary for objects larger than 5GB and can provide
+  #   performance improvements on large objects. Amazon S3 does
+  #   not accept multipart copies for objects smaller than 5MB.
+  #   Object metadata such as Content-Type will be copied, however,
+  #   Checksums are not copied.
+  #
+  # @option options [Integer] :content_length Only used when
+  #   `:multipart_copy` is `true`. Passing this options avoids a HEAD
+  #   request to query the source object size but prevents object metadata
+  #   from being copied. Raises an `ArgumentError` if
+  #   this option is provided when `:multipart_copy` is `false` or not set.
+  #
+  # @option options [S3::Client] :copy_source_client Only used when
+  #   `:multipart_copy` is `true` and the source object is in a
+  #   different region. You do not need to specify this option
+  #   if you have provided `:content_length`.
+  #
+  # @option options [String] :copy_source_region Only used when
+  #   `:multipart_copy` is `true` and the source object is in a
+  #   different region. You do not need to specify this option
+  #   if you have provided a `:source_client` or a `:content_length`.
+  #
+  # @option options [Boolean] :use_source_parts (false) Only used when
+  #   `:multipart_copy` is `true`. Use part sizes defined on the source
+  #   object if any exist. If copying or moving an object that
+  #   is already multipart, this does not re-part the object, instead
+  #   re-using the part definitions on the original. That means the etag
+  #   and any checksums will not change. This is especially useful if the
+  #   source object has parts with varied sizes.
+  #
+  # @example Basic object copy
+  #
+  #   bucket = Aws::S3::Bucket.new('target-bucket')
+  #   object = bucket.object('target-key')
+  #
+  #   # source as String
+  #   object.copy_from('source-bucket/source-key')
+  #
+  #   # source as Hash
+  #   object.copy_from(bucket:'source-bucket', key:'source-key')
+  #
+  #   # source as Aws::S3::Object
+  #   object.copy_from(bucket.object('source-key'))
+  #
+  # @example Managed copy of large objects
+  #
+  #   # uses multipart upload APIs to copy object
+  #   object.copy_from('src-bucket/src-key', multipart_copy: true)
+  #
+  # @see #copy_to
   #
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object.rb:1560
   def copy_from(source, options = T.unsafe(nil)); end
@@ -41270,6 +41270,11 @@ class Aws::S3::ObjectSummary
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/customizations/object_summary.rb:7
   def content_length; end
 
+  # Make the method redefinable
+  # @param (see Object#copy_from)
+  # @options (see Object#copy_from)
+  # @return (see Object#copy_from)
+  # @see Object#copy_from
   # @example Request syntax with placeholder values
   #
   #   object_summary.copy_from({
@@ -42029,11 +42034,6 @@ class Aws::S3::ObjectSummary
   #   the request fails with the HTTP status code `403 Forbidden` (access
   #   denied).
   # @return [Types::CopyObjectOutput]
-  # Make the method redefinable
-  # @param (see Object#copy_from)
-  # @options (see Object#copy_from)
-  # @return (see Object#copy_from)
-  # @see Object#copy_from
   #
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object_summary.rb:1097
   def copy_from(source, options = T.unsafe(nil)); end

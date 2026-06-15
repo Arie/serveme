@@ -45,12 +45,12 @@ module Zip
   # pkg:gem/rubyzip#lib/zip.rb:48
   def on_exists_proc=(_arg0); end
 
-  # pkg:gem/rubyzip#lib/zip.rb:69
+  # pkg:gem/rubyzip#lib/zip.rb:70
   def reset!; end
 
   # Set options for RubyZip in one block.
   #
-  # pkg:gem/rubyzip#lib/zip.rb:84
+  # pkg:gem/rubyzip#lib/zip.rb:86
   def setup; end
 
   # pkg:gem/rubyzip#lib/zip.rb:48
@@ -64,6 +64,12 @@ module Zip
 
   # pkg:gem/rubyzip#lib/zip.rb:48
   def unicode_names=(_arg0); end
+
+  # pkg:gem/rubyzip#lib/zip.rb:48
+  def validate_declared_number_of_entries; end
+
+  # pkg:gem/rubyzip#lib/zip.rb:48
+  def validate_declared_number_of_entries=(_arg0); end
 
   # pkg:gem/rubyzip#lib/zip.rb:48
   def validate_entry_sizes; end
@@ -289,29 +295,32 @@ class Zip::CentralDirectory
 
   private
 
-  # pkg:gem/rubyzip#lib/zip/central_directory.rb:252
+  # pkg:gem/rubyzip#lib/zip/central_directory.rb:258
   def eocd_data(io); end
 
-  # pkg:gem/rubyzip#lib/zip/central_directory.rb:169
+  # pkg:gem/rubyzip#lib/zip/central_directory.rb:175
   def read_central_directory_entries(io); end
 
-  # pkg:gem/rubyzip#lib/zip/central_directory.rb:213
+  # pkg:gem/rubyzip#lib/zip/central_directory.rb:219
   def read_eocds(io); end
 
-  # pkg:gem/rubyzip#lib/zip/central_directory.rb:202
+  # pkg:gem/rubyzip#lib/zip/central_directory.rb:208
   def read_local_extra_field(io); end
 
   # pkg:gem/rubyzip#lib/zip/central_directory.rb:115
   def unpack_64_e_o_c_d(buffer); end
 
-  # pkg:gem/rubyzip#lib/zip/central_directory.rb:139
+  # pkg:gem/rubyzip#lib/zip/central_directory.rb:141
   def unpack_64_eocd_locator(buffer); end
 
   # Unpack the EOCD and return a boolean indicating whether this header is
   # complete without needing Zip64 extensions.
   #
-  # pkg:gem/rubyzip#lib/zip/central_directory.rb:148
+  # pkg:gem/rubyzip#lib/zip/central_directory.rb:150
   def unpack_e_o_c_d(buffer); end
+
+  # pkg:gem/rubyzip#lib/zip/central_directory.rb:268
+  def validate_size!(size, size_in_bytes); end
 
   # pkg:gem/rubyzip#lib/zip/central_directory.rb:89
   def write_64_e_o_c_d(io, offset, cdir_size); end
@@ -374,7 +383,7 @@ class Zip::Compressor
   def finish; end
 end
 
-# pkg:gem/rubyzip#lib/zip.rb:59
+# pkg:gem/rubyzip#lib/zip.rb:60
 Zip::DEFAULT_RESTORE_OPTIONS = T.let(T.unsafe(nil), Hash)
 
 # pkg:gem/rubyzip#lib/zip/dos_time.rb:6
@@ -1059,6 +1068,19 @@ class Zip::EntryNameError < ::Zip::Error
   # The message returned by this error.
   #
   # pkg:gem/rubyzip#lib/zip/errors.rb:85
+  def message; end
+end
+
+# pkg:gem/rubyzip#lib/zip/errors.rb:112
+class Zip::EntryNumberMismatchError < ::Zip::Error
+  # Create a new EntryNumberMismatchError with the specified size and size in bytes.
+  #
+  # pkg:gem/rubyzip#lib/zip/errors.rb:114
+  def initialize(size, size_in_bytes); end
+
+  # The message returned by this error.
+  #
+  # pkg:gem/rubyzip#lib/zip/errors.rb:121
   def message; end
 end
 
@@ -2501,11 +2523,11 @@ Zip::SPLIT_FILE_SIGNATURE = T.let(T.unsafe(nil), Integer)
 # Error raised if a split archive is read. Rubyzip does not support reading
 # split archives.
 #
-# pkg:gem/rubyzip#lib/zip/errors.rb:114
+# pkg:gem/rubyzip#lib/zip/errors.rb:130
 class Zip::SplitArchiveError < ::Zip::Error
   # The message returned by this error.
   #
-  # pkg:gem/rubyzip#lib/zip/errors.rb:116
+  # pkg:gem/rubyzip#lib/zip/errors.rb:132
   def message; end
 end
 
@@ -2535,85 +2557,85 @@ end
 
 # Error raised if there is not enough metadata for the entry to be streamed.
 #
-# pkg:gem/rubyzip#lib/zip/errors.rb:122
+# pkg:gem/rubyzip#lib/zip/errors.rb:138
 class Zip::StreamingError < ::Zip::Error
   # Create a new StreamingError with the specified entry.
   #
-  # pkg:gem/rubyzip#lib/zip/errors.rb:127
+  # pkg:gem/rubyzip#lib/zip/errors.rb:143
   def initialize(entry); end
 
   # The entry that has caused this error.
   #
-  # pkg:gem/rubyzip#lib/zip/errors.rb:124
+  # pkg:gem/rubyzip#lib/zip/errors.rb:140
   def entry; end
 
   # The message returned by this error.
   #
-  # pkg:gem/rubyzip#lib/zip/errors.rb:133
+  # pkg:gem/rubyzip#lib/zip/errors.rb:149
   def message; end
 end
 
-# pkg:gem/rubyzip#lib/zip/crypto/traditional_encryption.rb:75
+# pkg:gem/rubyzip#lib/zip/crypto/traditional_encryption.rb:77
 class Zip::TraditionalDecrypter < ::Zip::Decrypter
   include ::Zip::TraditionalEncryption
 
-  # pkg:gem/rubyzip#lib/zip/crypto/traditional_encryption.rb:89
+  # pkg:gem/rubyzip#lib/zip/crypto/traditional_encryption.rb:91
   def check_integrity!(_io); end
 
-  # pkg:gem/rubyzip#lib/zip/crypto/traditional_encryption.rb:78
+  # pkg:gem/rubyzip#lib/zip/crypto/traditional_encryption.rb:80
   def decrypt(data); end
 
-  # pkg:gem/rubyzip#lib/zip/crypto/traditional_encryption.rb:82
+  # pkg:gem/rubyzip#lib/zip/crypto/traditional_encryption.rb:84
   def reset!(header); end
 
   private
 
-  # pkg:gem/rubyzip#lib/zip/crypto/traditional_encryption.rb:93
+  # pkg:gem/rubyzip#lib/zip/crypto/traditional_encryption.rb:95
   def decode(num); end
 end
 
-# pkg:gem/rubyzip#lib/zip/crypto/traditional_encryption.rb:41
+# pkg:gem/rubyzip#lib/zip/crypto/traditional_encryption.rb:43
 class Zip::TraditionalEncrypter < ::Zip::Encrypter
   include ::Zip::TraditionalEncryption
 
-  # pkg:gem/rubyzip#lib/zip/crypto/traditional_encryption.rb:58
+  # pkg:gem/rubyzip#lib/zip/crypto/traditional_encryption.rb:60
   def data_descriptor(crc32, compressed_size, uncompressed_size); end
 
-  # pkg:gem/rubyzip#lib/zip/crypto/traditional_encryption.rb:54
+  # pkg:gem/rubyzip#lib/zip/crypto/traditional_encryption.rb:56
   def encrypt(data); end
 
-  # pkg:gem/rubyzip#lib/zip/crypto/traditional_encryption.rb:44
+  # pkg:gem/rubyzip#lib/zip/crypto/traditional_encryption.rb:46
   def header(mtime); end
 
-  # pkg:gem/rubyzip#lib/zip/crypto/traditional_encryption.rb:62
+  # pkg:gem/rubyzip#lib/zip/crypto/traditional_encryption.rb:64
   def reset!; end
 
   private
 
-  # pkg:gem/rubyzip#lib/zip/crypto/traditional_encryption.rb:68
+  # pkg:gem/rubyzip#lib/zip/crypto/traditional_encryption.rb:70
   def encode(num); end
 end
 
-# pkg:gem/rubyzip#lib/zip/crypto/traditional_encryption.rb:4
+# pkg:gem/rubyzip#lib/zip/crypto/traditional_encryption.rb:6
 module Zip::TraditionalEncryption
-  # pkg:gem/rubyzip#lib/zip/crypto/traditional_encryption.rb:5
+  # pkg:gem/rubyzip#lib/zip/crypto/traditional_encryption.rb:7
   def initialize(password); end
 
-  # pkg:gem/rubyzip#lib/zip/crypto/traditional_encryption.rb:14
+  # pkg:gem/rubyzip#lib/zip/crypto/traditional_encryption.rb:16
   def gp_flags; end
 
-  # pkg:gem/rubyzip#lib/zip/crypto/traditional_encryption.rb:10
+  # pkg:gem/rubyzip#lib/zip/crypto/traditional_encryption.rb:12
   def header_bytesize; end
 
   protected
 
-  # pkg:gem/rubyzip#lib/zip/crypto/traditional_encryption.rb:35
+  # pkg:gem/rubyzip#lib/zip/crypto/traditional_encryption.rb:37
   def decrypt_byte; end
 
-  # pkg:gem/rubyzip#lib/zip/crypto/traditional_encryption.rb:20
+  # pkg:gem/rubyzip#lib/zip/crypto/traditional_encryption.rb:22
   def reset_keys!; end
 
-  # pkg:gem/rubyzip#lib/zip/crypto/traditional_encryption.rb:29
+  # pkg:gem/rubyzip#lib/zip/crypto/traditional_encryption.rb:31
   def update_keys(num); end
 end
 
@@ -2635,5 +2657,5 @@ Zip::VERSION_NEEDED_TO_EXTRACT_ZIP64 = T.let(T.unsafe(nil), Integer)
 
 # Remove this when JRuby#3962 is fixed.
 #
-# pkg:gem/rubyzip#lib/zip.rb:67
+# pkg:gem/rubyzip#lib/zip.rb:68
 Zip::ZLIB_FLUSHING_STRATEGY = T.let(T.unsafe(nil), Integer)

@@ -54,6 +54,9 @@ class MiniRacer::Context
   def low_memory_notification; end
 
   # pkg:gem/mini_racer#lib/mini_racer.rb:33
+  def perform_microtask_checkpoint; end
+
+  # pkg:gem/mini_racer#lib/mini_racer.rb:33
   def pump_message_loop; end
 
   # pkg:gem/mini_racer#lib/mini_racer.rb:33

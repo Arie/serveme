@@ -3118,6 +3118,11 @@ module Anthropic
           Anthropic::AnthropicBeta::TaggedSymbol
         )
 
+      FALLBACK_CREDIT_2026_06_01 = T.let(
+          :"fallback-credit-2026-06-01",
+          Anthropic::AnthropicBeta::TaggedSymbol
+        )
+
       FAST_MODE_2026_02_01 = T.let(:"fast-mode-2026-02-01", Anthropic::AnthropicBeta::TaggedSymbol)
 
       FILES_API_2025_04_14 = T.let(:"files-api-2025-04-14", Anthropic::AnthropicBeta::TaggedSymbol)
@@ -3156,6 +3161,11 @@ module Anthropic
 
       PROMPT_CACHING_2024_07_31 = T.let(
           :"prompt-caching-2024-07-31",
+          Anthropic::AnthropicBeta::TaggedSymbol
+        )
+
+      SERVER_SIDE_FALLBACK_2026_06_01 = T.let(
+          :"server-side-fallback-2026-06-01",
           Anthropic::AnthropicBeta::TaggedSymbol
         )
 
@@ -8859,7 +8869,8 @@ module Anthropic
               Anthropic::Beta::BetaMCPToolUseBlock,
               Anthropic::Beta::BetaMCPToolResultBlock,
               Anthropic::Beta::BetaContainerUploadBlock,
-              Anthropic::Beta::BetaCompactionBlock
+              Anthropic::Beta::BetaCompactionBlock,
+              Anthropic::Beta::BetaFallbackBlock
             )
           end
       end
@@ -8895,7 +8906,8 @@ module Anthropic
               Anthropic::Beta::BetaRequestMCPToolResultBlockParam,
               Anthropic::Beta::BetaContainerUploadBlockParam,
               Anthropic::Beta::BetaCompactionBlockParam,
-              Anthropic::Beta::BetaMidConversationSystemBlockParam
+              Anthropic::Beta::BetaMidConversationSystemBlockParam,
+              Anthropic::Beta::BetaFallbackBlockParam
             )
           end
       end
@@ -9802,6 +9814,422 @@ module Anthropic
           end
       end
 
+      class BetaFallbackBlock < Anthropic::Internal::Type::BaseModel
+        # The model whose output ends at this point — the model that declined at this hop.
+        # When the declining hop is the requested model, its `model` echoes the top-level
+        # `model` string the caller sent (alias or canonical); when the declining hop is a
+        # fallback model, its `model` is that model's canonical id.
+        sig { returns(Anthropic::Beta::BetaFallbackInfo) }
+        attr_reader :from
+
+        sig { params(from: Anthropic::Beta::BetaFallbackInfo::OrHash).void }
+        attr_writer :from
+
+        # The fallback model producing the content that follows this block. Its `model` is
+        # always the canonical id.
+        sig { returns(Anthropic::Beta::BetaFallbackInfo) }
+        attr_reader :to
+
+        sig { params(to: Anthropic::Beta::BetaFallbackInfo::OrHash).void }
+        attr_writer :to
+
+        sig { returns(Symbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              from: Anthropic::Beta::BetaFallbackInfo,
+              to: Anthropic::Beta::BetaFallbackInfo,
+              type: Symbol
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # Marks the point in `content` where one model's output gives way to the next.
+          #
+          # One block appears per hop where a preceding model actually ran this turn and
+          # declined. A turn routed directly by the sticky decision has no such boundary and
+          # carries no block — the signal for whether a fallback model served the response
+          # is the presence of a `fallback_message` entry in `usage.iterations`, not this
+          # block.
+          #
+          # The block is treated like a server-tool content block for streaming: it arrives
+          # via the standard `content_block_start` / `content_block_stop` pair and carries
+          # no deltas.
+          sig do
+            params(
+              from: Anthropic::Beta::BetaFallbackInfo::OrHash,
+              to: Anthropic::Beta::BetaFallbackInfo::OrHash,
+              type: Symbol
+            ).returns(T.attached_class)
+          end
+          def new(
+            from:, # The model whose output ends at this point — the model that declined at this hop.
+                   # When the declining hop is the requested model, its `model` echoes the top-level
+                   # `model` string the caller sent (alias or canonical); when the declining hop is a
+                   # fallback model, its `model` is that model's canonical id.
+            to:, # The fallback model producing the content that follows this block. Its `model` is
+                 # always the canonical id.
+            type: :fallback
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaFallbackBlock,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
+      class BetaFallbackBlockParam < Anthropic::Internal::Type::BaseModel
+        # Identifies one hop of a fallback transition.
+        sig { returns(Anthropic::Beta::BetaFallbackInfoParam) }
+        attr_reader :from
+
+        sig { params(from: Anthropic::Beta::BetaFallbackInfoParam::OrHash).void }
+        attr_writer :from
+
+        # Identifies one hop of a fallback transition.
+        sig { returns(Anthropic::Beta::BetaFallbackInfoParam) }
+        attr_reader :to
+
+        sig { params(to: Anthropic::Beta::BetaFallbackInfoParam::OrHash).void }
+        attr_writer :to
+
+        sig { returns(Symbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              from: Anthropic::Beta::BetaFallbackInfoParam,
+              to: Anthropic::Beta::BetaFallbackInfoParam,
+              type: Symbol
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # A `fallback` block echoed back from a prior response.
+          #
+          # Accepted in `messages[].content` and never rendered into the prompt, not
+          # validated against the request's `fallbacks` chain or top-level `model`, and
+          # stripped before the sticky-routing cache key is computed.
+          #
+          # Callers should echo the assistant turn verbatim — block included. The block's
+          # position is load-bearing for thinking verification: the thinking runs on either
+          # side of a fallback hop carry independently-rooted verification hash chains, and
+          # this block is the only record of where one chain ends and the next begins. When
+          # thinking runs flank the boundary, omitting the block merges the runs into one
+          # contiguous span whose hashes cannot verify (the request is rejected), and moving
+          # it into the middle of a single run splits that run's chain and is likewise
+          # rejected; between non-thinking blocks the block's placement has no verification
+          # effect.
+          sig do
+            params(
+              from: Anthropic::Beta::BetaFallbackInfoParam::OrHash,
+              to: Anthropic::Beta::BetaFallbackInfoParam::OrHash,
+              type: Symbol
+            ).returns(T.attached_class)
+          end
+          def new(
+            from:, # Identifies one hop of a fallback transition.
+            to:, # Identifies one hop of a fallback transition.
+            type: :fallback
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaFallbackBlockParam,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
+      class BetaFallbackInfo < Anthropic::Internal::Type::BaseModel
+        # The model that will complete your prompt.
+        #
+        # See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
+        # details and options.
+        sig { returns(Anthropic::Model::Variants) }
+        attr_accessor :model
+
+        sig { override.returns({ model: Anthropic::Model::Variants }) }
+        def to_hash; end
+
+        class << self
+          # Identifies one hop of a fallback transition.
+          sig { params(model: T.any(Anthropic::Model::OrSymbol, String)).returns(T.attached_class) }
+          def new(
+            model: # The model that will complete your prompt.
+                   # See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
+                   # details and options.
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaFallbackInfo,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
+      class BetaFallbackInfoParam < Anthropic::Internal::Type::BaseModel
+        # The model that will complete your prompt.
+        #
+        # See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
+        # details and options.
+        sig { returns(T.any(Anthropic::Model::OrSymbol, String)) }
+        attr_accessor :model
+
+        sig { override.returns({ model: T.any(Anthropic::Model::OrSymbol, String) }) }
+        def to_hash; end
+
+        class << self
+          # Identifies one hop of a fallback transition.
+          sig { params(model: T.any(Anthropic::Model::OrSymbol, String)).returns(T.attached_class) }
+          def new(
+            model: # The model that will complete your prompt.
+                   # See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
+                   # details and options.
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaFallbackInfoParam,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
+      class BetaFallbackMessageIterationUsage < Anthropic::Internal::Type::BaseModel
+        # Breakdown of cached tokens by TTL
+        sig { returns(T.nilable(Anthropic::Beta::BetaCacheCreation)) }
+        attr_reader :cache_creation
+
+        sig { params(cache_creation: T.nilable(Anthropic::Beta::BetaCacheCreation::OrHash)).void }
+        attr_writer :cache_creation
+
+        # The number of input tokens used to create the cache entry.
+        sig { returns(Integer) }
+        attr_accessor :cache_creation_input_tokens
+
+        # The number of input tokens read from the cache.
+        sig { returns(Integer) }
+        attr_accessor :cache_read_input_tokens
+
+        # The number of input tokens which were used.
+        sig { returns(Integer) }
+        attr_accessor :input_tokens
+
+        # The model that will complete your prompt.
+        #
+        # See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
+        # details and options.
+        sig { returns(Anthropic::Model::Variants) }
+        attr_accessor :model
+
+        # The number of output tokens which were used.
+        sig { returns(Integer) }
+        attr_accessor :output_tokens
+
+        # Usage for the fallback-model attempt that served the response
+        sig { returns(Symbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              cache_creation: T.nilable(Anthropic::Beta::BetaCacheCreation),
+              cache_creation_input_tokens: Integer,
+              cache_read_input_tokens: Integer,
+              input_tokens: Integer,
+              model: Anthropic::Model::Variants,
+              output_tokens: Integer,
+              type: Symbol
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # Token usage for the fallback-model attempt of a server-side fallback request.
+          #
+          # Produced in place of a `message` entry for whichever hop served the response. A
+          # declined hop produces the existing `message` entry. Whether a fallback model
+          # served the response is signalled by the presence of this entry in
+          # `usage.iterations`.
+          sig do
+            params(
+              cache_creation: T.nilable(Anthropic::Beta::BetaCacheCreation::OrHash),
+              cache_creation_input_tokens: Integer,
+              cache_read_input_tokens: Integer,
+              input_tokens: Integer,
+              model: T.any(Anthropic::Model::OrSymbol, String),
+              output_tokens: Integer,
+              type: Symbol
+            ).returns(T.attached_class)
+          end
+          def new(
+            cache_creation:, # Breakdown of cached tokens by TTL
+            cache_creation_input_tokens:, # The number of input tokens used to create the cache entry.
+            cache_read_input_tokens:, # The number of input tokens read from the cache.
+            input_tokens:, # The number of input tokens which were used.
+            model:, # The model that will complete your prompt.
+                    # See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
+                    # details and options.
+            output_tokens:, # The number of output tokens which were used.
+            type: :fallback_message # Usage for the fallback-model attempt that served the response
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaFallbackMessageIterationUsage,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
+      class BetaFallbackParam < Anthropic::Internal::Type::BaseModel
+        sig { returns(T.nilable(Integer)) }
+        attr_accessor :max_tokens
+
+        # The model that will complete your prompt.
+        #
+        # See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
+        # details and options.
+        sig { returns(T.any(Anthropic::Model::OrSymbol, String)) }
+        attr_accessor :model
+
+        sig { returns(T.nilable(Anthropic::Beta::BetaOutputConfig)) }
+        attr_reader :output_config
+
+        sig { params(output_config: T.nilable(Anthropic::Beta::BetaOutputConfig::OrHash)).void }
+        attr_writer :output_config
+
+        sig { returns(T.nilable(Anthropic::Beta::BetaFallbackParam::Speed::OrSymbol)) }
+        attr_accessor :speed
+
+        sig do
+          returns(T.nilable(
+              T.any(
+                Anthropic::Beta::BetaThinkingConfigEnabled,
+                Anthropic::Beta::BetaThinkingConfigDisabled,
+                Anthropic::Beta::BetaThinkingConfigAdaptive
+              )
+            ))
+        end
+        attr_accessor :thinking
+
+        sig do
+          override
+            .returns({
+              model: T.any(Anthropic::Model::OrSymbol, String),
+              max_tokens: T.nilable(Integer),
+              output_config: T.nilable(Anthropic::Beta::BetaOutputConfig),
+              speed:
+                T.nilable(Anthropic::Beta::BetaFallbackParam::Speed::OrSymbol),
+              thinking:
+                T.nilable(
+                  T.any(
+                    Anthropic::Beta::BetaThinkingConfigEnabled,
+                    Anthropic::Beta::BetaThinkingConfigDisabled,
+                    Anthropic::Beta::BetaThinkingConfigAdaptive
+                  )
+                )
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # One entry in the `fallbacks` chain on a `/v1/messages` request.
+          #
+          # `model` is required. The four override fields (`max_tokens`, `thinking`,
+          # `output_config`, and `speed`) replace the corresponding top-level field for this
+          # attempt only and are validated as if the request were made to `model`. Any other
+          # key is rejected at parse time.
+          sig do
+            params(
+              model: T.any(Anthropic::Model::OrSymbol, String),
+              max_tokens: T.nilable(Integer),
+              output_config: T.nilable(Anthropic::Beta::BetaOutputConfig::OrHash),
+              speed: T.nilable(Anthropic::Beta::BetaFallbackParam::Speed::OrSymbol),
+              thinking: T.nilable(
+                T.any(
+                  Anthropic::Beta::BetaThinkingConfigEnabled::OrHash,
+                  Anthropic::Beta::BetaThinkingConfigDisabled::OrHash,
+                  Anthropic::Beta::BetaThinkingConfigAdaptive::OrHash
+                )
+              )
+            ).returns(T.attached_class)
+          end
+          def new(
+            model:, # The model that will complete your prompt.
+                    # See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
+                    # details and options.
+            max_tokens: nil,
+            output_config: nil,
+            speed: nil,
+            thinking: nil
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaFallbackParam,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Speed
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig { override.returns(T::Array[Anthropic::Beta::BetaFallbackParam::Speed::TaggedSymbol]) }
+            def values; end
+          end
+
+          FAST = T.let(
+              :fast,
+              Anthropic::Beta::BetaFallbackParam::Speed::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          STANDARD = T.let(
+              :standard,
+              Anthropic::Beta::BetaFallbackParam::Speed::TaggedSymbol
+            )
+
+          TaggedSymbol = T.type_alias do
+              T.all(Symbol, Anthropic::Beta::BetaFallbackParam::Speed)
+            end
+        end
+
+        module Thinking
+          extend Anthropic::Internal::Type::Union
+
+          class << self
+            sig { override.returns(T::Array[Anthropic::Beta::BetaFallbackParam::Thinking::Variants]) }
+            def variants; end
+          end
+
+          Variants = T.type_alias do
+              T.any(
+                Anthropic::Beta::BetaThinkingConfigEnabled,
+                Anthropic::Beta::BetaThinkingConfigDisabled,
+                Anthropic::Beta::BetaThinkingConfigAdaptive
+              )
+            end
+        end
+      end
+
       class BetaFileDocumentSource < Anthropic::Internal::Type::BaseModel
         sig { returns(String) }
         attr_accessor :file_id
@@ -10042,7 +10470,8 @@ module Anthropic
             T.any(
               Anthropic::Beta::BetaMessageIterationUsage,
               Anthropic::Beta::BetaCompactionIterationUsage,
-              Anthropic::Beta::BetaAdvisorMessageIterationUsage
+              Anthropic::Beta::BetaAdvisorMessageIterationUsage,
+              Anthropic::Beta::BetaFallbackMessageIterationUsage
             )
           end
       end
@@ -10728,6 +11157,133 @@ module Anthropic
 
           TaggedSymbol = T.type_alias do
               T.all(Symbol, Anthropic::Beta::BetaManagedAgentsAgent::Type)
+            end
+        end
+      end
+
+      class BetaManagedAgentsAgentArchivedDeploymentPausedReasonError < Anthropic::Internal::Type::BaseModel
+        sig { returns(Anthropic::Beta::BetaManagedAgentsAgentArchivedDeploymentPausedReasonError::Type::TaggedSymbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              type:
+                Anthropic::Beta::BetaManagedAgentsAgentArchivedDeploymentPausedReasonError::Type::TaggedSymbol
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # The deployment's agent was archived.
+          sig do
+            params(
+              type: Anthropic::Beta::BetaManagedAgentsAgentArchivedDeploymentPausedReasonError::Type::OrSymbol
+            ).returns(T.attached_class)
+          end
+          def new(type:); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsAgentArchivedDeploymentPausedReasonError,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsAgentArchivedDeploymentPausedReasonError::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          AGENT_ARCHIVED_ERROR = T.let(
+              :agent_archived_error,
+              Anthropic::Beta::BetaManagedAgentsAgentArchivedDeploymentPausedReasonError::Type::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsAgentArchivedDeploymentPausedReasonError::Type
+              )
+            end
+        end
+      end
+
+      class BetaManagedAgentsAgentArchivedRunError < Anthropic::Internal::Type::BaseModel
+        # Human-readable error description.
+        sig { returns(String) }
+        attr_accessor :message
+
+        sig { returns(Anthropic::Beta::BetaManagedAgentsAgentArchivedRunError::Type::TaggedSymbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              message: String,
+              type:
+                Anthropic::Beta::BetaManagedAgentsAgentArchivedRunError::Type::TaggedSymbol
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # The deployment's agent was archived.
+          sig do
+            params(
+              message: String,
+              type: Anthropic::Beta::BetaManagedAgentsAgentArchivedRunError::Type::OrSymbol
+            ).returns(T.attached_class)
+          end
+          def new(
+            message:, # Human-readable error description.
+            type:
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsAgentArchivedRunError,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsAgentArchivedRunError::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          AGENT_ARCHIVED_ERROR = T.let(
+              :agent_archived_error,
+              Anthropic::Beta::BetaManagedAgentsAgentArchivedRunError::Type::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsAgentArchivedRunError::Type
+              )
             end
         end
       end
@@ -12197,6 +12753,200 @@ module Anthropic
         end
       end
 
+      class BetaManagedAgentsCronSchedule < Anthropic::Internal::Type::BaseModel
+        # 5-field POSIX cron expression: minute hour day-of-month month day-of-week (e.g.,
+        # "0 9 \* \* 1-5" for weekdays at 9am). Day-of-week is 0-7 where 0 and 7 both mean
+        # Sunday. Extended cron syntax - seconds or year fields, and the special
+        # characters L, W, #, and ? - is not supported, nor are predefined shortcuts
+        # (@daily).
+        sig { returns(String) }
+        attr_accessor :expression
+
+        # A timestamp in RFC 3339 format
+        sig { returns(T.nilable(Time)) }
+        attr_accessor :last_run_at
+
+        # IANA timezone identifier (e.g., "America/Los_Angeles", "UTC").
+        sig { returns(String) }
+        attr_accessor :timezone
+
+        sig { returns(Anthropic::Beta::BetaManagedAgentsCronSchedule::Type::OrSymbol) }
+        attr_accessor :type
+
+        # Up to 5 timestamps of upcoming cron occurrences. Non-empty for active and paused
+        # deployments (reflects what the schedule would do if unpaused); empty once the
+        # deployment is archived (`archived_at` set). Each fire is offset by a small
+        # per-schedule jitter, so a run will actually start at or shortly after its listed
+        # time.
+        sig { returns(T.nilable(T::Array[Time])) }
+        attr_reader :upcoming_runs_at
+
+        sig { params(upcoming_runs_at: T::Array[Time]).void }
+        attr_writer :upcoming_runs_at
+
+        sig do
+          override
+            .returns({
+              expression: String,
+              timezone: String,
+              type:
+                Anthropic::Beta::BetaManagedAgentsCronSchedule::Type::OrSymbol,
+              last_run_at: T.nilable(Time),
+              upcoming_runs_at: T::Array[Time]
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # 5-field POSIX cron schedule with computed runtime timestamps.
+          sig do
+            params(
+              expression: String,
+              timezone: String,
+              type: Anthropic::Beta::BetaManagedAgentsCronSchedule::Type::OrSymbol,
+              last_run_at: T.nilable(Time),
+              upcoming_runs_at: T::Array[Time]
+            ).returns(T.attached_class)
+          end
+          def new(
+            expression:, # 5-field POSIX cron expression: minute hour day-of-month month day-of-week (e.g.,
+                         # "0 9 \* \* 1-5" for weekdays at 9am). Day-of-week is 0-7 where 0 and 7 both mean
+                         # Sunday. Extended cron syntax - seconds or year fields, and the special
+                         # characters L, W, #, and ? - is not supported, nor are predefined shortcuts
+                         # (@daily).
+            timezone:, # IANA timezone identifier (e.g., "America/Los_Angeles", "UTC").
+            type:,
+            last_run_at: nil, # A timestamp in RFC 3339 format
+            upcoming_runs_at: nil # Up to 5 timestamps of upcoming cron occurrences. Non-empty for active and paused
+                                  # deployments (reflects what the schedule would do if unpaused); empty once the
+                                  # deployment is archived (`archived_at` set). Each fire is offset by a small
+                                  # per-schedule jitter, so a run will actually start at or shortly after its listed
+                                  # time.
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsCronSchedule,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsCronSchedule::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          CRON = T.let(
+              :cron,
+              Anthropic::Beta::BetaManagedAgentsCronSchedule::Type::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsCronSchedule::Type
+              )
+            end
+        end
+      end
+
+      class BetaManagedAgentsCronScheduleParams < Anthropic::Internal::Type::BaseModel
+        # 5-field POSIX cron expression: minute hour day-of-month month day-of-week (e.g.,
+        # "0 9 \* \* 1-5" for weekdays at 9am). Day-of-week is 0-7 where 0 and 7 both mean
+        # Sunday. Extended cron syntax - seconds or year fields, and the special
+        # characters L, W, #, and ? - is not supported, nor are predefined shortcuts
+        # (@daily).
+        sig { returns(String) }
+        attr_accessor :expression
+
+        # Required. IANA timezone identifier (e.g., "America/Los_Angeles", "UTC").
+        # Validated against the IANA timezone database.
+        sig { returns(String) }
+        attr_accessor :timezone
+
+        sig { returns(Anthropic::Beta::BetaManagedAgentsCronScheduleParams::Type::OrSymbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              expression: String,
+              timezone: String,
+              type:
+                Anthropic::Beta::BetaManagedAgentsCronScheduleParams::Type::OrSymbol
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # 5-field POSIX cron schedule. Literal wall-clock matching in the configured
+          # timezone.
+          sig do
+            params(
+              expression: String,
+              timezone: String,
+              type: Anthropic::Beta::BetaManagedAgentsCronScheduleParams::Type::OrSymbol
+            ).returns(T.attached_class)
+          end
+          def new(
+            expression:, # 5-field POSIX cron expression: minute hour day-of-month month day-of-week (e.g.,
+                         # "0 9 \* \* 1-5" for weekdays at 9am). Day-of-week is 0-7 where 0 and 7 both mean
+                         # Sunday. Extended cron syntax - seconds or year fields, and the special
+                         # characters L, W, #, and ? - is not supported, nor are predefined shortcuts
+                         # (@daily).
+            timezone:, # Required. IANA timezone identifier (e.g., "America/Los_Angeles", "UTC").
+                       # Validated against the IANA timezone database.
+            type:
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsCronScheduleParams,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsCronScheduleParams::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          CRON = T.let(
+              :cron,
+              Anthropic::Beta::BetaManagedAgentsCronScheduleParams::Type::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsCronScheduleParams::Type
+              )
+            end
+        end
+      end
+
       class BetaManagedAgentsCustomSkill < Anthropic::Internal::Type::BaseModel
         sig { returns(String) }
         attr_accessor :skill_id
@@ -12754,6 +13504,1369 @@ module Anthropic
         end
       end
 
+      class BetaManagedAgentsDeployment < Anthropic::Internal::Type::BaseModel
+        # A resolved agent reference with a concrete version.
+        sig { returns(Anthropic::Beta::BetaManagedAgentsAgentReference) }
+        attr_reader :agent
+
+        sig { params(agent: Anthropic::Beta::BetaManagedAgentsAgentReference::OrHash).void }
+        attr_writer :agent
+
+        # A timestamp in RFC 3339 format
+        sig { returns(T.nilable(Time)) }
+        attr_accessor :archived_at
+
+        # A timestamp in RFC 3339 format
+        sig { returns(Time) }
+        attr_accessor :created_at
+
+        # Description of what the deployment does.
+        sig { returns(T.nilable(String)) }
+        attr_accessor :description
+
+        # ID of the `environment` where sessions run.
+        sig { returns(String) }
+        attr_accessor :environment_id
+
+        # Unique identifier for this deployment.
+        sig { returns(String) }
+        attr_accessor :id
+
+        # Events sent to each session immediately after creation.
+        sig do
+          returns(T::Array[
+              Anthropic::Beta::BetaManagedAgentsDeploymentInitialEvent::Variants
+            ])
+        end
+        attr_accessor :initial_events
+
+        # Arbitrary key-value metadata. Maximum 16 pairs.
+        sig { returns(T::Hash[Symbol, String]) }
+        attr_accessor :metadata
+
+        # Human-readable name.
+        sig { returns(String) }
+        attr_accessor :name
+
+        # Why a deployment is paused. Non-null exactly when `status` is `paused`.
+        sig do
+          returns(T.nilable(
+              Anthropic::Beta::BetaManagedAgentsDeploymentPausedReason::Variants
+            ))
+        end
+        attr_accessor :paused_reason
+
+        # Resources attached to sessions created from this deployment. Echoes the input
+        # minus write-only credentials.
+        sig do
+          returns(T::Array[
+              Anthropic::Beta::BetaManagedAgentsSessionResourceConfig::Variants
+            ])
+        end
+        attr_accessor :resources
+
+        # 5-field POSIX cron schedule with computed runtime timestamps.
+        sig { returns(T.nilable(Anthropic::Beta::BetaManagedAgentsSchedule)) }
+        attr_reader :schedule
+
+        sig { params(schedule: T.nilable(Anthropic::Beta::BetaManagedAgentsSchedule::OrHash)).void }
+        attr_writer :schedule
+
+        # Lifecycle status of a deployment.
+        sig { returns(Anthropic::Beta::BetaManagedAgentsDeploymentStatus::TaggedSymbol) }
+        attr_accessor :status
+
+        sig { returns(Anthropic::Beta::BetaManagedAgentsDeployment::Type::TaggedSymbol) }
+        attr_accessor :type
+
+        # A timestamp in RFC 3339 format
+        sig { returns(Time) }
+        attr_accessor :updated_at
+
+        # Vault IDs supplying stored credentials for sessions created from this
+        # deployment.
+        sig { returns(T::Array[String]) }
+        attr_accessor :vault_ids
+
+        sig do
+          override
+            .returns({
+              id: String,
+              agent: Anthropic::Beta::BetaManagedAgentsAgentReference,
+              archived_at: T.nilable(Time),
+              created_at: Time,
+              description: T.nilable(String),
+              environment_id: String,
+              initial_events:
+                T::Array[
+                  Anthropic::Beta::BetaManagedAgentsDeploymentInitialEvent::Variants
+                ],
+              metadata: T::Hash[Symbol, String],
+              name: String,
+              paused_reason:
+                T.nilable(
+                  Anthropic::Beta::BetaManagedAgentsDeploymentPausedReason::Variants
+                ),
+              resources:
+                T::Array[
+                  Anthropic::Beta::BetaManagedAgentsSessionResourceConfig::Variants
+                ],
+              schedule: T.nilable(Anthropic::Beta::BetaManagedAgentsSchedule),
+              status:
+                Anthropic::Beta::BetaManagedAgentsDeploymentStatus::TaggedSymbol,
+              type:
+                Anthropic::Beta::BetaManagedAgentsDeployment::Type::TaggedSymbol,
+              updated_at: Time,
+              vault_ids: T::Array[String]
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # A deployment is a configured instance of an agent — it binds the agent to
+          # everything needed to run it autonomously: an environment, credentials, initial
+          # events, and an optional schedule.
+          sig do
+            params(
+              id: String,
+              agent: Anthropic::Beta::BetaManagedAgentsAgentReference::OrHash,
+              archived_at: T.nilable(Time),
+              created_at: Time,
+              description: T.nilable(String),
+              environment_id: String,
+              initial_events: T::Array[
+                T.any(
+                  Anthropic::Beta::BetaManagedAgentsDeploymentUserMessageEvent::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsDeploymentUserDefineOutcomeEvent::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsDeploymentSystemMessageEvent::OrHash
+                )
+              ],
+              metadata: T::Hash[Symbol, String],
+              name: String,
+              paused_reason: T.nilable(
+                T.any(
+                  Anthropic::Beta::BetaManagedAgentsManualDeploymentPausedReason::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsErrorDeploymentPausedReason::OrHash
+                )
+              ),
+              resources: T::Array[
+                T.any(
+                  Anthropic::Beta::BetaManagedAgentsGitHubRepositoryResourceConfig::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsFileResourceConfig::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsMemoryStoreResourceConfig::OrHash
+                )
+              ],
+              schedule: T.nilable(Anthropic::Beta::BetaManagedAgentsSchedule::OrHash),
+              status: Anthropic::Beta::BetaManagedAgentsDeploymentStatus::OrSymbol,
+              type: Anthropic::Beta::BetaManagedAgentsDeployment::Type::OrSymbol,
+              updated_at: Time,
+              vault_ids: T::Array[String]
+            ).returns(T.attached_class)
+          end
+          def new(
+            id:, # Unique identifier for this deployment.
+            agent:, # A resolved agent reference with a concrete version.
+            archived_at:, # A timestamp in RFC 3339 format
+            created_at:, # A timestamp in RFC 3339 format
+            description:, # Description of what the deployment does.
+            environment_id:, # ID of the `environment` where sessions run.
+            initial_events:, # Events sent to each session immediately after creation.
+            metadata:, # Arbitrary key-value metadata. Maximum 16 pairs.
+            name:, # Human-readable name.
+            paused_reason:, # Why a deployment is paused. Non-null exactly when `status` is `paused`.
+            resources:, # Resources attached to sessions created from this deployment. Echoes the input
+                        # minus write-only credentials.
+            schedule:, # 5-field POSIX cron schedule with computed runtime timestamps.
+            status:, # Lifecycle status of a deployment.
+            type:,
+            updated_at:, # A timestamp in RFC 3339 format
+            vault_ids: # Vault IDs supplying stored credentials for sessions created from this
+                       # deployment.
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsDeployment,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsDeployment::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          DEPLOYMENT = T.let(
+              :deployment,
+              Anthropic::Beta::BetaManagedAgentsDeployment::Type::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(Symbol, Anthropic::Beta::BetaManagedAgentsDeployment::Type)
+            end
+        end
+      end
+
+      # An event sent to a session immediately after it is created. Supports
+      # `user.message`, `user.define_outcome`, and `system.message`.
+      module BetaManagedAgentsDeploymentInitialEvent
+        extend Anthropic::Internal::Type::Union
+
+        class << self
+          sig do
+            override
+              .returns(T::Array[
+              Anthropic::Beta::BetaManagedAgentsDeploymentInitialEvent::Variants
+            ])
+          end
+          def variants; end
+        end
+
+        Variants = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsDeploymentUserMessageEvent,
+              Anthropic::Beta::BetaManagedAgentsDeploymentUserDefineOutcomeEvent,
+              Anthropic::Beta::BetaManagedAgentsDeploymentSystemMessageEvent
+            )
+          end
+      end
+
+      # An event sent to a session immediately after it is created. Supports
+      # `user.message`, `user.define_outcome`, and `system.message`.
+      module BetaManagedAgentsDeploymentInitialEventParams
+        extend Anthropic::Internal::Type::Union
+
+        class << self
+          sig do
+            override
+              .returns(T::Array[
+              Anthropic::Beta::BetaManagedAgentsDeploymentInitialEventParams::Variants
+            ])
+          end
+          def variants; end
+        end
+
+        Variants = T.type_alias do
+            T.any(
+              Anthropic::Beta::Sessions::BetaManagedAgentsUserMessageEventParams,
+              Anthropic::Beta::Sessions::BetaManagedAgentsUserDefineOutcomeEventParams,
+              Anthropic::Beta::Sessions::BetaManagedAgentsSystemMessageEventParams
+            )
+          end
+      end
+
+      # Why a deployment is paused. Non-null exactly when `status` is `paused`.
+      module BetaManagedAgentsDeploymentPausedReason
+        extend Anthropic::Internal::Type::Union
+
+        class << self
+          sig do
+            override
+              .returns(T::Array[
+              Anthropic::Beta::BetaManagedAgentsDeploymentPausedReason::Variants
+            ])
+          end
+          def variants; end
+        end
+
+        Variants = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsManualDeploymentPausedReason,
+              Anthropic::Beta::BetaManagedAgentsErrorDeploymentPausedReason
+            )
+          end
+      end
+
+      # The error that triggered an auto-pause. Matches the failed run's `error.type`.
+      module BetaManagedAgentsDeploymentPausedReasonError
+        extend Anthropic::Internal::Type::Union
+
+        class << self
+          sig do
+            override
+              .returns(T::Array[
+              Anthropic::Beta::BetaManagedAgentsDeploymentPausedReasonError::Variants
+            ])
+          end
+          def variants; end
+        end
+
+        Variants = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsEnvironmentArchivedDeploymentPausedReasonError,
+              Anthropic::Beta::BetaManagedAgentsAgentArchivedDeploymentPausedReasonError,
+              Anthropic::Beta::BetaManagedAgentsEnvironmentNotFoundDeploymentPausedReasonError,
+              Anthropic::Beta::BetaManagedAgentsVaultNotFoundDeploymentPausedReasonError,
+              Anthropic::Beta::BetaManagedAgentsFileNotFoundDeploymentPausedReasonError,
+              Anthropic::Beta::BetaManagedAgentsSessionResourceNotFoundDeploymentPausedReasonError,
+              Anthropic::Beta::BetaManagedAgentsWorkspaceArchivedDeploymentPausedReasonError,
+              Anthropic::Beta::BetaManagedAgentsOrganizationDisabledDeploymentPausedReasonError,
+              Anthropic::Beta::BetaManagedAgentsMemoryStoreArchivedDeploymentPausedReasonError,
+              Anthropic::Beta::BetaManagedAgentsSkillNotFoundDeploymentPausedReasonError,
+              Anthropic::Beta::BetaManagedAgentsVaultArchivedDeploymentPausedReasonError,
+              Anthropic::Beta::BetaManagedAgentsUnknownDeploymentPausedReasonError,
+              Anthropic::Beta::BetaManagedAgentsSelfHostedResourcesUnsupportedDeploymentPausedReasonError,
+              Anthropic::Beta::BetaManagedAgentsMCPEgressBlockedDeploymentPausedReasonError
+            )
+          end
+      end
+
+      class BetaManagedAgentsDeploymentRun < Anthropic::Internal::Type::BaseModel
+        # A resolved agent reference with a concrete version.
+        sig { returns(Anthropic::Beta::BetaManagedAgentsAgentReference) }
+        attr_reader :agent
+
+        sig { params(agent: Anthropic::Beta::BetaManagedAgentsAgentReference::OrHash).void }
+        attr_writer :agent
+
+        # A timestamp in RFC 3339 format
+        sig { returns(Time) }
+        attr_accessor :created_at
+
+        # ID of the deployment that produced this run.
+        sig { returns(String) }
+        attr_accessor :deployment_id
+
+        # Why the run failed to create a session. The type identifies the failure; message
+        # is human-readable detail.
+        sig do
+          returns(T.nilable(
+              Anthropic::Beta::BetaManagedAgentsDeploymentRun::Error::Variants
+            ))
+        end
+        attr_accessor :error
+
+        # Unique identifier for this run (`drun_...`).
+        sig { returns(String) }
+        attr_accessor :id
+
+        # Populated on success. Null on creation failure. Exactly one of session_id or
+        # error is non-null.
+        sig { returns(T.nilable(String)) }
+        attr_accessor :session_id
+
+        # Describes what triggered a deployment run, with trigger-specific metadata.
+        sig { returns(Anthropic::Beta::BetaManagedAgentsTriggerContext::Variants) }
+        attr_accessor :trigger_context
+
+        sig { returns(Anthropic::Beta::BetaManagedAgentsDeploymentRun::Type::TaggedSymbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              id: String,
+              agent: Anthropic::Beta::BetaManagedAgentsAgentReference,
+              created_at: Time,
+              deployment_id: String,
+              error:
+                T.nilable(
+                  Anthropic::Beta::BetaManagedAgentsDeploymentRun::Error::Variants
+                ),
+              session_id: T.nilable(String),
+              trigger_context:
+                Anthropic::Beta::BetaManagedAgentsTriggerContext::Variants,
+              type:
+                Anthropic::Beta::BetaManagedAgentsDeploymentRun::Type::TaggedSymbol
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # A persistent, append-only record of a single deployment execution. Records
+          # session creation success or failure — no session lifecycle tracking.
+          sig do
+            params(
+              id: String,
+              agent: Anthropic::Beta::BetaManagedAgentsAgentReference::OrHash,
+              created_at: Time,
+              deployment_id: String,
+              error: T.nilable(
+                T.any(
+                  Anthropic::Beta::BetaManagedAgentsEnvironmentArchivedRunError::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsAgentArchivedRunError::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsEnvironmentNotFoundRunError::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsVaultNotFoundRunError::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsVaultArchivedRunError::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsFileNotFoundRunError::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsMemoryStoreArchivedRunError::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsSkillNotFoundRunError::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsSessionResourceNotFoundRunError::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsWorkspaceArchivedRunError::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsOrganizationDisabledRunError::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsSessionRateLimitedRunError::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsSessionCreationRejectedRunError::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsUnknownRunError::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsSelfHostedResourcesUnsupportedRunError::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsMCPEgressBlockedRunError::OrHash
+                )
+              ),
+              session_id: T.nilable(String),
+              trigger_context: T.any(
+                Anthropic::Beta::BetaManagedAgentsScheduleTriggerContext::OrHash,
+                Anthropic::Beta::BetaManagedAgentsManualTriggerContext::OrHash
+              ),
+              type: Anthropic::Beta::BetaManagedAgentsDeploymentRun::Type::OrSymbol
+            ).returns(T.attached_class)
+          end
+          def new(
+            id:, # Unique identifier for this run (`drun_...`).
+            agent:, # A resolved agent reference with a concrete version.
+            created_at:, # A timestamp in RFC 3339 format
+            deployment_id:, # ID of the deployment that produced this run.
+            error:, # Why the run failed to create a session. The type identifies the failure; message
+                    # is human-readable detail.
+            session_id:, # Populated on success. Null on creation failure. Exactly one of session_id or
+                         # error is non-null.
+            trigger_context:, # Describes what triggered a deployment run, with trigger-specific metadata.
+            type:
+); end
+        end
+
+        # Why the run failed to create a session. The type identifies the failure; message
+        # is human-readable detail.
+        module Error
+          extend Anthropic::Internal::Type::Union
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsDeploymentRun::Error::Variants
+              ])
+            end
+            def variants; end
+          end
+
+          Variants = T.type_alias do
+              T.any(
+                Anthropic::Beta::BetaManagedAgentsEnvironmentArchivedRunError,
+                Anthropic::Beta::BetaManagedAgentsAgentArchivedRunError,
+                Anthropic::Beta::BetaManagedAgentsEnvironmentNotFoundRunError,
+                Anthropic::Beta::BetaManagedAgentsVaultNotFoundRunError,
+                Anthropic::Beta::BetaManagedAgentsVaultArchivedRunError,
+                Anthropic::Beta::BetaManagedAgentsFileNotFoundRunError,
+                Anthropic::Beta::BetaManagedAgentsMemoryStoreArchivedRunError,
+                Anthropic::Beta::BetaManagedAgentsSkillNotFoundRunError,
+                Anthropic::Beta::BetaManagedAgentsSessionResourceNotFoundRunError,
+                Anthropic::Beta::BetaManagedAgentsWorkspaceArchivedRunError,
+                Anthropic::Beta::BetaManagedAgentsOrganizationDisabledRunError,
+                Anthropic::Beta::BetaManagedAgentsSessionRateLimitedRunError,
+                Anthropic::Beta::BetaManagedAgentsSessionCreationRejectedRunError,
+                Anthropic::Beta::BetaManagedAgentsUnknownRunError,
+                Anthropic::Beta::BetaManagedAgentsSelfHostedResourcesUnsupportedRunError,
+                Anthropic::Beta::BetaManagedAgentsMCPEgressBlockedRunError
+              )
+            end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsDeploymentRun,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsDeploymentRun::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          DEPLOYMENT_RUN = T.let(
+              :deployment_run,
+              Anthropic::Beta::BetaManagedAgentsDeploymentRun::Type::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsDeploymentRun::Type
+              )
+            end
+        end
+      end
+
+      # Lifecycle status of a deployment.
+      module BetaManagedAgentsDeploymentStatus
+        extend Anthropic::Internal::Type::Enum
+
+        class << self
+          sig do
+            override
+              .returns(T::Array[
+              Anthropic::Beta::BetaManagedAgentsDeploymentStatus::TaggedSymbol
+            ])
+          end
+          def values; end
+        end
+
+        ACTIVE = T.let(
+            :active,
+            Anthropic::Beta::BetaManagedAgentsDeploymentStatus::TaggedSymbol
+          )
+
+        OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+        PAUSED = T.let(
+            :paused,
+            Anthropic::Beta::BetaManagedAgentsDeploymentStatus::TaggedSymbol
+          )
+
+        TaggedSymbol = T.type_alias do
+            T.all(Symbol, Anthropic::Beta::BetaManagedAgentsDeploymentStatus)
+          end
+      end
+
+      class BetaManagedAgentsDeploymentSystemMessageEvent < Anthropic::Internal::Type::BaseModel
+        # System content blocks to append. Text-only.
+        sig { returns(T::Array[Anthropic::Beta::BetaManagedAgentsSystemContentBlock]) }
+        attr_accessor :content
+
+        sig { returns(Anthropic::Beta::BetaManagedAgentsDeploymentSystemMessageEvent::Type::TaggedSymbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              content:
+                T::Array[Anthropic::Beta::BetaManagedAgentsSystemContentBlock],
+              type:
+                Anthropic::Beta::BetaManagedAgentsDeploymentSystemMessageEvent::Type::TaggedSymbol
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # Privileged context for the accompanying turn and all subsequent turns, appended
+          # to the session's system context as a `role: "system"` turn rather than replacing
+          # the top-level system prompt.
+          sig do
+            params(
+              content: T::Array[
+                Anthropic::Beta::BetaManagedAgentsSystemContentBlock::OrHash
+              ],
+              type: Anthropic::Beta::BetaManagedAgentsDeploymentSystemMessageEvent::Type::OrSymbol
+            ).returns(T.attached_class)
+          end
+          def new(
+            content:, # System content blocks to append. Text-only.
+            type:
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsDeploymentSystemMessageEvent,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsDeploymentSystemMessageEvent::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          SYSTEM_MESSAGE = T.let(
+              :"system.message",
+              Anthropic::Beta::BetaManagedAgentsDeploymentSystemMessageEvent::Type::TaggedSymbol
+            )
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsDeploymentSystemMessageEvent::Type
+              )
+            end
+        end
+      end
+
+      class BetaManagedAgentsDeploymentUserDefineOutcomeEvent < Anthropic::Internal::Type::BaseModel
+        # What the agent should produce. This is the task specification.
+        sig { returns(String) }
+        attr_accessor :description
+
+        # Eval→revision cycles before giving up. Default 3, max 20.
+        sig { returns(T.nilable(Integer)) }
+        attr_accessor :max_iterations
+
+        # Rubric for grading the quality of an outcome.
+        sig { returns(Anthropic::Beta::BetaManagedAgentsDeploymentUserDefineOutcomeEvent::Rubric::Variants) }
+        attr_accessor :rubric
+
+        sig { returns(Anthropic::Beta::BetaManagedAgentsDeploymentUserDefineOutcomeEvent::Type::TaggedSymbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              description: String,
+              rubric:
+                Anthropic::Beta::BetaManagedAgentsDeploymentUserDefineOutcomeEvent::Rubric::Variants,
+              type:
+                Anthropic::Beta::BetaManagedAgentsDeploymentUserDefineOutcomeEvent::Type::TaggedSymbol,
+              max_iterations: T.nilable(Integer)
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # An outcome the agent should work toward. The agent begins work on receipt.
+          sig do
+            params(
+              description: String,
+              rubric: T.any(
+                Anthropic::Beta::Sessions::BetaManagedAgentsFileRubric::OrHash,
+                Anthropic::Beta::Sessions::BetaManagedAgentsTextRubric::OrHash
+              ),
+              type: Anthropic::Beta::BetaManagedAgentsDeploymentUserDefineOutcomeEvent::Type::OrSymbol,
+              max_iterations: T.nilable(Integer)
+            ).returns(T.attached_class)
+          end
+          def new(
+            description:, # What the agent should produce. This is the task specification.
+            rubric:, # Rubric for grading the quality of an outcome.
+            type:,
+            max_iterations: nil # Eval→revision cycles before giving up. Default 3, max 20.
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsDeploymentUserDefineOutcomeEvent,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        # Rubric for grading the quality of an outcome.
+        module Rubric
+          extend Anthropic::Internal::Type::Union
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsDeploymentUserDefineOutcomeEvent::Rubric::Variants
+              ])
+            end
+            def variants; end
+          end
+
+          Variants = T.type_alias do
+              T.any(
+                Anthropic::Beta::Sessions::BetaManagedAgentsFileRubric,
+                Anthropic::Beta::Sessions::BetaManagedAgentsTextRubric
+              )
+            end
+        end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsDeploymentUserDefineOutcomeEvent::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsDeploymentUserDefineOutcomeEvent::Type
+              )
+            end
+
+          USER_DEFINE_OUTCOME = T.let(
+              :"user.define_outcome",
+              Anthropic::Beta::BetaManagedAgentsDeploymentUserDefineOutcomeEvent::Type::TaggedSymbol
+            )
+        end
+      end
+
+      class BetaManagedAgentsDeploymentUserMessageEvent < Anthropic::Internal::Type::BaseModel
+        # Array of content blocks for the user message.
+        sig do
+          returns(T::Array[
+              Anthropic::Beta::BetaManagedAgentsDeploymentUserMessageEvent::Content::Variants
+            ])
+        end
+        attr_accessor :content
+
+        sig { returns(Anthropic::Beta::BetaManagedAgentsDeploymentUserMessageEvent::Type::TaggedSymbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              content:
+                T::Array[
+                  Anthropic::Beta::BetaManagedAgentsDeploymentUserMessageEvent::Content::Variants
+                ],
+              type:
+                Anthropic::Beta::BetaManagedAgentsDeploymentUserMessageEvent::Type::TaggedSymbol
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # A user message sent to the session.
+          sig do
+            params(
+              content: T::Array[
+                T.any(
+                  Anthropic::Beta::Sessions::BetaManagedAgentsTextBlock::OrHash,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsImageBlock::OrHash,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsDocumentBlock::OrHash
+                )
+              ],
+              type: Anthropic::Beta::BetaManagedAgentsDeploymentUserMessageEvent::Type::OrSymbol
+            ).returns(T.attached_class)
+          end
+          def new(
+            content:, # Array of content blocks for the user message.
+            type:
+); end
+        end
+
+        # Content block in a user message. Can be `text`, `image`, or `document`.
+        module Content
+          extend Anthropic::Internal::Type::Union
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsDeploymentUserMessageEvent::Content::Variants
+              ])
+            end
+            def variants; end
+          end
+
+          Variants = T.type_alias do
+              T.any(
+                Anthropic::Beta::Sessions::BetaManagedAgentsTextBlock,
+                Anthropic::Beta::Sessions::BetaManagedAgentsImageBlock,
+                Anthropic::Beta::Sessions::BetaManagedAgentsDocumentBlock
+              )
+            end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsDeploymentUserMessageEvent,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsDeploymentUserMessageEvent::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsDeploymentUserMessageEvent::Type
+              )
+            end
+
+          USER_MESSAGE = T.let(
+              :"user.message",
+              Anthropic::Beta::BetaManagedAgentsDeploymentUserMessageEvent::Type::TaggedSymbol
+            )
+        end
+      end
+
+      class BetaManagedAgentsEnvironmentArchivedDeploymentPausedReasonError < Anthropic::Internal::Type::BaseModel
+        sig do
+          returns(Anthropic::Beta::BetaManagedAgentsEnvironmentArchivedDeploymentPausedReasonError::Type::TaggedSymbol)
+        end
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              type:
+                Anthropic::Beta::BetaManagedAgentsEnvironmentArchivedDeploymentPausedReasonError::Type::TaggedSymbol
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # The deployment's environment was archived.
+          sig do
+            params(
+              type: Anthropic::Beta::BetaManagedAgentsEnvironmentArchivedDeploymentPausedReasonError::Type::OrSymbol
+            ).returns(T.attached_class)
+          end
+          def new(type:); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsEnvironmentArchivedDeploymentPausedReasonError,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsEnvironmentArchivedDeploymentPausedReasonError::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          ENVIRONMENT_ARCHIVED_ERROR = T.let(
+              :environment_archived_error,
+              Anthropic::Beta::BetaManagedAgentsEnvironmentArchivedDeploymentPausedReasonError::Type::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsEnvironmentArchivedDeploymentPausedReasonError::Type
+              )
+            end
+        end
+      end
+
+      class BetaManagedAgentsEnvironmentArchivedRunError < Anthropic::Internal::Type::BaseModel
+        # Human-readable error description.
+        sig { returns(String) }
+        attr_accessor :message
+
+        sig { returns(Anthropic::Beta::BetaManagedAgentsEnvironmentArchivedRunError::Type::TaggedSymbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              message: String,
+              type:
+                Anthropic::Beta::BetaManagedAgentsEnvironmentArchivedRunError::Type::TaggedSymbol
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # The deployment's environment was archived.
+          sig do
+            params(
+              message: String,
+              type: Anthropic::Beta::BetaManagedAgentsEnvironmentArchivedRunError::Type::OrSymbol
+            ).returns(T.attached_class)
+          end
+          def new(
+            message:, # Human-readable error description.
+            type:
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsEnvironmentArchivedRunError,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsEnvironmentArchivedRunError::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          ENVIRONMENT_ARCHIVED_ERROR = T.let(
+              :environment_archived_error,
+              Anthropic::Beta::BetaManagedAgentsEnvironmentArchivedRunError::Type::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsEnvironmentArchivedRunError::Type
+              )
+            end
+        end
+      end
+
+      class BetaManagedAgentsEnvironmentNotFoundDeploymentPausedReasonError < Anthropic::Internal::Type::BaseModel
+        sig do
+          returns(Anthropic::Beta::BetaManagedAgentsEnvironmentNotFoundDeploymentPausedReasonError::Type::TaggedSymbol)
+        end
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              type:
+                Anthropic::Beta::BetaManagedAgentsEnvironmentNotFoundDeploymentPausedReasonError::Type::TaggedSymbol
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # The deployment's environment no longer exists.
+          sig do
+            params(
+              type: Anthropic::Beta::BetaManagedAgentsEnvironmentNotFoundDeploymentPausedReasonError::Type::OrSymbol
+            ).returns(T.attached_class)
+          end
+          def new(type:); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsEnvironmentNotFoundDeploymentPausedReasonError,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsEnvironmentNotFoundDeploymentPausedReasonError::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          ENVIRONMENT_NOT_FOUND_ERROR = T.let(
+              :environment_not_found_error,
+              Anthropic::Beta::BetaManagedAgentsEnvironmentNotFoundDeploymentPausedReasonError::Type::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsEnvironmentNotFoundDeploymentPausedReasonError::Type
+              )
+            end
+        end
+      end
+
+      class BetaManagedAgentsEnvironmentNotFoundRunError < Anthropic::Internal::Type::BaseModel
+        # Human-readable error description.
+        sig { returns(String) }
+        attr_accessor :message
+
+        sig { returns(Anthropic::Beta::BetaManagedAgentsEnvironmentNotFoundRunError::Type::TaggedSymbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              message: String,
+              type:
+                Anthropic::Beta::BetaManagedAgentsEnvironmentNotFoundRunError::Type::TaggedSymbol
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # The deployment's environment no longer exists.
+          sig do
+            params(
+              message: String,
+              type: Anthropic::Beta::BetaManagedAgentsEnvironmentNotFoundRunError::Type::OrSymbol
+            ).returns(T.attached_class)
+          end
+          def new(
+            message:, # Human-readable error description.
+            type:
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsEnvironmentNotFoundRunError,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsEnvironmentNotFoundRunError::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          ENVIRONMENT_NOT_FOUND_ERROR = T.let(
+              :environment_not_found_error,
+              Anthropic::Beta::BetaManagedAgentsEnvironmentNotFoundRunError::Type::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsEnvironmentNotFoundRunError::Type
+              )
+            end
+        end
+      end
+
+      class BetaManagedAgentsErrorDeploymentPausedReason < Anthropic::Internal::Type::BaseModel
+        # The error that triggered an auto-pause. Matches the failed run's `error.type`.
+        sig { returns(Anthropic::Beta::BetaManagedAgentsDeploymentPausedReasonError::Variants) }
+        attr_accessor :error
+
+        sig { returns(Anthropic::Beta::BetaManagedAgentsErrorDeploymentPausedReason::Type::TaggedSymbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              error:
+                Anthropic::Beta::BetaManagedAgentsDeploymentPausedReasonError::Variants,
+              type:
+                Anthropic::Beta::BetaManagedAgentsErrorDeploymentPausedReason::Type::TaggedSymbol
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # A scheduled fire recorded a failed run whose error auto-pauses the deployment.
+          sig do
+            params(
+              error: T.any(
+                Anthropic::Beta::BetaManagedAgentsEnvironmentArchivedDeploymentPausedReasonError::OrHash,
+                Anthropic::Beta::BetaManagedAgentsAgentArchivedDeploymentPausedReasonError::OrHash,
+                Anthropic::Beta::BetaManagedAgentsEnvironmentNotFoundDeploymentPausedReasonError::OrHash,
+                Anthropic::Beta::BetaManagedAgentsVaultNotFoundDeploymentPausedReasonError::OrHash,
+                Anthropic::Beta::BetaManagedAgentsFileNotFoundDeploymentPausedReasonError::OrHash,
+                Anthropic::Beta::BetaManagedAgentsSessionResourceNotFoundDeploymentPausedReasonError::OrHash,
+                Anthropic::Beta::BetaManagedAgentsWorkspaceArchivedDeploymentPausedReasonError::OrHash,
+                Anthropic::Beta::BetaManagedAgentsOrganizationDisabledDeploymentPausedReasonError::OrHash,
+                Anthropic::Beta::BetaManagedAgentsMemoryStoreArchivedDeploymentPausedReasonError::OrHash,
+                Anthropic::Beta::BetaManagedAgentsSkillNotFoundDeploymentPausedReasonError::OrHash,
+                Anthropic::Beta::BetaManagedAgentsVaultArchivedDeploymentPausedReasonError::OrHash,
+                Anthropic::Beta::BetaManagedAgentsUnknownDeploymentPausedReasonError::OrHash,
+                Anthropic::Beta::BetaManagedAgentsSelfHostedResourcesUnsupportedDeploymentPausedReasonError::OrHash,
+                Anthropic::Beta::BetaManagedAgentsMCPEgressBlockedDeploymentPausedReasonError::OrHash
+              ),
+              type: Anthropic::Beta::BetaManagedAgentsErrorDeploymentPausedReason::Type::OrSymbol
+            ).returns(T.attached_class)
+          end
+          def new(
+            error:, # The error that triggered an auto-pause. Matches the failed run's `error.type`.
+            type:
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsErrorDeploymentPausedReason,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsErrorDeploymentPausedReason::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          ERROR = T.let(
+              :error,
+              Anthropic::Beta::BetaManagedAgentsErrorDeploymentPausedReason::Type::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsErrorDeploymentPausedReason::Type
+              )
+            end
+        end
+      end
+
+      class BetaManagedAgentsFileNotFoundDeploymentPausedReasonError < Anthropic::Internal::Type::BaseModel
+        sig { returns(Anthropic::Beta::BetaManagedAgentsFileNotFoundDeploymentPausedReasonError::Type::TaggedSymbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              type:
+                Anthropic::Beta::BetaManagedAgentsFileNotFoundDeploymentPausedReasonError::Type::TaggedSymbol
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # A file resource referenced by the deployment no longer exists.
+          sig do
+            params(
+              type: Anthropic::Beta::BetaManagedAgentsFileNotFoundDeploymentPausedReasonError::Type::OrSymbol
+            ).returns(T.attached_class)
+          end
+          def new(type:); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsFileNotFoundDeploymentPausedReasonError,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsFileNotFoundDeploymentPausedReasonError::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          FILE_NOT_FOUND_ERROR = T.let(
+              :file_not_found_error,
+              Anthropic::Beta::BetaManagedAgentsFileNotFoundDeploymentPausedReasonError::Type::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsFileNotFoundDeploymentPausedReasonError::Type
+              )
+            end
+        end
+      end
+
+      class BetaManagedAgentsFileNotFoundRunError < Anthropic::Internal::Type::BaseModel
+        # Human-readable error description.
+        sig { returns(String) }
+        attr_accessor :message
+
+        sig { returns(Anthropic::Beta::BetaManagedAgentsFileNotFoundRunError::Type::TaggedSymbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              message: String,
+              type:
+                Anthropic::Beta::BetaManagedAgentsFileNotFoundRunError::Type::TaggedSymbol
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # A file resource referenced by the deployment no longer exists.
+          sig do
+            params(
+              message: String,
+              type: Anthropic::Beta::BetaManagedAgentsFileNotFoundRunError::Type::OrSymbol
+            ).returns(T.attached_class)
+          end
+          def new(
+            message:, # Human-readable error description.
+            type:
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsFileNotFoundRunError,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsFileNotFoundRunError::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          FILE_NOT_FOUND_ERROR = T.let(
+              :file_not_found_error,
+              Anthropic::Beta::BetaManagedAgentsFileNotFoundRunError::Type::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsFileNotFoundRunError::Type
+              )
+            end
+        end
+      end
+
+      class BetaManagedAgentsFileResourceConfig < Anthropic::Internal::Type::BaseModel
+        # ID of a previously uploaded file.
+        sig { returns(String) }
+        attr_accessor :file_id
+
+        # Mount path in the container. Defaults to `/mnt/session/uploads/<file_id>`.
+        sig { returns(T.nilable(String)) }
+        attr_accessor :mount_path
+
+        sig { returns(Anthropic::Beta::BetaManagedAgentsFileResourceConfig::Type::TaggedSymbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              file_id: String,
+              type:
+                Anthropic::Beta::BetaManagedAgentsFileResourceConfig::Type::TaggedSymbol,
+              mount_path: T.nilable(String)
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # A file mounted into each session's container.
+          sig do
+            params(
+              file_id: String,
+              type: Anthropic::Beta::BetaManagedAgentsFileResourceConfig::Type::OrSymbol,
+              mount_path: T.nilable(String)
+            ).returns(T.attached_class)
+          end
+          def new(
+            file_id:, # ID of a previously uploaded file.
+            type:,
+            mount_path: nil # Mount path in the container. Defaults to `/mnt/session/uploads/<file_id>`.
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsFileResourceConfig,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsFileResourceConfig::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          FILE = T.let(
+              :file,
+              Anthropic::Beta::BetaManagedAgentsFileResourceConfig::Type::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsFileResourceConfig::Type
+              )
+            end
+        end
+      end
+
       class BetaManagedAgentsFileResourceParams < Anthropic::Internal::Type::BaseModel
         # ID of a previously uploaded file.
         sig { returns(String) }
@@ -12824,6 +14937,123 @@ module Anthropic
               T.all(
                 Symbol,
                 Anthropic::Beta::BetaManagedAgentsFileResourceParams::Type
+              )
+            end
+        end
+      end
+
+      class BetaManagedAgentsGitHubRepositoryResourceConfig < Anthropic::Internal::Type::BaseModel
+        # Branch or commit to check out. Defaults to the repository's default branch.
+        sig do
+          returns(T.nilable(
+              Anthropic::Beta::BetaManagedAgentsGitHubRepositoryResourceConfig::Checkout::Variants
+            ))
+        end
+        attr_accessor :checkout
+
+        # Mount path in the container. Defaults to `/workspace/<repo-name>`.
+        sig { returns(T.nilable(String)) }
+        attr_accessor :mount_path
+
+        sig { returns(Anthropic::Beta::BetaManagedAgentsGitHubRepositoryResourceConfig::Type::TaggedSymbol) }
+        attr_accessor :type
+
+        # Github URL of the repository
+        sig { returns(String) }
+        attr_accessor :url
+
+        sig do
+          override
+            .returns({
+              type:
+                Anthropic::Beta::BetaManagedAgentsGitHubRepositoryResourceConfig::Type::TaggedSymbol,
+              url: String,
+              checkout:
+                T.nilable(
+                  Anthropic::Beta::BetaManagedAgentsGitHubRepositoryResourceConfig::Checkout::Variants
+                ),
+              mount_path: T.nilable(String)
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # A GitHub repository mounted into each session's container. The authorization
+          # token is write-only and never returned.
+          sig do
+            params(
+              type: Anthropic::Beta::BetaManagedAgentsGitHubRepositoryResourceConfig::Type::OrSymbol,
+              url: String,
+              checkout: T.nilable(
+                T.any(
+                  Anthropic::Beta::BetaManagedAgentsBranchCheckout::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsCommitCheckout::OrHash
+                )
+              ),
+              mount_path: T.nilable(String)
+            ).returns(T.attached_class)
+          end
+          def new(
+            type:,
+            url:, # Github URL of the repository
+            checkout: nil, # Branch or commit to check out. Defaults to the repository's default branch.
+            mount_path: nil # Mount path in the container. Defaults to `/workspace/<repo-name>`.
+); end
+        end
+
+        # Branch or commit to check out. Defaults to the repository's default branch.
+        module Checkout
+          extend Anthropic::Internal::Type::Union
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsGitHubRepositoryResourceConfig::Checkout::Variants
+              ])
+            end
+            def variants; end
+          end
+
+          Variants = T.type_alias do
+              T.any(
+                Anthropic::Beta::BetaManagedAgentsBranchCheckout,
+                Anthropic::Beta::BetaManagedAgentsCommitCheckout
+              )
+            end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsGitHubRepositoryResourceConfig,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsGitHubRepositoryResourceConfig::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          GITHUB_REPOSITORY = T.let(
+              :github_repository,
+              Anthropic::Beta::BetaManagedAgentsGitHubRepositoryResourceConfig::Type::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsGitHubRepositoryResourceConfig::Type
               )
             end
         end
@@ -12953,6 +15183,137 @@ module Anthropic
               T.all(
                 Symbol,
                 Anthropic::Beta::BetaManagedAgentsGitHubRepositoryResourceParams::Type
+              )
+            end
+        end
+      end
+
+      class BetaManagedAgentsMCPEgressBlockedDeploymentPausedReasonError < Anthropic::Internal::Type::BaseModel
+        sig do
+          returns(Anthropic::Beta::BetaManagedAgentsMCPEgressBlockedDeploymentPausedReasonError::Type::TaggedSymbol)
+        end
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              type:
+                Anthropic::Beta::BetaManagedAgentsMCPEgressBlockedDeploymentPausedReasonError::Type::TaggedSymbol
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # An MCP server host used by the deployment's agent is blocked by the
+          # environment's network policy.
+          sig do
+            params(
+              type: Anthropic::Beta::BetaManagedAgentsMCPEgressBlockedDeploymentPausedReasonError::Type::OrSymbol
+            ).returns(T.attached_class)
+          end
+          def new(type:); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsMCPEgressBlockedDeploymentPausedReasonError,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsMCPEgressBlockedDeploymentPausedReasonError::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          MCP_EGRESS_BLOCKED_ERROR = T.let(
+              :mcp_egress_blocked_error,
+              Anthropic::Beta::BetaManagedAgentsMCPEgressBlockedDeploymentPausedReasonError::Type::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsMCPEgressBlockedDeploymentPausedReasonError::Type
+              )
+            end
+        end
+      end
+
+      class BetaManagedAgentsMCPEgressBlockedRunError < Anthropic::Internal::Type::BaseModel
+        # Human-readable error description.
+        sig { returns(String) }
+        attr_accessor :message
+
+        sig { returns(Anthropic::Beta::BetaManagedAgentsMCPEgressBlockedRunError::Type::TaggedSymbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              message: String,
+              type:
+                Anthropic::Beta::BetaManagedAgentsMCPEgressBlockedRunError::Type::TaggedSymbol
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # An MCP server host used by the deployment's agent is blocked by the
+          # environment's network policy.
+          sig do
+            params(
+              message: String,
+              type: Anthropic::Beta::BetaManagedAgentsMCPEgressBlockedRunError::Type::OrSymbol
+            ).returns(T.attached_class)
+          end
+          def new(
+            message:, # Human-readable error description.
+            type:
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsMCPEgressBlockedRunError,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsMCPEgressBlockedRunError::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          MCP_EGRESS_BLOCKED_ERROR = T.let(
+              :mcp_egress_blocked_error,
+              Anthropic::Beta::BetaManagedAgentsMCPEgressBlockedRunError::Type::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsMCPEgressBlockedRunError::Type
               )
             end
         end
@@ -13529,6 +15890,125 @@ module Anthropic
         end
       end
 
+      class BetaManagedAgentsManualDeploymentPausedReason < Anthropic::Internal::Type::BaseModel
+        sig { returns(Anthropic::Beta::BetaManagedAgentsManualDeploymentPausedReason::Type::TaggedSymbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              type:
+                Anthropic::Beta::BetaManagedAgentsManualDeploymentPausedReason::Type::TaggedSymbol
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # The caller invoked the pause endpoint on the deployment.
+          sig do
+            params(
+              type: Anthropic::Beta::BetaManagedAgentsManualDeploymentPausedReason::Type::OrSymbol
+            ).returns(T.attached_class)
+          end
+          def new(type:); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsManualDeploymentPausedReason,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsManualDeploymentPausedReason::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          MANUAL = T.let(
+              :manual,
+              Anthropic::Beta::BetaManagedAgentsManualDeploymentPausedReason::Type::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsManualDeploymentPausedReason::Type
+              )
+            end
+        end
+      end
+
+      class BetaManagedAgentsManualTriggerContext < Anthropic::Internal::Type::BaseModel
+        sig { returns(Anthropic::Beta::BetaManagedAgentsManualTriggerContext::Type::TaggedSymbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              type:
+                Anthropic::Beta::BetaManagedAgentsManualTriggerContext::Type::TaggedSymbol
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # The run was started manually by creating a session directly against the
+          # deployment.
+          sig do
+            params(
+              type: Anthropic::Beta::BetaManagedAgentsManualTriggerContext::Type::OrSymbol
+            ).returns(T.attached_class)
+          end
+          def new(type:); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsManualTriggerContext,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsManualTriggerContext::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          MANUAL = T.let(
+              :manual,
+              Anthropic::Beta::BetaManagedAgentsManualTriggerContext::Type::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsManualTriggerContext::Type
+              )
+            end
+        end
+      end
+
       class BetaManagedAgentsMemoryStore < Anthropic::Internal::Type::BaseModel
         # A timestamp in RFC 3339 format
         sig { returns(T.nilable(Time)) }
@@ -13654,6 +16134,264 @@ module Anthropic
 
           TaggedSymbol = T.type_alias do
               T.all(Symbol, Anthropic::Beta::BetaManagedAgentsMemoryStore::Type)
+            end
+        end
+      end
+
+      class BetaManagedAgentsMemoryStoreArchivedDeploymentPausedReasonError < Anthropic::Internal::Type::BaseModel
+        sig do
+          returns(Anthropic::Beta::BetaManagedAgentsMemoryStoreArchivedDeploymentPausedReasonError::Type::TaggedSymbol)
+        end
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              type:
+                Anthropic::Beta::BetaManagedAgentsMemoryStoreArchivedDeploymentPausedReasonError::Type::TaggedSymbol
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # A memory store referenced by the deployment is archived.
+          sig do
+            params(
+              type: Anthropic::Beta::BetaManagedAgentsMemoryStoreArchivedDeploymentPausedReasonError::Type::OrSymbol
+            ).returns(T.attached_class)
+          end
+          def new(type:); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsMemoryStoreArchivedDeploymentPausedReasonError,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsMemoryStoreArchivedDeploymentPausedReasonError::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          MEMORY_STORE_ARCHIVED_ERROR = T.let(
+              :memory_store_archived_error,
+              Anthropic::Beta::BetaManagedAgentsMemoryStoreArchivedDeploymentPausedReasonError::Type::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsMemoryStoreArchivedDeploymentPausedReasonError::Type
+              )
+            end
+        end
+      end
+
+      class BetaManagedAgentsMemoryStoreArchivedRunError < Anthropic::Internal::Type::BaseModel
+        # Human-readable error description.
+        sig { returns(String) }
+        attr_accessor :message
+
+        sig { returns(Anthropic::Beta::BetaManagedAgentsMemoryStoreArchivedRunError::Type::TaggedSymbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              message: String,
+              type:
+                Anthropic::Beta::BetaManagedAgentsMemoryStoreArchivedRunError::Type::TaggedSymbol
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # A memory store referenced by the deployment is archived.
+          sig do
+            params(
+              message: String,
+              type: Anthropic::Beta::BetaManagedAgentsMemoryStoreArchivedRunError::Type::OrSymbol
+            ).returns(T.attached_class)
+          end
+          def new(
+            message:, # Human-readable error description.
+            type:
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsMemoryStoreArchivedRunError,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsMemoryStoreArchivedRunError::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          MEMORY_STORE_ARCHIVED_ERROR = T.let(
+              :memory_store_archived_error,
+              Anthropic::Beta::BetaManagedAgentsMemoryStoreArchivedRunError::Type::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsMemoryStoreArchivedRunError::Type
+              )
+            end
+        end
+      end
+
+      class BetaManagedAgentsMemoryStoreResourceConfig < Anthropic::Internal::Type::BaseModel
+        # Access mode for an attached memory store.
+        sig do
+          returns(T.nilable(
+              Anthropic::Beta::BetaManagedAgentsMemoryStoreResourceConfig::Access::TaggedSymbol
+            ))
+        end
+        attr_accessor :access
+
+        # Per-attachment guidance for the agent on how to use this store. Rendered into
+        # the memory section of the system prompt. Max 4096 chars.
+        sig { returns(T.nilable(String)) }
+        attr_accessor :instructions
+
+        # The memory store ID (memstore\_...). Must belong to the caller's organization
+        # and workspace.
+        sig { returns(String) }
+        attr_accessor :memory_store_id
+
+        sig { returns(Anthropic::Beta::BetaManagedAgentsMemoryStoreResourceConfig::Type::TaggedSymbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              memory_store_id: String,
+              type:
+                Anthropic::Beta::BetaManagedAgentsMemoryStoreResourceConfig::Type::TaggedSymbol,
+              access:
+                T.nilable(
+                  Anthropic::Beta::BetaManagedAgentsMemoryStoreResourceConfig::Access::TaggedSymbol
+                ),
+              instructions: T.nilable(String)
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # A memory store attached to each session created from this deployment.
+          sig do
+            params(
+              memory_store_id: String,
+              type: Anthropic::Beta::BetaManagedAgentsMemoryStoreResourceConfig::Type::OrSymbol,
+              access: T.nilable(
+                Anthropic::Beta::BetaManagedAgentsMemoryStoreResourceConfig::Access::OrSymbol
+              ),
+              instructions: T.nilable(String)
+            ).returns(T.attached_class)
+          end
+          def new(
+            memory_store_id:, # The memory store ID (memstore\_...). Must belong to the caller's organization
+                              # and workspace.
+            type:,
+            access: nil, # Access mode for an attached memory store.
+            instructions: nil # Per-attachment guidance for the agent on how to use this store. Rendered into
+                              # the memory section of the system prompt. Max 4096 chars.
+); end
+        end
+
+        # Access mode for an attached memory store.
+        module Access
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsMemoryStoreResourceConfig::Access::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          READ_ONLY = T.let(
+              :read_only,
+              Anthropic::Beta::BetaManagedAgentsMemoryStoreResourceConfig::Access::TaggedSymbol
+            )
+
+          READ_WRITE = T.let(
+              :read_write,
+              Anthropic::Beta::BetaManagedAgentsMemoryStoreResourceConfig::Access::TaggedSymbol
+            )
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsMemoryStoreResourceConfig::Access
+              )
+            end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsMemoryStoreResourceConfig,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsMemoryStoreResourceConfig::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          MEMORY_STORE = T.let(
+              :memory_store,
+              Anthropic::Beta::BetaManagedAgentsMemoryStoreResourceConfig::Type::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsMemoryStoreResourceConfig::Type
+              )
             end
         end
       end
@@ -13798,6 +16536,12 @@ module Anthropic
           sig { override.returns(T::Array[Anthropic::Beta::BetaManagedAgentsModel::Variants]) }
           def variants; end
         end
+
+        # Next generation of intelligence for the hardest knowledge work and coding problems
+        CLAUDE_FABLE_5 = T.let(
+            :"claude-fable-5",
+            Anthropic::Beta::BetaManagedAgentsModel::TaggedSymbol
+          )
 
         # Fastest model with near-frontier intelligence
         CLAUDE_HAIKU_4_5 = T.let(
@@ -14488,6 +17232,135 @@ module Anthropic
         end
       end
 
+      class BetaManagedAgentsOrganizationDisabledDeploymentPausedReasonError < Anthropic::Internal::Type::BaseModel
+        sig do
+          returns(Anthropic::Beta::BetaManagedAgentsOrganizationDisabledDeploymentPausedReasonError::Type::TaggedSymbol)
+        end
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              type:
+                Anthropic::Beta::BetaManagedAgentsOrganizationDisabledDeploymentPausedReasonError::Type::TaggedSymbol
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # The deployment's organization is disabled.
+          sig do
+            params(
+              type: Anthropic::Beta::BetaManagedAgentsOrganizationDisabledDeploymentPausedReasonError::Type::OrSymbol
+            ).returns(T.attached_class)
+          end
+          def new(type:); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsOrganizationDisabledDeploymentPausedReasonError,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsOrganizationDisabledDeploymentPausedReasonError::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          ORGANIZATION_DISABLED_ERROR = T.let(
+              :organization_disabled_error,
+              Anthropic::Beta::BetaManagedAgentsOrganizationDisabledDeploymentPausedReasonError::Type::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsOrganizationDisabledDeploymentPausedReasonError::Type
+              )
+            end
+        end
+      end
+
+      class BetaManagedAgentsOrganizationDisabledRunError < Anthropic::Internal::Type::BaseModel
+        # Human-readable error description.
+        sig { returns(String) }
+        attr_accessor :message
+
+        sig { returns(Anthropic::Beta::BetaManagedAgentsOrganizationDisabledRunError::Type::TaggedSymbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              message: String,
+              type:
+                Anthropic::Beta::BetaManagedAgentsOrganizationDisabledRunError::Type::TaggedSymbol
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # The deployment's organization is disabled.
+          sig do
+            params(
+              message: String,
+              type: Anthropic::Beta::BetaManagedAgentsOrganizationDisabledRunError::Type::OrSymbol
+            ).returns(T.attached_class)
+          end
+          def new(
+            message:, # Human-readable error description.
+            type:
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsOrganizationDisabledRunError,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsOrganizationDisabledRunError::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          ORGANIZATION_DISABLED_ERROR = T.let(
+              :organization_disabled_error,
+              Anthropic::Beta::BetaManagedAgentsOrganizationDisabledRunError::Type::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsOrganizationDisabledRunError::Type
+              )
+            end
+        end
+      end
+
       class BetaManagedAgentsOutcomeEvaluationResource < Anthropic::Internal::Type::BaseModel
         # A timestamp in RFC 3339 format
         sig { returns(T.nilable(Time)) }
@@ -14599,6 +17472,396 @@ module Anthropic
         end
       end
 
+      class BetaManagedAgentsSchedule < Anthropic::Internal::Type::BaseModel
+        # 5-field POSIX cron expression: minute hour day-of-month month day-of-week (e.g.,
+        # "0 9 \* \* 1-5" for weekdays at 9am). Day-of-week is 0-7 where 0 and 7 both mean
+        # Sunday. Extended cron syntax - seconds or year fields, and the special
+        # characters L, W, #, and ? - is not supported, nor are predefined shortcuts
+        # (@daily).
+        sig { returns(String) }
+        attr_accessor :expression
+
+        # A timestamp in RFC 3339 format
+        sig { returns(T.nilable(Time)) }
+        attr_accessor :last_run_at
+
+        # IANA timezone identifier (e.g., "America/Los_Angeles", "UTC").
+        sig { returns(String) }
+        attr_accessor :timezone
+
+        sig { returns(Anthropic::Beta::BetaManagedAgentsSchedule::Type::TaggedSymbol) }
+        attr_accessor :type
+
+        # Up to 5 timestamps of upcoming cron occurrences. Non-empty for active and paused
+        # deployments (reflects what the schedule would do if unpaused); empty once the
+        # deployment is archived (`archived_at` set). Each fire is offset by a small
+        # per-schedule jitter, so a run will actually start at or shortly after its listed
+        # time.
+        sig { returns(T.nilable(T::Array[Time])) }
+        attr_reader :upcoming_runs_at
+
+        sig { params(upcoming_runs_at: T::Array[Time]).void }
+        attr_writer :upcoming_runs_at
+
+        sig do
+          override
+            .returns({
+              expression: String,
+              timezone: String,
+              type:
+                Anthropic::Beta::BetaManagedAgentsSchedule::Type::TaggedSymbol,
+              last_run_at: T.nilable(Time),
+              upcoming_runs_at: T::Array[Time]
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # 5-field POSIX cron schedule with computed runtime timestamps.
+          sig do
+            params(
+              expression: String,
+              timezone: String,
+              type: Anthropic::Beta::BetaManagedAgentsSchedule::Type::OrSymbol,
+              last_run_at: T.nilable(Time),
+              upcoming_runs_at: T::Array[Time]
+            ).returns(T.attached_class)
+          end
+          def new(
+            expression:, # 5-field POSIX cron expression: minute hour day-of-month month day-of-week (e.g.,
+                         # "0 9 \* \* 1-5" for weekdays at 9am). Day-of-week is 0-7 where 0 and 7 both mean
+                         # Sunday. Extended cron syntax - seconds or year fields, and the special
+                         # characters L, W, #, and ? - is not supported, nor are predefined shortcuts
+                         # (@daily).
+            timezone:, # IANA timezone identifier (e.g., "America/Los_Angeles", "UTC").
+            type:,
+            last_run_at: nil, # A timestamp in RFC 3339 format
+            upcoming_runs_at: nil # Up to 5 timestamps of upcoming cron occurrences. Non-empty for active and paused
+                                  # deployments (reflects what the schedule would do if unpaused); empty once the
+                                  # deployment is archived (`archived_at` set). Each fire is offset by a small
+                                  # per-schedule jitter, so a run will actually start at or shortly after its listed
+                                  # time.
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsSchedule,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsSchedule::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          CRON = T.let(
+              :cron,
+              Anthropic::Beta::BetaManagedAgentsSchedule::Type::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(Symbol, Anthropic::Beta::BetaManagedAgentsSchedule::Type)
+            end
+        end
+      end
+
+      class BetaManagedAgentsScheduleParams < Anthropic::Internal::Type::BaseModel
+        # 5-field POSIX cron expression: minute hour day-of-month month day-of-week (e.g.,
+        # "0 9 \* \* 1-5" for weekdays at 9am). Day-of-week is 0-7 where 0 and 7 both mean
+        # Sunday. Extended cron syntax - seconds or year fields, and the special
+        # characters L, W, #, and ? - is not supported, nor are predefined shortcuts
+        # (@daily).
+        sig { returns(String) }
+        attr_accessor :expression
+
+        # Required. IANA timezone identifier (e.g., "America/Los_Angeles", "UTC").
+        # Validated against the IANA timezone database.
+        sig { returns(String) }
+        attr_accessor :timezone
+
+        sig { returns(Anthropic::Beta::BetaManagedAgentsScheduleParams::Type::OrSymbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              expression: String,
+              timezone: String,
+              type:
+                Anthropic::Beta::BetaManagedAgentsScheduleParams::Type::OrSymbol
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # 5-field POSIX cron schedule. Literal wall-clock matching in the configured
+          # timezone.
+          sig do
+            params(
+              expression: String,
+              timezone: String,
+              type: Anthropic::Beta::BetaManagedAgentsScheduleParams::Type::OrSymbol
+            ).returns(T.attached_class)
+          end
+          def new(
+            expression:, # 5-field POSIX cron expression: minute hour day-of-month month day-of-week (e.g.,
+                         # "0 9 \* \* 1-5" for weekdays at 9am). Day-of-week is 0-7 where 0 and 7 both mean
+                         # Sunday. Extended cron syntax - seconds or year fields, and the special
+                         # characters L, W, #, and ? - is not supported, nor are predefined shortcuts
+                         # (@daily).
+            timezone:, # Required. IANA timezone identifier (e.g., "America/Los_Angeles", "UTC").
+                       # Validated against the IANA timezone database.
+            type:
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsScheduleParams,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsScheduleParams::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          CRON = T.let(
+              :cron,
+              Anthropic::Beta::BetaManagedAgentsScheduleParams::Type::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsScheduleParams::Type
+              )
+            end
+        end
+      end
+
+      class BetaManagedAgentsScheduleTriggerContext < Anthropic::Internal::Type::BaseModel
+        # A timestamp in RFC 3339 format
+        sig { returns(Time) }
+        attr_accessor :scheduled_at
+
+        sig { returns(Anthropic::Beta::BetaManagedAgentsScheduleTriggerContext::Type::TaggedSymbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              scheduled_at: Time,
+              type:
+                Anthropic::Beta::BetaManagedAgentsScheduleTriggerContext::Type::TaggedSymbol
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # The run was fired by the deployment's cron schedule.
+          sig do
+            params(
+              scheduled_at: Time,
+              type: Anthropic::Beta::BetaManagedAgentsScheduleTriggerContext::Type::OrSymbol
+            ).returns(T.attached_class)
+          end
+          def new(
+            scheduled_at:, # A timestamp in RFC 3339 format
+            type:
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsScheduleTriggerContext,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsScheduleTriggerContext::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          SCHEDULE = T.let(
+              :schedule,
+              Anthropic::Beta::BetaManagedAgentsScheduleTriggerContext::Type::TaggedSymbol
+            )
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsScheduleTriggerContext::Type
+              )
+            end
+        end
+      end
+
+      class BetaManagedAgentsSelfHostedResourcesUnsupportedDeploymentPausedReasonError < Anthropic::Internal::Type::BaseModel
+        sig do
+          returns(Anthropic::Beta::BetaManagedAgentsSelfHostedResourcesUnsupportedDeploymentPausedReasonError::Type::TaggedSymbol)
+        end
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              type:
+                Anthropic::Beta::BetaManagedAgentsSelfHostedResourcesUnsupportedDeploymentPausedReasonError::Type::TaggedSymbol
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # The deployment configures resources, but its environment is self-hosted and
+          # cannot mount them.
+          sig do
+            params(
+              type: Anthropic::Beta::BetaManagedAgentsSelfHostedResourcesUnsupportedDeploymentPausedReasonError::Type::OrSymbol
+            ).returns(T.attached_class)
+          end
+          def new(type:); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsSelfHostedResourcesUnsupportedDeploymentPausedReasonError,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsSelfHostedResourcesUnsupportedDeploymentPausedReasonError::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          SELF_HOSTED_RESOURCES_UNSUPPORTED_ERROR = T.let(
+              :self_hosted_resources_unsupported_error,
+              Anthropic::Beta::BetaManagedAgentsSelfHostedResourcesUnsupportedDeploymentPausedReasonError::Type::TaggedSymbol
+            )
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsSelfHostedResourcesUnsupportedDeploymentPausedReasonError::Type
+              )
+            end
+        end
+      end
+
+      class BetaManagedAgentsSelfHostedResourcesUnsupportedRunError < Anthropic::Internal::Type::BaseModel
+        # Human-readable error description.
+        sig { returns(String) }
+        attr_accessor :message
+
+        sig { returns(Anthropic::Beta::BetaManagedAgentsSelfHostedResourcesUnsupportedRunError::Type::TaggedSymbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              message: String,
+              type:
+                Anthropic::Beta::BetaManagedAgentsSelfHostedResourcesUnsupportedRunError::Type::TaggedSymbol
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # The deployment configures resources, but its environment is self-hosted and
+          # cannot mount them.
+          sig do
+            params(
+              message: String,
+              type: Anthropic::Beta::BetaManagedAgentsSelfHostedResourcesUnsupportedRunError::Type::OrSymbol
+            ).returns(T.attached_class)
+          end
+          def new(
+            message:, # Human-readable error description.
+            type:
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsSelfHostedResourcesUnsupportedRunError,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsSelfHostedResourcesUnsupportedRunError::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          SELF_HOSTED_RESOURCES_UNSUPPORTED_ERROR = T.let(
+              :self_hosted_resources_unsupported_error,
+              Anthropic::Beta::BetaManagedAgentsSelfHostedResourcesUnsupportedRunError::Type::TaggedSymbol
+            )
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsSelfHostedResourcesUnsupportedRunError::Type
+              )
+            end
+        end
+      end
+
       class BetaManagedAgentsSession < Anthropic::Internal::Type::BaseModel
         # Resolved `agent` definition for a `session`. Snapshot of the `agent` at
         # `session` creation time.
@@ -14615,6 +17878,11 @@ module Anthropic
         # A timestamp in RFC 3339 format
         sig { returns(Time) }
         attr_accessor :created_at
+
+        # Deployment ID when the session was created from a deployment reference. Null
+        # otherwise.
+        sig { returns(T.nilable(String)) }
+        attr_accessor :deployment_id
 
         sig { returns(String) }
         attr_accessor :environment_id
@@ -14699,7 +17967,8 @@ module Anthropic
                 Anthropic::Beta::BetaManagedAgentsSession::Type::TaggedSymbol,
               updated_at: Time,
               usage: Anthropic::Beta::BetaManagedAgentsSessionUsage,
-              vault_ids: T::Array[String]
+              vault_ids: T::Array[String],
+              deployment_id: T.nilable(String)
             })
         end
         def to_hash; end
@@ -14730,7 +17999,8 @@ module Anthropic
               type: Anthropic::Beta::BetaManagedAgentsSession::Type::OrSymbol,
               updated_at: Time,
               usage: Anthropic::Beta::BetaManagedAgentsSessionUsage::OrHash,
-              vault_ids: T::Array[String]
+              vault_ids: T::Array[String],
+              deployment_id: T.nilable(String)
             ).returns(T.attached_class)
           end
           def new(
@@ -14750,8 +18020,10 @@ module Anthropic
             type:,
             updated_at:, # A timestamp in RFC 3339 format
             usage:, # Cumulative token usage for a session across all turns.
-            vault_ids: # Vault IDs attached to the session at creation. Empty when no vaults were
-                       # supplied.
+            vault_ids:, # Vault IDs attached to the session at creation. Empty when no vaults were
+                        # supplied.
+            deployment_id: nil # Deployment ID when the session was created from a deployment reference. Null
+                               # otherwise.
 ); end
         end
 
@@ -15172,6 +18444,74 @@ module Anthropic
         end
       end
 
+      class BetaManagedAgentsSessionCreationRejectedRunError < Anthropic::Internal::Type::BaseModel
+        # Human-readable error description.
+        sig { returns(String) }
+        attr_accessor :message
+
+        sig { returns(Anthropic::Beta::BetaManagedAgentsSessionCreationRejectedRunError::Type::TaggedSymbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              message: String,
+              type:
+                Anthropic::Beta::BetaManagedAgentsSessionCreationRejectedRunError::Type::TaggedSymbol
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # The session create request was rejected with a non-retryable validation error.
+          sig do
+            params(
+              message: String,
+              type: Anthropic::Beta::BetaManagedAgentsSessionCreationRejectedRunError::Type::OrSymbol
+            ).returns(T.attached_class)
+          end
+          def new(
+            message:, # Human-readable error description.
+            type:
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsSessionCreationRejectedRunError,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsSessionCreationRejectedRunError::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          SESSION_CREATION_REJECTED_ERROR = T.let(
+              :session_creation_rejected_error,
+              Anthropic::Beta::BetaManagedAgentsSessionCreationRejectedRunError::Type::TaggedSymbol
+            )
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsSessionCreationRejectedRunError::Type
+              )
+            end
+        end
+      end
+
       class BetaManagedAgentsSessionMultiagentCoordinator < Anthropic::Internal::Type::BaseModel
         # Full `agent` definitions the coordinator may spawn as session threads.
         sig { returns(T::Array[Anthropic::Beta::BetaManagedAgentsSessionThreadAgent]) }
@@ -15239,6 +18579,227 @@ module Anthropic
               T.all(
                 Symbol,
                 Anthropic::Beta::BetaManagedAgentsSessionMultiagentCoordinator::Type
+              )
+            end
+        end
+      end
+
+      class BetaManagedAgentsSessionRateLimitedRunError < Anthropic::Internal::Type::BaseModel
+        # Human-readable error description.
+        sig { returns(String) }
+        attr_accessor :message
+
+        sig { returns(Anthropic::Beta::BetaManagedAgentsSessionRateLimitedRunError::Type::TaggedSymbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              message: String,
+              type:
+                Anthropic::Beta::BetaManagedAgentsSessionRateLimitedRunError::Type::TaggedSymbol
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # Session creation was rejected due to rate limiting. The schedule keeps firing;
+          # subsequent runs may succeed.
+          sig do
+            params(
+              message: String,
+              type: Anthropic::Beta::BetaManagedAgentsSessionRateLimitedRunError::Type::OrSymbol
+            ).returns(T.attached_class)
+          end
+          def new(
+            message:, # Human-readable error description.
+            type:
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsSessionRateLimitedRunError,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsSessionRateLimitedRunError::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          SESSION_RATE_LIMITED_ERROR = T.let(
+              :session_rate_limited_error,
+              Anthropic::Beta::BetaManagedAgentsSessionRateLimitedRunError::Type::TaggedSymbol
+            )
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsSessionRateLimitedRunError::Type
+              )
+            end
+        end
+      end
+
+      # A configured session resource. Echoes the input minus write-only credentials.
+      module BetaManagedAgentsSessionResourceConfig
+        extend Anthropic::Internal::Type::Union
+
+        class << self
+          sig do
+            override
+              .returns(T::Array[
+              Anthropic::Beta::BetaManagedAgentsSessionResourceConfig::Variants
+            ])
+          end
+          def variants; end
+        end
+
+        Variants = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsGitHubRepositoryResourceConfig,
+              Anthropic::Beta::BetaManagedAgentsFileResourceConfig,
+              Anthropic::Beta::BetaManagedAgentsMemoryStoreResourceConfig
+            )
+          end
+      end
+
+      class BetaManagedAgentsSessionResourceNotFoundDeploymentPausedReasonError < Anthropic::Internal::Type::BaseModel
+        sig do
+          returns(Anthropic::Beta::BetaManagedAgentsSessionResourceNotFoundDeploymentPausedReasonError::Type::TaggedSymbol)
+        end
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              type:
+                Anthropic::Beta::BetaManagedAgentsSessionResourceNotFoundDeploymentPausedReasonError::Type::TaggedSymbol
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # A referenced resource no longer exists and its kind was not reported.
+          sig do
+            params(
+              type: Anthropic::Beta::BetaManagedAgentsSessionResourceNotFoundDeploymentPausedReasonError::Type::OrSymbol
+            ).returns(T.attached_class)
+          end
+          def new(type:); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsSessionResourceNotFoundDeploymentPausedReasonError,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsSessionResourceNotFoundDeploymentPausedReasonError::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          SESSION_RESOURCE_NOT_FOUND_ERROR = T.let(
+              :session_resource_not_found_error,
+              Anthropic::Beta::BetaManagedAgentsSessionResourceNotFoundDeploymentPausedReasonError::Type::TaggedSymbol
+            )
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsSessionResourceNotFoundDeploymentPausedReasonError::Type
+              )
+            end
+        end
+      end
+
+      class BetaManagedAgentsSessionResourceNotFoundRunError < Anthropic::Internal::Type::BaseModel
+        # Human-readable error description.
+        sig { returns(String) }
+        attr_accessor :message
+
+        sig { returns(Anthropic::Beta::BetaManagedAgentsSessionResourceNotFoundRunError::Type::TaggedSymbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              message: String,
+              type:
+                Anthropic::Beta::BetaManagedAgentsSessionResourceNotFoundRunError::Type::TaggedSymbol
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # A referenced resource no longer exists and its kind was not reported.
+          sig do
+            params(
+              message: String,
+              type: Anthropic::Beta::BetaManagedAgentsSessionResourceNotFoundRunError::Type::OrSymbol
+            ).returns(T.attached_class)
+          end
+          def new(
+            message:, # Human-readable error description.
+            type:
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsSessionResourceNotFoundRunError,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsSessionResourceNotFoundRunError::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          SESSION_RESOURCE_NOT_FOUND_ERROR = T.let(
+              :session_resource_not_found_error,
+              Anthropic::Beta::BetaManagedAgentsSessionResourceNotFoundRunError::Type::TaggedSymbol
+            )
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsSessionResourceNotFoundRunError::Type
               )
             end
         end
@@ -15654,6 +19215,133 @@ module Anthropic
           end
       end
 
+      class BetaManagedAgentsSkillNotFoundDeploymentPausedReasonError < Anthropic::Internal::Type::BaseModel
+        sig { returns(Anthropic::Beta::BetaManagedAgentsSkillNotFoundDeploymentPausedReasonError::Type::TaggedSymbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              type:
+                Anthropic::Beta::BetaManagedAgentsSkillNotFoundDeploymentPausedReasonError::Type::TaggedSymbol
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # A skill referenced by the deployment's agent no longer exists.
+          sig do
+            params(
+              type: Anthropic::Beta::BetaManagedAgentsSkillNotFoundDeploymentPausedReasonError::Type::OrSymbol
+            ).returns(T.attached_class)
+          end
+          def new(type:); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsSkillNotFoundDeploymentPausedReasonError,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsSkillNotFoundDeploymentPausedReasonError::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          SKILL_NOT_FOUND_ERROR = T.let(
+              :skill_not_found_error,
+              Anthropic::Beta::BetaManagedAgentsSkillNotFoundDeploymentPausedReasonError::Type::TaggedSymbol
+            )
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsSkillNotFoundDeploymentPausedReasonError::Type
+              )
+            end
+        end
+      end
+
+      class BetaManagedAgentsSkillNotFoundRunError < Anthropic::Internal::Type::BaseModel
+        # Human-readable error description.
+        sig { returns(String) }
+        attr_accessor :message
+
+        sig { returns(Anthropic::Beta::BetaManagedAgentsSkillNotFoundRunError::Type::TaggedSymbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              message: String,
+              type:
+                Anthropic::Beta::BetaManagedAgentsSkillNotFoundRunError::Type::TaggedSymbol
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # A skill referenced by the deployment's agent no longer exists.
+          sig do
+            params(
+              message: String,
+              type: Anthropic::Beta::BetaManagedAgentsSkillNotFoundRunError::Type::OrSymbol
+            ).returns(T.attached_class)
+          end
+          def new(
+            message:, # Human-readable error description.
+            type:
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsSkillNotFoundRunError,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsSkillNotFoundRunError::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          SKILL_NOT_FOUND_ERROR = T.let(
+              :skill_not_found_error,
+              Anthropic::Beta::BetaManagedAgentsSkillNotFoundRunError::Type::TaggedSymbol
+            )
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsSkillNotFoundRunError::Type
+              )
+            end
+        end
+      end
+
       # Skill to load in the session container.
       module BetaManagedAgentsSkillParams
         extend Anthropic::Internal::Type::Union
@@ -15668,6 +19356,208 @@ module Anthropic
               Anthropic::Beta::BetaManagedAgentsAnthropicSkillParams,
               Anthropic::Beta::BetaManagedAgentsCustomSkillParams
             )
+          end
+      end
+
+      class BetaManagedAgentsSystemContentBlock < Anthropic::Internal::Type::BaseModel
+        # The text content.
+        sig { returns(String) }
+        attr_accessor :text
+
+        sig { returns(Anthropic::Beta::BetaManagedAgentsSystemContentBlock::Type::OrSymbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              text: String,
+              type:
+                Anthropic::Beta::BetaManagedAgentsSystemContentBlock::Type::OrSymbol
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # Regular text content.
+          sig do
+            params(
+              text: String,
+              type: Anthropic::Beta::BetaManagedAgentsSystemContentBlock::Type::OrSymbol
+            ).returns(T.attached_class)
+          end
+          def new(
+            text:, # The text content.
+            type:
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsSystemContentBlock,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsSystemContentBlock::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TEXT = T.let(
+              :text,
+              Anthropic::Beta::BetaManagedAgentsSystemContentBlock::Type::TaggedSymbol
+            )
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsSystemContentBlock::Type
+              )
+            end
+        end
+      end
+
+      class BetaManagedAgentsSystemMessageEvent < Anthropic::Internal::Type::BaseModel
+        # System content blocks. Text-only.
+        sig { returns(T::Array[Anthropic::Beta::BetaManagedAgentsSystemContentBlock]) }
+        attr_accessor :content
+
+        # Unique identifier for this event.
+        sig { returns(String) }
+        attr_accessor :id
+
+        # A timestamp in RFC 3339 format
+        sig { returns(T.nilable(Time)) }
+        attr_accessor :processed_at
+
+        sig { returns(Anthropic::Beta::BetaManagedAgentsSystemMessageEvent::Type::TaggedSymbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              id: String,
+              content:
+                T::Array[Anthropic::Beta::BetaManagedAgentsSystemContentBlock],
+              type:
+                Anthropic::Beta::BetaManagedAgentsSystemMessageEvent::Type::TaggedSymbol,
+              processed_at: T.nilable(Time)
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # A mid-conversation system message event. Carries system-role content that is
+          # appended to the session as a `role: "system"` turn.
+          sig do
+            params(
+              id: String,
+              content: T::Array[
+                Anthropic::Beta::BetaManagedAgentsSystemContentBlock::OrHash
+              ],
+              type: Anthropic::Beta::BetaManagedAgentsSystemMessageEvent::Type::OrSymbol,
+              processed_at: T.nilable(Time)
+            ).returns(T.attached_class)
+          end
+          def new(
+            id:, # Unique identifier for this event.
+            content:, # System content blocks. Text-only.
+            type:,
+            processed_at: nil # A timestamp in RFC 3339 format
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsSystemMessageEvent,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsSystemMessageEvent::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          SYSTEM_MESSAGE = T.let(
+              :"system.message",
+              Anthropic::Beta::BetaManagedAgentsSystemMessageEvent::Type::TaggedSymbol
+            )
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsSystemMessageEvent::Type
+              )
+            end
+        end
+      end
+
+      # Describes what triggered a deployment run, with trigger-specific metadata.
+      module BetaManagedAgentsTriggerContext
+        extend Anthropic::Internal::Type::Union
+
+        class << self
+          sig { override.returns(T::Array[Anthropic::Beta::BetaManagedAgentsTriggerContext::Variants]) }
+          def variants; end
+        end
+
+        Variants = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsScheduleTriggerContext,
+              Anthropic::Beta::BetaManagedAgentsManualTriggerContext
+            )
+          end
+      end
+
+      # What triggered a deployment run.
+      module BetaManagedAgentsTriggerType
+        extend Anthropic::Internal::Type::Enum
+
+        class << self
+          sig do
+            override
+              .returns(T::Array[
+              Anthropic::Beta::BetaManagedAgentsTriggerType::TaggedSymbol
+            ])
+          end
+          def values; end
+        end
+
+        MANUAL = T.let(
+            :manual,
+            Anthropic::Beta::BetaManagedAgentsTriggerType::TaggedSymbol
+          )
+
+        OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+        SCHEDULE = T.let(
+            :schedule,
+            Anthropic::Beta::BetaManagedAgentsTriggerType::TaggedSymbol
+          )
+
+        TaggedSymbol = T.type_alias do
+            T.all(Symbol, Anthropic::Beta::BetaManagedAgentsTriggerType)
           end
       end
 
@@ -15744,6 +19634,135 @@ module Anthropic
           URL = T.let(
               :url,
               Anthropic::Beta::BetaManagedAgentsURLMCPServerParams::Type::TaggedSymbol
+            )
+        end
+      end
+
+      class BetaManagedAgentsUnknownDeploymentPausedReasonError < Anthropic::Internal::Type::BaseModel
+        sig { returns(Anthropic::Beta::BetaManagedAgentsUnknownDeploymentPausedReasonError::Type::TaggedSymbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              type:
+                Anthropic::Beta::BetaManagedAgentsUnknownDeploymentPausedReasonError::Type::TaggedSymbol
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # An unrecognized error auto-paused the deployment. A fallback variant; matches a
+          # run whose `error.type` is `unknown_error`.
+          sig do
+            params(
+              type: Anthropic::Beta::BetaManagedAgentsUnknownDeploymentPausedReasonError::Type::OrSymbol
+            ).returns(T.attached_class)
+          end
+          def new(type:); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsUnknownDeploymentPausedReasonError,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsUnknownDeploymentPausedReasonError::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsUnknownDeploymentPausedReasonError::Type
+              )
+            end
+
+          UNKNOWN_ERROR = T.let(
+              :unknown_error,
+              Anthropic::Beta::BetaManagedAgentsUnknownDeploymentPausedReasonError::Type::TaggedSymbol
+            )
+        end
+      end
+
+      class BetaManagedAgentsUnknownRunError < Anthropic::Internal::Type::BaseModel
+        # Human-readable error description.
+        sig { returns(String) }
+        attr_accessor :message
+
+        sig { returns(Anthropic::Beta::BetaManagedAgentsUnknownRunError::Type::TaggedSymbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              message: String,
+              type:
+                Anthropic::Beta::BetaManagedAgentsUnknownRunError::Type::TaggedSymbol
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # An unknown or unexpected error caused the run to fail. A fallback variant;
+          # clients that do not recognize a new error type can match on message alone.
+          sig do
+            params(
+              message: String,
+              type: Anthropic::Beta::BetaManagedAgentsUnknownRunError::Type::OrSymbol
+            ).returns(T.attached_class)
+          end
+          def new(
+            message:, # Human-readable error description.
+            type:
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsUnknownRunError,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsUnknownRunError::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsUnknownRunError::Type
+              )
+            end
+
+          UNKNOWN_ERROR = T.let(
+              :unknown_error,
+              Anthropic::Beta::BetaManagedAgentsUnknownRunError::Type::TaggedSymbol
             )
         end
       end
@@ -16011,6 +20030,389 @@ module Anthropic
           VAULT = T.let(
               :vault,
               Anthropic::Beta::BetaManagedAgentsVault::Type::TaggedSymbol
+            )
+        end
+      end
+
+      class BetaManagedAgentsVaultArchivedDeploymentPausedReasonError < Anthropic::Internal::Type::BaseModel
+        sig { returns(Anthropic::Beta::BetaManagedAgentsVaultArchivedDeploymentPausedReasonError::Type::TaggedSymbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              type:
+                Anthropic::Beta::BetaManagedAgentsVaultArchivedDeploymentPausedReasonError::Type::TaggedSymbol
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # A vault referenced by the deployment is archived.
+          sig do
+            params(
+              type: Anthropic::Beta::BetaManagedAgentsVaultArchivedDeploymentPausedReasonError::Type::OrSymbol
+            ).returns(T.attached_class)
+          end
+          def new(type:); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsVaultArchivedDeploymentPausedReasonError,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsVaultArchivedDeploymentPausedReasonError::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsVaultArchivedDeploymentPausedReasonError::Type
+              )
+            end
+
+          VAULT_ARCHIVED_ERROR = T.let(
+              :vault_archived_error,
+              Anthropic::Beta::BetaManagedAgentsVaultArchivedDeploymentPausedReasonError::Type::TaggedSymbol
+            )
+        end
+      end
+
+      class BetaManagedAgentsVaultArchivedRunError < Anthropic::Internal::Type::BaseModel
+        # Human-readable error description.
+        sig { returns(String) }
+        attr_accessor :message
+
+        sig { returns(Anthropic::Beta::BetaManagedAgentsVaultArchivedRunError::Type::TaggedSymbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              message: String,
+              type:
+                Anthropic::Beta::BetaManagedAgentsVaultArchivedRunError::Type::TaggedSymbol
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # A vault referenced by the deployment is archived.
+          sig do
+            params(
+              message: String,
+              type: Anthropic::Beta::BetaManagedAgentsVaultArchivedRunError::Type::OrSymbol
+            ).returns(T.attached_class)
+          end
+          def new(
+            message:, # Human-readable error description.
+            type:
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsVaultArchivedRunError,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsVaultArchivedRunError::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsVaultArchivedRunError::Type
+              )
+            end
+
+          VAULT_ARCHIVED_ERROR = T.let(
+              :vault_archived_error,
+              Anthropic::Beta::BetaManagedAgentsVaultArchivedRunError::Type::TaggedSymbol
+            )
+        end
+      end
+
+      class BetaManagedAgentsVaultNotFoundDeploymentPausedReasonError < Anthropic::Internal::Type::BaseModel
+        sig { returns(Anthropic::Beta::BetaManagedAgentsVaultNotFoundDeploymentPausedReasonError::Type::TaggedSymbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              type:
+                Anthropic::Beta::BetaManagedAgentsVaultNotFoundDeploymentPausedReasonError::Type::TaggedSymbol
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # A vault referenced by the deployment no longer exists.
+          sig do
+            params(
+              type: Anthropic::Beta::BetaManagedAgentsVaultNotFoundDeploymentPausedReasonError::Type::OrSymbol
+            ).returns(T.attached_class)
+          end
+          def new(type:); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsVaultNotFoundDeploymentPausedReasonError,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsVaultNotFoundDeploymentPausedReasonError::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsVaultNotFoundDeploymentPausedReasonError::Type
+              )
+            end
+
+          VAULT_NOT_FOUND_ERROR = T.let(
+              :vault_not_found_error,
+              Anthropic::Beta::BetaManagedAgentsVaultNotFoundDeploymentPausedReasonError::Type::TaggedSymbol
+            )
+        end
+      end
+
+      class BetaManagedAgentsVaultNotFoundRunError < Anthropic::Internal::Type::BaseModel
+        # Human-readable error description.
+        sig { returns(String) }
+        attr_accessor :message
+
+        sig { returns(Anthropic::Beta::BetaManagedAgentsVaultNotFoundRunError::Type::TaggedSymbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              message: String,
+              type:
+                Anthropic::Beta::BetaManagedAgentsVaultNotFoundRunError::Type::TaggedSymbol
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # A vault referenced by the deployment no longer exists.
+          sig do
+            params(
+              message: String,
+              type: Anthropic::Beta::BetaManagedAgentsVaultNotFoundRunError::Type::OrSymbol
+            ).returns(T.attached_class)
+          end
+          def new(
+            message:, # Human-readable error description.
+            type:
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsVaultNotFoundRunError,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsVaultNotFoundRunError::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsVaultNotFoundRunError::Type
+              )
+            end
+
+          VAULT_NOT_FOUND_ERROR = T.let(
+              :vault_not_found_error,
+              Anthropic::Beta::BetaManagedAgentsVaultNotFoundRunError::Type::TaggedSymbol
+            )
+        end
+      end
+
+      class BetaManagedAgentsWorkspaceArchivedDeploymentPausedReasonError < Anthropic::Internal::Type::BaseModel
+        sig do
+          returns(Anthropic::Beta::BetaManagedAgentsWorkspaceArchivedDeploymentPausedReasonError::Type::TaggedSymbol)
+        end
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              type:
+                Anthropic::Beta::BetaManagedAgentsWorkspaceArchivedDeploymentPausedReasonError::Type::TaggedSymbol
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # The deployment's workspace was archived.
+          sig do
+            params(
+              type: Anthropic::Beta::BetaManagedAgentsWorkspaceArchivedDeploymentPausedReasonError::Type::OrSymbol
+            ).returns(T.attached_class)
+          end
+          def new(type:); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsWorkspaceArchivedDeploymentPausedReasonError,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsWorkspaceArchivedDeploymentPausedReasonError::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsWorkspaceArchivedDeploymentPausedReasonError::Type
+              )
+            end
+
+          WORKSPACE_ARCHIVED_ERROR = T.let(
+              :workspace_archived_error,
+              Anthropic::Beta::BetaManagedAgentsWorkspaceArchivedDeploymentPausedReasonError::Type::TaggedSymbol
+            )
+        end
+      end
+
+      class BetaManagedAgentsWorkspaceArchivedRunError < Anthropic::Internal::Type::BaseModel
+        # Human-readable error description.
+        sig { returns(String) }
+        attr_accessor :message
+
+        sig { returns(Anthropic::Beta::BetaManagedAgentsWorkspaceArchivedRunError::Type::TaggedSymbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              message: String,
+              type:
+                Anthropic::Beta::BetaManagedAgentsWorkspaceArchivedRunError::Type::TaggedSymbol
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # The deployment's workspace was archived.
+          sig do
+            params(
+              message: String,
+              type: Anthropic::Beta::BetaManagedAgentsWorkspaceArchivedRunError::Type::OrSymbol
+            ).returns(T.attached_class)
+          end
+          def new(
+            message:, # Human-readable error description.
+            type:
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsWorkspaceArchivedRunError,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsWorkspaceArchivedRunError::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsWorkspaceArchivedRunError::Type
+              )
+            end
+
+          WORKSPACE_ARCHIVED_ERROR = T.let(
+              :workspace_archived_error,
+              Anthropic::Beta::BetaManagedAgentsWorkspaceArchivedRunError::Type::TaggedSymbol
             )
         end
       end
@@ -16594,7 +20996,8 @@ module Anthropic
                   Anthropic::Beta::BetaMCPToolUseBlock::OrHash,
                   Anthropic::Beta::BetaMCPToolResultBlock::OrHash,
                   Anthropic::Beta::BetaContainerUploadBlock::OrHash,
-                  Anthropic::Beta::BetaCompactionBlock::OrHash
+                  Anthropic::Beta::BetaCompactionBlock::OrHash,
+                  Anthropic::Beta::BetaFallbackBlock::OrHash
                 )
               ],
               context_management: T.nilable(Anthropic::Beta::BetaContextManagementResponse::OrHash),
@@ -16763,7 +21166,8 @@ module Anthropic
                   T.any(
                     Anthropic::Beta::BetaMessageIterationUsage::OrHash,
                     Anthropic::Beta::BetaCompactionIterationUsage::OrHash,
-                    Anthropic::Beta::BetaAdvisorMessageIterationUsage::OrHash
+                    Anthropic::Beta::BetaAdvisorMessageIterationUsage::OrHash,
+                    Anthropic::Beta::BetaFallbackMessageIterationUsage::OrHash
                   )
                 ]
               ),
@@ -16820,6 +21224,13 @@ module Anthropic
         sig { returns(Integer) }
         attr_accessor :input_tokens
 
+        # The model that will complete your prompt.
+        #
+        # See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
+        # details and options.
+        sig { returns(Anthropic::Model::Variants) }
+        attr_accessor :model
+
         # The number of output tokens which were used.
         sig { returns(Integer) }
         attr_accessor :output_tokens
@@ -16835,6 +21246,7 @@ module Anthropic
               cache_creation_input_tokens: Integer,
               cache_read_input_tokens: Integer,
               input_tokens: Integer,
+              model: Anthropic::Model::Variants,
               output_tokens: Integer,
               type: Symbol
             })
@@ -16849,6 +21261,7 @@ module Anthropic
               cache_creation_input_tokens: Integer,
               cache_read_input_tokens: Integer,
               input_tokens: Integer,
+              model: T.any(Anthropic::Model::OrSymbol, String),
               output_tokens: Integer,
               type: Symbol
             ).returns(T.attached_class)
@@ -16858,6 +21271,9 @@ module Anthropic
             cache_creation_input_tokens:, # The number of input tokens used to create the cache entry.
             cache_read_input_tokens:, # The number of input tokens read from the cache.
             input_tokens:, # The number of input tokens which were used.
+            model:, # The model that will complete your prompt.
+                    # See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
+                    # details and options.
             output_tokens:, # The number of output tokens which were used.
             type: :message # Usage for a sampling iteration
 ); end
@@ -17209,6 +21625,12 @@ module Anthropic
       end
 
       class BetaModelInfo < Anthropic::Internal::Type::BaseModel
+        # Model IDs this model accepts as `fallbacks[i].model` on the Messages API. An
+        # empty list means the `fallbacks` parameter is not supported for this model as
+        # primary.
+        sig { returns(T.nilable(T::Array[String])) }
+        attr_accessor :allowed_fallback_models
+
         # Model capability information.
         sig { returns(T.nilable(Anthropic::Beta::BetaModelCapabilities)) }
         attr_reader :capabilities
@@ -17247,6 +21669,7 @@ module Anthropic
           override
             .returns({
               id: String,
+              allowed_fallback_models: T.nilable(T::Array[String]),
               capabilities: T.nilable(Anthropic::Beta::BetaModelCapabilities),
               created_at: Time,
               display_name: String,
@@ -17261,6 +21684,7 @@ module Anthropic
           sig do
             params(
               id: String,
+              allowed_fallback_models: T.nilable(T::Array[String]),
               capabilities: T.nilable(Anthropic::Beta::BetaModelCapabilities::OrHash),
               created_at: Time,
               display_name: String,
@@ -17271,6 +21695,9 @@ module Anthropic
           end
           def new(
             id:, # Unique model identifier.
+            allowed_fallback_models:, # Model IDs this model accepts as `fallbacks[i].model` on the Messages API. An
+                                      # empty list means the `fallbacks` parameter is not supported for this model as
+                                      # primary.
             capabilities:, # Model capability information.
             created_at:, # RFC 3339 datetime string representing the time at which the model was released.
                          # May be set to an epoch value if the release date is unknown.
@@ -17740,7 +22167,8 @@ module Anthropic
                 Anthropic::Beta::BetaMCPToolUseBlock::OrHash,
                 Anthropic::Beta::BetaMCPToolResultBlock::OrHash,
                 Anthropic::Beta::BetaContainerUploadBlock::OrHash,
-                Anthropic::Beta::BetaCompactionBlock::OrHash
+                Anthropic::Beta::BetaCompactionBlock::OrHash,
+                Anthropic::Beta::BetaFallbackBlock::OrHash
               ),
               index: Integer,
               type: Symbol
@@ -17784,7 +22212,8 @@ module Anthropic
                 Anthropic::Beta::BetaMCPToolUseBlock,
                 Anthropic::Beta::BetaMCPToolResultBlock,
                 Anthropic::Beta::BetaContainerUploadBlock,
-                Anthropic::Beta::BetaCompactionBlock
+                Anthropic::Beta::BetaCompactionBlock,
+                Anthropic::Beta::BetaFallbackBlock
               )
             end
         end
@@ -18096,6 +22525,56 @@ module Anthropic
         sig { returns(T.nilable(String)) }
         attr_accessor :explanation
 
+        # Opaque code that refunds the cache-miss cost when retrying this refused request
+        # on the fallback model. Pass it as `fallback_credit_token` on the retry request.
+        # Expires 5 minutes after the refusal.
+        #
+        # The retry is sent either with the same request body (`system`, `messages`,
+        # `tools`, and other render-shaping fields), or with the same body plus one
+        # appended `assistant` message whose content is the partial text (with any
+        # trailing whitespace stripped from the final text block) and paired server-tool
+        # blocks from this refusal — which also authorizes that appended turn as an
+        # assistant-prefill continuation on models that otherwise disallow prefill. A
+        # token minted mid-server-tool-loop whose partial content was continuable may only
+        # be redeemed the second way — if a same-body retry is rejected with a 400 saying
+        # the token must be redeemed by continuing the partial response, retry the second
+        # way instead. Either way: same workspace, same platform; a mismatch is a 400.
+        # Resending a token for an already-warm prefix is permitted but yields no
+        # additional credit.
+        #
+        # `null` when the refused model isn't eligible for a fallback credit.
+        sig { returns(T.nilable(String)) }
+        attr_accessor :fallback_credit_token
+
+        # Whether the accompanying `fallback_credit_token` may be redeemed with the
+        # appended-assistant retry form. Only set when `fallback_credit_token` is present.
+        #
+        # `true`: retry by resending the same request body plus one appended `assistant`
+        # message whose content is this response's `content` with any trailing whitespace
+        # stripped from the final text block and unpaired `tool_use` blocks omitted (the
+        # same appended-turn shape described on `fallback_credit_token`), with the token
+        # attached. `false`: retry by resending the original request body unchanged, with
+        # the token attached — the appended-assistant form is not available for this
+        # refusal (no continuable partial content, or the request uses `output_format` or
+        # a `tool_choice` that forces tool use). One exception: when the request used
+        # `output_format` or a forced `tool_choice` and the refusal arrived after server
+        # tools (including MCP connector tools) had already executed, the token may not be
+        # redeemable by either retry form; if the exact-body retry is then rejected with a
+        # 400 saying the token must be redeemed by continuing the partial response,
+        # discard the token and retry without it.
+        #
+        # Advisory: if an appended-assistant retry is rejected with a 400 despite `true`,
+        # fall back to resending the original request body with the token.
+        sig { returns(T.nilable(T::Boolean)) }
+        attr_accessor :fallback_has_prefill_claim
+
+        # The server's suggested retry target for this refusal. Populated when a fallback
+        # attempt could not be made (the fallback model's rate limit was exhausted, or it
+        # was overloaded); names the fallback model the caller can retry directly. Null
+        # otherwise.
+        sig { returns(T.nilable(String)) }
+        attr_accessor :recommended_model
+
         sig { returns(Symbol) }
         attr_accessor :type
 
@@ -18107,6 +22586,9 @@ module Anthropic
                   Anthropic::Beta::BetaRefusalStopDetails::Category::TaggedSymbol
                 ),
               explanation: T.nilable(String),
+              fallback_credit_token: T.nilable(String),
+              fallback_has_prefill_claim: T.nilable(T::Boolean),
+              recommended_model: T.nilable(String),
               type: Symbol
             })
         end
@@ -18120,6 +22602,9 @@ module Anthropic
                 Anthropic::Beta::BetaRefusalStopDetails::Category::OrSymbol
               ),
               explanation: T.nilable(String),
+              fallback_credit_token: T.nilable(String),
+              fallback_has_prefill_claim: T.nilable(T::Boolean),
+              recommended_model: T.nilable(String),
               type: Symbol
             ).returns(T.attached_class)
           end
@@ -18129,6 +22614,43 @@ module Anthropic
             explanation:, # Human-readable explanation of the refusal.
                           # This text is not guaranteed to be stable. `null` when no explanation is
                           # available for the category.
+            fallback_credit_token:, # Opaque code that refunds the cache-miss cost when retrying this refused request
+                                    # on the fallback model. Pass it as `fallback_credit_token` on the retry request.
+                                    # Expires 5 minutes after the refusal.
+                                    # The retry is sent either with the same request body (`system`, `messages`,
+                                    # `tools`, and other render-shaping fields), or with the same body plus one
+                                    # appended `assistant` message whose content is the partial text (with any
+                                    # trailing whitespace stripped from the final text block) and paired server-tool
+                                    # blocks from this refusal — which also authorizes that appended turn as an
+                                    # assistant-prefill continuation on models that otherwise disallow prefill. A
+                                    # token minted mid-server-tool-loop whose partial content was continuable may only
+                                    # be redeemed the second way — if a same-body retry is rejected with a 400 saying
+                                    # the token must be redeemed by continuing the partial response, retry the second
+                                    # way instead. Either way: same workspace, same platform; a mismatch is a 400.
+                                    # Resending a token for an already-warm prefix is permitted but yields no
+                                    # additional credit.
+                                    # `null` when the refused model isn't eligible for a fallback credit.
+            fallback_has_prefill_claim:, # Whether the accompanying `fallback_credit_token` may be redeemed with the
+                                         # appended-assistant retry form. Only set when `fallback_credit_token` is present.
+                                         # `true`: retry by resending the same request body plus one appended `assistant`
+                                         # message whose content is this response's `content` with any trailing whitespace
+                                         # stripped from the final text block and unpaired `tool_use` blocks omitted (the
+                                         # same appended-turn shape described on `fallback_credit_token`), with the token
+                                         # attached. `false`: retry by resending the original request body unchanged, with
+                                         # the token attached — the appended-assistant form is not available for this
+                                         # refusal (no continuable partial content, or the request uses `output_format` or
+                                         # a `tool_choice` that forces tool use). One exception: when the request used
+                                         # `output_format` or a forced `tool_choice` and the refusal arrived after server
+                                         # tools (including MCP connector tools) had already executed, the token may not be
+                                         # redeemable by either retry form; if the exact-body retry is then rejected with a
+                                         # 400 saying the token must be redeemed by continuing the partial response,
+                                         # discard the token and retry without it.
+                                         # Advisory: if an appended-assistant retry is rejected with a 400 despite `true`,
+                                         # fall back to resending the original request body with the token.
+            recommended_model:, # The server's suggested retry target for this refusal. Populated when a fallback
+                                # attempt could not be made (the fallback model's rate limit was exhausted, or it
+                                # was overloaded); names the fallback model the caller can retry directly. Null
+                                # otherwise.
             type: :refusal
 ); end
         end
@@ -18159,7 +22681,17 @@ module Anthropic
               Anthropic::Beta::BetaRefusalStopDetails::Category::TaggedSymbol
             )
 
+          FRONTIER_LLM = T.let(
+              :frontier_llm,
+              Anthropic::Beta::BetaRefusalStopDetails::Category::TaggedSymbol
+            )
+
           OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          REASONING_EXTRACTION = T.let(
+              :reasoning_extraction,
+              Anthropic::Beta::BetaRefusalStopDetails::Category::TaggedSymbol
+            )
 
           TaggedSymbol = T.type_alias do
               T.all(Symbol, Anthropic::Beta::BetaRefusalStopDetails::Category)
@@ -23844,7 +28376,8 @@ module Anthropic
                   T.any(
                     Anthropic::Beta::BetaMessageIterationUsage::OrHash,
                     Anthropic::Beta::BetaCompactionIterationUsage::OrHash,
-                    Anthropic::Beta::BetaAdvisorMessageIterationUsage::OrHash
+                    Anthropic::Beta::BetaAdvisorMessageIterationUsage::OrHash,
+                    Anthropic::Beta::BetaFallbackMessageIterationUsage::OrHash
                   )
                 ]
               ),
@@ -27002,6 +31535,10 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :organization_id
 
+        # ID of the session thread this event refers to.
+        sig { returns(String) }
+        attr_accessor :session_thread_id
+
         sig { returns(Symbol) }
         attr_accessor :type
 
@@ -27013,6 +31550,7 @@ module Anthropic
             .returns({
               id: String,
               organization_id: String,
+              session_thread_id: String,
               type: Symbol,
               workspace_id: String
             })
@@ -27024,6 +31562,7 @@ module Anthropic
             params(
               id: String,
               organization_id: String,
+              session_thread_id: String,
               workspace_id: String,
               type: Symbol
             ).returns(T.attached_class)
@@ -27031,6 +31570,7 @@ module Anthropic
           def new(
             id:, # ID of the session that triggered the event.
             organization_id:,
+            session_thread_id:, # ID of the session thread this event refers to.
             workspace_id:,
             type: :"session.thread_created"
 ); end
@@ -27052,6 +31592,10 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :organization_id
 
+        # ID of the session thread this event refers to.
+        sig { returns(String) }
+        attr_accessor :session_thread_id
+
         sig { returns(Symbol) }
         attr_accessor :type
 
@@ -27063,6 +31607,7 @@ module Anthropic
             .returns({
               id: String,
               organization_id: String,
+              session_thread_id: String,
               type: Symbol,
               workspace_id: String
             })
@@ -27074,6 +31619,7 @@ module Anthropic
             params(
               id: String,
               organization_id: String,
+              session_thread_id: String,
               workspace_id: String,
               type: Symbol
             ).returns(T.attached_class)
@@ -27081,6 +31627,7 @@ module Anthropic
           def new(
             id:, # ID of the session that triggered the event.
             organization_id:,
+            session_thread_id:, # ID of the session thread this event refers to.
             workspace_id:,
             type: :"session.thread_idled"
 ); end
@@ -27102,6 +31649,10 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :organization_id
 
+        # ID of the session thread this event refers to.
+        sig { returns(String) }
+        attr_accessor :session_thread_id
+
         sig { returns(Symbol) }
         attr_accessor :type
 
@@ -27113,6 +31664,7 @@ module Anthropic
             .returns({
               id: String,
               organization_id: String,
+              session_thread_id: String,
               type: Symbol,
               workspace_id: String
             })
@@ -27124,6 +31676,7 @@ module Anthropic
             params(
               id: String,
               organization_id: String,
+              session_thread_id: String,
               workspace_id: String,
               type: Symbol
             ).returns(T.attached_class)
@@ -27131,6 +31684,7 @@ module Anthropic
           def new(
             id:, # ID of the session that triggered the event.
             organization_id:,
+            session_thread_id:, # ID of the session thread this event refers to.
             workspace_id:,
             type: :"session.thread_terminated"
 ); end
@@ -27577,6 +32131,1098 @@ module Anthropic
           OrSymbol = T.type_alias { T.any(Symbol, String) }
 
           TaggedSymbol = T.type_alias { T.all(Symbol, Anthropic::Beta::DeletedFile::Type) }
+        end
+      end
+
+      class DeploymentArchiveParams < Anthropic::Internal::Type::BaseModel
+        extend Anthropic::Internal::Type::RequestParameters::Converter
+        include Anthropic::Internal::Type::RequestParameters
+
+        # Optional header to specify the beta version(s) you want to use.
+        sig do
+          returns(T.nilable(
+              T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]
+            ))
+        end
+        attr_reader :betas
+
+        sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
+        attr_writer :betas
+
+        sig { returns(String) }
+        attr_accessor :deployment_id
+
+        sig do
+          override
+            .returns({
+              deployment_id: String,
+              betas:
+                T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions
+            })
+        end
+        def to_hash; end
+
+        class << self
+          sig do
+            params(
+              deployment_id: String,
+              betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions::OrHash
+            ).returns(T.attached_class)
+          end
+          def new(
+            deployment_id:,
+            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            request_options: {}
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::DeploymentArchiveParams,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
+      class DeploymentCreateParams < Anthropic::Internal::Type::BaseModel
+        extend Anthropic::Internal::Type::RequestParameters::Converter
+        include Anthropic::Internal::Type::RequestParameters
+
+        # Agent to deploy. Accepts the `agent` ID string, which pins the latest version,
+        # or an `agent` object with both id and version specified. The agent must exist
+        # and not be archived.
+        sig { returns(T.any(String, Anthropic::Beta::BetaManagedAgentsAgentParams)) }
+        attr_accessor :agent
+
+        # Optional header to specify the beta version(s) you want to use.
+        sig do
+          returns(T.nilable(
+              T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]
+            ))
+        end
+        attr_reader :betas
+
+        sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
+        attr_writer :betas
+
+        # Description of what the deployment does.
+        sig { returns(T.nilable(String)) }
+        attr_accessor :description
+
+        # ID of the `environment` defining the container configuration for sessions
+        # created from this deployment.
+        sig { returns(String) }
+        attr_accessor :environment_id
+
+        # Events to send to each session immediately after creation. At least 1,
+        # maximum 50.
+        sig do
+          returns(T::Array[
+              T.any(
+                Anthropic::Beta::Sessions::BetaManagedAgentsUserMessageEventParams,
+                Anthropic::Beta::Sessions::BetaManagedAgentsUserDefineOutcomeEventParams,
+                Anthropic::Beta::Sessions::BetaManagedAgentsSystemMessageEventParams
+              )
+            ])
+        end
+        attr_accessor :initial_events
+
+        # Arbitrary key-value metadata. Maximum 16 pairs, keys up to 64 chars, values up
+        # to 512 chars.
+        sig { returns(T.nilable(T::Hash[Symbol, String])) }
+        attr_reader :metadata
+
+        sig { params(metadata: T::Hash[Symbol, String]).void }
+        attr_writer :metadata
+
+        # Human-readable name for the deployment.
+        sig { returns(String) }
+        attr_accessor :name
+
+        # Resources (e.g. repositories, files) to mount into each session's container.
+        # Maximum 500.
+        sig do
+          returns(T.nilable(
+              T::Array[
+                T.any(
+                  Anthropic::Beta::BetaManagedAgentsGitHubRepositoryResourceParams,
+                  Anthropic::Beta::BetaManagedAgentsFileResourceParams,
+                  Anthropic::Beta::BetaManagedAgentsMemoryStoreResourceParam
+                )
+              ]
+            ))
+        end
+        attr_reader :resources
+
+        sig do
+          params(
+            resources: T::Array[
+                T.any(
+                  Anthropic::Beta::BetaManagedAgentsGitHubRepositoryResourceParams::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsFileResourceParams::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsMemoryStoreResourceParam::OrHash
+                )
+              ]
+          ).void
+        end
+        attr_writer :resources
+
+        # 5-field POSIX cron schedule. Literal wall-clock matching in the configured
+        # timezone.
+        sig { returns(T.nilable(Anthropic::Beta::BetaManagedAgentsScheduleParams)) }
+        attr_reader :schedule
+
+        sig do
+          params(
+            schedule: T.nilable(
+                Anthropic::Beta::BetaManagedAgentsScheduleParams::OrHash
+              )
+          ).void
+        end
+        attr_writer :schedule
+
+        # Vault IDs for stored credentials the agent can use during sessions created from
+        # this deployment. Maximum 50.
+        sig { returns(T.nilable(T::Array[String])) }
+        attr_reader :vault_ids
+
+        sig { params(vault_ids: T::Array[String]).void }
+        attr_writer :vault_ids
+
+        sig do
+          override
+            .returns({
+              agent:
+                T.any(String, Anthropic::Beta::BetaManagedAgentsAgentParams),
+              environment_id: String,
+              initial_events:
+                T::Array[
+                  T.any(
+                    Anthropic::Beta::Sessions::BetaManagedAgentsUserMessageEventParams,
+                    Anthropic::Beta::Sessions::BetaManagedAgentsUserDefineOutcomeEventParams,
+                    Anthropic::Beta::Sessions::BetaManagedAgentsSystemMessageEventParams
+                  )
+                ],
+              name: String,
+              description: T.nilable(String),
+              metadata: T::Hash[Symbol, String],
+              resources:
+                T::Array[
+                  T.any(
+                    Anthropic::Beta::BetaManagedAgentsGitHubRepositoryResourceParams,
+                    Anthropic::Beta::BetaManagedAgentsFileResourceParams,
+                    Anthropic::Beta::BetaManagedAgentsMemoryStoreResourceParam
+                  )
+                ],
+              schedule:
+                T.nilable(Anthropic::Beta::BetaManagedAgentsScheduleParams),
+              vault_ids: T::Array[String],
+              betas:
+                T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions
+            })
+        end
+        def to_hash; end
+
+        class << self
+          sig do
+            params(
+              agent: T.any(
+                String,
+                Anthropic::Beta::BetaManagedAgentsAgentParams::OrHash
+              ),
+              environment_id: String,
+              initial_events: T::Array[
+                T.any(
+                  Anthropic::Beta::Sessions::BetaManagedAgentsUserMessageEventParams::OrHash,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsUserDefineOutcomeEventParams::OrHash,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsSystemMessageEventParams::OrHash
+                )
+              ],
+              name: String,
+              description: T.nilable(String),
+              metadata: T::Hash[Symbol, String],
+              resources: T::Array[
+                T.any(
+                  Anthropic::Beta::BetaManagedAgentsGitHubRepositoryResourceParams::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsFileResourceParams::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsMemoryStoreResourceParam::OrHash
+                )
+              ],
+              schedule: T.nilable(
+                Anthropic::Beta::BetaManagedAgentsScheduleParams::OrHash
+              ),
+              vault_ids: T::Array[String],
+              betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions::OrHash
+            ).returns(T.attached_class)
+          end
+          def new(
+            agent:, # Agent to deploy. Accepts the `agent` ID string, which pins the latest version,
+                    # or an `agent` object with both id and version specified. The agent must exist
+                    # and not be archived.
+            environment_id:, # ID of the `environment` defining the container configuration for sessions
+                             # created from this deployment.
+            initial_events:, # Events to send to each session immediately after creation. At least 1,
+                             # maximum 50.
+            name:, # Human-readable name for the deployment.
+            description: nil, # Description of what the deployment does.
+            metadata: nil, # Arbitrary key-value metadata. Maximum 16 pairs, keys up to 64 chars, values up
+                           # to 512 chars.
+            resources: nil, # Resources (e.g. repositories, files) to mount into each session's container.
+                            # Maximum 500.
+            schedule: nil, # 5-field POSIX cron schedule. Literal wall-clock matching in the configured
+                           # timezone.
+            vault_ids: nil, # Vault IDs for stored credentials the agent can use during sessions created from
+                            # this deployment. Maximum 50.
+            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            request_options: {}
+); end
+        end
+
+        # Agent to deploy. Accepts the `agent` ID string, which pins the latest version,
+        # or an `agent` object with both id and version specified. The agent must exist
+        # and not be archived.
+        module Agent
+          extend Anthropic::Internal::Type::Union
+
+          class << self
+            sig { override.returns(T::Array[Anthropic::Beta::DeploymentCreateParams::Agent::Variants]) }
+            def variants; end
+          end
+
+          Variants = T.type_alias do
+              T.any(String, Anthropic::Beta::BetaManagedAgentsAgentParams)
+            end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::DeploymentCreateParams,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        # Union of resources that can be mounted into a session.
+        module Resource
+          extend Anthropic::Internal::Type::Union
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::DeploymentCreateParams::Resource::Variants
+              ])
+            end
+            def variants; end
+          end
+
+          Variants = T.type_alias do
+              T.any(
+                Anthropic::Beta::BetaManagedAgentsGitHubRepositoryResourceParams,
+                Anthropic::Beta::BetaManagedAgentsFileResourceParams,
+                Anthropic::Beta::BetaManagedAgentsMemoryStoreResourceParam
+              )
+            end
+        end
+      end
+
+      class DeploymentListParams < Anthropic::Internal::Type::BaseModel
+        extend Anthropic::Internal::Type::RequestParameters::Converter
+        include Anthropic::Internal::Type::RequestParameters
+
+        # Filter by agent ID.
+        sig { returns(T.nilable(String)) }
+        attr_reader :agent_id
+
+        sig { params(agent_id: String).void }
+        attr_writer :agent_id
+
+        # Optional header to specify the beta version(s) you want to use.
+        sig do
+          returns(T.nilable(
+              T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]
+            ))
+        end
+        attr_reader :betas
+
+        sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
+        attr_writer :betas
+
+        # Return deployments created at or after this time (inclusive).
+        sig { returns(T.nilable(Time)) }
+        attr_reader :created_at_gte
+
+        sig { params(created_at_gte: Time).void }
+        attr_writer :created_at_gte
+
+        # Return deployments created at or before this time (inclusive).
+        sig { returns(T.nilable(Time)) }
+        attr_reader :created_at_lte
+
+        sig { params(created_at_lte: Time).void }
+        attr_writer :created_at_lte
+
+        # When true, includes archived deployments. Default: false (exclude archived).
+        sig { returns(T.nilable(T::Boolean)) }
+        attr_reader :include_archived
+
+        sig { params(include_archived: T::Boolean).void }
+        attr_writer :include_archived
+
+        # Maximum results per page. Default 20, maximum 100.
+        sig { returns(T.nilable(Integer)) }
+        attr_reader :limit
+
+        sig { params(limit: Integer).void }
+        attr_writer :limit
+
+        # Opaque pagination cursor.
+        sig { returns(T.nilable(String)) }
+        attr_reader :page
+
+        sig { params(page: String).void }
+        attr_writer :page
+
+        # Filter by status: active or paused. Omit for both. To include archived
+        # deployments, use include_archived instead; the two cannot be combined.
+        sig do
+          returns(T.nilable(
+              Anthropic::Beta::BetaManagedAgentsDeploymentStatus::OrSymbol
+            ))
+        end
+        attr_reader :status
+
+        sig { params(status: Anthropic::Beta::BetaManagedAgentsDeploymentStatus::OrSymbol).void }
+        attr_writer :status
+
+        sig do
+          override
+            .returns({
+              agent_id: String,
+              created_at_gte: Time,
+              created_at_lte: Time,
+              include_archived: T::Boolean,
+              limit: Integer,
+              page: String,
+              status:
+                Anthropic::Beta::BetaManagedAgentsDeploymentStatus::OrSymbol,
+              betas:
+                T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions
+            })
+        end
+        def to_hash; end
+
+        class << self
+          sig do
+            params(
+              agent_id: String,
+              created_at_gte: Time,
+              created_at_lte: Time,
+              include_archived: T::Boolean,
+              limit: Integer,
+              page: String,
+              status: Anthropic::Beta::BetaManagedAgentsDeploymentStatus::OrSymbol,
+              betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions::OrHash
+            ).returns(T.attached_class)
+          end
+          def new(
+            agent_id: nil, # Filter by agent ID.
+            created_at_gte: nil, # Return deployments created at or after this time (inclusive).
+            created_at_lte: nil, # Return deployments created at or before this time (inclusive).
+            include_archived: nil, # When true, includes archived deployments. Default: false (exclude archived).
+            limit: nil, # Maximum results per page. Default 20, maximum 100.
+            page: nil, # Opaque pagination cursor.
+            status: nil, # Filter by status: active or paused. Omit for both. To include archived
+                         # deployments, use include_archived instead; the two cannot be combined.
+            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            request_options: {}
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::DeploymentListParams,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
+      class DeploymentPauseParams < Anthropic::Internal::Type::BaseModel
+        extend Anthropic::Internal::Type::RequestParameters::Converter
+        include Anthropic::Internal::Type::RequestParameters
+
+        # Optional header to specify the beta version(s) you want to use.
+        sig do
+          returns(T.nilable(
+              T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]
+            ))
+        end
+        attr_reader :betas
+
+        sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
+        attr_writer :betas
+
+        sig { returns(String) }
+        attr_accessor :deployment_id
+
+        sig do
+          override
+            .returns({
+              deployment_id: String,
+              betas:
+                T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions
+            })
+        end
+        def to_hash; end
+
+        class << self
+          sig do
+            params(
+              deployment_id: String,
+              betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions::OrHash
+            ).returns(T.attached_class)
+          end
+          def new(
+            deployment_id:,
+            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            request_options: {}
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::DeploymentPauseParams,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
+      class DeploymentRetrieveParams < Anthropic::Internal::Type::BaseModel
+        extend Anthropic::Internal::Type::RequestParameters::Converter
+        include Anthropic::Internal::Type::RequestParameters
+
+        # Optional header to specify the beta version(s) you want to use.
+        sig do
+          returns(T.nilable(
+              T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]
+            ))
+        end
+        attr_reader :betas
+
+        sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
+        attr_writer :betas
+
+        sig { returns(String) }
+        attr_accessor :deployment_id
+
+        sig do
+          override
+            .returns({
+              deployment_id: String,
+              betas:
+                T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions
+            })
+        end
+        def to_hash; end
+
+        class << self
+          sig do
+            params(
+              deployment_id: String,
+              betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions::OrHash
+            ).returns(T.attached_class)
+          end
+          def new(
+            deployment_id:,
+            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            request_options: {}
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::DeploymentRetrieveParams,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
+      class DeploymentRunListParams < Anthropic::Internal::Type::BaseModel
+        extend Anthropic::Internal::Type::RequestParameters::Converter
+        include Anthropic::Internal::Type::RequestParameters
+
+        # Optional header to specify the beta version(s) you want to use.
+        sig do
+          returns(T.nilable(
+              T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]
+            ))
+        end
+        attr_reader :betas
+
+        sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
+        attr_writer :betas
+
+        # Return runs created strictly after this time (exclusive).
+        sig { returns(T.nilable(Time)) }
+        attr_reader :created_at_gt
+
+        sig { params(created_at_gt: Time).void }
+        attr_writer :created_at_gt
+
+        # Return runs created at or after this time (inclusive).
+        sig { returns(T.nilable(Time)) }
+        attr_reader :created_at_gte
+
+        sig { params(created_at_gte: Time).void }
+        attr_writer :created_at_gte
+
+        # Return runs created strictly before this time (exclusive).
+        sig { returns(T.nilable(Time)) }
+        attr_reader :created_at_lt
+
+        sig { params(created_at_lt: Time).void }
+        attr_writer :created_at_lt
+
+        # Return runs created at or before this time (inclusive).
+        sig { returns(T.nilable(Time)) }
+        attr_reader :created_at_lte
+
+        sig { params(created_at_lte: Time).void }
+        attr_writer :created_at_lte
+
+        # Filter to a specific deployment. Omit to list across all deployments in the
+        # workspace. Filtering by a non-existent deployment_id returns 200 with empty
+        # data.
+        sig { returns(T.nilable(String)) }
+        attr_reader :deployment_id
+
+        sig { params(deployment_id: String).void }
+        attr_writer :deployment_id
+
+        # Filter: true for runs with non-null error, false for runs with non-null
+        # session_id. Omit for all.
+        sig { returns(T.nilable(T::Boolean)) }
+        attr_reader :has_error
+
+        sig { params(has_error: T::Boolean).void }
+        attr_writer :has_error
+
+        # Maximum results per page. Default 20, maximum 1000.
+        sig { returns(T.nilable(Integer)) }
+        attr_reader :limit
+
+        sig { params(limit: Integer).void }
+        attr_writer :limit
+
+        # Opaque pagination cursor. Pass next_page from the previous response. Invalid or
+        # expired cursors return 400.
+        sig { returns(T.nilable(String)) }
+        attr_reader :page
+
+        sig { params(page: String).void }
+        attr_writer :page
+
+        # Filter runs by what triggered them. Omit to return all runs.
+        sig { returns(T.nilable(Anthropic::Beta::BetaManagedAgentsTriggerType::OrSymbol)) }
+        attr_reader :trigger_type
+
+        sig { params(trigger_type: Anthropic::Beta::BetaManagedAgentsTriggerType::OrSymbol).void }
+        attr_writer :trigger_type
+
+        sig do
+          override
+            .returns({
+              created_at_gt: Time,
+              created_at_gte: Time,
+              created_at_lt: Time,
+              created_at_lte: Time,
+              deployment_id: String,
+              has_error: T::Boolean,
+              limit: Integer,
+              page: String,
+              trigger_type:
+                Anthropic::Beta::BetaManagedAgentsTriggerType::OrSymbol,
+              betas:
+                T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions
+            })
+        end
+        def to_hash; end
+
+        class << self
+          sig do
+            params(
+              created_at_gt: Time,
+              created_at_gte: Time,
+              created_at_lt: Time,
+              created_at_lte: Time,
+              deployment_id: String,
+              has_error: T::Boolean,
+              limit: Integer,
+              page: String,
+              trigger_type: Anthropic::Beta::BetaManagedAgentsTriggerType::OrSymbol,
+              betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions::OrHash
+            ).returns(T.attached_class)
+          end
+          def new(
+            created_at_gt: nil, # Return runs created strictly after this time (exclusive).
+            created_at_gte: nil, # Return runs created at or after this time (inclusive).
+            created_at_lt: nil, # Return runs created strictly before this time (exclusive).
+            created_at_lte: nil, # Return runs created at or before this time (inclusive).
+            deployment_id: nil, # Filter to a specific deployment. Omit to list across all deployments in the
+                                # workspace. Filtering by a non-existent deployment_id returns 200 with empty
+                                # data.
+            has_error: nil, # Filter: true for runs with non-null error, false for runs with non-null
+                            # session_id. Omit for all.
+            limit: nil, # Maximum results per page. Default 20, maximum 1000.
+            page: nil, # Opaque pagination cursor. Pass next_page from the previous response. Invalid or
+                       # expired cursors return 400.
+            trigger_type: nil, # Filter runs by what triggered them. Omit to return all runs.
+            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            request_options: {}
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::DeploymentRunListParams,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
+      class DeploymentRunParams < Anthropic::Internal::Type::BaseModel
+        extend Anthropic::Internal::Type::RequestParameters::Converter
+        include Anthropic::Internal::Type::RequestParameters
+
+        # Optional header to specify the beta version(s) you want to use.
+        sig do
+          returns(T.nilable(
+              T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]
+            ))
+        end
+        attr_reader :betas
+
+        sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
+        attr_writer :betas
+
+        sig { returns(String) }
+        attr_accessor :deployment_id
+
+        sig do
+          override
+            .returns({
+              deployment_id: String,
+              betas:
+                T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions
+            })
+        end
+        def to_hash; end
+
+        class << self
+          sig do
+            params(
+              deployment_id: String,
+              betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions::OrHash
+            ).returns(T.attached_class)
+          end
+          def new(
+            deployment_id:,
+            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            request_options: {}
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::DeploymentRunParams,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
+      class DeploymentRunRetrieveParams < Anthropic::Internal::Type::BaseModel
+        extend Anthropic::Internal::Type::RequestParameters::Converter
+        include Anthropic::Internal::Type::RequestParameters
+
+        # Optional header to specify the beta version(s) you want to use.
+        sig do
+          returns(T.nilable(
+              T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]
+            ))
+        end
+        attr_reader :betas
+
+        sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
+        attr_writer :betas
+
+        sig { returns(String) }
+        attr_accessor :deployment_run_id
+
+        sig do
+          override
+            .returns({
+              deployment_run_id: String,
+              betas:
+                T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions
+            })
+        end
+        def to_hash; end
+
+        class << self
+          sig do
+            params(
+              deployment_run_id: String,
+              betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions::OrHash
+            ).returns(T.attached_class)
+          end
+          def new(
+            deployment_run_id:,
+            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            request_options: {}
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::DeploymentRunRetrieveParams,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
+      class DeploymentUnpauseParams < Anthropic::Internal::Type::BaseModel
+        extend Anthropic::Internal::Type::RequestParameters::Converter
+        include Anthropic::Internal::Type::RequestParameters
+
+        # Optional header to specify the beta version(s) you want to use.
+        sig do
+          returns(T.nilable(
+              T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]
+            ))
+        end
+        attr_reader :betas
+
+        sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
+        attr_writer :betas
+
+        sig { returns(String) }
+        attr_accessor :deployment_id
+
+        sig do
+          override
+            .returns({
+              deployment_id: String,
+              betas:
+                T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions
+            })
+        end
+        def to_hash; end
+
+        class << self
+          sig do
+            params(
+              deployment_id: String,
+              betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions::OrHash
+            ).returns(T.attached_class)
+          end
+          def new(
+            deployment_id:,
+            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            request_options: {}
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::DeploymentUnpauseParams,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
+      class DeploymentUpdateParams < Anthropic::Internal::Type::BaseModel
+        extend Anthropic::Internal::Type::RequestParameters::Converter
+        include Anthropic::Internal::Type::RequestParameters
+
+        # Agent to deploy. Accepts the `agent` ID string, which re-pins to the latest
+        # version, or an `agent` object with both id and version specified. Omit to
+        # preserve. Cannot be cleared.
+        sig do
+          returns(T.nilable(
+              T.any(String, Anthropic::Beta::BetaManagedAgentsAgentParams)
+            ))
+        end
+        attr_reader :agent
+
+        sig do
+          params(
+            agent: T.any(
+                String,
+                Anthropic::Beta::BetaManagedAgentsAgentParams::OrHash
+              )
+          ).void
+        end
+        attr_writer :agent
+
+        # Optional header to specify the beta version(s) you want to use.
+        sig do
+          returns(T.nilable(
+              T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]
+            ))
+        end
+        attr_reader :betas
+
+        sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
+        attr_writer :betas
+
+        sig { returns(String) }
+        attr_accessor :deployment_id
+
+        # Description. Omit to preserve; send empty string or null to clear.
+        sig { returns(T.nilable(String)) }
+        attr_accessor :description
+
+        # ID of the `environment` where sessions run. Omit to preserve. Cannot be cleared.
+        sig { returns(T.nilable(String)) }
+        attr_reader :environment_id
+
+        sig { params(environment_id: String).void }
+        attr_writer :environment_id
+
+        # Initial events. Full replacement. Omit to preserve. Cannot be cleared. At least
+        # 1, maximum 50.
+        sig do
+          returns(T.nilable(
+              T::Array[
+                T.any(
+                  Anthropic::Beta::Sessions::BetaManagedAgentsUserMessageEventParams,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsUserDefineOutcomeEventParams,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsSystemMessageEventParams
+                )
+              ]
+            ))
+        end
+        attr_reader :initial_events
+
+        sig do
+          params(
+            initial_events: T::Array[
+                T.any(
+                  Anthropic::Beta::Sessions::BetaManagedAgentsUserMessageEventParams::OrHash,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsUserDefineOutcomeEventParams::OrHash,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsSystemMessageEventParams::OrHash
+                )
+              ]
+          ).void
+        end
+        attr_writer :initial_events
+
+        # Metadata patch. Set a key to a string to upsert it, or to null to delete it.
+        # Omit the field to preserve. The stored bag is limited to 16 keys (up to 64 chars
+        # each) with values up to 512 chars.
+        sig { returns(T.nilable(T::Hash[Symbol, T.nilable(String)])) }
+        attr_accessor :metadata
+
+        # Human-readable name. Must be non-empty. Omit to preserve. Cannot be cleared.
+        sig { returns(T.nilable(String)) }
+        attr_reader :name
+
+        sig { params(name: String).void }
+        attr_writer :name
+
+        # Session resources. Full replacement. Omit to preserve; send empty array or null
+        # to clear. Maximum 500.
+        sig do
+          returns(T.nilable(
+              T::Array[
+                T.any(
+                  Anthropic::Beta::BetaManagedAgentsGitHubRepositoryResourceParams,
+                  Anthropic::Beta::BetaManagedAgentsFileResourceParams,
+                  Anthropic::Beta::BetaManagedAgentsMemoryStoreResourceParam
+                )
+              ]
+            ))
+        end
+        attr_accessor :resources
+
+        # 5-field POSIX cron schedule. Literal wall-clock matching in the configured
+        # timezone.
+        sig { returns(T.nilable(Anthropic::Beta::BetaManagedAgentsScheduleParams)) }
+        attr_reader :schedule
+
+        sig do
+          params(
+            schedule: T.nilable(
+                Anthropic::Beta::BetaManagedAgentsScheduleParams::OrHash
+              )
+          ).void
+        end
+        attr_writer :schedule
+
+        # Vault IDs. Full replacement. Omit to preserve; send empty array or null to
+        # clear. Maximum 50.
+        sig { returns(T.nilable(T::Array[String])) }
+        attr_accessor :vault_ids
+
+        sig do
+          override
+            .returns({
+              deployment_id: String,
+              agent:
+                T.any(String, Anthropic::Beta::BetaManagedAgentsAgentParams),
+              description: T.nilable(String),
+              environment_id: String,
+              initial_events:
+                T::Array[
+                  T.any(
+                    Anthropic::Beta::Sessions::BetaManagedAgentsUserMessageEventParams,
+                    Anthropic::Beta::Sessions::BetaManagedAgentsUserDefineOutcomeEventParams,
+                    Anthropic::Beta::Sessions::BetaManagedAgentsSystemMessageEventParams
+                  )
+                ],
+              metadata: T.nilable(T::Hash[Symbol, T.nilable(String)]),
+              name: String,
+              resources:
+                T.nilable(
+                  T::Array[
+                    T.any(
+                      Anthropic::Beta::BetaManagedAgentsGitHubRepositoryResourceParams,
+                      Anthropic::Beta::BetaManagedAgentsFileResourceParams,
+                      Anthropic::Beta::BetaManagedAgentsMemoryStoreResourceParam
+                    )
+                  ]
+                ),
+              schedule:
+                T.nilable(Anthropic::Beta::BetaManagedAgentsScheduleParams),
+              vault_ids: T.nilable(T::Array[String]),
+              betas:
+                T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions
+            })
+        end
+        def to_hash; end
+
+        class << self
+          sig do
+            params(
+              deployment_id: String,
+              agent: T.any(
+                String,
+                Anthropic::Beta::BetaManagedAgentsAgentParams::OrHash
+              ),
+              description: T.nilable(String),
+              environment_id: String,
+              initial_events: T::Array[
+                T.any(
+                  Anthropic::Beta::Sessions::BetaManagedAgentsUserMessageEventParams::OrHash,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsUserDefineOutcomeEventParams::OrHash,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsSystemMessageEventParams::OrHash
+                )
+              ],
+              metadata: T.nilable(T::Hash[Symbol, T.nilable(String)]),
+              name: String,
+              resources: T.nilable(
+                T::Array[
+                  T.any(
+                    Anthropic::Beta::BetaManagedAgentsGitHubRepositoryResourceParams::OrHash,
+                    Anthropic::Beta::BetaManagedAgentsFileResourceParams::OrHash,
+                    Anthropic::Beta::BetaManagedAgentsMemoryStoreResourceParam::OrHash
+                  )
+                ]
+              ),
+              schedule: T.nilable(
+                Anthropic::Beta::BetaManagedAgentsScheduleParams::OrHash
+              ),
+              vault_ids: T.nilable(T::Array[String]),
+              betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              request_options: Anthropic::RequestOptions::OrHash
+            ).returns(T.attached_class)
+          end
+          def new(
+            deployment_id:,
+            agent: nil, # Agent to deploy. Accepts the `agent` ID string, which re-pins to the latest
+                        # version, or an `agent` object with both id and version specified. Omit to
+                        # preserve. Cannot be cleared.
+            description: nil, # Description. Omit to preserve; send empty string or null to clear.
+            environment_id: nil, # ID of the `environment` where sessions run. Omit to preserve. Cannot be cleared.
+            initial_events: nil, # Initial events. Full replacement. Omit to preserve. Cannot be cleared. At least
+                                 # 1, maximum 50.
+            metadata: nil, # Metadata patch. Set a key to a string to upsert it, or to null to delete it.
+                           # Omit the field to preserve. The stored bag is limited to 16 keys (up to 64 chars
+                           # each) with values up to 512 chars.
+            name: nil, # Human-readable name. Must be non-empty. Omit to preserve. Cannot be cleared.
+            resources: nil, # Session resources. Full replacement. Omit to preserve; send empty array or null
+                            # to clear. Maximum 500.
+            schedule: nil, # 5-field POSIX cron schedule. Literal wall-clock matching in the configured
+                           # timezone.
+            vault_ids: nil, # Vault IDs. Full replacement. Omit to preserve; send empty array or null to
+                            # clear. Maximum 50.
+            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            request_options: {}
+); end
+        end
+
+        # Agent to deploy. Accepts the `agent` ID string, which re-pins to the latest
+        # version, or an `agent` object with both id and version specified. Omit to
+        # preserve. Cannot be cleared.
+        module Agent
+          extend Anthropic::Internal::Type::Union
+
+          class << self
+            sig { override.returns(T::Array[Anthropic::Beta::DeploymentUpdateParams::Agent::Variants]) }
+            def variants; end
+          end
+
+          Variants = T.type_alias do
+              T.any(String, Anthropic::Beta::BetaManagedAgentsAgentParams)
+            end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::DeploymentUpdateParams,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        # Union of resources that can be mounted into a session.
+        module Resource
+          extend Anthropic::Internal::Type::Union
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::DeploymentUpdateParams::Resource::Variants
+              ])
+            end
+            def variants; end
+          end
+
+          Variants = T.type_alias do
+              T.any(
+                Anthropic::Beta::BetaManagedAgentsGitHubRepositoryResourceParams,
+                Anthropic::Beta::BetaManagedAgentsFileResourceParams,
+                Anthropic::Beta::BetaManagedAgentsMemoryStoreResourceParam
+              )
+            end
         end
       end
 
@@ -32861,6 +38507,34 @@ module Anthropic
         sig { params(diagnostics: T.nilable(Anthropic::Beta::BetaDiagnosticsParam::OrHash)).void }
         attr_writer :diagnostics
 
+        # The `fallback_credit_token` from a prior refusal's `stop_details`.
+        #
+        # When a preceding request was refused and returned a `fallback_credit_token`,
+        # pass that code here on the retry to have the retry's cache-creation tokens for
+        # the prefix that was warm on the refused model billed at the cache-read rate.
+        # Must be redeemed by the same organization and workspace, with the same request
+        # body (optionally extended by one appended `assistant` message whose content is
+        # the partial text — with any trailing whitespace stripped from the final text
+        # block — and paired server-tool blocks streamed before the refusal; the
+        # appended-assistant form is not available for requests with `output_format` set
+        # or forced `tool_choice`), on an eligible fallback model, on the same platform,
+        # and within 5 minutes of the refusal; a mismatch is a 400. A token minted
+        # mid-server-tool-loop whose partial content was continuable may only be redeemed
+        # with the appended-assistant form — if an exact-body retry is rejected with a 400
+        # saying the token must be redeemed by continuing the partial response, retry with
+        # the appended-assistant form instead.
+        #
+        # When the appended-assistant form is used on a model that otherwise disallows
+        # assistant-turn prefill, this token also authorizes that one prefill.
+        sig { returns(T.nilable(String)) }
+        attr_accessor :fallback_credit_token
+
+        # Opt-in server-side retry on one or more substitute models when the requested
+        # model declines for policy reasons. Tried in order: if the first entry also
+        # declines, the second is tried, and so on.
+        sig { returns(T.nilable(T::Array[Anthropic::Beta::BetaFallbackParam])) }
+        attr_accessor :fallbacks
+
         # Specifies the geographic region for inference processing. If not specified, the
         # workspace's `default_inference_geo` is used.
         sig { returns(T.nilable(String)) }
@@ -33298,6 +38972,9 @@ module Anthropic
               context_management:
                 T.nilable(Anthropic::Beta::BetaContextManagementConfig),
               diagnostics: T.nilable(Anthropic::Beta::BetaDiagnosticsParam),
+              fallback_credit_token: T.nilable(String),
+              fallbacks:
+                T.nilable(T::Array[Anthropic::Beta::BetaFallbackParam]),
               inference_geo: T.nilable(String),
               mcp_servers:
                 T::Array[Anthropic::Beta::BetaRequestMCPServerURLDefinition],
@@ -33376,6 +39053,8 @@ module Anthropic
               ),
               context_management: T.nilable(Anthropic::Beta::BetaContextManagementConfig::OrHash),
               diagnostics: T.nilable(Anthropic::Beta::BetaDiagnosticsParam::OrHash),
+              fallback_credit_token: T.nilable(String),
+              fallbacks: T.nilable(T::Array[Anthropic::Beta::BetaFallbackParam::OrHash]),
               inference_geo: T.nilable(String),
               mcp_servers: T::Array[
                 Anthropic::Beta::BetaRequestMCPServerURLDefinition::OrHash
@@ -33503,6 +39182,26 @@ module Anthropic
                                      # such as whether to clear function results or not.
             diagnostics: nil, # Request-level diagnostics. Currently carries the previous response id for
                               # prompt-cache divergence reporting.
+            fallback_credit_token: nil, # The `fallback_credit_token` from a prior refusal's `stop_details`.
+                                        # When a preceding request was refused and returned a `fallback_credit_token`,
+                                        # pass that code here on the retry to have the retry's cache-creation tokens for
+                                        # the prefix that was warm on the refused model billed at the cache-read rate.
+                                        # Must be redeemed by the same organization and workspace, with the same request
+                                        # body (optionally extended by one appended `assistant` message whose content is
+                                        # the partial text — with any trailing whitespace stripped from the final text
+                                        # block — and paired server-tool blocks streamed before the refusal; the
+                                        # appended-assistant form is not available for requests with `output_format` set
+                                        # or forced `tool_choice`), on an eligible fallback model, on the same platform,
+                                        # and within 5 minutes of the refusal; a mismatch is a 400. A token minted
+                                        # mid-server-tool-loop whose partial content was continuable may only be redeemed
+                                        # with the appended-assistant form — if an exact-body retry is rejected with a 400
+                                        # saying the token must be redeemed by continuing the partial response, retry with
+                                        # the appended-assistant form instead.
+                                        # When the appended-assistant form is used on a model that otherwise disallows
+                                        # assistant-turn prefill, this token also authorizes that one prefill.
+            fallbacks: nil, # Opt-in server-side retry on one or more substitute models when the requested
+                            # model declines for policy reasons. Tried in order: if the first entry also
+                            # declines, the second is tried, and so on.
             inference_geo: nil, # Specifies the geographic region for inference processing. If not specified, the
                                 # workspace's `default_inference_geo` is used.
             mcp_servers: nil, # MCP servers to be utilized in this request
@@ -33947,6 +39646,34 @@ module Anthropic
 
               sig { params(diagnostics: T.nilable(Anthropic::Beta::BetaDiagnosticsParam::OrHash)).void }
               attr_writer :diagnostics
+
+              # The `fallback_credit_token` from a prior refusal's `stop_details`.
+              #
+              # When a preceding request was refused and returned a `fallback_credit_token`,
+              # pass that code here on the retry to have the retry's cache-creation tokens for
+              # the prefix that was warm on the refused model billed at the cache-read rate.
+              # Must be redeemed by the same organization and workspace, with the same request
+              # body (optionally extended by one appended `assistant` message whose content is
+              # the partial text — with any trailing whitespace stripped from the final text
+              # block — and paired server-tool blocks streamed before the refusal; the
+              # appended-assistant form is not available for requests with `output_format` set
+              # or forced `tool_choice`), on an eligible fallback model, on the same platform,
+              # and within 5 minutes of the refusal; a mismatch is a 400. A token minted
+              # mid-server-tool-loop whose partial content was continuable may only be redeemed
+              # with the appended-assistant form — if an exact-body retry is rejected with a 400
+              # saying the token must be redeemed by continuing the partial response, retry with
+              # the appended-assistant form instead.
+              #
+              # When the appended-assistant form is used on a model that otherwise disallows
+              # assistant-turn prefill, this token also authorizes that one prefill.
+              sig { returns(T.nilable(String)) }
+              attr_accessor :fallback_credit_token
+
+              # Opt-in server-side retry on one or more substitute models when the requested
+              # model declines for policy reasons. Tried in order: if the first entry also
+              # declines, the second is tried, and so on.
+              sig { returns(T.nilable(T::Array[Anthropic::Beta::BetaFallbackParam])) }
+              attr_accessor :fallbacks
 
               # Specifies the geographic region for inference processing. If not specified, the
               # workspace's `default_inference_geo` is used.
@@ -34413,6 +40140,9 @@ module Anthropic
                       T.nilable(Anthropic::Beta::BetaContextManagementConfig),
                     diagnostics:
                       T.nilable(Anthropic::Beta::BetaDiagnosticsParam),
+                    fallback_credit_token: T.nilable(String),
+                    fallbacks:
+                      T.nilable(T::Array[Anthropic::Beta::BetaFallbackParam]),
                     inference_geo: T.nilable(String),
                     mcp_servers:
                       T::Array[
@@ -34504,6 +40234,10 @@ module Anthropic
                       Anthropic::Beta::BetaContextManagementConfig::OrHash
                     ),
                     diagnostics: T.nilable(Anthropic::Beta::BetaDiagnosticsParam::OrHash),
+                    fallback_credit_token: T.nilable(String),
+                    fallbacks: T.nilable(
+                      T::Array[Anthropic::Beta::BetaFallbackParam::OrHash]
+                    ),
                     inference_geo: T.nilable(String),
                     mcp_servers: T::Array[
                       Anthropic::Beta::BetaRequestMCPServerURLDefinition::OrHash
@@ -34632,6 +40366,26 @@ module Anthropic
                                            # such as whether to clear function results or not.
                   diagnostics: nil, # Request-level diagnostics. Currently carries the previous response id for
                                     # prompt-cache divergence reporting.
+                  fallback_credit_token: nil, # The `fallback_credit_token` from a prior refusal's `stop_details`.
+                                              # When a preceding request was refused and returned a `fallback_credit_token`,
+                                              # pass that code here on the retry to have the retry's cache-creation tokens for
+                                              # the prefix that was warm on the refused model billed at the cache-read rate.
+                                              # Must be redeemed by the same organization and workspace, with the same request
+                                              # body (optionally extended by one appended `assistant` message whose content is
+                                              # the partial text — with any trailing whitespace stripped from the final text
+                                              # block — and paired server-tool blocks streamed before the refusal; the
+                                              # appended-assistant form is not available for requests with `output_format` set
+                                              # or forced `tool_choice`), on an eligible fallback model, on the same platform,
+                                              # and within 5 minutes of the refusal; a mismatch is a 400. A token minted
+                                              # mid-server-tool-loop whose partial content was continuable may only be redeemed
+                                              # with the appended-assistant form — if an exact-body retry is rejected with a 400
+                                              # saying the token must be redeemed by continuing the partial response, retry with
+                                              # the appended-assistant form instead.
+                                              # When the appended-assistant form is used on a model that otherwise disallows
+                                              # assistant-turn prefill, this token also authorizes that one prefill.
+                  fallbacks: nil, # Opt-in server-side retry on one or more substitute models when the requested
+                                  # model declines for policy reasons. Tried in order: if the first entry also
+                                  # declines, the second is tried, and so on.
                   inference_geo: nil, # Specifies the geographic region for inference processing. If not specified, the
                                       # workspace's `default_inference_geo` is used.
                   mcp_servers: nil, # MCP servers to be utilized in this request
@@ -36051,6 +41805,13 @@ module Anthropic
         sig { params(created_at_lte: Time).void }
         attr_writer :created_at_lte
 
+        # Filter sessions created by this deployment ID.
+        sig { returns(T.nilable(String)) }
+        attr_reader :deployment_id
+
+        sig { params(deployment_id: String).void }
+        attr_writer :deployment_id
+
         # When true, includes archived sessions. Default: false (exclude archived).
         sig { returns(T.nilable(T::Boolean)) }
         attr_reader :include_archived
@@ -36109,6 +41870,7 @@ module Anthropic
               created_at_gte: Time,
               created_at_lt: Time,
               created_at_lte: Time,
+              deployment_id: String,
               include_archived: T::Boolean,
               limit: Integer,
               memory_store_id: String,
@@ -36132,6 +41894,7 @@ module Anthropic
               created_at_gte: Time,
               created_at_lt: Time,
               created_at_lte: Time,
+              deployment_id: String,
               include_archived: T::Boolean,
               limit: Integer,
               memory_store_id: String,
@@ -36149,6 +41912,7 @@ module Anthropic
             created_at_gte: nil, # Return sessions created at or after this time (inclusive).
             created_at_lt: nil, # Return sessions created before this time (exclusive).
             created_at_lte: nil, # Return sessions created at or before this time (inclusive).
+            deployment_id: nil, # Filter sessions created by this deployment ID.
             include_archived: nil, # When true, includes archived sessions. Default: false (exclude archived).
             limit: nil, # Maximum number of results to return.
             memory_store_id: nil, # Filter sessions whose resources contain a memory_store with this memory store
@@ -37877,6 +43641,128 @@ module Anthropic
           end
         end
 
+        class BetaManagedAgentsCredentialHostUnreachableError < Anthropic::Internal::Type::BaseModel
+          # ID of the affected credential.
+          sig { returns(String) }
+          attr_accessor :credential_id
+
+          # Human-readable error description.
+          sig { returns(String) }
+          attr_accessor :message
+
+          # What the client should do next in response to this error.
+          sig do
+            returns(Anthropic::Beta::Sessions::BetaManagedAgentsCredentialHostUnreachableError::RetryStatus::Variants)
+          end
+          attr_accessor :retry_status
+
+          sig do
+            returns(Anthropic::Beta::Sessions::BetaManagedAgentsCredentialHostUnreachableError::Type::TaggedSymbol)
+          end
+          attr_accessor :type
+
+          # ID of the vault containing the affected credential.
+          sig { returns(String) }
+          attr_accessor :vault_id
+
+          sig do
+            override
+              .returns({
+                credential_id: String,
+                message: String,
+                retry_status:
+                  Anthropic::Beta::Sessions::BetaManagedAgentsCredentialHostUnreachableError::RetryStatus::Variants,
+                type:
+                  Anthropic::Beta::Sessions::BetaManagedAgentsCredentialHostUnreachableError::Type::TaggedSymbol,
+                vault_id: String
+              })
+          end
+          def to_hash; end
+
+          class << self
+            # An `environment_variable` credential's `auth.networking.allowed_hosts` includes
+            # a host the environment's network policy does not permit.
+            sig do
+              params(
+                credential_id: String,
+                message: String,
+                retry_status: T.any(
+                  Anthropic::Beta::Sessions::BetaManagedAgentsRetryStatusRetrying::OrHash,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsRetryStatusExhausted::OrHash,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsRetryStatusTerminal::OrHash
+                ),
+                type: Anthropic::Beta::Sessions::BetaManagedAgentsCredentialHostUnreachableError::Type::OrSymbol,
+                vault_id: String
+              ).returns(T.attached_class)
+            end
+            def new(
+              credential_id:, # ID of the affected credential.
+              message:, # Human-readable error description.
+              retry_status:, # What the client should do next in response to this error.
+              type:,
+              vault_id: # ID of the vault containing the affected credential.
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Sessions::BetaManagedAgentsCredentialHostUnreachableError,
+                Anthropic::Internal::AnyHash
+              )
+            end
+
+          # What the client should do next in response to this error.
+          module RetryStatus
+            extend Anthropic::Internal::Type::Union
+
+            class << self
+              sig do
+                override
+                  .returns(T::Array[
+                  Anthropic::Beta::Sessions::BetaManagedAgentsCredentialHostUnreachableError::RetryStatus::Variants
+                ])
+              end
+              def variants; end
+            end
+
+            Variants = T.type_alias do
+                T.any(
+                  Anthropic::Beta::Sessions::BetaManagedAgentsRetryStatusRetrying,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsRetryStatusExhausted,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsRetryStatusTerminal
+                )
+              end
+          end
+
+          module Type
+            extend Anthropic::Internal::Type::Enum
+
+            class << self
+              sig do
+                override
+                  .returns(T::Array[
+                  Anthropic::Beta::Sessions::BetaManagedAgentsCredentialHostUnreachableError::Type::TaggedSymbol
+                ])
+              end
+              def values; end
+            end
+
+            CREDENTIAL_HOST_UNREACHABLE_ERROR = T.let(
+                :credential_host_unreachable_error,
+                Anthropic::Beta::Sessions::BetaManagedAgentsCredentialHostUnreachableError::Type::TaggedSymbol
+              )
+
+            OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+            TaggedSymbol = T.type_alias do
+                T.all(
+                  Symbol,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsCredentialHostUnreachableError::Type
+                )
+              end
+          end
+        end
+
         class BetaManagedAgentsDeleteSessionResource < Anthropic::Internal::Type::BaseModel
           sig { returns(String) }
           attr_accessor :id
@@ -38087,7 +43973,8 @@ module Anthropic
                 Anthropic::Beta::Sessions::BetaManagedAgentsUserToolConfirmationEventParams,
                 Anthropic::Beta::Sessions::BetaManagedAgentsUserCustomToolResultEventParams,
                 Anthropic::Beta::Sessions::BetaManagedAgentsUserDefineOutcomeEventParams,
-                Anthropic::Beta::Sessions::BetaManagedAgentsUserToolResultEventParams
+                Anthropic::Beta::Sessions::BetaManagedAgentsUserToolResultEventParams,
+                Anthropic::Beta::Sessions::BetaManagedAgentsSystemMessageEventParams
               )
             end
         end
@@ -39884,7 +45771,8 @@ module Anthropic
                     Anthropic::Beta::Sessions::BetaManagedAgentsUserToolConfirmationEvent::OrHash,
                     Anthropic::Beta::Sessions::BetaManagedAgentsUserCustomToolResultEvent::OrHash,
                     Anthropic::Beta::Sessions::BetaManagedAgentsUserDefineOutcomeEvent::OrHash,
-                    Anthropic::Beta::BetaManagedAgentsUserToolResultEvent::OrHash
+                    Anthropic::Beta::BetaManagedAgentsUserToolResultEvent::OrHash,
+                    Anthropic::Beta::BetaManagedAgentsSystemMessageEvent::OrHash
                   )
                 ]
             ).void
@@ -39913,7 +45801,8 @@ module Anthropic
                     Anthropic::Beta::Sessions::BetaManagedAgentsUserToolConfirmationEvent::OrHash,
                     Anthropic::Beta::Sessions::BetaManagedAgentsUserCustomToolResultEvent::OrHash,
                     Anthropic::Beta::Sessions::BetaManagedAgentsUserDefineOutcomeEvent::OrHash,
-                    Anthropic::Beta::BetaManagedAgentsUserToolResultEvent::OrHash
+                    Anthropic::Beta::BetaManagedAgentsUserToolResultEvent::OrHash,
+                    Anthropic::Beta::BetaManagedAgentsSystemMessageEvent::OrHash
                   )
                 ]
               ).returns(T.attached_class)
@@ -39944,7 +45833,8 @@ module Anthropic
                   Anthropic::Beta::Sessions::BetaManagedAgentsUserToolConfirmationEvent,
                   Anthropic::Beta::Sessions::BetaManagedAgentsUserCustomToolResultEvent,
                   Anthropic::Beta::Sessions::BetaManagedAgentsUserDefineOutcomeEvent,
-                  Anthropic::Beta::BetaManagedAgentsUserToolResultEvent
+                  Anthropic::Beta::BetaManagedAgentsUserToolResultEvent,
+                  Anthropic::Beta::BetaManagedAgentsSystemMessageEvent
                 )
               end
           end
@@ -40135,7 +46025,8 @@ module Anthropic
                   Anthropic::Beta::Sessions::BetaManagedAgentsModelRequestFailedError::OrHash,
                   Anthropic::Beta::Sessions::BetaManagedAgentsMCPConnectionFailedError::OrHash,
                   Anthropic::Beta::Sessions::BetaManagedAgentsMCPAuthenticationFailedError::OrHash,
-                  Anthropic::Beta::Sessions::BetaManagedAgentsBillingError::OrHash
+                  Anthropic::Beta::Sessions::BetaManagedAgentsBillingError::OrHash,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsCredentialHostUnreachableError::OrHash
                 ),
                 processed_at: Time,
                 type: Anthropic::Beta::Sessions::BetaManagedAgentsSessionErrorEvent::Type::OrSymbol
@@ -40175,7 +46066,8 @@ module Anthropic
                   Anthropic::Beta::Sessions::BetaManagedAgentsModelRequestFailedError,
                   Anthropic::Beta::Sessions::BetaManagedAgentsMCPConnectionFailedError,
                   Anthropic::Beta::Sessions::BetaManagedAgentsMCPAuthenticationFailedError,
-                  Anthropic::Beta::Sessions::BetaManagedAgentsBillingError
+                  Anthropic::Beta::Sessions::BetaManagedAgentsBillingError,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsCredentialHostUnreachableError
                 )
               end
           end
@@ -40264,7 +46156,8 @@ module Anthropic
                 Anthropic::Beta::Sessions::BetaManagedAgentsSessionThreadStatusTerminatedEvent,
                 Anthropic::Beta::BetaManagedAgentsUserToolResultEvent,
                 Anthropic::Beta::Sessions::BetaManagedAgentsSessionThreadStatusRescheduledEvent,
-                Anthropic::Beta::BetaManagedAgentsSessionUpdatedEvent
+                Anthropic::Beta::BetaManagedAgentsSessionUpdatedEvent,
+                Anthropic::Beta::BetaManagedAgentsSystemMessageEvent
               )
             end
         end
@@ -42269,7 +48162,8 @@ module Anthropic
                 Anthropic::Beta::Sessions::BetaManagedAgentsSessionThreadStatusTerminatedEvent,
                 Anthropic::Beta::BetaManagedAgentsUserToolResultEvent,
                 Anthropic::Beta::Sessions::BetaManagedAgentsSessionThreadStatusRescheduledEvent,
-                Anthropic::Beta::BetaManagedAgentsSessionUpdatedEvent
+                Anthropic::Beta::BetaManagedAgentsSessionUpdatedEvent,
+                Anthropic::Beta::BetaManagedAgentsSystemMessageEvent
               )
             end
         end
@@ -42322,9 +48216,88 @@ module Anthropic
                 Anthropic::Beta::Sessions::BetaManagedAgentsSessionThreadStatusTerminatedEvent,
                 Anthropic::Beta::BetaManagedAgentsUserToolResultEvent,
                 Anthropic::Beta::Sessions::BetaManagedAgentsSessionThreadStatusRescheduledEvent,
-                Anthropic::Beta::BetaManagedAgentsSessionUpdatedEvent
+                Anthropic::Beta::BetaManagedAgentsSessionUpdatedEvent,
+                Anthropic::Beta::BetaManagedAgentsSystemMessageEvent
               )
             end
+        end
+
+        class BetaManagedAgentsSystemMessageEventParams < Anthropic::Internal::Type::BaseModel
+          # System content blocks to append. Text-only.
+          sig { returns(T::Array[Anthropic::Beta::BetaManagedAgentsSystemContentBlock]) }
+          attr_accessor :content
+
+          sig { returns(Anthropic::Beta::Sessions::BetaManagedAgentsSystemMessageEventParams::Type::OrSymbol) }
+          attr_accessor :type
+
+          sig do
+            override
+              .returns({
+                content:
+                  T::Array[
+                    Anthropic::Beta::BetaManagedAgentsSystemContentBlock
+                  ],
+                type:
+                  Anthropic::Beta::Sessions::BetaManagedAgentsSystemMessageEventParams::Type::OrSymbol
+              })
+          end
+          def to_hash; end
+
+          class << self
+            # Privileged context for the accompanying turn and all subsequent turns, appended
+            # to the session's system context as a `role: "system"` turn rather than replacing
+            # the top-level system prompt. At most one per request: it must be the final event
+            # and immediately follow the `user.message`, `user.tool_result`, or
+            # `user.custom_tool_result` it accompanies. Only supported on models that accept
+            # mid-conversation system messages.
+            sig do
+              params(
+                content: T::Array[
+                  Anthropic::Beta::BetaManagedAgentsSystemContentBlock::OrHash
+                ],
+                type: Anthropic::Beta::Sessions::BetaManagedAgentsSystemMessageEventParams::Type::OrSymbol
+              ).returns(T.attached_class)
+            end
+            def new(
+              content:, # System content blocks to append. Text-only.
+              type:
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Sessions::BetaManagedAgentsSystemMessageEventParams,
+                Anthropic::Internal::AnyHash
+              )
+            end
+
+          module Type
+            extend Anthropic::Internal::Type::Enum
+
+            class << self
+              sig do
+                override
+                  .returns(T::Array[
+                  Anthropic::Beta::Sessions::BetaManagedAgentsSystemMessageEventParams::Type::TaggedSymbol
+                ])
+              end
+              def values; end
+            end
+
+            OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+            SYSTEM_MESSAGE = T.let(
+                :"system.message",
+                Anthropic::Beta::Sessions::BetaManagedAgentsSystemMessageEventParams::Type::TaggedSymbol
+              )
+
+            TaggedSymbol = T.type_alias do
+                T.all(
+                  Symbol,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsSystemMessageEventParams::Type
+                )
+              end
+          end
         end
 
         class BetaManagedAgentsTextBlock < Anthropic::Internal::Type::BaseModel
@@ -44359,7 +50332,8 @@ module Anthropic
                   Anthropic::Beta::Sessions::BetaManagedAgentsUserToolConfirmationEventParams,
                   Anthropic::Beta::Sessions::BetaManagedAgentsUserCustomToolResultEventParams,
                   Anthropic::Beta::Sessions::BetaManagedAgentsUserDefineOutcomeEventParams,
-                  Anthropic::Beta::Sessions::BetaManagedAgentsUserToolResultEventParams
+                  Anthropic::Beta::Sessions::BetaManagedAgentsUserToolResultEventParams,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsSystemMessageEventParams
                 )
               ])
           end
@@ -44380,7 +50354,8 @@ module Anthropic
                       Anthropic::Beta::Sessions::BetaManagedAgentsUserToolConfirmationEventParams,
                       Anthropic::Beta::Sessions::BetaManagedAgentsUserCustomToolResultEventParams,
                       Anthropic::Beta::Sessions::BetaManagedAgentsUserDefineOutcomeEventParams,
-                      Anthropic::Beta::Sessions::BetaManagedAgentsUserToolResultEventParams
+                      Anthropic::Beta::Sessions::BetaManagedAgentsUserToolResultEventParams,
+                      Anthropic::Beta::Sessions::BetaManagedAgentsSystemMessageEventParams
                     )
                   ],
                 betas:
@@ -44401,7 +50376,8 @@ module Anthropic
                     Anthropic::Beta::Sessions::BetaManagedAgentsUserToolConfirmationEventParams::OrHash,
                     Anthropic::Beta::Sessions::BetaManagedAgentsUserCustomToolResultEventParams::OrHash,
                     Anthropic::Beta::Sessions::BetaManagedAgentsUserDefineOutcomeEventParams::OrHash,
-                    Anthropic::Beta::Sessions::BetaManagedAgentsUserToolResultEventParams::OrHash
+                    Anthropic::Beta::Sessions::BetaManagedAgentsUserToolResultEventParams::OrHash,
+                    Anthropic::Beta::Sessions::BetaManagedAgentsSystemMessageEventParams::OrHash
                   )
                 ],
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
@@ -47422,7 +53398,8 @@ module Anthropic
                 archived_at: T.nilable(Time),
                 auth: T.any(
                   Anthropic::Beta::Vaults::BetaManagedAgentsMCPOAuthAuthResponse::OrHash,
-                  Anthropic::Beta::Vaults::BetaManagedAgentsStaticBearerAuthResponse::OrHash
+                  Anthropic::Beta::Vaults::BetaManagedAgentsStaticBearerAuthResponse::OrHash,
+                  Anthropic::Beta::Vaults::BetaManagedAgentsEnvironmentVariableAuthResponse::OrHash
                 ),
                 created_at: Time,
                 metadata: T::Hash[Symbol, String],
@@ -47462,7 +53439,8 @@ module Anthropic
             Variants = T.type_alias do
                 T.any(
                   Anthropic::Beta::Vaults::BetaManagedAgentsMCPOAuthAuthResponse,
-                  Anthropic::Beta::Vaults::BetaManagedAgentsStaticBearerAuthResponse
+                  Anthropic::Beta::Vaults::BetaManagedAgentsStaticBearerAuthResponse,
+                  Anthropic::Beta::Vaults::BetaManagedAgentsEnvironmentVariableAuthResponse
                 )
               end
           end
@@ -47501,6 +53479,30 @@ module Anthropic
                 Anthropic::Beta::Vaults::BetaManagedAgentsCredential::Type::TaggedSymbol
               )
           end
+        end
+
+        # Substitute the secret on any host the session's Environment network policy
+        # permits egress to. The Environment's network policy is the only boundary on
+        # where the secret can reach.
+        module BetaManagedAgentsCredentialNetworkingParams
+          extend Anthropic::Internal::Type::Union
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::Vaults::BetaManagedAgentsCredentialNetworkingParams::Variants
+              ])
+            end
+            def variants; end
+          end
+
+          Variants = T.type_alias do
+              T.any(
+                Anthropic::Beta::Vaults::BetaManagedAgentsUnrestrictedCredentialNetworkingParams,
+                Anthropic::Beta::Vaults::BetaManagedAgentsLimitedCredentialNetworkingParams
+              )
+            end
         end
 
         class BetaManagedAgentsCredentialValidation < Anthropic::Internal::Type::BaseModel
@@ -47744,6 +53746,447 @@ module Anthropic
                 :vault_credential_deleted,
                 Anthropic::Beta::Vaults::BetaManagedAgentsDeletedCredential::Type::TaggedSymbol
               )
+          end
+        end
+
+        class BetaManagedAgentsEnvironmentVariableAuthResponse < Anthropic::Internal::Type::BaseModel
+          # Outbound hosts the secret value is substituted on.
+          sig do
+            returns(Anthropic::Beta::Vaults::BetaManagedAgentsEnvironmentVariableAuthResponse::Networking::Variants)
+          end
+          attr_accessor :networking
+
+          # Name of the environment variable.
+          sig { returns(String) }
+          attr_accessor :secret_name
+
+          sig do
+            returns(Anthropic::Beta::Vaults::BetaManagedAgentsEnvironmentVariableAuthResponse::Type::TaggedSymbol)
+          end
+          attr_accessor :type
+
+          sig do
+            override
+              .returns({
+                networking:
+                  Anthropic::Beta::Vaults::BetaManagedAgentsEnvironmentVariableAuthResponse::Networking::Variants,
+                secret_name: String,
+                type:
+                  Anthropic::Beta::Vaults::BetaManagedAgentsEnvironmentVariableAuthResponse::Type::TaggedSymbol
+              })
+          end
+          def to_hash; end
+
+          class << self
+            # Environment variable credential details. The secret value is never returned.
+            sig do
+              params(
+                networking: T.any(
+                  Anthropic::Beta::Vaults::BetaManagedAgentsUnrestrictedCredentialNetworkingResponse::OrHash,
+                  Anthropic::Beta::Vaults::BetaManagedAgentsLimitedCredentialNetworkingResponse::OrHash
+                ),
+                secret_name: String,
+                type: Anthropic::Beta::Vaults::BetaManagedAgentsEnvironmentVariableAuthResponse::Type::OrSymbol
+              ).returns(T.attached_class)
+            end
+            def new(
+              networking:, # Outbound hosts the secret value is substituted on.
+              secret_name:, # Name of the environment variable.
+              type:
+); end
+          end
+
+          # Outbound hosts the secret value is substituted on.
+          module Networking
+            extend Anthropic::Internal::Type::Union
+
+            class << self
+              sig do
+                override
+                  .returns(T::Array[
+                  Anthropic::Beta::Vaults::BetaManagedAgentsEnvironmentVariableAuthResponse::Networking::Variants
+                ])
+              end
+              def variants; end
+            end
+
+            Variants = T.type_alias do
+                T.any(
+                  Anthropic::Beta::Vaults::BetaManagedAgentsUnrestrictedCredentialNetworkingResponse,
+                  Anthropic::Beta::Vaults::BetaManagedAgentsLimitedCredentialNetworkingResponse
+                )
+              end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Vaults::BetaManagedAgentsEnvironmentVariableAuthResponse,
+                Anthropic::Internal::AnyHash
+              )
+            end
+
+          module Type
+            extend Anthropic::Internal::Type::Enum
+
+            class << self
+              sig do
+                override
+                  .returns(T::Array[
+                  Anthropic::Beta::Vaults::BetaManagedAgentsEnvironmentVariableAuthResponse::Type::TaggedSymbol
+                ])
+              end
+              def values; end
+            end
+
+            ENVIRONMENT_VARIABLE = T.let(
+                :environment_variable,
+                Anthropic::Beta::Vaults::BetaManagedAgentsEnvironmentVariableAuthResponse::Type::TaggedSymbol
+              )
+
+            OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+            TaggedSymbol = T.type_alias do
+                T.all(
+                  Symbol,
+                  Anthropic::Beta::Vaults::BetaManagedAgentsEnvironmentVariableAuthResponse::Type
+                )
+              end
+          end
+        end
+
+        class BetaManagedAgentsEnvironmentVariableCreateParams < Anthropic::Internal::Type::BaseModel
+          # Outbound hosts the secret value is substituted on.
+          sig do
+            returns(T.any(
+                Anthropic::Beta::Vaults::BetaManagedAgentsUnrestrictedCredentialNetworkingParams,
+                Anthropic::Beta::Vaults::BetaManagedAgentsLimitedCredentialNetworkingParams
+              ))
+          end
+          attr_accessor :networking
+
+          # Name of the environment variable. Immutable after create.
+          sig { returns(String) }
+          attr_accessor :secret_name
+
+          # Secret value. Write-only; never returned in responses.
+          sig { returns(String) }
+          attr_accessor :secret_value
+
+          sig { returns(Anthropic::Beta::Vaults::BetaManagedAgentsEnvironmentVariableCreateParams::Type::OrSymbol) }
+          attr_accessor :type
+
+          sig do
+            override
+              .returns({
+                networking:
+                  T.any(
+                    Anthropic::Beta::Vaults::BetaManagedAgentsUnrestrictedCredentialNetworkingParams,
+                    Anthropic::Beta::Vaults::BetaManagedAgentsLimitedCredentialNetworkingParams
+                  ),
+                secret_name: String,
+                secret_value: String,
+                type:
+                  Anthropic::Beta::Vaults::BetaManagedAgentsEnvironmentVariableCreateParams::Type::OrSymbol
+              })
+          end
+          def to_hash; end
+
+          class << self
+            # Parameters for creating an environment variable credential.
+            sig do
+              params(
+                networking: T.any(
+                  Anthropic::Beta::Vaults::BetaManagedAgentsUnrestrictedCredentialNetworkingParams::OrHash,
+                  Anthropic::Beta::Vaults::BetaManagedAgentsLimitedCredentialNetworkingParams::OrHash
+                ),
+                secret_name: String,
+                secret_value: String,
+                type: Anthropic::Beta::Vaults::BetaManagedAgentsEnvironmentVariableCreateParams::Type::OrSymbol
+              ).returns(T.attached_class)
+            end
+            def new(
+              networking:, # Outbound hosts the secret value is substituted on.
+              secret_name:, # Name of the environment variable. Immutable after create.
+              secret_value:, # Secret value. Write-only; never returned in responses.
+              type:
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Vaults::BetaManagedAgentsEnvironmentVariableCreateParams,
+                Anthropic::Internal::AnyHash
+              )
+            end
+
+          module Type
+            extend Anthropic::Internal::Type::Enum
+
+            class << self
+              sig do
+                override
+                  .returns(T::Array[
+                  Anthropic::Beta::Vaults::BetaManagedAgentsEnvironmentVariableCreateParams::Type::TaggedSymbol
+                ])
+              end
+              def values; end
+            end
+
+            ENVIRONMENT_VARIABLE = T.let(
+                :environment_variable,
+                Anthropic::Beta::Vaults::BetaManagedAgentsEnvironmentVariableCreateParams::Type::TaggedSymbol
+              )
+
+            OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+            TaggedSymbol = T.type_alias do
+                T.all(
+                  Symbol,
+                  Anthropic::Beta::Vaults::BetaManagedAgentsEnvironmentVariableCreateParams::Type
+                )
+              end
+          end
+        end
+
+        class BetaManagedAgentsEnvironmentVariableUpdateParams < Anthropic::Internal::Type::BaseModel
+          # Updated networking scope. Full replacement.
+          sig do
+            returns(T.nilable(
+                T.any(
+                  Anthropic::Beta::Vaults::BetaManagedAgentsUnrestrictedCredentialNetworkingParams,
+                  Anthropic::Beta::Vaults::BetaManagedAgentsLimitedCredentialNetworkingParams
+                )
+              ))
+          end
+          attr_accessor :networking
+
+          # Updated secret value.
+          sig { returns(T.nilable(String)) }
+          attr_accessor :secret_value
+
+          sig { returns(Anthropic::Beta::Vaults::BetaManagedAgentsEnvironmentVariableUpdateParams::Type::OrSymbol) }
+          attr_accessor :type
+
+          sig do
+            override
+              .returns({
+                type:
+                  Anthropic::Beta::Vaults::BetaManagedAgentsEnvironmentVariableUpdateParams::Type::OrSymbol,
+                networking:
+                  T.nilable(
+                    T.any(
+                      Anthropic::Beta::Vaults::BetaManagedAgentsUnrestrictedCredentialNetworkingParams,
+                      Anthropic::Beta::Vaults::BetaManagedAgentsLimitedCredentialNetworkingParams
+                    )
+                  ),
+                secret_value: T.nilable(String)
+              })
+          end
+          def to_hash; end
+
+          class << self
+            # Parameters for updating an environment variable credential. `secret_name` is
+            # immutable.
+            sig do
+              params(
+                type: Anthropic::Beta::Vaults::BetaManagedAgentsEnvironmentVariableUpdateParams::Type::OrSymbol,
+                networking: T.nilable(
+                  T.any(
+                    Anthropic::Beta::Vaults::BetaManagedAgentsUnrestrictedCredentialNetworkingParams::OrHash,
+                    Anthropic::Beta::Vaults::BetaManagedAgentsLimitedCredentialNetworkingParams::OrHash
+                  )
+                ),
+                secret_value: T.nilable(String)
+              ).returns(T.attached_class)
+            end
+            def new(
+              type:,
+              networking: nil, # Updated networking scope. Full replacement.
+              secret_value: nil # Updated secret value.
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Vaults::BetaManagedAgentsEnvironmentVariableUpdateParams,
+                Anthropic::Internal::AnyHash
+              )
+            end
+
+          module Type
+            extend Anthropic::Internal::Type::Enum
+
+            class << self
+              sig do
+                override
+                  .returns(T::Array[
+                  Anthropic::Beta::Vaults::BetaManagedAgentsEnvironmentVariableUpdateParams::Type::TaggedSymbol
+                ])
+              end
+              def values; end
+            end
+
+            ENVIRONMENT_VARIABLE = T.let(
+                :environment_variable,
+                Anthropic::Beta::Vaults::BetaManagedAgentsEnvironmentVariableUpdateParams::Type::TaggedSymbol
+              )
+
+            OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+            TaggedSymbol = T.type_alias do
+                T.all(
+                  Symbol,
+                  Anthropic::Beta::Vaults::BetaManagedAgentsEnvironmentVariableUpdateParams::Type
+                )
+              end
+          end
+        end
+
+        class BetaManagedAgentsLimitedCredentialNetworkingParams < Anthropic::Internal::Type::BaseModel
+          # Hostnames on which the secret will be substituted. Each entry is a bare hostname
+          # (`api.example.com`), an IPv4 address (`192.0.2.1`), or a `*.`-prefixed wildcard
+          # (`*.example.com`). URLs, ports, paths, and IPv6 addresses are not accepted. At
+          # most 16 entries.
+          sig { returns(T::Array[String]) }
+          attr_accessor :allowed_hosts
+
+          sig { returns(Anthropic::Beta::Vaults::BetaManagedAgentsLimitedCredentialNetworkingParams::Type::OrSymbol) }
+          attr_accessor :type
+
+          sig do
+            override
+              .returns({
+                allowed_hosts: T::Array[String],
+                type:
+                  Anthropic::Beta::Vaults::BetaManagedAgentsLimitedCredentialNetworkingParams::Type::OrSymbol
+              })
+          end
+          def to_hash; end
+
+          class << self
+            # Substitute the secret only on requests to the listed hosts.
+            sig do
+              params(
+                allowed_hosts: T::Array[String],
+                type: Anthropic::Beta::Vaults::BetaManagedAgentsLimitedCredentialNetworkingParams::Type::OrSymbol
+              ).returns(T.attached_class)
+            end
+            def new(
+              allowed_hosts:, # Hostnames on which the secret will be substituted. Each entry is a bare hostname
+                              # (`api.example.com`), an IPv4 address (`192.0.2.1`), or a `*.`-prefixed wildcard
+                              # (`*.example.com`). URLs, ports, paths, and IPv6 addresses are not accepted. At
+                              # most 16 entries.
+              type:
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Vaults::BetaManagedAgentsLimitedCredentialNetworkingParams,
+                Anthropic::Internal::AnyHash
+              )
+            end
+
+          module Type
+            extend Anthropic::Internal::Type::Enum
+
+            class << self
+              sig do
+                override
+                  .returns(T::Array[
+                  Anthropic::Beta::Vaults::BetaManagedAgentsLimitedCredentialNetworkingParams::Type::TaggedSymbol
+                ])
+              end
+              def values; end
+            end
+
+            LIMITED = T.let(
+                :limited,
+                Anthropic::Beta::Vaults::BetaManagedAgentsLimitedCredentialNetworkingParams::Type::TaggedSymbol
+              )
+
+            OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+            TaggedSymbol = T.type_alias do
+                T.all(
+                  Symbol,
+                  Anthropic::Beta::Vaults::BetaManagedAgentsLimitedCredentialNetworkingParams::Type
+                )
+              end
+          end
+        end
+
+        class BetaManagedAgentsLimitedCredentialNetworkingResponse < Anthropic::Internal::Type::BaseModel
+          # Hostnames on which the secret will be substituted. An entry matches the request
+          # host exactly; a `*.`-prefixed entry matches any subdomain of the named domain
+          # but not the domain itself.
+          sig { returns(T::Array[String]) }
+          attr_accessor :allowed_hosts
+
+          sig do
+            returns(Anthropic::Beta::Vaults::BetaManagedAgentsLimitedCredentialNetworkingResponse::Type::TaggedSymbol)
+          end
+          attr_accessor :type
+
+          sig do
+            override
+              .returns({
+                allowed_hosts: T::Array[String],
+                type:
+                  Anthropic::Beta::Vaults::BetaManagedAgentsLimitedCredentialNetworkingResponse::Type::TaggedSymbol
+              })
+          end
+          def to_hash; end
+
+          class << self
+            # The secret is substituted only on requests to the listed hosts.
+            sig do
+              params(
+                allowed_hosts: T::Array[String],
+                type: Anthropic::Beta::Vaults::BetaManagedAgentsLimitedCredentialNetworkingResponse::Type::OrSymbol
+              ).returns(T.attached_class)
+            end
+            def new(
+              allowed_hosts:, # Hostnames on which the secret will be substituted. An entry matches the request
+                              # host exactly; a `*.`-prefixed entry matches any subdomain of the named domain
+                              # but not the domain itself.
+              type:
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Vaults::BetaManagedAgentsLimitedCredentialNetworkingResponse,
+                Anthropic::Internal::AnyHash
+              )
+            end
+
+          module Type
+            extend Anthropic::Internal::Type::Enum
+
+            class << self
+              sig do
+                override
+                  .returns(T::Array[
+                  Anthropic::Beta::Vaults::BetaManagedAgentsLimitedCredentialNetworkingResponse::Type::TaggedSymbol
+                ])
+              end
+              def values; end
+            end
+
+            LIMITED = T.let(
+                :limited,
+                Anthropic::Beta::Vaults::BetaManagedAgentsLimitedCredentialNetworkingResponse::Type::TaggedSymbol
+              )
+
+            OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+            TaggedSymbol = T.type_alias do
+                T.all(
+                  Symbol,
+                  Anthropic::Beta::Vaults::BetaManagedAgentsLimitedCredentialNetworkingResponse::Type
+                )
+              end
           end
         end
 
@@ -49280,6 +55723,131 @@ module Anthropic
           end
         end
 
+        class BetaManagedAgentsUnrestrictedCredentialNetworkingParams < Anthropic::Internal::Type::BaseModel
+          sig do
+            returns(Anthropic::Beta::Vaults::BetaManagedAgentsUnrestrictedCredentialNetworkingParams::Type::OrSymbol)
+          end
+          attr_accessor :type
+
+          sig do
+            override
+              .returns({
+                type:
+                  Anthropic::Beta::Vaults::BetaManagedAgentsUnrestrictedCredentialNetworkingParams::Type::OrSymbol
+              })
+          end
+          def to_hash; end
+
+          class << self
+            # Substitute the secret on any host the session's Environment network policy
+            # permits egress to. The Environment's network policy is the only boundary on
+            # where the secret can reach.
+            sig do
+              params(
+                type: Anthropic::Beta::Vaults::BetaManagedAgentsUnrestrictedCredentialNetworkingParams::Type::OrSymbol
+              ).returns(T.attached_class)
+            end
+            def new(type:); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Vaults::BetaManagedAgentsUnrestrictedCredentialNetworkingParams,
+                Anthropic::Internal::AnyHash
+              )
+            end
+
+          module Type
+            extend Anthropic::Internal::Type::Enum
+
+            class << self
+              sig do
+                override
+                  .returns(T::Array[
+                  Anthropic::Beta::Vaults::BetaManagedAgentsUnrestrictedCredentialNetworkingParams::Type::TaggedSymbol
+                ])
+              end
+              def values; end
+            end
+
+            OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+            TaggedSymbol = T.type_alias do
+                T.all(
+                  Symbol,
+                  Anthropic::Beta::Vaults::BetaManagedAgentsUnrestrictedCredentialNetworkingParams::Type
+                )
+              end
+
+            UNRESTRICTED = T.let(
+                :unrestricted,
+                Anthropic::Beta::Vaults::BetaManagedAgentsUnrestrictedCredentialNetworkingParams::Type::TaggedSymbol
+              )
+          end
+        end
+
+        class BetaManagedAgentsUnrestrictedCredentialNetworkingResponse < Anthropic::Internal::Type::BaseModel
+          sig do
+            returns(Anthropic::Beta::Vaults::BetaManagedAgentsUnrestrictedCredentialNetworkingResponse::Type::TaggedSymbol)
+          end
+          attr_accessor :type
+
+          sig do
+            override
+              .returns({
+                type:
+                  Anthropic::Beta::Vaults::BetaManagedAgentsUnrestrictedCredentialNetworkingResponse::Type::TaggedSymbol
+              })
+          end
+          def to_hash; end
+
+          class << self
+            # The secret is substituted on any host the session's Environment network policy
+            # permits egress to.
+            sig do
+              params(
+                type: Anthropic::Beta::Vaults::BetaManagedAgentsUnrestrictedCredentialNetworkingResponse::Type::OrSymbol
+              ).returns(T.attached_class)
+            end
+            def new(type:); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Vaults::BetaManagedAgentsUnrestrictedCredentialNetworkingResponse,
+                Anthropic::Internal::AnyHash
+              )
+            end
+
+          module Type
+            extend Anthropic::Internal::Type::Enum
+
+            class << self
+              sig do
+                override
+                  .returns(T::Array[
+                  Anthropic::Beta::Vaults::BetaManagedAgentsUnrestrictedCredentialNetworkingResponse::Type::TaggedSymbol
+                ])
+              end
+              def values; end
+            end
+
+            OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+            TaggedSymbol = T.type_alias do
+                T.all(
+                  Symbol,
+                  Anthropic::Beta::Vaults::BetaManagedAgentsUnrestrictedCredentialNetworkingResponse::Type
+                )
+              end
+
+            UNRESTRICTED = T.let(
+                :unrestricted,
+                Anthropic::Beta::Vaults::BetaManagedAgentsUnrestrictedCredentialNetworkingResponse::Type::TaggedSymbol
+              )
+          end
+        end
+
         class CredentialArchiveParams < Anthropic::Internal::Type::BaseModel
           extend Anthropic::Internal::Type::RequestParameters::Converter
           include Anthropic::Internal::Type::RequestParameters
@@ -49346,7 +55914,8 @@ module Anthropic
           sig do
             returns(T.any(
                 Anthropic::Beta::Vaults::BetaManagedAgentsMCPOAuthCreateParams,
-                Anthropic::Beta::Vaults::BetaManagedAgentsStaticBearerCreateParams
+                Anthropic::Beta::Vaults::BetaManagedAgentsStaticBearerCreateParams,
+                Anthropic::Beta::Vaults::BetaManagedAgentsEnvironmentVariableCreateParams
               ))
           end
           attr_accessor :auth
@@ -49384,7 +55953,8 @@ module Anthropic
                 auth:
                   T.any(
                     Anthropic::Beta::Vaults::BetaManagedAgentsMCPOAuthCreateParams,
-                    Anthropic::Beta::Vaults::BetaManagedAgentsStaticBearerCreateParams
+                    Anthropic::Beta::Vaults::BetaManagedAgentsStaticBearerCreateParams,
+                    Anthropic::Beta::Vaults::BetaManagedAgentsEnvironmentVariableCreateParams
                   ),
                 display_name: T.nilable(String),
                 metadata: T::Hash[Symbol, String],
@@ -49401,7 +55971,8 @@ module Anthropic
                 vault_id: String,
                 auth: T.any(
                   Anthropic::Beta::Vaults::BetaManagedAgentsMCPOAuthCreateParams::OrHash,
-                  Anthropic::Beta::Vaults::BetaManagedAgentsStaticBearerCreateParams::OrHash
+                  Anthropic::Beta::Vaults::BetaManagedAgentsStaticBearerCreateParams::OrHash,
+                  Anthropic::Beta::Vaults::BetaManagedAgentsEnvironmentVariableCreateParams::OrHash
                 ),
                 display_name: T.nilable(String),
                 metadata: T::Hash[Symbol, String],
@@ -49437,7 +56008,8 @@ module Anthropic
             Variants = T.type_alias do
                 T.any(
                   Anthropic::Beta::Vaults::BetaManagedAgentsMCPOAuthCreateParams,
-                  Anthropic::Beta::Vaults::BetaManagedAgentsStaticBearerCreateParams
+                  Anthropic::Beta::Vaults::BetaManagedAgentsStaticBearerCreateParams,
+                  Anthropic::Beta::Vaults::BetaManagedAgentsEnvironmentVariableCreateParams
                 )
               end
           end
@@ -49715,7 +56287,8 @@ module Anthropic
             returns(T.nilable(
                 T.any(
                   Anthropic::Beta::Vaults::BetaManagedAgentsMCPOAuthUpdateParams,
-                  Anthropic::Beta::Vaults::BetaManagedAgentsStaticBearerUpdateParams
+                  Anthropic::Beta::Vaults::BetaManagedAgentsStaticBearerUpdateParams,
+                  Anthropic::Beta::Vaults::BetaManagedAgentsEnvironmentVariableUpdateParams
                 )
               ))
           end
@@ -49725,7 +56298,8 @@ module Anthropic
             params(
               auth: T.any(
                   Anthropic::Beta::Vaults::BetaManagedAgentsMCPOAuthUpdateParams::OrHash,
-                  Anthropic::Beta::Vaults::BetaManagedAgentsStaticBearerUpdateParams::OrHash
+                  Anthropic::Beta::Vaults::BetaManagedAgentsStaticBearerUpdateParams::OrHash,
+                  Anthropic::Beta::Vaults::BetaManagedAgentsEnvironmentVariableUpdateParams::OrHash
                 )
             ).void
           end
@@ -49765,7 +56339,8 @@ module Anthropic
                 auth:
                   T.any(
                     Anthropic::Beta::Vaults::BetaManagedAgentsMCPOAuthUpdateParams,
-                    Anthropic::Beta::Vaults::BetaManagedAgentsStaticBearerUpdateParams
+                    Anthropic::Beta::Vaults::BetaManagedAgentsStaticBearerUpdateParams,
+                    Anthropic::Beta::Vaults::BetaManagedAgentsEnvironmentVariableUpdateParams
                   ),
                 display_name: T.nilable(String),
                 metadata: T.nilable(T::Hash[Symbol, T.nilable(String)]),
@@ -49783,7 +56358,8 @@ module Anthropic
                 credential_id: String,
                 auth: T.any(
                   Anthropic::Beta::Vaults::BetaManagedAgentsMCPOAuthUpdateParams::OrHash,
-                  Anthropic::Beta::Vaults::BetaManagedAgentsStaticBearerUpdateParams::OrHash
+                  Anthropic::Beta::Vaults::BetaManagedAgentsStaticBearerUpdateParams::OrHash,
+                  Anthropic::Beta::Vaults::BetaManagedAgentsEnvironmentVariableUpdateParams::OrHash
                 ),
                 display_name: T.nilable(String),
                 metadata: T.nilable(T::Hash[Symbol, T.nilable(String)]),
@@ -49820,7 +56396,8 @@ module Anthropic
             Variants = T.type_alias do
                 T.any(
                   Anthropic::Beta::Vaults::BetaManagedAgentsMCPOAuthUpdateParams,
-                  Anthropic::Beta::Vaults::BetaManagedAgentsStaticBearerUpdateParams
+                  Anthropic::Beta::Vaults::BetaManagedAgentsStaticBearerUpdateParams,
+                  Anthropic::Beta::Vaults::BetaManagedAgentsEnvironmentVariableUpdateParams
                 )
               end
           end
@@ -50114,6 +56691,12 @@ module Anthropic
         end
     end
 
+    BetaFallbackBlock = Beta::BetaFallbackBlock
+    BetaFallbackBlockParam = Beta::BetaFallbackBlockParam
+    BetaFallbackInfo = Beta::BetaFallbackInfo
+    BetaFallbackInfoParam = Beta::BetaFallbackInfoParam
+    BetaFallbackMessageIterationUsage = Beta::BetaFallbackMessageIterationUsage
+    BetaFallbackParam = Beta::BetaFallbackParam
     BetaFileDocumentSource = Beta::BetaFileDocumentSource
     BetaFileImageSource = Beta::BetaFileImageSource
     BetaFileScope = Beta::BetaFileScope
@@ -50181,6 +56764,11 @@ module Anthropic
     BetaMCPToolUseBlockParam = Beta::BetaMCPToolUseBlockParam
     BetaMCPToolset = Beta::BetaMCPToolset
     BetaManagedAgentsAgent = Beta::BetaManagedAgentsAgent
+
+    BetaManagedAgentsAgentArchivedDeploymentPausedReasonError = Beta::BetaManagedAgentsAgentArchivedDeploymentPausedReasonError
+
+    BetaManagedAgentsAgentArchivedRunError = Beta::BetaManagedAgentsAgentArchivedRunError
+
     BetaManagedAgentsAgentParams = Beta::BetaManagedAgentsAgentParams
     BetaManagedAgentsAgentReference = Beta::BetaManagedAgentsAgentReference
     BetaManagedAgentsAgentToolConfig = Beta::BetaManagedAgentsAgentToolConfig
@@ -50219,6 +56807,10 @@ module Anthropic
     BetaManagedAgentsCacheCreationUsage = Beta::BetaManagedAgentsCacheCreationUsage
 
     BetaManagedAgentsCommitCheckout = Beta::BetaManagedAgentsCommitCheckout
+    BetaManagedAgentsCronSchedule = Beta::BetaManagedAgentsCronSchedule
+
+    BetaManagedAgentsCronScheduleParams = Beta::BetaManagedAgentsCronScheduleParams
+
     BetaManagedAgentsCustomSkill = Beta::BetaManagedAgentsCustomSkill
 
     BetaManagedAgentsCustomSkillParams = Beta::BetaManagedAgentsCustomSkillParams
@@ -50233,10 +56825,50 @@ module Anthropic
 
     BetaManagedAgentsDeletedSession = Beta::BetaManagedAgentsDeletedSession
     BetaManagedAgentsDeletedVault = Beta::BetaManagedAgentsDeletedVault
+    BetaManagedAgentsDeployment = Beta::BetaManagedAgentsDeployment
+
+    BetaManagedAgentsDeploymentInitialEvent = Beta::BetaManagedAgentsDeploymentInitialEvent
+
+    BetaManagedAgentsDeploymentInitialEventParams = Beta::BetaManagedAgentsDeploymentInitialEventParams
+
+    BetaManagedAgentsDeploymentPausedReason = Beta::BetaManagedAgentsDeploymentPausedReason
+
+    BetaManagedAgentsDeploymentPausedReasonError = Beta::BetaManagedAgentsDeploymentPausedReasonError
+
+    BetaManagedAgentsDeploymentRun = Beta::BetaManagedAgentsDeploymentRun
+    BetaManagedAgentsDeploymentStatus = Beta::BetaManagedAgentsDeploymentStatus
+
+    BetaManagedAgentsDeploymentSystemMessageEvent = Beta::BetaManagedAgentsDeploymentSystemMessageEvent
+
+    BetaManagedAgentsDeploymentUserDefineOutcomeEvent = Beta::BetaManagedAgentsDeploymentUserDefineOutcomeEvent
+
+    BetaManagedAgentsDeploymentUserMessageEvent = Beta::BetaManagedAgentsDeploymentUserMessageEvent
+
+    BetaManagedAgentsEnvironmentArchivedDeploymentPausedReasonError = Beta::BetaManagedAgentsEnvironmentArchivedDeploymentPausedReasonError
+
+    BetaManagedAgentsEnvironmentArchivedRunError = Beta::BetaManagedAgentsEnvironmentArchivedRunError
+
+    BetaManagedAgentsEnvironmentNotFoundDeploymentPausedReasonError = Beta::BetaManagedAgentsEnvironmentNotFoundDeploymentPausedReasonError
+
+    BetaManagedAgentsEnvironmentNotFoundRunError = Beta::BetaManagedAgentsEnvironmentNotFoundRunError
+
+    BetaManagedAgentsErrorDeploymentPausedReason = Beta::BetaManagedAgentsErrorDeploymentPausedReason
+
+    BetaManagedAgentsFileNotFoundDeploymentPausedReasonError = Beta::BetaManagedAgentsFileNotFoundDeploymentPausedReasonError
+
+    BetaManagedAgentsFileNotFoundRunError = Beta::BetaManagedAgentsFileNotFoundRunError
+
+    BetaManagedAgentsFileResourceConfig = Beta::BetaManagedAgentsFileResourceConfig
 
     BetaManagedAgentsFileResourceParams = Beta::BetaManagedAgentsFileResourceParams
 
+    BetaManagedAgentsGitHubRepositoryResourceConfig = Beta::BetaManagedAgentsGitHubRepositoryResourceConfig
+
     BetaManagedAgentsGitHubRepositoryResourceParams = Beta::BetaManagedAgentsGitHubRepositoryResourceParams
+
+    BetaManagedAgentsMCPEgressBlockedDeploymentPausedReasonError = Beta::BetaManagedAgentsMCPEgressBlockedDeploymentPausedReasonError
+
+    BetaManagedAgentsMCPEgressBlockedRunError = Beta::BetaManagedAgentsMCPEgressBlockedRunError
 
     BetaManagedAgentsMCPServerURLDefinition = Beta::BetaManagedAgentsMCPServerURLDefinition
 
@@ -50251,7 +56883,18 @@ module Anthropic
     BetaManagedAgentsMCPToolsetDefaultConfigParams = Beta::BetaManagedAgentsMCPToolsetDefaultConfigParams
 
     BetaManagedAgentsMCPToolsetParams = Beta::BetaManagedAgentsMCPToolsetParams
+
+    BetaManagedAgentsManualDeploymentPausedReason = Beta::BetaManagedAgentsManualDeploymentPausedReason
+
+    BetaManagedAgentsManualTriggerContext = Beta::BetaManagedAgentsManualTriggerContext
+
     BetaManagedAgentsMemoryStore = Beta::BetaManagedAgentsMemoryStore
+
+    BetaManagedAgentsMemoryStoreArchivedDeploymentPausedReasonError = Beta::BetaManagedAgentsMemoryStoreArchivedDeploymentPausedReasonError
+
+    BetaManagedAgentsMemoryStoreArchivedRunError = Beta::BetaManagedAgentsMemoryStoreArchivedRunError
+
+    BetaManagedAgentsMemoryStoreResourceConfig = Beta::BetaManagedAgentsMemoryStoreResourceConfig
 
     BetaManagedAgentsMemoryStoreResourceParam = Beta::BetaManagedAgentsMemoryStoreResourceParam
 
@@ -50272,14 +56915,37 @@ module Anthropic
 
     BetaManagedAgentsMultiagentSelfParams = Beta::BetaManagedAgentsMultiagentSelfParams
 
+    BetaManagedAgentsOrganizationDisabledDeploymentPausedReasonError = Beta::BetaManagedAgentsOrganizationDisabledDeploymentPausedReasonError
+
+    BetaManagedAgentsOrganizationDisabledRunError = Beta::BetaManagedAgentsOrganizationDisabledRunError
+
     BetaManagedAgentsOutcomeEvaluationResource = Beta::BetaManagedAgentsOutcomeEvaluationResource
+
+    BetaManagedAgentsSchedule = Beta::BetaManagedAgentsSchedule
+    BetaManagedAgentsScheduleParams = Beta::BetaManagedAgentsScheduleParams
+
+    BetaManagedAgentsScheduleTriggerContext = Beta::BetaManagedAgentsScheduleTriggerContext
+
+    BetaManagedAgentsSelfHostedResourcesUnsupportedDeploymentPausedReasonError = Beta::BetaManagedAgentsSelfHostedResourcesUnsupportedDeploymentPausedReasonError
+
+    BetaManagedAgentsSelfHostedResourcesUnsupportedRunError = Beta::BetaManagedAgentsSelfHostedResourcesUnsupportedRunError
 
     BetaManagedAgentsSession = Beta::BetaManagedAgentsSession
     BetaManagedAgentsSessionAgent = Beta::BetaManagedAgentsSessionAgent
 
     BetaManagedAgentsSessionAgentUpdate = Beta::BetaManagedAgentsSessionAgentUpdate
 
+    BetaManagedAgentsSessionCreationRejectedRunError = Beta::BetaManagedAgentsSessionCreationRejectedRunError
+
     BetaManagedAgentsSessionMultiagentCoordinator = Beta::BetaManagedAgentsSessionMultiagentCoordinator
+
+    BetaManagedAgentsSessionRateLimitedRunError = Beta::BetaManagedAgentsSessionRateLimitedRunError
+
+    BetaManagedAgentsSessionResourceConfig = Beta::BetaManagedAgentsSessionResourceConfig
+
+    BetaManagedAgentsSessionResourceNotFoundDeploymentPausedReasonError = Beta::BetaManagedAgentsSessionResourceNotFoundDeploymentPausedReasonError
+
+    BetaManagedAgentsSessionResourceNotFoundRunError = Beta::BetaManagedAgentsSessionResourceNotFoundRunError
 
     BetaManagedAgentsSessionStats = Beta::BetaManagedAgentsSessionStats
 
@@ -50288,13 +56954,42 @@ module Anthropic
     BetaManagedAgentsSessionUpdatedEvent = Beta::BetaManagedAgentsSessionUpdatedEvent
 
     BetaManagedAgentsSessionUsage = Beta::BetaManagedAgentsSessionUsage
+
+    BetaManagedAgentsSkillNotFoundDeploymentPausedReasonError = Beta::BetaManagedAgentsSkillNotFoundDeploymentPausedReasonError
+
+    BetaManagedAgentsSkillNotFoundRunError = Beta::BetaManagedAgentsSkillNotFoundRunError
+
     BetaManagedAgentsSkillParams = Beta::BetaManagedAgentsSkillParams
 
+    BetaManagedAgentsSystemContentBlock = Beta::BetaManagedAgentsSystemContentBlock
+
+    BetaManagedAgentsSystemMessageEvent = Beta::BetaManagedAgentsSystemMessageEvent
+
+    BetaManagedAgentsTriggerContext = Beta::BetaManagedAgentsTriggerContext
+    BetaManagedAgentsTriggerType = Beta::BetaManagedAgentsTriggerType
+
     BetaManagedAgentsURLMCPServerParams = Beta::BetaManagedAgentsURLMCPServerParams
+
+    BetaManagedAgentsUnknownDeploymentPausedReasonError = Beta::BetaManagedAgentsUnknownDeploymentPausedReasonError
+
+    BetaManagedAgentsUnknownRunError = Beta::BetaManagedAgentsUnknownRunError
 
     BetaManagedAgentsUserToolResultEvent = Beta::BetaManagedAgentsUserToolResultEvent
 
     BetaManagedAgentsVault = Beta::BetaManagedAgentsVault
+
+    BetaManagedAgentsVaultArchivedDeploymentPausedReasonError = Beta::BetaManagedAgentsVaultArchivedDeploymentPausedReasonError
+
+    BetaManagedAgentsVaultArchivedRunError = Beta::BetaManagedAgentsVaultArchivedRunError
+
+    BetaManagedAgentsVaultNotFoundDeploymentPausedReasonError = Beta::BetaManagedAgentsVaultNotFoundDeploymentPausedReasonError
+
+    BetaManagedAgentsVaultNotFoundRunError = Beta::BetaManagedAgentsVaultNotFoundRunError
+
+    BetaManagedAgentsWorkspaceArchivedDeploymentPausedReasonError = Beta::BetaManagedAgentsWorkspaceArchivedDeploymentPausedReasonError
+
+    BetaManagedAgentsWorkspaceArchivedRunError = Beta::BetaManagedAgentsWorkspaceArchivedRunError
+
     BetaMemoryTool20250818 = Beta::BetaMemoryTool20250818
     BetaMemoryTool20250818Command = Beta::BetaMemoryTool20250818Command
 
@@ -56950,11 +63645,17 @@ module Anthropic
       # Fast and cost-effective model
       CLAUDE_3_HAIKU_20240307 = T.let(:"claude-3-haiku-20240307", Anthropic::Model::TaggedSymbol)
 
+      # Next generation of intelligence for the hardest knowledge work and coding problems
+      CLAUDE_FABLE_5 = T.let(:"claude-fable-5", Anthropic::Model::TaggedSymbol)
+
       # Fastest model with near-frontier intelligence
       CLAUDE_HAIKU_4_5 = T.let(:"claude-haiku-4-5", Anthropic::Model::TaggedSymbol)
 
       # Fastest model with near-frontier intelligence
       CLAUDE_HAIKU_4_5_20251001 = T.let(:"claude-haiku-4-5-20251001", Anthropic::Model::TaggedSymbol)
+
+      # Most capable model for cybersecurity and biology research
+      CLAUDE_MYTHOS_5 = T.let(:"claude-mythos-5", Anthropic::Model::TaggedSymbol)
 
       # New class of intelligence, strongest in coding and cybersecurity
       CLAUDE_MYTHOS_PREVIEW = T.let(:"claude-mythos-preview", Anthropic::Model::TaggedSymbol)
@@ -57987,7 +64688,17 @@ module Anthropic
 
         CYBER = T.let(:cyber, Anthropic::RefusalStopDetails::Category::TaggedSymbol)
 
+        FRONTIER_LLM = T.let(
+            :frontier_llm,
+            Anthropic::RefusalStopDetails::Category::TaggedSymbol
+          )
+
         OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+        REASONING_EXTRACTION = T.let(
+            :reasoning_extraction,
+            Anthropic::RefusalStopDetails::Category::TaggedSymbol
+          )
 
         TaggedSymbol = T.type_alias do
             T.all(Symbol, Anthropic::RefusalStopDetails::Category)
@@ -63622,6 +70333,12 @@ module Anthropic
       sig { returns(Anthropic::Resources::Beta::Agents) }
       attr_reader :agents
 
+      sig { returns(Anthropic::Resources::Beta::DeploymentRuns) }
+      attr_reader :deployment_runs
+
+      sig { returns(Anthropic::Resources::Beta::Deployments) }
+      attr_reader :deployments
+
       sig { returns(Anthropic::Resources::Beta::Environments) }
       attr_reader :environments
 
@@ -63879,6 +70596,288 @@ module Anthropic
             sig { params(client: Anthropic::Client).returns(T.attached_class) }
             def new(client:); end
           end
+        end
+      end
+
+      class DeploymentRuns
+        # List Deployment Runs
+        sig do
+          params(
+            created_at_gt: Time,
+            created_at_gte: Time,
+            created_at_lt: Time,
+            created_at_lte: Time,
+            deployment_id: String,
+            has_error: T::Boolean,
+            limit: Integer,
+            page: String,
+            trigger_type: Anthropic::Beta::BetaManagedAgentsTriggerType::OrSymbol,
+            betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            request_options: Anthropic::RequestOptions::OrHash
+          ).returns(Anthropic::Internal::PageCursor[
+              Anthropic::Beta::BetaManagedAgentsDeploymentRun
+            ])
+        end
+        def list(
+          created_at_gt: nil, # Query param: Return runs created strictly after this time (exclusive).
+          created_at_gte: nil, # Query param: Return runs created at or after this time (inclusive).
+          created_at_lt: nil, # Query param: Return runs created strictly before this time (exclusive).
+          created_at_lte: nil, # Query param: Return runs created at or before this time (inclusive).
+          deployment_id: nil, # Query param: Filter to a specific deployment. Omit to list across all
+                              # deployments in the workspace. Filtering by a non-existent deployment_id returns
+                              # 200 with empty data.
+          has_error: nil, # Query param: Filter: true for runs with non-null error, false for runs with
+                          # non-null session_id. Omit for all.
+          limit: nil, # Query param: Maximum results per page. Default 20, maximum 1000.
+          page: nil, # Query param: Opaque pagination cursor. Pass next_page from the previous
+                     # response. Invalid or expired cursors return 400.
+          trigger_type: nil, # Query param: Filter runs by what triggered them. Omit to return all runs.
+          betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          request_options: {}
+); end
+
+        # Get Deployment Run
+        sig do
+          params(
+            deployment_run_id: String,
+            betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            request_options: Anthropic::RequestOptions::OrHash
+          ).returns(Anthropic::Beta::BetaManagedAgentsDeploymentRun)
+        end
+        def retrieve(
+          deployment_run_id, # Path parameter deployment_run_id
+          betas: nil, # Optional header to specify the beta version(s) you want to use.
+          request_options: {}
+); end
+
+        class << self
+          # @api private
+          sig { params(client: Anthropic::Client).returns(T.attached_class) }
+          def new(client:); end
+        end
+      end
+
+      class Deployments
+        # Archive Deployment
+        sig do
+          params(
+            deployment_id: String,
+            betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            request_options: Anthropic::RequestOptions::OrHash
+          ).returns(Anthropic::Beta::BetaManagedAgentsDeployment)
+        end
+        def archive(
+          deployment_id, # Path parameter deployment_id
+          betas: nil, # Optional header to specify the beta version(s) you want to use.
+          request_options: {}
+); end
+
+        # Create Deployment
+        sig do
+          params(
+            agent: T.any(
+                String,
+                Anthropic::Beta::BetaManagedAgentsAgentParams::OrHash
+              ),
+            environment_id: String,
+            initial_events: T::Array[
+                T.any(
+                  Anthropic::Beta::Sessions::BetaManagedAgentsUserMessageEventParams::OrHash,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsUserDefineOutcomeEventParams::OrHash,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsSystemMessageEventParams::OrHash
+                )
+              ],
+            name: String,
+            description: T.nilable(String),
+            metadata: T::Hash[Symbol, String],
+            resources: T::Array[
+                T.any(
+                  Anthropic::Beta::BetaManagedAgentsGitHubRepositoryResourceParams::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsFileResourceParams::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsMemoryStoreResourceParam::OrHash
+                )
+              ],
+            schedule: T.nilable(
+                Anthropic::Beta::BetaManagedAgentsScheduleParams::OrHash
+              ),
+            vault_ids: T::Array[String],
+            betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            request_options: Anthropic::RequestOptions::OrHash
+          ).returns(Anthropic::Beta::BetaManagedAgentsDeployment)
+        end
+        def create(
+          agent:, # Body param: Agent to deploy. Accepts the `agent` ID string, which pins the
+                  # latest version, or an `agent` object with both id and version specified. The
+                  # agent must exist and not be archived.
+          environment_id:, # Body param: ID of the `environment` defining the container configuration for
+                           # sessions created from this deployment.
+          initial_events:, # Body param: Events to send to each session immediately after creation. At least
+                           # 1, maximum 50.
+          name:, # Body param: Human-readable name for the deployment.
+          description: nil, # Body param: Description of what the deployment does.
+          metadata: nil, # Body param: Arbitrary key-value metadata. Maximum 16 pairs, keys up to 64 chars,
+                         # values up to 512 chars.
+          resources: nil, # Body param: Resources (e.g. repositories, files) to mount into each session's
+                          # container. Maximum 500.
+          schedule: nil, # Body param: 5-field POSIX cron schedule. Literal wall-clock matching in the
+                         # configured timezone.
+          vault_ids: nil, # Body param: Vault IDs for stored credentials the agent can use during sessions
+                          # created from this deployment. Maximum 50.
+          betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          request_options: {}
+); end
+
+        # List Deployments
+        sig do
+          params(
+            agent_id: String,
+            created_at_gte: Time,
+            created_at_lte: Time,
+            include_archived: T::Boolean,
+            limit: Integer,
+            page: String,
+            status: Anthropic::Beta::BetaManagedAgentsDeploymentStatus::OrSymbol,
+            betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            request_options: Anthropic::RequestOptions::OrHash
+          ).returns(Anthropic::Internal::PageCursor[
+              Anthropic::Beta::BetaManagedAgentsDeployment
+            ])
+        end
+        def list(
+          agent_id: nil, # Query param: Filter by agent ID.
+          created_at_gte: nil, # Query param: Return deployments created at or after this time (inclusive).
+          created_at_lte: nil, # Query param: Return deployments created at or before this time (inclusive).
+          include_archived: nil, # Query param: When true, includes archived deployments. Default: false (exclude
+                                 # archived).
+          limit: nil, # Query param: Maximum results per page. Default 20, maximum 100.
+          page: nil, # Query param: Opaque pagination cursor.
+          status: nil, # Query param: Filter by status: active or paused. Omit for both. To include
+                       # archived deployments, use include_archived instead; the two cannot be combined.
+          betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          request_options: {}
+); end
+
+        # Pause Deployment
+        sig do
+          params(
+            deployment_id: String,
+            betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            request_options: Anthropic::RequestOptions::OrHash
+          ).returns(Anthropic::Beta::BetaManagedAgentsDeployment)
+        end
+        def pause(
+          deployment_id, # Path parameter deployment_id
+          betas: nil, # Optional header to specify the beta version(s) you want to use.
+          request_options: {}
+); end
+
+        # Get Deployment
+        sig do
+          params(
+            deployment_id: String,
+            betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            request_options: Anthropic::RequestOptions::OrHash
+          ).returns(Anthropic::Beta::BetaManagedAgentsDeployment)
+        end
+        def retrieve(
+          deployment_id, # Path parameter deployment_id
+          betas: nil, # Optional header to specify the beta version(s) you want to use.
+          request_options: {}
+); end
+
+        # Run Deployment Now
+        sig do
+          params(
+            deployment_id: String,
+            betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            request_options: Anthropic::RequestOptions::OrHash
+          ).returns(Anthropic::Beta::BetaManagedAgentsDeploymentRun)
+        end
+        def run(
+          deployment_id, # Path parameter deployment_id
+          betas: nil, # Optional header to specify the beta version(s) you want to use.
+          request_options: {}
+); end
+
+        # Unpause Deployment
+        sig do
+          params(
+            deployment_id: String,
+            betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            request_options: Anthropic::RequestOptions::OrHash
+          ).returns(Anthropic::Beta::BetaManagedAgentsDeployment)
+        end
+        def unpause(
+          deployment_id, # Path parameter deployment_id
+          betas: nil, # Optional header to specify the beta version(s) you want to use.
+          request_options: {}
+); end
+
+        # Update Deployment
+        sig do
+          params(
+            deployment_id: String,
+            agent: T.any(
+                String,
+                Anthropic::Beta::BetaManagedAgentsAgentParams::OrHash
+              ),
+            description: T.nilable(String),
+            environment_id: String,
+            initial_events: T::Array[
+                T.any(
+                  Anthropic::Beta::Sessions::BetaManagedAgentsUserMessageEventParams::OrHash,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsUserDefineOutcomeEventParams::OrHash,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsSystemMessageEventParams::OrHash
+                )
+              ],
+            metadata: T.nilable(T::Hash[Symbol, T.nilable(String)]),
+            name: String,
+            resources: T.nilable(
+                T::Array[
+                  T.any(
+                    Anthropic::Beta::BetaManagedAgentsGitHubRepositoryResourceParams::OrHash,
+                    Anthropic::Beta::BetaManagedAgentsFileResourceParams::OrHash,
+                    Anthropic::Beta::BetaManagedAgentsMemoryStoreResourceParam::OrHash
+                  )
+                ]
+              ),
+            schedule: T.nilable(
+                Anthropic::Beta::BetaManagedAgentsScheduleParams::OrHash
+              ),
+            vault_ids: T.nilable(T::Array[String]),
+            betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            request_options: Anthropic::RequestOptions::OrHash
+          ).returns(Anthropic::Beta::BetaManagedAgentsDeployment)
+        end
+        def update(
+          deployment_id, # Path param: Path parameter deployment_id
+          agent: nil, # Body param: Agent to deploy. Accepts the `agent` ID string, which re-pins to the
+                      # latest version, or an `agent` object with both id and version specified. Omit to
+                      # preserve. Cannot be cleared.
+          description: nil, # Body param: Description. Omit to preserve; send empty string or null to clear.
+          environment_id: nil, # Body param: ID of the `environment` where sessions run. Omit to preserve. Cannot
+                               # be cleared.
+          initial_events: nil, # Body param: Initial events. Full replacement. Omit to preserve. Cannot be
+                               # cleared. At least 1, maximum 50.
+          metadata: nil, # Body param: Metadata patch. Set a key to a string to upsert it, or to null to
+                         # delete it. Omit the field to preserve. The stored bag is limited to 16 keys (up
+                         # to 64 chars each) with values up to 512 chars.
+          name: nil, # Body param: Human-readable name. Must be non-empty. Omit to preserve. Cannot be
+                     # cleared.
+          resources: nil, # Body param: Session resources. Full replacement. Omit to preserve; send empty
+                          # array or null to clear. Maximum 500.
+          schedule: nil, # Body param: 5-field POSIX cron schedule. Literal wall-clock matching in the
+                         # configured timezone.
+          vault_ids: nil, # Body param: Vault IDs. Full replacement. Omit to preserve; send empty array or
+                          # null to clear. Maximum 50.
+          betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          request_options: {}
+); end
+
+        class << self
+          # @api private
+          sig { params(client: Anthropic::Client).returns(T.attached_class) }
+          def new(client:); end
         end
       end
 
@@ -64886,6 +71885,8 @@ module Anthropic
               ),
             context_management: T.nilable(Anthropic::Beta::BetaContextManagementConfig::OrHash),
             diagnostics: T.nilable(Anthropic::Beta::BetaDiagnosticsParam::OrHash),
+            fallback_credit_token: T.nilable(String),
+            fallbacks: T.nilable(T::Array[Anthropic::Beta::BetaFallbackParam::OrHash]),
             inference_geo: T.nilable(String),
             mcp_servers: T::Array[
                 Anthropic::Beta::BetaRequestMCPServerURLDefinition::OrHash
@@ -65014,6 +72015,26 @@ module Anthropic
                                    # such as whether to clear function results or not.
           diagnostics: nil, # Body param: Request-level diagnostics. Currently carries the previous response
                             # id for prompt-cache divergence reporting.
+          fallback_credit_token: nil, # Body param: The `fallback_credit_token` from a prior refusal's `stop_details`.
+                                      # When a preceding request was refused and returned a `fallback_credit_token`,
+                                      # pass that code here on the retry to have the retry's cache-creation tokens for
+                                      # the prefix that was warm on the refused model billed at the cache-read rate.
+                                      # Must be redeemed by the same organization and workspace, with the same request
+                                      # body (optionally extended by one appended `assistant` message whose content is
+                                      # the partial text — with any trailing whitespace stripped from the final text
+                                      # block — and paired server-tool blocks streamed before the refusal; the
+                                      # appended-assistant form is not available for requests with `output_format` set
+                                      # or forced `tool_choice`), on an eligible fallback model, on the same platform,
+                                      # and within 5 minutes of the refusal; a mismatch is a 400. A token minted
+                                      # mid-server-tool-loop whose partial content was continuable may only be redeemed
+                                      # with the appended-assistant form — if an exact-body retry is rejected with a 400
+                                      # saying the token must be redeemed by continuing the partial response, retry with
+                                      # the appended-assistant form instead.
+                                      # When the appended-assistant form is used on a model that otherwise disallows
+                                      # assistant-turn prefill, this token also authorizes that one prefill.
+          fallbacks: nil, # Body param: Opt-in server-side retry on one or more substitute models when the
+                          # requested model declines for policy reasons. Tried in order: if the first entry
+                          # also declines, the second is tried, and so on.
           inference_geo: nil, # Body param: Specifies the geographic region for inference processing. If not
                               # specified, the workspace's `default_inference_geo` is used.
           mcp_servers: nil, # Body param: MCP servers to be utilized in this request
@@ -65157,6 +72178,8 @@ module Anthropic
               ),
             context_management: T.nilable(Anthropic::Beta::BetaContextManagementConfig::OrHash),
             diagnostics: T.nilable(Anthropic::Beta::BetaDiagnosticsParam::OrHash),
+            fallback_credit_token: T.nilable(String),
+            fallbacks: T.nilable(T::Array[Anthropic::Beta::BetaFallbackParam::OrHash]),
             inference_geo: T.nilable(String),
             mcp_servers: T::Array[
                 Anthropic::Beta::BetaRequestMCPServerURLDefinition::OrHash
@@ -65287,6 +72310,26 @@ module Anthropic
                                    # such as whether to clear function results or not.
           diagnostics: nil, # Body param: Request-level diagnostics. Currently carries the previous response
                             # id for prompt-cache divergence reporting.
+          fallback_credit_token: nil, # Body param: The `fallback_credit_token` from a prior refusal's `stop_details`.
+                                      # When a preceding request was refused and returned a `fallback_credit_token`,
+                                      # pass that code here on the retry to have the retry's cache-creation tokens for
+                                      # the prefix that was warm on the refused model billed at the cache-read rate.
+                                      # Must be redeemed by the same organization and workspace, with the same request
+                                      # body (optionally extended by one appended `assistant` message whose content is
+                                      # the partial text — with any trailing whitespace stripped from the final text
+                                      # block — and paired server-tool blocks streamed before the refusal; the
+                                      # appended-assistant form is not available for requests with `output_format` set
+                                      # or forced `tool_choice`), on an eligible fallback model, on the same platform,
+                                      # and within 5 minutes of the refusal; a mismatch is a 400. A token minted
+                                      # mid-server-tool-loop whose partial content was continuable may only be redeemed
+                                      # with the appended-assistant form — if an exact-body retry is rejected with a 400
+                                      # saying the token must be redeemed by continuing the partial response, retry with
+                                      # the appended-assistant form instead.
+                                      # When the appended-assistant form is used on a model that otherwise disallows
+                                      # assistant-turn prefill, this token also authorizes that one prefill.
+          fallbacks: nil, # Body param: Opt-in server-side retry on one or more substitute models when the
+                          # requested model declines for policy reasons. Tried in order: if the first entry
+                          # also declines, the second is tried, and so on.
           inference_geo: nil, # Body param: Specifies the geographic region for inference processing. If not
                               # specified, the workspace's `default_inference_geo` is used.
           mcp_servers: nil, # Body param: MCP servers to be utilized in this request
@@ -65927,6 +72970,7 @@ module Anthropic
             created_at_gte: Time,
             created_at_lt: Time,
             created_at_lte: Time,
+            deployment_id: String,
             include_archived: T::Boolean,
             limit: Integer,
             memory_store_id: String,
@@ -65946,6 +72990,7 @@ module Anthropic
           created_at_gte: nil, # Query param: Return sessions created at or after this time (inclusive).
           created_at_lt: nil, # Query param: Return sessions created before this time (exclusive).
           created_at_lte: nil, # Query param: Return sessions created at or before this time (inclusive).
+          deployment_id: nil, # Query param: Filter sessions created by this deployment ID.
           include_archived: nil, # Query param: When true, includes archived sessions. Default: false (exclude
                                  # archived).
           limit: nil, # Query param: Maximum number of results to return.
@@ -66054,7 +73099,8 @@ module Anthropic
                     Anthropic::Beta::Sessions::BetaManagedAgentsUserToolConfirmationEventParams::OrHash,
                     Anthropic::Beta::Sessions::BetaManagedAgentsUserCustomToolResultEventParams::OrHash,
                     Anthropic::Beta::Sessions::BetaManagedAgentsUserDefineOutcomeEventParams::OrHash,
-                    Anthropic::Beta::Sessions::BetaManagedAgentsUserToolResultEventParams::OrHash
+                    Anthropic::Beta::Sessions::BetaManagedAgentsUserToolResultEventParams::OrHash,
+                    Anthropic::Beta::Sessions::BetaManagedAgentsSystemMessageEventParams::OrHash
                   )
                 ],
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
@@ -66741,7 +73787,8 @@ module Anthropic
               vault_id: String,
               auth: T.any(
                   Anthropic::Beta::Vaults::BetaManagedAgentsMCPOAuthCreateParams::OrHash,
-                  Anthropic::Beta::Vaults::BetaManagedAgentsStaticBearerCreateParams::OrHash
+                  Anthropic::Beta::Vaults::BetaManagedAgentsStaticBearerCreateParams::OrHash,
+                  Anthropic::Beta::Vaults::BetaManagedAgentsEnvironmentVariableCreateParams::OrHash
                 ),
               display_name: T.nilable(String),
               metadata: T::Hash[Symbol, String],
@@ -66838,7 +73885,8 @@ module Anthropic
               vault_id: String,
               auth: T.any(
                   Anthropic::Beta::Vaults::BetaManagedAgentsMCPOAuthUpdateParams::OrHash,
-                  Anthropic::Beta::Vaults::BetaManagedAgentsStaticBearerUpdateParams::OrHash
+                  Anthropic::Beta::Vaults::BetaManagedAgentsStaticBearerUpdateParams::OrHash,
+                  Anthropic::Beta::Vaults::BetaManagedAgentsEnvironmentVariableUpdateParams::OrHash
                 ),
               display_name: T.nilable(String),
               metadata: T.nilable(T::Hash[Symbol, T.nilable(String)]),

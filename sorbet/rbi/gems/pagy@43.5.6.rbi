@@ -368,7 +368,7 @@ end
 #
 # pkg:gem/pagy#lib/pagy/modules/abilities/configurable.rb:5
 module Pagy::Configurable
-  # Generate the script and style tags to help development
+  # Generate the script and style tags to help development.
   #
   # pkg:gem/pagy#lib/pagy/modules/abilities/configurable.rb:16
   def dev_tools(wand_scale: T.unsafe(nil)); end
@@ -623,23 +623,23 @@ end
 module Pagy::I18n
   extend ::Pagy::I18n
 
-  # pkg:gem/pagy#lib/pagy/modules/i18n/i18n.rb:26
+  # pkg:gem/pagy#lib/pagy/modules/i18n/i18n.rb:29
   def locale; end
 
-  # Store the variable for the duration of a single request
+  # Set a valid locale or nil for the duration of a single request. Avoid errors/logging.
   #
-  # pkg:gem/pagy#lib/pagy/modules/i18n/i18n.rb:22
+  # pkg:gem/pagy#lib/pagy/modules/i18n/i18n.rb:25
   def locale=(value); end
 
-  # pkg:gem/pagy#lib/pagy/modules/i18n/i18n.rb:17
+  # pkg:gem/pagy#lib/pagy/modules/i18n/i18n.rb:20
   def locales; end
 
-  # pkg:gem/pagy#lib/pagy/modules/i18n/i18n.rb:13
+  # pkg:gem/pagy#lib/pagy/modules/i18n/i18n.rb:16
   def pathnames; end
 
   # Translate and pluralize the key with the locale entries
   #
-  # pkg:gem/pagy#lib/pagy/modules/i18n/i18n.rb:31
+  # pkg:gem/pagy#lib/pagy/modules/i18n/i18n.rb:34
   def translate(key, **options); end
 
   private
@@ -647,15 +647,20 @@ module Pagy::I18n
   # Flatten a nested hash by "dotifying" its keys
   # e.g. { 'a' => { 'b' => {'c' => 3, 'd' => 4 }}} -> { 'a.b.c' => 3, 'a.b.d' => 4 }
   #
-  # pkg:gem/pagy#lib/pagy/modules/i18n/i18n.rb:60
+  # pkg:gem/pagy#lib/pagy/modules/i18n/i18n.rb:63
   def dotify_keys(initial, prefix = T.unsafe(nil)); end
 
-  # pkg:gem/pagy#lib/pagy/modules/i18n/i18n.rb:42
+  # pkg:gem/pagy#lib/pagy/modules/i18n/i18n.rb:45
   def load(locale: T.unsafe(nil)); end
 end
 
 # pkg:gem/pagy#lib/pagy/modules/i18n/i18n.rb:9
 class Pagy::I18n::KeyError < ::KeyError; end
+
+# Match only valid locale names. (See https://www.rfc-editor.org/info/rfc4647/)
+#
+# pkg:gem/pagy#lib/pagy/modules/i18n/i18n.rb:12
+Pagy::I18n::LOCALE_PATTERN = T.let(T.unsafe(nil), Regexp)
 
 # pkg:gem/pagy#lib/pagy/modules/i18n/p11n.rb:5
 module Pagy::I18n::P11n; end

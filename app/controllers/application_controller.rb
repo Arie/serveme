@@ -4,8 +4,10 @@
 class ApplicationController < ActionController::Base
   include Pagy::Method
   include ApplicationHelper
+  include BetaUi
 
   protect_from_forgery
+  layout :resolve_layout
   before_action :authenticate_user!
   before_action :authorize_mini_profiler
   before_action :set_time_zone

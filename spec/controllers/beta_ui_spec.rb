@@ -11,7 +11,7 @@ describe BetaUi, type: :controller do
     skip_before_action :store_current_location, raise: false
     skip_before_action :authorize_mini_profiler, raise: false
 
-    def index
+    define_method(:index) do
       render plain: "ok"
     end
   end

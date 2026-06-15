@@ -13,7 +13,7 @@ module BetaUi
   # Otherwise an opted-in request can prime/serve the v2 HTML to non-opted-in
   # users (and vice versa) for cached actions.
   REDESIGNED_ACTIONS = {
-    "pages" => %w[welcome],
+    "pages" => %w[welcome]
   }.freeze
 
   included do

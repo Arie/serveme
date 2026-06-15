@@ -3,7 +3,7 @@
   %head
     - subtitle = content_for(:title) || "free TF2 server reservations"
     %title #{SITE_HOST} - #{subtitle}
-    = stylesheet_link_tag "v2", media: "all"
+    = stylesheet_link_tag v2_stylesheet_href, skip_pipeline: true, media: "all"
     = content_for(:stripe)
     = javascript_importmap_tags("application")
     = javascript_include_tag "serveme"

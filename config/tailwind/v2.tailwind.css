@@ -1,8 +1,9 @@
 @import "tailwindcss";
 
-/* Only scan the redesigned templates + JS so utility generation stays scoped. */
-@source "../../views";
-@source "../../javascript";
+/* Only scan the redesigned templates + JS so utility generation stays scoped.
+   Paths are relative to this file at config/tailwind/. */
+@source "../../app/views";
+@source "../../app/javascript";
 
 /* ---- Direction A "Command" design tokens ---- */
 @theme {

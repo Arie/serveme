@@ -8,6 +8,10 @@
 module BetaUi
   extend ActiveSupport::Concern
 
+  # NOTE: before adding an action here, make sure any `caches_action` on it
+  # varies its cache key by `cookies[:ui_v2]` (see PagesController#welcome).
+  # Otherwise an opted-in request can prime/serve the v2 HTML to non-opted-in
+  # users (and vice versa) for cached actions.
   REDESIGNED_ACTIONS = {
     "pages" => %w[welcome],
   }.freeze

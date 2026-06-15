@@ -59,6 +59,9 @@ class ApplicationController
 
     sig { returns(T.untyped) }
     def time_zone_from_cookie; end
+
+    sig { returns(T.untyped) }
+    def v2_stylesheet_href; end
   end
 
   class HelperProxy < ::ActionView::Base

@@ -17,13 +17,7 @@ class Product < ActiveRecord::Base
     price.round * 100
   end
 
-  sig { returns(T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy)) }
-  def self.active
-    where(active: true)
-  end
+  scope :active, -> { where(active: true) }
 
-  sig { returns(T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy)) }
-  def self.ordered
-    order(:price)
-  end
+  scope :ordered, -> { order(:price) }
 end

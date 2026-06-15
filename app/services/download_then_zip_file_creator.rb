@@ -4,6 +4,9 @@
 require "open3"
 
 class DownloadThenZipFileCreator < ZipFileCreator
+  extend T::Sig
+
+  sig { void }
   def create_zip
     tmp_dir = Dir.mktmpdir
     begin
@@ -18,6 +21,7 @@ class DownloadThenZipFileCreator < ZipFileCreator
     end
   end
 
+  sig { params(tmp_dir: String).void }
   def strip_ips_and_api_keys_from_log_files(tmp_dir)
     log_files = Dir.glob("#{tmp_dir}/*.log")
     return if log_files.empty?
@@ -27,6 +31,7 @@ class DownloadThenZipFileCreator < ZipFileCreator
     Rails.logger.error("Failed to strip IPs/API keys from logs: #{stderr}") unless status.success?
   end
 
+  sig { params(tmp_dir: String).void }
   def zip(tmp_dir)
     reservation.status_update("Zipping logs and demos")
     Zip::File.open(zipfile_name_and_path, create: true) do |zipfile|
@@ -42,6 +47,7 @@ class DownloadThenZipFileCreator < ZipFileCreator
     reservation.status_update("Finished zipping logs and demos")
   end
 
+  sig { params(dir: String).returns(T::Array[String]) }
   def files_to_zip_in_dir(dir)
     Dir.glob(File.join(dir, "*"))
   end

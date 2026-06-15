@@ -1,4 +1,4 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 require File.expand_path("../models/concerns/steam_id_anonymizer", __dir__)
@@ -30,6 +30,7 @@ class LogWorker
   LOG_LINE_REGEX    = '(?\'secret\'\d*)(?\'line\'.*)'
 
 
+  sig { params(raw_line: String).void }
   def perform(raw_line)
     @raw_line = raw_line
     handle_event if reservation
@@ -37,8 +38,10 @@ class LogWorker
 
   private
 
+  sig { void }
   def handle_event
-    mark_cloud_server_ready if reservation && !reservation.provisioned? && reservation.server.is_a?(CloudServer)
+    res = reservation
+    mark_cloud_server_ready if res && !res.provisioned? && res.server.is_a?(CloudServer)
 
     case event
     when TF2LineParser::Events::Say, TF2LineParser::Events::TeamSay
@@ -55,6 +58,7 @@ class LogWorker
     broadcast_log_lines unless @skip_broadcast
   end
 
+  sig { params(mapname: T.nilable(String)).void }
   def handle_mapstart(mapname)
     reservation&.broadcast_connect_info
     ActiveReservationCheckerWorker.perform_in(10.seconds, reservation&.id)
@@ -66,6 +70,7 @@ class LogWorker
     end
   end
 
+  sig { void }
   def handle_message
     return if event.player.steam_id.in?(%w[Console BOT])
 
@@ -77,6 +82,7 @@ class LogWorker
     reservation&.server&.rcon_disconnect
   end
 
+  sig { void }
   def handle_connect
     return if event.player.steam_id == "BOT"
 
@@ -173,7 +179,7 @@ class LogWorker
   def whitelist_player_in_firewall(reservation_player)
     return unless reservation&.server&.supports_mitigations?
 
-    AllowReservationPlayersWorker.perform_in(3.seconds, reservation.id)
+    AllowReservationPlayersWorker.perform_in(3.seconds, reservation&.id)
   end
 
   sig { params(reservation_player: ReservationPlayer, player_uid: String).void }
@@ -323,7 +329,7 @@ class LogWorker
       if preloaded_reservations && @parsed_secret && preloaded_reservations.key?(@parsed_secret)
         preloaded_reservations[@parsed_secret]
       elsif rid
-        Reservation.current.includes(:user).find_by_id(rid)
+        Reservation.current.includes(:user).find_by(id: rid)
       end
   end
 
@@ -372,19 +378,19 @@ class LogWorker
   def handle_lock
     return unless reservation
 
-    reservation.lock!
+    reservation&.lock!
     reservation&.status_update("Server locked by #{event.player.name}, password changed and no new connects allowed")
-    Rails.logger.info "Locked server for reservation #{reservation.id}"
+    Rails.logger.info "Locked server for reservation #{reservation&.id}"
   end
 
   sig { void }
   def handle_unlock
     return unless reservation&.locked?
 
-    if reservation.unlock!
+    if reservation&.unlock!
       reservation&.server&.rcon_exec "say Server unlocked, original password restored!"
       reservation&.status_update("Server unlocked by #{event.player.name} (#{sayer_steam_uid})")
-      Rails.logger.info "Unlocked server for reservation #{reservation.id} by #{sayer_steam_uid}"
+      Rails.logger.info "Unlocked server for reservation #{reservation&.id} by #{sayer_steam_uid}"
     end
   end
 
@@ -392,20 +398,21 @@ class LogWorker
   def handle_unbanall
     return unless reservation
 
-    Rails.logger.info "Unbanning all players for reservation #{reservation.id} by #{sayer_steam_uid}"
+    Rails.logger.info "Unbanning all players for reservation #{reservation&.id} by #{sayer_steam_uid}"
 
-    result = reservation.unban_all!
+    result = T.must(reservation).unban_all!
+    message = result[:message].to_s
 
     if result[:count].nil?
-      reservation&.server&.rcon_say result[:message]
-      Rails.logger.warn "Failed to parse listid result for reservation #{reservation.id}"
+      reservation&.server&.rcon_say message
+      Rails.logger.warn "Failed to parse listid result for reservation #{reservation&.id}"
     elsif result[:count] == 0
-      reservation&.server&.rcon_say result[:message]
-      Rails.logger.info "No players to unban for reservation #{reservation.id}"
+      reservation&.server&.rcon_say message
+      Rails.logger.info "No players to unban for reservation #{reservation&.id}"
     else
-      reservation&.server&.rcon_say result[:message]
+      reservation&.server&.rcon_say message
       reservation&.status_update("All #{result[:count]} banned player#{'s' if result[:count] != 1} unbanned by #{event.player.name} (#{sayer_steam_uid})")
-      Rails.logger.info "#{result[:message]} for reservation #{reservation.id}"
+      Rails.logger.info "#{result[:message]} for reservation #{reservation&.id}"
     end
   end
 
@@ -416,12 +423,12 @@ class LogWorker
     if reservation&.enable_plugins?
       player_uniqueid = event.player.uid
       player_name = event.player.name
-      current_password = reservation.password
+      current_password = reservation&.password
       reservation&.server&.rcon_exec "sm_psay ##{player_uniqueid} Server password: #{current_password}"
-      Rails.logger.info "Sent password to #{player_name} (#{sayer_steam_uid}) for reservation #{reservation.id}"
+      Rails.logger.info "Sent password to #{player_name} (#{sayer_steam_uid}) for reservation #{reservation&.id}"
     else
       reservation&.server&.rcon_say "Password can't be sent via DM - plugins are disabled for this reservation"
-      Rails.logger.info "Password request denied for #{event.player.name} (#{sayer_steam_uid}) - plugins disabled for reservation #{reservation.id}"
+      Rails.logger.info "Password request denied for #{event.player.name} (#{sayer_steam_uid}) - plugins disabled for reservation #{reservation&.id}"
     end
   end
 
@@ -432,9 +439,10 @@ class LogWorker
     query = message.match(WHOIS_COMMAND)&.[](1)&.strip
     return unless query.present?
 
-    WhoisPlayerWorker.perform_async(reservation.id, query, event.player.uid, said_by_reserver?)
+    WhoisPlayerWorker.perform_async(reservation&.id, query, event.player.uid, said_by_reserver?)
   end
 
+  sig { void }
   def handle_disconnect
     return if event.player.steam_id == "BOT"
 
@@ -444,10 +452,11 @@ class LogWorker
     broadcast_player_disconnect(rp) if rp && reservation
   end
 
+  sig { params(reservation_player: ReservationPlayer).void }
   def broadcast_player_connect(reservation_player)
     return unless reservation&.server
 
-    server = reservation.server
+    server = T.must(reservation&.server)
     player_data = {
       steam_uid: anonymize_steam_id(reservation_player.steam_uid.to_s),
       server_id: server.id,
@@ -478,6 +487,7 @@ class LogWorker
     )
   end
 
+  sig { params(reservation_player: ReservationPlayer).void }
   def broadcast_player_disconnect(reservation_player)
     return unless reservation&.server_id
 
@@ -487,21 +497,26 @@ class LogWorker
       partial: "players/globe_player_disconnect",
       locals: {
         steam_uid: anonymize_steam_id(reservation_player.steam_uid.to_s),
-        server_id: reservation.server_id
+        server_id: reservation&.server_id
       }
     )
   end
 
+  sig { void }
   def mark_cloud_server_ready
-    updated = Reservation.where(id: reservation.id, provisioned: false)
+    res = reservation
+    return unless res
+
+    updated = Reservation.where(id: res.id, provisioned: false)
       .update_all(provisioned: true, ready_at: Time.current)
     return unless updated > 0
 
-    reservation.reload
-    reservation.status_update("TF2 server ready")
-    reservation.server.broadcast_reservation_status
+    res.reload
+    res.status_update("TF2 server ready")
+    T.unsafe(res.server).broadcast_reservation_status
   end
 
+  sig { void }
   def broadcast_log_lines
     logsecret = reservation&.logsecret
     return unless logsecret
@@ -528,10 +543,12 @@ class LogWorker
     end
   end
 
+  sig { returns(Date) }
   def today
     @today ||= Time.current.in_time_zone(time_zone).to_date
   end
 
+  sig { returns(String) }
   def time_zone
     @time_zone ||= case SITE_HOST
     when "na.serveme.tf"

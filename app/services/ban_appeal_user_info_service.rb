@@ -1,13 +1,17 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 class BanAppealUserInfoService
-  def initialize(steam_uid: nil, discord_uid: nil, admin_user:)
+  extend T::Sig
+
+  sig { params(admin_user: T.untyped, steam_uid: T.untyped, discord_uid: T.untyped).void }
+  def initialize(admin_user:, steam_uid: nil, discord_uid: nil)
     @steam_uid = steam_uid
     @discord_uid = discord_uid
     @admin_user = admin_user
   end
 
+  sig { returns(T::Hash[Symbol, T.untyped]) }
   def collect
     user = find_user
     steam_uid = user&.uid || @steam_uid
@@ -49,6 +53,7 @@ class BanAppealUserInfoService
 
   private
 
+  sig { returns(T.nilable(User)) }
   def find_user
     if @steam_uid.present?
       User.find_by(uid: @steam_uid)
@@ -57,6 +62,7 @@ class BanAppealUserInfoService
     end
   end
 
+  sig { params(steam_uid: T.untyped).returns(T::Array[T::Hash[Symbol, T.untyped]]) }
   def find_alts(steam_uid)
     tool = Mcp::Tools::SearchAltsTool.new(@admin_user)
     result = tool.execute(steam_uid: steam_uid, cross_reference: true, include_vpn_results: true)
@@ -75,12 +81,14 @@ class BanAppealUserInfoService
     []
   end
 
+  sig { params(steam_uid: T.untyped).returns(T::Array[T::Hash[Symbol, T.untyped]]) }
   def stac_detections(steam_uid)
     StacDetection.where(steam_uid: steam_uid).group(:detection_type).sum(:count).map do |type, count|
       { detection_type: type, count: count }
     end
   end
 
+  sig { params(ban_reason: T.untyped, ips: T::Array[T.untyped]).returns(T::Array[String]) }
   def detect_ban_type(ban_reason, ips)
     types = []
     types << "UID" if ban_reason.present?
@@ -93,6 +101,7 @@ class BanAppealUserInfoService
     types
   end
 
+  sig { params(ips: T::Array[T.untyped]).returns(T::Array[T::Hash[Symbol, T.untyped]]) }
   def ip_lookups(ips)
     IpLookup.where(ip: ips).map do |lookup|
       {
@@ -108,6 +117,7 @@ class BanAppealUserInfoService
     end
   end
 
+  sig { returns(String) }
   def detect_region
     case SITE_HOST
     when "na.serveme.tf" then "na"

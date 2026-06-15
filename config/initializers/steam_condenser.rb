@@ -1,4 +1,4 @@
-# typed: false
+# typed: strict
 # frozen_string_literal: true
 
 if Rails.application.credentials.dig(:steam, :api_key).present?

@@ -1,7 +1,10 @@
-# typed: true
+# typed: strict
 # frozen_string_literal: true
 
 class IpLookup < ActiveRecord::Base
+  extend T::Sig
+
+  sig { returns(T.untyped) }
   attr_accessor :synced_from_region
 
   validates :ip, presence: true, uniqueness: true
@@ -12,14 +15,17 @@ class IpLookup < ActiveRecord::Base
 
   scope :residential_proxies, -> { where(is_residential_proxy: true) }
 
+  sig { params(ip: T.nilable(String)).returns(T::Boolean) }
   def self.cached?(ip)
     exists?(ip: ip)
   end
 
+  sig { params(ip: T.nilable(String)).returns(T.nilable(IpLookup)) }
   def self.find_cached(ip)
     find_by(ip: ip)
   end
 
+  sig { params(attributes: T.untyped).returns(IpLookup) }
   def self.upsert_from_sync(attributes)
     attrs = attributes.to_h.symbolize_keys.slice(
       :ip, :is_proxy, :is_residential_proxy, :fraud_score,
@@ -41,18 +47,21 @@ class IpLookup < ActiveRecord::Base
 
   private
 
+  sig { void }
   def schedule_cross_region_sync
     return if synced_from_region
 
     IpLookupSyncWorker.perform_async(id)
   end
 
+  sig { void }
   def schedule_cross_region_sync_on_false_positive_change
     return unless saved_change_to_false_positive?
 
     IpLookupSyncWorker.perform_async(id)
   end
 
+  sig { void }
   def schedule_cross_region_sync_on_ban_change
     return unless saved_change_to_is_banned?
 

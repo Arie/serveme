@@ -1,47 +1,60 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 module ApplicationHelper
+  extend T::Sig
+
+  sig { returns(T.nilable(T::Boolean)) }
   def donator?
-    @donator ||= current_user&.donator?
+    @donator ||= T.unsafe(self).current_user&.donator?
   end
 
+  sig { returns(T.nilable(T::Boolean)) }
   def admin?
-    @admin ||= current_user&.admin?
+    @admin ||= T.unsafe(self).current_user&.admin?
   end
 
+  sig { returns(Integer) }
   def used_free_server_count
     Reservation.current.where(server_id: Server.without_group).count + docker_hosts_used_count
   end
 
+  sig { returns(Integer) }
   def used_donator_server_count
     @used_donator_server_count ||= Reservation.current.where(server_id: Server.for_donators).count
   end
 
+  sig { returns(Integer) }
   def total_donator_server_count
     @total_donator_server_count ||= Server.for_donators.active.not_cloud.count
   end
 
+  sig { returns(Integer) }
   def free_user_reservations_in_use
     @free_user_reservations_in_use ||= SiteSetting.free_user_reservation_count(Time.current, Time.current)
   end
 
+  sig { returns(Integer) }
   def donator_user_reservations_in_use
     @donator_user_reservations_in_use ||= Reservation.current.count - free_user_reservations_in_use
   end
 
+  sig { returns(Integer) }
   def total_premium_server_count
     @total_premium_server_count ||= total_donator_server_count + docker_hosts_total_slots - (SiteSetting.free_server_limit || 0)
   end
 
+  sig { returns(Integer) }
   def free_donator_server_count
     @free_donator_server_count ||= total_donator_server_count - used_donator_server_count
   end
 
+  sig { returns(Integer) }
   def docker_hosts_total_slots
     @docker_hosts_total_slots ||= DockerHost.active.sum(:max_containers)
   end
 
+  sig { returns(Integer) }
   def docker_hosts_used_count
     @docker_hosts_used_count ||= begin
       counts = DockerHost.container_counts_during(Time.current, Time.current)
@@ -49,23 +62,28 @@ module ApplicationHelper
     end
   end
 
+  sig { params(starts_at: T.untyped, ends_at: T.untyped).returns(Integer) }
   def docker_hosts_available_during(starts_at, ends_at)
     counts = DockerHost.container_counts_during(starts_at, ends_at)
-    DockerHost.active.sum { |dh| [ dh.max_containers - counts.fetch(dh.id.to_s, 0), 0 ].max }
+    DockerHost.active.sum { |dh| [ T.must(dh.max_containers) - counts.fetch(dh.id.to_s, 0), 0 ].max }
   end
 
+  sig { returns(T::Boolean) }
   def eu_system?
-    ("https://serveme.tf" || "https://www.serveme.tf") == SITE_URL
+    # NOTE: `"a" || "b"` short-circuits to the first string, so only the EU URL ever matches.
+    "https://serveme.tf" == SITE_URL
   end
 
   %w[au na sa sea].each do |subdomain|
     define_method("#{subdomain}_system?") { SITE_URL == "https://#{subdomain}.serveme.tf" }
   end
 
+  sig { params(user: T.untyped).returns(String) }
   def logs_tf_url(user)
     "http://logs.tf/profile/#{user.uid}"
   end
 
+  sig { params(user: T.untyped).returns(String) }
   def demos_tf_url(user)
     if user
       "https://demos.tf/profiles/#{user.uid}"
@@ -74,10 +92,12 @@ module ApplicationHelper
     end
   end
 
+  sig { params(reservation: Reservation).returns(T::Boolean) }
   def preliminary_sdr?(reservation)
     !(reservation.sdr_ip && reservation.sdr_port)
   end
 
+  sig { params(reservation: Reservation).returns(String) }
   def reservation_status_spinner_class(reservation)
     case reservation.status
     when "Ended"
@@ -97,13 +117,16 @@ module ApplicationHelper
     end
   end
 
+  sig { returns(T::Boolean) }
   def show_server_monitoring_link?
+    current_user = T.unsafe(self).current_user
     return true if current_user&.admin?
     return false unless current_user
 
     current_user.reservations.current.exists?
   end
 
+  sig { params(status: T.nilable(String)).returns(String) }
   def status_badge_class(status)
     case status
     when "succeeded"      then "bg-success"
@@ -115,12 +138,14 @@ module ApplicationHelper
     end
   end
 
+  sig { params(amount: T.untyped, currency_code: T.untyped).returns(String) }
   def format_currency(amount, currency_code)
     I18n.with_locale(locale_for_currency(currency_code)) do
-      number_to_currency(amount)
+      T.unsafe(self).number_to_currency(amount)
     end
   end
 
+  sig { params(currency_code: T.untyped).returns(Symbol) }
   def locale_for_currency(currency_code)
     case currency_code.to_s.upcase
     when "USD" then :"en-US"

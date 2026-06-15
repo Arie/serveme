@@ -1,7 +1,10 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 class CurrentPlayersService
+  extend T::Sig
+
+  sig { returns(T::Array[T::Hash[Symbol, T.untyped]]) }
   def self.all_servers_with_current_players
     recent_stats = PlayerStatistic.joins(reservation_player: { reservation: :server })
                                   .where("player_statistics.created_at >= ?", 90.seconds.ago)
@@ -11,15 +14,16 @@ class CurrentPlayersService
     servers_hash = {}
 
     recent_stats.each do |stat|
-      server = stat.reservation_player.reservation.server
+      reservation_player = T.must(stat.reservation_player)
+      server = T.must(T.must(reservation_player.reservation).server)
       servers_hash[server.id] ||= { server: server, players_by_uid: {} }
 
-      steam_uid = stat.reservation_player.steam_uid
+      steam_uid = reservation_player.steam_uid
       unless servers_hash[server.id][:players_by_uid][steam_uid]
-        player_info = get_player_location_info(stat.reservation_player)
+        player_info = get_player_location_info(reservation_player)
         servers_hash[server.id][:players_by_uid][steam_uid] = {
           player_statistic: stat,
-          reservation_player: stat.reservation_player,
+          reservation_player: reservation_player,
           country_code: player_info[:country_code],
           country_name: player_info[:country_name],
           city_name: player_info[:city_name],
@@ -27,9 +31,9 @@ class CurrentPlayersService
           player_latitude: player_info[:player_latitude],
           player_longitude: player_info[:player_longitude],
           sdr: player_info[:sdr],
-          asn_number: stat.reservation_player.asn_number,
-          asn_organization: stat.reservation_player.asn_organization,
-          asn_network: stat.reservation_player.asn_network
+          asn_number: reservation_player.asn_number,
+          asn_organization: reservation_player.asn_organization,
+          asn_network: reservation_player.asn_network
         }
       end
     end
@@ -47,29 +51,32 @@ class CurrentPlayersService
     servers_with_players.sort_by { |server_data| server_data[:server].name.downcase }
   end
 
+  sig { returns(T.untyped) }
   def self.cached_servers_with_current_players
     Rails.cache.fetch("servers_with_current_players", expires_in: 30.seconds) do
       all_servers_with_current_players
     end
   end
 
+  sig { params(reservation_player: ReservationPlayer).returns(T::Hash[Symbol, T.untyped]) }
   def self.get_player_location_info(reservation_player)
-    if reservation_player.ip && ReservationPlayer.sdr_ip?(reservation_player.ip)
+    ip = reservation_player.ip
+    if ip && ReservationPlayer.sdr_ip?(ip)
       return { country_code: nil, country_name: nil, city_name: nil, distance: nil, player_latitude: nil, player_longitude: nil, sdr: true }
     end
 
     return { country_code: nil, country_name: nil, city_name: nil, distance: nil, player_latitude: nil, player_longitude: nil } if local_ip?(reservation_player.ip)
 
-    geocoding_result = Geocoder.search(reservation_player.ip).first
+    geocoding_result = Geocoder.search(T.unsafe(reservation_player.ip)).first
     return { country_code: nil, country_name: nil, city_name: nil, distance: nil, player_latitude: nil, player_longitude: nil } unless geocoding_result
 
     country_code = geocoding_result.country_code
     country_name = geocoding_result.country
     city_name = geocoding_result.city
 
-    server = reservation_player.reservation.server
+    server = T.must(reservation_player.reservation).server
     distance = nil
-    if server&.latitude && server&.longitude && geocoding_result.latitude && geocoding_result.longitude
+    if server && server.latitude && server.longitude && geocoding_result.latitude && geocoding_result.longitude
       distance_km = Geocoder::Calculations.distance_between(
         [ server.latitude, server.longitude ],
         [ geocoding_result.latitude, geocoding_result.longitude ]
@@ -94,6 +101,7 @@ class CurrentPlayersService
     }
   end
 
+  sig { params(ip: T.nilable(String)).returns(T::Boolean) }
   def self.local_ip?(ip)
     return false unless ip
 
@@ -112,10 +120,12 @@ class CurrentPlayersService
   end
 
 
+  sig { returns(String) }
   def self.distance_unit_for_region
     SITE_URL == "https://na.serveme.tf" ? "mi" : "km"
   end
 
+  sig { void }
   def self.expire_cache
     Rails.cache.delete("servers_with_current_players")
     Rails.cache.delete("views/players_content")

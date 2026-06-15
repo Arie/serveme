@@ -1,9 +1,11 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 require "base64"
 
 class DockerHostSetupService
+  extend T::Sig
+
   DOCKER_IMAGE = "serveme/tf2-cloud-server:latest"
   CADDY_IMAGE = "serveme/caddy-cloudflare:latest"
   WEBSOCKET_ECHO_IMAGE = "serveme/websocket-echo:latest"
@@ -14,12 +16,15 @@ class DockerHostSetupService
 
   COMPOSE_DIR = "/opt/serveme-host"
 
+  sig { returns(DockerHost) }
   attr_reader :docker_host
 
+  sig { params(docker_host: DockerHost).void }
   def initialize(docker_host)
     @docker_host = docker_host
   end
 
+  sig { returns(T::Hash[Symbol, T.untyped]) }
   def create_vm
     raise "No cloud provider configured" unless docker_host.provider?
     raise "VM already created" if docker_host.provider_server_id.present?
@@ -27,17 +32,18 @@ class DockerHostSetupService
     provider = cloud_provider
     server_id, ip = provider.create_bare_server(
       name: "docker-host-#{docker_host.hostname.tr('.', '-')}",
-      location: docker_host.provider_location
+      location: T.must(docker_host.provider_location)
     )
 
     docker_host.update!(provider_server_id: server_id, ip: ip)
     wait_for_ssh(ip)
     docker_host.update!(setup_status: "vm_created")
-    { success: true, message: "#{docker_host.provider.capitalize} VM created (#{ip}) in #{docker_host.provider_location}" }
+    { success: true, message: "#{T.must(docker_host.provider).capitalize} VM created (#{ip}) in #{docker_host.provider_location}" }
   rescue StandardError => e
     { success: false, message: "VM creation failed: #{e.message}" }
   end
 
+  sig { returns(T::Hash[Symbol, T.untyped]) }
   def check_dns
     if docker_host.serveme_hostname?
       configure_cloudflare_dns
@@ -46,6 +52,7 @@ class DockerHostSetupService
     end
   end
 
+  sig { returns(T::Hash[Symbol, T.untyped]) }
   def check_ssh
     ssh_to_host do |ssh|
       hostname = ssh.exec!("hostname").to_s.strip
@@ -56,6 +63,7 @@ class DockerHostSetupService
     { success: false, message: "SSH connection failed: #{e.message}" }
   end
 
+  sig { returns(T::Hash[Symbol, T.untyped]) }
   def provision_host
     ssh_to_host do |ssh|
       run_script(ssh, "install_prerequisites", install_prerequisites_script)
@@ -70,9 +78,10 @@ class DockerHostSetupService
     { success: false, message: "Provisioning failed: #{e.message}" }
   end
 
+  sig { returns(T::Hash[Symbol, T.untyped]) }
   def check_ssl
     attempts = docker_host.provider? ? 12 : 1
-    last_error = nil
+    last_error = T.let(nil, T.nilable(StandardError))
     attempts.times do |attempt|
       uri = URI("https://#{docker_host.hostname}/ping")
       http = Net::HTTP.new(uri.host, uri.port)
@@ -90,6 +99,7 @@ class DockerHostSetupService
     { success: false, message: "SSL check failed: #{last_error&.message}" }
   end
 
+  sig { returns(T::Hash[Symbol, T.untyped]) }
   def pull_image
     ssh_to_host do |ssh|
       output = ssh.exec!("docker pull #{DOCKER_IMAGE} && docker image prune -f")
@@ -105,6 +115,7 @@ class DockerHostSetupService
 
   private
 
+  sig { returns(CloudProvider::Base) }
   def cloud_provider
     case docker_host.provider
     when "hetzner" then CloudProvider::Hetzner.new
@@ -113,6 +124,7 @@ class DockerHostSetupService
     end
   end
 
+  sig { returns(T::Hash[Symbol, T.untyped]) }
   def configure_cloudflare_dns
     dns_service = CloudflareDnsService.new
     if dns_service.record_exists?(docker_host.hostname)
@@ -128,6 +140,7 @@ class DockerHostSetupService
     { success: false, message: "Cloudflare API error: #{e.message}" }
   end
 
+  sig { returns(T::Hash[Symbol, T.untyped]) }
   def verify_external_dns
     resolved_ip = Resolv.getaddress(docker_host.hostname)
     if resolved_ip == docker_host.ip
@@ -140,6 +153,7 @@ class DockerHostSetupService
     { success: false, message: "DNS for #{docker_host.hostname} does not resolve. Please create an A record pointing to #{docker_host.ip}" }
   end
 
+  sig { params(ip: String, attempts: Integer, delay: Integer).void }
   def wait_for_ssh(ip, attempts: 30, delay: 5)
     attempts.times do
       TCPSocket.new(ip, 22).close
@@ -150,6 +164,7 @@ class DockerHostSetupService
     raise "SSH port not reachable on #{ip} after #{attempts * delay}s"
   end
 
+  sig { params(block: T.proc.params(ssh: T.untyped).returns(T.untyped)).returns(T.untyped) }
   def ssh_to_host(&block)
     opts = { timeout: 5, keepalive: true, keepalive_interval: 5, keepalive_maxcount: 2, bind_address: "0.0.0.0", port: docker_host.ssh_port }
 
@@ -174,6 +189,7 @@ class DockerHostSetupService
 
   # Raises on non-zero exit so a failed step doesn't silently let the next
   # one run — `ssh.exec!` discarded exit codes and used to mask failures.
+  sig { params(ssh: T.untyped, step: String, script: String).returns(String) }
   def run_script(ssh, step, script)
     cmd = "sudo bash -c #{Shellwords.shellescape(script)} 2>&1"
     output, exit_status = ssh_exec_with_status(ssh, cmd)
@@ -185,9 +201,10 @@ class DockerHostSetupService
     output
   end
 
+  sig { params(ssh: T.untyped, cmd: String).returns([ String, T.nilable(Integer) ]) }
   def ssh_exec_with_status(ssh, cmd)
     output = +""
-    exit_status = nil
+    exit_status = T.let(nil, T.nilable(Integer))
     channel = ssh.open_channel do |ch|
       ch.exec(cmd) do |c, ok|
         raise "ssh exec failed" unless ok
@@ -200,7 +217,9 @@ class DockerHostSetupService
     [ output, exit_status ]
   end
 
+  sig { returns(String) }
   def install_prerequisites_script
+    start_port = T.must(docker_host.start_port)
     <<~BASH
       set -e
       export DEBIAN_FRONTEND=noninteractive
@@ -215,12 +234,13 @@ class DockerHostSetupService
       if command -v ufw >/dev/null && ufw status | grep -q "Status: active"; then
         ufw allow 80/tcp
         ufw allow 443/tcp
-        ufw allow #{docker_host.start_port}:#{docker_host.start_port + 100}/tcp
-        ufw allow #{docker_host.start_port}:#{docker_host.start_port + 100}/udp
+        ufw allow #{start_port}:#{start_port + 100}/tcp
+        ufw allow #{start_port}:#{start_port + 100}/udp
       fi
     BASH
   end
 
+  sig { returns(String) }
   def install_docker_script
     pin = DOCKER_CE_VERSION.empty? ? "" : "=#{DOCKER_CE_VERSION}"
     <<~BASH
@@ -255,6 +275,7 @@ class DockerHostSetupService
     BASH
   end
 
+  sig { returns(String) }
   def install_seccomp_profile_script
     profile_path = Rails.root.join("config/docker/seccomp-tf2.json")
     profile_b64 = Base64.strict_encode64(File.read(profile_path))
@@ -269,6 +290,7 @@ class DockerHostSetupService
     BASH
   end
 
+  sig { returns(String) }
   def setup_app_user_script
     username = docker_host.ssh_user
     pub_key = local_ssh_public_key
@@ -297,6 +319,7 @@ class DockerHostSetupService
     BASH
   end
 
+  sig { returns(String) }
   def install_compose_services_script
     compose_b64 = Base64.strict_encode64(compose_yml)
     caddyfile_drop = if docker_host.runs_caddy?
@@ -334,10 +357,12 @@ class DockerHostSetupService
     BASH
   end
 
+  sig { returns(String) }
   def compose_yml
     docker_host.runs_caddy? ? compose_yml_with_caddy : compose_yml_without_caddy
   end
 
+  sig { returns(String) }
   def compose_yml_with_caddy
     <<~YAML
       services:
@@ -364,6 +389,7 @@ class DockerHostSetupService
     YAML
   end
 
+  sig { returns(String) }
   def compose_yml_without_caddy
     <<~YAML
       services:
@@ -380,6 +406,7 @@ class DockerHostSetupService
 
   # Port 80 must be reachable from the public internet at this hostname —
   # Caddy auto-issues via HTTP-01.
+  sig { returns(String) }
   def caddyfile_content
     <<~CADDYFILE
       #{docker_host.hostname} {
@@ -388,6 +415,7 @@ class DockerHostSetupService
     CADDYFILE
   end
 
+  sig { returns(T.nilable(String)) }
   def local_ssh_public_key
     %w[id_rsa.pub id_ed25519.pub id_ecdsa.pub].each do |name|
       path = File.expand_path("~/.ssh/#{name}")
@@ -396,6 +424,7 @@ class DockerHostSetupService
     nil
   end
 
+  sig { returns(T.nilable(String)) }
   def cloud_ssh_public_key
     key_data = Rails.application.credentials.dig(:cloud_servers, :ssh_private_key)
     return nil unless key_data.present?

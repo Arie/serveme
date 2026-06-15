@@ -1,11 +1,13 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 class DailyProxyReportWorker
   include Sidekiq::Worker
+  extend T::Sig
 
   sidekiq_options queue: :default, retry: 1
 
+  sig { void }
   def perform
     player_data = build_player_data
     return if player_data.empty?
@@ -15,6 +17,7 @@ class DailyProxyReportWorker
 
   private
 
+  sig { returns(T::Hash[T.untyped, T.untyped]) }
   def build_player_data
     results = ReservationPlayer
       .joins("INNER JOIN ip_lookups ON ip_lookups.ip = reservation_players.ip")
@@ -36,6 +39,7 @@ class DailyProxyReportWorker
     player_data = {}
 
     results.each do |row|
+      row = T.unsafe(row)
       uid = row.steam_uid
       player_data[uid] ||= { name: row.name, ips: {} }
       player_data[uid][:ips][row.ip] ||= { fraud_score: row.fraud_score, isp: row.isp, country_code: row.country_code, reservation_ids: [] }

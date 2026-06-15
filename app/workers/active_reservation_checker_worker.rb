@@ -1,11 +1,13 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 class ActiveReservationCheckerWorker
   include Sidekiq::Worker
+  extend T::Sig
 
   sidekiq_options retry: 1
 
+  sig { params(reservation_id: T.untyped).void }
   def perform(reservation_id)
     @reservation = Reservation.find(reservation_id)
     @server = @reservation.server
@@ -14,7 +16,7 @@ class ActiveReservationCheckerWorker
 
     fetch_server_stats
 
-    if @reservation.server.occupied?
+    if @server.occupied?
       handle_occupied_server
     else
       handle_empty_server
@@ -23,6 +25,7 @@ class ActiveReservationCheckerWorker
 
   private
 
+  sig { void }
   def fetch_server_stats
     Rails.cache.delete "server_info_#{@reservation.server_id}"
     @server_info = @server.server_info
@@ -40,12 +43,14 @@ class ActiveReservationCheckerWorker
     end
   end
 
+  sig { void }
   def handle_occupied_server
     @reservation.update_column(:last_number_of_players, @server_info.number_of_players)
     @reservation.update_column(:inactive_minute_counter, 0)
     @reservation.warn_nearly_over if @reservation.nearly_over?
   end
 
+  sig { void }
   def handle_empty_server
     previous_number_of_players = @reservation.last_number_of_players.to_i
     @reservation.update_column(:last_number_of_players, 0)

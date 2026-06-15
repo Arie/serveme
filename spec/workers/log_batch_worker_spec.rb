@@ -21,7 +21,7 @@ describe LogBatchWorker do
     Rails.cache.clear
     allow(Reservation).to receive(:current).and_return(Reservation)
     allow(Reservation).to receive(:includes).with(:user).and_return(Reservation)
-    allow(Reservation).to receive(:find_by_id).with(reservation.id).and_return(reservation)
+    allow(Reservation).to receive(:find_by).with(id: reservation.id).and_return(reservation)
     allow(reservation).to receive(:server).and_return(server)
     allow(Turbo::StreamsChannel).to receive(:broadcast_append_to)
     allow(Turbo::StreamsChannel).to receive(:broadcast_remove)
@@ -92,7 +92,7 @@ describe LogBatchWorker do
     it 'groups lines by logsecret for batched broadcasts' do
       user2 = create :user, uid: '76561197960497431'
       reservation2 = create :reservation, user: user2, logsecret: '9999999'
-      allow(Reservation).to receive(:find_by_id).with(reservation2.id).and_return(reservation2)
+      allow(Reservation).to receive(:find_by).with(id: reservation2.id).and_return(reservation2)
       allow(reservation2).to receive(:server).and_return(server)
 
       allow(TurboSubscriberChecker).to receive(:has_subscribers?).and_return(true)
@@ -176,9 +176,9 @@ describe LogBatchWorker do
   end
 
   describe 'reservation pre-loading' do
-    it 'does not call find_by_id per log line in a multi-line batch' do
+    it 'does not call find_by per log line in a multi-line batch' do
       reservation # ensure reservation is persisted via let
-      expect(Reservation).not_to receive(:find_by_id)
+      expect(Reservation).not_to receive(:find_by)
 
       LogBatchWorker.new.perform([ say_line, kill_line, mapstart_line ])
     end

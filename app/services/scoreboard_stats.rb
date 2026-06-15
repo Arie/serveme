@@ -1,7 +1,10 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 class ScoreboardStats
+  extend T::Sig
+
+  sig { params(reservation_match: ReservationMatch).returns(T::Hash[Symbol, T.untyped]) }
   def self.from_match(reservation_match)
     players = reservation_match.match_players.map do |mp|
       {
@@ -29,7 +32,7 @@ class ScoreboardStats
         "Red" => reservation_match.red_score || 0,
         "Blue" => reservation_match.blue_score || 0
       },
-      total_duration_seconds: reservation_match.total_duration_seconds || 0
+      total_duration_seconds: reservation_match.total_duration_seconds
     }
   end
 end

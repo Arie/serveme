@@ -1,7 +1,9 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 class OzfortressProfile
+  extend T::Sig
+
   DIVISION_TIERS = {
     "Premier" => 0,
     "High" => 1,
@@ -17,16 +19,18 @@ class OzfortressProfile
 
   attr_reader :json
 
+  sig { params(profile_body: String).void }
   def initialize(profile_body)
     @json = JSON.parse(profile_body)
   end
 
+  sig { returns(T.nilable(String)) }
   def highest_division
     rosters = json.dig("user", "rosters")
     return nil unless rosters.is_a?(Array)
 
-    best_tier = nil
-    best_name = nil
+    best_tier = T.let(nil, T.nilable(Integer))
+    best_name = T.let(nil, T.nilable(String))
 
     rosters.each do |roster|
       div = roster["division"]
@@ -44,6 +48,7 @@ class OzfortressProfile
     best_name
   end
 
+  sig { params(steam_uid: T.any(Integer, String)).returns(T.nilable(OzfortressProfile)) }
   def self.fetch(steam_uid)
     response_body = OzfortressApi.profile(steam_uid)
     new(response_body) if response_body

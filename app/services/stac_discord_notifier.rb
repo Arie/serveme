@@ -1,29 +1,33 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 class StacDiscordNotifier
+  extend T::Sig
+
+  sig { params(reservation: Reservation).void }
   def initialize(reservation)
-    @reservation = reservation
+    @reservation = T.let(reservation, Reservation)
   end
 
+  sig { params(detections: T::Hash[T.untyped, T.untyped]).void }
   def notify(detections)
     return if detections.empty?
 
     filtered_detections = detections.transform_values do |data|
       detection_counts = data[:detections].tally
-      filtered_detections = data[:detections].reject do |detection|
+      kept_detections = data[:detections].reject do |detection|
         (detection.match?(/Silent ?Aim/i) || detection.match?(/Trigger ?Bot/i) || detection == "CmdNum SPIKE" || detection == "Aimsnap") &&
           detection_counts[detection] < 3
       end
 
-      data.merge(detections: filtered_detections)
+      data.merge(detections: kept_detections)
     end
     filtered_detections.reject! { |_, data| data[:detections].empty? }
 
     return if filtered_detections.empty?
 
     description = [
-      "Server: [#{@reservation.server.name} (##{@reservation.id})](#{SITE_URL}/reservations/#{@reservation.id})",
+      "Server: [#{T.must(@reservation.server).name} (##{@reservation.id})](#{SITE_URL}/reservations/#{@reservation.id})",
       "[View STAC Log](#{SITE_URL}/reservations/#{@reservation.id}/stac_log)"
     ]
 
@@ -51,6 +55,7 @@ class StacDiscordNotifier
 
   private
 
+  sig { params(payload: T::Hash[Symbol, T.untyped]).returns(T.untyped) }
   def send_to_discord(payload)
     uri = URI.parse(Rails.application.credentials.discord[:stac_webhook_url])
     http = Net::HTTP.new(uri.host, uri.port)

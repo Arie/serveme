@@ -1,4 +1,4 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 module CloudProvider
@@ -15,6 +15,7 @@ module CloudProvider
       "sin"  => { name: "Singapore", country: "Singapore", region: "SEA", flag: "sg", server_type: "cpx22" }
     }.freeze
 
+    sig { override.params(cloud_server: CloudServer).returns(String) }
     def create_server(cloud_server)
       Rails.logger.info "Hetzner: Creating server for cloud_server #{cloud_server.id}"
       response = connection.post("servers") do |req|
@@ -33,6 +34,7 @@ module CloudProvider
       provider_id
     end
 
+    sig { override.params(provider_id: String).returns(String) }
     def server_status(provider_id)
       response = connection.get("servers/#{provider_id}")
       data = parse_response(response, "Hetzner API error")
@@ -40,6 +42,7 @@ module CloudProvider
       hetzner_to_status(data.dig("server", "status"))
     end
 
+    sig { override.params(provider_id: String).returns(T.nilable(String)) }
     def server_ip(provider_id)
       response = connection.get("servers/#{provider_id}")
       data = parse_response(response, "Hetzner API error")
@@ -48,6 +51,7 @@ module CloudProvider
     end
 
     # Returns progress percentage (0-100) of the server creation, nil if not available
+    sig { params(provider_id: String).returns(T.nilable(Numeric)) }
     def server_progress(provider_id)
       response = connection.get("servers/#{provider_id}/actions")
       return nil unless response.success?
@@ -57,6 +61,7 @@ module CloudProvider
       action&.dig("progress")
     end
 
+    sig { override.returns(T::Array[T::Hash[Symbol, T.untyped]]) }
     def provision_phases
       [
         { key: "creating_vm", label: "Creating VM", icon: "fa-cloud", seconds: 250 },
@@ -67,10 +72,12 @@ module CloudProvider
       ]
     end
 
+    sig { override.returns(String) }
     def estimated_provision_time
       "about 4 minutes"
     end
 
+    sig { override.params(provider_id: String).returns(T::Boolean) }
     def destroy_server(provider_id)
       Rails.logger.info "Hetzner: Destroying server #{provider_id}"
       response = connection.delete("servers/#{provider_id}")
@@ -78,6 +85,7 @@ module CloudProvider
       response.success?
     end
 
+    sig { override.params(label: String).returns(Integer) }
     def destroy_servers_by_label(label)
       response = connection.get("servers?name=#{label}")
       return 0 unless response.success?
@@ -94,6 +102,7 @@ module CloudProvider
       destroyed
     end
 
+    sig { override.returns(T::Array[T::Hash[Symbol, T.untyped]]) }
     def list_servers
       servers = []
       page = 1
@@ -116,6 +125,7 @@ module CloudProvider
       servers
     end
 
+    sig { override.params(name: String, location: String, image: T.nilable(String), user_data: T.nilable(String)).returns([ String, String ]) }
     def create_bare_server(name:, location:, image: nil, user_data: nil)
       body = {
         name: name,
@@ -132,7 +142,7 @@ module CloudProvider
       data = parse_response(response, "Hetzner API error")
       server_id = data.dig("server", "id").to_s
 
-      ip = nil
+      ip = T.let(nil, T.nilable(String))
       60.times do
         sleep 5
         r = connection.get("servers/#{server_id}")
@@ -146,6 +156,7 @@ module CloudProvider
       [ server_id, ip ]
     end
 
+    sig { override.params(location: String, setup_script: String).returns([ String, String ]) }
     def create_snapshot_server(location, setup_script)
       create_bare_server(
         name: "serveme-snapshot-#{Time.current.strftime('%Y%m%d%H%M')}",
@@ -155,6 +166,7 @@ module CloudProvider
       )
     end
 
+    sig { override.params(provider_id: String).void }
     def halt_server(provider_id)
       connection.post("servers/#{provider_id}/actions/shutdown")
       30.times do
@@ -166,6 +178,7 @@ module CloudProvider
       raise "Hetzner VM did not power off in time"
     end
 
+    sig { override.params(provider_id: String, description: String).returns(String) }
     def create_snapshot(provider_id, description)
       response = connection.post("servers/#{provider_id}/actions/create_image") do |req|
         req.body = { type: "snapshot", description: description }.to_json
@@ -175,6 +188,7 @@ module CloudProvider
       data.dig("image", "id").to_s
     end
 
+    sig { override.params(snapshot_id: String).void }
     def wait_for_snapshot(snapshot_id)
       180.times do
         sleep 5
@@ -186,10 +200,12 @@ module CloudProvider
       raise "Hetzner snapshot did not become available in time"
     end
 
+    sig { override.returns(String) }
     def snapshot_credential_key
       "cloud_servers.hetzner.image_id"
     end
 
+    sig { returns(T::Array[T::Hash[String, T.untyped]]) }
     def list_snapshots
       snapshots = []
       page = 1
@@ -204,11 +220,13 @@ module CloudProvider
       snapshots
     end
 
+    sig { params(snapshot_id: T.any(String, Integer)).returns(T::Boolean) }
     def delete_snapshot(snapshot_id)
       response = connection.delete("images/#{snapshot_id}")
       response.success?
     end
 
+    sig { override.params(keep_snapshot_id: String).returns(Integer) }
     def delete_old_snapshots(keep_snapshot_id)
       deleted = 0
       list_snapshots.each do |snapshot|
@@ -224,6 +242,7 @@ module CloudProvider
 
     private
 
+    sig { returns(Faraday::Connection) }
     def connection
       @connection ||= Faraday.new(url: API_URL) do |f|
         f.headers["Authorization"] = "Bearer #{api_token}"
@@ -233,30 +252,37 @@ module CloudProvider
       end
     end
 
+    sig { returns(T.nilable(String)) }
     def api_token
       ENV["HCLOUD_TOKEN"] || Rails.application.credentials.dig(:cloud_servers, :hetzner, :api_key)
     end
 
+    sig { returns(String) }
     def image_id
       latest_snapshot_id || "docker-ce"
     end
 
+    sig { returns(T.nilable(String)) }
     def latest_snapshot_id
       @latest_snapshot_id ||= list_snapshots.first&.dig("id")&.to_s
     end
 
+    sig { params(location: T.nilable(String)).returns(String) }
     def server_type_for(location)
       LOCATIONS.dig(location, :server_type) || "cpx22"
     end
 
+    sig { returns(String) }
     def default_location
       "fsn1"
     end
 
+    sig { returns(String) }
     def ssh_key_name
       Rails.application.credentials.dig(:cloud_servers, :hetzner, :ssh_key_name) || "serveme-cloud"
     end
 
+    sig { params(hetzner_status: T.nilable(String)).returns(String) }
     def hetzner_to_status(hetzner_status)
       case hetzner_status
       when "initializing", "starting" then "provisioning"

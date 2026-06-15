@@ -7,15 +7,15 @@
 
 class DiscordBanAppealWorker
   class << self
-    sig { params(user_id: T.untyped, discord_user_id: T.untyped, interaction_token: T.untyped).returns(String) }
+    sig { params(user_id: ::Integer, discord_user_id: ::String, interaction_token: ::String).returns(String) }
     def perform_async(user_id, discord_user_id, interaction_token); end
 
     sig do
       params(
         interval: T.any(DateTime, Time, ActiveSupport::TimeWithZone),
-        user_id: T.untyped,
-        discord_user_id: T.untyped,
-        interaction_token: T.untyped
+        user_id: ::Integer,
+        discord_user_id: ::String,
+        interaction_token: ::String
       ).returns(String)
     end
     def perform_at(interval, user_id, discord_user_id, interaction_token); end
@@ -23,9 +23,9 @@ class DiscordBanAppealWorker
     sig do
       params(
         interval: T.any(Numeric, ActiveSupport::Duration),
-        user_id: T.untyped,
-        discord_user_id: T.untyped,
-        interaction_token: T.untyped
+        user_id: ::Integer,
+        discord_user_id: ::String,
+        interaction_token: ::String
       ).returns(String)
     end
     def perform_in(interval, user_id, discord_user_id, interaction_token); end

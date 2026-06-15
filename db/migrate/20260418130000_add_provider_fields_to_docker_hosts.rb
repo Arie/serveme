@@ -1,4 +1,4 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 class AddProviderFieldsToDockerHosts < ActiveRecord::Migration[8.0]

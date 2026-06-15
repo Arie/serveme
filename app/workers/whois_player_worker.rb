@@ -1,17 +1,19 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 require "unicode/name"
 
 class WhoisPlayerWorker
   include Sidekiq::Worker
+  extend T::Sig
   sidekiq_options retry: false
 
+  sig { params(reservation_id: T.nilable(Integer), query: String, requester_uid: String, is_reserver: T::Boolean).void }
   def perform(reservation_id, query, requester_uid, is_reserver = false)
     reservation = Reservation.find_by(id: reservation_id)
     return unless reservation&.server
 
-    server = reservation.server
+    server = T.must(reservation.server)
     status_output = server.rcon_exec("status")
     return unless status_output
 
@@ -32,6 +34,7 @@ class WhoisPlayerWorker
 
   private
 
+  sig { params(players: T.untyped, query: String).returns(T.untyped) }
   def match_players(players, query)
     return players if query == "*"
 
@@ -44,13 +47,15 @@ class WhoisPlayerWorker
     end
   end
 
+  sig { params(name: String).returns(String) }
   def searchable_emoji_name(name)
     name.each_char.filter_map { |c| Unicode::Name.of(c)&.downcase if c.ord > 0xFF }.join(" ")
   end
 
+  sig { params(server: T.untyped, message: String, requester_uid: String).void }
   def send_message(server, message, requester_uid)
     message.split("\n").each do |line|
-      line.scan(/.{1,200}(?:\s|$)/).map(&:strip).each do |chunk|
+      T.unsafe(line).scan(/.{1,200}(?:\s|$)/).map(&:strip).each do |chunk|
         server.rcon_exec("sm_psay ##{requester_uid} #{chunk}")
       end
     end

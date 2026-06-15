@@ -30,6 +30,7 @@ class LogUpload < ActiveRecord::Base
     File.join(Rails.root.join, "server_logs", reservation_id.to_s, "*.log")
   end
 
+  sig { void }
   def upload
     logs_tf_log     = LogsTF::Log.new(log_file, map_name, title, logs_tf_api_key)
     logs_tf_upload  = LogsTF::Upload.new(logs_tf_log)
@@ -51,7 +52,7 @@ class LogUpload < ActiveRecord::Base
 
   sig { returns(T.nilable(String)) }
   def logs_tf_api_key
-    user.logs_tf_api_key.presence || Rails.application.credentials.dig(:logs_tf, :api_key)
+    T.must(user).logs_tf_api_key.presence || Rails.application.credentials.dig(:logs_tf, :api_key)
   end
 
   sig { params(file_name: String).returns(T::Boolean) }
@@ -66,28 +67,34 @@ class LogUpload < ActiveRecord::Base
 
   private
 
+  sig { returns(T.nilable(T::Boolean)) }
   def log_file_and_name_present?
     file_name && log_file_exists?(T.must(file_name))
   end
 
+  sig { returns(T.nilable(User)) }
   def user
     reservation&.user
   end
 
+  sig { returns(T::Array[String]) }
   def filenames
     logs.map { |log| log[:file_name] }
   end
 
+  sig { returns(T::Array[Hash]) }
   def logs
     LogUpload.find_log_files(T.must(reservation_id))
   end
 
+  sig { void }
   def validate_log_file_exists
     return if log_file_and_name_present?
 
     errors.add(:file_name, "file does not exist")
   end
 
+  sig { returns(T::Boolean) }
   def tftrue_upload?
     status == "TFTrue upload"
   end

@@ -1,9 +1,37 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 module SshExecution
   extend ActiveSupport::Concern
   extend T::Sig
+  extend T::Helpers
+
+  requires_ancestor { Server }
+
+  # Transport contract supplied by the including server class
+  # (SshServer and CloudServer each bring their own connection setup).
+  sig { overridable.returns(T.nilable(Net::SSH::Connection::Session)) }
+  def ssh
+    raise NotImplementedError
+  end
+
+  sig { overridable.params(block: T.untyped).returns(T.untyped) }
+  def sftp_start(&block)
+    raise NotImplementedError
+  end
+  private :sftp_start
+
+  sig { overridable.returns(String) }
+  def scp_command
+    raise NotImplementedError
+  end
+  private :scp_command
+
+  sig { overridable.returns(T.nilable(String)) }
+  def scp_target
+    raise NotImplementedError
+  end
+  private :scp_target
 
   sig { returns(T.nilable(String)) }
   def find_process_id
@@ -107,7 +135,8 @@ module SshExecution
     end
   end
 
-  def with_ssh_reconnect(command)
+  sig { params(command: String, blk: T.untyped).returns(T.untyped) }
+  def with_ssh_reconnect(command, &blk)
     yield
   rescue *SSH_RECOVERABLE_ERRORS => e
     logger.warn "SSH connection lost (#{e.class}: #{e.message}), reconnecting to retry: #{command}"

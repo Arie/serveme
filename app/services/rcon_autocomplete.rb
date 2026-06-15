@@ -1,13 +1,17 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 class RconAutocomplete
+  extend T::Sig
+
   attr_accessor :query, :reservation
 
+  sig { params(reservation: T.nilable(Reservation)).void }
   def initialize(reservation = nil)
     @reservation = reservation
   end
 
+  sig { params(query: T.untyped).returns(T::Array[T::Hash[Symbol, T.untyped]]) }
   def autocomplete(query)
     @query = query.downcase
 
@@ -54,6 +58,7 @@ class RconAutocomplete
     autocomplete_best_match.first(10)
   end
 
+  sig { returns(T.nilable(T::Array[T::Hash[Symbol, T.untyped]])) }
   def autocomplete_deep_suggestions
     return nil unless query.split.first
 
@@ -79,6 +84,7 @@ class RconAutocomplete
     nil
   end
 
+  sig { returns(T::Array[T::Hash[Symbol, T.untyped]]) }
   def autocomplete_deep_changelevel
     LeagueMaps.all_league_maps
               .select { |map_name| map_name.downcase.start_with?(query.split[1..].join(" ")) }
@@ -86,6 +92,7 @@ class RconAutocomplete
               .sort_by { |command| command[:command] }
   end
 
+  sig { returns(T::Array[T::Hash[Symbol, T.untyped]]) }
   def autocomplete_deep_exec
     self.class.league_configs
         .select { |config| config.downcase.start_with?(query.split[1..].join(" ")) }
@@ -93,6 +100,7 @@ class RconAutocomplete
         .sort_by { |command| command[:command] }
   end
 
+  sig { returns(T::Array[T::Hash[Symbol, T.untyped]]) }
   def autocomplete_deep_mp_tournament_whitelist
     self.class.league_whitelists
         .select { |whitelist| whitelist.downcase.start_with?(query.split[1..].join(" ")) }
@@ -100,6 +108,7 @@ class RconAutocomplete
         .sort_by { |command| command[:command] }
   end
 
+  sig { returns(T::Array[T::Hash[Symbol, T.untyped]]) }
   def autocomplete_deep_tftrue_whitelist_id
     self.class.whitelist_tf_whitelists
         .select { |whitelist| whitelist.downcase.start_with?(query.split[1..].join(" ")) }
@@ -107,38 +116,45 @@ class RconAutocomplete
         .sort_by { |command| command[:command] }
   end
 
+  sig { returns(T::Array[T::Hash[Symbol, T.untyped]]) }
   def autocomplete_deep_kick
     autocomplete_players
       .map do |ps|
-        uid3 = SteamCondenser::Community::SteamId.community_id_to_steam_id3(ps.reservation_player.steam_uid.to_i)
+        reservation_player = T.must(ps.reservation_player)
+        uid3 = SteamCondenser::Community::SteamId.community_id_to_steam_id3(reservation_player.steam_uid.to_i)
         {
           command: "kickid \"#{uid3}\"",
-          display_text: "kick \"#{ps.reservation_player.name}\"",
-          description: "Kick #{ps.reservation_player.name}"
+          display_text: "kick \"#{reservation_player.name}\"",
+          description: "Kick #{reservation_player.name}"
         }
       end
   end
 
+  sig { returns(T::Array[T::Hash[Symbol, T.untyped]]) }
   def autocomplete_deep_kickid
     autocomplete_deep_kick
   end
 
+  sig { returns(T::Array[T::Hash[Symbol, T.untyped]]) }
   def autocomplete_deep_ban
     autocomplete_players
       .map do |ps|
-        uid3 = SteamCondenser::Community::SteamId.community_id_to_steam_id3(ps.reservation_player.steam_uid.to_i)
+        reservation_player = T.must(ps.reservation_player)
+        uid3 = SteamCondenser::Community::SteamId.community_id_to_steam_id3(reservation_player.steam_uid.to_i)
         {
           command: "banid 0 #{uid3} kick",
-          display_text: "ban \"#{ps.reservation_player.name}\"",
-          description: "Ban #{ps.reservation_player.name}"
+          display_text: "ban \"#{reservation_player.name}\"",
+          description: "Ban #{reservation_player.name}"
         }
       end
   end
 
+  sig { returns(T::Array[T::Hash[Symbol, T.untyped]]) }
   def autocomplete_deep_banid
     autocomplete_deep_ban
   end
 
+  sig { returns(T::Array[PlayerStatistic]) }
   def autocomplete_players
     PlayerStatistic
       .joins(:reservation_player)
@@ -146,9 +162,10 @@ class RconAutocomplete
       .where(reservation_players: { reservation_id: reservation.id })
       .where(created_at: (90.seconds.ago..))
       .to_a
-      .uniq { |ps| ps.reservation_player.steam_uid }
+      .uniq { |ps| T.must(ps.reservation_player).steam_uid }
   end
 
+  sig { returns(T::Array[T::Hash[Symbol, T.untyped]]) }
   def autocomplete_exact_start
     self.class.commands_to_suggest
         .select { |command| command[:command].start_with?(query) }
@@ -161,6 +178,7 @@ class RconAutocomplete
     end
   end
 
+  sig { returns(T::Array[T::Hash[Symbol, T.untyped]]) }
   def autocomplete_word_start
     # Find commands where query matches the start of a word (after a word boundary)
     word_boundary_pattern = /(?:^|\W)#{Regexp.escape(query)}/
@@ -179,6 +197,7 @@ class RconAutocomplete
     sorted_data.map(&:first)
   end
 
+  sig { returns(T::Array[T::Hash[Symbol, T.untyped]]) }
   def autocomplete_substring
     # Find commands where query appears anywhere, excluding those already matched by more specific methods
     commands = self.class.commands_to_suggest
@@ -200,6 +219,7 @@ class RconAutocomplete
     sorted_data.map(&:first)
   end
 
+  sig { returns(T::Array[T::Hash[Symbol, T.untyped]]) }
   def autocomplete_description_match
     commands = self.class.commands_to_suggest
                    .select { |command| command[:description].downcase.include?(query) }
@@ -216,6 +236,7 @@ class RconAutocomplete
     sorted_data.map(&:first)
   end
 
+  sig { returns(T::Array[T::Hash[Symbol, T.untyped]]) }
   def autocomplete_best_match
     self.class.commands_to_suggest
         .sort_by do |command|
@@ -226,6 +247,7 @@ class RconAutocomplete
     end
   end
 
+  sig { returns(T::Array[T::Hash[Symbol, T.untyped]]) }
   def self.deep_complete_commands
     [
       { command: "ban", description: "Ban a player by name" },
@@ -239,6 +261,7 @@ class RconAutocomplete
     ]
   end
 
+  sig { returns(T::Array[T::Hash[Symbol, T.untyped]]) }
   def self.commands_with_values
     [
       {
@@ -284,6 +307,7 @@ class RconAutocomplete
     ]
   end
 
+  sig { returns(T::Array[String]) }
   def self.league_configs
     %w[
       etf2l
@@ -364,6 +388,7 @@ class RconAutocomplete
     ]
   end
 
+  sig { returns(T::Array[String]) }
   def self.league_whitelists
     %w[
       etf2l_whitelist_6v6.txt
@@ -383,6 +408,7 @@ class RconAutocomplete
     ]
   end
 
+  sig { returns(T::Array[String]) }
   def self.whitelist_tf_whitelists
     %w[
       etf2l_whitelist_6v6
@@ -402,6 +428,7 @@ class RconAutocomplete
     ]
   end
 
+  sig { returns(T::Array[T::Hash[Symbol, T.untyped]]) }
   def self.commands_to_suggest
     [
       { command: "ban", description: "Ban a player" },

@@ -1,4 +1,4 @@
-# typed: true
+# typed: strict
 # frozen_string_literal: true
 
 class ReservationStatus < ActiveRecord::Base
@@ -7,11 +7,23 @@ class ReservationStatus < ActiveRecord::Base
   belongs_to :reservation
   validates_presence_of :reservation_id
 
-  after_create_commit -> { T.unsafe(self).broadcast_prepend_to T.unsafe(self).reservation }
-  after_create_commit -> { T.unsafe(self).broadcast_replace_to T.unsafe(self).reservation, target: "reservation_status_message_#{T.unsafe(self).reservation_id}", partial: "reservations/status", locals: { reservation: T.unsafe(self).reservation } }
+  after_create_commit -> {
+    T.bind(self, ReservationStatus)
+    broadcast_prepend_to reservation
+  }
+  after_create_commit -> {
+    T.bind(self, ReservationStatus)
+    broadcast_replace_to reservation, target: "reservation_status_message_#{reservation_id}", partial: "reservations/status", locals: { reservation: reservation }
+  }
   after_create_commit :notify_discord
-  after_update_commit -> { T.unsafe(self).broadcast_replace_to T.unsafe(self).reservation }
-  after_update_commit -> { T.unsafe(self).broadcast_replace_to T.unsafe(self).reservation, target: "reservation_status_message_#{T.unsafe(self).reservation_id}", partial: "reservations/status", locals: { reservation: T.unsafe(self).reservation } }
+  after_update_commit -> {
+    T.bind(self, ReservationStatus)
+    broadcast_replace_to reservation
+  }
+  after_update_commit -> {
+    T.bind(self, ReservationStatus)
+    broadcast_replace_to reservation, target: "reservation_status_message_#{reservation_id}", partial: "reservations/status", locals: { reservation: reservation }
+  }
 
   sig { returns(T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy)) }
   def self.ordered

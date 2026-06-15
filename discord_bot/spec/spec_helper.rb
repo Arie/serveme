@@ -1,4 +1,4 @@
-# typed: false
+# typed: strict
 # frozen_string_literal: true
 
 # Discord bot specs now require Rails environment since we use Rails directly

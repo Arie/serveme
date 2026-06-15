@@ -1,15 +1,17 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 class MatchStatsWorker
   include Sidekiq::Worker
+  extend T::Sig
 
   sidekiq_options retry: 3, queue: "default"
 
+  sig { params(reservation_id: Integer).void }
   def perform(reservation_id)
     reservation = Reservation.find(reservation_id)
 
-    log_files = Dir.glob(Rails.root.join("server_logs", reservation_id.to_s, "*.log"))
+    log_files = Dir.glob(Rails.root.join("server_logs", reservation_id.to_s, "*.log").to_s)
     return if log_files.empty?
 
     log_files.each do |log_file|
@@ -62,6 +64,7 @@ class MatchStatsWorker
 
   private
 
+  sig { params(match_data: T.untyped).returns(T.nilable(String)) }
   def determine_winning_team(match_data)
     red = match_data.final_scores["Red"] || 0
     blue = match_data.final_scores["Blue"] || 0

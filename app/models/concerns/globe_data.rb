@@ -1,9 +1,11 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 module GlobeData
+  extend T::Sig
   extend ActiveSupport::Concern
 
+  sig { params(servers_with_players: T.untyped).returns(T::Array[T::Hash[Symbol, T.untyped]]) }
   def globe_server_data(servers_with_players)
     permanent_servers = Server.active.not_cloud.where.not(latitude: nil, longitude: nil)
 
@@ -21,10 +23,10 @@ module GlobeData
       docker_host_active_containers[docker_host_id] += 1 if data[:players].any?
     end
 
-    all_server_data = permanent_servers.map do |server|
+    all_server_data = T.let(permanent_servers.map do |server|
       players = servers_with_players_hash[server.id] || []
       { server: server, players: players }
-    end
+    end, T::Array[T::Hash[Symbol, T.untyped]])
 
     DockerHost.active.where.not(latitude: nil, longitude: nil).find_each do |docker_host|
       players = docker_host_players[docker_host.id] || []

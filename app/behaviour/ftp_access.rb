@@ -1,8 +1,11 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 module FtpAccess
   extend T::Sig
+  extend T::Helpers
+
+  requires_ancestor { RconFtpServer }
 
   require "net/ftp"
 
@@ -52,7 +55,7 @@ module FtpAccess
       Thread.new do
         ftp = make_ftp_connection
         files_for_thread.each do |file|
-          ftp.getbinaryfile(file, File.join(destination, File.basename(file)))
+          T.must(ftp).getbinaryfile(file, File.join(destination, File.basename(file)))
         rescue StandardError => e
           Rails.logger.error "couldn't download file: #{file} - #{e}"
           Sentry.capture_exception(e) if Rails.env.production?
@@ -79,12 +82,14 @@ module FtpAccess
     threads.map { |t| t.join(30) }
   end
 
+  sig { returns(T.class_of(DownloadThenZipFileCreator)) }
   def zip_file_creator_class
     DownloadThenZipFileCreator
   end
 
+  sig { returns(Net::FTP) }
   def ftp
-    @ftp ||= make_ftp_connection
+    @ftp ||= T.must(make_ftp_connection)
   end
 
   sig { returns(T.nilable(Net::FTP)) }
@@ -96,6 +101,7 @@ module FtpAccess
     ftp
   rescue EOFError
     Rails.logger.error "Got an EOF error on server #{id}: #{name}"
+    nil
   end
 
   sig { returns(Integer) }
@@ -112,7 +118,7 @@ module FtpAccess
   def ftp_mkdir_p(path)
     parts = path.split("/").reject(&:empty?)
     parts.each_with_index do |_, i|
-      dir = "/#{parts[0..i].join('/')}"
+      dir = "/#{T.must(parts[0..i]).join('/')}"
       ftp.mkdir(dir)
     rescue Net::FTPPermError
       nil

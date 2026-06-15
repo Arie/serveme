@@ -5,7 +5,7 @@ class SshServer < RemoteServer
   extend T::Sig
   include SshExecution
 
-  sig { returns(T.nilable(Net::SSH::Connection::Session)) }
+  sig { override.returns(T.nilable(Net::SSH::Connection::Session)) }
   def ssh
     @ssh ||= Net::SSH.start(ip, nil, timeout: 5, keepalive: true, keepalive_interval: 5, keepalive_maxcount: 2, bind_address: "0.0.0.0")
   end
@@ -22,16 +22,17 @@ class SshServer < RemoteServer
 
   private
 
-  sig { returns(String) }
+  sig { override.returns(String) }
   def scp_command
     "scp -4 -O -T -l 200000 -o ConnectTimeout=5 -o ServerAliveInterval=5 -o ServerAliveCountMax=2"
   end
 
-  sig { returns(T.nilable(String)) }
+  sig { override.returns(T.nilable(String)) }
   def scp_target
     ip
   end
 
+  sig { override.params(block: T.untyped).returns(T.untyped) }
   def sftp_start(&block)
     Net::SFTP.start(ip, nil, timeout: 5, bind_address: "0.0.0.0", &block)
   end

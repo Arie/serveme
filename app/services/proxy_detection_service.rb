@@ -1,7 +1,9 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 class ProxyDetectionService
+  extend T::Sig
+
   class AllProvidersExhaustedError < StandardError; end
 
   PROVIDERS = [
@@ -9,10 +11,12 @@ class ProxyDetectionService
     { service: FraudlogixService, name: "Fraudlogix" }
   ].freeze
 
+  sig { params(ip: T.nilable(String)).returns(IpLookup) }
   def self.check(ip)
     new.check(ip)
   end
 
+  sig { params(ip: T.nilable(String)).returns(IpLookup) }
   def check(ip)
     errors = []
 
@@ -20,10 +24,10 @@ class ProxyDetectionService
       result = try_provider(provider, ip)
       return result if result
 
-    rescue provider[:service]::QuotaExceededError
+    rescue IpQualityScoreService::QuotaExceededError, FraudlogixService::QuotaExceededError
       Rails.logger.info "[ProxyDetection] #{provider[:name]} quota exceeded, trying next provider"
       errors << "#{provider[:name]}: quota exceeded"
-    rescue provider[:service]::ApiError => e
+    rescue IpQualityScoreService::ApiError, FraudlogixService::ApiError => e
       Rails.logger.warn "[ProxyDetection] #{provider[:name]} API error: #{e.message}, trying next provider"
       errors << "#{provider[:name]}: #{e.message}"
     rescue StandardError => e
@@ -36,6 +40,7 @@ class ProxyDetectionService
 
   private
 
+  sig { params(provider: T::Hash[Symbol, T.untyped], ip: T.nilable(String)).returns(T.nilable(IpLookup)) }
   def try_provider(provider, ip)
     provider[:service].check(ip)
   end

@@ -1,8 +1,9 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 class DiscordBanAppealWorker
   include Sidekiq::Worker
+  extend T::Sig
 
   sidekiq_options queue: :discord, retry: 3
 
@@ -10,6 +11,7 @@ class DiscordBanAppealWorker
   OPEN_APPEAL_TTL = 604_800 # 7 days
   DISCORD_FIELD_VALUE_LIMIT = 1024 # Discord rejects embed field values longer than this
 
+  sig { params(user_id: Integer, discord_user_id: String, interaction_token: String).void }
   def perform(user_id, discord_user_id, interaction_token)
     user = User.find_by(id: user_id)
     return unless user
@@ -46,12 +48,13 @@ class DiscordBanAppealWorker
     # Update interaction
     update_interaction(interaction_token, ":white_check_mark: Your ban appeal has been created. Check <##{thread_id}>.")
   rescue StandardError => e
-    Rails.logger.error "[BanAppeal] Error creating appeal: #{e.message}\n#{e.backtrace.first(5).join("\n")}"
+    Rails.logger.error "[BanAppeal] Error creating appeal: #{e.message}\n#{e.backtrace&.first(5)&.join("\n")}"
     update_interaction(interaction_token, ":x: Failed to create your ban appeal. Please try again later.")
   end
 
   private
 
+  sig { params(nickname: T.untyped).returns(T.untyped) }
   def create_private_thread(nickname)
     channel_id = Rails.application.credentials.dig(:discord, :ban_appeals_channel_id)
     truncated_name = "Appeal - #{nickname}"[0, 100]
@@ -62,21 +65,23 @@ class DiscordBanAppealWorker
     )
   end
 
+  sig { params(thread_id: T.untyped, discord_user_id: T.untyped).void }
   def add_thread_member(thread_id, discord_user_id)
     DiscordApiClient.add_thread_member(thread_id: thread_id, user_id: discord_user_id)
   rescue StandardError => e
     Rails.logger.warn "[BanAppeal] Failed to add thread member #{discord_user_id}: #{e.message}"
   end
 
+  sig { params(thread_id: T.untyped, enrichment: T.untyped).returns(T.untyped) }
   def post_user_message(thread_id, enrichment)
     regions_text = enrichment[:regions]&.map(&:upcase)&.join(", ") || "Unknown"
 
-    fields = [
+    fields = T.let([
       { name: "Player", value: enrichment[:nickname], inline: true },
       { name: "Ban Reason", value: enrichment[:ban_reason] || "Unknown", inline: true },
       { name: "Regions", value: regions_text, inline: true },
       { name: "Your History", value: "Member since: #{format_date(enrichment[:first_seen])}\nReservations: #{enrichment[:reservation_count]} | Games played: #{enrichment[:games_played]}", inline: false }
-    ]
+    ], T::Array[T::Hash[Symbol, T.untyped]])
 
     fields << {
       name: "What happens next?",
@@ -94,6 +99,7 @@ class DiscordBanAppealWorker
     DiscordApiClient.send_message(channel_id: thread_id, embeds: [ embed ])
   end
 
+  sig { params(thread_id: T.untyped, enrichment: T.untyped, user_id: Integer).returns(T.untyped) }
   def post_admin_enrichment(thread_id, enrichment, user_id)
     admin_channel_id = Rails.application.credentials.dig(:discord, :appeals_admin_channel_id)
 
@@ -173,6 +179,7 @@ class DiscordBanAppealWorker
     DiscordApiClient.send_message(channel_id: admin_channel_id, embeds: [ embed ], components: components)
   end
 
+  sig { params(steam_uid: T.untyped, thread_id: T.untyped, admin_message_id: T.untyped).void }
   def set_redis_keys(steam_uid, thread_id, admin_message_id)
     Sidekiq.redis do |redis|
       redis.set("ban_appeal_open:#{steam_uid}", "#{thread_id}:#{admin_message_id}", ex: OPEN_APPEAL_TTL)
@@ -180,6 +187,7 @@ class DiscordBanAppealWorker
     end
   end
 
+  sig { params(interaction_token: T.untyped, content: String).void }
   def update_interaction(interaction_token, content)
     DiscordApiClient.update_interaction_response(interaction_token: interaction_token, content: content)
   rescue StandardError => e
@@ -189,6 +197,7 @@ class DiscordBanAppealWorker
   # Discord rejects the whole message (400) if any embed field value exceeds
   # DISCORD_FIELD_VALUE_LIMIT, so clamp each value, preferring to cut on a line
   # boundary to avoid breaking markdown links mid-URL.
+  sig { params(fields: T.untyped).returns(T.untyped) }
   def truncate_field_values(fields)
     fields.map do |field|
       value = field[:value].to_s
@@ -202,6 +211,7 @@ class DiscordBanAppealWorker
     end
   end
 
+  sig { params(region: T.untyped).returns(String) }
   def region_base_url(region)
     case region
     when "na" then "https://na.serveme.tf"
@@ -211,6 +221,7 @@ class DiscordBanAppealWorker
     end
   end
 
+  sig { params(iso_string: T.untyped).returns(String) }
   def format_date(iso_string)
     return "N/A" unless iso_string
     Time.parse(iso_string).strftime("%-d %b %Y")

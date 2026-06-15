@@ -1,4 +1,4 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 require "opentelemetry-logs-sdk"
@@ -10,6 +10,8 @@ require "opentelemetry/exporter/otlp_logs"
 #
 # Lograge lines are skipped in the broadcast to avoid duplication with the request subscriber.
 class OtelLogger
+  extend T::Sig
+
   SEVERITY_MAP = {
     "DEBUG" => "DEBUG",
     "INFO" => "INFO",
@@ -23,6 +25,7 @@ class OtelLogger
   # Matches both regular requests (method=GET) and ActionCable (method= path=)
   LOGRAGE_PATTERN = /\Amethod=\S* path=/
 
+  sig { void }
   def self.setup!
     resource = OpenTelemetry::SDK::Resources::Resource.create(
       "service.name" => ENV["OTEL_SERVICE_NAME"]
@@ -46,6 +49,7 @@ class OtelLogger
 
   # Pulls trace context + Sidekiq job context from the current thread so every
   # OTel log record can be correlated to its trace (and, for jobs, to its jid).
+  sig { returns(T::Hash[String, T.untyped]) }
   def self.correlation_attributes
     attrs = {}
 
@@ -66,6 +70,7 @@ class OtelLogger
     attrs
   end
 
+  sig { params(otel_logger: T.untyped).void }
   def self.setup_request_subscriber(otel_logger)
     ActiveSupport::Notifications.subscribe("process_action.action_controller") do |*args|
       event = ActiveSupport::Notifications::Event.new(*args)
@@ -98,20 +103,25 @@ class OtelLogger
     end
   end
 
+  sig { params(otel_logger: T.untyped).void }
   def self.setup_rails_logger_broadcast(otel_logger)
     broadcast = OtelBroadcastLogger.new(otel_logger)
-    Rails.logger.broadcast_to(broadcast)
+    T.unsafe(Rails.logger).broadcast_to(broadcast)
   end
 
   # A minimal Logger that forwards messages to the OpenTelemetry log exporter.
   # Used as a broadcast target for Rails.logger.
   class OtelBroadcastLogger < ::Logger
+    extend T::Sig
+
+    sig { params(otel_logger: T.untyped).void }
     def initialize(otel_logger)
       super(nil)
       @otel_logger = otel_logger
     end
 
-    def add(severity, message = nil, progname = nil)
+    sig { params(severity: T.untyped, message: T.untyped, progname: T.untyped, block: T.untyped).returns(T::Boolean) }
+    def add(severity, message = nil, progname = nil, &block)
       return true if severity < ::Logger::INFO
 
       message = yield if message.nil? && block_given?

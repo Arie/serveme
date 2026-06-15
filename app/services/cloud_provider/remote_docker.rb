@@ -1,4 +1,4 @@
-# typed: false
+# typed: strict
 # frozen_string_literal: true
 
 require "net/ssh"
@@ -6,28 +6,32 @@ require "shellwords"
 
 module CloudProvider
   class RemoteDocker < DockerContainerProvider
+    sig { override.params(starts_at: T.any(Time, ActiveSupport::TimeWithZone), ends_at: T.any(Time, ActiveSupport::TimeWithZone)).returns(T::Hash[String, T::Hash[Symbol, String]]) }
     def self.locations(starts_at: Time.current, ends_at: 2.hours.from_now)
       return {} if DockerImageReadiness.stale?
 
       DockerHost.active.ordered.each_with_object({}) do |host, hash|
         next if host.full_during?(starts_at, ends_at)
 
+        location = T.must(host.location)
         hash[host.id.to_s] = {
           name: host.city,
           hostname: host.hostname,
-          country: host.location.name,
-          flag: host.location.flag
+          country: location.name,
+          flag: location.flag
         }
       end
     end
 
+    sig { override.returns(String) }
     def docker_image
       "serveme/tf2-cloud-server:latest"
     end
 
+    sig { override.params(cloud_server: CloudServer).returns(String) }
     def create_server(cloud_server)
       Rails.logger.info "RemoteDocker: Creating container for cloud_server #{cloud_server.id}"
-      docker_host = DockerHost.find(cloud_server.cloud_location)
+      docker_host = DockerHost.find(T.must(cloud_server.cloud_location))
       name = container_name(cloud_server)
       run_cmd = docker_run_command(cloud_server)
 
@@ -42,10 +46,12 @@ module CloudProvider
       "#{docker_host.id}:#{name}"
     end
 
+    sig { override.returns(String) }
     def estimated_provision_time
       "about 1 minute"
     end
 
+    sig { override.returns(T::Array[T::Hash[Symbol, T.untyped]]) }
     def provision_phases
       [
         { key: "creating_vm", label: "Starting container", icon: "fa-server", seconds: 5 },
@@ -56,12 +62,13 @@ module CloudProvider
       ]
     end
 
+    sig { override.params(provider_id: String).returns(String) }
     def server_status(provider_id)
       docker_host_id, name = provider_id.split(":", 2)
-      docker_host = DockerHost.find(docker_host_id)
+      docker_host = DockerHost.find(T.must(docker_host_id))
 
       output = ssh_to_host(docker_host) do |ssh|
-        ssh.exec!("docker inspect -f '{{.State.Status}}' #{Shellwords.shellescape(name)}")
+        ssh.exec!("docker inspect -f '{{.State.Status}}' #{Shellwords.shellescape(T.must(name))}")
       end
 
       return "provisioning" if output.nil?
@@ -69,18 +76,20 @@ module CloudProvider
       parse_docker_state(output)
     end
 
+    sig { override.params(provider_id: String).returns(T.nilable(String)) }
     def server_ip(provider_id)
       docker_host_id, = provider_id.split(":", 2)
-      DockerHost.find(docker_host_id).ip
+      DockerHost.find(T.must(docker_host_id)).ip
     end
 
+    sig { override.params(provider_id: String).returns(T::Boolean) }
     def destroy_server(provider_id)
       docker_host_id, name = provider_id.split(":", 2)
-      docker_host = DockerHost.find(docker_host_id)
+      docker_host = DockerHost.find(T.must(docker_host_id))
 
       Rails.logger.info "RemoteDocker: Destroying container #{name} on #{docker_host.ip}"
       output = ssh_to_host(docker_host) do |ssh|
-        ssh.exec!("docker rm -f #{Shellwords.shellescape(name)}")
+        ssh.exec!("docker rm -f #{Shellwords.shellescape(T.must(name))}")
       end
       result = output.present?
       Rails.logger.info "RemoteDocker: Destroy container #{name} result: #{result}"
@@ -89,6 +98,7 @@ module CloudProvider
 
     private
 
+    sig { params(docker_host: DockerHost, block: T.proc.params(ssh: T.untyped).returns(T.untyped)).returns(T.untyped) }
     def ssh_to_host(docker_host, &block)
       opts = { timeout: 5, keepalive: true, keepalive_interval: 5, keepalive_maxcount: 2, bind_address: "0.0.0.0", port: docker_host.ssh_port }
       user = docker_host.ssh_user

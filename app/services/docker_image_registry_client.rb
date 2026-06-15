@@ -2,9 +2,12 @@
 # frozen_string_literal: true
 
 class DockerImageRegistryClient
+  extend T::Sig
+
   IMAGE = "serveme/tf2-cloud-server"
 
   # The content digest of the :latest manifest, or nil on failure.
+  sig { returns(T.nilable(String)) }
   def fetch_digest
     token = fetch_token
     return nil unless token
@@ -22,6 +25,7 @@ class DockerImageRegistryClient
 
   # The highest numeric (TF2 version) tag in the registry as a string, or nil
   # when there are no version tags or the lookup fails.
+  sig { returns(T.nilable(String)) }
   def fetch_latest_version_tag
     token = fetch_token
     return nil unless token
@@ -42,6 +46,7 @@ class DockerImageRegistryClient
 
   # Memoized so a single client instance reuses one token across calls
   # (e.g. DockerImagePollWorker calls fetch_digest + fetch_latest_version_tag).
+  sig { returns(T.nilable(String)) }
   def fetch_token
     @token ||= begin
       auth_conn = Faraday.new(url: "https://auth.docker.io") do |f|
@@ -53,6 +58,7 @@ class DockerImageRegistryClient
     end
   end
 
+  sig { returns(Faraday::Connection) }
   def registry_connection
     Faraday.new(url: "https://registry-1.docker.io") do |f|
       f.options.timeout = 10

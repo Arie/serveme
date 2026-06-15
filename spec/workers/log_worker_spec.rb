@@ -48,7 +48,7 @@ describe LogWorker do
     Rails.cache.clear
     Reservation.should_receive(:current).at_least(:once).and_return(Reservation)
     Reservation.should_receive(:includes).at_least(:once).with(:user).and_return(Reservation)
-    Reservation.should_receive(:find_by_id).at_least(:once).with(reservation.id).and_return(reservation)
+    Reservation.should_receive(:find_by).at_least(:once).with(id: reservation.id).and_return(reservation)
     reservation.stub(server: server)
     allow(Turbo::StreamsChannel).to receive(:broadcast_append_to)
     allow(Turbo::StreamsChannel).to receive(:broadcast_remove)
@@ -419,7 +419,7 @@ describe LogWorker do
       Rails.cache.clear
       Reservation.should_receive(:current).at_least(:once).and_return(Reservation)
       Reservation.should_receive(:includes).at_least(:once).with(:user).and_return(Reservation)
-      Reservation.should_receive(:find_by_id).at_least(:once).with(cloud_reservation.id).and_return(cloud_reservation)
+      Reservation.should_receive(:find_by).at_least(:once).with(id: cloud_reservation.id).and_return(cloud_reservation)
       allow(cloud_reservation).to receive(:server).and_return(cloud_server)
       allow(cloud_server).to receive(:broadcast_reservation_status)
       allow(cloud_server).to receive(:rcon_auth).and_return(true)
@@ -456,7 +456,7 @@ describe LogWorker do
 
       # Second call should not create a duplicate status because provisioned is now true
       cloud_reservation.reload
-      allow(Reservation).to receive(:find_by_id).with(cloud_reservation.id).and_return(cloud_reservation)
+      allow(Reservation).to receive(:find_by).with(id: cloud_reservation.id).and_return(cloud_reservation)
 
       LogWorker.perform_async(cloud_badlands_start_line)
 

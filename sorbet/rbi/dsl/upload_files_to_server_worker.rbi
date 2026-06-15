@@ -7,13 +7,23 @@
 
 class UploadFilesToServerWorker
   class << self
-    sig { params(options: T.untyped).returns(String) }
+    sig { params(options: T::Hash[::String, T.untyped]).returns(String) }
     def perform_async(options); end
 
-    sig { params(interval: T.any(DateTime, Time, ActiveSupport::TimeWithZone), options: T.untyped).returns(String) }
+    sig do
+      params(
+        interval: T.any(DateTime, Time, ActiveSupport::TimeWithZone),
+        options: T::Hash[::String, T.untyped]
+      ).returns(String)
+    end
     def perform_at(interval, options); end
 
-    sig { params(interval: T.any(Numeric, ActiveSupport::Duration), options: T.untyped).returns(String) }
+    sig do
+      params(
+        interval: T.any(Numeric, ActiveSupport::Duration),
+        options: T::Hash[::String, T.untyped]
+      ).returns(String)
+    end
     def perform_in(interval, options); end
   end
 end

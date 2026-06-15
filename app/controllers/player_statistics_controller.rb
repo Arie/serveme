@@ -55,7 +55,7 @@ class PlayerStatisticsController < ApplicationController
 
   def show_for_server_ip
     respond_to do |format|
-      server = Server.active.find(params[:server_id])
+      server = Server.active.find_by(id: params[:server_id])
       if server
         @player_statistics = paginate(player_statistics.joins(:server).where(servers: { ip: server.ip }))
         render_or_error(format, @player_statistics)

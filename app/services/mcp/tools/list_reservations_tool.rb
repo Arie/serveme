@@ -131,11 +131,11 @@ module Mcp
         # Using T.unsafe to bypass Sorbet's lack of knowledge about custom scopes
         reservations = case params[:status]&.to_s
         when "current"
-          T.unsafe(Reservation).current.with_user_and_server.order(starts_at: :desc)
+          Reservation.current.with_user_and_server.order(starts_at: :desc)
         when "future"
-          T.unsafe(Reservation).future.with_user_and_server.order(starts_at: :desc)
+          Reservation.future.with_user_and_server.order(starts_at: :desc)
         when "past"
-          T.unsafe(Reservation).with_user_and_server.where(ends_at: ...Time.current).order(starts_at: :desc)
+          Reservation.with_user_and_server.where(ends_at: ...Time.current).order(starts_at: :desc)
         else
           Reservation.ordered
         end

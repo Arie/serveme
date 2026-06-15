@@ -1,17 +1,20 @@
-# typed: true
+# typed: strict
 # frozen_string_literal: true
 
 class ReservationManager
   extend T::Sig
 
+  sig { returns(Reservation) }
   attr_reader :reservation
 
   delegate :server, to: :reservation, prefix: false
 
+  sig { params(reservation: Reservation).void }
   def initialize(reservation)
     @reservation = reservation
   end
 
+  sig { returns(T.untyped) }
   def start_reservation
     return if server.is_a?(CloudServer)
 
@@ -24,6 +27,7 @@ class ReservationManager
     end
   end
 
+  sig { returns(T.nilable(String)) }
   def end_reservation
     return if reservation.ended? || reservation.status == "Ending"
 
@@ -31,6 +35,7 @@ class ReservationManager
     manage_reservation(:end)
   end
 
+  sig { returns(T.nilable(String)) }
   def update_reservation
     manage_reservation(:update)
   end
@@ -42,6 +47,7 @@ class ReservationManager
 
   private
 
+  sig { returns(T::Boolean) }
   def previous_reservation_ended_fully?
     Reservation.where.not(id: reservation.id)
       .where(server_id: reservation.server_id, ended: false)

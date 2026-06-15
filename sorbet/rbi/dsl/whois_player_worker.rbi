@@ -9,10 +9,10 @@ class WhoisPlayerWorker
   class << self
     sig do
       params(
-        reservation_id: T.untyped,
-        query: T.untyped,
-        requester_uid: T.untyped,
-        is_reserver: T.untyped
+        reservation_id: T.nilable(::Integer),
+        query: ::String,
+        requester_uid: ::String,
+        is_reserver: T::Boolean
       ).returns(String)
     end
     def perform_async(reservation_id, query, requester_uid, is_reserver = T.unsafe(nil)); end
@@ -20,10 +20,10 @@ class WhoisPlayerWorker
     sig do
       params(
         interval: T.any(DateTime, Time, ActiveSupport::TimeWithZone),
-        reservation_id: T.untyped,
-        query: T.untyped,
-        requester_uid: T.untyped,
-        is_reserver: T.untyped
+        reservation_id: T.nilable(::Integer),
+        query: ::String,
+        requester_uid: ::String,
+        is_reserver: T::Boolean
       ).returns(String)
     end
     def perform_at(interval, reservation_id, query, requester_uid, is_reserver = T.unsafe(nil)); end
@@ -31,10 +31,10 @@ class WhoisPlayerWorker
     sig do
       params(
         interval: T.any(Numeric, ActiveSupport::Duration),
-        reservation_id: T.untyped,
-        query: T.untyped,
-        requester_uid: T.untyped,
-        is_reserver: T.untyped
+        reservation_id: T.nilable(::Integer),
+        query: ::String,
+        requester_uid: ::String,
+        is_reserver: T::Boolean
       ).returns(String)
     end
     def perform_in(interval, reservation_id, query, requester_uid, is_reserver = T.unsafe(nil)); end

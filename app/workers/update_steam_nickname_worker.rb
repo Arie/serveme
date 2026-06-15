@@ -1,13 +1,15 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 class UpdateSteamNicknameWorker
   include Sidekiq::Worker
+  extend T::Sig
 
   sidekiq_options retry: false
 
   attr_accessor :steam_uid
 
+  sig { params(steam_uid: String).void }
   def perform(steam_uid)
     return unless steam_uid =~ /^7656\d+$/
 
@@ -18,13 +20,14 @@ class UpdateSteamNicknameWorker
         ban_user(steam_uid)
         rename_user(steam_uid) if ReservationPlayer.banned_name?(steam_profile&.nickname)
       else
-        User.find_by(uid: steam_uid).update(nickname: steam_profile&.nickname, name: steam_profile&.nickname)
+        T.must(User.find_by(uid: steam_uid)).update(nickname: steam_profile&.nickname, name: steam_profile&.nickname)
       end
     rescue SteamCondenser::Error => e
       Rails.logger.info "Couldn't query Steam community: #{e}"
     end
   end
 
+  sig { params(steam_uid: String).void }
   def ban_user(steam_uid)
     uid3 = SteamCondenser::Community::SteamId.community_id_to_steam_id3(steam_uid.to_i)
     Server.active.each do |s|
@@ -34,7 +37,8 @@ class UpdateSteamNicknameWorker
     end
   end
 
+  sig { params(steam_uid: String).void }
   def rename_user(steam_uid)
-    User.find_by_uid(steam_uid)&.update(nickname: "idiot", name: "idiot")
+    User.find_by(uid: steam_uid)&.update(nickname: "idiot", name: "idiot")
   end
 end

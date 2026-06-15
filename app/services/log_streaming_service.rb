@@ -1,7 +1,9 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 class LogStreamingService
+  extend T::Sig
+
   DEFAULT_CHUNK_SIZE = 1_000
   MAX_CHUNK_SIZE = 5_000
 
@@ -13,6 +15,7 @@ class LogStreamingService
 
   attr_reader :filename, :search_query, :offset, :chunk_size
 
+  sig { params(filename: T.any(String, Pathname), search_query: T.nilable(String), offset: Integer, chunk_size: Integer).void }
   def initialize(filename, search_query: nil, offset: 0, chunk_size: DEFAULT_CHUNK_SIZE)
     @filename = filename
     @search_query = search_query
@@ -21,6 +24,7 @@ class LogStreamingService
   end
 
   # Get or create a cached LogLineIndex for the current file
+  sig { params(filename: T.any(String, Pathname)).returns(LogLineIndex) }
   def self.get_index(filename)
     @@index_cache_mutex.synchronize do
       cache_key = filename.to_s
@@ -49,6 +53,7 @@ class LogStreamingService
 
   # Stream a specific range of lines [start_line, end_line) using indexed seeking.
   # This is the key method for virtual scrolling - allows jumping to any position instantly.
+  sig { params(start_line: Integer, end_line: Integer).returns(T::Hash[Symbol, T.untyped]) }
   def stream_range(start_line, end_line)
     return empty_result unless File.exist?(filename)
 
@@ -73,6 +78,7 @@ class LogStreamingService
   end
 
   # Get just the total line count (for initial page load)
+  sig { returns(Integer) }
   def total_line_count
     return 0 unless File.exist?(filename)
     index = self.class.get_index(filename)
@@ -81,6 +87,7 @@ class LogStreamingService
 
   # Returns [[line_number, "HH:MM:SS"], ...] for each second transition.
   # Bounded by match duration (~10K entries max), not line count.
+  sig { returns(T::Array[T::Array[T.untyped]]) }
   def timestamp_index
     return [] unless File.exist?(filename)
     index = self.class.get_index(filename)
@@ -89,6 +96,7 @@ class LogStreamingService
   end
 
   # Return just the line indices that match the search query (for virtual scroll search)
+  sig { returns(T::Array[Integer]) }
   def search_line_indices
     return [] unless search_query.present?
     matches = search_with_ripgrep(search_query.downcase)
@@ -96,6 +104,7 @@ class LogStreamingService
   end
 
   # View lines centered on a specific line number (no percentage conversion)
+  sig { params(target_line: Integer, count: Integer).returns(T::Hash[Symbol, T.untyped]) }
   def view_at_line(target_line:, count:)
     total = total_line_count
     return empty_view_result if total == 0
@@ -120,6 +129,7 @@ class LogStreamingService
   # Unified view method: returns lines for a viewport, with optional search
   # position_percent: 0-100, where in the file/matches to center the view
   # count: number of lines to return
+  sig { params(position_percent: T.any(Integer, Float), count: Integer).returns(T::Hash[Symbol, T.untyped]) }
   def view_at_position(position_percent:, count:)
     if search_query.present?
       view_search_results(position_percent: position_percent, count: count)
@@ -130,6 +140,7 @@ class LogStreamingService
 
   private
 
+  sig { params(position_percent: T.any(Integer, Float), count: Integer).returns(T::Hash[Symbol, T.untyped]) }
   def view_all_lines(position_percent:, count:)
     total = total_line_count
     return empty_view_result if total == 0
@@ -156,6 +167,7 @@ class LogStreamingService
     }
   end
 
+  sig { params(position_percent: T.any(Integer, Float), count: Integer).returns(T::Hash[Symbol, T.untyped]) }
   def view_search_results(position_percent:, count:)
     # Get all matching line indices via ripgrep
     match_indices = search_line_indices
@@ -174,7 +186,7 @@ class LogStreamingService
     start_match = [ end_match - count, 0 ].max  # Adjust if we hit the end
 
     # Get the actual line indices for these matches
-    selected_match_indices = match_indices[start_match...end_match]
+    selected_match_indices = T.must(match_indices[start_match...end_match])
 
     # Read the actual lines from the file
     lines = read_specific_lines(selected_match_indices)
@@ -190,6 +202,7 @@ class LogStreamingService
     }
   end
 
+  sig { params(line_indices: T::Array[Integer]).returns(T::Array[String]) }
   def read_specific_lines(line_indices)
     return [] if line_indices.empty?
     return [] unless File.exist?(filename)
@@ -211,6 +224,7 @@ class LogStreamingService
     lines
   end
 
+  sig { returns(T::Hash[Symbol, T.untyped]) }
   def empty_view_result
     {
       lines: [],
@@ -223,6 +237,7 @@ class LogStreamingService
   end
 
   # Stream lines in forward order (oldest first) - used for streaming view
+  sig { returns(T::Hash[Symbol, T.untyped]) }
   def stream_forward
     search_term = search_query&.downcase
 
@@ -234,6 +249,7 @@ class LogStreamingService
   end
 
   # Stream lines in reverse order (newest first) - used for rcon view
+  sig { returns(T::Hash[Symbol, T.untyped]) }
   def stream_reverse
     search_term = search_query&.downcase
 
@@ -246,6 +262,7 @@ class LogStreamingService
 
   private
 
+  sig { params(search_term: String).returns(T::Hash[Symbol, T.untyped]) }
   def stream_forward_with_search(search_term)
     total_lines = count_lines_fast
     all_matches = search_with_ripgrep(search_term)
@@ -262,6 +279,7 @@ class LogStreamingService
     )
   end
 
+  sig { returns(T::Hash[Symbol, T.untyped]) }
   def stream_forward_without_search
     total_lines = count_lines_fast
     needed_end = offset + chunk_size
@@ -285,6 +303,7 @@ class LogStreamingService
     )
   end
 
+  sig { params(search_term: String).returns(T::Hash[Symbol, T.untyped]) }
   def stream_reverse_with_search(search_term)
     total_lines = count_lines_fast
     all_matches = search_with_ripgrep(search_term)
@@ -302,6 +321,7 @@ class LogStreamingService
     )
   end
 
+  sig { returns(T::Hash[Symbol, T.untyped]) }
   def stream_reverse_without_search
     total_lines = count_lines_fast
 
@@ -330,6 +350,7 @@ class LogStreamingService
     )
   end
 
+  sig { params(search_term: String).returns(T::Array[T::Hash[Symbol, T.untyped]]) }
   def search_with_ripgrep(search_term)
     sanitized_term = sanitize_search_term(search_term)
     return [] if sanitized_term.blank?
@@ -346,14 +367,16 @@ class LogStreamingService
     matches
   end
 
+  sig { params(term: T.nilable(String)).returns(T.nilable(String)) }
   def sanitize_search_term(term)
     return nil if term.nil?
 
-    term = term[0, 200]
+    term = T.must(term[0, 200])
 
     term.encode("UTF-8", invalid: :replace, undef: :replace, replace: "")
   end
 
+  sig { returns(Integer) }
   def count_lines_fast
     return 0 unless File.exist?(filename)
 
@@ -366,6 +389,7 @@ class LogStreamingService
     count
   end
 
+  sig { params(lines: T::Array[String], total_lines: Integer, matched_lines: Integer, has_more: T::Boolean, loaded_lines: Integer).returns(T::Hash[Symbol, T.untyped]) }
   def build_result(lines:, total_lines:, matched_lines:, has_more:, loaded_lines:)
     {
       lines: lines,
@@ -377,6 +401,7 @@ class LogStreamingService
     }
   end
 
+  sig { returns(T::Hash[Symbol, T.untyped]) }
   def empty_result
     {
       lines: [],

@@ -1,4 +1,4 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 # Provides efficient random access to log files by maintaining a byte-offset index.
@@ -9,10 +9,13 @@
 # - Random access: O(1) seek + O(chunk_size) read
 # - File growth: Only indexes new portions, existing offsets remain valid
 class LogLineIndex
+  extend T::Sig
+
   TIMESTAMP_REGEX = /\AL \d{2}\/\d{2}\/\d{4} - (\d{2}:\d{2}:\d{2}):/
 
   attr_reader :filename, :offsets, :indexed_to_byte, :timestamp_transitions
 
+  sig { params(filename: T.any(String, Pathname)).void }
   def initialize(filename)
     @filename = filename
     @offsets = [ 0 ] # First line always starts at byte 0
@@ -24,6 +27,7 @@ class LogLineIndex
 
   # Extend the index if the file has grown or if we need to reach a target line.
   # Thread-safe and idempotent. Builds both byte-offset and timestamp indexes.
+  sig { params(target_line: T.nilable(Integer)).void }
   def extend_if_needed(target_line = nil)
     @mutex.synchronize do
       return unless File.exist?(filename)
@@ -57,6 +61,7 @@ class LogLineIndex
   end
 
   # Get the byte offset for a specific line number (0-indexed).
+  sig { params(line_number: Integer).returns(T.nilable(Integer)) }
   def [](line_number)
     extend_if_needed(line_number)
     @offsets[line_number]
@@ -64,6 +69,7 @@ class LogLineIndex
 
   # Get the total number of indexed lines.
   # Extends the index to the end of the file if needed.
+  sig { returns(Integer) }
   def total_lines
     extend_if_needed
     # offsets array has n+1 entries for n lines (includes position after last line)
@@ -72,6 +78,7 @@ class LogLineIndex
 
   # Read a range of lines [start_line, end_line) efficiently using the index.
   # Returns an array of raw line strings.
+  sig { params(start_line: Integer, end_line: Integer).returns(T::Array[String]) }
   def read_range(start_line, end_line)
     extend_if_needed(end_line)
 
@@ -94,12 +101,14 @@ class LogLineIndex
   end
 
   # Check if there are more lines beyond end_line
+  sig { params(end_line: Integer).returns(T::Boolean) }
   def has_more_after?(end_line)
     extend_if_needed(end_line + 1)
     end_line < total_lines
   end
 
   # Get the current indexed percentage (for progress indication)
+  sig { returns(Numeric) }
   def indexed_percentage
     return 0 unless File.exist?(filename)
 

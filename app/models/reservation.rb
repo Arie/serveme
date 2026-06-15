@@ -43,10 +43,7 @@ class Reservation < ActiveRecord::Base
     (SITE_HOST == "au.serveme.tf" && 7) || 30
   end
 
-  sig { returns(T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy)) }
-  def self.with_user_and_server
-    includes(user: :groups).includes(server: :location)
-  end
+  scope :with_user_and_server, -> { includes(user: :groups).includes(server: :location) }
 
   sig { returns(T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy)) }
   def self.ordered
@@ -60,15 +57,9 @@ class Reservation < ActiveRecord::Base
      scope.where(ends_at: start_time...end_time))
   end
 
-  sig { returns(T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy)) }
-  def self.future
-    where(starts_at: Time.current..)
-  end
+  scope :future, -> { where(starts_at: Time.current..) }
 
-  sig { returns(T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy)) }
-  def self.current
-    where(starts_at: ..Time.current).where(ends_at: Time.current..)
-  end
+  scope :current, -> { where(starts_at: ..Time.current).where(ends_at: Time.current..) }
 
   sig { returns(String) }
   def to_s

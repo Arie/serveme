@@ -77,6 +77,7 @@ class Etf2lProfile
 
   private
 
+  sig { params(competition: T.untyped).returns(T.untyped) }
   def extract_season_name(competition)
     return nil unless competition
 

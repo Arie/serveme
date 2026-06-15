@@ -6,6 +6,7 @@ class LeagueMaps
 
   attr_accessor :name, :maps
 
+  sig { params(name: T.untyped, maps: T.untyped).void }
   def initialize(name:, maps:)
     @name = name
     @maps = maps
@@ -26,6 +27,7 @@ class LeagueMaps
       .map { |league| new(name: league["name"], maps: (league["maps"] || []).uniq.sort) }
   end
 
+  sig { returns(T::Array[String]) }
   def self.all_league_maps
     grouped_league_maps.flat_map(&:maps).uniq.sort
   end

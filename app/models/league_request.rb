@@ -149,6 +149,7 @@ class LeagueRequest
     apply_display_columns(maybe_filter_by_reservation_ids(base_players_query.where(ip: subquery)))
   end
 
+  sig { params(query: ActiveRecord::Relation).returns(ActiveRecord::Relation) }
   def maybe_filter_by_reservation_ids(query)
     if @reservation_ids
       query.where(reservation_id: @reservation_ids)
@@ -183,17 +184,20 @@ class LeagueRequest
       .without_sdr_ip
   end
 
+  sig { returns(ActiveRecord::Relation) }
   def players_query
     apply_display_columns(base_players_query)
   end
 
+  sig { params(input: T.nilable(String)).returns(T.nilable(T::Array[String])) }
   def parse_ips(input)
     return nil unless input.present?
 
-    ips = input.scan(/\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b/).uniq
+    ips = T.cast(input.scan(/\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b/).uniq, T::Array[String])
     ips.empty? ? input.gsub(/[[:space:]]/, "").split(",").presence : ips
   end
 
+  sig { params(input: T.nilable(String)).returns(T.nilable(T::Array[String])) }
   def parse_steam_uids(input)
     return nil unless input.present?
 
@@ -201,12 +205,12 @@ class LeagueRequest
 
     converted_ids.concat(input.scan(/\b765[0-9]{14}\b/).uniq)
 
-    input.scan(/\[?U:1:\d+\]?/i).uniq.each do |steam_id|
+    T.cast(input.scan(/\[?U:1:\d+\]?/i).uniq, T::Array[String]).each do |steam_id|
       normalized_id = "[#{steam_id.gsub(/[\[\]]/, '').upcase}]"
       converted_ids << convert_to_steam64(normalized_id)
     end
 
-    input.scan(/\bSTEAM_[0-5]:[01]:\d+\b/i).uniq.each do |steam_id|
+    T.cast(input.scan(/\bSTEAM_[0-5]:[01]:\d+\b/i).uniq, T::Array[String]).each do |steam_id|
       converted_ids << convert_to_steam64(steam_id.upcase)
     end
 
@@ -214,6 +218,7 @@ class LeagueRequest
     converted_ids.empty? ? input.gsub(/[[:space:]]/, "").split(",").presence : converted_ids.uniq
   end
 
+  sig { params(steam_id: String).returns(T.nilable(String)) }
   def convert_to_steam64(steam_id)
     SteamCondenser::Community::SteamId.steam_id_to_community_id(steam_id).to_s
   rescue StandardError

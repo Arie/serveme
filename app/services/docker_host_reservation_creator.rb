@@ -1,15 +1,26 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 class DockerHostReservationCreator
-  attr_reader :user, :docker_host_id, :reservation_params
+  extend T::Sig
 
+  sig { returns(User) }
+  attr_reader :user
+
+  sig { returns(Integer) }
+  attr_reader :docker_host_id
+
+  sig { returns(T.untyped) }
+  attr_reader :reservation_params
+
+  sig { params(user: User, docker_host_id: Integer, reservation_params: T.untyped).void }
   def initialize(user:, docker_host_id:, reservation_params:)
     @user = user
     @docker_host_id = docker_host_id
     @reservation_params = reservation_params
   end
 
+  sig { returns(Reservation) }
   def create!
     $lock.synchronize("cloud-reservation-docker-host-#{docker_host_id}", retries: 5, initial_wait: 0.1, expiry: 30) do
       docker_host = DockerHost.find(docker_host_id)
@@ -24,7 +35,7 @@ class DockerHostReservationCreator
       cloud_server = CloudServer.build_for_location("remote_docker", docker_host_id.to_s, rcon: rcon)
       cloud_server.save!
 
-      reservation = user.reservations.build(reservation_params.except(:server_id))
+      reservation = T.cast(user.reservations.build(reservation_params.except(:server_id)), Reservation)
       reservation.server = cloud_server
       future_start = reservation_params[:starts_at].present? && Time.zone.parse(reservation_params[:starts_at].to_s)&.future?
       reservation.starts_at = future_start ? reservation_params[:starts_at] : Time.current
@@ -46,8 +57,12 @@ class DockerHostReservationCreator
   class CapacityError < StandardError; end
 
   class ValidationError < StandardError
+    extend T::Sig
+
+    sig { returns(Reservation) }
     attr_reader :reservation
 
+    sig { params(message: String, reservation: Reservation).void }
     def initialize(message, reservation)
       @reservation = reservation
       super(message)
@@ -56,6 +71,7 @@ class DockerHostReservationCreator
 
   private
 
+  sig { params(cloud_server: CloudServer, _reservation: Reservation, future_start: T.nilable(T::Boolean)).void }
   def schedule_provisioning(cloud_server, _reservation, future_start)
     CloudServerProvisionWorker.perform_async(cloud_server.id) unless future_start
   end

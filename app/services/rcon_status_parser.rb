@@ -2,18 +2,23 @@
 # frozen_string_literal: true
 
 class RconStatusParser
+  extend T::Sig
+
   attr_accessor :rcon_status_output
 
   PLAYER_REGEX = /\#\s+(\d+)\s+"(.*)"\s+(\[.*\])\s+(\d+:?\d+:\d+)\s+(\d+)\s+(\d+)\s(\w+)\s+(\d+.\d+.\d+.\d+)/
 
+  sig { params(rcon_status_output: String).void }
   def initialize(rcon_status_output)
     @rcon_status_output = rcon_status_output
   end
 
+  sig { returns(T::Array[T.untyped]) }
   def scan
     rcon_status_output.scan(PLAYER_REGEX)
   end
 
+  sig { returns(T::Array[Player]) }
   def players
     @players ||= scan.collect do |player_array|
       Player.new(*player_array)
@@ -21,9 +26,12 @@ class RconStatusParser
   end
 
   class Player
+    extend T::Sig
+
     attr_reader :user_id, :name, :steam_id, :connect_duration, :ping, :loss, :state, :ip
 
     # rubocop:disable Metrics/ParameterLists
+    sig { params(user_id: String, name: String, steam_id: String, connect_duration: String, ping: String, loss: String, state: String, ip: String).void }
     def initialize(user_id, name, steam_id, connect_duration, ping, loss, state, ip)
       @user_id          = user_id.to_i
       @name             = name
@@ -36,18 +44,22 @@ class RconStatusParser
     end
     # rubocop:enable Metrics/ParameterLists
 
+    sig { returns(T::Boolean) }
     def relevant?
       active?
     end
 
+    sig { returns(T::Boolean) }
     def active?
       state == "active"
     end
 
+    sig { returns(T.untyped) }
     def steam_uid
       SteamCondenser::Community::SteamId.steam_id_to_community_id(steam_id)
     end
 
+    sig { returns(T.nilable(Integer)) }
     def minutes_connected
       splitted_time = connect_duration.split(":").map(&:to_i)
       case splitted_time.size

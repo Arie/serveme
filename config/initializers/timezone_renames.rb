@@ -1,4 +1,4 @@
-# typed: false
+# typed: strict
 # frozen_string_literal: true
 
 # Fix for IANA timezone renames that Rails' MAPPING doesn't handle

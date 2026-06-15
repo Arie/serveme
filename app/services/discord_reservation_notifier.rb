@@ -1,7 +1,9 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 class DiscordReservationNotifier
+  extend T::Sig
+
   # Flag mappings for Discord emoji
   FLAG_MAPPINGS = {
     "uk" => "gb",
@@ -10,11 +12,14 @@ class DiscordReservationNotifier
     "europeanunion" => "eu"
   }.freeze
 
+  sig { params(reservation: Reservation).void }
   def initialize(reservation)
-    @reservation = reservation
-    @server = reservation.server
+    @reservation = T.let(reservation, Reservation)
+    @server = T.let(reservation.server, T.untyped)
+    @latest_server_stat = T.let(nil, T.nilable(ServerStatistic))
   end
 
+  sig { void }
   def update
     return unless tracking?
 
@@ -53,12 +58,14 @@ class DiscordReservationNotifier
     # Don't retry on other API errors (message deleted, etc.)
   end
 
+  sig { returns(T::Boolean) }
   def tracking?
     @reservation.discord_channel_id.present? && @reservation.discord_message_id.present?
   end
 
   private
 
+  sig { returns(Integer) }
   def compute_state_hash
     # Capture all dynamic fields that appear in the embed
     # Static fields (server name, config, whitelist, connect strings) don't need tracking
@@ -72,6 +79,7 @@ class DiscordReservationNotifier
     }.hash
   end
 
+  sig { returns(T::Hash[Symbol, T.untyped]) }
   def build_embed
     status = reservation_status
 
@@ -84,18 +92,19 @@ class DiscordReservationNotifier
     }
   end
 
+  sig { params(status: String).returns(T::Array[T::Hash[Symbol, T.untyped]]) }
   def build_fields(status)
     config_name = @reservation.server_config&.file || "None"
     whitelist_name = @reservation.whitelist&.file || @reservation.custom_whitelist_id || "None"
 
-    fields = [
+    fields = T.let([
       { name: "Status", value: status_text(status), inline: true },
       { name: "Map", value: current_map, inline: true },
       { name: "Players", value: "#{player_count}/24", inline: true },
       { name: "Ends", value: @reservation.ended? ? "Ended" : "<t:#{@reservation.ends_at.to_i}:R>", inline: true },
       { name: "Config", value: config_name, inline: true },
       { name: "Whitelist", value: whitelist_name, inline: true }
-    ]
+    ], T::Array[T::Hash[Symbol, T.untyped]])
 
     unless @reservation.ended?
       connect_string = @server.server_connect_string(@reservation.password)
@@ -108,6 +117,7 @@ class DiscordReservationNotifier
     fields
   end
 
+  sig { returns(T::Array[T::Hash[Symbol, T.untyped]]) }
   def build_components
     if @reservation.ended?
       # Show Logs & Demos link - direct to zip file
@@ -148,6 +158,7 @@ class DiscordReservationNotifier
     end
   end
 
+  sig { returns(String) }
   def reservation_status
     if @reservation.ended?
       "ended"
@@ -162,6 +173,7 @@ class DiscordReservationNotifier
     end
   end
 
+  sig { params(status: String).returns(Integer) }
   def status_color(status)
     case status
     when "ready" then 0x57F287    # Green
@@ -171,6 +183,7 @@ class DiscordReservationNotifier
     end
   end
 
+  sig { params(status: String).returns(String) }
   def status_text(status)
     case status
     when "ready" then ":green_circle: Server Ready"
@@ -180,6 +193,7 @@ class DiscordReservationNotifier
     end
   end
 
+  sig { returns(String) }
   def latest_status_message
     latest = ReservationStatus.where(reservation_id: @reservation.id)
                               .order(created_at: :desc)
@@ -187,20 +201,24 @@ class DiscordReservationNotifier
     latest&.status.presence || "Starting..."
   end
 
+  sig { returns(T.nilable(String)) }
   def current_map
     latest_server_stat&.map_name.presence || @reservation.first_map
   end
 
+  sig { returns(Integer) }
   def player_count
     latest_server_stat&.number_of_players || 0
   end
 
+  sig { returns(T.nilable(ServerStatistic)) }
   def latest_server_stat
     @latest_server_stat ||= ServerStatistic.where(reservation_id: @reservation.id)
                                            .order(created_at: :desc)
                                            .first
   end
 
+  sig { returns(String) }
   def flag_emoji
     flag_code = @server.location_flag
     return ":globe_with_meridians:" if flag_code.nil? || flag_code.to_s.strip.empty?

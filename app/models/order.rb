@@ -21,7 +21,7 @@ class Order < ActiveRecord::Base
     if gift?
       GenerateOrderVoucher.new(self).perform
     else
-      GrantPerks.new(product, user).perform
+      GrantPerks.new(T.must(product), T.must(user)).perform
     end
     announce_donator
   end

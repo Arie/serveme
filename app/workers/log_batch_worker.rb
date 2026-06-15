@@ -1,4 +1,4 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 # LogBatchWorker processes batches of log lines for improved performance.

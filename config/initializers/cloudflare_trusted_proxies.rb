@@ -1,4 +1,4 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 # Cloudflare fronts every regional hostname; without these ranges in

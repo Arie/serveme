@@ -1,4 +1,4 @@
-# typed: true
+# typed: strict
 # frozen_string_literal: true
 
 class ServerUpload < ActiveRecord::Base
@@ -10,7 +10,11 @@ class ServerUpload < ActiveRecord::Base
   validates_presence_of :server_id, :file_upload_id
   validates_uniqueness_of :file_upload_id, scope: :server_id
 
-  after_commit -> { T.unsafe(self).broadcast_replace_to T.unsafe(self).file_upload, target: "file_upload_#{T.unsafe(self).file_upload.id}_server_#{T.unsafe(self).server_id}", partial: "server_uploads/server_upload", locals: { server_upload: self } }, on: %i[create update]
+  after_commit -> {
+    T.bind(self, ServerUpload)
+    upload = T.must(file_upload)
+    broadcast_replace_to upload, target: "file_upload_#{upload.id}_server_#{server_id}", partial: "server_uploads/server_upload", locals: { server_upload: self }
+  }, on: %i[create update]
 
   sig { returns(String) }
   def status

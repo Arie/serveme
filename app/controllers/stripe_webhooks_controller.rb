@@ -2,10 +2,13 @@
 # frozen_string_literal: true
 
 class StripeWebhooksController < ApplicationController
+  extend T::Sig
+
   protect_from_forgery except: :create
   skip_before_action :authenticate_user!
   before_action :verify_webhook_signature
 
+  sig { void }
   def create
     case event.type
     when "payment_intent.succeeded"
@@ -21,6 +24,7 @@ class StripeWebhooksController < ApplicationController
 
   private
 
+  sig { params(payment_intent: T.untyped).void }
   def handle_payment_intent_succeeded(payment_intent)
     order = StripeOrder.find_by(payment_id: payment_intent.id)
     return unless order
@@ -28,6 +32,7 @@ class StripeWebhooksController < ApplicationController
     order.handle_successful_payment! unless order.status == "Completed"
   end
 
+  sig { params(payment_intent: T.untyped).void }
   def handle_payment_intent_failed(payment_intent)
     order = StripeOrder.find_by(payment_id: payment_intent.id)
     return unless order
@@ -35,6 +40,8 @@ class StripeWebhooksController < ApplicationController
     order.update(status: "Failed")
   end
 
+  # Returns a Stripe::Event, or the `head` result when verification fails
+  sig { returns(T.untyped) }
   def verify_webhook_signature
     payload = request.raw_post
     sig_header = request.env["HTTP_STRIPE_SIGNATURE"]
@@ -65,6 +72,7 @@ class StripeWebhooksController < ApplicationController
     end
   end
 
+  sig { returns(T.untyped) }
   def event
     @event ||= verify_webhook_signature
   end

@@ -5,12 +5,12 @@ require 'spec_helper'
 
 describe LogScanWorker do
   it 'finds the logs for a reservation' do
-    Dir.should_receive(:glob).with(Rails.root.join('server_logs/1/*.log')).and_return([])
+    Dir.should_receive(:glob).with(Rails.root.join('server_logs/1/*.log').to_s).and_return([])
     LogScanWorker.perform_async(1)
   end
 
   it 'loops over the found log and finds the players in each one' do
-    Dir.should_receive(:glob).with(Rails.root.join('server_logs/1/*.log')).and_return([ Rails.root.join('spec', 'fixtures', 'logs', 'special_characters.log') ])
+    Dir.should_receive(:glob).with(Rails.root.join('server_logs/1/*.log').to_s).and_return([ Rails.root.join('spec', 'fixtures', 'logs', 'special_characters.log') ])
 
     LogScanWorker.perform_async(1)
     expect(ReservationPlayer.count).to eql(12)

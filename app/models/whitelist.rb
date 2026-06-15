@@ -8,16 +8,11 @@ class Whitelist < ActiveRecord::Base
 
   validates_presence_of :file
 
-  sig { returns(T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy)) }
-  def self.active
-    where(hidden: false)
-  end
+  scope :active, -> { where(hidden: false) }
 
-  sig { returns(T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy)) }
-  def self.ordered
-    order("lower(file)")
-  end
+  scope :ordered, -> { order("lower(file)") }
 
+  sig { returns(T.nilable(String)) }
   def to_s
     file
   end

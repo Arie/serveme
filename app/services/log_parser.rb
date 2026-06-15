@@ -1,7 +1,9 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 class LogParser
+  extend T::Sig
+
   MIN_MATCH_DURATION_SECONDS = 300
 
   PlayerStats = Struct.new(:steam_uid, :name, :team_counts, :class_counts, :kills, :assists, :deaths, :damage, :damage_taken, :healing, :heals_received, :ubers, :drops, :airshots, :caps, keyword_init: true) do
@@ -16,18 +18,22 @@ class LogParser
 
   MatchData = Struct.new(:players, :round_wins, :round_lengths, :final_scores, :match_ended, :total_duration_seconds, keyword_init: true)
 
+  sig { returns(T.any(String, Pathname)) }
   attr_reader :filepath
 
+  sig { params(filepath: T.any(String, Pathname)).void }
   def initialize(filepath)
     @filepath = filepath
   end
 
+  sig { returns(T::Array[MatchData]) }
   def perform
     parse_log
     @completed_matches.select { |m| valid_match?(m) }
   end
 
   # Returns all matches without duration filter, for LiveMatchStats rebuild
+  sig { returns(T::Array[MatchData]) }
   def all_matches
     parse_log unless @completed_matches
     @completed_matches
@@ -35,6 +41,7 @@ class LogParser
 
   private
 
+  sig { void }
   def parse_log
     @completed_matches = []
     @steam_id_cache = {}
@@ -50,6 +57,7 @@ class LogParser
     finalize_match if @players.any?
   end
 
+  sig { void }
   def reset_match_state
     @players = {}
     @round_wins = Hash.new(0)
@@ -60,12 +68,14 @@ class LogParser
     @between_rounds = false
   end
 
+  sig { void }
   def finalize_match
     match = build_match_data
     @completed_matches << match
     reset_match_state
   end
 
+  sig { params(raw_line: String).void }
   def process_line(raw_line)
     line = sanitize_line(raw_line)
     event = parse_event(line)
@@ -118,6 +128,7 @@ class LogParser
     end
   end
 
+  sig { params(line: String).returns(T.nilable(TF2LineParser::Events::Event)) }
   def parse_event(line)
     TF2LineParser::Parser.parse(line)
   rescue StandardError
@@ -126,6 +137,7 @@ class LogParser
 
   ANSI_REGEX = /\e\[\d*;?\d*m\[?K?/
 
+  sig { params(line: String).returns(String) }
   def sanitize_line(line)
     cleaned = line.encode("UTF-8", invalid: :replace, undef: :replace, replace: "")
     cleaned.gsub(ANSI_REGEX, "")
@@ -133,6 +145,7 @@ class LogParser
     StringSanitizer.tidy_bytes(line).gsub(ANSI_REGEX, "")
   end
 
+  sig { params(event: TF2LineParser::Events::Kill).void }
   def handle_kill(event)
     attacker = find_or_create_player(event.player)
     target = find_or_create_player(event.target)
@@ -144,6 +157,7 @@ class LogParser
     track_team(target, event.target)
   end
 
+  sig { params(event: TF2LineParser::Events::Damage).void }
   def handle_damage(event)
     player = find_or_create_player(event.player)
     dmg = event.damage || 0
@@ -160,6 +174,7 @@ class LogParser
     track_team(target, event.target)
   end
 
+  sig { params(event: TF2LineParser::Events::Assist).void }
   def handle_assist(event)
     player = find_or_create_player(event.player)
     return unless player
@@ -168,6 +183,7 @@ class LogParser
     track_team(player, event.player)
   end
 
+  sig { params(event: TF2LineParser::Events::Heal).void }
   def handle_heal(event)
     heals = event.healing || event.value || 0
 
@@ -184,6 +200,7 @@ class LogParser
     track_team(target, event.target)
   end
 
+  sig { params(event: TF2LineParser::Events::Spawn).void }
   def handle_spawn(event)
     player = find_or_create_player(event.player)
     return unless player
@@ -193,6 +210,7 @@ class LogParser
     track_team(player, event.player)
   end
 
+  sig { params(event: TF2LineParser::Events::RoleChange).void }
   def handle_role_change(event)
     player = find_or_create_player(event.player)
     return unless player
@@ -202,22 +220,27 @@ class LogParser
     track_team(player, event.player)
   end
 
+  sig { params(event: TF2LineParser::Events::RoundEventWithVariables).void }
   def handle_round_win(event)
     @round_wins[event.team] += 1 if event.team
   end
 
+  sig { params(event: TF2LineParser::Events::RoundEventWithVariables).void }
   def handle_round_length(event)
     @round_lengths << event.length.to_f if event.length
   end
 
+  sig { params(event: TF2LineParser::Events::Score).void }
   def handle_final_score(event)
     @final_scores[event.team] = event.score.to_i if event.team
   end
 
+  sig { params(event: TF2LineParser::Events::Score).void }
   def handle_current_score(event)
     @final_scores[event.team] = event.score.to_i if event.team
   end
 
+  sig { params(event: TF2LineParser::Events::ChargeDeployed).void }
   def handle_charge_deployed(event)
     player = find_or_create_player(event.player)
     return unless player
@@ -226,6 +249,7 @@ class LogParser
     track_team(player, event.player)
   end
 
+  sig { params(event: TF2LineParser::Events::MedicDeath).void }
   def handle_medic_death(event)
     medic = find_or_create_player(event.target)
     return unless medic
@@ -234,6 +258,7 @@ class LogParser
     track_team(medic, event.target)
   end
 
+  sig { params(event: TF2LineParser::Events::Airshot).void }
   def handle_airshot(event)
     player = find_or_create_player(event.player)
     return unless player
@@ -242,6 +267,7 @@ class LogParser
     track_team(player, event.player)
   end
 
+  sig { params(event: TF2LineParser::Events::PointCapture).void }
   def handle_point_capture(event)
     event.cappers.each do |capper|
       steam_uid = convert_steam_id(capper.steam_id)
@@ -254,6 +280,7 @@ class LogParser
     end
   end
 
+  sig { params(event: TF2LineParser::Events::Suicide).void }
   def handle_suicide(event)
     player = find_or_create_player(event.player)
     return unless player
@@ -262,6 +289,7 @@ class LogParser
     track_team(player, event.player)
   end
 
+  sig { params(event_player: T.untyped).returns(T.nilable(PlayerStats)) }
   def find_or_create_player(event_player)
     return nil unless event_player&.steam_id
 
@@ -287,11 +315,13 @@ class LogParser
     )
   end
 
+  sig { params(player_stats: PlayerStats, event_player: T.untyped).void }
   def track_team(player_stats, event_player)
     team = event_player.team
     player_stats.team_counts[team] += 1 if team.present? && team.in?(%w[Red Blue])
   end
 
+  sig { params(steam_id: T.nilable(String)).returns(T.nilable(Integer)) }
   def convert_steam_id(steam_id)
     return nil if steam_id.blank? || steam_id.in?(%w[Console BOT])
 
@@ -302,6 +332,7 @@ class LogParser
     @steam_id_cache[steam_id] = nil
   end
 
+  sig { params(role: T.nilable(String)).returns(String) }
   def normalize_class(role)
     return "unknown" unless role
 
@@ -319,10 +350,12 @@ class LogParser
     end
   end
 
+  sig { params(match: MatchData).returns(T::Boolean) }
   def valid_match?(match)
     match.total_duration_seconds >= MIN_MATCH_DURATION_SECONDS
   end
 
+  sig { returns(MatchData) }
   def build_match_data
     players = @players.values.select { |p| p.team.present? }
 

@@ -1,16 +1,20 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 class FraudlogixService
+  extend T::Sig
+
   BASE_URL = "https://iplist.fraudlogix.com/v5"
 
   class QuotaExceededError < StandardError; end
   class ApiError < StandardError; end
 
+  sig { params(ip: T.nilable(String)).returns(IpLookup) }
   def self.check(ip)
     new.check(ip)
   end
 
+  sig { params(ip: T.nilable(String)).returns(IpLookup) }
   def check(ip)
     response = make_request(ip)
 
@@ -30,6 +34,7 @@ class FraudlogixService
 
   private
 
+  sig { params(response: T.untyped).returns(T::Boolean) }
   def detect_residential_proxy(response)
     return true if response["Proxy"] == true
     return true if response["VPN"] == true
@@ -39,6 +44,7 @@ class FraudlogixService
     false
   end
 
+  sig { params(risk_score: T.untyped).returns(Integer) }
   def risk_score_to_number(risk_score)
     case risk_score
     when "Low" then 25
@@ -49,6 +55,7 @@ class FraudlogixService
     end
   end
 
+  sig { params(ip: T.nilable(String)).returns(T::Hash[String, T.untyped]) }
   def make_request(ip)
     response = HTTP.timeout(10)
       .headers("x-api-key" => api_key, "Content-Type" => "application/json")
@@ -79,6 +86,7 @@ class FraudlogixService
     json
   end
 
+  sig { returns(T.nilable(String)) }
   def api_key
     Rails.application.credentials.dig(:fraudlogix, :api_key) || ENV["FRAUDLOGIX_API_KEY"]
   end

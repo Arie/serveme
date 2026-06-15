@@ -1,4 +1,4 @@
-# typed: false
+# typed: strict
 # frozen_string_literal: true
 
 require "shellwords"
@@ -8,15 +8,18 @@ module CloudProvider
   # existing host (rather than provisioning a fresh VM). Subclasses
   # supply the executor (local exec vs SSH).
   class DockerContainerProvider < Base
+    sig { params(cloud_server: CloudServer).returns(String) }
     def container_name(cloud_server)
       "res-#{cloud_server.cloud_reservation_id}-cloud-#{cloud_server.id}"
     end
 
+    sig { overridable.returns(String) }
     def docker_image
       "tf2-cloud-server"
     end
 
     # Argv for local exec: each element is one argv slot, no shell escaping.
+    sig { params(cloud_server: CloudServer).returns(T::Array[String]) }
     def docker_run_argv(cloud_server)
       [
         "docker", "run", "-d", "--net=host",
@@ -29,6 +32,7 @@ module CloudProvider
 
     # Single shell string for SSH exec. Values are shell-escaped; flag
     # names stay literal so SigNoz greps keep working.
+    sig { params(cloud_server: CloudServer).returns(String) }
     def docker_run_command(cloud_server)
       parts = [
         "docker run -d --net=host",
@@ -40,6 +44,7 @@ module CloudProvider
       parts.join(" ")
     end
 
+    sig { params(raw: T.nilable(String)).returns(String) }
     def parse_docker_state(raw)
       case raw.to_s.strip
       when "running" then "running"
@@ -51,6 +56,7 @@ module CloudProvider
 
     private
 
+    sig { params(cloud_server: CloudServer).returns(T::Hash[String, T.untyped]) }
     def env_hash(cloud_server)
       ContainerEnv.build(
         cloud_server,

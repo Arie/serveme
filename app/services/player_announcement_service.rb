@@ -1,7 +1,10 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 class PlayerAnnouncementService
+  extend T::Sig
+
+  sig { params(steam_uid: T.untyped, ip: T.untyped, reserver: T::Boolean).returns(String) }
   def self.build_info(steam_uid, ip, reserver: true)
     location_parts = build_location_parts(steam_uid, ip, reserver: reserver)
     history_parts = build_history_parts(steam_uid)
@@ -11,6 +14,7 @@ class PlayerAnnouncementService
     (location_parts + history_parts + league_parts + alt_parts).join(". ")
   end
 
+  sig { params(steam_uid: T.untyped, ip: T.untyped, reserver: T::Boolean).returns(T::Array[String]) }
   def self.build_location_parts(steam_uid, ip, reserver: true)
     if ReservationPlayer.sdr_ip?(ip)
       return [ "SDR" ]
@@ -36,6 +40,7 @@ class PlayerAnnouncementService
     parts
   end
 
+  sig { params(steam_uid: T.untyped, ip: T.untyped).returns(T.untyped) }
   def self.find_asn_organization(steam_uid, ip)
     rp = ReservationPlayer.where(steam_uid: steam_uid, ip: ip).where.not(asn_organization: nil).order(id: :desc).first
     return rp.asn_organization if rp
@@ -44,6 +49,7 @@ class PlayerAnnouncementService
     asn_data&.autonomous_system_organization
   end
 
+  sig { params(steam_uid: T.untyped).returns(T::Array[String]) }
   def self.build_history_parts(steam_uid)
     parts = []
 
@@ -75,6 +81,7 @@ class PlayerAnnouncementService
     parts
   end
 
+  sig { params(steam_uid: T.untyped).returns(T::Array[String]) }
   def self.build_league_parts(steam_uid)
     parts = []
 
@@ -103,6 +110,7 @@ class PlayerAnnouncementService
     []
   end
 
+  sig { params(steam_uid: T.untyped).returns(T::Array[String]) }
   def self.build_alt_parts(steam_uid)
     parts = []
 

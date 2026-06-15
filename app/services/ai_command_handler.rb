@@ -1,8 +1,10 @@
-# typed: false
+# typed: true
 
 require "openai"
 
 class AiCommandHandler
+  extend T::Sig
+
   attr_reader :reservation
 
   REDIS_CONTEXT_TTL = 1.hour
@@ -68,10 +70,12 @@ class AiCommandHandler
 
   AVAILABLE_TOOLS = [ MAP_SEARCH_TOOL, COMMAND_SEARCH_TOOL, RESERVATION_TOOL, SUBMIT_ACTION_TOOL ].freeze
 
+  sig { params(reservation: T.nilable(Reservation)).void }
   def initialize(reservation)
     @reservation = reservation
   end
 
+  sig { params(request: String, sayer: T.nilable(T::Hash[Symbol, T.untyped])).returns(T::Hash[String, T.untyped]) }
   def process_request(request, sayer: nil)
     @sayer = sayer
     begin
@@ -82,32 +86,36 @@ class AiCommandHandler
       result
     rescue JSON::ParserError, NoMethodError => e
       Rails.logger.error("[AI ##{reservation&.id || 'N/A'}] Error processing AI response structure: #{e.message}")
-      Rails.logger.error(e.backtrace.join("\n"))
+      Rails.logger.error(e.backtrace&.join("\n"))
       respond_with_error("Sorry, I had trouble understanding the AI's response format. Please try again.")
     rescue StandardError => e
       Rails.logger.error("[AI ##{reservation&.id || 'N/A'}] General error processing AI request: #{e.message}")
-      Rails.logger.error(e.backtrace.join("\n"))
+      Rails.logger.error(e.backtrace&.join("\n"))
       respond_with_error("An unexpected error occurred. Please try again.")
     end
   end
 
   private
 
+  sig { params(message: String).returns(T::Hash[String, T.untyped]) }
   def respond_with_error(message)
     reservation&.server&.rcon_say(message)
     { "success" => false, "response" => message, "command" => nil }
   end
 
+  sig { returns(String) }
   def server_status
     reservation.server.rcon_exec("status;mp_tournament_whitelist;sv_gravity;sv_cheats;mp_timelimit;mp_winlimit;mp_windifference;tf_weapon_criticals;host_timescale;sv_password;tv_status;sm plugins list;tftrue_whitelist_id").gsub(/(\b[0-9]{1,3}\.){3}[0-9]{1,3}\b/, "0.0.0.0")
   end
 
+  sig { returns(T.untyped) }
   def get_previous_context
     return unless reservation
     key = "ai_context_history:#{reservation.id}"
     Rails.cache.read(key) || []
   end
 
+  sig { params(request: String, result: T.nilable(T::Hash[String, T.untyped])).void }
   def save_context(request, result)
     return unless reservation && result
     key = "ai_context_history:#{reservation.id}"
@@ -124,6 +132,7 @@ class AiCommandHandler
     Rails.cache.write(key, history, expires_in: REDIS_CONTEXT_TTL)
   end
 
+  sig { params(reservation: T.untyped).returns(String) }
   def system_prompt(reservation)
     <<~PROMPT
     You are a serveme.tf's TF2 server assistant that converts user requests into server commands. Respond in Genuine People Personalities style (Hitchhiker's Guide). No emojis/special chars.
@@ -359,6 +368,7 @@ class AiCommandHandler
     PROMPT
   end
 
+  sig { params(request: String).returns(T::Array[T.untyped]) }
   def build_openai_messages(request)
     messages = []
     messages << { role: "system", content: system_prompt(reservation) }
@@ -402,6 +412,7 @@ class AiCommandHandler
     messages
   end
 
+  sig { returns(T.nilable(String)) }
   def sayer_info_message
     return unless @sayer
 
@@ -429,6 +440,7 @@ class AiCommandHandler
     lines.join("\n")
   end
 
+  sig { params(messages: T::Array[T.untyped]).returns(T::Hash[String, T.untyped]) }
   def call_openai_and_handle_tools(messages)
     response = OpenaiClient.chat({
       messages: messages,
@@ -467,6 +479,7 @@ class AiCommandHandler
     end
   end
 
+  sig { params(arguments: T.untyped).returns(T::Hash[String, T.untyped]) }
   def handle_submit_action(arguments)
     {
       "command" => arguments["command"],
@@ -475,6 +488,7 @@ class AiCommandHandler
     }
   end
 
+  sig { params(messages: T::Array[T.untyped], tool_call: T.untyped, function_name: T.untyped, arguments: T.untyped).returns(T::Hash[String, T.untyped]) }
   def handle_intermediate_tool(messages, tool_call, function_name, arguments)
     Rails.logger.info("[AI ##{reservation.id}] Calling tool '#{function_name}' with arguments: #{arguments.inspect}")
     tool_result_content = perform_tool_action(function_name, arguments)
@@ -508,6 +522,7 @@ class AiCommandHandler
     end
   end
 
+  sig { params(function_name: T.untyped, arguments: T.untyped).returns(T::Hash[Symbol, T.untyped]) }
   def perform_tool_action(function_name, arguments)
     case function_name
     when "find_maps"
@@ -522,12 +537,14 @@ class AiCommandHandler
     end
   end
 
+  sig { params(arguments: T.untyped).returns(T::Hash[Symbol, T.untyped]) }
   def perform_map_search(arguments)
     map_query = arguments["query"]
     search_results = MapSearchService.new(map_query).search
     { maps: search_results }
   end
 
+  sig { params(arguments: T.untyped).returns(T::Hash[Symbol, T.untyped]) }
   def perform_command_search(arguments)
     command_query = arguments["query"]
     safe_query = command_query.gsub(/[^\w\.\-\*\s]/, "").strip
@@ -536,6 +553,7 @@ class AiCommandHandler
     { results: command_results }
   end
 
+  sig { params(arguments: T.untyped).returns(T::Hash[Symbol, T.untyped]) }
   def perform_reservation_modification(arguments)
     action = arguments["action"]
     begin
@@ -579,37 +597,43 @@ class AiCommandHandler
       end
     rescue StandardError => e
       Rails.logger.error("[AI ##{reservation.id}] Error during reservation modification (#{action}): #{e.message}")
-      Rails.logger.error(e.backtrace.join("\n"))
+      Rails.logger.error(e.backtrace&.join("\n"))
       { success: false, message: "An error occurred while trying to #{action} the reservation." }
     end
   end
 
+  sig { params(function_name: T.untyped, json: T.untyped, error: StandardError, after_intermediate: T::Boolean).returns(T::Hash[String, T.untyped]) }
   def handle_argument_parse_error(function_name, json, error, after_intermediate: false)
     context = after_intermediate ? "final submit_server_action call" : "tool '#{function_name}'"
     Rails.logger.error("[AI ##{reservation&.id || 'N/A'}] Failed to parse arguments for #{context}: #{error.message}. Arguments JSON: #{json.inspect}")
     { "success" => false, "response" => "Internal error processing AI tool arguments.", "command" => nil }
   end
 
+  sig { params(function_name: T.untyped).returns(T::Hash[String, T.untyped]) }
   def handle_unknown_tool(function_name)
     Rails.logger.error("[AI ##{reservation.id}] Requested unknown tool: #{function_name}")
     { "success" => false, "response" => "Internal error: AI requested an unknown tool.", "command" => nil }
   end
 
+  sig { params(final_message: T.untyped).returns(T::Hash[String, T.untyped]) }
   def handle_missing_submit_tool_error(final_message)
     Rails.logger.error("[AI ##{reservation.id}] Failed to use 'submit_server_action' tool after intermediate tool call. Response message: #{final_message.inspect}")
     { "success" => false, "response" => "AI failed to provide a structured final response. Please try again.", "command" => nil }
   end
 
+  sig { params(content: T.untyped).returns(T::Hash[String, T.untyped]) }
   def handle_unexpected_content(content)
     Rails.logger.error("[AI ##{reservation.id}] Responded with text instead of using 'submit_server_action' tool. Content: #{content.inspect}")
     { "success" => false, "response" => "AI response format error. It should have used a tool.", "command" => nil }
   end
 
+  sig { params(response: T.untyped).returns(T::Hash[String, T.untyped]) }
   def handle_empty_response(response)
      Rails.logger.error("[AI ##{reservation.id}] Response had neither content nor tool calls. Full response: #{response.inspect}")
      { "success" => false, "response" => "AI returned an empty or invalid response.", "command" => nil }
   end
 
+  sig { params(result: T::Hash[String, T.untyped], request: String).void }
   def process_ai_result(result, request)
     Rails.logger.info("[AI ##{reservation.id}] Processed result: #{result.inspect}")
 

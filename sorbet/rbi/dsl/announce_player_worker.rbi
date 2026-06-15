@@ -7,15 +7,15 @@
 
 class AnnouncePlayerWorker
   class << self
-    sig { params(reservation_id: T.untyped, steam_uid: T.untyped, ip: T.untyped).returns(String) }
+    sig { params(reservation_id: T.nilable(::Integer), steam_uid: ::Integer, ip: ::String).returns(String) }
     def perform_async(reservation_id, steam_uid, ip); end
 
     sig do
       params(
         interval: T.any(DateTime, Time, ActiveSupport::TimeWithZone),
-        reservation_id: T.untyped,
-        steam_uid: T.untyped,
-        ip: T.untyped
+        reservation_id: T.nilable(::Integer),
+        steam_uid: ::Integer,
+        ip: ::String
       ).returns(String)
     end
     def perform_at(interval, reservation_id, steam_uid, ip); end
@@ -23,9 +23,9 @@ class AnnouncePlayerWorker
     sig do
       params(
         interval: T.any(Numeric, ActiveSupport::Duration),
-        reservation_id: T.untyped,
-        steam_uid: T.untyped,
-        ip: T.untyped
+        reservation_id: T.nilable(::Integer),
+        steam_uid: ::Integer,
+        ip: ::String
       ).returns(String)
     end
     def perform_in(interval, reservation_id, steam_uid, ip); end

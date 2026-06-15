@@ -1,22 +1,39 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 module ReservationsHelper
+  extend T::Sig
+
+  # NOTE: this "helper" is also `include`d directly into ReservationsController and
+  # Api::ReservationsController, so it relies on controller context (params, render,
+  # redirect_to, respond_to, flash, current_user, current_admin, reservation, route
+  # helpers). Because Rails ALSO mounts it into every controller's ActionView helper
+  # proxy, there is no single ancestor common to all include sites for a
+  # `requires_ancestor`. Several of those controller methods (current_admin, etc.) are
+  # PRIVATE, so they must be called with implicit self; `T.bind(self, T.untyped)`
+  # rebinds self to untyped in-method so bare calls type-check without changing dispatch.
+
+  sig { returns(T.untyped) }
   def find_servers_for_user
+    T.bind(self, T.untyped)
     @reservation = new_reservation
     @servers = free_servers
     @docker_hosts = free_docker_hosts
     render :find_servers
   end
 
+  sig { returns(T.untyped) }
   def find_servers_for_reservation
+    T.bind(self, T.untyped)
     @reservation = reservation
     @servers = free_servers
     @docker_hosts = free_docker_hosts
     render :find_servers
   end
 
+  sig { returns(T.untyped) }
   def update_reservation
+    T.bind(self, T.untyped)
     respond_to do |format|
       format.html do
         if reservation.update(reservation_params)
@@ -39,7 +56,9 @@ module ReservationsHelper
     render :edit, status: :unprocessable_entity
   end
 
+  sig { returns(T.nilable(Reservation)) }
   def find_reservation
+    T.bind(self, T.untyped)
     return unless params[:id].to_i.positive?
 
     if current_admin || current_league_admin || current_streamer
@@ -49,7 +68,9 @@ module ReservationsHelper
     end
   end
 
+  sig { returns(T.nilable(Reservation)) }
   def find_reservation_for_viewing
+    T.bind(self, T.untyped)
     return unless params[:id].to_i.positive?
 
     if current_admin || current_league_admin || current_streamer
@@ -59,7 +80,9 @@ module ReservationsHelper
     end
   end
 
+  sig { returns(Reservation) }
   def new_reservation
+    T.bind(self, T.untyped)
     new_reservation_attributes = {
       starts_at: starts_at,
       ends_at: ends_at,
@@ -77,7 +100,9 @@ module ReservationsHelper
     current_user.reservations.build(new_reservation_attributes)
   end
 
+  sig { returns(ActiveRecord::Relation) }
   def free_servers
+    T.bind(self, T.untyped)
     @free_servers ||= begin
       return Server.none if free_server_limit_reached_for_reservation?
 
@@ -92,7 +117,9 @@ module ReservationsHelper
     end
   end
 
+  sig { returns(T.untyped) }
   def free_docker_hosts
+    T.bind(self, T.untyped)
     @free_docker_hosts ||= begin
       return [] if free_server_limit_reached_for_reservation?
 
@@ -102,7 +129,9 @@ module ReservationsHelper
     end
   end
 
+  sig { returns(T::Boolean) }
   def free_server_limit_reached_for_reservation?
+    T.bind(self, T.untyped)
     return false unless current_user
 
     s = @reservation&.starts_at || Time.current
@@ -110,7 +139,9 @@ module ReservationsHelper
     SiteSetting.free_server_limit_reached?(current_user, s, e)
   end
 
+  sig { returns(String) }
   def free_servers_json
+    T.bind(self, T.untyped)
     servers_json = free_servers.map do |s|
       { id: s.id, text: s.name, flag: s.location_flag, ip: s.ip, ip_and_port: "#{s.public_ip}:#{s.public_port}" }
     end
@@ -122,7 +153,9 @@ module ReservationsHelper
     (docker_hosts_json + servers_json).to_json
   end
 
+  sig { returns(T.untyped) }
   def free_server_finder
+    T.bind(self, T.untyped)
     if @reservation.persisted?
       if params[:reservation]
         @reservation.starts_at = reservation_params[:starts_at]
@@ -134,31 +167,41 @@ module ReservationsHelper
     end
   end
 
+  sig { returns(T.untyped) }
   def cancel_reservation
+    T.bind(self, T.untyped)
     flash[:notice] = "Reservation for #{@reservation} cancelled"
     reservation.destroy
   end
 
+  sig { returns(String) }
   def end_reservation
+    T.bind(self, T.untyped)
     reservation.update_attribute(:end_instantly, true)
     reservation.end_reservation
     link = "/uploads/#{reservation.zipfile_name}"
     flash[:notice] = "Reservation removed, restarting server. Your STV demos and logs will be available <a href='#{link}' target=_blank>here</a> soon".html_safe
   end
 
+  sig { returns(T.nilable(Reservation)) }
   def previous_reservation
+    T.bind(self, T.untyped)
     current_user.reservations.last
   end
 
   private
 
+  sig { returns(ActionController::Parameters) }
   def reservation_params
+    T.bind(self, T.untyped)
     permitted_params = %i[id password tv_password tv_relaypassword server_config_id whitelist_id custom_whitelist_id first_map auto_end enable_plugins enable_demos_tf democheck_mode]
     permitted_params += %i[rcon server_id starts_at ends_at] if reservation.nil? || reservation&.schedulable?
     params.require(:reservation).permit(permitted_params)
   end
 
+  sig { returns(ActiveSupport::TimeWithZone) }
   def starts_at
+    T.bind(self, T.untyped)
     raw = (params[:reservation] && params[:reservation][:starts_at].presence) || params[:starts_at].presence
     parsed = raw && Time.zone.parse(raw) rescue nil
     if parsed && parsed >= Time.current
@@ -168,11 +211,15 @@ module ReservationsHelper
     end
   end
 
+  sig { returns(T.untyped) }
   def ends_at
+    T.bind(self, T.untyped)
     (params[:reservation] && params[:reservation][:ends_at].presence) || params[:ends_at].presence || 2.hours.from_now
   end
 
+  sig { returns(ActionController::Parameters) }
   def template_params
+    T.bind(self, T.untyped)
     params.permit(*Reservation.template_attribute_names)
   end
 end

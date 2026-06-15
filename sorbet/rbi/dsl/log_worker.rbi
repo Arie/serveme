@@ -7,13 +7,13 @@
 
 class LogWorker
   class << self
-    sig { params(raw_line: T.untyped).returns(String) }
+    sig { params(raw_line: ::String).returns(String) }
     def perform_async(raw_line); end
 
-    sig { params(interval: T.any(DateTime, Time, ActiveSupport::TimeWithZone), raw_line: T.untyped).returns(String) }
+    sig { params(interval: T.any(DateTime, Time, ActiveSupport::TimeWithZone), raw_line: ::String).returns(String) }
     def perform_at(interval, raw_line); end
 
-    sig { params(interval: T.any(Numeric, ActiveSupport::Duration), raw_line: T.untyped).returns(String) }
+    sig { params(interval: T.any(Numeric, ActiveSupport::Duration), raw_line: ::String).returns(String) }
     def perform_in(interval, raw_line); end
   end
 end

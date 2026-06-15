@@ -1,10 +1,17 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 require "shellwords"
 
 module Mitigations
+  extend T::Sig
+  extend T::Helpers
+
+  requires_ancestor { Reservation }
+
+  sig { returns(String) }
   def enable_mitigations
+    server = T.must(self.server)
     server.mitigation_ssh_exec(
       %(
         #{iptables} -C PREROUTING -p udp -m udp --dport #{server.port} -j NOTRACK || #{iptables} -I PREROUTING -p udp -m udp --dport #{server.port} -j NOTRACK;
@@ -20,10 +27,11 @@ module Mitigations
     )
   end
 
+  sig { params(reservation_player: ReservationPlayer).returns(T::Boolean) }
   def allow_reservation_player(reservation_player)
-    if reservation_player.duplicates.whitelisted.none?
-      escaped_ip = Shellwords.shellescape(reservation_player.ip)
-      server.mitigation_ssh_exec(
+    if T.unsafe(reservation_player.duplicates).whitelisted.none?
+      escaped_ip = Shellwords.shellescape(T.must(reservation_player.ip))
+      T.must(server).mitigation_ssh_exec(
         %(
           #{iptables} -I #{chain_name} 1 -t raw -s #{escaped_ip} -j ACCEPT -m comment --comment "#{chain_name}-#{reservation_player.steam_uid}"
         ), log_stderr: true
@@ -34,20 +42,24 @@ module Mitigations
 
   private
 
+  sig { returns(String) }
   def iptables
     "sudo iptables -w #{xtables_timeout}"
   end
 
+  sig { returns(Integer) }
   def xtables_timeout
     5
   end
 
+  sig { returns(String) }
   def chain_name
-    "serveme-#{server.port}"
+    "serveme-#{T.must(server).port}"
   end
 
+  sig { returns(String) }
   def allow_limited_udp_rule
-    return "" if server.sdr?
+    return "" if T.must(server).sdr?
 
     "#{iptables} -A #{chain_name} -t raw -p udp -m limit --limit 300/s --limit-burst 300 -j ACCEPT &&"
   end

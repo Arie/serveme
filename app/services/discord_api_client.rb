@@ -1,11 +1,16 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 class DiscordApiClient
+  extend T::Sig
+
   BASE_URL = "https://discord.com/api/v10"
   RATE_LIMIT_KEY_PREFIX = "discord_rate_limit"
 
   class << self
+    extend T::Sig
+
+    sig { params(channel_id: T.untyped, message_id: T.untyped, embed: T::Hash[Symbol, T.untyped], components: T.nilable(T::Array[T.untyped])).returns(T.untyped) }
     def update_message(channel_id:, message_id:, embed:, components: nil)
       payload = { embeds: [ embed ] }
       payload[:components] = components if components
@@ -14,12 +19,15 @@ class DiscordApiClient
       request(:patch, "/channels/#{channel_id}/messages/#{message_id}", payload, resource_id: channel_id)
     end
 
+    sig { params(interaction_token: T.untyped, content: T.untyped).returns(T.untyped) }
     def update_interaction_response(interaction_token:, content:)
       # Update the original interaction response via webhook
       # This works even after the 15-minute interaction window
-      request(:patch, "/webhooks/#{client_id}/#{interaction_token}/messages/@original", { content: content })
+      payload = T.let({ content: content }, T::Hash[Symbol, T.untyped])
+      request(:patch, "/webhooks/#{client_id}/#{interaction_token}/messages/@original", payload)
     end
 
+    sig { params(channel_id: T.untyped, name: T.untyped, auto_archive_duration: Integer).returns(T.untyped) }
     def create_private_thread(channel_id:, name:, auto_archive_duration: 1440)
       request(:post, "/channels/#{channel_id}/threads", {
         name: name,
@@ -28,10 +36,12 @@ class DiscordApiClient
       }, resource_id: channel_id)
     end
 
+    sig { params(thread_id: T.untyped, user_id: T.untyped).returns(T.untyped) }
     def add_thread_member(thread_id:, user_id:)
       request(:put, "/channels/#{thread_id}/thread-members/#{user_id}", nil, resource_id: thread_id)
     end
 
+    sig { params(channel_id: T.untyped, content: T.untyped, embeds: T.nilable(T::Array[T.untyped]), components: T.nilable(T::Array[T.untyped])).returns(T.untyped) }
     def send_message(channel_id:, content: nil, embeds: nil, components: nil)
       payload = {}
       payload[:content] = content if content
@@ -41,20 +51,25 @@ class DiscordApiClient
       request(:post, "/channels/#{channel_id}/messages", payload, resource_id: channel_id)
     end
 
+    sig { params(thread_id: T.untyped).returns(T.untyped) }
     def archive_thread(thread_id:)
       request(:patch, "/channels/#{thread_id}", { archived: true, locked: true }, resource_id: thread_id)
     end
 
+    sig { params(user_id: T.untyped).returns(T.untyped) }
     def create_dm_channel(user_id:)
-      request(:post, "/users/@me/channels", { recipient_id: user_id })
+      payload = T.let({ recipient_id: user_id }, T::Hash[Symbol, T.untyped])
+      request(:post, "/users/@me/channels", payload)
     end
 
+    sig { params(channel_id: T.untyped, message_id: T.untyped).returns(T.untyped) }
     def get_message(channel_id:, message_id:)
       request(:get, "/channels/#{channel_id}/messages/#{message_id}", nil, resource_id: channel_id)
     end
 
     # Check how long to wait before making a request to this resource
     # Returns 0 if we can proceed immediately, or seconds to wait
+    sig { params(resource_id: T.untyped).returns(Numeric) }
     def wait_time_for_resource(resource_id)
       Sidekiq.redis do |redis|
         # First check if we have a bucket mapped for this resource
@@ -80,28 +95,32 @@ class DiscordApiClient
 
     private
 
+    sig { returns(T.nilable(String)) }
     def client_id
       Rails.application.credentials.dig(:discord, :"#{region_key}_client_id")
     end
 
+    sig { params(method: Symbol, path: String, body: T.untyped, resource_id: T.untyped).returns(T.untyped) }
     def request(method, path, body = nil, resource_id: nil)
       uri = URI.parse("#{BASE_URL}#{path}")
 
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = true
 
-      request = case method
-      when :get
-        Net::HTTP::Get.new(uri)
-      when :post
-        Net::HTTP::Post.new(uri)
-      when :put
-        Net::HTTP::Put.new(uri)
-      when :patch
-        Net::HTTP::Patch.new(uri)
-      when :delete
-        Net::HTTP::Delete.new(uri)
-      end
+      request = T.must(
+        case method
+        when :get
+          Net::HTTP::Get.new(uri)
+        when :post
+          Net::HTTP::Post.new(uri)
+        when :put
+          Net::HTTP::Put.new(uri)
+        when :patch
+          Net::HTTP::Patch.new(uri)
+        when :delete
+          Net::HTTP::Delete.new(uri)
+        end
+      )
 
       request["Authorization"] = "Bot #{bot_token}"
       request["Content-Type"] = "application/json"
@@ -128,6 +147,7 @@ class DiscordApiClient
       end
     end
 
+    sig { params(response: Net::HTTPResponse, resource_id: T.untyped).void }
     def store_rate_limit_headers(response, resource_id)
       bucket = response["X-RateLimit-Bucket"]
       remaining = response["X-RateLimit-Remaining"]
@@ -148,10 +168,12 @@ class DiscordApiClient
       end
     end
 
+    sig { returns(T.nilable(String)) }
     def bot_token
       Rails.application.credentials.dig(:discord, :"#{region_key}_token")
     end
 
+    sig { returns(String) }
     def region_key
       case SITE_URL
       when /na\.serveme\.tf/ then "na"
@@ -165,8 +187,12 @@ class DiscordApiClient
   class ApiError < StandardError; end
 
   class RateLimitError < ApiError
+    extend T::Sig
+
+    sig { returns(Float) }
     attr_reader :retry_after
 
+    sig { params(retry_after: Float).void }
     def initialize(retry_after)
       @retry_after = retry_after
       super("Rate limited, retry after #{retry_after}s")

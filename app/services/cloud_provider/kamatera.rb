@@ -1,4 +1,4 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 module CloudProvider
@@ -36,6 +36,7 @@ module CloudProvider
       "AS-TY" => { name: "Tokyo", country: "Japan", region: "SEA", flag: "jp" }
     }.freeze
 
+    sig { override.params(cloud_server: CloudServer).returns(String) }
     def create_server(cloud_server)
       Rails.logger.info "Kamatera: Creating server for cloud_server #{cloud_server.id}"
       location = cloud_server.cloud_location || default_location
@@ -91,14 +92,16 @@ module CloudProvider
     end
 
     # Check if provider_id is a pending Kamatera command (not yet resolved to UUID)
+    sig { override.params(provider_id: T.nilable(String)).returns(T::Boolean) }
     def pending_command?(provider_id)
-      provider_id&.start_with?("cmd:")
+      !!provider_id&.start_with?("cmd:")
     end
 
     # Poll the Kamatera command queue. Returns the resolved UUID when complete, nil if still pending.
+    sig { override.params(cloud_server: CloudServer).returns(T.nilable(String)) }
     def poll_command(cloud_server)
       provider_id = cloud_server.cloud_provider_id
-      command_id = provider_id.delete_prefix("cmd:")
+      command_id = T.must(provider_id).delete_prefix("cmd:")
       server_name = cloud_server_name(cloud_server)
 
       cmd_response = service_connection.get("queue/#{command_id}")
@@ -122,6 +125,7 @@ module CloudProvider
       # Returns nil for "progress" or other statuses — still pending
     end
 
+    sig { override.params(provider_id: String).returns(String) }
     def server_status(provider_id)
       response = service_connection.get("server/#{provider_id}")
       return "provisioning" unless response.success?
@@ -130,6 +134,7 @@ module CloudProvider
       kamatera_to_status(data["power"])
     end
 
+    sig { override.params(provider_id: String).returns(T.nilable(String)) }
     def server_ip(provider_id)
       response = service_connection.get("server/#{provider_id}")
       return nil unless response.success?
@@ -140,6 +145,7 @@ module CloudProvider
       wan&.dig("ips")&.first
     end
 
+    sig { override.returns(T::Array[T::Hash[Symbol, T.untyped]]) }
     def provision_phases
       [
         { key: "creating_vm", label: "Creating VM", icon: "fa-cloud", seconds: 100 },
@@ -150,10 +156,12 @@ module CloudProvider
       ]
     end
 
+    sig { override.returns(String) }
     def estimated_provision_time
       "about 4 minutes"
     end
 
+    sig { override.params(provider_id: String).returns(T::Boolean) }
     def destroy_server(provider_id)
       Rails.logger.info "Kamatera: Destroying server #{provider_id}"
       response = service_connection.delete("server/#{provider_id}/terminate") do |req|
@@ -164,6 +172,7 @@ module CloudProvider
       response.success?
     end
 
+    sig { override.params(label: String).returns(Integer) }
     def destroy_servers_by_label(label)
       response = service_connection.get("servers")
       return 0 unless response.success?
@@ -182,22 +191,27 @@ module CloudProvider
       destroyed
     end
 
+    sig { override.params(_location: String, _setup_script: String).returns([ String, String ]) }
     def create_snapshot_server(_location, _setup_script)
       raise NotImplementedError, "Kamatera snapshot creation not yet implemented"
     end
 
+    sig { override.params(_provider_id: String).void }
     def halt_server(_provider_id)
       raise NotImplementedError, "Kamatera halt not yet implemented"
     end
 
+    sig { override.params(_provider_id: String, _description: String).returns(String) }
     def create_snapshot(_provider_id, _description)
       raise NotImplementedError, "Kamatera snapshots not yet implemented"
     end
 
+    sig { override.params(_snapshot_id: String).void }
     def wait_for_snapshot(_snapshot_id)
       raise NotImplementedError, "Kamatera snapshots not yet implemented"
     end
 
+    sig { override.returns(String) }
     def snapshot_credential_key
       "cloud_servers.kamatera.snapshot_id"
     end
@@ -205,6 +219,7 @@ module CloudProvider
     private
 
     # Connection for /svc/* endpoints (create server) - uses direct auth headers
+    sig { returns(Faraday::Connection) }
     def create_connection
       @create_connection ||= Faraday.new(url: API_URL) do |f|
         f.headers["Content-Type"] = "application/json"
@@ -217,6 +232,7 @@ module CloudProvider
     end
 
     # Connection for /service/* endpoints (status, destroy, queue) - uses direct auth headers
+    sig { returns(Faraday::Connection) }
     def service_connection
       @service_connection ||= Faraday.new(url: "#{API_URL}/service") do |f|
         f.headers["Content-Type"] = "application/json"
@@ -227,44 +243,54 @@ module CloudProvider
       end
     end
 
+    sig { returns(T.nilable(String)) }
     def client_id
       ENV["KAMATERA_CLIENT_ID"] || Rails.application.credentials.dig(:cloud_servers, :kamatera, :access_key)
     end
 
+    sig { returns(T.nilable(String)) }
     def client_secret
       ENV["KAMATERA_SECRET"] || Rails.application.credentials.dig(:cloud_servers, :kamatera, :secret_key)
     end
 
+    sig { returns(T.nilable(String)) }
     def ssh_public_key
       Rails.application.credentials.dig(:cloud_servers, :ssh_public_key)
     end
 
     UBUNTU_24_IMAGE_UUID = "6000C29549da189eaef6ea8a31001a34"
 
+    sig { params(datacenter: String).returns(String) }
     def image_id(datacenter)
       "#{datacenter}:#{UBUNTU_24_IMAGE_UUID}"
     end
 
+    sig { returns(String) }
     def server_password
       "Sv#{SecureRandom.hex(8)}!"
     end
 
+    sig { returns(String) }
     def cpu_type
       "2B" # 2 dedicated CPU cores
     end
 
+    sig { returns(Integer) }
     def ram_mb
       2048
     end
 
+    sig { returns(Integer) }
     def disk_size
       20
     end
 
+    sig { returns(String) }
     def traffic_package
       "t5000"
     end
 
+    sig { params(server_name: String).returns(T.nilable(String)) }
     def find_server_uuid(server_name)
       response = service_connection.get("servers")
       return nil unless response.success?
@@ -275,10 +301,12 @@ module CloudProvider
       server&.dig("id")
     end
 
+    sig { returns(String) }
     def default_location
       "AS"
     end
 
+    sig { params(power: T.nilable(String)).returns(String) }
     def kamatera_to_status(power)
       case power
       when "on" then "running"

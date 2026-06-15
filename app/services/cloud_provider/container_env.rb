@@ -1,4 +1,4 @@
-# typed: false
+# typed: strict
 # frozen_string_literal: true
 
 require "shellwords"
@@ -13,29 +13,37 @@ module CloudProvider
   #   :multi — many containers share a host (Docker/RemoteDocker). Each
   #            container gets a port-offset slot derived from its game port.
   class ContainerEnv
+    extend T::Sig
+
     DEFAULT_VM_SSH_PORT = "2222"
 
+    sig { params(cloud_server: CloudServer, ssh_public_key: T.nilable(String), mode: Symbol).returns(T::Hash[String, T.untyped]) }
     def self.build(cloud_server, ssh_public_key:, mode:)
       new(cloud_server, ssh_public_key, mode).build
     end
 
     # Renders the env hash as ["-e", "K=V"] argv pairs for system(*argv).
+    sig { params(env: T::Hash[String, T.untyped]).returns(T::Array[String]) }
     def self.to_argv_pairs(env)
       env.flat_map { |k, v| [ "-e", "#{k}=#{v}" ] }
     end
 
     # Renders the env hash as shell-quoted "-e K=V" tokens for SSH/heredoc use.
     # Only the value is escaped, so "K=V" stays grep-able.
+    sig { params(env: T::Hash[String, T.untyped]).returns(T::Array[String]) }
     def self.to_shell_args(env)
       env.map { |k, v| "-e #{k}=#{Shellwords.shellescape(v)}" }
     end
 
+    sig { params(cloud_server: CloudServer, ssh_public_key: T.nilable(String), mode: Symbol).void }
     def initialize(cloud_server, ssh_public_key, mode)
       @cloud_server = cloud_server
       @ssh_public_key = ssh_public_key
       @mode = mode
+      @discord_webhook = T.let(nil, T.nilable(String))
     end
 
+    sig { returns(T::Hash[String, T.untyped]) }
     def build
       env = {
         "CALLBACK_URL"        => callback_url,
@@ -52,6 +60,7 @@ module CloudProvider
 
     private
 
+    sig { returns(T::Hash[String, String]) }
     def port_env
       case @mode
       when :vm
@@ -71,6 +80,7 @@ module CloudProvider
       end
     end
 
+    sig { returns(String) }
     def callback_url
       if ENV["CLOUD_CALLBACK_HOST"]
         "http://#{ENV['CLOUD_CALLBACK_HOST']}/api/cloud_servers/#{@cloud_server.id}/ready"
@@ -79,6 +89,7 @@ module CloudProvider
       end
     end
 
+    sig { returns(T.nilable(String)) }
     def discord_webhook
       @discord_webhook ||= ENV["DISCORD_STAC_WEBHOOK_URL"] ||
                            Rails.application.credentials.dig(:discord, :stac_webhook_url)

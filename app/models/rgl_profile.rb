@@ -35,6 +35,7 @@ class RglProfile
     Nokogiri::HTML(reason).text.strip
   end
 
+  sig { returns(T.nilable(Date)) }
   def ban_expires_at
     expires_at = json.dig("banInformation", "endsAt")
     expires_at && Date.parse(expires_at)

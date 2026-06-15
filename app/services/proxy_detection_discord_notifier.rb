@@ -1,9 +1,12 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 class ProxyDetectionDiscordNotifier
+  extend T::Sig
+
   MAX_EMBED_FIELDS = 25
 
+  sig { params(player_data: T::Hash[T.untyped, T.untyped]).void }
   def notify(player_data)
     return if player_data.empty?
 
@@ -22,8 +25,9 @@ class ProxyDetectionDiscordNotifier
 
   private
 
+  sig { params(player_data: T::Hash[T.untyped, T.untyped]).returns(T::Array[T::Hash[Symbol, T.untyped]]) }
   def build_fields(player_data)
-    fields = player_data.first(MAX_EMBED_FIELDS).map do |steam_uid, data|
+    fields = T.must(player_data.first(MAX_EMBED_FIELDS)).map do |steam_uid, data|
       ip_lines = data[:ips].map do |ip, ip_info|
         res_links = ip_info[:reservation_ids].map { |rid| "[##{rid}](#{SITE_URL}/reservations/#{rid})" }.join(", ")
         "• #{ip} (score: #{ip_info[:fraud_score]}, #{ip_info[:isp]}, #{ip_info[:country_code]}) — #{res_links}"
@@ -50,6 +54,7 @@ class ProxyDetectionDiscordNotifier
     fields
   end
 
+  sig { params(payload: T::Hash[Symbol, T.untyped]).returns(T.untyped) }
   def send_to_discord(payload)
     uri = URI.parse(Rails.application.credentials.discord[:stac_webhook_url])
     http = Net::HTTP.new(uri.host, uri.port)

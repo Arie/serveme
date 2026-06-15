@@ -1,13 +1,15 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 class UserDecorator < Draper::Decorator
+  extend T::Sig
   include Draper::LazyHelpers
   delegate_all
 
+  sig { returns(T.nilable(String)) }
   def nickname
-    if donator?
-      tag.span safe_join([ object.nickname, " ", donator_icon ]), class: "donator"
+    if object.donator?
+      h.tag.span h.safe_join([ object.nickname, " ", donator_icon ]), class: "donator"
     else
       object.nickname
     end
@@ -15,7 +17,8 @@ class UserDecorator < Draper::Decorator
 
   private
 
+  sig { returns(String) }
   def donator_icon
-    tag.icon "".html_safe, class: "fa fa-star", title: "Premium"
+    h.tag.icon "".html_safe, class: "fa fa-star", title: "Premium"
   end
 end

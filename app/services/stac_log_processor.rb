@@ -2,6 +2,8 @@
 # frozen_string_literal: true
 
 class StacLogProcessor
+  extend T::Sig
+
   # Common regex patterns
   STEAM_ID_PATTERN = /StAC cached SteamID: (STEAM_\d+:\d+:\d+)/
   TIMESTAMP_PATTERN = /<.*?>/
@@ -16,10 +18,12 @@ class StacLogProcessor
     "Possible triggerbot" => "Triggerbot"
   }.freeze
 
+  sig { params(reservation: Reservation).void }
   def initialize(reservation)
     @reservation = reservation
   end
 
+  sig { params(tmp_dir: T.any(String, Pathname)).void }
   def process_logs(tmp_dir)
     logs = find_non_empty_logs(tmp_dir)
     return if logs.empty?
@@ -35,11 +39,13 @@ class StacLogProcessor
     notify_detections(all_detections) if all_detections.any?
   end
 
+  sig { params(content: String).void }
   def process_content(content)
     all_detections = extract_detections(content)
     notify_detections(all_detections) if all_detections.any?
   end
 
+  sig { params(content: String).returns(T::Hash[T.untyped, T.untyped]) }
   def extract_detections(content)
     all_detections = {}
 
@@ -54,6 +60,7 @@ class StacLogProcessor
 
   private
 
+  sig { params(content: String, all_detections: T::Hash[T.untyped, T.untyped]).void }
   def process_log_content(content, all_detections)
     detections = parse_stac_detections(content)
 
@@ -70,14 +77,17 @@ class StacLogProcessor
     end
   end
 
+  sig { params(all_detections: T::Hash[T.untyped, T.untyped]).void }
   def notify_detections(all_detections)
     StacDiscordNotifier.new(@reservation).notify(all_detections)
   end
 
+  sig { params(tmp_dir: T.any(String, Pathname)).returns(T::Array[String]) }
   def find_non_empty_logs(tmp_dir)
     Dir.glob(File.join(tmp_dir, "*.log")).reject { |f| File.empty?(f) }
   end
 
+  sig { params(content: String).returns(T::Hash[T.untyped, T.untyped]) }
   def parse_stac_detections(content)
     detections = {}
 
@@ -88,15 +98,16 @@ class StacLogProcessor
     detections
   end
 
+  sig { params(content: String, detections: T::Hash[T.untyped, T.untyped]).void }
   def parse_aim_detections(content, detections)
     content.scan(AIM_DETECTION_PATTERN).each do |match|
-      detection_type_raw = match[0]
+      detection_type_raw = T.must(match[0])
       name_raw = match[1]
 
       name = parse_player_name(name_raw)
       next if name.nil?
 
-      log_segment_after_detection = content[content.index(match[0])..-1]
+      log_segment_after_detection = content[content.index(T.must(match[0]))..-1]
       next unless log_segment_after_detection =~ /Player: #{Regexp.escape(name)}.*?#{STEAM_ID_PATTERN}/m
 
       steam_id = ::Regexp.last_match(1)
@@ -108,6 +119,7 @@ class StacLogProcessor
     end
   end
 
+  sig { params(content: String, detections: T::Hash[T.untyped, T.untyped]).void }
   def parse_cmdnum_spike_detections(content, detections)
     content.scan(CMDNUM_SPIKE_PATTERN).each do |match|
       name = match[1]
@@ -118,6 +130,7 @@ class StacLogProcessor
     end
   end
 
+  sig { params(content: String, detections: T::Hash[T.untyped, T.untyped]).void }
   def parse_general_detections(content, detections)
     content.scan(GENERAL_DETECTION_PATTERN).each do |name, type, steam_id|
       name = parse_player_name(name)
@@ -127,6 +140,7 @@ class StacLogProcessor
     end
   end
 
+  sig { params(detections: T::Hash[T.untyped, T.untyped], steam_id64: T.untyped, name: T.untyped, steam_id: T.untyped, type: T.untyped).void }
   def add_detection(detections, steam_id64, name, steam_id, type)
     detections[steam_id64] ||= {
       name: name,
@@ -138,6 +152,7 @@ class StacLogProcessor
     detections[steam_id64][:detections] << type
   end
 
+  sig { params(name: T.untyped).returns(T.nilable(String)) }
   def parse_player_name(name)
     return nil if name.nil?
     cleaned_name = name.strip
@@ -146,10 +161,12 @@ class StacLogProcessor
     cleaned_name.split("<").first
   end
 
+  sig { params(steam_id: T.untyped).returns(T.untyped) }
   def convert_steam_id(steam_id)
     SteamCondenser::Community::SteamId.steam_id_to_community_id(steam_id)
   end
 
+  sig { params(type: String).returns(String) }
   def normalize_detection_type(type)
     DETECTION_TYPE_MAPPING[type] || type
   end

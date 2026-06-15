@@ -1,4 +1,4 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 class AddNoCacheToCloudImageBuilds < ActiveRecord::Migration[8.1]

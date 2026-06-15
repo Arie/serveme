@@ -1,13 +1,17 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 class StacLogsDownloader
+  extend T::Sig
+
   attr_reader :reservation
 
+  sig { params(reservation: Reservation).void }
   def initialize(reservation)
     @reservation = reservation
   end
 
+  sig { void }
   def download_and_process
     server_stac_logs = reservation.server.stac_logs
     return unless server_stac_logs.any?
@@ -19,12 +23,13 @@ class StacLogsDownloader
       process_logs(tmp_dir)
       reservation.server.delete_from_server(server_stac_logs)
     ensure
-      FileUtils.remove_entry tmp_dir
+      FileUtils.remove_entry T.must(tmp_dir)
     end
   end
 
   private
 
+  sig { params(tmp_dir: String).void }
   def insert_stac_logs(tmp_dir)
     logs = find_non_empty_logs(tmp_dir)
     return if logs.empty?
@@ -40,6 +45,7 @@ class StacLogsDownloader
     end
   end
 
+  sig { params(tmp_dir: String).void }
   def process_logs(tmp_dir)
     logs = find_non_empty_logs(tmp_dir)
     return if logs.empty?
@@ -52,6 +58,7 @@ class StacLogsDownloader
     end
   end
 
+  sig { params(processor: T.untyped, content: String, filename: String).void }
   def save_detections(processor, content, filename)
     all_detections = processor.extract_detections(content)
     return if all_detections.empty?
@@ -74,6 +81,7 @@ class StacLogsDownloader
     end
   end
 
+  sig { params(tmp_dir: String).returns(T::Array[String]) }
   def find_non_empty_logs(tmp_dir)
     Dir.glob(File.join(tmp_dir, "*.log")).reject { |f| File.empty?(f) }
   end

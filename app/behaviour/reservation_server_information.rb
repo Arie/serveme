@@ -1,8 +1,11 @@
-# typed: false
+# typed: strict
 # frozen_string_literal: true
 
 module ReservationServerInformation
   extend T::Sig
+  extend T::Helpers
+
+  requires_ancestor { Reservation }
 
   sig { returns(String) }
   def server_name
@@ -46,7 +49,7 @@ module ReservationServerInformation
 
   sig { returns(T.nilable(String)) }
   def stv_connect_string
-    server.connect_string(public_ip, public_tv_port, tv_password)
+    server&.connect_string(public_ip, public_tv_port, tv_password)
   end
 
   sig { returns(T.nilable(String)) }
@@ -61,8 +64,9 @@ module ReservationServerInformation
 
   sig { returns(String) }
   def rcon_string
-    if server
-      "rcon_address #{server.ip}:#{server.port}; rcon_password \"#{rcon}\""
+    s = server
+    if s
+      "rcon_address #{s.ip}:#{s.port}; rcon_password \"#{rcon}\""
     else
       "rcon_password \"#{rcon}\""
     end
@@ -80,7 +84,7 @@ module ReservationServerInformation
 
   sig { returns(String) }
   def zipfile_name
-    "#{user.uid}-#{id}-#{server_id}-#{formatted_starts_at}.zip"
+    "#{T.must(user).uid}-#{id}-#{server_id}-#{formatted_starts_at}.zip"
   end
 
   sig { returns(String) }

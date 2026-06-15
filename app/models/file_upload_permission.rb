@@ -27,6 +27,7 @@ class FileUploadPermission < ActiveRecord::Base
 
   private
 
+  sig { void }
   def validate_paths_format
     return if allowed_paths.blank?
 

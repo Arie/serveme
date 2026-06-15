@@ -1,13 +1,17 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 class ScoreboardConnectionInfo
+  extend T::Sig
+
+  sig { params(reservation: Reservation).returns(T::Hash[T.untyped, T.untyped]) }
   def self.for_reservation(reservation)
     result = from_reservation_players(reservation)
     merge_player_statistics!(result, reservation)
     result
   end
 
+  sig { params(reservation: Reservation).returns(T::Hash[T.untyped, T.untyped]) }
   def self.from_reservation_players(reservation)
     result = {}
 
@@ -28,6 +32,7 @@ class ScoreboardConnectionInfo
     result
   end
 
+  sig { params(result: T::Hash[T.untyped, T.untyped], reservation: Reservation).void }
   def self.merge_player_statistics!(result, reservation)
     latest_stats = PlayerStatistic
       .select("DISTINCT ON (reservation_players.steam_uid) player_statistics.*, reservation_players.steam_uid AS rp_steam_uid")
@@ -36,7 +41,7 @@ class ScoreboardConnectionInfo
       .order("reservation_players.steam_uid, player_statistics.created_at DESC")
 
     latest_stats.each do |stat|
-      uid = stat.rp_steam_uid
+      uid = T.unsafe(stat).rp_steam_uid
       if result[uid]
         result[uid][:ping] = stat.ping
         result[uid][:loss] = stat.loss

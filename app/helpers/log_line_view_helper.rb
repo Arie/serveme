@@ -1,9 +1,13 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 module LogLineViewHelper
   extend T::Sig
+  extend T::Helpers
   include ERB::Util
+
+  requires_ancestor { ActionView::Base }
+  requires_ancestor { GeneratedPathHelpersModule }
 
   # Type alias for the formatted hash from LogLineFormatter
   FormattedLogLine = T.type_alias { T::Hash[Symbol, T.untyped] }

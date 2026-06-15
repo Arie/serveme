@@ -1,17 +1,21 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 class IpQualityScoreService
+  extend T::Sig
+
   BASE_URL = "https://www.ipqualityscore.com/api/json/ip"
   FRAUD_SCORE_THRESHOLD = 90
 
   class QuotaExceededError < StandardError; end
   class ApiError < StandardError; end
 
+  sig { params(ip: T.nilable(String)).returns(IpLookup) }
   def self.check(ip)
     new.check(ip)
   end
 
+  sig { params(ip: T.nilable(String)).returns(IpLookup) }
   def check(ip)
     response = make_request(ip)
 
@@ -31,6 +35,7 @@ class IpQualityScoreService
 
   private
 
+  sig { params(response: T.untyped).returns(T::Boolean) }
   def detect_residential_proxy(response)
     return true if response["proxy"] == true
     return true if response["vpn"] == true
@@ -41,6 +46,7 @@ class IpQualityScoreService
     false
   end
 
+  sig { params(ip: T.nilable(String)).returns(T::Hash[String, T.untyped]) }
   def make_request(ip)
     url = "#{BASE_URL}/#{api_key}/#{ip}?strictness=1"
     response = HTTP.timeout(10).get(url)
@@ -58,6 +64,7 @@ class IpQualityScoreService
     json
   end
 
+  sig { returns(T.nilable(String)) }
   def api_key
     Rails.application.credentials.dig(:ipqs, :api_key) || ENV["IPQS_API_KEY"]
   end

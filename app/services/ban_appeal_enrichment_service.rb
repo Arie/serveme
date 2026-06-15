@@ -1,17 +1,21 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 class BanAppealEnrichmentService
+  extend T::Sig
+
   REGIONS = {
     na: "https://direct.na.serveme.tf",
     sea: "https://direct.sea.serveme.tf",
     au: "https://direct.au.serveme.tf"
   }.freeze
 
+  sig { params(discord_uid: T.untyped).void }
   def initialize(discord_uid)
     @discord_uid = discord_uid
   end
 
+  sig { returns(T::Hash[Symbol, T.untyped]) }
   def collect
     # Step 1: Check EU locally
     local_data = collect_local_data
@@ -29,6 +33,7 @@ class BanAppealEnrichmentService
 
   private
 
+  sig { returns(T.nilable(T::Hash[Symbol, T.untyped])) }
   def collect_local_data
     user = User.find_by(discord_uid: @discord_uid)
     steam_uid = user&.uid
@@ -39,8 +44,8 @@ class BanAppealEnrichmentService
     games_played = reservation_players.select(:reservation_id).distinct.count
 
     # Prefer in-game name from most recent reservation, fall back to Steam profile name
-    nickname = reservation_players.order("reservation_id DESC").pick(:name) || user&.nickname || steam_uid
-    reservation_count = user ? user.reservations.count : 0
+    nickname = reservation_players.order("reservation_id DESC").pick(:name) || user.nickname || steam_uid
+    reservation_count = user.reservations.count
     ban_reason = ReservationPlayer.banned_uid?(steam_uid) || nil
     banned = ban_reason.present?
 
@@ -57,7 +62,7 @@ class BanAppealEnrichmentService
       region: "eu",
       steam_uid: steam_uid,
       nickname: nickname,
-      discord_uid: user&.discord_uid,
+      discord_uid: user.discord_uid,
       banned: banned,
       ban_reason: ban_reason,
       ban_type: ban_type,
@@ -72,6 +77,7 @@ class BanAppealEnrichmentService
     }
   end
 
+  sig { params(steam_uid: T.untyped).returns(T::Array[T::Hash[Symbol, T.untyped]]) }
   def collect_remote_data(steam_uid)
     results = []
 
@@ -86,6 +92,7 @@ class BanAppealEnrichmentService
     results
   end
 
+  sig { params(region_key: Symbol, base_url: String, api_key: T.untyped, steam_uid: T.untyped).returns(T.nilable(T::Hash[Symbol, T.untyped])) }
   def fetch_remote_region(region_key, base_url, api_key, steam_uid)
     conn = Faraday.new(url: base_url) do |f|
       f.response :json
@@ -115,9 +122,10 @@ class BanAppealEnrichmentService
     nil
   end
 
+  sig { params(all_data: T::Array[T::Hash[Symbol, T.untyped]]).returns(T::Hash[Symbol, T.untyped]) }
   def merge_results(all_data)
     # Use data from region with most recent last_seen for nickname
-    most_recent = all_data.max_by { |d| d[:last_seen] || "" }
+    most_recent = T.must(all_data.max_by { |d| d[:last_seen] || "" })
 
     # Merge reservation counts and games played
     total_reservations = all_data.sum { |d| d[:reservation_count].to_i }
@@ -170,6 +178,7 @@ class BanAppealEnrichmentService
     }
   end
 
+  sig { params(all_data: T::Array[T::Hash[Symbol, T.untyped]]).returns(T::Array[T.untyped]) }
   def merge_alts(all_data)
     by_uid = {}
 
@@ -190,6 +199,7 @@ class BanAppealEnrichmentService
     by_uid.values
   end
 
+  sig { params(steam_uid: T.untyped, _ips: T::Array[T.untyped]).returns(T::Array[T::Hash[Symbol, T.untyped]]) }
   def find_local_alts(steam_uid, _ips)
     # Use a system user for the search (any admin would do, but we need a User object)
     admin = User.joins(:groups).where(groups: { id: Group.admin_group.id }).first
@@ -212,6 +222,7 @@ class BanAppealEnrichmentService
     []
   end
 
+  sig { params(steam_uid: T.untyped).returns(T::Array[T::Hash[Symbol, T.untyped]]) }
   def find_local_stac_detections(steam_uid)
     StacDetection.where(steam_uid: steam_uid).group(:detection_type).sum(:count).map do |type, count|
       { detection_type: type, count: count }
@@ -221,6 +232,7 @@ class BanAppealEnrichmentService
     []
   end
 
+  sig { params(steam_uid: T.untyped, ips: T::Array[T.untyped]).returns(T::Array[String]) }
   def detect_ban_type(steam_uid, ips)
     types = []
     types << "UID" if ReservationPlayer.banned_uid?(steam_uid)
@@ -233,6 +245,7 @@ class BanAppealEnrichmentService
     types
   end
 
+  sig { params(lookup: IpLookup).returns(T::Hash[Symbol, T.untyped]) }
   def ip_lookup_hash(lookup)
     {
       ip: lookup.ip,

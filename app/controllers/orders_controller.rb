@@ -1,12 +1,16 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 class OrdersController < ApplicationController
+  extend T::Sig
+
+  sig { void }
   def new
     @products = Product.active.ordered
-    @order = Order.new(gift: params[:gift], product: Product.find_by_name("1 year"))
+    @order = Order.new(gift: params[:gift], product: Product.find_by(name: "1 year"))
   end
 
+  sig { void }
   def create
     respond_to do |format|
       format.html do
@@ -23,6 +27,7 @@ class OrdersController < ApplicationController
     end
   end
 
+  sig { void }
   def create_payment_intent
     order = current_user.stripe_orders.build(
       product_id: params[:product_id].to_i,
@@ -38,6 +43,7 @@ class OrdersController < ApplicationController
     end
   end
 
+  sig { void }
   def confirm_payment
     order = current_user.stripe_orders.find_by(payment_id: params[:payment_intent_id])
 
@@ -49,6 +55,7 @@ class OrdersController < ApplicationController
     end
   end
 
+  sig { void }
   def create_express_payment_intent
     order = current_user.stripe_orders.build(
       product_id: params[:product_id].to_i,
@@ -63,6 +70,7 @@ class OrdersController < ApplicationController
     end
   end
 
+  sig { void }
   def redirect
     if order.charge(params[:PayerID])
       if order.gift?
@@ -78,6 +86,7 @@ class OrdersController < ApplicationController
     end
   end
 
+  sig { void }
   def stripe_return
     payment_intent_id = params[:payment_intent]
     order = current_user.stripe_orders.find_by(payment_id: payment_intent_id)
@@ -105,11 +114,12 @@ class OrdersController < ApplicationController
     end
   rescue StandardError => e
     Rails.logger.error "Error in stripe_return: #{e.class} - #{e.message}"
-    Rails.logger.error e.backtrace.join("\n")
+    Rails.logger.error e.backtrace&.join("\n")
     flash[:alert] = "An error occurred while processing your payment. Please contact support."
     redirect_to new_order_path
   end
 
+  sig { void }
   def status
     order = current_user.stripe_orders.find_by(payment_id: params[:payment_intent_id])
 
@@ -126,10 +136,12 @@ class OrdersController < ApplicationController
 
   private
 
+  sig { returns(PaypalOrder) }
   def order
     current_user.paypal_orders.find(params[:order_id].to_i)
   end
 
+  sig { returns(PaypalOrder) }
   def paypal_order
     @paypal_order ||= current_user.paypal_orders.build
   end

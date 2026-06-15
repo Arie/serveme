@@ -1,4 +1,4 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 module CloudProvider
@@ -43,6 +43,7 @@ module CloudProvider
       "blr" => { name: "Bangalore", country: "India", region: "SEA", flag: "in" }
     }.freeze
 
+    sig { override.params(cloud_server: CloudServer).returns(String) }
     def create_server(cloud_server)
       Rails.logger.info "Vultr: Creating server for cloud_server #{cloud_server.id}"
       body = {
@@ -76,6 +77,7 @@ module CloudProvider
       provider_id
     end
 
+    sig { override.params(provider_id: String).returns(String) }
     def server_status(provider_id)
       response = connection.get("instances/#{provider_id}")
       data = parse_response(response, "Vultr API error")
@@ -83,6 +85,7 @@ module CloudProvider
       vultr_to_status(data.dig("instance", "status"), data.dig("instance", "power_status"))
     end
 
+    sig { override.params(provider_id: String).returns(T.nilable(String)) }
     def server_ip(provider_id)
       response = connection.get("instances/#{provider_id}")
       data = parse_response(response, "Vultr API error")
@@ -91,6 +94,7 @@ module CloudProvider
       ip == "0.0.0.0" ? nil : ip
     end
 
+    sig { override.returns(T::Array[T::Hash[Symbol, T.untyped]]) }
     def provision_phases
       [
         { key: "creating_vm", label: "Creating VM", icon: "fa-cloud", seconds: 60 },
@@ -101,10 +105,12 @@ module CloudProvider
       ]
     end
 
+    sig { override.returns(String) }
     def estimated_provision_time
       "about 4 minutes"
     end
 
+    sig { override.params(provider_id: String).returns(T::Boolean) }
     def destroy_server(provider_id)
       Rails.logger.info "Vultr: Destroying server #{provider_id}"
       response = connection.delete("instances/#{provider_id}")
@@ -112,6 +118,7 @@ module CloudProvider
       response.success?
     end
 
+    sig { override.params(label: String).returns(Integer) }
     def destroy_servers_by_label(label)
       response = connection.get("instances?label=#{label}")
       return 0 unless response.success?
@@ -128,6 +135,7 @@ module CloudProvider
       destroyed
     end
 
+    sig { override.returns(T::Array[T::Hash[Symbol, T.untyped]]) }
     def list_servers
       servers = []
       url = "instances?per_page=100"
@@ -151,6 +159,7 @@ module CloudProvider
       servers
     end
 
+    sig { override.params(name: String, location: String, image: T.nilable(String), user_data: T.nilable(String)).returns([ String, String ]) }
     def create_bare_server(name:, location:, image: nil, user_data: nil)
       body = {
         label: name,
@@ -167,7 +176,7 @@ module CloudProvider
       data = parse_response(response, "Vultr API error")
       instance_id = data.dig("instance", "id")
 
-      ip = nil
+      ip = T.let(nil, T.nilable(String))
       90.times do
         sleep 5
         r = connection.get("instances/#{instance_id}")
@@ -185,6 +194,7 @@ module CloudProvider
       [ instance_id, ip ]
     end
 
+    sig { override.params(location: String, setup_script: String).returns([ String, String ]) }
     def create_snapshot_server(location, setup_script)
       create_bare_server(
         name: "serveme-snapshot-#{Time.current.strftime('%Y%m%d%H%M')}",
@@ -194,6 +204,7 @@ module CloudProvider
       )
     end
 
+    sig { override.params(provider_id: String).void }
     def halt_server(provider_id)
       connection.post("instances/halt") do |req|
         req.body = { instance_ids: [ provider_id ] }.to_json
@@ -207,6 +218,7 @@ module CloudProvider
       raise "Vultr VM did not power off in time"
     end
 
+    sig { override.params(provider_id: String, description: String).returns(String) }
     def create_snapshot(provider_id, description)
       response = connection.post("snapshots") do |req|
         req.body = { instance_id: provider_id, description: description }.to_json
@@ -216,6 +228,7 @@ module CloudProvider
       data.dig("snapshot", "id")
     end
 
+    sig { override.params(snapshot_id: String).void }
     def wait_for_snapshot(snapshot_id)
       360.times do
         sleep 5
@@ -228,12 +241,14 @@ module CloudProvider
       raise "Vultr snapshot did not complete in time"
     end
 
+    sig { override.returns(String) }
     def snapshot_credential_key
       "cloud_servers.vultr.snapshot_id"
     end
 
     private
 
+    sig { returns(Faraday::Connection) }
     def connection
       @connection ||= Faraday.new(url: API_URL) do |f|
         f.headers["Authorization"] = "Bearer #{api_token}"
@@ -243,36 +258,44 @@ module CloudProvider
       end
     end
 
+    sig { returns(T.nilable(String)) }
     def api_token
       ENV["VULTR_API_KEY"] || Rails.application.credentials.dig(:cloud_servers, :vultr, :api_key)
     end
 
+    sig { returns(String) }
     def marketplace_image_id
       "docker" # Docker on Ubuntu 24.04 (marketplace)
     end
 
+    sig { returns(T.nilable(String)) }
     def snapshot_id
       return nil if ENV["VULTR_NO_SNAPSHOT"]
 
       Rails.application.credentials.dig(:cloud_servers, :vultr, :snapshot_id)
     end
 
+    sig { returns(String) }
     def plan
       "vc2-2c-2gb"
     end
 
+    sig { returns(String) }
     def fallback_plan
       "vc2-2c-4gb"
     end
 
+    sig { returns(String) }
     def default_region
       "ewr"
     end
 
+    sig { returns(T.nilable(String)) }
     def ssh_key_id
       Rails.application.credentials.dig(:cloud_servers, :vultr, :ssh_key_id)
     end
 
+    sig { override.returns(String) }
     def cloud_init_pre_docker
       <<~BASH.strip
         ufw disable || true
@@ -292,6 +315,7 @@ module CloudProvider
     MIRROR_PULL_TIMEOUT = "90s"
     UPSTREAM_PULL_TIMEOUT = "300s"
 
+    sig { override.params(cloud_server: CloudServer, image: String).returns(String) }
     def cloud_init_docker_pull(cloud_server, image)
       region = cloud_server.cloud_location || default_region
       location_info = LOCATIONS[region]
@@ -313,6 +337,7 @@ module CloudProvider
       BASH
     end
 
+    sig { params(status: T.nilable(String), power_status: T.nilable(String)).returns(String) }
     def vultr_to_status(status, power_status)
       case status
       when "pending" then "provisioning"

@@ -7,13 +7,13 @@
 
 class UpdateSteamNicknameWorker
   class << self
-    sig { params(steam_uid: T.untyped).returns(String) }
+    sig { params(steam_uid: ::String).returns(String) }
     def perform_async(steam_uid); end
 
-    sig { params(interval: T.any(DateTime, Time, ActiveSupport::TimeWithZone), steam_uid: T.untyped).returns(String) }
+    sig { params(interval: T.any(DateTime, Time, ActiveSupport::TimeWithZone), steam_uid: ::String).returns(String) }
     def perform_at(interval, steam_uid); end
 
-    sig { params(interval: T.any(Numeric, ActiveSupport::Duration), steam_uid: T.untyped).returns(String) }
+    sig { params(interval: T.any(Numeric, ActiveSupport::Duration), steam_uid: ::String).returns(String) }
     def perform_in(interval, steam_uid); end
   end
 end

@@ -55,40 +55,27 @@ class Server < ActiveRecord::Base
     @geocoding_overrides[ip_address] || @geocoding_overrides[ip]
   end
 
-  sig { params(user: User).returns(ActiveRecord::Relation) }
-  def self.reservable_by_user(user)
+  scope :reservable_by_user, ->(user) {
     not_cloud.where(id: ids_reservable_by_user(user))
-  end
+  }
 
   sig { params(user: User).returns(T::Array[Integer]) }
   def self.ids_reservable_by_user(user)
     without_group.pluck(:id) + member_of_groups(user.groups).pluck(:id)
   end
 
-  sig { returns(T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy)) }
-  def self.ordered
-    order(:position, :name)
-  end
+  scope :ordered, -> { order(:position, :name) }
 
-  sig { returns(T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy)) }
-  def self.without_group
-    where.not(id: with_group.select(:id))
-  end
+  scope :without_group, -> { where.not(id: with_group.select(:id)) }
 
   sig { returns(T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy)) }
   def self.with_group
     joins(:groups)
   end
 
-  sig { returns(T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy, T.untyped)) }
-  def self.active
-    where(active: true)
-  end
+  scope :active, -> { where(active: true) }
 
-  sig { returns(ActiveRecord::Relation) }
-  def self.not_cloud
-    where.not(type: "CloudServer")
-  end
+  scope :not_cloud, -> { where.not(type: "CloudServer") }
 
   sig { params(groups: T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy)).returns(T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy)) }
   def self.member_of_groups(groups)
@@ -97,39 +84,33 @@ class Server < ActiveRecord::Base
       .group(:id)
   end
 
-  sig { returns(ActiveRecord::Relation) }
-  def self.for_donators
-    Server.joins(:group_servers).where(group_servers: { group_id: Group::DONATOR_GROUP.id })
-  end
+  scope :for_donators, -> {
+    joins(:group_servers).where(group_servers: { group_id: Group::DONATOR_GROUP.id })
+  }
 
-  sig { params(latest_version: T.nilable(Integer)).returns(ActiveRecord::Relation) }
-  def self.outdated(latest_version = nil)
+  scope :outdated, ->(latest_version = nil) {
     latest_version ||= self.latest_version
 
     where.not(last_known_version: nil)
       .where(last_known_version: ...latest_version)
       .where.not(id: team_comtress_servers.select(:id))
       .where.not(type: "CloudServer")
-  end
+  }
 
   sig { returns(ActiveRecord::Relation) }
   def self.team_comtress_servers
     joins(:groups).where(groups: { id: Group.team_comtress_group.id }).group(:id)
   end
 
-  sig { params(latest_version: T.nilable(Integer)).returns(ActiveRecord::Relation) }
-  def self.updated(latest_version = nil)
+  scope :updated, ->(latest_version = nil) {
     latest_version ||= self.latest_version
     tc_server_ids = team_comtress_servers.pluck(:id)
 
     where(last_known_version: [ nil, latest_version ])
       .or(where(id: tc_server_ids))
-  end
+  }
 
-  sig { returns(ActiveRecord::Relation) }
-  def self.updating
-    where(update_status: "Updating")
-  end
+  scope :updating, -> { where(update_status: "Updating") }
 
   sig { returns(T.nilable(String)) }
   def public_ip
@@ -667,16 +648,16 @@ class Server < ActiveRecord::Base
     raise NotImplementedError, "#{self.class} does not support mitigations"
   end
 
-  sig { params(ip: T.nilable(String), port: T.nilable(T.any(Integer, String)), password: String).returns(T.nilable(String)) }
+  sig { params(ip: T.nilable(String), port: T.nilable(T.any(Integer, String)), password: T.nilable(String)).returns(T.nilable(String)) }
   def connect_string(ip, port, password)
     return nil if ip.nil? || port.nil?
 
     "connect #{ip}:#{port}; password \"#{password}\""
   end
 
-  sig { params(port: T.any(Integer, String), password: String).returns(String) }
+  sig { params(port: T.nilable(T.any(Integer, String)), password: T.nilable(String)).returns(String) }
   def steam_connect_url(port, password)
-    "steam://connect/#{hostname_to_ip}:#{port}/#{CGI.escape(password)}"
+    "steam://connect/#{hostname_to_ip}:#{port}/#{CGI.escape(password.to_s)}"
   end
 
   sig { returns(T.nilable(String)) }

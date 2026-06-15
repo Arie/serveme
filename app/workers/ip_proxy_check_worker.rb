@@ -1,10 +1,12 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 class IpProxyCheckWorker
   include Sidekiq::Worker
+  extend T::Sig
   sidekiq_options queue: :low, retry: false
 
+  sig { params(reservation_player_id: Integer, player_uid: T.untyped).void }
   def perform(reservation_player_id, player_uid = nil)
     rp = ReservationPlayer.find_by(id: reservation_player_id)
     return unless rp&.ip
@@ -14,15 +16,16 @@ class IpProxyCheckWorker
 
     ProxyDetectionService.check(rp.ip)
   rescue ProxyDetectionService::AllProvidersExhaustedError => e
-    Rails.logger.warn "[ProxyDetection] All providers exhausted for #{rp.ip}: #{e.message}"
+    Rails.logger.warn "[ProxyDetection] All providers exhausted for #{rp&.ip}: #{e.message}"
   rescue StandardError => e
-    Rails.logger.error "[ProxyDetection] Unexpected error for #{rp.ip}: #{e.message}"
+    Rails.logger.error "[ProxyDetection] Unexpected error for #{rp&.ip}: #{e.message}"
   end
 
   private
 
+  sig { params(rp: ReservationPlayer).returns(T::Boolean) }
   def skip_check?(rp)
-    return true if ReservationPlayer.sdr_ip?(rp.ip)
+    return true if ReservationPlayer.sdr_ip?(T.must(rp.ip))
     return true if ReservationPlayer.banned_asn_ip?(rp.ip)
     return true if ReservationPlayer.whitelisted_uid?(rp.steam_uid.to_i)
     return true if player_has_history?(rp.steam_uid.to_i)
@@ -30,6 +33,7 @@ class IpProxyCheckWorker
     false
   end
 
+  sig { params(steam_uid: Integer).returns(T::Boolean) }
   def player_has_history?(steam_uid)
     ReservationPlayer
       .joins(:reservation)

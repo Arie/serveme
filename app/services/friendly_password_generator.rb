@@ -9,6 +9,7 @@ class FriendlyPasswordGenerator
     "#{left.sample}-#{right.sample}-#{rand(999)}"
   end
 
+  sig { returns(T::Array[String]) }
   def self.left
     %w[
       australium
@@ -35,6 +36,7 @@ class FriendlyPasswordGenerator
     ]
   end
 
+  sig { returns(T::Array[String]) }
   def self.right
     %w[
       alba

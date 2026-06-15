@@ -1,9 +1,14 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 module ReservationValidations
+  extend T::Sig
+
+  sig { params(mod: T.untyped).void }
   def self.included(mod)
     mod.class_eval do
+      T.bind(self, T.untyped)
+
       validates_presence_of :user, :password, :rcon, :starts_at, :ends_at
       validates_presence_of :server_id
       validates :password, :tv_password, :tv_relaypassword, length: { maximum: 60 }

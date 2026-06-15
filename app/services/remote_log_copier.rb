@@ -2,6 +2,9 @@
 # frozen_string_literal: true
 
 class RemoteLogCopier < LogCopier
+  extend T::Sig
+
+  sig { override.void }
   def copy_logs
     zipfile_name_and_path = Rails.root.join("public", "uploads", reservation.zipfile_name)
     return unless File.exist?(zipfile_name_and_path)

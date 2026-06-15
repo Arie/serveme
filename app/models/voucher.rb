@@ -29,6 +29,7 @@ class Voucher < ActiveRecord::Base
     Base32::Crockford.encode(code).upcase
   end
 
+  sig { returns(T.untyped) }
   def self.unclaimed
     where(claimed_at: nil)
   end
@@ -49,7 +50,7 @@ class Voucher < ActiveRecord::Base
 
       self.claimed_by = user
       self.claimed_at = Time.current
-      GrantPerks.new(product, user).perform
+      GrantPerks.new(T.must(product), user).perform
       save!
     end
   end

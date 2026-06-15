@@ -1,4 +1,4 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 class LiveMatchStats
@@ -9,7 +9,10 @@ class LiveMatchStats
   MAP_START_REGEX = /Started map "/
 
   class << self
+    extend T::Sig
+
     # Process a single raw log line (used by rebuild and standalone callers)
+    sig { params(reservation_id: Integer, raw_line: String).void }
     def process_line(reservation_id, raw_line)
       line = sanitize_line(raw_line)
 
@@ -26,6 +29,7 @@ class LiveMatchStats
 
     # Process a batch of pre-parsed events, reading between_matches/between_rounds
     # once instead of per-event
+    sig { params(reservation_id: Integer, events: T::Array[T.untyped]).void }
     def process_events(reservation_id, events)
       return if rebuilding?(reservation_id)
 
@@ -72,6 +76,7 @@ class LiveMatchStats
       end
     end
 
+    sig { params(reservation: Reservation).returns(T.nilable(T::Array[T::Hash[Symbol, T.untyped]])) }
     def get_or_rebuild_stats(reservation)
       unless rebuilt?(reservation.id)
         filepath = Rails.root.join("log", "streaming", "#{reservation.logsecret}.log").to_s
@@ -80,6 +85,7 @@ class LiveMatchStats
       get_stats(reservation.id)
     end
 
+    sig { params(reservation_id: Integer).returns(T.nilable(T::Array[T::Hash[Symbol, T.untyped]])) }
     def get_stats(reservation_id)
       key = redis_key(reservation_id)
 
@@ -106,6 +112,7 @@ class LiveMatchStats
       end
     end
 
+    sig { params(reservation_id: Integer, filepath: T.any(String, Pathname)).void }
     def rebuild(reservation_id, filepath)
       lock_key = "#{redis_key(reservation_id)}:rebuilding"
       locked = Sidekiq.redis { |r| r.set(lock_key, "1", nx: true, ex: 30) }
@@ -124,6 +131,7 @@ class LiveMatchStats
       end
     end
 
+    sig { params(reservation_id: Integer).void }
     def clear(reservation_id)
       key = redis_key(reservation_id)
       Sidekiq.redis do |r|
@@ -134,16 +142,19 @@ class LiveMatchStats
       end
     end
 
+    sig { params(reservation_id: Integer).returns(T::Boolean) }
     def exists?(reservation_id)
       Sidekiq.redis { |r| r.exists(redis_key(reservation_id)) > 0 }
     end
 
+    sig { params(reservation_id: Integer).returns(T::Boolean) }
     def rebuilt?(reservation_id)
       Sidekiq.redis { |r| r.hget(redis_key(reservation_id), "rebuilt") } == "1"
     end
 
     private
 
+    sig { params(reservation_id: Integer, all_matches: T::Array[LogParser::MatchData]).void }
     def store_parsed_matches(reservation_id, all_matches)
       key = redis_key(reservation_id)
       completed = all_matches.select(&:match_ended)
@@ -176,10 +187,12 @@ class LiveMatchStats
       end
     end
 
+    sig { params(pipeline: T.untyped, redis_key: String, match: LogParser::MatchData).void }
     def match_to_redis(pipeline, redis_key, match)
       match_to_hash(match).each { |f, v| pipeline.hset(redis_key, f, v) }
     end
 
+    sig { params(match: LogParser::MatchData).returns(T::Hash[String, String]) }
     def match_to_hash(match)
       fields = {}
       match.players.each do |player|
@@ -204,6 +217,7 @@ class LiveMatchStats
       fields
     end
 
+    sig { params(reservation_id: Integer).void }
     def reset_current_match(reservation_id)
       key = redis_key(reservation_id)
       Sidekiq.redis do |r|
@@ -215,6 +229,7 @@ class LiveMatchStats
       end
     end
 
+    sig { params(reservation_id: Integer).void }
     def finalize_current_match(reservation_id)
       key = redis_key(reservation_id)
 
@@ -243,6 +258,7 @@ class LiveMatchStats
       end
     end
 
+    sig { params(reservation_id: Integer, event: TF2LineParser::Events::Event).void }
     def process_player_event(reservation_id, event)
       ops = []
 
@@ -275,6 +291,7 @@ class LiveMatchStats
       flush_ops(reservation_id, ops) if ops.any?
     end
 
+    sig { params(reservation_id: Integer, ops: T::Array[T::Hash[Symbol, T.untyped]]).void }
     def flush_ops(reservation_id, ops)
       key = redis_key(reservation_id)
       Sidekiq.redis do |r|
@@ -292,6 +309,7 @@ class LiveMatchStats
       end
     end
 
+    sig { params(ops: T::Array[T::Hash[Symbol, T.untyped]], event: TF2LineParser::Events::Kill).void }
     def collect_kill(ops, event)
       attacker_uid = steam_uid(event.player)
       target_uid = steam_uid(event.target)
@@ -303,6 +321,7 @@ class LiveMatchStats
       collect_player_info(ops, target_uid, event.target)
     end
 
+    sig { params(ops: T::Array[T::Hash[Symbol, T.untyped]], event: TF2LineParser::Events::Damage).void }
     def collect_damage(ops, event)
       uid = steam_uid(event.player)
       target_uid = steam_uid(event.target)
@@ -319,6 +338,7 @@ class LiveMatchStats
       end
     end
 
+    sig { params(ops: T::Array[T::Hash[Symbol, T.untyped]], event: TF2LineParser::Events::Assist).void }
     def collect_assist(ops, event)
       uid = steam_uid(event.player)
       return unless uid
@@ -327,6 +347,7 @@ class LiveMatchStats
       collect_player_info(ops, uid, event.player)
     end
 
+    sig { params(ops: T::Array[T::Hash[Symbol, T.untyped]], event: TF2LineParser::Events::Heal).void }
     def collect_heal(ops, event)
       heals = event.healing || event.value || 0
       uid = steam_uid(event.player)
@@ -343,6 +364,7 @@ class LiveMatchStats
       end
     end
 
+    sig { params(ops: T::Array[T::Hash[Symbol, T.untyped]], event: TF2LineParser::Events::RoleChange).void }
     def collect_spawn(ops, event)
       uid = steam_uid(event.player)
       return unless uid
@@ -352,6 +374,7 @@ class LiveMatchStats
       collect_player_info(ops, uid, event.player)
     end
 
+    sig { params(ops: T::Array[T::Hash[Symbol, T.untyped]], event: TF2LineParser::Events::ChargeDeployed).void }
     def collect_uber(ops, event)
       uid = steam_uid(event.player)
       return unless uid
@@ -360,6 +383,7 @@ class LiveMatchStats
       collect_player_info(ops, uid, event.player)
     end
 
+    sig { params(ops: T::Array[T::Hash[Symbol, T.untyped]], event: TF2LineParser::Events::MedicDeath).void }
     def collect_medic_death(ops, event)
       uid = steam_uid(event.target)
       return unless uid
@@ -368,6 +392,7 @@ class LiveMatchStats
       collect_player_info(ops, uid, event.target)
     end
 
+    sig { params(ops: T::Array[T::Hash[Symbol, T.untyped]], event: TF2LineParser::Events::Airshot).void }
     def collect_airshot(ops, event)
       uid = steam_uid(event.player)
       return unless uid
@@ -376,6 +401,7 @@ class LiveMatchStats
       collect_player_info(ops, uid, event.player)
     end
 
+    sig { params(ops: T::Array[T::Hash[Symbol, T.untyped]], event: TF2LineParser::Events::PointCapture).void }
     def collect_point_capture(ops, event)
       event.cappers.each do |capper|
         uid = convert_steam_id(capper.steam_id)
@@ -385,6 +411,7 @@ class LiveMatchStats
       end
     end
 
+    sig { params(ops: T::Array[T::Hash[Symbol, T.untyped]], event: TF2LineParser::Events::Suicide).void }
     def collect_suicide(ops, event)
       uid = steam_uid(event.player)
       return unless uid
@@ -393,6 +420,7 @@ class LiveMatchStats
       collect_player_info(ops, uid, event.player)
     end
 
+    sig { params(ops: T::Array[T::Hash[Symbol, T.untyped]], uid: Integer, event_player: T.untyped).void }
     def collect_player_info(ops, uid, event_player)
       name = event_player.name
       team = event_player.team
@@ -401,6 +429,7 @@ class LiveMatchStats
       ops << { type: :set, field: "player:#{uid}:team", value: team } if team.present? && team.in?(%w[Red Blue])
     end
 
+    sig { params(reservation_id: Integer, field: String, value: String).void }
     def set_field(reservation_id, field, value)
       key = redis_key(reservation_id)
       Sidekiq.redis do |r|
@@ -409,14 +438,17 @@ class LiveMatchStats
       end
     end
 
+    sig { params(reservation_id: Integer, team: T.untyped, score: Integer).void }
     def set_score(reservation_id, team, score)
       set_field(reservation_id, "score:#{team}", score.to_s)
     end
 
+    sig { params(reservation_id: Integer, team: T.untyped).void }
     def increment_team_score(reservation_id, team)
       Sidekiq.redis { |r| r.hincrby(redis_key(reservation_id), "score:#{team}", 1) }
     end
 
+    sig { params(reservation_id: Integer, length: Float).void }
     def accumulate_round_length(reservation_id, length)
       key = redis_key(reservation_id)
       # Store as integer centiseconds to use HINCRBY, then convert back
@@ -424,14 +456,17 @@ class LiveMatchStats
       Sidekiq.redis { |r| r.hincrby(key, "total_duration_cs", centiseconds) }
     end
 
+    sig { params(reservation_id: Integer).returns(T::Boolean) }
     def rebuilding?(reservation_id)
       Sidekiq.redis { |r| r.exists("#{redis_key(reservation_id)}:rebuilding") > 0 }
     end
 
+    sig { params(reservation_id: Integer).returns(T::Boolean) }
     def between_matches?(reservation_id)
       Sidekiq.redis { |r| r.hget(redis_key(reservation_id), "between_matches") } == "1"
     end
 
+    sig { params(reservation_id: Integer).returns(T::Boolean) }
     def between_rounds?(reservation_id)
       # Default to true (between rounds) when key doesn't exist,
       # so warmup/pre-round kills aren't counted.
@@ -439,12 +474,14 @@ class LiveMatchStats
       Sidekiq.redis { |r| r.hget(redis_key(reservation_id), "between_rounds") } != "0"
     end
 
+    sig { params(event_player: T.untyped).returns(T.nilable(Integer)) }
     def steam_uid(event_player)
       return nil unless event_player&.steam_id
 
       convert_steam_id(event_player.steam_id)
     end
 
+    sig { params(steam_id: T.untyped).returns(T.nilable(Integer)) }
     def convert_steam_id(steam_id)
       return nil if steam_id.blank? || steam_id.in?(%w[Console BOT])
 
@@ -453,6 +490,7 @@ class LiveMatchStats
       nil
     end
 
+    sig { params(role: T.nilable(String)).returns(String) }
     def normalize_class(role)
       return "unknown" unless role
 
@@ -470,12 +508,14 @@ class LiveMatchStats
       end
     end
 
+    sig { params(line: String).returns(T.nilable(TF2LineParser::Events::Event)) }
     def parse_event(line)
       TF2LineParser::Parser.parse(line)
     rescue StandardError
       nil
     end
 
+    sig { params(line: String).returns(String) }
     def sanitize_line(line)
       cleaned = line.encode("UTF-8", invalid: :replace, undef: :replace, replace: "")
       cleaned.gsub(ANSI_REGEX, "")
@@ -483,10 +523,12 @@ class LiveMatchStats
       ""
     end
 
+    sig { params(reservation_id: Integer).returns(String) }
     def redis_key(reservation_id)
       "#{REDIS_PREFIX}:#{reservation_id}"
     end
 
+    sig { params(data: T::Hash[String, String]).returns(T::Hash[Symbol, T.untyped]) }
     def build_stats_from_redis(data)
       players = {}
       scores = {}

@@ -3,6 +3,9 @@
 require "set"
 
 class CommandValidator
+  extend T::Sig
+
+  sig { params(command_string: T.nilable(String)).returns(T::Boolean) }
   def self.validate(command_string)
     return true unless command_string.present?
 

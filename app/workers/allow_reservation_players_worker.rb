@@ -1,16 +1,18 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 require "shellwords"
 
 class AllowReservationPlayersWorker
   include Sidekiq::Worker
+  extend T::Sig
 
   sidekiq_options retry: 10, queue: "priority"
 
+  sig { params(reservation_id: T.untyped).void }
   def perform(reservation_id)
     reservation = Reservation.includes(:server).find(reservation_id)
-    server = reservation.server
+    server = T.must(reservation.server)
     return unless server.supports_mitigations?
 
     $lock.synchronize("mitigation-server-#{server.id}", retries: 7, initial_wait: 0.5, expiry: 30.seconds) do
@@ -23,8 +25,8 @@ class AllowReservationPlayersWorker
       chain_name = "serveme-#{server.port}"
 
       commands = players_to_whitelist.filter_map do |rp|
-        if rp.duplicates.whitelisted.none?
-          escaped_ip = Shellwords.shellescape(rp.ip)
+        if T.unsafe(rp.duplicates).whitelisted.none?
+          escaped_ip = Shellwords.shellescape(T.must(rp.ip))
           %(#{iptables} -I #{chain_name} 1 -t raw -s #{escaped_ip} -j ACCEPT -m comment --comment "#{chain_name}-#{rp.steam_uid}")
         end
       end

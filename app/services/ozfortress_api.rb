@@ -1,10 +1,13 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 class OzfortressApi
   BASE_URL = "https://ozfortress.com/api/v1"
 
   class << self
+    extend T::Sig
+
+    sig { params(discord_uid: T.untyped).returns(T.nilable(String)) }
     def steam_id_for_discord(discord_uid)
       return nil unless api_key.present?
 
@@ -19,6 +22,7 @@ class OzfortressApi
       nil
     end
 
+    sig { params(steam_uid: T.untyped).returns(T.nilable(String)) }
     def profile(steam_uid)
       return nil unless api_key.present?
 
@@ -37,10 +41,12 @@ class OzfortressApi
 
     private
 
+    sig { returns(T.nilable(String)) }
     def api_key
       Rails.application.credentials.dig(:ozfortress, :api_key)
     end
 
+    sig { returns(Faraday::Connection) }
     def connection
       @connection ||= Faraday.new(url: BASE_URL) do |f|
         f.request :url_encoded

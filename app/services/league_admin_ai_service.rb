@@ -1,7 +1,9 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 class LeagueAdminAiService
+  extend T::Sig
+
   SYSTEM_PROMPT = <<~PROMPT.freeze
     You are an investigation assistant for TF2 league admins on serveme.tf.
     Your ONLY purpose is to help investigate players. If a message is not related to player investigation, politely decline.
@@ -150,6 +152,7 @@ class LeagueAdminAiService
   STEAM_ID3_PATTERN = /\[U:1:\d+\]/i
   STEAM_ID64_PATTERN = /\b(765\d{14})\b/
 
+  sig { params(user: User).void }
   def initialize(user:)
     @user = user
     @client = Anthropic::Client.new(
@@ -157,6 +160,7 @@ class LeagueAdminAiService
     )
   end
 
+  sig { params(messages: T::Array[T.untyped], block: T.proc.params(arg0: Symbol, arg1: T.untyped).returns(T.untyped)).void }
   def stream_response(messages:, &block)
     messages = normalize_steam_ids(messages)
     tool_definitions = build_tool_definitions
@@ -195,12 +199,13 @@ class LeagueAdminAiService
 
   private
 
+  sig { params(messages: T::Array[T.untyped]).returns(T::Array[T.untyped]) }
   def normalize_steam_ids(messages)
     messages.map do |msg|
       next msg unless msg[:role] == "user" && msg[:content].is_a?(String)
 
       content = msg[:content].dup
-      converted = false
+      converted = T.let(false, T::Boolean)
 
       # Convert STEAM_X:Y:Z to both formats
       content.gsub!(STEAM_ID_PATTERN) do |match|
@@ -228,6 +233,7 @@ class LeagueAdminAiService
     end
   end
 
+  sig { params(steam_id: String).returns(String) }
   def convert_to_both_formats(steam_id)
     steam_id64 = SteamCondenser::Community::SteamId.steam_id_to_community_id(steam_id)
     steam_id3 = SteamCondenser::Community::SteamId.community_id_to_steam_id3(steam_id64)
@@ -236,8 +242,9 @@ class LeagueAdminAiService
     steam_id
   end
 
+  sig { params(name: T.untyped, input: T.untyped, block: T.proc.params(arg0: Symbol, arg1: T.untyped).returns(T.untyped)).returns(T.untyped) }
   def execute_tool_with_keepalive(name, input, &block)
-    result = nil
+    result = T.let(nil, T.untyped)
     thread = Thread.new do
       ActiveRecord::Base.connection_pool.with_connection do
         result = execute_tool(name, input)
@@ -249,6 +256,7 @@ class LeagueAdminAiService
     result
   end
 
+  sig { params(messages: T::Array[T.untyped], tool_definitions: T::Array[T.untyped], block: T.proc.params(arg0: Symbol, arg1: T.untyped).returns(T.untyped)).returns([ T.untyped, T::Array[T.untyped] ]) }
   def stream_and_collect(messages, tool_definitions, &block)
     cached_messages = add_cache_breakpoint(messages)
 
@@ -261,14 +269,14 @@ class LeagueAdminAiService
       request_options: { timeout: API_TIMEOUT }
     )
 
-    content_blocks = []
-    current_block = nil
-    stop_reason = nil
+    content_blocks = T.let([], T::Array[T.untyped])
+    current_block = T.let(nil, T.untyped)
+    stop_reason = T.let(nil, T.untyped)
 
     stream.each do |event|
       case event
       when Anthropic::RawContentBlockStartEvent
-        cb = event.content_block
+        cb = T.let(event.content_block, T.untyped)
         if cb.type == :text
           current_block = { type: "text", text: "" }
         elsif cb.type == :tool_use
@@ -276,7 +284,7 @@ class LeagueAdminAiService
         end
 
       when Anthropic::RawContentBlockDeltaEvent
-        delta = event.delta
+        delta = T.let(event.delta, T.untyped)
         if delta.type == :text_delta
           current_block[:text] += delta.text
           block.call(:token, delta.text)
@@ -301,6 +309,7 @@ class LeagueAdminAiService
     [ stop_reason, content_blocks ]
   end
 
+  sig { returns(T::Array[T::Hash[Symbol, T.untyped]]) }
   def build_tool_definitions
     tools = ALLOWED_TOOLS.filter_map do |tool_name|
       tool_class = Mcp::ToolRegistry.find(tool_name)
@@ -313,10 +322,11 @@ class LeagueAdminAiService
       }
     end
     # Cache breakpoint on last tool — tools + system are cached as a prefix
-    tools[-1] = tools[-1].merge(cache_control: { type: "ephemeral" }) if tools.any?
+    tools[-1] = T.must(tools[-1]).merge(cache_control: { type: "ephemeral" }) if tools.any?
     tools
   end
 
+  sig { params(name: T.untyped, input: T.untyped).returns(T.untyped) }
   def execute_tool(name, input)
     tool_class = Mcp::ToolRegistry.find(name)
     return { error: "Unknown tool: #{name}" } unless tool_class
@@ -333,6 +343,7 @@ class LeagueAdminAiService
     { error: e.message }
   end
 
+  sig { params(result: T::Hash[Symbol, T.untyped]).returns(T::Hash[Symbol, T.untyped]) }
   def summarize_search_alts(result)
     raw_accounts = result[:accounts]
     target_uid = result[:target]
@@ -421,6 +432,7 @@ class LeagueAdminAiService
 
   # Add cache_control to the last content block of the last message,
   # so the growing conversation prefix is cached between tool-use rounds.
+  sig { params(messages: T::Array[T.untyped]).returns(T::Array[T.untyped]) }
   def add_cache_breakpoint(messages)
     return messages if messages.empty?
 
@@ -439,6 +451,7 @@ class LeagueAdminAiService
     msgs
   end
 
+  sig { params(json_string: String).returns(String) }
   def truncate_result(json_string)
     return json_string if json_string.length <= MAX_TOOL_RESULT_CHARS
 
@@ -446,12 +459,14 @@ class LeagueAdminAiService
     "#{truncated}\n\n[TRUNCATED — result was #{json_string.length} characters, showing first #{MAX_TOOL_RESULT_CHARS}]"
   end
 
+  sig { params(name: T.untyped, input: T.untyped).returns(String) }
   def tool_label(name, input)
     label = TOOL_LABELS[name] || name
     detail = format_tool_detail(input)
     detail.present? ? "#{label}: #{detail}" : label
   end
 
+  sig { params(input: T.untyped).returns(T.nilable(String)) }
   def format_tool_detail(input)
     return nil unless input.is_a?(Hash)
 

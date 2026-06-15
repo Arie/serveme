@@ -1,15 +1,19 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 class ServerForUserFinder
+  extend T::Sig
+
   attr_reader :user, :starts_at, :ends_at
 
+  sig { params(user: T.untyped, starts_at: T.untyped, ends_at: T.untyped).void }
   def initialize(user, starts_at, ends_at)
     @user                       = user
     @starts_at                  = starts_at
     @ends_at                    = ends_at
   end
 
+  sig { returns(ActiveRecord::Relation) }
   def servers
     if (ends_at.to_i - starts_at.to_i).between?(60, 36_000)
       available_for_user = Server.includes(:location).active.updated.reservable_by_user(user)
@@ -26,6 +30,7 @@ class ServerForUserFinder
 
   private
 
+  sig { returns(Reservation) }
   def reservation
     @reservation ||= Reservation.new(starts_at: starts_at, ends_at: ends_at, user_id: user.id)
   end

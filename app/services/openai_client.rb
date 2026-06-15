@@ -3,6 +3,8 @@
 require "openai"
 
 class OpenaiClient
+  extend T::Sig
+
   PROVIDERS = {
     openai: {
       uri_base: "https://api.openai.com/",
@@ -18,10 +20,12 @@ class OpenaiClient
     }
   }
 
+  sig { returns(Symbol) }
   def self.provider
     Rails.application.credentials.dig(:ai_provider)&.to_sym || :openai
   end
 
+  sig { returns(::OpenAI::Client) }
   def self.instance
     @instance ||= ::OpenAI::Client.new(
       access_token: Rails.application.credentials.dig(provider, :api_key),
@@ -31,6 +35,7 @@ class OpenaiClient
     )
   end
 
+  sig { params(parameters: T::Hash[Symbol, T.untyped]).returns(T::Hash[String, T.untyped]) }
   def self.chat(parameters)
     parameters[:model] ||= PROVIDERS.dig(provider, :default_model)
     instance.chat(parameters: parameters)

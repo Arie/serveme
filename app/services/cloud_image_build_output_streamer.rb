@@ -2,11 +2,14 @@
 # frozen_string_literal: true
 
 class CloudImageBuildOutputStreamer
+  extend T::Sig
+
   FLUSH_LINES = 20
   FLUSH_INTERVAL = 0.5
   MAX_BYTES = 2.megabytes
   TRUNCATION_MARKER = "[... earlier output truncated ...]\n"
 
+  sig { params(build: CloudImageBuild).void }
   def initialize(build)
     @build = build
     @buffer = +""
@@ -14,12 +17,14 @@ class CloudImageBuildOutputStreamer
     @last_flush = Time.current
   end
 
+  sig { params(text: String).void }
   def append(text)
     @buffer << text
     @line_count += text.count("\n")
     flush! if should_auto_flush?
   end
 
+  sig { void }
   def flush!
     return if @buffer.empty?
 
@@ -32,10 +37,12 @@ class CloudImageBuildOutputStreamer
 
   private
 
+  sig { returns(T::Boolean) }
   def should_auto_flush?
     @line_count >= FLUSH_LINES || (Time.current - @last_flush) >= FLUSH_INTERVAL
   end
 
+  sig { void }
   def persist
     @build.reload
     combined = @build.output + @buffer
@@ -50,6 +57,7 @@ class CloudImageBuildOutputStreamer
     end
   end
 
+  sig { params(chunk: String).void }
   def broadcast(chunk)
     Turbo::StreamsChannel.broadcast_append_to(
       [ @build, "output" ],

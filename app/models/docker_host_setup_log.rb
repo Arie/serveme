@@ -2,6 +2,8 @@
 # frozen_string_literal: true
 
 class DockerHostSetupLog < ActiveRecord::Base
+  extend T::Sig
+
   belongs_to :docker_host
 
   validates :step, presence: true
@@ -16,6 +18,7 @@ class DockerHostSetupLog < ActiveRecord::Base
     "install_compose_services" => "Compose services (Caddy + websocket-echo)"
   }.freeze
 
+  sig { returns(String) }
   def label
     STEP_LABELS[step] || step
   end

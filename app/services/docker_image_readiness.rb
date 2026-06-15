@@ -9,10 +9,13 @@
 # Fail-open by design: if either side is unknown, the image is treated as
 # current so launches are never blocked on missing data.
 class DockerImageReadiness
+  extend T::Sig
+
   VERSION_SETTING_KEY = "docker_image_version"
 
   # The TF2 version the most recent RemoteDocker image was built for, or nil
   # if nothing has been recorded yet.
+  sig { returns(T.nilable(Integer)) }
   def self.recorded_version
     value = SiteSetting.get(VERSION_SETTING_KEY)
     value.present? ? value.to_i : nil
@@ -20,6 +23,7 @@ class DockerImageReadiness
 
   # True when we know the current TF2 version AND know our image version AND
   # the image is behind. Fail-open: false whenever either side is unknown.
+  sig { returns(T::Boolean) }
   def self.stale?
     latest = Server.latest_version
     recorded = recorded_version

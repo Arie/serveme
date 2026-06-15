@@ -1,12 +1,15 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 class TurboSubscriberChecker
+  extend T::Sig
+
   # Check if there are any active subscribers to a Turbo Streams channel
   # Uses Redis PUBSUB NUMSUB command to query subscriber count directly
   #
   # @param stream_name [String] The stream name (e.g., "reservation_123_log_lines")
   # @return [Boolean] true if there are active subscribers (or true by default if not using Redis)
+  sig { params(stream_name: String).returns(T::Boolean) }
   def self.has_subscribers?(stream_name)
     cable_config = ActionCable.server.config.cable
     return true unless cable_config["adapter"] == "redis"
@@ -22,6 +25,7 @@ class TurboSubscriberChecker
 
   # Check if there are subscribers for a model-based Turbo Stream (e.g., a Reservation)
   # Model streams use the unsigned stream name (GlobalID) as the Redis channel, not the signed token
+  sig { params(streamable: T.untyped).returns(T::Boolean) }
   def self.has_model_subscribers?(streamable)
     cable_config = ActionCable.server.config.cable
     return true unless cable_config["adapter"] == "redis"

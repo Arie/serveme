@@ -1,13 +1,15 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 class UploadFilesToServerWorker
   include Sidekiq::Worker
+  extend T::Sig
 
+  sig { params(options: T::Hash[String, T.untyped]).void }
   def perform(options)
     files_with_path = options["files_with_path"]
-    server_upload = ServerUpload.find_by_id(options["server_upload_id"])
-    s = Server.find(server_upload.server_id)
+    server_upload = T.must(ServerUpload.find_by(id: options["server_upload_id"]))
+    s = Server.find(T.must(server_upload.server_id))
 
     server_upload.update(started_at: Time.now)
     tf_dir = File.expand_path(s.tf_dir)

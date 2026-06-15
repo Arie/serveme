@@ -24,7 +24,7 @@ class CloudServer < RemoteServer
     docker_host&.hostname || ip
   end
 
-  sig { returns(T.nilable(Net::SSH::Connection::Session)) }
+  sig { override.returns(T.nilable(Net::SSH::Connection::Session)) }
   def ssh
     raise "Cannot SSH to cloud server #{id}: no IP assigned yet (#{ip})" if ip.blank? || ip == "0.0.0.0"
 
@@ -90,6 +90,7 @@ class CloudServer < RemoteServer
     @provider ||= CloudProvider.for(T.must(cloud_provider))
   end
 
+  sig { params(reservation: Reservation).returns(T.nilable(T::Boolean)) }
   def write_first_map(reservation)
     first_map = reservation.first_map.presence || "ctf_turbine"
     write_configuration(server_config_file("first_map.txt"), first_map)
@@ -119,6 +120,7 @@ class CloudServer < RemoteServer
     result
   end
 
+  sig { void }
   def mark_ready!
     updated = self.class.where(id: id).where.not(cloud_status: "destroyed").update_all(cloud_status: "ready", active: true)
     return unless updated > 0
@@ -127,6 +129,7 @@ class CloudServer < RemoteServer
     broadcast_reservation_status
   end
 
+  sig { void }
   def broadcast_reservation_status
     reservation = Reservation.find_by(id: cloud_reservation_id)
     return unless reservation
@@ -138,12 +141,14 @@ class CloudServer < RemoteServer
     reservation.broadcast_connect_info
   end
 
+  sig { params(reservation: Reservation).returns(T.nilable(T::Hash[Symbol, T.untyped])) }
   def end_estimate(reservation)
     return if !reservation.provisioned?
 
     super
   end
 
+  sig { params(reservation: Reservation).void }
   def end_reservation(reservation)
     reservation.reload
     return if reservation.ended?
@@ -169,6 +174,7 @@ class CloudServer < RemoteServer
     reservation.status_update("Cloud server unreachable, skipping cleanup")
   end
 
+  sig { params(cloud_provider: String, cloud_location: T.untyped).returns(Integer) }
   def self.next_available_port_for(cloud_provider, cloud_location)
     start_port = if cloud_provider == "remote_docker"
       T.must(DockerHost.find(cloud_location).start_port)
@@ -183,10 +189,12 @@ class CloudServer < RemoteServer
     port
   end
 
+  sig { returns(Integer) }
   def self.next_available_docker_port
     next_available_port_for("docker", "local")
   end
 
+  sig { params(provider_name: String, location_code: String, rcon: String).returns(CloudServer) }
   def self.build_for_location(provider_name, location_code, rcon:)
     provider_class = CloudProvider::PROVIDERS[provider_name]
     raise ArgumentError, "Unknown provider: #{provider_name}" unless provider_class
@@ -281,18 +289,19 @@ class CloudServer < RemoteServer
     File.read(path) if File.exist?(path)
   end
 
-  sig { returns(String) }
+  sig { override.returns(String) }
   def scp_command
     key_file = cloud_ssh_key_file
     ssh_port = cloud_ssh_port || 22
     "scp -4 -O -T -P #{ssh_port} -l 200000 -i #{key_file} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o BatchMode=yes -o ConnectTimeout=5 -o ServerAliveInterval=5 -o ServerAliveCountMax=2"
   end
 
-  sig { returns(String) }
+  sig { override.returns(String) }
   def scp_target
     "tf2@#{ip}"
   end
 
+  sig { override.params(block: T.untyped).returns(T.untyped) }
   def sftp_start(&block)
     raise "Cannot SFTP to cloud server #{id}: no IP assigned yet (#{ip})" if ip.blank? || ip == "0.0.0.0"
 

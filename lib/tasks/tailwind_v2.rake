@@ -1,3 +1,4 @@
+# typed: false
 # frozen_string_literal: true
 
 require "tailwindcss/ruby"
@@ -8,19 +9,19 @@ namespace :tailwind_v2 do
 
   desc "Build the scoped v2 Tailwind bundle"
   task :build do
-    command = [Tailwindcss::Ruby.executable, "-i", input, "-o", output, "--minify"]
+    command = [ Tailwindcss::Ruby.executable, "-i", input, "-o", output, "--minify" ]
     puts "Building v2.css: #{command.join(' ')}"
     system(*command, exception: true)
   end
 
   desc "Watch and rebuild the v2 Tailwind bundle"
   task :watch do
-    command = [Tailwindcss::Ruby.executable, "-i", input, "-o", output, "--watch"]
+    command = [ Tailwindcss::Ruby.executable, "-i", input, "-o", output, "--watch" ]
     system(*command, exception: true)
   end
 end
 
 # Ensure the bundle is built before assets are precompiled (Kamal deploy).
 if Rake::Task.task_defined?("assets:precompile")
-  Rake::Task["assets:precompile"].enhance(["tailwind_v2:build"])
+  Rake::Task["assets:precompile"].enhance([ "tailwind_v2:build" ])
 end

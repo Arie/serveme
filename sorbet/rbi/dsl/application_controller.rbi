@@ -40,6 +40,9 @@ class ApplicationController
     include ::DeviseHelper
 
     sig { returns(T.untyped) }
+    def beta_ui?; end
+
+    sig { returns(T.untyped) }
     def current_admin; end
 
     sig { returns(T.untyped) }

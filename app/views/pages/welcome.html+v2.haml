@@ -1,2 +1,8 @@
 = render 'pages/v2_hero'
 = render 'pages/v2_donation'
+- if @users_games&.any?
+  %h3{class: "font-display text-xl font-bold text-ink mt-8 mb-3"} Reservations you played in
+  = render 'reservations/users_games'
+- if @users_reservations&.any?
+  %h3{class: "font-display text-xl font-bold text-ink mt-8 mb-3"} Your most recent reservations
+  = render 'reservations/users_reservations'

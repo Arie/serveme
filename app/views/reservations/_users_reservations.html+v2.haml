@@ -1,0 +1,16 @@
+%div{class: "overflow-x-auto bg-panel rounded-card border border-white/10"}
+  %table{class: "w-full text-sm"}
+    %thead{class: "text-faint text-left"}
+      %tr
+        %th{class: "px-4 py-3"} Server
+        %th{class: "px-4 py-3"} From
+        %th{class: "px-4 py-3"} Until
+        %th{class: "px-4 py-3"} Actions
+    %tbody
+      - @users_reservations.each do |reservation|
+        - reservation = reservation.decorate
+        %tr{class: "border-t border-white/5 hover:bg-white/5"}
+          %td{class: "px-4 py-3 text-ink"}= reservation.server_name
+          %td{class: "px-4 py-3 font-mono text-muted"}= I18n.l(reservation.starts_at, format: :short)
+          %td{class: "px-4 py-3 font-mono text-muted"}= I18n.l(reservation.ends_at, format: :short)
+          %td{class: "px-4 py-3"}= render 'reservations/actions', reservation: reservation

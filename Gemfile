@@ -63,6 +63,8 @@ gem "rubyzip", require: "zip"
 gem "sass"
 gem "sassc"
 gem "sass-rails"
+# Scoped Tailwind v4 build for the opt-in redesign (vendors the standalone CLI, no Node).
+gem "tailwindcss-ruby", "~> 4.0"
 gem "sd_notify"
 gem "sentry-rails"
 gem "sentry-ruby"

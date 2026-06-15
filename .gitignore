@@ -45,3 +45,5 @@ discord_bot/config.yml
 
 # Playwright MCP server's working dir (debug logs / screenshots)
 .playwright-mcp/
+
+/app/assets/builds/v2.css

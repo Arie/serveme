@@ -1043,6 +1043,11 @@ GEM
     sys-uname (1.5.1)
       ffi (~> 1.1)
       memoist3 (~> 1.0.0)
+    tailwindcss-ruby (4.3.1-aarch64-linux-gnu)
+    tailwindcss-ruby (4.3.1-aarch64-linux-musl)
+    tailwindcss-ruby (4.3.1-arm64-darwin)
+    tailwindcss-ruby (4.3.1-x86_64-linux-gnu)
+    tailwindcss-ruby (4.3.1-x86_64-linux-musl)
     temple (0.10.4)
     terser (1.2.7)
       execjs (>= 0.3.0, < 3)
@@ -1213,6 +1218,7 @@ DEPENDENCIES
   steam-condenser!
   stimulus-rails
   stripe (~> 15.5)
+  tailwindcss-ruby (~> 4.0)
   tapioca!
   terser
   text

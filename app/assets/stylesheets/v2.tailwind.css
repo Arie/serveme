@@ -1,0 +1,38 @@
+@import "tailwindcss";
+
+/* Only scan the redesigned templates + JS so utility generation stays scoped. */
+@source "../../views";
+@source "../../javascript";
+
+/* ---- Direction A "Command" design tokens ---- */
+@theme {
+  --color-accent: #f2742c;
+  --color-accent-light: #f2a36c;
+  --color-cta-from: #f98c43;
+  --color-cta-to: #ee5f29;
+  --color-page: #0b0c0e;
+  --color-hero: #0e1014;
+  --color-panel: #101216;
+  --color-panel-2: #121419;
+  --color-elevated: #16191f;
+  --color-inset: #0c0e12;
+  --color-inset-2: #08090b;
+  --color-ink: #e7e9ee;
+  --color-muted: #9aa0ab;
+  --color-faint: #6b7280;
+  --color-success: #3ecf8e;
+  --color-success-text: #5fdca0;
+  --color-info: #4aa3df;
+  --color-gold: #f2c14e;
+  --color-danger: #e54834;
+
+  --radius-card: 16px;
+  --radius-btn: 10px;
+  --radius-pill: 24px;
+
+  --font-display: "Archivo", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Archivo", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+/* Fonts are added in Task 3 (this file is appended to there). */

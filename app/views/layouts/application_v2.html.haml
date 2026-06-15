@@ -1,0 +1,27 @@
+!!!
+%html
+  %head
+    - subtitle = content_for(:title) || "free TF2 server reservations"
+    %title #{SITE_HOST} - #{subtitle}
+    = stylesheet_link_tag "v2", media: "all"
+    = content_for(:stripe)
+    = javascript_importmap_tags("application")
+    = javascript_include_tag "serveme"
+    = csrf_meta_tags
+    %meta{name: "time-zone", content: Time.zone.tzinfo.identifier}
+    = render 'shared/analytics'
+    %meta{name: "viewport", content: "width=device-width, initial-scale=1.0, shrink-to-fit=no"}
+    %meta{name: "description", content: content_for(:meta_description) || "Free TF2 servers, ready for action in 60 seconds!"}
+    = content_for(:head)
+  %body{class: "bg-page text-ink font-sans antialiased"}
+    = link_to "Skip to content", "#main", class: "sr-only"
+    = render 'shared/navigation'
+    %div{class: "mx-auto max-w-[1280px] px-[26px]"}
+      %main#main{role: "main"}
+        - if notice || alert
+          %div{class: "my-4"}
+            = render 'shared/flash'
+        = yield
+      = render 'shared/timezone'
+    %div{class: "fixed bottom-4 right-4 z-50"}
+      = link_to "Beta · switch back", beta_disable_path, data: { turbo_method: :delete }, class: "rounded-pill bg-elevated text-muted text-sm px-4 py-2 border border-white/10 hover:text-ink"

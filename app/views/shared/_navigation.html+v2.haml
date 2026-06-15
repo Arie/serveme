@@ -1,0 +1,22 @@
+%nav{class: "h-[60px] bg-[#111317] border-b border-white/10 flex items-center px-[26px] gap-6 mb-2"}
+  = link_to SITE_HOST, root_url, class: "font-display font-extrabold text-ink tracking-tight"
+  %div{class: "flex items-center gap-5 text-sm text-muted"}
+    - if current_user
+      = link_to "Reservations", your_reservations_path, class: "hover:text-ink"
+      = link_to "Players", players_path, class: "hover:text-ink"
+      = link_to "Servers", servers_path, class: "hover:text-ink"
+    = link_to "Statistics", statistics_path, class: "hover:text-ink", data: { turbo: false }
+    = link_to "FAQ", faq_path, class: "hover:text-ink"
+    - if current_user
+      = link_to "★ Premium", donate_path, class: "text-gold hover:brightness-110", data: { turbo: false }
+      = link_to "Settings", settings_path, class: "hover:text-ink"
+  %div{class: "ml-auto flex items-center gap-3 text-sm"}
+    = link_to "Discord", "https://discord.gg/0s38RdItLiCmARMm", target: "_blank", class: "text-info hover:brightness-110"
+    - if current_user
+      = link_to settings_path, class: "rounded-pill bg-elevated px-3 py-1 inline-flex items-center gap-1 text-ink hover:brightness-110" do
+        = current_user.decorate.nickname
+        - if current_user.donator?
+          %span{class: "text-gold"} ★
+    - else
+      = link_to '/users/auth/steam', data: { turbo_method: :post }, class: "text-accent-light hover:text-accent" do
+        Login with Steam

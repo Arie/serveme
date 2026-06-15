@@ -1,0 +1,22 @@
+%div{class: "relative overflow-hidden bg-hero rounded-card my-6 px-8 py-10"}
+  %div{class: "grid gap-8 md:grid-cols-[1.4fr_1fr]"}
+    %div{class: "flex flex-col gap-5"}
+      %span{class: "inline-flex items-center gap-2 self-start rounded-pill bg-elevated px-3 py-1 text-sm text-success-text"}
+        %span{class: "inline-block w-2 h-2 rounded-full bg-success animate-pulse"}
+        Servers live right now
+      %h1{class: "font-display text-5xl font-black leading-[0.98] tracking-tight text-ink"}
+        Your TF2 server, ready in
+        %span{class: "text-accent"} 60 seconds.
+      %p{class: "text-muted max-w-prose"} The easiest way to get a TF2 server.
+      %div{class: "flex flex-wrap gap-3"}
+        = link_to new_reservation_path, class: "rounded-btn px-5 py-3 font-semibold text-white", style: "background: linear-gradient(135deg,#f98c43,#ee5f29); box-shadow:0 8px 26px rgba(238,95,41,.34)" do
+          Get server
+        = link_to i_am_feeling_lucky_reservations_path, data: { turbo_method: :post }, class: "rounded-btn px-5 py-3 font-semibold text-accent-light border border-accent/60 hover:border-accent" do
+          1-click server
+        - if current_user&.can_use_cloud_servers?
+          = link_to(current_user.cloud_server_access? ? new_cloud_reservation_path : cloud_info_path, class: "rounded-btn px-5 py-3 font-semibold text-info border border-info/50 hover:border-info") do
+            Cloud server
+      %p{class: "text-sm text-muted"}
+        %strong{class: "text-accent-light"} New:
+        = link_to "Add our bot to your Discord server", discord_invite_path, class: "text-accent-light hover:text-accent"
+    = render 'pages/v2_availability'

@@ -50,3 +50,17 @@
   font-display: swap;
   src: url("/fonts/v2/jetbrains-mono.woff2") format("woff2");
 }
+@utility v2-stripes {
+  background-color: var(--color-accent);
+  background-image: repeating-linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.18) 0 12px,
+    rgba(255, 255, 255, 0) 12px 24px
+  );
+  background-size: 48px 48px;
+  animation: v2-stripe-move 1.1s linear infinite;
+}
+@keyframes v2-stripe-move {
+  from { background-position: 0 0; }
+  to   { background-position: 48px 0; }
+}

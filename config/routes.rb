@@ -278,6 +278,10 @@ Serveme::Application.routes.draw do
 
   get "sdr", to: "sdr#index"
 
+  get    "/beta",         to: "beta#show",    as: "beta"
+  post   "/beta/enable",  to: "beta#enable",  as: "beta_enable"
+  delete "/beta/disable", to: "beta#disable", as: "beta_disable"
+
   root to: "pages#welcome"
   match "*path", via: :all, to: "pages#not_found" unless Rails.env.test?
 end

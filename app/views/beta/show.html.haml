@@ -1,0 +1,11 @@
+- content_for :title, "Try the redesign"
+.row
+  .col-md-8.offset-md-2
+    %h1 Try the new serveme.tf
+    %p.lead
+      We're testing a refreshed look. It's opt-in and only changes your view —
+      everyone else keeps the current site. You can switch back any time.
+    - if beta_ui?
+      = button_to "Switch back to the classic look", beta_disable_path, method: :delete, class: "btn btn-lg btn-secondary"
+    - else
+      = button_to "Try the new look", beta_enable_path, method: :post, class: "btn btn-lg btn-primary"

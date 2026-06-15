@@ -5,7 +5,7 @@ class PagesController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[credits faq private_servers server_providers welcome stats no_vatnik not_found error]
   skip_before_action :redirect_if_country_banned, only: %i[no_to_war welcome no_vatnik]
   before_action :require_admin_or_streamer, only: :recent_reservations
-  caches_action :welcome, cache_path: -> { "welcome_#{Time.zone}_#{cookies[:ui_v2]}" }, unless: -> { current_user }, expires_in: 30.seconds
+  caches_action :welcome, cache_path: -> { welcome_cache_path }, unless: -> { current_user }, expires_in: 30.seconds
 
   def welcome
     return unless current_user
@@ -117,6 +117,10 @@ class PagesController < ApplicationController
   end
 
   private
+
+  def welcome_cache_path
+    "welcome_#{Time.zone}_#{cookies[:ui_v2]}"
+  end
 
   def cloud_locations_with_flags
     locations = Hash.new { |h, k| h[k] = [] }

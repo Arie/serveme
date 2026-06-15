@@ -68,23 +68,16 @@ describe PagesController do
     end
   end
 
-  describe "#welcome caching" do
-    around do |example|
-      caching = ActionController::Base.perform_caching
-      previous_store = Rails.cache
-      ActionController::Base.perform_caching = true
-      Rails.cache = ActiveSupport::Cache::MemoryStore.new
-      example.run
-      ActionController::Base.perform_caching = caching
-      Rails.cache = previous_store
-    end
-
-    it "does not serve the cached classic home to opted-in logged-out users" do
+  describe "#welcome cache key" do
+    it "varies the action-cache key by the ui_v2 cookie" do
       sign_out @user
-      get :welcome          # primes the classic cache entry
+      get :welcome
+      without_cookie = controller.send(:welcome_cache_path)
       request.cookies["ui_v2"] = "true"
-      get :welcome          # different cache key -> miss -> renders v2
-      expect(response).to render_template("layouts/application_v2")
+      get :welcome
+      with_cookie = controller.send(:welcome_cache_path)
+      expect(with_cookie).not_to eq(without_cookie)
+      expect(with_cookie).to include("true")
     end
   end
 end

@@ -65,3 +65,15 @@
   from { background-position: 0 0; }
   to   { background-position: 48px 0; }
 }
+
+/* Small action button used in the reservation tables (color set per-link). */
+@utility v2-action {
+  display: inline-flex;
+  align-items: center;
+  border-radius: var(--radius-btn);
+  border-width: 1px;
+  padding: 0.25rem 0.625rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 600;
+}

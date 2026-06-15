@@ -1,0 +1,8 @@
+%div{class: "inline-flex", id: dom_id(reservation, :zip_download_status)}
+  - if reservation.younger_than_cleanup_age?
+    = link_to "Zip file", reservation.zipfile_url, title: "Download a zip with the logs and demos of the match", class: "v2-action text-info border-info/40 hover:bg-info/10"
+  - elsif reservation.zipfile.attached?
+    = form_with(model: reservation, url: prepare_zip_reservation_path(reservation), method: :post, id: dom_id(reservation, :zip_prepare_button_form), class: "inline") do |f|
+      = f.button "Cloud Download", title: "Request zip file download from cloud storage", data: { turbo_submits_with: "..." }, class: "v2-action text-faint border-white/15 hover:bg-white/5"
+  - else
+    %span{class: "text-faint text-xs"} No zip

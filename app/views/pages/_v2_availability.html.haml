@@ -1,0 +1,21 @@
+- window_start = Time.current
+- window_end = 1.hour.from_now
+- total = Server.active.not_cloud.count + docker_hosts_total_slots
+- if current_user&.donator?
+  - available = ServerForUserFinder.new(current_user, window_start, window_end).servers.size + docker_hosts_available_during(window_start, window_end)
+- elsif current_user
+  - free_limit = SiteSetting.free_server_limit
+  - available = free_limit ? [free_limit - SiteSetting.free_user_reservation_count(window_start, window_end), 0].max : ServerForUserFinder.new(current_user, window_start, window_end).servers.size + docker_hosts_available_during(window_start, window_end)
+  - total = free_limit || total
+- else
+  - available = 0
+- pct = total.positive? ? ((available.to_f / total) * 100).round : 0
+%div{class: "bg-panel rounded-card p-6 flex flex-col gap-4 border border-white/10"}
+  %div{class: "text-muted text-sm"} Servers available
+  %div{class: "font-mono text-faint text-sm"}
+    = "#{I18n.l(window_start, format: :time_without_seconds)} – #{I18n.l(window_end, format: :time_without_seconds)}"
+  %div{class: "font-mono text-4xl font-bold text-ink"}
+    = "#{available} / #{total}"
+  %div{class: "text-success-text text-sm"} For you, right now
+  %div{class: "h-2 rounded-full bg-inset overflow-hidden"}
+    %div{class: "h-full bg-success", style: "width: #{pct}%"}

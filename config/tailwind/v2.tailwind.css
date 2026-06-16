@@ -149,6 +149,14 @@
     background-color: var(--color-inset);
     border: 1px solid rgba(255, 255, 255, 0.07);
     border-radius: var(--radius-btn);
+    padding: 0.85rem 1rem;
+  }
+  /* Tailwind Preflight makes <img> display:block, which dropped the player
+     country flag onto its own line. Keep flag images inline with the text. */
+  img.flag-icon, img.flag {
+    display: inline-block;
+    vertical-align: -0.15em;
+    margin-right: 0.4em;
   }
 
   /* Page header */
@@ -254,6 +262,14 @@
     background-color: var(--color-panel);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: var(--radius-card);
+  }
+  /* A table-wrap already provides a card-like frame, so when it sits inside a
+     v2-card drop its own border/background to avoid a rounded-border-in-a-
+     rounded-border. */
+  .v2-card .v2-table-wrap {
+    border: 0;
+    border-radius: 0;
+    background-color: transparent;
   }
 
   /* Badges / pills */

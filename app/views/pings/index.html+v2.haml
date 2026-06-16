@@ -19,7 +19,7 @@
             %td{class: "ping font-mono"} Checking...
         - if @docker_hosts.present?
           - @docker_hosts.uniq { |dh| dh.hostname }.each do |docker_host|
-            - next if @servers.any? { |s| s.ip == docker_host.ip }
+            - next if @servers.any? { |s| s.ip == docker_host.hostname || s.ip == docker_host.ip }
             %tr{data: { ip: docker_host.hostname }}
               %td= docker_host.city
               %td= docker_host.location&.name

@@ -97,7 +97,7 @@ class DiscordApiClient
 
     sig { returns(T.nilable(String)) }
     def client_id
-      Rails.application.credentials.dig(:discord, :"#{region_key}_client_id")
+      Rails.application.credentials.dig(:discord, :"#{region_key}_client_id")&.to_s
     end
 
     sig { params(method: Symbol, path: String, body: T.untyped, resource_id: T.untyped).returns(T.untyped) }

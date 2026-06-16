@@ -1,0 +1,86 @@
+- content_for :title, "League Maps Management"
+
+%div{class: "flex items-center justify-between gap-4 my-6 flex-wrap"}
+  %div
+    %h1{class: "v2-page-title"} League Maps Management
+    %div{class: "v2-breadcrumb"} Admin / League Maps
+
+%div{class: "grid md:grid-cols-2 gap-4 mb-4"}
+  %div{class: "v2-card"}
+    %h5{class: "font-display text-ink mb-3"} Sync Status
+    - if @last_sync_time
+      %p{class: "mb-2"}
+        %strong Last Sync:
+        %span{class: "font-mono"}= time_ago_in_words(@last_sync_time)
+        ago
+        %small{class: "text-muted"}
+          (#{@last_sync_time.strftime("%Y-%m-%d %H:%M:%S %Z")})
+    - else
+      %p{class: "mb-2 text-gold"} No sync performed yet
+
+    %p{class: "mb-3"}
+      %strong Total Formats:
+      %span{class: "font-mono"}= @league_maps.size
+      |
+      %strong Total Unique Maps:
+      %span{class: "font-mono"}= @league_maps.flat_map(&:maps).uniq.size
+
+    %div{class: "flex flex-wrap gap-2"}
+      = link_to "Manual Sync from GitHub",
+                force_sync_admin_league_maps_path,
+                method: :post,
+                class: "v2-btn v2-btn-primary",
+                data: { confirm: "This will fetch and apply the latest configuration from GitHub. Continue?" }
+
+      = link_to "Fetch & Preview Changes",
+                fetch_admin_league_maps_path,
+                method: :post,
+                class: "v2-btn v2-btn-outline"
+
+      = link_to "https://github.com/Arie/serveme/edit/master/config/league_maps.yml",
+                target: "_blank",
+                class: "v2-btn v2-btn-ghost" do
+        %i.fa.fa-github
+        Edit on GitHub
+
+  %div{class: "v2-card"}
+    %h5{class: "font-display text-ink mb-3"} Instructions
+    %p{class: "text-sm text-muted"} To update league maps:
+    %ol{class: "text-sm text-muted list-decimal pl-5 space-y-1"}
+      %li
+        Edit the
+        = link_to "league_maps.yml",
+                  "https://github.com/Arie/serveme/edit/master/config/league_maps.yml",
+                  target: "_blank",
+                  class: "text-accent"
+        file on GitHub
+      %li Click "Fetch & Preview Changes" to see what will change
+      %li Review the changes and click "Apply" if everything looks correct
+      %li Changes take effect immediately in the current region, synced every hour for other regions
+
+%div{class: "v2-card"}
+  %h5{class: "font-display text-ink mb-3"} Current League Maps Configuration
+  - if @league_maps.any?
+    %div{class: "grid md:grid-cols-2 gap-4"}
+      - @league_maps.each do |league|
+        %div{class: "v2-inset"}
+          %div{class: "flex items-center gap-2 mb-2"}
+            %h6{class: "font-display text-ink font-bold mb-0"}= league.name
+            %span{class: "v2-badge v2-badge-info"}= pluralize(league.maps.size, 'map')
+          %div{class: "flex flex-wrap gap-1"}
+            - league.maps.each do |map_name|
+              - if map_name.start_with?('koth_')
+                %span{class: "v2-badge v2-badge-gold font-mono"}= map_name
+              - elsif map_name.start_with?('cp_')
+                %span{class: "v2-badge font-mono"}= map_name
+              - elsif map_name.start_with?('pl_')
+                %span{class: "v2-badge v2-badge-success font-mono"}= map_name
+              - elsif map_name.start_with?('ulti_', 'ultiduo_')
+                %span{class: "v2-badge v2-badge-danger font-mono"}= map_name
+              - elsif map_name.start_with?('pass_')
+                %span{class: "v2-badge v2-badge-info font-mono"}= map_name
+              - else
+                %span{class: "v2-badge font-mono"}= map_name
+  - else
+    %div{class: "v2-card border border-white/10 text-gold"}
+      No league maps configured. Use the sync functionality to load configuration from GitHub.

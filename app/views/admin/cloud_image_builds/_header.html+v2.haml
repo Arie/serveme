@@ -1,0 +1,30 @@
+%div{class: "v2-card mb-3", id: "build-header-#{build.id}"}
+  %div{class: "flex justify-between items-center mb-2 gap-3 flex-wrap"}
+    %h4{class: "font-display text-ink mb-0"}
+      Build ##{build.id}
+      %small{class: "text-muted ms-2 font-mono"} TF2 v#{build.version}
+    %span{class: ["v2-badge", "text-light", status_badge_class(build.status)]}
+      - if build.status == "running"
+        %span.spinner-border.spinner-border-sm.me-1
+      = build.status
+      - if build.current_phase
+        %small.ms-1= "(#{build.current_phase})"
+  %dl.row.mb-0
+    %dt.col-sm-3 Triggered by
+    %dd.col-sm-9= build.triggered_by_label
+    %dt.col-sm-3 Force pull
+    %dd.col-sm-9= build.force_pull ? "yes" : "no"
+    %dt.col-sm-3 No cache
+    %dd.col-sm-9= build.no_cache ? "yes" : "no"
+    %dt.col-sm-3 Started
+    %dd.col-sm-9{class: "font-mono"}= build.started_at&.to_fs(:short) || "—"
+    %dt.col-sm-3 Finished
+    %dd.col-sm-9{class: "font-mono"}= build.finished_at&.to_fs(:short) || "—"
+    %dt.col-sm-3 Duration
+    %dd.col-sm-9{class: "font-mono"}= build.duration ? "#{build.duration.round}s" : "—"
+    %dt.col-sm-3 Digest
+    %dd.col-sm-9
+      - if build.digest
+        %code{class: "font-mono"}= build.digest
+      - else
+        %span{class: "text-muted"} —

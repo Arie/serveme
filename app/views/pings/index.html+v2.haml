@@ -1,0 +1,37 @@
+- content_for(:title) { "pings" }
+%h1{class: "v2-page-title my-6"} Server Pings (continuous updates)
+
+#server-pings{data: { controller: "ping" }}
+  %div{class: "v2-table-wrap"}
+    %table{class: "v2-table", data: { ping_target: "table" }}
+      %thead
+        %tr
+          %th Name
+          %th Location
+          %th IP
+          %th Ping
+      %tbody
+        - @servers.uniq { |s| s.ip }.each do |server|
+          %tr{data: { ip: server.ip }}
+            %td= link_to server.name.gsub(/\s+#?\d+.*$/, ''), new_reservation_path(ip: server.ip), class: 'hover-underline text-accent-light'
+            %td= link_to server.location&.name, new_reservation_path(ip: server.ip), class: 'hover-underline text-accent-light'
+            %td{class: "font-mono"}= link_to server.ip, new_reservation_path(ip: server.ip), class: 'hover-underline text-accent-light'
+            %td{class: "ping font-mono"} Checking...
+        - if @docker_hosts.present?
+          - @docker_hosts.uniq { |dh| dh.hostname }.each do |docker_host|
+            - next if @servers.any? { |s| s.ip == docker_host.ip }
+            %tr{data: { ip: docker_host.hostname }}
+              %td= docker_host.city
+              %td= docker_host.location&.name
+              %td{class: "font-mono"}= docker_host.hostname
+              %td{class: "ping font-mono"} Checking...
+  %div{class: "mt-4"}
+    %canvas{data: { ping_target: "chart" }, style: "width: 100%; height: 400px;"}
+
+:css
+  .hover-underline {
+    text-decoration: none;
+  }
+  .hover-underline:hover {
+    text-decoration: underline;
+  }

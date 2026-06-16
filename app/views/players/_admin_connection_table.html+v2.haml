@@ -1,0 +1,71 @@
+%div{class: "v2-table-wrap"}
+  %table{class: "v2-table"}
+    %colgroup
+      %col.col-admin-player
+      %col.col-admin-country
+      %col.col-admin-asn
+      %col.col-admin-distance
+      %col.col-admin-connected
+      %col.col-admin-ping
+      %col.col-admin-loss
+    %thead
+      %tr
+        %th Player
+        %th Country
+        %th ASN
+        %th Distance
+        %th Connected
+        %th= link_to("Ping", player_statistics_path, title: "View player statistics")
+        %th= link_to("Loss", player_statistics_path, title: "View player statistics")
+    %tbody
+      - server_data[:players].each do |player_info|
+        %tr
+          %td
+            - reservation_player = player_info[:reservation_player]
+            - if reservation_player&.steam_uid && reservation_player&.name
+              = link_to(reservation_player.name, "https://steamcommunity.com/profiles/#{reservation_player.steam_uid}", target: "_blank", class: "player-name")
+            - else
+              %span.player-name= reservation_player&.name || "Unknown Player"
+          %td
+            - if player_info[:sdr]
+              %span{class: "text-faint"} SDR
+            - elsif player_info[:country_code].present?
+              = image_tag("flags/#{player_info[:country_code].downcase}.png", alt: player_info[:country_name], class: "flag flag-icon")
+              = player_info[:country_name]
+            - else
+              %span{class: "text-faint"} Unknown
+          %td
+            - if player_info[:sdr]
+              %span{class: "text-faint"} SDR
+            - elsif player_info[:asn_number].present? && player_info[:asn_organization].present?
+              %span.asn-tooltip{data: {toggle: "tooltip", html: true, placement: "top"}, title: render("players/asn_tooltip", asn: player_info)}
+                = truncate(player_info[:asn_organization], length: 30)
+            - else
+              %span{class: "text-faint"} Unknown
+          %td{class: "font-mono"}
+            - if player_info[:sdr]
+              %span{class: "text-faint font-sans"} SDR
+            - elsif player_info[:distance].present? && player_info[:player_latitude].present? && player_info[:player_longitude].present? && server_data[:server].latitude.present? && server_data[:server].longitude.present?
+              - maps_url = "https://www.google.com/maps/dir//#{player_info[:player_latitude]},#{player_info[:player_longitude]}/#{server_data[:server].latitude},#{server_data[:server].longitude}"
+              = link_to("#{player_info[:distance]} #{distance_unit}", maps_url, target: "_blank", title: "View route on Google Maps")
+            - elsif player_info[:distance].present?
+              = "#{player_info[:distance]} #{distance_unit}"
+            - else
+              %span{class: "text-faint font-sans"} Unknown
+          %td{class: "font-mono"}
+            - if player_info[:player_statistic]&.minutes_connected.present?
+              = "#{player_info[:player_statistic].minutes_connected} min"
+            - else
+              %span{class: "text-faint font-sans"} Unknown
+          %td{class: "font-mono"}
+            - if player_info[:player_statistic]&.ping.present?
+              - steam_uid = player_info[:reservation_player].steam_uid
+              = link_to("#{player_info[:player_statistic].ping} ms", show_player_statistic_path(steam_uid), title: "View player statistics")
+            - else
+              %span{class: "text-faint font-sans"} Unknown
+          %td{class: "font-mono"}
+            - if player_info[:player_statistic]&.loss.present?
+              - steam_uid = player_info[:reservation_player].steam_uid
+              = link_to("#{player_info[:player_statistic].loss}%", show_player_statistic_path(steam_uid), title: "View player statistics")
+            - else
+              %span{class: "text-faint font-sans"} Unknown

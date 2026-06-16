@@ -1,0 +1,19 @@
+- content_for(:title) { "Create Vouchers" }
+
+%div{class: "my-6"}
+  %h1{class: "v2-page-title"} Create Vouchers
+
+%div{class: "v2-card max-w-2xl"}
+  = simple_form_for([:admin, @voucher], wrapper: :horizontal_form, html: { class: 'form-horizontal voucher' }) do |f|
+    = f.error_notification
+
+    .form-inputs
+      = f.association :product, collection: @products, prompt: "Select a product",
+        label_method: :name, value_method: :id, include_blank: false
+      = f.input :quantity, as: :integer, input_html: { value: 1, min: 1, max: 100 },
+        hint: "Number of vouchers to create (1-100)"
+
+    %div{class: "flex items-center gap-3 mt-4"}
+      %button{type: :submit, class: "v2-btn v2-btn-primary", data: { disable_with: "Creating..."}}
+        Create
+      = link_to "Cancel", admin_vouchers_path, class: "v2-btn v2-btn-outline"

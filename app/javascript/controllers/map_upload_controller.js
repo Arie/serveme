@@ -7,10 +7,43 @@ export default class extends Controller {
     "progressContainer",
     "progressBar",
     "progressText",
+    "dropzone",
+    "fileName",
   ];
 
   connect() {
     this.uploading = false;
+  }
+
+  openFileDialog() {
+    this.fileInputTarget.click();
+  }
+
+  dragover(e) {
+    e.preventDefault();
+    if (this.hasDropzoneTarget) this.dropzoneTarget.classList.add("is-dragover");
+  }
+
+  dragleave(e) {
+    e.preventDefault();
+    if (this.hasDropzoneTarget) this.dropzoneTarget.classList.remove("is-dragover");
+  }
+
+  drop(e) {
+    e.preventDefault();
+    if (this.hasDropzoneTarget) this.dropzoneTarget.classList.remove("is-dragover");
+    if (e.dataTransfer.files && e.dataTransfer.files.length) {
+      this.fileInputTarget.files = e.dataTransfer.files;
+      this.fileSelected();
+    }
+  }
+
+  fileSelected() {
+    if (!this.hasFileNameTarget) return;
+    const file = this.fileInputTarget.files[0];
+    this.fileNameTarget.textContent = file
+      ? file.name
+      : "Drag a .bsp file here, or click to browse";
   }
 
   async handleSubmit(e) {
@@ -48,6 +81,7 @@ export default class extends Controller {
       );
       const form = this.element.querySelector("form");
       if (form) form.reset();
+      this.fileSelected();
     } catch (error) {
       this.showError(error.message || "Upload failed");
     } finally {

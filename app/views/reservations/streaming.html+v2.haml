@@ -1,0 +1,53 @@
+.streaming-page
+  -# Subscribe to Turbo Stream for live updates
+  = turbo_stream_from "reservation_#{@logsecret}_log_lines#{@skip_sanitization ? '_admin' : ''}"
+
+  -# Virtual scrolling mode - efficient for large files
+  %div{data: {controller: "virtual-log", virtual_log_view_url_value: streaming_view_reservation_path(@reservation), virtual_log_total_lines_value: @total_lines, virtual_log_line_height_value: 24, virtual_log_buffer_lines_value: 50, virtual_log_viewport_count_value: 200, virtual_log_stream_target_value: "reservation_#{@logsecret}_log_lines", virtual_log_initial_query_value: @initial_query, virtual_log_timestamp_index_value: (@timestamp_index || []).to_json}}
+    .log-controls-bar
+      .log-search-container
+        %input.log-search-input{type: "text", placeholder: "Search logs...", value: @initial_query, data: {action: "input->virtual-log#search", virtual_log_target: "searchInput"}}
+        %button.log-search-clear{type: "button", data: {action: "click->virtual-log#clearSearch"}, title: "Clear search"} ×
+        %span.log-search-count{data: {virtual_log_target: "searchCount"}}
+
+      .feed-controls{data: {virtual_log_target: "feedControls"}}
+        .delay-control
+          %label.delay-label Delay:
+          %input.delay-slider{type: "range", min: "0", max: "90", value: "0", data: {virtual_log_target: "delaySlider", action: "input->virtual-log#previewDelay change->virtual-log#adjustDelay"}}
+          %span.delay-display{data: {virtual_log_target: "delayDisplay"}} 0s
+
+        .highlight-control
+          %label.form-check-label{title: "Highlights only"}
+            %input.form-check-input{type: "checkbox", data: {virtual_log_target: "highlightToggle", action: "change->virtual-log#toggleHighlightOnly"}}
+            ⭐
+
+        %span.buffer-status.live{data: {virtual_log_target: "bufferStatus"}}
+          0 buffered | 90s ahead of STV
+
+    .log-lines-wrapper
+      .log-loading-overlay{data: {virtual_log_target: "loadingOverlay"}}
+        .log-load-more-spinner
+        %span Loading...
+
+      -# Virtual scroll viewport - fixed height, scrollable
+      .virtual-log-viewport{data: {virtual_log_target: "viewport"}}
+        -# Content container - has the full virtual height
+        .virtual-log-content{data: {virtual_log_target: "content"}}
+          -# Lines container - only visible lines are rendered here
+          .virtual-log-lines{data: {virtual_log_target: "linesContainer"}}
+
+      .log-status-bar
+        - if @total_lines > 0
+          .log-progress-container{data: {virtual_log_target: "progressContainer"}}
+            .log-progress-bar{data: {virtual_log_target: "progressBar"}, style: "width: 100%"}
+            .log-progress-position{data: {virtual_log_target: "progressPosition"}, style: "left: 0%"}
+            .log-progress-tooltip{data: {virtual_log_target: "progressTooltip"}}
+        .log-status-controls
+          - if @total_lines > 0
+            %button.log-nav-btn{type: "button", data: {action: "click->virtual-log#scrollToTop", virtual_log_target: "topBtn"}, title: "Scroll to top (Home)"} ↑
+          - if @total_lines == 0
+            %span.log-status-text{data: {virtual_log_target: "statusText"}} No log lines
+          - else
+            %span.log-status-text{data: {virtual_log_target: "statusText"}}= "Line 1 of #{@total_lines}"
+          - if @total_lines > 0
+            %button.log-nav-btn{type: "button", data: {action: "click->virtual-log#scrollToBottom", virtual_log_target: "bottomBtn"}, title: "Scroll to bottom (End)"} ↓

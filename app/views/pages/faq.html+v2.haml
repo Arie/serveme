@@ -1,0 +1,247 @@
+- content_for(:title) { "FAQ" }
+
+%div{class: "flex items-center justify-between gap-4 my-6 flex-wrap"}
+  %h1{class: "v2-page-title"} FAQ
+
+%p{class: "text-lg text-ink mb-6"}
+  Hey there, we hope you're enjoying serveme.tf. Here we'll try to answer your questions :)
+
+%h2{class: "font-display text-xl font-bold text-ink mt-8 mb-3"} Getting Started
+
+%div{class: "flex flex-col gap-3"}
+  %div{class: "v2-card"}
+    %div{class: "font-semibold text-ink mb-2"} Q: What is this?
+    %em{class: "text-muted"} A: This is the easiest way to borrow a TF2 server!
+
+  %div{class: "v2-card"}
+    %div{class: "font-semibold text-ink mb-2"} Q: Is this completely free?
+    %em{class: "text-muted"} A: Yep, but there are perks for those who help us pay the bills by donating.
+
+  %div{class: "v2-card"}
+    %div{class: "font-semibold text-ink mb-2"} Q: Free huh? I guess these servers run on toasters with 3rd world internet!
+    %em{class: "text-muted"} A: Our servers are provided by community members with years of experience running TF2 servers. And we're not tied to one location or country, so if you have lag or bad routing to a server, you can try another in a different location/country.
+
+  %div{class: "v2-card"}
+    %div{class: "font-semibold text-ink mb-2"} Q: What can I use this for?
+    %em{class: "text-muted"}
+      A: You're allowed to use serveme for anything vaguely related to competitive TF2.
+      1v1 practice, private clan practice, pcw's, scrims, mixes, lobbies or officials.
+      Basically anything that's not a pub or MvM match.
+
+  %div{class: "v2-card"}
+    %div{class: "font-semibold text-ink mb-2"} Q: What do I get for donating?
+    %em{class: "text-muted"}
+      A: Premium users get these benefits:
+      %ul{class: "list-disc list-inside mt-1 space-y-1"}
+        %li More servers to choose from
+        %li Longer reservations (5h instead of 2h)
+        %li Ability to upload maps
+        %li More than 1 reservation at a time allowed
+        %li Make reservations more than 3 hours in advance
+    %div{class: "mt-3"}
+      = render "shared/paypal_button"
+
+  %div{class: "v2-card"}
+    %div{class: "font-semibold text-ink mb-2"} Q: Can I use serveme for MvM or to play by myself against a lot of bots?
+    %em{class: "text-muted"} A: Nope, sorry. MvM and lots of TF2 bots are too resource intensive.
+
+  %div{class: "v2-card"}
+    %div{class: "font-semibold text-ink mb-2"} Q: What does "1-click-server" mean?
+    %em{class: "text-muted"}
+      A: When you press this button, we try to make a reservation based on your previous one. Same settings, same server, 2 hour reservation starting now. If your previous server is in use, we'll try a server on the same machine. If all servers on the machine are busy, we'll try a server in the same country. If all those are busy we try any server that's free and available for you.
+
+%h2{class: "font-display text-xl font-bold text-ink mt-8 mb-3"} Server Management
+
+%div{class: "flex flex-col gap-3"}
+  %div{class: "v2-card"}
+    %div{class: "font-semibold text-ink mb-2"} Q: Noone can connect to my server, what do I do?
+    %em{class: "text-muted"} A: It can take a couple of minutes for the server to start (and update to the latest TF2 version), please be patient. If the server isn't up after 5 minutes, try another one.
+
+  %div{class: "v2-card"}
+    %div{class: "font-semibold text-ink mb-2"} Q: How do I manage the server?
+    - if au_system?
+      %em{class: "text-muted"}
+        A: The RCON password is the server admin password, with it, you can execute commands on the server.
+        To use it, type "rcon_password THE-RCON-PASSWORD-OF-YOUR-RESERVATION" in console while connected to the server.
+
+        For SDR servers: You can use !rcon command-goes-here in the in-game chat to execute commands, or !webrcon .
+        Alternatively, on your booking page, you can use the "Web RCON" button!
+    - else
+      %em{class: "text-muted"}
+        A: The RCON password is the server admin password, with it, you can execute commands on the server.
+        To use it, type "rcon_password THE-RCON-PASSWORD-OF-YOUR-RESERVATION" in console while connected to the server.
+
+  %div{class: "v2-card"}
+    %div{class: "font-semibold text-ink mb-2"} Q: What commands are available inside the server chat?
+    %em{class: "text-muted"}
+      A: If you booked the server, here are some handy admin commands you can use in chat:
+    %div{class: "v2-table-wrap mt-2"}
+      %table{class: "v2-table"}
+        %tr
+          %td{class: "font-mono"}
+            !rcon command-goes-here
+          %td
+            This runs a command on the server, for example you can run "!rcon changelevel koth_product" to change the map on the server to koth_product
+        %tr
+          %td{class: "font-mono"}
+            !webrcon
+          %td
+            This command opens the HTML MOTD (Message of the Day) screen in-game and gives you the Web RCON available also via your booking page
+        %tr
+          %td{class: "font-mono"}
+            !extend
+          %td
+            Extends the time of the reservation by 1 hour. However this will only work if the server is free to reserve.
+        %tr
+          %td{class: "font-mono"}
+            !end
+          %td
+            Ends the reservation and kicks all players
+        %tr
+          %td{class: "font-mono"}
+            !lock
+          %td
+            Locks the server to prevent new players from joining. Changes the password and kicks any players who join after locking.
+        %tr
+          %td{class: "font-mono"}
+            !unlock
+          %td
+            Unlocks the server and restores the original password, allowing players to join again.
+        %tr
+          %td{class: "font-mono"}
+            !unbanall
+          %td
+            Removes all banned players from the server's ban list.
+    %div{class: "mt-4"}
+      %em{class: "text-muted"} These commands are available to everyone:
+      %div{class: "v2-table-wrap mt-2"}
+        %table{class: "v2-table"}
+          %tr
+            %td{class: "font-mono"}
+              !who
+            %td
+              Steam nickname of the person that reserved the server
+          %tr
+            %td{class: "font-mono"}
+              !timeleft
+            %td
+              Minutes left in the reservation
+          %tr
+            %td{class: "font-mono"}
+              !password
+            %td
+              Sends you the current server password via private message (requires SourceMod plugins to be enabled)
+
+  %div{class: "v2-card"}
+    %div{class: "font-semibold text-ink mb-2"} Q: How do I change the map?
+    %em{class: "text-muted"}
+      A: Assuming you don't want to play on ctf_turbine, you'll want to change the map:
+      "rcon changelevel MAPNAME"
+
+  %div{class: "v2-card"}
+    %div{class: "font-semibold text-ink mb-2"} Q: What maps are there?
+    %em{class: "text-muted"}
+      A: You can simply type "rcon maps *" for the console to list you all the maps installed on the server. There are quite a few, and with premium you can upload new maps.
+
+  %div{class: "v2-card"}
+    %div{class: "font-semibold text-ink mb-2"} Q: I want to change my config.
+    %em{class: "text-muted"}
+      A: The command is "rcon exec CONFIGNAME", some of the available configs:
+      - if au_system?
+        %p{class: "mt-2"}
+          %span{class: "v2-badge v2-badge-info"} ozfortress
+        %p{class: "flex flex-wrap gap-2 mt-2"}
+          %code{class: "v2-mono"} ozfortress.cfg
+          %code{class: "v2-mono"} ozfortress_6v6_5cp.cfg
+          %code{class: "v2-mono"} ozfortress_6v6_5cp_upper.cfg
+          %code{class: "v2-mono"} ozfortress_6v6_5cp_lower.cfg
+          %code{class: "v2-mono"} ozfortress_6v6_golden_cap.cfg
+          %code{class: "v2-mono"} ozfortress_6v6_koth.cfg
+          %code{class: "v2-mono"} ozfortress_6v6_scrim.cfg
+          %code{class: "v2-mono"} ozfortress_hl_5cp.cfg
+          %code{class: "v2-mono"} ozfortress_hl_golden_cap.cfg
+          %code{class: "v2-mono"} ozfortress_hl_koth.cfg
+          %code{class: "v2-mono"} ozfortress_hl_stopwatch.cfg
+          %code{class: "v2-mono"} ozfortress_4v4_5cp.cfg
+          %code{class: "v2-mono"} ozfortress_4v4_koth.cfg
+          %code{class: "v2-mono"} ozfortress_ultiduo.cfg
+          %code{class: "v2-mono"} ozfortress_bball.cfg
+        %p{class: "mt-2"}
+          %span{class: "v2-badge v2-badge-danger"} UGC
+        %p{class: "flex flex-wrap gap-2 mt-2"}
+          %code{class: "v2-mono"} ugc_4v_koth
+          %code{class: "v2-mono"} ugc_4v_sd
+          %code{class: "v2-mono"} ugc_4v_standard
+          %code{class: "v2-mono"} ugc_4v_stopwatch
+          %code{class: "v2-mono"} ugc_4v_tugofwar
+          %code{class: "v2-mono"} ugc_6v_ctf
+          %code{class: "v2-mono"} ugc_6v_koth
+          %code{class: "v2-mono"} ugc_6v_standard
+          %code{class: "v2-mono"} ugc_6v_stopwatch
+          %code{class: "v2-mono"} ugc_HL_ctf
+          %code{class: "v2-mono"} ugc_HL_dom
+          %code{class: "v2-mono"} ugc_HL_koth
+          %code{class: "v2-mono"} ugc_HL_standard
+          %code{class: "v2-mono"} ugc_HL_stopwatch
+          %code{class: "v2-mono"} ugc_HL_tugofwar
+      - else
+        %p{class: "mt-2"}
+          %span{class: "v2-badge v2-badge-info"} ETF2L
+        %p{class: "flex flex-wrap gap-2 mt-2"}
+          %code{class: "v2-mono"} etf2l
+          %code{class: "v2-mono"} etf2l_6v6
+          %code{class: "v2-mono"} etf2l_9v9
+          %code{class: "v2-mono"} etf2l_6v6_5cp
+          %code{class: "v2-mono"} etf2l_6v6_ctf
+          %code{class: "v2-mono"} etf2l_6v6_stopwatch
+          %code{class: "v2-mono"} etf2l_9v9_5cp
+          %code{class: "v2-mono"} etf2l_9v9_ctf
+          %code{class: "v2-mono"} etf2l_9v9_koth
+          %code{class: "v2-mono"} etf2l_9v9_stopwatch
+          %code{class: "v2-mono"} etf2l_ultiduo
+          %code{class: "v2-mono"} etf2l_bball
+        %p{class: "mt-2"}
+          %span{class: "v2-badge v2-badge-danger"} UGC
+        %p{class: "flex flex-wrap gap-2 mt-2"}
+          %code{class: "v2-mono"} ugc_4v_koth
+          %code{class: "v2-mono"} ugc_4v_sd
+          %code{class: "v2-mono"} ugc_4v_standard
+          %code{class: "v2-mono"} ugc_4v_stopwatch
+          %code{class: "v2-mono"} ugc_4v_tugofwar
+          %code{class: "v2-mono"} ugc_6v_ctf
+          %code{class: "v2-mono"} ugc_6v_koth
+          %code{class: "v2-mono"} ugc_6v_standard
+          %code{class: "v2-mono"} ugc_6v_stopwatch
+          %code{class: "v2-mono"} ugc_HL_ctf
+          %code{class: "v2-mono"} ugc_HL_dom
+          %code{class: "v2-mono"} ugc_HL_koth
+          %code{class: "v2-mono"} ugc_HL_standard
+          %code{class: "v2-mono"} ugc_HL_stopwatch
+          %code{class: "v2-mono"} ugc_HL_tugofwar
+        %p{class: "mt-2"}
+          %span{class: "v2-badge v2-badge-success"} RGL
+        %p{class: "flex flex-wrap gap-2 mt-2"}
+          %code{class: "v2-mono"} rgl_6s_5cp_scrim
+          %code{class: "v2-mono"} rgl_7s_koth_bo5
+          %code{class: "v2-mono"} rgl_HL_stopwatch
+
+%h2{class: "font-display text-xl font-bold text-ink mt-8 mb-3"} Account & More
+
+%div{class: "flex flex-col gap-3"}
+  %div{class: "v2-card"}
+    %div{class: "font-semibold text-ink mb-2"} Q: I want to use serveme.tf in one of my own projects, is there an API?
+    %em{class: "text-muted"}
+      A: Yep! You can read how to use it
+      = link_to("here.", "https://github.com/Arie/serveme/blob/master/README.md")
+      Contact me for an API key, or get premium and look in your settings.
+
+  %div{class: "v2-card"}
+    %div{class: "font-semibold text-ink mb-2"} Q: How long do you store the demos/logs for a match?
+    %em{class: "text-muted"}
+      A: You can download the demos/logs zip for a reservation you created or played in for 21 days.
+
+  %div{class: "v2-card"}
+    %div{class: "font-semibold text-ink mb-2"} Q: I can't find my question in this FAQ
+    %em{class: "text-muted"}
+      A: Talk to us on
+      = link_to "our Discord", 'https://discord.gg/0s38RdItLiCmARMm', :target => '_blank'

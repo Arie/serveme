@@ -43,8 +43,25 @@ class MapUpload < ActiveRecord::Base
     Rails.cache.write("map_bucket_objects", fetch_bucket_objects, expire_in: 11.minutes)
   end
 
+  # Dev/test setups have no S3 credentials, so the live bucket listing below
+  # raises. Return a static fake map list in development so the reservation form,
+  # map browser, etc. work without AWS.
+  sig { returns(T::Array[T::Hash[Symbol, T.untyped]]) }
+  def self.fake_bucket_objects
+    %w[
+      cp_process_f12 cp_gullywash_f9 cp_snakewater_final1 cp_sunshine cp_metalworks_f5
+      cp_granary_pro_rc8 cp_reckoner_rc6 cp_villa_b19 koth_product_final koth_bagel_rc5
+      koth_clearcut_b15d koth_cascade_rc2 koth_ashville_final koth_lakeside_f5
+      cp_steel_f12 pl_upward_f12 pl_swiftwater_final1 pl_borneo_pro_rc8 koth_proot_b5b
+      cp_propaganda_b18 cp_logjam_rc12f cp_prolands_rc2t koth_product_rcx
+    ].map do |map_name|
+      { key: "maps/#{map_name}.bsp", map_name: map_name, size: 0, uploader: nil, upload_date: nil }
+    end
+  end
+
   sig { returns(T::Array[T::Hash[Symbol, T.untyped]]) }
   def self.fetch_bucket_objects
+    return fake_bucket_objects if Rails.env.development?
     return [] unless ActiveStorage::Blob.service.respond_to?(:bucket)
 
     # Fetch all map uploads with their users in a single query
@@ -147,7 +164,7 @@ class MapUpload < ActiveRecord::Base
     Rails.cache.delete("api_maps_text")
     Rails.cache.write("map_bucket_objects", bucket_objects.reject { |o| o[:map_name] == map_name }, expires_in: 11.minutes)
     Rails.cache.write("map_statistics", map_statistics.reject { |s| s[0] == map_name }, expires_in: 11.minutes)
-    Turbo::StreamsChannel.broadcast_replace_to("admin-maps-list", partial: "map_uploads/admin_list", locals: { bucket_objects: bucket_objects, map_statistics: map_statistics })
+    BetaBroadcast.replace("admin-maps-list", partial: "map_uploads/admin_list", locals: { bucket_objects: bucket_objects, map_statistics: map_statistics })
   end
 
   sig { returns(Regexp) }

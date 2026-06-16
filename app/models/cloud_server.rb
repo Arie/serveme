@@ -134,7 +134,7 @@ class CloudServer < RemoteServer
     reservation = Reservation.find_by(id: cloud_reservation_id)
     return unless reservation
 
-    reservation.broadcast_replace_to reservation,
+    BetaBroadcast.replace reservation,
       target: "reservation_status_message_#{reservation.id}",
       partial: "reservations/status",
       locals: { reservation: reservation }

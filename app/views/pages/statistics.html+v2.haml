@@ -1,0 +1,30 @@
+- content_for(:title) { "statistics" }
+
+- if current_user
+  = render 'users/statistics', :user => current_user
+
+%div{class: "my-6"}
+  %h2{class: "v2-page-title mb-4"} A few site statistics
+  %div{class: "v2-card"}
+    = render 'site_totals'
+
+%div{class: "my-6"}
+  %h2{class: "v2-page-title mb-4"} Reservations graph
+
+  = turbo_frame_tag "reservations_chart", src: statistics_chart_path("reservations_per_day"), loading: "lazy" do
+    %div{class: "v2-card flex flex-col items-center py-8"}
+      %div{class: "spinner-border text-accent mb-2", role: "status"}
+      %span{class: "text-muted"} Loading reservations chart...
+
+  = turbo_frame_tag "hours_chart", src: statistics_chart_path("reserved_hours_per_month"), loading: "lazy" do
+    %div{class: "v2-card flex flex-col items-center py-8 mt-4"}
+      %div{class: "spinner-border text-accent mb-2", role: "status"}
+      %span{class: "text-muted"} Loading hours chart...
+
+%div{class: "my-6"}
+  %h2{class: "v2-page-title mb-4"} Top 10 users
+  = render 'top_10_users'
+
+%div{class: "my-6"}
+  %h2{class: "v2-page-title mb-4"} Top 10 servers
+  = render 'top_10_servers'

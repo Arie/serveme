@@ -153,13 +153,13 @@ class CloudImageBuildWorker
   end
 
   def broadcast_status
-    Turbo::StreamsChannel.broadcast_replace_to(
+    BetaBroadcast.replace(
       @build,
       target: "build-header-#{@build.id}",
       partial: "admin/cloud_image_builds/header",
       locals: { build: @build }
     )
-    Turbo::StreamsChannel.broadcast_replace_to(
+    BetaBroadcast.replace(
       "cloud_image_builds_index",
       target: "trigger-card",
       partial: "admin/cloud_image_builds/trigger_card",

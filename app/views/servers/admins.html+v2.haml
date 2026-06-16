@@ -1,0 +1,7 @@
+- content_for(:title) { "servers" }
+%div{class: "flex items-center justify-between gap-4 my-6"}
+  %h1{class: "v2-page-title"} Servers
+  %span{class: "text-faint text-sm"} refreshes every minute
+
+= turbo_stream_from_beta 'admin-server-list'
+= render "admin_list", servers: @servers, latest_server_version: @latest_server_version

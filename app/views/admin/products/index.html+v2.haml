@@ -1,0 +1,36 @@
+- content_for(:title) { "Products" }
+
+%div{class: "flex items-center justify-between gap-4 my-6 flex-wrap"}
+  %h1{class: "v2-page-title"} Products
+  = link_to("Add product", new_admin_product_path, class: "v2-btn v2-btn-primary")
+
+%div{class: "v2-table-wrap"}
+  %table{class: "v2-table"}
+    %thead
+      %tr
+        %th Name
+        %th{class: "text-center"} Price
+        %th{class: "text-center"} Currency
+        %th{class: "text-center"} Days
+        %th{class: "text-center"} Active
+        %th{class: "text-center"} Actions
+    %tbody
+      - @products.each do |product|
+        %tr[product]
+          %td= product.name
+          %td{class: "text-center font-mono"}
+            = number_to_currency(product.price, unit: "")
+          %td{class: "text-center font-mono"}
+            = product.currency
+          %td{class: "text-center font-mono"}
+            = product.days
+          %td{class: "text-center"}
+            - if product.active
+              %span{class: "v2-badge v2-badge-success"} Active
+            - else
+              %span{class: "v2-badge"} Inactive
+          %td{class: "text-center"}
+            = link_to("Edit", edit_admin_product_path(product), class: "v2-btn v2-btn-outline v2-btn-sm")
+            - if product.active
+              = link_to("Deactivate", admin_product_path(product), method: :delete,
+                data: { confirm: "Are you sure you want to deactivate this product?" }, class: "v2-btn v2-btn-danger v2-btn-sm")

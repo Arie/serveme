@@ -1,0 +1,47 @@
+- content_for(:title) { "server statistics" }
+
+%div{class: "flex items-center justify-between gap-4 my-6 flex-wrap"}
+  %h1{class: "v2-page-title"}= link_to "Server statistics", server_statistics_path
+
+%div{class: "mb-4"}
+  != @pagy.series_nav(:bootstrap)
+
+%div{class: "v2-table-wrap"}
+  %table{class: "v2-table"}
+    %thead
+      %tr
+        %th Server
+        %th Date
+        %th CPU Usage
+        %th FPS
+        %th Map
+        %th Players
+        %th Traffic in
+        %th Traffic out
+    %tbody
+      - @server_statistics.each do |server_statistic|
+        %tr[server_statistic]
+          - server = server_statistic.server && server_statistic.server.decorate
+          %td= link_to server.name, show_server_statistic_path(:server_id => server_statistic.server)
+          %td{class: "font-mono"}
+            - time = I18n.l(server_statistic.created_at, format: :short_with_dayname_and_seconds)
+            = link_to(time, show_reservation_server_statistic_path(:reservation_id => server_statistic.reservation.id), :class => "server_reservation_statistics")
+          %td{class: "font-mono"}= server_statistic.cpu_usage
+          %td{class: "font-mono"}= server_statistic.fps
+          %td
+            %span.map-name-compact{data: {bs_toggle: "tooltip", bs_placement: "top"}, title: server_statistic.map_name}= server_statistic.map_name
+          %td{class: "font-mono"}= server_statistic.number_of_players
+          %td{class: "font-mono"}
+            = server_statistic.traffic_in
+            KB/s
+          %td{class: "font-mono"}
+            = server_statistic.traffic_out
+            KB/s
+
+:javascript
+  document.addEventListener('turbo:load', function() {
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+  })

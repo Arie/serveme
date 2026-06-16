@@ -3,5 +3,7 @@
 //= link_directory ../stylesheets .css
 //= link themes/black.css
 //= link themes/slate.css
+//= link v2_log.css
+//= link v2_extras.css
 //= link_tree ../../javascript .js
 //= link_tree ../../../vendor/javascript .js

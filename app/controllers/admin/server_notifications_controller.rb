@@ -6,6 +6,9 @@ module Admin
   before_action :require_admin
   before_action :set_server_notification, only: [ :edit, :update, :destroy ]
 
+  # edit/create/update all render the index template (inline editing).
+  beta_renders_as :index
+
   def index
     @server_notifications = ServerNotification.order(id: :desc)
     @server_notification = ServerNotification.new

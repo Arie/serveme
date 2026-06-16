@@ -1,0 +1,7 @@
+%h1{class: "v2-page-title my-6"} Edit whitelist
+%div{class: "v2-card max-w-2xl"}
+  = simple_form_for(@whitelist, url: url_for(controller: "whitelists", action: "update"), html: { class: 'form' }) do |f|
+    = f.input :file, as: :string, label: "File name (including .txt)"
+    = f.input :hidden, as: :boolean, label: "Hidden"
+    %div{class: "mt-4"}
+      %button{type: :submit, class: "v2-btn v2-btn-primary"} Update

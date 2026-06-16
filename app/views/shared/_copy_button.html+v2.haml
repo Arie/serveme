@@ -1,0 +1,24 @@
+%span{id: "#{copy_button_id}_container", class: "clip_container clipboard-btn v2-btn v2-btn-outline v2-btn-sm cursor-pointer", data: { "clipboard-text" => copy_text }, title: "Copy to clipboard"}
+  %i.fa.fa-copy{id: "#{copy_button_id}_icon"}
+  - if local_assigns[:button_text]
+    = button_text
+  - else
+    Copy
+:javascript
+  (function(){
+    var btn = document.getElementById("#{copy_button_id}_container");
+    if (!btn) return;
+    btn.addEventListener("click", function(){
+      copyToClipboard('#{j(copy_text)}');
+      if (btn.dataset.copying) return;
+      btn.dataset.copying = "1";
+      var html = btn.innerHTML;
+      btn.classList.add("v2-copied");
+      btn.innerHTML = '<i class="fa fa-check"></i> Copied!';
+      setTimeout(function(){
+        btn.classList.remove("v2-copied");
+        btn.innerHTML = html;
+        delete btn.dataset.copying;
+      }, 1200);
+    });
+  })();

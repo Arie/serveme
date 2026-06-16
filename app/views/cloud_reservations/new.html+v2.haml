@@ -1,0 +1,112 @@
+%div{class: "max-w-3xl mx-auto"}
+  %div{class: "flex items-center justify-between gap-4 my-6 flex-wrap"}
+    %div
+      %h1{class: "v2-page-title"}
+        %i.fa.fa-cloud
+        Launch Cloud Server
+
+  = render 'shared/tf2_update_banner'
+
+  %div{class: "v2-card border-l-4 border-l-info mb-4 text-muted"}
+    %i.fa.fa-info-circle
+    Cloud servers are created on-demand in the location of your choice.
+    Unlike regular servers, they take
+    %strong{class: "text-ink"} a few minutes
+    to start up. You'll see live progress on the reservation page.
+
+  %div{class: "v2-card"}
+    = simple_form_for(@reservation, url: cloud_reservations_path, wrapper: :horizontal_form, html: { class: 'form-horizontal reservation' }) do |f|
+      .form-group.row
+        %label.col-sm-3.col-form-label{for: "cloud_location"} Location
+        .col-sm-9
+          = select_tag :cloud_location, grouped_options_for_select(@cloud_locations), class: "form-control", required: true, onchange: "updateEstimate(this)"
+          %small.form-text#cloud-estimate
+
+      = f.input :starts_at, as: :string, input_html: { value: I18n.l(@reservation.starts_at || Time.current, format: :datepicker), data: { "datepicker-format": "dd-mm-yyyy hh:ii", "datepicker-nodefault": "false" } }, label: "Starts at"
+      = f.input :ends_at, as: :string, input_html: { value: I18n.l(@reservation.ends_at || 2.hours.from_now, format: :datepicker), data: { "datepicker-format": "dd-mm-yyyy hh:ii", "datepicker-nodefault": "false" } }, label: "Ends at"
+
+      .password-refresh-wrapper{data: { controller: "password-refresh" }}
+        = f.input :password, as: :string, placeholder: "The server password to join the game", input_html: { data: { password_refresh_target: "input" } }
+        %button.password-refresh-btn{type: "button", data: { action: "password-refresh#refresh", password_refresh_target: "button" }, title: "Generate random password"}
+          %i.fa.fa-refresh
+      .password-refresh-wrapper{data: { controller: "password-refresh" }}
+        = f.input :rcon, as: :string, placeholder: "The RCON password to control the server", input_html: { data: { password_refresh_target: "input" } }
+        %button.password-refresh-btn{type: "button", data: { action: "password-refresh#refresh", password_refresh_target: "button" }, title: "Generate random password"}
+          %i.fa.fa-refresh
+      = f.input :first_map, as: :grouped_select, group_method: :maps, group_label_method: :name, collection: LeagueMaps.all, input_html: { class: "select2" }
+      .password-refresh-wrapper{data: { controller: "password-refresh" }}
+        = f.input :tv_password, as: :string, placeholder: "Password for STV, default tv", input_html: { data: { password_refresh_target: "input" } }
+        %button.password-refresh-btn{type: "button", data: { action: "password-refresh#refresh", password_refresh_target: "button" }, title: "Generate random password"}
+          %i.fa.fa-refresh
+      = f.input :enable_plugins, as: :boolean, hint: "Enable plugins"
+      = f.input :enable_demos_tf, as: :boolean, hint: "Enable uploading STVs to demos.tf"
+      = f.association :server_config, collection: @server_configs, hint: "Specify a league config to run on each map start", input_html: { class: "select2" }
+
+      .row.submit-row
+        .col-sm-2.offset-sm-4.col-lg-2.offset-lg-5
+          %button{type: :submit, class: "v2-btn v2-btn-primary"}
+            %i.fa.fa-cloud
+            Launch
+
+    = render "reservations/datepicker_javascript_options"
+
+    :javascript
+      var providerEstimates = #{ERB::Util.json_escape(CloudProvider::PROVIDERS.transform_values { |klass| klass.new.estimated_provision_time }.to_json)};
+
+      function updateEstimate(select) {
+        var el = document.getElementById('cloud-estimate');
+        var value = select.value;
+        if (!value) { el.textContent = ''; return; }
+        var provider = value.split(':')[0];
+        var estimate = providerEstimates[provider];
+        if (estimate) {
+          el.textContent = 'Estimated startup time: ' + estimate;
+        } else {
+          el.textContent = '';
+        }
+      }
+
+      // Set initial estimate
+      var locationSelect = document.getElementById('cloud_location');
+      if (locationSelect) { updateEstimate(locationSelect); }
+
+      function refreshCloudLocations() {
+        var startsAt = document.getElementById('reservation_starts_at').value;
+        var endsAt = document.getElementById('reservation_ends_at').value;
+        if (!startsAt && !endsAt) return;
+
+        var csrfToken = document.querySelector('meta[name="csrf-token"]');
+        var token = csrfToken ? csrfToken.getAttribute('content') : '';
+
+        fetch('#{available_locations_cloud_reservations_path}', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': token },
+          body: JSON.stringify({ starts_at: startsAt, ends_at: endsAt })
+        })
+        .then(function(response) { return response.json(); })
+        .then(function(grouped) {
+          var select = document.getElementById('cloud_location');
+          var previousValue = select.value;
+          select.innerHTML = '';
+
+          for (var country in grouped) {
+            var optgroup = document.createElement('optgroup');
+            optgroup.label = country;
+            grouped[country].forEach(function(entry) {
+              var opt = document.createElement('option');
+              opt.text = entry[0];
+              opt.value = entry[1];
+              if (entry[1] === previousValue) { opt.selected = true; }
+              optgroup.appendChild(opt);
+            });
+            select.appendChild(optgroup);
+          }
+
+          updateEstimate(select);
+        });
+      }
+
+      var startsAtInput = document.getElementById('reservation_starts_at');
+      var endsAtInput = document.getElementById('reservation_ends_at');
+      if (startsAtInput) { $(startsAtInput).on('changeDate', refreshCloudLocations); }
+      if (endsAtInput) { $(endsAtInput).on('changeDate', refreshCloudLocations); }

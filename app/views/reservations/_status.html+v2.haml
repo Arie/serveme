@@ -1,0 +1,10 @@
+%div{id: "reservation_status_message_#{reservation.id}"}
+  - provision_data = reservation.provision_estimate
+  - if provision_data
+    - completed = provision_data[:completed] || false
+    %div{style: "height: 46.5px;", data: { controller: "cloud-countdown", "cloud-countdown-phases-value": provision_data[:phases].to_json, "cloud-countdown-current-phase-value": provision_data[:current_phase] || "", "cloud-countdown-phase-elapsed-value": provision_data[:phase_started_at] ? (Time.current - provision_data[:phase_started_at]).to_f.round : 0, "cloud-countdown-provider-progress-value": provision_data[:vm_progress] || -1, "cloud-countdown-completed-value": completed }}
+      %div{class: "flex", style: "height: 24px; border-radius: 4px; overflow: hidden;", data: { "cloud-countdown-target": "bar" }}
+      %small{class: "text-muted", data: { "cloud-countdown-target": "text" }} &nbsp;
+  - else
+    %i.fa{class: reservation_status_spinner_class(reservation)}
+    = reservation.status

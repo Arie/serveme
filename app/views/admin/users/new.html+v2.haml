@@ -1,0 +1,60 @@
+- content_for(:title) { "Find/Add User" }
+
+%div{class: "flex items-center justify-between gap-4 my-6 flex-wrap"}
+  %h1{class: "v2-page-title"} Find or Add User
+  = link_to "All Users", admin_users_path, class: "v2-btn v2-btn-outline"
+
+%div{class: "max-w-2xl mx-auto"}
+  %div{class: "v2-card"}
+    %h5{class: "text-ink font-display mb-3"} Search for User
+    = form_with url: lookup_user_admin_users_path, method: :post, local: false do |f|
+      %div{class: "form-group"}
+        = label_tag :input, "Enter Steam ID or Nickname", class: "v2-label"
+        = text_field_tag :input, params[:uid], class: "v2-input",
+          placeholder: "e.g., 76561197960497430 or player nickname",
+          data: { turbo_frame: "user_results" }
+        %small{class: "v2-help"}
+          You can enter:
+          %ul
+            %li Steam ID64 (17 digits) - will create user if not found
+            %li User nickname (partial match supported)
+
+      = f.submit "Search", class: "v2-btn v2-btn-primary mt-3"
+
+  = turbo_frame_tag "user_results" do
+    - if @users && @users.any?
+      %div{class: "v2-card mt-4"}
+        %h5{class: "text-ink font-display mb-3"} Search Results
+        - if @users.count == 1
+          %div{class: "v2-badge v2-badge-success mb-3"}
+            User found: #{@users.first.nickname}
+          = form_with model: [:admin, @users.first], url: admin_user_path(@users.first), method: :get do |f|
+            = f.submit "View User", class: "v2-btn v2-btn-primary"
+        - else
+          %p Found #{@users.count} matching users:
+          %div{class: "flex flex-col gap-2"}
+            - @users.each do |user|
+              = link_to admin_user_path(user), class: "v2-inset p-3 hover:bg-elevated block" do
+                %div{class: "flex items-center justify-between gap-4"}
+                  %div
+                    %strong= user.nickname
+                    %br
+                    %small{class: "text-muted font-mono"}
+                      Steam ID: #{user.uid}
+                      | ID: ##{user.id}
+                  %div{class: "flex items-center gap-1"}
+                    - if user.donator?
+                      %span{class: "v2-badge v2-badge-success"} Donator
+                    - if user.admin?
+                      %span{class: "v2-badge v2-badge-danger"} Admin
+
+    - elsif @users && @users.empty?
+      %div{class: "v2-card mt-4"}
+        %div{class: "v2-badge v2-badge-gold"}
+          No users found matching your search.
+        - if params[:input].to_s.match?(/^\d{17}$/)
+          %div{class: "mt-4"}
+            = form_with model: [:admin, User.new], local: true do |f|
+              = f.hidden_field :uid, value: params[:input]
+              %p This looks like a Steam ID64. Would you like to create a new user?
+              = f.submit "Create User", class: "v2-btn v2-btn-primary"

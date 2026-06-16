@@ -112,6 +112,15 @@ module GeneratedPathHelpersModule
   def ban_ip_league_request_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def beta_disable_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def beta_enable_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def beta_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def claim_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }

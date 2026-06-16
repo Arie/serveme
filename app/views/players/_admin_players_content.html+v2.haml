@@ -1,0 +1,27 @@
+#admin-players-content
+  %div{class: "flex items-center gap-3 my-6 flex-wrap"}
+    %h1{class: "v2-page-title"} Current Players
+    = link_to(pluralize(servers_with_players.sum { |server_data| server_data[:players].length }, "player"), player_statistics_path, class: "v2-badge v2-badge-info font-mono", title: "View player statistics")
+
+  - if servers_with_players.present?
+    %div{class: "flex flex-col gap-8"}
+      - servers_with_players.each do |server_data|
+        %div
+          %div{class: "flex items-center gap-3 mb-3 flex-wrap"}
+            %h2{class: "text-lg font-display font-semibold"}
+              = link_to(server_data[:server].name, show_server_statistic_path(server_data[:server].id), title: "View server statistics")
+            - if server_data[:players].any? && server_data[:players].first[:reservation_player]&.reservation
+              - reservation = server_data[:players].first[:reservation_player].reservation
+              = link_to(pluralize(server_data[:players].length, "player"), reservation_path(reservation), class: "v2-badge v2-badge-info font-mono", title: "View reservation details")
+            - else
+              = link_to(pluralize(server_data[:players].length, "player"), show_server_player_statistic_path(server_data[:server].id), class: "v2-badge v2-badge-info font-mono", title: "View player statistics for this server")
+            = link_to("Server Monitor", server_monitoring_path(server_id: server_data[:server].id), class: "v2-badge font-mono", title: "Monitor this server in real-time")
+
+          = render "players/admin_connection_table", server_data: server_data, distance_unit: distance_unit
+
+  - else
+    %div{class: "v2-card"}
+      %p{class: "text-muted mb-4"} Currently no players are active on any servers
+      %div{class: "flex gap-3 flex-wrap"}
+        = link_to "View all reservations", your_reservations_path, class: "v2-btn v2-btn-primary"
+        = link_to "Make a reservation", new_reservation_path, class: "v2-btn v2-btn-outline"

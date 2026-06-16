@@ -9,20 +9,20 @@ class ReservationStatus < ActiveRecord::Base
 
   after_create_commit -> {
     T.bind(self, ReservationStatus)
-    broadcast_prepend_to reservation
+    BetaBroadcast.prepend reservation, target: "reservation_statuses", partial: "reservation_statuses/reservation_status", locals: { reservation_status: self }
   }
   after_create_commit -> {
     T.bind(self, ReservationStatus)
-    broadcast_replace_to reservation, target: "reservation_status_message_#{reservation_id}", partial: "reservations/status", locals: { reservation: reservation }
+    BetaBroadcast.replace reservation, target: "reservation_status_message_#{reservation_id}", partial: "reservations/status", locals: { reservation: reservation }
   }
   after_create_commit :notify_discord
   after_update_commit -> {
     T.bind(self, ReservationStatus)
-    broadcast_replace_to reservation
+    BetaBroadcast.replace reservation, target: ActionView::RecordIdentifier.dom_id(self), partial: "reservation_statuses/reservation_status", locals: { reservation_status: self }
   }
   after_update_commit -> {
     T.bind(self, ReservationStatus)
-    broadcast_replace_to reservation, target: "reservation_status_message_#{reservation_id}", partial: "reservations/status", locals: { reservation: reservation }
+    BetaBroadcast.replace reservation, target: "reservation_status_message_#{reservation_id}", partial: "reservations/status", locals: { reservation: reservation }
   }
 
   sig { returns(T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy)) }

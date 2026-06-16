@@ -1,0 +1,13 @@
+- content_for(:title) { "New Product" }
+
+%div{class: "my-6"}
+  %h1{class: "v2-page-title"} New Product
+
+%div{class: "v2-card max-w-2xl"}
+  = simple_form_for([:admin, @product], wrapper: :horizontal_form, html: { class: 'form-horizontal product' }) do |f|
+    = render 'form', f: f
+
+    %div{class: "flex items-center gap-3 mt-4"}
+      %button{type: :submit, class: "v2-btn v2-btn-primary", data: { disable_with: "Saving..."}}
+        Save
+      = link_to "Cancel", admin_products_path, class: "v2-btn v2-btn-outline"

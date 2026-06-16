@@ -1,0 +1,8 @@
+%div{class: "max-w-md mx-auto my-12"}
+  %div{class: "v2-card text-center"}
+    %h1{class: "v2-page-title mb-4"} Sign in with Steam
+    %p{class: "text-muted mb-6"}
+      Use your Steam account to reserve and manage TF2 servers.
+    %div{class: "flex justify-center"}
+      = link_to '/users/auth/steam', method: :post do
+        = image_tag 'sits_large_border.png', :alt => "Sign in with Steam"

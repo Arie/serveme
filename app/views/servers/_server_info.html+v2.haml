@@ -1,0 +1,19 @@
+- reservation = server.current_reservation
+- statistic = server.recent_server_statistics.last&.decorate
+%tr
+  %td
+    = server.name
+
+  - if statistic
+    %td
+      %span.map-name-compact{class: "font-mono", data: {bs_toggle: "tooltip", bs_placement: "top"}, title: statistic.map_name}= statistic.map_name
+    %td{class: "font-mono"}= statistic.number_of_players
+    %td{class: "font-mono"}= statistic.fps
+    %td{class: "actions font-mono"}
+      = "#{server.inactive_minutes} minutes"
+  - else
+    - if reservation
+      %td{colspan: 3} N/A
+      %td.actions
+    - else
+      %td{colspan: 4} Idle

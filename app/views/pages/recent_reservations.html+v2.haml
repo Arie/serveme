@@ -1,0 +1,31 @@
+- content_for(:title) { "recent reservations" }
+
+%div{class: "flex items-center justify-between gap-4 my-6 flex-wrap"}
+  %h1{class: "v2-page-title"} Recent reservations
+
+%div{class: "mb-4"}
+  != @pagy.series_nav(:bootstrap)
+
+%div{class: "v2-table-wrap"}
+  %table{class: "v2-table"}
+    %thead
+      %tr
+        %th Server
+        %th Reserved by
+        %th Reserved from
+        %th Reserved until
+        - if current_admin || current_league_admin || current_streamer
+          %th Actions
+    %tbody
+      - @recent_reservations.each do |reservation|
+        - klass = 'table-success' if reservation.active?
+        - klass = 'table-info'    if reservation.future?
+        %tr[reservation]{:class => klass}
+          - user = reservation.user.decorate
+          - reservation = reservation.decorate
+          %td= reservation.server_name
+          %td= link_to(user.nickname, user.steam_profile_url, :target => "_blank", :class => "player-name")
+          %td{class: "font-mono"}= I18n.l(reservation.starts_at,  :format => :short)
+          %td{class: "font-mono"}= I18n.l(reservation.ends_at,    :format => :short)
+          - if current_admin || current_league_admin || current_streamer
+            %td.actions= render 'reservations/actions', :reservation => reservation

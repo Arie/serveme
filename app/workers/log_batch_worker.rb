@@ -113,17 +113,25 @@ class LogBatchWorker
       reservation_players_by_uid = reservation.reservation_players.index_by(&:steam_uid)
       connection_info = ScoreboardConnectionInfo.for_reservation(reservation)
 
-      html = all_match_stats.map do |match_stats|
-        ApplicationController.render(
-          partial: "reservations/match_scoreboard",
-          locals: { live_stats: match_stats, reservation_players_by_uid: reservation_players_by_uid, connection_info: connection_info }
-        )
-      end.join
+      render_scoreboard = ->(variants) do
+        all_match_stats.map do |match_stats|
+          ApplicationController.render(
+            partial: "reservations/match_scoreboard",
+            locals: { live_stats: match_stats, reservation_players_by_uid: reservation_players_by_uid, connection_info: connection_info },
+            variants: variants
+          )
+        end.join
+      end
 
       Turbo::StreamsChannel.broadcast_update_to(
         reservation,
         target: "match-scoreboard-#{reservation_id}",
-        html: html
+        html: render_scoreboard.call([])
+      )
+      Turbo::StreamsChannel.broadcast_update_to(
+        *BetaBroadcast.stream(reservation),
+        target: "match-scoreboard-#{reservation_id}",
+        html: render_scoreboard.call([ BetaBroadcast::VARIANT ])
       )
     rescue StandardError => e
       Rails.logger.error("[LiveMatchStats] Error broadcasting scoreboard for #{logsecret}: #{e.message}")

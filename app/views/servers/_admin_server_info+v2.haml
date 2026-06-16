@@ -1,0 +1,50 @@
+%tr
+  - server = server.decorate
+  - reservation = server.current_reservation
+  - statistic = server.recent_server_statistics.last&.decorate
+  %td
+    = link_to show_server_player_statistic_path(server_id: server.id) do
+      - if reservation
+        = server.name + " (#{reservation.id})"
+        %br
+        - user = reservation.user.decorate
+        = link_to(user.nickname, user.steam_profile_url, target: "_blank", class: "player-name-compact")
+      - else
+        = server.name
+
+  - if statistic
+    %td
+      %span.map-name-compact{class: "font-mono", data: {bs_toggle: "tooltip", bs_placement: "top"}, title: statistic.map_name}= statistic.map_name
+    %td{class: "font-mono"}= statistic.number_of_players
+    %td{class: "font-mono"}= statistic.fps
+    %td{class: "actions font-mono"}
+      = "#{server.inactive_minutes} minutes"
+      %br
+      - if reservation
+        = render "reservations/actions", reservation: reservation
+  - else
+    - if reservation
+      %td{colspan: 3} N/A
+      %td.actions
+        - if reservation
+          = render "reservations/actions", reservation: reservation
+    - else
+      %td{colspan: 4} Idle
+  %td
+    - if server.team_comtress_server?
+      %i.fa.fa-rocket.text-info{title: "Team Comtress 2 server"}
+      %span{class: "font-mono"}= server.last_known_version
+      = link_to("Restart", restart_server_path(server), class: 'v2-btn v2-btn-danger v2-btn-sm', method: :post, data: { confirm: "This will force a server restart, regardless if there are players on the servers" })
+    - elsif server.last_known_version != latest_server_version
+      - if server.update_status == 'Updating'
+        %i.fa.fa-refresh.fa-spin.text-warning{title: "Update started at #{I18n.l(server.update_started_at, format: :short)}. Server version #{server.last_known_version} was older than #{latest_server_version}"}
+      - else
+        %i.fa.fa-exclamation-circle.text-danger{title: "Server version #{server.last_known_version} is older than #{latest_server_version}"}
+
+      %span{class: "font-mono"}= server.last_known_version
+      = link_to("Update", force_update_server_path(server), class: 'v2-btn v2-btn-danger v2-btn-sm', method: :post, data: { confirm: "This will force a server restart, regardless if there are players on the servers" })
+    - else
+      %i.fa.fa-check.text-success
+      %span{class: "font-mono"}= server.last_known_version
+      = link_to("Restart", restart_server_path(server), class: 'v2-btn v2-btn-danger v2-btn-sm', method: :post, data: { confirm: "This will force a server restart, regardless if there are players on the servers" })
+    = link_to("Monitor", server_monitoring_path(server_id: server.id), class: 'v2-btn v2-btn-primary v2-btn-sm', target: '_blank')

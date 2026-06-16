@@ -1,0 +1,63 @@
+= turbo_frame_tag "users_list" do
+  %div{class: "v2-table-wrap"}
+    %table{class: "v2-table"}
+      %thead
+        %tr
+          %th User
+          %th Groups
+          %th{class: "text-center"} Reservations
+          %th{class: "text-center"} Lifetime Value
+          - if params[:group_id].to_i == Group.donator_group.id
+            %th{class: "text-center"} Last Donation
+          - else
+            %th{class: "text-center"} Last Sign In
+          %th{class: "text-center"} Joined
+          %th{class: "text-center"} Actions
+      %tbody
+        - @users.each do |user|
+          %tr[user]
+            %td
+              = link_to(user.nickname, user.steam_profile_url, target: "_blank", rel: "noopener", class: "player-name text-accent-light hover:underline", data: { turbo: false })
+              %br
+              %small{class: "text-muted font-mono"}= "##{user.id} | #{user.uid}"
+            %td
+              - if user.groups.any?
+                - user.groups.each do |group|
+                  - group_user = user.group_users.find_by(group: group)
+                  - badge_class = case group.name; when "Donator"; "v2-badge-success"; when "Admin"; "v2-badge-danger"; when "League admin"; "v2-badge-gold"; when "Streamer"; "v2-badge-info"; when "Trusted API"; "v2-badge-info"; else; ""; end
+                  %span{class: "v2-badge #{badge_class} mr-1 mb-1", title: group_user&.expires_at ? "Expires: #{l(group_user.expires_at, format: :long)}" : "Permanent"}
+                    = group.name
+              - else
+                %span{class: "text-faint"} No groups
+            %td{class: "text-center font-mono"}
+              - if @reservation_counts[user.id]
+                = @reservation_counts[user.id]
+              - else
+                %span{class: "text-faint"} 0
+            %td{class: "text-center font-mono"}
+              - if @lifetime_values[user.id]
+                = number_to_currency(@lifetime_values[user.id])
+              - else
+                %span{class: "text-faint"} $0
+            %td{class: "text-center font-mono"}
+              - if params[:group_id].to_i == Group.donator_group.id
+                - if @last_donation_dates[user.id]
+                  %span{title: l(@last_donation_dates[user.id], format: :long), data: {toggle: "tooltip"}}
+                    = time_ago_in_words(@last_donation_dates[user.id]) + " ago"
+                - else
+                  %span{class: "text-faint"} Never
+              - else
+                - if @last_sign_in_dates[user.id]
+                  %span{title: l(@last_sign_in_dates[user.id], format: :long), data: {toggle: "tooltip"}}
+                    = time_ago_in_words(@last_sign_in_dates[user.id]) + " ago"
+                - else
+                  %span{class: "text-faint"} Never
+            %td{class: "text-center font-mono"}
+              %small= l(user.created_at, format: :long)
+            %td{class: "text-center"}
+              = link_to("View", admin_user_path(user), class: "v2-btn v2-btn-info v2-btn-sm", title: "View details", data: { turbo_frame: "_top" })
+              = link_to("Edit", edit_admin_user_path(user), class: "v2-btn v2-btn-outline v2-btn-sm", title: "Edit user", data: { turbo_frame: "_top" })
+
+  - if @pagy
+    %div{class: "mt-4 flex justify-center"}
+      != @pagy.series_nav(:bootstrap)

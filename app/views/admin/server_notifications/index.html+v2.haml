@@ -1,0 +1,37 @@
+%div{class: "flex items-center justify-between gap-4 my-6 flex-wrap"}
+  %div
+    %h1{class: "v2-page-title"} Server Notifications
+    %div{class: "v2-breadcrumb"} Admin / Server Notifications
+
+%div{class: "v2-card max-w-2xl mb-6"}
+  %h2{class: "font-display text-ink mb-3"}= @server_notification.new_record? ? 'New Server Notification' : 'Edit Server Notification'
+
+  = simple_form_for [:admin, @server_notification], local: true do |f|
+    = f.error_notification
+    = f.error_notification message: false, class: 'alert alert-danger' if f.object.errors[:base].present?
+
+    .form-inputs
+      = f.input :message, as: :text, input_html: { rows: 3 }
+      = f.input :notification_type, collection: [['Public Message', 'public'], ['Advertisement', 'ad']], include_blank: 'Select a type'
+
+    .form-actions{class: "mt-4"}
+      = f.button :submit, @server_notification.new_record? ? 'Create Notification' : 'Update Notification', class: "v2-btn v2-btn-primary"
+
+%h2{class: "font-display text-ink mb-3"} Existing Server Notifications
+
+%div{class: "v2-table-wrap"}
+  %table{class: "v2-table"}
+    %thead
+      %tr
+        %th Message
+        %th Type
+        %th Actions
+    %tbody
+      - @server_notifications.each do |notification|
+        %tr
+          %td= notification.message
+          %td= notification.notification_type
+          %td
+            %div{class: "flex gap-2 items-center"}
+              = link_to 'Edit', edit_admin_server_notification_path(notification), class: 'v2-btn v2-btn-sm v2-btn-outline'
+              = button_to 'Delete', admin_server_notification_path(notification), method: :delete, data: { confirm: 'Are you sure?' }, class: 'v2-btn v2-btn-sm v2-btn-danger', form: { class: 'inline-block' }

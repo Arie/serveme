@@ -1,0 +1,22 @@
+%div{class: "v2-card mb-3", id: "setup-logs"}
+  %h5{class: "font-display text-ink mb-3"}
+    %i.fa.fa-file-alt
+    Recent Setup Logs
+  - logs = docker_host.setup_logs.recent.limit(20)
+  - if logs.empty?
+    %p{class: "text-muted mb-0"} No logs yet — provision steps will record their full output here.
+  - else
+    - logs.each do |log|
+      %details.mb-2
+        %summary{class: "text-sm"}
+          - if log.success
+            %i.fa.fa-check-circle.text-success.me-1
+          - else
+            %i.fa.fa-times-circle.text-danger.me-1
+          %strong= log.label
+          %span{class: "text-muted ms-2"}
+            = log.created_at.to_fs(:short)
+            - if log.exit_status
+              = " · exit #{log.exit_status}"
+        %pre{class: "v2-inset mt-2 mb-0 p-2 text-sm font-mono", style: "max-height: 400px; overflow: auto;"}
+          = log.output.presence || "(no output)"

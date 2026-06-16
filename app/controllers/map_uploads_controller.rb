@@ -6,7 +6,6 @@ class MapUploadsController < ApplicationController
   before_action :require_donator, only: %i[new create presigned_url complete]
   before_action :require_admin, only: :destroy
 
-  layout "maps", only: :index
 
   def new
     @map_upload = MapUpload.new
@@ -199,5 +198,10 @@ class MapUploadsController < ApplicationController
       url: presigned_url,
       method: "PUT"
     }
+  end
+  def resolve_layout
+    return "application_v2" if beta_active?
+
+    action_name == "index" ? "maps" : nil
   end
 end

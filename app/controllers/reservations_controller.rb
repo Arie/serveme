@@ -7,7 +7,6 @@ class ReservationsController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[motd]
   skip_before_action :store_current_location, only: %i[extend_reservation destroy]
   helper LogLineHelper
-  layout "simple", only: %i[rcon motd streaming]
   caches_action :motd, cache_path: -> { "motd_#{params[:id]}" }, unless: -> { current_user }, expires_in: 1.seconds
   include RconHelper
   include LogLineHelper
@@ -501,5 +500,12 @@ class ReservationsController < ApplicationController
     end
 
     player_data.sort_by { |player| player[:reservation_player]&.name&.downcase || "zzz" }
+  end
+  def resolve_layout
+    if beta_active?
+      return %w[rcon motd streaming].include?(action_name) ? "application_v2_log" : "application_v2"
+    end
+
+    %w[rcon motd streaming].include?(action_name) ? "simple" : nil
   end
 end

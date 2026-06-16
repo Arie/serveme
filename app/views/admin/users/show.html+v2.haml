@@ -1,0 +1,286 @@
+- content_for(:title) { "User: #{@user.nickname}" }
+
+%div{class: "my-6"}
+  %h1{class: "v2-page-title"}= link_to "User Management", admin_users_path, class: "hover:underline"
+
+%div{class: "grid grid-cols-1 lg:grid-cols-3 gap-4"}
+  %div{class: "lg:col-span-1 flex flex-col gap-4"}
+    %div{class: "v2-card"}
+      %h5{class: "text-ink font-display mb-3"} User Information
+      %div{class: "text-center mb-3"}
+        %div{data: {
+               controller: "steam-avatar",
+               "steam-avatar-user-id-value": @user.id,
+               "steam-avatar-steam-uid-value": h(@user.uid),
+               "steam-avatar-size-value": "full"
+             }}
+          %img{class: "rounded-full inline-block", src: "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg",
+               width: "120", height: "120", alt: @user.nickname,
+               data: { "steam-avatar-target": "image" }}
+
+      %h4{class: "text-center text-ink font-display"}= @user.nickname
+
+      %dl{class: "grid grid-cols-12 gap-y-2 mt-4 text-sm"}
+        %dt{class: "col-span-5 text-muted"} User ID:
+        %dd{class: "col-span-7 font-mono"}= "##{@user.id}"
+
+        %dt{class: "col-span-5 text-muted"} Steam ID64:
+        %dd{class: "col-span-7"}
+          %code{class: "font-mono"}= @user.uid
+
+        %dt{class: "col-span-5 text-muted"} Joined:
+        %dd{class: "col-span-7 font-mono"}= l(@user.created_at, format: :long)
+
+        %dt{class: "col-span-5 text-muted"} Last Sign In:
+        %dd{class: "col-span-7 font-mono"}
+          - if @user.last_sign_in_at
+            = l(@user.last_sign_in_at, format: :long)
+            %br
+            %small{class: "text-muted"}= "#{time_ago_in_words(@user.last_sign_in_at)} ago"
+          - else
+            %span{class: "text-faint"} Never
+
+        %dt{class: "col-span-5 text-muted"} Status:
+        %dd{class: "col-span-7"}
+          - if @user.admin?
+            %span{class: "v2-badge v2-badge-danger"} Admin
+          - elsif @user.donator?
+            %span{class: "v2-badge v2-badge-success"} Donator
+          - elsif @user.league_admin?
+            %span{class: "v2-badge v2-badge-gold"} League Admin
+          - elsif @user.streamer?
+            %span{class: "v2-badge v2-badge-info"} Streamer
+          - else
+            %span{class: "v2-badge"} Regular User
+
+      %div{class: "flex flex-col gap-2 mt-4"}
+        = link_to "View Steam Profile", @user.steam_profile_url, target: "_blank", rel: "noopener nofollow", class: "v2-btn v2-btn-primary", data: { turbo: false }
+        = link_to "Edit User", edit_admin_user_path(@user), class: "v2-btn v2-btn-outline"
+
+    %div{class: "v2-card"}
+      %h5{class: "text-ink font-display mb-3"} Statistics
+      %dl{class: "grid grid-cols-12 gap-y-2 text-sm"}
+        %dt{class: "col-span-7 text-muted"} Lifetime Value:
+        %dd{class: "col-span-5 text-right font-mono"}
+          - if @lifetime_value_by_currency.any?
+            - @lifetime_value_by_currency.each do |currency, amount|
+              %strong{class: "block"}= format_currency(amount, currency)
+          - else
+            %strong= format_currency(0, nil)
+
+        %dt{class: "col-span-7 text-muted"} Total Donations:
+        %dd{class: "col-span-5 text-right font-mono"}= @total_donations
+
+        %dt{class: "col-span-7 text-muted"} Total Reservations:
+        %dd{class: "col-span-5 text-right font-mono"}
+          = link_to @total_reservations, user_reservations_path(@user), class: "text-accent-light hover:underline"
+
+        %dt{class: "col-span-7 text-muted"} Total Hours:
+        %dd{class: "col-span-5 text-right font-mono"}= "#{@total_reservation_hours}h"
+
+        %dt{class: "col-span-7 text-muted"} Sign In Count:
+        %dd{class: "col-span-5 text-right font-mono"}= @user.sign_in_count || 0
+
+        %dt{class: "col-span-7 text-muted"} Map Uploads:
+        %dd{class: "col-span-5 text-right font-mono"}= @total_map_uploads
+
+  %div{class: "lg:col-span-2 flex flex-col gap-4"}
+    %div{class: "v2-card"}
+      %div{class: "flex items-center justify-between gap-4 flex-wrap mb-3"}
+        %h5{class: "text-ink font-display mb-0"} Group Membership History
+        %div{class: "flex items-center gap-2"}
+          %span{class: "v2-badge v2-badge-info"}= "#{@group_memberships.count} total"
+          - if @total_donator_time
+            %span{class: "v2-badge v2-badge-info"}
+              Total: #{@total_donator_time} as donator
+      - if @group_memberships.any?
+        %div{class: "v2-table-wrap"}
+          %table{class: "v2-table"}
+            %thead
+              %tr
+                %th Group
+                %th Joined
+                %th Expires
+                %th Duration
+                %th Status
+            %tbody
+              - @group_memberships.each do |group_user|
+                - if group_user.group
+                  %tr
+                    %td
+                      %strong= group_user.group.name
+                    %td{class: "font-mono"}= l(group_user.created_at, format: :long)
+                    %td{class: "font-mono"}
+                      - if group_user.expires_at
+                        = l(group_user.expires_at, format: :long)
+                      - else
+                        %span{class: "text-faint"} Never
+                    %td{class: "font-mono"}
+                      - if group_user.expires_at
+                        = format_exact_duration(group_user.created_at, group_user.expires_at)
+                      - else
+                        %span{class: "text-faint"} Permanent
+                    %td
+                      - if group_user.expires_at && group_user.expires_at < Time.current
+                        %span{class: "v2-badge"} Expired
+                      - elsif group_user.expires_at && group_user.expires_at < 7.days.from_now
+                        %span{class: "v2-badge v2-badge-gold"} Expiring Soon
+                      - else
+                        %span{class: "v2-badge v2-badge-success"} Active
+      - else
+        %p{class: "text-muted mb-0"} No group memberships
+
+    %div{class: "v2-card"}
+      %div{class: "flex items-center justify-between gap-4 flex-wrap mb-3"}
+        %h5{class: "text-ink font-display mb-0"} Donation History
+        %span{class: "v2-badge v2-badge-info"}= "#{@orders.count} total"
+      - if @orders.any?
+        %div{class: "v2-table-wrap"}
+          %table{class: "v2-table"}
+            %thead
+              %tr
+                %th Date
+                %th Product
+                %th Amount
+                %th Gift Status
+                %th Type
+            %tbody
+              - @orders.each do |order|
+                %tr
+                  %td{class: "font-mono"}= l(order.created_at, format: :long)
+                  %td= order.product.name
+                  %td{class: "font-mono"}= format_currency(order.product.price, order.product.currency)
+                  %td
+                    - if order.gift?
+                      - if order.voucher&.claimed?
+                        %span{class: "v2-badge v2-badge-success"}
+                          Redeemed by
+                          = link_to order.voucher.claimed_by.nickname, admin_user_path(order.voucher.claimed_by), class: "hover:underline"
+                      - else
+                        %span{class: "v2-badge v2-badge-gold"} Gift (Not Redeemed)
+                    - else
+                      %span{class: "v2-badge"} Not a Gift
+                  %td
+                    - if order.is_a?(PaypalOrder)
+                      %span{class: "v2-badge v2-badge-info"} PayPal
+                    - elsif order.is_a?(StripeOrder)
+                      %span{class: "v2-badge v2-badge-info"} Stripe
+                    - else
+                      %span{class: "v2-badge"} Unknown
+      - else
+        %p{class: "text-muted mb-0"} No donation history
+
+    %div{class: "v2-card"}
+      %div{class: "flex items-center justify-between gap-4 flex-wrap mb-3"}
+        %h5{class: "text-ink font-display mb-0"} Gift Redemption History
+        %span{class: "v2-badge v2-badge-info"}= "#{@vouchers.count} total"
+      - if @vouchers.any?
+        %div{class: "v2-table-wrap"}
+          %table{class: "v2-table"}
+            %thead
+              %tr
+                %th Redeemed Date
+                %th Product
+                %th Amount
+                %th Gift From
+                %th Type
+            %tbody
+              - @vouchers.each do |voucher|
+                %tr
+                  %td{class: "font-mono"}= l(voucher.claimed_at, format: :long)
+                  %td= voucher.product.name
+                  %td{class: "font-mono"}= format_currency(voucher.product.price, voucher.product.currency)
+                  %td
+                    - if voucher.order&.user
+                      = link_to voucher.order.user.nickname, admin_user_path(voucher.order.user), class: "text-accent-light hover:underline"
+                    - else
+                      %span{class: "text-faint"} No order
+                  %td
+                    - if voucher.order&.is_a?(PaypalOrder)
+                      %span{class: "v2-badge v2-badge-info"} PayPal
+                    - elsif voucher.order&.is_a?(StripeOrder)
+                      %span{class: "v2-badge v2-badge-info"} Stripe
+                    - elsif voucher.order
+                      %span{class: "v2-badge"} Unknown
+                    - else
+                      %span{class: "text-faint"} N/A
+      - else
+        %p{class: "text-muted mb-0"} No gifts redeemed
+
+    %div{class: "v2-card"}
+      %div{class: "flex items-center justify-between gap-4 flex-wrap mb-3"}
+        %h5{class: "text-ink font-display mb-0"} Map Uploads
+        %span{class: "v2-badge v2-badge-info"}= "#{@map_uploads.count} total"
+      - if @map_uploads.any?
+        %div{class: "v2-table-wrap"}
+          %table{class: "v2-table"}
+            %thead
+              %tr
+                %th Upload Date
+                %th Map Name
+                %th File Size
+                %th Actions
+            %tbody
+              - @map_uploads.each do |map_upload|
+                - file_exists = map_upload.file_exists?(@file_exists_lookup)
+                %tr{class: file_exists ? "" : "line-through text-faint"}
+                  %td{class: "font-mono"}= l(map_upload.created_at, format: :long)
+                  %td
+                    - if map_upload.map_name.present?
+                      %code{class: "map-name-compact font-mono", data: {bs_toggle: "tooltip", bs_placement: "top"}, title: map_upload.map_name}= map_upload.map_name
+                    - else
+                      %span{class: "text-faint"} Unknown map name
+                  %td{class: "font-mono"}
+                    - if file_exists
+                      = map_upload.formatted_file_size(@file_size_lookup)
+                    - else
+                      %span{class: "text-faint"} File deleted
+                  %td
+                    - if file_exists
+                      - if map_upload.file.attached?
+                        = link_to("https://fastdl.serveme.tf/#{map_upload.file.blob.key}", class: "v2-btn v2-btn-primary v2-btn-sm", title: "Download #{map_upload.filename}") do
+                          %i.fa.fa-download
+                      - elsif map_upload.filename.present?
+                        = link_to("https://fastdl.serveme.tf/maps/#{map_upload.filename}", class: "v2-btn v2-btn-primary v2-btn-sm", title: "Download #{map_upload.filename}") do
+                          %i.fa.fa-download
+                      - else
+                        %span{class: "text-faint"} No file
+                    - else
+                      %span{class: "text-faint"} File deleted
+      - else
+        %p{class: "text-muted mb-0"} No map uploads
+
+    %div{class: "v2-card"}
+      %h5{class: "text-ink font-display mb-3"} Recent Reservations
+      - if @reservations.any?
+        %div{class: "v2-table-wrap"}
+          %table{class: "v2-table"}
+            %thead
+              %tr
+                %th Date
+                %th Server
+                %th Duration
+                %th Status
+            %tbody
+              - @reservations.each do |reservation|
+                %tr
+                  %td{class: "font-mono"}= link_to l(reservation.starts_at, format: :long), reservation_path(reservation), class: "text-accent-light hover:underline"
+                  %td= reservation.server.name
+                  %td{class: "font-mono"}= format_exact_duration(reservation.starts_at, reservation.ends_at)
+                  %td
+                    - if reservation.now?
+                      %span{class: "v2-badge v2-badge-success"}= reservation.status
+                    - elsif reservation.future?
+                      %span{class: "v2-badge v2-badge-info"}= reservation.status
+                    - else
+                      %span{class: "v2-badge"}= reservation.status
+      - else
+        %p{class: "text-muted mb-0"} No reservations found
+
+:javascript
+  document.addEventListener('turbo:load', function() {
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+  })

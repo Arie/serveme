@@ -4,6 +4,13 @@
 module ApplicationHelper
   extend T::Sig
 
+  # Subscribe a beta (v2) page to the parallel ":v2" Turbo stream that
+  # BetaBroadcast emits the v2 variant of each partial to. See BetaBroadcast.
+  sig { params(streamables: T.untyped).returns(T.untyped) }
+  def turbo_stream_from_beta(*streamables)
+    T.unsafe(self).turbo_stream_from(*streamables, BetaBroadcast::VARIANT)
+  end
+
   sig { returns(T.nilable(T::Boolean)) }
   def donator?
     @donator ||= T.unsafe(self).current_user&.donator?

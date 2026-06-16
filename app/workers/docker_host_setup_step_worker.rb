@@ -30,25 +30,25 @@ class DockerHostSetupStepWorker
   def broadcast_step_completion(docker_host, step, result)
     stream = "docker_host_setup_#{docker_host.id}"
 
-    Turbo::StreamsChannel.broadcast_replace_to(
+    BetaBroadcast.replace(
       stream,
       target: "step-#{step}-result",
       partial: "admin/docker_hosts/step_result",
       locals: { step: step, result: result }
     )
-    Turbo::StreamsChannel.broadcast_replace_to(
+    BetaBroadcast.replace(
       stream,
       target: "step-#{step}-controls",
       partial: "admin/docker_hosts/step_controls",
       locals: { docker_host: docker_host, step: step, running: false }
     )
-    Turbo::StreamsChannel.broadcast_replace_to(
+    BetaBroadcast.replace(
       stream,
       target: "setup-status",
       partial: "admin/docker_hosts/setup_status",
       locals: { docker_host: docker_host }
     )
-    Turbo::StreamsChannel.broadcast_replace_to(
+    BetaBroadcast.replace(
       stream,
       target: "setup-logs",
       partial: "admin/docker_hosts/setup_logs",

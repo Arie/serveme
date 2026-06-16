@@ -36,7 +36,7 @@ class CloudImageBuild < ActiveRecord::Base
 
     sig { void }
     def broadcast_history
-      Turbo::StreamsChannel.broadcast_replace_to(
+      BetaBroadcast.replace(
         "cloud_image_builds_index",
         target: "build-history",
         partial: "admin/cloud_image_builds/history",

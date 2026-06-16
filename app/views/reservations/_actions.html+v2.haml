@@ -1,0 +1,30 @@
+%div{id: "reservation_actions_#{reservation.id}", class: "flex flex-wrap gap-1.5"}
+  = link_to "Details", reservation_path(reservation), class: "v2-action text-success-text border-success/30 hover:bg-success/10"
+  - unless reservation.past?
+    = link_to "Edit", edit_reservation_path(reservation), title: "Edit reservation", class: "v2-action text-info border-info/40 hover:bg-info/10"
+
+  - if reservation.active? || (reservation.now? && reservation.start_instantly?) || (reservation.now? && reservation.server.is_a?(CloudServer) && !reservation.provisioned?)
+    - if reservation.less_than_1_hour_left?
+      = link_to "Extend", extend_reservation_path(reservation), title: "Extend reservation", method: :post, data: { confirm: "This will extend your reservation if possible" }, class: "v2-action text-accent-light border-accent/40 hover:bg-accent/10"
+
+    - if !reservation.end_instantly?
+      - if reservation.players_playing?
+        - end_message = "Are you sure you want to end your reservation? There #{I18n.t(:were_x_players_left, count: reservation.last_number_of_players, scope: :server)} left on the server at #{I18n.l(Time.zone.now, format: :time_without_seconds)}"
+      - else
+        - end_message = "Are you sure you want to end your reservation?"
+      = link_to "End", reservation_path(reservation), title: "End reservation", method: :delete, data: { confirm: end_message }, class: "v2-action text-danger border-danger/40 hover:bg-danger/10"
+
+      - if reservation.server && !reservation.server.sdr?
+        = link_to "Join", reservation.server_connect_url, class: "v2-action text-gold border-gold/40 hover:bg-gold/10"
+        = link_to "STV", reservation.stv_connect_url, class: "v2-action text-accent-light border-accent/40 hover:bg-accent/10"
+
+  - if reservation.cancellable?
+    = link_to "Cancel", reservation_path(reservation), title: "Cancel reservation", method: :delete, class: "v2-action text-gold border-gold/40 hover:bg-gold/10"
+
+  - if reservation.past?
+    - if reservation.younger_than_cleanup_age? || reservation.zipfile.attached?
+      = render 'reservations/zip_file_link', reservation: reservation
+      = link_to "logs.tf", reservation_log_uploads_path(reservation), title: "Upload the match logs to logs.tf", class: "v2-action text-success-text border-success/30 hover:bg-success/10"
+    - else
+      = link_to "logs.tf", reservation.logs_tf_url, title: "Search on logs.tf", class: "v2-action text-info border-info/40 hover:bg-info/10"
+      = link_to "demos.tf", demos_tf_url(reservation.user), title: "Search on demos.tf", class: "v2-action text-info border-info/40 hover:bg-info/10"

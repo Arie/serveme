@@ -1,0 +1,18 @@
+- content_for(:title) { "Current Players" }
+
+= turbo_stream_from_beta "admin-players"
+
+#admin-players-content
+  = render "admin_players_content", servers_with_players: @servers_with_players, distance_unit: @distance_unit
+
+:javascript
+  document.addEventListener('turbo:load', function() {
+    $('[data-toggle="tooltip"]').tooltip({html: true});
+  });
+
+  // Reinitialize tooltips after Turbo Stream updates
+  document.addEventListener('turbo:before-stream-render', function(event) {
+    setTimeout(function() {
+      $('[data-toggle="tooltip"]').tooltip({html: true});
+    }, 10);
+  });

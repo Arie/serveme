@@ -76,7 +76,7 @@ describe CronWorker do
       allow(CurrentPlayersService).to receive(:distance_unit_for_region).and_return('km')
     end
 
-    it 'broadcasts to both regular and admin streams' do
+    it 'broadcasts to both regular and admin streams (classic + v2 variant)' do
       expect(Turbo::StreamsChannel).to receive(:broadcast_replace_to).with(
         "players",
         target: "players-content",
@@ -85,6 +85,16 @@ describe CronWorker do
           servers_with_players: servers_with_players,
           distance_unit: 'km'
         }
+      )
+      expect(Turbo::StreamsChannel).to receive(:broadcast_replace_to).with(
+        "players", :v2,
+        target: "players-content",
+        partial: "players/players_content",
+        locals: {
+          servers_with_players: servers_with_players,
+          distance_unit: 'km'
+        },
+        variants: [ :v2 ]
       )
 
       expect(Turbo::StreamsChannel).to receive(:broadcast_replace_to).with(
@@ -95,6 +105,16 @@ describe CronWorker do
           servers_with_players: servers_with_players,
           distance_unit: 'km'
         }
+      )
+      expect(Turbo::StreamsChannel).to receive(:broadcast_replace_to).with(
+        "admin-players", :v2,
+        target: "admin-players-content",
+        partial: "players/admin_players_content",
+        locals: {
+          servers_with_players: servers_with_players,
+          distance_unit: 'km'
+        },
+        variants: [ :v2 ]
       )
 
       worker.broadcast_players_update

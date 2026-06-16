@@ -455,12 +455,12 @@ class Reservation < ActiveRecord::Base
 
   sig { void }
   def broadcast_connect_info
-    broadcast_replace_to self, target: "reservation_connect_info_#{id}", partial: "reservations/connect_info", locals: { reservation: self }
-    broadcast_replace_to self, target: "reservation_sdr_connect_info_#{id}", partial: "reservations/sdr_connect_info", locals: { reservation: self }
-    broadcast_replace_to self, target: "reservation_stv_connect_info_#{id}", partial: "reservations/stv_connect_info", locals: { reservation: self }
-    broadcast_replace_to self, target: "reservation_tf2center_info_#{id}", partial: "reservations/tf2center_info", locals: { reservation: self }
-    broadcast_replace_to self, target: "reservation_rcon_info_#{id}", partial: "reservations/rcon_info", locals: { reservation: self }
-    broadcast_replace_to self, target: "reservation_actions_#{id}", partial: "reservations/actions", locals: { reservation: self }
+    BetaBroadcast.replace self, target: "reservation_connect_info_#{id}", partial: "reservations/connect_info", locals: { reservation: self }
+    BetaBroadcast.replace self, target: "reservation_sdr_connect_info_#{id}", partial: "reservations/sdr_connect_info", locals: { reservation: self }
+    BetaBroadcast.replace self, target: "reservation_stv_connect_info_#{id}", partial: "reservations/stv_connect_info", locals: { reservation: self }
+    BetaBroadcast.replace self, target: "reservation_tf2center_info_#{id}", partial: "reservations/tf2center_info", locals: { reservation: self }
+    BetaBroadcast.replace self, target: "reservation_rcon_info_#{id}", partial: "reservations/rcon_info", locals: { reservation: self }
+    BetaBroadcast.replace self, target: "reservation_actions_#{id}", partial: "reservations/actions", locals: { reservation: self }
   end
 
   sig { returns(T::Boolean) }

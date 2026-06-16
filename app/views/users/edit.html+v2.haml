@@ -1,0 +1,94 @@
+- content_for(:title) { "settings" }
+
+%h1{class: "v2-page-title my-6"} Your settings
+
+%div{class: "v2-card max-w-2xl"}
+  = simple_form_for(@user, :html => { :class => 'form-horizontal' }) do |f|
+    = f.input :time_zone, :include_blank => true, :hint => "Auto detection thinks you're in time zone: #{time_zone_from_cookie}", :required => true, :input_html => {:class => "select2"}, :collection => ActiveSupport::TimeZone.all, :value_method => lambda { |atz| atz.tzinfo.identifier }, :label_method => lambda { |atz| "(UTC#{atz.now.formatted_offset}) #{atz.name}" }
+    - logs_tf_hint = "#{link_to('Get or generate your logs.tf API key', 'http://logs.tf/uploader', :target => '_blank')} on the logs.tf website, and enter it here".html_safe
+    - demos_tf_hint = "#{link_to('Get your demos.tf API key', 'https://demos.tf/upload', :target => '_blank')} on the demos.tf website, and enter it here".html_safe
+    = f.input :logs_tf_api_key, :placeholder => "logs.tf API key", :hint => logs_tf_hint, :as => "string"
+    = f.input :demos_tf_api_key, :placeholder => "demos.tf API key", :hint => demos_tf_hint
+    = f.input :api_key, label: "serveme.tf API key", :disabled => true, :readonly => true, :as => "string"
+
+    %div{class: "mt-4"}
+      %button{type: :submit, class: "v2-btn v2-btn-primary"}
+        Save
+
+%div{class: "max-w-2xl mt-8"}
+  %h2{class: "v2-page-title text-xl"} Discord
+  - if current_user.discord_uid.present?
+    %p{class: "mt-2"}
+      Your Discord account is linked. You can use
+      %code= "/#{SITE_HOST == 'serveme.tf' ? 'serveme' : "serveme-#{SITE_HOST.split('.').first}"}"
+      commands in Discord.
+      = button_to "Unlink", unlink_discord_path, method: :delete, class: "v2-btn v2-btn-danger v2-btn-sm", form: { style: "display: inline" }, data: { confirm: "Are you sure you want to unlink your Discord account?" }
+  - else
+    %p{class: "mt-2"}
+      Link your Discord account to use
+      %code= "/#{SITE_HOST == 'serveme.tf' ? 'serveme' : "serveme-#{SITE_HOST.split('.').first}"}"
+      commands in Discord.
+      = link_to "Link Discord", discord_link_path, class: "v2-btn v2-btn-primary v2-btn-sm"
+
+- if current_user.private_server_option?
+  %div{class: "max-w-2xl mt-8"}
+    %h2{class: "v2-page-title text-xl mb-3"} Your private server
+
+    :javascript
+      free_servers = #{ERB::Util.json_escape((Server.active.without_group.ordered + Server.active.member_of_groups(Group.where(id: Group.private_user(current_user).id))).map { |s| {id: s.id, text: s.name, flag: s.location_flag, ip_and_port: "#{s.public_ip}:#{s.public_port}"} }.to_json)};
+    %div{class: "v2-card"}
+      = simple_form_for(@private_server, url: url_for(controller: "private_servers", action: "create"), :html => { :class => 'form' }) do |f|
+        = f.input :server_id, :label => "Private server", :required => true, :input_html => { :value => (current_user.private_server && current_user.private_server.id) }
+
+        %div{class: "mt-4"}
+          %button{type: :submit, class: "v2-btn v2-btn-primary"}
+            Save private server
+
+%div{class: "mt-8"}
+  %h2#your-vouchers{class: "flex items-center gap-3 v2-page-title text-xl mb-3"}
+    Your premium codes
+    = link_to "Buy", donate_path(gift: true), class: "v2-btn v2-btn-primary v2-btn-sm", data: { turbo: false }
+
+  - if @vouchers.any?
+    %div{class: "v2-table-wrap"}
+      %table{class: "v2-table"}
+        %thead
+          %tr
+            %th Code
+            %th Product
+            %th Generated
+            %th Claimed
+            %th Claimed by
+        %tbody
+          - @vouchers.each do |voucher|
+            %tr
+              %td{class: "font-mono"}
+                = link_to voucher.hyphenate, claim_path(code: voucher.hyphenate)
+                = render 'shared/copy_button', :copy_button_id => "voucher_code_#{voucher.id}", :copy_text => claim_url(code: voucher.hyphenate)
+              %td= voucher.product&.name || "N/A"
+              %td{class: "font-mono"}= I18n.l(voucher.created_at, format: :short)
+              %td{class: "font-mono"}= I18n.l(voucher.claimed_at, format: :short) if voucher.claimed_at
+              %td
+                - if voucher.claimed_by
+                  - user = voucher.claimed_by
+                  = link_to(user.nickname, user.steam_profile_url, :target => "_blank", :class => "player-name")
+
+= render 'statistics', :user => @user
+
+:javascript
+  $(document).on('turbo:load', function() {
+    $("#user_time_zone").select2();
+    $("#private_server_server_id").select2("enable", #{current_user.private_server_option?});
+    $("#private_server_server_id").select2("val", $("#private_server_server_id").val());
+  });
+
+- if current_user.private_server_option?
+  :javascript
+    $(document).on('turbo:load', function() {
+      $("#private_server_server_id").select2({
+        formatResult: function(server) { return "<span class='flags flags-" + server.flag + "'></span>" + server.text; },
+        formatSelection: function(server) { return "<span class='flags flags-" + server.flag + "'></span>" + server.text; },
+        data: function() { return {results: free_servers}; },
+        escapeMarkup: function(m) { return m }
+      });
+    });

@@ -1,0 +1,58 @@
+- content_for(:title) { "Vouchers" }
+
+%div{class: "flex items-center justify-between gap-4 my-6 flex-wrap"}
+  %h1{class: "v2-page-title"} Vouchers
+  = link_to("Create vouchers", new_admin_voucher_path, class: "v2-btn v2-btn-primary")
+
+%div{class: "v2-table-wrap"}
+  %table{class: "v2-table"}
+    %thead
+      %tr
+        %th Code
+        %th{class: "text-center"} Product
+        %th{class: "text-center"} Claimed By
+        %th{class: "text-center"} Claimed At
+        %th{class: "text-center"} Created By
+        %th{class: "text-center"} Created At
+        %th{class: "text-center"} Actions
+    %tbody
+      - @vouchers.each do |voucher|
+        %tr[voucher]
+          %td
+            %code{class: "font-mono"}= voucher.hyphenate
+            - unless voucher.claimed?
+              = render 'shared/copy_button', copy_button_id: "voucher_#{voucher.id}",
+                copy_text: new_voucher_url(code: voucher.hyphenate)
+          %td{class: "text-center"}
+            - if voucher.product
+              = voucher.product.name
+            - else
+              %span{class: "text-faint"} No product
+          %td{class: "text-center"}
+            - if voucher.claimed_by
+              = link_to(voucher.claimed_by.nickname, admin_user_path(voucher.claimed_by),
+                class: "text-accent-light hover:underline")
+            - else
+              %span{class: "text-faint"} -
+          %td{class: "text-center font-mono"}
+            - if voucher.claimed_at
+              %span{title: l(voucher.claimed_at, format: :long), data: {toggle: "tooltip"}}
+                = time_ago_in_words(voucher.claimed_at) + " ago"
+            - else
+              %span{class: "text-faint"} -
+          %td{class: "text-center"}
+            - if voucher.created_by
+              = link_to(voucher.created_by.nickname, admin_user_path(voucher.created_by),
+                class: "text-accent-light hover:underline")
+            - else
+              %span{class: "text-faint"} System
+          %td{class: "text-center font-mono"}
+            %small= l(voucher.created_at, format: :long)
+          %td{class: "text-center"}
+            - unless voucher.claimed?
+              = link_to("Delete", admin_voucher_path(voucher), method: :delete,
+                data: { confirm: "Are you sure?" }, class: "v2-btn v2-btn-danger v2-btn-sm")
+
+- if @pagy
+  %div{class: "mt-4 flex justify-center"}
+    != @pagy.series_nav(:bootstrap)

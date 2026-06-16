@@ -1,0 +1,122 @@
+%nav{class: "relative bg-[#111317] border-b border-white/10", data: { controller: "navbar" }}
+  %div{class: "mx-auto max-w-[1280px] px-[26px] flex items-center gap-4 h-[60px]"}
+    .dropdown{class: "relative"}
+      %a{href: "#", data: { "bs-toggle" => "dropdown" }, class: "font-display font-extrabold text-ink tracking-tight"}
+        = SITE_HOST
+      .dropdown-menu
+        = link_to "https://serveme.tf", class: "dropdown-item" do
+          %span{class: ["flags", "flags-eu"]}
+          serveme.tf (Europe)
+        = link_to "https://au.serveme.tf", class: "dropdown-item" do
+          %span{class: ["flags", "flags-au"]}
+          au.serveme.tf (Australia)
+        = link_to "https://na.serveme.tf", class: "dropdown-item" do
+          %span{class: ["flags", "flags-us"]}
+          na.serveme.tf (North-America)
+        = link_to "https://sea.serveme.tf", class: "dropdown-item" do
+          %span{class: ["flags", "flags-sg"]}
+          sea.serveme.tf (Asia)
+
+    %button{type: "button", data: { action: "navbar#toggle" }, "aria-label": "Toggle navigation", class: "md:hidden ml-auto text-muted hover:text-ink"}
+      %span{class: "text-xl"} ☰
+
+    #serveme-navbar-v2{class: "v2-navmenu md:items-center md:gap-1 grow", data: { "navbar-target": "menu" }}
+      %div{class: "flex flex-col md:flex-row md:items-center gap-1 text-sm text-muted"}
+        - if current_user
+          .dropdown{class: "relative"}
+            %a{href: "#", data: { "bs-toggle" => "dropdown" }, class: "px-3 py-2 rounded-btn hover:text-ink hover:bg-white/5 cursor-pointer inline-flex items-center gap-1.5"}
+              Reservations
+              %span{class: "text-faint"} ▾
+            .dropdown-menu
+              = link_to "Make reservation", new_reservation_path, class: "dropdown-item"
+              = link_to "1-click reservation", i_am_feeling_lucky_reservations_path, data: { turbo_method: :post }, class: "dropdown-item"
+              - if current_user.can_use_cloud_servers?
+                = link_to "Cloud server", (current_user.cloud_server_access? ? new_cloud_reservation_path : cloud_info_path), class: "dropdown-item"
+              .dropdown-divider
+              = link_to "Your reservations", your_reservations_path, class: "dropdown-item"
+              = link_to "Reservations you played in", played_in_path, class: "dropdown-item"
+              = link_to "Recent reservations", recent_reservations_path, class: "dropdown-item"
+
+        .dropdown{class: "relative"}
+          %a{href: "#", data: { "bs-toggle" => "dropdown" }, class: "px-3 py-2 rounded-btn hover:text-ink hover:bg-white/5 cursor-pointer inline-flex items-center gap-1.5"}
+            Community
+            %span{class: "text-faint"} ▾
+          .dropdown-menu
+            - if current_user
+              = link_to "Players", players_path, class: "dropdown-item"
+              = link_to "Servers", servers_path, class: "dropdown-item"
+            = link_to "Player Globe", players_globe_path, class: "dropdown-item", data: { turbo: false }
+            = link_to "Statistics", statistics_path, class: "dropdown-item", data: { turbo: false }
+            = link_to "FAQ", faq_path, class: "dropdown-item"
+            .dropdown-divider
+            - if current_user
+              = link_to "Leaderboard", leaderboard_donators_path, class: "dropdown-item"
+            = link_to "Sponsors", server_providers_path, class: "dropdown-item"
+            = link_to "Credits", credits_path, class: "dropdown-item"
+            .dropdown-divider
+            = link_to "Discord", "https://discord.gg/0s38RdItLiCmARMm", target: "_blank", class: "dropdown-item"
+            = link_to "GitHub", "https://github.com/Arie/serveme", target: "_blank", class: "dropdown-item"
+
+        - if current_user&.donator?
+          .dropdown{class: "relative"}
+            %a{href: "#", data: { "bs-toggle" => "dropdown" }, class: "px-3 py-2 rounded-btn hover:text-ink hover:bg-white/5 cursor-pointer inline-flex items-center gap-1.5"}
+              Maps
+              %span{class: "text-faint"} ▾
+            .dropdown-menu
+              = link_to "Upload map", upload_map_path, class: "dropdown-item"
+              = link_to "Browse maps", maps_path, class: "dropdown-item"
+
+        - if current_user
+          = link_to donate_path, class: "px-3 py-2 rounded-btn text-gold hover:brightness-110", title: "Premium", data: { turbo: false } do
+            ★ Premium
+          = link_to "Settings", settings_path, class: "px-3 py-2 rounded-btn hover:text-ink hover:bg-white/5"
+
+        - if current_user&.config_admin?
+          .dropdown{class: "relative"}
+            %a{href: "#", data: { "bs-toggle" => "dropdown" }, class: "px-3 py-2 rounded-btn hover:text-ink hover:bg-white/5 cursor-pointer inline-flex items-center gap-1.5"}
+              Admin
+              %span{class: "text-faint"} ▾
+            .dropdown-menu
+              %div{class: "dropdown-header"} Server Management
+              = link_to "Server Configs", server_configs_path, class: "dropdown-item"
+              = link_to "Whitelists", whitelists_path, class: "dropdown-item"
+              = link_to "League Maps", admin_league_maps_path, class: "dropdown-item"
+              - if current_user.admin? || current_user.config_admin? || current_user.file_upload_permission.present?
+                = link_to "Upload file", upload_file_path, class: "dropdown-item"
+              - if current_user.admin?
+                = link_to "Launch Cloud Server", new_cloud_reservation_path, class: "dropdown-item"
+                = link_to "Docker Hosts", admin_docker_hosts_path, class: "dropdown-item"
+                - if SITE_HOST == "serveme.tf"
+                  = link_to "Cloud Image", admin_cloud_image_builds_path, class: "dropdown-item"
+                = link_to "Server Notifications", admin_server_notifications_path, class: "dropdown-item"
+                = link_to "Site Settings", edit_admin_site_settings_path, class: "dropdown-item"
+              .dropdown-divider
+              %div{class: "dropdown-header"} Statistics & Monitoring
+              - if show_server_monitoring_link?
+                = link_to "Server Monitoring", server_monitoring_path, class: "dropdown-item"
+              = link_to "Player Statistics", player_statistics_path, class: "dropdown-item"
+              = link_to "Server Statistics", server_statistics_path, class: "dropdown-item"
+              = link_to "STAC Logs", stac_logs_path, class: "dropdown-item"
+              = link_to "League Request", league_request_path, class: "dropdown-item"
+              - if current_user.admin?
+                = link_to "Sidekiq Jobs", "/sidekiq", target: "_blank", class: "dropdown-item"
+                .dropdown-divider
+                %div{class: "dropdown-header"} Order Management
+                = link_to "Manage Products", admin_products_path, class: "dropdown-item"
+                = link_to "Manage Vouchers", admin_vouchers_path, class: "dropdown-item"
+                = link_to "Manage Users", admin_users_path, class: "dropdown-item"
+                = link_to "Manage Maps", admin_maps_path, class: "dropdown-item"
+
+      %div{class: "flex items-center gap-3 md:ml-auto text-sm mt-2 md:mt-0"}
+        = link_to "https://discord.gg/0s38RdItLiCmARMm", target: "_blank", title: "serveme.tf on discord", class: "text-info hover:brightness-110" do
+          = image_tag "discord.png", alt: "Discord", class: "h-5 w-5 inline"
+        = link_to "https://github.com/Arie/serveme", target: "_blank", title: "serveme.tf source code", class: "text-muted hover:text-ink" do
+          = image_tag "octocat.png", alt: "GitHub", class: "h-5 w-5 inline"
+        - if current_user
+          = link_to settings_path, class: "v2-badge inline-flex items-center gap-1" do
+            = current_user.decorate.nickname
+          = link_to users_logout_path, data: { turbo_method: :delete }, title: "Logout", "aria-label": "Logout", class: "text-muted hover:text-ink" do
+            %i.fa.fa-sign-out
+        - else
+          = link_to "/users/auth/steam", data: { turbo_method: :post }, class: "text-accent-light hover:text-accent" do
+            Login with Steam

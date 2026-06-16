@@ -1,0 +1,35 @@
+- title = "No to war / Нет войне!"
+- description = "Don't be a vatnik"
+- content_for :title do
+  = title
+- content_for :meta_description do
+  = description
+
+- content_for :head do
+  = render "shared/meta_tags", title: title, description: description, url: no_to_war_url, image: 'ua.jpg'
+
+%div{class: "v2-elevated my-6 max-w-3xl"}
+  %h1{class: "v2-page-title mb-4"}= title
+  %p{class: "text-lg text-ink mb-3"}
+    Hello
+    %span{class: "flags flags-ru ml-1 mr-0"}
+    and
+    %span{class: "flags flags-by ml-1 mr-0"}
+    friends, it's been too long.
+  %p{class: "text-lg text-ink mb-3"}
+    Two rules.
+  %p{class: "text-lg text-ink mb-3"}
+    1. We can't accept payments, so no premium servers. (if you've ever paid for premium,
+    %a{href: "https://discord.gg/0s38RdItLiCmARMm"}
+      contact us on discord
+    for a free extension)
+    %br
+    2. Don't be a vatnik
+
+  %p{class: "text-lg text-ink"}
+    = form_tag do |form|
+      = check_box_tag :not_a_vatnik, 'true'
+      %label{for: 'not_a_vatnik', class: "ml-2 text-ink"}
+        I am not a vatnik
+      %br
+      = submit_tag "Submit", class: "v2-btn v2-btn-primary mt-3"

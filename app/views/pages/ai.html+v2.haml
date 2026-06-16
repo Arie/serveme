@@ -1,0 +1,56 @@
+- content_for(:title) { "AI Assistant" }
+
+%div{class: "v2-card my-6"}
+  %h2{class: "font-display text-xl font-bold text-gold mb-2"} In-game AI Assistant
+  %p{class: "text-ink"}
+    Use the new !ai command in-game to get instant help with gameplay, configs, and server management.
+  %div{class: "relative w-full mb-3", style: "padding-bottom: 56.25%"}
+    %iframe{src: "https://www.youtube.com/embed/uhY2x35tX5A", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true, class: "absolute inset-0 w-full h-full rounded-card"}
+
+  %p{class: "text-ink mt-3"}
+    Get creative! The AI understands natural language, so you can ask for anything. Here are some examples to get you started:
+
+  %div{class: "grid grid-cols-1 md:grid-cols-2 gap-4 mt-4"}
+    %div
+      %h3{class: "font-display font-bold text-gold mb-2"} Game Setup
+      %ul{class: "list-disc list-inside text-ink space-y-1"}
+        %li
+          %code{class: "v2-mono"} !ai execute the hl config
+        %li
+          %code{class: "v2-mono"} !ai switch to sunshine
+        %li
+          %code{class: "v2-mono"} !ai lets play a highlander koth map
+        %li
+          %code{class: "v2-mono"} !ai start a mapvote with 3 5cp maps
+
+    %div
+      %h3{class: "font-display font-bold text-gold mb-2"} Bot Management
+      %ul{class: "list-disc list-inside text-ink space-y-1"}
+        %li
+          %code{class: "v2-mono"} !ai add a 6s team of bots to the blu team
+        %li
+          %code{class: "v2-mono"} !ai make the bots jump
+        %li
+          %code{class: "v2-mono"} !ai kick all the bots
+
+    %div
+      %h3{class: "font-display font-bold text-gold mb-2"} Fun Stuff
+      %ul{class: "list-disc list-inside text-ink space-y-1"}
+        %li
+          %code{class: "v2-mono"} !ai give us moon gravity
+        %li
+          %code{class: "v2-mono"} !ai slap the entire enemy red team for 50 damage
+        %li
+          %code{class: "v2-mono"} !ai start a vote for the most washed up gamer on the server
+        %li
+          %code{class: "v2-mono"} !ai firebomb the red team
+        %li
+          %code{class: "v2-mono"} !ai rename the red players to div 7 shitnerd
+
+    %div
+      %h3{class: "font-display font-bold text-gold mb-2"} Server Info
+      %ul{class: "list-disc list-inside text-ink space-y-1"}
+        %li
+          %code{class: "v2-mono"} !ai does anyone have packet loss?
+        %li
+          %code{class: "v2-mono"} !ai who has the highest ping?

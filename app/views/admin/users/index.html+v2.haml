@@ -1,0 +1,26 @@
+- content_for(:title) { "User Management" }
+
+%div{class: "flex items-center justify-between gap-4 my-6 flex-wrap"}
+  %h1{class: "v2-page-title"} User Management
+  = link_to("Add user", new_admin_user_path, class: "v2-btn v2-btn-primary")
+
+%div{class: "v2-card mb-4"}
+  = form_tag admin_users_path, method: :get, class: "flex flex-wrap items-center gap-3",
+             data: { controller: "user-search",
+                     turbo_frame: "users_list",
+                     "user-search-url-value": admin_users_path } do
+    %div{class: "flex-1 min-w-[16rem]"}
+      = text_field_tag :search, params[:search],
+        placeholder: "Search by name, nickname or Steam ID",
+        class: "v2-input",
+        data: { action: "input->user-search#debounceSearch" }
+    %div{class: "min-w-[12rem]"}
+      = select_tag :group_id,
+        options_for_select([["All Groups", ""]] + @filtered_groups.map { |g| [g.name, g.id] }, params[:group_id]),
+        class: "v2-select",
+        data: { action: "change->user-search#submitNow" }
+    %div
+      = submit_tag "Filter", class: "v2-btn v2-btn-outline"
+
+= turbo_frame_tag "users_list" do
+  = render "users_list"

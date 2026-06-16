@@ -1,0 +1,35 @@
+%div{class: "v2-card", id: "build-history"}
+  %h5{class: "font-display text-ink mb-3"}
+    %i.fa.fa-history
+    Recent builds
+  - if builds.empty?
+    %p{class: "text-muted mb-0"} No builds yet.
+  - else
+    %div{class: "v2-table-wrap"}
+      %table{class: "v2-table"}
+        %thead
+          %tr
+            %th Started
+            %th Version
+            %th Triggered by
+            %th Force pull
+            %th No cache
+            %th Status
+            %th Duration
+            %th Digest
+        %tbody
+          - builds.each do |build|
+            %tr{ onclick: "window.location='#{admin_cloud_image_build_path(build)}'", style: "cursor: pointer;" }
+              %td{class: "font-mono"}= build.created_at.to_fs(:short)
+              %td{class: "font-mono"}= build.version
+              %td= build.triggered_by_label
+              %td= build.force_pull ? "✓" : "–"
+              %td= build.no_cache ? "✓" : "–"
+              %td
+                %span{class: ["v2-badge", "text-light", status_badge_class(build.status)]}= build.status
+              %td{class: "font-mono"}
+                - if build.duration
+                  = "#{build.duration.round}s"
+              %td
+                - if build.digest
+                  %code{class: "font-mono"}= build.digest.sub(/\Asha256:/, "").first(8)

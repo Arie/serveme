@@ -1,0 +1,15 @@
+- content_for(:title, "AI Investigation Assistant")
+
+%div{class: "flex items-center justify-between gap-4 my-6 flex-wrap"}
+  %h1{class: "v2-page-title"} AI Investigation Assistant
+  = link_to "Back to League Requests", league_request_path, class: "v2-btn v2-btn-outline v2-btn-sm"
+
+%div{data: {controller: "league-ai"}}
+  #chat-messages{class: "v2-inset font-mono p-4 mb-4 overflow-y-auto", style: "min-height: 24rem; max-height: 60vh;", data: {league_ai_target: "messages"}}
+    %p{class: "text-muted"}
+      Ask me to investigate players, search for alts, look up ASNs, or search reservation logs.
+
+  %div{class: "flex gap-2 items-stretch chat-input-row"}
+    %input{type: "text", class: "v2-input flex-1", autocomplete: "off", value: "Check for alt accounts, proxy usage, and poor chat behavior for ", data: {league_ai_target: "input", action: "keydown.enter->league-ai#send"}}
+    %button{class: "v2-btn v2-btn-primary", data: {league_ai_target: "sendButton", action: "league-ai#send"}}
+      Send

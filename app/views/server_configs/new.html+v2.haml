@@ -1,0 +1,7 @@
+%h1{class: "v2-page-title my-6"} New server config
+%div{class: "v2-card max-w-2xl"}
+  = simple_form_for(@server_config, url: url_for(controller: "server_configs", action: "create"), :html => { :class => 'form' }) do |f|
+    = f.input :file, label: "File name (without .cfg)"
+    = f.input :hidden
+    %div{class: "mt-4"}
+      %button{type: :submit, class: "v2-btn v2-btn-primary"} Save

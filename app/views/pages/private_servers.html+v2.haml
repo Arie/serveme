@@ -1,0 +1,38 @@
+%div{class: "flex items-center justify-between gap-4 my-6 flex-wrap"}
+  %h1{class: "v2-page-title"} Private servers
+
+%div{class: "v2-card max-w-3xl flex flex-col gap-4"}
+  %p{class: "text-muted"}
+    You can rent any serveme.tf server to be your private clanserver. You get both premium status and the option to pick any server as your private server. You can even change which server is exclusively yours
+
+  %p{class: "text-ink font-semibold"}
+    Here's what's different compared to renting a server from an old-fashioned server hoster:
+
+  %ul{class: "list-disc list-inside text-muted space-y-1"}
+    %li Ability to switch which server is yours
+    %li Automated logs/demo zips instead of FTP access
+    %li You reserve your server through #{SITE_URL}
+
+  %p{class: "text-ink font-semibold"}
+    Getting a private server will also get you all the premium perks, like:
+
+  %ul{class: "list-disc list-inside text-muted space-y-1"}
+    %li Longer reservations (5h instead of 2h)
+    %li Ability to upload maps
+    %li More than 1 future reservation allowed
+    %li Allowed to make reservations more than 3 hours in the future
+
+  %p{class: "text-ink font-semibold"}
+    Here's how it works
+
+  %ol{class: "list-decimal list-inside text-muted space-y-1"}
+    %li
+      Select the private server option
+      = link_to "when buying premium", donate_path, data: { turbo: false }
+    %li Complete your payment
+    %li
+      Select your private server
+      = link_to "on the settings page", settings_path
+
+  %div
+    = link_to "Rent a private server", donate_path, :class => "v2-btn v2-btn-primary", data: { turbo: false }

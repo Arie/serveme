@@ -1,0 +1,359 @@
+// Classic component CSS that the v2 layout needs but doesn't get from v2.css:
+// FontAwesome icons, the country-flag sprite, select2 (v3) and the datepicker.
+// Loaded AFTER v2.css so its explicit borders survive Tailwind Preflight.
+@import "font-awesome";
+@import "flags";
+@import "datepicker";
+@import "select2";
+@import "select2-bootstrap";
+
+// ---- dark-theme overrides for the imported widgets ----
+
+// select2 v3 (the app uses the v3 API: .select2-choice / .select2-drop)
+.select2-container .select2-choice {
+  background: #0c0e12;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  color: #e7e9ee;
+}
+.select2-container .select2-choice .select2-arrow { background: transparent; background-image: none; border-left: 1px solid rgba(255, 255, 255, 0.1); }
+.select2-container .select2-choice > .select2-chosen { color: #e7e9ee; }
+.select2-drop {
+  background: #16191f;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-top: 0;
+  color: #e7e9ee;
+  border-radius: 0 0 10px 10px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+}
+.select2-drop.select2-drop-above { border-radius: 10px 10px 0 0; border-top: 1px solid rgba(255, 255, 255, 0.12); }
+.select2-search input {
+  background: #0c0e12;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #e7e9ee;
+  border-radius: 8px;
+}
+.select2-results { color: #e7e9ee; }
+.select2-results .select2-result-with-children > .select2-result-label {
+  background: #0c0e12; color: #9aa0ab; font-weight: 600; text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.04em;
+}
+.select2-results .select2-result-label { color: inherit; }
+.select2-results .select2-highlighted { background: #f2742c; color: #fff; }
+.select2-container-multi .select2-choices {
+  background: #0c0e12;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+.select2-container-multi .select2-choices .select2-search-choice {
+  background: rgba(242, 116, 44, 0.16);
+  border: 1px solid rgba(242, 116, 44, 0.35);
+  color: #e7e9ee;
+}
+
+// datepicker
+.datepicker {
+  background: #16191f;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #e7e9ee;
+  border-radius: 14px;
+  padding: 0.4rem;
+}
+.datepicker table tr td,
+.datepicker table tr th { color: #e7e9ee; }
+.datepicker table tr td.day:hover,
+.datepicker table tr td.focused { background: rgba(255, 255, 255, 0.08); }
+.datepicker table tr td.active,
+.datepicker table tr td.active:hover,
+.datepicker table tr td.today,
+.datepicker table tr td.today:hover {
+  background-image: linear-gradient(135deg, #f98c43, #ee5f29);
+  background-color: #ee5f29;
+  color: #fff;
+  border: 0;
+}
+.datepicker table tr td.old,
+.datepicker table tr td.new { color: #6b7280; }
+.datepicker .datepicker-switch:hover,
+.datepicker .prev:hover,
+.datepicker .next:hover { background: rgba(255, 255, 255, 0.08); }
+
+// Bootstrap tooltips (used e.g. for the league-request IP/ASN popovers)
+.tooltip { position: absolute; z-index: 1080; display: block; font-size: 0.8rem; }
+.tooltip.in,
+.tooltip.show { opacity: 0.98; }
+.tooltip-inner {
+  max-width: 300px;
+  padding: 0.5rem 0.7rem;
+  color: #e7e9ee;
+  text-align: left;
+  background: #16191f;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 10px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+}
+.tooltip .tooltip-arrow,
+.tooltip .arrow::before { border-top-color: #16191f; }
+.asn-tooltip { border-bottom: 1px dotted rgba(255, 255, 255, 0.35); cursor: help; }
+
+// When the dropdown is open, merge the choice box with the drop (no double border).
+.select2-dropdown-open .select2-choice {
+  border-bottom-color: transparent;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.select2-dropdown-open.select2-drop-above .select2-choice {
+  border-top-color: transparent;
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+  border-radius: 0 0 10px 10px;
+  background: #0c0e12;
+  background-image: none;
+}
+.select2-drop.select2-drop-above { background: #16191f; }
+
+// Vertically center the select2 clear (x) on the choice box.
+.select2-container .select2-choice abbr { top: 50%; transform: translateY(-50%); margin-top: 0; }
+
+// Match select2 height to the text inputs (~41px) for consistent form controls.
+.select2-container .select2-choice,
+.select2-container .select2-choices { height: 2.55rem; line-height: 2.55rem; }
+.select2-container .select2-choice > .select2-chosen { line-height: 2.55rem; }
+.select2-container .select2-choice .select2-arrow { height: 2.55rem; }
+
+// ===== select2 open-state cleanup (no blue, centered chevron, integrated search) =====
+.select2-drop-active,
+.select2-drop.select2-drop-above.select2-drop-active { border-color: rgba(255, 255, 255, 0.12) !important; }
+.select2-container-active .select2-choice,
+.select2-dropdown-open .select2-choice { border-color: var(--color-accent) !important; box-shadow: none !important; }
+// replace the sprite chevron with a centered CSS triangle
+.select2-container .select2-choice .select2-arrow {
+  background: transparent !important; background-image: none !important;
+  display: flex; align-items: center; justify-content: center; width: 2rem;
+}
+.select2-container .select2-choice .select2-arrow b { display: none !important; }
+.select2-container .select2-choice .select2-arrow::after {
+  content: ""; width: 0; height: 0;
+  border-left: 4px solid transparent; border-right: 4px solid transparent;
+  border-top: 5px solid var(--color-muted);
+}
+.select2-dropdown-open .select2-choice .select2-arrow::after { transform: rotate(180deg); }
+// search field reads as part of the dropdown, not a second input
+.select2-search { padding: 6px 8px 4px; }
+.select2-search input {
+  background: var(--color-inset) !important; border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  color: var(--color-ink) !important; border-radius: 8px; min-height: 2rem;
+}
+
+// Force the active border orange (never blue), kill focus outlines, subtle search.
+// select2-bootstrap turns the CONTAINER (.form-control.select2-container) border
+// blue (#5897FB) on open. The accent border lives on the inner .select2-choice, so
+// neutralise the container's own border instead of doubling the accent on both.
+.form-control.select2-container.select2-dropdown-open,
+.form-control.select2-container.select2-container-active { border-color: transparent !important; box-shadow: none !important; }
+.select2-container.select2-dropdown-open > .select2-choice,
+.select2-container.select2-container-active > .select2-choice { border-color: var(--color-accent) !important; box-shadow: none !important; }
+.select2-choice:focus, .select2-drop input:focus, .select2-search input:focus { outline: none !important; }
+.select2-drop, .select2-drop-active, .select2-drop.select2-drop-above,
+.select2-drop.select2-drop-above.select2-drop-active { border-color: rgba(255, 255, 255, 0.12) !important; }
+// the dropdown search reads as a search bar, distinct from a form input
+.select2-search { position: relative; }
+.select2-search input {
+  padding-left: 1.9rem !important;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%239aa0ab' stroke-width='1.6'%3e%3ccircle cx='7' cy='7' r='4.5'/%3e%3cpath d='M11 11l3 3'/%3e%3c/svg%3e") !important;
+  background-repeat: no-repeat !important; background-position: 0.55rem center !important; background-size: 0.9rem !important;
+}
+
+// ===== Live player globe (full-bleed; not loaded from players.sass in v2) =====
+// 60px = the v2 navbar height (the classic version assumes 56px).
+.globe-page {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #000;
+}
+.globe-wrapper {
+  width: 100vw;
+  height: calc(100vh - 60px);
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  background-color: #000;
+}
+#globe-stats {
+  display: none;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.7);
+  top: 60px;
+  left: 0;
+  right: 0;
+  width: 100vw;
+
+  // Bootstrap's .container-fluid / .ps-3 horizontal padding isn't in the v2
+  // layer, so the heading sat flush against the viewport edge.
+  .container-fluid {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+
+  // Content-sized columns (Bootstrap .col-auto) — the generic v2 col-* grow rule
+  // made the two columns split 50/50, cramming the stats onto 3 wrapped lines and
+  // doubling the bar height. This keeps everything on one compact row.
+  .col-auto { flex: 0 0 auto; width: auto; max-width: 100%; }
+
+  // Match the classic Bootstrap heading / number sizing (the v2 display font at
+  // weight 800 made the bar heavier and taller than the old globe).
+  h5, .h5 {
+    font-family: inherit;
+    font-weight: 500;
+    font-size: 1.25rem;
+    letter-spacing: normal;
+    margin-bottom: 0;
+  }
+
+  .border-start { border-left: 1px solid rgba(255, 255, 255, 0.15); }
+}
+#globe-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+#globe-loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+// ===== Bootstrap spinner (loading states) =====
+.spinner-border {
+  display: inline-block;
+  width: 2rem;
+  height: 2rem;
+  vertical-align: -0.125em;
+  border: 0.25em solid currentcolor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spinner-border 0.75s linear infinite;
+}
+.spinner-border.text-light { color: #e7e9ee; }
+@keyframes spinner-border {
+  to { transform: rotate(360deg); }
+}
+
+// ===== Donate / premium payment widgets =====
+// Ported from orders.scss (not loaded in the v2 layout). Scoped to .premium-page;
+// brand colours (PayPal, Stripe) kept intentionally. The result block is handled
+// separately in the v2 view.
+.premium-page {
+  #express-checkout-element { min-height: 48px; }
+
+  .payment-methods-wrapper {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.4s ease;
+
+    &.visible { grid-template-rows: 1fr; }
+
+    > .payment-methods-inner { overflow: hidden; }
+  }
+
+  .payment-methods-inner {
+    opacity: 0;
+    transition: opacity 0.3s ease 0.1s;
+  }
+  .payment-methods-wrapper.visible .payment-methods-inner { opacity: 1; }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    &::before,
+    &::after {
+      content: '';
+      flex: 1;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    span { padding: 0 10px; }
+  }
+
+  .payment-method-buttons {
+    display: flex;
+    gap: 8px;
+
+    .payment-method-btn {
+      flex: 1;
+      height: 44px;
+      border: none;
+      outline: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &.paypal-btn {
+        background-color: #ffc439;
+        &:hover { background-color: #e5a800; }
+      }
+
+      &.card-btn {
+        background-color: #635bff;
+        color: #fff;
+        font-weight: 500;
+        gap: 8px;
+        &:hover { background-color: #5147e5; }
+        .payment-logo { filter: brightness(0) invert(1); }
+      }
+
+      .payment-logo { height: 20px; width: auto; }
+    }
+  }
+
+  .credit-card-row {
+    margin-top: 20px;
+
+    #stripe-card {
+      padding: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      background-color: #fff;
+      transition: border-color 0.2s ease;
+
+      &.StripeElement--focus { border-color: #635bff; }
+      &.StripeElement--invalid { border-color: #fa755a; }
+    }
+
+    #stripe-errors {
+      color: #ff9a8a;
+      margin-top: 8px;
+      font-size: 14px;
+    }
+  }
+
+  .submit {
+    width: 100%;
+    height: 44px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    background-image: linear-gradient(135deg, #f98c43, #ee5f29);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: filter 0.2s ease;
+
+    &:hover { filter: brightness(1.08); }
+    &:disabled { opacity: 0.7; cursor: not-allowed; }
+
+    i { margin-right: 8px; }
+  }
+}
+
+// Keep the clear (x) clear of the wider arrow + its divider border.
+.select2-container .select2-choice abbr { right: 2.5rem; }

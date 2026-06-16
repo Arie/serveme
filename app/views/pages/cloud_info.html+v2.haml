@@ -1,0 +1,102 @@
+- content_for(:title) { "Cloud Servers" }
+
+%div{class: "flex items-center justify-between gap-4 my-6 flex-wrap"}
+  %h1{class: "v2-page-title"} Cloud Servers
+
+%div{class: "flex flex-col gap-4"}
+  %div{class: "v2-card"}
+    %h2{class: "font-display text-lg font-bold text-ink mb-3"} Your Status
+    - if current_user&.cloud_server_access?
+      %div{class: "alert alert-success"}
+        %strong You have access to cloud servers!
+      %p{class: "text-muted mt-2"}
+        You can launch on-demand cloud servers from the
+        = link_to "cloud reservation page", new_cloud_reservation_path
+        or through the "Cloud server" option in the reservation menu.
+      - if current_user.donator? && !current_user.admin?
+        = form_tag cloud_info_path, method: :post, class: "mt-3" do
+          = hidden_field_tag :disable, "true"
+          %button{type: :submit, class: "v2-btn v2-btn-danger v2-btn-sm"}
+            Disable cloud servers
+    - elsif current_user&.donator?
+      %div{class: "alert alert-info"}
+        %strong As a Premium user, you can enable cloud servers.
+      %p{class: "text-muted mt-2"}
+        Read about cloud servers below, then click the button to enable them on your account.
+      = form_tag cloud_info_path, method: :post, class: "mt-3" do
+        = hidden_field_tag :enable, "true"
+        %button{type: :submit, class: "v2-btn v2-btn-primary"}
+          Enable cloud servers
+    - else
+      %div{class: "alert alert-warning"}
+        %strong Cloud servers are available to Premium users.
+      %p{class: "text-muted mt-2"}
+        = link_to "Donate", donate_path
+        to become a Premium user and get access to cloud servers.
+
+  %div{class: "v2-card"}
+    %h2{class: "font-display text-lg font-bold text-ink mb-3"} What are Cloud Servers?
+    %p{class: "text-lg text-ink"}
+      Cloud servers are on-demand TF2 servers that are provisioned just for you.
+      Instead of sharing a pool of permanent servers, a fresh server is spun up
+      in the cloud when you need it and destroyed when you're done.
+
+  %div{class: "grid grid-cols-1 md:grid-cols-2 gap-4"}
+    %div{class: "v2-card"}
+      %h2{class: "font-display text-lg font-bold text-ink mb-3"} More Locations
+      %ul{class: "list-disc list-inside text-muted space-y-1"}
+        %li Servers in regions not covered by permanent servers
+        %li Choose the location closest to your players
+        %li New locations added regularly
+
+    %div{class: "v2-card"}
+      %h2{class: "font-display text-lg font-bold text-ink mb-3"} Fresh Every Time
+      %ul{class: "list-disc list-inside text-muted space-y-1"}
+        %li A brand new server instance for every reservation
+        %li Server is destroyed when your reservation ends
+        %li Available even when all permanent servers are in use
+
+  %div{class: "v2-card"}
+    %h2{class: "font-display text-lg font-bold text-ink mb-3"} Available Locations
+    %div{class: "grid grid-cols-1 md:grid-cols-3 gap-3"}
+      - @cloud_locations.each do |country, locations|
+        %div
+          %span{class: "flags flags-#{locations.first[:flag]}"}
+          %strong{class: "text-ink ml-1"}= country
+          %br
+          %span{class: "text-muted"}= locations.map { |l| l[:name] }.join(", ")
+
+  %div{class: "grid grid-cols-1 md:grid-cols-2 gap-4"}
+    %div{class: "v2-card"}
+      %h2{class: "font-display text-lg font-bold text-ink mb-3"} On-Demand
+      %ul{class: "list-disc list-inside text-muted space-y-1"}
+        %li Servers are created when you need them
+        %li Schedule servers in advance
+        %li Provisioning takes about 5 minutes
+        %li Automatically destroyed when done
+
+    %div{class: "v2-card"}
+      %h2{class: "font-display text-lg font-bold text-ink mb-3"} Same Features
+      %ul{class: "list-disc list-inside text-muted space-y-1"}
+        %li Full RCON access
+        %li Custom configs and whitelists
+        %li STV demos and log uploads
+        %li Plugin support
+
+  %div{class: "v2-card"}
+    %h2{class: "font-display text-lg font-bold text-ink mb-3"} How It Works
+    %ol{class: "list-decimal list-inside text-muted space-y-1"}
+      %li
+        %strong{class: "text-ink"} Launch a cloud server
+        from the
+        = link_to "cloud reservation page", new_cloud_reservation_path
+        or the reservation menu
+      %li
+        %strong{class: "text-ink"} Pick a location
+        and configure your server settings
+      %li
+        %strong{class: "text-ink"} Wait for provisioning
+        \- your server will be ready in a few minutes
+      %li
+        %strong{class: "text-ink"} Play!
+        Connect and enjoy your dedicated server

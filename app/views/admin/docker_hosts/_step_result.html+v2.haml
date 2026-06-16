@@ -1,0 +1,11 @@
+%div{id: "step-#{step}-result"}
+  - if result.present?
+    %div{class: "mt-2"}
+      - if result[:success]
+        %div{class: "v2-inset border border-success-text/30 text-success-text px-3 py-2 rounded-card"}
+          %i.fa.fa-check-circle
+          = result[:message]
+      - else
+        %div{class: "v2-inset border border-danger/30 text-danger px-3 py-2 rounded-card"}
+          %i.fa.fa-times-circle
+          = result[:message]

@@ -1,0 +1,19 @@
+- content_for(:title) { "New Docker Host" }
+
+%div{class: "flex items-center justify-between gap-4 my-6 flex-wrap"}
+  %div
+    %h1{class: "v2-page-title"} New Docker Host
+    %div{class: "v2-breadcrumb"} Docker Hosts / New
+
+%div{class: "max-w-3xl"}
+  %div{class: "v2-card"}
+    = simple_form_for([:admin, @docker_host], wrapper: :horizontal_form, html: { class: 'form-horizontal docker_host' }) do |f|
+      = render 'form', f: f
+
+      %div{class: "flex gap-2 mt-4"}
+        %button{type: :submit, class: "v2-btn v2-btn-primary", data: { disable_with: "Saving..."}}
+          Save
+        = link_to "Cancel", admin_docker_hosts_path, class: "v2-btn v2-btn-ghost"
+
+  %div{class: "mt-4"}
+    = render "setup_documentation"

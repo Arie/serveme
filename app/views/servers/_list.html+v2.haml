@@ -1,0 +1,18 @@
+#server-list
+  %div{class: "v2-table-wrap"}
+    %table{class: "v2-table"}
+      %thead
+        %tr
+          %th Name
+          %th Map name
+          %th Players
+          %th FPS
+          %th Inactive
+      %tbody
+        - active_servers = servers.order(:name).select { |s| s.recent_server_statistics.any? }
+        - inactive_servers = servers.order(:name).select { |s| s.recent_server_statistics.none? }
+
+        - active_servers.each do |server|
+          = render 'servers/server_info', server: server.decorate
+        - inactive_servers.each do |server|
+          = render 'servers/server_info', server: server.decorate

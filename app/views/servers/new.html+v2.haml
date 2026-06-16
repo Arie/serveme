@@ -1,0 +1,7 @@
+%h1{class: "v2-page-title my-6"} Add server
+%div{class: "v2-card max-w-2xl"}
+  = simple_form_for(@server, url: url_for(controller: "servers"), wrapper: :horizontal_form, html: { class: 'form-horizontal server' }) do |f|
+    = render 'form', f: f
+
+    %div{class: "mt-4"}
+      %button{type: :submit, class: "v2-btn v2-btn-primary", data: { disable_with: "Saving..." }} Save

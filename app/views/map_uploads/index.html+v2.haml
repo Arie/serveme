@@ -1,0 +1,45 @@
+- cache "public-map-list-#{params[:sort_by].to_s}", expires_in: 1.minute do
+  %div{class: "flex items-center justify-between gap-4 my-6"}
+    %h1{class: "v2-page-title"} Maps
+    = link_to upload_map_path, class: "v2-btn v2-btn-primary" do
+      %i.fa.fa-upload
+      Upload
+
+  %div{class: "v2-table-wrap"}
+    %table{class: "v2-table"}
+      %thead
+        %tr
+          %th= link_to('Map name', maps_sorted_path(sort_by: "name"))
+          %th= link_to('Times played', maps_sorted_path(sort_by: "times-played"))
+          %th= link_to('First played', maps_sorted_path(sort_by: "first-played"))
+          %th= link_to('Last played', maps_sorted_path(sort_by: "last-played"))
+          %th= link_to('Download', maps_sorted_path(sort_by: "size"))
+      %tbody
+        - @bucket_objects.each do |bucket_object|
+          - next if bucket_object[:map_name].starts_with?(MapUpload.invalid_types_regex)
+          %tr
+            %td
+              %span.map-name-compact{class: "font-mono", data: {bs_toggle: "tooltip", bs_placement: "top"}, title: bucket_object[:map_name]}= bucket_object[:map_name]
+            - map_stat = @map_statistics[bucket_object[:map_name]]
+            - if map_stat
+              %td{class: "font-mono"}
+                = map_stat[:times_played]
+              %td{class: "font-mono"}
+                = I18n.l(map_stat[:first_played].to_date)
+              %td{class: "font-mono"}
+                = I18n.l(map_stat[:last_played].to_date)
+            - else
+              %td{colspan: 3}
+                0
+            %td
+              = link_to("https://fastdl.serveme.tf/#{bucket_object[:key]}", class: "v2-btn v2-btn-primary v2-btn-sm", title: "#{bucket_object[:size]} bytes") do
+                = number_to_human_size(bucket_object[:size])
+                %i.fa.fa-download
+
+:javascript
+  document.addEventListener('turbo:load', function() {
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+  })

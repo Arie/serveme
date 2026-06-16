@@ -1,0 +1,13 @@
+%div{class: "v2-table-wrap"}
+  %table{class: "v2-table"}
+    %thead
+      %tr
+        %th Who
+        %th Reservation count
+        %th Premium?
+    %tbody
+      - @top_10_users_hash.each do |user, count|
+        %tr
+          %td= link_to(user.nickname, user.steam_profile_url, :target => "_blank", :class => "player-name")
+          %td{class: "font-mono"}= count
+          %td= t("user.donator.#{!!user.donator?}")

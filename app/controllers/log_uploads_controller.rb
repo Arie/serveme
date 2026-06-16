@@ -4,7 +4,6 @@
 class LogUploadsController < ApplicationController
   helper LogLineHelper
   include LogLineHelper
-  layout "simple", only: %i[show_log]
 
   def new
     @log_upload = link_log_upload_to_reservation
@@ -154,5 +153,12 @@ class LogUploadsController < ApplicationController
 
   def upload_params
     params.require(:log_upload).permit(:file_name, :title, :map_name)
+  end
+  def resolve_layout
+    if beta_active?
+      return action_name == "show_log" ? "application_v2_log" : "application_v2"
+    end
+
+    action_name == "show_log" ? "simple" : nil
   end
 end

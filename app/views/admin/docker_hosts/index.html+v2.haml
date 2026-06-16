@@ -1,0 +1,60 @@
+- content_for(:title) { "Docker Hosts" }
+
+%div{class: "flex items-center justify-between gap-4 my-6 flex-wrap"}
+  %div
+    %h1{class: "v2-page-title"} Docker Hosts
+  = link_to("Add Docker Host", new_admin_docker_host_path, class: "v2-btn v2-btn-primary")
+
+%div{class: "v2-card"}
+  %div{class: "v2-table-wrap"}
+    %table{class: "v2-table"}
+      %thead
+        %tr
+          %th City
+          %th Location
+          %th Hostname
+          %th IP
+          %th{class: "text-center"} Start Port
+          %th{class: "text-center"} Containers
+          %th{class: "text-center"} Status
+          %th{class: "text-center"} Setup
+          %th{class: "text-center"} Actions
+      %tbody
+        - @docker_hosts.each do |docker_host|
+          %tr[docker_host]
+            %td
+              = docker_host.city
+            %td
+              %span{class: ["flags", "flags-#{docker_host.location.flag}"]}
+              = docker_host.location.name
+            %td{class: "font-mono"}
+              = docker_host.hostname
+            %td{class: "font-mono"}
+              = docker_host.ip
+            %td{class: "text-center font-mono"}
+              = docker_host.start_port
+            %td{class: "text-center font-mono"}
+              = docker_host.current_container_count
+              \/
+              = docker_host.max_containers
+            %td{class: "text-center"}
+              - if docker_host.active
+                %span{class: "v2-badge v2-badge-success"} Active
+              - else
+                %span{class: "v2-badge"} Inactive
+            %td{class: "text-center"}
+              - case docker_host.setup_status
+              - when "ready"
+                %span{class: "v2-badge v2-badge-success"}= docker_host.setup_status
+              - when "pending"
+                %span{class: "v2-badge v2-badge-gold"}= docker_host.setup_status
+              - else
+                %span{class: "v2-badge v2-badge-info"}= docker_host.setup_status
+            %td{class: "text-center"}
+              %div{class: "inline-flex gap-2 flex-wrap justify-center"}
+                = link_to("Setup", setup_admin_docker_host_path(docker_host), class: "v2-btn v2-btn-info v2-btn-sm")
+                = link_to("Edit", edit_admin_docker_host_path(docker_host), class: "v2-btn v2-btn-outline v2-btn-sm")
+                - if docker_host.active
+                  = link_to("Deactivate", admin_docker_host_path(docker_host), method: :delete, data: { confirm: "Are you sure you want to deactivate this Docker host?" }, class: "v2-btn v2-btn-danger v2-btn-sm")
+                - else
+                  = link_to("Activate", activate_admin_docker_host_path(docker_host), method: :post, class: "v2-btn v2-btn-primary v2-btn-sm")

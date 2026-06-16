@@ -1,0 +1,13 @@
+%div{id: "reservation_sdr_connect_info_#{reservation.id}", class: "flex flex-wrap items-center gap-2"}
+  - sdr_connect = reservation.sdr_connect_string
+  - if sdr_connect.present?
+    - if preliminary_sdr?(reservation)
+      %span{class: "text-faint text-xs w-full"} Temporary SDR connect info
+    %span{class: "v2-connect"}= sdr_connect
+    = render 'shared/copy_button', :copy_button_id => "sdr_connect_string", :copy_text => sdr_connect
+  - elsif reservation.past?
+    %span{class: "text-faint"} &mdash;
+  - else
+    %span{class: "text-faint inline-flex items-center gap-1"}
+      %i.fa.fa-clock-o
+      Not available yet

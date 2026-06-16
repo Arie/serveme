@@ -1,0 +1,8 @@
+%span#setup-status
+  - case docker_host.setup_status
+  - when "ready"
+    %span{class: "v2-badge v2-badge-success"}= docker_host.setup_status
+  - when "pending"
+    %span{class: "v2-badge v2-badge-gold"}= docker_host.setup_status
+  - else
+    %span{class: "v2-badge v2-badge-info"}= docker_host.setup_status

@@ -1,0 +1,22 @@
+%div{class: "v2-table-wrap"}
+  %table{class: "v2-table logs"}
+    %thead
+      %tr
+        %th Filename
+        %th End time
+        %th Size
+        %th Actions
+    %tbody
+      - @logs.each do |log|
+        %tr
+          %td{class: "font-mono"}= log[:file_name]
+          %td{class: "font-mono"}= I18n.l(log[:last_modified], :format => :datepicker)
+          %td{class: "font-mono"}= number_to_human_size(log[:size].to_i)
+          %td{class: "px-4 py-3"}
+            %div{class: "flex flex-wrap gap-2"}
+              = link_to show_log_reservation_log_uploads_path(reservation,  :file_name => log[:file_name]), :class => 'v2-btn v2-btn-outline v2-btn-sm', :title => "Read log" do
+                Read log
+                %i.fa.fa-zoom-in
+              = link_to new_reservation_log_upload_path(reservation,        :file_name => log[:file_name]), :class => 'v2-btn v2-btn-primary v2-btn-sm', :title => "logs.tf" do
+                Send to logs.tf
+                %i.fa.fa-upload

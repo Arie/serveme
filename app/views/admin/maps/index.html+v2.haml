@@ -1,0 +1,52 @@
+%div{class: "flex items-center justify-between gap-4 my-6 flex-wrap"}
+  %h1{class: "v2-page-title"} Maps Administration
+  = link_to upload_map_path, class: "v2-btn v2-btn-primary v2-btn-sm" do
+    %i.fa.fa-upload
+    Upload
+
+%div{class: "v2-table-wrap"}
+  %table{class: "v2-table"}
+    %thead
+      %tr
+        %th= link_to('Map name', admin_maps_path(sort_by: "name"))
+        %th Uploader
+        %th= link_to('Times played', admin_maps_path(sort_by: "times-played"))
+        %th= link_to('First played', admin_maps_path(sort_by: "first-played"))
+        %th= link_to('Last played', admin_maps_path(sort_by: "last-played"))
+        %th Actions
+    %tbody
+      - @bucket_objects.each do |bucket_object|
+        - map_stat = @map_statistics[bucket_object[:map_name]]
+        %tr
+          %td
+            %code{class: "map-name-compact font-mono", data: {bs_toggle: "tooltip", bs_placement: "top"}, title: bucket_object[:map_name]}= bucket_object[:map_name]
+          %td
+            - if bucket_object[:uploader]
+              = link_to bucket_object[:uploader].nickname, admin_user_path(bucket_object[:uploader]), title: "Uploaded #{bucket_object[:upload_date_formatted]}"
+            - else
+              %span{class: "text-faint"} Unknown
+          - if map_stat
+            %td{class: "font-mono"}
+              = map_stat[:times_played]
+            %td{class: "font-mono"}
+              = map_stat[:first_played_formatted]
+            %td{class: "font-mono"}
+              = map_stat[:last_played_formatted]
+          - else
+            %td{colspan: 3}
+              %span{class: "text-faint"} 0
+          %td
+            %div{class: "flex flex-wrap items-center gap-2"}
+              = link_to("https://fastdl.serveme.tf/#{bucket_object[:key]}", class: "v2-btn v2-btn-primary v2-btn-sm", title: "#{bucket_object[:size]} bytes") do
+                = bucket_object[:size_formatted]
+                %i.fa.fa-download
+              = link_to admin_map_path(bucket_object[:map_name]), method: :delete, class: "v2-btn v2-btn-danger v2-btn-sm", title: "Delete", data: { confirm: "Are you sure you want to delete #{bucket_object[:map_name]}?" } do
+                %i.fa.fa-trash
+
+:javascript
+  document.addEventListener('turbo:load', function() {
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+  })

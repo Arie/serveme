@@ -1,0 +1,9 @@
+%div{class: "v2-card mb-3"}
+  %div{class: "flex justify-between items-start gap-3"}
+    %div{class: "flex-grow"}
+      %h5{class: "font-display text-ink mb-1"}
+        %i.fa{class: icon}
+        = title
+      %p{class: "text-muted"}= description
+      = render partial: "admin/docker_hosts/step_result", locals: { step: key, result: nil }
+    = render partial: "admin/docker_hosts/step_controls", locals: { docker_host: docker_host, step: key, running: false }

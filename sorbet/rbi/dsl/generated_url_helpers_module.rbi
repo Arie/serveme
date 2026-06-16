@@ -112,6 +112,15 @@ module GeneratedUrlHelpersModule
   def ban_ip_league_request_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def beta_disable_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def beta_enable_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def beta_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def claim_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }

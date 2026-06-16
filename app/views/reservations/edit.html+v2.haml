@@ -1,0 +1,5 @@
+- if !@reservation.schedulable?
+  %div{class: "v2-card border-l-4 border-l-gold mb-4 text-muted"}
+    Changes to an active reservation won't take effect until a map change
+
+= render 'form'

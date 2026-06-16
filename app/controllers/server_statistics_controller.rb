@@ -2,6 +2,9 @@
 # frozen_string_literal: true
 
 class ServerStatisticsController < ApplicationController
+  # Every action (index + show_for_reservation/show_for_server) renders the index template.
+  beta_renders_as :index
+
   def index
     @server_statistics = paginate(server_statistics)
   end

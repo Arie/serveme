@@ -1,0 +1,6 @@
+- content_for(:title) { "error" }
+
+%div{class: "max-w-xl mx-auto text-center py-16"}
+  %h1{class: "v2-page-title"} Error
+  %p{class: "text-muted mt-3"} Something went wrong while processing your request, we've been notified of this error
+  = image_tag "500.gif", class: "mx-auto mt-6 rounded-card max-w-full"

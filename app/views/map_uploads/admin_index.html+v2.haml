@@ -1,0 +1,36 @@
+%div{class: "flex items-center justify-between gap-4 my-6"}
+  %h1{class: "v2-page-title"} Maps
+  = link_to upload_map_path, class: "v2-btn v2-btn-primary" do
+    %i.fa.fa-upload
+    Upload
+
+%div{class: "v2-table-wrap"}
+  %table{class: "v2-table"}
+    %thead
+      %tr
+        %th= link_to('Map name', maps_sorted_path(sort_by: "name"))
+        %th Uploader
+        %th= link_to('Times played', maps_sorted_path(sort_by: "times-played"))
+        %th= link_to('First played', maps_sorted_path(sort_by: "first-played"))
+        %th= link_to('Last played', maps_sorted_path(sort_by: "last-played"))
+        %th= link_to('Download', maps_sorted_path(sort_by: "size"))
+    %tbody
+      = turbo_stream_from_beta 'admin-maps-list'
+      = render("admin_list", bucket_objects: @bucket_objects, map_statistics: @map_statistics)
+
+:javascript
+  let scrollTop = 0
+
+  addEventListener("turbo:click", ({ target }) => {
+    if (target.hasAttribute("data-turbo-preserve-scroll")) {
+      scrollTop = document.scrollingElement.scrollTop
+    }
+  })
+
+  addEventListener("turbo:load", () => {
+    if (scrollTop) {
+      document.scrollingElement.scrollTo(0, scrollTop)
+    }
+
+    scrollTop = 0
+  })

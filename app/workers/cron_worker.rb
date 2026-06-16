@@ -86,7 +86,7 @@ class CronWorker
     distance_unit = CurrentPlayersService.distance_unit_for_region
 
     # Broadcast to regular users
-    Turbo::StreamsChannel.broadcast_replace_to(
+    BetaBroadcast.replace(
       "players",
       target: "players-content",
       partial: "players/players_content",
@@ -97,7 +97,7 @@ class CronWorker
     )
 
     # Broadcast to admin users
-    Turbo::StreamsChannel.broadcast_replace_to(
+    BetaBroadcast.replace(
       "admin-players",
       target: "admin-players-content",
       partial: "players/admin_players_content",

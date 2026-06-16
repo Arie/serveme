@@ -1,0 +1,140 @@
+:javascript
+  reservation_status_url = "#{status_reservation_path(reservation)}";
+  getReservationStatus();
+
+%div{class: "flex items-center justify-between gap-4 my-6 flex-wrap"}
+  %div
+    %h1{class: "v2-page-title"}
+      Reservation:
+      %span{class: "font-mono"}= reservation.to_s
+
+%div{class: "max-w-5xl"}
+  %div{class: "v2-card"}
+    %div{class: "v2-table-wrap"}
+      %table{class: "v2-table"}
+        - if current_user.admin? || current_user.league_admin? || current_user.streamer?
+          %tr
+            %td Reserved by
+            %td
+              = link_to(reservation.user.nickname, reservation.user.steam_profile_url, target: "_blank", class: "player-name")
+        %tr
+          %td Status
+          %td
+            #reservation_status
+              #reservation_status_spinner
+                %i.fa.fa-spinner.fa-spin.reservation_status_spinner
+              #reservation_status_message= reservation.status.titleize
+
+        - if reservation.server
+          %tr
+            %td Actions
+            %td.actions= render 'actions'
+          %tr
+            %td Connect info
+            %td
+              %div{class: "flex flex-wrap items-center gap-2"}
+                %span{class: "v2-connect"}= reservation.connect_string
+                = render 'shared/copy_button', :copy_button_id => "connect_string", :copy_text => reservation.connect_string
+
+          %tr
+            %td TF2Center info
+            %td
+              %div{class: "flex flex-col gap-2"}
+                %div{class: "flex flex-wrap items-center gap-2"}
+                  %span{class: "text-muted"} Server Address:
+                  - ip_and_port = "#{reservation.server.ip}:#{reservation.server.port}"
+                  %span{class: "v2-connect"}= ip_and_port
+                  = render 'shared/copy_button', :copy_button_id => "server_address", :copy_text => ip_and_port
+                %div{class: "flex flex-wrap items-center gap-2"}
+                  %span{class: "text-muted"} Rcon Password:
+                  %span{class: "v2-connect"}= reservation.rcon
+                  = render 'shared/copy_button', :copy_button_id => "rcon_password", :copy_text => reservation.rcon
+
+        %tr
+          %td Password
+          %td
+            %span{class: "font-mono text-ink"}= reservation.password
+
+        %tr
+          %td RCON
+          %td
+            %div{class: "flex flex-wrap items-center gap-2"}
+              %span{class: "v2-connect"}= reservation.rcon_string
+              = render 'shared/copy_button', :copy_button_id => "rcon_string", :copy_text => reservation.rcon_string
+
+          %tr
+            %td STV
+            %td Enabled
+
+          %tr
+            %td TV password
+            %td
+              %span{class: "font-mono text-ink"}= reservation.tv_password
+
+          %tr
+            %td Relay password
+            %td
+              %span{class: "font-mono text-ink"}= reservation.tv_relaypassword
+
+          - if reservation.server
+            %tr
+              %td STV connect info
+              %td
+                %div{class: "flex flex-wrap items-center gap-2"}
+                  - if reservation.active?
+                    = link_to reservation.stv_connect_url, :class => 'v2-btn v2-btn-outline v2-btn-sm' do
+                      Join STV
+                      %i.fa.fa-film
+                  %span{class: "v2-connect"}= reservation.stv_connect_string
+                  = render 'shared/copy_button', :copy_button_id => "stv_connect_string", :copy_text => reservation.stv_connect_string
+                  - ip_and_port = "#{reservation.server.ip}:#{reservation.server.tv_port}"
+                  - password_for_relay = reservation.tv_relaypassword.presence || reservation.tv_password
+                  - if current_admin || current_league_admin || current_streamer
+                    = link_to "http://relay.fakkelbrigade.eu/new?ip_port=#{ip_and_port}&password=#{password_for_relay}", :title => "create relay", :class => "v2-btn v2-btn-outline v2-btn-sm", :target => "_blank" do
+                      Create relay
+                      %i.fa.fa-share-alt
+
+        - if reservation.server_config
+          %tr
+            %td Server config
+            %td= reservation.server_config
+
+        - if reservation.custom_whitelist_id.present?
+          %tr
+            %td Whitelist
+            %td= link_to("Custom whitelist", "http://whitelist.tf/#{reservation.custom_whitelist_id}", class: "text-info hover:brightness-110")
+        - elsif reservation.whitelist
+          %tr
+            %td Whitelist
+            %td= reservation.whitelist
+
+        - if reservation.server && (current_admin || current_league_admin || current_streamer)
+          %tr
+            %td Logsecret
+            %td
+              %div{class: "flex flex-wrap items-center gap-2"}
+                %span{class: "v2-connect"}= reservation.logsecret
+                = render 'shared/copy_button', :copy_button_id => "logsecret_string", :copy_text => reservation.logsecret
+                - ip_and_port = "#{reservation.server.ip}:#{reservation.server.port}"
+                = link_to "http://live.fakkelbrigade.eu/matches/new?host=#{ip_and_port}&rcon=#{reservation.rcon}&logsecret=#{reservation.logsecret}", :title => "create livestats", :class => "v2-btn v2-btn-outline v2-btn-sm", :target => "_blank" do
+                  Livestats
+                  %i.fa.fa-bar-chart
+          %tr
+            %td Stats
+            %td
+              %div{class: "flex flex-wrap gap-2"}
+                = link_to show_reservation_statistic_path(reservation),         :title => "Player stats", :class => "v2-btn v2-btn-info v2-btn-sm" do
+                  Player stats
+                  %i.fa.fa-bar-chart
+                = link_to show_reservation_server_statistic_path(reservation),  :title => "Server stats", :class => "v2-btn v2-btn-primary v2-btn-sm" do
+                  Server stats
+                  %i.fa.fa-bar-chart
+
+  - if current_admin
+    %div{class: "v2-card mt-6"}
+      %div{class: "v2-table-wrap"}
+        %table{class: "v2-table"}
+          - reservation.reservation_statuses.ordered.each do |su|
+            %tr
+              %td= I18n.l(su.created_at, :format => :time)
+              %td= su.status

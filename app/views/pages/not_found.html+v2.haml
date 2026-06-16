@@ -1,0 +1,8 @@
+- content_for(:title) { "page not found" }
+
+%div{class: "max-w-xl mx-auto text-center py-16"}
+  %h1{class: "v2-page-title"} Page not found
+  %p{class: "text-muted mt-3"} The page you're looking for could not be found.
+  = image_tag "404.gif", class: "mx-auto mt-6 rounded-card max-w-full"
+  %div{class: "mt-8"}
+    = link_to "Back to home", root_path, class: "v2-btn v2-btn-primary"

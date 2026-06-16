@@ -1,0 +1,38 @@
+%div{class: "my-6"}
+  %h1{class: "v2-page-title"} Premium Supporters
+  %p{class: "text-muted mt-2"}
+    Top contributors ranked by total server time purchased.
+
+%div{class: "v2-table-wrap"}
+  %table{class: "v2-table"}
+    %thead
+      %tr
+        %th Rank
+        %th Supporter
+        %th Total Time
+    %tbody
+      - @donators.each_with_index do |(user, days), index|
+        %tr
+          %td
+            - case index
+            - when 0
+              %span{class: "v2-badge v2-badge-gold"} 1st
+            - when 1
+              %span{class: "v2-badge v2-badge-info"} 2nd
+            - when 2
+              %span{class: "v2-badge v2-badge-info"} 3rd
+            - else
+              %span{class: "font-mono text-muted"}= "#{index + 1}th"
+          %td
+            = link_to(user.nickname, user.steam_profile_url, target: "_blank", class: "text-accent-light hover:underline")
+          %td{class: "font-mono"}
+            - years = days.to_i / 365
+            - remaining_days = days.to_i % 365
+            - months = remaining_days / 30
+            - days = remaining_days % 30
+            - parts = []
+            - parts << pluralize(years, 'year') if years > 0
+            - parts << pluralize(months, 'month') if months > 0
+            - parts << pluralize(days, 'day') if days > 0
+            - parts << "0 days" if parts.empty?
+            = parts.join(', ')

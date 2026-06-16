@@ -1,0 +1,6 @@
+- if !current_user.donator? && free_servers.size < 3
+  - if free_donator_server_count > 0
+    %div{class: "v2-card border-l-4 border-l-info mb-4 donator-nag"}
+      %h4{class: "font-display text-lg font-bold text-ink"}
+        Premium users have #{I18n.t(:available, :count => free_donator_server_count, :scope => :server)} right now.
+        = link_to("Buy premium and get instant access!", donate_path, data: { turbo: false }, class: "text-accent-light hover:text-accent")

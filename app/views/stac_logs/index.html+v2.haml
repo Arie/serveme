@@ -1,0 +1,28 @@
+- content_for(:title) { "StAC logs" }
+%h1{class: "v2-page-title my-6"} StAC Logs
+
+%div{class: "v2-table-wrap"}
+  %table{class: "v2-table"}
+    %thead
+      %tr
+        %th Reservation
+        %th Created
+        %th Filename
+        %th Size
+    %tbody
+      - @stac_logs.each do |log|
+        %tr[log]
+          %td= link_to(log.reservation)
+          %td{class: "font-mono"}
+            = link_to(stac_log_reservation_path(log.reservation)) do
+              = I18n.l(log.created_at, format: :short_with_dayname_and_seconds)
+          %td{class: "font-mono"}
+            = link_to(stac_log_reservation_path(log.reservation)) do
+              = log.filename
+          %td{class: "font-mono"}
+            = link_to(stac_log_reservation_path(log.reservation)) do
+              = number_to_human_size(log.filesize)
+
+- if @pagy
+  %div{class: "mt-4"}
+    != @pagy.series_nav(:bootstrap)

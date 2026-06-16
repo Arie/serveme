@@ -1,0 +1,145 @@
+- unless @reservation.persisted?
+  %div{class: "flex items-center justify-between gap-4 my-6 flex-wrap"}
+    %div
+      %h1{class: "v2-page-title"} Book a server
+  %div{class: ["v2-card", "py-3", "text-sm", "border-l-4", "border-l-gold", "mb-4", "text-muted", ('blink-alert' if current_user&.uid.in?(['76561198082697717']))]}
+    Please pick your start and end time carefully, we like to see reserved servers be used. All times are in timezone:
+    = link_to(Time.zone.name, edit_users_path, class: "text-accent-light hover:text-accent")
+
+= render "donator_nag"
+
+= render 'shared/point_to_na'
+
+= render 'shared/tf2_update_banner'
+
+= render "server_reservations_table"
+
+%div{class: "w-full"}
+  %div{class: "v2-card"}
+    = simple_form_for(@reservation, wrapper: :horizontal_form, html: { class: 'form-horizontal reservation' }) do |f|
+      - if @reservation.schedulable?
+        = f.input :starts_at, as: :string, input_html: { value: I18n.l(@reservation.starts_at || Time.now, format: :datepicker), data: { :"datepicker-format" => "dd-mm-yyyy hh:ii", :"datepicker-nodefault" => "false" } }, label: "Starts at"
+        = f.input :ends_at, as: :string, input_html: { value: I18n.l(@reservation.ends_at || 2.hours.from_now, format: :datepicker), data: { :"datepicker-format" => "dd-mm-yyyy hh:ii", :"datepicker-nodefault" => "false" } }, label: "Ends at"
+
+      :javascript
+        free_servers = #{ERB::Util.json_escape(free_servers_json)};
+        find_server_url = "#{@reservation.persisted? ? find_servers_for_reservation_reservations_path(id: @reservation.id) : find_servers_for_user_reservations_path}";
+
+      = f.input :server_id, as: :string, :label => "Server", :required => true, :disabled => !@reservation.schedulable?
+      - if @reservation.schedulable? && !current_user.donator?
+        - if free_server_limit_reached_for_reservation?
+          .buy_premium.form-group
+            .col
+              %div{class: "v2-card border-l-4 border-l-gold text-muted"}
+                All free servers are currently in use.
+                = link_to("Get premium for more servers!", donate_path, data: { turbo: false }, class: "text-accent-light hover:text-accent")
+        - elsif free_donator_server_count > 0
+          .buy_premium.form-group
+            .col
+              %div{class: "v2-card border-l-4 border-l-gold text-muted"}
+                No servers available for you during the selected times.
+                Premium users have #{I18n.t(:available, :count => free_donator_server_count, :scope => :server)} right now.
+                = link_to("Buy premium and get instant access!", donate_path, data: { turbo: false }, class: "text-accent-light hover:text-accent")
+
+      #refresh-ping.form-group.row.string.readonly.reservation_ping.form-group-valid{data: { controller: "ping" }}
+        %label.col-sm-3.col-md-3.col-form-label.string{for: 'reservation_ping'}
+          Ping
+        .col-sm-3.col-md-3
+          %input#reservation_ping.string.optional.readonly.disabled.form-control{disabled: "disabled", type: "text", data: { ping_target: "selected" }}
+
+      .password-refresh-wrapper{data: { controller: "password-refresh" }}
+        = f.input :password,            as: :string, placeholder: "The server password to join the game", input_html: { data: { password_refresh_target: "input" } }
+        %button.password-refresh-btn{type: "button", data: { action: "password-refresh#refresh", password_refresh_target: "button" }, title: "Generate random password", "aria-label": "Generate random password"}
+          %i.fa.fa-refresh
+      .password-refresh-wrapper{data: { controller: "password-refresh" }}
+        = f.input :rcon,                as: :string, placeholder: "The RCON password to control the server", disabled: !@reservation.schedulable?, input_html: { data: { password_refresh_target: "input" } }
+        - if @reservation.schedulable?
+          %button.password-refresh-btn{type: "button", data: { action: "password-refresh#refresh", password_refresh_target: "button" }, title: "Generate random password", "aria-label": "Generate random password"}
+            %i.fa.fa-refresh
+      = f.input :first_map,           as: :grouped_select, group_method: :maps, group_label_method: :name, collection: LeagueMaps.all, :input_html => { :class => "select2" }, disabled: !@reservation.schedulable?
+      .password-refresh-wrapper{data: { controller: "password-refresh" }}
+        = f.input :tv_password,         as: :string,   placeholder: "Password for STV, default tv",                   disabled: !@reservation.schedulable?, input_html: { data: { password_refresh_target: "input" } }
+        - if @reservation.schedulable?
+          %button.password-refresh-btn{type: "button", data: { action: "password-refresh#refresh", password_refresh_target: "button" }, title: "Generate random password", "aria-label": "Generate random password"}
+            %i.fa.fa-refresh
+      = f.input :enable_plugins,      as: :boolean,                                                                  disabled: !@reservation.schedulable?
+      = f.input :enable_demos_tf,     as: :boolean,  hint: "Enable uploading STVs to demos.tf",                     disabled: !@reservation.schedulable?
+      - if SiteSetting.show_democheck?
+        = f.input :democheck_mode, label: "Democheck" do
+          .form-control.democheck
+            .form-check.form-check-inline
+              = radio_button_tag "reservation[democheck_mode]", "kick", @reservation.democheck_mode == "kick", class: "form-check-input", id: "reservation_democheck_mode_kick", disabled: !@reservation.schedulable?
+              %label.form-check-label{for: "reservation_democheck_mode_kick"}
+                Kick
+            .form-check.form-check-inline
+              = radio_button_tag "reservation[democheck_mode]", "warn", @reservation.democheck_mode == "warn", class: "form-check-input", id: "reservation_democheck_mode_warn", disabled: !@reservation.schedulable?
+              %label.form-check-label{for: "reservation_democheck_mode_warn"}
+                Warn
+            .form-check.form-check-inline
+              = radio_button_tag "reservation[democheck_mode]", "disable", @reservation.democheck_mode == "disable", class: "form-check-input", id: "reservation_democheck_mode_disable", disabled: !@reservation.schedulable?
+              %label.form-check-label{for: "reservation_democheck_mode_disable"}
+                Disable
+      = f.association :server_config, collection: ServerConfig.active.ordered, hint: "Specify a league config to run on each map start", input_html: { class: "select2" }
+      = f.input :whitelist_type, :label => "Item whitelist" do
+        .form-control.whitelist
+          .form-check.form-check-inline
+            = radio_button_tag :whitelist_type, "default_whitelist", (!@reservation.custom_whitelist_id.present? && !@reservation.whitelist.present?), class: "form-check-input"
+            %label.form-check-label{for: "whitelist_type_default_whitelist"}
+              From config
+          .form-check.form-check-inline
+            = radio_button_tag :whitelist_type, "league_whitelist", (@reservation.whitelist_id.present?), class: "form-check-input"
+            %label.form-check-label{for: "whitelist_type_league_whitelist"}
+              League
+          .form-check.form-check-inline
+            = radio_button_tag :whitelist_type, "custom_whitelist", (@reservation.custom_whitelist_id.present?), class: "form-check-input"
+            %label.form-check-label{for: "whitelist_type_custom_whitelist"}
+              Whitelist.tf
+      = f.association :whitelist,     :collection => Whitelist.active.ordered,    :hint => "Some configs have a default whitelist, but you can still override that here. 6v6 with 9v9 unlocks? No problem!"
+      = f.input :custom_whitelist_id, :hint => "Enter the whitelist ID or preset name (e.g. etf2l_6v6_s22) from <a href='http://whitelist.tf/configure' target='_blank'>whitelist.tf</a>".html_safe
+
+      = f.input :auto_end, as: :boolean, hint: "Automatically end the reservation once everyone has left the server", input_html: { value: true }
+
+      .row.submit-row
+        .col-sm-2.offset-sm-4.col-lg-2.offset-lg-5
+          %button{type: :submit, class: "v2-btn v2-btn-primary"}
+            Save
+
+    = render "datepicker_javascript_options"
+
+    :javascript
+      var canEnablePlugins = #{@reservation.schedulable?};
+      var reservationSchedulable = #{@reservation.schedulable?}
+
+.modal.fade#pingsModal{tabindex: "-1"}
+  .modal-dialog.modal-lg
+    .modal-content.bg-dark.text-light
+      .modal-header.border-secondary
+        %h5.modal-title Server Pings
+        %button.btn-close.btn-close-white{"data-bs-dismiss" => "modal", "aria-label" => "Close"}
+      .modal-body
+        #server-pings{data: { controller: "ping" }}
+          .table-responsive
+            %table.table.table-hover.table-bordered.table-striped.table-dark{data: { ping_target: "table" }}
+              %thead
+                %tr
+                  %th Name
+                  %th Location
+                  %th IP
+                  %th Ping
+              %tbody
+                - @servers.uniq { |s| s.ip }.each do |server|
+                  %tr{data: { ip: server.ip }}
+                    %td= link_to server.name.gsub(/\s+#?\d+.*$/, ''), new_reservation_path(ip: server.ip), class: 'hover-underline text-light'
+                    %td= server.location&.name
+                    %td= link_to server.ip, new_reservation_path(ip: server.ip), class: 'hover-underline text-light'
+                    %td.ping Checking...
+                - if @docker_hosts.present?
+                  - @docker_hosts.uniq { |dh| dh.hostname }.each do |docker_host|
+                    - next if @servers.any? { |s| s.ip == docker_host.ip }
+                    %tr{data: { ip: docker_host.hostname }}
+                      %td= docker_host.city
+                      %td= docker_host.location&.name
+                      %td= docker_host.hostname
+                      %td.ping Checking...
+          .mt-3
+            %canvas{data: { ping_target: "chart" }, style: "width: 100%; height: 200px;"}

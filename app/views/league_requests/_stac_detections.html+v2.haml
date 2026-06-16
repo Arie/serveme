@@ -1,0 +1,29 @@
+= turbo_frame_tag "stac_detections" do
+  - if @stac_detections && @stac_detections.any?
+    %div{class: "mt-6"}
+      %h4{class: "v2-page-title text-xl mb-3"} STAC Anti-Cheat Detections
+      %div{class: "v2-table-wrap"}
+        %table{class: "v2-table"}
+          %thead
+            %tr
+              %th Reservation ID
+              %th Start time
+              %th Player Name
+              %th Steam ID
+              %th Detections
+              %th STAC Log File
+          %tbody
+            - @stac_detections.each do |detection|
+              %tr.table-danger
+                %td{class: "font-mono"}= link_to(detection[:reservation_id], show_reservation_statistic_path(reservation_id: detection[:reservation_id]))
+                %td{class: "font-mono"}
+                  - if detection[:reservation]
+                    = link_to(I18n.l(detection[:reservation].starts_at, format: :long), reservation_path(detection[:reservation]))
+                %td
+                  %strong= detection[:player_name]
+                %td{class: "font-mono"}
+                  = link_to(detection[:steam_uid], league_request_path(steam_uid: detection[:steam_uid]))
+                %td
+                  - detection[:detections].each do |det_type|
+                    %span{class: "v2-badge v2-badge-danger"}= det_type
+                %td{class: "font-mono"}= link_to(detection[:stac_log_filename], stac_log_reservation_path(detection[:reservation_id]))

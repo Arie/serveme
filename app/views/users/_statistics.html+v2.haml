@@ -1,0 +1,31 @@
+%h2{class: "v2-page-title my-6"} Your stats
+%div{class: "v2-card"}
+  %div{class: "v2-table-wrap"}
+    %table{class: "v2-table"}
+      %tbody
+        %tr
+          %td User #
+          %td{class: "font-mono"}= user.id
+        %tr
+          %td Date joined
+          %td{class: "font-mono"}= I18n.l(user.created_at, :format => :datepicker)
+        %tr
+          %td Login count
+          %td{class: "font-mono"}= user.sign_in_count
+        %tr
+          %td Reservations made
+          %td{class: "font-mono"}= user.has_attribute?(:reservations_count) ? user.reservations_count : user.reservations.count
+        %tr
+          %td Total reservation time
+          - duration = (user.total_reservation_seconds / 3600.0).round
+          %td{class: "font-mono"}= "#{duration} hours"
+        %tr
+          %td Logs uploaded
+          %td{class: "font-mono"}= user.log_uploads.where(:status => "success").count
+        %tr
+          %td Premium
+          %td= t("user.donator.#{!!user.donator?}")
+        - if user.donator_until
+          %tr
+            %td Premium until
+            %td{class: "font-mono"}= I18n.l(user.donator_until, :format => :datepicker)

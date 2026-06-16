@@ -1,0 +1,631 @@
+@import "tailwindcss";
+
+/* Only scan the redesigned templates + JS so utility generation stays scoped.
+   Paths are relative to this file at config/tailwind/. */
+@source "../../app/views";
+@source "../../app/javascript";
+
+/* ---- Direction A "Command" design tokens ---- */
+@theme {
+  --color-accent: #f2742c;
+  --color-accent-light: #f2a36c;
+  --color-cta-from: #f98c43;
+  --color-cta-to: #ee5f29;
+  --color-page: #0b0c0e;
+  --color-hero: #0e1014;
+  --color-panel: #101216;
+  --color-panel-2: #121419;
+  --color-elevated: #16191f;
+  --color-inset: #0c0e12;
+  --color-inset-2: #08090b;
+  --color-ink: #e7e9ee;
+  --color-muted: #9aa0ab;
+  --color-faint: #6b7280;
+  --color-success: #3ecf8e;
+  --color-success-text: #5fdca0;
+  --color-info: #4aa3df;
+  --color-gold: #f2c14e;
+  --color-danger: #e54834;
+
+  --radius-card: 16px;
+  --radius-btn: 10px;
+  --radius-pill: 24px;
+
+  --font-display: "Archivo", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Archivo", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+/* Fonts are added in Task 3 (this file is appended to there). */
+@font-face {
+  font-family: "Archivo";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/fonts/v2/archivo.woff2") format("woff2");
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 100 800;
+  font-display: swap;
+  src: url("/fonts/v2/jetbrains-mono.woff2") format("woff2");
+}
+@utility v2-stripes {
+  background-color: var(--color-accent);
+  background-image: repeating-linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.18) 0 12px,
+    rgba(255, 255, 255, 0) 12px 24px
+  );
+  background-size: 48px 48px;
+  animation: v2-stripe-move 1.1s linear infinite;
+}
+@keyframes v2-stripe-move {
+  from { background-position: 0 0; }
+  to   { background-position: 48px 0; }
+}
+
+/* Small action button used in the reservation tables (color set per-link). */
+@utility v2-action {
+  display: inline-flex;
+  align-items: center;
+  border-radius: var(--radius-btn);
+  border-width: 1px;
+  padding: 0.25rem 0.625rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 600;
+}
+
+/* ============================================================================
+   v2 component layer + JS-widget dark themes.
+   This stylesheet is ONLY linked in application_v2.html.haml, so every rule
+   here is automatically scoped to redesigned (beta) pages.
+   ============================================================================ */
+
+@layer base {
+  body.bg-page {
+    background-image: radial-gradient(1200px 600px at 50% -10%, rgba(242, 116, 44, 0.06), transparent 60%);
+    background-attachment: fixed;
+  }
+  body.bg-page a {
+    color: var(--color-accent-light);
+    text-decoration: none;
+  }
+  body.bg-page a:hover { color: var(--color-accent); }
+  body.bg-page h1, body.bg-page h2, body.bg-page h3,
+  body.bg-page h4, body.bg-page h5, body.bg-page h6 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    color: var(--color-ink);
+  }
+  body.bg-page code, body.bg-page kbd, body.bg-page pre, body.bg-page .mono {
+    font-family: var(--font-mono);
+  }
+  body.bg-page hr { border-color: rgba(255, 255, 255, 0.08); }
+}
+
+@layer components {
+  /* Surfaces */
+  .v2-card {
+    background-color: var(--color-panel);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-card);
+    padding: 1.5rem;
+  }
+  /* Prose content (paragraphs + lists) inside a card — restores the spacing and
+     bullets Tailwind Preflight strips. */
+  .v2-prose p {
+    margin-bottom: 0.75rem;
+    color: var(--color-muted);
+  }
+  .v2-prose p:last-child {
+    margin-bottom: 0;
+  }
+  .v2-prose ul {
+    list-style: disc;
+    padding-left: 1.25rem;
+    margin: 0.5rem 0 0.85rem;
+    color: var(--color-muted);
+  }
+  .v2-prose li {
+    margin-bottom: 0.25rem;
+  }
+  .v2-prose a {
+    color: var(--color-accent-light);
+  }
+  .v2-prose a:hover {
+    filter: brightness(1.1);
+  }
+  .v2-elevated {
+    background-image: linear-gradient(to bottom, var(--color-elevated), var(--color-panel));
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-card);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+  }
+  .v2-inset {
+    background-color: var(--color-inset);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: var(--radius-btn);
+  }
+
+  /* Page header */
+  .v2-page-title {
+    font-family: var(--font-display);
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+    font-weight: 800;
+    color: var(--color-ink);
+  }
+  .v2-breadcrumb {
+    font-size: 0.8125rem;
+    color: var(--color-faint);
+    font-family: var(--font-mono);
+  }
+  .v2-breadcrumb a { color: var(--color-muted); }
+
+  /* Buttons */
+  .v2-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    border-radius: var(--radius-btn);
+    border: 1px solid transparent;
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: filter 0.12s ease, background-color 0.12s ease, border-color 0.12s ease;
+    text-decoration: none;
+  }
+  .v2-btn-sm { padding: 0.3rem 0.7rem; font-size: 0.78rem; }
+  .v2-btn-primary {
+    background-image: linear-gradient(135deg, var(--color-cta-from), var(--color-cta-to));
+    color: #fff;
+    box-shadow: 0 8px 26px rgba(238, 95, 41, 0.34);
+  }
+  .v2-btn-primary:hover { filter: brightness(1.06); color: #fff; }
+  .v2-btn-outline {
+    color: var(--color-accent-light);
+    border-color: rgba(242, 116, 44, 0.5);
+    background-color: transparent;
+  }
+  .v2-btn-outline:hover { border-color: var(--color-accent); color: var(--color-accent); }
+  .v2-btn-ghost {
+    color: var(--color-muted);
+    border-color: rgba(255, 255, 255, 0.12);
+    background-color: rgba(255, 255, 255, 0.02);
+  }
+  .v2-btn-ghost:hover { color: var(--color-ink); border-color: rgba(255, 255, 255, 0.22); }
+  .v2-btn-info { color: var(--color-info); border-color: rgba(74, 163, 223, 0.45); }
+  .v2-btn-info:hover { color: #fff; background-color: rgba(74, 163, 223, 0.14); }
+  .v2-btn-danger { color: #fff; background-color: var(--color-danger); }
+  .v2-btn-danger:hover { filter: brightness(1.08); color: #fff; }
+  .v2-btn:disabled, .v2-btn[disabled] { opacity: 0.5; cursor: not-allowed; }
+
+  /* Forms */
+  .v2-label {
+    display: block;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-muted);
+    margin-bottom: 0.35rem;
+  }
+  .v2-input, .v2-select, .v2-textarea {
+    width: 100%;
+    background-color: var(--color-inset);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-btn);
+    padding: 0.55rem 0.75rem;
+    color: var(--color-ink);
+    font-size: 0.9rem;
+  }
+  .v2-input:focus, .v2-select:focus, .v2-textarea:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px rgba(242, 116, 44, 0.18);
+  }
+  .v2-input::placeholder, .v2-textarea::placeholder { color: var(--color-faint); }
+  .v2-mono { font-family: var(--font-mono); }
+  /* JetBrains Mono renders larger than the Archivo sans at the same font-size, so
+     mono cells (dates, IDs) looked bigger than the text beside them. Normalise its
+     x-height to the sans without touching font-size (composes with text-sm etc.). */
+  .font-mono { font-size-adjust: 0.50; }
+  .v2-help { font-size: 0.8rem; color: var(--color-faint); margin-top: 0.3rem; }
+  .v2-error { color: #ff9a8a; font-size: 0.8rem; margin-top: 0.3rem; }
+
+  /* Tables */
+  .v2-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+  .v2-table thead th {
+    text-align: left;
+    color: var(--color-faint);
+    font-weight: 600;
+    padding: 0.6rem 0.85rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    white-space: nowrap;
+  }
+  .v2-table tbody td { padding: 0.6rem 0.85rem; border-top: 1px solid rgba(255, 255, 255, 0.05); color: var(--color-ink); }
+  .v2-table tbody tr:hover { background-color: rgba(255, 255, 255, 0.03); }
+  .v2-table-wrap {
+    overflow-x: auto;
+    background-color: var(--color-panel);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-card);
+  }
+
+  /* Badges / pills */
+  .v2-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    border-radius: 999px;
+    padding: 0.15rem 0.6rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: var(--color-muted);
+  }
+  .v2-badge-success { color: var(--color-success-text); border-color: rgba(62, 207, 142, 0.3); background-color: rgba(62, 207, 142, 0.08); }
+  .v2-badge-info { color: var(--color-info); border-color: rgba(74, 163, 223, 0.3); background-color: rgba(74, 163, 223, 0.08); }
+  .v2-badge-gold { color: var(--color-gold); border-color: rgba(242, 193, 78, 0.3); background-color: rgba(242, 193, 78, 0.08); }
+  .v2-badge-danger { color: #ff9a8a; border-color: rgba(229, 72, 52, 0.35); background-color: rgba(229, 72, 52, 0.1); }
+
+  /* Flash messages */
+  .v2-flash { border-radius: var(--radius-btn); padding: 0.75rem 1rem; border: 1px solid; font-size: 0.9rem; }
+  .v2-flash-notice { color: var(--color-success-text); border-color: rgba(62, 207, 142, 0.3); background-color: rgba(62, 207, 142, 0.08); }
+  .v2-flash-alert { color: #ff9a8a; border-color: rgba(229, 72, 52, 0.35); background-color: rgba(229, 72, 52, 0.1); }
+
+  /* Pulsing live dot */
+  .v2-dot { display: inline-block; width: 0.5rem; height: 0.5rem; border-radius: 999px; animation: v2-pulse 1.55s ease-in-out infinite; }
+  @keyframes v2-pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.35; transform: scale(0.82); } }
+}
+
+/* ---- Bootstrap JS component theming (Bootstrap CSS is NOT loaded on v2 pages,
+   but its JS is — so reproduce the structural + visual rules here). ---- */
+
+/* Dropdowns (data-bs-toggle="dropdown") */
+.dropdown-menu {
+  position: absolute;
+  z-index: 1000;
+  display: none;
+  min-width: 11rem;
+  padding: 0.4rem;
+  margin: 0;
+  background-color: var(--color-elevated);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-card);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+  list-style: none;
+}
+.dropdown-menu.show { display: block; }
+.dropdown-menu[data-bs-popper] { top: 100%; left: 0; margin-top: 0.35rem; }
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.45rem 0.6rem;
+  border-radius: var(--radius-btn);
+  color: var(--color-muted);
+  font-size: 0.875rem;
+  white-space: nowrap;
+  text-decoration: none;
+}
+.dropdown-item:hover, .dropdown-item:focus { background-color: rgba(255, 255, 255, 0.06); color: var(--color-ink); }
+.dropdown-divider { height: 1px; margin: 0.4rem 0.2rem; background-color: rgba(255, 255, 255, 0.08); }
+.dropdown-header { padding: 0.4rem 0.6rem 0.2rem; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-faint); }
+
+/* Modals (data-bs-toggle="modal") */
+.modal { position: fixed; inset: 0; z-index: 1055; display: none; overflow-y: auto; }
+.modal.show { display: block; }
+.modal-backdrop { position: fixed; inset: 0; z-index: 1050; background-color: rgba(0, 0, 0, 0.6); }
+.modal-backdrop.show { opacity: 1; }
+.modal-dialog { position: relative; width: auto; max-width: 560px; margin: 2.5rem auto; }
+.modal-content {
+  background-image: linear-gradient(to bottom, var(--color-elevated), var(--color-panel));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-card);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5);
+  color: var(--color-ink);
+}
+.modal-header, .modal-footer { padding: 1rem 1.25rem; display: flex; align-items: center; gap: 0.75rem; }
+.modal-header { border-bottom: 1px solid rgba(255, 255, 255, 0.08); justify-content: space-between; }
+.modal-footer { border-top: 1px solid rgba(255, 255, 255, 0.08); justify-content: flex-end; }
+.modal-body { padding: 1.25rem; }
+.modal-title { font-family: var(--font-display); font-weight: 700; }
+.btn-close {
+  background: transparent; border: 0; color: var(--color-muted); font-size: 1.25rem; line-height: 1; cursor: pointer;
+}
+.btn-close::before { content: "\00d7"; }
+.btn-close:hover { color: var(--color-ink); }
+
+/* Collapse (navbar toggler / data-bs-toggle="collapse") */
+.collapse:not(.show) { display: none; }
+.collapsing { height: 0; overflow: hidden; transition: height 0.2s ease; }
+
+/* Nav tabs / pills */
+.nav-tabs { display: flex; gap: 0.25rem; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+.nav-tabs .nav-link {
+  padding: 0.5rem 0.9rem; border: 0; border-bottom: 2px solid transparent;
+  color: var(--color-muted); font-weight: 600; font-size: 0.875rem; background: none; cursor: pointer;
+}
+.nav-tabs .nav-link.active { color: var(--color-ink); border-bottom-color: var(--color-accent); }
+
+/* ============================================================================
+   Bootstrap-compat theming. Some markup is generated by gems (simple_form
+   inputs, pagy pagination) or lives in shared partials; theme the Bootstrap
+   class names so it looks v2 even where not hand-rewritten. Hand-written v2
+   pages should prefer the v2-* components + Tailwind utilities.
+   ============================================================================ */
+
+/* Grid */
+.container, .container-fluid { width: 100%; }
+.row { display: flex; flex-wrap: wrap; margin-left: -0.75rem; margin-right: -0.75rem; }
+.row > [class*="col"] { padding-left: 0.75rem; padding-right: 0.75rem; }
+[class^="col-"], [class*=" col-"], .col { flex: 1 0 0%; max-width: 100%; }
+.col-1{flex:0 0 8.333%;max-width:8.333%}.col-2{flex:0 0 16.666%;max-width:16.666%}
+.col-3{flex:0 0 25%;max-width:25%}.col-4{flex:0 0 33.333%;max-width:33.333%}
+.col-5{flex:0 0 41.666%;max-width:41.666%}.col-6{flex:0 0 50%;max-width:50%}
+.col-7{flex:0 0 58.333%;max-width:58.333%}.col-8{flex:0 0 66.666%;max-width:66.666%}
+.col-9{flex:0 0 75%;max-width:75%}.col-10{flex:0 0 83.333%;max-width:83.333%}
+.col-11{flex:0 0 91.666%;max-width:91.666%}.col-12{flex:0 0 100%;max-width:100%}
+@media (min-width: 768px) {
+  .col-md-1{flex:0 0 8.333%;max-width:8.333%}.col-md-2{flex:0 0 16.666%;max-width:16.666%}
+  .col-md-3{flex:0 0 25%;max-width:25%}.col-md-4{flex:0 0 33.333%;max-width:33.333%}
+  .col-md-5{flex:0 0 41.666%;max-width:41.666%}.col-md-6{flex:0 0 50%;max-width:50%}
+  .col-md-7{flex:0 0 58.333%;max-width:58.333%}.col-md-8{flex:0 0 66.666%;max-width:66.666%}
+  .col-md-9{flex:0 0 75%;max-width:75%}.col-md-10{flex:0 0 83.333%;max-width:83.333%}
+  .col-md-11{flex:0 0 91.666%;max-width:91.666%}.col-md-12{flex:0 0 100%;max-width:100%}
+  .col-md-offset-2,.offset-md-2{margin-left:16.666%}.offset-md-1{margin-left:8.333%}
+  .col-md-offset-3,.offset-md-3{margin-left:25%}.offset-md-4{margin-left:33.333%}
+  .col-lg-3{flex:0 0 25%;max-width:25%}.col-lg-7{flex:0 0 58.333%;max-width:58.333%}
+  .col-lg-2{flex:0 0 16.666%;max-width:16.666%}.col-lg-6{flex:0 0 50%;max-width:50%}
+}
+.col-sm-3{flex:0 0 25%;max-width:25%}.col-sm-9{flex:0 0 75%;max-width:75%}
+
+/* Display / spacing safety-net helpers used in shared partials */
+.d-flex{display:flex}.d-inline-flex{display:inline-flex}.d-block{display:block}
+.d-inline{display:inline}.d-inline-block{display:inline-block}.d-none{display:none}.d-contents{display:contents}
+@media (min-width:768px){.d-md-flex{display:flex}.d-md-none{display:none}.d-md-block{display:block}}
+@media (min-width:576px){.d-sm-flex{display:flex}}
+.flex-column{flex-direction:column}.flex-wrap{flex-wrap:wrap}.flex-grow-1{flex-grow:1}
+.justify-content-between{justify-content:space-between}.justify-content-center{justify-content:center}.justify-content-end{justify-content:flex-end}
+.align-items-center{align-items:center}.align-self-end{align-self:flex-end}.align-self-center{align-self:center}
+.text-center{text-align:center}.text-end,.text-right{text-align:right}.text-start{text-align:left}
+.text-muted{color:var(--color-muted)}.text-warning{color:var(--color-gold)}
+.text-success{color:var(--color-success-text)}.text-danger{color:#ff9a8a}.text-info{color:var(--color-info)}
+.float-end,.pull-right{float:right}.float-start{float:left}.w-100{width:100%}.mx-auto{margin-left:auto;margin-right:auto}
+.lead{font-size:1.1rem;color:var(--color-muted)}.center-block{margin-left:auto;margin-right:auto}
+
+/* Buttons (Bootstrap class names) */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;
+  border-radius: var(--radius-btn); border: 1px solid transparent; padding: 0.5rem 1rem;
+  font-weight: 600; font-size: 0.875rem; cursor: pointer; text-decoration: none;
+  transition: filter 0.12s ease, background-color 0.12s ease, border-color 0.12s ease;
+  color: var(--color-ink); background-color: rgba(255,255,255,0.04);
+}
+.btn:hover{filter:brightness(1.08)}
+.btn-sm{padding:0.3rem 0.7rem;font-size:0.78rem}.btn-lg{padding:0.7rem 1.4rem;font-size:1rem}
+.btn-block{display:flex;width:100%}
+.btn-primary,.btn-warning{background-image:linear-gradient(135deg,var(--color-cta-from),var(--color-cta-to));border-color:transparent;color:#fff;box-shadow:0 8px 26px rgba(238,95,41,0.28)}
+.btn-primary:hover,.btn-warning:hover{color:#fff}
+.btn-success{background-color:rgba(62,207,142,0.16);border-color:rgba(62,207,142,0.4);color:var(--color-success-text)}
+.btn-info{background-color:rgba(74,163,223,0.14);border-color:rgba(74,163,223,0.4);color:var(--color-info)}
+.btn-danger{background-color:var(--color-danger);border-color:transparent;color:#fff}
+.btn-secondary,.btn-default{background-color:rgba(255,255,255,0.05);border-color:rgba(255,255,255,0.14);color:var(--color-ink)}
+.btn-outline-warning,.btn-outline-primary{background:transparent;border-color:rgba(242,116,44,0.5);color:var(--color-accent-light)}
+.btn-link{background:none;border:0;color:var(--color-accent-light);box-shadow:none}
+
+/* Tables (Bootstrap class names) */
+.table{width:100%;border-collapse:collapse;font-size:0.875rem;color:var(--color-ink)}
+.table thead th{text-align:left;color:var(--color-faint);font-weight:600;padding:0.6rem 0.85rem;border-bottom:1px solid rgba(255,255,255,0.08);white-space:nowrap}
+.table tbody td,.table tbody th{padding:0.55rem 0.85rem;border-top:1px solid rgba(255,255,255,0.05);vertical-align:middle}
+.table-hover tbody tr:hover{background-color:rgba(255,255,255,0.03)}
+.table-striped tbody tr:nth-child(odd){background-color:rgba(255,255,255,0.02)}
+.table-responsive{overflow-x:auto}
+.table-bordered, .table-bordered td, .table-bordered th{border:1px solid rgba(255,255,255,0.08)}
+
+/* Forms (simple_form / Bootstrap class names) */
+.form-group{margin-bottom:1rem}
+.control-label,.form-control-label,.form-label,.col-form-label{display:block;font-size:0.8125rem;font-weight:600;color:var(--color-muted);margin-bottom:0.35rem}
+.form-control,.form-select,.form-control-file,select,textarea,input[type="text"],input[type="email"],input[type="password"],input[type="number"],input[type="search"],input[type="url"],input[type="datetime-local"],input[type="date"]{
+  width:100%;background-color:var(--color-inset);border:1px solid rgba(255,255,255,0.1);border-radius:var(--radius-btn);
+  padding:0.55rem 0.75rem;color:var(--color-ink);font-size:0.9rem;
+}
+.form-control:focus,.form-select:focus,select:focus,textarea:focus,input:focus{outline:none;border-color:var(--color-accent);box-shadow:0 0 0 3px rgba(242,116,44,0.18)}
+input[type="checkbox"],input[type="radio"]{width:auto;accent-color:var(--color-accent)}
+.form-check{display:flex;align-items:center;gap:0.5rem;margin-bottom:0.4rem}
+.form-check-input{width:auto}.form-check-label{margin:0;color:var(--color-ink);font-weight:400}
+.invalid-feedback{color:#ff9a8a;font-size:0.8rem;margin-top:0.25rem}
+.is-invalid{border-color:var(--color-danger)!important}
+.form-text,.help-block{color:var(--color-faint);font-size:0.8rem;margin-top:0.25rem}
+.input-group{display:flex;align-items:stretch}.input-group > *{border-radius:0}
+.input-group > :first-child{border-top-left-radius:var(--radius-btn);border-bottom-left-radius:var(--radius-btn)}
+.input-group > :last-child{border-top-right-radius:var(--radius-btn);border-bottom-right-radius:var(--radius-btn)}
+
+/* Alerts */
+.alert{border-radius:var(--radius-btn);padding:0.75rem 1rem;border:1px solid;margin-bottom:1rem;font-size:0.9rem}
+.alert-info{color:var(--color-info);border-color:rgba(74,163,223,0.3);background-color:rgba(74,163,223,0.08)}
+.alert-success{color:var(--color-success-text);border-color:rgba(62,207,142,0.3);background-color:rgba(62,207,142,0.08)}
+.alert-danger{color:#ff9a8a;border-color:rgba(229,72,52,0.35);background-color:rgba(229,72,52,0.1)}
+.alert-warning{color:var(--color-gold);border-color:rgba(242,193,78,0.3);background-color:rgba(242,193,78,0.08)}
+
+/* Badges */
+.badge{display:inline-flex;align-items:center;gap:0.3rem;border-radius:999px;padding:0.15rem 0.6rem;font-size:0.72rem;font-weight:600;border:1px solid rgba(255,255,255,0.12);color:var(--color-muted)}
+.badge.bg-success,.bg-success{background-color:rgba(62,207,142,0.15);color:var(--color-success-text)}
+.badge.bg-danger,.bg-danger{background-color:rgba(229,72,52,0.15);color:#ff9a8a}
+.badge.bg-info,.bg-info{background-color:rgba(74,163,223,0.15);color:var(--color-info)}
+.badge.bg-warning,.bg-warning{background-color:rgba(242,193,78,0.15);color:var(--color-gold)}
+
+/* Progress bars (e.g. zip download, broadcast from a worker so always classic markup) */
+.progress{background-color:var(--color-inset);border:1px solid rgba(255,255,255,0.08);border-radius:999px;overflow:hidden}
+.progress .progress-bar{background-color:#ee5f29;background-image:linear-gradient(135deg,#f98c43,#ee5f29);transition:width 0.3s ease}
+.progress .progress-bar .text-white,.progress .text-white{color:#fff}
+
+/* Cards */
+.card{background-color:var(--color-panel);border:1px solid rgba(255,255,255,0.08);border-radius:var(--radius-card)}
+.card-body{padding:1.25rem}.card-header{padding:0.85rem 1.25rem;border-bottom:1px solid rgba(255,255,255,0.08);font-weight:600}
+
+/* Pagination (pagy bootstrap nav) */
+.pagination{display:inline-flex;gap:0.25rem;list-style:none;padding:0;flex-wrap:wrap}
+.pagination .page-item .page-link,.pagination a,.pagination span{
+  display:inline-flex;align-items:center;justify-content:center;min-width:2rem;height:2rem;padding:0 0.5rem;
+  border-radius:var(--radius-btn);border:1px solid rgba(255,255,255,0.1);color:var(--color-muted);background-color:var(--color-inset);text-decoration:none;font-size:0.85rem;
+}
+.pagination .active .page-link,.pagination .page-item.active span,.pagination .current{background-image:linear-gradient(135deg,var(--color-cta-from),var(--color-cta-to));color:#fff;border-color:transparent}
+.pagination .disabled .page-link,.pagination .page-item.disabled span{opacity:0.4}
+
+/* Top nav menu: hidden on mobile (toggled via Stimulus .is-open), always shown
+   on desktop. Do NOT use the class name "collapse" here — Tailwind v4 generates a
+   .collapse { visibility: collapse } utility that would hide it. */
+.v2-navmenu { display: none; width: 100%; }
+/* Mobile: drop the menu down as a full-width panel below the 60px bar instead of
+   letting it overflow inside the fixed-height flex row (which hid all but a couple
+   of items). */
+.v2-navmenu.is-open {
+  display: block;
+  position: absolute;
+  left: 0; right: 0; top: 60px;
+  background: #111317;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.5rem 26px 1rem;
+  z-index: 50;
+  max-height: calc(100vh - 60px);
+  overflow-y: auto;
+}
+@media (min-width: 768px) {
+  .v2-navmenu, .v2-navmenu.is-open { display: flex; width: auto; flex-direction: row; align-items: center; position: static; background: none; border: 0; padding: 0; max-height: none; overflow: visible; }
+}
+
+/* Connect-string / password box: full black, thin border, to stand out. */
+@layer components {
+  .v2-connect {
+    display: inline-block;
+    background: #000;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: var(--radius-btn);
+    padding: 0.4rem 0.7rem;
+    font-family: var(--font-mono);
+    color: var(--color-ink);
+    word-break: break-all;
+  }
+}
+
+/* Copy buttons should sit inline next to their content, not drop to a new line. */
+@layer components {
+  .clip_container { display: inline-flex; align-items: center; vertical-align: middle; }
+}
+
+/* Reservation form: regen button sits inside the password input (ported from classic). */
+.password-refresh-wrapper { position: relative; }
+.password-refresh-wrapper .password-refresh-btn {
+  position: absolute;
+  right: 0.85rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  border: none;
+  background: none;
+  color: var(--color-muted);
+  cursor: pointer;
+}
+.password-refresh-wrapper .password-refresh-btn:hover { color: var(--color-ink); }
+
+/* Wider modals (e.g. Server Pings uses .modal-lg) + bootstrap bg/text utilities. */
+.modal-dialog.modal-lg { max-width: 820px; }
+.modal-dialog.modal-xl { max-width: 1040px; }
+.bg-dark { background-color: var(--color-elevated) !important; }
+.text-light { color: var(--color-ink) !important; }
+.border-secondary { border-color: rgba(255,255,255,0.1) !important; }
+.btn-close-white { filter: invert(1) grayscale(1); }
+
+/* Premium (donator) nicknames render gold (ported from classic _common.sass). */
+.donator, #voucher-claim-url { color: #ffe14d; text-shadow: 1px 1px 0 #000; }
+
+/* Bootstrap-ish CSS vars used by ported classic component CSS. */
+:root { --info: #4aa3df; --warning: #f2c14e; --success: #3ecf8e; --danger: #e54834; }
+
+/* Reservation gantt chart (ported from classic _reservations.sass). */
+.server_reservations { padding-left: 0; }
+.server_reservations .server { margin-bottom: 2px; }
+.server_reservations .server .name { display: inline-block; cursor: pointer; color: var(--color-accent-light); font-size: 0.8rem; }
+.server_reservations .server .name:hover { text-decoration: underline; }
+.server_reservations .reservations { position: relative; display: inline-block; overflow: hidden; height: 20px; vertical-align: middle; }
+.server_reservations .gantt { cursor: pointer; display: inline-block; position: absolute; overflow: hidden; text-align: center; height: 20px; background-color: var(--info); border-left: 1px solid #fff; }
+.server_reservations .gantt .progress-bar { font-size: 10px; color: #fff; }
+
+/* TF2 team colors (scoreboard). */
+.bg-team-red { background-color: #bd3b3b; }
+.bg-team-blue { background-color: #5b818f; }
+.team-color-bar { width: 4px; padding: 0; }
+
+/* Modal close (×) stays visible on the dark modal. */
+.btn-close-white { filter: none; color: #fff; }
+.modal-header .btn-close:hover { background: rgba(255, 255, 255, 0.1); border-radius: 6px; }
+
+/* Map-upload dropzone (click to browse / drag-drop). */
+.v2-dropzone {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; gap: 0.15rem;
+  border: 2px dashed rgba(255, 255, 255, 0.18);
+  border-radius: var(--radius-card);
+  background: var(--color-inset);
+  color: var(--color-muted);
+  padding: 2.25rem 1.5rem;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.v2-dropzone:hover { border-color: var(--color-accent); color: var(--color-ink); }
+.v2-dropzone.is-dragover { border-color: var(--color-accent); background: rgba(242, 116, 44, 0.08); color: var(--color-ink); }
+
+/* Reservation row status backgrounds (active/future) + Bootstrap contextual rows. */
+.v2-res-now, tr.table-success, .table-success > td { background-color: rgba(62, 207, 142, 0.13) !important; }
+.v2-res-future, tr.table-info, .table-info > td { background-color: rgba(74, 163, 223, 0.13) !important; }
+tr.table-warning, .table-warning > td { background-color: rgba(242, 193, 78, 0.13) !important; }
+tr.table-danger, .table-danger > td { background-color: rgba(229, 72, 52, 0.13) !important; }
+.v2-res-now td:first-child { box-shadow: inset 3px 0 0 var(--color-success); }
+.v2-res-future td:first-child { box-shadow: inset 3px 0 0 var(--color-info); }
+
+/* Reservation chart is hidden until the "Reservation chart" button reveals it. */
+#server_reservations_table { display: none; }
+
+/* Copy button "copied!" confirmation state. */
+.v2-btn.v2-copied { color: var(--color-success-text); border-color: rgba(62, 207, 142, 0.45); background-color: rgba(62, 207, 142, 0.1); }
+
+/* Horizontal form rows: center the label with the input. */
+.form-group.row { align-items: center; }
+.form-group.row .col-form-label, .form-group.row .control-label { margin-bottom: 0; }
+
+/* Booking-form on/off options rendered as toggle switches (label left, switch right). */
+.reservation .form-group.boolean .form-check {
+  display: grid; grid-template-columns: 25% 1fr; align-items: center;
+}
+.reservation .form-group.boolean .form-check-label {
+  grid-column: 1; grid-row: 1; padding-right: 0.75rem; margin: 0; cursor: pointer;
+  color: var(--color-muted); font-size: 0.8125rem; font-weight: 600;
+}
+.reservation .form-group.boolean .form-text { grid-column: 2; grid-row: 2; padding-left: 0; margin-top: 0.3rem; }
+.reservation .form-group.boolean .form-check-input[type="checkbox"] {
+  grid-column: 2; grid-row: 1; justify-self: start; margin: 0; flex: none;
+  appearance: none; -webkit-appearance: none;
+  width: 2.5rem; height: 1.4rem; border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background-color: var(--color-inset);
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22'%3e%3ccircle r='8' cx='11' cy='11' fill='%23cfd3da'/%3e%3c/svg%3e");
+  background-repeat: no-repeat; background-position: left center; background-size: 1.4rem 1.4rem;
+  cursor: pointer;
+  transition: background-color 0.15s ease, background-position 0.15s ease, border-color 0.15s ease;
+}
+.reservation .form-group.boolean .form-check-input[type="checkbox"]:checked {
+  background-color: #ee5f29; border-color: transparent; background-position: right center;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22'%3e%3ccircle r='8' cx='11' cy='11' fill='%23ffffff'/%3e%3c/svg%3e");
+}
+.reservation .form-group.boolean .form-check-input[type="checkbox"]:disabled { opacity: 0.5; cursor: not-allowed; }
+.reservation .form-group.boolean .form-check-input[type="checkbox"]:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(242, 116, 44, 0.25); }

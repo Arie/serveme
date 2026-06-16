@@ -1,0 +1,16 @@
+%div{id: "reservation_stv_connect_info_#{reservation.id}", class: "flex flex-wrap items-center gap-2"}
+  - stv_connect = reservation.stv_connect_string
+  - if reservation.active? && !reservation&.server&.sdr?
+    = link_to reservation.stv_connect_url, class: "v2-btn v2-btn-outline v2-btn-sm" do
+      %i.fa.fa-film
+      Join STV
+
+  - if stv_connect.present?
+    %span{class: "v2-connect"}= stv_connect
+    = render 'shared/copy_button', :copy_button_id => "stv_connect_string", :copy_text => stv_connect
+  - elsif reservation.past?
+    %span{class: "text-faint"} &mdash;
+  - else
+    %span{class: "text-faint inline-flex items-center gap-1"}
+      %i.fa.fa-clock-o
+      Not available yet

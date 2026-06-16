@@ -1,0 +1,96 @@
+- content_for(:title) { "Team Comtress 2" }
+
+%div{class: "text-center my-6"}
+  = link_to "https://teamcomtress.com/", target: "_blank" do
+    = image_tag "team-comtress-2.png", alt: "Team Comtress 2", style: "max-width: 400px; width: 100%;"
+
+%div{class: "flex flex-col gap-4"}
+  %div{class: "v2-card"}
+    %h2{class: "font-display text-lg font-bold text-ink mb-3"} Your Status
+    - if au_system?
+      - if @is_member
+        %div{class: "alert alert-success"}
+          %strong You're opted into Team Comtress servers!
+        %p{class: "text-muted mt-2"}
+          You can now reserve servers with names starting with
+          %strong{class: "text-ink"} TC2
+          (e.g., "TC2 Server #1"). Download the client from
+          = link_to "teamcomtress.com", "https://teamcomtress.com/", target: "_blank", class: "alert-link"
+          to play.
+
+        = form_tag comtress_path, method: :post, class: "mt-3" do
+          = hidden_field_tag :opt_out, "true"
+          = submit_tag "Opt Out", class: "v2-btn v2-btn-outline", data: { confirm: "Are you sure you want to opt out of Team Comtress servers?" }
+      - else
+        %div{class: "alert alert-info"}
+          %strong You're not currently opted into Team Comtress servers.
+        %p{class: "text-muted mt-2"}
+          Want to experience TF2 with better performance and gameplay fixes? Click below to access Team Comtress servers!
+
+        = form_tag comtress_path, method: :post, class: "mt-3" do
+          = hidden_field_tag :opt_in, "true"
+          = submit_tag "Opt In to Team Comtress", class: "v2-btn v2-btn-primary"
+    - else
+      %div{class: "alert alert-warning"}
+        %strong Team Comtress servers are only available in Australia.
+      %p{class: "text-muted mt-2"}
+        To access Team Comtress servers, visit
+        = link_to "au.serveme.tf/comtress", "https://au.serveme.tf/comtress", class: "alert-link"
+        and opt in there.
+
+  %div{class: "v2-card"}
+    %h2{class: "font-display text-lg font-bold text-ink mb-3"} What is Team Comtress 2?
+    %p{class: "text-lg text-ink"}
+      Team Comtress 2 is a community-developed version of Team Fortress 2 that fixes hundreds of bugs and improves performance
+      for a smoother, more responsive gameplay experience.
+
+  %div{class: "grid grid-cols-1 md:grid-cols-2 gap-4"}
+    %div{class: "v2-card"}
+      %h2{class: "font-display text-lg font-bold text-ink mb-3"} Performance Improvements
+      %ul{class: "list-disc list-inside text-muted space-y-1"}
+        %li Optimized rendering and particle systems
+        %li Better performance in large team fights
+        %li Reduced overhead from game systems
+        %li Smoother framerates overall
+
+    %div{class: "v2-card"}
+      %h2{class: "font-display text-lg font-bold text-ink mb-3"} Gameplay Fixes
+      %ul{class: "list-disc list-inside text-muted space-y-1"}
+        %li Fixed backstab and melee hit detection
+        %li More consistent bullet spread
+        %li Improved distance-based damage
+        %li Enhanced weapon responsiveness
+
+  %div{class: "grid grid-cols-1 md:grid-cols-2 gap-4"}
+    %div{class: "v2-card"}
+      %h2{class: "font-display text-lg font-bold text-ink mb-3"} Networking Upgrades
+      %ul{class: "list-disc list-inside text-muted space-y-1"}
+        %li Subtick support for precise weapon firing
+        %li Improved lag compensation
+        %li Reduced network interpolation delays
+        %li Fixed hitbox desync at high speeds
+
+    %div{class: "v2-card"}
+      %h2{class: "font-display text-lg font-bold text-ink mb-3"} Quality of Life
+      %ul{class: "list-disc list-inside text-muted space-y-1"}
+        %li New Casual MVP screen
+        %li Customizable hit markers
+        %li Modern default settings (90 FOV)
+        %li Enhanced visual effects
+
+  %div{class: "v2-card"}
+    %h2{class: "font-display text-lg font-bold text-ink mb-3"} How to Play
+    %ol{class: "list-decimal list-inside text-muted space-y-1"}
+      %li
+        %strong{class: "text-ink"} Opt in above
+        to access Team Comtress servers on
+        #{SITE_HOST}
+      %li
+        %strong{class: "text-ink"} Download Team Comtress 2
+        from
+        = link_to "teamcomtress.com", "https://teamcomtress.com/", target: "_blank"
+      %li
+        %strong{class: "text-ink"} Reserve a server
+        with a name starting with
+        %strong{class: "text-ink"} TC2
+        and enjoy the smoother experience!

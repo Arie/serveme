@@ -83,9 +83,8 @@ class DownloadZipWorker # Renamed class
   sig { params(progress: Integer, message: String).void }
   def broadcast_progress(progress, message)
     progress_target_id = dom_id(@reservation, :zip_download_progress)
-    Turbo::StreamsChannel.broadcast_action_to(
+    BetaBroadcast.update(
       @reservation,
-      action: :update,
       target: progress_target_id,
       partial: "reservations/zip_download_progress_bar",
       locals: { reservation: @reservation, progress: progress, message: message }
@@ -94,7 +93,7 @@ class DownloadZipWorker # Renamed class
 
   sig { void }
   def broadcast_completion
-    Turbo::StreamsChannel.broadcast_replace_to(
+    BetaBroadcast.replace(
       @reservation,
       target: dom_id(@reservation, :zip_download_status),
       partial: "reservations/direct_zip_download_link",
@@ -104,7 +103,7 @@ class DownloadZipWorker # Renamed class
 
   sig { params(message: String).void }
   def broadcast_error(message)
-    Turbo::StreamsChannel.broadcast_update_to(
+    BetaBroadcast.update(
       @reservation,
       target: dom_id(@reservation, :zip_download_progress),
       content: "<div class='text-danger'>Error: #{message}</div>"

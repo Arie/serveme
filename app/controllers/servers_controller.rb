@@ -58,7 +58,7 @@ class ServersController < ApplicationController
         @server = Server.find(params[:id])
         @server.update_columns(update_status: "Updating", update_started_at: Time.current)
         @server.restart
-        Turbo::StreamsChannel.broadcast_replace_to "admin-server-list", target: "admin-server-list", partial: "servers/admin_list", locals: { servers: servers, latest_server_version: Server.latest_version }
+        BetaBroadcast.replace "admin-server-list", target: "admin-server-list", partial: "servers/admin_list", locals: { servers: servers, latest_server_version: Server.latest_version }
         head :no_content
       end
     end
@@ -69,7 +69,7 @@ class ServersController < ApplicationController
       format.html do
         @server = Server.find(params[:id])
         @server.restart
-        Turbo::StreamsChannel.broadcast_replace_to "admin-server-list", target: "admin-server-list", partial: "servers/admin_list", locals: { servers: servers, latest_server_version: Server.latest_version }
+        BetaBroadcast.replace "admin-server-list", target: "admin-server-list", partial: "servers/admin_list", locals: { servers: servers, latest_server_version: Server.latest_version }
         head :no_content
       end
     end

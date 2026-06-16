@@ -4,6 +4,9 @@
 class PlayerStatisticsController < ApplicationController
   before_action :require_admin_or_streamer
 
+  # Every action (index + the show_for_* variants) renders the index template.
+  beta_renders_as :index
+
   def index
     respond_to do |format|
       @player_statistics = paginate(player_statistics)

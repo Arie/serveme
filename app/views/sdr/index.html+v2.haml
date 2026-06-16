@@ -1,0 +1,98 @@
+- content_for(:title) { "SDR IP:Port" }
+%h1{class: "v2-page-title my-6"} Find SDR IP:Port
+
+- if @on_vpn
+  %div{class: "v2-card border border-gold/30 mb-4"}
+    %strong{class: "text-gold"} We think you are on a VPN.
+    %span{class: "text-muted"} This is the only page you can visit while using a VPN.
+
+- if user_signed_in?
+  %div{class: "grid md:grid-cols-2 gap-4"}
+    %div
+      %div{class: "v2-card mb-4"}
+        %div{class: "flex justify-between items-center cursor-pointer", role: "button", data: { bs_toggle: "collapse", bs_target: "#sdr-details" }, aria: { expanded: "false", controls: "sdr-details" }}
+          %div
+            %strong SDR Access:
+            - if @sdr_eligible
+              %span{class: "text-success-text"} ✓ You can use SDR
+            - else
+              %span{class: "text-danger"} ✗ You are not allowed to use SDR
+          %span{class: "chevron text-muted"} ▶
+
+        %div#sdr-details{class: "collapse"}
+          %div{class: "mt-4"}
+            %p{class: "text-muted mb-2"}
+              %strong Pass at least one:
+            %table{class: "v2-table mb-4"}
+              %tbody
+                %tr
+                  %td{class: "align-top"}
+                    - if @logged_in_with_real_ip_recently
+                      %span{class: "text-success-text"} ✓
+                    - else
+                      %span{class: "text-danger"} ✗
+                  %td
+                    %strong Logged in with real IP recently
+                    %br
+                    %small{class: "text-muted"} Visited #{SITE_HOST} with a non-VPN IP in the past week
+
+                %tr
+                  %td{class: "align-top"}
+                    - if @connected_with_real_ip_recently
+                      %span{class: "text-success-text"} ✓
+                    - else
+                      %span{class: "text-danger"} ✗
+                  %td
+                    %strong Played with real IP recently
+                    %br
+                    %small{class: "text-muted"} Connected to a server with a non-VPN IP in the past week
+
+                %tr
+                  %td{class: "align-top", style: "width: 30px"}
+                    - if @longtime_player
+                      %span{class: "text-success-text"} ✓
+                    - else
+                      %span{class: "text-danger"} ✗
+                  %td
+                    %strong Longtime player
+                    %br
+                    %small{class: "text-muted"}
+                      First played more than 1 year ago
+                      - if @first_played_at
+                        (your first game: #{time_ago_in_words(@first_played_at)} ago)
+                      - else
+                        (no games found)
+
+            - unless @sdr_eligible
+              %div{class: "v2-card border border-info/30 mt-3 mb-0"}
+                %strong{class: "text-info"} How to qualify:
+                %span{class: "text-muted"} Visit this page or play on #{SITE_HOST} servers using your normal internet connection (no VPN) at least once per week.
+- else
+  %div{class: "v2-card border border-info/30 mb-4"}
+    %strong{class: "text-info"} Note:
+    %span{class: "text-muted"}
+      You must be logged in to see if you are eligible for SDR access.
+      Please log in to continue.
+
+- if @sdr_eligible
+  %div{class: "grid md:grid-cols-2 gap-4"}
+    %div
+      = form_with url: sdr_path, method: :get, data: { turbo_frame: "sdr_result" } do |f|
+        %div{class: "form-group"}
+          = f.label :ip_port, "Normal IP:port or connect string", class: "v2-label"
+          = f.text_field :ip_port, class: "v2-input font-mono", placeholder: "bolus.fakkelbrigade.eu:27015", value: params[:ip_port]
+        = f.submit "Get SDR IP:Port", class: "v2-btn v2-btn-primary mt-3"
+
+      = turbo_frame_tag "sdr_result" do
+        - if params[:ip_port].present?
+          %div{class: "mt-4"}
+            - if !params[:ip_port].match?(/:[0-9]+/)
+              %div{class: "v2-card border border-gold/30"} Invalid format. Please enter server address in format: domain:port or ip:port
+            - elsif @server.nil? && @result.nil?
+              %div{class: "v2-card border border-gold/30"} Server not found
+            - elsif @result.blank?
+              %div{class: "v2-card border border-gold/30"} No SDR IP available for this server
+            - else
+              %h4{class: "text-muted mb-2"} SDR IP:Port:
+              %span{class: "font-mono text-accent-light"}= @result
+              = render 'shared/copy_button', :copy_button_id => "sdr_result", :copy_text => @result

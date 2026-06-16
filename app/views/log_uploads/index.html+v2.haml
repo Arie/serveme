@@ -1,0 +1,15 @@
+- content_for(:title) { "logs" }
+
+%h1{class: "v2-page-title my-6"} Logs available for upload to logs.tf
+
+- if @logs.any?
+  = render 'log_list'
+- else
+  %p{class: "text-muted"} None :(
+
+%h2{class: "v2-page-title text-xl mt-8 mb-3"} Uploads
+
+- if @log_uploads.exists?
+  = render 'log_uploads_list'
+- else
+  %p{class: "text-muted"} None yet!

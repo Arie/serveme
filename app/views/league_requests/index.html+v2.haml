@@ -1,0 +1,89 @@
+%div{class: "flex items-center justify-between gap-4 my-6 flex-wrap"}
+  %h1{class: "v2-page-title"}= "#{@results.size} search results"
+  = link_to "New search", league_request_path, class: "v2-btn v2-btn-primary"
+
+= turbo_frame_tag "stac_detections", src: league_request_stac_detections_path(steam_uids: @stac_steam_uids), loading: :lazy do
+  %p{class: "text-muted"} Loading STAC detections...
+
+%div{class: "v2-table-wrap"}
+  %table{class: "v2-table"}
+    %thead
+      %tr
+        %th Reservation ID
+        %th Start time
+        %th End time
+        %th IP
+        %th Name
+        %th Steam ID
+        %th ETF2L
+        %th RGL.gg
+        %th OZF
+        %th logs.tf
+    %tbody
+      - @results.each do |result|
+        %tr
+          %td{class: "font-mono"}= link_to(result.reservation_id, show_reservation_statistic_path(reservation_id: result.reservation_id))
+          %td{class: "font-mono"}= I18n.l(result.reservation_starts_at, format: :long)
+          %td{class: "font-mono"}= I18n.l(result.reservation_ends_at, format: :time_without_seconds)
+          %td{class: "font-mono"}
+            - if result.ip.present?
+              - asn = result.asn_number.present? ? result : @asns[result.ip]
+              - if asn
+                - asn_number = asn.respond_to?(:autonomous_system_number) ? asn.autonomous_system_number : asn.asn_number
+                - asn_org = asn.respond_to?(:autonomous_system_organization) ? asn.autonomous_system_organization : asn.asn_organization
+                - asn_net = asn.respond_to?(:network) ? asn.network : asn.asn_network
+                - tooltip_html = "<strong>ASN</strong> #{asn_number}<br><strong>ORG</strong> #{asn_org}<br><strong>NET</strong> #{asn_net}"
+                = link_to(result.ip, league_request_path(ip: result.ip), class: "asn-tooltip", data: {toggle: "tooltip", html: true, placement: "top"}, title: tooltip_html)
+                - if ban_reason = @banned_ips[result.ip]
+                  - unless @ip_lookups[result.ip]&.is_banned
+                    %span.badge.badge-danger{title: ban_reason}
+                      %i.fa 💀
+                - if @banned_asns[asn_number]
+                  %span.badge.badge-warning{title: "Possible VPN"}
+                    %i.fa.fa-flag
+                - if ip_lookup = @ip_lookups[result.ip]
+                  - search_params = { ip: result.ip, search_ip: @league_request_params[:ip], search_steam_uid: @league_request_params[:steam_uid], search_reservation_ids: @league_request_params[:reservation_ids], search_cross_reference: @league_request_params[:cross_reference], search_include_vpn_results: @league_request_params[:include_vpn_results] }
+                  - if ip_lookup.is_banned
+                    - ban_title = "Banned IP (#{ip_lookup.ban_reason}) — click to unban"
+                    = button_to ban_ip_league_request_path, method: :patch, class: "btn btn-sm p-0 border-0 btn-inline-action", form_class: "d-inline", title: ban_title, params: search_params do
+                      %span.badge.badge-danger
+                        %i.fa.fa-gavel
+                  - elsif ip_lookup.is_residential_proxy || ip_lookup.is_proxy
+                    - if ip_lookup.false_positive
+                      - proxy_title = "Dismissed proxy (fraud score: #{ip_lookup.fraud_score}) — click to undismiss"
+                      = button_to dismiss_proxy_league_request_path, method: :patch, class: "btn btn-sm p-0 border-0 btn-inline-action", form_class: "d-inline", title: proxy_title, params: search_params do
+                        %span.badge.badge-success
+                          %i.fa.fa-user-secret
+                    - else
+                      - proxy_label = ip_lookup.is_residential_proxy ? "Residential proxy" : "Proxy"
+                      - proxy_badge = ip_lookup.is_residential_proxy ? "badge-danger" : "badge-warning"
+                      - proxy_title = "#{proxy_label} (fraud score: #{ip_lookup.fraud_score}) — click to dismiss"
+                      = button_to dismiss_proxy_league_request_path, method: :patch, class: "btn btn-sm p-0 border-0 btn-inline-action", form_class: "d-inline", title: proxy_title, params: search_params do
+                        %span.badge{class: proxy_badge}
+                          %i.fa.fa-user-secret
+                      - ban_title = "Ban this IP — click to ban"
+                      = button_to ban_ip_league_request_path, method: :patch, class: "btn btn-sm p-0 border-0 btn-inline-action", form_class: "d-inline ml-1", title: ban_title, params: search_params do
+                        %span.badge.badge-dark.border
+                          %i.fa.fa-gavel
+              - else
+                = link_to(result.ip, league_request_path(ip: result.ip))
+          %td
+            %span.player-name= result.name
+          %td{class: "font-mono"}
+            = link_to(result.steam_uid, league_request_path(steam_uid: result.steam_uid))
+            - if ban_reason = @banned_uids[result.steam_uid]
+              %span.badge.badge-danger{title: ban_reason}
+                %i.fa 💀
+          %td= link_to("ETF2L", "http://etf2l.org/search/#{result.steam_uid}/")
+          %td= link_to("RGL", "http://rgl.gg/Public/PlayerProfile.aspx?p=#{result.steam_uid}")
+          %td= link_to("OZF", "https://ozfortress.com/users/steam_id/#{result.steam_uid}")
+          %td= link_to("logs.tf", "http://logs.tf/profile/#{result.steam_uid}")
+
+%div{class: "mt-4"}
+  = link_to league_request_path, class: "v2-btn v2-btn-primary" do
+    New search
+
+:javascript
+  document.addEventListener('turbo:load', function() {
+    $('[data-toggle="tooltip"]').tooltip({html: true});
+  });

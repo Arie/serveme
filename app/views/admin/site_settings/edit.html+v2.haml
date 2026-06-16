@@ -1,0 +1,67 @@
+- content_for(:title) { "Site Settings" }
+
+%div{class: "flex items-center justify-between gap-4 my-6 flex-wrap"}
+  %div
+    %h1{class: "v2-page-title"} Site Settings
+    %div{class: "v2-breadcrumb"} Admin / Site Settings
+
+%div{class: "grid lg:grid-cols-3 gap-4"}
+  %div{class: "lg:col-span-2"}
+    %div{class: "v2-card"}
+      = form_tag admin_site_settings_path, method: :patch do
+        %h5{class: "font-display text-ink mb-2"} Server Limits
+        %div{class: "mb-4"}
+          %label{class: "v2-label", for: "free_server_limit"} Free server limit
+          = number_field_tag :free_server_limit, @free_server_limit, class: "v2-input font-mono", placeholder: "No limit", min: 0
+          %small{class: "v2-help"} Maximum concurrent reservations for non-premium users. Leave empty for no limit.
+
+        %hr{class: "border-white/10 my-4"}
+
+        %h5{class: "font-display text-ink mb-2"} Feature Flags
+        %div{class: "mb-3"}
+          .form-check
+            = check_box_tag :always_enable_plugins, "true", SiteSetting.always_enable_plugins?, class: "form-check-input", id: "always_enable_plugins"
+            %label.form-check-label{for: "always_enable_plugins"} Always enable plugins
+            %br
+            %small{class: "v2-help"} Automatically enable SourceMod plugins for all reservations, even if the user didn't check the box.
+
+        %div{class: "mb-3"}
+          .form-check
+            = check_box_tag :always_enable_demos_tf, "true", SiteSetting.always_enable_demos_tf?, class: "form-check-input", id: "always_enable_demos_tf"
+            %label.form-check-label{for: "always_enable_demos_tf"} Always enable demos.tf
+            %br
+            %small{class: "v2-help"} Automatically upload STVs to demos.tf for all reservations.
+
+        %div{class: "mb-3"}
+          .form-check
+            = check_box_tag :show_democheck, "true", SiteSetting.show_democheck?, class: "form-check-input", id: "show_democheck"
+            %label.form-check-label{for: "show_democheck"} Show democheck option
+            %br
+            %small{class: "v2-help"} Show the RGL democheck toggle on the reservation form.
+
+        %div{class: "mt-4"}
+          = submit_tag "Save settings", class: "v2-btn v2-btn-primary"
+
+  %div
+    %div{class: "v2-card"}
+      %h6{class: "font-display text-ink mb-3"} Current Status
+      %div{class: "v2-table-wrap"}
+        %table{class: "v2-table"}
+          %tbody
+            %tr
+              %td Free server limit
+              %td{class: "font-mono"}
+                - if SiteSetting.free_server_limit
+                  = SiteSetting.free_server_limit
+                - else
+                  %span{class: "text-muted"} No limit
+            %tr
+              %td Free reservations active
+              %td{class: "font-mono"}= SiteSetting.free_user_reservation_count(Time.current, Time.current)
+            %tr
+              %td Free servers available
+              %td{class: "font-mono"}
+                - if SiteSetting.free_server_limit
+                  = SiteSetting.free_servers_available
+                - else
+                  %span{class: "text-muted"} N/A

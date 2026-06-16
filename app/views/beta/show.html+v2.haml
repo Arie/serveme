@@ -1,0 +1,10 @@
+- content_for :title, "Try the redesign"
+%div{class: "max-w-2xl mx-auto my-10 v2-card text-center"}
+  %h1{class: "v2-page-title mb-3"} Try the new serveme.tf
+  %p{class: "text-muted mb-5"}
+    We're testing a refreshed look. It's opt-in and only changes your view —
+    everyone else keeps the current site. You can switch back any time.
+  - if beta_ui?
+    = button_to "Switch back to the classic look", beta_disable_path, method: :delete, class: "v2-btn v2-btn-ghost"
+  - else
+    = button_to "Try the new look", beta_enable_path, method: :post, class: "v2-btn v2-btn-primary"

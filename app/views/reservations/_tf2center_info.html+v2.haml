@@ -1,0 +1,10 @@
+%div{id: "reservation_tf2center_info_#{reservation.id}", class: "flex flex-col gap-2"}
+  %div{class: "flex flex-wrap items-center gap-2"}
+    %span{class: "text-muted"} Server Address:
+    - ip_and_port = "#{reservation.server&.hostname_to_ip}:#{reservation.public_port}"
+    %span{class: "v2-connect"}= ip_and_port
+    = render 'shared/copy_button', :copy_button_id => "server_address", :copy_text => ip_and_port
+  %div{class: "flex flex-wrap items-center gap-2"}
+    %span{class: "text-muted"} Rcon Password:
+    %span{class: "v2-connect"}= reservation.rcon
+    = render 'shared/copy_button', :copy_button_id => "rcon_password", :copy_text => reservation.rcon

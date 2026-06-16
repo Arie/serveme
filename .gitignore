@@ -45,3 +45,8 @@ discord_bot/config.yml
 
 # Playwright MCP server's working dir (debug logs / screenshots)
 .playwright-mcp/
+
+/public/builds/v2.css
+
+# Local reservation server logs (synced from production for dev)
+/server_logs/

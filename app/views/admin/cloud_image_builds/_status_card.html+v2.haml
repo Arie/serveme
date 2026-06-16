@@ -1,0 +1,31 @@
+%div{class: "v2-card mb-3"}
+  %h5{class: "font-display text-ink mb-3"}
+    %i.fa.fa-database
+    Image status
+  %div{class: "v2-table-wrap mb-3"}
+    %table{class: "v2-table"}
+      %tbody
+        %tr
+          %td{class: "text-muted"} Local digest
+          %td
+            - if local_digest.present?
+              %code{class: "font-mono"}= local_digest.sub(/\Asha256:/, "").first(12)
+            - else
+              %span{class: "text-muted"} unknown
+        %tr
+          %td{class: "text-muted"} Registry digest
+          %td
+            - if registry_digest.present?
+              %code{class: "font-mono"}= registry_digest.sub(/\Asha256:/, "").first(12)
+            - else
+              %span{class: "text-muted"} unavailable
+        %tr
+          %td{class: "text-muted"} Sync
+          %td
+            - if local_digest.present? && registry_digest.present? && local_digest == registry_digest
+              %span{class: "v2-badge v2-badge-success"} In sync
+            - else
+              %span{class: "v2-badge v2-badge-gold"} Out of sync
+  = button_to pull_now_admin_cloud_image_builds_path, class: "v2-btn v2-btn-outline v2-btn-sm" do
+    %i.fa.fa-download
+    Pull on all hosts now

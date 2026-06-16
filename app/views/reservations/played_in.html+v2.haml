@@ -1,0 +1,8 @@
+%div{class: "flex items-center justify-between gap-4 my-6 flex-wrap"}
+  %div
+    %h1{class: "v2-page-title"} Reservations you played in
+
+= render "users_games"
+
+%div{class: "text-center my-4"}
+  != @pagy.series_nav(:bootstrap)

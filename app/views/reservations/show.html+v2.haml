@@ -159,5 +159,6 @@
     %div{class: "v2-card"}
       %h3{class: "font-display text-lg font-bold text-ink mb-3"} Status log
       %div{class: "v2-table-wrap"}
-        %table#reservation_statuses{class: "v2-table"}
-          = render reservation.reservation_statuses.ordered
+        %table{class: "v2-table"}
+          %tbody#reservation_statuses
+            = render reservation.reservation_statuses.ordered

@@ -23,15 +23,24 @@ module BetaUi
   end
 
   class_methods do
-    # For controllers whose actions all render the same template (e.g. the many
-    # show_for_* actions that `render :index`), declare that template so beta
-    # variant detection matches it instead of the (template-less) action name.
-    def beta_renders_as(action)
-      @beta_render_target = action.to_s
+    # Declare the template an action actually renders, so beta variant detection
+    # matches it instead of the (template-less) action name. Pass a symbol when
+    # every action renders the same template (e.g. show_for_* actions that
+    # `render :index`), or a Hash for per-action mapping (e.g. `fetch: :preview`).
+    def beta_renders_as(mapping)
+      if mapping.is_a?(Hash)
+        @beta_render_map = beta_render_map.merge(mapping.transform_keys(&:to_s).transform_values(&:to_s))
+      else
+        @beta_render_target = mapping.to_s
+      end
     end
 
     def beta_render_target
       @beta_render_target
+    end
+
+    def beta_render_map
+      @beta_render_map ||= {}
     end
   end
 
@@ -79,7 +88,7 @@ module BetaUi
 
     return true if BetaUi.v2_redesigned?(controller_path, action_name)
 
-    fallback = CONVENTIONAL_TEMPLATES[action_name]
+    fallback = self.class.beta_render_map[action_name] || CONVENTIONAL_TEMPLATES[action_name]
     fallback.present? && BetaUi.v2_redesigned?(controller_path, fallback)
   end
 

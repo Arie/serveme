@@ -444,7 +444,11 @@ class ReservationsController < ApplicationController
 
   def enqueue_zip_download_and_render_progress
     Rails.logger.info("Prepare zip for Reservation #{@reservation.id}: File not local, zip attached. Enqueuing worker and rendering progress.")
-    DownloadZipWorker.perform_async(@reservation.id)
+    # Give the client's Turbo Stream subscription (appended below) a moment to
+    # connect before the worker starts broadcasting, otherwise a fast zip can
+    # finish — or emit all its progress — before the page is listening, leaving
+    # the bar stuck at "Preparing... 0%".
+    DownloadZipWorker.perform_in(1.second, @reservation.id)
 
     render turbo_stream: [
       turbo_stream.replace(

@@ -5,6 +5,9 @@ module Admin
   class LeagueMapsController < ApplicationController
     before_action :require_config_admin_or_above
 
+    # #fetch renders the :preview template.
+    beta_renders_as fetch: :preview
+
     def index
       @sync_service = LeagueMapsSyncService.new
       @last_sync_time = @sync_service.last_sync_time

@@ -9,8 +9,8 @@
 @theme {
   --color-accent: #f2742c;
   --color-accent-light: #f2a36c;
-  --color-cta-from: #f98c43;
-  --color-cta-to: #ee5f29;
+  --color-cta-from: #ef7e3a;
+  --color-cta-to: #df5524;
   --color-page: #0b0c0e;
   --color-hero: #0e1014;
   --color-panel: #101216;
@@ -51,19 +51,12 @@
   font-display: swap;
   src: url("/fonts/v2/jetbrains-mono.woff2") format("woff2");
 }
+/* Donation progress fill. A clean brand gradient — no stripe sprite and no
+   animation, so it stays cheap to render when serveme is left open in a
+   background tab. */
 @utility v2-stripes {
   background-color: var(--color-accent);
-  background-image: repeating-linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.18) 0 12px,
-    rgba(255, 255, 255, 0) 12px 24px
-  );
-  background-size: 48px 48px;
-  animation: v2-stripe-move 1.1s linear infinite;
-}
-@keyframes v2-stripe-move {
-  from { background-position: 0 0; }
-  to   { background-position: 48px 0; }
+  background-image: linear-gradient(135deg, var(--color-cta-from), var(--color-cta-to));
 }
 
 /* Small action button used in the reservation tables (color set per-link). */
@@ -193,7 +186,7 @@
   .v2-btn-primary {
     background-image: linear-gradient(135deg, var(--color-cta-from), var(--color-cta-to));
     color: #fff;
-    box-shadow: 0 8px 26px rgba(238, 95, 41, 0.34);
+    box-shadow: 0 6px 18px rgba(223, 85, 36, 0.18);
   }
   .v2-btn-primary:hover { filter: brightness(1.06); color: #fff; }
   .v2-btn-outline {
@@ -427,7 +420,7 @@
 .btn:hover{filter:brightness(1.08)}
 .btn-sm{padding:0.3rem 0.7rem;font-size:0.78rem}.btn-lg{padding:0.7rem 1.4rem;font-size:1rem}
 .btn-block{display:flex;width:100%}
-.btn-primary,.btn-warning{background-image:linear-gradient(135deg,var(--color-cta-from),var(--color-cta-to));border-color:transparent;color:#fff;box-shadow:0 8px 26px rgba(238,95,41,0.28)}
+.btn-primary,.btn-warning{background-image:linear-gradient(135deg,var(--color-cta-from),var(--color-cta-to));border-color:transparent;color:#fff;box-shadow:0 6px 18px rgba(223,85,36,0.18)}
 .btn-primary:hover,.btn-warning:hover{color:#fff}
 .btn-success{background-color:rgba(62,207,142,0.16);border-color:rgba(62,207,142,0.4);color:var(--color-success-text)}
 .btn-info{background-color:rgba(74,163,223,0.14);border-color:rgba(74,163,223,0.4);color:var(--color-info)}
@@ -479,7 +472,7 @@ input[type="checkbox"],input[type="radio"]{width:auto;accent-color:var(--color-a
 
 /* Progress bars (e.g. zip download, broadcast from a worker so always classic markup) */
 .progress{background-color:var(--color-inset);border:1px solid rgba(255,255,255,0.08);border-radius:999px;overflow:hidden}
-.progress .progress-bar{background-color:#ee5f29;background-image:linear-gradient(135deg,#f98c43,#ee5f29);transition:width 0.3s ease}
+.progress .progress-bar{background-color:var(--color-cta-to);background-image:linear-gradient(135deg,var(--color-cta-from),var(--color-cta-to));transition:width 0.3s ease}
 .progress .progress-bar .text-white,.progress .text-white{color:#fff}
 
 /* Cards */

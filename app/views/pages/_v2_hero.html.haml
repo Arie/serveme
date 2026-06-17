@@ -6,7 +6,7 @@
         %span{class: "text-accent"} 60 seconds.
       %p{class: "text-muted max-w-prose"} The easiest way to get a TF2 server.
       %div{class: "flex flex-wrap gap-3"}
-        = link_to new_reservation_path, class: "rounded-btn px-5 py-3 font-semibold text-white", style: "background: linear-gradient(135deg,#f98c43,#ee5f29); box-shadow:0 8px 26px rgba(238,95,41,.34)" do
+        = link_to new_reservation_path, class: "rounded-btn px-5 py-3 font-semibold text-white", style: "background: linear-gradient(135deg,var(--color-cta-from),var(--color-cta-to)); box-shadow:0 6px 18px rgba(223,85,36,.18)" do
           Get server
         = link_to i_am_feeling_lucky_reservations_path, data: { turbo_method: :post }, class: "rounded-btn px-5 py-3 font-semibold text-accent-light border border-accent/60 hover:border-accent" do
           1-click server

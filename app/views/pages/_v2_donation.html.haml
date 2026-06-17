@@ -6,7 +6,7 @@
     %div
       %strong{class: "text-ink"} Monthly server bills (#{unit}#{Order.monthly_goal.round})
       %p{class: "text-sm text-faint"} Split between providers by playtime · 2 keys/month
-    = link_to "Donate now", donate_path, class: "rounded-btn px-4 py-2 font-semibold text-white", style: "background: linear-gradient(135deg,#f98c43,#ee5f29)"
+    = link_to "Donate now", donate_path, class: "rounded-btn px-4 py-2 font-semibold text-white", style: "background: linear-gradient(135deg,var(--color-cta-from),var(--color-cta-to))"
   %div{class: "relative h-5 rounded-full bg-inset overflow-hidden"}
     %div{class: "h-full rounded-full transition-all v2-stripes", style: "width: #{width}%"}
     %span{class: "absolute inset-0 flex items-center justify-center text-xs font-mono text-white"}

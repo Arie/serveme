@@ -66,8 +66,8 @@
 .datepicker table tr td.active:hover,
 .datepicker table tr td.today,
 .datepicker table tr td.today:hover {
-  background-image: linear-gradient(135deg, #f98c43, #ee5f29);
-  background-color: #ee5f29;
+  background-image: linear-gradient(135deg, var(--color-cta-from), var(--color-cta-to));
+  background-color: var(--color-cta-to);
   color: #fff;
   border: 0;
 }
@@ -342,7 +342,7 @@
     font-size: 16px;
     font-weight: 600;
     color: #fff;
-    background-image: linear-gradient(135deg, #f98c43, #ee5f29);
+    background-image: linear-gradient(135deg, var(--color-cta-from), var(--color-cta-to));
     border: none;
     border-radius: 8px;
     cursor: pointer;

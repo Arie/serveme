@@ -16,8 +16,9 @@ describe BetaBroadcast do
   end
 
   describe ".with_variant" do
-    it "adds the v2 variant when rendering a partial" do
-      expect(described_class.with_variant(partial: "x", locals: {})).to eq(partial: "x", locals: {}, variants: [ :v2 ])
+    it "pre-renders the partial as v2 html (so the variant reaches nested partials)" do
+      allow(described_class).to receive(:render_v2).with(partial: "x", locals: {}).and_return("<v2/>")
+      expect(described_class.with_variant(partial: "x", locals: {})).to eq(html: "<v2/>")
     end
 
     it "leaves a pre-rendered html payload untouched" do
@@ -30,13 +31,23 @@ describe BetaBroadcast do
   end
 
   describe ".replace" do
-    it "broadcasts the classic partial to the base stream and the v2 variant to the parallel stream" do
+    it "broadcasts the classic partial to the base stream and the pre-rendered v2 html to the parallel stream" do
+      allow(described_class).to receive(:render_v2).with(partial: "servers/list", locals: {}).and_return("<v2/>")
       expect(Turbo::StreamsChannel).to receive(:broadcast_replace_to)
         .with("server-list", target: "server-list", partial: "servers/list", locals: {})
       expect(Turbo::StreamsChannel).to receive(:broadcast_replace_to)
-        .with("server-list", :v2, target: "server-list", partial: "servers/list", locals: {}, variants: [ :v2 ])
+        .with("server-list", :v2, target: "server-list", html: "<v2/>")
 
       described_class.replace("server-list", target: "server-list", partial: "servers/list", locals: {})
+    end
+  end
+
+  describe ".render_v2" do
+    it "renders nested partials in their v2 variant (not the classic fallback)" do
+      reservation = create(:reservation)
+      html = described_class.render_v2(partial: "reservations/connect_info", locals: { reservation: reservation })
+      expect(html).to include("v2-btn")       # the nested shared/copy_button v2 variant
+      expect(html).not_to include("clip_button") # the classic copy_button markup
     end
   end
 

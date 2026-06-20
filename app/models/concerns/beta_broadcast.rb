@@ -43,16 +43,29 @@ module BetaBroadcast
     Turbo::StreamsChannel.broadcast_prepend_to(*stream(streamables), **with_variant(rendering))
   end
 
-  # Render the v2 variant of a partial (for sites that pre-render `html:`).
+  # Render the v2 variant of a partial.
+  #
+  # NB: we can't just pass `variants: [:v2]` to ApplicationController.render —
+  # that option only applies the variant to the top-level template lookup and
+  # is NOT stored on the lookup context, so any nested `render` inside the
+  # partial (e.g. a list partial rendering a row partial) silently falls back
+  # to the classic template. Setting `request.variant` instead — the same thing
+  # a real beta request does — makes the :v2 variant propagate through every
+  # nested partial.
   def render_v2(partial:, locals:)
-    ApplicationController.render(partial: partial, locals: locals, variants: [ VARIANT ])
+    controller = ApplicationController.new
+    controller.request = ActionDispatch::TestRequest.create
+    controller.request.variant = VARIANT
+    controller.response = ActionDispatch::Response.new
+    controller.render_to_string(partial: partial, locals: locals)
   end
 
-  # Only partial rendering can take a variant; pre-rendered `html:`/`content:`
-  # payloads are passed through unchanged (caller renders the v2 html itself).
+  # Pre-render the v2 html ourselves (with the variant propagating to nested
+  # partials, see render_v2) and broadcast it via `html:`. Pre-rendered
+  # `html:`/`content:` payloads (no `:partial`) are passed through unchanged.
   def with_variant(rendering)
     return rendering unless rendering.key?(:partial)
 
-    rendering.merge(variants: [ VARIANT ])
+    rendering.except(:partial, :locals).merge(html: render_v2(partial: rendering[:partial], locals: rendering[:locals] || {}))
   end
 end

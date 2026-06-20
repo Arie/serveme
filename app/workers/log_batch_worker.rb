@@ -113,25 +113,30 @@ class LogBatchWorker
       reservation_players_by_uid = reservation.reservation_players.index_by(&:steam_uid)
       connection_info = ScoreboardConnectionInfo.for_reservation(reservation)
 
-      render_scoreboard = ->(variants) do
+      # NB: render the v2 stream via BetaBroadcast.render_v2 (which sets
+      # request.variant) rather than passing `variants:` to
+      # ApplicationController.render — the latter doesn't propagate the variant
+      # to nested partials. See BetaBroadcast#render_v2.
+      render_scoreboard = ->(v2) do
         all_match_stats.map do |match_stats|
-          ApplicationController.render(
-            partial: "reservations/match_scoreboard",
-            locals: { live_stats: match_stats, reservation_players_by_uid: reservation_players_by_uid, connection_info: connection_info },
-            variants: variants
-          )
+          locals = { live_stats: match_stats, reservation_players_by_uid: reservation_players_by_uid, connection_info: connection_info }
+          if v2
+            BetaBroadcast.render_v2(partial: "reservations/match_scoreboard", locals: locals)
+          else
+            ApplicationController.render(partial: "reservations/match_scoreboard", locals: locals)
+          end
         end.join
       end
 
       Turbo::StreamsChannel.broadcast_update_to(
         reservation,
         target: "match-scoreboard-#{reservation_id}",
-        html: render_scoreboard.call([])
+        html: render_scoreboard.call(false)
       )
       Turbo::StreamsChannel.broadcast_update_to(
         *BetaBroadcast.stream(reservation),
         target: "match-scoreboard-#{reservation_id}",
-        html: render_scoreboard.call([ BetaBroadcast::VARIANT ])
+        html: render_scoreboard.call(true)
       )
     rescue StandardError => e
       Rails.logger.error("[LiveMatchStats] Error broadcasting scoreboard for #{logsecret}: #{e.message}")

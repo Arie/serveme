@@ -19,6 +19,16 @@ describe IAmFeelingLucky do
       reservation.tv_password.should be_present
       reservation.auto_end.should be true
     end
+
+    it 'generates string credentials for the docker host params (typed boundary)' do
+      create(:docker_host)
+
+      params = subject.docker_host_reservation_params
+
+      expect(params[:rcon]).to be_a(String)
+      expect(params[:password]).to be_a(String)
+      expect(params[:tv_password]).to be_a(String)
+    end
   end
 
   context 'with a previous reservation' do

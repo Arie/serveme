@@ -34,9 +34,9 @@ class IAmFeelingLucky
   sig { returns(T::Hash[String, T.untyped]) }
   def new_reservation_attributes
     {
-      "rcon" => rand(10**5),
-      "password" => rand(10**5),
-      "tv_password" => rand(10**5),
+      "rcon" => rand(10**5).to_s,
+      "password" => rand(10**5).to_s,
+      "tv_password" => rand(10**5).to_s,
       "auto_end" => true,
       "server" => first_available_server
     }

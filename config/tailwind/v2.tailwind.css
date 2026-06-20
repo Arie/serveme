@@ -469,6 +469,17 @@ input[type="checkbox"],input[type="radio"]{width:auto;accent-color:var(--color-a
 .badge.bg-danger,.bg-danger{background-color:rgba(229,72,52,0.15);color:#ff9a8a}
 .badge.bg-info,.bg-info{background-color:rgba(74,163,223,0.15);color:var(--color-info)}
 .badge.bg-warning,.bg-warning{background-color:rgba(242,193,78,0.15);color:var(--color-gold)}
+/* Bootstrap-4 colour modifiers (badge-*) used on some admin pages */
+.badge-success{background-color:rgba(62,207,142,0.15);color:var(--color-success-text)}
+.badge-danger{background-color:rgba(229,72,52,0.15);color:#ff9a8a}
+.badge-info{background-color:rgba(74,163,223,0.15);color:var(--color-info)}
+.badge-warning{background-color:rgba(242,193,78,0.15);color:var(--color-gold)}
+.badge-dark{background-color:rgba(255,255,255,0.06);color:var(--color-ink)}
+.badge-secondary,.badge-light{background-color:rgba(255,255,255,0.06);color:var(--color-muted)}
+/* Bare icon-button wrapping a badge (league request actions): strip the .btn box
+   so the badge reads like a standalone pill, matching the adjacent flag badge. */
+.btn-inline-action{background:none;border:0;padding:0;box-shadow:none;line-height:1}
+.btn-inline-action:hover{filter:brightness(1.12)}
 
 /* Progress bars (e.g. zip download, broadcast from a worker so always classic markup) */
 .progress{background-color:var(--color-inset);border:1px solid rgba(255,255,255,0.08);border-radius:999px;overflow:hidden}

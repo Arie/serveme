@@ -36,7 +36,7 @@
             %td{colspan: 3}
               %span{class: "text-faint"} 0
           %td
-            %div{class: "flex flex-wrap items-center gap-2"}
+            %div{class: "flex items-center gap-2 whitespace-nowrap"}
               = link_to("https://fastdl.serveme.tf/#{bucket_object[:key]}", class: "v2-btn v2-btn-primary v2-btn-sm", title: "#{bucket_object[:size]} bytes") do
                 = bucket_object[:size_formatted]
                 %i.fa.fa-download

@@ -589,21 +589,31 @@ end
 #
 # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/modal.rb:4
 class Discordrb::Webhooks::Modal
-  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/modal.rb:60
+  # @!visibility private
+  #
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/modal.rb:252
   def initialize; end
 
-  # Add a new ActionRow to the view
-  # @yieldparam [RowBuilder]
+  # Add a label component to the view.
+  # @see LabelBuilder#initialize
   #
-  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/modal.rb:68
-  def row; end
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/modal.rb:265
+  def label(*_arg0, **_arg1, &_arg2); end
 
-  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/modal.rb:58
-  def rows; end
+  # @deprecated Please use {#label} instead.
+  #
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/modal.rb:276
+  def row(*_arg0, **_arg1, &_arg2); end
+
+  # Add a text display component to the view.
+  # @see Webhooks::View::TextDisplayBuilder#initialize
+  #
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/modal.rb:271
+  def text_display(*_arg0, **_arg1, &_arg2); end
 
   # @!visibility private
   #
-  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/modal.rb:77
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/modal.rb:259
   def to_a; end
 end
 
@@ -612,41 +622,194 @@ end
 # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/modal.rb:6
 Discordrb::Webhooks::Modal::COMPONENT_TYPES = T.let(T.unsafe(nil), Hash)
 
-# This builder is used when constructing an ActionRow. All current components must be within an action row, but this can
-# change in the future. A message can have 5 action rows, each action row can hold a weight of 5. Buttons have a weight of 1,
-# and dropdowns have a weight of 5.
+# Builder for radio and checkbox groups.
 #
-# pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/modal.rb:14
-class Discordrb::Webhooks::Modal::RowBuilder
+# pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/modal.rb:23
+class Discordrb::Webhooks::Modal::GroupBuilder
   # @!visibility private
   #
-  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/modal.rb:22
-  def initialize; end
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/modal.rb:25
+  def initialize(type, custom_id, id, options = T.unsafe(nil), required = T.unsafe(nil), min_values = T.unsafe(nil), max_values = T.unsafe(nil)); end
 
-  # Add a text input to this action row.
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/modal.rb:57
+  def button(value:, label:, description: T.unsafe(nil), default: T.unsafe(nil)); end
+
+  # Add a checkbox component to the group.
+  # @param value [String] The value that the checkbox represents.
+  # @param label [String] The primary text of the checkbox.
+  # @param description [String, nil] The description of the checkbox.
+  # @param default [true, false, nil] Whether or not the checkbox should be checked by default.
+  #
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/modal.rb:40
+  def checkbox(value:, label:, description: T.unsafe(nil), default: T.unsafe(nil)); end
+
+  # Add a radio button component to the group.
+  # @param value [String] The value that the radio button represents.
+  # @param label [String] The primary text of the radio button.
+  # @param description [String, nil] The description of the radio button.
+  # @param default [true, false, nil] Whether or not the radio button should be selected by default.
+  #
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/modal.rb:51
+  def radio_button(value:, label:, description: T.unsafe(nil), default: T.unsafe(nil)); end
+
+  # @!visibility private
+  #
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/modal.rb:60
+  def to_h; end
+end
+
+# This builder is used when adding a label component to a modal.
+#
+# pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/modal.rb:74
+class Discordrb::Webhooks::Modal::LabelBuilder
+  # Create a label component.
+  # @param label [String, nil] The label of the label component. This
+  #   field should always be passed, and will be required in 4.0.
+  # @param id [Integer, nil] The unique 32-bit ID of the label component.
+  # @param description [String, nil] The description of the label component.
+  # @yieldparam builder [LabelBuilder] Yields the initialized label component.
+  #
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/modal.rb:87
+  def initialize(label: T.unsafe(nil), id: T.unsafe(nil), description: T.unsafe(nil)); end
+
+  # Add a select channel to the label component.
+  # @param custom_id [String] Custom IDs are used to pass state to the events that are raised from interactions.
+  #   There is a limit of 100 characters to each custom_id.
+  # @param id [Integer, nil] The unique 32-bit ID of the channel select. This is not to be confused with the `custom_id`.
+  # @param placeholder [String, nil] Default text to show when no entries are selected.
+  # @param min_values [Integer, nil] The minimum amount of values a user must select.
+  # @param max_values [Integer, nil] The maximum amount of values a user can select.
+  # @param required [true, false, nil] Whether a value must be selected for the component.
+  # @param types [Array<Symbol, Integer>, nil] The channel types to include in the select menu.
+  #
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/modal.rb:187
+  def channel_select(custom_id:, id: T.unsafe(nil), placeholder: T.unsafe(nil), min_values: T.unsafe(nil), max_values: T.unsafe(nil), required: T.unsafe(nil), types: T.unsafe(nil)); end
+
+  # Add a standalone checkbox component to the label component.
+  # @param custom_id [String] Custom IDs are used to pass state to the events that are raised from interactions.
+  #   There is a limit of 100 characters to each custom_id.
+  # @param id [Integer, nil] The unique 32-bit ID of the checkbox component. This is not to be confused with the `custom_id`.
+  # @param default [true, false, nil] Whether or not the checkbox is checked by default.
+  #
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/modal.rb:211
+  def checkbox(custom_id:, id: T.unsafe(nil), default: T.unsafe(nil)); end
+
+  # Add a group of checkboxes to the label component.
+  # @param custom_id [String] Custom IDs are used to pass state to the events that are raised from interactions.
+  #   There is a limit of 100 characters to each custom_id.
+  # @param id [Integer, nil] The unique 32-bit ID of the checkbox group component. This is not to be confused with the `custom_id`.
+  # @param checkboxes [Array<Hash>] Checkboxes for the group. Can also be provided via the yielded builder.
+  # @param min_values [Integer, nil] The minimum number of checkboxes a user must check.
+  # @param max_values [Integer, nil] The maximum number of checkboxes a user is allowed to check.
+  # @param required [true, false, nil] Whether or not a checkbox must be checked.
+  #
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/modal.rb:237
+  def checkbox_group(custom_id:, id: T.unsafe(nil), checkboxes: T.unsafe(nil), min_values: T.unsafe(nil), max_values: T.unsafe(nil), required: T.unsafe(nil)); end
+
+  # Add a file upload component to the label component.
+  # @param custom_id [String] Custom IDs are used to pass state to the events that are raised from interactions.
+  #   There is a limit of 100 characters to each custom_id.
+  # @param id [Integer, nil] The unique 32-bit ID of the file upload component. This is not to be confused with the `custom_id`.
+  # @param min_values [Integer, nil] The minimum amount of files a user must upload.
+  # @param max_values [Integer, nil] The maximum amount of files a user has to upload.
+  # @param required [true, false, nil] Whether or not a file must be uploaded to the component.
+  #
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/modal.rb:202
+  def file_upload(custom_id:, id: T.unsafe(nil), min_values: T.unsafe(nil), max_values: T.unsafe(nil), required: T.unsafe(nil)); end
+
+  # Add a select mentionable to the label component.
+  # @param custom_id [String] Custom IDs are used to pass state to the events that are raised from interactions.
+  #   There is a limit of 100 characters to each custom_id.
+  # @param id [Integer, nil] The unique 32-bit ID of the mentionable select. This is not to be confused with the `custom_id`.
+  # @param placeholder [String, nil] Default text to show when no entries are selected.
+  # @param min_values [Integer, nil] The minimum amount of values a user must select.
+  # @param max_values [Integer, nil] The maximum amount of values a user can select.
+  # @param required [true, false, nil] Whether a value must be selected for the component.
+  #
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/modal.rb:174
+  def mentionable_select(custom_id:, id: T.unsafe(nil), placeholder: T.unsafe(nil), min_values: T.unsafe(nil), max_values: T.unsafe(nil), required: T.unsafe(nil)); end
+
+  # Add a group of radio buttons to the label component.
+  # @param custom_id [String] Custom IDs are used to pass state to the events that are raised from interactions.
+  #   There is a limit of 100 characters to each custom_id.
+  # @param id [Integer, nil] The unique 32-bit ID of the radio group component. This is not to be confused with the `custom_id`.
+  # @param buttons [Array<Hash>] Radio buttons for the group. Can also be provided via the yielded builder.
+  # @param required [true, false, nil] Whether or not a radio button in the group must be selected.
+  #
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/modal.rb:221
+  def radio_group(custom_id:, id: T.unsafe(nil), buttons: T.unsafe(nil), required: T.unsafe(nil)); end
+
+  # Add a select role to the label component.
+  # @param custom_id [String] Custom IDs are used to pass state to the events that are raised from interactions.
+  #   There is a limit of 100 characters to each custom_id.
+  # @param id [Integer, nil] The unique 32-bit ID of the role select. This is not to be confused with the `custom_id`.
+  # @param placeholder [String, nil] Default text to show when no entries are selected.
+  # @param min_values [Integer, nil] The minimum amount of values a user must select.
+  # @param max_values [Integer, nil] The maximum amount of values a user can select.
+  # @param required [true, false, nil] Whether a value must be selected for the component.
+  #
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/modal.rb:162
+  def role_select(custom_id:, id: T.unsafe(nil), placeholder: T.unsafe(nil), min_values: T.unsafe(nil), max_values: T.unsafe(nil), required: T.unsafe(nil)); end
+
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/modal.rb:140
+  def select_menu(custom_id:, id: T.unsafe(nil), options: T.unsafe(nil), placeholder: T.unsafe(nil), min_values: T.unsafe(nil), max_values: T.unsafe(nil), required: T.unsafe(nil)); end
+
+  # Add a string select menu to the label component.
+  # @param custom_id [String] Custom IDs are used to pass state to the events that are raised from interactions.
+  #   There is a limit of 100 characters to each custom_id.
+  # @param id [Integer, nil] The unique 32-bit ID of the string select. This is not to be confused with the `custom_id`.
+  # @param options [Array<Hash>] Options that can be selected in this menu. Can also be provided via the yielded builder.
+  # @param placeholder [String, nil] Default text to show when no entries are selected.
+  # @param min_values [Integer, nil] The minimum amount of values a user must select.
+  # @param max_values [Integer, nil] The maximum amount of values a user can select.
+  # @param required [true, false, nil] Whether a value must be selected for the component.
+  # @yieldparam builder [SelectMenuBuilder] The select menu builder is yielded to allow for the modification of attributes.
+  #
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/modal.rb:132
+  def string_select(custom_id:, id: T.unsafe(nil), options: T.unsafe(nil), placeholder: T.unsafe(nil), min_values: T.unsafe(nil), max_values: T.unsafe(nil), required: T.unsafe(nil)); end
+
+  # Add a text input to the label component.
   # @param style [Symbol, Integer] The text input's style type. See {TEXT_INPUT_STYLES}
   # @param custom_id [String] Custom IDs are used to pass state to the events that are raised from interactions.
   #  There is a limit of 100 characters to each custom_id.
-  # @param label [String, nil] The text label for the field.
+  # @param id [Integer] The integer ID for this component. This is not to be confused with custom_id.
   # @param min_length [Integer, nil] The minimum input length for a text input, min 0, max 4000.
   # @param max_length [Integer, nil] The maximum input length for a text input, min 1, max 4000.
   # @param required [true, false, nil] Whether this component is required to be filled, default true.
   # @param value [String, nil] A pre-filled value for this component, max 4000 characters.
   # @param placeholder [String, nil] Custom placeholder text if the input is empty, max 100 characters
+  # @param label [String, nil] This parameter is deprecated and will be removed soon. Please pass this argument to {LabelBuilder#initialize} instead.
   #
-  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/modal.rb:36
-  def text_input(style:, custom_id:, label: T.unsafe(nil), min_length: T.unsafe(nil), max_length: T.unsafe(nil), required: T.unsafe(nil), value: T.unsafe(nil), placeholder: T.unsafe(nil)); end
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/modal.rb:106
+  def text_input(style:, custom_id:, id: T.unsafe(nil), min_length: T.unsafe(nil), max_length: T.unsafe(nil), required: T.unsafe(nil), value: T.unsafe(nil), placeholder: T.unsafe(nil), label: T.unsafe(nil)); end
 
   # @!visibility private
   #
-  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/modal.rb:53
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/modal.rb:246
   def to_h; end
+
+  # Add a select user to the label component.
+  # @param custom_id [String] Custom IDs are used to pass state to the events that are raised from interactions.
+  #   There is a limit of 100 characters to each custom_id.
+  # @param id [Integer, nil] The unique 32-bit ID of the user select. This is not to be confused with the `custom_id`.
+  # @param placeholder [String, nil] Default text to show when no entries are selected.
+  # @param min_values [Integer, nil] The minimum amount of values a user must select.
+  # @param max_values [Integer, nil] The maximum amount of values a user can select.
+  # @param required [true, false, nil] Whether a value must be selected for the component.
+  #
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/modal.rb:150
+  def user_select(custom_id:, id: T.unsafe(nil), placeholder: T.unsafe(nil), min_values: T.unsafe(nil), max_values: T.unsafe(nil), required: T.unsafe(nil)); end
 end
 
-# A mapping of short names to types of input styles. `short` is a single line where `paragraph` is a block.
+# A mapping of text input styles to symbol names. `short` is a single line where `paragraph` is a block.
 #
-# pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/modal.rb:16
-Discordrb::Webhooks::Modal::RowBuilder::TEXT_INPUT_STYLES = T.let(T.unsafe(nil), Hash)
+# pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/modal.rb:76
+Discordrb::Webhooks::Modal::LabelBuilder::TEXT_INPUT_STYLES = T.let(T.unsafe(nil), Hash)
+
+# @deprecated This alias will be removed in future releases.
+#
+# pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/modal.rb:279
+Discordrb::Webhooks::Modal::RowBuilder = Discordrb::Webhooks::Modal::LabelBuilder
 
 # The current version of discordrb-webhooks.
 #
@@ -657,21 +820,59 @@ Discordrb::Webhooks::VERSION = T.let(T.unsafe(nil), String)
 #
 # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:4
 class Discordrb::Webhooks::View
-  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:174
+  # @!visibility private
+  #
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:420
   def initialize; end
 
-  # Add a new ActionRow to the view
-  # @yieldparam [RowBuilder]
+  # Add a container component to the view.
+  # @see ContainerBuilder#initialize
   #
-  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:182
-  def row; end
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:459
+  def container(*_arg0, **_arg1, &_arg2); end
 
-  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:172
-  def rows; end
+  # Add a file component to the view.
+  # @see FileBuilder#initialize
+  #
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:439
+  def file(*_arg0, **_arg1, &_arg2); end
+
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:443
+  def file_display(*_arg0, **_arg1, &_arg2); end
+
+  # Add a media gallery component to the view.
+  # @see MediaGalleryBuilder#initialize
+  #
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:471
+  def media_gallery(*_arg0, **_arg1, &_arg2); end
+
+  # Add a row component to the view.
+  # @see RowBuilder#initialize
+  #
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:433
+  def row(*_arg0, **_arg1, &_arg2); end
+
+  # Add a section component to the view.
+  # @see SectionBuilder#initialize
+  #
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:447
+  def section(*_arg0, **_arg1, &_arg2); end
+
+  # Add a separator component to the view.
+  # @see SeparatorBuilder#initialize
+  #
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:453
+  def separator(*_arg0, **_arg1, &_arg2); end
+
+  # Add a text display component to the view.
+  # @see TextDisplayBuilder#initialize
+  #
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:465
+  def text_display(*_arg0, **_arg1, &_arg2); end
 
   # @!visibility private
   #
-  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:191
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:427
   def to_a; end
 end
 
@@ -681,74 +882,191 @@ end
 Discordrb::Webhooks::View::BUTTON_STYLES = T.let(T.unsafe(nil), Hash)
 
 # Component types.
-# @see https://discord.com/developers/docs/interactions/message-components#component-types
+# @see https://discord.com/developers/docs/components/reference#component-object-component-types
 #
-# pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:16
+# pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:22
 Discordrb::Webhooks::View::COMPONENT_TYPES = T.let(T.unsafe(nil), Hash)
 
-# This builder is used when constructing an ActionRow. All current components must be within an action row, but this can
-# change in the future. A message can have 5 action rows, each action row can hold a weight of 5. Buttons have a weight of 1,
+# This builder can be used to construct a container. These are similar to embeds.
+#
+# pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:344
+class Discordrb::Webhooks::View::ContainerBuilder
+  # Create a container component.
+  # @param id [Integer, nil] The unique 32-bit ID of the container component.
+  # @param colour [Array, Integer, String, ColourRGB, nil] The accent colour of the container
+  #   component. This argument can be passed via the American spelling (`color:`) as well.
+  # @param spoiler [true, false] Whether or not to apply a spoiler label to the container component.
+  # @yieldparam builder [ContainerBuilder] Yields the initialized container component.
+  #
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:351
+  def initialize(id: T.unsafe(nil), color: T.unsafe(nil), colour: T.unsafe(nil), spoiler: T.unsafe(nil)); end
+
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:411
+  def color=(colour); end
+
+  # Set the color of the container.
+  # @param colour [Array, Integer, String, ColourRGB, nil] The accent colour of the container component, or `nil` to clear the accent colour.
+  #
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:400
+  def colour=(colour); end
+
+  # Add a file component to the container.
+  # @see FileBuilder#initialize
+  #
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:368
+  def file(*_arg0, **_arg1, &_arg2); end
+
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:372
+  def file_display(*_arg0, **_arg1, &_arg2); end
+
+  # Add a media gallery component to the container.
+  # @see MediaGalleryBuilder#initialize
+  #
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:394
+  def media_gallery(*_arg0, **_arg1, &_arg2); end
+
+  # Add a row component to the container.
+  # @see RowBuilder#initialize
+  #
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:362
+  def row(*_arg0, **_arg1, &_arg2); end
+
+  # Add a section component to the container.
+  # @see SectionBuilder#initialize
+  #
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:376
+  def section(*_arg0, **_arg1, &_arg2); end
+
+  # Add a separator component to the container.
+  # @see SeparatorBuilder#initialize
+  #
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:382
+  def separator(*_arg0, **_arg1, &_arg2); end
+
+  # Add a text display component to the container.
+  # @see TextDisplayBuilder#initialize
+  #
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:388
+  def text_display(*_arg0, **_arg1, &_arg2); end
+
+  # @!visibility private
+  #
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:414
+  def to_h; end
+end
+
+# A file component lets you send a file via an attachment://<filename> reference.
+#
+# pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:243
+class Discordrb::Webhooks::View::FileBuilder
+  # Create a file component.
+  # @param url [String] An `attachment://<filename>` reference to the attached file.
+  # @param id [Integer, nil] The unique 32-bit ID of the file component.
+  # @param spoiler [true, false] Whether or not to apply a spoiler label to the file.
+  #
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:248
+  def initialize(url:, id: T.unsafe(nil), spoiler: T.unsafe(nil)); end
+
+  # @!visibility private
+  #
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:255
+  def to_h; end
+end
+
+# A media gallery component is a gallery grid.
+#
+# pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:261
+class Discordrb::Webhooks::View::MediaGalleryBuilder
+  # Create a media gallery component.
+  # @param id [Integer, nil] The unique 32-bit ID of the media gallery component.
+  # @yieldparam builder [MediaGalleryBuilder] Yields the initialized media gallery component.
+  #
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:265
+  def initialize(id: T.unsafe(nil)); end
+
+  # Add a gallery item to the media gallery component.
+  # @param url [String] The URL to the gallery item's media.
+  # @param description [String, nil] The description of the gallery item.
+  # @param spoiler [true, false] Whether or not to apply a spoiler label to the gallery item.
+  #
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:276
+  def item(url:, description: T.unsafe(nil), spoiler: T.unsafe(nil)); end
+
+  # @!visibility private
+  #
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:281
+  def to_h; end
+end
+
+# This builder is used when constructing an ActionRow. Button and select menu components must be within an action row, but this can
+# change in the future. A message can have 10 action rows, each action row can hold a weight of 5. Buttons have a weight of 1,
 # and dropdowns have a weight of 5.
 #
-# pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:30
+# pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:48
 class Discordrb::Webhooks::View::RowBuilder
   # @!visibility private
   #
-  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:32
-  def initialize; end
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:50
+  def initialize(id: T.unsafe(nil)); end
 
   # Add a button to this action row.
   # @param style [Symbol, Integer] The button's style type. See {BUTTON_STYLES}
+  # @param id [Integer, nil] The unique 32-bit ID of the button component. This is not to be confused with the `custom_id`.
   # @param label [String, nil] The text label for the button. Either a label or emoji must be provided.
-  # @param emoji [#to_h, String, Integer] An emoji ID, or unicode emoji to attach to the button. Can also be a object
+  # @param emoji [#to_h, String, Integer] An emoji ID, or unicode emoji to attach to the button. Can also be an object
   #   that responds to `#to_h` which returns a hash in the format of `{ id: Integer, name: string }`.
   # @param custom_id [String] Custom IDs are used to pass state to the events that are raised from interactions.
   #   There is a limit of 100 characters to each custom_id.
   # @param disabled [true, false] Whether this button is disabled and shown as greyed out.
   # @param url [String, nil] The URL, when using a link style button.
   #
-  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:45
-  def button(style:, label: T.unsafe(nil), emoji: T.unsafe(nil), custom_id: T.unsafe(nil), disabled: T.unsafe(nil), url: T.unsafe(nil)); end
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:67
+  def button(style:, id: T.unsafe(nil), label: T.unsafe(nil), emoji: T.unsafe(nil), custom_id: T.unsafe(nil), disabled: T.unsafe(nil), url: T.unsafe(nil)); end
 
   # Add a select channel to this action row.
   # @param custom_id [String] Custom IDs are used to pass state to the events that are raised from interactions.
   #   There is a limit of 100 characters to each custom_id.
+  # @param id [Integer, nil] The unique 32-bit ID of the channel select. This is not to be confused with the `custom_id`.
   # @param placeholder [String, nil] Default text to show when no entries are selected.
   # @param min_values [Integer, nil] The minimum amount of values a user must select.
   # @param max_values [Integer, nil] The maximum amount of values a user can select.
   # @param disabled [true, false, nil] Grey out the component to make it unusable.
+  # @param types [Array<Symbol, Integer>, nil] The channel types to include in the select menu.
   #
-  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:117
-  def channel_select(custom_id:, placeholder: T.unsafe(nil), min_values: T.unsafe(nil), max_values: T.unsafe(nil), disabled: T.unsafe(nil)); end
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:145
+  def channel_select(custom_id:, id: T.unsafe(nil), placeholder: T.unsafe(nil), min_values: T.unsafe(nil), max_values: T.unsafe(nil), disabled: T.unsafe(nil), types: T.unsafe(nil)); end
 
   # Add a select mentionable to this action row.
   # @param custom_id [String] Custom IDs are used to pass state to the events that are raised from interactions.
   #   There is a limit of 100 characters to each custom_id.
+  # @param id [Integer, nil] The unique 32-bit ID of the mentionable select. This is not to be confused with the `custom_id`.
   # @param placeholder [String, nil] Default text to show when no entries are selected.
   # @param min_values [Integer, nil] The minimum amount of values a user must select.
   # @param max_values [Integer, nil] The maximum amount of values a user can select.
   # @param disabled [true, false, nil] Grey out the component to make it unusable.
   #
-  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:106
-  def mentionable_select(custom_id:, placeholder: T.unsafe(nil), min_values: T.unsafe(nil), max_values: T.unsafe(nil), disabled: T.unsafe(nil)); end
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:132
+  def mentionable_select(custom_id:, id: T.unsafe(nil), placeholder: T.unsafe(nil), min_values: T.unsafe(nil), max_values: T.unsafe(nil), disabled: T.unsafe(nil)); end
 
   # Add a select role to this action row.
   # @param custom_id [String] Custom IDs are used to pass state to the events that are raised from interactions.
   #   There is a limit of 100 characters to each custom_id.
+  # @param id [Integer, nil] The unique 32-bit ID of the role select. This is not to be confused with the `custom_id`.
   # @param placeholder [String, nil] Default text to show when no entries are selected.
   # @param min_values [Integer, nil] The minimum amount of values a user must select.
   # @param max_values [Integer, nil] The maximum amount of values a user can select.
   # @param disabled [true, false, nil] Grey out the component to make it unusable.
   #
-  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:95
-  def role_select(custom_id:, placeholder: T.unsafe(nil), min_values: T.unsafe(nil), max_values: T.unsafe(nil), disabled: T.unsafe(nil)); end
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:120
+  def role_select(custom_id:, id: T.unsafe(nil), placeholder: T.unsafe(nil), min_values: T.unsafe(nil), max_values: T.unsafe(nil), disabled: T.unsafe(nil)); end
 
-  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:75
-  def select_menu(custom_id:, options: T.unsafe(nil), placeholder: T.unsafe(nil), min_values: T.unsafe(nil), max_values: T.unsafe(nil), disabled: T.unsafe(nil)); end
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:98
+  def select_menu(custom_id:, options: T.unsafe(nil), id: T.unsafe(nil), placeholder: T.unsafe(nil), min_values: T.unsafe(nil), max_values: T.unsafe(nil), disabled: T.unsafe(nil)); end
 
-  # Add a select string to this action row.
+  # Add a string select to this action row.
   # @param custom_id [String] Custom IDs are used to pass state to the events that are raised from interactions.
   #   There is a limit of 100 characters to each custom_id.
+  # @param id [Integer, nil] The unique 32-bit ID of the string select. This is not to be confused with the `custom_id`.
   # @param options [Array<Hash>] Options that can be selected in this menu. Can also be provided via the yielded builder.
   # @param placeholder [String, nil] Default text to show when no entries are selected.
   # @param min_values [Integer, nil] The minimum amount of values a user must select.
@@ -756,48 +1074,135 @@ class Discordrb::Webhooks::View::RowBuilder
   # @param disabled [true, false, nil] Grey out the component to make it unusable.
   # @yieldparam builder [SelectMenuBuilder]
   #
-  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:67
-  def string_select(custom_id:, options: T.unsafe(nil), placeholder: T.unsafe(nil), min_values: T.unsafe(nil), max_values: T.unsafe(nil), disabled: T.unsafe(nil)); end
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:90
+  def string_select(custom_id:, options: T.unsafe(nil), id: T.unsafe(nil), placeholder: T.unsafe(nil), min_values: T.unsafe(nil), max_values: T.unsafe(nil), disabled: T.unsafe(nil)); end
 
   # @!visibility private
   #
-  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:122
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:154
   def to_h; end
 
   # Add a select user to this action row.
   # @param custom_id [String] Custom IDs are used to pass state to the events that are raised from interactions.
   #   There is a limit of 100 characters to each custom_id.
+  # @param id [Integer, nil] The unique 32-bit ID of the user select. This is not to be confused with the `custom_id`.
   # @param placeholder [String, nil] Default text to show when no entries are selected.
   # @param min_values [Integer, nil] The minimum amount of values a user must select.
   # @param max_values [Integer, nil] The maximum amount of values a user can select.
   # @param disabled [true, false, nil] Grey out the component to make it unusable.
   #
-  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:84
-  def user_select(custom_id:, placeholder: T.unsafe(nil), min_values: T.unsafe(nil), max_values: T.unsafe(nil), disabled: T.unsafe(nil)); end
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:108
+  def user_select(custom_id:, id: T.unsafe(nil), placeholder: T.unsafe(nil), min_values: T.unsafe(nil), max_values: T.unsafe(nil), disabled: T.unsafe(nil)); end
+end
+
+# Possible separator size names and values.
+#
+# pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:15
+Discordrb::Webhooks::View::SEPARATOR_SIZES = T.let(T.unsafe(nil), Hash)
+
+# A section allows you to group together an accessory with text display components.
+#
+# pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:287
+class Discordrb::Webhooks::View::SectionBuilder
+  # Create a section component.
+  # @param id [Integer, nil] The unique 32-bit ID of the section component.
+  # @yieldparam builder [SectionBuilder] Yields the initialized section component.
+  #
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:291
+  def initialize(id: T.unsafe(nil)); end
+
+  # Set the button for the section. This is mutually exclusive with {#thumbnail}.
+  # @param style [Symbol, Integer] The button's style type. See {BUTTON_STYLES}
+  # @param id [Integer, nil] The unique 32-bit ID of the button component. This is not to be confused with the `custom_id`.
+  # @param label [String, nil] The text label for the button. Either a label or emoji must be provided.
+  # @param emoji [#to_h, String, Integer] An emoji ID, or unicode emoji to attach to the button. Can also be an object
+  # that responds to `#to_h` which returns a hash in the format of `{ id: Integer, name: string }`.
+  # @param custom_id [String] Custom IDs are used to pass state to the events that are raised from interactions.
+  # There is a limit of 100 characters to each custom_id.
+  # @param disabled [true, false] Whether this button is disabled and shown as greyed out.
+  # @param url [String, nil] The URL, when using a link style button.
+  #
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:324
+  def button(style:, id: T.unsafe(nil), label: T.unsafe(nil), emoji: T.unsafe(nil), custom_id: T.unsafe(nil), disabled: T.unsafe(nil), url: T.unsafe(nil)); end
+
+  # Add a text display component to this section.
+  # @see TextDisplayBuilder#initialize
+  #
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:301
+  def text_display(*_arg0, **_arg1, &_arg2); end
+
+  # Set the thumbnail for the section. This is mutually exclusive with {#button}.
+  # @param url [String] The URL to the thumbnail image.
+  # @param id [Integer, nil] The unique 32-bit ID of the thumbnail component.
+  # @param description [String, nil] The description of the thumbnail.
+  # @param spoiler [true, false] Whether or not to apply a spoiler label to the thumbnail.
+  #
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:310
+  def thumbnail(url:, id: T.unsafe(nil), description: T.unsafe(nil), spoiler: T.unsafe(nil)); end
+
+  # @!visibility private
+  #
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:338
+  def to_h; end
 end
 
 # A builder to assist in adding options to select menus.
 #
-# pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:128
+# pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:160
 class Discordrb::Webhooks::View::SelectMenuBuilder
   # @!visibility hidden
   #
-  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:130
-  def initialize(custom_id, options = T.unsafe(nil), placeholder = T.unsafe(nil), min_values = T.unsafe(nil), max_values = T.unsafe(nil), disabled = T.unsafe(nil), select_type: T.unsafe(nil)); end
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:162
+  def initialize(custom_id, options = T.unsafe(nil), placeholder = T.unsafe(nil), min_values = T.unsafe(nil), max_values = T.unsafe(nil), disabled = T.unsafe(nil), select_type: T.unsafe(nil), id: T.unsafe(nil), required: T.unsafe(nil)); end
 
   # Add an option to this select menu.
   # @param label [String] The title of this option.
   # @param value [String] The value that this option represents.
   # @param description [String, nil] An optional description of the option.
-  # @param emoji [#to_h, String, Integer] An emoji ID, or unicode emoji to attach to the button. Can also be a object
+  # @param emoji [#to_h, String, Integer] An emoji ID, or unicode emoji to attach to the button. Can also be an object
   #   that responds to `#to_h` which returns a hash in the format of `{ id: Integer, name: string }`.
   # @param default [true, false, nil] Whether this is the default selected option.
   #
-  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:147
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:181
   def option(label:, value:, description: T.unsafe(nil), emoji: T.unsafe(nil), default: T.unsafe(nil)); end
 
   # @!visibility private
   #
-  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:159
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:193
+  def to_h; end
+end
+
+# A separator allows you to add a barrier between components.
+#
+# pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:225
+class Discordrb::Webhooks::View::SeparatorBuilder
+  # Create a separator component.
+  # @param divider [true, false] Whether or not the separator should act as a visible barrier.
+  # @param id [Integer, nil] The unique 32-bit ID of the separator component.
+  # @param spacing [Symbol, Integer] The size of the separator component's padding. See {SEPARATOR_SIZES}.
+  #
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:230
+  def initialize(divider:, id: T.unsafe(nil), spacing: T.unsafe(nil)); end
+
+  # @!visibility private
+  #
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:237
+  def to_h; end
+end
+
+# A text display component allows you to send message content.
+#
+# pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:209
+class Discordrb::Webhooks::View::TextDisplayBuilder
+  # Create a text display component.
+  # @param content [String] The content of the text display component.
+  # @param id [Integer, nil] The unique 32-bit ID of the text display component.
+  #
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:213
+  def initialize(content:, id: T.unsafe(nil)); end
+
+  # @!visibility private
+  #
+  # pkg:gem/discordrb-webhooks#lib/discordrb/webhooks/view.rb:219
   def to_h; end
 end

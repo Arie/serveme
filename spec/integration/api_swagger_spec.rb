@@ -103,14 +103,14 @@ RSpec.describe 'serveme.tf API', type: :request do
                      properties: {
                        id: { type: :integer },
                        name: { type: :string },
-                       location: {
-                         type: :object,
-                         properties: {
-                           id: { type: :integer },
-                           name: { type: :string },
-                           flag: { type: :string }
-                         }
-                       }
+                       flag: { type: :string },
+                       ip: { type: :string },
+                       port: { type: :string },
+                       ip_and_port: { type: :string },
+                       resolved_ip: { type: :string, nullable: true },
+                       sdr: { type: :boolean },
+                       latitude: { type: :number },
+                       longitude: { type: :number }
                      }
                    }
                  }
@@ -291,14 +291,14 @@ RSpec.describe 'serveme.tf API', type: :request do
                      properties: {
                        id: { type: :integer },
                        name: { type: :string },
-                       location: {
-                         type: :object,
-                         properties: {
-                           id: { type: :integer },
-                           name: { type: :string },
-                           flag: { type: :string }
-                         }
-                       }
+                       flag: { type: :string },
+                       ip: { type: :string },
+                       port: { type: :string },
+                       ip_and_port: { type: :string },
+                       resolved_ip: { type: :string, nullable: true },
+                       sdr: { type: :boolean },
+                       latitude: { type: :number },
+                       longitude: { type: :number }
                      }
                    }
                  },

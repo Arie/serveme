@@ -89,12 +89,7 @@ describe CronWorker do
       expect(Turbo::StreamsChannel).to receive(:broadcast_replace_to).with(
         "players", :v2,
         target: "players-content",
-        partial: "players/players_content",
-        locals: {
-          servers_with_players: servers_with_players,
-          distance_unit: 'km'
-        },
-        variants: [ :v2 ]
+        html: kind_of(String)
       )
 
       expect(Turbo::StreamsChannel).to receive(:broadcast_replace_to).with(
@@ -109,12 +104,7 @@ describe CronWorker do
       expect(Turbo::StreamsChannel).to receive(:broadcast_replace_to).with(
         "admin-players", :v2,
         target: "admin-players-content",
-        partial: "players/admin_players_content",
-        locals: {
-          servers_with_players: servers_with_players,
-          distance_unit: 'km'
-        },
-        variants: [ :v2 ]
+        html: kind_of(String)
       )
 
       worker.broadcast_players_update

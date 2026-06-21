@@ -11,6 +11,212 @@
 
 module Anthropic
   APIErrorObject = Anthropic::Models::APIErrorObject
+
+  # The per-attempt request object a middleware sees.
+  class APIRequest
+    sig { returns(T.nilable(T.anything)) }
+    attr_reader :body
+
+    sig { returns(T.nilable(Anthropic::Internal::Type::Converter::Input)) }
+    attr_reader :cast_to
+
+    sig { returns(T::Hash[String, String]) }
+    attr_reader :headers
+
+    sig { returns(T::Hash[Symbol, T.anything]) }
+    attr_reader :metadata
+
+    sig { returns(Symbol) }
+    attr_reader :method
+
+    sig { returns(T::Hash[Symbol, T.anything]) }
+    attr_reader :options
+
+    sig { returns(Integer) }
+    attr_reader :retry_count
+
+    sig do
+      returns(T.nilable(
+          T::Class[
+            Anthropic::Internal::Type::BaseStream[
+              T.anything,
+              Anthropic::Internal::Type::BaseModel
+            ]
+          ]
+        ))
+    end
+    attr_reader :stream
+
+    sig do
+      returns(T.nilable(
+          T.any(
+            Symbol,
+            Integer,
+            T::Array[T.any(Symbol, Integer)],
+            T.proc.params(arg0: T.anything).returns(T.anything)
+          )
+        ))
+    end
+    attr_reader :unwrap
+
+    sig { returns(URI::Generic) }
+    attr_reader :url
+
+    sig { returns(T::Boolean) }
+    def retry?; end
+
+    sig { returns(T::Boolean) }
+    def streaming?; end
+
+    sig { returns(Float) }
+    def timeout; end
+
+    sig { returns(T::Hash[Symbol, T.anything]) }
+    def to_h; end
+
+    sig do
+      params(
+        method: Symbol,
+        url: URI::Generic,
+        headers: T::Hash[String, String],
+        body: T.nilable(T.anything),
+        stream: T.nilable(
+            T::Class[
+              Anthropic::Internal::Type::BaseStream[
+                T.anything,
+                Anthropic::Internal::Type::BaseModel
+              ]
+            ]
+          ),
+        cast_to: T.nilable(Anthropic::Internal::Type::Converter::Input),
+        unwrap: T.nilable(
+            T.any(
+              Symbol,
+              Integer,
+              T::Array[T.any(Symbol, Integer)],
+              T.proc.params(arg0: T.anything).returns(T.anything)
+            )
+          ),
+        options: T::Hash[Symbol, T.anything],
+        retry_count: Integer,
+        metadata: T::Hash[Symbol, T.anything]
+      ).returns(T.self_type)
+    end
+    def with(method: self.method, url: self.url, headers: self.headers, body: self.body, stream: self.stream, cast_to: self.cast_to, unwrap: self.unwrap, options: self.options, retry_count: self.retry_count, metadata: self.metadata); end
+
+    class << self
+      sig do
+        params(
+          method: Symbol,
+          url: URI::Generic,
+          headers: T::Hash[String, String],
+          body: T.nilable(T.anything),
+          stream: T.nilable(
+            T::Class[
+              Anthropic::Internal::Type::BaseStream[
+                T.anything,
+                Anthropic::Internal::Type::BaseModel
+              ]
+            ]
+          ),
+          cast_to: T.nilable(Anthropic::Internal::Type::Converter::Input),
+          unwrap: T.nilable(
+            T.any(
+              Symbol,
+              Integer,
+              T::Array[T.any(Symbol, Integer)],
+              T.proc.params(arg0: T.anything).returns(T.anything)
+            )
+          ),
+          options: T::Hash[Symbol, T.anything],
+          retry_count: Integer,
+          metadata: T::Hash[Symbol, T.anything]
+        ).returns(T.attached_class)
+      end
+      def new(method:, url:, headers:, body:, stream:, cast_to:, unwrap:, options:, retry_count:, metadata:); end
+    end
+
+    MEMBERS = T.let(T.unsafe(nil), T::Array[Symbol])
+  end
+
+  class APIResponse
+    sig { returns(T::Hash[String, String]) }
+    attr_reader :headers
+
+    sig { returns(T.nilable(Net::HTTPResponse)) }
+    attr_reader :raw
+
+    sig { returns(T.nilable(Anthropic::APIRequest)) }
+    attr_reader :request
+
+    sig { returns(Integer) }
+    attr_reader :status
+
+    sig { returns(T::Enumerable[String]) }
+    def body; end
+
+    sig { params(force: T::Boolean).returns(T.self_type) }
+    def buffer!(force: false); end
+
+    sig { returns(T.anything) }
+    def parse; end
+
+    sig { returns(T::Boolean) }
+    def retryable?; end
+
+    sig { returns(T::Boolean) }
+    def streaming?; end
+
+    # @api private
+    sig do
+      returns([
+          Integer,
+          T.nilable(Net::HTTPResponse),
+          T::Hash[String, String],
+          T::Enumerable[String]
+        ])
+    end
+    def to_tuple; end
+
+    sig do
+      params(
+        streaming: T::Boolean,
+        blk: T
+            .proc
+            .params(upstream: T::Enumerable[String])
+            .returns(T::Enumerable[String])
+      ).returns(Anthropic::APIResponse)
+    end
+    def wrap_body(streaming: streaming?, &blk); end
+
+    class << self
+      sig do
+        params(
+          status: Integer,
+          headers: T::Hash[String, String],
+          body: T.nilable(T.any(T::Enumerable[String], String)),
+          raw: T.nilable(Net::HTTPResponse),
+          streaming: T.nilable(T::Boolean),
+          request: T.nilable(Anthropic::APIRequest)
+        ).returns(T.attached_class)
+      end
+      def new(status:, headers: {}, body: nil, raw: nil, streaming: nil, request: nil); end
+
+      # @api private
+      sig do
+        params(
+          status: Integer,
+          raw: Net::HTTPResponse,
+          stream: T::Enumerable[String],
+          request: T.nilable(Anthropic::APIRequest)
+        ).returns(T.attached_class)
+      end
+      def wrap(status, raw, stream, request: nil); end
+    end
+
+    class ConsumedBodyError < Anthropic::Errors::Error; end
+  end
+
   AWSClient = Anthropic::Helpers::AWS::Client
   AnthropicBeta = Anthropic::Models::AnthropicBeta
   ArrayOf = Anthropic::Helpers::InputSchema::ArrayOf
@@ -127,7 +333,8 @@ module Anthropic
           max_retries: Integer,
           timeout: Float,
           initial_retry_delay: Float,
-          max_retry_delay: Float
+          max_retry_delay: Float,
+          middleware: T.nilable(Anthropic::Middleware::EntryOrArray)
         ).returns(T.attached_class)
       end
       def new(
@@ -139,7 +346,10 @@ module Anthropic
         max_retries: Anthropic::Client::DEFAULT_MAX_RETRIES, # Max number of retries to attempt after a failed retryable request.
         timeout: Anthropic::Client::DEFAULT_TIMEOUT_IN_SECONDS,
         initial_retry_delay: Anthropic::Client::DEFAULT_INITIAL_RETRY_DELAY,
-        max_retry_delay: Anthropic::Client::DEFAULT_MAX_RETRY_DELAY
+        max_retry_delay: Anthropic::Client::DEFAULT_MAX_RETRY_DELAY,
+        middleware: nil # Per-attempt HTTP around-middleware. Each entry is a
+                        # `#call(req, nxt) -> Anthropic::APIResponse` callable. See
+                        # {Anthropic::Middleware}.
 ); end
     end
 
@@ -160,6 +370,7 @@ module Anthropic
   CodeExecutionTool20250522 = Anthropic::Models::CodeExecutionTool20250522
   CodeExecutionTool20250825 = Anthropic::Models::CodeExecutionTool20250825
   CodeExecutionTool20260120 = Anthropic::Models::CodeExecutionTool20260120
+  CodeExecutionTool20260521 = Anthropic::Models::CodeExecutionTool20260521
   CodeExecutionToolResultBlock = Anthropic::Models::CodeExecutionToolResultBlock
 
   CodeExecutionToolResultBlockContent = Anthropic::Models::CodeExecutionToolResultBlockContent
@@ -578,6 +789,10 @@ module Anthropic
       HTTP_STATUS = 429
     end
 
+    # Raise from a middleware to opt a middleware-origin failure into the SDK's
+    # retry loop. Retry classification walks `Exception#cause`.
+    class RetryableError < Anthropic::Errors::Error; end
+
     class UnprocessableEntityError < Anthropic::Errors::APIStatusError
       HTTP_STATUS = 422
     end
@@ -630,6 +845,10 @@ module Anthropic
 
         private
 
+        # @api private
+        sig { override.returns(Anthropic::Middleware::Entry) }
+        def provider_middleware; end
+
         sig do
           params(
             aws_access_key: T.nilable(String),
@@ -639,9 +858,6 @@ module Anthropic
           ).returns(T.untyped)
         end
         def resolve_credentials(aws_access_key:, aws_secret_access_key:, aws_session_token:, aws_profile:); end
-
-        sig { params(request: Anthropic::Internal::AnyHash).returns(Anthropic::Internal::AnyHash) }
-        def transform_request(request); end
 
         class << self
           sig do
@@ -683,6 +899,10 @@ module Anthropic
         private
 
         # @api private
+        sig { params(req: Anthropic::APIRequest).returns(Anthropic::APIRequest) }
+        def adapt_request(req); end
+
+        # @api private
         sig do
           override
             .params(
@@ -692,12 +912,9 @@ module Anthropic
         end
         def build_request(req, opts); end
 
-        sig do
-          params(
-            request_components: Anthropic::Internal::Transport::BaseClient::RequestComponents
-          ).returns(Anthropic::Internal::Transport::BaseClient::RequestComponents)
-        end
-        def fit_req_to_bedrock_specs!(request_components); end
+        # @api private
+        sig { override.returns(Anthropic::Middleware::Entry) }
+        def provider_middleware; end
 
         sig do
           params(
@@ -709,6 +926,10 @@ module Anthropic
           ).returns(T::Array[T.anything])
         end
         def resolve_region_and_credentials(aws_region:, aws_access_key:, aws_secret_key:, aws_session_token:, aws_profile:); end
+
+        # @api private
+        sig { params(req: Anthropic::APIRequest).returns(Anthropic::APIRequest) }
+        def sign_request(req); end
 
         class << self
           sig do
@@ -722,13 +943,45 @@ module Anthropic
               aws_access_key: T.nilable(String),
               aws_secret_key: T.nilable(String),
               aws_session_token: T.nilable(String),
-              aws_profile: T.nilable(String)
+              aws_profile: T.nilable(String),
+              api_key: T.nilable(String),
+              middleware: T.nilable(Anthropic::Middleware::EntryOrArray)
             ).returns(T.attached_class)
           end
-          def new(aws_region: nil, base_url: nil, max_retries: Anthropic::Client::DEFAULT_MAX_RETRIES, timeout: Anthropic::Client::DEFAULT_TIMEOUT_IN_SECONDS, initial_retry_delay: Anthropic::Client::DEFAULT_INITIAL_RETRY_DELAY, max_retry_delay: Anthropic::Client::DEFAULT_MAX_RETRY_DELAY, aws_access_key: nil, aws_secret_key: nil, aws_session_token: nil, aws_profile: nil); end
+          def new(
+            aws_region: nil,
+            base_url: nil,
+            max_retries: Anthropic::Client::DEFAULT_MAX_RETRIES,
+            timeout: Anthropic::Client::DEFAULT_TIMEOUT_IN_SECONDS,
+            initial_retry_delay: Anthropic::Client::DEFAULT_INITIAL_RETRY_DELAY,
+            max_retry_delay: Anthropic::Client::DEFAULT_MAX_RETRY_DELAY,
+            aws_access_key: nil,
+            aws_secret_key: nil,
+            aws_session_token: nil,
+            aws_profile: nil,
+            api_key: nil,
+            middleware: nil # Per-attempt HTTP around-middleware. Middleware sees the canonical
+                            # Anthropic request shape; the Bedrock URL rewrite and SigV4 signing
+                            # happen inside the continuation, per attempt.
+); end
         end
 
         DEFAULT_VERSION = "bedrock-2023-05-31"
+      end
+
+      module EventStream
+        class << self
+          sig { params(decoder: T.untyped, chunk: T.nilable(String), y: Enumerator::Yielder).void }
+          def drain(decoder, chunk, y); end
+
+          sig { params(msg: T.untyped, y: Enumerator::Yielder).void }
+          def emit(msg, y); end
+
+          sig { params(chunks: T::Enumerable[String]).returns(T::Enumerable[String]) }
+          def to_sse(chunks); end
+        end
+
+        AWS_CONTENT_TYPE = T.let(%r{^application/vnd\.amazon\.eventstream}, Regexp)
       end
 
       class MantleClient < Anthropic::Client
@@ -749,8 +1002,9 @@ module Anthropic
 
         private
 
-        sig { params(request: Anthropic::Internal::AnyHash).returns(Anthropic::Internal::AnyHash) }
-        def transform_request(request); end
+        # @api private
+        sig { override.returns(Anthropic::Middleware::Entry) }
+        def provider_middleware; end
 
         class << self
           sig do
@@ -1155,6 +1409,14 @@ module Anthropic
         private
 
         # @api private
+        sig { params(req: Anthropic::APIRequest).returns(Anthropic::APIRequest) }
+        def adapt_request(req); end
+
+        # @api private
+        sig { params(req: Anthropic::APIRequest).returns(Anthropic::APIRequest) }
+        def apply_google_auth(req); end
+
+        # @api private
         sig do
           override
             .params(
@@ -1164,12 +1426,13 @@ module Anthropic
         end
         def build_request(req, opts); end
 
-        sig do
-          params(
-            request_components: Anthropic::Internal::Transport::BaseClient::RequestComponents
-          ).returns(Anthropic::Internal::Transport::BaseClient::RequestComponents)
-        end
-        def fit_req_to_vertex_specs!(request_components); end
+        # @api private
+        sig { override.returns(Anthropic::Middleware::Entry) }
+        def provider_middleware; end
+
+        # @api private
+        sig { params(url: URI::Generic, pattern: Regexp, replacement: String).returns(URI::Generic) }
+        def rewrite_path(url, pattern, replacement); end
 
         class << self
           sig do
@@ -1180,10 +1443,22 @@ module Anthropic
               max_retries: Integer,
               timeout: Float,
               initial_retry_delay: Float,
-              max_retry_delay: Float
+              max_retry_delay: Float,
+              middleware: T.nilable(Anthropic::Middleware::EntryOrArray)
             ).returns(T.attached_class)
           end
-          def new(region: ENV["CLOUD_ML_REGION"], project_id: ENV["ANTHROPIC_VERTEX_PROJECT_ID"], base_url: nil, max_retries: Anthropic::Client::DEFAULT_MAX_RETRIES, timeout: Anthropic::Client::DEFAULT_TIMEOUT_IN_SECONDS, initial_retry_delay: Anthropic::Client::DEFAULT_INITIAL_RETRY_DELAY, max_retry_delay: Anthropic::Client::DEFAULT_MAX_RETRY_DELAY); end
+          def new(
+            region: ENV["CLOUD_ML_REGION"],
+            project_id: ENV["ANTHROPIC_VERTEX_PROJECT_ID"],
+            base_url: nil,
+            max_retries: Anthropic::Client::DEFAULT_MAX_RETRIES,
+            timeout: Anthropic::Client::DEFAULT_TIMEOUT_IN_SECONDS,
+            initial_retry_delay: Anthropic::Client::DEFAULT_INITIAL_RETRY_DELAY,
+            max_retry_delay: Anthropic::Client::DEFAULT_MAX_RETRY_DELAY,
+            middleware: nil # Per-attempt HTTP around-middleware. Middleware sees the canonical
+                            # Anthropic request shape; the Vertex URL rewrite and OAuth header
+                            # happen inside the continuation, per attempt.
+); end
         end
 
         DEFAULT_VERSION = "vertex-2023-10-16"
@@ -1320,6 +1595,9 @@ module Anthropic
         sig { returns(Float) }
         attr_reader :max_retry_delay
 
+        sig { returns(T::Array[Anthropic::Middleware::Entry]) }
+        attr_reader :middleware
+
         # @api private
         sig { returns(Anthropic::Internal::Transport::PooledNetRequester) }
         attr_reader :requester
@@ -1395,7 +1673,12 @@ module Anthropic
             redirect_count: Integer,
             retry_count: Integer,
             send_retry_header: T::Boolean
-          ).returns([Integer, Net::HTTPResponse, T::Enumerable[String]])
+          ).returns([
+              Integer,
+              T.nilable(Net::HTTPResponse),
+              T::Hash[String, String],
+              T::Enumerable[String]
+            ])
         end
         def send_request(request, redirect_count:, retry_count:, send_retry_header:); end
 
@@ -1418,6 +1701,10 @@ module Anthropic
         # @api private
         sig { returns(String) }
         def generate_idempotency_key; end
+
+        # @api private
+        sig { overridable.returns(T.nilable(Anthropic::Middleware::Entry)) }
+        def provider_middleware; end
 
         # @api private
         sig { params(headers: T::Hash[String, String], retry_count: Integer).returns(Float) }
@@ -1475,10 +1762,12 @@ module Anthropic
                   )
                 )
               ],
-              idempotency_header: T.nilable(String)
+              idempotency_header: T.nilable(String),
+              middleware: T.nilable(Anthropic::Middleware::EntryOrArray),
+              requester: T.nilable(Anthropic::Internal::Transport::PooledNetRequester)
             ).returns(T.attached_class)
           end
-          def new(base_url:, timeout: 0.0, max_retries: 0, initial_retry_delay: 0.0, max_retry_delay: 0.0, headers: {}, idempotency_header: nil); end
+          def new(base_url:, timeout: 0.0, max_retries: 0, initial_retry_delay: 0.0, max_retry_delay: 0.0, headers: {}, idempotency_header: nil, middleware: nil, requester: nil); end
         end
 
         # from whatwg fetch spec
@@ -1546,7 +1835,22 @@ module Anthropic
               headers: T::Hash[String, String],
               body: T.anything,
               max_retries: Integer,
-              timeout: Float
+              timeout: Float,
+              user_header_keys: T::Array[String],
+              cast_to: T.nilable(Anthropic::Internal::Type::Converter::Input),
+              stream: T.nilable(T::Class[T.anything]),
+              unwrap:
+                T.nilable(
+                  T.any(
+                    Symbol,
+                    Integer,
+                    T::Array[T.any(Symbol, Integer)],
+                    T.proc.params(arg0: T.anything).returns(T.anything)
+                  )
+                ),
+              options: T::Hash[Symbol, T.anything],
+              middleware: T::Array[Anthropic::Middleware::Entry],
+              metadata: T::Hash[Symbol, T.anything]
             }
           end
       end
@@ -2648,6 +2952,10 @@ module Anthropic
         def arch; end
 
         # @api private
+        sig { params(obj: T.anything).returns(T.anything) }
+        def deep_frozen_copy(obj); end
+
+        # @api private
         sig { returns(String) }
         def os; end
       end
@@ -3040,6 +3348,74 @@ module Anthropic
   Metadata = Anthropic::Models::Metadata
 
   MidConversationSystemBlockParam = Anthropic::Models::MidConversationSystemBlockParam
+
+  module Middleware
+    extend T::Helpers
+
+    abstract!
+
+    # Optional mixin naming the middleware contract — `include` it in a
+    # middleware class and implement `#call`. The SDK accepts any
+    # `#call(req, nxt)` object, so this is for discovery and type-checking.
+    sig do
+      abstract
+        .params(
+          request: Anthropic::APIRequest,
+          nxt: T
+              .proc
+              .params(request: Anthropic::APIRequest)
+              .returns(Anthropic::APIResponse)
+        ).returns(Anthropic::APIResponse)
+    end
+    def call(request, nxt); end
+
+    class << self
+      # @api private
+      sig do
+        params(
+          list: T::Array[T.anything],
+          terminal: T
+              .proc
+              .params(req: Anthropic::APIRequest)
+              .returns(Anthropic::APIResponse)
+        ).returns(T
+            .proc
+            .params(req: Anthropic::APIRequest)
+            .returns(Anthropic::APIResponse))
+      end
+      def build_chain(list, terminal); end
+    end
+
+    # `(req, nxt) -> APIResponse` callable. `nxt` is itself `(req) -> APIResponse`.
+    Callable = T.type_alias do
+        T
+          .proc
+          .params(
+            req: Anthropic::APIRequest,
+            nxt:
+              T
+                .proc
+                .params(req: Anthropic::APIRequest)
+                .returns(Anthropic::APIResponse)
+          )
+          .returns(Anthropic::APIResponse)
+      end
+
+    # A single chain entry — a {Callable} lambda, an object including
+    # {Anthropic::Middleware}, or any other object responding to
+    # `#call(req, nxt)`.
+    Entry = T.type_alias do
+        T.any(Anthropic::Middleware, Anthropic::Middleware::Callable)
+      end
+
+    # The `middleware:` constructor option — a single entry or an array of them.
+    EntryOrArray = T.type_alias do
+        T.any(
+          Anthropic::Middleware::Entry,
+          T::Array[Anthropic::Middleware::Entry]
+        )
+      end
+  end
 
   Model = Anthropic::Models::Model
   ModelCapabilities = Anthropic::Models::ModelCapabilities
@@ -4954,7 +5330,8 @@ module Anthropic
         # Values: direct: The model can call this tool directly. code_execution_20250825:
         # The tool can be called from the code execution environment (v1).
         # code_execution_20260120: The tool can be called from the code execution
-        # environment (v2 with persistence).
+        # environment (v2 with persistence). code_execution_20260521: The tool can be
+        # called from the code execution environment (v2 with persistence).
         module AllowedCaller
           extend Anthropic::Internal::Type::Enum
 
@@ -4975,6 +5352,11 @@ module Anthropic
 
           CODE_EXECUTION_20260120 = T.let(
               :code_execution_20260120,
+              Anthropic::Beta::BetaAdvisorTool20260301::AllowedCaller::TaggedSymbol
+            )
+
+          CODE_EXECUTION_20260521 = T.let(
+              :code_execution_20260521,
               Anthropic::Beta::BetaAdvisorTool20260301::AllowedCaller::TaggedSymbol
             )
 
@@ -7784,7 +8166,8 @@ module Anthropic
         # Values: direct: The model can call this tool directly. code_execution_20250825:
         # The tool can be called from the code execution environment (v1).
         # code_execution_20260120: The tool can be called from the code execution
-        # environment (v2 with persistence).
+        # environment (v2 with persistence). code_execution_20260521: The tool can be
+        # called from the code execution environment (v2 with persistence).
         module AllowedCaller
           extend Anthropic::Internal::Type::Enum
 
@@ -7805,6 +8188,11 @@ module Anthropic
 
           CODE_EXECUTION_20260120 = T.let(
               :code_execution_20260120,
+              Anthropic::Beta::BetaCodeExecutionTool20250522::AllowedCaller::TaggedSymbol
+            )
+
+          CODE_EXECUTION_20260521 = T.let(
+              :code_execution_20260521,
               Anthropic::Beta::BetaCodeExecutionTool20250522::AllowedCaller::TaggedSymbol
             )
 
@@ -7928,7 +8316,8 @@ module Anthropic
         # Values: direct: The model can call this tool directly. code_execution_20250825:
         # The tool can be called from the code execution environment (v1).
         # code_execution_20260120: The tool can be called from the code execution
-        # environment (v2 with persistence).
+        # environment (v2 with persistence). code_execution_20260521: The tool can be
+        # called from the code execution environment (v2 with persistence).
         module AllowedCaller
           extend Anthropic::Internal::Type::Enum
 
@@ -7949,6 +8338,11 @@ module Anthropic
 
           CODE_EXECUTION_20260120 = T.let(
               :code_execution_20260120,
+              Anthropic::Beta::BetaCodeExecutionTool20250825::AllowedCaller::TaggedSymbol
+            )
+
+          CODE_EXECUTION_20260521 = T.let(
+              :code_execution_20260521,
               Anthropic::Beta::BetaCodeExecutionTool20250825::AllowedCaller::TaggedSymbol
             )
 
@@ -8074,7 +8468,8 @@ module Anthropic
         # Values: direct: The model can call this tool directly. code_execution_20250825:
         # The tool can be called from the code execution environment (v1).
         # code_execution_20260120: The tool can be called from the code execution
-        # environment (v2 with persistence).
+        # environment (v2 with persistence). code_execution_20260521: The tool can be
+        # called from the code execution environment (v2 with persistence).
         module AllowedCaller
           extend Anthropic::Internal::Type::Enum
 
@@ -8098,6 +8493,11 @@ module Anthropic
               Anthropic::Beta::BetaCodeExecutionTool20260120::AllowedCaller::TaggedSymbol
             )
 
+          CODE_EXECUTION_20260521 = T.let(
+              :code_execution_20260521,
+              Anthropic::Beta::BetaCodeExecutionTool20260120::AllowedCaller::TaggedSymbol
+            )
+
           DIRECT = T.let(
               :direct,
               Anthropic::Beta::BetaCodeExecutionTool20260120::AllowedCaller::TaggedSymbol
@@ -8116,6 +8516,157 @@ module Anthropic
         OrHash = T.type_alias do
             T.any(
               Anthropic::Beta::BetaCodeExecutionTool20260120,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
+      class BetaCodeExecutionTool20260521 < Anthropic::Internal::Type::BaseModel
+        sig do
+          returns(T.nilable(
+              T::Array[
+                Anthropic::Beta::BetaCodeExecutionTool20260521::AllowedCaller::OrSymbol
+              ]
+            ))
+        end
+        attr_reader :allowed_callers
+
+        sig do
+          params(
+            allowed_callers: T::Array[
+                Anthropic::Beta::BetaCodeExecutionTool20260521::AllowedCaller::OrSymbol
+              ]
+          ).void
+        end
+        attr_writer :allowed_callers
+
+        # Create a cache control breakpoint at this content block.
+        sig { returns(T.nilable(Anthropic::Beta::BetaCacheControlEphemeral)) }
+        attr_reader :cache_control
+
+        sig { params(cache_control: T.nilable(Anthropic::Beta::BetaCacheControlEphemeral::OrHash)).void }
+        attr_writer :cache_control
+
+        # If true, tool will not be included in initial system prompt. Only loaded when
+        # returned via tool_reference from tool search.
+        sig { returns(T.nilable(T::Boolean)) }
+        attr_reader :defer_loading
+
+        sig { params(defer_loading: T::Boolean).void }
+        attr_writer :defer_loading
+
+        # Name of the tool.
+        #
+        # This is how the tool will be called by the model and in `tool_use` blocks.
+        sig { returns(Symbol) }
+        attr_accessor :name
+
+        # When true, guarantees schema validation on tool names and inputs
+        sig { returns(T.nilable(T::Boolean)) }
+        attr_reader :strict
+
+        sig { params(strict: T::Boolean).void }
+        attr_writer :strict
+
+        sig { returns(Symbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              name: Symbol,
+              type: Symbol,
+              allowed_callers:
+                T::Array[
+                  Anthropic::Beta::BetaCodeExecutionTool20260521::AllowedCaller::OrSymbol
+                ],
+              cache_control:
+                T.nilable(Anthropic::Beta::BetaCacheControlEphemeral),
+              defer_loading: T::Boolean,
+              strict: T::Boolean
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # Code execution tool with REPL state persistence.
+          sig do
+            params(
+              allowed_callers: T::Array[
+                Anthropic::Beta::BetaCodeExecutionTool20260521::AllowedCaller::OrSymbol
+              ],
+              cache_control: T.nilable(Anthropic::Beta::BetaCacheControlEphemeral::OrHash),
+              defer_loading: T::Boolean,
+              strict: T::Boolean,
+              name: Symbol,
+              type: Symbol
+            ).returns(T.attached_class)
+          end
+          def new(
+            allowed_callers: nil,
+            cache_control: nil, # Create a cache control breakpoint at this content block.
+            defer_loading: nil, # If true, tool will not be included in initial system prompt. Only loaded when
+                                # returned via tool_reference from tool search.
+            strict: nil, # When true, guarantees schema validation on tool names and inputs
+            name: :code_execution, # Name of the tool.
+                                   # This is how the tool will be called by the model and in `tool_use` blocks.
+            type: :code_execution_20260521
+); end
+        end
+
+        # Specifies who can invoke a tool.
+        #
+        # Values: direct: The model can call this tool directly. code_execution_20250825:
+        # The tool can be called from the code execution environment (v1).
+        # code_execution_20260120: The tool can be called from the code execution
+        # environment (v2 with persistence). code_execution_20260521: The tool can be
+        # called from the code execution environment (v2 with persistence).
+        module AllowedCaller
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaCodeExecutionTool20260521::AllowedCaller::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          CODE_EXECUTION_20250825 = T.let(
+              :code_execution_20250825,
+              Anthropic::Beta::BetaCodeExecutionTool20260521::AllowedCaller::TaggedSymbol
+            )
+
+          CODE_EXECUTION_20260120 = T.let(
+              :code_execution_20260120,
+              Anthropic::Beta::BetaCodeExecutionTool20260521::AllowedCaller::TaggedSymbol
+            )
+
+          CODE_EXECUTION_20260521 = T.let(
+              :code_execution_20260521,
+              Anthropic::Beta::BetaCodeExecutionTool20260521::AllowedCaller::TaggedSymbol
+            )
+
+          DIRECT = T.let(
+              :direct,
+              Anthropic::Beta::BetaCodeExecutionTool20260521::AllowedCaller::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaCodeExecutionTool20260521::AllowedCaller
+              )
+            end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaCodeExecutionTool20260521,
               Anthropic::Internal::AnyHash
             )
           end
@@ -9833,6 +10384,13 @@ module Anthropic
         sig { params(to: Anthropic::Beta::BetaFallbackInfo::OrHash).void }
         attr_writer :to
 
+        # What caused the `from` model to hand over at this hop.
+        sig { returns(Anthropic::Beta::BetaFallbackRefusalTrigger) }
+        attr_reader :trigger
+
+        sig { params(trigger: Anthropic::Beta::BetaFallbackRefusalTrigger::OrHash).void }
+        attr_writer :trigger
+
         sig { returns(Symbol) }
         attr_accessor :type
 
@@ -9841,6 +10399,7 @@ module Anthropic
             .returns({
               from: Anthropic::Beta::BetaFallbackInfo,
               to: Anthropic::Beta::BetaFallbackInfo,
+              trigger: Anthropic::Beta::BetaFallbackRefusalTrigger,
               type: Symbol
             })
         end
@@ -9850,10 +10409,10 @@ module Anthropic
           # Marks the point in `content` where one model's output gives way to the next.
           #
           # One block appears per hop where a preceding model actually ran this turn and
-          # declined. A turn routed directly by the sticky decision has no such boundary and
-          # carries no block — the signal for whether a fallback model served the response
-          # is the presence of a `fallback_message` entry in `usage.iterations`, not this
-          # block.
+          # declined. A turn where no preceding model ran and declined has no such boundary
+          # and carries no block — the signal for whether a fallback model served the
+          # response is the presence of a `fallback_message` entry in `usage.iterations`,
+          # not this block.
           #
           # The block is treated like a server-tool content block for streaming: it arrives
           # via the standard `content_block_start` / `content_block_stop` pair and carries
@@ -9862,6 +10421,7 @@ module Anthropic
             params(
               from: Anthropic::Beta::BetaFallbackInfo::OrHash,
               to: Anthropic::Beta::BetaFallbackInfo::OrHash,
+              trigger: Anthropic::Beta::BetaFallbackRefusalTrigger::OrHash,
               type: Symbol
             ).returns(T.attached_class)
           end
@@ -9872,6 +10432,7 @@ module Anthropic
                    # fallback model, its `model` is that model's canonical id.
             to:, # The fallback model producing the content that follows this block. Its `model` is
                  # always the canonical id.
+            trigger:, # What caused the `from` model to hand over at this hop.
             type: :fallback
 ); end
         end
@@ -9899,6 +10460,14 @@ module Anthropic
         sig { params(to: Anthropic::Beta::BetaFallbackInfoParam::OrHash).void }
         attr_writer :to
 
+        # The response block's `trigger`, echoed verbatim. Accepted and ignored by the
+        # server; any object or `null` is allowed.
+        sig { returns(T.nilable(T.anything)) }
+        attr_reader :trigger
+
+        sig { params(trigger: T.anything).void }
+        attr_writer :trigger
+
         sig { returns(Symbol) }
         attr_accessor :type
 
@@ -9907,7 +10476,8 @@ module Anthropic
             .returns({
               from: Anthropic::Beta::BetaFallbackInfoParam,
               to: Anthropic::Beta::BetaFallbackInfoParam,
-              type: Symbol
+              type: Symbol,
+              trigger: T.anything
             })
         end
         def to_hash; end
@@ -9915,29 +10485,29 @@ module Anthropic
         class << self
           # A `fallback` block echoed back from a prior response.
           #
-          # Accepted in `messages[].content` and never rendered into the prompt, not
-          # validated against the request's `fallbacks` chain or top-level `model`, and
-          # stripped before the sticky-routing cache key is computed.
+          # Accepted in `messages[].content` and not rendered into the prompt; not validated
+          # against the request's `fallbacks` chain or top-level `model`.
           #
-          # Callers should echo the assistant turn verbatim — block included. The block's
-          # position is load-bearing for thinking verification: the thinking runs on either
-          # side of a fallback hop carry independently-rooted verification hash chains, and
-          # this block is the only record of where one chain ends and the next begins. When
-          # thinking runs flank the boundary, omitting the block merges the runs into one
-          # contiguous span whose hashes cannot verify (the request is rejected), and moving
-          # it into the middle of a single run splits that run's chain and is likewise
-          # rejected; between non-thinking blocks the block's placement has no verification
-          # effect.
+          # Echo the assistant turn back verbatim, including this block in its original
+          # position. The block marks the boundary between content produced before and after
+          # a fallback hop, and the server relies on that boundary to validate the turn:
+          # when thinking runs flank the boundary, omitting the block merges them into one
+          # span the server cannot validate (the request is rejected), and moving it into
+          # the middle of a single run is likewise rejected; between non-thinking blocks the
+          # block's placement has no validation effect.
           sig do
             params(
               from: Anthropic::Beta::BetaFallbackInfoParam::OrHash,
               to: Anthropic::Beta::BetaFallbackInfoParam::OrHash,
+              trigger: T.anything,
               type: Symbol
             ).returns(T.attached_class)
           end
           def new(
             from:, # Identifies one hop of a fallback transition.
             to:, # Identifies one hop of a fallback transition.
+            trigger: nil, # The response block's `trigger`, echoed verbatim. Accepted and ignored by the
+                          # server; any object or `null` is allowed.
             type: :fallback
 ); end
         end
@@ -10228,6 +10798,98 @@ module Anthropic
               )
             end
         end
+      end
+
+      class BetaFallbackRefusalTrigger < Anthropic::Internal::Type::BaseModel
+        # The policy category that triggered a refusal.
+        sig do
+          returns(T.nilable(
+              Anthropic::Beta::BetaFallbackRefusalTrigger::Category::TaggedSymbol
+            ))
+        end
+        attr_accessor :category
+
+        sig { returns(Symbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              category:
+                T.nilable(
+                  Anthropic::Beta::BetaFallbackRefusalTrigger::Category::TaggedSymbol
+                ),
+              type: Symbol
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # The `from` model declined for policy reasons.
+          sig do
+            params(
+              category: T.nilable(
+                Anthropic::Beta::BetaFallbackRefusalTrigger::Category::OrSymbol
+              ),
+              type: Symbol
+            ).returns(T.attached_class)
+          end
+          def new(
+            category:, # The policy category that triggered a refusal.
+            type: :refusal
+); end
+        end
+
+        # The policy category that triggered a refusal.
+        module Category
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaFallbackRefusalTrigger::Category::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          BIO = T.let(
+              :bio,
+              Anthropic::Beta::BetaFallbackRefusalTrigger::Category::TaggedSymbol
+            )
+
+          CYBER = T.let(
+              :cyber,
+              Anthropic::Beta::BetaFallbackRefusalTrigger::Category::TaggedSymbol
+            )
+
+          FRONTIER_LLM = T.let(
+              :frontier_llm,
+              Anthropic::Beta::BetaFallbackRefusalTrigger::Category::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          REASONING_EXTRACTION = T.let(
+              :reasoning_extraction,
+              Anthropic::Beta::BetaFallbackRefusalTrigger::Category::TaggedSymbol
+            )
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaFallbackRefusalTrigger::Category
+              )
+            end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaFallbackRefusalTrigger,
+              Anthropic::Internal::AnyHash
+            )
+          end
       end
 
       class BetaFileDocumentSource < Anthropic::Internal::Type::BaseModel
@@ -20523,7 +21185,8 @@ module Anthropic
         # Values: direct: The model can call this tool directly. code_execution_20250825:
         # The tool can be called from the code execution environment (v1).
         # code_execution_20260120: The tool can be called from the code execution
-        # environment (v2 with persistence).
+        # environment (v2 with persistence). code_execution_20260521: The tool can be
+        # called from the code execution environment (v2 with persistence).
         module AllowedCaller
           extend Anthropic::Internal::Type::Enum
 
@@ -20544,6 +21207,11 @@ module Anthropic
 
           CODE_EXECUTION_20260120 = T.let(
               :code_execution_20260120,
+              Anthropic::Beta::BetaMemoryTool20250818::AllowedCaller::TaggedSymbol
+            )
+
+          CODE_EXECUTION_20260521 = T.let(
+              :code_execution_20260521,
               Anthropic::Beta::BetaMemoryTool20250818::AllowedCaller::TaggedSymbol
             )
 
@@ -22508,9 +23176,7 @@ module Anthropic
       end
 
       class BetaRefusalStopDetails < Anthropic::Internal::Type::BaseModel
-        # The policy category that triggered the refusal.
-        #
-        # `null` when the refusal doesn't map to a named category.
+        # The policy category that triggered a refusal.
         sig do
           returns(T.nilable(
               Anthropic::Beta::BetaRefusalStopDetails::Category::TaggedSymbol
@@ -22609,8 +23275,7 @@ module Anthropic
             ).returns(T.attached_class)
           end
           def new(
-            category:, # The policy category that triggered the refusal.
-                       # `null` when the refusal doesn't map to a named category.
+            category:, # The policy category that triggered a refusal.
             explanation:, # Human-readable explanation of the refusal.
                           # This text is not guaranteed to be stable. `null` when no explanation is
                           # available for the category.
@@ -22655,9 +23320,7 @@ module Anthropic
 ); end
         end
 
-        # The policy category that triggered the refusal.
-        #
-        # `null` when the refusal doesn't map to a named category.
+        # The policy category that triggered a refusal.
         module Category
           extend Anthropic::Internal::Type::Enum
 
@@ -25256,7 +25919,8 @@ module Anthropic
         # Values: direct: The model can call this tool directly. code_execution_20250825:
         # The tool can be called from the code execution environment (v1).
         # code_execution_20260120: The tool can be called from the code execution
-        # environment (v2 with persistence).
+        # environment (v2 with persistence). code_execution_20260521: The tool can be
+        # called from the code execution environment (v2 with persistence).
         module AllowedCaller
           extend Anthropic::Internal::Type::Enum
 
@@ -25272,6 +25936,11 @@ module Anthropic
 
           CODE_EXECUTION_20260120 = T.let(
               :code_execution_20260120,
+              Anthropic::Beta::BetaTool::AllowedCaller::TaggedSymbol
+            )
+
+          CODE_EXECUTION_20260521 = T.let(
+              :code_execution_20260521,
               Anthropic::Beta::BetaTool::AllowedCaller::TaggedSymbol
             )
 
@@ -25455,7 +26124,8 @@ module Anthropic
         # Values: direct: The model can call this tool directly. code_execution_20250825:
         # The tool can be called from the code execution environment (v1).
         # code_execution_20260120: The tool can be called from the code execution
-        # environment (v2 with persistence).
+        # environment (v2 with persistence). code_execution_20260521: The tool can be
+        # called from the code execution environment (v2 with persistence).
         module AllowedCaller
           extend Anthropic::Internal::Type::Enum
 
@@ -25476,6 +26146,11 @@ module Anthropic
 
           CODE_EXECUTION_20260120 = T.let(
               :code_execution_20260120,
+              Anthropic::Beta::BetaToolBash20241022::AllowedCaller::TaggedSymbol
+            )
+
+          CODE_EXECUTION_20260521 = T.let(
+              :code_execution_20260521,
               Anthropic::Beta::BetaToolBash20241022::AllowedCaller::TaggedSymbol
             )
 
@@ -25608,7 +26283,8 @@ module Anthropic
         # Values: direct: The model can call this tool directly. code_execution_20250825:
         # The tool can be called from the code execution environment (v1).
         # code_execution_20260120: The tool can be called from the code execution
-        # environment (v2 with persistence).
+        # environment (v2 with persistence). code_execution_20260521: The tool can be
+        # called from the code execution environment (v2 with persistence).
         module AllowedCaller
           extend Anthropic::Internal::Type::Enum
 
@@ -25629,6 +26305,11 @@ module Anthropic
 
           CODE_EXECUTION_20260120 = T.let(
               :code_execution_20260120,
+              Anthropic::Beta::BetaToolBash20250124::AllowedCaller::TaggedSymbol
+            )
+
+          CODE_EXECUTION_20260521 = T.let(
+              :code_execution_20260521,
               Anthropic::Beta::BetaToolBash20250124::AllowedCaller::TaggedSymbol
             )
 
@@ -25943,7 +26624,8 @@ module Anthropic
         # Values: direct: The model can call this tool directly. code_execution_20250825:
         # The tool can be called from the code execution environment (v1).
         # code_execution_20260120: The tool can be called from the code execution
-        # environment (v2 with persistence).
+        # environment (v2 with persistence). code_execution_20260521: The tool can be
+        # called from the code execution environment (v2 with persistence).
         module AllowedCaller
           extend Anthropic::Internal::Type::Enum
 
@@ -25964,6 +26646,11 @@ module Anthropic
 
           CODE_EXECUTION_20260120 = T.let(
               :code_execution_20260120,
+              Anthropic::Beta::BetaToolComputerUse20241022::AllowedCaller::TaggedSymbol
+            )
+
+          CODE_EXECUTION_20260521 = T.let(
+              :code_execution_20260521,
               Anthropic::Beta::BetaToolComputerUse20241022::AllowedCaller::TaggedSymbol
             )
 
@@ -26117,7 +26804,8 @@ module Anthropic
         # Values: direct: The model can call this tool directly. code_execution_20250825:
         # The tool can be called from the code execution environment (v1).
         # code_execution_20260120: The tool can be called from the code execution
-        # environment (v2 with persistence).
+        # environment (v2 with persistence). code_execution_20260521: The tool can be
+        # called from the code execution environment (v2 with persistence).
         module AllowedCaller
           extend Anthropic::Internal::Type::Enum
 
@@ -26138,6 +26826,11 @@ module Anthropic
 
           CODE_EXECUTION_20260120 = T.let(
               :code_execution_20260120,
+              Anthropic::Beta::BetaToolComputerUse20250124::AllowedCaller::TaggedSymbol
+            )
+
+          CODE_EXECUTION_20260521 = T.let(
+              :code_execution_20260521,
               Anthropic::Beta::BetaToolComputerUse20250124::AllowedCaller::TaggedSymbol
             )
 
@@ -26301,7 +26994,8 @@ module Anthropic
         # Values: direct: The model can call this tool directly. code_execution_20250825:
         # The tool can be called from the code execution environment (v1).
         # code_execution_20260120: The tool can be called from the code execution
-        # environment (v2 with persistence).
+        # environment (v2 with persistence). code_execution_20260521: The tool can be
+        # called from the code execution environment (v2 with persistence).
         module AllowedCaller
           extend Anthropic::Internal::Type::Enum
 
@@ -26322,6 +27016,11 @@ module Anthropic
 
           CODE_EXECUTION_20260120 = T.let(
               :code_execution_20260120,
+              Anthropic::Beta::BetaToolComputerUse20251124::AllowedCaller::TaggedSymbol
+            )
+
+          CODE_EXECUTION_20260521 = T.let(
+              :code_execution_20260521,
               Anthropic::Beta::BetaToolComputerUse20251124::AllowedCaller::TaggedSymbol
             )
 
@@ -26645,7 +27344,8 @@ module Anthropic
         # Values: direct: The model can call this tool directly. code_execution_20250825:
         # The tool can be called from the code execution environment (v1).
         # code_execution_20260120: The tool can be called from the code execution
-        # environment (v2 with persistence).
+        # environment (v2 with persistence). code_execution_20260521: The tool can be
+        # called from the code execution environment (v2 with persistence).
         module AllowedCaller
           extend Anthropic::Internal::Type::Enum
 
@@ -26666,6 +27366,11 @@ module Anthropic
 
           CODE_EXECUTION_20260120 = T.let(
               :code_execution_20260120,
+              Anthropic::Beta::BetaToolSearchToolBm25_20251119::AllowedCaller::TaggedSymbol
+            )
+
+          CODE_EXECUTION_20260521 = T.let(
+              :code_execution_20260521,
               Anthropic::Beta::BetaToolSearchToolBm25_20251119::AllowedCaller::TaggedSymbol
             )
 
@@ -26823,7 +27528,8 @@ module Anthropic
         # Values: direct: The model can call this tool directly. code_execution_20250825:
         # The tool can be called from the code execution environment (v1).
         # code_execution_20260120: The tool can be called from the code execution
-        # environment (v2 with persistence).
+        # environment (v2 with persistence). code_execution_20260521: The tool can be
+        # called from the code execution environment (v2 with persistence).
         module AllowedCaller
           extend Anthropic::Internal::Type::Enum
 
@@ -26844,6 +27550,11 @@ module Anthropic
 
           CODE_EXECUTION_20260120 = T.let(
               :code_execution_20260120,
+              Anthropic::Beta::BetaToolSearchToolRegex20251119::AllowedCaller::TaggedSymbol
+            )
+
+          CODE_EXECUTION_20260521 = T.let(
+              :code_execution_20260521,
               Anthropic::Beta::BetaToolSearchToolRegex20251119::AllowedCaller::TaggedSymbol
             )
 
@@ -27396,7 +28107,8 @@ module Anthropic
         # Values: direct: The model can call this tool directly. code_execution_20250825:
         # The tool can be called from the code execution environment (v1).
         # code_execution_20260120: The tool can be called from the code execution
-        # environment (v2 with persistence).
+        # environment (v2 with persistence). code_execution_20260521: The tool can be
+        # called from the code execution environment (v2 with persistence).
         module AllowedCaller
           extend Anthropic::Internal::Type::Enum
 
@@ -27417,6 +28129,11 @@ module Anthropic
 
           CODE_EXECUTION_20260120 = T.let(
               :code_execution_20260120,
+              Anthropic::Beta::BetaToolTextEditor20241022::AllowedCaller::TaggedSymbol
+            )
+
+          CODE_EXECUTION_20260521 = T.let(
+              :code_execution_20260521,
               Anthropic::Beta::BetaToolTextEditor20241022::AllowedCaller::TaggedSymbol
             )
 
@@ -27549,7 +28266,8 @@ module Anthropic
         # Values: direct: The model can call this tool directly. code_execution_20250825:
         # The tool can be called from the code execution environment (v1).
         # code_execution_20260120: The tool can be called from the code execution
-        # environment (v2 with persistence).
+        # environment (v2 with persistence). code_execution_20260521: The tool can be
+        # called from the code execution environment (v2 with persistence).
         module AllowedCaller
           extend Anthropic::Internal::Type::Enum
 
@@ -27570,6 +28288,11 @@ module Anthropic
 
           CODE_EXECUTION_20260120 = T.let(
               :code_execution_20260120,
+              Anthropic::Beta::BetaToolTextEditor20250124::AllowedCaller::TaggedSymbol
+            )
+
+          CODE_EXECUTION_20260521 = T.let(
+              :code_execution_20260521,
               Anthropic::Beta::BetaToolTextEditor20250124::AllowedCaller::TaggedSymbol
             )
 
@@ -27702,7 +28425,8 @@ module Anthropic
         # Values: direct: The model can call this tool directly. code_execution_20250825:
         # The tool can be called from the code execution environment (v1).
         # code_execution_20260120: The tool can be called from the code execution
-        # environment (v2 with persistence).
+        # environment (v2 with persistence). code_execution_20260521: The tool can be
+        # called from the code execution environment (v2 with persistence).
         module AllowedCaller
           extend Anthropic::Internal::Type::Enum
 
@@ -27723,6 +28447,11 @@ module Anthropic
 
           CODE_EXECUTION_20260120 = T.let(
               :code_execution_20260120,
+              Anthropic::Beta::BetaToolTextEditor20250429::AllowedCaller::TaggedSymbol
+            )
+
+          CODE_EXECUTION_20260521 = T.let(
+              :code_execution_20260521,
               Anthropic::Beta::BetaToolTextEditor20250429::AllowedCaller::TaggedSymbol
             )
 
@@ -27864,7 +28593,8 @@ module Anthropic
         # Values: direct: The model can call this tool directly. code_execution_20250825:
         # The tool can be called from the code execution environment (v1).
         # code_execution_20260120: The tool can be called from the code execution
-        # environment (v2 with persistence).
+        # environment (v2 with persistence). code_execution_20260521: The tool can be
+        # called from the code execution environment (v2 with persistence).
         module AllowedCaller
           extend Anthropic::Internal::Type::Enum
 
@@ -27885,6 +28615,11 @@ module Anthropic
 
           CODE_EXECUTION_20260120 = T.let(
               :code_execution_20260120,
+              Anthropic::Beta::BetaToolTextEditor20250728::AllowedCaller::TaggedSymbol
+            )
+
+          CODE_EXECUTION_20260521 = T.let(
+              :code_execution_20260521,
               Anthropic::Beta::BetaToolTextEditor20250728::AllowedCaller::TaggedSymbol
             )
 
@@ -27929,6 +28664,7 @@ module Anthropic
               Anthropic::Beta::BetaCodeExecutionTool20250522,
               Anthropic::Beta::BetaCodeExecutionTool20250825,
               Anthropic::Beta::BetaCodeExecutionTool20260120,
+              Anthropic::Beta::BetaCodeExecutionTool20260521,
               Anthropic::Beta::BetaToolComputerUse20241022,
               Anthropic::Beta::BetaMemoryTool20250818,
               Anthropic::Beta::BetaToolComputerUse20250124,
@@ -29076,7 +29812,8 @@ module Anthropic
         # Values: direct: The model can call this tool directly. code_execution_20250825:
         # The tool can be called from the code execution environment (v1).
         # code_execution_20260120: The tool can be called from the code execution
-        # environment (v2 with persistence).
+        # environment (v2 with persistence). code_execution_20260521: The tool can be
+        # called from the code execution environment (v2 with persistence).
         module AllowedCaller
           extend Anthropic::Internal::Type::Enum
 
@@ -29097,6 +29834,11 @@ module Anthropic
 
           CODE_EXECUTION_20260120 = T.let(
               :code_execution_20260120,
+              Anthropic::Beta::BetaWebFetchTool20250910::AllowedCaller::TaggedSymbol
+            )
+
+          CODE_EXECUTION_20260521 = T.let(
+              :code_execution_20260521,
               Anthropic::Beta::BetaWebFetchTool20250910::AllowedCaller::TaggedSymbol
             )
 
@@ -29262,7 +30004,8 @@ module Anthropic
         # Values: direct: The model can call this tool directly. code_execution_20250825:
         # The tool can be called from the code execution environment (v1).
         # code_execution_20260120: The tool can be called from the code execution
-        # environment (v2 with persistence).
+        # environment (v2 with persistence). code_execution_20260521: The tool can be
+        # called from the code execution environment (v2 with persistence).
         module AllowedCaller
           extend Anthropic::Internal::Type::Enum
 
@@ -29283,6 +30026,11 @@ module Anthropic
 
           CODE_EXECUTION_20260120 = T.let(
               :code_execution_20260120,
+              Anthropic::Beta::BetaWebFetchTool20260209::AllowedCaller::TaggedSymbol
+            )
+
+          CODE_EXECUTION_20260521 = T.let(
+              :code_execution_20260521,
               Anthropic::Beta::BetaWebFetchTool20260209::AllowedCaller::TaggedSymbol
             )
 
@@ -29463,7 +30211,8 @@ module Anthropic
         # Values: direct: The model can call this tool directly. code_execution_20250825:
         # The tool can be called from the code execution environment (v1).
         # code_execution_20260120: The tool can be called from the code execution
-        # environment (v2 with persistence).
+        # environment (v2 with persistence). code_execution_20260521: The tool can be
+        # called from the code execution environment (v2 with persistence).
         module AllowedCaller
           extend Anthropic::Internal::Type::Enum
 
@@ -29484,6 +30233,11 @@ module Anthropic
 
           CODE_EXECUTION_20260120 = T.let(
               :code_execution_20260120,
+              Anthropic::Beta::BetaWebFetchTool20260309::AllowedCaller::TaggedSymbol
+            )
+
+          CODE_EXECUTION_20260521 = T.let(
+              :code_execution_20260521,
               Anthropic::Beta::BetaWebFetchTool20260309::AllowedCaller::TaggedSymbol
             )
 
@@ -30140,7 +30894,8 @@ module Anthropic
         # Values: direct: The model can call this tool directly. code_execution_20250825:
         # The tool can be called from the code execution environment (v1).
         # code_execution_20260120: The tool can be called from the code execution
-        # environment (v2 with persistence).
+        # environment (v2 with persistence). code_execution_20260521: The tool can be
+        # called from the code execution environment (v2 with persistence).
         module AllowedCaller
           extend Anthropic::Internal::Type::Enum
 
@@ -30161,6 +30916,11 @@ module Anthropic
 
           CODE_EXECUTION_20260120 = T.let(
               :code_execution_20260120,
+              Anthropic::Beta::BetaWebSearchTool20250305::AllowedCaller::TaggedSymbol
+            )
+
+          CODE_EXECUTION_20260521 = T.let(
+              :code_execution_20260521,
               Anthropic::Beta::BetaWebSearchTool20250305::AllowedCaller::TaggedSymbol
             )
 
@@ -30321,7 +31081,8 @@ module Anthropic
         # Values: direct: The model can call this tool directly. code_execution_20250825:
         # The tool can be called from the code execution environment (v1).
         # code_execution_20260120: The tool can be called from the code execution
-        # environment (v2 with persistence).
+        # environment (v2 with persistence). code_execution_20260521: The tool can be
+        # called from the code execution environment (v2 with persistence).
         module AllowedCaller
           extend Anthropic::Internal::Type::Enum
 
@@ -30342,6 +31103,11 @@ module Anthropic
 
           CODE_EXECUTION_20260120 = T.let(
               :code_execution_20260120,
+              Anthropic::Beta::BetaWebSearchTool20260209::AllowedCaller::TaggedSymbol
+            )
+
+          CODE_EXECUTION_20260521 = T.let(
+              :code_execution_20260521,
               Anthropic::Beta::BetaWebSearchTool20260209::AllowedCaller::TaggedSymbol
             )
 
@@ -30795,7 +31561,8 @@ module Anthropic
               Anthropic::Beta::BetaWebhookVaultCredentialCreatedEventData,
               Anthropic::Beta::BetaWebhookVaultCredentialArchivedEventData,
               Anthropic::Beta::BetaWebhookVaultCredentialDeletedEventData,
-              Anthropic::Beta::BetaWebhookVaultCredentialRefreshFailedEventData
+              Anthropic::Beta::BetaWebhookVaultCredentialRefreshFailedEventData,
+              Anthropic::Beta::BetaWebhookSessionUpdatedEventData
             ))
         end
         attr_accessor :data
@@ -30836,7 +31603,8 @@ module Anthropic
                   Anthropic::Beta::BetaWebhookVaultCredentialCreatedEventData,
                   Anthropic::Beta::BetaWebhookVaultCredentialArchivedEventData,
                   Anthropic::Beta::BetaWebhookVaultCredentialDeletedEventData,
-                  Anthropic::Beta::BetaWebhookVaultCredentialRefreshFailedEventData
+                  Anthropic::Beta::BetaWebhookVaultCredentialRefreshFailedEventData,
+                  Anthropic::Beta::BetaWebhookSessionUpdatedEventData
                 ),
               type: Symbol
             })
@@ -30870,7 +31638,8 @@ module Anthropic
                 Anthropic::Beta::BetaWebhookVaultCredentialCreatedEventData::OrHash,
                 Anthropic::Beta::BetaWebhookVaultCredentialArchivedEventData::OrHash,
                 Anthropic::Beta::BetaWebhookVaultCredentialDeletedEventData::OrHash,
-                Anthropic::Beta::BetaWebhookVaultCredentialRefreshFailedEventData::OrHash
+                Anthropic::Beta::BetaWebhookVaultCredentialRefreshFailedEventData::OrHash,
+                Anthropic::Beta::BetaWebhookSessionUpdatedEventData::OrHash
               ),
               type: Symbol
             ).returns(T.attached_class)
@@ -30922,7 +31691,8 @@ module Anthropic
               Anthropic::Beta::BetaWebhookVaultCredentialCreatedEventData,
               Anthropic::Beta::BetaWebhookVaultCredentialArchivedEventData,
               Anthropic::Beta::BetaWebhookVaultCredentialDeletedEventData,
-              Anthropic::Beta::BetaWebhookVaultCredentialRefreshFailedEventData
+              Anthropic::Beta::BetaWebhookVaultCredentialRefreshFailedEventData,
+              Anthropic::Beta::BetaWebhookSessionUpdatedEventData
             )
           end
       end
@@ -31693,6 +32463,56 @@ module Anthropic
         OrHash = T.type_alias do
             T.any(
               Anthropic::Beta::BetaWebhookSessionThreadTerminatedEventData,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
+      class BetaWebhookSessionUpdatedEventData < Anthropic::Internal::Type::BaseModel
+        # ID of the session that triggered the event.
+        sig { returns(String) }
+        attr_accessor :id
+
+        sig { returns(String) }
+        attr_accessor :organization_id
+
+        sig { returns(Symbol) }
+        attr_accessor :type
+
+        sig { returns(String) }
+        attr_accessor :workspace_id
+
+        sig do
+          override
+            .returns({
+              id: String,
+              organization_id: String,
+              type: Symbol,
+              workspace_id: String
+            })
+        end
+        def to_hash; end
+
+        class << self
+          sig do
+            params(
+              id: String,
+              organization_id: String,
+              workspace_id: String,
+              type: Symbol
+            ).returns(T.attached_class)
+          end
+          def new(
+            id:, # ID of the session that triggered the event.
+            organization_id:,
+            workspace_id:,
+            type: :"session.updated"
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaWebhookSessionUpdatedEventData,
               Anthropic::Internal::AnyHash
             )
           end
@@ -38019,6 +38839,7 @@ module Anthropic
                   Anthropic::Beta::BetaCodeExecutionTool20250522,
                   Anthropic::Beta::BetaCodeExecutionTool20250825,
                   Anthropic::Beta::BetaCodeExecutionTool20260120,
+                  Anthropic::Beta::BetaCodeExecutionTool20260521,
                   Anthropic::Beta::BetaToolComputerUse20241022,
                   Anthropic::Beta::BetaMemoryTool20250818,
                   Anthropic::Beta::BetaToolComputerUse20250124,
@@ -38052,6 +38873,7 @@ module Anthropic
                   Anthropic::Beta::BetaCodeExecutionTool20250522::OrHash,
                   Anthropic::Beta::BetaCodeExecutionTool20250825::OrHash,
                   Anthropic::Beta::BetaCodeExecutionTool20260120::OrHash,
+                  Anthropic::Beta::BetaCodeExecutionTool20260521::OrHash,
                   Anthropic::Beta::BetaToolComputerUse20241022::OrHash,
                   Anthropic::Beta::BetaMemoryTool20250818::OrHash,
                   Anthropic::Beta::BetaToolComputerUse20250124::OrHash,
@@ -38116,6 +38938,7 @@ module Anthropic
                     Anthropic::Beta::BetaCodeExecutionTool20250522,
                     Anthropic::Beta::BetaCodeExecutionTool20250825,
                     Anthropic::Beta::BetaCodeExecutionTool20260120,
+                    Anthropic::Beta::BetaCodeExecutionTool20260521,
                     Anthropic::Beta::BetaToolComputerUse20241022,
                     Anthropic::Beta::BetaMemoryTool20250818,
                     Anthropic::Beta::BetaToolComputerUse20250124,
@@ -38177,6 +39000,7 @@ module Anthropic
                   Anthropic::Beta::BetaCodeExecutionTool20250522::OrHash,
                   Anthropic::Beta::BetaCodeExecutionTool20250825::OrHash,
                   Anthropic::Beta::BetaCodeExecutionTool20260120::OrHash,
+                  Anthropic::Beta::BetaCodeExecutionTool20260521::OrHash,
                   Anthropic::Beta::BetaToolComputerUse20241022::OrHash,
                   Anthropic::Beta::BetaMemoryTool20250818::OrHash,
                   Anthropic::Beta::BetaToolComputerUse20250124::OrHash,
@@ -38440,6 +39264,7 @@ module Anthropic
                 Anthropic::Beta::BetaCodeExecutionTool20250522,
                 Anthropic::Beta::BetaCodeExecutionTool20250825,
                 Anthropic::Beta::BetaCodeExecutionTool20260120,
+                Anthropic::Beta::BetaCodeExecutionTool20260521,
                 Anthropic::Beta::BetaToolComputerUse20241022,
                 Anthropic::Beta::BetaMemoryTool20250818,
                 Anthropic::Beta::BetaToolComputerUse20250124,
@@ -38873,6 +39698,7 @@ module Anthropic
                   Anthropic::Beta::BetaCodeExecutionTool20250522,
                   Anthropic::Beta::BetaCodeExecutionTool20250825,
                   Anthropic::Beta::BetaCodeExecutionTool20260120,
+                  Anthropic::Beta::BetaCodeExecutionTool20260521,
                   Anthropic::Beta::BetaToolComputerUse20241022,
                   Anthropic::Beta::BetaMemoryTool20250818,
                   Anthropic::Beta::BetaToolComputerUse20250124,
@@ -38906,6 +39732,7 @@ module Anthropic
                   Anthropic::Beta::BetaCodeExecutionTool20250522::OrHash,
                   Anthropic::Beta::BetaCodeExecutionTool20250825::OrHash,
                   Anthropic::Beta::BetaCodeExecutionTool20260120::OrHash,
+                  Anthropic::Beta::BetaCodeExecutionTool20260521::OrHash,
                   Anthropic::Beta::BetaToolComputerUse20241022::OrHash,
                   Anthropic::Beta::BetaMemoryTool20250818::OrHash,
                   Anthropic::Beta::BetaToolComputerUse20250124::OrHash,
@@ -39012,6 +39839,7 @@ module Anthropic
                     Anthropic::Beta::BetaCodeExecutionTool20250522,
                     Anthropic::Beta::BetaCodeExecutionTool20250825,
                     Anthropic::Beta::BetaCodeExecutionTool20260120,
+                    Anthropic::Beta::BetaCodeExecutionTool20260521,
                     Anthropic::Beta::BetaToolComputerUse20241022,
                     Anthropic::Beta::BetaMemoryTool20250818,
                     Anthropic::Beta::BetaToolComputerUse20250124,
@@ -39086,6 +39914,7 @@ module Anthropic
                   Anthropic::Beta::BetaCodeExecutionTool20250522::OrHash,
                   Anthropic::Beta::BetaCodeExecutionTool20250825::OrHash,
                   Anthropic::Beta::BetaCodeExecutionTool20260120::OrHash,
+                  Anthropic::Beta::BetaCodeExecutionTool20260521::OrHash,
                   Anthropic::Beta::BetaToolComputerUse20241022::OrHash,
                   Anthropic::Beta::BetaMemoryTool20250818::OrHash,
                   Anthropic::Beta::BetaToolComputerUse20250124::OrHash,
@@ -40038,6 +40867,7 @@ module Anthropic
                         Anthropic::Beta::BetaCodeExecutionTool20250522,
                         Anthropic::Beta::BetaCodeExecutionTool20250825,
                         Anthropic::Beta::BetaCodeExecutionTool20260120,
+                        Anthropic::Beta::BetaCodeExecutionTool20260521,
                         Anthropic::Beta::BetaToolComputerUse20241022,
                         Anthropic::Beta::BetaMemoryTool20250818,
                         Anthropic::Beta::BetaToolComputerUse20250124,
@@ -40071,6 +40901,7 @@ module Anthropic
                         Anthropic::Beta::BetaCodeExecutionTool20250522::OrHash,
                         Anthropic::Beta::BetaCodeExecutionTool20250825::OrHash,
                         Anthropic::Beta::BetaCodeExecutionTool20260120::OrHash,
+                        Anthropic::Beta::BetaCodeExecutionTool20260521::OrHash,
                         Anthropic::Beta::BetaToolComputerUse20241022::OrHash,
                         Anthropic::Beta::BetaMemoryTool20250818::OrHash,
                         Anthropic::Beta::BetaToolComputerUse20250124::OrHash,
@@ -40185,6 +41016,7 @@ module Anthropic
                           Anthropic::Beta::BetaCodeExecutionTool20250522,
                           Anthropic::Beta::BetaCodeExecutionTool20250825,
                           Anthropic::Beta::BetaCodeExecutionTool20260120,
+                          Anthropic::Beta::BetaCodeExecutionTool20260521,
                           Anthropic::Beta::BetaToolComputerUse20241022,
                           Anthropic::Beta::BetaMemoryTool20250818,
                           Anthropic::Beta::BetaToolComputerUse20250124,
@@ -40272,6 +41104,7 @@ module Anthropic
                         Anthropic::Beta::BetaCodeExecutionTool20250522::OrHash,
                         Anthropic::Beta::BetaCodeExecutionTool20250825::OrHash,
                         Anthropic::Beta::BetaCodeExecutionTool20260120::OrHash,
+                        Anthropic::Beta::BetaCodeExecutionTool20260521::OrHash,
                         Anthropic::Beta::BetaToolComputerUse20241022::OrHash,
                         Anthropic::Beta::BetaMemoryTool20250818::OrHash,
                         Anthropic::Beta::BetaToolComputerUse20250124::OrHash,
@@ -52450,7 +53283,8 @@ module Anthropic
                 Anthropic::Beta::BetaWebhookVaultCredentialCreatedEventData::OrHash,
                 Anthropic::Beta::BetaWebhookVaultCredentialArchivedEventData::OrHash,
                 Anthropic::Beta::BetaWebhookVaultCredentialDeletedEventData::OrHash,
-                Anthropic::Beta::BetaWebhookVaultCredentialRefreshFailedEventData::OrHash
+                Anthropic::Beta::BetaWebhookVaultCredentialRefreshFailedEventData::OrHash,
+                Anthropic::Beta::BetaWebhookSessionUpdatedEventData::OrHash
               ),
               type: Symbol
             ).returns(T.attached_class)
@@ -56576,6 +57410,7 @@ module Anthropic
     BetaCodeExecutionTool20250522 = Beta::BetaCodeExecutionTool20250522
     BetaCodeExecutionTool20250825 = Beta::BetaCodeExecutionTool20250825
     BetaCodeExecutionTool20260120 = Beta::BetaCodeExecutionTool20260120
+    BetaCodeExecutionTool20260521 = Beta::BetaCodeExecutionTool20260521
     BetaCodeExecutionToolResultBlock = Beta::BetaCodeExecutionToolResultBlock
 
     BetaCodeExecutionToolResultBlockContent = Beta::BetaCodeExecutionToolResultBlockContent
@@ -56697,6 +57532,7 @@ module Anthropic
     BetaFallbackInfoParam = Beta::BetaFallbackInfoParam
     BetaFallbackMessageIterationUsage = Beta::BetaFallbackMessageIterationUsage
     BetaFallbackParam = Beta::BetaFallbackParam
+    BetaFallbackRefusalTrigger = Beta::BetaFallbackRefusalTrigger
     BetaFileDocumentSource = Beta::BetaFileDocumentSource
     BetaFileImageSource = Beta::BetaFileImageSource
     BetaFileScope = Beta::BetaFileScope
@@ -57276,6 +58112,8 @@ module Anthropic
     BetaWebhookSessionThreadIdledEventData = Beta::BetaWebhookSessionThreadIdledEventData
 
     BetaWebhookSessionThreadTerminatedEventData = Beta::BetaWebhookSessionThreadTerminatedEventData
+
+    BetaWebhookSessionUpdatedEventData = Beta::BetaWebhookSessionUpdatedEventData
 
     BetaWebhookVaultArchivedEventData = Beta::BetaWebhookVaultArchivedEventData
     BetaWebhookVaultCreatedEventData = Beta::BetaWebhookVaultCreatedEventData
@@ -58439,7 +59277,8 @@ module Anthropic
       # Values: direct: The model can call this tool directly. code_execution_20250825:
       # The tool can be called from the code execution environment (v1).
       # code_execution_20260120: The tool can be called from the code execution
-      # environment (v2 with persistence).
+      # environment (v2 with persistence). code_execution_20260521: The tool can be
+      # called from the code execution environment (v2 with persistence).
       module AllowedCaller
         extend Anthropic::Internal::Type::Enum
 
@@ -58460,6 +59299,11 @@ module Anthropic
 
         CODE_EXECUTION_20260120 = T.let(
             :code_execution_20260120,
+            Anthropic::CodeExecutionTool20250522::AllowedCaller::TaggedSymbol
+          )
+
+        CODE_EXECUTION_20260521 = T.let(
+            :code_execution_20260521,
             Anthropic::CodeExecutionTool20250522::AllowedCaller::TaggedSymbol
           )
 
@@ -58579,7 +59423,8 @@ module Anthropic
       # Values: direct: The model can call this tool directly. code_execution_20250825:
       # The tool can be called from the code execution environment (v1).
       # code_execution_20260120: The tool can be called from the code execution
-      # environment (v2 with persistence).
+      # environment (v2 with persistence). code_execution_20260521: The tool can be
+      # called from the code execution environment (v2 with persistence).
       module AllowedCaller
         extend Anthropic::Internal::Type::Enum
 
@@ -58600,6 +59445,11 @@ module Anthropic
 
         CODE_EXECUTION_20260120 = T.let(
             :code_execution_20260120,
+            Anthropic::CodeExecutionTool20250825::AllowedCaller::TaggedSymbol
+          )
+
+        CODE_EXECUTION_20260521 = T.let(
+            :code_execution_20260521,
             Anthropic::CodeExecutionTool20250825::AllowedCaller::TaggedSymbol
           )
 
@@ -58721,7 +59571,8 @@ module Anthropic
       # Values: direct: The model can call this tool directly. code_execution_20250825:
       # The tool can be called from the code execution environment (v1).
       # code_execution_20260120: The tool can be called from the code execution
-      # environment (v2 with persistence).
+      # environment (v2 with persistence). code_execution_20260521: The tool can be
+      # called from the code execution environment (v2 with persistence).
       module AllowedCaller
         extend Anthropic::Internal::Type::Enum
 
@@ -58745,6 +59596,11 @@ module Anthropic
             Anthropic::CodeExecutionTool20260120::AllowedCaller::TaggedSymbol
           )
 
+        CODE_EXECUTION_20260521 = T.let(
+            :code_execution_20260521,
+            Anthropic::CodeExecutionTool20260120::AllowedCaller::TaggedSymbol
+          )
+
         DIRECT = T.let(
             :direct,
             Anthropic::CodeExecutionTool20260120::AllowedCaller::TaggedSymbol
@@ -58760,6 +59616,153 @@ module Anthropic
       OrHash = T.type_alias do
           T.any(
             Anthropic::CodeExecutionTool20260120,
+            Anthropic::Internal::AnyHash
+          )
+        end
+    end
+
+    class CodeExecutionTool20260521 < Anthropic::Internal::Type::BaseModel
+      sig do
+        returns(T.nilable(
+            T::Array[
+              Anthropic::CodeExecutionTool20260521::AllowedCaller::OrSymbol
+            ]
+          ))
+      end
+      attr_reader :allowed_callers
+
+      sig do
+        params(
+          allowed_callers: T::Array[
+              Anthropic::CodeExecutionTool20260521::AllowedCaller::OrSymbol
+            ]
+        ).void
+      end
+      attr_writer :allowed_callers
+
+      # Create a cache control breakpoint at this content block.
+      sig { returns(T.nilable(Anthropic::CacheControlEphemeral)) }
+      attr_reader :cache_control
+
+      sig { params(cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash)).void }
+      attr_writer :cache_control
+
+      # If true, tool will not be included in initial system prompt. Only loaded when
+      # returned via tool_reference from tool search.
+      sig { returns(T.nilable(T::Boolean)) }
+      attr_reader :defer_loading
+
+      sig { params(defer_loading: T::Boolean).void }
+      attr_writer :defer_loading
+
+      # Name of the tool.
+      #
+      # This is how the tool will be called by the model and in `tool_use` blocks.
+      sig { returns(Symbol) }
+      attr_accessor :name
+
+      # When true, guarantees schema validation on tool names and inputs
+      sig { returns(T.nilable(T::Boolean)) }
+      attr_reader :strict
+
+      sig { params(strict: T::Boolean).void }
+      attr_writer :strict
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig do
+        override
+          .returns({
+            name: Symbol,
+            type: Symbol,
+            allowed_callers:
+              T::Array[
+                Anthropic::CodeExecutionTool20260521::AllowedCaller::OrSymbol
+              ],
+            cache_control: T.nilable(Anthropic::CacheControlEphemeral),
+            defer_loading: T::Boolean,
+            strict: T::Boolean
+          })
+      end
+      def to_hash; end
+
+      class << self
+        # Code execution tool with REPL state persistence.
+        sig do
+          params(
+            allowed_callers: T::Array[
+              Anthropic::CodeExecutionTool20260521::AllowedCaller::OrSymbol
+            ],
+            cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash),
+            defer_loading: T::Boolean,
+            strict: T::Boolean,
+            name: Symbol,
+            type: Symbol
+          ).returns(T.attached_class)
+        end
+        def new(
+          allowed_callers: nil,
+          cache_control: nil, # Create a cache control breakpoint at this content block.
+          defer_loading: nil, # If true, tool will not be included in initial system prompt. Only loaded when
+                              # returned via tool_reference from tool search.
+          strict: nil, # When true, guarantees schema validation on tool names and inputs
+          name: :code_execution, # Name of the tool.
+                                 # This is how the tool will be called by the model and in `tool_use` blocks.
+          type: :code_execution_20260521
+); end
+      end
+
+      # Specifies who can invoke a tool.
+      #
+      # Values: direct: The model can call this tool directly. code_execution_20250825:
+      # The tool can be called from the code execution environment (v1).
+      # code_execution_20260120: The tool can be called from the code execution
+      # environment (v2 with persistence). code_execution_20260521: The tool can be
+      # called from the code execution environment (v2 with persistence).
+      module AllowedCaller
+        extend Anthropic::Internal::Type::Enum
+
+        class << self
+          sig do
+            override
+              .returns(T::Array[
+              Anthropic::CodeExecutionTool20260521::AllowedCaller::TaggedSymbol
+            ])
+          end
+          def values; end
+        end
+
+        CODE_EXECUTION_20250825 = T.let(
+            :code_execution_20250825,
+            Anthropic::CodeExecutionTool20260521::AllowedCaller::TaggedSymbol
+          )
+
+        CODE_EXECUTION_20260120 = T.let(
+            :code_execution_20260120,
+            Anthropic::CodeExecutionTool20260521::AllowedCaller::TaggedSymbol
+          )
+
+        CODE_EXECUTION_20260521 = T.let(
+            :code_execution_20260521,
+            Anthropic::CodeExecutionTool20260521::AllowedCaller::TaggedSymbol
+          )
+
+        DIRECT = T.let(
+            :direct,
+            Anthropic::CodeExecutionTool20260521::AllowedCaller::TaggedSymbol
+          )
+
+        OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+        TaggedSymbol = T.type_alias do
+            T.all(Symbol, Anthropic::CodeExecutionTool20260521::AllowedCaller)
+          end
+      end
+
+      OrHash = T.type_alias do
+          T.any(
+            Anthropic::CodeExecutionTool20260521,
             Anthropic::Internal::AnyHash
           )
         end
@@ -60269,7 +61272,8 @@ module Anthropic
       # Values: direct: The model can call this tool directly. code_execution_20250825:
       # The tool can be called from the code execution environment (v1).
       # code_execution_20260120: The tool can be called from the code execution
-      # environment (v2 with persistence).
+      # environment (v2 with persistence). code_execution_20260521: The tool can be
+      # called from the code execution environment (v2 with persistence).
       module AllowedCaller
         extend Anthropic::Internal::Type::Enum
 
@@ -60285,6 +61289,11 @@ module Anthropic
 
         CODE_EXECUTION_20260120 = T.let(
             :code_execution_20260120,
+            Anthropic::MemoryTool20250818::AllowedCaller::TaggedSymbol
+          )
+
+        CODE_EXECUTION_20260521 = T.let(
+            :code_execution_20260521,
             Anthropic::MemoryTool20250818::AllowedCaller::TaggedSymbol
           )
 
@@ -60802,6 +61811,7 @@ module Anthropic
                 Anthropic::CodeExecutionTool20250522,
                 Anthropic::CodeExecutionTool20250825,
                 Anthropic::CodeExecutionTool20260120,
+                Anthropic::CodeExecutionTool20260521,
                 Anthropic::MemoryTool20250818,
                 Anthropic::ToolTextEditor20250124,
                 Anthropic::ToolTextEditor20250429,
@@ -60828,6 +61838,7 @@ module Anthropic
                 Anthropic::CodeExecutionTool20250522::OrHash,
                 Anthropic::CodeExecutionTool20250825::OrHash,
                 Anthropic::CodeExecutionTool20260120::OrHash,
+                Anthropic::CodeExecutionTool20260521::OrHash,
                 Anthropic::MemoryTool20250818::OrHash,
                 Anthropic::ToolTextEditor20250124::OrHash,
                 Anthropic::ToolTextEditor20250429::OrHash,
@@ -60874,6 +61885,7 @@ module Anthropic
                   Anthropic::CodeExecutionTool20250522,
                   Anthropic::CodeExecutionTool20250825,
                   Anthropic::CodeExecutionTool20260120,
+                  Anthropic::CodeExecutionTool20260521,
                   Anthropic::MemoryTool20250818,
                   Anthropic::ToolTextEditor20250124,
                   Anthropic::ToolTextEditor20250429,
@@ -60918,6 +61930,7 @@ module Anthropic
                 Anthropic::CodeExecutionTool20250522::OrHash,
                 Anthropic::CodeExecutionTool20250825::OrHash,
                 Anthropic::CodeExecutionTool20260120::OrHash,
+                Anthropic::CodeExecutionTool20260521::OrHash,
                 Anthropic::MemoryTool20250818::OrHash,
                 Anthropic::ToolTextEditor20250124::OrHash,
                 Anthropic::ToolTextEditor20250429::OrHash,
@@ -61117,6 +62130,7 @@ module Anthropic
             Anthropic::CodeExecutionTool20250522,
             Anthropic::CodeExecutionTool20250825,
             Anthropic::CodeExecutionTool20260120,
+            Anthropic::CodeExecutionTool20260521,
             Anthropic::MemoryTool20250818,
             Anthropic::ToolTextEditor20250124,
             Anthropic::ToolTextEditor20250429,
@@ -61448,6 +62462,7 @@ module Anthropic
                 Anthropic::CodeExecutionTool20250522,
                 Anthropic::CodeExecutionTool20250825,
                 Anthropic::CodeExecutionTool20260120,
+                Anthropic::CodeExecutionTool20260521,
                 Anthropic::MemoryTool20250818,
                 Anthropic::ToolTextEditor20250124,
                 Anthropic::ToolTextEditor20250429,
@@ -61474,6 +62489,7 @@ module Anthropic
                 Anthropic::CodeExecutionTool20250522::OrHash,
                 Anthropic::CodeExecutionTool20250825::OrHash,
                 Anthropic::CodeExecutionTool20260120::OrHash,
+                Anthropic::CodeExecutionTool20260521::OrHash,
                 Anthropic::MemoryTool20250818::OrHash,
                 Anthropic::ToolTextEditor20250124::OrHash,
                 Anthropic::ToolTextEditor20250429::OrHash,
@@ -61552,6 +62568,7 @@ module Anthropic
                   Anthropic::CodeExecutionTool20250522,
                   Anthropic::CodeExecutionTool20250825,
                   Anthropic::CodeExecutionTool20260120,
+                  Anthropic::CodeExecutionTool20260521,
                   Anthropic::MemoryTool20250818,
                   Anthropic::ToolTextEditor20250124,
                   Anthropic::ToolTextEditor20250429,
@@ -61605,6 +62622,7 @@ module Anthropic
                 Anthropic::CodeExecutionTool20250522::OrHash,
                 Anthropic::CodeExecutionTool20250825::OrHash,
                 Anthropic::CodeExecutionTool20260120::OrHash,
+                Anthropic::CodeExecutionTool20260521::OrHash,
                 Anthropic::MemoryTool20250818::OrHash,
                 Anthropic::ToolTextEditor20250124::OrHash,
                 Anthropic::ToolTextEditor20250429::OrHash,
@@ -62488,6 +63506,7 @@ module Anthropic
                       Anthropic::CodeExecutionTool20250522,
                       Anthropic::CodeExecutionTool20250825,
                       Anthropic::CodeExecutionTool20260120,
+                      Anthropic::CodeExecutionTool20260521,
                       Anthropic::MemoryTool20250818,
                       Anthropic::ToolTextEditor20250124,
                       Anthropic::ToolTextEditor20250429,
@@ -62514,6 +63533,7 @@ module Anthropic
                       Anthropic::CodeExecutionTool20250522::OrHash,
                       Anthropic::CodeExecutionTool20250825::OrHash,
                       Anthropic::CodeExecutionTool20260120::OrHash,
+                      Anthropic::CodeExecutionTool20260521::OrHash,
                       Anthropic::MemoryTool20250818::OrHash,
                       Anthropic::ToolTextEditor20250124::OrHash,
                       Anthropic::ToolTextEditor20250429::OrHash,
@@ -62595,6 +63615,7 @@ module Anthropic
                         Anthropic::CodeExecutionTool20250522,
                         Anthropic::CodeExecutionTool20250825,
                         Anthropic::CodeExecutionTool20260120,
+                        Anthropic::CodeExecutionTool20260521,
                         Anthropic::MemoryTool20250818,
                         Anthropic::ToolTextEditor20250124,
                         Anthropic::ToolTextEditor20250429,
@@ -62652,6 +63673,7 @@ module Anthropic
                       Anthropic::CodeExecutionTool20250522::OrHash,
                       Anthropic::CodeExecutionTool20250825::OrHash,
                       Anthropic::CodeExecutionTool20260120::OrHash,
+                      Anthropic::CodeExecutionTool20260521::OrHash,
                       Anthropic::MemoryTool20250818::OrHash,
                       Anthropic::ToolTextEditor20250124::OrHash,
                       Anthropic::ToolTextEditor20250429::OrHash,
@@ -63642,9 +64664,6 @@ module Anthropic
         def variants; end
       end
 
-      # Fast and cost-effective model
-      CLAUDE_3_HAIKU_20240307 = T.let(:"claude-3-haiku-20240307", Anthropic::Model::TaggedSymbol)
-
       # Next generation of intelligence for the hardest knowledge work and coding problems
       CLAUDE_FABLE_5 = T.let(:"claude-fable-5", Anthropic::Model::TaggedSymbol)
 
@@ -63660,17 +64679,11 @@ module Anthropic
       # New class of intelligence, strongest in coding and cybersecurity
       CLAUDE_MYTHOS_PREVIEW = T.let(:"claude-mythos-preview", Anthropic::Model::TaggedSymbol)
 
-      # Powerful model for complex tasks
-      CLAUDE_OPUS_4_0 = T.let(:"claude-opus-4-0", Anthropic::Model::TaggedSymbol)
-
       # Exceptional model for specialized complex tasks
       CLAUDE_OPUS_4_1 = T.let(:"claude-opus-4-1", Anthropic::Model::TaggedSymbol)
 
       # Exceptional model for specialized complex tasks
       CLAUDE_OPUS_4_1_20250805 = T.let(:"claude-opus-4-1-20250805", Anthropic::Model::TaggedSymbol)
-
-      # Powerful model for complex tasks
-      CLAUDE_OPUS_4_20250514 = T.let(:"claude-opus-4-20250514", Anthropic::Model::TaggedSymbol)
 
       # Premium model combining maximum intelligence with practical performance
       CLAUDE_OPUS_4_5 = T.let(:"claude-opus-4-5", Anthropic::Model::TaggedSymbol)
@@ -63686,12 +64699,6 @@ module Anthropic
 
       # Frontier intelligence for long-running agents and coding
       CLAUDE_OPUS_4_8 = T.let(:"claude-opus-4-8", Anthropic::Model::TaggedSymbol)
-
-      # High-performance model with extended thinking
-      CLAUDE_SONNET_4_0 = T.let(:"claude-sonnet-4-0", Anthropic::Model::TaggedSymbol)
-
-      # High-performance model with extended thinking
-      CLAUDE_SONNET_4_20250514 = T.let(:"claude-sonnet-4-20250514", Anthropic::Model::TaggedSymbol)
 
       # High-performance model for agents and coding
       CLAUDE_SONNET_4_5 = T.let(:"claude-sonnet-4-5", Anthropic::Model::TaggedSymbol)
@@ -64627,9 +65634,7 @@ module Anthropic
     end
 
     class RefusalStopDetails < Anthropic::Internal::Type::BaseModel
-      # The policy category that triggered the refusal.
-      #
-      # `null` when the refusal doesn't map to a named category.
+      # The policy category that triggered a refusal.
       sig { returns(T.nilable(Anthropic::RefusalStopDetails::Category::TaggedSymbol)) }
       attr_accessor :category
 
@@ -64664,8 +65669,7 @@ module Anthropic
           ).returns(T.attached_class)
         end
         def new(
-          category:, # The policy category that triggered the refusal.
-                     # `null` when the refusal doesn't map to a named category.
+          category:, # The policy category that triggered a refusal.
           explanation:, # Human-readable explanation of the refusal.
                         # This text is not guaranteed to be stable. `null` when no explanation is
                         # available for the category.
@@ -64673,9 +65677,7 @@ module Anthropic
 ); end
       end
 
-      # The policy category that triggered the refusal.
-      #
-      # `null` when the refusal doesn't map to a named category.
+      # The policy category that triggered a refusal.
       module Category
         extend Anthropic::Internal::Type::Enum
 
@@ -66468,7 +67470,8 @@ module Anthropic
       # Values: direct: The model can call this tool directly. code_execution_20250825:
       # The tool can be called from the code execution environment (v1).
       # code_execution_20260120: The tool can be called from the code execution
-      # environment (v2 with persistence).
+      # environment (v2 with persistence). code_execution_20260521: The tool can be
+      # called from the code execution environment (v2 with persistence).
       module AllowedCaller
         extend Anthropic::Internal::Type::Enum
 
@@ -66484,6 +67487,11 @@ module Anthropic
 
         CODE_EXECUTION_20260120 = T.let(
             :code_execution_20260120,
+            Anthropic::Tool::AllowedCaller::TaggedSymbol
+          )
+
+        CODE_EXECUTION_20260521 = T.let(
+            :code_execution_20260521,
             Anthropic::Tool::AllowedCaller::TaggedSymbol
           )
 
@@ -66642,7 +67650,8 @@ module Anthropic
       # Values: direct: The model can call this tool directly. code_execution_20250825:
       # The tool can be called from the code execution environment (v1).
       # code_execution_20260120: The tool can be called from the code execution
-      # environment (v2 with persistence).
+      # environment (v2 with persistence). code_execution_20260521: The tool can be
+      # called from the code execution environment (v2 with persistence).
       module AllowedCaller
         extend Anthropic::Internal::Type::Enum
 
@@ -66658,6 +67667,11 @@ module Anthropic
 
         CODE_EXECUTION_20260120 = T.let(
             :code_execution_20260120,
+            Anthropic::ToolBash20250124::AllowedCaller::TaggedSymbol
+          )
+
+        CODE_EXECUTION_20260521 = T.let(
+            :code_execution_20260521,
             Anthropic::ToolBash20250124::AllowedCaller::TaggedSymbol
           )
 
@@ -67096,7 +68110,8 @@ module Anthropic
       # Values: direct: The model can call this tool directly. code_execution_20250825:
       # The tool can be called from the code execution environment (v1).
       # code_execution_20260120: The tool can be called from the code execution
-      # environment (v2 with persistence).
+      # environment (v2 with persistence). code_execution_20260521: The tool can be
+      # called from the code execution environment (v2 with persistence).
       module AllowedCaller
         extend Anthropic::Internal::Type::Enum
 
@@ -67117,6 +68132,11 @@ module Anthropic
 
         CODE_EXECUTION_20260120 = T.let(
             :code_execution_20260120,
+            Anthropic::ToolSearchToolBm25_20251119::AllowedCaller::TaggedSymbol
+          )
+
+        CODE_EXECUTION_20260521 = T.let(
+            :code_execution_20260521,
             Anthropic::ToolSearchToolBm25_20251119::AllowedCaller::TaggedSymbol
           )
 
@@ -67261,7 +68281,8 @@ module Anthropic
       # Values: direct: The model can call this tool directly. code_execution_20250825:
       # The tool can be called from the code execution environment (v1).
       # code_execution_20260120: The tool can be called from the code execution
-      # environment (v2 with persistence).
+      # environment (v2 with persistence). code_execution_20260521: The tool can be
+      # called from the code execution environment (v2 with persistence).
       module AllowedCaller
         extend Anthropic::Internal::Type::Enum
 
@@ -67282,6 +68303,11 @@ module Anthropic
 
         CODE_EXECUTION_20260120 = T.let(
             :code_execution_20260120,
+            Anthropic::ToolSearchToolRegex20251119::AllowedCaller::TaggedSymbol
+          )
+
+        CODE_EXECUTION_20260521 = T.let(
+            :code_execution_20260521,
             Anthropic::ToolSearchToolRegex20251119::AllowedCaller::TaggedSymbol
           )
 
@@ -67750,7 +68776,8 @@ module Anthropic
       # Values: direct: The model can call this tool directly. code_execution_20250825:
       # The tool can be called from the code execution environment (v1).
       # code_execution_20260120: The tool can be called from the code execution
-      # environment (v2 with persistence).
+      # environment (v2 with persistence). code_execution_20260521: The tool can be
+      # called from the code execution environment (v2 with persistence).
       module AllowedCaller
         extend Anthropic::Internal::Type::Enum
 
@@ -67771,6 +68798,11 @@ module Anthropic
 
         CODE_EXECUTION_20260120 = T.let(
             :code_execution_20260120,
+            Anthropic::ToolTextEditor20250124::AllowedCaller::TaggedSymbol
+          )
+
+        CODE_EXECUTION_20260521 = T.let(
+            :code_execution_20260521,
             Anthropic::ToolTextEditor20250124::AllowedCaller::TaggedSymbol
           )
 
@@ -67888,7 +68920,8 @@ module Anthropic
       # Values: direct: The model can call this tool directly. code_execution_20250825:
       # The tool can be called from the code execution environment (v1).
       # code_execution_20260120: The tool can be called from the code execution
-      # environment (v2 with persistence).
+      # environment (v2 with persistence). code_execution_20260521: The tool can be
+      # called from the code execution environment (v2 with persistence).
       module AllowedCaller
         extend Anthropic::Internal::Type::Enum
 
@@ -67909,6 +68942,11 @@ module Anthropic
 
         CODE_EXECUTION_20260120 = T.let(
             :code_execution_20260120,
+            Anthropic::ToolTextEditor20250429::AllowedCaller::TaggedSymbol
+          )
+
+        CODE_EXECUTION_20260521 = T.let(
+            :code_execution_20260521,
             Anthropic::ToolTextEditor20250429::AllowedCaller::TaggedSymbol
           )
 
@@ -68035,7 +69073,8 @@ module Anthropic
       # Values: direct: The model can call this tool directly. code_execution_20250825:
       # The tool can be called from the code execution environment (v1).
       # code_execution_20260120: The tool can be called from the code execution
-      # environment (v2 with persistence).
+      # environment (v2 with persistence). code_execution_20260521: The tool can be
+      # called from the code execution environment (v2 with persistence).
       module AllowedCaller
         extend Anthropic::Internal::Type::Enum
 
@@ -68056,6 +69095,11 @@ module Anthropic
 
         CODE_EXECUTION_20260120 = T.let(
             :code_execution_20260120,
+            Anthropic::ToolTextEditor20250728::AllowedCaller::TaggedSymbol
+          )
+
+        CODE_EXECUTION_20260521 = T.let(
+            :code_execution_20260521,
             Anthropic::ToolTextEditor20250728::AllowedCaller::TaggedSymbol
           )
 
@@ -68093,6 +69137,7 @@ module Anthropic
             Anthropic::CodeExecutionTool20250522,
             Anthropic::CodeExecutionTool20250825,
             Anthropic::CodeExecutionTool20260120,
+            Anthropic::CodeExecutionTool20260521,
             Anthropic::MemoryTool20250818,
             Anthropic::ToolTextEditor20250124,
             Anthropic::ToolTextEditor20250429,
@@ -68743,7 +69788,8 @@ module Anthropic
       # Values: direct: The model can call this tool directly. code_execution_20250825:
       # The tool can be called from the code execution environment (v1).
       # code_execution_20260120: The tool can be called from the code execution
-      # environment (v2 with persistence).
+      # environment (v2 with persistence). code_execution_20260521: The tool can be
+      # called from the code execution environment (v2 with persistence).
       module AllowedCaller
         extend Anthropic::Internal::Type::Enum
 
@@ -68764,6 +69810,11 @@ module Anthropic
 
         CODE_EXECUTION_20260120 = T.let(
             :code_execution_20260120,
+            Anthropic::WebFetchTool20250910::AllowedCaller::TaggedSymbol
+          )
+
+        CODE_EXECUTION_20260521 = T.let(
+            :code_execution_20260521,
             Anthropic::WebFetchTool20250910::AllowedCaller::TaggedSymbol
           )
 
@@ -68912,7 +69963,8 @@ module Anthropic
       # Values: direct: The model can call this tool directly. code_execution_20250825:
       # The tool can be called from the code execution environment (v1).
       # code_execution_20260120: The tool can be called from the code execution
-      # environment (v2 with persistence).
+      # environment (v2 with persistence). code_execution_20260521: The tool can be
+      # called from the code execution environment (v2 with persistence).
       module AllowedCaller
         extend Anthropic::Internal::Type::Enum
 
@@ -68933,6 +69985,11 @@ module Anthropic
 
         CODE_EXECUTION_20260120 = T.let(
             :code_execution_20260120,
+            Anthropic::WebFetchTool20260209::AllowedCaller::TaggedSymbol
+          )
+
+        CODE_EXECUTION_20260521 = T.let(
+            :code_execution_20260521,
             Anthropic::WebFetchTool20260209::AllowedCaller::TaggedSymbol
           )
 
@@ -69096,7 +70153,8 @@ module Anthropic
       # Values: direct: The model can call this tool directly. code_execution_20250825:
       # The tool can be called from the code execution environment (v1).
       # code_execution_20260120: The tool can be called from the code execution
-      # environment (v2 with persistence).
+      # environment (v2 with persistence). code_execution_20260521: The tool can be
+      # called from the code execution environment (v2 with persistence).
       module AllowedCaller
         extend Anthropic::Internal::Type::Enum
 
@@ -69117,6 +70175,11 @@ module Anthropic
 
         CODE_EXECUTION_20260120 = T.let(
             :code_execution_20260120,
+            Anthropic::WebFetchTool20260309::AllowedCaller::TaggedSymbol
+          )
+
+        CODE_EXECUTION_20260521 = T.let(
+            :code_execution_20260521,
             Anthropic::WebFetchTool20260309::AllowedCaller::TaggedSymbol
           )
 
@@ -69706,7 +70769,8 @@ module Anthropic
       # Values: direct: The model can call this tool directly. code_execution_20250825:
       # The tool can be called from the code execution environment (v1).
       # code_execution_20260120: The tool can be called from the code execution
-      # environment (v2 with persistence).
+      # environment (v2 with persistence). code_execution_20260521: The tool can be
+      # called from the code execution environment (v2 with persistence).
       module AllowedCaller
         extend Anthropic::Internal::Type::Enum
 
@@ -69727,6 +70791,11 @@ module Anthropic
 
         CODE_EXECUTION_20260120 = T.let(
             :code_execution_20260120,
+            Anthropic::WebSearchTool20250305::AllowedCaller::TaggedSymbol
+          )
+
+        CODE_EXECUTION_20260521 = T.let(
+            :code_execution_20260521,
             Anthropic::WebSearchTool20250305::AllowedCaller::TaggedSymbol
           )
 
@@ -69870,7 +70939,8 @@ module Anthropic
       # Values: direct: The model can call this tool directly. code_execution_20250825:
       # The tool can be called from the code execution environment (v1).
       # code_execution_20260120: The tool can be called from the code execution
-      # environment (v2 with persistence).
+      # environment (v2 with persistence). code_execution_20260521: The tool can be
+      # called from the code execution environment (v2 with persistence).
       module AllowedCaller
         extend Anthropic::Internal::Type::Enum
 
@@ -69891,6 +70961,11 @@ module Anthropic
 
         CODE_EXECUTION_20260120 = T.let(
             :code_execution_20260120,
+            Anthropic::WebSearchTool20260209::AllowedCaller::TaggedSymbol
+          )
+
+        CODE_EXECUTION_20260521 = T.let(
+            :code_execution_20260521,
             Anthropic::WebSearchTool20260209::AllowedCaller::TaggedSymbol
           )
 
@@ -70308,6 +71383,11 @@ module Anthropic
     # Maximum number of retries to attempt after a failed initial request.
     sig { returns(T.nilable(Integer)) }
     attr_accessor :max_retries
+
+    # Per-request HTTP around-middleware appended innermost. See
+    # {Anthropic::Middleware}.
+    sig { returns(T.nilable(Anthropic::Middleware::EntryOrArray)) }
+    attr_accessor :middleware
 
     # Request timeout in seconds.
     sig { returns(T.nilable(Float)) }
@@ -71693,6 +72773,7 @@ module Anthropic
                   Anthropic::Beta::BetaCodeExecutionTool20250522::OrHash,
                   Anthropic::Beta::BetaCodeExecutionTool20250825::OrHash,
                   Anthropic::Beta::BetaCodeExecutionTool20260120::OrHash,
+                  Anthropic::Beta::BetaCodeExecutionTool20260521::OrHash,
                   Anthropic::Beta::BetaToolComputerUse20241022::OrHash,
                   Anthropic::Beta::BetaMemoryTool20250818::OrHash,
                   Anthropic::Beta::BetaToolComputerUse20250124::OrHash,
@@ -71918,6 +72999,7 @@ module Anthropic
                   Anthropic::Beta::BetaCodeExecutionTool20250522::OrHash,
                   Anthropic::Beta::BetaCodeExecutionTool20250825::OrHash,
                   Anthropic::Beta::BetaCodeExecutionTool20260120::OrHash,
+                  Anthropic::Beta::BetaCodeExecutionTool20260521::OrHash,
                   Anthropic::Beta::BetaToolComputerUse20241022::OrHash,
                   Anthropic::Beta::BetaMemoryTool20250818::OrHash,
                   Anthropic::Beta::BetaToolComputerUse20250124::OrHash,
@@ -72211,6 +73293,7 @@ module Anthropic
                   Anthropic::Beta::BetaCodeExecutionTool20250522::OrHash,
                   Anthropic::Beta::BetaCodeExecutionTool20250825::OrHash,
                   Anthropic::Beta::BetaCodeExecutionTool20260120::OrHash,
+                  Anthropic::Beta::BetaCodeExecutionTool20260521::OrHash,
                   Anthropic::Beta::BetaToolComputerUse20241022::OrHash,
                   Anthropic::Beta::BetaMemoryTool20250818::OrHash,
                   Anthropic::Beta::BetaToolComputerUse20250124::OrHash,
@@ -74114,6 +75197,7 @@ module Anthropic
                 Anthropic::CodeExecutionTool20250522::OrHash,
                 Anthropic::CodeExecutionTool20250825::OrHash,
                 Anthropic::CodeExecutionTool20260120::OrHash,
+                Anthropic::CodeExecutionTool20260521::OrHash,
                 Anthropic::MemoryTool20250818::OrHash,
                 Anthropic::ToolTextEditor20250124::OrHash,
                 Anthropic::ToolTextEditor20250429::OrHash,
@@ -74308,6 +75392,7 @@ module Anthropic
                 Anthropic::CodeExecutionTool20250522::OrHash,
                 Anthropic::CodeExecutionTool20250825::OrHash,
                 Anthropic::CodeExecutionTool20260120::OrHash,
+                Anthropic::CodeExecutionTool20260521::OrHash,
                 Anthropic::MemoryTool20250818::OrHash,
                 Anthropic::ToolTextEditor20250124::OrHash,
                 Anthropic::ToolTextEditor20250429::OrHash,
@@ -74775,6 +75860,7 @@ module Anthropic
                 Anthropic::CodeExecutionTool20250522::OrHash,
                 Anthropic::CodeExecutionTool20250825::OrHash,
                 Anthropic::CodeExecutionTool20260120::OrHash,
+                Anthropic::CodeExecutionTool20260521::OrHash,
                 Anthropic::MemoryTool20250818::OrHash,
                 Anthropic::ToolTextEditor20250124::OrHash,
                 Anthropic::ToolTextEditor20250429::OrHash,

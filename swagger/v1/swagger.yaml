@@ -352,6 +352,7 @@ paths:
                         type: boolean
                       disable_democheck:
                         type: boolean
+                        deprecated: true
                       democheck_mode:
                         type: string
                         enum:
@@ -486,6 +487,7 @@ paths:
                           type: boolean
                         disable_democheck:
                           type: boolean
+                          deprecated: true
                         democheck_mode:
                           type: string
                           enum:
@@ -581,6 +583,7 @@ paths:
                         type: boolean
                       disable_democheck:
                         type: boolean
+                        deprecated: true
                       democheck_mode:
                         type: string
                         enum:
@@ -674,8 +677,6 @@ paths:
                     enable_plugins:
                       type: boolean
                     enable_demos_tf:
-                      type: boolean
-                    disable_democheck:
                       type: boolean
                     democheck_mode:
                       type: string
@@ -773,6 +774,7 @@ paths:
                         type: boolean
                       disable_democheck:
                         type: boolean
+                        deprecated: true
                       democheck_mode:
                         type: string
                         enum:
@@ -959,6 +961,7 @@ paths:
                         type: boolean
                       disable_democheck:
                         type: boolean
+                        deprecated: true
                       democheck_mode:
                         type: string
                         enum:
@@ -1050,8 +1053,6 @@ paths:
                       type: boolean
                     enable_demos_tf:
                       type: boolean
-                    disable_democheck:
-                      type: boolean
                     democheck_mode:
                       type: string
                       enum:
@@ -1119,8 +1120,6 @@ paths:
                     enable_plugins:
                       type: boolean
                     enable_demos_tf:
-                      type: boolean
-                    disable_democheck:
                       type: boolean
                     democheck_mode:
                       type: string

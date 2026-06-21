@@ -129,6 +129,28 @@ describe Api::ReservationsController do
       response.status.should == 422
     end
 
+    context 'with the legacy disable_democheck param' do
+      let(:server) { create :server, location: create(:location) }
+
+      it 'maps disable_democheck=true to democheck_mode disable' do
+        post :create, format: :json, params: { reservation: { starts_at: Time.current, ends_at: 2.hours.from_now, rcon: 'foo', password: 'bar', server_id: server.id, disable_democheck: 'true' } }
+        response.status.should == 200
+        expect(Reservation.last.democheck_mode).to eq('disable')
+      end
+
+      it 'maps disable_democheck=false to democheck_mode kick' do
+        post :create, format: :json, params: { reservation: { starts_at: Time.current, ends_at: 2.hours.from_now, rcon: 'foo', password: 'bar', server_id: server.id, disable_democheck: 'false' } }
+        response.status.should == 200
+        expect(Reservation.last.democheck_mode).to eq('kick')
+      end
+
+      it 'ignores disable_democheck when democheck_mode is also given' do
+        post :create, format: :json, params: { reservation: { starts_at: Time.current, ends_at: 2.hours.from_now, rcon: 'foo', password: 'bar', server_id: server.id, democheck_mode: 'warn', disable_democheck: 'true' } }
+        response.status.should == 200
+        expect(Reservation.last.democheck_mode).to eq('warn')
+      end
+    end
+
     context 'with a docker host virtual server_id' do
       let(:docker_host) { create(:docker_host) }
       let(:virtual_server_id) { docker_host.virtual_server_id }

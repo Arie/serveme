@@ -144,7 +144,8 @@ This will return a prefilled JSON response with available servers, whitelists an
     "sdr_port": null,
     "sdr_tv_port": null,
     "sdr_final": false,
-    "disable_democheck": false
+    "disable_democheck": false,
+    "democheck_mode": "kick"
   },
   "servers": [
     {
@@ -214,6 +215,7 @@ If there's any errors, you'll get a HTTP 422 and a new prefilled reservation JSO
     "sdr_tv_port": null,
     "sdr_final": false,
     "disable_democheck": false,
+    "democheck_mode": "kick",
     "errors": {
       "server": {
         "error": "can't be blank"
@@ -277,6 +279,7 @@ If everything went alright, you'll get a HTTP 200 and shown your reservation det
     "sdr_tv_port": null,
     "sdr_final": false,
     "disable_democheck": false,
+    "democheck_mode": "kick",
     "last_number_of_players": 0,
     "inactive_minute_counter": 0,
     "logsecret": "298424416816498481223654962917404607282",
@@ -336,6 +339,7 @@ If there's any errors, you'll get a HTTP 422 and a prefilled reservation JSON wi
     "sdr_tv_port": null,
     "sdr_final": false,
     "disable_democheck": false,
+    "democheck_mode": "kick",
     "errors": {
       "password": {
         "error": "can't be blank"
@@ -399,6 +403,7 @@ If everything went alright, you'll get a HTTP 200 and shown your updated reserva
     "sdr_tv_port": null,
     "sdr_final": false,
     "disable_democheck": false,
+    "democheck_mode": "kick",
     "last_number_of_players": 0,
     "inactive_minute_counter": 0,
     "logsecret": "298424416816498481223654962917404607282",

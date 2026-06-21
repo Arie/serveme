@@ -36,11 +36,11 @@
             %td{colspan: 3}
               %span{class: "text-faint"} 0
           %td
-            %div{class: "flex items-center gap-2 whitespace-nowrap"}
-              = link_to("https://fastdl.serveme.tf/#{bucket_object[:key]}", class: "v2-btn v2-btn-primary v2-btn-sm", title: "#{bucket_object[:size]} bytes") do
+            %div{class: "flex items-center gap-2"}
+              = link_to("https://fastdl.serveme.tf/#{bucket_object[:key]}", class: "v2-btn v2-btn-primary v2-btn-sm shrink-0", title: "#{bucket_object[:size]} bytes") do
                 = bucket_object[:size_formatted]
                 %i.fa.fa-download
-              = link_to admin_map_path(bucket_object[:map_name]), method: :delete, class: "v2-btn v2-btn-danger v2-btn-sm", title: "Delete", data: { confirm: "Are you sure you want to delete #{bucket_object[:map_name]}?" } do
+              = link_to admin_map_path(bucket_object[:map_name]), method: :delete, class: "v2-btn v2-btn-danger v2-btn-sm shrink-0", title: "Delete", data: { confirm: "Are you sure you want to delete #{bucket_object[:map_name]}?" } do
                 %i.fa.fa-trash
 
 :javascript

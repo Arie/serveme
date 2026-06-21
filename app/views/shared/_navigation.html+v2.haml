@@ -1,8 +1,9 @@
 %nav{class: "relative bg-[#111317] border-b border-white/10", data: { controller: "navbar" }}
   %div{class: "mx-auto max-w-[1280px] px-[26px] flex items-center gap-4 h-[60px]"}
     .dropdown{class: "relative"}
-      %a{href: "#", data: { "bs-toggle" => "dropdown" }, class: "font-display font-extrabold text-ink tracking-tight"}
+      %a{href: "#", data: { "bs-toggle" => "dropdown" }, class: "font-display font-extrabold text-ink tracking-tight inline-flex items-center gap-1.5", title: "Switch region"}
         = SITE_HOST
+        %span{class: "text-faint font-normal"} ▾
       .dropdown-menu
         = link_to "https://serveme.tf", class: "dropdown-item" do
           %span{class: ["flags", "flags-eu"]}

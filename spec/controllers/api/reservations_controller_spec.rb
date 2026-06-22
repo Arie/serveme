@@ -151,6 +151,16 @@ describe Api::ReservationsController do
       end
     end
 
+    context 'with an invalid democheck_mode' do
+      let(:server) { create :server, location: create(:location) }
+
+      it 'returns a 4xx instead of raising when the value is not a known mode' do
+        post :create, format: :json, params: { reservation: { starts_at: Time.current, ends_at: 2.hours.from_now, rcon: 'foo', password: 'bar', server_id: server.id, democheck_mode: 'Warn' } }
+        expect(response.status).to eq(400)
+        expect(Reservation.count).to eq(0)
+      end
+    end
+
     context 'with a docker host virtual server_id' do
       let(:docker_host) { create(:docker_host) }
       let(:virtual_server_id) { docker_host.virtual_server_id }
@@ -172,6 +182,22 @@ describe Api::ReservationsController do
         json = JSON.parse(response.body)
         expect(json['reservation']).to be_present
         expect(json['reservation']['server']['ip']).to be_present
+      end
+
+      it 'returns a 4xx instead of raising when democheck_mode is invalid' do
+        post :create, format: :json, params: {
+          reservation: {
+            starts_at: Time.current,
+            ends_at: 2.hours.from_now,
+            rcon: 'foo',
+            password: 'bar',
+            server_id: virtual_server_id,
+            democheck_mode: 'Warn'
+          }
+        }
+
+        expect(response.status).to eq(400)
+        expect(Reservation.count).to eq(0)
       end
 
       it 'returns 422 when docker host is at capacity' do

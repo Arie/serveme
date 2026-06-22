@@ -4,7 +4,7 @@
 class Reservation < ActiveRecord::Base
   extend T::Sig
 
-  enum :democheck_mode, { kick: "kick", warn: "warn", disable: "disable" }, default: :kick, prefix: :democheck
+  enum :democheck_mode, { kick: "kick", warn: "warn", disable: "disable" }, default: :kick, prefix: :democheck, validate: true
 
   belongs_to :user, counter_cache: true
   belongs_to :server, counter_cache: true
@@ -22,6 +22,7 @@ class Reservation < ActiveRecord::Base
   has_one_attached :zipfile, service: :seaweedfs
 
   before_validation :calculate_duration
+  before_validation :default_democheck_mode
   before_create :generate_logsecret
   after_create :generate_initial_status
   after_create :update_user_total_seconds_counter
@@ -228,6 +229,11 @@ class Reservation < ActiveRecord::Base
   sig { void }
   def calculate_duration
     self.duration = (ends_at.to_i - starts_at.to_i)
+  end
+
+  sig { void }
+  def default_democheck_mode
+    self.democheck_mode = "kick" if democheck_mode.blank?
   end
 
   sig { returns(String) }

@@ -161,6 +161,30 @@ describe Reservation do
     end
   end
 
+  describe 'democheck_mode' do
+    it 'defaults to kick when not provided' do
+      reservation = create :reservation
+      expect(reservation.democheck_mode).to eql('kick')
+    end
+
+    it 'falls back to kick when explicitly set to nil (e.g. democheck_mode: null in the API body)' do
+      reservation = create :reservation, democheck_mode: nil
+      expect(reservation.reload.democheck_mode).to eql('kick')
+    end
+
+    it 'is invalid (not a raised ArgumentError) when set to an unknown value' do
+      reservation = create :reservation
+      expect { reservation.democheck_mode = 'Warn' }.not_to raise_error
+      expect(reservation).not_to be_valid
+      expect(reservation.errors[:democheck_mode]).to be_present
+    end
+
+    it 'keeps an explicitly chosen mode' do
+      reservation = create :reservation, democheck_mode: 'warn'
+      expect(reservation.reload.democheck_mode).to eql('warn')
+    end
+  end
+
   describe '#extend!' do
     it 'allows a user to extend a reservation by 1 hour when the end of the reservation is near' do
       old_reservation_end_time = 40.minutes.from_now

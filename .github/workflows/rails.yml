@@ -5,6 +5,10 @@ on:
     branches: [master]
   pull_request:
 
+# CI only needs to read the repository; restrict the default token.
+permissions:
+  contents: read
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: ${{ github.ref != 'refs/heads/master' }}
@@ -17,19 +21,17 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
 
+      # libmaxminddb-dev provides the headers to compile hive_geoip2's native
+      # extension. This job warms the bundler cache that every other job reuses.
       - name: Install dependencies
         run: |
           sudo add-apt-repository ppa:maxmind/ppa
           sudo apt update
           sudo apt install libmaxminddb0 libmaxminddb-dev
 
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: .tool-versions
-          bundler-cache: true
+      - uses: ./.github/actions/ruby
 
   linters:
     name: Linters
@@ -39,13 +41,9 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
 
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: .tool-versions
-          bundler-cache: true
+      - uses: ./.github/actions/ruby
 
       - name: Check CSV files are sorted and deduplicated
         run: script/sort_and_dedup_csv
@@ -83,19 +81,17 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
 
+      # libmaxminddb0 is the runtime library hive_geoip2 links against; the
+      # compiled gem itself comes from the bundler cache (no -dev headers needed).
       - name: Install dependencies
         run: |
           sudo add-apt-repository ppa:maxmind/ppa
           sudo apt update
-          sudo apt install libmaxminddb0 libmaxminddb-dev redis-server memcached ripgrep
+          sudo apt install libmaxminddb0 redis-server memcached ripgrep
 
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: .tool-versions
-          bundler-cache: true
+      - uses: ./.github/actions/ruby
 
       - name: Write development credentials key
         env:
@@ -154,19 +150,17 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
 
+      # libmaxminddb0 is the runtime library hive_geoip2 links against; the
+      # compiled gem itself comes from the bundler cache (no -dev headers needed).
       - name: Install dependencies
         run: |
           sudo add-apt-repository ppa:maxmind/ppa
           sudo apt update
-          sudo apt install libmaxminddb0 libmaxminddb-dev redis-server memcached
+          sudo apt install libmaxminddb0 redis-server memcached
 
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: .tool-versions
-          bundler-cache: true
+      - uses: ./.github/actions/ruby
 
       - name: Setup test database
         env:

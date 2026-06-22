@@ -19,6 +19,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Install dependencies
+        run: |
+          sudo add-apt-repository ppa:maxmind/ppa
+          sudo apt update
+          sudo apt install libmaxminddb0 libmaxminddb-dev
+
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:

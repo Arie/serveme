@@ -22,7 +22,7 @@ jobs:
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: .ruby-version
+          ruby-version: .tool-versions
           bundler-cache: true
 
   linters:
@@ -38,7 +38,7 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: .ruby-version
+          ruby-version: .tool-versions
           bundler-cache: true
 
       - name: Check CSV files are sorted and deduplicated
@@ -88,7 +88,7 @@ jobs:
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: .ruby-version
+          ruby-version: .tool-versions
           bundler-cache: true
 
       - name: Write development credentials key
@@ -159,7 +159,7 @@ jobs:
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: .ruby-version
+          ruby-version: .tool-versions
           bundler-cache: true
 
       - name: Setup test database

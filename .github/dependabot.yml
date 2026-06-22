@@ -1,0 +1,15 @@
+version: 2
+updates:
+  # Keep the SHA-pinned GitHub Actions current. Monthly + grouped into a single
+  # PR to stay quiet; covers both .github/workflows and the .github/actions
+  # composite action.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    groups:
+      github-actions:
+        patterns: ["*"]
+    commit-message:
+      prefix: CI
+    open-pull-requests-limit: 5

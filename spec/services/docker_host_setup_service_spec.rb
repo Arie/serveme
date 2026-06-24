@@ -157,7 +157,7 @@ describe DockerHostSetupService do
       expect(docker_host.reload.setup_status).to eq("provisioned")
 
       logs = docker_host.setup_logs.order(:created_at)
-      expect(logs.map(&:step)).to eq(%w[install_prerequisites install_docker install_seccomp_profile setup_app_user install_compose_services])
+      expect(logs.map(&:step)).to eq(%w[install_prerequisites harden_network install_docker install_seccomp_profile setup_app_user install_compose_services])
       expect(logs.map(&:success)).to all(be true)
       expect(logs.map(&:exit_status)).to all(eq(0))
       expect(logs.map(&:output)).to all(include("ok"))
@@ -177,7 +177,7 @@ describe DockerHostSetupService do
       result = subject.provision_host
 
       expect(result[:success]).to be false
-      expect(result[:message]).to include("install_docker failed")
+      expect(result[:message]).to include("harden_network failed")
       expect(docker_host.setup_logs.count).to eq(2)
       expect(docker_host.setup_logs.last.success).to be false
       expect(docker_host.setup_logs.last.exit_status).to eq(100)
@@ -233,6 +233,44 @@ describe DockerHostSetupService do
         expect(script).to include("systemctl disable --now caddy.service")
         expect(script).to include("systemctl disable --now certbot.timer certbot.service")
         expect(script).to include("systemctl disable --now websocket-echo.service websocket-echo-server.service")
+      end
+    end
+
+    it "raises the conntrack table size and shortens UDP flow expiry" do
+      script = subject.send(:harden_network_script)
+      sysctl_b64 = script.scan(%r{echo '([^']+)' \| base64 -d > /etc/sysctl\.d/99-serveme-conntrack\.conf}).flatten.first
+      sysctl = Base64.decode64(sysctl_b64)
+      expect(sysctl).to include("net.netfilter.nf_conntrack_max = 1048576")
+      expect(sysctl).to include("net.netfilter.nf_conntrack_udp_timeout = 20")
+      expect(script).to include("sysctl -p /etc/sysctl.d/99-serveme-conntrack.conf")
+    end
+
+    it "installs an always-on NOTRACK for the whole reservation game-port range" do
+      script = subject.send(:harden_network_script)
+      unit_b64 = script.scan(%r{echo '([^']+)' \| base64 -d > /etc/systemd/system/serveme-notrack\.service}).flatten.first
+      unit = Base64.decode64(unit_b64)
+      start = docker_host.start_port
+      expect(unit).to include("-t raw -C PREROUTING -p udp --dport #{start}:#{start + 100} -j NOTRACK")
+      expect(unit).to include("-t raw -A PREROUTING -p udp --dport #{start}:#{start + 100} -j NOTRACK")
+      expect(script).to include("systemctl enable serveme-notrack.service")
+      # restart, not "enable --now", so a re-provision re-applies a changed range
+      expect(script).to include("systemctl restart serveme-notrack.service")
+    end
+
+    context "on a host that runs many containers (more than 10)" do
+      let(:docker_host) { create(:docker_host, hostname: "big1.serveme.tf", ip: "1.2.3.4", start_port: 27015, max_containers: 20) }
+
+      it "widens the NOTRACK and firewall ranges to cover every game port" do
+        # 20 containers use game ports up to start_port + 190 (+ STV above);
+        # (20 + 1) * 10 = 210 covers them with a slot of headroom.
+        expected_end = 27015 + 210
+        script = subject.send(:harden_network_script)
+        unit_b64 = script.scan(%r{echo '([^']+)' \| base64 -d > /etc/systemd/system/serveme-notrack\.service}).flatten.first
+        unit = Base64.decode64(unit_b64)
+        expect(unit).to include("--dport 27015:#{expected_end} -j NOTRACK")
+        ufw = subject.send(:install_prerequisites_script)
+        expect(ufw).to include("ufw allow 27015:#{expected_end}/udp")
+        expect(ufw).to include("ufw allow 27015:#{expected_end}/tcp")
       end
     end
 

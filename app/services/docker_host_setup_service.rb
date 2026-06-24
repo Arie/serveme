@@ -67,6 +67,7 @@ class DockerHostSetupService
   def provision_host
     ssh_to_host do |ssh|
       run_script(ssh, "install_prerequisites", install_prerequisites_script)
+      run_script(ssh, "harden_network", harden_network_script)
       run_script(ssh, "install_docker", install_docker_script)
       run_script(ssh, "install_seccomp_profile", install_seccomp_profile_script)
       run_script(ssh, "setup_app_user", setup_app_user_script)
@@ -217,9 +218,16 @@ class DockerHostSetupService
     [ output, exit_status ]
   end
 
+  sig { returns(Integer) }
+  def reservation_port_range_end
+    span = (T.must(docker_host.max_containers || 4) + 1) * 10
+    T.must(docker_host.start_port) + [ span, 100 ].max
+  end
+
   sig { returns(String) }
   def install_prerequisites_script
     start_port = T.must(docker_host.start_port)
+    end_port = reservation_port_range_end
     <<~BASH
       set -e
       export DEBIAN_FRONTEND=noninteractive
@@ -234,9 +242,47 @@ class DockerHostSetupService
       if command -v ufw >/dev/null && ufw status | grep -q "Status: active"; then
         ufw allow 80/tcp
         ufw allow 443/tcp
-        ufw allow #{start_port}:#{start_port + 100}/tcp
-        ufw allow #{start_port}:#{start_port + 100}/udp
+        ufw allow #{start_port}:#{end_port}/tcp
+        ufw allow #{start_port}:#{end_port}/udp
       fi
+    BASH
+  end
+
+  sig { returns(String) }
+  def harden_network_script
+    start_port = T.must(docker_host.start_port)
+    end_port = reservation_port_range_end
+    sysctl_b64 = Base64.strict_encode64(<<~CONF)
+      net.netfilter.nf_conntrack_max = 1048576
+      net.netfilter.nf_conntrack_udp_timeout = 20
+    CONF
+    unit_b64 = Base64.strict_encode64(<<~UNIT)
+      [Unit]
+      Description=serveme always-on NOTRACK for game-server UDP ports
+      After=network-online.target docker.service
+      Wants=network-online.target
+
+      [Service]
+      Type=oneshot
+      RemainAfterExit=yes
+      ExecStart=/bin/sh -c 'iptables -w 5 -t raw -C PREROUTING -p udp --dport #{start_port}:#{end_port} -j NOTRACK 2>/dev/null || iptables -w 5 -t raw -A PREROUTING -p udp --dport #{start_port}:#{end_port} -j NOTRACK'
+
+      [Install]
+      WantedBy=multi-user.target
+    UNIT
+    <<~BASH
+      set -e
+      echo '#{sysctl_b64}' | base64 -d > /etc/sysctl.d/99-serveme-conntrack.conf
+      modprobe nf_conntrack 2>/dev/null || true
+      sysctl -p /etc/sysctl.d/99-serveme-conntrack.conf || true
+      echo '#{unit_b64}' | base64 -d > /etc/systemd/system/serveme-notrack.service
+      systemctl daemon-reload
+      systemctl enable serveme-notrack.service
+      # restart (not "enable --now") so re-provisioning a host whose
+      # max_containers/start_port changed re-runs ExecStart and applies the
+      # new range immediately — "start" on an already-active oneshot is a
+      # no-op. The -C || -A inside ExecStart keeps the rule itself idempotent.
+      systemctl restart serveme-notrack.service
     BASH
   end
 

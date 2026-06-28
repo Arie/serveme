@@ -1057,8 +1057,6 @@ GEM
     thruster (0.1.21-aarch64-linux)
     thruster (0.1.21-arm64-darwin)
     thruster (0.1.21-x86_64-linux)
-    tidewave (0.5.1)
-      rack (>= 2.0)
     tilt (2.7.0)
     time (0.4.2)
       date
@@ -1224,7 +1222,6 @@ DEPENDENCIES
   text
   tf2_line_parser
   thruster
-  tidewave
   turbo-rails
   unicode-name
   uri

@@ -95,7 +95,6 @@ group :development do
   gem "rubocop-rails", require: false
   gem "tapioca", git: "https://github.com/Shopify/tapioca.git", require: false
   gem "claude-on-rails"
-  gem "tidewave"
 end
 
 group :test, :development do

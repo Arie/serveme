@@ -1173,6 +1173,16 @@ module Anthropic
       end
     end
 
+    module StainlessHelperHeader
+      class << self
+        sig { params(headers: T::Hash[T.any(String, Symbol), T.untyped], value: String).returns(String) }
+        def merged_value(headers, value); end
+      end
+
+      BETA_TOOL_RUNNER = T.let("BetaToolRunner", String)
+      HEADER = T.let("x-stainless-helper", String)
+    end
+
     module Streaming
       class CitationEvent < Anthropic::Internal::Type::BaseModel
         sig { returns(Anthropic::CitationsDelta::Citation::Variants) }
@@ -4168,7 +4178,9 @@ module Anthropic
         attr_accessor :description
 
         # MCP servers this agent connects to. Maximum 20. Names must be unique within the
-        # array.
+        # array. Every server must be referenced by an `mcp_toolset` in `tools`;
+        # unreferenced servers are rejected. See the
+        # [MCP connector guide](https://platform.claude.com/docs/en/managed-agents/mcp-connector).
         sig do
           returns(T.nilable(
               T::Array[Anthropic::Beta::BetaManagedAgentsURLMCPServerParams]
@@ -4363,7 +4375,9 @@ module Anthropic
             name:, # Human-readable name for the agent.
             description: nil, # Description of what the agent does.
             mcp_servers: nil, # MCP servers this agent connects to. Maximum 20. Names must be unique within the
-                              # array.
+                              # array. Every server must be referenced by an `mcp_toolset` in `tools`;
+                              # unreferenced servers are rejected. See the
+                              # [MCP connector guide](https://platform.claude.com/docs/en/managed-agents/mcp-connector).
             metadata: nil, # Arbitrary key-value metadata. Maximum 16 pairs, keys up to 64 chars, values up
                            # to 512 chars.
             multiagent: nil, # A coordinator topology: the session's primary thread orchestrates work by
@@ -4605,8 +4619,11 @@ module Anthropic
         sig { returns(T.nilable(String)) }
         attr_accessor :description
 
-        # MCP servers. Full replacement. Omit to preserve; send empty array or null to
-        # clear. Names must be unique. Maximum 20.
+        # MCP servers. Full replacement. Omit to preserve; send empty array or `null` to
+        # clear. Names must be unique. Maximum 20. Every server must be referenced by an
+        # `mcp_toolset` in the agent's resulting `tools`; unreferenced servers are
+        # rejected. See the
+        # [MCP connector guide](https://platform.claude.com/docs/en/managed-agents/mcp-connector).
         sig do
           returns(T.nilable(
               T::Array[Anthropic::Beta::BetaManagedAgentsURLMCPServerParams]
@@ -4802,8 +4819,11 @@ module Anthropic
                       # value from a create or retrieve response. The request fails if this does not
                       # match the server's current version.
             description: nil, # Description. Omit to preserve; send empty string or null to clear.
-            mcp_servers: nil, # MCP servers. Full replacement. Omit to preserve; send empty array or null to
-                              # clear. Names must be unique. Maximum 20.
+            mcp_servers: nil, # MCP servers. Full replacement. Omit to preserve; send empty array or `null` to
+                              # clear. Names must be unique. Maximum 20. Every server must be referenced by an
+                              # `mcp_toolset` in the agent's resulting `tools`; unreferenced servers are
+                              # rejected. See the
+                              # [MCP connector guide](https://platform.claude.com/docs/en/managed-agents/mcp-connector).
             metadata: nil, # Metadata patch. Set a key to a string to upsert it, or to null to delete it.
                            # Omit the field to preserve. The stored bag is limited to 16 keys (up to 64 chars
                            # each) with values up to 512 chars.
@@ -6331,7 +6351,9 @@ module Anthropic
         # - `5m`: 5 minutes
         # - `1h`: 1 hour
         #
-        # Defaults to `5m`.
+        # Defaults to `5m`. See
+        # [prompt caching pricing](https://docs.claude.com/en/docs/build-with-claude/prompt-caching)
+        # for details.
         sig { returns(T.nilable(Anthropic::Beta::BetaCacheControlEphemeral::TTL::OrSymbol)) }
         attr_reader :ttl
 
@@ -6362,7 +6384,9 @@ module Anthropic
                       # This may be one the following values:
                       # - `5m`: 5 minutes
                       # - `1h`: 1 hour
-                      # Defaults to `5m`.
+                      # Defaults to `5m`. See
+                      # [prompt caching pricing](https://docs.claude.com/en/docs/build-with-claude/prompt-caching)
+                      # for details.
             type: :ephemeral
 ); end
         end
@@ -6381,7 +6405,9 @@ module Anthropic
         # - `5m`: 5 minutes
         # - `1h`: 1 hour
         #
-        # Defaults to `5m`.
+        # Defaults to `5m`. See
+        # [prompt caching pricing](https://docs.claude.com/en/docs/build-with-claude/prompt-caching)
+        # for details.
         module TTL
           extend Anthropic::Internal::Type::Enum
 
@@ -10866,6 +10892,11 @@ module Anthropic
 
           FRONTIER_LLM = T.let(
               :frontier_llm,
+              Anthropic::Beta::BetaFallbackRefusalTrigger::Category::TaggedSymbol
+            )
+
+          MILITARY_WEAPONS = T.let(
+              :military_weapons,
               Anthropic::Beta::BetaFallbackRefusalTrigger::Category::TaggedSymbol
             )
 
@@ -23346,6 +23377,11 @@ module Anthropic
 
           FRONTIER_LLM = T.let(
               :frontier_llm,
+              Anthropic::Beta::BetaRefusalStopDetails::Category::TaggedSymbol
+            )
+
+          MILITARY_WEAPONS = T.let(
+              :military_weapons,
               Anthropic::Beta::BetaRefusalStopDetails::Category::TaggedSymbol
             )
 
@@ -39782,9 +39818,12 @@ module Anthropic
         attr_writer :top_p
 
         # The user profile ID to attribute this request to. Use when acting on behalf of a
-        # party other than your organization.
+        # party other than your organization. Requires the `user-profiles` beta header.
         sig { returns(T.nilable(String)) }
-        attr_accessor :user_profile_id
+        attr_reader :user_profile_id
+
+        sig { params(user_profile_id: String).void }
+        attr_writer :user_profile_id
 
         sig do
           override
@@ -39861,9 +39900,9 @@ module Anthropic
                 ],
               top_k: Integer,
               top_p: Float,
-              user_profile_id: T.nilable(String),
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              user_profile_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -39936,8 +39975,8 @@ module Anthropic
               ],
               top_k: Integer,
               top_p: Float,
-              user_profile_id: T.nilable(String),
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              user_profile_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
@@ -40144,9 +40183,9 @@ module Anthropic
                         # for each subsequent token in decreasing probability order and cut it off once it
                         # reaches a particular probability specified by `top_p`.
                         # Recommended for advanced use cases only.
-            user_profile_id: nil, # The user profile ID to attribute this request to. Use when acting on behalf of a
-                                  # party other than your organization.
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            user_profile_id: nil, # The user profile ID to attribute this request to. Use when acting on behalf of a
+                                  # party other than your organization. Requires the `user-profiles` beta header.
             request_options: {}
 ); end
         end
@@ -40342,6 +40381,16 @@ module Anthropic
           sig { returns(T::Array[Anthropic::Beta::Messages::BatchCreateParams::Request]) }
           attr_accessor :requests
 
+          # The user profile ID to attribute the requests in this batch to. Use when acting
+          # on behalf of a party other than your organization. Requires the `user-profiles`
+          # beta header. Applies to every request in the batch; an individual request whose
+          # `user_profile_id` body field conflicts with this header is errored.
+          sig { returns(T.nilable(String)) }
+          attr_reader :user_profile_id
+
+          sig { params(user_profile_id: String).void }
+          attr_writer :user_profile_id
+
           sig do
             override
               .returns({
@@ -40351,6 +40400,7 @@ module Anthropic
                   ],
                 betas:
                   T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                user_profile_id: String,
                 request_options: Anthropic::RequestOptions
               })
           end
@@ -40363,6 +40413,7 @@ module Anthropic
                   Anthropic::Beta::Messages::BatchCreateParams::Request::OrHash
                 ],
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                user_profile_id: String,
                 request_options: Anthropic::RequestOptions::OrHash
               ).returns(T.attached_class)
             end
@@ -40370,6 +40421,10 @@ module Anthropic
               requests:, # List of requests for prompt completion. Each is an individual request to create
                          # a Message.
               betas: nil, # Optional header to specify the beta version(s) you want to use.
+              user_profile_id: nil, # The user profile ID to attribute the requests in this batch to. Use when acting
+                                    # on behalf of a party other than your organization. Requires the `user-profiles`
+                                    # beta header. Applies to every request in the batch; an individual request whose
+                                    # `user_profile_id` body field conflicts with this header is errored.
               request_options: {}
 ); end
           end
@@ -40950,11 +41005,6 @@ module Anthropic
               sig { params(top_p: Float).void }
               attr_writer :top_p
 
-              # The user profile ID to attribute this request to. Use when acting on behalf of a
-              # party other than your organization.
-              sig { returns(T.nilable(String)) }
-              attr_accessor :user_profile_id
-
               sig do
                 override
                   .returns({
@@ -41037,8 +41087,7 @@ module Anthropic
                         )
                       ],
                     top_k: Integer,
-                    top_p: Float,
-                    user_profile_id: T.nilable(String)
+                    top_p: Float
                   })
               end
               def to_hash; end
@@ -41125,8 +41174,7 @@ module Anthropic
                       )
                     ],
                     top_k: Integer,
-                    top_p: Float,
-                    user_profile_id: T.nilable(String)
+                    top_p: Float
                   ).returns(T.attached_class)
                 end
                 def new(
@@ -41329,13 +41377,11 @@ module Anthropic
                               # Used to remove "long tail" low probability responses.
                               # [Learn more technical details here](https://towardsdatascience.com/how-to-sample-from-language-models-682bceb97277).
                               # Recommended for advanced use cases only.
-                  top_p: nil, # Use nucleus sampling.
-                              # In nucleus sampling, we compute the cumulative distribution over all the options
-                              # for each subsequent token in decreasing probability order and cut it off once it
-                              # reaches a particular probability specified by `top_p`.
-                              # Recommended for advanced use cases only.
-                  user_profile_id: nil # The user profile ID to attribute this request to. Use when acting on behalf of a
-                                       # party other than your organization.
+                  top_p: nil # Use nucleus sampling.
+                             # In nucleus sampling, we compute the cumulative distribution over all the options
+                             # for each subsequent token in decreasing probability order and cut it off once it
+                             # reaches a particular probability specified by `top_p`.
+                             # Recommended for advanced use cases only.
 ); end
               end
 
@@ -58156,7 +58202,9 @@ module Anthropic
       # - `5m`: 5 minutes
       # - `1h`: 1 hour
       #
-      # Defaults to `5m`.
+      # Defaults to `5m`. See
+      # [prompt caching pricing](https://docs.claude.com/en/docs/build-with-claude/prompt-caching)
+      # for details.
       sig { returns(T.nilable(Anthropic::CacheControlEphemeral::TTL::OrSymbol)) }
       attr_reader :ttl
 
@@ -58176,7 +58224,9 @@ module Anthropic
                     # This may be one the following values:
                     # - `5m`: 5 minutes
                     # - `1h`: 1 hour
-                    # Defaults to `5m`.
+                    # Defaults to `5m`. See
+                    # [prompt caching pricing](https://docs.claude.com/en/docs/build-with-claude/prompt-caching)
+                    # for details.
           type: :ephemeral
 ); end
       end
@@ -58192,7 +58242,9 @@ module Anthropic
       # - `5m`: 5 minutes
       # - `1h`: 1 hour
       #
-      # Defaults to `5m`.
+      # Defaults to `5m`. See
+      # [prompt caching pricing](https://docs.claude.com/en/docs/build-with-claude/prompt-caching)
+      # for details.
       module TTL
         extend Anthropic::Internal::Type::Enum
 
@@ -62532,6 +62584,14 @@ module Anthropic
       sig { params(top_p: Float).void }
       attr_writer :top_p
 
+      # The user profile ID to attribute this request to. Use when acting on behalf of a
+      # party other than your organization. Requires the `user-profiles` beta header.
+      sig { returns(T.nilable(String)) }
+      attr_reader :user_profile_id
+
+      sig { params(user_profile_id: String).void }
+      attr_writer :user_profile_id
+
       sig do
         override
           .returns({
@@ -62584,6 +62644,7 @@ module Anthropic
               ],
             top_k: Integer,
             top_p: Float,
+            user_profile_id: String,
             request_options: Anthropic::RequestOptions
           })
       end
@@ -62638,6 +62699,7 @@ module Anthropic
             ],
             top_k: Integer,
             top_p: Float,
+            user_profile_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(T.attached_class)
         end
@@ -62812,6 +62874,8 @@ module Anthropic
                       # for each subsequent token in decreasing probability order and cut it off once it
                       # reaches a particular probability specified by `top_p`.
                       # Recommended for advanced use cases only.
+          user_profile_id: nil, # The user profile ID to attribute this request to. Use when acting on behalf of a
+                                # party other than your organization. Requires the `user-profiles` beta header.
           request_options: {}
 ); end
       end
@@ -63090,11 +63154,22 @@ module Anthropic
         sig { returns(T::Array[Anthropic::Messages::BatchCreateParams::Request]) }
         attr_accessor :requests
 
+        # The user profile ID to attribute the requests in this batch to. Use when acting
+        # on behalf of a party other than your organization. Requires the `user-profiles`
+        # beta header. Applies to every request in the batch; an individual request whose
+        # `user_profile_id` body field conflicts with this header is errored.
+        sig { returns(T.nilable(String)) }
+        attr_reader :user_profile_id
+
+        sig { params(user_profile_id: String).void }
+        attr_writer :user_profile_id
+
         sig do
           override
             .returns({
               requests:
                 T::Array[Anthropic::Messages::BatchCreateParams::Request],
+              user_profile_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -63104,12 +63179,17 @@ module Anthropic
           sig do
             params(
               requests: T::Array[Anthropic::Messages::BatchCreateParams::Request::OrHash],
+              user_profile_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
           def new(
             requests:, # List of requests for prompt completion. Each is an individual request to create
                        # a Message.
+            user_profile_id: nil, # The user profile ID to attribute the requests in this batch to. Use when acting
+                                  # on behalf of a party other than your organization. Requires the `user-profiles`
+                                  # beta header. Applies to every request in the batch; an individual request whose
+                                  # `user_profile_id` body field conflicts with this header is errored.
             request_options: {}
 ); end
         end
@@ -65692,6 +65772,11 @@ module Anthropic
 
         FRONTIER_LLM = T.let(
             :frontier_llm,
+            Anthropic::RefusalStopDetails::Category::TaggedSymbol
+          )
+
+        MILITARY_WEAPONS = T.let(
+            :military_weapons,
             Anthropic::RefusalStopDetails::Category::TaggedSymbol
           )
 
@@ -71516,7 +71601,9 @@ module Anthropic
           name:, # Body param: Human-readable name for the agent.
           description: nil, # Body param: Description of what the agent does.
           mcp_servers: nil, # Body param: MCP servers this agent connects to. Maximum 20. Names must be unique
-                            # within the array.
+                            # within the array. Every server must be referenced by an `mcp_toolset` in
+                            # `tools`; unreferenced servers are rejected. See the
+                            # [MCP connector guide](https://platform.claude.com/docs/en/managed-agents/mcp-connector).
           metadata: nil, # Body param: Arbitrary key-value metadata. Maximum 16 pairs, keys up to 64 chars,
                          # values up to 512 chars.
           multiagent: nil, # Body param: A coordinator topology: the session's primary thread orchestrates
@@ -71621,7 +71708,10 @@ module Anthropic
                     # does not match the server's current version.
           description: nil, # Body param: Description. Omit to preserve; send empty string or null to clear.
           mcp_servers: nil, # Body param: MCP servers. Full replacement. Omit to preserve; send empty array or
-                            # null to clear. Names must be unique. Maximum 20.
+                            # `null` to clear. Names must be unique. Maximum 20. Every server must be
+                            # referenced by an `mcp_toolset` in the agent's resulting `tools`; unreferenced
+                            # servers are rejected. See the
+                            # [MCP connector guide](https://platform.claude.com/docs/en/managed-agents/mcp-connector).
           metadata: nil, # Body param: Metadata patch. Set a key to a string to upsert it, or to null to
                          # delete it. Omit the field to preserve. The stored bag is limited to 16 keys (up
                          # to 64 chars each) with values up to 512 chars.
@@ -73021,8 +73111,8 @@ module Anthropic
               ],
             top_k: Integer,
             top_p: Float,
-            user_profile_id: T.nilable(String),
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            user_profile_id: String,
             stream: T.noreturn,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Beta::BetaMessage)
@@ -73231,9 +73321,10 @@ module Anthropic
                       # for each subsequent token in decreasing probability order and cut it off once it
                       # reaches a particular probability specified by `top_p`.
                       # Recommended for advanced use cases only.
-          user_profile_id: nil, # Body param: The user profile ID to attribute this request to. Use when acting on
-                                # behalf of a party other than your organization.
           betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          user_profile_id: nil, # Header param: The user profile ID to attribute this request to. Use when acting
+                                # on behalf of a party other than your organization. Requires the `user-profiles`
+                                # beta header.
           stream: false, # There is no need to provide `stream:`. Instead, use `#stream_raw` or `#create`
                          # for streaming and non-streaming use cases, respectively.
           request_options: {}
@@ -73315,8 +73406,8 @@ module Anthropic
               ],
             top_k: Integer,
             top_p: Float,
-            user_profile_id: T.nilable(String),
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            user_profile_id: String,
             stream: T.noreturn,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Internal::Stream[
@@ -73527,9 +73618,10 @@ module Anthropic
                       # for each subsequent token in decreasing probability order and cut it off once it
                       # reaches a particular probability specified by `top_p`.
                       # Recommended for advanced use cases only.
-          user_profile_id: nil, # Body param: The user profile ID to attribute this request to. Use when acting on
-                                # behalf of a party other than your organization.
           betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          user_profile_id: nil, # Header param: The user profile ID to attribute this request to. Use when acting
+                                # on behalf of a party other than your organization. Requires the `user-profiles`
+                                # beta header.
           stream: true, # There is no need to provide `stream:`. Instead, use `#stream_raw` or `#create`
                         # for streaming and non-streaming use cases, respectively.
           request_options: {}
@@ -73811,6 +73903,7 @@ module Anthropic
                   Anthropic::Beta::Messages::BatchCreateParams::Request::OrHash
                 ],
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              user_profile_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(Anthropic::Beta::Messages::BetaMessageBatch)
           end
@@ -73818,6 +73911,11 @@ module Anthropic
             requests:, # Body param: List of requests for prompt completion. Each is an individual
                        # request to create a Message.
             betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            user_profile_id: nil, # Header param: The user profile ID to attribute the requests in this batch to.
+                                  # Use when acting on behalf of a party other than your organization. Requires the
+                                  # `user-profiles` beta header. Applies to every request in the batch; an
+                                  # individual request whose `user_profile_id` body field conflicts with this header
+                                  # is errored.
             request_options: {}
 ); end
 
@@ -75408,12 +75506,13 @@ module Anthropic
             ],
           top_k: Integer,
           top_p: Float,
+          user_profile_id: String,
           stream: T.noreturn,
           request_options: Anthropic::RequestOptions::OrHash
         ).returns(Anthropic::Message)
       end
       def create(
-        max_tokens:, # The maximum number of tokens to generate before stopping.
+        max_tokens:, # Body param: The maximum number of tokens to generate before stopping.
                      # Note that our models may stop _before_ reaching this maximum. This parameter
                      # only specifies the absolute maximum number of tokens to generate.
                      # Set to `0` to populate the
@@ -75421,7 +75520,7 @@ module Anthropic
                      # without generating a response.
                      # Different models have different maximum values for this parameter. See
                      # [models](https://docs.claude.com/en/docs/models-overview) for details.
-        messages:, # Input messages.
+        messages:, # Body param: Input messages.
                    # Our models are trained to operate on alternating `user` and `assistant`
                    # conversational turns. When creating a new `Message`, you specify the prior
                    # conversational turns with the `messages` parameter, and the model then generates
@@ -75471,47 +75570,48 @@ module Anthropic
                    # top-level `system` parameter — there is no `"system"` role for input messages in
                    # the Messages API.
                    # There is a limit of 100,000 messages in a single request.
-        model:, # The model that will complete your prompt.
+        model:, # Body param: The model that will complete your prompt.
                 # See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
                 # details and options.
-        cache_control: nil, # Top-level cache control automatically applies a cache_control marker to the last
-                            # cacheable block in the request.
-        container: nil, # Container identifier for reuse across requests.
-        inference_geo: nil, # Specifies the geographic region for inference processing. If not specified, the
-                            # workspace's `default_inference_geo` is used.
-        metadata: nil, # An object describing metadata about the request.
-        output_config: nil, # Configuration options for the model's output, such as the output format.
-        service_tier: nil, # Determines whether to use priority capacity (if available) or standard capacity
-                           # for this request.
+        cache_control: nil, # Body param: Top-level cache control automatically applies a cache_control marker
+                            # to the last cacheable block in the request.
+        container: nil, # Body param: Container identifier for reuse across requests.
+        inference_geo: nil, # Body param: Specifies the geographic region for inference processing. If not
+                            # specified, the workspace's `default_inference_geo` is used.
+        metadata: nil, # Body param: An object describing metadata about the request.
+        output_config: nil, # Body param: Configuration options for the model's output, such as the output
+                            # format.
+        service_tier: nil, # Body param: Determines whether to use priority capacity (if available) or
+                           # standard capacity for this request.
                            # Anthropic offers different levels of service for your API requests. See
                            # [service-tiers](https://docs.claude.com/en/api/service-tiers) for details.
-        stop_sequences: nil, # Custom text sequences that will cause the model to stop generating.
+        stop_sequences: nil, # Body param: Custom text sequences that will cause the model to stop generating.
                              # Our models will normally stop when they have naturally completed their turn,
                              # which will result in a response `stop_reason` of `"end_turn"`.
                              # If you want the model to stop generating when it encounters custom strings of
                              # text, you can use the `stop_sequences` parameter. If the model encounters one of
                              # the custom sequences, the response `stop_reason` value will be `"stop_sequence"`
                              # and the response `stop_sequence` value will contain the matched stop sequence.
-        system_: nil, # System prompt.
+        system_: nil, # Body param: System prompt.
                       # A system prompt is a way of providing context and instructions to Claude, such
                       # as specifying a particular goal or role. See our
                       # [guide to system prompts](https://docs.claude.com/en/docs/system-prompts).
-        temperature: nil, # Amount of randomness injected into the response.
+        temperature: nil, # Body param: Amount of randomness injected into the response.
                           # Defaults to `1.0`. Ranges from `0.0` to `1.0`. Use `temperature` closer to `0.0`
                           # for analytical / multiple choice, and closer to `1.0` for creative and
                           # generative tasks.
                           # Note that even with `temperature` of `0.0`, the results will not be fully
                           # deterministic.
-        thinking: nil, # Configuration for enabling Claude's extended thinking.
+        thinking: nil, # Body param: Configuration for enabling Claude's extended thinking.
                        # When enabled, responses include `thinking` content blocks showing Claude's
                        # thinking process before the final answer. Requires a minimum budget of 1,024
                        # tokens and counts towards your `max_tokens` limit.
                        # See
                        # [extended thinking](https://docs.claude.com/en/docs/build-with-claude/extended-thinking)
                        # for details.
-        tool_choice: nil, # How the model should use the provided tools. The model can use a specific tool,
-                          # any available tool, decide by itself, or not use tools at all.
-        tools: nil, # Definitions of tools that the model may use.
+        tool_choice: nil, # Body param: How the model should use the provided tools. The model can use a
+                          # specific tool, any available tool, decide by itself, or not use tools at all.
+        tools: nil, # Body param: Definitions of tools that the model may use.
                     # If you include `tools` in your API request, the model may return `tool_use`
                     # content blocks that represent the model's use of those tools. You can then run
                     # those tools using the tool input generated by the model and then optionally
@@ -75574,15 +75674,18 @@ module Anthropic
                     # functions, or more generally whenever you want the model to produce a particular
                     # JSON structure of output.
                     # See our [guide](https://docs.claude.com/en/docs/tool-use) for more details.
-        top_k: nil, # Only sample from the top K options for each subsequent token.
+        top_k: nil, # Body param: Only sample from the top K options for each subsequent token.
                     # Used to remove "long tail" low probability responses.
                     # [Learn more technical details here](https://towardsdatascience.com/how-to-sample-from-language-models-682bceb97277).
                     # Recommended for advanced use cases only.
-        top_p: nil, # Use nucleus sampling.
+        top_p: nil, # Body param: Use nucleus sampling.
                     # In nucleus sampling, we compute the cumulative distribution over all the options
                     # for each subsequent token in decreasing probability order and cut it off once it
                     # reaches a particular probability specified by `top_p`.
                     # Recommended for advanced use cases only.
+        user_profile_id: nil, # Header param: The user profile ID to attribute this request to. Use when acting
+                              # on behalf of a party other than your organization. Requires the `user-profiles`
+                              # beta header.
         stream: false, # There is no need to provide `stream:`. Instead, use `#stream_raw` or `#create`
                        # for streaming and non-streaming use cases, respectively.
         request_options: {}
@@ -75876,6 +75979,7 @@ module Anthropic
             ],
           top_k: Integer,
           top_p: Float,
+          user_profile_id: String,
           stream: T.noreturn,
           request_options: Anthropic::RequestOptions::OrHash
         ).returns(Anthropic::Internal::Stream[
@@ -75883,7 +75987,7 @@ module Anthropic
           ])
       end
       def stream_raw(
-        max_tokens:, # The maximum number of tokens to generate before stopping.
+        max_tokens:, # Body param: The maximum number of tokens to generate before stopping.
                      # Note that our models may stop _before_ reaching this maximum. This parameter
                      # only specifies the absolute maximum number of tokens to generate.
                      # Set to `0` to populate the
@@ -75891,7 +75995,7 @@ module Anthropic
                      # without generating a response.
                      # Different models have different maximum values for this parameter. See
                      # [models](https://docs.claude.com/en/docs/models-overview) for details.
-        messages:, # Input messages.
+        messages:, # Body param: Input messages.
                    # Our models are trained to operate on alternating `user` and `assistant`
                    # conversational turns. When creating a new `Message`, you specify the prior
                    # conversational turns with the `messages` parameter, and the model then generates
@@ -75941,47 +76045,48 @@ module Anthropic
                    # top-level `system` parameter — there is no `"system"` role for input messages in
                    # the Messages API.
                    # There is a limit of 100,000 messages in a single request.
-        model:, # The model that will complete your prompt.
+        model:, # Body param: The model that will complete your prompt.
                 # See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
                 # details and options.
-        cache_control: nil, # Top-level cache control automatically applies a cache_control marker to the last
-                            # cacheable block in the request.
-        container: nil, # Container identifier for reuse across requests.
-        inference_geo: nil, # Specifies the geographic region for inference processing. If not specified, the
-                            # workspace's `default_inference_geo` is used.
-        metadata: nil, # An object describing metadata about the request.
-        output_config: nil, # Configuration options for the model's output, such as the output format.
-        service_tier: nil, # Determines whether to use priority capacity (if available) or standard capacity
-                           # for this request.
+        cache_control: nil, # Body param: Top-level cache control automatically applies a cache_control marker
+                            # to the last cacheable block in the request.
+        container: nil, # Body param: Container identifier for reuse across requests.
+        inference_geo: nil, # Body param: Specifies the geographic region for inference processing. If not
+                            # specified, the workspace's `default_inference_geo` is used.
+        metadata: nil, # Body param: An object describing metadata about the request.
+        output_config: nil, # Body param: Configuration options for the model's output, such as the output
+                            # format.
+        service_tier: nil, # Body param: Determines whether to use priority capacity (if available) or
+                           # standard capacity for this request.
                            # Anthropic offers different levels of service for your API requests. See
                            # [service-tiers](https://docs.claude.com/en/api/service-tiers) for details.
-        stop_sequences: nil, # Custom text sequences that will cause the model to stop generating.
+        stop_sequences: nil, # Body param: Custom text sequences that will cause the model to stop generating.
                              # Our models will normally stop when they have naturally completed their turn,
                              # which will result in a response `stop_reason` of `"end_turn"`.
                              # If you want the model to stop generating when it encounters custom strings of
                              # text, you can use the `stop_sequences` parameter. If the model encounters one of
                              # the custom sequences, the response `stop_reason` value will be `"stop_sequence"`
                              # and the response `stop_sequence` value will contain the matched stop sequence.
-        system_: nil, # System prompt.
+        system_: nil, # Body param: System prompt.
                       # A system prompt is a way of providing context and instructions to Claude, such
                       # as specifying a particular goal or role. See our
                       # [guide to system prompts](https://docs.claude.com/en/docs/system-prompts).
-        temperature: nil, # Amount of randomness injected into the response.
+        temperature: nil, # Body param: Amount of randomness injected into the response.
                           # Defaults to `1.0`. Ranges from `0.0` to `1.0`. Use `temperature` closer to `0.0`
                           # for analytical / multiple choice, and closer to `1.0` for creative and
                           # generative tasks.
                           # Note that even with `temperature` of `0.0`, the results will not be fully
                           # deterministic.
-        thinking: nil, # Configuration for enabling Claude's extended thinking.
+        thinking: nil, # Body param: Configuration for enabling Claude's extended thinking.
                        # When enabled, responses include `thinking` content blocks showing Claude's
                        # thinking process before the final answer. Requires a minimum budget of 1,024
                        # tokens and counts towards your `max_tokens` limit.
                        # See
                        # [extended thinking](https://docs.claude.com/en/docs/build-with-claude/extended-thinking)
                        # for details.
-        tool_choice: nil, # How the model should use the provided tools. The model can use a specific tool,
-                          # any available tool, decide by itself, or not use tools at all.
-        tools: nil, # Definitions of tools that the model may use.
+        tool_choice: nil, # Body param: How the model should use the provided tools. The model can use a
+                          # specific tool, any available tool, decide by itself, or not use tools at all.
+        tools: nil, # Body param: Definitions of tools that the model may use.
                     # If you include `tools` in your API request, the model may return `tool_use`
                     # content blocks that represent the model's use of those tools. You can then run
                     # those tools using the tool input generated by the model and then optionally
@@ -76044,15 +76149,18 @@ module Anthropic
                     # functions, or more generally whenever you want the model to produce a particular
                     # JSON structure of output.
                     # See our [guide](https://docs.claude.com/en/docs/tool-use) for more details.
-        top_k: nil, # Only sample from the top K options for each subsequent token.
+        top_k: nil, # Body param: Only sample from the top K options for each subsequent token.
                     # Used to remove "long tail" low probability responses.
                     # [Learn more technical details here](https://towardsdatascience.com/how-to-sample-from-language-models-682bceb97277).
                     # Recommended for advanced use cases only.
-        top_p: nil, # Use nucleus sampling.
+        top_p: nil, # Body param: Use nucleus sampling.
                     # In nucleus sampling, we compute the cumulative distribution over all the options
                     # for each subsequent token in decreasing probability order and cut it off once it
                     # reaches a particular probability specified by `top_p`.
                     # Recommended for advanced use cases only.
+        user_profile_id: nil, # Header param: The user profile ID to attribute this request to. Use when acting
+                              # on behalf of a party other than your organization. Requires the `user-profiles`
+                              # beta header.
         stream: true, # There is no need to provide `stream:`. Instead, use `#stream_raw` or `#create`
                       # for streaming and non-streaming use cases, respectively.
         request_options: {}
@@ -76099,12 +76207,18 @@ module Anthropic
         sig do
           params(
             requests: T::Array[Anthropic::Messages::BatchCreateParams::Request::OrHash],
+            user_profile_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Messages::MessageBatch)
         end
         def create(
-          requests:, # List of requests for prompt completion. Each is an individual request to create
-                     # a Message.
+          requests:, # Body param: List of requests for prompt completion. Each is an individual
+                     # request to create a Message.
+          user_profile_id: nil, # Header param: The user profile ID to attribute the requests in this batch to.
+                                # Use when acting on behalf of a party other than your organization. Requires the
+                                # `user-profiles` beta header. Applies to every request in the batch; an
+                                # individual request whose `user_profile_id` body field conflicts with this header
+                                # is errored.
           request_options: {}
 ); end
 

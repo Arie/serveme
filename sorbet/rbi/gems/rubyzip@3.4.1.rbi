@@ -498,18 +498,18 @@ class Zip::DecryptedIo
   # pkg:gem/rubyzip#lib/zip/crypto/decrypted_io.rb:7
   def initialize(io, decrypter, compressed_size); end
 
-  # pkg:gem/rubyzip#lib/zip/crypto/decrypted_io.rb:14
+  # pkg:gem/rubyzip#lib/zip/crypto/decrypted_io.rb:17
   def read(maxlen = T.unsafe(nil)); end
 
   private
 
-  # pkg:gem/rubyzip#lib/zip/crypto/decrypted_io.rb:30
+  # pkg:gem/rubyzip#lib/zip/crypto/decrypted_io.rb:36
   def eof?; end
 
-  # pkg:gem/rubyzip#lib/zip/crypto/decrypted_io.rb:34
+  # pkg:gem/rubyzip#lib/zip/crypto/decrypted_io.rb:40
   def input_finished?; end
 
-  # pkg:gem/rubyzip#lib/zip/crypto/decrypted_io.rb:38
+  # pkg:gem/rubyzip#lib/zip/crypto/decrypted_io.rb:44
   def produce_input; end
 end
 

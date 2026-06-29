@@ -53,7 +53,7 @@
 # pkg:gem/net-ssh#lib/net/ssh/config.rb:2
 module Net::SSH
   class << self
-    # pkg:gem/net-ssh#lib/net/ssh.rb:298
+    # pkg:gem/net-ssh#lib/net/ssh.rb:294
     def assign_defaults(options); end
 
     # Returns a hash of the configuration options for the given host, as read
@@ -66,7 +66,7 @@ module Net::SSH
     #
     # See Net::SSH::Config for the full description of all supported options.
     #
-    # pkg:gem/net-ssh#lib/net/ssh.rb:288
+    # pkg:gem/net-ssh#lib/net/ssh.rb:284
     def configuration_for(host, use_ssh_config); end
 
     # The standard means of starting a new SSH connection. When used with a
@@ -216,15 +216,15 @@ module Net::SSH
     # If +user+ parameter is nil it defaults to USER from ssh_config, or
     # local username
     #
-    # pkg:gem/net-ssh#lib/net/ssh.rb:225
+    # pkg:gem/net-ssh#lib/net/ssh.rb:221
     def start(host, user = T.unsafe(nil), options = T.unsafe(nil), &block); end
 
     private
 
-    # pkg:gem/net-ssh#lib/net/ssh.rb:311
+    # pkg:gem/net-ssh#lib/net/ssh.rb:307
     def _sanitize_options(options); end
 
-    # pkg:gem/net-ssh#lib/net/ssh.rb:320
+    # pkg:gem/net-ssh#lib/net/ssh.rb:316
     def _support_deprecated_option_paranoid(options); end
   end
 end
@@ -794,24 +794,24 @@ class Net::SSH::Authentication::KeyManager
 
   # Add the given key_file to the list of keys that will be used.
   #
-  # pkg:gem/net-ssh#lib/net/ssh/authentication/key_manager.rb:90
+  # pkg:gem/net-ssh#lib/net/ssh/authentication/key_manager.rb:94
   def add_key_data(key_data_); end
 
   # Add the given keycert_file to the list of keycert files that will be used.
   #
-  # pkg:gem/net-ssh#lib/net/ssh/authentication/key_manager.rb:78
+  # pkg:gem/net-ssh#lib/net/ssh/authentication/key_manager.rb:80
   def add_keycert(keycert_file); end
 
   # Add the given keycert_data to the list of keycerts that will be used.
   #
-  # pkg:gem/net-ssh#lib/net/ssh/authentication/key_manager.rb:84
+  # pkg:gem/net-ssh#lib/net/ssh/authentication/key_manager.rb:88
   def add_keycert_data(keycert_data_); end
 
   # Returns an Agent instance to use for communicating with an SSH
   # agent process. Returns nil if use of an SSH agent has been disabled,
   # or if the agent is otherwise not available.
   #
-  # pkg:gem/net-ssh#lib/net/ssh/authentication/key_manager.rb:226
+  # pkg:gem/net-ssh#lib/net/ssh/authentication/key_manager.rb:234
   def agent; end
 
   # Clear all knowledge of any loaded user keys. This also clears the list
@@ -832,7 +832,7 @@ class Net::SSH::Authentication::KeyManager
   # from ssh-agent will be ignored unless it present in key_files or
   # key_data.
   #
-  # pkg:gem/net-ssh#lib/net/ssh/authentication/key_manager.rb:118
+  # pkg:gem/net-ssh#lib/net/ssh/authentication/key_manager.rb:122
   def each_identity; end
 
   # This is used as a hint to the KeyManager indicating that the agent
@@ -845,7 +845,7 @@ class Net::SSH::Authentication::KeyManager
   # reconnected. This method simply allows the client connection to be
   # closed when it will not be used in the immediate future.
   #
-  # pkg:gem/net-ssh#lib/net/ssh/authentication/key_manager.rb:104
+  # pkg:gem/net-ssh#lib/net/ssh/authentication/key_manager.rb:108
   def finish; end
 
   # The list of user key data that will be examined
@@ -873,7 +873,7 @@ class Net::SSH::Authentication::KeyManager
   # pkg:gem/net-ssh#lib/net/ssh/authentication/key_manager.rb:39
   def known_identities; end
 
-  # pkg:gem/net-ssh#lib/net/ssh/authentication/key_manager.rb:235
+  # pkg:gem/net-ssh#lib/net/ssh/authentication/key_manager.rb:243
   def no_keys?; end
 
   # The map of options that were passed to the key-manager
@@ -891,47 +891,47 @@ class Net::SSH::Authentication::KeyManager
   # will always return the signature in an SSH2-specified "signature
   # blob" format.
   #
-  # pkg:gem/net-ssh#lib/net/ssh/authentication/key_manager.rb:172
+  # pkg:gem/net-ssh#lib/net/ssh/authentication/key_manager.rb:176
   def sign(identity, data, sig_alg = T.unsafe(nil)); end
 
   # Toggles whether the ssh-agent will be used or not. If true, an
   # attempt will be made to use the ssh-agent. If false, any existing
   # connection to an agent is closed and the agent will not be used.
   #
-  # pkg:gem/net-ssh#lib/net/ssh/authentication/key_manager.rb:218
+  # pkg:gem/net-ssh#lib/net/ssh/authentication/key_manager.rb:226
   def use_agent=(use_agent); end
 
   # Identifies whether the ssh-agent will be used or not.
   #
-  # pkg:gem/net-ssh#lib/net/ssh/authentication/key_manager.rb:211
+  # pkg:gem/net-ssh#lib/net/ssh/authentication/key_manager.rb:219
   def use_agent?; end
 
   private
 
   # Load keycerts from files and data.
   #
-  # pkg:gem/net-ssh#lib/net/ssh/authentication/key_manager.rb:242
+  # pkg:gem/net-ssh#lib/net/ssh/authentication/key_manager.rb:250
   def keycerts; end
 
   # Load prepared identities. Private key decryption errors ignored if ignore_decryption_errors
   #
-  # pkg:gem/net-ssh#lib/net/ssh/authentication/key_manager.rb:280
+  # pkg:gem/net-ssh#lib/net/ssh/authentication/key_manager.rb:292
   def load_identities(identities, ask_passphrase, ignore_decryption_errors); end
 
   # Prepared identities from user key_data, preserving their order and sources.
   #
-  # pkg:gem/net-ssh#lib/net/ssh/authentication/key_manager.rb:273
+  # pkg:gem/net-ssh#lib/net/ssh/authentication/key_manager.rb:285
   def prepare_identities_from_data; end
 
   # Prepares identities from user key_files for loading, preserving their order and sources.
   #
-  # pkg:gem/net-ssh#lib/net/ssh/authentication/key_manager.rb:248
+  # pkg:gem/net-ssh#lib/net/ssh/authentication/key_manager.rb:256
   def prepare_identities_from_files; end
 
-  # pkg:gem/net-ssh#lib/net/ssh/authentication/key_manager.rb:314
+  # pkg:gem/net-ssh#lib/net/ssh/authentication/key_manager.rb:329
   def process_identity_loading_error(identity, e); end
 
-  # pkg:gem/net-ssh#lib/net/ssh/authentication/key_manager.rb:268
+  # pkg:gem/net-ssh#lib/net/ssh/authentication/key_manager.rb:280
   def readable_file?(path); end
 end
 
@@ -1786,36 +1786,36 @@ class Net::SSH::Config
 
     private
 
-    # pkg:gem/net-ssh#lib/net/ssh/config.rb:365
+    # pkg:gem/net-ssh#lib/net/ssh/config.rb:366
     def eval_match_conditions(condition, host, settings); end
 
-    # pkg:gem/net-ssh#lib/net/ssh/config.rb:353
+    # pkg:gem/net-ssh#lib/net/ssh/config.rb:354
     def included_file_paths(base_dir, config_paths); end
 
     # Converts the given size into an integer number of bytes.
     #
-    # pkg:gem/net-ssh#lib/net/ssh/config.rb:336
+    # pkg:gem/net-ssh#lib/net/ssh/config.rb:337
     def interpret_size(size); end
 
-    # pkg:gem/net-ssh#lib/net/ssh/config.rb:345
+    # pkg:gem/net-ssh#lib/net/ssh/config.rb:346
     def merge_challenge_response_with_keyboard_interactive(hash); end
 
     # Converts an ssh_config pattern into a regex for matching against
     # host names.
     #
-    # pkg:gem/net-ssh#lib/net/ssh/config.rb:316
+    # pkg:gem/net-ssh#lib/net/ssh/config.rb:317
     def pattern2regex(pattern); end
 
-    # pkg:gem/net-ssh#lib/net/ssh/config.rb:301
+    # pkg:gem/net-ssh#lib/net/ssh/config.rb:302
     def setup_proxy(type, value); end
 
     # Tokenize string into tokens.
     # A token is a word or a quoted sequence of words, separated by whitespaces.
     #
-    # pkg:gem/net-ssh#lib/net/ssh/config.rb:361
+    # pkg:gem/net-ssh#lib/net/ssh/config.rb:362
     def tokenize_config_value(str); end
 
-    # pkg:gem/net-ssh#lib/net/ssh/config.rb:235
+    # pkg:gem/net-ssh#lib/net/ssh/config.rb:234
     def translate_config_key(hash, key, value, settings); end
 
     # pkg:gem/net-ssh#lib/net/ssh/config.rb:208
@@ -1824,7 +1824,7 @@ class Net::SSH::Config
     # pkg:gem/net-ssh#lib/net/ssh/config.rb:197
     def translate_verify_host_key(value); end
 
-    # pkg:gem/net-ssh#lib/net/ssh/config.rb:400
+    # pkg:gem/net-ssh#lib/net/ssh/config.rb:401
     def unquote(string); end
   end
 end
@@ -3597,7 +3597,7 @@ class Net::SSH::KnownHosts
   # and key. If it is unable to (because the file is not writable, for
   # instance), an exception will be raised.
   #
-  # pkg:gem/net-ssh#lib/net/ssh/known_hosts.rb:256
+  # pkg:gem/net-ssh#lib/net/ssh/known_hosts.rb:258
   def add(host, key); end
 
   # Returns an array of all keys that are known to be associatd with the
@@ -3614,16 +3614,16 @@ class Net::SSH::KnownHosts
   #   "[1,2,3,4]:5555"
   #   "[net.ssh.test]:5555,[1.2.3.4]:5555
   #
-  # pkg:gem/net-ssh#lib/net/ssh/known_hosts.rb:178
+  # pkg:gem/net-ssh#lib/net/ssh/known_hosts.rb:180
   def keys_for(host, options = T.unsafe(nil)); end
 
   # Indicates whether one of the entries matches an hostname that has been
   # stored as a HMAC-SHA1 hash in the known hosts.
   #
-  # pkg:gem/net-ssh#lib/net/ssh/known_hosts.rb:240
+  # pkg:gem/net-ssh#lib/net/ssh/known_hosts.rb:242
   def known_host_hash?(hostlist, entries); end
 
-  # pkg:gem/net-ssh#lib/net/ssh/known_hosts.rb:223
+  # pkg:gem/net-ssh#lib/net/ssh/known_hosts.rb:225
   def match(host, pattern); end
 
   # The host-key file name that this KnownHosts instance will use to search
@@ -3970,9 +3970,9 @@ class Net::SSH::Service::Forward
   # If three arguments are given, it is as if the local bind address is
   # "127.0.0.1", and the rest are applied as above.
   #
-  # To request an ephemeral port on the remote server, provide 0 (zero) for
-  # the port number. In all cases, this method will return the port that
-  # has been assigned.
+  # To request an ephemeral port on the local server, provide 0 (zero) for
+  # the local port number. In all cases, this method will return the port
+  # that has been assigned.
   #
   #   ssh.forward.local(1234, "www.capify.org", 80)
   #   assigned_port = ssh.forward.local("0.0.0.0", 0, "www.capify.org", 80)
@@ -5770,7 +5770,7 @@ end
 # This is the set of options that Net::SSH.start recognizes. See
 # Net::SSH.start for a description of each option.
 #
-# pkg:gem/net-ssh#lib/net/ssh.rb:65
+# pkg:gem/net-ssh#lib/net/ssh.rb:61
 Net::SSH::VALID_OPTIONS = T.let(T.unsafe(nil), Array)
 
 # pkg:gem/net-ssh#lib/net/ssh/verifiers/always.rb:6

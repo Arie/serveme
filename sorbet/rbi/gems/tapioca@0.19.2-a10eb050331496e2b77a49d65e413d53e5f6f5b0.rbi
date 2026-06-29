@@ -196,6 +196,25 @@ module T::Helpers
   def requires_ancestor(&block); end
 end
 
+# pkg:gem/tapioca#lib/tapioca/sorbet_ext/generic_type_patch.rb:28
+module T::Private::Casts
+  class << self
+    # pkg:gem/tapioca#lib/tapioca/sorbet_ext/generic_type_patch.rb:34
+    def cast(value, type, cast_method); end
+  end
+end
+
+# pkg:gem/tapioca#lib/tapioca/sorbet_ext/generic_type_patch.rb:29
+module T::Private::Casts::TapiocaGenericTypeCastPatch
+  # https://github.com/sorbet/sorbet/commit/b8d64c7fd9a08e2b9159b5d592bc2de6d586b44a
+  # inlines the Module fast path in `T.let`, `T.cast`, `T.bind`, and
+  # `T.assert_type!`, so generic module clones can reach this cast path
+  # without going through `T::Utils::Private::TapiocaGenericTypeCoercePatch`.
+  #
+  # pkg:gem/tapioca#lib/tapioca/sorbet_ext/generic_type_patch.rb:34
+  def cast(value, type, cast_method); end
+end
+
 # pkg:gem/tapioca#lib/tapioca/sorbet_ext/proc_bind_patch.rb:28
 module T::Private::Methods
   class << self
@@ -250,17 +269,20 @@ module T::Types::Simple::NamePatch
   def name; end
 end
 
-# pkg:gem/tapioca#lib/tapioca/sorbet_ext/generic_name_patch.rb:87
+# pkg:gem/tapioca#lib/tapioca/sorbet_ext/generic_type_patch.rb:6
 module T::Utils::Private
   class << self
-    # pkg:gem/tapioca#lib/tapioca/sorbet_ext/generic_name_patch.rb:89
+    # pkg:gem/tapioca#lib/tapioca/sorbet_ext/generic_type_patch.rb:10
     def coerce_and_check_module_types(val, check_val, check_module_type); end
   end
 end
 
-# pkg:gem/tapioca#lib/tapioca/sorbet_ext/generic_name_patch.rb:88
-module T::Utils::Private::PrivateCoercePatch
-  # pkg:gem/tapioca#lib/tapioca/sorbet_ext/generic_name_patch.rb:89
+# Preserve Tapioca's generic type variables and instantiated generic
+# names when Sorbet coerces them into runtime types.
+#
+# pkg:gem/tapioca#lib/tapioca/sorbet_ext/generic_type_patch.rb:9
+module T::Utils::Private::TapiocaGenericTypeCoercePatch
+  # pkg:gem/tapioca#lib/tapioca/sorbet_ext/generic_type_patch.rb:10
   def coerce_and_check_module_types(val, check_val, check_module_type); end
 end
 
@@ -2967,7 +2989,7 @@ end
 # This class is responsible for storing and looking up information related to generic types.
 #
 # The class stores 2 different kinds of data, in two separate lookup tables:
-#   1. a lookup of generic type instances by name: `@generic_instances`
+#   1. a lookup of generic type instances by constant and name: `@generic_instances`
 #   2. a lookup of type variable serializer by constant and type variable
 #      instance: `@type_variables`
 #
@@ -2985,25 +3007,26 @@ end
 # pkg:gem/tapioca#lib/tapioca/runtime/generic_type_registry.rb:23
 module Tapioca::Runtime::GenericTypeRegistry
   class << self
-    # pkg:gem/tapioca#lib/tapioca/runtime/generic_type_registry.rb:71
+    # pkg:gem/tapioca#lib/tapioca/runtime/generic_type_registry.rb:73
     def generic_type_instance?(instance); end
 
-    # pkg:gem/tapioca#lib/tapioca/runtime/generic_type_registry.rb:76
+    # pkg:gem/tapioca#lib/tapioca/runtime/generic_type_registry.rb:80
     def lookup_type_variables(constant); end
 
     # This method is responsible for building the name of the instantiated concrete type
     # and cloning the given constant so that we can return a type that is the same
     # as the current type but is a different instance and has a different name method.
     #
-    # We cache those cloned instances by their name in `@generic_instances`, so that
-    # we don't keep instantiating a new type every single time it is referenced.
+    # We cache those cloned instances by their original constant and their name in
+    # `@generic_instances`, so that we don't keep instantiating a new type every single
+    # time it is referenced.
     # For example, `[Foo[Integer], Foo[Integer], Foo[Integer], Foo[String]]` will only
     # result in 2 clones (1 for `Foo[Integer]` and another for `Foo[String]`) and
     # 2 hash lookups (for the other two `Foo[Integer]`s).
     #
     # This method returns the created or cached clone of the constant.
     #
-    # pkg:gem/tapioca#lib/tapioca/runtime/generic_type_registry.rb:56
+    # pkg:gem/tapioca#lib/tapioca/runtime/generic_type_registry.rb:57
     def register_type(constant, types); end
 
     # This method is called from intercepted calls to `type_member` and `type_template`.
@@ -3016,19 +3039,16 @@ module Tapioca::Runtime::GenericTypeRegistry
     # Finally, the original `type_variable` is returned from this method, so that the caller
     # can return it from the original methods as well.
     #
-    # pkg:gem/tapioca#lib/tapioca/runtime/generic_type_registry.rb:90
+    # pkg:gem/tapioca#lib/tapioca/runtime/generic_type_registry.rb:94
     def register_type_variable(constant, type_variable); end
 
     private
 
-    # pkg:gem/tapioca#lib/tapioca/runtime/generic_type_registry.rb:99
+    # pkg:gem/tapioca#lib/tapioca/runtime/generic_type_registry.rb:103
     def create_generic_type(constant, name); end
 
-    # pkg:gem/tapioca#lib/tapioca/runtime/generic_type_registry.rb:141
+    # pkg:gem/tapioca#lib/tapioca/runtime/generic_type_registry.rb:145
     def create_safe_subclass(constant); end
-
-    # pkg:gem/tapioca#lib/tapioca/runtime/generic_type_registry.rb:168
-    def lookup_or_initialize_type_variables(constant); end
   end
 end
 
@@ -3535,12 +3555,12 @@ Tapioca::TAPIOCA_CONFIG_FILE = T.let(T.unsafe(nil), String)
 # pkg:gem/tapioca#lib/tapioca.rb:15
 Tapioca::TAPIOCA_DIR = T.let(T.unsafe(nil), String)
 
-# pkg:gem/tapioca#lib/tapioca/sorbet_ext/generic_name_patch.rb:108
+# pkg:gem/tapioca#lib/tapioca/sorbet_ext/generic_name_patch.rb:88
 class Tapioca::TypeVariable < ::T::Types::TypeVariable
-  # pkg:gem/tapioca#lib/tapioca/sorbet_ext/generic_name_patch.rb:109
+  # pkg:gem/tapioca#lib/tapioca/sorbet_ext/generic_name_patch.rb:89
   def initialize(name, variance); end
 
-  # pkg:gem/tapioca#lib/tapioca/sorbet_ext/generic_name_patch.rb:114
+  # pkg:gem/tapioca#lib/tapioca/sorbet_ext/generic_name_patch.rb:94
   def name; end
 end
 
@@ -3550,36 +3570,36 @@ end
 # need to do any matching of constants to type variables to bind their names, Ruby will
 # do that automatically for us and we get the `name` method for free from `Module`.
 #
-# pkg:gem/tapioca#lib/tapioca/sorbet_ext/generic_name_patch.rb:122
+# pkg:gem/tapioca#lib/tapioca/sorbet_ext/generic_name_patch.rb:102
 class Tapioca::TypeVariableModule < ::Module
-  # pkg:gem/tapioca#lib/tapioca/sorbet_ext/generic_name_patch.rb:137
+  # pkg:gem/tapioca#lib/tapioca/sorbet_ext/generic_name_patch.rb:117
   def initialize(context, type, variance, bounds_proc); end
 
-  # pkg:gem/tapioca#lib/tapioca/sorbet_ext/generic_name_patch.rb:173
+  # pkg:gem/tapioca#lib/tapioca/sorbet_ext/generic_name_patch.rb:153
   def coerce_to_type_variable; end
 
-  # pkg:gem/tapioca#lib/tapioca/sorbet_ext/generic_name_patch.rb:153
+  # pkg:gem/tapioca#lib/tapioca/sorbet_ext/generic_name_patch.rb:133
   def fixed?; end
 
-  # pkg:gem/tapioca#lib/tapioca/sorbet_ext/generic_name_patch.rb:147
+  # pkg:gem/tapioca#lib/tapioca/sorbet_ext/generic_name_patch.rb:127
   def name; end
 
-  # pkg:gem/tapioca#lib/tapioca/sorbet_ext/generic_name_patch.rb:158
+  # pkg:gem/tapioca#lib/tapioca/sorbet_ext/generic_name_patch.rb:138
   def serialize; end
 
-  # pkg:gem/tapioca#lib/tapioca/sorbet_ext/generic_name_patch.rb:134
+  # pkg:gem/tapioca#lib/tapioca/sorbet_ext/generic_name_patch.rb:114
   def type; end
 
   private
 
-  # pkg:gem/tapioca#lib/tapioca/sorbet_ext/generic_name_patch.rb:180
+  # pkg:gem/tapioca#lib/tapioca/sorbet_ext/generic_name_patch.rb:160
   def bounds; end
 end
 
-# pkg:gem/tapioca#lib/tapioca/sorbet_ext/generic_name_patch.rb:131
+# pkg:gem/tapioca#lib/tapioca/sorbet_ext/generic_name_patch.rb:111
 Tapioca::TypeVariableModule::DEFAULT_BOUNDS_PROC = T.let(T.unsafe(nil), Proc)
 
-# pkg:gem/tapioca#lib/tapioca/sorbet_ext/generic_name_patch.rb:123
+# pkg:gem/tapioca#lib/tapioca/sorbet_ext/generic_name_patch.rb:103
 class Tapioca::TypeVariableModule::Type < ::T::Enum
   enums do
     HasAttachedClass = new

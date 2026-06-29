@@ -112,8 +112,8 @@ class Async::Cancel < ::Exception; end
 # pkg:gem/async#lib/async/cancel.rb:10
 class Async::Cancel::Cause < ::Exception
   class << self
-    # @returns [Array(String)] The backtrace of the caller.
     # @returns [Array(Thread::Backtrace::Location)] The backtrace of the caller.
+    # @returns [Array(String)] The backtrace of the caller.
     #
     # pkg:gem/async#lib/async/cancel.rb:13
     def backtrace; end
@@ -283,7 +283,7 @@ class Async::Condition
   # Signal to a given task that it should resume operations.
   # @parameter value [Object | Nil] The value to return to the waiting fibers.
   #
-  # pkg:gem/async#lib/async/condition.rb:37
+  # pkg:gem/async#lib/async/condition.rb:42
   def signal(value = T.unsafe(nil)); end
 
   # Queue up the current fiber and wait on yielding the task.
@@ -297,9 +297,14 @@ class Async::Condition
   # pkg:gem/async#lib/async/condition.rb:31
   def waiting?; end
 
+  # @returns [Integer] Number of fibers waiting on this condition.
+  #
+  # pkg:gem/async#lib/async/condition.rb:36
+  def waiting_count; end
+
   protected
 
-  # pkg:gem/async#lib/async/condition.rb:53
+  # pkg:gem/async#lib/async/condition.rb:58
   def exchange; end
 end
 
@@ -1248,7 +1253,7 @@ class Async::Scheduler < ::Async::Node
   # @yields {|task| ...} Executed within the task.
   # @returns [Task] The task that was scheduled into the reactor.
   #
-  # pkg:gem/async#lib/async/scheduler.rb:593
+  # pkg:gem/async#lib/async/scheduler.rb:612
   def async(*arguments, **options, &block); end
 
   # Invoked when a fiber tries to perform a blocking operation which cannot continue. A corresponding call {unblock} must be performed to allow this fiber to continue.
@@ -1284,7 +1289,7 @@ class Async::Scheduler < ::Async::Node
   # Create a new fiber and return it without starting execution.
   # @returns [Fiber] The fiber that was created.
   #
-  # pkg:gem/async#lib/async/scheduler.rb:608
+  # pkg:gem/async#lib/async/scheduler.rb:627
   def fiber(*_arg0, **_arg1, &_arg2); end
 
   # Raise an exception on the specified fiber, waking up the event loop if necessary.
@@ -1367,7 +1372,7 @@ class Async::Scheduler < ::Async::Node
   #
   # @public Since *Async v2.35*.
   #
-  # pkg:gem/async#lib/async/scheduler.rb:659
+  # pkg:gem/async#lib/async/scheduler.rb:678
   def process_fork; end
 
   # Wait for the specified process ID to exit.
@@ -1416,7 +1421,7 @@ class Async::Scheduler < ::Async::Node
   # @yields {|task| ...} The top level task, if a block is given.
   # @returns [Task] The initial task that was scheduled into the reactor.
   #
-  # pkg:gem/async#lib/async/scheduler.rb:567
+  # pkg:gem/async#lib/async/scheduler.rb:580
   def run(*_arg0, **_arg1, &_arg2); end
 
   # Run one iteration of the event loop.
@@ -1457,7 +1462,7 @@ class Async::Scheduler < ::Async::Node
   # @parameter message [String] The message to pass to the exception.
   # @yields {|duration| ...} The block to execute with a timeout.
   #
-  # pkg:gem/async#lib/async/scheduler.rb:648
+  # pkg:gem/async#lib/async/scheduler.rb:667
   def timeout_after(duration, exception, message, &block); end
 
   # @returns [String] A description of the scheduler.
@@ -1491,7 +1496,7 @@ class Async::Scheduler < ::Async::Node
   # @parameter message [String] The message to pass to the exception.
   # @yields {|timeout| ...} The block to execute with a timeout.
   #
-  # pkg:gem/async#lib/async/scheduler.rb:621
+  # pkg:gem/async#lib/async/scheduler.rb:640
   def with_timeout(duration, exception = T.unsafe(nil), message = T.unsafe(nil), &block); end
 
   # Yield the current fiber and resume it on the next iteration of the event loop.
@@ -1508,8 +1513,14 @@ class Async::Scheduler < ::Async::Node
   # pkg:gem/async#lib/async/scheduler.rb:501
   def interrupted?; end
 
-  # pkg:gem/async#lib/async/scheduler.rb:528
-  def run_loop(&block); end
+  # Run the event loop, until the scheduler is interrupted or finished.
+  #
+  # @parameter initial [Proc | Nil] The initial block to execute before the first loop iteration.
+  # @yields {...} The block to execute on each loop iteration.
+  # @raises {Interrupt} If the scheduler is interrupted.
+  #
+  # pkg:gem/async#lib/async/scheduler.rb:533
+  def run_loop(initial = T.unsafe(nil), &block); end
 
   # Run one iteration of the event loop.
   #

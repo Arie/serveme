@@ -4239,35 +4239,47 @@ RuboCop::Cop::Rails::EnumUniqueness::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Arr
 
 # Checks for usage of `Rails.env` which can be replaced with Feature Flags
 #
+# The cop does not flag `Rails.env.local?`, the built-in alias for
+# "development or test" introduced in Rails 7.1. Unlike per-environment
+# predicates such as `development?` or `production?`, `local?` expresses
+# the intent of guarding code that must only ever run in development or
+# test (sanity checks, devtools, seed data) rather than gating an
+# environment rollout, so a Feature Flag is not a suitable replacement.
+#
 # @example
 #
 #   # bad
-#   Rails.env.production? || Rails.env.local?
+#   Rails.env.production? || Rails.env.development?
 #
 #   # good
 #   if FeatureFlag.enabled?(:new_feature)
 #     # new feature code
 #   end
 #
-# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/env.rb:18
+#   # good
+#   raise 'This should never run in production' unless Rails.env.local?
+#
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/env.rb:28
 class RuboCop::Cop::Rails::Env < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/env.rb:44
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/env.rb:57
   def on_send(node); end
 end
 
 # This allow list is derived from:
 # (Rails.env.methods - Object.instance_methods).select { |m| m.to_s.end_with?('?') }
-# and then removing the environment specific methods like development?, test?, production?, local?
+# and then removing the environment specific methods like development?, test?, and production?.
+# `local?` is kept on the allow list because it intentionally expresses
+# "development or test" rather than a single environment rollout.
 #
-# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/env.rb:24
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/env.rb:36
 RuboCop::Cop::Rails::Env::ALLOWED_LIST = T.let(T.unsafe(nil), Set)
 
-# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/env.rb:19
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/env.rb:29
 RuboCop::Cop::Rails::Env::MSG = T.let(T.unsafe(nil), String)
 
-# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/env.rb:20
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/env.rb:30
 RuboCop::Cop::Rails::Env::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Checks for usage of `Rails.env.development? || Rails.env.test?` which
@@ -9145,48 +9157,48 @@ RuboCop::Cop::Rails::SafeNavigationWithBlank::MSG = T.let(T.unsafe(nil), String)
 #   Services::Service::Mailer.update(message: 'Message')
 #   Service::Mailer::update
 #
-# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:120
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:121
 class RuboCop::Cop::Rails::SaveBang < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
   include ::RuboCop::Cop::NegativeConditional
   extend ::RuboCop::Cop::AutoCorrector
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:136
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:137
   def after_leaving_scope(scope, _variable_table); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:144
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:145
   def check_assignment(assignment); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:167
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:168
   def on_csend(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:155
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:156
   def on_send(node); end
 
   private
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:263
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:264
   def allowed_receiver?(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:321
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:329
   def argument?(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:223
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:224
   def array_parent(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:204
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:205
   def assignable_node(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:198
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:199
   def call_to_persisted?(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:230
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:231
   def check_used_in_condition_or_compound_boolean?(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:259
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:260
   def checked_immediately?(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:250
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:251
   def conditional?(parent); end
 
   # Const == Const
@@ -9198,75 +9210,81 @@ class RuboCop::Cop::Rails::SaveBang < ::RuboCop::Cop::Base
   # NameSpace::Const != ::Const
   # Const != NameSpace::Const
   #
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:296
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:297
   def const_matches?(const, allowed_const); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:254
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:255
   def deparenthesize(node); end
 
   # Check argument signature as no arguments or one hash
   #
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:341
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:349
   def expected_signature?(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:325
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:333
   def explicit_return?(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:313
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:321
   def find_method_with_sibling_index(node, sibling_index = T.unsafe(nil)); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:213
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:214
   def hash_parent(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:303
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:304
   def implicit_return?(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:238
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:239
   def in_condition_or_compound_boolean?(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:246
+  # A multiline method or block body is wrapped in a `begin` node, so climb
+  # to it when the node is the last expression, to detect the implicit return.
+  #
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:316
+  def last_expression_in_begin(node); end
+
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:247
   def operator_or_single_negative?(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:336
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:344
   def persist_method?(node, methods = T.unsafe(nil)); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:190
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:191
   def persisted_referenced?(assignment); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:273
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:274
   def receiver_chain_matches?(node, allowed_receiver); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:171
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:172
   def register_offense(node, msg); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:330
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:338
   def return_value_assigned?(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:182
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:183
   def right_assignment_node(assignment); end
 
   class << self
-    # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:132
+    # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:133
     def joining_forces; end
   end
 end
 
-# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:126
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:127
 RuboCop::Cop::Rails::SaveBang::CREATE_CONDITIONAL_MSG = T.let(T.unsafe(nil), String)
 
-# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:125
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:126
 RuboCop::Cop::Rails::SaveBang::CREATE_MSG = T.let(T.unsafe(nil), String)
 
-# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:128
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:129
 RuboCop::Cop::Rails::SaveBang::CREATE_PERSIST_METHODS = T.let(T.unsafe(nil), Array)
 
-# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:129
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:130
 RuboCop::Cop::Rails::SaveBang::MODIFY_PERSIST_METHODS = T.let(T.unsafe(nil), Array)
 
-# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:124
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:125
 RuboCop::Cop::Rails::SaveBang::MSG = T.let(T.unsafe(nil), String)
 
-# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:130
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:131
 RuboCop::Cop::Rails::SaveBang::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Enforces the use of the `comment` option when adding a new table or column

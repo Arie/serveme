@@ -234,6 +234,7 @@ Serveme::Application.routes.draw do
   get   "/stats",                         to: "pages#stats",               as: "stats"
   get   "/faq",                           to: "pages#faq",                 as: "faq"
   get   "/credits",                       to: "pages#credits",             as: "credits"
+  get   "/privacy",                       to: "pages#privacy",             as: "privacy"
   get   "/server-providers",              to: "pages#server_providers",    as: "server_providers"
   get   "/no-to-war",                     to: "pages#no_to_war",           as: "no_to_war"
   post  "/no-to-war",                     to: "pages#no_vatnik",           as: "no_vatnik"

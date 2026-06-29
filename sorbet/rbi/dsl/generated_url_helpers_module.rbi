@@ -397,6 +397,9 @@ module GeneratedUrlHelpersModule
   def presigned_url_map_uploads_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def privacy_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def private_server_info_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }

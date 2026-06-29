@@ -397,6 +397,9 @@ module GeneratedPathHelpersModule
   def presigned_url_map_uploads_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def privacy_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def private_server_info_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }

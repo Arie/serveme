@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 class PagesController < ApplicationController
-  skip_before_action :authenticate_user!, only: %i[credits faq private_servers server_providers welcome stats no_vatnik not_found error]
+  skip_before_action :authenticate_user!, only: %i[credits faq privacy private_servers server_providers welcome stats no_vatnik not_found error]
   skip_before_action :redirect_if_country_banned, only: %i[no_to_war welcome no_vatnik]
   before_action :require_admin_or_streamer, only: :recent_reservations
   caches_action :welcome, cache_path: -> { welcome_cache_path }, unless: -> { current_user }, expires_in: 30.seconds
@@ -84,6 +84,8 @@ class PagesController < ApplicationController
   def server_providers; end
 
   def faq; end
+
+  def privacy; end
 
   def private_servers; end
 

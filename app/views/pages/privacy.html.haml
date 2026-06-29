@@ -1,0 +1,134 @@
+- content_for(:title) { "Privacy Policy" }
+
+.row
+  .col-md-12
+    %h2 Privacy Policy
+
+    %p.text-muted
+      Last updated: 24 June 2026
+
+    .card-body.lead.text-white
+      serveme.tf lets you reserve Team Fortress 2 servers. This page explains what personal data we collect, why, what we do with it, and the rights you have under the EU General Data Protection Regulation (GDPR). We keep it short and honest.
+
+    %h4.mt-4.mb-3 Who we are
+    %p
+      serveme.tf is the
+      %strong data controller
+      for the personal data described here. You can reach us on
+      = link_to "our Discord", "https://discord.gg/0s38RdItLiCmARMm", target: "_blank"
+      for any privacy question or request.
+
+    %h4.mt-4.mb-3 What we store and why
+    .table-responsive
+      %table.table.table-hover.table-bordered
+        %thead
+          %tr
+            %th Data
+            %th Why we have it
+        %tbody
+          %tr
+            %td
+              %strong Steam account
+              (Steam ID, name, avatar)
+            %td To identify you and let you log in and book servers.
+          %tr
+            %td
+              %strong IP addresses
+              (website and game servers)
+            %td Running and securing the service, and as an anti-cheat and league ban-enforcement tool (see below). Connecting to a website or game server always reveals your IP to it, so we can't provide the service without it.
+          %tr
+            %td
+              %strong Reservations
+              (servers booked, times, settings, players who joined)
+            %td To provide and manage your bookings.
+          %tr
+            %td
+              %strong Server activity
+              (in-game chat logs and demos/recordings of your reservations)
+            %td
+              So
+              %strong you
+              can review and download your matches afterwards, to analyse your team's play, settle in-game disputes, and submit demos as evidence to your league.
+          %tr
+            %td
+              %strong Donations
+            %td Payment is handled by PayPal or Stripe. We never see your card details. We only store that a payment was made and which perks it unlocked.
+          %tr
+            %td
+              %strong Discord link
+              (optional)
+            %td To connect your Discord account if you choose to.
+
+    %h4.mt-4.mb-3 IP addresses and league bans
+    %p
+      Cheating and ban evasion are a real problem in competitive TF2. To help fight it:
+    %ul
+      %li We use IP addresses to detect alternate accounts and players evading bans (for example, someone banned for cheating returning on a new Steam account).
+      %li
+        We give trusted representatives of the leagues we work with,
+        %strong ETF2L, ozfortress, and RGL
+        \, access to this information so they can investigate and enforce their own bans. Access is limited to a tiny, named list per region, usually just one or two people per league.
+    %p
+      The legal basis for this is our (and the leagues') legitimate interest in keeping competitive play fair. We do not sell your data or share it with advertisers.
+    %p
+      %strong Accountability:
+      every search a league admin makes is logged in detail. If you'd like to know whether a league admin has looked up your details, just ask us on
+      = link_to "our Discord", "https://discord.gg/0s38RdItLiCmARMm", target: "_blank"
+      and we'll check the logs for you. We do not tolerate misuse of this feature, and access is removed from anyone who abuses it.
+
+    %h4.mt-4.mb-3 Other players and RCON
+    %p
+      When you book a server you get its
+      %strong RCON
+      (admin) password, and you can pass it to others. Anyone who has RCON on a server can run admin commands, and that includes commands that show the IP addresses of players currently connected.
+    %p
+      This means that
+      %strong if you play in someone else's reservation, the person holding RCON can potentially see your IP address.
+      We can't prevent this; it's how game servers work. If you don't trust whoever controls a reservation with that information, don't play in it.
+
+    %h4.mt-4.mb-3 Match logs on logs.tf
+    %p
+      After a match the server normally uploads the match log (scores, player names, Steam IDs, and in-game stats) automatically to
+      = link_to "logs.tf", "https://logs.tf", target: "_blank"
+      \, a public third-party stats site. This is how you and others can view detailed match statistics afterwards. Because logs.tf is public, anyone with the link can see those stats. logs.tf is run by a third party under their own terms and privacy policy.
+
+    %h4.mt-4.mb-3 Pickup and PUG services (live logs)
+    %p
+      Some TF2 services, such as TF2Center and other pickup/PUG sites, book servers through our API or are given the server's RCON, and have the server stream its live log to them while the match is played. These live log lines can include player IP addresses and Steam IDs.
+
+    %h4.mt-4.mb-3 Casters and streamers
+    %p
+      Some matches are cast (streamed) by community casters. Trusted members of our streamer group can look up the connection details (such as the SourceTV/STV info) of matches they want to cast, so they can spectate and broadcast them. Access is limited to a small number of approved casters per casting organisation.
+
+    %h4.mt-4.mb-3 How long we keep things
+    %ul
+      %li
+        %strong Demos, logs, and chat
+        are kept
+        %strong indefinitely
+        in our own storage so they stay available to you and for anti-cheat purposes. The logs and demos we make available for you to download have player IP addresses scrubbed out.
+      %li
+        %strong Account, reservation, and IP data
+        is kept as long as your account exists or as long as it remains useful for anti-cheat and ban enforcement.
+
+    %h4.mt-4.mb-3 Where your data is processed
+    %p
+      Each region (EU, NA, AU, SEA) runs its own local servers and storage. Long-term storage of demos and logs is in the EU. We use
+      %strong Cloudflare
+      in front of the website to protect against DDoS attacks and abuse; it processes your IP address and connection details to do this. Some sub-processors (e.g. Steam, PayPal, Stripe, Discord, Cloudflare, logs.tf) may process data outside the EU under their own safeguards.
+
+    %h4.mt-4.mb-3 Your rights
+    %p
+      You can ask us to show you the data we hold about you, correct it, delete it, or limit what we do with it. You can object to processing, ask for a copy of your data, and withdraw any consent (like the Discord link) at any time. You can also complain to your country's data protection authority.
+    %p
+      To do any of this, message us on
+      = link_to "our Discord", "https://discord.gg/0s38RdItLiCmARMm", target: "_blank"
+      \. Some data, like IP history tied to a ban, may be kept anyway where we have a strong reason to prevent ban evasion.
+
+    %h4.mt-4.mb-3 Cookies
+    %p
+      We use cookies only to keep you logged in and to remember your preferences. No advertising or third-party tracking cookies.
+
+    %h4.mt-4.mb-3 Changes
+    %p
+      If we change this policy we'll update the date at the top.

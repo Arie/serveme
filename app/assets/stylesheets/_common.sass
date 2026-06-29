@@ -97,6 +97,15 @@ main
 .upload-progress-bar
   min-width: 300px
 
+// Privacy policy "what we store" table: roomier cells and a subtle panel
+// background (the black theme otherwise forces tight 0.3rem cell padding)
+table.table.privacy-table
+  background-color: rgba(255, 255, 255, 0.03)
+  th,
+  td
+    padding: 0.6rem 0.85rem
+    vertical-align: top
+
 // Collapsible chevron indicator
 .chevron
   transition: transform 0.2s ease

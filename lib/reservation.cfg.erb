@@ -29,6 +29,7 @@ sv_downloadurl "https://fastdl.serveme.tf"
 <% else %>
 <%= %{logstf_apikey "#{Rails.application.credentials.dig(:logs_tf, :api_key)}"} %>
 <% end %>
+logstf_https 1
 
 <% if enable_demos_tf? %>
 <% if user.demos_tf_api_key.present? %>

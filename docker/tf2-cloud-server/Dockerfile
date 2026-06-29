@@ -27,14 +27,15 @@ RUN echo steam steam/question select "I AGREE" | debconf-set-selections \
     && echo steam steam/license note '' | debconf-set-selections \
     && apt-get -y update \
     && apt-get -y install software-properties-common \
-    && add-apt-repository multiverse \
+    && add-apt-repository --no-update multiverse \
     && dpkg --add-architecture i386 \
     && apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y install \
         libstdc++6 libcurl3-gnutls wget libncurses6 bzip2 unzip vim nano \
         lib32gcc-s1 lib32stdc++6 steamcmd \
         ca-certificates lib32z1 libncurses6:i386 libbz2-1.0:i386 \
         libtinfo6:i386 libcurl3-gnutls:i386 \
-        openssh-server iptables curl sudo iproute2 \
+        openssh-server iptables curl sudo iproute2 locales \
+    && locale-gen en_US.UTF-8 \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
     && useradd -m tf2 \
     && su tf2 -c '/usr/games/steamcmd +quit' \
@@ -135,9 +136,14 @@ RUN echo "Cache bust: ${CACHEBUST}" \
     && rm sm-websocket.zip \
     # F2 plugins (MedicStats, SupStats, LogsTF, RecordSTV, WaitForStv, AFK, RestoreScore, FixStvSlot, Updater)
     && cd /home/tf2/hlserver/tf2/tf/addons/sourcemod/plugins \
-    && wget -nv "https://github.com/Arie/F2s-sourcemod-plugins/releases/latest/download/f2-sourcemod-plugins.zip" -O "f2-sourcemod-plugins.zip" \
+    # TEMPORARY: bundle pinned to last real release because the logstf override
+    # release below is now "latest" and carries no f2-sourcemod-plugins.zip.
+    # Revert this back to releases/latest/download/ when dropping the override.
+    && wget -nv "https://github.com/Arie/F2s-sourcemod-plugins/releases/download/20260523-1779550195058/f2-sourcemod-plugins.zip" -O "f2-sourcemod-plugins.zip" \
     && unzip -o f2-sourcemod-plugins.zip \
     && rm f2-sourcemod-plugins.zip \
+    # TEMPORARY: override logstf.smx with fork build (revert to drop this line)
+    && wget -nv "https://github.com/Arie/F2s-sourcemod-plugins/releases/download/20260630-1782796648878/logstf.smx" -O "logstf.smx" \
     # mapdownloader
     && wget -nv https://codeberg.org/spire/mapdownloader/raw/master/plugin/mapdownloader.smx \
     # demos.tf uploader

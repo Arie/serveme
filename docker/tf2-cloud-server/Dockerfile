@@ -136,14 +136,9 @@ RUN echo "Cache bust: ${CACHEBUST}" \
     && rm sm-websocket.zip \
     # F2 plugins (MedicStats, SupStats, LogsTF, RecordSTV, WaitForStv, AFK, RestoreScore, FixStvSlot, Updater)
     && cd /home/tf2/hlserver/tf2/tf/addons/sourcemod/plugins \
-    # TEMPORARY: bundle pinned to last real release because the logstf override
-    # release below is now "latest" and carries no f2-sourcemod-plugins.zip.
-    # Revert this back to releases/latest/download/ when dropping the override.
-    && wget -nv "https://github.com/Arie/F2s-sourcemod-plugins/releases/download/20260523-1779550195058/f2-sourcemod-plugins.zip" -O "f2-sourcemod-plugins.zip" \
+    && wget -nv "https://github.com/F2/F2s-sourcemod-plugins/releases/latest/download/f2-sourcemod-plugins.zip" -O "f2-sourcemod-plugins.zip" \
     && unzip -o f2-sourcemod-plugins.zip \
     && rm f2-sourcemod-plugins.zip \
-    # TEMPORARY: override logstf.smx with fork build (revert to drop this line)
-    && wget -nv "https://github.com/Arie/F2s-sourcemod-plugins/releases/download/20260630-1782796648878/logstf.smx" -O "logstf.smx" \
     # mapdownloader
     && wget -nv https://codeberg.org/spire/mapdownloader/raw/master/plugin/mapdownloader.smx \
     # demos.tf uploader

@@ -9,6 +9,8 @@ class CloudImageBuildWorker
   LOCK_TTL = 2.hours
   DOCKER_DIR = Rails.root.join("docker", "tf2-cloud-server").to_s
   DOCKERHUB_IMAGE = "serveme/tf2-cloud-server"
+  BASE_IMAGE = "serveme/tf2-base"
+  SOURCEMOD_IMAGE = "serveme/tf2-sourcemod"
 
   def perform(cloud_image_build_id)
     @build = CloudImageBuild.find(cloud_image_build_id)
@@ -25,7 +27,14 @@ class CloudImageBuildWorker
       return mark_skipped_locked unless acquire_lock(@build.version)
       @lock_held = true
 
-      run_phase("building") { run_streamed!(*build_command) }
+      run_phase("building") do
+        # Build & tag the expensive intermediate stages first so the post-build
+        # `docker image prune -f` (DockerHostImagePullWorker) cannot delete them.
+        # Otherwise the dangling stage images are pruned and the next build
+        # re-downloads the ~14.5GB TF2 base. See stage_build_commands.
+        stage_build_commands.each { |cmd| run_streamed!(*cmd) }
+        run_streamed!(*build_command)
+      end
       run_phase("pushing") do
         run_streamed!("docker", "push", tag)
         run_streamed!("docker", "push", versioned_tag)
@@ -80,6 +89,30 @@ class CloudImageBuildWorker
     args.push("--build-arg", "SOURCEMOD_CACHEBUST=#{@build.id}") if @build.no_cache
     args.push("-t", tag, "-t", versioned_tag, DOCKER_DIR)
     args
+  end
+
+  # Cache-preserving builds for the two expensive intermediate stages. Tagging
+  # them keeps their layers out of the dangling-image sweep done by
+  # `docker image prune -f` (DockerHostImagePullWorker), so later builds reuse
+  # the TF2 base (and MetaMod/SourceMod) instead of re-downloading them. A stable
+  # ":latest" tag means a superseded stage (e.g. an old TF2 version) becomes
+  # dangling and is cleaned up by that same prune. Plugins/configs are
+  # deliberately rebuilt every build (CACHEBUST), so they are not tagged.
+  def stage_build_commands
+    base = [ "docker", "build" ]
+    base << "--pull" if @build.force_pull
+    base.push("--target", "tf2-base",
+              "--build-arg", "TF2_VERSION=#{@build.version}",
+              "-t", "#{BASE_IMAGE}:latest", DOCKER_DIR)
+
+    sourcemod = [ "docker", "build" ]
+    sourcemod << "--pull" if @build.force_pull
+    sourcemod.push("--target", "tf2-sourcemod",
+                   "--build-arg", "TF2_VERSION=#{@build.version}")
+    sourcemod.push("--build-arg", "SOURCEMOD_CACHEBUST=#{@build.id}") if @build.no_cache
+    sourcemod.push("-t", "#{SOURCEMOD_IMAGE}:latest", DOCKER_DIR)
+
+    [ base, sourcemod ]
   end
 
   def run_phase(phase)

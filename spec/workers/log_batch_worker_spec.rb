@@ -28,7 +28,6 @@ describe LogBatchWorker do
     allow(Turbo::StreamsChannel).to receive(:broadcast_prepend_to)
     allow(Turbo::StreamsChannel).to receive(:broadcast_update_to)
     allow(TurboSubscriberChecker).to receive(:has_subscribers?).and_return(false)
-    allow(TurboSubscriberChecker).to receive(:has_model_subscribers?).and_return(false)
   end
 
   describe '#perform' do
@@ -130,7 +129,6 @@ describe LogBatchWorker do
 
     it 'does not set log_listeners when no subscribers are active' do
       allow(TurboSubscriberChecker).to receive(:has_subscribers?).and_return(false)
-      allow(TurboSubscriberChecker).to receive(:has_model_subscribers?).and_return(false)
 
       Sidekiq.redis { |r| r.del("log_listeners:7654321") }
 
@@ -142,21 +140,58 @@ describe LogBatchWorker do
   end
 
   describe 'scoreboard broadcasts' do
-    it 'broadcasts scoreboard when subscribers exist' do
+    before do
       Sidekiq.redis { |r| r.del("scoreboard_throttle:#{reservation.id}") }
-      allow(TurboSubscriberChecker).to receive(:has_model_subscribers?).and_return(true)
+      allow(TurboSubscriberChecker).to receive(:has_stream_subscribers?).and_return(false)
       allow(LiveMatchStats).to receive(:get_stats).with(reservation.id).and_return(
         [ { players: [ { name: 'Test', kills: 1, steam_uid: 123 } ], scores: {} } ]
       )
       allow(ScoreboardConnectionInfo).to receive(:for_reservation).and_return({})
-      allow(ApplicationController).to receive(:render).and_return('<div>scoreboard</div>')
+    end
 
+    it 'broadcasts the non-ISP scoreboard to the user stream when subscribers exist' do
+      allow(TurboSubscriberChecker).to receive(:has_stream_subscribers?).with(reservation, :scoreboard).and_return(true)
+
+      expect(ApplicationController).to receive(:render).with(
+        hash_including(locals: hash_including(show_isp: false))
+      ).and_return('<div>scoreboard</div>')
       expect(Turbo::StreamsChannel).to receive(:broadcast_update_to).with(
-        reservation,
+        reservation, :scoreboard,
         hash_including(target: "match-scoreboard-#{reservation.id}")
+      )
+      expect(Turbo::StreamsChannel).not_to receive(:broadcast_update_to).with(
+        reservation, :scoreboard_admin, anything
       )
 
       LogBatchWorker.new.perform([ say_line ])
+    end
+
+    it 'broadcasts the ISP scoreboard to the admin stream when admin subscribers exist' do
+      allow(TurboSubscriberChecker).to receive(:has_stream_subscribers?).with(reservation, :scoreboard_admin).and_return(true)
+
+      expect(ApplicationController).to receive(:render).with(
+        hash_including(locals: hash_including(show_isp: true))
+      ).and_return('<div>scoreboard</div>')
+      expect(Turbo::StreamsChannel).to receive(:broadcast_update_to).with(
+        reservation, :scoreboard_admin,
+        hash_including(target: "match-scoreboard-#{reservation.id}")
+      )
+      expect(Turbo::StreamsChannel).not_to receive(:broadcast_update_to).with(
+        reservation, :scoreboard, anything
+      )
+
+      LogBatchWorker.new.perform([ say_line ])
+    end
+
+    it 'keeps log_listeners alive for plain reservation stream viewers without broadcasting the scoreboard' do
+      Sidekiq.redis { |r| r.del("log_listeners:7654321") }
+      allow(TurboSubscriberChecker).to receive(:has_stream_subscribers?).with(reservation).and_return(true)
+
+      expect(Turbo::StreamsChannel).not_to receive(:broadcast_update_to)
+
+      LogBatchWorker.new.perform([ say_line ])
+
+      expect(Sidekiq.redis { |r| r.get("log_listeners:7654321") }).to eq("1")
     end
   end
 

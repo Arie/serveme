@@ -3,6 +3,7 @@
 
 class TurboSubscriberChecker
   extend T::Sig
+  extend Turbo::Streams::StreamName
 
   # Check if there are any active subscribers to a Turbo Streams channel
   # Uses Redis PUBSUB NUMSUB command to query subscriber count directly
@@ -23,20 +24,8 @@ class TurboSubscriberChecker
     true
   end
 
-  # Check if there are subscribers for a model-based Turbo Stream (e.g., a Reservation)
-  # Model streams use the unsigned stream name (GlobalID) as the Redis channel, not the signed token
-  sig { params(streamable: T.untyped).returns(T::Boolean) }
-  def self.has_model_subscribers?(streamable)
-    cable_config = ActionCable.server.config.cable
-    return true unless cable_config["adapter"] == "redis"
-
-    unsigned = streamable.to_gid_param
-    prefix = cable_config["channel_prefix"]
-    full_channel = "#{prefix}:#{unsigned}"
-
-    numsub_result = Sidekiq.redis { |conn| conn.call("PUBSUB", "NUMSUB", full_channel) }
-    numsub_result.last.to_i > 0
-  rescue StandardError
-    true
+  sig { params(streamables: T.untyped).returns(T::Boolean) }
+  def self.has_stream_subscribers?(*streamables)
+    has_subscribers?(stream_name_from(streamables))
   end
 end

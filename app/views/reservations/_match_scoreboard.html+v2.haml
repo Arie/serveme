@@ -11,6 +11,7 @@
 - red_sorted = red_players.sort_by { |p| class_order[p[:tf2_class] || "unknown"] || 10 }
 - blue_sorted = blue_players.sort_by { |p| class_order[p[:tf2_class] || "unknown"] || 10 }
 - show_connection = connection_info.any?
+- show_isp = local_assigns.fetch(:show_isp, false)
 
 .match-scoreboard.mb-3
   %div{class: "flex justify-center items-center mb-3"}
@@ -38,7 +39,8 @@
               %th{class: "text-right", title: "Distance"} Dist
               %th{class: "text-right"} Ping
               %th{class: "text-right"} Loss
-              %th ISP
+              - if show_isp
+                %th ISP
         %tbody
           - [["Blue", "bg-team-blue", blue_sorted], ["Red", "bg-team-red", red_sorted]].each do |team_name, team_class, team_players|
             - team_players.each do |stats|
@@ -94,9 +96,10 @@
                   %td{class: "text-right font-mono"}
                     - if conn && conn[:loss]
                       = "#{conn[:loss]}%"
-                  %td{class: "text-truncate isp-cell", title: conn && conn[:asn_organization]}
-                    - if conn && conn[:asn_organization]
-                      = conn[:asn_organization]
+                  - if show_isp
+                    %td{class: "text-truncate isp-cell", title: conn && conn[:asn_organization]}
+                      - if conn && conn[:asn_organization]
+                        = conn[:asn_organization]
 
   - unassigned = players.select { |p| !p[:team]&.in?(%w[Red Blue]) }
   - if unassigned.any?

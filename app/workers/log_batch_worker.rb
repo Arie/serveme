@@ -21,6 +21,11 @@ class LogBatchWorker
   include LogLineHelper
   sidekiq_options retry: 1
 
+  # Scoreboard streams by audience: stream suffix => whether the rendered
+  # scoreboard includes the ISP column. Each stream also has a :v2 twin for
+  # beta pages (see BetaBroadcast).
+  SCOREBOARD_STREAMS = { scoreboard: false, scoreboard_admin: true }.freeze
+
   def perform(log_lines)
     return if log_lines.empty?
 
@@ -98,7 +103,21 @@ class LogBatchWorker
 
       reservation = reservations[reservation_id]
       next unless reservation
-      next unless TurboSubscriberChecker.has_model_subscribers?(reservation)
+      # Scoreboard broadcasts ride their own streams (see below), so gate them
+      # on those. Viewers on the plain reservation stream (e.g. the owner's
+      # MOTD page) get no scoreboard broadcasts but must still count for the
+      # log_listeners keep-alive: without it the logdaemon stops forwarding the
+      # kill/damage lines that feed LiveMatchStats, and the gap is never
+      # rebuilt once the stats are marked rebuilt.
+      scoreboard_subs = SCOREBOARD_STREAMS.keys.index_with do |stream|
+        TurboSubscriberChecker.has_stream_subscribers?(reservation, stream) ||
+          TurboSubscriberChecker.has_stream_subscribers?(*BetaBroadcast.stream([ reservation, stream ]))
+      end
+
+      unless scoreboard_subs.values.any?
+        active_logsecrets << logsecret if plain_stream_subscribers?(reservation)
+        next
+      end
 
       active_logsecrets << logsecret
 
@@ -117,9 +136,9 @@ class LogBatchWorker
       # request.variant) rather than passing `variants:` to
       # ApplicationController.render — the latter doesn't propagate the variant
       # to nested partials. See BetaBroadcast#render_v2.
-      render_scoreboard = ->(v2) do
+      render_scoreboard = ->(v2, show_isp) do
         all_match_stats.map do |match_stats|
-          locals = { live_stats: match_stats, reservation_players_by_uid: reservation_players_by_uid, connection_info: connection_info }
+          locals = { live_stats: match_stats, reservation_players_by_uid: reservation_players_by_uid, connection_info: connection_info, show_isp: show_isp }
           if v2
             BetaBroadcast.render_v2(partial: "reservations/match_scoreboard", locals: locals)
           else
@@ -128,16 +147,28 @@ class LogBatchWorker
         end.join
       end
 
-      Turbo::StreamsChannel.broadcast_update_to(
-        reservation,
-        target: "match-scoreboard-#{reservation_id}",
-        html: render_scoreboard.call(false)
-      )
-      Turbo::StreamsChannel.broadcast_update_to(
-        *BetaBroadcast.stream(reservation),
-        target: "match-scoreboard-#{reservation_id}",
-        html: render_scoreboard.call(true)
-      )
+      target = "match-scoreboard-#{reservation_id}"
+
+      # The ISP column is only for privileged viewers (admins, league admins,
+      # streamers), but a Turbo broadcast is shared by every subscriber and has
+      # no current_user, so we can't vary it per-user in a single stream.
+      # Instead the scoreboard is emitted once per audience (SCOREBOARD_STREAMS),
+      # each with its :v2 twin for beta pages. See show.html*.haml /
+      # admin/scoreboards.
+      SCOREBOARD_STREAMS.each do |stream, show_isp|
+        next unless scoreboard_subs[stream]
+
+        Turbo::StreamsChannel.broadcast_update_to(
+          reservation, stream,
+          target: target,
+          html: render_scoreboard.call(false, show_isp)
+        )
+        Turbo::StreamsChannel.broadcast_update_to(
+          *BetaBroadcast.stream([ reservation, stream ]),
+          target: target,
+          html: render_scoreboard.call(true, show_isp)
+        )
+      end
     rescue StandardError => e
       Rails.logger.error("[LiveMatchStats] Error broadcasting scoreboard for #{logsecret}: #{e.message}")
     end
@@ -194,6 +225,11 @@ class LogBatchWorker
         )
       end
     end
+  end
+
+  def plain_stream_subscribers?(reservation)
+    TurboSubscriberChecker.has_stream_subscribers?(reservation) ||
+      TurboSubscriberChecker.has_stream_subscribers?(*BetaBroadcast.stream(reservation))
   end
 
   def rebuild_from_log(reservation)

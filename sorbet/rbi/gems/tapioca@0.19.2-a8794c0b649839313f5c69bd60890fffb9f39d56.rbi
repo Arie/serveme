@@ -2746,11 +2746,25 @@ module Tapioca::RBIFilesHelper
 
   private
 
-  # pkg:gem/tapioca#lib/tapioca/helpers/rbi_files_helper.rb:249
+  # pkg:gem/tapioca#lib/tapioca/helpers/rbi_files_helper.rb:317
+  sig { params(constant: ::String).void }
+  def add_payload_superclass_suppression_to_config(constant); end
+
+  # pkg:gem/tapioca#lib/tapioca/helpers/rbi_files_helper.rb:285
+  sig do
+    params(
+      errors: T::Array[::Spoom::Sorbet::Errors::Error],
+      gem_dir: ::String,
+      auto_strictness: T::Boolean
+    ).returns(T::Array[::Spoom::Sorbet::Errors::Error])
+  end
+  def apply_validation_fixes(errors, gem_dir:, auto_strictness:); end
+
+  # pkg:gem/tapioca#lib/tapioca/helpers/rbi_files_helper.rb:253
   sig { params(nodes: T::Array[::RBI::Node]).returns(T::Array[T.any(::RBI::Attr, ::RBI::Method)]) }
   def extract_methods_and_attrs(nodes); end
 
-  # pkg:gem/tapioca#lib/tapioca/helpers/rbi_files_helper.rb:242
+  # pkg:gem/tapioca#lib/tapioca/helpers/rbi_files_helper.rb:246
   sig do
     params(
       nodes: T::Array[::RBI::Node],
@@ -2760,36 +2774,55 @@ module Tapioca::RBIFilesHelper
   end
   def extract_shims_and_todos(nodes, shim_rbi_dir:, todo_rbi_file:); end
 
-  # pkg:gem/tapioca#lib/tapioca/helpers/rbi_files_helper.rb:286
+  # pkg:gem/tapioca#lib/tapioca/helpers/rbi_files_helper.rb:373
   sig { params(path: ::String).returns(::String) }
   def gem_name_from_rbi_path(path); end
 
-  # pkg:gem/tapioca#lib/tapioca/helpers/rbi_files_helper.rb:210
+  # pkg:gem/tapioca#lib/tapioca/helpers/rbi_files_helper.rb:214
   sig { params(nodes: T::Array[::RBI::Node], shims_or_todos: T::Array[::RBI::Node]).returns(T::Boolean) }
   def has_duplicated_methods_and_attrs?(nodes, shims_or_todos); end
 
-  # pkg:gem/tapioca#lib/tapioca/helpers/rbi_files_helper.rb:202
+  # pkg:gem/tapioca#lib/tapioca/helpers/rbi_files_helper.rb:206
   sig { params(shims_or_todos: T::Array[::RBI::Node]).returns(T::Boolean) }
   def has_duplicated_mixins?(shims_or_todos); end
 
-  # pkg:gem/tapioca#lib/tapioca/helpers/rbi_files_helper.rb:174
+  # pkg:gem/tapioca#lib/tapioca/helpers/rbi_files_helper.rb:178
   sig { params(all_nodes: T::Array[::RBI::Node], shims_or_todos: T::Array[::RBI::Node]).returns(T::Boolean) }
   def has_duplicated_scopes?(all_nodes, shims_or_todos); end
 
-  # pkg:gem/tapioca#lib/tapioca/helpers/rbi_files_helper.rb:140
+  # pkg:gem/tapioca#lib/tapioca/helpers/rbi_files_helper.rb:310
+  sig { params(error: ::Spoom::Sorbet::Errors::Error, gem_dir: ::String, dsl_dir: ::String).returns(T::Boolean) }
+  def ignored_validation_error?(error, gem_dir:, dsl_dir:); end
+
+  # pkg:gem/tapioca#lib/tapioca/helpers/rbi_files_helper.rb:144
   sig { params(index: ::RBI::Index, files: T::Array[::String], number_of_workers: T.nilable(::Integer)).void }
   def parse_and_index_files(index, files, number_of_workers:); end
 
+  # pkg:gem/tapioca#lib/tapioca/helpers/rbi_files_helper.rb:274
+  sig { params(error: ::Spoom::Sorbet::Errors::Error).returns(T.nilable(::String)) }
+  def payload_superclass_constant_from_error(error); end
+
+  # pkg:gem/tapioca#lib/tapioca/helpers/rbi_files_helper.rb:305
+  sig { params(error: ::Spoom::Sorbet::Errors::Error).returns(T::Boolean) }
+  def payload_superclass_error?(error); end
+
   # Do the list of `nodes` sharing the same name have duplicates?
   #
-  # pkg:gem/tapioca#lib/tapioca/helpers/rbi_files_helper.rb:157
+  # pkg:gem/tapioca#lib/tapioca/helpers/rbi_files_helper.rb:161
   sig { params(nodes: T::Array[::RBI::Node], shim_rbi_dir: ::String, todo_rbi_file: ::String).returns(T::Boolean) }
   def shims_or_todos_have_duplicates?(nodes, shim_rbi_dir:, todo_rbi_file:); end
 
-  # pkg:gem/tapioca#lib/tapioca/helpers/rbi_files_helper.rb:259
+  # pkg:gem/tapioca#lib/tapioca/helpers/rbi_files_helper.rb:346
   sig { params(errors: T::Array[::Spoom::Sorbet::Errors::Error], gem_dir: ::String).void }
   def update_gem_rbis_strictnesses(errors, gem_dir); end
+
+  # pkg:gem/tapioca#lib/tapioca/helpers/rbi_files_helper.rb:266
+  sig { params(errors: T::Array[::Spoom::Sorbet::Errors::Error]).void }
+  def update_sorbet_config_for_payload_superclass_redefinitions(errors); end
 end
+
+# pkg:gem/tapioca#lib/tapioca/helpers/rbi_files_helper.rb:262
+Tapioca::RBIFilesHelper::SUPPRESS_PAYLOAD_SUPERCLASS_REDEFINITION_FLAG = T.let(T.unsafe(nil), String)
 
 # pkg:gem/tapioca#lib/tapioca/rbi_formatter.rb:5
 class Tapioca::RBIFormatter < ::RBI::Formatter

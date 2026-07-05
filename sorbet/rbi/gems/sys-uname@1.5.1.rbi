@@ -72,8 +72,8 @@ class Sys::Uname
   extend ::FFI::Library
   extend ::Memoist::InstanceMethods
 
-  # pkg:gem/sys-uname#lib/sys/unix/uname.rb:33
-  def sysctl(*_arg0); end
+  # pkg:gem/sys-uname#lib/sys/unix/uname.rb:43
+  def sysinfo(*_arg0); end
 
   # pkg:gem/sys-uname#lib/sys/unix/uname.rb:29
   def uname_c(*_arg0); end
@@ -239,19 +239,16 @@ class Sys::Uname
     # pkg:gem/sys-uname#lib/sys/unix/uname.rb:263
     def get_model; end
 
-    # pkg:gem/sys-uname#lib/sys/unix/uname.rb:33
-    def sysctl(*_arg0); end
+    # pkg:gem/sys-uname#lib/sys/unix/uname.rb:43
+    def sysinfo(*_arg0); end
 
     # pkg:gem/sys-uname#lib/sys/unix/uname.rb:29
     def uname_c(*_arg0); end
   end
 end
 
-# pkg:gem/sys-uname#lib/sys/unix/uname.rb:26
+# pkg:gem/sys-uname#lib/sys/unix/uname.rb:22
 Sys::Uname::BUFSIZE = T.let(T.unsafe(nil), Integer)
-
-# pkg:gem/sys-uname#lib/sys/unix/uname.rb:36
-Sys::Uname::CTL_HW = T.let(T.unsafe(nil), Integer)
 
 # Error raised if the uname() function fails.
 # This is the error raised if any of the Sys::Uname methods should fail.
@@ -259,10 +256,63 @@ Sys::Uname::CTL_HW = T.let(T.unsafe(nil), Integer)
 # pkg:gem/sys-uname#lib/sys/unix/uname.rb:15
 class Sys::Uname::Error < ::StandardError; end
 
-# Generic hardware/cpu
+# Machine type
 #
-# pkg:gem/sys-uname#lib/sys/unix/uname.rb:37
-Sys::Uname::HW_MODEL = T.let(T.unsafe(nil), Integer)
+# pkg:gem/sys-uname#lib/sys/unix/uname.rb:51
+Sys::Uname::SI_ARCHITECTURE = T.let(T.unsafe(nil), Integer)
+
+# Supported isalist
+#
+# pkg:gem/sys-uname#lib/sys/unix/uname.rb:57
+Sys::Uname::SI_DHCP_CACHE = T.let(T.unsafe(nil), Integer)
+
+# OS name
+#
+# pkg:gem/sys-uname#lib/sys/unix/uname.rb:47
+Sys::Uname::SI_HOSTNAME = T.let(T.unsafe(nil), Integer)
+
+# Hardware serial number
+#
+# pkg:gem/sys-uname#lib/sys/unix/uname.rb:53
+Sys::Uname::SI_HW_PROVIDER = T.let(T.unsafe(nil), Integer)
+
+# Instruction set architecture
+#
+# pkg:gem/sys-uname#lib/sys/unix/uname.rb:52
+Sys::Uname::SI_HW_SERIAL = T.let(T.unsafe(nil), Integer)
+
+# Platform identifier
+#
+# pkg:gem/sys-uname#lib/sys/unix/uname.rb:56
+Sys::Uname::SI_ISALIST = T.let(T.unsafe(nil), Integer)
+
+# Version field of utsname
+#
+# pkg:gem/sys-uname#lib/sys/unix/uname.rb:50
+Sys::Uname::SI_MACHINE = T.let(T.unsafe(nil), Integer)
+
+# Secure RPC domain
+#
+# pkg:gem/sys-uname#lib/sys/unix/uname.rb:55
+Sys::Uname::SI_PLATFORM = T.let(T.unsafe(nil), Integer)
+
+# Node name
+#
+# pkg:gem/sys-uname#lib/sys/unix/uname.rb:48
+Sys::Uname::SI_RELEASE = T.let(T.unsafe(nil), Integer)
+
+# Hardware manufacturer
+#
+# pkg:gem/sys-uname#lib/sys/unix/uname.rb:54
+Sys::Uname::SI_SRPC_DOMAIN = T.let(T.unsafe(nil), Integer)
+
+# pkg:gem/sys-uname#lib/sys/unix/uname.rb:46
+Sys::Uname::SI_SYSNAME = T.let(T.unsafe(nil), Integer)
+
+# Operating system release
+#
+# pkg:gem/sys-uname#lib/sys/unix/uname.rb:49
+Sys::Uname::SI_VERSION = T.let(T.unsafe(nil), Integer)
 
 # FFI class passed to the underlying C uname function.
 #

@@ -120,7 +120,7 @@ IO::EWOULDBLOCKWaitWritable = IO::EAGAINWaitWritable
 # Released under the MIT License.
 # Copyright, 2021-2026, by Samuel Williams.
 # Released under the MIT License.
-# Copyright, 2021-2024, by Samuel Williams.
+# Copyright, 2021-2026, by Samuel Williams.
 # @namespace
 #
 # pkg:gem/io-event#lib/io/event/version.rb:9
@@ -444,6 +444,17 @@ module IO::Event::Selector
     #
     # pkg:gem/io-event#lib/io/event/native.rb:7
     def nonblock(_arg0); end
+
+    # Wait for a process to change state, for the cases a selector cannot represent natively (e.g. `pid <= 0`: any child, or a process group). The native selectors integrate process waiting with the event loop using per-process primitives (`pidfd_open`, `EVFILT_PROC`) which can only refer to a single, specific process, and delegate here otherwise.
+    #
+    # The wait is performed on a separate thread, which has no fiber scheduler and therefore blocks. Joining it via `Thread#value` is fiber-scheduler aware, so the calling fiber yields to the event loop and the reactor keeps running other fibers.
+    #
+    # @parameter pid [Integer] The process ID (or process group) to wait for.
+    # @parameter flags [Integer] Flags to pass to `Process::Status.wait`.
+    # @returns [Process::Status] The status of the waited process.
+    #
+    # pkg:gem/io-event#lib/io/event/selector.rb:51
+    def process_wait(pid, flags); end
   end
 end
 
@@ -602,7 +613,7 @@ class IO::Event::Selector::Select
   # @parameter duration [Numeric | Nil] The maximum time to wait, or nil for no timeout.
   # @returns [Integer] The number of ready IO objects.
   #
-  # pkg:gem/io-event#lib/io/event/selector/select.rb:303
+  # pkg:gem/io-event#lib/io/event/selector/select.rb:301
   def select(duration = T.unsafe(nil)); end
 
   # Transfer control to the fiber if it is still available.
@@ -630,7 +641,7 @@ class IO::Event::Selector::Select
 
   private
 
-  # pkg:gem/io-event#lib/io/event/selector/select.rb:286
+  # pkg:gem/io-event#lib/io/event/selector/select.rb:284
   def pop_ready; end
 end
 

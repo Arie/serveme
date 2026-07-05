@@ -5,10 +5,10 @@
 # Please instead update this file by running `bin/tapioca gem cucumber-core`.
 
 
-# pkg:gem/cucumber-core#lib/cucumber/core/platform.rb:7
+# pkg:gem/cucumber-core#lib/cucumber/core/test/data_table.rb:3
 module Cucumber; end
 
-# pkg:gem/cucumber-core#lib/cucumber/core/event.rb:4
+# pkg:gem/cucumber-core#lib/cucumber/core/test/data_table.rb:4
 module Cucumber::Core
   # pkg:gem/cucumber-core#lib/cucumber/core.rb:20
   def compile(gherkin_documents, last_receiver, filters = T.unsafe(nil), event_bus = T.unsafe(nil)); end
@@ -402,7 +402,7 @@ class Cucumber::Core::Report::Summary
   def subscribe_to(event_bus); end
 end
 
-# pkg:gem/cucumber-core#lib/cucumber/core/test/result.rb:8
+# pkg:gem/cucumber-core#lib/cucumber/core/test/data_table.rb:5
 module Cucumber::Core::Test; end
 
 # pkg:gem/cucumber-core#lib/cucumber/core/test/action/defined.rb:10
@@ -1527,24 +1527,3 @@ module Cucumber::Core::Test::Timer::MonotonicTime
     def time_in_nanoseconds; end
   end
 end
-
-# pkg:gem/cucumber-core#lib/cucumber/core/platform.rb:10
-Cucumber::IRONRUBY = T.let(T.unsafe(nil), FalseClass)
-
-# pkg:gem/cucumber-core#lib/cucumber/core/platform.rb:9
-Cucumber::JRUBY = T.let(T.unsafe(nil), T.untyped)
-
-# pkg:gem/cucumber-core#lib/cucumber/core/platform.rb:12
-Cucumber::OS_X = T.let(T.unsafe(nil), Integer)
-
-# pkg:gem/cucumber-core#lib/cucumber/core/platform.rb:15
-Cucumber::RUBY_1_9 = T.let(T.unsafe(nil), T.untyped)
-
-# pkg:gem/cucumber-core#lib/cucumber/core/platform.rb:14
-Cucumber::RUBY_2_0 = T.let(T.unsafe(nil), T.untyped)
-
-# pkg:gem/cucumber-core#lib/cucumber/core/platform.rb:11
-Cucumber::WINDOWS = T.let(T.unsafe(nil), T.untyped)
-
-# pkg:gem/cucumber-core#lib/cucumber/core/platform.rb:13
-Cucumber::WINDOWS_MRI = T.let(T.unsafe(nil), T.untyped)

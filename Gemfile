@@ -12,7 +12,7 @@ gem "bootsnap", require: false
 gem "bootstrap"
 gem "carrierwave"
 gem "cgi"
-gem "connection_pool", "< 3"
+gem "connection_pool"
 gem "devise"
 gem "down"
 gem "draper"
@@ -76,7 +76,7 @@ gem "sorbet-static-and-runtime"
 gem "sprockets"
 gem "sprockets-rails"
 gem "steam-condenser", git: "https://github.com/Arie/steam-condenser-ruby.git"
-gem "stripe", "~> 15.5"
+gem "stripe"
 gem "terser"
 gem "text"
 gem "tf2_line_parser"
@@ -94,7 +94,6 @@ group :development do
   gem "rubocop-performance", require: false
   gem "rubocop-rails", require: false
   gem "tapioca", git: "https://github.com/Shopify/tapioca.git", require: false
-  gem "claude-on-rails"
 end
 
 group :test, :development do
@@ -137,6 +136,6 @@ group :discord do
   gem "discordrb"
 end
 
-gem "brakeman", "~> 7.0", groups: %i[development test]
+gem "brakeman", groups: %i[development test]
 
-gem "anthropic", "~> 1.19"
+gem "anthropic"

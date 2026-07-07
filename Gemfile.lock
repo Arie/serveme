@@ -131,14 +131,8 @@ GEM
       connection_pool
       standardwebhooks
     ast (2.4.3)
-    async (2.42.0)
-      console (~> 1.29)
-      fiber-annotation
-      io-event (~> 1.11)
-      metrics (~> 0.12)
-      traces (~> 0.18)
     aws-eventstream (1.4.0)
-    aws-partitions (1.1265.0)
+    aws-partitions (1.1266.0)
     aws-sdk-core (3.252.0)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.992.0)
@@ -169,7 +163,7 @@ GEM
       msgpack (~> 1.2)
     bootstrap (5.3.8)
       popper_js (>= 2.11.8, < 3)
-    brakeman (7.1.2)
+    brakeman (8.0.5)
       racc
     builder (3.3.0)
     capybara (3.40.0)
@@ -192,28 +186,9 @@ GEM
     childprocess (5.1.0)
       logger (~> 1.5)
     chunky_png (1.3.15)
-    claude-code-sdk-ruby (0.1.6)
-      async (~> 2)
-      logger (~> 1)
-    claude-on-rails (0.2.0)
-      claude_swarm (~> 0.1)
-      rails (>= 6.0)
-    claude_swarm (0.3.11)
-      claude-code-sdk-ruby (~> 0.1)
-      faraday-net_http_persistent (~> 2.0)
-      faraday-retry (~> 2.0)
-      fast-mcp-annotations (~> 1.5)
-      ruby-mcp-client (~> 0.7)
-      ruby-openai (>= 7.0, < 9.0)
-      thor (~> 1.3)
-      zeitwerk (~> 2.6)
     coderay (1.1.3)
     concurrent-ruby (1.3.7)
-    connection_pool (2.5.5)
-    console (1.36.0)
-      fiber-annotation
-      fiber-local (~> 1.1)
-      json
+    connection_pool (3.0.2)
     crack (1.0.1)
       bigdecimal
       rexml
@@ -286,35 +261,6 @@ GEM
       request_store (>= 1.0)
       ruby2_keywords
     drb (2.2.3)
-    dry-configurable (1.4.0)
-      dry-core (~> 1.0)
-      zeitwerk (~> 2.6)
-    dry-core (1.2.0)
-      concurrent-ruby (~> 1.0)
-      logger
-      zeitwerk (~> 2.6)
-    dry-inflector (1.3.1)
-    dry-initializer (3.2.0)
-    dry-logic (1.6.0)
-      bigdecimal
-      concurrent-ruby (~> 1.0)
-      dry-core (~> 1.1)
-      zeitwerk (~> 2.6)
-    dry-schema (1.16.0)
-      concurrent-ruby (~> 1.0)
-      dry-configurable (~> 1.0, >= 1.0.1)
-      dry-core (~> 1.1)
-      dry-initializer (~> 3.2)
-      dry-logic (~> 1.6)
-      dry-types (~> 1.9, >= 1.9.1)
-      zeitwerk (~> 2.6)
-    dry-types (1.9.1)
-      bigdecimal (>= 3.0)
-      concurrent-ruby (~> 1.0)
-      dry-core (~> 1.0)
-      dry-inflector (~> 1.0)
-      dry-logic (~> 1.4)
-      zeitwerk (~> 2.6)
     ed25519 (1.4.0)
     erb (6.0.4)
     erubi (1.13.1)
@@ -333,24 +279,10 @@ GEM
       faraday-net_http (>= 2.0, < 3.5)
       json
       logger
-    faraday-follow_redirects (0.5.0)
-      faraday (>= 1, < 3)
     faraday-multipart (1.2.0)
       multipart-post (~> 2.0)
     faraday-net_http (3.4.4)
       net-http (~> 0.5)
-    faraday-net_http_persistent (2.3.1)
-      faraday (~> 2.5)
-      net-http-persistent (>= 4.0.4, < 5)
-    faraday-retry (2.4.0)
-      faraday (~> 2.0)
-    fast-mcp-annotations (1.5.2)
-      addressable (~> 2.8)
-      base64
-      dry-schema (~> 1.14)
-      json (~> 2.0)
-      mime-types (~> 3.4)
-      rack (~> 3.1)
     ffi (1.17.4-aarch64-linux-gnu)
     ffi (1.17.4-aarch64-linux-musl)
     ffi (1.17.4-arm64-darwin)
@@ -359,10 +291,6 @@ GEM
     ffi-compiler (1.4.2)
       ffi (>= 1.15.5)
       rake
-    fiber-annotation (0.2.0)
-    fiber-local (1.1.0)
-      fiber-storage
-    fiber-storage (1.0.1)
     font-awesome-rails (4.7.0.9)
       railties (>= 3.2, < 9.0)
     fugit (1.12.3)
@@ -417,7 +345,6 @@ GEM
       activesupport (>= 6.0.0)
       railties (>= 6.0.0)
     io-console (0.8.2)
-    io-event (1.19.1)
     irb (1.18.0)
       pp (>= 0.6.0)
       prism (>= 1.3.0)
@@ -480,7 +407,6 @@ GEM
     memoist3 (1.0.0)
     memory_profiler (1.1.0)
     method_source (1.1.0)
-    metrics (0.15.0)
     mime-types (3.7.0)
       logger
       mime-types-data (~> 3.2025, >= 3.2025.0507)
@@ -507,8 +433,6 @@ GEM
       time
     net-http (0.9.1)
       uri (>= 0.11.1)
-    net-http-persistent (4.0.8)
-      connection_pool (>= 2.2.4, < 4)
     net-imap (0.6.4.1)
       date
       net-protocol
@@ -940,10 +864,6 @@ GEM
     rubocop-sorbet (0.12.0)
       lint_roller
       rubocop (>= 1.75.2)
-    ruby-mcp-client (0.9.1)
-      faraday (~> 2.0)
-      faraday-follow_redirects (~> 0.3)
-      faraday-retry (~> 2.0)
     ruby-openai (8.3.0)
       event_stream_parser (>= 0.3.0, < 2.0.0)
       faraday (>= 1)
@@ -991,12 +911,12 @@ GEM
     sexp_processor (4.17.5)
     shoulda-matchers (8.0.1)
       activesupport (>= 7.2)
-    sidekiq (8.0.10)
-      connection_pool (>= 2.5.0)
-      json (>= 2.9.0)
-      logger (>= 1.6.2)
-      rack (>= 3.1.0)
-      redis-client (>= 0.23.2)
+    sidekiq (8.1.6)
+      connection_pool (>= 3.0.0)
+      json (>= 2.16.0)
+      logger (>= 1.7.0)
+      rack (>= 3.2.0)
+      redis-client (>= 0.29.0)
     sidekiq-cron (2.4.0)
       cronex (>= 0.13.0)
       fugit (~> 1.8, >= 1.11.1)
@@ -1035,7 +955,9 @@ GEM
     standardwebhooks (1.1.0)
     stimulus-rails (1.3.4)
       railties (>= 6.0.0)
-    stripe (15.5.0)
+    stripe (19.3.0)
+      bigdecimal
+      logger
     strscan (3.1.8)
     sys-uname (1.5.1)
       ffi (~> 1.1)
@@ -1054,11 +976,10 @@ GEM
     thruster (0.1.22-aarch64-linux)
     thruster (0.1.22-arm64-darwin)
     thruster (0.1.22-x86_64-linux)
-    tilt (2.7.0)
+    tilt (2.8.0)
     time (0.4.2)
       date
     timeout (0.6.1)
-    traces (0.18.2)
     tsort (0.2.0)
     turbo-rails (2.0.23)
       actionpack (>= 7.1.0)
@@ -1111,7 +1032,7 @@ PLATFORMS
 DEPENDENCIES
   actionpack-action_caching
   american_date
-  anthropic (~> 1.19)
+  anthropic
   aws-sdk-core
   aws-sdk-s3
   aws-sigv4
@@ -1119,12 +1040,11 @@ DEPENDENCIES
   better_errors
   bootsnap
   bootstrap
-  brakeman (~> 7.0)
+  brakeman
   capybara
   carrierwave
   cgi
-  claude-on-rails
-  connection_pool (< 3)
+  connection_pool
   cucumber
   cucumber-rails
   database_cleaner
@@ -1212,7 +1132,7 @@ DEPENDENCIES
   stackprof
   steam-condenser!
   stimulus-rails
-  stripe (~> 15.5)
+  stripe
   tailwindcss-ruby (~> 4.0)
   tapioca!
   terser

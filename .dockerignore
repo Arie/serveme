@@ -74,12 +74,8 @@
 /sorbet/rbi/gems
 /sorbet/rbi/dsl
 
-# Ignore claude-on-rails / claude session artifacts.
+# Ignore claude session artifacts.
 /.claude
-/.claude-on-rails
-/.claude-swarm
-/claude-swarm.yml
-/claude-swarm.log
 /.mcp.json
 
 # Discord bot ships as a Kamal role using the same image (per-region).

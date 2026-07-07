@@ -1204,6 +1204,66 @@ paths:
           description: Unauthorized
         '404':
           description: Reservation not found
+  "/api/reservations/{id}/log_lines":
+    get:
+      summary: Get streaming logfile lines
+      tags:
+      - Reservations
+      description: Returns the lines of the reservation's streaming logfile, with
+        secrets (passwords, API keys, IP addresses) scrubbed. Pass the previous response's
+        total_lines as start_line to fetch only new lines. Returns a 404 once the
+        logfile has been cleaned up.
+      parameters:
+      - name: id
+        in: path
+        description: Reservation ID
+        required: true
+        schema:
+          type: integer
+      - name: start_line
+        in: query
+        required: false
+        description: 0-indexed line to start from, defaults to 0. Use the total_lines
+          of a previous response to only get newer lines.
+        schema:
+          type: integer
+      - name: api_key
+        in: query
+        required: false
+        description: API key for authentication
+        schema:
+          type: string
+      security:
+      - api_key: []
+      - token_auth: []
+      - bearer_token: []
+      responses:
+        '200':
+          description: Log lines retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reservation_id:
+                    type: integer
+                  start_line:
+                    type: integer
+                  total_lines:
+                    type: integer
+                  lines:
+                    type: array
+                    items:
+                      type: string
+                required:
+                - reservation_id
+                - start_line
+                - total_lines
+                - lines
+        '401':
+          description: Unauthorized
+        '404':
+          description: Reservation or logfile not found
   "/api/donators/new":
     get:
       summary: Get new donator form template

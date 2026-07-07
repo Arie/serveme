@@ -26,9 +26,6 @@ cucumber.html
 /config/credentials/production.key
 
 # ClaudeOnRails
-.claude-on-rails/sessions/
-.claude-swarm/
-claude-swarm.log
 discord_bot/config.yml
 
 # MCP config (contains API keys)

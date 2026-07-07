@@ -192,6 +192,7 @@ Serveme::Application.routes.draw do
     resources :reservations do
       member do
         post :extend
+        get :log_lines
       end
       collection do
         post :find_servers

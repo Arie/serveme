@@ -292,6 +292,75 @@ describe Api::ReservationsController do
     end
   end
 
+  describe '#log_lines' do
+    let(:reservation) { create :reservation, user: @user }
+    let(:log_path) { Rails.root.join('log', 'streaming', "#{reservation.logsecret}.log") }
+    let(:log_lines) do
+      [
+        'L 06/07/2026 - 21:33:12: "Player<12><[U:1:231702]><>" connected, address "192.168.12.34:27005"',
+        'L 06/07/2026 - 21:33:13: rcon from "10.0.0.5:54321": command "rcon_password "supersecret""',
+        'L 06/07/2026 - 21:33:14: "Player<12><[U:1:231702]><Red>" say "hello world"'
+      ]
+    end
+
+    before do
+      FileUtils.mkdir_p(File.dirname(log_path))
+      File.write(log_path, log_lines.join("\n") + "\n")
+    end
+
+    after do
+      FileUtils.rm_f(log_path)
+    end
+
+    it 'returns the total line count and sanitized lines' do
+      get :log_lines, params: { id: reservation.id }, format: :json
+
+      expect(response.status).to eql 200
+      json = JSON.parse(response.body)
+      expect(json['reservation_id']).to eql reservation.id
+      expect(json['start_line']).to eql 0
+      expect(json['total_lines']).to eql 3
+      expect(json['lines'].size).to eql 3
+      expect(json['lines'][0]).to include('address "0.0.0.0:27005"')
+      expect(json['lines'][1]).to include('rcon_password "*****"')
+      expect(json['lines'][1]).to include('rcon from "0.0.0.0:54321"')
+      expect(json['lines'][2]).to eql log_lines[2]
+    end
+
+    it 'returns only lines from start_line onwards' do
+      get :log_lines, params: { id: reservation.id, start_line: 2 }, format: :json
+
+      json = JSON.parse(response.body)
+      expect(json['start_line']).to eql 2
+      expect(json['total_lines']).to eql 3
+      expect(json['lines']).to eql [ log_lines[2] ]
+    end
+
+    it 'returns no lines when start_line is at or beyond the end' do
+      get :log_lines, params: { id: reservation.id, start_line: 3 }, format: :json
+
+      json = JSON.parse(response.body)
+      expect(json['total_lines']).to eql 3
+      expect(json['lines']).to eql []
+    end
+
+    it 'returns a 404 when the logfile does not exist' do
+      FileUtils.rm_f(log_path)
+
+      get :log_lines, params: { id: reservation.id }, format: :json
+
+      expect(response.status).to eql 404
+    end
+
+    it "returns a 404 for another user's reservation" do
+      other_reservation = create :reservation, user: create(:user)
+
+      get :log_lines, params: { id: other_reservation.id }, format: :json
+
+      expect(response.status).to eql 404
+    end
+  end
+
   describe '#index' do
     before do
       @api_user = create :user

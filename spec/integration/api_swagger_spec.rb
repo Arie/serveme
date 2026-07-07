@@ -1108,6 +1108,60 @@ RSpec.describe 'serveme.tf API', type: :request do
     end
   end
 
+  path '/api/reservations/{id}/log_lines' do
+    get 'Get streaming logfile lines' do
+      tags 'Reservations'
+      produces 'application/json'
+      description 'Returns the lines of the reservation\'s streaming logfile, with secrets (passwords, API keys, IP addresses) scrubbed. Pass the previous response\'s total_lines as start_line to fetch only new lines. Returns a 404 once the logfile has been cleaned up.'
+      parameter name: :id, in: :path, type: :integer, description: 'Reservation ID'
+      parameter name: :start_line, in: :query, type: :integer, required: false, description: '0-indexed line to start from, defaults to 0. Use the total_lines of a previous response to only get newer lines.'
+      parameter name: :api_key, in: :query, type: :string, required: false, description: 'API key for authentication'
+      security [ { api_key: [] }, { token_auth: [] }, { bearer_token: [] } ]
+
+      response '200', 'Log lines retrieved' do
+        schema type: :object,
+               properties: {
+                 reservation_id: { type: :integer },
+                 start_line: { type: :integer },
+                 total_lines: { type: :integer },
+                 lines: { type: :array, items: { type: :string } }
+               },
+               required: %w[reservation_id start_line total_lines lines]
+
+        let(:api_key) { user.api_key }
+        let(:reservation_record) { create(:reservation, user: user) }
+        let(:id) { reservation_record.id }
+        let(:start_line) { 0 }
+        let(:log_path) { Rails.root.join('log', 'streaming', "#{reservation_record.logsecret}.log") }
+
+        before do
+          FileUtils.mkdir_p(File.dirname(log_path))
+          File.write(log_path, "L 06/07/2026 - 21:33:14: \"Player<12><[U:1:231702]><Red>\" say \"hello world\"\n")
+        end
+
+        after do
+          FileUtils.rm_f(log_path)
+        end
+
+        run_test!
+      end
+
+      response '401', 'Unauthorized' do
+        let(:api_key) { 'invalid' }
+        let(:id) { 1 }
+
+        run_test!
+      end
+
+      response '404', 'Reservation or logfile not found' do
+        let(:api_key) { user.api_key }
+        let(:id) { -1 }
+
+        run_test!
+      end
+    end
+  end
+
   # Donators API (Admin only)
   path '/api/donators/new' do
     get 'Get new donator form template' do

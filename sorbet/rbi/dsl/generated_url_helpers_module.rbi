@@ -274,6 +274,9 @@ module GeneratedUrlHelpersModule
   def league_request_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def log_lines_api_reservation_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def login_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }

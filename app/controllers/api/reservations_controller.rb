@@ -73,6 +73,23 @@ module Api
       end
     end
 
+    def log_lines
+      log_path = Rails.root.join("log", "streaming", "#{reservation.logsecret}.log")
+      return render(json: { error: "Logfile not found" }, status: :not_found) unless File.exist?(log_path)
+
+      service = LogStreamingService.new(log_path)
+      total_lines = service.total_line_count
+      start_line = params[:start_line].to_i.clamp(0, total_lines)
+      lines = service.stream_range(start_line, total_lines)[:lines]
+
+      render json: {
+        reservation_id: reservation.id,
+        start_line: start_line,
+        total_lines: total_lines,
+        lines: lines.map { |line| LogLineFormatter.sanitize_sensitive_data(line.chomp) }
+      }
+    end
+
     def extend
       if writable_reservation.extend!
         @reservation = writable_reservation

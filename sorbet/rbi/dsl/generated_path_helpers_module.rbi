@@ -274,6 +274,9 @@ module GeneratedPathHelpersModule
   def league_request_stac_detections_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def log_lines_api_reservation_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def login_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }

@@ -24,7 +24,7 @@ module OpenTelemetry::Instrumentation
   # @return [Registry] registry containing all known
   #  instrumentation
   #
-  # pkg:gem/opentelemetry-registry#lib/opentelemetry/instrumentation.rb:21
+  # pkg:gem/opentelemetry-registry#lib/opentelemetry/instrumentation.rb:22
   def registry; end
 end
 

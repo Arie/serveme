@@ -126,7 +126,7 @@ class OpenTelemetry::Common::Propagation::RackEnvGetter
 
   private
 
-  # pkg:gem/opentelemetry-common#lib/opentelemetry/common/propagation/rack_env_getter.rb:39
+  # pkg:gem/opentelemetry-common#lib/opentelemetry/common/propagation/rack_env_getter.rb:38
   def from_rack_key(key); end
 
   # pkg:gem/opentelemetry-common#lib/opentelemetry/common/propagation/rack_env_getter.rb:31

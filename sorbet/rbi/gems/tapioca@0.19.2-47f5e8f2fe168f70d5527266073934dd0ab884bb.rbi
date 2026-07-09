@@ -1585,6 +1585,20 @@ class Tapioca::Gem::Listeners::Methods < ::Tapioca::Gem::Listeners::Base
 
   private
 
+  # pkg:gem/tapioca#lib/tapioca/gem/listeners/methods.rb:196
+  sig { params(method: ::UnboundMethod, constant: T::Module[T.anything]).returns(T.nilable(::UnboundMethod)) }
+  def attr_reader_for_writer(method, constant); end
+
+  # pkg:gem/tapioca#lib/tapioca/gem/listeners/methods.rb:212
+  sig do
+    params(
+      writer_method: ::UnboundMethod,
+      reader_method: ::UnboundMethod,
+      reader_signature: T.untyped
+    ).returns(T.untyped)
+  end
+  def build_attr_writer_signature(writer_method, reader_method, reader_signature); end
+
   # pkg:gem/tapioca#lib/tapioca/gem/listeners/methods.rb:26
   sig do
     params(
@@ -1611,19 +1625,23 @@ class Tapioca::Gem::Listeners::Methods < ::Tapioca::Gem::Listeners::Base
 
   # @override
   #
-  # pkg:gem/tapioca#lib/tapioca/gem/listeners/methods.rb:210
+  # pkg:gem/tapioca#lib/tapioca/gem/listeners/methods.rb:271
   sig { override.params(event: ::Tapioca::Gem::NodeAdded).returns(T::Boolean) }
   def ignore?(event); end
 
-  # pkg:gem/tapioca#lib/tapioca/gem/listeners/methods.rb:202
+  # pkg:gem/tapioca#lib/tapioca/gem/listeners/methods.rb:185
+  sig { params(method: ::UnboundMethod, constant: T::Module[T.anything]).returns(T.untyped) }
+  def inferred_attr_writer_signature(method, constant); end
+
+  # pkg:gem/tapioca#lib/tapioca/gem/listeners/methods.rb:263
   sig { params(constant: T::Module[T.anything]).returns(T.nilable(::UnboundMethod)) }
   def initialize_method_for(constant); end
 
-  # pkg:gem/tapioca#lib/tapioca/gem/listeners/methods.rb:175
+  # pkg:gem/tapioca#lib/tapioca/gem/listeners/methods.rb:176
   sig { params(mod: T::Module[T.anything]).returns(T::Hash[::Symbol, T::Array[::Symbol]]) }
   def method_names_by_visibility(mod); end
 
-  # pkg:gem/tapioca#lib/tapioca/gem/listeners/methods.rb:194
+  # pkg:gem/tapioca#lib/tapioca/gem/listeners/methods.rb:255
   sig do
     params(
       attached_class: T.nilable(T::Module[T.anything]),
@@ -1642,7 +1660,7 @@ class Tapioca::Gem::Listeners::Methods < ::Tapioca::Gem::Listeners::Base
   # It walks up the ancestor tree via the `super_method` method; if any of the super
   # methods are owned by the constant, it means that the constant declares the method.
   #
-  # pkg:gem/tapioca#lib/tapioca/gem/listeners/methods.rb:161
+  # pkg:gem/tapioca#lib/tapioca/gem/listeners/methods.rb:162
   sig { params(method: ::UnboundMethod, constant: T::Module[T.anything]).returns(T::Boolean) }
   def method_owned_by_constant?(method, constant); end
 
@@ -1652,7 +1670,15 @@ class Tapioca::Gem::Listeners::Methods < ::Tapioca::Gem::Listeners::Base
   sig { override.params(event: ::Tapioca::Gem::ScopeNodeAdded).void }
   def on_scope(event); end
 
-  # pkg:gem/tapioca#lib/tapioca/gem/listeners/methods.rb:184
+  # pkg:gem/tapioca#lib/tapioca/gem/listeners/methods.rb:234
+  sig { params(method: ::UnboundMethod).returns(::UnboundMethod) }
+  def original_method(method); end
+
+  # pkg:gem/tapioca#lib/tapioca/gem/listeners/methods.rb:239
+  sig { params(method: ::UnboundMethod, other_method: ::UnboundMethod).returns(T::Boolean) }
+  def same_source_location?(method, other_method); end
+
+  # pkg:gem/tapioca#lib/tapioca/gem/listeners/methods.rb:245
   sig { params(constant: T::Module[T.anything], method_name: ::String).returns(T::Boolean) }
   def struct_method?(constant, method_name); end
 end

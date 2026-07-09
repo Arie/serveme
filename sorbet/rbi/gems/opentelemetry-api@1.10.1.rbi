@@ -730,7 +730,7 @@ class OpenTelemetry::Context::Propagation::RackEnvGetter
 
   private
 
-  # pkg:gem/opentelemetry-api#lib/opentelemetry/context/propagation/rack_env_getter.rb:42
+  # pkg:gem/opentelemetry-api#lib/opentelemetry/context/propagation/rack_env_getter.rb:41
   def from_rack_key(key); end
 
   # pkg:gem/opentelemetry-api#lib/opentelemetry/context/propagation/rack_env_getter.rb:34
@@ -1065,11 +1065,11 @@ module OpenTelemetry::Trace::Propagation::TraceContext
   # Returns a text map propagator that propagates context using the
   # W3C Trace Context format.
   #
-  # pkg:gem/opentelemetry-api#lib/opentelemetry/trace/propagation/trace_context.rb:23
+  # pkg:gem/opentelemetry-api#lib/opentelemetry/trace/propagation/trace_context.rb:24
   def text_map_propagator; end
 end
 
-# pkg:gem/opentelemetry-api#lib/opentelemetry/trace/propagation/trace_context.rb:17
+# pkg:gem/opentelemetry-api#lib/opentelemetry/trace/propagation/trace_context.rb:18
 OpenTelemetry::Trace::Propagation::TraceContext::TEXT_MAP_PROPAGATOR = T.let(T.unsafe(nil), OpenTelemetry::Trace::Propagation::TraceContext::TextMapPropagator)
 
 # Propagates trace context using the W3C Trace Context format

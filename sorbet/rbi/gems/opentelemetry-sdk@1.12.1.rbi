@@ -329,25 +329,25 @@ class OpenTelemetry::SDK::ForwardingLogger
   def initialize(logger, level:); end
 
   # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/forwarding_logger.rb:38
-  def add(severity, message = T.unsafe(nil), progname = T.unsafe(nil), &block); end
+  def add(severity, message = T.unsafe(nil), progname = T.unsafe(nil), &_arg3); end
 
   # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/forwarding_logger.rb:44
-  def debug(progname = T.unsafe(nil), &block); end
+  def debug(progname = T.unsafe(nil), &_arg1); end
 
   # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/forwarding_logger.rb:56
-  def error(progname = T.unsafe(nil), &block); end
+  def error(progname = T.unsafe(nil), &_arg1); end
 
   # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/forwarding_logger.rb:60
-  def fatal(progname = T.unsafe(nil), &block); end
+  def fatal(progname = T.unsafe(nil), &_arg1); end
 
   # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/forwarding_logger.rb:48
-  def info(progname = T.unsafe(nil), &block); end
+  def info(progname = T.unsafe(nil), &_arg1); end
 
   # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/forwarding_logger.rb:64
-  def unknown(progname = T.unsafe(nil), &block); end
+  def unknown(progname = T.unsafe(nil), &_arg1); end
 
   # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/forwarding_logger.rb:52
-  def warn(progname = T.unsafe(nil), &block); end
+  def warn(progname = T.unsafe(nil), &_arg1); end
 end
 
 # InstrumentationLibrary is a struct containing library information for export.

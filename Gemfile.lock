@@ -25,7 +25,7 @@ GIT
 
 GIT
   remote: https://github.com/Shopify/tapioca.git
-  revision: a8794c0b649839313f5c69bd60890fffb9f39d56
+  revision: 47f5e8f2fe168f70d5527266073934dd0ab884bb
   specs:
     tapioca (0.19.2)
       benchmark
@@ -132,8 +132,8 @@ GEM
       standardwebhooks
     ast (2.4.3)
     aws-eventstream (1.4.0)
-    aws-partitions (1.1266.0)
-    aws-sdk-core (3.252.0)
+    aws-partitions (1.1267.0)
+    aws-sdk-core (3.253.0)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.992.0)
       aws-sigv4 (~> 1.9)
@@ -378,7 +378,7 @@ GEM
       ffi-compiler (~> 1.0)
       rake (~> 13.0)
     logger (1.7.0)
-    lograge (0.14.0)
+    lograge (0.15.0)
       actionpack (>= 4)
       activesupport (>= 4)
       railties (>= 4)
@@ -472,11 +472,11 @@ GEM
     omniauth-rails_csrf_protection (2.0.1)
       actionpack (>= 4.2)
       omniauth (~> 2.0)
-    opentelemetry-api (1.10.0)
+    opentelemetry-api (1.10.1)
       logger
-    opentelemetry-common (0.25.0)
+    opentelemetry-common (0.25.1)
       opentelemetry-api (~> 1.0)
-    opentelemetry-exporter-otlp (0.34.0)
+    opentelemetry-exporter-otlp (0.34.1)
       google-protobuf (>= 3.18)
       googleapis-common-protos-types (~> 1.3)
       opentelemetry-api (~> 1.1)
@@ -582,9 +582,9 @@ GEM
       opentelemetry-instrumentation-rack (~> 0.29)
     opentelemetry-instrumentation-graphql (0.32.0)
       opentelemetry-instrumentation-base (~> 0.25)
-    opentelemetry-instrumentation-grpc (0.5.1)
+    opentelemetry-instrumentation-grpc (0.5.2)
       opentelemetry-instrumentation-base (~> 0.25)
-    opentelemetry-instrumentation-gruf (0.6.1)
+    opentelemetry-instrumentation-gruf (0.6.2)
       opentelemetry-instrumentation-base (~> 0.25)
     opentelemetry-instrumentation-http (0.30.0)
       opentelemetry-instrumentation-base (~> 0.25)
@@ -646,21 +646,21 @@ GEM
       opentelemetry-helpers-sql-processor
       opentelemetry-instrumentation-base (~> 0.25)
       opentelemetry-semantic_conventions (>= 1.8.0)
-    opentelemetry-logs-api (0.4.0)
+    opentelemetry-logs-api (0.4.1)
       opentelemetry-api (~> 1.0)
-    opentelemetry-logs-sdk (0.6.0)
+    opentelemetry-logs-sdk (0.6.1)
       opentelemetry-api (~> 1.2)
       opentelemetry-logs-api (~> 0.1)
       opentelemetry-sdk (~> 1.3)
-    opentelemetry-registry (0.6.0)
+    opentelemetry-registry (0.6.1)
       opentelemetry-api (~> 1.1)
-    opentelemetry-sdk (1.12.0)
+    opentelemetry-sdk (1.12.1)
       logger
       opentelemetry-api (~> 1.1)
       opentelemetry-common (~> 0.20)
       opentelemetry-registry (~> 0.2)
       opentelemetry-semantic_conventions
-    opentelemetry-semantic_conventions (1.41.0)
+    opentelemetry-semantic_conventions (1.43.0)
       opentelemetry-api (~> 1.0)
     opus-ruby (1.0.1)
       ffi
@@ -833,7 +833,7 @@ GEM
     rswag-ui (2.17.0)
       actionpack (>= 5.2, < 8.2)
       railties (>= 5.2, < 8.2)
-    rubocop (1.88.1)
+    rubocop (1.88.2)
       json (~> 2.3)
       language_server-protocol (~> 3.17.0.2)
       lint_roller (~> 1.1.0)
@@ -877,9 +877,9 @@ GEM
     ruby_parser (3.22.0)
       racc (~> 1.5)
       sexp_processor (~> 4.16)
-    rubydex (0.2.7-aarch64-linux)
-    rubydex (0.2.7-arm64-darwin)
-    rubydex (0.2.7-x86_64-linux)
+    rubydex (0.2.8-aarch64-linux)
+    rubydex (0.2.8-arm64-darwin)
+    rubydex (0.2.8-x86_64-linux)
     rubyzip (3.4.1)
     sass (3.7.4)
       sass-listen (~> 4.0.0)
@@ -925,16 +925,16 @@ GEM
     simple_form (5.4.1)
       actionpack (>= 7.0)
       activemodel (>= 7.0)
-    sorbet (0.6.13323)
-      sorbet-static (= 0.6.13323)
-    sorbet-runtime (0.6.13323)
-    sorbet-static (0.6.13323-aarch64-linux)
-    sorbet-static (0.6.13323-universal-darwin)
-    sorbet-static (0.6.13323-x86_64-linux)
-    sorbet-static-and-runtime (0.6.13323)
-      sorbet (= 0.6.13323)
-      sorbet-runtime (= 0.6.13323)
-    spoom (1.8.2)
+    sorbet (0.6.13329)
+      sorbet-static (= 0.6.13329)
+    sorbet-runtime (0.6.13329)
+    sorbet-static (0.6.13329-aarch64-linux)
+    sorbet-static (0.6.13329-universal-darwin)
+    sorbet-static (0.6.13329-x86_64-linux)
+    sorbet-static-and-runtime (0.6.13329)
+      sorbet (= 0.6.13329)
+      sorbet-runtime (= 0.6.13329)
+    spoom (1.8.3)
       erubi (>= 1.10.0)
       prism (>= 0.28.0)
       rbi (>= 0.3.14)
@@ -968,7 +968,7 @@ GEM
     tailwindcss-ruby (4.3.1-x86_64-linux-gnu)
     tailwindcss-ruby (4.3.1-x86_64-linux-musl)
     temple (0.10.4)
-    terser (1.2.7)
+    terser (1.2.8)
       execjs (>= 0.3.0, < 3)
     text (1.3.1)
     tf2_line_parser (0.6.4)
@@ -1025,6 +1025,7 @@ PLATFORMS
   aarch64-linux
   aarch64-linux-gnu
   aarch64-linux-musl
+  arm64-darwin-23
   arm64-darwin-25
   x86_64-linux-gnu
   x86_64-linux-musl
@@ -1147,4 +1148,4 @@ DEPENDENCIES
   zonebie
 
 BUNDLED WITH
-  4.0.4
+  4.0.10

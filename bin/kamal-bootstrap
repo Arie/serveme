@@ -27,7 +27,12 @@ destination = ARGV[0]
 deploy_file = destination ? "config/deploy.#{destination}.yml" : "config/deploy.yml"
 abort "Missing #{deploy_file}" unless File.exist?(deploy_file)
 
-config = YAML.safe_load_file(deploy_file, aliases: true, permitted_classes: [Symbol])
+load_yaml = ->(path) { YAML.safe_load_file(path, aliases: true, permitted_classes: [Symbol]) || {} }
+
+# Kamal treats deploy.<dest>.yml as an overlay on deploy.yml, so do the same:
+# the region files declare `servers` but inherit `ssh` from the base config.
+config = load_yaml.call("config/deploy.yml")
+config = config.merge(load_yaml.call(deploy_file)) if destination
 
 ssh_user = config.dig("ssh", "user") || "root"
 ssh_keys = Array(config.dig("ssh", "keys"))

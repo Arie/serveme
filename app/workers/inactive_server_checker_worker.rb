@@ -21,14 +21,11 @@ class InactiveServerCheckerWorker
 
   def fetch_sdr_info
     server_info = server.server_info
-
-    begin
-      server_info.fetch_rcon_status
-      server_info
-    rescue SteamCondenser::Error, Errno::ECONNREFUSED
-      Rails.logger.warn "Couldn't get RCON status of #{server.name} - #{server.ip}:#{server.port}"
-      nil
-    end
+    server_info.fetch_rcon_status
+    server_info
+  rescue SteamCondenser::Error, Errno::ECONNREFUSED, SocketError
+    Rails.logger.warn "Couldn't get RCON status of #{server.name} - #{server.ip}:#{server.port}"
+    nil
   end
 
   def save_sdr_info(server_info)

@@ -47,6 +47,32 @@ describe DockerHostImagePullWorker do
 
         expect { worker.perform(host.id) }.to raise_error(Errno::ECONNREFUSED)
       end
+
+      it "prunes every dangling image on a pull-only host" do
+        host = create(:docker_host)
+
+        ssh = instance_double(Net::SSH::Connection::Session)
+        allow(Net::SSH).to receive(:start).and_yield(ssh)
+        allow(ssh).to receive(:exec!).and_return("")
+
+        worker.perform(host.id)
+
+        expect(ssh).to have_received(:exec!).with("docker image prune -f")
+      end
+
+      it "keeps the recent build cache on the build host" do
+        host = create(:docker_host, build_host: true)
+
+        ssh = instance_double(Net::SSH::Connection::Session)
+        allow(Net::SSH).to receive(:start).and_yield(ssh)
+        allow(ssh).to receive(:exec!).and_return("")
+
+        worker.perform(host.id)
+
+        expect(ssh).not_to have_received(:exec!).with("docker image prune -f")
+        expect(ssh).to have_received(:exec!).with("docker image prune -f --filter until=168h")
+        expect(ssh).to have_received(:exec!).with(/docker rmi serveme\/tf2-cloud-server/)
+      end
     end
   end
 end

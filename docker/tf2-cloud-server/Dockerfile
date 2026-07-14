@@ -102,7 +102,7 @@ RUN echo "Cache bust: ${CACHEBUST}" \
     && tar -xf steamworks.tar.gz --strip-components 1 \
     && rm steamworks.tar.gz \
     # SOAP-DM
-    && wget -nv "https://github.com/sapphonie/SOAP-TF2DM/releases/download/v4.4.8/soap.zip" -O "soap-dm.zip" \
+    && wget -nv "https://github.com/sapphonie/SOAP-TF2DM/releases/download/v4.4.9/soap.zip" -O "soap-dm.zip" \
     && unzip -o soap-dm.zip \
     && rm soap-dm.zip \
     # Improved-Match-Timer

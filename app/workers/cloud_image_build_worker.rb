@@ -11,6 +11,11 @@ class CloudImageBuildWorker
   DOCKERHUB_IMAGE = "serveme/tf2-cloud-server"
   BASE_IMAGE = "serveme/tf2-base"
   SOURCEMOD_IMAGE = "serveme/tf2-sourcemod"
+  # Real TF2 versions are 8 digits. Anything smaller means the version lookup
+  # failed upstream, and building would tag a junk image (e.g. ":0").
+  MIN_PLAUSIBLE_VERSION = 1_000_000
+  PUSH_ATTEMPTS = 3
+  PUSH_BACKOFF = 15.seconds
 
   def perform(cloud_image_build_id)
     @build = CloudImageBuild.find(cloud_image_build_id)
@@ -24,6 +29,8 @@ class CloudImageBuildWorker
       @build.update!(status: "running", started_at: Time.current)
       broadcast_status
 
+      return mark_invalid_version unless plausible_version?
+
       return mark_skipped_locked unless acquire_lock(@build.version)
       @lock_held = true
 
@@ -36,8 +43,8 @@ class CloudImageBuildWorker
         run_streamed!(*build_command)
       end
       run_phase("pushing") do
-        run_streamed!("docker", "push", tag)
-        run_streamed!("docker", "push", versioned_tag)
+        push!(tag)
+        push!(versioned_tag)
       end
 
       run_phase("notifying") do
@@ -129,6 +136,33 @@ class CloudImageBuildWorker
       status = wait_thread.value
       raise "#{command.first(2).join(' ')} failed (exit #{status.exitstatus})" unless status.success?
     end
+  end
+
+  # Docker Hub intermittently answers a push with a 502/503, which would
+  # otherwise throw away a build that has already done all of its work.
+  def push!(image)
+    attempt = 1
+    begin
+      run_streamed!("docker", "push", image)
+    rescue StandardError => e
+      raise if attempt >= PUSH_ATTEMPTS
+
+      @streamer.append("[warn] #{e.message}, retrying in #{PUSH_BACKOFF.to_i}s (attempt #{attempt + 1}/#{PUSH_ATTEMPTS})\n")
+      @streamer.flush!
+      sleep PUSH_BACKOFF
+      attempt += 1
+      retry
+    end
+  end
+
+  def plausible_version?
+    @build.version.to_i >= MIN_PLAUSIBLE_VERSION
+  end
+
+  def mark_invalid_version
+    @build.update!(status: "failed", current_phase: nil, finished_at: Time.current,
+                   output: "[failed] Implausible TF2 version #{@build.version.inspect} - refusing to build")
+    broadcast_status
   end
 
   def mark_skipped_locked

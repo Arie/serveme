@@ -90,6 +90,9 @@ class Server < ActiveRecord::Base
 
   scope :outdated, ->(latest_version = nil) {
     latest_version ||= self.latest_version
+    # Without a known version the range below degrades to `1=1` and matches every
+    # server, which would have ServerUpdateWorker restart the whole fleet.
+    next none if latest_version.blank?
 
     where.not(last_known_version: nil)
       .where(last_known_version: ...latest_version)
@@ -596,7 +599,9 @@ class Server < ActiveRecord::Base
 
   sig { returns(T.nilable(Integer)) }
   def self.latest_version
-    Rails.cache.fetch("latest_server_version", expires_in: 5.minutes) do
+    # skip_nil so a failed Steam lookup doesn't cache "unknown" for 5 minutes:
+    # callers treat nil as "every server is outdated", so we'd rather retry.
+    Rails.cache.fetch("latest_server_version", expires_in: 5.minutes, skip_nil: true) do
       fetch_latest_version
     end
   end
@@ -612,7 +617,11 @@ class Server < ActiveRecord::Base
     return unless response.success?
 
     json = JSON.parse(response.body)
-    json["response"]["required_version"].to_i
+    # Steam answers 200 with no required_version when the lookup fails. Plain
+    # #to_i would turn that into 0, which reads as a valid (truthy) version and
+    # sends bogus versions downstream, so treat anything non-positive as unknown.
+    version = json.dig("response", "required_version").to_i
+    version.positive? ? version : nil
   rescue SteamCondenser::Error::Timeout, Net::ReadTimeout, Faraday::TimeoutError => e
     Rails.logger.info "Steam API timeout when fetching latest version: #{e.message}"
     nil

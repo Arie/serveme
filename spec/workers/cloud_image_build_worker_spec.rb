@@ -244,6 +244,48 @@ describe CloudImageBuildWorker do
       expect(build.status).to eq("failed")
       expect(build.output).to include("redis down")
     end
+
+    context "with an implausible TF2 version" do
+      let(:version) { "0" }
+
+      it "refuses to build, never acquiring the lock or shelling out" do
+        expect(redis).not_to receive(:set)
+        expect(Open3).not_to receive(:popen2e)
+
+        worker.perform(build.id)
+
+        build.reload
+        expect(build.status).to eq("failed")
+        expect(build.output).to include("Implausible TF2 version")
+      end
+    end
+
+    it "retries a failed docker push and succeeds" do
+      allow(worker).to receive(:sleep)
+      push = [ "docker", "push", "serveme/tf2-cloud-server:latest" ]
+      call = 0
+      allow(Open3).to receive(:popen2e).with(*push) do |*_args, &blk|
+        call += 1
+        blk.call(StringIO.new, StringIO.new("push attempt #{call}\n"), instance_double(Thread, value: call == 1 ? failure_status : success_status))
+      end
+
+      worker.perform(build.id)
+
+      expect(build.reload.status).to eq("succeeded")
+      expect(call).to eq(2)
+      expect(build.output).to include("retrying in")
+    end
+
+    it "gives up after the push retry budget is exhausted" do
+      allow(worker).to receive(:sleep)
+      stub_streamed_command([ "docker", "push", "serveme/tf2-cloud-server:latest" ], failure_status, "push down\n")
+
+      expect { worker.perform(build.id) }.not_to raise_error
+
+      build.reload
+      expect(build.status).to eq("failed")
+      expect(build.output).to include("[ERROR]")
+    end
   end
 
   # Helper: stubs Open3.popen2e to yield scripted lines and a wait_thread with the given status.

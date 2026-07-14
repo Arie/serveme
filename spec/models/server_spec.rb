@@ -38,6 +38,34 @@ RSpec.describe Server do
     end
   end
 
+  describe '.outdated' do
+    it 'returns nothing rather than every server when the version is unknown' do
+      allow(Server).to receive(:latest_version).and_return(nil)
+      expect(Server.outdated).to eq(Server.none)
+      expect(Server.outdated.to_sql).not_to include('1=1')
+    end
+  end
+
+  describe '.fetch_latest_version' do
+    before { allow(Rails).to receive(:env).and_return(ActiveSupport::StringInquirer.new('production')) }
+
+    define_method(:stub_steam) do |body|
+      allow(Faraday).to receive(:new).and_return(
+        instance_double(Faraday::Connection, get: instance_double(Faraday::Response, success?: true, body: body.to_json))
+      )
+    end
+
+    it 'returns the required_version when Steam answers normally' do
+      stub_steam("response" => { "required_version" => 10_822_003 })
+      expect(Server.fetch_latest_version).to eq(10_822_003)
+    end
+
+    it 'returns nil (not 0) when required_version is missing' do
+      stub_steam("response" => { "success" => false })
+      expect(Server.fetch_latest_version).to be_nil
+    end
+  end
+
   describe '#save_version_info' do
     let(:server) { create(:server, update_status: 'Updating', update_started_at: Time.current) }
     let(:server_info) { double('ServerInfo') }

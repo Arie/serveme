@@ -18552,8 +18552,6 @@ module SimpleCov::Configuration
 
   def project_name(new_name=T.unsafe(nil)); end
 
-  def refuse_coverage_drop(); end
-
   def root(root=T.unsafe(nil)); end
 
   def skip_token(nocov_token=T.unsafe(nil)); end
@@ -18744,8 +18742,6 @@ class SimpleCov::Result
 
   def groups(); end
 
-  def initialize(original_result); end
-
   def least_covered_file(*args, **arg, &block); end
 
   def missed_lines(*args, **arg, &block); end
@@ -18769,8 +18765,6 @@ end
 
 module SimpleCov::ResultMerger
   def self.clear_resultset(); end
-
-  def self.merge_results(*results); end
 
   def self.merged_result(); end
 
@@ -18900,13 +18894,9 @@ module SimpleCov
 
   def self.pid=(pid); end
 
-  def self.process_result(result, exit_status); end
-
   def self.result(); end
 
   def self.result?(); end
-
-  def self.result_exit_status(result, covered_percent); end
 
   def self.run_exit_tasks!(); end
 

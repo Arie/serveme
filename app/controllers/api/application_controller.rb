@@ -57,26 +57,6 @@ module Api
       request.format = :json
     end
 
-    def current_admin
-      @current_admin ||= current_user&.admin? && current_user
-    end
-
-    def current_league_admin
-      @current_league_admin ||= current_user&.league_admin? && current_user
-    end
-
-    def current_config_admin
-      @current_config_admin ||= current_user&.config_admin? && current_user
-    end
-
-    def current_streamer
-      @current_streamer ||= current_user&.streamer? && current_user
-    end
-
-    def current_trusted_api
-      @current_trusted_api ||= current_user&.trusted_api? && current_user
-    end
-
     def require_site_or_league_admin
       head :forbidden unless api_user&.admin? || api_user&.league_admin?
     end

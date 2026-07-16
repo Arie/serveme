@@ -518,14 +518,12 @@ class Server < ActiveRecord::Base
 
   sig { returns(T.nilable(Integer)) }
   def version
-    @version ||= /Network\ PatchVersion:\s+(\d+)/ =~ rcon_exec("version").to_s && Regexp.last_match(1).to_i
+    version_checker.current
   end
 
   sig { returns(T::Boolean) }
   def outdated?
-    return false if team_comtress_server?
-
-    version != Server.latest_version
+    version_checker.outdated?
   end
 
   FAST_START_PHASES = [
@@ -597,35 +595,12 @@ class Server < ActiveRecord::Base
 
   sig { returns(T.nilable(Integer)) }
   def self.latest_version
-    # skip_nil so a failed Steam lookup doesn't cache "unknown" for 5 minutes:
-    # callers treat nil as "every server is outdated", so we'd rather retry.
-    Rails.cache.fetch("latest_server_version", expires_in: 5.minutes, skip_nil: true) do
-      fetch_latest_version
-    end
+    ServerVersionChecker.latest_version
   end
 
   sig { returns(T.nilable(Integer)) }
   def self.fetch_latest_version
-    return 100_000_000 if Rails.env == "test"
-
-    response = Faraday.new(url: "http://api.steampowered.com").get("ISteamApps/UpToDateCheck/v1?appid=440&version=0") do |req|
-      req.options.timeout = 5
-      req.options.open_timeout = 2
-    end
-    return unless response.success?
-
-    json = JSON.parse(response.body)
-    # Steam answers 200 with no required_version when the lookup fails. Plain
-    # #to_i would turn that into 0, which reads as a valid (truthy) version and
-    # sends bogus versions downstream, so treat anything non-positive as unknown.
-    version = json.dig("response", "required_version").to_i
-    version.positive? ? version : nil
-  rescue SteamCondenser::Error::Timeout, Net::ReadTimeout, Faraday::TimeoutError => e
-    Rails.logger.info "Steam API timeout when fetching latest version: #{e.message}"
-    nil
-  rescue StandardError => e
-    Rails.logger.error "Failed to fetch latest version: #{e.message}"
-    nil
+    ServerVersionChecker.fetch_latest_version
   end
 
   sig { returns(T.nilable(Integer)) }
@@ -817,6 +792,11 @@ class Server < ActiveRecord::Base
   end
 
   private
+
+  sig { returns(ServerVersionChecker) }
+  def version_checker
+    @version_checker ||= T.let(ServerVersionChecker.new(self), T.nilable(ServerVersionChecker))
+  end
 
   sig { params(override: T::Hash[String, T.untyped]).returns(String) }
   def detailed_location_from_override(override)

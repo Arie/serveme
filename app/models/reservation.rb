@@ -322,7 +322,7 @@ class Reservation < ActiveRecord::Base
   def status
     return "Ended" if past?
 
-    status_messages = reservation_statuses.pluck(:status)
+    status_messages = reservation_statuses.map(&:status)
     return "Ended" if status_messages.include?("Finished zipping logs and demos")
 
     return "Ending" if status_messages.include?("Ending")

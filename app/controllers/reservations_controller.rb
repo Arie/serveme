@@ -83,7 +83,7 @@ class ReservationsController < ApplicationController
     else
                     current_user
     end
-    @pagy, @users_reservations = pagy(target_user.reservations.ordered.with_attached_zipfile, limit: 20)
+    @pagy, @users_reservations = pagy(target_user.reservations.ordered.includes(:user, server: :location).with_attached_zipfile, limit: 20)
     @target_user = target_user
   end
 

@@ -129,6 +129,25 @@ describe Api::ReservationsController do
       response.status.should == 422
     end
 
+    it 'does not double-book a server when a competitor commits while waiting for the per-server lock' do
+      server = create :server, location: create(:location)
+      other_user = create :user
+      starts_at = Time.current
+      ends_at = 2.hours.from_now
+
+      # Simulate a competitor grabbing the same server in the window between our
+      # first validation and acquiring the per-server lock.
+      allow($lock).to receive(:synchronize) do |_key, &block|
+        create(:reservation, user: other_user, server: server, starts_at: starts_at, ends_at: ends_at)
+        block.call
+      end
+
+      post :create, format: :json, params: { reservation: { starts_at: starts_at, ends_at: ends_at, rcon: 'foo', password: 'bar', server_id: server.id } }
+
+      expect(Reservation.where(server_id: server.id).count).to eq(1)
+      response.status.should == 400
+    end
+
     context 'with the legacy disable_democheck param' do
       let(:server) { create :server, location: create(:location) }
 

@@ -39,7 +39,7 @@ if reservation.persisted?
   end
 end
 if reservation.ended?
-  json.log_uploads reservation.log_uploads.pluck(:url)
+  json.log_uploads reservation.log_uploads.map(&:url)
   json.zipfile_url reservation.zipfile_url if reservation.server
 end
 if reservation.persisted? && !reservation.ended?

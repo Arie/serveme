@@ -9,7 +9,7 @@ module Api
     def index
       limit = params[:limit] || 10
       limit = [ limit.to_i, 500 ].min
-      @reservations = reservations_scope.includes(:reservation_statuses, :server_statistics, server: :location).order(id: :desc).limit(limit).offset(params[:offset].to_i)
+      @reservations = reservations_scope.includes(:user, :reservation_statuses, :server_statistics, :log_uploads, server: :location).order(id: :desc).limit(limit).offset(params[:offset].to_i)
     end
 
     def new

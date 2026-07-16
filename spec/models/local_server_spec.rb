@@ -165,7 +165,7 @@ describe LocalServer do
       reservation = double(id: reservation_id, rcon: 'foo', status: 'Ready', status_update: nil, ended?: false, reload: true, user: nil)
       subject.should_receive(:remove_configuration)
       subject.should_receive(:disable_plugins)
-      subject.should_receive(:disable_demos_tf)
+      subject.should_receive(:delete_from_server) # disable_demos_tf removes the demostf plugin
       subject.should_receive(:restore_rgl_base_cfg)
       subject.should_receive(:rcon_exec)
       subject.stub(:uses_async_cleanup?).and_return(true)
@@ -404,14 +404,6 @@ Server AppID:           232250%)
 
     it 'knows if the server is outdated' do
       expect(subject).to be_outdated
-    end
-  end
-
-  describe '#enable_demos_tf' do
-    it 'writes the demostf.smx to the server' do
-      subject.stub(tf_dir: 'tf_dir')
-      subject.should_receive(:copy_to_server).with(anything, "#{subject.tf_dir}/addons/sourcemod/plugins")
-      subject.enable_demos_tf
     end
   end
 

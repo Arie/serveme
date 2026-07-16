@@ -115,6 +115,11 @@ class LocalServer < Server
     true
   end
 
+  sig { override.returns(T::Boolean) }
+  def local?
+    true
+  end
+
   private
 
   sig { void }

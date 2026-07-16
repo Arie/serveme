@@ -47,6 +47,16 @@ class CloudServer < RemoteServer
     true
   end
 
+  sig { override.returns(T::Boolean) }
+  def cloud?
+    true
+  end
+
+  sig { override.returns(T::Boolean) }
+  def ssh_based?
+    true
+  end
+
   sig { params(command: String, log_stderr: T::Boolean).returns(String) }
   def mitigation_ssh_exec(command, log_stderr: false)
     case cloud_provider
@@ -90,7 +100,7 @@ class CloudServer < RemoteServer
     @provider ||= CloudProvider.for(T.must(cloud_provider))
   end
 
-  sig { params(reservation: Reservation).returns(T.nilable(T::Boolean)) }
+  sig { override.params(reservation: Reservation).returns(T.nilable(T::Boolean)) }
   def write_first_map(reservation)
     first_map = reservation.first_map.presence || "ctf_turbine"
     write_configuration(server_config_file("first_map.txt"), first_map)

@@ -15,7 +15,7 @@ module GlobeData
     docker_host_active_containers = Hash.new(0)
     servers_with_players.each do |data|
       server = data[:server]
-      next unless server.is_a?(CloudServer) && server.cloud_provider == "remote_docker" && server.cloud_location.present?
+      next unless server.cloud? && server.cloud_provider == "remote_docker" && server.cloud_location.present?
 
       docker_host_id = server.cloud_location.to_i
       docker_host_players[docker_host_id] ||= []

@@ -25,7 +25,7 @@ class ReservationWorker
   end
 
   def after_start_reservation_steps
-    if reservation.server.is_a?(CloudServer)
+    if reservation.server.cloud?
       # Cloud servers use CloudServerRconPollWorker instead
     else
       reservation.update_columns(provisioned: true)
@@ -47,7 +47,7 @@ class ReservationWorker
     reservation.save(validate: false)
     reservation.broadcast_connect_info
 
-    if reservation.server.is_a?(CloudServer) && !reservation.provisioned?
+    if reservation.server.cloud? && !reservation.provisioned?
       CloudServerDestroyWorker.perform_async(reservation.server.id)
       reservation.status_update("Cancelled cloud server")
     elsif reservation.server.uses_async_cleanup?

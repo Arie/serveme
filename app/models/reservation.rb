@@ -330,13 +330,13 @@ class Reservation < ActiveRecord::Base
     return "SDR Ready" if server&.sdr? && sdr_ip.present?
     return "Ready" if server_statistics.any? && !server&.sdr?
     return "Ready" if status_messages.grep(/\AServer finished loading map/).any? && !server&.sdr?
-    return "Ready" if provisioned? && server.is_a?(CloudServer)
+    return "Ready" if provisioned? && server&.cloud?
 
     return "Server updating, please be patient" if status_messages.grep(/\AServer outdated/).any?
 
     return "Starting" if status_messages.include?("Starting")
 
-    if server.is_a?(CloudServer) && !provisioned?
+    if server&.cloud? && !provisioned?
       cloud_server = T.cast(server, CloudServer)
       return "Cloud server failed to start" if cloud_server.cloud_status == "destroyed"
       if starts_at&.future?
@@ -510,7 +510,7 @@ class Reservation < ActiveRecord::Base
     return unless previous_server_id
 
     previous_server = Server.find_by(id: previous_server_id)
-    return unless previous_server.is_a?(CloudServer)
+    return unless previous_server&.cloud?
 
     cloud_server = T.cast(previous_server, CloudServer)
     return if cloud_server.cloud_status == "destroyed"
@@ -520,7 +520,7 @@ class Reservation < ActiveRecord::Base
 
   sig { void }
   def cleanup_cloud_server
-    return unless server.is_a?(CloudServer)
+    return unless server&.cloud?
 
     cloud_server = T.cast(server, CloudServer)
     return if cloud_server.cloud_status == "destroyed"

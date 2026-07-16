@@ -41,7 +41,7 @@ class LogWorker
   sig { void }
   def handle_event
     res = reservation
-    mark_cloud_server_ready if res && !res.provisioned? && res.server.is_a?(CloudServer)
+    mark_cloud_server_ready if res && !res.provisioned? && res.server&.cloud?
 
     case event
     when TF2LineParser::Events::Say, TF2LineParser::Events::TeamSay

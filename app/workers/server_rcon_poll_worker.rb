@@ -16,7 +16,7 @@ class ServerRconPollWorker
 
     server = reservation.server
     return unless server
-    return if server.is_a?(CloudServer)
+    return if server.cloud?
 
     begin
       result = server.rcon_exec("status")

@@ -15,7 +15,7 @@ class CloudServerRconPollWorker
     return if reservation.ended?
 
     server = reservation.server
-    return unless server.is_a?(CloudServer)
+    return unless server&.cloud?
     return if server.cloud_status == "destroyed"
 
     begin

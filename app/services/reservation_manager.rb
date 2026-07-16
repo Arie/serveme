@@ -16,7 +16,7 @@ class ReservationManager
 
   sig { returns(T.untyped) }
   def start_reservation
-    return if server.is_a?(CloudServer)
+    return if server&.cloud?
 
     if previous_reservation_ended_fully?
       reservation.reservation_statuses.create!(status: "Starting")

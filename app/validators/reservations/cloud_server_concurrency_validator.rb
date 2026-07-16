@@ -5,7 +5,7 @@ module Reservations
   class CloudServerConcurrencyValidator < ActiveModel::Validator
     def validate(record)
       return unless record.user
-      return unless record.server.is_a?(CloudServer)
+      return unless record.server&.cloud?
       return if record.server.cloud_provider.in?(%w[docker remote_docker])
 
       active = record.user.active_cloud_reservation

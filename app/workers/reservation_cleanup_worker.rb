@@ -37,9 +37,9 @@ class ReservationCleanupWorker
   def zip_files
     # Only LocalServer, SshServer, and CloudServer use async cleanup
     # FTP-based RemoteServers use synchronous cleanup in Server#end_reservation
-    if server.is_a?(LocalServer)
+    if server.local?
       zip_local_server_files
-    elsif server.is_a?(SshServer) || server.is_a?(CloudServer)
+    elsif server.ssh_based?
       zip_ssh_server_files
     else
       raise "Unexpected server type: #{server.class.name}. Only LocalServer, SshServer, and CloudServer use async cleanup."
@@ -124,11 +124,11 @@ class ReservationCleanupWorker
   end
 
   def cleanup_temp_directory
-    if server.is_a?(LocalServer)
+    if server.local?
       cleanup_local_temp_directory
-    elsif server.is_a?(SshServer) || server.is_a?(CloudServer)
+    elsif server.ssh_based?
       cleanup_remote_temp_directory
-      schedule_cloud_server_destruction if server.is_a?(CloudServer)
+      schedule_cloud_server_destruction if server.cloud?
     else
       raise "Unexpected server type: #{server.class.name}. Only LocalServer, SshServer, and CloudServer use async cleanup."
     end

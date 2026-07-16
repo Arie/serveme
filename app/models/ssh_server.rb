@@ -15,6 +15,11 @@ class SshServer < RemoteServer
     true
   end
 
+  sig { override.returns(T::Boolean) }
+  def ssh_based?
+    true
+  end
+
   sig { params(command: String, log_stderr: T::Boolean).returns(String) }
   def mitigation_ssh_exec(command, log_stderr: false)
     ssh_exec(command, log_stderr: log_stderr)

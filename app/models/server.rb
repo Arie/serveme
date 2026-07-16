@@ -163,131 +163,43 @@ class Server < ActiveRecord::Base
 
   sig { params(reservation: Reservation).returns(ReservationStatus) }
   def update_configuration(reservation)
-    reservation.status_update("Sending reservation config files")
-    [ "reservation.cfg", "ctf_turbine.cfg" ].each do |config_file|
-      config_body = generate_config_file(reservation, config_file)
-      write_configuration(server_config_file(config_file), config_body)
-    end
-    handle_rgl_base_cfg(reservation)
-    add_motd(reservation)
-    write_custom_whitelist(reservation) if reservation.custom_whitelist_id.present?
-    write_maplist
-    reservation.status_update("Finished sending reservation config files")
+    config_file_writer.update_configuration(reservation)
   end
 
-  sig { params(reservation: Reservation).returns(T.nilable(T.any(String, T::Boolean))) }
+  sig { params(reservation: Reservation).returns(T.untyped) }
   def handle_rgl_base_cfg(reservation)
-    original_cfg_path = Rails.root.join("doc", "rgl_base.cfg")
-    content = File.read(original_cfg_path)
-
-    case reservation.democheck_mode
-    when "warn"
-      modified_content = content.gsub("sm_democheck_warn 0", "sm_democheck_warn 1")
-      write_configuration(server_config_file("rgl_base.cfg"), modified_content)
-    when "disable"
-      modified_content = content
-        .gsub("sm_democheck_enabled 1", "sm_democheck_enabled 0")
-        .gsub("sm_democheck_announce 1", "sm_democheck_announce 0")
-      write_configuration(server_config_file("rgl_base.cfg"), modified_content)
-    else
-      write_configuration(server_config_file("rgl_base.cfg"), content)
-    end
-    true
+    config_file_writer.handle_rgl_base_cfg(reservation)
   end
 
-  sig { returns(T.nilable(T.any(String, T::Boolean))) }
+  sig { returns(T.untyped) }
   def restore_rgl_base_cfg
-    original_cfg_path = Rails.root.join("doc", "rgl_base.cfg")
-    content = File.read(original_cfg_path)
-    write_configuration(server_config_file("rgl_base.cfg"), content)
-    true
+    config_file_writer.restore_rgl_base_cfg
   end
 
-  sig { void }
-  def write_maplist
-    maps_text = Rails.cache.fetch("api_maps_text", expires_in: 10.minutes) do
-      MapUpload.available_maps.sort.join("\n")
-    end
-    write_configuration(server_config_file("maplist_full.txt"), maps_text)
-  end
-
-  sig { returns(T.nilable(T.any(String, T::Boolean))) }
+  sig { returns(T.untyped) }
   def enable_plugins
-    write_configuration(sourcemod_file, sourcemod_body)
+    config_file_writer.enable_plugins
   end
 
-  sig { params(user: User).returns(T.any(String, T::Boolean)) }
+  sig { params(user: User).returns(T.untyped) }
   def add_sourcemod_admin(user)
-    T.must(write_configuration(sourcemod_admin_file, sourcemod_admin_body(user)))
+    config_file_writer.add_sourcemod_admin(user)
   end
 
-  sig { params(reservation: Reservation).returns(T.any(String, T::Boolean)) }
+  sig { params(reservation: Reservation).returns(T.untyped) }
   def add_motd(reservation)
-    T.must(write_configuration(motd_file, motd_body(reservation)))
+    config_file_writer.add_motd(reservation)
   end
 
-  sig { returns(T.nilable(T.any(T::Boolean, String))) }
+  sig { returns(T.untyped) }
   def disable_plugins
-    delete_from_server([ sourcemod_file, sourcemod_admin_file ])
+    config_file_writer.disable_plugins
   end
 
-  sig { returns(String) }
-  def sourcemod_file
-    "#{tf_dir}/addons/metamod/sourcemod.vdf"
-  end
-
-  sig { returns(String) }
-  def sourcemod_body
-    <<-VDF
-    "Metamod Plugin"
-    {
-      "alias"		"sourcemod"
-      "file"		"addons/sourcemod/bin/sourcemod_mm"
-    }
-    VDF
-  end
-
-  sig { params(reservation: Reservation).returns(String) }
-  def motd_body(reservation)
-    "#{SITE_URL}/reservations/#{reservation.id}/motd?password=#{URI.encode_uri_component(reservation.password)}"
-  end
-
-  sig { returns(String) }
-  def sourcemod_admin_file
-    "#{tf_dir}/addons/sourcemod/configs/admins_simple.ini"
-  end
-
-  sig { params(user: User).returns(String) }
-  def sourcemod_admin_body(user)
-    uid3 = SteamCondenser::Community::SteamId.community_id_to_steam_id3(user.uid.to_i)
-    flags = sdr? ? "abcdefghijkln" : "z"
-    <<-INI
-    "#{uid3}" "99:#{flags}"
-    INI
-  end
-
-
-  sig { params(reservation: Reservation).returns(T.nilable(T.any(String, T::Boolean))) }
+  sig { params(reservation: Reservation).returns(T.untyped) }
   def write_custom_whitelist(reservation)
-    content = reservation.custom_whitelist_content
-    return unless content
-
-    write_configuration(server_config_file("custom_whitelist_#{reservation.custom_whitelist_id}.txt"), content)
+    config_file_writer.write_custom_whitelist(reservation)
   end
-
-  sig { params(object: Reservation, config_file: String).returns(String) }
-  def generate_config_file(object, config_file)
-    template         = File.read(Rails.root.join("lib/#{config_file}.erb"))
-    renderer         = ERB.new(template)
-    renderer.result(object.get_binding)
-  end
-
-  # rubocop:disable Naming/AccessorMethodName
-  sig { returns(Binding) }
-  def get_binding
-    binding
-  end
-  # rubocop:enable Naming/AccessorMethodName
 
   sig { returns(T.nilable(Integer)) }
   def process_id
@@ -773,6 +685,11 @@ class Server < ActiveRecord::Base
   sig { returns(ServerRconGateway) }
   def rcon_gateway
     @rcon_gateway ||= T.let(ServerRconGateway.new(self), T.nilable(ServerRconGateway))
+  end
+
+  sig { returns(ServerConfigFileWriter) }
+  def config_file_writer
+    @config_file_writer ||= T.let(ServerConfigFileWriter.new(self), T.nilable(ServerConfigFileWriter))
   end
 
   sig { params(override: T::Hash[String, T.untyped]).returns(String) }

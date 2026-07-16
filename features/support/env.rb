@@ -46,5 +46,7 @@ Sidekiq.default_configuration.logger.level = Logger::WARN
 
 if ENV['COVERAGE']
   require 'simplecov'
-  SimpleCov.command_name 'Cucumber'
+  SimpleCov.start 'rails' do
+    command_name "Cucumber#{ENV['TEST_ENV_NUMBER']}"
+  end
 end

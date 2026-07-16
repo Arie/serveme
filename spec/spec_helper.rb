@@ -1,6 +1,13 @@
 # typed: false
 # frozen_string_literal: true
 
+if ENV['COVERAGE']
+  require 'simplecov'
+  SimpleCov.start 'rails' do
+    command_name "RSpec#{ENV['TEST_ENV_NUMBER']}"
+  end
+end
+
 require 'sidekiq'
 require 'sidekiq/testing'
 require 'rspec/sorbet'

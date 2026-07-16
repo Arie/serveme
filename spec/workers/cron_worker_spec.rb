@@ -58,6 +58,23 @@ describe CronWorker do
     end
   end
 
+  describe 'async fan-out of reservation transitions' do
+    it 'bulk-enqueues an end job per due reservation instead of ending them inline' do
+      reservation = create :reservation, provisioned: true
+      reservation.update_columns(ends_at: 1.minute.ago)
+
+      expect(ReservationTransitionWorker).to receive(:perform_bulk).with([ [ reservation.id, 'end' ] ])
+      CronWorker.new.end_past_reservations
+    end
+
+    it 'bulk-enqueues a start job per due reservation instead of starting them inline' do
+      reservation = create :reservation, starts_at: 1.minute.ago, provisioned: false
+
+      expect(ReservationTransitionWorker).to receive(:perform_bulk).with([ [ reservation.id, 'start' ] ])
+      CronWorker.new.start_active_reservations
+    end
+  end
+
   describe '#check_active_reservations' do
     it 'triggers the active reservation checker worker for active reservations' do
       reservation = create :reservation, provisioned: true, ended: false

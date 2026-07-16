@@ -247,132 +247,17 @@ class Server < ActiveRecord::Base
 
   sig { params(reservation: Reservation).void }
   def start_reservation(reservation)
-    reservation.enable_mitigations if supports_mitigations?
-
-    write_first_map(reservation)
-    update_configuration(reservation)
-    if reservation.enable_plugins? || reservation.enable_demos_tf? || SiteSetting.always_enable_plugins?
-      reservation.status_update("Enabling plugins")
-      enable_plugins
-      add_sourcemod_admin(T.must(reservation.user))
-      reservation.status_update("Enabled plugins")
-      if reservation.enable_demos_tf? || SiteSetting.always_enable_demos_tf?
-        reservation.status_update("Enabling demos.tf")
-        enable_demos_tf
-        reservation.status_update("Enabled demos.tf")
-      end
-      unless reservation.democheck_kick?
-        reservation.status_update("Setting RGL democheck mode to #{reservation.democheck_mode}")
-        handle_rgl_base_cfg(reservation)
-      end
-    end
-    if cloud?
-      reservation.status_update("Config files sent, waiting for TF2 to boot")
-      return
-    end
-    ensure_map_on_server(reservation)
-    if T.must(reservation.server).outdated?
-      reservation.status_update("Server outdated, restarting server to update")
-      clear_sdr_info!
-      restart
-      reservation.status_update("Restarted server, waiting to boot")
-    else
-      reservation.status_update("Attempting fast start")
-      if rcon_exec("removeip 1; removeip 1; removeip 1; sv_logsecret #{reservation.logsecret}; logaddress_add direct.#{SITE_HOST}:40001; servercfgfile reservation.cfg", allow_blocked: true)
-        first_map = reservation.first_map.presence || "ctf_turbine"
-        rcon_exec("changelevel #{first_map}; exec reservation.cfg")
-        reservation.status_update("Fast start attempted, waiting to boot")
-      else
-        reservation.status_update("Fast start failed, starting server normally")
-        clear_sdr_info!
-        restart
-        reservation.status_update("Restarted server, waiting to boot")
-      end
-    end
-  end
-
-  sig { params(reservation: Reservation).void }
-  def ensure_map_on_server(reservation)
-    return if reservation.first_map.blank? || map_present?(T.must(reservation.first_map))
-
-    reservation.status_update("Map #{reservation.first_map} not on the server, uploading")
-
-    upload_map_to_server(reservation)
-  end
-
-  sig { params(map_name: String).returns(T.nilable(T::Boolean)) }
-  def map_present?(map_name)
-    file_present?("#{tf_dir}/maps/#{map_name}.bsp")
-  end
-
-  sig { params(reservation: Reservation).void }
-  def upload_map_to_server(reservation)
-    tempfile = Down.download("https://fastdl.serveme.tf/maps/#{reservation.first_map}.bsp")
-    copy_to_server([ tempfile.path ], "#{tf_dir}/maps/#{reservation.first_map}.bsp")
-    reservation.status_update("Uploaded map #{reservation.first_map} to server")
+    reservation_lifecycle.start_reservation(reservation)
   end
 
   sig { params(reservation: Reservation).void }
   def update_reservation(reservation)
-    update_configuration(reservation)
+    reservation_lifecycle.update_reservation(reservation)
   end
 
   sig { params(reservation: Reservation).void }
   def end_reservation(reservation)
-    reservation.reload
-    return if reservation.ended?
-
-    remove_configuration
-    download_stac_logs(reservation)
-    disable_plugins
-    disable_demos_tf
-    restore_rgl_base_cfg
-    rcon_exec("sv_logflush 1; tv_stoprecord; kickall Reservation ended, every player can download the STV demo at https://#{SITE_HOST}")
-    sleep 1 if Rails.env.production? # Give server a second to finish the STV demo and write the log
-
-    if uses_async_cleanup?
-      move_files_to_temp_directory(reservation)
-    else
-      zip_demos_and_logs(reservation)
-      copy_logs(reservation)
-      remove_logs_and_demos
-    end
-
-    reservation.status_update("Restarting server")
-    rcon_disconnect
-    clear_sdr_info!
-    restart
-    reservation.status_update("Restarted server")
-  end
-
-  sig { params(reservation: Reservation).void }
-  def download_stac_logs(reservation)
-    # Cloud/SSH servers handle STAC logs in ReservationCleanupWorker
-    # to avoid a race condition with server destruction
-    return if uses_async_cleanup?
-
-    StacLogsDownloaderWorker.perform_async(reservation.id)
-  end
-
-  sig { void }
-  def enable_demos_tf
-    demos_tf_file = Rails.root.join("doc", "demostf.smx").to_s
-    copy_to_server([ demos_tf_file ], "#{tf_dir}/addons/sourcemod/plugins")
-  end
-
-  sig { void }
-  def disable_demos_tf
-    delete_from_server([ "#{tf_dir}/addons/sourcemod/plugins/demostf.smx" ])
-  end
-
-  sig { params(reservation: Reservation).void }
-  def zip_demos_and_logs(reservation)
-    ZipFileCreator.create(reservation, logs_and_demos)
-  end
-
-  sig { params(reservation: Reservation).void }
-  def copy_logs(reservation)
-    LogCopier.copy(reservation, self)
+    reservation_lifecycle.end_reservation(reservation)
   end
 
   sig { returns(T.untyped) }
@@ -675,6 +560,12 @@ class Server < ActiveRecord::Base
     ip_changed? && (latitude.blank? || longitude.blank?)
   end
 
+  # Public: driven by ServerReservationLifecycle when zipping a reservation's output.
+  sig { returns(T::Array[String]) }
+  def logs_and_demos
+    @logs_and_demos ||= logs + demos
+  end
+
   private
 
   sig { returns(ServerVersionChecker) }
@@ -690,6 +581,11 @@ class Server < ActiveRecord::Base
   sig { returns(ServerConfigFileWriter) }
   def config_file_writer
     @config_file_writer ||= T.let(ServerConfigFileWriter.new(self), T.nilable(ServerConfigFileWriter))
+  end
+
+  sig { returns(ServerReservationLifecycle) }
+  def reservation_lifecycle
+    @reservation_lifecycle ||= T.let(ServerReservationLifecycle.new(self), T.nilable(ServerReservationLifecycle))
   end
 
   sig { params(override: T::Hash[String, T.untyped]).returns(String) }
@@ -757,11 +653,6 @@ class Server < ActiveRecord::Base
   rescue => e
     Rails.logger.error "Error loading geocoding overrides: #{e.message}"
     {}
-  end
-
-  sig { returns(T::Array[String]) }
-  def logs_and_demos
-    @logs_and_demos ||= logs + demos
   end
 
   sig { returns(String) }

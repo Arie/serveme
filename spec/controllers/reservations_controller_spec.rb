@@ -195,6 +195,28 @@ describe ReservationsController do
       response.should redirect_to reservation_path(reservation)
     end
 
+    it 'does not double-book a server when a competitor commits while waiting for the per-server lock' do
+      server = create(:server)
+      other_user = create(:user)
+      reservation = Reservation.new(user: @user, server: server, password: 'x', rcon: 'y',
+                                    starts_at: Time.current, ends_at: 2.hours.from_now)
+      lucky = double(:lucky, build_reservation: reservation)
+      IAmFeelingLucky.should_receive(:new).and_return(lucky)
+
+      # Simulate a competitor grabbing the same server in the window between our
+      # first validation and acquiring the per-server lock.
+      allow($lock).to receive(:synchronize) do |_key, &block|
+        create(:reservation, user: other_user, server: server, starts_at: reservation.starts_at, ends_at: reservation.ends_at)
+        block.call
+      end
+
+      post :i_am_feeling_lucky
+
+      expect(Reservation.where(server_id: server.id, user_id: @user.id)).to be_empty
+      expect(response).to redirect_to root_path
+      expect(flash[:alert]).to include('not very lucky')
+    end
+
     it "shows an error if I'm not so lucky" do
       reservation = double(:reservation, human_timerange: 'the_timerange', server: nil, save: false, valid?: false)
       lucky = double(:lucky, build_reservation: reservation, available_docker_host: nil)

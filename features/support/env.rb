@@ -1,6 +1,15 @@
 # typed: false
 # frozen_string_literal: true
 
+# SimpleCov must start before cucumber/rails boots (and eager loads) the app,
+# otherwise none of the application code gets tracked.
+if ENV['COVERAGE']
+  require 'simplecov'
+  SimpleCov.start 'rails' do
+    command_name "Cucumber#{ENV['TEST_ENV_NUMBER']}"
+  end
+end
+
 require 'cucumber/rails'
 require 'cucumber/rspec/doubles'
 require 'sidekiq'
@@ -43,10 +52,3 @@ Cucumber::Rails::Database.javascript_strategy = :truncation
 World(FactoryBot::Syntax::Methods)
 
 Sidekiq.default_configuration.logger.level = Logger::WARN
-
-if ENV['COVERAGE']
-  require 'simplecov'
-  SimpleCov.start 'rails' do
-    command_name "Cucumber#{ENV['TEST_ENV_NUMBER']}"
-  end
-end

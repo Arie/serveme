@@ -66,14 +66,20 @@ class ReservationsController < ApplicationController
     @reservation = lucky.build_reservation
     if @reservation.server && @reservation.valid?
       $lock.synchronize("save-reservation-server-#{@reservation.server_id}") do
-        @reservation.save!
+        @reservation.reset_collision_memoization
+        if @reservation.valid?
+          @reservation.save!
+        end
       end
-      reservation_saved if @reservation.persisted?
+      if @reservation.persisted?
+        reservation_saved
+      else
+        unlucky_response
+      end
     elsif @reservation.server.nil? && (docker_host = lucky.available_docker_host)
       create_lucky_docker_host_reservation(lucky, docker_host)
     else
-      flash[:alert] = "You're not very lucky, no server is available for the timerange #{@reservation.human_timerange} :("
-      redirect_to root_path
+      unlucky_response
     end
   end
 
@@ -358,6 +364,11 @@ class ReservationsController < ApplicationController
 
   def docker_host_selected?
     params[:reservation]&.dig(:server_id).to_s.start_with?("dh-")
+  end
+
+  def unlucky_response
+    flash[:alert] = "You're not very lucky, no server is available for the timerange #{@reservation.human_timerange} :("
+    redirect_to root_path
   end
 
   def create_regular_reservation

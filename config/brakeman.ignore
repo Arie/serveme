@@ -1,6 +1,29 @@
 {
   "ignored_warnings": [
     {
+      "warning_type": "Command Injection",
+      "warning_code": 14,
+      "fingerprint": "193bfd487c8017be2ec7aa46e329ffc0ecab89ced5bb350166749cf5dcd23d91",
+      "check_name": "Execute",
+      "message": "Possible command injection",
+      "file": "app/services/server_rcon_gateway.rb",
+      "line": 34,
+      "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
+      "code": "exec(\"say #{chunk}\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "ServerRconGateway",
+        "method": "say"
+      },
+      "user_input": "chunk",
+      "confidence": "Medium",
+      "cwe_id": [
+        77
+      ],
+      "note": "False positive: this is SteamCondenser's RCON exec (a game-server command over the RCON protocol), not a shell exec."
+    },
+    {
       "warning_type": "File Access",
       "warning_code": 16,
       "fingerprint": "511f53654b5c8af1beec82da34bc9999a71e655c190f8cefaf59c15a57d2e011",

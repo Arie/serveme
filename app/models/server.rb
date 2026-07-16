@@ -463,57 +463,29 @@ class Server < ActiveRecord::Base
     LogCopier.copy(reservation, self)
   end
 
-  sig { returns(T.nilable(SteamCondenser::Servers::SourceServer)) }
+  sig { returns(T.untyped) }
   def condenser
-    @condenser ||= SteamCondenser::Servers::SourceServer.new(ip, port.to_i)
+    rcon_gateway.condenser
   end
 
   sig { params(rcon: T.nilable(String)).returns(T.nilable(T::Boolean)) }
   def rcon_auth(rcon = current_rcon)
-    @rcon_auth ||= T.must(condenser).rcon_auth(rcon)
-  rescue NoMethodError # Empty rcon reply, typically due to rcon ban
-    nil
+    rcon_gateway.auth(rcon)
   end
 
   sig { params(message: String).returns(T::Array[T.nilable(String)]) }
   def rcon_say(message)
-    message.split("\n").flat_map do |line|
-      T.cast(line.scan(/.{1,200}(?:\s|$)/), T::Array[String]).map(&:strip).map { |chunk| rcon_exec("say #{chunk}") }
-    end
+    rcon_gateway.say(message)
   end
 
   sig { params(command: String, allow_blocked: T::Boolean).returns(T.nilable(String)) }
   def rcon_exec(command, allow_blocked: false)
-    # Escape // with zero-width space to prevent Source engine from treating it as a comment,
-    # but preserve URLs inside quoted strings (like sm_web_rcon_url "https://...")
-    command = command.gsub(%r{//}) do |match|
-      last_match = T.must(Regexp.last_match)
-      before_match = last_match.pre_match
-      quotes_before = before_match.scan(/"/).length
-      quotes_before.odd? ? match : "/\u200B/"
-    end
-    return nil if blocked_command?(command) && !allow_blocked
-
-    T.must(condenser).rcon_exec(command) if rcon_auth
-  rescue Errno::ECONNREFUSED, SteamCondenser::Error::Timeout, SteamCondenser::Error::RCONNoAuth, SteamCondenser::Error::RCONBan => e
-    Rails.logger.error "Couldn't deliver command to server #{id} - #{name}, command: #{command}, exception: #{e}"
-    nil
-  end
-
-  sig { params(command: String).returns(T::Boolean) }
-  def blocked_command?(command)
-    blocked_commands.any? do |c|
-      command.downcase.include?(c)
-    end
+    rcon_gateway.exec(command, allow_blocked: allow_blocked)
   end
 
   sig { void }
   def rcon_disconnect
-    T.must(condenser).disconnect
-  rescue StandardError => e
-    Rails.logger.error "Couldn't disconnect RCON of server #{id} - #{name}, exception: #{e}"
-  ensure
-    @condenser = nil
+    rcon_gateway.disconnect
   end
 
   sig { returns(T.nilable(Integer)) }
@@ -798,6 +770,11 @@ class Server < ActiveRecord::Base
     @version_checker ||= T.let(ServerVersionChecker.new(self), T.nilable(ServerVersionChecker))
   end
 
+  sig { returns(ServerRconGateway) }
+  def rcon_gateway
+    @rcon_gateway ||= T.let(ServerRconGateway.new(self), T.nilable(ServerRconGateway))
+  end
+
   sig { params(override: T::Hash[String, T.untyped]).returns(String) }
   def detailed_location_from_override(override)
     format_location(override["city"], override["state"], override["country"] || location&.name)
@@ -918,11 +895,6 @@ class Server < ActiveRecord::Base
   sig { returns(String) }
   def motd_file
     "#{tf_dir}/motd.txt"
-  end
-
-  sig { returns(T::Array[String]) }
-  def blocked_commands
-    @blocked_commands ||= %w[logaddress rcon_password sv_downloadurl]
   end
 
   sig { void }

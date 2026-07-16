@@ -362,51 +362,33 @@ describe LocalServer do
     end
   end
 
-  describe '#condenser' do
-    it 'creates a steam condenser to the server' do
-      subject.stub(ip: 'fakkelbrigade.eu', port: '27015')
-      SteamCondenser::Servers::SourceServer.should_receive(:new).with('fakkelbrigade.eu', 27_015)
-      subject.condenser
+  # RCON connection/command behaviour lives in ServerRconGateway (see
+  # spec/services/server_rcon_gateway_spec.rb); here we only check Server delegates to it.
+  describe 'rcon delegation' do
+    let(:gateway) { instance_double(ServerRconGateway) }
+
+    before { allow(subject).to receive(:rcon_gateway).and_return(gateway) }
+
+    it 'delegates rcon_exec to the rcon gateway' do
+      expect(gateway).to receive(:exec).with('status', allow_blocked: false).and_return('ok')
+      expect(subject.rcon_exec('status')).to eq('ok')
+    end
+
+    it 'delegates rcon_say to the rcon gateway' do
+      expect(gateway).to receive(:say).with('hi').and_return([])
+      subject.rcon_say('hi')
+    end
+
+    it 'delegates rcon_disconnect to the rcon gateway' do
+      expect(gateway).to receive(:disconnect)
+      subject.rcon_disconnect
     end
   end
 
-  describe '#rcon_auth' do
-    it 'sends the current rcon to the condenser' do
-      condenser = double
-      subject.stub(condenser: condenser, current_rcon: 'foobar')
-      condenser.should_receive(:rcon_auth).with('foobar')
-      subject.rcon_auth
-    end
-  end
-
-  describe '#rcon_say' do
-    let(:message)       { 'Hello world!' }
-    let(:condenser)     { double }
-    let(:current_rcon)  { double }
-
-    before do
-      subject.stub(condenser: condenser, current_rcon: current_rcon)
-      condenser.should_receive(:rcon_auth).with(current_rcon).and_return(true)
-    end
-
-    it 'delivers a message with rcon say to the server' do
-      condenser.should_receive(:rcon_exec).with("say #{message}")
-      subject.rcon_say(message)
-    end
-
-    it 'logs an error if something went wrong' do
-      condenser.should_receive(:rcon_exec).and_raise(SteamCondenser::Error::Timeout)
-      logger = double
-      Rails.stub(logger: logger)
-      logger.should_receive(:error).with(anything)
-      subject.rcon_say 'foobar'
-    end
-  end
-
-  describe 'server version' do
-    let(:condenser)     { double }
-    let(:current_rcon)  { double }
-    let(:version_info)  do
+  # Version parsing/comparison lives in ServerVersionChecker; check the Server facade
+  # end-to-end by feeding a real rcon "version" response through the delegators.
+  describe '#version and #outdated?' do
+    let(:version_info) do
       %(Build Label:           5257084   # Uniquely identifies each build
 Network PatchVersion:  5257083   # Determines client and server compatibility
 Protocol version:           24   # High level network protocol version
@@ -414,19 +396,14 @@ Server version:        5257084
 Server AppID:           232250%)
     end
 
-    before do
-      subject.stub(condenser: condenser, current_rcon: current_rcon)
-      condenser.should_receive(:rcon_auth).with(current_rcon).and_return(true)
-    end
+    before { allow(subject).to receive(:rcon_exec).with('version').and_return(version_info) }
 
     it 'parses the server version from the rcon response' do
-      condenser.should_receive(:rcon_exec).with('version').and_return(version_info)
-      subject.version.should == 5_257_083
+      expect(subject.version).to eq(5_257_083)
     end
 
-    it 'knows if the server is outdated', :vcr do
-      condenser.should_receive(:rcon_exec).with('version').and_return(version_info)
-      subject.should be_outdated
+    it 'knows if the server is outdated' do
+      expect(subject).to be_outdated
     end
   end
 
@@ -454,16 +431,6 @@ Server AppID:           232250%)
     it 'uses its own value if it is set' do
       subject.tv_port = 1001
       subject.tv_port.should eql 1001
-    end
-  end
-
-  describe '#blocked_command?' do
-    it 'knows blocked commands' do
-      subject.blocked_command?('logaddress_add 123.123.123.123:4567').should be true
-    end
-
-    it 'doesnt block allowed commands' do
-      subject.blocked_command?('exec etf2l.cfg').should be false
     end
   end
 

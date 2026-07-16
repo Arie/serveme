@@ -9,9 +9,11 @@ class CloudServerCleanupWorker
   MAX_AGE = 6.hours
 
   def perform
+    cutoff = MAX_AGE.ago
+    # cloud_created_at is stamped once the provider starts creating; rows that
+    # fail before that (e.g. DNS outage) only have created_at to age them by.
     CloudServer.where(cloud_status: %w[provisioning ssh_ready ready])
-               .where.not(cloud_created_at: nil)
-               .where(cloud_created_at: ...MAX_AGE.ago)
+               .where("cloud_created_at < :cutoff OR (cloud_created_at IS NULL AND created_at < :cutoff)", cutoff: cutoff)
                .find_each do |server|
       reservation = Reservation.find_by(id: server.cloud_reservation_id)
       next if reservation && !reservation.ended? && reservation.ends_at&.>(15.minutes.ago)

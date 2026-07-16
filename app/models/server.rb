@@ -337,9 +337,7 @@ class Server < ActiveRecord::Base
   def start_reservation(reservation)
     reservation.enable_mitigations if supports_mitigations?
 
-    if is_a?(CloudServer)
-      write_first_map(reservation)
-    end
+    write_first_map(reservation)
     update_configuration(reservation)
     if reservation.enable_plugins? || reservation.enable_demos_tf? || SiteSetting.always_enable_plugins?
       reservation.status_update("Enabling plugins")
@@ -356,7 +354,7 @@ class Server < ActiveRecord::Base
         handle_rgl_base_cfg(reservation)
       end
     end
-    if is_a?(CloudServer)
+    if cloud?
       reservation.status_update("Config files sent, waiting for TF2 to boot")
       return
     end
@@ -764,6 +762,34 @@ class Server < ActiveRecord::Base
   sig { returns(T::Boolean) }
   def uses_async_cleanup?
     false
+  end
+
+  # On-demand provisioned cloud VM (CloudServer). Overridden there.
+  sig { returns(T::Boolean) }
+  def cloud?
+    false
+  end
+
+  # Runs on the same machine as the web app, with direct filesystem access
+  # (LocalServer). Overridden there.
+  sig { returns(T::Boolean) }
+  def local?
+    false
+  end
+
+  # Files and commands are transferred over SSH (SshServer, CloudServer), as
+  # opposed to local filesystem or FTP access. Overridden in those subclasses.
+  sig { returns(T::Boolean) }
+  def ssh_based?
+    false
+  end
+
+  # No-op by default: only cloud servers pre-write the first map to a config
+  # file so the container boots straight into it. Other server types set the
+  # first map via changelevel during start_reservation. Overridden in CloudServer.
+  sig { params(reservation: Reservation).returns(T.nilable(T::Boolean)) }
+  def write_first_map(reservation) # rubocop:disable Lint/UnusedMethodArgument
+    nil
   end
 
   sig { returns(T.nilable(String)) }

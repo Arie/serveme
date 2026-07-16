@@ -29,7 +29,7 @@ module ReservationValidations
       validate :enable_plugins_when_demos_tf_enabled
 
       define_method(:check_server_available?) do ||
-        times_entered? && !server.is_a?(CloudServer)
+        times_entered? && !server&.cloud?
       end
 
       define_method(:enable_plugins_when_demos_tf_enabled) do

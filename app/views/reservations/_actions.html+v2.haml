@@ -3,7 +3,7 @@
   - unless reservation.past?
     = link_to "Edit", edit_reservation_path(reservation), title: "Edit reservation", class: "v2-action text-info border-info/40 hover:bg-info/10"
 
-  - if reservation.active? || (reservation.now? && reservation.start_instantly?) || (reservation.now? && reservation.server.is_a?(CloudServer) && !reservation.provisioned?)
+  - if reservation.active? || (reservation.now? && reservation.start_instantly?) || (reservation.now? && reservation.server&.cloud? && !reservation.provisioned?)
     - if reservation.less_than_1_hour_left?
       = link_to "Extend", extend_reservation_path(reservation), title: "Extend reservation", method: :post, data: { confirm: "This will extend your reservation if possible" }, class: "v2-action text-accent-light border-accent/40 hover:bg-accent/10"
 

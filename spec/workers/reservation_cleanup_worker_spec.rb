@@ -291,7 +291,7 @@ describe ReservationCleanupWorker do
       allow(Reservation).to receive(:includes).and_return(Reservation)
       allow(Reservation).to receive(:find).with(reservation.id).and_return(reservation)
       allow(reservation).to receive(:server).and_return(reservation.server)
-      allow(reservation.server).to receive(:is_a?).and_raise(StandardError.new("Test error"))
+      allow(reservation.server).to receive(:local?).and_raise(StandardError.new("Test error"))
 
       expect(Rails.logger).to receive(:error).with(/ReservationCleanupWorker: Error processing reservation/)
 

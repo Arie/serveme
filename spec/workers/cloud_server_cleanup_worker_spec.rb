@@ -110,10 +110,19 @@ describe CloudServerCleanupWorker do
       described_class.new.perform
     end
 
-    it "does not destroy servers with nil cloud_created_at" do
+    it "does not destroy recently created servers with nil cloud_created_at" do
       create(:cloud_server, cloud_status: "provisioning", cloud_created_at: nil)
 
       expect(CloudServerDestroyWorker).not_to receive(:perform_async)
+
+      described_class.new.perform
+    end
+
+    it "destroys stranded provisioning servers whose creation failed before cloud_created_at was set" do
+      old_server = create(:cloud_server, cloud_status: "provisioning", cloud_created_at: nil)
+      old_server.update_columns(created_at: 7.hours.ago)
+
+      expect(CloudServerDestroyWorker).to receive(:perform_async).with(old_server.id)
 
       described_class.new.perform
     end

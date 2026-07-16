@@ -16,7 +16,7 @@ class CronWorker
   end
 
   def end_past_reservations
-    unended_past_normal_reservations.map(&:end_reservation)
+    enqueue_reservation_transitions(unended_past_normal_reservations.pluck(:id), "end")
     end_past_cloud_reservations
   end
 
@@ -29,11 +29,12 @@ class CronWorker
   end
 
   def end_past_cloud_reservations
-    Reservation.joins(:server)
-               .where(ends_at: ...Time.current, ended: false, provisioned: false)
-               .where(servers: { type: "CloudServer" })
-               .where.not(servers: { cloud_status: "destroyed" })
-               .find_each(&:end_reservation)
+    ids = Reservation.joins(:server)
+                     .where(ends_at: ...Time.current, ended: false, provisioned: false)
+                     .where(servers: { type: "CloudServer" })
+                     .where.not(servers: { cloud_status: "destroyed" })
+                     .pluck(:id)
+    enqueue_reservation_transitions(ids, "end")
   end
 
   def provision_cloud_servers
@@ -54,15 +55,17 @@ class CronWorker
 
   def start_active_reservations
     unstarted_now_reservations = now_reservations.where(provisioned: false, start_instantly: false)
-    start_reservations(unstarted_now_reservations)
+    enqueue_reservation_transitions(unstarted_now_reservations.pluck(:id), "start")
   end
 
   def now_reservations
     Reservation.current
   end
 
-  def start_reservations(reservations)
-    reservations.map(&:start_reservation)
+  def enqueue_reservation_transitions(reservation_ids, action)
+    return if reservation_ids.empty?
+
+    ReservationTransitionWorker.perform_bulk(reservation_ids.map { |id| [ id, action ] })
   end
 
   def check_active_reservations

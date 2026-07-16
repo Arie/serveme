@@ -78,11 +78,11 @@ module Api
     end
 
     def require_site_or_league_admin
-      head :forbidden unless current_admin || current_league_admin
+      head :forbidden unless api_user&.admin? || api_user&.league_admin?
     end
 
     def require_config_admin_or_above
-      head :forbidden unless current_config_admin || current_admin || current_league_admin
+      head :forbidden unless api_user&.config_admin? || api_user&.admin? || api_user&.league_admin?
     end
   end
 end

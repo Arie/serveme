@@ -105,7 +105,7 @@ describe LocalServer do
       expect(File).to receive(:write).with('/tmp/motd.txt', 'http://localhost:3000/reservations/1337/motd?password=secret').ordered.and_return(file)
       expect(File).to receive(:write).with('/tmp/cfg/maplist_full.txt', anything).ordered.and_return(file)
 
-      subject.should_receive(:generate_config_file).exactly(2).times.with(reservation, anything).and_return('config file contents')
+      allow_any_instance_of(ServerConfigFileWriter).to receive(:generate_config_file).and_return('config file contents')
       subject.start_reservation(reservation)
     end
   end
@@ -404,14 +404,6 @@ Server AppID:           232250%)
 
     it 'knows if the server is outdated' do
       expect(subject).to be_outdated
-    end
-  end
-
-  describe '#enable_plugins' do
-    it 'writes the sourcemod.vdf to the server' do
-      subject.should_receive(:path).at_least(:once).and_return('foo')
-      subject.should_receive(:write_configuration).with(subject.sourcemod_file, anything)
-      subject.enable_plugins
     end
   end
 

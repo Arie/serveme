@@ -120,18 +120,19 @@ class LocalServer < Server
     true
   end
 
-  private
-
-  sig { void }
-  def kill_process
-    Process.kill(15, T.must(process_id))
-  end
-
+  # Public transport primitive: called by ServerConfigFileWriter.
   sig { params(output_filename: String, output_content: String).returns(T.nilable(T::Boolean)) }
   def write_configuration(output_filename, output_content)
     dir = File.dirname(output_filename)
     FileUtils.mkdir_p(dir) unless File.directory?(dir)
     File.write(output_filename, output_content)
     true
+  end
+
+  private
+
+  sig { void }
+  def kill_process
+    Process.kill(15, T.must(process_id))
   end
 end

@@ -876,7 +876,7 @@ describe Reservation do
         reservation.status_update("Starting")
         result = reservation.provision_estimate
         expect(result[:completed]).to be true
-        expect(result[:phases]).to eq(Server::FAST_START_PHASES)
+        expect(result[:phases]).to eq(ServerReservationEstimator::FAST_START_PHASES)
       end
 
       it 'returns sending_configs phase during config upload' do
@@ -884,7 +884,7 @@ describe Reservation do
 
         result = reservation.provision_estimate
         expect(result[:current_phase]).to eq("sending_configs")
-        expect(result[:phases]).to eq(Server::FAST_START_PHASES)
+        expect(result[:phases]).to eq(ServerReservationEstimator::FAST_START_PHASES)
       end
 
       it 'returns changing_map phase during fast start' do
@@ -906,7 +906,7 @@ describe Reservation do
 
         result = reservation.provision_estimate
         expect(result[:current_phase]).to eq("waiting_for_start")
-        expect(result[:phases]).to eq(Server::RESTART_PHASES)
+        expect(result[:phases]).to eq(ServerReservationEstimator::RESTART_PHASES)
       end
 
       it 'uses restart phases when server is outdated' do
@@ -914,7 +914,7 @@ describe Reservation do
 
         result = reservation.provision_estimate
         expect(result[:current_phase]).to eq("restarting")
-        expect(result[:phases]).to eq(Server::RESTART_PHASES)
+        expect(result[:phases]).to eq(ServerReservationEstimator::RESTART_PHASES)
       end
 
       it 'uses restart phases when fast start failed' do
@@ -923,7 +923,7 @@ describe Reservation do
 
         result = reservation.provision_estimate
         expect(result[:current_phase]).to eq("restarting")
-        expect(result[:phases]).to eq(Server::RESTART_PHASES)
+        expect(result[:phases]).to eq(ServerReservationEstimator::RESTART_PHASES)
       end
     end
   end

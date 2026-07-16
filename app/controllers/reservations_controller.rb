@@ -364,6 +364,7 @@ class ReservationsController < ApplicationController
     @reservation = current_user.reservations.build(reservation_params)
     if @reservation.valid?
       $lock.synchronize("save-reservation-server-#{@reservation.server_id}") do
+        @reservation.reset_collision_memoization
         if @reservation.valid?
           @reservation.save!
         end

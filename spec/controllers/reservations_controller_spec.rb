@@ -141,6 +141,28 @@ describe ReservationsController do
       expect(response).to have_http_status(:unprocessable_entity)
       expect(flash[:alert]).to include('Invalid date or time')
     end
+
+    it 'does not double-book a server when a competitor commits while waiting for the per-server lock' do
+      server = create(:server)
+      other_user = create(:user)
+      starts_at = Time.current
+      ends_at = 2.hours.from_now
+
+      # Simulate a competitor grabbing the same server in the window between our
+      # first validation and acquiring the per-server lock.
+      allow($lock).to receive(:synchronize) do |_key, &block|
+        create(:reservation, user: other_user, server: server, starts_at: starts_at, ends_at: ends_at)
+        block.call
+      end
+
+      post :create, params: { reservation: {
+        server_id: server.id, password: 'x', rcon: 'y',
+        starts_at: starts_at.to_s, ends_at: ends_at.to_s
+      } }
+
+      expect(Reservation.where(server_id: server.id).count).to eq(1)
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
   end
 
   describe '#find_servers_for_reservation' do

@@ -122,6 +122,16 @@ class Reservation < ActiveRecord::Base
     @other_users_colliding_reservations ||= CollisionFinder.new(Reservation.where(server_id: server&.id), self).colliding_reservations
   end
 
+  # Clears memoized collision results so the next validation re-queries the
+  # database. Called inside the per-server lock in the create path so the in-lock
+  # re-check sees reservations a competitor committed while we waited for the
+  # lock; without it the stale pre-lock memo lets a double-booking through.
+  sig { void }
+  def reset_collision_memoization
+    @own_colliding_reservations = nil
+    @other_users_colliding_reservations = nil
+  end
+
   sig { returns(T::Boolean) }
   def collides_with_own_reservation?
     own_colliding_reservations.any?

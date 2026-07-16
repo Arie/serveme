@@ -553,6 +553,26 @@ describe Reservation do
   end
 
   context 'finding collisions' do
+    describe '#reset_collision_memoization' do
+      it 'forces collision checks to re-query so a reservation committed after the first check is detected' do
+        server = create(:server)
+        collider = build(:reservation, user: create(:user), server: server, starts_at: Time.current, ends_at: 1.hour.from_now)
+
+        # First check sees no collision and memoizes the empty result.
+        expect(collider.collides_with_other_users_reservation?).to be(false)
+
+        # A competitor books the same server in the same window.
+        create(:reservation, user: create(:user), server: server, starts_at: Time.current, ends_at: 1.hour.from_now)
+
+        # Without resetting, the stale memo still reports no collision.
+        expect(collider.collides_with_other_users_reservation?).to be(false)
+
+        # After resetting, the check re-queries and detects the collision.
+        collider.reset_collision_memoization
+        expect(collider.collides_with_other_users_reservation?).to be(true)
+      end
+    end
+
     describe '#collides?' do
       it 'collides if there are any colliding reservations' do
         subject.stub(colliding_reservations: [ 'foo' ])

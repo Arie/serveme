@@ -126,5 +126,17 @@ describe CloudServerCleanupWorker do
 
       described_class.new.perform
     end
+
+    it "does not destroy a server stranded before cloud_reservation_id was set but still referenced by a live future reservation" do
+      old_server = create(:cloud_server, cloud_status: "provisioning", cloud_created_at: nil, cloud_reservation_id: nil)
+      old_server.update_columns(created_at: 7.hours.ago)
+      # Reservation.save set server_id, but the process died before
+      # server.update!(cloud_reservation_id:) ran, so only the forward-pointer exists.
+      create(:reservation, server: old_server, starts_at: 2.hours.from_now, ends_at: 4.hours.from_now, ended: false, provisioned: false)
+
+      expect(CloudServerDestroyWorker).not_to receive(:perform_async)
+
+      described_class.new.perform
+    end
   end
 end

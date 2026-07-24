@@ -15,7 +15,7 @@ class CloudServerCleanupWorker
     CloudServer.where(cloud_status: %w[provisioning ssh_ready ready])
                .where("cloud_created_at < :cutoff OR (cloud_created_at IS NULL AND created_at < :cutoff)", cutoff: cutoff)
                .find_each do |server|
-      reservation = Reservation.find_by(id: server.cloud_reservation_id)
+      reservation = reservation_for(server)
       next if reservation && !reservation.ended? && reservation.ends_at&.>(15.minutes.ago)
 
       Rails.logger.info "CloudServerCleanupWorker: Destroying stranded cloud server #{server.id} (created #{server.cloud_created_at})"
@@ -26,8 +26,16 @@ class CloudServerCleanupWorker
 
   private
 
+  # A server stranded before provisioning finished may not have
+  # cloud_reservation_id set yet, while a live reservation already references it
+  # via server_id, so fall back to the forward-pointer.
+  def reservation_for(server)
+    Reservation.find_by(id: server.cloud_reservation_id) ||
+      Reservation.where(server_id: server.id).order(created_at: :desc).first
+  end
+
   def end_stranded_reservation(server)
-    reservation = Reservation.find_by(id: server.cloud_reservation_id)
+    reservation = reservation_for(server)
     return unless reservation
     return if reservation.ended?
 

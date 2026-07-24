@@ -120,7 +120,6 @@ class LocalServer < Server
     true
   end
 
-  # Public transport primitive: called by ServerConfigFileWriter.
   sig { params(output_filename: String, output_content: String).returns(T.nilable(T::Boolean)) }
   def write_configuration(output_filename, output_content)
     dir = File.dirname(output_filename)

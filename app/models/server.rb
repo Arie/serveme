@@ -458,29 +458,23 @@ class Server < ActiveRecord::Base
     false
   end
 
-  # On-demand provisioned cloud VM (CloudServer). Overridden there.
   sig { returns(T::Boolean) }
   def cloud?
     false
   end
 
-  # Runs on the same machine as the web app, with direct filesystem access
-  # (LocalServer). Overridden there.
   sig { returns(T::Boolean) }
   def local?
     false
   end
 
-  # Files and commands are transferred over SSH (SshServer, CloudServer), as
-  # opposed to local filesystem or FTP access. Overridden in those subclasses.
   sig { returns(T::Boolean) }
   def ssh_based?
     false
   end
 
-  # No-op by default: only cloud servers pre-write the first map to a config
-  # file so the container boots straight into it. Other server types set the
-  # first map via changelevel during start_reservation. Overridden in CloudServer.
+  # Only CloudServer pre-writes the first map so its container boots into it;
+  # other types set it via changelevel during start_reservation.
   sig { params(reservation: Reservation).returns(T.nilable(T::Boolean)) }
   def write_first_map(reservation) # rubocop:disable Lint/UnusedMethodArgument
     nil
@@ -510,7 +504,6 @@ class Server < ActiveRecord::Base
     ip_changed? && (latitude.blank? || longitude.blank?)
   end
 
-  # Public: driven by ServerReservationLifecycle when zipping a reservation's output.
   sig { returns(T::Array[String]) }
   def logs_and_demos
     @logs_and_demos ||= logs + demos

@@ -2,9 +2,7 @@
 # frozen_string_literal: true
 
 # Resolves the latest available TF2 version (fleet-wide, via the Steam API) and
-# tells whether a given server is behind it. Extracted from Server to keep the
-# model focused on persistence; Server delegates #version/#outdated? and the
-# class-level .latest_version/.fetch_latest_version here.
+# tells whether a given server is behind it.
 class ServerVersionChecker
   extend T::Sig
 

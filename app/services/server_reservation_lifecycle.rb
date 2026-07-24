@@ -1,11 +1,8 @@
 # typed: true
 # frozen_string_literal: true
 
-# Drives the per-reservation I/O lifecycle on a server: starting (config + map +
-# plugins + boot), updating, and ending (cleanup + logs/demos + restart), plus
-# the map/demos.tf/log helpers those steps use. Extracted from Server so the model
-# stays focused on persistence; Server delegates start/update/end_reservation here.
-# The server's polymorphic primitives (restart, remove_configuration, copy_to_server,
+# Drives a reservation's start/update/end I/O on a server. The server's
+# polymorphic primitives (restart, remove_configuration, copy_to_server,
 # move_files_to_temp_directory, ...) are driven back through @server.
 class ServerReservationLifecycle
   extend T::Sig

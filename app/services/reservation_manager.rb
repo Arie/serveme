@@ -4,10 +4,9 @@
 class ReservationManager
   extend T::Sig
 
-  # A claim ("Starting"/"Ending" status row) older than this is considered
-  # abandoned: the worker died without completing the transition, so a later
-  # trigger may claim again. ReservationWorker's 3 Sidekiq retries all fire
-  # within ~3 minutes, so a live job never overlaps a re-claim.
+  # A "Starting"/"Ending" claim row older than this is treated as abandoned, so a
+  # later trigger may re-claim a transition whose worker died mid-flight. Well
+  # above ReservationWorker's ~3-minute retry window, so a live job never overlaps.
   CLAIM_TTL = T.let(15.minutes, ActiveSupport::Duration)
 
   sig { returns(Reservation) }
@@ -36,13 +35,8 @@ class ReservationManager
   def end_reservation
     return if reservation.ended?
 
-    # end_reservation is triggered from several places (CronWorker,
-    # ActiveReservationsCheckerWorker, the Discord end command, chat !end, ...)
-    # and concurrent triggers would double-fire after_end_reservation_steps
-    # (duplicate Discord announcements, LogScan/MatchStats, CloudServerDestroy).
-    # Serialize the transition per reservation so only one caller claims it;
-    # claims expire after CLAIM_TTL so a dead worker doesn't wedge the
-    # reservation forever.
+    # Serialize the transition per reservation so concurrent triggers don't
+    # double-fire after_end_reservation_steps; the claim expires after CLAIM_TTL.
     return unless claim_ending
 
     manage_reservation(:end)

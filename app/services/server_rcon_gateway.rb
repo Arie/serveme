@@ -1,9 +1,8 @@
 # typed: true
 # frozen_string_literal: true
 
-# Owns a server's RCON connection and command execution. Extracted from Server so
-# the model stays focused on persistence; Server delegates rcon_exec/rcon_say/
-# rcon_auth/rcon_disconnect/condenser here. A condenser can be injected for tests.
+# Owns a server's RCON connection and command execution. A condenser can be
+# injected for tests.
 class ServerRconGateway
   extend T::Sig
 

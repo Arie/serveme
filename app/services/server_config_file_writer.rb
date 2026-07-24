@@ -1,11 +1,8 @@
 # typed: true
 # frozen_string_literal: true
 
-# Generates and writes a server's reservation config files (server/map cfgs,
-# rgl_base democheck cfg, sourcemod plugin + admin files, MOTD, whitelist,
-# maplist). Extracted from Server so the model stays focused on persistence;
-# Server delegates the config-writing methods here. The actual file transport
-# (write_configuration / delete_from_server) stays polymorphic on the server.
+# Writes a server's reservation config files. File transport
+# (write_configuration/delete_from_server) stays polymorphic on the server.
 class ServerConfigFileWriter
   extend T::Sig
 

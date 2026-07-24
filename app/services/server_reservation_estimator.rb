@@ -1,12 +1,9 @@
 # typed: true
 # frozen_string_literal: true
 
-# Estimates a reservation's provisioning/ending progress from its status history:
-# which ordered phases it goes through, the current phase, and when that phase
-# started. Pure computation over the reservation's statuses (no server I/O).
-# Extracted from Server; Server delegates provision_estimate/end_estimate here.
-# CloudServer keeps its own provider-specific provision_estimate and reaches this
-# base end_estimate via super.
+# Estimates a reservation's provisioning/ending progress from its status history
+# (pure computation, no server I/O). CloudServer keeps its own provider-specific
+# provision_estimate and reaches this base end_estimate via super.
 class ServerReservationEstimator
   extend T::Sig
 

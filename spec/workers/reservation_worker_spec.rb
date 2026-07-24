@@ -16,6 +16,19 @@ describe ReservationWorker do
 
       ReservationWorker.new.perform(reservation.id, 'start')
     end
+
+    it 'does not crash running the after-start steps when the reservation has no server yet' do
+      allow(Reservation).to receive(:includes).and_return(Reservation)
+      allow(Reservation).to receive(:find).with(reservation.id).and_return(reservation)
+      allow(reservation).to receive(:server_id).and_return(nil)
+      allow(reservation).to receive(:server).and_return(nil)
+      allow(ServerRconPollWorker).to receive(:perform_in)
+      allow(UpdateSteamNicknameWorker).to receive(:perform_async)
+      allow(DiscordReservationUpdateWorker).to receive(:perform_async)
+
+      expect { ReservationWorker.new.perform(reservation.id, 'start') }.not_to raise_error
+      expect(reservation.reload.provisioned).to be true
+    end
   end
 
   context 'updating' do

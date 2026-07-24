@@ -23,6 +23,7 @@ class Reservation < ActiveRecord::Base
 
   before_validation :calculate_duration
   before_validation :default_democheck_mode
+  before_validation :reset_collision_memoization
   before_create :generate_logsecret
   after_create :generate_initial_status
   after_create :update_user_total_seconds_counter
@@ -120,16 +121,6 @@ class Reservation < ActiveRecord::Base
   sig { returns(T::Array[Reservation]) }
   def other_users_colliding_reservations
     @other_users_colliding_reservations ||= CollisionFinder.new(Reservation.where(server_id: server&.id), self).colliding_reservations
-  end
-
-  # Clears memoized collision results so the next validation re-queries the
-  # database. Called inside the per-server lock in the create path so the in-lock
-  # re-check sees reservations a competitor committed while we waited for the
-  # lock; without it the stale pre-lock memo lets a double-booking through.
-  sig { void }
-  def reset_collision_memoization
-    @own_colliding_reservations = nil
-    @other_users_colliding_reservations = nil
   end
 
   sig { returns(T::Boolean) }
@@ -495,6 +486,16 @@ class Reservation < ActiveRecord::Base
   end
 
   private
+
+  # Runs before every validation so the collision re-check inside the per-server
+  # create lock re-queries instead of trusting the stale pre-lock memo (which
+  # would let a double-booking through). Memoization then only dedupes queries
+  # within a single validation pass.
+  sig { void }
+  def reset_collision_memoization
+    @own_colliding_reservations = nil
+    @other_users_colliding_reservations = nil
+  end
 
   sig { returns(ReservationManager) }
   def reservation_manager

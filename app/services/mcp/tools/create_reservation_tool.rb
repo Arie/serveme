@@ -136,7 +136,6 @@ module Mcp
         # Save with lock to prevent race conditions
         begin
           $lock.synchronize("save-reservation-server-#{server.id}") do
-            reservation.reset_collision_memoization
             reservation.save!
           end
         rescue ActiveRecord::RecordInvalid => e

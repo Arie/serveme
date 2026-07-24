@@ -553,7 +553,7 @@ describe Reservation do
   end
 
   context 'finding collisions' do
-    describe '#reset_collision_memoization' do
+    describe 'collision memoization reset on validation' do
       it 'forces collision checks to re-query so a reservation committed after the first check is detected' do
         server = create(:server)
         collider = build(:reservation, user: create(:user), server: server, starts_at: Time.current, ends_at: 1.hour.from_now)
@@ -564,11 +564,12 @@ describe Reservation do
         # A competitor books the same server in the same window.
         create(:reservation, user: create(:user), server: server, starts_at: Time.current, ends_at: 1.hour.from_now)
 
-        # Without resetting, the stale memo still reports no collision.
+        # The stale memo still reports no collision until a validation runs.
         expect(collider.collides_with_other_users_reservation?).to be(false)
 
-        # After resetting, the check re-queries and detects the collision.
-        collider.reset_collision_memoization
+        # before_validation resets the memo, so the next check re-queries and
+        # detects the collision the competitor committed.
+        collider.valid?
         expect(collider.collides_with_other_users_reservation?).to be(true)
       end
     end

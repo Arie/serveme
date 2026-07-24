@@ -9,7 +9,7 @@ league_maps:
   - cp_process_f12
   - cp_subbase_b3a
   - cp_sunshine
-  - koth_bagel_rc12
+  - koth_bagel_rc13
   - koth_govan_rc2
   - koth_product_final
 - name: ETF2L HL
@@ -48,7 +48,7 @@ league_maps:
   - cp_snakewater_final1
   - cp_sultry_b8a
   - cp_sunshine
-  - koth_bagel_rc12
+  - koth_bagel_rc13
   - koth_clearcut_b18
   - koth_product_final
 - name: ozfortress HL
@@ -72,7 +72,7 @@ league_maps:
   - cp_process_f12
   - cp_snakewater_final1
   - cp_sunshine
-  - koth_bagel_rc12
+  - koth_bagel_rc13
   - koth_product_final
 - name: RGL HL
   active: true
@@ -104,7 +104,7 @@ league_maps:
   - cp_reckoner
   - cp_snakewater_final1
   - cp_sunshine
-  - koth_bagel_rc12
+  - koth_bagel_rc13
   - koth_govan_b9
 - name: UGC HL
   active: true
@@ -124,7 +124,7 @@ league_maps:
   - cp_warmfrost_rc1
   - koth_airfield_b7
   - koth_badlands
-  - koth_bagel_rc12
+  - koth_bagel_rc13
   - koth_cornyard_b4
   - koth_jamram_rc2b
   - koth_maple_ridge_rc2

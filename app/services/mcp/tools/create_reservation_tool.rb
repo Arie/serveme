@@ -238,9 +238,9 @@ module Mcp
           reservation: {
             id: reservation.id,
             server_name: server&.name,
-            server_ip: server&.ip,
-            server_port: server&.port,
-            connect_string: "connect #{server&.ip}:#{server&.port}; password #{reservation.password}",
+            server_ip: server&.public_ip,
+            server_port: server&.public_port,
+            connect_string: reservation.connect_string,
             password: reservation.password,
             rcon: reservation.rcon,
             starts_at: reservation.starts_at&.iso8601,

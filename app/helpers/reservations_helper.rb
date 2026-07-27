@@ -143,7 +143,7 @@ module ReservationsHelper
   def free_servers_json
     T.bind(self, T.untyped)
     servers_json = free_servers.map do |s|
-      { id: s.id, text: s.name, flag: s.location_flag, ip: s.ip, ip_and_port: "#{s.public_ip}:#{s.public_port}" }
+      { id: s.id, text: s.name, flag: s.location_flag, ip: s.public_ip, ip_and_port: "#{s.public_ip}:#{s.public_port}" }
     end
 
     docker_hosts_json = free_docker_hosts.map do |dh|

@@ -8,7 +8,7 @@ server_entries = @servers.map do |server|
     ip: server.public_ip,
     port: server.public_port,
     ip_and_port: "#{server.public_ip}:#{server.public_port}",
-    resolved_ip: server.resolved_ip,
+    resolved_ip: server.public_resolved_ip,
     sdr: server.sdr,
     latitude: server.latitude,
     longitude: server.longitude

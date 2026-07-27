@@ -63,9 +63,9 @@ module Mcp
           reservation: {
             id: reservation.id,
             server_name: server&.name,
-            server_ip: server&.ip,
-            server_port: server&.port,
-            connect_string: "connect #{server&.ip}:#{server&.port}; password #{reservation.password}",
+            server_ip: server&.public_ip,
+            server_port: server&.public_port,
+            connect_string: reservation.connect_string,
             password: reservation.password,
             rcon: reservation.rcon,
             first_map: reservation.first_map,
@@ -122,8 +122,8 @@ module Mcp
 
         {
           name: server.name,
-          ip: server.ip,
-          port: server.port,
+          ip: server.public_ip,
+          port: server.public_port,
           location: server.location&.name
         }.merge(server_info)
       end

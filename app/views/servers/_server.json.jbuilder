@@ -6,7 +6,7 @@ json.flag server.location.flag if server.location
 json.ip server.public_ip
 json.port server.public_port
 json.ip_and_port "#{server.public_ip}:#{server.public_port}"
-json.resolved_ip server.resolved_ip
+json.resolved_ip server.public_resolved_ip
 json.sdr server.sdr
 json.latitude server.latitude
 json.longitude server.longitude

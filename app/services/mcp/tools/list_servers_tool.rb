@@ -64,8 +64,8 @@ module Mcp
         result = {
           id: server.id,
           name: server.name,
-          ip: server.ip,
-          port: server.port,
+          ip: server.public_ip,
+          port: server.public_port,
           active: server.active,
           location: server.location&.name,
           location_flag: server.location_flag,

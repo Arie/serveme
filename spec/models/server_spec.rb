@@ -192,6 +192,31 @@ RSpec.describe Server do
     end
   end
 
+  describe '#public_resolved_ip' do
+    it 'returns the cached value without ever resolving' do
+      server = create(:server, ip: 'fakkelbrigade.eu', port: '27015')
+      server.update_column(:resolved_ip, '176.9.138.143')
+
+      expect(Resolv).not_to receive(:getaddress)
+      expect(server.public_resolved_ip).to eq('176.9.138.143')
+    end
+
+    it 'returns nil rather than resolving or exposing a hostname when uncached' do
+      server = create(:server, ip: 'fakkelbrigade.eu', port: '27015')
+      server.update_column(:resolved_ip, nil)
+
+      expect(Resolv).not_to receive(:getaddress)
+      expect(server.public_resolved_ip).to be_nil
+    end
+
+    it 'masks the real address with the SDR one' do
+      server = create(:server, ip: 'fakkelbrigade.eu', port: '27015', sdr: true, last_sdr_ip: '169.254.1.59')
+      server.update_column(:resolved_ip, '176.9.138.143')
+
+      expect(server.public_resolved_ip).to eq('169.254.1.59')
+    end
+  end
+
   describe '#steam_connect_url' do
     it 'returns nil rather than a malformed url when the ip is missing' do
       expect(Server.new.steam_connect_url(nil, 27015, 'foo')).to be_nil

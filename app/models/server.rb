@@ -134,6 +134,15 @@ class Server < ActiveRecord::Base
     resolved_ip.presence || hostname_to_ip
   end
 
+  # Cache-only counterpart for payloads: never resolves, so listing many servers
+  # cannot trigger DNS and this can never fall back to exposing a hostname.
+  sig { returns(T.nilable(String)) }
+  def public_resolved_ip
+    return public_ip if sdr?
+
+    resolved_ip
+  end
+
   sig { returns(T.nilable(T.any(Integer, String))) }
   def public_port
     return last_sdr_port if sdr?

@@ -8,6 +8,8 @@ class ServerUpdateWorker
 
   MAX_CONCURRENT_UPDATES_PER_IP = 2
 
+  STALE_UPDATE_TIMEOUT = 30.minutes
+
   def perform(latest_version)
     @latest_version = latest_version
 
@@ -22,14 +24,32 @@ class ServerUpdateWorker
 
     to_upgrade_count = MAX_CONCURRENT_UPDATES_PER_IP - currently_updating_count
 
-    outdated_servers.where(ip: ip).where(update_status: nil).or(outdated_servers.where(ip: ip).where.not(update_status: "Updating")).all.sample(to_upgrade_count).each do |s|
+    updatable(ip).first(to_upgrade_count).each do |s|
       next if s.current_reservation
 
-      Rails.logger.info("Server #{s.name} was found to be outdated, restarting to update")
+      if s.update_status == "Updating"
+        Rails.logger.warn("Server #{s.name} has been Updating since #{s.update_started_at || 'unknown'}, assuming it failed and retrying")
+      else
+        Rails.logger.info("Server #{s.name} was found to be outdated, restarting to update")
+      end
 
       s.update_columns(update_status: "Updating", update_started_at: Time.current)
       s.restart
     end
+  end
+
+  def updatable(ip)
+    not_updating(ip).all.shuffle + stale_updating(ip).all.shuffle
+  end
+
+  def not_updating(ip)
+    scope = outdated_servers.where(ip: ip)
+
+    scope.where(update_status: nil).or(scope.where.not(update_status: "Updating"))
+  end
+
+  def stale_updating(ip)
+    outdated_servers.where(ip: ip, update_status: "Updating").where(stale_update_condition)
   end
 
   def ips_with_outdated_servers
@@ -41,7 +61,11 @@ class ServerUpdateWorker
   end
 
   def currently_updating
-    outdated_servers.where(update_status: "Updating")
+    outdated_servers.where(update_status: "Updating").where.not(stale_update_condition)
+  end
+
+  def stale_update_condition
+    Server.sanitize_sql_array([ "servers.update_started_at IS NULL OR servers.update_started_at < ?", STALE_UPDATE_TIMEOUT.ago ])
   end
 
   def reserved_server_ids

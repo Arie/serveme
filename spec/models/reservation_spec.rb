@@ -552,6 +552,49 @@ describe Reservation do
     end
   end
 
+  context 'connect urls must be numeric while connect strings stay friendly' do
+    let(:server) do
+      s = create(:server, ip: 'fakkelbrigade.eu', port: '27015', tv_port: '27020')
+      s.update_column(:resolved_ip, '176.9.138.143')
+      s
+    end
+
+    it 'uses the hostname in the console connect string' do
+      reservation = create(:reservation, server: server, password: 'foo')
+
+      expect(reservation.connect_string).to eq('connect fakkelbrigade.eu:27015; password "foo"')
+    end
+
+    it 'uses the numeric ip in the steam join url' do
+      reservation = create(:reservation, server: server, password: 'foo')
+
+      expect(reservation.server_connect_url).to eq('steam://connect/176.9.138.143:27015/foo')
+    end
+
+    it 'uses the numeric ip in the steam STV url' do
+      reservation = create(:reservation, server: server, tv_password: 'bar')
+
+      expect(reservation.stv_connect_url).to eq('steam://connect/176.9.138.143:27020/bar')
+    end
+
+    it "prefers this reservation's sdr address over the server's last known one" do
+      server.update!(sdr: true)
+      server.update_columns(last_sdr_ip: '169.254.0.1', last_sdr_port: 1111, last_sdr_tv_port: 1112)
+      reservation = create(:reservation, server: server, password: 'foo')
+      reservation.update_columns(sdr_ip: '169.254.9.9', sdr_port: 4656, sdr_tv_port: 4657)
+
+      expect(reservation.server_connect_url).to eq('steam://connect/169.254.9.9:4656/foo')
+    end
+
+    it 'falls back to the server sdr address when the reservation has none yet' do
+      server.update!(sdr: true)
+      server.update_columns(last_sdr_ip: '169.254.0.1', last_sdr_port: 1111, last_sdr_tv_port: 1112)
+      reservation = create(:reservation, server: server, password: 'foo')
+
+      expect(reservation.server_connect_url).to eq('steam://connect/169.254.0.1:1111/foo')
+    end
+  end
+
   context 'finding collisions' do
     describe 'collision memoization reset on validation' do
       it 'forces collision checks to re-query so a reservation committed after the first check is detected' do

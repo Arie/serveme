@@ -159,6 +159,53 @@ RSpec.describe Server do
     end
   end
 
+  describe '#public_numeric_ip' do
+    it 'prefers the cached resolved_ip over a live DNS lookup' do
+      server = create(:server, ip: 'fakkelbrigade.eu', port: '27015')
+      server.update_column(:resolved_ip, '176.9.138.143')
+
+      expect(Resolv).not_to receive(:getaddress)
+      expect(server.public_numeric_ip).to eq('176.9.138.143')
+    end
+
+    it 'falls back to resolving the hostname when resolved_ip is blank' do
+      server = create(:server, ip: 'fakkelbrigade.eu', port: '27015')
+      server.update_column(:resolved_ip, nil)
+      allow(Resolv).to receive(:getaddress).and_return('176.9.138.143')
+
+      expect(server.public_numeric_ip).to eq('176.9.138.143')
+    end
+
+    it 'passes SDR addresses through untouched' do
+      server = create(:server, ip: 'fakkelbrigade.eu', port: '27015', sdr: true, last_sdr_ip: '169.254.1.59')
+      server.update_column(:resolved_ip, '176.9.138.143')
+
+      expect(server.public_numeric_ip).to eq('169.254.1.59')
+    end
+
+    it 'keeps the hostname in public_ip while the numeric form is used for urls' do
+      server = create(:server, ip: 'fakkelbrigade.eu', port: '27015')
+      server.update_column(:resolved_ip, '176.9.138.143')
+
+      expect(server.public_ip).to eq('fakkelbrigade.eu')
+      expect(server.server_connect_url('foo')).to eq('steam://connect/176.9.138.143:27015/foo')
+    end
+  end
+
+  describe '#steam_connect_url' do
+    it 'returns nil rather than a malformed url when the ip is missing' do
+      expect(Server.new.steam_connect_url(nil, 27015, 'foo')).to be_nil
+    end
+
+    it 'returns nil rather than a malformed url when the port is missing' do
+      expect(Server.new.steam_connect_url('1.2.3.4', nil, 'foo')).to be_nil
+    end
+
+    it 'escapes the password' do
+      expect(Server.new.steam_connect_url('1.2.3.4', 27015, 'a b&c')).to eq('steam://connect/1.2.3.4:27015/a+b%26c')
+    end
+  end
+
   describe 'resolved_ip maintenance' do
     it 'resolves the ip after it changes on save' do
       server = create(:server, ip: '1.2.3.4', port: '27015')

@@ -75,6 +75,20 @@ describe Api::ReservationsController do
       expect(response.body).to match_json_expression(json)
     end
 
+    it 'exposes connect strings with the friendly hostname and connect urls with the numeric ip' do
+      server = create(:server, ip: 'fakkelbrigade.eu', port: '27015', tv_port: '27020')
+      server.update_column(:resolved_ip, '176.9.138.143')
+      reservation = create :reservation, user: @user, server: server, password: 'foo', tv_password: 'bar'
+
+      get :show, params: { id: reservation.id }, format: :json
+      json = JSON.parse(response.body)['reservation']
+
+      expect(json['connect_string']).to eq('connect fakkelbrigade.eu:27015; password "foo"')
+      expect(json['stv_connect_string']).to eq('connect fakkelbrigade.eu:27020; password "bar"')
+      expect(json['connect_url']).to eq('steam://connect/176.9.138.143:27015/foo')
+      expect(json['stv_connect_url']).to eq('steam://connect/176.9.138.143:27020/bar')
+    end
+
     it 'returns a 404 for an unknown reservation' do
       get :show, params: { id: -1 }
       response.status.should == 404

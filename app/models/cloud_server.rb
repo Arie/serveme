@@ -24,6 +24,13 @@ class CloudServer < RemoteServer
     docker_host&.hostname || ip
   end
 
+  sig { returns(T.nilable(String)) }
+  def public_ip
+    return super if sdr?
+
+    host_hostname
+  end
+
   sig { override.returns(T.nilable(Net::SSH::Connection::Session)) }
   def ssh
     raise "Cannot SSH to cloud server #{id}: no IP assigned yet (#{ip})" if ip.blank? || ip == "0.0.0.0"

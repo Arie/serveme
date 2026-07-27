@@ -33,6 +33,46 @@ describe CloudServer do
     end
   end
 
+  describe '#public_ip' do
+    it 'publishes the docker host hostname instead of the raw ip' do
+      docker_host = create(:docker_host, hostname: 'ozfortress.serveme.tf')
+      server = create(:cloud_server, cloud_provider: 'remote_docker', cloud_location: docker_host.id.to_s, ip: '51.161.198.146')
+
+      expect(server.public_ip).to eq('ozfortress.serveme.tf')
+    end
+
+    it 'leaves the ip column numeric so resolved_ip still gets an address' do
+      docker_host = create(:docker_host, hostname: 'ozfortress.serveme.tf')
+      server = create(:cloud_server, cloud_provider: 'remote_docker', cloud_location: docker_host.id.to_s, ip: '51.161.198.146')
+
+      expect(server.ip).to eq('51.161.198.146')
+    end
+
+    it 'falls back to the ip for non-docker cloud servers' do
+      server = create(:cloud_server, cloud_provider: 'hetzner', ip: '5.6.7.8')
+
+      expect(server.public_ip).to eq('5.6.7.8')
+    end
+
+    it 'publishes the hostname but keeps join urls numeric' do
+      docker_host = create(:docker_host, hostname: 'ozfortress.serveme.tf')
+      server = create(:cloud_server, cloud_provider: 'remote_docker', cloud_location: docker_host.id.to_s, ip: '51.161.198.146', port: '27125')
+      server.update_column(:resolved_ip, '51.161.198.146')
+
+      expect(server.public_ip).to eq('ozfortress.serveme.tf')
+      expect(server.public_numeric_ip).to eq('51.161.198.146')
+      expect(server.server_connect_url('8XS5ezDOkm')).to eq('steam://connect/51.161.198.146:27125/8XS5ezDOkm')
+    end
+
+    it 'still prefers the SDR address when the server is on SDR' do
+      docker_host = create(:docker_host, hostname: 'ozfortress.serveme.tf')
+      server = create(:cloud_server, cloud_provider: 'remote_docker', cloud_location: docker_host.id.to_s,
+                                     ip: '51.161.198.146', sdr: true, last_sdr_ip: '169.254.1.59')
+
+      expect(server.public_ip).to eq('169.254.1.59')
+    end
+  end
+
   describe '#ssh' do
     it 'uses explicit key auth with key_data, keys_only, and verify_host_key' do
       subject.stub(ip: '1.2.3.4')

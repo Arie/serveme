@@ -14,6 +14,7 @@ json.servers(@servers.to_a + (@docker_hosts || []).to_a) do |item|
     json.ip item.hostname
     json.port item.start_port.to_s
     json.ip_and_port "#{item.hostname}:#{item.start_port}"
+    json.resolved_ip item.ip
     json.sdr false
     json.latitude item.latitude
     json.longitude item.longitude

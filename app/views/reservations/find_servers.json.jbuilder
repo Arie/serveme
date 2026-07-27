@@ -22,7 +22,8 @@ docker_host_entries = (@docker_hosts || []).map do |dh|
     flag: dh.location&.flag,
     ip: dh.hostname,
     port: dh.start_port,
-    ip_and_port: "#{dh.hostname}:#{dh.start_port}"
+    ip_and_port: "#{dh.hostname}:#{dh.start_port}",
+    resolved_ip: dh.ip
   }
 end
 

@@ -127,6 +127,13 @@ class Server < ActiveRecord::Base
     ip
   end
 
+  sig { returns(T.nilable(String)) }
+  def public_numeric_ip
+    return public_ip if sdr?
+
+    resolved_ip.presence || hostname_to_ip
+  end
+
   sig { returns(T.nilable(T.any(Integer, String))) }
   def public_port
     return last_sdr_port if sdr?
@@ -153,12 +160,12 @@ class Server < ActiveRecord::Base
 
   sig { params(password: String).returns(T.nilable(String)) }
   def server_connect_url(password)
-    steam_connect_url(T.must(public_port), password)
+    steam_connect_url(public_numeric_ip, public_port, password)
   end
 
   sig { params(password: String).returns(T.nilable(String)) }
   def stv_connect_url(password)
-    steam_connect_url(T.must(public_tv_port), password)
+    steam_connect_url(public_numeric_ip, public_tv_port, password)
   end
 
   sig { params(reservation: Reservation).returns(ReservationStatus) }
@@ -356,9 +363,13 @@ class Server < ActiveRecord::Base
     "connect #{ip}:#{port}; password \"#{password}\""
   end
 
-  sig { params(port: T.nilable(T.any(Integer, String)), password: T.nilable(String)).returns(String) }
-  def steam_connect_url(port, password)
-    "steam://connect/#{hostname_to_ip}:#{port}/#{CGI.escape(password.to_s)}"
+  # Valve's steam://connect handler rejects hostnames, so join urls must always
+  # carry a numeric address even though connect strings show the friendly one.
+  sig { params(ip: T.nilable(String), port: T.nilable(T.any(Integer, String)), password: T.nilable(String)).returns(T.nilable(String)) }
+  def steam_connect_url(ip, port, password)
+    return nil if ip.nil? || port.nil?
+
+    "steam://connect/#{ip}:#{port}/#{CGI.escape(password.to_s)}"
   end
 
   sig { returns(T.nilable(String)) }

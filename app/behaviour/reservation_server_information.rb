@@ -23,6 +23,11 @@ module ReservationServerInformation
   end
 
   sig { returns(T.nilable(String)) }
+  def public_numeric_ip
+    (server&.sdr? && sdr_ip) || server&.public_numeric_ip
+  end
+
+  sig { returns(T.nilable(String)) }
   def connect_sdr_ip
     sdr_ip || server&.last_sdr_ip
   end
@@ -74,12 +79,12 @@ module ReservationServerInformation
 
   sig { returns(T.nilable(String)) }
   def server_connect_url
-    server&.steam_connect_url(public_port, password)
+    server&.steam_connect_url(public_numeric_ip, public_port, password)
   end
 
   sig { returns(T.nilable(String)) }
   def stv_connect_url
-    server&.steam_connect_url(public_tv_port, tv_password)
+    server&.steam_connect_url(public_numeric_ip, public_tv_port, tv_password)
   end
 
   sig { returns(String) }

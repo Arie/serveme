@@ -33,6 +33,10 @@ if reservation.persisted?
   json.ended reservation.ended
   json.steam_uid reservation.user.uid
   if reservation.server
+    json.connect_string reservation.connect_string
+    json.stv_connect_string reservation.stv_connect_string
+    json.connect_url reservation.server_connect_url
+    json.stv_connect_url reservation.stv_connect_url
     json.server do
       json.partial! "servers/server", server: reservation.server
     end

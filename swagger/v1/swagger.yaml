@@ -510,6 +510,18 @@ paths:
                           - kick
                           - warn
                           - disable
+                        connect_string:
+                          type: string
+                          nullable: true
+                        stv_connect_string:
+                          type: string
+                          nullable: true
+                        connect_url:
+                          type: string
+                          nullable: true
+                        stv_connect_url:
+                          type: string
+                          nullable: true
         '401':
           description: Unauthorized
     post:
@@ -606,6 +618,18 @@ paths:
                         - kick
                         - warn
                         - disable
+                      connect_string:
+                        type: string
+                        nullable: true
+                      stv_connect_string:
+                        type: string
+                        nullable: true
+                      connect_url:
+                        type: string
+                        nullable: true
+                      stv_connect_url:
+                        type: string
+                        nullable: true
                       last_number_of_players:
                         type: integer
                       inactive_minute_counter:
@@ -797,6 +821,18 @@ paths:
                         - kick
                         - warn
                         - disable
+                      connect_string:
+                        type: string
+                        nullable: true
+                      stv_connect_string:
+                        type: string
+                        nullable: true
+                      connect_url:
+                        type: string
+                        nullable: true
+                      stv_connect_url:
+                        type: string
+                        nullable: true
                       last_number_of_players:
                         type: integer
                       inactive_minute_counter:
@@ -984,6 +1020,18 @@ paths:
                         - kick
                         - warn
                         - disable
+                      connect_string:
+                        type: string
+                        nullable: true
+                      stv_connect_string:
+                        type: string
+                        nullable: true
+                      connect_url:
+                        type: string
+                        nullable: true
+                      stv_connect_url:
+                        type: string
+                        nullable: true
                       last_number_of_players:
                         type: integer
                       inactive_minute_counter:

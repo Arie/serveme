@@ -4,16 +4,20 @@
 require 'spec_helper'
 
 describe FileUploader do
-  it 'namespaces the stored zip per record so re-uploads do not overwrite each other' do
+  # UploadFilesToServerWorker re-reads the stored zip in another process, so a
+  # reloaded record's file.path must point at a file that is actually there.
+  it 'stores the zip where a reloaded record says it is' do
     user = create(:user, groups: [ Group.admin_group ])
-    uploads = Array.new(2) do
-      zip = Tempfile.new([ 'soap', '.zip' ])
-      zip.write File.read(Rails.root.join('spec', 'fixtures', 'files', 'cfg.zip'))
-      zip.close
-      create :file_upload, file: zip, user: user
-    end
+    tmp = Tempfile.new([ 'upload', '.zip' ], binmode: true)
+    tmp.write File.read(Rails.root.join('spec', 'fixtures', 'files', 'cfg.zip'))
+    tmp.rewind
 
-    expect(File.basename(uploads.first.file.path)).to start_with("#{uploads.first.id}_")
-    expect(uploads.first.file.path).not_to eq(uploads.last.file.path)
+    file_upload = FileUpload.new(user: user)
+    file_upload.file = tmp
+    file_upload.save!
+
+    reloaded = FileUpload.find(file_upload.id)
+    expect(reloaded.file.path).to be_present
+    expect(File.exist?(reloaded.file.path)).to be true
   end
 end

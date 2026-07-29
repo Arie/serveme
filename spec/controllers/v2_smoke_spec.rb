@@ -28,6 +28,19 @@ describe "v2 template smoke render", type: :request do
     expect(response.body).to include("/builds/v2.css"), "#{path} did not render the v2 layout"
   end
 
+  it "welcome, signed in and signed out" do
+    # The homepage renders different bands per auth state (Operate vs Persuade),
+    # and neither branch was smoke-rendered before.
+    create :reservation, user: admin
+    expect_v2 root_path
+
+    sign_out admin
+    get root_path
+    expect(response).to have_http_status(:ok)
+    expect(response.body).to include("/builds/v2.css")
+    expect(response.body).to include("Sign in through Steam")
+  end
+
   it "pages" do
     expect_v2 faq_path
     expect_v2 credits_path

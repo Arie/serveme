@@ -1,8 +1,35 @@
+-# Bands, top to bottom, separated by rules rather than floating as cards.
+-# Funding sits right under the masthead, as it always has on the classic page.
+- if current_user
+  = render 'shared/point_to_na'
+
 = render 'pages/v2_hero'
 = render 'pages/v2_donation'
-- if @users_games&.any?
-  %h3{class: "font-display text-xl font-bold text-ink mt-8 mb-3"} Reservations you played in
-  = render 'reservations/users_games'
+
 - if @users_reservations&.any?
-  %h3{class: "font-display text-xl font-bold text-ink mt-8 mb-3"} Your most recent reservations
-  = render 'reservations/users_reservations'
+  %section{class: "pt-8 pb-7 border-b border-line"}
+    %h2{class: "text-base font-semibold text-ink mb-3"} Your most recent reservations
+    = render 'reservations/users_reservations'
+- elsif current_user
+  %section{class: "pt-8 pb-7 border-b border-line"}
+    %h2{class: "text-base font-semibold text-ink mb-3"} Your reservations
+    %div{class: "v2-card text-muted"}
+      %p
+        You haven't reserved a server yet.
+        = link_to "Get server", new_reservation_path
+        lets you pick a time and a location;
+        = link_to "1-click server", i_am_feeling_lucky_reservations_path, data: { turbo_method: :post }
+        finds you one right now.
+
+- if @users_games&.any?
+  %section{class: "pt-8 pb-7 border-b border-line"}
+    %h2{class: "text-base font-semibold text-ink mb-3"} Reservations you played in
+    = render 'reservations/users_games'
+
+- unless current_user
+  = render 'pages/v2_proof'
+
+= render 'pages/v2_contact'
+
+- if current_user
+  = render 'shared/nag_message'

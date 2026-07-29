@@ -1,0 +1,11 @@
+-# v2 variant. The classic partial renders Bootstrap alert markup, which has no
+-# styling on redesigned pages — without this the nag rendered unstyled.
+- if !donator? && current_user.reservations.count > 10
+  - hours = (current_user.total_reservation_seconds / 3600.0).round
+  %aside{class: "v2-card flex items-start justify-between gap-4 flex-wrap my-6", role: "note"}
+    %div
+      %h2{class: "text-base font-semibold text-ink"}
+        You've reserved #{number_with_delimiter(hours)} hours so far.
+      %p{class: "text-muted mt-1 max-w-[60ch]"}
+        serveme.tf is free and paid for by donations. If it's been useful to you, premium keeps it running — and gets you longer reservations, more servers and map uploads.
+    = link_to "See what premium gets you", donate_path, class: "v2-btn v2-btn-primary shrink-0", data: { turbo: false }

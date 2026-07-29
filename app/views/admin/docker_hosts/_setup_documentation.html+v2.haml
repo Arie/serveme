@@ -2,10 +2,10 @@
   %h5{class: "font-display text-ink"}
     %i.fa.fa-book
     Setup procedure
-  %p{class: "text-muted text-sm mb-3"} Click any section to expand. Read the troubleshooting one before panicking.
+  %p{class: "text-muted text-[0.9375rem] mb-3"} Click any section to expand. Read the troubleshooting one before panicking.
 
   %details.mb-2
-    %summary{class: "text-sm"}
+    %summary{class: "text-[0.9375rem]"}
       %strong Overview — the three flavours of host
     .ms-3.mt-2
       %ul.mb-0
@@ -22,7 +22,7 @@
           same as bare-metal, but uncheck "Run Caddy on this host" so we don't fight the existing nginx for ports 80/443.
 
   %details.mb-2
-    %summary{class: "text-sm"}
+    %summary{class: "text-[0.9375rem]"}
       %strong Filling out the form
     .ms-3.mt-2
       %dl.row.mb-0.small
@@ -54,7 +54,7 @@
         %dd.col-sm-9 Default on. Uncheck for the regional web-app hosts (their nginx already handles <code>/ping</code> and HTTPS) so the compose stack only ships websocket-echo and leaves nginx alone.
 
   %details.mb-2
-    %summary{class: "text-sm"}
+    %summary{class: "text-[0.9375rem]"}
       %strong Bare-metal host prep — do this before clicking Provision
     .ms-3.mt-2
       %ol.small.mb-0
@@ -82,7 +82,7 @@
           provisioning runs four
           %code sudo bash -c '<script>'
           calls. Drop the bootstrap sudoers file:
-          %pre{class: "v2-inset p-2 text-sm font-mono mb-2 mt-2"}
+          %pre{class: "v2-inset p-2 text-[0.9375rem] font-mono mb-2 mt-2"}
             :preserve
               echo '<USER> ALL=(ALL) NOPASSWD:ALL' | sudo tee /etc/sudoers.d/serveme-bootstrap
               sudo chmod 440 /etc/sudoers.d/serveme-bootstrap
@@ -93,7 +93,7 @@
           \.
 
   %details.mb-2
-    %summary{class: "text-sm"}
+    %summary{class: "text-[0.9375rem]"}
       %strong Web-app hosts (runs_caddy = false)
     .ms-3.mt-2.small
       %p
@@ -136,7 +136,7 @@
         with no rebind.
 
   %details.mb-2
-    %summary{class: "text-sm"}
+    %summary{class: "text-[0.9375rem]"}
       %strong What each setup step does
     .ms-3.mt-2
       %dl.row.mb-0.small
@@ -154,7 +154,7 @@
         %dd.col-sm-9 <code>docker pull serveme/tf2-cloud-server:latest</code>. Marks the host <code>ready</code>.
 
   %details.mb-2
-    %summary{class: "text-sm"}
+    %summary{class: "text-[0.9375rem]"}
       %strong Troubleshooting
     .ms-3.mt-2
       %dl.row.mb-0.small

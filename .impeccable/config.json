@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "layout-transition",
+        "value": "*",
+        "files": [
+          "config/tailwind/v2.tailwind.css"
+        ],
+        "createdAt": "2026-07-28T10:36:11.076Z",
+        "reason": "Bootstrap collapse plugin writes an explicit pixel height on .collapsing (one disclosure, sdr/index); transform/grid-template-rows cannot drive it without replacing the plugin. User confirmed intentional."
+      }
+    ]
+  }
+}

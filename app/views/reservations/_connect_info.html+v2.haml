@@ -2,7 +2,7 @@
   - connect = reservation.connect_string
   - if connect.present?
     - if reservation&.server&.sdr? && preliminary_sdr?(reservation)
-      %span{class: "text-faint text-xs w-full"} Temporary connect info
+      %span{class: "text-faint text-[0.8125rem] w-full"} Temporary connect info
     %span{class: "v2-connect"}= connect
     = render 'shared/copy_button', :copy_button_id => "connect_string", :copy_text => connect
   - elsif reservation.past?

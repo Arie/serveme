@@ -20,7 +20,7 @@
 
       %h4{class: "text-center text-ink font-display"}= @user.nickname
 
-      %dl{class: "grid grid-cols-12 gap-y-2 mt-4 text-sm"}
+      %dl{class: "grid grid-cols-12 gap-y-2 mt-4 text-[0.9375rem]"}
         %dt{class: "col-span-5 text-muted"} User ID:
         %dd{class: "col-span-7 font-mono"}= "##{@user.id}"
 
@@ -59,7 +59,7 @@
 
     %div{class: "v2-card"}
       %h5{class: "text-ink font-display mb-3"} Statistics
-      %dl{class: "grid grid-cols-12 gap-y-2 text-sm"}
+      %dl{class: "grid grid-cols-12 gap-y-2 text-[0.9375rem]"}
         %dt{class: "col-span-7 text-muted"} Lifetime Value:
         %dd{class: "col-span-5 text-right font-mono"}
           - if @lifetime_value_by_currency.any?

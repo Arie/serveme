@@ -1,0 +1,454 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-28T00:00:00Z",
+  "title": "Design System: serveme.tf v2",
+  "extensions": {
+    "colorMeta": {
+      "accent": {
+        "role": "primary",
+        "displayName": "Signal Amber",
+        "canonical": "oklch(69.5% 0.1664 54.4)",
+        "tonalRamp": [
+          "oklch(15.0% 0.1298 54.4)",
+          "oklch(26.4% 0.1402 54.4)",
+          "oklch(37.9% 0.1507 54.4)",
+          "oklch(49.3% 0.1611 54.4)",
+          "oklch(60.7% 0.1611 54.4)",
+          "oklch(72.1% 0.1507 54.4)",
+          "oklch(83.6% 0.1402 54.4)",
+          "oklch(95.0% 0.1298 54.4)"
+        ]
+      },
+      "canvas": {
+        "role": "neutral",
+        "displayName": "Console Canvas",
+        "canonical": "oklch(15.8% 0.0054 248.2)",
+        "tonalRamp": [
+          "oklch(15.0% 0.0042 248.2)",
+          "oklch(26.4% 0.0045 248.2)",
+          "oklch(37.9% 0.0049 248.2)",
+          "oklch(49.3% 0.0052 248.2)",
+          "oklch(60.7% 0.0052 248.2)",
+          "oklch(72.1% 0.0049 248.2)",
+          "oklch(83.6% 0.0045 248.2)",
+          "oklch(95.0% 0.0042 248.2)"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Panel",
+        "canonical": "oklch(22.4% 0.0099 248.3)",
+        "tonalRamp": [
+          "oklch(15.0% 0.0077 248.3)",
+          "oklch(26.4% 0.0083 248.3)",
+          "oklch(37.9% 0.0089 248.3)",
+          "oklch(49.3% 0.0096 248.3)",
+          "oklch(60.7% 0.0096 248.3)",
+          "oklch(72.1% 0.0089 248.3)",
+          "oklch(83.6% 0.0083 248.3)",
+          "oklch(95.0% 0.0077 248.3)"
+        ]
+      },
+      "surface-raised": {
+        "role": "neutral",
+        "displayName": "Raised",
+        "canonical": "oklch(27.0% 0.0118 248.3)",
+        "tonalRamp": [
+          "oklch(15.0% 0.0092 248.3)",
+          "oklch(26.4% 0.0099 248.3)",
+          "oklch(37.9% 0.0107 248.3)",
+          "oklch(49.3% 0.0114 248.3)",
+          "oklch(60.7% 0.0114 248.3)",
+          "oklch(72.1% 0.0107 248.3)",
+          "oklch(83.6% 0.0099 248.3)",
+          "oklch(95.0% 0.0092 248.3)"
+        ]
+      },
+      "inset": {
+        "role": "neutral",
+        "displayName": "Well",
+        "canonical": "oklch(15.2% 0.0040 229.1)",
+        "tonalRamp": [
+          "oklch(15.0% 0.0031 229.1)",
+          "oklch(26.4% 0.0033 229.1)",
+          "oklch(37.9% 0.0036 229.1)",
+          "oklch(49.3% 0.0038 229.1)",
+          "oklch(60.7% 0.0038 229.1)",
+          "oklch(72.1% 0.0036 229.1)",
+          "oklch(83.6% 0.0033 229.1)",
+          "oklch(95.0% 0.0031 229.1)"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Rule",
+        "canonical": "oklch(32.6% 0.0135 248.2)",
+        "tonalRamp": [
+          "oklch(15.0% 0.0105 248.2)",
+          "oklch(26.4% 0.0114 248.2)",
+          "oklch(37.9% 0.0122 248.2)",
+          "oklch(49.3% 0.0131 248.2)",
+          "oklch(60.7% 0.0131 248.2)",
+          "oklch(72.1% 0.0122 248.2)",
+          "oklch(83.6% 0.0114 248.2)",
+          "oklch(95.0% 0.0105 248.2)"
+        ]
+      },
+      "line-strong": {
+        "role": "neutral",
+        "displayName": "Strong Rule",
+        "canonical": "oklch(40.1% 0.0171 248.3)",
+        "tonalRamp": [
+          "oklch(15.0% 0.0133 248.3)",
+          "oklch(26.4% 0.0144 248.3)",
+          "oklch(37.9% 0.0155 248.3)",
+          "oklch(49.3% 0.0165 248.3)",
+          "oklch(60.7% 0.0165 248.3)",
+          "oklch(72.1% 0.0155 248.3)",
+          "oklch(83.6% 0.0144 248.3)",
+          "oklch(95.0% 0.0133 248.3)"
+        ]
+      },
+      "text": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "oklch(93.3% 0.0052 247.9)",
+        "tonalRamp": [
+          "oklch(15.0% 0.0040 247.9)",
+          "oklch(26.4% 0.0044 247.9)",
+          "oklch(37.9% 0.0047 247.9)",
+          "oklch(49.3% 0.0050 247.9)",
+          "oklch(60.7% 0.0050 247.9)",
+          "oklch(72.1% 0.0047 247.9)",
+          "oklch(83.6% 0.0044 247.9)",
+          "oklch(95.0% 0.0040 247.9)"
+        ]
+      },
+      "text-muted": {
+        "role": "neutral",
+        "displayName": "Muted Ink",
+        "canonical": "oklch(72.8% 0.0147 248.0)",
+        "tonalRamp": [
+          "oklch(15.0% 0.0115 248.0)",
+          "oklch(26.4% 0.0124 248.0)",
+          "oklch(37.9% 0.0133 248.0)",
+          "oklch(49.3% 0.0143 248.0)",
+          "oklch(60.7% 0.0143 248.0)",
+          "oklch(72.1% 0.0133 248.0)",
+          "oklch(83.6% 0.0124 248.0)",
+          "oklch(95.0% 0.0115 248.0)"
+        ]
+      },
+      "text-subtle": {
+        "role": "neutral",
+        "displayName": "Subtle Ink",
+        "canonical": "oklch(63.2% 0.0171 248.1)",
+        "tonalRamp": [
+          "oklch(15.0% 0.0134 248.1)",
+          "oklch(26.4% 0.0145 248.1)",
+          "oklch(37.9% 0.0155 248.1)",
+          "oklch(49.3% 0.0166 248.1)",
+          "oklch(60.7% 0.0166 248.1)",
+          "oklch(72.1% 0.0155 248.1)",
+          "oklch(83.6% 0.0145 248.1)",
+          "oklch(95.0% 0.0134 248.1)"
+        ]
+      },
+      "success": {
+        "role": "secondary",
+        "displayName": "State Green",
+        "canonical": "oklch(70.0% 0.1563 151.1)",
+        "tonalRamp": [
+          "oklch(15.0% 0.1219 151.1)",
+          "oklch(26.4% 0.1318 151.1)",
+          "oklch(37.9% 0.1416 151.1)",
+          "oklch(49.3% 0.1514 151.1)",
+          "oklch(60.7% 0.1514 151.1)",
+          "oklch(72.1% 0.1416 151.1)",
+          "oklch(83.6% 0.1318 151.1)",
+          "oklch(95.0% 0.1219 151.1)"
+        ]
+      },
+      "danger": {
+        "role": "secondary",
+        "displayName": "State Red",
+        "canonical": "oklch(63.7% 0.1829 26.7)",
+        "tonalRamp": [
+          "oklch(15.0% 0.1426 26.7)",
+          "oklch(26.4% 0.1541 26.7)",
+          "oklch(37.9% 0.1656 26.7)",
+          "oklch(49.3% 0.1771 26.7)",
+          "oklch(60.7% 0.1771 26.7)",
+          "oklch(72.1% 0.1656 26.7)",
+          "oklch(83.6% 0.1541 26.7)",
+          "oklch(95.0% 0.1426 26.7)"
+        ]
+      },
+      "warn": {
+        "role": "secondary",
+        "displayName": "Caution",
+        "canonical": "oklch(75.1% 0.1295 79.8)",
+        "tonalRamp": [
+          "oklch(15.0% 0.1010 79.8)",
+          "oklch(26.4% 0.1092 79.8)",
+          "oklch(37.9% 0.1173 79.8)",
+          "oklch(49.3% 0.1254 79.8)",
+          "oklch(60.7% 0.1254 79.8)",
+          "oklch(72.1% 0.1173 79.8)",
+          "oklch(83.6% 0.1092 79.8)",
+          "oklch(95.0% 0.1010 79.8)"
+        ]
+      },
+      "info": {
+        "role": "secondary",
+        "displayName": "State Blue",
+        "canonical": "oklch(64.7% 0.1237 249.1)",
+        "tonalRamp": [
+          "oklch(15.0% 0.0965 249.1)",
+          "oklch(26.4% 0.1043 249.1)",
+          "oklch(37.9% 0.1120 249.1)",
+          "oklch(49.3% 0.1198 249.1)",
+          "oklch(60.7% 0.1198 249.1)",
+          "oklch(72.1% 0.1120 249.1)",
+          "oklch(83.6% 0.1043 249.1)",
+          "oklch(95.0% 0.0965 249.1)"
+        ]
+      },
+      "gold": {
+        "role": "secondary",
+        "displayName": "Donator Gold",
+        "canonical": "oklch(79.4% 0.1329 87.5)",
+        "tonalRamp": [
+          "oklch(15.0% 0.1037 87.5)",
+          "oklch(26.4% 0.1120 87.5)",
+          "oklch(37.9% 0.1204 87.5)",
+          "oklch(49.3% 0.1287 87.5)",
+          "oklch(60.7% 0.1287 87.5)",
+          "oklch(72.1% 0.1204 87.5)",
+          "oklch(83.6% 0.1120 87.5)",
+          "oklch(95.0% 0.1037 87.5)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "The one headline on a page. Never above 32px."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section and band titles."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Card headings, table captions, button labels."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "All prose and UI text. 13px base, 68ch measure."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Field labels, table headers, metadata. Sentence case."
+      },
+      "data": {
+        "displayName": "Data",
+        "purpose": "Every number, ID, IP, port, timestamp and connect string. Always tabular."
+      }
+    },
+    "shadows": [
+      {
+        "name": "surface",
+        "value": "0 1px 2px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.055)",
+        "purpose": "Panels, cards, table containers and the nav. A shallow contact shadow plus a 1px lit top edge."
+      },
+      {
+        "name": "recess",
+        "value": "inset 0 1px 2px rgba(0, 0, 0, 0.28)",
+        "purpose": "Inputs, wells, connect boxes and meter tracks — the light cue inverted for recessed surfaces."
+      },
+      {
+        "name": "control",
+        "value": "inset 0 1px 0 rgba(255, 255, 255, 0.09)",
+        "purpose": "Buttons, so they read as pressable rather than painted on."
+      },
+      {
+        "name": "overlay",
+        "value": "0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px rgba(0, 0, 0, 0.35)",
+        "purpose": "Dropdowns, popovers and dialogs — the only genuinely floating UI."
+      },
+      {
+        "name": "scrim",
+        "value": "rgba(0, 0, 0, 0.6)",
+        "purpose": "Modal backdrop fill."
+      }
+    ],
+    "motion": [
+      {
+        "name": "state",
+        "value": "120ms ease",
+        "purpose": "Button and row hover: background and border only."
+      },
+      {
+        "name": "control",
+        "value": "150ms ease",
+        "purpose": "Inputs, checkboxes and dropzones changing border or background."
+      },
+      {
+        "name": "disclosure",
+        "value": "200ms ease",
+        "purpose": "Mobile nav collapse. Drives height because Bootstrap collapse writes a pixel height; the only layout-property transition in the system."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      },
+      {
+        "name": "container",
+        "value": "1280px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The single primary action in a region. Flat amber fill, never a gradient.",
+      "html": "<button class=\"ds-btn-primary\">Get server</button>",
+      "css": ".ds-btn-primary{display:inline-flex;align-items:center;justify-content:center;gap:.4rem;background:var(--color-accent,#e97b18);color:var(--color-on-accent,#17120b);border:1px solid transparent;border-radius:6px;padding:.5rem 1rem;font-weight:600;font-size:.8125rem;cursor:pointer;transition:background-color .12s ease}.ds-btn-primary:hover{background:var(--color-accent-light,#f28c2e)}.ds-btn-primary:focus-visible{outline:2px solid var(--color-accent,#e97b18);outline-offset:2px}"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Neutral, so it never competes with the primary action for the accent.",
+      "html": "<button class=\"ds-btn-secondary\">1-click server</button>",
+      "css": ".ds-btn-secondary{display:inline-flex;align-items:center;gap:.4rem;background:var(--color-elevated,#1d2125);color:var(--color-ink,#e6e9ec);border:1px solid var(--color-line-strong,#3a4147);border-radius:6px;padding:.5rem 1rem;font-weight:600;font-size:.8125rem;cursor:pointer;transition:background-color .12s ease}.ds-btn-secondary:hover{background:var(--color-line,#2a2f34)}.ds-btn-secondary:focus-visible{outline:2px solid var(--color-accent,#e97b18);outline-offset:2px}"
+    },
+    {
+      "name": "Panel",
+      "kind": "card",
+      "refersTo": "panel",
+      "description": "Flat surface on the canvas. Never nested, never shadowed.",
+      "html": "<div class=\"ds-panel\"><strong>Servers free right now</strong></div>",
+      "css": ".ds-panel{background:var(--color-panel,#16191c);border:1px solid var(--color-line,#2a2f34);border-radius:8px;padding:1rem;color:var(--color-ink,#e6e9ec)}"
+    },
+    {
+      "name": "Text Input",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Recessed well with a visible rule; focus is an outline, never a colour halo.",
+      "html": "<input class=\"ds-input\" value=\"cp_process_f12\">",
+      "css": ".ds-input{width:100%;background:var(--color-inset,#0a0c0d);border:1px solid var(--color-line,#2a2f34);border-radius:6px;padding:.55rem .75rem;color:var(--color-ink,#e6e9ec);font-size:.8125rem}.ds-input:focus{border-color:var(--color-accent,#e97b18);outline:2px solid var(--color-accent,#e97b18);outline-offset:1px}"
+    },
+    {
+      "name": "Data Table",
+      "kind": "custom",
+      "refersTo": "panel",
+      "description": "The primary content form. Numerics are tabular and right-aligned.",
+      "html": "<table class=\"ds-table\"><thead><tr><th>Server</th><th>From</th></tr></thead><tbody><tr><td>Rotterdam</td><td class=\"num\">16 Jun 09:21</td></tr></tbody></table>",
+      "css": ".ds-table{width:100%;border-collapse:collapse;font-size:.8125rem;color:var(--color-ink,#e6e9ec)}.ds-table thead th{text-align:left;color:var(--color-faint,#7b848d);font-weight:600;padding:.6rem .85rem;border-bottom:1px solid var(--color-line,#2a2f34)}.ds-table tbody td{padding:.6rem .85rem;border-top:1px solid var(--color-line-soft,#21262a)}.ds-table tbody tr:hover{background:rgba(255,255,255,.045)}.ds-table .num{font-family:\"JetBrains Mono\",ui-monospace,monospace;font-variant-numeric:tabular-nums;color:var(--color-muted,#a0a8b0)}"
+    },
+    {
+      "name": "Status Badge",
+      "kind": "chip",
+      "refersTo": "panel",
+      "description": "Capsule chip carrying a semantic state. Pill radius is reserved for these.",
+      "html": "<span class=\"ds-badge\">Donators</span>",
+      "css": ".ds-badge{display:inline-flex;align-items:center;gap:.3rem;border-radius:999px;padding:.15rem .6rem;font-size:.75rem;font-weight:600;color:var(--color-gold,#e0b64a);border:1px solid color-mix(in oklab,var(--color-gold,#e0b64a) 30%,transparent);background:color-mix(in oklab,var(--color-gold,#e0b64a) 8%,transparent)}"
+    },
+    {
+      "name": "Goal Meter",
+      "kind": "custom",
+      "refersTo": "panel",
+      "description": "Funding meter. The track carries its own value step so an empty meter still reads as a control; the fill saturates at 100% while the label reports the true figure.",
+      "html": "<div class=\"ds-meter\"><div class=\"ds-meter-fill\" style=\"width:100%\"></div></div>",
+      "css": ".ds-meter{position:relative;height:.625rem;border-radius:999px;background:var(--color-elevated,#1d2125);border:1px solid var(--color-line,#2a2f34);overflow:hidden}.ds-meter-fill{height:100%;border-radius:999px;background:var(--color-success,#42b96a)}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Operator's Console",
+    "overview": "serveme.tf v2 plays its category straight. There is no thematic world, no metaphor, and no irony: this is a conventional dark operator UI, and every point of quality comes from execution precision and product specificity rather than from a distinctive aesthetic. The named craft bar is Linear and the Stripe Dashboard. The audience arrives mid-Discord-call with eleven people waiting, so density is a feature and no decoration may cost a booking click. The explicit anti-reference is the first v2 generation, which failed by being a low-fidelity imitation of this same canon.",
+    "keyCharacteristics": [
+      "Depth is value steps, a 1px lit top edge, and a shallow contact shadow — never a glow.",
+      "One accent, one job: the primary action.",
+      "Numbers are monospaced and tabular everywhere, without exception.",
+      "Structure comes from visible 1px rules and full-width bands, not floating cards.",
+      "13px is the base size; large type is rare and deliberate."
+    ],
+    "rules": [
+      {
+        "name": "The One Job Rule",
+        "body": "Signal Amber marks the primary action and nothing else. If two amber things are visible in one viewport, one of them is wrong.",
+        "section": "colors"
+      },
+      {
+        "name": "The State-Colour Rule",
+        "body": "Green, red, blue, caution and gold carry meaning, never mood.",
+        "section": "colors"
+      },
+      {
+        "name": "The Structural Depth Rule",
+        "body": "Depth is neutral value steps and 1px rules. Glows and accent-tinted background gradients are prohibited.",
+        "section": "colors"
+      },
+      {
+        "name": "The Tabular Rule",
+        "body": "Any digit a user might compare against another digit is set in JetBrains Mono with tabular-nums.",
+        "section": "typography"
+      },
+      {
+        "name": "The Small-Type Rule",
+        "body": "13px is the base. Large type only when a number or headline is genuinely the most important object on screen.",
+        "section": "typography"
+      },
+      {
+        "name": "The No-Eyebrow Rule",
+        "body": "No tracked uppercase kicker above section headings.",
+        "section": "typography"
+      },
+      {
+        "name": "The No-Halo Rule",
+        "body": "A zero-offset coloured glow is never depth.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Visible Track Rule",
+        "body": "Any meter or track carries its own value step plus a 1px rule, so a zero-value meter still reads as a control.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Plane Rule",
+        "body": "A page may establish at most one full-bleed plane above the canvas. Bands do not each get their own tint.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do set every comparable number in JetBrains Mono with tabular figures.",
+      "Do build page structure from full-width bands divided by 1px rules.",
+      "Do keep one primary action per region, in Signal Amber, as a flat fill.",
+      "Do show both capacity tiers in the status readout, as v1 did.",
+      "Do state real numbers with their units and totals, never a bare figure.",
+      "Do keep the base size at 13px and let density be the point."
+    ],
+    "donts": [
+      "Don't reintroduce the radial accent glow, gradient button fills, or 16px card radii.",
+      "Don't use Signal Amber for links, headline highlights, progress fills, or body emphasis.",
+      "Don't nest panels, or place a coloured border wider than 1px on any container.",
+      "Don't let a marketing headline outweigh the live data it is meant to support.",
+      "Don't collapse a multi-tier fact into one number because it fits the layout better.",
+      "Don't add a font, an icon set, or a decorative device to solve a problem that hierarchy would solve."
+    ]
+  }
+}

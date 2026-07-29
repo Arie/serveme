@@ -1,0 +1,23 @@
+-# v2 variant. Mirrors the classic partial's logic exactly; only the markup
+-# changes, since Bootstrap alert classes are not loaded on redesigned pages.
+- if eu_system? && current_user && current_user.from_na?
+  %aside{class: "v2-card flex items-start justify-between gap-4 flex-wrap my-6", role: "note"}
+    %div
+      %h2{class: "text-base font-semibold text-ink flex items-center gap-2 flex-wrap"}
+        - if current_user.geocoded && current_user.na_sign_in_ip?
+          %span{class: "flags flags-#{current_user.geocoded.country_code.downcase}"}
+          - country_name = current_user.geocoded.country_code == "US" ? "the United States" : current_user.geocoded.country
+          = "You look like you're connecting from #{country_name}."
+        - else
+          %span{class: "flags flags-ca"}
+          %span{class: "flags flags-us"}
+          %span{class: "flags flags-mx"}
+          You look like you're connecting from North America.
+      %p{class: "text-muted mt-1"}
+        This is the European site. You'll get much better ping on na.serveme.tf.
+    = link_to "Go to na.serveme.tf", "https://na.serveme.tf", class: "v2-btn v2-btn-outline shrink-0", data: { turbo: false }
+    - if local_assigns[:confirm]
+      %div{class: "flex items-center gap-2 w-full border-t border-line pt-3"}
+        %input{type: "checkbox", id: "na-confirm-checkbox", data: { action: "change->na-confirm#toggle", "na-confirm-target": "checkbox" }}
+        %label{for: "na-confirm-checkbox", class: "text-muted"}
+          I understand this is the EU site and I want to buy EU premium

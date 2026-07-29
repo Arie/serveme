@@ -1,28 +1,49 @@
+-# Live capacity readout. This is the page's proof, so it reports every tier the
+-# visitor is entitled to see rather than collapsing to one undifferentiated
+-# number: anonymous visitors get both the free and the premium pool, exactly as
+-# the classic homepage does. See DESIGN.md, Status Readout.
 - window_start = Time.current
 - window_end = 1.hour.from_now
 - free_limit = SiteSetting.free_server_limit
-- total = Server.active.not_cloud.count + docker_hosts_total_slots
-- heading = "Servers available"
-- sublabel = "For you, right now"
+- pool_total = Server.active.not_cloud.count + docker_hosts_total_slots
+- free_pool_total = free_limit || (Server.active.not_cloud.without_group.count + docker_hosts_total_slots)
+- premium_total = total_premium_server_count
+
 - if current_user&.donator?
-  - available = ServerForUserFinder.new(current_user, window_start, window_end).servers.size + docker_hosts_available_during(window_start, window_end)
+  - heading = "Servers available"
+  - rows = [ { label: "For you", free: ServerForUserFinder.new(current_user, window_start, window_end).servers.size + docker_hosts_available_during(window_start, window_end), total: pool_total } ]
 - elsif current_user
-  - available = free_limit ? [free_limit - SiteSetting.free_user_reservation_count(window_start, window_end), 0].max : ServerForUserFinder.new(current_user, window_start, window_end).servers.size + docker_hosts_available_during(window_start, window_end)
-  - total = free_limit || total
-- else
-  -# Anonymous visitors can't have personalised availability; show usage instead of a misleading 0 available.
-  - heading = "Servers in use"
-  - sublabel = "Right now"
+  - heading = "Servers available"
   - if free_limit
-    - available = free_user_reservations_in_use
-    - total = free_limit
+    - rows = [ { label: "For you", free: [ free_limit - SiteSetting.free_user_reservation_count(window_start, window_end), 0 ].max, total: free_limit } ]
   - else
-    - available = used_free_server_count
-    - total = Server.active.not_cloud.without_group.count + docker_hosts_total_slots
-%div{class: "bg-panel rounded-card p-6 flex flex-col gap-3 border border-white/10 self-start"}
-  %div{class: "text-muted text-sm"}= heading
-  %div{class: "font-mono text-faint text-sm"}
-    = "#{I18n.l(window_start, format: :time_without_seconds)} – #{I18n.l(window_end, format: :time_without_seconds)}"
-  %div{class: "font-mono text-4xl font-bold text-ink"}
-    = "#{available} / #{total}"
-  %div{class: "text-success-text text-sm"}= sublabel
+    - rows = [ { label: "For you", free: ServerForUserFinder.new(current_user, window_start, window_end).servers.size + docker_hosts_available_during(window_start, window_end), total: free_pool_total } ]
+  - rows << { label: "Premium", free: premium_total - donator_user_reservations_in_use, total: premium_total, premium: true } if premium_total.positive?
+- else
+  -# Anonymous visitors have no personalised availability, so report the pool as
+  -# free-of-total rather than a misleading 0 available.
+  - heading = "Servers free right now"
+  - free_in_use = free_limit ? free_user_reservations_in_use : used_free_server_count
+  - rows = [ { label: "Everyone", free: free_pool_total - free_in_use, total: free_pool_total } ]
+  - rows << { label: "Premium", free: premium_total - donator_user_reservations_in_use, total: premium_total, premium: true } if premium_total.positive?
+
+%section{class: "v2-card p-0 self-start overflow-hidden", "aria-label": heading}
+  %div{class: "flex items-baseline justify-between gap-3 px-4 py-3 border-b border-line"}
+    %h2{class: "text-base font-semibold text-ink"}= heading
+    %span{class: "font-mono text-[0.8125rem] text-faint whitespace-nowrap"}
+      = "#{I18n.l(window_start, format: :time_without_seconds)}–#{I18n.l(window_end, format: :time_without_seconds)}"
+  %dl
+    - rows.each_with_index do |row, index|
+      - available = [ row[:free].to_i, 0 ].max
+      - state = available.positive? ? "success" : "danger"
+      %div{class: "flex items-center justify-between gap-4 px-4 py-3.5 #{'border-t border-line-soft' if index.positive?}"}
+        %dt{class: "flex items-center gap-2 text-muted"}
+          %span{class: "inline-block w-1.5 h-1.5 rounded-pill shrink-0", style: "background: var(--color-#{state})", "aria-hidden": "true"}
+          = row[:label]
+          - if row[:premium]
+            %span{class: "v2-badge v2-badge-gold"} Donators
+        -# The figure is the page's proof, so it carries the one display-sized
+          number on the screen rather than being the smallest thing in the band.
+        %dd{class: "font-mono text-ink whitespace-nowrap"}
+          %span{class: "text-[1.75rem] leading-none font-bold tracking-tight"}= available
+          %span{class: "text-faint ml-0.5"}= "/ #{row[:total]}"

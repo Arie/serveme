@@ -5,31 +5,78 @@
 @source "../../app/views";
 @source "../../app/javascript";
 
-/* ---- Direction A "Command" design tokens ---- */
+/* ---- v2 design tokens. See DESIGN.md ("The Operator's Console") for the rules
+   these values serve; the short version is that depth comes from neutral value
+   steps and 1px rules, and the accent marks the primary action and nothing else. ---- */
 @theme {
-  --color-accent: #f2742c;
-  --color-accent-light: #f2a36c;
-  --color-cta-from: #ef7e3a;
-  --color-cta-to: #df5524;
-  --color-page: #0b0c0e;
-  --color-hero: #0e1014;
-  --color-panel: #101216;
-  --color-panel-2: #121419;
-  --color-elevated: #16191f;
-  --color-inset: #0c0e12;
-  --color-inset-2: #08090b;
-  --color-ink: #e7e9ee;
-  --color-muted: #9aa0ab;
-  --color-faint: #6b7280;
-  --color-success: #3ecf8e;
-  --color-success-text: #5fdca0;
-  --color-info: #4aa3df;
-  --color-gold: #f2c14e;
-  --color-danger: #e54834;
+  /* Signal Amber — primary actions only. Descends from v1's btn-warning (#f89406). */
+  --color-accent: #e97b18;
+  --color-accent-light: #f28c2e;
+  /* Kept so the ~135 templates that reference these keep working. They are now the
+     same value, which flattens every gradient fill in the redesign in one step. */
+  --color-cta-from: #e97b18;
+  --color-cta-to: #e97b18;
+  --color-on-accent: #17120b;
+  /* Text on a saturated solid fill (danger, info). */
+  --color-on-solid: #ffffff;
 
-  --radius-card: 16px;
-  --radius-btn: 10px;
-  --radius-pill: 24px;
+  /* Cool gunmetal ramp, in spirit from v1's Bootswatch Slate. Each step is a
+     visible value change — the previous ramp spanned 5 points of luminance and
+     needed a glow to fake the depth it never had. */
+  --color-page: #0b0d0f;
+  --color-hero: #151a20;
+  --color-panel: #1f252c;
+  --color-panel-2: #242b32;
+  --color-elevated: #2a3138;
+  --color-inset: #0a0c0d;
+  --color-inset-2: #08090a;
+
+  --color-line: #363d45;
+  --color-line-strong: #4a535c;
+  /* Faint separator for rows inside an already-bordered container. */
+  --color-line-soft: #2c333a;
+  /* Translucent state layers, so a hover reads correctly on canvas, panel and
+     elevated alike instead of needing a different opaque value per surface. */
+  --color-state-hover: rgba(255, 255, 255, 0.045);
+  --color-state-active: var(--color-line);
+
+  --color-ink: #e6e9ec;
+  --color-muted: #a0a8b0;
+  /* Lifted with the surface ramp below it: at #828b94 this measured 4.35:1 on
+     elevated, under AA. This clears 4.5:1 on every surface in the ramp. */
+  --color-faint: #939ca5;
+
+  --color-success: #42b96a;
+  --color-success-text: #5ecb84;
+  --color-info: #4c93d6;
+  --color-info-light: #74addf;
+  --color-gold: #e0b64a;
+  --color-danger: #e5534b;
+  --color-danger-text: #f08d86;
+  --color-warn: #d9a441;
+
+  /* TF2 team colours. Semantic product data used by the scoreboard, not decoration. */
+  --color-team-red: #bd3b3b;
+  --color-team-blue: #5b818f;
+
+  /* Overlay depth. Only genuinely floating UI uses these. */
+  --color-shadow-contact: rgba(0, 0, 0, 0.4);
+  --color-shadow-ambient: rgba(0, 0, 0, 0.35);
+  --color-scrim: rgba(0, 0, 0, 0.6);
+
+  /* Surface depth. A shallow contact shadow plus a 1px lit top edge, the way a
+     panel catches light from above. This is material, not a glow: the shadow has
+     a real offset and the highlight is a hairline, never a coloured halo or a
+     background wash. */
+  --color-shadow-surface: rgba(0, 0, 0, 0.28);
+  --color-highlight: rgba(255, 255, 255, 0.055);
+  --color-highlight-strong: rgba(255, 255, 255, 0.09);
+
+  --radius-card: 8px;
+  --radius-btn: 6px;
+  --radius-chip: 4px;
+  /* Full round, reserved for true chips and badges. */
+  --radius-pill: 999px;
 
   --font-display: "Archivo", ui-sans-serif, system-ui, sans-serif;
   --font-sans: "Archivo", ui-sans-serif, system-ui, sans-serif;
@@ -51,12 +98,10 @@
   font-display: swap;
   src: url("/fonts/v2/jetbrains-mono.woff2") format("woff2");
 }
-/* Donation progress fill. A clean brand gradient — no stripe sprite and no
-   animation, so it stays cheap to render when serveme is left open in a
-   background tab. */
+/* Donation progress fill. Flat — no gradient, no stripe sprite, no animation, so
+   it stays cheap to render when serveme is left open in a background tab. */
 @utility v2-stripes {
-  background-color: var(--color-accent);
-  background-image: linear-gradient(135deg, var(--color-cta-from), var(--color-cta-to));
+  background-color: var(--color-success);
 }
 
 /* Small action button used in the reservation tables (color set per-link). */
@@ -66,7 +111,7 @@
   border-radius: var(--radius-btn);
   border-width: 1px;
   padding: 0.25rem 0.625rem;
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
   line-height: 1rem;
   font-weight: 600;
 }
@@ -78,35 +123,50 @@
    ============================================================================ */
 
 @layer base {
+  /* No background wash. Depth is neutral value steps and 1px rules — the radial
+     accent glow that used to live here was the single loudest generic tell. */
   body.bg-page {
-    background-image: radial-gradient(1200px 600px at 50% -10%, rgba(242, 116, 44, 0.06), transparent 60%);
-    background-attachment: fixed;
+    font-size: 0.9375rem;
   }
+  /* Links are informational blue, not amber. Amber marks the primary action and
+     nothing else, so a page full of amber links spends the accent before the
+     user reaches the button that matters. */
   body.bg-page a {
-    color: var(--color-accent-light);
+    color: var(--color-info-light);
     text-decoration: none;
   }
-  body.bg-page a:hover { color: var(--color-accent); }
+  body.bg-page a:hover { color: var(--color-info); text-decoration: underline; }
   body.bg-page h1, body.bg-page h2, body.bg-page h3,
   body.bg-page h4, body.bg-page h5, body.bg-page h6 {
     font-family: var(--font-display);
-    font-weight: 800;
+    font-weight: 650;
     letter-spacing: -0.01em;
     color: var(--color-ink);
+    text-wrap: balance;
+  }
+  /* Every comparable digit is tabular. See DESIGN.md, The Tabular Rule. */
+  body.bg-page .font-mono, body.bg-page code, body.bg-page kbd, body.bg-page pre {
+    font-variant-numeric: tabular-nums;
+  }
+  body.bg-page :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+    border-radius: var(--radius-chip);
   }
   body.bg-page code, body.bg-page kbd, body.bg-page pre, body.bg-page .mono {
     font-family: var(--font-mono);
   }
-  body.bg-page hr { border-color: rgba(255, 255, 255, 0.08); }
+  body.bg-page hr { border-color: var(--color-line); }
 }
 
 @layer components {
   /* Surfaces */
   .v2-card {
     background-color: var(--color-panel);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--color-line);
     border-radius: var(--radius-card);
     padding: 1.5rem;
+    box-shadow: 0 1px 2px var(--color-shadow-surface), inset 0 1px 0 var(--color-highlight);
   }
   /* Prose content (paragraphs + lists) inside a card — restores the spacing and
      bullets Tailwind Preflight strips. */
@@ -127,25 +187,28 @@
     margin-bottom: 0.25rem;
   }
   .v2-prose a {
-    color: var(--color-accent-light);
+    color: var(--color-info-light);
   }
   .v2-prose a:hover {
-    filter: brightness(1.1);
+    color: var(--color-info);
+    text-decoration: underline;
   }
   .v2-elevated {
-    background-image: linear-gradient(to bottom, var(--color-elevated), var(--color-panel));
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background-color: var(--color-elevated);
+    border: 1px solid var(--color-line);
     border-radius: var(--radius-card);
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 1px 2px var(--color-shadow-surface), inset 0 1px 0 var(--color-highlight-strong);
   }
+  /* Recessed, so the light cue inverts: shadow on the inside top edge. */
   .v2-inset {
     background-color: var(--color-inset);
-    border: 1px solid rgba(255, 255, 255, 0.07);
+    border: 1px solid var(--color-line);
     border-radius: var(--radius-btn);
     padding: 0.85rem 1rem;
+    box-shadow: inset 0 1px 2px var(--color-shadow-surface);
   }
-  /* Tailwind Preflight makes <img> display:block, which dropped the player
-     country flag onto its own line. Keep flag images inline with the text. */
+  /* Tailwind Preflight sets image elements to display:block, which dropped the
+     player country flag onto its own line. Keep flag images inline with text. */
   img.flag-icon, img.flag {
     display: inline-block;
     vertical-align: -0.15em;
@@ -155,13 +218,14 @@
   /* Page header */
   .v2-page-title {
     font-family: var(--font-display);
-    font-size: 1.875rem;
-    line-height: 2.25rem;
-    font-weight: 800;
+    font-size: 1.75rem;
+    line-height: 1.15;
+    font-weight: 700;
+    letter-spacing: -0.02em;
     color: var(--color-ink);
   }
   .v2-breadcrumb {
-    font-size: 0.8125rem;
+    font-size: 0.9375rem;
     color: var(--color-faint);
     font-family: var(--font-mono);
   }
@@ -177,40 +241,44 @@
     border: 1px solid transparent;
     padding: 0.5rem 1rem;
     font-weight: 600;
-    font-size: 0.875rem;
+    font-size: 0.9375rem;
     cursor: pointer;
+    box-shadow: inset 0 1px 0 var(--color-highlight-strong);
     transition: filter 0.12s ease, background-color 0.12s ease, border-color 0.12s ease;
     text-decoration: none;
   }
-  .v2-btn-sm { padding: 0.3rem 0.7rem; font-size: 0.78rem; }
+  .v2-btn-sm { padding: 0.3rem 0.7rem; font-size: 0.8125rem; }
+  /* Flat fill, no gradient, no coloured halo. One of these per region of the
+     page — see DESIGN.md, The One Job Rule. */
   .v2-btn-primary {
-    background-image: linear-gradient(135deg, var(--color-cta-from), var(--color-cta-to));
-    color: #fff;
-    box-shadow: 0 6px 18px rgba(223, 85, 36, 0.18);
+    background-color: var(--color-accent);
+    color: var(--color-on-accent);
   }
-  .v2-btn-primary:hover { filter: brightness(1.06); color: #fff; }
+  .v2-btn-primary:hover { background-color: var(--color-accent-light); color: var(--color-on-accent); }
+  /* Secondary is neutral, not a second amber thing competing with the primary. */
   .v2-btn-outline {
-    color: var(--color-accent-light);
-    border-color: rgba(242, 116, 44, 0.5);
-    background-color: transparent;
+    color: var(--color-ink);
+    border-color: var(--color-line-strong);
+    background-color: var(--color-elevated);
   }
-  .v2-btn-outline:hover { border-color: var(--color-accent); color: var(--color-accent); }
+  .v2-btn-outline:hover { background-color: var(--color-line); border-color: var(--color-line-strong); color: var(--color-ink); }
   .v2-btn-ghost {
     color: var(--color-muted);
-    border-color: rgba(255, 255, 255, 0.12);
-    background-color: rgba(255, 255, 255, 0.02);
+    border-color: transparent;
+    background-color: transparent;
   }
-  .v2-btn-ghost:hover { color: var(--color-ink); border-color: rgba(255, 255, 255, 0.22); }
-  .v2-btn-info { color: var(--color-info); border-color: rgba(74, 163, 223, 0.45); }
-  .v2-btn-info:hover { color: #fff; background-color: rgba(74, 163, 223, 0.14); }
-  .v2-btn-danger { color: #fff; background-color: var(--color-danger); }
-  .v2-btn-danger:hover { filter: brightness(1.08); color: #fff; }
-  .v2-btn:disabled, .v2-btn[disabled] { opacity: 0.5; cursor: not-allowed; }
+  .v2-btn-ghost:hover { color: var(--color-ink); background-color: var(--color-state-hover); }
+  .v2-btn-info { color: var(--color-info-light); border-color: var(--color-line-strong); background-color: var(--color-elevated); }
+  .v2-btn-info:hover { color: var(--color-on-solid); background-color: var(--color-info); border-color: var(--color-info); }
+  .v2-btn-danger { color: var(--color-on-solid); background-color: var(--color-danger); }
+  .v2-btn-danger:hover { background-color: var(--color-danger-text); color: var(--color-on-accent); }
+  .v2-btn:disabled, .v2-btn[disabled] { opacity: 0.45; cursor: not-allowed; }
+  .v2-btn:disabled:hover, .v2-btn[disabled]:hover { background-color: inherit; }
 
   /* Forms */
   .v2-label {
     display: block;
-    font-size: 0.8125rem;
+    font-size: 0.9375rem;
     font-weight: 600;
     color: var(--color-muted);
     margin-bottom: 0.35rem;
@@ -218,16 +286,16 @@
   .v2-input, .v2-select, .v2-textarea {
     width: 100%;
     background-color: var(--color-inset);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--color-line);
     border-radius: var(--radius-btn);
     padding: 0.55rem 0.75rem;
     color: var(--color-ink);
-    font-size: 0.9rem;
+    font-size: 0.9375rem;
   }
   .v2-input:focus, .v2-select:focus, .v2-textarea:focus {
-    outline: none;
     border-color: var(--color-accent);
-    box-shadow: 0 0 0 3px rgba(242, 116, 44, 0.18);
+    outline: 2px solid var(--color-accent);
+    outline-offset: 1px;
   }
   .v2-input::placeholder, .v2-textarea::placeholder { color: var(--color-faint); }
   .v2-mono { font-family: var(--font-mono); }
@@ -235,26 +303,28 @@
      mono cells (dates, IDs) looked bigger than the text beside them. Normalise its
      x-height to the sans without touching font-size (composes with text-sm etc.). */
   .font-mono { font-size-adjust: 0.50; }
-  .v2-help { font-size: 0.8rem; color: var(--color-faint); margin-top: 0.3rem; }
-  .v2-error { color: #ff9a8a; font-size: 0.8rem; margin-top: 0.3rem; }
+  .v2-help { font-size: 0.8125rem; color: var(--color-faint); margin-top: 0.3rem; }
+  .v2-error { color: var(--color-danger-text); font-size: 0.8125rem; margin-top: 0.3rem; }
 
   /* Tables */
-  .v2-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+  .v2-table { width: 100%; border-collapse: collapse; font-size: 0.9375rem; }
   .v2-table thead th {
+    background-color: var(--color-panel-2);
     text-align: left;
     color: var(--color-faint);
     font-weight: 600;
     padding: 0.6rem 0.85rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid var(--color-line);
     white-space: nowrap;
   }
-  .v2-table tbody td { padding: 0.6rem 0.85rem; border-top: 1px solid rgba(255, 255, 255, 0.05); color: var(--color-ink); }
-  .v2-table tbody tr:hover { background-color: rgba(255, 255, 255, 0.03); }
+  .v2-table tbody td { padding: 0.6rem 0.85rem; border-top: 1px solid var(--color-line-soft); color: var(--color-ink); }
+  .v2-table tbody tr:hover { background-color: var(--color-state-hover); }
   .v2-table-wrap {
     overflow-x: auto;
     background-color: var(--color-panel);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--color-line);
     border-radius: var(--radius-card);
+    box-shadow: 0 1px 2px var(--color-shadow-surface), inset 0 1px 0 var(--color-highlight);
   }
   /* A table-wrap already provides a card-like frame, so when it sits inside a
      v2-card drop its own border/background to avoid a rounded-border-in-a-
@@ -272,20 +342,20 @@
     gap: 0.3rem;
     border-radius: 999px;
     padding: 0.15rem 0.6rem;
-    font-size: 0.72rem;
+    font-size: 0.8125rem;
     font-weight: 600;
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    border: 1px solid var(--color-line);
     color: var(--color-muted);
   }
-  .v2-badge-success { color: var(--color-success-text); border-color: rgba(62, 207, 142, 0.3); background-color: rgba(62, 207, 142, 0.08); }
-  .v2-badge-info { color: var(--color-info); border-color: rgba(74, 163, 223, 0.3); background-color: rgba(74, 163, 223, 0.08); }
-  .v2-badge-gold { color: var(--color-gold); border-color: rgba(242, 193, 78, 0.3); background-color: rgba(242, 193, 78, 0.08); }
-  .v2-badge-danger { color: #ff9a8a; border-color: rgba(229, 72, 52, 0.35); background-color: rgba(229, 72, 52, 0.1); }
+  .v2-badge-success { color: var(--color-success-text); border-color: color-mix(in oklab, var(--color-success) 30%, transparent); background-color: color-mix(in oklab, var(--color-success) 8%, transparent); }
+  .v2-badge-info { color: var(--color-info); border-color: color-mix(in oklab, var(--color-info) 30%, transparent); background-color: color-mix(in oklab, var(--color-info) 8%, transparent); }
+  .v2-badge-gold { color: var(--color-gold); border-color: color-mix(in oklab, var(--color-gold) 30%, transparent); background-color: color-mix(in oklab, var(--color-gold) 8%, transparent); }
+  .v2-badge-danger { color: var(--color-danger-text); border-color: color-mix(in oklab, var(--color-danger) 35%, transparent); background-color: color-mix(in oklab, var(--color-danger) 10%, transparent); }
 
   /* Flash messages */
-  .v2-flash { border-radius: var(--radius-btn); padding: 0.75rem 1rem; border: 1px solid; font-size: 0.9rem; }
-  .v2-flash-notice { color: var(--color-success-text); border-color: rgba(62, 207, 142, 0.3); background-color: rgba(62, 207, 142, 0.08); }
-  .v2-flash-alert { color: #ff9a8a; border-color: rgba(229, 72, 52, 0.35); background-color: rgba(229, 72, 52, 0.1); }
+  .v2-flash { border-radius: var(--radius-btn); padding: 0.75rem 1rem; border: 1px solid; font-size: 0.9375rem; }
+  .v2-flash-notice { color: var(--color-success-text); border-color: color-mix(in oklab, var(--color-success) 30%, transparent); background-color: color-mix(in oklab, var(--color-success) 8%, transparent); }
+  .v2-flash-alert { color: var(--color-danger-text); border-color: color-mix(in oklab, var(--color-danger) 35%, transparent); background-color: color-mix(in oklab, var(--color-danger) 10%, transparent); }
 
   /* Pulsing live dot */
   .v2-dot { display: inline-block; width: 0.5rem; height: 0.5rem; border-radius: 999px; animation: v2-pulse 1.55s ease-in-out infinite; }
@@ -304,9 +374,9 @@
   padding: 0.4rem;
   margin: 0;
   background-color: var(--color-elevated);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid var(--color-line);
   border-radius: var(--radius-card);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 1px 2px var(--color-shadow-contact), 0 8px 24px var(--color-shadow-ambient);
   list-style: none;
 }
 .dropdown-menu.show { display: block; }
@@ -319,30 +389,32 @@
   padding: 0.45rem 0.6rem;
   border-radius: var(--radius-btn);
   color: var(--color-muted);
-  font-size: 0.875rem;
+  font-size: 0.9375rem;
   white-space: nowrap;
   text-decoration: none;
 }
-.dropdown-item:hover, .dropdown-item:focus { background-color: rgba(255, 255, 255, 0.06); color: var(--color-ink); }
-.dropdown-divider { height: 1px; margin: 0.4rem 0.2rem; background-color: rgba(255, 255, 255, 0.08); }
-.dropdown-header { padding: 0.4rem 0.6rem 0.2rem; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-faint); }
+.dropdown-item:hover, .dropdown-item:focus { background-color: var(--color-state-hover); color: var(--color-ink); }
+.dropdown-divider { height: 1px; margin: 0.4rem 0.2rem; background-color: var(--color-line); }
+/* No transform, no tracking: a tracked uppercase kicker is the eyebrow DESIGN.md
+   rules out, and this menu is where power users live. Sentence case Label type. */
+.dropdown-header { padding: 0.4rem 0.6rem 0.2rem; font-size: 0.8125rem; font-weight: 500; color: var(--color-faint); }
 
 /* Modals (data-bs-toggle="modal") */
 .modal { position: fixed; inset: 0; z-index: 1055; display: none; overflow-y: auto; }
 .modal.show { display: block; }
-.modal-backdrop { position: fixed; inset: 0; z-index: 1050; background-color: rgba(0, 0, 0, 0.6); }
+.modal-backdrop { position: fixed; inset: 0; z-index: 1050; background-color: var(--color-scrim); }
 .modal-backdrop.show { opacity: 1; }
 .modal-dialog { position: relative; width: auto; max-width: 560px; margin: 2.5rem auto; }
 .modal-content {
-  background-image: linear-gradient(to bottom, var(--color-elevated), var(--color-panel));
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: var(--color-elevated);
+  border: 1px solid var(--color-line);
   border-radius: var(--radius-card);
-  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 1px 2px var(--color-shadow-contact), 0 8px 24px var(--color-shadow-ambient);
   color: var(--color-ink);
 }
 .modal-header, .modal-footer { padding: 1rem 1.25rem; display: flex; align-items: center; gap: 0.75rem; }
-.modal-header { border-bottom: 1px solid rgba(255, 255, 255, 0.08); justify-content: space-between; }
-.modal-footer { border-top: 1px solid rgba(255, 255, 255, 0.08); justify-content: flex-end; }
+.modal-header { border-bottom: 1px solid var(--color-line); justify-content: space-between; }
+.modal-footer { border-top: 1px solid var(--color-line); justify-content: flex-end; }
 .modal-body { padding: 1.25rem; }
 .modal-title { font-family: var(--font-display); font-weight: 700; }
 .btn-close {
@@ -353,13 +425,17 @@
 
 /* Collapse (navbar toggler / data-bs-toggle="collapse") */
 .collapse:not(.show) { display: none; }
+/* Animating height is normally layout thrash, but Bootstrap's collapse plugin
+   writes an explicit pixel height onto this element, so transform/grid-rows
+   cannot drive it without reimplementing the plugin. Scoped to the mobile nav
+   disclosure, one element, on tap only. */
 .collapsing { height: 0; overflow: hidden; transition: height 0.2s ease; }
 
 /* Nav tabs / pills */
-.nav-tabs { display: flex; gap: 0.25rem; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+.nav-tabs { display: flex; gap: 0.25rem; border-bottom: 1px solid var(--color-line); }
 .nav-tabs .nav-link {
   padding: 0.5rem 0.9rem; border: 0; border-bottom: 2px solid transparent;
-  color: var(--color-muted); font-weight: 600; font-size: 0.875rem; background: none; cursor: pointer;
+  color: var(--color-muted); font-weight: 600; font-size: 0.9375rem; background: none; cursor: pointer;
 }
 .nav-tabs .nav-link.active { color: var(--color-ink); border-bottom-color: var(--color-accent); }
 
@@ -405,98 +481,98 @@
 .align-items-center{align-items:center}.align-self-end{align-self:flex-end}.align-self-center{align-self:center}
 .text-center{text-align:center}.text-end,.text-right{text-align:right}.text-start{text-align:left}
 .text-muted{color:var(--color-muted)}.text-warning{color:var(--color-gold)}
-.text-success{color:var(--color-success-text)}.text-danger{color:#ff9a8a}.text-info{color:var(--color-info)}
+.text-success{color:var(--color-success-text)}.text-danger{color:var(--color-danger-text)}.text-info{color:var(--color-info)}
 .float-end,.pull-right{float:right}.float-start{float:left}.w-100{width:100%}.mx-auto{margin-left:auto;margin-right:auto}
-.lead{font-size:1.1rem;color:var(--color-muted)}.center-block{margin-left:auto;margin-right:auto}
+.lead{font-size: 1rem;color:var(--color-muted)}.center-block{margin-left:auto;margin-right:auto}
 
 /* Buttons (Bootstrap class names) */
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;
   border-radius: var(--radius-btn); border: 1px solid transparent; padding: 0.5rem 1rem;
-  font-weight: 600; font-size: 0.875rem; cursor: pointer; text-decoration: none;
+  font-weight: 600; font-size: 0.9375rem; cursor: pointer; text-decoration: none;
   transition: filter 0.12s ease, background-color 0.12s ease, border-color 0.12s ease;
-  color: var(--color-ink); background-color: rgba(255,255,255,0.04);
+  color: var(--color-ink); background-color: var(--color-state-hover);
 }
 .btn:hover{filter:brightness(1.08)}
-.btn-sm{padding:0.3rem 0.7rem;font-size:0.78rem}.btn-lg{padding:0.7rem 1.4rem;font-size:1rem}
+.btn-sm{padding:0.3rem 0.7rem;font-size: 0.8125rem}.btn-lg{padding:0.7rem 1.4rem;font-size: 1rem}
 .btn-block{display:flex;width:100%}
-.btn-primary,.btn-warning{background-image:linear-gradient(135deg,var(--color-cta-from),var(--color-cta-to));border-color:transparent;color:#fff;box-shadow:0 6px 18px rgba(223,85,36,0.18)}
+.btn-primary,.btn-warning{background-color:var(--color-accent);border-color:transparent;color:var(--color-on-accent)}
 .btn-primary:hover,.btn-warning:hover{color:#fff}
-.btn-success{background-color:rgba(62,207,142,0.16);border-color:rgba(62,207,142,0.4);color:var(--color-success-text)}
-.btn-info{background-color:rgba(74,163,223,0.14);border-color:rgba(74,163,223,0.4);color:var(--color-info)}
+.btn-success{background-color:color-mix(in oklab, var(--color-success) 16%, transparent);border-color:color-mix(in oklab, var(--color-success) 40%, transparent);color:var(--color-success-text)}
+.btn-info{background-color:color-mix(in oklab, var(--color-info) 14%, transparent);border-color:color-mix(in oklab, var(--color-info) 40%, transparent);color:var(--color-info)}
 .btn-danger{background-color:var(--color-danger);border-color:transparent;color:#fff}
-.btn-secondary,.btn-default{background-color:rgba(255,255,255,0.05);border-color:rgba(255,255,255,0.14);color:var(--color-ink)}
-.btn-outline-warning,.btn-outline-primary{background:transparent;border-color:rgba(242,116,44,0.5);color:var(--color-accent-light)}
-.btn-link{background:none;border:0;color:var(--color-accent-light);box-shadow:none}
+.btn-secondary,.btn-default{background-color: var(--color-state-hover);border-color:var(--color-line-strong);color:var(--color-ink)}
+.btn-outline-warning,.btn-outline-primary{background:transparent;border-color:color-mix(in oklab, var(--color-accent) 50%, transparent);color:var(--color-accent-light)}
+.btn-link{background:none;border:0;color:var(--color-info-light);box-shadow:none}
 
 /* Tables (Bootstrap class names) */
-.table{width:100%;border-collapse:collapse;font-size:0.875rem;color:var(--color-ink)}
-.table thead th{text-align:left;color:var(--color-faint);font-weight:600;padding:0.6rem 0.85rem;border-bottom:1px solid rgba(255,255,255,0.08);white-space:nowrap}
-.table tbody td,.table tbody th{padding:0.55rem 0.85rem;border-top:1px solid rgba(255,255,255,0.05);vertical-align:middle}
-.table-hover tbody tr:hover{background-color:rgba(255,255,255,0.03)}
-.table-striped tbody tr:nth-child(odd){background-color:rgba(255,255,255,0.02)}
+.table{width:100%;border-collapse:collapse;font-size: 0.9375rem;color:var(--color-ink)}
+.table thead th{text-align:left;color:var(--color-faint);font-weight:600;padding:0.6rem 0.85rem;border-bottom:1px solid var(--color-line);white-space:nowrap}
+.table tbody td,.table tbody th{padding:0.55rem 0.85rem;border-top:1px solid var(--color-line-soft);vertical-align:middle}
+.table-hover tbody tr:hover{background-color: var(--color-state-hover)}
+.table-striped tbody tr:nth-child(odd){background-color: var(--color-state-hover)}
 .table-responsive{overflow-x:auto}
-.table-bordered, .table-bordered td, .table-bordered th{border:1px solid rgba(255,255,255,0.08)}
+.table-bordered, .table-bordered td, .table-bordered th{border:1px solid var(--color-line)}
 
 /* Forms (simple_form / Bootstrap class names) */
 .form-group{margin-bottom:1rem}
-.control-label,.form-control-label,.form-label,.col-form-label{display:block;font-size:0.8125rem;font-weight:600;color:var(--color-muted);margin-bottom:0.35rem}
+.control-label,.form-control-label,.form-label,.col-form-label{display:block;font-size: 0.9375rem;font-weight:600;color:var(--color-muted);margin-bottom:0.35rem}
 .form-control,.form-select,.form-control-file,select,textarea,input[type="text"],input[type="email"],input[type="password"],input[type="number"],input[type="search"],input[type="url"],input[type="datetime-local"],input[type="date"]{
-  width:100%;background-color:var(--color-inset);border:1px solid rgba(255,255,255,0.1);border-radius:var(--radius-btn);
-  padding:0.55rem 0.75rem;color:var(--color-ink);font-size:0.9rem;
+  width:100%;background-color:var(--color-inset);border:1px solid var(--color-line);border-radius:var(--radius-btn);
+  padding:0.55rem 0.75rem;color:var(--color-ink);font-size: 0.9375rem;
 }
-.form-control:focus,.form-select:focus,select:focus,textarea:focus,input:focus{outline:none;border-color:var(--color-accent);box-shadow:0 0 0 3px rgba(242,116,44,0.18)}
+.form-control:focus,.form-select:focus,select:focus,textarea:focus,input:focus{border-color:var(--color-accent);outline:2px solid var(--color-accent);outline-offset:1px}
 input[type="checkbox"],input[type="radio"]{width:auto;accent-color:var(--color-accent)}
 .form-check{display:flex;align-items:center;gap:0.5rem;margin-bottom:0.4rem}
 .form-check-input{width:auto}.form-check-label{margin:0;color:var(--color-ink);font-weight:400}
-.invalid-feedback{color:#ff9a8a;font-size:0.8rem;margin-top:0.25rem}
+.invalid-feedback{color:var(--color-danger-text);font-size: 0.8125rem;margin-top:0.25rem}
 .is-invalid{border-color:var(--color-danger)!important}
-.form-text,.help-block{color:var(--color-faint);font-size:0.8rem;margin-top:0.25rem}
+.form-text,.help-block{color:var(--color-faint);font-size: 0.8125rem;margin-top:0.25rem}
 .input-group{display:flex;align-items:stretch}.input-group > *{border-radius:0}
 .input-group > :first-child{border-top-left-radius:var(--radius-btn);border-bottom-left-radius:var(--radius-btn)}
 .input-group > :last-child{border-top-right-radius:var(--radius-btn);border-bottom-right-radius:var(--radius-btn)}
 
 /* Alerts */
-.alert{border-radius:var(--radius-btn);padding:0.75rem 1rem;border:1px solid;margin-bottom:1rem;font-size:0.9rem}
-.alert-info{color:var(--color-info);border-color:rgba(74,163,223,0.3);background-color:rgba(74,163,223,0.08)}
-.alert-success{color:var(--color-success-text);border-color:rgba(62,207,142,0.3);background-color:rgba(62,207,142,0.08)}
-.alert-danger{color:#ff9a8a;border-color:rgba(229,72,52,0.35);background-color:rgba(229,72,52,0.1)}
-.alert-warning{color:var(--color-gold);border-color:rgba(242,193,78,0.3);background-color:rgba(242,193,78,0.08)}
+.alert{border-radius:var(--radius-btn);padding:0.75rem 1rem;border:1px solid;margin-bottom:1rem;font-size: 0.9375rem}
+.alert-info{color:var(--color-info);border-color:color-mix(in oklab, var(--color-info) 30%, transparent);background-color:color-mix(in oklab, var(--color-info) 8%, transparent)}
+.alert-success{color:var(--color-success-text);border-color:color-mix(in oklab, var(--color-success) 30%, transparent);background-color:color-mix(in oklab, var(--color-success) 8%, transparent)}
+.alert-danger{color:var(--color-danger-text);border-color:color-mix(in oklab, var(--color-danger) 35%, transparent);background-color:color-mix(in oklab, var(--color-danger) 10%, transparent)}
+.alert-warning{color:var(--color-gold);border-color:color-mix(in oklab, var(--color-gold) 30%, transparent);background-color:color-mix(in oklab, var(--color-gold) 8%, transparent)}
 
 /* Badges */
-.badge{display:inline-flex;align-items:center;gap:0.3rem;border-radius:999px;padding:0.15rem 0.6rem;font-size:0.72rem;font-weight:600;border:1px solid rgba(255,255,255,0.12);color:var(--color-muted)}
-.badge.bg-success,.bg-success{background-color:rgba(62,207,142,0.15);color:var(--color-success-text)}
-.badge.bg-danger,.bg-danger{background-color:rgba(229,72,52,0.15);color:#ff9a8a}
-.badge.bg-info,.bg-info{background-color:rgba(74,163,223,0.15);color:var(--color-info)}
-.badge.bg-warning,.bg-warning{background-color:rgba(242,193,78,0.15);color:var(--color-gold)}
+.badge{display:inline-flex;align-items:center;gap:0.3rem;border-radius:999px;padding:0.15rem 0.6rem;font-size: 0.8125rem;font-weight:600;border:1px solid var(--color-line);color:var(--color-muted)}
+.badge.bg-success,.bg-success{background-color:color-mix(in oklab, var(--color-success) 15%, transparent);color:var(--color-success-text)}
+.badge.bg-danger,.bg-danger{background-color:color-mix(in oklab, var(--color-danger) 15%, transparent);color:var(--color-danger-text)}
+.badge.bg-info,.bg-info{background-color:color-mix(in oklab, var(--color-info) 15%, transparent);color:var(--color-info)}
+.badge.bg-warning,.bg-warning{background-color:color-mix(in oklab, var(--color-gold) 15%, transparent);color:var(--color-gold)}
 /* Bootstrap-4 colour modifiers (badge-*) used on some admin pages */
-.badge-success{background-color:rgba(62,207,142,0.15);color:var(--color-success-text)}
-.badge-danger{background-color:rgba(229,72,52,0.15);color:#ff9a8a}
-.badge-info{background-color:rgba(74,163,223,0.15);color:var(--color-info)}
-.badge-warning{background-color:rgba(242,193,78,0.15);color:var(--color-gold)}
-.badge-dark{background-color:rgba(255,255,255,0.06);color:var(--color-ink)}
-.badge-secondary,.badge-light{background-color:rgba(255,255,255,0.06);color:var(--color-muted)}
+.badge-success{background-color:color-mix(in oklab, var(--color-success) 15%, transparent);color:var(--color-success-text)}
+.badge-danger{background-color:color-mix(in oklab, var(--color-danger) 15%, transparent);color:var(--color-danger-text)}
+.badge-info{background-color:color-mix(in oklab, var(--color-info) 15%, transparent);color:var(--color-info)}
+.badge-warning{background-color:color-mix(in oklab, var(--color-gold) 15%, transparent);color:var(--color-gold)}
+.badge-dark{background-color: var(--color-state-hover);color:var(--color-ink)}
+.badge-secondary,.badge-light{background-color: var(--color-state-hover);color:var(--color-muted)}
 /* Bare icon-button wrapping a badge (league request actions): strip the .btn box
    so the badge reads like a standalone pill, matching the adjacent flag badge. */
 .btn-inline-action{background:none;border:0;padding:0;box-shadow:none;line-height:1}
 .btn-inline-action:hover{filter:brightness(1.12)}
 
 /* Progress bars (e.g. zip download, broadcast from a worker so always classic markup) */
-.progress{background-color:var(--color-inset);border:1px solid rgba(255,255,255,0.08);border-radius:999px;overflow:hidden}
-.progress .progress-bar{background-color:var(--color-cta-to);background-image:linear-gradient(135deg,var(--color-cta-from),var(--color-cta-to));transition:width 0.3s ease}
+.progress{background-color:var(--color-inset);border:1px solid var(--color-line);border-radius:999px;overflow:hidden}
+.progress .progress-bar{background-color:var(--color-success)}
 .progress .progress-bar .text-white,.progress .text-white{color:#fff}
 
 /* Cards */
-.card{background-color:var(--color-panel);border:1px solid rgba(255,255,255,0.08);border-radius:var(--radius-card)}
-.card-body{padding:1.25rem}.card-header{padding:0.85rem 1.25rem;border-bottom:1px solid rgba(255,255,255,0.08);font-weight:600}
+.card{background-color:var(--color-panel);border:1px solid var(--color-line);border-radius:var(--radius-card)}
+.card-body{padding:1.25rem}.card-header{padding:0.85rem 1.25rem;border-bottom:1px solid var(--color-line);font-weight:600}
 
 /* Pagination (pagy bootstrap nav) */
 .pagination{display:inline-flex;gap:0.25rem;list-style:none;padding:0;flex-wrap:wrap}
 .pagination .page-item .page-link,.pagination a,.pagination span{
   display:inline-flex;align-items:center;justify-content:center;min-width:2rem;height:2rem;padding:0 0.5rem;
-  border-radius:var(--radius-btn);border:1px solid rgba(255,255,255,0.1);color:var(--color-muted);background-color:var(--color-inset);text-decoration:none;font-size:0.85rem;
+  border-radius:var(--radius-btn);border:1px solid var(--color-line);color:var(--color-muted);background-color:var(--color-inset);text-decoration:none;font-size: 0.9375rem;
 }
-.pagination .active .page-link,.pagination .page-item.active span,.pagination .current{background-image:linear-gradient(135deg,var(--color-cta-from),var(--color-cta-to));color:#fff;border-color:transparent}
+.pagination .active .page-link,.pagination .page-item.active span,.pagination .current{background-color:var(--color-accent);color:var(--color-on-accent);border-color:transparent}
 .pagination .disabled .page-link,.pagination .page-item.disabled span{opacity:0.4}
 
 /* Top nav menu: hidden on mobile (toggled via Stimulus .is-open), always shown
@@ -511,7 +587,7 @@ input[type="checkbox"],input[type="radio"]{width:auto;accent-color:var(--color-a
   position: absolute;
   left: 0; right: 0; top: 60px;
   background: #111317;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid var(--color-line);
   padding: 0.5rem 26px 1rem;
   z-index: 50;
   max-height: calc(100vh - 60px);
@@ -525,8 +601,8 @@ input[type="checkbox"],input[type="radio"]{width:auto;accent-color:var(--color-a
 @layer components {
   .v2-connect {
     display: inline-block;
-    background: #000;
-    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: var(--color-inset-2);
+    border: 1px solid var(--color-line-strong);
     border-radius: var(--radius-btn);
     padding: 0.4rem 0.7rem;
     font-family: var(--font-mono);
@@ -563,11 +639,11 @@ input[type="checkbox"],input[type="radio"]{width:auto;accent-color:var(--color-a
 .modal-dialog.modal-xl { max-width: 1040px; }
 .bg-dark { background-color: var(--color-elevated) !important; }
 .text-light { color: var(--color-ink) !important; }
-.border-secondary { border-color: rgba(255,255,255,0.1) !important; }
+.border-secondary { border-color: var(--color-line) !important; }
 .btn-close-white { filter: invert(1) grayscale(1); }
 
 /* Premium (donator) nicknames render gold (ported from classic _common.sass). */
-.donator, #voucher-claim-url { color: #ffe14d; text-shadow: 1px 1px 0 #000; }
+.donator, #voucher-claim-url { color: var(--color-gold); text-shadow: 1px 1px 0 var(--color-inset-2); }
 
 /* Bootstrap-ish CSS vars used by ported classic component CSS. */
 :root { --info: #4aa3df; --warning: #f2c14e; --success: #3ecf8e; --danger: #e54834; }
@@ -575,26 +651,26 @@ input[type="checkbox"],input[type="radio"]{width:auto;accent-color:var(--color-a
 /* Reservation gantt chart (ported from classic _reservations.sass). */
 .server_reservations { padding-left: 0; }
 .server_reservations .server { margin-bottom: 2px; }
-.server_reservations .server .name { display: inline-block; cursor: pointer; color: var(--color-accent-light); font-size: 0.8rem; }
+.server_reservations .server .name { display: inline-block; cursor: pointer; color: var(--color-accent-light); font-size: 0.8125rem; }
 .server_reservations .server .name:hover { text-decoration: underline; }
 .server_reservations .reservations { position: relative; display: inline-block; overflow: hidden; height: 20px; vertical-align: middle; }
-.server_reservations .gantt { cursor: pointer; display: inline-block; position: absolute; overflow: hidden; text-align: center; height: 20px; background-color: var(--info); border-left: 1px solid #fff; }
-.server_reservations .gantt .progress-bar { font-size: 10px; color: #fff; }
+.server_reservations .gantt { cursor: pointer; display: inline-block; position: absolute; overflow: hidden; text-align: center; height: 20px; background-color: var(--color-info); border-left: 1px solid var(--color-on-solid); }
+.server_reservations .gantt .progress-bar { font-size: 0.6875rem; color: var(--color-on-solid); }
 
 /* TF2 team colors (scoreboard). */
-.bg-team-red { background-color: #bd3b3b; }
-.bg-team-blue { background-color: #5b818f; }
+.bg-team-red { background-color: var(--color-team-red); }
+.bg-team-blue { background-color: var(--color-team-blue); }
 .team-color-bar { width: 4px; padding: 0; }
 
 /* Modal close (×) stays visible on the dark modal. */
 .btn-close-white { filter: none; color: #fff; }
-.modal-header .btn-close:hover { background: rgba(255, 255, 255, 0.1); border-radius: 6px; }
+.modal-header .btn-close:hover { background: var(--color-state-active); border-radius: 6px; }
 
 /* Map-upload dropzone (click to browse / drag-drop). */
 .v2-dropzone {
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   text-align: center; gap: 0.15rem;
-  border: 2px dashed rgba(255, 255, 255, 0.18);
+  border: 2px dashed var(--color-line-strong);
   border-radius: var(--radius-card);
   background: var(--color-inset);
   color: var(--color-muted);
@@ -603,13 +679,13 @@ input[type="checkbox"],input[type="radio"]{width:auto;accent-color:var(--color-a
   transition: border-color 0.15s ease, background 0.15s ease;
 }
 .v2-dropzone:hover { border-color: var(--color-accent); color: var(--color-ink); }
-.v2-dropzone.is-dragover { border-color: var(--color-accent); background: rgba(242, 116, 44, 0.08); color: var(--color-ink); }
+.v2-dropzone.is-dragover { border-color: var(--color-accent); background: color-mix(in oklab, var(--color-accent) 8%, transparent); color: var(--color-ink); }
 
 /* Reservation row status backgrounds (active/future) + Bootstrap contextual rows. */
-.v2-res-now, tr.table-success, .table-success > td { background-color: rgba(62, 207, 142, 0.13) !important; }
-.v2-res-future, tr.table-info, .table-info > td { background-color: rgba(74, 163, 223, 0.13) !important; }
-tr.table-warning, .table-warning > td { background-color: rgba(242, 193, 78, 0.13) !important; }
-tr.table-danger, .table-danger > td { background-color: rgba(229, 72, 52, 0.13) !important; }
+.v2-res-now, tr.table-success, .table-success > td { background-color: color-mix(in oklab, var(--color-success) 13%, transparent) !important; }
+.v2-res-future, tr.table-info, .table-info > td { background-color: color-mix(in oklab, var(--color-info) 13%, transparent) !important; }
+tr.table-warning, .table-warning > td { background-color: color-mix(in oklab, var(--color-gold) 13%, transparent) !important; }
+tr.table-danger, .table-danger > td { background-color: color-mix(in oklab, var(--color-danger) 13%, transparent) !important; }
 .v2-res-now td:first-child { box-shadow: inset 3px 0 0 var(--color-success); }
 .v2-res-future td:first-child { box-shadow: inset 3px 0 0 var(--color-info); }
 
@@ -617,7 +693,7 @@ tr.table-danger, .table-danger > td { background-color: rgba(229, 72, 52, 0.13) 
 #server_reservations_table { display: none; }
 
 /* Copy button "copied!" confirmation state. */
-.v2-btn.v2-copied { color: var(--color-success-text); border-color: rgba(62, 207, 142, 0.45); background-color: rgba(62, 207, 142, 0.1); }
+.v2-btn.v2-copied { color: var(--color-success-text); border-color: color-mix(in oklab, var(--color-success) 45%, transparent); background-color: color-mix(in oklab, var(--color-success) 10%, transparent); }
 
 /* Horizontal form rows: center the label with the input. */
 .form-group.row { align-items: center; }
@@ -629,14 +705,14 @@ tr.table-danger, .table-danger > td { background-color: rgba(229, 72, 52, 0.13) 
 }
 .reservation .form-group.boolean .form-check-label {
   grid-column: 1; grid-row: 1; padding-right: 0.75rem; margin: 0; cursor: pointer;
-  color: var(--color-muted); font-size: 0.8125rem; font-weight: 600;
+  color: var(--color-muted); font-size: 0.9375rem; font-weight: 600;
 }
 .reservation .form-group.boolean .form-text { grid-column: 2; grid-row: 2; padding-left: 0; margin-top: 0.3rem; }
 .reservation .form-group.boolean .form-check-input[type="checkbox"] {
   grid-column: 2; grid-row: 1; justify-self: start; margin: 0; flex: none;
   appearance: none; -webkit-appearance: none;
   width: 2.5rem; height: 1.4rem; border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  border: 1px solid var(--color-line-strong);
   background-color: var(--color-inset);
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22'%3e%3ccircle r='8' cx='11' cy='11' fill='%23cfd3da'/%3e%3c/svg%3e");
   background-repeat: no-repeat; background-position: left center; background-size: 1.4rem 1.4rem;
@@ -644,8 +720,19 @@ tr.table-danger, .table-danger > td { background-color: rgba(229, 72, 52, 0.13) 
   transition: background-color 0.15s ease, background-position 0.15s ease, border-color 0.15s ease;
 }
 .reservation .form-group.boolean .form-check-input[type="checkbox"]:checked {
-  background-color: #ee5f29; border-color: transparent; background-position: right center;
+  background-color: var(--color-accent); border-color: transparent; background-position: right center;
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22'%3e%3ccircle r='8' cx='11' cy='11' fill='%23ffffff'/%3e%3c/svg%3e");
 }
 .reservation .form-group.boolean .form-check-input[type="checkbox"]:disabled { opacity: 0.5; cursor: not-allowed; }
-.reservation .form-group.boolean .form-check-input[type="checkbox"]:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(242, 116, 44, 0.25); }
+.reservation .form-group.boolean .form-check-input[type="checkbox"]:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+
+/* Full-bleed band inside the fixed-width container. The ring shadow paints the
+   surface out to the viewport edges and clip-path trims it vertically, so a band
+   can own a whole plane without restructuring the layout or risking the
+   horizontal scroll that a 100vw margin trick causes with a visible scrollbar. */
+@layer components {
+  .v2-bleed {
+    box-shadow: 0 0 0 100vmax var(--v2-bleed-color, var(--color-hero));
+    clip-path: inset(0 -100vmax);
+  }
+}

@@ -1,9 +1,9 @@
 %div{data: { controller: 'map-upload' }}
   = simple_form_for(@map_upload, :html => { :class => 'form' }, data: { turbo: false, action: 'submit->map-upload#handleSubmit' } ) do |f|
     %div{class: "v2-dropzone", data: { action: "click->map-upload#openFileDialog dragover->map-upload#dragover dragleave->map-upload#dragleave drop->map-upload#drop", "map-upload-target": "dropzone" }}
-      %i{class: "fa fa-cloud-upload", style: "font-size: 2rem;"}
+      %i{class: "fa fa-cloud-upload text-[1.75rem]"}
       %div{class: "mt-2", data: { "map-upload-target": "fileName" }} Drag a .bsp file here, or click to browse
-      %div{class: "text-faint text-xs mt-1"} .bsp only, up to 500&nbsp;MB
+      %div{class: "text-faint text-[0.8125rem] mt-1"} .bsp only, up to 500&nbsp;MB
     = f.file_field :file, class: "hidden", data: { "map-upload-target": "fileInput", action: "change->map-upload#fileSelected" }
     %button{:type => :submit, class: "v2-btn v2-btn-primary mt-3", data: { 'map-upload-target': 'submitButton' }}
       Upload

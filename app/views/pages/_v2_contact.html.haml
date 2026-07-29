@@ -1,0 +1,15 @@
+-# The classic homepage closes by asking people to say something, in the site's
+-# own voice. v2 dropped it and the page lost the only sentence that sounded like
+-# a person rather than a product. The v1 version linked to "#leave-a-comment",
+-# an anchor nothing defines, so this points at Discord, which is real.
+%section{class: "pt-8 pb-7 border-b border-line"}
+  %p{class: "text-muted max-w-[68ch]"}
+    If you like this service, had a problem or suggestion, I'd really appreciate
+    hearing about it!
+    - if au_system?
+      = link_to "The ozfortress Discord", "https://discord.gg/7E6kC2H", target: "_blank"
+    - else
+      = link_to "Our Discord", "https://discord.gg/0s38RdItLiCmARMm", target: "_blank"
+    is the place to leave a message, and bugs can go on
+    = succeed "." do
+      = link_to "GitHub", "https://github.com/Arie/serveme/issues", target: "_blank"

@@ -1,21 +1,21 @@
-%div{class: "overflow-x-auto bg-panel rounded-card border border-white/10"}
-  %table{class: "w-full text-sm"}
-    %thead{class: "text-faint text-left"}
+%div{class: "v2-table-wrap"}
+  %table{class: "v2-table"}
+    %thead
       %tr
-        %th{class: "px-4 py-3"} Server
-        %th{class: "px-4 py-3"} From
-        %th{class: "px-4 py-3"} Until
-        %th{class: "px-4 py-3"} Reserved by
-        %th{class: "px-4 py-3"} Logs/demos
+        %th Server
+        %th From
+        %th Until
+        %th Reserved by
+        %th Logs/demos
     %tbody
       - @users_games.each do |reservation|
         - server = reservation.server.decorate
-        %tr{class: "border-t border-white/5 hover:bg-white/5"}
-          %td{class: "px-4 py-3 text-ink"}= server.name
-          %td{class: "px-4 py-3 font-mono text-muted"}= I18n.l(reservation.starts_at, format: :short)
-          %td{class: "px-4 py-3 font-mono text-muted"}= I18n.l(reservation.ends_at, format: :short)
-          %td{class: "px-4 py-3 text-muted"}= reservation.user.nickname
-          %td{class: "px-4 py-3"}
+        %tr
+          %td= server.name
+          %td{class: "font-mono text-muted whitespace-nowrap"}= I18n.l(reservation.starts_at, format: :short)
+          %td{class: "font-mono text-muted whitespace-nowrap"}= I18n.l(reservation.ends_at, format: :short)
+          %td{class: "text-muted"}= reservation.user.nickname
+          %td
             %div{class: "flex flex-wrap items-center gap-1.5"}
               - if reservation.younger_than_cleanup_age? || reservation.zipfile.attached?
                 = render 'reservations/zip_file_link', reservation: reservation

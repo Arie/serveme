@@ -46,3 +46,7 @@ discord_bot/config.yml
 
 # Local reservation server logs (synced from production for dev)
 /server_logs/
+
+# Impeccable local state (consent flag, per-session hook cache)
+/.impeccable/config.local.json
+/.impeccable/hook.cache.json

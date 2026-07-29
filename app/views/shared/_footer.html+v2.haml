@@ -1,0 +1,24 @@
+-# Shared footer. Previously the homepage carried a bespoke link row and every
+-# other v2 page simply stopped, leaving the viewport to end in canvas. Living in
+-# the layout means every redesigned page terminates the same way.
+-#
+-# FakkelBrigade is the only provider listed on /server-providers, so it is the
+-# only logo shown. The remaining files in app/assets/images/server_providers/
+-# are unreferenced legacy assets and showing them would claim sponsorships the
+-# product does not document.
+%footer{class: "mt-auto pt-7 pb-8 border-t border-line text-faint"}
+  %div{class: "flex flex-wrap items-start justify-between gap-x-10 gap-y-6"}
+    %div{class: "flex items-center gap-3"}
+      = link_to server_providers_path, class: "shrink-0", title: "Server providers" do
+        = image_tag "server_providers/fakkelbrigade.png", alt: "FakkelBrigade", class: "h-8 w-auto opacity-80 hover:opacity-100"
+      %p{class: "max-w-[42ch]"}
+        Servers donated by
+        = link_to "FakkelBrigade", server_providers_path
+        and the rest of the community.
+    %nav{class: "flex flex-wrap gap-x-6 gap-y-2", "aria-label": "Site"}
+      = link_to "FAQ", faq_path
+      = link_to "Statistics", statistics_path, data: { turbo: false }
+      = link_to "Discord bot", discord_invite_path
+      = link_to "Discord", "https://discord.gg/0s38RdItLiCmARMm", target: "_blank"
+      = link_to "Source on GitHub", "https://github.com/Arie/serveme", target: "_blank"
+      = link_to "Privacy", privacy_path

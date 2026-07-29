@@ -1,0 +1,32 @@
+-# All-time totals, shown to signed-out visitors only. These are the strongest
+-# honest proof serveme has and they were previously buried on /statistics.
+-# total_playtime_seconds is a SUM over the whole reservations table, so it is
+-# cached well beyond the 30s action cache rather than run per request.
+-#
+-# Deliberately not a row of equal tiles: four same-sized figures say nothing is
+-# more important than anything else. The lifetime count leads, the rest support
+-# it. "Servers online" is gone — it reported capacity a second time, an order of
+-# magnitude away from the readout in the masthead, and the two disagreed on
+-# screen. Capacity is the readout's job.
+- totals = Rails.cache.fetch("v2_home_totals", expires_in: 6.hours) do
+  - { reservations: Statistic.total_reservations, hours: (Statistic.total_playtime_seconds / 3600.0).round }
+- flags = Rails.cache.fetch("v2_home_flags", expires_in: 6.hours) do
+  - Server.active.not_cloud.joins(:location).distinct.pluck("locations.flag").compact.sort
+%section{class: "pt-8 pb-7 border-b border-line", "aria-label": "Service totals"}
+  -# Grouped, not justified to the container edges: spreading three related
+    figures across 1230px reads as a layout filling itself rather than a fact.
+  %div{class: "flex flex-wrap items-end gap-x-12 gap-y-5"}
+    %div
+      %p{class: "font-mono text-ink text-[1.75rem] leading-none font-bold tracking-tight"}
+        = number_with_delimiter(totals[:reservations])
+      %p{class: "text-muted mt-2"} Reservations made, all time
+    %dl{class: "flex flex-wrap items-end gap-x-10 gap-y-4"}
+      %div
+        %dt{class: "text-faint"} Hours played
+        %dd{class: "font-mono text-ink text-base font-semibold mt-0.5"}= number_with_delimiter(totals[:hours])
+      - if flags.any?
+        %div
+          %dt{class: "text-faint"} Server locations
+          %dd{class: "flex items-center gap-1.5 mt-1.5 flex-wrap"}
+            - flags.each do |flag|
+              %span{class: "flags flags-#{flag}", title: flag.upcase}

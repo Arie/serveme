@@ -1,19 +1,42 @@
-%div{class: "relative overflow-hidden bg-hero rounded-card my-6 px-8 py-10"}
-  %div{class: "grid gap-8 md:grid-cols-[1.4fr_1fr]"}
-    %div{class: "flex flex-col gap-5"}
-      %h1{class: "font-display text-5xl font-black leading-[0.98] tracking-tight text-ink"}
-        Your TF2 server, ready in
-        %span{class: "text-accent"} 60 seconds.
-      %p{class: "text-muted max-w-prose"} The easiest way to get a TF2 server.
-      %div{class: "flex flex-wrap gap-3"}
-        = link_to new_reservation_path, class: "rounded-btn px-5 py-3 font-semibold text-white", style: "background: linear-gradient(135deg,var(--color-cta-from),var(--color-cta-to)); box-shadow:0 6px 18px rgba(223,85,36,.18)" do
-          Get server
-        = link_to i_am_feeling_lucky_reservations_path, data: { turbo_method: :post }, class: "rounded-btn px-5 py-3 font-semibold text-accent-light border border-accent/60 hover:border-accent" do
-          1-click server
-        - if current_user&.can_use_cloud_servers?
-          = link_to(current_user.cloud_server_access? ? new_cloud_reservation_path : cloud_info_path, class: "rounded-btn px-5 py-3 font-semibold text-info border border-info/50 hover:border-info") do
-            Cloud server
-      %p{class: "text-sm text-muted"}
-        %strong{class: "text-accent-light"} New:
-        = link_to "Add our bot to your Discord server", discord_invite_path, class: "text-accent-light hover:text-accent"
+-# Masthead band. Anonymous visitors get the pitch and a single honest CTA;
+-# signed-in regulars get a launch bar, because they already know what this is
+-# and came here to book.
+-#
+-# The text column is capped at the measure rather than at a fraction of the
+-# grid, so the band has no dead middle: 34rem is the 62ch paragraph plus its
+-# own slack, and the readout takes the rest.
+%section{class: "pt-8 pb-9 border-b border-line v2-bleed bg-hero"}
+  %div{class: "grid gap-x-10 gap-y-8 items-start md:grid-cols-[minmax(0,1fr)_minmax(20rem,24rem)]"}
+    %div
+      - if current_user
+        %h1{class: "font-display text-xl font-semibold tracking-tight text-ink"}
+          Book a server
+        %p{class: "text-muted mt-1"}
+          Same settings as last time, or pick your own.
+
+        -# 1-click is the fast path for someone who has booked before, so it takes
+        -# the accent. "Get server" stays available for picking a time and place.
+        %div{class: "flex flex-wrap gap-2 mt-5"}
+          = link_to "1-click server", i_am_feeling_lucky_reservations_path, data: { turbo_method: :post, disable_with: "Finding a server…" }, class: "v2-btn v2-btn-primary", title: "Repeat your last reservation in one click"
+          = link_to "Get server", new_reservation_path, class: "v2-btn v2-btn-outline", title: "Pick a time, a location and your settings"
+          - if current_user.can_use_cloud_servers?
+            = link_to "Cloud server", (current_user.cloud_server_access? ? new_cloud_reservation_path : cloud_info_path), class: "v2-btn v2-btn-outline", title: "Launch an on-demand cloud server"
+      - else
+        %h1{class: "font-display text-xl font-bold tracking-tight text-ink"}
+          Your TF2 server, ready in 60 seconds.
+        %p{class: "text-muted mt-3 max-w-[68ch]"}
+          Free competitive TF2 servers, run by the community and paid for by donations.
+          Reserve one for a scrim, a mix or an official, and get a connect string you can paste straight into Discord.
+
+        -# One CTA, and it says where it actually goes. The previous pair sent
+        -# anonymous visitors into Steam OAuth with no warning, and offered
+        -# 1-click (which repeats your last reservation) to people who have none.
+        %div{class: "flex flex-wrap gap-2 mt-5"}
+          = link_to "/users/auth/steam", data: { turbo_method: :post }, class: "v2-btn v2-btn-primary", title: "Sign in to reserve a server" do
+            Sign in through Steam
+
+        -# Existing announcement line, kept where it has always been.
+        %p{class: "text-faint mt-4"}
+          New:
+          = link_to "add our bot to your Discord server", discord_invite_path
     = render 'pages/v2_availability'

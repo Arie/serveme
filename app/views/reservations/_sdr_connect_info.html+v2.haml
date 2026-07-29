@@ -2,7 +2,7 @@
   - sdr_connect = reservation.sdr_connect_string
   - if sdr_connect.present?
     - if preliminary_sdr?(reservation)
-      %span{class: "text-faint text-xs w-full"} Temporary SDR connect info
+      %span{class: "text-faint text-[0.8125rem] w-full"} Temporary SDR connect info
     %span{class: "v2-connect"}= sdr_connect
     = render 'shared/copy_button', :copy_button_id => "sdr_connect_string", :copy_text => sdr_connect
   - elsif reservation.past?

@@ -1,13 +1,46 @@
+-# Monthly funding meter. The fill saturates at 100% while the label reports the
+-# true figure and percentage, so being over goal reads as the success it is
+-# rather than as a full, meaningless bar. The bar is colour-coded by funding
+-# level, as the classic homepage has always done.
 - pct = Order.monthly_goal_percentage.round
-- width = [pct, 100].min
+- width = [ pct, 100 ].min
 - unit = I18n.t('number.currency.format.unit')
-%div{class: "bg-panel rounded-card p-6 my-6 flex flex-col gap-3 border border-white/10"}
-  %div{class: "flex items-center justify-between flex-wrap gap-3"}
+- raised = Order.monthly_total.round
+- goal = Order.monthly_goal.round
+- state = if pct >= 100 then "success" elsif pct >= 70 then "success" elsif pct >= 30 then "warn" else "danger" end
+
+%section{class: "pt-8 pb-7 border-b border-line", "aria-label": "Monthly funding"}
+  %div{class: "flex items-start justify-between flex-wrap gap-4"}
     %div
-      %strong{class: "text-ink"} Monthly server bills (#{unit}#{Order.monthly_goal.round})
-      %p{class: "text-sm text-faint"} Split between providers by playtime · 2 keys/month
-    = link_to "Donate now", donate_path, class: "rounded-btn px-4 py-2 font-semibold text-white", style: "background: linear-gradient(135deg,var(--color-cta-from),var(--color-cta-to))"
-  %div{class: "relative h-5 rounded-full bg-inset overflow-hidden"}
-    %div{class: "h-full rounded-full transition-all v2-stripes", style: "width: #{width}%"}
-    %span{class: "absolute inset-0 flex items-center justify-center text-xs font-mono text-white"}
-      = "#{unit}#{Order.monthly_total.round} / #{unit}#{Order.monthly_goal.round}"
+      %h2{class: "text-base font-semibold text-ink"}
+        Monthly server bills
+        %span{class: "font-mono text-muted font-normal"}= "#{unit}#{goal}"
+      -# Region-aware, as the classic homepage is. The EU trade offer was hardcoded
+        here, so AU and SEA were being pointed at the European tradebot.
+      %p{class: "text-faint mt-1 max-w-[68ch]"}
+        - if au_system?
+          Split between the server providers by time played · #{link_to 'ozfortress on Patreon', 'https://patreon.com/ozfortress'} includes au.serveme.tf Premium on every tier.
+        - elsif sea_system?
+          Split between the server providers by time played · you can also send #{link_to 'the tradebot a trade offer', 'https://steamcommunity.com/tradeoffer/new/?partner=328658734&token=3vDIZUwa'} (2 keys/month).
+        - else
+          Split between the server providers by time played · you can also send #{link_to 'a TF2 trade offer', 'https://steamcommunity.com/tradeoffer/new/?partner=231702&token=POpKIGaL'} (2 keys/month).
+    -# Secondary on purpose. Booking is the page's primary action, and amber
+    -# appearing twice in one viewport spends the accent (DESIGN.md, One Job).
+    -# The band, the meter and the copy carry the prominence, not the fill.
+    = link_to "Donate now", donate_path, class: "v2-btn v2-btn-outline shrink-0", data: { turbo: false }
+
+  %div{class: "mt-4 flex items-center gap-3 flex-wrap sm:flex-nowrap"}
+    -# The track needs its own value step or an empty meter is invisible against
+    -# the page. role=progressbar so the figure is announced, not just drawn.
+    -# The track takes its own value step, not the inset well: bg-inset is darker
+      than the canvas behind it, so at 0% the meter vanished into the page
+      instead of reading as an empty control. See DESIGN.md, The Visible Track Rule.
+    %div{class: "relative h-2.5 grow rounded-pill bg-elevated overflow-hidden border border-line shadow-[inset_0_1px_2px_var(--color-shadow-surface)]", role: "progressbar", "aria-valuenow": pct, "aria-valuemin": 0, "aria-valuemax": 100, "aria-label": "Monthly funding"}
+      %div{class: "h-full rounded-pill", style: "width: #{width}%; background: var(--color-#{state})"}
+    %p{class: "font-mono whitespace-nowrap"}
+      %span{class: "text-ink font-semibold"}= "#{unit}#{raised}"
+      %span{class: "text-faint"}= "of #{unit}#{goal}"
+      %span{class: "text-#{state == 'danger' ? 'danger' : 'muted'} ml-1"}= "(#{pct}%)"
+  - if pct >= 100
+    %p{class: "text-success-text mt-2"}
+      This month's bills are covered — thank you. Anything extra goes to next month.

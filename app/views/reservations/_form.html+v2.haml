@@ -2,7 +2,7 @@
   %div{class: "flex items-center justify-between gap-4 my-6 flex-wrap"}
     %div
       %h1{class: "v2-page-title"} Book a server
-  %div{class: ["v2-card", "py-3", "text-sm", "border-l-4", "border-l-gold", "mb-4", "text-muted", ('blink-alert' if current_user&.uid.in?(['76561198082697717']))]}
+  %div{class: ["v2-card", "py-3", "text-[0.9375rem]", "border-l", "border-l-gold", "mb-4", "text-muted", ('blink-alert' if current_user&.uid.in?(['76561198082697717']))]}
     Please pick your start and end time carefully, we like to see reserved servers be used. All times are in timezone:
     = link_to(Time.zone.name, edit_users_path, class: "text-accent-light hover:text-accent")
 
@@ -30,13 +30,13 @@
         - if free_server_limit_reached_for_reservation?
           .buy_premium.form-group
             .col
-              %div{class: "v2-card border-l-4 border-l-gold text-muted"}
+              %div{class: "v2-card border-l border-l-gold text-muted"}
                 All free servers are currently in use.
                 = link_to("Get premium for more servers!", donate_path, data: { turbo: false }, class: "text-accent-light hover:text-accent")
         - elsif free_donator_server_count > 0
           .buy_premium.form-group
             .col
-              %div{class: "v2-card border-l-4 border-l-gold text-muted"}
+              %div{class: "v2-card border-l border-l-gold text-muted"}
                 No servers available for you during the selected times.
                 Premium users have #{I18n.t(:available, :count => free_donator_server_count, :scope => :server)} right now.
                 = link_to("Buy premium and get instant access!", donate_path, data: { turbo: false }, class: "text-accent-light hover:text-accent")

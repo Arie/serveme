@@ -14,15 +14,30 @@ class FileUpload < ActiveRecord::Base
 
   sig { returns(T::Array[Server]) }
   def process_file
+    upload_files_to_servers
+  ensure
+    cleanup_tmp_dir
+  end
+
+  # Called by UploadFilesToServerWorker, not here: web and sidekiq run in
+  # separate containers, so only the process doing the SCP can see the files.
+  sig { returns(T::Hash[String, T::Array[String]]) }
+  def files_to_upload
     files = extract_zip_to_tmp_dir
     sanitize_cfg_files(files)
     files = filter_allowed_files(files) if user&.config_admin? && !user&.admin?
-    upload_files_to_servers(files)
+    files
   end
 
   sig { returns(String) }
   def tmp_dir
     @tmp_dir ||= Dir.mktmpdir
+  end
+
+  sig { void }
+  def cleanup_tmp_dir
+    FileUtils.remove_entry(@tmp_dir) if @tmp_dir && Dir.exist?(@tmp_dir)
+    @tmp_dir = nil
   end
 
   sig { returns(T.nilable(String)) }
@@ -75,17 +90,17 @@ class FileUpload < ActiveRecord::Base
     files_with_path
   end
 
-  sig { params(files: T::Hash[String, T::Array[String]]).returns(T::Array[Server]) }
-  def upload_files_to_servers(files)
+  sig { returns(T::Array[Server]) }
+  def upload_files_to_servers
     Server.active.to_a.shuffle.each do |server|
-      upload_files_to_server(server, files)
+      upload_files_to_server(server)
     end
   end
 
-  sig { params(server: Server, files_with_path: T::Hash[String, T::Array[String]]).void }
-  def upload_files_to_server(server, files_with_path)
+  sig { params(server: Server).void }
+  def upload_files_to_server(server)
     server_upload = ServerUpload.where(file_upload_id: id, server_id: server.id).first_or_create!
-    UploadFilesToServerWorker.perform_async("server_upload_id" => server_upload.id, "files_with_path" => files_with_path)
+    UploadFilesToServerWorker.perform_async("server_upload_id" => server_upload.id)
   end
 
   private

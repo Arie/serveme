@@ -11,24 +11,48 @@ describe FileUpload do
 
   context 'archives', :map_archive do
     context 'zip' do
-      it 'sends the files to the servers' do
-        create(:server)
-
-        source = File.open(Rails.root.join('spec', 'fixtures', 'files', 'cfg.zip'))
+      let(:zip_fixture) do
         zip = Tempfile.new([ 'foo', '.zip' ])
-        zip.write source.read
+        zip.write File.read(Rails.root.join('spec', 'fixtures', 'files', 'cfg.zip'))
         zip.close
+        zip
+      end
+
+      it 'enqueues an upload per server without passing local paths' do
+        create(:server)
 
         allow(UploadFilesToServerWorker).to receive(:perform_async)
         user = create(:user)
         user.create_file_upload_permission(allowed_paths: [ 'cfg/' ])
 
-        file_upload = create :file_upload, file: zip, user: user
+        file_upload = create :file_upload, file: zip_fixture, user: user
         file_upload.process_file
 
-        cfgs_with_paths = { 'cfg' => [ File.join(file_upload.tmp_dir, 'cfg/etf2l.cfg').to_s, File.join(file_upload.tmp_dir, 'cfg/etf2l_custom.cfg').to_s, File.join(file_upload.tmp_dir, 'cfg/etf2l_whitelist_6v6.txt').to_s ] }
+        expect(UploadFilesToServerWorker).to have_received(:perform_async).with('server_upload_id' => anything)
+      end
 
-        expect(UploadFilesToServerWorker).to have_received(:perform_async).with('server_upload_id' => anything, 'files_with_path' => cfgs_with_paths)
+      it 'extracts the zip on demand so the worker can do it in its own container' do
+        user = create(:user)
+        user.create_file_upload_permission(allowed_paths: [ 'cfg/' ])
+
+        file_upload = create :file_upload, file: zip_fixture, user: user
+        files = file_upload.files_to_upload
+
+        expect(files).to eq('cfg' => [
+          File.join(file_upload.tmp_dir, 'cfg/etf2l.cfg').to_s,
+          File.join(file_upload.tmp_dir, 'cfg/etf2l_custom.cfg').to_s,
+          File.join(file_upload.tmp_dir, 'cfg/etf2l_whitelist_6v6.txt').to_s
+        ])
+      end
+
+      it 'cleans up its tmp dir' do
+        file_upload = create :file_upload, file: zip_fixture, user: create(:user, groups: [ Group.admin_group ])
+        file_upload.files_to_upload
+        tmp_dir = file_upload.tmp_dir
+
+        file_upload.cleanup_tmp_dir
+
+        expect(Dir.exist?(tmp_dir)).to be false
       end
     end
   end
@@ -104,10 +128,8 @@ describe FileUpload do
         expect(file_upload).to be_valid
 
         file_upload.save!
-        allow(file_upload).to receive(:upload_files_to_servers).and_return([])
-        file_upload.process_file
 
-        expect(file_upload).to have_received(:upload_files_to_servers).with({ 'cfg' => [ cfg_file.path ] })
+        expect(file_upload.files_to_upload).to eq({ 'cfg' => [ cfg_file.path ] })
         expect(File.read(cfg_file.path)).to eq("exec etf2l_base\nsv_pure 2\n")
       ensure
         cfg_file&.unlink

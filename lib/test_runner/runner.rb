@@ -23,8 +23,8 @@ module TestRunner
     def initialize(formatter:, verbose: false, manage_formatter: true, fail_fast: false)
       @formatter = formatter
       @verbose = verbose
-      @manage_formatter = T.let(manage_formatter, T::Boolean)
-      @fail_fast = T.let(fail_fast, T::Boolean)
+      @manage_formatter = manage_formatter
+      @fail_fast = fail_fast
       @task_definitions = T.let({}, T::Hash[Symbol, TaskDefinition])
       @completed_tasks = T.let({}, T::Hash[Symbol, Task])
       @pre_completed_names = T.let({}, T::Hash[Symbol, T::Boolean])

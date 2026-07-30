@@ -6,7 +6,7 @@ class StacDiscordNotifier
 
   sig { params(reservation: Reservation).void }
   def initialize(reservation)
-    @reservation = T.let(reservation, Reservation)
+    @reservation = reservation
   end
 
   sig { params(detections: T::Hash[T.untyped, T.untyped]).void }

@@ -46,7 +46,7 @@ module TestRunner
       @name = name
       @command = command
       @parent = parent
-      @dependencies = T.let(dependencies, T::Array[Symbol])
+      @dependencies = dependencies
       @is_autocorrect = is_autocorrect
       @status = T.let(nil, T.nilable(Process::Status))
       @output = T.let("", String)

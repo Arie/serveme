@@ -14,7 +14,7 @@ class DiscordReservationNotifier
 
   sig { params(reservation: Reservation).void }
   def initialize(reservation)
-    @reservation = T.let(reservation, Reservation)
+    @reservation = reservation
     @server = T.let(reservation.server, T.untyped)
     @latest_server_stat = T.let(nil, T.nilable(ServerStatistic))
   end

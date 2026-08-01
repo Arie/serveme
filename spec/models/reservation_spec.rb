@@ -1041,6 +1041,34 @@ describe Reservation do
     end
   end
 
+  describe 'site wide feature flags' do
+    it 'forces plugins on when the site always enables them' do
+      allow(SiteSetting).to receive(:always_enable_plugins?).and_return(true)
+
+      reservation = create(:reservation, enable_plugins: false)
+
+      expect(reservation.enable_plugins?).to be true
+    end
+
+    it 'forces demos.tf on when the site always enables it' do
+      allow(SiteSetting).to receive(:always_enable_demos_tf?).and_return(true)
+
+      reservation = create(:reservation, enable_demos_tf: false)
+
+      expect(reservation.enable_demos_tf?).to be true
+    end
+
+    it "leaves the user's choice alone when the flags are off" do
+      allow(SiteSetting).to receive(:always_enable_plugins?).and_return(false)
+      allow(SiteSetting).to receive(:always_enable_demos_tf?).and_return(false)
+
+      reservation = create(:reservation, enable_plugins: false, enable_demos_tf: false)
+
+      expect(reservation.enable_plugins?).to be false
+      expect(reservation.enable_demos_tf?).to be false
+    end
+  end
+
   describe '#whitelist_ip' do
     subject { build(:reservation) }
     it "first returns the user's web IP if it's IPv4" do

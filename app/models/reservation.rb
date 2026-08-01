@@ -23,6 +23,7 @@ class Reservation < ActiveRecord::Base
 
   before_validation :calculate_duration
   before_validation :default_democheck_mode
+  before_validation :apply_site_wide_feature_flags
   before_validation :reset_collision_memoization
   before_create :generate_logsecret
   after_create :generate_initial_status
@@ -235,6 +236,14 @@ class Reservation < ActiveRecord::Base
   sig { void }
   def default_democheck_mode
     self.democheck_mode = "kick" if democheck_mode.blank?
+  end
+
+  # These site settings override the user's choice, so store what will actually
+  # happen: the reservation page, the API and the server config all read these.
+  sig { void }
+  def apply_site_wide_feature_flags
+    self.enable_plugins = true if SiteSetting.always_enable_plugins?
+    self.enable_demos_tf = true if SiteSetting.always_enable_demos_tf?
   end
 
   sig { returns(String) }

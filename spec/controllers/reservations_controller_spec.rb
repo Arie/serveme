@@ -61,6 +61,34 @@ describe ReservationsController do
       end
     end
 
+    context 'with site wide feature flags' do
+      render_views
+
+      it 'offers the choice when the flags are off' do
+        allow(SiteSetting).to receive(:always_enable_demos_tf?).and_return(false)
+
+        get :new
+
+        expect(response.body).to have_css('input[type="checkbox"][name="reservation[enable_demos_tf]"]:not([disabled])', visible: :all)
+      end
+
+      it 'shows demos.tf as on and unchangeable when the site always enables it' do
+        allow(SiteSetting).to receive(:always_enable_demos_tf?).and_return(true)
+
+        get :new
+
+        expect(response.body).to have_css('input[type="checkbox"][name="reservation[enable_demos_tf]"][checked][disabled]', visible: :all)
+      end
+
+      it 'shows plugins as on and unchangeable when the site always enables them' do
+        allow(SiteSetting).to receive(:always_enable_plugins?).and_return(true)
+
+        get :new
+
+        expect(response.body).to have_css('input[type="checkbox"][name="reservation[enable_plugins]"][checked][disabled]', visible: :all)
+      end
+    end
+
     it 'redirects to root if 2 short reservations were made recently' do
       @user.group_ids = nil
       @user.groups << Group.donator_group

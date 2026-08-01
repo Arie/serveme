@@ -62,8 +62,8 @@
         - if @reservation.schedulable?
           %button.password-refresh-btn{type: "button", data: { action: "password-refresh#refresh", password_refresh_target: "button" }, title: "Generate random password", "aria-label": "Generate random password"}
             %i.fa.fa-refresh
-      = f.input :enable_plugins,      as: :boolean,                                                                  disabled: !@reservation.schedulable?
-      = f.input :enable_demos_tf,     as: :boolean,  hint: "Enable uploading STVs to demos.tf",                     disabled: !@reservation.schedulable?
+      = f.input :enable_plugins,      as: :boolean,                                                                  disabled: !@reservation.schedulable? || SiteSetting.always_enable_plugins?,  input_html: { checked: SiteSetting.always_enable_plugins? || @reservation.enable_plugins? }
+      = f.input :enable_demos_tf,     as: :boolean,  hint: "Enable uploading STVs to demos.tf",                     disabled: !@reservation.schedulable? || SiteSetting.always_enable_demos_tf?, input_html: { checked: SiteSetting.always_enable_demos_tf? || @reservation.enable_demos_tf? }
       - if SiteSetting.show_democheck?
         = f.input :democheck_mode, label: "Democheck" do
           .form-control.democheck

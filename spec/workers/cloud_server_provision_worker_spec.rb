@@ -108,5 +108,42 @@ describe CloudServerProvisionWorker do
 
       described_class.new.perform(cloud_server.id)
     end
+
+    it "tells the user where the server is being created, by name" do
+      allow(provider).to receive(:create_server).and_return("cloud-#{cloud_server.id}")
+      allow(CloudServerPollWorker).to receive(:perform_in)
+
+      described_class.new.perform(cloud_server.id)
+
+      expect(reservation.reservation_statuses.map(&:status)).to include(
+        "Creating server in #{cloud_server.location.name}, this takes less than a minute"
+      )
+    end
+
+    context "on a remote docker host" do
+      let(:docker_host) { create(:docker_host) }
+      let(:cloud_server) do
+        create(:cloud_server, cloud_provider: "remote_docker", cloud_location: docker_host.id.to_s,
+                              location: docker_host.location, cloud_status: "provisioning", cloud_provider_id: nil)
+      end
+      let(:provider) { instance_double(CloudProvider::RemoteDocker) }
+
+      before do
+        allow(CloudProvider).to receive(:for).with("remote_docker").and_return(provider)
+      end
+
+      it "names the city instead of leaking the docker host id and the provider name" do
+        allow(provider).to receive(:create_server).and_return("#{docker_host.id}:container")
+        allow(CloudServerPollWorker).to receive(:perform_in)
+
+        described_class.new.perform(cloud_server.id)
+
+        statuses = reservation.reservation_statuses.map(&:status)
+        expect(statuses).to include(
+          "Creating server in #{docker_host.city}, this takes less than a minute"
+        )
+        expect(statuses).not_to include(a_string_matching(/remote_docker|in #{docker_host.id},/))
+      end
+    end
   end
 end

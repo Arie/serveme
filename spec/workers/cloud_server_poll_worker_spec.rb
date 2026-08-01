@@ -74,6 +74,39 @@ describe CloudServerPollWorker do
       described_class.new.perform(cloud_server.id)
     end
 
+    context "with a Hetzner server reporting provisioning progress" do
+      let(:cloud_server) { create(:cloud_server, cloud_provider: "hetzner", cloud_status: "provisioning", cloud_provider_id: "hetzner-123", cloud_created_at: 1.minute.ago) }
+      let(:provider) { CloudProvider::Hetzner.new }
+      let(:reservation) { create(:reservation, server: cloud_server) }
+
+      before do
+        allow(CloudProvider).to receive(:for).with("hetzner").and_return(provider)
+        allow(provider).to receive(:pending_command?).and_return(false)
+        allow(provider).to receive(:server_status).with("hetzner-123").and_return("provisioning")
+        allow(provider).to receive(:server_progress).with("hetzner-123").and_return(42)
+        allow(CloudServerPollWorker).to receive(:perform_in)
+        cloud_server.update!(cloud_reservation_id: reservation.id)
+      end
+
+      it "adds the percentage to the status tracking it" do
+        reservation.status_update("Creating server in Netherlands, this takes about 4 minutes")
+        reservation.status_update("Creating server")
+
+        described_class.new.perform(cloud_server.id)
+
+        expect(reservation.reservation_statuses.map(&:status)).to include("Creating server (42%)")
+      end
+
+      it "leaves the status naming the location alone" do
+        message = reservation.status_update("Creating server in Netherlands, this takes about 4 minutes")
+        reservation.status_update("Creating server")
+
+        described_class.new.perform(cloud_server.id)
+
+        expect(message.reload.status).to eq("Creating server in Netherlands, this takes about 4 minutes")
+      end
+    end
+
     context "with Kamatera pending command" do
       let(:cloud_server) { create(:cloud_server, cloud_provider: "kamatera", cloud_status: "provisioning", cloud_provider_id: "cmd:12345", cloud_created_at: 1.minute.ago) }
       let(:provider) { instance_double(CloudProvider::Kamatera) }

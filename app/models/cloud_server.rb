@@ -24,6 +24,13 @@ class CloudServer < RemoteServer
     docker_host&.hostname || ip
   end
 
+  # The place the user picked, for showing back to them. cloud_location is an
+  # internal code (a DockerHost id for remote_docker), never show that.
+  sig { returns(String) }
+  def location_label
+    docker_host&.city.presence || location&.name.presence || cloud_location.to_s
+  end
+
   sig { returns(T.nilable(String)) }
   def public_ip
     return super if sdr?
@@ -131,7 +138,7 @@ class CloudServer < RemoteServer
       phase_started_at: phase_started_at
     }
     if current_phase == "creating_vm"
-      vm_status = reservation.reservation_statuses.find_by("status LIKE 'Creating VM (%'")
+      vm_status = reservation.reservation_statuses.find_by("status LIKE 'Creating server (%'")
       result[:vm_progress] = vm_status.status.to_s[/\((\d+)%\)/, 1]&.to_i if vm_status
     end
     result

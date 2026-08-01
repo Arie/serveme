@@ -34,12 +34,12 @@ class CloudServerProvisionWorker
 
       provider = cloud_server.provider
 
-      reservation.status_update("Creating #{cloud_server.cloud_provider} VM in #{cloud_server.cloud_location}, this takes #{provider.estimated_provision_time}")
+      reservation.status_update("Creating server in #{cloud_server.location_label}, this takes #{provider.estimated_provision_time}")
 
       begin
         provider_id = provider.create_server(cloud_server)
       rescue => e
-        reservation.status_update("Failed to create VM: #{e.message}")
+        reservation.status_update("Failed to create server: #{e.message}")
         raise
       end
 
@@ -59,7 +59,7 @@ class CloudServerProvisionWorker
 
       cloud_server.reload
       unless cloud_server.cloud_status.in?(%w[ssh_ready ready])
-        reservation.status_update("Creating VM")
+        reservation.status_update("Creating server")
         CloudServerPollWorker.perform_in(5.seconds, cloud_server_id)
       end
     end

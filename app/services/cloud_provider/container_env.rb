@@ -41,6 +41,7 @@ module CloudProvider
       @ssh_public_key = ssh_public_key
       @mode = mode
       @discord_webhook = T.let(nil, T.nilable(String))
+      @reservation = T.let(nil, T.nilable(Reservation))
     end
 
     sig { returns(T::Hash[String, T.untyped]) }
@@ -54,6 +55,14 @@ module CloudProvider
       env.merge!(port_env)
       env["ENABLE_FAKEIP"] = "1"
       env["EXPECTED_TF2_VERSION"] = Server.latest_version.to_s
+      # The image ships SourceMod and the demos.tf uploader enabled, so the
+      # container has to be told to strip them out: nothing removes them once
+      # TF2 has booted.
+      res = reservation
+      if res
+        env["ENABLE_PLUGINS"] = res.plugins_enabled? ? "1" : "0"
+        env["ENABLE_DEMOS_TF"] = res.demos_tf_enabled? ? "1" : "0"
+      end
       env["DISCORD_STAC_WEBHOOK_URL"] = discord_webhook if discord_webhook.present?
       env
     end
@@ -78,6 +87,11 @@ module CloudProvider
       else
         raise ArgumentError, "unknown ContainerEnv mode: #{@mode.inspect}"
       end
+    end
+
+    sig { returns(T.nilable(Reservation)) }
+    def reservation
+      @reservation ||= Reservation.find_by(id: @cloud_server.cloud_reservation_id)
     end
 
     sig { returns(String) }

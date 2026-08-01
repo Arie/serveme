@@ -104,6 +104,18 @@ class Reservation < ActiveRecord::Base
     !persisted? || (persisted? && !active? && !past?)
   end
 
+  # Site settings can be flipped after a reservation was stored, so re-check them
+  # instead of trusting the stored flags alone.
+  sig { returns(T::Boolean) }
+  def plugins_enabled?
+    enable_plugins? || enable_demos_tf? || SiteSetting.always_enable_plugins?
+  end
+
+  sig { returns(T::Boolean) }
+  def demos_tf_enabled?
+    enable_demos_tf? || SiteSetting.always_enable_demos_tf?
+  end
+
   sig { returns(T::Boolean) }
   def collides?
     colliding_reservations.any?

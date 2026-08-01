@@ -56,8 +56,7 @@ RSpec.describe ServerReservationLifecycle do
 
   describe "#start_reservation" do
     it "sends config files and stops early for cloud servers (boot handled elsewhere)" do
-      reservation = instance_double(Reservation, enable_plugins?: false, enable_demos_tf?: false, status_update: nil)
-      allow(SiteSetting).to receive(:always_enable_plugins?).and_return(false)
+      reservation = instance_double(Reservation, plugins_enabled?: false, status_update: nil)
       allow(server).to receive(:supports_mitigations?).and_return(false)
       allow(server).to receive(:write_first_map)
       allow(server).to receive(:cloud?).and_return(true)

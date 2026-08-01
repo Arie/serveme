@@ -18,12 +18,12 @@ class ServerReservationLifecycle
 
     @server.write_first_map(reservation)
     @server.update_configuration(reservation)
-    if reservation.enable_plugins? || reservation.enable_demos_tf? || SiteSetting.always_enable_plugins?
+    if reservation.plugins_enabled?
       reservation.status_update("Enabling plugins")
       @server.enable_plugins
       @server.add_sourcemod_admin(T.must(reservation.user))
       reservation.status_update("Enabled plugins")
-      if reservation.enable_demos_tf? || SiteSetting.always_enable_demos_tf?
+      if reservation.demos_tf_enabled?
         reservation.status_update("Enabling demos.tf")
         enable_demos_tf
         reservation.status_update("Enabled demos.tf")

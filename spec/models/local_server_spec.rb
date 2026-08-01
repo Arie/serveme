@@ -81,7 +81,7 @@ describe LocalServer do
 
   describe '#start_reservation' do
     it 'updates the configuration and triggers a restart', :vcr do
-      reservation = stubbed_reservation(enable_plugins?: true, enable_mitigations: true)
+      reservation = stubbed_reservation(enable_plugins?: true, plugins_enabled?: true, enable_mitigations: true)
       subject.should_receive(:restart)
       subject.should_receive(:enable_plugins)
       subject.should_receive(:add_sourcemod_admin)
@@ -421,7 +421,7 @@ Server AppID:           232250%)
   private
 
   define_method(:stubbed_reservation) do |stubs = {}|
-    reservation = instance_double(Reservation, first_map: nil, custom_whitelist_id: false, status_update: instance_double(ReservationStatus), enable_plugins?: false, enable_demos_tf?: false, user: build(:user), server: build(:server), democheck_mode: "kick", democheck_kick?: true)
+    reservation = instance_double(Reservation, first_map: nil, custom_whitelist_id: false, status_update: instance_double(ReservationStatus), enable_plugins?: false, enable_demos_tf?: false, plugins_enabled?: false, demos_tf_enabled?: false, user: build(:user), server: build(:server), democheck_mode: "kick", democheck_kick?: true)
     allow(reservation).to receive_messages(stubs) if stubs.any?
     reservation
   end

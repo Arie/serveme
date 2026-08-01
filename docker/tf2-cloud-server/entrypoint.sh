@@ -40,6 +40,18 @@ fi
 # 3. Remove plugins that conflict with serveme's config management
 rm -f "$HOME/hlserver/tf2/tf/addons/sourcemod/plugins/autoexec.smx"
 
+# 3a. Honour the reservation's "enable plugins" and "enable demos.tf" settings.
+# SourceMod and the demos.tf uploader are baked into the image, so they have to
+# be removed before srcds starts when the reservation doesn't want them.
+if [ "$ENABLE_PLUGINS" = "0" ]; then
+    echo "Plugins disabled for this reservation, unloading SourceMod"
+    rm -f "$HOME/hlserver/tf2/tf/addons/metamod/sourcemod.vdf"
+fi
+if [ "$ENABLE_DEMOS_TF" = "0" ]; then
+    echo "demos.tf disabled for this reservation, removing the uploader plugin"
+    rm -f "$HOME/hlserver/tf2/tf/addons/sourcemod/plugins/demostf.smx"
+fi
+
 # 3b. Write discord.cfg for STAC → Discord webhook, if configured
 if [ -n "$DISCORD_STAC_WEBHOOK_URL" ]; then
     DISCORD_CFG="$HOME/hlserver/tf2/tf/addons/sourcemod/configs/discord.cfg"

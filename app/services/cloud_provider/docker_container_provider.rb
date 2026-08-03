@@ -8,6 +8,11 @@ module CloudProvider
   # existing host (rather than provisioning a fresh VM). Subclasses
   # supply the executor (local exec vs SSH).
   class DockerContainerProvider < Base
+    sig { override.returns(T::Boolean) }
+    def self.vm?
+      false
+    end
+
     sig { params(cloud_server: CloudServer).returns(String) }
     def container_name(cloud_server)
       "res-#{cloud_server.cloud_reservation_id}-cloud-#{cloud_server.id}"

@@ -8,6 +8,14 @@ module CloudProvider
   class Base
     extend T::Sig
 
+    # Whether this provider spins up a VM we pay for per hour, as opposed to a
+    # container slot on hardware we already own. Defaults to true so a newly
+    # added provider is gated until it explicitly opts out.
+    sig { overridable.returns(T::Boolean) }
+    def self.vm?
+      true
+    end
+
     sig { overridable.params(starts_at: T.any(Time, ActiveSupport::TimeWithZone), ends_at: T.any(Time, ActiveSupport::TimeWithZone)).returns(T::Hash[String, T::Hash[Symbol, String]]) }
     def self.locations(starts_at: Time.current, ends_at: 2.hours.from_now)
       # Sorbet can't resolve self::LOCATIONS (each subclass defines its own)

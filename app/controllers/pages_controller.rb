@@ -128,7 +128,8 @@ class PagesController < ApplicationController
     locations = Hash.new { |h, k| h[k] = [] }
 
     CloudProvider::PROVIDERS.each do |provider_name, klass|
-      next if provider_name.in?(%w[hetzner vultr]) && CloudProvider::SITE_REGION.in?(%w[EU NA]) && !current_user&.can_use_cloud_servers?
+      # AU/SEA advertise VM locations to everyone; EU/NA hide them from users who can't launch one.
+      next if CloudProvider::SITE_REGION.in?(%w[EU NA]) && !CloudProvider.available_to?(provider_name, current_user)
 
       klass.locations.each do |_code, info|
         next unless info[:region] == CloudProvider::SITE_REGION || provider_name == "remote_docker" || (provider_name == "docker" && Rails.env.development?)

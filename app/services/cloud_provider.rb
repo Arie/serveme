@@ -19,6 +19,17 @@ module CloudProvider
     klass.new
   end
 
+  # The single gate for paid VM providers. Container providers are open to
+  # anyone who can reach the cloud pages at all.
+  sig { params(provider_name: String, user: T.nilable(User)).returns(T::Boolean) }
+  def self.available_to?(provider_name, user)
+    klass = PROVIDERS[provider_name]
+    return false unless klass
+    return true unless klass.vm?
+
+    !!user&.can_use_cloud_servers?
+  end
+
   SITE_REGION = T.let(
     case SITE_HOST
     when "na.serveme.tf" then "NA"
@@ -36,7 +47,7 @@ module CloudProvider
     grouped = Hash.new { |h, k| h[k] = [] }
 
     PROVIDERS.each do |provider_name, klass|
-      next if provider_name.in?(%w[hetzner vultr]) && !user&.can_use_cloud_servers?
+      next unless available_to?(provider_name, user)
 
       klass.locations(starts_at: starts_at, ends_at: ends_at).each do |code, info|
         next unless info[:region] == SITE_REGION || provider_name == "remote_docker" || (provider_name == "docker" && Rails.env.development?)

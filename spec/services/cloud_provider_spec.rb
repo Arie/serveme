@@ -21,6 +21,55 @@ RSpec.describe CloudProvider do
     end
   end
 
+  describe ".vm?" do
+    it "defaults to true so a new provider is gated until it opts out" do
+      expect(Class.new(CloudProvider::Base).vm?).to be true
+    end
+
+    it "is true for providers that rent VMs" do
+      expect(CloudProvider::Hetzner.vm?).to be true
+      expect(CloudProvider::Vultr.vm?).to be true
+      expect(CloudProvider::Kamatera.vm?).to be true
+    end
+
+    it "is false for container providers running on our own hardware" do
+      expect(CloudProvider::Docker.vm?).to be false
+      expect(CloudProvider::RemoteDocker.vm?).to be false
+    end
+  end
+
+  describe ".available_to?" do
+    let(:donator) { create(:user).tap { |u| u.groups << Group.donator_group } }
+
+    it "allows container providers to anyone" do
+      expect(described_class.available_to?("docker", nil)).to be true
+      expect(described_class.available_to?("remote_docker", nil)).to be true
+    end
+
+    it "denies VM providers to users who cannot use cloud servers" do
+      expect(described_class.available_to?("hetzner", create(:user))).to be false
+      expect(described_class.available_to?("vultr", nil)).to be false
+    end
+
+    it "allows VM providers to donators" do
+      expect(described_class.available_to?("hetzner", donator)).to be true
+    end
+
+    it "allows VM providers to admins" do
+      admin = create(:user).tap { |u| u.groups << Group.admin_group }
+      expect(described_class.available_to?("hetzner", admin)).to be true
+    end
+
+    it "allows VM providers to cloud group members" do
+      cloud_user = create(:user).tap { |u| u.groups << Group.cloud_group }
+      expect(described_class.available_to?("vultr", cloud_user)).to be true
+    end
+
+    it "denies unregistered providers" do
+      expect(described_class.available_to?("ovh", donator)).to be false
+    end
+  end
+
   describe ".grouped_locations" do
     subject(:grouped) { described_class.grouped_locations }
 

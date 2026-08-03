@@ -758,8 +758,8 @@ class Aws::S3::Bucket
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/bucket.rb:1275
   def lifecycle_configuration; end
 
-  # @api private
   # @raise [NotImplementedError]
+  # @api private
   # @api private
   #
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/bucket.rb:78
@@ -32864,25 +32864,31 @@ class Aws::S3::EncryptionV2::KmsCipherProvider
 
   private
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/encryptionV2/kms_cipher_provider.rb:150
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/encryptionV2/kms_cipher_provider.rb:163
   def build_encryption_context(cek_alg, options = T.unsafe(nil)); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/encryptionV2/kms_cipher_provider.rb:167
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/encryptionV2/kms_cipher_provider.rb:180
   def decode64(str); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/encryptionV2/kms_cipher_provider.rb:163
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/encryptionV2/kms_cipher_provider.rb:176
   def encode64(str); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/encryptionV2/kms_cipher_provider.rb:126
+  # Raise a decryption error for a malformed material description. A
+  # material description must be a JSON object.
+  #
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/encryptionV2/kms_cipher_provider.rb:120
+  def extract_encryption_context(matdesc); end
+
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/encryptionV2/kms_cipher_provider.rb:139
   def validate_cek(content_encryption_schema); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/encryptionV2/kms_cipher_provider.rb:171
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/encryptionV2/kms_cipher_provider.rb:184
   def validate_key_for_encryption; end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/encryptionV2/kms_cipher_provider.rb:118
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/encryptionV2/kms_cipher_provider.rb:131
   def validate_key_wrap(key_wrap_schema); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/encryptionV2/kms_cipher_provider.rb:135
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/encryptionV2/kms_cipher_provider.rb:148
   def validate_kms_key(kms_key_id); end
 end
 
@@ -33891,22 +33897,27 @@ class Aws::S3::EncryptionV3::KmsCipherProvider
 
   private
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/encryptionV3/kms_cipher_provider.rb:128
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/encryptionV3/kms_cipher_provider.rb:140
   def build_encryption_context(cek_alg, options = T.unsafe(nil)); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/encryptionV3/kms_cipher_provider.rb:145
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/encryptionV3/kms_cipher_provider.rb:157
   def decode64(str); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/encryptionV3/kms_cipher_provider.rb:141
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/encryptionV3/kms_cipher_provider.rb:153
   def encode64(str); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/encryptionV3/kms_cipher_provider.rb:149
+  # Raise a decryption error for a malformed material description.
+  #
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/encryptionV3/kms_cipher_provider.rb:106
+  def extract_encryption_context(matdesc); end
+
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/encryptionV3/kms_cipher_provider.rb:161
   def validate_key_for_encryption; end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/encryptionV3/kms_cipher_provider.rb:105
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/encryptionV3/kms_cipher_provider.rb:117
   def validate_key_wrap(key_wrap_schema); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/encryptionV3/kms_cipher_provider.rb:113
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/encryptionV3/kms_cipher_provider.rb:125
   def validate_kms_key(kms_key_id); end
 end
 
@@ -42228,6 +42239,11 @@ class Aws::S3::ObjectSummary
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/customizations/object_summary.rb:7
   def content_length; end
 
+  # Make the method redefinable
+  # @param (see Object#copy_from)
+  # @options (see Object#copy_from)
+  # @return (see Object#copy_from)
+  # @see Object#copy_from
   # @example Request syntax with placeholder values
   #
   #   object_summary.copy_from({
@@ -43024,11 +43040,6 @@ class Aws::S3::ObjectSummary
   #   the request fails with the HTTP status code `403 Forbidden` (access
   #   denied).
   # @return [Types::CopyObjectOutput]
-  # Make the method redefinable
-  # @param (see Object#copy_from)
-  # @options (see Object#copy_from)
-  # @return (see Object#copy_from)
-  # @see Object#copy_from
   #
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object_summary.rb:1134
   def copy_from(source, options = T.unsafe(nil)); end

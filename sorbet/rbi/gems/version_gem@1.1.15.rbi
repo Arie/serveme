@@ -146,14 +146,20 @@ end
 # pkg:gem/version_gem#lib/version_gem/error.rb:5
 class VersionGem::Error < ::RuntimeError; end
 
-# pkg:gem/version_gem#lib/version_gem/version.rb:7
+# Current gem version exposed at the traditional constant location.
+#
+# pkg:gem/version_gem#lib/version_gem/version.rb:10
 VersionGem::VERSION = T.let(T.unsafe(nil), String)
 
-# pkg:gem/version_gem#lib/version_gem/version.rb:4
+# Version namespace for this gem.
+#
+# pkg:gem/version_gem#lib/version_gem/version.rb:5
 module VersionGem::Version
   extend ::VersionGem::Basic
   extend ::VersionGem::Api
 end
 
-# pkg:gem/version_gem#lib/version_gem/version.rb:5
+# Current gem version.
+#
+# pkg:gem/version_gem#lib/version_gem/version.rb:7
 VersionGem::Version::VERSION = T.let(T.unsafe(nil), String)

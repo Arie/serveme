@@ -102,8 +102,8 @@ module EtOrbi
     # pkg:gem/et-orbi#lib/et-orbi/make.rb:73
     def chronic_parse(str, opts); end
 
-    # TZInfo < 2.0.0
     # TZInfo >= 2.0.0
+    # TZInfo < 2.0.0
     #
     # pkg:gem/et-orbi#lib/et-orbi/zone.rb:56
     def create_offset_tzone(utc_off, id); end

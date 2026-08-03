@@ -73,8 +73,21 @@ module CloudProvider
 
       data = parse_response(response, "Vultr API error")
       provider_id = data.dig("instance", "id")
+      # A 2xx with no instance ID still leaves a VM behind; say so plainly
+      # instead of letting the sig blow up with a bare NilClass TypeError.
+      raise "Vultr API returned no instance id: #{response.body.to_s.truncate(200)}" if provider_id.blank?
+
       Rails.logger.info "Vultr: Created server #{provider_id} for cloud_server #{cloud_server.id}"
       provider_id
+    end
+
+    sig { override.params(label: String).returns(T.nilable(String)) }
+    def find_server_by_label(label)
+      response = connection.get("instances?label=#{label}")
+      return nil unless response.success?
+
+      instances = JSON.parse(response.body)["instances"] || []
+      instances.min_by { |i| i["date_created"].to_s }&.dig("id")
     end
 
     sig { override.params(provider_id: String).returns(String) }

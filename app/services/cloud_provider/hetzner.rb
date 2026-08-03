@@ -29,9 +29,22 @@ module CloudProvider
         }.to_json
       end
       data = parse_response(response, "Hetzner API error")
-      provider_id = data.dig("server", "id").to_s
+      provider_id = data.dig("server", "id")
+      # Without this, a missing ID becomes "" via to_s, satisfies the sig, and
+      # gets stored as the provider ID — a VM we can never find again.
+      raise "Hetzner API returned no server id: #{response.body.to_s.truncate(200)}" if provider_id.blank?
+
       Rails.logger.info "Hetzner: Created server #{provider_id} for cloud_server #{cloud_server.id}"
-      provider_id
+      provider_id.to_s
+    end
+
+    sig { override.params(label: String).returns(T.nilable(String)) }
+    def find_server_by_label(label)
+      response = connection.get("servers?name=#{label}")
+      return nil unless response.success?
+
+      servers = JSON.parse(response.body)["servers"] || []
+      servers.min_by { |s| s["created"].to_s }&.dig("id")&.to_s
     end
 
     sig { override.params(provider_id: String).returns(String) }

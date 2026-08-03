@@ -37,7 +37,7 @@ class CloudServerProvisionWorker
       reservation.status_update("Creating server in #{cloud_server.location_label}, this takes #{provider.estimated_provision_time}")
 
       begin
-        provider_id = provider.create_server(cloud_server)
+        provider_id = provider.find_or_create_server(cloud_server)
       rescue => e
         reservation.status_update("Failed to create server: #{e.message}")
         raise

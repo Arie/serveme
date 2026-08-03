@@ -19,8 +19,8 @@ describe CloudServerProvisionWorker do
   end
 
   describe "#perform" do
-    it "calls create_server on the provider and stores the provider_id" do
-      expect(provider).to receive(:create_server).with(cloud_server).and_return("cloud-#{cloud_server.id}")
+    it "goes through find_or_create_server so a retry adopts rather than duplicates" do
+      expect(provider).to receive(:find_or_create_server).with(cloud_server).and_return("cloud-#{cloud_server.id}")
       allow(CloudServerPollWorker).to receive(:perform_in)
 
       described_class.new.perform(cloud_server.id)
@@ -30,7 +30,7 @@ describe CloudServerProvisionWorker do
     end
 
     it "enqueues a CloudServerPollWorker" do
-      allow(provider).to receive(:create_server).and_return("cloud-#{cloud_server.id}")
+      allow(provider).to receive(:find_or_create_server).and_return("cloud-#{cloud_server.id}")
       expect(CloudServerPollWorker).to receive(:perform_in).with(5.seconds, cloud_server.id)
 
       described_class.new.perform(cloud_server.id)
@@ -39,7 +39,7 @@ describe CloudServerProvisionWorker do
     it "skips creation if cloud_provider_id is already set" do
       cloud_server.update!(cloud_provider_id: "existing-123")
 
-      expect(provider).not_to receive(:create_server)
+      expect(provider).not_to receive(:find_or_create_server)
       expect(CloudServerPollWorker).to receive(:perform_in).with(5.seconds, cloud_server.id)
 
       described_class.new.perform(cloud_server.id)
@@ -48,7 +48,7 @@ describe CloudServerProvisionWorker do
     it "skips when cloud_status is destroyed" do
       cloud_server.update!(cloud_status: "destroyed")
 
-      expect(provider).not_to receive(:create_server)
+      expect(provider).not_to receive(:find_or_create_server)
       expect(CloudServerPollWorker).not_to receive(:perform_in)
 
       described_class.new.perform(cloud_server.id)
@@ -57,7 +57,7 @@ describe CloudServerProvisionWorker do
     it "marks server destroyed when reservation no longer exists" do
       cloud_server.update!(cloud_reservation_id: -1)
 
-      expect(provider).not_to receive(:create_server)
+      expect(provider).not_to receive(:find_or_create_server)
 
       described_class.new.perform(cloud_server.id)
 
@@ -66,7 +66,7 @@ describe CloudServerProvisionWorker do
     end
 
     it "saves provider_id before calling server_ip so retries don't create duplicate VMs" do
-      allow(provider).to receive(:create_server).and_return("vultr-abc123")
+      allow(provider).to receive(:find_or_create_server).and_return("vultr-abc123")
       allow(provider).to receive(:server_ip).and_raise("Transient API error")
       allow(CloudServerPollWorker).to receive(:perform_in)
 
@@ -77,7 +77,7 @@ describe CloudServerProvisionWorker do
     end
 
     it "acquires a lock to prevent duplicate provisioning" do
-      allow(provider).to receive(:create_server).and_return("cloud-#{cloud_server.id}")
+      allow(provider).to receive(:find_or_create_server).and_return("cloud-#{cloud_server.id}")
       allow(CloudServerPollWorker).to receive(:perform_in)
 
       expect($lock).to receive(:synchronize).with("cloud-provision-#{cloud_server.id}", retries: 1, expiry: 5.minutes).and_yield
@@ -88,7 +88,7 @@ describe CloudServerProvisionWorker do
     it "skips when lock is already held" do
       allow($lock).to receive(:synchronize).and_raise(RemoteLock::Error)
 
-      expect(provider).not_to receive(:create_server)
+      expect(provider).not_to receive(:find_or_create_server)
 
       described_class.new.perform(cloud_server.id)
     end
@@ -96,7 +96,7 @@ describe CloudServerProvisionWorker do
     it "destroys server if marked destroyed during provisioning" do
       provider_id = "cloud-#{cloud_server.id}"
       call_count = 0
-      allow(provider).to receive(:create_server) do |_cs|
+      allow(provider).to receive(:find_or_create_server) do |_cs|
         call_count += 1
         # Simulate destroy worker marking status as destroyed during provisioning
         cloud_server.update_column(:cloud_status, "destroyed")
@@ -110,7 +110,7 @@ describe CloudServerProvisionWorker do
     end
 
     it "tells the user where the server is being created, by name" do
-      allow(provider).to receive(:create_server).and_return("cloud-#{cloud_server.id}")
+      allow(provider).to receive(:find_or_create_server).and_return("cloud-#{cloud_server.id}")
       allow(CloudServerPollWorker).to receive(:perform_in)
 
       described_class.new.perform(cloud_server.id)
@@ -133,7 +133,7 @@ describe CloudServerProvisionWorker do
       end
 
       it "names the city instead of leaking the docker host id and the provider name" do
-        allow(provider).to receive(:create_server).and_return("#{docker_host.id}:container")
+        allow(provider).to receive(:find_or_create_server).and_return("#{docker_host.id}:container")
         allow(CloudServerPollWorker).to receive(:perform_in)
 
         described_class.new.perform(cloud_server.id)

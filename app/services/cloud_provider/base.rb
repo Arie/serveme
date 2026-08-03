@@ -28,6 +28,32 @@ module CloudProvider
       raise NotImplementedError
     end
 
+    # The only entry point provisioning should use.
+    #
+    # A create request that 5xx's, times out, or comes back without an ID can
+    # still have landed a real VM at the provider — we just never learned its
+    # ID. Retrying blind then bills us for a duplicate every round (and each
+    # duplicate races the others to claim the reservation's IP). Labels are
+    # unique per reservation, so adopting whatever already carries this label
+    # makes create idempotent across retries.
+    sig { params(cloud_server: CloudServer).returns(String) }
+    def find_or_create_server(cloud_server)
+      existing = find_server_by_label(cloud_server_name(cloud_server))
+      if existing
+        Rails.logger.warn "#{self.class.name}: Adopting existing server #{existing} for cloud_server #{cloud_server.id} left behind by an earlier attempt"
+        return existing
+      end
+
+      create_server(cloud_server)
+    end
+
+    # ID of the oldest existing VM carrying this label, nil if there is none.
+    # Providers that cannot list by label opt out by returning nil.
+    sig { overridable.params(_label: String).returns(T.nilable(String)) }
+    def find_server_by_label(_label)
+      nil
+    end
+
     # Returns status string: "provisioning", "running", "stopped", "destroyed"
     sig { overridable.params(provider_id: String).returns(String) }
     def server_status(provider_id)

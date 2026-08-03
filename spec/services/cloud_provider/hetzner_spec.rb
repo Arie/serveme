@@ -60,6 +60,39 @@ RSpec.describe CloudProvider::Hetzner do
           }
       end
     end
+
+    context "when the API returns 2xx without a server id" do
+      let(:response_body) { { error: { message: "maintenance" } }.to_json }
+
+      it "raises instead of storing an empty string as the provider ID" do
+        VCR.turned_off do
+          expect { provider.create_server(cloud_server) }
+            .to raise_error(/Hetzner API returned no server id/)
+        end
+      end
+    end
+  end
+
+  describe "#find_server_by_label" do
+    it "returns the oldest server carrying the name" do
+      stub_request(:get, "https://api.hetzner.cloud/v1/servers?name=serveme-42")
+        .with(headers: { "Authorization" => "Bearer #{api_token}" })
+        .to_return(status: 200, body: {
+          servers: [
+            { id: 222, created: "2026-08-03T19:13:01+00:00" },
+            { id: 111, created: "2026-08-03T19:11:25+00:00" }
+          ]
+        }.to_json, headers: { "Content-Type" => "application/json" })
+
+      VCR.turned_off { expect(provider.find_server_by_label("serveme-42")).to eq("111") }
+    end
+
+    it "returns nil when nothing carries the name" do
+      stub_request(:get, "https://api.hetzner.cloud/v1/servers?name=serveme-99")
+        .to_return(status: 200, body: { servers: [] }.to_json, headers: { "Content-Type" => "application/json" })
+
+      VCR.turned_off { expect(provider.find_server_by_label("serveme-99")).to be_nil }
+    end
   end
 
   describe "#server_status" do

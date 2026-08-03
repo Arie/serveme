@@ -5,6 +5,39 @@ require "spec_helper"
 RSpec.describe CloudProvider::Base do
   subject(:provider) { described_class.new }
 
+  describe "#find_or_create_server" do
+    let(:cloud_server) { create(:cloud_server) }
+
+    it "creates a server when nothing carries the label yet" do
+      allow(provider).to receive(:find_server_by_label).and_return(nil)
+      expect(provider).to receive(:create_server).with(cloud_server).and_return("new-1")
+
+      expect(provider.find_or_create_server(cloud_server)).to eq("new-1")
+    end
+
+    it "adopts a VM an earlier failed attempt left behind instead of creating a duplicate" do
+      allow(provider).to receive(:find_server_by_label)
+        .with(provider.cloud_server_name(cloud_server)).and_return("orphan-1")
+      expect(provider).not_to receive(:create_server)
+
+      expect(provider.find_or_create_server(cloud_server)).to eq("orphan-1")
+    end
+
+    it "looks up by the reservation-unique label" do
+      cloud_server.update!(cloud_reservation_id: 4242)
+      expect(provider).to receive(:find_server_by_label)
+        .with(a_string_ending_with("-4242")).and_return("orphan-1")
+
+      provider.find_or_create_server(cloud_server)
+    end
+  end
+
+  describe "#find_server_by_label" do
+    it "opts out by default so providers that cannot list by label are unaffected" do
+      expect(provider.find_server_by_label("serveme-eu-1")).to be_nil
+    end
+  end
+
   describe "#cloud_init_script (private)" do
     let(:cloud_server) { create(:cloud_server, rcon: rcon_password, cloud_callback_token: "vm-callback-token") }
 

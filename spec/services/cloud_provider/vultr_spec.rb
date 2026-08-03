@@ -86,6 +86,23 @@ RSpec.describe CloudProvider::Vultr do
         end
       end
     end
+
+    context "when the API returns 2xx without an instance id" do
+      let(:response_body) { { error: "We are currently conducting some software upgrades." }.to_json }
+
+      before do
+        allow(Rails.application.credentials).to receive(:dig)
+          .with(:cloud_servers, :vultr, :snapshot_id)
+          .and_return(nil)
+      end
+
+      it "raises a message naming the provider instead of a bare NilClass TypeError" do
+        VCR.turned_off do
+          expect { provider.create_server(cloud_server) }
+            .to raise_error(/Vultr API returned no instance id.*software upgrades/m)
+        end
+      end
+    end
   end
 
   describe "#server_status" do
@@ -184,6 +201,53 @@ RSpec.describe CloudProvider::Vultr do
 
       it "returns false" do
         VCR.turned_off { expect(provider.destroy_server("abc-123")).to be false }
+      end
+    end
+  end
+
+  describe "#find_server_by_label" do
+    it "returns the oldest instance carrying the label" do
+      stub_request(:get, "https://api.vultr.com/v2/instances?label=serveme-42")
+        .with(headers: { "Authorization" => "Bearer #{api_token}" })
+        .to_return(status: 200, body: {
+          instances: [
+            { id: "newer-222", date_created: "2026-08-03T19:13:01+00:00" },
+            { id: "oldest-111", date_created: "2026-08-03T19:11:25+00:00" }
+          ]
+        }.to_json, headers: { "Content-Type" => "application/json" })
+
+      VCR.turned_off { expect(provider.find_server_by_label("serveme-42")).to eq("oldest-111") }
+    end
+
+    it "returns nil when nothing carries the label" do
+      stub_request(:get, "https://api.vultr.com/v2/instances?label=serveme-99")
+        .to_return(status: 200, body: { instances: [] }.to_json, headers: { "Content-Type" => "application/json" })
+
+      VCR.turned_off { expect(provider.find_server_by_label("serveme-99")).to be_nil }
+    end
+
+    it "returns nil when the API is unavailable, so provisioning falls through to create" do
+      stub_request(:get, "https://api.vultr.com/v2/instances?label=serveme-99")
+        .to_return(status: 503, body: "")
+
+      VCR.turned_off { expect(provider.find_server_by_label("serveme-99")).to be_nil }
+    end
+  end
+
+  # SERVEME-25J / SERVEME-2X2: Vultr 5xx'd on create while still building the
+  # VM, so 14 retries billed us for 6 instances on one reservation.
+  describe "#find_or_create_server after a failed attempt left a VM behind" do
+    let(:cloud_server) { create(:cloud_server, cloud_provider: "vultr", cloud_location: "sto", cloud_reservation_id: 1556649) }
+
+    it "adopts the stranded instance and does not POST another one" do
+      stub_request(:get, "https://api.vultr.com/v2/instances?label=#{provider.cloud_server_name(cloud_server)}")
+        .to_return(status: 200, body: {
+          instances: [ { id: "b98902ec-8c73", date_created: "2026-08-03T19:11:25+00:00" } ]
+        }.to_json, headers: { "Content-Type" => "application/json" })
+
+      VCR.turned_off do
+        expect(provider.find_or_create_server(cloud_server)).to eq("b98902ec-8c73")
+        expect(WebMock).not_to have_requested(:post, "https://api.vultr.com/v2/instances")
       end
     end
   end

@@ -91,6 +91,12 @@ module CloudProvider
       "cmd:#{command_id}"
     end
 
+    # Resolves to the real UUID, so an adopted server skips the command queue.
+    sig { override.params(label: String).returns(T.nilable(String)) }
+    def find_server_by_label(label)
+      find_server_uuid(label)
+    end
+
     # Check if provider_id is a pending Kamatera command (not yet resolved to UUID)
     sig { override.params(provider_id: T.nilable(String)).returns(T::Boolean) }
     def pending_command?(provider_id)

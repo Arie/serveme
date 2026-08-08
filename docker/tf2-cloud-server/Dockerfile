@@ -115,10 +115,6 @@ RUN echo "Cache bust: ${CACHEBUST}" \
     && wget -nv "https://raw.githubusercontent.com/spiretf/docker-comp-server/master/socket_3.0.1.zip" -O "socket.zip" \
     && unzip -o socket.zip \
     && rm socket.zip \
-    # tf2-comp-fixes
-    && wget -nv https://github.com/ldesgoui/tf2-comp-fixes/releases/download/v1.18.0/tf2-comp-fixes.zip \
-    && unzip -o tf2-comp-fixes.zip \
-    && rm tf2-comp-fixes.zip \
     # srctvplus
     && cd /home/tf2/hlserver/tf2/tf/addons \
     && wget -nv https://github.com/dalegaard/srctvplus/releases/download/v3.0/srctvplus.vdf \
@@ -185,7 +181,11 @@ RUN cd /home/tf2/hlserver/tf2/tf \
     && rm -f addons/sourcemod/plugins/rglqol.smx addons/sourcemod/plugins/rglupdater.smx \
     && wget -nv "https://github.com/ozfortress/server-configs/archive/refs/heads/master.tar.gz" -O ozfortress.tar.gz \
     && tar xzf ozfortress.tar.gz --strip-components=1 server-configs-master/cfg/ \
-    && rm ozfortress.tar.gz
+    && rm ozfortress.tar.gz \
+    # tf2-comp-fixes must land AFTER the RGL pack, which bundles an older copy of it
+    && wget -nv https://github.com/ldesgoui/tf2-comp-fixes/releases/download/v1.18.1/tf2-comp-fixes.zip \
+    && unzip -o tf2-comp-fixes.zip \
+    && rm tf2-comp-fixes.zip
 
 COPY --chown=tf2:tf2 base-configs/ /home/tf2/hlserver/tf2/tf/
 

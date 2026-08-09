@@ -191,6 +191,81 @@ describe ReservationsController do
       expect(Reservation.where(server_id: server.id).count).to eq(1)
       expect(response).to have_http_status(:unprocessable_entity)
     end
+
+    it 'does not double-book a server when the competitor commits on another connection' do
+      server = create(:server)
+      other_user = create(:user)
+      starts_at = Time.current
+      ends_at = 2.hours.from_now
+
+      allow($lock).to receive(:synchronize) do |_key, &block|
+        ActiveRecord::Base.uncached(dirties: false) do
+          create(:reservation, user: other_user, server: server, starts_at: starts_at, ends_at: ends_at)
+        end
+        block.call
+      end
+
+      ActiveRecord::Base.cache do
+        post :create, params: { reservation: {
+          server_id: server.id, password: 'x', rcon: 'y',
+          starts_at: starts_at.to_s, ends_at: ends_at.to_s
+        } }
+      end
+
+      expect(Reservation.where(server_id: server.id).count).to eq(1)
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
+
+    it 'shows an error instead of crashing when the competitor commits after the last validation' do
+      server = create(:server)
+      other_user = create(:user)
+      starts_at = Time.current.change(sec: 0)
+      ends_at = 2.hours.from_now.change(sec: 0)
+
+      competitor_created = false
+      allow_any_instance_of(Reservation).to receive(:generate_logsecret).and_wrap_original do |original, *args|
+        unless competitor_created
+          competitor_created = true
+          create(:reservation, user: other_user, server: server, starts_at: starts_at, ends_at: ends_at)
+        end
+        original.call(*args)
+      end
+
+      post :create, params: { reservation: {
+        server_id: server.id, password: 'x', rcon: 'y',
+        starts_at: starts_at.to_s, ends_at: ends_at.to_s
+      } }
+
+      expect(Reservation.where(user_id: @user.id, server_id: server.id)).to be_empty
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(assigns(:reservation).errors[:server_id]).to include('already booked in the selected timeframe')
+    end
+
+    it 'shows an error when the competitor books an overlapping, not identical, timeframe' do
+      server = create(:server)
+      other_user = create(:user)
+      starts_at = Time.current.change(sec: 0)
+      ends_at = 2.hours.from_now.change(sec: 0)
+
+      competitor_created = false
+      allow_any_instance_of(Reservation).to receive(:generate_logsecret).and_wrap_original do |original, *args|
+        unless competitor_created
+          competitor_created = true
+          create(:reservation, user: other_user, server: server,
+                               starts_at: starts_at + 1.minute, ends_at: ends_at + 1.minute)
+        end
+        original.call(*args)
+      end
+
+      post :create, params: { reservation: {
+        server_id: server.id, password: 'x', rcon: 'y',
+        starts_at: starts_at.to_s, ends_at: ends_at.to_s
+      } }
+
+      expect(Reservation.where(user_id: @user.id, server_id: server.id)).to be_empty
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(assigns(:reservation).errors[:server_id]).to include('already booked in the selected timeframe')
+    end
   end
 
   describe '#find_servers_for_reservation' do
@@ -236,6 +311,32 @@ describe ReservationsController do
       allow($lock).to receive(:synchronize) do |_key, &block|
         create(:reservation, user: other_user, server: server, starts_at: reservation.starts_at, ends_at: reservation.ends_at)
         block.call
+      end
+
+      post :i_am_feeling_lucky
+
+      expect(Reservation.where(server_id: server.id, user_id: @user.id)).to be_empty
+      expect(response).to redirect_to root_path
+      expect(flash[:alert]).to include('not very lucky')
+    end
+
+    it 'shows the unlucky message instead of crashing when the competitor commits after the last validation' do
+      server = create(:server)
+      other_user = create(:user)
+      starts_at = Time.current.change(sec: 0)
+      ends_at = 2.hours.from_now.change(sec: 0)
+      reservation = Reservation.new(user: @user, server: server, password: 'x', rcon: 'y',
+                                    starts_at: starts_at, ends_at: ends_at)
+      lucky = double(:lucky, build_reservation: reservation)
+      IAmFeelingLucky.should_receive(:new).and_return(lucky)
+
+      competitor_created = false
+      allow_any_instance_of(Reservation).to receive(:generate_logsecret).and_wrap_original do |original, *args|
+        unless competitor_created
+          competitor_created = true
+          create(:reservation, user: other_user, server: server, starts_at: starts_at, ends_at: ends_at)
+        end
+        original.call(*args)
       end
 
       post :i_am_feeling_lucky

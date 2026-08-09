@@ -244,7 +244,7 @@ describe Reservation do
       it 'should wait if a previous reservation is not fully ended' do
         reservation = create :reservation
         previous_reservation = create(:reservation)
-        previous_reservation.update_columns(server_id: reservation.server_id, ends_at: 1.minute.ago)
+        previous_reservation.update_columns(server_id: reservation.server_id, starts_at: 2.hours.ago, ends_at: reservation.starts_at)
 
         reservation.start_reservation
 
@@ -595,6 +595,44 @@ describe Reservation do
     end
   end
 
+  context 'overlap protection in the database' do
+    let(:existing) { create(:reservation, starts_at: 1.hour.from_now, ends_at: 3.hours.from_now) }
+
+    it 'refuses an overlapping reservation on the same server even without validations' do
+      overlapping = build(:reservation, user: create(:user), server: existing.server,
+                                        starts_at: existing.starts_at + 1.minute, ends_at: existing.ends_at + 1.minute)
+
+      expect { overlapping.save!(validate: false) }.to raise_error(ActiveRecord::ExclusionViolation)
+    end
+
+    it 'allows a reservation that starts exactly when another ends' do
+      following = build(:reservation, user: create(:user), server: existing.server,
+                                      starts_at: existing.ends_at, ends_at: existing.ends_at + 2.hours)
+
+      expect { following.save!(validate: false) }.not_to raise_error
+    end
+
+    it 'ignores ended reservations' do
+      existing.update_columns(ended: true)
+      overlapping = build(:reservation, user: create(:user), server: existing.server,
+                                        starts_at: existing.starts_at + 1.minute, ends_at: existing.ends_at + 1.minute)
+
+      expect { overlapping.save!(validate: false) }.not_to raise_error
+    end
+
+    it 'returns false from extend! instead of raising when the extension is blocked' do
+      reservation = create(:reservation, starts_at: 5.minutes.ago, ends_at: 30.minutes.from_now, provisioned: true)
+      create(:reservation, user: create(:user), server: reservation.server,
+                           starts_at: reservation.ends_at + 1.minute, ends_at: reservation.ends_at + 2.hours)
+      # The app-level check is what normally stops this; here it lets the
+      # extension through and the database is the only thing left.
+      allow_any_instance_of(Reservations::ServerIsAvailableValidator).to receive(:validate)
+
+      expect(reservation.extend!).to be(false)
+      expect(reservation.reload.ends_at).to be_within(1.second).of(30.minutes.from_now)
+    end
+  end
+
   context 'finding collisions' do
     describe 'collision memoization reset on validation' do
       it 'forces collision checks to re-query so a reservation committed after the first check is detected' do
@@ -614,6 +652,22 @@ describe Reservation do
         # detects the collision the competitor committed.
         collider.valid?
         expect(collider.collides_with_other_users_reservation?).to be(true)
+      end
+
+      it 'detects a reservation another request committed even with a warm query cache' do
+        server = create(:server)
+        collider = build(:reservation, user: create(:user), server: server, starts_at: Time.current, ends_at: 1.hour.from_now)
+
+        ActiveRecord::Base.cache do
+          expect(collider.collides_with_other_users_reservation?).to be(false)
+
+          ActiveRecord::Base.uncached(dirties: false) do
+            create(:reservation, user: create(:user), server: server, starts_at: Time.current, ends_at: 1.hour.from_now)
+          end
+
+          collider.valid?
+          expect(collider.collides_with_other_users_reservation?).to be(true)
+        end
       end
     end
 

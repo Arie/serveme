@@ -140,6 +140,8 @@ module Mcp
           end
         rescue ActiveRecord::RecordInvalid => e
           return { error: e.message }
+        rescue ActiveRecord::RecordNotUnique, ActiveRecord::ExclusionViolation
+          return { error: "Server already booked in the selected timeframe" }
         end
 
         # Start immediately since it's a "now" reservation

@@ -55,7 +55,7 @@ module Api
         ReservationChangesWorker.perform_async(writable_reservation.id, writable_reservation.previous_changes.to_json)
         render :show
       end
-    rescue ActiveRecord::RecordNotUnique
+    rescue ActiveRecord::RecordNotUnique, ActiveRecord::ExclusionViolation
       writable_reservation.errors.add(:server_id, "already booked in the selected timeframe")
       @reservation = writable_reservation
       render :show, status: :bad_request
@@ -137,10 +137,14 @@ module Api
     def create_regular_reservation
       @reservation = current_user.reservations.build(reservation_params)
       if @reservation.valid?
-        $lock.synchronize("save-reservation-server-#{@reservation.server_id}") do
-          if @reservation.valid?
-            @reservation.save!
+        begin
+          $lock.synchronize("save-reservation-server-#{@reservation.server_id}") do
+            if @reservation.valid?
+              @reservation.save!
+            end
           end
+        rescue ActiveRecord::RecordNotUnique, ActiveRecord::ExclusionViolation
+          @reservation.errors.add(:server_id, "already booked in the selected timeframe")
         end
       end
       if @reservation.persisted?

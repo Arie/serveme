@@ -65,10 +65,14 @@ class ReservationsController < ApplicationController
     lucky = IAmFeelingLucky.new(current_user)
     @reservation = lucky.build_reservation
     if @reservation.server && @reservation.valid?
-      $lock.synchronize("save-reservation-server-#{@reservation.server_id}") do
-        if @reservation.valid?
-          @reservation.save!
+      begin
+        $lock.synchronize("save-reservation-server-#{@reservation.server_id}") do
+          if @reservation.valid?
+            @reservation.save!
+          end
         end
+      rescue ActiveRecord::RecordNotUnique, ActiveRecord::ExclusionViolation
+        @reservation.errors.add(:server_id, "already booked in the selected timeframe")
       end
       if @reservation.persisted?
         reservation_saved
@@ -373,10 +377,14 @@ class ReservationsController < ApplicationController
   def create_regular_reservation
     @reservation = current_user.reservations.build(reservation_params)
     if @reservation.valid?
-      $lock.synchronize("save-reservation-server-#{@reservation.server_id}") do
-        if @reservation.valid?
-          @reservation.save!
+      begin
+        $lock.synchronize("save-reservation-server-#{@reservation.server_id}") do
+          if @reservation.valid?
+            @reservation.save!
+          end
         end
+      rescue ActiveRecord::RecordNotUnique, ActiveRecord::ExclusionViolation
+        @reservation.errors.add(:server_id, "already booked in the selected timeframe")
       end
     end
     if @reservation.persisted?

@@ -10,8 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_14_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_10_000000) do
   # These are extensions that must be enabled in order to support this database
+  enable_extension "btree_gist"
   enable_extension "pg_catalog.plpgsql"
 
   create_table "action_text_rich_texts", force: :cascade do |t|
@@ -357,6 +358,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_14_120000) do
     t.index ["updated_at"], name: "idx_17175_index_reservations_on_updated_at"
     t.index ["user_id"], name: "idx_17175_index_reservations_on_user_id"
     t.index ["whitelist_id"], name: "idx_17175_index_reservations_on_whitelist_id"
+    t.exclusion_constraint "server_id WITH =, tsrange(starts_at, GREATEST(starts_at, ends_at)) WITH &&", where: "ended = false", using: :gist, name: "no_overlapping_reservations"
   end
 
   create_table "server_configs", force: :cascade do |t|

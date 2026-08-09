@@ -24,6 +24,26 @@ RSpec.describe Mcp::Tools::CreateReservationTool do
         expect(result[:reservation][:server_name]).to eq(server.name)
       end
 
+      it "returns an error instead of crashing when the competitor commits after the last validation" do
+        server = create(:server)
+        other_user = create(:user)
+
+        competitor_created = false
+        allow_any_instance_of(Reservation).to receive(:generate_logsecret).and_wrap_original do |original, *args|
+          unless competitor_created
+            competitor_created = true
+            ours = original.receiver
+            create(:reservation, user: other_user, server: server, starts_at: ours.starts_at, ends_at: ours.ends_at)
+          end
+          original.call(*args)
+        end
+
+        result = tool.execute(password: "secret")
+
+        expect(result[:error]).to include("already booked in the selected timeframe")
+        expect(Reservation.where(server_id: server.id, user_id: user.id)).to be_empty
+      end
+
       it "falls back to a remote-docker host when no regular server is free" do
         docker_host = create(:docker_host)
 

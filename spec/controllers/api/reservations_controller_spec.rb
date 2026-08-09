@@ -162,6 +162,28 @@ describe Api::ReservationsController do
       response.status.should == 400
     end
 
+    it 'returns a validation error instead of crashing when the competitor commits after the last validation' do
+      server = create :server, location: create(:location)
+      other_user = create :user
+      starts_at = Time.current.change(sec: 0)
+      ends_at = 2.hours.from_now.change(sec: 0)
+
+      competitor_created = false
+      allow_any_instance_of(Reservation).to receive(:generate_logsecret).and_wrap_original do |original, *args|
+        unless competitor_created
+          competitor_created = true
+          create(:reservation, user: other_user, server: server, starts_at: starts_at, ends_at: ends_at)
+        end
+        original.call(*args)
+      end
+
+      post :create, format: :json, params: { reservation: { starts_at: starts_at, ends_at: ends_at, rcon: 'foo', password: 'bar', server_id: server.id } }
+
+      expect(Reservation.where(server_id: server.id, user_id: @user.id)).to be_empty
+      response.status.should == 400
+      expect(response.body).to include('already booked in the selected timeframe')
+    end
+
     context 'with the legacy disable_democheck param' do
       let(:server) { create :server, location: create(:location) }
 

@@ -128,12 +128,12 @@ class Reservation < ActiveRecord::Base
 
   sig { returns(T::Array[Reservation]) }
   def own_colliding_reservations
-    @own_colliding_reservations ||= CollisionFinder.new(Reservation.where(user_id: user&.id), self).colliding_reservations
+    @own_colliding_reservations ||= Reservation.uncached { CollisionFinder.new(Reservation.where(user_id: user&.id), self).colliding_reservations }
   end
 
   sig { returns(T::Array[Reservation]) }
   def other_users_colliding_reservations
-    @other_users_colliding_reservations ||= CollisionFinder.new(Reservation.where(server_id: server&.id), self).colliding_reservations
+    @other_users_colliding_reservations ||= Reservation.uncached { CollisionFinder.new(Reservation.where(server_id: server&.id), self).colliding_reservations }
   end
 
   sig { returns(T::Boolean) }
@@ -158,7 +158,11 @@ class Reservation < ActiveRecord::Base
     self.extending  = true
     self.ends_at    = T.must(ends_at) + user&.reservation_extension_time
     self.inactive_minute_counter = 0
-    result = save
+    result = begin
+      save
+    rescue ActiveRecord::ExclusionViolation
+      false
+    end
     DiscordReservationUpdateWorker.perform_async(id) if result
     result
   end

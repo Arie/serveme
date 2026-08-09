@@ -26,6 +26,24 @@ describe LeagueRequestsController do
         assigns(:results).should be_nil
       end
 
+      it 'shows the search form again when the search was submitted empty' do
+        get :new, params: { ip: '', steam_uid: '', reservation_ids: '' }
+
+        assigns(:results).should be_nil
+        expect(assigns(:league_request)).to be_a(LeagueRequest)
+        expect(response).to render_template(:new)
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it 'searches by reservation ids only' do
+        player = create(:reservation_player)
+
+        get :new, params: { ip: '', steam_uid: '', reservation_ids: player.reservation_id.to_s }
+
+        expect(assigns(:results)).to include(player)
+        expect(response).to render_template(:index)
+      end
+
       it 'searches by steam_uid' do
         player = create(:reservation_player, steam_uid: '76561198123456789')
 

@@ -6,9 +6,11 @@ class LeagueRequestsController < ApplicationController
 
   before_action :require_site_or_league_admin
 
+  SEARCH_KEYS = %i[ip steam_uid reservation_ids].freeze
+
   def new
     respond_to do |format|
-      if params[:ip] || params[:steam_uid]
+      if SEARCH_KEYS.any? { |key| params[key].present? }
         @league_request_params = {
           ip: params[:ip],
           steam_uid: params[:steam_uid],
@@ -18,32 +20,34 @@ class LeagueRequestsController < ApplicationController
         }
         league_request = LeagueRequest.new(current_user, **@league_request_params)
         @results = league_request.search
-        if @results
-          @asns = LeagueRequest.lookup_asns(@results)
 
-          unique_ips = @results.map(&:ip).compact.uniq
-          unique_uids = @results.map(&:steam_uid).compact.uniq
+        @asns = LeagueRequest.lookup_asns(@results)
 
-          @banned_ips = {}
-          unique_ips.each { |ip| @banned_ips[ip] = ReservationPlayer.banned_ip?(ip) }
+        unique_ips = @results.map(&:ip).compact.uniq
+        unique_uids = @results.map(&:steam_uid).compact.uniq
 
-          @banned_uids = {}
-          unique_uids.each { |uid| @banned_uids[uid] = ReservationPlayer.banned_uid?(uid) }
+        @banned_ips = {}
+        unique_ips.each { |ip| @banned_ips[ip] = ReservationPlayer.banned_ip?(ip) }
 
-          @banned_asns = LeagueRequest.precompute_banned_asns(@asns)
+        @banned_uids = {}
+        unique_uids.each { |uid| @banned_uids[uid] = ReservationPlayer.banned_uid?(uid) }
 
-          @ip_lookups = IpLookup.where(ip: unique_ips).index_by(&:ip)
+        @banned_asns = LeagueRequest.precompute_banned_asns(@asns)
 
-          @stac_steam_uids = unique_uids.join(",")
+        @ip_lookups = IpLookup.where(ip: unique_ips).index_by(&:ip)
 
-          format.html { render :index }
-        else
-          format.html { render :new, status: :unprocessable_entity }
-        end
+        @stac_steam_uids = unique_uids.join(",")
+
+        format.html { render :index }
       else
+        @league_request = LeagueRequest.new(current_user)
         format.html do
-          @league_request = LeagueRequest.new(current_user)
-          render :new
+          # A submitted-but-empty search comes back with the params present but blank
+          if SEARCH_KEYS.any? { |key| params.key?(key) }
+            render :new, status: :unprocessable_entity
+          else
+            render :new
+          end
         end
       end
     end

@@ -71,69 +71,71 @@ class Haml::AttributeCompiler
 
   private
 
-  # pkg:gem/haml#lib/haml/attribute_compiler.rb:123
+  # pkg:gem/haml#lib/haml/attribute_compiler.rb:121
   def attribute_builder(type, values); end
 
-  # pkg:gem/haml#lib/haml/attribute_compiler.rb:98
+  # pkg:gem/haml#lib/haml/attribute_compiler.rb:96
   def compile_boolean!(temple, key, values); end
 
-  # pkg:gem/haml#lib/haml/attribute_compiler.rb:78
+  # pkg:gem/haml#lib/haml/attribute_compiler.rb:76
   def compile_class!(temple, key, values); end
 
-  # pkg:gem/haml#lib/haml/attribute_compiler.rb:119
+  # pkg:gem/haml#lib/haml/attribute_compiler.rb:117
   def compile_common!(temple, key, values); end
 
-  # pkg:gem/haml#lib/haml/attribute_compiler.rb:87
+  # pkg:gem/haml#lib/haml/attribute_compiler.rb:85
   def compile_data!(temple, key, values); end
 
-  # pkg:gem/haml#lib/haml/attribute_compiler.rb:69
+  # pkg:gem/haml#lib/haml/attribute_compiler.rb:67
   def compile_id!(temple, key, values); end
 
-  # pkg:gem/haml#lib/haml/attribute_compiler.rb:128
+  # pkg:gem/haml#lib/haml/attribute_compiler.rb:126
   def literal_for(value); end
 
-  # pkg:gem/haml#lib/haml/attribute_compiler.rb:38
+  # pkg:gem/haml#lib/haml/attribute_compiler.rb:36
   def runtime_compile(node); end
 
-  # pkg:gem/haml#lib/haml/attribute_compiler.rb:46
+  # pkg:gem/haml#lib/haml/attribute_compiler.rb:44
   def static_compile(static_hash, dynamic_hashes); end
 end
 
 # pkg:gem/haml#lib/haml/attribute_parser.rb:5
 class Haml::AttributeParser
-  # pkg:gem/haml#lib/haml/attribute_parser.rb:18
+  # @return [Hash,nil] - keys and values are the attribute source as written, or nil if
+  #   the text is not a Hash literal whose keys are all static.
+  #
+  # pkg:gem/haml#lib/haml/attribute_parser.rb:19
   def parse(text); end
 
   private
 
-  # pkg:gem/haml#lib/haml/attribute_parser.rb:66
-  def assert_type!(token, type); end
+  # pkg:gem/haml#lib/haml/attribute_parser.rb:48
+  def hash_node(exp); end
 
-  # pkg:gem/haml#lib/haml/attribute_parser.rb:77
-  def each_attr(tokens); end
-
-  # pkg:gem/haml#lib/haml/attribute_parser.rb:41
-  def parse_key!(tokens); end
+  # The key as written between its delimiters, not unescaped: an escape has to reach the
+  # attribute name as the source spelled it, like the `\0` of `{ "a\0b" => 1 }`.
+  #
+  # pkg:gem/haml#lib/haml/attribute_parser.rb:63
+  def static_key(key); end
 
   # pkg:gem/haml#lib/haml/attribute_parser.rb:70
-  def skip_until_hash_rocket!(tokens); end
+  def value_source(value); end
 
-  # pkg:gem/haml#lib/haml/attribute_parser.rb:35
+  # pkg:gem/haml#lib/haml/attribute_parser.rb:42
   def wrap_bracket(text); end
 
   class << self
-    # @return [TrueClass, FalseClass] - return true if AttributeParser.parse can be used.
+    # @deprecated Prism is a hard dependency, so this is always true. Haml itself no longer
+    #   asks, and this will be removed in the future.
+    # @return [TrueClass] - return true if AttributeParser.parse can be used.
     #
-    # pkg:gem/haml#lib/haml/attribute_parser.rb:10
+    # pkg:gem/haml#lib/haml/attribute_parser.rb:9
     def available?; end
 
-    # pkg:gem/haml#lib/haml/attribute_parser.rb:14
+    # pkg:gem/haml#lib/haml/attribute_parser.rb:13
     def parse(text); end
   end
 end
-
-# pkg:gem/haml#lib/haml/attribute_parser.rb:6
-class Haml::AttributeParser::ParseSkip < ::StandardError; end
 
 # The list of boolean attributes. You may add custom attributes to this constant.
 #
@@ -272,27 +274,27 @@ class Haml::Compiler::ScriptCompiler
   # pkg:gem/haml#lib/haml/compiler/script_compiler.rb:41
   def compile_interpolated_plain(node); end
 
-  # pkg:gem/haml#lib/haml/compiler/script_compiler.rb:78
+  # pkg:gem/haml#lib/haml/compiler/script_compiler.rb:83
   def compile_script_assign(var, node, &block); end
 
-  # pkg:gem/haml#lib/haml/compiler/script_compiler.rb:94
+  # pkg:gem/haml#lib/haml/compiler/script_compiler.rb:99
   def compile_script_result(result, node); end
 
   # :dynamic is optimized in other filter: StringSplitter
   #
-  # pkg:gem/haml#lib/haml/compiler/script_compiler.rb:55
+  # pkg:gem/haml#lib/haml/compiler/script_compiler.rb:60
   def delegate_optimization(node); end
 
-  # pkg:gem/haml#lib/haml/compiler/script_compiler.rb:72
+  # pkg:gem/haml#lib/haml/compiler/script_compiler.rb:77
   def dynamic_compile(node, &block); end
 
-  # pkg:gem/haml#lib/haml/compiler/script_compiler.rb:105
+  # pkg:gem/haml#lib/haml/compiler/script_compiler.rb:110
   def escape_html(temple); end
 
-  # pkg:gem/haml#lib/haml/compiler/script_compiler.rb:101
+  # pkg:gem/haml#lib/haml/compiler/script_compiler.rb:106
   def find_and_preserve(code); end
 
-  # pkg:gem/haml#lib/haml/compiler/script_compiler.rb:62
+  # pkg:gem/haml#lib/haml/compiler/script_compiler.rb:67
   def static_compile(node); end
 
   class << self
@@ -335,7 +337,7 @@ class Haml::Compiler::TagCompiler
   # pkg:gem/haml#lib/haml/compiler/tag_compiler.rb:47
   def delegate_optimization(node); end
 
-  # pkg:gem/haml#lib/haml/compiler/tag_compiler.rb:68
+  # pkg:gem/haml#lib/haml/compiler/tag_compiler.rb:73
   def self_closing?(node); end
 end
 
@@ -692,18 +694,18 @@ class Haml::Parser
 
   private
 
-  # pkg:gem/haml#lib/haml/parser.rb:853
+  # pkg:gem/haml#lib/haml/parser.rb:852
   def balance(*args); end
 
-  # Unlike #balance, this balances Ripper tokens to balance something like `{ a: "}" }` correctly.
+  # Unlike #balance, this balances lexed tokens to balance something like `{ a: "}" }` correctly.
   #
-  # pkg:gem/haml#lib/haml/parser.rb:858
+  # pkg:gem/haml#lib/haml/parser.rb:857
   def balance_tokens(buf, start, finish, count: T.unsafe(nil)); end
 
   # pkg:gem/haml#lib/haml/parser.rb:316
   def block_keyword(text); end
 
-  # pkg:gem/haml#lib/haml/parser.rb:875
+  # pkg:gem/haml#lib/haml/parser.rb:878
   def block_opened?; end
 
   # pkg:gem/haml#lib/haml/parser.rb:387
@@ -727,7 +729,7 @@ class Haml::Parser
   # pkg:gem/haml#lib/haml/parser.rb:563
   def close_silent_script(node); end
 
-  # pkg:gem/haml#lib/haml/parser.rb:807
+  # pkg:gem/haml#lib/haml/parser.rb:806
   def closes_flat?(line); end
 
   # Renders an XHTML comment.
@@ -758,10 +760,10 @@ class Haml::Parser
   # Same semantics as block_opened?, except that block_opened? uses Line#tabs,
   # which doesn't interact well with filter lines
   #
-  # pkg:gem/haml#lib/haml/parser.rb:881
+  # pkg:gem/haml#lib/haml/parser.rb:884
   def filter_opened?; end
 
-  # pkg:gem/haml#lib/haml/parser.rb:885
+  # pkg:gem/haml#lib/haml/parser.rb:888
   def flat?; end
 
   # pkg:gem/haml#lib/haml/parser.rb:352
@@ -770,15 +772,15 @@ class Haml::Parser
   # pkg:gem/haml#lib/haml/parser.rb:397
   def haml_comment(text); end
 
-  # pkg:gem/haml#lib/haml/parser.rb:811
+  # pkg:gem/haml#lib/haml/parser.rb:810
   def handle_multiline(line); end
 
-  # pkg:gem/haml#lib/haml/parser.rb:829
+  # pkg:gem/haml#lib/haml/parser.rb:828
   def handle_ruby_multiline(line); end
 
   # Checks whether or not `line` is in a multiline sequence.
   #
-  # pkg:gem/haml#lib/haml/parser.rb:825
+  # pkg:gem/haml#lib/haml/parser.rb:824
   def is_multiline?(text); end
 
   # `text' is a Ruby multiline block if it:
@@ -787,44 +789,43 @@ class Haml::Parser
   #   (however, "x?," is a method call and not a literal)
   # - and not "?\," which is a character literal
   #
-  # pkg:gem/haml#lib/haml/parser.rb:848
+  # pkg:gem/haml#lib/haml/parser.rb:847
   def is_ruby_multiline?(text); end
 
   # pkg:gem/haml#lib/haml/parser.rb:271
   def mid_block_keyword?(text); end
 
-  # pkg:gem/haml#lib/haml/parser.rb:789
+  # pkg:gem/haml#lib/haml/parser.rb:788
   def next_line; end
 
-  # pkg:gem/haml#lib/haml/parser.rb:760
+  # pkg:gem/haml#lib/haml/parser.rb:759
   def parse_new_attribute(scanner); end
 
   # @return [Array<Hash,String,nil>] - [static_attributes (Hash), dynamic_attributes (nil or String starting with `{` and ending with `}`)]
   # @return [String] rest
   # @return [Integer] last_line
   #
-  # pkg:gem/haml#lib/haml/parser.rb:719
+  # pkg:gem/haml#lib/haml/parser.rb:718
   def parse_new_attributes(text); end
 
   # @return [String] attributes_hash - Hash literal starting with `{` and ending with `}`
   # @return [String] rest
   # @return [Integer] last_line
   #
-  # pkg:gem/haml#lib/haml/parser.rb:682
+  # pkg:gem/haml#lib/haml/parser.rb:681
   def parse_old_attributes(text); end
 
-  # This method doesn't use Haml::HamlAttributeParser because currently it depends on Ripper and Rubinius doesn't provide it.
-  # Ideally this logic should be placed in Haml::HamlAttributeParser instead of here and this method should use it.
+  # Ideally this logic should be placed in Haml::AttributeParser instead of here and this method should use it.
   #
   # @param  [String] text - Hash literal or text inside old attributes
   # @return [Hash,nil] - Return nil if text is not static Hash literal
   #
-  # pkg:gem/haml#lib/haml/parser.rb:609
+  # pkg:gem/haml#lib/haml/parser.rb:608
   def parse_static_hash(text); end
 
   # Parses a line into tag_name, attributes, attributes_hash, object_ref, action, value
   #
-  # pkg:gem/haml#lib/haml/parser.rb:627
+  # pkg:gem/haml#lib/haml/parser.rb:626
   def parse_tag(text); end
 
   # pkg:gem/haml#lib/haml/parser.rb:326
@@ -1122,42 +1123,42 @@ class Haml::Parser::ParseNode < ::Struct
   end
 end
 
-# pkg:gem/haml#lib/haml/parser.rb:960
+# pkg:gem/haml#lib/haml/parser.rb:963
 class Haml::Parser::ParserOptions
-  # pkg:gem/haml#lib/haml/parser.rb:988
+  # pkg:gem/haml#lib/haml/parser.rb:991
   def initialize(values = T.unsafe(nil)); end
 
-  # pkg:gem/haml#lib/haml/parser.rb:972
+  # pkg:gem/haml#lib/haml/parser.rb:975
   def autoclose; end
 
-  # pkg:gem/haml#lib/haml/parser.rb:972
+  # pkg:gem/haml#lib/haml/parser.rb:975
   def escape_html; end
 
-  # pkg:gem/haml#lib/haml/parser.rb:972
+  # pkg:gem/haml#lib/haml/parser.rb:975
   def filename; end
 
-  # pkg:gem/haml#lib/haml/parser.rb:972
+  # pkg:gem/haml#lib/haml/parser.rb:975
   def line; end
 
-  # pkg:gem/haml#lib/haml/parser.rb:972
+  # pkg:gem/haml#lib/haml/parser.rb:975
   def mime_type; end
 
-  # pkg:gem/haml#lib/haml/parser.rb:972
+  # pkg:gem/haml#lib/haml/parser.rb:975
   def preserve; end
 
-  # pkg:gem/haml#lib/haml/parser.rb:972
+  # pkg:gem/haml#lib/haml/parser.rb:975
   def remove_whitespace; end
 
-  # pkg:gem/haml#lib/haml/parser.rb:972
+  # pkg:gem/haml#lib/haml/parser.rb:975
   def suppress_eval; end
 end
 
 # A list of options that are actually used in the parser
 #
-# pkg:gem/haml#lib/haml/parser.rb:962
+# pkg:gem/haml#lib/haml/parser.rb:965
 Haml::Parser::ParserOptions::AVAILABLE_OPTIONS = T.let(T.unsafe(nil), Array)
 
-# pkg:gem/haml#lib/haml/parser.rb:975
+# pkg:gem/haml#lib/haml/parser.rb:978
 Haml::Parser::ParserOptions::DEFAULTS = T.let(T.unsafe(nil), Hash)
 
 # Designates script that is always HTML-escaped.
@@ -1198,75 +1199,65 @@ Haml::Parser::START_BLOCK_KEYWORD_REGEX = T.let(T.unsafe(nil), Regexp)
 class Haml::Railtie < ::Rails::Railtie; end
 
 # pkg:gem/haml#lib/haml/ruby_expression.rb:5
-class Haml::RubyExpression < ::Ripper
-  private
-
-  # pkg:gem/haml#lib/haml/ruby_expression.rb:28
-  def on_parse_error(*_arg0); end
-
+class Haml::RubyExpression
   class << self
-    # pkg:gem/haml#lib/haml/ruby_expression.rb:15
+    # pkg:gem/haml#lib/haml/ruby_expression.rb:18
     def string_literal?(code); end
 
-    # pkg:gem/haml#lib/haml/ruby_expression.rb:8
+    # @return [Prism::Node, nil] - the node of a string literal StringSplitter can split, if any.
+    #   Its locations are byte offsets into `code` as given, so `code` must not be stripped here.
+    #
+    # pkg:gem/haml#lib/haml/ruby_expression.rb:24
+    def string_literal_node(code); end
+
+    # pkg:gem/haml#lib/haml/ruby_expression.rb:14
     def syntax_error?(code); end
   end
 end
 
-# pkg:gem/haml#lib/haml/ruby_expression.rb:6
-class Haml::RubyExpression::ParseError < ::StandardError; end
+# A character literal (`?a`) is a StringNode for Prism, but it has no quotes
+# to split on, so it must not be reported as a string literal.
+#
+# pkg:gem/haml#lib/haml/ruby_expression.rb:8
+Haml::RubyExpression::CHAR_LITERAL_OPENING = T.let(T.unsafe(nil), String)
+
+# A template is compiled into a method body, so a jump like `yield` is valid here even
+# though it would not be at the top level of a script.
+#
+# pkg:gem/haml#lib/haml/ruby_expression.rb:12
+Haml::RubyExpression::PARSE_OPTIONS = T.let(T.unsafe(nil), Hash)
 
 # Compile [:dynamic, "foo#{bar}"] to [:multi, [:static, 'foo'], [:dynamic, 'bar']]
 #
-# pkg:gem/haml#lib/haml/string_splitter.rb:6
+# pkg:gem/haml#lib/haml/string_splitter.rb:7
 class Haml::StringSplitter < ::Temple::Filter
-  # pkg:gem/haml#lib/haml/string_splitter.rb:84
+  # pkg:gem/haml#lib/haml/string_splitter.rb:59
   def on_dynamic(code); end
 
-  private
-
-  # pkg:gem/haml#lib/haml/string_splitter.rb:102
-  def string_literal?(code); end
-
   class << self
-    # `code` param must be valid string literal
+    # `code` param must be a string literal, as RubyExpression.string_literal? defines it.
     #
-    # pkg:gem/haml#lib/haml/string_splitter.rb:9
-    def compile(code); end
+    # pkg:gem/haml#lib/haml/string_splitter.rb:10
+    def compile(code, node: T.unsafe(nil)); end
+
+    # Like compile, but nil instead of raising, for callers that built `code` themselves
+    # and would rather emit it untouched than fail the whole compilation.
+    #
+    # pkg:gem/haml#lib/haml/string_splitter.rb:23
+    def try_compile(code); end
 
     private
 
-    # pkg:gem/haml#lib/haml/string_splitter.rb:37
-    def compile_tokens!(exps, tokens); end
+    # pkg:gem/haml#lib/haml/string_splitter.rb:30
+    def compile_parts(parts, code); end
 
-    # Some quotes are split-unsafe. Replace such quotes with null characters.
+    # The source between `#{` and `}`, kept verbatim. Slicing `code` rather than
+    # using the statements' own source preserves the whitespace around them.
     #
-    # pkg:gem/haml#lib/haml/string_splitter.rb:55
-    def escape_quotes(beg_str, end_str); end
-
-    # pkg:gem/haml#lib/haml/string_splitter.rb:64
-    def shift_balanced_embexpr(tokens); end
-
-    # pkg:gem/haml#lib/haml/string_splitter.rb:23
-    def strip_quotes!(tokens); end
+    # pkg:gem/haml#lib/haml/string_splitter.rb:53
+    def embedded_source(part, code); end
   end
 end
-
-# pkg:gem/haml#lib/haml/string_splitter.rb:113
-class Haml::StringSplitter::SyntaxChecker < ::Ripper
-  private
-
-  # pkg:gem/haml#lib/haml/string_splitter.rb:125
-  def on_parse_error(*_arg0); end
-
-  class << self
-    # pkg:gem/haml#lib/haml/string_splitter.rb:116
-    def syntax_error?(code); end
-  end
-end
-
-# pkg:gem/haml#lib/haml/string_splitter.rb:114
-class Haml::StringSplitter::SyntaxChecker::ParseError < ::StandardError; end
 
 # SyntaxError is the type of exception raised when Haml encounters an
 # ill-formatted document.

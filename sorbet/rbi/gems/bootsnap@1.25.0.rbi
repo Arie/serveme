@@ -18,40 +18,40 @@ module Bootsnap
   def instrumentation_enabled=(_arg0); end
 
   class << self
-    # pkg:gem/bootsnap#lib/bootsnap.rb:42
+    # pkg:gem/bootsnap#lib/bootsnap.rb:45
     def _instrument(event, path); end
 
-    # pkg:gem/bootsnap#lib/bootsnap.rb:172
+    # pkg:gem/bootsnap#lib/bootsnap.rb:175
     def absolute_path?(path); end
 
-    # pkg:gem/bootsnap#lib/bootsnap.rb:10
+    # pkg:gem/bootsnap#lib/bootsnap.rb:13
     def cache_dir; end
 
-    # pkg:gem/bootsnap#lib/bootsnap.rb:117
+    # pkg:gem/bootsnap#lib/bootsnap.rb:120
     def default_setup; end
 
-    # pkg:gem/bootsnap#lib/bootsnap.rb:93
+    # pkg:gem/bootsnap#lib/bootsnap.rb:96
     def enable_frozen_string_literal(app_only: T.unsafe(nil)); end
 
-    # pkg:gem/bootsnap#lib/bootsnap.rb:35
+    # pkg:gem/bootsnap#lib/bootsnap.rb:38
     def instrumentation=(callback); end
 
     # pkg:gem/bootsnap#lib/bootsnap/load_path_cache/path_scanner.rb:37
     def instrumentation_enabled=(_arg0); end
 
-    # pkg:gem/bootsnap#lib/bootsnap.rb:84
+    # pkg:gem/bootsnap#lib/bootsnap.rb:87
     def load_config(config_path); end
 
-    # pkg:gem/bootsnap#lib/bootsnap.rb:22
+    # pkg:gem/bootsnap#lib/bootsnap.rb:25
     def log!; end
 
-    # pkg:gem/bootsnap#lib/bootsnap.rb:12
+    # pkg:gem/bootsnap#lib/bootsnap.rb:15
     def log_stats!; end
 
-    # pkg:gem/bootsnap#lib/bootsnap.rb:10
+    # pkg:gem/bootsnap#lib/bootsnap.rb:13
     def logger; end
 
-    # pkg:gem/bootsnap#lib/bootsnap.rb:26
+    # pkg:gem/bootsnap#lib/bootsnap.rb:29
     def logger=(logger); end
 
     # This is a semi-accurate ruby implementation of the native `rb_get_path(VALUE)` function.
@@ -59,21 +59,21 @@ module Bootsnap
     # But we only use it for non-MRI platform.
     # Allow the C extension to redefine `rb_get_path` without warning.
     #
-    # pkg:gem/bootsnap#lib/bootsnap.rb:180
+    # pkg:gem/bootsnap#lib/bootsnap.rb:183
     def rb_get_path(_arg0); end
 
-    # pkg:gem/bootsnap#lib/bootsnap.rb:46
+    # pkg:gem/bootsnap#lib/bootsnap.rb:49
     def setup(cache_dir:, development_mode: T.unsafe(nil), load_path_cache: T.unsafe(nil), ignore_directories: T.unsafe(nil), readonly: T.unsafe(nil), revalidation: T.unsafe(nil), compile_cache_iseq: T.unsafe(nil), compile_cache_yaml: T.unsafe(nil), compile_cache_json: T.unsafe(nil), config_path: T.unsafe(nil)); end
 
-    # pkg:gem/bootsnap#lib/bootsnap.rb:113
+    # pkg:gem/bootsnap#lib/bootsnap.rb:116
     def unload_cache!; end
 
     private
 
-    # pkg:gem/bootsnap#lib/bootsnap.rb:194
+    # pkg:gem/bootsnap#lib/bootsnap.rb:197
     def bool_env(key, default: T.unsafe(nil)); end
 
-    # pkg:gem/bootsnap#lib/bootsnap.rb:190
+    # pkg:gem/bootsnap#lib/bootsnap.rb:193
     def enabled?(key); end
   end
 end
@@ -134,7 +134,7 @@ module Bootsnap::CompileCache::ISeq
 end
 
 # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:129
-Bootsnap::CompileCache::ISeq::COVERAGE_SUPPORTED = T.let(T.unsafe(nil), FalseClass)
+Bootsnap::CompileCache::ISeq::COVERAGE_SUPPORTED = T.let(T.unsafe(nil), TrueClass)
 
 # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:23
 class Bootsnap::CompileCache::ISeq::Compiler
@@ -155,15 +155,6 @@ class Bootsnap::CompileCache::ISeq::Compiler
 
   # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:32
   def update_options; end
-end
-
-# pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:63
-module Bootsnap::CompileCache::ISeq::Compiler::PatchRubyBug22023
-  # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:64
-  def compile_file(path, options = T.unsafe(nil)); end
-
-  # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:74
-  def compile_file_prism(path, options = T.unsafe(nil)); end
 end
 
 # pkg:gem/bootsnap#lib/bootsnap/compile_cache/iseq.rb:127
@@ -233,7 +224,7 @@ module Bootsnap::CompileCache::YAML
     # pkg:gem/bootsnap#lib/bootsnap/compile_cache/yaml.rb:20
     def implementation; end
 
-    # pkg:gem/bootsnap#lib/bootsnap/compile_cache/yaml.rb:58
+    # pkg:gem/bootsnap#lib/bootsnap/compile_cache/yaml.rb:50
     def init!; end
 
     # pkg:gem/bootsnap#lib/bootsnap/compile_cache/yaml.rb:37
@@ -245,13 +236,16 @@ module Bootsnap::CompileCache::YAML
     # pkg:gem/bootsnap#lib/bootsnap/compile_cache/yaml.rb:19
     def msgpack_factory=(_arg0); end
 
-    # pkg:gem/bootsnap#lib/bootsnap/compile_cache/yaml.rb:125
+    # pkg:gem/bootsnap#lib/bootsnap/compile_cache/yaml.rb:181
+    def msgpack_unpacker_options(kwargs); end
+
+    # pkg:gem/bootsnap#lib/bootsnap/compile_cache/yaml.rb:167
     def patch; end
 
     # pkg:gem/bootsnap#lib/bootsnap/compile_cache/yaml.rb:26
     def precompile(path); end
 
-    # pkg:gem/bootsnap#lib/bootsnap/compile_cache/yaml.rb:129
+    # pkg:gem/bootsnap#lib/bootsnap/compile_cache/yaml.rb:171
     def strict_load(payload); end
 
     # Psych coerce strings to `Encoding.default_internal` but Message Pack only support
@@ -275,71 +269,71 @@ class Bootsnap::CompileCache::YAML::NoTagsVisitor < ::Psych::Visitors::NoAliasRu
   def visit(target); end
 end
 
-# pkg:gem/bootsnap#lib/bootsnap/compile_cache/yaml.rb:269
+# pkg:gem/bootsnap#lib/bootsnap/compile_cache/yaml.rb:315
 module Bootsnap::CompileCache::YAML::Psych3
   extend ::Bootsnap::CompileCache::YAML::Psych3
 
-  # pkg:gem/bootsnap#lib/bootsnap/compile_cache/yaml.rb:294
+  # pkg:gem/bootsnap#lib/bootsnap/compile_cache/yaml.rb:339
   def input_to_output(data, _path, kwargs); end
 
-  # pkg:gem/bootsnap#lib/bootsnap/compile_cache/yaml.rb:272
+  # pkg:gem/bootsnap#lib/bootsnap/compile_cache/yaml.rb:318
   def input_to_storage(contents, _); end
 
-  # pkg:gem/bootsnap#lib/bootsnap/compile_cache/yaml.rb:284
+  # pkg:gem/bootsnap#lib/bootsnap/compile_cache/yaml.rb:330
   def storage_to_output(data, kwargs); end
 end
 
-# pkg:gem/bootsnap#lib/bootsnap/compile_cache/yaml.rb:298
+# pkg:gem/bootsnap#lib/bootsnap/compile_cache/yaml.rb:343
 module Bootsnap::CompileCache::YAML::Psych3::Patch
-  # pkg:gem/bootsnap#lib/bootsnap/compile_cache/yaml.rb:299
+  # pkg:gem/bootsnap#lib/bootsnap/compile_cache/yaml.rb:344
   def load_file(path, *args, **_arg2); end
 
-  # pkg:gem/bootsnap#lib/bootsnap/compile_cache/yaml.rb:320
+  # pkg:gem/bootsnap#lib/bootsnap/compile_cache/yaml.rb:365
   def unsafe_load_file(path, *args, **_arg2); end
 end
 
-# pkg:gem/bootsnap#lib/bootsnap/compile_cache/yaml.rb:140
+# pkg:gem/bootsnap#lib/bootsnap/compile_cache/yaml.rb:190
 module Bootsnap::CompileCache::YAML::Psych4
   extend ::Bootsnap::CompileCache::YAML::Psych4
 
-  # pkg:gem/bootsnap#lib/bootsnap/compile_cache/yaml.rb:143
+  # pkg:gem/bootsnap#lib/bootsnap/compile_cache/yaml.rb:193
   def input_to_storage(contents, _); end
 end
 
-# pkg:gem/bootsnap#lib/bootsnap/compile_cache/yaml.rb:224
+# pkg:gem/bootsnap#lib/bootsnap/compile_cache/yaml.rb:270
 module Bootsnap::CompileCache::YAML::Psych4::Patch
-  # pkg:gem/bootsnap#lib/bootsnap/compile_cache/yaml.rb:225
+  # pkg:gem/bootsnap#lib/bootsnap/compile_cache/yaml.rb:271
   def load_file(path, *args, **_arg2); end
 
-  # pkg:gem/bootsnap#lib/bootsnap/compile_cache/yaml.rb:246
+  # pkg:gem/bootsnap#lib/bootsnap/compile_cache/yaml.rb:292
   def unsafe_load_file(path, *args, **_arg2); end
 end
 
-# pkg:gem/bootsnap#lib/bootsnap/compile_cache/yaml.rb:184
+# pkg:gem/bootsnap#lib/bootsnap/compile_cache/yaml.rb:232
 module Bootsnap::CompileCache::YAML::Psych4::SafeLoad
   extend ::Bootsnap::CompileCache::YAML::Psych4::SafeLoad
 
-  # pkg:gem/bootsnap#lib/bootsnap/compile_cache/yaml.rb:219
+  # pkg:gem/bootsnap#lib/bootsnap/compile_cache/yaml.rb:265
   def input_to_output(data, _path, kwargs); end
 
-  # pkg:gem/bootsnap#lib/bootsnap/compile_cache/yaml.rb:187
+  # pkg:gem/bootsnap#lib/bootsnap/compile_cache/yaml.rb:235
   def input_to_storage(contents, _); end
 
-  # pkg:gem/bootsnap#lib/bootsnap/compile_cache/yaml.rb:204
+  # pkg:gem/bootsnap#lib/bootsnap/compile_cache/yaml.rb:252
   def storage_to_output(data, kwargs); end
 end
 
-# pkg:gem/bootsnap#lib/bootsnap/compile_cache/yaml.rb:151
+# pkg:gem/bootsnap#lib/bootsnap/compile_cache/yaml.rb:201
 module Bootsnap::CompileCache::YAML::Psych4::UnsafeLoad
   extend ::Bootsnap::CompileCache::YAML::Psych4::UnsafeLoad
 
-  # pkg:gem/bootsnap#lib/bootsnap/compile_cache/yaml.rb:179
+  # pkg:gem/bootsnap#lib/bootsnap/compile_cache/yaml.rb:227
   def input_to_output(data, _path, kwargs); end
 
-  # pkg:gem/bootsnap#lib/bootsnap/compile_cache/yaml.rb:154
+  # pkg:gem/bootsnap#lib/bootsnap/compile_cache/yaml.rb:204
   def input_to_storage(contents, _); end
 
-  # pkg:gem/bootsnap#lib/bootsnap/compile_cache/yaml.rb:166
+  # pkg:gem/bootsnap#lib/bootsnap/compile_cache/yaml.rb:216
   def storage_to_output(data, kwargs); end
 end
 
@@ -878,6 +872,11 @@ class Bootsnap::LoadPathCache::Store::SetOutsideTransactionNotAllowed < ::Standa
 # pkg:gem/bootsnap#lib/bootsnap/load_path_cache/store.rb:10
 Bootsnap::LoadPathCache::Store::VERSION_KEY = T.let(T.unsafe(nil), String)
 
+# JITs shouldn't change the cache key as they have no impact on iseq generation
+#
+# pkg:gem/bootsnap#lib/bootsnap.rb:10
+Bootsnap::RUBY_CACHE_KEY = T.let(T.unsafe(nil), String)
+
 # pkg:gem/bootsnap#lib/bootsnap/version.rb:4
 Bootsnap::VERSION = T.let(T.unsafe(nil), String)
 
@@ -887,6 +886,5 @@ end
 
 class RubyVM::InstructionSequence
   extend ::RequireHooks::LoadIseq
-  extend ::Bootsnap::CompileCache::ISeq::Compiler::PatchRubyBug22023
   extend ::Bootsnap::CompileCache::ISeq::InstructionSequenceMixin
 end

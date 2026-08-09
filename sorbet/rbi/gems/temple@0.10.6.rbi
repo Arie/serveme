@@ -300,55 +300,22 @@ end
 
 # Compile [:dynamic, "foo#{bar}"] to [:multi, [:static, 'foo'], [:dynamic, 'bar']]
 #
-# pkg:gem/temple#lib/temple/filters/string_splitter.rb:10
+# pkg:gem/temple#lib/temple/filters/string_splitter.rb:7
 class Temple::Filters::StringSplitter < ::Temple::Filter
-  # pkg:gem/temple#lib/temple/filters/string_splitter.rb:89
+  # pkg:gem/temple#lib/temple/filters/string_splitter.rb:50
   def on_dynamic(code); end
-
-  private
-
-  # pkg:gem/temple#lib/temple/filters/string_splitter.rb:107
-  def string_literal?(code); end
 
   class << self
     # `code` param must be valid string literal
+    # `code` param must be valid string literal
     #
-    # pkg:gem/temple#lib/temple/filters/string_splitter.rb:14
+    # pkg:gem/temple#lib/temple/filters/string_splitter.rb:11
     def compile(code); end
 
-    private
-
-    # pkg:gem/temple#lib/temple/filters/string_splitter.rb:42
-    def compile_tokens!(exps, tokens); end
-
-    # Some quotes are split-unsafe. Replace such quotes with null characters.
-    #
-    # pkg:gem/temple#lib/temple/filters/string_splitter.rb:60
-    def escape_quotes(beg_str, end_str); end
-
-    # pkg:gem/temple#lib/temple/filters/string_splitter.rb:69
-    def shift_balanced_embexpr(tokens); end
-
-    # pkg:gem/temple#lib/temple/filters/string_splitter.rb:28
-    def strip_quotes!(tokens); end
+    # pkg:gem/temple#lib/temple/filters/string_splitter.rb:17
+    def try_compile(code); end
   end
 end
-
-# pkg:gem/temple#lib/temple/filters/string_splitter.rb:118
-class Temple::Filters::StringSplitter::SyntaxChecker < ::Ripper
-  private
-
-  # pkg:gem/temple#lib/temple/filters/string_splitter.rb:130
-  def on_parse_error(*_arg0); end
-
-  class << self
-    # pkg:gem/temple#lib/temple/filters/string_splitter.rb:121
-    def syntax_error?(code); end
-  end
-end
-
-# pkg:gem/temple#lib/temple/filters/string_splitter.rb:119
-class Temple::Filters::StringSplitter::SyntaxChecker::ParseError < ::StandardError; end
 
 # Validates temple expression with given grammar
 #
@@ -1171,6 +1138,9 @@ class Temple::OptionMap < ::Temple::MutableMap
   def validate_map!(map); end
 end
 
+# pkg:gem/temple#lib/temple/parser_engine.rb:24
+Temple::PARSER_ENGINE = T.let(T.unsafe(nil), Symbol)
+
 # Temple base parser
 # @api public
 #
@@ -1182,42 +1152,24 @@ class Temple::Parser
   extend ::Temple::Mixins::ThreadOptions
 end
 
-# pkg:gem/temple#lib/temple/static_analyzer.rb:8
+# pkg:gem/temple#lib/temple/static_analyzer.rb:5
 module Temple::StaticAnalyzer
   class << self
-    # pkg:gem/temple#lib/temple/static_analyzer.rb:33
+    # pkg:gem/temple#lib/temple/static_analyzer.rb:8
     def available?; end
 
-    # pkg:gem/temple#lib/temple/static_analyzer.rb:37
+    # pkg:gem/temple#lib/temple/static_analyzer.rb:12
     def static?(code); end
 
-    # pkg:gem/temple#lib/temple/static_analyzer.rb:58
+    # pkg:gem/temple#lib/temple/static_analyzer.rb:17
     def syntax_error?(code); end
+
+    private
+
+    # pkg:gem/temple#lib/temple/static_analyzer.rb:23
+    def static_node?(node); end
   end
 end
-
-# pkg:gem/temple#lib/temple/static_analyzer.rb:20
-Temple::StaticAnalyzer::DYNAMIC_TOKENS = T.let(T.unsafe(nil), Array)
-
-# pkg:gem/temple#lib/temple/static_analyzer.rb:24
-Temple::StaticAnalyzer::STATIC_KEYWORDS = T.let(T.unsafe(nil), Array)
-
-# pkg:gem/temple#lib/temple/static_analyzer.rb:28
-Temple::StaticAnalyzer::STATIC_OPERATORS = T.let(T.unsafe(nil), Array)
-
-# pkg:gem/temple#lib/temple/static_analyzer.rb:9
-Temple::StaticAnalyzer::STATIC_TOKENS = T.let(T.unsafe(nil), Array)
-
-# pkg:gem/temple#lib/temple/static_analyzer.rb:67
-class Temple::StaticAnalyzer::SyntaxChecker < ::Ripper
-  private
-
-  # pkg:gem/temple#lib/temple/static_analyzer.rb:72
-  def on_parse_error(*_arg0); end
-end
-
-# pkg:gem/temple#lib/temple/static_analyzer.rb:68
-class Temple::StaticAnalyzer::SyntaxChecker::ParseError < ::StandardError; end
 
 # @api public
 #

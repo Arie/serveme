@@ -249,6 +249,7 @@ module Anthropic
   BetaAPIError = Anthropic::Models::BetaAPIError
   BetaAuthenticationError = Anthropic::Models::BetaAuthenticationError
   BetaBillingError = Anthropic::Models::BetaBillingError
+  BetaCurrency = Anthropic::Models::BetaCurrency
   BetaError = Anthropic::Models::BetaError
   BetaErrorResponse = Anthropic::Models::BetaErrorResponse
 
@@ -266,6 +267,7 @@ module Anthropic
 
   BetaGatewayTimeoutError = Anthropic::Models::BetaGatewayTimeoutError
   BetaInvalidRequestError = Anthropic::Models::BetaInvalidRequestError
+  BetaMonetaryAmount = Anthropic::Models::BetaMonetaryAmount
   BetaNotFoundError = Anthropic::Models::BetaNotFoundError
   BetaOverloadedError = Anthropic::Models::BetaOverloadedError
   BetaPermissionError = Anthropic::Models::BetaPermissionError
@@ -3726,6 +3728,11 @@ module Anthropic
 
       MESSAGE_BATCHES_2024_09_24 = T.let(
           :"message-batches-2024-09-24",
+          Anthropic::AnthropicBeta::TaggedSymbol
+        )
+
+      MID_CONVERSATION_TOOL_CHANGES_2026_07_01 = T.let(
+          :"mid-conversation-tool-changes-2026-07-01",
           Anthropic::AnthropicBeta::TaggedSymbol
         )
 
@@ -12936,6 +12943,144 @@ module Anthropic
           end
       end
 
+      class BetaManagedAgentsAdvisor < Anthropic::Internal::Type::BaseModel
+        # The advisor model id.
+        sig { returns(String) }
+        attr_accessor :model
+
+        sig { returns(Anthropic::Beta::BetaManagedAgentsAdvisor::Type::TaggedSymbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              model: String,
+              type:
+                Anthropic::Beta::BetaManagedAgentsAdvisor::Type::TaggedSymbol
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # Platform advisor roster entry: a model the session's primary thread may consult
+          # mid-turn.
+          sig do
+            params(
+              model: String,
+              type: Anthropic::Beta::BetaManagedAgentsAdvisor::Type::OrSymbol
+            ).returns(T.attached_class)
+          end
+          def new(
+            model:, # The advisor model id.
+            type:
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsAdvisor,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsAdvisor::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          ADVISOR = T.let(
+              :advisor,
+              Anthropic::Beta::BetaManagedAgentsAdvisor::Type::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(Symbol, Anthropic::Beta::BetaManagedAgentsAdvisor::Type)
+            end
+        end
+      end
+
+      class BetaManagedAgentsAdvisorParams < Anthropic::Internal::Type::BaseModel
+        # A Claude model id. The model must be permitted as an advisor for this agent's
+        # model — see the sessions/threads/advisor spec.
+        sig { returns(String) }
+        attr_accessor :model
+
+        sig { returns(Anthropic::Beta::BetaManagedAgentsAdvisorParams::Type::OrSymbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              model: String,
+              type:
+                Anthropic::Beta::BetaManagedAgentsAdvisorParams::Type::OrSymbol
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # Platform advisor roster entry: a model the session's primary thread may consult
+          # mid-turn. At most one per roster; the entry occupies the roster name
+          # `anthropic.advisor`.
+          sig do
+            params(
+              model: String,
+              type: Anthropic::Beta::BetaManagedAgentsAdvisorParams::Type::OrSymbol
+            ).returns(T.attached_class)
+          end
+          def new(
+            model:, # A Claude model id. The model must be permitted as an advisor for this agent's
+                    # model — see the sessions/threads/advisor spec.
+            type:
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsAdvisorParams,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsAdvisorParams::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          ADVISOR = T.let(
+              :advisor,
+              Anthropic::Beta::BetaManagedAgentsAdvisorParams::Type::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsAdvisorParams::Type
+              )
+            end
+        end
+      end
+
       class BetaManagedAgentsAgent < Anthropic::Internal::Type::BaseModel
         # A timestamp in RFC 3339 format
         sig { returns(T.nilable(Time)) }
@@ -15049,6 +15194,75 @@ module Anthropic
         end
       end
 
+      class BetaManagedAgentsBudgetLimit < Anthropic::Internal::Type::BaseModel
+        # A monetary amount in a specific currency.
+        sig { returns(Anthropic::BetaMonetaryAmount) }
+        attr_reader :max_list_cost
+
+        sig { params(max_list_cost: Anthropic::BetaMonetaryAmount::OrHash).void }
+        attr_writer :max_list_cost
+
+        sig { returns(Anthropic::Beta::BetaManagedAgentsBudgetLimit::Type::OrSymbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              max_list_cost: Anthropic::BetaMonetaryAmount,
+              type:
+                Anthropic::Beta::BetaManagedAgentsBudgetLimit::Type::OrSymbol
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # A hard spend ceiling. The session stops issuing new model requests once the
+          # tracked list cost reaches `max_list_cost`.
+          sig do
+            params(
+              max_list_cost: Anthropic::BetaMonetaryAmount::OrHash,
+              type: Anthropic::Beta::BetaManagedAgentsBudgetLimit::Type::OrSymbol
+            ).returns(T.attached_class)
+          end
+          def new(
+            max_list_cost:, # A monetary amount in a specific currency.
+            type:
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsBudgetLimit,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsBudgetLimit::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          LIMIT = T.let(
+              :limit,
+              Anthropic::Beta::BetaManagedAgentsBudgetLimit::Type::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(Symbol, Anthropic::Beta::BetaManagedAgentsBudgetLimit::Type)
+            end
+        end
+      end
+
       class BetaManagedAgentsCacheCreationUsage < Anthropic::Internal::Type::BaseModel
         # Tokens used to create 1-hour ephemeral cache entries.
         sig { returns(T.nilable(Integer)) }
@@ -15620,7 +15834,7 @@ module Anthropic
 
       class BetaManagedAgentsCustomToolParams < Anthropic::Internal::Type::BaseModel
         # Description of what the tool does, shown to the agent to help it decide when to
-        # use the tool. 1-4096 characters.
+        # use the tool.
         sig { returns(String) }
         attr_accessor :description
 
@@ -15667,7 +15881,7 @@ module Anthropic
           end
           def new(
             description:, # Description of what the tool does, shown to the agent to help it decide when to
-                          # use the tool. 1-4096 characters.
+                          # use the tool.
             input_schema:, # JSON Schema for custom tool input parameters.
             name:, # Unique name for the tool. 1-128 characters; letters, digits, underscores, and
                    # hyphens.
@@ -16121,6 +16335,14 @@ module Anthropic
         sig { returns(T.nilable(Time)) }
         attr_accessor :archived_at
 
+        # A hard spend ceiling. The session stops issuing new model requests once the
+        # tracked list cost reaches `max_list_cost`.
+        sig { returns(T.nilable(Anthropic::Beta::BetaManagedAgentsBudgetLimit)) }
+        attr_reader :budget
+
+        sig { params(budget: T.nilable(Anthropic::Beta::BetaManagedAgentsBudgetLimit::OrHash)).void }
+        attr_writer :budget
+
         # A timestamp in RFC 3339 format
         sig { returns(Time) }
         attr_accessor :created_at
@@ -16222,7 +16444,8 @@ module Anthropic
               type:
                 Anthropic::Beta::BetaManagedAgentsDeployment::Type::TaggedSymbol,
               updated_at: Time,
-              vault_ids: T::Array[String]
+              vault_ids: T::Array[String],
+              budget: T.nilable(Anthropic::Beta::BetaManagedAgentsBudgetLimit)
             })
         end
         def to_hash; end
@@ -16265,7 +16488,8 @@ module Anthropic
               status: Anthropic::Beta::BetaManagedAgentsDeploymentStatus::OrSymbol,
               type: Anthropic::Beta::BetaManagedAgentsDeployment::Type::OrSymbol,
               updated_at: Time,
-              vault_ids: T::Array[String]
+              vault_ids: T::Array[String],
+              budget: T.nilable(Anthropic::Beta::BetaManagedAgentsBudgetLimit::OrHash)
             ).returns(T.attached_class)
           end
           def new(
@@ -16285,8 +16509,10 @@ module Anthropic
             status:, # Lifecycle status of a deployment.
             type:,
             updated_at:, # A timestamp in RFC 3339 format
-            vault_ids: # Vault IDs supplying stored credentials for sessions created from this
-                       # deployment.
+            vault_ids:, # Vault IDs supplying stored credentials for sessions created from this
+                        # deployment.
+            budget: nil # A hard spend ceiling. The session stops issuing new model requests once the
+                        # tracked list cost reaches `max_list_cost`.
 ); end
         end
 
@@ -16857,7 +17083,8 @@ module Anthropic
                 T.any(
                   Anthropic::Beta::Sessions::BetaManagedAgentsTextBlock::OrHash,
                   Anthropic::Beta::Sessions::BetaManagedAgentsImageBlock::OrHash,
-                  Anthropic::Beta::Sessions::BetaManagedAgentsDocumentBlock::OrHash
+                  Anthropic::Beta::Sessions::BetaManagedAgentsDocumentBlock::OrHash,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsRedactedBlock::OrHash
                 )
               ],
               type: Anthropic::Beta::BetaManagedAgentsDeploymentUserMessageEvent::Type::OrSymbol
@@ -16887,7 +17114,8 @@ module Anthropic
               T.any(
                 Anthropic::Beta::Sessions::BetaManagedAgentsTextBlock,
                 Anthropic::Beta::Sessions::BetaManagedAgentsImageBlock,
-                Anthropic::Beta::Sessions::BetaManagedAgentsDocumentBlock
+                Anthropic::Beta::Sessions::BetaManagedAgentsDocumentBlock,
+                Anthropic::Beta::Sessions::BetaManagedAgentsRedactedBlock
               )
             end
         end
@@ -19525,6 +19753,14 @@ module Anthropic
         sig { returns(Anthropic::Beta::BetaManagedAgentsModel::Variants) }
         attr_accessor :id
 
+        # Geographic region for model inference. When unset, requests fall through to the
+        # workspace's default_inference_geo.
+        sig { returns(T.nilable(String)) }
+        attr_reader :inference_geo
+
+        sig { params(inference_geo: String).void }
+        attr_writer :inference_geo
+
         # Inference speed mode. `fast` provides significantly faster output token
         # generation at premium pricing. Not all models support `fast`; invalid
         # combinations are rejected at create time.
@@ -19544,6 +19780,7 @@ module Anthropic
               id: Anthropic::Beta::BetaManagedAgentsModel::Variants,
               effort:
                 Anthropic::Beta::BetaManagedAgentsModelConfig::Effort::Variants,
+              inference_geo: String,
               speed:
                 Anthropic::Beta::BetaManagedAgentsModelConfig::Speed::TaggedSymbol
             })
@@ -19562,6 +19799,7 @@ module Anthropic
                 Anthropic::Beta::BetaManagedAgentsEffortXhigh::OrHash,
                 Anthropic::Beta::BetaManagedAgentsEffortMax::OrHash
               ),
+              inference_geo: String,
               speed: Anthropic::Beta::BetaManagedAgentsModelConfig::Speed::OrSymbol
             ).returns(T.attached_class)
           end
@@ -19571,6 +19809,8 @@ module Anthropic
                  # details and options.
             effort: nil, # How hard Claude works on each turn. Sets `output_config.effort` on every
                          # Messages call the session makes.
+            inference_geo: nil, # Geographic region for model inference. When unset, requests fall through to the
+                                # workspace's default_inference_geo.
             speed: nil # Inference speed mode. `fast` provides significantly faster output token
                        # generation at premium pricing. Not all models support `fast`; invalid
                        # combinations are rejected at create time.
@@ -19672,6 +19912,12 @@ module Anthropic
         sig { returns(T.any(Anthropic::Beta::BetaManagedAgentsModel::OrSymbol, String)) }
         attr_accessor :id
 
+        # Geographic region for model inference. When unset, requests fall through to the
+        # workspace's default_inference_geo. On update, `model` is whole-object
+        # replacement — omitting inference_geo clears it.
+        sig { returns(T.nilable(String)) }
+        attr_accessor :inference_geo
+
         # Inference speed mode. `fast` provides significantly faster output token
         # generation at premium pricing. Not all models support `fast`; invalid
         # combinations are rejected at create time.
@@ -19701,6 +19947,7 @@ module Anthropic
                     Anthropic::Beta::BetaManagedAgentsEffortMax
                   )
                 ),
+              inference_geo: T.nilable(String),
               speed:
                 T.nilable(
                   Anthropic::Beta::BetaManagedAgentsModelConfigParams::Speed::OrSymbol
@@ -19724,6 +19971,7 @@ module Anthropic
                   Anthropic::Beta::BetaManagedAgentsEffortMax::OrHash
                 )
               ),
+              inference_geo: T.nilable(String),
               speed: T.nilable(
                 Anthropic::Beta::BetaManagedAgentsModelConfigParams::Speed::OrSymbol
               )
@@ -19736,6 +19984,9 @@ module Anthropic
             effort: nil, # How hard Claude works on each inference call. Accepts a bare level string
                          # (`"high"`) or `{"type": "high"}`. On create, omitting it resolves the per-model
                          # default; on update, omitting it leaves the stored value unchanged.
+            inference_geo: nil, # Geographic region for model inference. When unset, requests fall through to the
+                                # workspace's default_inference_geo. On update, `model` is whole-object
+                                # replacement — omitting inference_geo clears it.
             speed: nil # Inference speed mode. `fast` provides significantly faster output token
                        # generation at premium pricing. Not all models support `fast`; invalid
                        # combinations are rejected at create time.
@@ -19868,7 +20119,11 @@ module Anthropic
       class BetaManagedAgentsMultiagent < Anthropic::Internal::Type::BaseModel
         # Agents the coordinator may spawn as session threads, each resolved to a specific
         # version.
-        sig { returns(T::Array[Anthropic::Beta::BetaManagedAgentsAgentReference]) }
+        sig do
+          returns(T::Array[
+              Anthropic::Beta::BetaManagedAgentsMultiagent::Agent::Variants
+            ])
+        end
         attr_accessor :agents
 
         sig { returns(Anthropic::Beta::BetaManagedAgentsMultiagent::Type::TaggedSymbol) }
@@ -19878,7 +20133,9 @@ module Anthropic
           override
             .returns({
               agents:
-                T::Array[Anthropic::Beta::BetaManagedAgentsAgentReference],
+                T::Array[
+                  Anthropic::Beta::BetaManagedAgentsMultiagent::Agent::Variants
+                ],
               type:
                 Anthropic::Beta::BetaManagedAgentsMultiagent::Type::TaggedSymbol
             })
@@ -19890,7 +20147,10 @@ module Anthropic
           sig do
             params(
               agents: T::Array[
-                Anthropic::Beta::BetaManagedAgentsAgentReference::OrHash
+                T.any(
+                  Anthropic::Beta::BetaManagedAgentsAgentReference::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsAdvisor::OrHash
+                )
               ],
               type: Anthropic::Beta::BetaManagedAgentsMultiagent::Type::OrSymbol
             ).returns(T.attached_class)
@@ -19900,6 +20160,28 @@ module Anthropic
                      # version.
             type:
 ); end
+        end
+
+        # A resolved multiagent roster entry.
+        module Agent
+          extend Anthropic::Internal::Type::Union
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsMultiagent::Agent::Variants
+              ])
+            end
+            def variants; end
+          end
+
+          Variants = T.type_alias do
+              T.any(
+                Anthropic::Beta::BetaManagedAgentsAgentReference,
+                Anthropic::Beta::BetaManagedAgentsAdvisor
+              )
+            end
         end
 
         OrHash = T.type_alias do
@@ -19938,7 +20220,14 @@ module Anthropic
       class BetaManagedAgentsMultiagentCoordinator < Anthropic::Internal::Type::BaseModel
         # Agents the coordinator may spawn as session threads, each resolved to a specific
         # version.
-        sig { returns(T::Array[Anthropic::Beta::BetaManagedAgentsAgentReference]) }
+        sig do
+          returns(T::Array[
+              T.any(
+                Anthropic::Beta::BetaManagedAgentsAgentReference,
+                Anthropic::Beta::BetaManagedAgentsAdvisor
+              )
+            ])
+        end
         attr_accessor :agents
 
         sig { returns(Anthropic::Beta::BetaManagedAgentsMultiagentCoordinator::Type::OrSymbol) }
@@ -19948,7 +20237,12 @@ module Anthropic
           override
             .returns({
               agents:
-                T::Array[Anthropic::Beta::BetaManagedAgentsAgentReference],
+                T::Array[
+                  T.any(
+                    Anthropic::Beta::BetaManagedAgentsAgentReference,
+                    Anthropic::Beta::BetaManagedAgentsAdvisor
+                  )
+                ],
               type:
                 Anthropic::Beta::BetaManagedAgentsMultiagentCoordinator::Type::OrSymbol
             })
@@ -19960,7 +20254,10 @@ module Anthropic
           sig do
             params(
               agents: T::Array[
-                Anthropic::Beta::BetaManagedAgentsAgentReference::OrHash
+                T.any(
+                  Anthropic::Beta::BetaManagedAgentsAgentReference::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsAdvisor::OrHash
+                )
               ],
               type: Anthropic::Beta::BetaManagedAgentsMultiagentCoordinator::Type::OrSymbol
             ).returns(T.attached_class)
@@ -19970,6 +20267,28 @@ module Anthropic
                      # version.
             type:
 ); end
+        end
+
+        # A resolved multiagent roster entry.
+        module Agent
+          extend Anthropic::Internal::Type::Union
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsMultiagentCoordinator::Agent::Variants
+              ])
+            end
+            def variants; end
+          end
+
+          Variants = T.type_alias do
+              T.any(
+                Anthropic::Beta::BetaManagedAgentsAgentReference,
+                Anthropic::Beta::BetaManagedAgentsAdvisor
+              )
+            end
         end
 
         OrHash = T.type_alias do
@@ -20020,7 +20339,8 @@ module Anthropic
               T.any(
                 String,
                 Anthropic::Beta::BetaManagedAgentsAgentParams,
-                Anthropic::Beta::BetaManagedAgentsMultiagentSelfParams
+                Anthropic::Beta::BetaManagedAgentsMultiagentSelfParams,
+                Anthropic::Beta::BetaManagedAgentsAdvisorParams
               )
             ])
         end
@@ -20037,7 +20357,8 @@ module Anthropic
                   T.any(
                     String,
                     Anthropic::Beta::BetaManagedAgentsAgentParams,
-                    Anthropic::Beta::BetaManagedAgentsMultiagentSelfParams
+                    Anthropic::Beta::BetaManagedAgentsMultiagentSelfParams,
+                    Anthropic::Beta::BetaManagedAgentsAdvisorParams
                   )
                 ],
               type:
@@ -20055,7 +20376,8 @@ module Anthropic
                 T.any(
                   String,
                   Anthropic::Beta::BetaManagedAgentsAgentParams::OrHash,
-                  Anthropic::Beta::BetaManagedAgentsMultiagentSelfParams::OrHash
+                  Anthropic::Beta::BetaManagedAgentsMultiagentSelfParams::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsAdvisorParams::OrHash
                 )
               ],
               type: Anthropic::Beta::BetaManagedAgentsMultiagentCoordinatorParams::Type::OrSymbol
@@ -20120,7 +20442,8 @@ module Anthropic
               T.any(
                 String,
                 Anthropic::Beta::BetaManagedAgentsAgentParams,
-                Anthropic::Beta::BetaManagedAgentsMultiagentSelfParams
+                Anthropic::Beta::BetaManagedAgentsMultiagentSelfParams,
+                Anthropic::Beta::BetaManagedAgentsAdvisorParams
               )
             ])
         end
@@ -20137,7 +20460,8 @@ module Anthropic
                   T.any(
                     String,
                     Anthropic::Beta::BetaManagedAgentsAgentParams,
-                    Anthropic::Beta::BetaManagedAgentsMultiagentSelfParams
+                    Anthropic::Beta::BetaManagedAgentsMultiagentSelfParams,
+                    Anthropic::Beta::BetaManagedAgentsAdvisorParams
                   )
                 ],
               type:
@@ -20155,7 +20479,8 @@ module Anthropic
                 T.any(
                   String,
                   Anthropic::Beta::BetaManagedAgentsAgentParams::OrHash,
-                  Anthropic::Beta::BetaManagedAgentsMultiagentSelfParams::OrHash
+                  Anthropic::Beta::BetaManagedAgentsMultiagentSelfParams::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsAdvisorParams::OrHash
                 )
               ],
               type: Anthropic::Beta::BetaManagedAgentsMultiagentParams::Type::OrSymbol
@@ -20227,7 +20552,8 @@ module Anthropic
             T.any(
               String,
               Anthropic::Beta::BetaManagedAgentsAgentParams,
-              Anthropic::Beta::BetaManagedAgentsMultiagentSelfParams
+              Anthropic::Beta::BetaManagedAgentsMultiagentSelfParams,
+              Anthropic::Beta::BetaManagedAgentsAdvisorParams
             )
           end
       end
@@ -20922,6 +21248,41 @@ module Anthropic
         end
       end
 
+      class BetaManagedAgentsServerToolUsage < Anthropic::Internal::Type::BaseModel
+        # Number of server-executed web fetch requests.
+        sig { returns(T.nilable(Integer)) }
+        attr_reader :web_fetch_requests
+
+        sig { params(web_fetch_requests: Integer).void }
+        attr_writer :web_fetch_requests
+
+        # Number of server-executed web search requests.
+        sig { returns(T.nilable(Integer)) }
+        attr_reader :web_search_requests
+
+        sig { params(web_search_requests: Integer).void }
+        attr_writer :web_search_requests
+
+        sig { override.returns({ web_fetch_requests: Integer, web_search_requests: Integer }) }
+        def to_hash; end
+
+        class << self
+          # Cumulative count of server-executed tool invocations, broken down by tool.
+          sig { params(web_fetch_requests: Integer, web_search_requests: Integer).returns(T.attached_class) }
+          def new(
+            web_fetch_requests: nil, # Number of server-executed web fetch requests.
+            web_search_requests: nil # Number of server-executed web search requests.
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsServerToolUsage,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
       class BetaManagedAgentsSession < Anthropic::Internal::Type::BaseModel
         # Resolved `agent` definition for a `session`. Snapshot of the `agent` at
         # `session` creation time.
@@ -20934,6 +21295,14 @@ module Anthropic
         # A timestamp in RFC 3339 format
         sig { returns(T.nilable(Time)) }
         attr_accessor :archived_at
+
+        # A hard spend ceiling. The session stops issuing new model requests once the
+        # tracked list cost reaches `max_list_cost`.
+        sig { returns(T.nilable(Anthropic::Beta::BetaManagedAgentsBudgetLimit)) }
+        attr_reader :budget
+
+        sig { params(budget: T.nilable(Anthropic::Beta::BetaManagedAgentsBudgetLimit::OrHash)).void }
+        attr_writer :budget
 
         # A timestamp in RFC 3339 format
         sig { returns(Time) }
@@ -21008,6 +21377,7 @@ module Anthropic
               id: String,
               agent: Anthropic::Beta::BetaManagedAgentsSessionAgent,
               archived_at: T.nilable(Time),
+              budget: T.nilable(Anthropic::Beta::BetaManagedAgentsBudgetLimit),
               created_at: Time,
               environment_id: String,
               metadata: T::Hash[Symbol, String],
@@ -21040,6 +21410,7 @@ module Anthropic
               id: String,
               agent: Anthropic::Beta::BetaManagedAgentsSessionAgent::OrHash,
               archived_at: T.nilable(Time),
+              budget: T.nilable(Anthropic::Beta::BetaManagedAgentsBudgetLimit::OrHash),
               created_at: Time,
               environment_id: String,
               metadata: T::Hash[Symbol, String],
@@ -21068,6 +21439,8 @@ module Anthropic
             agent:, # Resolved `agent` definition for a `session`. Snapshot of the `agent` at
                     # `session` creation time.
             archived_at:, # A timestamp in RFC 3339 format
+            budget:, # A hard spend ceiling. The session stops issuing new model requests once the
+                     # tracked list cost reaches `max_list_cost`.
             created_at:, # A timestamp in RFC 3339 format
             environment_id:,
             metadata:,
@@ -21574,7 +21947,11 @@ module Anthropic
 
       class BetaManagedAgentsSessionMultiagentCoordinator < Anthropic::Internal::Type::BaseModel
         # Full `agent` definitions the coordinator may spawn as session threads.
-        sig { returns(T::Array[Anthropic::Beta::BetaManagedAgentsSessionThreadAgent]) }
+        sig do
+          returns(T::Array[
+              Anthropic::Beta::BetaManagedAgentsSessionMultiagentCoordinator::Agent::Variants
+            ])
+        end
         attr_accessor :agents
 
         sig { returns(Anthropic::Beta::BetaManagedAgentsSessionMultiagentCoordinator::Type::TaggedSymbol) }
@@ -21584,7 +21961,9 @@ module Anthropic
           override
             .returns({
               agents:
-                T::Array[Anthropic::Beta::BetaManagedAgentsSessionThreadAgent],
+                T::Array[
+                  Anthropic::Beta::BetaManagedAgentsSessionMultiagentCoordinator::Agent::Variants
+                ],
               type:
                 Anthropic::Beta::BetaManagedAgentsSessionMultiagentCoordinator::Type::TaggedSymbol
             })
@@ -21597,7 +21976,10 @@ module Anthropic
           sig do
             params(
               agents: T::Array[
-                Anthropic::Beta::BetaManagedAgentsSessionThreadAgent::OrHash
+                T.any(
+                  Anthropic::Beta::BetaManagedAgentsSessionThreadAgent::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsAdvisor::OrHash
+                )
               ],
               type: Anthropic::Beta::BetaManagedAgentsSessionMultiagentCoordinator::Type::OrSymbol
             ).returns(T.attached_class)
@@ -21606,6 +21988,28 @@ module Anthropic
             agents:, # Full `agent` definitions the coordinator may spawn as session threads.
             type:
 ); end
+        end
+
+        # A session-resolved multiagent roster entry.
+        module Agent
+          extend Anthropic::Internal::Type::Union
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsSessionMultiagentCoordinator::Agent::Variants
+              ])
+            end
+            def variants; end
+          end
+
+          Variants = T.type_alias do
+              T.any(
+                Anthropic::Beta::BetaManagedAgentsSessionThreadAgent,
+                Anthropic::Beta::BetaManagedAgentsAdvisor
+              )
+            end
         end
 
         OrHash = T.type_alias do
@@ -22109,6 +22513,14 @@ module Anthropic
         sig { params(agent: T.nilable(Anthropic::Beta::BetaManagedAgentsSessionAgent::OrHash)).void }
         attr_writer :agent
 
+        # A hard spend ceiling. The session stops issuing new model requests once the
+        # tracked list cost reaches `max_list_cost`.
+        sig { returns(T.nilable(Anthropic::Beta::BetaManagedAgentsBudgetLimit)) }
+        attr_reader :budget
+
+        sig { params(budget: T.nilable(Anthropic::Beta::BetaManagedAgentsBudgetLimit::OrHash)).void }
+        attr_writer :budget
+
         # Unique identifier for this event.
         sig { returns(String) }
         attr_accessor :id
@@ -22140,6 +22552,7 @@ module Anthropic
               type:
                 Anthropic::Beta::BetaManagedAgentsSessionUpdatedEvent::Type::TaggedSymbol,
               agent: T.nilable(Anthropic::Beta::BetaManagedAgentsSessionAgent),
+              budget: T.nilable(Anthropic::Beta::BetaManagedAgentsBudgetLimit),
               metadata: T::Hash[Symbol, String],
               title: T.nilable(String)
             })
@@ -22156,6 +22569,7 @@ module Anthropic
               processed_at: Time,
               type: Anthropic::Beta::BetaManagedAgentsSessionUpdatedEvent::Type::OrSymbol,
               agent: T.nilable(Anthropic::Beta::BetaManagedAgentsSessionAgent::OrHash),
+              budget: T.nilable(Anthropic::Beta::BetaManagedAgentsBudgetLimit::OrHash),
               metadata: T::Hash[Symbol, String],
               title: T.nilable(String)
             ).returns(T.attached_class)
@@ -22166,6 +22580,8 @@ module Anthropic
             type:,
             agent: nil, # Resolved `agent` definition for a `session`. Snapshot of the `agent` at
                         # `session` creation time.
+            budget: nil, # A hard spend ceiling. The session stops issuing new model requests once the
+                         # tracked list cost reaches `max_list_cost`.
             metadata: nil, # The session's full metadata bag after the update. Present when the update set
                            # non-empty metadata; absent when metadata was unchanged or cleared to empty.
             title: nil # The session's new title. Present only when the update changed it.
@@ -22209,6 +22625,16 @@ module Anthropic
       end
 
       class BetaManagedAgentsSessionUsage < Anthropic::Internal::Type::BaseModel
+        # Cumulative time in seconds during which the session had at least one thread in
+        # running status. Overlapping activity from concurrent threads is counted once,
+        # unlike `stats.active_seconds`, which sums each thread's own active time. This is
+        # the duration the session's runtime cost is priced on.
+        sig { returns(T.nilable(Float)) }
+        attr_reader :active_seconds
+
+        sig { params(active_seconds: Float).void }
+        attr_writer :active_seconds
+
         # Prompt-cache creation token usage broken down by cache lifetime.
         sig { returns(T.nilable(Anthropic::Beta::BetaManagedAgentsCacheCreationUsage)) }
         attr_reader :cache_creation
@@ -22230,6 +22656,13 @@ module Anthropic
         sig { params(input_tokens: Integer).void }
         attr_writer :input_tokens
 
+        # A monetary amount in a specific currency.
+        sig { returns(T.nilable(Anthropic::BetaMonetaryAmount)) }
+        attr_reader :list_cost
+
+        sig { params(list_cost: T.nilable(Anthropic::BetaMonetaryAmount::OrHash)).void }
+        attr_writer :list_cost
+
         # Total output tokens generated across all turns.
         sig { returns(T.nilable(Integer)) }
         attr_reader :output_tokens
@@ -22237,14 +22670,31 @@ module Anthropic
         sig { params(output_tokens: Integer).void }
         attr_writer :output_tokens
 
+        # Cumulative count of server-executed tool invocations, broken down by tool.
+        sig { returns(T.nilable(Anthropic::Beta::BetaManagedAgentsServerToolUsage)) }
+        attr_reader :server_tool_use
+
+        sig do
+          params(
+            server_tool_use: T.nilable(
+                Anthropic::Beta::BetaManagedAgentsServerToolUsage::OrHash
+              )
+          ).void
+        end
+        attr_writer :server_tool_use
+
         sig do
           override
             .returns({
+              active_seconds: Float,
               cache_creation:
                 Anthropic::Beta::BetaManagedAgentsCacheCreationUsage,
               cache_read_input_tokens: Integer,
               input_tokens: Integer,
-              output_tokens: Integer
+              list_cost: T.nilable(Anthropic::BetaMonetaryAmount),
+              output_tokens: Integer,
+              server_tool_use:
+                T.nilable(Anthropic::Beta::BetaManagedAgentsServerToolUsage)
             })
         end
         def to_hash; end
@@ -22253,17 +22703,28 @@ module Anthropic
           # Cumulative token usage for a session across all turns.
           sig do
             params(
+              active_seconds: Float,
               cache_creation: Anthropic::Beta::BetaManagedAgentsCacheCreationUsage::OrHash,
               cache_read_input_tokens: Integer,
               input_tokens: Integer,
-              output_tokens: Integer
+              list_cost: T.nilable(Anthropic::BetaMonetaryAmount::OrHash),
+              output_tokens: Integer,
+              server_tool_use: T.nilable(
+                Anthropic::Beta::BetaManagedAgentsServerToolUsage::OrHash
+              )
             ).returns(T.attached_class)
           end
           def new(
+            active_seconds: nil, # Cumulative time in seconds during which the session had at least one thread in
+                                 # running status. Overlapping activity from concurrent threads is counted once,
+                                 # unlike `stats.active_seconds`, which sums each thread's own active time. This is
+                                 # the duration the session's runtime cost is priced on.
             cache_creation: nil, # Prompt-cache creation token usage broken down by cache lifetime.
             cache_read_input_tokens: nil, # Total tokens read from prompt cache.
             input_tokens: nil, # Total input tokens consumed across all turns.
-            output_tokens: nil # Total output tokens generated across all turns.
+            list_cost: nil, # A monetary amount in a specific currency.
+            output_tokens: nil, # Total output tokens generated across all turns.
+            server_tool_use: nil # Cumulative count of server-executed tool invocations, broken down by tool.
 ); end
         end
 
@@ -22273,6 +22734,104 @@ module Anthropic
               Anthropic::Internal::AnyHash
             )
           end
+      end
+
+      class BetaManagedAgentsSessionUsageEvent < Anthropic::Internal::Type::BaseModel
+        # A hard spend ceiling. The session stops issuing new model requests once the
+        # tracked list cost reaches `max_list_cost`.
+        sig { returns(T.nilable(Anthropic::Beta::BetaManagedAgentsBudgetLimit)) }
+        attr_reader :budget
+
+        sig { params(budget: T.nilable(Anthropic::Beta::BetaManagedAgentsBudgetLimit::OrHash)).void }
+        attr_writer :budget
+
+        # Unique identifier for this event.
+        sig { returns(String) }
+        attr_accessor :id
+
+        # A timestamp in RFC 3339 format
+        sig { returns(Time) }
+        attr_accessor :processed_at
+
+        sig { returns(Anthropic::Beta::BetaManagedAgentsSessionUsageEvent::Type::TaggedSymbol) }
+        attr_accessor :type
+
+        # Point-in-time snapshot of a session's cumulative usage.
+        sig { returns(Anthropic::Beta::Sessions::BetaManagedAgentsSessionUsageSnapshot) }
+        attr_reader :usage
+
+        sig { params(usage: Anthropic::Beta::Sessions::BetaManagedAgentsSessionUsageSnapshot::OrHash).void }
+        attr_writer :usage
+
+        sig do
+          override
+            .returns({
+              id: String,
+              processed_at: Time,
+              type:
+                Anthropic::Beta::BetaManagedAgentsSessionUsageEvent::Type::TaggedSymbol,
+              usage:
+                Anthropic::Beta::Sessions::BetaManagedAgentsSessionUsageSnapshot,
+              budget: T.nilable(Anthropic::Beta::BetaManagedAgentsBudgetLimit)
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # Periodic snapshot of the session's cumulative usage and tracked list cost.
+          sig do
+            params(
+              id: String,
+              processed_at: Time,
+              type: Anthropic::Beta::BetaManagedAgentsSessionUsageEvent::Type::OrSymbol,
+              usage: Anthropic::Beta::Sessions::BetaManagedAgentsSessionUsageSnapshot::OrHash,
+              budget: T.nilable(Anthropic::Beta::BetaManagedAgentsBudgetLimit::OrHash)
+            ).returns(T.attached_class)
+          end
+          def new(
+            id:, # Unique identifier for this event.
+            processed_at:, # A timestamp in RFC 3339 format
+            type:,
+            usage:, # Point-in-time snapshot of a session's cumulative usage.
+            budget: nil # A hard spend ceiling. The session stops issuing new model requests once the
+                        # tracked list cost reaches `max_list_cost`.
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsSessionUsageEvent,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsSessionUsageEvent::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          SESSION_USAGE = T.let(
+              :"session.usage",
+              Anthropic::Beta::BetaManagedAgentsSessionUsageEvent::Type::TaggedSymbol
+            )
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsSessionUsageEvent::Type
+              )
+            end
+        end
       end
 
       class BetaManagedAgentsSkillNotFoundDeploymentPausedReasonError < Anthropic::Internal::Type::BaseModel
@@ -25689,6 +26248,16 @@ module Anthropic
       end
 
       class BetaRedactedThinkingBlock < Anthropic::Internal::Type::BaseModel
+        # The contents of this redacted thinking block, returned when portions of the
+        # model's thinking were safety-redacted. This field is opaque and encrypted, with
+        # no readable content.
+        #
+        # Pass `redacted_thinking` blocks back to the API unchanged when continuing a
+        # multi-turn conversation.
+        #
+        # See
+        # [extended thinking](https://platform.claude.com/docs/en/build-with-claude/extended-thinking#redacted-thinking-blocks)
+        # for details.
         sig { returns(String) }
         attr_accessor :data
 
@@ -25700,7 +26269,17 @@ module Anthropic
 
         class << self
           sig { params(data: String, type: Symbol).returns(T.attached_class) }
-          def new(data:, type: :redacted_thinking); end
+          def new(
+            data:, # The contents of this redacted thinking block, returned when portions of the
+                   # model's thinking were safety-redacted. This field is opaque and encrypted, with
+                   # no readable content.
+                   # Pass `redacted_thinking` blocks back to the API unchanged when continuing a
+                   # multi-turn conversation.
+                   # See
+                   # [extended thinking](https://platform.claude.com/docs/en/build-with-claude/extended-thinking#redacted-thinking-blocks)
+                   # for details.
+            type: :redacted_thinking
+); end
         end
 
         OrHash = T.type_alias do
@@ -25712,6 +26291,8 @@ module Anthropic
       end
 
       class BetaRedactedThinkingBlockParam < Anthropic::Internal::Type::BaseModel
+        # The `data` value of this redacted thinking block, exactly as returned by the API
+        # in a previous response. Opaque and encrypted; pass it back unchanged.
         sig { returns(String) }
         attr_accessor :data
 
@@ -25723,7 +26304,11 @@ module Anthropic
 
         class << self
           sig { params(data: String, type: Symbol).returns(T.attached_class) }
-          def new(data:, type: :redacted_thinking); end
+          def new(
+            data:, # The `data` value of this redacted thinking block, exactly as returned by the API
+                   # in a previous response. Opaque and encrypted; pass it back unchanged.
+            type: :redacted_thinking
+); end
         end
 
         OrHash = T.type_alias do
@@ -26965,6 +27550,9 @@ module Anthropic
       end
 
       class BetaSignatureDelta < Anthropic::Internal::Type::BaseModel
+        # The `signature` for this thinking block: an opaque value used to verify that the
+        # block was generated by Claude when it is passed back to the API. Delivered in a
+        # `signature_delta` event just before the block's `content_block_stop` event.
         sig { returns(String) }
         attr_accessor :signature
 
@@ -26976,7 +27564,12 @@ module Anthropic
 
         class << self
           sig { params(signature: String, type: Symbol).returns(T.attached_class) }
-          def new(signature:, type: :signature_delta); end
+          def new(
+            signature:, # The `signature` for this thinking block: an opaque value used to verify that the
+                        # block was generated by Claude when it is passed back to the API. Delivered in a
+                        # `signature_delta` event just before the block's `content_block_stop` event.
+            type: :signature_delta
+); end
         end
 
         OrHash = T.type_alias do
@@ -28044,9 +28637,20 @@ module Anthropic
       end
 
       class BetaThinkingBlock < Anthropic::Internal::Type::BaseModel
+        # A value used to verify that this thinking block was generated by Claude when it
+        # is passed back to the API.
+        #
+        # This is an opaque field and should not be interpreted or parsed. When passing
+        # thinking blocks back to the API (required when using tools with extended
+        # thinking), pass them back exactly as received, with this field intact.
+        #
+        # See
+        # [extended thinking](https://platform.claude.com/docs/en/build-with-claude/extended-thinking)
+        # for details.
         sig { returns(String) }
         attr_accessor :signature
 
+        # The text of Claude's thinking process for this block.
         sig { returns(String) }
         attr_accessor :thinking
 
@@ -28058,7 +28662,18 @@ module Anthropic
 
         class << self
           sig { params(signature: String, thinking: String, type: Symbol).returns(T.attached_class) }
-          def new(signature:, thinking:, type: :thinking); end
+          def new(
+            signature:, # A value used to verify that this thinking block was generated by Claude when it
+                        # is passed back to the API.
+                        # This is an opaque field and should not be interpreted or parsed. When passing
+                        # thinking blocks back to the API (required when using tools with extended
+                        # thinking), pass them back exactly as received, with this field intact.
+                        # See
+                        # [extended thinking](https://platform.claude.com/docs/en/build-with-claude/extended-thinking)
+                        # for details.
+            thinking:, # The text of Claude's thinking process for this block.
+            type: :thinking
+); end
         end
 
         OrHash = T.type_alias do
@@ -28070,9 +28685,15 @@ module Anthropic
       end
 
       class BetaThinkingBlockParam < Anthropic::Internal::Type::BaseModel
+        # The `signature` value of this thinking block, exactly as returned by the API in
+        # a previous response. Used to verify that the block was generated by Claude.
+        #
+        # Thinking blocks must be passed back unmodified and in their original order; a
+        # modified block results in a 400 `invalid_request_error`.
         sig { returns(String) }
         attr_accessor :signature
 
+        # The `thinking` text of this block as returned by the API.
         sig { returns(String) }
         attr_accessor :thinking
 
@@ -28084,7 +28705,14 @@ module Anthropic
 
         class << self
           sig { params(signature: String, thinking: String, type: Symbol).returns(T.attached_class) }
-          def new(signature:, thinking:, type: :thinking); end
+          def new(
+            signature:, # The `signature` value of this thinking block, exactly as returned by the API in
+                        # a previous response. Used to verify that the block was generated by Claude.
+                        # Thinking blocks must be passed back unmodified and in their original order; a
+                        # modified block results in a 400 `invalid_request_error`.
+            thinking:, # The `thinking` text of this block as returned by the API.
+            type: :thinking
+); end
         end
 
         OrHash = T.type_alias do
@@ -28388,6 +29016,9 @@ module Anthropic
         sig { returns(T.nilable(Integer)) }
         attr_accessor :estimated_tokens
 
+        # The incremental `thinking` text for this content block. Concatenate the
+        # `thinking` values of successive `thinking_delta` events to assemble the block's
+        # full `thinking` value.
         sig { returns(String) }
         attr_accessor :thinking
 
@@ -28421,7 +29052,9 @@ module Anthropic
                                # is a non-negative multiple of a fixed quantum and the cadence is rate-limited,
                                # so this is a deliberately lossy display hint, not a billable count;
                                # `usage.output_tokens` remains authoritative.
-            thinking:,
+            thinking:, # The incremental `thinking` text for this content block. Concatenate the
+                       # `thinking` values of successive `thinking_delta` events to assemble the block's
+                       # full `thinking` value.
             type: :thinking_delta
 ); end
         end
@@ -35920,7 +36553,8 @@ module Anthropic
               Anthropic::Beta::BetaWebhookEnvironmentDeletedEventData,
               Anthropic::Beta::BetaWebhookMemoryStoreCreatedEventData,
               Anthropic::Beta::BetaWebhookMemoryStoreArchivedEventData,
-              Anthropic::Beta::BetaWebhookMemoryStoreDeletedEventData
+              Anthropic::Beta::BetaWebhookMemoryStoreDeletedEventData,
+              Anthropic::Beta::BetaWebhookSessionBudgetReachedEventData
             ))
         end
         attr_accessor :data
@@ -35982,7 +36616,8 @@ module Anthropic
                   Anthropic::Beta::BetaWebhookEnvironmentDeletedEventData,
                   Anthropic::Beta::BetaWebhookMemoryStoreCreatedEventData,
                   Anthropic::Beta::BetaWebhookMemoryStoreArchivedEventData,
-                  Anthropic::Beta::BetaWebhookMemoryStoreDeletedEventData
+                  Anthropic::Beta::BetaWebhookMemoryStoreDeletedEventData,
+                  Anthropic::Beta::BetaWebhookSessionBudgetReachedEventData
                 ),
               type: Symbol
             })
@@ -36037,7 +36672,8 @@ module Anthropic
                 Anthropic::Beta::BetaWebhookEnvironmentDeletedEventData::OrHash,
                 Anthropic::Beta::BetaWebhookMemoryStoreCreatedEventData::OrHash,
                 Anthropic::Beta::BetaWebhookMemoryStoreArchivedEventData::OrHash,
-                Anthropic::Beta::BetaWebhookMemoryStoreDeletedEventData::OrHash
+                Anthropic::Beta::BetaWebhookMemoryStoreDeletedEventData::OrHash,
+                Anthropic::Beta::BetaWebhookSessionBudgetReachedEventData::OrHash
               ),
               type: Symbol
             ).returns(T.attached_class)
@@ -36110,7 +36746,8 @@ module Anthropic
               Anthropic::Beta::BetaWebhookEnvironmentDeletedEventData,
               Anthropic::Beta::BetaWebhookMemoryStoreCreatedEventData,
               Anthropic::Beta::BetaWebhookMemoryStoreArchivedEventData,
-              Anthropic::Beta::BetaWebhookMemoryStoreDeletedEventData
+              Anthropic::Beta::BetaWebhookMemoryStoreDeletedEventData,
+              Anthropic::Beta::BetaWebhookSessionBudgetReachedEventData
             )
           end
       end
@@ -36310,6 +36947,56 @@ module Anthropic
         OrHash = T.type_alias do
             T.any(
               Anthropic::Beta::BetaWebhookSessionArchivedEventData,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
+      class BetaWebhookSessionBudgetReachedEventData < Anthropic::Internal::Type::BaseModel
+        # ID of the session that triggered the event.
+        sig { returns(String) }
+        attr_accessor :id
+
+        sig { returns(String) }
+        attr_accessor :organization_id
+
+        sig { returns(Symbol) }
+        attr_accessor :type
+
+        sig { returns(String) }
+        attr_accessor :workspace_id
+
+        sig do
+          override
+            .returns({
+              id: String,
+              organization_id: String,
+              type: Symbol,
+              workspace_id: String
+            })
+        end
+        def to_hash; end
+
+        class << self
+          sig do
+            params(
+              id: String,
+              organization_id: String,
+              workspace_id: String,
+              type: Symbol
+            ).returns(T.attached_class)
+          end
+          def new(
+            id:, # ID of the session that triggered the event.
+            organization_id:,
+            workspace_id:,
+            type: :"session.budget_reached"
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaWebhookSessionBudgetReachedEventData,
               Anthropic::Internal::AnyHash
             )
           end
@@ -37595,6 +38282,14 @@ module Anthropic
         sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
         attr_writer :betas
 
+        # A hard spend ceiling. The session stops issuing new model requests once the
+        # tracked list cost reaches `max_list_cost`.
+        sig { returns(T.nilable(Anthropic::Beta::BetaManagedAgentsBudgetLimit)) }
+        attr_reader :budget
+
+        sig { params(budget: T.nilable(Anthropic::Beta::BetaManagedAgentsBudgetLimit::OrHash)).void }
+        attr_writer :budget
+
         # Description of what the deployment does.
         sig { returns(T.nilable(String)) }
         attr_accessor :description
@@ -37694,6 +38389,7 @@ module Anthropic
                   )
                 ],
               name: String,
+              budget: T.nilable(Anthropic::Beta::BetaManagedAgentsBudgetLimit),
               description: T.nilable(String),
               metadata: T::Hash[Symbol, String],
               resources:
@@ -37730,6 +38426,7 @@ module Anthropic
                 )
               ],
               name: String,
+              budget: T.nilable(Anthropic::Beta::BetaManagedAgentsBudgetLimit::OrHash),
               description: T.nilable(String),
               metadata: T::Hash[Symbol, String],
               resources: T::Array[
@@ -37756,6 +38453,8 @@ module Anthropic
             initial_events:, # Events to send to each session immediately after creation. At least 1,
                              # maximum 50.
             name:, # Human-readable name for the deployment.
+            budget: nil, # A hard spend ceiling. The session stops issuing new model requests once the
+                         # tracked list cost reaches `max_list_cost`.
             description: nil, # Description of what the deployment does.
             metadata: nil, # Arbitrary key-value metadata. Maximum 16 pairs, keys up to 64 chars, values up
                            # to 512 chars.
@@ -38380,6 +39079,14 @@ module Anthropic
         sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
         attr_writer :betas
 
+        # A hard spend ceiling. The session stops issuing new model requests once the
+        # tracked list cost reaches `max_list_cost`.
+        sig { returns(T.nilable(Anthropic::Beta::BetaManagedAgentsBudgetLimit)) }
+        attr_reader :budget
+
+        sig { params(budget: T.nilable(Anthropic::Beta::BetaManagedAgentsBudgetLimit::OrHash)).void }
+        attr_writer :budget
+
         sig { returns(String) }
         attr_accessor :deployment_id
 
@@ -38475,6 +39182,7 @@ module Anthropic
               deployment_id: String,
               agent:
                 T.any(String, Anthropic::Beta::BetaManagedAgentsAgentParams),
+              budget: T.nilable(Anthropic::Beta::BetaManagedAgentsBudgetLimit),
               description: T.nilable(String),
               environment_id: String,
               initial_events:
@@ -38515,6 +39223,7 @@ module Anthropic
                 String,
                 Anthropic::Beta::BetaManagedAgentsAgentParams::OrHash
               ),
+              budget: T.nilable(Anthropic::Beta::BetaManagedAgentsBudgetLimit::OrHash),
               description: T.nilable(String),
               environment_id: String,
               initial_events: T::Array[
@@ -38548,6 +39257,8 @@ module Anthropic
             agent: nil, # Agent to deploy. Accepts the `agent` ID string, which re-pins to the latest
                         # version, or an `agent` object with both id and version specified. Omit to
                         # preserve. Cannot be cleared.
+            budget: nil, # A hard spend ceiling. The session stops issuing new model requests once the
+                         # tracked list cost reaches `max_list_cost`.
             description: nil, # Description. Omit to preserve; send empty string or null to clear.
             environment_id: nil, # ID of the `environment` where sessions run. Omit to preserve. Cannot be cleared.
             initial_events: nil, # Initial events. Full replacement. Omit to preserve. Cannot be cleared. At least
@@ -47499,6 +48210,14 @@ module Anthropic
         sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
         attr_writer :betas
 
+        # A hard spend ceiling. The session stops issuing new model requests once the
+        # tracked list cost reaches `max_list_cost`.
+        sig { returns(T.nilable(Anthropic::Beta::BetaManagedAgentsBudgetLimit)) }
+        attr_reader :budget
+
+        sig { params(budget: Anthropic::Beta::BetaManagedAgentsBudgetLimit::OrHash).void }
+        attr_writer :budget
+
         # ID of the `environment` defining the container configuration for this session.
         sig { returns(String) }
         attr_accessor :environment_id
@@ -47585,6 +48304,7 @@ module Anthropic
                   Anthropic::Beta::BetaManagedAgentsAgentWithOverridesParams
                 ),
               environment_id: String,
+              budget: Anthropic::Beta::BetaManagedAgentsBudgetLimit,
               initial_events:
                 T::Array[
                   T.any(
@@ -47619,6 +48339,7 @@ module Anthropic
                 Anthropic::Beta::BetaManagedAgentsAgentWithOverridesParams::OrHash
               ),
               environment_id: String,
+              budget: Anthropic::Beta::BetaManagedAgentsBudgetLimit::OrHash,
               initial_events: T::Array[
                 T.any(
                   Anthropic::Beta::Sessions::BetaManagedAgentsUserMessageEventParams::OrHash,
@@ -47643,6 +48364,8 @@ module Anthropic
             agent:, # Agent identifier. Accepts the `agent` ID string, which pins the latest version
                     # for the session, or an `agent` object with both id and version specified.
             environment_id:, # ID of the `environment` defining the container configuration for this session.
+            budget: nil, # A hard spend ceiling. The session stops issuing new model requests once the
+                         # tracked list cost reaches `max_list_cost`.
             initial_events: nil, # Initial events to send to the `session` at creation, processed in order.
                                  # Supports `user.message` and `user.define_outcome` events. Maximum 50 events.
             metadata: nil, # Arbitrary key-value metadata attached to the session. Maximum 16 pairs, keys up
@@ -48098,6 +48821,14 @@ module Anthropic
         sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
         attr_writer :betas
 
+        # A hard spend ceiling. The session stops issuing new model requests once the
+        # tracked list cost reaches `max_list_cost`.
+        sig { returns(T.nilable(Anthropic::Beta::BetaManagedAgentsBudgetLimit)) }
+        attr_reader :budget
+
+        sig { params(budget: T.nilable(Anthropic::Beta::BetaManagedAgentsBudgetLimit::OrHash)).void }
+        attr_writer :budget
+
         # Metadata patch. Set a key to a string to upsert it, or to null to delete it.
         # Omit the field to preserve.
         sig { returns(T.nilable(T::Hash[Symbol, T.nilable(String)])) }
@@ -48123,6 +48854,7 @@ module Anthropic
             .returns({
               session_id: String,
               agent: Anthropic::Beta::BetaManagedAgentsSessionAgentUpdate,
+              budget: T.nilable(Anthropic::Beta::BetaManagedAgentsBudgetLimit),
               metadata: T.nilable(T::Hash[Symbol, T.nilable(String)]),
               title: T.nilable(String),
               vault_ids: T::Array[String],
@@ -48138,6 +48870,7 @@ module Anthropic
             params(
               session_id: String,
               agent: Anthropic::Beta::BetaManagedAgentsSessionAgentUpdate::OrHash,
+              budget: T.nilable(Anthropic::Beta::BetaManagedAgentsBudgetLimit::OrHash),
               metadata: T.nilable(T::Hash[Symbol, T.nilable(String)]),
               title: T.nilable(String),
               vault_ids: T::Array[String],
@@ -48150,6 +48883,8 @@ module Anthropic
             agent: nil, # Mid-session agent configuration update. Only `tools` and `mcp_servers` are
                         # updatable. Full replacement: the provided array becomes the new value. To
                         # preserve existing entries, GET the session, modify the array, and POST it back.
+            budget: nil, # A hard spend ceiling. The session stops issuing new model requests once the
+                         # tracked list cost reaches `max_list_cost`.
             metadata: nil, # Metadata patch. Set a key to a string to upsert it, or to null to delete it.
                            # Omit the field to preserve.
             title: nil, # Human-readable session title.
@@ -48590,7 +49325,11 @@ module Anthropic
 
         class BetaManagedAgentsAgentMessageEvent < Anthropic::Internal::Type::BaseModel
           # Array of text blocks comprising the agent response.
-          sig { returns(T::Array[Anthropic::Beta::Sessions::BetaManagedAgentsTextBlock]) }
+          sig do
+            returns(T::Array[
+                Anthropic::Beta::Sessions::BetaManagedAgentsAgentMessageEvent::Content::Variants
+              ])
+          end
           attr_accessor :content
 
           # Unique identifier for this event.
@@ -48610,7 +49349,7 @@ module Anthropic
                 id: String,
                 content:
                   T::Array[
-                    Anthropic::Beta::Sessions::BetaManagedAgentsTextBlock
+                    Anthropic::Beta::Sessions::BetaManagedAgentsAgentMessageEvent::Content::Variants
                   ],
                 processed_at: Time,
                 type:
@@ -48625,7 +49364,10 @@ module Anthropic
               params(
                 id: String,
                 content: T::Array[
-                  Anthropic::Beta::Sessions::BetaManagedAgentsTextBlock::OrHash
+                  T.any(
+                    Anthropic::Beta::Sessions::BetaManagedAgentsTextBlock::OrHash,
+                    Anthropic::Beta::Sessions::BetaManagedAgentsRedactedBlock::OrHash
+                  )
                 ],
                 processed_at: Time,
                 type: Anthropic::Beta::Sessions::BetaManagedAgentsAgentMessageEvent::Type::OrSymbol
@@ -48637,6 +49379,28 @@ module Anthropic
               processed_at:, # A timestamp in RFC 3339 format
               type:
 ); end
+          end
+
+          # Content block in an agent message.
+          module Content
+            extend Anthropic::Internal::Type::Union
+
+            class << self
+              sig do
+                override
+                  .returns(T::Array[
+                  Anthropic::Beta::Sessions::BetaManagedAgentsAgentMessageEvent::Content::Variants
+                ])
+              end
+              def variants; end
+            end
+
+            Variants = T.type_alias do
+                T.any(
+                  Anthropic::Beta::Sessions::BetaManagedAgentsTextBlock,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsRedactedBlock
+                )
+              end
           end
 
           OrHash = T.type_alias do
@@ -48886,7 +49650,8 @@ module Anthropic
                   T.any(
                     Anthropic::Beta::Sessions::BetaManagedAgentsTextBlock::OrHash,
                     Anthropic::Beta::Sessions::BetaManagedAgentsImageBlock::OrHash,
-                    Anthropic::Beta::Sessions::BetaManagedAgentsDocumentBlock::OrHash
+                    Anthropic::Beta::Sessions::BetaManagedAgentsDocumentBlock::OrHash,
+                    Anthropic::Beta::Sessions::BetaManagedAgentsRedactedBlock::OrHash
                   )
                 ],
                 from_session_thread_id: String,
@@ -48924,7 +49689,8 @@ module Anthropic
                 T.any(
                   Anthropic::Beta::Sessions::BetaManagedAgentsTextBlock,
                   Anthropic::Beta::Sessions::BetaManagedAgentsImageBlock,
-                  Anthropic::Beta::Sessions::BetaManagedAgentsDocumentBlock
+                  Anthropic::Beta::Sessions::BetaManagedAgentsDocumentBlock,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsRedactedBlock
                 )
               end
           end
@@ -49021,7 +49787,8 @@ module Anthropic
                   T.any(
                     Anthropic::Beta::Sessions::BetaManagedAgentsTextBlock::OrHash,
                     Anthropic::Beta::Sessions::BetaManagedAgentsImageBlock::OrHash,
-                    Anthropic::Beta::Sessions::BetaManagedAgentsDocumentBlock::OrHash
+                    Anthropic::Beta::Sessions::BetaManagedAgentsDocumentBlock::OrHash,
+                    Anthropic::Beta::Sessions::BetaManagedAgentsRedactedBlock::OrHash
                   )
                 ],
                 processed_at: Time,
@@ -49059,7 +49826,8 @@ module Anthropic
                 T.any(
                   Anthropic::Beta::Sessions::BetaManagedAgentsTextBlock,
                   Anthropic::Beta::Sessions::BetaManagedAgentsImageBlock,
-                  Anthropic::Beta::Sessions::BetaManagedAgentsDocumentBlock
+                  Anthropic::Beta::Sessions::BetaManagedAgentsDocumentBlock,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsRedactedBlock
                 )
               end
           end
@@ -51403,6 +52171,65 @@ module Anthropic
           end
         end
 
+        class BetaManagedAgentsRedactedBlock < Anthropic::Internal::Type::BaseModel
+          sig { returns(Anthropic::Beta::Sessions::BetaManagedAgentsRedactedBlock::Type::OrSymbol) }
+          attr_accessor :type
+
+          sig do
+            override
+              .returns({
+                type:
+                  Anthropic::Beta::Sessions::BetaManagedAgentsRedactedBlock::Type::OrSymbol
+              })
+          end
+          def to_hash; end
+
+          class << self
+            # Placeholder for content withheld by Anthropic model policy.
+            sig do
+              params(
+                type: Anthropic::Beta::Sessions::BetaManagedAgentsRedactedBlock::Type::OrSymbol
+              ).returns(T.attached_class)
+            end
+            def new(type:); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Sessions::BetaManagedAgentsRedactedBlock,
+                Anthropic::Internal::AnyHash
+              )
+            end
+
+          module Type
+            extend Anthropic::Internal::Type::Enum
+
+            class << self
+              sig do
+                override
+                  .returns(T::Array[
+                  Anthropic::Beta::Sessions::BetaManagedAgentsRedactedBlock::Type::TaggedSymbol
+                ])
+              end
+              def values; end
+            end
+
+            OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+            REDACTED = T.let(
+                :redacted,
+                Anthropic::Beta::Sessions::BetaManagedAgentsRedactedBlock::Type::TaggedSymbol
+              )
+
+            TaggedSymbol = T.type_alias do
+                T.all(
+                  Symbol,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsRedactedBlock::Type
+                )
+              end
+          end
+        end
+
         class BetaManagedAgentsRetryStatusExhausted < Anthropic::Internal::Type::BaseModel
           sig { returns(Anthropic::Beta::Sessions::BetaManagedAgentsRetryStatusExhausted::Type::TaggedSymbol) }
           attr_accessor :type
@@ -51874,6 +52701,68 @@ module Anthropic
             end
         end
 
+        class BetaManagedAgentsSessionBudgetReached < Anthropic::Internal::Type::BaseModel
+          sig { returns(Anthropic::Beta::Sessions::BetaManagedAgentsSessionBudgetReached::Type::TaggedSymbol) }
+          attr_accessor :type
+
+          sig do
+            override
+              .returns({
+                type:
+                  Anthropic::Beta::Sessions::BetaManagedAgentsSessionBudgetReached::Type::TaggedSymbol
+              })
+          end
+          def to_hash; end
+
+          class << self
+            # The agent stopped because the session's tracked list cost reached its budget, or
+            # because its usage includes a model with no list price (which the budget cannot
+            # measure). Raise the budget to continue — or, if raising is rejected because a
+            # model has no list price, remove the budget.
+            sig do
+              params(
+                type: Anthropic::Beta::Sessions::BetaManagedAgentsSessionBudgetReached::Type::OrSymbol
+              ).returns(T.attached_class)
+            end
+            def new(type:); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Sessions::BetaManagedAgentsSessionBudgetReached,
+                Anthropic::Internal::AnyHash
+              )
+            end
+
+          module Type
+            extend Anthropic::Internal::Type::Enum
+
+            class << self
+              sig do
+                override
+                  .returns(T::Array[
+                  Anthropic::Beta::Sessions::BetaManagedAgentsSessionBudgetReached::Type::TaggedSymbol
+                ])
+              end
+              def values; end
+            end
+
+            BUDGET_REACHED = T.let(
+                :budget_reached,
+                Anthropic::Beta::Sessions::BetaManagedAgentsSessionBudgetReached::Type::TaggedSymbol
+              )
+
+            OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+            TaggedSymbol = T.type_alias do
+                T.all(
+                  Symbol,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsSessionBudgetReached::Type
+                )
+              end
+          end
+        end
+
         class BetaManagedAgentsSessionDeletedEvent < Anthropic::Internal::Type::BaseModel
           # Unique identifier for this event.
           sig { returns(String) }
@@ -52184,7 +53073,8 @@ module Anthropic
                 Anthropic::Beta::BetaManagedAgentsUserToolResultEvent,
                 Anthropic::Beta::Sessions::BetaManagedAgentsSessionThreadStatusRescheduledEvent,
                 Anthropic::Beta::BetaManagedAgentsSessionUpdatedEvent,
-                Anthropic::Beta::BetaManagedAgentsSystemMessageEvent
+                Anthropic::Beta::BetaManagedAgentsSystemMessageEvent,
+                Anthropic::Beta::BetaManagedAgentsSessionUsageEvent
               )
             end
         end
@@ -52382,7 +53272,8 @@ module Anthropic
                 stop_reason: T.any(
                   Anthropic::Beta::Sessions::BetaManagedAgentsSessionEndTurn::OrHash,
                   Anthropic::Beta::Sessions::BetaManagedAgentsSessionRequiresAction::OrHash,
-                  Anthropic::Beta::Sessions::BetaManagedAgentsSessionRetriesExhausted::OrHash
+                  Anthropic::Beta::Sessions::BetaManagedAgentsSessionRetriesExhausted::OrHash,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsSessionBudgetReached::OrHash
                 ),
                 type: Anthropic::Beta::Sessions::BetaManagedAgentsSessionStatusIdleEvent::Type::OrSymbol
               ).returns(T.attached_class)
@@ -52420,7 +53311,8 @@ module Anthropic
                 T.any(
                   Anthropic::Beta::Sessions::BetaManagedAgentsSessionEndTurn,
                   Anthropic::Beta::Sessions::BetaManagedAgentsSessionRequiresAction,
-                  Anthropic::Beta::Sessions::BetaManagedAgentsSessionRetriesExhausted
+                  Anthropic::Beta::Sessions::BetaManagedAgentsSessionRetriesExhausted,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsSessionBudgetReached
                 )
               end
           end
@@ -52683,14 +53575,9 @@ module Anthropic
         end
 
         class BetaManagedAgentsSessionThread < Anthropic::Internal::Type::BaseModel
-          # Resolved `agent` definition for a single `session_thread`. Snapshot of the agent
-          # at thread creation time. The multiagent roster is not repeated here; read it
-          # from `Session.agent`.
-          sig { returns(Anthropic::Beta::BetaManagedAgentsSessionThreadAgent) }
-          attr_reader :agent
-
-          sig { params(agent: Anthropic::Beta::BetaManagedAgentsSessionThreadAgent::OrHash).void }
-          attr_writer :agent
+          # A session-resolved multiagent roster entry.
+          sig { returns(Anthropic::Beta::Sessions::BetaManagedAgentsSessionThread::Agent::Variants) }
+          attr_accessor :agent
 
           # A timestamp in RFC 3339 format
           sig { returns(T.nilable(Time)) }
@@ -52761,7 +53648,8 @@ module Anthropic
             override
               .returns({
                 id: String,
-                agent: Anthropic::Beta::BetaManagedAgentsSessionThreadAgent,
+                agent:
+                  Anthropic::Beta::Sessions::BetaManagedAgentsSessionThread::Agent::Variants,
                 archived_at: T.nilable(Time),
                 created_at: Time,
                 parent_thread_id: T.nilable(String),
@@ -52789,7 +53677,10 @@ module Anthropic
             sig do
               params(
                 id: String,
-                agent: Anthropic::Beta::BetaManagedAgentsSessionThreadAgent::OrHash,
+                agent: T.any(
+                  Anthropic::Beta::BetaManagedAgentsSessionThreadAgent::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsAdvisor::OrHash
+                ),
                 archived_at: T.nilable(Time),
                 created_at: Time,
                 parent_thread_id: T.nilable(String),
@@ -52807,9 +53698,7 @@ module Anthropic
             end
             def new(
               id:, # Unique identifier for this thread.
-              agent:, # Resolved `agent` definition for a single `session_thread`. Snapshot of the agent
-                      # at thread creation time. The multiagent roster is not repeated here; read it
-                      # from `Session.agent`.
+              agent:, # A session-resolved multiagent roster entry.
               archived_at:, # A timestamp in RFC 3339 format
               created_at:, # A timestamp in RFC 3339 format
               parent_thread_id:, # Parent thread that spawned this thread. Null for the primary thread.
@@ -52820,6 +53709,28 @@ module Anthropic
               updated_at:, # A timestamp in RFC 3339 format
               usage: # Cumulative token usage for a session thread across all turns.
 ); end
+          end
+
+          # A session-resolved multiagent roster entry.
+          module Agent
+            extend Anthropic::Internal::Type::Union
+
+            class << self
+              sig do
+                override
+                  .returns(T::Array[
+                  Anthropic::Beta::Sessions::BetaManagedAgentsSessionThread::Agent::Variants
+                ])
+              end
+              def variants; end
+            end
+
+            Variants = T.type_alias do
+                T.any(
+                  Anthropic::Beta::BetaManagedAgentsSessionThreadAgent,
+                  Anthropic::Beta::BetaManagedAgentsAdvisor
+                )
+              end
           end
 
           OrHash = T.type_alias do
@@ -53107,7 +54018,8 @@ module Anthropic
                 stop_reason: T.any(
                   Anthropic::Beta::Sessions::BetaManagedAgentsSessionEndTurn::OrHash,
                   Anthropic::Beta::Sessions::BetaManagedAgentsSessionRequiresAction::OrHash,
-                  Anthropic::Beta::Sessions::BetaManagedAgentsSessionRetriesExhausted::OrHash
+                  Anthropic::Beta::Sessions::BetaManagedAgentsSessionRetriesExhausted::OrHash,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsSessionBudgetReached::OrHash
                 ),
                 type: Anthropic::Beta::Sessions::BetaManagedAgentsSessionThreadStatusIdleEvent::Type::OrSymbol
               ).returns(T.attached_class)
@@ -53147,7 +54059,8 @@ module Anthropic
                 T.any(
                   Anthropic::Beta::Sessions::BetaManagedAgentsSessionEndTurn,
                   Anthropic::Beta::Sessions::BetaManagedAgentsSessionRequiresAction,
-                  Anthropic::Beta::Sessions::BetaManagedAgentsSessionRetriesExhausted
+                  Anthropic::Beta::Sessions::BetaManagedAgentsSessionRetriesExhausted,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsSessionBudgetReached
                 )
               end
           end
@@ -53459,6 +54372,15 @@ module Anthropic
         end
 
         class BetaManagedAgentsSessionThreadUsage < Anthropic::Internal::Type::BaseModel
+          # Cumulative time in seconds this thread spent in running status. Equal to
+          # `stats.active_seconds`; surfaced here so a thread's usage carries every quantity
+          # its cost is priced on.
+          sig { returns(T.nilable(Float)) }
+          attr_reader :active_seconds
+
+          sig { params(active_seconds: Float).void }
+          attr_writer :active_seconds
+
           # Prompt-cache creation token usage broken down by cache lifetime.
           sig { returns(T.nilable(Anthropic::Beta::BetaManagedAgentsCacheCreationUsage)) }
           attr_reader :cache_creation
@@ -53480,6 +54402,13 @@ module Anthropic
           sig { params(input_tokens: Integer).void }
           attr_writer :input_tokens
 
+          # A monetary amount in a specific currency.
+          sig { returns(T.nilable(Anthropic::BetaMonetaryAmount)) }
+          attr_reader :list_cost
+
+          sig { params(list_cost: T.nilable(Anthropic::BetaMonetaryAmount::OrHash)).void }
+          attr_writer :list_cost
+
           # Total output tokens generated across all turns.
           sig { returns(T.nilable(Integer)) }
           attr_reader :output_tokens
@@ -53487,14 +54416,31 @@ module Anthropic
           sig { params(output_tokens: Integer).void }
           attr_writer :output_tokens
 
+          # Cumulative count of server-executed tool invocations, broken down by tool.
+          sig { returns(T.nilable(Anthropic::Beta::BetaManagedAgentsServerToolUsage)) }
+          attr_reader :server_tool_use
+
+          sig do
+            params(
+              server_tool_use: T.nilable(
+                  Anthropic::Beta::BetaManagedAgentsServerToolUsage::OrHash
+                )
+            ).void
+          end
+          attr_writer :server_tool_use
+
           sig do
             override
               .returns({
+                active_seconds: Float,
                 cache_creation:
                   Anthropic::Beta::BetaManagedAgentsCacheCreationUsage,
                 cache_read_input_tokens: Integer,
                 input_tokens: Integer,
-                output_tokens: Integer
+                list_cost: T.nilable(Anthropic::BetaMonetaryAmount),
+                output_tokens: Integer,
+                server_tool_use:
+                  T.nilable(Anthropic::Beta::BetaManagedAgentsServerToolUsage)
               })
           end
           def to_hash; end
@@ -53503,23 +54449,135 @@ module Anthropic
             # Cumulative token usage for a session thread across all turns.
             sig do
               params(
+                active_seconds: Float,
                 cache_creation: Anthropic::Beta::BetaManagedAgentsCacheCreationUsage::OrHash,
                 cache_read_input_tokens: Integer,
                 input_tokens: Integer,
-                output_tokens: Integer
+                list_cost: T.nilable(Anthropic::BetaMonetaryAmount::OrHash),
+                output_tokens: Integer,
+                server_tool_use: T.nilable(
+                  Anthropic::Beta::BetaManagedAgentsServerToolUsage::OrHash
+                )
               ).returns(T.attached_class)
             end
             def new(
+              active_seconds: nil, # Cumulative time in seconds this thread spent in running status. Equal to
+                                   # `stats.active_seconds`; surfaced here so a thread's usage carries every quantity
+                                   # its cost is priced on.
               cache_creation: nil, # Prompt-cache creation token usage broken down by cache lifetime.
               cache_read_input_tokens: nil, # Total tokens read from prompt cache.
               input_tokens: nil, # Total input tokens consumed across all turns.
-              output_tokens: nil # Total output tokens generated across all turns.
+              list_cost: nil, # A monetary amount in a specific currency.
+              output_tokens: nil, # Total output tokens generated across all turns.
+              server_tool_use: nil # Cumulative count of server-executed tool invocations, broken down by tool.
 ); end
           end
 
           OrHash = T.type_alias do
               T.any(
                 Anthropic::Beta::Sessions::BetaManagedAgentsSessionThreadUsage,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        class BetaManagedAgentsSessionUsageSnapshot < Anthropic::Internal::Type::BaseModel
+          # Cumulative time in seconds during which the session had at least one thread in
+          # running status. Overlapping activity from concurrent threads is counted once.
+          # This is the duration the session's runtime cost is priced on.
+          sig { returns(T.nilable(Float)) }
+          attr_reader :active_seconds
+
+          sig { params(active_seconds: Float).void }
+          attr_writer :active_seconds
+
+          # Prompt-cache creation token usage broken down by cache lifetime.
+          sig { returns(T.nilable(Anthropic::Beta::BetaManagedAgentsCacheCreationUsage)) }
+          attr_reader :cache_creation
+
+          sig { params(cache_creation: Anthropic::Beta::BetaManagedAgentsCacheCreationUsage::OrHash).void }
+          attr_writer :cache_creation
+
+          # Total tokens read from prompt cache.
+          sig { returns(T.nilable(Integer)) }
+          attr_reader :cache_read_input_tokens
+
+          sig { params(cache_read_input_tokens: Integer).void }
+          attr_writer :cache_read_input_tokens
+
+          # Total input tokens consumed across all turns.
+          sig { returns(T.nilable(Integer)) }
+          attr_reader :input_tokens
+
+          sig { params(input_tokens: Integer).void }
+          attr_writer :input_tokens
+
+          # A monetary amount in a specific currency.
+          sig { returns(T.nilable(Anthropic::BetaMonetaryAmount)) }
+          attr_reader :list_cost
+
+          sig { params(list_cost: Anthropic::BetaMonetaryAmount::OrHash).void }
+          attr_writer :list_cost
+
+          # Total output tokens generated across all turns.
+          sig { returns(T.nilable(Integer)) }
+          attr_reader :output_tokens
+
+          sig { params(output_tokens: Integer).void }
+          attr_writer :output_tokens
+
+          # Cumulative count of server-executed tool invocations, broken down by tool.
+          sig { returns(T.nilable(Anthropic::Beta::BetaManagedAgentsServerToolUsage)) }
+          attr_reader :server_tool_use
+
+          sig { params(server_tool_use: Anthropic::Beta::BetaManagedAgentsServerToolUsage::OrHash).void }
+          attr_writer :server_tool_use
+
+          sig do
+            override
+              .returns({
+                active_seconds: Float,
+                cache_creation:
+                  Anthropic::Beta::BetaManagedAgentsCacheCreationUsage,
+                cache_read_input_tokens: Integer,
+                input_tokens: Integer,
+                list_cost: Anthropic::BetaMonetaryAmount,
+                output_tokens: Integer,
+                server_tool_use:
+                  Anthropic::Beta::BetaManagedAgentsServerToolUsage
+              })
+          end
+          def to_hash; end
+
+          class << self
+            # Point-in-time snapshot of a session's cumulative usage.
+            sig do
+              params(
+                active_seconds: Float,
+                cache_creation: Anthropic::Beta::BetaManagedAgentsCacheCreationUsage::OrHash,
+                cache_read_input_tokens: Integer,
+                input_tokens: Integer,
+                list_cost: Anthropic::BetaMonetaryAmount::OrHash,
+                output_tokens: Integer,
+                server_tool_use: Anthropic::Beta::BetaManagedAgentsServerToolUsage::OrHash
+              ).returns(T.attached_class)
+            end
+            def new(
+              active_seconds: nil, # Cumulative time in seconds during which the session had at least one thread in
+                                   # running status. Overlapping activity from concurrent threads is counted once.
+                                   # This is the duration the session's runtime cost is priced on.
+              cache_creation: nil, # Prompt-cache creation token usage broken down by cache lifetime.
+              cache_read_input_tokens: nil, # Total tokens read from prompt cache.
+              input_tokens: nil, # Total input tokens consumed across all turns.
+              list_cost: nil, # A monetary amount in a specific currency.
+              output_tokens: nil, # Total output tokens generated across all turns.
+              server_tool_use: nil # Cumulative count of server-executed tool invocations, broken down by tool.
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Sessions::BetaManagedAgentsSessionUsageSnapshot,
                 Anthropic::Internal::AnyHash
               )
             end
@@ -54192,7 +55250,8 @@ module Anthropic
                 Anthropic::Beta::BetaManagedAgentsSessionUpdatedEvent,
                 Anthropic::Beta::BetaManagedAgentsStartEvent,
                 Anthropic::Beta::BetaManagedAgentsDeltaEvent,
-                Anthropic::Beta::BetaManagedAgentsSystemMessageEvent
+                Anthropic::Beta::BetaManagedAgentsSystemMessageEvent,
+                Anthropic::Beta::BetaManagedAgentsSessionUsageEvent
               )
             end
         end
@@ -54248,7 +55307,8 @@ module Anthropic
                 Anthropic::Beta::BetaManagedAgentsSessionUpdatedEvent,
                 Anthropic::Beta::BetaManagedAgentsStartEvent,
                 Anthropic::Beta::BetaManagedAgentsDeltaEvent,
-                Anthropic::Beta::BetaManagedAgentsSystemMessageEvent
+                Anthropic::Beta::BetaManagedAgentsSystemMessageEvent,
+                Anthropic::Beta::BetaManagedAgentsSessionUsageEvent
               )
             end
         end
@@ -55548,7 +56608,8 @@ module Anthropic
                   T.any(
                     Anthropic::Beta::Sessions::BetaManagedAgentsTextBlock::OrHash,
                     Anthropic::Beta::Sessions::BetaManagedAgentsImageBlock::OrHash,
-                    Anthropic::Beta::Sessions::BetaManagedAgentsDocumentBlock::OrHash
+                    Anthropic::Beta::Sessions::BetaManagedAgentsDocumentBlock::OrHash,
+                    Anthropic::Beta::Sessions::BetaManagedAgentsRedactedBlock::OrHash
                   )
                 ],
                 type: Anthropic::Beta::Sessions::BetaManagedAgentsUserMessageEvent::Type::OrSymbol,
@@ -55581,7 +56642,8 @@ module Anthropic
                 T.any(
                   Anthropic::Beta::Sessions::BetaManagedAgentsTextBlock,
                   Anthropic::Beta::Sessions::BetaManagedAgentsImageBlock,
-                  Anthropic::Beta::Sessions::BetaManagedAgentsDocumentBlock
+                  Anthropic::Beta::Sessions::BetaManagedAgentsDocumentBlock,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsRedactedBlock
                 )
               end
           end
@@ -55629,7 +56691,8 @@ module Anthropic
                 T.any(
                   Anthropic::Beta::Sessions::BetaManagedAgentsTextBlock,
                   Anthropic::Beta::Sessions::BetaManagedAgentsImageBlock,
-                  Anthropic::Beta::Sessions::BetaManagedAgentsDocumentBlock
+                  Anthropic::Beta::Sessions::BetaManagedAgentsDocumentBlock,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsRedactedBlock
                 )
               ])
           end
@@ -55646,7 +56709,8 @@ module Anthropic
                     T.any(
                       Anthropic::Beta::Sessions::BetaManagedAgentsTextBlock,
                       Anthropic::Beta::Sessions::BetaManagedAgentsImageBlock,
-                      Anthropic::Beta::Sessions::BetaManagedAgentsDocumentBlock
+                      Anthropic::Beta::Sessions::BetaManagedAgentsDocumentBlock,
+                      Anthropic::Beta::Sessions::BetaManagedAgentsRedactedBlock
                     )
                   ],
                 type:
@@ -55663,7 +56727,8 @@ module Anthropic
                   T.any(
                     Anthropic::Beta::Sessions::BetaManagedAgentsTextBlock::OrHash,
                     Anthropic::Beta::Sessions::BetaManagedAgentsImageBlock::OrHash,
-                    Anthropic::Beta::Sessions::BetaManagedAgentsDocumentBlock::OrHash
+                    Anthropic::Beta::Sessions::BetaManagedAgentsDocumentBlock::OrHash,
+                    Anthropic::Beta::Sessions::BetaManagedAgentsRedactedBlock::OrHash
                   )
                 ],
                 type: Anthropic::Beta::Sessions::BetaManagedAgentsUserMessageEventParams::Type::OrSymbol
@@ -55693,7 +56758,8 @@ module Anthropic
                 T.any(
                   Anthropic::Beta::Sessions::BetaManagedAgentsTextBlock,
                   Anthropic::Beta::Sessions::BetaManagedAgentsImageBlock,
-                  Anthropic::Beta::Sessions::BetaManagedAgentsDocumentBlock
+                  Anthropic::Beta::Sessions::BetaManagedAgentsDocumentBlock,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsRedactedBlock
                 )
               end
           end
@@ -59269,7 +60335,8 @@ module Anthropic
                 Anthropic::Beta::BetaWebhookEnvironmentDeletedEventData::OrHash,
                 Anthropic::Beta::BetaWebhookMemoryStoreCreatedEventData::OrHash,
                 Anthropic::Beta::BetaWebhookMemoryStoreArchivedEventData::OrHash,
-                Anthropic::Beta::BetaWebhookMemoryStoreDeletedEventData::OrHash
+                Anthropic::Beta::BetaWebhookMemoryStoreDeletedEventData::OrHash,
+                Anthropic::Beta::BetaWebhookSessionBudgetReachedEventData::OrHash
               ),
               type: Symbol
             ).returns(T.attached_class)
@@ -63581,6 +64648,19 @@ module Anthropic
 
     BetaCountTokensContextManagementResponse = Beta::BetaCountTokensContextManagementResponse
 
+    module BetaCurrency
+      extend Anthropic::Internal::Type::Enum
+
+      class << self
+        sig { override.returns(T::Array[Anthropic::BetaCurrency::TaggedSymbol]) }
+        def values; end
+      end
+
+      OrSymbol = T.type_alias { T.any(Symbol, String) }
+      TaggedSymbol = T.type_alias { T.all(Symbol, Anthropic::BetaCurrency) }
+      USD = T.let(:USD, Anthropic::BetaCurrency::TaggedSymbol)
+    end
+
     BetaDiagnostics = Beta::BetaDiagnostics
     BetaDiagnosticsParam = Beta::BetaDiagnosticsParam
     BetaDirectCaller = Beta::BetaDirectCaller
@@ -63752,6 +64832,8 @@ module Anthropic
     BetaMCPToolUseBlock = Beta::BetaMCPToolUseBlock
     BetaMCPToolUseBlockParam = Beta::BetaMCPToolUseBlockParam
     BetaMCPToolset = Beta::BetaMCPToolset
+    BetaManagedAgentsAdvisor = Beta::BetaManagedAgentsAdvisor
+    BetaManagedAgentsAdvisorParams = Beta::BetaManagedAgentsAdvisorParams
     BetaManagedAgentsAgent = Beta::BetaManagedAgentsAgent
 
     BetaManagedAgentsAgentArchivedDeploymentPausedReasonError = Beta::BetaManagedAgentsAgentArchivedDeploymentPausedReasonError
@@ -63799,6 +64881,7 @@ module Anthropic
     BetaManagedAgentsAnthropicSkillParams = Beta::BetaManagedAgentsAnthropicSkillParams
 
     BetaManagedAgentsBranchCheckout = Beta::BetaManagedAgentsBranchCheckout
+    BetaManagedAgentsBudgetLimit = Beta::BetaManagedAgentsBudgetLimit
 
     BetaManagedAgentsCacheCreationUsage = Beta::BetaManagedAgentsCacheCreationUsage
 
@@ -63935,6 +65018,7 @@ module Anthropic
 
     BetaManagedAgentsSelfHostedResourcesUnsupportedRunError = Beta::BetaManagedAgentsSelfHostedResourcesUnsupportedRunError
 
+    BetaManagedAgentsServerToolUsage = Beta::BetaManagedAgentsServerToolUsage
     BetaManagedAgentsSession = Beta::BetaManagedAgentsSession
     BetaManagedAgentsSessionAgent = Beta::BetaManagedAgentsSessionAgent
 
@@ -63959,6 +65043,8 @@ module Anthropic
     BetaManagedAgentsSessionUpdatedEvent = Beta::BetaManagedAgentsSessionUpdatedEvent
 
     BetaManagedAgentsSessionUsage = Beta::BetaManagedAgentsSessionUsage
+
+    BetaManagedAgentsSessionUsageEvent = Beta::BetaManagedAgentsSessionUsageEvent
 
     BetaManagedAgentsSkillNotFoundDeploymentPausedReasonError = Beta::BetaManagedAgentsSkillNotFoundDeploymentPausedReasonError
 
@@ -64023,6 +65109,40 @@ module Anthropic
 
     BetaModelCapabilities = Beta::BetaModelCapabilities
     BetaModelInfo = Beta::BetaModelInfo
+
+    class BetaMonetaryAmount < Anthropic::Internal::Type::BaseModel
+      # Amount in minor units of the currency, as an integer decimal string with no
+      # leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a
+      # number so no float rounding is ever applied.
+      sig { returns(String) }
+      attr_accessor :amount
+
+      # Uppercase ISO-4217 currency code. `USD` is the only currency currently
+      # supported; the accepted set is closed and grows only when a new currency is
+      # priced.
+      sig { returns(Anthropic::BetaCurrency::OrSymbol) }
+      attr_accessor :currency
+
+      sig { override.returns({ amount: String, currency: Anthropic::BetaCurrency::OrSymbol }) }
+      def to_hash; end
+
+      class << self
+        # A monetary amount in a specific currency.
+        sig { params(amount: String, currency: Anthropic::BetaCurrency::OrSymbol).returns(T.attached_class) }
+        def new(
+          amount:, # Amount in minor units of the currency, as an integer decimal string with no
+                   # leading zeros: "2500" is $25.00 and "50" is fifty cents. A string rather than a
+                   # number so no float rounding is ever applied.
+          currency: # Uppercase ISO-4217 currency code. `USD` is the only currency currently
+                    # supported; the accepted set is closed and grows only when a new currency is
+                    # priced.
+); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(Anthropic::BetaMonetaryAmount, Anthropic::Internal::AnyHash)
+        end
+    end
 
     class BetaNotFoundError < Anthropic::Internal::Type::BaseModel
       sig { returns(String) }
@@ -64302,6 +65422,8 @@ module Anthropic
     BetaWebhookMemoryStoreDeletedEventData = Beta::BetaWebhookMemoryStoreDeletedEventData
 
     BetaWebhookSessionArchivedEventData = Beta::BetaWebhookSessionArchivedEventData
+
+    BetaWebhookSessionBudgetReachedEventData = Beta::BetaWebhookSessionBudgetReachedEventData
 
     BetaWebhookSessionCreatedEventData = Beta::BetaWebhookSessionCreatedEventData
 
@@ -71009,12 +72131,6 @@ module Anthropic
       CLAUDE_MYTHOS_PREVIEW = T.let(:"claude-mythos-preview", Anthropic::Model::TaggedSymbol)
 
       # Powerful intelligence for long-running agents and coding
-      CLAUDE_OPUS_4_1 = T.let(:"claude-opus-4-1", Anthropic::Model::TaggedSymbol)
-
-      # Powerful intelligence for long-running agents and coding
-      CLAUDE_OPUS_4_1_20250805 = T.let(:"claude-opus-4-1-20250805", Anthropic::Model::TaggedSymbol)
-
-      # Powerful intelligence for long-running agents and coding
       CLAUDE_OPUS_4_5 = T.let(:"claude-opus-4-5", Anthropic::Model::TaggedSymbol)
 
       # Powerful intelligence for long-running agents and coding
@@ -71926,6 +73042,16 @@ module Anthropic
     end
 
     class RedactedThinkingBlock < Anthropic::Internal::Type::BaseModel
+      # The contents of this redacted thinking block, returned when portions of the
+      # model's thinking were safety-redacted. This field is opaque and encrypted, with
+      # no readable content.
+      #
+      # Pass `redacted_thinking` blocks back to the API unchanged when continuing a
+      # multi-turn conversation.
+      #
+      # See
+      # [extended thinking](https://platform.claude.com/docs/en/build-with-claude/extended-thinking#redacted-thinking-blocks)
+      # for details.
       sig { returns(String) }
       attr_accessor :data
 
@@ -71937,7 +73063,17 @@ module Anthropic
 
       class << self
         sig { params(data: String, type: Symbol).returns(T.attached_class) }
-        def new(data:, type: :redacted_thinking); end
+        def new(
+          data:, # The contents of this redacted thinking block, returned when portions of the
+                 # model's thinking were safety-redacted. This field is opaque and encrypted, with
+                 # no readable content.
+                 # Pass `redacted_thinking` blocks back to the API unchanged when continuing a
+                 # multi-turn conversation.
+                 # See
+                 # [extended thinking](https://platform.claude.com/docs/en/build-with-claude/extended-thinking#redacted-thinking-blocks)
+                 # for details.
+          type: :redacted_thinking
+); end
       end
 
       OrHash = T.type_alias do
@@ -71946,6 +73082,8 @@ module Anthropic
     end
 
     class RedactedThinkingBlockParam < Anthropic::Internal::Type::BaseModel
+      # The `data` value of this redacted thinking block, exactly as returned by the API
+      # in a previous response. Opaque and encrypted; pass it back unchanged.
       sig { returns(String) }
       attr_accessor :data
 
@@ -71957,7 +73095,11 @@ module Anthropic
 
       class << self
         sig { params(data: String, type: Symbol).returns(T.attached_class) }
-        def new(data:, type: :redacted_thinking); end
+        def new(
+          data:, # The `data` value of this redacted thinking block, exactly as returned by the API
+                 # in a previous response. Opaque and encrypted; pass it back unchanged.
+          type: :redacted_thinking
+); end
       end
 
       OrHash = T.type_alias do
@@ -72471,6 +73613,9 @@ module Anthropic
     end
 
     class SignatureDelta < Anthropic::Internal::Type::BaseModel
+      # The `signature` for this thinking block: an opaque value used to verify that the
+      # block was generated by Claude when it is passed back to the API. Delivered in a
+      # `signature_delta` event just before the block's `content_block_stop` event.
       sig { returns(String) }
       attr_accessor :signature
 
@@ -72482,7 +73627,12 @@ module Anthropic
 
       class << self
         sig { params(signature: String, type: Symbol).returns(T.attached_class) }
-        def new(signature:, type: :signature_delta); end
+        def new(
+          signature:, # The `signature` for this thinking block: an opaque value used to verify that the
+                      # block was generated by Claude when it is passed back to the API. Delivered in a
+                      # `signature_delta` event just before the block's `content_block_stop` event.
+          type: :signature_delta
+); end
       end
 
       OrHash = T.type_alias do
@@ -73341,9 +74491,20 @@ module Anthropic
     end
 
     class ThinkingBlock < Anthropic::Internal::Type::BaseModel
+      # A value used to verify that this thinking block was generated by Claude when it
+      # is passed back to the API.
+      #
+      # This is an opaque field and should not be interpreted or parsed. When passing
+      # thinking blocks back to the API (required when using tools with extended
+      # thinking), pass them back exactly as received, with this field intact.
+      #
+      # See
+      # [extended thinking](https://platform.claude.com/docs/en/build-with-claude/extended-thinking)
+      # for details.
       sig { returns(String) }
       attr_accessor :signature
 
+      # The text of Claude's thinking process for this block.
       sig { returns(String) }
       attr_accessor :thinking
 
@@ -73355,7 +74516,18 @@ module Anthropic
 
       class << self
         sig { params(signature: String, thinking: String, type: Symbol).returns(T.attached_class) }
-        def new(signature:, thinking:, type: :thinking); end
+        def new(
+          signature:, # A value used to verify that this thinking block was generated by Claude when it
+                      # is passed back to the API.
+                      # This is an opaque field and should not be interpreted or parsed. When passing
+                      # thinking blocks back to the API (required when using tools with extended
+                      # thinking), pass them back exactly as received, with this field intact.
+                      # See
+                      # [extended thinking](https://platform.claude.com/docs/en/build-with-claude/extended-thinking)
+                      # for details.
+          thinking:, # The text of Claude's thinking process for this block.
+          type: :thinking
+); end
       end
 
       OrHash = T.type_alias do
@@ -73364,9 +74536,15 @@ module Anthropic
     end
 
     class ThinkingBlockParam < Anthropic::Internal::Type::BaseModel
+      # The `signature` value of this thinking block, exactly as returned by the API in
+      # a previous response. Used to verify that the block was generated by Claude.
+      #
+      # Thinking blocks must be passed back unmodified and in their original order; a
+      # modified block results in a 400 `invalid_request_error`.
       sig { returns(String) }
       attr_accessor :signature
 
+      # The `thinking` text of this block as returned by the API.
       sig { returns(String) }
       attr_accessor :thinking
 
@@ -73378,7 +74556,14 @@ module Anthropic
 
       class << self
         sig { params(signature: String, thinking: String, type: Symbol).returns(T.attached_class) }
-        def new(signature:, thinking:, type: :thinking); end
+        def new(
+          signature:, # The `signature` value of this thinking block, exactly as returned by the API in
+                      # a previous response. Used to verify that the block was generated by Claude.
+                      # Thinking blocks must be passed back unmodified and in their original order; a
+                      # modified block results in a 400 `invalid_request_error`.
+          thinking:, # The `thinking` text of this block as returned by the API.
+          type: :thinking
+); end
       end
 
       OrHash = T.type_alias do
@@ -73622,6 +74807,9 @@ module Anthropic
     end
 
     class ThinkingDelta < Anthropic::Internal::Type::BaseModel
+      # The incremental `thinking` text for this content block. Concatenate the
+      # `thinking` values of successive `thinking_delta` events to assemble the block's
+      # full `thinking` value.
       sig { returns(String) }
       attr_accessor :thinking
 
@@ -73633,7 +74821,12 @@ module Anthropic
 
       class << self
         sig { params(thinking: String, type: Symbol).returns(T.attached_class) }
-        def new(thinking:, type: :thinking_delta); end
+        def new(
+          thinking:, # The incremental `thinking` text for this content block. Concatenate the
+                     # `thinking` values of successive `thinking_delta` events to assemble the block's
+                     # full `thinking` value.
+          type: :thinking_delta
+); end
       end
 
       OrHash = T.type_alias do
@@ -78616,6 +79809,7 @@ module Anthropic
                 )
               ],
             name: String,
+            budget: T.nilable(Anthropic::Beta::BetaManagedAgentsBudgetLimit::OrHash),
             description: T.nilable(String),
             metadata: T::Hash[Symbol, String],
             resources: T::Array[
@@ -78642,6 +79836,8 @@ module Anthropic
           initial_events:, # Body param: Events to send to each session immediately after creation. At least
                            # 1, maximum 50.
           name:, # Body param: Human-readable name for the deployment.
+          budget: nil, # Body param: A hard spend ceiling. The session stops issuing new model requests
+                       # once the tracked list cost reaches `max_list_cost`.
           description: nil, # Body param: Description of what the deployment does.
           metadata: nil, # Body param: Arbitrary key-value metadata. Maximum 16 pairs, keys up to 64 chars,
                          # values up to 512 chars.
@@ -78749,6 +79945,7 @@ module Anthropic
                 String,
                 Anthropic::Beta::BetaManagedAgentsAgentParams::OrHash
               ),
+            budget: T.nilable(Anthropic::Beta::BetaManagedAgentsBudgetLimit::OrHash),
             description: T.nilable(String),
             environment_id: String,
             initial_events: T::Array[
@@ -78782,6 +79979,8 @@ module Anthropic
           agent: nil, # Body param: Agent to deploy. Accepts the `agent` ID string, which re-pins to the
                       # latest version, or an `agent` object with both id and version specified. Omit to
                       # preserve. Cannot be cleared.
+          budget: nil, # Body param: A hard spend ceiling. The session stops issuing new model requests
+                       # once the tracked list cost reaches `max_list_cost`.
           description: nil, # Body param: Description. Omit to preserve; send empty string or null to clear.
           environment_id: nil, # Body param: ID of the `environment` where sessions run. Omit to preserve. Cannot
                                # be cleared.
@@ -81008,6 +82207,7 @@ module Anthropic
                 Anthropic::Beta::BetaManagedAgentsAgentWithOverridesParams::OrHash
               ),
             environment_id: String,
+            budget: Anthropic::Beta::BetaManagedAgentsBudgetLimit::OrHash,
             initial_events: T::Array[
                 T.any(
                   Anthropic::Beta::Sessions::BetaManagedAgentsUserMessageEventParams::OrHash,
@@ -81034,6 +82234,8 @@ module Anthropic
                   # specified.
           environment_id:, # Body param: ID of the `environment` defining the container configuration for
                            # this session.
+          budget: nil, # Body param: A hard spend ceiling. The session stops issuing new model requests
+                       # once the tracked list cost reaches `max_list_cost`.
           initial_events: nil, # Body param: Initial events to send to the `session` at creation, processed in
                                # order. Supports `user.message` and `user.define_outcome` events. Maximum 50
                                # events.
@@ -81125,6 +82327,7 @@ module Anthropic
           params(
             session_id: String,
             agent: Anthropic::Beta::BetaManagedAgentsSessionAgentUpdate::OrHash,
+            budget: T.nilable(Anthropic::Beta::BetaManagedAgentsBudgetLimit::OrHash),
             metadata: T.nilable(T::Hash[Symbol, T.nilable(String)]),
             title: T.nilable(String),
             vault_ids: T::Array[String],
@@ -81138,6 +82341,8 @@ module Anthropic
                       # `mcp_servers` are updatable. Full replacement: the provided array becomes the
                       # new value. To preserve existing entries, GET the session, modify the array, and
                       # POST it back.
+          budget: nil, # Body param: A hard spend ceiling. The session stops issuing new model requests
+                       # once the tracked list cost reaches `max_list_cost`.
           metadata: nil, # Body param: Metadata patch. Set a key to a string to upsert it, or to null to
                          # delete it. Omit the field to preserve.
           title: nil, # Body param: Human-readable session title.

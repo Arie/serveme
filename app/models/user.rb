@@ -188,7 +188,7 @@ class User < ActiveRecord::Base
     Group.private_user(self).servers.first
   end
 
-  sig { params(server_id: String).returns(T.nilable(T::Boolean)) }
+  sig { params(server_id: String).void }
   def private_server_id=(server_id)
     return unless server_id.to_i.positive?
 

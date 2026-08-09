@@ -46,21 +46,21 @@ end
 #
 # pkg:gem/opentelemetry-instrumentation-pg#lib/opentelemetry/instrumentation/pg/instrumentation.rb:11
 class OpenTelemetry::Instrumentation::PG::Instrumentation < ::OpenTelemetry::Instrumentation::Base
-  # pkg:gem/opentelemetry-instrumentation-pg#lib/opentelemetry/instrumentation/pg/instrumentation.rb:33
+  # pkg:gem/opentelemetry-instrumentation-pg#lib/opentelemetry/instrumentation/pg/instrumentation.rb:35
   def propagator; end
 
   private
 
-  # pkg:gem/opentelemetry-instrumentation-pg#lib/opentelemetry/instrumentation/pg/instrumentation.rb:50
+  # pkg:gem/opentelemetry-instrumentation-pg#lib/opentelemetry/instrumentation/pg/instrumentation.rb:52
   def configure_propagator(config); end
 
-  # pkg:gem/opentelemetry-instrumentation-pg#lib/opentelemetry/instrumentation/pg/instrumentation.rb:37
+  # pkg:gem/opentelemetry-instrumentation-pg#lib/opentelemetry/instrumentation/pg/instrumentation.rb:39
   def gem_version; end
 
-  # pkg:gem/opentelemetry-instrumentation-pg#lib/opentelemetry/instrumentation/pg/instrumentation.rb:45
+  # pkg:gem/opentelemetry-instrumentation-pg#lib/opentelemetry/instrumentation/pg/instrumentation.rb:47
   def patch_client; end
 
-  # pkg:gem/opentelemetry-instrumentation-pg#lib/opentelemetry/instrumentation/pg/instrumentation.rb:41
+  # pkg:gem/opentelemetry-instrumentation-pg#lib/opentelemetry/instrumentation/pg/instrumentation.rb:43
   def require_dependencies; end
 end
 

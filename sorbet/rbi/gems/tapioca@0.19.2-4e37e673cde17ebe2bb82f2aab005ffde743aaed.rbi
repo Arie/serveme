@@ -3048,10 +3048,10 @@ class Tapioca::Runtime::DynamicMixinCompiler
   # pkg:gem/tapioca#lib/tapioca/runtime/dynamic_mixin_compiler.rb:13
   def class_attribute_writers; end
 
-  # pkg:gem/tapioca#lib/tapioca/runtime/dynamic_mixin_compiler.rb:134
+  # pkg:gem/tapioca#lib/tapioca/runtime/dynamic_mixin_compiler.rb:133
   def compile_class_attributes(tree); end
 
-  # pkg:gem/tapioca#lib/tapioca/runtime/dynamic_mixin_compiler.rb:177
+  # pkg:gem/tapioca#lib/tapioca/runtime/dynamic_mixin_compiler.rb:176
   def compile_mixes_in_class_methods(tree); end
 
   # pkg:gem/tapioca#lib/tapioca/runtime/dynamic_mixin_compiler.rb:10
@@ -3060,10 +3060,10 @@ class Tapioca::Runtime::DynamicMixinCompiler
   # pkg:gem/tapioca#lib/tapioca/runtime/dynamic_mixin_compiler.rb:10
   def dynamic_includes; end
 
-  # pkg:gem/tapioca#lib/tapioca/runtime/dynamic_mixin_compiler.rb:129
+  # pkg:gem/tapioca#lib/tapioca/runtime/dynamic_mixin_compiler.rb:128
   def empty_attributes?; end
 
-  # pkg:gem/tapioca#lib/tapioca/runtime/dynamic_mixin_compiler.rb:219
+  # pkg:gem/tapioca#lib/tapioca/runtime/dynamic_mixin_compiler.rb:218
   def filtered_mixin?(qualified_mixin_name); end
 
   # pkg:gem/tapioca#lib/tapioca/runtime/dynamic_mixin_compiler.rb:16
@@ -3075,7 +3075,7 @@ class Tapioca::Runtime::DynamicMixinCompiler
   # pkg:gem/tapioca#lib/tapioca/runtime/dynamic_mixin_compiler.rb:16
   def instance_attribute_writers; end
 
-  # pkg:gem/tapioca#lib/tapioca/runtime/dynamic_mixin_compiler.rb:212
+  # pkg:gem/tapioca#lib/tapioca/runtime/dynamic_mixin_compiler.rb:211
   def module_included_by_another_dynamic_extend?(mod, dynamic_extends); end
 end
 

@@ -700,7 +700,7 @@ class MiniMagick::Shell
 
   private
 
-  # pkg:gem/mini_magick#lib/mini_magick/shell.rb:70
+  # pkg:gem/mini_magick#lib/mini_magick/shell.rb:75
   def log(command, &block); end
 end
 
@@ -723,13 +723,14 @@ class MiniMagick::Tool
   # @option options [Boolean] :errors Whether to raise errors on non-zero
   #   exit codes.
   # @option options [Boolean] :warnings Whether to print warnings to stderrr.
-  # @option options [String] :stdin Content to send to standard input stream.
+  # @option options [String, IO] :stdin Content to send to standard input
+  #   stream, either a string or a readable IO object.
   # @example
   #   MiniMagick.identify(errors: false) do |identify|
   #     identify.help # returns exit status 1, which would otherwise throw an error
   #   end
   #
-  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:54
+  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:55
   def initialize(name, **options); end
 
   # Changes the last operator to its "plus" form.
@@ -743,14 +744,14 @@ class MiniMagick::Tool
   #
   # @return [self]
   #
-  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:162
+  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:163
   def +(*values); end
 
   # Appends raw options, useful for appending image paths.
   #
   # @return [self]
   #
-  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:135
+  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:136
   def <<(arg); end
 
   # @private
@@ -777,16 +778,16 @@ class MiniMagick::Tool
   #
   # @return [String] Returns the output of the command
   #
-  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:80
+  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:81
   def call(**options); end
 
-  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:232
+  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:233
   def canvas(value = T.unsafe(nil)); end
 
   # This option is a valid ImageMagick option, but it's also a Ruby method,
   # so we need to override it so that it correctly acts as an option method.
   #
-  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:242
+  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:243
   def clone(*args); end
 
   # The currently built-up command.
@@ -799,7 +800,7 @@ class MiniMagick::Tool
   #   mogrify.contrast
   #   mogrify.command #=> ["mogrify", "-resize", "500x500", "-contrast"]
   #
-  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:102
+  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:103
   def command; end
 
   # The executable used for this tool. Respects
@@ -818,20 +819,20 @@ class MiniMagick::Tool
   #   identify = MiniMagick.identify
   #   identify.executable #=> ["firejail", "--force", "magick", "identify"]
   #
-  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:123
+  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:124
   def executable; end
 
-  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:232
+  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:233
   def gradient(value = T.unsafe(nil)); end
 
-  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:232
+  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:233
   def logo(value = T.unsafe(nil)); end
 
   # Merges a list of raw options.
   #
   # @return [self]
   #
-  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:145
+  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:146
   def merge!(new_args); end
 
   # Any undefined method will be transformed into a CLI option
@@ -842,7 +843,7 @@ class MiniMagick::Tool
   #   mogrify.foo_bar
   #   mogrify.command.join(" ") # => "mogrify -adaptive-blur ... -foo-bar"
   #
-  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:257
+  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:258
   def method_missing(name, *args); end
 
   # @private
@@ -850,19 +851,19 @@ class MiniMagick::Tool
   # pkg:gem/mini_magick#lib/mini_magick/tool.rb:42
   def name; end
 
-  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:232
+  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:233
   def pango(value = T.unsafe(nil)); end
 
-  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:232
+  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:233
   def pattern(value = T.unsafe(nil)); end
 
-  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:232
+  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:233
   def plasma(value = T.unsafe(nil)); end
 
-  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:232
+  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:233
   def radial_gradient(value = T.unsafe(nil)); end
 
-  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:232
+  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:233
   def rose(value = T.unsafe(nil)); end
 
   # Create an ImageMagick stack in the command (surround.
@@ -879,7 +880,7 @@ class MiniMagick::Tool
   #   end
   #   # executes `convert wand.gif \( wizard.gif -rotate 30 \) +append images.gif`
   #
-  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:183
+  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:184
   def stack(*args); end
 
   # Adds ImageMagick's pseudo-filename `-` for standard input.
@@ -890,7 +891,7 @@ class MiniMagick::Tool
   #   identify.call(stdin: image_content)
   #   # executes `identify -` with the given standard input
   #
-  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:204
+  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:205
   def stdin; end
 
   # Adds ImageMagick's pseudo-filename `-` for standard output.
@@ -903,13 +904,13 @@ class MiniMagick::Tool
   #   end
   #   # executes `convert input.jpg -auto-orient -` which returns file contents
   #
-  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:219
+  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:220
   def stdout; end
 
-  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:232
+  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:233
   def text(value = T.unsafe(nil)); end
 
-  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:232
+  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:233
   def xc(value = T.unsafe(nil)); end
 
   class << self
@@ -928,78 +929,78 @@ class MiniMagick::Tool
   end
 end
 
-# pkg:gem/mini_magick#lib/mini_magick/tool.rb:266
+# pkg:gem/mini_magick#lib/mini_magick/tool.rb:267
 class MiniMagick::Tool::Animate < ::MiniMagick::Tool
-  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:267
+  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:268
   def initialize(*args); end
 end
 
 # pkg:gem/mini_magick#lib/mini_magick/tool.rb:16
 MiniMagick::Tool::CREATION_OPERATORS = T.let(T.unsafe(nil), Array)
 
-# pkg:gem/mini_magick#lib/mini_magick/tool.rb:266
+# pkg:gem/mini_magick#lib/mini_magick/tool.rb:267
 class MiniMagick::Tool::Compare < ::MiniMagick::Tool
-  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:267
+  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:268
   def initialize(*args); end
 end
 
-# pkg:gem/mini_magick#lib/mini_magick/tool.rb:266
+# pkg:gem/mini_magick#lib/mini_magick/tool.rb:267
 class MiniMagick::Tool::Composite < ::MiniMagick::Tool
-  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:267
+  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:268
   def initialize(*args); end
 end
 
-# pkg:gem/mini_magick#lib/mini_magick/tool.rb:266
+# pkg:gem/mini_magick#lib/mini_magick/tool.rb:267
 class MiniMagick::Tool::Conjure < ::MiniMagick::Tool
-  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:267
+  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:268
   def initialize(*args); end
 end
 
-# pkg:gem/mini_magick#lib/mini_magick/tool.rb:266
+# pkg:gem/mini_magick#lib/mini_magick/tool.rb:267
 class MiniMagick::Tool::Convert < ::MiniMagick::Tool
-  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:267
+  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:268
   def initialize(*args); end
 end
 
-# pkg:gem/mini_magick#lib/mini_magick/tool.rb:266
+# pkg:gem/mini_magick#lib/mini_magick/tool.rb:267
 class MiniMagick::Tool::Display < ::MiniMagick::Tool
-  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:267
+  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:268
   def initialize(*args); end
 end
 
-# pkg:gem/mini_magick#lib/mini_magick/tool.rb:266
+# pkg:gem/mini_magick#lib/mini_magick/tool.rb:267
 class MiniMagick::Tool::Identify < ::MiniMagick::Tool
-  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:267
+  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:268
   def initialize(*args); end
 end
 
-# pkg:gem/mini_magick#lib/mini_magick/tool.rb:266
+# pkg:gem/mini_magick#lib/mini_magick/tool.rb:267
 class MiniMagick::Tool::Import < ::MiniMagick::Tool
-  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:267
+  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:268
   def initialize(*args); end
 end
 
-# pkg:gem/mini_magick#lib/mini_magick/tool.rb:266
+# pkg:gem/mini_magick#lib/mini_magick/tool.rb:267
 class MiniMagick::Tool::Magick < ::MiniMagick::Tool
-  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:267
+  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:268
   def initialize(*args); end
 end
 
-# pkg:gem/mini_magick#lib/mini_magick/tool.rb:266
+# pkg:gem/mini_magick#lib/mini_magick/tool.rb:267
 class MiniMagick::Tool::Mogrify < ::MiniMagick::Tool
-  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:267
+  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:268
   def initialize(*args); end
 end
 
-# pkg:gem/mini_magick#lib/mini_magick/tool.rb:266
+# pkg:gem/mini_magick#lib/mini_magick/tool.rb:267
 class MiniMagick::Tool::Montage < ::MiniMagick::Tool
-  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:267
+  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:268
   def initialize(*args); end
 end
 
-# pkg:gem/mini_magick#lib/mini_magick/tool.rb:266
+# pkg:gem/mini_magick#lib/mini_magick/tool.rb:267
 class MiniMagick::Tool::Stream < ::MiniMagick::Tool
-  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:267
+  # pkg:gem/mini_magick#lib/mini_magick/tool.rb:268
   def initialize(*args); end
 end
 

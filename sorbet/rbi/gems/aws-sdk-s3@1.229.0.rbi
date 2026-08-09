@@ -1149,8 +1149,8 @@ class Aws::S3::Bucket
   #     metadata: {
   #       "MetadataKey" => "MetadataValue",
   #     },
-  #     server_side_encryption: "AES256", # accepts AES256, aws:fsx, aws:kms, aws:kms:dsse
-  #     storage_class: "STANDARD", # accepts STANDARD, REDUCED_REDUNDANCY, STANDARD_IA, ONEZONE_IA, INTELLIGENT_TIERING, GLACIER, DEEP_ARCHIVE, OUTPOSTS, GLACIER_IR, SNOW, EXPRESS_ONEZONE, FSX_OPENZFS, FSX_ONTAP
+  #     server_side_encryption: "AES256", # accepts AES256, aws:fsx, aws:backup, aws:kms, aws:kms:dsse
+  #     storage_class: "STANDARD", # accepts STANDARD, REDUCED_REDUNDANCY, STANDARD_IA, ONEZONE_IA, INTELLIGENT_TIERING, GLACIER, DEEP_ARCHIVE, OUTPOSTS, GLACIER_IR, SNOW, EXPRESS_ONEZONE, FSX_OPENZFS, FSX_ONTAP, AWS_BACKUP_WARM, AWS_BACKUP_LOW_COST_WARM
   #     website_redirect_location: "WebsiteRedirectLocation",
   #     sse_customer_algorithm: "SSECustomerAlgorithm",
   #     sse_customer_key: "SSECustomerKey",
@@ -6216,7 +6216,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   resp.checksum_xxhash3 #=> String
   #   resp.checksum_xxhash128 #=> String
   #   resp.checksum_type #=> String, one of "COMPOSITE", "FULL_OBJECT"
-  #   resp.server_side_encryption #=> String, one of "AES256", "aws:fsx", "aws:kms", "aws:kms:dsse"
+  #   resp.server_side_encryption #=> String, one of "AES256", "aws:fsx", "aws:backup", "aws:kms", "aws:kms:dsse"
   #   resp.version_id #=> String
   #   resp.ssekms_key_id #=> String
   #   resp.bucket_key_enabled #=> Boolean
@@ -7340,8 +7340,8 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #     metadata_directive: "COPY", # accepts COPY, REPLACE
   #     tagging_directive: "COPY", # accepts COPY, REPLACE
   #     annotation_directive: "COPY", # accepts COPY, EXCLUDE
-  #     server_side_encryption: "AES256", # accepts AES256, aws:fsx, aws:kms, aws:kms:dsse
-  #     storage_class: "STANDARD", # accepts STANDARD, REDUCED_REDUNDANCY, STANDARD_IA, ONEZONE_IA, INTELLIGENT_TIERING, GLACIER, DEEP_ARCHIVE, OUTPOSTS, GLACIER_IR, SNOW, EXPRESS_ONEZONE, FSX_OPENZFS, FSX_ONTAP
+  #     server_side_encryption: "AES256", # accepts AES256, aws:fsx, aws:backup, aws:kms, aws:kms:dsse
+  #     storage_class: "STANDARD", # accepts STANDARD, REDUCED_REDUNDANCY, STANDARD_IA, ONEZONE_IA, INTELLIGENT_TIERING, GLACIER, DEEP_ARCHIVE, OUTPOSTS, GLACIER_IR, SNOW, EXPRESS_ONEZONE, FSX_OPENZFS, FSX_ONTAP, AWS_BACKUP_WARM, AWS_BACKUP_LOW_COST_WARM
   #     website_redirect_location: "WebsiteRedirectLocation",
   #     sse_customer_algorithm: "SSECustomerAlgorithm",
   #     sse_customer_key: "SSECustomerKey",
@@ -7379,7 +7379,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   resp.expiration #=> String
   #   resp.copy_source_version_id #=> String
   #   resp.version_id #=> String
-  #   resp.server_side_encryption #=> String, one of "AES256", "aws:fsx", "aws:kms", "aws:kms:dsse"
+  #   resp.server_side_encryption #=> String, one of "AES256", "aws:fsx", "aws:backup", "aws:kms", "aws:kms:dsse"
   #   resp.sse_customer_algorithm #=> String
   #   resp.sse_customer_key_md5 #=> String
   #   resp.ssekms_key_id #=> String
@@ -8960,8 +8960,8 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #     metadata: {
   #       "MetadataKey" => "MetadataValue",
   #     },
-  #     server_side_encryption: "AES256", # accepts AES256, aws:fsx, aws:kms, aws:kms:dsse
-  #     storage_class: "STANDARD", # accepts STANDARD, REDUCED_REDUNDANCY, STANDARD_IA, ONEZONE_IA, INTELLIGENT_TIERING, GLACIER, DEEP_ARCHIVE, OUTPOSTS, GLACIER_IR, SNOW, EXPRESS_ONEZONE, FSX_OPENZFS, FSX_ONTAP
+  #     server_side_encryption: "AES256", # accepts AES256, aws:fsx, aws:backup, aws:kms, aws:kms:dsse
+  #     storage_class: "STANDARD", # accepts STANDARD, REDUCED_REDUNDANCY, STANDARD_IA, ONEZONE_IA, INTELLIGENT_TIERING, GLACIER, DEEP_ARCHIVE, OUTPOSTS, GLACIER_IR, SNOW, EXPRESS_ONEZONE, FSX_OPENZFS, FSX_ONTAP, AWS_BACKUP_WARM, AWS_BACKUP_LOW_COST_WARM
   #     website_redirect_location: "WebsiteRedirectLocation",
   #     sse_customer_algorithm: "SSECustomerAlgorithm",
   #     sse_customer_key: "SSECustomerKey",
@@ -8986,7 +8986,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   resp.bucket #=> String
   #   resp.key #=> String
   #   resp.upload_id #=> String
-  #   resp.server_side_encryption #=> String, one of "AES256", "aws:fsx", "aws:kms", "aws:kms:dsse"
+  #   resp.server_side_encryption #=> String, one of "AES256", "aws:fsx", "aws:backup", "aws:kms", "aws:kms:dsse"
   #   resp.sse_customer_algorithm #=> String
   #   resp.sse_customer_key_md5 #=> String
   #   resp.ssekms_key_id #=> String
@@ -9286,7 +9286,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   resp = client.create_session({
   #     session_mode: "ReadOnly", # accepts ReadOnly, ReadWrite
   #     bucket: "BucketName", # required
-  #     server_side_encryption: "AES256", # accepts AES256, aws:fsx, aws:kms, aws:kms:dsse
+  #     server_side_encryption: "AES256", # accepts AES256, aws:fsx, aws:backup, aws:kms, aws:kms:dsse
   #     ssekms_key_id: "SSEKMSKeyId",
   #     ssekms_encryption_context: "SSEKMSEncryptionContext",
   #     bucket_key_enabled: false,
@@ -9294,7 +9294,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #
   # @example Response structure
   #
-  #   resp.server_side_encryption #=> String, one of "AES256", "aws:fsx", "aws:kms", "aws:kms:dsse"
+  #   resp.server_side_encryption #=> String, one of "AES256", "aws:fsx", "aws:backup", "aws:kms", "aws:kms:dsse"
   #   resp.ssekms_key_id #=> String
   #   resp.ssekms_encryption_context #=> String
   #   resp.bucket_key_enabled #=> Boolean
@@ -12223,7 +12223,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @example Response structure
   #
   #   resp.server_side_encryption_configuration.rules #=> Array
-  #   resp.server_side_encryption_configuration.rules[0].apply_server_side_encryption_by_default.sse_algorithm #=> String, one of "AES256", "aws:fsx", "aws:kms", "aws:kms:dsse"
+  #   resp.server_side_encryption_configuration.rules[0].apply_server_side_encryption_by_default.sse_algorithm #=> String, one of "AES256", "aws:fsx", "aws:backup", "aws:kms", "aws:kms:dsse"
   #   resp.server_side_encryption_configuration.rules[0].apply_server_side_encryption_by_default.kms_master_key_id #=> String
   #   resp.server_side_encryption_configuration.rules[0].bucket_key_enabled #=> Boolean
   #   resp.server_side_encryption_configuration.rules[0].blocked_encryption_types.encryption_type #=> Array
@@ -13949,7 +13949,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   resp.replication_configuration.rules[0].existing_object_replication.status #=> String, one of "Enabled", "Disabled"
   #   resp.replication_configuration.rules[0].destination.bucket #=> String
   #   resp.replication_configuration.rules[0].destination.account #=> String
-  #   resp.replication_configuration.rules[0].destination.storage_class #=> String, one of "STANDARD", "REDUCED_REDUNDANCY", "STANDARD_IA", "ONEZONE_IA", "INTELLIGENT_TIERING", "GLACIER", "DEEP_ARCHIVE", "OUTPOSTS", "GLACIER_IR", "SNOW", "EXPRESS_ONEZONE", "FSX_OPENZFS", "FSX_ONTAP"
+  #   resp.replication_configuration.rules[0].destination.storage_class #=> String, one of "STANDARD", "REDUCED_REDUNDANCY", "STANDARD_IA", "ONEZONE_IA", "INTELLIGENT_TIERING", "GLACIER", "DEEP_ARCHIVE", "OUTPOSTS", "GLACIER_IR", "SNOW", "EXPRESS_ONEZONE", "FSX_OPENZFS", "FSX_ONTAP", "AWS_BACKUP_WARM", "AWS_BACKUP_LOW_COST_WARM"
   #   resp.replication_configuration.rules[0].destination.access_control_translation.owner #=> String, one of "Destination"
   #   resp.replication_configuration.rules[0].destination.encryption_configuration.replica_kms_key_id #=> String
   #   resp.replication_configuration.rules[0].destination.replication_time.status #=> String, one of "Enabled", "Disabled"
@@ -14950,14 +14950,14 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   resp.expires #=> Time
   #   resp.expires_string #=> String
   #   resp.website_redirect_location #=> String
-  #   resp.server_side_encryption #=> String, one of "AES256", "aws:fsx", "aws:kms", "aws:kms:dsse"
+  #   resp.server_side_encryption #=> String, one of "AES256", "aws:fsx", "aws:backup", "aws:kms", "aws:kms:dsse"
   #   resp.metadata #=> Hash
   #   resp.metadata["MetadataKey"] #=> String
   #   resp.sse_customer_algorithm #=> String
   #   resp.sse_customer_key_md5 #=> String
   #   resp.ssekms_key_id #=> String
   #   resp.bucket_key_enabled #=> Boolean
-  #   resp.storage_class #=> String, one of "STANDARD", "REDUCED_REDUNDANCY", "STANDARD_IA", "ONEZONE_IA", "INTELLIGENT_TIERING", "GLACIER", "DEEP_ARCHIVE", "OUTPOSTS", "GLACIER_IR", "SNOW", "EXPRESS_ONEZONE", "FSX_OPENZFS", "FSX_ONTAP"
+  #   resp.storage_class #=> String, one of "STANDARD", "REDUCED_REDUNDANCY", "STANDARD_IA", "ONEZONE_IA", "INTELLIGENT_TIERING", "GLACIER", "DEEP_ARCHIVE", "OUTPOSTS", "GLACIER_IR", "SNOW", "EXPRESS_ONEZONE", "FSX_OPENZFS", "FSX_ONTAP", "AWS_BACKUP_WARM", "AWS_BACKUP_LOW_COST_WARM"
   #   resp.request_charged #=> String, one of "requester"
   #   resp.replication_status #=> String, one of "COMPLETE", "PENDING", "FAILED", "REPLICA", "COMPLETED"
   #   resp.parts_count #=> Integer
@@ -15285,7 +15285,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   resp.checksum_xxhash3 #=> String
   #   resp.checksum_xxhash128 #=> String
   #   resp.checksum_type #=> String, one of "COMPOSITE", "FULL_OBJECT"
-  #   resp.server_side_encryption #=> String, one of "AES256", "aws:fsx", "aws:kms", "aws:kms:dsse"
+  #   resp.server_side_encryption #=> String, one of "AES256", "aws:fsx", "aws:backup", "aws:kms", "aws:kms:dsse"
   #   resp.request_charged #=> String, one of "requester"
   #   resp.replication_status #=> String, one of "COMPLETE", "PENDING", "FAILED", "REPLICA", "COMPLETED"
   #
@@ -15681,7 +15681,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   resp.object_parts.parts[0].checksum_xxhash64 #=> String
   #   resp.object_parts.parts[0].checksum_xxhash3 #=> String
   #   resp.object_parts.parts[0].checksum_xxhash128 #=> String
-  #   resp.storage_class #=> String, one of "STANDARD", "REDUCED_REDUNDANCY", "STANDARD_IA", "ONEZONE_IA", "INTELLIGENT_TIERING", "GLACIER", "DEEP_ARCHIVE", "OUTPOSTS", "GLACIER_IR", "SNOW", "EXPRESS_ONEZONE", "FSX_OPENZFS", "FSX_ONTAP"
+  #   resp.storage_class #=> String, one of "STANDARD", "REDUCED_REDUNDANCY", "STANDARD_IA", "ONEZONE_IA", "INTELLIGENT_TIERING", "GLACIER", "DEEP_ARCHIVE", "OUTPOSTS", "GLACIER_IR", "SNOW", "EXPRESS_ONEZONE", "FSX_OPENZFS", "FSX_ONTAP", "AWS_BACKUP_WARM", "AWS_BACKUP_LOW_COST_WARM"
   #   resp.object_size #=> Integer
   #
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectAttributes AWS API Documentation
@@ -17038,14 +17038,14 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   resp.expires #=> Time
   #   resp.expires_string #=> String
   #   resp.website_redirect_location #=> String
-  #   resp.server_side_encryption #=> String, one of "AES256", "aws:fsx", "aws:kms", "aws:kms:dsse"
+  #   resp.server_side_encryption #=> String, one of "AES256", "aws:fsx", "aws:backup", "aws:kms", "aws:kms:dsse"
   #   resp.metadata #=> Hash
   #   resp.metadata["MetadataKey"] #=> String
   #   resp.sse_customer_algorithm #=> String
   #   resp.sse_customer_key_md5 #=> String
   #   resp.ssekms_key_id #=> String
   #   resp.bucket_key_enabled #=> Boolean
-  #   resp.storage_class #=> String, one of "STANDARD", "REDUCED_REDUNDANCY", "STANDARD_IA", "ONEZONE_IA", "INTELLIGENT_TIERING", "GLACIER", "DEEP_ARCHIVE", "OUTPOSTS", "GLACIER_IR", "SNOW", "EXPRESS_ONEZONE", "FSX_OPENZFS", "FSX_ONTAP"
+  #   resp.storage_class #=> String, one of "STANDARD", "REDUCED_REDUNDANCY", "STANDARD_IA", "ONEZONE_IA", "INTELLIGENT_TIERING", "GLACIER", "DEEP_ARCHIVE", "OUTPOSTS", "GLACIER_IR", "SNOW", "EXPRESS_ONEZONE", "FSX_OPENZFS", "FSX_ONTAP", "AWS_BACKUP_WARM", "AWS_BACKUP_LOW_COST_WARM"
   #   resp.request_charged #=> String, one of "requester"
   #   resp.replication_status #=> String, one of "COMPLETE", "PENDING", "FAILED", "REPLICA", "COMPLETED"
   #   resp.parts_count #=> Integer
@@ -18252,7 +18252,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   resp.uploads[0].upload_id #=> String
   #   resp.uploads[0].key #=> String
   #   resp.uploads[0].initiated #=> Time
-  #   resp.uploads[0].storage_class #=> String, one of "STANDARD", "REDUCED_REDUNDANCY", "STANDARD_IA", "ONEZONE_IA", "INTELLIGENT_TIERING", "GLACIER", "DEEP_ARCHIVE", "OUTPOSTS", "GLACIER_IR", "SNOW", "EXPRESS_ONEZONE", "FSX_OPENZFS", "FSX_ONTAP"
+  #   resp.uploads[0].storage_class #=> String, one of "STANDARD", "REDUCED_REDUNDANCY", "STANDARD_IA", "ONEZONE_IA", "INTELLIGENT_TIERING", "GLACIER", "DEEP_ARCHIVE", "OUTPOSTS", "GLACIER_IR", "SNOW", "EXPRESS_ONEZONE", "FSX_OPENZFS", "FSX_ONTAP", "AWS_BACKUP_WARM", "AWS_BACKUP_LOW_COST_WARM"
   #   resp.uploads[0].owner.display_name #=> String
   #   resp.uploads[0].owner.id #=> String
   #   resp.uploads[0].initiator.id #=> String
@@ -18862,7 +18862,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   resp.contents[0].checksum_algorithm[0] #=> String, one of "CRC32", "CRC32C", "SHA1", "SHA256", "CRC64NVME", "SHA512", "MD5", "XXHASH64", "XXHASH3", "XXHASH128"
   #   resp.contents[0].checksum_type #=> String, one of "COMPOSITE", "FULL_OBJECT"
   #   resp.contents[0].size #=> Integer
-  #   resp.contents[0].storage_class #=> String, one of "STANDARD", "REDUCED_REDUNDANCY", "GLACIER", "STANDARD_IA", "ONEZONE_IA", "INTELLIGENT_TIERING", "DEEP_ARCHIVE", "OUTPOSTS", "GLACIER_IR", "SNOW", "EXPRESS_ONEZONE", "FSX_OPENZFS", "FSX_ONTAP"
+  #   resp.contents[0].storage_class #=> String, one of "STANDARD", "REDUCED_REDUNDANCY", "GLACIER", "STANDARD_IA", "ONEZONE_IA", "INTELLIGENT_TIERING", "DEEP_ARCHIVE", "OUTPOSTS", "GLACIER_IR", "SNOW", "EXPRESS_ONEZONE", "FSX_OPENZFS", "FSX_ONTAP", "AWS_BACKUP_WARM", "AWS_BACKUP_LOW_COST_WARM"
   #   resp.contents[0].owner.display_name #=> String
   #   resp.contents[0].owner.id #=> String
   #   resp.contents[0].restore_status.is_restore_in_progress #=> Boolean
@@ -19208,7 +19208,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   resp.contents[0].checksum_algorithm[0] #=> String, one of "CRC32", "CRC32C", "SHA1", "SHA256", "CRC64NVME", "SHA512", "MD5", "XXHASH64", "XXHASH3", "XXHASH128"
   #   resp.contents[0].checksum_type #=> String, one of "COMPOSITE", "FULL_OBJECT"
   #   resp.contents[0].size #=> Integer
-  #   resp.contents[0].storage_class #=> String, one of "STANDARD", "REDUCED_REDUNDANCY", "GLACIER", "STANDARD_IA", "ONEZONE_IA", "INTELLIGENT_TIERING", "DEEP_ARCHIVE", "OUTPOSTS", "GLACIER_IR", "SNOW", "EXPRESS_ONEZONE", "FSX_OPENZFS", "FSX_ONTAP"
+  #   resp.contents[0].storage_class #=> String, one of "STANDARD", "REDUCED_REDUNDANCY", "GLACIER", "STANDARD_IA", "ONEZONE_IA", "INTELLIGENT_TIERING", "DEEP_ARCHIVE", "OUTPOSTS", "GLACIER_IR", "SNOW", "EXPRESS_ONEZONE", "FSX_OPENZFS", "FSX_ONTAP", "AWS_BACKUP_WARM", "AWS_BACKUP_LOW_COST_WARM"
   #   resp.contents[0].owner.display_name #=> String
   #   resp.contents[0].owner.id #=> String
   #   resp.contents[0].restore_status.is_restore_in_progress #=> Boolean
@@ -19556,7 +19556,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   resp.initiator.display_name #=> String
   #   resp.owner.display_name #=> String
   #   resp.owner.id #=> String
-  #   resp.storage_class #=> String, one of "STANDARD", "REDUCED_REDUNDANCY", "STANDARD_IA", "ONEZONE_IA", "INTELLIGENT_TIERING", "GLACIER", "DEEP_ARCHIVE", "OUTPOSTS", "GLACIER_IR", "SNOW", "EXPRESS_ONEZONE", "FSX_OPENZFS", "FSX_ONTAP"
+  #   resp.storage_class #=> String, one of "STANDARD", "REDUCED_REDUNDANCY", "STANDARD_IA", "ONEZONE_IA", "INTELLIGENT_TIERING", "GLACIER", "DEEP_ARCHIVE", "OUTPOSTS", "GLACIER_IR", "SNOW", "EXPRESS_ONEZONE", "FSX_OPENZFS", "FSX_ONTAP", "AWS_BACKUP_WARM", "AWS_BACKUP_LOW_COST_WARM"
   #   resp.request_charged #=> String, one of "requester"
   #   resp.checksum_algorithm #=> String, one of "CRC32", "CRC32C", "SHA1", "SHA256", "CRC64NVME", "SHA512", "MD5", "XXHASH64", "XXHASH3", "XXHASH128"
   #   resp.checksum_type #=> String, one of "COMPOSITE", "FULL_OBJECT"
@@ -20597,7 +20597,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #       rules: [ # required
   #         {
   #           apply_server_side_encryption_by_default: {
-  #             sse_algorithm: "AES256", # required, accepts AES256, aws:fsx, aws:kms, aws:kms:dsse
+  #             sse_algorithm: "AES256", # required, accepts AES256, aws:fsx, aws:backup, aws:kms, aws:kms:dsse
   #             kms_master_key_id: "SSEKMSKeyId",
   #           },
   #           bucket_key_enabled: false,
@@ -22548,7 +22548,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #           destination: { # required
   #             bucket: "BucketName", # required
   #             account: "AccountId",
-  #             storage_class: "STANDARD", # accepts STANDARD, REDUCED_REDUNDANCY, STANDARD_IA, ONEZONE_IA, INTELLIGENT_TIERING, GLACIER, DEEP_ARCHIVE, OUTPOSTS, GLACIER_IR, SNOW, EXPRESS_ONEZONE, FSX_OPENZFS, FSX_ONTAP
+  #             storage_class: "STANDARD", # accepts STANDARD, REDUCED_REDUNDANCY, STANDARD_IA, ONEZONE_IA, INTELLIGENT_TIERING, GLACIER, DEEP_ARCHIVE, OUTPOSTS, GLACIER_IR, SNOW, EXPRESS_ONEZONE, FSX_OPENZFS, FSX_ONTAP, AWS_BACKUP_WARM, AWS_BACKUP_LOW_COST_WARM
   #             access_control_translation: {
   #               owner: "Destination", # required, accepts Destination
   #             },
@@ -24272,8 +24272,8 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #     metadata: {
   #       "MetadataKey" => "MetadataValue",
   #     },
-  #     server_side_encryption: "AES256", # accepts AES256, aws:fsx, aws:kms, aws:kms:dsse
-  #     storage_class: "STANDARD", # accepts STANDARD, REDUCED_REDUNDANCY, STANDARD_IA, ONEZONE_IA, INTELLIGENT_TIERING, GLACIER, DEEP_ARCHIVE, OUTPOSTS, GLACIER_IR, SNOW, EXPRESS_ONEZONE, FSX_OPENZFS, FSX_ONTAP
+  #     server_side_encryption: "AES256", # accepts AES256, aws:fsx, aws:backup, aws:kms, aws:kms:dsse
+  #     storage_class: "STANDARD", # accepts STANDARD, REDUCED_REDUNDANCY, STANDARD_IA, ONEZONE_IA, INTELLIGENT_TIERING, GLACIER, DEEP_ARCHIVE, OUTPOSTS, GLACIER_IR, SNOW, EXPRESS_ONEZONE, FSX_OPENZFS, FSX_ONTAP, AWS_BACKUP_WARM, AWS_BACKUP_LOW_COST_WARM
   #     website_redirect_location: "WebsiteRedirectLocation",
   #     sse_customer_algorithm: "SSECustomerAlgorithm",
   #     sse_customer_key: "SSECustomerKey",
@@ -24304,7 +24304,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   resp.checksum_xxhash3 #=> String
   #   resp.checksum_xxhash128 #=> String
   #   resp.checksum_type #=> String, one of "COMPOSITE", "FULL_OBJECT"
-  #   resp.server_side_encryption #=> String, one of "AES256", "aws:fsx", "aws:kms", "aws:kms:dsse"
+  #   resp.server_side_encryption #=> String, one of "AES256", "aws:fsx", "aws:backup", "aws:kms", "aws:kms:dsse"
   #   resp.version_id #=> String
   #   resp.sse_customer_algorithm #=> String
   #   resp.sse_customer_key_md5 #=> String
@@ -24894,7 +24894,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   resp.checksum_xxhash3 #=> String
   #   resp.checksum_xxhash128 #=> String
   #   resp.checksum_type #=> String, one of "COMPOSITE", "FULL_OBJECT"
-  #   resp.server_side_encryption #=> String, one of "AES256", "aws:fsx", "aws:kms", "aws:kms:dsse"
+  #   resp.server_side_encryption #=> String, one of "AES256", "aws:fsx", "aws:backup", "aws:kms", "aws:kms:dsse"
   #   resp.request_charged #=> String, one of "requester"
   #
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutObjectAnnotation AWS API Documentation
@@ -26094,7 +26094,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #           bucket_name: "BucketName", # required
   #           prefix: "LocationPrefix", # required
   #           encryption: {
-  #             encryption_type: "AES256", # required, accepts AES256, aws:fsx, aws:kms, aws:kms:dsse
+  #             encryption_type: "AES256", # required, accepts AES256, aws:fsx, aws:backup, aws:kms, aws:kms:dsse
   #             kms_key_id: "SSEKMSKeyId",
   #             kms_context: "KMSContext",
   #           },
@@ -26125,7 +26125,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #               value: "MetadataValue",
   #             },
   #           ],
-  #           storage_class: "STANDARD", # accepts STANDARD, REDUCED_REDUNDANCY, STANDARD_IA, ONEZONE_IA, INTELLIGENT_TIERING, GLACIER, DEEP_ARCHIVE, OUTPOSTS, GLACIER_IR, SNOW, EXPRESS_ONEZONE, FSX_OPENZFS, FSX_ONTAP
+  #           storage_class: "STANDARD", # accepts STANDARD, REDUCED_REDUNDANCY, STANDARD_IA, ONEZONE_IA, INTELLIGENT_TIERING, GLACIER, DEEP_ARCHIVE, OUTPOSTS, GLACIER_IR, SNOW, EXPRESS_ONEZONE, FSX_OPENZFS, FSX_ONTAP, AWS_BACKUP_WARM, AWS_BACKUP_LOW_COST_WARM
   #         },
   #       },
   #     },
@@ -27574,7 +27574,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #
   # @example Response structure
   #
-  #   resp.server_side_encryption #=> String, one of "AES256", "aws:fsx", "aws:kms", "aws:kms:dsse"
+  #   resp.server_side_encryption #=> String, one of "AES256", "aws:fsx", "aws:backup", "aws:kms", "aws:kms:dsse"
   #   resp.etag #=> String
   #   resp.checksum_crc32 #=> String
   #   resp.checksum_crc32c #=> String
@@ -28182,7 +28182,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   resp.copy_part_result.checksum_xxhash64 #=> String
   #   resp.copy_part_result.checksum_xxhash3 #=> String
   #   resp.copy_part_result.checksum_xxhash128 #=> String
-  #   resp.server_side_encryption #=> String, one of "AES256", "aws:fsx", "aws:kms", "aws:kms:dsse"
+  #   resp.server_side_encryption #=> String, one of "AES256", "aws:fsx", "aws:backup", "aws:kms", "aws:kms:dsse"
   #   resp.sse_customer_algorithm #=> String
   #   resp.sse_customer_key_md5 #=> String
   #   resp.ssekms_key_id #=> String
@@ -28755,11 +28755,11 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #     replication_status: "COMPLETE", # accepts COMPLETE, PENDING, FAILED, REPLICA, COMPLETED
   #     request_charged: "requester", # accepts requester
   #     restore: "Restore",
-  #     server_side_encryption: "AES256", # accepts AES256, aws:fsx, aws:kms, aws:kms:dsse
+  #     server_side_encryption: "AES256", # accepts AES256, aws:fsx, aws:backup, aws:kms, aws:kms:dsse
   #     sse_customer_algorithm: "SSECustomerAlgorithm",
   #     ssekms_key_id: "SSEKMSKeyId",
   #     sse_customer_key_md5: "SSECustomerKeyMD5",
-  #     storage_class: "STANDARD", # accepts STANDARD, REDUCED_REDUNDANCY, STANDARD_IA, ONEZONE_IA, INTELLIGENT_TIERING, GLACIER, DEEP_ARCHIVE, OUTPOSTS, GLACIER_IR, SNOW, EXPRESS_ONEZONE, FSX_OPENZFS, FSX_ONTAP
+  #     storage_class: "STANDARD", # accepts STANDARD, REDUCED_REDUNDANCY, STANDARD_IA, ONEZONE_IA, INTELLIGENT_TIERING, GLACIER, DEEP_ARCHIVE, OUTPOSTS, GLACIER_IR, SNOW, EXPRESS_ONEZONE, FSX_OPENZFS, FSX_ONTAP, AWS_BACKUP_WARM, AWS_BACKUP_LOW_COST_WARM
   #     tag_count: 1,
   #     version_id: "ObjectVersionId",
   #     bucket_key_enabled: false,
@@ -36245,6 +36245,24 @@ class Aws::S3::MultipartUpload
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_upload.rb:123
   def client; end
 
+  # Completes the upload, requires a list of completed parts. You can
+  # provide the list of parts with `:part_number` and `:etag` values.
+  #
+  #     upload.complete(multipart_upload: { parts: [
+  #       { part_number: 1, etag:'etag1' },
+  #       { part_number: 2, etag:'etag2' },
+  #       ...
+  #     ]})
+  #
+  # Alternatively, you can pass **`compute_parts: true`** and the part
+  # list will be computed by calling {Client#list_parts}.
+  #
+  #     upload.complete(compute_parts: true)
+  #
+  # @option options [Boolean] :compute_parts (false) When `true`,
+  #   the {Client#list_parts} method will be called to determine
+  #   the list of required part numbers and their ETags.
+  #
   # @example Request syntax with placeholder values
   #
   #   object = multipart_upload.complete({
@@ -36505,23 +36523,6 @@ class Aws::S3::MultipartUpload
   #
   #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html
   # @return [Object]
-  # Completes the upload, requires a list of completed parts. You can
-  # provide the list of parts with `:part_number` and `:etag` values.
-  #
-  #     upload.complete(multipart_upload: { parts: [
-  #       { part_number: 1, etag:'etag1' },
-  #       { part_number: 2, etag:'etag2' },
-  #       ...
-  #     ]})
-  #
-  # Alternatively, you can pass **`compute_parts: true`** and the part
-  # list will be computed by calling {Client#list_parts}.
-  #
-  #     upload.complete(compute_parts: true)
-  #
-  # @option options [Boolean] :compute_parts (false) When `true`,
-  #   the {Client#list_parts} method will be called to determine
-  #   the list of required part numbers and their ETags.
   #
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_upload.rb:563
   def complete(options = T.unsafe(nil)); end
@@ -37845,95 +37846,6 @@ class Aws::S3::Object
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object.rb:352
   def content_type; end
 
-  # Make the method redefinable
-  # Copies another object to this object. Use `multipart_copy: true`
-  # for large objects. This is required for objects that exceed 5GB.
-  #
-  # @param [S3::Object, S3::ObjectVersion, S3::ObjectSummary, String, Hash]
-  #   source Where to copy object data from. `source` must be one of the
-  #   following:
-  #
-  #   * {Aws::S3::Object}
-  #   * {Aws::S3::ObjectSummary}
-  #   * {Aws::S3::ObjectVersion}
-  #   * Hash - with `:bucket` and `:key` and optional `:version_id`
-  #   * String - formatted like `"source-bucket-name/uri-escaped-key"`
-  #     or `"source-bucket-name/uri-escaped-key?versionId=version-id"`
-  #
-  # @option options [Boolean] :multipart_copy (false) When `true`,
-  #   the object will be copied using the multipart APIs. This is
-  #   necessary for objects larger than 5GB and can provide
-  #   performance improvements on large objects. Amazon S3 does
-  #   not accept multipart copies for objects smaller than 5MB.
-  #   Object metadata such as Content-Type will be copied, however,
-  #   Checksums are not copied.
-  #
-  # @option options [Integer] :content_length Only used when
-  #   `:multipart_copy` is `true`. Passing this options avoids a HEAD
-  #   request to query the source object size but prevents object metadata
-  #   from being copied. Raises an `ArgumentError` if
-  #   this option is provided when `:multipart_copy` is `false` or not set.
-  #
-  # @option options [S3::Client] :copy_source_client Only used when
-  #   `:multipart_copy` is `true` and the source object is in a
-  #   different region. You do not need to specify this option
-  #   if you have provided `:content_length`.
-  #
-  # @option options [String] :copy_source_region Only used when
-  #   `:multipart_copy` is `true` and the source object is in a
-  #   different region. You do not need to specify this option
-  #   if you have provided a `:source_client` or a `:content_length`.
-  #
-  # @option options [Boolean] :use_source_parts (false) Only used when
-  #   `:multipart_copy` is `true`. Use part sizes defined on the source
-  #   object if any exist. If copying or moving an object that
-  #   is already multipart, this does not re-part the object, instead
-  #   re-using the part definitions on the original. That means the etag
-  #   and any checksums will not change. This is especially useful if the
-  #   source object has parts with varied sizes.
-  #
-  # @option options [String] :tags_directive Only used when
-  #   `:multipart_copy` is `true`. When set to `'COPY'`, source object
-  #   tags are fetched and applied to the destination via PutObjectTagging.
-  #   When set to `'REPLACE'`, the provided `:tagging` value is parsed and
-  #   applied via PutObjectTagging. When not set, `:tagging` (if provided)
-  #   is passed to CreateMultipartUpload directly. Works with or without
-  #   `:content_length` — tags are fetched from source regardless of
-  #   whether HeadObject is skipped.
-  #
-  # @option options [String] :annotations_directive Only used when
-  #   `:multipart_copy` is `true`. When set to `'COPY'`, source object
-  #   annotations are fetched and applied to the destination after the
-  #   multipart upload completes. Works with or without `:content_length`.
-  #
-  # @option options [String] :metadata_directive Only used when
-  #   `:multipart_copy` is `true`. When set to `'REPLACE'`, source metadata
-  #   from HeadObject is not merged into CreateMultipartUpload — only
-  #   caller-supplied values (e.g. `:metadata`, `:content_type`) are used.
-  #   Has no effect when `:content_length` is provided since HeadObject
-  #   is already skipped.
-  #
-  # @example Basic object copy
-  #
-  #   bucket = Aws::S3::Bucket.new('target-bucket')
-  #   object = bucket.object('target-key')
-  #
-  #   # source as String
-  #   object.copy_from('source-bucket/source-key')
-  #
-  #   # source as Hash
-  #   object.copy_from(bucket:'source-bucket', key:'source-key')
-  #
-  #   # source as Aws::S3::Object
-  #   object.copy_from(bucket.object('source-key'))
-  #
-  # @example Managed copy of large objects
-  #
-  #   # uses multipart upload APIs to copy object
-  #   object.copy_from('src-bucket/src-key', multipart_copy: true)
-  #
-  # @see #copy_to
-  #
   # @example Request syntax with placeholder values
   #
   #   object.copy_from({
@@ -37961,8 +37873,8 @@ class Aws::S3::Object
   #     metadata_directive: "COPY", # accepts COPY, REPLACE
   #     tagging_directive: "COPY", # accepts COPY, REPLACE
   #     annotation_directive: "COPY", # accepts COPY, EXCLUDE
-  #     server_side_encryption: "AES256", # accepts AES256, aws:fsx, aws:kms, aws:kms:dsse
-  #     storage_class: "STANDARD", # accepts STANDARD, REDUCED_REDUNDANCY, STANDARD_IA, ONEZONE_IA, INTELLIGENT_TIERING, GLACIER, DEEP_ARCHIVE, OUTPOSTS, GLACIER_IR, SNOW, EXPRESS_ONEZONE, FSX_OPENZFS, FSX_ONTAP
+  #     server_side_encryption: "AES256", # accepts AES256, aws:fsx, aws:backup, aws:kms, aws:kms:dsse
+  #     storage_class: "STANDARD", # accepts STANDARD, REDUCED_REDUNDANCY, STANDARD_IA, ONEZONE_IA, INTELLIGENT_TIERING, GLACIER, DEEP_ARCHIVE, OUTPOSTS, GLACIER_IR, SNOW, EXPRESS_ONEZONE, FSX_OPENZFS, FSX_ONTAP, AWS_BACKUP_WARM, AWS_BACKUP_LOW_COST_WARM
   #     website_redirect_location: "WebsiteRedirectLocation",
   #     sse_customer_algorithm: "SSECustomerAlgorithm",
   #     sse_customer_key: "SSECustomerKey",
@@ -38730,6 +38642,94 @@ class Aws::S3::Object
   #   the request fails with the HTTP status code `403 Forbidden` (access
   #   denied).
   # @return [Types::CopyObjectOutput]
+  # Make the method redefinable
+  # Copies another object to this object. Use `multipart_copy: true`
+  # for large objects. This is required for objects that exceed 5GB.
+  #
+  # @param [S3::Object, S3::ObjectVersion, S3::ObjectSummary, String, Hash]
+  #   source Where to copy object data from. `source` must be one of the
+  #   following:
+  #
+  #   * {Aws::S3::Object}
+  #   * {Aws::S3::ObjectSummary}
+  #   * {Aws::S3::ObjectVersion}
+  #   * Hash - with `:bucket` and `:key` and optional `:version_id`
+  #   * String - formatted like `"source-bucket-name/uri-escaped-key"`
+  #     or `"source-bucket-name/uri-escaped-key?versionId=version-id"`
+  #
+  # @option options [Boolean] :multipart_copy (false) When `true`,
+  #   the object will be copied using the multipart APIs. This is
+  #   necessary for objects larger than 5GB and can provide
+  #   performance improvements on large objects. Amazon S3 does
+  #   not accept multipart copies for objects smaller than 5MB.
+  #   Object metadata such as Content-Type will be copied, however,
+  #   Checksums are not copied.
+  #
+  # @option options [Integer] :content_length Only used when
+  #   `:multipart_copy` is `true`. Passing this options avoids a HEAD
+  #   request to query the source object size but prevents object metadata
+  #   from being copied. Raises an `ArgumentError` if
+  #   this option is provided when `:multipart_copy` is `false` or not set.
+  #
+  # @option options [S3::Client] :copy_source_client Only used when
+  #   `:multipart_copy` is `true` and the source object is in a
+  #   different region. You do not need to specify this option
+  #   if you have provided `:content_length`.
+  #
+  # @option options [String] :copy_source_region Only used when
+  #   `:multipart_copy` is `true` and the source object is in a
+  #   different region. You do not need to specify this option
+  #   if you have provided a `:source_client` or a `:content_length`.
+  #
+  # @option options [Boolean] :use_source_parts (false) Only used when
+  #   `:multipart_copy` is `true`. Use part sizes defined on the source
+  #   object if any exist. If copying or moving an object that
+  #   is already multipart, this does not re-part the object, instead
+  #   re-using the part definitions on the original. That means the etag
+  #   and any checksums will not change. This is especially useful if the
+  #   source object has parts with varied sizes.
+  #
+  # @option options [String] :tags_directive Only used when
+  #   `:multipart_copy` is `true`. When set to `'COPY'`, source object
+  #   tags are fetched and applied to the destination via PutObjectTagging.
+  #   When set to `'REPLACE'`, the provided `:tagging` value is parsed and
+  #   applied via PutObjectTagging. When not set, `:tagging` (if provided)
+  #   is passed to CreateMultipartUpload directly. Works with or without
+  #   `:content_length` — tags are fetched from source regardless of
+  #   whether HeadObject is skipped.
+  #
+  # @option options [String] :annotations_directive Only used when
+  #   `:multipart_copy` is `true`. When set to `'COPY'`, source object
+  #   annotations are fetched and applied to the destination after the
+  #   multipart upload completes. Works with or without `:content_length`.
+  #
+  # @option options [String] :metadata_directive Only used when
+  #   `:multipart_copy` is `true`. When set to `'REPLACE'`, source metadata
+  #   from HeadObject is not merged into CreateMultipartUpload — only
+  #   caller-supplied values (e.g. `:metadata`, `:content_type`) are used.
+  #   Has no effect when `:content_length` is provided since HeadObject
+  #   is already skipped.
+  #
+  # @example Basic object copy
+  #
+  #   bucket = Aws::S3::Bucket.new('target-bucket')
+  #   object = bucket.object('target-key')
+  #
+  #   # source as String
+  #   object.copy_from('source-bucket/source-key')
+  #
+  #   # source as Hash
+  #   object.copy_from(bucket:'source-bucket', key:'source-key')
+  #
+  #   # source as Aws::S3::Object
+  #   object.copy_from(bucket.object('source-key'))
+  #
+  # @example Managed copy of large objects
+  #
+  #   # uses multipart upload APIs to copy object
+  #   object.copy_from('src-bucket/src-key', multipart_copy: true)
+  #
+  # @see #copy_to
   #
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object.rb:1597
   def copy_from(source, options = T.unsafe(nil)); end
@@ -39482,8 +39482,8 @@ class Aws::S3::Object
   #     metadata: {
   #       "MetadataKey" => "MetadataValue",
   #     },
-  #     server_side_encryption: "AES256", # accepts AES256, aws:fsx, aws:kms, aws:kms:dsse
-  #     storage_class: "STANDARD", # accepts STANDARD, REDUCED_REDUNDANCY, STANDARD_IA, ONEZONE_IA, INTELLIGENT_TIERING, GLACIER, DEEP_ARCHIVE, OUTPOSTS, GLACIER_IR, SNOW, EXPRESS_ONEZONE, FSX_OPENZFS, FSX_ONTAP
+  #     server_side_encryption: "AES256", # accepts AES256, aws:fsx, aws:backup, aws:kms, aws:kms:dsse
+  #     storage_class: "STANDARD", # accepts STANDARD, REDUCED_REDUNDANCY, STANDARD_IA, ONEZONE_IA, INTELLIGENT_TIERING, GLACIER, DEEP_ARCHIVE, OUTPOSTS, GLACIER_IR, SNOW, EXPRESS_ONEZONE, FSX_OPENZFS, FSX_ONTAP, AWS_BACKUP_WARM, AWS_BACKUP_LOW_COST_WARM
   #     website_redirect_location: "WebsiteRedirectLocation",
   #     sse_customer_algorithm: "SSECustomerAlgorithm",
   #     sse_customer_key: "SSECustomerKey",
@@ -40356,8 +40356,8 @@ class Aws::S3::Object
   #     metadata: {
   #       "MetadataKey" => "MetadataValue",
   #     },
-  #     server_side_encryption: "AES256", # accepts AES256, aws:fsx, aws:kms, aws:kms:dsse
-  #     storage_class: "STANDARD", # accepts STANDARD, REDUCED_REDUNDANCY, STANDARD_IA, ONEZONE_IA, INTELLIGENT_TIERING, GLACIER, DEEP_ARCHIVE, OUTPOSTS, GLACIER_IR, SNOW, EXPRESS_ONEZONE, FSX_OPENZFS, FSX_ONTAP
+  #     server_side_encryption: "AES256", # accepts AES256, aws:fsx, aws:backup, aws:kms, aws:kms:dsse
+  #     storage_class: "STANDARD", # accepts STANDARD, REDUCED_REDUNDANCY, STANDARD_IA, ONEZONE_IA, INTELLIGENT_TIERING, GLACIER, DEEP_ARCHIVE, OUTPOSTS, GLACIER_IR, SNOW, EXPRESS_ONEZONE, FSX_OPENZFS, FSX_ONTAP, AWS_BACKUP_WARM, AWS_BACKUP_LOW_COST_WARM
   #     website_redirect_location: "WebsiteRedirectLocation",
   #     sse_customer_algorithm: "SSECustomerAlgorithm",
   #     sse_customer_key: "SSECustomerKey",
@@ -41156,7 +41156,7 @@ class Aws::S3::Object
   #           bucket_name: "BucketName", # required
   #           prefix: "LocationPrefix", # required
   #           encryption: {
-  #             encryption_type: "AES256", # required, accepts AES256, aws:fsx, aws:kms, aws:kms:dsse
+  #             encryption_type: "AES256", # required, accepts AES256, aws:fsx, aws:backup, aws:kms, aws:kms:dsse
   #             kms_key_id: "SSEKMSKeyId",
   #             kms_context: "KMSContext",
   #           },
@@ -41187,7 +41187,7 @@ class Aws::S3::Object
   #               value: "MetadataValue",
   #             },
   #           ],
-  #           storage_class: "STANDARD", # accepts STANDARD, REDUCED_REDUNDANCY, STANDARD_IA, ONEZONE_IA, INTELLIGENT_TIERING, GLACIER, DEEP_ARCHIVE, OUTPOSTS, GLACIER_IR, SNOW, EXPRESS_ONEZONE, FSX_OPENZFS, FSX_ONTAP
+  #           storage_class: "STANDARD", # accepts STANDARD, REDUCED_REDUNDANCY, STANDARD_IA, ONEZONE_IA, INTELLIGENT_TIERING, GLACIER, DEEP_ARCHIVE, OUTPOSTS, GLACIER_IR, SNOW, EXPRESS_ONEZONE, FSX_OPENZFS, FSX_ONTAP, AWS_BACKUP_WARM, AWS_BACKUP_LOW_COST_WARM
   #         },
   #       },
   #     },
@@ -42271,8 +42271,8 @@ class Aws::S3::ObjectSummary
   #     metadata_directive: "COPY", # accepts COPY, REPLACE
   #     tagging_directive: "COPY", # accepts COPY, REPLACE
   #     annotation_directive: "COPY", # accepts COPY, EXCLUDE
-  #     server_side_encryption: "AES256", # accepts AES256, aws:fsx, aws:kms, aws:kms:dsse
-  #     storage_class: "STANDARD", # accepts STANDARD, REDUCED_REDUNDANCY, STANDARD_IA, ONEZONE_IA, INTELLIGENT_TIERING, GLACIER, DEEP_ARCHIVE, OUTPOSTS, GLACIER_IR, SNOW, EXPRESS_ONEZONE, FSX_OPENZFS, FSX_ONTAP
+  #     server_side_encryption: "AES256", # accepts AES256, aws:fsx, aws:backup, aws:kms, aws:kms:dsse
+  #     storage_class: "STANDARD", # accepts STANDARD, REDUCED_REDUNDANCY, STANDARD_IA, ONEZONE_IA, INTELLIGENT_TIERING, GLACIER, DEEP_ARCHIVE, OUTPOSTS, GLACIER_IR, SNOW, EXPRESS_ONEZONE, FSX_OPENZFS, FSX_ONTAP, AWS_BACKUP_WARM, AWS_BACKUP_LOW_COST_WARM
   #     website_redirect_location: "WebsiteRedirectLocation",
   #     sse_customer_algorithm: "SSECustomerAlgorithm",
   #     sse_customer_key: "SSECustomerKey",
@@ -43484,8 +43484,8 @@ class Aws::S3::ObjectSummary
   #     metadata: {
   #       "MetadataKey" => "MetadataValue",
   #     },
-  #     server_side_encryption: "AES256", # accepts AES256, aws:fsx, aws:kms, aws:kms:dsse
-  #     storage_class: "STANDARD", # accepts STANDARD, REDUCED_REDUNDANCY, STANDARD_IA, ONEZONE_IA, INTELLIGENT_TIERING, GLACIER, DEEP_ARCHIVE, OUTPOSTS, GLACIER_IR, SNOW, EXPRESS_ONEZONE, FSX_OPENZFS, FSX_ONTAP
+  #     server_side_encryption: "AES256", # accepts AES256, aws:fsx, aws:backup, aws:kms, aws:kms:dsse
+  #     storage_class: "STANDARD", # accepts STANDARD, REDUCED_REDUNDANCY, STANDARD_IA, ONEZONE_IA, INTELLIGENT_TIERING, GLACIER, DEEP_ARCHIVE, OUTPOSTS, GLACIER_IR, SNOW, EXPRESS_ONEZONE, FSX_OPENZFS, FSX_ONTAP, AWS_BACKUP_WARM, AWS_BACKUP_LOW_COST_WARM
   #     website_redirect_location: "WebsiteRedirectLocation",
   #     sse_customer_algorithm: "SSECustomerAlgorithm",
   #     sse_customer_key: "SSECustomerKey",
@@ -44148,8 +44148,8 @@ class Aws::S3::ObjectSummary
   #     metadata: {
   #       "MetadataKey" => "MetadataValue",
   #     },
-  #     server_side_encryption: "AES256", # accepts AES256, aws:fsx, aws:kms, aws:kms:dsse
-  #     storage_class: "STANDARD", # accepts STANDARD, REDUCED_REDUNDANCY, STANDARD_IA, ONEZONE_IA, INTELLIGENT_TIERING, GLACIER, DEEP_ARCHIVE, OUTPOSTS, GLACIER_IR, SNOW, EXPRESS_ONEZONE, FSX_OPENZFS, FSX_ONTAP
+  #     server_side_encryption: "AES256", # accepts AES256, aws:fsx, aws:backup, aws:kms, aws:kms:dsse
+  #     storage_class: "STANDARD", # accepts STANDARD, REDUCED_REDUNDANCY, STANDARD_IA, ONEZONE_IA, INTELLIGENT_TIERING, GLACIER, DEEP_ARCHIVE, OUTPOSTS, GLACIER_IR, SNOW, EXPRESS_ONEZONE, FSX_OPENZFS, FSX_ONTAP, AWS_BACKUP_WARM, AWS_BACKUP_LOW_COST_WARM
   #     website_redirect_location: "WebsiteRedirectLocation",
   #     sse_customer_algorithm: "SSECustomerAlgorithm",
   #     sse_customer_key: "SSECustomerKey",
@@ -44849,7 +44849,7 @@ class Aws::S3::ObjectSummary
   #           bucket_name: "BucketName", # required
   #           prefix: "LocationPrefix", # required
   #           encryption: {
-  #             encryption_type: "AES256", # required, accepts AES256, aws:fsx, aws:kms, aws:kms:dsse
+  #             encryption_type: "AES256", # required, accepts AES256, aws:fsx, aws:backup, aws:kms, aws:kms:dsse
   #             kms_key_id: "SSEKMSKeyId",
   #             kms_context: "KMSContext",
   #           },
@@ -44880,7 +44880,7 @@ class Aws::S3::ObjectSummary
   #               value: "MetadataValue",
   #             },
   #           ],
-  #           storage_class: "STANDARD", # accepts STANDARD, REDUCED_REDUNDANCY, STANDARD_IA, ONEZONE_IA, INTELLIGENT_TIERING, GLACIER, DEEP_ARCHIVE, OUTPOSTS, GLACIER_IR, SNOW, EXPRESS_ONEZONE, FSX_OPENZFS, FSX_ONTAP
+  #           storage_class: "STANDARD", # accepts STANDARD, REDUCED_REDUNDANCY, STANDARD_IA, ONEZONE_IA, INTELLIGENT_TIERING, GLACIER, DEEP_ARCHIVE, OUTPOSTS, GLACIER_IR, SNOW, EXPRESS_ONEZONE, FSX_OPENZFS, FSX_ONTAP, AWS_BACKUP_WARM, AWS_BACKUP_LOW_COST_WARM
   #         },
   #       },
   #     },

@@ -90,6 +90,30 @@ module MessagePack
   end
 end
 
+# pkg:gem/msgpack#lib/msgpack/bigint.rb:4
+module MessagePack::Bigint
+  class << self
+    # pkg:gem/msgpack#lib/msgpack/bigint.rb:55
+    def from_msgpack_ext(data); end
+
+    # Ruby 2.7 and newer
+    # Starting from Ruby 2.7 we can address arbitrary bitranges inside an Integer with Integer#[]
+    # This allows to not allocate any Integer.
+    #
+    # pkg:gem/msgpack#lib/msgpack/bigint.rb:13
+    def to_msgpack_ext(bigint); end
+  end
+end
+
+# We split the bigint in 32bits chunks so that individual part fits into
+# a MRI immediate Integer.
+#
+# pkg:gem/msgpack#lib/msgpack/bigint.rb:7
+MessagePack::Bigint::CHUNK_BITLENGTH = T.let(T.unsafe(nil), Integer)
+
+# pkg:gem/msgpack#lib/msgpack/bigint.rb:8
+MessagePack::Bigint::FORMAT = T.let(T.unsafe(nil), String)
+
 # pkg:gem/msgpack#lib/msgpack.rb:7
 class MessagePack::Buffer
   # pkg:gem/msgpack#lib/msgpack.rb:7

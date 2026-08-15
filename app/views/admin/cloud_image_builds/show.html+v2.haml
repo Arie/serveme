@@ -9,5 +9,5 @@
   = render "header", build: @build
   %div{class: "v2-card"}
     %h5{class: "font-display text-ink mb-3"} Build output
-    %pre#build-output{class: "v2-inset text-sm font-mono mb-0 p-3", style: "max-height: 600px; overflow: auto;"}
+    %pre#build-output{class: "v2-inset text-sm font-mono mb-0 p-3", style: "max-height: 600px; overflow: auto;", data: { controller: "auto-scroll" }}
       = @build.output

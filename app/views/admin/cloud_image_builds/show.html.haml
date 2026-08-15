@@ -10,5 +10,5 @@
     .card
       .card-body
         %h5.card-title Build output
-        %pre#build-output.bg-dark.text-light.small.mb-0{ style: "max-height: 600px; overflow: auto;" }
+        %pre#build-output.bg-dark.text-light.small.mb-0{ style: "max-height: 600px; overflow: auto;", data: { controller: "auto-scroll" } }
           = @build.output

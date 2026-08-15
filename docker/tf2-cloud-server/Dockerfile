@@ -138,7 +138,7 @@ RUN echo "Cache bust: ${CACHEBUST}" \
     # mapdownloader
     && wget -nv https://codeberg.org/spire/mapdownloader/raw/master/plugin/mapdownloader.smx \
     # demos.tf uploader
-    && wget -nv https://codeberg.org/demostf/plugin/raw/ba1b642b92585af142a885af7159fa652916c6e7/demostf.smx \
+    && wget -nv https://codeberg.org/demostf/plugin/raw/467a8858e642729c2bdbc769a28c7d450a2c1123/demostf.smx \
     # Pause
     && wget -nv https://codeberg.org/spire/docker-comp-server/raw/master/pause.smx \
     # SdrConnect
@@ -150,14 +150,47 @@ RUN echo "Cache bust: ${CACHEBUST}" \
     # ExtendHumiliation
     && cp /tmp/ExtendHumiliation.smx . \
     && rm /tmp/ExtendHumiliation.smx \
-    && chmod 0664 *.smx \
     # SOAP config for ProperPregame
     && printf "\nsm plugins unload properpregame\n" >> /home/tf2/hlserver/tf2/tf/cfg/sourcemod/soap_live.cfg \
-    && printf "\nsm plugins load properpregame\n" >> /home/tf2/hlserver/tf2/tf/cfg/sourcemod/soap_notlive.cfg
-
-# Additional plugins (STAC, MGE, tf2rue, serveme web_rcon)
-COPY --chown=tf2:tf2 plugins.sh /tmp/plugins.sh
-RUN chmod +x /tmp/plugins.sh && /tmp/plugins.sh && rm /tmp/plugins.sh
+    && printf "\nsm plugins load properpregame\n" >> /home/tf2/hlserver/tf2/tf/cfg/sourcemod/soap_notlive.cfg \
+    # WebRCON
+    && cd /home/tf2/hlserver/tf2/tf/addons/sourcemod/plugins \
+    && wget -nv "https://github.com/Arie/serveme/raw/refs/heads/master/doc/web_rcon.smx" -O "web_rcon.smx" \
+    # STAC anti-cheat (zip contents are relative to addons/sourcemod/)
+    && cd /home/tf2/hlserver/tf2/tf/addons/sourcemod \
+    && wget -nv "https://github.com/sapphonie/StAC-tf2/releases/download/v6.3.12/stac.zip" -O "stac.zip" \
+    && unzip -o stac.zip \
+    && rm stac.zip \
+    # p4sstime (zip contents are relative to addons/sourcemod/)
+    && wget -nv "https://github.com/p4sstime/p4sstime-server-resources/releases/latest/download/p4sstime.zip" -O "p4sstime.zip" \
+    && unzip -o p4sstime.zip \
+    && rm p4sstime.zip \
+    # MGE Mod (zip contents are relative to tf/)
+    && cd /home/tf2/hlserver/tf2/tf \
+    && wget -nv "https://github.com/Arie/MGEMod/releases/latest/download/mge.zip" -O "mge.zip" \
+    && unzip -o mge.zip \
+    && rm mge.zip \
+    # tf2rue (TFTrue replacement, zip contents are relative to addons/sourcemod/)
+    && cd /home/tf2/hlserver/tf2/tf/addons/sourcemod \
+    && wget -nv "https://github.com/sapphonie/tf2rue/releases/latest/download/tf2rue.zip" -O "tf2rue.zip" \
+    && unzip -o tf2rue.zip \
+    && rm tf2rue.zip \
+    # Remove whitelisttf.smx (conflicts with tf2rue which replaces its functionality)
+    && rm -f /home/tf2/hlserver/tf2/tf/addons/sourcemod/plugins/whitelisttf.smx \
+    # Accelerator crash reporter (upstream build from limetech)
+    && cd /home/tf2/hlserver/tf2/tf \
+    && wget -nv "https://builds.limetech.io/files/accelerator-2.6.0-git165-dcf3449-linux.zip" -O "accelerator.zip" \
+    && unzip -o accelerator.zip -d /tmp/accel \
+    && cp -r /tmp/accel/linux/addons/. /home/tf2/hlserver/tf2/tf/addons/ \
+    && rm -rf /tmp/accel accelerator.zip \
+    && chmod 0664 /home/tf2/hlserver/tf2/tf/addons/sourcemod/plugins/*.smx \
+    # Set MinidumpAccount for Accelerator crash reporting (steamID64 of ariekanarie);
+    # replace the final closing `}` with MinidumpAccount entry + `}`.
+    && CORE_CFG=/home/tf2/hlserver/tf2/tf/addons/sourcemod/configs/core.cfg \
+    && if ! grep -q 'MinidumpAccount' "$CORE_CFG"; then \
+           sed -i '$d' "$CORE_CFG" && \
+           printf '\t"MinidumpAccount"\t"76561197960497430"\n}\n' >> "$CORE_CFG"; \
+       fi
 
 # ============================================================
 # Stage: tf2-configs (league configs + base configs)

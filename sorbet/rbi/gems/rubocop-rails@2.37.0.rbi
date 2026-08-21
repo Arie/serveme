@@ -8,7 +8,7 @@
 # pkg:gem/rubocop-rails#lib/rubocop/rails.rb:3
 module RuboCop; end
 
-# pkg:gem/rubocop-rails#lib/rubocop/cop/mixin/active_record_helper.rb:4
+# pkg:gem/rubocop-rails#lib/rubocop/cop/mixin.rb:4
 module RuboCop::Cop; end
 
 # A mixin to extend cops for Active Record features
@@ -333,8 +333,13 @@ module RuboCop::Cop::MigrationsHelper
   def migration_class?(param0 = T.unsafe(nil)); end
 end
 
-# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/action_controller_flash_before_render.rb:5
-module RuboCop::Cop::Rails; end
+# Cops for the `Rails` department. The department's cops are registered for lazy loading
+# and their files are loaded on demand.
+#
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails.rb:9
+module RuboCop::Cop::Rails
+  extend ::RuboCop::Cop::LazyLoader
+end
 
 # Using `flash` assignment before `render` in Rails controllers will persist the message for too long.
 # Check https://guides.rubyonrails.org/action_controller_overview.html#flash-now
@@ -967,7 +972,7 @@ class RuboCop::Cop::Rails::ApplicationJob < ::RuboCop::Cop::Base
   extend ::RuboCop::Cop::AutoCorrector
   extend ::RuboCop::Cop::TargetRailsVersion
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/application_job.rb:37
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/application_job.rb:36
   def autocorrect(node); end
 
   # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/application_job.rb:34
@@ -1165,6 +1170,11 @@ RuboCop::Cop::Rails::AssertNot::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 #     attribute :roles, :string, array: true, default: -> { [] }
 #   end
 #
+#   # good
+#   class User < ApplicationRecord
+#     attribute :roles, :string, array: true, default: [].freeze
+#   end
+#
 #   # bad
 #   class User < ApplicationRecord
 #     attribute :configuration, default: {}
@@ -1196,27 +1206,30 @@ RuboCop::Cop::Rails::AssertNot::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 #     attribute :custom_attribute, :integer, default: FOO
 #   end
 #
-# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/attribute_default_block_value.rb:62
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/attribute_default_block_value.rb:67
 class RuboCop::Cop::Rails::AttributeDefaultBlockValue < ::RuboCop::Cop::Base
   extend ::RuboCop::Cop::AutoCorrector
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/attribute_default_block_value.rb:73
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/attribute_default_block_value.rb:78
   def attribute(param0 = T.unsafe(nil)); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/attribute_default_block_value.rb:69
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/attribute_default_block_value.rb:74
   def default_attribute(param0 = T.unsafe(nil)); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/attribute_default_block_value.rb:75
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/attribute_default_block_value.rb:79
+  def frozen_literal_default?(param0 = T.unsafe(nil)); end
+
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/attribute_default_block_value.rb:83
   def on_send(node); end
 end
 
-# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/attribute_default_block_value.rb:65
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/attribute_default_block_value.rb:70
 RuboCop::Cop::Rails::AttributeDefaultBlockValue::MSG = T.let(T.unsafe(nil), String)
 
-# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/attribute_default_block_value.rb:66
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/attribute_default_block_value.rb:71
 RuboCop::Cop::Rails::AttributeDefaultBlockValue::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
-# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/attribute_default_block_value.rb:67
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/attribute_default_block_value.rb:72
 RuboCop::Cop::Rails::AttributeDefaultBlockValue::TYPE_OFFENDERS = T.let(T.unsafe(nil), Array)
 
 # Looks for belongs_to associations where we control whether the
@@ -1782,18 +1795,18 @@ RuboCop::Cop::Rails::CreateTableWithTimestamps::RESTRICT_ON_SEND = T.let(T.unsaf
 class RuboCop::Cop::Rails::DangerousColumnNames < ::RuboCop::Cop::Base
   include ::RuboCop::Cop::MigrationsHelper
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/dangerous_column_names.rb:415
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/dangerous_column_names.rb:414
   def on_send(node); end
 
   private
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/dangerous_column_names.rb:425
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/dangerous_column_names.rb:424
   def column_name_node_from(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/dangerous_column_names.rb:442
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/dangerous_column_names.rb:441
   def dangerous_column_name?(column_name); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/dangerous_column_names.rb:436
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/dangerous_column_names.rb:435
   def dangerous_column_name_node?(node); end
 end
 
@@ -1805,10 +1818,10 @@ RuboCop::Cop::Rails::DangerousColumnNames::COLUMN_TYPE_METHOD_NAMES = T.let(T.un
 # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/dangerous_column_names.rb:38
 RuboCop::Cop::Rails::DangerousColumnNames::DANGEROUS_COLUMN_NAMES = T.let(T.unsafe(nil), Array)
 
-# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/dangerous_column_names.rb:411
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/dangerous_column_names.rb:410
 RuboCop::Cop::Rails::DangerousColumnNames::MSG = T.let(T.unsafe(nil), String)
 
-# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/dangerous_column_names.rb:413
+# pkg:gem/rubocop-rails#lib/rubocop/cop/rails/dangerous_column_names.rb:412
 RuboCop::Cop::Rails::DangerousColumnNames::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Checks for the correct use of Date methods,
@@ -3697,35 +3710,40 @@ class RuboCop::Cop::Rails::HttpPositionalArguments < ::RuboCop::Cop::Base
   def kwsplat_hash?(param0 = T.unsafe(nil)); end
 
   # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_positional_arguments.rb:54
+  def on_new_investigation; end
+
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_positional_arguments.rb:58
   def on_send(node); end
 
   private
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_positional_arguments.rb:116
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_positional_arguments.rb:122
   def convert_hash_data(data, type); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_positional_arguments.rb:130
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_positional_arguments.rb:136
   def correction(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_positional_arguments.rb:143
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_positional_arguments.rb:149
   def correction_template(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_positional_arguments.rb:106
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_positional_arguments.rb:112
   def format_arg?(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_positional_arguments.rb:110
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_positional_arguments.rb:116
   def highlight_range(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_positional_arguments.rb:80
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_positional_arguments.rb:84
   def in_routing_block?(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_positional_arguments.rb:91
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_positional_arguments.rb:98
   def needs_conversion?(data); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_positional_arguments.rb:102
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_positional_arguments.rb:108
   def special_keyword_arg?(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_positional_arguments.rb:84
+  # The result is the same for every node in a file, so scan the AST only once.
+  #
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/http_positional_arguments.rb:89
   def use_rack_test_methods?; end
 end
 
@@ -4517,7 +4535,7 @@ class RuboCop::Cop::Rails::InverseOf < ::RuboCop::Cop::Base
   # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/inverse_of.rb:153
   def conditions_option?(param0 = T.unsafe(nil)); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/inverse_of.rb:222
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/inverse_of.rb:221
   def dynamic_options?(options); end
 
   # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/inverse_of.rb:169
@@ -4532,39 +4550,39 @@ class RuboCop::Cop::Rails::InverseOf < ::RuboCop::Cop::Base
   # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/inverse_of.rb:182
   def on_send(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/inverse_of.rb:226
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/inverse_of.rb:225
   def options_contain_inverse_of?(options); end
 
   # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/inverse_of.rb:149
   def options_from_argument(param0 = T.unsafe(nil)); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/inverse_of.rb:216
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/inverse_of.rb:215
   def options_ignoring_inverse_of?(options); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/inverse_of.rb:206
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/inverse_of.rb:205
   def options_requiring_inverse_of?(options); end
 
   # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/inverse_of.rb:161
   def polymorphic_option?(param0 = T.unsafe(nil)); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/inverse_of.rb:237
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/inverse_of.rb:236
   def same_context_in_with_options?(arg, recv); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/inverse_of.rb:202
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/inverse_of.rb:201
   def scope?(arguments); end
 
   # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/inverse_of.rb:157
   def through_option?(param0 = T.unsafe(nil)); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/inverse_of.rb:230
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/inverse_of.rb:229
   def with_options_arguments(recv, node); end
 
   private
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/inverse_of.rb:253
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/inverse_of.rb:252
   def ignore_scopes?; end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/inverse_of.rb:245
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/inverse_of.rb:244
   def message(options); end
 end
 
@@ -5216,10 +5234,10 @@ class RuboCop::Cop::Rails::Output < ::RuboCop::Cop::Base
 
   private
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/output.rb:57
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/output.rb:56
   def match_gvar?(sym); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/output.rb:61
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/output.rb:60
   def offense_range(node); end
 end
 
@@ -5429,10 +5447,10 @@ class RuboCop::Cop::Rails::Pluck < ::RuboCop::Cop::Base
   # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluck.rb:66
   def on_block(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluck.rb:87
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluck.rb:86
   def on_itblock(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluck.rb:86
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluck.rb:85
   def on_numblock(node); end
 
   # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluck.rb:61
@@ -5440,19 +5458,19 @@ class RuboCop::Cop::Rails::Pluck < ::RuboCop::Cop::Base
 
   private
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluck.rb:117
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluck.rb:116
   def message(replacement, node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluck.rb:104
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluck.rb:103
   def offense_range(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluck.rb:108
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluck.rb:107
   def register_offense(node, key); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluck.rb:98
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluck.rb:97
   def use_block_argument_in_key?(block_argument, key); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluck.rb:91
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/pluck.rb:90
   def use_one_block_argument?(argument); end
 end
 
@@ -6034,16 +6052,16 @@ class RuboCop::Cop::Rails::RedirectBackOrTo < ::RuboCop::Cop::Base
   # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redirect_back_or_to.rb:51
   def correct_redirect_back(corrector, node, fallback_pair, fallback_value, options); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redirect_back_or_to.rb:69
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redirect_back_or_to.rb:68
   def remove_fallback_location_pair(corrector, hash_node, fallback_pair); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redirect_back_or_to.rb:87
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redirect_back_or_to.rb:86
   def remove_first_pair(corrector, fallback_pair, next_pair); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redirect_back_or_to.rb:92
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redirect_back_or_to.rb:91
   def remove_non_first_pair(corrector, fallback_pair, prev_pair); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redirect_back_or_to.rb:82
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redirect_back_or_to.rb:81
   def wrap_with_parentheses(node, corrector); end
 end
 
@@ -6406,16 +6424,16 @@ class RuboCop::Cop::Rails::RedundantReceiverInWithOptions < ::RuboCop::Cop::Base
   # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_receiver_in_with_options.rb:92
   def autocorrect(corrector, send_node, node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_receiver_in_with_options.rb:115
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_receiver_in_with_options.rb:114
   def block_argument_range(node); end
 
   # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_receiver_in_with_options.rb:99
   def redundant_receiver?(send_nodes, node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_receiver_in_with_options.rb:137
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_receiver_in_with_options.rb:136
   def same_value?(arg_node, recv_node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_receiver_in_with_options.rb:127
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/redundant_receiver_in_with_options.rb:126
   def search_begin_pos_of_space_before_block_argument(begin_pos); end
 end
 
@@ -7610,7 +7628,7 @@ class RuboCop::Cop::Rails::SaveBang < ::RuboCop::Cop::Base
   # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:145
   def check_assignment(assignment); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:168
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:167
   def on_csend(node); end
 
   # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:156
@@ -7618,28 +7636,28 @@ class RuboCop::Cop::Rails::SaveBang < ::RuboCop::Cop::Base
 
   private
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:264
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:263
   def allowed_receiver?(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:329
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:328
   def argument?(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:224
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:223
   def array_parent(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:205
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:204
   def assignable_node(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:199
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:198
   def call_to_persisted?(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:231
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:230
   def check_used_in_condition_or_compound_boolean?(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:260
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:259
   def checked_immediately?(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:251
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:250
   def conditional?(parent); end
 
   # Const == Const
@@ -7651,57 +7669,57 @@ class RuboCop::Cop::Rails::SaveBang < ::RuboCop::Cop::Base
   # NameSpace::Const != ::Const
   # Const != NameSpace::Const
   #
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:297
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:296
   def const_matches?(const, allowed_const); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:255
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:254
   def deparenthesize(node); end
 
   # Check argument signature as no arguments or one hash
   #
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:349
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:348
   def expected_signature?(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:333
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:332
   def explicit_return?(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:321
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:320
   def find_method_with_sibling_index(node, sibling_index = T.unsafe(nil)); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:214
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:213
   def hash_parent(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:304
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:303
   def implicit_return?(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:239
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:238
   def in_condition_or_compound_boolean?(node); end
 
   # A multiline method or block body is wrapped in a `begin` node, so climb
   # to it when the node is the last expression, to detect the implicit return.
   #
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:316
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:315
   def last_expression_in_begin(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:247
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:246
   def operator_or_single_negative?(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:344
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:343
   def persist_method?(node, methods = T.unsafe(nil)); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:191
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:190
   def persisted_referenced?(assignment); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:274
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:273
   def receiver_chain_matches?(node, allowed_receiver); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:172
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:171
   def register_offense(node, msg); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:338
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:337
   def return_value_assigned?(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:183
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/save_bang.rb:182
   def right_assignment_node(assignment); end
 
   class << self
@@ -7864,10 +7882,10 @@ class RuboCop::Cop::Rails::SelectMap < ::RuboCop::Cop::Base
   # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/select_map.rb:47
   def find_select_node(node, column_name); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/select_map.rb:73
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/select_map.rb:72
   def match_column_name?(select_candidate, column_name); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/select_map.rb:87
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/select_map.rb:86
   def receiver_chain?(map_node, select_node); end
 end
 
@@ -8184,7 +8202,7 @@ class RuboCop::Cop::Rails::StrongParametersExpect < ::RuboCop::Cop::Base
   extend ::RuboCop::Cop::AutoCorrector
   extend ::RuboCop::Cop::TargetRailsVersion
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:145
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:144
   def on_csend(node); end
 
   # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:113
@@ -8201,25 +8219,25 @@ class RuboCop::Cop::Rails::StrongParametersExpect < ::RuboCop::Cop::Base
 
   private
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:183
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:181
   def block_call?(send_node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:191
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:189
   def expect_method(require_method, permit_method); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:187
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:185
   def offense_range(method_node, node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:161
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:160
   def offensive_bracket_access?(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:179
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:177
   def raising_finder_method?(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:149
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:148
   def register_bracket_access_offense(node, params_key); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:200
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/strong_parameters_expect.rb:198
   def require_key(require_method); end
 end
 
@@ -9146,7 +9164,7 @@ class RuboCop::Cop::Rails::WhereEquals < ::RuboCop::Cop::Base
 
   private
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_equals.rb:101
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_equals.rb:100
   def build_good_method(method_name, column, value); end
 
   # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_equals.rb:78
@@ -9155,7 +9173,7 @@ class RuboCop::Cop::Rails::WhereEquals < ::RuboCop::Cop::Base
   # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_equals.rb:73
   def offense_range(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_equals.rb:111
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_equals.rb:110
   def where_not?(node); end
 end
 
@@ -9311,10 +9329,10 @@ class RuboCop::Cop::Rails::WhereMissing < ::RuboCop::Cop::Base
 
   private
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_missing.rb:115
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_missing.rb:114
   def message(node, where_argument); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_missing.rb:111
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_missing.rb:110
   def multi_condition?(where_arg); end
 
   # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_missing.rb:67
@@ -9332,7 +9350,7 @@ class RuboCop::Cop::Rails::WhereMissing < ::RuboCop::Cop::Base
   # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_missing.rb:54
   def root_receiver(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_missing.rb:107
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_missing.rb:106
   def same_line?(left_joins_node, where_node); end
 
   # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_missing.rb:63
@@ -9381,7 +9399,7 @@ class RuboCop::Cop::Rails::WhereNot < ::RuboCop::Cop::Base
 
   private
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_not.rb:95
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_not.rb:94
   def build_good_method(dot, column, value); end
 
   # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_not.rb:72
@@ -9506,28 +9524,28 @@ class RuboCop::Cop::Rails::WhereRange < ::RuboCop::Cop::Base
 
   private
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_range.rb:174
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_range.rb:173
   def build_good_method(method_name, column, value); end
 
   # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_range.rb:96
   def extract_column_and_value(template_node, values_node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_range.rb:166
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_range.rb:165
   def find_pair(hash_node, value); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_range.rb:170
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_range.rb:169
   def offense_range(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_range.rb:184
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_range.rb:183
   def parentheses_needed?(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_range.rb:188
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_range.rb:187
   def parentheses_not_needed?(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_range.rb:197
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_range.rb:196
   def parenthesized_call_node?(node); end
 
-  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_range.rb:162
+  # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_range.rb:161
   def range_operator(comparison_operator); end
 
   # pkg:gem/rubocop-rails#lib/rubocop/cop/rails/where_range.rb:90
@@ -9591,6 +9609,7 @@ class RuboCop::Cop::Style::InverseMethods < ::RuboCop::Cop::Base; end
 
 class RuboCop::Cop::Style::MethodCallWithArgsParentheses < ::RuboCop::Cop::Base
   include ::RuboCop::Cop::RangeHelp
+  include ::RuboCop::Cop::ReparsedEquivalence
 end
 
 class RuboCop::Cop::Style::RedundantSelf < ::RuboCop::Cop::Base; end

@@ -318,7 +318,7 @@ class Sprockets::Base
   #
   #     environment['application.js']
   #
-  # pkg:gem/sprockets#lib/sprockets/base.rb:118
+  # pkg:gem/sprockets#lib/sprockets/base.rb:129
   def [](*args, **options); end
 
   # Get persistent cache store
@@ -340,10 +340,10 @@ class Sprockets::Base
   # pkg:gem/sprockets#lib/sprockets/base.rb:53
   def cached; end
 
-  # pkg:gem/sprockets#lib/sprockets/base.rb:139
+  # pkg:gem/sprockets#lib/sprockets/base.rb:150
   def compress_from_root(uri); end
 
-  # pkg:gem/sprockets#lib/sprockets/base.rb:143
+  # pkg:gem/sprockets#lib/sprockets/base.rb:154
   def expand_from_root(uri); end
 
   # Internal: Compute digest for path.
@@ -352,30 +352,48 @@ class Sprockets::Base
   #
   # Returns a String digest or nil.
   #
-  # pkg:gem/sprockets#lib/sprockets/base.rb:63
+  # pkg:gem/sprockets#lib/sprockets/base.rb:70
   def file_digest(path); end
 
-  # pkg:gem/sprockets#lib/sprockets/base.rb:85
+  # pkg:gem/sprockets#lib/sprockets/base.rb:96
   def find_all_linked_assets(*args); end
 
   # Find asset by logical path or expanded path.
   #
-  # pkg:gem/sprockets#lib/sprockets/base.rb:78
+  # pkg:gem/sprockets#lib/sprockets/base.rb:89
   def find_asset(*args, **options); end
 
   # Find asset by logical path or expanded path.
   #
   # If the asset is not found an error will be raised.
   #
-  # pkg:gem/sprockets#lib/sprockets/base.rb:125
+  # pkg:gem/sprockets#lib/sprockets/base.rb:136
   def find_asset!(*args); end
+
+  # By default sprockets tries to quickly revalidate the cache for a source file
+  # by comparing its last modified time.
+  # This is efficient in development, but in some CI or producton environments
+  # where the source files are restored from version control, the last modified time
+  # tend to be somewhat random, and checking it is just needless overhead.
+  #
+  # pkg:gem/sprockets#lib/sprockets/base.rb:63
+  def ignore_mtime; end
+
+  # By default sprockets tries to quickly revalidate the cache for a source file
+  # by comparing its last modified time.
+  # This is efficient in development, but in some CI or producton environments
+  # where the source files are restored from version control, the last modified time
+  # tend to be somewhat random, and checking it is just needless overhead.
+  #
+  # pkg:gem/sprockets#lib/sprockets/base.rb:63
+  def ignore_mtime=(_arg0); end
 
   # pkg:gem/sprockets#lib/sprockets/base.rb:56
   def index; end
 
   # Pretty inspect
   #
-  # pkg:gem/sprockets#lib/sprockets/base.rb:133
+  # pkg:gem/sprockets#lib/sprockets/base.rb:144
   def inspect; end
 end
 
@@ -606,7 +624,7 @@ class Sprockets::Cache::FileStore
   #
   # root     - A String path to a directory to persist cached values to.
   # max_size - A Integer of the maximum size the store will hold (in bytes).
-  #            (default: 25MB).
+  #            (default: 25MB). Can be set to +false+ for no limit.
   # logger   - The logger to which some info will be printed.
   #            (default logger level is FATAL and won't output anything).
   #
@@ -623,7 +641,7 @@ class Sprockets::Cache::FileStore
   #
   # Returns true
   #
-  # pkg:gem/sprockets#lib/sprockets/cache/file_store.rb:139
+  # pkg:gem/sprockets#lib/sprockets/cache/file_store.rb:141
   def clear(options = T.unsafe(nil)); end
 
   # Public: Retrieve value from cache.
@@ -641,7 +659,7 @@ class Sprockets::Cache::FileStore
   #
   # Returns String.
   #
-  # pkg:gem/sprockets#lib/sprockets/cache/file_store.rb:126
+  # pkg:gem/sprockets#lib/sprockets/cache/file_store.rb:128
   def inspect; end
 
   # Public: Set a key and value in the cache.
@@ -658,7 +676,7 @@ class Sprockets::Cache::FileStore
 
   private
 
-  # pkg:gem/sprockets#lib/sprockets/cache/file_store.rb:166
+  # pkg:gem/sprockets#lib/sprockets/cache/file_store.rb:168
   def compute_size(caches); end
 
   # Internal: Get all cache files along with stats.
@@ -666,19 +684,19 @@ class Sprockets::Cache::FileStore
   # Returns an Array of [String filename, File::Stat] pairs sorted by
   # mtime.
   #
-  # pkg:gem/sprockets#lib/sprockets/cache/file_store.rb:152
+  # pkg:gem/sprockets#lib/sprockets/cache/file_store.rb:154
   def find_caches; end
 
-  # pkg:gem/sprockets#lib/sprockets/cache/file_store.rb:183
+  # pkg:gem/sprockets#lib/sprockets/cache/file_store.rb:185
   def gc!; end
 
-  # pkg:gem/sprockets#lib/sprockets/cache/file_store.rb:176
+  # pkg:gem/sprockets#lib/sprockets/cache/file_store.rb:178
   def safe_open(path, &block); end
 
-  # pkg:gem/sprockets#lib/sprockets/cache/file_store.rb:170
+  # pkg:gem/sprockets#lib/sprockets/cache/file_store.rb:172
   def safe_stat(fn); end
 
-  # pkg:gem/sprockets#lib/sprockets/cache/file_store.rb:162
+  # pkg:gem/sprockets#lib/sprockets/cache/file_store.rb:164
   def size; end
 
   class << self
@@ -741,7 +759,7 @@ class Sprockets::Cache::MemoryStore
   # Public: Initialize the cache store.
   #
   # max_size - A Integer of the maximum number of keys the store will hold.
-  #            (default: 1000).
+  #            (default: 1000). Can be set to +false+ for no limit.
   #
   # pkg:gem/sprockets#lib/sprockets/cache/memory_store.rb:22
   def initialize(max_size = T.unsafe(nil)); end
@@ -3014,7 +3032,7 @@ module Sprockets::PathUtils
   #
   # Returns nothing.
   #
-  # pkg:gem/sprockets#lib/sprockets/path_utils.rb:348
+  # pkg:gem/sprockets#lib/sprockets/path_utils.rb:350
   def atomic_write(filename); end
 
   # Public: Like `File.directory?`.
@@ -3059,7 +3077,7 @@ module Sprockets::PathUtils
   #
   # Returns an Array of [String path, Object value] matches.
   #
-  # pkg:gem/sprockets#lib/sprockets/path_utils.rb:231
+  # pkg:gem/sprockets#lib/sprockets/path_utils.rb:233
   def find_matching_path_for_extensions(path, basename, extensions); end
 
   # Internal: Find target basename checking upwards from path.
@@ -3070,7 +3088,7 @@ module Sprockets::PathUtils
   #
   # Returns String filename or nil.
   #
-  # pkg:gem/sprockets#lib/sprockets/path_utils.rb:273
+  # pkg:gem/sprockets#lib/sprockets/path_utils.rb:275
   def find_upwards(basename, path, root = T.unsafe(nil)); end
 
   # Public: Joins path to base path.
@@ -3085,7 +3103,7 @@ module Sprockets::PathUtils
   #
   # Returns string path starting from base and ending at path
   #
-  # pkg:gem/sprockets#lib/sprockets/path_utils.rb:127
+  # pkg:gem/sprockets#lib/sprockets/path_utils.rb:129
   def join(base, path); end
 
   # Internal: Match path extnames against available extensions.
@@ -3095,7 +3113,7 @@ module Sprockets::PathUtils
   #
   # Returns [String extname, Object value] or nil nothing matched.
   #
-  # pkg:gem/sprockets#lib/sprockets/path_utils.rb:202
+  # pkg:gem/sprockets#lib/sprockets/path_utils.rb:204
   def match_path_extname(path, extensions); end
 
   # Internal: Get path's extensions.
@@ -3104,7 +3122,7 @@ module Sprockets::PathUtils
   #
   # Returns an Array of String extnames.
   #
-  # pkg:gem/sprockets#lib/sprockets/path_utils.rb:192
+  # pkg:gem/sprockets#lib/sprockets/path_utils.rb:194
   def path_extnames(path); end
 
   # Internal: Returns all parents for path
@@ -3114,7 +3132,7 @@ module Sprockets::PathUtils
   #
   # Returns an Array of String paths.
   #
-  # pkg:gem/sprockets#lib/sprockets/path_utils.rb:252
+  # pkg:gem/sprockets#lib/sprockets/path_utils.rb:254
   def path_parents(path, root = T.unsafe(nil)); end
 
   # Internal: Detect root path and base for file in a set of paths.
@@ -3124,7 +3142,7 @@ module Sprockets::PathUtils
   #
   # Returns [String root, String path]
   #
-  # pkg:gem/sprockets#lib/sprockets/path_utils.rb:178
+  # pkg:gem/sprockets#lib/sprockets/path_utils.rb:180
   def paths_split(paths, filename); end
 
   # Public: Check if path is explicitly relative.
@@ -3134,7 +3152,7 @@ module Sprockets::PathUtils
   #
   # Returns true if path is relative, otherwise false.
   #
-  # pkg:gem/sprockets#lib/sprockets/path_utils.rb:100
+  # pkg:gem/sprockets#lib/sprockets/path_utils.rb:102
   def relative_path?(path); end
 
   # Public: Get relative path from `start` to `dest`.
@@ -3144,7 +3162,7 @@ module Sprockets::PathUtils
   #
   # Returns relative String path from `start` to `dest`
   #
-  # pkg:gem/sprockets#lib/sprockets/path_utils.rb:110
+  # pkg:gem/sprockets#lib/sprockets/path_utils.rb:112
   def relative_path_from(start, dest); end
 
   # Public: Sets pipeline for path
@@ -3163,7 +3181,7 @@ module Sprockets::PathUtils
   #
   # Returns string path with pipeline parsed in
   #
-  # pkg:gem/sprockets#lib/sprockets/path_utils.rb:146
+  # pkg:gem/sprockets#lib/sprockets/path_utils.rb:148
   def set_pipeline(path, mime_exts, pipeline_exts, pipeline); end
 
   # Internal: Get relative path for root path and subpath.
@@ -3174,7 +3192,7 @@ module Sprockets::PathUtils
   # Returns relative String path if subpath is a subpath of path, or nil if
   # subpath is outside of path.
   #
-  # pkg:gem/sprockets#lib/sprockets/path_utils.rb:162
+  # pkg:gem/sprockets#lib/sprockets/path_utils.rb:164
   def split_subpath(path, subpath); end
 
   # Public: Like `File.stat`.
@@ -3192,7 +3210,7 @@ module Sprockets::PathUtils
   #
   # Returns an Enumerator of [path, stat].
   #
-  # pkg:gem/sprockets#lib/sprockets/path_utils.rb:286
+  # pkg:gem/sprockets#lib/sprockets/path_utils.rb:288
   def stat_directory(dir); end
 
   # Public: Recursive stat all the files under a directory in alphabetical
@@ -3202,7 +3220,7 @@ module Sprockets::PathUtils
   #
   # Returns an Enumerator of [path, stat].
   #
-  # pkg:gem/sprockets#lib/sprockets/path_utils.rb:324
+  # pkg:gem/sprockets#lib/sprockets/path_utils.rb:326
   def stat_sorted_tree(dir, &block); end
 
   # Public: Recursive stat all the files under a directory.
@@ -3211,9 +3229,12 @@ module Sprockets::PathUtils
   #
   # Returns an Enumerator of [path, stat].
   #
-  # pkg:gem/sprockets#lib/sprockets/path_utils.rb:304
+  # pkg:gem/sprockets#lib/sprockets/path_utils.rb:306
   def stat_tree(dir, &block); end
 end
+
+# pkg:gem/sprockets#lib/sprockets/path_utils.rb:94
+Sprockets::PathUtils::RELATIVE_PATH_PATTERN = T.let(T.unsafe(nil), Regexp)
 
 # pkg:gem/sprockets#lib/sprockets/path_utils.rb:91
 Sprockets::PathUtils::SEPARATOR_PATTERN = T.let(T.unsafe(nil), String)

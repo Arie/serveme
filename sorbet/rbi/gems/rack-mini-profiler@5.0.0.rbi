@@ -20,83 +20,83 @@ class Rack::MiniProfiler
   # options:
   # :auto_inject - should script be automatically injected on every html page (not xhr)
   #
-  # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:122
+  # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:129
   def initialize(app, config = T.unsafe(nil)); end
 
-  # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:419
+  # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:427
   def action_parameters(env); end
 
-  # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:149
+  # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:156
   def advanced_debugging_enabled?; end
 
-  # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:525
+  # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:533
   def analyze_memory; end
 
-  # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:618
+  # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:626
   def cache_control_value; end
 
-  # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:157
+  # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:164
   def call(env); end
 
   # cancels automatic injection of profile script for the current page
   #
-  # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:614
+  # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:622
   def cancel_auto_inject(env); end
 
-  # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:145
+  # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:152
   def config; end
 
-  # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:137
+  # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:144
   def current; end
 
-  # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:141
+  # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:148
   def current=(c); end
 
-  # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:497
+  # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:505
   def dump_env(env); end
 
-  # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:479
+  # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:487
   def dump_exceptions(exceptions); end
 
-  # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:609
+  # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:617
   def flamegraph_path(env); end
 
-  # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:596
+  # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:604
   def ids(env); end
 
-  # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:605
+  # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:613
   def ids_comma_separated(env); end
 
-  # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:458
+  # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:466
   def inject(fragment, script); end
 
-  # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:423
+  # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:431
   def inject_profiler(env, status, headers, body); end
 
-  # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:414
+  # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:422
   def matches_action?(action, env); end
 
-  # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:591
+  # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:599
   def text_result(body, status: T.unsafe(nil), headers: T.unsafe(nil)); end
 
-  # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:153
+  # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:160
   def tool_disabled_message(client_settings); end
 
-  # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:519
+  # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:527
   def trim_strings(strings, max_size); end
 
-  # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:133
+  # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:140
   def user(env); end
 
   private
 
-  # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:624
+  # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:632
   def rails_route_from_path(path, method); end
 
-  # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:641
+  # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:649
   def take_snapshot(env, start); end
 
-  # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:635
+  # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:643
   def take_snapshot?(path); end
 
   class << self
@@ -143,7 +143,7 @@ class Rack::MiniProfiler
     # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:27
     def patch_rails?; end
 
-    # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:113
+    # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:120
     def redact_sql_queries?; end
 
     # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:87
@@ -152,7 +152,7 @@ class Rack::MiniProfiler
     # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:35
     def reset_config; end
 
-    # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:108
+    # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:115
     def snapshots_transporter?; end
 
     # pkg:gem/rack-mini-profiler#lib/mini_profiler.rb:25
@@ -284,7 +284,7 @@ class Rack::MiniProfiler::ClientSettings
   def discard_cookie!(headers); end
 
   # pkg:gem/rack-mini-profiler#lib/mini_profiler/client_settings.rb:42
-  def handle_cookie(result); end
+  def handle_cookie(result, preserve_cookie: T.unsafe(nil)); end
 
   # pkg:gem/rack-mini-profiler#lib/mini_profiler/client_settings.rb:90
   def has_valid_cookie?; end
@@ -1414,14 +1414,17 @@ Rack::MiniProfiler::VERSION = T.let(T.unsafe(nil), String)
 
 # pkg:gem/rack-mini-profiler#lib/mini_profiler/views.rb:4
 module Rack::MiniProfiler::Views
-  # pkg:gem/rack-mini-profiler#lib/mini_profiler/views.rb:103
+  # pkg:gem/rack-mini-profiler#lib/mini_profiler/views.rb:106
   def blank_page_html; end
 
-  # pkg:gem/rack-mini-profiler#lib/mini_profiler/views.rb:112
+  # pkg:gem/rack-mini-profiler#lib/mini_profiler/views.rb:115
   def flamegraph(graph, path, env); end
 
-  # pkg:gem/rack-mini-profiler#lib/mini_profiler/views.rb:13
+  # pkg:gem/rack-mini-profiler#lib/mini_profiler/views.rb:25
   def generate_html(page_struct, env, result_json = T.unsafe(nil)); end
+
+  # pkg:gem/rack-mini-profiler#lib/mini_profiler/views.rb:13
+  def get_csp_nonce(env, response_headers = T.unsafe(nil)); end
 
   # get_profile_script returns script to be injected inside current html page
   # By default, profile_script is appended to the end of all html requests automatically.
@@ -1430,16 +1433,16 @@ module Rack::MiniProfiler::Views
   # * you have disabled auto append behaviour throught :auto_inject => false flag
   # * you do not want script to be automatically appended for the current page. You can also call cancel_auto_inject
   #
-  # pkg:gem/rack-mini-profiler#lib/mini_profiler/views.rb:31
+  # pkg:gem/rack-mini-profiler#lib/mini_profiler/views.rb:43
   def get_profile_script(env, response_headers = T.unsafe(nil)); end
 
-  # pkg:gem/rack-mini-profiler#lib/mini_profiler/views.rb:143
+  # pkg:gem/rack-mini-profiler#lib/mini_profiler/views.rb:148
   def help(client_settings, env); end
 
-  # pkg:gem/rack-mini-profiler#lib/mini_profiler/views.rb:107
+  # pkg:gem/rack-mini-profiler#lib/mini_profiler/views.rb:110
   def make_link(postfix, env); end
 
-  # pkg:gem/rack-mini-profiler#lib/mini_profiler/views.rb:193
+  # pkg:gem/rack-mini-profiler#lib/mini_profiler/views.rb:198
   def public_base_path(env); end
 
   # pkg:gem/rack-mini-profiler#lib/mini_profiler/views.rb:5
@@ -1448,14 +1451,14 @@ module Rack::MiniProfiler::Views
   # pkg:gem/rack-mini-profiler#lib/mini_profiler/views.rb:9
   def share_template; end
 
-  # pkg:gem/rack-mini-profiler#lib/mini_profiler/views.rb:188
+  # pkg:gem/rack-mini-profiler#lib/mini_profiler/views.rb:193
   def url_for_snapshot(id, group_name); end
 
-  # pkg:gem/rack-mini-profiler#lib/mini_profiler/views.rb:183
+  # pkg:gem/rack-mini-profiler#lib/mini_profiler/views.rb:188
   def url_for_snapshots_group(group_name); end
 end
 
-# pkg:gem/rack-mini-profiler#lib/mini_profiler/views.rb:93
+# pkg:gem/rack-mini-profiler#lib/mini_profiler/views.rb:96
 Rack::MiniProfiler::Views::BLANK_PAGE = T.let(T.unsafe(nil), String)
 
 # pkg:gem/rack-mini-profiler#lib/mini_profiler_rails/railtie.rb:6
@@ -1463,10 +1466,10 @@ module Rack::MiniProfilerRails
   extend ::Rack::MiniProfilerRailsMethods
 
   class << self
-    # pkg:gem/rack-mini-profiler#lib/mini_profiler_rails/railtie.rb:133
+    # pkg:gem/rack-mini-profiler#lib/mini_profiler_rails/railtie.rb:132
     def create_engine; end
 
-    # pkg:gem/rack-mini-profiler#lib/mini_profiler_rails/railtie.rb:154
+    # pkg:gem/rack-mini-profiler#lib/mini_profiler_rails/railtie.rb:153
     def get_key(payload); end
 
     # call direct if needed to do a defer init
@@ -1474,18 +1477,18 @@ module Rack::MiniProfilerRails
     # pkg:gem/rack-mini-profiler#lib/mini_profiler_rails/railtie.rb:10
     def initialize!(app); end
 
-    # pkg:gem/rack-mini-profiler#lib/mini_profiler_rails/railtie.rb:162
+    # pkg:gem/rack-mini-profiler#lib/mini_profiler_rails/railtie.rb:161
     def serves_static_assets?(app); end
 
-    # pkg:gem/rack-mini-profiler#lib/mini_profiler_rails/railtie.rb:158
+    # pkg:gem/rack-mini-profiler#lib/mini_profiler_rails/railtie.rb:157
     def shorten_identifier(identifier); end
 
-    # pkg:gem/rack-mini-profiler#lib/mini_profiler_rails/railtie.rb:144
+    # pkg:gem/rack-mini-profiler#lib/mini_profiler_rails/railtie.rb:143
     def subscribe(event, &blk); end
   end
 end
 
-# pkg:gem/rack-mini-profiler#lib/mini_profiler_rails/railtie.rb:178
+# pkg:gem/rack-mini-profiler#lib/mini_profiler_rails/railtie.rb:179
 class Rack::MiniProfilerRails::Railtie < ::Rails::Railtie; end
 
 # pkg:gem/rack-mini-profiler#lib/mini_profiler_rails/railtie_methods.rb:3

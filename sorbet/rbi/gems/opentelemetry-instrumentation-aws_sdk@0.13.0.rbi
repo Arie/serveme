@@ -83,9 +83,15 @@ class OpenTelemetry::Instrumentation::AwsSdk::Instrumentation < ::OpenTelemetry:
   # pkg:gem/opentelemetry-instrumentation-aws_sdk#lib/opentelemetry/instrumentation/aws_sdk/instrumentation.rb:60
   def gem_version; end
 
+  # Returns the semconv mode based on OTEL_SEMCONV_STABILITY_OPT_IN env var
+  # @return [Symbol] :old, :stable, or :dup
+  #
+  # pkg:gem/opentelemetry-instrumentation-aws_sdk#lib/opentelemetry/instrumentation/aws_sdk/instrumentation.rb:72
+  def semconv_mode; end
+
   private
 
-  # pkg:gem/opentelemetry-instrumentation-aws_sdk#lib/opentelemetry/instrumentation/aws_sdk/instrumentation.rb:89
+  # pkg:gem/opentelemetry-instrumentation-aws_sdk#lib/opentelemetry/instrumentation/aws_sdk/instrumentation.rb:104
   def add_plugins(*targets); end
 
   # This check does the following:
@@ -94,29 +100,29 @@ class OpenTelemetry::Instrumentation::AwsSdk::Instrumentation < ::OpenTelemetry:
   # note that Seahorse::Client::Base is a superclass for V3 clients
   # but for V2, it is Aws::Client
   #
-  # pkg:gem/opentelemetry-instrumentation-aws_sdk#lib/opentelemetry/instrumentation/aws_sdk/instrumentation.rb:132
+  # pkg:gem/opentelemetry-instrumentation-aws_sdk#lib/opentelemetry/instrumentation/aws_sdk/instrumentation.rb:147
   def loaded_service?(constant, service_module); end
 
-  # pkg:gem/opentelemetry-instrumentation-aws_sdk#lib/opentelemetry/instrumentation/aws_sdk/instrumentation.rb:113
+  # pkg:gem/opentelemetry-instrumentation-aws_sdk#lib/opentelemetry/instrumentation/aws_sdk/instrumentation.rb:128
   def loaded_service_clients; end
 
   # Patches AWS SDK V3's telemetry plugin for integration
   # This patch supports configuration set by this gem and
   # additional span attributes that were not provided by the plugin
   #
-  # pkg:gem/opentelemetry-instrumentation-aws_sdk#lib/opentelemetry/instrumentation/aws_sdk/instrumentation.rb:109
+  # pkg:gem/opentelemetry-instrumentation-aws_sdk#lib/opentelemetry/instrumentation/aws_sdk/instrumentation.rb:124
   def patch_telemetry_plugin; end
 
-  # pkg:gem/opentelemetry-instrumentation-aws_sdk#lib/opentelemetry/instrumentation/aws_sdk/instrumentation.rb:81
+  # pkg:gem/opentelemetry-instrumentation-aws_sdk#lib/opentelemetry/instrumentation/aws_sdk/instrumentation.rb:96
   def require_dependencies; end
 
-  # pkg:gem/opentelemetry-instrumentation-aws_sdk#lib/opentelemetry/instrumentation/aws_sdk/instrumentation.rb:72
+  # pkg:gem/opentelemetry-instrumentation-aws_sdk#lib/opentelemetry/instrumentation/aws_sdk/instrumentation.rb:87
   def resolve_config(config); end
 
-  # pkg:gem/opentelemetry-instrumentation-aws_sdk#lib/opentelemetry/instrumentation/aws_sdk/instrumentation.rb:97
+  # pkg:gem/opentelemetry-instrumentation-aws_sdk#lib/opentelemetry/instrumentation/aws_sdk/instrumentation.rb:112
   def supports_telemetry_plugin?(klass); end
 
-  # pkg:gem/opentelemetry-instrumentation-aws_sdk#lib/opentelemetry/instrumentation/aws_sdk/instrumentation.rb:102
+  # pkg:gem/opentelemetry-instrumentation-aws_sdk#lib/opentelemetry/instrumentation/aws_sdk/instrumentation.rb:117
   def telemetry_plugin?; end
 end
 

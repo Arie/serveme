@@ -634,7 +634,7 @@ class Zip::Entry
   # pkg:gem/rubyzip#lib/zip/entry.rb:70
   def check_name(name); end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:730
+  # pkg:gem/rubyzip#lib/zip/entry.rb:731
   def clean_up; end
 
   # pkg:gem/rubyzip#lib/zip/entry.rb:27
@@ -740,19 +740,20 @@ class Zip::Entry
   # pkg:gem/rubyzip#lib/zip/entry.rb:215
   def ftype; end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:674
+  # pkg:gem/rubyzip#lib/zip/entry.rb:675
   def gather_fileinfo_from_srcpath(src_path); end
 
   # pkg:gem/rubyzip#lib/zip/entry.rb:536
   def get_extra_attributes_from_path(path); end
 
   # Returns an IO like object for the given ZipEntry.
+  # Optional decrypter can be provided for an encrypted entry
   # Warning: may behave weird with symlinks.
   #
-  # pkg:gem/rubyzip#lib/zip/entry.rb:642
-  def get_input_stream(&block); end
+  # pkg:gem/rubyzip#lib/zip/entry.rb:643
+  def get_input_stream(decrypter: T.unsafe(nil), &block); end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:722
+  # pkg:gem/rubyzip#lib/zip/entry.rb:723
   def get_raw_input_stream(&block); end
 
   # pkg:gem/rubyzip#lib/zip/entry.rb:31
@@ -843,7 +844,7 @@ class Zip::Entry
   # pkg:gem/rubyzip#lib/zip/entry.rb:394
   def pack_local_entry; end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:716
+  # pkg:gem/rubyzip#lib/zip/entry.rb:717
   def parent_as_string; end
 
   # pkg:gem/rubyzip#lib/zip/entry.rb:506
@@ -951,7 +952,7 @@ class Zip::Entry
   # pkg:gem/rubyzip#lib/zip/entry.rb:409
   def write_local_entry(io, suppress_extra_fields: T.unsafe(nil), rewrite: T.unsafe(nil)); end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:703
+  # pkg:gem/rubyzip#lib/zip/entry.rb:704
   def write_to_zip_output_stream(zip_output_stream); end
 
   # Does this entry use the ZIP64 extensions?
@@ -961,33 +962,33 @@ class Zip::Entry
 
   private
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:778
+  # pkg:gem/rubyzip#lib/zip/entry.rb:779
   def create_directory(dest_path); end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:752
+  # pkg:gem/rubyzip#lib/zip/entry.rb:753
   def create_file(dest_path, _continue_on_exists_proc = T.unsafe(nil)); end
 
   # BUG: create_symlink() does not use &block
   #
-  # pkg:gem/rubyzip#lib/zip/entry.rb:792
+  # pkg:gem/rubyzip#lib/zip/entry.rb:793
   def create_symlink(dest_path); end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:812
+  # pkg:gem/rubyzip#lib/zip/entry.rb:813
   def parse_aes_extra; end
 
   # apply missing data from the zip64 extra information field, if present
   # (required when file sizes exceed 2**32, but can be used for all files)
   #
-  # pkg:gem/rubyzip#lib/zip/entry.rb:800
+  # pkg:gem/rubyzip#lib/zip/entry.rb:801
   def parse_zip64_extra(for_local_header); end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:864
+  # pkg:gem/rubyzip#lib/zip/entry.rb:865
   def prep_cdir_zip64_extra; end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:848
+  # pkg:gem/rubyzip#lib/zip/entry.rb:849
   def prep_local_zip64_extra; end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:736
+  # pkg:gem/rubyzip#lib/zip/entry.rb:737
   def read_local_header_fields(io); end
 
   # For DEFLATED compression *only*: set the general purpose flags 1 and 2 to
@@ -999,10 +1000,10 @@ class Zip::Entry
   #
   # It's safe to simply OR these flags here as compression_level is read only.
   #
-  # pkg:gem/rubyzip#lib/zip/entry.rb:834
+  # pkg:gem/rubyzip#lib/zip/entry.rb:835
   def set_compression_level_flags; end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:746
+  # pkg:gem/rubyzip#lib/zip/entry.rb:747
   def set_time(binary_dos_date, binary_dos_time); end
 
   class << self

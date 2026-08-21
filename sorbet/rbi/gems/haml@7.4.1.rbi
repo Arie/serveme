@@ -30,72 +30,75 @@ module Haml::AttributeBuilder
     # pkg:gem/haml#lib/haml/attribute_builder.rb:6
     def build(escape_attrs, quote, format, object_ref, *hashes); end
 
-    # pkg:gem/haml#lib/haml/attribute_builder.rb:69
+    # pkg:gem/haml#lib/haml/attribute_builder.rb:71
     def build_aria(escape_attrs, quote, format, *hashes); end
 
-    # pkg:gem/haml#lib/haml/attribute_builder.rb:35
+    # pkg:gem/haml#lib/haml/attribute_builder.rb:37
     def build_class(escape_attrs, *values); end
 
-    # pkg:gem/haml#lib/haml/attribute_builder.rb:65
+    # pkg:gem/haml#lib/haml/attribute_builder.rb:67
     def build_data(escape_attrs, quote, format, *hashes); end
 
-    # pkg:gem/haml#lib/haml/attribute_builder.rb:31
+    # pkg:gem/haml#lib/haml/attribute_builder.rb:33
     def build_id(escape_attrs, *values); end
 
     private
 
-    # pkg:gem/haml#lib/haml/attribute_builder.rb:138
+    # pkg:gem/haml#lib/haml/attribute_builder.rb:77
+    def boolean_attribute?(key); end
+
+    # pkg:gem/haml#lib/haml/attribute_builder.rb:149
     def build_boolean!(escape_attrs, quote, format, buf, key, value); end
 
-    # pkg:gem/haml#lib/haml/attribute_builder.rb:75
+    # pkg:gem/haml#lib/haml/attribute_builder.rb:81
     def build_data_attribute(key, escape_attrs, quote, format, *hashes); end
 
-    # pkg:gem/haml#lib/haml/attribute_builder.rb:154
+    # pkg:gem/haml#lib/haml/attribute_builder.rb:165
     def escape_html(escape_attrs, str); end
 
-    # pkg:gem/haml#lib/haml/attribute_builder.rb:97
+    # pkg:gem/haml#lib/haml/attribute_builder.rb:103
     def flatten_attributes(attributes); end
 
-    # pkg:gem/haml#lib/haml/attribute_builder.rb:118
+    # pkg:gem/haml#lib/haml/attribute_builder.rb:128
     def merge_all_attrs(hashes); end
   end
 end
 
-# pkg:gem/haml#lib/haml/attribute_compiler.rb:15
+# pkg:gem/haml#lib/haml/attribute_compiler.rb:16
 class Haml::AttributeCompiler
-  # pkg:gem/haml#lib/haml/attribute_compiler.rb:16
+  # pkg:gem/haml#lib/haml/attribute_compiler.rb:17
   def initialize(identity, options); end
 
-  # pkg:gem/haml#lib/haml/attribute_compiler.rb:23
+  # pkg:gem/haml#lib/haml/attribute_compiler.rb:24
   def compile(node); end
 
   private
 
-  # pkg:gem/haml#lib/haml/attribute_compiler.rb:121
+  # pkg:gem/haml#lib/haml/attribute_compiler.rb:124
   def attribute_builder(type, values); end
 
-  # pkg:gem/haml#lib/haml/attribute_compiler.rb:96
+  # pkg:gem/haml#lib/haml/attribute_compiler.rb:99
   def compile_boolean!(temple, key, values); end
 
-  # pkg:gem/haml#lib/haml/attribute_compiler.rb:76
+  # pkg:gem/haml#lib/haml/attribute_compiler.rb:79
   def compile_class!(temple, key, values); end
 
-  # pkg:gem/haml#lib/haml/attribute_compiler.rb:117
+  # pkg:gem/haml#lib/haml/attribute_compiler.rb:120
   def compile_common!(temple, key, values); end
 
-  # pkg:gem/haml#lib/haml/attribute_compiler.rb:85
+  # pkg:gem/haml#lib/haml/attribute_compiler.rb:88
   def compile_data!(temple, key, values); end
 
-  # pkg:gem/haml#lib/haml/attribute_compiler.rb:67
+  # pkg:gem/haml#lib/haml/attribute_compiler.rb:70
   def compile_id!(temple, key, values); end
 
-  # pkg:gem/haml#lib/haml/attribute_compiler.rb:126
+  # pkg:gem/haml#lib/haml/attribute_compiler.rb:129
   def literal_for(value); end
 
-  # pkg:gem/haml#lib/haml/attribute_compiler.rb:36
+  # pkg:gem/haml#lib/haml/attribute_compiler.rb:37
   def runtime_compile(node); end
 
-  # pkg:gem/haml#lib/haml/attribute_compiler.rb:44
+  # pkg:gem/haml#lib/haml/attribute_compiler.rb:45
   def static_compile(static_hash, dynamic_hashes); end
 end
 
@@ -145,10 +148,10 @@ class Haml::AttributeParser
   end
 end
 
-# The list of boolean attributes. You may add custom attributes to this constant.
+# The set of boolean attributes. You may add custom attributes to this constant.
 #
-# pkg:gem/haml#lib/haml/attribute_compiler.rb:8
-Haml::BOOLEAN_ATTRIBUTES = T.let(T.unsafe(nil), Array)
+# pkg:gem/haml#lib/haml/attribute_compiler.rb:9
+Haml::BOOLEAN_ATTRIBUTES = T.let(T.unsafe(nil), Set)
 
 # pkg:gem/haml#lib/haml/compiler/children_compiler.rb:5
 class Haml::Compiler
@@ -266,12 +269,12 @@ class Haml::Compiler::DoctypeCompiler
   def xml_doctype; end
 end
 
-# pkg:gem/haml#lib/haml/compiler/script_compiler.rb:8
+# pkg:gem/haml#lib/haml/compiler/script_compiler.rb:10
 class Haml::Compiler::ScriptCompiler
-  # pkg:gem/haml#lib/haml/compiler/script_compiler.rb:18
+  # pkg:gem/haml#lib/haml/compiler/script_compiler.rb:15
   def initialize(identity, options); end
 
-  # pkg:gem/haml#lib/haml/compiler/script_compiler.rb:23
+  # pkg:gem/haml#lib/haml/compiler/script_compiler.rb:20
   def compile(node, &block); end
 
   private
@@ -279,35 +282,35 @@ class Haml::Compiler::ScriptCompiler
   # String-interpolated plain text must be compiled with this method
   # because we have to escape only interpolated values.
   #
-  # pkg:gem/haml#lib/haml/compiler/script_compiler.rb:41
+  # pkg:gem/haml#lib/haml/compiler/script_compiler.rb:38
   def compile_interpolated_plain(node); end
 
-  # pkg:gem/haml#lib/haml/compiler/script_compiler.rb:83
+  # pkg:gem/haml#lib/haml/compiler/script_compiler.rb:80
   def compile_script_assign(var, node, &block); end
 
-  # pkg:gem/haml#lib/haml/compiler/script_compiler.rb:99
+  # pkg:gem/haml#lib/haml/compiler/script_compiler.rb:96
   def compile_script_result(result, node); end
 
   # :dynamic is optimized in other filter: StringSplitter
   #
-  # pkg:gem/haml#lib/haml/compiler/script_compiler.rb:60
+  # pkg:gem/haml#lib/haml/compiler/script_compiler.rb:57
   def delegate_optimization(node); end
 
-  # pkg:gem/haml#lib/haml/compiler/script_compiler.rb:77
+  # pkg:gem/haml#lib/haml/compiler/script_compiler.rb:74
   def dynamic_compile(node, &block); end
 
-  # pkg:gem/haml#lib/haml/compiler/script_compiler.rb:110
+  # pkg:gem/haml#lib/haml/compiler/script_compiler.rb:107
   def escape_html(temple); end
 
-  # pkg:gem/haml#lib/haml/compiler/script_compiler.rb:106
+  # pkg:gem/haml#lib/haml/compiler/script_compiler.rb:103
   def find_and_preserve(code); end
 
-  # pkg:gem/haml#lib/haml/compiler/script_compiler.rb:67
+  # pkg:gem/haml#lib/haml/compiler/script_compiler.rb:64
   def static_compile(node); end
 
   class << self
-    # pkg:gem/haml#lib/haml/compiler/script_compiler.rb:9
-    def find_and_preserve(input, tags); end
+    # pkg:gem/haml#lib/haml/compiler/script_compiler.rb:11
+    def find_and_preserve(input, tags = T.unsafe(nil)); end
   end
 end
 
@@ -702,47 +705,47 @@ class Haml::Parser
 
   private
 
-  # pkg:gem/haml#lib/haml/parser.rb:852
+  # pkg:gem/haml#lib/haml/parser.rb:853
   def balance(*args); end
 
   # Unlike #balance, this balances lexed tokens to balance something like `{ a: "}" }` correctly.
   #
-  # pkg:gem/haml#lib/haml/parser.rb:857
+  # pkg:gem/haml#lib/haml/parser.rb:858
   def balance_tokens(buf, start, finish, count: T.unsafe(nil)); end
 
   # pkg:gem/haml#lib/haml/parser.rb:316
   def block_keyword(text); end
 
-  # pkg:gem/haml#lib/haml/parser.rb:878
+  # pkg:gem/haml#lib/haml/parser.rb:879
   def block_opened?; end
 
   # pkg:gem/haml#lib/haml/parser.rb:387
   def check_push_script_stack(keyword); end
 
-  # pkg:gem/haml#lib/haml/parser.rb:543
+  # pkg:gem/haml#lib/haml/parser.rb:544
   def close; end
 
-  # pkg:gem/haml#lib/haml/parser.rb:549
+  # pkg:gem/haml#lib/haml/parser.rb:550
   def close_filter(_); end
 
-  # pkg:gem/haml#lib/haml/parser.rb:557
+  # pkg:gem/haml#lib/haml/parser.rb:558
   def close_flat_section; end
 
-  # pkg:gem/haml#lib/haml/parser.rb:553
+  # pkg:gem/haml#lib/haml/parser.rb:554
   def close_haml_comment(_); end
 
-  # pkg:gem/haml#lib/haml/parser.rb:578
+  # pkg:gem/haml#lib/haml/parser.rb:579
   def close_script(node); end
 
-  # pkg:gem/haml#lib/haml/parser.rb:563
+  # pkg:gem/haml#lib/haml/parser.rb:564
   def close_silent_script(node); end
 
-  # pkg:gem/haml#lib/haml/parser.rb:806
+  # pkg:gem/haml#lib/haml/parser.rb:807
   def closes_flat?(line); end
 
   # Renders an XHTML comment.
   #
-  # pkg:gem/haml#lib/haml/parser.rb:498
+  # pkg:gem/haml#lib/haml/parser.rb:499
   def comment(text); end
 
   # pkg:gem/haml#lib/haml/parser.rb:267
@@ -751,27 +754,27 @@ class Haml::Parser
   # Renders a line that creates an XHTML tag and has an implicit div because of
   # `.` or `#`.
   #
-  # pkg:gem/haml#lib/haml/parser.rb:492
+  # pkg:gem/haml#lib/haml/parser.rb:493
   def div(line); end
 
   # Renders an XHTML doctype or XML shebang.
   #
-  # pkg:gem/haml#lib/haml/parser.rb:524
+  # pkg:gem/haml#lib/haml/parser.rb:525
   def doctype(text); end
 
   # pkg:gem/haml#lib/haml/parser.rb:196
   def error_with_lineno(error); end
 
-  # pkg:gem/haml#lib/haml/parser.rb:530
+  # pkg:gem/haml#lib/haml/parser.rb:531
   def filter(name); end
 
   # Same semantics as block_opened?, except that block_opened? uses Line#tabs,
   # which doesn't interact well with filter lines
   #
-  # pkg:gem/haml#lib/haml/parser.rb:884
+  # pkg:gem/haml#lib/haml/parser.rb:885
   def filter_opened?; end
 
-  # pkg:gem/haml#lib/haml/parser.rb:888
+  # pkg:gem/haml#lib/haml/parser.rb:889
   def flat?; end
 
   # pkg:gem/haml#lib/haml/parser.rb:352
@@ -780,15 +783,15 @@ class Haml::Parser
   # pkg:gem/haml#lib/haml/parser.rb:397
   def haml_comment(text); end
 
-  # pkg:gem/haml#lib/haml/parser.rb:810
+  # pkg:gem/haml#lib/haml/parser.rb:811
   def handle_multiline(line); end
 
-  # pkg:gem/haml#lib/haml/parser.rb:828
+  # pkg:gem/haml#lib/haml/parser.rb:829
   def handle_ruby_multiline(line); end
 
   # Checks whether or not `line` is in a multiline sequence.
   #
-  # pkg:gem/haml#lib/haml/parser.rb:824
+  # pkg:gem/haml#lib/haml/parser.rb:825
   def is_multiline?(text); end
 
   # `text' is a Ruby multiline block if it:
@@ -797,30 +800,30 @@ class Haml::Parser
   #   (however, "x?," is a method call and not a literal)
   # - and not "?\," which is a character literal
   #
-  # pkg:gem/haml#lib/haml/parser.rb:847
+  # pkg:gem/haml#lib/haml/parser.rb:848
   def is_ruby_multiline?(text); end
 
   # pkg:gem/haml#lib/haml/parser.rb:271
   def mid_block_keyword?(text); end
 
-  # pkg:gem/haml#lib/haml/parser.rb:788
+  # pkg:gem/haml#lib/haml/parser.rb:789
   def next_line; end
 
-  # pkg:gem/haml#lib/haml/parser.rb:759
+  # pkg:gem/haml#lib/haml/parser.rb:760
   def parse_new_attribute(scanner); end
 
   # @return [Array<Hash,String,nil>] - [static_attributes (Hash), dynamic_attributes (nil or String starting with `{` and ending with `}`)]
   # @return [String] rest
   # @return [Integer] last_line
   #
-  # pkg:gem/haml#lib/haml/parser.rb:718
+  # pkg:gem/haml#lib/haml/parser.rb:719
   def parse_new_attributes(text); end
 
   # @return [String] attributes_hash - Hash literal starting with `{` and ending with `}`
   # @return [String] rest
   # @return [Integer] last_line
   #
-  # pkg:gem/haml#lib/haml/parser.rb:681
+  # pkg:gem/haml#lib/haml/parser.rb:682
   def parse_old_attributes(text); end
 
   # Ideally this logic should be placed in Haml::AttributeParser instead of here and this method should use it.
@@ -828,12 +831,12 @@ class Haml::Parser
   # @param  [String] text - Hash literal or text inside old attributes
   # @return [Hash,nil] - Return nil if text is not static Hash literal
   #
-  # pkg:gem/haml#lib/haml/parser.rb:608
+  # pkg:gem/haml#lib/haml/parser.rb:609
   def parse_static_hash(text); end
 
   # Parses a line into tag_name, attributes, attributes_hash, object_ref, action, value
   #
-  # pkg:gem/haml#lib/haml/parser.rb:626
+  # pkg:gem/haml#lib/haml/parser.rb:627
   def parse_tag(text); end
 
   # pkg:gem/haml#lib/haml/parser.rb:326
@@ -871,7 +874,7 @@ class Haml::Parser
     # and `#` syntax, and returns a hash with them as attributes,
     # that can then be merged with another attributes hash.
     #
-    # pkg:gem/haml#lib/haml/parser.rb:585
+    # pkg:gem/haml#lib/haml/parser.rb:586
     def parse_class_and_id(list); end
   end
 end
@@ -1131,42 +1134,42 @@ class Haml::Parser::ParseNode < ::Struct
   end
 end
 
-# pkg:gem/haml#lib/haml/parser.rb:963
+# pkg:gem/haml#lib/haml/parser.rb:964
 class Haml::Parser::ParserOptions
-  # pkg:gem/haml#lib/haml/parser.rb:991
+  # pkg:gem/haml#lib/haml/parser.rb:992
   def initialize(values = T.unsafe(nil)); end
 
-  # pkg:gem/haml#lib/haml/parser.rb:975
+  # pkg:gem/haml#lib/haml/parser.rb:976
   def autoclose; end
 
-  # pkg:gem/haml#lib/haml/parser.rb:975
+  # pkg:gem/haml#lib/haml/parser.rb:976
   def escape_html; end
 
-  # pkg:gem/haml#lib/haml/parser.rb:975
+  # pkg:gem/haml#lib/haml/parser.rb:976
   def filename; end
 
-  # pkg:gem/haml#lib/haml/parser.rb:975
+  # pkg:gem/haml#lib/haml/parser.rb:976
   def line; end
 
-  # pkg:gem/haml#lib/haml/parser.rb:975
+  # pkg:gem/haml#lib/haml/parser.rb:976
   def mime_type; end
 
-  # pkg:gem/haml#lib/haml/parser.rb:975
+  # pkg:gem/haml#lib/haml/parser.rb:976
   def preserve; end
 
-  # pkg:gem/haml#lib/haml/parser.rb:975
+  # pkg:gem/haml#lib/haml/parser.rb:976
   def remove_whitespace; end
 
-  # pkg:gem/haml#lib/haml/parser.rb:975
+  # pkg:gem/haml#lib/haml/parser.rb:976
   def suppress_eval; end
 end
 
 # A list of options that are actually used in the parser
 #
-# pkg:gem/haml#lib/haml/parser.rb:965
+# pkg:gem/haml#lib/haml/parser.rb:966
 Haml::Parser::ParserOptions::AVAILABLE_OPTIONS = T.let(T.unsafe(nil), Array)
 
-# pkg:gem/haml#lib/haml/parser.rb:978
+# pkg:gem/haml#lib/haml/parser.rb:979
 Haml::Parser::ParserOptions::DEFAULTS = T.let(T.unsafe(nil), Hash)
 
 # Designates script that is always HTML-escaped.
@@ -1202,6 +1205,42 @@ Haml::Parser::START_BLOCK_KEYWORDS = T.let(T.unsafe(nil), Array)
 #
 # pkg:gem/haml#lib/haml/parser.rb:84
 Haml::Parser::START_BLOCK_KEYWORD_REGEX = T.let(T.unsafe(nil), Regexp)
+
+# find_and_preserve, shared by compiled templates and RailsHelpers.
+#
+# @api private
+#
+# pkg:gem/haml#lib/haml/preserver.rb:6
+module Haml::Preserver
+  class << self
+    # pkg:gem/haml#lib/haml/preserver.rb:43
+    def find_and_preserve(input, tags); end
+
+    # The cache is replaced, never mutated, so a racing writer at worst rebuilds a regex.
+    #
+    # pkg:gem/haml#lib/haml/preserver.rb:29
+    def regex(tags); end
+
+    private
+
+    # pkg:gem/haml#lib/haml/preserver.rb:9
+    def build_regex(tags); end
+  end
+end
+
+# pkg:gem/haml#lib/haml/preserver.rb:16
+Haml::Preserver::DEFAULT_REGEX = T.let(T.unsafe(nil), Regexp)
+
+# pkg:gem/haml#lib/haml/preserver.rb:7
+Haml::Preserver::DEFAULT_TAGS = T.let(T.unsafe(nil), Array)
+
+# pkg:gem/haml#lib/haml/preserver.rb:23
+Haml::Preserver::INITIAL_REGEXES = T.let(T.unsafe(nil), Hash)
+
+# Past this many lists the merge below turns quadratic, so the cache starts over.
+#
+# pkg:gem/haml#lib/haml/preserver.rb:20
+Haml::Preserver::MAX_REGEXES = T.let(T.unsafe(nil), Integer)
 
 # pkg:gem/haml#lib/haml/railtie.rb:5
 class Haml::Railtie < ::Rails::Railtie; end
@@ -1346,7 +1385,7 @@ module Haml::Util
   #   and the rest of the string.
   #   `["Foo (Bar (Baz bang) bop)", " (Bang (bop bip))"]` in the example above.
   #
-  # pkg:gem/haml#lib/haml/util.rb:172
+  # pkg:gem/haml#lib/haml/util.rb:171
   def balance(scanner, start, finish, count = T.unsafe(nil)); end
 
   # Checks that the encoding of a string is valid
@@ -1360,7 +1399,7 @@ module Haml::Util
   # @yieldparam msg [String] The error message to be raised
   # @return [String] `str`, potentially with encoding gotchas like BOMs removed
   #
-  # pkg:gem/haml#lib/haml/util.rb:66
+  # pkg:gem/haml#lib/haml/util.rb:65
   def check_encoding(str); end
 
   # Like {\#check\_encoding}, but also checks for a Ruby-style `-# coding:` comment
@@ -1383,10 +1422,10 @@ module Haml::Util
   # @return [String] The original string encoded properly
   # @raise [ArgumentError] if the document declares an unknown encoding
   #
-  # pkg:gem/haml#lib/haml/util.rb:113
+  # pkg:gem/haml#lib/haml/util.rb:112
   def check_haml_encoding(str, &block); end
 
-  # pkg:gem/haml#lib/haml/util.rb:201
+  # pkg:gem/haml#lib/haml/util.rb:200
   def contains_interpolation?(str); end
 
   # Scans through a string looking for the interoplation-opening `#{`
@@ -1400,7 +1439,7 @@ module Haml::Util
   # @yieldparam scan [StringScanner] The scanner scanning through the string
   # @return [String] The text remaining in the scanner after all `#{`s have been processed
   #
-  # pkg:gem/haml#lib/haml/util.rb:151
+  # pkg:gem/haml#lib/haml/util.rb:150
   def handle_interpolation(str); end
 
   # Formats a string for use in error messages about indentation.
@@ -1408,7 +1447,7 @@ module Haml::Util
   # @param indentation [String] The string used for indentation
   # @return [String] The name of the indentation (e.g. `"12 spaces"`, `"1 tab"`)
   #
-  # pkg:gem/haml#lib/haml/util.rb:188
+  # pkg:gem/haml#lib/haml/util.rb:187
   def human_indentation(indentation); end
 
   # Like `Object#inspect`, but preserves non-ASCII characters rather than escaping them.
@@ -1418,7 +1457,7 @@ module Haml::Util
   # @param obj {Object}
   # @return {String}
   #
-  # pkg:gem/haml#lib/haml/util.rb:130
+  # pkg:gem/haml#lib/haml/util.rb:129
   def inspect_obj(obj); end
 
   # Whether or not ActionView's XSS protection is available and enabled,
@@ -1427,18 +1466,18 @@ module Haml::Util
   #
   # @return [Boolean]
   #
-  # pkg:gem/haml#lib/haml/util.rb:52
+  # pkg:gem/haml#lib/haml/util.rb:51
   def rails_xss_safe?; end
 
   # Silence all output to STDERR within a block.
   #
   # @yield A block in which no output will be printed to STDERR
   #
-  # pkg:gem/haml#lib/haml/util.rb:38
+  # pkg:gem/haml#lib/haml/util.rb:37
   def silence_warnings; end
 
-  # pkg:gem/haml#lib/haml/util.rb:205
-  def unescape_interpolation(str, escape_html = T.unsafe(nil)); end
+  # pkg:gem/haml#lib/haml/util.rb:204
+  def unescape_interpolation(str); end
 
   private
 
@@ -1449,19 +1488,17 @@ module Haml::Util
   #   Whether the document begins with a UTF-8 BOM,
   #   and the declared encoding of the document (or nil if none is declared)
   #
-  # pkg:gem/haml#lib/haml/util.rb:237
+  # pkg:gem/haml#lib/haml/util.rb:241
   def parse_haml_magic_comment(str); end
 
-  # pkg:gem/haml#lib/haml/util.rb:249
+  # pkg:gem/haml#lib/haml/util.rb:253
   def try_parse_haml_emacs_magic_comment(scanner); end
 
   class << self
     # pkg:gem/haml#lib/haml/util.rb:20
     def escape_html(_arg0); end
 
-    # TODO: Remove unescape_interpolation's workaround and get rid of `respond_to?`.
-    #
-    # pkg:gem/haml#lib/haml/util.rb:30
+    # pkg:gem/haml#lib/haml/util.rb:29
     def escape_html_safe(html); end
   end
 end

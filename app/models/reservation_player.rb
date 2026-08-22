@@ -144,6 +144,13 @@ class ReservationPlayer < ActiveRecord::Base
     sdr_ip_range.include?(ip)
   end
 
+  sig { params(ip: T.nilable(String)).returns(String) }
+  def self.permanent_ip_ban_clause(ip)
+    return "" if ip.blank? || sdr_ip?(ip)
+
+    "; addip 0 #{ip}"
+  end
+
   sig { returns(IPAddr) }
   def self.sdr_ip_range
     @sdr_ip_range ||= IPAddr.new(SDR_IP_RANGE_CIDR)

@@ -59,11 +59,11 @@ class ServerMetric
 
       uid3 = SteamCondenser::Community::SteamId.community_id_to_steam_id3(player.steam_uid.to_i)
       if banned_asn?(player)
-        server.rcon_exec "kickid #{player.user_id} [#{SITE_HOST}] Please play without VPN; addip 0 #{player.ip}"
+        server.rcon_exec "kickid #{player.user_id} [#{SITE_HOST}] Please play without VPN#{ReservationPlayer.permanent_ip_ban_clause(player.ip)}"
         Rails.logger.info "Removed player on VPN with UID #{player.steam_uid}, IP #{player.ip}, name #{player.name}, from reservation #{T.must(current_reservation).id}"
       else
         ban_reason = banned_uid?(player) || banned_ip?(player)
-        server.rcon_exec "kickid #{player.user_id} #{ban_reason}; banid 0 #{uid3}; addip 0 #{player.ip}"
+        server.rcon_exec "kickid #{player.user_id} #{ban_reason}; banid 0 #{uid3}#{ReservationPlayer.permanent_ip_ban_clause(player.ip)}"
         Rails.logger.info "Removed banned player with UID #{player.steam_uid}, IP #{player.ip}, name #{player.name}, from reservation #{T.must(current_reservation).id}"
       end
     end

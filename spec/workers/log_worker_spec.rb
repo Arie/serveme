@@ -27,6 +27,7 @@ describe LogWorker do
   let(:connect_banned_ip)     { '1234567L 03/29/2014 - 13:15:53: "Troll<3><[U:1:12345]><>" connected, address "109.81.174.1:1234"' }
   let(:connect_banned_uid)    { '1234567L 03/29/2014 - 13:15:53: "Troll<3><[U:1:153029208]><>" connected, address "1.128.0.1:1234"' }
   let(:connect_league_banned_uid) { '1234567L 03/29/2014 - 13:15:53: "Troll<3><[U:1:1127291858]><>" connected, address "1.128.0.1:1234"' }
+  let(:connect_banned_uid_over_sdr) { '1234567L 03/29/2014 - 13:15:53: "Troll<3><[U:1:153029208]><>" connected, address "169.254.252.27:1234"' }
   let(:connect_allowed_uid) { '1234567L 03/29/2014 - 13:15:53: "NonTroll<3><[U:1:400545468]><>" connected, address "1.128.0.1:1234"' }
   let(:ai_command_line) { '1234567L 03/29/2014 - 13:15:53: "Arie - serveme.tf<3><[U:1:231702]><Red>" say "!ai change map to process"' }
   let(:ai_command_troll_line) { '1234567L 03/29/2014 - 13:15:53: "TRoll<3><[U:0:1337]><Red>" say "!ai change map to process"' }
@@ -187,6 +188,13 @@ describe LogWorker do
       ReservationPlayer.should_receive(:banned_uid?).with(76561198113294936).and_return("Cheating")
       server.should_receive(:rcon_exec).with('kickid 3 Cheating; banid 0 [U:1:153029208]; addip 0 1.128.0.1')
       LogWorker.perform_async(connect_banned_uid)
+    end
+
+    it 'doesnt addip a banned player connecting over SDR' do
+      ReservationPlayer.should_receive(:sdr_eligible_steam_profile?).with(76561198113294936).at_least(:once).and_return(true)
+      ReservationPlayer.should_receive(:banned_uid?).with(76561198113294936).and_return("Cheating")
+      server.should_receive(:rcon_exec).with('kickid 3 Cheating; banid 0 [U:1:153029208]')
+      LogWorker.perform_async(connect_banned_uid_over_sdr)
     end
 
     it 'shows a server message for league banned UIDs' do

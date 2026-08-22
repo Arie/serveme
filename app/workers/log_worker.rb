@@ -141,7 +141,7 @@ class LogWorker
   def handle_banned_vpn_player(community_id, ip, event)
     return false unless ReservationPlayer.banned_asn_ip?(ip) && !ReservationPlayer.whitelisted_uid?(community_id)
 
-    reservation&.server&.rcon_exec "kickid #{event.player.uid} [#{SITE_HOST}] Please play without VPN; addip 0 #{ip}"
+    reservation&.server&.rcon_exec "kickid #{event.player.uid} [#{SITE_HOST}] Please play without VPN#{ReservationPlayer.permanent_ip_ban_clause(ip)}"
     Rails.logger.info "Removed player on VPN with UID #{community_id}, IP #{event.message}, name #{event.player.name}, from reservation #{reservation_id}"
     true
   end
@@ -150,7 +150,7 @@ class LogWorker
   def handle_banned_player(community_id, ip, event)
     return false unless (ban_reason = ReservationPlayer.banned_uid?(community_id) || ReservationPlayer.banned_ip?(ip)) && !ReservationPlayer.whitelisted_uid?(community_id)
 
-    reservation&.server&.rcon_exec "kickid #{event.player.uid} #{ban_reason}; banid 0 #{event.player.steam_id}; addip 0 #{ip}"
+    reservation&.server&.rcon_exec "kickid #{event.player.uid} #{ban_reason}; banid 0 #{event.player.steam_id}#{ReservationPlayer.permanent_ip_ban_clause(ip)}"
     Rails.logger.info "Removed banned player with UID #{community_id}, IP #{event.message}, name #{event.player.name}, from reservation #{reservation_id}"
     true
   end
@@ -163,7 +163,7 @@ class LogWorker
     Rails.logger.info "League banned player with UID #{community_id}, IP #{event.message}, name #{event.player.name} connected to reservation #{reservation_id}: #{banned_league_profile.ban_reason}"
 
     if banned_league_profile.ban_reason.to_s.match?(/^(cheat|vac)/i)
-      reservation&.server&.rcon_exec "kickid #{event.player.uid} Cheating (league ban); banid 0 #{event.player.steam_id}; addip 0 #{ip}"
+      reservation&.server&.rcon_exec "kickid #{event.player.uid} Cheating (league ban); banid 0 #{event.player.steam_id}#{ReservationPlayer.permanent_ip_ban_clause(ip)}"
     end
 
     reservation&.server&.rcon_say "#{banned_league_profile.league_name} banned player #{event.player.name} connected: #{banned_league_profile.ban_reason}"

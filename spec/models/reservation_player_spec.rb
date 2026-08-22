@@ -128,6 +128,21 @@ describe ReservationPlayer do
     end
   end
 
+  context 'permanent IP ban clause' do
+    it 'bans normal IPs permanently' do
+      expect(described_class.permanent_ip_ban_clause('1.128.0.1')).to eql('; addip 0 1.128.0.1')
+    end
+
+    it 'never bans an SDR relay address' do
+      expect(described_class.permanent_ip_ban_clause('169.254.252.27')).to eql('')
+    end
+
+    it 'skips the clause when the IP is missing' do
+      expect(described_class.permanent_ip_ban_clause(nil)).to eql('')
+      expect(described_class.permanent_ip_ban_clause('')).to eql('')
+    end
+  end
+
   context 'normal IP connection history' do
     let(:steam_uid) { 76561198000000001 }
     let(:reservation) { create(:reservation) }

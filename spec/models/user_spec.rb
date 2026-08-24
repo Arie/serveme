@@ -21,6 +21,17 @@ describe User do
     end
   end
 
+  describe 'provider' do
+    it 'defaults to steam so Steam logins find the user' do
+      User.new.provider.should eql 'steam'
+    end
+
+    it 'is set on users created without an explicit provider, like by admins' do
+      user = User.create!(uid: '76561197960497430', name: '76561197960497430', nickname: '76561197960497430')
+      user.reload.provider.should eql 'steam'
+    end
+  end
+
   describe '.find_for_steam_auth' do
     before do
       @auth = double(provider: 'steam',
@@ -44,6 +55,12 @@ describe User do
       it 'returns an existing user if it could find one by uid' do
         create(:user, uid: '321')
         expect { User.find_for_steam_auth(@auth) }.not_to(change { User.count })
+      end
+
+      it 'returns an admin created user instead of creating a duplicate' do
+        admin_created = User.create!(uid: '321', name: '321', nickname: '321')
+        expect { User.find_for_steam_auth(@auth) }.not_to(change { User.count })
+        User.find_for_steam_auth(@auth).should eql admin_created
       end
 
       it 'updates an existing user with new information' do

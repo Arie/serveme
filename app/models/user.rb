@@ -7,6 +7,10 @@ class User < ActiveRecord::Base
   extend T::Sig
   devise :omniauthable, :rememberable, :trackable
 
+  STEAM_PROVIDER = "steam"
+
+  attribute :provider, default: STEAM_PROVIDER
+
   has_many :reservations
   has_many :log_uploads, through: :reservations
   has_many :group_users, -> { where(expires_at: nil).or(where(expires_at: Time.current..)) }

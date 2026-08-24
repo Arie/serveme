@@ -108,6 +108,12 @@ describe Admin::UsersController do
         new_user = User.find_by(uid: "76561197960497431")
         response.should redirect_to(admin_user_path(new_user))
       end
+
+      it 'creates the user with the steam provider so their Steam login finds it' do
+        post :create, params: { user: { uid: "76561197960497431" } }
+
+        User.find_by(uid: "76561197960497431").provider.should eql "steam"
+      end
     end
   end
 
@@ -261,6 +267,12 @@ describe Admin::UsersController do
 
         assigns(:users).count.should eql 1
         assigns(:user).uid.should eql "76561197960497432"
+      end
+
+      it 'creates the user with the steam provider' do
+        post :lookup_user, params: { input: "76561197960497432" }, format: :turbo_stream
+
+        User.find_by(uid: "76561197960497432").provider.should eql "steam"
       end
 
       it 'finds existing user' do

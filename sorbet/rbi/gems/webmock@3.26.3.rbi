@@ -8,11 +8,13 @@
 # pkg:gem/webmock#lib/webmock/http_lib_adapters/http_rb/client.rb:3
 module HTTP
   extend ::HTTP::Base64
+  extend ::HTTP::Chainable::Verbs
 end
 
 # pkg:gem/webmock#lib/webmock/http_lib_adapters/http_rb/client.rb:4
 class HTTP::Client
   include ::HTTP::Base64
+  include ::HTTP::Chainable::Verbs
 
   # pkg:gem/webmock#lib/webmock/http_lib_adapters/http_rb/client.rb:5
   def __perform__(req, options); end

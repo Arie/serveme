@@ -10,7 +10,7 @@
 # Pagy already implements the next code and this file works as a compatibility layer
 # to avoid breaking changes in the current version, respecting the Semantic Version contract.
 # avoid circular require (also from pagy itself)
-# :nocov:
+# simplecov:enable
 # Handle pagination response headers
 # Relegate internal functions. Make overriding navs easier.
 #

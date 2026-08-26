@@ -1533,13 +1533,17 @@ class Tapioca::Gem::Listeners::Documentation < ::Tapioca::Gem::Listeners::Base
 
   private
 
+  # pkg:gem/tapioca#lib/tapioca/gem/listeners/documentation.rb:85
+  sig { params(definition: ::Rubydex::Definition).returns(T::Array[::String]) }
+  def comment_lines(definition); end
+
   # pkg:gem/tapioca#lib/tapioca/gem/listeners/documentation.rb:58
   sig { params(name: ::String, sigs: T::Array[::RBI::Sig]).returns(T::Array[::RBI::Comment]) }
   def documentation_comments(name, sigs: T.unsafe(nil)); end
 
   # @override
   #
-  # pkg:gem/tapioca#lib/tapioca/gem/listeners/documentation.rb:88
+  # pkg:gem/tapioca#lib/tapioca/gem/listeners/documentation.rb:93
   sig { override.params(event: ::Tapioca::Gem::NodeAdded).returns(T::Boolean) }
   def ignore?(event); end
 

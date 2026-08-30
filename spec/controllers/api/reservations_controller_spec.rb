@@ -445,6 +445,61 @@ describe Api::ReservationsController do
       expect(JSON.parse(response.body)['reservations'].size).to eql(1)
     end
 
+    it 'filters on multiple steam uids' do
+      @api_user.groups << Group.admin_group
+
+      teammate = create(:user, uid: '76561197960497430')
+      other_teammate = create(:user, uid: '76561197960497431')
+      _teammate_reservation = create :reservation, user: teammate
+      _other_teammate_reservation = create :reservation, user: other_teammate
+      _unrelated_reservation = create :reservation, user: create(:user, uid: '76561197960497432')
+
+      get :index, params: { steam_uids: [ teammate.uid, other_teammate.uid ] }, format: :json
+
+      expect(response.status).to eql 200
+      expect(JSON.parse(response.body)['reservations'].map { |r| r['steam_uid'] }).to match_array([ teammate.uid, other_teammate.uid ])
+
+      get :index, params: { steam_uids: " #{teammate.uid}, #{other_teammate.uid} , " }, format: :json
+
+      expect(response.status).to eql 200
+      expect(JSON.parse(response.body)['reservations'].map { |r| r['steam_uid'] }).to match_array([ teammate.uid, other_teammate.uid ])
+    end
+
+    it 'combines steam_uid and steam_uids' do
+      @api_user.groups << Group.admin_group
+
+      teammate = create(:user, uid: '76561197960497430')
+      other_teammate = create(:user, uid: '76561197960497431')
+      _teammate_reservation = create :reservation, user: teammate
+      _other_teammate_reservation = create :reservation, user: other_teammate
+      _unrelated_reservation = create :reservation, user: create(:user, uid: '76561197960497432')
+
+      get :index, params: { steam_uid: teammate.uid, steam_uids: [ other_teammate.uid ] }, format: :json
+
+      expect(response.status).to eql 200
+      expect(JSON.parse(response.body)['reservations'].map { |r| r['steam_uid'] }).to match_array([ teammate.uid, other_teammate.uid ])
+    end
+
+    it 'ignores steam_uids for users without elevated access' do
+      teammate = create(:user, uid: '76561197960497430')
+      _own_reservation = create :reservation, user: @api_user
+      _teammate_reservation = create :reservation, user: teammate
+
+      get :index, params: { steam_uids: [ teammate.uid ] }, format: :json
+
+      expect(response.status).to eql 200
+      expect(JSON.parse(response.body)['reservations'].map { |r| r['steam_uid'] }).to eql([ @api_user.uid ])
+    end
+
+    it 'rejects more steam uids than the maximum' do
+      @api_user.groups << Group.admin_group
+
+      get :index, params: { steam_uids: Array.new(51) { |i| (76561197960497430 + i).to_s } }, format: :json
+
+      expect(response.status).to eql 400
+      expect(JSON.parse(response.body)['error']).to match(/50/)
+    end
+
     it "returns user's reservations for users" do
       _reservation = create :reservation, inactive_minute_counter: 20, user: @api_user
       _other_reservation = create :reservation, inactive_minute_counter: 20, user: create(:user)

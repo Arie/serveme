@@ -370,6 +370,7 @@ RSpec.describe 'serveme.tf API', type: :request do
       tags 'Reservations'
       parameter name: :api_key, in: :query, type: :string, required: false, description: 'API key for authentication'
       parameter name: :steam_uid, in: :query, type: :string, required: false, description: 'Steam UID to filter reservations'
+      parameter name: :steam_uids, in: :query, schema: { type: :array, items: { type: :string } }, required: false, description: 'Steam UIDs to filter reservations on, for finding the reservations of a whole roster at once. Accepts a repeated query parameter or a comma separated string. Maximum 50 UIDs. Combined with steam_uid when both are given.'
       parameter name: :limit, in: :query, type: :integer, required: false, description: 'Limit number of results'
       parameter name: :offset, in: :query, type: :integer, required: false, description: 'Offset for pagination'
       security [ { api_key: [] }, { token_auth: [] }, { bearer_token: [] } ]

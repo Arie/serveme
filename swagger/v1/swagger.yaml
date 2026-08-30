@@ -454,6 +454,17 @@ paths:
         description: Steam UID to filter reservations
         schema:
           type: string
+      - name: steam_uids
+        in: query
+        schema:
+          type: array
+          items:
+            type: string
+        required: false
+        description: Steam UIDs to filter reservations on, for finding the reservations
+          of a whole roster at once. Accepts a repeated query parameter or a comma
+          separated string. Maximum 50 UIDs. Combined with steam_uid when both are
+          given.
       - name: limit
         in: query
         required: false

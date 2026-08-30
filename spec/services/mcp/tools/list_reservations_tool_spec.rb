@@ -26,6 +26,7 @@ RSpec.describe Mcp::Tools::ListReservationsTool do
       expect(schema[:properties]).to have_key(:user_id)
       expect(schema[:properties]).to have_key(:user_query)
       expect(schema[:properties]).to have_key(:steam_uid)
+      expect(schema[:properties]).to have_key(:steam_uids)
       expect(schema[:properties]).to have_key(:server_id)
       expect(schema[:properties]).to have_key(:starts_after)
       expect(schema[:properties]).to have_key(:starts_before)
@@ -174,6 +175,51 @@ RSpec.describe Mcp::Tools::ListReservationsTool do
         result = tool.execute(steam_uid: "76561198999999999")
 
         expect(result[:reservations]).to be_empty
+      end
+    end
+
+    context "with steam_uids filter" do
+      let(:teammate) { create(:user, nickname: "Teammate", uid: "76561197960497430") }
+      let(:other_teammate) { create(:user, nickname: "OtherTeammate", uid: "76561197960497431") }
+      let!(:teammate_reservation) { create(:reservation, server: server, user: teammate) }
+      let!(:other_teammate_reservation) { create(:reservation, server: server2, user: other_teammate) }
+      let!(:unrelated_reservation) { create(:reservation, server: server3, user: reservation_user) }
+
+      it "filters on an array of Steam ID64s" do
+        result = tool.execute(steam_uids: [ teammate.uid, other_teammate.uid ])
+
+        expect(result[:reservations].map { |r| r[:id] }).to match_array([ teammate_reservation.id, other_teammate_reservation.id ])
+      end
+
+      it "filters on a comma separated string of Steam ID64s" do
+        result = tool.execute(steam_uids: " #{teammate.uid}, #{other_teammate.uid} , ")
+
+        expect(result[:reservations].map { |r| r[:id] }).to match_array([ teammate_reservation.id, other_teammate_reservation.id ])
+      end
+
+      it "combines steam_uid and steam_uids" do
+        result = tool.execute(steam_uid: teammate.uid, steam_uids: [ other_teammate.uid ])
+
+        expect(result[:reservations].map { |r| r[:id] }).to match_array([ teammate_reservation.id, other_teammate_reservation.id ])
+      end
+
+      it "returns empty when none of the steam_uids are found" do
+        result = tool.execute(steam_uids: [ "76561198999999999", "76561198999999998" ])
+
+        expect(result[:reservations]).to be_empty
+      end
+
+      it "returns an error when given more steam uids than the maximum" do
+        result = tool.execute(steam_uids: Array.new(51) { |i| (76561197960497430 + i).to_s })
+
+        expect(result[:error]).to match(/50/)
+        expect(result[:reservations]).to be_nil
+      end
+
+      it "prefers user_id over steam_uids" do
+        result = tool.execute(user_id: teammate.id, steam_uids: [ other_teammate.uid ])
+
+        expect(result[:reservations].map { |r| r[:id] }).to eq([ teammate_reservation.id ])
       end
     end
 

@@ -4,7 +4,9 @@
 module Api
   class ReservationsController < Api::ApplicationController
     include ReservationsHelper
+
     before_action :map_legacy_democheck_param, only: [ :create, :update ]
+    before_action :validate_steam_uids
 
     def index
       limit = params[:limit] || 10
@@ -104,11 +106,7 @@ module Api
 
     def reservations_scope
       if api_user.admin? || api_user.league_admin? || api_user.streamer? || api_user.trusted_api?
-        if params[:steam_uid]
-          Reservation.joins(:user).where(users: { uid: params[:steam_uid] })
-        else
-          Reservation.joins(:user)
-        end
+        filter_by_steam_uids(Reservation.joins(:user))
       else
         current_user.reservations.joins(:user)
       end
@@ -116,14 +114,25 @@ module Api
 
     def writable_reservations_scope
       if api_user.admin? || api_user.league_admin? || api_user.trusted_api?
-        if params[:steam_uid]
-          Reservation.joins(:user).where(users: { uid: params[:steam_uid] })
-        else
-          Reservation.joins(:user)
-        end
+        filter_by_steam_uids(Reservation.joins(:user))
       else
         current_user.reservations.joins(:user)
       end
+    end
+
+    def filter_by_steam_uids(scope)
+      uids = requested_steam_uids
+      uids.any? ? scope.where(users: { uid: uids }) : scope
+    end
+
+    def requested_steam_uids
+      @requested_steam_uids ||= SteamUidList.parse(params[:steam_uids], params[:steam_uid])
+    end
+
+    def validate_steam_uids
+      return unless SteamUidList.too_many?(requested_steam_uids)
+
+      render json: { error: SteamUidList::TOO_MANY_ERROR }, status: :bad_request
     end
 
     def reservation

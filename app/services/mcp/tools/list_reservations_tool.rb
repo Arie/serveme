@@ -41,6 +41,13 @@ module Mcp
               type: "string",
               description: "Filter by Steam ID64 (use user_query for more flexible lookup)"
             },
+            steam_uids: {
+              type: "array",
+              items: { type: "string" },
+              description: "Filter by multiple Steam ID64s, for finding the reservations of a whole roster at once. " \
+                          "Useful when you know a team but not which of its players booked the server. " \
+                          "Also accepts a comma separated string. Maximum #{SteamUidList::MAX} UIDs."
+            },
             player_steam_uid: {
               type: "string",
               description: "Filter by a player who connected to the server (searches reservation_players). " \
@@ -81,6 +88,8 @@ module Mcp
 
       sig { override.params(params: T::Hash[Symbol, T.untyped]).returns(T::Hash[Symbol, T.untyped]) }
       def execute(params)
+        return { error: SteamUidList::TOO_MANY_ERROR } if SteamUidList.too_many?(requested_steam_uids(params))
+
         # Resolve user_query first if provided
         if params[:user_query].present?
           resolved_user = resolve_user(params[:user_query])
@@ -105,6 +114,11 @@ module Mcp
       end
 
       private
+
+      sig { params(params: T::Hash[Symbol, T.untyped]).returns(T::Array[String]) }
+      def requested_steam_uids(params)
+        SteamUidList.parse(params[:steam_uids], params[:steam_uid])
+      end
 
       sig { params(query: String).returns(T::Hash[Symbol, T.untyped]) }
       def resolve_user(query)
@@ -143,9 +157,9 @@ module Mcp
         # User filter
         if params[:user_id].present?
           reservations = reservations.where(user_id: params[:user_id])
-        elsif params[:steam_uid].present?
-          user = User.find_by(uid: params[:steam_uid])
-          reservations = reservations.where(user_id: user&.id)
+        else
+          steam_uids = requested_steam_uids(params)
+          reservations = reservations.where(user_id: User.where(uid: steam_uids).select(:id)) if steam_uids.any?
         end
 
         # Server filter

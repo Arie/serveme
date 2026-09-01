@@ -509,7 +509,7 @@ describe Api::ReservationsController do
       2.times { create :server_statistic, reservation: reservation, server: reservation.server }
 
       statements = []
-      subscriber = ActiveSupport::Notifications.subscribe('sql.active_record') do |*, payload|
+      subscriber = ActiveSupport::Notifications.subscribe('sql.active_record') do |*_, payload|
         statements << payload[:sql].to_s
       end
       begin

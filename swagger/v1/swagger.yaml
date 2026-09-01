@@ -468,7 +468,7 @@ paths:
       - name: limit
         in: query
         required: false
-        description: Limit number of results
+        description: Limit number of results, maximum 100
         schema:
           type: integer
       - name: offset

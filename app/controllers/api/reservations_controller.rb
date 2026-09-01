@@ -5,13 +5,17 @@ module Api
   class ReservationsController < Api::ApplicationController
     include ReservationsHelper
 
+    MAX_LIMIT = 100
+
     before_action :map_legacy_democheck_param, only: [ :create, :update ]
     before_action :validate_steam_uids
 
     def index
       limit = params[:limit] || 10
-      limit = [ limit.to_i, 500 ].min
-      @reservations = reservations_scope.includes(:user, :reservation_statuses, :server_statistics, :log_uploads, server: :location).order(id: :desc).limit(limit).offset(params[:offset].to_i)
+      limit = [ limit.to_i, MAX_LIMIT ].min
+      # preload, never includes: reservations_scope joins(:user), and includes over a joined
+      # association eager_loads the whole list into one cartesian LEFT OUTER JOIN.
+      @reservations = reservations_scope.preload(:user, :reservation_statuses, :server_statistics, :log_uploads, server: :location).order(id: :desc).limit(limit).offset(params[:offset].to_i)
     end
 
     def new

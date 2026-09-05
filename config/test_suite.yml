@@ -12,6 +12,9 @@ tasks:
   importmap:
     command: "bin/importmap audit"
 
+  bundler_audit:
+    command: "bundle exec bundler-audit check --update --quiet"
+
   rubocop:
     command: "bin/rubocop -f github"
     autocorrect: "bin/rubocop --autocorrect-all"
@@ -61,6 +64,7 @@ sections:
       - sort_and_dedup
       - brakeman
       - importmap
+      - bundler_audit
       - rubocop
       - tapioca_gem
       - tapioca_dsl

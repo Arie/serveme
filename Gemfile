@@ -93,6 +93,7 @@ group :development do
   gem "rubocop", require: false
   gem "rubocop-sorbet", require: false
   gem "rubocop-rails-omakase", require: false
+  gem "bundler-audit", require: false
   gem "rubocop-performance", require: false
   gem "rubocop-rails", require: false
   gem "tapioca", git: "https://github.com/Shopify/tapioca.git", require: false

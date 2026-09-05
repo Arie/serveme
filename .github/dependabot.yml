@@ -13,3 +13,11 @@ updates:
     commit-message:
       prefix: CI
     open-pull-requests-limit: 5
+
+  # Gems are updated by hand; a limit of 0 disables version-update PRs but
+  # keeps Dependabot security-update PRs for advisories against Gemfile.lock.
+  - package-ecosystem: bundler
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 0

@@ -4,6 +4,7 @@ on:
   push:
     branches: [master]
   pull_request:
+  workflow_dispatch:
 
 # CI only needs to read the repository; restrict the default token.
 permissions:
@@ -43,6 +44,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
 
+      # ruby-vips dlopens libvips at boot (Active Storage requires it), and
+      # bin/importmap boots the app.
+      - name: Install dependencies
+        run: sudo apt install libvips42t64
+
       - uses: ./.github/actions/ruby
 
       - name: Check CSV files are sorted and deduplicated
@@ -53,6 +59,9 @@ jobs:
 
       - name: Scan for security vulnerabilities in JavaScript dependencies
         run: bin/importmap audit
+
+      - name: Scan for security vulnerabilities in Ruby dependencies
+        run: bundle exec bundler-audit check --update
 
       - name: Lint code for consistent style
         run: bin/rubocop -f github
@@ -85,11 +94,12 @@ jobs:
 
       # libmaxminddb0 is the runtime library hive_geoip2 links against; the
       # compiled gem itself comes from the bundler cache (no -dev headers needed).
+      # libvips42t64 is dlopened by ruby-vips at boot.
       - name: Install dependencies
         run: |
           sudo add-apt-repository ppa:maxmind/ppa
           sudo apt update
-          sudo apt install libmaxminddb0 redis-server memcached ripgrep
+          sudo apt install libmaxminddb0 libvips42t64 redis-server memcached ripgrep
 
       - uses: ./.github/actions/ruby
 
@@ -106,6 +116,9 @@ jobs:
         run: |
           RAILS_ENV=test bin/rails db:create db:migrate
           RAILS_ENV=development bin/rails db:create db:migrate
+
+      - name: Verify db/schema.rb is in sync with migrations
+        run: git diff --exit-code db/schema.rb
 
       - name: Verify Tapioca DSL
         env:
@@ -154,11 +167,12 @@ jobs:
 
       # libmaxminddb0 is the runtime library hive_geoip2 links against; the
       # compiled gem itself comes from the bundler cache (no -dev headers needed).
+      # libvips42t64 is dlopened by ruby-vips at boot.
       - name: Install dependencies
         run: |
           sudo add-apt-repository ppa:maxmind/ppa
           sudo apt update
-          sudo apt install libmaxminddb0 redis-server memcached
+          sudo apt install libmaxminddb0 libvips42t64 redis-server memcached
 
       - uses: ./.github/actions/ruby
 
@@ -178,3 +192,26 @@ jobs:
           PGPASSWORD: secret
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
         run: bundle exec cucumber features
+
+  # Kamal deploys build this Dockerfile on the deploy host; build it here so a
+  # broken Dockerfile (or a gem needing a system lib it doesn't install) fails
+  # CI instead of a deploy. Nothing is pushed.
+  docker:
+    name: Docker build
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@37fe631027851001ddb9b187196cc803df7f5f0e # v4.3.0
+
+      - name: Build image
+        uses: docker/build-push-action@53b7df96c91f9c12dcc8a07bcb9ccacbed38856a # v7.3.0
+        with:
+          context: .
+          push: false
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

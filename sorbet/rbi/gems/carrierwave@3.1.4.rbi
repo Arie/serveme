@@ -305,8 +305,6 @@ class CarrierWave::InvalidParameter < ::CarrierWave::UploadError; end
 module CarrierWave::MiniMagick
   extend ::ActiveSupport::Concern
 
-  mixes_in_class_methods ::CarrierWave::MiniMagick::ClassMethods
-
   # Changes the image encoding format to the given format
   #
   # See http://www.imagemagick.org/script/command-line-options.php#format
@@ -1391,12 +1389,20 @@ class CarrierWave::SanitizedFile
   # pkg:gem/carrierwave#lib/carrierwave/sanitized_file.rb:283
   def file=(file); end
 
+  # Clients occasionally send more than one MIME type in a single header
+  # (e.g. "image/png; text/html" or "image/png, text/html"). Marcel 2 validates
+  # the declared type against the RFC grammar and rejects such values, so pick
+  # the first media type ourselves before handing it over.
+  #
+  # pkg:gem/carrierwave#lib/carrierwave/sanitized_file.rb:328
+  def first_declared_content_type(content_type); end
+
   # Guess content type from its file extension. Limit what to be returned to prevent spoofing.
   #
-  # pkg:gem/carrierwave#lib/carrierwave/sanitized_file.rb:325
+  # pkg:gem/carrierwave#lib/carrierwave/sanitized_file.rb:333
   def guessed_safe_content_type; end
 
-  # pkg:gem/carrierwave#lib/carrierwave/sanitized_file.rb:332
+  # pkg:gem/carrierwave#lib/carrierwave/sanitized_file.rb:340
   def identified_content_type; end
 
   # create the directory if it doesn't exist
@@ -1409,7 +1415,7 @@ class CarrierWave::SanitizedFile
   # pkg:gem/carrierwave#lib/carrierwave/sanitized_file.rb:307
   def sanitize(name); end
 
-  # pkg:gem/carrierwave#lib/carrierwave/sanitized_file.rb:349
+  # pkg:gem/carrierwave#lib/carrierwave/sanitized_file.rb:357
   def with_io(&block); end
 
   class << self

@@ -1666,7 +1666,7 @@ module Anthropic
         sig { params(blk: T.proc.params(arg0: Anthropic::Streaming::MessageStream).void).void }
         def each_streaming(&blk); end
 
-        sig { params(messages: Anthropic::Models::Beta::BetaMessageParam).void }
+        sig { params(messages: Anthropic::Models::Beta::BetaMessageParam::OrHash).void }
         def feed_messages(*messages); end
 
         sig { returns(T::Boolean) }
@@ -3875,6 +3875,16 @@ module Anthropic
           Anthropic::AnthropicBeta::TaggedSymbol
         )
 
+      MID_CONVERSATION_OUTPUT_CONFIG_2026_07_01 = T.let(
+          :"mid-conversation-output-config-2026-07-01",
+          Anthropic::AnthropicBeta::TaggedSymbol
+        )
+
+      MID_CONVERSATION_SYSTEM_CLEAR_AT_2026_08_21 = T.let(
+          :"mid-conversation-system-clear-at-2026-08-21",
+          Anthropic::AnthropicBeta::TaggedSymbol
+        )
+
       MID_CONVERSATION_TOOL_CHANGES_2026_07_01 = T.let(
           :"mid-conversation-tool-changes-2026-07-01",
           Anthropic::AnthropicBeta::TaggedSymbol
@@ -3917,6 +3927,11 @@ module Anthropic
 
       TASK_BUDGETS_2026_03_13 = T.let(
           :"task-budgets-2026-03-13",
+          Anthropic::AnthropicBeta::TaggedSymbol
+        )
+
+      THINKING_BINDING_CONTROLS_2026_08_01 = T.let(
+          :"thinking-binding-controls-2026-08-01",
           Anthropic::AnthropicBeta::TaggedSymbol
         )
 
@@ -4497,12 +4512,19 @@ module Anthropic
         sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
         attr_writer :betas
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
               agent_id: String,
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -4513,12 +4535,14 @@ module Anthropic
             params(
               agent_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
           def new(
             agent_id:,
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -4666,6 +4690,12 @@ module Anthropic
         end
         attr_writer :tools
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
@@ -4700,6 +4730,7 @@ module Anthropic
                 ],
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -4737,6 +4768,7 @@ module Anthropic
                 )
               ],
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
@@ -4760,6 +4792,7 @@ module Anthropic
             tools: nil, # Tool configurations available to the agent. Maximum of 128 tools across all
                         # toolsets allowed.
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -4944,6 +4977,12 @@ module Anthropic
         sig { params(page: String).void }
         attr_writer :page
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
@@ -4954,6 +4993,7 @@ module Anthropic
               page: String,
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -4968,6 +5008,7 @@ module Anthropic
               limit: Integer,
               page: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
@@ -4978,6 +5019,7 @@ module Anthropic
             limit: nil, # Maximum results per page. Default 20, maximum 100.
             page: nil, # Opaque pagination cursor from a previous response.
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -5016,6 +5058,12 @@ module Anthropic
         sig { params(version: Integer).void }
         attr_writer :version
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
@@ -5023,6 +5071,7 @@ module Anthropic
               version: Integer,
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -5034,6 +5083,7 @@ module Anthropic
               agent_id: String,
               version: Integer,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
@@ -5042,6 +5092,7 @@ module Anthropic
             version: nil, # Agent version. Omit for the most recent version. Must be at least 1 if
                           # specified.
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -5184,6 +5235,12 @@ module Anthropic
         sig { params(version: Integer).void }
         attr_writer :version
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
@@ -5226,6 +5283,7 @@ module Anthropic
               version: Integer,
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -5271,6 +5329,7 @@ module Anthropic
               ),
               version: Integer,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
@@ -5302,6 +5361,7 @@ module Anthropic
                           # supplied, the request fails if it does not match the server's current version;
                           # omit to apply the update unconditionally.
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -5469,6 +5529,12 @@ module Anthropic
           sig { params(page: String).void }
           attr_writer :page
 
+          sig { returns(T.nilable(String)) }
+          attr_reader :workspace_id
+
+          sig { params(workspace_id: String).void }
+          attr_writer :workspace_id
+
           sig do
             override
               .returns({
@@ -5477,6 +5543,7 @@ module Anthropic
                 page: String,
                 betas:
                   T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions
               })
           end
@@ -5489,6 +5556,7 @@ module Anthropic
                 limit: Integer,
                 page: String,
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions::OrHash
               ).returns(T.attached_class)
             end
@@ -5497,6 +5565,7 @@ module Anthropic
               limit: nil, # Maximum results per page. Default 20, maximum 100.
               page: nil, # Opaque pagination cursor.
               betas: nil, # Optional header to specify the beta version(s) you want to use.
+              workspace_id: nil,
               request_options: {}
 ); end
           end
@@ -8557,24 +8626,6 @@ module Anthropic
       end
 
       class BetaBrowserToolset20260801 < Anthropic::Internal::Type::BaseModel
-        sig do
-          returns(T.nilable(
-              T::Array[
-                Anthropic::Beta::BetaBrowserToolset20260801::AllowedCaller::OrSymbol
-              ]
-            ))
-        end
-        attr_reader :allowed_callers
-
-        sig do
-          params(
-            allowed_callers: T::Array[
-                Anthropic::Beta::BetaBrowserToolset20260801::AllowedCaller::OrSymbol
-              ]
-          ).void
-        end
-        attr_writer :allowed_callers
-
         # Create a cache control breakpoint at this content block.
         sig { returns(T.nilable(Anthropic::Beta::BetaCacheControlEphemeral)) }
         attr_reader :cache_control
@@ -8600,10 +8651,6 @@ module Anthropic
           override
             .returns({
               type: Symbol,
-              allowed_callers:
-                T::Array[
-                  Anthropic::Beta::BetaBrowserToolset20260801::AllowedCaller::OrSymbol
-                ],
               cache_control:
                 T.nilable(Anthropic::Beta::BetaCacheControlEphemeral),
               configs: T.nilable(Anthropic::Beta::BetaBrowserToolsetConfigs)
@@ -8617,16 +8664,12 @@ module Anthropic
           # disabled via `configs` removed from its schema.
           sig do
             params(
-              allowed_callers: T::Array[
-                Anthropic::Beta::BetaBrowserToolset20260801::AllowedCaller::OrSymbol
-              ],
               cache_control: T.nilable(Anthropic::Beta::BetaCacheControlEphemeral::OrHash),
               configs: T.nilable(Anthropic::Beta::BetaBrowserToolsetConfigs::OrHash),
               type: Symbol
             ).returns(T.attached_class)
           end
           def new(
-            allowed_callers: nil,
             cache_control: nil, # Create a cache control breakpoint at this content block.
             configs: nil, # Per-member configuration for `browser_toolset_20260801`: one optional field per
                           # member tool, keyed by the member name — the same name the member's `tool_use`
@@ -8635,56 +8678,6 @@ module Anthropic
                           # toolset version's complete member set.
             type: :browser_toolset_20260801
 ); end
-        end
-
-        # Specifies who can invoke a tool.
-        #
-        # Values: direct: The model can call this tool directly. code_execution_20250825:
-        # The tool can be called from the code execution environment (v1).
-        # code_execution_20260120: The tool can be called from the code execution
-        # environment (v2 with persistence). code_execution_20260521: The tool can be
-        # called from the code execution environment (v2 with persistence).
-        module AllowedCaller
-          extend Anthropic::Internal::Type::Enum
-
-          class << self
-            sig do
-              override
-                .returns(T::Array[
-                Anthropic::Beta::BetaBrowserToolset20260801::AllowedCaller::TaggedSymbol
-              ])
-            end
-            def values; end
-          end
-
-          CODE_EXECUTION_20250825 = T.let(
-              :code_execution_20250825,
-              Anthropic::Beta::BetaBrowserToolset20260801::AllowedCaller::TaggedSymbol
-            )
-
-          CODE_EXECUTION_20260120 = T.let(
-              :code_execution_20260120,
-              Anthropic::Beta::BetaBrowserToolset20260801::AllowedCaller::TaggedSymbol
-            )
-
-          CODE_EXECUTION_20260521 = T.let(
-              :code_execution_20260521,
-              Anthropic::Beta::BetaBrowserToolset20260801::AllowedCaller::TaggedSymbol
-            )
-
-          DIRECT = T.let(
-              :direct,
-              Anthropic::Beta::BetaBrowserToolset20260801::AllowedCaller::TaggedSymbol
-            )
-
-          OrSymbol = T.type_alias { T.any(Symbol, String) }
-
-          TaggedSymbol = T.type_alias do
-              T.all(
-                Symbol,
-                Anthropic::Beta::BetaBrowserToolset20260801::AllowedCaller
-              )
-            end
         end
 
         OrHash = T.type_alias do
@@ -13018,24 +13011,6 @@ module Anthropic
       end
 
       class BetaComputerToolset20260801 < Anthropic::Internal::Type::BaseModel
-        sig do
-          returns(T.nilable(
-              T::Array[
-                Anthropic::Beta::BetaComputerToolset20260801::AllowedCaller::OrSymbol
-              ]
-            ))
-        end
-        attr_reader :allowed_callers
-
-        sig do
-          params(
-            allowed_callers: T::Array[
-                Anthropic::Beta::BetaComputerToolset20260801::AllowedCaller::OrSymbol
-              ]
-          ).void
-        end
-        attr_writer :allowed_callers
-
         # Create a cache control breakpoint at this content block.
         sig { returns(T.nilable(Anthropic::Beta::BetaCacheControlEphemeral)) }
         attr_reader :cache_control
@@ -13061,10 +13036,6 @@ module Anthropic
           override
             .returns({
               type: Symbol,
-              allowed_callers:
-                T::Array[
-                  Anthropic::Beta::BetaComputerToolset20260801::AllowedCaller::OrSymbol
-                ],
               cache_control:
                 T.nilable(Anthropic::Beta::BetaCacheControlEphemeral),
               configs: T.nilable(Anthropic::Beta::BetaComputerToolsetConfigs)
@@ -13081,16 +13052,12 @@ module Anthropic
           # `configs`, and `cache_control`; zoom is controlled via `configs.zoom.enabled`.
           sig do
             params(
-              allowed_callers: T::Array[
-                Anthropic::Beta::BetaComputerToolset20260801::AllowedCaller::OrSymbol
-              ],
               cache_control: T.nilable(Anthropic::Beta::BetaCacheControlEphemeral::OrHash),
               configs: T.nilable(Anthropic::Beta::BetaComputerToolsetConfigs::OrHash),
               type: Symbol
             ).returns(T.attached_class)
           end
           def new(
-            allowed_callers: nil,
             cache_control: nil, # Create a cache control breakpoint at this content block.
             configs: nil, # Per-member configuration for `computer_toolset_20260801`: one optional field per
                           # member tool, keyed by the member name — the same name the member's `tool_use`
@@ -13099,56 +13066,6 @@ module Anthropic
                           # toolset version's complete member set.
             type: :computer_toolset_20260801
 ); end
-        end
-
-        # Specifies who can invoke a tool.
-        #
-        # Values: direct: The model can call this tool directly. code_execution_20250825:
-        # The tool can be called from the code execution environment (v1).
-        # code_execution_20260120: The tool can be called from the code execution
-        # environment (v2 with persistence). code_execution_20260521: The tool can be
-        # called from the code execution environment (v2 with persistence).
-        module AllowedCaller
-          extend Anthropic::Internal::Type::Enum
-
-          class << self
-            sig do
-              override
-                .returns(T::Array[
-                Anthropic::Beta::BetaComputerToolset20260801::AllowedCaller::TaggedSymbol
-              ])
-            end
-            def values; end
-          end
-
-          CODE_EXECUTION_20250825 = T.let(
-              :code_execution_20250825,
-              Anthropic::Beta::BetaComputerToolset20260801::AllowedCaller::TaggedSymbol
-            )
-
-          CODE_EXECUTION_20260120 = T.let(
-              :code_execution_20260120,
-              Anthropic::Beta::BetaComputerToolset20260801::AllowedCaller::TaggedSymbol
-            )
-
-          CODE_EXECUTION_20260521 = T.let(
-              :code_execution_20260521,
-              Anthropic::Beta::BetaComputerToolset20260801::AllowedCaller::TaggedSymbol
-            )
-
-          DIRECT = T.let(
-              :direct,
-              Anthropic::Beta::BetaComputerToolset20260801::AllowedCaller::TaggedSymbol
-            )
-
-          OrSymbol = T.type_alias { T.any(Symbol, String) }
-
-          TaggedSymbol = T.type_alias do
-              T.all(
-                Symbol,
-                Anthropic::Beta::BetaComputerToolset20260801::AllowedCaller
-              )
-            end
         end
 
         OrHash = T.type_alias do
@@ -13588,7 +13505,7 @@ module Anthropic
         attr_accessor :id
 
         # Skills loaded in the container
-        sig { returns(T.nilable(T::Array[Anthropic::Beta::BetaSkill])) }
+        sig { returns(T.nilable(T::Array[Anthropic::Beta::BetaContainerSkill])) }
         attr_accessor :skills
 
         sig do
@@ -13596,7 +13513,7 @@ module Anthropic
             .returns({
               id: String,
               expires_at: Time,
-              skills: T.nilable(T::Array[Anthropic::Beta::BetaSkill])
+              skills: T.nilable(T::Array[Anthropic::Beta::BetaContainerSkill])
             })
         end
         def to_hash; end
@@ -13608,7 +13525,7 @@ module Anthropic
             params(
               id: String,
               expires_at: Time,
-              skills: T.nilable(T::Array[Anthropic::Beta::BetaSkill::OrHash])
+              skills: T.nilable(T::Array[Anthropic::Beta::BetaContainerSkill::OrHash])
             ).returns(T.attached_class)
           end
           def new(
@@ -13661,6 +13578,79 @@ module Anthropic
               Anthropic::Internal::AnyHash
             )
           end
+      end
+
+      class BetaContainerSkill < Anthropic::Internal::Type::BaseModel
+        # Skill ID
+        sig { returns(String) }
+        attr_accessor :skill_id
+
+        # Type of skill - either 'anthropic' (built-in) or 'custom' (user-defined)
+        sig { returns(Anthropic::Beta::BetaContainerSkill::Type::TaggedSymbol) }
+        attr_accessor :type
+
+        # The resolved version: a skill version ID for custom skills.
+        sig { returns(String) }
+        attr_accessor :version
+
+        sig do
+          override
+            .returns({
+              skill_id: String,
+              type: Anthropic::Beta::BetaContainerSkill::Type::TaggedSymbol,
+              version: String
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # A skill that was loaded in a container (response model).
+          sig do
+            params(
+              skill_id: String,
+              type: Anthropic::Beta::BetaContainerSkill::Type::OrSymbol,
+              version: String
+            ).returns(T.attached_class)
+          end
+          def new(
+            skill_id:, # Skill ID
+            type:, # Type of skill - either 'anthropic' (built-in) or 'custom' (user-defined)
+            version: # The resolved version: a skill version ID for custom skills.
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaContainerSkill,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        # Type of skill - either 'anthropic' (built-in) or 'custom' (user-defined)
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig { override.returns(T::Array[Anthropic::Beta::BetaContainerSkill::Type::TaggedSymbol]) }
+            def values; end
+          end
+
+          ANTHROPIC = T.let(
+              :anthropic,
+              Anthropic::Beta::BetaContainerSkill::Type::TaggedSymbol
+            )
+
+          CUSTOM = T.let(
+              :custom,
+              Anthropic::Beta::BetaContainerSkill::Type::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(Symbol, Anthropic::Beta::BetaContainerSkill::Type)
+            end
+        end
       end
 
       class BetaContainerUploadBlock < Anthropic::Internal::Type::BaseModel
@@ -14900,6 +14890,40 @@ module Anthropic
         end
       end
 
+      class BetaDeletedSkill < Anthropic::Internal::Type::BaseModel
+        # Unique identifier for the skill.
+        #
+        # The format and length of IDs may change over time.
+        sig { returns(String) }
+        attr_accessor :id
+
+        # Deleted object type.
+        #
+        # For Skills, this is always `"skill_deleted"`.
+        sig { returns(Symbol) }
+        attr_accessor :type
+
+        sig { override.returns({ id: String, type: Symbol }) }
+        def to_hash; end
+
+        class << self
+          sig { params(id: String, type: Symbol).returns(T.attached_class) }
+          def new(
+            id:, # Unique identifier for the skill.
+                 # The format and length of IDs may change over time.
+            type: :skill_deleted # Deleted object type.
+                                 # For Skills, this is always `"skill_deleted"`.
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaDeletedSkill,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
       class BetaDiagnostics < Anthropic::Internal::Type::BaseModel
         # Explains why the prompt cache could not fully reuse the prefix from the request
         # identified by `diagnostics.previous_message_id`. `null` means diagnosis is still
@@ -15932,6 +15956,116 @@ module Anthropic
 
         OrHash = T.type_alias do
             T.any(Anthropic::Beta::BetaDreamUsage, Anthropic::Internal::AnyHash)
+          end
+      end
+
+      # The `output_behavior.memory_store_id` target is still held by a prior
+      # `{type: "update_existing"}` dream — one that is `pending` or `running`, or was
+      # canceled with its final writes still landing. Rarely the named dream has just
+      # finished (`completed`/`failed`) and its execution is still closing; an immediate
+      # retry then almost always succeeds. The message names the holding dream when the
+      # server can identify it (rarely omitted); poll it to a terminal state or cancel
+      # it, then retry. Carried with `x-should-retry: false`.
+      module BetaDreamingError
+        extend Anthropic::Internal::Type::Union
+
+        class << self
+          # Creates a new instance of the variant class whose `type` matches the given
+          # value, passing the remaining arguments to its constructor.
+          sig do
+            params(
+              type: T.any(Symbol, String),
+              message: String
+            ).returns(Anthropic::Beta::BetaDreamingError::Variants)
+          end
+          def new(
+            type:,
+            message: nil # Human-readable description of the conflict, naming the dream that holds the
+                         # target store when the server can identify it.
+); end
+
+          sig { override.returns(T::Array[Anthropic::Beta::BetaDreamingError::Variants]) }
+          def variants; end
+        end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig { override.returns(T::Array[Anthropic::Beta::BetaDreamingError::Type::TaggedSymbol]) }
+            def values; end
+          end
+
+          API_ERROR = T.let(
+              :api_error,
+              Anthropic::Beta::BetaDreamingError::Type::TaggedSymbol
+            )
+
+          AUTHENTICATION_ERROR = T.let(
+              :authentication_error,
+              Anthropic::Beta::BetaDreamingError::Type::TaggedSymbol
+            )
+
+          BILLING_ERROR = T.let(
+              :billing_error,
+              Anthropic::Beta::BetaDreamingError::Type::TaggedSymbol
+            )
+
+          CONFLICT_ERROR = T.let(
+              :conflict_error,
+              Anthropic::Beta::BetaDreamingError::Type::TaggedSymbol
+            )
+
+          INVALID_REQUEST_ERROR = T.let(
+              :invalid_request_error,
+              Anthropic::Beta::BetaDreamingError::Type::TaggedSymbol
+            )
+
+          NOT_FOUND_ERROR = T.let(
+              :not_found_error,
+              Anthropic::Beta::BetaDreamingError::Type::TaggedSymbol
+            )
+
+          OVERLOADED_ERROR = T.let(
+              :overloaded_error,
+              Anthropic::Beta::BetaDreamingError::Type::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          PERMISSION_ERROR = T.let(
+              :permission_error,
+              Anthropic::Beta::BetaDreamingError::Type::TaggedSymbol
+            )
+
+          RATE_LIMIT_ERROR = T.let(
+              :rate_limit_error,
+              Anthropic::Beta::BetaDreamingError::Type::TaggedSymbol
+            )
+
+          TIMEOUT_ERROR = T.let(
+              :timeout_error,
+              Anthropic::Beta::BetaDreamingError::Type::TaggedSymbol
+            )
+
+          TaggedSymbol = T.type_alias do
+              T.all(Symbol, Anthropic::Beta::BetaDreamingError::Type)
+            end
+        end
+
+        Variants = T.type_alias do
+            T.any(
+              Anthropic::BetaInvalidRequestError,
+              Anthropic::BetaAuthenticationError,
+              Anthropic::BetaBillingError,
+              Anthropic::BetaPermissionError,
+              Anthropic::BetaNotFoundError,
+              Anthropic::BetaRateLimitError,
+              Anthropic::BetaGatewayTimeoutError,
+              Anthropic::BetaAPIError,
+              Anthropic::BetaOverloadedError,
+              Anthropic::Beta::BetaTargetStoreHeldError
+            )
           end
       end
 
@@ -17225,6 +17359,7 @@ module Anthropic
               params(
                 type: T.any(Symbol, String),
                 budget_tokens: Integer,
+                block_binding: T.nilable(Anthropic::Beta::BetaThinkingBlockBinding::OrHash),
                 display_: T.any(
                   T.nilable(
                     Anthropic::Beta::BetaThinkingConfigEnabled::Display::OrSymbol
@@ -17244,6 +17379,9 @@ module Anthropic
                                   # See
                                   # [extended thinking](https://platform.claude.com/docs/en/build-with-claude/extended-thinking)
                                   # for details.
+              block_binding: nil, # Controls for block binding: what happens when a thinking block this request
+                                  # sends back fails the conversation check. Every field is optional; an empty
+                                  # object means every default.
               display_: nil # Controls how thinking content appears in the response. When set to `summarized`,
                             # thinking is returned normally. When set to `omitted`, thinking content is
                             # redacted but a signature is returned for multi-turn continuity. Defaults to
@@ -17486,6 +17624,12 @@ module Anthropic
         sig { params(downloadable: T::Boolean).void }
         attr_writer :downloadable
 
+        # RFC 3339 datetime string representing when the file will expire and become
+        # unavailable for download. Null if the file does not expire. For files uploaded
+        # with `expires_in_seconds`, this is the upload time plus that value.
+        sig { returns(T.nilable(Time)) }
+        attr_accessor :expires_at
+
         # Original filename of the uploaded file.
         sig { returns(String) }
         attr_accessor :filename
@@ -17528,6 +17672,7 @@ module Anthropic
               size_bytes: Integer,
               type: Symbol,
               downloadable: T::Boolean,
+              expires_at: T.nilable(Time),
               scope: T.nilable(Anthropic::Beta::BetaFileScope)
             })
         end
@@ -17542,6 +17687,7 @@ module Anthropic
               mime_type: String,
               size_bytes: Integer,
               downloadable: T::Boolean,
+              expires_at: T.nilable(Time),
               scope: T.nilable(Anthropic::Beta::BetaFileScope::OrHash),
               type: Symbol
             ).returns(T.attached_class)
@@ -17554,6 +17700,9 @@ module Anthropic
             mime_type:, # MIME type of the file.
             size_bytes:, # Size of the file in bytes.
             downloadable: nil, # Whether the file can be downloaded.
+            expires_at: nil, # RFC 3339 datetime string representing when the file will expire and become
+                             # unavailable for download. Null if the file does not expire. For files uploaded
+                             # with `expires_in_seconds`, this is the upload time plus that value.
             scope: nil, # The scope of this file, indicating the context in which it was created (e.g., a
                         # session).
             type: :file # Object type.
@@ -23112,8 +23261,8 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :id
 
-        # Populated on success. Null on creation failure. Exactly one of session_id or
-        # error is non-null.
+        # Populated on success. Null on creation failure. Exactly one of `session_id` or
+        # `error` is non-null.
         sig { returns(T.nilable(String)) }
         attr_accessor :session_id
 
@@ -23188,8 +23337,8 @@ module Anthropic
             deployment_id:, # ID of the deployment that produced this run.
             error:, # Why the run failed to create a session. The type identifies the failure; message
                     # is human-readable detail.
-            session_id:, # Populated on success. Null on creation failure. Exactly one of session_id or
-                         # error is non-null.
+            session_id:, # Populated on success. Null on creation failure. Exactly one of `session_id` or
+                         # `error` is non-null.
             trigger_context:, # Describes what triggered a deployment run, with trigger-specific metadata.
             type:
 ); end
@@ -27448,6 +27597,12 @@ module Anthropic
             Anthropic::Beta::BetaManagedAgentsModel::TaggedSymbol
           )
 
+        # Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+        CLAUDE_FABLE_5_1 = T.let(
+            :"claude-fable-5-1",
+            Anthropic::Beta::BetaManagedAgentsModel::TaggedSymbol
+          )
+
         # Fastest model with near-frontier intelligence
         CLAUDE_HAIKU_4_5 = T.let(
             :"claude-haiku-4-5",
@@ -28721,9 +28876,9 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :description
 
-        # Grader's verdict text from the most recent evaluation. For satisfied, explains
-        # why criteria are met; for needs_revision (intermediate), what's missing; for
-        # failed, why unrecoverable.
+        # Grader's verdict text from the most recent evaluation. For `satisfied`, explains
+        # why criteria are met; for `needs_revision` (intermediate), what's missing; for
+        # `failed`, why unrecoverable.
         sig { returns(T.nilable(String)) }
         attr_accessor :explanation
 
@@ -28760,7 +28915,7 @@ module Anthropic
         def to_hash; end
 
         class << self
-          # Evaluation state for a single outcome defined via a define_outcome event.
+          # Evaluation state for a single outcome defined via a `define_outcome` event.
           sig do
             params(
               completed_at: T.nilable(Time),
@@ -28775,9 +28930,9 @@ module Anthropic
           def new(
             completed_at:, # A timestamp in RFC 3339 format
             description:, # What the agent should produce.
-            explanation:, # Grader's verdict text from the most recent evaluation. For satisfied, explains
-                          # why criteria are met; for needs_revision (intermediate), what's missing; for
-                          # failed, why unrecoverable.
+            explanation:, # Grader's verdict text from the most recent evaluation. For `satisfied`, explains
+                          # why criteria are met; for `needs_revision` (intermediate), what's missing; for
+                          # `failed`, why unrecoverable.
             iteration:, # 0-indexed revision cycle the outcome is currently on.
             outcome_id:, # Server-generated outc\_ ID for this outcome.
             result:, # Current evaluation state. `pending` before the agent begins work; `running`
@@ -29579,7 +29734,7 @@ module Anthropic
         sig { returns(T::Hash[Symbol, String]) }
         attr_accessor :metadata
 
-        # Per-outcome evaluation state. One entry per define_outcome event sent to the
+        # Per-outcome evaluation state. One entry per `define_outcome` event sent to the
         # session.
         sig do
           returns(T::Array[
@@ -29701,7 +29856,7 @@ module Anthropic
             created_at:, # A timestamp in RFC 3339 format
             environment_id:,
             metadata:,
-            outcome_evaluations:, # Per-outcome evaluation state. One entry per define_outcome event sent to the
+            outcome_evaluations:, # Per-outcome evaluation state. One entry per `define_outcome` event sent to the
                                   # session.
             resources:,
             stats:, # Timing statistics for a session.
@@ -30888,7 +31043,7 @@ module Anthropic
       end
 
       class BetaManagedAgentsSessionStats < Anthropic::Internal::Type::BaseModel
-        # Cumulative time in seconds the session spent in running status. Excludes idle
+        # Cumulative time in seconds the session spent in `running` status. Excludes idle
         # time.
         sig { returns(T.nilable(Float)) }
         attr_reader :active_seconds
@@ -30911,7 +31066,7 @@ module Anthropic
           # Timing statistics for a session.
           sig { params(active_seconds: Float, duration_seconds: Float).returns(T.attached_class) }
           def new(
-            active_seconds: nil, # Cumulative time in seconds the session spent in running status. Excludes idle
+            active_seconds: nil, # Cumulative time in seconds the session spent in `running` status. Excludes idle
                                  # time.
             duration_seconds: nil # Elapsed time since session creation in seconds. For terminated sessions, frozen
                                   # at the final update.
@@ -34721,6 +34876,28 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :id
 
+        # Changes the API made to the request's input before showing it to the model: one
+        # entry per change, in request order. Today the only entry type is
+        # `thinking_dropped` — a `thinking`, `redacted_thinking` or `connector_text` block
+        # from the request's `messages` that was removed from the prompt instead of being
+        # shown to the model because it failed a binding check. More entry types may be
+        # added over time; ignore types you do not recognize.
+        #
+        # Requires `anthropic-beta: thinking-binding-controls-2026-08-01`. Present on
+        # every such response from a model that supports extended thinking, as `[]` when
+        # nothing was changed; without the beta, blocks are removed all the same but
+        # nothing is reported. Removed blocks contribute nothing to `usage.input_tokens`.
+        # When streaming, the array is final in `message_start`; the final `message_delta`
+        # event carries it only when a server-side model fallback happened mid-stream, in
+        # which case it holds the serving model's entries and replaces the one in
+        # `message_start`.
+        sig do
+          returns(T.nilable(
+              T::Array[Anthropic::Beta::BetaThinkingDroppedInputTransformation]
+            ))
+        end
+        attr_accessor :input_transformations
+
         # The model that will complete your prompt.
         #
         # See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
@@ -34813,7 +34990,13 @@ module Anthropic
                 T.nilable(Anthropic::Beta::BetaStopReason::TaggedSymbol),
               stop_sequence: T.nilable(String),
               type: Symbol,
-              usage: Anthropic::Beta::BetaUsage
+              usage: Anthropic::Beta::BetaUsage,
+              input_transformations:
+                T.nilable(
+                  T::Array[
+                    Anthropic::Beta::BetaThinkingDroppedInputTransformation
+                  ]
+                )
             })
         end
         def to_hash; end
@@ -34851,6 +35034,11 @@ module Anthropic
               stop_reason: T.nilable(Anthropic::Beta::BetaStopReason::OrSymbol),
               stop_sequence: T.nilable(String),
               usage: Anthropic::Beta::BetaUsage::OrHash,
+              input_transformations: T.nilable(
+                T::Array[
+                  Anthropic::Beta::BetaThinkingDroppedInputTransformation::OrHash
+                ]
+              ),
               role: Symbol,
               type: Symbol
             ).returns(T.attached_class)
@@ -34919,6 +35107,20 @@ module Anthropic
                     # from Claude.
                     # Total input tokens in a request is the summation of `input_tokens`,
                     # `cache_creation_input_tokens`, and `cache_read_input_tokens`.
+            input_transformations: nil, # Changes the API made to the request's input before showing it to the model: one
+                                        # entry per change, in request order. Today the only entry type is
+                                        # `thinking_dropped` — a `thinking`, `redacted_thinking` or `connector_text` block
+                                        # from the request's `messages` that was removed from the prompt instead of being
+                                        # shown to the model because it failed a binding check. More entry types may be
+                                        # added over time; ignore types you do not recognize.
+                                        # Requires `anthropic-beta: thinking-binding-controls-2026-08-01`. Present on
+                                        # every such response from a model that supports extended thinking, as `[]` when
+                                        # nothing was changed; without the beta, blocks are removed all the same but
+                                        # nothing is reported. Removed blocks contribute nothing to `usage.input_tokens`.
+                                        # When streaming, the array is final in `message_start`; the final `message_delta`
+                                        # event carries it only when a server-side model fallback happened mid-stream, in
+                                        # which case it holds the serving model's entries and replaces the one in
+                                        # `message_start`.
             role: :assistant, # Conversational role of the generated message.
                               # This will always be `"assistant"`.
             type: :message # Object type.
@@ -35171,8 +35373,28 @@ module Anthropic
       end
 
       class BetaMessageParam < Anthropic::Internal::Type::BaseModel
+        # How long this system message's text stays in front of the model. `"never"` (the
+        # default) renders it on every request that includes it. `"next_user_message"`
+        # renders it only for the user turn it follows: once a later `role: "user"`
+        # message exists in `messages` the message stays in the array (send it unchanged)
+        # but is no longer shown to the model. Only permitted on `role: "system"`
+        # messages.
+        sig { returns(T.nilable(Anthropic::Beta::BetaMessageParam::ClearAt::OrSymbol)) }
+        attr_accessor :clear_at
+
         sig { returns(Anthropic::Beta::BetaMessageParam::Content::Variants) }
         attr_accessor :content
+
+        # Per-message output configuration on a role:"system" input message.
+        #
+        # Fields here apply per-turn; `format` remains top-level only. An empty `{}` is
+        # accepted on a message that carries content; a message with neither content nor
+        # output_config fields is rejected.
+        sig { returns(T.nilable(Anthropic::Beta::BetaSystemMessageOutputConfig)) }
+        attr_reader :output_config
+
+        sig { params(output_config: T.nilable(Anthropic::Beta::BetaSystemMessageOutputConfig::OrHash)).void }
+        attr_writer :output_config
 
         sig { returns(Anthropic::Beta::BetaMessageParam::Role::OrSymbol) }
         attr_accessor :role
@@ -35181,7 +35403,11 @@ module Anthropic
           override
             .returns({
               content: Anthropic::Beta::BetaMessageParam::Content::Variants,
-              role: Anthropic::Beta::BetaMessageParam::Role::OrSymbol
+              role: Anthropic::Beta::BetaMessageParam::Role::OrSymbol,
+              clear_at:
+                T.nilable(Anthropic::Beta::BetaMessageParam::ClearAt::OrSymbol),
+              output_config:
+                T.nilable(Anthropic::Beta::BetaSystemMessageOutputConfig)
             })
         end
         def to_hash; end
@@ -35190,10 +35416,56 @@ module Anthropic
           sig do
             params(
               content: Anthropic::Beta::BetaMessageParam::Content::Variants,
-              role: Anthropic::Beta::BetaMessageParam::Role::OrSymbol
+              role: Anthropic::Beta::BetaMessageParam::Role::OrSymbol,
+              clear_at: T.nilable(Anthropic::Beta::BetaMessageParam::ClearAt::OrSymbol),
+              output_config: T.nilable(Anthropic::Beta::BetaSystemMessageOutputConfig::OrHash)
             ).returns(T.attached_class)
           end
-          def new(content:, role:); end
+          def new(
+            content:,
+            role:,
+            clear_at: nil, # How long this system message's text stays in front of the model. `"never"` (the
+                           # default) renders it on every request that includes it. `"next_user_message"`
+                           # renders it only for the user turn it follows: once a later `role: "user"`
+                           # message exists in `messages` the message stays in the array (send it unchanged)
+                           # but is no longer shown to the model. Only permitted on `role: "system"`
+                           # messages.
+            output_config: nil # Per-message output configuration on a role:"system" input message.
+                               # Fields here apply per-turn; `format` remains top-level only. An empty `{}` is
+                               # accepted on a message that carries content; a message with neither content nor
+                               # output_config fields is rejected.
+); end
+        end
+
+        # How long this system message's text stays in front of the model. `"never"` (the
+        # default) renders it on every request that includes it. `"next_user_message"`
+        # renders it only for the user turn it follows: once a later `role: "user"`
+        # message exists in `messages` the message stays in the array (send it unchanged)
+        # but is no longer shown to the model. Only permitted on `role: "system"`
+        # messages.
+        module ClearAt
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig { override.returns(T::Array[Anthropic::Beta::BetaMessageParam::ClearAt::TaggedSymbol]) }
+            def values; end
+          end
+
+          NEVER = T.let(
+              :never,
+              Anthropic::Beta::BetaMessageParam::ClearAt::TaggedSymbol
+            )
+
+          NEXT_USER_MESSAGE = T.let(
+              :next_user_message,
+              Anthropic::Beta::BetaMessageParam::ClearAt::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(Symbol, Anthropic::Beta::BetaMessageParam::ClearAt)
+            end
         end
 
         module Content
@@ -36668,6 +36940,28 @@ module Anthropic
         sig { params(delta: Anthropic::Beta::BetaRawMessageDeltaEvent::Delta::OrHash).void }
         attr_writer :delta
 
+        # Changes the API made to the request's input before showing it to the model: one
+        # entry per change, in request order. Today the only entry type is
+        # `thinking_dropped` — a `thinking`, `redacted_thinking` or `connector_text` block
+        # from the request's `messages` that was removed from the prompt instead of being
+        # shown to the model because it failed a binding check. More entry types may be
+        # added over time; ignore types you do not recognize.
+        #
+        # Requires `anthropic-beta: thinking-binding-controls-2026-08-01`. Present on
+        # every such response from a model that supports extended thinking, as `[]` when
+        # nothing was changed; without the beta, blocks are removed all the same but
+        # nothing is reported. Removed blocks contribute nothing to `usage.input_tokens`.
+        # When streaming, the array is final in `message_start`; the final `message_delta`
+        # event carries it only when a server-side model fallback happened mid-stream, in
+        # which case it holds the serving model's entries and replaces the one in
+        # `message_start`.
+        sig do
+          returns(T.nilable(
+              T::Array[Anthropic::Beta::BetaThinkingDroppedInputTransformation]
+            ))
+        end
+        attr_accessor :input_transformations
+
         sig { returns(Symbol) }
         attr_accessor :type
 
@@ -36699,7 +36993,13 @@ module Anthropic
                 T.nilable(Anthropic::Beta::BetaContextManagementResponse),
               delta: Anthropic::Beta::BetaRawMessageDeltaEvent::Delta,
               type: Symbol,
-              usage: Anthropic::Beta::BetaMessageDeltaUsage
+              usage: Anthropic::Beta::BetaMessageDeltaUsage,
+              input_transformations:
+                T.nilable(
+                  T::Array[
+                    Anthropic::Beta::BetaThinkingDroppedInputTransformation
+                  ]
+                )
             })
         end
         def to_hash; end
@@ -36710,6 +37010,11 @@ module Anthropic
               context_management: T.nilable(Anthropic::Beta::BetaContextManagementResponse::OrHash),
               delta: Anthropic::Beta::BetaRawMessageDeltaEvent::Delta::OrHash,
               usage: Anthropic::Beta::BetaMessageDeltaUsage::OrHash,
+              input_transformations: T.nilable(
+                T::Array[
+                  Anthropic::Beta::BetaThinkingDroppedInputTransformation::OrHash
+                ]
+              ),
               type: Symbol
             ).returns(T.attached_class)
           end
@@ -36727,6 +37032,20 @@ module Anthropic
                     # from Claude.
                     # Total input tokens in a request is the summation of `input_tokens`,
                     # `cache_creation_input_tokens`, and `cache_read_input_tokens`.
+            input_transformations: nil, # Changes the API made to the request's input before showing it to the model: one
+                                        # entry per change, in request order. Today the only entry type is
+                                        # `thinking_dropped` — a `thinking`, `redacted_thinking` or `connector_text` block
+                                        # from the request's `messages` that was removed from the prompt instead of being
+                                        # shown to the model because it failed a binding check. More entry types may be
+                                        # added over time; ignore types you do not recognize.
+                                        # Requires `anthropic-beta: thinking-binding-controls-2026-08-01`. Present on
+                                        # every such response from a model that supports extended thinking, as `[]` when
+                                        # nothing was changed; without the beta, blocks are removed all the same but
+                                        # nothing is reported. Removed blocks contribute nothing to `usage.input_tokens`.
+                                        # When streaming, the array is final in `message_start`; the final `message_delta`
+                                        # event carries it only when a server-side model fallback happened mid-stream, in
+                                        # which case it holds the serving model's entries and replaces the one in
+                                        # `message_start`.
             type: :message_delta
 ); end
         end
@@ -36869,6 +37188,11 @@ module Anthropic
                 )
               ),
               usage: Anthropic::Beta::BetaMessageDeltaUsage::OrHash,
+              input_transformations: T.nilable(
+                T::Array[
+                  Anthropic::Beta::BetaThinkingDroppedInputTransformation::OrHash
+                ]
+              ),
               content_block: T.any(
                 Anthropic::Beta::BetaTextBlock::OrHash,
                 Anthropic::Beta::BetaThinkingBlock::OrHash,
@@ -36907,6 +37231,20 @@ module Anthropic
                         # from Claude.
                         # Total input tokens in a request is the summation of `input_tokens`,
                         # `cache_creation_input_tokens`, and `cache_read_input_tokens`.
+            input_transformations: nil, # Changes the API made to the request's input before showing it to the model: one
+                                        # entry per change, in request order. Today the only entry type is
+                                        # `thinking_dropped` — a `thinking`, `redacted_thinking` or `connector_text` block
+                                        # from the request's `messages` that was removed from the prompt instead of being
+                                        # shown to the model because it failed a binding check. More entry types may be
+                                        # added over time; ignore types you do not recognize.
+                                        # Requires `anthropic-beta: thinking-binding-controls-2026-08-01`. Present on
+                                        # every such response from a model that supports extended thinking, as `[]` when
+                                        # nothing was changed; without the beta, blocks are removed all the same but
+                                        # nothing is reported. Removed blocks contribute nothing to `usage.input_tokens`.
+                                        # When streaming, the array is final in `message_start`; the final `message_delta`
+                                        # event carries it only when a server-side model fallback happened mid-stream, in
+                                        # which case it holds the serving model's entries and replaces the one in
+                                        # `message_start`.
             content_block: nil, # Response model for a file uploaded to the container.
             index: nil
 ); end
@@ -38567,65 +38905,101 @@ module Anthropic
       end
 
       class BetaSkill < Anthropic::Internal::Type::BaseModel
-        # Skill ID
-        sig { returns(String) }
-        attr_accessor :skill_id
+        # ISO 8601 timestamp of when the skill was created.
+        sig { returns(Time) }
+        attr_accessor :created_at
 
-        # Type of skill - either 'anthropic' (built-in) or 'custom' (user-defined)
-        sig { returns(Anthropic::Beta::BetaSkill::Type::TaggedSymbol) }
+        # Human-readable, single-line label for the Skill. Maximum 255 characters. Always
+        # set: derived from the SKILL.md frontmatter `name` when omitted at creation. Not
+        # unique.
+        sig { returns(String) }
+        attr_accessor :display_name
+
+        # Unique identifier for the skill.
+        #
+        # The format and length of IDs may change over time.
+        sig { returns(String) }
+        attr_accessor :id
+
+        # ID of the newest Skill Version — what `latest` references resolve to. Always
+        # set: a Skill holds at least one version.
+        sig { returns(String) }
+        attr_accessor :latest_version_id
+
+        # Where the Skill comes from.
+        #
+        # Possible values:
+        #
+        # - `"custom"`: authored by the platform user; private to their workspace
+        # - `"anthropic"`: published by Anthropic; shared and read-only
+        # - `"anthropic_example"`: Anthropic-published sample Skill
+        # - `"plugin"`: resolved from an installed plugin
+        sig { returns(Anthropic::Beta::BetaSkillSource) }
+        attr_reader :source
+
+        sig { params(source: Anthropic::Beta::BetaSkillSource::OrHash).void }
+        attr_writer :source
+
+        # Object type.
+        #
+        # For Skills, this is always `"skill"`.
+        sig { returns(Symbol) }
         attr_accessor :type
 
-        # The resolved version: a skill version ID for custom skills.
-        sig { returns(String) }
-        attr_accessor :version
+        # ISO 8601 timestamp of when the skill was last updated.
+        sig { returns(Time) }
+        attr_accessor :updated_at
 
         sig do
           override
             .returns({
-              skill_id: String,
-              type: Anthropic::Beta::BetaSkill::Type::TaggedSymbol,
-              version: String
+              id: String,
+              created_at: Time,
+              display_name: String,
+              latest_version_id: String,
+              source: Anthropic::Beta::BetaSkillSource,
+              type: Symbol,
+              updated_at: Time
             })
         end
         def to_hash; end
 
         class << self
-          # A skill that was loaded in a container (response model).
           sig do
             params(
-              skill_id: String,
-              type: Anthropic::Beta::BetaSkill::Type::OrSymbol,
-              version: String
+              id: String,
+              created_at: Time,
+              display_name: String,
+              latest_version_id: String,
+              source: Anthropic::Beta::BetaSkillSource::OrHash,
+              updated_at: Time,
+              type: Symbol
             ).returns(T.attached_class)
           end
           def new(
-            skill_id:, # Skill ID
-            type:, # Type of skill - either 'anthropic' (built-in) or 'custom' (user-defined)
-            version: # The resolved version: a skill version ID for custom skills.
+            id:, # Unique identifier for the skill.
+                 # The format and length of IDs may change over time.
+            created_at:, # ISO 8601 timestamp of when the skill was created.
+            display_name:, # Human-readable, single-line label for the Skill. Maximum 255 characters. Always
+                           # set: derived from the SKILL.md frontmatter `name` when omitted at creation. Not
+                           # unique.
+            latest_version_id:, # ID of the newest Skill Version — what `latest` references resolve to. Always
+                                # set: a Skill holds at least one version.
+            source:, # Where the Skill comes from.
+                     # Possible values:
+                     # - `"custom"`: authored by the platform user; private to their workspace
+                     # - `"anthropic"`: published by Anthropic; shared and read-only
+                     # - `"anthropic_example"`: Anthropic-published sample Skill
+                     # - `"plugin"`: resolved from an installed plugin
+            updated_at:, # ISO 8601 timestamp of when the skill was last updated.
+            type: :skill # Object type.
+                         # For Skills, this is always `"skill"`.
 ); end
         end
 
         OrHash = T.type_alias do
             T.any(Anthropic::Beta::BetaSkill, Anthropic::Internal::AnyHash)
           end
-
-        # Type of skill - either 'anthropic' (built-in) or 'custom' (user-defined)
-        module Type
-          extend Anthropic::Internal::Type::Enum
-
-          class << self
-            sig { override.returns(T::Array[Anthropic::Beta::BetaSkill::Type::TaggedSymbol]) }
-            def values; end
-          end
-
-          ANTHROPIC = T.let(:anthropic, Anthropic::Beta::BetaSkill::Type::TaggedSymbol)
-
-          CUSTOM = T.let(:custom, Anthropic::Beta::BetaSkill::Type::TaggedSymbol)
-
-          OrSymbol = T.type_alias { T.any(Symbol, String) }
-
-          TaggedSymbol = T.type_alias { T.all(Symbol, Anthropic::Beta::BetaSkill::Type) }
-        end
       end
 
       class BetaSkillParams < Anthropic::Internal::Type::BaseModel
@@ -38701,6 +39075,78 @@ module Anthropic
         end
       end
 
+      class BetaSkillSource < Anthropic::Internal::Type::BaseModel
+        # Where the Skill comes from.
+        #
+        # Possible values:
+        #
+        # - `"custom"`: authored by the platform user; private to their workspace
+        # - `"anthropic"`: published by Anthropic; shared and read-only
+        # - `"anthropic_example"`: Anthropic-published sample Skill
+        # - `"plugin"`: resolved from an installed plugin
+        sig { returns(Anthropic::Beta::BetaSkillSource::Type::TaggedSymbol) }
+        attr_accessor :type
+
+        sig { override.returns({ type: Anthropic::Beta::BetaSkillSource::Type::TaggedSymbol }) }
+        def to_hash; end
+
+        class << self
+          sig { params(type: Anthropic::Beta::BetaSkillSource::Type::OrSymbol).returns(T.attached_class) }
+          def new(
+            type: # Where the Skill comes from.
+                  # Possible values:
+                  # - `"custom"`: authored by the platform user; private to their workspace
+                  # - `"anthropic"`: published by Anthropic; shared and read-only
+                  # - `"anthropic_example"`: Anthropic-published sample Skill
+                  # - `"plugin"`: resolved from an installed plugin
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaSkillSource,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        # Where the Skill comes from.
+        #
+        # Possible values:
+        #
+        # - `"custom"`: authored by the platform user; private to their workspace
+        # - `"anthropic"`: published by Anthropic; shared and read-only
+        # - `"anthropic_example"`: Anthropic-published sample Skill
+        # - `"plugin"`: resolved from an installed plugin
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig { override.returns(T::Array[Anthropic::Beta::BetaSkillSource::Type::TaggedSymbol]) }
+            def values; end
+          end
+
+          ANTHROPIC = T.let(
+              :anthropic,
+              Anthropic::Beta::BetaSkillSource::Type::TaggedSymbol
+            )
+
+          ANTHROPIC_EXAMPLE = T.let(
+              :anthropic_example,
+              Anthropic::Beta::BetaSkillSource::Type::TaggedSymbol
+            )
+
+          CUSTOM = T.let(:custom, Anthropic::Beta::BetaSkillSource::Type::TaggedSymbol)
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          PLUGIN = T.let(:plugin, Anthropic::Beta::BetaSkillSource::Type::TaggedSymbol)
+
+          TaggedSymbol = T.type_alias do
+              T.all(Symbol, Anthropic::Beta::BetaSkillSource::Type)
+            end
+        end
+      end
+
       module BetaStopReason
         extend Anthropic::Internal::Type::Enum
 
@@ -38731,6 +39177,140 @@ module Anthropic
         TOOL_USE = T.let(:tool_use, Anthropic::Beta::BetaStopReason::TaggedSymbol)
 
         TaggedSymbol = T.type_alias { T.all(Symbol, Anthropic::Beta::BetaStopReason) }
+      end
+
+      class BetaSystemMessageOutputConfig < Anthropic::Internal::Type::BaseModel
+        # All possible effort levels.
+        sig do
+          returns(T.nilable(
+              Anthropic::Beta::BetaSystemMessageOutputConfig::Effort::OrSymbol
+            ))
+        end
+        attr_accessor :effort
+
+        sig do
+          override
+            .returns({
+              effort:
+                T.nilable(
+                  Anthropic::Beta::BetaSystemMessageOutputConfig::Effort::OrSymbol
+                )
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # Per-message output configuration on a role:"system" input message.
+          #
+          # Fields here apply per-turn; `format` remains top-level only. An empty `{}` is
+          # accepted on a message that carries content; a message with neither content nor
+          # output_config fields is rejected.
+          sig do
+            params(
+              effort: T.nilable(
+                Anthropic::Beta::BetaSystemMessageOutputConfig::Effort::OrSymbol
+              )
+            ).returns(T.attached_class)
+          end
+          def new(
+            effort: nil # All possible effort levels.
+); end
+        end
+
+        # All possible effort levels.
+        module Effort
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaSystemMessageOutputConfig::Effort::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          HIGH = T.let(
+              :high,
+              Anthropic::Beta::BetaSystemMessageOutputConfig::Effort::TaggedSymbol
+            )
+
+          LOW = T.let(
+              :low,
+              Anthropic::Beta::BetaSystemMessageOutputConfig::Effort::TaggedSymbol
+            )
+
+          MAX = T.let(
+              :max,
+              Anthropic::Beta::BetaSystemMessageOutputConfig::Effort::TaggedSymbol
+            )
+
+          MEDIUM = T.let(
+              :medium,
+              Anthropic::Beta::BetaSystemMessageOutputConfig::Effort::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaSystemMessageOutputConfig::Effort
+              )
+            end
+
+          XHIGH = T.let(
+              :xhigh,
+              Anthropic::Beta::BetaSystemMessageOutputConfig::Effort::TaggedSymbol
+            )
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaSystemMessageOutputConfig,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
+      class BetaTargetStoreHeldError < Anthropic::Internal::Type::BaseModel
+        # Human-readable description of the conflict, naming the dream that holds the
+        # target store when the server can identify it.
+        sig { returns(T.nilable(String)) }
+        attr_reader :message
+
+        sig { params(message: String).void }
+        attr_writer :message
+
+        sig { returns(Symbol) }
+        attr_accessor :type
+
+        sig { override.returns({ type: Symbol, message: String }) }
+        def to_hash; end
+
+        class << self
+          # The `output_behavior.memory_store_id` target is still held by a prior
+          # `{type: "update_existing"}` dream — one that is `pending` or `running`, or was
+          # canceled with its final writes still landing. Rarely the named dream has just
+          # finished (`completed`/`failed`) and its execution is still closing; an immediate
+          # retry then almost always succeeds. The message names the holding dream when the
+          # server can identify it (rarely omitted); poll it to a terminal state or cancel
+          # it, then retry. Carried with `x-should-retry: false`.
+          sig { params(message: String, type: Symbol).returns(T.attached_class) }
+          def new(
+            message: nil, # Human-readable description of the conflict, naming the dream that holds the
+                          # target store when the server can identify it.
+            type: :conflict_error
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaTargetStoreHeldError,
+              Anthropic::Internal::AnyHash
+            )
+          end
       end
 
       class BetaTextBlock < Anthropic::Internal::Type::BaseModel
@@ -39857,6 +40437,58 @@ module Anthropic
           end
       end
 
+      class BetaThinkingBlockBinding < Anthropic::Internal::Type::BaseModel
+        # What happens when a thinking block in `messages` fails the conversation check:
+        # it was created in a different conversation, or the messages before it have
+        # changed since. `"error"` (the default) fails the request with a 400 error.
+        # `"drop_block"` removes the failing blocks and the request proceeds; the model no
+        # longer sees the dropped reasoning.
+        sig do
+          returns(T.nilable(
+              Anthropic::Beta::BetaThinkingPrefixMismatchBehavior::OrSymbol
+            ))
+        end
+        attr_accessor :prefix_mismatch_behavior
+
+        sig do
+          override
+            .returns({
+              prefix_mismatch_behavior:
+                T.nilable(
+                  Anthropic::Beta::BetaThinkingPrefixMismatchBehavior::OrSymbol
+                )
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # Controls for block binding: what happens when a thinking block this request
+          # sends back fails the conversation check. Every field is optional; an empty
+          # object means every default.
+          sig do
+            params(
+              prefix_mismatch_behavior: T.nilable(
+                Anthropic::Beta::BetaThinkingPrefixMismatchBehavior::OrSymbol
+              )
+            ).returns(T.attached_class)
+          end
+          def new(
+            prefix_mismatch_behavior: nil # What happens when a thinking block in `messages` fails the conversation check:
+                                          # it was created in a different conversation, or the messages before it have
+                                          # changed since. `"error"` (the default) fails the request with a 400 error.
+                                          # `"drop_block"` removes the failing blocks and the request proceeds; the model no
+                                          # longer sees the dropped reasoning.
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaThinkingBlockBinding,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
       class BetaThinkingBlockParam < Anthropic::Internal::Type::BaseModel
         # The `signature` value of this thinking block, exactly as returned by the API in
         # a previous response. Used to verify that the block was generated by Claude.
@@ -39934,6 +40566,15 @@ module Anthropic
       end
 
       class BetaThinkingConfigAdaptive < Anthropic::Internal::Type::BaseModel
+        # Controls for block binding: what happens when a thinking block this request
+        # sends back fails the conversation check. Every field is optional; an empty
+        # object means every default.
+        sig { returns(T.nilable(Anthropic::Beta::BetaThinkingBlockBinding)) }
+        attr_reader :block_binding
+
+        sig { params(block_binding: T.nilable(Anthropic::Beta::BetaThinkingBlockBinding::OrHash)).void }
+        attr_writer :block_binding
+
         # Controls how thinking content appears in the response. When set to `summarized`,
         # thinking is returned normally. When set to `omitted`, thinking content is
         # redacted but a signature is returned for multi-turn continuity. Defaults to
@@ -39952,6 +40593,8 @@ module Anthropic
           override
             .returns({
               type: Symbol,
+              block_binding:
+                T.nilable(Anthropic::Beta::BetaThinkingBlockBinding),
               display_:
                 T.nilable(
                   Anthropic::Beta::BetaThinkingConfigAdaptive::Display::OrSymbol
@@ -39963,6 +40606,7 @@ module Anthropic
         class << self
           sig do
             params(
+              block_binding: T.nilable(Anthropic::Beta::BetaThinkingBlockBinding::OrHash),
               display_: T.nilable(
                 Anthropic::Beta::BetaThinkingConfigAdaptive::Display::OrSymbol
               ),
@@ -39970,6 +40614,9 @@ module Anthropic
             ).returns(T.attached_class)
           end
           def new(
+            block_binding: nil, # Controls for block binding: what happens when a thinking block this request
+                                # sends back fails the conversation check. Every field is optional; an empty
+                                # object means every default.
             display_: nil, # Controls how thinking content appears in the response. When set to `summarized`,
                            # thinking is returned normally. When set to `omitted`, thinking content is
                            # redacted but a signature is returned for multi-turn continuity. Defaults to
@@ -40049,6 +40696,15 @@ module Anthropic
       end
 
       class BetaThinkingConfigEnabled < Anthropic::Internal::Type::BaseModel
+        # Controls for block binding: what happens when a thinking block this request
+        # sends back fails the conversation check. Every field is optional; an empty
+        # object means every default.
+        sig { returns(T.nilable(Anthropic::Beta::BetaThinkingBlockBinding)) }
+        attr_reader :block_binding
+
+        sig { params(block_binding: T.nilable(Anthropic::Beta::BetaThinkingBlockBinding::OrHash)).void }
+        attr_writer :block_binding
+
         # Determines how many tokens Claude can use for its internal reasoning process.
         # Larger budgets can enable more thorough analysis for complex problems, improving
         # response quality.
@@ -40080,6 +40736,8 @@ module Anthropic
             .returns({
               budget_tokens: Integer,
               type: Symbol,
+              block_binding:
+                T.nilable(Anthropic::Beta::BetaThinkingBlockBinding),
               display_:
                 T.nilable(
                   Anthropic::Beta::BetaThinkingConfigEnabled::Display::OrSymbol
@@ -40092,6 +40750,7 @@ module Anthropic
           sig do
             params(
               budget_tokens: Integer,
+              block_binding: T.nilable(Anthropic::Beta::BetaThinkingBlockBinding::OrHash),
               display_: T.nilable(
                 Anthropic::Beta::BetaThinkingConfigEnabled::Display::OrSymbol
               ),
@@ -40106,6 +40765,9 @@ module Anthropic
                             # See
                             # [extended thinking](https://platform.claude.com/docs/en/build-with-claude/extended-thinking)
                             # for details.
+            block_binding: nil, # Controls for block binding: what happens when a thinking block this request
+                                # sends back fails the conversation check. Every field is optional; an empty
+                                # object means every default.
             display_: nil, # Controls how thinking content appears in the response. When set to `summarized`,
                            # thinking is returned normally. When set to `omitted`, thinking content is
                            # redacted but a signature is returned for multi-turn continuity. Defaults to
@@ -40180,6 +40842,7 @@ module Anthropic
             params(
               type: T.any(Symbol, String),
               budget_tokens: Integer,
+              block_binding: T.nilable(Anthropic::Beta::BetaThinkingBlockBinding::OrHash),
               display_: T.any(
                 T.nilable(
                   Anthropic::Beta::BetaThinkingConfigEnabled::Display::OrSymbol
@@ -40199,6 +40862,9 @@ module Anthropic
                                 # See
                                 # [extended thinking](https://platform.claude.com/docs/en/build-with-claude/extended-thinking)
                                 # for details.
+            block_binding: nil, # Controls for block binding: what happens when a thinking block this request
+                                # sends back fails the conversation check. Every field is optional; an empty
+                                # object means every default.
             display_: nil # Controls how thinking content appears in the response. When set to `summarized`,
                           # thinking is returned normally. When set to `omitted`, thinking content is
                           # redacted but a signature is returned for multi-turn continuity. Defaults to
@@ -40313,6 +40979,172 @@ module Anthropic
               Anthropic::Beta::BetaThinkingDelta,
               Anthropic::Internal::AnyHash
             )
+          end
+      end
+
+      class BetaThinkingDroppedInputTransformation < Anthropic::Internal::Type::BaseModel
+        # Where the removed block was in your request, as `messages.{i}.content.{j}`: `i`
+        # indexes the `messages` array you sent and `j` that message's `content` array —
+        # the same form error messages use.
+        sig { returns(String) }
+        attr_accessor :path
+
+        # Which binding check removed the block: `model_binding_mismatch` — it was created
+        # by a model whose reasoning the requested model may not read;
+        # `prefix_binding_mismatch` — the conversation before it differs from the
+        # conversation it was created in (the rest of that turn's consecutive thinking
+        # blocks are removed with it, each with this reason);
+        # `organization_binding_mismatch` — it was created under a different organization
+        # (an Anthropic organization, AWS account or Google Cloud project) and this
+        # organization is not one of its additional organizations;
+        # `end_user_binding_mismatch` — it was created for a different end user, or was
+        # removed by the consumer-organization binding. A block that would fail several
+        # checks reports one reason, in this order of precedence:
+        # `organization_binding_mismatch`, `end_user_binding_mismatch`,
+        # `model_binding_mismatch`, `prefix_binding_mismatch`.
+        sig { returns(Anthropic::Beta::BetaThinkingDroppedInputTransformation::Reason::TaggedSymbol) }
+        attr_accessor :reason
+
+        # Always `thinking_dropped` for this entry type.
+        sig { returns(Symbol) }
+        attr_accessor :type
+
+        sig do
+          override
+            .returns({
+              path: String,
+              reason:
+                Anthropic::Beta::BetaThinkingDroppedInputTransformation::Reason::TaggedSymbol,
+              type: Symbol
+            })
+        end
+        def to_hash; end
+
+        class << self
+          sig do
+            params(
+              path: String,
+              reason: Anthropic::Beta::BetaThinkingDroppedInputTransformation::Reason::OrSymbol,
+              type: Symbol
+            ).returns(T.attached_class)
+          end
+          def new(
+            path:, # Where the removed block was in your request, as `messages.{i}.content.{j}`: `i`
+                   # indexes the `messages` array you sent and `j` that message's `content` array —
+                   # the same form error messages use.
+            reason:, # Which binding check removed the block: `model_binding_mismatch` — it was created
+                     # by a model whose reasoning the requested model may not read;
+                     # `prefix_binding_mismatch` — the conversation before it differs from the
+                     # conversation it was created in (the rest of that turn's consecutive thinking
+                     # blocks are removed with it, each with this reason);
+                     # `organization_binding_mismatch` — it was created under a different organization
+                     # (an Anthropic organization, AWS account or Google Cloud project) and this
+                     # organization is not one of its additional organizations;
+                     # `end_user_binding_mismatch` — it was created for a different end user, or was
+                     # removed by the consumer-organization binding. A block that would fail several
+                     # checks reports one reason, in this order of precedence:
+                     # `organization_binding_mismatch`, `end_user_binding_mismatch`,
+                     # `model_binding_mismatch`, `prefix_binding_mismatch`.
+            type: :thinking_dropped # Always `thinking_dropped` for this entry type.
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaThinkingDroppedInputTransformation,
+              Anthropic::Internal::AnyHash
+            )
+          end
+
+        # Which binding check removed the block: `model_binding_mismatch` — it was created
+        # by a model whose reasoning the requested model may not read;
+        # `prefix_binding_mismatch` — the conversation before it differs from the
+        # conversation it was created in (the rest of that turn's consecutive thinking
+        # blocks are removed with it, each with this reason);
+        # `organization_binding_mismatch` — it was created under a different organization
+        # (an Anthropic organization, AWS account or Google Cloud project) and this
+        # organization is not one of its additional organizations;
+        # `end_user_binding_mismatch` — it was created for a different end user, or was
+        # removed by the consumer-organization binding. A block that would fail several
+        # checks reports one reason, in this order of precedence:
+        # `organization_binding_mismatch`, `end_user_binding_mismatch`,
+        # `model_binding_mismatch`, `prefix_binding_mismatch`.
+        module Reason
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaThinkingDroppedInputTransformation::Reason::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          END_USER_BINDING_MISMATCH = T.let(
+              :end_user_binding_mismatch,
+              Anthropic::Beta::BetaThinkingDroppedInputTransformation::Reason::TaggedSymbol
+            )
+
+          MODEL_BINDING_MISMATCH = T.let(
+              :model_binding_mismatch,
+              Anthropic::Beta::BetaThinkingDroppedInputTransformation::Reason::TaggedSymbol
+            )
+
+          ORGANIZATION_BINDING_MISMATCH = T.let(
+              :organization_binding_mismatch,
+              Anthropic::Beta::BetaThinkingDroppedInputTransformation::Reason::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          PREFIX_BINDING_MISMATCH = T.let(
+              :prefix_binding_mismatch,
+              Anthropic::Beta::BetaThinkingDroppedInputTransformation::Reason::TaggedSymbol
+            )
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaThinkingDroppedInputTransformation::Reason
+              )
+            end
+        end
+      end
+
+      # What happens when a thinking block in `messages` fails the conversation check:
+      # it was created in a different conversation, or the messages before it have
+      # changed since. `"error"` (the default) fails the request with a 400 error.
+      # `"drop_block"` removes the failing blocks and the request proceeds; the model no
+      # longer sees the dropped reasoning.
+      module BetaThinkingPrefixMismatchBehavior
+        extend Anthropic::Internal::Type::Enum
+
+        class << self
+          sig do
+            override
+              .returns(T::Array[
+              Anthropic::Beta::BetaThinkingPrefixMismatchBehavior::TaggedSymbol
+            ])
+          end
+          def values; end
+        end
+
+        DROP_BLOCK = T.let(
+            :drop_block,
+            Anthropic::Beta::BetaThinkingPrefixMismatchBehavior::TaggedSymbol
+          )
+
+        ERROR = T.let(
+            :error,
+            Anthropic::Beta::BetaThinkingPrefixMismatchBehavior::TaggedSymbol
+          )
+
+        OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+        TaggedSymbol = T.type_alias do
+            T.all(Symbol, Anthropic::Beta::BetaThinkingPrefixMismatchBehavior)
           end
       end
 
@@ -44444,6 +45276,10 @@ module Anthropic
         sig { returns(T.nilable(String)) }
         attr_accessor :external_id
 
+        # A timestamp in RFC 3339 format
+        sig { returns(T.nilable(Time)) }
+        attr_accessor :external_user_onboarded_at
+
         # Unique identifier for this user profile, prefixed `uprof_`.
         sig { returns(String) }
         attr_accessor :id
@@ -44454,23 +45290,10 @@ module Anthropic
         attr_accessor :metadata
 
         # Real-world name of the entity this profile represents (company or individual).
-        # For a resold-to company (`access_type` `passthrough`, or `relationship` `resold`
-        # under the `user-profiles-2026-03-24` header) this is that company's name.
+        # For a company the platform resells Claude access to (`access_type`
+        # `passthrough`) this is that company's name.
         sig { returns(T.nilable(String)) }
         attr_accessor :name
-
-        # How the entity behind a user profile relates to the platform that owns the API
-        # key. `external`: an individual end-user of the platform. `resold`: a company the
-        # platform resells Claude access to. `internal`: the platform's own usage.
-        sig do
-          returns(T.nilable(
-              Anthropic::Beta::BetaUserProfile::Relationship::TaggedSymbol
-            ))
-        end
-        attr_reader :relationship
-
-        sig { params(relationship: Anthropic::Beta::BetaUserProfile::Relationship::OrSymbol).void }
-        attr_writer :relationship
 
         # Trust grants for this profile, keyed by grant name. Key omitted when no grant is
         # active or in flight.
@@ -44498,9 +45321,8 @@ module Anthropic
               access_type:
                 Anthropic::Beta::BetaUserProfile::AccessType::TaggedSymbol,
               external_id: T.nilable(String),
-              name: T.nilable(String),
-              relationship:
-                Anthropic::Beta::BetaUserProfile::Relationship::TaggedSymbol
+              external_user_onboarded_at: T.nilable(Time),
+              name: T.nilable(String)
             })
         end
         def to_hash; end
@@ -44519,8 +45341,8 @@ module Anthropic
               updated_at: Time,
               access_type: Anthropic::Beta::BetaUserProfile::AccessType::OrSymbol,
               external_id: T.nilable(String),
-              name: T.nilable(String),
-              relationship: Anthropic::Beta::BetaUserProfile::Relationship::OrSymbol
+              external_user_onboarded_at: T.nilable(Time),
+              name: T.nilable(String)
             ).returns(T.attached_class)
           end
           def new(
@@ -44538,12 +45360,10 @@ module Anthropic
                               # `passthrough`: the platform resells raw inference, and the profile identifies
                               # the resold-to company.
             external_id: nil, # Platform's own identifier for this user. Not enforced unique.
-            name: nil, # Real-world name of the entity this profile represents (company or individual).
-                       # For a resold-to company (`access_type` `passthrough`, or `relationship` `resold`
-                       # under the `user-profiles-2026-03-24` header) this is that company's name.
-            relationship: nil # How the entity behind a user profile relates to the platform that owns the API
-                              # key. `external`: an individual end-user of the platform. `resold`: a company the
-                              # platform resells Claude access to. `internal`: the platform's own usage.
+            external_user_onboarded_at: nil, # A timestamp in RFC 3339 format
+            name: nil # Real-world name of the entity this profile represents (company or individual).
+                      # For a company the platform resells Claude access to (`access_type`
+                      # `passthrough`) this is that company's name.
 ); end
         end
 
@@ -44588,44 +45408,6 @@ module Anthropic
               Anthropic::Internal::AnyHash
             )
           end
-
-        # How the entity behind a user profile relates to the platform that owns the API
-        # key. `external`: an individual end-user of the platform. `resold`: a company the
-        # platform resells Claude access to. `internal`: the platform's own usage.
-        module Relationship
-          extend Anthropic::Internal::Type::Enum
-
-          class << self
-            sig do
-              override
-                .returns(T::Array[
-                Anthropic::Beta::BetaUserProfile::Relationship::TaggedSymbol
-              ])
-            end
-            def values; end
-          end
-
-          EXTERNAL = T.let(
-              :external,
-              Anthropic::Beta::BetaUserProfile::Relationship::TaggedSymbol
-            )
-
-          INTERNAL = T.let(
-              :internal,
-              Anthropic::Beta::BetaUserProfile::Relationship::TaggedSymbol
-            )
-
-          OrSymbol = T.type_alias { T.any(Symbol, String) }
-
-          RESOLD = T.let(
-              :resold,
-              Anthropic::Beta::BetaUserProfile::Relationship::TaggedSymbol
-            )
-
-          TaggedSymbol = T.type_alias do
-              T.all(Symbol, Anthropic::Beta::BetaUserProfile::Relationship)
-            end
-        end
 
         # Object type. Always `user_profile`.
         module Type
@@ -48331,54 +49113,7 @@ module Anthropic
         sig { returns(Time) }
         attr_accessor :created_at
 
-        sig do
-          returns(T.any(
-              Anthropic::Beta::BetaWebhookSessionCreatedEventData,
-              Anthropic::Beta::BetaWebhookSessionPendingEventData,
-              Anthropic::Beta::BetaWebhookSessionRunningEventData,
-              Anthropic::Beta::BetaWebhookSessionIdledEventData,
-              Anthropic::Beta::BetaWebhookSessionRequiresActionEventData,
-              Anthropic::Beta::BetaWebhookSessionArchivedEventData,
-              Anthropic::Beta::BetaWebhookSessionDeletedEventData,
-              Anthropic::Beta::BetaWebhookSessionStatusRescheduledEventData,
-              Anthropic::Beta::BetaWebhookSessionStatusRunStartedEventData,
-              Anthropic::Beta::BetaWebhookSessionStatusIdledEventData,
-              Anthropic::Beta::BetaWebhookSessionStatusTerminatedEventData,
-              Anthropic::Beta::BetaWebhookSessionThreadCreatedEventData,
-              Anthropic::Beta::BetaWebhookSessionThreadIdledEventData,
-              Anthropic::Beta::BetaWebhookSessionThreadTerminatedEventData,
-              Anthropic::Beta::BetaWebhookSessionOutcomeEvaluationEndedEventData,
-              Anthropic::Beta::BetaWebhookVaultCreatedEventData,
-              Anthropic::Beta::BetaWebhookVaultArchivedEventData,
-              Anthropic::Beta::BetaWebhookVaultDeletedEventData,
-              Anthropic::Beta::BetaWebhookVaultCredentialCreatedEventData,
-              Anthropic::Beta::BetaWebhookVaultCredentialArchivedEventData,
-              Anthropic::Beta::BetaWebhookVaultCredentialDeletedEventData,
-              Anthropic::Beta::BetaWebhookVaultCredentialRefreshFailedEventData,
-              Anthropic::Beta::BetaWebhookSessionUpdatedEventData,
-              Anthropic::Beta::BetaWebhookAgentCreatedEventData,
-              Anthropic::Beta::BetaWebhookAgentArchivedEventData,
-              Anthropic::Beta::BetaWebhookAgentDeletedEventData,
-              Anthropic::Beta::BetaWebhookDeploymentPausedEventData,
-              Anthropic::Beta::BetaWebhookDeploymentRunFailedEventData,
-              Anthropic::Beta::BetaWebhookDeploymentCreatedEventData,
-              Anthropic::Beta::BetaWebhookDeploymentUpdatedEventData,
-              Anthropic::Beta::BetaWebhookDeploymentUnpausedEventData,
-              Anthropic::Beta::BetaWebhookAgentUpdatedEventData,
-              Anthropic::Beta::BetaWebhookDeploymentArchivedEventData,
-              Anthropic::Beta::BetaWebhookDeploymentRunStartedEventData,
-              Anthropic::Beta::BetaWebhookDeploymentDeletedEventData,
-              Anthropic::Beta::BetaWebhookDeploymentRunSucceededEventData,
-              Anthropic::Beta::BetaWebhookEnvironmentCreatedEventData,
-              Anthropic::Beta::BetaWebhookEnvironmentUpdatedEventData,
-              Anthropic::Beta::BetaWebhookEnvironmentArchivedEventData,
-              Anthropic::Beta::BetaWebhookEnvironmentDeletedEventData,
-              Anthropic::Beta::BetaWebhookMemoryStoreCreatedEventData,
-              Anthropic::Beta::BetaWebhookMemoryStoreArchivedEventData,
-              Anthropic::Beta::BetaWebhookMemoryStoreDeletedEventData,
-              Anthropic::Beta::BetaWebhookSessionBudgetReachedEventData
-            ))
-        end
+        sig { returns(Anthropic::Beta::BetaWebhookEventData::Variants) }
         attr_accessor :data
 
         # Unique event identifier for idempotency.
@@ -48394,53 +49129,7 @@ module Anthropic
             .returns({
               id: String,
               created_at: Time,
-              data:
-                T.any(
-                  Anthropic::Beta::BetaWebhookSessionCreatedEventData,
-                  Anthropic::Beta::BetaWebhookSessionPendingEventData,
-                  Anthropic::Beta::BetaWebhookSessionRunningEventData,
-                  Anthropic::Beta::BetaWebhookSessionIdledEventData,
-                  Anthropic::Beta::BetaWebhookSessionRequiresActionEventData,
-                  Anthropic::Beta::BetaWebhookSessionArchivedEventData,
-                  Anthropic::Beta::BetaWebhookSessionDeletedEventData,
-                  Anthropic::Beta::BetaWebhookSessionStatusRescheduledEventData,
-                  Anthropic::Beta::BetaWebhookSessionStatusRunStartedEventData,
-                  Anthropic::Beta::BetaWebhookSessionStatusIdledEventData,
-                  Anthropic::Beta::BetaWebhookSessionStatusTerminatedEventData,
-                  Anthropic::Beta::BetaWebhookSessionThreadCreatedEventData,
-                  Anthropic::Beta::BetaWebhookSessionThreadIdledEventData,
-                  Anthropic::Beta::BetaWebhookSessionThreadTerminatedEventData,
-                  Anthropic::Beta::BetaWebhookSessionOutcomeEvaluationEndedEventData,
-                  Anthropic::Beta::BetaWebhookVaultCreatedEventData,
-                  Anthropic::Beta::BetaWebhookVaultArchivedEventData,
-                  Anthropic::Beta::BetaWebhookVaultDeletedEventData,
-                  Anthropic::Beta::BetaWebhookVaultCredentialCreatedEventData,
-                  Anthropic::Beta::BetaWebhookVaultCredentialArchivedEventData,
-                  Anthropic::Beta::BetaWebhookVaultCredentialDeletedEventData,
-                  Anthropic::Beta::BetaWebhookVaultCredentialRefreshFailedEventData,
-                  Anthropic::Beta::BetaWebhookSessionUpdatedEventData,
-                  Anthropic::Beta::BetaWebhookAgentCreatedEventData,
-                  Anthropic::Beta::BetaWebhookAgentArchivedEventData,
-                  Anthropic::Beta::BetaWebhookAgentDeletedEventData,
-                  Anthropic::Beta::BetaWebhookDeploymentPausedEventData,
-                  Anthropic::Beta::BetaWebhookDeploymentRunFailedEventData,
-                  Anthropic::Beta::BetaWebhookDeploymentCreatedEventData,
-                  Anthropic::Beta::BetaWebhookDeploymentUpdatedEventData,
-                  Anthropic::Beta::BetaWebhookDeploymentUnpausedEventData,
-                  Anthropic::Beta::BetaWebhookAgentUpdatedEventData,
-                  Anthropic::Beta::BetaWebhookDeploymentArchivedEventData,
-                  Anthropic::Beta::BetaWebhookDeploymentRunStartedEventData,
-                  Anthropic::Beta::BetaWebhookDeploymentDeletedEventData,
-                  Anthropic::Beta::BetaWebhookDeploymentRunSucceededEventData,
-                  Anthropic::Beta::BetaWebhookEnvironmentCreatedEventData,
-                  Anthropic::Beta::BetaWebhookEnvironmentUpdatedEventData,
-                  Anthropic::Beta::BetaWebhookEnvironmentArchivedEventData,
-                  Anthropic::Beta::BetaWebhookEnvironmentDeletedEventData,
-                  Anthropic::Beta::BetaWebhookMemoryStoreCreatedEventData,
-                  Anthropic::Beta::BetaWebhookMemoryStoreArchivedEventData,
-                  Anthropic::Beta::BetaWebhookMemoryStoreDeletedEventData,
-                  Anthropic::Beta::BetaWebhookSessionBudgetReachedEventData
-                ),
+              data: Anthropic::Beta::BetaWebhookEventData::Variants,
               type: Symbol
             })
         end
@@ -50252,12 +50941,19 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :deployment_id
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
               deployment_id: String,
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -50268,12 +50964,14 @@ module Anthropic
             params(
               deployment_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
           def new(
             deployment_id:,
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -50399,6 +51097,12 @@ module Anthropic
         sig { params(vault_ids: T::Array[String]).void }
         attr_writer :vault_ids
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
@@ -50430,6 +51134,7 @@ module Anthropic
               vault_ids: T::Array[String],
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -50466,6 +51171,7 @@ module Anthropic
               ),
               vault_ids: T::Array[String],
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
@@ -50490,6 +51196,7 @@ module Anthropic
             vault_ids: nil, # Vault IDs for stored credentials the agent can use during sessions created from
                             # this deployment. Maximum 50.
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -50672,8 +51379,8 @@ module Anthropic
         sig { params(page: String).void }
         attr_writer :page
 
-        # Filter by status: active or paused. Omit for both. To include archived
-        # deployments, use include_archived instead; the two cannot be combined.
+        # Filter by status: `active` or `paused`. Omit for both. To include archived
+        # deployments, use `include_archived` instead; the two cannot be combined.
         sig do
           returns(T.nilable(
               Anthropic::Beta::BetaManagedAgentsDeploymentStatus::OrSymbol
@@ -50683,6 +51390,12 @@ module Anthropic
 
         sig { params(status: Anthropic::Beta::BetaManagedAgentsDeploymentStatus::OrSymbol).void }
         attr_writer :status
+
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
 
         sig do
           override
@@ -50697,6 +51410,7 @@ module Anthropic
                 Anthropic::Beta::BetaManagedAgentsDeploymentStatus::OrSymbol,
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -50713,6 +51427,7 @@ module Anthropic
               page: String,
               status: Anthropic::Beta::BetaManagedAgentsDeploymentStatus::OrSymbol,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
@@ -50723,9 +51438,10 @@ module Anthropic
             include_archived: nil, # When true, includes archived deployments. Default: false (exclude archived).
             limit: nil, # Maximum results per page. Default 20, maximum 100.
             page: nil, # Opaque pagination cursor.
-            status: nil, # Filter by status: active or paused. Omit for both. To include archived
-                         # deployments, use include_archived instead; the two cannot be combined.
+            status: nil, # Filter by status: `active` or `paused`. Omit for both. To include archived
+                         # deployments, use `include_archived` instead; the two cannot be combined.
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -50756,12 +51472,19 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :deployment_id
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
               deployment_id: String,
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -50772,12 +51495,14 @@ module Anthropic
             params(
               deployment_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
           def new(
             deployment_id:,
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -50808,12 +51533,19 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :deployment_id
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
               deployment_id: String,
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -50824,12 +51556,14 @@ module Anthropic
             params(
               deployment_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
           def new(
             deployment_id:,
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -50886,7 +51620,7 @@ module Anthropic
         attr_writer :created_at_lte
 
         # Filter to a specific deployment. Omit to list across all deployments in the
-        # workspace. Filtering by a non-existent deployment_id returns 200 with empty
+        # workspace. Filtering by a non-existent `deployment_id` returns 200 with empty
         # data.
         sig { returns(T.nilable(String)) }
         attr_reader :deployment_id
@@ -50894,8 +51628,8 @@ module Anthropic
         sig { params(deployment_id: String).void }
         attr_writer :deployment_id
 
-        # Filter: true for runs with non-null error, false for runs with non-null
-        # session_id. Omit for all.
+        # Filter: true for runs with non-null `error`, false for runs with non-null
+        # `session_id`. Omit for all.
         sig { returns(T.nilable(T::Boolean)) }
         attr_reader :has_error
 
@@ -50909,8 +51643,8 @@ module Anthropic
         sig { params(limit: Integer).void }
         attr_writer :limit
 
-        # Opaque pagination cursor. Pass next_page from the previous response. Invalid or
-        # expired cursors return 400.
+        # Opaque pagination cursor. Pass `next_page` from the previous response. Invalid
+        # or expired cursors return 400.
         sig { returns(T.nilable(String)) }
         attr_reader :page
 
@@ -50923,6 +51657,12 @@ module Anthropic
 
         sig { params(trigger_type: Anthropic::Beta::BetaManagedAgentsTriggerType::OrSymbol).void }
         attr_writer :trigger_type
+
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
 
         sig do
           override
@@ -50939,6 +51679,7 @@ module Anthropic
                 Anthropic::Beta::BetaManagedAgentsTriggerType::OrSymbol,
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -50957,6 +51698,7 @@ module Anthropic
               page: String,
               trigger_type: Anthropic::Beta::BetaManagedAgentsTriggerType::OrSymbol,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
@@ -50966,15 +51708,16 @@ module Anthropic
             created_at_lt: nil, # Return runs created strictly before this time (exclusive).
             created_at_lte: nil, # Return runs created at or before this time (inclusive).
             deployment_id: nil, # Filter to a specific deployment. Omit to list across all deployments in the
-                                # workspace. Filtering by a non-existent deployment_id returns 200 with empty
+                                # workspace. Filtering by a non-existent `deployment_id` returns 200 with empty
                                 # data.
-            has_error: nil, # Filter: true for runs with non-null error, false for runs with non-null
-                            # session_id. Omit for all.
+            has_error: nil, # Filter: true for runs with non-null `error`, false for runs with non-null
+                            # `session_id`. Omit for all.
             limit: nil, # Maximum results per page. Default 20, maximum 1000.
-            page: nil, # Opaque pagination cursor. Pass next_page from the previous response. Invalid or
-                       # expired cursors return 400.
+            page: nil, # Opaque pagination cursor. Pass `next_page` from the previous response. Invalid
+                       # or expired cursors return 400.
             trigger_type: nil, # Filter runs by what triggered them. Omit to return all runs.
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -51005,12 +51748,19 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :deployment_id
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
               deployment_id: String,
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -51021,12 +51771,14 @@ module Anthropic
             params(
               deployment_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
           def new(
             deployment_id:,
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -51057,12 +51809,19 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :deployment_run_id
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
               deployment_run_id: String,
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -51073,12 +51832,14 @@ module Anthropic
             params(
               deployment_run_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
           def new(
             deployment_run_id:,
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -51109,12 +51870,19 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :deployment_id
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
               deployment_id: String,
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -51125,12 +51893,14 @@ module Anthropic
             params(
               deployment_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
           def new(
             deployment_id:,
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -51275,6 +52045,12 @@ module Anthropic
         sig { returns(T.nilable(T::Array[String])) }
         attr_accessor :vault_ids
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
@@ -51309,6 +52085,7 @@ module Anthropic
               vault_ids: T.nilable(T::Array[String]),
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -51348,6 +52125,7 @@ module Anthropic
               ),
               vault_ids: T.nilable(T::Array[String]),
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
@@ -51373,6 +52151,7 @@ module Anthropic
             vault_ids: nil, # Vault IDs. Full replacement. Omit to preserve; send empty array or null to
                             # clear. Maximum 50.
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -51516,12 +52295,19 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :dream_id
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
               dream_id: String,
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -51532,12 +52318,14 @@ module Anthropic
             params(
               dream_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
           def new(
             dream_id:,
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -51568,12 +52356,19 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :dream_id
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
               dream_id: String,
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -51584,12 +52379,14 @@ module Anthropic
             params(
               dream_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
           def new(
             dream_id:,
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -51657,6 +52454,12 @@ module Anthropic
         end
         attr_writer :output_behavior
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
@@ -51676,6 +52479,7 @@ module Anthropic
                 ),
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -51697,6 +52501,7 @@ module Anthropic
                 Anthropic::Beta::BetaOutputBehaviorUpdateExisting::OrHash
               ),
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
@@ -51708,6 +52513,7 @@ module Anthropic
                                   # the memory_store input and writes the consolidated memories into it. The input
                                   # store is never mutated.
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -51794,6 +52600,12 @@ module Anthropic
         sig { params(statuses: T::Array[Anthropic::Beta::BetaDreamStatus::OrSymbol]).void }
         attr_writer :statuses
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
@@ -51805,6 +52617,7 @@ module Anthropic
               statuses: T::Array[Anthropic::Beta::BetaDreamStatus::OrSymbol],
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -51820,6 +52633,7 @@ module Anthropic
               page: String,
               statuses: T::Array[Anthropic::Beta::BetaDreamStatus::OrSymbol],
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
@@ -51834,6 +52648,7 @@ module Anthropic
             statuses: nil, # Filter by lifecycle status. Repeat the parameter to match any of multiple
                            # statuses. Empty applies no status filter.
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -51864,12 +52679,19 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :dream_id
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
               dream_id: String,
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -51880,12 +52702,14 @@ module Anthropic
             params(
               dream_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
           def new(
             dream_id:,
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -51916,12 +52740,19 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :environment_id
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
               environment_id: String,
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -51932,12 +52763,14 @@ module Anthropic
             params(
               environment_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
           def new(
             environment_id:,
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -51998,6 +52831,12 @@ module Anthropic
         sig { returns(T.nilable(Anthropic::Beta::EnvironmentCreateParams::Scope::OrSymbol)) }
         attr_accessor :scope
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
@@ -52017,6 +52856,7 @@ module Anthropic
                 ),
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -52038,6 +52878,7 @@ module Anthropic
                 Anthropic::Beta::EnvironmentCreateParams::Scope::OrSymbol
               ),
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
@@ -52051,6 +52892,7 @@ module Anthropic
                         # only. Only applicable for self-hosted environments. If not specified, defaults
                         # based on organization type.
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -52195,12 +53037,19 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :environment_id
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
               environment_id: String,
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -52211,12 +53060,14 @@ module Anthropic
             params(
               environment_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
           def new(
             environment_id:,
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -52263,6 +53114,12 @@ module Anthropic
         sig { returns(T.nilable(String)) }
         attr_accessor :page
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
@@ -52271,6 +53128,7 @@ module Anthropic
               page: T.nilable(String),
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -52283,6 +53141,7 @@ module Anthropic
               limit: Integer,
               page: T.nilable(String),
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
@@ -52292,6 +53151,7 @@ module Anthropic
             page: nil, # Opaque cursor from previous response for pagination. Pass the `next_page` value
                        # from the previous response.
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -52322,12 +53182,19 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :environment_id
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
               environment_id: String,
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -52338,12 +53205,14 @@ module Anthropic
             params(
               environment_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
           def new(
             environment_id:,
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -52408,6 +53277,12 @@ module Anthropic
         sig { returns(T.nilable(Anthropic::Beta::EnvironmentUpdateParams::Scope::OrSymbol)) }
         attr_accessor :scope
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
@@ -52428,6 +53303,7 @@ module Anthropic
                 ),
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -52450,6 +53326,7 @@ module Anthropic
                 Anthropic::Beta::EnvironmentUpdateParams::Scope::OrSymbol
               ),
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
@@ -52465,6 +53342,7 @@ module Anthropic
                         # visible to all accounts. 'account' restricts visibility to the owning account
                         # only.
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -53385,6 +54263,12 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :work_id
 
+          sig { returns(T.nilable(String)) }
+          attr_reader :workspace_id
+
+          sig { params(workspace_id: String).void }
+          attr_writer :workspace_id
+
           sig do
             override
               .returns({
@@ -53392,6 +54276,7 @@ module Anthropic
                 work_id: String,
                 betas:
                   T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions
               })
           end
@@ -53403,6 +54288,7 @@ module Anthropic
                 environment_id: String,
                 work_id: String,
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions::OrHash
               ).returns(T.attached_class)
             end
@@ -53410,6 +54296,7 @@ module Anthropic
               environment_id:,
               work_id:,
               betas: nil, # Optional header to specify the beta version(s) you want to use.
+              workspace_id: nil,
               request_options: {}
 ); end
           end
@@ -53440,12 +54327,19 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :environment_id
 
+          sig { returns(T.nilable(String)) }
+          attr_reader :workspace_id
+
+          sig { params(workspace_id: String).void }
+          attr_writer :workspace_id
+
           sig do
             override
               .returns({
                 environment_id: String,
                 betas:
                   T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions
               })
           end
@@ -53456,12 +54350,14 @@ module Anthropic
               params(
                 environment_id: String,
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions::OrHash
               ).returns(T.attached_class)
             end
             def new(
               environment_id:,
               betas: nil, # Optional header to specify the beta version(s) you want to use.
+              workspace_id: nil,
               request_options: {}
 ); end
           end
@@ -53495,6 +54391,12 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :work_id
 
+          sig { returns(T.nilable(String)) }
+          attr_reader :workspace_id
+
+          sig { params(workspace_id: String).void }
+          attr_writer :workspace_id
+
           sig do
             override
               .returns({
@@ -53502,6 +54404,7 @@ module Anthropic
                 work_id: String,
                 betas:
                   T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions
               })
           end
@@ -53513,6 +54416,7 @@ module Anthropic
                 environment_id: String,
                 work_id: String,
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions::OrHash
               ).returns(T.attached_class)
             end
@@ -53520,6 +54424,7 @@ module Anthropic
               environment_id:,
               work_id:,
               betas: nil, # Optional header to specify the beta version(s) you want to use.
+              workspace_id: nil,
               request_options: {}
 ); end
           end
@@ -53553,6 +54458,12 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :work_id
 
+          sig { returns(T.nilable(String)) }
+          attr_reader :workspace_id
+
+          sig { params(workspace_id: String).void }
+          attr_writer :workspace_id
+
           sig do
             override
               .returns({
@@ -53560,6 +54471,7 @@ module Anthropic
                 work_id: String,
                 betas:
                   T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions
               })
           end
@@ -53571,6 +54483,7 @@ module Anthropic
                 environment_id: String,
                 work_id: String,
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions::OrHash
               ).returns(T.attached_class)
             end
@@ -53578,6 +54491,7 @@ module Anthropic
               environment_id:,
               work_id:,
               betas: nil, # Optional header to specify the beta version(s) you want to use.
+              workspace_id: nil,
               request_options: {}
 ); end
           end
@@ -53610,12 +54524,19 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :file_id
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
               file_id: String,
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -53626,12 +54547,14 @@ module Anthropic
             params(
               file_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
           def new(
             file_id:, # ID of the File.
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -53663,12 +54586,19 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :file_id
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
               file_id: String,
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -53679,12 +54609,14 @@ module Anthropic
             params(
               file_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
           def new(
             file_id:, # ID of the File.
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -53701,22 +54633,6 @@ module Anthropic
         extend Anthropic::Internal::Type::RequestParameters::Converter
         include Anthropic::Internal::Type::RequestParameters
 
-        # ID of the object to use as a cursor for pagination. When provided, returns the
-        # page of results immediately after this object.
-        sig { returns(T.nilable(String)) }
-        attr_reader :after_id
-
-        sig { params(after_id: String).void }
-        attr_writer :after_id
-
-        # ID of the object to use as a cursor for pagination. When provided, returns the
-        # page of results immediately before this object.
-        sig { returns(T.nilable(String)) }
-        attr_reader :before_id
-
-        sig { params(before_id: String).void }
-        attr_writer :before_id
-
         # Optional header to specify the beta version(s) you want to use.
         sig do
           returns(T.nilable(
@@ -53728,6 +54644,14 @@ module Anthropic
         sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
         attr_writer :betas
 
+        # Restrict the result set to Files whose `id` is in this list. At most 100 entries
+        # (after de-duplication). Mutually exclusive with `page` and `limit`. When
+        # supplied, the response is always a single page (`next_page` is null). IDs that
+        # do not resolve to a visible File — including deleted Files — are silently
+        # omitted.
+        sig { returns(T.nilable(T::Array[String])) }
+        attr_accessor :ids
+
         # Number of items to return per page.
         #
         # Defaults to `20`. Ranges from `1` to `1000`.
@@ -53737,6 +54661,11 @@ module Anthropic
         sig { params(limit: Integer).void }
         attr_writer :limit
 
+        # Opaque page cursor returned in a prior list response's `next_page`. Prefixed
+        # `page_`.
+        sig { returns(T.nilable(String)) }
+        attr_accessor :page
+
         # Filter by scope ID. Only returns files associated with the specified scope
         # (e.g., a session ID).
         sig { returns(T.nilable(String)) }
@@ -53745,15 +54674,22 @@ module Anthropic
         sig { params(scope_id: String).void }
         attr_writer :scope_id
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
-              after_id: String,
-              before_id: String,
+              ids: T.nilable(T::Array[String]),
               limit: Integer,
+              page: T.nilable(String),
               scope_id: String,
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -53762,24 +54698,29 @@ module Anthropic
         class << self
           sig do
             params(
-              after_id: String,
-              before_id: String,
+              ids: T.nilable(T::Array[String]),
               limit: Integer,
+              page: T.nilable(String),
               scope_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
           def new(
-            after_id: nil, # ID of the object to use as a cursor for pagination. When provided, returns the
-                           # page of results immediately after this object.
-            before_id: nil, # ID of the object to use as a cursor for pagination. When provided, returns the
-                            # page of results immediately before this object.
+            ids: nil, # Restrict the result set to Files whose `id` is in this list. At most 100 entries
+                      # (after de-duplication). Mutually exclusive with `page` and `limit`. When
+                      # supplied, the response is always a single page (`next_page` is null). IDs that
+                      # do not resolve to a visible File — including deleted Files — are silently
+                      # omitted.
             limit: nil, # Number of items to return per page.
                         # Defaults to `20`. Ranges from `1` to `1000`.
+            page: nil, # Opaque page cursor returned in a prior list response's `next_page`. Prefixed
+                       # `page_`.
             scope_id: nil, # Filter by scope ID. Only returns files associated with the specified scope
                            # (e.g., a session ID).
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -53808,12 +54749,19 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :file_id
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
               file_id: String,
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -53824,12 +54772,14 @@ module Anthropic
             params(
               file_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
           def new(
             file_id:, # ID of the File.
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -53857,16 +54807,34 @@ module Anthropic
         sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
         attr_writer :betas
 
-        # The file to upload
+        # Seconds from upload until the file expires and its bytes become permanently
+        # unavailable. Must be between 3600 (one hour) and 7776000 (ninety days).
+        sig { returns(T.nilable(Integer)) }
+        attr_reader :expires_in_seconds
+
+        sig { params(expires_in_seconds: Integer).void }
+        attr_writer :expires_in_seconds
+
+        # The file to upload. Only the final path component of the part's `filename` is
+        # kept; an absent or empty `filename` is replaced with `unnamed` plus the
+        # extension for the file's stored `mime_type`, when known.
         sig { returns(Anthropic::Internal::FileInput) }
         attr_accessor :file
+
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
 
         sig do
           override
             .returns({
               file: Anthropic::Internal::FileInput,
+              expires_in_seconds: Integer,
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -53876,13 +54844,20 @@ module Anthropic
           sig do
             params(
               file: Anthropic::Internal::FileInput,
+              expires_in_seconds: Integer,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
           def new(
-            file:, # The file to upload
+            file:, # The file to upload. Only the final path component of the part's `filename` is
+                   # kept; an absent or empty `filename` is replaced with `unnamed` plus the
+                   # extension for the file's stored `mime_type`, when known.
+            expires_in_seconds: nil, # Seconds from upload until the file expires and its bytes become permanently
+                                     # unavailable. Must be between 3600 (one hour) and 7776000 (ninety days).
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -53913,12 +54888,19 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :memory_store_id
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
               memory_store_id: String,
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -53929,12 +54911,14 @@ module Anthropic
             params(
               memory_store_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
           def new(
             memory_store_id:,
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -53987,6 +54971,12 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :name
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
@@ -53995,6 +54985,7 @@ module Anthropic
               metadata: T::Hash[Symbol, String],
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -54007,6 +54998,7 @@ module Anthropic
               description: String,
               metadata: T::Hash[Symbol, String],
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
@@ -54022,6 +55014,7 @@ module Anthropic
                            # belongs to). Up to 16 pairs; keys 1–64 characters; values up to 512 characters.
                            # Not visible to the agent.
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -54052,12 +55045,19 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :memory_store_id
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
               memory_store_id: String,
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -54068,12 +55068,14 @@ module Anthropic
             params(
               memory_store_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
           def new(
             memory_store_id:,
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -54141,6 +55143,12 @@ module Anthropic
         sig { params(page: String).void }
         attr_writer :page
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
@@ -54151,6 +55159,7 @@ module Anthropic
               page: String,
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -54165,6 +55174,7 @@ module Anthropic
               limit: Integer,
               page: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
@@ -54180,6 +55190,7 @@ module Anthropic
             page: nil, # Opaque pagination cursor (a `page_...` value). Pass the `next_page` value from a
                        # previous response to fetch the next page; omit for the first page.
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -54210,12 +55221,19 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :memory_store_id
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
               memory_store_id: String,
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -54226,12 +55244,14 @@ module Anthropic
             params(
               memory_store_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
           def new(
             memory_store_id:,
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -54279,6 +55299,12 @@ module Anthropic
         sig { returns(T.nilable(String)) }
         attr_accessor :name
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
@@ -54288,6 +55314,7 @@ module Anthropic
               name: T.nilable(String),
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -54301,6 +55328,7 @@ module Anthropic
               metadata: T.nilable(T::Hash[Symbol, T.nilable(String)]),
               name: T.nilable(String),
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
@@ -54315,6 +55343,7 @@ module Anthropic
                        # Renaming changes the slug used for the store's `mount_path` in sessions created
                        # after the update.
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -54403,7 +55432,7 @@ module Anthropic
         # the `memory_version` row. The API key that created a session is not recorded on
         # agent writes; attribution answers who made the write, not who is ultimately
         # responsible. Look up session provenance separately via the
-        # [Sessions API](/en/api/sessions-retrieve).
+        # [Sessions API](/en/api/beta/sessions/retrieve).
         module BetaManagedAgentsActor
           extend Anthropic::Internal::Type::Union
 
@@ -54422,7 +55451,7 @@ module Anthropic
             def new(
               type:,
               session_id: nil, # ID of the session that performed the write (a `sesn_...` value). Look up the
-                               # session via [Retrieve a session](/en/api/sessions-retrieve) for further
+                               # session via [Retrieve a session](/en/api/beta/sessions/retrieve) for further
                                # provenance.
               api_key_id: nil, # ID of the API key that performed the write. This identifies the key, not the
                                # secret.
@@ -55342,7 +56371,7 @@ module Anthropic
           # the `memory_version` row. The API key that created a session is not recorded on
           # agent writes; attribution answers who made the write, not who is ultimately
           # responsible. Look up session provenance separately via the
-          # [Sessions API](/en/api/sessions-retrieve).
+          # [Sessions API](/en/api/beta/sessions/retrieve).
           sig do
             returns(T.nilable(
                 Anthropic::Beta::MemoryStores::BetaManagedAgentsActor::Variants
@@ -55396,7 +56425,7 @@ module Anthropic
           # the `memory_version` row. The API key that created a session is not recorded on
           # agent writes; attribution answers who made the write, not who is ultimately
           # responsible. Look up session provenance separately via the
-          # [Sessions API](/en/api/sessions-retrieve).
+          # [Sessions API](/en/api/beta/sessions/retrieve).
           sig do
             returns(T.nilable(
                 Anthropic::Beta::MemoryStores::BetaManagedAgentsActor::Variants
@@ -55502,7 +56531,7 @@ module Anthropic
                                # the `memory_version` row. The API key that created a session is not recorded on
                                # agent writes; attribution answers who made the write, not who is ultimately
                                # responsible. Look up session provenance separately via the
-                               # [Sessions API](/en/api/sessions-retrieve).
+                               # [Sessions API](/en/api/beta/sessions/retrieve).
               path: nil, # The memory's path at the time of this write. `null` if and only if `redacted_at`
                          # is set.
               redacted_at: nil, # A timestamp in RFC 3339 format
@@ -55510,7 +56539,7 @@ module Anthropic
                                # the `memory_version` row. The API key that created a session is not recorded on
                                # agent writes; attribution answers who made the write, not who is ultimately
                                # responsible. Look up session provenance separately via the
-                               # [Sessions API](/en/api/sessions-retrieve).
+                               # [Sessions API](/en/api/beta/sessions/retrieve).
 ); end
           end
 
@@ -55741,7 +56770,7 @@ module Anthropic
 
         class BetaManagedAgentsSessionActor < Anthropic::Internal::Type::BaseModel
           # ID of the session that performed the write (a `sesn_...` value). Look up the
-          # session via [Retrieve a session](/en/api/sessions-retrieve) for further
+          # session via [Retrieve a session](/en/api/beta/sessions/retrieve) for further
           # provenance.
           sig { returns(String) }
           attr_accessor :session_id
@@ -55770,7 +56799,7 @@ module Anthropic
             end
             def new(
               session_id:, # ID of the session that performed the write (a `sesn_...` value). Look up the
-                           # session via [Retrieve a session](/en/api/sessions-retrieve) for further
+                           # session via [Retrieve a session](/en/api/beta/sessions/retrieve) for further
                            # provenance.
               type:
 ); end
@@ -55906,7 +56935,8 @@ module Anthropic
           # Hierarchical path for the new memory, e.g. `/projects/foo/notes.md`. Must start
           # with `/`, contain at least one non-empty segment, and be at most 1,024 bytes.
           # Must not contain empty segments, `.` or `..` segments, control or format
-          # characters, and must be NFC-normalized. Paths are case-sensitive.
+          # characters, or the Unicode line and paragraph separators (U+2028, U+2029), and
+          # must be NFC-normalized. Paths are case-sensitive.
           sig { returns(String) }
           attr_accessor :path
 
@@ -55921,6 +56951,12 @@ module Anthropic
           sig { params(view: Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryView::OrSymbol).void }
           attr_writer :view
 
+          sig { returns(T.nilable(String)) }
+          attr_reader :workspace_id
+
+          sig { params(workspace_id: String).void }
+          attr_writer :workspace_id
+
           sig do
             override
               .returns({
@@ -55931,6 +56967,7 @@ module Anthropic
                   Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryView::OrSymbol,
                 betas:
                   T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions
               })
           end
@@ -55944,6 +56981,7 @@ module Anthropic
                 path: String,
                 view: Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryView::OrSymbol,
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions::OrHash
               ).returns(T.attached_class)
             end
@@ -55954,9 +56992,11 @@ module Anthropic
               path:, # Hierarchical path for the new memory, e.g. `/projects/foo/notes.md`. Must start
                      # with `/`, contain at least one non-empty segment, and be at most 1,024 bytes.
                      # Must not contain empty segments, `.` or `..` segments, control or format
-                     # characters, and must be NFC-normalized. Paths are case-sensitive.
+                     # characters, or the Unicode line and paragraph separators (U+2028, U+2029), and
+                     # must be NFC-normalized. Paths are case-sensitive.
               view: nil, # Query parameter for view
               betas: nil, # Optional header to specify the beta version(s) you want to use.
+              workspace_id: nil,
               request_options: {}
 ); end
           end
@@ -55997,6 +57037,12 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :memory_store_id
 
+          sig { returns(T.nilable(String)) }
+          attr_reader :workspace_id
+
+          sig { params(workspace_id: String).void }
+          attr_writer :workspace_id
+
           sig do
             override
               .returns({
@@ -56005,6 +57051,7 @@ module Anthropic
                 expected_content_sha256: String,
                 betas:
                   T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions
               })
           end
@@ -56017,6 +57064,7 @@ module Anthropic
                 memory_id: String,
                 expected_content_sha256: String,
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions::OrHash
               ).returns(T.attached_class)
             end
@@ -56025,6 +57073,7 @@ module Anthropic
               memory_id:,
               expected_content_sha256: nil, # Query parameter for expected_content_sha256
               betas: nil, # Optional header to specify the beta version(s) you want to use.
+              workspace_id: nil,
               request_options: {}
 ); end
           end
@@ -56103,6 +57152,12 @@ module Anthropic
           sig { params(view: Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryView::OrSymbol).void }
           attr_writer :view
 
+          sig { returns(T.nilable(String)) }
+          attr_reader :workspace_id
+
+          sig { params(workspace_id: String).void }
+          attr_writer :workspace_id
+
           sig do
             override
               .returns({
@@ -56115,6 +57170,7 @@ module Anthropic
                   Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryView::OrSymbol,
                 betas:
                   T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions
               })
           end
@@ -56130,6 +57186,7 @@ module Anthropic
                 path_prefix: String,
                 view: Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryView::OrSymbol,
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions::OrHash
               ).returns(T.attached_class)
             end
@@ -56150,6 +57207,7 @@ module Anthropic
                          # omitted). `full` populates `content` on each item and caps `limit` at 20; use
                          # this as the bulk-read path for export and sync.
               betas: nil, # Optional header to specify the beta version(s) you want to use.
+              workspace_id: nil,
               request_options: {}
 ); end
           end
@@ -56194,6 +57252,12 @@ module Anthropic
           sig { params(view: Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryView::OrSymbol).void }
           attr_writer :view
 
+          sig { returns(T.nilable(String)) }
+          attr_reader :workspace_id
+
+          sig { params(workspace_id: String).void }
+          attr_writer :workspace_id
+
           sig do
             override
               .returns({
@@ -56203,6 +57267,7 @@ module Anthropic
                   Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryView::OrSymbol,
                 betas:
                   T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions
               })
           end
@@ -56215,6 +57280,7 @@ module Anthropic
                 memory_id: String,
                 view: Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryView::OrSymbol,
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions::OrHash
               ).returns(T.attached_class)
             end
@@ -56223,6 +57289,7 @@ module Anthropic
               memory_id:,
               view: nil, # Query parameter for view
               betas: nil, # Optional header to specify the beta version(s) you want to use.
+              workspace_id: nil,
               request_options: {}
 ); end
           end
@@ -56263,9 +57330,10 @@ module Anthropic
 
           # New path for the memory (a rename). Must start with `/`, contain at least one
           # non-empty segment, and be at most 1,024 bytes. Must not contain empty segments,
-          # `.` or `..` segments, control or format characters, and must be NFC-normalized.
-          # Paths are case-sensitive. The memory's `id` is preserved across renames. Omit to
-          # leave the path unchanged.
+          # `.` or `..` segments, control or format characters, or the Unicode line and
+          # paragraph separators (U+2028, U+2029), and must be NFC-normalized. Paths are
+          # case-sensitive. The memory's `id` is preserved across renames. Omit to leave the
+          # path unchanged.
           sig { returns(T.nilable(String)) }
           attr_accessor :path
 
@@ -56296,6 +57364,12 @@ module Anthropic
           sig { params(view: Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryView::OrSymbol).void }
           attr_writer :view
 
+          sig { returns(T.nilable(String)) }
+          attr_reader :workspace_id
+
+          sig { params(workspace_id: String).void }
+          attr_writer :workspace_id
+
           sig do
             override
               .returns({
@@ -56309,6 +57383,7 @@ module Anthropic
                   Anthropic::Beta::MemoryStores::BetaManagedAgentsPrecondition,
                 betas:
                   T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions
               })
           end
@@ -56324,6 +57399,7 @@ module Anthropic
                 path: T.nilable(String),
                 precondition: Anthropic::Beta::MemoryStores::BetaManagedAgentsPrecondition::OrHash,
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions::OrHash
               ).returns(T.attached_class)
             end
@@ -56335,9 +57411,10 @@ module Anthropic
                             # leave the content unchanged (e.g., for a rename-only update).
               path: nil, # New path for the memory (a rename). Must start with `/`, contain at least one
                          # non-empty segment, and be at most 1,024 bytes. Must not contain empty segments,
-                         # `.` or `..` segments, control or format characters, and must be NFC-normalized.
-                         # Paths are case-sensitive. The memory's `id` is preserved across renames. Omit to
-                         # leave the path unchanged.
+                         # `.` or `..` segments, control or format characters, or the Unicode line and
+                         # paragraph separators (U+2028, U+2029), and must be NFC-normalized. Paths are
+                         # case-sensitive. The memory's `id` is preserved across renames. Omit to leave the
+                         # path unchanged.
               precondition: nil, # Optimistic-concurrency precondition: the update applies only if the memory's
                                  # stored `content_sha256` equals the supplied value. On mismatch, the request
                                  # returns `memory_precondition_failed_error` (HTTP 409); re-read the memory and
@@ -56345,6 +57422,7 @@ module Anthropic
                                  # already exactly matches the requested `content` and `path`, the server returns
                                  # 200 instead of 409.
               betas: nil, # Optional header to specify the beta version(s) you want to use.
+              workspace_id: nil,
               request_options: {}
 ); end
           end
@@ -56457,6 +57535,12 @@ module Anthropic
           sig { params(view: Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryView::OrSymbol).void }
           attr_writer :view
 
+          sig { returns(T.nilable(String)) }
+          attr_reader :workspace_id
+
+          sig { params(workspace_id: String).void }
+          attr_writer :workspace_id
+
           sig do
             override
               .returns({
@@ -56475,6 +57559,7 @@ module Anthropic
                   Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryView::OrSymbol,
                 betas:
                   T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions
               })
           end
@@ -56495,6 +57580,7 @@ module Anthropic
                 session_id: String,
                 view: Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryView::OrSymbol,
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions::OrHash
               ).returns(T.attached_class)
             end
@@ -56511,6 +57597,7 @@ module Anthropic
               session_id: nil, # Query parameter for session_id
               view: nil, # Query parameter for view
               betas: nil, # Optional header to specify the beta version(s) you want to use.
+              workspace_id: nil,
               request_options: {}
 ); end
           end
@@ -56544,6 +57631,12 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :memory_version_id
 
+          sig { returns(T.nilable(String)) }
+          attr_reader :workspace_id
+
+          sig { params(workspace_id: String).void }
+          attr_writer :workspace_id
+
           sig do
             override
               .returns({
@@ -56551,6 +57644,7 @@ module Anthropic
                 memory_version_id: String,
                 betas:
                   T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions
               })
           end
@@ -56562,6 +57656,7 @@ module Anthropic
                 memory_store_id: String,
                 memory_version_id: String,
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions::OrHash
               ).returns(T.attached_class)
             end
@@ -56569,6 +57664,7 @@ module Anthropic
               memory_store_id:,
               memory_version_id:,
               betas: nil, # Optional header to specify the beta version(s) you want to use.
+              workspace_id: nil,
               request_options: {}
 ); end
           end
@@ -56613,6 +57709,12 @@ module Anthropic
           sig { params(view: Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryView::OrSymbol).void }
           attr_writer :view
 
+          sig { returns(T.nilable(String)) }
+          attr_reader :workspace_id
+
+          sig { params(workspace_id: String).void }
+          attr_writer :workspace_id
+
           sig do
             override
               .returns({
@@ -56622,6 +57724,7 @@ module Anthropic
                   Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryView::OrSymbol,
                 betas:
                   T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions
               })
           end
@@ -56634,6 +57737,7 @@ module Anthropic
                 memory_version_id: String,
                 view: Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryView::OrSymbol,
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions::OrHash
               ).returns(T.attached_class)
             end
@@ -56642,6 +57746,7 @@ module Anthropic
               memory_version_id:,
               view: nil, # Query parameter for view
               betas: nil, # Optional header to specify the beta version(s) you want to use.
+              workspace_id: nil,
               request_options: {}
 ); end
           end
@@ -57042,6 +58147,12 @@ module Anthropic
         sig { params(user_profile_id: String).void }
         attr_writer :user_profile_id
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
@@ -57110,6 +58221,7 @@ module Anthropic
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
               user_profile_id: String,
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -57176,6 +58288,7 @@ module Anthropic
               ],
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
               user_profile_id: String,
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
@@ -57329,6 +58442,7 @@ module Anthropic
             betas: nil, # Optional header to specify the beta version(s) you want to use.
             user_profile_id: nil, # The user profile ID to attribute this request to. Use when acting on behalf of a
                                   # party other than your organization. Requires the `user-profiles` beta header.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -57978,6 +59092,12 @@ module Anthropic
         sig { params(user_profile_id: String).void }
         attr_writer :user_profile_id
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
@@ -58065,6 +59185,7 @@ module Anthropic
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
               user_profile_id: String,
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -58153,6 +59274,7 @@ module Anthropic
               top_p: Float,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
               user_profile_id: String,
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
@@ -58369,6 +59491,7 @@ module Anthropic
             betas: nil, # Optional header to specify the beta version(s) you want to use.
             user_profile_id: nil, # The user profile ID to attribute this request to. Use when acting on behalf of a
                                   # party other than your organization. Requires the `user-profiles` beta header.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -58549,12 +59672,19 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :message_batch_id
 
+          sig { returns(T.nilable(String)) }
+          attr_reader :workspace_id
+
+          sig { params(workspace_id: String).void }
+          attr_writer :workspace_id
+
           sig do
             override
               .returns({
                 message_batch_id: String,
                 betas:
                   T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions
               })
           end
@@ -58565,12 +59695,14 @@ module Anthropic
               params(
                 message_batch_id: String,
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions::OrHash
               ).returns(T.attached_class)
             end
             def new(
               message_batch_id:, # ID of the Message Batch.
               betas: nil, # Optional header to specify the beta version(s) you want to use.
+              workspace_id: nil,
               request_options: {}
 ); end
           end
@@ -58613,6 +59745,12 @@ module Anthropic
           sig { params(user_profile_id: String).void }
           attr_writer :user_profile_id
 
+          sig { returns(T.nilable(String)) }
+          attr_reader :workspace_id
+
+          sig { params(workspace_id: String).void }
+          attr_writer :workspace_id
+
           sig do
             override
               .returns({
@@ -58623,6 +59761,7 @@ module Anthropic
                 betas:
                   T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
                 user_profile_id: String,
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions
               })
           end
@@ -58636,6 +59775,7 @@ module Anthropic
                 ],
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
                 user_profile_id: String,
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions::OrHash
               ).returns(T.attached_class)
             end
@@ -58647,6 +59787,7 @@ module Anthropic
                                     # on behalf of a party other than your organization. Requires the `user-profiles`
                                     # beta header. Applies to every request in the batch; an individual request whose
                                     # `user_profile_id` body field conflicts with this header is errored.
+              workspace_id: nil,
               request_options: {}
 ); end
           end
@@ -59859,12 +61000,19 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :message_batch_id
 
+          sig { returns(T.nilable(String)) }
+          attr_reader :workspace_id
+
+          sig { params(workspace_id: String).void }
+          attr_writer :workspace_id
+
           sig do
             override
               .returns({
                 message_batch_id: String,
                 betas:
                   T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions
               })
           end
@@ -59875,12 +61023,14 @@ module Anthropic
               params(
                 message_batch_id: String,
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions::OrHash
               ).returns(T.attached_class)
             end
             def new(
               message_batch_id:, # ID of the Message Batch.
               betas: nil, # Optional header to specify the beta version(s) you want to use.
+              workspace_id: nil,
               request_options: {}
 ); end
           end
@@ -59933,6 +61083,12 @@ module Anthropic
           sig { params(limit: Integer).void }
           attr_writer :limit
 
+          sig { returns(T.nilable(String)) }
+          attr_reader :workspace_id
+
+          sig { params(workspace_id: String).void }
+          attr_writer :workspace_id
+
           sig do
             override
               .returns({
@@ -59941,6 +61097,7 @@ module Anthropic
                 limit: Integer,
                 betas:
                   T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions
               })
           end
@@ -59953,6 +61110,7 @@ module Anthropic
                 before_id: String,
                 limit: Integer,
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions::OrHash
               ).returns(T.attached_class)
             end
@@ -59964,6 +61122,7 @@ module Anthropic
               limit: nil, # Number of items to return per page.
                           # Defaults to `20`. Ranges from `1` to `1000`.
               betas: nil, # Optional header to specify the beta version(s) you want to use.
+              workspace_id: nil,
               request_options: {}
 ); end
           end
@@ -59995,12 +61154,19 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :message_batch_id
 
+          sig { returns(T.nilable(String)) }
+          attr_reader :workspace_id
+
+          sig { params(workspace_id: String).void }
+          attr_writer :workspace_id
+
           sig do
             override
               .returns({
                 message_batch_id: String,
                 betas:
                   T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions
               })
           end
@@ -60011,12 +61177,14 @@ module Anthropic
               params(
                 message_batch_id: String,
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions::OrHash
               ).returns(T.attached_class)
             end
             def new(
               message_batch_id:, # ID of the Message Batch.
               betas: nil, # Optional header to specify the beta version(s) you want to use.
+              workspace_id: nil,
               request_options: {}
 ); end
           end
@@ -60048,12 +61216,19 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :message_batch_id
 
+          sig { returns(T.nilable(String)) }
+          attr_reader :workspace_id
+
+          sig { params(workspace_id: String).void }
+          attr_writer :workspace_id
+
           sig do
             override
               .returns({
                 message_batch_id: String,
                 betas:
                   T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions
               })
           end
@@ -60064,12 +61239,14 @@ module Anthropic
               params(
                 message_batch_id: String,
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions::OrHash
               ).returns(T.attached_class)
             end
             def new(
               message_batch_id:, # ID of the Message Batch.
               betas: nil, # Optional header to specify the beta version(s) you want to use.
+              workspace_id: nil,
               request_options: {}
 ); end
           end
@@ -60633,6 +61810,12 @@ module Anthropic
         sig { params(limit: Integer).void }
         attr_writer :limit
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
@@ -60641,6 +61824,7 @@ module Anthropic
               limit: Integer,
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -60653,6 +61837,7 @@ module Anthropic
               before_id: String,
               limit: Integer,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
@@ -60664,6 +61849,7 @@ module Anthropic
             limit: nil, # Number of items to return per page.
                         # Defaults to `20`. Ranges from `1` to `1000`.
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -60695,12 +61881,19 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :model_id
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
               model_id: String,
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -60711,12 +61904,14 @@ module Anthropic
             params(
               model_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
           def new(
             model_id:, # Model identifier or alias.
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -61532,7 +62727,9 @@ module Anthropic
         end
 
         class BetaAWSExternalKeyConfig < Anthropic::Internal::Type::BaseModel
-          # Full ARN of the AWS KMS key.
+          # Full ARN of the AWS KMS key. On Claude Platform on AWS the key must be a
+          # single-Region key in your organization's own AWS account; cross-account keys,
+          # multi-Region keys, and alias ARNs are rejected.
           sig { returns(String) }
           attr_accessor :kms_arn
 
@@ -61540,8 +62737,9 @@ module Anthropic
           sig { returns(T.nilable(String)) }
           attr_accessor :region
 
-          # IAM role ARN. Deprecated — Anthropic reaches the KMS key via a managed
-          # intermediate role; this field is ignored.
+          # IAM role ARN. Deprecated — Anthropic reaches the KMS key through its own
+          # intermediate role (or, on Claude Platform on AWS, with credentials AWS issues
+          # for the Workspace); this field is ignored.
           sig { returns(T.nilable(String)) }
           attr_accessor :role_arn
 
@@ -61569,10 +62767,13 @@ module Anthropic
               ).returns(T.attached_class)
             end
             def new(
-              kms_arn:, # Full ARN of the AWS KMS key.
+              kms_arn:, # Full ARN of the AWS KMS key. On Claude Platform on AWS the key must be a
+                        # single-Region key in your organization's own AWS account; cross-account keys,
+                        # multi-Region keys, and alias ARNs are rejected.
               region: nil, # AWS region. Derived from `kms_arn` if omitted.
-              role_arn: nil, # IAM role ARN. Deprecated — Anthropic reaches the KMS key via a managed
-                             # intermediate role; this field is ignored.
+              role_arn: nil, # IAM role ARN. Deprecated — Anthropic reaches the KMS key through its own
+                             # intermediate role (or, on Claude Platform on AWS, with credentials AWS issues
+                             # for the Workspace); this field is ignored.
               type: :aws
 ); end
           end
@@ -61744,6 +62945,192 @@ module Anthropic
           OrHash = T.type_alias do
               T.any(
                 Anthropic::Beta::Organization::BetaAzureExternalKeyConfigParam,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        class BetaComplianceSettings < Anthropic::Internal::Type::BaseModel
+          # Whether the Compliance API is enabled for this organization.
+          sig { returns(Anthropic::Beta::Organization::BetaComplianceSettings::State::Variants) }
+          attr_accessor :state
+
+          sig { returns(Symbol) }
+          attr_accessor :type
+
+          sig do
+            override
+              .returns({
+                state:
+                  Anthropic::Beta::Organization::BetaComplianceSettings::State::Variants,
+                type: Symbol
+              })
+          end
+          def to_hash; end
+
+          class << self
+            sig do
+              params(
+                state: T.any(
+                  Anthropic::Beta::Organization::BetaComplianceSettingsStateEnabled::OrHash,
+                  Anthropic::Beta::Organization::BetaComplianceSettingsStateDisabled::OrHash
+                ),
+                type: Symbol
+              ).returns(T.attached_class)
+            end
+            def new(
+              state:, # Whether the Compliance API is enabled for this organization.
+              type: :compliance_settings
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Organization::BetaComplianceSettings,
+                Anthropic::Internal::AnyHash
+              )
+            end
+
+          # Whether the Compliance API is enabled for this organization.
+          module State
+            extend Anthropic::Internal::Type::Union
+
+            class << self
+              # Creates a new instance of the variant class whose `type` matches the given
+              # value, passing the remaining arguments to its constructor.
+              sig do
+                params(
+                  type: T.any(Symbol, String)
+                ).returns(Anthropic::Beta::Organization::BetaComplianceSettings::State::Variants)
+              end
+              def new(type:); end
+
+              sig do
+                override
+                  .returns(T::Array[
+                  Anthropic::Beta::Organization::BetaComplianceSettings::State::Variants
+                ])
+              end
+              def variants; end
+            end
+
+            module Type
+              extend Anthropic::Internal::Type::Enum
+
+              class << self
+                sig do
+                  override
+                    .returns(T::Array[
+                    Anthropic::Beta::Organization::BetaComplianceSettings::State::Type::TaggedSymbol
+                  ])
+                end
+                def values; end
+              end
+
+              DISABLED = T.let(
+                  :disabled,
+                  Anthropic::Beta::Organization::BetaComplianceSettings::State::Type::TaggedSymbol
+                )
+
+              ENABLED = T.let(
+                  :enabled,
+                  Anthropic::Beta::Organization::BetaComplianceSettings::State::Type::TaggedSymbol
+                )
+
+              OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+              TaggedSymbol = T.type_alias do
+                  T.all(
+                    Symbol,
+                    Anthropic::Beta::Organization::BetaComplianceSettings::State::Type
+                  )
+                end
+            end
+
+            Variants = T.type_alias do
+                T.any(
+                  Anthropic::Beta::Organization::BetaComplianceSettingsStateEnabled,
+                  Anthropic::Beta::Organization::BetaComplianceSettingsStateDisabled
+                )
+              end
+          end
+        end
+
+        class BetaComplianceSettingsStateDisabled < Anthropic::Internal::Type::BaseModel
+          sig { returns(Symbol) }
+          attr_accessor :type
+
+          sig { override.returns({ type: Symbol }) }
+          def to_hash; end
+
+          class << self
+            sig { params(type: Symbol).returns(T.attached_class) }
+            def new(type: :disabled); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Organization::BetaComplianceSettingsStateDisabled,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        class BetaComplianceSettingsStateDisabledParam < Anthropic::Internal::Type::BaseModel
+          sig { returns(Symbol) }
+          attr_accessor :type
+
+          sig { override.returns({ type: Symbol }) }
+          def to_hash; end
+
+          class << self
+            sig { params(type: Symbol).returns(T.attached_class) }
+            def new(type: :disabled); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Organization::BetaComplianceSettingsStateDisabledParam,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        class BetaComplianceSettingsStateEnabled < Anthropic::Internal::Type::BaseModel
+          sig { returns(Symbol) }
+          attr_accessor :type
+
+          sig { override.returns({ type: Symbol }) }
+          def to_hash; end
+
+          class << self
+            sig { params(type: Symbol).returns(T.attached_class) }
+            def new(type: :enabled); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Organization::BetaComplianceSettingsStateEnabled,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        class BetaComplianceSettingsStateEnabledParam < Anthropic::Internal::Type::BaseModel
+          sig { returns(Symbol) }
+          attr_accessor :type
+
+          sig { override.returns({ type: Symbol }) }
+          def to_hash; end
+
+          class << self
+            sig { params(type: Symbol).returns(T.attached_class) }
+            def new(type: :enabled); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Organization::BetaComplianceSettingsStateEnabledParam,
                 Anthropic::Internal::AnyHash
               )
             end
@@ -62347,10 +63734,13 @@ module Anthropic
               end
               def new(
                 type:,
-                kms_arn: nil, # Full ARN of the AWS KMS key.
+                kms_arn: nil, # Full ARN of the AWS KMS key. On Claude Platform on AWS the key must be a
+                              # single-Region key in your organization's own AWS account; cross-account keys,
+                              # multi-Region keys, and alias ARNs are rejected.
                 region: nil, # AWS region. Derived from `kms_arn` if omitted.
-                role_arn: nil, # IAM role ARN. Deprecated — Anthropic reaches the KMS key via a managed
-                               # intermediate role; this field is ignored.
+                role_arn: nil, # IAM role ARN. Deprecated — Anthropic reaches the KMS key through its own
+                               # intermediate role (or, on Claude Platform on AWS, with credentials AWS issues
+                               # for the Workspace); this field is ignored.
                 key_name: nil, # Full resource name of the Cloud KMS key.
                 tenant_id: nil, # Azure AD tenant ID.
                 vault_uri: nil, # Key Vault data-plane URI — `https://{vault-name}.vault.azure.net` or
@@ -63130,8 +64520,12 @@ module Anthropic
           # key-policy condition so the key is scoped to this compartment. On GCP and Azure,
           # Anthropic enforces the compartment binding automatically; you do not need to
           # reference this value in your key configuration. See the CMEK integration guide
-          # for the required key configuration, including the value used during key
-          # validation.
+          # for the required key configuration; unless your organization is on Claude
+          # Platform on AWS, it includes a separate value used during key validation. On
+          # Claude Platform on AWS there is no separate validation value: the key is
+          # validated against this Workspace's own value when it is attached, so if your key
+          # policy uses the compartment condition, add this value to it before attaching the
+          # key.
           sig { returns(String) }
           attr_accessor :compartment_id
 
@@ -63153,10 +64547,14 @@ module Anthropic
           # ID of the customer-managed encryption key (CMEK) configuration to use for this
           # Workspace. Setting this field requires CMEK to be enabled for your organization.
           # When set, data stored for this Workspace is encrypted with the referenced key.
-          # Create key configurations with the External Keys API. This field is write-once:
-          # once a key is attached to a Workspace it cannot be detached or replaced. To
-          # rotate key material, rotate the underlying key on your cloud KMS; the
-          # `external_key_id` stays the same.
+          # Create key configurations with the External Keys API. On Claude Platform on AWS
+          # the value is the AWS KMS key ARN, and the key must be a single-Region key in the
+          # same AWS account and Region as the Workspace. On that platform the key is
+          # validated against this Workspace when it is attached, so a key-policy problem is
+          # reported as an error on this request. This field is write-once: once a key is
+          # attached to a Workspace it cannot be detached or replaced. To rotate key
+          # material, rotate the underlying key on your cloud KMS; the `external_key_id`
+          # stays the same.
           sig { returns(T.nilable(String)) }
           attr_accessor :external_key_id
 
@@ -63221,18 +64619,26 @@ module Anthropic
                                # key-policy condition so the key is scoped to this compartment. On GCP and Azure,
                                # Anthropic enforces the compartment binding automatically; you do not need to
                                # reference this value in your key configuration. See the CMEK integration guide
-                               # for the required key configuration, including the value used during key
-                               # validation.
+                               # for the required key configuration; unless your organization is on Claude
+                               # Platform on AWS, it includes a separate value used during key validation. On
+                               # Claude Platform on AWS there is no separate validation value: the key is
+                               # validated against this Workspace's own value when it is attached, so if your key
+                               # policy uses the compartment condition, add this value to it before attaching the
+                               # key.
               created_at:, # RFC 3339 datetime string indicating when the Workspace was created.
               data_residency:, # Data residency configuration.
               display_color:, # Hex color code representing the Workspace in the Anthropic Console.
               external_key_id:, # ID of the customer-managed encryption key (CMEK) configuration to use for this
                                 # Workspace. Setting this field requires CMEK to be enabled for your organization.
                                 # When set, data stored for this Workspace is encrypted with the referenced key.
-                                # Create key configurations with the External Keys API. This field is write-once:
-                                # once a key is attached to a Workspace it cannot be detached or replaced. To
-                                # rotate key material, rotate the underlying key on your cloud KMS; the
-                                # `external_key_id` stays the same.
+                                # Create key configurations with the External Keys API. On Claude Platform on AWS
+                                # the value is the AWS KMS key ARN, and the key must be a single-Region key in the
+                                # same AWS account and Region as the Workspace. On that platform the key is
+                                # validated against this Workspace when it is attached, so a key-policy problem is
+                                # reported as an error on this request. This field is write-once: once a key is
+                                # attached to a Workspace it cannot be detached or replaced. To rotate key
+                                # material, rotate the underlying key on your cloud KMS; the `external_key_id`
+                                # stays the same.
               name:, # Name of the Workspace.
               tags:, # User-defined tags as string key-value pairs. Keys may not begin with
                      # `anthropic`.
@@ -63349,6 +64755,143 @@ module Anthropic
               :workspace_user,
               Anthropic::Beta::Organization::BetaWorkspaceRole::TaggedSymbol
             )
+        end
+
+        class ComplianceSettingRetrieveParams < Anthropic::Internal::Type::BaseModel
+          extend Anthropic::Internal::Type::RequestParameters::Converter
+          include Anthropic::Internal::Type::RequestParameters
+
+          sig { override.returns({ request_options: Anthropic::RequestOptions }) }
+          def to_hash; end
+
+          class << self
+            sig { params(request_options: Anthropic::RequestOptions::OrHash).returns(T.attached_class) }
+            def new(request_options: {}); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Organization::ComplianceSettingRetrieveParams,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        class ComplianceSettingUpdateParams < Anthropic::Internal::Type::BaseModel
+          extend Anthropic::Internal::Type::RequestParameters::Converter
+          include Anthropic::Internal::Type::RequestParameters
+
+          # Desired state. Accepts the string shorthand "enabled" or "disabled" in place of
+          # the object form; the response always returns the canonical object form.
+          sig do
+            returns(T.any(
+                Anthropic::Beta::Organization::BetaComplianceSettingsStateEnabledParam,
+                Anthropic::Beta::Organization::BetaComplianceSettingsStateDisabledParam
+              ))
+          end
+          attr_accessor :state
+
+          sig do
+            override
+              .returns({
+                state:
+                  T.any(
+                    Anthropic::Beta::Organization::BetaComplianceSettingsStateEnabledParam,
+                    Anthropic::Beta::Organization::BetaComplianceSettingsStateDisabledParam
+                  ),
+                request_options: Anthropic::RequestOptions
+              })
+          end
+          def to_hash; end
+
+          class << self
+            sig do
+              params(
+                state: T.any(
+                  Anthropic::Beta::Organization::BetaComplianceSettingsStateEnabledParam::OrHash,
+                  Anthropic::Beta::Organization::BetaComplianceSettingsStateDisabledParam::OrHash
+                ),
+                request_options: Anthropic::RequestOptions::OrHash
+              ).returns(T.attached_class)
+            end
+            def new(
+              state:, # Desired state. Accepts the string shorthand "enabled" or "disabled" in place of
+                      # the object form; the response always returns the canonical object form.
+              request_options: {}
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Organization::ComplianceSettingUpdateParams,
+                Anthropic::Internal::AnyHash
+              )
+            end
+
+          # Desired state. Accepts the string shorthand "enabled" or "disabled" in place of
+          # the object form; the response always returns the canonical object form.
+          module State
+            extend Anthropic::Internal::Type::Union
+
+            class << self
+              # Creates a new instance of the variant class whose `type` matches the given
+              # value, passing the remaining arguments to its constructor.
+              sig do
+                params(
+                  type: T.any(Symbol, String)
+                ).returns(Anthropic::Beta::Organization::ComplianceSettingUpdateParams::State::Variants)
+              end
+              def new(type:); end
+
+              sig do
+                override
+                  .returns(T::Array[
+                  Anthropic::Beta::Organization::ComplianceSettingUpdateParams::State::Variants
+                ])
+              end
+              def variants; end
+            end
+
+            module Type
+              extend Anthropic::Internal::Type::Enum
+
+              class << self
+                sig do
+                  override
+                    .returns(T::Array[
+                    Anthropic::Beta::Organization::ComplianceSettingUpdateParams::State::Type::TaggedSymbol
+                  ])
+                end
+                def values; end
+              end
+
+              DISABLED = T.let(
+                  :disabled,
+                  Anthropic::Beta::Organization::ComplianceSettingUpdateParams::State::Type::TaggedSymbol
+                )
+
+              ENABLED = T.let(
+                  :enabled,
+                  Anthropic::Beta::Organization::ComplianceSettingUpdateParams::State::Type::TaggedSymbol
+                )
+
+              OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+              TaggedSymbol = T.type_alias do
+                  T.all(
+                    Symbol,
+                    Anthropic::Beta::Organization::ComplianceSettingUpdateParams::State::Type
+                  )
+                end
+            end
+
+            Variants = T.type_alias do
+                T.any(
+                  Anthropic::Beta::Organization::BetaComplianceSettingsStateEnabledParam,
+                  Anthropic::Beta::Organization::BetaComplianceSettingsStateDisabledParam
+                )
+              end
+          end
         end
 
         class ExternalKeyCreateParams < Anthropic::Internal::Type::BaseModel
@@ -63475,10 +65018,13 @@ module Anthropic
               end
               def new(
                 type:,
-                kms_arn: nil, # Full ARN of the AWS KMS key.
+                kms_arn: nil, # Full ARN of the AWS KMS key. On Claude Platform on AWS the key must be a
+                              # single-Region key in your organization's own AWS account; cross-account keys,
+                              # multi-Region keys, and alias ARNs are rejected.
                 region: nil, # AWS region. Derived from `kms_arn` if omitted.
-                role_arn: nil, # IAM role ARN. Deprecated — Anthropic reaches the KMS key via a managed
-                               # intermediate role; this field is ignored.
+                role_arn: nil, # IAM role ARN. Deprecated — Anthropic reaches the KMS key through its own
+                               # intermediate role (or, on Claude Platform on AWS, with credentials AWS issues
+                               # for the Workspace); this field is ignored.
                 key_name: nil, # Full resource name of the Cloud KMS key.
                 tenant_id: nil, # Azure AD tenant ID.
                 vault_uri: nil, # Key Vault data-plane URI — `https://{vault-name}.vault.azure.net` or
@@ -63834,10 +65380,13 @@ module Anthropic
               end
               def new(
                 type:,
-                kms_arn: nil, # Full ARN of the AWS KMS key.
+                kms_arn: nil, # Full ARN of the AWS KMS key. On Claude Platform on AWS the key must be a
+                              # single-Region key in your organization's own AWS account; cross-account keys,
+                              # multi-Region keys, and alias ARNs are rejected.
                 region: nil, # AWS region. Derived from `kms_arn` if omitted.
-                role_arn: nil, # IAM role ARN. Deprecated — Anthropic reaches the KMS key via a managed
-                               # intermediate role; this field is ignored.
+                role_arn: nil, # IAM role ARN. Deprecated — Anthropic reaches the KMS key through its own
+                               # intermediate role (or, on Claude Platform on AWS, with credentials AWS issues
+                               # for the Workspace); this field is ignored.
                 key_name: nil, # Full resource name of the Cloud KMS key.
                 tenant_id: nil, # Azure AD tenant ID.
                 vault_uri: nil, # Key Vault data-plane URI — `https://{vault-name}.vault.azure.net` or
@@ -66595,8 +68144,8 @@ module Anthropic
 
           # Maximum number of items to return per page. Ranges from `1` to `1000`.
           #
-          # Accepted for request-shape compatibility and currently ignored: every entry is
-          # returned in a single page.
+          # When omitted, every remaining entry is returned in a single page and `next_page`
+          # is `null`.
           sig { returns(T.nilable(Integer)) }
           attr_accessor :limit
 
@@ -66640,8 +68189,8 @@ module Anthropic
             def new(
               group_type: nil, # Filter by group type.
               limit: nil, # Maximum number of items to return per page. Ranges from `1` to `1000`.
-                          # Accepted for request-shape compatibility and currently ignored: every entry is
-                          # returned in a single page.
+                          # When omitted, every remaining entry is returned in a single page and `next_page`
+                          # is `null`.
               model: nil, # Filter to the single entry containing this model. Accepts full model names and
                           # aliases. Returns 404 if the model is not found or has no rate limits for this
                           # organization.
@@ -67737,10 +69286,14 @@ module Anthropic
           # ID of the customer-managed encryption key (CMEK) configuration to use for this
           # Workspace. Setting this field requires CMEK to be enabled for your organization.
           # When set, data stored for this Workspace is encrypted with the referenced key.
-          # Create key configurations with the External Keys API. This field is write-once:
-          # once a key is attached to a Workspace it cannot be detached or replaced. To
-          # rotate key material, rotate the underlying key on your cloud KMS; the
-          # `external_key_id` stays the same.
+          # Create key configurations with the External Keys API. On Claude Platform on AWS
+          # the value is the AWS KMS key ARN, and the key must be a single-Region key in the
+          # same AWS account and Region as the Workspace. On that platform the key is
+          # validated against this Workspace when it is attached, so a key-policy problem is
+          # reported as an error on this request. This field is write-once: once a key is
+          # attached to a Workspace it cannot be detached or replaced. To rotate key
+          # material, rotate the underlying key on your cloud KMS; the `external_key_id`
+          # stays the same.
           sig { returns(T.nilable(String)) }
           attr_accessor :external_key_id
 
@@ -67794,10 +69347,14 @@ module Anthropic
               external_key_id: nil, # ID of the customer-managed encryption key (CMEK) configuration to use for this
                                     # Workspace. Setting this field requires CMEK to be enabled for your organization.
                                     # When set, data stored for this Workspace is encrypted with the referenced key.
-                                    # Create key configurations with the External Keys API. This field is write-once:
-                                    # once a key is attached to a Workspace it cannot be detached or replaced. To
-                                    # rotate key material, rotate the underlying key on your cloud KMS; the
-                                    # `external_key_id` stays the same.
+                                    # Create key configurations with the External Keys API. On Claude Platform on AWS
+                                    # the value is the AWS KMS key ARN, and the key must be a single-Region key in the
+                                    # same AWS account and Region as the Workspace. On that platform the key is
+                                    # validated against this Workspace when it is attached, so a key-policy problem is
+                                    # reported as an error on this request. This field is write-once: once a key is
+                                    # attached to a Workspace it cannot be detached or replaced. To rotate key
+                                    # material, rotate the underlying key on your cloud KMS; the `external_key_id`
+                                    # stays the same.
               tags: nil, # User-defined tags as string key-value pairs. Keys may not begin with
                          # `anthropic`.
               betas: nil, # Optional header to specify the beta version(s) you want to use.
@@ -67960,10 +69517,14 @@ module Anthropic
           # ID of the customer-managed encryption key (CMEK) configuration to use for this
           # Workspace. Setting this field requires CMEK to be enabled for your organization.
           # When set, data stored for this Workspace is encrypted with the referenced key.
-          # Create key configurations with the External Keys API. This field is write-once:
-          # once a key is attached to a Workspace it cannot be detached or replaced. To
-          # rotate key material, rotate the underlying key on your cloud KMS; the
-          # `external_key_id` stays the same.
+          # Create key configurations with the External Keys API. On Claude Platform on AWS
+          # the value is the AWS KMS key ARN, and the key must be a single-Region key in the
+          # same AWS account and Region as the Workspace. On that platform the key is
+          # validated against this Workspace when it is attached, so a key-policy problem is
+          # reported as an error on this request. This field is write-once: once a key is
+          # attached to a Workspace it cannot be detached or replaced. To rotate key
+          # material, rotate the underlying key on your cloud KMS; the `external_key_id`
+          # stays the same.
           sig { returns(T.nilable(String)) }
           attr_reader :external_key_id
 
@@ -68023,10 +69584,14 @@ module Anthropic
               external_key_id: nil, # ID of the customer-managed encryption key (CMEK) configuration to use for this
                                     # Workspace. Setting this field requires CMEK to be enabled for your organization.
                                     # When set, data stored for this Workspace is encrypted with the referenced key.
-                                    # Create key configurations with the External Keys API. This field is write-once:
-                                    # once a key is attached to a Workspace it cannot be detached or replaced. To
-                                    # rotate key material, rotate the underlying key on your cloud KMS; the
-                                    # `external_key_id` stays the same.
+                                    # Create key configurations with the External Keys API. On Claude Platform on AWS
+                                    # the value is the AWS KMS key ARN, and the key must be a single-Region key in the
+                                    # same AWS account and Region as the Workspace. On that platform the key is
+                                    # validated against this Workspace when it is attached, so a key-policy problem is
+                                    # reported as an error on this request. This field is write-once: once a key is
+                                    # attached to a Workspace it cannot be detached or replaced. To rotate key
+                                    # material, rotate the underlying key on your cloud KMS; the `external_key_id`
+                                    # stays the same.
               name: nil, # Name of the Workspace.
               tags: nil, # User-defined tags as string key-value pairs. Keys may not begin with
                          # `anthropic`.
@@ -68542,8 +70107,8 @@ module Anthropic
 
             # Maximum number of items to return per page. Ranges from `1` to `1000`.
             #
-            # Accepted for request-shape compatibility and currently ignored: every entry is
-            # returned in a single page.
+            # When omitted, every remaining entry is returned in a single page and `next_page`
+            # is `null`.
             sig { returns(T.nilable(Integer)) }
             attr_accessor :limit
 
@@ -68586,8 +70151,8 @@ module Anthropic
                 workspace_id:, # The ID of the workspace.
                 group_type: nil, # Filter by group type.
                 limit: nil, # Maximum number of items to return per page. Ranges from `1` to `1000`.
-                            # Accepted for request-shape compatibility and currently ignored: every entry is
-                            # returned in a single page.
+                            # When omitted, every remaining entry is returned in a single page and `next_page`
+                            # is `null`.
                 page: nil, # Opaque cursor from a previous response's `next_page`.
                 request_options: {}
 ); end
@@ -69062,12 +70627,19 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :session_id
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
               session_id: String,
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -69078,12 +70650,14 @@ module Anthropic
             params(
               session_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
           def new(
             session_id:,
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -69206,6 +70780,12 @@ module Anthropic
         sig { params(vault_ids: T::Array[String]).void }
         attr_writer :vault_ids
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
@@ -69237,6 +70817,7 @@ module Anthropic
               vault_ids: T::Array[String],
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -69269,6 +70850,7 @@ module Anthropic
               title: T.nilable(String),
               vault_ids: T::Array[String],
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
@@ -69286,6 +70868,7 @@ module Anthropic
             title: nil, # Human-readable session title.
             vault_ids: nil, # Vault IDs for stored credentials the agent can use during the session.
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -69512,12 +71095,19 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :session_id
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
               session_id: String,
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -69528,12 +71118,14 @@ module Anthropic
             params(
               session_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
           def new(
             session_id:,
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -69557,7 +71149,7 @@ module Anthropic
         sig { params(agent_id: String).void }
         attr_writer :agent_id
 
-        # Filter by agent version. Only applies when agent_id is also set.
+        # Filter by agent version. Only applies when `agent_id` is also set.
         sig { returns(T.nilable(Integer)) }
         attr_reader :agent_version
 
@@ -69624,7 +71216,7 @@ module Anthropic
         sig { params(limit: Integer).void }
         attr_writer :limit
 
-        # Filter sessions whose resources contain a memory_store with this memory store
+        # Filter sessions whose resources contain a `memory_store` with this memory store
         # ID.
         sig { returns(T.nilable(String)) }
         attr_reader :memory_store_id
@@ -69632,7 +71224,7 @@ module Anthropic
         sig { params(memory_store_id: String).void }
         attr_writer :memory_store_id
 
-        # Sort direction for results, ordered by created_at. Defaults to desc (newest
+        # Sort direction for results, ordered by `created_at`. Defaults to `desc` (newest
         # first).
         sig { returns(T.nilable(Anthropic::Beta::SessionListParams::Order::OrSymbol)) }
         attr_reader :order
@@ -69659,6 +71251,12 @@ module Anthropic
         sig { params(statuses: T::Array[Anthropic::Beta::SessionListParams::Status::OrSymbol]).void }
         attr_writer :statuses
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
@@ -69678,6 +71276,7 @@ module Anthropic
                 T::Array[Anthropic::Beta::SessionListParams::Status::OrSymbol],
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -69700,12 +71299,13 @@ module Anthropic
               page: String,
               statuses: T::Array[Anthropic::Beta::SessionListParams::Status::OrSymbol],
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
           def new(
             agent_id: nil, # Filter sessions created with this agent ID.
-            agent_version: nil, # Filter by agent version. Only applies when agent_id is also set.
+            agent_version: nil, # Filter by agent version. Only applies when `agent_id` is also set.
             created_at_gt: nil, # Return sessions created after this time (exclusive).
             created_at_gte: nil, # Return sessions created at or after this time (inclusive).
             created_at_lt: nil, # Return sessions created before this time (exclusive).
@@ -69713,14 +71313,15 @@ module Anthropic
             deployment_id: nil, # Filter sessions created by this deployment ID.
             include_archived: nil, # When true, includes archived sessions. Default: false (exclude archived).
             limit: nil, # Maximum number of results to return.
-            memory_store_id: nil, # Filter sessions whose resources contain a memory_store with this memory store
+            memory_store_id: nil, # Filter sessions whose resources contain a `memory_store` with this memory store
                                   # ID.
-            order: nil, # Sort direction for results, ordered by created_at. Defaults to desc (newest
+            order: nil, # Sort direction for results, ordered by `created_at`. Defaults to `desc` (newest
                         # first).
             page: nil, # Opaque pagination cursor from a previous response.
             statuses: nil, # Filter by session status. Repeat the parameter to match any of multiple
                            # statuses.
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -69732,7 +71333,7 @@ module Anthropic
             )
           end
 
-        # Sort direction for results, ordered by created_at. Defaults to desc (newest
+        # Sort direction for results, ordered by `created_at`. Defaults to `desc` (newest
         # first).
         module Order
           extend Anthropic::Internal::Type::Enum
@@ -69811,12 +71412,19 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :session_id
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
               session_id: String,
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -69827,12 +71435,14 @@ module Anthropic
             params(
               session_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
           def new(
             session_id:,
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -69897,6 +71507,12 @@ module Anthropic
         sig { params(vault_ids: T::Array[String]).void }
         attr_writer :vault_ids
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
@@ -69908,6 +71524,7 @@ module Anthropic
               vault_ids: T::Array[String],
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -69923,6 +71540,7 @@ module Anthropic
               title: T.nilable(String),
               vault_ids: T::Array[String],
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
@@ -69939,6 +71557,7 @@ module Anthropic
             vault_ids: nil, # Vault IDs (`vlt_*`) to attach to the session. Not yet supported; requests
                             # setting this field are rejected. Reserved for future use.
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -81452,7 +83071,7 @@ module Anthropic
           attr_writer :limit
 
           # Sort direction for results, ordered by the event's `processed_at`. Defaults to
-          # asc (chronological).
+          # `asc` (chronological).
           sig do
             returns(T.nilable(
                 Anthropic::Beta::Sessions::EventListParams::Order::OrSymbol
@@ -81463,7 +83082,7 @@ module Anthropic
           sig { params(order: Anthropic::Beta::Sessions::EventListParams::Order::OrSymbol).void }
           attr_writer :order
 
-          # Opaque pagination cursor from a previous response's next_page.
+          # Opaque pagination cursor from a previous response's `next_page`.
           sig { returns(T.nilable(String)) }
           attr_reader :page
 
@@ -81481,6 +83100,12 @@ module Anthropic
           sig { params(types: T::Array[String]).void }
           attr_writer :types
 
+          sig { returns(T.nilable(String)) }
+          attr_reader :workspace_id
+
+          sig { params(workspace_id: String).void }
+          attr_writer :workspace_id
+
           sig do
             override
               .returns({
@@ -81496,6 +83121,7 @@ module Anthropic
                 types: T::Array[String],
                 betas:
                   T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions
               })
           end
@@ -81514,6 +83140,7 @@ module Anthropic
                 page: String,
                 types: T::Array[String],
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions::OrHash
               ).returns(T.attached_class)
             end
@@ -81529,11 +83156,12 @@ module Anthropic
                                    # event's `processed_at` value.
               limit: nil, # Query parameter for limit
               order: nil, # Sort direction for results, ordered by the event's `processed_at`. Defaults to
-                          # asc (chronological).
-              page: nil, # Opaque pagination cursor from a previous response's next_page.
+                          # `asc` (chronological).
+              page: nil, # Opaque pagination cursor from a previous response's `next_page`.
               types: nil, # Filter by event type. Values match the `type` field on returned events (for
                           # example, `user.message` or `agent.tool_use`). Omit to return all event types.
               betas: nil, # Optional header to specify the beta version(s) you want to use.
+              workspace_id: nil,
               request_options: {}
 ); end
           end
@@ -81546,7 +83174,7 @@ module Anthropic
             end
 
           # Sort direction for results, ordered by the event's `processed_at`. Defaults to
-          # asc (chronological).
+          # `asc` (chronological).
           module Order
             extend Anthropic::Internal::Type::Enum
 
@@ -81612,6 +83240,12 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :session_id
 
+          sig { returns(T.nilable(String)) }
+          attr_reader :workspace_id
+
+          sig { params(workspace_id: String).void }
+          attr_writer :workspace_id
+
           sig do
             override
               .returns({
@@ -81630,6 +83264,7 @@ module Anthropic
                   ],
                 betas:
                   T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions
               })
           end
@@ -81651,6 +83286,7 @@ module Anthropic
                   )
                 ],
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions::OrHash
               ).returns(T.attached_class)
             end
@@ -81658,6 +83294,7 @@ module Anthropic
               session_id:,
               events:, # Events to send to the `session`.
               betas: nil, # Optional header to specify the beta version(s) you want to use.
+              workspace_id: nil,
               request_options: {}
 ); end
           end
@@ -81708,6 +83345,12 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :session_id
 
+          sig { returns(T.nilable(String)) }
+          attr_reader :workspace_id
+
+          sig { params(workspace_id: String).void }
+          attr_writer :workspace_id
+
           sig do
             override
               .returns({
@@ -81718,6 +83361,7 @@ module Anthropic
                   ],
                 betas:
                   T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions
               })
           end
@@ -81729,6 +83373,7 @@ module Anthropic
                 session_id: String,
                 event_deltas: T::Array[Anthropic::Beta::BetaManagedAgentsDeltaType::OrSymbol],
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions::OrHash
               ).returns(T.attached_class)
             end
@@ -81745,6 +83390,7 @@ module Anthropic
                                  # the `agent.thinking` event itself. Only previews of the requested event types
                                  # are sent.
               betas: nil, # Optional header to specify the beta version(s) you want to use.
+              workspace_id: nil,
               request_options: {}
 ); end
           end
@@ -81775,12 +83421,19 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :session_id
 
+          sig { returns(T.nilable(String)) }
+          attr_reader :workspace_id
+
+          sig { params(workspace_id: String).void }
+          attr_writer :workspace_id
+
           sig do
             override
               .returns({
                 session_id: String,
                 betas:
                   T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions
               })
           end
@@ -81791,12 +83444,14 @@ module Anthropic
               params(
                 session_id: String,
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions::OrHash
               ).returns(T.attached_class)
             end
             def new(
               session_id:,
               betas: nil, # Optional header to specify the beta version(s) you want to use.
+              workspace_id: nil,
               request_options: {}
 ); end
           end
@@ -81830,6 +83485,12 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :session_id
 
+          sig { returns(T.nilable(String)) }
+          attr_reader :workspace_id
+
+          sig { params(workspace_id: String).void }
+          attr_writer :workspace_id
+
           sig do
             override
               .returns({
@@ -81837,6 +83498,7 @@ module Anthropic
                 resource_id: String,
                 betas:
                   T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions
               })
           end
@@ -81848,6 +83510,7 @@ module Anthropic
                 session_id: String,
                 resource_id: String,
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions::OrHash
               ).returns(T.attached_class)
             end
@@ -81855,6 +83518,7 @@ module Anthropic
               session_id:,
               resource_id:,
               betas: nil, # Optional header to specify the beta version(s) you want to use.
+              workspace_id: nil,
               request_options: {}
 ); end
           end
@@ -81890,7 +83554,7 @@ module Anthropic
           sig { params(limit: Integer).void }
           attr_writer :limit
 
-          # Opaque cursor from a previous response's next_page field.
+          # Opaque cursor from a previous response's `next_page` field.
           sig { returns(T.nilable(String)) }
           attr_reader :page
 
@@ -81900,6 +83564,12 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :session_id
 
+          sig { returns(T.nilable(String)) }
+          attr_reader :workspace_id
+
+          sig { params(workspace_id: String).void }
+          attr_writer :workspace_id
+
           sig do
             override
               .returns({
@@ -81908,6 +83578,7 @@ module Anthropic
                 page: String,
                 betas:
                   T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions
               })
           end
@@ -81920,6 +83591,7 @@ module Anthropic
                 limit: Integer,
                 page: String,
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions::OrHash
               ).returns(T.attached_class)
             end
@@ -81927,8 +83599,9 @@ module Anthropic
               session_id:,
               limit: nil, # Maximum number of resources to return per page (max 1000). If omitted, returns
                           # all resources.
-              page: nil, # Opaque cursor from a previous response's next_page field.
+              page: nil, # Opaque cursor from a previous response's `next_page` field.
               betas: nil, # Optional header to specify the beta version(s) you want to use.
+              workspace_id: nil,
               request_options: {}
 ); end
           end
@@ -81962,6 +83635,12 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :session_id
 
+          sig { returns(T.nilable(String)) }
+          attr_reader :workspace_id
+
+          sig { params(workspace_id: String).void }
+          attr_writer :workspace_id
+
           sig do
             override
               .returns({
@@ -81969,6 +83648,7 @@ module Anthropic
                 resource_id: String,
                 betas:
                   T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions
               })
           end
@@ -81980,6 +83660,7 @@ module Anthropic
                 session_id: String,
                 resource_id: String,
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions::OrHash
               ).returns(T.attached_class)
             end
@@ -81987,6 +83668,7 @@ module Anthropic
               session_id:,
               resource_id:,
               betas: nil, # Optional header to specify the beta version(s) you want to use.
+              workspace_id: nil,
               request_options: {}
 ); end
           end
@@ -82133,6 +83815,12 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :session_id
 
+          sig { returns(T.nilable(String)) }
+          attr_reader :workspace_id
+
+          sig { params(workspace_id: String).void }
+          attr_writer :workspace_id
+
           sig do
             override
               .returns({
@@ -82141,6 +83829,7 @@ module Anthropic
                 authorization_token: String,
                 betas:
                   T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions
               })
           end
@@ -82153,6 +83842,7 @@ module Anthropic
                 resource_id: String,
                 authorization_token: String,
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions::OrHash
               ).returns(T.attached_class)
             end
@@ -82162,6 +83852,7 @@ module Anthropic
               authorization_token:, # New authorization token for the resource. Currently only `github_repository`
                                     # resources support token rotation.
               betas: nil, # Optional header to specify the beta version(s) you want to use.
+              workspace_id: nil,
               request_options: {}
 ); end
           end
@@ -82303,6 +83994,12 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :thread_id
 
+          sig { returns(T.nilable(String)) }
+          attr_reader :workspace_id
+
+          sig { params(workspace_id: String).void }
+          attr_writer :workspace_id
+
           sig do
             override
               .returns({
@@ -82310,6 +84007,7 @@ module Anthropic
                 thread_id: String,
                 betas:
                   T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions
               })
           end
@@ -82321,6 +84019,7 @@ module Anthropic
                 session_id: String,
                 thread_id: String,
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions::OrHash
               ).returns(T.attached_class)
             end
@@ -82328,6 +84027,7 @@ module Anthropic
               session_id:,
               thread_id:,
               betas: nil, # Optional header to specify the beta version(s) you want to use.
+              workspace_id: nil,
               request_options: {}
 ); end
           end
@@ -82362,7 +84062,7 @@ module Anthropic
           sig { params(limit: Integer).void }
           attr_writer :limit
 
-          # Opaque pagination cursor from a previous response's next_page. Forward-only.
+          # Opaque pagination cursor from a previous response's `next_page`. Forward-only.
           sig { returns(T.nilable(String)) }
           attr_reader :page
 
@@ -82372,6 +84072,12 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :session_id
 
+          sig { returns(T.nilable(String)) }
+          attr_reader :workspace_id
+
+          sig { params(workspace_id: String).void }
+          attr_writer :workspace_id
+
           sig do
             override
               .returns({
@@ -82380,6 +84086,7 @@ module Anthropic
                 page: String,
                 betas:
                   T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions
               })
           end
@@ -82392,14 +84099,16 @@ module Anthropic
                 limit: Integer,
                 page: String,
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions::OrHash
               ).returns(T.attached_class)
             end
             def new(
               session_id:,
               limit: nil, # Maximum results per page. Defaults to 1000.
-              page: nil, # Opaque pagination cursor from a previous response's next_page. Forward-only.
+              page: nil, # Opaque pagination cursor from a previous response's `next_page`. Forward-only.
               betas: nil, # Optional header to specify the beta version(s) you want to use.
+              workspace_id: nil,
               request_options: {}
 ); end
           end
@@ -82433,6 +84142,12 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :thread_id
 
+          sig { returns(T.nilable(String)) }
+          attr_reader :workspace_id
+
+          sig { params(workspace_id: String).void }
+          attr_writer :workspace_id
+
           sig do
             override
               .returns({
@@ -82440,6 +84155,7 @@ module Anthropic
                 thread_id: String,
                 betas:
                   T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions
               })
           end
@@ -82451,6 +84167,7 @@ module Anthropic
                 session_id: String,
                 thread_id: String,
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions::OrHash
               ).returns(T.attached_class)
             end
@@ -82458,6 +84175,7 @@ module Anthropic
               session_id:,
               thread_id:,
               betas: nil, # Optional header to specify the beta version(s) you want to use.
+              workspace_id: nil,
               request_options: {}
 ); end
           end
@@ -82506,6 +84224,12 @@ module Anthropic
             sig { returns(String) }
             attr_accessor :thread_id
 
+            sig { returns(T.nilable(String)) }
+            attr_reader :workspace_id
+
+            sig { params(workspace_id: String).void }
+            attr_writer :workspace_id
+
             sig do
               override
                 .returns({
@@ -82515,6 +84239,7 @@ module Anthropic
                   page: String,
                   betas:
                     T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                  workspace_id: String,
                   request_options: Anthropic::RequestOptions
                 })
             end
@@ -82528,6 +84253,7 @@ module Anthropic
                   limit: Integer,
                   page: String,
                   betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                  workspace_id: String,
                   request_options: Anthropic::RequestOptions::OrHash
                 ).returns(T.attached_class)
               end
@@ -82537,6 +84263,7 @@ module Anthropic
                 limit: nil, # Query parameter for limit
                 page: nil, # Query parameter for page
                 betas: nil, # Optional header to specify the beta version(s) you want to use.
+                workspace_id: nil,
                 request_options: {}
 ); end
             end
@@ -82598,6 +84325,12 @@ module Anthropic
             sig { returns(String) }
             attr_accessor :thread_id
 
+            sig { returns(T.nilable(String)) }
+            attr_reader :workspace_id
+
+            sig { params(workspace_id: String).void }
+            attr_writer :workspace_id
+
             sig do
               override
                 .returns({
@@ -82609,6 +84342,7 @@ module Anthropic
                     ],
                   betas:
                     T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                  workspace_id: String,
                   request_options: Anthropic::RequestOptions
                 })
             end
@@ -82623,6 +84357,7 @@ module Anthropic
                     Anthropic::Beta::BetaManagedAgentsDeltaType::OrSymbol
                   ],
                   betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                  workspace_id: String,
                   request_options: Anthropic::RequestOptions::OrHash
                 ).returns(T.attached_class)
               end
@@ -82640,6 +84375,7 @@ module Anthropic
                                    # the `agent.thinking` event itself. Only previews of the requested event types
                                    # are sent.
                 betas: nil, # Optional header to specify the beta version(s) you want to use.
+                workspace_id: nil,
                 request_options: {}
 ); end
             end
@@ -82669,12 +84405,11 @@ module Anthropic
         sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
         attr_writer :betas
 
-        # Display title for the skill.
-        #
-        # This is a human-readable label that is not included in the prompt sent to the
-        # model.
+        # Human-readable, single-line label for the Skill. Maximum 255 characters. Always
+        # set: derived from the SKILL.md frontmatter `name` when omitted at creation. Not
+        # unique.
         sig { returns(T.nilable(String)) }
-        attr_accessor :display_title
+        attr_accessor :display_name
 
         # Files to upload for the skill.
         #
@@ -82683,13 +84418,20 @@ module Anthropic
         sig { returns(T::Array[Anthropic::Internal::FileInput]) }
         attr_accessor :files
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
               files: T::Array[Anthropic::Internal::FileInput],
-              display_title: T.nilable(String),
+              display_name: T.nilable(String),
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -82699,8 +84441,9 @@ module Anthropic
           sig do
             params(
               files: T::Array[Anthropic::Internal::FileInput],
-              display_title: T.nilable(String),
+              display_name: T.nilable(String),
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
@@ -82708,10 +84451,11 @@ module Anthropic
             files:, # Files to upload for the skill.
                     # All files must be in the same top-level directory and must include a SKILL.md
                     # file at the root of that directory.
-            display_title: nil, # Display title for the skill.
-                                # This is a human-readable label that is not included in the prompt sent to the
-                                # model.
+            display_name: nil, # Human-readable, single-line label for the Skill. Maximum 255 characters. Always
+                               # set: derived from the SKILL.md frontmatter `name` when omitted at creation. Not
+                               # unique.
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -82719,102 +84463,6 @@ module Anthropic
         OrHash = T.type_alias do
             T.any(
               Anthropic::Beta::SkillCreateParams,
-              Anthropic::Internal::AnyHash
-            )
-          end
-      end
-
-      class SkillCreateResponse < Anthropic::Internal::Type::BaseModel
-        # ISO 8601 timestamp of when the skill was created.
-        sig { returns(String) }
-        attr_accessor :created_at
-
-        # Display title for the skill.
-        #
-        # This is a human-readable label that is not included in the prompt sent to the
-        # model.
-        sig { returns(T.nilable(String)) }
-        attr_accessor :display_title
-
-        # Unique identifier for the skill.
-        #
-        # The format and length of IDs may change over time.
-        sig { returns(String) }
-        attr_accessor :id
-
-        # The latest version identifier for the skill.
-        #
-        # This represents the most recent version of the skill that has been created.
-        sig { returns(T.nilable(String)) }
-        attr_accessor :latest_version
-
-        # Source of the skill.
-        #
-        # This may be one of the following values:
-        #
-        # - `"custom"`: the skill was created by a user
-        # - `"anthropic"`: the skill was created by Anthropic
-        sig { returns(String) }
-        attr_accessor :source
-
-        # Object type.
-        #
-        # For Skills, this is always `"skill"`.
-        sig { returns(String) }
-        attr_accessor :type
-
-        # ISO 8601 timestamp of when the skill was last updated.
-        sig { returns(String) }
-        attr_accessor :updated_at
-
-        sig do
-          override
-            .returns({
-              id: String,
-              created_at: String,
-              display_title: T.nilable(String),
-              latest_version: T.nilable(String),
-              source: String,
-              type: String,
-              updated_at: String
-            })
-        end
-        def to_hash; end
-
-        class << self
-          sig do
-            params(
-              id: String,
-              created_at: String,
-              display_title: T.nilable(String),
-              latest_version: T.nilable(String),
-              source: String,
-              type: String,
-              updated_at: String
-            ).returns(T.attached_class)
-          end
-          def new(
-            id:, # Unique identifier for the skill.
-                 # The format and length of IDs may change over time.
-            created_at:, # ISO 8601 timestamp of when the skill was created.
-            display_title:, # Display title for the skill.
-                            # This is a human-readable label that is not included in the prompt sent to the
-                            # model.
-            latest_version:, # The latest version identifier for the skill.
-                             # This represents the most recent version of the skill that has been created.
-            source:, # Source of the skill.
-                     # This may be one of the following values:
-                     # - `"custom"`: the skill was created by a user
-                     # - `"anthropic"`: the skill was created by Anthropic
-            type:, # Object type.
-                   # For Skills, this is always `"skill"`.
-            updated_at: # ISO 8601 timestamp of when the skill was last updated.
-); end
-        end
-
-        OrHash = T.type_alias do
-            T.any(
-              Anthropic::Models::Beta::SkillCreateResponse,
               Anthropic::Internal::AnyHash
             )
           end
@@ -82841,12 +84489,19 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :skill_id
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
               skill_id: String,
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -82857,6 +84512,7 @@ module Anthropic
             params(
               skill_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
@@ -82864,6 +84520,7 @@ module Anthropic
             skill_id:, # Unique identifier for the skill.
                        # The format and length of IDs may change over time.
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -82871,40 +84528,6 @@ module Anthropic
         OrHash = T.type_alias do
             T.any(
               Anthropic::Beta::SkillDeleteParams,
-              Anthropic::Internal::AnyHash
-            )
-          end
-      end
-
-      class SkillDeleteResponse < Anthropic::Internal::Type::BaseModel
-        # Unique identifier for the skill.
-        #
-        # The format and length of IDs may change over time.
-        sig { returns(String) }
-        attr_accessor :id
-
-        # Deleted object type.
-        #
-        # For Skills, this is always `"skill_deleted"`.
-        sig { returns(String) }
-        attr_accessor :type
-
-        sig { override.returns({ id: String, type: String }) }
-        def to_hash; end
-
-        class << self
-          sig { params(id: String, type: String).returns(T.attached_class) }
-          def new(
-            id:, # Unique identifier for the skill.
-                 # The format and length of IDs may change over time.
-            type: # Deleted object type.
-                  # For Skills, this is always `"skill_deleted"`.
-); end
-        end
-
-        OrHash = T.type_alias do
-            T.any(
-              Anthropic::Models::Beta::SkillDeleteResponse,
               Anthropic::Internal::AnyHash
             )
           end
@@ -82927,7 +84550,7 @@ module Anthropic
 
         # Number of results to return per page.
         #
-        # Maximum value is 100. Defaults to 20.
+        # Ranges from `1` to `1000`. Defaults to `20`.
         sig { returns(T.nilable(Integer)) }
         attr_reader :limit
 
@@ -82950,6 +84573,12 @@ module Anthropic
         sig { returns(T.nilable(String)) }
         attr_accessor :source
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
@@ -82958,6 +84587,7 @@ module Anthropic
               source: T.nilable(String),
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -82970,12 +84600,13 @@ module Anthropic
               page: T.nilable(String),
               source: T.nilable(String),
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
           def new(
             limit: nil, # Number of results to return per page.
-                        # Maximum value is 100. Defaults to 20.
+                        # Ranges from `1` to `1000`. Defaults to `20`.
             page: nil, # Pagination token for fetching a specific page of results.
                        # Pass the value from a previous response's `next_page` field to get the next page
                        # of results.
@@ -82984,6 +84615,7 @@ module Anthropic
                          # - `"custom"`: only return user-created skills
                          # - `"anthropic"`: only return Anthropic-created skills
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -82991,102 +84623,6 @@ module Anthropic
         OrHash = T.type_alias do
             T.any(
               Anthropic::Beta::SkillListParams,
-              Anthropic::Internal::AnyHash
-            )
-          end
-      end
-
-      class SkillListResponse < Anthropic::Internal::Type::BaseModel
-        # ISO 8601 timestamp of when the skill was created.
-        sig { returns(String) }
-        attr_accessor :created_at
-
-        # Display title for the skill.
-        #
-        # This is a human-readable label that is not included in the prompt sent to the
-        # model.
-        sig { returns(T.nilable(String)) }
-        attr_accessor :display_title
-
-        # Unique identifier for the skill.
-        #
-        # The format and length of IDs may change over time.
-        sig { returns(String) }
-        attr_accessor :id
-
-        # The latest version identifier for the skill.
-        #
-        # This represents the most recent version of the skill that has been created.
-        sig { returns(T.nilable(String)) }
-        attr_accessor :latest_version
-
-        # Source of the skill.
-        #
-        # This may be one of the following values:
-        #
-        # - `"custom"`: the skill was created by a user
-        # - `"anthropic"`: the skill was created by Anthropic
-        sig { returns(String) }
-        attr_accessor :source
-
-        # Object type.
-        #
-        # For Skills, this is always `"skill"`.
-        sig { returns(String) }
-        attr_accessor :type
-
-        # ISO 8601 timestamp of when the skill was last updated.
-        sig { returns(String) }
-        attr_accessor :updated_at
-
-        sig do
-          override
-            .returns({
-              id: String,
-              created_at: String,
-              display_title: T.nilable(String),
-              latest_version: T.nilable(String),
-              source: String,
-              type: String,
-              updated_at: String
-            })
-        end
-        def to_hash; end
-
-        class << self
-          sig do
-            params(
-              id: String,
-              created_at: String,
-              display_title: T.nilable(String),
-              latest_version: T.nilable(String),
-              source: String,
-              type: String,
-              updated_at: String
-            ).returns(T.attached_class)
-          end
-          def new(
-            id:, # Unique identifier for the skill.
-                 # The format and length of IDs may change over time.
-            created_at:, # ISO 8601 timestamp of when the skill was created.
-            display_title:, # Display title for the skill.
-                            # This is a human-readable label that is not included in the prompt sent to the
-                            # model.
-            latest_version:, # The latest version identifier for the skill.
-                             # This represents the most recent version of the skill that has been created.
-            source:, # Source of the skill.
-                     # This may be one of the following values:
-                     # - `"custom"`: the skill was created by a user
-                     # - `"anthropic"`: the skill was created by Anthropic
-            type:, # Object type.
-                   # For Skills, this is always `"skill"`.
-            updated_at: # ISO 8601 timestamp of when the skill was last updated.
-); end
-        end
-
-        OrHash = T.type_alias do
-            T.any(
-              Anthropic::Models::Beta::SkillListResponse,
               Anthropic::Internal::AnyHash
             )
           end
@@ -83113,12 +84649,19 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :skill_id
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
               skill_id: String,
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -83129,6 +84672,7 @@ module Anthropic
             params(
               skill_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
@@ -83136,6 +84680,7 @@ module Anthropic
             skill_id:, # Unique identifier for the skill.
                        # The format and length of IDs may change over time.
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -83148,103 +84693,124 @@ module Anthropic
           end
       end
 
-      class SkillRetrieveResponse < Anthropic::Internal::Type::BaseModel
-        # ISO 8601 timestamp of when the skill was created.
-        sig { returns(String) }
-        attr_accessor :created_at
-
-        # Display title for the skill.
-        #
-        # This is a human-readable label that is not included in the prompt sent to the
-        # model.
-        sig { returns(T.nilable(String)) }
-        attr_accessor :display_title
-
-        # Unique identifier for the skill.
-        #
-        # The format and length of IDs may change over time.
-        sig { returns(String) }
-        attr_accessor :id
-
-        # The latest version identifier for the skill.
-        #
-        # This represents the most recent version of the skill that has been created.
-        sig { returns(T.nilable(String)) }
-        attr_accessor :latest_version
-
-        # Source of the skill.
-        #
-        # This may be one of the following values:
-        #
-        # - `"custom"`: the skill was created by a user
-        # - `"anthropic"`: the skill was created by Anthropic
-        sig { returns(String) }
-        attr_accessor :source
-
-        # Object type.
-        #
-        # For Skills, this is always `"skill"`.
-        sig { returns(String) }
-        attr_accessor :type
-
-        # ISO 8601 timestamp of when the skill was last updated.
-        sig { returns(String) }
-        attr_accessor :updated_at
-
-        sig do
-          override
-            .returns({
-              id: String,
-              created_at: String,
-              display_title: T.nilable(String),
-              latest_version: T.nilable(String),
-              source: String,
-              type: String,
-              updated_at: String
-            })
-        end
-        def to_hash; end
-
-        class << self
-          sig do
-            params(
-              id: String,
-              created_at: String,
-              display_title: T.nilable(String),
-              latest_version: T.nilable(String),
-              source: String,
-              type: String,
-              updated_at: String
-            ).returns(T.attached_class)
-          end
-          def new(
-            id:, # Unique identifier for the skill.
-                 # The format and length of IDs may change over time.
-            created_at:, # ISO 8601 timestamp of when the skill was created.
-            display_title:, # Display title for the skill.
-                            # This is a human-readable label that is not included in the prompt sent to the
-                            # model.
-            latest_version:, # The latest version identifier for the skill.
-                             # This represents the most recent version of the skill that has been created.
-            source:, # Source of the skill.
-                     # This may be one of the following values:
-                     # - `"custom"`: the skill was created by a user
-                     # - `"anthropic"`: the skill was created by Anthropic
-            type:, # Object type.
-                   # For Skills, this is always `"skill"`.
-            updated_at: # ISO 8601 timestamp of when the skill was last updated.
-); end
-        end
-
-        OrHash = T.type_alias do
-            T.any(
-              Anthropic::Models::Beta::SkillRetrieveResponse,
-              Anthropic::Internal::AnyHash
-            )
-          end
-      end
-
       module Skills
+        class BetaDeletedSkillVersion < Anthropic::Internal::Type::BaseModel
+          # Unique identifier for this Skill Version. The id addresses the version in paths
+          # and pins it in references.
+          sig { returns(String) }
+          attr_accessor :id
+
+          # Deleted object type.
+          #
+          # For Skill Versions, this is always `"skill_version_deleted"`.
+          sig { returns(Symbol) }
+          attr_accessor :type
+
+          sig { override.returns({ id: String, type: Symbol }) }
+          def to_hash; end
+
+          class << self
+            sig { params(id: String, type: Symbol).returns(T.attached_class) }
+            def new(
+              id:, # Unique identifier for this Skill Version. The id addresses the version in paths
+                   # and pins it in references.
+              type: :skill_version_deleted # Deleted object type.
+                                           # For Skill Versions, this is always `"skill_version_deleted"`.
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Skills::BetaDeletedSkillVersion,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        class BetaSkillVersion < Anthropic::Internal::Type::BaseModel
+          # ISO 8601 timestamp of when the skill was created.
+          sig { returns(Time) }
+          attr_accessor :created_at
+
+          # Description of the skill version.
+          #
+          # This is extracted from the SKILL.md file in the skill upload.
+          sig { returns(String) }
+          attr_accessor :description
+
+          # Unique identifier for this Skill Version. The id addresses the version in paths
+          # and pins it in references.
+          sig { returns(String) }
+          attr_accessor :id
+
+          # The Skill's immutable kebab-case slug, set at creation from the first upload's
+          # SKILL.md frontmatter `name` (or its enclosing directory). Every later upload
+          # must resolve to the same value. Also the top-level directory of the Skill's
+          # mounted files and the base name of a downloaded archive.
+          sig { returns(String) }
+          attr_accessor :name
+
+          # Unique identifier for the skill.
+          #
+          # The format and length of IDs may change over time.
+          sig { returns(String) }
+          attr_accessor :skill_id
+
+          # Object type.
+          #
+          # For Skill Versions, this is always `"skill_version"`.
+          sig { returns(Symbol) }
+          attr_accessor :type
+
+          sig do
+            override
+              .returns({
+                id: String,
+                created_at: Time,
+                description: String,
+                name: String,
+                skill_id: String,
+                type: Symbol
+              })
+          end
+          def to_hash; end
+
+          class << self
+            sig do
+              params(
+                id: String,
+                created_at: Time,
+                description: String,
+                name: String,
+                skill_id: String,
+                type: Symbol
+              ).returns(T.attached_class)
+            end
+            def new(
+              id:, # Unique identifier for this Skill Version. The id addresses the version in paths
+                   # and pins it in references.
+              created_at:, # ISO 8601 timestamp of when the skill was created.
+              description:, # Description of the skill version.
+                            # This is extracted from the SKILL.md file in the skill upload.
+              name:, # The Skill's immutable kebab-case slug, set at creation from the first upload's
+                     # SKILL.md frontmatter `name` (or its enclosing directory). Every later upload
+                     # must resolve to the same value. Also the top-level directory of the Skill's
+                     # mounted files and the base name of a downloaded archive.
+              skill_id:, # Unique identifier for the skill.
+                         # The format and length of IDs may change over time.
+              type: :skill_version # Object type.
+                                   # For Skill Versions, this is always `"skill_version"`.
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Skills::BetaSkillVersion,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
         class VersionCreateParams < Anthropic::Internal::Type::BaseModel
           extend Anthropic::Internal::Type::RequestParameters::Converter
           include Anthropic::Internal::Type::RequestParameters
@@ -83273,6 +84839,12 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :skill_id
 
+          sig { returns(T.nilable(String)) }
+          attr_reader :workspace_id
+
+          sig { params(workspace_id: String).void }
+          attr_writer :workspace_id
+
           sig do
             override
               .returns({
@@ -83280,6 +84852,7 @@ module Anthropic
                 files: T::Array[Anthropic::Internal::FileInput],
                 betas:
                   T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions
               })
           end
@@ -83291,6 +84864,7 @@ module Anthropic
                 skill_id: String,
                 files: T::Array[Anthropic::Internal::FileInput],
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions::OrHash
               ).returns(T.attached_class)
             end
@@ -83301,6 +84875,7 @@ module Anthropic
                       # All files must be in the same top-level directory and must include a SKILL.md
                       # file at the root of that directory.
               betas: nil, # Optional header to specify the beta version(s) you want to use.
+              workspace_id: nil,
               request_options: {}
 ); end
           end
@@ -83308,105 +84883,6 @@ module Anthropic
           OrHash = T.type_alias do
               T.any(
                 Anthropic::Beta::Skills::VersionCreateParams,
-                Anthropic::Internal::AnyHash
-              )
-            end
-        end
-
-        class VersionCreateResponse < Anthropic::Internal::Type::BaseModel
-          # ISO 8601 timestamp of when the skill version was created.
-          sig { returns(String) }
-          attr_accessor :created_at
-
-          # Description of the skill version.
-          #
-          # This is extracted from the SKILL.md file in the skill upload.
-          sig { returns(String) }
-          attr_accessor :description
-
-          # Directory name of the skill version.
-          #
-          # This is the top-level directory name that was extracted from the uploaded files.
-          sig { returns(String) }
-          attr_accessor :directory
-
-          # Unique identifier for the skill version.
-          #
-          # The format and length of IDs may change over time.
-          sig { returns(String) }
-          attr_accessor :id
-
-          # Human-readable name of the skill version.
-          #
-          # This is extracted from the SKILL.md file in the skill upload.
-          sig { returns(String) }
-          attr_accessor :name
-
-          # Identifier for the skill that this version belongs to.
-          sig { returns(String) }
-          attr_accessor :skill_id
-
-          # Object type.
-          #
-          # For Skill Versions, this is always `"skill_version"`.
-          sig { returns(String) }
-          attr_accessor :type
-
-          # Version identifier for the skill.
-          #
-          # Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
-          sig { returns(String) }
-          attr_accessor :version
-
-          sig do
-            override
-              .returns({
-                id: String,
-                created_at: String,
-                description: String,
-                directory: String,
-                name: String,
-                skill_id: String,
-                type: String,
-                version: String
-              })
-          end
-          def to_hash; end
-
-          class << self
-            sig do
-              params(
-                id: String,
-                created_at: String,
-                description: String,
-                directory: String,
-                name: String,
-                skill_id: String,
-                type: String,
-                version: String
-              ).returns(T.attached_class)
-            end
-            def new(
-              id:, # Unique identifier for the skill version.
-                   # The format and length of IDs may change over time.
-              created_at:, # ISO 8601 timestamp of when the skill version was created.
-              description:, # Description of the skill version.
-                            # This is extracted from the SKILL.md file in the skill upload.
-              directory:, # Directory name of the skill version.
-                          # This is the top-level directory name that was extracted from the uploaded files.
-              name:, # Human-readable name of the skill version.
-                     # This is extracted from the SKILL.md file in the skill upload.
-              skill_id:, # Identifier for the skill that this version belongs to.
-              type:, # Object type.
-                     # For Skill Versions, this is always `"skill_version"`.
-              version: # Version identifier for the skill.
-                       # Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
-); end
-          end
-
-          OrHash = T.type_alias do
-              T.any(
-                Anthropic::Models::Beta::Skills::VersionCreateResponse,
                 Anthropic::Internal::AnyHash
               )
             end
@@ -83433,11 +84909,18 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :skill_id
 
-          # Version identifier for the skill.
+          # Identifies the skill version by its version ID.
           #
-          # Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
+          # Requests carrying the `skills-2025-10-02` beta header address versions by their
+          # Unix epoch timestamp instead (e.g., "1759178010641129").
           sig { returns(String) }
           attr_accessor :version
+
+          sig { returns(T.nilable(String)) }
+          attr_reader :workspace_id
+
+          sig { params(workspace_id: String).void }
+          attr_writer :workspace_id
 
           sig do
             override
@@ -83446,6 +84929,7 @@ module Anthropic
                 version: String,
                 betas:
                   T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions
               })
           end
@@ -83457,15 +84941,18 @@ module Anthropic
                 skill_id: String,
                 version: String,
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions::OrHash
               ).returns(T.attached_class)
             end
             def new(
               skill_id:, # Unique identifier for the skill.
                          # The format and length of IDs may change over time.
-              version:, # Version identifier for the skill.
-                        # Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
+              version:, # Identifies the skill version by its version ID.
+                        # Requests carrying the `skills-2025-10-02` beta header address versions by their
+                        # Unix epoch timestamp instead (e.g., "1759178010641129").
               betas: nil, # Optional header to specify the beta version(s) you want to use.
+              workspace_id: nil,
               request_options: {}
 ); end
           end
@@ -83473,40 +84960,6 @@ module Anthropic
           OrHash = T.type_alias do
               T.any(
                 Anthropic::Beta::Skills::VersionDeleteParams,
-                Anthropic::Internal::AnyHash
-              )
-            end
-        end
-
-        class VersionDeleteResponse < Anthropic::Internal::Type::BaseModel
-          # Version identifier for the skill.
-          #
-          # Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
-          sig { returns(String) }
-          attr_accessor :id
-
-          # Deleted object type.
-          #
-          # For Skill Versions, this is always `"skill_version_deleted"`.
-          sig { returns(String) }
-          attr_accessor :type
-
-          sig { override.returns({ id: String, type: String }) }
-          def to_hash; end
-
-          class << self
-            sig { params(id: String, type: String).returns(T.attached_class) }
-            def new(
-              id:, # Version identifier for the skill.
-                   # Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
-              type: # Deleted object type.
-                    # For Skill Versions, this is always `"skill_version_deleted"`.
-); end
-          end
-
-          OrHash = T.type_alias do
-              T.any(
-                Anthropic::Models::Beta::Skills::VersionDeleteResponse,
                 Anthropic::Internal::AnyHash
               )
             end
@@ -83533,11 +84986,18 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :skill_id
 
-          # Version identifier for the skill.
+          # Identifies the skill version by its version ID.
           #
-          # Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
+          # Requests carrying the `skills-2025-10-02` beta header address versions by their
+          # Unix epoch timestamp instead (e.g., "1759178010641129").
           sig { returns(String) }
           attr_accessor :version
+
+          sig { returns(T.nilable(String)) }
+          attr_reader :workspace_id
+
+          sig { params(workspace_id: String).void }
+          attr_writer :workspace_id
 
           sig do
             override
@@ -83546,6 +85006,7 @@ module Anthropic
                 version: String,
                 betas:
                   T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions
               })
           end
@@ -83557,15 +85018,18 @@ module Anthropic
                 skill_id: String,
                 version: String,
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions::OrHash
               ).returns(T.attached_class)
             end
             def new(
               skill_id:, # Unique identifier for the skill.
                          # The format and length of IDs may change over time.
-              version:, # Version identifier for the skill.
-                        # Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
+              version:, # Identifies the skill version by its version ID.
+                        # Requests carrying the `skills-2025-10-02` beta header address versions by their
+                        # Unix epoch timestamp instead (e.g., "1759178010641129").
               betas: nil, # Optional header to specify the beta version(s) you want to use.
+              workspace_id: nil,
               request_options: {}
 ); end
           end
@@ -83593,9 +85057,9 @@ module Anthropic
           sig { params(betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)]).void }
           attr_writer :betas
 
-          # Number of items to return per page.
+          # Number of results to return per page.
           #
-          # Defaults to `20`. Ranges from `1` to `1000`.
+          # Ranges from `1` to `1000`. Defaults to `20`.
           sig { returns(T.nilable(Integer)) }
           attr_accessor :limit
 
@@ -83609,6 +85073,12 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :skill_id
 
+          sig { returns(T.nilable(String)) }
+          attr_reader :workspace_id
+
+          sig { params(workspace_id: String).void }
+          attr_writer :workspace_id
+
           sig do
             override
               .returns({
@@ -83617,6 +85087,7 @@ module Anthropic
                 page: T.nilable(String),
                 betas:
                   T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions
               })
           end
@@ -83629,16 +85100,18 @@ module Anthropic
                 limit: T.nilable(Integer),
                 page: T.nilable(String),
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions::OrHash
               ).returns(T.attached_class)
             end
             def new(
               skill_id:, # Unique identifier for the skill.
                          # The format and length of IDs may change over time.
-              limit: nil, # Number of items to return per page.
-                          # Defaults to `20`. Ranges from `1` to `1000`.
+              limit: nil, # Number of results to return per page.
+                          # Ranges from `1` to `1000`. Defaults to `20`.
               page: nil, # Optionally set to the `next_page` token from the previous response.
               betas: nil, # Optional header to specify the beta version(s) you want to use.
+              workspace_id: nil,
               request_options: {}
 ); end
           end
@@ -83646,105 +85119,6 @@ module Anthropic
           OrHash = T.type_alias do
               T.any(
                 Anthropic::Beta::Skills::VersionListParams,
-                Anthropic::Internal::AnyHash
-              )
-            end
-        end
-
-        class VersionListResponse < Anthropic::Internal::Type::BaseModel
-          # ISO 8601 timestamp of when the skill version was created.
-          sig { returns(String) }
-          attr_accessor :created_at
-
-          # Description of the skill version.
-          #
-          # This is extracted from the SKILL.md file in the skill upload.
-          sig { returns(String) }
-          attr_accessor :description
-
-          # Directory name of the skill version.
-          #
-          # This is the top-level directory name that was extracted from the uploaded files.
-          sig { returns(String) }
-          attr_accessor :directory
-
-          # Unique identifier for the skill version.
-          #
-          # The format and length of IDs may change over time.
-          sig { returns(String) }
-          attr_accessor :id
-
-          # Human-readable name of the skill version.
-          #
-          # This is extracted from the SKILL.md file in the skill upload.
-          sig { returns(String) }
-          attr_accessor :name
-
-          # Identifier for the skill that this version belongs to.
-          sig { returns(String) }
-          attr_accessor :skill_id
-
-          # Object type.
-          #
-          # For Skill Versions, this is always `"skill_version"`.
-          sig { returns(String) }
-          attr_accessor :type
-
-          # Version identifier for the skill.
-          #
-          # Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
-          sig { returns(String) }
-          attr_accessor :version
-
-          sig do
-            override
-              .returns({
-                id: String,
-                created_at: String,
-                description: String,
-                directory: String,
-                name: String,
-                skill_id: String,
-                type: String,
-                version: String
-              })
-          end
-          def to_hash; end
-
-          class << self
-            sig do
-              params(
-                id: String,
-                created_at: String,
-                description: String,
-                directory: String,
-                name: String,
-                skill_id: String,
-                type: String,
-                version: String
-              ).returns(T.attached_class)
-            end
-            def new(
-              id:, # Unique identifier for the skill version.
-                   # The format and length of IDs may change over time.
-              created_at:, # ISO 8601 timestamp of when the skill version was created.
-              description:, # Description of the skill version.
-                            # This is extracted from the SKILL.md file in the skill upload.
-              directory:, # Directory name of the skill version.
-                          # This is the top-level directory name that was extracted from the uploaded files.
-              name:, # Human-readable name of the skill version.
-                     # This is extracted from the SKILL.md file in the skill upload.
-              skill_id:, # Identifier for the skill that this version belongs to.
-              type:, # Object type.
-                     # For Skill Versions, this is always `"skill_version"`.
-              version: # Version identifier for the skill.
-                       # Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
-); end
-          end
-
-          OrHash = T.type_alias do
-              T.any(
-                Anthropic::Models::Beta::Skills::VersionListResponse,
                 Anthropic::Internal::AnyHash
               )
             end
@@ -83771,11 +85145,19 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :skill_id
 
-          # Version identifier for the skill.
+          # Identifies the skill version: a version ID, or the literal `latest` for the
+          # skill's most recent version.
           #
-          # Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
+          # Requests carrying the `skills-2025-10-02` beta header address versions by their
+          # Unix epoch timestamp instead (e.g., "1759178010641129").
           sig { returns(String) }
           attr_accessor :version
+
+          sig { returns(T.nilable(String)) }
+          attr_reader :workspace_id
+
+          sig { params(workspace_id: String).void }
+          attr_writer :workspace_id
 
           sig do
             override
@@ -83784,6 +85166,7 @@ module Anthropic
                 version: String,
                 betas:
                   T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions
               })
           end
@@ -83795,15 +85178,19 @@ module Anthropic
                 skill_id: String,
                 version: String,
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions::OrHash
               ).returns(T.attached_class)
             end
             def new(
               skill_id:, # Unique identifier for the skill.
                          # The format and length of IDs may change over time.
-              version:, # Version identifier for the skill.
-                        # Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
+              version:, # Identifies the skill version: a version ID, or the literal `latest` for the
+                        # skill's most recent version.
+                        # Requests carrying the `skills-2025-10-02` beta header address versions by their
+                        # Unix epoch timestamp instead (e.g., "1759178010641129").
               betas: nil, # Optional header to specify the beta version(s) you want to use.
+              workspace_id: nil,
               request_options: {}
 ); end
           end
@@ -83811,105 +85198,6 @@ module Anthropic
           OrHash = T.type_alias do
               T.any(
                 Anthropic::Beta::Skills::VersionRetrieveParams,
-                Anthropic::Internal::AnyHash
-              )
-            end
-        end
-
-        class VersionRetrieveResponse < Anthropic::Internal::Type::BaseModel
-          # ISO 8601 timestamp of when the skill version was created.
-          sig { returns(String) }
-          attr_accessor :created_at
-
-          # Description of the skill version.
-          #
-          # This is extracted from the SKILL.md file in the skill upload.
-          sig { returns(String) }
-          attr_accessor :description
-
-          # Directory name of the skill version.
-          #
-          # This is the top-level directory name that was extracted from the uploaded files.
-          sig { returns(String) }
-          attr_accessor :directory
-
-          # Unique identifier for the skill version.
-          #
-          # The format and length of IDs may change over time.
-          sig { returns(String) }
-          attr_accessor :id
-
-          # Human-readable name of the skill version.
-          #
-          # This is extracted from the SKILL.md file in the skill upload.
-          sig { returns(String) }
-          attr_accessor :name
-
-          # Identifier for the skill that this version belongs to.
-          sig { returns(String) }
-          attr_accessor :skill_id
-
-          # Object type.
-          #
-          # For Skill Versions, this is always `"skill_version"`.
-          sig { returns(String) }
-          attr_accessor :type
-
-          # Version identifier for the skill.
-          #
-          # Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
-          sig { returns(String) }
-          attr_accessor :version
-
-          sig do
-            override
-              .returns({
-                id: String,
-                created_at: String,
-                description: String,
-                directory: String,
-                name: String,
-                skill_id: String,
-                type: String,
-                version: String
-              })
-          end
-          def to_hash; end
-
-          class << self
-            sig do
-              params(
-                id: String,
-                created_at: String,
-                description: String,
-                directory: String,
-                name: String,
-                skill_id: String,
-                type: String,
-                version: String
-              ).returns(T.attached_class)
-            end
-            def new(
-              id:, # Unique identifier for the skill version.
-                   # The format and length of IDs may change over time.
-              created_at:, # ISO 8601 timestamp of when the skill version was created.
-              description:, # Description of the skill version.
-                            # This is extracted from the SKILL.md file in the skill upload.
-              directory:, # Directory name of the skill version.
-                          # This is the top-level directory name that was extracted from the uploaded files.
-              name:, # Human-readable name of the skill version.
-                     # This is extracted from the SKILL.md file in the skill upload.
-              skill_id:, # Identifier for the skill that this version belongs to.
-              type:, # Object type.
-                     # For Skill Versions, this is always `"skill_version"`.
-              version: # Version identifier for the skill.
-                       # Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
-); end
-          end
-
-          OrHash = T.type_alias do
-              T.any(
-                Anthropic::Models::Beta::Skills::VersionRetrieveResponse,
                 Anthropic::Internal::AnyHash
               )
             end
@@ -83934,12 +85222,19 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :tunnel_id
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
               tunnel_id: String,
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -83950,12 +85245,14 @@ module Anthropic
             params(
               tunnel_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
           def new(
             tunnel_id:,
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -83987,12 +85284,19 @@ module Anthropic
         sig { returns(T.nilable(String)) }
         attr_accessor :display_name
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
               display_name: T.nilable(String),
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -84003,12 +85307,14 @@ module Anthropic
             params(
               display_name: T.nilable(String),
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
           def new(
             display_name: nil, # Optional human-readable name for the tunnel (1-255 characters).
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -84057,6 +85363,12 @@ module Anthropic
         sig { params(page: String).void }
         attr_writer :page
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
@@ -84065,6 +85377,7 @@ module Anthropic
               page: String,
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -84077,6 +85390,7 @@ module Anthropic
               limit: Integer,
               page: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
@@ -84085,6 +85399,7 @@ module Anthropic
             limit: nil, # Maximum number of tunnels to return per page. Defaults to 20, maximum 1000.
             page: nil, # Opaque pagination cursor from a previous `list_tunnels` response.
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -84115,12 +85430,19 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :tunnel_id
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
               tunnel_id: String,
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -84131,12 +85453,14 @@ module Anthropic
             params(
               tunnel_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
           def new(
             tunnel_id:,
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -84167,12 +85491,19 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :tunnel_id
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
               tunnel_id: String,
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -84183,12 +85514,14 @@ module Anthropic
             params(
               tunnel_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
           def new(
             tunnel_id:,
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -84223,6 +85556,12 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :tunnel_id
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
@@ -84230,6 +85569,7 @@ module Anthropic
               reason: T.nilable(String),
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -84241,6 +85581,7 @@ module Anthropic
               tunnel_id: String,
               reason: T.nilable(String),
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
@@ -84248,6 +85589,7 @@ module Anthropic
             tunnel_id:,
             reason: nil, # Optional free-text reason for the rotation, recorded for audit.
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -84356,6 +85698,12 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :tunnel_id
 
+          sig { returns(T.nilable(String)) }
+          attr_reader :workspace_id
+
+          sig { params(workspace_id: String).void }
+          attr_writer :workspace_id
+
           sig do
             override
               .returns({
@@ -84363,6 +85711,7 @@ module Anthropic
                 certificate_id: String,
                 betas:
                   T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions
               })
           end
@@ -84374,6 +85723,7 @@ module Anthropic
                 tunnel_id: String,
                 certificate_id: String,
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions::OrHash
               ).returns(T.attached_class)
             end
@@ -84381,6 +85731,7 @@ module Anthropic
               tunnel_id:,
               certificate_id:,
               betas: nil, # Optional header to specify the beta version(s) you want to use.
+              workspace_id: nil,
               request_options: {}
 ); end
           end
@@ -84416,6 +85767,12 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :tunnel_id
 
+          sig { returns(T.nilable(String)) }
+          attr_reader :workspace_id
+
+          sig { params(workspace_id: String).void }
+          attr_writer :workspace_id
+
           sig do
             override
               .returns({
@@ -84423,6 +85780,7 @@ module Anthropic
                 ca_certificate_pem: String,
                 betas:
                   T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions
               })
           end
@@ -84434,6 +85792,7 @@ module Anthropic
                 tunnel_id: String,
                 ca_certificate_pem: String,
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions::OrHash
               ).returns(T.attached_class)
             end
@@ -84442,6 +85801,7 @@ module Anthropic
               ca_certificate_pem:, # PEM-encoded X.509 CA certificate. Must contain exactly one certificate and no
                                    # private-key material. Maximum 8KB.
               betas: nil, # Optional header to specify the beta version(s) you want to use.
+              workspace_id: nil,
               request_options: {}
 ); end
           end
@@ -84493,6 +85853,12 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :tunnel_id
 
+          sig { returns(T.nilable(String)) }
+          attr_reader :workspace_id
+
+          sig { params(workspace_id: String).void }
+          attr_writer :workspace_id
+
           sig do
             override
               .returns({
@@ -84502,6 +85868,7 @@ module Anthropic
                 page: String,
                 betas:
                   T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions
               })
           end
@@ -84515,6 +85882,7 @@ module Anthropic
                 limit: Integer,
                 page: String,
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions::OrHash
               ).returns(T.attached_class)
             end
@@ -84524,6 +85892,7 @@ module Anthropic
               limit: nil, # Maximum number of certificates to return per page. Defaults to 20, maximum 1000.
               page: nil, # Opaque pagination cursor from a previous `list_tunnel_certificates` response.
               betas: nil, # Optional header to specify the beta version(s) you want to use.
+              workspace_id: nil,
               request_options: {}
 ); end
           end
@@ -84557,6 +85926,12 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :tunnel_id
 
+          sig { returns(T.nilable(String)) }
+          attr_reader :workspace_id
+
+          sig { params(workspace_id: String).void }
+          attr_writer :workspace_id
+
           sig do
             override
               .returns({
@@ -84564,6 +85939,7 @@ module Anthropic
                 certificate_id: String,
                 betas:
                   T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions
               })
           end
@@ -84575,6 +85951,7 @@ module Anthropic
                 tunnel_id: String,
                 certificate_id: String,
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions::OrHash
               ).returns(T.attached_class)
             end
@@ -84582,6 +85959,7 @@ module Anthropic
               tunnel_id:,
               certificate_id:,
               betas: nil, # Optional header to specify the beta version(s) you want to use.
+              workspace_id: nil,
               request_options: {}
 ); end
           end
@@ -84595,102 +85973,7 @@ module Anthropic
         end
       end
 
-      class UnwrapWebhookEvent < Anthropic::Internal::Type::BaseModel
-        # RFC 3339 timestamp when the event occurred.
-        sig { returns(Time) }
-        attr_accessor :created_at
-
-        sig { returns(Anthropic::Beta::BetaWebhookEventData::Variants) }
-        attr_accessor :data
-
-        # Unique event identifier for idempotency.
-        sig { returns(String) }
-        attr_accessor :id
-
-        # Object type. Always `event` for webhook payloads.
-        sig { returns(Symbol) }
-        attr_accessor :type
-
-        sig do
-          override
-            .returns({
-              id: String,
-              created_at: Time,
-              data: Anthropic::Beta::BetaWebhookEventData::Variants,
-              type: Symbol
-            })
-        end
-        def to_hash; end
-
-        class << self
-          sig do
-            params(
-              id: String,
-              created_at: Time,
-              data: T.any(
-                Anthropic::Beta::BetaWebhookSessionCreatedEventData::OrHash,
-                Anthropic::Beta::BetaWebhookSessionPendingEventData::OrHash,
-                Anthropic::Beta::BetaWebhookSessionRunningEventData::OrHash,
-                Anthropic::Beta::BetaWebhookSessionIdledEventData::OrHash,
-                Anthropic::Beta::BetaWebhookSessionRequiresActionEventData::OrHash,
-                Anthropic::Beta::BetaWebhookSessionArchivedEventData::OrHash,
-                Anthropic::Beta::BetaWebhookSessionDeletedEventData::OrHash,
-                Anthropic::Beta::BetaWebhookSessionStatusRescheduledEventData::OrHash,
-                Anthropic::Beta::BetaWebhookSessionStatusRunStartedEventData::OrHash,
-                Anthropic::Beta::BetaWebhookSessionStatusIdledEventData::OrHash,
-                Anthropic::Beta::BetaWebhookSessionStatusTerminatedEventData::OrHash,
-                Anthropic::Beta::BetaWebhookSessionThreadCreatedEventData::OrHash,
-                Anthropic::Beta::BetaWebhookSessionThreadIdledEventData::OrHash,
-                Anthropic::Beta::BetaWebhookSessionThreadTerminatedEventData::OrHash,
-                Anthropic::Beta::BetaWebhookSessionOutcomeEvaluationEndedEventData::OrHash,
-                Anthropic::Beta::BetaWebhookVaultCreatedEventData::OrHash,
-                Anthropic::Beta::BetaWebhookVaultArchivedEventData::OrHash,
-                Anthropic::Beta::BetaWebhookVaultDeletedEventData::OrHash,
-                Anthropic::Beta::BetaWebhookVaultCredentialCreatedEventData::OrHash,
-                Anthropic::Beta::BetaWebhookVaultCredentialArchivedEventData::OrHash,
-                Anthropic::Beta::BetaWebhookVaultCredentialDeletedEventData::OrHash,
-                Anthropic::Beta::BetaWebhookVaultCredentialRefreshFailedEventData::OrHash,
-                Anthropic::Beta::BetaWebhookSessionUpdatedEventData::OrHash,
-                Anthropic::Beta::BetaWebhookAgentCreatedEventData::OrHash,
-                Anthropic::Beta::BetaWebhookAgentArchivedEventData::OrHash,
-                Anthropic::Beta::BetaWebhookAgentDeletedEventData::OrHash,
-                Anthropic::Beta::BetaWebhookDeploymentPausedEventData::OrHash,
-                Anthropic::Beta::BetaWebhookDeploymentRunFailedEventData::OrHash,
-                Anthropic::Beta::BetaWebhookDeploymentCreatedEventData::OrHash,
-                Anthropic::Beta::BetaWebhookDeploymentUpdatedEventData::OrHash,
-                Anthropic::Beta::BetaWebhookDeploymentUnpausedEventData::OrHash,
-                Anthropic::Beta::BetaWebhookAgentUpdatedEventData::OrHash,
-                Anthropic::Beta::BetaWebhookDeploymentArchivedEventData::OrHash,
-                Anthropic::Beta::BetaWebhookDeploymentRunStartedEventData::OrHash,
-                Anthropic::Beta::BetaWebhookDeploymentDeletedEventData::OrHash,
-                Anthropic::Beta::BetaWebhookDeploymentRunSucceededEventData::OrHash,
-                Anthropic::Beta::BetaWebhookEnvironmentCreatedEventData::OrHash,
-                Anthropic::Beta::BetaWebhookEnvironmentUpdatedEventData::OrHash,
-                Anthropic::Beta::BetaWebhookEnvironmentArchivedEventData::OrHash,
-                Anthropic::Beta::BetaWebhookEnvironmentDeletedEventData::OrHash,
-                Anthropic::Beta::BetaWebhookMemoryStoreCreatedEventData::OrHash,
-                Anthropic::Beta::BetaWebhookMemoryStoreArchivedEventData::OrHash,
-                Anthropic::Beta::BetaWebhookMemoryStoreDeletedEventData::OrHash,
-                Anthropic::Beta::BetaWebhookSessionBudgetReachedEventData::OrHash
-              ),
-              type: Symbol
-            ).returns(T.attached_class)
-          end
-          def new(
-            id:, # Unique event identifier for idempotency.
-            created_at:, # RFC 3339 timestamp when the event occurred.
-            data:,
-            type: :event # Object type. Always `event` for webhook payloads.
-); end
-        end
-
-        OrHash = T.type_alias do
-            T.any(
-              Anthropic::Beta::UnwrapWebhookEvent,
-              Anthropic::Internal::AnyHash
-            )
-          end
-      end
+      UnwrapWebhookEvent = Anthropic::Models::Beta::BetaWebhookEvent
 
       class UserProfileCreateEnrollmentURLParams < Anthropic::Internal::Type::BaseModel
         extend Anthropic::Internal::Type::RequestParameters::Converter
@@ -84779,6 +86062,13 @@ module Anthropic
         sig { returns(T.nilable(String)) }
         attr_accessor :external_id
 
+        # A timestamp in RFC 3339 format
+        sig { returns(T.nilable(Time)) }
+        attr_reader :external_user_onboarded_at
+
+        sig { params(external_user_onboarded_at: Time).void }
+        attr_writer :external_user_onboarded_at
+
         # Free-form key-value data to attach to this user profile. Maximum 16 keys, with
         # keys up to 64 characters and values up to 512 characters. Values must be
         # non-empty strings.
@@ -84789,24 +86079,11 @@ module Anthropic
         attr_writer :metadata
 
         # Optional for all profiles. Real-world name of the entity this profile represents
-        # (company or individual); for a resold-to company (`relationship` `resold` /
-        # `access_type` `passthrough`), that company's name where known. Maximum 255
+        # (company or individual); for a company the platform resells Claude access to
+        # (`access_type` `passthrough`), that company's name where known. Maximum 255
         # characters.
         sig { returns(T.nilable(String)) }
         attr_accessor :name
-
-        # How the entity behind a user profile relates to the platform that owns the API
-        # key. `external`: an individual end-user of the platform. `resold`: a company the
-        # platform resells Claude access to. `internal`: the platform's own usage.
-        sig do
-          returns(T.nilable(
-              Anthropic::Beta::UserProfileCreateParams::Relationship::OrSymbol
-            ))
-        end
-        attr_reader :relationship
-
-        sig { params(relationship: Anthropic::Beta::UserProfileCreateParams::Relationship::OrSymbol).void }
-        attr_writer :relationship
 
         sig do
           override
@@ -84814,10 +86091,9 @@ module Anthropic
               access_type:
                 Anthropic::Beta::UserProfileCreateParams::AccessType::OrSymbol,
               external_id: T.nilable(String),
+              external_user_onboarded_at: Time,
               metadata: T::Hash[Symbol, String],
               name: T.nilable(String),
-              relationship:
-                Anthropic::Beta::UserProfileCreateParams::Relationship::OrSymbol,
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
               request_options: Anthropic::RequestOptions
@@ -84830,9 +86106,9 @@ module Anthropic
             params(
               access_type: Anthropic::Beta::UserProfileCreateParams::AccessType::OrSymbol,
               external_id: T.nilable(String),
+              external_user_onboarded_at: Time,
               metadata: T::Hash[Symbol, String],
               name: T.nilable(String),
-              relationship: Anthropic::Beta::UserProfileCreateParams::Relationship::OrSymbol,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
@@ -84845,16 +86121,14 @@ module Anthropic
                               # the resold-to company.
             external_id: nil, # Platform's own identifier for this user. Not enforced unique. Maximum 255
                               # characters.
+            external_user_onboarded_at: nil, # A timestamp in RFC 3339 format
             metadata: nil, # Free-form key-value data to attach to this user profile. Maximum 16 keys, with
                            # keys up to 64 characters and values up to 512 characters. Values must be
                            # non-empty strings.
             name: nil, # Optional for all profiles. Real-world name of the entity this profile represents
-                       # (company or individual); for a resold-to company (`relationship` `resold` /
-                       # `access_type` `passthrough`), that company's name where known. Maximum 255
+                       # (company or individual); for a company the platform resells Claude access to
+                       # (`access_type` `passthrough`), that company's name where known. Maximum 255
                        # characters.
-            relationship: nil, # How the entity behind a user profile relates to the platform that owns the API
-                               # key. `external`: an individual end-user of the platform. `resold`: a company the
-                               # platform resells Claude access to. `internal`: the platform's own usage.
             betas: nil, # Optional header to specify the beta version(s) you want to use.
             request_options: {}
 ); end
@@ -84904,47 +86178,6 @@ module Anthropic
               Anthropic::Internal::AnyHash
             )
           end
-
-        # How the entity behind a user profile relates to the platform that owns the API
-        # key. `external`: an individual end-user of the platform. `resold`: a company the
-        # platform resells Claude access to. `internal`: the platform's own usage.
-        module Relationship
-          extend Anthropic::Internal::Type::Enum
-
-          class << self
-            sig do
-              override
-                .returns(T::Array[
-                Anthropic::Beta::UserProfileCreateParams::Relationship::TaggedSymbol
-              ])
-            end
-            def values; end
-          end
-
-          EXTERNAL = T.let(
-              :external,
-              Anthropic::Beta::UserProfileCreateParams::Relationship::TaggedSymbol
-            )
-
-          INTERNAL = T.let(
-              :internal,
-              Anthropic::Beta::UserProfileCreateParams::Relationship::TaggedSymbol
-            )
-
-          OrSymbol = T.type_alias { T.any(Symbol, String) }
-
-          RESOLD = T.let(
-              :resold,
-              Anthropic::Beta::UserProfileCreateParams::Relationship::TaggedSymbol
-            )
-
-          TaggedSymbol = T.type_alias do
-              T.all(
-                Symbol,
-                Anthropic::Beta::UserProfileCreateParams::Relationship
-              )
-            end
-        end
       end
 
       class UserProfileListParams < Anthropic::Internal::Type::BaseModel
@@ -84976,6 +86209,13 @@ module Anthropic
         sig { params(order: Anthropic::Beta::UserProfileListParams::Order::OrSymbol).void }
         attr_writer :order
 
+        # Query parameter for order_by
+        sig { returns(T.nilable(Anthropic::Beta::UserProfileListParams::OrderBy::OrSymbol)) }
+        attr_reader :order_by
+
+        sig { params(order_by: Anthropic::Beta::UserProfileListParams::OrderBy::OrSymbol).void }
+        attr_writer :order_by
+
         # Query parameter for page
         sig { returns(T.nilable(String)) }
         attr_reader :page
@@ -84988,6 +86228,8 @@ module Anthropic
             .returns({
               limit: Integer,
               order: Anthropic::Beta::UserProfileListParams::Order::OrSymbol,
+              order_by:
+                Anthropic::Beta::UserProfileListParams::OrderBy::OrSymbol,
               page: String,
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
@@ -85001,6 +86243,7 @@ module Anthropic
             params(
               limit: Integer,
               order: Anthropic::Beta::UserProfileListParams::Order::OrSymbol,
+              order_by: Anthropic::Beta::UserProfileListParams::OrderBy::OrSymbol,
               page: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
               request_options: Anthropic::RequestOptions::OrHash
@@ -85009,6 +86252,7 @@ module Anthropic
           def new(
             limit: nil, # Query parameter for limit
             order: nil, # Query parameter for order
+            order_by: nil, # Query parameter for order_by
             page: nil, # Query parameter for page
             betas: nil, # Optional header to specify the beta version(s) you want to use.
             request_options: {}
@@ -85050,6 +86294,37 @@ module Anthropic
 
           TaggedSymbol = T.type_alias do
               T.all(Symbol, Anthropic::Beta::UserProfileListParams::Order)
+            end
+        end
+
+        # Query parameter for order_by
+        module OrderBy
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::UserProfileListParams::OrderBy::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          CREATED_AT = T.let(
+              :created_at,
+              Anthropic::Beta::UserProfileListParams::OrderBy::TaggedSymbol
+            )
+
+          NAME = T.let(
+              :name,
+              Anthropic::Beta::UserProfileListParams::OrderBy::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(Symbol, Anthropic::Beta::UserProfileListParams::OrderBy)
             end
         end
       end
@@ -85138,6 +86413,13 @@ module Anthropic
         sig { returns(T.nilable(String)) }
         attr_accessor :external_id
 
+        # A timestamp in RFC 3339 format
+        sig { returns(T.nilable(Time)) }
+        attr_reader :external_user_onboarded_at
+
+        sig { params(external_user_onboarded_at: Time).void }
+        attr_writer :external_user_onboarded_at
+
         # Key-value pairs to merge into the stored metadata. Keys provided overwrite
         # existing values. To remove a key, set its value to an empty string. Keys not
         # provided are left unchanged. Maximum 16 keys, with keys up to 64 characters and
@@ -85153,16 +86435,6 @@ module Anthropic
         sig { returns(T.nilable(String)) }
         attr_accessor :name
 
-        # How the entity behind a user profile relates to the platform that owns the API
-        # key. `external`: an individual end-user of the platform. `resold`: a company the
-        # platform resells Claude access to. `internal`: the platform's own usage.
-        sig do
-          returns(T.nilable(
-              Anthropic::Beta::UserProfileUpdateParams::Relationship::OrSymbol
-            ))
-        end
-        attr_accessor :relationship
-
         sig { returns(String) }
         attr_accessor :user_profile_id
 
@@ -85175,12 +86447,9 @@ module Anthropic
                   Anthropic::Beta::UserProfileUpdateParams::AccessType::OrSymbol
                 ),
               external_id: T.nilable(String),
+              external_user_onboarded_at: Time,
               metadata: T::Hash[Symbol, String],
               name: T.nilable(String),
-              relationship:
-                T.nilable(
-                  Anthropic::Beta::UserProfileUpdateParams::Relationship::OrSymbol
-                ),
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
               request_options: Anthropic::RequestOptions
@@ -85196,11 +86465,9 @@ module Anthropic
                 Anthropic::Beta::UserProfileUpdateParams::AccessType::OrSymbol
               ),
               external_id: T.nilable(String),
+              external_user_onboarded_at: Time,
               metadata: T::Hash[Symbol, String],
               name: T.nilable(String),
-              relationship: T.nilable(
-                Anthropic::Beta::UserProfileUpdateParams::Relationship::OrSymbol
-              ),
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
@@ -85214,15 +86481,13 @@ module Anthropic
                               # the resold-to company.
             external_id: nil, # If present, replaces the stored external_id. Omit to leave unchanged. Maximum
                               # 255 characters.
+            external_user_onboarded_at: nil, # A timestamp in RFC 3339 format
             metadata: nil, # Key-value pairs to merge into the stored metadata. Keys provided overwrite
                            # existing values. To remove a key, set its value to an empty string. Keys not
                            # provided are left unchanged. Maximum 16 keys, with keys up to 64 characters and
                            # values up to 512 characters.
             name: nil, # If present, replaces the stored name. Omit to leave unchanged. Maximum 255
                        # characters.
-            relationship: nil, # How the entity behind a user profile relates to the platform that owns the API
-                               # key. `external`: an individual end-user of the platform. `resold`: a company the
-                               # platform resells Claude access to. `internal`: the platform's own usage.
             betas: nil, # Optional header to specify the beta version(s) you want to use.
             request_options: {}
 ); end
@@ -85272,47 +86537,6 @@ module Anthropic
               Anthropic::Internal::AnyHash
             )
           end
-
-        # How the entity behind a user profile relates to the platform that owns the API
-        # key. `external`: an individual end-user of the platform. `resold`: a company the
-        # platform resells Claude access to. `internal`: the platform's own usage.
-        module Relationship
-          extend Anthropic::Internal::Type::Enum
-
-          class << self
-            sig do
-              override
-                .returns(T::Array[
-                Anthropic::Beta::UserProfileUpdateParams::Relationship::TaggedSymbol
-              ])
-            end
-            def values; end
-          end
-
-          EXTERNAL = T.let(
-              :external,
-              Anthropic::Beta::UserProfileUpdateParams::Relationship::TaggedSymbol
-            )
-
-          INTERNAL = T.let(
-              :internal,
-              Anthropic::Beta::UserProfileUpdateParams::Relationship::TaggedSymbol
-            )
-
-          OrSymbol = T.type_alias { T.any(Symbol, String) }
-
-          RESOLD = T.let(
-              :resold,
-              Anthropic::Beta::UserProfileUpdateParams::Relationship::TaggedSymbol
-            )
-
-          TaggedSymbol = T.type_alias do
-              T.all(
-                Symbol,
-                Anthropic::Beta::UserProfileUpdateParams::Relationship
-              )
-            end
-        end
       end
 
       class VaultArchiveParams < Anthropic::Internal::Type::BaseModel
@@ -85333,12 +86557,19 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :vault_id
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
               vault_id: String,
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -85349,12 +86580,14 @@ module Anthropic
             params(
               vault_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
           def new(
             vault_id:,
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -85394,6 +86627,12 @@ module Anthropic
         sig { params(metadata: T::Hash[Symbol, String]).void }
         attr_writer :metadata
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
@@ -85401,6 +86640,7 @@ module Anthropic
               metadata: T::Hash[Symbol, String],
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -85412,6 +86652,7 @@ module Anthropic
               display_name: String,
               metadata: T::Hash[Symbol, String],
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
@@ -85420,6 +86661,7 @@ module Anthropic
             metadata: nil, # Arbitrary key-value metadata to attach to the vault. Maximum 16 pairs, keys up
                            # to 64 chars, values up to 512 chars.
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -85450,12 +86692,19 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :vault_id
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
               vault_id: String,
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -85466,12 +86715,14 @@ module Anthropic
             params(
               vault_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
           def new(
             vault_id:,
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -85520,6 +86771,12 @@ module Anthropic
         sig { params(page: String).void }
         attr_writer :page
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
@@ -85528,6 +86785,7 @@ module Anthropic
               page: String,
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -85540,6 +86798,7 @@ module Anthropic
               limit: Integer,
               page: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
@@ -85548,6 +86807,7 @@ module Anthropic
             limit: nil, # Maximum number of vaults to return per page. Defaults to 20, maximum 100.
             page: nil, # Opaque pagination token from a previous `list_vaults` response.
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -85578,12 +86838,19 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :vault_id
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
               vault_id: String,
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -85594,12 +86861,14 @@ module Anthropic
             params(
               vault_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
           def new(
             vault_id:,
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -85639,6 +86908,12 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :vault_id
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
@@ -85647,6 +86922,7 @@ module Anthropic
               metadata: T.nilable(T::Hash[Symbol, T.nilable(String)]),
               betas:
                 T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -85659,6 +86935,7 @@ module Anthropic
               display_name: T.nilable(String),
               metadata: T.nilable(T::Hash[Symbol, T.nilable(String)]),
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
@@ -85668,6 +86945,7 @@ module Anthropic
             metadata: nil, # Metadata patch. Set a key to a string to upsert it, or to null to delete it.
                            # Omitted keys are preserved.
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -88674,6 +89952,12 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :vault_id
 
+          sig { returns(T.nilable(String)) }
+          attr_reader :workspace_id
+
+          sig { params(workspace_id: String).void }
+          attr_writer :workspace_id
+
           sig do
             override
               .returns({
@@ -88681,6 +89965,7 @@ module Anthropic
                 credential_id: String,
                 betas:
                   T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions
               })
           end
@@ -88692,6 +89977,7 @@ module Anthropic
                 vault_id: String,
                 credential_id: String,
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions::OrHash
               ).returns(T.attached_class)
             end
@@ -88699,6 +89985,7 @@ module Anthropic
               vault_id:,
               credential_id:,
               betas: nil, # Optional header to specify the beta version(s) you want to use.
+              workspace_id: nil,
               request_options: {}
 ); end
           end
@@ -88751,6 +90038,12 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :vault_id
 
+          sig { returns(T.nilable(String)) }
+          attr_reader :workspace_id
+
+          sig { params(workspace_id: String).void }
+          attr_writer :workspace_id
+
           sig do
             override
               .returns({
@@ -88765,6 +90058,7 @@ module Anthropic
                 metadata: T::Hash[Symbol, String],
                 betas:
                   T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions
               })
           end
@@ -88782,6 +90076,7 @@ module Anthropic
                 display_name: T.nilable(String),
                 metadata: T::Hash[Symbol, String],
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions::OrHash
               ).returns(T.attached_class)
             end
@@ -88792,6 +90087,7 @@ module Anthropic
               metadata: nil, # Arbitrary key-value metadata to attach to the credential. Maximum 16 pairs, keys
                              # up to 64 chars, values up to 512 chars.
               betas: nil, # Optional header to specify the beta version(s) you want to use.
+              workspace_id: nil,
               request_options: {}
 ); end
           end
@@ -88920,6 +90216,12 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :vault_id
 
+          sig { returns(T.nilable(String)) }
+          attr_reader :workspace_id
+
+          sig { params(workspace_id: String).void }
+          attr_writer :workspace_id
+
           sig do
             override
               .returns({
@@ -88927,6 +90229,7 @@ module Anthropic
                 credential_id: String,
                 betas:
                   T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions
               })
           end
@@ -88938,6 +90241,7 @@ module Anthropic
                 vault_id: String,
                 credential_id: String,
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions::OrHash
               ).returns(T.attached_class)
             end
@@ -88945,6 +90249,7 @@ module Anthropic
               vault_id:,
               credential_id:,
               betas: nil, # Optional header to specify the beta version(s) you want to use.
+              workspace_id: nil,
               request_options: {}
 ); end
           end
@@ -88996,6 +90301,12 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :vault_id
 
+          sig { returns(T.nilable(String)) }
+          attr_reader :workspace_id
+
+          sig { params(workspace_id: String).void }
+          attr_writer :workspace_id
+
           sig do
             override
               .returns({
@@ -89005,6 +90316,7 @@ module Anthropic
                 page: String,
                 betas:
                   T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions
               })
           end
@@ -89018,6 +90330,7 @@ module Anthropic
                 limit: Integer,
                 page: String,
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions::OrHash
               ).returns(T.attached_class)
             end
@@ -89027,6 +90340,7 @@ module Anthropic
               limit: nil, # Maximum number of credentials to return per page. Defaults to 20, maximum 100.
               page: nil, # Opaque pagination token from a previous `list_credentials` response.
               betas: nil, # Optional header to specify the beta version(s) you want to use.
+              workspace_id: nil,
               request_options: {}
 ); end
           end
@@ -89060,6 +90374,12 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :vault_id
 
+          sig { returns(T.nilable(String)) }
+          attr_reader :workspace_id
+
+          sig { params(workspace_id: String).void }
+          attr_writer :workspace_id
+
           sig do
             override
               .returns({
@@ -89067,6 +90387,7 @@ module Anthropic
                 credential_id: String,
                 betas:
                   T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions
               })
           end
@@ -89078,6 +90399,7 @@ module Anthropic
                 vault_id: String,
                 credential_id: String,
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions::OrHash
               ).returns(T.attached_class)
             end
@@ -89085,6 +90407,7 @@ module Anthropic
               vault_id:,
               credential_id:,
               betas: nil, # Optional header to specify the beta version(s) you want to use.
+              workspace_id: nil,
               request_options: {}
 ); end
           end
@@ -89118,6 +90441,12 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :vault_id
 
+          sig { returns(T.nilable(String)) }
+          attr_reader :workspace_id
+
+          sig { params(workspace_id: String).void }
+          attr_writer :workspace_id
+
           sig do
             override
               .returns({
@@ -89125,6 +90454,7 @@ module Anthropic
                 credential_id: String,
                 betas:
                   T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions
               })
           end
@@ -89136,6 +90466,7 @@ module Anthropic
                 vault_id: String,
                 credential_id: String,
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions::OrHash
               ).returns(T.attached_class)
             end
@@ -89143,6 +90474,7 @@ module Anthropic
               vault_id:,
               credential_id:,
               betas: nil, # Optional header to specify the beta version(s) you want to use.
+              workspace_id: nil,
               request_options: {}
 ); end
           end
@@ -89208,6 +90540,12 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :vault_id
 
+          sig { returns(T.nilable(String)) }
+          attr_reader :workspace_id
+
+          sig { params(workspace_id: String).void }
+          attr_writer :workspace_id
+
           sig do
             override
               .returns({
@@ -89223,6 +90561,7 @@ module Anthropic
                 metadata: T.nilable(T::Hash[Symbol, T.nilable(String)]),
                 betas:
                   T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions
               })
           end
@@ -89241,6 +90580,7 @@ module Anthropic
                 display_name: T.nilable(String),
                 metadata: T.nilable(T::Hash[Symbol, T.nilable(String)]),
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions::OrHash
               ).returns(T.attached_class)
             end
@@ -89252,6 +90592,7 @@ module Anthropic
               metadata: nil, # Metadata patch. Set a key to a string to upsert it, or to null to delete it.
                              # Omitted keys are preserved.
               betas: nil, # Optional header to specify the beta version(s) you want to use.
+              workspace_id: nil,
               request_options: {}
 ); end
           end
@@ -89356,6 +90697,26 @@ module Anthropic
               )
             end
         end
+      end
+
+      class WebhookParseUnverifiedParams < Anthropic::Internal::Type::BaseModel
+        extend Anthropic::Internal::Type::RequestParameters::Converter
+        include Anthropic::Internal::Type::RequestParameters
+
+        sig { override.returns({ request_options: Anthropic::RequestOptions }) }
+        def to_hash; end
+
+        class << self
+          sig { params(request_options: Anthropic::RequestOptions::OrHash).returns(T.attached_class) }
+          def new(request_options: {}); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::WebhookParseUnverifiedParams,
+              Anthropic::Internal::AnyHash
+            )
+          end
       end
 
       class WebhookUnwrapParams < Anthropic::Internal::Type::BaseModel
@@ -89608,6 +90969,7 @@ module Anthropic
     BetaComputerZoomConfig = Beta::BetaComputerZoomConfig
     BetaContainer = Beta::BetaContainer
     BetaContainerParams = Beta::BetaContainerParams
+    BetaContainerSkill = Beta::BetaContainerSkill
     BetaContainerUploadBlock = Beta::BetaContainerUploadBlock
     BetaContainerUploadBlockParam = Beta::BetaContainerUploadBlockParam
     BetaContentBlock = Beta::BetaContentBlock
@@ -89634,6 +90996,7 @@ module Anthropic
     end
 
     BetaDeletedFile = Beta::BetaDeletedFile
+    BetaDeletedSkill = Beta::BetaDeletedSkill
     BetaDiagnostics = Beta::BetaDiagnostics
     BetaDiagnosticsParam = Beta::BetaDiagnosticsParam
     BetaDirectCaller = Beta::BetaDirectCaller
@@ -89649,6 +91012,7 @@ module Anthropic
     BetaDreamSessionsInput = Beta::BetaDreamSessionsInput
     BetaDreamStatus = Beta::BetaDreamStatus
     BetaDreamUsage = Beta::BetaDreamUsage
+    BetaDreamingError = Beta::BetaDreamingError
     BetaEffortCapability = Beta::BetaEffortCapability
 
     BetaEncryptedCodeExecutionResultBlock = Beta::BetaEncryptedCodeExecutionResultBlock
@@ -90313,7 +91677,10 @@ module Anthropic
     BetaSignatureDelta = Beta::BetaSignatureDelta
     BetaSkill = Beta::BetaSkill
     BetaSkillParams = Beta::BetaSkillParams
+    BetaSkillSource = Beta::BetaSkillSource
     BetaStopReason = Beta::BetaStopReason
+    BetaSystemMessageOutputConfig = Beta::BetaSystemMessageOutputConfig
+    BetaTargetStoreHeldError = Beta::BetaTargetStoreHeldError
     BetaTextBlock = Beta::BetaTextBlock
     BetaTextBlockParam = Beta::BetaTextBlockParam
     BetaTextCitation = Beta::BetaTextCitation
@@ -90341,6 +91708,7 @@ module Anthropic
     BetaTextEditorCodeExecutionViewResultBlockParam = Beta::BetaTextEditorCodeExecutionViewResultBlockParam
 
     BetaThinkingBlock = Beta::BetaThinkingBlock
+    BetaThinkingBlockBinding = Beta::BetaThinkingBlockBinding
     BetaThinkingBlockParam = Beta::BetaThinkingBlockParam
     BetaThinkingCapability = Beta::BetaThinkingCapability
     BetaThinkingConfigAdaptive = Beta::BetaThinkingConfigAdaptive
@@ -90348,6 +91716,11 @@ module Anthropic
     BetaThinkingConfigEnabled = Beta::BetaThinkingConfigEnabled
     BetaThinkingConfigParam = Beta::BetaThinkingConfigParam
     BetaThinkingDelta = Beta::BetaThinkingDelta
+
+    BetaThinkingDroppedInputTransformation = Beta::BetaThinkingDroppedInputTransformation
+
+    BetaThinkingPrefixMismatchBehavior = Beta::BetaThinkingPrefixMismatchBehavior
+
     BetaThinkingTurns = Beta::BetaThinkingTurns
     BetaThinkingTypes = Beta::BetaThinkingTypes
     BetaTokenTaskBudget = Beta::BetaTokenTaskBudget
@@ -92008,16 +93381,6 @@ module Anthropic
     end
 
     class BrowserToolset20260801 < Anthropic::Internal::Type::BaseModel
-      sig do
-        returns(T.nilable(
-            T::Array[Anthropic::BrowserToolset20260801::AllowedCaller::OrSymbol]
-          ))
-      end
-      attr_reader :allowed_callers
-
-      sig { params(allowed_callers: T::Array[Anthropic::BrowserToolset20260801::AllowedCaller::OrSymbol]).void }
-      attr_writer :allowed_callers
-
       # Create a cache control breakpoint at this content block.
       sig { returns(T.nilable(Anthropic::CacheControlEphemeral)) }
       attr_reader :cache_control
@@ -92043,10 +93406,6 @@ module Anthropic
         override
           .returns({
             type: Symbol,
-            allowed_callers:
-              T::Array[
-                Anthropic::BrowserToolset20260801::AllowedCaller::OrSymbol
-              ],
             cache_control: T.nilable(Anthropic::CacheControlEphemeral),
             configs: T.nilable(Anthropic::BrowserToolsetConfigs)
           })
@@ -92059,16 +93418,12 @@ module Anthropic
         # disabled via `configs` removed from its schema.
         sig do
           params(
-            allowed_callers: T::Array[
-              Anthropic::BrowserToolset20260801::AllowedCaller::OrSymbol
-            ],
             cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash),
             configs: T.nilable(Anthropic::BrowserToolsetConfigs::OrHash),
             type: Symbol
           ).returns(T.attached_class)
         end
         def new(
-          allowed_callers: nil,
           cache_control: nil, # Create a cache control breakpoint at this content block.
           configs: nil, # Per-member configuration for `browser_toolset_20260801`: one optional field per
                         # member tool, keyed by the member name — the same name the member's `tool_use`
@@ -92077,53 +93432,6 @@ module Anthropic
                         # toolset version's complete member set.
           type: :browser_toolset_20260801
 ); end
-      end
-
-      # Specifies who can invoke a tool.
-      #
-      # Values: direct: The model can call this tool directly. code_execution_20250825:
-      # The tool can be called from the code execution environment (v1).
-      # code_execution_20260120: The tool can be called from the code execution
-      # environment (v2 with persistence). code_execution_20260521: The tool can be
-      # called from the code execution environment (v2 with persistence).
-      module AllowedCaller
-        extend Anthropic::Internal::Type::Enum
-
-        class << self
-          sig do
-            override
-              .returns(T::Array[
-              Anthropic::BrowserToolset20260801::AllowedCaller::TaggedSymbol
-            ])
-          end
-          def values; end
-        end
-
-        CODE_EXECUTION_20250825 = T.let(
-            :code_execution_20250825,
-            Anthropic::BrowserToolset20260801::AllowedCaller::TaggedSymbol
-          )
-
-        CODE_EXECUTION_20260120 = T.let(
-            :code_execution_20260120,
-            Anthropic::BrowserToolset20260801::AllowedCaller::TaggedSymbol
-          )
-
-        CODE_EXECUTION_20260521 = T.let(
-            :code_execution_20260521,
-            Anthropic::BrowserToolset20260801::AllowedCaller::TaggedSymbol
-          )
-
-        DIRECT = T.let(
-            :direct,
-            Anthropic::BrowserToolset20260801::AllowedCaller::TaggedSymbol
-          )
-
-        OrSymbol = T.type_alias { T.any(Symbol, String) }
-
-        TaggedSymbol = T.type_alias do
-            T.all(Symbol, Anthropic::BrowserToolset20260801::AllowedCaller)
-          end
       end
 
       OrHash = T.type_alias do
@@ -94780,6 +96088,12 @@ module Anthropic
       sig { params(top_p: Float).void }
       attr_writer :top_p
 
+      sig { returns(T.nilable(String)) }
+      attr_reader :workspace_id
+
+      sig { params(workspace_id: String).void }
+      attr_writer :workspace_id
+
       sig do
         override
           .returns({
@@ -94792,6 +96106,7 @@ module Anthropic
             top_k: Integer,
             top_p: Float,
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions
           })
       end
@@ -94809,6 +96124,7 @@ module Anthropic
             top_k: Integer,
             top_p: Float,
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(T.attached_class)
         end
@@ -94851,6 +96167,7 @@ module Anthropic
                       # reaches a particular probability specified by `top_p`.
                       # Recommended for advanced use cases only.
           betas: nil, # Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil,
           request_options: {}
 ); end
       end
@@ -95385,24 +96702,6 @@ module Anthropic
     end
 
     class ComputerToolset20260801 < Anthropic::Internal::Type::BaseModel
-      sig do
-        returns(T.nilable(
-            T::Array[
-              Anthropic::ComputerToolset20260801::AllowedCaller::OrSymbol
-            ]
-          ))
-      end
-      attr_reader :allowed_callers
-
-      sig do
-        params(
-          allowed_callers: T::Array[
-              Anthropic::ComputerToolset20260801::AllowedCaller::OrSymbol
-            ]
-        ).void
-      end
-      attr_writer :allowed_callers
-
       # Create a cache control breakpoint at this content block.
       sig { returns(T.nilable(Anthropic::CacheControlEphemeral)) }
       attr_reader :cache_control
@@ -95428,10 +96727,6 @@ module Anthropic
         override
           .returns({
             type: Symbol,
-            allowed_callers:
-              T::Array[
-                Anthropic::ComputerToolset20260801::AllowedCaller::OrSymbol
-              ],
             cache_control: T.nilable(Anthropic::CacheControlEphemeral),
             configs: T.nilable(Anthropic::ComputerToolsetConfigs)
           })
@@ -95447,16 +96742,12 @@ module Anthropic
         # `configs`, and `cache_control`; zoom is controlled via `configs.zoom.enabled`.
         sig do
           params(
-            allowed_callers: T::Array[
-              Anthropic::ComputerToolset20260801::AllowedCaller::OrSymbol
-            ],
             cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash),
             configs: T.nilable(Anthropic::ComputerToolsetConfigs::OrHash),
             type: Symbol
           ).returns(T.attached_class)
         end
         def new(
-          allowed_callers: nil,
           cache_control: nil, # Create a cache control breakpoint at this content block.
           configs: nil, # Per-member configuration for `computer_toolset_20260801`: one optional field per
                         # member tool, keyed by the member name — the same name the member's `tool_use`
@@ -95465,53 +96756,6 @@ module Anthropic
                         # toolset version's complete member set.
           type: :computer_toolset_20260801
 ); end
-      end
-
-      # Specifies who can invoke a tool.
-      #
-      # Values: direct: The model can call this tool directly. code_execution_20250825:
-      # The tool can be called from the code execution environment (v1).
-      # code_execution_20260120: The tool can be called from the code execution
-      # environment (v2 with persistence). code_execution_20260521: The tool can be
-      # called from the code execution environment (v2 with persistence).
-      module AllowedCaller
-        extend Anthropic::Internal::Type::Enum
-
-        class << self
-          sig do
-            override
-              .returns(T::Array[
-              Anthropic::ComputerToolset20260801::AllowedCaller::TaggedSymbol
-            ])
-          end
-          def values; end
-        end
-
-        CODE_EXECUTION_20250825 = T.let(
-            :code_execution_20250825,
-            Anthropic::ComputerToolset20260801::AllowedCaller::TaggedSymbol
-          )
-
-        CODE_EXECUTION_20260120 = T.let(
-            :code_execution_20260120,
-            Anthropic::ComputerToolset20260801::AllowedCaller::TaggedSymbol
-          )
-
-        CODE_EXECUTION_20260521 = T.let(
-            :code_execution_20260521,
-            Anthropic::ComputerToolset20260801::AllowedCaller::TaggedSymbol
-          )
-
-        DIRECT = T.let(
-            :direct,
-            Anthropic::ComputerToolset20260801::AllowedCaller::TaggedSymbol
-          )
-
-        OrSymbol = T.type_alias { T.any(Symbol, String) }
-
-        TaggedSymbol = T.type_alias do
-            T.all(Symbol, Anthropic::ComputerToolset20260801::AllowedCaller)
-          end
       end
 
       OrHash = T.type_alias do
@@ -97366,13 +98610,33 @@ module Anthropic
       sig { returns(String) }
       attr_accessor :file_id
 
-      sig { override.returns({ file_id: String, request_options: Anthropic::RequestOptions }) }
+      sig { returns(T.nilable(String)) }
+      attr_reader :workspace_id
+
+      sig { params(workspace_id: String).void }
+      attr_writer :workspace_id
+
+      sig do
+        override
+          .returns({
+            file_id: String,
+            workspace_id: String,
+            request_options: Anthropic::RequestOptions
+          })
+      end
       def to_hash; end
 
       class << self
-        sig { params(file_id: String, request_options: Anthropic::RequestOptions::OrHash).returns(T.attached_class) }
+        sig do
+          params(
+            file_id: String,
+            workspace_id: String,
+            request_options: Anthropic::RequestOptions::OrHash
+          ).returns(T.attached_class)
+        end
         def new(
           file_id:, # ID of the File.
+          workspace_id: nil,
           request_options: {}
 ); end
       end
@@ -97410,13 +98674,33 @@ module Anthropic
       sig { returns(String) }
       attr_accessor :file_id
 
-      sig { override.returns({ file_id: String, request_options: Anthropic::RequestOptions }) }
+      sig { returns(T.nilable(String)) }
+      attr_reader :workspace_id
+
+      sig { params(workspace_id: String).void }
+      attr_writer :workspace_id
+
+      sig do
+        override
+          .returns({
+            file_id: String,
+            workspace_id: String,
+            request_options: Anthropic::RequestOptions
+          })
+      end
       def to_hash; end
 
       class << self
-        sig { params(file_id: String, request_options: Anthropic::RequestOptions::OrHash).returns(T.attached_class) }
+        sig do
+          params(
+            file_id: String,
+            workspace_id: String,
+            request_options: Anthropic::RequestOptions::OrHash
+          ).returns(T.attached_class)
+        end
         def new(
           file_id:, # ID of the File.
+          workspace_id: nil,
           request_options: {}
 ); end
       end
@@ -97472,12 +98756,19 @@ module Anthropic
       sig { returns(T.nilable(String)) }
       attr_accessor :page
 
+      sig { returns(T.nilable(String)) }
+      attr_reader :workspace_id
+
+      sig { params(workspace_id: String).void }
+      attr_writer :workspace_id
+
       sig do
         override
           .returns({
             ids: T.nilable(T::Array[String]),
             limit: Integer,
             page: T.nilable(String),
+            workspace_id: String,
             request_options: Anthropic::RequestOptions
           })
       end
@@ -97489,6 +98780,7 @@ module Anthropic
             ids: T.nilable(T::Array[String]),
             limit: Integer,
             page: T.nilable(String),
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(T.attached_class)
         end
@@ -97502,6 +98794,7 @@ module Anthropic
                       # Defaults to `20`. Ranges from `1` to `1000`.
           page: nil, # Opaque page cursor returned in a prior list response's `next_page`. Prefixed
                      # `page_`.
+          workspace_id: nil,
           request_options: {}
 ); end
       end
@@ -97610,13 +98903,33 @@ module Anthropic
       sig { returns(String) }
       attr_accessor :file_id
 
-      sig { override.returns({ file_id: String, request_options: Anthropic::RequestOptions }) }
+      sig { returns(T.nilable(String)) }
+      attr_reader :workspace_id
+
+      sig { params(workspace_id: String).void }
+      attr_writer :workspace_id
+
+      sig do
+        override
+          .returns({
+            file_id: String,
+            workspace_id: String,
+            request_options: Anthropic::RequestOptions
+          })
+      end
       def to_hash; end
 
       class << self
-        sig { params(file_id: String, request_options: Anthropic::RequestOptions::OrHash).returns(T.attached_class) }
+        sig do
+          params(
+            file_id: String,
+            workspace_id: String,
+            request_options: Anthropic::RequestOptions::OrHash
+          ).returns(T.attached_class)
+        end
         def new(
           file_id:, # ID of the File.
+          workspace_id: nil,
           request_options: {}
 ); end
       end
@@ -97641,15 +98954,24 @@ module Anthropic
       sig { params(expires_in_seconds: Integer).void }
       attr_writer :expires_in_seconds
 
-      # The file to upload
+      # The file to upload. Only the final path component of the part's `filename` is
+      # kept; an absent or empty `filename` is replaced with `unnamed` plus the
+      # extension for the file's stored `mime_type`, when known.
       sig { returns(Anthropic::Internal::FileInput) }
       attr_accessor :file
+
+      sig { returns(T.nilable(String)) }
+      attr_reader :workspace_id
+
+      sig { params(workspace_id: String).void }
+      attr_writer :workspace_id
 
       sig do
         override
           .returns({
             file: Anthropic::Internal::FileInput,
             expires_in_seconds: Integer,
+            workspace_id: String,
             request_options: Anthropic::RequestOptions
           })
       end
@@ -97660,13 +98982,17 @@ module Anthropic
           params(
             file: Anthropic::Internal::FileInput,
             expires_in_seconds: Integer,
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(T.attached_class)
         end
         def new(
-          file:, # The file to upload
+          file:, # The file to upload. Only the final path component of the part's `filename` is
+                 # kept; an absent or empty `filename` is replaced with `unnamed` plus the
+                 # extension for the file's stored `mime_type`, when known.
           expires_in_seconds: nil, # Seconds from upload until the file expires and its bytes become permanently
                                    # unavailable. Must be between 3600 (one hour) and 7776000 (ninety days).
+          workspace_id: nil,
           request_options: {}
 ); end
       end
@@ -98677,6 +100003,12 @@ module Anthropic
       sig { params(user_profile_id: String).void }
       attr_writer :user_profile_id
 
+      sig { returns(T.nilable(String)) }
+      attr_reader :workspace_id
+
+      sig { params(workspace_id: String).void }
+      attr_writer :workspace_id
+
       sig do
         override
           .returns({
@@ -98725,6 +100057,7 @@ module Anthropic
                 )
               ],
             user_profile_id: String,
+            workspace_id: String,
             request_options: Anthropic::RequestOptions
           })
       end
@@ -98775,6 +100108,7 @@ module Anthropic
               )
             ],
             user_profile_id: String,
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(T.attached_class)
         end
@@ -98916,6 +100250,7 @@ module Anthropic
                       # for more details.
           user_profile_id: nil, # The user profile ID to attribute this request to. Use when acting on behalf of a
                                 # party other than your organization. Requires the `user-profiles` beta header.
+          workspace_id: nil,
           request_options: {}
 ); end
       end
@@ -99393,6 +100728,12 @@ module Anthropic
       sig { params(user_profile_id: String).void }
       attr_writer :user_profile_id
 
+      sig { returns(T.nilable(String)) }
+      attr_reader :workspace_id
+
+      sig { params(workspace_id: String).void }
+      attr_writer :workspace_id
+
       sig do
         override
           .returns({
@@ -99450,6 +100791,7 @@ module Anthropic
             top_k: Integer,
             top_p: Float,
             user_profile_id: String,
+            workspace_id: String,
             request_options: Anthropic::RequestOptions
           })
       end
@@ -99509,6 +100851,7 @@ module Anthropic
             top_k: Integer,
             top_p: Float,
             user_profile_id: String,
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(T.attached_class)
         end
@@ -99690,6 +101033,7 @@ module Anthropic
                       # Recommended for advanced use cases only.
           user_profile_id: nil, # The user profile ID to attribute this request to. Use when acting on behalf of a
                                 # party other than your organization. Requires the `user-profiles` beta header.
+          workspace_id: nil,
           request_options: {}
 ); end
       end
@@ -99942,10 +101286,17 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :message_batch_id
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
               message_batch_id: String,
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -99955,11 +101306,13 @@ module Anthropic
           sig do
             params(
               message_batch_id: String,
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
           def new(
             message_batch_id:, # ID of the Message Batch.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -99991,12 +101344,19 @@ module Anthropic
         sig { params(user_profile_id: String).void }
         attr_writer :user_profile_id
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
               requests:
                 T::Array[Anthropic::Messages::BatchCreateParams::Request],
               user_profile_id: String,
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -100007,6 +101367,7 @@ module Anthropic
             params(
               requests: T::Array[Anthropic::Messages::BatchCreateParams::Request::OrHash],
               user_profile_id: String,
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
@@ -100017,6 +101378,7 @@ module Anthropic
                                   # on behalf of a party other than your organization. Requires the `user-profiles`
                                   # beta header. Applies to every request in the batch; an individual request whose
                                   # `user_profile_id` body field conflicts with this header is errored.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -100891,10 +102253,17 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :message_batch_id
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
               message_batch_id: String,
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -100904,11 +102273,13 @@ module Anthropic
           sig do
             params(
               message_batch_id: String,
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
           def new(
             message_batch_id:, # ID of the Message Batch.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -100950,12 +102321,19 @@ module Anthropic
         sig { params(limit: Integer).void }
         attr_writer :limit
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
               after_id: String,
               before_id: String,
               limit: Integer,
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -100967,6 +102345,7 @@ module Anthropic
               after_id: String,
               before_id: String,
               limit: Integer,
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
@@ -100977,6 +102356,7 @@ module Anthropic
                             # page of results immediately before this object.
             limit: nil, # Number of items to return per page.
                         # Defaults to `20`. Ranges from `1` to `1000`.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -100997,10 +102377,17 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :message_batch_id
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
               message_batch_id: String,
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -101010,11 +102397,13 @@ module Anthropic
           sig do
             params(
               message_batch_id: String,
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
           def new(
             message_batch_id:, # ID of the Message Batch.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -101035,10 +102424,17 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :message_batch_id
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
               message_batch_id: String,
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -101048,11 +102444,13 @@ module Anthropic
           sig do
             params(
               message_batch_id: String,
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
           def new(
             message_batch_id:, # ID of the Message Batch.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -101605,6 +103003,9 @@ module Anthropic
       # Next generation of intelligence for the hardest knowledge work and coding problems
       CLAUDE_FABLE_5 = T.let(:"claude-fable-5", Anthropic::Model::TaggedSymbol)
 
+      # Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
+      CLAUDE_FABLE_5_1 = T.let(:"claude-fable-5-1", Anthropic::Model::TaggedSymbol)
+
       # Fastest model with near-frontier intelligence
       CLAUDE_HAIKU_4_5 = T.let(:"claude-haiku-4-5", Anthropic::Model::TaggedSymbol)
 
@@ -101613,6 +103014,9 @@ module Anthropic
 
       # Most capable model for cybersecurity and biology research
       CLAUDE_MYTHOS_5 = T.let(:"claude-mythos-5", Anthropic::Model::TaggedSymbol)
+
+      # Our most capable model for cybersecurity and biology research, available through trusted access programs
+      CLAUDE_MYTHOS_5_1 = T.let(:"claude-mythos-5-1", Anthropic::Model::TaggedSymbol)
 
       # New class of intelligence, strongest in coding and cybersecurity
       CLAUDE_MYTHOS_PREVIEW = T.let(:"claude-mythos-preview", Anthropic::Model::TaggedSymbol)
@@ -101880,6 +103284,12 @@ module Anthropic
       sig { params(limit: Integer).void }
       attr_writer :limit
 
+      sig { returns(T.nilable(String)) }
+      attr_reader :workspace_id
+
+      sig { params(workspace_id: String).void }
+      attr_writer :workspace_id
+
       sig do
         override
           .returns({
@@ -101887,6 +103297,7 @@ module Anthropic
             before_id: String,
             limit: Integer,
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions
           })
       end
@@ -101899,6 +103310,7 @@ module Anthropic
             before_id: String,
             limit: Integer,
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(T.attached_class)
         end
@@ -101910,6 +103322,7 @@ module Anthropic
           limit: nil, # Number of items to return per page.
                       # Defaults to `20`. Ranges from `1` to `1000`.
           betas: nil, # Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil,
           request_options: {}
 ); end
       end
@@ -101934,11 +103347,18 @@ module Anthropic
       sig { returns(String) }
       attr_accessor :model_id
 
+      sig { returns(T.nilable(String)) }
+      attr_reader :workspace_id
+
+      sig { params(workspace_id: String).void }
+      attr_writer :workspace_id
+
       sig do
         override
           .returns({
             model_id: String,
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions
           })
       end
@@ -101949,12 +103369,14 @@ module Anthropic
           params(
             model_id: String,
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(T.attached_class)
         end
         def new(
           model_id:, # Model identifier or alias.
           betas: nil, # Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil,
           request_options: {}
 ); end
       end
@@ -103674,11 +105096,18 @@ module Anthropic
       sig { returns(T::Array[Anthropic::Internal::FileInput]) }
       attr_accessor :files
 
+      sig { returns(T.nilable(String)) }
+      attr_reader :workspace_id
+
+      sig { params(workspace_id: String).void }
+      attr_writer :workspace_id
+
       sig do
         override
           .returns({
             files: T::Array[Anthropic::Internal::FileInput],
             display_name: T.nilable(String),
+            workspace_id: String,
             request_options: Anthropic::RequestOptions
           })
       end
@@ -103689,6 +105118,7 @@ module Anthropic
           params(
             files: T::Array[Anthropic::Internal::FileInput],
             display_name: T.nilable(String),
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(T.attached_class)
         end
@@ -103699,6 +105129,7 @@ module Anthropic
           display_name: nil, # Human-readable, single-line label for the Skill. Maximum 255 characters. Always
                              # set: derived from the SKILL.md frontmatter `name` when omitted at creation. Not
                              # unique.
+          workspace_id: nil,
           request_options: {}
 ); end
       end
@@ -103718,14 +105149,34 @@ module Anthropic
       sig { returns(String) }
       attr_accessor :skill_id
 
-      sig { override.returns({ skill_id: String, request_options: Anthropic::RequestOptions }) }
+      sig { returns(T.nilable(String)) }
+      attr_reader :workspace_id
+
+      sig { params(workspace_id: String).void }
+      attr_writer :workspace_id
+
+      sig do
+        override
+          .returns({
+            skill_id: String,
+            workspace_id: String,
+            request_options: Anthropic::RequestOptions
+          })
+      end
       def to_hash; end
 
       class << self
-        sig { params(skill_id: String, request_options: Anthropic::RequestOptions::OrHash).returns(T.attached_class) }
+        sig do
+          params(
+            skill_id: String,
+            workspace_id: String,
+            request_options: Anthropic::RequestOptions::OrHash
+          ).returns(T.attached_class)
+        end
         def new(
           skill_id:, # Unique identifier for the skill.
                      # The format and length of IDs may change over time.
+          workspace_id: nil,
           request_options: {}
 ); end
       end
@@ -103764,12 +105215,19 @@ module Anthropic
       sig { returns(T.nilable(String)) }
       attr_accessor :source
 
+      sig { returns(T.nilable(String)) }
+      attr_reader :workspace_id
+
+      sig { params(workspace_id: String).void }
+      attr_writer :workspace_id
+
       sig do
         override
           .returns({
             limit: Integer,
             page: T.nilable(String),
             source: T.nilable(String),
+            workspace_id: String,
             request_options: Anthropic::RequestOptions
           })
       end
@@ -103781,6 +105239,7 @@ module Anthropic
             limit: Integer,
             page: T.nilable(String),
             source: T.nilable(String),
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(T.attached_class)
         end
@@ -103794,6 +105253,7 @@ module Anthropic
                        # If provided, only skills from the specified source will be returned:
                        # - `"custom"`: only return user-created skills
                        # - `"anthropic"`: only return Anthropic-created skills
+          workspace_id: nil,
           request_options: {}
 ); end
       end
@@ -103877,14 +105337,34 @@ module Anthropic
       sig { returns(String) }
       attr_accessor :skill_id
 
-      sig { override.returns({ skill_id: String, request_options: Anthropic::RequestOptions }) }
+      sig { returns(T.nilable(String)) }
+      attr_reader :workspace_id
+
+      sig { params(workspace_id: String).void }
+      attr_writer :workspace_id
+
+      sig do
+        override
+          .returns({
+            skill_id: String,
+            workspace_id: String,
+            request_options: Anthropic::RequestOptions
+          })
+      end
       def to_hash; end
 
       class << self
-        sig { params(skill_id: String, request_options: Anthropic::RequestOptions::OrHash).returns(T.attached_class) }
+        sig do
+          params(
+            skill_id: String,
+            workspace_id: String,
+            request_options: Anthropic::RequestOptions::OrHash
+          ).returns(T.attached_class)
+        end
         def new(
           skill_id:, # Unique identifier for the skill.
                      # The format and length of IDs may change over time.
+          workspace_id: nil,
           request_options: {}
 ); end
       end
@@ -104087,11 +105567,18 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :skill_id
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
               skill_id: String,
               files: T::Array[Anthropic::Internal::FileInput],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -104102,6 +105589,7 @@ module Anthropic
             params(
               skill_id: String,
               files: T::Array[Anthropic::Internal::FileInput],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
@@ -104111,6 +105599,7 @@ module Anthropic
             files:, # Files to upload for the skill.
                     # All files must be in the same top-level directory and must include a SKILL.md
                     # file at the root of that directory.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -104140,11 +105629,18 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :version
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
               skill_id: String,
               version: String,
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -104155,6 +105651,7 @@ module Anthropic
             params(
               skill_id: String,
               version: String,
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
@@ -104164,6 +105661,7 @@ module Anthropic
             version:, # Identifies the skill version by its version ID.
                       # Requests carrying the `skills-2025-10-02` beta header address versions by their
                       # Unix epoch timestamp instead (e.g., "1759178010641129").
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -104196,12 +105694,19 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :skill_id
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
               skill_id: String,
               limit: T.nilable(Integer),
               page: T.nilable(String),
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -104213,6 +105718,7 @@ module Anthropic
               skill_id: String,
               limit: T.nilable(Integer),
               page: T.nilable(String),
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
@@ -104222,6 +105728,7 @@ module Anthropic
             limit: nil, # Number of results to return per page.
                         # Ranges from `1` to `1000`. Defaults to `20`.
             page: nil, # Optionally set to the `next_page` token from the previous response.
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -104252,11 +105759,18 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :version
 
+        sig { returns(T.nilable(String)) }
+        attr_reader :workspace_id
+
+        sig { params(workspace_id: String).void }
+        attr_writer :workspace_id
+
         sig do
           override
             .returns({
               skill_id: String,
               version: String,
+              workspace_id: String,
               request_options: Anthropic::RequestOptions
             })
         end
@@ -104267,6 +105781,7 @@ module Anthropic
             params(
               skill_id: String,
               version: String,
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(T.attached_class)
           end
@@ -104277,6 +105792,7 @@ module Anthropic
                       # skill's most recent version.
                       # Requests carrying the `skills-2025-10-02` beta header address versions by their
                       # Unix epoch timestamp instead (e.g., "1759178010641129").
+            workspace_id: nil,
             request_options: {}
 ); end
         end
@@ -110819,12 +112335,18 @@ module Anthropic
           params(
             agent_id: String,
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Beta::BetaManagedAgentsAgent)
         end
         def archive(
           agent_id, # Path parameter agent_id
           betas: nil, # Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
+                             # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -110860,6 +112382,7 @@ module Anthropic
                 )
               ],
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Beta::BetaManagedAgentsAgent)
         end
@@ -110884,6 +112407,11 @@ module Anthropic
           tools: nil, # Body param: Tool configurations available to the agent. Maximum of 128 tools
                       # across all toolsets allowed.
           betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                             # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -110896,6 +112424,7 @@ module Anthropic
             limit: Integer,
             page: String,
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Internal::PageCursor[
               Anthropic::Beta::BetaManagedAgentsAgent
@@ -110908,6 +112437,11 @@ module Anthropic
           limit: nil, # Query param: Maximum results per page. Default 20, maximum 100.
           page: nil, # Query param: Opaque pagination cursor from a previous response.
           betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                             # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -110917,6 +112451,7 @@ module Anthropic
             agent_id: String,
             version: Integer,
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Beta::BetaManagedAgentsAgent)
         end
@@ -110925,6 +112460,11 @@ module Anthropic
           version: nil, # Query param: Agent version. Omit for the most recent version. Must be at least 1
                         # if specified.
           betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                             # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -110968,6 +112508,7 @@ module Anthropic
               ),
             version: Integer,
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Beta::BetaManagedAgentsAgent)
         end
@@ -111002,6 +112543,11 @@ module Anthropic
                         # specified. When supplied, the request fails if it does not match the server's
                         # current version; omit to apply the update unconditionally.
           betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                             # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -111019,6 +112565,7 @@ module Anthropic
               limit: Integer,
               page: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(Anthropic::Internal::PageCursor[
                 Anthropic::Beta::BetaManagedAgentsAgent
@@ -111029,6 +112576,11 @@ module Anthropic
             limit: nil, # Query param: Maximum results per page. Default 20, maximum 100.
             page: nil, # Query param: Opaque pagination cursor.
             betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                               # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                               # Only needed for credentials that can act on more than one Workspace. A
+                               # credential that belongs to a specific Workspace may omit it; if sent, it must
+                               # match that Workspace.
             request_options: {}
 ); end
 
@@ -111054,6 +112606,7 @@ module Anthropic
             page: String,
             trigger_type: Anthropic::Beta::BetaManagedAgentsTriggerType::OrSymbol,
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Internal::PageCursor[
               Anthropic::Beta::BetaManagedAgentsDeploymentRun
@@ -111065,15 +112618,20 @@ module Anthropic
           created_at_lt: nil, # Query param: Return runs created strictly before this time (exclusive).
           created_at_lte: nil, # Query param: Return runs created at or before this time (inclusive).
           deployment_id: nil, # Query param: Filter to a specific deployment. Omit to list across all
-                              # deployments in the workspace. Filtering by a non-existent deployment_id returns
-                              # 200 with empty data.
-          has_error: nil, # Query param: Filter: true for runs with non-null error, false for runs with
-                          # non-null session_id. Omit for all.
+                              # deployments in the workspace. Filtering by a non-existent `deployment_id`
+                              # returns 200 with empty data.
+          has_error: nil, # Query param: Filter: true for runs with non-null `error`, false for runs with
+                          # non-null `session_id`. Omit for all.
           limit: nil, # Query param: Maximum results per page. Default 20, maximum 1000.
-          page: nil, # Query param: Opaque pagination cursor. Pass next_page from the previous
+          page: nil, # Query param: Opaque pagination cursor. Pass `next_page` from the previous
                      # response. Invalid or expired cursors return 400.
           trigger_type: nil, # Query param: Filter runs by what triggered them. Omit to return all runs.
           betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                             # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -111082,12 +112640,18 @@ module Anthropic
           params(
             deployment_run_id: String,
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Beta::BetaManagedAgentsDeploymentRun)
         end
         def retrieve(
           deployment_run_id, # Path parameter deployment_run_id
           betas: nil, # Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
+                             # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -111104,12 +112668,18 @@ module Anthropic
           params(
             deployment_id: String,
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Beta::BetaManagedAgentsDeployment)
         end
         def archive(
           deployment_id, # Path parameter deployment_id
           betas: nil, # Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
+                             # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -111144,6 +112714,7 @@ module Anthropic
               ),
             vault_ids: T::Array[String],
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Beta::BetaManagedAgentsDeployment)
         end
@@ -111168,6 +112739,11 @@ module Anthropic
           vault_ids: nil, # Body param: Vault IDs for stored credentials the agent can use during sessions
                           # created from this deployment. Maximum 50.
           betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                             # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -111182,6 +112758,7 @@ module Anthropic
             page: String,
             status: Anthropic::Beta::BetaManagedAgentsDeploymentStatus::OrSymbol,
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Internal::PageCursor[
               Anthropic::Beta::BetaManagedAgentsDeployment
@@ -111195,9 +112772,15 @@ module Anthropic
                                  # archived).
           limit: nil, # Query param: Maximum results per page. Default 20, maximum 100.
           page: nil, # Query param: Opaque pagination cursor.
-          status: nil, # Query param: Filter by status: active or paused. Omit for both. To include
-                       # archived deployments, use include_archived instead; the two cannot be combined.
+          status: nil, # Query param: Filter by status: `active` or `paused`. Omit for both. To include
+                       # archived deployments, use `include_archived` instead; the two cannot be
+                       # combined.
           betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                             # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -111206,12 +112789,18 @@ module Anthropic
           params(
             deployment_id: String,
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Beta::BetaManagedAgentsDeployment)
         end
         def pause(
           deployment_id, # Path parameter deployment_id
           betas: nil, # Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
+                             # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -111220,12 +112809,18 @@ module Anthropic
           params(
             deployment_id: String,
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Beta::BetaManagedAgentsDeployment)
         end
         def retrieve(
           deployment_id, # Path parameter deployment_id
           betas: nil, # Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
+                             # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -111234,12 +112829,18 @@ module Anthropic
           params(
             deployment_id: String,
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Beta::BetaManagedAgentsDeploymentRun)
         end
         def run(
           deployment_id, # Path parameter deployment_id
           betas: nil, # Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
+                             # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -111248,12 +112849,18 @@ module Anthropic
           params(
             deployment_id: String,
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Beta::BetaManagedAgentsDeployment)
         end
         def unpause(
           deployment_id, # Path parameter deployment_id
           betas: nil, # Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
+                             # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -111291,6 +112898,7 @@ module Anthropic
               ),
             vault_ids: T.nilable(T::Array[String]),
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Beta::BetaManagedAgentsDeployment)
         end
@@ -111318,6 +112926,11 @@ module Anthropic
           vault_ids: nil, # Body param: Vault IDs. Full replacement. Omit to preserve; send empty array or
                           # null to clear. Maximum 50.
           betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                             # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -111334,12 +112947,18 @@ module Anthropic
           params(
             dream_id: String,
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Beta::BetaDream)
         end
         def archive(
           dream_id, # Path parameter dream_id
           betas: nil, # Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
+                             # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -111348,12 +112967,18 @@ module Anthropic
           params(
             dream_id: String,
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Beta::BetaDream)
         end
         def cancel(
           dream_id, # Path parameter dream_id
           betas: nil, # Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
+                             # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -111373,6 +112998,7 @@ module Anthropic
                 Anthropic::Beta::BetaOutputBehaviorUpdateExisting::OrHash
               ),
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Beta::BetaDream)
         end
@@ -111384,6 +113010,11 @@ module Anthropic
                                 # as a clone of the memory_store input and writes the consolidated memories into
                                 # it. The input store is never mutated.
           betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                             # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -111397,6 +113028,7 @@ module Anthropic
             page: String,
             statuses: T::Array[Anthropic::Beta::BetaDreamStatus::OrSymbol],
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Internal::PageCursor[Anthropic::Beta::BetaDream])
         end
@@ -111411,6 +113043,11 @@ module Anthropic
           statuses: nil, # Query param: Filter by lifecycle status. Repeat the parameter to match any of
                          # multiple statuses. Empty applies no status filter.
           betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                             # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -111419,12 +113056,18 @@ module Anthropic
           params(
             dream_id: String,
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Beta::BetaDream)
         end
         def retrieve(
           dream_id, # Path parameter dream_id
           betas: nil, # Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
+                             # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -111445,12 +113088,18 @@ module Anthropic
           params(
             environment_id: String,
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Beta::BetaEnvironment)
         end
         def archive(
           environment_id,
           betas: nil, # Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
+                             # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -111470,6 +113119,7 @@ module Anthropic
                 Anthropic::Beta::EnvironmentCreateParams::Scope::OrSymbol
               ),
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Beta::BetaEnvironment)
         end
@@ -111483,6 +113133,11 @@ module Anthropic
                       # owning account only. Only applicable for self-hosted environments. If not
                       # specified, defaults based on organization type.
           betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                             # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -111491,12 +113146,18 @@ module Anthropic
           params(
             environment_id: String,
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Beta::BetaEnvironmentDeleteResponse)
         end
         def delete(
           environment_id,
           betas: nil, # Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
+                             # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -111507,6 +113168,7 @@ module Anthropic
             limit: Integer,
             page: T.nilable(String),
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Internal::PageCursor[Anthropic::Beta::BetaEnvironment])
         end
@@ -111516,6 +113178,11 @@ module Anthropic
           page: nil, # Query param: Opaque cursor from previous response for pagination. Pass the
                      # `next_page` value from the previous response.
           betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                             # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -111524,12 +113191,18 @@ module Anthropic
           params(
             environment_id: String,
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Beta::BetaEnvironment)
         end
         def retrieve(
           environment_id,
           betas: nil, # Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
+                             # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -111550,6 +113223,7 @@ module Anthropic
                 Anthropic::Beta::EnvironmentUpdateParams::Scope::OrSymbol
               ),
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Beta::BetaEnvironment)
         end
@@ -111565,6 +113239,11 @@ module Anthropic
                       # environment visible to all accounts. 'account' restricts visibility to the
                       # owning account only.
           betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                             # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -111691,6 +113370,7 @@ module Anthropic
               work_id: String,
               environment_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(Anthropic::Beta::Environments::BetaSelfHostedWork)
           end
@@ -111698,6 +113378,11 @@ module Anthropic
             work_id, # Path param
             environment_id:, # Path param
             betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                               # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                               # Only needed for credentials that can act on more than one Workspace. A
+                               # credential that belongs to a specific Workspace may omit it; if sent, it must
+                               # match that Workspace.
             request_options: {}
 ); end
 
@@ -111706,12 +113391,18 @@ module Anthropic
             params(
               environment_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(Anthropic::Beta::Environments::BetaSelfHostedWorkQueueStats)
           end
           def stats(
             environment_id,
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
+                               # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                               # Only needed for credentials that can act on more than one Workspace. A
+                               # credential that belongs to a specific Workspace may omit it; if sent, it must
+                               # match that Workspace.
             request_options: {}
 ); end
 
@@ -111727,6 +113418,7 @@ module Anthropic
               environment_id: String,
               force: T::Boolean,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(Anthropic::Beta::Environments::BetaSelfHostedWork)
           end
@@ -111735,6 +113427,11 @@ module Anthropic
             environment_id:, # Path param
             force: nil, # Body param: If true, immediately stop work without graceful shutdown
             betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                               # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                               # Only needed for credentials that can act on more than one Workspace. A
+                               # credential that belongs to a specific Workspace may omit it; if sent, it must
+                               # match that Workspace.
             request_options: {}
 ); end
 
@@ -111750,6 +113447,7 @@ module Anthropic
               environment_id: String,
               metadata: T::Hash[Symbol, T.nilable(String)],
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(Anthropic::Beta::Environments::BetaSelfHostedWork)
           end
@@ -111759,6 +113457,11 @@ module Anthropic
             metadata:, # Body param: Metadata patch. Set a key to a string to upsert it, or to null to
                        # delete it. Omit the field to preserve existing metadata.
             betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                               # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                               # Only needed for credentials that can act on more than one Workspace. A
+                               # credential that belongs to a specific Workspace may omit it; if sent, it must
+                               # match that Workspace.
             request_options: {}
 ); end
 
@@ -111776,12 +113479,18 @@ module Anthropic
           params(
             file_id: String,
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Beta::BetaDeletedFile)
         end
         def delete(
           file_id, # ID of the File.
           betas: nil, # Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
+                             # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -111790,36 +113499,51 @@ module Anthropic
           params(
             file_id: String,
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(StringIO)
         end
         def download(
           file_id, # ID of the File.
           betas: nil, # Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
+                             # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
         # List Files
         sig do
           params(
-            after_id: String,
-            before_id: String,
+            ids: T.nilable(T::Array[String]),
             limit: Integer,
+            page: T.nilable(String),
             scope_id: String,
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
-          ).returns(Anthropic::Internal::Page[Anthropic::Beta::BetaFileMetadata])
+          ).returns(Anthropic::Internal::PageCursor[Anthropic::Beta::BetaFileMetadata])
         end
         def list(
-          after_id: nil, # Query param: ID of the object to use as a cursor for pagination. When provided,
-                         # returns the page of results immediately after this object.
-          before_id: nil, # Query param: ID of the object to use as a cursor for pagination. When provided,
-                          # returns the page of results immediately before this object.
+          ids: nil, # Query param: Restrict the result set to Files whose `id` is in this list. At
+                    # most 100 entries (after de-duplication). Mutually exclusive with `page` and
+                    # `limit`. When supplied, the response is always a single page (`next_page` is
+                    # null). IDs that do not resolve to a visible File — including deleted Files — are
+                    # silently omitted.
           limit: nil, # Query param: Number of items to return per page.
                       # Defaults to `20`. Ranges from `1` to `1000`.
+          page: nil, # Query param: Opaque page cursor returned in a prior list response's `next_page`.
+                     # Prefixed `page_`.
           scope_id: nil, # Query param: Filter by scope ID. Only returns files associated with the
                          # specified scope (e.g., a session ID).
           betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                             # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -111828,12 +113552,18 @@ module Anthropic
           params(
             file_id: String,
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Beta::BetaFileMetadata)
         end
         def retrieve_metadata(
           file_id, # ID of the File.
           betas: nil, # Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
+                             # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -111841,13 +113571,25 @@ module Anthropic
         sig do
           params(
             file: Anthropic::Internal::FileInput,
+            expires_in_seconds: Integer,
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Beta::BetaFileMetadata)
         end
         def upload(
-          file:, # Body param: The file to upload
+          file:, # Body param: The file to upload. Only the final path component of the part's
+                 # `filename` is kept; an absent or empty `filename` is replaced with `unnamed`
+                 # plus the extension for the file's stored `mime_type`, when known.
+          expires_in_seconds: nil, # Body param: Seconds from upload until the file expires and its bytes become
+                                   # permanently unavailable. Must be between 3600 (one hour) and 7776000 (ninety
+                                   # days).
           betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                             # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -111870,12 +113612,18 @@ module Anthropic
           params(
             memory_store_id: String,
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Beta::BetaManagedAgentsMemoryStore)
         end
         def archive(
           memory_store_id, # Path parameter memory_store_id
           betas: nil, # Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
+                             # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -111886,6 +113634,7 @@ module Anthropic
             description: String,
             metadata: T::Hash[Symbol, String],
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Beta::BetaManagedAgentsMemoryStore)
         end
@@ -111901,6 +113650,11 @@ module Anthropic
                          # user a store belongs to). Up to 16 pairs; keys 1–64 characters; values up to 512
                          # characters. Not visible to the agent.
           betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                             # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -111909,12 +113663,18 @@ module Anthropic
           params(
             memory_store_id: String,
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Beta::BetaManagedAgentsDeletedMemoryStore)
         end
         def delete(
           memory_store_id, # Path parameter memory_store_id
           betas: nil, # Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
+                             # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -111927,6 +113687,7 @@ module Anthropic
             limit: Integer,
             page: String,
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Internal::PageCursor[
               Anthropic::Beta::BetaManagedAgentsMemoryStore
@@ -111944,6 +113705,11 @@ module Anthropic
           page: nil, # Query param: Opaque pagination cursor (a `page_...` value). Pass the `next_page`
                      # value from a previous response to fetch the next page; omit for the first page.
           betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                             # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -111952,12 +113718,18 @@ module Anthropic
           params(
             memory_store_id: String,
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Beta::BetaManagedAgentsMemoryStore)
         end
         def retrieve(
           memory_store_id, # Path parameter memory_store_id
           betas: nil, # Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
+                             # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -111969,6 +113741,7 @@ module Anthropic
             metadata: T.nilable(T::Hash[Symbol, T.nilable(String)]),
             name: T.nilable(String),
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Beta::BetaManagedAgentsMemoryStore)
         end
@@ -111983,6 +113756,11 @@ module Anthropic
                      # characters. Renaming changes the slug used for the store's `mount_path` in
                      # sessions created after the update.
           betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                             # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -112001,6 +113779,7 @@ module Anthropic
               path: String,
               view: Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryView::OrSymbol,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(Anthropic::Beta::MemoryStores::BetaManagedAgentsMemory)
           end
@@ -112011,9 +113790,15 @@ module Anthropic
             path:, # Body param: Hierarchical path for the new memory, e.g. `/projects/foo/notes.md`.
                    # Must start with `/`, contain at least one non-empty segment, and be at most
                    # 1,024 bytes. Must not contain empty segments, `.` or `..` segments, control or
-                   # format characters, and must be NFC-normalized. Paths are case-sensitive.
+                   # format characters, or the Unicode line and paragraph separators (U+2028,
+                   # U+2029), and must be NFC-normalized. Paths are case-sensitive.
             view: nil, # Query param: Query parameter for view
             betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                               # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                               # Only needed for credentials that can act on more than one Workspace. A
+                               # credential that belongs to a specific Workspace may omit it; if sent, it must
+                               # match that Workspace.
             request_options: {}
 ); end
 
@@ -112024,6 +113809,7 @@ module Anthropic
               memory_store_id: String,
               expected_content_sha256: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(Anthropic::Beta::MemoryStores::BetaManagedAgentsDeletedMemory)
           end
@@ -112032,6 +113818,11 @@ module Anthropic
             memory_store_id:, # Path param: Path parameter memory_store_id
             expected_content_sha256: nil, # Query param: Query parameter for expected_content_sha256
             betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                               # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                               # Only needed for credentials that can act on more than one Workspace. A
+                               # credential that belongs to a specific Workspace may omit it; if sent, it must
+                               # match that Workspace.
             request_options: {}
 ); end
 
@@ -112045,6 +113836,7 @@ module Anthropic
               path_prefix: String,
               view: Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryView::OrSymbol,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(Anthropic::Internal::PageCursor[
                 Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryListItem::Variants
@@ -112068,6 +113860,11 @@ module Anthropic
                        # (content omitted). `full` populates `content` on each item and caps `limit` at
                        # 20; use this as the bulk-read path for export and sync.
             betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                               # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                               # Only needed for credentials that can act on more than one Workspace. A
+                               # credential that belongs to a specific Workspace may omit it; if sent, it must
+                               # match that Workspace.
             request_options: {}
 ); end
 
@@ -112078,6 +113875,7 @@ module Anthropic
               memory_store_id: String,
               view: Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryView::OrSymbol,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(Anthropic::Beta::MemoryStores::BetaManagedAgentsMemory)
           end
@@ -112086,6 +113884,11 @@ module Anthropic
             memory_store_id:, # Path param: Path parameter memory_store_id
             view: nil, # Query param: Query parameter for view
             betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                               # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                               # Only needed for credentials that can act on more than one Workspace. A
+                               # credential that belongs to a specific Workspace may omit it; if sent, it must
+                               # match that Workspace.
             request_options: {}
 ); end
 
@@ -112099,6 +113902,7 @@ module Anthropic
               path: T.nilable(String),
               precondition: Anthropic::Beta::MemoryStores::BetaManagedAgentsPrecondition::OrHash,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(Anthropic::Beta::MemoryStores::BetaManagedAgentsMemory)
           end
@@ -112110,9 +113914,10 @@ module Anthropic
                           # bytes). Omit to leave the content unchanged (e.g., for a rename-only update).
             path: nil, # Body param: New path for the memory (a rename). Must start with `/`, contain at
                        # least one non-empty segment, and be at most 1,024 bytes. Must not contain empty
-                       # segments, `.` or `..` segments, control or format characters, and must be
-                       # NFC-normalized. Paths are case-sensitive. The memory's `id` is preserved across
-                       # renames. Omit to leave the path unchanged.
+                       # segments, `.` or `..` segments, control or format characters, or the Unicode
+                       # line and paragraph separators (U+2028, U+2029), and must be NFC-normalized.
+                       # Paths are case-sensitive. The memory's `id` is preserved across renames. Omit to
+                       # leave the path unchanged.
             precondition: nil, # Body param: Optimistic-concurrency precondition: the update applies only if the
                                # memory's stored `content_sha256` equals the supplied value. On mismatch, the
                                # request returns `memory_precondition_failed_error` (HTTP 409); re-read the
@@ -112120,6 +113925,11 @@ module Anthropic
                                # stored state already exactly matches the requested `content` and `path`, the
                                # server returns 200 instead of 409.
             betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                               # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                               # Only needed for credentials that can act on more than one Workspace. A
+                               # credential that belongs to a specific Workspace may omit it; if sent, it must
+                               # match that Workspace.
             request_options: {}
 ); end
 
@@ -112146,6 +113956,7 @@ module Anthropic
               session_id: String,
               view: Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryView::OrSymbol,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(Anthropic::Internal::PageCursor[
                 Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryVersion
@@ -112164,6 +113975,11 @@ module Anthropic
             session_id: nil, # Query param: Query parameter for session_id
             view: nil, # Query param: Query parameter for view
             betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                               # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                               # Only needed for credentials that can act on more than one Workspace. A
+                               # credential that belongs to a specific Workspace may omit it; if sent, it must
+                               # match that Workspace.
             request_options: {}
 ); end
 
@@ -112173,6 +113989,7 @@ module Anthropic
               memory_version_id: String,
               memory_store_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryVersion)
           end
@@ -112180,6 +113997,11 @@ module Anthropic
             memory_version_id, # Path param: Path parameter memory_version_id
             memory_store_id:, # Path param: Path parameter memory_store_id
             betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                               # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                               # Only needed for credentials that can act on more than one Workspace. A
+                               # credential that belongs to a specific Workspace may omit it; if sent, it must
+                               # match that Workspace.
             request_options: {}
 ); end
 
@@ -112190,6 +114012,7 @@ module Anthropic
               memory_store_id: String,
               view: Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryView::OrSymbol,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryVersion)
           end
@@ -112198,6 +114021,11 @@ module Anthropic
             memory_store_id:, # Path param: Path parameter memory_store_id
             view: nil, # Query param: Query parameter for view
             betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                               # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                               # Only needed for credentials that can act on more than one Workspace. A
+                               # credential that belongs to a specific Workspace may omit it; if sent, it must
+                               # match that Workspace.
             request_options: {}
 ); end
 
@@ -112280,6 +114108,7 @@ module Anthropic
               ],
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
             user_profile_id: String,
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Beta::BetaMessageTokensCount)
         end
@@ -112435,6 +114264,11 @@ module Anthropic
           user_profile_id: nil, # Header param: The user profile ID to attribute this request to. Use when acting
                                 # on behalf of a party other than your organization. Requires the `user-profiles`
                                 # beta header.
+          workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                             # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -112530,6 +114364,7 @@ module Anthropic
             top_p: Float,
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
             user_profile_id: String,
+            workspace_id: String,
             stream: T.noreturn,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Beta::BetaMessage)
@@ -112749,6 +114584,11 @@ module Anthropic
           user_profile_id: nil, # Header param: The user profile ID to attribute this request to. Use when acting
                                 # on behalf of a party other than your organization. Requires the `user-profiles`
                                 # beta header.
+          workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                             # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           stream: false, # There is no need to provide `stream:`. Instead, use `#stream_raw` or `#create`
                          # for streaming and non-streaming use cases, respectively.
           request_options: {}
@@ -112846,6 +114686,7 @@ module Anthropic
             top_p: Float,
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
             user_profile_id: String,
+            workspace_id: String,
             stream: T.noreturn,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Helpers::Streaming::MessageStream)
@@ -113065,6 +114906,11 @@ module Anthropic
           user_profile_id: nil, # Header param: The user profile ID to attribute this request to. Use when acting
                                 # on behalf of a party other than your organization. Requires the `user-profiles`
                                 # beta header.
+          workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                             # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           stream: true, # There is no need to provide `stream:`. Instead, use `#stream_raw` or `#create`
                         # for streaming and non-streaming use cases, respectively.
           request_options: {}
@@ -113162,6 +115008,7 @@ module Anthropic
             top_p: Float,
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
             user_profile_id: String,
+            workspace_id: String,
             stream: T.noreturn,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Internal::Stream[
@@ -113383,6 +115230,11 @@ module Anthropic
           user_profile_id: nil, # Header param: The user profile ID to attribute this request to. Use when acting
                                 # on behalf of a party other than your organization. Requires the `user-profiles`
                                 # beta header.
+          workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                             # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           stream: true, # There is no need to provide `stream:`. Instead, use `#stream_raw` or `#create`
                         # for streaming and non-streaming use cases, respectively.
           request_options: {}
@@ -113641,12 +115493,18 @@ module Anthropic
             params(
               message_batch_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(Anthropic::Beta::Messages::BetaMessageBatch)
           end
           def cancel(
             message_batch_id, # ID of the Message Batch.
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
+                               # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                               # Only needed for credentials that can act on more than one Workspace. A
+                               # credential that belongs to a specific Workspace may omit it; if sent, it must
+                               # match that Workspace.
             request_options: {}
 ); end
 
@@ -113665,6 +115523,7 @@ module Anthropic
                 ],
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
               user_profile_id: String,
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(Anthropic::Beta::Messages::BetaMessageBatch)
           end
@@ -113677,6 +115536,11 @@ module Anthropic
                                   # `user-profiles` beta header. Applies to every request in the batch; an
                                   # individual request whose `user_profile_id` body field conflicts with this header
                                   # is errored.
+            workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                               # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                               # Only needed for credentials that can act on more than one Workspace. A
+                               # credential that belongs to a specific Workspace may omit it; if sent, it must
+                               # match that Workspace.
             request_options: {}
 ); end
 
@@ -113691,12 +115555,18 @@ module Anthropic
             params(
               message_batch_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(Anthropic::Beta::Messages::BetaDeletedMessageBatch)
           end
           def delete(
             message_batch_id, # ID of the Message Batch.
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
+                               # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                               # Only needed for credentials that can act on more than one Workspace. A
+                               # credential that belongs to a specific Workspace may omit it; if sent, it must
+                               # match that Workspace.
             request_options: {}
 ); end
 
@@ -113711,6 +115581,7 @@ module Anthropic
               before_id: String,
               limit: Integer,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(Anthropic::Internal::Page[
                 Anthropic::Beta::Messages::BetaMessageBatch
@@ -113724,6 +115595,11 @@ module Anthropic
             limit: nil, # Query param: Number of items to return per page.
                         # Defaults to `20`. Ranges from `1` to `1000`.
             betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                               # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                               # Only needed for credentials that can act on more than one Workspace. A
+                               # credential that belongs to a specific Workspace may omit it; if sent, it must
+                               # match that Workspace.
             request_options: {}
 ); end
 
@@ -113739,6 +115615,7 @@ module Anthropic
             params(
               message_batch_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(Anthropic::Internal::JsonLStream[
                 Anthropic::Beta::Messages::BetaMessageBatchIndividualResponse
@@ -113747,6 +115624,11 @@ module Anthropic
           def results_streaming(
             message_batch_id, # ID of the Message Batch.
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
+                               # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                               # Only needed for credentials that can act on more than one Workspace. A
+                               # credential that belongs to a specific Workspace may omit it; if sent, it must
+                               # match that Workspace.
             request_options: {}
 ); end
 
@@ -113760,12 +115642,18 @@ module Anthropic
             params(
               message_batch_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(Anthropic::Beta::Messages::BetaMessageBatch)
           end
           def retrieve(
             message_batch_id, # ID of the Message Batch.
             betas: nil, # Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
+                               # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                               # Only needed for credentials that can act on more than one Workspace. A
+                               # credential that belongs to a specific Workspace may omit it; if sent, it must
+                               # match that Workspace.
             request_options: {}
 ); end
 
@@ -113788,6 +115676,7 @@ module Anthropic
             before_id: String,
             limit: Integer,
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Internal::Page[Anthropic::Beta::BetaModelInfo])
         end
@@ -113799,6 +115688,11 @@ module Anthropic
           limit: nil, # Query param: Number of items to return per page.
                       # Defaults to `20`. Ranges from `1` to `1000`.
           betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                             # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -113810,12 +115704,18 @@ module Anthropic
           params(
             model_id: String,
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Beta::BetaModelInfo)
         end
         def retrieve(
           model_id, # Model identifier or alias.
           betas: nil, # Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
+                             # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -113829,6 +115729,9 @@ module Anthropic
       class Organization
         sig { returns(Anthropic::Resources::Beta::Organization::APIKeys) }
         attr_reader :api_keys
+
+        sig { returns(Anthropic::Resources::Beta::Organization::ComplianceSettings) }
+        attr_reader :compliance_settings
 
         sig { returns(Anthropic::Resources::Beta::Organization::ExternalKeys) }
         attr_reader :external_keys
@@ -113919,6 +115822,55 @@ module Anthropic
             api_key_id, # ID of the API key.
             name: nil, # Name of the API key.
             status: nil, # Status of the API key.
+            request_options: {}
+); end
+
+          class << self
+            # @api private
+            sig { params(client: Anthropic::Client).returns(T.attached_class) }
+            def new(client:); end
+          end
+        end
+
+        class ComplianceSettings
+          # Retrieve your organization's Compliance Settings.
+          #
+          # Compliance Settings is a singleton resource: there is exactly one per
+          # organization, addressed without an identifier. The `state` field reflects
+          # whether the Compliance API is enabled. An organization with a parent
+          # organization reads the state inherited from the parent's configuration.
+          sig do
+            params(
+              request_options: Anthropic::RequestOptions::OrHash
+            ).returns(Anthropic::Beta::Organization::BetaComplianceSettings)
+          end
+          def retrieve(request_options: {}); end
+
+          # Update your organization's Compliance Settings.
+          #
+          # Setting `state` to `enabled` turns on the Compliance API and begins capturing
+          # organization activity events. Setting it to `disabled` turns both off. `state`
+          # reflects whether the Compliance API is enabled.
+          #
+          # A request that sets `state` to its current value succeeds and leaves the
+          # resource unchanged. A `disabled` request stays in effect until a later `enabled`
+          # request or the organization's next provisioning action that enables Access
+          # Transparency: enabling Access Transparency also enables the Compliance API,
+          # which serves its activity events, so such provisioning (including re-runs)
+          # re-enables the Compliance API even after a `disabled` request. Automated
+          # provisioning never disables compliance settings.
+          sig do
+            params(
+              state: T.any(
+                  Anthropic::Beta::Organization::BetaComplianceSettingsStateEnabledParam::OrHash,
+                  Anthropic::Beta::Organization::BetaComplianceSettingsStateDisabledParam::OrHash
+                ),
+              request_options: Anthropic::RequestOptions::OrHash
+            ).returns(Anthropic::Beta::Organization::BetaComplianceSettings)
+          end
+          def update(
+            state:, # Desired state. Accepts the string shorthand "enabled" or "disabled" in place of
+                    # the object form; the response always returns the canonical object form.
             request_options: {}
 ); end
 
@@ -114657,9 +116609,8 @@ module Anthropic
           # API-surface category such as the Files API or Message Batches) and contains the
           # set of limiter values that apply to it.
           #
-          # This endpoint currently returns every matching entry in a single page regardless
-          # of `limit`; follow `next_page` so that clients keep working when pagination is
-          # enabled.
+          # When `limit` is omitted, every matching entry is returned in a single page; when
+          # `limit` truncates the result, follow `next_page` to fetch the remaining entries.
           sig do
             params(
               group_type: T.nilable(
@@ -114676,8 +116627,8 @@ module Anthropic
           def list(
             group_type: nil, # Filter by group type.
             limit: nil, # Maximum number of items to return per page. Ranges from `1` to `1000`.
-                        # Accepted for request-shape compatibility and currently ignored: every entry is
-                        # returned in a single page.
+                        # When omitted, every remaining entry is returned in a single page and `next_page`
+                        # is `null`.
             model: nil, # Filter to the single entry containing this model. Accepts full model names and
                         # aliases. Returns 404 if the model is not found or has no rate limits for this
                         # organization.
@@ -115062,8 +117013,12 @@ module Anthropic
             external_key_id: nil, # Body param: ID of the customer-managed encryption key (CMEK) configuration to
                                   # use for this Workspace. Setting this field requires CMEK to be enabled for your
                                   # organization. When set, data stored for this Workspace is encrypted with the
-                                  # referenced key. Create key configurations with the External Keys API. This field
-                                  # is write-once: once a key is attached to a Workspace it cannot be detached or
+                                  # referenced key. Create key configurations with the External Keys API. On Claude
+                                  # Platform on AWS the value is the AWS KMS key ARN, and the key must be a
+                                  # single-Region key in the same AWS account and Region as the Workspace. On that
+                                  # platform the key is validated against this Workspace when it is attached, so a
+                                  # key-policy problem is reported as an error on this request. This field is
+                                  # write-once: once a key is attached to a Workspace it cannot be detached or
                                   # replaced. To rotate key material, rotate the underlying key on your cloud KMS;
                                   # the `external_key_id` stays the same.
             tags: nil, # Body param: User-defined tags as string key-value pairs. Keys may not begin with
@@ -115128,10 +117083,14 @@ module Anthropic
             external_key_id: nil, # ID of the customer-managed encryption key (CMEK) configuration to use for this
                                   # Workspace. Setting this field requires CMEK to be enabled for your organization.
                                   # When set, data stored for this Workspace is encrypted with the referenced key.
-                                  # Create key configurations with the External Keys API. This field is write-once:
-                                  # once a key is attached to a Workspace it cannot be detached or replaced. To
-                                  # rotate key material, rotate the underlying key on your cloud KMS; the
-                                  # `external_key_id` stays the same.
+                                  # Create key configurations with the External Keys API. On Claude Platform on AWS
+                                  # the value is the AWS KMS key ARN, and the key must be a single-Region key in the
+                                  # same AWS account and Region as the Workspace. On that platform the key is
+                                  # validated against this Workspace when it is attached, so a key-policy problem is
+                                  # reported as an error on this request. This field is write-once: once a key is
+                                  # attached to a Workspace it cannot be detached or replaced. To rotate key
+                                  # material, rotate the underlying key on your cloud KMS; the `external_key_id`
+                                  # stays the same.
             name: nil, # Name of the Workspace.
             tags: nil, # User-defined tags as string key-value pairs. Keys may not begin with
                        # `anthropic`.
@@ -115242,9 +117201,8 @@ module Anthropic
             # Groups without overrides inherit the organization limits and are not listed; use
             # `GET /v1/organizations/rate_limits` to see those.
             #
-            # This endpoint currently returns every matching entry in a single page regardless
-            # of `limit`; follow `next_page` so that clients keep working when pagination is
-            # enabled.
+            # When `limit` is omitted, every matching entry is returned in a single page; when
+            # `limit` truncates the result, follow `next_page` to fetch the remaining entries.
             sig do
               params(
                 workspace_id: String,
@@ -115262,8 +117220,8 @@ module Anthropic
               workspace_id, # The ID of the workspace.
               group_type: nil, # Filter by group type.
               limit: nil, # Maximum number of items to return per page. Ranges from `1` to `1000`.
-                          # Accepted for request-shape compatibility and currently ignored: every entry is
-                          # returned in a single page.
+                          # When omitted, every remaining entry is returned in a single page and `next_page`
+                          # is `null`.
               page: nil, # Opaque cursor from a previous response's `next_page`.
               request_options: {}
 ); end
@@ -115445,12 +117403,18 @@ module Anthropic
           params(
             session_id: String,
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Beta::BetaManagedAgentsSession)
         end
         def archive(
           session_id, # Path parameter session_id
           betas: nil, # Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
+                             # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -115481,6 +117445,7 @@ module Anthropic
             title: T.nilable(String),
             vault_ids: T::Array[String],
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Beta::BetaManagedAgentsSession)
         end
@@ -115503,6 +117468,11 @@ module Anthropic
           vault_ids: nil, # Body param: Vault IDs for stored credentials the agent can use during the
                           # session.
           betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                             # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -115511,12 +117481,18 @@ module Anthropic
           params(
             session_id: String,
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Beta::BetaManagedAgentsDeletedSession)
         end
         def delete(
           session_id, # Path parameter session_id
           betas: nil, # Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
+                             # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -115537,6 +117513,7 @@ module Anthropic
             page: String,
             statuses: T::Array[Anthropic::Beta::SessionListParams::Status::OrSymbol],
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Internal::BidirectionalPageCursor[
               Anthropic::Beta::BetaManagedAgentsSession
@@ -115544,7 +117521,7 @@ module Anthropic
         end
         def list(
           agent_id: nil, # Query param: Filter sessions created with this agent ID.
-          agent_version: nil, # Query param: Filter by agent version. Only applies when agent_id is also set.
+          agent_version: nil, # Query param: Filter by agent version. Only applies when `agent_id` is also set.
           created_at_gt: nil, # Query param: Return sessions created after this time (exclusive).
           created_at_gte: nil, # Query param: Return sessions created at or after this time (inclusive).
           created_at_lt: nil, # Query param: Return sessions created before this time (exclusive).
@@ -115553,14 +117530,19 @@ module Anthropic
           include_archived: nil, # Query param: When true, includes archived sessions. Default: false (exclude
                                  # archived).
           limit: nil, # Query param: Maximum number of results to return.
-          memory_store_id: nil, # Query param: Filter sessions whose resources contain a memory_store with this
+          memory_store_id: nil, # Query param: Filter sessions whose resources contain a `memory_store` with this
                                 # memory store ID.
-          order: nil, # Query param: Sort direction for results, ordered by created_at. Defaults to desc
-                      # (newest first).
+          order: nil, # Query param: Sort direction for results, ordered by `created_at`. Defaults to
+                      # `desc` (newest first).
           page: nil, # Query param: Opaque pagination cursor from a previous response.
           statuses: nil, # Query param: Filter by session status. Repeat the parameter to match any of
                          # multiple statuses.
           betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                             # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -115569,12 +117551,18 @@ module Anthropic
           params(
             session_id: String,
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Beta::BetaManagedAgentsSession)
         end
         def retrieve(
           session_id, # Path parameter session_id
           betas: nil, # Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
+                             # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -115588,6 +117576,7 @@ module Anthropic
             title: T.nilable(String),
             vault_ids: T::Array[String],
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Beta::BetaManagedAgentsSession)
         end
@@ -115605,6 +117594,11 @@ module Anthropic
           vault_ids: nil, # Body param: Vault IDs (`vlt_*`) to attach to the session. Not yet supported;
                           # requests setting this field are rejected. Reserved for future use.
           betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                             # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -115628,6 +117622,7 @@ module Anthropic
               page: String,
               types: T::Array[String],
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(Anthropic::Internal::PageCursor[
                 Anthropic::Beta::Sessions::BetaManagedAgentsSessionEvent::Variants
@@ -115645,12 +117640,17 @@ module Anthropic
                                  # against the event's `processed_at` value.
             limit: nil, # Query param: Query parameter for limit
             order: nil, # Query param: Sort direction for results, ordered by the event's `processed_at`.
-                        # Defaults to asc (chronological).
-            page: nil, # Query param: Opaque pagination cursor from a previous response's next_page.
+                        # Defaults to `asc` (chronological).
+            page: nil, # Query param: Opaque pagination cursor from a previous response's `next_page`.
             types: nil, # Query param: Filter by event type. Values match the `type` field on returned
                         # events (for example, `user.message` or `agent.tool_use`). Omit to return all
                         # event types.
             betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                               # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                               # Only needed for credentials that can act on more than one Workspace. A
+                               # credential that belongs to a specific Workspace may omit it; if sent, it must
+                               # match that Workspace.
             request_options: {}
 ); end
 
@@ -115670,6 +117670,7 @@ module Anthropic
                   )
                 ],
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(Anthropic::Beta::Sessions::BetaManagedAgentsSendSessionEvents)
           end
@@ -115677,6 +117678,11 @@ module Anthropic
             session_id, # Path param: Path parameter session_id
             events:, # Body param: Events to send to the `session`.
             betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                               # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                               # Only needed for credentials that can act on more than one Workspace. A
+                               # credential that belongs to a specific Workspace may omit it; if sent, it must
+                               # match that Workspace.
             request_options: {}
 ); end
 
@@ -115686,6 +117692,7 @@ module Anthropic
               session_id: String,
               event_deltas: T::Array[Anthropic::Beta::BetaManagedAgentsDeltaType::OrSymbol],
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(Anthropic::Internal::Stream[
                 Anthropic::Beta::Sessions::BetaManagedAgentsStreamSessionEvents::Variants
@@ -115704,6 +117711,11 @@ module Anthropic
                                # the `agent.thinking` event itself. Only previews of the requested event types
                                # are sent.
             betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                               # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                               # Only needed for credentials that can act on more than one Workspace. A
+                               # credential that belongs to a specific Workspace may omit it; if sent, it must
+                               # match that Workspace.
             request_options: {}
 ); end
 
@@ -115723,6 +117735,7 @@ module Anthropic
               type: Anthropic::Beta::BetaManagedAgentsFileResourceParams::Type::OrSymbol,
               mount_path: T.nilable(String),
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(Anthropic::Beta::Sessions::BetaManagedAgentsFileResource)
           end
@@ -115733,6 +117746,11 @@ module Anthropic
             mount_path: nil, # Body param: Mount path in the container. Defaults to
                              # `/mnt/session/uploads/<file_id>`.
             betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                               # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                               # Only needed for credentials that can act on more than one Workspace. A
+                               # credential that belongs to a specific Workspace may omit it; if sent, it must
+                               # match that Workspace.
             request_options: {}
 ); end
 
@@ -115742,6 +117760,7 @@ module Anthropic
               resource_id: String,
               session_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(Anthropic::Beta::Sessions::BetaManagedAgentsDeleteSessionResource)
           end
@@ -115749,6 +117768,11 @@ module Anthropic
             resource_id, # Path param: Path parameter resource_id
             session_id:, # Path param: Path parameter session_id
             betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                               # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                               # Only needed for credentials that can act on more than one Workspace. A
+                               # credential that belongs to a specific Workspace may omit it; if sent, it must
+                               # match that Workspace.
             request_options: {}
 ); end
 
@@ -115759,6 +117783,7 @@ module Anthropic
               limit: Integer,
               page: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(Anthropic::Internal::PageCursor[
                 Anthropic::Beta::Sessions::BetaManagedAgentsSessionResource::Variants
@@ -115768,8 +117793,13 @@ module Anthropic
             session_id, # Path param: Path parameter session_id
             limit: nil, # Query param: Maximum number of resources to return per page (max 1000). If
                         # omitted, returns all resources.
-            page: nil, # Query param: Opaque cursor from a previous response's next_page field.
+            page: nil, # Query param: Opaque cursor from a previous response's `next_page` field.
             betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                               # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                               # Only needed for credentials that can act on more than one Workspace. A
+                               # credential that belongs to a specific Workspace may omit it; if sent, it must
+                               # match that Workspace.
             request_options: {}
 ); end
 
@@ -115779,6 +117809,7 @@ module Anthropic
               resource_id: String,
               session_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(Anthropic::Models::Beta::Sessions::ResourceRetrieveResponse::Variants)
           end
@@ -115786,6 +117817,11 @@ module Anthropic
             resource_id, # Path param: Path parameter resource_id
             session_id:, # Path param: Path parameter session_id
             betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                               # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                               # Only needed for credentials that can act on more than one Workspace. A
+                               # credential that belongs to a specific Workspace may omit it; if sent, it must
+                               # match that Workspace.
             request_options: {}
 ); end
 
@@ -115796,6 +117832,7 @@ module Anthropic
               session_id: String,
               authorization_token: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(Anthropic::Models::Beta::Sessions::ResourceUpdateResponse::Variants)
           end
@@ -115805,6 +117842,11 @@ module Anthropic
             authorization_token:, # Body param: New authorization token for the resource. Currently only
                                   # `github_repository` resources support token rotation.
             betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                               # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                               # Only needed for credentials that can act on more than one Workspace. A
+                               # credential that belongs to a specific Workspace may omit it; if sent, it must
+                               # match that Workspace.
             request_options: {}
 ); end
 
@@ -115825,6 +117867,7 @@ module Anthropic
               thread_id: String,
               session_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(Anthropic::Beta::Sessions::BetaManagedAgentsSessionThread)
           end
@@ -115832,6 +117875,11 @@ module Anthropic
             thread_id, # Path param: Path parameter thread_id
             session_id:, # Path param: Path parameter session_id
             betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                               # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                               # Only needed for credentials that can act on more than one Workspace. A
+                               # credential that belongs to a specific Workspace may omit it; if sent, it must
+                               # match that Workspace.
             request_options: {}
 ); end
 
@@ -115842,6 +117890,7 @@ module Anthropic
               limit: Integer,
               page: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(Anthropic::Internal::PageCursor[
                 Anthropic::Beta::Sessions::BetaManagedAgentsSessionThread
@@ -115850,9 +117899,14 @@ module Anthropic
           def list(
             session_id, # Path param: Path parameter session_id
             limit: nil, # Query param: Maximum results per page. Defaults to 1000.
-            page: nil, # Query param: Opaque pagination cursor from a previous response's next_page.
+            page: nil, # Query param: Opaque pagination cursor from a previous response's `next_page`.
                        # Forward-only.
             betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                               # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                               # Only needed for credentials that can act on more than one Workspace. A
+                               # credential that belongs to a specific Workspace may omit it; if sent, it must
+                               # match that Workspace.
             request_options: {}
 ); end
 
@@ -115862,6 +117916,7 @@ module Anthropic
               thread_id: String,
               session_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(Anthropic::Beta::Sessions::BetaManagedAgentsSessionThread)
           end
@@ -115869,6 +117924,11 @@ module Anthropic
             thread_id, # Path param: Path parameter thread_id
             session_id:, # Path param: Path parameter session_id
             betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                               # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                               # Only needed for credentials that can act on more than one Workspace. A
+                               # credential that belongs to a specific Workspace may omit it; if sent, it must
+                               # match that Workspace.
             request_options: {}
 ); end
 
@@ -115887,6 +117947,7 @@ module Anthropic
                 limit: Integer,
                 page: String,
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions::OrHash
               ).returns(Anthropic::Internal::PageCursor[
                   Anthropic::Beta::Sessions::BetaManagedAgentsSessionEvent::Variants
@@ -115898,6 +117959,11 @@ module Anthropic
               limit: nil, # Query param: Query parameter for limit
               page: nil, # Query param: Query parameter for page
               betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+              workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                                 # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                                 # Only needed for credentials that can act on more than one Workspace. A
+                                 # credential that belongs to a specific Workspace may omit it; if sent, it must
+                                 # match that Workspace.
               request_options: {}
 ); end
 
@@ -115910,6 +117976,7 @@ module Anthropic
                     Anthropic::Beta::BetaManagedAgentsDeltaType::OrSymbol
                   ],
                 betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+                workspace_id: String,
                 request_options: Anthropic::RequestOptions::OrHash
               ).returns(Anthropic::Internal::Stream[
                   Anthropic::Beta::Sessions::BetaManagedAgentsStreamSessionThreadEvents::Variants
@@ -115929,6 +117996,11 @@ module Anthropic
                                  # the `agent.thinking` event itself. Only previews of the requested event types
                                  # are sent.
               betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+              workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                                 # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                                 # Only needed for credentials that can act on more than one Workspace. A
+                                 # credential that belongs to a specific Workspace may omit it; if sent, it must
+                                 # match that Workspace.
               request_options: {}
 ); end
 
@@ -115949,19 +118021,25 @@ module Anthropic
         sig do
           params(
             files: T::Array[Anthropic::Internal::FileInput],
-            display_title: T.nilable(String),
+            display_name: T.nilable(String),
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
-          ).returns(Anthropic::Models::Beta::SkillCreateResponse)
+          ).returns(Anthropic::Beta::BetaSkill)
         end
         def create(
           files:, # Body param: Files to upload for the skill.
                   # All files must be in the same top-level directory and must include a SKILL.md
                   # file at the root of that directory.
-          display_title: nil, # Body param: Display title for the skill.
-                              # This is a human-readable label that is not included in the prompt sent to the
-                              # model.
+          display_name: nil, # Body param: Human-readable, single-line label for the Skill. Maximum 255
+                             # characters. Always set: derived from the SKILL.md frontmatter `name` when
+                             # omitted at creation. Not unique.
           betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                             # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -115970,13 +118048,19 @@ module Anthropic
           params(
             skill_id: String,
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
-          ).returns(Anthropic::Models::Beta::SkillDeleteResponse)
+          ).returns(Anthropic::Beta::BetaDeletedSkill)
         end
         def delete(
           skill_id, # Unique identifier for the skill.
                     # The format and length of IDs may change over time.
           betas: nil, # Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
+                             # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -115987,14 +118071,13 @@ module Anthropic
             page: T.nilable(String),
             source: T.nilable(String),
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
-          ).returns(Anthropic::Internal::PageCursor[
-              Anthropic::Models::Beta::SkillListResponse
-            ])
+          ).returns(Anthropic::Internal::PageCursor[Anthropic::Beta::BetaSkill])
         end
         def list(
           limit: nil, # Query param: Number of results to return per page.
-                      # Maximum value is 100. Defaults to 20.
+                      # Ranges from `1` to `1000`. Defaults to `20`.
           page: nil, # Query param: Pagination token for fetching a specific page of results.
                      # Pass the value from a previous response's `next_page` field to get the next page
                      # of results.
@@ -116003,6 +118086,11 @@ module Anthropic
                        # - `"custom"`: only return user-created skills
                        # - `"anthropic"`: only return Anthropic-created skills
           betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                             # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -116011,13 +118099,19 @@ module Anthropic
           params(
             skill_id: String,
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
-          ).returns(Anthropic::Models::Beta::SkillRetrieveResponse)
+          ).returns(Anthropic::Beta::BetaSkill)
         end
         def retrieve(
           skill_id, # Unique identifier for the skill.
                     # The format and length of IDs may change over time.
           betas: nil, # Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
+                             # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -116034,8 +118128,9 @@ module Anthropic
               skill_id: String,
               files: T::Array[Anthropic::Internal::FileInput],
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
-            ).returns(Anthropic::Models::Beta::Skills::VersionCreateResponse)
+            ).returns(Anthropic::Beta::Skills::BetaSkillVersion)
           end
           def create(
             skill_id, # Path param: Unique identifier for the skill.
@@ -116044,6 +118139,11 @@ module Anthropic
                     # All files must be in the same top-level directory and must include a SKILL.md
                     # file at the root of that directory.
             betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                               # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                               # Only needed for credentials that can act on more than one Workspace. A
+                               # credential that belongs to a specific Workspace may omit it; if sent, it must
+                               # match that Workspace.
             request_options: {}
 ); end
 
@@ -116053,15 +118153,22 @@ module Anthropic
               version: String,
               skill_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
-            ).returns(Anthropic::Models::Beta::Skills::VersionDeleteResponse)
+            ).returns(Anthropic::Beta::Skills::BetaDeletedSkillVersion)
           end
           def delete(
-            version, # Path param: Version identifier for the skill.
-                     # Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
+            version, # Path param: Identifies the skill version by its version ID.
+                     # Requests carrying the `skills-2025-10-02` beta header address versions by their
+                     # Unix epoch timestamp instead (e.g., "1759178010641129").
             skill_id:, # Path param: Unique identifier for the skill.
                        # The format and length of IDs may change over time.
             betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                               # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                               # Only needed for credentials that can act on more than one Workspace. A
+                               # credential that belongs to a specific Workspace may omit it; if sent, it must
+                               # match that Workspace.
             request_options: {}
 ); end
 
@@ -116071,15 +118178,22 @@ module Anthropic
               version: String,
               skill_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(StringIO)
           end
           def download(
-            version, # Path param: Version identifier for the skill.
-                     # Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
+            version, # Path param: Identifies the skill version by its version ID.
+                     # Requests carrying the `skills-2025-10-02` beta header address versions by their
+                     # Unix epoch timestamp instead (e.g., "1759178010641129").
             skill_id:, # Path param: Unique identifier for the skill.
                        # The format and length of IDs may change over time.
             betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                               # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                               # Only needed for credentials that can act on more than one Workspace. A
+                               # credential that belongs to a specific Workspace may omit it; if sent, it must
+                               # match that Workspace.
             request_options: {}
 ); end
 
@@ -116090,18 +118204,24 @@ module Anthropic
               limit: T.nilable(Integer),
               page: T.nilable(String),
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(Anthropic::Internal::PageCursor[
-                Anthropic::Models::Beta::Skills::VersionListResponse
+                Anthropic::Beta::Skills::BetaSkillVersion
               ])
           end
           def list(
             skill_id, # Path param: Unique identifier for the skill.
                       # The format and length of IDs may change over time.
-            limit: nil, # Query param: Number of items to return per page.
-                        # Defaults to `20`. Ranges from `1` to `1000`.
+            limit: nil, # Query param: Number of results to return per page.
+                        # Ranges from `1` to `1000`. Defaults to `20`.
             page: nil, # Query param: Optionally set to the `next_page` token from the previous response.
             betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                               # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                               # Only needed for credentials that can act on more than one Workspace. A
+                               # credential that belongs to a specific Workspace may omit it; if sent, it must
+                               # match that Workspace.
             request_options: {}
 ); end
 
@@ -116111,15 +118231,23 @@ module Anthropic
               version: String,
               skill_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
-            ).returns(Anthropic::Models::Beta::Skills::VersionRetrieveResponse)
+            ).returns(Anthropic::Beta::Skills::BetaSkillVersion)
           end
           def retrieve(
-            version, # Path param: Version identifier for the skill.
-                     # Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
+            version, # Path param: Identifies the skill version: a version ID, or the literal `latest`
+                     # for the skill's most recent version.
+                     # Requests carrying the `skills-2025-10-02` beta header address versions by their
+                     # Unix epoch timestamp instead (e.g., "1759178010641129").
             skill_id:, # Path param: Unique identifier for the skill.
                        # The format and length of IDs may change over time.
             betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                               # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                               # Only needed for credentials that can act on more than one Workspace. A
+                               # credential that belongs to a specific Workspace may omit it; if sent, it must
+                               # match that Workspace.
             request_options: {}
 ); end
 
@@ -116148,12 +118276,18 @@ module Anthropic
           params(
             tunnel_id: String,
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Beta::BetaTunnel)
         end
         def archive(
           tunnel_id, # Path parameter tunnel_id
           betas: nil, # Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
+                             # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -116169,12 +118303,18 @@ module Anthropic
           params(
             display_name: T.nilable(String),
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Beta::BetaTunnel)
         end
         def create(
           display_name: nil, # Body param: Optional human-readable name for the tunnel (1-255 characters).
           betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                             # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -116191,6 +118331,7 @@ module Anthropic
             limit: Integer,
             page: String,
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Internal::PageCursor[Anthropic::Beta::BetaTunnel])
         end
@@ -116201,6 +118342,11 @@ module Anthropic
                       # maximum 1000.
           page: nil, # Query param: Opaque pagination cursor from a previous `list_tunnels` response.
           betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                             # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -116214,12 +118360,18 @@ module Anthropic
           params(
             tunnel_id: String,
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Beta::BetaTunnel)
         end
         def retrieve(
           tunnel_id, # Path parameter tunnel_id
           betas: nil, # Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
+                             # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -116236,12 +118388,18 @@ module Anthropic
           params(
             tunnel_id: String,
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Beta::BetaTunnelToken)
         end
         def reveal_token(
           tunnel_id, # Path parameter tunnel_id
           betas: nil, # Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
+                             # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -116258,6 +118416,7 @@ module Anthropic
             tunnel_id: String,
             reason: T.nilable(String),
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Beta::BetaTunnelToken)
         end
@@ -116265,6 +118424,11 @@ module Anthropic
           tunnel_id, # Path param: Path parameter tunnel_id
           reason: nil, # Body param: Optional free-text reason for the rotation, recorded for audit.
           betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                             # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -116289,6 +118453,7 @@ module Anthropic
               certificate_id: String,
               tunnel_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(Anthropic::Beta::Tunnels::BetaTunnelCertificate)
           end
@@ -116296,6 +118461,11 @@ module Anthropic
             certificate_id, # Path param: Path parameter certificate_id
             tunnel_id:, # Path param: Path parameter tunnel_id
             betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                               # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                               # Only needed for credentials that can act on more than one Workspace. A
+                               # credential that belongs to a specific Workspace may omit it; if sent, it must
+                               # match that Workspace.
             request_options: {}
 ); end
 
@@ -116312,6 +118482,7 @@ module Anthropic
               tunnel_id: String,
               ca_certificate_pem: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(Anthropic::Beta::Tunnels::BetaTunnelCertificate)
           end
@@ -116320,6 +118491,11 @@ module Anthropic
             ca_certificate_pem:, # Body param: PEM-encoded X.509 CA certificate. Must contain exactly one
                                  # certificate and no private-key material. Maximum 8KB.
             betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                               # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                               # Only needed for credentials that can act on more than one Workspace. A
+                               # credential that belongs to a specific Workspace may omit it; if sent, it must
+                               # match that Workspace.
             request_options: {}
 ); end
 
@@ -116337,6 +118513,7 @@ module Anthropic
               limit: Integer,
               page: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(Anthropic::Internal::PageCursor[
                 Anthropic::Beta::Tunnels::BetaTunnelCertificate
@@ -116351,6 +118528,11 @@ module Anthropic
             page: nil, # Query param: Opaque pagination cursor from a previous `list_tunnel_certificates`
                        # response.
             betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                               # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                               # Only needed for credentials that can act on more than one Workspace. A
+                               # credential that belongs to a specific Workspace may omit it; if sent, it must
+                               # match that Workspace.
             request_options: {}
 ); end
 
@@ -116365,6 +118547,7 @@ module Anthropic
               certificate_id: String,
               tunnel_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(Anthropic::Beta::Tunnels::BetaTunnelCertificate)
           end
@@ -116372,6 +118555,11 @@ module Anthropic
             certificate_id, # Path param: Path parameter certificate_id
             tunnel_id:, # Path param: Path parameter tunnel_id
             betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                               # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                               # Only needed for credentials that can act on more than one Workspace. A
+                               # credential that belongs to a specific Workspace may omit it; if sent, it must
+                               # match that Workspace.
             request_options: {}
 ); end
 
@@ -116389,9 +118577,9 @@ module Anthropic
           params(
             access_type: Anthropic::Beta::UserProfileCreateParams::AccessType::OrSymbol,
             external_id: T.nilable(String),
+            external_user_onboarded_at: Time,
             metadata: T::Hash[Symbol, String],
             name: T.nilable(String),
-            relationship: Anthropic::Beta::UserProfileCreateParams::Relationship::OrSymbol,
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Beta::BetaUserProfile)
@@ -116404,17 +118592,14 @@ module Anthropic
                             # the resold-to company.
           external_id: nil, # Body param: Platform's own identifier for this user. Not enforced unique.
                             # Maximum 255 characters.
+          external_user_onboarded_at: nil, # Body param: A timestamp in RFC 3339 format
           metadata: nil, # Body param: Free-form key-value data to attach to this user profile. Maximum 16
                          # keys, with keys up to 64 characters and values up to 512 characters. Values must
                          # be non-empty strings.
           name: nil, # Body param: Optional for all profiles. Real-world name of the entity this
-                     # profile represents (company or individual); for a resold-to company
-                     # (`relationship` `resold` / `access_type` `passthrough`), that company's name
-                     # where known. Maximum 255 characters.
-          relationship: nil, # Body param: How the entity behind a user profile relates to the platform that
-                             # owns the API key. `external`: an individual end-user of the platform. `resold`:
-                             # a company the platform resells Claude access to. `internal`: the platform's own
-                             # usage.
+                     # profile represents (company or individual); for a company the platform resells
+                     # Claude access to (`access_type` `passthrough`), that company's name where known.
+                     # Maximum 255 characters.
           betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
           request_options: {}
 ); end
@@ -116438,6 +118623,7 @@ module Anthropic
           params(
             limit: Integer,
             order: Anthropic::Beta::UserProfileListParams::Order::OrSymbol,
+            order_by: Anthropic::Beta::UserProfileListParams::OrderBy::OrSymbol,
             page: String,
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
             request_options: Anthropic::RequestOptions::OrHash
@@ -116446,6 +118632,7 @@ module Anthropic
         def list(
           limit: nil, # Query param: Query parameter for limit
           order: nil, # Query param: Query parameter for order
+          order_by: nil, # Query param: Query parameter for order_by
           page: nil, # Query param: Query parameter for page
           betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
           request_options: {}
@@ -116473,11 +118660,9 @@ module Anthropic
                 Anthropic::Beta::UserProfileUpdateParams::AccessType::OrSymbol
               ),
             external_id: T.nilable(String),
+            external_user_onboarded_at: Time,
             metadata: T::Hash[Symbol, String],
             name: T.nilable(String),
-            relationship: T.nilable(
-                Anthropic::Beta::UserProfileUpdateParams::Relationship::OrSymbol
-              ),
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Beta::BetaUserProfile)
@@ -116491,16 +118676,13 @@ module Anthropic
                             # the resold-to company.
           external_id: nil, # Body param: If present, replaces the stored external_id. Omit to leave
                             # unchanged. Maximum 255 characters.
+          external_user_onboarded_at: nil, # Body param: A timestamp in RFC 3339 format
           metadata: nil, # Body param: Key-value pairs to merge into the stored metadata. Keys provided
                          # overwrite existing values. To remove a key, set its value to an empty string.
                          # Keys not provided are left unchanged. Maximum 16 keys, with keys up to 64
                          # characters and values up to 512 characters.
           name: nil, # Body param: If present, replaces the stored name. Omit to leave unchanged.
                      # Maximum 255 characters.
-          relationship: nil, # Body param: How the entity behind a user profile relates to the platform that
-                             # owns the API key. `external`: an individual end-user of the platform. `resold`:
-                             # a company the platform resells Claude access to. `internal`: the platform's own
-                             # usage.
           betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
           request_options: {}
 ); end
@@ -116521,12 +118703,18 @@ module Anthropic
           params(
             vault_id: String,
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Beta::BetaManagedAgentsVault)
         end
         def archive(
           vault_id, # Path parameter vault_id
           betas: nil, # Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
+                             # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -116536,6 +118724,7 @@ module Anthropic
             display_name: String,
             metadata: T::Hash[Symbol, String],
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Beta::BetaManagedAgentsVault)
         end
@@ -116544,6 +118733,11 @@ module Anthropic
           metadata: nil, # Body param: Arbitrary key-value metadata to attach to the vault. Maximum 16
                          # pairs, keys up to 64 chars, values up to 512 chars.
           betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                             # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -116552,12 +118746,18 @@ module Anthropic
           params(
             vault_id: String,
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Beta::BetaManagedAgentsDeletedVault)
         end
         def delete(
           vault_id, # Path parameter vault_id
           betas: nil, # Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
+                             # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -116568,6 +118768,7 @@ module Anthropic
             limit: Integer,
             page: String,
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Internal::PageCursor[
               Anthropic::Beta::BetaManagedAgentsVault
@@ -116579,6 +118780,11 @@ module Anthropic
                       # maximum 100.
           page: nil, # Query param: Opaque pagination token from a previous `list_vaults` response.
           betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                             # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -116587,12 +118793,18 @@ module Anthropic
           params(
             vault_id: String,
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Beta::BetaManagedAgentsVault)
         end
         def retrieve(
           vault_id, # Path parameter vault_id
           betas: nil, # Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
+                             # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -116603,6 +118815,7 @@ module Anthropic
             display_name: T.nilable(String),
             metadata: T.nilable(T::Hash[Symbol, T.nilable(String)]),
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Beta::BetaManagedAgentsVault)
         end
@@ -116612,6 +118825,11 @@ module Anthropic
           metadata: nil, # Body param: Metadata patch. Set a key to a string to upsert it, or to null to
                          # delete it. Omitted keys are preserved.
           betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                             # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -116628,6 +118846,7 @@ module Anthropic
               credential_id: String,
               vault_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(Anthropic::Beta::Vaults::BetaManagedAgentsCredential)
           end
@@ -116635,6 +118854,11 @@ module Anthropic
             credential_id, # Path param: Path parameter credential_id
             vault_id:, # Path param: Path parameter vault_id
             betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                               # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                               # Only needed for credentials that can act on more than one Workspace. A
+                               # credential that belongs to a specific Workspace may omit it; if sent, it must
+                               # match that Workspace.
             request_options: {}
 ); end
 
@@ -116650,6 +118874,7 @@ module Anthropic
               display_name: T.nilable(String),
               metadata: T::Hash[Symbol, String],
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(Anthropic::Beta::Vaults::BetaManagedAgentsCredential)
           end
@@ -116660,6 +118885,11 @@ module Anthropic
             metadata: nil, # Body param: Arbitrary key-value metadata to attach to the credential. Maximum 16
                            # pairs, keys up to 64 chars, values up to 512 chars.
             betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                               # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                               # Only needed for credentials that can act on more than one Workspace. A
+                               # credential that belongs to a specific Workspace may omit it; if sent, it must
+                               # match that Workspace.
             request_options: {}
 ); end
 
@@ -116669,6 +118899,7 @@ module Anthropic
               credential_id: String,
               vault_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(Anthropic::Beta::Vaults::BetaManagedAgentsDeletedCredential)
           end
@@ -116676,6 +118907,11 @@ module Anthropic
             credential_id, # Path param: Path parameter credential_id
             vault_id:, # Path param: Path parameter vault_id
             betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                               # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                               # Only needed for credentials that can act on more than one Workspace. A
+                               # credential that belongs to a specific Workspace may omit it; if sent, it must
+                               # match that Workspace.
             request_options: {}
 ); end
 
@@ -116687,6 +118923,7 @@ module Anthropic
               limit: Integer,
               page: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(Anthropic::Internal::PageCursor[
                 Anthropic::Beta::Vaults::BetaManagedAgentsCredential
@@ -116700,6 +118937,11 @@ module Anthropic
             page: nil, # Query param: Opaque pagination token from a previous `list_credentials`
                        # response.
             betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                               # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                               # Only needed for credentials that can act on more than one Workspace. A
+                               # credential that belongs to a specific Workspace may omit it; if sent, it must
+                               # match that Workspace.
             request_options: {}
 ); end
 
@@ -116709,6 +118951,7 @@ module Anthropic
               credential_id: String,
               vault_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(Anthropic::Beta::Vaults::BetaManagedAgentsCredentialValidation)
           end
@@ -116716,6 +118959,11 @@ module Anthropic
             credential_id, # Path param: Path parameter credential_id
             vault_id:, # Path param: Path parameter vault_id
             betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                               # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                               # Only needed for credentials that can act on more than one Workspace. A
+                               # credential that belongs to a specific Workspace may omit it; if sent, it must
+                               # match that Workspace.
             request_options: {}
 ); end
 
@@ -116725,6 +118973,7 @@ module Anthropic
               credential_id: String,
               vault_id: String,
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(Anthropic::Beta::Vaults::BetaManagedAgentsCredential)
           end
@@ -116732,6 +118981,11 @@ module Anthropic
             credential_id, # Path param: Path parameter credential_id
             vault_id:, # Path param: Path parameter vault_id
             betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                               # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                               # Only needed for credentials that can act on more than one Workspace. A
+                               # credential that belongs to a specific Workspace may omit it; if sent, it must
+                               # match that Workspace.
             request_options: {}
 ); end
 
@@ -116748,6 +119002,7 @@ module Anthropic
               display_name: T.nilable(String),
               metadata: T.nilable(T::Hash[Symbol, T.nilable(String)]),
               betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+              workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
             ).returns(Anthropic::Beta::Vaults::BetaManagedAgentsCredential)
           end
@@ -116759,6 +119014,11 @@ module Anthropic
             metadata: nil, # Body param: Metadata patch. Set a key to a string to upsert it, or to null to
                            # delete it. Omitted keys are preserved.
             betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                               # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                               # Only needed for credentials that can act on more than one Workspace. A
+                               # credential that belongs to a specific Workspace may omit it; if sent, it must
+                               # match that Workspace.
             request_options: {}
 ); end
 
@@ -116771,12 +119031,22 @@ module Anthropic
       end
 
       class Webhooks
+        # Parses a webhook payload into an event without verifying its signature. Prefer
+        # `unwrap()` unless you have already verified the signature yourself.
+        sig { params(payload: String).returns(Anthropic::Beta::BetaWebhookEvent) }
+        def parse_unverified(
+          payload # The raw webhook payload as a string
+); end
+
+        # Verifies the webhook signature from the `webhook-id`, `webhook-timestamp` and
+        # `webhook-signature` headers using your webhook signing key, then parses the
+        # payload into an event. Fails if the signature is missing or invalid.
         sig do
           params(
             payload: String,
             headers: T::Hash[String, String],
             key: T.nilable(String)
-          ).returns(Anthropic::Beta::UnwrapWebhookEvent)
+          ).returns(Anthropic::Beta::BetaWebhookEvent)
         end
         def unwrap(
           payload, # The raw webhook payload as a string
@@ -116815,6 +119085,7 @@ module Anthropic
           top_k: Integer,
           top_p: Float,
           betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+          workspace_id: String,
           stream: T.noreturn,
           request_options: Anthropic::RequestOptions::OrHash
         ).returns(Anthropic::Completion)
@@ -116858,6 +119129,11 @@ module Anthropic
                     # reaches a particular probability specified by `top_p`.
                     # Recommended for advanced use cases only.
         betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+        workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                           # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                           # Only needed for credentials that can act on more than one Workspace. A
+                           # credential that belongs to a specific Workspace may omit it; if sent, it must
+                           # match that Workspace.
         stream: false, # There is no need to provide `stream:`. Instead, use `#create_streaming` or
                        # `#create` for streaming and non-streaming use cases, respectively.
         request_options: {}
@@ -116884,6 +119160,7 @@ module Anthropic
           top_k: Integer,
           top_p: Float,
           betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+          workspace_id: String,
           stream: T.noreturn,
           request_options: Anthropic::RequestOptions::OrHash
         ).returns(Anthropic::Internal::Stream[Anthropic::Completion])
@@ -116927,6 +119204,11 @@ module Anthropic
                     # reaches a particular probability specified by `top_p`.
                     # Recommended for advanced use cases only.
         betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+        workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                           # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                           # Only needed for credentials that can act on more than one Workspace. A
+                           # credential that belongs to a specific Workspace may omit it; if sent, it must
+                           # match that Workspace.
         stream: true, # There is no need to provide `stream:`. Instead, use `#create_streaming` or
                       # `#create` for streaming and non-streaming use cases, respectively.
         request_options: {}
@@ -116944,18 +119226,35 @@ module Anthropic
       sig do
         params(
           file_id: String,
+          workspace_id: String,
           request_options: Anthropic::RequestOptions::OrHash
         ).returns(Anthropic::DeletedFile)
       end
       def delete(
         file_id, # ID of the File.
+        workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
+                           # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                           # Only needed for credentials that can act on more than one Workspace. A
+                           # credential that belongs to a specific Workspace may omit it; if sent, it must
+                           # match that Workspace.
         request_options: {}
 ); end
 
       # Download File
-      sig { params(file_id: String, request_options: Anthropic::RequestOptions::OrHash).returns(StringIO) }
+      sig do
+        params(
+          file_id: String,
+          workspace_id: String,
+          request_options: Anthropic::RequestOptions::OrHash
+        ).returns(StringIO)
+      end
       def download(
         file_id, # ID of the File.
+        workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
+                           # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                           # Only needed for credentials that can act on more than one Workspace. A
+                           # credential that belongs to a specific Workspace may omit it; if sent, it must
+                           # match that Workspace.
         request_options: {}
 ); end
 
@@ -116965,19 +119264,25 @@ module Anthropic
           ids: T.nilable(T::Array[String]),
           limit: Integer,
           page: T.nilable(String),
+          workspace_id: String,
           request_options: Anthropic::RequestOptions::OrHash
         ).returns(Anthropic::Internal::PageCursor[Anthropic::FileMetadata])
       end
       def list(
-        ids: nil, # Restrict the result set to Files whose `id` is in this list. At most 100 entries
-                  # (after de-duplication). Mutually exclusive with `page` and `limit`. When
-                  # supplied, the response is always a single page (`next_page` is null). IDs that
-                  # do not resolve to a visible File — including deleted Files — are silently
-                  # omitted.
-        limit: nil, # Number of items to return per page.
+        ids: nil, # Query param: Restrict the result set to Files whose `id` is in this list. At
+                  # most 100 entries (after de-duplication). Mutually exclusive with `page` and
+                  # `limit`. When supplied, the response is always a single page (`next_page` is
+                  # null). IDs that do not resolve to a visible File — including deleted Files — are
+                  # silently omitted.
+        limit: nil, # Query param: Number of items to return per page.
                     # Defaults to `20`. Ranges from `1` to `1000`.
-        page: nil, # Opaque page cursor returned in a prior list response's `next_page`. Prefixed
-                   # `page_`.
+        page: nil, # Query param: Opaque page cursor returned in a prior list response's `next_page`.
+                   # Prefixed `page_`.
+        workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                           # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                           # Only needed for credentials that can act on more than one Workspace. A
+                           # credential that belongs to a specific Workspace may omit it; if sent, it must
+                           # match that Workspace.
         request_options: {}
 ); end
 
@@ -116985,11 +119290,17 @@ module Anthropic
       sig do
         params(
           file_id: String,
+          workspace_id: String,
           request_options: Anthropic::RequestOptions::OrHash
         ).returns(Anthropic::FileMetadata)
       end
       def retrieve_metadata(
         file_id, # ID of the File.
+        workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
+                           # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                           # Only needed for credentials that can act on more than one Workspace. A
+                           # credential that belongs to a specific Workspace may omit it; if sent, it must
+                           # match that Workspace.
         request_options: {}
 ); end
 
@@ -116998,13 +119309,22 @@ module Anthropic
         params(
           file: Anthropic::Internal::FileInput,
           expires_in_seconds: Integer,
+          workspace_id: String,
           request_options: Anthropic::RequestOptions::OrHash
         ).returns(Anthropic::FileMetadata)
       end
       def upload(
-        file:, # The file to upload
-        expires_in_seconds: nil, # Seconds from upload until the file expires and its bytes become permanently
-                                 # unavailable. Must be between 3600 (one hour) and 7776000 (ninety days).
+        file:, # Body param: The file to upload. Only the final path component of the part's
+               # `filename` is kept; an absent or empty `filename` is replaced with `unnamed`
+               # plus the extension for the file's stored `mime_type`, when known.
+        expires_in_seconds: nil, # Body param: Seconds from upload until the file expires and its bytes become
+                                 # permanently unavailable. Must be between 3600 (one hour) and 7776000 (ninety
+                                 # days).
+        workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                           # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                           # Only needed for credentials that can act on more than one Workspace. A
+                           # credential that belongs to a specific Workspace may omit it; if sent, it must
+                           # match that Workspace.
         request_options: {}
 ); end
 
@@ -117070,6 +119390,7 @@ module Anthropic
               )
             ],
           user_profile_id: String,
+          workspace_id: String,
           request_options: Anthropic::RequestOptions::OrHash
         ).returns(Anthropic::MessageTokensCount)
       end
@@ -117213,6 +119534,11 @@ module Anthropic
         user_profile_id: nil, # Header param: The user profile ID to attribute this request to. Use when acting
                               # on behalf of a party other than your organization. Requires the `user-profiles`
                               # beta header.
+        workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                           # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                           # Only needed for credentials that can act on more than one Workspace. A
+                           # credential that belongs to a specific Workspace may omit it; if sent, it must
+                           # match that Workspace.
         request_options: {}
 ); end
 
@@ -117279,6 +119605,7 @@ module Anthropic
           top_k: Integer,
           top_p: Float,
           user_profile_id: String,
+          workspace_id: String,
           stream: T.noreturn,
           request_options: Anthropic::RequestOptions::OrHash
         ).returns(Anthropic::Message)
@@ -117463,6 +119790,11 @@ module Anthropic
         user_profile_id: nil, # Header param: The user profile ID to attribute this request to. Use when acting
                               # on behalf of a party other than your organization. Requires the `user-profiles`
                               # beta header.
+        workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                           # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                           # Only needed for credentials that can act on more than one Workspace. A
+                           # credential that belongs to a specific Workspace may omit it; if sent, it must
+                           # match that Workspace.
         stream: false, # There is no need to provide `stream:`. Instead, use `#stream_raw` or `#create`
                        # for streaming and non-streaming use cases, respectively.
         request_options: {}
@@ -117531,6 +119863,7 @@ module Anthropic
           top_k: Integer,
           top_p: Float,
           user_profile_id: String,
+          workspace_id: String,
           stream: T.noreturn,
           request_options: Anthropic::RequestOptions::OrHash
         ).returns(Anthropic::Helpers::Streaming::MessageStream)
@@ -117715,6 +120048,11 @@ module Anthropic
         user_profile_id: nil, # Header param: The user profile ID to attribute this request to. Use when acting
                               # on behalf of a party other than your organization. Requires the `user-profiles`
                               # beta header.
+        workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                           # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                           # Only needed for credentials that can act on more than one Workspace. A
+                           # credential that belongs to a specific Workspace may omit it; if sent, it must
+                           # match that Workspace.
         stream: true, # There is no need to provide `stream:`. Instead, use `#stream_raw` or `#create`
                       # for streaming and non-streaming use cases, respectively.
         request_options: {}
@@ -117773,6 +120111,7 @@ module Anthropic
           top_k: Integer,
           top_p: Float,
           user_profile_id: String,
+          workspace_id: String,
           stream: T.noreturn,
           request_options: Anthropic::RequestOptions::OrHash
         ).returns(Anthropic::Internal::Stream[
@@ -117959,6 +120298,11 @@ module Anthropic
         user_profile_id: nil, # Header param: The user profile ID to attribute this request to. Use when acting
                               # on behalf of a party other than your organization. Requires the `user-profiles`
                               # beta header.
+        workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                           # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                           # Only needed for credentials that can act on more than one Workspace. A
+                           # credential that belongs to a specific Workspace may omit it; if sent, it must
+                           # match that Workspace.
         stream: true, # There is no need to provide `stream:`. Instead, use `#stream_raw` or `#create`
                       # for streaming and non-streaming use cases, respectively.
         request_options: {}
@@ -117986,11 +120330,17 @@ module Anthropic
         sig do
           params(
             message_batch_id: String,
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Messages::MessageBatch)
         end
         def cancel(
           message_batch_id, # ID of the Message Batch.
+          workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
+                             # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -118006,6 +120356,7 @@ module Anthropic
           params(
             requests: T::Array[Anthropic::Messages::BatchCreateParams::Request::OrHash],
             user_profile_id: String,
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Messages::MessageBatch)
         end
@@ -118017,6 +120368,11 @@ module Anthropic
                                 # `user-profiles` beta header. Applies to every request in the batch; an
                                 # individual request whose `user_profile_id` body field conflicts with this header
                                 # is errored.
+          workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                             # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -118030,11 +120386,17 @@ module Anthropic
         sig do
           params(
             message_batch_id: String,
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Messages::DeletedMessageBatch)
         end
         def delete(
           message_batch_id, # ID of the Message Batch.
+          workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
+                             # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -118048,16 +120410,22 @@ module Anthropic
             after_id: String,
             before_id: String,
             limit: Integer,
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Internal::Page[Anthropic::Messages::MessageBatch])
         end
         def list(
-          after_id: nil, # ID of the object to use as a cursor for pagination. When provided, returns the
-                         # page of results immediately after this object.
-          before_id: nil, # ID of the object to use as a cursor for pagination. When provided, returns the
-                          # page of results immediately before this object.
-          limit: nil, # Number of items to return per page.
+          after_id: nil, # Query param: ID of the object to use as a cursor for pagination. When provided,
+                         # returns the page of results immediately after this object.
+          before_id: nil, # Query param: ID of the object to use as a cursor for pagination. When provided,
+                          # returns the page of results immediately before this object.
+          limit: nil, # Query param: Number of items to return per page.
                       # Defaults to `20`. Ranges from `1` to `1000`.
+          workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                             # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -118072,6 +120440,7 @@ module Anthropic
         sig do
           params(
             message_batch_id: String,
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Internal::JsonLStream[
               Anthropic::Messages::MessageBatchIndividualResponse
@@ -118079,6 +120448,11 @@ module Anthropic
         end
         def results_streaming(
           message_batch_id, # ID of the Message Batch.
+          workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
+                             # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -118091,11 +120465,17 @@ module Anthropic
         sig do
           params(
             message_batch_id: String,
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Messages::MessageBatch)
         end
         def retrieve(
           message_batch_id, # ID of the Message Batch.
+          workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
+                             # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -118118,6 +120498,7 @@ module Anthropic
           before_id: String,
           limit: Integer,
           betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+          workspace_id: String,
           request_options: Anthropic::RequestOptions::OrHash
         ).returns(Anthropic::Internal::Page[Anthropic::ModelInfo])
       end
@@ -118129,6 +120510,11 @@ module Anthropic
         limit: nil, # Query param: Number of items to return per page.
                     # Defaults to `20`. Ranges from `1` to `1000`.
         betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+        workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                           # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                           # Only needed for credentials that can act on more than one Workspace. A
+                           # credential that belongs to a specific Workspace may omit it; if sent, it must
+                           # match that Workspace.
         request_options: {}
 ); end
 
@@ -118140,12 +120526,18 @@ module Anthropic
         params(
           model_id: String,
           betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
+          workspace_id: String,
           request_options: Anthropic::RequestOptions::OrHash
         ).returns(Anthropic::ModelInfo)
       end
       def retrieve(
         model_id, # Model identifier or alias.
         betas: nil, # Optional header to specify the beta version(s) you want to use.
+        workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
+                           # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                           # Only needed for credentials that can act on more than one Workspace. A
+                           # credential that belongs to a specific Workspace may omit it; if sent, it must
+                           # match that Workspace.
         request_options: {}
 ); end
 
@@ -118165,16 +120557,22 @@ module Anthropic
         params(
           files: T::Array[Anthropic::Internal::FileInput],
           display_name: T.nilable(String),
+          workspace_id: String,
           request_options: Anthropic::RequestOptions::OrHash
         ).returns(Anthropic::Skill)
       end
       def create(
-        files:, # Files to upload for the skill.
+        files:, # Body param: Files to upload for the skill.
                 # All files must be in the same top-level directory and must include a SKILL.md
                 # file at the root of that directory.
-        display_name: nil, # Human-readable, single-line label for the Skill. Maximum 255 characters. Always
-                           # set: derived from the SKILL.md frontmatter `name` when omitted at creation. Not
-                           # unique.
+        display_name: nil, # Body param: Human-readable, single-line label for the Skill. Maximum 255
+                           # characters. Always set: derived from the SKILL.md frontmatter `name` when
+                           # omitted at creation. Not unique.
+        workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                           # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                           # Only needed for credentials that can act on more than one Workspace. A
+                           # credential that belongs to a specific Workspace may omit it; if sent, it must
+                           # match that Workspace.
         request_options: {}
 ); end
 
@@ -118182,12 +120580,18 @@ module Anthropic
       sig do
         params(
           skill_id: String,
+          workspace_id: String,
           request_options: Anthropic::RequestOptions::OrHash
         ).returns(Anthropic::DeletedSkill)
       end
       def delete(
         skill_id, # Unique identifier for the skill.
                   # The format and length of IDs may change over time.
+        workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
+                           # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                           # Only needed for credentials that can act on more than one Workspace. A
+                           # credential that belongs to a specific Workspace may omit it; if sent, it must
+                           # match that Workspace.
         request_options: {}
 ); end
 
@@ -118197,27 +120601,44 @@ module Anthropic
           limit: Integer,
           page: T.nilable(String),
           source: T.nilable(String),
+          workspace_id: String,
           request_options: Anthropic::RequestOptions::OrHash
         ).returns(Anthropic::Internal::PageCursor[Anthropic::Skill])
       end
       def list(
-        limit: nil, # Number of results to return per page.
+        limit: nil, # Query param: Number of results to return per page.
                     # Ranges from `1` to `1000`. Defaults to `20`.
-        page: nil, # Pagination token for fetching a specific page of results.
+        page: nil, # Query param: Pagination token for fetching a specific page of results.
                    # Pass the value from a previous response's `next_page` field to get the next page
                    # of results.
-        source: nil, # Filter skills by source.
+        source: nil, # Query param: Filter skills by source.
                      # If provided, only skills from the specified source will be returned:
                      # - `"custom"`: only return user-created skills
                      # - `"anthropic"`: only return Anthropic-created skills
+        workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                           # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                           # Only needed for credentials that can act on more than one Workspace. A
+                           # credential that belongs to a specific Workspace may omit it; if sent, it must
+                           # match that Workspace.
         request_options: {}
 ); end
 
       # Get Skill
-      sig { params(skill_id: String, request_options: Anthropic::RequestOptions::OrHash).returns(Anthropic::Skill) }
+      sig do
+        params(
+          skill_id: String,
+          workspace_id: String,
+          request_options: Anthropic::RequestOptions::OrHash
+        ).returns(Anthropic::Skill)
+      end
       def retrieve(
         skill_id, # Unique identifier for the skill.
                   # The format and length of IDs may change over time.
+        workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
+                           # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                           # Only needed for credentials that can act on more than one Workspace. A
+                           # credential that belongs to a specific Workspace may omit it; if sent, it must
+                           # match that Workspace.
         request_options: {}
 ); end
 
@@ -118233,15 +120654,21 @@ module Anthropic
           params(
             skill_id: String,
             files: T::Array[Anthropic::Internal::FileInput],
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Skills::SkillVersion)
         end
         def create(
-          skill_id, # Unique identifier for the skill.
+          skill_id, # Path param: Unique identifier for the skill.
                     # The format and length of IDs may change over time.
-          files:, # Files to upload for the skill.
+          files:, # Body param: Files to upload for the skill.
                   # All files must be in the same top-level directory and must include a SKILL.md
                   # file at the root of that directory.
+          workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                             # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -118250,15 +120677,21 @@ module Anthropic
           params(
             version: String,
             skill_id: String,
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Skills::DeletedSkillVersion)
         end
         def delete(
-          version, # Identifies the skill version by its version ID.
+          version, # Path param: Identifies the skill version by its version ID.
                    # Requests carrying the `skills-2025-10-02` beta header address versions by their
                    # Unix epoch timestamp instead (e.g., "1759178010641129").
-          skill_id:, # Unique identifier for the skill.
+          skill_id:, # Path param: Unique identifier for the skill.
                      # The format and length of IDs may change over time.
+          workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                             # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -118268,15 +120701,21 @@ module Anthropic
             skill_id: String,
             limit: T.nilable(Integer),
             page: T.nilable(String),
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Internal::PageCursor[Anthropic::Skills::SkillVersion])
         end
         def list(
-          skill_id, # Unique identifier for the skill.
+          skill_id, # Path param: Unique identifier for the skill.
                     # The format and length of IDs may change over time.
-          limit: nil, # Number of results to return per page.
+          limit: nil, # Query param: Number of results to return per page.
                       # Ranges from `1` to `1000`. Defaults to `20`.
-          page: nil, # Optionally set to the `next_page` token from the previous response.
+          page: nil, # Query param: Optionally set to the `next_page` token from the previous response.
+          workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                             # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 
@@ -118285,16 +120724,22 @@ module Anthropic
           params(
             version: String,
             skill_id: String,
+            workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Skills::SkillVersion)
         end
         def retrieve(
-          version, # Identifies the skill version: a version ID, or the literal `latest` for the
-                   # skill's most recent version.
+          version, # Path param: Identifies the skill version: a version ID, or the literal `latest`
+                   # for the skill's most recent version.
                    # Requests carrying the `skills-2025-10-02` beta header address versions by their
                    # Unix epoch timestamp instead (e.g., "1759178010641129").
-          skill_id:, # Unique identifier for the skill.
+          skill_id:, # Path param: Unique identifier for the skill.
                      # The format and length of IDs may change over time.
+          workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
+                             # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+                             # Only needed for credentials that can act on more than one Workspace. A
+                             # credential that belongs to a specific Workspace may omit it; if sent, it must
+                             # match that Workspace.
           request_options: {}
 ); end
 

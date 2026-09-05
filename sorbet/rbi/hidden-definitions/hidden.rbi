@@ -18,7 +18,6 @@ class ActionController::API
   include ::ActiveRecord::Railties::ControllerRuntime
   include ::Draper::Compatibility::ApiOnly
   include ::Draper::ViewContext
-  include ::GoogleVisualr::Rails::ViewHelper
   include ::AbstractController::Helpers
   include ::ActionController::Helpers
   include ::ActionController::ImplicitRender
@@ -92,7 +91,6 @@ class ActionController::Base
   include ::ActionDispatch::Routing::RouteSet::MountedHelpers
   include ::ActiveRecord::Railties::ControllerRuntime
   include ::Draper::ViewContext
-  include ::GoogleVisualr::Rails::ViewHelper
   include ::Sentry::Rails::ControllerMethods
   include ::Sentry::Rails::ControllerTransaction
   def allow_rescue(); end
@@ -112,7 +110,6 @@ end
 
 class ActionController::Base
   extend ::ActionController::Railties::Helpers
-  extend ::WillPaginate::Railtie::ControllerRescuePatch
   extend ::Draper::HelperSupport
   extend ::Draper::DecoratesAssigned
   def self.allow_rescue(); end
@@ -125,7 +122,6 @@ module ActionController::Live
 end
 
 class ActionDispatch::ExceptionWrapper
-  include ::WillPaginate::Railtie::ShowExceptionsPatch
   def status_code_without_paginate(); end
 end
 
@@ -678,8 +674,6 @@ class ActiveRecord::Base
   extend ::CarrierWave::Mount
   extend ::Geocoder::Model::ActiveRecord
   extend ::Geocoder::Model::Base
-  extend ::WillPaginate::PerPage
-  extend ::WillPaginate::PerPage::Inheritance
   extend ::WillPaginate::ActiveRecord::Pagination
   extend ::WillPaginate::ActiveRecord::BaseMethods
   extend ::Devise::Models
@@ -6201,8 +6195,6 @@ class Etc::Passwd
 end
 
 class Etf2lProfile
-  extend ::T::Private::Methods::MethodHooks
-  extend ::T::Private::Methods::SingletonMethodHooks
 end
 
 module Exception2MessageMapper
@@ -10460,8 +10452,6 @@ class Geocoder::Configuration
 end
 
 class Geocoder::Lookup::MaxmindLocal
-  extend ::T::Private::Methods::MethodHooks
-  extend ::T::Private::Methods::SingletonMethodHooks
 end
 
 class Geocoder::Result::MaxmindLocal
@@ -10615,8 +10605,6 @@ module Group::GeneratedAttributeMethods
 end
 
 class Group
-  extend ::T::Private::Methods::MethodHooks
-  extend ::T::Private::Methods::SingletonMethodHooks
 end
 
 class GroupServer
@@ -15546,8 +15534,6 @@ end
 module RSpec::Sorbet::Doubles
   extend ::T::Sig
   extend ::T::Helpers
-  extend ::T::Private::Methods::MethodHooks
-  extend ::T::Private::Methods::SingletonMethodHooks
 end
 
 module RSpec
@@ -15654,7 +15640,6 @@ module Rails::ApplicationController::HelperMethods
 end
 
 class Rails::Generators::NamedBase
-  include ::Coffee::Rails::JsHook
 end
 
 module Rails::HealthController::HelperMethods
@@ -16139,8 +16124,6 @@ class Resolv::IPv6
 end
 
 class RglProfile
-  extend ::T::Private::Methods::MethodHooks
-  extend ::T::Private::Methods::SingletonMethodHooks
 end
 
 class Ripper
@@ -17463,8 +17446,6 @@ end
 
 class Server
   extend ::Geocoder::Store::ActiveRecord::ClassMethods
-  extend ::T::Private::Methods::MethodHooks
-  extend ::T::Private::Methods::SingletonMethodHooks
   def self.geocoded(*args, **arg); end
 
   def self.near(*args, **arg); end
@@ -17483,8 +17464,6 @@ class ServerConfig
 end
 
 class ServerConfig
-  extend ::T::Private::Methods::MethodHooks
-  extend ::T::Private::Methods::SingletonMethodHooks
 end
 
 class ServerDecorator
@@ -17501,8 +17480,6 @@ class ServerInfo
 end
 
 class ServerInfo
-  extend ::T::Private::Methods::MethodHooks
-  extend ::T::Private::Methods::SingletonMethodHooks
 end
 
 class ServerNotification
@@ -17516,8 +17493,6 @@ module ServerNotification::GeneratedAssociationMethods
 end
 
 class ServerNotification
-  extend ::T::Private::Methods::MethodHooks
-  extend ::T::Private::Methods::SingletonMethodHooks
 end
 
 class ServerNotificationWorker
@@ -17602,8 +17577,6 @@ class ServerUpload
 end
 
 class ServerUpload
-  extend ::T::Private::Methods::MethodHooks
-  extend ::T::Private::Methods::SingletonMethodHooks
 end
 
 class ServerVersionWorker
@@ -19597,7 +19570,6 @@ end
 
 class User
   include ::Devise::Orm
-  include ::Devise::Orm::DirtyTrackingNewMethods
   include ::Devise::Models::Authenticatable
   include ::ActiveSupport::Deprecation::DeprecatedConstantAccessor
   include ::Devise::Models::Rememberable
@@ -19659,8 +19631,6 @@ class User
   extend ::Devise::Models::Rememberable::ClassMethods
   extend ::Devise::Models::Omniauthable::ClassMethods
   extend ::Geocoder::Store::ActiveRecord::ClassMethods
-  extend ::T::Private::Methods::MethodHooks
-  extend ::T::Private::Methods::SingletonMethodHooks
   def self.devise_modules(); end
 
   def self.devise_modules=(value); end
@@ -19831,7 +19801,6 @@ module WillPaginate::ActiveRecord::Pagination
 end
 
 module WillPaginate::ActiveRecord::RelationMethods
-  include ::WillPaginate::CollectionMethods
   def clone(); end
 
   def count(*args); end

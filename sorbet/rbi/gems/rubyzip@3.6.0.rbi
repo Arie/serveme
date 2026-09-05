@@ -90,69 +90,69 @@ module Zip
   def write_zip64_support=(_arg0); end
 end
 
-# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:64
+# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:67
 class Zip::AESDecrypter < ::Zip::Decrypter
   include ::Zip::AESEncryption
 
-  # pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:115
+  # pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:118
   def check_integrity!(io); end
 
-  # pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:67
+  # pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:70
   def decrypt(encrypted_data); end
 
-  # pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:90
+  # pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:93
   def reset!(header); end
 end
 
-# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:6
+# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:4
 module Zip::AESEncryption
-  # pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:47
+  # pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:45
   def initialize(password, strength); end
 
-  # pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:59
+  # pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:62
   def gp_flags; end
 
-  # pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:55
+  # pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:58
   def header_bytesize; end
 end
 
-# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:9
+# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:7
 Zip::AESEncryption::AUTHENTICATION_CODE_LENGTH = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:29
+# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:27
 Zip::AESEncryption::BITS = T.let(T.unsafe(nil), Hash)
 
-# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:8
+# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:6
 Zip::AESEncryption::BLOCK_SIZE = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:35
+# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:33
 Zip::AESEncryption::KEY_LENGTHS = T.let(T.unsafe(nil), Hash)
 
-# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:41
+# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:39
 Zip::AESEncryption::SALT_LENGTHS = T.let(T.unsafe(nil), Hash)
 
-# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:23
+# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:21
 Zip::AESEncryption::STRENGTHS = T.let(T.unsafe(nil), Array)
 
-# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:19
+# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:17
 Zip::AESEncryption::STRENGTH_128_BIT = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:20
+# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:18
 Zip::AESEncryption::STRENGTH_192_BIT = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:21
+# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:19
 Zip::AESEncryption::STRENGTH_256_BIT = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:7
+# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:5
 Zip::AESEncryption::VERIFIER_LENGTH = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:14
+# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:12
 Zip::AESEncryption::VERSIONS = T.let(T.unsafe(nil), Array)
 
-# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:11
+# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:9
 Zip::AESEncryption::VERSION_AE_1 = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:12
+# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:10
 Zip::AESEncryption::VERSION_AE_2 = T.let(T.unsafe(nil), Integer)
 
 # pkg:gem/rubyzip#lib/zip/constants.rb:9
@@ -392,57 +392,84 @@ class Zip::DOSTime < ::Time
 
   # Dos time is only stored with two seconds accuracy.
   #
-  # pkg:gem/rubyzip#lib/zip/dos_time.rb:46
+  # pkg:gem/rubyzip#lib/zip/dos_time.rb:64
   def <=>(other); end
 
-  # Register DX, the Date:
-  # Bits 0-4 day (1-31)
-  # bits 5-8 month (1-12)
-  # bits 9-15 year (four digit year minus 1980)
+  # 23:59:58
   #
-  # pkg:gem/rubyzip#lib/zip/dos_time.rb:19
+  # pkg:gem/rubyzip#lib/zip/dos_time.rb:31
   def absolute_time=(_arg0); end
 
-  # pkg:gem/rubyzip#lib/zip/dos_time.rb:21
+  # pkg:gem/rubyzip#lib/zip/dos_time.rb:33
   def absolute_time?; end
 
   # Deprecated. Remove for version 4.
   #
-  # pkg:gem/rubyzip#lib/zip/dos_time.rb:40
+  # pkg:gem/rubyzip#lib/zip/dos_time.rb:58
   def dos_equals(other); end
 
-  # pkg:gem/rubyzip#lib/zip/dos_time.rb:33
+  # pkg:gem/rubyzip#lib/zip/dos_time.rb:48
   def to_binary_dos_date; end
 
-  # pkg:gem/rubyzip#lib/zip/dos_time.rb:27
+  # pkg:gem/rubyzip#lib/zip/dos_time.rb:39
   def to_binary_dos_time; end
 
   class << self
     # Create a DOSTime instance from a vanilla Time instance.
     #
-    # pkg:gem/rubyzip#lib/zip/dos_time.rb:53
+    # pkg:gem/rubyzip#lib/zip/dos_time.rb:71
     def from_time(time); end
 
-    # pkg:gem/rubyzip#lib/zip/dos_time.rb:57
+    # pkg:gem/rubyzip#lib/zip/dos_time.rb:75
     def parse_binary_dos_format(bin_dos_date, bin_dos_time); end
   end
 end
 
-# pkg:gem/rubyzip#lib/zip/dos_time.rb:71
+# The MS-DOS date field is seven bits of "year minus 1980", so only
+# 1980-01-01 00:00:00 through 2107-12-31 23:59:58 can be represented.
+# Times outside that are clamped rather than allowed to wrap: the real
+# time is still carried in the universal time (UT) extra field, but the
+# DOS fields have to stay in range for readers that only look at those.
+#
+# pkg:gem/rubyzip#lib/zip/dos_time.rb:24
+Zip::DOSTime::DOS_EPOCH_YEAR = T.let(T.unsafe(nil), Integer)
+
+# 1980-01-01
+#
+# pkg:gem/rubyzip#lib/zip/dos_time.rb:27
+Zip::DOSTime::DOS_MAX_DATE = T.let(T.unsafe(nil), Integer)
+
+# 00:00:00
+#
+# pkg:gem/rubyzip#lib/zip/dos_time.rb:29
+Zip::DOSTime::DOS_MAX_TIME = T.let(T.unsafe(nil), Integer)
+
+# pkg:gem/rubyzip#lib/zip/dos_time.rb:25
+Zip::DOSTime::DOS_MAX_YEAR = T.let(T.unsafe(nil), Integer)
+
+# pkg:gem/rubyzip#lib/zip/dos_time.rb:26
+Zip::DOSTime::DOS_MIN_DATE = T.let(T.unsafe(nil), Integer)
+
+# 2107-12-31
+#
+# pkg:gem/rubyzip#lib/zip/dos_time.rb:28
+Zip::DOSTime::DOS_MIN_TIME = T.let(T.unsafe(nil), Integer)
+
+# pkg:gem/rubyzip#lib/zip/dos_time.rb:89
 module Zip::DOSTime::JRubyCMP
-  # pkg:gem/rubyzip#lib/zip/dos_time.rb:76
+  # pkg:gem/rubyzip#lib/zip/dos_time.rb:94
   def <(other); end
 
-  # pkg:gem/rubyzip#lib/zip/dos_time.rb:80
+  # pkg:gem/rubyzip#lib/zip/dos_time.rb:98
   def <=(other); end
 
-  # pkg:gem/rubyzip#lib/zip/dos_time.rb:72
+  # pkg:gem/rubyzip#lib/zip/dos_time.rb:90
   def ==(other); end
 
-  # pkg:gem/rubyzip#lib/zip/dos_time.rb:84
+  # pkg:gem/rubyzip#lib/zip/dos_time.rb:102
   def >(other); end
 
-  # pkg:gem/rubyzip#lib/zip/dos_time.rb:88
+  # pkg:gem/rubyzip#lib/zip/dos_time.rb:106
   def >=(other); end
 end
 
@@ -2133,9 +2160,9 @@ Zip::IOExtras::CHUNK_SIZE = T.let(T.unsafe(nil), Integer)
 
 # Implements kind_of? in order to pretend to be an IO object
 #
-# pkg:gem/rubyzip#lib/zip/ioextras.rb:23
+# pkg:gem/rubyzip#lib/zip/ioextras.rb:26
 module Zip::IOExtras::FakeIO
-  # pkg:gem/rubyzip#lib/zip/ioextras.rb:24
+  # pkg:gem/rubyzip#lib/zip/ioextras.rb:27
   def kind_of?(object); end
 end
 
@@ -2419,17 +2446,17 @@ class Zip::OutputStream
 
   # Modeled after IO.<<
   #
-  # pkg:gem/rubyzip#lib/zip/output_stream.rb:199
+  # pkg:gem/rubyzip#lib/zip/output_stream.rb:205
   def <<(data); end
 
   # Closes the stream and writes the central directory to the zip file
   #
-  # pkg:gem/rubyzip#lib/zip/output_stream.rb:76
+  # pkg:gem/rubyzip#lib/zip/output_stream.rb:82
   def close; end
 
   # Closes the stream and writes the central directory to the zip file
   #
-  # pkg:gem/rubyzip#lib/zip/output_stream.rb:87
+  # pkg:gem/rubyzip#lib/zip/output_stream.rb:93
   def close_buffer; end
 
   # pkg:gem/rubyzip#lib/zip/output_stream.rb:28
@@ -2438,32 +2465,32 @@ class Zip::OutputStream
   # pkg:gem/rubyzip#lib/zip/output_stream.rb:28
   def comment=(*_arg0, **_arg1, &_arg2); end
 
-  # pkg:gem/rubyzip#lib/zip/output_stream.rb:120
+  # pkg:gem/rubyzip#lib/zip/output_stream.rb:126
   def copy_raw_entry(entry); end
 
   # Closes the current entry and opens a new for writing.
   # +entry+ can be a ZipEntry object or a string.
   #
-  # pkg:gem/rubyzip#lib/zip/output_stream.rb:100
+  # pkg:gem/rubyzip#lib/zip/output_stream.rb:106
   def put_next_entry(entry_name, comment = T.unsafe(nil), extra = T.unsafe(nil), compression_method = T.unsafe(nil), level = T.unsafe(nil)); end
 
   protected
 
-  # pkg:gem/rubyzip#lib/zip/output_stream.rb:192
+  # pkg:gem/rubyzip#lib/zip/output_stream.rb:198
   def finish; end
 
   private
 
-  # pkg:gem/rubyzip#lib/zip/output_stream.rb:141
+  # pkg:gem/rubyzip#lib/zip/output_stream.rb:147
   def finalize_current_entry; end
 
-  # pkg:gem/rubyzip#lib/zip/output_stream.rb:169
+  # pkg:gem/rubyzip#lib/zip/output_stream.rb:175
   def get_compressor(entry); end
 
-  # pkg:gem/rubyzip#lib/zip/output_stream.rb:160
+  # pkg:gem/rubyzip#lib/zip/output_stream.rb:166
   def init_next_entry(entry); end
 
-  # pkg:gem/rubyzip#lib/zip/output_stream.rb:180
+  # pkg:gem/rubyzip#lib/zip/output_stream.rb:186
   def update_local_headers; end
 
   class << self
@@ -2476,7 +2503,7 @@ class Zip::OutputStream
 
     # Same as #open but writes to a filestream instead
     #
-    # pkg:gem/rubyzip#lib/zip/output_stream.rb:66
+    # pkg:gem/rubyzip#lib/zip/output_stream.rb:72
     def write_buffer(io = T.unsafe(nil), encrypter: T.unsafe(nil), suppress_extra_fields: T.unsafe(nil)); end
   end
 end

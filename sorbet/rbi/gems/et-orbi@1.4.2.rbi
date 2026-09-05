@@ -77,10 +77,10 @@ module EtOrbi
     # pkg:gem/et-orbi#lib/et-orbi/info.rb:43
     def render_nozone_time(seconds); end
 
-    # pkg:gem/et-orbi#lib/et-orbi/time.rb:507
+    # pkg:gem/et-orbi#lib/et-orbi/time.rb:511
     def rweek_ref; end
 
-    # pkg:gem/et-orbi#lib/et-orbi/time.rb:495
+    # pkg:gem/et-orbi#lib/et-orbi/time.rb:499
     def rweek_ref=(x); end
 
     # pkg:gem/et-orbi#lib/et-orbi/zones.rb:176
@@ -190,22 +190,22 @@ class EtOrbi::EoTime
   # pkg:gem/et-orbi#lib/et-orbi/time.rb:67
   def initialize(s, zone); end
 
-  # pkg:gem/et-orbi#lib/et-orbi/time.rb:250
+  # pkg:gem/et-orbi#lib/et-orbi/time.rb:255
   def +(t); end
 
-  # pkg:gem/et-orbi#lib/et-orbi/time.rb:251
+  # pkg:gem/et-orbi#lib/et-orbi/time.rb:256
   def -(t); end
 
-  # pkg:gem/et-orbi#lib/et-orbi/time.rb:243
+  # pkg:gem/et-orbi#lib/et-orbi/time.rb:248
   def <(o); end
 
-  # pkg:gem/et-orbi#lib/et-orbi/time.rb:244
+  # pkg:gem/et-orbi#lib/et-orbi/time.rb:249
   def <=(o); end
 
-  # pkg:gem/et-orbi#lib/et-orbi/time.rb:245
+  # pkg:gem/et-orbi#lib/et-orbi/time.rb:250
   def <=>(o); end
 
-  # pkg:gem/et-orbi#lib/et-orbi/time.rb:220
+  # pkg:gem/et-orbi#lib/et-orbi/time.rb:225
   def ==(o); end
 
   # Nota Bene:
@@ -217,13 +217,13 @@ class EtOrbi::EoTime
   # The eql? method returns true if obj and other refer to the same hash key.
   # This is used by Hash to test members for equality.
   #
-  # pkg:gem/et-orbi#lib/et-orbi/time.rb:241
+  # pkg:gem/et-orbi#lib/et-orbi/time.rb:246
   def >(o); end
 
-  # pkg:gem/et-orbi#lib/et-orbi/time.rb:242
+  # pkg:gem/et-orbi#lib/et-orbi/time.rb:247
   def >=(o); end
 
-  # pkg:gem/et-orbi#lib/et-orbi/time.rb:247
+  # pkg:gem/et-orbi#lib/et-orbi/time.rb:252
   def add(t); end
 
   # Returns true if this EoTime instance corresponds to 2 different UTC
@@ -235,13 +235,13 @@ class EtOrbi::EoTime
   # pkg:gem/et-orbi#lib/et-orbi/time.rb:127
   def ambiguous?; end
 
-  # pkg:gem/et-orbi#lib/et-orbi/time.rb:217
+  # pkg:gem/et-orbi#lib/et-orbi/time.rb:222
   def asctime; end
 
-  # pkg:gem/et-orbi#lib/et-orbi/time.rb:413
+  # pkg:gem/et-orbi#lib/et-orbi/time.rb:416
   def clone; end
 
-  # pkg:gem/et-orbi#lib/et-orbi/time.rb:217
+  # pkg:gem/et-orbi#lib/et-orbi/time.rb:222
   def day; end
 
   # pkg:gem/et-orbi#lib/et-orbi/time.rb:156
@@ -250,56 +250,56 @@ class EtOrbi::EoTime
   # pkg:gem/et-orbi#lib/et-orbi/time.rb:155
   def getutc; end
 
-  # pkg:gem/et-orbi#lib/et-orbi/time.rb:217
+  # pkg:gem/et-orbi#lib/et-orbi/time.rb:222
   def hour; end
 
-  # pkg:gem/et-orbi#lib/et-orbi/time.rb:352
+  # pkg:gem/et-orbi#lib/et-orbi/time.rb:357
   def in_time_zone(zone = T.unsafe(nil)); end
 
-  # pkg:gem/et-orbi#lib/et-orbi/time.rb:316
+  # pkg:gem/et-orbi#lib/et-orbi/time.rb:321
   def inc(t, dir = T.unsafe(nil)); end
 
-  # pkg:gem/et-orbi#lib/et-orbi/time.rb:188
+  # pkg:gem/et-orbi#lib/et-orbi/time.rb:193
   def is_dst?; end
 
-  # pkg:gem/et-orbi#lib/et-orbi/time.rb:192
+  # pkg:gem/et-orbi#lib/et-orbi/time.rb:197
   def isdst; end
 
-  # pkg:gem/et-orbi#lib/et-orbi/time.rb:291
+  # pkg:gem/et-orbi#lib/et-orbi/time.rb:296
   def iso8601(fraction_digits = T.unsafe(nil)); end
 
-  # pkg:gem/et-orbi#lib/et-orbi/time.rb:346
+  # pkg:gem/et-orbi#lib/et-orbi/time.rb:351
   def localtime(zone = T.unsafe(nil)); end
 
-  # pkg:gem/et-orbi#lib/et-orbi/time.rb:217
+  # pkg:gem/et-orbi#lib/et-orbi/time.rb:222
   def min; end
 
-  # pkg:gem/et-orbi#lib/et-orbi/time.rb:217
+  # pkg:gem/et-orbi#lib/et-orbi/time.rb:222
   def month; end
 
-  # pkg:gem/et-orbi#lib/et-orbi/time.rb:256
+  # pkg:gem/et-orbi#lib/et-orbi/time.rb:261
   def monthdays; end
 
   # "reference day", used in fugit for cron modulo notation
   #
-  # pkg:gem/et-orbi#lib/et-orbi/time.rb:362
+  # pkg:gem/et-orbi#lib/et-orbi/time.rb:367
   def rday; end
 
-  # pkg:gem/et-orbi#lib/et-orbi/time.rb:381
+  # pkg:gem/et-orbi#lib/et-orbi/time.rb:384
   def reach(points); end
 
   # A debug method, seen in its first iteration in
   # https://github.com/floraison/et-orbi?tab=readme-ov-file#rweek-and-rday-clarification-et-orbi-140
   #
-  # pkg:gem/et-orbi#lib/et-orbi/time.rb:379
+  # pkg:gem/et-orbi#lib/et-orbi/time.rb:382
   def rr; end
 
   # "reference week", used in fugit for cron modulo notation
   #
-  # pkg:gem/et-orbi#lib/et-orbi/time.rb:371
+  # pkg:gem/et-orbi#lib/et-orbi/time.rb:374
   def rweek; end
 
-  # pkg:gem/et-orbi#lib/et-orbi/time.rb:217
+  # pkg:gem/et-orbi#lib/et-orbi/time.rb:222
   def sec; end
 
   # instance methods
@@ -313,10 +313,13 @@ class EtOrbi::EoTime
   # pkg:gem/et-orbi#lib/et-orbi/time.rb:169
   def strftime(format); end
 
-  # pkg:gem/et-orbi#lib/et-orbi/time.rb:248
+  # pkg:gem/et-orbi#lib/et-orbi/time.rb:253
   def subtract(t); end
 
-  # pkg:gem/et-orbi#lib/et-orbi/time.rb:194
+  # pkg:gem/et-orbi#lib/et-orbi/time.rb:188
+  def to_date; end
+
+  # pkg:gem/et-orbi#lib/et-orbi/time.rb:199
   def to_debug_s; end
 
   # pkg:gem/et-orbi#lib/et-orbi/time.rb:159
@@ -333,25 +336,25 @@ class EtOrbi::EoTime
   # pkg:gem/et-orbi#lib/et-orbi/time.rb:181
   def to_local_time; end
 
-  # pkg:gem/et-orbi#lib/et-orbi/time.rb:281
+  # pkg:gem/et-orbi#lib/et-orbi/time.rb:286
   def to_s; end
 
   # pkg:gem/et-orbi#lib/et-orbi/time.rb:186
   def to_t; end
 
-  # pkg:gem/et-orbi#lib/et-orbi/time.rb:311
+  # pkg:gem/et-orbi#lib/et-orbi/time.rb:316
   def to_time_s; end
 
   # Debug current time by showing local time / delta / utc time
   # for example: "0120-7(0820)"
   #
-  # pkg:gem/et-orbi#lib/et-orbi/time.rb:300
+  # pkg:gem/et-orbi#lib/et-orbi/time.rb:305
   def to_utc_comparison_s; end
 
   # pkg:gem/et-orbi#lib/et-orbi/time.rb:157
   def to_utc_time; end
 
-  # pkg:gem/et-orbi#lib/et-orbi/time.rb:286
+  # pkg:gem/et-orbi#lib/et-orbi/time.rb:291
   def to_zs; end
 
   # Nullify the "caches" used by #to_time, #rday, and others
@@ -359,10 +362,10 @@ class EtOrbi::EoTime
   # pkg:gem/et-orbi#lib/et-orbi/time.rb:96
   def touch; end
 
-  # pkg:gem/et-orbi#lib/et-orbi/time.rb:351
+  # pkg:gem/et-orbi#lib/et-orbi/time.rb:356
   def translate(zone = T.unsafe(nil)); end
 
-  # pkg:gem/et-orbi#lib/et-orbi/time.rb:217
+  # pkg:gem/et-orbi#lib/et-orbi/time.rb:222
   def usec; end
 
   # Returns this ::EtOrbi::EoTime as a ::Time instance
@@ -377,19 +380,19 @@ class EtOrbi::EoTime
   # pkg:gem/et-orbi#lib/et-orbi/time.rb:149
   def utc?; end
 
-  # pkg:gem/et-orbi#lib/et-orbi/time.rb:209
+  # pkg:gem/et-orbi#lib/et-orbi/time.rb:214
   def utc_offset; end
 
-  # pkg:gem/et-orbi#lib/et-orbi/time.rb:217
+  # pkg:gem/et-orbi#lib/et-orbi/time.rb:222
   def wday; end
 
-  # pkg:gem/et-orbi#lib/et-orbi/time.rb:354
+  # pkg:gem/et-orbi#lib/et-orbi/time.rb:359
   def wday_in_month; end
 
-  # pkg:gem/et-orbi#lib/et-orbi/time.rb:217
+  # pkg:gem/et-orbi#lib/et-orbi/time.rb:222
   def yday; end
 
-  # pkg:gem/et-orbi#lib/et-orbi/time.rb:217
+  # pkg:gem/et-orbi#lib/et-orbi/time.rb:222
   def year; end
 
   # pkg:gem/et-orbi#lib/et-orbi/time.rb:65
@@ -400,19 +403,19 @@ class EtOrbi::EoTime
 
   protected
 
-  # pkg:gem/et-orbi#lib/et-orbi/time.rb:469
+  # pkg:gem/et-orbi#lib/et-orbi/time.rb:472
   def _to_f(o); end
 
-  # pkg:gem/et-orbi#lib/et-orbi/time.rb:430
+  # pkg:gem/et-orbi#lib/et-orbi/time.rb:433
   def count_weeks(start, dir); end
 
   # Gives back the Eotime instance pointing to the reference day
   # used to compute #rweek and #rday
   #
-  # pkg:gem/et-orbi#lib/et-orbi/time.rb:481
+  # pkg:gem/et-orbi#lib/et-orbi/time.rb:484
   def rref; end
 
-  # pkg:gem/et-orbi#lib/et-orbi/time.rb:443
+  # pkg:gem/et-orbi#lib/et-orbi/time.rb:446
   def strfz(code); end
 
   # Returns a Ruby Time instance.
@@ -420,7 +423,7 @@ class EtOrbi::EoTime
   # Warning: the timezone of that Time instance will be UTC when used with
   # TZInfo < 2.0.0.
   #
-  # pkg:gem/et-orbi#lib/et-orbi/time.rb:425
+  # pkg:gem/et-orbi#lib/et-orbi/time.rb:428
   def to_time; end
 
   class << self
@@ -450,15 +453,15 @@ class EtOrbi::EoTime
   end
 end
 
-# pkg:gem/et-orbi#lib/et-orbi/time.rb:253
+# pkg:gem/et-orbi#lib/et-orbi/time.rb:258
 EtOrbi::EoTime::DAY_S = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/et-orbi#lib/et-orbi/time.rb:254
+# pkg:gem/et-orbi#lib/et-orbi/time.rb:259
 EtOrbi::EoTime::WEEK_S = T.let(T.unsafe(nil), Integer)
 
 # RWEEK_REF_DEFAULT = '2019-01-01'.freeze
 #
-# pkg:gem/et-orbi#lib/et-orbi/time.rb:491
+# pkg:gem/et-orbi#lib/et-orbi/time.rb:495
 EtOrbi::RWEEK_REF_DEFAULT = T.let(T.unsafe(nil), String)
 
 # pkg:gem/et-orbi#lib/et-orbi/version.rb:4

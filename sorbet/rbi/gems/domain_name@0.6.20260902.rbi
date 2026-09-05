@@ -7,7 +7,6 @@
 
 # Represents a domain name ready for extracting its registered domain
 # and TLD.
-# -*- coding: utf-8 -*-
 # --
 # punycode.rb - PunyCode encoder for the Domain Name library
 #
@@ -57,7 +56,7 @@
 #  Praveen Srinivasan(Verisign)
 # ++
 #
-# pkg:gem/domain_name#lib/domain_name/version.rb:1
+# pkg:gem/domain_name#lib/domain_name/version.rb:3
 class DomainName
   # Parses _hostname_ into a DomainName object.  An IP address is also
   # accepted.  An IPv6 address may be enclosed in square brackets.
@@ -129,7 +128,7 @@ class DomainName
   # pkg:gem/domain_name#lib/domain_name.rb:253
   def idn; end
 
-  # pkg:gem/domain_name#lib/domain_name.rb:273
+  # pkg:gem/domain_name#lib/domain_name.rb:268
   def inspect; end
 
   # Returns an IPAddr object if this is an IP address.
@@ -157,7 +156,7 @@ class DomainName
   # pkg:gem/domain_name#lib/domain_name.rb:42
   def tld; end
 
-  # pkg:gem/domain_name#lib/domain_name.rb:264
+  # pkg:gem/domain_name#lib/domain_name.rb:259
   def tld_idn; end
 
   # pkg:gem/domain_name#lib/domain_name.rb:238
@@ -174,14 +173,14 @@ class DomainName
   def uri_host; end
 
   class << self
-    # pkg:gem/domain_name#lib/domain_name/etld_data.rb:9572
+    # pkg:gem/domain_name#lib/domain_name/etld_data.rb:10259
     def etld_data; end
 
     # Normalizes a _domain_ using the Punycode algorithm as necessary.
     # Input must be strictly ASCII-only or unicode.
     # The result will be a downcased, ASCII-only string.
     #
-    # pkg:gem/domain_name#lib/domain_name.rb:288
+    # pkg:gem/domain_name#lib/domain_name.rb:283
     def normalize(domain); end
   end
 end
@@ -189,10 +188,10 @@ end
 # pkg:gem/domain_name#lib/domain_name.rb:73
 DomainName::DOT = T.let(T.unsafe(nil), String)
 
-# pkg:gem/domain_name#lib/domain_name/etld_data.rb:4
+# pkg:gem/domain_name#lib/domain_name/etld_data.rb:6
 DomainName::ETLD_DATA = T.let(T.unsafe(nil), Hash)
 
-# pkg:gem/domain_name#lib/domain_name/etld_data.rb:2
+# pkg:gem/domain_name#lib/domain_name/etld_data.rb:4
 DomainName::ETLD_DATA_DATE = T.let(T.unsafe(nil), String)
 
 # pkg:gem/domain_name#lib/domain_name/punycode.rb:52
@@ -287,7 +286,7 @@ DomainName::Punycode::TMAX = T.let(T.unsafe(nil), Integer)
 # pkg:gem/domain_name#lib/domain_name/punycode.rb:54
 DomainName::Punycode::TMIN = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/domain_name#lib/domain_name/version.rb:2
+# pkg:gem/domain_name#lib/domain_name/version.rb:4
 DomainName::VERSION = T.let(T.unsafe(nil), String)
 
 class Object < ::BasicObject
@@ -298,6 +297,6 @@ class Object < ::BasicObject
 
   # Short hand for DomainName.new().
   #
-  # pkg:gem/domain_name#lib/domain_name.rb:298
+  # pkg:gem/domain_name#lib/domain_name.rb:293
   def DomainName(hostname); end
 end

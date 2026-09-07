@@ -72,8 +72,9 @@ ARG SOURCEMOD_CACHEBUST=0
 
 RUN echo "Sourcemod cache bust: ${SOURCEMOD_CACHEBUST}" \
     && cd /home/tf2/hlserver/tf2/tf \
-    && mm_url=$(wget -q -O - "https://www.metamodsource.net/downloads.php?branch=stable" | grep -oP -m1 "https://[a-z.]+/mmsdrop/[0-9.]+/mmsource-(.*)-linux.tar.gz") \
-    && sm_url=$(wget -q -O - "http://www.sourcemod.net/downloads.php?branch=stable" | grep -oP -m1 "https://[a-z.]+/smdrop/[0-9.]+/sourcemod-(.*)-linux.tar.gz") \
+    # Download pages link to GitHub release assets now (previously smdrop/mmsdrop), so match on filename only
+    && mm_url=$(wget -q -O - "https://www.metamodsource.net/downloads.php?branch=stable" | grep -oP -m1 "https://[a-zA-Z0-9./_-]+/mmsource-[0-9.]+-git[0-9]+-linux\.tar\.gz") \
+    && sm_url=$(wget -q -O - "http://www.sourcemod.net/downloads.php?branch=stable" | grep -oP -m1 "https://[a-zA-Z0-9./_-]+/sourcemod-[0-9.]+-git[0-9]+-linux\.tar\.gz") \
     && wget -nv $mm_url \
     && wget -nv $sm_url \
     && tar -xzf mmsource-*-linux.tar.gz \

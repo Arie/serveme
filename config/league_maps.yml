@@ -1,5 +1,11 @@
 ---
 league_maps:
+- name: Australian Hightower Highjinx
+  active: true
+  maps:
+  - plr_hightower
+  - plr_hightower_event
+  - koth_snowtower
 - name: ETF2L 6v6
   active: true
   maps:

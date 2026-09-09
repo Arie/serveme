@@ -640,6 +640,9 @@ module GeneratedPathHelpersModule
   def time_selection_reservations_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def toggle_shared_ip_league_request_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def tools_api_mcp_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }

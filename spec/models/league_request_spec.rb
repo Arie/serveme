@@ -101,6 +101,48 @@ describe LeagueRequest do
     end
   end
 
+  describe 'shared IPs' do
+    before { IpLookup.create!(ip: '8.8.8.8', shared_ip: true) }
+
+    it 'are still shown in direct searches' do
+      player = ReservationPlayer.create!(reservation: shared_reservation, steam_uid: 'abc', ip: '8.8.8.8', name: 'p1')
+
+      expect(LeagueRequest.new(user, ip: '8.8.8.8').search.map(&:id)).to eql([ player.id ])
+      expect(LeagueRequest.new(user, steam_uid: 'abc').search.map(&:id)).to eql([ player.id ])
+    end
+
+    it 'are not used as a pivot when cross referencing by steam uid' do
+      ReservationPlayer.create!(reservation: shared_reservation, steam_uid: 'abc', ip: '8.8.8.8', name: 'p1')
+      ReservationPlayer.create!(reservation: shared_reservation, steam_uid: 'lan', ip: '8.8.8.8', name: 'p2')
+      home = ReservationPlayer.create!(reservation: shared_reservation, steam_uid: 'abc', ip: '1.1.1.1', name: 'p3')
+      alt = ReservationPlayer.create!(reservation: shared_reservation, steam_uid: 'def', ip: '1.1.1.1', name: 'p4')
+
+      results = LeagueRequest.new(user, steam_uid: 'abc', cross_reference: '1').search
+
+      expect(results.map(&:id).sort).to eql([ home.id, alt.id ])
+    end
+
+    it 'do not link accounts when cross referencing by that IP' do
+      ReservationPlayer.create!(reservation: shared_reservation, steam_uid: 'abc', ip: '8.8.8.8', name: 'p1')
+      ReservationPlayer.create!(reservation: shared_reservation, steam_uid: 'lan', ip: '8.8.8.8', name: 'p2')
+      ReservationPlayer.create!(reservation: shared_reservation, steam_uid: 'lan', ip: '1.1.1.1', name: 'p3')
+
+      results = LeagueRequest.new(user, ip: '8.8.8.8', cross_reference: '1').search
+
+      expect(results.size).to eql(0)
+    end
+
+    it 'are excluded even when VPN results are included' do
+      ReservationPlayer.create!(reservation: shared_reservation, steam_uid: 'abc', ip: '8.8.8.8', name: 'p1')
+      ReservationPlayer.create!(reservation: shared_reservation, steam_uid: 'lan', ip: '8.8.8.8', name: 'p2')
+      home = ReservationPlayer.create!(reservation: shared_reservation, steam_uid: 'abc', ip: '1.1.1.1', name: 'p3')
+
+      results = LeagueRequest.new(user, steam_uid: 'abc', cross_reference: '1', include_vpn_results: '1').search
+
+      expect(results.map(&:id)).to eql([ home.id ])
+    end
+  end
+
   describe 'lenient input parsing' do
     it 'extracts IPs from messy text' do
       player1 = ReservationPlayer.create!(reservation: shared_reservation, steam_uid: 'a', ip: '192.168.1.1', name: 'p1')

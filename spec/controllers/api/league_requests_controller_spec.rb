@@ -26,6 +26,16 @@ describe Api::LeagueRequestsController do
     end
   end
 
+  describe 'shared IPs' do
+    it 'exposes the shared_ip flag per result' do
+      IpLookup.create!(ip: @suspect_ip, shared_ip: true)
+
+      get :index, format: :json, params: { league_request: { ip: @suspect_ip } }
+
+      expect(JSON.parse(response.body).map { |r| r['shared_ip'] }).to eql([ true ])
+    end
+  end
+
   describe 'authorization' do
     let(:league_admin) do
       create(:user, uid: 'league-admin-uid').tap { |u| u.groups << Group.league_admin_group }

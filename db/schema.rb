@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_10_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_09_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gist"
   enable_extension "pg_catalog.plpgsql"
@@ -169,6 +169,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_10_000000) do
     t.boolean "is_residential_proxy", default: false
     t.string "isp"
     t.jsonb "raw_response"
+    t.boolean "shared_ip", default: false, null: false
     t.datetime "updated_at", null: false
     t.index ["ip"], name: "index_ip_lookups_on_ip", unique: true
     t.index ["is_residential_proxy"], name: "index_ip_lookups_on_is_residential_proxy"

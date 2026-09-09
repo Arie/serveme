@@ -19,7 +19,8 @@ describe IpLookupSyncWorker do
       raw_response: { "test" => "data" },
       false_positive: false,
       is_banned: false,
-      ban_reason: nil
+      ban_reason: nil,
+      shared_ip: true
     )
   end
 
@@ -67,7 +68,7 @@ describe IpLookupSyncWorker do
             stub_request(:post, "https://direct.#{host}/api/ip_lookups")
               .with(
                 headers: { "Authorization" => "Bearer test-api-key" },
-                body: hash_including("ip_lookup" => hash_including("ip" => "1.2.3.4"))
+                body: hash_including("ip_lookup" => hash_including("ip" => "1.2.3.4", "shared_ip" => true))
               )
               .to_return(status: 201)
           end
@@ -75,6 +76,7 @@ describe IpLookupSyncWorker do
           described_class.new.perform(1)
 
           expect(WebMock).to have_requested(:post, "https://direct.na.serveme.tf/api/ip_lookups")
+            .with(body: hash_including("ip_lookup" => hash_including("shared_ip" => true)))
           expect(WebMock).to have_requested(:post, "https://direct.sea.serveme.tf/api/ip_lookups")
           expect(WebMock).to have_requested(:post, "https://direct.au.serveme.tf/api/ip_lookups")
           expect(WebMock).not_to have_requested(:post, "https://direct.serveme.tf/api/ip_lookups")

@@ -15,3 +15,4 @@ ip_lookup = @ip_lookups[result.ip]
 json.is_proxy ip_lookup&.is_proxy || false
 json.is_residential_proxy ip_lookup&.is_residential_proxy || false
 json.fraud_score ip_lookup&.fraud_score
+json.shared_ip ip_lookup&.shared_ip || false

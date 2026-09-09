@@ -94,6 +94,20 @@ class LeagueRequestsController < ApplicationController
     )
   end
 
+  # Shared IPs (LAN centers, dorms) are never used as a cross-reference pivot
+  def toggle_shared_ip
+    ip_lookup = IpLookup.find_or_initialize_by(ip: params[:ip])
+    ip_lookup.shared_ip = !ip_lookup.shared_ip
+    ip_lookup.save!
+    redirect_to league_request_path(
+      ip: params[:search_ip],
+      steam_uid: params[:search_steam_uid],
+      reservation_ids: params[:search_reservation_ids],
+      cross_reference: params[:search_cross_reference],
+      include_vpn_results: params[:search_include_vpn_results]
+    )
+  end
+
   def ai
   end
 

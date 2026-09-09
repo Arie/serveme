@@ -640,6 +640,9 @@ module GeneratedUrlHelpersModule
   def time_selection_reservations_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def toggle_shared_ip_league_request_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def tools_api_mcp_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }

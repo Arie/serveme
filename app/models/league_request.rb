@@ -126,6 +126,7 @@ class LeagueRequest
       banned_asns = ReservationPlayer.banned_asns
       subquery = subquery.where("asn_number IS NULL OR asn_number NOT IN (?)", banned_asns)
     end
+    subquery = subquery.where.not(ip: IpLookup.shared_ips.select(:ip)) if @cross_reference && search_field == :ip
 
     apply_display_columns(maybe_filter_by_reservation_ids(base_players_query.where(steam_uid: subquery)))
   end
@@ -145,6 +146,7 @@ class LeagueRequest
       banned_asns = ReservationPlayer.banned_asns
       subquery = subquery.where("asn_number IS NULL OR asn_number NOT IN (?)", banned_asns)
     end
+    subquery = subquery.where.not(ip: IpLookup.shared_ips.select(:ip)) if @cross_reference
 
     apply_display_columns(maybe_filter_by_reservation_ids(base_players_query.where(ip: subquery)))
   end

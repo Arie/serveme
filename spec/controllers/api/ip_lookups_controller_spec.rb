@@ -60,6 +60,13 @@ describe Api::IpLookupsController do
         expect(lookup.country_code).to eq("US")
       end
 
+      it "accepts the shared_ip flag" do
+        post :create, format: :json, params: { ip_lookup: { ip: "1.2.3.5", shared_ip: true } }
+
+        expect(response).to have_http_status(:created)
+        expect(IpLookup.find_by(ip: "1.2.3.5").shared_ip).to be true
+      end
+
       it "updates an existing IpLookup record" do
         existing = IpLookup.create!(ip: "2.2.2.2", fraud_score: 50, isp: "Old ISP")
 

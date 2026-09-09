@@ -71,7 +71,22 @@ describe IpLookup do
       end
     end
 
+    describe "after_update_commit on shared_ip change" do
+      it "enqueues IpLookupSyncWorker when shared_ip changes" do
+        lookup = described_class.create!(ip: "9.9.9.9")
+
+        expect(IpLookupSyncWorker).to receive(:perform_async).with(lookup.id)
+        lookup.update!(shared_ip: true)
+      end
+    end
+
     describe ".upsert_from_sync" do
+      it "syncs the shared_ip flag" do
+        result = described_class.upsert_from_sync(ip: "7.7.7.8", shared_ip: true)
+
+        expect(result.shared_ip).to be true
+      end
+
       it "creates a new record when IP does not exist" do
         expect(IpLookupSyncWorker).not_to receive(:perform_async)
 

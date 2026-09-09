@@ -73,6 +73,68 @@ describe LeagueRequestsController do
     end
   end
 
+  describe 'shared IP toggle in results' do
+    render_views
+
+    before do
+      @user.groups << Group.league_admin_group
+      create(:reservation_player, ip: '8.8.8.8')
+    end
+
+    it 'renders a shared IP toggle for every IP' do
+      get :new, params: { ip: '8.8.8.8' }
+
+      expect(response.body).to include(toggle_shared_ip_league_request_path)
+      expect(response.body).to include('Mark as shared IP')
+    end
+
+    it 'marks shared IPs as such' do
+      IpLookup.create!(ip: '8.8.8.8', shared_ip: true)
+
+      get :new, params: { ip: '8.8.8.8' }
+
+      expect(response.body).to include('Shared IP (LAN center')
+    end
+
+    it 'renders the toggle in the v2 layout too' do
+      cookies[:ui_v2] = 'true'
+
+      get :new, params: { ip: '8.8.8.8' }
+
+      expect(response.body).to include(toggle_shared_ip_league_request_path)
+    end
+  end
+
+  describe '#toggle_shared_ip' do
+    before { @user.groups << Group.league_admin_group }
+
+    it 'marks an IP that has no lookup row yet' do
+      patch :toggle_shared_ip, params: { ip: '8.8.8.8', search_steam_uid: '76561198123456789', search_cross_reference: '1' }
+
+      expect(IpLookup.find_by(ip: '8.8.8.8').shared_ip).to be true
+      expect(response).to redirect_to(league_request_path(steam_uid: '76561198123456789', cross_reference: '1'))
+    end
+
+    it 'unmarks again on a second toggle' do
+      IpLookup.create!(ip: '8.8.8.8', shared_ip: true, is_proxy: true)
+
+      patch :toggle_shared_ip, params: { ip: '8.8.8.8' }
+
+      lookup = IpLookup.find_by(ip: '8.8.8.8')
+      expect(lookup.shared_ip).to be false
+      expect(lookup.is_proxy).to be true
+    end
+
+    it 'is not available to regular users' do
+      @user.groups.delete(Group.league_admin_group)
+
+      patch :toggle_shared_ip, params: { ip: '8.8.8.8' }
+
+      expect(IpLookup.find_by(ip: '8.8.8.8')).to be_nil
+      expect(response).to redirect_to(root_path)
+    end
+  end
+
   describe '#create' do
     before { @user.groups << Group.admin_group }
 

@@ -7,4 +7,5 @@ Sentry.init do |config|
   config.dsn = Rails.application.credentials.dig(:sentry, :dsn)
   config.excluded_exceptions += [ "ActionController::RoutingError", "ActiveRecord::RecordNotFound", "Mime::Type::InvalidMimeType", "SteamCondenser::Error::RCONNoAuth", "DiscordApiClient::RateLimitError" ]
   config.send_default_pii = true
+  config.rails.structured_logging.enabled = false
 end

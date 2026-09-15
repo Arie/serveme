@@ -3967,6 +3967,11 @@ module Anthropic
           Anthropic::AnthropicBeta::TaggedSymbol
         )
 
+      USER_PROFILES_2026_09_04 = T.let(
+          :"user-profiles-2026-09-04",
+          Anthropic::AnthropicBeta::TaggedSymbol
+        )
+
       Variants = T.type_alias { T.any(String, Anthropic::AnthropicBeta::TaggedSymbol) }
     end
 
@@ -19518,7 +19523,8 @@ module Anthropic
               enabled: T::Boolean,
               permission_policy: T.any(
                 Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy::OrHash,
-                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy::OrHash
+                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy::OrHash,
+                Anthropic::Beta::BetaManagedAgentsAutoPolicy::OrHash
               ),
               name: Symbol,
               allowed_domains: T::Array[String],
@@ -19639,7 +19645,8 @@ module Anthropic
               permission_policy: T.nilable(
                 T.any(
                   Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy::OrHash,
-                  Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy::OrHash
+                  Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsAutoPolicy::OrHash
                 )
               ),
               allowed_domains: T::Array[String],
@@ -20269,7 +20276,8 @@ module Anthropic
               enabled: T::Boolean,
               permission_policy: T.any(
                 Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy::OrHash,
-                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy::OrHash
+                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy::OrHash,
+                Anthropic::Beta::BetaManagedAgentsAutoPolicy::OrHash
               )
             ).returns(T.attached_class)
           end
@@ -20332,6 +20340,11 @@ module Anthropic
                 Anthropic::Beta::BetaManagedAgentsAgentToolsetDefaultConfig::PermissionPolicy::Type::TaggedSymbol
               )
 
+            AUTO = T.let(
+                :auto,
+                Anthropic::Beta::BetaManagedAgentsAgentToolsetDefaultConfig::PermissionPolicy::Type::TaggedSymbol
+              )
+
             OrSymbol = T.type_alias { T.any(Symbol, String) }
 
             TaggedSymbol = T.type_alias do
@@ -20345,7 +20358,8 @@ module Anthropic
           Variants = T.type_alias do
               T.any(
                 Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy,
-                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy
+                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy,
+                Anthropic::Beta::BetaManagedAgentsAutoPolicy
               )
             end
         end
@@ -20362,7 +20376,8 @@ module Anthropic
           returns(T.nilable(
               T.any(
                 Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy,
-                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy
+                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy,
+                Anthropic::Beta::BetaManagedAgentsAutoPolicy
               )
             ))
         end
@@ -20376,7 +20391,8 @@ module Anthropic
                 T.nilable(
                   T.any(
                     Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy,
-                    Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy
+                    Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy,
+                    Anthropic::Beta::BetaManagedAgentsAutoPolicy
                   )
                 )
             })
@@ -20391,7 +20407,8 @@ module Anthropic
               permission_policy: T.nilable(
                 T.any(
                   Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy::OrHash,
-                  Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy::OrHash
+                  Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsAutoPolicy::OrHash
                 )
               )
             ).returns(T.attached_class)
@@ -20456,6 +20473,11 @@ module Anthropic
                 Anthropic::Beta::BetaManagedAgentsAgentToolsetDefaultConfigParams::PermissionPolicy::Type::TaggedSymbol
               )
 
+            AUTO = T.let(
+                :auto,
+                Anthropic::Beta::BetaManagedAgentsAgentToolsetDefaultConfigParams::PermissionPolicy::Type::TaggedSymbol
+              )
+
             OrSymbol = T.type_alias { T.any(Symbol, String) }
 
             TaggedSymbol = T.type_alias do
@@ -20469,7 +20491,8 @@ module Anthropic
           Variants = T.type_alias do
               T.any(
                 Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy,
-                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy
+                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy,
+                Anthropic::Beta::BetaManagedAgentsAutoPolicy
               )
             end
         end
@@ -21107,6 +21130,30 @@ module Anthropic
         end
       end
 
+      class BetaManagedAgentsAutoPolicy < Anthropic::Internal::Type::BaseModel
+        sig { returns(Symbol) }
+        attr_accessor :type
+
+        sig { override.returns({ type: Symbol }) }
+        def to_hash; end
+
+        class << self
+          # The server decides each tool call individually: it judges, from the tool, its
+          # input, and the session content so far, whether the call is safe to execute or
+          # high-risk, and evaluates it to allow when judged safe and to deny when judged
+          # high-risk. A call the server cannot reach a judgement on evaluates to ask.
+          sig { params(type: Symbol).returns(T.attached_class) }
+          def new(type: :auto); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsAutoPolicy,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
       class BetaManagedAgentsBashToolConfig < Anthropic::Internal::Type::BaseModel
         sig { returns(T::Boolean) }
         attr_accessor :enabled
@@ -21140,7 +21187,8 @@ module Anthropic
               enabled: T::Boolean,
               permission_policy: T.any(
                 Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy::OrHash,
-                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy::OrHash
+                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy::OrHash,
+                Anthropic::Beta::BetaManagedAgentsAutoPolicy::OrHash
               ),
               name: Symbol,
               type: Symbol
@@ -21207,6 +21255,11 @@ module Anthropic
                 Anthropic::Beta::BetaManagedAgentsBashToolConfig::PermissionPolicy::Type::TaggedSymbol
               )
 
+            AUTO = T.let(
+                :auto,
+                Anthropic::Beta::BetaManagedAgentsBashToolConfig::PermissionPolicy::Type::TaggedSymbol
+              )
+
             OrSymbol = T.type_alias { T.any(Symbol, String) }
 
             TaggedSymbol = T.type_alias do
@@ -21220,7 +21273,8 @@ module Anthropic
           Variants = T.type_alias do
               T.any(
                 Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy,
-                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy
+                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy,
+                Anthropic::Beta::BetaManagedAgentsAutoPolicy
               )
             end
         end
@@ -21241,7 +21295,8 @@ module Anthropic
           returns(T.nilable(
               T.any(
                 Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy,
-                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy
+                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy,
+                Anthropic::Beta::BetaManagedAgentsAutoPolicy
               )
             ))
         end
@@ -21266,7 +21321,8 @@ module Anthropic
                 T.nilable(
                   T.any(
                     Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy,
-                    Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy
+                    Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy,
+                    Anthropic::Beta::BetaManagedAgentsAutoPolicy
                   )
                 ),
               type:
@@ -21283,7 +21339,8 @@ module Anthropic
               permission_policy: T.nilable(
                 T.any(
                   Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy::OrHash,
-                  Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy::OrHash
+                  Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsAutoPolicy::OrHash
                 )
               ),
               type: Anthropic::Beta::BetaManagedAgentsBashToolConfigParams::Type::OrSymbol,
@@ -21352,6 +21409,11 @@ module Anthropic
                 Anthropic::Beta::BetaManagedAgentsBashToolConfigParams::PermissionPolicy::Type::TaggedSymbol
               )
 
+            AUTO = T.let(
+                :auto,
+                Anthropic::Beta::BetaManagedAgentsBashToolConfigParams::PermissionPolicy::Type::TaggedSymbol
+              )
+
             OrSymbol = T.type_alias { T.any(Symbol, String) }
 
             TaggedSymbol = T.type_alias do
@@ -21365,7 +21427,8 @@ module Anthropic
           Variants = T.type_alias do
               T.any(
                 Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy,
-                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy
+                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy,
+                Anthropic::Beta::BetaManagedAgentsAutoPolicy
               )
             end
         end
@@ -24006,7 +24069,8 @@ module Anthropic
               enabled: T::Boolean,
               permission_policy: T.any(
                 Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy::OrHash,
-                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy::OrHash
+                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy::OrHash,
+                Anthropic::Beta::BetaManagedAgentsAutoPolicy::OrHash
               ),
               name: Symbol,
               type: Symbol
@@ -24073,6 +24137,11 @@ module Anthropic
                 Anthropic::Beta::BetaManagedAgentsEditToolConfig::PermissionPolicy::Type::TaggedSymbol
               )
 
+            AUTO = T.let(
+                :auto,
+                Anthropic::Beta::BetaManagedAgentsEditToolConfig::PermissionPolicy::Type::TaggedSymbol
+              )
+
             OrSymbol = T.type_alias { T.any(Symbol, String) }
 
             TaggedSymbol = T.type_alias do
@@ -24086,7 +24155,8 @@ module Anthropic
           Variants = T.type_alias do
               T.any(
                 Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy,
-                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy
+                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy,
+                Anthropic::Beta::BetaManagedAgentsAutoPolicy
               )
             end
         end
@@ -24107,7 +24177,8 @@ module Anthropic
           returns(T.nilable(
               T.any(
                 Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy,
-                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy
+                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy,
+                Anthropic::Beta::BetaManagedAgentsAutoPolicy
               )
             ))
         end
@@ -24132,7 +24203,8 @@ module Anthropic
                 T.nilable(
                   T.any(
                     Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy,
-                    Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy
+                    Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy,
+                    Anthropic::Beta::BetaManagedAgentsAutoPolicy
                   )
                 ),
               type:
@@ -24149,7 +24221,8 @@ module Anthropic
               permission_policy: T.nilable(
                 T.any(
                   Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy::OrHash,
-                  Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy::OrHash
+                  Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsAutoPolicy::OrHash
                 )
               ),
               type: Anthropic::Beta::BetaManagedAgentsEditToolConfigParams::Type::OrSymbol,
@@ -24218,6 +24291,11 @@ module Anthropic
                 Anthropic::Beta::BetaManagedAgentsEditToolConfigParams::PermissionPolicy::Type::TaggedSymbol
               )
 
+            AUTO = T.let(
+                :auto,
+                Anthropic::Beta::BetaManagedAgentsEditToolConfigParams::PermissionPolicy::Type::TaggedSymbol
+              )
+
             OrSymbol = T.type_alias { T.any(Symbol, String) }
 
             TaggedSymbol = T.type_alias do
@@ -24231,7 +24309,8 @@ module Anthropic
           Variants = T.type_alias do
               T.any(
                 Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy,
-                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy
+                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy,
+                Anthropic::Beta::BetaManagedAgentsAutoPolicy
               )
             end
         end
@@ -25314,9 +25393,13 @@ module Anthropic
       end
 
       class BetaManagedAgentsGitHubRepositoryResourceParams < Anthropic::Internal::Type::BaseModel
-        # GitHub authorization token used to clone the repository.
-        sig { returns(String) }
-        attr_accessor :authorization_token
+        # GitHub authorization token used to clone the repository. Required for private
+        # repositories; optional for public ones.
+        sig { returns(T.nilable(String)) }
+        attr_reader :authorization_token
+
+        sig { params(authorization_token: String).void }
+        attr_writer :authorization_token
 
         # Branch or commit to check out. Defaults to the repository's default branch.
         sig do
@@ -25343,10 +25426,10 @@ module Anthropic
         sig do
           override
             .returns({
-              authorization_token: String,
               type:
                 Anthropic::Beta::BetaManagedAgentsGitHubRepositoryResourceParams::Type::OrSymbol,
               url: String,
+              authorization_token: String,
               checkout:
                 T.nilable(
                   T.any(
@@ -25363,9 +25446,9 @@ module Anthropic
           # Mount a GitHub repository into the session's container.
           sig do
             params(
-              authorization_token: String,
               type: Anthropic::Beta::BetaManagedAgentsGitHubRepositoryResourceParams::Type::OrSymbol,
               url: String,
+              authorization_token: String,
               checkout: T.nilable(
                 T.any(
                   Anthropic::Beta::BetaManagedAgentsBranchCheckout::OrHash,
@@ -25376,9 +25459,10 @@ module Anthropic
             ).returns(T.attached_class)
           end
           def new(
-            authorization_token:, # GitHub authorization token used to clone the repository.
             type:,
             url:, # Github URL of the repository
+            authorization_token: nil, # GitHub authorization token used to clone the repository. Required for private
+                                      # repositories; optional for public ones.
             checkout: nil, # Branch or commit to check out. Defaults to the repository's default branch.
             mount_path: nil # Mount path in the container. Defaults to `/workspace/<repo-name>`.
 ); end
@@ -25523,7 +25607,8 @@ module Anthropic
               enabled: T::Boolean,
               permission_policy: T.any(
                 Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy::OrHash,
-                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy::OrHash
+                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy::OrHash,
+                Anthropic::Beta::BetaManagedAgentsAutoPolicy::OrHash
               ),
               name: Symbol,
               type: Symbol
@@ -25590,6 +25675,11 @@ module Anthropic
                 Anthropic::Beta::BetaManagedAgentsGlobToolConfig::PermissionPolicy::Type::TaggedSymbol
               )
 
+            AUTO = T.let(
+                :auto,
+                Anthropic::Beta::BetaManagedAgentsGlobToolConfig::PermissionPolicy::Type::TaggedSymbol
+              )
+
             OrSymbol = T.type_alias { T.any(Symbol, String) }
 
             TaggedSymbol = T.type_alias do
@@ -25603,7 +25693,8 @@ module Anthropic
           Variants = T.type_alias do
               T.any(
                 Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy,
-                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy
+                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy,
+                Anthropic::Beta::BetaManagedAgentsAutoPolicy
               )
             end
         end
@@ -25624,7 +25715,8 @@ module Anthropic
           returns(T.nilable(
               T.any(
                 Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy,
-                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy
+                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy,
+                Anthropic::Beta::BetaManagedAgentsAutoPolicy
               )
             ))
         end
@@ -25649,7 +25741,8 @@ module Anthropic
                 T.nilable(
                   T.any(
                     Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy,
-                    Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy
+                    Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy,
+                    Anthropic::Beta::BetaManagedAgentsAutoPolicy
                   )
                 ),
               type:
@@ -25666,7 +25759,8 @@ module Anthropic
               permission_policy: T.nilable(
                 T.any(
                   Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy::OrHash,
-                  Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy::OrHash
+                  Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsAutoPolicy::OrHash
                 )
               ),
               type: Anthropic::Beta::BetaManagedAgentsGlobToolConfigParams::Type::OrSymbol,
@@ -25735,6 +25829,11 @@ module Anthropic
                 Anthropic::Beta::BetaManagedAgentsGlobToolConfigParams::PermissionPolicy::Type::TaggedSymbol
               )
 
+            AUTO = T.let(
+                :auto,
+                Anthropic::Beta::BetaManagedAgentsGlobToolConfigParams::PermissionPolicy::Type::TaggedSymbol
+              )
+
             OrSymbol = T.type_alias { T.any(Symbol, String) }
 
             TaggedSymbol = T.type_alias do
@@ -25748,7 +25847,8 @@ module Anthropic
           Variants = T.type_alias do
               T.any(
                 Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy,
-                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy
+                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy,
+                Anthropic::Beta::BetaManagedAgentsAutoPolicy
               )
             end
         end
@@ -25815,7 +25915,8 @@ module Anthropic
               enabled: T::Boolean,
               permission_policy: T.any(
                 Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy::OrHash,
-                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy::OrHash
+                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy::OrHash,
+                Anthropic::Beta::BetaManagedAgentsAutoPolicy::OrHash
               ),
               name: Symbol,
               type: Symbol
@@ -25882,6 +25983,11 @@ module Anthropic
                 Anthropic::Beta::BetaManagedAgentsGrepToolConfig::PermissionPolicy::Type::TaggedSymbol
               )
 
+            AUTO = T.let(
+                :auto,
+                Anthropic::Beta::BetaManagedAgentsGrepToolConfig::PermissionPolicy::Type::TaggedSymbol
+              )
+
             OrSymbol = T.type_alias { T.any(Symbol, String) }
 
             TaggedSymbol = T.type_alias do
@@ -25895,7 +26001,8 @@ module Anthropic
           Variants = T.type_alias do
               T.any(
                 Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy,
-                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy
+                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy,
+                Anthropic::Beta::BetaManagedAgentsAutoPolicy
               )
             end
         end
@@ -25916,7 +26023,8 @@ module Anthropic
           returns(T.nilable(
               T.any(
                 Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy,
-                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy
+                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy,
+                Anthropic::Beta::BetaManagedAgentsAutoPolicy
               )
             ))
         end
@@ -25941,7 +26049,8 @@ module Anthropic
                 T.nilable(
                   T.any(
                     Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy,
-                    Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy
+                    Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy,
+                    Anthropic::Beta::BetaManagedAgentsAutoPolicy
                   )
                 ),
               type:
@@ -25958,7 +26067,8 @@ module Anthropic
               permission_policy: T.nilable(
                 T.any(
                   Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy::OrHash,
-                  Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy::OrHash
+                  Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsAutoPolicy::OrHash
                 )
               ),
               type: Anthropic::Beta::BetaManagedAgentsGrepToolConfigParams::Type::OrSymbol,
@@ -26027,6 +26137,11 @@ module Anthropic
                 Anthropic::Beta::BetaManagedAgentsGrepToolConfigParams::PermissionPolicy::Type::TaggedSymbol
               )
 
+            AUTO = T.let(
+                :auto,
+                Anthropic::Beta::BetaManagedAgentsGrepToolConfigParams::PermissionPolicy::Type::TaggedSymbol
+              )
+
             OrSymbol = T.type_alias { T.any(Symbol, String) }
 
             TaggedSymbol = T.type_alias do
@@ -26040,7 +26155,8 @@ module Anthropic
           Variants = T.type_alias do
               T.any(
                 Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy,
-                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy
+                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy,
+                Anthropic::Beta::BetaManagedAgentsAutoPolicy
               )
             end
         end
@@ -26304,7 +26420,8 @@ module Anthropic
               name: String,
               permission_policy: T.any(
                 Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy::OrHash,
-                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy::OrHash
+                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy::OrHash,
+                Anthropic::Beta::BetaManagedAgentsAutoPolicy::OrHash
               )
             ).returns(T.attached_class)
           end
@@ -26368,6 +26485,11 @@ module Anthropic
                 Anthropic::Beta::BetaManagedAgentsMCPToolConfig::PermissionPolicy::Type::TaggedSymbol
               )
 
+            AUTO = T.let(
+                :auto,
+                Anthropic::Beta::BetaManagedAgentsMCPToolConfig::PermissionPolicy::Type::TaggedSymbol
+              )
+
             OrSymbol = T.type_alias { T.any(Symbol, String) }
 
             TaggedSymbol = T.type_alias do
@@ -26381,7 +26503,8 @@ module Anthropic
           Variants = T.type_alias do
               T.any(
                 Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy,
-                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy
+                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy,
+                Anthropic::Beta::BetaManagedAgentsAutoPolicy
               )
             end
         end
@@ -26401,7 +26524,8 @@ module Anthropic
           returns(T.nilable(
               T.any(
                 Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy,
-                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy
+                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy,
+                Anthropic::Beta::BetaManagedAgentsAutoPolicy
               )
             ))
         end
@@ -26416,7 +26540,8 @@ module Anthropic
                 T.nilable(
                   T.any(
                     Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy,
-                    Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy
+                    Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy,
+                    Anthropic::Beta::BetaManagedAgentsAutoPolicy
                   )
                 )
             })
@@ -26432,7 +26557,8 @@ module Anthropic
               permission_policy: T.nilable(
                 T.any(
                   Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy::OrHash,
-                  Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy::OrHash
+                  Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsAutoPolicy::OrHash
                 )
               )
             ).returns(T.attached_class)
@@ -26497,6 +26623,11 @@ module Anthropic
                 Anthropic::Beta::BetaManagedAgentsMCPToolConfigParams::PermissionPolicy::Type::TaggedSymbol
               )
 
+            AUTO = T.let(
+                :auto,
+                Anthropic::Beta::BetaManagedAgentsMCPToolConfigParams::PermissionPolicy::Type::TaggedSymbol
+              )
+
             OrSymbol = T.type_alias { T.any(Symbol, String) }
 
             TaggedSymbol = T.type_alias do
@@ -26510,7 +26641,8 @@ module Anthropic
           Variants = T.type_alias do
               T.any(
                 Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy,
-                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy
+                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy,
+                Anthropic::Beta::BetaManagedAgentsAutoPolicy
               )
             end
         end
@@ -26622,7 +26754,8 @@ module Anthropic
               enabled: T::Boolean,
               permission_policy: T.any(
                 Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy::OrHash,
-                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy::OrHash
+                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy::OrHash,
+                Anthropic::Beta::BetaManagedAgentsAutoPolicy::OrHash
               )
             ).returns(T.attached_class)
           end
@@ -26685,6 +26818,11 @@ module Anthropic
                 Anthropic::Beta::BetaManagedAgentsMCPToolsetDefaultConfig::PermissionPolicy::Type::TaggedSymbol
               )
 
+            AUTO = T.let(
+                :auto,
+                Anthropic::Beta::BetaManagedAgentsMCPToolsetDefaultConfig::PermissionPolicy::Type::TaggedSymbol
+              )
+
             OrSymbol = T.type_alias { T.any(Symbol, String) }
 
             TaggedSymbol = T.type_alias do
@@ -26698,7 +26836,8 @@ module Anthropic
           Variants = T.type_alias do
               T.any(
                 Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy,
-                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy
+                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy,
+                Anthropic::Beta::BetaManagedAgentsAutoPolicy
               )
             end
         end
@@ -26714,7 +26853,8 @@ module Anthropic
           returns(T.nilable(
               T.any(
                 Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy,
-                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy
+                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy,
+                Anthropic::Beta::BetaManagedAgentsAutoPolicy
               )
             ))
         end
@@ -26728,7 +26868,8 @@ module Anthropic
                 T.nilable(
                   T.any(
                     Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy,
-                    Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy
+                    Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy,
+                    Anthropic::Beta::BetaManagedAgentsAutoPolicy
                   )
                 )
             })
@@ -26743,7 +26884,8 @@ module Anthropic
               permission_policy: T.nilable(
                 T.any(
                   Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy::OrHash,
-                  Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy::OrHash
+                  Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsAutoPolicy::OrHash
                 )
               )
             ).returns(T.attached_class)
@@ -26807,6 +26949,11 @@ module Anthropic
                 Anthropic::Beta::BetaManagedAgentsMCPToolsetDefaultConfigParams::PermissionPolicy::Type::TaggedSymbol
               )
 
+            AUTO = T.let(
+                :auto,
+                Anthropic::Beta::BetaManagedAgentsMCPToolsetDefaultConfigParams::PermissionPolicy::Type::TaggedSymbol
+              )
+
             OrSymbol = T.type_alias { T.any(Symbol, String) }
 
             TaggedSymbol = T.type_alias do
@@ -26820,7 +26967,8 @@ module Anthropic
           Variants = T.type_alias do
               T.any(
                 Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy,
-                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy
+                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy,
+                Anthropic::Beta::BetaManagedAgentsAutoPolicy
               )
             end
         end
@@ -29011,7 +29159,8 @@ module Anthropic
               enabled: T::Boolean,
               permission_policy: T.any(
                 Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy::OrHash,
-                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy::OrHash
+                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy::OrHash,
+                Anthropic::Beta::BetaManagedAgentsAutoPolicy::OrHash
               ),
               name: Symbol,
               type: Symbol
@@ -29078,6 +29227,11 @@ module Anthropic
                 Anthropic::Beta::BetaManagedAgentsReadToolConfig::PermissionPolicy::Type::TaggedSymbol
               )
 
+            AUTO = T.let(
+                :auto,
+                Anthropic::Beta::BetaManagedAgentsReadToolConfig::PermissionPolicy::Type::TaggedSymbol
+              )
+
             OrSymbol = T.type_alias { T.any(Symbol, String) }
 
             TaggedSymbol = T.type_alias do
@@ -29091,7 +29245,8 @@ module Anthropic
           Variants = T.type_alias do
               T.any(
                 Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy,
-                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy
+                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy,
+                Anthropic::Beta::BetaManagedAgentsAutoPolicy
               )
             end
         end
@@ -29112,7 +29267,8 @@ module Anthropic
           returns(T.nilable(
               T.any(
                 Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy,
-                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy
+                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy,
+                Anthropic::Beta::BetaManagedAgentsAutoPolicy
               )
             ))
         end
@@ -29137,7 +29293,8 @@ module Anthropic
                 T.nilable(
                   T.any(
                     Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy,
-                    Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy
+                    Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy,
+                    Anthropic::Beta::BetaManagedAgentsAutoPolicy
                   )
                 ),
               type:
@@ -29154,7 +29311,8 @@ module Anthropic
               permission_policy: T.nilable(
                 T.any(
                   Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy::OrHash,
-                  Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy::OrHash
+                  Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsAutoPolicy::OrHash
                 )
               ),
               type: Anthropic::Beta::BetaManagedAgentsReadToolConfigParams::Type::OrSymbol,
@@ -29223,6 +29381,11 @@ module Anthropic
                 Anthropic::Beta::BetaManagedAgentsReadToolConfigParams::PermissionPolicy::Type::TaggedSymbol
               )
 
+            AUTO = T.let(
+                :auto,
+                Anthropic::Beta::BetaManagedAgentsReadToolConfigParams::PermissionPolicy::Type::TaggedSymbol
+              )
+
             OrSymbol = T.type_alias { T.any(Symbol, String) }
 
             TaggedSymbol = T.type_alias do
@@ -29236,7 +29399,8 @@ module Anthropic
           Variants = T.type_alias do
               T.any(
                 Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy,
-                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy
+                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy,
+                Anthropic::Beta::BetaManagedAgentsAutoPolicy
               )
             end
         end
@@ -33236,7 +33400,8 @@ module Anthropic
               enabled: T::Boolean,
               permission_policy: T.any(
                 Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy::OrHash,
-                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy::OrHash
+                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy::OrHash,
+                Anthropic::Beta::BetaManagedAgentsAutoPolicy::OrHash
               ),
               allowed_domains: T::Array[String],
               blocked_domains: T::Array[String],
@@ -33309,6 +33474,11 @@ module Anthropic
                 Anthropic::Beta::BetaManagedAgentsWebFetchToolConfig::PermissionPolicy::Type::TaggedSymbol
               )
 
+            AUTO = T.let(
+                :auto,
+                Anthropic::Beta::BetaManagedAgentsWebFetchToolConfig::PermissionPolicy::Type::TaggedSymbol
+              )
+
             OrSymbol = T.type_alias { T.any(Symbol, String) }
 
             TaggedSymbol = T.type_alias do
@@ -33322,7 +33492,8 @@ module Anthropic
           Variants = T.type_alias do
               T.any(
                 Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy,
-                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy
+                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy,
+                Anthropic::Beta::BetaManagedAgentsAutoPolicy
               )
             end
         end
@@ -33368,7 +33539,8 @@ module Anthropic
           returns(T.nilable(
               T.any(
                 Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy,
-                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy
+                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy,
+                Anthropic::Beta::BetaManagedAgentsAutoPolicy
               )
             ))
         end
@@ -33396,7 +33568,8 @@ module Anthropic
                 T.nilable(
                   T.any(
                     Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy,
-                    Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy
+                    Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy,
+                    Anthropic::Beta::BetaManagedAgentsAutoPolicy
                   )
                 ),
               type:
@@ -33416,7 +33589,8 @@ module Anthropic
               permission_policy: T.nilable(
                 T.any(
                   Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy::OrHash,
-                  Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy::OrHash
+                  Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsAutoPolicy::OrHash
                 )
               ),
               type: Anthropic::Beta::BetaManagedAgentsWebFetchToolConfigParams::Type::OrSymbol,
@@ -33495,6 +33669,11 @@ module Anthropic
                 Anthropic::Beta::BetaManagedAgentsWebFetchToolConfigParams::PermissionPolicy::Type::TaggedSymbol
               )
 
+            AUTO = T.let(
+                :auto,
+                Anthropic::Beta::BetaManagedAgentsWebFetchToolConfigParams::PermissionPolicy::Type::TaggedSymbol
+              )
+
             OrSymbol = T.type_alias { T.any(Symbol, String) }
 
             TaggedSymbol = T.type_alias do
@@ -33508,7 +33687,8 @@ module Anthropic
           Variants = T.type_alias do
               T.any(
                 Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy,
-                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy
+                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy,
+                Anthropic::Beta::BetaManagedAgentsAutoPolicy
               )
             end
         end
@@ -33598,7 +33778,8 @@ module Anthropic
               enabled: T::Boolean,
               permission_policy: T.any(
                 Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy::OrHash,
-                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy::OrHash
+                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy::OrHash,
+                Anthropic::Beta::BetaManagedAgentsAutoPolicy::OrHash
               ),
               allowed_domains: T::Array[String],
               blocked_domains: T::Array[String],
@@ -33671,6 +33852,11 @@ module Anthropic
                 Anthropic::Beta::BetaManagedAgentsWebSearchToolConfig::PermissionPolicy::Type::TaggedSymbol
               )
 
+            AUTO = T.let(
+                :auto,
+                Anthropic::Beta::BetaManagedAgentsWebSearchToolConfig::PermissionPolicy::Type::TaggedSymbol
+              )
+
             OrSymbol = T.type_alias { T.any(Symbol, String) }
 
             TaggedSymbol = T.type_alias do
@@ -33684,7 +33870,8 @@ module Anthropic
           Variants = T.type_alias do
               T.any(
                 Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy,
-                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy
+                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy,
+                Anthropic::Beta::BetaManagedAgentsAutoPolicy
               )
             end
         end
@@ -33725,7 +33912,8 @@ module Anthropic
           returns(T.nilable(
               T.any(
                 Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy,
-                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy
+                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy,
+                Anthropic::Beta::BetaManagedAgentsAutoPolicy
               )
             ))
         end
@@ -33759,7 +33947,8 @@ module Anthropic
                 T.nilable(
                   T.any(
                     Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy,
-                    Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy
+                    Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy,
+                    Anthropic::Beta::BetaManagedAgentsAutoPolicy
                   )
                 ),
               type:
@@ -33780,7 +33969,8 @@ module Anthropic
               permission_policy: T.nilable(
                 T.any(
                   Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy::OrHash,
-                  Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy::OrHash
+                  Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsAutoPolicy::OrHash
                 )
               ),
               type: Anthropic::Beta::BetaManagedAgentsWebSearchToolConfigParams::Type::OrSymbol,
@@ -33859,6 +34049,11 @@ module Anthropic
                 Anthropic::Beta::BetaManagedAgentsWebSearchToolConfigParams::PermissionPolicy::Type::TaggedSymbol
               )
 
+            AUTO = T.let(
+                :auto,
+                Anthropic::Beta::BetaManagedAgentsWebSearchToolConfigParams::PermissionPolicy::Type::TaggedSymbol
+              )
+
             OrSymbol = T.type_alias { T.any(Symbol, String) }
 
             TaggedSymbol = T.type_alias do
@@ -33872,7 +34067,8 @@ module Anthropic
           Variants = T.type_alias do
               T.any(
                 Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy,
-                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy
+                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy,
+                Anthropic::Beta::BetaManagedAgentsAutoPolicy
               )
             end
         end
@@ -34068,7 +34264,8 @@ module Anthropic
               enabled: T::Boolean,
               permission_policy: T.any(
                 Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy::OrHash,
-                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy::OrHash
+                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy::OrHash,
+                Anthropic::Beta::BetaManagedAgentsAutoPolicy::OrHash
               ),
               name: Symbol,
               type: Symbol
@@ -34135,6 +34332,11 @@ module Anthropic
                 Anthropic::Beta::BetaManagedAgentsWriteToolConfig::PermissionPolicy::Type::TaggedSymbol
               )
 
+            AUTO = T.let(
+                :auto,
+                Anthropic::Beta::BetaManagedAgentsWriteToolConfig::PermissionPolicy::Type::TaggedSymbol
+              )
+
             OrSymbol = T.type_alias { T.any(Symbol, String) }
 
             TaggedSymbol = T.type_alias do
@@ -34148,7 +34350,8 @@ module Anthropic
           Variants = T.type_alias do
               T.any(
                 Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy,
-                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy
+                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy,
+                Anthropic::Beta::BetaManagedAgentsAutoPolicy
               )
             end
         end
@@ -34169,7 +34372,8 @@ module Anthropic
           returns(T.nilable(
               T.any(
                 Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy,
-                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy
+                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy,
+                Anthropic::Beta::BetaManagedAgentsAutoPolicy
               )
             ))
         end
@@ -34194,7 +34398,8 @@ module Anthropic
                 T.nilable(
                   T.any(
                     Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy,
-                    Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy
+                    Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy,
+                    Anthropic::Beta::BetaManagedAgentsAutoPolicy
                   )
                 ),
               type:
@@ -34211,7 +34416,8 @@ module Anthropic
               permission_policy: T.nilable(
                 T.any(
                   Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy::OrHash,
-                  Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy::OrHash
+                  Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsAutoPolicy::OrHash
                 )
               ),
               type: Anthropic::Beta::BetaManagedAgentsWriteToolConfigParams::Type::OrSymbol,
@@ -34280,6 +34486,11 @@ module Anthropic
                 Anthropic::Beta::BetaManagedAgentsWriteToolConfigParams::PermissionPolicy::Type::TaggedSymbol
               )
 
+            AUTO = T.let(
+                :auto,
+                Anthropic::Beta::BetaManagedAgentsWriteToolConfigParams::PermissionPolicy::Type::TaggedSymbol
+              )
+
             OrSymbol = T.type_alias { T.any(Symbol, String) }
 
             TaggedSymbol = T.type_alias do
@@ -34293,7 +34504,8 @@ module Anthropic
           Variants = T.type_alias do
               T.any(
                 Anthropic::Beta::BetaManagedAgentsAlwaysAllowPolicy,
-                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy
+                Anthropic::Beta::BetaManagedAgentsAlwaysAskPolicy,
+                Anthropic::Beta::BetaManagedAgentsAutoPolicy
               )
             end
         end
@@ -45272,9 +45484,20 @@ module Anthropic
         sig { returns(Time) }
         attr_accessor :created_at
 
-        # Platform's own identifier for this user. Not enforced unique.
+        # Platform's own identifier for this user. Not enforced unique. Present under the
+        # `user-profiles-2026-03-24` and `user-profiles-2026-08-18` beta headers; under
+        # `user-profiles-2026-09-04` the value is `external_user_details.reference_id`.
         sig { returns(T.nilable(String)) }
         attr_accessor :external_id
+
+        # Details about the entity this profile represents, as the platform states them.
+        # Anthropic does not verify them. Every field is present, `null` until the
+        # platform supplies a value.
+        sig { returns(T.nilable(Anthropic::Beta::BetaUserProfileExternalUserDetails)) }
+        attr_reader :external_user_details
+
+        sig { params(external_user_details: Anthropic::Beta::BetaUserProfileExternalUserDetails::OrHash).void }
+        attr_writer :external_user_details
 
         # A timestamp in RFC 3339 format
         sig { returns(T.nilable(Time)) }
@@ -45321,6 +45544,8 @@ module Anthropic
               access_type:
                 Anthropic::Beta::BetaUserProfile::AccessType::TaggedSymbol,
               external_id: T.nilable(String),
+              external_user_details:
+                Anthropic::Beta::BetaUserProfileExternalUserDetails,
               external_user_onboarded_at: T.nilable(Time),
               name: T.nilable(String)
             })
@@ -45341,6 +45566,7 @@ module Anthropic
               updated_at: Time,
               access_type: Anthropic::Beta::BetaUserProfile::AccessType::OrSymbol,
               external_id: T.nilable(String),
+              external_user_details: Anthropic::Beta::BetaUserProfileExternalUserDetails::OrHash,
               external_user_onboarded_at: T.nilable(Time),
               name: T.nilable(String)
             ).returns(T.attached_class)
@@ -45359,7 +45585,12 @@ module Anthropic
                               # and the profile represents an individual end-user of that product.
                               # `passthrough`: the platform resells raw inference, and the profile identifies
                               # the resold-to company.
-            external_id: nil, # Platform's own identifier for this user. Not enforced unique.
+            external_id: nil, # Platform's own identifier for this user. Not enforced unique. Present under the
+                              # `user-profiles-2026-03-24` and `user-profiles-2026-08-18` beta headers; under
+                              # `user-profiles-2026-09-04` the value is `external_user_details.reference_id`.
+            external_user_details: nil, # Details about the entity this profile represents, as the platform states them.
+                                        # Anthropic does not verify them. Every field is present, `null` until the
+                                        # platform supplies a value.
             external_user_onboarded_at: nil, # A timestamp in RFC 3339 format
             name: nil # Real-world name of the entity this profile represents (company or individual).
                       # For a company the platform resells Claude access to (`access_type`
@@ -45502,6 +45733,414 @@ module Anthropic
               T.all(Symbol, Anthropic::Beta::BetaUserProfileEnrollmentURL::Type)
             end
         end
+      end
+
+      class BetaUserProfileExternalUserDetails < Anthropic::Internal::Type::BaseModel
+        # The status of the entity's account on the platform, as the platform states it:
+        # `active`; `suspended`, when the platform has restricted the account and may
+        # restore it; or `blocked`, when the platform has barred it. It records the
+        # platform's decision only; the statuses in `trust_grants` are Anthropic's and do
+        # not follow it.
+        sig do
+          returns(T.nilable(
+              Anthropic::Beta::BetaUserProfileExternalUserDetails::AccountStatus::TaggedSymbol
+            ))
+        end
+        attr_accessor :account_status
+
+        # The country the platform associates with the entity, as an ISO 3166-1 alpha-2
+        # code. `null` until the platform supplies one.
+        sig { returns(T.nilable(String)) }
+        attr_accessor :country
+
+        # The platform-computed hash of the entity's email address. `null` until the
+        # platform supplies one.
+        sig { returns(T.nilable(String)) }
+        attr_accessor :email_hash
+
+        # What kind of entity the profile represents, as the platform states it:
+        # `individual`, `business`, `non_profit` or `government`.
+        sig do
+          returns(T.nilable(
+              Anthropic::Beta::BetaUserProfileExternalUserDetails::EntityType::TaggedSymbol
+            ))
+        end
+        attr_accessor :entity_type
+
+        # The platform-computed hash of the entity's name. `null` until the platform
+        # supplies one.
+        sig { returns(T.nilable(String)) }
+        attr_accessor :name_hash
+
+        # A timestamp in RFC 3339 format
+        sig { returns(T.nilable(Time)) }
+        attr_accessor :onboarded_at
+
+        # The platform's own reference for the entity. `null` until the platform supplies
+        # one.
+        sig { returns(T.nilable(String)) }
+        attr_accessor :reference_id
+
+        sig do
+          override
+            .returns({
+              account_status:
+                T.nilable(
+                  Anthropic::Beta::BetaUserProfileExternalUserDetails::AccountStatus::TaggedSymbol
+                ),
+              country: T.nilable(String),
+              email_hash: T.nilable(String),
+              entity_type:
+                T.nilable(
+                  Anthropic::Beta::BetaUserProfileExternalUserDetails::EntityType::TaggedSymbol
+                ),
+              name_hash: T.nilable(String),
+              onboarded_at: T.nilable(Time),
+              reference_id: T.nilable(String)
+            })
+        end
+        def to_hash; end
+
+        class << self
+          # Details about the entity this profile represents, as the platform states them.
+          # Anthropic does not verify them. Every field is present, `null` until the
+          # platform supplies a value.
+          sig do
+            params(
+              account_status: T.nilable(
+                Anthropic::Beta::BetaUserProfileExternalUserDetails::AccountStatus::OrSymbol
+              ),
+              country: T.nilable(String),
+              email_hash: T.nilable(String),
+              entity_type: T.nilable(
+                Anthropic::Beta::BetaUserProfileExternalUserDetails::EntityType::OrSymbol
+              ),
+              name_hash: T.nilable(String),
+              onboarded_at: T.nilable(Time),
+              reference_id: T.nilable(String)
+            ).returns(T.attached_class)
+          end
+          def new(
+            account_status:, # The status of the entity's account on the platform, as the platform states it:
+                             # `active`; `suspended`, when the platform has restricted the account and may
+                             # restore it; or `blocked`, when the platform has barred it. It records the
+                             # platform's decision only; the statuses in `trust_grants` are Anthropic's and do
+                             # not follow it.
+            country:, # The country the platform associates with the entity, as an ISO 3166-1 alpha-2
+                      # code. `null` until the platform supplies one.
+            email_hash:, # The platform-computed hash of the entity's email address. `null` until the
+                         # platform supplies one.
+            entity_type:, # What kind of entity the profile represents, as the platform states it:
+                          # `individual`, `business`, `non_profit` or `government`.
+            name_hash:, # The platform-computed hash of the entity's name. `null` until the platform
+                        # supplies one.
+            onboarded_at:, # A timestamp in RFC 3339 format
+            reference_id: # The platform's own reference for the entity. `null` until the platform supplies
+                          # one.
+); end
+        end
+
+        # The status of the entity's account on the platform, as the platform states it:
+        # `active`; `suspended`, when the platform has restricted the account and may
+        # restore it; or `blocked`, when the platform has barred it. It records the
+        # platform's decision only; the statuses in `trust_grants` are Anthropic's and do
+        # not follow it.
+        module AccountStatus
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaUserProfileExternalUserDetails::AccountStatus::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          ACTIVE = T.let(
+              :active,
+              Anthropic::Beta::BetaUserProfileExternalUserDetails::AccountStatus::TaggedSymbol
+            )
+
+          BLOCKED = T.let(
+              :blocked,
+              Anthropic::Beta::BetaUserProfileExternalUserDetails::AccountStatus::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          SUSPENDED = T.let(
+              :suspended,
+              Anthropic::Beta::BetaUserProfileExternalUserDetails::AccountStatus::TaggedSymbol
+            )
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaUserProfileExternalUserDetails::AccountStatus
+              )
+            end
+        end
+
+        # What kind of entity the profile represents, as the platform states it:
+        # `individual`, `business`, `non_profit` or `government`.
+        module EntityType
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaUserProfileExternalUserDetails::EntityType::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          BUSINESS = T.let(
+              :business,
+              Anthropic::Beta::BetaUserProfileExternalUserDetails::EntityType::TaggedSymbol
+            )
+
+          GOVERNMENT = T.let(
+              :government,
+              Anthropic::Beta::BetaUserProfileExternalUserDetails::EntityType::TaggedSymbol
+            )
+
+          INDIVIDUAL = T.let(
+              :individual,
+              Anthropic::Beta::BetaUserProfileExternalUserDetails::EntityType::TaggedSymbol
+            )
+
+          NON_PROFIT = T.let(
+              :non_profit,
+              Anthropic::Beta::BetaUserProfileExternalUserDetails::EntityType::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaUserProfileExternalUserDetails::EntityType
+              )
+            end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaUserProfileExternalUserDetails,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
+      class BetaUserProfileExternalUserDetailsParams < Anthropic::Internal::Type::BaseModel
+        # The status of the entity's account on the platform, as the platform states it:
+        # `active`; `suspended`, when the platform has restricted the account and may
+        # restore it; or `blocked`, when the platform has barred it. It records the
+        # platform's decision only; the statuses in `trust_grants` are Anthropic's and do
+        # not follow it.
+        sig do
+          returns(T.nilable(
+              Anthropic::Beta::BetaUserProfileExternalUserDetailsParams::AccountStatus::OrSymbol
+            ))
+        end
+        attr_accessor :account_status
+
+        # The country of the entity (not of the platform), as the platform determines it:
+        # an ISO 3166-1 alpha-2 code in upper case, for example `US`. Only the form, two
+        # uppercase ASCII letters, is checked.
+        sig { returns(T.nilable(String)) }
+        attr_accessor :country
+
+        # A hash of the entity's email address, computed by the platform. Anthropic treats
+        # it as an opaque string and does not prescribe the hash function. 1 to 255
+        # characters.
+        sig { returns(T.nilable(String)) }
+        attr_accessor :email_hash
+
+        # What kind of entity the profile represents, as the platform states it:
+        # `individual`, `business`, `non_profit` or `government`.
+        sig do
+          returns(T.nilable(
+              Anthropic::Beta::BetaUserProfileExternalUserDetailsParams::EntityType::OrSymbol
+            ))
+        end
+        attr_accessor :entity_type
+
+        # A hash of the entity's name, computed by the platform. Anthropic treats it as an
+        # opaque string and does not prescribe the hash function. 1 to 255 characters.
+        sig { returns(T.nilable(String)) }
+        attr_accessor :name_hash
+
+        # A timestamp in RFC 3339 format
+        sig { returns(T.nilable(Time)) }
+        attr_reader :onboarded_at
+
+        sig { params(onboarded_at: Time).void }
+        attr_writer :onboarded_at
+
+        # The platform's own reference for the entity, for example the key of the
+        # end-user's row in the platform's database. Not interpreted by Anthropic and not
+        # enforced unique. 1 to 255 characters.
+        sig { returns(T.nilable(String)) }
+        attr_accessor :reference_id
+
+        sig do
+          override
+            .returns({
+              account_status:
+                T.nilable(
+                  Anthropic::Beta::BetaUserProfileExternalUserDetailsParams::AccountStatus::OrSymbol
+                ),
+              country: T.nilable(String),
+              email_hash: T.nilable(String),
+              entity_type:
+                T.nilable(
+                  Anthropic::Beta::BetaUserProfileExternalUserDetailsParams::EntityType::OrSymbol
+                ),
+              name_hash: T.nilable(String),
+              onboarded_at: Time,
+              reference_id: T.nilable(String)
+            })
+        end
+        def to_hash; end
+
+        class << self
+          sig do
+            params(
+              account_status: T.nilable(
+                Anthropic::Beta::BetaUserProfileExternalUserDetailsParams::AccountStatus::OrSymbol
+              ),
+              country: T.nilable(String),
+              email_hash: T.nilable(String),
+              entity_type: T.nilable(
+                Anthropic::Beta::BetaUserProfileExternalUserDetailsParams::EntityType::OrSymbol
+              ),
+              name_hash: T.nilable(String),
+              onboarded_at: Time,
+              reference_id: T.nilable(String)
+            ).returns(T.attached_class)
+          end
+          def new(
+            account_status: nil, # The status of the entity's account on the platform, as the platform states it:
+                                 # `active`; `suspended`, when the platform has restricted the account and may
+                                 # restore it; or `blocked`, when the platform has barred it. It records the
+                                 # platform's decision only; the statuses in `trust_grants` are Anthropic's and do
+                                 # not follow it.
+            country: nil, # The country of the entity (not of the platform), as the platform determines it:
+                          # an ISO 3166-1 alpha-2 code in upper case, for example `US`. Only the form, two
+                          # uppercase ASCII letters, is checked.
+            email_hash: nil, # A hash of the entity's email address, computed by the platform. Anthropic treats
+                             # it as an opaque string and does not prescribe the hash function. 1 to 255
+                             # characters.
+            entity_type: nil, # What kind of entity the profile represents, as the platform states it:
+                              # `individual`, `business`, `non_profit` or `government`.
+            name_hash: nil, # A hash of the entity's name, computed by the platform. Anthropic treats it as an
+                            # opaque string and does not prescribe the hash function. 1 to 255 characters.
+            onboarded_at: nil, # A timestamp in RFC 3339 format
+            reference_id: nil # The platform's own reference for the entity, for example the key of the
+                              # end-user's row in the platform's database. Not interpreted by Anthropic and not
+                              # enforced unique. 1 to 255 characters.
+); end
+        end
+
+        # The status of the entity's account on the platform, as the platform states it:
+        # `active`; `suspended`, when the platform has restricted the account and may
+        # restore it; or `blocked`, when the platform has barred it. It records the
+        # platform's decision only; the statuses in `trust_grants` are Anthropic's and do
+        # not follow it.
+        module AccountStatus
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaUserProfileExternalUserDetailsParams::AccountStatus::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          ACTIVE = T.let(
+              :active,
+              Anthropic::Beta::BetaUserProfileExternalUserDetailsParams::AccountStatus::TaggedSymbol
+            )
+
+          BLOCKED = T.let(
+              :blocked,
+              Anthropic::Beta::BetaUserProfileExternalUserDetailsParams::AccountStatus::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          SUSPENDED = T.let(
+              :suspended,
+              Anthropic::Beta::BetaUserProfileExternalUserDetailsParams::AccountStatus::TaggedSymbol
+            )
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaUserProfileExternalUserDetailsParams::AccountStatus
+              )
+            end
+        end
+
+        # What kind of entity the profile represents, as the platform states it:
+        # `individual`, `business`, `non_profit` or `government`.
+        module EntityType
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaUserProfileExternalUserDetailsParams::EntityType::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          BUSINESS = T.let(
+              :business,
+              Anthropic::Beta::BetaUserProfileExternalUserDetailsParams::EntityType::TaggedSymbol
+            )
+
+          GOVERNMENT = T.let(
+              :government,
+              Anthropic::Beta::BetaUserProfileExternalUserDetailsParams::EntityType::TaggedSymbol
+            )
+
+          INDIVIDUAL = T.let(
+              :individual,
+              Anthropic::Beta::BetaUserProfileExternalUserDetailsParams::EntityType::TaggedSymbol
+            )
+
+          NON_PROFIT = T.let(
+              :non_profit,
+              Anthropic::Beta::BetaUserProfileExternalUserDetailsParams::EntityType::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaUserProfileExternalUserDetailsParams::EntityType
+              )
+            end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaUserProfileExternalUserDetailsParams,
+              Anthropic::Internal::AnyHash
+            )
+          end
       end
 
       class BetaUserProfileTrustGrant < Anthropic::Internal::Type::BaseModel
@@ -46983,6 +47622,11 @@ module Anthropic
           end
           def values; end
         end
+
+        CONTENT_TOO_LARGE = T.let(
+            :content_too_large,
+            Anthropic::Beta::BetaWebFetchToolResultErrorCode::TaggedSymbol
+          )
 
         INVALID_TOOL_INPUT = T.let(
             :invalid_tool_input,
@@ -51234,8 +51878,8 @@ module Anthropic
             sig do
               params(
                 type: T.any(Symbol, String),
-                authorization_token: String,
                 url: String,
+                authorization_token: String,
                 checkout: T.nilable(
                   T.any(
                     Anthropic::Beta::BetaManagedAgentsBranchCheckout::OrHash,
@@ -51253,8 +51897,9 @@ module Anthropic
             end
             def new(
               type:,
-              authorization_token: nil, # GitHub authorization token used to clone the repository.
               url: nil, # Github URL of the repository
+              authorization_token: nil, # GitHub authorization token used to clone the repository. Required for private
+                                        # repositories; optional for public ones.
               checkout: nil, # Branch or commit to check out. Defaults to the repository's default branch.
               mount_path: nil, # Mount path in the container. Defaults to `/workspace/<repo-name>`.
               file_id: nil, # ID of a previously uploaded file.
@@ -52189,8 +52834,8 @@ module Anthropic
             sig do
               params(
                 type: T.any(Symbol, String),
-                authorization_token: String,
                 url: String,
+                authorization_token: String,
                 checkout: T.nilable(
                   T.any(
                     Anthropic::Beta::BetaManagedAgentsBranchCheckout::OrHash,
@@ -52208,8 +52853,9 @@ module Anthropic
             end
             def new(
               type:,
-              authorization_token: nil, # GitHub authorization token used to clone the repository.
               url: nil, # Github URL of the repository
+              authorization_token: nil, # GitHub authorization token used to clone the repository. Required for private
+                                        # repositories; optional for public ones.
               checkout: nil, # Branch or commit to check out. Defaults to the repository's default branch.
               mount_path: nil, # Mount path in the container. Defaults to `/workspace/<repo-name>`.
               file_id: nil, # ID of a previously uploaded file.
@@ -52826,8 +53472,8 @@ module Anthropic
 
         # The visibility scope for this environment. 'organization' makes the environment
         # visible to all accounts. 'account' restricts visibility to the owning account
-        # only. Only applicable for self-hosted environments. If not specified, defaults
-        # based on organization type.
+        # only. API organizations support only 'organization'; 'account' is rejected. If
+        # not specified, defaults based on organization type.
         sig { returns(T.nilable(Anthropic::Beta::EnvironmentCreateParams::Scope::OrSymbol)) }
         attr_accessor :scope
 
@@ -52889,8 +53535,8 @@ module Anthropic
             metadata: nil, # User-provided metadata key-value pairs
             scope: nil, # The visibility scope for this environment. 'organization' makes the environment
                         # visible to all accounts. 'account' restricts visibility to the owning account
-                        # only. Only applicable for self-hosted environments. If not specified, defaults
-                        # based on organization type.
+                        # only. API organizations support only 'organization'; 'account' is rejected. If
+                        # not specified, defaults based on organization type.
             betas: nil, # Optional header to specify the beta version(s) you want to use.
             workspace_id: nil,
             request_options: {}
@@ -52986,8 +53632,8 @@ module Anthropic
 
         # The visibility scope for this environment. 'organization' makes the environment
         # visible to all accounts. 'account' restricts visibility to the owning account
-        # only. Only applicable for self-hosted environments. If not specified, defaults
-        # based on organization type.
+        # only. API organizations support only 'organization'; 'account' is rejected. If
+        # not specified, defaults based on organization type.
         module Scope
           extend Anthropic::Internal::Type::Enum
 
@@ -62952,7 +63598,7 @@ module Anthropic
 
         class BetaComplianceSettings < Anthropic::Internal::Type::BaseModel
           # Whether the Compliance API is enabled for this organization.
-          sig { returns(Anthropic::Beta::Organization::BetaComplianceSettings::State::Variants) }
+          sig { returns(Anthropic::Beta::Organization::BetaComplianceSettingsState::Variants) }
           attr_accessor :state
 
           sig { returns(Symbol) }
@@ -62962,7 +63608,7 @@ module Anthropic
             override
               .returns({
                 state:
-                  Anthropic::Beta::Organization::BetaComplianceSettings::State::Variants,
+                  Anthropic::Beta::Organization::BetaComplianceSettingsState::Variants,
                 type: Symbol
               })
           end
@@ -62990,70 +63636,69 @@ module Anthropic
                 Anthropic::Internal::AnyHash
               )
             end
+        end
 
-          # Whether the Compliance API is enabled for this organization.
-          module State
-            extend Anthropic::Internal::Type::Union
+        module BetaComplianceSettingsState
+          extend Anthropic::Internal::Type::Union
+
+          class << self
+            # Creates a new instance of the variant class whose `type` matches the given
+            # value, passing the remaining arguments to its constructor.
+            sig do
+              params(
+                type: T.any(Symbol, String)
+              ).returns(Anthropic::Beta::Organization::BetaComplianceSettingsState::Variants)
+            end
+            def new(type:); end
+
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::Organization::BetaComplianceSettingsState::Variants
+              ])
+            end
+            def variants; end
+          end
+
+          module Type
+            extend Anthropic::Internal::Type::Enum
 
             class << self
-              # Creates a new instance of the variant class whose `type` matches the given
-              # value, passing the remaining arguments to its constructor.
-              sig do
-                params(
-                  type: T.any(Symbol, String)
-                ).returns(Anthropic::Beta::Organization::BetaComplianceSettings::State::Variants)
-              end
-              def new(type:); end
-
               sig do
                 override
                   .returns(T::Array[
-                  Anthropic::Beta::Organization::BetaComplianceSettings::State::Variants
+                  Anthropic::Beta::Organization::BetaComplianceSettingsState::Type::TaggedSymbol
                 ])
               end
-              def variants; end
+              def values; end
             end
 
-            module Type
-              extend Anthropic::Internal::Type::Enum
+            DISABLED = T.let(
+                :disabled,
+                Anthropic::Beta::Organization::BetaComplianceSettingsState::Type::TaggedSymbol
+              )
 
-              class << self
-                sig do
-                  override
-                    .returns(T::Array[
-                    Anthropic::Beta::Organization::BetaComplianceSettings::State::Type::TaggedSymbol
-                  ])
-                end
-                def values; end
-              end
+            ENABLED = T.let(
+                :enabled,
+                Anthropic::Beta::Organization::BetaComplianceSettingsState::Type::TaggedSymbol
+              )
 
-              DISABLED = T.let(
-                  :disabled,
-                  Anthropic::Beta::Organization::BetaComplianceSettings::State::Type::TaggedSymbol
-                )
+            OrSymbol = T.type_alias { T.any(Symbol, String) }
 
-              ENABLED = T.let(
-                  :enabled,
-                  Anthropic::Beta::Organization::BetaComplianceSettings::State::Type::TaggedSymbol
-                )
-
-              OrSymbol = T.type_alias { T.any(Symbol, String) }
-
-              TaggedSymbol = T.type_alias do
-                  T.all(
-                    Symbol,
-                    Anthropic::Beta::Organization::BetaComplianceSettings::State::Type
-                  )
-                end
-            end
-
-            Variants = T.type_alias do
-                T.any(
-                  Anthropic::Beta::Organization::BetaComplianceSettingsStateEnabled,
-                  Anthropic::Beta::Organization::BetaComplianceSettingsStateDisabled
+            TaggedSymbol = T.type_alias do
+                T.all(
+                  Symbol,
+                  Anthropic::Beta::Organization::BetaComplianceSettingsState::Type
                 )
               end
           end
+
+          Variants = T.type_alias do
+              T.any(
+                Anthropic::Beta::Organization::BetaComplianceSettingsStateEnabled,
+                Anthropic::Beta::Organization::BetaComplianceSettingsStateDisabled
+              )
+            end
         end
 
         class BetaComplianceSettingsStateDisabled < Anthropic::Internal::Type::BaseModel
@@ -63132,6 +63777,69 @@ module Anthropic
               T.any(
                 Anthropic::Beta::Organization::BetaComplianceSettingsStateEnabledParam,
                 Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        module BetaComplianceSettingsStateParam
+          extend Anthropic::Internal::Type::Union
+
+          class << self
+            # Creates a new instance of the variant class whose `type` matches the given
+            # value, passing the remaining arguments to its constructor.
+            sig do
+              params(
+                type: T.any(Symbol, String)
+              ).returns(Anthropic::Beta::Organization::BetaComplianceSettingsStateParam::Variants)
+            end
+            def new(type:); end
+
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::Organization::BetaComplianceSettingsStateParam::Variants
+              ])
+            end
+            def variants; end
+          end
+
+          module Type
+            extend Anthropic::Internal::Type::Enum
+
+            class << self
+              sig do
+                override
+                  .returns(T::Array[
+                  Anthropic::Beta::Organization::BetaComplianceSettingsStateParam::Type::TaggedSymbol
+                ])
+              end
+              def values; end
+            end
+
+            DISABLED = T.let(
+                :disabled,
+                Anthropic::Beta::Organization::BetaComplianceSettingsStateParam::Type::TaggedSymbol
+              )
+
+            ENABLED = T.let(
+                :enabled,
+                Anthropic::Beta::Organization::BetaComplianceSettingsStateParam::Type::TaggedSymbol
+              )
+
+            OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+            TaggedSymbol = T.type_alias do
+                T.all(
+                  Symbol,
+                  Anthropic::Beta::Organization::BetaComplianceSettingsStateParam::Type
+                )
+              end
+          end
+
+          Variants = T.type_alias do
+              T.any(
+                Anthropic::Beta::Organization::BetaComplianceSettingsStateEnabledParam,
+                Anthropic::Beta::Organization::BetaComplianceSettingsStateDisabledParam
               )
             end
         end
@@ -64827,71 +65535,6 @@ module Anthropic
                 Anthropic::Internal::AnyHash
               )
             end
-
-          # Desired state. Accepts the string shorthand "enabled" or "disabled" in place of
-          # the object form; the response always returns the canonical object form.
-          module State
-            extend Anthropic::Internal::Type::Union
-
-            class << self
-              # Creates a new instance of the variant class whose `type` matches the given
-              # value, passing the remaining arguments to its constructor.
-              sig do
-                params(
-                  type: T.any(Symbol, String)
-                ).returns(Anthropic::Beta::Organization::ComplianceSettingUpdateParams::State::Variants)
-              end
-              def new(type:); end
-
-              sig do
-                override
-                  .returns(T::Array[
-                  Anthropic::Beta::Organization::ComplianceSettingUpdateParams::State::Variants
-                ])
-              end
-              def variants; end
-            end
-
-            module Type
-              extend Anthropic::Internal::Type::Enum
-
-              class << self
-                sig do
-                  override
-                    .returns(T::Array[
-                    Anthropic::Beta::Organization::ComplianceSettingUpdateParams::State::Type::TaggedSymbol
-                  ])
-                end
-                def values; end
-              end
-
-              DISABLED = T.let(
-                  :disabled,
-                  Anthropic::Beta::Organization::ComplianceSettingUpdateParams::State::Type::TaggedSymbol
-                )
-
-              ENABLED = T.let(
-                  :enabled,
-                  Anthropic::Beta::Organization::ComplianceSettingUpdateParams::State::Type::TaggedSymbol
-                )
-
-              OrSymbol = T.type_alias { T.any(Symbol, String) }
-
-              TaggedSymbol = T.type_alias do
-                  T.all(
-                    Symbol,
-                    Anthropic::Beta::Organization::ComplianceSettingUpdateParams::State::Type
-                  )
-                end
-            end
-
-            Variants = T.type_alias do
-                T.any(
-                  Anthropic::Beta::Organization::BetaComplianceSettingsStateEnabledParam,
-                  Anthropic::Beta::Organization::BetaComplianceSettingsStateDisabledParam
-                )
-              end
-          end
         end
 
         class ExternalKeyCreateParams < Anthropic::Internal::Type::BaseModel
@@ -70994,8 +71637,8 @@ module Anthropic
             sig do
               params(
                 type: T.any(Symbol, String),
-                authorization_token: String,
                 url: String,
+                authorization_token: String,
                 checkout: T.nilable(
                   T.any(
                     Anthropic::Beta::BetaManagedAgentsBranchCheckout::OrHash,
@@ -71013,8 +71656,9 @@ module Anthropic
             end
             def new(
               type:,
-              authorization_token: nil, # GitHub authorization token used to clone the repository.
               url: nil, # Github URL of the repository
+              authorization_token: nil, # GitHub authorization token used to clone the repository. Required for private
+                                        # repositories; optional for public ones.
               checkout: nil, # Branch or commit to check out. Defaults to the repository's default branch.
               mount_path: nil, # Mount path in the container. Defaults to `/workspace/<repo-name>`.
               file_id: nil, # ID of a previously uploaded file.
@@ -71571,6 +72215,170 @@ module Anthropic
       end
 
       module Sessions
+        # The server's per-invocation judgement under the auto permission policy. Its type
+        # always equals the event's top-level evaluated_permission. Open union: clients
+        # must tolerate unknown variants.
+        module BetaManagedAgentsAgentAutoEvaluatedPermission
+          extend Anthropic::Internal::Type::Union
+
+          class << self
+            # Creates a new instance of the variant class whose `type` matches the given
+            # value, passing the remaining arguments to its constructor.
+            sig do
+              params(
+                type: T.any(Symbol, String),
+                reason_code: String
+              ).returns(Anthropic::Beta::Sessions::BetaManagedAgentsAgentAutoEvaluatedPermission::Variants)
+            end
+            def new(
+              type:,
+              reason_code: nil # The judgement's grounds in registry-bound terms, for client branching and audit
+                               # rather than end-user display. Open registry; currently "indeterminate" (no
+                               # judgement was reached). Clients must tolerate values outside this set.
+); end
+
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::Sessions::BetaManagedAgentsAgentAutoEvaluatedPermission::Variants
+              ])
+            end
+            def variants; end
+          end
+
+          module Type
+            extend Anthropic::Internal::Type::Enum
+
+            class << self
+              sig do
+                override
+                  .returns(T::Array[
+                  Anthropic::Beta::Sessions::BetaManagedAgentsAgentAutoEvaluatedPermission::Type::TaggedSymbol
+                ])
+              end
+              def values; end
+            end
+
+            ALLOW = T.let(
+                :allow,
+                Anthropic::Beta::Sessions::BetaManagedAgentsAgentAutoEvaluatedPermission::Type::TaggedSymbol
+              )
+
+            ASK = T.let(
+                :ask,
+                Anthropic::Beta::Sessions::BetaManagedAgentsAgentAutoEvaluatedPermission::Type::TaggedSymbol
+              )
+
+            DENY = T.let(
+                :deny,
+                Anthropic::Beta::Sessions::BetaManagedAgentsAgentAutoEvaluatedPermission::Type::TaggedSymbol
+              )
+
+            OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+            TaggedSymbol = T.type_alias do
+                T.all(
+                  Symbol,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsAgentAutoEvaluatedPermission::Type
+                )
+              end
+          end
+
+          Variants = T.type_alias do
+              T.any(
+                Anthropic::Beta::Sessions::BetaManagedAgentsAgentAutoEvaluatedPermissionAllow,
+                Anthropic::Beta::Sessions::BetaManagedAgentsAgentAutoEvaluatedPermissionAsk,
+                Anthropic::Beta::Sessions::BetaManagedAgentsAgentAutoEvaluatedPermissionDeny
+              )
+            end
+        end
+
+        class BetaManagedAgentsAgentAutoEvaluatedPermissionAllow < Anthropic::Internal::Type::BaseModel
+          sig { returns(Symbol) }
+          attr_accessor :type
+
+          sig { override.returns({ type: Symbol }) }
+          def to_hash; end
+
+          class << self
+            # The server judged the invocation safe to execute without client approval.
+            sig { params(type: Symbol).returns(T.attached_class) }
+            def new(type: :allow); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Sessions::BetaManagedAgentsAgentAutoEvaluatedPermissionAllow,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        class BetaManagedAgentsAgentAutoEvaluatedPermissionAsk < Anthropic::Internal::Type::BaseModel
+          # The judgement's grounds in registry-bound terms, for client branching and audit
+          # rather than end-user display. Open registry; currently "indeterminate" (no
+          # judgement was reached). Clients must tolerate values outside this set.
+          sig { returns(String) }
+          attr_accessor :reason_code
+
+          sig { returns(Symbol) }
+          attr_accessor :type
+
+          sig { override.returns({ reason_code: String, type: Symbol }) }
+          def to_hash; end
+
+          class << self
+            # The server reached no judgement; the invocation is held for client approval.
+            sig { params(reason_code: String, type: Symbol).returns(T.attached_class) }
+            def new(
+              reason_code:, # The judgement's grounds in registry-bound terms, for client branching and audit
+                            # rather than end-user display. Open registry; currently "indeterminate" (no
+                            # judgement was reached). Clients must tolerate values outside this set.
+              type: :ask
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Sessions::BetaManagedAgentsAgentAutoEvaluatedPermissionAsk,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        class BetaManagedAgentsAgentAutoEvaluatedPermissionDeny < Anthropic::Internal::Type::BaseModel
+          # The judgement's grounds in registry-bound terms. Open registry; currently
+          # "high_risk" (judged high-risk; the call does not run). Clients must tolerate
+          # values outside this set.
+          sig { returns(String) }
+          attr_accessor :reason_code
+
+          sig { returns(Symbol) }
+          attr_accessor :type
+
+          sig { override.returns({ reason_code: String, type: Symbol }) }
+          def to_hash; end
+
+          class << self
+            # The server judged the invocation high-risk; it does not execute and a synthetic
+            # error tool result is appended.
+            sig { params(reason_code: String, type: Symbol).returns(T.attached_class) }
+            def new(
+              reason_code:, # The judgement's grounds in registry-bound terms. Open registry; currently
+                            # "high_risk" (judged high-risk; the call does not run). Clients must tolerate
+                            # values outside this set.
+              type: :deny
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Sessions::BetaManagedAgentsAgentAutoEvaluatedPermissionDeny,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
         class BetaManagedAgentsAgentCustomToolUseEvent < Anthropic::Internal::Type::BaseModel
           # Unique identifier for this event.
           sig { returns(String) }
@@ -71920,6 +72728,27 @@ module Anthropic
           end
           attr_writer :evaluated_permission
 
+          # Names the resolved permission_policy that produced evaluated_permission, and
+          # under auto carries the judgement. Open union: clients must tolerate unknown
+          # variants.
+          sig do
+            returns(T.nilable(
+                Anthropic::Beta::Sessions::BetaManagedAgentsAgentToolEvaluation::Variants
+              ))
+          end
+          attr_reader :evaluation
+
+          sig do
+            params(
+              evaluation: T.any(
+                  Anthropic::Beta::Sessions::BetaManagedAgentsAgentToolEvaluationAlwaysAllow::OrHash,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsAgentToolEvaluationAlwaysAsk::OrHash,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsAgentToolEvaluationAuto::OrHash
+                )
+            ).void
+          end
+          attr_writer :evaluation
+
           # Unique identifier for this event.
           sig { returns(String) }
           attr_accessor :id
@@ -71962,6 +72791,8 @@ module Anthropic
                   Anthropic::Beta::Sessions::BetaManagedAgentsAgentMCPToolUseEvent::Type::TaggedSymbol,
                 evaluated_permission:
                   Anthropic::Beta::Sessions::BetaManagedAgentsAgentMCPToolUseEvent::EvaluatedPermission::TaggedSymbol,
+                evaluation:
+                  Anthropic::Beta::Sessions::BetaManagedAgentsAgentToolEvaluation::Variants,
                 session_thread_id: T.nilable(String)
               })
           end
@@ -71978,6 +72809,11 @@ module Anthropic
                 processed_at: Time,
                 type: Anthropic::Beta::Sessions::BetaManagedAgentsAgentMCPToolUseEvent::Type::OrSymbol,
                 evaluated_permission: Anthropic::Beta::Sessions::BetaManagedAgentsAgentMCPToolUseEvent::EvaluatedPermission::OrSymbol,
+                evaluation: T.any(
+                  Anthropic::Beta::Sessions::BetaManagedAgentsAgentToolEvaluationAlwaysAllow::OrHash,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsAgentToolEvaluationAlwaysAsk::OrHash,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsAgentToolEvaluationAuto::OrHash
+                ),
                 session_thread_id: T.nilable(String)
               ).returns(T.attached_class)
             end
@@ -71989,6 +72825,9 @@ module Anthropic
               processed_at:, # A timestamp in RFC 3339 format
               type:,
               evaluated_permission: nil, # AgentEvaluatedPermission enum
+              evaluation: nil, # Names the resolved permission_policy that produced evaluated_permission, and
+                               # under auto carries the judgement. Open union: clients must tolerate unknown
+                               # variants.
               session_thread_id: nil # When set, this event was cross-posted from a subagent's thread to surface its
                                      # permission request on the primary thread's stream. Empty on the thread's own
                                      # events. Echo this on a `user.tool_confirmation` event to route the approval
@@ -72810,6 +73649,181 @@ module Anthropic
           end
         end
 
+        # Names the resolved permission_policy that produced evaluated_permission, and
+        # under auto carries the judgement. Open union: clients must tolerate unknown
+        # variants.
+        module BetaManagedAgentsAgentToolEvaluation
+          extend Anthropic::Internal::Type::Union
+
+          class << self
+            # Creates a new instance of the variant class whose `type` matches the given
+            # value, passing the remaining arguments to its constructor.
+            sig do
+              params(
+                type: T.any(Symbol, String),
+                evaluated_permission: T.any(
+                  Anthropic::Beta::Sessions::BetaManagedAgentsAgentAutoEvaluatedPermissionAllow::OrHash,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsAgentAutoEvaluatedPermissionAsk::OrHash,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsAgentAutoEvaluatedPermissionDeny::OrHash
+                )
+              ).returns(Anthropic::Beta::Sessions::BetaManagedAgentsAgentToolEvaluation::Variants)
+            end
+            def new(
+              type:,
+              evaluated_permission: nil # The server's per-invocation judgement under the auto permission policy. Its type
+                                        # always equals the event's top-level evaluated_permission. Open union: clients
+                                        # must tolerate unknown variants.
+); end
+
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::Sessions::BetaManagedAgentsAgentToolEvaluation::Variants
+              ])
+            end
+            def variants; end
+          end
+
+          module Type
+            extend Anthropic::Internal::Type::Enum
+
+            class << self
+              sig do
+                override
+                  .returns(T::Array[
+                  Anthropic::Beta::Sessions::BetaManagedAgentsAgentToolEvaluation::Type::TaggedSymbol
+                ])
+              end
+              def values; end
+            end
+
+            ALWAYS_ALLOW = T.let(
+                :always_allow,
+                Anthropic::Beta::Sessions::BetaManagedAgentsAgentToolEvaluation::Type::TaggedSymbol
+              )
+
+            ALWAYS_ASK = T.let(
+                :always_ask,
+                Anthropic::Beta::Sessions::BetaManagedAgentsAgentToolEvaluation::Type::TaggedSymbol
+              )
+
+            AUTO = T.let(
+                :auto,
+                Anthropic::Beta::Sessions::BetaManagedAgentsAgentToolEvaluation::Type::TaggedSymbol
+              )
+
+            OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+            TaggedSymbol = T.type_alias do
+                T.all(
+                  Symbol,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsAgentToolEvaluation::Type
+                )
+              end
+          end
+
+          Variants = T.type_alias do
+              T.any(
+                Anthropic::Beta::Sessions::BetaManagedAgentsAgentToolEvaluationAlwaysAllow,
+                Anthropic::Beta::Sessions::BetaManagedAgentsAgentToolEvaluationAlwaysAsk,
+                Anthropic::Beta::Sessions::BetaManagedAgentsAgentToolEvaluationAuto
+              )
+            end
+        end
+
+        class BetaManagedAgentsAgentToolEvaluationAlwaysAllow < Anthropic::Internal::Type::BaseModel
+          sig { returns(Symbol) }
+          attr_accessor :type
+
+          sig { override.returns({ type: Symbol }) }
+          def to_hash; end
+
+          class << self
+            # The resolved permission_policy was always_allow; accompanies
+            # evaluated_permission "allow".
+            sig { params(type: Symbol).returns(T.attached_class) }
+            def new(type: :always_allow); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Sessions::BetaManagedAgentsAgentToolEvaluationAlwaysAllow,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        class BetaManagedAgentsAgentToolEvaluationAlwaysAsk < Anthropic::Internal::Type::BaseModel
+          sig { returns(Symbol) }
+          attr_accessor :type
+
+          sig { override.returns({ type: Symbol }) }
+          def to_hash; end
+
+          class << self
+            # The resolved permission_policy was always_ask; accompanies evaluated_permission
+            # "ask".
+            sig { params(type: Symbol).returns(T.attached_class) }
+            def new(type: :always_ask); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Sessions::BetaManagedAgentsAgentToolEvaluationAlwaysAsk,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        class BetaManagedAgentsAgentToolEvaluationAuto < Anthropic::Internal::Type::BaseModel
+          # The server's per-invocation judgement under the auto permission policy. Its type
+          # always equals the event's top-level evaluated_permission. Open union: clients
+          # must tolerate unknown variants.
+          sig { returns(Anthropic::Beta::Sessions::BetaManagedAgentsAgentAutoEvaluatedPermission::Variants) }
+          attr_accessor :evaluated_permission
+
+          sig { returns(Symbol) }
+          attr_accessor :type
+
+          sig do
+            override
+              .returns({
+                evaluated_permission:
+                  Anthropic::Beta::Sessions::BetaManagedAgentsAgentAutoEvaluatedPermission::Variants,
+                type: Symbol
+              })
+          end
+          def to_hash; end
+
+          class << self
+            # The resolved permission_policy was auto: the server judged this invocation
+            # individually.
+            sig do
+              params(
+                evaluated_permission: T.any(
+                  Anthropic::Beta::Sessions::BetaManagedAgentsAgentAutoEvaluatedPermissionAllow::OrHash,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsAgentAutoEvaluatedPermissionAsk::OrHash,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsAgentAutoEvaluatedPermissionDeny::OrHash
+                ),
+                type: Symbol
+              ).returns(T.attached_class)
+            end
+            def new(
+              evaluated_permission:, # The server's per-invocation judgement under the auto permission policy. Its type
+                                     # always equals the event's top-level evaluated_permission. Open union: clients
+                                     # must tolerate unknown variants.
+              type: :auto
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Sessions::BetaManagedAgentsAgentToolEvaluationAuto,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
         class BetaManagedAgentsAgentToolResultEvent < Anthropic::Internal::Type::BaseModel
           # The result content returned by the tool.
           sig do
@@ -73058,6 +74072,27 @@ module Anthropic
           end
           attr_writer :evaluated_permission
 
+          # Names the resolved permission_policy that produced evaluated_permission, and
+          # under auto carries the judgement. Open union: clients must tolerate unknown
+          # variants.
+          sig do
+            returns(T.nilable(
+                Anthropic::Beta::Sessions::BetaManagedAgentsAgentToolEvaluation::Variants
+              ))
+          end
+          attr_reader :evaluation
+
+          sig do
+            params(
+              evaluation: T.any(
+                  Anthropic::Beta::Sessions::BetaManagedAgentsAgentToolEvaluationAlwaysAllow::OrHash,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsAgentToolEvaluationAlwaysAsk::OrHash,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsAgentToolEvaluationAuto::OrHash
+                )
+            ).void
+          end
+          attr_writer :evaluation
+
           # Unique identifier for this event.
           sig { returns(String) }
           attr_accessor :id
@@ -73095,6 +74130,8 @@ module Anthropic
                   Anthropic::Beta::Sessions::BetaManagedAgentsAgentToolUseEvent::Type::TaggedSymbol,
                 evaluated_permission:
                   Anthropic::Beta::Sessions::BetaManagedAgentsAgentToolUseEvent::EvaluatedPermission::TaggedSymbol,
+                evaluation:
+                  Anthropic::Beta::Sessions::BetaManagedAgentsAgentToolEvaluation::Variants,
                 session_thread_id: T.nilable(String)
               })
           end
@@ -73110,6 +74147,11 @@ module Anthropic
                 processed_at: Time,
                 type: Anthropic::Beta::Sessions::BetaManagedAgentsAgentToolUseEvent::Type::OrSymbol,
                 evaluated_permission: Anthropic::Beta::Sessions::BetaManagedAgentsAgentToolUseEvent::EvaluatedPermission::OrSymbol,
+                evaluation: T.any(
+                  Anthropic::Beta::Sessions::BetaManagedAgentsAgentToolEvaluationAlwaysAllow::OrHash,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsAgentToolEvaluationAlwaysAsk::OrHash,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsAgentToolEvaluationAuto::OrHash
+                ),
                 session_thread_id: T.nilable(String)
               ).returns(T.attached_class)
             end
@@ -73120,6 +74162,9 @@ module Anthropic
               processed_at:, # A timestamp in RFC 3339 format
               type:,
               evaluated_permission: nil, # AgentEvaluatedPermission enum
+              evaluation: nil, # Names the resolved permission_policy that produced evaluated_permission, and
+                               # under auto carries the judgement. Open union: clients must tolerate unknown
+                               # variants.
               session_thread_id: nil # When set, this event was cross-posted from a subagent's thread to surface its
                                      # permission request on the primary thread's stream. Empty on the thread's own
                                      # events. Echo this on a `user.tool_confirmation` event to route the approval
@@ -76939,6 +77984,11 @@ module Anthropic
                   Anthropic::Beta::Sessions::BetaManagedAgentsAgentMCPToolUseEvent::EvaluatedPermission::OrSymbol,
                   Anthropic::Beta::Sessions::BetaManagedAgentsAgentToolUseEvent::EvaluatedPermission::OrSymbol
                 ),
+                evaluation: T.any(
+                  Anthropic::Beta::Sessions::BetaManagedAgentsAgentToolEvaluationAlwaysAllow::OrHash,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsAgentToolEvaluationAlwaysAsk::OrHash,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsAgentToolEvaluationAuto::OrHash
+                ),
                 mcp_tool_use_id: String,
                 from_session_thread_id: String,
                 from_agent_name: T.nilable(String),
@@ -77011,6 +78061,9 @@ module Anthropic
               name: nil, # Name of the custom tool being called.
               mcp_server_name: nil, # Name of the MCP server providing the tool.
               evaluated_permission: nil, # AgentEvaluatedPermission enum
+              evaluation: nil, # Names the resolved permission_policy that produced evaluated_permission, and
+                               # under auto carries the judgement. Open union: clients must tolerate unknown
+                               # variants.
               mcp_tool_use_id: nil, # The id of the `agent.mcp_tool_use` event this result corresponds to.
               from_session_thread_id: nil, # Public `sthr_` ID of the thread that sent the message.
               from_agent_name: nil, # Name of the callable agent this message came from. Absent when received from the
@@ -79747,6 +80800,11 @@ module Anthropic
                   Anthropic::Beta::Sessions::BetaManagedAgentsAgentMCPToolUseEvent::EvaluatedPermission::OrSymbol,
                   Anthropic::Beta::Sessions::BetaManagedAgentsAgentToolUseEvent::EvaluatedPermission::OrSymbol
                 ),
+                evaluation: T.any(
+                  Anthropic::Beta::Sessions::BetaManagedAgentsAgentToolEvaluationAlwaysAllow::OrHash,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsAgentToolEvaluationAlwaysAsk::OrHash,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsAgentToolEvaluationAuto::OrHash
+                ),
                 mcp_tool_use_id: String,
                 from_session_thread_id: String,
                 from_agent_name: T.nilable(String),
@@ -79825,6 +80883,9 @@ module Anthropic
               name: nil, # Name of the custom tool being called.
               mcp_server_name: nil, # Name of the MCP server providing the tool.
               evaluated_permission: nil, # AgentEvaluatedPermission enum
+              evaluation: nil, # Names the resolved permission_policy that produced evaluated_permission, and
+                               # under auto carries the judgement. Open union: clients must tolerate unknown
+                               # variants.
               mcp_tool_use_id: nil, # The id of the `agent.mcp_tool_use` event this result corresponds to.
               from_session_thread_id: nil, # Public `sthr_` ID of the thread that sent the message.
               from_agent_name: nil, # Name of the callable agent this message came from. Absent when received from the
@@ -80182,6 +81243,11 @@ module Anthropic
                   Anthropic::Beta::Sessions::BetaManagedAgentsAgentMCPToolUseEvent::EvaluatedPermission::OrSymbol,
                   Anthropic::Beta::Sessions::BetaManagedAgentsAgentToolUseEvent::EvaluatedPermission::OrSymbol
                 ),
+                evaluation: T.any(
+                  Anthropic::Beta::Sessions::BetaManagedAgentsAgentToolEvaluationAlwaysAllow::OrHash,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsAgentToolEvaluationAlwaysAsk::OrHash,
+                  Anthropic::Beta::Sessions::BetaManagedAgentsAgentToolEvaluationAuto::OrHash
+                ),
                 mcp_tool_use_id: String,
                 from_session_thread_id: String,
                 from_agent_name: T.nilable(String),
@@ -80260,6 +81326,9 @@ module Anthropic
               name: nil, # Name of the custom tool being called.
               mcp_server_name: nil, # Name of the MCP server providing the tool.
               evaluated_permission: nil, # AgentEvaluatedPermission enum
+              evaluation: nil, # Names the resolved permission_policy that produced evaluated_permission, and
+                               # under auto carries the judgement. Open union: clients must tolerate unknown
+                               # variants.
               mcp_tool_use_id: nil, # The id of the `agent.mcp_tool_use` event this result corresponds to.
               from_session_thread_id: nil, # Public `sthr_` ID of the thread that sent the message.
               from_agent_name: nil, # Name of the callable agent this message came from. Absent when received from the
@@ -86058,9 +87127,20 @@ module Anthropic
         attr_writer :betas
 
         # Platform's own identifier for this user. Not enforced unique. Maximum 255
-        # characters.
+        # characters. Accepted under the `user-profiles-2026-03-24` and
+        # `user-profiles-2026-08-18` beta headers; under `user-profiles-2026-09-04` send
+        # `external_user_details.reference_id` instead.
         sig { returns(T.nilable(String)) }
         attr_accessor :external_id
+
+        # Details about the entity this profile represents, as the platform states them.
+        # Every field is optional. Accepted under the `user-profiles-2026-09-04` beta
+        # header only.
+        sig { returns(T.nilable(Anthropic::Beta::BetaUserProfileExternalUserDetailsParams)) }
+        attr_reader :external_user_details
+
+        sig { params(external_user_details: Anthropic::Beta::BetaUserProfileExternalUserDetailsParams::OrHash).void }
+        attr_writer :external_user_details
 
         # A timestamp in RFC 3339 format
         sig { returns(T.nilable(Time)) }
@@ -86091,6 +87171,8 @@ module Anthropic
               access_type:
                 Anthropic::Beta::UserProfileCreateParams::AccessType::OrSymbol,
               external_id: T.nilable(String),
+              external_user_details:
+                Anthropic::Beta::BetaUserProfileExternalUserDetailsParams,
               external_user_onboarded_at: Time,
               metadata: T::Hash[Symbol, String],
               name: T.nilable(String),
@@ -86106,6 +87188,7 @@ module Anthropic
             params(
               access_type: Anthropic::Beta::UserProfileCreateParams::AccessType::OrSymbol,
               external_id: T.nilable(String),
+              external_user_details: Anthropic::Beta::BetaUserProfileExternalUserDetailsParams::OrHash,
               external_user_onboarded_at: Time,
               metadata: T::Hash[Symbol, String],
               name: T.nilable(String),
@@ -86120,7 +87203,12 @@ module Anthropic
                               # `passthrough`: the platform resells raw inference, and the profile identifies
                               # the resold-to company.
             external_id: nil, # Platform's own identifier for this user. Not enforced unique. Maximum 255
-                              # characters.
+                              # characters. Accepted under the `user-profiles-2026-03-24` and
+                              # `user-profiles-2026-08-18` beta headers; under `user-profiles-2026-09-04` send
+                              # `external_user_details.reference_id` instead.
+            external_user_details: nil, # Details about the entity this profile represents, as the platform states them.
+                                        # Every field is optional. Accepted under the `user-profiles-2026-09-04` beta
+                                        # header only.
             external_user_onboarded_at: nil, # A timestamp in RFC 3339 format
             metadata: nil, # Free-form key-value data to attach to this user profile. Maximum 16 keys, with
                            # keys up to 64 characters and values up to 512 characters. Values must be
@@ -86409,9 +87497,21 @@ module Anthropic
         attr_writer :betas
 
         # If present, replaces the stored external_id. Omit to leave unchanged. Maximum
-        # 255 characters.
+        # 255 characters. Accepted under the `user-profiles-2026-03-24` and
+        # `user-profiles-2026-08-18` beta headers; under `user-profiles-2026-09-04` send
+        # `external_user_details.reference_id` instead.
         sig { returns(T.nilable(String)) }
         attr_accessor :external_id
+
+        # Details about the entity this profile represents, as the platform states them.
+        # Each field sent replaces the stored value; omit a field to leave it unchanged.
+        # Once set, a value cannot be cleared and `null` is rejected. Accepted under the
+        # `user-profiles-2026-09-04` beta header only.
+        sig { returns(T.nilable(Anthropic::Beta::BetaUserProfileExternalUserDetailsParams)) }
+        attr_reader :external_user_details
+
+        sig { params(external_user_details: Anthropic::Beta::BetaUserProfileExternalUserDetailsParams::OrHash).void }
+        attr_writer :external_user_details
 
         # A timestamp in RFC 3339 format
         sig { returns(T.nilable(Time)) }
@@ -86447,6 +87547,8 @@ module Anthropic
                   Anthropic::Beta::UserProfileUpdateParams::AccessType::OrSymbol
                 ),
               external_id: T.nilable(String),
+              external_user_details:
+                Anthropic::Beta::BetaUserProfileExternalUserDetailsParams,
               external_user_onboarded_at: Time,
               metadata: T::Hash[Symbol, String],
               name: T.nilable(String),
@@ -86465,6 +87567,7 @@ module Anthropic
                 Anthropic::Beta::UserProfileUpdateParams::AccessType::OrSymbol
               ),
               external_id: T.nilable(String),
+              external_user_details: Anthropic::Beta::BetaUserProfileExternalUserDetailsParams::OrHash,
               external_user_onboarded_at: Time,
               metadata: T::Hash[Symbol, String],
               name: T.nilable(String),
@@ -86480,7 +87583,13 @@ module Anthropic
                               # `passthrough`: the platform resells raw inference, and the profile identifies
                               # the resold-to company.
             external_id: nil, # If present, replaces the stored external_id. Omit to leave unchanged. Maximum
-                              # 255 characters.
+                              # 255 characters. Accepted under the `user-profiles-2026-03-24` and
+                              # `user-profiles-2026-08-18` beta headers; under `user-profiles-2026-09-04` send
+                              # `external_user_details.reference_id` instead.
+            external_user_details: nil, # Details about the entity this profile represents, as the platform states them.
+                                        # Each field sent replaces the stored value; omit a field to leave it unchanged.
+                                        # Once set, a value cannot be cleared and `null` is rejected. Accepted under the
+                                        # `user-profiles-2026-09-04` beta header only.
             external_user_onboarded_at: nil, # A timestamp in RFC 3339 format
             metadata: nil, # Key-value pairs to merge into the stored metadata. Keys provided overwrite
                            # existing values. To remove a key, set its value to an empty string. Keys not
@@ -91258,6 +92367,7 @@ module Anthropic
 
     BetaManagedAgentsAnthropicSkillParams = Beta::BetaManagedAgentsAnthropicSkillParams
 
+    BetaManagedAgentsAutoPolicy = Beta::BetaManagedAgentsAutoPolicy
     BetaManagedAgentsBashToolConfig = Beta::BetaManagedAgentsBashToolConfig
 
     BetaManagedAgentsBashToolConfigParams = Beta::BetaManagedAgentsBashToolConfigParams
@@ -91773,6 +92883,11 @@ module Anthropic
     BetaUserLocation = Beta::BetaUserLocation
     BetaUserProfile = Beta::BetaUserProfile
     BetaUserProfileEnrollmentURL = Beta::BetaUserProfileEnrollmentURL
+
+    BetaUserProfileExternalUserDetails = Beta::BetaUserProfileExternalUserDetails
+
+    BetaUserProfileExternalUserDetailsParams = Beta::BetaUserProfileExternalUserDetailsParams
+
     BetaUserProfileTrustGrant = Beta::BetaUserProfileTrustGrant
     BetaWebFetchBlock = Beta::BetaWebFetchBlock
     BetaWebFetchBlockParam = Beta::BetaWebFetchBlockParam
@@ -111035,6 +112150,11 @@ module Anthropic
         def values; end
       end
 
+      CONTENT_TOO_LARGE = T.let(
+          :content_too_large,
+          Anthropic::WebFetchToolResultErrorCode::TaggedSymbol
+        )
+
       INVALID_TOOL_INPUT = T.let(
           :invalid_tool_input,
           Anthropic::WebFetchToolResultErrorCode::TaggedSymbol
@@ -112237,8 +113357,7 @@ module Anthropic
     sig { returns(T.nilable(Anthropic::BetaFallbackState)) }
     attr_accessor :fallback_state
 
-    # Idempotency key to send with request and all associated retries. Will only be
-    # sent for write requests.
+    # Deprecated: this option has no effect and will be removed in a future major version.
     sig { returns(T.nilable(String)) }
     attr_accessor :idempotency_key
 
@@ -113130,8 +114249,8 @@ module Anthropic
           metadata: nil, # Body param: User-provided metadata key-value pairs
           scope: nil, # Body param: The visibility scope for this environment. 'organization' makes the
                       # environment visible to all accounts. 'account' restricts visibility to the
-                      # owning account only. Only applicable for self-hosted environments. If not
-                      # specified, defaults based on organization type.
+                      # owning account only. API organizations support only 'organization'; 'account' is
+                      # rejected. If not specified, defaults based on organization type.
           betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
           workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                              # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -118577,6 +119696,7 @@ module Anthropic
           params(
             access_type: Anthropic::Beta::UserProfileCreateParams::AccessType::OrSymbol,
             external_id: T.nilable(String),
+            external_user_details: Anthropic::Beta::BetaUserProfileExternalUserDetailsParams::OrHash,
             external_user_onboarded_at: Time,
             metadata: T::Hash[Symbol, String],
             name: T.nilable(String),
@@ -118591,7 +119711,12 @@ module Anthropic
                             # `passthrough`: the platform resells raw inference, and the profile identifies
                             # the resold-to company.
           external_id: nil, # Body param: Platform's own identifier for this user. Not enforced unique.
-                            # Maximum 255 characters.
+                            # Maximum 255 characters. Accepted under the `user-profiles-2026-03-24` and
+                            # `user-profiles-2026-08-18` beta headers; under `user-profiles-2026-09-04` send
+                            # `external_user_details.reference_id` instead.
+          external_user_details: nil, # Body param: Details about the entity this profile represents, as the platform
+                                      # states them. Every field is optional. Accepted under the
+                                      # `user-profiles-2026-09-04` beta header only.
           external_user_onboarded_at: nil, # Body param: A timestamp in RFC 3339 format
           metadata: nil, # Body param: Free-form key-value data to attach to this user profile. Maximum 16
                          # keys, with keys up to 64 characters and values up to 512 characters. Values must
@@ -118660,6 +119785,7 @@ module Anthropic
                 Anthropic::Beta::UserProfileUpdateParams::AccessType::OrSymbol
               ),
             external_id: T.nilable(String),
+            external_user_details: Anthropic::Beta::BetaUserProfileExternalUserDetailsParams::OrHash,
             external_user_onboarded_at: Time,
             metadata: T::Hash[Symbol, String],
             name: T.nilable(String),
@@ -118675,7 +119801,13 @@ module Anthropic
                             # `passthrough`: the platform resells raw inference, and the profile identifies
                             # the resold-to company.
           external_id: nil, # Body param: If present, replaces the stored external_id. Omit to leave
-                            # unchanged. Maximum 255 characters.
+                            # unchanged. Maximum 255 characters. Accepted under the `user-profiles-2026-03-24`
+                            # and `user-profiles-2026-08-18` beta headers; under `user-profiles-2026-09-04`
+                            # send `external_user_details.reference_id` instead.
+          external_user_details: nil, # Body param: Details about the entity this profile represents, as the platform
+                                      # states them. Each field sent replaces the stored value; omit a field to leave it
+                                      # unchanged. Once set, a value cannot be cleared and `null` is rejected. Accepted
+                                      # under the `user-profiles-2026-09-04` beta header only.
           external_user_onboarded_at: nil, # Body param: A timestamp in RFC 3339 format
           metadata: nil, # Body param: Key-value pairs to merge into the stored metadata. Keys provided
                          # overwrite existing values. To remove a key, set its value to an empty string.

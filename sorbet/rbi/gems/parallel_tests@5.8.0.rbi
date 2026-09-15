@@ -67,67 +67,67 @@ class ParallelTests::CLI
 
   # exit with correct status code so rake parallel:test && echo 123 works
   #
-  # pkg:gem/parallel_tests#lib/parallel_tests/cli.rb:189
+  # pkg:gem/parallel_tests#lib/parallel_tests/cli.rb:194
   def any_test_failed?(test_results); end
 
-  # pkg:gem/parallel_tests#lib/parallel_tests/cli.rb:401
+  # pkg:gem/parallel_tests#lib/parallel_tests/cli.rb:418
   def append_test_options(options, argv); end
 
-  # pkg:gem/parallel_tests#lib/parallel_tests/cli.rb:442
+  # pkg:gem/parallel_tests#lib/parallel_tests/cli.rb:459
   def detailed_duration(seconds); end
 
-  # pkg:gem/parallel_tests#lib/parallel_tests/cli.rb:416
+  # pkg:gem/parallel_tests#lib/parallel_tests/cli.rb:433
   def execute_command_in_parallel(command, num_processes, options); end
 
   # pkg:gem/parallel_tests#lib/parallel_tests/cli.rb:56
   def execute_in_parallel(items, num_processes, options); end
 
-  # pkg:gem/parallel_tests#lib/parallel_tests/cli.rb:390
+  # pkg:gem/parallel_tests#lib/parallel_tests/cli.rb:407
   def extract_file_paths(argv); end
 
-  # pkg:gem/parallel_tests#lib/parallel_tests/cli.rb:396
+  # pkg:gem/parallel_tests#lib/parallel_tests/cli.rb:413
   def extract_test_options(argv); end
 
-  # pkg:gem/parallel_tests#lib/parallel_tests/cli.rb:449
+  # pkg:gem/parallel_tests#lib/parallel_tests/cli.rb:466
   def final_fail_message; end
 
-  # pkg:gem/parallel_tests#lib/parallel_tests/cli.rb:459
+  # pkg:gem/parallel_tests#lib/parallel_tests/cli.rb:476
   def first_is_1?; end
 
   # pkg:gem/parallel_tests#lib/parallel_tests/cli.rb:31
   def handle_interrupt; end
 
-  # pkg:gem/parallel_tests#lib/parallel_tests/cli.rb:482
+  # pkg:gem/parallel_tests#lib/parallel_tests/cli.rb:499
   def heredoc(text, newline_padding); end
 
-  # pkg:gem/parallel_tests#lib/parallel_tests/cli.rb:409
+  # pkg:gem/parallel_tests#lib/parallel_tests/cli.rb:426
   def load_runner(type); end
 
-  # pkg:gem/parallel_tests#lib/parallel_tests/cli.rb:138
+  # pkg:gem/parallel_tests#lib/parallel_tests/cli.rb:143
   def lock(lockfile); end
 
-  # pkg:gem/parallel_tests#lib/parallel_tests/cli.rb:193
+  # pkg:gem/parallel_tests#lib/parallel_tests/cli.rb:198
   def parse_options!(argv); end
 
-  # pkg:gem/parallel_tests#lib/parallel_tests/cli.rb:178
+  # pkg:gem/parallel_tests#lib/parallel_tests/cli.rb:183
   def pluralize(n, singular); end
 
-  # pkg:gem/parallel_tests#lib/parallel_tests/cli.rb:156
+  # pkg:gem/parallel_tests#lib/parallel_tests/cli.rb:161
   def report_failure_rerun_commmand(test_results, options); end
 
-  # pkg:gem/parallel_tests#lib/parallel_tests/cli.rb:170
+  # pkg:gem/parallel_tests#lib/parallel_tests/cli.rb:175
   def report_number_of_tests(groups); end
 
-  # pkg:gem/parallel_tests#lib/parallel_tests/cli.rb:148
+  # pkg:gem/parallel_tests#lib/parallel_tests/cli.rb:153
   def report_results(test_results, options); end
 
-  # pkg:gem/parallel_tests#lib/parallel_tests/cli.rb:437
+  # pkg:gem/parallel_tests#lib/parallel_tests/cli.rb:454
   def report_time_taken(&block); end
 
-  # pkg:gem/parallel_tests#lib/parallel_tests/cli.rb:130
+  # pkg:gem/parallel_tests#lib/parallel_tests/cli.rb:135
   def reprint_output(result, lockfile); end
 
-  # pkg:gem/parallel_tests#lib/parallel_tests/cli.rb:111
+  # pkg:gem/parallel_tests#lib/parallel_tests/cli.rb:116
   def run_tests(group, process_number, num_processes, options); end
 
   # pkg:gem/parallel_tests#lib/parallel_tests/cli.rb:71
@@ -135,10 +135,10 @@ class ParallelTests::CLI
 
   # CI systems often fail when there is no output for a long time, so simulate some output
   #
-  # pkg:gem/parallel_tests#lib/parallel_tests/cli.rb:465
+  # pkg:gem/parallel_tests#lib/parallel_tests/cli.rb:482
   def simulate_output_for_ci(simulate); end
 
-  # pkg:gem/parallel_tests#lib/parallel_tests/cli.rb:455
+  # pkg:gem/parallel_tests#lib/parallel_tests/cli.rb:472
   def use_colors?; end
 end
 

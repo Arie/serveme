@@ -178,7 +178,7 @@ module MultiJSON
   #   Foo.new.send(:with_adapter, :json_gem) { ... }
   #
   # pkg:gem/multi_json#lib/multi_json.rb:264
-  def with_adapter(new_adapter, &_arg1); end
+  def with_adapter(new_adapter, &); end
 
   class << self
     # Returns the current adapter class
@@ -195,17 +195,6 @@ module MultiJSON
     # pkg:gem/multi_json#lib/multi_json.rb:127
     def adapter; end
 
-    # Returns the current adapter class
-    #
-    # Honors a fiber-local override set by {.with_adapter} so concurrent
-    # blocks observe their own adapter without clobbering the process-wide
-    # default. Falls back to the process default when no override is set.
-    #
-    # @api public
-    # @return [Class] the current adapter class
-    # @example
-    #   MultiJSON.adapter  #=> MultiJSON::Adapters::Oj
-    #
     # pkg:gem/multi_json#lib/multi_json.rb:160
     def adapter=(new_adapter); end
 
@@ -811,11 +800,11 @@ end
 #
 # The hash order is split per platform: on MRI/TruffleRuby the
 # bundled benchmark suite ranks json_gem ahead of fast_jsonparser/
-# oj/yajl on Ruby 3.4+; on JRuby the FFI-vs-pure-Ruby tradeoff
-# hasn't been re-benchmarked yet, so jr_jackson stays first there.
-# CI re-runs the benchmark with ``--verify-preference`` to fail
-# if the observed ranking diverges.
-# :nocov:
+# oj/yajl on Ruby 3.4+; on JRuby 10 the json gem's Java extension
+# outperforms JrJackson across the benchmark matrix, so json_gem
+# leads there too. CI re-runs the benchmark with
+# ``--verify-preference`` to fail if the observed ranking diverges.
+# simplecov:disable
 #
 # pkg:gem/multi_json#lib/multi_json/adapter_selector.rb:28
 MultiJSON::AdapterSelector::ADAPTERS = T.let(T.unsafe(nil), Hash)
@@ -873,8 +862,33 @@ class MultiJSON::Adapters::JsonGem < ::MultiJSON::Adapter
   #
   # pkg:gem/multi_json#lib/multi_json/adapters/json_gem.rb:41
   def load(string, options = T.unsafe(nil)); end
+
+  private
+
+  # Serialize a Ruby object to compact JSON
+  #
+  # Routes through ``::JSON.dump`` when no options remain so that
+  # ``pretty: false`` behaves exactly like passing no options at
+  # all. ``dump`` applies the permissive ``max_nesting: false`` /
+  # ``allow_nan: true`` defaults that ``generate`` does not, so
+  # sending the empty-options case to ``generate`` would make
+  # ``pretty: false`` raise on deeply nested input that
+  # ``MultiJSON.dump(object)`` serializes without complaint.
+  #
+  # @api private
+  # @param json_object [Object] object to serialize
+  # @param options [Hash] serialization options, without ``:pretty``
+  # @return [String] JSON string
+  #
+  # @example Serialize without pretty state
+  #   adapter.send(:generate_compact, {key: "value"}, {}) #=> '{"key":"value"}'
+  #
+  # pkg:gem/multi_json#lib/multi_json/adapters/json_gem.rb:97
+  def generate_compact(json_object, options); end
 end
 
+# simplecov:disable
+#
 # pkg:gem/multi_json#lib/multi_json/adapters/json_gem.rb:15
 MultiJSON::Adapters::JsonGem::PRETTY_STATE_PROTOTYPE = T.let(T.unsafe(nil), Hash)
 
@@ -911,7 +925,7 @@ module MultiJSON::Concurrency
     #   MultiJSON::Concurrency.synchronize(:adapter) { ... }
     #
     # pkg:gem/multi_json#lib/multi_json/concurrency.rb:53
-    def synchronize(name, &_arg1); end
+    def synchronize(name, &); end
   end
 end
 
@@ -932,10 +946,10 @@ MultiJSON::DEPRECATION_WARNINGS_SHOWN = T.let(T.unsafe(nil), Set)
 
 # Legacy aliases for backward compatibility
 #
-# pkg:gem/multi_json#lib/multi_json/parse_error.rb:102
+# pkg:gem/multi_json#lib/multi_json/parse_error.rb:107
 MultiJSON::DecodeError = MultiJSON::ParseError
 
-# pkg:gem/multi_json#lib/multi_json/parse_error.rb:102
+# pkg:gem/multi_json#lib/multi_json/parse_error.rb:107
 MultiJSON::LoadError = MultiJSON::ParseError
 
 # Mixin providing configurable parse/generate options
@@ -1129,7 +1143,7 @@ module MultiJSON::OptionsCache
     # @api private
     # @return [Store] dump cache store
     #
-    # pkg:gem/multi_json#lib/multi_json/options_cache.rb:25
+    # pkg:gem/multi_json#lib/multi_json/options_cache.rb:32
     def dump; end
 
     # Get the load options cache
@@ -1137,7 +1151,7 @@ module MultiJSON::OptionsCache
     # @api private
     # @return [Store] load cache store
     #
-    # pkg:gem/multi_json#lib/multi_json/options_cache.rb:31
+    # pkg:gem/multi_json#lib/multi_json/options_cache.rb:38
     def load; end
 
     # Maximum number of entries per cache store
@@ -1152,7 +1166,7 @@ module MultiJSON::OptionsCache
     #   MultiJSON::OptionsCache.max_cache_size = 5000
     #   MultiJSON::OptionsCache.max_cache_size  #=> 5000
     #
-    # pkg:gem/multi_json#lib/multi_json/options_cache.rb:44
+    # pkg:gem/multi_json#lib/multi_json/options_cache.rb:51
     def max_cache_size; end
 
     # Set the maximum number of entries per cache store
@@ -1164,7 +1178,7 @@ module MultiJSON::OptionsCache
     # @example
     #   MultiJSON::OptionsCache.max_cache_size = 5000
     #
-    # pkg:gem/multi_json#lib/multi_json/options_cache.rb:54
+    # pkg:gem/multi_json#lib/multi_json/options_cache.rb:61
     def max_cache_size=(value); end
 
     # Reset both caches
@@ -1172,7 +1186,7 @@ module MultiJSON::OptionsCache
     # @api private
     # @return [void]
     #
-    # pkg:gem/multi_json#lib/multi_json/options_cache.rb:64
+    # pkg:gem/multi_json#lib/multi_json/options_cache.rb:71
     def reset; end
   end
 end
@@ -1182,7 +1196,7 @@ end
 # dead-branch ``require_relative`` that would otherwise drop
 # JRuby's line coverage below 100%.
 #
-# pkg:gem/multi_json#lib/multi_json/options_cache.rb:80
+# pkg:gem/multi_json#lib/multi_json/options_cache.rb:24
 MultiJSON::OptionsCache::BACKENDS = T.let(T.unsafe(nil), Hash)
 
 # Default bound on the number of cached entries per store. Applications
@@ -1315,13 +1329,18 @@ class MultiJSON::ParseError < ::StandardError
   # match can proceed. Strings in binary (ASCII-8BIT) or any valid
   # encoding pass through scrub untouched.
   #
+  # The parameter is deliberately not named ``message``: that would
+  # shadow ``Exception#message``, which holds the same string once
+  # ``super`` has run, and mutation testing could not tell the two
+  # apart.
+  #
   # @api private
-  # @param message [String, nil] the adapter's error message
+  # @param text [String, nil] the adapter's error message
   # @return [MatchData, nil] the regex match, or nil if no message or
   #   no location fragment was found
   #
-  # pkg:gem/multi_json#lib/multi_json/parse_error.rb:94
-  def location_match(message); end
+  # pkg:gem/multi_json#lib/multi_json/parse_error.rb:99
+  def location_match(text); end
 
   class << self
     # Build a ParseError from an original exception
@@ -1399,22 +1418,26 @@ MultiJSON::Version::PRE = T.let(T.unsafe(nil), T.untyped)
 # dotted calls and ``::`` constant lookups (including rescue clauses)
 # route through the canonical module.
 #
+# This file is loaded last by the ``multi_json`` entry point so the
+# forwarder snapshot below sees the complete {MultiJSON} public API,
+# including the deprecated aliases defined in ``deprecated.rb``.
+#
 # @api public
 # @deprecated Use {MultiJSON} (all-caps) instead. Will be removed in v2.0.
 #
-# pkg:gem/multi_json#lib/multi_json.rb:283
+# pkg:gem/multi_json#lib/multi_json/legacy_constant.rb:19
 module MultiJson
   class << self
-    # pkg:gem/multi_json#lib/multi_json.rb:295
+    # pkg:gem/multi_json#lib/multi_json/legacy_constant.rb:31
     def adapter(*args, **kwargs, &block); end
 
-    # pkg:gem/multi_json#lib/multi_json.rb:295
+    # pkg:gem/multi_json#lib/multi_json/legacy_constant.rb:31
     def adapter=(*args, **kwargs, &block); end
 
-    # pkg:gem/multi_json#lib/multi_json.rb:295
+    # pkg:gem/multi_json#lib/multi_json/legacy_constant.rb:31
     def append_features(*args, **kwargs, &block); end
 
-    # pkg:gem/multi_json#lib/multi_json.rb:295
+    # pkg:gem/multi_json#lib/multi_json/legacy_constant.rb:31
     def cached_options(*args, **kwargs, &block); end
 
     # Resolve missing constants to their {MultiJSON} counterparts
@@ -1429,109 +1452,109 @@ module MultiJson
     # @example
     #   MultiJson::ParseError  # returns MultiJSON::ParseError
     #
-    # pkg:gem/multi_json#lib/multi_json.rb:314
+    # pkg:gem/multi_json#lib/multi_json/legacy_constant.rb:50
     def const_missing(name); end
 
-    # pkg:gem/multi_json#lib/multi_json.rb:295
+    # pkg:gem/multi_json#lib/multi_json/legacy_constant.rb:31
     def current_adapter(*args, **kwargs, &block); end
 
-    # pkg:gem/multi_json#lib/multi_json.rb:295
+    # pkg:gem/multi_json#lib/multi_json/legacy_constant.rb:31
     def decode(*args, **kwargs, &block); end
 
-    # pkg:gem/multi_json#lib/multi_json.rb:295
+    # pkg:gem/multi_json#lib/multi_json/legacy_constant.rb:31
     def default_adapter(*args, **kwargs, &block); end
 
-    # pkg:gem/multi_json#lib/multi_json.rb:295
+    # pkg:gem/multi_json#lib/multi_json/legacy_constant.rb:31
     def default_adapter_excluding(*args, **kwargs, &block); end
 
-    # pkg:gem/multi_json#lib/multi_json.rb:295
+    # pkg:gem/multi_json#lib/multi_json/legacy_constant.rb:31
     def default_dump_options(*args, **kwargs, &block); end
 
-    # pkg:gem/multi_json#lib/multi_json.rb:295
+    # pkg:gem/multi_json#lib/multi_json/legacy_constant.rb:31
     def default_engine(*args, **kwargs, &block); end
 
-    # pkg:gem/multi_json#lib/multi_json.rb:295
+    # pkg:gem/multi_json#lib/multi_json/legacy_constant.rb:31
     def default_generate_options(*args, **kwargs, &block); end
 
-    # pkg:gem/multi_json#lib/multi_json.rb:295
+    # pkg:gem/multi_json#lib/multi_json/legacy_constant.rb:31
     def default_load_options(*args, **kwargs, &block); end
 
-    # pkg:gem/multi_json#lib/multi_json.rb:295
+    # pkg:gem/multi_json#lib/multi_json/legacy_constant.rb:31
     def default_options(*args, **kwargs, &block); end
 
-    # pkg:gem/multi_json#lib/multi_json.rb:295
+    # pkg:gem/multi_json#lib/multi_json/legacy_constant.rb:31
     def default_options=(*args, **kwargs, &block); end
 
-    # pkg:gem/multi_json#lib/multi_json.rb:295
+    # pkg:gem/multi_json#lib/multi_json/legacy_constant.rb:31
     def default_parse_options(*args, **kwargs, &block); end
 
-    # pkg:gem/multi_json#lib/multi_json.rb:295
+    # pkg:gem/multi_json#lib/multi_json/legacy_constant.rb:31
     def dump(*args, **kwargs, &block); end
 
-    # pkg:gem/multi_json#lib/multi_json.rb:295
+    # pkg:gem/multi_json#lib/multi_json/legacy_constant.rb:31
     def dump_options(*args, **kwargs, &block); end
 
-    # pkg:gem/multi_json#lib/multi_json.rb:295
+    # pkg:gem/multi_json#lib/multi_json/legacy_constant.rb:31
     def dump_options=(*args, **kwargs, &block); end
 
-    # pkg:gem/multi_json#lib/multi_json.rb:295
+    # pkg:gem/multi_json#lib/multi_json/legacy_constant.rb:31
     def encode(*args, **kwargs, &block); end
 
-    # pkg:gem/multi_json#lib/multi_json.rb:295
+    # pkg:gem/multi_json#lib/multi_json/legacy_constant.rb:31
     def engine(*args, **kwargs, &block); end
 
-    # pkg:gem/multi_json#lib/multi_json.rb:295
+    # pkg:gem/multi_json#lib/multi_json/legacy_constant.rb:31
     def engine=(*args, **kwargs, &block); end
 
-    # pkg:gem/multi_json#lib/multi_json.rb:295
+    # pkg:gem/multi_json#lib/multi_json/legacy_constant.rb:31
     def extend_object(*args, **kwargs, &block); end
 
-    # pkg:gem/multi_json#lib/multi_json.rb:295
+    # pkg:gem/multi_json#lib/multi_json/legacy_constant.rb:31
     def generate(*args, **kwargs, &block); end
 
-    # pkg:gem/multi_json#lib/multi_json.rb:295
+    # pkg:gem/multi_json#lib/multi_json/legacy_constant.rb:31
     def generate_options(*args, **kwargs, &block); end
 
-    # pkg:gem/multi_json#lib/multi_json.rb:295
+    # pkg:gem/multi_json#lib/multi_json/legacy_constant.rb:31
     def generate_options=(*args, **kwargs, &block); end
 
-    # pkg:gem/multi_json#lib/multi_json.rb:295
+    # pkg:gem/multi_json#lib/multi_json/legacy_constant.rb:31
     def load(*args, **kwargs, &block); end
 
-    # pkg:gem/multi_json#lib/multi_json.rb:295
+    # pkg:gem/multi_json#lib/multi_json/legacy_constant.rb:31
     def load_options(*args, **kwargs, &block); end
 
-    # pkg:gem/multi_json#lib/multi_json.rb:295
+    # pkg:gem/multi_json#lib/multi_json/legacy_constant.rb:31
     def load_options=(*args, **kwargs, &block); end
 
-    # pkg:gem/multi_json#lib/multi_json.rb:295
+    # pkg:gem/multi_json#lib/multi_json/legacy_constant.rb:31
     def parse(*args, **kwargs, &block); end
 
-    # pkg:gem/multi_json#lib/multi_json.rb:295
+    # pkg:gem/multi_json#lib/multi_json/legacy_constant.rb:31
     def parse_error_class_for(*args, **kwargs, &block); end
 
-    # pkg:gem/multi_json#lib/multi_json.rb:295
+    # pkg:gem/multi_json#lib/multi_json/legacy_constant.rb:31
     def parse_options(*args, **kwargs, &block); end
 
-    # pkg:gem/multi_json#lib/multi_json.rb:295
+    # pkg:gem/multi_json#lib/multi_json/legacy_constant.rb:31
     def parse_options=(*args, **kwargs, &block); end
 
-    # pkg:gem/multi_json#lib/multi_json.rb:295
+    # pkg:gem/multi_json#lib/multi_json/legacy_constant.rb:31
     def prepend_features(*args, **kwargs, &block); end
 
-    # pkg:gem/multi_json#lib/multi_json.rb:295
+    # pkg:gem/multi_json#lib/multi_json/legacy_constant.rb:31
     def reset_cached_options!(*args, **kwargs, &block); end
 
-    # pkg:gem/multi_json#lib/multi_json.rb:295
+    # pkg:gem/multi_json#lib/multi_json/legacy_constant.rb:31
     def use(*args, **kwargs, &block); end
 
-    # pkg:gem/multi_json#lib/multi_json.rb:295
+    # pkg:gem/multi_json#lib/multi_json/legacy_constant.rb:31
     def warn_deprecation_once(*args, **kwargs, &block); end
 
-    # pkg:gem/multi_json#lib/multi_json.rb:295
+    # pkg:gem/multi_json#lib/multi_json/legacy_constant.rb:31
     def with_adapter(*args, **kwargs, &block); end
 
-    # pkg:gem/multi_json#lib/multi_json.rb:295
+    # pkg:gem/multi_json#lib/multi_json/legacy_constant.rb:31
     def with_engine(*args, **kwargs, &block); end
   end
 end

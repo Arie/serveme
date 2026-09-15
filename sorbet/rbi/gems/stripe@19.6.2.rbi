@@ -16,22 +16,22 @@
 module Stripe
   class << self
     # pkg:gem/stripe#lib/stripe.rb:125
-    def api_base(*_arg0, **_arg1, &_arg2); end
+    def api_base(*, **, &); end
 
     # pkg:gem/stripe#lib/stripe.rb:125
-    def api_base=(*_arg0, **_arg1, &_arg2); end
+    def api_base=(*, **, &); end
 
     # pkg:gem/stripe#lib/stripe.rb:122
-    def api_key(*_arg0, **_arg1, &_arg2); end
+    def api_key(*, **, &); end
 
     # pkg:gem/stripe#lib/stripe.rb:122
-    def api_key=(*_arg0, **_arg1, &_arg2); end
+    def api_key=(*, **, &); end
 
     # pkg:gem/stripe#lib/stripe.rb:123
-    def api_version(*_arg0, **_arg1, &_arg2); end
+    def api_version(*, **, &); end
 
     # pkg:gem/stripe#lib/stripe.rb:123
-    def api_version=(*_arg0, **_arg1, &_arg2); end
+    def api_version=(*, **, &); end
 
     # Gets the application for a plugin that's identified some. See
     # #set_app_info.
@@ -43,28 +43,28 @@ module Stripe
     def app_info=(info); end
 
     # pkg:gem/stripe#lib/stripe.rb:134
-    def ca_bundle_path(*_arg0, **_arg1, &_arg2); end
+    def ca_bundle_path(*, **, &); end
 
     # pkg:gem/stripe#lib/stripe.rb:134
-    def ca_bundle_path=(*_arg0, **_arg1, &_arg2); end
+    def ca_bundle_path=(*, **, &); end
 
     # pkg:gem/stripe#lib/stripe.rb:144
-    def ca_store(*_arg0, **_arg1, &_arg2); end
+    def ca_store(*, **, &); end
 
     # pkg:gem/stripe#lib/stripe.rb:139
-    def client_id(*_arg0, **_arg1, &_arg2); end
+    def client_id(*, **, &); end
 
     # pkg:gem/stripe#lib/stripe.rb:139
-    def client_id=(*_arg0, **_arg1, &_arg2); end
+    def client_id=(*, **, &); end
 
     # pkg:gem/stripe#lib/stripe.rb:119
     def config; end
 
     # pkg:gem/stripe#lib/stripe.rb:127
-    def connect_base(*_arg0, **_arg1, &_arg2); end
+    def connect_base(*, **, &); end
 
     # pkg:gem/stripe#lib/stripe.rb:127
-    def connect_base=(*_arg0, **_arg1, &_arg2); end
+    def connect_base=(*, **, &); end
 
     # Eagerly loads all autoloaded Stripe constants (resources, services,
     # params) using the same file list and load order as previous versions
@@ -81,58 +81,58 @@ module Stripe
     def eager_load!; end
 
     # pkg:gem/stripe#lib/stripe.rb:138
-    def enable_telemetry=(*_arg0, **_arg1, &_arg2); end
+    def enable_telemetry=(*, **, &); end
 
     # pkg:gem/stripe#lib/stripe.rb:138
-    def enable_telemetry?(*_arg0, **_arg1, &_arg2); end
+    def enable_telemetry?(*, **, &); end
 
     # pkg:gem/stripe#lib/stripe.rb:143
-    def initial_network_retry_delay(*_arg0, **_arg1, &_arg2); end
+    def initial_network_retry_delay(*, **, &); end
 
     # pkg:gem/stripe#lib/stripe.rb:135
-    def log_level(*_arg0, **_arg1, &_arg2); end
+    def log_level(*, **, &); end
 
     # pkg:gem/stripe#lib/stripe.rb:135
-    def log_level=(*_arg0, **_arg1, &_arg2); end
+    def log_level=(*, **, &); end
 
     # pkg:gem/stripe#lib/stripe.rb:136
-    def logger(*_arg0, **_arg1, &_arg2); end
+    def logger(*, **, &); end
 
     # pkg:gem/stripe#lib/stripe.rb:136
-    def logger=(*_arg0, **_arg1, &_arg2); end
+    def logger=(*, **, &); end
 
     # pkg:gem/stripe#lib/stripe.rb:137
-    def max_network_retries(*_arg0, **_arg1, &_arg2); end
+    def max_network_retries(*, **, &); end
 
     # pkg:gem/stripe#lib/stripe.rb:137
-    def max_network_retries=(*_arg0, **_arg1, &_arg2); end
+    def max_network_retries=(*, **, &); end
 
     # pkg:gem/stripe#lib/stripe.rb:142
-    def max_network_retry_delay(*_arg0, **_arg1, &_arg2); end
+    def max_network_retry_delay(*, **, &); end
 
     # pkg:gem/stripe#lib/stripe.rb:128
-    def meter_events_base(*_arg0, **_arg1, &_arg2); end
+    def meter_events_base(*, **, &); end
 
     # pkg:gem/stripe#lib/stripe.rb:128
-    def meter_events_base=(*_arg0, **_arg1, &_arg2); end
+    def meter_events_base=(*, **, &); end
 
     # pkg:gem/stripe#lib/stripe.rb:129
-    def open_timeout(*_arg0, **_arg1, &_arg2); end
+    def open_timeout(*, **, &); end
 
     # pkg:gem/stripe#lib/stripe.rb:129
-    def open_timeout=(*_arg0, **_arg1, &_arg2); end
+    def open_timeout=(*, **, &); end
 
     # pkg:gem/stripe#lib/stripe.rb:132
-    def proxy(*_arg0, **_arg1, &_arg2); end
+    def proxy(*, **, &); end
 
     # pkg:gem/stripe#lib/stripe.rb:132
-    def proxy=(*_arg0, **_arg1, &_arg2); end
+    def proxy=(*, **, &); end
 
     # pkg:gem/stripe#lib/stripe.rb:130
-    def read_timeout(*_arg0, **_arg1, &_arg2); end
+    def read_timeout(*, **, &); end
 
     # pkg:gem/stripe#lib/stripe.rb:130
-    def read_timeout=(*_arg0, **_arg1, &_arg2); end
+    def read_timeout=(*, **, &); end
 
     # Sets some basic information about the running application that's sent along
     # with API requests. Useful for plugin authors to identify their plugin when
@@ -144,28 +144,28 @@ module Stripe
     def set_app_info(name, partner_id: T.unsafe(nil), url: T.unsafe(nil), version: T.unsafe(nil)); end
 
     # pkg:gem/stripe#lib/stripe.rb:124
-    def stripe_account(*_arg0, **_arg1, &_arg2); end
+    def stripe_account(*, **, &); end
 
     # pkg:gem/stripe#lib/stripe.rb:124
-    def stripe_account=(*_arg0, **_arg1, &_arg2); end
+    def stripe_account=(*, **, &); end
 
     # pkg:gem/stripe#lib/stripe.rb:126
-    def uploads_base(*_arg0, **_arg1, &_arg2); end
+    def uploads_base(*, **, &); end
 
     # pkg:gem/stripe#lib/stripe.rb:126
-    def uploads_base=(*_arg0, **_arg1, &_arg2); end
+    def uploads_base=(*, **, &); end
 
     # pkg:gem/stripe#lib/stripe.rb:133
-    def verify_ssl_certs(*_arg0, **_arg1, &_arg2); end
+    def verify_ssl_certs(*, **, &); end
 
     # pkg:gem/stripe#lib/stripe.rb:133
-    def verify_ssl_certs=(*_arg0, **_arg1, &_arg2); end
+    def verify_ssl_certs=(*, **, &); end
 
     # pkg:gem/stripe#lib/stripe.rb:131
-    def write_timeout(*_arg0, **_arg1, &_arg2); end
+    def write_timeout(*, **, &); end
 
     # pkg:gem/stripe#lib/stripe.rb:131
-    def write_timeout=(*_arg0, **_arg1, &_arg2); end
+    def write_timeout=(*, **, &); end
   end
 end
 
@@ -328,7 +328,7 @@ module Stripe::APIOperations::Save
   #   {APIOperations::Request.execute_resource_request}.
   #
   # pkg:gem/stripe#lib/stripe/api_operations/save.rb:54
-  def save(*args, **_arg1, &block); end
+  def save(*args, **, &block); end
 
   private
 
@@ -372,7 +372,7 @@ module Stripe::APIOperations::Search
   def _deprecated__search(search_url, filters = T.unsafe(nil), opts = T.unsafe(nil)); end
 
   # pkg:gem/stripe#lib/stripe/api_operations/search.rb:8
-  def _search(*args, **_arg1, &block); end
+  def _search(*args, **, &block); end
 end
 
 # pkg:gem/stripe#lib/stripe/api_operations/singleton_save.rb:5
@@ -406,7 +406,7 @@ module Stripe::APIOperations::SingletonSave
   #   {APIOperations::Request.execute_resource_request}.
   #
   # pkg:gem/stripe#lib/stripe/api_operations/singleton_save.rb:53
-  def save(*args, **_arg1, &block); end
+  def save(*args, **, &block); end
 
   class << self
     # pkg:gem/stripe#lib/stripe/api_operations/singleton_save.rb:76
@@ -493,7 +493,7 @@ class Stripe::APIRequestor
   #     charge, resp = client.request { Charge.create }
   #
   # pkg:gem/stripe#lib/stripe/api_requestor.rb:175
-  def request(*args, **_arg1, &block); end
+  def request(*args, **, &block); end
 
   # pkg:gem/stripe#lib/stripe/api_requestor.rb:294
   def store_last_response(object_id, resp); end
@@ -78221,7 +78221,7 @@ class Stripe::ExchangeRate < ::Stripe::APIResource
     # Returns a list of objects that contain the rates at which foreign currencies are converted to one another. Only shows the currencies for which Stripe supports.
     #
     # pkg:gem/stripe#lib/stripe/resources/exchange_rate.rb:52
-    def list(*args, **_arg1, &block); end
+    def list(*args, **, &block); end
 
     # pkg:gem/stripe#lib/stripe/resources/exchange_rate.rb:38
     def object_name; end
@@ -102014,7 +102014,7 @@ class Stripe::Issuing::Authorization < ::Stripe::APIResource
   # This method is deprecated. Instead, [respond directly to the webhook request to approve an authorization](https://docs.stripe.com/docs/issuing/controls/real-time-authorizations#authorization-handling).
   #
   # pkg:gem/stripe#lib/stripe/resources/issuing/authorization.rb:535
-  def approve(*args, **_arg1, &block); end
+  def approve(*args, **, &block); end
 
   # Whether the authorization has been approved.
   #
@@ -102068,7 +102068,7 @@ class Stripe::Issuing::Authorization < ::Stripe::APIResource
   # This method is deprecated. Instead, [respond directly to the webhook request to decline an authorization](https://docs.stripe.com/docs/issuing/controls/real-time-authorizations#authorization-handling).
   #
   # pkg:gem/stripe#lib/stripe/resources/issuing/authorization.rb:563
-  def decline(*args, **_arg1, &block); end
+  def decline(*args, **, &block); end
 
   # Fleet-specific information for authorizations using Fleet cards.
   #
@@ -223046,7 +223046,7 @@ class Stripe::Source < ::Stripe::APIResource
   def source_order; end
 
   # pkg:gem/stripe#lib/stripe/resources/source.rb:928
-  def source_transactions(*args, **_arg1, &block); end
+  def source_transactions(*args, **, &block); end
 
   # Extra information about a source. This will appear on your customer's statement every time you charge the source.
   #
@@ -227364,7 +227364,7 @@ class Stripe::StripeClient
       tolerance: T.nilable(Integer)
     ).returns(::Stripe::V2::Core::EventNotification)
   end
-  def parse_event_notification(payload, sig_header, secret, tolerance: Stripe::Webhook::DEFAULT_TOLERANCE); end
+  def parse_event_notification(payload, sig_header, secret, tolerance: ::Stripe::Webhook::DEFAULT_TOLERANCE); end
 
   # Constructs a [thin event notification](https://docs.stripe.com/event-destinations#thin-payload) from
   # an incoming webhook without first verifying its authenticity. Should be used after calling
@@ -227381,7 +227381,7 @@ class Stripe::StripeClient
   def raw_request(method, url, base_address: T.unsafe(nil), params: T.unsafe(nil), opts: T.unsafe(nil), usage: T.unsafe(nil)); end
 
   # pkg:gem/stripe#lib/stripe/stripe_client.rb:57
-  def request(*args, **_arg1, &block); end
+  def request(*args, **, &block); end
 
   # attr_readers: The beginning of the section generated from our OpenAPI spec
   #
@@ -227633,7 +227633,7 @@ class Stripe::StripeContext
   # Returns true if the context has no segments.
   # @return [Boolean] true if empty, false otherwise
   #
-  # pkg:gem/stripe#lib/stripe/stripe_context.rb:64
+  # pkg:gem/stripe#lib/stripe/stripe_context.rb:70
   def empty?; end
 
   # Alias for == to support eql? method
@@ -227641,9 +227641,15 @@ class Stripe::StripeContext
   # pkg:gem/stripe#lib/stripe/stripe_context.rb:55
   def eql?(other); end
 
+  # As with equality in #== and #eql?, contexts with equivalent segments
+  # hash to the same value.
+  #
+  # pkg:gem/stripe#lib/stripe/stripe_context.rb:59
+  def hash; end
+
   # Returns a human-readable representation for debugging.
   #
-  # pkg:gem/stripe#lib/stripe/stripe_context.rb:58
+  # pkg:gem/stripe#lib/stripe/stripe_context.rb:64
   def inspect; end
 
   # Creates a new StripeContext with the last segment removed.

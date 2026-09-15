@@ -8,77 +8,83 @@
 # pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:8
 class SsrfFilter
   class << self
-    # pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:128
+    # pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:142
     def delete(url, options = T.unsafe(nil), &block); end
 
-    # pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:128
+    # pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:142
     def get(url, options = T.unsafe(nil), &block); end
 
-    # pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:128
+    # pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:142
     def head(url, options = T.unsafe(nil), &block); end
 
-    # pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:128
+    # pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:142
     def patch(url, options = T.unsafe(nil), &block); end
 
-    # pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:128
+    # pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:142
     def post(url, options = T.unsafe(nil), &block); end
 
-    # pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:128
+    # pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:142
     def put(url, options = T.unsafe(nil), &block); end
 
     private
 
-    # pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:195
+    # pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:209
     def different_origin?(uri1, uri2); end
 
-    # pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:209
+    # pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:235
     def fetch_once(uri, ip, verb, options, &block); end
 
-    # pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:190
+    # pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:223
+    def fetch_with_fallback(uri, public_addresses, verb, options, &block); end
+
+    # pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:204
     def ipaddr_has_mask?(ipaddr); end
 
     # pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:26
     def ipv4_from_rfc6052(ipv6_addr, prefix_len); end
 
-    # pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:199
+    # pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:213
     def normalized_hostname(uri); end
 
     # pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:9
     def prefixlen_from_ipaddr(ipaddr); end
 
-    # pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:170
+    # pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:184
     def unsafe_ip_address?(ip_address); end
 
-    # pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:263
+    # pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:293
     def validate_request(request); end
   end
 end
 
-# pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:121
+# pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:102
+SsrfFilter::CONNECTION_ERRORS = T.let(T.unsafe(nil), Array)
+
+# pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:135
 class SsrfFilter::CRLFInjection < ::SsrfFilter::Error; end
 
-# pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:124
+# pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:138
 class SsrfFilter::CredentialLeakage < ::SsrfFilter::Error; end
 
-# pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:92
+# pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:97
 SsrfFilter::DEFAULT_ALLOW_UNFOLLOWED_REDIRECTS = T.let(T.unsafe(nil), FalseClass)
 
-# pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:93
+# pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:98
 SsrfFilter::DEFAULT_MAX_REDIRECTS = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:95
+# pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:100
 SsrfFilter::DEFAULT_ON_CROSS_ORIGIN_REDIRECT = T.let(T.unsafe(nil), Symbol)
 
-# pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:88
+# pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:93
 SsrfFilter::DEFAULT_RESOLVER = T.let(T.unsafe(nil), Proc)
 
-# pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:86
+# pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:91
 SsrfFilter::DEFAULT_SCHEME_WHITELIST = T.let(T.unsafe(nil), Array)
 
-# pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:94
+# pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:99
 SsrfFilter::DEFAULT_SENSITIVE_HEADERS = T.let(T.unsafe(nil), Array)
 
-# pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:106
+# pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:120
 class SsrfFilter::Error < ::StandardError; end
 
 # https://en.wikipedia.org/wiki/Reserved_IP_addresses
@@ -89,7 +95,7 @@ SsrfFilter::IPV4_BLACKLIST = T.let(T.unsafe(nil), Array)
 # pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:61
 SsrfFilter::IPV6_BLACKLIST = T.let(T.unsafe(nil), Array)
 
-# pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:109
+# pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:123
 class SsrfFilter::InvalidUriScheme < ::SsrfFilter::Error; end
 
 # NAT64 local-use prefix (RFC 8215), uses RFC 6052 /48 encoding (checked at runtime).
@@ -97,16 +103,16 @@ class SsrfFilter::InvalidUriScheme < ::SsrfFilter::Error; end
 # pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:59
 SsrfFilter::NAT64_LOCAL_PREFIX = T.let(T.unsafe(nil), IPAddr)
 
-# pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:112
+# pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:126
 class SsrfFilter::PrivateIPAddress < ::SsrfFilter::Error; end
 
-# pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:118
+# pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:132
 class SsrfFilter::TooManyRedirects < ::SsrfFilter::Error; end
 
-# pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:115
+# pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:129
 class SsrfFilter::UnresolvedHostname < ::SsrfFilter::Error; end
 
-# pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:97
+# pkg:gem/ssrf_filter#lib/ssrf_filter/ssrf_filter.rb:111
 SsrfFilter::VERB_MAP = T.let(T.unsafe(nil), Hash)
 
 # pkg:gem/ssrf_filter#lib/ssrf_filter/version.rb:4

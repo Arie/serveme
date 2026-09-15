@@ -26,7 +26,7 @@ module OpenTelemetry::Exporter::OTLP; end
 
 # An OpenTelemetry trace exporter that sends spans over HTTP as Protobuf encoded OTLP ExportTraceServiceRequests.
 #
-# pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:23
+# pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:24
 class OpenTelemetry::Exporter::OTLP::Exporter
   # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:50
   def initialize(endpoint: T.unsafe(nil), certificate_file: T.unsafe(nil), client_certificate_file: T.unsafe(nil), client_key_file: T.unsafe(nil), ssl_verify_mode: T.unsafe(nil), headers: T.unsafe(nil), compression: T.unsafe(nil), timeout: T.unsafe(nil), metrics_reporter: T.unsafe(nil)); end
@@ -70,87 +70,66 @@ class OpenTelemetry::Exporter::OTLP::Exporter
   # and override this method's behaviour to explicitly trace the HTTP request.
   # This would allow you to trace your export pipeline.
   #
-  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:146
+  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:126
   def around_request; end
 
-  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:401
-  def as_otlp_any_value(value); end
-
-  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:393
-  def as_otlp_key_value(key, value); end
-
-  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:332
-  def as_otlp_span(span_data); end
-
-  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:382
-  def as_otlp_span_kind(kind); end
-
-  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:374
-  def as_otlp_status_code(code); end
-
-  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:274
+  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:254
   def backoff?(retry_count:, reason:, retry_after: T.unsafe(nil)); end
 
-  # Builds span flags based on whether the parent span context is remote.
-  # This follows the OTLP specification for span flags.
-  #
-  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:110
-  def build_span_flags(parent_span_is_remote, base_flags); end
-
-  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:296
+  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:276
   def encode(span_data); end
 
-  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:240
+  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:220
   def handle_redirect(location); end
 
-  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:128
+  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:108
   def http_connection(uri, ssl_verify_mode, certificate_file, client_certificate_file, client_key_file); end
 
-  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:256
+  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:236
   def log_request_failure(response_code); end
 
-  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:244
+  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:224
   def log_status(body); end
 
-  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:261
+  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:241
   def measure_request_duration; end
 
-  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:447
+  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:317
   def parse_headers(raw); end
 
-  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:419
+  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:289
   def prepare_endpoint(endpoint); end
 
-  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:434
+  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:304
   def prepare_headers(config_headers); end
 
-  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:150
+  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:130
   def send_bytes(bytes, timeout:); end
 
   class << self
-    # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:39
+    # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:40
     def ssl_verify_mode; end
   end
 end
 
-# pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:36
+# pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:37
 OpenTelemetry::Exporter::OTLP::Exporter::DEFAULT_USER_AGENT = T.let(T.unsafe(nil), String)
 
-# pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:33
+# pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:34
 OpenTelemetry::Exporter::OTLP::Exporter::ERROR_MESSAGE_INVALID_HEADERS = T.let(T.unsafe(nil), String)
 
-# pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:25
+# pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:26
 OpenTelemetry::Exporter::OTLP::Exporter::FAILURE = T.let(T.unsafe(nil), Integer)
 
 # Default timeouts in seconds.
 #
-# pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:29
+# pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:30
 OpenTelemetry::Exporter::OTLP::Exporter::KEEP_ALIVE_TIMEOUT = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:30
+# pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:31
 OpenTelemetry::Exporter::OTLP::Exporter::RETRY_COUNT = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:24
+# pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:25
 OpenTelemetry::Exporter::OTLP::Exporter::SUCCESS = T.let(T.unsafe(nil), Integer)
 
 # Current OpenTelemetry OTLP exporter version

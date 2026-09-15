@@ -45,7 +45,7 @@ class MaxMind::DB
   # @param database [String] a path to a {MaxMind
   #   DB}[https://maxmind.github.io/MaxMind-DB/].
   #
-  # @param options [Hash<Symbol, Symbol>] options controlling the behavior of
+  # @param options [Hash<Symbol, Object>] options controlling the behavior of
   #   the DB.
   #
   # @option options [Symbol] :mode Defines how to open the database. It may
@@ -53,18 +53,33 @@ class MaxMind::DB
   #   one, DB uses MODE_AUTO. Refer to the definition of those constants for
   #   an explanation of their meaning.
   #
-  # @raise [InvalidDatabaseError] if the database is corrupt or invalid.
+  # @option options [Integer] :max_values The maximum number of values a
+  #   single record, or the metadata, may decode to. The default is 65,536.
+  #   The largest records MaxMind produces decode to a few hundred values.
   #
-  # @raise [ArgumentError] if the mode is invalid.
+  # @option options [Integer] :max_payload_bytes The maximum total size in
+  #   bytes of the strings, bytes, and integers a single record, or the
+  #   metadata, may decode. The default is 2 MiB. The largest records MaxMind
+  #   produces hold about a kilobyte.
   #
-  # pkg:gem/maxmind-db#lib/maxmind/db.rb:86
+  # @option options [Integer] :max_depth The maximum nesting depth of maps,
+  #   arrays, and pointers in a single record, or the metadata. The default
+  #   is 512.
+  #
+  # @raise [InvalidDatabaseError] if the database is corrupt or invalid. A
+  #   database that exceeds any of the limits above raises this error from
+  #   the lookup, or from this constructor if the metadata exceeds them.
+  #
+  # @raise [ArgumentError] if the mode or a limit is invalid.
+  #
+  # pkg:gem/maxmind-db#lib/maxmind/db.rb:101
   def initialize(database, options = T.unsafe(nil)); end
 
   # Close the DB and return resources to the system.
   #
   # @return [void]
   #
-  # pkg:gem/maxmind-db#lib/maxmind/db.rb:298
+  # pkg:gem/maxmind-db#lib/maxmind/db.rb:332
   def close; end
 
   # Return the record for the IP address in the {MaxMind
@@ -82,7 +97,7 @@ class MaxMind::DB
   #
   # @return [Object, nil]
   #
-  # pkg:gem/maxmind-db#lib/maxmind/db.rb:141
+  # pkg:gem/maxmind-db#lib/maxmind/db.rb:157
   def get(ip_address); end
 
   # Return an array containing the record for the IP address in the
@@ -102,7 +117,7 @@ class MaxMind::DB
   #
   # @return [Array<(Object, Integer)>]
   #
-  # pkg:gem/maxmind-db#lib/maxmind/db.rb:163
+  # pkg:gem/maxmind-db#lib/maxmind/db.rb:179
   def get_with_prefix_length(ip_address); end
 
   # Return the metadata associated with the {MaxMind
@@ -115,25 +130,31 @@ class MaxMind::DB
 
   private
 
-  # pkg:gem/maxmind-db#lib/maxmind/db.rb:289
+  # pkg:gem/maxmind-db#lib/maxmind/db.rb:323
   def at_metadata?(index); end
 
-  # pkg:gem/maxmind-db#lib/maxmind/db.rb:189
+  # Return the decoder limits given in +options+ as keyword arguments for
+  # Decoder.new. An absent option keeps the decoder's default.
+  #
+  # pkg:gem/maxmind-db#lib/maxmind/db.rb:295
+  def decoder_limits(options); end
+
+  # pkg:gem/maxmind-db#lib/maxmind/db.rb:205
   def find_address_in_tree(ip_address, ip_version); end
 
-  # pkg:gem/maxmind-db#lib/maxmind/db.rb:274
+  # pkg:gem/maxmind-db#lib/maxmind/db.rb:308
   def find_metadata_start; end
 
   # Read a record from the indicated node. Index indicates whether it's the
   # left (0) or right (1) record.
   #
-  # pkg:gem/maxmind-db#lib/maxmind/db.rb:231
+  # pkg:gem/maxmind-db#lib/maxmind/db.rb:247
   def read_node(node_number, index); end
 
-  # pkg:gem/maxmind-db#lib/maxmind/db.rb:262
+  # pkg:gem/maxmind-db#lib/maxmind/db.rb:278
   def resolve_data_pointer(pointer); end
 
-  # pkg:gem/maxmind-db#lib/maxmind/db.rb:214
+  # pkg:gem/maxmind-db#lib/maxmind/db.rb:230
   def start_node(length); end
 end
 
@@ -152,8 +173,8 @@ MaxMind::DB::DATA_SECTION_SEPARATOR_SIZE = T.let(T.unsafe(nil), Integer)
 class MaxMind::DB::Decoder
   # Create a +Decoder+.
   #
-  # +io+ is the DB. It must provide a +read+ method. It must be opened in
-  # binary mode.
+  # +io+ is the DB. It must provide +read+ and +getbyte+ methods. It must be
+  # opened in binary mode.
   #
   # +pointer_base+ is the base number to use when decoding a pointer. It is
   # where the data section begins rather than the beginning of the file.
@@ -162,8 +183,11 @@ class MaxMind::DB::Decoder
   #
   # +pointer_test+ is used for testing pointer code.
   #
-  # pkg:gem/maxmind-db#lib/maxmind/db/decoder.rb:28
-  def initialize(io, pointer_base = T.unsafe(nil), pointer_test = T.unsafe(nil)); end
+  # +max_values+, +max_payload_bytes+, and +max_depth+ set the per-decode
+  # limits described below and default to the constants there.
+  #
+  # pkg:gem/maxmind-db#lib/maxmind/db/decoder.rb:31
+  def initialize(io, pointer_base = T.unsafe(nil), pointer_test = T.unsafe(nil), max_values: T.unsafe(nil), max_payload_bytes: T.unsafe(nil), max_depth: T.unsafe(nil)); end
 
   # Decode a section of the data section starting at +offset+.
   #
@@ -174,65 +198,140 @@ class MaxMind::DB::Decoder
   #
   # Throws an exception if there is an error.
   #
-  # pkg:gem/maxmind-db#lib/maxmind/db/decoder.rb:189
+  # pkg:gem/maxmind-db#lib/maxmind/db/decoder.rb:266
   def decode(offset); end
 
   private
 
-  # pkg:gem/maxmind-db#lib/maxmind/db/decoder.rb:37
-  def decode_array(size, offset); end
+  # pkg:gem/maxmind-db#lib/maxmind/db/decoder.rb:115
+  def decode_array(size, offset, budget); end
 
-  # pkg:gem/maxmind-db#lib/maxmind/db/decoder.rb:46
+  # pkg:gem/maxmind-db#lib/maxmind/db/decoder.rb:127
   def decode_boolean(size, offset); end
 
-  # pkg:gem/maxmind-db#lib/maxmind/db/decoder.rb:50
-  def decode_bytes(size, offset); end
+  # pkg:gem/maxmind-db#lib/maxmind/db/decoder.rb:131
+  def decode_bytes(size, offset, budget); end
 
-  # pkg:gem/maxmind-db#lib/maxmind/db/decoder.rb:54
+  # pkg:gem/maxmind-db#lib/maxmind/db/decoder.rb:136
   def decode_double(size, offset); end
 
-  # pkg:gem/maxmind-db#lib/maxmind/db/decoder.rb:60
+  # pkg:gem/maxmind-db#lib/maxmind/db/decoder.rb:142
   def decode_float(size, offset); end
 
-  # pkg:gem/maxmind-db#lib/maxmind/db/decoder.rb:89
-  def decode_int(type_code, type_size, size, offset); end
+  # pkg:gem/maxmind-db#lib/maxmind/db/decoder.rb:175
+  def decode_int(type_code, type_size, size, offset, budget); end
 
-  # pkg:gem/maxmind-db#lib/maxmind/db/decoder.rb:73
-  def decode_int32(size, offset); end
+  # pkg:gem/maxmind-db#lib/maxmind/db/decoder.rb:159
+  def decode_int32(size, offset, budget); end
 
-  # pkg:gem/maxmind-db#lib/maxmind/db/decoder.rb:115
-  def decode_map(size, offset); end
+  # pkg:gem/maxmind-db#lib/maxmind/db/decoder.rb:205
+  def decode_map(size, offset, budget); end
 
-  # pkg:gem/maxmind-db#lib/maxmind/db/decoder.rb:125
+  # pkg:gem/maxmind-db#lib/maxmind/db/decoder.rb:219
   def decode_pointer(size, offset); end
 
-  # pkg:gem/maxmind-db#lib/maxmind/db/decoder.rb:97
-  def decode_uint128(size, offset); end
+  # pkg:gem/maxmind-db#lib/maxmind/db/decoder.rb:185
+  def decode_uint128(size, offset, budget); end
 
-  # pkg:gem/maxmind-db#lib/maxmind/db/decoder.rb:77
-  def decode_uint16(size, offset); end
+  # pkg:gem/maxmind-db#lib/maxmind/db/decoder.rb:163
+  def decode_uint16(size, offset, budget); end
 
-  # pkg:gem/maxmind-db#lib/maxmind/db/decoder.rb:81
-  def decode_uint32(size, offset); end
+  # pkg:gem/maxmind-db#lib/maxmind/db/decoder.rb:167
+  def decode_uint32(size, offset, budget); end
 
-  # pkg:gem/maxmind-db#lib/maxmind/db/decoder.rb:85
-  def decode_uint64(size, offset); end
+  # pkg:gem/maxmind-db#lib/maxmind/db/decoder.rb:171
+  def decode_uint64(size, offset, budget); end
 
-  # pkg:gem/maxmind-db#lib/maxmind/db/decoder.rb:153
-  def decode_utf8_string(size, offset); end
+  # pkg:gem/maxmind-db#lib/maxmind/db/decoder.rb:246
+  def decode_utf8_string(size, offset, budget); end
 
-  # pkg:gem/maxmind-db#lib/maxmind/db/decoder.rb:204
+  # The dispatch below is one branch per data type, so the method's
+  # cyclomatic complexity is above the cop's default. It is inlined here
+  # for speed and the branches are uniform.
+  #
+  # pkg:gem/maxmind-db#lib/maxmind/db/decoder.rb:287
+  def decode_with_budget(offset, budget); end
+
+  # Each string, bytes, and variable-length integer decoder charges its size
+  # against the payload budget inline, before the bytes are read, so an
+  # oversized declared length is rejected before it is copied. Ruby integers
+  # are arbitrary precision, so the subtraction cannot overflow.
+  #
+  # pkg:gem/maxmind-db#lib/maxmind/db/decoder.rb:110
+  def raise_bytes_exceeded; end
+
+  # The limit checks are inlined at each call site so containers and
+  # pointers do not add a helper call. Only the raise is factored out.
+  #
+  # pkg:gem/maxmind-db#lib/maxmind/db/decoder.rb:96
+  def raise_depth_exceeded; end
+
+  # pkg:gem/maxmind-db#lib/maxmind/db/decoder.rb:154
+  def raise_invalid_size; end
+
+  # pkg:gem/maxmind-db#lib/maxmind/db/decoder.rb:101
+  def raise_values_exceeded; end
+
+  # pkg:gem/maxmind-db#lib/maxmind/db/decoder.rb:341
   def read_extended(offset); end
 
-  # pkg:gem/maxmind-db#lib/maxmind/db/decoder.rb:215
+  # pkg:gem/maxmind-db#lib/maxmind/db/decoder.rb:351
   def size_from_ctrl_byte(ctrl_byte, offset, type_num); end
 
-  # pkg:gem/maxmind-db#lib/maxmind/db/decoder.rb:66
+  # pkg:gem/maxmind-db#lib/maxmind/db/decoder.rb:148
   def verify_size(expected, actual); end
 end
 
-# pkg:gem/maxmind-db#lib/maxmind/db/decoder.rb:162
-MaxMind::DB::Decoder::TYPE_DECODER = T.let(T.unsafe(nil), Hash)
+# pkg:gem/maxmind-db#lib/maxmind/db/decoder.rb:79
+MaxMind::DB::Decoder::BUDGET_BYTES = T.let(T.unsafe(nil), Integer)
+
+# pkg:gem/maxmind-db#lib/maxmind/db/decoder.rb:78
+MaxMind::DB::Decoder::BUDGET_DEPTH = T.let(T.unsafe(nil), Integer)
+
+# pkg:gem/maxmind-db#lib/maxmind/db/decoder.rb:77
+MaxMind::DB::Decoder::BUDGET_VALUES = T.let(T.unsafe(nil), Integer)
+
+# pkg:gem/maxmind-db#lib/maxmind/db/decoder.rb:71
+MaxMind::DB::Decoder::MAX_BYTES = T.let(T.unsafe(nil), Integer)
+
+# pkg:gem/maxmind-db#lib/maxmind/db/decoder.rb:74
+MaxMind::DB::Decoder::MAX_DEPTH = T.let(T.unsafe(nil), Integer)
+
+# Per-decode limits. The value and depth limits are the ones the MaxMind DB
+# specification recommends. The specification leaves the payload limit to
+# the reader, and 2 MiB matches libmaxminddb. +budget+ is a three-element
+# array, [values_remaining, depth, bytes_remaining], shared across the
+# recursion so every count survives it. It is call-local, which keeps the
+# decoder safe for concurrent reads.
+#
+# The value limit stops a pointer fan-out. It follows the specification's
+# flat rule: the root is one value, each array reserves one value per
+# element, and each map reserves two values per entry before iterating. A
+# pointer is not charged separately from the logical value at the root or
+# its position in a container. A re-decoded node drains the budget, and an
+# oversized declared size is rejected before the loop reads anything. The
+# largest real records decode a few hundred values.
+#
+# The byte limit stops payload amplification: a crafted database can point
+# many times at one large string or bytes value, so a bounded value count
+# still materializes gigabytes. Each string and bytes value, and each
+# variable-length integer, subtracts its own length before it is read, so a
+# re-decoded (fanned-out) target recharges its payload and an oversized
+# declared length is rejected before any bytes are copied. Fixed-width
+# scalars are not charged.
+#
+# The depth limit stops a pointer cycle or over-deep data before the stack
+# overflows.
+#
+# pkg:gem/maxmind-db#lib/maxmind/db/decoder.rb:68
+MaxMind::DB::Decoder::MAX_VALUES = T.let(T.unsafe(nil), Integer)
+
+# JRuby can exhaust the stack before the depth limit is reached and raises
+# a Java StackOverflowError, which is not a SystemStackError. Catch both so
+# a pointer cycle always becomes an InvalidDatabaseError.
+#
+# pkg:gem/maxmind-db#lib/maxmind/db/decoder.rb:85
+MaxMind::DB::Decoder::STACK_ERRORS = T.let(T.unsafe(nil), Array)
 
 # @!visibility private
 #
@@ -244,7 +343,12 @@ class MaxMind::DB::FileReader
   # pkg:gem/maxmind-db#lib/maxmind/db/file_reader.rb:43
   def close; end
 
-  # pkg:gem/maxmind-db#lib/maxmind/db/file_reader.rb:47
+  # Return the byte at +offset+ as an Integer.
+  #
+  # pkg:gem/maxmind-db#lib/maxmind/db/file_reader.rb:48
+  def getbyte(offset); end
+
+  # pkg:gem/maxmind-db#lib/maxmind/db/file_reader.rb:52
   def read(offset, size); end
 
   # pkg:gem/maxmind-db#lib/maxmind/db/file_reader.rb:41
@@ -256,7 +360,7 @@ end
 # pkg:gem/maxmind-db#lib/maxmind/db/file_reader.rb:10
 MaxMind::DB::FileReader::PReadFile = File
 
-# pkg:gem/maxmind-db#lib/maxmind/db.rb:183
+# pkg:gem/maxmind-db#lib/maxmind/db.rb:199
 MaxMind::DB::IP_VERSION_TO_BIT_COUNT = T.let(T.unsafe(nil), Hash)
 
 # An InvalidDatabaseError means the {MaxMind
@@ -264,6 +368,9 @@ MaxMind::DB::IP_VERSION_TO_BIT_COUNT = T.let(T.unsafe(nil), Hash)
 #
 # pkg:gem/maxmind-db#lib/maxmind/db/errors.rb:7
 class MaxMind::DB::InvalidDatabaseError < ::RuntimeError; end
+
+# pkg:gem/maxmind-db#lib/maxmind/db.rb:290
+MaxMind::DB::LIMIT_OPTIONS = T.let(T.unsafe(nil), Array)
 
 # pkg:gem/maxmind-db#lib/maxmind/db.rb:55
 MaxMind::DB::METADATA_MAX_SIZE = T.let(T.unsafe(nil), Integer)
@@ -301,24 +408,34 @@ MaxMind::DB::MODE_PARAM_IS_BUFFER = T.let(T.unsafe(nil), Symbol)
 
 # @!visibility private
 #
-# pkg:gem/maxmind-db#lib/maxmind/db/memory_reader.rb:6
+# pkg:gem/maxmind-db#lib/maxmind/db/memory_reader.rb:8
 class MaxMind::DB::MemoryReader
-  # pkg:gem/maxmind-db#lib/maxmind/db/memory_reader.rb:7
+  # pkg:gem/maxmind-db#lib/maxmind/db/memory_reader.rb:9
   def initialize(filename, options = T.unsafe(nil)); end
 
-  # pkg:gem/maxmind-db#lib/maxmind/db/memory_reader.rb:25
+  # pkg:gem/maxmind-db#lib/maxmind/db/memory_reader.rb:27
   def close; end
+
+  # Return the byte at +offset+ as an Integer without allocating a String.
+  #
+  # pkg:gem/maxmind-db#lib/maxmind/db/memory_reader.rb:30
+  def getbyte(offset); end
 
   # Override to not show @buf in inspect to avoid showing it in irb.
   #
-  # pkg:gem/maxmind-db#lib/maxmind/db/memory_reader.rb:21
+  # pkg:gem/maxmind-db#lib/maxmind/db/memory_reader.rb:23
   def inspect; end
 
-  # pkg:gem/maxmind-db#lib/maxmind/db/memory_reader.rb:27
+  # pkg:gem/maxmind-db#lib/maxmind/db/memory_reader.rb:34
   def read(offset, size); end
 
-  # pkg:gem/maxmind-db#lib/maxmind/db/memory_reader.rb:18
+  # pkg:gem/maxmind-db#lib/maxmind/db/memory_reader.rb:20
   def size; end
+
+  private
+
+  # pkg:gem/maxmind-db#lib/maxmind/db/memory_reader.rb:44
+  def raise_bad_data; end
 end
 
 # Metadata holds metadata about a {MaxMind

@@ -5,10 +5,10 @@
 # Please instead update this file by running `bin/tapioca gem fugit`.
 
 
-# pkg:gem/fugit#lib/fugit.rb:4
+# pkg:gem/fugit#lib/fugit.rb:2
 module Fugit
   class << self
-    # pkg:gem/fugit#lib/fugit/parse.rb:86
+    # pkg:gem/fugit#lib/fugit/parse.rb:88
     def determine_type(s); end
 
     # pkg:gem/fugit#lib/fugit/parse.rb:32
@@ -53,7 +53,9 @@ module Fugit
     # pkg:gem/fugit#lib/fugit/parse.rb:13
     def parse_in(s); end
 
-    # pkg:gem/fugit#lib/fugit/parse.rb:68
+    # Still an exploration, but what was the goal? 2026-09-14
+    #
+    # pkg:gem/fugit#lib/fugit/parse.rb:70
     def parse_max(s, opts = T.unsafe(nil)); end
 
     # pkg:gem/fugit#lib/fugit/parse.rb:11
@@ -83,7 +85,7 @@ end
 
 # pkg:gem/fugit#lib/fugit/cron.rb:5
 class Fugit::Cron
-  # pkg:gem/fugit#lib/fugit/cron.rb:506
+  # pkg:gem/fugit#lib/fugit/cron.rb:516
   def ==(o); end
 
   # Mostly used as a #next_time sanity check.
@@ -94,37 +96,37 @@ class Fugit::Cron
   #
   # Nota bene: cron with seconds are not supported.
   #
-  # pkg:gem/fugit#lib/fugit/cron.rb:404
+  # pkg:gem/fugit#lib/fugit/cron.rb:414
   def brute_frequency(year = T.unsafe(nil)); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:215
+  # pkg:gem/fugit#lib/fugit/cron.rb:225
   def day_match?(nt); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:510
+  # pkg:gem/fugit#lib/fugit/cron.rb:520
   def eql?(o); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:512
+  # pkg:gem/fugit#lib/fugit/cron.rb:522
   def hash; end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:172
+  # pkg:gem/fugit#lib/fugit/cron.rb:182
   def hour_match?(nt); end
 
   # pkg:gem/fugit#lib/fugit/cron.rb:22
   def hours; end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:245
+  # pkg:gem/fugit#lib/fugit/cron.rb:255
   def match?(t); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:173
+  # pkg:gem/fugit#lib/fugit/cron.rb:183
   def min_match?(nt); end
 
   # pkg:gem/fugit#lib/fugit/cron.rb:22
   def minutes; end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:171
+  # pkg:gem/fugit#lib/fugit/cron.rb:181
   def month_match?(nt); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:204
+  # pkg:gem/fugit#lib/fugit/cron.rb:214
   def monthday_match?(nt); end
 
   # pkg:gem/fugit#lib/fugit/cron.rb:22
@@ -136,7 +138,7 @@ class Fugit::Cron
   # Returns an ::Enumerable instance that yields each "next time" in
   # succession
   #
-  # pkg:gem/fugit#lib/fugit/cron.rb:369
+  # pkg:gem/fugit#lib/fugit/cron.rb:379
   def next(from = T.unsafe(nil)); end
 
   # See gh-15 and tst/iteration_count.rb
@@ -146,7 +148,7 @@ class Fugit::Cron
   # gh-18 and noticing some > 1024 for some experiments. 2048 should
   # be ok.
   #
-  # pkg:gem/fugit#lib/fugit/cron.rb:262
+  # pkg:gem/fugit#lib/fugit/cron.rb:272
   def next_time(from = T.unsafe(nil)); end
 
   # pkg:gem/fugit#lib/fugit/cron.rb:20
@@ -155,16 +157,16 @@ class Fugit::Cron
   # Returns an ::Enumerable instance that yields each "previous time" in
   # succession
   #
-  # pkg:gem/fugit#lib/fugit/cron.rb:377
+  # pkg:gem/fugit#lib/fugit/cron.rb:387
   def prev(from = T.unsafe(nil)); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:314
+  # pkg:gem/fugit#lib/fugit/cron.rb:324
   def previous_time(from = T.unsafe(nil)); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:434
+  # pkg:gem/fugit#lib/fugit/cron.rb:444
   def rough_frequency; end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:174
+  # pkg:gem/fugit#lib/fugit/cron.rb:184
   def sec_match?(nt); end
 
   # pkg:gem/fugit#lib/fugit/cron.rb:22
@@ -173,22 +175,22 @@ class Fugit::Cron
   # pkg:gem/fugit#lib/fugit/cron.rb:22
   def timezone; end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:491
+  # pkg:gem/fugit#lib/fugit/cron.rb:501
   def to_a; end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:74
+  # pkg:gem/fugit#lib/fugit/cron.rb:84
   def to_cron_s; end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:496
+  # pkg:gem/fugit#lib/fugit/cron.rb:506
   def to_h; end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:176
+  # pkg:gem/fugit#lib/fugit/cron.rb:186
   def weekday_hash_match?(nt, hsh); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:194
+  # pkg:gem/fugit#lib/fugit/cron.rb:204
   def weekday_match?(nt); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:188
+  # pkg:gem/fugit#lib/fugit/cron.rb:198
   def weekday_modulo_match?(nt, mod); end
 
   # pkg:gem/fugit#lib/fugit/cron.rb:22
@@ -197,7 +199,7 @@ class Fugit::Cron
   # Returns an array of EtOrbi::EoTime instances that correspond to
   # the occurrences of the cron within the given time range
   #
-  # pkg:gem/fugit#lib/fugit/cron.rb:385
+  # pkg:gem/fugit#lib/fugit/cron.rb:395
   def within(time_range, time_end = T.unsafe(nil)); end
 
   # pkg:gem/fugit#lib/fugit/cron.rb:20
@@ -205,53 +207,53 @@ class Fugit::Cron
 
   protected
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:519
+  # pkg:gem/fugit#lib/fugit/cron.rb:529
   def compact_month_days; end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:698
+  # pkg:gem/fugit#lib/fugit/cron.rb:708
   def determine_hours(arr, opts); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:694
+  # pkg:gem/fugit#lib/fugit/cron.rb:704
   def determine_minutes(arr, opts); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:702
+  # pkg:gem/fugit#lib/fugit/cron.rb:712
   def determine_monthdays(arr, opts); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:706
+  # pkg:gem/fugit#lib/fugit/cron.rb:716
   def determine_months(arr, opts); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:690
+  # pkg:gem/fugit#lib/fugit/cron.rb:700
   def determine_seconds(arr, opts); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:745
+  # pkg:gem/fugit#lib/fugit/cron.rb:755
   def determine_timezone(z); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:710
+  # pkg:gem/fugit#lib/fugit/cron.rb:720
   def determine_weekdays(arr, opts); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:673
+  # pkg:gem/fugit#lib/fugit/cron.rb:683
   def do_determine(key, arr, min, max, opts); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:585
+  # pkg:gem/fugit#lib/fugit/cron.rb:595
   def expand(min, max, opts, r); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:562
+  # pkg:gem/fugit#lib/fugit/cron.rb:572
   def init(original, h, opts); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:613
+  # pkg:gem/fugit#lib/fugit/cron.rb:623
   def random(min, max, sta, edn, sla, opts); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:631
+  # pkg:gem/fugit#lib/fugit/cron.rb:641
   def range(min, max, sta, edn, sla); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:535
+  # pkg:gem/fugit#lib/fugit/cron.rb:545
   def rough_days; end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:752
+  # pkg:gem/fugit#lib/fugit/cron.rb:762
   def weekdays_to_cron_s; end
 
   class << self
-    # pkg:gem/fugit#lib/fugit/cron.rb:54
+    # pkg:gem/fugit#lib/fugit/cron.rb:64
     def do_parse(s, opts = T.unsafe(nil)); end
 
     # pkg:gem/fugit#lib/fugit/cron.rb:27
@@ -262,411 +264,411 @@ class Fugit::Cron
 
     protected
 
-    # pkg:gem/fugit#lib/fugit/cron.rb:62
+    # pkg:gem/fugit#lib/fugit/cron.rb:72
     def trunc(s); end
   end
 end
 
 # Used by Fugit::Cron#next and Fugit::Cron#prev
 #
-# pkg:gem/fugit#lib/fugit/cron.rb:344
+# pkg:gem/fugit#lib/fugit/cron.rb:354
 class Fugit::Cron::CronIterator
   include ::Enumerable
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:349
+  # pkg:gem/fugit#lib/fugit/cron.rb:359
   def initialize(cron, direction, start); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:347
+  # pkg:gem/fugit#lib/fugit/cron.rb:357
   def cron; end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:347
+  # pkg:gem/fugit#lib/fugit/cron.rb:357
   def current; end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:347
+  # pkg:gem/fugit#lib/fugit/cron.rb:357
   def direction; end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:357
+  # pkg:gem/fugit#lib/fugit/cron.rb:367
   def each; end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:347
+  # pkg:gem/fugit#lib/fugit/cron.rb:357
   def start; end
 end
 
-# pkg:gem/fugit#lib/fugit/cron.rb:560
+# pkg:gem/fugit#lib/fugit/cron.rb:570
 Fugit::Cron::FREQUENCY_CACHE = T.let(T.unsafe(nil), Hash)
 
-# pkg:gem/fugit#lib/fugit/cron.rb:463
+# pkg:gem/fugit#lib/fugit/cron.rb:473
 class Fugit::Cron::Frequency
-  # pkg:gem/fugit#lib/fugit/cron.rb:468
+  # pkg:gem/fugit#lib/fugit/cron.rb:478
   def initialize(deltas, span); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:465
+  # pkg:gem/fugit#lib/fugit/cron.rb:475
   def delta_max; end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:465
+  # pkg:gem/fugit#lib/fugit/cron.rb:475
   def delta_min; end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:465
+  # pkg:gem/fugit#lib/fugit/cron.rb:475
   def occurrences; end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:465
+  # pkg:gem/fugit#lib/fugit/cron.rb:475
   def span; end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:466
+  # pkg:gem/fugit#lib/fugit/cron.rb:476
   def span_years; end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:478
+  # pkg:gem/fugit#lib/fugit/cron.rb:488
   def to_debug_s; end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:466
+  # pkg:gem/fugit#lib/fugit/cron.rb:476
   def yearly_occurrences; end
 end
 
 # pkg:gem/fugit#lib/fugit/cron.rb:17
 Fugit::Cron::MAXDAYS = T.let(T.unsafe(nil), Array)
 
-# pkg:gem/fugit#lib/fugit/cron.rb:253
+# pkg:gem/fugit#lib/fugit/cron.rb:263
 Fugit::Cron::MAX_ITERATION_COUNT = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/fugit#lib/fugit/cron.rb:771
+# pkg:gem/fugit#lib/fugit/cron.rb:781
 module Fugit::Cron::Parser
   include ::Raabro
   extend ::Raabro::ModuleMethods
   extend ::Raabro
   extend ::Fugit::Cron::Parser
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:808
+  # pkg:gem/fugit#lib/fugit/cron.rb:818
   def _dom(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:810
+  # pkg:gem/fugit#lib/fugit/cron.rb:820
   def _dow(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:807
+  # pkg:gem/fugit#lib/fugit/cron.rb:817
   def _hou(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:809
+  # pkg:gem/fugit#lib/fugit/cron.rb:819
   def _mon(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:806
+  # pkg:gem/fugit#lib/fugit/cron.rb:816
   def _mos(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:874
+  # pkg:gem/fugit#lib/fugit/cron.rb:884
   def _tz(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:871
+  # pkg:gem/fugit#lib/fugit/cron.rb:881
   def _tz_delta(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:868
+  # pkg:gem/fugit#lib/fugit/cron.rb:878
   def _tz_name(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:794
+  # pkg:gem/fugit#lib/fugit/cron.rb:804
   def and?(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:876
+  # pkg:gem/fugit#lib/fugit/cron.rb:886
   def classic_cron(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:792
+  # pkg:gem/fugit#lib/fugit/cron.rb:802
   def comma(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:793
+  # pkg:gem/fugit#lib/fugit/cron.rb:803
   def comma?(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:885
+  # pkg:gem/fugit#lib/fugit/cron.rb:895
   def cron(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:800
+  # pkg:gem/fugit#lib/fugit/cron.rb:810
   def dom(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:843
+  # pkg:gem/fugit#lib/fugit/cron.rb:853
   def dom_elt(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:802
+  # pkg:gem/fugit#lib/fugit/cron.rb:812
   def dow(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:845
+  # pkg:gem/fugit#lib/fugit/cron.rb:855
   def dow_elt(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:852
+  # pkg:gem/fugit#lib/fugit/cron.rb:862
   def dow_elt_(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:804
+  # pkg:gem/fugit#lib/fugit/cron.rb:814
   def dow_hash(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:850
+  # pkg:gem/fugit#lib/fugit/cron.rb:860
   def h_dow(i); end
 
   # min or sec
   #
-  # pkg:gem/fugit#lib/fugit/cron.rb:799
+  # pkg:gem/fugit#lib/fugit/cron.rb:809
   def hou(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:842
+  # pkg:gem/fugit#lib/fugit/cron.rb:852
   def hou_elt(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:790
+  # pkg:gem/fugit#lib/fugit/cron.rb:800
   def hyphen(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:864
+  # pkg:gem/fugit#lib/fugit/cron.rb:874
   def ldom_(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:866
+  # pkg:gem/fugit#lib/fugit/cron.rb:876
   def ldow(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:863
+  # pkg:gem/fugit#lib/fugit/cron.rb:873
   def lhou_(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:857
+  # pkg:gem/fugit#lib/fugit/cron.rb:867
   def list_dom(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:859
+  # pkg:gem/fugit#lib/fugit/cron.rb:869
   def list_dow(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:856
+  # pkg:gem/fugit#lib/fugit/cron.rb:866
   def list_hou(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:855
+  # pkg:gem/fugit#lib/fugit/cron.rb:865
   def list_min(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:858
+  # pkg:gem/fugit#lib/fugit/cron.rb:868
   def list_mon(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:854
+  # pkg:gem/fugit#lib/fugit/cron.rb:864
   def list_sec(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:862
+  # pkg:gem/fugit#lib/fugit/cron.rb:872
   def lmin_(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:865
+  # pkg:gem/fugit#lib/fugit/cron.rb:875
   def lmon_(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:861
+  # pkg:gem/fugit#lib/fugit/cron.rb:871
   def lsec_(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:847
+  # pkg:gem/fugit#lib/fugit/cron.rb:857
   def mod(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:849
+  # pkg:gem/fugit#lib/fugit/cron.rb:859
   def mod_dow(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:801
+  # pkg:gem/fugit#lib/fugit/cron.rb:811
   def mon(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:844
+  # pkg:gem/fugit#lib/fugit/cron.rb:854
   def mon_elt(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:798
+  # pkg:gem/fugit#lib/fugit/cron.rb:808
   def mos(i); end
 
   # ssws: slash or sorws
   #
-  # pkg:gem/fugit#lib/fugit/cron.rb:841
+  # pkg:gem/fugit#lib/fugit/cron.rb:851
   def mos_elt(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:815
+  # pkg:gem/fugit#lib/fugit/cron.rb:825
   def r_dom(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:817
+  # pkg:gem/fugit#lib/fugit/cron.rb:827
   def r_dow(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:814
+  # pkg:gem/fugit#lib/fugit/cron.rb:824
   def r_hou(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:816
+  # pkg:gem/fugit#lib/fugit/cron.rb:826
   def r_mon(i); end
 
   # r: range
   #
-  # pkg:gem/fugit#lib/fugit/cron.rb:813
+  # pkg:gem/fugit#lib/fugit/cron.rb:823
   def r_mos(i); end
 
   # rewriting the parsed tree
   #
-  # pkg:gem/fugit#lib/fugit/cron.rb:891
+  # pkg:gem/fugit#lib/fugit/cron.rb:901
   def rewrite_bound(k, t); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:957
+  # pkg:gem/fugit#lib/fugit/cron.rb:967
   def rewrite_cron(t); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:909
+  # pkg:gem/fugit#lib/fugit/cron.rb:919
   def rewrite_elt(k, t); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:942
+  # pkg:gem/fugit#lib/fugit/cron.rb:952
   def rewrite_entry(t); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:901
+  # pkg:gem/fugit#lib/fugit/cron.rb:911
   def rewrite_mod(k, t); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:949
+  # pkg:gem/fugit#lib/fugit/cron.rb:959
   def rewrite_tz(t); end
 
   # piece parsers bottom to top
   #
-  # pkg:gem/fugit#lib/fugit/cron.rb:788
+  # pkg:gem/fugit#lib/fugit/cron.rb:798
   def s(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:880
+  # pkg:gem/fugit#lib/fugit/cron.rb:890
   def second_cron(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:796
+  # pkg:gem/fugit#lib/fugit/cron.rb:806
   def slash(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:829
+  # pkg:gem/fugit#lib/fugit/cron.rb:839
   def sor_dom(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:831
+  # pkg:gem/fugit#lib/fugit/cron.rb:841
   def sor_dow(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:828
+  # pkg:gem/fugit#lib/fugit/cron.rb:838
   def sor_hou(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:830
+  # pkg:gem/fugit#lib/fugit/cron.rb:840
   def sor_mon(i); end
 
   # sor: star or range
   #
-  # pkg:gem/fugit#lib/fugit/cron.rb:827
+  # pkg:gem/fugit#lib/fugit/cron.rb:837
   def sor_mos(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:836
+  # pkg:gem/fugit#lib/fugit/cron.rb:846
   def sorws_dom(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:838
+  # pkg:gem/fugit#lib/fugit/cron.rb:848
   def sorws_dow(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:835
+  # pkg:gem/fugit#lib/fugit/cron.rb:845
   def sorws_hou(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:837
+  # pkg:gem/fugit#lib/fugit/cron.rb:847
   def sorws_mon(i); end
 
   # sorws: star or range with[out] slash
   #
-  # pkg:gem/fugit#lib/fugit/cron.rb:834
+  # pkg:gem/fugit#lib/fugit/cron.rb:844
   def sorws_mos(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:789
+  # pkg:gem/fugit#lib/fugit/cron.rb:799
   def star(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:822
+  # pkg:gem/fugit#lib/fugit/cron.rb:832
   def t_dom(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:824
+  # pkg:gem/fugit#lib/fugit/cron.rb:834
   def t_dow(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:821
+  # pkg:gem/fugit#lib/fugit/cron.rb:831
   def t_hou(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:823
+  # pkg:gem/fugit#lib/fugit/cron.rb:833
   def t_mon(i); end
 
   # t: tilde range
   #
-  # pkg:gem/fugit#lib/fugit/cron.rb:820
+  # pkg:gem/fugit#lib/fugit/cron.rb:830
   def t_mos(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:791
+  # pkg:gem/fugit#lib/fugit/cron.rb:801
   def tilde(i); end
 end
 
-# pkg:gem/fugit#lib/fugit/cron.rb:778
+# pkg:gem/fugit#lib/fugit/cron.rb:788
 Fugit::Cron::Parser::DOW_REX = T.let(T.unsafe(nil), Regexp)
 
-# pkg:gem/fugit#lib/fugit/cron.rb:781
+# pkg:gem/fugit#lib/fugit/cron.rb:791
 Fugit::Cron::Parser::MONTHS = T.let(T.unsafe(nil), Array)
 
-# pkg:gem/fugit#lib/fugit/cron.rb:783
+# pkg:gem/fugit#lib/fugit/cron.rb:793
 Fugit::Cron::Parser::MONTH_REX = T.let(T.unsafe(nil), Regexp)
 
-# pkg:gem/fugit#lib/fugit/cron.rb:773
+# pkg:gem/fugit#lib/fugit/cron.rb:783
 Fugit::Cron::Parser::WEEKDAYS = T.let(T.unsafe(nil), Array)
 
-# pkg:gem/fugit#lib/fugit/cron.rb:776
+# pkg:gem/fugit#lib/fugit/cron.rb:786
 Fugit::Cron::Parser::WEEKDS = T.let(T.unsafe(nil), Array)
 
-# pkg:gem/fugit#lib/fugit/cron.rb:428
+# pkg:gem/fugit#lib/fugit/cron.rb:438
 Fugit::Cron::SLOTS = T.let(T.unsafe(nil), Array)
 
 # pkg:gem/fugit#lib/fugit/cron.rb:7
 Fugit::Cron::SPECIALS = T.let(T.unsafe(nil), Hash)
 
-# pkg:gem/fugit#lib/fugit/cron.rb:87
+# pkg:gem/fugit#lib/fugit/cron.rb:97
 class Fugit::Cron::TimeCursor
-  # pkg:gem/fugit#lib/fugit/cron.rb:89
+  # pkg:gem/fugit#lib/fugit/cron.rb:99
   def initialize(cron, t); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:101
+  # pkg:gem/fugit#lib/fugit/cron.rb:111
   def day; end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:104
+  # pkg:gem/fugit#lib/fugit/cron.rb:114
   def dec(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:153
+  # pkg:gem/fugit#lib/fugit/cron.rb:163
   def dec_day; end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:156
+  # pkg:gem/fugit#lib/fugit/cron.rb:166
   def dec_hour; end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:159
+  # pkg:gem/fugit#lib/fugit/cron.rb:169
   def dec_min; end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:149
+  # pkg:gem/fugit#lib/fugit/cron.rb:159
   def dec_month; end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:163
+  # pkg:gem/fugit#lib/fugit/cron.rb:173
   def dec_sec; end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:101
+  # pkg:gem/fugit#lib/fugit/cron.rb:111
   def hour; end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:103
+  # pkg:gem/fugit#lib/fugit/cron.rb:113
   def inc(i); end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:117
+  # pkg:gem/fugit#lib/fugit/cron.rb:127
   def inc_day; end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:134
+  # pkg:gem/fugit#lib/fugit/cron.rb:144
   def inc_hour; end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:137
+  # pkg:gem/fugit#lib/fugit/cron.rb:147
   def inc_min; end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:106
+  # pkg:gem/fugit#lib/fugit/cron.rb:116
   def inc_month; end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:141
+  # pkg:gem/fugit#lib/fugit/cron.rb:151
   def inc_sec; end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:101
+  # pkg:gem/fugit#lib/fugit/cron.rb:111
   def min; end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:101
+  # pkg:gem/fugit#lib/fugit/cron.rb:111
   def month; end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:101
+  # pkg:gem/fugit#lib/fugit/cron.rb:111
   def rday; end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:101
+  # pkg:gem/fugit#lib/fugit/cron.rb:111
   def rweek; end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:101
+  # pkg:gem/fugit#lib/fugit/cron.rb:111
   def sec; end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:95
+  # pkg:gem/fugit#lib/fugit/cron.rb:105
   def time; end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:98
+  # pkg:gem/fugit#lib/fugit/cron.rb:108
   def to_i; end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:96
+  # pkg:gem/fugit#lib/fugit/cron.rb:106
   def to_t; end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:101
+  # pkg:gem/fugit#lib/fugit/cron.rb:111
   def wday; end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:101
+  # pkg:gem/fugit#lib/fugit/cron.rb:111
   def wday_in_month; end
 
-  # pkg:gem/fugit#lib/fugit/cron.rb:101
+  # pkg:gem/fugit#lib/fugit/cron.rb:111
   def year; end
 end
 
@@ -678,54 +680,54 @@ Fugit::DO_PARSE_ORDER = T.let(T.unsafe(nil), Array)
 
 # pkg:gem/fugit#lib/fugit/duration.rb:5
 class Fugit::Duration
-  # pkg:gem/fugit#lib/fugit/duration.rb:275
+  # pkg:gem/fugit#lib/fugit/duration.rb:285
   def +(a); end
 
-  # pkg:gem/fugit#lib/fugit/duration.rb:288
+  # pkg:gem/fugit#lib/fugit/duration.rb:298
   def -(a); end
 
-  # pkg:gem/fugit#lib/fugit/duration.rb:215
+  # pkg:gem/fugit#lib/fugit/duration.rb:225
   def -@; end
 
-  # pkg:gem/fugit#lib/fugit/duration.rb:290
+  # pkg:gem/fugit#lib/fugit/duration.rb:300
   def ==(o); end
 
-  # pkg:gem/fugit#lib/fugit/duration.rb:264
+  # pkg:gem/fugit#lib/fugit/duration.rb:274
   def add(a); end
 
-  # pkg:gem/fugit#lib/fugit/duration.rb:225
+  # pkg:gem/fugit#lib/fugit/duration.rb:235
   def add_duration(d); end
 
-  # pkg:gem/fugit#lib/fugit/duration.rb:217
+  # pkg:gem/fugit#lib/fugit/duration.rb:227
   def add_numeric(n); end
 
-  # pkg:gem/fugit#lib/fugit/duration.rb:232
+  # pkg:gem/fugit#lib/fugit/duration.rb:242
   def add_to_time(t); end
 
-  # pkg:gem/fugit#lib/fugit/duration.rb:172
+  # pkg:gem/fugit#lib/fugit/duration.rb:182
   def deflate(options = T.unsafe(nil)); end
 
   # Returns a copy of this duration, omitting its seconds.
   #
-  # pkg:gem/fugit#lib/fugit/duration.rb:308
+  # pkg:gem/fugit#lib/fugit/duration.rb:318
   def drop_seconds; end
 
-  # pkg:gem/fugit#lib/fugit/duration.rb:294
+  # pkg:gem/fugit#lib/fugit/duration.rb:304
   def eql?(o); end
 
   # pkg:gem/fugit#lib/fugit/duration.rb:7
   def h; end
 
-  # pkg:gem/fugit#lib/fugit/duration.rb:296
+  # pkg:gem/fugit#lib/fugit/duration.rb:306
   def hash; end
 
-  # pkg:gem/fugit#lib/fugit/duration.rb:152
+  # pkg:gem/fugit#lib/fugit/duration.rb:162
   def inflate; end
 
-  # pkg:gem/fugit#lib/fugit/duration.rb:301
+  # pkg:gem/fugit#lib/fugit/duration.rb:311
   def next_time(from = T.unsafe(nil)); end
 
-  # pkg:gem/fugit#lib/fugit/duration.rb:208
+  # pkg:gem/fugit#lib/fugit/duration.rb:218
   def opposite; end
 
   # pkg:gem/fugit#lib/fugit/duration.rb:7
@@ -734,48 +736,48 @@ class Fugit::Duration
   # pkg:gem/fugit#lib/fugit/duration.rb:7
   def original; end
 
-  # pkg:gem/fugit#lib/fugit/duration.rb:277
+  # pkg:gem/fugit#lib/fugit/duration.rb:287
   def subtract(a); end
 
   # For now, let's alias to #h
   #
-  # pkg:gem/fugit#lib/fugit/duration.rb:137
+  # pkg:gem/fugit#lib/fugit/duration.rb:147
   def to_h; end
 
-  # pkg:gem/fugit#lib/fugit/duration.rb:99
+  # pkg:gem/fugit#lib/fugit/duration.rb:109
   def to_iso_s; end
 
-  # pkg:gem/fugit#lib/fugit/duration.rb:118
+  # pkg:gem/fugit#lib/fugit/duration.rb:128
   def to_long_s(opts = T.unsafe(nil)); end
 
-  # pkg:gem/fugit#lib/fugit/duration.rb:96
+  # pkg:gem/fugit#lib/fugit/duration.rb:106
   def to_plain_s; end
 
-  # pkg:gem/fugit#lib/fugit/duration.rb:139
+  # pkg:gem/fugit#lib/fugit/duration.rb:149
   def to_rufus_h; end
 
-  # pkg:gem/fugit#lib/fugit/duration.rb:97
+  # pkg:gem/fugit#lib/fugit/duration.rb:107
   def to_rufus_s; end
 
   # Warning: this is an "approximation", months are 30 days and years are
   # 365 days, ...
   #
-  # pkg:gem/fugit#lib/fugit/duration.rb:147
+  # pkg:gem/fugit#lib/fugit/duration.rb:157
   def to_sec; end
 
   protected
 
-  # pkg:gem/fugit#lib/fugit/duration.rb:85
+  # pkg:gem/fugit#lib/fugit/duration.rb:95
   def _to_s(key); end
 
-  # pkg:gem/fugit#lib/fugit/duration.rb:319
+  # pkg:gem/fugit#lib/fugit/duration.rb:329
   def init(original, options, h); end
 
   class << self
-    # pkg:gem/fugit#lib/fugit/duration.rb:51
+    # pkg:gem/fugit#lib/fugit/duration.rb:61
     def common_rewrite_dur(t); end
 
-    # pkg:gem/fugit#lib/fugit/duration.rb:41
+    # pkg:gem/fugit#lib/fugit/duration.rb:51
     def do_parse(s, opts = T.unsafe(nil)); end
 
     # pkg:gem/fugit#lib/fugit/duration.rb:11
@@ -784,150 +786,153 @@ class Fugit::Duration
     # pkg:gem/fugit#lib/fugit/duration.rb:16
     def parse(s, opts = T.unsafe(nil)); end
 
-    # pkg:gem/fugit#lib/fugit/duration.rb:48
+    # pkg:gem/fugit#lib/fugit/duration.rb:58
     def to_iso_s(o); end
 
-    # pkg:gem/fugit#lib/fugit/duration.rb:49
+    # pkg:gem/fugit#lib/fugit/duration.rb:59
     def to_long_s(o, opts = T.unsafe(nil)); end
 
-    # pkg:gem/fugit#lib/fugit/duration.rb:47
+    # pkg:gem/fugit#lib/fugit/duration.rb:57
     def to_plain_s(o); end
   end
 end
 
-# pkg:gem/fugit#lib/fugit/duration.rb:80
+# pkg:gem/fugit#lib/fugit/duration.rb:90
 Fugit::Duration::INFLA_KEYS = T.let(T.unsafe(nil), Array)
 
-# pkg:gem/fugit#lib/fugit/duration.rb:383
+# pkg:gem/fugit#lib/fugit/duration.rb:393
 module Fugit::Duration::IsoParser
   include ::Raabro
   extend ::Raabro::ModuleMethods
   extend ::Raabro
   extend ::Fugit::Duration::IsoParser
 
-  # pkg:gem/fugit#lib/fugit/duration.rb:401
+  # pkg:gem/fugit#lib/fugit/duration.rb:411
   def date(i); end
 
-  # pkg:gem/fugit#lib/fugit/duration.rb:393
+  # pkg:gem/fugit#lib/fugit/duration.rb:403
   def day(i); end
 
-  # pkg:gem/fugit#lib/fugit/duration.rb:398
+  # pkg:gem/fugit#lib/fugit/duration.rb:408
   def delt(i); end
 
-  # pkg:gem/fugit#lib/fugit/duration.rb:405
+  # pkg:gem/fugit#lib/fugit/duration.rb:415
   def dur(i); end
 
-  # pkg:gem/fugit#lib/fugit/duration.rb:394
+  # pkg:gem/fugit#lib/fugit/duration.rb:404
   def hou(i); end
 
-  # pkg:gem/fugit#lib/fugit/duration.rb:395
+  # pkg:gem/fugit#lib/fugit/duration.rb:405
   def min(i); end
 
-  # pkg:gem/fugit#lib/fugit/duration.rb:391
+  # pkg:gem/fugit#lib/fugit/duration.rb:401
   def mon(i); end
 
   # piece parsers bottom to top
   #
-  # pkg:gem/fugit#lib/fugit/duration.rb:387
+  # pkg:gem/fugit#lib/fugit/duration.rb:397
   def p(i); end
 
   # rewrite parsed tree
   #
-  # pkg:gem/fugit#lib/fugit/duration.rb:409
+  # pkg:gem/fugit#lib/fugit/duration.rb:419
   def rewrite_dur(t); end
 
-  # pkg:gem/fugit#lib/fugit/duration.rb:396
+  # pkg:gem/fugit#lib/fugit/duration.rb:406
   def sec(i); end
 
-  # pkg:gem/fugit#lib/fugit/duration.rb:388
+  # pkg:gem/fugit#lib/fugit/duration.rb:398
   def t(i); end
 
-  # pkg:gem/fugit#lib/fugit/duration.rb:403
+  # pkg:gem/fugit#lib/fugit/duration.rb:413
   def t_time(i); end
 
-  # pkg:gem/fugit#lib/fugit/duration.rb:399
+  # pkg:gem/fugit#lib/fugit/duration.rb:409
   def telt(i); end
 
-  # pkg:gem/fugit#lib/fugit/duration.rb:402
+  # pkg:gem/fugit#lib/fugit/duration.rb:412
   def time(i); end
 
-  # pkg:gem/fugit#lib/fugit/duration.rb:392
+  # pkg:gem/fugit#lib/fugit/duration.rb:402
   def wee(i); end
 
-  # pkg:gem/fugit#lib/fugit/duration.rb:390
+  # pkg:gem/fugit#lib/fugit/duration.rb:400
   def yea(i); end
 end
 
-# pkg:gem/fugit#lib/fugit/duration.rb:63
+# pkg:gem/fugit#lib/fugit/duration.rb:73
 Fugit::Duration::KEYS = T.let(T.unsafe(nil), Hash)
 
-# pkg:gem/fugit#lib/fugit/duration.rb:81
+# pkg:gem/fugit#lib/fugit/duration.rb:91
 Fugit::Duration::NON_INFLA_KEYS = T.let(T.unsafe(nil), Array)
 
-# pkg:gem/fugit#lib/fugit/duration.rb:334
+# pkg:gem/fugit#lib/fugit/duration.rb:344
 module Fugit::Duration::Parser
   include ::Raabro
   extend ::Raabro::ModuleMethods
   extend ::Raabro
   extend ::Fugit::Duration::Parser
 
-  # pkg:gem/fugit#lib/fugit/duration.rb:343
+  # pkg:gem/fugit#lib/fugit/duration.rb:353
   def day(i); end
 
-  # pkg:gem/fugit#lib/fugit/duration.rb:355
+  # pkg:gem/fugit#lib/fugit/duration.rb:365
   def dur(i); end
 
-  # pkg:gem/fugit#lib/fugit/duration.rb:350
+  # pkg:gem/fugit#lib/fugit/duration.rb:360
   def elt(i); end
 
-  # pkg:gem/fugit#lib/fugit/duration.rb:344
+  # pkg:gem/fugit#lib/fugit/duration.rb:354
   def hou(i); end
 
   # rewrite parsed tree
   #
-  # pkg:gem/fugit#lib/fugit/duration.rb:359
+  # pkg:gem/fugit#lib/fugit/duration.rb:369
   def merge(h0, h1); end
 
-  # pkg:gem/fugit#lib/fugit/duration.rb:345
+  # pkg:gem/fugit#lib/fugit/duration.rb:355
   def min(i); end
 
-  # pkg:gem/fugit#lib/fugit/duration.rb:341
+  # pkg:gem/fugit#lib/fugit/duration.rb:351
   def mon(i); end
 
-  # pkg:gem/fugit#lib/fugit/duration.rb:376
+  # pkg:gem/fugit#lib/fugit/duration.rb:386
   def rewrite_dur(t); end
 
-  # pkg:gem/fugit#lib/fugit/duration.rb:366
+  # pkg:gem/fugit#lib/fugit/duration.rb:376
   def rewrite_sdur(t); end
 
-  # pkg:gem/fugit#lib/fugit/duration.rb:353
+  # pkg:gem/fugit#lib/fugit/duration.rb:363
   def sdur(i); end
 
-  # pkg:gem/fugit#lib/fugit/duration.rb:347
+  # pkg:gem/fugit#lib/fugit/duration.rb:357
   def sec(i); end
 
-  # pkg:gem/fugit#lib/fugit/duration.rb:348
+  # pkg:gem/fugit#lib/fugit/duration.rb:358
   def sek(i); end
 
   # piece parsers bottom to top
   #
-  # pkg:gem/fugit#lib/fugit/duration.rb:338
+  # pkg:gem/fugit#lib/fugit/duration.rb:348
   def sep(i); end
 
-  # pkg:gem/fugit#lib/fugit/duration.rb:351
+  # pkg:gem/fugit#lib/fugit/duration.rb:361
   def sign(i); end
 
-  # pkg:gem/fugit#lib/fugit/duration.rb:342
+  # pkg:gem/fugit#lib/fugit/duration.rb:352
   def wee(i); end
 
-  # pkg:gem/fugit#lib/fugit/duration.rb:340
+  # pkg:gem/fugit#lib/fugit/duration.rb:350
   def yea(i); end
 end
 
 # Round float seconds to 9 decimals when deflating
 #
-# pkg:gem/fugit#lib/fugit/duration.rb:170
+# pkg:gem/fugit#lib/fugit/duration.rb:180
 Fugit::Duration::SECOND_ROUND = T.let(T.unsafe(nil), Integer)
+
+# pkg:gem/fugit#lib/fugit.rb:6
+Fugit::MAX_INPUT_LENGTH = T.let(T.unsafe(nil), Integer)
 
 # A natural language set of parsers for fugit.
 # Focuses on cron expressions. The rest is better left to Chronic and friends.
@@ -935,95 +940,98 @@ Fugit::Duration::SECOND_ROUND = T.let(T.unsafe(nil), Integer)
 # pkg:gem/fugit#lib/fugit/nat.rb:8
 module Fugit::Nat
   class << self
-    # pkg:gem/fugit#lib/fugit/nat.rb:42
+    # pkg:gem/fugit#lib/fugit/nat.rb:40
     def do_parse(s, opts = T.unsafe(nil)); end
 
-    # pkg:gem/fugit#lib/fugit/nat.rb:14
+    # pkg:gem/fugit#lib/fugit/nat.rb:12
     def parse(s, opts = T.unsafe(nil)); end
   end
 end
 
-# pkg:gem/fugit#lib/fugit/nat.rb:10
-Fugit::Nat::MAX_INPUT_LENGTH = T.let(T.unsafe(nil), Integer)
-
-# pkg:gem/fugit#lib/fugit/nat.rb:49
+# pkg:gem/fugit#lib/fugit/nat.rb:47
 module Fugit::Nat::Parser
   include ::Raabro
   extend ::Raabro::ModuleMethods
   extend ::Raabro
   extend ::Fugit::Nat::Parser
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:121
+  # pkg:gem/fugit#lib/fugit/nat.rb:119
   def _and(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:122
+  # pkg:gem/fugit#lib/fugit/nat.rb:120
   def _and_or_or(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:125
+  # pkg:gem/fugit#lib/fugit/nat.rb:123
   def _and_or_or_or_comma(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:117
+  # pkg:gem/fugit#lib/fugit/nat.rb:115
   def _at(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:131
+  # pkg:gem/fugit#lib/fugit/nat.rb:129
   def _day_s(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:158
+  # pkg:gem/fugit#lib/fugit/nat.rb:156
   def _dmin(i); end
 
   # parsers bottom to top #################################################
   #
-  # pkg:gem/fugit#lib/fugit/nat.rb:115
+  # pkg:gem/fugit#lib/fugit/nat.rb:113
   def _every(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:116
+  # pkg:gem/fugit#lib/fugit/nat.rb:114
   def _from(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:123
+  # pkg:gem/fugit#lib/fugit/nat.rb:121
   def _in_or_on(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:156
+  # pkg:gem/fugit#lib/fugit/nat.rb:154
   def _minute(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:118
+  # pkg:gem/fugit#lib/fugit/nat.rb:282
+  def _offset_unit(i); end
+
+  # pkg:gem/fugit#lib/fugit/nat.rb:116
   def _on(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:247
+  # pkg:gem/fugit#lib/fugit/nat.rb:245
   def _point(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:373
+  # pkg:gem/fugit#lib/fugit/nat.rb:388
   def _rewrite_sub(t, key = T.unsafe(nil)); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:370
+  # pkg:gem/fugit#lib/fugit/nat.rb:385
   def _rewrite_subs(t, key = T.unsafe(nil)); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:135
+  # pkg:gem/fugit#lib/fugit/nat.rb:133
   def _sep(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:134
+  # pkg:gem/fugit#lib/fugit/nat.rb:132
   def _space(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:132
+  # pkg:gem/fugit#lib/fugit/nat.rb:279
+  def _starting_at(i); end
+
+  # pkg:gem/fugit#lib/fugit/nat.rb:130
   def _the(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:119
+  # pkg:gem/fugit#lib/fugit/nat.rb:117
   def _to(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:128
+  # pkg:gem/fugit#lib/fugit/nat.rb:126
   def _to_or_dash(i); end
 
   # Try to follow https://en.wikipedia.org/wiki/12-hour_clock#Confusion_at_noon_and_midnight
   #
-  # pkg:gem/fugit#lib/fugit/nat.rb:498
+  # pkg:gem/fugit#lib/fugit/nat.rb:523
   def adjust_h(h, m, ap); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:212
+  # pkg:gem/fugit#lib/fugit/nat.rb:210
   def ampm(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:161
+  # pkg:gem/fugit#lib/fugit/nat.rb:159
   def and_dmin(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:273
+  # pkg:gem/fugit#lib/fugit/nat.rb:271
   def at(i); end
 
   # at five
@@ -1033,55 +1041,56 @@ module Fugit::Nat::Parser
   # at noon
   # at 18:00 UTC <-- ...tz
   #
-  # pkg:gem/fugit#lib/fugit/nat.rb:266
+  # pkg:gem/fugit#lib/fugit/nat.rb:264
   def at_object(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:269
+  # pkg:gem/fugit#lib/fugit/nat.rb:267
   def at_objects(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:253
+  # pkg:gem/fugit#lib/fugit/nat.rb:251
   def at_p(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:256
+  # pkg:gem/fugit#lib/fugit/nat.rb:254
   def at_point(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:196
+  # pkg:gem/fugit#lib/fugit/nat.rb:194
   def city_tz(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:137
+  # pkg:gem/fugit#lib/fugit/nat.rb:135
   def count(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:249
+  # pkg:gem/fugit#lib/fugit/nat.rb:247
   def counts(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:215
+  # pkg:gem/fugit#lib/fugit/nat.rb:213
   def dark(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:202
+  # pkg:gem/fugit#lib/fugit/nat.rb:200
   def delta_tz(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:219
+  # pkg:gem/fugit#lib/fugit/nat.rb:217
   def digital_h(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:222
+  # pkg:gem/fugit#lib/fugit/nat.rb:220
   def digital_hour(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:352
+  # pkg:gem/fugit#lib/fugit/nat.rb:367
   def every(i); end
 
   # every day
   # every 1 minute
+  # every minute starting at minute 10
   #
-  # pkg:gem/fugit#lib/fugit/nat.rb:283
+  # pkg:gem/fugit#lib/fugit/nat.rb:298
   def every_interval(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:338
+  # pkg:gem/fugit#lib/fugit/nat.rb:353
   def every_named(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:342
+  # pkg:gem/fugit#lib/fugit/nat.rb:357
   def every_object(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:348
+  # pkg:gem/fugit#lib/fugit/nat.rb:363
   def every_objects(i); end
 
   # every 1st of the month
@@ -1090,62 +1099,71 @@ module Fugit::Nat::Parser
   # Every second of the month
   # every 15th of the month
   #
-  # pkg:gem/fugit#lib/fugit/nat.rb:334
+  # pkg:gem/fugit#lib/fugit/nat.rb:349
   def every_of_the_month(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:287
+  # pkg:gem/fugit#lib/fugit/nat.rb:302
   def every_single_interval(i); end
 
   # every monday
   # every Fri-Sun
   # every Monday and Tuesday
   #
-  # pkg:gem/fugit#lib/fugit/nat.rb:321
+  # pkg:gem/fugit#lib/fugit/nat.rb:336
   def every_weekday(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:314
+  # pkg:gem/fugit#lib/fugit/nat.rb:329
   def from(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:308
+  # pkg:gem/fugit#lib/fugit/nat.rb:323
   def from_object(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:311
+  # pkg:gem/fugit#lib/fugit/nat.rb:326
   def from_objects(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:277
+  # pkg:gem/fugit#lib/fugit/nat.rb:275
   def interval(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:142
+  # pkg:gem/fugit#lib/fugit/nat.rb:140
   def monthday(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:150
+  # pkg:gem/fugit#lib/fugit/nat.rb:148
   def monthdays(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:240
+  # pkg:gem/fugit#lib/fugit/nat.rb:238
   def named_h(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:243
+  # pkg:gem/fugit#lib/fugit/nat.rb:241
   def named_hour(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:233
+  # pkg:gem/fugit#lib/fugit/nat.rb:231
   def named_m(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:236
+  # pkg:gem/fugit#lib/fugit/nat.rb:234
   def named_min(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:199
+  # pkg:gem/fugit#lib/fugit/nat.rb:197
   def named_tz(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:359
+  # pkg:gem/fugit#lib/fugit/nat.rb:374
   def nat(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:356
+  # pkg:gem/fugit#lib/fugit/nat.rb:371
   def nat_elt(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:139
+  # starting at minute 1
+  # from minute 1
+  #
+  # pkg:gem/fugit#lib/fugit/nat.rb:291
+  def offset(i); end
+
+  # pkg:gem/fugit#lib/fugit/nat.rb:285
+  def offset_count(i); end
+
+  # pkg:gem/fugit#lib/fugit/nat.rb:137
   def omonthday(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:149
+  # pkg:gem/fugit#lib/fugit/nat.rb:147
   def omonthdays(i); end
 
   # 'every month on day 2 at 10:00' => '0 10 2 * *',
@@ -1156,261 +1174,261 @@ module Fugit::Nat::Parser
   #
   # every month on the 1st
   #
-  # pkg:gem/fugit#lib/fugit/nat.rb:192
+  # pkg:gem/fugit#lib/fugit/nat.rb:190
   def on(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:174
+  # pkg:gem/fugit#lib/fugit/nat.rb:172
   def on_days(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:165
+  # pkg:gem/fugit#lib/fugit/nat.rb:163
   def on_minutes(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:177
+  # pkg:gem/fugit#lib/fugit/nat.rb:175
   def on_object(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:180
+  # pkg:gem/fugit#lib/fugit/nat.rb:178
   def on_objects(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:154
+  # pkg:gem/fugit#lib/fugit/nat.rb:152
   def on_the(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:173
+  # pkg:gem/fugit#lib/fugit/nat.rb:171
   def on_thes(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:169
+  # pkg:gem/fugit#lib/fugit/nat.rb:167
   def on_thex(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:175
+  # pkg:gem/fugit#lib/fugit/nat.rb:173
   def on_weekdays(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:325
+  # pkg:gem/fugit#lib/fugit/nat.rb:340
   def otm(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:554
+  # pkg:gem/fugit#lib/fugit/nat.rb:582
   def rewrite_at(t); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:417
+  # pkg:gem/fugit#lib/fugit/nat.rb:434
   def rewrite_at_p(t); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:511
+  # pkg:gem/fugit#lib/fugit/nat.rb:536
   def rewrite_digital_hour(t); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:378
+  # pkg:gem/fugit#lib/fugit/nat.rb:393
   def rewrite_dmin(t); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:558
+  # pkg:gem/fugit#lib/fugit/nat.rb:586
   def rewrite_every(t); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:438
+  # pkg:gem/fugit#lib/fugit/nat.rb:458
   def rewrite_every_interval(t); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:458
+  # pkg:gem/fugit#lib/fugit/nat.rb:486
   def rewrite_every_named(t); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:430
+  # pkg:gem/fugit#lib/fugit/nat.rb:449
   def rewrite_every_single_interval(t); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:409
+  # pkg:gem/fugit#lib/fugit/nat.rb:426
   def rewrite_monthday(t); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:528
+  # pkg:gem/fugit#lib/fugit/nat.rb:553
   def rewrite_named_hour(t); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:562
+  # pkg:gem/fugit#lib/fugit/nat.rb:590
   def rewrite_nat(t); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:413
+  # pkg:gem/fugit#lib/fugit/nat.rb:430
   def rewrite_omonthday(t); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:405
+  # pkg:gem/fugit#lib/fugit/nat.rb:422
   def rewrite_on(t); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:401
+  # pkg:gem/fugit#lib/fugit/nat.rb:418
   def rewrite_on_days(t); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:382
+  # pkg:gem/fugit#lib/fugit/nat.rb:397
   def rewrite_on_minutes(t); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:398
+  # pkg:gem/fugit#lib/fugit/nat.rb:415
   def rewrite_on_thes(t); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:389
+  # pkg:gem/fugit#lib/fugit/nat.rb:405
   def rewrite_on_thex(t); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:477
+  # pkg:gem/fugit#lib/fugit/nat.rb:503
   def rewrite_on_weekdays(t); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:520
+  # pkg:gem/fugit#lib/fugit/nat.rb:545
   def rewrite_simple_hour(t); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:544
+  # pkg:gem/fugit#lib/fugit/nat.rb:569
   def rewrite_to_hour(t); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:491
+  # pkg:gem/fugit#lib/fugit/nat.rb:516
   def rewrite_to_omonthday(t); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:484
+  # pkg:gem/fugit#lib/fugit/nat.rb:509
   def rewrite_to_weekday(t); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:467
+  # pkg:gem/fugit#lib/fugit/nat.rb:495
   def rewrite_tz(t); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:472
+  # pkg:gem/fugit#lib/fugit/nat.rb:499
   def rewrite_weekday(t); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:477
+  # pkg:gem/fugit#lib/fugit/nat.rb:503
   def rewrite_weekdays(t); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:226
+  # pkg:gem/fugit#lib/fugit/nat.rb:224
   def simple_h(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:229
+  # pkg:gem/fugit#lib/fugit/nat.rb:227
   def simple_hour(i); end
 
   # rewrite parsed tree ###################################################
   #
-  # pkg:gem/fugit#lib/fugit/nat.rb:366
+  # pkg:gem/fugit#lib/fugit/nat.rb:381
   def slot(key, data0, data1 = T.unsafe(nil), opts = T.unsafe(nil)); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:304
+  # pkg:gem/fugit#lib/fugit/nat.rb:319
   def to_hour(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:299
+  # pkg:gem/fugit#lib/fugit/nat.rb:314
   def to_omonthday(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:291
+  # pkg:gem/fugit#lib/fugit/nat.rb:306
   def to_weekday(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:205
+  # pkg:gem/fugit#lib/fugit/nat.rb:203
   def tz(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:208
+  # pkg:gem/fugit#lib/fugit/nat.rb:206
   def tzone(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:145
+  # pkg:gem/fugit#lib/fugit/nat.rb:143
   def weekday(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:295
+  # pkg:gem/fugit#lib/fugit/nat.rb:310
   def weekday_range(i); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:152
+  # pkg:gem/fugit#lib/fugit/nat.rb:150
   def weekdays(i); end
 end
 
-# pkg:gem/fugit#lib/fugit/nat.rb:83
+# pkg:gem/fugit#lib/fugit/nat.rb:81
 Fugit::Nat::Parser::INTERVALS = T.let(T.unsafe(nil), Array)
 
-# pkg:gem/fugit#lib/fugit/nat.rb:110
+# pkg:gem/fugit#lib/fugit/nat.rb:108
 Fugit::Nat::Parser::INTERVAL_REX = T.let(T.unsafe(nil), Regexp)
 
-# pkg:gem/fugit#lib/fugit/nat.rb:104
+# pkg:gem/fugit#lib/fugit/nat.rb:102
 Fugit::Nat::Parser::MONTHDAY_REX = T.let(T.unsafe(nil), Regexp)
 
-# pkg:gem/fugit#lib/fugit/nat.rb:108
+# pkg:gem/fugit#lib/fugit/nat.rb:106
 Fugit::Nat::Parser::NAMED_H_REX = T.let(T.unsafe(nil), Regexp)
 
 # prevent "mon" from eating "monday"
 #
-# pkg:gem/fugit#lib/fugit/nat.rb:107
+# pkg:gem/fugit#lib/fugit/nat.rb:105
 Fugit::Nat::Parser::NAMED_M_REX = T.let(T.unsafe(nil), Regexp)
 
-# pkg:gem/fugit#lib/fugit/nat.rb:63
+# pkg:gem/fugit#lib/fugit/nat.rb:61
 Fugit::Nat::Parser::NHOURS = T.let(T.unsafe(nil), Hash)
 
-# pkg:gem/fugit#lib/fugit/nat.rb:69
+# pkg:gem/fugit#lib/fugit/nat.rb:67
 Fugit::Nat::Parser::NMINUTES = T.let(T.unsafe(nil), Hash)
 
-# pkg:gem/fugit#lib/fugit/nat.rb:101
+# pkg:gem/fugit#lib/fugit/nat.rb:99
 Fugit::Nat::Parser::OMONTHDAYS = T.let(T.unsafe(nil), Hash)
 
-# pkg:gem/fugit#lib/fugit/nat.rb:103
+# pkg:gem/fugit#lib/fugit/nat.rb:101
 Fugit::Nat::Parser::OMONTHDAY_REX = T.let(T.unsafe(nil), Regexp)
 
-# pkg:gem/fugit#lib/fugit/nat.rb:80
+# pkg:gem/fugit#lib/fugit/nat.rb:78
 Fugit::Nat::Parser::POINTS = T.let(T.unsafe(nil), Array)
 
-# pkg:gem/fugit#lib/fugit/nat.rb:109
+# pkg:gem/fugit#lib/fugit/nat.rb:107
 Fugit::Nat::Parser::POINT_REX = T.let(T.unsafe(nil), Regexp)
 
-# pkg:gem/fugit#lib/fugit/nat.rb:76
+# pkg:gem/fugit#lib/fugit/nat.rb:74
 Fugit::Nat::Parser::WEEKDAYS = T.let(T.unsafe(nil), Array)
 
-# pkg:gem/fugit#lib/fugit/nat.rb:105
+# pkg:gem/fugit#lib/fugit/nat.rb:103
 Fugit::Nat::Parser::WEEKDAY_REX = T.let(T.unsafe(nil), Regexp)
 
-# pkg:gem/fugit#lib/fugit/nat.rb:568
+# pkg:gem/fugit#lib/fugit/nat.rb:596
 class Fugit::Nat::Slot
-  # pkg:gem/fugit#lib/fugit/nat.rb:571
+  # pkg:gem/fugit#lib/fugit/nat.rb:599
   def initialize(key, d0, d1 = T.unsafe(nil), opts = T.unsafe(nil)); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:570
+  # pkg:gem/fugit#lib/fugit/nat.rb:598
   def _data0; end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:570
+  # pkg:gem/fugit#lib/fugit/nat.rb:598
   def _data0=(_arg0); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:570
+  # pkg:gem/fugit#lib/fugit/nat.rb:598
   def _data1; end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:570
+  # pkg:gem/fugit#lib/fugit/nat.rb:598
   def _data1=(_arg0); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:592
+  # pkg:gem/fugit#lib/fugit/nat.rb:620
   def a; end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:581
+  # pkg:gem/fugit#lib/fugit/nat.rb:609
   def append(slot); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:576
+  # pkg:gem/fugit#lib/fugit/nat.rb:604
   def data0; end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:577
+  # pkg:gem/fugit#lib/fugit/nat.rb:605
   def data1; end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:580
+  # pkg:gem/fugit#lib/fugit/nat.rb:608
   def graded?; end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:586
+  # pkg:gem/fugit#lib/fugit/nat.rb:614
   def inspect; end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:569
+  # pkg:gem/fugit#lib/fugit/nat.rb:597
   def key; end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:579
+  # pkg:gem/fugit#lib/fugit/nat.rb:607
   def strong; end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:578
+  # pkg:gem/fugit#lib/fugit/nat.rb:606
   def weak; end
 
   protected
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:598
+  # pkg:gem/fugit#lib/fugit/nat.rb:626
   def conflate(index, slot); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:614
+  # pkg:gem/fugit#lib/fugit/nat.rb:642
   def hour_range; end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:594
+  # pkg:gem/fugit#lib/fugit/nat.rb:622
   def to_a(x); end
 end
 
-# pkg:gem/fugit#lib/fugit/nat.rb:620
+# pkg:gem/fugit#lib/fugit/nat.rb:648
 class Fugit::Nat::SlotGroup
-  # pkg:gem/fugit#lib/fugit/nat.rb:622
+  # pkg:gem/fugit#lib/fugit/nat.rb:650
   def initialize(slots); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:647
+  # pkg:gem/fugit#lib/fugit/nat.rb:675
   def to_crons(opts); end
 
   protected
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:670
+  # pkg:gem/fugit#lib/fugit/nat.rb:698
   def determine_hms; end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:665
+  # pkg:gem/fugit#lib/fugit/nat.rb:693
   def make_slot(key, data0, data1 = T.unsafe(nil)); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:693
+  # pkg:gem/fugit#lib/fugit/nat.rb:721
   def parse_cron(hm, opts); end
 
   # Return nil if the cron is "not strict"
@@ -1421,17 +1439,17 @@ class Fugit::Nat::SlotGroup
   #
   # It happens here because it's nat being strict, not cron.
   #
-  # pkg:gem/fugit#lib/fugit/nat.rb:732
+  # pkg:gem/fugit#lib/fugit/nat.rb:760
   def restrict(a, cron); end
 
-  # pkg:gem/fugit#lib/fugit/nat.rb:744
+  # pkg:gem/fugit#lib/fugit/nat.rb:772
   def slot(key, default); end
 end
 
-# pkg:gem/fugit#lib/fugit/nat.rb:722
+# pkg:gem/fugit#lib/fugit/nat.rb:750
 Fugit::Nat::SlotGroup::SLASH_REGEX = T.let(T.unsafe(nil), Regexp)
 
-# pkg:gem/fugit#lib/fugit.rb:6
+# pkg:gem/fugit#lib/fugit.rb:4
 Fugit::VERSION = T.let(T.unsafe(nil), String)
 
 # pkg:gem/fugit#lib/fugit/misc.rb:6

@@ -54,6 +54,8 @@ gem "thruster", require: false
 gem "rack-attack"
 gem "rack-utf8_sanitizer"
 gem "rails", "~> 8.1.0"
+# json 3.0 dropped positional options; ActiveSupport::JSON.decode still passes them
+gem "json", "< 3"
 gem "rbzip2"
 # Use Redis for Action Cable
 gem "redis"

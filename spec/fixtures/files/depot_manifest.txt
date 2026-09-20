@@ -1,0 +1,15 @@
+Content Manifest for Depot 232250 
+
+Manifest ID / date     : 3447236868550150350 / 07/16/2026 18:03:35 
+Total number of files  : 1056 
+Total number of chunks : 15394 
+Total bytes on disk    : 14752673735 
+Total bytes compressed : 10314244064 
+
+          Size Chunks File SHA                                 Flags Name
+          1740      1 e5a60917270ab34f05a5dc4edb1479b357d0aff7     0 bin/basehaptics.txt
+     129796230    130 b82893ecc2c145d24dcc45c5727e83dd9d50cbc6     0 hl2/hl2_misc_000.vpk
+      25981141     25 f2ae01fdc04f19d8223ca28d5011b5f691a5a99b     0 tf/maps/cp_badlands.bsp
+      58893145     59 4955e07757f55f18eea1b62ea59a09eb705c471c     0 tf/maps/koth_krampus.bsp
+        368128      1 09d1ba7a22ba7c07d31b0d2f1a9d0e8cd0e6a0b5     0 tf/maps/graphs/ctf_2fort.ain
+           118      1 48d5cd8db6eed3a77b58c24526df0e3ec7bcb435     0 tf/steam.inf

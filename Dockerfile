@@ -88,10 +88,10 @@ LABEL service=serveme
 # Runtime libraries + tools the app shells out to:
 #   libpq5, libmaxminddb0    — Rails DB / GeoIP
 #   openssh-client           — `scp` (cloud_server.rb#scp_command), `ssh`, `sftp`
-#   zip                      — local_zip_file_creator (Open3.capture3 "zip")
+#   zip, unzip               — local_zip_file_creator (Open3.capture3 "zip"), DepotDownloader install below
 #   ripgrep                  — log_streaming_service.rb shells out to `rg` for search
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y libpq5 libmaxminddb0 libyaml-0-2 openssh-client zip ripgrep && \
+    apt-get install --no-install-recommends -y libpq5 libmaxminddb0 libyaml-0-2 openssh-client zip unzip ripgrep && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # docker CLI — CloudImageBuildWorker (EU only) shells out to `docker build`
@@ -101,6 +101,18 @@ RUN apt-get update -qq && \
 ARG DOCKER_CLI_VERSION=29.4.2
 RUN curl -fsSL "https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKER_CLI_VERSION}.tgz" \
     | tar -xzC /usr/local/bin --strip-components=1 docker/docker
+
+# DepotDownloader — StockMapSyncWorker (EU only) reads the stock maps straight
+# from Valve's TF2 depot to keep fastdl's copies current. Self-contained .NET
+# build, so it needs no runtime packages.
+ARG DEPOT_DOWNLOADER_VERSION=3.4.0
+ARG DEPOT_DOWNLOADER_SHA256=a999dec66b4850fc961bd50366696d23c2d0fad7b18790e6a5647b2f19097a53
+RUN curl -fsSL -o /tmp/depotdownloader.zip "https://github.com/SteamRE/DepotDownloader/releases/download/DepotDownloader_${DEPOT_DOWNLOADER_VERSION}/DepotDownloader-linux-x64.zip" && \
+    echo "${DEPOT_DOWNLOADER_SHA256}  /tmp/depotdownloader.zip" | sha256sum -c - && \
+    unzip -j /tmp/depotdownloader.zip DepotDownloader -d /usr/local/bin && \
+    chmod +x /usr/local/bin/DepotDownloader && \
+    rm /tmp/depotdownloader.zip && \
+    /usr/local/bin/DepotDownloader | grep -q "^DepotDownloader v${DEPOT_DOWNLOADER_VERSION}"
 
 # Final-stage COPYs ordered by churn frequency. --link makes each layer's digest content-addressable so identical sources cache-hit on the registry.
 COPY --from=build --link /rails/public/assets /rails/public/assets

@@ -9,6 +9,7 @@ describe ServerVersionWorker do
   before do
     allow(ServerUpdateWorker).to receive(:perform_async)
     allow(CloudImageBuildWorker).to receive(:perform_async)
+    allow(StockMapSyncWorker).to receive(:perform_async)
     allow(Rails.cache).to receive(:read).and_call_original
   end
 
@@ -37,6 +38,11 @@ describe ServerVersionWorker do
           build = CloudImageBuild.last
           expect(CloudImageBuildWorker).to have_received(:perform_async).with(build.id)
         end
+
+        it "enqueues StockMapSyncWorker so fastdl gets the repacked stock maps" do
+          worker.perform
+          expect(StockMapSyncWorker).to have_received(:perform_async).with(9_999_999)
+        end
       end
 
       context "on a non-EU region" do
@@ -49,6 +55,11 @@ describe ServerVersionWorker do
         it "does not enqueue CloudImageBuildWorker" do
           worker.perform
           expect(CloudImageBuildWorker).not_to have_received(:perform_async)
+        end
+
+        it "does not enqueue StockMapSyncWorker" do
+          worker.perform
+          expect(StockMapSyncWorker).not_to have_received(:perform_async)
         end
       end
     end

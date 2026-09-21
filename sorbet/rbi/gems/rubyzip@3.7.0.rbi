@@ -90,69 +90,117 @@ module Zip
   def write_zip64_support=(_arg0); end
 end
 
-# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:67
+# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:168
 class Zip::AESDecrypter < ::Zip::Decrypter
   include ::Zip::AESEncryption
 
-  # pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:118
+  # pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:208
   def check_integrity!(io); end
 
-  # pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:70
+  # pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:171
   def decrypt(encrypted_data); end
 
-  # pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:93
+  # pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:194
   def reset!(header); end
 end
 
-# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:4
-module Zip::AESEncryption
-  # pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:45
-  def initialize(password, strength); end
+# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:91
+class Zip::AESEncrypter < ::Zip::Encrypter
+  include ::Zip::AESEncryption
 
-  # pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:62
-  def gp_flags; end
+  # pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:123
+  def crc(_computed_crc); end
 
-  # pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:58
-  def header_bytesize; end
+  # pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:113
+  def data_descriptor(*); end
+
+  # `Deflater`/`PassThruCompressor` call this with whatever, arbitrarily
+  # sized (and not necessarily block-aligned) buffer they happen to have
+  # flushed, potentially many times per entry. Only whole 16-byte blocks
+  # are actually run through the cipher here; any trailing partial block
+  # is buffered in `@pending` until either more data completes it or
+  # `trailer` forces the final flush. This keeps the CTR counter aligned
+  # with the true byte offset in the plaintext stream regardless of how
+  # callers happen to chunk their writes.
+  #
+  # pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:106
+  def encrypt(data); end
+
+  # pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:94
+  def header(_mtime); end
+
+  # pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:139
+  def prepare_entry(entry); end
+
+  # pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:127
+  def reset!; end
+
+  # pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:117
+  def trailer; end
+
+  private
+
+  # pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:145
+  def encrypt_blocks(final: T.unsafe(nil)); end
 end
 
-# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:7
-Zip::AESEncryption::AUTHENTICATION_CODE_LENGTH = T.let(T.unsafe(nil), Integer)
-
-# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:27
-Zip::AESEncryption::BITS = T.let(T.unsafe(nil), Hash)
-
 # pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:6
-Zip::AESEncryption::BLOCK_SIZE = T.let(T.unsafe(nil), Integer)
+module Zip::AESEncryption
+  # pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:47
+  def initialize(password, strength); end
 
-# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:33
-Zip::AESEncryption::KEY_LENGTHS = T.let(T.unsafe(nil), Hash)
+  # pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:64
+  def gp_flags; end
 
-# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:39
-Zip::AESEncryption::SALT_LENGTHS = T.let(T.unsafe(nil), Hash)
+  # pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:60
+  def header_bytesize; end
 
-# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:21
-Zip::AESEncryption::STRENGTHS = T.let(T.unsafe(nil), Array)
+  private
 
-# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:17
-Zip::AESEncryption::STRENGTH_128_BIT = T.let(T.unsafe(nil), Integer)
-
-# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:18
-Zip::AESEncryption::STRENGTH_192_BIT = T.let(T.unsafe(nil), Integer)
-
-# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:19
-Zip::AESEncryption::STRENGTH_256_BIT = T.let(T.unsafe(nil), Integer)
-
-# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:5
-Zip::AESEncryption::VERIFIER_LENGTH = T.let(T.unsafe(nil), Integer)
-
-# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:12
-Zip::AESEncryption::VERSIONS = T.let(T.unsafe(nil), Array)
+  # Derive the encryption key, HMAC key and password-verification value
+  # from the password and a salt, as specified by the WinZip AES format.
+  #
+  # pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:72
+  def derive_keys(salt); end
+end
 
 # pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:9
+Zip::AESEncryption::AUTHENTICATION_CODE_LENGTH = T.let(T.unsafe(nil), Integer)
+
+# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:29
+Zip::AESEncryption::BITS = T.let(T.unsafe(nil), Hash)
+
+# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:8
+Zip::AESEncryption::BLOCK_SIZE = T.let(T.unsafe(nil), Integer)
+
+# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:35
+Zip::AESEncryption::KEY_LENGTHS = T.let(T.unsafe(nil), Hash)
+
+# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:41
+Zip::AESEncryption::SALT_LENGTHS = T.let(T.unsafe(nil), Hash)
+
+# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:23
+Zip::AESEncryption::STRENGTHS = T.let(T.unsafe(nil), Array)
+
+# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:19
+Zip::AESEncryption::STRENGTH_128_BIT = T.let(T.unsafe(nil), Integer)
+
+# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:20
+Zip::AESEncryption::STRENGTH_192_BIT = T.let(T.unsafe(nil), Integer)
+
+# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:21
+Zip::AESEncryption::STRENGTH_256_BIT = T.let(T.unsafe(nil), Integer)
+
+# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:7
+Zip::AESEncryption::VERIFIER_LENGTH = T.let(T.unsafe(nil), Integer)
+
+# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:14
+Zip::AESEncryption::VERSIONS = T.let(T.unsafe(nil), Array)
+
+# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:11
 Zip::AESEncryption::VERSION_AE_1 = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:10
+# pkg:gem/rubyzip#lib/zip/crypto/aes_encryption.rb:12
 Zip::AESEncryption::VERSION_AE_2 = T.let(T.unsafe(nil), Integer)
 
 # pkg:gem/rubyzip#lib/zip/constants.rb:9
@@ -161,74 +209,74 @@ Zip::CDIR_ENTRY_STATIC_HEADER_LENGTH = T.let(T.unsafe(nil), Integer)
 # pkg:gem/rubyzip#lib/zip/constants.rb:8
 Zip::CENTRAL_DIRECTORY_ENTRY_SIGNATURE = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/rubyzip#lib/zip/constants.rb:95
+# pkg:gem/rubyzip#lib/zip/constants.rb:96
 Zip::COMPRESSION_METHODS = T.let(T.unsafe(nil), Hash)
 
-# pkg:gem/rubyzip#lib/zip/constants.rb:93
+# pkg:gem/rubyzip#lib/zip/constants.rb:94
 Zip::COMPRESSION_METHOD_AES = T.let(T.unsafe(nil), Integer)
 
 # RESERVED = 11
 #
-# pkg:gem/rubyzip#lib/zip/constants.rb:82
+# pkg:gem/rubyzip#lib/zip/constants.rb:83
 Zip::COMPRESSION_METHOD_BZIP2 = T.let(T.unsafe(nil), Integer)
 
 # RESERVED = 7
 #
-# pkg:gem/rubyzip#lib/zip/constants.rb:78
+# pkg:gem/rubyzip#lib/zip/constants.rb:79
 Zip::COMPRESSION_METHOD_DEFLATE = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/rubyzip#lib/zip/constants.rb:79
+# pkg:gem/rubyzip#lib/zip/constants.rb:80
 Zip::COMPRESSION_METHOD_DEFLATE_64 = T.let(T.unsafe(nil), Integer)
 
 # RESERVED = 15
 #
-# pkg:gem/rubyzip#lib/zip/constants.rb:86
+# pkg:gem/rubyzip#lib/zip/constants.rb:87
 Zip::COMPRESSION_METHOD_IBM_CMPSC = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/rubyzip#lib/zip/constants.rb:89
+# pkg:gem/rubyzip#lib/zip/constants.rb:90
 Zip::COMPRESSION_METHOD_IBM_LZ77 = T.let(T.unsafe(nil), Integer)
 
 # RESERVED = 17
 #
-# pkg:gem/rubyzip#lib/zip/constants.rb:88
+# pkg:gem/rubyzip#lib/zip/constants.rb:89
 Zip::COMPRESSION_METHOD_IBM_TERSE = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/rubyzip#lib/zip/constants.rb:76
+# pkg:gem/rubyzip#lib/zip/constants.rb:77
 Zip::COMPRESSION_METHOD_IMPLODE = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/rubyzip#lib/zip/constants.rb:90
+# pkg:gem/rubyzip#lib/zip/constants.rb:91
 Zip::COMPRESSION_METHOD_JPEG = T.let(T.unsafe(nil), Integer)
 
 # RESERVED = 13
 #
-# pkg:gem/rubyzip#lib/zip/constants.rb:84
+# pkg:gem/rubyzip#lib/zip/constants.rb:85
 Zip::COMPRESSION_METHOD_LZMA = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/rubyzip#lib/zip/constants.rb:80
+# pkg:gem/rubyzip#lib/zip/constants.rb:81
 Zip::COMPRESSION_METHOD_PKWARE_DCLI = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/rubyzip#lib/zip/constants.rb:92
+# pkg:gem/rubyzip#lib/zip/constants.rb:93
 Zip::COMPRESSION_METHOD_PPMD = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/rubyzip#lib/zip/constants.rb:72
+# pkg:gem/rubyzip#lib/zip/constants.rb:73
 Zip::COMPRESSION_METHOD_REDUCE_1 = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/rubyzip#lib/zip/constants.rb:73
+# pkg:gem/rubyzip#lib/zip/constants.rb:74
 Zip::COMPRESSION_METHOD_REDUCE_2 = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/rubyzip#lib/zip/constants.rb:74
+# pkg:gem/rubyzip#lib/zip/constants.rb:75
 Zip::COMPRESSION_METHOD_REDUCE_3 = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/rubyzip#lib/zip/constants.rb:75
+# pkg:gem/rubyzip#lib/zip/constants.rb:76
 Zip::COMPRESSION_METHOD_REDUCE_4 = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/rubyzip#lib/zip/constants.rb:71
+# pkg:gem/rubyzip#lib/zip/constants.rb:72
 Zip::COMPRESSION_METHOD_SHRINK = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/rubyzip#lib/zip/constants.rb:70
+# pkg:gem/rubyzip#lib/zip/constants.rb:71
 Zip::COMPRESSION_METHOD_STORE = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/rubyzip#lib/zip/constants.rb:91
+# pkg:gem/rubyzip#lib/zip/constants.rb:92
 Zip::COMPRESSION_METHOD_WAVPACK = T.let(T.unsafe(nil), Integer)
 
 # pkg:gem/rubyzip#lib/zip/central_directory.rb:8
@@ -264,31 +312,31 @@ class Zip::CentralDirectory
   def delete(param); end
 
   # pkg:gem/rubyzip#lib/zip/central_directory.rb:25
-  def each(*_arg0, **_arg1, &_arg2); end
+  def each(*, **, &); end
 
   # pkg:gem/rubyzip#lib/zip/central_directory.rb:25
-  def entries(*_arg0, **_arg1, &_arg2); end
+  def entries(*, **, &); end
 
   # pkg:gem/rubyzip#lib/zip/central_directory.rb:25
-  def find_entry(*_arg0, **_arg1, &_arg2); end
+  def find_entry(*, **, &); end
 
   # pkg:gem/rubyzip#lib/zip/central_directory.rb:25
-  def glob(*_arg0, **_arg1, &_arg2); end
+  def glob(*, **, &); end
 
   # pkg:gem/rubyzip#lib/zip/central_directory.rb:25
-  def include?(*_arg0, **_arg1, &_arg2); end
+  def include?(*, **, &); end
 
   # pkg:gem/rubyzip#lib/zip/central_directory.rb:29
   def orig_comment=(_arg0); end
 
   # pkg:gem/rubyzip#lib/zip/central_directory.rb:29
-  def orig_delete(*_arg0, **_arg1, &_arg2); end
+  def orig_delete(*, **, &); end
 
   # pkg:gem/rubyzip#lib/zip/central_directory.rb:37
   def read_from_stream(io); end
 
   # pkg:gem/rubyzip#lib/zip/central_directory.rb:25
-  def size(*_arg0, **_arg1, &_arg2); end
+  def size(*, **, &); end
 
   # pkg:gem/rubyzip#lib/zip/central_directory.rb:42
   def write_to_stream(io, suppress_extra_fields: T.unsafe(nil)); end
@@ -543,7 +591,7 @@ end
 # pkg:gem/rubyzip#lib/zip/crypto/decrypted_io.rb:5
 Zip::DecryptedIo::CHUNK_SIZE = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/rubyzip#lib/zip/crypto/encryption.rb:7
+# pkg:gem/rubyzip#lib/zip/crypto/encryption.rb:16
 class Zip::Decrypter; end
 
 # pkg:gem/rubyzip#lib/zip/deflater.rb:4
@@ -603,7 +651,16 @@ module Zip::Dirtyable::ClassMethods
 end
 
 # pkg:gem/rubyzip#lib/zip/crypto/encryption.rb:4
-class Zip::Encrypter; end
+class Zip::Encrypter
+  # pkg:gem/rubyzip#lib/zip/crypto/encryption.rb:9
+  def crc(computed_crc); end
+
+  # pkg:gem/rubyzip#lib/zip/crypto/encryption.rb:13
+  def prepare_entry(_entry); end
+
+  # pkg:gem/rubyzip#lib/zip/crypto/encryption.rb:5
+  def trailer; end
+end
 
 # Zip::Entry represents an entry in a Zip archive.
 #
@@ -617,10 +674,10 @@ class Zip::Entry
   # pkg:gem/rubyzip#lib/zip/entry.rb:76
   def initialize(zipfile = T.unsafe(nil), name = T.unsafe(nil), comment: T.unsafe(nil), size: T.unsafe(nil), compressed_size: T.unsafe(nil), crc: T.unsafe(nil), compression_method: T.unsafe(nil), compression_level: T.unsafe(nil), time: T.unsafe(nil), extra: T.unsafe(nil)); end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:636
+  # pkg:gem/rubyzip#lib/zip/entry.rb:662
   def <=>(other); end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:627
+  # pkg:gem/rubyzip#lib/zip/entry.rb:653
   def ==(other); end
 
   # Does this entry return time fields with accurate timezone information?
@@ -643,25 +700,25 @@ class Zip::Entry
   # pkg:gem/rubyzip#lib/zip/entry.rb:171
   def atime=(value); end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:259
+  # pkg:gem/rubyzip#lib/zip/entry.rb:274
   def calculate_local_header_size; end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:275
+  # pkg:gem/rubyzip#lib/zip/entry.rb:290
   def cdir_header_size; end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:492
+  # pkg:gem/rubyzip#lib/zip/entry.rb:518
   def check_c_dir_entry_comment_size; end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:486
+  # pkg:gem/rubyzip#lib/zip/entry.rb:512
   def check_c_dir_entry_signature; end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:480
+  # pkg:gem/rubyzip#lib/zip/entry.rb:506
   def check_c_dir_entry_static_header_length(buf); end
 
   # pkg:gem/rubyzip#lib/zip/entry.rb:70
   def check_name(name); end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:731
+  # pkg:gem/rubyzip#lib/zip/entry.rb:757
   def clean_up; end
 
   # pkg:gem/rubyzip#lib/zip/entry.rb:27
@@ -670,7 +727,7 @@ class Zip::Entry
   # pkg:gem/rubyzip#lib/zip/entry.rb:27
   def comment=(param); end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:255
+  # pkg:gem/rubyzip#lib/zip/entry.rb:270
   def comment_size; end
 
   # pkg:gem/rubyzip#lib/zip/entry.rb:27
@@ -711,7 +768,7 @@ class Zip::Entry
   # pkg:gem/rubyzip#lib/zip/entry.rb:176
   def ctime=(value); end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:221
+  # pkg:gem/rubyzip#lib/zip/entry.rb:236
   def directory?; end
 
   # Is this entry encrypted?
@@ -728,7 +785,7 @@ class Zip::Entry
   # pkg:gem/rubyzip#lib/zip/entry.rb:34
   def extra; end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:251
+  # pkg:gem/rubyzip#lib/zip/entry.rb:266
   def extra_size; end
 
   # Extracts this entry to a file at `entry_path`, with
@@ -737,16 +794,24 @@ class Zip::Entry
   # NB: The caller is responsible for making sure `destination_directory` is
   # safe, if it is passed.
   #
-  # pkg:gem/rubyzip#lib/zip/entry.rb:289
-  def extract(entry_path = T.unsafe(nil), destination_directory: T.unsafe(nil), &block); end
+  # `create_parent_directories`, if true, creates any missing intermediate
+  # directories for a file entry before writing it. This defaults to
+  # false: a missing intermediate directory usually means an earlier
+  # entry (e.g. a symlink) was deliberately skipped as unsafe, and letting
+  # a later entry silently succeed by re-creating that path as a plain
+  # directory would mask that. Bulk operations such as `extract_all`,
+  # which have no such earlier-entry to skip past, opt into this.
+  #
+  # pkg:gem/rubyzip#lib/zip/entry.rb:312
+  def extract(entry_path = T.unsafe(nil), destination_directory: T.unsafe(nil), create_parent_directories: T.unsafe(nil), &block); end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:221
+  # pkg:gem/rubyzip#lib/zip/entry.rb:236
   def file?; end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:528
+  # pkg:gem/rubyzip#lib/zip/entry.rb:554
   def file_stat(path); end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:211
+  # pkg:gem/rubyzip#lib/zip/entry.rb:226
   def file_type_is?(type); end
 
   # pkg:gem/rubyzip#lib/zip/entry.rb:34
@@ -764,23 +829,23 @@ class Zip::Entry
   # pkg:gem/rubyzip#lib/zip/entry.rb:31
   def fstype=(param); end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:215
+  # pkg:gem/rubyzip#lib/zip/entry.rb:230
   def ftype; end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:675
+  # pkg:gem/rubyzip#lib/zip/entry.rb:701
   def gather_fileinfo_from_srcpath(src_path); end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:536
+  # pkg:gem/rubyzip#lib/zip/entry.rb:562
   def get_extra_attributes_from_path(path); end
 
   # Returns an IO like object for the given ZipEntry.
   # Optional decrypter can be provided for an encrypted entry
   # Warning: may behave weird with symlinks.
   #
-  # pkg:gem/rubyzip#lib/zip/entry.rb:643
+  # pkg:gem/rubyzip#lib/zip/entry.rb:669
   def get_input_stream(decrypter: T.unsafe(nil), &block); end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:723
+  # pkg:gem/rubyzip#lib/zip/entry.rb:749
   def get_raw_input_stream(&block); end
 
   # pkg:gem/rubyzip#lib/zip/entry.rb:31
@@ -798,7 +863,7 @@ class Zip::Entry
   # pkg:gem/rubyzip#lib/zip/entry.rb:31
   def internal_file_attributes=(_arg0); end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:243
+  # pkg:gem/rubyzip#lib/zip/entry.rb:258
   def local_entry_offset; end
 
   # pkg:gem/rubyzip#lib/zip/entry.rb:31
@@ -819,20 +884,20 @@ class Zip::Entry
   # pkg:gem/rubyzip#lib/zip/entry.rb:27
   def name=(param); end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:226
+  # pkg:gem/rubyzip#lib/zip/entry.rb:241
   def name_is_directory?; end
 
   # Is the name a relative path, free of `..` patterns that could lead to
   # path traversal attacks? This does NOT handle symlinks; if the path
   # contains symlinks, this check is NOT enough to guarantee safety.
   #
-  # pkg:gem/rubyzip#lib/zip/entry.rb:233
+  # pkg:gem/rubyzip#lib/zip/entry.rb:248
   def name_safe?; end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:247
+  # pkg:gem/rubyzip#lib/zip/entry.rb:262
   def name_size; end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:280
+  # pkg:gem/rubyzip#lib/zip/entry.rb:295
   def next_header_offset; end
 
   # pkg:gem/rubyzip#lib/zip/entry.rb:38
@@ -865,22 +930,29 @@ class Zip::Entry
   # pkg:gem/rubyzip#lib/zip/entry.rb:38
   def orig_unix_uid=(_arg0); end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:573
+  # pkg:gem/rubyzip#lib/zip/entry.rb:599
   def pack_c_dir_entry; end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:394
+  # pkg:gem/rubyzip#lib/zip/entry.rb:420
   def pack_local_entry; end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:717
+  # pkg:gem/rubyzip#lib/zip/entry.rb:743
   def parent_as_string; end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:506
+  # Called by `AESEncrypter#prepare_entry` before the local header is first
+  # written, so the extra field is in place before its size is measured.
+  # Directories have no content to encrypt, so they are left untouched.
+  #
+  # pkg:gem/rubyzip#lib/zip/entry.rb:214
+  def prep_aes_extra(vendor_version, strength); end
+
+  # pkg:gem/rubyzip#lib/zip/entry.rb:532
   def read_c_dir_entry(io); end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:498
+  # pkg:gem/rubyzip#lib/zip/entry.rb:524
   def read_extra_field(buf, local: T.unsafe(nil)); end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:350
+  # pkg:gem/rubyzip#lib/zip/entry.rb:376
   def read_local_entry(io); end
 
   # pkg:gem/rubyzip#lib/zip/entry.rb:27
@@ -904,13 +976,13 @@ class Zip::Entry
   # pkg:gem/rubyzip#lib/zip/entry.rb:42
   def set_default_vars_values; end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:559
+  # pkg:gem/rubyzip#lib/zip/entry.rb:585
   def set_extra_attributes_on_path(dest_path); end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:450
+  # pkg:gem/rubyzip#lib/zip/entry.rb:476
   def set_ftype_from_c_dir_entry; end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:547
+  # pkg:gem/rubyzip#lib/zip/entry.rb:573
   def set_unix_attributes_on_path(dest_path); end
 
   # The uncompressed size of the entry.
@@ -923,7 +995,7 @@ class Zip::Entry
   # pkg:gem/rubyzip#lib/zip/entry.rb:36
   def size=(param); end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:221
+  # pkg:gem/rubyzip#lib/zip/entry.rb:236
   def symlink?; end
 
   # Get a timestamp component of this entry.
@@ -940,7 +1012,7 @@ class Zip::Entry
   # pkg:gem/rubyzip#lib/zip/entry.rb:156
   def time=(value, component: T.unsafe(nil)); end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:306
+  # pkg:gem/rubyzip#lib/zip/entry.rb:332
   def to_s; end
 
   # pkg:gem/rubyzip#lib/zip/entry.rb:27
@@ -961,25 +1033,25 @@ class Zip::Entry
   # pkg:gem/rubyzip#lib/zip/entry.rb:27
   def unix_uid=(param); end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:429
+  # pkg:gem/rubyzip#lib/zip/entry.rb:455
   def unpack_c_dir_entry(buf); end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:335
+  # pkg:gem/rubyzip#lib/zip/entry.rb:361
   def unpack_local_entry(buf); end
 
   # check before rewriting an entry (after file sizes are known)
   # that we didn't change the header size (and thus clobber file data or something)
   #
-  # pkg:gem/rubyzip#lib/zip/entry.rb:265
+  # pkg:gem/rubyzip#lib/zip/entry.rb:280
   def verify_local_header_size!; end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:597
+  # pkg:gem/rubyzip#lib/zip/entry.rb:623
   def write_c_dir_entry(io, suppress_extra_fields: T.unsafe(nil)); end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:409
+  # pkg:gem/rubyzip#lib/zip/entry.rb:435
   def write_local_entry(io, suppress_extra_fields: T.unsafe(nil), rewrite: T.unsafe(nil)); end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:704
+  # pkg:gem/rubyzip#lib/zip/entry.rb:730
   def write_to_zip_output_stream(zip_output_stream); end
 
   # Does this entry use the ZIP64 extensions?
@@ -989,33 +1061,33 @@ class Zip::Entry
 
   private
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:779
+  # pkg:gem/rubyzip#lib/zip/entry.rb:805
   def create_directory(dest_path); end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:753
+  # pkg:gem/rubyzip#lib/zip/entry.rb:779
   def create_file(dest_path, _continue_on_exists_proc = T.unsafe(nil)); end
 
   # BUG: create_symlink() does not use &block
   #
-  # pkg:gem/rubyzip#lib/zip/entry.rb:793
+  # pkg:gem/rubyzip#lib/zip/entry.rb:819
   def create_symlink(dest_path); end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:813
+  # pkg:gem/rubyzip#lib/zip/entry.rb:839
   def parse_aes_extra; end
 
   # apply missing data from the zip64 extra information field, if present
   # (required when file sizes exceed 2**32, but can be used for all files)
   #
-  # pkg:gem/rubyzip#lib/zip/entry.rb:801
+  # pkg:gem/rubyzip#lib/zip/entry.rb:827
   def parse_zip64_extra(for_local_header); end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:865
+  # pkg:gem/rubyzip#lib/zip/entry.rb:899
   def prep_cdir_zip64_extra; end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:849
+  # pkg:gem/rubyzip#lib/zip/entry.rb:882
   def prep_local_zip64_extra; end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:737
+  # pkg:gem/rubyzip#lib/zip/entry.rb:763
   def read_local_header_fields(io); end
 
   # For DEFLATED compression *only*: set the general purpose flags 1 and 2 to
@@ -1027,17 +1099,24 @@ class Zip::Entry
   #
   # It's safe to simply OR these flags here as compression_level is read only.
   #
-  # pkg:gem/rubyzip#lib/zip/entry.rb:835
+  # pkg:gem/rubyzip#lib/zip/entry.rb:868
   def set_compression_level_flags; end
 
-  # pkg:gem/rubyzip#lib/zip/entry.rb:747
+  # pkg:gem/rubyzip#lib/zip/entry.rb:773
   def set_time(binary_dos_date, binary_dos_time); end
 
+  # AES-encrypted entries always store `COMPRESSION_METHOD_AES` (99) on the
+  # wire; the real compression method lives in the AES extra field instead
+  # (see `parse_aes_extra`, which reverses this on read).
+  #
+  # pkg:gem/rubyzip#lib/zip/entry.rb:856
+  def stored_compression_method; end
+
   class << self
-    # pkg:gem/rubyzip#lib/zip/entry.rb:311
+    # pkg:gem/rubyzip#lib/zip/entry.rb:337
     def read_c_dir_entry(io); end
 
-    # pkg:gem/rubyzip#lib/zip/entry.rb:324
+    # pkg:gem/rubyzip#lib/zip/entry.rb:350
     def read_local_entry(io); end
   end
 end
@@ -1265,7 +1344,13 @@ class Zip::ExtraField::AES < ::Zip::ExtraField::Generic
   def compression_method; end
 
   # pkg:gem/rubyzip#lib/zip/extra_field/aes.rb:6
+  def compression_method=(_arg0); end
+
+  # pkg:gem/rubyzip#lib/zip/extra_field/aes.rb:6
   def encryption_strength; end
+
+  # pkg:gem/rubyzip#lib/zip/extra_field/aes.rb:6
+  def encryption_strength=(_arg0); end
 
   # pkg:gem/rubyzip#lib/zip/extra_field/aes.rb:26
   def merge(binstr); end
@@ -1285,7 +1370,13 @@ class Zip::ExtraField::AES < ::Zip::ExtraField::Generic
   def vendor_id; end
 
   # pkg:gem/rubyzip#lib/zip/extra_field/aes.rb:6
+  def vendor_id=(_arg0); end
+
+  # pkg:gem/rubyzip#lib/zip/extra_field/aes.rb:6
   def vendor_version; end
+
+  # pkg:gem/rubyzip#lib/zip/extra_field/aes.rb:6
+  def vendor_version=(_arg0); end
 end
 
 # pkg:gem/rubyzip#lib/zip/extra_field/aes.rb:8
@@ -1605,79 +1696,79 @@ end
 # pkg:gem/rubyzip#lib/zip/extra_field/zip64.rb:9
 Zip::ExtraField::Zip64::HEADER_ID = T.let(T.unsafe(nil), String)
 
-# pkg:gem/rubyzip#lib/zip/constants.rb:21
+# pkg:gem/rubyzip#lib/zip/constants.rb:22
 Zip::FILE_TYPE_DIR = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/rubyzip#lib/zip/constants.rb:20
+# pkg:gem/rubyzip#lib/zip/constants.rb:21
 Zip::FILE_TYPE_FILE = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/rubyzip#lib/zip/constants.rb:22
+# pkg:gem/rubyzip#lib/zip/constants.rb:23
 Zip::FILE_TYPE_SYMLINK = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/rubyzip#lib/zip/constants.rb:46
+# pkg:gem/rubyzip#lib/zip/constants.rb:47
 Zip::FSTYPES = T.let(T.unsafe(nil), Hash)
 
-# pkg:gem/rubyzip#lib/zip/constants.rb:37
+# pkg:gem/rubyzip#lib/zip/constants.rb:38
 Zip::FSTYPE_ACORN = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/rubyzip#lib/zip/constants.rb:25
+# pkg:gem/rubyzip#lib/zip/constants.rb:26
 Zip::FSTYPE_AMIGA = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/rubyzip#lib/zip/constants.rb:29
+# pkg:gem/rubyzip#lib/zip/constants.rb:30
 Zip::FSTYPE_ATARI = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/rubyzip#lib/zip/constants.rb:44
+# pkg:gem/rubyzip#lib/zip/constants.rb:45
 Zip::FSTYPE_ATHEOS = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/rubyzip#lib/zip/constants.rb:40
+# pkg:gem/rubyzip#lib/zip/constants.rb:41
 Zip::FSTYPE_BEOS = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/rubyzip#lib/zip/constants.rb:33
+# pkg:gem/rubyzip#lib/zip/constants.rb:34
 Zip::FSTYPE_CPM = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/rubyzip#lib/zip/constants.rb:24
+# pkg:gem/rubyzip#lib/zip/constants.rb:25
 Zip::FSTYPE_FAT = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/rubyzip#lib/zip/constants.rb:30
+# pkg:gem/rubyzip#lib/zip/constants.rb:31
 Zip::FSTYPE_HPFS = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/rubyzip#lib/zip/constants.rb:31
+# pkg:gem/rubyzip#lib/zip/constants.rb:32
 Zip::FSTYPE_MAC = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/rubyzip#lib/zip/constants.rb:43
+# pkg:gem/rubyzip#lib/zip/constants.rb:44
 Zip::FSTYPE_MAC_OSX = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/rubyzip#lib/zip/constants.rb:39
+# pkg:gem/rubyzip#lib/zip/constants.rb:40
 Zip::FSTYPE_MVS = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/rubyzip#lib/zip/constants.rb:35
+# pkg:gem/rubyzip#lib/zip/constants.rb:36
 Zip::FSTYPE_NTFS = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/rubyzip#lib/zip/constants.rb:36
+# pkg:gem/rubyzip#lib/zip/constants.rb:37
 Zip::FSTYPE_QDOS = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/rubyzip#lib/zip/constants.rb:41
+# pkg:gem/rubyzip#lib/zip/constants.rb:42
 Zip::FSTYPE_TANDEM = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/rubyzip#lib/zip/constants.rb:42
+# pkg:gem/rubyzip#lib/zip/constants.rb:43
 Zip::FSTYPE_THEOS = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/rubyzip#lib/zip/constants.rb:34
+# pkg:gem/rubyzip#lib/zip/constants.rb:35
 Zip::FSTYPE_TOPS20 = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/rubyzip#lib/zip/constants.rb:27
+# pkg:gem/rubyzip#lib/zip/constants.rb:28
 Zip::FSTYPE_UNIX = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/rubyzip#lib/zip/constants.rb:38
+# pkg:gem/rubyzip#lib/zip/constants.rb:39
 Zip::FSTYPE_VFAT = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/rubyzip#lib/zip/constants.rb:26
+# pkg:gem/rubyzip#lib/zip/constants.rb:27
 Zip::FSTYPE_VMS = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/rubyzip#lib/zip/constants.rb:28
+# pkg:gem/rubyzip#lib/zip/constants.rb:29
 Zip::FSTYPE_VM_CMS = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/rubyzip#lib/zip/constants.rb:32
+# pkg:gem/rubyzip#lib/zip/constants.rb:33
 Zip::FSTYPE_Z_SYSTEM = T.let(T.unsafe(nil), Integer)
 
 # Zip::File is modeled after java.util.zip.ZipFile from the Java SDK.
@@ -1686,9 +1777,10 @@ Zip::FSTYPE_Z_SYSTEM = T.let(T.unsafe(nil), Integer)
 # the archive and methods such as `get_input_stream` and
 # `get_output_stream` for reading from and writing entries to the
 # archive. The class includes a few convenience methods such as
-# `extract` for extracting entries to the filesystem, and `remove`,
-# `replace`, `rename` and `mkdir` for making simple modifications to
-# the archive.
+# `extract` for extracting entries to the filesystem, `extract_all` for
+# extracting every entry, `add_recursive` for adding the contents of a
+# directory tree, and `remove`, `replace`, `rename` and `mkdir` for
+# making simple modifications to the archive.
 #
 # Modifications to a zip archive are not committed until `commit` or
 # `close` is called. The method `open` accepts a block following
@@ -1724,7 +1816,7 @@ Zip::FSTYPE_Z_SYSTEM = T.let(T.unsafe(nil), Integer)
 # Zip::FileSystem offers an alternative API that emulates ruby's
 # interface for accessing the filesystem, ie. the ::File and ::Dir classes.
 #
-# pkg:gem/rubyzip#lib/zip/file.rb:52
+# pkg:gem/rubyzip#lib/zip/file.rb:53
 class Zip::File
   include ::Enumerable
   extend ::Forwardable
@@ -1733,48 +1825,60 @@ class Zip::File
   # Opens a zip archive. Pass create: true to create
   # a new archive if it doesn't exist already.
   #
-  # pkg:gem/rubyzip#lib/zip/file.rb:75
+  # pkg:gem/rubyzip#lib/zip/file.rb:76
   def initialize(path_or_io, create: T.unsafe(nil), buffer: T.unsafe(nil), restore_ownership: T.unsafe(nil), restore_permissions: T.unsafe(nil), restore_times: T.unsafe(nil), compression_level: T.unsafe(nil), suppress_extra_fields: T.unsafe(nil)); end
 
   # Convenience method for adding the contents of a file to the archive
   #
-  # pkg:gem/rubyzip#lib/zip/file.rb:231
+  # pkg:gem/rubyzip#lib/zip/file.rb:254
   def add(entry, src_path, &continue_on_exists_proc); end
+
+  # Recursively adds the contents of `src_dir` to the archive, nested
+  # under `prefix` if given (the archive root otherwise). `src_dir`
+  # itself is not added, only its contents.
+  #
+  # Symlinks are ignored (skipped, with a warning) rather than followed
+  # or added, to avoid the security issues they can pose. `max_depth`
+  # limits how many directory levels below `src_dir` are walked; anything
+  # deeper is skipped, also with a warning (default: 16).
+  #
+  # pkg:gem/rubyzip#lib/zip/file.rb:286
+  def add_recursive(src_dir, prefix: T.unsafe(nil), max_depth: T.unsafe(nil), &continue_on_exists_proc); end
 
   # Convenience method for adding the contents of a file to the archive
   # in Stored format (uncompressed)
   #
-  # pkg:gem/rubyzip#lib/zip/file.rb:248
+  # pkg:gem/rubyzip#lib/zip/file.rb:271
   def add_stored(entry, src_path, &continue_on_exists_proc); end
 
   # Closes the zip file committing any changes that has been made.
   #
-  # pkg:gem/rubyzip#lib/zip/file.rb:318
+  # pkg:gem/rubyzip#lib/zip/file.rb:387
   def close; end
 
-  # pkg:gem/rubyzip#lib/zip/file.rb:71
-  def comment(*_arg0, **_arg1, &_arg2); end
+  # pkg:gem/rubyzip#lib/zip/file.rb:72
+  def comment(*, **, &); end
 
-  # pkg:gem/rubyzip#lib/zip/file.rb:71
-  def comment=(*_arg0, **_arg1, &_arg2); end
+  # pkg:gem/rubyzip#lib/zip/file.rb:72
+  def comment=(*, **, &); end
 
   # Commits changes that has been made since the previous commit to
   # the zip archive.
   #
-  # pkg:gem/rubyzip#lib/zip/file.rb:291
+  # pkg:gem/rubyzip#lib/zip/file.rb:360
   def commit; end
 
   # Returns true if any changes has been made to this archive since
   # the previous commit
   #
-  # pkg:gem/rubyzip#lib/zip/file.rb:324
+  # pkg:gem/rubyzip#lib/zip/file.rb:393
   def commit_required?; end
 
-  # pkg:gem/rubyzip#lib/zip/file.rb:71
-  def each(*_arg0, **_arg1, &_arg2); end
+  # pkg:gem/rubyzip#lib/zip/file.rb:72
+  def each(*, **, &); end
 
-  # pkg:gem/rubyzip#lib/zip/file.rb:71
-  def entries(*_arg0, **_arg1, &_arg2); end
+  # pkg:gem/rubyzip#lib/zip/file.rb:72
+  def entries(*, **, &); end
 
   # Extracts `entry` to a file at `entry_path`, with `destination_directory`
   # as the base location in the filesystem.
@@ -1782,26 +1886,39 @@ class Zip::File
   # NB: The caller is responsible for making sure `destination_directory` is
   # safe, if it is passed.
   #
-  # pkg:gem/rubyzip#lib/zip/file.rb:282
+  # pkg:gem/rubyzip#lib/zip/file.rb:324
   def extract(entry, entry_path = T.unsafe(nil), destination_directory: T.unsafe(nil), &block); end
+
+  # Extracts every entry in the archive into `destination_directory`,
+  # preserving the archive's directory structure.
+  #
+  # Symlink entries are ignored (skipped, with a warning) rather than
+  # extracted. See `Entry#extract` for the path-safety checks applied to
+  # every other entry.
+  #
+  # NB: The caller is responsible for making sure `destination_directory` is
+  # safe, if it is passed.
+  #
+  # pkg:gem/rubyzip#lib/zip/file.rb:340
+  def extract_all(destination_directory = T.unsafe(nil), &block); end
 
   # Searches for entry with the specified name. Returns nil if
   # no entry is found. See also get_entry
   #
-  # pkg:gem/rubyzip#lib/zip/file.rb:336
+  # pkg:gem/rubyzip#lib/zip/file.rb:405
   def find_entry(entry_name); end
 
   # Searches for an entry just as find_entry, but throws Errno::ENOENT
   # if no entry is found.
   #
-  # pkg:gem/rubyzip#lib/zip/file.rb:348
+  # pkg:gem/rubyzip#lib/zip/file.rb:417
   def get_entry(entry); end
 
   # Returns an input stream to the specified entry. If a block is passed
   # the stream object is passed to the block and the stream is automatically
   # closed afterwards just as with ruby's builtin File.open method.
   #
-  # pkg:gem/rubyzip#lib/zip/file.rb:186
+  # pkg:gem/rubyzip#lib/zip/file.rb:209
   def get_input_stream(entry, &a_proc); end
 
   # Returns an output stream to the specified entry. If entry is not an instance
@@ -1810,106 +1927,127 @@ class Zip::File
   # the stream is automatically closed afterwards just as with ruby's builtin
   # File.open method.
   #
-  # pkg:gem/rubyzip#lib/zip/file.rb:195
+  # pkg:gem/rubyzip#lib/zip/file.rb:218
   def get_output_stream(entry, permissions: T.unsafe(nil), comment: T.unsafe(nil), extra: T.unsafe(nil), compressed_size: T.unsafe(nil), crc: T.unsafe(nil), compression_method: T.unsafe(nil), compression_level: T.unsafe(nil), size: T.unsafe(nil), time: T.unsafe(nil), &a_proc); end
 
-  # pkg:gem/rubyzip#lib/zip/file.rb:71
-  def glob(*_arg0, **_arg1, &_arg2); end
+  # pkg:gem/rubyzip#lib/zip/file.rb:72
+  def glob(*, **, &); end
 
   # Creates a directory
   #
-  # pkg:gem/rubyzip#lib/zip/file.rb:356
+  # pkg:gem/rubyzip#lib/zip/file.rb:425
   def mkdir(entry_name, permission = T.unsafe(nil)); end
 
   # The name of this zip archive.
   #
-  # pkg:gem/rubyzip#lib/zip/file.rb:60
+  # pkg:gem/rubyzip#lib/zip/file.rb:61
   def name; end
 
   # Returns a string containing the contents of the specified entry
   #
-  # pkg:gem/rubyzip#lib/zip/file.rb:226
+  # pkg:gem/rubyzip#lib/zip/file.rb:249
   def read(entry); end
 
   # Removes the specified entry.
   #
-  # pkg:gem/rubyzip#lib/zip/file.rb:256
+  # pkg:gem/rubyzip#lib/zip/file.rb:298
   def remove(entry); end
 
   # Renames the specified entry.
   #
-  # pkg:gem/rubyzip#lib/zip/file.rb:261
+  # pkg:gem/rubyzip#lib/zip/file.rb:303
   def rename(entry, new_name, &continue_on_exists_proc); end
 
   # Replaces the specified entry with the contents of src_path (from
   # the file system).
   #
-  # pkg:gem/rubyzip#lib/zip/file.rb:271
+  # pkg:gem/rubyzip#lib/zip/file.rb:313
   def replace(entry, src_path); end
 
   # default -> false.
   #
-  # pkg:gem/rubyzip#lib/zip/file.rb:63
+  # pkg:gem/rubyzip#lib/zip/file.rb:64
   def restore_ownership; end
 
   # default -> false.
   #
-  # pkg:gem/rubyzip#lib/zip/file.rb:63
+  # pkg:gem/rubyzip#lib/zip/file.rb:64
   def restore_ownership=(_arg0); end
 
   # default -> true.
   #
-  # pkg:gem/rubyzip#lib/zip/file.rb:66
+  # pkg:gem/rubyzip#lib/zip/file.rb:67
   def restore_permissions; end
 
   # default -> true.
   #
-  # pkg:gem/rubyzip#lib/zip/file.rb:66
+  # pkg:gem/rubyzip#lib/zip/file.rb:67
   def restore_permissions=(_arg0); end
 
   # default -> true.
   #
-  # pkg:gem/rubyzip#lib/zip/file.rb:69
+  # pkg:gem/rubyzip#lib/zip/file.rb:70
   def restore_times; end
 
   # default -> true.
   #
-  # pkg:gem/rubyzip#lib/zip/file.rb:69
+  # pkg:gem/rubyzip#lib/zip/file.rb:70
   def restore_times=(_arg0); end
 
-  # pkg:gem/rubyzip#lib/zip/file.rb:71
-  def size(*_arg0, **_arg1, &_arg2); end
+  # pkg:gem/rubyzip#lib/zip/file.rb:72
+  def size(*, **, &); end
 
   # Returns the name of the zip archive
   #
-  # pkg:gem/rubyzip#lib/zip/file.rb:221
+  # pkg:gem/rubyzip#lib/zip/file.rb:244
   def to_s; end
 
   # Write buffer write changes to buffer and return
   #
-  # pkg:gem/rubyzip#lib/zip/file.rb:308
+  # pkg:gem/rubyzip#lib/zip/file.rb:377
   def write_buffer(io = T.unsafe(nil)); end
 
   private
 
-  # pkg:gem/rubyzip#lib/zip/file.rb:398
+  # pkg:gem/rubyzip#lib/zip/file.rb:435
+  def add_recursive_dir(entry_prefix, src_dir, depth, max_depth, continue_on_exists_proc); end
+
+  # pkg:gem/rubyzip#lib/zip/file.rb:490
   def check_entry_exists(entry_name, continue_on_exists_proc, proc_name); end
 
-  # pkg:gem/rubyzip#lib/zip/file.rb:407
+  # pkg:gem/rubyzip#lib/zip/file.rb:499
   def check_file(path); end
 
-  # pkg:gem/rubyzip#lib/zip/file.rb:366
+  # pkg:gem/rubyzip#lib/zip/file.rb:458
   def initialize_cdir(path_or_io, buffer: T.unsafe(nil)); end
 
-  # pkg:gem/rubyzip#lib/zip/file.rb:411
+  # pkg:gem/rubyzip#lib/zip/file.rb:503
   def on_success_replace; end
 
   class << self
+    # Recursively adds the contents of `src_dir` to the new archive
+    # `zip_file_name`, nested under `prefix` if given (the archive root
+    # otherwise). `src_dir` itself is not added, only its contents.
+    #
+    # Symlinks are ignored (skipped, with a warning) rather than followed
+    # or added, to avoid the security issues they can pose. `max_depth`
+    # limits how many directory levels below `src_dir` are walked; anything
+    # deeper is skipped, also with a warning (default: 16).
+    #
+    # pkg:gem/rubyzip#lib/zip/file.rb:191
+    def add_recursive(zip_file_name, src_dir, prefix: T.unsafe(nil), max_depth: T.unsafe(nil), &continue_on_exists_proc); end
+
     # Count the entries in a zip archive without reading the whole set of
     # entry data into memory.
     #
-    # pkg:gem/rubyzip#lib/zip/file.rb:170
+    # pkg:gem/rubyzip#lib/zip/file.rb:171
     def count_entries(path_or_io); end
+
+    # Extracts every entry in the zip archive `zip_file_name` into
+    # `destination_directory`, preserving the archive's directory structure.
+    #
+    # pkg:gem/rubyzip#lib/zip/file.rb:199
+    def extract_all(zip_file_name, destination_directory = T.unsafe(nil), &block); end
 
     # Iterates over the contents of the ZipFile. This is more efficient
     # than using a ZipInputStream since this methods simply iterates
@@ -1918,14 +2056,14 @@ class Zip::File
     # local entry headers (which contain the same information as the
     # central directory).
     #
-    # pkg:gem/rubyzip#lib/zip/file.rb:162
+    # pkg:gem/rubyzip#lib/zip/file.rb:163
     def foreach(zip_file_name, &block); end
 
     # Similar to ::new. If a block is passed the Zip::File object is passed
     # to the block and is automatically closed afterwards, just as with
     # ruby's builtin File::open method.
     #
-    # pkg:gem/rubyzip#lib/zip/file.rb:99
+    # pkg:gem/rubyzip#lib/zip/file.rb:100
     def open(file_name, create: T.unsafe(nil), restore_ownership: T.unsafe(nil), restore_permissions: T.unsafe(nil), restore_times: T.unsafe(nil), compression_level: T.unsafe(nil), suppress_extra_fields: T.unsafe(nil)); end
 
     # Like #open, but reads zip archive contents from a String or open IO
@@ -1933,12 +2071,12 @@ class Zip::File
     # (This can be used to extract data from a
     # downloaded zip archive without first saving it to disk.)
     #
-    # pkg:gem/rubyzip#lib/zip/file.rb:125
+    # pkg:gem/rubyzip#lib/zip/file.rb:126
     def open_buffer(io = T.unsafe(nil), create: T.unsafe(nil), restore_ownership: T.unsafe(nil), restore_permissions: T.unsafe(nil), restore_times: T.unsafe(nil), compression_level: T.unsafe(nil), suppress_extra_fields: T.unsafe(nil)); end
   end
 end
 
-# pkg:gem/rubyzip#lib/zip/file.rb:57
+# pkg:gem/rubyzip#lib/zip/file.rb:58
 Zip::File::IO_METHODS = T.let(T.unsafe(nil), Array)
 
 # pkg:gem/rubyzip#lib/zip/file_split.rb:4
@@ -1990,14 +2128,18 @@ end
 # such as gets, getc, read, readline and readlines
 # depends on: input_finished?, produce_input and read
 #
-# pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:8
+# pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:10
 module Zip::IOExtras::AbstractInputStream
   include ::ActiveSupport::ToJsonWithActiveSupportEncoder
   include ::Enumerable
   include ::Zip::IOExtras::FakeIO
 
-  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:12
-  def initialize; end
+  # Creates a new input stream wrapper.
+  #
+  # This method accepts the standard IO encoding options:
+  #
+  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:18
+  def initialize(**opts); end
 
   # Calls the block with each remaining line read from the stream.
   # Does nothing if already at end-of-stream. See the Line IO
@@ -2020,25 +2162,25 @@ module Zip::IOExtras::AbstractInputStream
   #
   # Returns an `Enumerator` if no block is given.
   #
-  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:189
+  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:199
   def each(sep = T.unsafe(nil), limit = T.unsafe(nil), chomp: T.unsafe(nil)); end
 
-  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:197
+  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:207
   def each_line(sep = T.unsafe(nil), limit = T.unsafe(nil), chomp: T.unsafe(nil)); end
 
   # Alias for compatibility. Remove for version 4.
   #
-  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:207
+  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:217
   def eof; end
 
   # Returns `true` if the stream is positioned at its end, `false`
   # otherwise. See Position documentation in the IO class for more
   # information.
   #
-  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:202
+  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:212
   def eof?; end
 
-  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:154
+  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:164
   def flush; end
 
   # Reads and returns a line from the stream. See the Line IO
@@ -2061,27 +2203,27 @@ module Zip::IOExtras::AbstractInputStream
   # Optional keyword argument `chomp` specifies whether line separators
   # are to be omitted.
   #
-  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:112
+  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:118
   def gets(sep = T.unsafe(nil), limit = T.unsafe(nil), chomp: T.unsafe(nil)); end
 
   # Returns (or sets) the current line number in the decompressed
   # (possibly decrypted) data stream. See the Line Number documentation
   # for the IO class for more information.
   #
-  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:22
+  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:28
   def lineno; end
 
   # Returns (or sets) the current line number in the decompressed
   # (possibly decrypted) data stream. See the Line Number documentation
   # for the IO class for more information.
   #
-  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:22
+  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:28
   def lineno=(_arg0); end
 
   # Returns the current position (in bytes) in the decompressed (possibly
   # decrypted) data stream.
   #
-  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:26
+  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:32
   def pos; end
 
   # Reads bytes from the stream decompressed (possibly decrypted) data
@@ -2093,7 +2235,7 @@ module Zip::IOExtras::AbstractInputStream
   # encoding of `out_string`, if `out_string` is given; `ASCII-8BIT`,
   # otherwise.
   #
-  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:36
+  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:42
   def read(maxlen = T.unsafe(nil), out_string = T.unsafe(nil)); end
 
   # Reads a line as with #gets, but raises `EOFError` if already at
@@ -2102,7 +2244,7 @@ module Zip::IOExtras::AbstractInputStream
   # Optional keyword argument `chomp` specifies whether line separators
   # are to be omitted.
   #
-  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:163
+  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:173
   def readline(sep = T.unsafe(nil), limit = T.unsafe(nil), chomp: T.unsafe(nil)); end
 
   # Reads and returns all remaining lines from the stream. See the Line IO
@@ -2125,45 +2267,57 @@ module Zip::IOExtras::AbstractInputStream
   # Optional keyword argument `chomp` specifies whether line separators
   # are to be omitted.
   #
-  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:89
+  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:95
   def readlines(sep = T.unsafe(nil), limit = T.unsafe(nil), chomp: T.unsafe(nil)); end
 
-  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:150
+  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_input_stream.rb:160
   def ungetc(byte); end
 end
 
 # Implements many of the output convenience methods of IO.
 # relies on <<
 #
-# pkg:gem/rubyzip#lib/zip/ioextras/abstract_output_stream.rb:7
+# pkg:gem/rubyzip#lib/zip/ioextras/abstract_output_stream.rb:9
 module Zip::IOExtras::AbstractOutputStream
   include ::Zip::IOExtras::FakeIO
 
-  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_output_stream.rb:15
+  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_output_stream.rb:17
   def print(*params); end
 
-  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_output_stream.rb:26
+  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_output_stream.rb:28
   def printf(a_format_string, *params); end
 
-  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_output_stream.rb:31
+  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_output_stream.rb:33
   def putc(an_object); end
 
-  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_output_stream.rb:43
+  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_output_stream.rb:45
   def puts(*params); end
 
-  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_output_stream.rb:10
+  # pkg:gem/rubyzip#lib/zip/ioextras/abstract_output_stream.rb:12
   def write(data); end
 end
 
 # pkg:gem/rubyzip#lib/zip/ioextras.rb:5
 Zip::IOExtras::CHUNK_SIZE = T.let(T.unsafe(nil), Integer)
 
-# Implements kind_of? in order to pretend to be an IO object
-#
-# pkg:gem/rubyzip#lib/zip/ioextras.rb:26
+# pkg:gem/rubyzip#lib/zip/ioextras/fake_io.rb:5
 module Zip::IOExtras::FakeIO
-  # pkg:gem/rubyzip#lib/zip/ioextras.rb:27
+  # pkg:gem/rubyzip#lib/zip/ioextras/fake_io.rb:8
+  def initialize(**opts); end
+
+  # pkg:gem/rubyzip#lib/zip/ioextras/fake_io.rb:6
+  def external_encoding; end
+
+  # pkg:gem/rubyzip#lib/zip/ioextras/fake_io.rb:6
+  def internal_encoding; end
+
+  # Implement kind_of? in order to pretend to be an IO object.
+  #
+  # pkg:gem/rubyzip#lib/zip/ioextras/fake_io.rb:34
   def kind_of?(object); end
+
+  # pkg:gem/rubyzip#lib/zip/ioextras/fake_io.rb:19
+  def set_encoding(ext_enc, int_enc = T.unsafe(nil)); end
 end
 
 # pkg:gem/rubyzip#lib/zip/inflater.rb:4
@@ -2242,13 +2396,14 @@ class Zip::InputStream
   #
   # @param context [String||IO||StringIO] file path or IO/StringIO object
   # @param offset [Integer] offset in the IO/StringIO
+  # This method also accepts the standard IO encoding options:
   #
-  # pkg:gem/rubyzip#lib/zip/input_stream.rb:54
-  def initialize(context, offset: T.unsafe(nil), decrypter: T.unsafe(nil)); end
+  # pkg:gem/rubyzip#lib/zip/input_stream.rb:56
+  def initialize(context, offset: T.unsafe(nil), decrypter: T.unsafe(nil), **opts); end
 
   # Close this InputStream. All further IO will raise an IOError.
   #
-  # pkg:gem/rubyzip#lib/zip/input_stream.rb:64
+  # pkg:gem/rubyzip#lib/zip/input_stream.rb:66
   def close; end
 
   # Returns an Entry object and positions the stream at the beginning of
@@ -2256,17 +2411,17 @@ class Zip::InputStream
   # InputStream before reading from the first entry in the archive.
   # Returns nil when there are no more entries.
   #
-  # pkg:gem/rubyzip#lib/zip/input_stream.rb:72
+  # pkg:gem/rubyzip#lib/zip/input_stream.rb:74
   def get_next_entry; end
 
   # Rewinds the stream to the beginning of the current entry.
   #
-  # pkg:gem/rubyzip#lib/zip/input_stream.rb:83
+  # pkg:gem/rubyzip#lib/zip/input_stream.rb:85
   def rewind; end
 
   # Returns the size of the current entry, or `nil` if there isn't one.
   #
-  # pkg:gem/rubyzip#lib/zip/input_stream.rb:118
+  # pkg:gem/rubyzip#lib/zip/input_stream.rb:120
   def size; end
 
   # Modelled after IO#sysread.
@@ -2281,30 +2436,30 @@ class Zip::InputStream
   # This method should not be used with buffered input stream-reader methods,
   # such as #read, #readline, #gets.
   #
-  # pkg:gem/rubyzip#lib/zip/input_stream.rb:103
+  # pkg:gem/rubyzip#lib/zip/input_stream.rb:105
   def sysread(maxlen = T.unsafe(nil), out_string = T.unsafe(nil)); end
 
   protected
 
-  # pkg:gem/rubyzip#lib/zip/input_stream.rb:167
+  # pkg:gem/rubyzip#lib/zip/input_stream.rb:169
   def assemble_io; end
 
-  # pkg:gem/rubyzip#lib/zip/input_stream.rb:199
+  # pkg:gem/rubyzip#lib/zip/input_stream.rb:201
   def get_decompressor(io); end
 
-  # pkg:gem/rubyzip#lib/zip/input_stream.rb:179
+  # pkg:gem/rubyzip#lib/zip/input_stream.rb:181
   def get_decrypted_io; end
 
-  # pkg:gem/rubyzip#lib/zip/input_stream.rb:142
+  # pkg:gem/rubyzip#lib/zip/input_stream.rb:144
   def get_io(io_or_file, offset = T.unsafe(nil)); end
 
-  # pkg:gem/rubyzip#lib/zip/input_stream.rb:224
+  # pkg:gem/rubyzip#lib/zip/input_stream.rb:226
   def input_finished?; end
 
-  # pkg:gem/rubyzip#lib/zip/input_stream.rb:154
+  # pkg:gem/rubyzip#lib/zip/input_stream.rb:156
   def open_entry; end
 
-  # pkg:gem/rubyzip#lib/zip/input_stream.rb:220
+  # pkg:gem/rubyzip#lib/zip/input_stream.rb:222
   def produce_input(maxlen = T.unsafe(nil)); end
 
   class << self
@@ -2312,8 +2467,8 @@ class Zip::InputStream
     # stream is passed to the block and closed when the block
     # returns.
     #
-    # pkg:gem/rubyzip#lib/zip/input_stream.rb:128
-    def open(filename_or_io, offset: T.unsafe(nil), decrypter: T.unsafe(nil)); end
+    # pkg:gem/rubyzip#lib/zip/input_stream.rb:130
+    def open(filename_or_io, offset: T.unsafe(nil), decrypter: T.unsafe(nil), **opts); end
   end
 end
 
@@ -2442,55 +2597,55 @@ class Zip::OutputStream
   # exists it will be overwritten.
   #
   # pkg:gem/rubyzip#lib/zip/output_stream.rb:32
-  def initialize(file_name, stream: T.unsafe(nil), encrypter: T.unsafe(nil), suppress_extra_fields: T.unsafe(nil)); end
+  def initialize(file_name, stream: T.unsafe(nil), encrypter: T.unsafe(nil), suppress_extra_fields: T.unsafe(nil), **opts); end
 
   # Modeled after IO.<<
   #
-  # pkg:gem/rubyzip#lib/zip/output_stream.rb:205
+  # pkg:gem/rubyzip#lib/zip/output_stream.rb:208
   def <<(data); end
 
   # Closes the stream and writes the central directory to the zip file
   #
-  # pkg:gem/rubyzip#lib/zip/output_stream.rb:82
+  # pkg:gem/rubyzip#lib/zip/output_stream.rb:83
   def close; end
 
   # Closes the stream and writes the central directory to the zip file
   #
-  # pkg:gem/rubyzip#lib/zip/output_stream.rb:93
+  # pkg:gem/rubyzip#lib/zip/output_stream.rb:94
   def close_buffer; end
 
   # pkg:gem/rubyzip#lib/zip/output_stream.rb:28
-  def comment(*_arg0, **_arg1, &_arg2); end
+  def comment(*, **, &); end
 
   # pkg:gem/rubyzip#lib/zip/output_stream.rb:28
-  def comment=(*_arg0, **_arg1, &_arg2); end
+  def comment=(*, **, &); end
 
-  # pkg:gem/rubyzip#lib/zip/output_stream.rb:126
+  # pkg:gem/rubyzip#lib/zip/output_stream.rb:127
   def copy_raw_entry(entry); end
 
   # Closes the current entry and opens a new for writing.
   # +entry+ can be a ZipEntry object or a string.
   #
-  # pkg:gem/rubyzip#lib/zip/output_stream.rb:106
+  # pkg:gem/rubyzip#lib/zip/output_stream.rb:107
   def put_next_entry(entry_name, comment = T.unsafe(nil), extra = T.unsafe(nil), compression_method = T.unsafe(nil), level = T.unsafe(nil)); end
 
   protected
 
-  # pkg:gem/rubyzip#lib/zip/output_stream.rb:198
+  # pkg:gem/rubyzip#lib/zip/output_stream.rb:201
   def finish; end
 
   private
 
-  # pkg:gem/rubyzip#lib/zip/output_stream.rb:147
+  # pkg:gem/rubyzip#lib/zip/output_stream.rb:148
   def finalize_current_entry; end
 
-  # pkg:gem/rubyzip#lib/zip/output_stream.rb:175
+  # pkg:gem/rubyzip#lib/zip/output_stream.rb:178
   def get_compressor(entry); end
 
-  # pkg:gem/rubyzip#lib/zip/output_stream.rb:166
+  # pkg:gem/rubyzip#lib/zip/output_stream.rb:168
   def init_next_entry(entry); end
 
-  # pkg:gem/rubyzip#lib/zip/output_stream.rb:186
+  # pkg:gem/rubyzip#lib/zip/output_stream.rb:189
   def update_local_headers; end
 
   class << self
@@ -2499,27 +2654,27 @@ class Zip::OutputStream
     # returns.
     #
     # pkg:gem/rubyzip#lib/zip/output_stream.rb:55
-    def open(file_name, encrypter: T.unsafe(nil), suppress_extra_fields: T.unsafe(nil)); end
+    def open(file_name, encrypter: T.unsafe(nil), suppress_extra_fields: T.unsafe(nil), **opts); end
 
     # Same as #open but writes to a filestream instead
     #
-    # pkg:gem/rubyzip#lib/zip/output_stream.rb:72
-    def write_buffer(io = T.unsafe(nil), encrypter: T.unsafe(nil), suppress_extra_fields: T.unsafe(nil)); end
+    # pkg:gem/rubyzip#lib/zip/output_stream.rb:73
+    def write_buffer(io = T.unsafe(nil), encrypter: T.unsafe(nil), suppress_extra_fields: T.unsafe(nil), **opts); end
   end
 end
 
 # pkg:gem/rubyzip#lib/zip/pass_thru_compressor.rb:4
 class Zip::PassThruCompressor < ::Zip::Compressor
   # pkg:gem/rubyzip#lib/zip/pass_thru_compressor.rb:5
-  def initialize(output_stream); end
+  def initialize(output_stream, encrypter = T.unsafe(nil)); end
 
-  # pkg:gem/rubyzip#lib/zip/pass_thru_compressor.rb:12
+  # pkg:gem/rubyzip#lib/zip/pass_thru_compressor.rb:13
   def <<(data); end
 
-  # pkg:gem/rubyzip#lib/zip/pass_thru_compressor.rb:19
+  # pkg:gem/rubyzip#lib/zip/pass_thru_compressor.rb:20
   def crc; end
 
-  # pkg:gem/rubyzip#lib/zip/pass_thru_compressor.rb:19
+  # pkg:gem/rubyzip#lib/zip/pass_thru_compressor.rb:20
   def size; end
 end
 
@@ -2545,7 +2700,7 @@ end
 # pkg:gem/rubyzip#lib/zip/constants.rb:6
 Zip::RUNNING_ON_WINDOWS = T.let(T.unsafe(nil), T.untyped)
 
-# pkg:gem/rubyzip#lib/zip/constants.rb:18
+# pkg:gem/rubyzip#lib/zip/constants.rb:19
 Zip::SPLIT_FILE_SIGNATURE = T.let(T.unsafe(nil), Integer)
 
 # Error raised if a split archive is read. Rubyzip does not support reading
@@ -2679,6 +2834,9 @@ Zip::VERSION_MADE_BY = T.let(T.unsafe(nil), Integer)
 #
 # pkg:gem/rubyzip#lib/zip/constants.rb:15
 Zip::VERSION_NEEDED_TO_EXTRACT = T.let(T.unsafe(nil), Integer)
+
+# pkg:gem/rubyzip#lib/zip/constants.rb:17
+Zip::VERSION_NEEDED_TO_EXTRACT_AES = T.let(T.unsafe(nil), Integer)
 
 # pkg:gem/rubyzip#lib/zip/constants.rb:16
 Zip::VERSION_NEEDED_TO_EXTRACT_ZIP64 = T.let(T.unsafe(nil), Integer)

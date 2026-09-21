@@ -14,81 +14,6 @@
 # Copyright The OpenTelemetry Authors
 #
 # SPDX-License-Identifier: Apache-2.0
-# Copyright The OpenTelemetry Authors
-#
-# SPDX-License-Identifier: Apache-2.0
-# Copyright The OpenTelemetry Authors
-#
-# SPDX-License-Identifier: Apache-2.0
-# Copyright The OpenTelemetry Authors
-#
-# SPDX-License-Identifier: Apache-2.0
-# Copyright The OpenTelemetry Authors
-#
-# SPDX-License-Identifier: Apache-2.0
-# Copyright The OpenTelemetry Authors
-#
-# SPDX-License-Identifier: Apache-2.0
-# Copyright The OpenTelemetry Authors
-#
-# SPDX-License-Identifier: Apache-2.0
-# Copyright The OpenTelemetry Authors
-#
-# SPDX-License-Identifier: Apache-2.0
-# Copyright The OpenTelemetry Authors
-#
-# SPDX-License-Identifier: Apache-2.0
-# Copyright The OpenTelemetry Authors
-#
-# SPDX-License-Identifier: Apache-2.0
-# Copyright The OpenTelemetry Authors
-#
-# SPDX-License-Identifier: Apache-2.0
-# Copyright The OpenTelemetry Authors
-#
-# SPDX-License-Identifier: Apache-2.0
-# Copyright The OpenTelemetry Authors
-#
-# SPDX-License-Identifier: Apache-2.0
-# Copyright The OpenTelemetry Authors
-#
-# SPDX-License-Identifier: Apache-2.0
-# Copyright The OpenTelemetry Authors
-#
-# SPDX-License-Identifier: Apache-2.0
-# Copyright The OpenTelemetry Authors
-#
-# SPDX-License-Identifier: Apache-2.0
-# Copyright The OpenTelemetry Authors
-#
-# SPDX-License-Identifier: Apache-2.0
-# Copyright The OpenTelemetry Authors
-#
-# SPDX-License-Identifier: Apache-2.0
-# Copyright The OpenTelemetry Authors
-#
-# SPDX-License-Identifier: Apache-2.0
-# Copyright The OpenTelemetry Authors
-#
-# SPDX-License-Identifier: Apache-2.0
-# Copyright The OpenTelemetry Authors
-#
-# SPDX-License-Identifier: Apache-2.0
-# Copyright The OpenTelemetry Authors
-#
-# SPDX-License-Identifier: Apache-2.0
-# Copyright The OpenTelemetry Authors
-#
-# SPDX-License-Identifier: Apache-2.0
-# Copyright The OpenTelemetry Authors
-#
-# SPDX-License-Identifier: Apache-2.0
-# Copyright The OpenTelemetry Authors
-#
-# SPDX-License-Identifier: Apache-2.0
-# Copyright The OpenTelemetry Authors
-#
-# SPDX-License-Identifier: Apache-2.0
 #
 # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk.rb:18
 module OpenTelemetry; end
@@ -151,7 +76,7 @@ class OpenTelemetry::SDK::ConfigurationError < ::OpenTelemetry::Error; end
 #
 # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:11
 class OpenTelemetry::SDK::Configurator
-  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:36
+  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:39
   def initialize; end
 
   # Add a log record processor to the export pipeline
@@ -160,7 +85,7 @@ class OpenTelemetry::SDK::Configurator
   #   that satisfies the duck type #emit, #shutdown, #force_flush. See
   #   {SimpleLogRecordProcessor} for an example.
   #
-  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:134
+  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:158
   def add_log_record_processor(log_record_processor); end
 
   # Add a span processor to the export pipeline
@@ -169,7 +94,7 @@ class OpenTelemetry::SDK::Configurator
   #   that satisfies the duck type #on_start, #on_finish, #shutdown, #force_flush. See
   #   {SimpleSpanProcessor} for an example.
   #
-  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:125
+  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:149
   def add_span_processor(span_processor); end
 
   # @api private
@@ -181,19 +106,38 @@ class OpenTelemetry::SDK::Configurator
   #   - setup tracer_provider, meter_provider, and logger_provider
   #   - install instrumentation
   #
-  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:144
+  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:168
   def configure; end
 
-  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:59
+  # Returns the configured error handler or the global OpenTelemetry error handler.
+  #
+  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:83
   def error_handler; end
 
-  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:34
-  def error_handler=(_arg0); end
+  # Configures the error handler that will be installed on
+  # OpenTelemetry during SDK configuration.
+  #
+  # Assigned object must respond to +#call+ and accept the keyword
+  # arguments +exception:+ and +message:+.
+  #
+  # @param [#call] error_handler The error handler to install
+  #
+  # @example Configure a custom error handler during SDK setup
+  #   OpenTelemetry::SDK.configure do |c|
+  #     c.error_handler = lambda do |exception: nil, message: nil|
+  #       OpenTelemetry.logger.warn("otel: #{[message, exception&.message].compact.join(' - ')}")
+  #     end
+  #   end
+  #
+  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:78
+  def error_handler=(error_handler); end
 
-  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:34
+  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:37
   def id_generator=(_arg0); end
 
-  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:46
+  # Returns the configured logger or the global OpenTelemetry logger.
+  #
+  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:50
   def logger; end
 
   # Accepts a logger and wraps it in the {ForwardingLogger} which allows
@@ -202,10 +146,10 @@ class OpenTelemetry::SDK::Configurator
   #
   # @param [Logger] new_logger The logger for OpenTelemetry to use
   #
-  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:55
+  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:59
   def logger=(new_logger); end
 
-  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:34
+  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:37
   def propagators=(_arg0); end
 
   # Accepts a resource object that is merged with the default telemetry sdk
@@ -215,7 +159,7 @@ class OpenTelemetry::SDK::Configurator
   #
   # @param [Resource] new_resource The resource to be merged
   #
-  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:69
+  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:93
   def resource=(new_resource); end
 
   # Accepts a string that is merged in as the service.name resource attribute.
@@ -223,7 +167,7 @@ class OpenTelemetry::SDK::Configurator
   # calls to this setter.
   # @param [String] service_name The value to be used as the service name
   #
-  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:77
+  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:101
   def service_name=(service_name); end
 
   # Accepts a string that is merged in as the service.version resource attribute.
@@ -231,7 +175,7 @@ class OpenTelemetry::SDK::Configurator
   # calls to this setter.
   # @param [String] service_version The value to be used as the service version
   #
-  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:87
+  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:111
   def service_version=(service_version); end
 
   # Install an instrumentation with specified optional +config+.
@@ -243,7 +187,7 @@ class OpenTelemetry::SDK::Configurator
   # @param [String] instrumentation_name The name of the instrumentation
   # @param [optional Hash] config The config for this instrumentation
   #
-  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:101
+  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:125
   def use(instrumentation_name, config = T.unsafe(nil)); end
 
   # Install all registered instrumentation. Configuration for specific
@@ -255,39 +199,39 @@ class OpenTelemetry::SDK::Configurator
   # @param [optional Hash<String,Hash>] instrumentation_config_map A map with string keys
   #   representing the instrumentation name and values specifying the instrumentation config
   #
-  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:115
+  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:139
   def use_all(instrumentation_config_map = T.unsafe(nil)); end
 
   private
 
-  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:166
+  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:190
   def check_use_mode!(mode); end
 
-  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:209
+  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:233
   def configure_propagation; end
 
-  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:180
+  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:204
   def configure_span_processors; end
 
-  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:235
+  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:259
   def fetch_exporter(name, class_name); end
 
-  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:228
+  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:252
   def fetch_propagator(name, class_name, gem_suffix = T.unsafe(nil)); end
 
-  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:171
+  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:195
   def install_instrumentation; end
 
-  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:160
+  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:184
   def logs_configuration_hook; end
 
-  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:158
+  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:182
   def metrics_configuration_hook; end
 
-  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:162
+  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:186
   def tracer_provider; end
 
-  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:185
+  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:209
   def wrapped_exporters_from_env; end
 end
 
@@ -295,26 +239,32 @@ end
 #
 # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:13
 class OpenTelemetry::SDK::Configurator::NoopTextMapPropagator
-  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:19
+  # Returns the passed context unchanged because there is nothing to extract.
+  #
+  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:21
   def extract(carrier, context: T.unsafe(nil), getter: T.unsafe(nil)); end
 
-  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:23
+  # Returns an empty list because this propagator does not use carrier fields.
+  #
+  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:26
   def fields; end
 
-  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:17
+  # No-op because this propagator does not inject any values.
+  #
+  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:18
   def inject(carrier, context: T.unsafe(nil), setter: T.unsafe(nil)); end
 end
 
 # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:14
 OpenTelemetry::SDK::Configurator::NoopTextMapPropagator::EMPTY_LIST = T.let(T.unsafe(nil), Array)
 
-# pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:30
+# pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:33
 OpenTelemetry::SDK::Configurator::USE_MODE_ALL = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:29
+# pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:32
 OpenTelemetry::SDK::Configurator::USE_MODE_ONE = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:28
+# pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/configurator.rb:31
 OpenTelemetry::SDK::Configurator::USE_MODE_UNSPECIFIED = T.let(T.unsafe(nil), Integer)
 
 # The ForwardingLogger provides a wrapper to control the OpenTelemetry
@@ -329,25 +279,25 @@ class OpenTelemetry::SDK::ForwardingLogger
   def initialize(logger, level:); end
 
   # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/forwarding_logger.rb:38
-  def add(severity, message = T.unsafe(nil), progname = T.unsafe(nil), &_arg3); end
+  def add(severity, message = T.unsafe(nil), progname = T.unsafe(nil), &); end
 
   # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/forwarding_logger.rb:44
-  def debug(progname = T.unsafe(nil), &_arg1); end
+  def debug(progname = T.unsafe(nil), &); end
 
   # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/forwarding_logger.rb:56
-  def error(progname = T.unsafe(nil), &_arg1); end
+  def error(progname = T.unsafe(nil), &); end
 
   # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/forwarding_logger.rb:60
-  def fatal(progname = T.unsafe(nil), &_arg1); end
+  def fatal(progname = T.unsafe(nil), &); end
 
   # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/forwarding_logger.rb:48
-  def info(progname = T.unsafe(nil), &_arg1); end
+  def info(progname = T.unsafe(nil), &); end
 
   # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/forwarding_logger.rb:64
-  def unknown(progname = T.unsafe(nil), &_arg1); end
+  def unknown(progname = T.unsafe(nil), &); end
 
   # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/forwarding_logger.rb:52
-  def warn(progname = T.unsafe(nil), &_arg1); end
+  def warn(progname = T.unsafe(nil), &); end
 end
 
 # InstrumentationLibrary is a struct containing library information for export.
@@ -467,43 +417,43 @@ module OpenTelemetry::SDK::Resources; end
 class OpenTelemetry::SDK::Resources::Resource
   # @api private
   # The constructor is private and only for use internally by the class.
-  # Users should use the {create} factory method to obtain a {Resource}
+  # Users should use the {create} factory method to obtain a Resource
   # instance.
   #
   # @param [Hash<String, String>] frozen_attributes Frozen-hash of frozen-string
   #  key-value pairs to be used as attributes for this resource
   # @return [Resource]
   #
-  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/resources/resource.rb:84
+  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/resources/resource.rb:93
   def initialize(frozen_attributes); end
 
-  # Returns an enumerator for attributes of this {Resource}
+  # Returns an enumerator for attributes of this Resource
   #
   # @return [Enumerator]
   #
-  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/resources/resource.rb:91
+  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/resources/resource.rb:100
   def attribute_enumerator; end
 
-  # Returns a new, merged {Resource} by merging the current {Resource} with
-  # the other {Resource}. In case of a collision, the other {Resource}
+  # Returns a new, merged Resource by merging the current Resource with
+  # the other Resource. In case of a collision, the other Resource
   # takes precedence
   #
   # @param [Resource] other The other resource to merge
   # @return [Resource] A new resource formed by merging the current resource
   #   with other
   #
-  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/resources/resource.rb:102
+  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/resources/resource.rb:111
   def merge(other); end
 
   protected
 
-  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/resources/resource.rb:110
+  # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/resources/resource.rb:119
   def attributes; end
 
   class << self
-    # Returns a newly created {Resource} with the specified attributes
+    # Returns a newly created Resource with the specified attributes
     #
-    # @param [Hash{String => String, Numeric, Boolean} attributes Hash of key-value pairs to be used
+    # @param [Hash{String => String, Numeric, Boolean}] attributes Hash of key-value pairs to be used
     #   as attributes for this resource
     # @raise [ArgumentError] If attribute keys and values are not strings
     # @return [Resource]
@@ -511,13 +461,25 @@ class OpenTelemetry::SDK::Resources::Resource
     # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/resources/resource.rb:22
     def create(attributes = T.unsafe(nil)); end
 
-    # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/resources/resource.rb:33
+    # Returns the default Resource for the current process and SDK.
+    #
+    # @return [Resource]
+    #
+    # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/resources/resource.rb:36
     def default; end
 
-    # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/resources/resource.rb:56
+    # Returns a Resource describing the current process.
+    #
+    # @return [Resource]
+    #
+    # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/resources/resource.rb:65
     def process; end
 
-    # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/resources/resource.rb:37
+    # Returns a Resource describing this telemetry SDK.
+    #
+    # @return [Resource]
+    #
+    # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/resources/resource.rb:43
     def telemetry_sdk; end
 
     private
@@ -525,13 +487,11 @@ class OpenTelemetry::SDK::Resources::Resource
     # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/resources/resource.rb:14
     def new(*_arg0); end
 
-    # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/resources/resource.rb:70
+    # pkg:gem/opentelemetry-sdk#lib/opentelemetry/sdk/resources/resource.rb:79
     def service_name_from_env; end
   end
 end
 
-# The Trace module contains the OpenTelemetry tracing reference
-# implementation.
 # The Trace module contains the OpenTelemetry tracing reference
 # implementation.
 #
@@ -1334,7 +1294,7 @@ class OpenTelemetry::SDK::Trace::Span < ::OpenTelemetry::Trace::Span
   # documents} certain "standard attributes" that have prescribed semantic
   # meanings.
   #
-  # @param [OpenTelemetry::Trace::Link] the link object to add on the {Span}.
+  # @param [OpenTelemetry::Trace::Link] link The link object to add on the {Span}.
   #
   # @return [self] returns itself
   #

@@ -2892,6 +2892,14 @@ module Tapioca::RBIFilesHelper
   sig { params(error: ::Spoom::Sorbet::Errors::Error).returns(T::Boolean) }
   def payload_superclass_error?(error); end
 
+  # pkg:gem/tapioca#lib/tapioca/helpers/rbi_files_helper.rb:378
+  sig do
+    params(
+      block: T.nilable(T.proc.params(arg0: T.untyped).returns(T.untyped))
+    ).returns(T.any(::Float, ::Integer))
+  end
+  def realtime(&block); end
+
   # Do the list of `nodes` sharing the same name have duplicates?
   #
   # pkg:gem/tapioca#lib/tapioca/helpers/rbi_files_helper.rb:161

@@ -620,8 +620,8 @@ class Aws::S3::Bucket
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/bucket.rb:1299
   def lifecycle_configuration; end
 
-  # @api private
   # @raise [NotImplementedError]
+  # @api private
   # @api private
   #
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/bucket.rb:78
@@ -42205,64 +42205,64 @@ class Aws::S3::ObjectMultipartCopier
 
   private
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object_multipart_copier.rb:185
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object_multipart_copier.rb:186
   def abort_upload(options); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object_multipart_copier.rb:224
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object_multipart_copier.rb:225
   def byte_range(offset, part_size, size); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object_multipart_copier.rb:210
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object_multipart_copier.rb:211
   def calculate_part_size(part_number, default_part_size, _options); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object_multipart_copier.rb:179
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object_multipart_copier.rb:180
   def complete_upload(parts, options); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object_multipart_copier.rb:195
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object_multipart_copier.rb:196
   def compute_parts(size, default_part_size, options); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object_multipart_copier.rb:171
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object_multipart_copier.rb:172
   def copy_part(part); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object_multipart_copier.rb:156
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object_multipart_copier.rb:157
   def copy_part_thread(queue); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object_multipart_copier.rb:147
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object_multipart_copier.rb:148
   def copy_parts(size, default_part_size, options); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object_multipart_copier.rb:232
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object_multipart_copier.rb:233
   def default_part_size(source_size); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object_multipart_copier.rb:142
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object_multipart_copier.rb:143
   def initiate_upload(options); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object_multipart_copier.rb:276
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object_multipart_copier.rb:277
   def options_for(operation_name, options); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object_multipart_copier.rb:251
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object_multipart_copier.rb:252
   def put_annotations(annotations, response, options); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object_multipart_copier.rb:238
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object_multipart_copier.rb:239
   def put_tags(tags, resp, options); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object_multipart_copier.rb:126
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object_multipart_copier.rb:127
   def resolve_annotations(options); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object_multipart_copier.rb:100
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object_multipart_copier.rb:101
   def resolve_create_opts(metadata, options); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object_multipart_copier.rb:83
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object_multipart_copier.rb:84
   def resolve_metadata(options); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object_multipart_copier.rb:218
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object_multipart_copier.rb:219
   def resolve_part_size(part_number); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object_multipart_copier.rb:75
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object_multipart_copier.rb:76
   def resolve_source(copy_source); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object_multipart_copier.rb:92
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object_multipart_copier.rb:93
   def resolve_source_parts; end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object_multipart_copier.rb:108
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object_multipart_copier.rb:109
   def resolve_tags(options); end
 end
 
@@ -42279,15 +42279,15 @@ Aws::S3::ObjectMultipartCopier::MIN_PART_SIZE = T.let(T.unsafe(nil), Integer)
 
 # A thread-safe work queue of part definitions for a multipart copy.
 #
-# pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object_multipart_copier.rb:283
+# pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object_multipart_copier.rb:284
 class Aws::S3::ObjectMultipartCopier::PartQueue
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object_multipart_copier.rb:284
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object_multipart_copier.rb:285
   def initialize(parts = T.unsafe(nil)); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object_multipart_copier.rb:293
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object_multipart_copier.rb:294
   def clear!; end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object_multipart_copier.rb:289
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object_multipart_copier.rb:290
   def shift; end
 end
 
@@ -42348,11 +42348,6 @@ class Aws::S3::ObjectSummary
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/customizations/object_summary.rb:7
   def content_length; end
 
-  # Make the method redefinable
-  # @param (see Object#copy_from)
-  # @options (see Object#copy_from)
-  # @return (see Object#copy_from)
-  # @see Object#copy_from
   # @example Request syntax with placeholder values
   #
   #   object_summary.copy_from({
@@ -43173,6 +43168,11 @@ class Aws::S3::ObjectSummary
   #   the request fails with the HTTP status code `403 Forbidden` (access
   #   denied).
   # @return [Types::CopyObjectOutput]
+  # Make the method redefinable
+  # @param (see Object#copy_from)
+  # @options (see Object#copy_from)
+  # @return (see Object#copy_from)
+  # @see Object#copy_from
   #
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object_summary.rb:1158
   def copy_from(source, options = T.unsafe(nil)); end

@@ -200,16 +200,16 @@ class Sexp < ::Array
   # pkg:gem/sexp_processor#lib/sexp.rb:13
   def line=(_arg0); end
 
-  # Returns the maximum line number of the children of self.
-  #
   # Set the maximum line number for this sexp. Often set by ruby_parser.
+  #
+  # Returns the maximum line number of the children of self.
   #
   # pkg:gem/sexp_processor#lib/sexp.rb:241
   def line_max; end
 
-  # Returns the maximum line number of the children of self.
-  #
   # Set the maximum line number for this sexp. Often set by ruby_parser.
+  #
+  # Returns the maximum line number of the children of self.
   #
   # pkg:gem/sexp_processor#lib/sexp.rb:18
   def line_max=(_arg0); end

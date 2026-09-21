@@ -21,21 +21,30 @@ module OpenTelemetry
   # @return [Callable] configured error handler or a default that logs the
   #   exception and message at ERROR level.
   #
-  # pkg:gem/opentelemetry-api#lib/opentelemetry.rb:36
+  # pkg:gem/opentelemetry-api#lib/opentelemetry.rb:51
   def error_handler; end
 
-  # @return [Callable] configured error handler or a default that logs the
-  #   exception and message at ERROR level.
+  # Configures error handler used by {handle_error}.
   #
-  # pkg:gem/opentelemetry-api#lib/opentelemetry.rb:27
-  def error_handler=(_arg0); end
+  # Assigned object must respond to +#call+ and accept the keyword arguments
+  # +exception:+ and +message:+.
+  #
+  # @param [#call] error_handler The error handler to use
+  #
+  # @example Log OpenTelemetry errors with a custom prefix
+  #   OpenTelemetry.error_handler = lambda do |exception: nil, message: nil|
+  #     OpenTelemetry.logger.warn("otel: #{[message, exception&.message].compact.join(' - ')}")
+  #   end
+  #
+  # pkg:gem/opentelemetry-api#lib/opentelemetry.rb:45
+  def error_handler=(error_handler); end
 
   # Handles an error by calling the configured error_handler.
   #
   # @param [optional Exception] exception The exception to be handled
   # @param [optional String] message An error message.
   #
-  # pkg:gem/opentelemetry-api#lib/opentelemetry.rb:44
+  # pkg:gem/opentelemetry-api#lib/opentelemetry.rb:59
   def handle_error(exception: T.unsafe(nil), message: T.unsafe(nil)); end
 
   # @return [Object, Logger] configured Logger or a default STDOUT Logger.
@@ -50,7 +59,7 @@ module OpenTelemetry
 
   # @return [Context::Propagation::Propagator] a propagator instance
   #
-  # pkg:gem/opentelemetry-api#lib/opentelemetry.rb:69
+  # pkg:gem/opentelemetry-api#lib/opentelemetry.rb:84
   def propagation; end
 
   # @return [Context::Propagation::Propagator] a propagator instance
@@ -61,7 +70,7 @@ module OpenTelemetry
   # @return [Object, Trace::TracerProvider] registered tracer provider or a
   #   default no-op implementation of the tracer provider.
   #
-  # pkg:gem/opentelemetry-api#lib/opentelemetry.rb:64
+  # pkg:gem/opentelemetry-api#lib/opentelemetry.rb:79
   def tracer_provider; end
 
   # Register the global tracer provider.
@@ -69,7 +78,7 @@ module OpenTelemetry
   # @param [TracerProvider] provider A tracer provider to register as the
   #   global instance.
   #
-  # pkg:gem/opentelemetry-api#lib/opentelemetry.rb:52
+  # pkg:gem/opentelemetry-api#lib/opentelemetry.rb:67
   def tracer_provider=(provider); end
 end
 
@@ -280,7 +289,7 @@ class OpenTelemetry::Baggage::Propagation::TextMapPropagator
   #
   # @return [Array<String>] a list of fields that will be used by this propagator.
   #
-  # pkg:gem/opentelemetry-api#lib/opentelemetry/baggage/propagation/text_map_propagator.rb:79
+  # pkg:gem/opentelemetry-api#lib/opentelemetry/baggage/propagation/text_map_propagator.rb:72
   def fields; end
 
   # Inject in-process baggage into the supplied carrier.
@@ -296,11 +305,17 @@ class OpenTelemetry::Baggage::Propagation::TextMapPropagator
 
   private
 
-  # pkg:gem/opentelemetry-api#lib/opentelemetry/baggage/propagation/text_map_propagator.rb:85
+  # pkg:gem/opentelemetry-api#lib/opentelemetry/baggage/propagation/text_map_propagator.rb:88
+  def decode_entries(entries, builder); end
+
+  # pkg:gem/opentelemetry-api#lib/opentelemetry/baggage/propagation/text_map_propagator.rb:110
   def encode(baggage); end
 
-  # pkg:gem/opentelemetry-api#lib/opentelemetry/baggage/propagation/text_map_propagator.rb:101
+  # pkg:gem/opentelemetry-api#lib/opentelemetry/baggage/propagation/text_map_propagator.rb:126
   def encode_value(key, entry); end
+
+  # pkg:gem/opentelemetry-api#lib/opentelemetry/baggage/propagation/text_map_propagator.rb:78
+  def split_entries(header); end
 end
 
 # pkg:gem/opentelemetry-api#lib/opentelemetry/baggage/propagation/text_map_propagator.rb:19
@@ -324,10 +339,10 @@ OpenTelemetry::Baggage::Propagation::TextMapPropagator::MAX_TOTAL_LENGTH = T.let
 #
 # pkg:gem/opentelemetry-api#lib/opentelemetry/context/key.rb:8
 class OpenTelemetry::Context
-  # pkg:gem/opentelemetry-api#lib/opentelemetry/context.rb:133
+  # pkg:gem/opentelemetry-api#lib/opentelemetry/context.rb:138
   def initialize(entries); end
 
-  # pkg:gem/opentelemetry-api#lib/opentelemetry/context.rb:145
+  # pkg:gem/opentelemetry-api#lib/opentelemetry/context.rb:150
   def [](key); end
 
   # Returns a new Context where entries contains the newly added key and value
@@ -336,7 +351,7 @@ class OpenTelemetry::Context
   # @param [Object] value Object to be stored under key
   # @return [Context]
   #
-  # pkg:gem/opentelemetry-api#lib/opentelemetry/context.rb:152
+  # pkg:gem/opentelemetry-api#lib/opentelemetry/context.rb:157
   def set_value(key, value); end
 
   # Returns a new Context with the current context's entries merged with the
@@ -344,10 +359,9 @@ class OpenTelemetry::Context
   #
   # @param [Hash] values The values to be merged with the current context's
   #   entries.
-  # @param [Object] value Object to be stored under key
   # @return [Context]
   #
-  # pkg:gem/opentelemetry-api#lib/opentelemetry/context.rb:165
+  # pkg:gem/opentelemetry-api#lib/opentelemetry/context.rb:169
   def set_values(values); end
 
   # Returns the corresponding value (or nil) for key
@@ -355,7 +369,7 @@ class OpenTelemetry::Context
   # @param [Key] key The lookup key
   # @return [Object]
   #
-  # pkg:gem/opentelemetry-api#lib/opentelemetry/context.rb:141
+  # pkg:gem/opentelemetry-api#lib/opentelemetry/context.rb:146
   def value(key); end
 
   class << self
@@ -372,7 +386,7 @@ class OpenTelemetry::Context
 
     # Clears the fiber-local Context stack.
     #
-    # pkg:gem/opentelemetry-api#lib/opentelemetry/context.rb:118
+    # pkg:gem/opentelemetry-api#lib/opentelemetry/context.rb:120
     def clear; end
 
     # Returns a key used to index a value in a Context
@@ -401,14 +415,18 @@ class OpenTelemetry::Context
     # pkg:gem/opentelemetry-api#lib/opentelemetry/context.rb:56
     def detach(token); end
 
-    # pkg:gem/opentelemetry-api#lib/opentelemetry/context.rb:122
+    # Returns an empty context.
+    #
+    # @return [Context]
+    #
+    # pkg:gem/opentelemetry-api#lib/opentelemetry/context.rb:127
     def empty; end
 
     # Returns the value associated with key in the current context
     #
     # @param [String] key The lookup key
     #
-    # pkg:gem/opentelemetry-api#lib/opentelemetry/context.rb:113
+    # pkg:gem/opentelemetry-api#lib/opentelemetry/context.rb:115
     def value(key); end
 
     # Executes a block with ctx as the current context. It restores
@@ -416,32 +434,34 @@ class OpenTelemetry::Context
     #
     # @param [Context] ctx The context to be made active
     # @yield [context] Yields context to the block
+    # @yieldparam [Context] context The active context
     #
-    # pkg:gem/opentelemetry-api#lib/opentelemetry/context.rb:70
+    # pkg:gem/opentelemetry-api#lib/opentelemetry/context.rb:71
     def with_current(ctx); end
 
     # @param [String] key The lookup key
     # @param [Object] value The object stored under key
-    # @param [Callable] Block to execute in a new context
     # @yield [context, value] Yields the newly created context and value to
     #   the block
+    # @yieldparam [Context] context The newly created context
+    # @yieldparam [Object] value The object stored under key
     #
-    # pkg:gem/opentelemetry-api#lib/opentelemetry/context.rb:85
+    # pkg:gem/opentelemetry-api#lib/opentelemetry/context.rb:87
     def with_value(key, value); end
 
-    # @param [String] key The lookup key
     # @param [Hash] values Will be merged with values of the current context
     #  and returned in a new context
-    # @param [Callable] Block to execute in a new context
     # @yield [context, values] Yields the newly created context and values
     #   to the block
+    # @yieldparam [Context] context The newly created context
+    # @yieldparam [Hash] values The values merged into the new context
     #
-    # pkg:gem/opentelemetry-api#lib/opentelemetry/context.rb:102
+    # pkg:gem/opentelemetry-api#lib/opentelemetry/context.rb:104
     def with_values(values); end
 
     private
 
-    # pkg:gem/opentelemetry-api#lib/opentelemetry/context.rb:128
+    # pkg:gem/opentelemetry-api#lib/opentelemetry/context.rb:133
     def stack; end
   end
 end
@@ -750,7 +770,7 @@ class OpenTelemetry::Context::Propagation::TextMapSetter
   def set(carrier, key, value); end
 end
 
-# pkg:gem/opentelemetry-api#lib/opentelemetry/context.rb:169
+# pkg:gem/opentelemetry-api#lib/opentelemetry/context.rb:173
 OpenTelemetry::Context::ROOT = T.let(T.unsafe(nil), OpenTelemetry::Context)
 
 # pkg:gem/opentelemetry-api#lib/opentelemetry/error.rb:7
@@ -900,10 +920,11 @@ module OpenTelemetry::Trace
   # Returns a context containing the span, derived from the optional parent
   # context, or the current context if one was not provided.
   #
-  # @param [optional Context] context The context to use as the parent for
-  #   the returned context
+  # @param [Span] span The span to store in the returned context.
+  # @param [Context] parent_context The optional context to use as the parent
+  #   for the returned context.
   #
-  # pkg:gem/opentelemetry-api#lib/opentelemetry/trace.rb:58
+  # pkg:gem/opentelemetry-api#lib/opentelemetry/trace.rb:59
   def context_with_span(span, parent_context: T.unsafe(nil)); end
 
   # Returns the current span from the current or provided context
@@ -937,7 +958,7 @@ module OpenTelemetry::Trace
   #
   # @return [Span]
   #
-  # pkg:gem/opentelemetry-api#lib/opentelemetry/trace.rb:79
+  # pkg:gem/opentelemetry-api#lib/opentelemetry/trace.rb:80
   def non_recording_span(span_context); end
 
   # Activates/deactivates the Span within the current Context, which makes the "current span"
@@ -948,7 +969,7 @@ module OpenTelemetry::Trace
   # @param [Span] span the span to activate
   # @yield [span, context] yields span and a context containing the span to the block.
   #
-  # pkg:gem/opentelemetry-api#lib/opentelemetry/trace.rb:69
+  # pkg:gem/opentelemetry-api#lib/opentelemetry/trace.rb:70
   def with_span(span); end
 end
 
@@ -1267,7 +1288,7 @@ class OpenTelemetry::Trace::Span
   # documents} certain "standard attributes" that have prescribed semantic
   # meanings.
   #
-  # @param [OpenTelemetry::Trace::Link] the link object to add on the {Span}.
+  # @param [OpenTelemetry::Trace::Link] link The link object to add on the {Span}.
   #
   # @return [self] returns itself
   #

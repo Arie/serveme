@@ -14,27 +14,6 @@
 # Copyright The OpenTelemetry Authors
 #
 # SPDX-License-Identifier: Apache-2.0
-# Copyright The OpenTelemetry Authors
-#
-# SPDX-License-Identifier: Apache-2.0
-# Copyright The OpenTelemetry Authors
-#
-# SPDX-License-Identifier: Apache-2.0
-# Copyright The OpenTelemetry Authors
-#
-# SPDX-License-Identifier: Apache-2.0
-# Copyright The OpenTelemetry Authors
-#
-# SPDX-License-Identifier: Apache-2.0
-# Copyright The OpenTelemetry Authors
-#
-# SPDX-License-Identifier: Apache-2.0
-# Copyright The OpenTelemetry Authors
-#
-# SPDX-License-Identifier: Apache-2.0
-# Copyright The OpenTelemetry Authors
-#
-# SPDX-License-Identifier: Apache-2.0
 #
 # pkg:gem/opentelemetry-logs-api#lib/opentelemetry/logs.rb:7
 module OpenTelemetry
@@ -75,7 +54,10 @@ class OpenTelemetry::Internal::ProxyLogger < ::OpenTelemetry::Logs::Logger
   # pkg:gem/opentelemetry-logs-api#lib/opentelemetry/internal/proxy_logger.rb:16
   def delegate=(_arg0); end
 
-  # pkg:gem/opentelemetry-logs-api#lib/opentelemetry/internal/proxy_logger.rb:25
+  # Emits a {LogRecord} through the delegate logger, or discards it while
+  # no delegate is installed. See {OpenTelemetry::Logs::Logger#on_emit}.
+  #
+  # pkg:gem/opentelemetry-logs-api#lib/opentelemetry/internal/proxy_logger.rb:27
   def on_emit(timestamp: T.unsafe(nil), observed_timestamp: T.unsafe(nil), severity_number: T.unsafe(nil), severity_text: T.unsafe(nil), body: T.unsafe(nil), trace_id: T.unsafe(nil), span_id: T.unsafe(nil), trace_flags: T.unsafe(nil), attributes: T.unsafe(nil), event_name: T.unsafe(nil), context: T.unsafe(nil)); end
 end
 
@@ -105,13 +87,13 @@ class OpenTelemetry::Internal::ProxyLoggerProvider < ::OpenTelemetry::Logs::Logg
 
   # Returns a {Logger} instance.
   #
-  # @param [optional String] name Instrumentation package name
-  # @param [optional String] version Instrumentation package version
+  # @param [String] name Instrumentation scope name
+  # @param [optional String] version Instrumentation scope version
   #
   # @return [Logger]
   #
   # pkg:gem/opentelemetry-logs-api#lib/opentelemetry/internal/proxy_logger_provider.rb:51
-  def logger(name = T.unsafe(nil), version = T.unsafe(nil)); end
+  def logger(name:, version: T.unsafe(nil)); end
 end
 
 # pkg:gem/opentelemetry-logs-api#lib/opentelemetry/internal/proxy_logger_provider.rb:16
@@ -208,13 +190,13 @@ end
 class OpenTelemetry::Logs::LoggerProvider
   # Returns an {OpenTelemetry::Logs::Logger} instance.
   #
-  # @param [optional String] name Instrumentation package name
-  # @param [optional String] version Instrumentation package version
+  # @param [String] name Instrumentation scope name
+  # @param [optional String] version Instrumentation scope version
   #
   # @return [OpenTelemetry::Logs::Logger]
   #
   # pkg:gem/opentelemetry-logs-api#lib/opentelemetry/logs/logger_provider.rb:20
-  def logger(name = T.unsafe(nil), version = T.unsafe(nil)); end
+  def logger(name:, version: T.unsafe(nil)); end
 end
 
 # pkg:gem/opentelemetry-logs-api#lib/opentelemetry/logs/logger_provider.rb:11

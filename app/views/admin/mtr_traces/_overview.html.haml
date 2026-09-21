@@ -24,6 +24,8 @@
             .mtr-big #{final.loss.round}% loss
             .mtr-muted.mtr-small
               avg #{mtr_ms(final.avg)} ms · worst #{mtr_ms(final.worst)} ms · #{analysis.hops_for(run).size} hops
+            - if run.finished? && !analysis.reached_target?(run) && !analysis.target_answers?
+              .mtr-muted.mtr-small to last hop · target silent
           - if run.status == "running"
             .mtr-muted.mtr-small cycle #{[ run.cycles_seen, trace.cycles ].min} / #{trace.cycles}
             .mtr-progress

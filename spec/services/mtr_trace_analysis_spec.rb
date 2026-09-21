@@ -82,25 +82,47 @@ describe MtrTraceAnalysis do
       expect(described_class.new(trace).verdict[:text]).to include("at or near the target")
     end
 
-    it "reports paths that never reach the target" do
+    it "does not treat a target that answers nobody as a problem" do
       add_run("a", [ hop(1, "192.0.2.1", 0), hop(2, nil, 100) ])
+      add_run("b", [ hop(1, "192.0.2.2", 0), hop(2, nil, 100) ])
+      analysis = described_class.new(trace)
 
-      expect(described_class.new(trace).verdict).to include(level: "bad")
-      expect(described_class.new(trace).verdict[:text]).to include("never reached the target")
+      expect(analysis.verdict).to include(level: "ok")
+      expect(analysis.verdict[:text]).to include("All 2 paths are clean up to the last hop that replies").and include("target itself does not answer")
+      expect(trace.runs.map { |r| analysis.level(r) }).to eq(%w[none none])
+    end
+
+    it "still reports loss on the way to a target that answers nobody" do
+      add_run("a", [ hop(1, "192.0.2.1", 0), hop(2, "198.51.100.1", 20), hop(3, nil, 100) ])
+
+      verdict = described_class.new(trace).verdict
+
+      expect(verdict[:level]).to eq("bad")
+      expect(verdict[:text]).to include("The path loses packets up to the last hop that replies").and include("198.51.100.1")
+    end
+
+    it "reports a path that never reaches a target other machines do reach" do
+      add_run("a", [ hop(1, "192.0.2.1", 0), hop(2, "203.0.113.42", 0) ])
+      broken = add_run("b", [ hop(1, "192.0.2.2", 0), hop(2, nil, 100) ])
+      analysis = described_class.new(trace)
+
+      expect(analysis.verdict).to include(level: "bad")
+      expect(analysis.verdict[:text]).to include("1 of 2 paths never reached the target, although other machines did")
+      expect(analysis.level(broken)).to eq("bad")
     end
 
     it "stays provisional until every run has finished" do
       add_run("a", [ hop(1, "192.0.2.1", 0), hop(2, "203.0.113.42", 0) ])
       add_run("b", [], status: "running")
 
-      expect(described_class.new(trace).verdict).to include(provisional: true, text: "No end-to-end loss on the 1 of 2 paths that finished.")
+      expect(described_class.new(trace).verdict).to include(provisional: true, text: "No loss end-to-end on the 1 of 2 paths that finished.")
     end
 
     it "does not call a failed machine clean" do
       add_run("a", [ hop(1, "192.0.2.1", 0), hop(2, "203.0.113.42", 0) ])
       add_run("b", [], status: "failed")
 
-      expect(described_class.new(trace).verdict[:text]).to eq("No end-to-end loss on the 1 of 2 paths that finished.")
+      expect(described_class.new(trace).verdict[:text]).to eq("No loss end-to-end on the 1 of 2 paths that finished.")
     end
   end
 end

@@ -8,7 +8,12 @@
       %strong.mtr-mono= run.source_label
       - if run.status == "done" && final
         %span{class: mtr_badge(analysis.level(run))}
-          = analysis.reached_target?(run) ? "#{final.loss.round}% end-to-end" : "target not reached"
+          - if analysis.reached_target?(run)
+            #{final.loss.round}% end-to-end
+          - elsif analysis.target_answers?
+            target not reached
+          - else
+            #{final.loss.round}% to last hop · target silent
       - elsif run.finished?
         %span{class: mtr_badge("bad")}= run.status
       - else

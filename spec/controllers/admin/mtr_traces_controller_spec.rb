@@ -100,6 +100,19 @@ describe Admin::MtrTracesController do
       expect(response.body).to include("mtr_report_#{trace.runs.first.id}_container").and include("Copy report")
     end
 
+    it "labels a target that answers nobody as silent, not as a problem" do
+      trace = MtrTrace.create!(target: "203.0.113.42", cycles: 10,
+                               runs: [ MtrRun.new(source_type: "ssh_server", source_key: "host.example", source_label: "host.example", status: "done", finished_at: Time.current) ])
+      hosts = [ { "ip" => "198.51.100.1", "asn" => 1136, "org" => "KPN", "net" => nil, "city" => nil, "country" => "NL" } ]
+      stats = { "sent" => 10, "received" => 10, "loss" => 0.0, "last" => 9.1, "avg" => 9.0, "best" => 8.0, "worst" => 11.0, "stdev" => 1.0 }
+      trace.runs.first.update!(hops: [ stats.merge("n" => 1, "hosts" => hosts), stats.merge("n" => 2, "hosts" => [], "received" => 0, "loss" => 100.0) ])
+
+      get :show, params: { id: trace.id }
+
+      expect(response.body).to include("0% to last hop · target silent").and include("target itself does not answer")
+      expect(response.body).not_to include("target not reached")
+    end
+
     it "re-runs a trace from the same machines" do
       trace = MtrTrace.create!(target: "203.0.113.42", cycles: 10,
                                runs: [ MtrRun.new(source_type: "ssh_server", source_key: "host.example", source_label: "host.example", status: "done") ])

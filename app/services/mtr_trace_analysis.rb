@@ -46,12 +46,20 @@ class MtrTraceAnalysis
     final_hop(run)&.hosts&.any? { |h| h["ip"] == @trace.target_ip } || false
   end
 
+  # Home routers often drop mtr's probes, so a target that answers no machine
+  # says nothing about the path. It only counts against a path when another
+  # machine did reach it.
+  sig { returns(T::Boolean) }
+  def target_answers?
+    @runs.any? { |r| reached_target?(r) }
+  end
+
   # none / warn / bad, for the whole path.
   sig { params(run: MtrRun).returns(String) }
   def level(run)
     final = final_hop(run)
     return "none" unless final
-    return "bad" unless reached_target?(run) || !run.finished?
+    return "bad" if run.finished? && !reached_target?(run) && target_answers?
     return "none" if final.loss.zero?
 
     final.loss >= BAD_LOSS ? "bad" : "warn"
@@ -64,12 +72,12 @@ class MtrTraceAnalysis
     return { level: "pending", provisional: true, text: "Waiting for the first result…" } if done.empty? && provisional
     return { level: "bad", provisional: false, text: "No machine could complete the trace." } if done.empty?
 
-    unreached = done.reject { |r| reached_target?(r) }
-    lossy = (done - unreached).select { |r| final_hop(r).loss.positive? }
-    clean = done - unreached - lossy
+    broken = done.select { |r| final_hop(r).nil? || (target_answers? && !reached_target?(r)) }
+    lossy = (done - broken).select { |r| final_hop(r).loss.positive? }
+    clean = done - broken - lossy
 
-    text = [ headline(done, lossy, unreached), culprit(lossy, clean, done) ].compact.join(" ")
-    level = if unreached.any? || lossy.any? { |r| level(r) == "bad" } then "bad"
+    text = [ headline(done, lossy, broken), culprit(lossy, clean, done), silent_target_note(done - broken) ].compact.join(" ")
+    level = if broken.any? || lossy.any? { |r| level(r) == "bad" } then "bad"
     elsif lossy.any? then "warn"
     else "ok"
     end
@@ -116,22 +124,32 @@ class MtrTraceAnalysis
     hops.flat_map { |h| h["hosts"] || [] }.select { |h| h["asn"] }.map { |h| h["ip"] }.uniq - [ @trace.target_ip ]
   end
 
-  def headline(done, lossy, unreached)
+  def headline(done, lossy, broken)
     parts = []
-    parts << "#{count_of(unreached, done)} never reached the target." if unreached.any?
+    parts << "#{count_of(broken, done)} never reached the target#{', although other machines did' if target_answers?}." if broken.any?
     if lossy.any?
-      parts << "#{count_of(lossy, done)} #{@runs.size == 1 ? 'loses' : 'lose'} packets end-to-end."
-    elsif unreached.empty?
+      parts << "#{count_of(lossy, done)} #{@runs.size == 1 ? 'loses' : 'lose'} packets #{extent}."
+    elsif broken.empty?
       parts << clean_headline(done)
     end
     parts.join(" ")
   end
 
   def clean_headline(done)
-    return "The path is clean end-to-end." if @runs.size == 1
-    return "All #{done.size} paths are clean end-to-end." if done.size == @runs.size
+    return "The path is clean #{extent}." if @runs.size == 1
+    return "All #{done.size} paths are clean #{extent}." if done.size == @runs.size
 
-    "No end-to-end loss on the #{done.size} of #{@runs.size} paths that finished."
+    "No loss #{extent} on the #{done.size} of #{@runs.size} paths that finished."
+  end
+
+  def extent
+    target_answers? ? "end-to-end" : "up to the last hop that replies"
+  end
+
+  def silent_target_note(judged)
+    return if target_answers? || judged.empty?
+
+    "The target itself does not answer, which is normal for home connections that drop ping."
   end
 
   def count_of(subset, all)

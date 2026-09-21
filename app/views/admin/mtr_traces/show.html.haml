@@ -1,0 +1,10 @@
+- content_for(:title) { "mtr to #{@trace.target}" }
+
+= turbo_stream_from @trace
+
+.row.mtr{data: {controller: "mtr-tooltips"}}
+  .col-md-12.col-lg-10.offset-lg-1
+    = render "header", trace: @trace
+    = render "overview", trace: @trace, analysis: @analysis
+    - @trace.runs.each do |run|
+      = render "run", run: run, analysis: @analysis

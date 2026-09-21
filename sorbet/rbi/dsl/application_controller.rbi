@@ -33,6 +33,7 @@ class ApplicationController
     include ::ActiveSupport::CoreExt::ERBUtil
     include ::ActiveSupport::CoreExt::ERBUtilPrivate
     include ::LogLineViewHelper
+    include ::MtrTracesHelper
     include ::RconHelper
     include ::ReservationsHelper
     include ::SessionsHelper

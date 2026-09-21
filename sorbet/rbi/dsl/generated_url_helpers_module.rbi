@@ -34,6 +34,12 @@ module GeneratedUrlHelpersModule
   def admin_maps_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def admin_mtr_trace_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def admin_mtr_traces_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def admin_product_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
@@ -482,6 +488,9 @@ module GeneratedUrlHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def redirect_orders_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def rerun_admin_mtr_trace_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def reservation_log_uploads_url(*args); end

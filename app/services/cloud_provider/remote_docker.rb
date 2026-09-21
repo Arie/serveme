@@ -100,19 +100,7 @@ module CloudProvider
 
     sig { params(docker_host: DockerHost, block: T.proc.params(ssh: T.untyped).returns(T.untyped)).returns(T.untyped) }
     def ssh_to_host(docker_host, &block)
-      opts = { timeout: 5, keepalive: true, keepalive_interval: 5, keepalive_maxcount: 2, bind_address: "0.0.0.0", port: docker_host.ssh_port }
-      user = docker_host.ssh_user
-
-      if docker_host.provider?
-        key_data = Rails.application.credentials.dig(:cloud_servers, :ssh_private_key)
-        if key_data.present?
-          opts[:key_data] = [ key_data ]
-          opts[:keys_only] = true
-        end
-        opts[:verify_host_key] = :never
-      end
-
-      Net::SSH.start(docker_host.hostname, user, **opts, &block)
+      docker_host.with_ssh(&block)
     end
   end
 end

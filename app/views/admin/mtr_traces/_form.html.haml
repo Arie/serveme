@@ -1,0 +1,29 @@
+%div{class: mtr_ui(:card)}
+  %div{class: mtr_ui(:body)}
+    %h5{class: mtr_ui(:title)}
+      %i.fa.fa-play-circle
+      New trace
+    - if trace.errors.any?
+      .mtr-callout.sev-bad= trace.errors.full_messages.to_sentence
+    = form_with url: admin_mtr_traces_path, method: :post, local: true, data: { turbo: false } do |f|
+      .mtr-form
+        %div
+          = f.label :target, "Target IPv4 address or hostname", class: mtr_ui(:label)
+          = f.text_field :target, value: trace.target, class: "#{mtr_ui(:input)} mtr-mono", list: "mtr-own-machines", required: true, autocomplete: "off", placeholder: "203.0.113.42"
+          %datalist#mtr-own-machines
+            - sources.each do |source|
+              %option{value: source.label}
+          = f.label :cycles, "Cycles", class: mtr_ui(:label), style: "margin-top: .9rem"
+          = f.select :cycles, MtrTrace::CYCLE_OPTIONS.map { |c| [ "#{c} (about #{c + 6} s)", c ] }, { selected: trace.cycles }, class: mtr_ui(:select)
+          = f.submit "Run mtr", class: "#{mtr_ui(:primary)} mt-3"
+        %div
+          %label{class: mtr_ui(:label)} Run from (one entry per physical machine, max #{MtrTrace::MAX_SOURCES})
+          - if sources.empty?
+            %p.mtr-muted.mb-0 No active SSH or Docker hosts.
+          .mtr-machines
+            - sources.each do |source|
+              %label
+                = check_box_tag "source_ids[]", source.id, selected_source_ids.include?(source.id), id: "source_#{source.id.parameterize}"
+                = mtr_flag(source.flag)
+                %span.mtr-mono= source.label
+                %span.mtr-faint.mtr-small= source.detail

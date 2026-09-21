@@ -232,7 +232,7 @@ class DockerHostSetupService
       set -e
       export DEBIAN_FRONTEND=noninteractive
       missing=()
-      for pkg in curl ca-certificates gnupg; do
+      for pkg in curl ca-certificates gnupg mtr-tiny; do
         dpkg -s "$pkg" >/dev/null 2>&1 || missing+=("$pkg")
       done
       if [ ${#missing[@]} -gt 0 ]; then

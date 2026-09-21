@@ -1,0 +1,7 @@
+- content_for(:title) { "Network path (mtr)" }
+
+%div{class: "mtr max-w-6xl"}
+  %div{class: "my-6"}
+    %h1{class: "v2-page-title"} Network path (mtr)
+  = render "form", trace: @trace, sources: @sources, selected_source_ids: @selected_source_ids
+  = render "history", traces: @traces, pagy: @pagy

@@ -1,0 +1,70 @@
+// Admin mtr traces. Shared by the classic and the beta layout: beta colour
+// tokens are used when present, the fallbacks suit the classic dark theme.
+.mtr {
+  --mtr-ok: var(--color-success, #3ecf8e);
+  --mtr-warn: var(--color-gold, #f2c14e);
+  --mtr-bad: var(--color-danger, #e54834);
+  --mtr-accent: var(--color-accent, #f2742c);
+  --mtr-muted: var(--color-muted, #9aa0ab);
+  --mtr-faint: var(--color-faint, #6b7280);
+  --mtr-inset: var(--color-inset, rgba(0, 0, 0, 0.25));
+  --mtr-line: rgba(255, 255, 255, 0.08);
+
+  .mtr-muted { color: var(--mtr-muted); }
+  .mtr-faint { color: var(--mtr-faint); }
+  .mtr-small { font-size: 0.75rem; }
+  .mtr-mono { font-family: var(--font-mono, ui-monospace, monospace); font-size: 0.8rem; }
+
+  .sev-none { --sev: var(--mtr-ok); }
+  .sev-warn { --sev: var(--mtr-warn); }
+  .sev-bad { --sev: var(--mtr-bad); }
+  .sev-ignored { --sev: var(--mtr-faint); }
+
+  .mtr-form { display: grid; grid-template-columns: minmax(220px, 1fr) 2fr; gap: 1.5rem; }
+  @media (max-width: 800px) { .mtr-form { grid-template-columns: 1fr; } }
+  .mtr-machines { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 0 1rem; }
+  .mtr-machines label { display: flex; align-items: center; gap: 0.45rem; padding: 0.2rem 0; margin: 0; font-size: 0.875rem; cursor: pointer; white-space: nowrap; }
+  .mtr-machines .flags { flex: none; }
+
+  .mtr-callout { border: 1px solid var(--mtr-line); border-left: 3px solid var(--sev, var(--mtr-faint)); background: var(--mtr-inset); border-radius: 10px; padding: 0.85rem 1rem; margin-bottom: 1rem; }
+
+  .mtr-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 0.75rem; }
+  .mtr-tile { display: block; color: inherit; text-decoration: none; background: var(--mtr-inset); border: 1px solid var(--mtr-line); border-left: 3px solid var(--sev, var(--mtr-line)); border-radius: 10px; padding: 0.8rem 0.9rem; }
+  .mtr-tile:hover { color: inherit; text-decoration: none; filter: brightness(1.15); }
+  .mtr-tile .mtr-big { font-size: 1.5rem; font-weight: 700; line-height: 1.15; }
+  .mtr-progress { height: 4px; border-radius: 2px; background: var(--mtr-line); margin-top: 0.5rem; overflow: hidden; }
+  .mtr-progress > span { display: block; height: 100%; background: var(--mtr-accent); transition: width 1s linear; }
+
+  .mtr-lane { display: grid; grid-template-columns: 170px 1fr; align-items: center; gap: 0.75rem; padding: 0.55rem 0; border-top: 1px solid var(--mtr-line); }
+  .mtr-lane:first-of-type { border-top: 0; }
+  @media (max-width: 800px) { .mtr-lane { grid-template-columns: 1fr; } }
+  .mtr-path { display: flex; align-items: center; flex-wrap: wrap; row-gap: 0.5rem; }
+  .mtr-node { min-width: 58px; text-align: center; border-radius: 8px; padding: 0.25rem 0.4rem; background: var(--mtr-inset); border: 1px solid var(--mtr-line); border-bottom: 3px solid var(--sev, var(--mtr-line)); font-size: 0.7rem; line-height: 1.25; cursor: default; }
+  .mtr-node.shared { outline: 2px solid var(--mtr-accent); outline-offset: 1px; }
+  .mtr-node.silent { opacity: 0.45; border-style: dashed; }
+  .mtr-node .as { color: var(--mtr-muted); display: block; }
+  .mtr-link { width: 14px; height: 2px; background: var(--mtr-line); flex: none; }
+  .mtr-link.handoff { width: 26px; background: repeating-linear-gradient(90deg, var(--mtr-muted) 0 4px, transparent 4px 8px); }
+  .mtr-legend { display: flex; gap: 1rem; flex-wrap: wrap; font-size: 0.75rem; color: var(--mtr-muted); margin-top: 0.75rem; }
+  .mtr-legend i { display: inline-block; width: 18px; height: 4px; border-radius: 2px; vertical-align: middle; margin-right: 0.35rem; background: var(--sev); }
+  .mtr-legend i.ring { width: 12px; height: 12px; background: none; outline: 2px solid var(--mtr-accent); border-radius: 3px; }
+
+  .mtr-run-head { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
+  .mtr-hops { font-size: 0.85rem; }
+  .mtr-hops td, .mtr-hops th { white-space: nowrap; padding-left: 0.4rem; padding-right: 0.4rem; }
+  .asn-tooltip { border-bottom: 1px dotted var(--mtr-muted); cursor: help; }
+  .mtr-node[data-toggle] { cursor: help; }
+  .mtr-hops .num { text-align: right; font-family: var(--font-mono, ui-monospace, monospace); font-size: 0.8rem; }
+  .mtr-hops tr.handoff td { border-top: 1px dashed var(--mtr-muted); }
+  .mtr-loss { display: inline-block; min-width: 3.6rem; text-align: right; padding: 0.1rem 0.4rem; border-radius: 6px; }
+  .mtr-loss.sev-warn { background: rgba(242, 193, 78, 0.16); }
+  .mtr-loss.sev-bad { background: rgba(229, 72, 52, 0.22); }
+  .mtr-loss.sev-ignored { color: var(--mtr-faint); text-decoration: line-through; }
+  .mtr-shared { border: 1px solid var(--mtr-accent); border-radius: 999px; padding: 0 0.4rem; font-size: 0.7rem; margin-left: 0.3rem; }
+  .mtr-range { position: relative; width: 80px; height: 10px; background: var(--mtr-line); border-radius: 5px; }
+  .mtr-range .span { position: absolute; top: 3px; height: 4px; border-radius: 2px; background: var(--color-info, #4aa3df); opacity: 0.6; }
+  .mtr-range .avg { position: absolute; top: 0; width: 2px; height: 10px; background: currentColor; }
+  .mtr-report pre { font-size: 0.72rem; margin: 0.5rem 0 0; white-space: pre; overflow-x: auto; }
+  .mtr-spin { display: inline-block; width: 12px; height: 12px; border: 2px solid var(--mtr-line); border-top-color: var(--mtr-accent); border-radius: 50%; animation: mtr-spin 1s linear infinite; }
+}
+@keyframes mtr-spin { to { transform: rotate(360deg); } }

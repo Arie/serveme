@@ -1,0 +1,12 @@
+.d-flex.justify-content-between.align-items-center.flex-wrap.my-4{style: "gap: 1rem"}
+  %div
+    %h2{class: mtr_ui(:heading)}
+      mtr to
+      %span.mtr-mono{style: "font-size: inherit"}= trace.target
+    .mtr-muted.mtr-small
+      - if trace.target != trace.target_ip
+        = "#{trace.target_ip} ·"
+      #{trace.created_at.to_fs(:short)} · #{trace.cycles} cycles · by #{trace.requested_by}
+  .d-flex{style: "gap: .5rem"}
+    = link_to "← All traces", admin_mtr_traces_path, class: mtr_ui(:button)
+    = button_to "Run again", rerun_admin_mtr_trace_path(trace), class: mtr_ui(:button), form: { data: { turbo: false } }

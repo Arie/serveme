@@ -1,0 +1,72 @@
+- verdict = analysis.verdict
+%div{class: mtr_ui(:card), id: "mtr-overview"}
+  %div{class: mtr_ui(:body)}
+    .mtr-callout{class: "sev-#{{ 'ok' => 'none', 'pending' => 'ignored' }.fetch(verdict[:level], verdict[:level])}"}
+      - if verdict[:provisional]
+        %span.mtr-spin
+        %strong Provisional.
+      = verdict[:text]
+    .mtr-tiles
+      - trace.runs.each do |run|
+        - final = analysis.final_hop(run)
+        %a.mtr-tile{href: "#mtr-run-#{run.id}", class: ("sev-#{analysis.level(run)}" if final)}
+          .mtr-mono
+            = mtr_flag(run.source_flag)
+            = run.short_label
+          - if run.status == "queued" || run.status == "connecting"
+            .mtr-big
+              %span.mtr-spin
+            .mtr-muted.mtr-small= run.status
+          - elsif final.nil?
+            .mtr-big –
+            .mtr-muted.mtr-small= run.finished? ? run.status : "waiting for replies…"
+          - else
+            .mtr-big #{final.loss.round}% loss
+            .mtr-muted.mtr-small
+              avg #{mtr_ms(final.avg)} ms · worst #{mtr_ms(final.worst)} ms · #{analysis.hops_for(run).size} hops
+          - if run.status == "running"
+            .mtr-muted.mtr-small cycle #{[ run.cycles_seen, trace.cycles ].min} / #{trace.cycles}
+            .mtr-progress
+              %span{style: "width: #{[ run.cycles_seen * 100 / trace.cycles, 100 ].min}%"}
+          - elsif run.error.present? && final
+            .mtr-small{style: "color: var(--mtr-bad)"}= run.status
+
+    - with_hops = trace.runs.select { |r| r.hops.any? }
+    - if with_hops.any?
+      %h5{class: mtr_ui(:title), style: "margin-top: 1.25rem"}
+        %i.fa.fa-random
+        Paths compared
+      - with_hops.each do |run|
+        .mtr-lane
+          %div
+            .mtr-mono= run.short_label
+            .mtr-faint.mtr-small= run.source_detail
+          .mtr-path
+            - analysis.hops_for(run).each_with_index do |hop, i|
+              - if i.positive?
+                %span{class: [ "mtr-link", ("handoff" if hop.handoff) ]}
+              - if hop.silent?
+                .mtr-node.silent{title: "Hop #{hop.n}: no reply"}
+                  = hop.n
+                  %span.as ???
+              - else
+                .mtr-node{mtr_hop_tooltip(hop, stats: true), id: "mtr-node-#{run.id}-#{hop.n}", class: [ "sev-#{hop.severity}", ("shared" if hop.shared) ]}
+                  #{hop.n} · #{hop.loss.round}%
+                  %span.as= hop.asn ? "AS#{hop.asn}" : (hop.host["org"] || "no AS")
+      .mtr-legend
+        %span.sev-none
+          %i
+          no loss
+        %span.sev-warn
+          %i
+          loss under #{MtrTraceAnalysis::BAD_LOSS.to_i}% that persists to the end
+        %span.sev-bad
+          %i
+          loss of #{MtrTraceAnalysis::BAD_LOSS.to_i}% or more that persists to the end
+        %span.sev-ignored
+          %i
+          loss that is gone further down (rate-limited replies)
+        %span
+          %i.ring
+          hop on more than one path
+        %span ┄ AS handoff

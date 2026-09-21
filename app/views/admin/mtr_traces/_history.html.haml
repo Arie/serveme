@@ -1,0 +1,30 @@
+%div{class: mtr_ui(:card)}
+  %div{class: mtr_ui(:body)}
+    %h5{class: mtr_ui(:title)}
+      %i.fa.fa-history
+      Recent traces
+    - if traces.empty?
+      %p.mtr-muted.mb-0 No traces yet.
+    - else
+      %div{class: mtr_ui(:table_wrap)}
+        %table{class: mtr_ui(:table)}
+          %thead
+            %tr
+              %th When
+              %th Target
+              %th By
+              %th From
+              %th Verdict
+          %tbody
+            - traces.each do |trace|
+              - verdict = trace.analysis.verdict
+              %tr{ onclick: "window.location='#{admin_mtr_trace_path(trace)}'", style: "cursor: pointer;" }
+                %td.mtr-mono= trace.created_at.to_fs(:short)
+                %td.mtr-mono= trace.target
+                %td= trace.requested_by
+                %td= trace.runs.map(&:short_label).join(", ")
+                %td
+                  %span{class: mtr_badge(verdict[:provisional] ? nil : verdict[:level])}= verdict[:provisional] ? "running" : { "ok" => "clean", "warn" => "minor loss", "bad" => "problem" }.fetch(verdict[:level], verdict[:level])
+      - if pagy.pages > 1
+        .d-flex.justify-content-center.mt-3
+          != pagy.series_nav(:bootstrap)

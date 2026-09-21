@@ -1,0 +1,81 @@
+- hops = analysis.hops_for(run)
+- final = analysis.final_hop(run)
+- scale = mtr_scale(hops)
+%div{class: mtr_ui(:card), id: "mtr-run-#{run.id}"}
+  %div{class: mtr_ui(:body)}
+    .mtr-run-head
+      = mtr_flag(run.source_flag)
+      %strong.mtr-mono= run.source_label
+      - if run.status == "done" && final
+        %span{class: mtr_badge(analysis.level(run))}
+          = analysis.reached_target?(run) ? "#{final.loss.round}% end-to-end" : "target not reached"
+      - elsif run.finished?
+        %span{class: mtr_badge("bad")}= run.status
+      - else
+        %span{class: mtr_badge(nil)}
+          %span.mtr-spin
+          - if run.status == "running"
+            cycle #{[ run.cycles_seen, run.mtr_trace.cycles ].min} / #{run.mtr_trace.cycles}
+          - else
+            = run.status
+      %span.mtr-faint.mtr-small= run.source_detail
+    - if run.error.present?
+      .mtr-callout.sev-bad= run.error
+    - if hops.any?
+      %div{class: mtr_ui(:table_wrap)}
+        %table{class: "#{mtr_ui(:table)} mtr-hops"}
+          %thead
+            %tr
+              %th.num #
+              %th Host
+              %th Network
+              %th Location
+              %th.num Loss
+              %th.num Snt
+              %th.num Last
+              %th.num Avg
+              %th.num Best
+              %th.num Wrst
+              %th.num StDev
+              %th{title: "best – avg – worst, 0 to #{scale.round} ms"} Range
+          %tbody
+            - hops.each do |hop|
+              %tr{class: ("handoff" if hop.handoff)}
+                %td.num= hop.n
+                - if hop.silent?
+                  %td.mtr-faint{colspan: 3} ??? (no reply)
+                  %td.num.mtr-faint #{format('%.1f', hop.loss)}%
+                  %td.num.mtr-faint= hop.sent
+                  %td{colspan: 6}
+                - else
+                  %td.mtr-mono
+                    = hop.ip
+                    - if hop.shared
+                      %span.mtr-shared{title: "on #{hop.shared} paths"} ×#{hop.shared}
+                    - hop.hosts.drop(1).each do |alt|
+                      %div.mtr-faint{title: "load-balanced hop"}= alt["ip"]
+                  %td
+                    %span.asn-tooltip{mtr_hop_tooltip(hop), id: "mtr-net-#{run.id}-#{hop.n}"}= hop.network
+                  %td.mtr-muted= hop.place || "–"
+                  %td.num
+                    %span{class: "mtr-loss sev-#{hop.severity}"} #{format('%.1f', hop.loss)}%
+                  %td.num= hop.sent
+                  %td.num= mtr_ms(hop.last)
+                  %td.num= mtr_ms(hop.avg)
+                  %td.num= mtr_ms(hop.best)
+                  %td.num= mtr_ms(hop.worst)
+                  %td.num= mtr_ms(hop.stdev)
+                  %td
+                    - if hop.avg
+                      - style = mtr_range_style(hop, scale)
+                      .mtr-range{title: "best #{mtr_ms(hop.best)} · avg #{mtr_ms(hop.avg)} · worst #{mtr_ms(hop.worst)} ms"}
+                        .span{style: style[:span]}
+                        .avg{style: style[:avg]}
+      - if run.finished?
+        - report = mtr_text_report(run, hops)
+        %details.mtr-report.mt-2
+          %summary.mtr-muted.mtr-small Text report (for provider tickets)
+          .mt-2= render "shared/copy_button", copy_button_id: "mtr_report_#{run.id}", copy_text: report, button_text: "Copy report"
+          %pre= report
+    - elsif !run.finished?
+      %p.mtr-muted.mb-0 Waiting for the first replies…

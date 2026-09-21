@@ -1,0 +1,7 @@
+- content_for(:title) { "Network path (mtr)" }
+
+.row.mtr
+  .col-md-12.col-lg-10.offset-lg-1
+    %h2.mb-4 Network path (mtr)
+    = render "form", trace: @trace, sources: @sources, selected_source_ids: @selected_source_ids
+    = render "history", traces: @traces, pagy: @pagy

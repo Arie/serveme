@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_09_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_21_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gist"
   enable_extension "pg_catalog.plpgsql"
@@ -224,6 +224,35 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_09_120000) do
     t.index ["reservation_match_id", "steam_uid"], name: "index_match_players_on_reservation_match_id_and_steam_uid", unique: true
     t.index ["reservation_match_id"], name: "index_match_players_on_reservation_match_id"
     t.index ["steam_uid"], name: "index_match_players_on_steam_uid"
+  end
+
+  create_table "mtr_runs", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "error"
+    t.datetime "finished_at"
+    t.jsonb "hops", default: [], null: false
+    t.bigint "mtr_trace_id", null: false
+    t.text "raw_output", default: "", null: false
+    t.string "source_detail"
+    t.string "source_flag"
+    t.string "source_key", null: false
+    t.string "source_label", null: false
+    t.string "source_type", null: false
+    t.datetime "started_at"
+    t.string "status", default: "queued", null: false
+    t.datetime "updated_at", null: false
+    t.index ["mtr_trace_id"], name: "index_mtr_runs_on_mtr_trace_id"
+  end
+
+  create_table "mtr_traces", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "cycles", default: 10, null: false
+    t.string "target", null: false
+    t.string "target_ip", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.index ["created_at"], name: "index_mtr_traces_on_created_at"
+    t.index ["user_id"], name: "index_mtr_traces_on_user_id"
   end
 
   create_table "paypal_orders", force: :cascade do |t|
@@ -563,4 +592,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_09_120000) do
   add_foreign_key "docker_host_setup_logs", "docker_hosts"
   add_foreign_key "docker_hosts", "locations"
   add_foreign_key "file_upload_permissions", "users"
+  add_foreign_key "mtr_runs", "mtr_traces"
+  add_foreign_key "mtr_traces", "users"
 end

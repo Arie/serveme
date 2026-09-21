@@ -34,6 +34,12 @@ module GeneratedPathHelpersModule
   def admin_maps_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def admin_mtr_trace_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def admin_mtr_traces_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def admin_product_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
@@ -482,6 +488,9 @@ module GeneratedPathHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def redirect_orders_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def rerun_admin_mtr_trace_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def reservation_log_uploads_path(*args); end

@@ -172,6 +172,11 @@ Serveme::Application.routes.draw do
     end
     resource :site_settings, only: [ :edit, :update ]
     resources :scoreboards, only: [ :index ]
+    resources :mtr_traces, only: [ :index, :show, :create ] do
+      member do
+        post :rerun
+      end
+    end
   end
 
   authenticate :user, ->(u) { u.admin? } do

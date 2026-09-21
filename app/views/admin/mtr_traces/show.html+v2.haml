@@ -1,0 +1,9 @@
+- content_for(:title) { "mtr to #{@trace.target}" }
+
+= turbo_stream_from_beta @trace
+
+%div{class: "mtr max-w-6xl", data: {controller: "mtr-tooltips"}}
+  = render "header", trace: @trace
+  = render "overview", trace: @trace, analysis: @analysis
+  - @trace.runs.each do |run|
+    = render "run", run: run, analysis: @analysis

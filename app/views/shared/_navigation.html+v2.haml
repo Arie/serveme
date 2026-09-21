@@ -90,6 +90,7 @@
                 = link_to "Docker Hosts", admin_docker_hosts_path, class: "dropdown-item"
                 - if SITE_HOST == "serveme.tf"
                   = link_to "Cloud Image", admin_cloud_image_builds_path, class: "dropdown-item"
+                = link_to "Network Path (mtr)", admin_mtr_traces_path, class: "dropdown-item"
                 = link_to "Server Notifications", admin_server_notifications_path, class: "dropdown-item"
                 = link_to "Site Settings", edit_admin_site_settings_path, class: "dropdown-item"
               .dropdown-divider

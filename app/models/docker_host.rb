@@ -46,6 +46,22 @@ class DockerHost < ActiveRecord::Base
     hostname.to_s.end_with?(".serveme.tf")
   end
 
+  sig { params(block: T.proc.params(ssh: T.untyped).returns(T.untyped)).returns(T.untyped) }
+  def with_ssh(&block)
+    opts = { timeout: 5, keepalive: true, keepalive_interval: 5, keepalive_maxcount: 2, bind_address: "0.0.0.0", port: ssh_port }
+
+    if provider?
+      key_data = Rails.application.credentials.dig(:cloud_servers, :ssh_private_key)
+      if key_data.present?
+        opts[:key_data] = [ key_data ]
+        opts[:keys_only] = true
+      end
+      opts[:verify_host_key] = :never
+    end
+
+    Net::SSH.start(hostname, ssh_user, **opts, &block)
+  end
+
   sig { returns(Integer) }
   def virtual_server_id
     VIRTUAL_ID_OFFSET + id

@@ -774,7 +774,7 @@ GEM
       redis-client (>= 0.22.0)
     redis-client (0.30.1)
       connection_pool
-    regexp_parser (2.12.0)
+    regexp_parser (2.13.0)
     reline (0.7.0)
       io-console (~> 0.5)
     request_store (1.7.0)
@@ -996,7 +996,7 @@ GEM
     unicode-display_width (3.3.0)
       unicode-emoji (~> 4.3)
     unicode-emoji (4.3.0)
-    unicode-name (1.15.0)
+    unicode-name (1.15.1)
       unicode-types (~> 1.12)
     unicode-types (1.12.0)
     uri (1.1.1)

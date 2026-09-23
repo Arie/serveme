@@ -7,7 +7,6 @@ class ReservationsController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[motd]
   skip_before_action :store_current_location, only: %i[extend_reservation destroy]
   helper LogLineHelper
-  caches_action :motd, cache_path: -> { "motd_#{params[:id]}" }, unless: -> { current_user }, expires_in: 1.seconds
   include RconHelper
   include LogLineHelper
   include ReservationsHelper

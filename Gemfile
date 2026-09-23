@@ -2,7 +2,6 @@
 
 source "https://rubygems.org"
 
-gem "actionpack-action_caching"
 gem "american_date"
 gem "aws-sigv4"
 gem "aws-sdk-core", require: false

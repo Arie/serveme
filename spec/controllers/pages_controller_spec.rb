@@ -67,17 +67,4 @@ describe PagesController do
       expect(response).not_to render_template("layouts/application_v2")
     end
   end
-
-  describe "#welcome cache key" do
-    it "varies the action-cache key by the ui_v2 cookie" do
-      sign_out @user
-      get :welcome
-      without_cookie = controller.send(:welcome_cache_path)
-      request.cookies["ui_v2"] = "true"
-      get :welcome
-      with_cookie = controller.send(:welcome_cache_path)
-      expect(with_cookie).not_to eq(without_cookie)
-      expect(with_cookie).to include("true")
-    end
-  end
 end

@@ -120,14 +120,14 @@ class Pagy::Calendar < ::Hash
   # The url for the calendar (shortest unit) page at time
   #
   # pkg:gem/pagy#lib/pagy/classes/calendar/calendar.rb:45
-  def url_at(time, **_arg1); end
+  def url_at(time, **); end
 
   private
 
   # Create an instance of a Unit subclass by using its name (internal use)
   #
   # pkg:gem/pagy#lib/pagy/classes/calendar/calendar.rb:93
-  def create(unit, **_arg1); end
+  def create(unit, **); end
 
   # Create the calendar
   #
@@ -143,7 +143,7 @@ class Pagy::Calendar < ::Hash
     # Return calendar, from, to
     #
     # pkg:gem/pagy#lib/pagy/classes/calendar/calendar.rb:38
-    def init(*_arg0, **_arg1, &_arg2); end
+    def init(*, **, &); end
   end
 end
 
@@ -238,7 +238,7 @@ class Pagy::Calendar::Unit < ::Pagy
   include ::Pagy::NumericHelpers
 
   # pkg:gem/pagy#lib/pagy/classes/calendar/unit.rb:21
-  def initialize(**_arg0); end
+  def initialize(**); end
 
   # pkg:gem/pagy#lib/pagy/classes/calendar/unit.rb:33
   def from; end
@@ -382,7 +382,7 @@ module Pagy::Configurable
   def sync(resource, destination, *targets); end
 
   # pkg:gem/pagy#lib/pagy/deprecated.rb:79
-  def sync_javascript(*_arg0, **_arg1, &_arg2); end
+  def sync_javascript(*, **, &); end
 
   # Setup pagy for using the i18n gem
   #
@@ -412,7 +412,7 @@ class Pagy::Console::Collection < ::Array
   def initialize(arr = T.unsafe(nil)); end
 
   # pkg:gem/pagy#lib/pagy/modules/console.rb:20
-  def count(*_arg0); end
+  def count(*); end
 
   # pkg:gem/pagy#lib/pagy/modules/console.rb:16
   def limit(value); end
@@ -486,7 +486,7 @@ end
 # pkg:gem/pagy#lib/pagy/deprecated.rb:42
 module Pagy::Deprecated::Countless
   # pkg:gem/pagy#lib/pagy/deprecated.rb:43
-  def initialize(**_arg0); end
+  def initialize(**); end
 
   # pkg:gem/pagy#lib/pagy/deprecated.rb:49
   def finalize(fetched_size); end
@@ -725,11 +725,11 @@ module Pagy::I18n::P11n::Other
   private
 
   # pkg:gem/pagy#lib/pagy/modules/i18n/p11n/other.rb:9
-  def plural_for(*_arg0); end
+  def plural_for(*); end
 
   class << self
     # pkg:gem/pagy#lib/pagy/modules/i18n/p11n/other.rb:9
-    def plural_for(*_arg0); end
+    def plural_for(*); end
   end
 end
 
@@ -782,7 +782,7 @@ end
 # pkg:gem/pagy#lib/pagy/classes/keyset/keyset.rb:8
 class Pagy::Keyset < ::Pagy
   # pkg:gem/pagy#lib/pagy/classes/keyset/keyset.rb:58
-  def initialize(set, **_arg1); end
+  def initialize(set, **); end
 
   # The next page (i.e., the cutoff of the current page)
   #
@@ -844,7 +844,7 @@ class Pagy::Keyset < ::Pagy
     # Factory method: detect the set type, configure the subclass, and instantiate.
     #
     # pkg:gem/pagy#lib/pagy/classes/keyset/keyset.rb:25
-    def new(set, **_arg1); end
+    def new(set, **); end
   end
 end
 
@@ -925,7 +925,7 @@ class Pagy::Keyset::Keynav < ::Pagy::Keyset
   # Finalize the instance variables needed for the UI
   #
   # pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:18
-  def initialize(set, **_arg1); end
+  def initialize(set, **); end
 
   # pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:25
   def last; end
@@ -1175,7 +1175,7 @@ class Pagy::Offset < ::Pagy
   include ::Pagy::NumericHelpers
 
   # pkg:gem/pagy#lib/pagy/classes/offset/offset.rb:18
-  def initialize(**_arg0); end
+  def initialize(**); end
 
   # pkg:gem/pagy#lib/pagy/classes/offset/offset.rb:47
   def assign_last; end
@@ -1243,7 +1243,7 @@ class Pagy::Offset::Countless < ::Pagy::Offset
   include ::Pagy::Deprecated::Countless
 
   # pkg:gem/pagy#lib/pagy/classes/offset/countless.rb:7
-  def initialize(**_arg0); end
+  def initialize(**); end
 
   # Finalize the instance variables based on the fetched size
   #
@@ -1375,12 +1375,12 @@ end
 # pkg:gem/pagy#lib/pagy/classes/offset/search.rb:5
 class Pagy::Search::Arguments < ::Array
   # pkg:gem/pagy#lib/pagy/classes/offset/search.rb:8
-  def method_missing(*_arg0); end
+  def method_missing(*); end
 
   private
 
   # pkg:gem/pagy#lib/pagy/classes/offset/search.rb:6
-  def respond_to_missing?(*_arg0); end
+  def respond_to_missing?(*); end
 end
 
 # Search classes do not use OFFSET for querying a DB;

@@ -32,7 +32,7 @@
         -# anonymous visitors into Steam OAuth with no warning, and offered
         -# 1-click (which repeats your last reservation) to people who have none.
         %div{class: "flex flex-wrap gap-2 mt-5"}
-          = link_to "/users/auth/steam", data: { turbo_method: :post }, class: "v2-btn v2-btn-primary", title: "Sign in to reserve a server" do
+          = link_to "/users/auth/steam", method: :post, class: "v2-btn v2-btn-primary", title: "Sign in to reserve a server" do
             Sign in through Steam
 
         -# Existing announcement line, kept where it has always been.

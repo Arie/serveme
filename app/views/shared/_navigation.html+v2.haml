@@ -125,5 +125,5 @@
         - else
           -# Secondary, not amber: the masthead's "Get server" is the one primary
           -# action in view, and two ambers in one viewport spends the accent.
-          = link_to "/users/auth/steam", data: { turbo_method: :post }, class: "v2-btn v2-btn-outline v2-btn-sm" do
+          = link_to "/users/auth/steam", method: :post, class: "v2-btn v2-btn-outline v2-btn-sm" do
             Sign in through Steam

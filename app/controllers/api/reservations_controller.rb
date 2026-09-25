@@ -28,8 +28,7 @@ module Api
 
     def find_servers
       @reservation = new_reservation
-      @servers = free_servers.where(sdr: false)
-      @docker_hosts = free_docker_hosts
+      @servers = NearbyServerShuffler.shuffle(free_servers.where(sdr: false).to_a + free_docker_hosts)
       render :find_servers
     end
 

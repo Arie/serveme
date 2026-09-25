@@ -78,13 +78,25 @@ describe IAmFeelingLucky do
       previous_reservation.update_column(:ends_at,   1.hour.ago)
       new_reservation_taking_my_previous_server = create :reservation, server: previous_reservation.server
 
-      create :server, ip: '3.3.3.3', position: 10
-      some_fallback_server = create :server, ip: '3.3.3.3', position: 1
-      create :server, ip: '3.3.3.3', position: 10
+      fallback_servers = Array.new(3) { create :server, ip: '3.3.3.3' }
 
       reservation = subject.build_reservation
 
-      reservation.server.should == some_fallback_server
+      expect(fallback_servers).to include(reservation.server)
+    end
+  end
+
+  context 'with equivalent nearby machines' do
+    before { allow(DockerImageReadiness).to receive(:stale?).and_return(false) }
+
+    it 'picks a regular server or docker host on any of them, not always the first' do
+      chicago = { latitude: 41.87, longitude: -87.65 }
+      server = create(:server, ip: 'chi1.serveme.tf').tap { |s| s.update_columns(chicago) }
+      docker_host = create(:docker_host, hostname: 'chi2.serveme.tf').tap { |h| h.update_columns(chicago) }
+
+      picks = Array.new(40) { IAmFeelingLucky.new(user).best_candidate }
+
+      expect(picks).to include(server, docker_host)
     end
   end
 
@@ -94,7 +106,7 @@ describe IAmFeelingLucky do
     it 'has no server to build a reservation with' do
       create(:docker_host)
 
-      expect(subject.first_available_server).to be_nil
+      expect(subject.best_matching_server).to be_nil
       expect(subject.build_reservation.server).to be_nil
     end
 
@@ -115,6 +127,7 @@ describe IAmFeelingLucky do
       previous_reservation = create :reservation, user: user
       previous_reservation.update_column(:ends_at, 1.hour.ago)
       previous_server = previous_reservation.server
+      previous_server.update_column(:active, false)
       create(:docker_host, location: previous_server.location)
       same_host = create(:docker_host, hostname: previous_server.ip, location: build(:location))
 
@@ -134,6 +147,7 @@ describe IAmFeelingLucky do
     it 'prefers a docker host in the previous reservation location when no host matches' do
       previous_reservation = create :reservation, user: user
       previous_reservation.update_column(:ends_at, 1.hour.ago)
+      previous_reservation.server.update_column(:active, false)
       create(:docker_host, location: build(:location))
       same_location_host = create(:docker_host, location: previous_reservation.server.location)
 

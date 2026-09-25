@@ -177,12 +177,12 @@ module Mcp
 
           { server: server }
         else
-          # Auto-select first available server, then fall back to a remote-docker host
-          servers = ServerForUserFinder.new(user, starts_at, ends_at).servers
-          return { server: servers.first } if servers.any?
-
-          docker_host = DockerHost.available_during(starts_at, ends_at).first
-          return { docker_host: docker_host } if docker_host
+          candidate = NearbyServerShuffler.shuffle(
+            ServerForUserFinder.new(user, starts_at, ends_at).servers.order(:position, :name).to_a +
+            DockerHost.available_during(starts_at, ends_at)
+          ).first
+          return { docker_host: candidate } if candidate.is_a?(DockerHost)
+          return { server: candidate } if candidate
 
           { error: "No servers available. Try again later or choose a different time." }
         end

@@ -38,7 +38,7 @@ class IAmFeelingLucky
       "password" => rand(10**5).to_s,
       "tv_password" => rand(10**5).to_s,
       "auto_end" => true,
-      "server" => first_available_server
+      "server" => best_matching_server
     }
   end
 
@@ -54,66 +54,36 @@ class IAmFeelingLucky
 
   sig { returns(T.nilable(Server)) }
   def best_matching_server
-    if available_server_on_previous_host
-      available_server_on_previous_host
-    elsif available_server_in_same_location
-      available_server_in_same_location
-    else
-      first_available_server
-    end
+    candidate = best_candidate
+    candidate if candidate.is_a?(Server)
   end
 
-  sig { returns(T.nilable(Server)) }
-  def available_server_on_previous_host
-    @available_server_on_previous_host ||= available_servers_on_previous_host.first
+  sig { returns(T.nilable(DockerHost)) }
+  def available_docker_host
+    candidate = best_candidate
+    candidate if candidate.is_a?(DockerHost)
   end
 
-  sig { returns(ActiveRecord::Relation) }
-  def available_servers_on_previous_host
-    available_servers.where(ip: previous_server.host_hostname)
+  # Prefer the machine the user played on last, then their previous location, then any.
+  sig { returns(T.nilable(NearbyServerShuffler::Candidate)) }
+  def best_candidate
+    return @best_candidate if defined?(@best_candidate)
+
+    candidates = NearbyServerShuffler.shuffle(available_servers.to_a + DockerHost.available_during(starts_at, ends_at))
+    @best_candidate = T.let(best_candidate_for_previous_server(candidates) || candidates.first, T.nilable(NearbyServerShuffler::Candidate))
   end
 
-  sig { returns(T.nilable(Server)) }
-  def available_server_in_same_location
-    @available_server_in_same_location ||= available_servers_in_same_location.first
-  end
+  sig { params(candidates: T::Array[NearbyServerShuffler::Candidate]).returns(T.nilable(NearbyServerShuffler::Candidate)) }
+  def best_candidate_for_previous_server(candidates)
+    return unless previous_reservation
 
-  sig { returns(ActiveRecord::Relation) }
-  def available_servers_in_same_location
-    available_servers.where(location_id: previous_server.location_id)
+    candidates.find { |c| NearbyServerShuffler.machine(c) == previous_server.host_hostname } ||
+      candidates.find { |c| c.location_id == previous_server.location_id }
   end
 
   sig { returns(ActiveRecord::Relation) }
   def available_servers
     ServerForUserFinder.new(user, starts_at, ends_at).servers.order(:position, :name)
-  end
-
-  sig { returns(T.nilable(Server)) }
-  def first_available_server
-    available_servers.first
-  end
-
-  # Remote-docker fallback: when no regular server is free, pick a docker host
-  # with spare capacity, with the same affinity as best_matching_server.
-  # Returns nil when none.
-  sig { returns(T.nilable(DockerHost)) }
-  def available_docker_host
-    @available_docker_host ||= best_matching_docker_host(DockerHost.available_during(starts_at, ends_at))
-  end
-
-  # Prefer a docker host running on the same machine as the user's previous
-  # server (matched by hostname), then one in the same location, then any.
-  sig { params(hosts: T.untyped).returns(T.nilable(DockerHost)) }
-  def best_matching_docker_host(hosts)
-    return hosts.first unless previous_reservation
-
-    docker_host_on_previous_host(hosts) || docker_host_in_previous_location(hosts) || hosts.first
-  end
-
-  sig { params(hosts: T.untyped).returns(T.nilable(DockerHost)) }
-  def docker_host_on_previous_host(hosts)
-    hostname = previous_server.host_hostname
-    hosts.find { |host| host.hostname == hostname }
   end
 
   # Attributes for DockerHostReservationCreator, reusing the same settings the
@@ -124,11 +94,6 @@ class IAmFeelingLucky
       "starts_at" => starts_at,
       "ends_at" => ends_at
     ).with_indifferent_access
-  end
-
-  sig { params(hosts: T.untyped).returns(T.nilable(DockerHost)) }
-  def docker_host_in_previous_location(hosts)
-    hosts.find { |host| host.location_id == previous_server.location_id }
   end
 
   sig { returns(ActiveSupport::TimeWithZone) }

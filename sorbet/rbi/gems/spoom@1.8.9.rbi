@@ -716,43 +716,43 @@ end
 
 # Git features for a context
 #
-# pkg:gem/spoom#lib/spoom/context/git.rb:41
+# pkg:gem/spoom#lib/spoom/context/git.rb:43
 module Spoom::Context::Git
   requires_ancestor { Spoom::Context }
 
   # Run a command prefixed by `git` in this context directory
   #
-  # pkg:gem/spoom#lib/spoom/context/git.rb:44
+  # pkg:gem/spoom#lib/spoom/context/git.rb:46
   sig { params(command: ::String).returns(::Spoom::ExecResult) }
   def git(command); end
 
   # Run `git checkout` in this context directory
   #
-  # pkg:gem/spoom#lib/spoom/context/git.rb:63
+  # pkg:gem/spoom#lib/spoom/context/git.rb:65
   sig { params(ref: ::String).returns(::Spoom::ExecResult) }
   def git_checkout!(ref: T.unsafe(nil)); end
 
   # Run `git checkout -b <branch-name> <ref>` in this context directory
   #
-  # pkg:gem/spoom#lib/spoom/context/git.rb:69
+  # pkg:gem/spoom#lib/spoom/context/git.rb:71
   sig { params(branch_name: ::String, ref: T.nilable(::String)).returns(::Spoom::ExecResult) }
   def git_checkout_new_branch!(branch_name, ref: T.unsafe(nil)); end
 
   # Run `git add . && git commit` in this context directory
   #
-  # pkg:gem/spoom#lib/spoom/context/git.rb:79
+  # pkg:gem/spoom#lib/spoom/context/git.rb:81
   sig { params(message: ::String, time: ::Time, allow_empty: T::Boolean).returns(::Spoom::ExecResult) }
   def git_commit!(message: T.unsafe(nil), time: T.unsafe(nil), allow_empty: T.unsafe(nil)); end
 
   # Get the current git branch in this context directory
   #
-  # pkg:gem/spoom#lib/spoom/context/git.rb:90
+  # pkg:gem/spoom#lib/spoom/context/git.rb:92
   sig { returns(T.nilable(::String)) }
   def git_current_branch; end
 
   # Run `git diff` in this context directory
   #
-  # pkg:gem/spoom#lib/spoom/context/git.rb:99
+  # pkg:gem/spoom#lib/spoom/context/git.rb:101
   sig { params(arg: ::String).returns(::Spoom::ExecResult) }
   def git_diff(*arg); end
 
@@ -761,33 +761,33 @@ module Spoom::Context::Git
   # Warning: passing a branch will run `git init -b <branch>` which is only available in git 2.28+.
   # In older versions, use `git_init!` followed by `git("checkout -b <branch>")`.
   #
-  # pkg:gem/spoom#lib/spoom/context/git.rb:53
+  # pkg:gem/spoom#lib/spoom/context/git.rb:55
   sig { params(branch: T.nilable(::String)).returns(::Spoom::ExecResult) }
   def git_init!(branch: T.unsafe(nil)); end
 
   # Get the last commit in the currently checked out branch
   #
-  # pkg:gem/spoom#lib/spoom/context/git.rb:105
+  # pkg:gem/spoom#lib/spoom/context/git.rb:107
   sig { params(short_sha: T::Boolean).returns(T.nilable(::Spoom::Git::Commit)) }
   def git_last_commit(short_sha: T.unsafe(nil)); end
 
-  # pkg:gem/spoom#lib/spoom/context/git.rb:116
+  # pkg:gem/spoom#lib/spoom/context/git.rb:118
   sig { params(arg: ::String).returns(::Spoom::ExecResult) }
   def git_log(*arg); end
 
   # Run `git push <remote> <ref>` in this context directory
   #
-  # pkg:gem/spoom#lib/spoom/context/git.rb:122
+  # pkg:gem/spoom#lib/spoom/context/git.rb:124
   sig { params(remote: ::String, ref: ::String, force: T::Boolean).returns(::Spoom::ExecResult) }
   def git_push!(remote, ref, force: T.unsafe(nil)); end
 
-  # pkg:gem/spoom#lib/spoom/context/git.rb:127
+  # pkg:gem/spoom#lib/spoom/context/git.rb:129
   sig { params(arg: ::String).returns(::Spoom::ExecResult) }
   def git_show(*arg); end
 
   # Is there uncommitted changes in this context directory?
   #
-  # pkg:gem/spoom#lib/spoom/context/git.rb:133
+  # pkg:gem/spoom#lib/spoom/context/git.rb:135
   sig { params(path: ::String).returns(T::Boolean) }
   def git_workdir_clean?(path: T.unsafe(nil)); end
 end
@@ -3005,7 +3005,7 @@ class Spoom::ExecResult
   def to_s; end
 end
 
-# pkg:gem/spoom#lib/spoom/file_collector.rb:5
+# pkg:gem/spoom#lib/spoom/file_collector.rb:7
 class Spoom::FileCollector
   # Initialize a new file collector
   #
@@ -3016,7 +3016,7 @@ class Spoom::FileCollector
   # If `allow_mime_types` is an array of mimetypes, files without an extension are collected if their mimetype is in
   # the list.
   #
-  # pkg:gem/spoom#lib/spoom/file_collector.rb:18
+  # pkg:gem/spoom#lib/spoom/file_collector.rb:20
   sig do
     params(
       allow_extensions: T::Array[::String],
@@ -3026,41 +3026,41 @@ class Spoom::FileCollector
   end
   def initialize(allow_extensions: T.unsafe(nil), allow_mime_types: T.unsafe(nil), exclude_patterns: T.unsafe(nil)); end
 
-  # pkg:gem/spoom#lib/spoom/file_collector.rb:7
+  # pkg:gem/spoom#lib/spoom/file_collector.rb:9
   sig { returns(T::Array[::String]) }
   def files; end
 
-  # pkg:gem/spoom#lib/spoom/file_collector.rb:31
+  # pkg:gem/spoom#lib/spoom/file_collector.rb:33
   sig { params(path: ::String).void }
   def visit_path(path); end
 
-  # pkg:gem/spoom#lib/spoom/file_collector.rb:26
+  # pkg:gem/spoom#lib/spoom/file_collector.rb:28
   sig { params(paths: T::Array[::String]).void }
   def visit_paths(paths); end
 
   private
 
-  # pkg:gem/spoom#lib/spoom/file_collector.rb:54
+  # pkg:gem/spoom#lib/spoom/file_collector.rb:56
   sig { params(path: ::String).returns(::String) }
   def clean_path(path); end
 
-  # pkg:gem/spoom#lib/spoom/file_collector.rb:71
+  # pkg:gem/spoom#lib/spoom/file_collector.rb:73
   sig { params(path: ::String).returns(T::Boolean) }
   def excluded_file?(path); end
 
-  # pkg:gem/spoom#lib/spoom/file_collector.rb:86
+  # pkg:gem/spoom#lib/spoom/file_collector.rb:88
   sig { params(path: ::String).returns(T::Boolean) }
   def excluded_path?(path); end
 
-  # pkg:gem/spoom#lib/spoom/file_collector.rb:95
+  # pkg:gem/spoom#lib/spoom/file_collector.rb:97
   sig { params(path: ::String).returns(T.nilable(::String)) }
   def mime_type_for(path); end
 
-  # pkg:gem/spoom#lib/spoom/file_collector.rb:66
+  # pkg:gem/spoom#lib/spoom/file_collector.rb:68
   sig { params(path: ::String).void }
   def visit_directory(path); end
 
-  # pkg:gem/spoom#lib/spoom/file_collector.rb:59
+  # pkg:gem/spoom#lib/spoom/file_collector.rb:61
   sig { params(path: ::String).void }
   def visit_file(path); end
 end
@@ -3273,31 +3273,31 @@ class Spoom::FileTree::Visitor
   def visit_tree(tree); end
 end
 
-# pkg:gem/spoom#lib/spoom/context/git.rb:5
+# pkg:gem/spoom#lib/spoom/context/git.rb:7
 module Spoom::Git; end
 
-# pkg:gem/spoom#lib/spoom/context/git.rb:6
+# pkg:gem/spoom#lib/spoom/context/git.rb:8
 class Spoom::Git::Commit
-  # pkg:gem/spoom#lib/spoom/context/git.rb:26
+  # pkg:gem/spoom#lib/spoom/context/git.rb:28
   sig { params(sha: ::String, time: ::Time).void }
   def initialize(sha:, time:); end
 
-  # pkg:gem/spoom#lib/spoom/context/git.rb:20
+  # pkg:gem/spoom#lib/spoom/context/git.rb:22
   sig { returns(::String) }
   def sha; end
 
-  # pkg:gem/spoom#lib/spoom/context/git.rb:23
+  # pkg:gem/spoom#lib/spoom/context/git.rb:25
   sig { returns(::Time) }
   def time; end
 
-  # pkg:gem/spoom#lib/spoom/context/git.rb:32
+  # pkg:gem/spoom#lib/spoom/context/git.rb:34
   sig { returns(::Integer) }
   def timestamp; end
 
   class << self
     # Parse a line formatted as `%h %at` into a `Commit`
     #
-    # pkg:gem/spoom#lib/spoom/context/git.rb:10
+    # pkg:gem/spoom#lib/spoom/context/git.rb:12
     sig { params(string: ::String).returns(T.nilable(::Spoom::Git::Commit)) }
     def parse_line(string); end
   end

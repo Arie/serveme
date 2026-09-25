@@ -173,7 +173,7 @@ class DomainName
   def uri_host; end
 
   class << self
-    # pkg:gem/domain_name#lib/domain_name/etld_data.rb:10333
+    # pkg:gem/domain_name#lib/domain_name/etld_data.rb:10340
     def etld_data; end
 
     # Normalizes a _domain_ using the Punycode algorithm as necessary.

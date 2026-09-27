@@ -111,6 +111,7 @@ describe LogLineFormatter do
       TF2LineParser::Events::ConsoleSay => :console_say,
       TF2LineParser::Events::Suicide => :suicide,
       TF2LineParser::Events::RoleChange => :role_change,
+      TF2LineParser::Events::Spawn => :spawn,
       TF2LineParser::Events::Domination => :domination,
       TF2LineParser::Events::Revenge => :revenge,
       TF2LineParser::Events::PickupItem => :pickup_item,
@@ -143,10 +144,14 @@ describe LogLineFormatter do
       end
     end
 
-    it "maps a Spawn event to :role_change (Spawn < RoleChange, caught by the earlier branch)" do
-      formatter = described_class.new("irrelevant")
-      formatter.instance_variable_set(:@parsed_event, TF2LineParser::Events::Spawn.allocate)
-      expect(formatter.event_type).to eq(:role_change)
+    it "maps parsed spawn lines to :spawn and role changes to :role_change" do
+      expect(described_class.new('L 02/07/2013 - 21:37:20: "A<2><[U:1:1]><Red>" spawned as "Medic"').event_type).to eq(:spawn)
+      expect(described_class.new('L 02/07/2013 - 21:37:20: "A<2><[U:1:1]><Red>" changed role to "medic"').event_type).to eq(:role_change)
+    end
+
+    it "maps console say lines to :console_say and player chat to :say" do
+      expect(described_class.new('L 02/07/2013 - 21:37:20: "Console<0><Console><Console>" say "hi"').event_type).to eq(:console_say)
+      expect(described_class.new('L 02/07/2013 - 21:37:20: "A<2><[U:1:1]><Red>" say "hi"').event_type).to eq(:say)
     end
 
     it "returns :unknown when the line cannot be parsed into an event" do

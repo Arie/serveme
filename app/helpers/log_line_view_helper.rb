@@ -329,7 +329,8 @@ module LogLineViewHelper
     event = formatted[:event]
     return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player)
 
-    weapon = event.respond_to?(:weapon) ? event.weapon : nil
+    # The parser stores the suicide cause ("world", a projectile, ...) in `method`
+    weapon = event.is_a?(TF2LineParser::Events::Suicide) ? event.method : event.weapon
 
     content = safe_join([
       log_player_name(event.player),

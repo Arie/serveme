@@ -36,8 +36,8 @@ class LogLineFormatter
     TF2LineParser::Events::RconCommand => :rcon,
     TF2LineParser::Events::ConsoleSay => :console_say,
     TF2LineParser::Events::Suicide => :suicide,
+    TF2LineParser::Events::Spawn => :spawn, # before RoleChange: Spawn < RoleChange
     TF2LineParser::Events::RoleChange => :role_change,
-    TF2LineParser::Events::Spawn => :spawn,
     TF2LineParser::Events::Domination => :domination,
     TF2LineParser::Events::Revenge => :revenge,
     TF2LineParser::Events::PickupItem => :pickup_item,
@@ -93,6 +93,8 @@ class LogLineFormatter
   def event_type
     event = parsed_event
     return :unknown if event.nil?
+    # The parser matches 'say "' before trying ConsoleSay, so console chat arrives as a Say
+    return :console_say if event.is_a?(TF2LineParser::Events::Say) && event.player&.steam_id == "Console"
 
     EVENT_TYPE_MAP.each { |klass, type| return type if event.is_a?(klass) }
     :unknown

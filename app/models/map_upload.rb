@@ -40,7 +40,7 @@ class MapUpload < ActiveRecord::Base
     Rails.cache.delete("map-list-view-for-admin-false")
     Rails.cache.delete("map-list-view-for-admin-true")
     Rails.cache.delete("api_maps_text")
-    Rails.cache.write("map_bucket_objects", fetch_bucket_objects, expire_in: 11.minutes)
+    Rails.cache.write("map_bucket_objects", fetch_bucket_objects, expires_in: 11.minutes)
   end
 
   # Dev/test setups have no S3 credentials, so the live bucket listing below
@@ -124,7 +124,7 @@ class MapUpload < ActiveRecord::Base
 
   sig { void }
   def self.refresh_map_statistics
-    Rails.cache.write("map_statistics", fetch_map_statistics, expire_in: 11.minutes)
+    Rails.cache.write("map_statistics", fetch_map_statistics, expires_in: 11.minutes)
   end
 
   sig { returns(T::Hash[String, T::Hash[Symbol, T.untyped]]) }
@@ -237,6 +237,7 @@ class MapUpload < ActiveRecord::Base
       return { success: false, error: validation_result[:error] }
     end
 
+    blob = T.let(nil, T.nilable(ActiveStorage::Blob))
     begin
       blob = ActiveStorage::Blob.create_before_direct_upload!(
         filename: filename,
@@ -254,10 +255,13 @@ class MapUpload < ActiveRecord::Base
       if map_upload.save
         { success: true, map_upload: map_upload }
       else
+        # Otherwise the leftover blob makes a retry fail with "File already exists"
+        blob.purge
         { success: false, error: map_upload.errors.full_messages.join(", ") }
       end
     rescue => e
       Rails.logger.error "Error completing upload: #{e.message}"
+      blob&.purge
       { success: false, error: "Failed to complete upload" }
     end
   end

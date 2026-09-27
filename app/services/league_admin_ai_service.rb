@@ -207,14 +207,8 @@ class LeagueAdminAiService
       content = msg[:content].dup
       converted = T.let(false, T::Boolean)
 
-      # Convert STEAM_X:Y:Z to both formats
-      content.gsub!(STEAM_ID_PATTERN) do |match|
-        converted = true
-        convert_to_both_formats(match)
-      end
-
-      # Convert [U:1:X] to both formats
-      content.gsub!(STEAM_ID3_PATTERN) do |match|
+      # One pass for both formats: a second pass would re-match the [U:1:X] the first one emits
+      content.gsub!(Regexp.union(STEAM_ID_PATTERN, STEAM_ID3_PATTERN)) do |match|
         converted = true
         convert_to_both_formats(match)
       end

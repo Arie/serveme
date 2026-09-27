@@ -154,17 +154,21 @@ module CloudProvider
       end
       data = parse_response(response, "Hetzner API error")
       server_id = data.dig("server", "id").to_s
+      raise "Hetzner API returned no server id: #{response.body.to_s.truncate(200)}" if server_id.blank?
 
       ip = T.let(nil, T.nilable(String))
+      running = T.let(false, T::Boolean)
       60.times do
         sleep 5
         r = connection.get("servers/#{server_id}")
         d = JSON.parse(r.body)
-        status = d.dig("server", "status")
+        status = T.let(d.dig("server", "status"), T.nilable(String))
         ip = d.dig("server", "public_net", "ipv4", "ip")
-        break if status == "running" && ip.present?
+        # Hetzner assigns the IP at creation, so an IP alone doesn't mean the VM booted
+        running = status == "running" && ip.present?
+        break if running
       end
-      raise "Hetzner VM never became running" unless ip
+      raise "Hetzner VM never became running" unless running && ip
 
       [ server_id, ip ]
     end
@@ -225,7 +229,7 @@ module CloudProvider
       loop do
         response = connection.get("images?type=snapshot&sort=created:desc&page=#{page}&per_page=50")
         data = parse_response(response, "Hetzner API error")
-        snapshots.concat(data["images"].select { |i| i["description"].to_s.start_with?("serveme-cloud") })
+        snapshots.concat(Array(data["images"]).select { |i| i["description"].to_s.start_with?("serveme-cloud") })
         break if page >= data.dig("meta", "pagination", "last_page").to_i
 
         page += 1

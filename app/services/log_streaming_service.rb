@@ -357,7 +357,7 @@ class LogStreamingService
 
     matches = []
 
-    IO.popen([ "rg", "--line-number", "--ignore-case", "--fixed-strings", sanitized_term, filename.to_s ]) do |io|
+    IO.popen([ "rg", "--line-number", "--ignore-case", "--fixed-strings", "-e", sanitized_term, "--", filename.to_s ]) do |io|
       io.each_line do |line|
         line_number, content = line.split(":", 2)
         matches << { line_number: line_number.to_i - 1, content: content }

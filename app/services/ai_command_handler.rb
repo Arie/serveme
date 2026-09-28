@@ -199,6 +199,7 @@ class AiCommandHandler
     sm_say/chat/csay/hsay <msg> - All players (chat/admin-only/center/hint)
     sm_tsay [color] <msg> - Top-left dialog (colors: White Red Green Blue Yellow Purple Cyan Orange Pink Olive Lime Violet Lightblue)
     sm_psay <target> <msg> - Private message
+    Never put a semicolon in message or name text. The server splits commands on ";", so sm_say "a; b" tries to run "b" as its own command and the whole line is rejected. Use a comma or a full stop instead. Applies to every sm_say/sm_csay/sm_hsay/sm_tsay/sm_psay message, sm_rename names and kick reasons.
 
     Maps per league and gamemode:
     #{LeagueMaps.grouped_league_maps.map { |l| "#{l.name}: #{l.maps.join(' ')}" }.join("\n")}

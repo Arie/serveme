@@ -793,6 +793,22 @@ RSpec.describe AiCommandHandler do
       expect(reservation.server).to have_received(:rcon_exec).with("sm_setclass #14 medic")
     end
 
+    it 'only documents rcon commands that CommandValidator will actually allow' do
+      # Bullets above the local-player-commands section are commands the AI may run,
+      # so each one has to be allowlisted or the whole command string gets rejected.
+      # These bullets are tool parameters, target syntax and team compositions, not commands.
+      non_commands = %w[command response success player groups teams ultiduo ultitrio highlander pass serveme na sea au]
+      rcon_section = prompt.split("Local player commands").first
+
+      documented = rcon_section.scan(/^\s*- ([a-z_][a-z0-9_]*)/).flatten.uniq - non_commands
+      undocumented = documented.reject do |cmd|
+        # A trailing underscore is a placeholder, e.g. tf_tournament_classlimit_<class>
+        cmd.end_with?("_") ? ALLOWED_SERVER_COMMANDS.any? { |a| a.start_with?(cmd) } : ALLOWED_SERVER_COMMANDS.include?(cmd)
+      end
+
+      expect(undocumented).to be_empty, "prompt documents commands missing from ALLOWED_SERVER_COMMANDS: #{undocumented.join(', ')}"
+    end
+
     it 'documents every player-movement and kick command that CommandValidator allows' do
       %w[kickid sm_kick sm_setteam sm_forceteam].each do |command|
         expect(ALLOWED_SERVER_COMMANDS).to include(command)

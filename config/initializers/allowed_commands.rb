@@ -1894,6 +1894,7 @@ ALLOWED_SERVER_COMMANDS = Set.new(%w[
   tf_dropped_weapon_lifetime
   tf_duck_edict_limit
   tf_duck_edict_warning
+  tf_enable_glows_after_respawn
   tf_escort_recede_time
   tf_escort_recede_time_overtime
   tf_escort_score_rate

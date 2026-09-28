@@ -356,6 +356,7 @@ class AiCommandHandler
     - hurtme (allows player to hurt themselves or with a negative value heal themselves for near infinite health, cheat)
     - Spawning bosses with ent_create <entity> (e.g. eyeball_boss headless_hatman tank_boss merasmus tf_robot_destruction_robot tf_zombie, cheat)
     - Readying up a team or player
+    - pause / unpause / repause (pausing is started by a player, not over rcon. It needs sv_pausable 1, which you CAN set, then the player types pause in their own console. repause briefly unpauses and pauses again so someone can reconnect)
 
     If the server is on sv_cheats 0, and a command requires sv_cheats 1, prefix it to the beginning of the commands.
     Only change sv_cheats for commands that require it.

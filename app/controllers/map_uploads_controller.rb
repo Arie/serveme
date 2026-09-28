@@ -28,7 +28,10 @@ class MapUploadsController < ApplicationController
   def create
     respond_to do |format|
       format.html do
-        render :new, status: :unprocessable_entity if params[:map_upload].nil? && return
+        if params[:map_upload].nil?
+          @map_upload = MapUpload.new
+          return render :new, status: :unprocessable_entity
+        end
 
         @map_upload = MapUpload.new(params[:map_upload].permit(:file))
         @map_upload.user = current_user
@@ -135,7 +138,9 @@ class MapUploadsController < ApplicationController
           if a[sort_by_attribute] && b[sort_by_attribute]
             a[sort_by_attribute] <=> b[sort_by_attribute]
           else
-            a[sort_by_attribute] ? -1 : 1
+            # Keep entries without a value last, also after maybe_reverse
+            i = a[sort_by_attribute] ? -1 : 1
+            reversed_attribute?(sort_by_attribute) ? i * -1 : i
           end
         else
           stat_a = statistics[a[:map_name]] && statistics[a[:map_name]][sort_by_attribute].to_i

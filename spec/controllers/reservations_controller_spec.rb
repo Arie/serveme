@@ -735,4 +735,418 @@ describe ReservationsController do
       end
     end
   end
+
+  describe '#create when the free server limit is reached' do
+    it 'redirects back to the new reservation page with an alert' do
+      allow(SiteSetting).to receive(:free_server_limit_reached?).and_return(true)
+      server = create(:server)
+
+      expect do
+        post :create, params: { reservation: { server_id: server.id, password: 'x', rcon: 'y',
+                                                starts_at: Time.current.to_s, ends_at: 2.hours.from_now.to_s } }
+      end.not_to change(Reservation, :count)
+
+      expect(response).to redirect_to(new_reservation_path)
+      expect(flash[:alert]).to include('All free servers are currently in use')
+    end
+  end
+
+  describe '#create a regular reservation' do
+    let(:server) { create(:server) }
+
+    it 'saves a future reservation and redirects to it without starting it' do
+      expect_any_instance_of(Reservation).not_to receive(:start_reservation)
+
+      post :create, params: { reservation: { server_id: server.id, password: 'x', rcon: 'y',
+                                              starts_at: 1.hour.from_now.to_s, ends_at: 3.hours.from_now.to_s } }
+
+      reservation = Reservation.find_by(user_id: @user.id, server_id: server.id)
+      expect(reservation).to be_present
+      expect(reservation.start_instantly).to be(false)
+      expect(response).to redirect_to(reservation_path(reservation))
+      expect(flash[:notice]).to be_nil
+    end
+
+    it 'starts a reservation that begins now' do
+      expect_any_instance_of(Reservation).to receive(:start_reservation)
+
+      post :create, params: { reservation: { server_id: server.id, password: 'x', rcon: 'y',
+                                              starts_at: Time.current.to_s, ends_at: 2.hours.from_now.to_s } }
+
+      reservation = Reservation.find_by(user_id: @user.id, server_id: server.id)
+      expect(reservation.start_instantly).to be(true)
+      expect(response).to redirect_to(reservation_path(reservation))
+      expect(flash[:notice]).to include('Reservation created for')
+    end
+  end
+
+  describe '#create with docker host validation errors' do
+    it 're-renders the form with the invalid reservation' do
+      docker_host = create(:docker_host)
+      invalid = Reservation.new(password: 'x')
+      creator = instance_double(DockerHostReservationCreator)
+      allow(creator).to receive(:create!).and_raise(DockerHostReservationCreator::ValidationError.new('invalid', invalid))
+      expect(DockerHostReservationCreator).to receive(:new)
+        .with(hash_including(user: @user, docker_host_id: docker_host.id))
+        .and_return(creator)
+
+      post :create, params: { reservation: { server_id: "dh-#{docker_host.id}", password: 'x', rcon: 'y',
+                                              starts_at: Time.current.to_s, ends_at: 2.hours.from_now.to_s } }
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to render_template(:new)
+      expect(assigns(:reservation)).to be(invalid)
+      expect(assigns(:docker_hosts)).to include(docker_host)
+    end
+  end
+
+  describe '#i_am_feeling_lucky extra paths' do
+    it 'redirects to root when the free server limit is reached' do
+      allow(SiteSetting).to receive(:free_server_limit_reached?).and_return(true)
+      expect(IAmFeelingLucky).not_to receive(:new)
+
+      post :i_am_feeling_lucky
+
+      expect(response).to redirect_to(root_path)
+      expect(flash[:alert]).to include('All free servers are currently in use')
+    end
+
+    it 'shows the unlucky message when the docker host is full' do
+      docker_host = create(:docker_host)
+      reservation = double(:reservation, server: nil, valid?: false)
+      lucky = double(:lucky,
+        build_reservation: reservation,
+        available_docker_host: docker_host,
+        docker_host_reservation_params: { password: 'secret' }.with_indifferent_access)
+      allow(IAmFeelingLucky).to receive(:new).and_return(lucky)
+      creator = instance_double(DockerHostReservationCreator)
+      allow(creator).to receive(:create!).and_raise(DockerHostReservationCreator::CapacityError, 'full')
+      allow(DockerHostReservationCreator).to receive(:new).and_return(creator)
+
+      post :i_am_feeling_lucky
+
+      expect(response).to redirect_to(root_path)
+      expect(flash[:alert]).to eq("You're not very lucky, no server is available right now :(")
+    end
+  end
+
+  describe '#edit' do
+    it 'loads the reservation and the selectable servers' do
+      reservation = create :reservation, user: @user
+
+      get :edit, params: { id: reservation.id }
+
+      expect(response).to be_successful
+      expect(assigns(:reservation)).to eq(reservation)
+      expect(assigns(:servers)).to include(reservation.server)
+    end
+  end
+
+  describe '#update of a current or future reservation' do
+    it 'updates a future reservation and redirects to root' do
+      reservation = create :reservation, user: @user, starts_at: 1.hour.from_now, ends_at: 2.hours.from_now
+
+      put :update, params: { id: reservation.id, reservation: { password: 'newpass' } }
+
+      expect(reservation.reload.password).to eq('newpass')
+      expect(response).to redirect_to(root_path)
+      expect(flash[:notice]).to eq("Reservation updated for #{reservation}")
+    end
+
+    it 'pushes the changes to the server for a reservation that is running' do
+      reservation = create :reservation, user: @user
+      expect_any_instance_of(Reservation).to receive(:update_reservation)
+
+      put :update, params: { id: reservation.id, reservation: { password: 'newpass' } }
+
+      expect(reservation.reload.password).to eq('newpass')
+      expect(response).to redirect_to(root_path)
+      expect(flash[:notice]).to include('your changes will be active after a mapchange')
+    end
+  end
+
+  describe '#extend_reservation' do
+    let(:reservation) { create :reservation, user: @user }
+
+    it 'shows the new end time when extending succeeds' do
+      expect_any_instance_of(Reservation).to receive(:extend!).and_return(true)
+
+      post :extend_reservation, params: { id: reservation.id }
+
+      expect(response).to redirect_to(root_path)
+      expect(flash[:notice]).to eq("Reservation extended to #{I18n.l(reservation.ends_at, format: :datepicker)}")
+    end
+
+    it 'shows an alert when extending fails' do
+      expect_any_instance_of(Reservation).to receive(:extend!).and_return(false)
+
+      post :extend_reservation, params: { id: reservation.id }
+
+      expect(response).to redirect_to(root_path)
+      expect(flash[:alert]).to eq('Could not extend, conflicting reservation')
+    end
+  end
+
+  describe '#destroy' do
+    it 'cancels a future reservation' do
+      reservation = create :reservation, user: @user, starts_at: 1.hour.from_now, ends_at: 2.hours.from_now
+
+      delete :destroy, params: { id: reservation.id }
+
+      expect(Reservation.exists?(reservation.id)).to be(false)
+      expect(response).to redirect_to(root_path)
+      expect(flash[:notice]).to include('cancelled')
+    end
+
+    it 'refuses to end a reservation that was provisioned in the last minute' do
+      reservation = create :reservation, user: @user
+      reservation.update_columns(starts_at: 30.seconds.ago, provisioned: true)
+      expect_any_instance_of(Reservation).not_to receive(:end_reservation)
+
+      delete :destroy, params: { id: reservation.id }
+
+      expect(Reservation.exists?(reservation.id)).to be(true)
+      expect(response).to redirect_to(reservation_path(reservation))
+      expect(flash[:alert]).to include('started in the last 2 minutes')
+    end
+
+    it 'ends a running reservation' do
+      reservation = create :reservation, user: @user
+      reservation.update_columns(starts_at: 10.minutes.ago, provisioned: true)
+      expect_any_instance_of(Reservation).to receive(:end_reservation)
+
+      delete :destroy, params: { id: reservation.id }
+
+      expect(reservation.reload.end_instantly).to be(true)
+      expect(response).to redirect_to(reservation_path(reservation))
+      expect(flash[:notice]).to include('Reservation removed')
+    end
+  end
+
+  describe 'log views with a log file' do
+    let(:log_dir) { Rails.root.join('log', 'streaming') }
+    let(:reservation) { create(:reservation, user: @user) }
+    let(:log_file) { log_dir.join("#{reservation.logsecret}.log") }
+
+    before do
+      FileUtils.mkdir_p(log_dir)
+      File.write(log_file, (1..30).map { |i| "L 01/01/2026 - 12:00:#{format('%02d', i)}: \"Player<2><[U:1:1]><Red>\" say \"msg #{i}\"" }.join("\n") + "\n")
+    end
+
+    after { FileUtils.rm_f(log_file) }
+
+    it 'streaming counts the lines of the log' do
+      get :streaming, params: { id: reservation.id, q: ' say ' }
+
+      expect(response).to be_successful
+      expect(assigns(:total_lines)).to eq(30)
+      expect(assigns(:initial_query)).to eq('say')
+    end
+
+    context 'with rendered views' do
+      render_views
+
+      it 'streaming_view returns the lines around a requested line number' do
+        get :streaming_view, params: { id: reservation.id, line: 20, count: 10 }
+
+        json = JSON.parse(response.body)
+        expect(json['total']).to eq(30)
+        expect(json['start_index']).to be <= 19
+        expect(json['end_index']).to be >= 19
+        expect(json['html']).to include('msg 20')
+        expect(json['is_search']).to be(false)
+      end
+    end
+  end
+
+  describe '#rcon_command' do
+    render_views
+
+    let(:reservation) { create(:reservation, user: @user) }
+
+    it 'executes the command on the server and renders the response as a turbo stream' do
+      expect_any_instance_of(Server).to receive(:rcon_exec).with('changelevel cp_badlands', allow_blocked: true).and_return('Changing level')
+
+      patch :rcon_command, params: { id: reservation.id, query: 'rcon map cp_badlands' }, format: :turbo_stream
+
+      expect(response.media_type).to eq('text/vnd.turbo-stream.html')
+      expect(response.body).to include('rcon_response')
+      expect(response.body).to include('changelevel cp_badlands')
+      expect(response.body).to include('Changing level')
+    end
+
+    it 'does not allow blocked commands for a regular user and redirects for html' do
+      @user.groups.delete(Group.admin_group)
+      expect_any_instance_of(Server).to receive(:rcon_exec).with('status', allow_blocked: false).and_return('ok')
+
+      patch :rcon_command, params: { id: reservation.id, reservation: { rcon_command: 'status' } }
+
+      expect(response).to redirect_to(rcon_reservation_path(reservation))
+    end
+
+    it 'extends the reservation with !extend' do
+      expect_any_instance_of(Reservation).to receive(:extend!).and_return(true)
+      expect_any_instance_of(Server).not_to receive(:rcon_exec)
+
+      patch :rcon_command, params: { id: reservation.id, query: '!extend' }, format: :turbo_stream
+
+      expect(response.body).to include('Reservation extended to')
+    end
+
+    it 'reports a failed extend' do
+      expect_any_instance_of(Reservation).to receive(:extend!).and_return(false)
+
+      patch :rcon_command, params: { id: reservation.id, query: 'extend' }, format: :turbo_stream
+
+      expect(response.body).to include('Could not extend, conflicting reservation')
+    end
+
+    it 'ends the reservation with !end' do
+      expect_any_instance_of(Reservation).to receive(:end_reservation)
+
+      patch :rcon_command, params: { id: reservation.id, query: '!end' }, format: :turbo_stream
+
+      expect(response.body).to include('Ending reservation')
+      expect(reservation.reload.end_instantly).to be(true)
+    end
+
+    it 'renders not found when the reservation is not running' do
+      reservation.update_columns(starts_at: 1.hour.from_now, ends_at: 2.hours.from_now)
+      expect_any_instance_of(Server).not_to receive(:rcon_exec)
+
+      patch :rcon_command, params: { id: reservation.id, query: 'status' }
+
+      expect(response).to have_http_status(:not_found)
+    end
+  end
+
+  describe '#motd_rcon_command' do
+    it 'redirects back to the motd page for html requests' do
+      reservation = create(:reservation, user: @user)
+      expect_any_instance_of(Server).to receive(:rcon_exec).with('status', allow_blocked: true).and_return('ok')
+
+      patch :motd_rcon_command, params: { id: reservation.id, query: 'status' }
+
+      expect(response).to redirect_to(motd_reservation_path(reservation))
+    end
+  end
+
+  describe '#rcon_autocomplete' do
+    it 'assigns suggestions from RconAutocomplete' do
+      reservation = create(:reservation, user: @user)
+      autocomplete = instance_double(RconAutocomplete)
+      expect(RconAutocomplete).to receive(:new).with(reservation).and_return(autocomplete)
+      expect(autocomplete).to receive(:autocomplete).with('mp_').and_return([ { command: 'mp_restartgame' } ])
+
+      get :rcon_autocomplete, params: { id: reservation.id, query: 'mp_', reservation_id: reservation.id.to_s }
+
+      expect(response).to be_successful
+      expect(assigns(:suggestions)).to eq([ { command: 'mp_restartgame' } ])
+      expect(assigns(:query)).to eq('mp_')
+      expect(assigns(:reservation_id)).to eq(reservation.id)
+    end
+  end
+
+  describe '#stac_log' do
+    let(:reservation) { create(:reservation) }
+
+    it 'sends the joined stac logs as plain text' do
+      create(:stac_log, reservation: reservation, contents: 'first log')
+      create(:stac_log, reservation: reservation, contents: 'second log')
+
+      get :stac_log, params: { id: reservation.id }
+
+      expect(response).to have_http_status(:ok)
+      expect(response.media_type).to eq('text/plain')
+      expect(response.body.split("\n")).to contain_exactly('first log', 'second log')
+      expect(response.headers['Content-Disposition']).to include("stac_logs_#{reservation.id}.log")
+    end
+
+    it 'returns not found when there are no stac logs' do
+      get :stac_log, params: { id: reservation.id }
+
+      expect(response).to have_http_status(:not_found)
+      expect(response.body).to eq('No STAC logs found')
+    end
+
+    it 'returns not found for an invalid id' do
+      get :stac_log, params: { id: 'foo' }
+
+      expect(response).to have_http_status(:not_found)
+    end
+
+    context 'as a regular user' do
+      before { @user.groups.delete(Group.admin_group) }
+
+      it 'denies access to reservations the user did not make or play in' do
+        create(:stac_log, reservation: reservation)
+
+        get :stac_log, params: { id: reservation.id }
+
+        expect(response).to have_http_status(:not_found)
+        expect(response.body).to be_empty
+      end
+
+      it 'allows access to reservations the user played in' do
+        reservation.update_columns(ended: true)
+        create(:reservation_player, reservation: reservation, user: @user, steam_uid: @user.uid)
+        create(:stac_log, reservation: reservation, contents: 'played log')
+
+        get :stac_log, params: { id: reservation.id }
+
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to eq('played log')
+      end
+
+      it 'allows access to reservations the user made' do
+        own = create(:reservation, user: @user)
+        create(:stac_log, reservation: own, contents: 'own log')
+
+        get :stac_log, params: { id: own.id }
+
+        expect(response.body).to eq('own log')
+      end
+    end
+  end
+
+  describe '#prepare_zip' do
+    let(:reservation) { create(:reservation, user: @user) }
+
+    it 'returns not found for an unknown reservation' do
+      post :prepare_zip, params: { id: 0 }, format: :turbo_stream
+
+      expect(response).to have_http_status(:not_found)
+    end
+
+    it 'renders a direct link when the zip exists locally' do
+      allow(File).to receive(:exist?).and_call_original
+      allow(File).to receive(:exist?).with(reservation.local_zipfile_path).and_return(true)
+      expect(DownloadZipWorker).not_to receive(:perform_in)
+
+      post :prepare_zip, params: { id: reservation.id }, format: :turbo_stream
+
+      expect(response).to be_successful
+      expect(response.body).to include('turbo-stream action="replace"')
+      expect(response.body).to include("zip_download_status_reservation_#{reservation.id}")
+    end
+
+    it 'enqueues a download and renders progress when the zip is only in storage' do
+      allow_any_instance_of(Reservation).to receive(:zipfile).and_return(double(attached?: true))
+      expect(DownloadZipWorker).to receive(:perform_in).with(1.second, reservation.id)
+
+      post :prepare_zip, params: { id: reservation.id }, format: :turbo_stream
+
+      expect(response).to be_successful
+      expect(response.body).to include("zip_prepare_button_form_reservation_#{reservation.id}")
+      expect(response.body).to include('turbo-cable-stream-source')
+    end
+
+    it 'returns unprocessable entity when no zip is available' do
+      expect(DownloadZipWorker).not_to receive(:perform_in)
+
+      post :prepare_zip, params: { id: reservation.id }, format: :turbo_stream
+
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
+  end
 end

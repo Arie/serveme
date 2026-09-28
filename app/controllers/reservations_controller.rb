@@ -259,15 +259,6 @@ class ReservationsController < ApplicationController
     Sidekiq.redis { |r| r.set("log_listeners:#{@logsecret}", "1", ex: 30) }
   end
 
-  def log_streaming_service(chunk_size: nil)
-    LogStreamingService.new(
-      streaming_log_path,
-      search_query: @search_query,
-      offset: @offset,
-      chunk_size: chunk_size || LogStreamingService::DEFAULT_CHUNK_SIZE
-    )
-  end
-
   def streaming_log_path
     Rails.root.join("log", "streaming", "#{@logsecret}.log")
   end

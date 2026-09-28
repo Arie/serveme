@@ -1287,6 +1287,7 @@ ALLOWED_SERVER_COMMANDS = Set.new(%w[
   sm_fix_slope_bug
   sm_fix_sticky_delay
   sm_flood_time
+  sm_forceteam
   sm_freeze
   sm_freeze_duration
   sm_freezebomb
@@ -1345,8 +1346,11 @@ ALLOWED_SERVER_COMMANDS = Set.new(%w[
   sm_rest_in_peace_rick_may
   sm_revote
   sm_say
+  sm_sc
   sm_searchcmd
   sm_servers
+  sm_setclass
+  sm_setteam
   sm_settings
   sm_show_activity
   sm_silence

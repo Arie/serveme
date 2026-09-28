@@ -733,7 +733,9 @@ RSpec.describe AiCommandHandler do
     it 'documents the destructive-guessing, no-substitution, scope and confirmation rules' do
       expect(prompt).to include("NO DESTRUCTIVE GUESSING")
       expect(prompt).to include("NO SUBSTITUTING A DIFFERENT ACTION")
-      expect(prompt).to include('move to spectator')
+      expect(prompt).to include("kick means kick and slay means slay")
+      expect(prompt).to include("sm_setteam")
+      expect(prompt).to include("Changing a player's class is done with sm_setclass")
       expect(prompt).to include("CONFIRMATIONS")
       expect(prompt).to include("EXACT COMMANDS")
     end
@@ -741,6 +743,61 @@ RSpec.describe AiCommandHandler do
     it 'documents the whitelist-id and per-player rename rules' do
       expect(prompt).to include("tftrue_whitelist_id 18740")
       expect(prompt).to include("one sm_rename per userid")
+    end
+
+    it 'blocks sm_setteam when the setteam plugin is not loaded on this server' do
+      handler.instance_variable_set(:@server_status, "[SM] Listing 15 plugins: basecommands, basechat")
+      allow(reservation.server).to receive(:rcon_say)
+      expect(reservation.server).not_to receive(:rcon_exec)
+
+      handler.send(:process_ai_result,
+                   { "command" => "sm_setteam #15 blue", "response" => "Moving them.", "success" => true },
+                   "move maya to blue")
+
+      expect(reservation.server).to have_received(:rcon_say).with(/setteam plugin/)
+    end
+
+    it 'allows sm_setteam when the setteam plugin is loaded' do
+      handler.instance_variable_set(:@server_status, "[SM] Listing 48 plugins: basecommands, setteam, stac")
+      allow(reservation.server).to receive(:rcon_say)
+      allow(reservation.server).to receive(:rcon_exec)
+
+      handler.send(:process_ai_result,
+                   { "command" => "sm_setteam #15 blue", "response" => "Moving them.", "success" => true },
+                   "move maya to blue")
+
+      expect(reservation.server).to have_received(:rcon_exec).with("sm_setteam #15 blue")
+    end
+
+    it 'blocks sm_setclass when the setclass plugin is not loaded on this server' do
+      handler.instance_variable_set(:@server_status, '15 "Basic Commands" (1.12.0.7253)')
+      allow(reservation.server).to receive(:rcon_say)
+      expect(reservation.server).not_to receive(:rcon_exec)
+
+      handler.send(:process_ai_result,
+                   { "command" => "sm_setclass #14 medic", "response" => "On it.", "success" => true },
+                   "make emierr medic")
+
+      expect(reservation.server).to have_received(:rcon_say).with(/setclass plugin/)
+    end
+
+    it 'allows sm_setclass when the setclass plugin is loaded' do
+      handler.instance_variable_set(:@server_status, '49 "TF2 Set Class" (1.3.0) by Tylerst, avi9526, JoinedSenses')
+      allow(reservation.server).to receive(:rcon_say)
+      allow(reservation.server).to receive(:rcon_exec)
+
+      handler.send(:process_ai_result,
+                   { "command" => "sm_setclass #14 medic", "response" => "On it.", "success" => true },
+                   "make emierr medic")
+
+      expect(reservation.server).to have_received(:rcon_exec).with("sm_setclass #14 medic")
+    end
+
+    it 'documents every player-movement and kick command that CommandValidator allows' do
+      %w[kickid sm_kick sm_setteam sm_forceteam].each do |command|
+        expect(ALLOWED_SERVER_COMMANDS).to include(command)
+        expect(prompt).to include(command)
+      end
     end
   end
 end

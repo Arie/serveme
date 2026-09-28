@@ -105,6 +105,11 @@ class AiCommandHandler
 
   sig { returns(String) }
   def server_status
+    @server_status ||= fetch_server_status
+  end
+
+  sig { returns(String) }
+  def fetch_server_status
     reservation.server.rcon_exec("status;mp_tournament_whitelist;sv_gravity;sv_cheats;mp_timelimit;mp_winlimit;mp_windifference;tf_weapon_criticals;host_timescale;sv_password;tv_status;sm plugins list;tftrue_whitelist_id").gsub(/(\b[0-9]{1,3}\.){3}[0-9]{1,3}\b/, "0.0.0.0")
   end
 
@@ -153,7 +158,7 @@ class AiCommandHandler
     Hard rules (these override everything below):
     - SCOPE: Only act on TF2 and this server. For anything else (programming, code, essays, math, general knowledge, "write me X"), set success: false with a one-line redirect and output NOTHING else. Never emit code or prose unrelated to TF2 administration.
     - NO DESTRUCTIVE GUESSING: kick, kickall, banid/sm_ban, _restart, killserver, and ending the reservation are irreversible. Run them only when the request contains an explicit destructive verb (kick, ban, remove, end). A phrase that merely identifies players (e.g. "everyone", "all the players in this server") is a target specification, NOT by itself a request to remove them. Do not kick/ban/slay players just because a message names or lists them, especially when it answers a question you asked (like "which players?") during a rename or other non-destructive task. "Kick everyone" is explicit and fine; "all the players in this server" on its own is not. If the destructive intent is not explicit, set success: false and ask.
-    - NO SUBSTITUTING A DIFFERENT ACTION: If no available command performs what was asked, say so with success: false. Never substitute a destructive command for an unsupported one. There is no admin "move to spectator" command. You can only kick or slay; players choose to spectate themselves. Do NOT slay or kick when asked to move someone to spec.
+    - NO SUBSTITUTING A DIFFERENT ACTION: If no available command performs what was asked, say so with success: false. Never substitute a destructive command for an unsupported one. Never substitute one destructive command for another either: kick means kick and slay means slay, they are not interchangeable. Moving a player to another team or to spectator is done with sm_setteam where that command is available (see Commands) and is NEVER a reason to kick or slay someone. Changing a player's class is done with sm_setclass (see Commands).
     - CONFIRMATIONS: A bare "yes", "do it", "again", or "that one" applies ONLY to the clarifying question you asked in the immediately preceding turn. If there is no such pending question in the conversation history, do not guess an action; ask what they want.
     - EXACT COMMANDS: If the user's message is already a valid cvar/command (e.g. "sv_cheats 1", "mp_winlimit 5"), run that exact command. Never swap it for a different cvar.
 
@@ -230,6 +235,7 @@ class AiCommandHandler
     - mp_tournament_whitelist cfg/<file>
     - tftrue_whitelist_id [number-or-friendly-name] (a bare numeric whitelist ID, e.g. "whitelist 18740", "exec whitelist 18740", "wl 18740", is a whitelist.tf/tftrue ID; apply it as "tftrue_whitelist_id 18740". NEVER "exec" a whitelist number; exec is only for the named config files.)
     - kickid <userid> [msg]
+    - sm_kick <target> [msg] (accepts group targets like @humans @red @blue, unlike kickid which takes one userid. Use @humans, not @all, to kick the players: @all includes the SourceTV bot and dropping it ends the demo recording)
     - banid 0 <userid> kick
     - mp_tournament 0/1
     - sm_slap/sm_slay <target>
@@ -247,6 +253,9 @@ class AiCommandHandler
     - tf_forced_holiday 0/1/2/3 Forces the server to have holidays (0= none, 1= Birthday, 2= Halloween, default none)
     - tf_bot_add [count] [class] [team] [difficulty] [name] (difficulty can be easy, normal, hard, or expert)
     - tf_bot_difficulty [difficulty] (difficulty can be 0=easy, 1=normal, 2=hard, 3=expert)
+    - sm_setteam <player> red|blue|spec (moves a player to a team or to spectator. Requires the "setteam" plugin: only use it when setteam is in the loaded plugins list in the server status above, otherwise say team moves are not available on this server)
+    - sm_forceteam <player> red|blue|spec|free (same as sm_setteam but also locks the player to that team until set to "free". Same setteam plugin requirement)
+    - sm_setclass <target> <scout|soldier|pyro|demoman|heavy|engineer|medic|sniper|spy|random> (sets a player's class immediately. Use "heavy" here, NOT "heavyweapons", which is rejected. "demo" also works for demoman. Requires the "TF2 Set Class" plugin: only use it when that is in the loaded plugins list in the server status above)
     - sm_rename <target> name (a team/group target like @red @blue @all sets the SAME name on EVERY matched player. To give players DIFFERENT names you MUST issue one sm_rename per userid, e.g. sm_rename #12 "Zeus"; sm_rename #15 "Hera". For a list of distinct names, read rcon status first and map each userid to one name.)
     - sm_blind <target> 0/240/255 (0=none, 240=medium, 255=full)
     - sm_gag <target> (chat)
@@ -633,6 +642,20 @@ class AiCommandHandler
      { "success" => false, "response" => "AI returned an empty or invalid response.", "command" => nil }
   end
 
+  # Both of these need a plugin that is not on every server, and the model ignores the
+  # plugin list in the status when told to check it, so gate them here instead.
+  sig { params(command: String).returns(T.nilable(String)) }
+  def unavailable_command_reason(command)
+    status = @server_status.to_s
+    return nil if status.blank?
+
+    if command.match?(/\bsm_(set|force)team\b/) && !status.include?("setteam")
+      "Sorry, moving players between teams needs the setteam plugin, which this server does not have."
+    elsif command.match?(/\bsm_(setclass|sc)\b/) && !status.include?("TF2 Set Class")
+      "Sorry, setting someone's class needs the setclass plugin, which this server does not have."
+    end
+  end
+
   sig { params(result: T::Hash[String, T.untyped], request: String).void }
   def process_ai_result(result, request)
     Rails.logger.info("[AI ##{reservation.id}] Processed result: #{result.inspect}")
@@ -640,7 +663,12 @@ class AiCommandHandler
     is_valid_command = false
     final_response_to_send = result["response"]
 
-    if result["success"] && result["command"].present?
+    if result["success"] && result["command"].present? && (unavailable = unavailable_command_reason(result["command"]))
+      Rails.logger.error("[AI ##{reservation.id}] Proposed unavailable command: #{result['command']}")
+      final_response_to_send = unavailable
+      result["success"] = false
+      result["command"] = nil
+    elsif result["success"] && result["command"].present?
       if CommandValidator.validate(result["command"])
         is_valid_command = true
       else

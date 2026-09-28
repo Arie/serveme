@@ -349,6 +349,15 @@ module Anthropic
   BrowserZoomConfig = Anthropic::Models::BrowserZoomConfig
   CacheControlEphemeral = Anthropic::Models::CacheControlEphemeral
   CacheCreation = Anthropic::Models::CacheCreation
+  CacheMissMessagesChanged = Anthropic::Models::CacheMissMessagesChanged
+  CacheMissModelChanged = Anthropic::Models::CacheMissModelChanged
+
+  CacheMissPreviousMessageNotFound = Anthropic::Models::CacheMissPreviousMessageNotFound
+
+  CacheMissReason = Anthropic::Models::CacheMissReason
+  CacheMissSystemChanged = Anthropic::Models::CacheMissSystemChanged
+  CacheMissToolsChanged = Anthropic::Models::CacheMissToolsChanged
+  CacheMissUnavailable = Anthropic::Models::CacheMissUnavailable
   CapabilitySupport = Anthropic::Models::CapabilitySupport
   CitationCharLocation = Anthropic::Models::CitationCharLocation
   CitationCharLocationParam = Anthropic::Models::CitationCharLocationParam
@@ -736,6 +745,8 @@ module Anthropic
 
   DeletedFile = Anthropic::Models::DeletedFile
   DeletedSkill = Anthropic::Models::DeletedSkill
+  Diagnostics = Anthropic::Models::Diagnostics
+  DiagnosticsParam = Anthropic::Models::DiagnosticsParam
   DirectCaller = Anthropic::Models::DirectCaller
   DocumentBlock = Anthropic::Models::DocumentBlock
   DocumentBlockParam = Anthropic::Models::DocumentBlockParam
@@ -4676,8 +4687,8 @@ module Anthropic
         end
         attr_accessor :model
 
-        # A coordinator topology: the session's primary thread orchestrates work by
-        # spawning session threads, each running an agent drawn from the `agents` roster.
+        # Multiagent orchestration configuration. Currently supports the `coordinator`
+        # topology with a roster of 1-20 agents.
         sig { returns(T.nilable(Anthropic::Beta::BetaManagedAgentsMultiagentParams)) }
         attr_reader :multiagent
 
@@ -4852,8 +4863,8 @@ module Anthropic
                               # [MCP connector guide](https://platform.claude.com/docs/en/managed-agents/mcp-connector).
             metadata: nil, # Arbitrary key-value metadata. Maximum 16 pairs, keys up to 64 chars, values up
                            # to 512 chars.
-            multiagent: nil, # A coordinator topology: the session's primary thread orchestrates work by
-                             # spawning session threads, each running an agent drawn from the `agents` roster.
+            multiagent: nil, # Multiagent orchestration configuration. Currently supports the `coordinator`
+                             # topology with a roster of 1-20 agents.
             skills: nil, # Skills available to the agent.
             system_: nil, # System prompt for the agent.
             tools: nil, # Tool configurations available to the agent. Maximum of 128 tools across all
@@ -4939,12 +4950,12 @@ module Anthropic
             def new(
               type:,
               configs: nil, # Per-tool configuration overrides.
-              default_config: nil, # Default configuration for all tools in a toolset.
+              default_config: nil, # Default configuration applied to all tools in this set.
               mcp_server_name: nil, # Name of the MCP server. Must match a server name from the mcp_servers array.
                                     # 1-255 characters.
               description: nil, # Description of what the tool does, shown to the agent to help it decide when to
                                 # use the tool.
-              input_schema: nil, # JSON Schema for custom tool input parameters.
+              input_schema: nil, # JSON Schema defining the expected input parameters for the tool.
               name: nil # Unique name for the tool. 1-128 characters; letters, digits, underscores, and
                         # hyphens.
 ); end
@@ -5264,8 +5275,8 @@ module Anthropic
         end
         attr_writer :model
 
-        # A coordinator topology: the session's primary thread orchestrates work by
-        # spawning session threads, each running an agent drawn from the `agents` roster.
+        # Multiagent orchestration configuration. Full replacement. Omit to preserve; send
+        # null to clear.
         sig { returns(T.nilable(Anthropic::Beta::BetaManagedAgentsMultiagentParams)) }
         attr_reader :multiagent
 
@@ -5447,8 +5458,8 @@ module Anthropic
                         # [model string](https://platform.claude.com/docs/en/about-claude/models/overview#latest-models-comparison),
                         # e.g. `claude-opus-5`, or a `model_config` object for additional configuration
                         # control. Omit to preserve. Cannot be cleared.
-            multiagent: nil, # A coordinator topology: the session's primary thread orchestrates work by
-                             # spawning session threads, each running an agent drawn from the `agents` roster.
+            multiagent: nil, # Multiagent orchestration configuration. Full replacement. Omit to preserve; send
+                             # null to clear.
             name: nil, # Human-readable name. Must be non-empty. Omit to preserve. Cannot be cleared.
             skills: nil, # Skills. Full replacement. Omit to preserve; send empty array or null to clear.
             system_: nil, # System prompt. Omit to preserve; send empty string or null to clear.
@@ -5540,12 +5551,12 @@ module Anthropic
             def new(
               type:,
               configs: nil, # Per-tool configuration overrides.
-              default_config: nil, # Default configuration for all tools in a toolset.
+              default_config: nil, # Default configuration applied to all tools in this set.
               mcp_server_name: nil, # Name of the MCP server. Must match a server name from the mcp_servers array.
                                     # 1-255 characters.
               description: nil, # Description of what the tool does, shown to the agent to help it decide when to
                                 # use the tool.
-              input_schema: nil, # JSON Schema for custom tool input parameters.
+              input_schema: nil, # JSON Schema defining the expected input parameters for the tool.
               name: nil # Unique name for the tool. 1-128 characters; letters, digits, underscores, and
                         # hyphens.
 ); end
@@ -8741,11 +8752,8 @@ module Anthropic
         sig { params(cache_control: T.nilable(Anthropic::Beta::BetaCacheControlEphemeral::OrHash)).void }
         attr_writer :cache_control
 
-        # Per-member configuration for `browser_toolset_20260801`: one optional field per
-        # member tool, keyed by the member name — the same name the member's `tool_use`
-        # blocks carry. Every member is an accepted key, and a member's defaults apply
-        # wherever its key is absent. Unknown keys are rejected: the field set is this
-        # toolset version's complete member set.
+        # Sparse per-member overrides, keyed by member name. Absent, null, and {} are
+        # equivalent; a member's defaults apply wherever its key is absent.
         sig { returns(T.nilable(Anthropic::Beta::BetaBrowserToolsetConfigs)) }
         attr_reader :configs
 
@@ -8779,11 +8787,8 @@ module Anthropic
           end
           def new(
             cache_control: nil, # Create a cache control breakpoint at this content block.
-            configs: nil, # Per-member configuration for `browser_toolset_20260801`: one optional field per
-                          # member tool, keyed by the member name — the same name the member's `tool_use`
-                          # blocks carry. Every member is an accepted key, and a member's defaults apply
-                          # wherever its key is absent. Unknown keys are rejected: the field set is this
-                          # toolset version's complete member set.
+            configs: nil, # Sparse per-member overrides, keyed by member name. Absent, null, and {} are
+                          # equivalent; a member's defaults apply wherever its key is absent.
             type: :browser_toolset_20260801
 ); end
         end
@@ -9558,6 +9563,85 @@ module Anthropic
             T.any(
               Anthropic::Beta::BetaCacheMissPreviousMessageNotFound,
               Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
+      module BetaCacheMissReason
+        extend Anthropic::Internal::Type::Union
+
+        class << self
+          # Creates a new instance of the variant class whose `type` matches the given
+          # value, passing the remaining arguments to its constructor.
+          sig do
+            params(
+              type: Anthropic::Beta::BetaCacheMissReason::Type::OrSymbol,
+              cache_missed_input_tokens: Integer
+            ).returns(Anthropic::Beta::BetaCacheMissReason::Variants)
+          end
+          def new(
+            type:,
+            cache_missed_input_tokens: nil # Approximate number of input tokens that would have been read from cache had the
+                                           # prefix matched the previous request.
+); end
+
+          sig { override.returns(T::Array[Anthropic::Beta::BetaCacheMissReason::Variants]) }
+          def variants; end
+        end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig { override.returns(T::Array[Anthropic::Beta::BetaCacheMissReason::Type::TaggedSymbol]) }
+            def values; end
+          end
+
+          MESSAGES_CHANGED = T.let(
+              :messages_changed,
+              Anthropic::Beta::BetaCacheMissReason::Type::TaggedSymbol
+            )
+
+          MODEL_CHANGED = T.let(
+              :model_changed,
+              Anthropic::Beta::BetaCacheMissReason::Type::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          PREVIOUS_MESSAGE_NOT_FOUND = T.let(
+              :previous_message_not_found,
+              Anthropic::Beta::BetaCacheMissReason::Type::TaggedSymbol
+            )
+
+          SYSTEM_CHANGED = T.let(
+              :system_changed,
+              Anthropic::Beta::BetaCacheMissReason::Type::TaggedSymbol
+            )
+
+          TOOLS_CHANGED = T.let(
+              :tools_changed,
+              Anthropic::Beta::BetaCacheMissReason::Type::TaggedSymbol
+            )
+
+          TaggedSymbol = T.type_alias do
+              T.all(Symbol, Anthropic::Beta::BetaCacheMissReason::Type)
+            end
+
+          UNAVAILABLE = T.let(
+              :unavailable,
+              Anthropic::Beta::BetaCacheMissReason::Type::TaggedSymbol
+            )
+        end
+
+        Variants = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaCacheMissModelChanged,
+              Anthropic::Beta::BetaCacheMissSystemChanged,
+              Anthropic::Beta::BetaCacheMissToolsChanged,
+              Anthropic::Beta::BetaCacheMissMessagesChanged,
+              Anthropic::Beta::BetaCacheMissPreviousMessageNotFound,
+              Anthropic::Beta::BetaCacheMissUnavailable
             )
           end
       end
@@ -11062,14 +11146,9 @@ module Anthropic
         end
         attr_accessor :networking
 
-        # Specify packages (and optionally their versions) available in this environment.
-        #
-        # When versioning, use the version semantics relevant for the package manager,
-        # e.g. for `pip` use `package==1.0.0`. You are responsible for validating the
-        # package and version exist. Unversioned installs the latest.
-        #
-        # Under `limited` networking, requires `networking.allow_package_managers` to be
-        # `true`.
+        # Package manager configuration. Under `limited` networking, requires
+        # `networking.allow_package_managers` to be `true`. Omit on update to preserve the
+        # existing value.
         sig { returns(T.nilable(Anthropic::Beta::BetaPackagesParams)) }
         attr_reader :packages
 
@@ -11114,12 +11193,9 @@ module Anthropic
           end
           def new(
             networking: nil, # Network configuration policy. Omit on update to preserve the existing value.
-            packages: nil, # Specify packages (and optionally their versions) available in this environment.
-                           # When versioning, use the version semantics relevant for the package manager,
-                           # e.g. for `pip` use `package==1.0.0`. You are responsible for validating the
-                           # package and version exist. Unversioned installs the latest.
-                           # Under `limited` networking, requires `networking.allow_package_managers` to be
-                           # `true`.
+            packages: nil, # Package manager configuration. Under `limited` networking, requires
+                           # `networking.allow_package_managers` to be `true`. Omit on update to preserve the
+                           # existing value.
             type: :cloud # Environment type
 ); end
         end
@@ -13443,11 +13519,8 @@ module Anthropic
         sig { params(cache_control: T.nilable(Anthropic::Beta::BetaCacheControlEphemeral::OrHash)).void }
         attr_writer :cache_control
 
-        # Per-member configuration for `computer_toolset_20260801`: one optional field per
-        # member tool, keyed by the member name — the same name the member's `tool_use`
-        # blocks carry. Every member is an accepted key, and a member's defaults apply
-        # wherever its key is absent. Unknown keys are rejected: the field set is this
-        # toolset version's complete member set.
+        # Sparse per-member overrides, keyed by member name. Absent, null, and {} are
+        # equivalent; a member's defaults apply wherever its key is absent.
         sig { returns(T.nilable(Anthropic::Beta::BetaComputerToolsetConfigs)) }
         attr_reader :configs
 
@@ -13484,11 +13557,8 @@ module Anthropic
           end
           def new(
             cache_control: nil, # Create a cache control breakpoint at this content block.
-            configs: nil, # Per-member configuration for `computer_toolset_20260801`: one optional field per
-                          # member tool, keyed by the member name — the same name the member's `tool_use`
-                          # blocks carry. Every member is an accepted key, and a member's defaults apply
-                          # wherever its key is absent. Unknown keys are rejected: the field set is this
-                          # toolset version's complete member set.
+            configs: nil, # Sparse per-member overrides, keyed by member name. Absent, null, and {} are
+                          # equivalent; a member's defaults apply wherever its key is absent.
             type: :computer_toolset_20260801
 ); end
         end
@@ -14926,21 +14996,21 @@ module Anthropic
       end
 
       class BetaContextManagementCapability < Anthropic::Internal::Type::BaseModel
-        # Indicates whether a capability is supported.
+        # Whether the clear_thinking_20251015 strategy is supported.
         sig { returns(T.nilable(Anthropic::Beta::BetaCapabilitySupport)) }
         attr_reader :clear_thinking_20251015
 
         sig { params(clear_thinking_20251015: T.nilable(Anthropic::Beta::BetaCapabilitySupport::OrHash)).void }
         attr_writer :clear_thinking_20251015
 
-        # Indicates whether a capability is supported.
+        # Whether the clear_tool_uses_20250919 strategy is supported.
         sig { returns(T.nilable(Anthropic::Beta::BetaCapabilitySupport)) }
         attr_reader :clear_tool_uses_20250919
 
         sig { params(clear_tool_uses_20250919: T.nilable(Anthropic::Beta::BetaCapabilitySupport::OrHash)).void }
         attr_writer :clear_tool_uses_20250919
 
-        # Indicates whether a capability is supported.
+        # Whether the compact_20260112 strategy is supported.
         sig { returns(T.nilable(Anthropic::Beta::BetaCapabilitySupport)) }
         attr_reader :compact_20260112
 
@@ -14976,9 +15046,9 @@ module Anthropic
             ).returns(T.attached_class)
           end
           def new(
-            clear_thinking_20251015:, # Indicates whether a capability is supported.
-            clear_tool_uses_20250919:, # Indicates whether a capability is supported.
-            compact_20260112:, # Indicates whether a capability is supported.
+            clear_thinking_20251015:, # Whether the clear_thinking_20251015 strategy is supported.
+            clear_tool_uses_20250919:, # Whether the clear_tool_uses_20250919 strategy is supported.
+            compact_20260112:, # Whether the compact_20260112 strategy is supported.
             supported: # Whether this capability is supported by the model.
 ); end
         end
@@ -15400,20 +15470,14 @@ module Anthropic
         # identified by `diagnostics.previous_message_id`. `null` means diagnosis is still
         # pending — the response was serialized before the background comparison
         # completed.
-        sig do
-          returns(T.nilable(
-              Anthropic::Beta::BetaDiagnostics::CacheMissReason::Variants
-            ))
-        end
+        sig { returns(T.nilable(Anthropic::Beta::BetaCacheMissReason::Variants)) }
         attr_accessor :cache_miss_reason
 
         sig do
           override
             .returns({
               cache_miss_reason:
-                T.nilable(
-                  Anthropic::Beta::BetaDiagnostics::CacheMissReason::Variants
-                )
+                T.nilable(Anthropic::Beta::BetaCacheMissReason::Variants)
             })
         end
         def to_hash; end
@@ -15441,102 +15505,6 @@ module Anthropic
                                # pending — the response was serialized before the background comparison
                                # completed.
 ); end
-        end
-
-        # Explains why the prompt cache could not fully reuse the prefix from the request
-        # identified by `diagnostics.previous_message_id`. `null` means diagnosis is still
-        # pending — the response was serialized before the background comparison
-        # completed.
-        module CacheMissReason
-          extend Anthropic::Internal::Type::Union
-
-          class << self
-            # Creates a new instance of the variant class whose `type` matches the given
-            # value, passing the remaining arguments to its constructor.
-            sig do
-              params(
-                type: Anthropic::Beta::BetaDiagnostics::CacheMissReason::Type::OrSymbol,
-                cache_missed_input_tokens: Integer
-              ).returns(Anthropic::Beta::BetaDiagnostics::CacheMissReason::Variants)
-            end
-            def new(
-              type:,
-              cache_missed_input_tokens: nil # Approximate number of input tokens that would have been read from cache had the
-                                             # prefix matched the previous request.
-); end
-
-            sig do
-              override
-                .returns(T::Array[
-                Anthropic::Beta::BetaDiagnostics::CacheMissReason::Variants
-              ])
-            end
-            def variants; end
-          end
-
-          module Type
-            extend Anthropic::Internal::Type::Enum
-
-            class << self
-              sig do
-                override
-                  .returns(T::Array[
-                  Anthropic::Beta::BetaDiagnostics::CacheMissReason::Type::TaggedSymbol
-                ])
-              end
-              def values; end
-            end
-
-            MESSAGES_CHANGED = T.let(
-                :messages_changed,
-                Anthropic::Beta::BetaDiagnostics::CacheMissReason::Type::TaggedSymbol
-              )
-
-            MODEL_CHANGED = T.let(
-                :model_changed,
-                Anthropic::Beta::BetaDiagnostics::CacheMissReason::Type::TaggedSymbol
-              )
-
-            OrSymbol = T.type_alias { T.any(Symbol, String) }
-
-            PREVIOUS_MESSAGE_NOT_FOUND = T.let(
-                :previous_message_not_found,
-                Anthropic::Beta::BetaDiagnostics::CacheMissReason::Type::TaggedSymbol
-              )
-
-            SYSTEM_CHANGED = T.let(
-                :system_changed,
-                Anthropic::Beta::BetaDiagnostics::CacheMissReason::Type::TaggedSymbol
-              )
-
-            TOOLS_CHANGED = T.let(
-                :tools_changed,
-                Anthropic::Beta::BetaDiagnostics::CacheMissReason::Type::TaggedSymbol
-              )
-
-            TaggedSymbol = T.type_alias do
-                T.all(
-                  Symbol,
-                  Anthropic::Beta::BetaDiagnostics::CacheMissReason::Type
-                )
-              end
-
-            UNAVAILABLE = T.let(
-                :unavailable,
-                Anthropic::Beta::BetaDiagnostics::CacheMissReason::Type::TaggedSymbol
-              )
-          end
-
-          Variants = T.type_alias do
-              T.any(
-                Anthropic::Beta::BetaCacheMissModelChanged,
-                Anthropic::Beta::BetaCacheMissSystemChanged,
-                Anthropic::Beta::BetaCacheMissToolsChanged,
-                Anthropic::Beta::BetaCacheMissMessagesChanged,
-                Anthropic::Beta::BetaCacheMissPreviousMessageNotFound,
-                Anthropic::Beta::BetaCacheMissUnavailable
-              )
-            end
         end
 
         OrHash = T.type_alias do
@@ -15716,19 +15684,22 @@ module Anthropic
       end
 
       class BetaDream < Anthropic::Internal::Type::BaseModel
-        # A timestamp in RFC 3339 format
+        # When the dream was archived, in RFC 3339, or `null` if it hasn't been archived.
         sig { returns(T.nilable(Time)) }
         attr_accessor :archived_at
 
-        # A timestamp in RFC 3339 format
+        # When the dream was created, in RFC 3339.
+        #
+        # Lists of dreams are sorted by this time, newest first.
         sig { returns(Time) }
         attr_accessor :created_at
 
-        # A timestamp in RFC 3339 format
+        # When the dream reached `completed`, `failed`, or `canceled`, in RFC 3339, or
+        # `null` if it is still `pending` or `running`.
         sig { returns(T.nilable(Time)) }
         attr_accessor :ended_at
 
-        # Failure detail for a Dream whose `status` is `failed`.
+        # Why the dream failed, or `null` if `status` isn't `failed`.
         sig { returns(T.nilable(Anthropic::Beta::BetaDreamError)) }
         attr_reader :error
 
@@ -15757,8 +15728,9 @@ module Anthropic
         sig { params(model: Anthropic::Beta::BetaDreamModelConfig::OrHash).void }
         attr_writer :model
 
-        # Which memory store a dream writes its result to. Defaults to `create_new` when
-        # left out of a create request.
+        # Where the dream writes its result, as set in the request that created the dream.
+        # If that request left out `output_behavior`, the dream used the `create_new`
+        # behavior.
         sig { returns(Anthropic::Beta::BetaOutputBehavior::Variants) }
         attr_accessor :output_behavior
 
@@ -15801,16 +15773,8 @@ module Anthropic
         sig { returns(Anthropic::Beta::BetaDream::Type::TaggedSymbol) }
         attr_accessor :type
 
-        # The tokens that a dream has used so far.
-        #
-        # The counts are zero while the dream is `pending` and update while it is
-        # `running`. They can keep changing after a cancel.
-        #
-        # See the
-        # [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams#billing)
-        # for how dreams are billed. See the
-        # [prompt caching guide](https://platform.claude.com/docs/en/build-with-claude/prompt-caching#tracking-cache-performance)
-        # for how the input token counts add up.
+        # The dream's token counts, which stop changing once its `status` is `completed`
+        # or `failed`. After a cancel, they can keep changing.
         sig { returns(Anthropic::Beta::BetaDreamUsage) }
         attr_reader :usage
 
@@ -15844,8 +15808,11 @@ module Anthropic
           #
           # By default the dream writes its result to a new memory store and doesn't change
           # the input memory store. With `output_behavior` set to `update_existing`, it
-          # writes its result into the input memory store instead. The Dreams API is in
-          # research preview, so this resource can still change.
+          # writes its result into the input memory store instead.
+          #
+          # The Dreams API is in research preview: the request and response shapes are
+          # volatile and may change without the deprecation period that applies to
+          # generally-available endpoints.
           #
           # See the
           # [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams#how-it-works)
@@ -15878,17 +15845,20 @@ module Anthropic
           end
           def new(
             id:, # The unique ID of the dream (`drm_...`).
-            archived_at:, # A timestamp in RFC 3339 format
-            created_at:, # A timestamp in RFC 3339 format
-            ended_at:, # A timestamp in RFC 3339 format
-            error:, # Failure detail for a Dream whose `status` is `failed`.
+            archived_at:, # When the dream was archived, in RFC 3339, or `null` if it hasn't been archived.
+            created_at:, # When the dream was created, in RFC 3339.
+                         # Lists of dreams are sorted by this time, newest first.
+            ended_at:, # When the dream reached `completed`, `failed`, or `canceled`, in RFC 3339, or
+                       # `null` if it is still `pending` or `running`.
+            error:, # Why the dream failed, or `null` if `status` isn't `failed`.
             inputs:, # The sources that the dream reads, from the request that created it.
             instructions:, # The guidance given when the dream was created, or `null` if none was given.
             model:, # The model that runs a dream, from the request that created it.
                     # The dream uses this model for all of its work. The response always gives the
                     # model as an object, even if the request gave only a model ID.
-            output_behavior:, # Which memory store a dream writes its result to. Defaults to `create_new` when
-                              # left out of a create request.
+            output_behavior:, # Where the dream writes its result, as set in the request that created the dream.
+                              # If that request left out `output_behavior`, the dream used the `create_new`
+                              # behavior.
             outputs:, # The memory store that holds the dream's result, as a one-item array, or an empty
                       # array until the dream records that memory store.
                       # The array is empty while the dream is `pending` and for a short time after it
@@ -15911,14 +15881,8 @@ module Anthropic
                      # [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams#lifecycle)
                      # for what each status means.
             type:,
-            usage: # The tokens that a dream has used so far.
-                   # The counts are zero while the dream is `pending` and update while it is
-                   # `running`. They can keep changing after a cancel.
-                   # See the
-                   # [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams#billing)
-                   # for how dreams are billed. See the
-                   # [prompt caching guide](https://platform.claude.com/docs/en/build-with-claude/prompt-caching#tracking-cache-performance)
-                   # for how the input token counts add up.
+            usage: # The dream's token counts, which stop changing once its `status` is `completed`
+                   # or `failed`. After a cancel, they can keep changing.
 ); end
         end
 
@@ -16185,9 +16149,7 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :id
 
-        # Inference speed mode. `fast` provides significantly faster output token
-        # generation at premium pricing. Not all models support `fast`; invalid
-        # combinations are rejected at create time.
+        # How fast the model generates output for the dream. Always `standard`.
         sig do
           returns(T.nilable(
               Anthropic::Beta::BetaDreamModelConfig::Speed::TaggedSymbol
@@ -16221,9 +16183,7 @@ module Anthropic
           def new(
             id:, # The ID of the model that runs the dream, as given in the request that created
                  # it.
-            speed: nil # Inference speed mode. `fast` provides significantly faster output token
-                       # generation at premium pricing. Not all models support `fast`; invalid
-                       # combinations are rejected at create time.
+            speed: nil # How fast the model generates output for the dream. Always `standard`.
 ); end
         end
 
@@ -16234,9 +16194,7 @@ module Anthropic
             )
           end
 
-        # Inference speed mode. `fast` provides significantly faster output token
-        # generation at premium pricing. Not all models support `fast`; invalid
-        # combinations are rejected at create time.
+        # How fast the model generates output for the dream. Always `standard`.
         module Speed
           extend Anthropic::Internal::Type::Enum
 
@@ -16279,9 +16237,9 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :id
 
-        # Inference speed mode. `fast` provides significantly faster output token
-        # generation at premium pricing. Not all models support `fast`; invalid
-        # combinations are rejected at create time.
+        # How fast the model generates output for the dream. Defaults to `standard`.
+        #
+        # Dreams accept only `standard`.
         sig do
           returns(T.nilable(
               Anthropic::Beta::BetaDreamModelConfigParam::Speed::OrSymbol
@@ -16317,9 +16275,8 @@ module Anthropic
                  # The
                  # [limits table in the Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams#limits)
                  # lists the supported models.
-            speed: nil # Inference speed mode. `fast` provides significantly faster output token
-                       # generation at premium pricing. Not all models support `fast`; invalid
-                       # combinations are rejected at create time.
+            speed: nil # How fast the model generates output for the dream. Defaults to `standard`.
+                       # Dreams accept only `standard`.
 ); end
         end
 
@@ -16330,9 +16287,9 @@ module Anthropic
             )
           end
 
-        # Inference speed mode. `fast` provides significantly faster output token
-        # generation at premium pricing. Not all models support `fast`; invalid
-        # combinations are rejected at create time.
+        # How fast the model generates output for the dream. Defaults to `standard`.
+        #
+        # Dreams accept only `standard`.
         module Speed
           extend Anthropic::Internal::Type::Enum
 
@@ -16385,7 +16342,8 @@ module Anthropic
         def to_hash; end
 
         class << self
-          # The memory store that holds a dream's result, as an entry in `outputs`.
+          # An entry in a dream's `outputs` that references the memory store holding its
+          # result.
           sig do
             params(
               memory_store_id: String,
@@ -16746,7 +16704,7 @@ module Anthropic
         sig { returns(T::Boolean) }
         attr_accessor :supported
 
-        # Indicates whether a capability is supported.
+        # Whether the model supports xhigh effort level.
         sig { returns(T.nilable(Anthropic::Beta::BetaCapabilitySupport)) }
         attr_reader :xhigh
 
@@ -16784,7 +16742,7 @@ module Anthropic
             max:, # Whether the model supports max effort level.
             medium:, # Whether the model supports medium effort level.
             supported:, # Whether this capability is supported by the model.
-            xhigh: # Indicates whether a capability is supported.
+            xhigh: # Whether the model supports xhigh effort level.
 ); end
         end
 
@@ -17898,6 +17856,7 @@ module Anthropic
               T.any(
                 Anthropic::Beta::BetaThinkingConfigEnabled,
                 Anthropic::Beta::BetaThinkingConfigDisabled,
+                Anthropic::Beta::BetaThinkingConfigBetweenTools,
                 Anthropic::Beta::BetaThinkingConfigAdaptive
               )
             ))
@@ -17917,6 +17876,7 @@ module Anthropic
                   T.any(
                     Anthropic::Beta::BetaThinkingConfigEnabled,
                     Anthropic::Beta::BetaThinkingConfigDisabled,
+                    Anthropic::Beta::BetaThinkingConfigBetweenTools,
                     Anthropic::Beta::BetaThinkingConfigAdaptive
                   )
                 )
@@ -17941,6 +17901,7 @@ module Anthropic
                 T.any(
                   Anthropic::Beta::BetaThinkingConfigEnabled::OrHash,
                   Anthropic::Beta::BetaThinkingConfigDisabled::OrHash,
+                  Anthropic::Beta::BetaThinkingConfigBetweenTools::OrHash,
                   Anthropic::Beta::BetaThinkingConfigAdaptive::OrHash
                 )
               )
@@ -18025,8 +17986,8 @@ module Anthropic
                                   # [extended thinking](https://platform.claude.com/docs/en/build-with-claude/extended-thinking)
                                   # for details.
               block_binding: nil, # Controls for block binding: what happens when a thinking block this request
-                                  # sends back fails the conversation check. Every field is optional; an empty
-                                  # object means every default.
+                                  # sends back fails the conversation check. `null`, absent or an empty object means
+                                  # every default.
               display_: nil # Controls how thinking content appears in the response. When set to `summarized`,
                             # thinking is returned normally. When set to `omitted`, thinking content is
                             # redacted but a signature is returned for multi-turn continuity. Defaults to
@@ -18055,6 +18016,11 @@ module Anthropic
                 Anthropic::Beta::BetaFallbackParam::Thinking::Type::TaggedSymbol
               )
 
+            BETWEEN_TOOLS = T.let(
+                :between_tools,
+                Anthropic::Beta::BetaFallbackParam::Thinking::Type::TaggedSymbol
+              )
+
             DISABLED = T.let(
                 :disabled,
                 Anthropic::Beta::BetaFallbackParam::Thinking::Type::TaggedSymbol
@@ -18079,6 +18045,7 @@ module Anthropic
               T.any(
                 Anthropic::Beta::BetaThinkingConfigEnabled,
                 Anthropic::Beta::BetaThinkingConfigDisabled,
+                Anthropic::Beta::BetaThinkingConfigBetweenTools,
                 Anthropic::Beta::BetaThinkingConfigAdaptive
               )
             end
@@ -18086,7 +18053,9 @@ module Anthropic
       end
 
       class BetaFallbackRefusalTrigger < Anthropic::Internal::Type::BaseModel
-        # The policy category that triggered a refusal.
+        # The policy category that triggered the `from` model's refusal at this hop.
+        # `null` when the refusal doesn't map to a named category. Same vocabulary as
+        # `stop_details.category`.
         sig do
           returns(T.nilable(
               Anthropic::Beta::BetaFallbackRefusalTrigger::Category::TaggedSymbol
@@ -18120,12 +18089,16 @@ module Anthropic
             ).returns(T.attached_class)
           end
           def new(
-            category:, # The policy category that triggered a refusal.
+            category:, # The policy category that triggered the `from` model's refusal at this hop.
+                       # `null` when the refusal doesn't map to a named category. Same vocabulary as
+                       # `stop_details.category`.
             type: :refusal
 ); end
         end
 
-        # The policy category that triggered a refusal.
+        # The policy category that triggered the `from` model's refusal at this hop.
+        # `null` when the refusal doesn't map to a named category. Same vocabulary as
+        # `stop_details.category`.
         module Category
           extend Anthropic::Internal::Type::Enum
 
@@ -19678,7 +19651,7 @@ module Anthropic
       end
 
       class BetaManagedAgentsAgent < Anthropic::Internal::Type::BaseModel
-        # A timestamp in RFC 3339 format
+        # When the agent was archived. Null if not archived.
         sig { returns(T.nilable(Time)) }
         attr_accessor :archived_at
 
@@ -19705,7 +19678,7 @@ module Anthropic
         sig { params(model: Anthropic::Beta::BetaManagedAgentsModelConfig::OrHash).void }
         attr_writer :model
 
-        # Resolved coordinator topology with a concrete agent roster.
+        # Multiagent orchestration configuration. Null when the agent is single-threaded.
         sig { returns(T.nilable(Anthropic::Beta::BetaManagedAgentsMultiagent)) }
         attr_reader :multiagent
 
@@ -19804,13 +19777,13 @@ module Anthropic
           end
           def new(
             id:,
-            archived_at:, # A timestamp in RFC 3339 format
+            archived_at:, # When the agent was archived. Null if not archived.
             created_at:, # A timestamp in RFC 3339 format
             description:,
             mcp_servers:,
             metadata:,
             model:, # Model identifier and configuration.
-            multiagent:, # Resolved coordinator topology with a concrete agent roster.
+            multiagent:, # Multiagent orchestration configuration. Null when the agent is single-threaded.
             name:,
             skills:,
             system_:,
@@ -20576,7 +20549,8 @@ module Anthropic
             name:, # Must be "bash".
             enabled: nil, # Whether this tool is enabled and available to Claude. Overrides the
                           # default_config setting.
-            permission_policy: nil, # Permission policy for tool execution.
+            permission_policy: nil, # Permission policy for this tool. Controls whether tool calls are auto-approved
+                                    # or require confirmation.
             allowed_domains: nil, # Only fetch URLs whose host is one of these domains or a subdomain of one. Each
                                   # entry is a plain hostname like "docs.example.com" (no scheme, port, or path). At
                                   # most 64 entries; an empty list is rejected (omit the field instead). Cannot be
@@ -20990,7 +20964,7 @@ module Anthropic
         end
         attr_writer :configs
 
-        # Default configuration for all tools in a toolset.
+        # Default configuration applied to all tools in this set.
         sig do
           returns(T.nilable(
               Anthropic::Beta::BetaManagedAgentsAgentToolsetDefaultConfigParams
@@ -21062,7 +21036,7 @@ module Anthropic
           def new(
             type:,
             configs: nil, # Per-tool configuration overrides.
-            default_config: nil # Default configuration for all tools in a toolset.
+            default_config: nil # Default configuration applied to all tools in this set.
 ); end
         end
 
@@ -21287,7 +21261,8 @@ module Anthropic
         sig { returns(T.nilable(T::Boolean)) }
         attr_accessor :enabled
 
-        # Permission policy for tool execution.
+        # Default permission policy for tools. Controls whether tool calls are
+        # auto-approved or require confirmation.
         sig do
           returns(T.nilable(
               T.any(
@@ -21332,7 +21307,8 @@ module Anthropic
           def new(
             enabled: nil, # Whether tools are enabled and available to Claude by default. Defaults to true
                           # if not specified.
-            permission_policy: nil # Permission policy for tool execution.
+            permission_policy: nil # Default permission policy for tools. Controls whether tool calls are
+                                   # auto-approved or require confirmation.
 ); end
         end
 
@@ -21343,7 +21319,8 @@ module Anthropic
             )
           end
 
-        # Permission policy for tool execution.
+        # Default permission policy for tools. Controls whether tool calls are
+        # auto-approved or require confirmation.
         module PermissionPolicy
           extend Anthropic::Internal::Type::Union
 
@@ -21689,12 +21666,12 @@ module Anthropic
             def new(
               type:,
               configs: nil, # Per-tool configuration overrides.
-              default_config: nil, # Default configuration for all tools in a toolset.
+              default_config: nil, # Default configuration applied to all tools in this set.
               mcp_server_name: nil, # Name of the MCP server. Must match a server name from the mcp_servers array.
                                     # 1-255 characters.
               description: nil, # Description of what the tool does, shown to the agent to help it decide when to
                                 # use the tool.
-              input_schema: nil, # JSON Schema for custom tool input parameters.
+              input_schema: nil, # JSON Schema defining the expected input parameters for the tool.
               name: nil # Unique name for the tool. 1-128 characters; letters, digits, underscores, and
                         # hyphens.
 ); end
@@ -22206,7 +22183,8 @@ module Anthropic
         sig { returns(Symbol) }
         attr_accessor :name
 
-        # Permission policy for tool execution.
+        # Permission policy for this tool. Controls whether tool calls are auto-approved
+        # or require confirmation.
         sig do
           returns(T.nilable(
               T.any(
@@ -22266,7 +22244,8 @@ module Anthropic
           def new(
             enabled: nil, # Whether this tool is enabled and available to Claude. Overrides the
                           # default_config setting.
-            permission_policy: nil, # Permission policy for tool execution.
+            permission_policy: nil, # Permission policy for this tool. Controls whether tool calls are auto-approved
+                                    # or require confirmation.
             type: nil,
             name: :bash # Must be "bash".
 ); end
@@ -22279,7 +22258,8 @@ module Anthropic
             )
           end
 
-        # Permission policy for tool execution.
+        # Permission policy for this tool. Controls whether tool calls are auto-approved
+        # or require confirmation.
         module PermissionPolicy
           extend Anthropic::Internal::Type::Union
 
@@ -22446,7 +22426,8 @@ module Anthropic
       end
 
       class BetaManagedAgentsBudgetLimit < Anthropic::Internal::Type::BaseModel
-        # A monetary amount in a specific currency.
+        # Maximum list cost the session may accrue. List price is used regardless of any
+        # negotiated discount, so the cap fires at or before the actual charge.
         sig { returns(Anthropic::BetaMonetaryAmount) }
         attr_reader :max_list_cost
 
@@ -22476,7 +22457,8 @@ module Anthropic
             ).returns(T.attached_class)
           end
           def new(
-            max_list_cost:, # A monetary amount in a specific currency.
+            max_list_cost:, # Maximum list cost the session may accrue. List price is used regardless of any
+                            # negotiated discount, so the cap fires at or before the actual charge.
             type:
 ); end
         end
@@ -22636,7 +22618,8 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :expression
 
-        # A timestamp in RFC 3339 format
+        # Time the most recent scheduled run actually started. Null until one completes;
+        # preserved after the deployment is archived. Manual runs do not update this.
         sig { returns(T.nilable(Time)) }
         attr_accessor :last_run_at
 
@@ -22690,7 +22673,8 @@ module Anthropic
                          # (@daily).
             timezone:, # IANA timezone identifier (e.g., "America/Los_Angeles", "UTC").
             type:,
-            last_run_at: nil, # A timestamp in RFC 3339 format
+            last_run_at: nil, # Time the most recent scheduled run actually started. Null until one completes;
+                              # preserved after the deployment is archived. Manual runs do not update this.
             upcoming_runs_at: nil # Up to 5 timestamps of upcoming cron occurrences. Non-empty for active and paused
                                   # deployments (reflects what the schedule would do if unpaused); empty once the
                                   # deployment is archived (`archived_at` set). Each fire is offset by a small
@@ -23089,7 +23073,7 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :description
 
-        # JSON Schema for custom tool input parameters.
+        # JSON Schema defining the expected input parameters for the tool.
         sig { returns(Anthropic::Beta::BetaManagedAgentsCustomToolInputSchema) }
         attr_reader :input_schema
 
@@ -23133,7 +23117,7 @@ module Anthropic
           def new(
             description:, # Description of what the tool does, shown to the agent to help it decide when to
                           # use the tool.
-            input_schema:, # JSON Schema for custom tool input parameters.
+            input_schema:, # JSON Schema defining the expected input parameters for the tool.
             name:, # Unique name for the tool. 1-128 characters; letters, digits, underscores, and
                    # hyphens.
             type:
@@ -23379,7 +23363,8 @@ module Anthropic
       end
 
       class BetaManagedAgentsDeltaContent < Anthropic::Internal::Type::BaseModel
-        # Regular text content.
+        # A partial element of the content array at index, typed like the element itself —
+        # the same shape the buffered agent.message carries in content.
         sig { returns(Anthropic::Beta::Sessions::BetaManagedAgentsTextBlock) }
         attr_reader :content
 
@@ -23418,7 +23403,8 @@ module Anthropic
             ).returns(T.attached_class)
           end
           def new(
-            content:, # Regular text content.
+            content:, # A partial element of the content array at index, typed like the element itself —
+                      # the same shape the buffered agent.message carries in content.
             type:,
             index: nil # Which entry in the previewed event's content array this fragment lands in.
                        # Insert content as that entry when the index is new; append to the existing entry
@@ -23575,26 +23561,26 @@ module Anthropic
       end
 
       class BetaManagedAgentsDeployment < Anthropic::Internal::Type::BaseModel
-        # A resolved agent reference with a concrete version.
+        # Reference to the agent this deployment runs, resolved to a concrete version.
         sig { returns(Anthropic::Beta::BetaManagedAgentsAgentReference) }
         attr_reader :agent
 
         sig { params(agent: Anthropic::Beta::BetaManagedAgentsAgentReference::OrHash).void }
         attr_writer :agent
 
-        # A timestamp in RFC 3339 format
+        # Time the deployment was archived. Null if not archived.
         sig { returns(T.nilable(Time)) }
         attr_accessor :archived_at
 
-        # A hard spend ceiling. The session stops issuing new model requests once the
-        # tracked list cost reaches `max_list_cost`.
+        # Spend ceiling stamped onto each session created from this deployment. Absent
+        # when no budget is set.
         sig { returns(T.nilable(Anthropic::Beta::BetaManagedAgentsBudgetLimit)) }
         attr_reader :budget
 
         sig { params(budget: T.nilable(Anthropic::Beta::BetaManagedAgentsBudgetLimit::OrHash)).void }
         attr_writer :budget
 
-        # A timestamp in RFC 3339 format
+        # Time the deployment was created.
         sig { returns(Time) }
         attr_accessor :created_at
 
@@ -23626,7 +23612,8 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :name
 
-        # Why a deployment is paused. Non-null exactly when `status` is `paused`.
+        # Why the deployment is `paused`. Non-null exactly when `status` is `paused`; null
+        # otherwise.
         sig do
           returns(T.nilable(
               Anthropic::Beta::BetaManagedAgentsDeploymentPausedReason::Variants
@@ -23643,21 +23630,24 @@ module Anthropic
         end
         attr_accessor :resources
 
-        # 5-field POSIX cron schedule with computed runtime timestamps.
+        # Recurring cron schedule. Presence enables scheduled execution; null means
+        # manual-only. Includes computed timestamps (next fire times, last run) on the
+        # cron variant.
         sig { returns(T.nilable(Anthropic::Beta::BetaManagedAgentsSchedule)) }
         attr_reader :schedule
 
         sig { params(schedule: T.nilable(Anthropic::Beta::BetaManagedAgentsSchedule::OrHash)).void }
         attr_writer :schedule
 
-        # Lifecycle status of a deployment.
+        # Computed status of the deployment: `active` or `paused`. Archived deployments
+        # report `active` with `archived_at` set.
         sig { returns(Anthropic::Beta::BetaManagedAgentsDeploymentStatus::TaggedSymbol) }
         attr_accessor :status
 
         sig { returns(Anthropic::Beta::BetaManagedAgentsDeployment::Type::TaggedSymbol) }
         attr_accessor :type
 
-        # A timestamp in RFC 3339 format
+        # Time the deployment was last updated.
         sig { returns(Time) }
         attr_accessor :updated_at
 
@@ -23745,25 +23735,29 @@ module Anthropic
           end
           def new(
             id:, # Unique identifier for this deployment.
-            agent:, # A resolved agent reference with a concrete version.
-            archived_at:, # A timestamp in RFC 3339 format
-            created_at:, # A timestamp in RFC 3339 format
+            agent:, # Reference to the agent this deployment runs, resolved to a concrete version.
+            archived_at:, # Time the deployment was archived. Null if not archived.
+            created_at:, # Time the deployment was created.
             description:, # Description of what the deployment does.
             environment_id:, # ID of the `environment` where sessions run.
             initial_events:, # Events sent to each session immediately after creation.
             metadata:, # Arbitrary key-value metadata. Maximum 16 pairs.
             name:, # Human-readable name.
-            paused_reason:, # Why a deployment is paused. Non-null exactly when `status` is `paused`.
+            paused_reason:, # Why the deployment is `paused`. Non-null exactly when `status` is `paused`; null
+                            # otherwise.
             resources:, # Resources attached to sessions created from this deployment. Echoes the input
                         # minus write-only credentials.
-            schedule:, # 5-field POSIX cron schedule with computed runtime timestamps.
-            status:, # Lifecycle status of a deployment.
+            schedule:, # Recurring cron schedule. Presence enables scheduled execution; null means
+                       # manual-only. Includes computed timestamps (next fire times, last run) on the
+                       # cron variant.
+            status:, # Computed status of the deployment: `active` or `paused`. Archived deployments
+                     # report `active` with `archived_at` set.
             type:,
-            updated_at:, # A timestamp in RFC 3339 format
+            updated_at:, # Time the deployment was last updated.
             vault_ids:, # Vault IDs supplying stored credentials for sessions created from this
                         # deployment.
-            budget: nil # A hard spend ceiling. The session stops issuing new model requests once the
-                        # tracked list cost reaches `max_list_cost`.
+            budget: nil # Spend ceiling stamped onto each session created from this deployment. Absent
+                        # when no budget is set.
 ); end
         end
 
@@ -23836,7 +23830,7 @@ module Anthropic
             type:,
             content: nil, # Array of content blocks for the user message.
             description: nil, # What the agent should produce. This is the task specification.
-            rubric: nil, # Rubric for grading the quality of an outcome.
+            rubric: nil, # How to grade the outcome. Text or file reference.
             max_iterations: nil # Eval→revision cycles before giving up. Default 3, max 20.
 ); end
 
@@ -23932,7 +23926,7 @@ module Anthropic
             type:,
             content: nil, # Array of content blocks for the user message.
             description: nil, # What the agent should produce. This is the task specification.
-            rubric: nil, # Rubric for grading the quality of an outcome.
+            rubric: nil, # How to grade the outcome. Text or file reference.
             max_iterations: nil # Eval→revision cycles before giving up. Default 3, max 20.
 ); end
 
@@ -24022,7 +24016,7 @@ module Anthropic
           end
           def new(
             type:,
-            error: nil # The error that triggered an auto-pause. Matches the failed run's `error.type`.
+            error: nil # The failed run's error.
 ); end
 
           sig do
@@ -24212,14 +24206,15 @@ module Anthropic
       end
 
       class BetaManagedAgentsDeploymentRun < Anthropic::Internal::Type::BaseModel
-        # A resolved agent reference with a concrete version.
+        # Snapshot of the agent at fire time. Always fully resolved — deployments pin
+        # agent + version.
         sig { returns(Anthropic::Beta::BetaManagedAgentsAgentReference) }
         attr_reader :agent
 
         sig { params(agent: Anthropic::Beta::BetaManagedAgentsAgentReference::OrHash).void }
         attr_writer :agent
 
-        # A timestamp in RFC 3339 format
+        # Time this run record was persisted.
         sig { returns(Time) }
         attr_accessor :created_at
 
@@ -24227,8 +24222,8 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :deployment_id
 
-        # Why the run failed to create a session. The type identifies the failure; message
-        # is human-readable detail.
+        # Populated on creation failure. Null on success. Exactly one of `session_id` or
+        # `error` is non-null.
         sig do
           returns(T.nilable(
               Anthropic::Beta::BetaManagedAgentsDeploymentRun::Error::Variants
@@ -24245,7 +24240,7 @@ module Anthropic
         sig { returns(T.nilable(String)) }
         attr_accessor :session_id
 
-        # Describes what triggered a deployment run, with trigger-specific metadata.
+        # What triggered this run and trigger-specific metadata.
         sig { returns(Anthropic::Beta::BetaManagedAgentsTriggerContext::Variants) }
         attr_accessor :trigger_context
 
@@ -24311,20 +24306,21 @@ module Anthropic
           end
           def new(
             id:, # Unique identifier for this run (`drun_...`).
-            agent:, # A resolved agent reference with a concrete version.
-            created_at:, # A timestamp in RFC 3339 format
+            agent:, # Snapshot of the agent at fire time. Always fully resolved — deployments pin
+                    # agent + version.
+            created_at:, # Time this run record was persisted.
             deployment_id:, # ID of the deployment that produced this run.
-            error:, # Why the run failed to create a session. The type identifies the failure; message
-                    # is human-readable detail.
+            error:, # Populated on creation failure. Null on success. Exactly one of `session_id` or
+                    # `error` is non-null.
             session_id:, # Populated on success. Null on creation failure. Exactly one of `session_id` or
                          # `error` is non-null.
-            trigger_context:, # Describes what triggered a deployment run, with trigger-specific metadata.
+            trigger_context:, # What triggered this run and trigger-specific metadata.
             type:
 ); end
         end
 
-        # Why the run failed to create a session. The type identifies the failure; message
-        # is human-readable detail.
+        # Populated on creation failure. Null on success. Exactly one of `session_id` or
+        # `error` is non-null.
         module Error
           extend Anthropic::Internal::Type::Union
 
@@ -24627,7 +24623,7 @@ module Anthropic
         sig { returns(T.nilable(Integer)) }
         attr_accessor :max_iterations
 
-        # Rubric for grading the quality of an outcome.
+        # How to grade the outcome. Text or file reference.
         sig { returns(Anthropic::Beta::BetaManagedAgentsDeploymentUserDefineOutcomeEvent::Rubric::Variants) }
         attr_accessor :rubric
 
@@ -24662,7 +24658,7 @@ module Anthropic
           end
           def new(
             description:, # What the agent should produce. This is the task specification.
-            rubric:, # Rubric for grading the quality of an outcome.
+            rubric:, # How to grade the outcome. Text or file reference.
             type:,
             max_iterations: nil # Eval→revision cycles before giving up. Default 3, max 20.
 ); end
@@ -24675,7 +24671,7 @@ module Anthropic
             )
           end
 
-        # Rubric for grading the quality of an outcome.
+        # How to grade the outcome. Text or file reference.
         module Rubric
           extend Anthropic::Internal::Type::Union
 
@@ -24851,7 +24847,7 @@ module Anthropic
             def new(
               type:,
               text: nil, # The text content.
-              source: nil, # Union type for image source variants.
+              source: nil, # The source of the image data.
               context: nil, # Additional context about the document for the model.
               title: nil # The title of the document.
 ); end
@@ -25090,7 +25086,8 @@ module Anthropic
         sig { returns(Symbol) }
         attr_accessor :name
 
-        # Permission policy for tool execution.
+        # Permission policy for this tool. Controls whether tool calls are auto-approved
+        # or require confirmation.
         sig do
           returns(T.nilable(
               T.any(
@@ -25150,7 +25147,8 @@ module Anthropic
           def new(
             enabled: nil, # Whether this tool is enabled and available to Claude. Overrides the
                           # default_config setting.
-            permission_policy: nil, # Permission policy for tool execution.
+            permission_policy: nil, # Permission policy for this tool. Controls whether tool calls are auto-approved
+                                    # or require confirmation.
             type: nil,
             name: :edit # Must be "edit".
 ); end
@@ -25163,7 +25161,8 @@ module Anthropic
             )
           end
 
-        # Permission policy for tool execution.
+        # Permission policy for this tool. Controls whether tool calls are auto-approved
+        # or require confirmation.
         module PermissionPolicy
           extend Anthropic::Internal::Type::Union
 
@@ -25785,7 +25784,7 @@ module Anthropic
       end
 
       class BetaManagedAgentsErrorDeploymentPausedReason < Anthropic::Internal::Type::BaseModel
-        # The error that triggered an auto-pause. Matches the failed run's `error.type`.
+        # The failed run's error.
         sig { returns(Anthropic::Beta::BetaManagedAgentsDeploymentPausedReasonError::Variants) }
         attr_accessor :error
 
@@ -25827,7 +25826,7 @@ module Anthropic
             ).returns(T.attached_class)
           end
           def new(
-            error:, # The error that triggered an auto-pause. Matches the failed run's `error.type`.
+            error:, # The failed run's error.
             type:
 ); end
         end
@@ -26628,7 +26627,8 @@ module Anthropic
         sig { returns(Symbol) }
         attr_accessor :name
 
-        # Permission policy for tool execution.
+        # Permission policy for this tool. Controls whether tool calls are auto-approved
+        # or require confirmation.
         sig do
           returns(T.nilable(
               T.any(
@@ -26688,7 +26688,8 @@ module Anthropic
           def new(
             enabled: nil, # Whether this tool is enabled and available to Claude. Overrides the
                           # default_config setting.
-            permission_policy: nil, # Permission policy for tool execution.
+            permission_policy: nil, # Permission policy for this tool. Controls whether tool calls are auto-approved
+                                    # or require confirmation.
             type: nil,
             name: :glob # Must be "glob".
 ); end
@@ -26701,7 +26702,8 @@ module Anthropic
             )
           end
 
-        # Permission policy for tool execution.
+        # Permission policy for this tool. Controls whether tool calls are auto-approved
+        # or require confirmation.
         module PermissionPolicy
           extend Anthropic::Internal::Type::Union
 
@@ -26936,7 +26938,8 @@ module Anthropic
         sig { returns(Symbol) }
         attr_accessor :name
 
-        # Permission policy for tool execution.
+        # Permission policy for this tool. Controls whether tool calls are auto-approved
+        # or require confirmation.
         sig do
           returns(T.nilable(
               T.any(
@@ -26996,7 +26999,8 @@ module Anthropic
           def new(
             enabled: nil, # Whether this tool is enabled and available to Claude. Overrides the
                           # default_config setting.
-            permission_policy: nil, # Permission policy for tool execution.
+            permission_policy: nil, # Permission policy for this tool. Controls whether tool calls are auto-approved
+                                    # or require confirmation.
             type: nil,
             name: :grep # Must be "grep".
 ); end
@@ -27009,7 +27013,8 @@ module Anthropic
             )
           end
 
-        # Permission policy for tool execution.
+        # Permission policy for this tool. Controls whether tool calls are auto-approved
+        # or require confirmation.
         module PermissionPolicy
           extend Anthropic::Internal::Type::Union
 
@@ -27437,7 +27442,7 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :name
 
-        # Permission policy for tool execution.
+        # Permission policy for this tool. Overrides the `default_config` setting.
         sig do
           returns(T.nilable(
               T.any(
@@ -27484,7 +27489,7 @@ module Anthropic
           def new(
             name:, # Name of the MCP tool to configure. 1-128 characters.
             enabled: nil, # Whether this tool is enabled. Overrides the `default_config` setting.
-            permission_policy: nil # Permission policy for tool execution.
+            permission_policy: nil # Permission policy for this tool. Overrides the `default_config` setting.
 ); end
         end
 
@@ -27495,7 +27500,7 @@ module Anthropic
             )
           end
 
-        # Permission policy for tool execution.
+        # Permission policy for this tool. Overrides the `default_config` setting.
         module PermissionPolicy
           extend Anthropic::Internal::Type::Union
 
@@ -27766,7 +27771,7 @@ module Anthropic
         sig { returns(T.nilable(T::Boolean)) }
         attr_accessor :enabled
 
-        # Permission policy for tool execution.
+        # Default permission policy for tools from this server.
         sig do
           returns(T.nilable(
               T.any(
@@ -27810,7 +27815,7 @@ module Anthropic
           end
           def new(
             enabled: nil, # Whether tools are enabled by default. Defaults to true if not specified.
-            permission_policy: nil # Permission policy for tool execution.
+            permission_policy: nil # Default permission policy for tools from this server.
 ); end
         end
 
@@ -27821,7 +27826,7 @@ module Anthropic
             )
           end
 
-        # Permission policy for tool execution.
+        # Default permission policy for tools from this server.
         module PermissionPolicy
           extend Anthropic::Internal::Type::Union
 
@@ -27910,7 +27915,7 @@ module Anthropic
         end
         attr_writer :configs
 
-        # Default configuration for all tools from an MCP server.
+        # Default configuration for all tools from this server.
         sig do
           returns(T.nilable(
               Anthropic::Beta::BetaManagedAgentsMCPToolsetDefaultConfigParams
@@ -27970,7 +27975,7 @@ module Anthropic
                               # 1-255 characters.
             type:,
             configs: nil, # Per-tool configuration overrides.
-            default_config: nil # Default configuration for all tools from an MCP server.
+            default_config: nil # Default configuration for all tools from this server.
 ); end
         end
 
@@ -28130,11 +28135,13 @@ module Anthropic
       end
 
       class BetaManagedAgentsMemoryStore < Anthropic::Internal::Type::BaseModel
-        # A timestamp in RFC 3339 format
+        # Timestamp when the store was archived, or `null` if active. Set once and never
+        # cleared; archiving is one-way. Archived stores are read-only and cannot be
+        # attached to new sessions.
         sig { returns(T.nilable(Time)) }
         attr_accessor :archived_at
 
-        # A timestamp in RFC 3339 format
+        # Timestamp when the store was created.
         sig { returns(Time) }
         attr_accessor :created_at
 
@@ -28170,7 +28177,8 @@ module Anthropic
         sig { returns(Anthropic::Beta::BetaManagedAgentsMemoryStore::Type::TaggedSymbol) }
         attr_accessor :type
 
-        # A timestamp in RFC 3339 format
+        # Timestamp when the store's `name`, `description`, or `metadata` was last
+        # modified. Memory writes inside the store do not advance this.
         sig { returns(Time) }
         attr_accessor :updated_at
 
@@ -28210,12 +28218,15 @@ module Anthropic
             id:, # Unique identifier for the memory store (a `memstore_...` tagged ID). Use this
                  # when attaching the store to a session, or in the `{memory_store_id}` path
                  # parameter of subsequent calls.
-            created_at:, # A timestamp in RFC 3339 format
+            created_at:, # Timestamp when the store was created.
             name:, # Human-readable name for the store. 1–255 characters. The store's mount-path slug
                    # under `/mnt/memory/` is derived from this name.
             type:,
-            updated_at:, # A timestamp in RFC 3339 format
-            archived_at: nil, # A timestamp in RFC 3339 format
+            updated_at:, # Timestamp when the store's `name`, `description`, or `metadata` was last
+                         # modified. Memory writes inside the store do not advance this.
+            archived_at: nil, # Timestamp when the store was archived, or `null` if active. Set once and never
+                              # cleared; archiving is one-way. Archived stores are read-only and cannot be
+                              # attached to new sessions.
             description: nil, # Free-text description of what the store contains, up to 1024 characters.
                               # Included in the agent's system prompt when the store is attached, so word it to
                               # be useful to the agent. Empty string when unset.
@@ -28388,7 +28399,8 @@ module Anthropic
       end
 
       class BetaManagedAgentsMemoryStoreResourceConfig < Anthropic::Internal::Type::BaseModel
-        # Access mode for an attached memory store.
+        # Access mode for the mounted store. Defaults to `read_write`. `read_only` mounts
+        # the store as a read-only filesystem.
         sig do
           returns(T.nilable(
               Anthropic::Beta::BetaManagedAgentsMemoryStoreResourceConfig::Access::TaggedSymbol
@@ -28440,13 +28452,15 @@ module Anthropic
             memory_store_id:, # The memory store ID (memstore\_...). Must belong to the caller's organization
                               # and workspace.
             type:,
-            access: nil, # Access mode for an attached memory store.
+            access: nil, # Access mode for the mounted store. Defaults to `read_write`. `read_only` mounts
+                         # the store as a read-only filesystem.
             instructions: nil # Per-attachment guidance for the agent on how to use this store. Rendered into
                               # the memory section of the system prompt. Max 4096 chars.
 ); end
         end
 
-        # Access mode for an attached memory store.
+        # Access mode for the mounted store. Defaults to `read_write`. `read_only` mounts
+        # the store as a read-only filesystem.
         module Access
           extend Anthropic::Internal::Type::Enum
 
@@ -28517,7 +28531,8 @@ module Anthropic
       end
 
       class BetaManagedAgentsMemoryStoreResourceParam < Anthropic::Internal::Type::BaseModel
-        # Access mode for an attached memory store.
+        # Access mode for the mounted store. Defaults to read_write. read_only mounts the
+        # store as a read-only filesystem.
         sig do
           returns(T.nilable(
               Anthropic::Beta::BetaManagedAgentsMemoryStoreResourceParam::Access::OrSymbol
@@ -28569,13 +28584,15 @@ module Anthropic
             memory_store_id:, # The memory store ID (memstore\_...). Must belong to the caller's organization
                               # and workspace.
             type:,
-            access: nil, # Access mode for an attached memory store.
+            access: nil, # Access mode for the mounted store. Defaults to read_write. read_only mounts the
+                         # store as a read-only filesystem.
             instructions: nil # Per-attachment guidance for the agent on how to use this store. Rendered into
                               # the memory section of the system prompt. Max 4096 chars.
 ); end
         end
 
-        # Access mode for an attached memory store.
+        # Access mode for the mounted store. Defaults to read_write. read_only mounts the
+        # store as a read-only filesystem.
         module Access
           extend Anthropic::Internal::Type::Enum
 
@@ -28741,9 +28758,15 @@ module Anthropic
             Anthropic::Beta::BetaManagedAgentsModel::TaggedSymbol
           )
 
-        # High-performance model for coding and agents
+        # Efficient model for coding and agents
         CLAUDE_SONNET_5 = T.let(
             :"claude-sonnet-5",
+            Anthropic::Beta::BetaManagedAgentsModel::TaggedSymbol
+          )
+
+        # Efficient model for coding and agents
+        CLAUDE_SONNET_5_5 = T.let(
+            :"claude-sonnet-5-5",
             Anthropic::Beta::BetaManagedAgentsModel::TaggedSymbol
           )
 
@@ -28759,8 +28782,9 @@ module Anthropic
       end
 
       class BetaManagedAgentsModelConfig < Anthropic::Internal::Type::BaseModel
-        # How hard Claude works on each turn. Sets `output_config.effort` on every
-        # Messages call the session makes.
+        # How hard Claude works on each inference call. One of `low`, `medium`, `high`,
+        # `xhigh`, `max`. Always present; resolved to the per-model default at save time
+        # when not supplied.
         sig do
           returns(T.nilable(
               Anthropic::Beta::BetaManagedAgentsModelConfig::Effort::Variants
@@ -28797,8 +28821,8 @@ module Anthropic
         attr_writer :inference_geo
 
         # Inference speed mode. `fast` provides significantly faster output token
-        # generation at premium pricing. Not all models support `fast`; invalid
-        # combinations are rejected at create time.
+        # generation at premium pricing. Defaults to `standard`. Not all models support
+        # `fast`; invalid combinations are rejected at create time.
         sig do
           returns(T.nilable(
               Anthropic::Beta::BetaManagedAgentsModelConfig::Speed::TaggedSymbol
@@ -28842,18 +28866,20 @@ module Anthropic
             id:, # The model that will power your agent.
                  # See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
                  # details and options.
-            effort: nil, # How hard Claude works on each turn. Sets `output_config.effort` on every
-                         # Messages call the session makes.
+            effort: nil, # How hard Claude works on each inference call. One of `low`, `medium`, `high`,
+                         # `xhigh`, `max`. Always present; resolved to the per-model default at save time
+                         # when not supplied.
             inference_geo: nil, # Geographic region for model inference. When unset, requests fall through to the
                                 # workspace's default_inference_geo.
             speed: nil # Inference speed mode. `fast` provides significantly faster output token
-                       # generation at premium pricing. Not all models support `fast`; invalid
-                       # combinations are rejected at create time.
+                       # generation at premium pricing. Defaults to `standard`. Not all models support
+                       # `fast`; invalid combinations are rejected at create time.
 ); end
         end
 
-        # How hard Claude works on each turn. Sets `output_config.effort` on every
-        # Messages call the session makes.
+        # How hard Claude works on each inference call. One of `low`, `medium`, `high`,
+        # `xhigh`, `max`. Always present; resolved to the per-model default at save time
+        # when not supplied.
         module Effort
           extend Anthropic::Internal::Type::Union
 
@@ -28943,8 +28969,8 @@ module Anthropic
           end
 
         # Inference speed mode. `fast` provides significantly faster output token
-        # generation at premium pricing. Not all models support `fast`; invalid
-        # combinations are rejected at create time.
+        # generation at premium pricing. Defaults to `standard`. Not all models support
+        # `fast`; invalid combinations are rejected at create time.
         module Speed
           extend Anthropic::Internal::Type::Enum
 
@@ -29010,9 +29036,7 @@ module Anthropic
         sig { returns(T.nilable(String)) }
         attr_accessor :inference_geo
 
-        # Inference speed mode. `fast` provides significantly faster output token
-        # generation at premium pricing. Not all models support `fast`; invalid
-        # combinations are rejected at create time.
+        # Inference speed mode. Defaults to `standard`.
         sig do
           returns(T.nilable(
               Anthropic::Beta::BetaManagedAgentsModelConfigParams::Speed::OrSymbol
@@ -29079,9 +29103,7 @@ module Anthropic
             inference_geo: nil, # Geographic region for model inference. When unset, requests fall through to the
                                 # workspace's default_inference_geo. On update, `model` is whole-object
                                 # replacement — omitting inference_geo clears it.
-            speed: nil # Inference speed mode. `fast` provides significantly faster output token
-                       # generation at premium pricing. Not all models support `fast`; invalid
-                       # combinations are rejected at create time.
+            speed: nil # Inference speed mode. Defaults to `standard`.
 ); end
         end
 
@@ -29176,9 +29198,7 @@ module Anthropic
             )
           end
 
-        # Inference speed mode. `fast` provides significantly faster output token
-        # generation at premium pricing. Not all models support `fast`; invalid
-        # combinations are rejected at create time.
+        # Inference speed mode. Defaults to `standard`.
         module Speed
           extend Anthropic::Internal::Type::Enum
 
@@ -29240,7 +29260,7 @@ module Anthropic
         def to_hash; end
 
         class << self
-          # Resolved coordinator topology with a concrete agent roster.
+          # Resolved multiagent orchestration configuration as returned in API responses.
           sig do
             params(
               agents: T::Array[
@@ -29668,8 +29688,8 @@ module Anthropic
         def to_hash; end
 
         class << self
-          # A coordinator topology: the session's primary thread orchestrates work by
-          # spawning session threads, each running an agent drawn from the `agents` roster.
+          # Multiagent orchestration configuration. Currently supports the `coordinator`
+          # topology.
           sig do
             params(
               agents: T::Array[
@@ -29945,7 +29965,8 @@ module Anthropic
       end
 
       class BetaManagedAgentsOutcomeEvaluationResource < Anthropic::Internal::Type::BaseModel
-        # A timestamp in RFC 3339 format
+        # When the outcome reached a terminal result. Null while
+        # `pending`/`running`/`evaluating`.
         sig { returns(T.nilable(Time)) }
         attr_accessor :completed_at
 
@@ -30005,7 +30026,8 @@ module Anthropic
             ).returns(T.attached_class)
           end
           def new(
-            completed_at:, # A timestamp in RFC 3339 format
+            completed_at:, # When the outcome reached a terminal result. Null while
+                           # `pending`/`running`/`evaluating`.
             description:, # What the agent should produce.
             explanation:, # Grader's verdict text from the most recent evaluation. For `satisfied`, explains
                           # why criteria are met; for `needs_revision` (intermediate), what's missing; for
@@ -30191,7 +30213,8 @@ module Anthropic
         sig { returns(Symbol) }
         attr_accessor :name
 
-        # Permission policy for tool execution.
+        # Permission policy for this tool. Controls whether tool calls are auto-approved
+        # or require confirmation.
         sig do
           returns(T.nilable(
               T.any(
@@ -30251,7 +30274,8 @@ module Anthropic
           def new(
             enabled: nil, # Whether this tool is enabled and available to Claude. Overrides the
                           # default_config setting.
-            permission_policy: nil, # Permission policy for tool execution.
+            permission_policy: nil, # Permission policy for this tool. Controls whether tool calls are auto-approved
+                                    # or require confirmation.
             type: nil,
             name: :read # Must be "read".
 ); end
@@ -30264,7 +30288,8 @@ module Anthropic
             )
           end
 
-        # Permission policy for tool execution.
+        # Permission policy for this tool. Controls whether tool calls are auto-approved
+        # or require confirmation.
         module PermissionPolicy
           extend Anthropic::Internal::Type::Union
 
@@ -30372,7 +30397,8 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :expression
 
-        # A timestamp in RFC 3339 format
+        # Time the most recent scheduled run actually started. Null until one completes;
+        # preserved after the deployment is archived. Manual runs do not update this.
         sig { returns(T.nilable(Time)) }
         attr_accessor :last_run_at
 
@@ -30408,7 +30434,8 @@ module Anthropic
         def to_hash; end
 
         class << self
-          # 5-field POSIX cron schedule with computed runtime timestamps.
+          # A recurring schedule with computed runtime timestamps. Discriminated union —
+          # only cron is supported currently.
           sig do
             params(
               expression: String,
@@ -30426,7 +30453,8 @@ module Anthropic
                          # (@daily).
             timezone:, # IANA timezone identifier (e.g., "America/Los_Angeles", "UTC").
             type:,
-            last_run_at: nil, # A timestamp in RFC 3339 format
+            last_run_at: nil, # Time the most recent scheduled run actually started. Null until one completes;
+                              # preserved after the deployment is archived. Manual runs do not update this.
             upcoming_runs_at: nil # Up to 5 timestamps of upcoming cron occurrences. Non-empty for active and paused
                                   # deployments (reflects what the schedule would do if unpaused); empty once the
                                   # deployment is archived (`archived_at` set). Each fire is offset by a small
@@ -30497,8 +30525,7 @@ module Anthropic
         def to_hash; end
 
         class << self
-          # 5-field POSIX cron schedule. Literal wall-clock matching in the configured
-          # timezone.
+          # A recurring schedule. Discriminated union — only cron is supported currently.
           sig do
             params(
               expression: String,
@@ -30555,7 +30582,9 @@ module Anthropic
       end
 
       class BetaManagedAgentsScheduleTriggerContext < Anthropic::Internal::Type::BaseModel
-        # A timestamp in RFC 3339 format
+        # The UTC instant at which the cron expression matched in the configured timezone,
+        # before jitter is applied. At most one run is recorded per (`deployment_id`,
+        # `scheduled_at`) pair.
         sig { returns(Time) }
         attr_accessor :scheduled_at
 
@@ -30581,7 +30610,9 @@ module Anthropic
             ).returns(T.attached_class)
           end
           def new(
-            scheduled_at:, # A timestamp in RFC 3339 format
+            scheduled_at:, # The UTC instant at which the cron expression matched in the configured timezone,
+                           # before jitter is applied. At most one run is recorded per (`deployment_id`,
+                           # `scheduled_at`) pair.
             type:
 ); end
         end
@@ -30797,12 +30828,11 @@ module Anthropic
         sig { params(agent: Anthropic::Beta::BetaManagedAgentsSessionAgent::OrHash).void }
         attr_writer :agent
 
-        # A timestamp in RFC 3339 format
+        # When the session was archived. Null if not archived.
         sig { returns(T.nilable(Time)) }
         attr_accessor :archived_at
 
-        # A hard spend ceiling. The session stops issuing new model requests once the
-        # tracked list cost reaches `max_list_cost`.
+        # The session's enforced spend ceiling, or null when no budget is set.
         sig { returns(T.nilable(Anthropic::Beta::BetaManagedAgentsBudgetLimit)) }
         attr_reader :budget
 
@@ -30843,7 +30873,7 @@ module Anthropic
         end
         attr_accessor :resources
 
-        # Timing statistics for a session.
+        # Timing statistics for the session.
         sig { returns(Anthropic::Beta::BetaManagedAgentsSessionStats) }
         attr_reader :stats
 
@@ -30864,7 +30894,7 @@ module Anthropic
         sig { returns(Time) }
         attr_accessor :updated_at
 
-        # Cumulative token usage for a session across all turns.
+        # Cumulative token usage for the session.
         sig { returns(Anthropic::Beta::BetaManagedAgentsSessionUsage) }
         attr_reader :usage
 
@@ -30943,21 +30973,20 @@ module Anthropic
             id:,
             agent:, # Resolved `agent` definition for a `session`. Snapshot of the `agent` at
                     # `session` creation time.
-            archived_at:, # A timestamp in RFC 3339 format
-            budget:, # A hard spend ceiling. The session stops issuing new model requests once the
-                     # tracked list cost reaches `max_list_cost`.
+            archived_at:, # When the session was archived. Null if not archived.
+            budget:, # The session's enforced spend ceiling, or null when no budget is set.
             created_at:, # A timestamp in RFC 3339 format
             environment_id:,
             metadata:,
             outcome_evaluations:, # Per-outcome evaluation state. One entry per `define_outcome` event sent to the
                                   # session.
             resources:,
-            stats:, # Timing statistics for a session.
+            stats:, # Timing statistics for the session.
             status:, # SessionStatus enum
             title:,
             type:,
             updated_at:, # A timestamp in RFC 3339 format
-            usage:, # Cumulative token usage for a session across all turns.
+            usage:, # Cumulative token usage for the session.
             vault_ids:, # Vault IDs attached to the session at creation. Empty when no vaults were
                         # supplied.
             deployment_id: nil # Deployment ID when the session was created from a deployment reference. Null
@@ -31060,8 +31089,8 @@ module Anthropic
         sig { params(model: Anthropic::Beta::BetaManagedAgentsModelConfig::OrHash).void }
         attr_writer :model
 
-        # Resolved coordinator topology with full agent definitions for each roster
-        # member.
+        # Resolved multiagent orchestration configuration. Null when the agent is
+        # single-threaded.
         sig do
           returns(T.nilable(
               Anthropic::Beta::BetaManagedAgentsSessionMultiagentCoordinator
@@ -31173,8 +31202,8 @@ module Anthropic
             description:,
             mcp_servers:,
             model:, # Model identifier and configuration.
-            multiagent:, # Resolved coordinator topology with full agent definitions for each roster
-                         # member.
+            multiagent:, # Resolved multiagent orchestration configuration. Null when the agent is
+                         # single-threaded.
             name:,
             skills:,
             system_:,
@@ -31530,12 +31559,12 @@ module Anthropic
             def new(
               type:,
               configs: nil, # Per-tool configuration overrides.
-              default_config: nil, # Default configuration for all tools in a toolset.
+              default_config: nil, # Default configuration applied to all tools in this set.
               mcp_server_name: nil, # Name of the MCP server. Must match a server name from the mcp_servers array.
                                     # 1-255 characters.
               description: nil, # Description of what the tool does, shown to the agent to help it decide when to
                                 # use the tool.
-              input_schema: nil, # JSON Schema for custom tool input parameters.
+              input_schema: nil, # JSON Schema defining the expected input parameters for the tool.
               name: nil # Unique name for the tool. 1-128 characters; letters, digits, underscores, and
                         # hyphens.
 ); end
@@ -31949,7 +31978,8 @@ module Anthropic
             file_id: nil, # ID of a previously uploaded file.
             memory_store_id: nil, # The memory store ID (memstore\_...). Must belong to the caller's organization
                                   # and workspace.
-            access: nil, # Access mode for an attached memory store.
+            access: nil, # Access mode for the mounted store. Defaults to `read_write`. `read_only` mounts
+                         # the store as a read-only filesystem.
             instructions: nil # Per-attachment guidance for the agent on how to use this store. Rendered into
                               # the memory section of the system prompt. Max 4096 chars.
 ); end
@@ -32499,16 +32529,18 @@ module Anthropic
       end
 
       class BetaManagedAgentsSessionUpdatedEvent < Anthropic::Internal::Type::BaseModel
-        # Resolved `agent` definition for a `session`. Snapshot of the `agent` at
-        # `session` creation time.
+        # The session's effective agent configuration after the update. Present only when
+        # the update changed `agent` (tools or mcp_servers); when present it is the full
+        # materialised snapshot, not a diff.
         sig { returns(T.nilable(Anthropic::Beta::BetaManagedAgentsSessionAgent)) }
         attr_reader :agent
 
         sig { params(agent: T.nilable(Anthropic::Beta::BetaManagedAgentsSessionAgent::OrHash)).void }
         attr_writer :agent
 
-        # A hard spend ceiling. The session stops issuing new model requests once the
-        # tracked list cost reaches `max_list_cost`.
+        # The session's budget after the update: the new budget when set or replaced, or
+        # null when the update removed it. Present only when the update changed the
+        # budget.
         sig { returns(T.nilable(Anthropic::Beta::BetaManagedAgentsBudgetLimit)) }
         attr_reader :budget
 
@@ -32527,7 +32559,7 @@ module Anthropic
         sig { params(metadata: T::Hash[Symbol, String]).void }
         attr_writer :metadata
 
-        # A timestamp in RFC 3339 format
+        # Timestamp when the update was applied.
         sig { returns(Time) }
         attr_accessor :processed_at
 
@@ -32570,12 +32602,14 @@ module Anthropic
           end
           def new(
             id:, # Unique identifier for this event.
-            processed_at:, # A timestamp in RFC 3339 format
+            processed_at:, # Timestamp when the update was applied.
             type:,
-            agent: nil, # Resolved `agent` definition for a `session`. Snapshot of the `agent` at
-                        # `session` creation time.
-            budget: nil, # A hard spend ceiling. The session stops issuing new model requests once the
-                         # tracked list cost reaches `max_list_cost`.
+            agent: nil, # The session's effective agent configuration after the update. Present only when
+                        # the update changed `agent` (tools or mcp_servers); when present it is the full
+                        # materialised snapshot, not a diff.
+            budget: nil, # The session's budget after the update: the new budget when set or replaced, or
+                         # null when the update removed it. Present only when the update changed the
+                         # budget.
             metadata: nil, # The session's full metadata bag after the update. Present when the update set
                            # non-empty metadata; absent when metadata was unchanged or cleared to empty.
             title: nil # The session's new title. Present only when the update changed it.
@@ -32629,7 +32663,7 @@ module Anthropic
         sig { params(active_seconds: Float).void }
         attr_writer :active_seconds
 
-        # Prompt-cache creation token usage broken down by cache lifetime.
+        # Tokens used to create prompt cache entries, broken down by cache TTL.
         sig { returns(T.nilable(Anthropic::Beta::BetaManagedAgentsCacheCreationUsage)) }
         attr_reader :cache_creation
 
@@ -32650,7 +32684,8 @@ module Anthropic
         sig { params(input_tokens: Integer).void }
         attr_writer :input_tokens
 
-        # A monetary amount in a specific currency.
+        # Cumulative list cost of the session across all turns, priced at public list
+        # rates. Absent until cost tracking is available for the session.
         sig { returns(T.nilable(Anthropic::BetaMonetaryAmount)) }
         attr_reader :list_cost
 
@@ -32664,7 +32699,8 @@ module Anthropic
         sig { params(output_tokens: Integer).void }
         attr_writer :output_tokens
 
-        # Cumulative count of server-executed tool invocations, broken down by tool.
+        # Cumulative server-executed tool usage across all turns. Absent until server-tool
+        # tracking is available for the session.
         sig { returns(T.nilable(Anthropic::Beta::BetaManagedAgentsServerToolUsage)) }
         attr_reader :server_tool_use
 
@@ -32713,12 +32749,14 @@ module Anthropic
                                  # running status. Overlapping activity from concurrent threads is counted once,
                                  # unlike `stats.active_seconds`, which sums each thread's own active time. This is
                                  # the duration the session's runtime cost is priced on.
-            cache_creation: nil, # Prompt-cache creation token usage broken down by cache lifetime.
+            cache_creation: nil, # Tokens used to create prompt cache entries, broken down by cache TTL.
             cache_read_input_tokens: nil, # Total tokens read from prompt cache.
             input_tokens: nil, # Total input tokens consumed across all turns.
-            list_cost: nil, # A monetary amount in a specific currency.
+            list_cost: nil, # Cumulative list cost of the session across all turns, priced at public list
+                            # rates. Absent until cost tracking is available for the session.
             output_tokens: nil, # Total output tokens generated across all turns.
-            server_tool_use: nil # Cumulative count of server-executed tool invocations, broken down by tool.
+            server_tool_use: nil # Cumulative server-executed tool usage across all turns. Absent until server-tool
+                                 # tracking is available for the session.
 ); end
         end
 
@@ -32731,8 +32769,8 @@ module Anthropic
       end
 
       class BetaManagedAgentsSessionUsageEvent < Anthropic::Internal::Type::BaseModel
-        # A hard spend ceiling. The session stops issuing new model requests once the
-        # tracked list cost reaches `max_list_cost`.
+        # The session's configured budget at the snapshot time, or null when the session
+        # has no budget.
         sig { returns(T.nilable(Anthropic::Beta::BetaManagedAgentsBudgetLimit)) }
         attr_reader :budget
 
@@ -32743,14 +32781,14 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :id
 
-        # A timestamp in RFC 3339 format
+        # Timestamp when the snapshot was taken.
         sig { returns(Time) }
         attr_accessor :processed_at
 
         sig { returns(Anthropic::Beta::BetaManagedAgentsSessionUsageEvent::Type::TaggedSymbol) }
         attr_accessor :type
 
-        # Point-in-time snapshot of a session's cumulative usage.
+        # The session's cumulative usage at the snapshot time.
         sig { returns(Anthropic::Beta::Sessions::BetaManagedAgentsSessionUsageSnapshot) }
         attr_reader :usage
 
@@ -32784,11 +32822,11 @@ module Anthropic
           end
           def new(
             id:, # Unique identifier for this event.
-            processed_at:, # A timestamp in RFC 3339 format
+            processed_at:, # Timestamp when the snapshot was taken.
             type:,
-            usage:, # Point-in-time snapshot of a session's cumulative usage.
-            budget: nil # A hard spend ceiling. The session stops issuing new model requests once the
-                        # tracked list cost reaches `max_list_cost`.
+            usage:, # The session's cumulative usage at the snapshot time.
+            budget: nil # The session's configured budget at the snapshot time, or null when the session
+                        # has no budget.
 ); end
         end
 
@@ -33184,7 +33222,7 @@ module Anthropic
         def to_hash; end
 
         class << self
-          # Regular text content.
+          # Content block in a mid-conversation system message. Text-only.
           sig do
             params(
               text: String,
@@ -33242,7 +33280,7 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :id
 
-        # A timestamp in RFC 3339 format
+        # Timestamp when this system message was processed.
         sig { returns(T.nilable(Time)) }
         attr_accessor :processed_at
 
@@ -33279,7 +33317,7 @@ module Anthropic
             id:, # Unique identifier for this event.
             content:, # System content blocks. Text-only.
             type:,
-            processed_at: nil # A timestamp in RFC 3339 format
+            processed_at: nil # Timestamp when this system message was processed.
 ); end
         end
 
@@ -33334,7 +33372,9 @@ module Anthropic
           end
           def new(
             type:,
-            scheduled_at: nil # A timestamp in RFC 3339 format
+            scheduled_at: nil # The UTC instant at which the cron expression matched in the configured timezone,
+                              # before jitter is applied. At most one run is recorded per (`deployment_id`,
+                              # `scheduled_at`) pair.
 ); end
 
           sig { override.returns(T::Array[Anthropic::Beta::BetaManagedAgentsTriggerContext::Variants]) }
@@ -33715,7 +33755,7 @@ module Anthropic
         sig { returns(T.nilable(T::Boolean)) }
         attr_accessor :is_error
 
-        # A timestamp in RFC 3339 format
+        # Timestamp when this result was processed.
         sig { returns(T.nilable(Time)) }
         attr_accessor :processed_at
 
@@ -33783,7 +33823,7 @@ module Anthropic
             type:,
             content: nil, # The result content returned by the tool.
             is_error: nil, # Whether the tool execution resulted in an error.
-            processed_at: nil, # A timestamp in RFC 3339 format
+            processed_at: nil, # Timestamp when this result was processed.
             session_thread_id: nil # Set by the server to the subagent thread this result was routed to. Omitted when
                                    # it was routed to the primary thread.
 ); end
@@ -33826,10 +33866,10 @@ module Anthropic
             def new(
               type:,
               text: nil, # The text content.
-              source: nil, # Union type for image source variants.
+              source: nil, # The source of the image data.
               context: nil, # Additional context about the document for the model.
               title: nil, # The title of the document.
-              citations: nil, # Citation settings for a search result.
+              citations: nil, # Citation settings for this search result.
               content: nil # Array of text content blocks from the search result.
 ); end
 
@@ -33932,7 +33972,7 @@ module Anthropic
       end
 
       class BetaManagedAgentsVault < Anthropic::Internal::Type::BaseModel
-        # A timestamp in RFC 3339 format
+        # When the vault was archived. Null if not archived.
         sig { returns(T.nilable(Time)) }
         attr_accessor :archived_at
 
@@ -33988,7 +34028,7 @@ module Anthropic
           end
           def new(
             id:, # Unique identifier for the vault.
-            archived_at:, # A timestamp in RFC 3339 format
+            archived_at:, # When the vault was archived. Null if not archived.
             created_at:, # A timestamp in RFC 3339 format
             display_name:, # Human-readable name for the vault.
             metadata:, # Arbitrary key-value metadata attached to the vault.
@@ -34469,7 +34509,8 @@ module Anthropic
         sig { returns(Symbol) }
         attr_accessor :name
 
-        # Permission policy for tool execution.
+        # Permission policy for this tool. Controls whether tool calls are auto-approved
+        # or require confirmation.
         sig do
           returns(T.nilable(
               T.any(
@@ -34545,7 +34586,8 @@ module Anthropic
                           # default_config setting.
             max_content_tokens: nil, # Maximum number of tokens of fetched text content to include in context per call.
                                      # Does not apply to binary content such as PDFs.
-            permission_policy: nil, # Permission policy for tool execution.
+            permission_policy: nil, # Permission policy for this tool. Controls whether tool calls are auto-approved
+                                    # or require confirmation.
             type: nil,
             name: :web_fetch # Must be "web_fetch".
 ); end
@@ -34558,7 +34600,8 @@ module Anthropic
             )
           end
 
-        # Permission policy for tool execution.
+        # Permission policy for this tool. Controls whether tool calls are auto-approved
+        # or require confirmation.
         module PermissionPolicy
           extend Anthropic::Internal::Type::Union
 
@@ -34842,7 +34885,8 @@ module Anthropic
         sig { returns(Symbol) }
         attr_accessor :name
 
-        # Permission policy for tool execution.
+        # Permission policy for this tool. Controls whether tool calls are auto-approved
+        # or require confirmation.
         sig do
           returns(T.nilable(
               T.any(
@@ -34924,7 +34968,8 @@ module Anthropic
                                   # rejected (omit the field instead). Cannot be combined with allowed_domains.
             enabled: nil, # Whether this tool is enabled and available to Claude. Overrides the
                           # default_config setting.
-            permission_policy: nil, # Permission policy for tool execution.
+            permission_policy: nil, # Permission policy for this tool. Controls whether tool calls are auto-approved
+                                    # or require confirmation.
             type: nil,
             user_location: nil, # Approximate user location for search result localization.
             name: :web_search # Must be "web_search".
@@ -34938,7 +34983,8 @@ module Anthropic
             )
           end
 
-        # Permission policy for tool execution.
+        # Permission policy for this tool. Controls whether tool calls are auto-approved
+        # or require confirmation.
         module PermissionPolicy
           extend Anthropic::Internal::Type::Union
 
@@ -35302,7 +35348,8 @@ module Anthropic
         sig { returns(Symbol) }
         attr_accessor :name
 
-        # Permission policy for tool execution.
+        # Permission policy for this tool. Controls whether tool calls are auto-approved
+        # or require confirmation.
         sig do
           returns(T.nilable(
               T.any(
@@ -35362,7 +35409,8 @@ module Anthropic
           def new(
             enabled: nil, # Whether this tool is enabled and available to Claude. Overrides the
                           # default_config setting.
-            permission_policy: nil, # Permission policy for tool execution.
+            permission_policy: nil, # Permission policy for this tool. Controls whether tool calls are auto-approved
+                                    # or require confirmation.
             type: nil,
             name: :write # Must be "write".
 ); end
@@ -35375,7 +35423,8 @@ module Anthropic
             )
           end
 
-        # Permission policy for tool execution.
+        # Permission policy for this tool. Controls whether tool calls are auto-approved
+        # or require confirmation.
         module PermissionPolicy
           extend Anthropic::Internal::Type::Union
 
@@ -35957,8 +36006,9 @@ module Anthropic
       end
 
       class BetaMessage < Anthropic::Internal::Type::BaseModel
-        # Information about the container used in the request (for the code execution
-        # tool)
+        # Information about the container used in this request.
+        #
+        # This will be non-null if a container tool (e.g. code execution) was used.
         sig { returns(T.nilable(Anthropic::Beta::BetaContainer)) }
         attr_reader :container
 
@@ -36009,8 +36059,8 @@ module Anthropic
         sig { params(context_management: T.nilable(Anthropic::Beta::BetaContextManagementResponse::OrHash)).void }
         attr_writer :context_management
 
-        # Request-level diagnostics: why the prompt cache could not fully reuse the prefix
-        # of the request named by `diagnostics.previous_message_id`.
+        # Request-level diagnostics. `null` when the request did not supply `diagnostics`,
+        # or when it did and no prompt-cache divergence was detected.
         sig { returns(T.nilable(Anthropic::Beta::BetaDiagnostics)) }
         attr_reader :diagnostics
 
@@ -36063,7 +36113,9 @@ module Anthropic
         sig { returns(Symbol) }
         attr_accessor :role
 
-        # Structured information about a refusal.
+        # Structured information about why model output stopped.
+        #
+        # This is `null` when the `stop_reason` has no additional detail to report.
         sig { returns(T.nilable(Anthropic::Beta::BetaRefusalStopDetails)) }
         attr_reader :stop_details
 
@@ -36200,8 +36252,8 @@ module Anthropic
           def new(
             id:, # Unique object identifier.
                  # The format and length of IDs may change over time.
-            container:, # Information about the container used in the request (for the code execution
-                        # tool)
+            container:, # Information about the container used in this request.
+                        # This will be non-null if a container tool (e.g. code execution) was used.
             content:, # Content generated by the model.
                       # This is an array of content blocks, each of which has a `type` that determines
                       # its shape.
@@ -36228,12 +36280,13 @@ module Anthropic
                       # ```
             context_management:, # Context management response.
                                  # Information about context management strategies applied during the request.
-            diagnostics:, # Request-level diagnostics: why the prompt cache could not fully reuse the prefix
-                          # of the request named by `diagnostics.previous_message_id`.
+            diagnostics:, # Request-level diagnostics. `null` when the request did not supply `diagnostics`,
+                          # or when it did and no prompt-cache divergence was detected.
             model:, # The model that will complete your prompt.
                     # See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
                     # details and options.
-            stop_details:, # Structured information about a refusal.
+            stop_details:, # Structured information about why model output stopped.
+                           # This is `null` when the `stop_reason` has no additional detail to report.
             stop_reason:, # The reason that we stopped.
                           # This may be one the following values:
                           # - `"end_turn"`: the model reached a natural stopping point
@@ -36302,6 +36355,10 @@ module Anthropic
         attr_accessor :cache_read_input_tokens
 
         # Outcome of the `fallback_credit_token` presented on this request.
+        #
+        # Present on every response to a non-batch request that carried a
+        # `fallback_credit_token`, in either redemption mode; absent otherwise (batch
+        # items accept and ignore the token and carry no outcome object).
         sig { returns(T.nilable(Anthropic::Beta::BetaFallbackCreditUsage)) }
         attr_reader :fallback_credit
 
@@ -36410,6 +36467,9 @@ module Anthropic
             cache_creation_input_tokens:, # The cumulative number of input tokens used to create the cache entry.
             cache_read_input_tokens:, # The cumulative number of input tokens read from the cache.
             fallback_credit:, # Outcome of the `fallback_credit_token` presented on this request.
+                              # Present on every response to a non-batch request that carried a
+                              # `fallback_credit_token`, in either redemption mode; absent otherwise (batch
+                              # items accept and ignore the token and carry no outcome object).
             input_tokens:, # The cumulative number of input tokens which were used.
             iterations:, # Per-iteration token usage breakdown.
                          # Each entry represents one sampling iteration, with its own input/output token
@@ -36789,9 +36849,8 @@ module Anthropic
         sig { params(code_execution: Anthropic::Beta::BetaCapabilitySupport::OrHash).void }
         attr_writer :code_execution
 
-        # Compaction capability details: whether the model accepts the top-level
-        # `compaction` request parameter, with one entry per supported `compaction.type`
-        # value.
+        # Server-side compaction support (the top-level `compaction` parameter) and the
+        # accepted `compaction.type` values.
         sig { returns(T.nilable(Anthropic::Beta::BetaCompactionCapability)) }
         attr_reader :compaction
 
@@ -36878,9 +36937,8 @@ module Anthropic
             batch:, # Whether the model supports the Batch API.
             citations:, # Whether the model supports citation generation.
             code_execution:, # Whether the model supports code execution tools.
-            compaction:, # Compaction capability details: whether the model accepts the top-level
-                         # `compaction` request parameter, with one entry per supported `compaction.type`
-                         # value.
+            compaction:, # Server-side compaction support (the top-level `compaction` parameter) and the
+                         # accepted `compaction.type` values.
             context_management:, # Context management support and available strategies.
             effort:, # Effort (reasoning_effort) support and available levels.
             image_input:, # Whether the model accepts image content blocks.
@@ -36905,7 +36963,8 @@ module Anthropic
         sig { returns(T.nilable(T::Array[String])) }
         attr_accessor :allowed_fallback_models
 
-        # Model capability information.
+        # Object mapping capability names to their support details. Keys are always
+        # present for all known capabilities.
         sig { returns(T.nilable(Anthropic::Beta::BetaModelCapabilities)) }
         attr_reader :capabilities
 
@@ -36972,7 +37031,8 @@ module Anthropic
             allowed_fallback_models:, # Model IDs this model accepts as `fallbacks[i].model` on the Messages API. An
                                       # empty list means the `fallbacks` parameter is not supported for this model as
                                       # primary.
-            capabilities:, # Model capability information.
+            capabilities:, # Object mapping capability names to their support details. Keys are always
+                           # present for all known capabilities.
             created_at:, # RFC 3339 datetime string representing the time at which the model was released.
                          # May be set to an epoch value if the release date is unknown.
             display_name:, # A human-readable name for the model.
@@ -37254,7 +37314,10 @@ module Anthropic
       end
 
       class BetaOutputConfig < Anthropic::Internal::Type::BaseModel
-        # All possible effort levels.
+        # How much effort the model should put into its response. Higher effort levels may
+        # result in more thorough analysis but take longer.
+        #
+        # Valid values are `low`, `medium`, `high`, `xhigh`, or `max`.
         sig { returns(T.nilable(Anthropic::Beta::BetaOutputConfig::Effort::OrSymbol)) }
         attr_accessor :effort
 
@@ -37266,7 +37329,7 @@ module Anthropic
         sig { params(format_: T.nilable(Anthropic::Beta::BetaJSONOutputFormat::OrHash)).void }
         attr_writer :format_
 
-        # User-configurable total token budget across contexts.
+        # Configuration for token budget tracking across contexts.
         sig { returns(T.nilable(Anthropic::Beta::BetaTokenTaskBudget)) }
         attr_reader :task_budget
 
@@ -37293,14 +37356,19 @@ module Anthropic
             ).returns(T.attached_class)
           end
           def new(
-            effort: nil, # All possible effort levels.
+            effort: nil, # How much effort the model should put into its response. Higher effort levels may
+                         # result in more thorough analysis but take longer.
+                         # Valid values are `low`, `medium`, `high`, `xhigh`, or `max`.
             format_: nil, # A schema to specify Claude's output format in responses. See
                           # [structured outputs](https://platform.claude.com/docs/en/build-with-claude/structured-outputs)
-            task_budget: nil # User-configurable total token budget across contexts.
+            task_budget: nil # Configuration for token budget tracking across contexts.
 ); end
         end
 
-        # All possible effort levels.
+        # How much effort the model should put into its response. Higher effort levels may
+        # result in more thorough analysis but take longer.
+        #
+        # Valid values are `low`, `medium`, `high`, `xhigh`, or `max`.
         module Effort
           extend Anthropic::Internal::Type::Enum
 
@@ -38268,15 +38336,18 @@ module Anthropic
         end
 
         class Delta < Anthropic::Internal::Type::BaseModel
-          # Information about the container used in the request (for the code execution
-          # tool)
+          # Information about the container used in this request.
+          #
+          # This will be non-null if a container tool (e.g. code execution) was used.
           sig { returns(T.nilable(Anthropic::Beta::BetaContainer)) }
           attr_reader :container
 
           sig { params(container: T.nilable(Anthropic::Beta::BetaContainer::OrHash)).void }
           attr_writer :container
 
-          # Structured information about a refusal.
+          # Structured information about why model output stopped.
+          #
+          # This is `null` when the `stop_reason` has no additional detail to report.
           sig { returns(T.nilable(Anthropic::Beta::BetaRefusalStopDetails)) }
           attr_reader :stop_details
 
@@ -38312,9 +38383,10 @@ module Anthropic
               ).returns(T.attached_class)
             end
             def new(
-              container:, # Information about the container used in the request (for the code execution
-                          # tool)
-              stop_details:, # Structured information about a refusal.
+              container:, # Information about the container used in this request.
+                          # This will be non-null if a container tool (e.g. code execution) was used.
+              stop_details:, # Structured information about why model output stopped.
+                             # This is `null` when the `stop_reason` has no additional detail to report.
               stop_reason:,
               stop_sequence:
 ); end
@@ -38614,7 +38686,9 @@ module Anthropic
       end
 
       class BetaRefusalStopDetails < Anthropic::Internal::Type::BaseModel
-        # The policy category that triggered a refusal.
+        # The policy category that triggered the refusal.
+        #
+        # `null` when the refusal doesn't map to a named category.
         sig do
           returns(T.nilable(
               Anthropic::Beta::BetaRefusalStopDetails::Category::TaggedSymbol
@@ -38713,7 +38787,8 @@ module Anthropic
             ).returns(T.attached_class)
           end
           def new(
-            category:, # The policy category that triggered a refusal.
+            category:, # The policy category that triggered the refusal.
+                       # `null` when the refusal doesn't map to a named category.
             explanation:, # Human-readable explanation of the refusal.
                           # This text is not guaranteed to be stable. `null` when no explanation is
                           # available for the category.
@@ -38758,7 +38833,9 @@ module Anthropic
 ); end
         end
 
-        # The policy category that triggered a refusal.
+        # The policy category that triggered the refusal.
+        #
+        # `null` when the refusal doesn't map to a named category.
         module Category
           extend Anthropic::Internal::Type::Enum
 
@@ -41120,7 +41197,10 @@ module Anthropic
       end
 
       class BetaSystemMessageOutputConfig < Anthropic::Internal::Type::BaseModel
-        # All possible effort levels.
+        # How much effort the model should put into its response. Higher effort levels may
+        # result in more thorough analysis but take longer.
+        #
+        # Valid values are `low`, `medium`, `high`, `xhigh`, or `max`.
         sig do
           returns(T.nilable(
               Anthropic::Beta::BetaSystemMessageOutputConfig::Effort::OrSymbol
@@ -41153,11 +41233,16 @@ module Anthropic
             ).returns(T.attached_class)
           end
           def new(
-            effort: nil # All possible effort levels.
+            effort: nil # How much effort the model should put into its response. Higher effort levels may
+                        # result in more thorough analysis but take longer.
+                        # Valid values are `low`, `medium`, `high`, `xhigh`, or `max`.
 ); end
         end
 
-        # All possible effort levels.
+        # How much effort the model should put into its response. Higher effort levels may
+        # result in more thorough analysis but take longer.
+        #
+        # Valid values are `low`, `medium`, `high`, `xhigh`, or `max`.
         module Effort
           extend Anthropic::Internal::Type::Enum
 
@@ -42381,11 +42466,11 @@ module Anthropic
       end
 
       class BetaThinkingBlockBinding < Anthropic::Internal::Type::BaseModel
-        # What happens when a thinking block in `messages` fails the conversation check:
-        # it was created in a different conversation, or the messages before it have
-        # changed since. `"error"` (the default) fails the request with a 400 error.
-        # `"drop_block"` removes the failing blocks and the request proceeds; the model no
-        # longer sees the dropped reasoning.
+        # "error" (default) | "drop_block". What happens when a thinking block in
+        # `messages` fails the conversation check (it was created in a different
+        # conversation, or the messages before it have changed since). "error" fails the
+        # request with a 400 error. "drop_block" removes the failing blocks and the
+        # request proceeds; each removal is reported in `input_transformations`.
         sig do
           returns(T.nilable(
               Anthropic::Beta::BetaThinkingPrefixMismatchBehavior::OrSymbol
@@ -42416,11 +42501,11 @@ module Anthropic
             ).returns(T.attached_class)
           end
           def new(
-            prefix_mismatch_behavior: nil # What happens when a thinking block in `messages` fails the conversation check:
-                                          # it was created in a different conversation, or the messages before it have
-                                          # changed since. `"error"` (the default) fails the request with a 400 error.
-                                          # `"drop_block"` removes the failing blocks and the request proceeds; the model no
-                                          # longer sees the dropped reasoning.
+            prefix_mismatch_behavior: nil # "error" (default) | "drop_block". What happens when a thinking block in
+                                          # `messages` fails the conversation check (it was created in a different
+                                          # conversation, or the messages before it have changed since). "error" fails the
+                                          # request with a 400 error. "drop_block" removes the failing blocks and the
+                                          # request proceeds; each removal is reported in `input_transformations`.
 ); end
         end
 
@@ -42510,8 +42595,8 @@ module Anthropic
 
       class BetaThinkingConfigAdaptive < Anthropic::Internal::Type::BaseModel
         # Controls for block binding: what happens when a thinking block this request
-        # sends back fails the conversation check. Every field is optional; an empty
-        # object means every default.
+        # sends back fails the conversation check. `null`, absent or an empty object means
+        # every default.
         sig { returns(T.nilable(Anthropic::Beta::BetaThinkingBlockBinding)) }
         attr_reader :block_binding
 
@@ -42558,8 +42643,8 @@ module Anthropic
           end
           def new(
             block_binding: nil, # Controls for block binding: what happens when a thinking block this request
-                                # sends back fails the conversation check. Every field is optional; an empty
-                                # object means every default.
+                                # sends back fails the conversation check. `null`, absent or an empty object means
+                                # every default.
             display_: nil, # Controls how thinking content appears in the response. When set to `summarized`,
                            # thinking is returned normally. When set to `omitted`, thinking content is
                            # redacted but a signature is returned for multi-turn continuity. Defaults to
@@ -42618,6 +42703,26 @@ module Anthropic
           end
       end
 
+      class BetaThinkingConfigBetweenTools < Anthropic::Internal::Type::BaseModel
+        sig { returns(Symbol) }
+        attr_accessor :type
+
+        sig { override.returns({ type: Symbol }) }
+        def to_hash; end
+
+        class << self
+          sig { params(type: Symbol).returns(T.attached_class) }
+          def new(type: :between_tools); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaThinkingConfigBetweenTools,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
       class BetaThinkingConfigDisabled < Anthropic::Internal::Type::BaseModel
         sig { returns(Symbol) }
         attr_accessor :type
@@ -42640,8 +42745,8 @@ module Anthropic
 
       class BetaThinkingConfigEnabled < Anthropic::Internal::Type::BaseModel
         # Controls for block binding: what happens when a thinking block this request
-        # sends back fails the conversation check. Every field is optional; an empty
-        # object means every default.
+        # sends back fails the conversation check. `null`, absent or an empty object means
+        # every default.
         sig { returns(T.nilable(Anthropic::Beta::BetaThinkingBlockBinding)) }
         attr_reader :block_binding
 
@@ -42709,8 +42814,8 @@ module Anthropic
                             # [extended thinking](https://platform.claude.com/docs/en/build-with-claude/extended-thinking)
                             # for details.
             block_binding: nil, # Controls for block binding: what happens when a thinking block this request
-                                # sends back fails the conversation check. Every field is optional; an empty
-                                # object means every default.
+                                # sends back fails the conversation check. `null`, absent or an empty object means
+                                # every default.
             display_: nil, # Controls how thinking content appears in the response. When set to `summarized`,
                            # thinking is returned normally. When set to `omitted`, thinking content is
                            # redacted but a signature is returned for multi-turn continuity. Defaults to
@@ -42806,8 +42911,8 @@ module Anthropic
                                 # [extended thinking](https://platform.claude.com/docs/en/build-with-claude/extended-thinking)
                                 # for details.
             block_binding: nil, # Controls for block binding: what happens when a thinking block this request
-                                # sends back fails the conversation check. Every field is optional; an empty
-                                # object means every default.
+                                # sends back fails the conversation check. `null`, absent or an empty object means
+                                # every default.
             display_: nil # Controls how thinking content appears in the response. When set to `summarized`,
                           # thinking is returned normally. When set to `omitted`, thinking content is
                           # redacted but a signature is returned for multi-turn continuity. Defaults to
@@ -42836,6 +42941,11 @@ module Anthropic
               Anthropic::Beta::BetaThinkingConfigParam::Type::TaggedSymbol
             )
 
+          BETWEEN_TOOLS = T.let(
+              :between_tools,
+              Anthropic::Beta::BetaThinkingConfigParam::Type::TaggedSymbol
+            )
+
           DISABLED = T.let(
               :disabled,
               Anthropic::Beta::BetaThinkingConfigParam::Type::TaggedSymbol
@@ -42857,6 +42967,7 @@ module Anthropic
             T.any(
               Anthropic::Beta::BetaThinkingConfigEnabled,
               Anthropic::Beta::BetaThinkingConfigDisabled,
+              Anthropic::Beta::BetaThinkingConfigBetweenTools,
               Anthropic::Beta::BetaThinkingConfigAdaptive
             )
           end
@@ -47028,11 +47139,12 @@ module Anthropic
       end
 
       class BetaTunnel < Anthropic::Internal::Type::BaseModel
-        # A timestamp in RFC 3339 format
+        # RFC 3339 datetime string indicating when the tunnel was archived. Null if it is
+        # not archived.
         sig { returns(T.nilable(Time)) }
         attr_accessor :archived_at
 
-        # A timestamp in RFC 3339 format
+        # RFC 3339 datetime string indicating when the tunnel was created.
         sig { returns(Time) }
         attr_accessor :created_at
 
@@ -47080,8 +47192,9 @@ module Anthropic
           end
           def new(
             id:, # Unique identifier for the tunnel, prefixed with `tnl_`.
-            archived_at:, # A timestamp in RFC 3339 format
-            created_at:, # A timestamp in RFC 3339 format
+            archived_at:, # RFC 3339 datetime string indicating when the tunnel was archived. Null if it is
+                          # not archived.
+            created_at:, # RFC 3339 datetime string indicating when the tunnel was created.
             display_name:, # Human-readable name for the tunnel (1-255 characters). Null if unset.
             domain:, # Anthropic-assigned hostname for the tunnel. MCP server URLs whose host is a
                      # subdomain of this value are routed through the tunnel. Globally unique and never
@@ -47217,6 +47330,10 @@ module Anthropic
         attr_accessor :cache_read_input_tokens
 
         # Outcome of the `fallback_credit_token` presented on this request.
+        #
+        # Present on every response to a non-batch request that carried a
+        # `fallback_credit_token`, in either redemption mode; absent otherwise (batch
+        # items accept and ignore the token and carry no outcome object).
         sig { returns(T.nilable(Anthropic::Beta::BetaFallbackCreditUsage)) }
         attr_reader :fallback_credit
 
@@ -47287,9 +47404,7 @@ module Anthropic
         sig { returns(T.nilable(Anthropic::Beta::BetaUsage::ServiceTier::TaggedSymbol)) }
         attr_accessor :service_tier
 
-        # Inference speed mode. `fast` provides significantly faster output token
-        # generation at premium pricing. Not all models support `fast`; invalid
-        # combinations are rejected at create time.
+        # The inference speed mode used for this request.
         sig { returns(T.nilable(Anthropic::Beta::BetaUsage::Speed::TaggedSymbol)) }
         attr_accessor :speed
 
@@ -47351,6 +47466,9 @@ module Anthropic
             cache_creation_input_tokens:, # The number of input tokens used to create the cache entry.
             cache_read_input_tokens:, # The number of input tokens read from the cache.
             fallback_credit:, # Outcome of the `fallback_credit_token` presented on this request.
+                              # Present on every response to a non-batch request that carried a
+                              # `fallback_credit_token`, in either redemption mode; absent otherwise (batch
+                              # items accept and ignore the token and carry no outcome object).
             inference_geo:, # The geographic region where inference was performed for this request.
             input_tokens:, # The number of input tokens which were used.
             iterations:, # Per-iteration token usage breakdown.
@@ -47380,9 +47498,7 @@ module Anthropic
                                     # have been summarized before being returned to you.
             server_tool_use:, # The number of server tool requests.
             service_tier:, # If the request used the priority, standard, or batch tier.
-            speed: # Inference speed mode. `fast` provides significantly faster output token
-                   # generation at premium pricing. Not all models support `fast`; invalid
-                   # combinations are rejected at create time.
+            speed: # The inference speed mode used for this request.
 ); end
         end
 
@@ -47418,9 +47534,7 @@ module Anthropic
             end
         end
 
-        # Inference speed mode. `fast` provides significantly faster output token
-        # generation at premium pricing. Not all models support `fast`; invalid
-        # combinations are rejected at create time.
+        # The inference speed mode used for this request.
         module Speed
           extend Anthropic::Internal::Type::Enum
 
@@ -47502,11 +47616,9 @@ module Anthropic
       end
 
       class BetaUserProfile < Anthropic::Internal::Type::BaseModel
-        # How the platform uses the API on behalf of the entity this profile represents.
-        # `application`: the platform sells a product that uses the API behind the scenes,
-        # and the profile represents an individual end-user of that product.
-        # `passthrough`: the platform resells raw inference, and the profile identifies
-        # the resold-to company.
+        # How the platform uses the API for this entity: `application` (default) or
+        # `passthrough`. Present under the `user-profiles-2026-08-18` and later beta
+        # headers.
         sig do
           returns(T.nilable(
               Anthropic::Beta::BetaUserProfile::AccessType::TaggedSymbol
@@ -47517,7 +47629,7 @@ module Anthropic
         sig { params(access_type: Anthropic::Beta::BetaUserProfile::AccessType::OrSymbol).void }
         attr_writer :access_type
 
-        # A timestamp in RFC 3339 format
+        # When this user profile was created, in RFC 3339 format.
         sig { returns(Time) }
         attr_accessor :created_at
 
@@ -47527,16 +47639,22 @@ module Anthropic
         sig { returns(T.nilable(String)) }
         attr_accessor :external_id
 
-        # Details about the entity this profile represents, as the platform states them.
-        # Anthropic does not verify them. Every field is present, `null` until the
-        # platform supplies a value.
+        # Details about the entity this profile represents, as the platform states them;
+        # not verified by Anthropic. Present under the `user-profiles-2026-09-04` beta
+        # header, with every field present and `null` until the platform supplies a value;
+        # the earlier beta headers serve `reference_id` as the top-level `external_id`,
+        # and `user-profiles-2026-08-18` serves `onboarded_at` as
+        # `external_user_onboarded_at`.
         sig { returns(T.nilable(Anthropic::Beta::BetaUserProfileExternalUserDetails)) }
         attr_reader :external_user_details
 
         sig { params(external_user_details: Anthropic::Beta::BetaUserProfileExternalUserDetails::OrHash).void }
         attr_writer :external_user_details
 
-        # A timestamp in RFC 3339 format
+        # When the entity this profile represents opened its account with the platform, as
+        # stated by the platform, in RFC 3339 format (UTC). `null` until the platform
+        # supplies one. Present under the `user-profiles-2026-08-18` beta header; under
+        # `user-profiles-2026-09-04` the value is `external_user_details.onboarded_at`.
         sig { returns(T.nilable(Time)) }
         attr_accessor :external_user_onboarded_at
 
@@ -47564,7 +47682,8 @@ module Anthropic
         sig { returns(Anthropic::Beta::BetaUserProfile::Type::TaggedSymbol) }
         attr_accessor :type
 
-        # A timestamp in RFC 3339 format
+        # When this user profile was last modified, in RFC 3339 format. Trust-grant status
+        # changes also bump this timestamp.
         sig { returns(Time) }
         attr_accessor :updated_at
 
@@ -47617,36 +47736,39 @@ module Anthropic
           end
           def new(
             id:, # Unique identifier for this user profile, prefixed `uprof_`.
-            created_at:, # A timestamp in RFC 3339 format
+            created_at:, # When this user profile was created, in RFC 3339 format.
             metadata:, # Arbitrary key-value metadata. Maximum 16 pairs, keys up to 64 chars, values up
                        # to 512 chars.
             trust_grants:, # Trust grants for this profile, keyed by grant name. Key omitted when no grant is
                            # active or in flight.
             type:, # Object type. Always `user_profile`.
-            updated_at:, # A timestamp in RFC 3339 format
-            access_type: nil, # How the platform uses the API on behalf of the entity this profile represents.
-                              # `application`: the platform sells a product that uses the API behind the scenes,
-                              # and the profile represents an individual end-user of that product.
-                              # `passthrough`: the platform resells raw inference, and the profile identifies
-                              # the resold-to company.
+            updated_at:, # When this user profile was last modified, in RFC 3339 format. Trust-grant status
+                         # changes also bump this timestamp.
+            access_type: nil, # How the platform uses the API for this entity: `application` (default) or
+                              # `passthrough`. Present under the `user-profiles-2026-08-18` and later beta
+                              # headers.
             external_id: nil, # Platform's own identifier for this user. Not enforced unique. Present under the
                               # `user-profiles-2026-03-24` and `user-profiles-2026-08-18` beta headers; under
                               # `user-profiles-2026-09-04` the value is `external_user_details.reference_id`.
-            external_user_details: nil, # Details about the entity this profile represents, as the platform states them.
-                                        # Anthropic does not verify them. Every field is present, `null` until the
-                                        # platform supplies a value.
-            external_user_onboarded_at: nil, # A timestamp in RFC 3339 format
+            external_user_details: nil, # Details about the entity this profile represents, as the platform states them;
+                                        # not verified by Anthropic. Present under the `user-profiles-2026-09-04` beta
+                                        # header, with every field present and `null` until the platform supplies a value;
+                                        # the earlier beta headers serve `reference_id` as the top-level `external_id`,
+                                        # and `user-profiles-2026-08-18` serves `onboarded_at` as
+                                        # `external_user_onboarded_at`.
+            external_user_onboarded_at: nil, # When the entity this profile represents opened its account with the platform, as
+                                             # stated by the platform, in RFC 3339 format (UTC). `null` until the platform
+                                             # supplies one. Present under the `user-profiles-2026-08-18` beta header; under
+                                             # `user-profiles-2026-09-04` the value is `external_user_details.onboarded_at`.
             name: nil # Real-world name of the entity this profile represents (company or individual).
                       # For a company the platform resells Claude access to (`access_type`
                       # `passthrough`) this is that company's name.
 ); end
         end
 
-        # How the platform uses the API on behalf of the entity this profile represents.
-        # `application`: the platform sells a product that uses the API behind the scenes,
-        # and the profile represents an individual end-user of that product.
-        # `passthrough`: the platform resells raw inference, and the profile identifies
-        # the resold-to company.
+        # How the platform uses the API for this entity: `application` (default) or
+        # `passthrough`. Present under the `user-profiles-2026-08-18` and later beta
+        # headers.
         module AccessType
           extend Anthropic::Internal::Type::Enum
 
@@ -47709,7 +47831,7 @@ module Anthropic
       end
 
       class BetaUserProfileEnrollmentURL < Anthropic::Internal::Type::BaseModel
-        # A timestamp in RFC 3339 format
+        # When this enrollment URL expires, in RFC 3339 format.
         sig { returns(Time) }
         attr_accessor :expires_at
 
@@ -47743,7 +47865,7 @@ module Anthropic
             ).returns(T.attached_class)
           end
           def new(
-            expires_at:, # A timestamp in RFC 3339 format
+            expires_at:, # When this enrollment URL expires, in RFC 3339 format.
             type:, # Object type. Always `enrollment_url`.
             url: # Enrollment URL to send to the end user. Valid until `expires_at`.
 ); end
@@ -47784,11 +47906,8 @@ module Anthropic
       end
 
       class BetaUserProfileExternalUserDetails < Anthropic::Internal::Type::BaseModel
-        # The status of the entity's account on the platform, as the platform states it:
-        # `active`; `suspended`, when the platform has restricted the account and may
-        # restore it; or `blocked`, when the platform has barred it. It records the
-        # platform's decision only; the statuses in `trust_grants` are Anthropic's and do
-        # not follow it.
+        # The status of the entity's account on the platform: `active`, `suspended` or
+        # `blocked`. `null` until the platform supplies one.
         sig do
           returns(T.nilable(
               Anthropic::Beta::BetaUserProfileExternalUserDetails::AccountStatus::TaggedSymbol
@@ -47806,8 +47925,8 @@ module Anthropic
         sig { returns(T.nilable(String)) }
         attr_accessor :email_hash
 
-        # What kind of entity the profile represents, as the platform states it:
-        # `individual`, `business`, `non_profit` or `government`.
+        # What kind of entity the profile represents: `individual`, `business`,
+        # `non_profit` or `government`. `null` until the platform supplies one.
         sig do
           returns(T.nilable(
               Anthropic::Beta::BetaUserProfileExternalUserDetails::EntityType::TaggedSymbol
@@ -47820,7 +47939,8 @@ module Anthropic
         sig { returns(T.nilable(String)) }
         attr_accessor :name_hash
 
-        # A timestamp in RFC 3339 format
+        # When the entity opened its account with the platform, as stated by the platform,
+        # in RFC 3339 format (UTC). `null` until the platform supplies one.
         sig { returns(T.nilable(Time)) }
         attr_accessor :onboarded_at
 
@@ -47869,30 +47989,25 @@ module Anthropic
             ).returns(T.attached_class)
           end
           def new(
-            account_status:, # The status of the entity's account on the platform, as the platform states it:
-                             # `active`; `suspended`, when the platform has restricted the account and may
-                             # restore it; or `blocked`, when the platform has barred it. It records the
-                             # platform's decision only; the statuses in `trust_grants` are Anthropic's and do
-                             # not follow it.
+            account_status:, # The status of the entity's account on the platform: `active`, `suspended` or
+                             # `blocked`. `null` until the platform supplies one.
             country:, # The country the platform associates with the entity, as an ISO 3166-1 alpha-2
                       # code. `null` until the platform supplies one.
             email_hash:, # The platform-computed hash of the entity's email address. `null` until the
                          # platform supplies one.
-            entity_type:, # What kind of entity the profile represents, as the platform states it:
-                          # `individual`, `business`, `non_profit` or `government`.
+            entity_type:, # What kind of entity the profile represents: `individual`, `business`,
+                          # `non_profit` or `government`. `null` until the platform supplies one.
             name_hash:, # The platform-computed hash of the entity's name. `null` until the platform
                         # supplies one.
-            onboarded_at:, # A timestamp in RFC 3339 format
+            onboarded_at:, # When the entity opened its account with the platform, as stated by the platform,
+                           # in RFC 3339 format (UTC). `null` until the platform supplies one.
             reference_id: # The platform's own reference for the entity. `null` until the platform supplies
                           # one.
 ); end
         end
 
-        # The status of the entity's account on the platform, as the platform states it:
-        # `active`; `suspended`, when the platform has restricted the account and may
-        # restore it; or `blocked`, when the platform has barred it. It records the
-        # platform's decision only; the statuses in `trust_grants` are Anthropic's and do
-        # not follow it.
+        # The status of the entity's account on the platform: `active`, `suspended` or
+        # `blocked`. `null` until the platform supplies one.
         module AccountStatus
           extend Anthropic::Internal::Type::Enum
 
@@ -47934,8 +48049,8 @@ module Anthropic
             end
         end
 
-        # What kind of entity the profile represents, as the platform states it:
-        # `individual`, `business`, `non_profit` or `government`.
+        # What kind of entity the profile represents: `individual`, `business`,
+        # `non_profit` or `government`. `null` until the platform supplies one.
         module EntityType
           extend Anthropic::Internal::Type::Enum
 
@@ -47988,11 +48103,8 @@ module Anthropic
       end
 
       class BetaUserProfileExternalUserDetailsParams < Anthropic::Internal::Type::BaseModel
-        # The status of the entity's account on the platform, as the platform states it:
-        # `active`; `suspended`, when the platform has restricted the account and may
-        # restore it; or `blocked`, when the platform has barred it. It records the
-        # platform's decision only; the statuses in `trust_grants` are Anthropic's and do
-        # not follow it.
+        # The status of the entity's account on the platform: `active`, `suspended` or
+        # `blocked`.
         sig do
           returns(T.nilable(
               Anthropic::Beta::BetaUserProfileExternalUserDetailsParams::AccountStatus::OrSymbol
@@ -48012,8 +48124,8 @@ module Anthropic
         sig { returns(T.nilable(String)) }
         attr_accessor :email_hash
 
-        # What kind of entity the profile represents, as the platform states it:
-        # `individual`, `business`, `non_profit` or `government`.
+        # What kind of entity the profile represents: `individual`, `business`,
+        # `non_profit` or `government`.
         sig do
           returns(T.nilable(
               Anthropic::Beta::BetaUserProfileExternalUserDetailsParams::EntityType::OrSymbol
@@ -48026,7 +48138,10 @@ module Anthropic
         sig { returns(T.nilable(String)) }
         attr_accessor :name_hash
 
-        # A timestamp in RFC 3339 format
+        # When the entity opened its account with the platform, in RFC 3339 format: for an
+        # `application` profile, when the end-user signed up; for a `passthrough` profile,
+        # when the company became the platform's customer. Must be a complete timestamp no
+        # more than 1 minute in the future.
         sig { returns(T.nilable(Time)) }
         attr_reader :onboarded_at
 
@@ -48076,33 +48191,30 @@ module Anthropic
             ).returns(T.attached_class)
           end
           def new(
-            account_status: nil, # The status of the entity's account on the platform, as the platform states it:
-                                 # `active`; `suspended`, when the platform has restricted the account and may
-                                 # restore it; or `blocked`, when the platform has barred it. It records the
-                                 # platform's decision only; the statuses in `trust_grants` are Anthropic's and do
-                                 # not follow it.
+            account_status: nil, # The status of the entity's account on the platform: `active`, `suspended` or
+                                 # `blocked`.
             country: nil, # The country of the entity (not of the platform), as the platform determines it:
                           # an ISO 3166-1 alpha-2 code in upper case, for example `US`. Only the form, two
                           # uppercase ASCII letters, is checked.
             email_hash: nil, # A hash of the entity's email address, computed by the platform. Anthropic treats
                              # it as an opaque string and does not prescribe the hash function. 1 to 255
                              # characters.
-            entity_type: nil, # What kind of entity the profile represents, as the platform states it:
-                              # `individual`, `business`, `non_profit` or `government`.
+            entity_type: nil, # What kind of entity the profile represents: `individual`, `business`,
+                              # `non_profit` or `government`.
             name_hash: nil, # A hash of the entity's name, computed by the platform. Anthropic treats it as an
                             # opaque string and does not prescribe the hash function. 1 to 255 characters.
-            onboarded_at: nil, # A timestamp in RFC 3339 format
+            onboarded_at: nil, # When the entity opened its account with the platform, in RFC 3339 format: for an
+                               # `application` profile, when the end-user signed up; for a `passthrough` profile,
+                               # when the company became the platform's customer. Must be a complete timestamp no
+                               # more than 1 minute in the future.
             reference_id: nil # The platform's own reference for the entity, for example the key of the
                               # end-user's row in the platform's database. Not interpreted by Anthropic and not
                               # enforced unique. 1 to 255 characters.
 ); end
         end
 
-        # The status of the entity's account on the platform, as the platform states it:
-        # `active`; `suspended`, when the platform has restricted the account and may
-        # restore it; or `blocked`, when the platform has barred it. It records the
-        # platform's decision only; the statuses in `trust_grants` are Anthropic's and do
-        # not follow it.
+        # The status of the entity's account on the platform: `active`, `suspended` or
+        # `blocked`.
         module AccountStatus
           extend Anthropic::Internal::Type::Enum
 
@@ -48144,8 +48256,8 @@ module Anthropic
             end
         end
 
-        # What kind of entity the profile represents, as the platform states it:
-        # `individual`, `business`, `non_profit` or `government`.
+        # What kind of entity the profile represents: `individual`, `business`,
+        # `non_profit` or `government`.
         module EntityType
           extend Anthropic::Internal::Type::Enum
 
@@ -48451,12 +48563,8 @@ module Anthropic
         sig { returns(Symbol) }
         attr_accessor :type
 
-        # Which sources contribute to the set of URLs web fetch may fetch.
-        #
-        # Each key is a tagged variant: `user_input` is `all` or `none`; the two tool
-        # filters are `all`, `none`, `only` (only the named tools' results) or `except`
-        # (every result but the named tools'). A named tool must be declared in this
-        # request's `tools[]`.
+        # Which sources contribute to the set of URLs the tool may fetch. Omitted means
+        # every source.
         sig { returns(T.nilable(Anthropic::Beta::BetaWebFetchURLSources)) }
         attr_reader :url_sources
 
@@ -48518,11 +48626,8 @@ module Anthropic
                                      # The limit is approximate and does not apply to binary content such as PDFs.
             max_uses: nil, # Maximum number of times the tool can be used in the API request.
             strict: nil, # When true, guarantees schema validation on tool names and inputs
-            url_sources: nil, # Which sources contribute to the set of URLs web fetch may fetch.
-                              # Each key is a tagged variant: `user_input` is `all` or `none`; the two tool
-                              # filters are `all`, `none`, `only` (only the named tools' results) or `except`
-                              # (every result but the named tools'). A named tool must be declared in this
-                              # request's `tools[]`.
+            url_sources: nil, # Which sources contribute to the set of URLs the tool may fetch. Omitted means
+                              # every source.
             name: :web_fetch, # Name of the tool.
                               # This is how the tool will be called by the model and in `tool_use` blocks.
             type: :web_fetch_20250910
@@ -48662,12 +48767,8 @@ module Anthropic
         sig { returns(Symbol) }
         attr_accessor :type
 
-        # Which sources contribute to the set of URLs web fetch may fetch.
-        #
-        # Each key is a tagged variant: `user_input` is `all` or `none`; the two tool
-        # filters are `all`, `none`, `only` (only the named tools' results) or `except`
-        # (every result but the named tools'). A named tool must be declared in this
-        # request's `tools[]`.
+        # Which sources contribute to the set of URLs the tool may fetch. Omitted means
+        # every source.
         sig { returns(T.nilable(Anthropic::Beta::BetaWebFetchURLSources)) }
         attr_reader :url_sources
 
@@ -48729,11 +48830,8 @@ module Anthropic
                                      # The limit is approximate and does not apply to binary content such as PDFs.
             max_uses: nil, # Maximum number of times the tool can be used in the API request.
             strict: nil, # When true, guarantees schema validation on tool names and inputs
-            url_sources: nil, # Which sources contribute to the set of URLs web fetch may fetch.
-                              # Each key is a tagged variant: `user_input` is `all` or `none`; the two tool
-                              # filters are `all`, `none`, `only` (only the named tools' results) or `except`
-                              # (every result but the named tools'). A named tool must be declared in this
-                              # request's `tools[]`.
+            url_sources: nil, # Which sources contribute to the set of URLs the tool may fetch. Omitted means
+                              # every source.
             name: :web_fetch, # Name of the tool.
                               # This is how the tool will be called by the model and in `tool_use` blocks.
             type: :web_fetch_20260209
@@ -48873,12 +48971,8 @@ module Anthropic
         sig { returns(Symbol) }
         attr_accessor :type
 
-        # Which sources contribute to the set of URLs web fetch may fetch.
-        #
-        # Each key is a tagged variant: `user_input` is `all` or `none`; the two tool
-        # filters are `all`, `none`, `only` (only the named tools' results) or `except`
-        # (every result but the named tools'). A named tool must be declared in this
-        # request's `tools[]`.
+        # Which sources contribute to the set of URLs the tool may fetch. Omitted means
+        # every source.
         sig { returns(T.nilable(Anthropic::Beta::BetaWebFetchURLSources)) }
         attr_reader :url_sources
 
@@ -48952,11 +49046,8 @@ module Anthropic
                                      # The limit is approximate and does not apply to binary content such as PDFs.
             max_uses: nil, # Maximum number of times the tool can be used in the API request.
             strict: nil, # When true, guarantees schema validation on tool names and inputs
-            url_sources: nil, # Which sources contribute to the set of URLs web fetch may fetch.
-                              # Each key is a tagged variant: `user_input` is `all` or `none`; the two tool
-                              # filters are `all`, `none`, `only` (only the named tools' results) or `except`
-                              # (every result but the named tools'). A named tool must be declared in this
-                              # request's `tools[]`.
+            url_sources: nil, # Which sources contribute to the set of URLs the tool may fetch. Omitted means
+                              # every source.
             use_cache: nil, # Whether to use cached content. Set to false to bypass the cache and fetch fresh
                             # content. Only set to false when the user explicitly requests fresh content or
                             # when fetching rapidly-changing sources.
@@ -49115,12 +49206,8 @@ module Anthropic
         sig { returns(Symbol) }
         attr_accessor :type
 
-        # Which sources contribute to the set of URLs web fetch may fetch.
-        #
-        # Each key is a tagged variant: `user_input` is `all` or `none`; the two tool
-        # filters are `all`, `none`, `only` (only the named tools' results) or `except`
-        # (every result but the named tools'). A named tool must be declared in this
-        # request's `tools[]`.
+        # Which sources contribute to the set of URLs the tool may fetch. Omitted means
+        # every source.
         sig { returns(T.nilable(Anthropic::Beta::BetaWebFetchURLSources)) }
         attr_reader :url_sources
 
@@ -49202,11 +49289,8 @@ module Anthropic
                                      # calls that paused before completing, are always returned in full so they can be
                                      # sent back on the next turn.
             strict: nil, # When true, guarantees schema validation on tool names and inputs
-            url_sources: nil, # Which sources contribute to the set of URLs web fetch may fetch.
-                              # Each key is a tagged variant: `user_input` is `all` or `none`; the two tool
-                              # filters are `all`, `none`, `only` (only the named tools' results) or `except`
-                              # (every result but the named tools'). A named tool must be declared in this
-                              # request's `tools[]`.
+            url_sources: nil, # Which sources contribute to the set of URLs the tool may fetch. Omitted means
+                              # every source.
             use_cache: nil, # Whether to use cached content. Set to false to bypass the cache and fetch fresh
                             # content. Only set to false when the user explicitly requests fresh content or
                             # when fetching rapidly-changing sources.
@@ -54289,8 +54373,11 @@ module Anthropic
         sig { params(betas: T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]).void }
         attr_writer :betas
 
-        # A hard spend ceiling. The session stops issuing new model requests once the
-        # tracked list cost reaches `max_list_cost`.
+        # Enforced spend ceiling stamped onto each session created from this deployment,
+        # copied at session-creation time. Omit to leave sessions uncapped. The deployment
+        # agent's model must have a public list price, or the request is rejected; a
+        # multiagent roster is re-validated in full when each fire copies the cap, which
+        # fails closed the same way.
         sig { returns(T.nilable(Anthropic::Beta::BetaManagedAgentsBudgetLimit)) }
         attr_reader :budget
 
@@ -54359,8 +54446,8 @@ module Anthropic
         end
         attr_writer :resources
 
-        # 5-field POSIX cron schedule. Literal wall-clock matching in the configured
-        # timezone.
+        # Optional recurring cron schedule. When present, the deployment fires
+        # automatically. Both expression and timezone are required when schedule is set.
         sig { returns(T.nilable(Anthropic::Beta::BetaManagedAgentsScheduleParams)) }
         attr_reader :schedule
 
@@ -54474,15 +54561,18 @@ module Anthropic
             initial_events:, # Events to send to each session immediately after creation. At least 1,
                              # maximum 50.
             name:, # Human-readable name for the deployment.
-            budget: nil, # A hard spend ceiling. The session stops issuing new model requests once the
-                         # tracked list cost reaches `max_list_cost`.
+            budget: nil, # Enforced spend ceiling stamped onto each session created from this deployment,
+                         # copied at session-creation time. Omit to leave sessions uncapped. The deployment
+                         # agent's model must have a public list price, or the request is rejected; a
+                         # multiagent roster is re-validated in full when each fire copies the cap, which
+                         # fails closed the same way.
             description: nil, # Description of what the deployment does.
             metadata: nil, # Arbitrary key-value metadata. Maximum 16 pairs, keys up to 64 chars, values up
                            # to 512 chars.
             resources: nil, # Resources (e.g. repositories, files) to mount into each session's container.
                             # Maximum 500.
-            schedule: nil, # 5-field POSIX cron schedule. Literal wall-clock matching in the configured
-                           # timezone.
+            schedule: nil, # Optional recurring cron schedule. When present, the deployment fires
+                           # automatically. Both expression and timezone are required when schedule is set.
             vault_ids: nil, # Vault IDs for stored credentials the agent can use during sessions created from
                             # this deployment. Maximum 50.
             betas: nil, # Optional header to specify the beta version(s) you want to use.
@@ -54555,7 +54645,8 @@ module Anthropic
               file_id: nil, # ID of a previously uploaded file.
               memory_store_id: nil, # The memory store ID (memstore\_...). Must belong to the caller's organization
                                     # and workspace.
-              access: nil, # Access mode for an attached memory store.
+              access: nil, # Access mode for the mounted store. Defaults to read_write. read_only mounts the
+                           # store as a read-only filesystem.
               instructions: nil # Per-attachment guidance for the agent on how to use this store. Rendered into
                                 # the memory section of the system prompt. Max 4096 chars.
 ); end
@@ -55318,8 +55409,11 @@ module Anthropic
         sig { params(betas: T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]).void }
         attr_writer :betas
 
-        # A hard spend ceiling. The session stops issuing new model requests once the
-        # tracked list cost reaches `max_list_cost`.
+        # Spend ceiling for future sessions. Full replacement. Omit to preserve; send null
+        # to clear (sessions created afterwards are uncapped). The deployment agent's
+        # model must have a public list price, or the request is rejected; a multiagent
+        # roster is re-validated in full when each fire copies the cap, which fails closed
+        # the same way.
         sig { returns(T.nilable(Anthropic::Beta::BetaManagedAgentsBudgetLimit)) }
         attr_reader :budget
 
@@ -55397,8 +55491,8 @@ module Anthropic
         end
         attr_accessor :resources
 
-        # 5-field POSIX cron schedule. Literal wall-clock matching in the configured
-        # timezone.
+        # Cron schedule. Full replacement. Omit to preserve; send null to clear (revert to
+        # manual-only).
         sig { returns(T.nilable(Anthropic::Beta::BetaManagedAgentsScheduleParams)) }
         attr_reader :schedule
 
@@ -55511,8 +55605,11 @@ module Anthropic
             agent: nil, # Agent to deploy. Accepts the `agent` ID string, which re-pins to the latest
                         # version, or an `agent` object with both id and version specified. Omit to
                         # preserve. Cannot be cleared.
-            budget: nil, # A hard spend ceiling. The session stops issuing new model requests once the
-                         # tracked list cost reaches `max_list_cost`.
+            budget: nil, # Spend ceiling for future sessions. Full replacement. Omit to preserve; send null
+                         # to clear (sessions created afterwards are uncapped). The deployment agent's
+                         # model must have a public list price, or the request is rejected; a multiagent
+                         # roster is re-validated in full when each fire copies the cap, which fails closed
+                         # the same way.
             description: nil, # Description. Omit to preserve; send empty string or null to clear.
             environment_id: nil, # ID of the `environment` where sessions run. Omit to preserve. Cannot be cleared.
             initial_events: nil, # Initial events. Full replacement. Omit to preserve. Cannot be cleared. At least
@@ -55523,8 +55620,8 @@ module Anthropic
             name: nil, # Human-readable name. Must be non-empty. Omit to preserve. Cannot be cleared.
             resources: nil, # Session resources. Full replacement. Omit to preserve; send empty array or null
                             # to clear. Maximum 500.
-            schedule: nil, # 5-field POSIX cron schedule. Literal wall-clock matching in the configured
-                           # timezone.
+            schedule: nil, # Cron schedule. Full replacement. Omit to preserve; send null to clear (revert to
+                           # manual-only).
             vault_ids: nil, # Vault IDs. Full replacement. Omit to preserve; send empty array or null to
                             # clear. Maximum 50.
             betas: nil, # Optional header to specify the beta version(s) you want to use.
@@ -55597,7 +55694,8 @@ module Anthropic
               file_id: nil, # ID of a previously uploaded file.
               memory_store_id: nil, # The memory store ID (memstore\_...). Must belong to the caller's organization
                                     # and workspace.
-              access: nil, # Access mode for an attached memory store.
+              access: nil, # Access mode for the mounted store. Defaults to read_write. read_only mounts the
+                           # store as a read-only filesystem.
               instructions: nil # Per-attachment guidance for the agent on how to use this store. Rendered into
                                 # the memory section of the system prompt. Max 4096 chars.
 ); end
@@ -56408,12 +56506,9 @@ module Anthropic
             def new(
               type:,
               networking: nil, # Network configuration policy. Omit on update to preserve the existing value.
-              packages: nil # Specify packages (and optionally their versions) available in this environment.
-                            # When versioning, use the version semantics relevant for the package manager,
-                            # e.g. for `pip` use `package==1.0.0`. You are responsible for validating the
-                            # package and version exist. Unversioned installs the latest.
-                            # Under `limited` networking, requires `networking.allow_package_managers` to be
-                            # `true`.
+              packages: nil # Package manager configuration. Under `limited` networking, requires
+                            # `networking.allow_package_managers` to be `true`. Omit on update to preserve the
+                            # existing value.
 ); end
 
             sig do
@@ -56898,12 +56993,9 @@ module Anthropic
             def new(
               type:,
               networking: nil, # Network configuration policy. Omit on update to preserve the existing value.
-              packages: nil # Specify packages (and optionally their versions) available in this environment.
-                            # When versioning, use the version semantics relevant for the package manager,
-                            # e.g. for `pip` use `package==1.0.0`. You are responsible for validating the
-                            # package and version exist. Unversioned installs the latest.
-                            # Under `limited` networking, requires `networking.allow_package_managers` to be
-                            # `true`.
+              packages: nil # Package manager configuration. Under `limited` networking, requires
+                            # `networking.allow_package_managers` to be `true`. Omit on update to preserve the
+                            # existing value.
 ); end
 
             sig do
@@ -59055,7 +59147,7 @@ module Anthropic
 
       module MemoryStores
         class BetaManagedAgentsAPIActor < Anthropic::Internal::Type::BaseModel
-          # ID of the API key that performed the write. This identifies the key, not the
+          # ID of the API key (an `apikey_...` value). This identifies the key, not the
           # secret.
           sig { returns(String) }
           attr_accessor :api_key_id
@@ -59074,8 +59166,8 @@ module Anthropic
           def to_hash; end
 
           class << self
-            # Attribution for a write made directly via the public API (outside of any
-            # session).
+            # A direct caller of the public API, identified by the API key that authenticated
+            # the request.
             sig do
               params(
                 api_key_id: String,
@@ -59083,7 +59175,7 @@ module Anthropic
               ).returns(T.attached_class)
             end
             def new(
-              api_key_id:, # ID of the API key that performed the write. This identifies the key, not the
+              api_key_id:, # ID of the API key (an `apikey_...` value). This identifies the key, not the
                            # secret.
               type:
 ); end
@@ -59125,11 +59217,9 @@ module Anthropic
           end
         end
 
-        # Identifies who performed a write or redact operation. Captured at write time on
-        # the `memory_version` row. The API key that created a session is not recorded on
-        # agent writes; attribution answers who made the write, not who is ultimately
-        # responsible. Look up session provenance separately via the
-        # [Sessions API](/en/api/beta/sessions/retrieve).
+        # Identifies who performed an operation. Recorded when the operation happens and
+        # not updated afterwards, so the ID may refer to a user, service account, API key,
+        # or session that has since been deleted.
         module BetaManagedAgentsActor
           extend Anthropic::Internal::Type::Union
 
@@ -59147,13 +59237,12 @@ module Anthropic
             end
             def new(
               type:,
-              session_id: nil, # ID of the session that performed the write (a `sesn_...` value). Look up the
-                               # session via [Retrieve a session](/en/api/beta/sessions/retrieve) for further
-                               # provenance.
-              api_key_id: nil, # ID of the API key that performed the write. This identifies the key, not the
+              session_id: nil, # ID of the session (a `sesn_...` value). Look up the session via
+                               # [Retrieve a session](/en/api/beta/sessions/retrieve) for further provenance.
+              api_key_id: nil, # ID of the API key (an `apikey_...` value). This identifies the key, not the
                                # secret.
-              user_id: nil, # ID of the user who performed the write (a `user_...` value).
-              service_account_id: nil # ID of the service account that performed the write (a `svac_...` value).
+              user_id: nil, # ID of the user (a `user_...` value).
+              service_account_id: nil # ID of the service account (a `svac_...` value).
 ); end
 
             sig do
@@ -59591,7 +59680,7 @@ module Anthropic
           sig { returns(Integer) }
           attr_accessor :content_size_bytes
 
-          # A timestamp in RFC 3339 format
+          # When this memory was created, in RFC 3339 format.
           sig { returns(Time) }
           attr_accessor :created_at
 
@@ -59621,7 +59710,10 @@ module Anthropic
           sig { returns(Anthropic::Beta::MemoryStores::BetaManagedAgentsMemory::Type::TaggedSymbol) }
           attr_accessor :type
 
-          # A timestamp in RFC 3339 format
+          # When this memory was last modified, in RFC 3339 format. Use this as a cheap
+          # freshness signal; for who made the change, look up the head version's
+          # `created_by` via
+          # [List memory versions](/en/api/beta/memory_stores/memory_versions/list).
           sig { returns(Time) }
           attr_accessor :updated_at
 
@@ -59673,7 +59765,7 @@ module Anthropic
                                # update. Always populated, regardless of `view`.
               content_size_bytes:, # Size of `content` in bytes (the UTF-8 plaintext length). Always populated,
                                    # regardless of `view`.
-              created_at:, # A timestamp in RFC 3339 format
+              created_at:, # When this memory was created, in RFC 3339 format.
               memory_store_id:, # ID of the memory store this memory belongs to (a `memstore_...` value).
               memory_version_id:, # ID of the `memory_version` representing this memory's current content (a
                                   # `memver_...` value). This is the authoritative head pointer; `memory_version`
@@ -59684,7 +59776,10 @@ module Anthropic
                      # Always starts with `/`. Paths are case-sensitive and unique within a store.
                      # Maximum 1,024 bytes.
               type:,
-              updated_at:, # A timestamp in RFC 3339 format
+              updated_at:, # When this memory was last modified, in RFC 3339 format. Use this as a cheap
+                           # freshness signal; for who made the change, look up the head version's
+                           # `created_by` via
+                           # [List memory versions](/en/api/beta/memory_stores/memory_versions/list).
               content: nil # The memory's UTF-8 text content. Populated when `view=full`; `null` when
                            # `view=basic`. Maximum 100 kB (102,400 bytes).
 ); end
@@ -59762,14 +59857,17 @@ module Anthropic
                                    # update. Always populated, regardless of `view`.
               content_size_bytes: nil, # Size of `content` in bytes (the UTF-8 plaintext length). Always populated,
                                        # regardless of `view`.
-              created_at: nil, # A timestamp in RFC 3339 format
+              created_at: nil, # When this memory was created, in RFC 3339 format.
               memory_store_id: nil, # ID of the memory store this memory belongs to (a `memstore_...` value).
               memory_version_id: nil, # ID of the `memory_version` representing this memory's current content (a
                                       # `memver_...` value). This is the authoritative head pointer; `memory_version`
                                       # objects do not carry an `is_latest` flag, so compare against this field instead.
                                       # Enumerate the history via
                                       # [List memory versions](/en/api/beta/memory_stores/memory_versions/list).
-              updated_at: nil, # A timestamp in RFC 3339 format
+              updated_at: nil, # When this memory was last modified, in RFC 3339 format. Use this as a cheap
+                               # freshness signal; for who made the change, look up the head version's
+                               # `created_by` via
+                               # [List memory versions](/en/api/beta/memory_stores/memory_versions/list).
               content: nil # The memory's UTF-8 text content. Populated when `view=full`; `null` when
                            # `view=basic`. Maximum 100 kB (102,400 bytes).
 ); end
@@ -60106,15 +60204,17 @@ module Anthropic
           sig { returns(T.nilable(Integer)) }
           attr_accessor :content_size_bytes
 
-          # A timestamp in RFC 3339 format
+          # When this version was written, in RFC 3339 format.
           sig { returns(Time) }
           attr_accessor :created_at
 
-          # Identifies who performed a write or redact operation. Captured at write time on
-          # the `memory_version` row. The API key that created a session is not recorded on
-          # agent writes; attribution answers who made the write, not who is ultimately
-          # responsible. Look up session provenance separately via the
-          # [Sessions API](/en/api/beta/sessions/retrieve).
+          # Who performed this write: one of `session_actor`, `api_actor`, `user_actor`, or
+          # `service_account_actor`; `null` when no writer is recorded. Captured at write
+          # time and preserved through redaction. A `session_actor` is an agent writing
+          # through the store's mounted filesystem at `/mnt/memory/`. The API key that
+          # created that session is not recorded on agent writes, so attribution names who
+          # made the write, not who is ultimately responsible; look up session provenance
+          # via the [Sessions API](/en/api/beta/sessions/retrieve).
           sig do
             returns(T.nilable(
                 Anthropic::Beta::MemoryStores::BetaManagedAgentsActor::Variants
@@ -60150,8 +60250,7 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :memory_store_id
 
-          # The kind of mutation a `memory_version` records. Every non-no-op mutation to a
-          # memory appends exactly one version row with one of these values.
+          # The kind of mutation this version records: `created`, `modified`, or `deleted`.
           sig { returns(Anthropic::Beta::MemoryStores::BetaManagedAgentsMemoryVersionOperation::TaggedSymbol) }
           attr_accessor :operation
 
@@ -60160,15 +60259,16 @@ module Anthropic
           sig { returns(T.nilable(String)) }
           attr_accessor :path
 
-          # A timestamp in RFC 3339 format
+          # When this version was redacted, in RFC 3339 format, or `null` if it has not been
+          # redacted. When set, `content`, `path`, `content_size_bytes`, and
+          # `content_sha256` are all `null`. See
+          # [Redact a memory version](/en/api/beta/memory_stores/memory_versions/redact).
           sig { returns(T.nilable(Time)) }
           attr_accessor :redacted_at
 
-          # Identifies who performed a write or redact operation. Captured at write time on
-          # the `memory_version` row. The API key that created a session is not recorded on
-          # agent writes; attribution answers who made the write, not who is ultimately
-          # responsible. Look up session provenance separately via the
-          # [Sessions API](/en/api/beta/sessions/retrieve).
+          # Who redacted this version, or `null` if it has not been redacted. In practice
+          # always an `api_actor`, `user_actor`, or `service_account_actor` (agents do not
+          # have a redact capability).
           sig do
             returns(T.nilable(
                 Anthropic::Beta::MemoryStores::BetaManagedAgentsActor::Variants
@@ -60253,15 +60353,14 @@ module Anthropic
             end
             def new(
               id:, # Unique identifier for this version (a `memver_...` value).
-              created_at:, # A timestamp in RFC 3339 format
+              created_at:, # When this version was written, in RFC 3339 format.
               memory_id:, # ID of the memory this version snapshots (a `mem_...` value). Remains valid after
                           # the memory is deleted; pass it as `memory_id` to
                           # [List memory versions](/en/api/beta/memory_stores/memory_versions/list) to
                           # retrieve the memory's retained versions, including the `deleted` row while the
                           # lineage is retained.
               memory_store_id:, # ID of the memory store this version belongs to (a `memstore_...` value).
-              operation:, # The kind of mutation a `memory_version` records. Every non-no-op mutation to a
-                          # memory appends exactly one version row with one of these values.
+              operation:, # The kind of mutation this version records: `created`, `modified`, or `deleted`.
               type:,
               content: nil, # The memory's UTF-8 text content as of this version. `null` when `view=basic`,
                             # when `operation` is `deleted`, or when `redacted_at` is set.
@@ -60270,19 +60369,22 @@ module Anthropic
                                    # regardless of `view` otherwise.
               content_size_bytes: nil, # Size of `content` in bytes as of this version. `null` when `redacted_at` is set
                                        # or `operation` is `deleted`. Populated regardless of `view` otherwise.
-              created_by: nil, # Identifies who performed a write or redact operation. Captured at write time on
-                               # the `memory_version` row. The API key that created a session is not recorded on
-                               # agent writes; attribution answers who made the write, not who is ultimately
-                               # responsible. Look up session provenance separately via the
-                               # [Sessions API](/en/api/beta/sessions/retrieve).
+              created_by: nil, # Who performed this write: one of `session_actor`, `api_actor`, `user_actor`, or
+                               # `service_account_actor`; `null` when no writer is recorded. Captured at write
+                               # time and preserved through redaction. A `session_actor` is an agent writing
+                               # through the store's mounted filesystem at `/mnt/memory/`. The API key that
+                               # created that session is not recorded on agent writes, so attribution names who
+                               # made the write, not who is ultimately responsible; look up session provenance
+                               # via the [Sessions API](/en/api/beta/sessions/retrieve).
               path: nil, # The memory's path at the time of this write. `null` if and only if `redacted_at`
                          # is set.
-              redacted_at: nil, # A timestamp in RFC 3339 format
-              redacted_by: nil # Identifies who performed a write or redact operation. Captured at write time on
-                               # the `memory_version` row. The API key that created a session is not recorded on
-                               # agent writes; attribution answers who made the write, not who is ultimately
-                               # responsible. Look up session provenance separately via the
-                               # [Sessions API](/en/api/beta/sessions/retrieve).
+              redacted_at: nil, # When this version was redacted, in RFC 3339 format, or `null` if it has not been
+                                # redacted. When set, `content`, `path`, `content_size_bytes`, and
+                                # `content_sha256` are all `null`. See
+                                # [Redact a memory version](/en/api/beta/memory_stores/memory_versions/redact).
+              redacted_by: nil # Who redacted this version, or `null` if it has not been redacted. In practice
+                               # always an `api_actor`, `user_actor`, or `service_account_actor` (agents do not
+                               # have a redact capability).
 ); end
           end
 
@@ -60430,12 +60532,11 @@ module Anthropic
           def to_hash; end
 
           class << self
-            # Optimistic-concurrency precondition: the update applies only if the memory's
-            # stored `content_sha256` equals the supplied value. On mismatch, the request
-            # returns `memory_precondition_failed_error` (HTTP 409); re-read the memory and
-            # retry against the fresh state. If the precondition fails but the stored state
-            # already exactly matches the requested `content` and `path`, the server returns
-            # 200 instead of 409.
+            # Optional condition that must hold for an update to apply. When omitted, the
+            # update is unconditional. Asserts the current state of the memory being updated.
+            # When an update changes `path`, the precondition still refers to the memory's
+            # current content, not the destination path. Currently the only supported variant
+            # is `content_sha256`.
             sig do
               params(
                 type: Anthropic::Beta::MemoryStores::BetaManagedAgentsPrecondition::Type::OrSymbol,
@@ -60488,7 +60589,7 @@ module Anthropic
         end
 
         class BetaManagedAgentsServiceAccountActor < Anthropic::Internal::Type::BaseModel
-          # ID of the service account that performed the write (a `svac_...` value).
+          # ID of the service account (a `svac_...` value).
           sig { returns(String) }
           attr_accessor :service_account_id
 
@@ -60499,11 +60600,11 @@ module Anthropic
           def to_hash; end
 
           class << self
-            # Attribution for a write made by a workload authenticated as a service account,
-            # for example via Workload Identity Federation.
+            # A workload authenticated as a service account, for example via Workload Identity
+            # Federation.
             sig { params(service_account_id: String, type: Symbol).returns(T.attached_class) }
             def new(
-              service_account_id:, # ID of the service account that performed the write (a `svac_...` value).
+              service_account_id:, # ID of the service account (a `svac_...` value).
               type: :service_account_actor
 ); end
           end
@@ -60517,9 +60618,8 @@ module Anthropic
         end
 
         class BetaManagedAgentsSessionActor < Anthropic::Internal::Type::BaseModel
-          # ID of the session that performed the write (a `sesn_...` value). Look up the
-          # session via [Retrieve a session](/en/api/beta/sessions/retrieve) for further
-          # provenance.
+          # ID of the session (a `sesn_...` value). Look up the session via
+          # [Retrieve a session](/en/api/beta/sessions/retrieve) for further provenance.
           sig { returns(String) }
           attr_accessor :session_id
 
@@ -60537,8 +60637,9 @@ module Anthropic
           def to_hash; end
 
           class << self
-            # Attribution for a write made by an agent during a session, through the mounted
-            # filesystem at `/mnt/memory/`.
+            # An agent acting during a session, for example through the session's mounted
+            # filesystem. It names the session itself, not the user or API key that started
+            # the session.
             sig do
               params(
                 session_id: String,
@@ -60546,9 +60647,8 @@ module Anthropic
               ).returns(T.attached_class)
             end
             def new(
-              session_id:, # ID of the session that performed the write (a `sesn_...` value). Look up the
-                           # session via [Retrieve a session](/en/api/beta/sessions/retrieve) for further
-                           # provenance.
+              session_id:, # ID of the session (a `sesn_...` value). Look up the session via
+                           # [Retrieve a session](/en/api/beta/sessions/retrieve) for further provenance.
               type:
 ); end
           end
@@ -60593,7 +60693,7 @@ module Anthropic
           sig { returns(Anthropic::Beta::MemoryStores::BetaManagedAgentsUserActor::Type::TaggedSymbol) }
           attr_accessor :type
 
-          # ID of the user who performed the write (a `user_...` value).
+          # ID of the user (a `user_...` value).
           sig { returns(String) }
           attr_accessor :user_id
 
@@ -60608,7 +60708,7 @@ module Anthropic
           def to_hash; end
 
           class << self
-            # Attribution for a write made by a human user through the Anthropic Console.
+            # A human user, for example acting through the Anthropic Console.
             sig do
               params(
                 type: Anthropic::Beta::MemoryStores::BetaManagedAgentsUserActor::Type::OrSymbol,
@@ -60617,7 +60717,7 @@ module Anthropic
             end
             def new(
               type:,
-              user_id: # ID of the user who performed the write (a `user_...` value).
+              user_id: # ID of the user (a `user_...` value).
 ); end
           end
 
@@ -61156,12 +61256,10 @@ module Anthropic
           sig { returns(T.nilable(String)) }
           attr_accessor :path
 
-          # Optimistic-concurrency precondition: the update applies only if the memory's
-          # stored `content_sha256` equals the supplied value. On mismatch, the request
-          # returns `memory_precondition_failed_error` (HTTP 409); re-read the memory and
-          # retry against the fresh state. If the precondition fails but the stored state
-          # already exactly matches the requested `content` and `path`, the server returns
-          # 200 instead of 409.
+          # Optional optimistic-concurrency precondition. When supplied, the update applies
+          # only if the memory's current state matches; on mismatch the request returns
+          # `memory_precondition_failed_error` (HTTP 409). When omitted, the update is
+          # unconditional.
           sig do
             returns(T.nilable(
                 Anthropic::Beta::MemoryStores::BetaManagedAgentsPrecondition
@@ -61248,12 +61346,10 @@ module Anthropic
                          # paragraph separators (U+2028, U+2029), and must be NFC-normalized. Paths are
                          # case-sensitive. The memory's `id` is preserved across renames. Omit to leave the
                          # path unchanged.
-              precondition: nil, # Optimistic-concurrency precondition: the update applies only if the memory's
-                                 # stored `content_sha256` equals the supplied value. On mismatch, the request
-                                 # returns `memory_precondition_failed_error` (HTTP 409); re-read the memory and
-                                 # retry against the fresh state. If the precondition fails but the stored state
-                                 # already exactly matches the requested `content` and `path`, the server returns
-                                 # 200 instead of 409.
+              precondition: nil, # Optional optimistic-concurrency precondition. When supplied, the update applies
+                                 # only if the memory's current state matches; on mismatch the request returns
+                                 # `memory_precondition_failed_error` (HTTP 409). When omitted, the update is
+                                 # unconditional.
               betas: nil, # Optional header to specify the beta version(s) you want to use.
               workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                  # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -61678,14 +61774,15 @@ module Anthropic
         sig { params(cache_control: T.nilable(Anthropic::Beta::BetaCacheControlEphemeral::OrHash)).void }
         attr_writer :cache_control
 
-        # Compact the whole conversation and return a signed `compaction` block, alone,
-        # that a later request sends back first in `messages`, in place of the messages it
-        # summarizes. There is no trigger and no pause flag: sending the parameter
-        # compacts, and nothing is sampled after the block.
+        # Compaction configuration.
         #
-        # The summarization prompt is the server's own unless `instructions` are given,
-        # which then replace it for this request; a value that is empty or only whitespace
-        # counts as absent.
+        # When set on `POST /v1/messages`, the request is a compaction request: the
+        # conversation in `messages` is summarized and the response holds only the
+        # resulting `compaction` block (`stop_reason` `"compaction"`), which later
+        # requests send first in `messages` in place of the messages it summarizes.
+        # `POST /v1/messages/count_tokens` accepts this parameter and ignores it: the
+        # count it returns is for the conversation in `messages` as sent. Cannot be
+        # combined with `context_management`.
         sig { returns(T.nilable(Anthropic::Beta::BetaCompactionConfig)) }
         attr_reader :compaction
 
@@ -61813,9 +61910,8 @@ module Anthropic
         sig { params(output_format: T.nilable(Anthropic::Beta::BetaJSONOutputFormat::OrHash)).void }
         attr_writer :output_format
 
-        # Inference speed mode. `fast` provides significantly faster output token
-        # generation at premium pricing. Not all models support `fast`; invalid
-        # combinations are rejected at create time.
+        # The inference speed mode for this request. `"fast"` enables high
+        # output-tokens-per-second inference.
         sig do
           returns(T.nilable(
               Anthropic::Beta::MessageCountTokensParams::Speed::OrSymbol
@@ -61852,6 +61948,7 @@ module Anthropic
               T.any(
                 Anthropic::Beta::BetaThinkingConfigEnabled,
                 Anthropic::Beta::BetaThinkingConfigDisabled,
+                Anthropic::Beta::BetaThinkingConfigBetweenTools,
                 Anthropic::Beta::BetaThinkingConfigAdaptive
               )
             ))
@@ -61863,6 +61960,7 @@ module Anthropic
             thinking: T.any(
                 Anthropic::Beta::BetaThinkingConfigEnabled::OrHash,
                 Anthropic::Beta::BetaThinkingConfigDisabled::OrHash,
+                Anthropic::Beta::BetaThinkingConfigBetweenTools::OrHash,
                 Anthropic::Beta::BetaThinkingConfigAdaptive::OrHash
               )
           ).void
@@ -62092,6 +62190,7 @@ module Anthropic
                 T.any(
                   Anthropic::Beta::BetaThinkingConfigEnabled,
                   Anthropic::Beta::BetaThinkingConfigDisabled,
+                  Anthropic::Beta::BetaThinkingConfigBetweenTools,
                   Anthropic::Beta::BetaThinkingConfigAdaptive
                 ),
               tool_choice:
@@ -62163,6 +62262,7 @@ module Anthropic
               thinking: T.any(
                 Anthropic::Beta::BetaThinkingConfigEnabled::OrHash,
                 Anthropic::Beta::BetaThinkingConfigDisabled::OrHash,
+                Anthropic::Beta::BetaThinkingConfigBetweenTools::OrHash,
                 Anthropic::Beta::BetaThinkingConfigAdaptive::OrHash
               ),
               tool_choice: T.any(
@@ -62266,13 +62366,14 @@ module Anthropic
                     # details and options.
             cache_control: nil, # Top-level cache control automatically applies a cache_control marker to the last
                                 # cacheable block in the request.
-            compaction: nil, # Compact the whole conversation and return a signed `compaction` block, alone,
-                             # that a later request sends back first in `messages`, in place of the messages it
-                             # summarizes. There is no trigger and no pause flag: sending the parameter
-                             # compacts, and nothing is sampled after the block.
-                             # The summarization prompt is the server's own unless `instructions` are given,
-                             # which then replace it for this request; a value that is empty or only whitespace
-                             # counts as absent.
+            compaction: nil, # Compaction configuration.
+                             # When set on `POST /v1/messages`, the request is a compaction request: the
+                             # conversation in `messages` is summarized and the response holds only the
+                             # resulting `compaction` block (`stop_reason` `"compaction"`), which later
+                             # requests send first in `messages` in place of the messages it summarizes.
+                             # `POST /v1/messages/count_tokens` accepts this parameter and ignores it: the
+                             # count it returns is for the conversation in `messages` as sent. Cannot be
+                             # combined with `context_management`.
             context_management: nil, # Context management configuration.
                                      # This allows you to control how Claude manages context across multiple requests,
                                      # such as whether to clear function results or not.
@@ -62282,9 +62383,8 @@ module Anthropic
                                 # [structured outputs](https://platform.claude.com/docs/en/build-with-claude/structured-outputs)
                                 # A schema to specify Claude's output format in responses. This parameter will be
                                 # removed in a future release.
-            speed: nil, # Inference speed mode. `fast` provides significantly faster output token
-                        # generation at premium pricing. Not all models support `fast`; invalid
-                        # combinations are rejected at create time.
+            speed: nil, # The inference speed mode for this request. `"fast"` enables high
+                        # output-tokens-per-second inference.
             system_: nil, # System prompt.
                           # A system prompt is a way of providing context and instructions to Claude, such
                           # as specifying a particular goal or role. See our
@@ -62382,9 +62482,8 @@ module Anthropic
             )
           end
 
-        # Inference speed mode. `fast` provides significantly faster output token
-        # generation at premium pricing. Not all models support `fast`; invalid
-        # combinations are rejected at create time.
+        # The inference speed mode for this request. `"fast"` enables high
+        # output-tokens-per-second inference.
         module Speed
           extend Anthropic::Internal::Type::Enum
 
@@ -62516,14 +62615,15 @@ module Anthropic
         sig { params(cache_control: T.nilable(Anthropic::Beta::BetaCacheControlEphemeral::OrHash)).void }
         attr_writer :cache_control
 
-        # Compact the whole conversation and return a signed `compaction` block, alone,
-        # that a later request sends back first in `messages`, in place of the messages it
-        # summarizes. There is no trigger and no pause flag: sending the parameter
-        # compacts, and nothing is sampled after the block.
+        # Compaction configuration.
         #
-        # The summarization prompt is the server's own unless `instructions` are given,
-        # which then replace it for this request; a value that is empty or only whitespace
-        # counts as absent.
+        # When set on `POST /v1/messages`, the request is a compaction request: the
+        # conversation in `messages` is summarized and the response holds only the
+        # resulting `compaction` block (`stop_reason` `"compaction"`), which later
+        # requests send first in `messages` in place of the messages it summarizes.
+        # `POST /v1/messages/count_tokens` accepts this parameter and ignores it: the
+        # count it returns is for the conversation in `messages` as sent. Cannot be
+        # combined with `context_management`.
         sig { returns(T.nilable(Anthropic::Beta::BetaCompactionConfig)) }
         attr_reader :compaction
 
@@ -62544,8 +62644,9 @@ module Anthropic
         sig { params(context_management: T.nilable(Anthropic::Beta::BetaContextManagementConfig::OrHash)).void }
         attr_writer :context_management
 
-        # Request-level diagnostics. Currently carries the previous response id for
-        # prompt-cache divergence reporting.
+        # Request-level diagnostics. Supply `previous_message_id` to have the response
+        # include `diagnostics.cache_miss_reason` explaining any prompt-cache divergence
+        # from that prior request.
         sig { returns(T.nilable(Anthropic::Beta::BetaDiagnosticsParam)) }
         attr_reader :diagnostics
 
@@ -62743,9 +62844,8 @@ module Anthropic
         sig { params(service_tier: Anthropic::Beta::MessageCreateParams::ServiceTier::OrSymbol).void }
         attr_writer :service_tier
 
-        # Inference speed mode. `fast` provides significantly faster output token
-        # generation at premium pricing. Not all models support `fast`; invalid
-        # combinations are rejected at create time.
+        # The inference speed mode for this request. `"fast"` enables high
+        # output-tokens-per-second inference.
         sig { returns(T.nilable(Anthropic::Beta::MessageCreateParams::Speed::OrSymbol)) }
         attr_accessor :speed
 
@@ -62803,6 +62903,7 @@ module Anthropic
               T.any(
                 Anthropic::Beta::BetaThinkingConfigEnabled,
                 Anthropic::Beta::BetaThinkingConfigDisabled,
+                Anthropic::Beta::BetaThinkingConfigBetweenTools,
                 Anthropic::Beta::BetaThinkingConfigAdaptive
               )
             ))
@@ -62814,6 +62915,7 @@ module Anthropic
             thinking: T.any(
                 Anthropic::Beta::BetaThinkingConfigEnabled::OrHash,
                 Anthropic::Beta::BetaThinkingConfigDisabled::OrHash,
+                Anthropic::Beta::BetaThinkingConfigBetweenTools::OrHash,
                 Anthropic::Beta::BetaThinkingConfigAdaptive::OrHash
               )
           ).void
@@ -63085,6 +63187,7 @@ module Anthropic
                 T.any(
                   Anthropic::Beta::BetaThinkingConfigEnabled,
                   Anthropic::Beta::BetaThinkingConfigDisabled,
+                  Anthropic::Beta::BetaThinkingConfigBetweenTools,
                   Anthropic::Beta::BetaThinkingConfigAdaptive
                 ),
               tool_choice:
@@ -63178,6 +63281,7 @@ module Anthropic
               thinking: T.any(
                 Anthropic::Beta::BetaThinkingConfigEnabled::OrHash,
                 Anthropic::Beta::BetaThinkingConfigDisabled::OrHash,
+                Anthropic::Beta::BetaThinkingConfigBetweenTools::OrHash,
                 Anthropic::Beta::BetaThinkingConfigAdaptive::OrHash
               ),
               tool_choice: T.any(
@@ -63292,19 +63396,21 @@ module Anthropic
                     # details and options.
             cache_control: nil, # Top-level cache control automatically applies a cache_control marker to the last
                                 # cacheable block in the request.
-            compaction: nil, # Compact the whole conversation and return a signed `compaction` block, alone,
-                             # that a later request sends back first in `messages`, in place of the messages it
-                             # summarizes. There is no trigger and no pause flag: sending the parameter
-                             # compacts, and nothing is sampled after the block.
-                             # The summarization prompt is the server's own unless `instructions` are given,
-                             # which then replace it for this request; a value that is empty or only whitespace
-                             # counts as absent.
+            compaction: nil, # Compaction configuration.
+                             # When set on `POST /v1/messages`, the request is a compaction request: the
+                             # conversation in `messages` is summarized and the response holds only the
+                             # resulting `compaction` block (`stop_reason` `"compaction"`), which later
+                             # requests send first in `messages` in place of the messages it summarizes.
+                             # `POST /v1/messages/count_tokens` accepts this parameter and ignores it: the
+                             # count it returns is for the conversation in `messages` as sent. Cannot be
+                             # combined with `context_management`.
             container: nil, # Container identifier for reuse across requests.
             context_management: nil, # Context management configuration.
                                      # This allows you to control how Claude manages context across multiple requests,
                                      # such as whether to clear function results or not.
-            diagnostics: nil, # Request-level diagnostics. Currently carries the previous response id for
-                              # prompt-cache divergence reporting.
+            diagnostics: nil, # Request-level diagnostics. Supply `previous_message_id` to have the response
+                              # include `diagnostics.cache_miss_reason` explaining any prompt-cache divergence
+                              # from that prior request.
             fallback_credit_token: nil, # The `fallback_credit_token` from a prior refusal's `stop_details`.
                                         # When a preceding request was refused and returned a `fallback_credit_token`,
                                         # pass that code here on the retry to have the retry's cache-creation tokens for
@@ -63340,9 +63446,8 @@ module Anthropic
                                # Anthropic offers different levels of service for your API requests. See
                                # [service-tiers](https://platform.claude.com/docs/en/api/service-tiers) for
                                # details.
-            speed: nil, # Inference speed mode. `fast` provides significantly faster output token
-                        # generation at premium pricing. Not all models support `fast`; invalid
-                        # combinations are rejected at create time.
+            speed: nil, # The inference speed mode for this request. `"fast"` enables high
+                        # output-tokens-per-second inference.
             stop_sequences: nil, # Custom text sequences that will cause the model to stop generating.
                                  # Our models will normally stop when they have naturally completed their turn,
                                  # which will result in a response `stop_reason` of `"end_turn"`.
@@ -63552,9 +63657,8 @@ module Anthropic
             end
         end
 
-        # Inference speed mode. `fast` provides significantly faster output token
-        # generation at premium pricing. Not all models support `fast`; invalid
-        # combinations are rejected at create time.
+        # The inference speed mode for this request. `"fast"` enables high
+        # output-tokens-per-second inference.
         module Speed
           extend Anthropic::Internal::Type::Enum
 
@@ -63847,14 +63951,15 @@ module Anthropic
               end
               attr_writer :cache_control
 
-              # Compact the whole conversation and return a signed `compaction` block, alone,
-              # that a later request sends back first in `messages`, in place of the messages it
-              # summarizes. There is no trigger and no pause flag: sending the parameter
-              # compacts, and nothing is sampled after the block.
+              # Compaction configuration.
               #
-              # The summarization prompt is the server's own unless `instructions` are given,
-              # which then replace it for this request; a value that is empty or only whitespace
-              # counts as absent.
+              # When set on `POST /v1/messages`, the request is a compaction request: the
+              # conversation in `messages` is summarized and the response holds only the
+              # resulting `compaction` block (`stop_reason` `"compaction"`), which later
+              # requests send first in `messages` in place of the messages it summarizes.
+              # `POST /v1/messages/count_tokens` accepts this parameter and ignores it: the
+              # count it returns is for the conversation in `messages` as sent. Cannot be
+              # combined with `context_management`.
               sig { returns(T.nilable(Anthropic::Beta::BetaCompactionConfig)) }
               attr_reader :compaction
 
@@ -63881,8 +63986,9 @@ module Anthropic
               end
               attr_writer :context_management
 
-              # Request-level diagnostics. Currently carries the previous response id for
-              # prompt-cache divergence reporting.
+              # Request-level diagnostics. Supply `previous_message_id` to have the response
+              # include `diagnostics.cache_miss_reason` explaining any prompt-cache divergence
+              # from that prior request.
               sig { returns(T.nilable(Anthropic::Beta::BetaDiagnosticsParam)) }
               attr_reader :diagnostics
 
@@ -64084,9 +64190,8 @@ module Anthropic
               end
               attr_writer :service_tier
 
-              # Inference speed mode. `fast` provides significantly faster output token
-              # generation at premium pricing. Not all models support `fast`; invalid
-              # combinations are rejected at create time.
+              # The inference speed mode for this request. `"fast"` enables high
+              # output-tokens-per-second inference.
               sig do
                 returns(T.nilable(
                     Anthropic::Beta::Messages::BatchCreateParams::Request::Params::Speed::OrSymbol
@@ -64109,10 +64214,14 @@ module Anthropic
               sig { params(stop_sequences: T::Array[String]).void }
               attr_writer :stop_sequences
 
-              # Whether to incrementally stream the response using server-sent events.
+              # Whether to incrementally stream the response using server-sent events. When
+              # `true`, SDKs return a raw event stream.
               #
-              # See [streaming](https://platform.claude.com/docs/en/build-with-claude/streaming)
-              # for details.
+              # In the TypeScript, Python and Ruby SDKs, the recommended way to stream is
+              # `messages.stream()`. It sets `stream` for you and accumulates the events into
+              # the final message. See
+              # [Streaming with SDKs](https://platform.claude.com/docs/en/build-with-claude/streaming#streaming-with-sdks)
+              # for an example in each language.
               sig { returns(T.nilable(T::Boolean)) }
               attr_reader :stream
 
@@ -64166,6 +64275,7 @@ module Anthropic
                     T.any(
                       Anthropic::Beta::BetaThinkingConfigEnabled,
                       Anthropic::Beta::BetaThinkingConfigDisabled,
+                      Anthropic::Beta::BetaThinkingConfigBetweenTools,
                       Anthropic::Beta::BetaThinkingConfigAdaptive
                     )
                   ))
@@ -64177,6 +64287,7 @@ module Anthropic
                   thinking: T.any(
                       Anthropic::Beta::BetaThinkingConfigEnabled::OrHash,
                       Anthropic::Beta::BetaThinkingConfigDisabled::OrHash,
+                      Anthropic::Beta::BetaThinkingConfigBetweenTools::OrHash,
                       Anthropic::Beta::BetaThinkingConfigAdaptive::OrHash
                     )
                 ).void
@@ -64443,6 +64554,7 @@ module Anthropic
                       T.any(
                         Anthropic::Beta::BetaThinkingConfigEnabled,
                         Anthropic::Beta::BetaThinkingConfigDisabled,
+                        Anthropic::Beta::BetaThinkingConfigBetweenTools,
                         Anthropic::Beta::BetaThinkingConfigAdaptive
                       ),
                     tool_choice:
@@ -64546,6 +64658,7 @@ module Anthropic
                     thinking: T.any(
                       Anthropic::Beta::BetaThinkingConfigEnabled::OrHash,
                       Anthropic::Beta::BetaThinkingConfigDisabled::OrHash,
+                      Anthropic::Beta::BetaThinkingConfigBetweenTools::OrHash,
                       Anthropic::Beta::BetaThinkingConfigAdaptive::OrHash
                     ),
                     tool_choice: T.any(
@@ -64656,19 +64769,21 @@ module Anthropic
                           # details and options.
                   cache_control: nil, # Top-level cache control automatically applies a cache_control marker to the last
                                       # cacheable block in the request.
-                  compaction: nil, # Compact the whole conversation and return a signed `compaction` block, alone,
-                                   # that a later request sends back first in `messages`, in place of the messages it
-                                   # summarizes. There is no trigger and no pause flag: sending the parameter
-                                   # compacts, and nothing is sampled after the block.
-                                   # The summarization prompt is the server's own unless `instructions` are given,
-                                   # which then replace it for this request; a value that is empty or only whitespace
-                                   # counts as absent.
+                  compaction: nil, # Compaction configuration.
+                                   # When set on `POST /v1/messages`, the request is a compaction request: the
+                                   # conversation in `messages` is summarized and the response holds only the
+                                   # resulting `compaction` block (`stop_reason` `"compaction"`), which later
+                                   # requests send first in `messages` in place of the messages it summarizes.
+                                   # `POST /v1/messages/count_tokens` accepts this parameter and ignores it: the
+                                   # count it returns is for the conversation in `messages` as sent. Cannot be
+                                   # combined with `context_management`.
                   container: nil, # Container identifier for reuse across requests.
                   context_management: nil, # Context management configuration.
                                            # This allows you to control how Claude manages context across multiple requests,
                                            # such as whether to clear function results or not.
-                  diagnostics: nil, # Request-level diagnostics. Currently carries the previous response id for
-                                    # prompt-cache divergence reporting.
+                  diagnostics: nil, # Request-level diagnostics. Supply `previous_message_id` to have the response
+                                    # include `diagnostics.cache_miss_reason` explaining any prompt-cache divergence
+                                    # from that prior request.
                   fallback_credit_token: nil, # The `fallback_credit_token` from a prior refusal's `stop_details`.
                                               # When a preceding request was refused and returned a `fallback_credit_token`,
                                               # pass that code here on the retry to have the retry's cache-creation tokens for
@@ -64704,9 +64819,8 @@ module Anthropic
                                      # Anthropic offers different levels of service for your API requests. See
                                      # [service-tiers](https://platform.claude.com/docs/en/api/service-tiers) for
                                      # details.
-                  speed: nil, # Inference speed mode. `fast` provides significantly faster output token
-                              # generation at premium pricing. Not all models support `fast`; invalid
-                              # combinations are rejected at create time.
+                  speed: nil, # The inference speed mode for this request. `"fast"` enables high
+                              # output-tokens-per-second inference.
                   stop_sequences: nil, # Custom text sequences that will cause the model to stop generating.
                                        # Our models will normally stop when they have naturally completed their turn,
                                        # which will result in a response `stop_reason` of `"end_turn"`.
@@ -64714,9 +64828,13 @@ module Anthropic
                                        # text, you can use the `stop_sequences` parameter. If the model encounters one of
                                        # the custom sequences, the response `stop_reason` value will be `"stop_sequence"`
                                        # and the response `stop_sequence` value will contain the matched stop sequence.
-                  stream: nil, # Whether to incrementally stream the response using server-sent events.
-                               # See [streaming](https://platform.claude.com/docs/en/build-with-claude/streaming)
-                               # for details.
+                  stream: nil, # Whether to incrementally stream the response using server-sent events. When
+                               # `true`, SDKs return a raw event stream.
+                               # In the TypeScript, Python and Ruby SDKs, the recommended way to stream is
+                               # `messages.stream()`. It sets `stream` for you and accumulates the events into
+                               # the final message. See
+                               # [Streaming with SDKs](https://platform.claude.com/docs/en/build-with-claude/streaming#streaming-with-sdks)
+                               # for an example in each language.
                   system_: nil, # System prompt.
                                 # A system prompt is a way of providing context and instructions to Claude, such
                                 # as specifying a particular goal or role. See our
@@ -64915,9 +65033,8 @@ module Anthropic
                   end
               end
 
-              # Inference speed mode. `fast` provides significantly faster output token
-              # generation at premium pricing. Not all models support `fast`; invalid
-              # combinations are rejected at create time.
+              # The inference speed mode for this request. `"fast"` enables high
+              # output-tokens-per-second inference.
               module Speed
                 extend Anthropic::Internal::Type::Enum
 
@@ -70090,11 +70207,10 @@ module Anthropic
             sig { returns(String) }
             attr_accessor :name
 
-            # Status of automatic JWKS polling for a federation issuer.
-            #
-            # Anthropic periodically fetches the issuer's signing keys in the background.
-            # These fields summarize the most recent fetches so the health of the JWKS
-            # endpoint can be monitored.
+            # Live state of Anthropic's JWKS polling for this issuer. Populated on both
+            # single-issuer retrieval and list responses, including archived issuers.
+            # Typically null for inline-key issuers (no polling), or when poll status is
+            # temporarily unavailable or polling has not started yet.
             sig do
               returns(T.nilable(
                   Anthropic::Beta::Organization::Federation::BetaFederationIssuerPollStatus
@@ -70198,10 +70314,10 @@ module Anthropic
                                            # seconds, i.e. up to 49h). Assertions must carry both `iat` and `exp`; a missing
                                            # `iat` is rejected.
                 name:, # Admin-chosen slug identifier.
-                poll_status:, # Status of automatic JWKS polling for a federation issuer.
-                              # Anthropic periodically fetches the issuer's signing keys in the background.
-                              # These fields summarize the most recent fetches so the health of the JWKS
-                              # endpoint can be monitored.
+                poll_status:, # Live state of Anthropic's JWKS polling for this issuer. Populated on both
+                              # single-issuer retrieval and list responses, including archived issuers.
+                              # Typically null for inline-key issuers (no polling), or when poll status is
+                              # temporarily unavailable or polling has not started yet.
                 updated_at:, # When this issuer was last updated.
                 updated_by_actor_id:, # Tagged ID (`user_`/`svac_`) of the actor that last updated this issuer.
                 type: :federation_issuer
@@ -71810,11 +71926,7 @@ module Anthropic
             sig { returns(String) }
             attr_accessor :federation_rule_id
 
-            # Does the incoming JWT qualify?
-            #
-            # All populated fields must pass; omitted fields are skipped. At least one of
-            # `subject_prefix` (other than a wildcard-only value like `*`), `claims`, or
-            # `condition` is required; `audience` alone is not sufficient.
+            # Replaces the entire match object. All populated matcher fields must pass.
             sig do
               returns(T.nilable(
                   Anthropic::Beta::Organization::Federation::BetaFederationRuleMatch
@@ -71842,7 +71954,7 @@ module Anthropic
             sig { returns(T.nilable(String)) }
             attr_accessor :oauth_scope
 
-            # Bind to a fixed service account by ID.
+            # Replaces the entire target object. Currently always a `service_account` target.
             sig do
               returns(T.nilable(
                   Anthropic::Beta::Organization::Federation::BetaServiceAccountTarget
@@ -71929,16 +72041,13 @@ module Anthropic
                                  # with 400.
                 description: nil, # Replaces the description. Omit to leave unchanged; send `null` to clear (the
                                   # field is stored as an empty string).
-                match: nil, # Does the incoming JWT qualify?
-                            # All populated fields must pass; omitted fields are skipped. At least one of
-                            # `subject_prefix` (other than a wildcard-only value like `*`), `claims`, or
-                            # `condition` is required; `audience` alone is not sufficient.
+                match: nil, # Replaces the entire match object. All populated matcher fields must pass.
                 name: nil, # Replaces the slug identifier (lowercase, digits, hyphens). Unique within the
                            # organization; a duplicate name returns 409.
                 oauth_scope: nil, # Replaces the space-separated OAuth scopes granted on minted tokens. OAuth
                                   # callers may only set `workspace:developer` or `workspace:inference`; other
                                   # scopes (such as `org:admin`) require a Console session.
-                target: nil, # Bind to a fixed service account by ID.
+                target: nil, # Replaces the entire target object. Currently always a `service_account` target.
                 token_lifetime_seconds: nil, # Replaces the lifetime in seconds for access tokens minted via this rule
                                              # (60-86400). Minted tokens are capped at
                                              # `max(60, min(this value, 2 × remaining assertion validity))` seconds.
@@ -74079,8 +74188,10 @@ module Anthropic
             sig { returns(Anthropic::Beta::Organization::Workspaces::BetaWorkspaceRateLimit::GroupType::TaggedSymbol) }
             attr_accessor :group_type
 
-            # The limiter values overridden for this group in this workspace. Limiter types
-            # without a workspace override are omitted and inherit the organization value.
+            # The workspace's limiter values for this group. By default only the limiter types
+            # with a workspace-level override are listed. With `include_inherited` set to
+            # `true`, the limiter types the workspace inherits from the organization are
+            # listed too, each marked by `source`.
             sig do
               returns(T::Array[
                   Anthropic::Beta::Organization::Workspaces::BetaWorkspaceRateLimitValue
@@ -74093,7 +74204,7 @@ module Anthropic
             sig { returns(T.nilable(T::Array[String])) }
             attr_accessor :models
 
-            # The `id` of the organization's RateLimit entry this override applies to.
+            # The `id` of the organization's RateLimit entry this entry applies to.
             sig { returns(String) }
             attr_accessor :rate_limit_id
 
@@ -74101,7 +74212,7 @@ module Anthropic
             sig { returns(Symbol) }
             attr_accessor :type
 
-            # ID of the Workspace this override applies to.
+            # ID of the Workspace this entry applies to.
             sig { returns(String) }
             attr_accessor :workspace_id
 
@@ -74152,12 +74263,14 @@ module Anthropic
                              # represents. `model_group` entries apply to a family of models (listed in
                              # `models`); other values apply to an API-surface category and have `models` set
                              # to `null`. Always equal to `group.type`.
-                limits:, # The limiter values overridden for this group in this workspace. Limiter types
-                         # without a workspace override are omitted and inherit the organization value.
+                limits:, # The workspace's limiter values for this group. By default only the limiter types
+                         # with a workspace-level override are listed. With `include_inherited` set to
+                         # `true`, the limiter types the workspace inherits from the organization are
+                         # listed too, each marked by `source`.
                 models:, # Model names this entry's limits apply to, including aliases. `null` when
                          # `group_type` is not `"model_group"`.
-                rate_limit_id:, # The `id` of the organization's RateLimit entry this override applies to.
-                workspace_id:, # ID of the Workspace this override applies to.
+                rate_limit_id:, # The `id` of the organization's RateLimit entry this entry applies to.
+                workspace_id:, # ID of the Workspace this entry applies to.
                 type: :workspace_rate_limit # Object type. Always `workspace_rate_limit` for workspace rate-limit entries.
 ); end
             end
@@ -74325,38 +74438,179 @@ module Anthropic
               end
           end
 
+          class BetaWorkspaceRateLimitOrganizationSource < Anthropic::Internal::Type::BaseModel
+            # Always `organization`: no workspace-level override is stored, so the
+            # organization's value applies.
+            sig { returns(Symbol) }
+            attr_accessor :type
+
+            sig { override.returns({ type: Symbol }) }
+            def to_hash; end
+
+            class << self
+              sig { params(type: Symbol).returns(T.attached_class) }
+              def new(
+                type: :organization # Always `organization`: no workspace-level override is stored, so the
+                                    # organization's value applies.
+); end
+            end
+
+            OrHash = T.type_alias do
+                T.any(
+                  Anthropic::Beta::Organization::Workspaces::BetaWorkspaceRateLimitOrganizationSource,
+                  Anthropic::Internal::AnyHash
+                )
+              end
+          end
+
           class BetaWorkspaceRateLimitValue < Anthropic::Internal::Type::BaseModel
             # The organization-level value for the same limiter type, for reference. `null`
             # when the organization has no limit configured for this limiter type.
             sig { returns(T.nilable(Integer)) }
             attr_accessor :org_limit
 
+            # Where `value` comes from. `organization` values are listed only when
+            # `include_inherited` is `true`, and then `value` equals `org_limit`.
+            sig { returns(Anthropic::Beta::Organization::Workspaces::BetaWorkspaceRateLimitValue::Source::Variants) }
+            attr_accessor :source
+
             # The limiter type (for example, `requests_per_minute` or
             # `input_tokens_per_minute`).
             sig { returns(String) }
             attr_accessor :type
 
-            # The workspace-level override value for this limiter type.
+            # The workspace's value for this limiter type: the workspace-level override when
+            # `source.type` is `workspace`, otherwise the organization's value.
             sig { returns(Integer) }
             attr_accessor :value
 
-            sig { override.returns({ org_limit: T.nilable(Integer), type: String, value: Integer }) }
+            sig do
+              override
+                .returns({
+                  org_limit: T.nilable(Integer),
+                  source:
+                    Anthropic::Beta::Organization::Workspaces::BetaWorkspaceRateLimitValue::Source::Variants,
+                  type: String,
+                  value: Integer
+                })
+            end
             def to_hash; end
 
             class << self
-              sig { params(org_limit: T.nilable(Integer), type: String, value: Integer).returns(T.attached_class) }
+              sig do
+                params(
+                  org_limit: T.nilable(Integer),
+                  source: T.any(
+                    Anthropic::Beta::Organization::Workspaces::BetaWorkspaceRateLimitWorkspaceSource::OrHash,
+                    Anthropic::Beta::Organization::Workspaces::BetaWorkspaceRateLimitOrganizationSource::OrHash
+                  ),
+                  type: String,
+                  value: Integer
+                ).returns(T.attached_class)
+              end
               def new(
                 org_limit:, # The organization-level value for the same limiter type, for reference. `null`
                             # when the organization has no limit configured for this limiter type.
+                source:, # Where `value` comes from. `organization` values are listed only when
+                         # `include_inherited` is `true`, and then `value` equals `org_limit`.
                 type:, # The limiter type (for example, `requests_per_minute` or
                        # `input_tokens_per_minute`).
-                value: # The workspace-level override value for this limiter type.
+                value: # The workspace's value for this limiter type: the workspace-level override when
+                       # `source.type` is `workspace`, otherwise the organization's value.
 ); end
             end
 
             OrHash = T.type_alias do
                 T.any(
                   Anthropic::Beta::Organization::Workspaces::BetaWorkspaceRateLimitValue,
+                  Anthropic::Internal::AnyHash
+                )
+              end
+
+            # Where `value` comes from. `organization` values are listed only when
+            # `include_inherited` is `true`, and then `value` equals `org_limit`.
+            module Source
+              extend Anthropic::Internal::Type::Union
+
+              class << self
+                # Creates a new instance of the variant class whose `type` matches the given
+                # value, passing the remaining arguments to its constructor.
+                sig do
+                  params(
+                    type: Anthropic::Beta::Organization::Workspaces::BetaWorkspaceRateLimitValue::Source::Type::OrSymbol
+                  ).returns(Anthropic::Beta::Organization::Workspaces::BetaWorkspaceRateLimitValue::Source::Variants)
+                end
+                def new(type:); end
+
+                sig do
+                  override
+                    .returns(T::Array[
+                    Anthropic::Beta::Organization::Workspaces::BetaWorkspaceRateLimitValue::Source::Variants
+                  ])
+                end
+                def variants; end
+              end
+
+              module Type
+                extend Anthropic::Internal::Type::Enum
+
+                class << self
+                  sig do
+                    override
+                      .returns(T::Array[
+                      Anthropic::Beta::Organization::Workspaces::BetaWorkspaceRateLimitValue::Source::Type::TaggedSymbol
+                    ])
+                  end
+                  def values; end
+                end
+
+                ORGANIZATION = T.let(
+                    :organization,
+                    Anthropic::Beta::Organization::Workspaces::BetaWorkspaceRateLimitValue::Source::Type::TaggedSymbol
+                  )
+
+                OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+                TaggedSymbol = T.type_alias do
+                    T.all(
+                      Symbol,
+                      Anthropic::Beta::Organization::Workspaces::BetaWorkspaceRateLimitValue::Source::Type
+                    )
+                  end
+
+                WORKSPACE = T.let(
+                    :workspace,
+                    Anthropic::Beta::Organization::Workspaces::BetaWorkspaceRateLimitValue::Source::Type::TaggedSymbol
+                  )
+              end
+
+              Variants = T.type_alias do
+                  T.any(
+                    Anthropic::Beta::Organization::Workspaces::BetaWorkspaceRateLimitWorkspaceSource,
+                    Anthropic::Beta::Organization::Workspaces::BetaWorkspaceRateLimitOrganizationSource
+                  )
+                end
+            end
+          end
+
+          class BetaWorkspaceRateLimitWorkspaceSource < Anthropic::Internal::Type::BaseModel
+            # Always `workspace`: a workspace-level override is stored.
+            sig { returns(Symbol) }
+            attr_accessor :type
+
+            sig { override.returns({ type: Symbol }) }
+            def to_hash; end
+
+            class << self
+              sig { params(type: Symbol).returns(T.attached_class) }
+              def new(
+                type: :workspace # Always `workspace`: a workspace-level override is stored.
+); end
+            end
+
+            OrHash = T.type_alias do
+                T.any(
+                  Anthropic::Beta::Organization::Workspaces::BetaWorkspaceRateLimitWorkspaceSource,
                   Anthropic::Internal::AnyHash
                 )
               end
@@ -74681,6 +74935,14 @@ module Anthropic
             end
             attr_accessor :group_type
 
+            # Also list the limiter values the workspace inherits from the organization,
+            # including groups with no workspace-level override.
+            sig { returns(T.nilable(T::Boolean)) }
+            attr_reader :include_inherited
+
+            sig { params(include_inherited: T::Boolean).void }
+            attr_writer :include_inherited
+
             # Maximum number of items to return per page. Ranges from `1` to `1000`.
             #
             # When omitted, every remaining entry is returned in a single page and `next_page`
@@ -74704,6 +74966,7 @@ module Anthropic
                     T.nilable(
                       Anthropic::Beta::Organization::Workspaces::RateLimitListParams::GroupType::OrSymbol
                     ),
+                  include_inherited: T::Boolean,
                   limit: T.nilable(Integer),
                   page: T.nilable(String),
                   request_options: Anthropic::RequestOptions
@@ -74718,6 +74981,7 @@ module Anthropic
                   group_type: T.nilable(
                     Anthropic::Beta::Organization::Workspaces::RateLimitListParams::GroupType::OrSymbol
                   ),
+                  include_inherited: T::Boolean,
                   limit: T.nilable(Integer),
                   page: T.nilable(String),
                   request_options: Anthropic::RequestOptions::OrHash
@@ -74726,6 +74990,8 @@ module Anthropic
               def new(
                 workspace_id:, # The ID of the workspace.
                 group_type: nil, # Filter by group type.
+                include_inherited: nil, # Also list the limiter values the workspace inherits from the organization,
+                                        # including groups with no workspace-level override.
                 limit: nil, # Maximum number of items to return per page. Ranges from `1` to `1000`.
                             # When omitted, every remaining entry is returned in a single page and `next_page`
                             # is `null`.
@@ -75282,8 +75548,10 @@ module Anthropic
         sig { params(betas: T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]).void }
         attr_writer :betas
 
-        # A hard spend ceiling. The session stops issuing new model requests once the
-        # tracked list cost reaches `max_list_cost`.
+        # Enforced spend ceiling for the session. Omit to create an uncapped session.
+        # Every model the session can run — the agent's model and each callable agent's
+        # model — must have a public list price, or the request is rejected with reason
+        # `model_not_budgetable`.
         sig { returns(T.nilable(Anthropic::Beta::BetaManagedAgentsBudgetLimit)) }
         attr_reader :budget
 
@@ -75450,8 +75718,10 @@ module Anthropic
             agent:, # Agent identifier. Accepts the `agent` ID string, which pins the latest version
                     # for the session, or an `agent` object with both id and version specified.
             environment_id:, # ID of the `environment` defining the container configuration for this session.
-            budget: nil, # A hard spend ceiling. The session stops issuing new model requests once the
-                         # tracked list cost reaches `max_list_cost`.
+            budget: nil, # Enforced spend ceiling for the session. Omit to create an uncapped session.
+                         # Every model the session can run — the agent's model and each callable agent's
+                         # model — must have a public list price, or the request is rejected with reason
+                         # `model_not_budgetable`.
             initial_events: nil, # Initial events to send to the `session` at creation, processed in order.
                                  # Supports `user.message` and `user.define_outcome` events. Maximum 50 events.
             metadata: nil, # Arbitrary key-value metadata attached to the session. Maximum 16 pairs, keys up
@@ -75519,7 +75789,7 @@ module Anthropic
               type:,
               content: nil, # Array of content blocks for the user message.
               description: nil, # What the agent should produce. This is the task specification.
-              rubric: nil, # Rubric for grading the quality of an outcome.
+              rubric: nil, # How to grade the outcome. Text or file reference.
               max_iterations: nil # Eval→revision cycles before giving up. Default 3, max 20.
 ); end
 
@@ -75617,7 +75887,8 @@ module Anthropic
               file_id: nil, # ID of a previously uploaded file.
               memory_store_id: nil, # The memory store ID (memstore\_...). Must belong to the caller's organization
                                     # and workspace.
-              access: nil, # Access mode for an attached memory store.
+              access: nil, # Access mode for the mounted store. Defaults to read_write. read_only mounts the
+                           # store as a read-only filesystem.
               instructions: nil # Per-attachment guidance for the agent on how to use this store. Rendered into
                                 # the memory section of the system prompt. Max 4096 chars.
 ); end
@@ -76090,9 +76361,9 @@ module Anthropic
         extend Anthropic::Internal::Type::RequestParameters::Converter
         include Anthropic::Internal::Type::RequestParameters
 
-        # Mid-session agent configuration update. Only `tools` and `mcp_servers` are
-        # updatable. Full replacement: the provided array becomes the new value. To
-        # preserve existing entries, GET the session, modify the array, and POST it back.
+        # Agent configuration update. Only `tools` and `mcp_servers` are updatable
+        # mid-session. Only valid for sessions created from an agent or deployment
+        # reference. The session must not be running.
         sig { returns(T.nilable(Anthropic::Beta::BetaManagedAgentsSessionAgentUpdate)) }
         attr_reader :agent
 
@@ -76110,8 +76381,14 @@ module Anthropic
         sig { params(betas: T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]).void }
         attr_writer :betas
 
-        # A hard spend ceiling. The session stops issuing new model requests once the
-        # tracked list cost reaches `max_list_cost`.
+        # Enforced spend ceiling for the session. Set an object to replace the budget of a
+        # session that was created with one, or `null` to remove it; omit to preserve. A
+        # budget cannot be added to a session created without one (rejected with reason
+        # `budget_create_only`), and a removed budget cannot be re-added. Allowed in any
+        # non-terminated status. Lowering `max_list_cost` to at or below the session's
+        # consumed list cost is rejected with reason `budget_not_raised`, and every model
+        # the session can run must have a public list price or the request is rejected
+        # with reason `model_not_budgetable`.
         sig { returns(T.nilable(Anthropic::Beta::BetaManagedAgentsBudgetLimit)) }
         attr_reader :budget
 
@@ -76183,11 +76460,17 @@ module Anthropic
           end
           def new(
             session_id:,
-            agent: nil, # Mid-session agent configuration update. Only `tools` and `mcp_servers` are
-                        # updatable. Full replacement: the provided array becomes the new value. To
-                        # preserve existing entries, GET the session, modify the array, and POST it back.
-            budget: nil, # A hard spend ceiling. The session stops issuing new model requests once the
-                         # tracked list cost reaches `max_list_cost`.
+            agent: nil, # Agent configuration update. Only `tools` and `mcp_servers` are updatable
+                        # mid-session. Only valid for sessions created from an agent or deployment
+                        # reference. The session must not be running.
+            budget: nil, # Enforced spend ceiling for the session. Set an object to replace the budget of a
+                         # session that was created with one, or `null` to remove it; omit to preserve. A
+                         # budget cannot be added to a session created without one (rejected with reason
+                         # `budget_create_only`), and a removed budget cannot be re-added. Allowed in any
+                         # non-terminated status. Lowering `max_list_cost` to at or below the session's
+                         # consumed list cost is rejected with reason `budget_not_raised`, and every model
+                         # the session can run must have a public list price or the request is rejected
+                         # with reason `model_not_budgetable`.
             metadata: nil, # Metadata patch. Set a key to a string to upsert it, or to null to delete it.
                            # Omit the field to preserve.
             title: nil, # Human-readable session title.
@@ -76389,7 +76672,7 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :name
 
-          # A timestamp in RFC 3339 format
+          # Timestamp when this tool use was processed.
           sig { returns(Time) }
           attr_accessor :processed_at
 
@@ -76435,7 +76718,7 @@ module Anthropic
               id:, # Unique identifier for this event.
               input:, # Input parameters for the tool call.
               name:, # Name of the custom tool being called.
-              processed_at:, # A timestamp in RFC 3339 format
+              processed_at:, # Timestamp when this tool use was processed.
               type:,
               session_thread_id: nil # When set, this event was cross-posted from a subagent's thread to surface its
                                      # custom tool use on the primary thread's stream. Empty on the thread's own
@@ -76557,7 +76840,7 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :mcp_tool_use_id
 
-          # A timestamp in RFC 3339 format
+          # Timestamp when this event was processed.
           sig { returns(Time) }
           attr_accessor :processed_at
 
@@ -76603,7 +76886,7 @@ module Anthropic
             def new(
               id:, # Unique identifier for this event.
               mcp_tool_use_id:, # The id of the `agent.mcp_tool_use` event this result corresponds to.
-              processed_at:, # A timestamp in RFC 3339 format
+              processed_at:, # Timestamp when this event was processed.
               type:,
               content: nil, # The result content returned by the tool.
               is_error: nil # Whether the tool execution resulted in an error.
@@ -76647,10 +76930,10 @@ module Anthropic
               def new(
                 type:,
                 text: nil, # The text content.
-                source: nil, # Union type for image source variants.
+                source: nil, # The source of the image data.
                 context: nil, # Additional context about the document for the model.
                 title: nil, # The title of the document.
-                citations: nil, # Citation settings for a search result.
+                citations: nil, # Citation settings for this search result.
                 content: nil # Array of text content blocks from the search result.
 ); end
 
@@ -76753,7 +77036,7 @@ module Anthropic
         end
 
         class BetaManagedAgentsAgentMCPToolUseEvent < Anthropic::Internal::Type::BaseModel
-          # AgentEvaluatedPermission enum
+          # The evaluated permission policy for this tool invocation.
           sig do
             returns(T.nilable(
                 Anthropic::Beta::Sessions::BetaManagedAgentsAgentEvaluatedPermission::TaggedSymbol
@@ -76768,9 +77051,13 @@ module Anthropic
           end
           attr_writer :evaluated_permission
 
-          # Names the resolved permission_policy that produced evaluated_permission, and
-          # under auto carries the judgement. Open union: clients must tolerate unknown
-          # variants.
+          # Which resolved permission_policy produced evaluated_permission: always_allow,
+          # always_ask, or auto (with the server's per-invocation judgement). Absent only
+          # when the server refused the call before any policy applied (for example, the
+          # named tool is not enabled in the session); such a refusal has
+          # evaluated_permission deny. An event recorded before this field existed reads as
+          # the arm its evaluated_permission implies (always_allow for allow, always_ask for
+          # ask).
           sig do
             returns(T.nilable(
                 Anthropic::Beta::Sessions::BetaManagedAgentsAgentToolEvaluation::Variants
@@ -76805,7 +77092,7 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :name
 
-          # A timestamp in RFC 3339 format
+          # Timestamp when this event was processed.
           sig { returns(Time) }
           attr_accessor :processed_at
 
@@ -76862,12 +77149,16 @@ module Anthropic
               input:, # Input parameters for the tool call.
               mcp_server_name:, # Name of the MCP server providing the tool.
               name:, # Name of the MCP tool being used.
-              processed_at:, # A timestamp in RFC 3339 format
+              processed_at:, # Timestamp when this event was processed.
               type:,
-              evaluated_permission: nil, # AgentEvaluatedPermission enum
-              evaluation: nil, # Names the resolved permission_policy that produced evaluated_permission, and
-                               # under auto carries the judgement. Open union: clients must tolerate unknown
-                               # variants.
+              evaluated_permission: nil, # The evaluated permission policy for this tool invocation.
+              evaluation: nil, # Which resolved permission_policy produced evaluated_permission: always_allow,
+                               # always_ask, or auto (with the server's per-invocation judgement). Absent only
+                               # when the server refused the call before any policy applied (for example, the
+                               # named tool is not enabled in the session); such a refusal has
+                               # evaluated_permission deny. An event recorded before this field existed reads as
+                               # the arm its evaluated_permission implies (always_allow for allow, always_ask for
+                               # ask).
               session_thread_id: nil # When set, this event was cross-posted from a subagent's thread to surface its
                                      # permission request on the primary thread's stream. Empty on the thread's own
                                      # events. Informational only: the server routes the matching
@@ -76924,7 +77215,7 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :id
 
-          # A timestamp in RFC 3339 format
+          # Timestamp when this response was generated.
           sig { returns(Time) }
           attr_accessor :processed_at
 
@@ -76964,7 +77255,7 @@ module Anthropic
             def new(
               id:, # Unique identifier for this event.
               content:, # Array of text blocks comprising the agent response.
-              processed_at:, # A timestamp in RFC 3339 format
+              processed_at:, # Timestamp when this response was generated.
               type:
 ); end
           end
@@ -77078,7 +77369,7 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :id
 
-          # A timestamp in RFC 3339 format
+          # Timestamp when this thinking was produced.
           sig { returns(Time) }
           attr_accessor :processed_at
 
@@ -77108,7 +77399,7 @@ module Anthropic
             end
             def new(
               id:, # Unique identifier for this event.
-              processed_at:, # A timestamp in RFC 3339 format
+              processed_at:, # Timestamp when this thinking was produced.
               type:
 ); end
           end
@@ -77154,7 +77445,7 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :id
 
-          # A timestamp in RFC 3339 format
+          # Timestamp when compaction was processed.
           sig { returns(Time) }
           attr_accessor :processed_at
 
@@ -77185,7 +77476,7 @@ module Anthropic
             end
             def new(
               id:, # Unique identifier for this event.
-              processed_at:, # A timestamp in RFC 3339 format
+              processed_at:, # Timestamp when compaction was processed.
               type:
 ); end
           end
@@ -77248,7 +77539,7 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :id
 
-          # A timestamp in RFC 3339 format
+          # Timestamp when the message was received.
           sig { returns(Time) }
           attr_accessor :processed_at
 
@@ -77298,7 +77589,7 @@ module Anthropic
               id:, # Unique identifier for this event.
               content:, # Message content blocks.
               from_session_thread_id:, # Public `sthr_` ID of the thread that sent the message.
-              processed_at:, # A timestamp in RFC 3339 format
+              processed_at:, # Timestamp when the message was received.
               type:,
               from_agent_name: nil # Name of the callable agent this message came from. Absent when received from the
                                    # primary agent.
@@ -77336,7 +77627,7 @@ module Anthropic
               def new(
                 type:,
                 text: nil, # The text content.
-                source: nil, # Union type for image source variants.
+                source: nil, # The source of the image data.
                 context: nil, # Additional context about the document for the model.
                 title: nil # The title of the document.
 ); end
@@ -77452,7 +77743,7 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :id
 
-          # A timestamp in RFC 3339 format
+          # Timestamp when the message was sent.
           sig { returns(Time) }
           attr_accessor :processed_at
 
@@ -77508,7 +77799,7 @@ module Anthropic
             def new(
               id:, # Unique identifier for this event.
               content:, # Message content blocks.
-              processed_at:, # A timestamp in RFC 3339 format
+              processed_at:, # Timestamp when the message was sent.
               to_session_thread_id:, # Public `sthr_` ID of the thread the message was sent to.
               type:,
               to_agent_name: nil # Name of the callable agent this message was sent to. Absent when sent to the
@@ -77547,7 +77838,7 @@ module Anthropic
               def new(
                 type:,
                 text: nil, # The text content.
-                source: nil, # Union type for image source variants.
+                source: nil, # The source of the image data.
                 context: nil, # Additional context about the document for the model.
                 title: nil # The title of the document.
 ); end
@@ -77671,9 +77962,7 @@ module Anthropic
             end
             def new(
               type:,
-              evaluated_permission: nil # The server's per-invocation judgement under the auto permission policy. Its type
-                                        # always equals the event's top-level evaluated_permission. Open union: clients
-                                        # must tolerate unknown variants.
+              evaluated_permission: nil # The server's judgement for this invocation.
 ); end
 
             sig do
@@ -77777,9 +78066,7 @@ module Anthropic
         end
 
         class BetaManagedAgentsAgentToolEvaluationAuto < Anthropic::Internal::Type::BaseModel
-          # The server's per-invocation judgement under the auto permission policy. Its type
-          # always equals the event's top-level evaluated_permission. Open union: clients
-          # must tolerate unknown variants.
+          # The server's judgement for this invocation.
           sig { returns(Anthropic::Beta::Sessions::BetaManagedAgentsAgentAutoEvaluatedPermission::Variants) }
           attr_accessor :evaluated_permission
 
@@ -77810,9 +78097,7 @@ module Anthropic
               ).returns(T.attached_class)
             end
             def new(
-              evaluated_permission:, # The server's per-invocation judgement under the auto permission policy. Its type
-                                     # always equals the event's top-level evaluated_permission. Open union: clients
-                                     # must tolerate unknown variants.
+              evaluated_permission:, # The server's judgement for this invocation.
               type: :auto
 ); end
           end
@@ -77858,7 +78143,7 @@ module Anthropic
           sig { returns(T.nilable(T::Boolean)) }
           attr_accessor :is_error
 
-          # A timestamp in RFC 3339 format
+          # Timestamp when this event was processed.
           sig { returns(Time) }
           attr_accessor :processed_at
 
@@ -77907,7 +78192,7 @@ module Anthropic
             end
             def new(
               id:, # Unique identifier for this event.
-              processed_at:, # A timestamp in RFC 3339 format
+              processed_at:, # Timestamp when this event was processed.
               tool_use_id:, # The id of the `agent.tool_use` event this result corresponds to.
               type:,
               content: nil, # The result content returned by the tool.
@@ -77952,10 +78237,10 @@ module Anthropic
               def new(
                 type:,
                 text: nil, # The text content.
-                source: nil, # Union type for image source variants.
+                source: nil, # The source of the image data.
                 context: nil, # Additional context about the document for the model.
                 title: nil, # The title of the document.
-                citations: nil, # Citation settings for a search result.
+                citations: nil, # Citation settings for this search result.
                 content: nil # Array of text content blocks from the search result.
 ); end
 
@@ -78058,7 +78343,7 @@ module Anthropic
         end
 
         class BetaManagedAgentsAgentToolUseEvent < Anthropic::Internal::Type::BaseModel
-          # AgentEvaluatedPermission enum
+          # The evaluated permission policy for this tool invocation.
           sig do
             returns(T.nilable(
                 Anthropic::Beta::Sessions::BetaManagedAgentsAgentEvaluatedPermission::TaggedSymbol
@@ -78073,9 +78358,13 @@ module Anthropic
           end
           attr_writer :evaluated_permission
 
-          # Names the resolved permission_policy that produced evaluated_permission, and
-          # under auto carries the judgement. Open union: clients must tolerate unknown
-          # variants.
+          # Which resolved permission_policy produced evaluated_permission: always_allow,
+          # always_ask, or auto (with the server's per-invocation judgement). Absent only
+          # when the server refused the call before any policy applied (for example, the
+          # named tool is not enabled in the session); such a refusal has
+          # evaluated_permission deny. An event recorded before this field existed reads as
+          # the arm its evaluated_permission implies (always_allow for allow, always_ask for
+          # ask).
           sig do
             returns(T.nilable(
                 Anthropic::Beta::Sessions::BetaManagedAgentsAgentToolEvaluation::Variants
@@ -78106,7 +78395,7 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :name
 
-          # A timestamp in RFC 3339 format
+          # Timestamp when this event was processed.
           sig { returns(Time) }
           attr_accessor :processed_at
 
@@ -78161,12 +78450,16 @@ module Anthropic
               id:, # Unique identifier for this event.
               input:, # Input parameters for the tool call.
               name:, # Name of the agent tool being used.
-              processed_at:, # A timestamp in RFC 3339 format
+              processed_at:, # Timestamp when this event was processed.
               type:,
-              evaluated_permission: nil, # AgentEvaluatedPermission enum
-              evaluation: nil, # Names the resolved permission_policy that produced evaluated_permission, and
-                               # under auto carries the judgement. Open union: clients must tolerate unknown
-                               # variants.
+              evaluated_permission: nil, # The evaluated permission policy for this tool invocation.
+              evaluation: nil, # Which resolved permission_policy produced evaluated_permission: always_allow,
+                               # always_ask, or auto (with the server's per-invocation judgement). Absent only
+                               # when the server refused the call before any policy applied (for example, the
+                               # named tool is not enabled in the session); such a refusal has
+                               # evaluated_permission deny. An event recorded before this field existed reads as
+                               # the arm its evaluated_permission implies (always_allow for allow, always_ask for
+                               # ask).
               session_thread_id: nil # When set, this event was cross-posted from a subagent's thread to surface its
                                      # permission request on the primary thread's stream. Empty on the thread's own
                                      # events. Informational only: the server routes the matching
@@ -78368,7 +78661,7 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :message
 
-          # What the client should do next in response to this error.
+          # What the client should do next.
           sig { returns(Anthropic::Beta::Sessions::BetaManagedAgentsBillingError::RetryStatus::Variants) }
           attr_accessor :retry_status
 
@@ -78404,7 +78697,7 @@ module Anthropic
             end
             def new(
               message:, # Human-readable error description.
-              retry_status:, # What the client should do next in response to this error.
+              retry_status:, # What the client should do next.
               type:
 ); end
           end
@@ -78416,7 +78709,7 @@ module Anthropic
               )
             end
 
-          # What the client should do next in response to this error.
+          # What the client should do next.
           module RetryStatus
             extend Anthropic::Internal::Type::Union
 
@@ -78524,7 +78817,7 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :message
 
-          # What the client should do next in response to this error.
+          # What the client should do next.
           sig do
             returns(Anthropic::Beta::Sessions::BetaManagedAgentsCredentialHostUnreachableError::RetryStatus::Variants)
           end
@@ -78572,7 +78865,7 @@ module Anthropic
             def new(
               credential_id:, # ID of the affected credential.
               message:, # Human-readable error description.
-              retry_status:, # What the client should do next in response to this error.
+              retry_status:, # What the client should do next.
               type:,
               vault_id: # ID of the vault containing the affected credential.
 ); end
@@ -78585,7 +78878,7 @@ module Anthropic
               )
             end
 
-          # What the client should do next in response to this error.
+          # What the client should do next.
           module RetryStatus
             extend Anthropic::Internal::Type::Union
 
@@ -78753,7 +79046,7 @@ module Anthropic
           sig { returns(T.nilable(String)) }
           attr_accessor :context
 
-          # Union type for document source variants.
+          # The source of the document data.
           sig do
             returns(T.any(
                 Anthropic::Beta::Sessions::BetaManagedAgentsBase64DocumentSource,
@@ -78806,7 +79099,7 @@ module Anthropic
               ).returns(T.attached_class)
             end
             def new(
-              source:, # Union type for document source variants.
+              source:, # The source of the document data.
               type:,
               context: nil, # Additional context about the document for the model.
               title: nil # The title of the document.
@@ -78820,7 +79113,7 @@ module Anthropic
               )
             end
 
-          # Union type for document source variants.
+          # The source of the document data.
           module Source
             extend Anthropic::Internal::Type::Union
 
@@ -78989,7 +79282,7 @@ module Anthropic
               session_thread_id: nil, # If absent, interrupts every non-archived thread in a multiagent session (or the
                                       # primary alone in a single-agent session). If present, interrupts only the named
                                       # thread.
-              result: nil, # UserToolConfirmationResult enum
+              result: nil, # The confirmation result: 'allow' or 'deny'.
               tool_use_id: nil, # The id of the `agent.tool_use` or `agent.mcp_tool_use` event this result
                                 # corresponds to, which can be found in the last `session.status_idle`
                                 # [event's](https://platform.claude.com/docs/en/api/beta/sessions/events/list#beta_managed_agents_session_requires_action.event_ids)
@@ -79002,7 +79295,7 @@ module Anthropic
                                        # `stop_reason.event_ids` field.
               is_error: nil, # Whether the tool execution resulted in an error.
               description: nil, # What the agent should produce. This is the task specification.
-              rubric: nil, # Rubric for grading the quality of an outcome.
+              rubric: nil, # How to grade the outcome. Text or file reference.
               max_iterations: nil # Eval→revision cycles before giving up. Default 3, max 20.
 ); end
 
@@ -79630,7 +79923,7 @@ module Anthropic
         end
 
         class BetaManagedAgentsImageBlock < Anthropic::Internal::Type::BaseModel
-          # Union type for image source variants.
+          # The source of the image data.
           sig do
             returns(T.any(
                 Anthropic::Beta::Sessions::BetaManagedAgentsBase64ImageSource,
@@ -79671,7 +79964,7 @@ module Anthropic
               ).returns(T.attached_class)
             end
             def new(
-              source:, # Union type for image source variants.
+              source:, # The source of the image data.
               type:
 ); end
           end
@@ -79683,7 +79976,7 @@ module Anthropic
               )
             end
 
-          # Union type for image source variants.
+          # The source of the image data.
           module Source
             extend Anthropic::Internal::Type::Union
 
@@ -79802,7 +80095,7 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :message
 
-          # What the client should do next in response to this error.
+          # What the client should do next.
           sig do
             returns(Anthropic::Beta::Sessions::BetaManagedAgentsMCPAuthenticationFailedError::RetryStatus::Variants)
           end
@@ -79841,7 +80134,7 @@ module Anthropic
             def new(
               mcp_server_name:, # Name of the MCP server that failed authentication.
               message:, # Human-readable error description.
-              retry_status:, # What the client should do next in response to this error.
+              retry_status:, # What the client should do next.
               type:
 ); end
           end
@@ -79853,7 +80146,7 @@ module Anthropic
               )
             end
 
-          # What the client should do next in response to this error.
+          # What the client should do next.
           module RetryStatus
             extend Anthropic::Internal::Type::Union
 
@@ -79961,7 +80254,7 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :message
 
-          # What the client should do next in response to this error.
+          # What the client should do next.
           sig { returns(Anthropic::Beta::Sessions::BetaManagedAgentsMCPConnectionFailedError::RetryStatus::Variants) }
           attr_accessor :retry_status
 
@@ -79998,7 +80291,7 @@ module Anthropic
             def new(
               mcp_server_name:, # Name of the MCP server that failed to connect.
               message:, # Human-readable error description.
-              retry_status:, # What the client should do next in response to this error.
+              retry_status:, # What the client should do next.
               type:
 ); end
           end
@@ -80010,7 +80303,7 @@ module Anthropic
               )
             end
 
-          # What the client should do next in response to this error.
+          # What the client should do next.
           module RetryStatus
             extend Anthropic::Internal::Type::Union
 
@@ -80110,7 +80403,8 @@ module Anthropic
         end
 
         class BetaManagedAgentsMemoryStoreResource < Anthropic::Internal::Type::BaseModel
-          # Access mode for an attached memory store.
+          # Access mode for the mounted store. Defaults to `read_write`. `read_only` mounts
+          # the store as a read-only filesystem.
           sig do
             returns(T.nilable(
                 Anthropic::Beta::Sessions::BetaManagedAgentsMemoryStoreResource::Access::TaggedSymbol
@@ -80186,7 +80480,8 @@ module Anthropic
               memory_store_id:, # The memory store ID (memstore\_...). Must belong to the caller's organization
                                 # and workspace.
               type:,
-              access: nil, # Access mode for an attached memory store.
+              access: nil, # Access mode for the mounted store. Defaults to `read_write`. `read_only` mounts
+                           # the store as a read-only filesystem.
               description: nil, # Description of the memory store, snapshotted at attach time. Rendered into the
                                 # agent's system prompt. Empty string when the store has no description.
               instructions: nil, # Per-attachment guidance for the agent on how to use this store. Rendered into
@@ -80198,7 +80493,8 @@ module Anthropic
 ); end
           end
 
-          # Access mode for an attached memory store.
+          # Access mode for the mounted store. Defaults to `read_write`. `read_only` mounts
+          # the store as a read-only filesystem.
           module Access
             extend Anthropic::Internal::Type::Enum
 
@@ -80273,7 +80569,7 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :message
 
-          # What the client should do next in response to this error.
+          # What the client should do next.
           sig { returns(Anthropic::Beta::Sessions::BetaManagedAgentsModelOverloadedError::RetryStatus::Variants) }
           attr_accessor :retry_status
 
@@ -80308,7 +80604,7 @@ module Anthropic
             end
             def new(
               message:, # Human-readable error description.
-              retry_status:, # What the client should do next in response to this error.
+              retry_status:, # What the client should do next.
               type:
 ); end
           end
@@ -80320,7 +80616,7 @@ module Anthropic
               )
             end
 
-          # What the client should do next in response to this error.
+          # What the client should do next.
           module RetryStatus
             extend Anthropic::Internal::Type::Union
 
@@ -80424,7 +80720,7 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :message
 
-          # What the client should do next in response to this error.
+          # What the client should do next.
           sig { returns(Anthropic::Beta::Sessions::BetaManagedAgentsModelRateLimitedError::RetryStatus::Variants) }
           attr_accessor :retry_status
 
@@ -80458,7 +80754,7 @@ module Anthropic
             end
             def new(
               message:, # Human-readable error description.
-              retry_status:, # What the client should do next in response to this error.
+              retry_status:, # What the client should do next.
               type:
 ); end
           end
@@ -80470,7 +80766,7 @@ module Anthropic
               )
             end
 
-          # What the client should do next in response to this error.
+          # What the client should do next.
           module RetryStatus
             extend Anthropic::Internal::Type::Union
 
@@ -80574,7 +80870,7 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :message
 
-          # What the client should do next in response to this error.
+          # What the client should do next.
           sig { returns(Anthropic::Beta::Sessions::BetaManagedAgentsModelRequestFailedError::RetryStatus::Variants) }
           attr_accessor :retry_status
 
@@ -80608,7 +80904,7 @@ module Anthropic
             end
             def new(
               message:, # Human-readable error description.
-              retry_status:, # What the client should do next in response to this error.
+              retry_status:, # What the client should do next.
               type:
 ); end
           end
@@ -80620,7 +80916,7 @@ module Anthropic
               )
             end
 
-          # What the client should do next in response to this error.
+          # What the client should do next.
           module RetryStatus
             extend Anthropic::Internal::Type::Union
 
@@ -81065,7 +81361,7 @@ module Anthropic
         end
 
         class BetaManagedAgentsSearchResultBlock < Anthropic::Internal::Type::BaseModel
-          # Citation settings for a search result.
+          # Citation settings for this search result.
           sig { returns(Anthropic::Beta::Sessions::BetaManagedAgentsSearchResultCitations) }
           attr_reader :citations
 
@@ -81122,7 +81418,7 @@ module Anthropic
               ).returns(T.attached_class)
             end
             def new(
-              citations:, # Citation settings for a search result.
+              citations:, # Citation settings for this search result.
               content:, # Array of text content blocks from the search result.
               source:, # The URL source of the search result.
               title:, # The title of the search result.
@@ -81371,11 +81667,11 @@ module Anthropic
                 type:,
                 id:, # Unique identifier for this event.
                 content: nil, # Array of content blocks comprising the user message.
-                processed_at: nil, # A timestamp in RFC 3339 format
+                processed_at: nil, # Timestamp when the agent finished processing this message.
                 session_thread_id: nil, # If absent, interrupts every non-archived thread in a multiagent session (or the
                                         # primary alone in a single-agent session). If present, interrupts only the named
                                         # thread.
-                result: nil, # UserToolConfirmationResult enum
+                result: nil, # The confirmation result: 'allow' or 'deny'.
                 tool_use_id: nil, # The id of the `agent.tool_use` or `agent.mcp_tool_use` event this result
                                   # corresponds to, which can be found in the last `session.status_idle`
                                   # [event's](https://platform.claude.com/docs/en/api/beta/sessions/events/list#beta_managed_agents_session_requires_action.event_ids)
@@ -81391,7 +81687,8 @@ module Anthropic
                 max_iterations: nil, # Evaluate-then-revise cycles before giving up. Default 3, max 20.
                 outcome_id: nil, # Server-generated `outc_` ID for this outcome. Referenced by
                                  # `span.outcome_evaluation_*` events and the session's `outcome_evaluations` list.
-                rubric: nil # Rubric for grading the quality of an outcome.
+                rubric: nil # How to grade the outcome. File rubrics are currently resolved to their text
+                            # content; clients should handle both variants.
 ); end
 
               sig do
@@ -81549,7 +81846,7 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :id
 
-          # A timestamp in RFC 3339 format
+          # Timestamp when the session was deleted.
           sig { returns(Time) }
           attr_accessor :processed_at
 
@@ -81579,7 +81876,7 @@ module Anthropic
             end
             def new(
               id:, # Unique identifier for this event.
-              processed_at:, # A timestamp in RFC 3339 format
+              processed_at:, # Timestamp when the session was deleted.
               type:
 ); end
           end
@@ -81687,7 +81984,7 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :id
 
-          # A timestamp in RFC 3339 format
+          # Timestamp when the error occurred.
           sig { returns(Time) }
           attr_accessor :processed_at
 
@@ -81729,7 +82026,7 @@ module Anthropic
             def new(
               id:, # Unique identifier for this event.
               error:,
-              processed_at:, # A timestamp in RFC 3339 format
+              processed_at:, # Timestamp when the error occurred.
               type:
 ); end
           end
@@ -81757,7 +82054,7 @@ module Anthropic
               def new(
                 type:,
                 message:, # Human-readable error description.
-                retry_status:, # What the client should do next in response to this error.
+                retry_status:, # What the client should do next.
                 mcp_server_name: nil, # Name of the MCP server that failed to connect.
                 credential_id: nil, # ID of the affected credential.
                 vault_id: nil # ID of the vault containing the affected credential.
@@ -81994,11 +82291,11 @@ module Anthropic
               type:,
               id:, # Unique identifier for this event.
               content: nil, # Array of content blocks comprising the user message.
-              processed_at: nil, # A timestamp in RFC 3339 format
+              processed_at: nil, # Timestamp when the agent finished processing this message.
               session_thread_id: nil, # If absent, interrupts every non-archived thread in a multiagent session (or the
                                       # primary alone in a single-agent session). If present, interrupts only the named
                                       # thread.
-              result: nil, # UserToolConfirmationResult enum
+              result: nil, # The confirmation result: 'allow' or 'deny'.
               tool_use_id: nil, # The id of the `agent.tool_use` or `agent.mcp_tool_use` event this result
                                 # corresponds to, which can be found in the last `session.status_idle`
                                 # [event's](https://platform.claude.com/docs/en/api/beta/sessions/events/list#beta_managed_agents_session_requires_action.event_ids)
@@ -82013,10 +82310,14 @@ module Anthropic
               input: nil, # Input parameters for the tool call.
               name: nil, # Name of the custom tool being called.
               mcp_server_name: nil, # Name of the MCP server providing the tool.
-              evaluated_permission: nil, # AgentEvaluatedPermission enum
-              evaluation: nil, # Names the resolved permission_policy that produced evaluated_permission, and
-                               # under auto carries the judgement. Open union: clients must tolerate unknown
-                               # variants.
+              evaluated_permission: nil, # The evaluated permission policy for this tool invocation.
+              evaluation: nil, # Which resolved permission_policy produced evaluated_permission: always_allow,
+                               # always_ask, or auto (with the server's per-invocation judgement). Absent only
+                               # when the server refused the call before any policy applied (for example, the
+                               # named tool is not enabled in the session); such a refusal has
+                               # evaluated_permission deny. An event recorded before this field existed reads as
+                               # the arm its evaluated_permission implies (always_allow for allow, always_ask for
+                               # ask).
               mcp_tool_use_id: nil, # The id of the `agent.mcp_tool_use` event this result corresponds to.
               from_session_thread_id: nil, # Public `sthr_` ID of the thread that sent the message.
               from_agent_name: nil, # Name of the callable agent this message came from. Absent when received from the
@@ -82033,16 +82334,20 @@ module Anthropic
               explanation: nil, # Human-readable explanation of the verdict. For `needs_revision`, describes which
                                 # criteria failed and why.
               outcome_evaluation_start_id: nil, # The id of the corresponding `span.outcome_evaluation_start` event.
-              usage: nil, # Token usage for a single model request.
+              usage: nil, # Aggregate token usage for this evaluation cycle. Sums across all grader model
+                          # requests within the cycle.
               model_request_start_id: nil, # The id of the corresponding `span.model_request_start` event.
-              model_usage: nil, # Token usage for a single model request.
+              model_usage: nil, # Token usage for this model request.
               description: nil, # What the agent should produce. Copied from the input event.
               max_iterations: nil, # Evaluate-then-revise cycles before giving up. Default 3, max 20.
-              rubric: nil, # Rubric for grading the quality of an outcome.
-              agent: nil, # Resolved `agent` definition for a `session`. Snapshot of the `agent` at
-                          # `session` creation time.
-              budget: nil, # A hard spend ceiling. The session stops issuing new model requests once the
-                           # tracked list cost reaches `max_list_cost`.
+              rubric: nil, # How to grade the outcome. File rubrics are currently resolved to their text
+                           # content; clients should handle both variants.
+              agent: nil, # The session's effective agent configuration after the update. Present only when
+                          # the update changed `agent` (tools or mcp_servers); when present it is the full
+                          # materialised snapshot, not a diff.
+              budget: nil, # The session's budget after the update: the new budget when set or replaced, or
+                           # null when the update removed it. Present only when the update changed the
+                           # budget.
               metadata: nil, # The session's full metadata bag after the update. Present when the update set
                              # non-empty metadata; absent when metadata was unchanged or cleared to empty.
               title: nil # The session's new title. Present only when the update changed it.
@@ -82296,6 +82601,200 @@ module Anthropic
             end
         end
 
+        # The `type` of a session event.
+        module BetaManagedAgentsSessionEventType
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::Sessions::BetaManagedAgentsSessionEventType::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          AGENT_CUSTOM_TOOL_USE = T.let(
+              :"agent.custom_tool_use",
+              Anthropic::Beta::Sessions::BetaManagedAgentsSessionEventType::TaggedSymbol
+            )
+
+          AGENT_MCP_TOOL_RESULT = T.let(
+              :"agent.mcp_tool_result",
+              Anthropic::Beta::Sessions::BetaManagedAgentsSessionEventType::TaggedSymbol
+            )
+
+          AGENT_MCP_TOOL_USE = T.let(
+              :"agent.mcp_tool_use",
+              Anthropic::Beta::Sessions::BetaManagedAgentsSessionEventType::TaggedSymbol
+            )
+
+          AGENT_MESSAGE = T.let(
+              :"agent.message",
+              Anthropic::Beta::Sessions::BetaManagedAgentsSessionEventType::TaggedSymbol
+            )
+
+          AGENT_THINKING = T.let(
+              :"agent.thinking",
+              Anthropic::Beta::Sessions::BetaManagedAgentsSessionEventType::TaggedSymbol
+            )
+
+          AGENT_THREAD_CONTEXT_COMPACTED = T.let(
+              :"agent.thread_context_compacted",
+              Anthropic::Beta::Sessions::BetaManagedAgentsSessionEventType::TaggedSymbol
+            )
+
+          AGENT_THREAD_MESSAGE_RECEIVED = T.let(
+              :"agent.thread_message_received",
+              Anthropic::Beta::Sessions::BetaManagedAgentsSessionEventType::TaggedSymbol
+            )
+
+          AGENT_THREAD_MESSAGE_SENT = T.let(
+              :"agent.thread_message_sent",
+              Anthropic::Beta::Sessions::BetaManagedAgentsSessionEventType::TaggedSymbol
+            )
+
+          AGENT_TOOL_RESULT = T.let(
+              :"agent.tool_result",
+              Anthropic::Beta::Sessions::BetaManagedAgentsSessionEventType::TaggedSymbol
+            )
+
+          AGENT_TOOL_USE = T.let(
+              :"agent.tool_use",
+              Anthropic::Beta::Sessions::BetaManagedAgentsSessionEventType::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          SESSION_ERROR = T.let(
+              :"session.error",
+              Anthropic::Beta::Sessions::BetaManagedAgentsSessionEventType::TaggedSymbol
+            )
+
+          SESSION_STATUS_IDLE = T.let(
+              :"session.status_idle",
+              Anthropic::Beta::Sessions::BetaManagedAgentsSessionEventType::TaggedSymbol
+            )
+
+          SESSION_STATUS_RESCHEDULED = T.let(
+              :"session.status_rescheduled",
+              Anthropic::Beta::Sessions::BetaManagedAgentsSessionEventType::TaggedSymbol
+            )
+
+          SESSION_STATUS_RUNNING = T.let(
+              :"session.status_running",
+              Anthropic::Beta::Sessions::BetaManagedAgentsSessionEventType::TaggedSymbol
+            )
+
+          SESSION_STATUS_TERMINATED = T.let(
+              :"session.status_terminated",
+              Anthropic::Beta::Sessions::BetaManagedAgentsSessionEventType::TaggedSymbol
+            )
+
+          SESSION_THREAD_CREATED = T.let(
+              :"session.thread_created",
+              Anthropic::Beta::Sessions::BetaManagedAgentsSessionEventType::TaggedSymbol
+            )
+
+          SESSION_THREAD_STATUS_IDLE = T.let(
+              :"session.thread_status_idle",
+              Anthropic::Beta::Sessions::BetaManagedAgentsSessionEventType::TaggedSymbol
+            )
+
+          SESSION_THREAD_STATUS_RESCHEDULED = T.let(
+              :"session.thread_status_rescheduled",
+              Anthropic::Beta::Sessions::BetaManagedAgentsSessionEventType::TaggedSymbol
+            )
+
+          SESSION_THREAD_STATUS_RUNNING = T.let(
+              :"session.thread_status_running",
+              Anthropic::Beta::Sessions::BetaManagedAgentsSessionEventType::TaggedSymbol
+            )
+
+          SESSION_THREAD_STATUS_TERMINATED = T.let(
+              :"session.thread_status_terminated",
+              Anthropic::Beta::Sessions::BetaManagedAgentsSessionEventType::TaggedSymbol
+            )
+
+          SESSION_UPDATED = T.let(
+              :"session.updated",
+              Anthropic::Beta::Sessions::BetaManagedAgentsSessionEventType::TaggedSymbol
+            )
+
+          SESSION_USAGE = T.let(
+              :"session.usage",
+              Anthropic::Beta::Sessions::BetaManagedAgentsSessionEventType::TaggedSymbol
+            )
+
+          SPAN_MODEL_REQUEST_END = T.let(
+              :"span.model_request_end",
+              Anthropic::Beta::Sessions::BetaManagedAgentsSessionEventType::TaggedSymbol
+            )
+
+          SPAN_MODEL_REQUEST_START = T.let(
+              :"span.model_request_start",
+              Anthropic::Beta::Sessions::BetaManagedAgentsSessionEventType::TaggedSymbol
+            )
+
+          SPAN_OUTCOME_EVALUATION_END = T.let(
+              :"span.outcome_evaluation_end",
+              Anthropic::Beta::Sessions::BetaManagedAgentsSessionEventType::TaggedSymbol
+            )
+
+          SPAN_OUTCOME_EVALUATION_ONGOING = T.let(
+              :"span.outcome_evaluation_ongoing",
+              Anthropic::Beta::Sessions::BetaManagedAgentsSessionEventType::TaggedSymbol
+            )
+
+          SPAN_OUTCOME_EVALUATION_START = T.let(
+              :"span.outcome_evaluation_start",
+              Anthropic::Beta::Sessions::BetaManagedAgentsSessionEventType::TaggedSymbol
+            )
+
+          SYSTEM_MESSAGE = T.let(
+              :"system.message",
+              Anthropic::Beta::Sessions::BetaManagedAgentsSessionEventType::TaggedSymbol
+            )
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::Sessions::BetaManagedAgentsSessionEventType
+              )
+            end
+
+          USER_CUSTOM_TOOL_RESULT = T.let(
+              :"user.custom_tool_result",
+              Anthropic::Beta::Sessions::BetaManagedAgentsSessionEventType::TaggedSymbol
+            )
+
+          USER_DEFINE_OUTCOME = T.let(
+              :"user.define_outcome",
+              Anthropic::Beta::Sessions::BetaManagedAgentsSessionEventType::TaggedSymbol
+            )
+
+          USER_INTERRUPT = T.let(
+              :"user.interrupt",
+              Anthropic::Beta::Sessions::BetaManagedAgentsSessionEventType::TaggedSymbol
+            )
+
+          USER_MESSAGE = T.let(
+              :"user.message",
+              Anthropic::Beta::Sessions::BetaManagedAgentsSessionEventType::TaggedSymbol
+            )
+
+          USER_TOOL_CONFIRMATION = T.let(
+              :"user.tool_confirmation",
+              Anthropic::Beta::Sessions::BetaManagedAgentsSessionEventType::TaggedSymbol
+            )
+
+          USER_TOOL_RESULT = T.let(
+              :"user.tool_result",
+              Anthropic::Beta::Sessions::BetaManagedAgentsSessionEventType::TaggedSymbol
+            )
+        end
+
         class BetaManagedAgentsSessionRequiresAction < Anthropic::Internal::Type::BaseModel
           # The ids of events the agent is blocked on. Resolving fewer than all re-emits
           # `session.status_idle` with the remainder.
@@ -82410,7 +82909,8 @@ module Anthropic
               file_id: nil,
               memory_store_id: nil, # The memory store ID (memstore\_...). Must belong to the caller's organization
                                     # and workspace.
-              access: nil, # Access mode for an attached memory store.
+              access: nil, # Access mode for the mounted store. Defaults to `read_write`. `read_only` mounts
+                           # the store as a read-only filesystem.
               description: nil, # Description of the memory store, snapshotted at attach time. Rendered into the
                                 # agent's system prompt. Empty string when the store has no description.
               instructions: nil, # Per-attachment guidance for the agent on how to use this store. Rendered into
@@ -82540,7 +83040,7 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :id
 
-          # A timestamp in RFC 3339 format
+          # Timestamp of status change.
           sig { returns(Time) }
           attr_accessor :processed_at
 
@@ -82580,7 +83080,7 @@ module Anthropic
             end
             def new(
               id:, # Unique identifier for this event.
-              processed_at:, # A timestamp in RFC 3339 format
+              processed_at:, # Timestamp of status change.
               stop_reason:,
               type:
 ); end
@@ -82707,7 +83207,7 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :id
 
-          # A timestamp in RFC 3339 format
+          # Timestamp of status change.
           sig { returns(Time) }
           attr_accessor :processed_at
 
@@ -82739,7 +83239,7 @@ module Anthropic
             end
             def new(
               id:, # Unique identifier for this event.
-              processed_at:, # A timestamp in RFC 3339 format
+              processed_at:, # Timestamp of status change.
               type:
 ); end
           end
@@ -82785,7 +83285,7 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :id
 
-          # A timestamp in RFC 3339 format
+          # Timestamp of status change.
           sig { returns(Time) }
           attr_accessor :processed_at
 
@@ -82814,7 +83314,7 @@ module Anthropic
             end
             def new(
               id:, # Unique identifier for this event.
-              processed_at:, # A timestamp in RFC 3339 format
+              processed_at:, # Timestamp of status change.
               type:
 ); end
           end
@@ -82860,7 +83360,7 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :id
 
-          # A timestamp in RFC 3339 format
+          # Timestamp of status change.
           sig { returns(Time) }
           attr_accessor :processed_at
 
@@ -82889,7 +83389,7 @@ module Anthropic
             end
             def new(
               id:, # Unique identifier for this event.
-              processed_at:, # A timestamp in RFC 3339 format
+              processed_at:, # Timestamp of status change.
               type:
 ); end
           end
@@ -82931,15 +83431,16 @@ module Anthropic
         end
 
         class BetaManagedAgentsSessionThread < Anthropic::Internal::Type::BaseModel
-          # The resolved agent a `session_thread` runs.
+          # Resolved agent definition for this thread. Snapshot of the agent at thread
+          # creation time.
           sig { returns(Anthropic::Beta::Sessions::BetaManagedAgentsSessionThread::Agent::Variants) }
           attr_accessor :agent
 
-          # A timestamp in RFC 3339 format
+          # When the thread was archived. Null if not archived.
           sig { returns(T.nilable(Time)) }
           attr_accessor :archived_at
 
-          # A timestamp in RFC 3339 format
+          # When the thread was created.
           sig { returns(Time) }
           attr_accessor :created_at
 
@@ -82955,7 +83456,8 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :session_id
 
-          # Timing statistics for a session thread.
+          # Timing statistics for this thread. Null until the thread's first status
+          # transition.
           sig do
             returns(T.nilable(
                 Anthropic::Beta::Sessions::BetaManagedAgentsSessionThreadStats
@@ -82972,18 +83474,19 @@ module Anthropic
           end
           attr_writer :stats
 
-          # SessionThreadStatus enum
+          # Current execution status of the thread.
           sig { returns(Anthropic::Beta::Sessions::BetaManagedAgentsSessionThreadStatus::TaggedSymbol) }
           attr_accessor :status
 
           sig { returns(Anthropic::Beta::Sessions::BetaManagedAgentsSessionThread::Type::TaggedSymbol) }
           attr_accessor :type
 
-          # A timestamp in RFC 3339 format
+          # When the thread was last updated.
           sig { returns(Time) }
           attr_accessor :updated_at
 
-          # Cumulative token usage for a session thread across all turns.
+          # Cumulative token usage for this thread. Null until the thread's first idle
+          # transition.
           sig do
             returns(T.nilable(
                 Anthropic::Beta::Sessions::BetaManagedAgentsSessionThreadUsage
@@ -83054,20 +83557,24 @@ module Anthropic
             end
             def new(
               id:, # Unique identifier for this thread.
-              agent:, # The resolved agent a `session_thread` runs.
-              archived_at:, # A timestamp in RFC 3339 format
-              created_at:, # A timestamp in RFC 3339 format
+              agent:, # Resolved agent definition for this thread. Snapshot of the agent at thread
+                      # creation time.
+              archived_at:, # When the thread was archived. Null if not archived.
+              created_at:, # When the thread was created.
               parent_thread_id:, # Parent thread that spawned this thread. Null for the primary thread.
               session_id:, # The session this thread belongs to.
-              stats:, # Timing statistics for a session thread.
-              status:, # SessionThreadStatus enum
+              stats:, # Timing statistics for this thread. Null until the thread's first status
+                      # transition.
+              status:, # Current execution status of the thread.
               type:,
-              updated_at:, # A timestamp in RFC 3339 format
-              usage: # Cumulative token usage for a session thread across all turns.
+              updated_at:, # When the thread was last updated.
+              usage: # Cumulative token usage for this thread. Null until the thread's first idle
+                     # transition.
 ); end
           end
 
-          # The resolved agent a `session_thread` runs.
+          # Resolved agent definition for this thread. Snapshot of the agent at thread
+          # creation time.
           module Agent
             extend Anthropic::Internal::Type::Union
 
@@ -83212,7 +83719,7 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :id
 
-          # A timestamp in RFC 3339 format
+          # Timestamp when the thread was created.
           sig { returns(Time) }
           attr_accessor :processed_at
 
@@ -83251,7 +83758,7 @@ module Anthropic
             def new(
               id:, # Unique identifier for this event.
               agent_name:, # Name of the callable agent the thread runs.
-              processed_at:, # A timestamp in RFC 3339 format
+              processed_at:, # Timestamp when the thread was created.
               session_thread_id:, # Public `sthr_` ID of the newly created thread.
               type:
 ); end
@@ -83408,7 +83915,7 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :id
 
-          # A timestamp in RFC 3339 format
+          # Timestamp of the status transition.
           sig { returns(Time) }
           attr_accessor :processed_at
 
@@ -83460,7 +83967,7 @@ module Anthropic
             def new(
               id:, # Unique identifier for this event.
               agent_name:, # Name of the agent the thread runs.
-              processed_at:, # A timestamp in RFC 3339 format
+              processed_at:, # Timestamp of the status transition.
               session_thread_id:, # Public sthr\_ ID of the thread that went idle.
               stop_reason:,
               type:
@@ -83592,7 +84099,7 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :id
 
-          # A timestamp in RFC 3339 format
+          # Timestamp of the status transition.
           sig { returns(Time) }
           attr_accessor :processed_at
 
@@ -83634,7 +84141,7 @@ module Anthropic
             def new(
               id:, # Unique identifier for this event.
               agent_name:, # Name of the agent the thread runs.
-              processed_at:, # A timestamp in RFC 3339 format
+              processed_at:, # Timestamp of the status transition.
               session_thread_id:, # Public sthr\_ ID of the thread that is retrying.
               type:
 ); end
@@ -83685,7 +84192,7 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :id
 
-          # A timestamp in RFC 3339 format
+          # Timestamp of the status transition.
           sig { returns(Time) }
           attr_accessor :processed_at
 
@@ -83726,7 +84233,7 @@ module Anthropic
             def new(
               id:, # Unique identifier for this event.
               agent_name:, # Name of the agent the thread runs.
-              processed_at:, # A timestamp in RFC 3339 format
+              processed_at:, # Timestamp of the status transition.
               session_thread_id:, # Public sthr\_ ID of the thread that started running.
               type:
 ); end
@@ -83777,7 +84284,7 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :id
 
-          # A timestamp in RFC 3339 format
+          # Timestamp of the status transition.
           sig { returns(Time) }
           attr_accessor :processed_at
 
@@ -83818,7 +84325,7 @@ module Anthropic
             def new(
               id:, # Unique identifier for this event.
               agent_name:, # Name of the agent the thread runs.
-              processed_at:, # A timestamp in RFC 3339 format
+              processed_at:, # Timestamp of the status transition.
               session_thread_id:, # Public sthr\_ ID of the thread that terminated.
               type:
 ); end
@@ -83870,7 +84377,7 @@ module Anthropic
           sig { params(active_seconds: Float).void }
           attr_writer :active_seconds
 
-          # Prompt-cache creation token usage broken down by cache lifetime.
+          # Tokens used to create prompt cache entries, broken down by cache TTL.
           sig { returns(T.nilable(Anthropic::Beta::BetaManagedAgentsCacheCreationUsage)) }
           attr_reader :cache_creation
 
@@ -83891,7 +84398,12 @@ module Anthropic
           sig { params(input_tokens: Integer).void }
           attr_writer :input_tokens
 
-          # A monetary amount in a specific currency.
+          # Cumulative list cost of this thread across all turns, priced at public list
+          # rates. Absent until cost tracking is available for the thread. Each figure is
+          # rounded to the nearest cent independently and the session's aggregate
+          # `usage.list_cost` additionally includes session runtime, so per-thread costs do
+          # not sum exactly to the session figure; the session figure is authoritative and
+          # is what a budget is enforced against.
           sig { returns(T.nilable(Anthropic::BetaMonetaryAmount)) }
           attr_reader :list_cost
 
@@ -83905,7 +84417,8 @@ module Anthropic
           sig { params(output_tokens: Integer).void }
           attr_writer :output_tokens
 
-          # Cumulative count of server-executed tool invocations, broken down by tool.
+          # Cumulative server-executed tool usage across all turns of this thread. Absent
+          # until server-tool tracking is available for the thread.
           sig { returns(T.nilable(Anthropic::Beta::BetaManagedAgentsServerToolUsage)) }
           attr_reader :server_tool_use
 
@@ -83953,12 +84466,18 @@ module Anthropic
               active_seconds: nil, # Cumulative time in seconds this thread spent in running status. Equal to
                                    # `stats.active_seconds`; surfaced here so a thread's usage carries every quantity
                                    # its cost is priced on.
-              cache_creation: nil, # Prompt-cache creation token usage broken down by cache lifetime.
+              cache_creation: nil, # Tokens used to create prompt cache entries, broken down by cache TTL.
               cache_read_input_tokens: nil, # Total tokens read from prompt cache.
               input_tokens: nil, # Total input tokens consumed across all turns.
-              list_cost: nil, # A monetary amount in a specific currency.
+              list_cost: nil, # Cumulative list cost of this thread across all turns, priced at public list
+                              # rates. Absent until cost tracking is available for the thread. Each figure is
+                              # rounded to the nearest cent independently and the session's aggregate
+                              # `usage.list_cost` additionally includes session runtime, so per-thread costs do
+                              # not sum exactly to the session figure; the session figure is authoritative and
+                              # is what a budget is enforced against.
               output_tokens: nil, # Total output tokens generated across all turns.
-              server_tool_use: nil # Cumulative count of server-executed tool invocations, broken down by tool.
+              server_tool_use: nil # Cumulative server-executed tool usage across all turns of this thread. Absent
+                                   # until server-tool tracking is available for the thread.
 ); end
           end
 
@@ -83980,7 +84499,7 @@ module Anthropic
           sig { params(active_seconds: Float).void }
           attr_writer :active_seconds
 
-          # Prompt-cache creation token usage broken down by cache lifetime.
+          # Tokens used to create prompt cache entries, broken down by cache TTL.
           sig { returns(T.nilable(Anthropic::Beta::BetaManagedAgentsCacheCreationUsage)) }
           attr_reader :cache_creation
 
@@ -84001,7 +84520,8 @@ module Anthropic
           sig { params(input_tokens: Integer).void }
           attr_writer :input_tokens
 
-          # A monetary amount in a specific currency.
+          # Cumulative list cost of the session across all turns, priced at public list
+          # rates.
           sig { returns(T.nilable(Anthropic::BetaMonetaryAmount)) }
           attr_reader :list_cost
 
@@ -84015,7 +84535,7 @@ module Anthropic
           sig { params(output_tokens: Integer).void }
           attr_writer :output_tokens
 
-          # Cumulative count of server-executed tool invocations, broken down by tool.
+          # Cumulative server-executed tool usage across all turns.
           sig { returns(T.nilable(Anthropic::Beta::BetaManagedAgentsServerToolUsage)) }
           attr_reader :server_tool_use
 
@@ -84055,12 +84575,13 @@ module Anthropic
               active_seconds: nil, # Cumulative time in seconds during which the session had at least one thread in
                                    # running status. Overlapping activity from concurrent threads is counted once.
                                    # This is the duration the session's runtime cost is priced on.
-              cache_creation: nil, # Prompt-cache creation token usage broken down by cache lifetime.
+              cache_creation: nil, # Tokens used to create prompt cache entries, broken down by cache TTL.
               cache_read_input_tokens: nil, # Total tokens read from prompt cache.
               input_tokens: nil, # Total input tokens consumed across all turns.
-              list_cost: nil, # A monetary amount in a specific currency.
+              list_cost: nil, # Cumulative list cost of the session across all turns, priced at public list
+                              # rates.
               output_tokens: nil, # Total output tokens generated across all turns.
-              server_tool_use: nil # Cumulative count of server-executed tool invocations, broken down by tool.
+              server_tool_use: nil # Cumulative server-executed tool usage across all turns.
 ); end
           end
 
@@ -84085,14 +84606,14 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :model_request_start_id
 
-          # Token usage for a single model request.
+          # Token usage for this model request.
           sig { returns(Anthropic::Beta::Sessions::BetaManagedAgentsSpanModelUsage) }
           attr_reader :model_usage
 
           sig { params(model_usage: Anthropic::Beta::Sessions::BetaManagedAgentsSpanModelUsage::OrHash).void }
           attr_writer :model_usage
 
-          # A timestamp in RFC 3339 format
+          # Timestamp when the model request completed.
           sig { returns(Time) }
           attr_accessor :processed_at
 
@@ -84130,8 +84651,8 @@ module Anthropic
               id:, # Unique identifier for this event.
               is_error:, # Whether the model request resulted in an error.
               model_request_start_id:, # The id of the corresponding `span.model_request_start` event.
-              model_usage:, # Token usage for a single model request.
-              processed_at:, # A timestamp in RFC 3339 format
+              model_usage:, # Token usage for this model request.
+              processed_at:, # Timestamp when the model request completed.
               type:
 ); end
           end
@@ -84177,7 +84698,7 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :id
 
-          # A timestamp in RFC 3339 format
+          # Timestamp when the model request started.
           sig { returns(Time) }
           attr_accessor :processed_at
 
@@ -84206,7 +84727,7 @@ module Anthropic
             end
             def new(
               id:, # Unique identifier for this event.
-              processed_at:, # A timestamp in RFC 3339 format
+              processed_at:, # Timestamp when the model request started.
               type:
 ); end
           end
@@ -84264,9 +84785,8 @@ module Anthropic
           sig { returns(Integer) }
           attr_accessor :output_tokens
 
-          # Inference speed mode. `fast` provides significantly faster output token
-          # generation at premium pricing. Not all models support `fast`; invalid
-          # combinations are rejected at create time.
+          # Inference speed tier this request actually ran at. Mirrors `usage.speed` on
+          # /v1/messages. Only present when the fast-mode beta is active.
           sig do
             returns(T.nilable(
                 Anthropic::Beta::Sessions::BetaManagedAgentsSpanModelUsage::Speed::TaggedSymbol
@@ -84307,9 +84827,8 @@ module Anthropic
               cache_read_input_tokens:, # Tokens read from prompt cache in this request.
               input_tokens:, # Input tokens consumed by this request.
               output_tokens:, # Output tokens generated by this request.
-              speed: nil # Inference speed mode. `fast` provides significantly faster output token
-                         # generation at premium pricing. Not all models support `fast`; invalid
-                         # combinations are rejected at create time.
+              speed: nil # Inference speed tier this request actually ran at. Mirrors `usage.speed` on
+                         # /v1/messages. Only present when the fast-mode beta is active.
 ); end
           end
 
@@ -84320,9 +84839,8 @@ module Anthropic
               )
             end
 
-          # Inference speed mode. `fast` provides significantly faster output token
-          # generation at premium pricing. Not all models support `fast`; invalid
-          # combinations are rejected at create time.
+          # Inference speed tier this request actually ran at. Mirrors `usage.speed` on
+          # /v1/messages. Only present when the fast-mode beta is active.
           module Speed
             extend Anthropic::Internal::Type::Enum
 
@@ -84380,7 +84898,7 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :outcome_id
 
-          # A timestamp in RFC 3339 format
+          # Timestamp when outcome evaluation ended.
           sig { returns(Time) }
           attr_accessor :processed_at
 
@@ -84399,7 +84917,8 @@ module Anthropic
           end
           attr_accessor :type
 
-          # Token usage for a single model request.
+          # Aggregate token usage for this evaluation cycle. Sums across all grader model
+          # requests within the cycle.
           sig { returns(Anthropic::Beta::Sessions::BetaManagedAgentsSpanModelUsage) }
           attr_reader :usage
 
@@ -84450,7 +84969,7 @@ module Anthropic
                           # `span.outcome_evaluation_start`.
               outcome_evaluation_start_id:, # The id of the corresponding `span.outcome_evaluation_start` event.
               outcome_id:, # The `outc_` ID of the outcome being evaluated.
-              processed_at:, # A timestamp in RFC 3339 format
+              processed_at:, # Timestamp when outcome evaluation ended.
               result:, # Evaluation verdict. 'satisfied': criteria met, session goes idle.
                        # 'needs_revision': criteria not met, another revision cycle follows.
                        # 'max_iterations_reached': evaluation budget exhausted with criteria still unmet
@@ -84459,7 +84978,8 @@ module Anthropic
                        # to the deliverables. 'interrupted': user sent an interrupt while evaluation was
                        # in progress.
               type:,
-              usage: # Token usage for a single model request.
+              usage: # Aggregate token usage for this evaluation cycle. Sums across all grader model
+                     # requests within the cycle.
 ); end
           end
 
@@ -84513,7 +85033,7 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :outcome_id
 
-          # A timestamp in RFC 3339 format
+          # Timestamp when this heartbeat was emitted.
           sig { returns(Time) }
           attr_accessor :processed_at
 
@@ -84554,7 +85074,7 @@ module Anthropic
               iteration:, # 0-indexed revision cycle, matching the corresponding
                           # `span.outcome_evaluation_start`.
               outcome_id:, # The `outc_` ID of the outcome being evaluated.
-              processed_at:, # A timestamp in RFC 3339 format
+              processed_at:, # Timestamp when this heartbeat was emitted.
               type:
 ); end
           end
@@ -84609,7 +85129,7 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :outcome_id
 
-          # A timestamp in RFC 3339 format
+          # Timestamp when outcome evaluation started.
           sig { returns(Time) }
           attr_accessor :processed_at
 
@@ -84647,7 +85167,7 @@ module Anthropic
               iteration:, # 0-indexed revision cycle. 0 is the first evaluation; 1 is the re-evaluation
                           # after the first revision; etc.
               outcome_id:, # The `outc_` ID of the outcome being evaluated.
-              processed_at:, # A timestamp in RFC 3339 format
+              processed_at:, # Timestamp when outcome evaluation started.
               type:
 ); end
           end
@@ -84803,11 +85323,11 @@ module Anthropic
               type:,
               id: nil, # Unique identifier for this event.
               content: nil, # Array of content blocks comprising the user message.
-              processed_at: nil, # A timestamp in RFC 3339 format
+              processed_at: nil, # Timestamp when the agent finished processing this message.
               session_thread_id: nil, # If absent, interrupts every non-archived thread in a multiagent session (or the
                                       # primary alone in a single-agent session). If present, interrupts only the named
                                       # thread.
-              result: nil, # UserToolConfirmationResult enum
+              result: nil, # The confirmation result: 'allow' or 'deny'.
               tool_use_id: nil, # The id of the `agent.tool_use` or `agent.mcp_tool_use` event this result
                                 # corresponds to, which can be found in the last `session.status_idle`
                                 # [event's](https://platform.claude.com/docs/en/api/beta/sessions/events/list#beta_managed_agents_session_requires_action.event_ids)
@@ -84822,10 +85342,14 @@ module Anthropic
               input: nil, # Input parameters for the tool call.
               name: nil, # Name of the custom tool being called.
               mcp_server_name: nil, # Name of the MCP server providing the tool.
-              evaluated_permission: nil, # AgentEvaluatedPermission enum
-              evaluation: nil, # Names the resolved permission_policy that produced evaluated_permission, and
-                               # under auto carries the judgement. Open union: clients must tolerate unknown
-                               # variants.
+              evaluated_permission: nil, # The evaluated permission policy for this tool invocation.
+              evaluation: nil, # Which resolved permission_policy produced evaluated_permission: always_allow,
+                               # always_ask, or auto (with the server's per-invocation judgement). Absent only
+                               # when the server refused the call before any policy applied (for example, the
+                               # named tool is not enabled in the session); such a refusal has
+                               # evaluated_permission deny. An event recorded before this field existed reads as
+                               # the arm its evaluated_permission implies (always_allow for allow, always_ask for
+                               # ask).
               mcp_tool_use_id: nil, # The id of the `agent.mcp_tool_use` event this result corresponds to.
               from_session_thread_id: nil, # Public `sthr_` ID of the thread that sent the message.
               from_agent_name: nil, # Name of the callable agent this message came from. Absent when received from the
@@ -84842,16 +85366,20 @@ module Anthropic
               explanation: nil, # Human-readable explanation of the verdict. For `needs_revision`, describes which
                                 # criteria failed and why.
               outcome_evaluation_start_id: nil, # The id of the corresponding `span.outcome_evaluation_start` event.
-              usage: nil, # Token usage for a single model request.
+              usage: nil, # Aggregate token usage for this evaluation cycle. Sums across all grader model
+                          # requests within the cycle.
               model_request_start_id: nil, # The id of the corresponding `span.model_request_start` event.
-              model_usage: nil, # Token usage for a single model request.
+              model_usage: nil, # Token usage for this model request.
               description: nil, # What the agent should produce. Copied from the input event.
               max_iterations: nil, # Evaluate-then-revise cycles before giving up. Default 3, max 20.
-              rubric: nil, # Rubric for grading the quality of an outcome.
-              agent: nil, # Resolved `agent` definition for a `session`. Snapshot of the `agent` at
-                          # `session` creation time.
-              budget: nil, # A hard spend ceiling. The session stops issuing new model requests once the
-                           # tracked list cost reaches `max_list_cost`.
+              rubric: nil, # How to grade the outcome. File rubrics are currently resolved to their text
+                           # content; clients should handle both variants.
+              agent: nil, # The session's effective agent configuration after the update. Present only when
+                          # the update changed `agent` (tools or mcp_servers); when present it is the full
+                          # materialised snapshot, not a diff.
+              budget: nil, # The session's budget after the update: the new budget when set or replaced, or
+                           # null when the update removed it. Present only when the update changed the
+                           # budget.
               metadata: nil, # The session's full metadata bag after the update. Present when the update set
                              # non-empty metadata; absent when metadata was unchanged or cleared to empty.
               title: nil, # The session's new title. Present only when the update changed it.
@@ -85241,11 +85769,11 @@ module Anthropic
               type:,
               id: nil, # Unique identifier for this event.
               content: nil, # Array of content blocks comprising the user message.
-              processed_at: nil, # A timestamp in RFC 3339 format
+              processed_at: nil, # Timestamp when the agent finished processing this message.
               session_thread_id: nil, # If absent, interrupts every non-archived thread in a multiagent session (or the
                                       # primary alone in a single-agent session). If present, interrupts only the named
                                       # thread.
-              result: nil, # UserToolConfirmationResult enum
+              result: nil, # The confirmation result: 'allow' or 'deny'.
               tool_use_id: nil, # The id of the `agent.tool_use` or `agent.mcp_tool_use` event this result
                                 # corresponds to, which can be found in the last `session.status_idle`
                                 # [event's](https://platform.claude.com/docs/en/api/beta/sessions/events/list#beta_managed_agents_session_requires_action.event_ids)
@@ -85260,10 +85788,14 @@ module Anthropic
               input: nil, # Input parameters for the tool call.
               name: nil, # Name of the custom tool being called.
               mcp_server_name: nil, # Name of the MCP server providing the tool.
-              evaluated_permission: nil, # AgentEvaluatedPermission enum
-              evaluation: nil, # Names the resolved permission_policy that produced evaluated_permission, and
-                               # under auto carries the judgement. Open union: clients must tolerate unknown
-                               # variants.
+              evaluated_permission: nil, # The evaluated permission policy for this tool invocation.
+              evaluation: nil, # Which resolved permission_policy produced evaluated_permission: always_allow,
+                               # always_ask, or auto (with the server's per-invocation judgement). Absent only
+                               # when the server refused the call before any policy applied (for example, the
+                               # named tool is not enabled in the session); such a refusal has
+                               # evaluated_permission deny. An event recorded before this field existed reads as
+                               # the arm its evaluated_permission implies (always_allow for allow, always_ask for
+                               # ask).
               mcp_tool_use_id: nil, # The id of the `agent.mcp_tool_use` event this result corresponds to.
               from_session_thread_id: nil, # Public `sthr_` ID of the thread that sent the message.
               from_agent_name: nil, # Name of the callable agent this message came from. Absent when received from the
@@ -85280,16 +85812,20 @@ module Anthropic
               explanation: nil, # Human-readable explanation of the verdict. For `needs_revision`, describes which
                                 # criteria failed and why.
               outcome_evaluation_start_id: nil, # The id of the corresponding `span.outcome_evaluation_start` event.
-              usage: nil, # Token usage for a single model request.
+              usage: nil, # Aggregate token usage for this evaluation cycle. Sums across all grader model
+                          # requests within the cycle.
               model_request_start_id: nil, # The id of the corresponding `span.model_request_start` event.
-              model_usage: nil, # Token usage for a single model request.
+              model_usage: nil, # Token usage for this model request.
               description: nil, # What the agent should produce. Copied from the input event.
               max_iterations: nil, # Evaluate-then-revise cycles before giving up. Default 3, max 20.
-              rubric: nil, # Rubric for grading the quality of an outcome.
-              agent: nil, # Resolved `agent` definition for a `session`. Snapshot of the `agent` at
-                          # `session` creation time.
-              budget: nil, # A hard spend ceiling. The session stops issuing new model requests once the
-                           # tracked list cost reaches `max_list_cost`.
+              rubric: nil, # How to grade the outcome. File rubrics are currently resolved to their text
+                           # content; clients should handle both variants.
+              agent: nil, # The session's effective agent configuration after the update. Present only when
+                          # the update changed `agent` (tools or mcp_servers); when present it is the full
+                          # materialised snapshot, not a diff.
+              budget: nil, # The session's budget after the update: the new budget when set or replaced, or
+                           # null when the update removed it. Present only when the update changed the
+                           # budget.
               metadata: nil, # The session's full metadata bag after the update. Present when the update set
                              # non-empty metadata; absent when metadata was unchanged or cleared to empty.
               title: nil, # The session's new title. Present only when the update changed it.
@@ -85989,7 +86525,7 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :message
 
-          # What the client should do next in response to this error.
+          # What the client should do next.
           sig { returns(Anthropic::Beta::Sessions::BetaManagedAgentsUnknownError::RetryStatus::Variants) }
           attr_accessor :retry_status
 
@@ -86025,7 +86561,7 @@ module Anthropic
             end
             def new(
               message:, # Human-readable error description.
-              retry_status:, # What the client should do next in response to this error.
+              retry_status:, # What the client should do next.
               type:
 ); end
           end
@@ -86037,7 +86573,7 @@ module Anthropic
               )
             end
 
-          # What the client should do next in response to this error.
+          # What the client should do next.
           module RetryStatus
             extend Anthropic::Internal::Type::Union
 
@@ -86176,7 +86712,7 @@ module Anthropic
           sig { returns(T.nilable(T::Boolean)) }
           attr_accessor :is_error
 
-          # A timestamp in RFC 3339 format
+          # Timestamp when this result was processed.
           sig { returns(T.nilable(Time)) }
           attr_accessor :processed_at
 
@@ -86235,7 +86771,7 @@ module Anthropic
               type:,
               content: nil, # The result content returned by the tool.
               is_error: nil, # Whether the tool execution resulted in an error.
-              processed_at: nil, # A timestamp in RFC 3339 format
+              processed_at: nil, # Timestamp when this result was processed.
               session_thread_id: nil # Set by the server to the subagent thread this result was routed to. Omitted when
                                      # it was routed to the primary thread.
 ); end
@@ -86278,10 +86814,10 @@ module Anthropic
               def new(
                 type:,
                 text: nil, # The text content.
-                source: nil, # Union type for image source variants.
+                source: nil, # The source of the image data.
                 context: nil, # Additional context about the document for the model.
                 title: nil, # The title of the document.
-                citations: nil, # Citation settings for a search result.
+                citations: nil, # Citation settings for this search result.
                 content: nil # Array of text content blocks from the search result.
 ); end
 
@@ -86512,10 +87048,10 @@ module Anthropic
               def new(
                 type:,
                 text: nil, # The text content.
-                source: nil, # Union type for image source variants.
+                source: nil, # The source of the image data.
                 context: nil, # Additional context about the document for the model.
                 title: nil, # The title of the document.
-                citations: nil, # Citation settings for a search result.
+                citations: nil, # Citation settings for this search result.
                 content: nil # Array of text content blocks from the search result.
 ); end
 
@@ -86635,11 +87171,12 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :outcome_id
 
-          # A timestamp in RFC 3339 format
+          # Timestamp when the outcome was accepted.
           sig { returns(Time) }
           attr_accessor :processed_at
 
-          # Rubric for grading the quality of an outcome.
+          # How to grade the outcome. File rubrics are currently resolved to their text
+          # content; clients should handle both variants.
           sig { returns(Anthropic::Beta::Sessions::BetaManagedAgentsUserDefineOutcomeEvent::Rubric::Variants) }
           attr_accessor :rubric
 
@@ -86685,8 +87222,9 @@ module Anthropic
               max_iterations:, # Evaluate-then-revise cycles before giving up. Default 3, max 20.
               outcome_id:, # Server-generated `outc_` ID for this outcome. Referenced by
                            # `span.outcome_evaluation_*` events and the session's `outcome_evaluations` list.
-              processed_at:, # A timestamp in RFC 3339 format
-              rubric:, # Rubric for grading the quality of an outcome.
+              processed_at:, # Timestamp when the outcome was accepted.
+              rubric:, # How to grade the outcome. File rubrics are currently resolved to their text
+                       # content; clients should handle both variants.
               type:
 ); end
           end
@@ -86698,7 +87236,8 @@ module Anthropic
               )
             end
 
-          # Rubric for grading the quality of an outcome.
+          # How to grade the outcome. File rubrics are currently resolved to their text
+          # content; clients should handle both variants.
           module Rubric
             extend Anthropic::Internal::Type::Union
 
@@ -86806,7 +87345,7 @@ module Anthropic
           sig { returns(T.nilable(Integer)) }
           attr_accessor :max_iterations
 
-          # Rubric for grading the quality of an outcome.
+          # How to grade the outcome. Text or file reference.
           sig do
             returns(T.any(
                 Anthropic::Beta::Sessions::BetaManagedAgentsFileRubricParams,
@@ -86850,7 +87389,7 @@ module Anthropic
             end
             def new(
               description:, # What the agent should produce. This is the task specification.
-              rubric:, # Rubric for grading the quality of an outcome.
+              rubric:, # How to grade the outcome. Text or file reference.
               type:,
               max_iterations: nil # Eval→revision cycles before giving up. Default 3, max 20.
 ); end
@@ -86863,7 +87402,7 @@ module Anthropic
               )
             end
 
-          # Rubric for grading the quality of an outcome.
+          # How to grade the outcome. Text or file reference.
           module Rubric
             extend Anthropic::Internal::Type::Union
 
@@ -86968,7 +87507,7 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :id
 
-          # A timestamp in RFC 3339 format
+          # Timestamp when the interrupt was processed.
           sig { returns(T.nilable(Time)) }
           attr_accessor :processed_at
 
@@ -87006,7 +87545,7 @@ module Anthropic
             def new(
               id:, # Unique identifier for this event.
               type:,
-              processed_at: nil, # A timestamp in RFC 3339 format
+              processed_at: nil, # Timestamp when the interrupt was processed.
               session_thread_id: nil # If absent, interrupts every non-archived thread in a multiagent session (or the
                                      # primary alone in a single-agent session). If present, interrupts only the named
                                      # thread.
@@ -87134,7 +87673,7 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :id
 
-          # A timestamp in RFC 3339 format
+          # Timestamp when the agent finished processing this message.
           sig { returns(T.nilable(Time)) }
           attr_accessor :processed_at
 
@@ -87177,7 +87716,7 @@ module Anthropic
               id:, # Unique identifier for this event.
               content:, # Array of content blocks comprising the user message.
               type:,
-              processed_at: nil # A timestamp in RFC 3339 format
+              processed_at: nil # Timestamp when the agent finished processing this message.
 ); end
           end
 
@@ -87212,7 +87751,7 @@ module Anthropic
               def new(
                 type:,
                 text: nil, # The text content.
-                source: nil, # Union type for image source variants.
+                source: nil, # The source of the image data.
                 context: nil, # Additional context about the document for the model.
                 title: nil # The title of the document.
 ); end
@@ -87402,7 +87941,7 @@ module Anthropic
               def new(
                 type:,
                 text: nil, # The text content.
-                source: nil, # Union type for image source variants.
+                source: nil, # The source of the image data.
                 context: nil, # Additional context about the document for the model.
                 title: nil # The title of the document.
 ); end
@@ -87515,11 +88054,11 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :id
 
-          # A timestamp in RFC 3339 format
+          # Timestamp when the confirmation was processed.
           sig { returns(T.nilable(Time)) }
           attr_accessor :processed_at
 
-          # UserToolConfirmationResult enum
+          # The confirmation result: 'allow' or 'deny'.
           sig { returns(Anthropic::Beta::Sessions::BetaManagedAgentsUserToolConfirmationEvent::Result::TaggedSymbol) }
           attr_accessor :result
 
@@ -87569,7 +88108,7 @@ module Anthropic
             end
             def new(
               id:, # Unique identifier for this event.
-              result:, # UserToolConfirmationResult enum
+              result:, # The confirmation result: 'allow' or 'deny'.
               tool_use_id:, # The id of the `agent.tool_use` or `agent.mcp_tool_use` event this result
                             # corresponds to, which can be found in the last `session.status_idle`
                             # [event's](https://platform.claude.com/docs/en/api/beta/sessions/events/list#beta_managed_agents_session_requires_action.event_ids)
@@ -87577,7 +88116,7 @@ module Anthropic
               type:,
               deny_message: nil, # Optional message providing context for a 'deny' decision. Only allowed when
                                  # result is 'deny'.
-              processed_at: nil, # A timestamp in RFC 3339 format
+              processed_at: nil, # Timestamp when the confirmation was processed.
               session_thread_id: nil # Set by the server to the subagent thread this confirmation was routed to.
                                      # Omitted when it was routed to the primary thread.
 ); end
@@ -87590,7 +88129,7 @@ module Anthropic
               )
             end
 
-          # UserToolConfirmationResult enum
+          # The confirmation result: 'allow' or 'deny'.
           module Result
             extend Anthropic::Internal::Type::Enum
 
@@ -87659,7 +88198,7 @@ module Anthropic
           sig { returns(T.nilable(String)) }
           attr_accessor :deny_message
 
-          # UserToolConfirmationResult enum
+          # The confirmation result: 'allow' or 'deny'.
           sig do
             returns(Anthropic::Beta::Sessions::BetaManagedAgentsUserToolConfirmationEventParams::Result::OrSymbol)
           end
@@ -87699,7 +88238,7 @@ module Anthropic
               ).returns(T.attached_class)
             end
             def new(
-              result:, # UserToolConfirmationResult enum
+              result:, # The confirmation result: 'allow' or 'deny'.
               tool_use_id:, # The id of the `agent.tool_use` or `agent.mcp_tool_use` event this result
                             # corresponds to, which can be found in the last `session.status_idle`
                             # [event's](https://platform.claude.com/docs/en/api/beta/sessions/events/list#beta_managed_agents_session_requires_action.event_ids)
@@ -87717,7 +88256,7 @@ module Anthropic
               )
             end
 
-          # UserToolConfirmationResult enum
+          # The confirmation result: 'allow' or 'deny'.
           module Result
             extend Anthropic::Internal::Type::Enum
 
@@ -87911,10 +88450,10 @@ module Anthropic
               def new(
                 type:,
                 text: nil, # The text content.
-                source: nil, # Union type for image source variants.
+                source: nil, # The source of the image data.
                 context: nil, # Additional context about the document for the model.
                 title: nil, # The title of the document.
-                citations: nil, # Citation settings for a search result.
+                citations: nil, # Citation settings for this search result.
                 content: nil # Array of text content blocks from the search result.
 ); end
 
@@ -88093,10 +88632,22 @@ module Anthropic
 
           # Filter by event type. Values match the `type` field on returned events (for
           # example, `user.message` or `agent.tool_use`). Omit to return all event types.
-          sig { returns(T.nilable(T::Array[String])) }
+          sig do
+            returns(T.nilable(
+                T::Array[
+                  Anthropic::Beta::Sessions::BetaManagedAgentsSessionEventType::OrSymbol
+                ]
+              ))
+          end
           attr_reader :types
 
-          sig { params(types: T::Array[String]).void }
+          sig do
+            params(
+              types: T::Array[
+                  Anthropic::Beta::Sessions::BetaManagedAgentsSessionEventType::OrSymbol
+                ]
+            ).void
+          end
           attr_writer :types
 
           # Optional header to select the Workspace for this request. The value is a
@@ -88123,7 +88674,10 @@ module Anthropic
                 order:
                   Anthropic::Beta::Sessions::EventListParams::Order::OrSymbol,
                 page: String,
-                types: T::Array[String],
+                types:
+                  T::Array[
+                    Anthropic::Beta::Sessions::BetaManagedAgentsSessionEventType::OrSymbol
+                  ],
                 betas:
                   T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)],
                 workspace_id: String,
@@ -88143,7 +88697,9 @@ module Anthropic
                 limit: Integer,
                 order: Anthropic::Beta::Sessions::EventListParams::Order::OrSymbol,
                 page: String,
-                types: T::Array[String],
+                types: T::Array[
+                  Anthropic::Beta::Sessions::BetaManagedAgentsSessionEventType::OrSymbol
+                ],
                 betas: T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)],
                 workspace_id: String,
                 request_options: Anthropic::RequestOptions::OrHash
@@ -88793,7 +89349,8 @@ module Anthropic
               file_id: nil,
               memory_store_id: nil, # The memory store ID (memstore\_...). Must belong to the caller's organization
                                     # and workspace.
-              access: nil, # Access mode for an attached memory store.
+              access: nil, # Access mode for the mounted store. Defaults to `read_write`. `read_only` mounts
+                           # the store as a read-only filesystem.
               description: nil, # Description of the memory store, snapshotted at attach time. Rendered into the
                                 # agent's system prompt. Empty string when the store has no description.
               instructions: nil, # Per-attachment guidance for the agent on how to use this store. Rendered into
@@ -88987,7 +89544,8 @@ module Anthropic
               file_id: nil,
               memory_store_id: nil, # The memory store ID (memstore\_...). Must belong to the caller's organization
                                     # and workspace.
-              access: nil, # Access mode for an attached memory store.
+              access: nil, # Access mode for the mounted store. Defaults to `read_write`. `read_only` mounts
+                           # the store as a read-only filesystem.
               description: nil, # Description of the memory store, snapshotted at attach time. Rendered into the
                                 # agent's system prompt. Empty string when the store has no description.
               instructions: nil, # Per-attachment guidance for the agent on how to use this store. Rendered into
@@ -90885,15 +91443,17 @@ module Anthropic
 
       module Tunnels
         class BetaTunnelCertificate < Anthropic::Internal::Type::BaseModel
-          # A timestamp in RFC 3339 format
+          # RFC 3339 datetime string indicating when the certificate was archived. Null if
+          # it is still in the trusted set.
           sig { returns(T.nilable(Time)) }
           attr_accessor :archived_at
 
-          # A timestamp in RFC 3339 format
+          # RFC 3339 datetime string indicating when the certificate was registered.
           sig { returns(Time) }
           attr_accessor :created_at
 
-          # A timestamp in RFC 3339 format
+          # RFC 3339 datetime string indicating when the certificate expires, or `null` if
+          # it does not expire.
           sig { returns(T.nilable(Time)) }
           attr_accessor :expires_at
 
@@ -90941,9 +91501,11 @@ module Anthropic
             end
             def new(
               id:, # Unique identifier for the certificate, prefixed with `tcrt_`.
-              archived_at:, # A timestamp in RFC 3339 format
-              created_at:, # A timestamp in RFC 3339 format
-              expires_at:, # A timestamp in RFC 3339 format
+              archived_at:, # RFC 3339 datetime string indicating when the certificate was archived. Null if
+                            # it is still in the trusted set.
+              created_at:, # RFC 3339 datetime string indicating when the certificate was registered.
+              expires_at:, # RFC 3339 datetime string indicating when the certificate expires, or `null` if
+                           # it does not expire.
               fingerprint:, # Lowercase hex SHA-256 fingerprint of the certificate's DER encoding.
               tunnel_id:, # ID of the tunnel the certificate is registered against.
               type: :tunnel_certificate
@@ -91378,11 +91940,10 @@ module Anthropic
         extend Anthropic::Internal::Type::RequestParameters::Converter
         include Anthropic::Internal::Type::RequestParameters
 
-        # How the platform uses the API on behalf of the entity this profile represents.
-        # `application`: the platform sells a product that uses the API behind the scenes,
-        # and the profile represents an individual end-user of that product.
-        # `passthrough`: the platform resells raw inference, and the profile identifies
-        # the resold-to company.
+        # How the platform uses the API for this entity. `application` (default): the
+        # profile represents an individual end-user of the platform's product.
+        # `passthrough`: the profile identifies a company the platform resells Claude
+        # access to.
         sig do
           returns(T.nilable(
               Anthropic::Beta::UserProfileCreateParams::AccessType::OrSymbol
@@ -91420,7 +91981,12 @@ module Anthropic
         sig { params(external_user_details: Anthropic::Beta::BetaUserProfileExternalUserDetailsParams::OrHash).void }
         attr_writer :external_user_details
 
-        # A timestamp in RFC 3339 format
+        # When the entity this profile represents opened its account with the platform, in
+        # RFC 3339 format: for an `application` profile, when the end-user signed up; for
+        # a `passthrough` profile, when the company became the platform's customer. Must
+        # be a complete timestamp no more than 1 minute in the future. Optional. Accepted
+        # under the `user-profiles-2026-08-18` beta header; under
+        # `user-profiles-2026-09-04` send `external_user_details.onboarded_at` instead.
         sig { returns(T.nilable(Time)) }
         attr_reader :external_user_onboarded_at
 
@@ -91489,11 +92055,10 @@ module Anthropic
             ).returns(T.attached_class)
           end
           def new(
-            access_type: nil, # How the platform uses the API on behalf of the entity this profile represents.
-                              # `application`: the platform sells a product that uses the API behind the scenes,
-                              # and the profile represents an individual end-user of that product.
-                              # `passthrough`: the platform resells raw inference, and the profile identifies
-                              # the resold-to company.
+            access_type: nil, # How the platform uses the API for this entity. `application` (default): the
+                              # profile represents an individual end-user of the platform's product.
+                              # `passthrough`: the profile identifies a company the platform resells Claude
+                              # access to.
             external_id: nil, # Platform's own identifier for this user. Not enforced unique. Maximum 255
                               # characters. Accepted under the `user-profiles-2026-03-24` and
                               # `user-profiles-2026-08-18` beta headers; under `user-profiles-2026-09-04` send
@@ -91501,7 +92066,12 @@ module Anthropic
             external_user_details: nil, # Details about the entity this profile represents, as the platform states them.
                                         # Every field is optional. Accepted under the `user-profiles-2026-09-04` beta
                                         # header only.
-            external_user_onboarded_at: nil, # A timestamp in RFC 3339 format
+            external_user_onboarded_at: nil, # When the entity this profile represents opened its account with the platform, in
+                                             # RFC 3339 format: for an `application` profile, when the end-user signed up; for
+                                             # a `passthrough` profile, when the company became the platform's customer. Must
+                                             # be a complete timestamp no more than 1 minute in the future. Optional. Accepted
+                                             # under the `user-profiles-2026-08-18` beta header; under
+                                             # `user-profiles-2026-09-04` send `external_user_details.onboarded_at` instead.
             metadata: nil, # Free-form key-value data to attach to this user profile. Maximum 16 keys, with
                            # keys up to 64 characters and values up to 512 characters. Values must be
                            # non-empty strings.
@@ -91519,11 +92089,10 @@ module Anthropic
 ); end
         end
 
-        # How the platform uses the API on behalf of the entity this profile represents.
-        # `application`: the platform sells a product that uses the API behind the scenes,
-        # and the profile represents an individual end-user of that product.
-        # `passthrough`: the platform resells raw inference, and the profile identifies
-        # the resold-to company.
+        # How the platform uses the API for this entity. `application` (default): the
+        # profile represents an individual end-user of the platform's product.
+        # `passthrough`: the profile identifies a company the platform resells Claude
+        # access to.
         module AccessType
           extend Anthropic::Internal::Type::Enum
 
@@ -91826,11 +92395,7 @@ module Anthropic
         extend Anthropic::Internal::Type::RequestParameters::Converter
         include Anthropic::Internal::Type::RequestParameters
 
-        # How the platform uses the API on behalf of the entity this profile represents.
-        # `application`: the platform sells a product that uses the API behind the scenes,
-        # and the profile represents an individual end-user of that product.
-        # `passthrough`: the platform resells raw inference, and the profile identifies
-        # the resold-to company.
+        # If present, replaces the stored access type. Omit to leave unchanged.
         sig do
           returns(T.nilable(
               Anthropic::Beta::UserProfileUpdateParams::AccessType::OrSymbol
@@ -91866,7 +92431,11 @@ module Anthropic
         sig { params(external_user_details: Anthropic::Beta::BetaUserProfileExternalUserDetailsParams::OrHash).void }
         attr_writer :external_user_details
 
-        # A timestamp in RFC 3339 format
+        # If present, replaces the stored account creation time. Omit to leave unchanged;
+        # once set, the value cannot be cleared and `null` is rejected. Must be a complete
+        # RFC 3339 timestamp no more than 1 minute in the future. Accepted under the
+        # `user-profiles-2026-08-18` beta header; under `user-profiles-2026-09-04` send
+        # `external_user_details.onboarded_at` instead.
         sig { returns(T.nilable(Time)) }
         attr_reader :external_user_onboarded_at
 
@@ -91945,11 +92514,7 @@ module Anthropic
           end
           def new(
             user_profile_id:, # The ID of the user profile to update (`uprof_...`).
-            access_type: nil, # How the platform uses the API on behalf of the entity this profile represents.
-                              # `application`: the platform sells a product that uses the API behind the scenes,
-                              # and the profile represents an individual end-user of that product.
-                              # `passthrough`: the platform resells raw inference, and the profile identifies
-                              # the resold-to company.
+            access_type: nil, # If present, replaces the stored access type. Omit to leave unchanged.
             external_id: nil, # If present, replaces the stored external_id. Omit to leave unchanged. Maximum
                               # 255 characters. Accepted under the `user-profiles-2026-03-24` and
                               # `user-profiles-2026-08-18` beta headers; under `user-profiles-2026-09-04` send
@@ -91958,7 +92523,11 @@ module Anthropic
                                         # Each field sent replaces the stored value; omit a field to leave it unchanged.
                                         # Once set, a value cannot be cleared and `null` is rejected. Accepted under the
                                         # `user-profiles-2026-09-04` beta header only.
-            external_user_onboarded_at: nil, # A timestamp in RFC 3339 format
+            external_user_onboarded_at: nil, # If present, replaces the stored account creation time. Omit to leave unchanged;
+                                             # once set, the value cannot be cleared and `null` is rejected. Must be a complete
+                                             # RFC 3339 timestamp no more than 1 minute in the future. Accepted under the
+                                             # `user-profiles-2026-08-18` beta header; under `user-profiles-2026-09-04` send
+                                             # `external_user_details.onboarded_at` instead.
             metadata: nil, # Key-value pairs to merge into the stored metadata. Keys provided overwrite
                            # existing values. To remove a key, set its value to an empty string. Keys not
                            # provided are left unchanged. Maximum 16 keys, with keys up to 64 characters and
@@ -91975,11 +92544,7 @@ module Anthropic
 ); end
         end
 
-        # How the platform uses the API on behalf of the entity this profile represents.
-        # `application`: the platform sells a product that uses the API behind the scenes,
-        # and the profile represents an individual end-user of that product.
-        # `passthrough`: the platform resells raw inference, and the profile identifies
-        # the resold-to company.
+        # If present, replaces the stored access type. Omit to leave unchanged.
         module AccessType
           extend Anthropic::Internal::Type::Enum
 
@@ -92508,11 +93073,11 @@ module Anthropic
 
       module Vaults
         class BetaManagedAgentsCredential < Anthropic::Internal::Type::BaseModel
-          # A timestamp in RFC 3339 format
+          # When the credential was archived. Null if not archived.
           sig { returns(T.nilable(Time)) }
           attr_accessor :archived_at
 
-          # Authentication details for a credential.
+          # Authentication configuration for this credential.
           sig { returns(Anthropic::Beta::Vaults::BetaManagedAgentsCredential::Auth::Variants) }
           attr_accessor :auth
 
@@ -92583,8 +93148,8 @@ module Anthropic
             end
             def new(
               id:, # Unique identifier for the credential.
-              archived_at:, # A timestamp in RFC 3339 format
-              auth:, # Authentication details for a credential.
+              archived_at:, # When the credential was archived. Null if not archived.
+              auth:, # Authentication configuration for this credential.
               created_at:, # A timestamp in RFC 3339 format
               metadata:, # Arbitrary key-value metadata attached to the credential.
               type:,
@@ -92594,7 +93159,7 @@ module Anthropic
 ); end
           end
 
-          # Authentication details for a credential.
+          # Authentication configuration for this credential.
           module Auth
             extend Anthropic::Internal::Type::Union
 
@@ -92621,7 +93186,7 @@ module Anthropic
                 type:,
                 mcp_server_url: nil, # URL of the MCP server this credential authenticates against.
                 expires_at: nil, # A timestamp in RFC 3339 format
-                refresh: nil, # OAuth refresh token configuration returned in credential responses.
+                refresh: nil, # Refresh token configuration, if the credential supports token refresh.
                 injection_location: nil, # Where in the outbound request the secret value is substituted.
                 networking: nil, # Outbound hosts the secret value is substituted on.
                 secret_name: nil # Name of the environment variable.
@@ -92798,7 +93363,7 @@ module Anthropic
           sig { returns(T::Boolean) }
           attr_accessor :has_refresh_token
 
-          # The failing step of an MCP validation probe.
+          # Details of the failing MCP probe step. Null when the probe succeeded.
           sig { returns(T.nilable(Anthropic::Beta::Vaults::BetaManagedAgentsMCPProbe)) }
           attr_reader :mcp_probe
 
@@ -92811,7 +93376,8 @@ module Anthropic
           end
           attr_writer :mcp_probe
 
-          # Outcome of a refresh-token exchange attempted during credential validation.
+          # Details of the refresh-token exchange attempted on a 401. Null when no refresh
+          # was attempted.
           sig { returns(T.nilable(Anthropic::Beta::Vaults::BetaManagedAgentsRefreshObject)) }
           attr_reader :refresh
 
@@ -92824,14 +93390,14 @@ module Anthropic
           end
           attr_writer :refresh
 
-          # Overall verdict of a credential validation probe.
+          # Overall verdict of the validation probe.
           sig { returns(Anthropic::Beta::Vaults::BetaManagedAgentsCredentialValidationStatus::TaggedSymbol) }
           attr_accessor :status
 
           sig { returns(Anthropic::Beta::Vaults::BetaManagedAgentsCredentialValidation::Type::TaggedSymbol) }
           attr_accessor :type
 
-          # A timestamp in RFC 3339 format
+          # When the validation probe was performed.
           sig { returns(Time) }
           attr_accessor :validated_at
 
@@ -92881,11 +93447,12 @@ module Anthropic
             def new(
               credential_id:, # Unique identifier of the credential that was validated.
               has_refresh_token:, # Whether the credential has a refresh token configured.
-              mcp_probe:, # The failing step of an MCP validation probe.
-              refresh:, # Outcome of a refresh-token exchange attempted during credential validation.
-              status:, # Overall verdict of a credential validation probe.
+              mcp_probe:, # Details of the failing MCP probe step. Null when the probe succeeded.
+              refresh:, # Details of the refresh-token exchange attempted on a 401. Null when no refresh
+                        # was attempted.
+              status:, # Overall verdict of the validation probe.
               type:,
-              validated_at:, # A timestamp in RFC 3339 format
+              validated_at:, # When the validation probe was performed.
               vault_id: # Identifier of the vault containing the credential.
 ); end
           end
@@ -93686,7 +94253,7 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :mcp_server_url
 
-          # OAuth refresh token configuration returned in credential responses.
+          # Refresh token configuration, if the credential supports token refresh.
           sig do
             returns(T.nilable(
                 Anthropic::Beta::Vaults::BetaManagedAgentsMCPOAuthRefreshResponse
@@ -93737,7 +94304,7 @@ module Anthropic
               mcp_server_url:, # URL of the MCP server this credential authenticates against.
               type:,
               expires_at: nil, # A timestamp in RFC 3339 format
-              refresh: nil # OAuth refresh token configuration returned in credential responses.
+              refresh: nil # Refresh token configuration, if the credential supports token refresh.
 ); end
           end
 
@@ -93790,7 +94357,7 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :mcp_server_url
 
-          # OAuth refresh token parameters for creating a credential with refresh support.
+          # Refresh token configuration, if the credential supports token refresh.
           sig do
             returns(T.nilable(
                 Anthropic::Beta::Vaults::BetaManagedAgentsMCPOAuthRefreshParams
@@ -93844,7 +94411,7 @@ module Anthropic
               mcp_server_url:, # URL of the MCP server this credential authenticates against.
               type:,
               expires_at: nil, # A timestamp in RFC 3339 format
-              refresh: nil # OAuth refresh token parameters for creating a credential with refresh support.
+              refresh: nil # Refresh token configuration, if the credential supports token refresh.
 ); end
           end
 
@@ -94321,7 +94888,7 @@ module Anthropic
           sig { returns(T.nilable(Time)) }
           attr_accessor :expires_at
 
-          # Parameters for updating OAuth refresh token configuration.
+          # Updated refresh token configuration.
           sig do
             returns(T.nilable(
                 Anthropic::Beta::Vaults::BetaManagedAgentsMCPOAuthRefreshUpdateParams
@@ -94373,7 +94940,7 @@ module Anthropic
               type:,
               access_token: nil, # Updated OAuth access token.
               expires_at: nil, # A timestamp in RFC 3339 format
-              refresh: nil # Parameters for updating OAuth refresh token configuration.
+              refresh: nil # Updated refresh token configuration.
 ); end
           end
 
@@ -94414,7 +94981,8 @@ module Anthropic
         end
 
         class BetaManagedAgentsMCPProbe < Anthropic::Internal::Type::BaseModel
-          # An HTTP response captured during a credential validation probe.
+          # The captured HTTP error response. Null when no HTTP response was received
+          # (timeout, DNS, TLS).
           sig do
             returns(T.nilable(
                 Anthropic::Beta::Vaults::BetaManagedAgentsRefreshHTTPResponse
@@ -94458,7 +95026,8 @@ module Anthropic
               ).returns(T.attached_class)
             end
             def new(
-              http_response:, # An HTTP response captured during a credential validation probe.
+              http_response:, # The captured HTTP error response. Null when no HTTP response was received
+                              # (timeout, DNS, TLS).
               method_: # The MCP method that failed (for example `initialize` or `tools/list`).
 ); end
           end
@@ -94526,7 +95095,8 @@ module Anthropic
         end
 
         class BetaManagedAgentsRefreshObject < Anthropic::Internal::Type::BaseModel
-          # An HTTP response captured during a credential validation probe.
+          # The captured HTTP error response from the token endpoint. Populated only when
+          # `status` is `failed`.
           sig do
             returns(T.nilable(
                 Anthropic::Beta::Vaults::BetaManagedAgentsRefreshHTTPResponse
@@ -94543,7 +95113,7 @@ module Anthropic
           end
           attr_writer :http_response
 
-          # Outcome of a refresh-token exchange attempted during credential validation.
+          # Outcome of the refresh attempt.
           sig { returns(Anthropic::Beta::Vaults::BetaManagedAgentsRefreshObject::Status::TaggedSymbol) }
           attr_accessor :status
 
@@ -94571,8 +95141,9 @@ module Anthropic
               ).returns(T.attached_class)
             end
             def new(
-              http_response:, # An HTTP response captured during a credential validation probe.
-              status: # Outcome of a refresh-token exchange attempted during credential validation.
+              http_response:, # The captured HTTP error response from the token endpoint. Populated only when
+                              # `status` is `failed`.
+              status: # Outcome of the refresh attempt.
 ); end
           end
 
@@ -94583,7 +95154,7 @@ module Anthropic
               )
             end
 
-          # Outcome of a refresh-token exchange attempted during credential validation.
+          # Outcome of the refresh attempt.
           module Status
             extend Anthropic::Internal::Type::Enum
 
@@ -95560,7 +96131,7 @@ module Anthropic
           extend Anthropic::Internal::Type::RequestParameters::Converter
           include Anthropic::Internal::Type::RequestParameters
 
-          # Authentication details for creating a credential.
+          # Authentication configuration for the credential.
           sig do
             returns(T.any(
                 Anthropic::Beta::Vaults::BetaManagedAgentsMCPOAuthCreateParams,
@@ -95647,7 +96218,7 @@ module Anthropic
             end
             def new(
               vault_id:, # Identifier of the vault to create the credential in.
-              auth:, # Authentication details for creating a credential.
+              auth:, # Authentication configuration for the credential.
               display_name: nil, # Human-readable name for the credential. Up to 255 characters.
               metadata: nil, # Arbitrary key-value metadata to attach to the credential. Maximum 16 pairs, keys
                              # up to 64 chars, values up to 512 chars.
@@ -95661,7 +96232,7 @@ module Anthropic
 ); end
           end
 
-          # Authentication details for creating a credential.
+          # Authentication configuration for the credential.
           module Auth
             extend Anthropic::Internal::Type::Union
 
@@ -95692,7 +96263,7 @@ module Anthropic
                 access_token: nil, # OAuth access token.
                 mcp_server_url: nil, # URL of the MCP server this credential authenticates against.
                 expires_at: nil, # A timestamp in RFC 3339 format
-                refresh: nil, # OAuth refresh token parameters for creating a credential with refresh support.
+                refresh: nil, # Refresh token configuration, if the credential supports token refresh.
                 token: nil, # Static bearer token value.
                 networking: nil, # Outbound hosts the secret value is substituted on.
                 secret_name: nil, # Name of the environment variable. Immutable after create.
@@ -96107,7 +96678,8 @@ module Anthropic
           extend Anthropic::Internal::Type::RequestParameters::Converter
           include Anthropic::Internal::Type::RequestParameters
 
-          # Updated authentication details for a credential.
+          # Updated authentication configuration. The `type` is immutable; the variant sent
+          # must match the stored credential's type.
           sig do
             returns(T.nilable(
                 T.any(
@@ -96211,7 +96783,8 @@ module Anthropic
             def new(
               vault_id:, # Identifier of the vault containing the credential.
               credential_id:, # Unique identifier of the credential to update.
-              auth: nil, # Updated authentication details for a credential.
+              auth: nil, # Updated authentication configuration. The `type` is immutable; the variant sent
+                         # must match the stored credential's type.
               display_name: nil, # Updated human-readable name for the credential. 1-255 characters.
               metadata: nil, # Metadata patch. Set a key to a string to upsert it, or to null to delete it.
                              # Omitted keys are preserved.
@@ -96225,7 +96798,8 @@ module Anthropic
 ); end
           end
 
-          # Updated authentication details for a credential.
+          # Updated authentication configuration. The `type` is immutable; the variant sent
+          # must match the stored credential's type.
           module Auth
             extend Anthropic::Internal::Type::Union
 
@@ -96255,7 +96829,7 @@ module Anthropic
                 type:,
                 access_token: nil, # Updated OAuth access token.
                 expires_at: nil, # A timestamp in RFC 3339 format
-                refresh: nil, # Parameters for updating OAuth refresh token configuration.
+                refresh: nil, # Updated refresh token configuration.
                 token: nil, # Updated static bearer token value.
                 injection_location: nil, # Updated injection location.
                 networking: nil, # Updated networking scope. Full replacement.
@@ -96515,6 +97089,7 @@ module Anthropic
 
     BetaCacheMissPreviousMessageNotFound = Beta::BetaCacheMissPreviousMessageNotFound
 
+    BetaCacheMissReason = Beta::BetaCacheMissReason
     BetaCacheMissSystemChanged = Beta::BetaCacheMissSystemChanged
     BetaCacheMissToolsChanged = Beta::BetaCacheMissToolsChanged
     BetaCacheMissUnavailable = Beta::BetaCacheMissUnavailable
@@ -97366,6 +97941,7 @@ module Anthropic
     BetaThinkingBlockParam = Beta::BetaThinkingBlockParam
     BetaThinkingCapability = Beta::BetaThinkingCapability
     BetaThinkingConfigAdaptive = Beta::BetaThinkingConfigAdaptive
+    BetaThinkingConfigBetweenTools = Beta::BetaThinkingConfigBetweenTools
     BetaThinkingConfigDisabled = Beta::BetaThinkingConfigDisabled
     BetaThinkingConfigEnabled = Beta::BetaThinkingConfigEnabled
     BetaThinkingConfigParam = Beta::BetaThinkingConfigParam
@@ -99053,11 +99629,8 @@ module Anthropic
       sig { params(cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash)).void }
       attr_writer :cache_control
 
-      # Per-member configuration for `browser_toolset_20260801`: one optional field per
-      # member tool, keyed by the member name — the same name the member's `tool_use`
-      # blocks carry. Every member is an accepted key, and a member's defaults apply
-      # wherever its key is absent. Unknown keys are rejected: the field set is this
-      # toolset version's complete member set.
+      # Sparse per-member overrides, keyed by member name. Absent, null, and {} are
+      # equivalent; a member's defaults apply wherever its key is absent.
       sig { returns(T.nilable(Anthropic::BrowserToolsetConfigs)) }
       attr_reader :configs
 
@@ -99090,11 +99663,8 @@ module Anthropic
         end
         def new(
           cache_control: nil, # Create a cache control breakpoint at this content block.
-          configs: nil, # Per-member configuration for `browser_toolset_20260801`: one optional field per
-                        # member tool, keyed by the member name — the same name the member's `tool_use`
-                        # blocks carry. Every member is an accepted key, and a member's defaults apply
-                        # wherever its key is absent. Unknown keys are rejected: the field set is this
-                        # toolset version's complete member set.
+          configs: nil, # Sparse per-member overrides, keyed by member name. Absent, null, and {} are
+                        # equivalent; a member's defaults apply wherever its key is absent.
           type: :browser_toolset_20260801
 ); end
       end
@@ -99698,6 +100268,215 @@ module Anthropic
 
       OrHash = T.type_alias do
           T.any(Anthropic::CacheCreation, Anthropic::Internal::AnyHash)
+        end
+    end
+
+    class CacheMissMessagesChanged < Anthropic::Internal::Type::BaseModel
+      # Approximate number of input tokens that would have been read from cache had the
+      # prefix matched the previous request.
+      sig { returns(Integer) }
+      attr_accessor :cache_missed_input_tokens
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig { override.returns({ cache_missed_input_tokens: Integer, type: Symbol }) }
+      def to_hash; end
+
+      class << self
+        sig { params(cache_missed_input_tokens: Integer, type: Symbol).returns(T.attached_class) }
+        def new(
+          cache_missed_input_tokens:, # Approximate number of input tokens that would have been read from cache had the
+                                      # prefix matched the previous request.
+          type: :messages_changed
+); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(
+            Anthropic::CacheMissMessagesChanged,
+            Anthropic::Internal::AnyHash
+          )
+        end
+    end
+
+    class CacheMissModelChanged < Anthropic::Internal::Type::BaseModel
+      # Approximate number of input tokens that would have been read from cache had the
+      # prefix matched the previous request.
+      sig { returns(Integer) }
+      attr_accessor :cache_missed_input_tokens
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig { override.returns({ cache_missed_input_tokens: Integer, type: Symbol }) }
+      def to_hash; end
+
+      class << self
+        sig { params(cache_missed_input_tokens: Integer, type: Symbol).returns(T.attached_class) }
+        def new(
+          cache_missed_input_tokens:, # Approximate number of input tokens that would have been read from cache had the
+                                      # prefix matched the previous request.
+          type: :model_changed
+); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(Anthropic::CacheMissModelChanged, Anthropic::Internal::AnyHash)
+        end
+    end
+
+    class CacheMissPreviousMessageNotFound < Anthropic::Internal::Type::BaseModel
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig { override.returns({ type: Symbol }) }
+      def to_hash; end
+
+      class << self
+        sig { params(type: Symbol).returns(T.attached_class) }
+        def new(type: :previous_message_not_found); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(
+            Anthropic::CacheMissPreviousMessageNotFound,
+            Anthropic::Internal::AnyHash
+          )
+        end
+    end
+
+    module CacheMissReason
+      extend Anthropic::Internal::Type::Union
+
+      class << self
+        # Creates a new instance of the variant class whose `type` matches the given
+        # value, passing the remaining arguments to its constructor.
+        sig do
+          params(
+            type: Anthropic::CacheMissReason::Type::OrSymbol,
+            cache_missed_input_tokens: Integer
+          ).returns(Anthropic::CacheMissReason::Variants)
+        end
+        def new(
+          type:,
+          cache_missed_input_tokens: nil # Approximate number of input tokens that would have been read from cache had the
+                                         # prefix matched the previous request.
+); end
+
+        sig { override.returns(T::Array[Anthropic::CacheMissReason::Variants]) }
+        def variants; end
+      end
+
+      module Type
+        extend Anthropic::Internal::Type::Enum
+
+        class << self
+          sig { override.returns(T::Array[Anthropic::CacheMissReason::Type::TaggedSymbol]) }
+          def values; end
+        end
+
+        MESSAGES_CHANGED = T.let(
+            :messages_changed,
+            Anthropic::CacheMissReason::Type::TaggedSymbol
+          )
+
+        MODEL_CHANGED = T.let(:model_changed, Anthropic::CacheMissReason::Type::TaggedSymbol)
+
+        OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+        PREVIOUS_MESSAGE_NOT_FOUND = T.let(
+            :previous_message_not_found,
+            Anthropic::CacheMissReason::Type::TaggedSymbol
+          )
+
+        SYSTEM_CHANGED = T.let(:system_changed, Anthropic::CacheMissReason::Type::TaggedSymbol)
+
+        TOOLS_CHANGED = T.let(:tools_changed, Anthropic::CacheMissReason::Type::TaggedSymbol)
+
+        TaggedSymbol = T.type_alias { T.all(Symbol, Anthropic::CacheMissReason::Type) }
+
+        UNAVAILABLE = T.let(:unavailable, Anthropic::CacheMissReason::Type::TaggedSymbol)
+      end
+
+      Variants = T.type_alias do
+          T.any(
+            Anthropic::CacheMissModelChanged,
+            Anthropic::CacheMissSystemChanged,
+            Anthropic::CacheMissToolsChanged,
+            Anthropic::CacheMissMessagesChanged,
+            Anthropic::CacheMissPreviousMessageNotFound,
+            Anthropic::CacheMissUnavailable
+          )
+        end
+    end
+
+    class CacheMissSystemChanged < Anthropic::Internal::Type::BaseModel
+      # Approximate number of input tokens that would have been read from cache had the
+      # prefix matched the previous request.
+      sig { returns(Integer) }
+      attr_accessor :cache_missed_input_tokens
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig { override.returns({ cache_missed_input_tokens: Integer, type: Symbol }) }
+      def to_hash; end
+
+      class << self
+        sig { params(cache_missed_input_tokens: Integer, type: Symbol).returns(T.attached_class) }
+        def new(
+          cache_missed_input_tokens:, # Approximate number of input tokens that would have been read from cache had the
+                                      # prefix matched the previous request.
+          type: :system_changed
+); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(Anthropic::CacheMissSystemChanged, Anthropic::Internal::AnyHash)
+        end
+    end
+
+    class CacheMissToolsChanged < Anthropic::Internal::Type::BaseModel
+      # Approximate number of input tokens that would have been read from cache had the
+      # prefix matched the previous request.
+      sig { returns(Integer) }
+      attr_accessor :cache_missed_input_tokens
+
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig { override.returns({ cache_missed_input_tokens: Integer, type: Symbol }) }
+      def to_hash; end
+
+      class << self
+        sig { params(cache_missed_input_tokens: Integer, type: Symbol).returns(T.attached_class) }
+        def new(
+          cache_missed_input_tokens:, # Approximate number of input tokens that would have been read from cache had the
+                                      # prefix matched the previous request.
+          type: :tools_changed
+); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(Anthropic::CacheMissToolsChanged, Anthropic::Internal::AnyHash)
+        end
+    end
+
+    class CacheMissUnavailable < Anthropic::Internal::Type::BaseModel
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig { override.returns({ type: Symbol }) }
+      def to_hash; end
+
+      class << self
+        sig { params(type: Symbol).returns(T.attached_class) }
+        def new(type: :unavailable); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(Anthropic::CacheMissUnavailable, Anthropic::Internal::AnyHash)
         end
     end
 
@@ -102376,11 +103155,8 @@ module Anthropic
       sig { params(cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash)).void }
       attr_writer :cache_control
 
-      # Per-member configuration for `computer_toolset_20260801`: one optional field per
-      # member tool, keyed by the member name — the same name the member's `tool_use`
-      # blocks carry. Every member is an accepted key, and a member's defaults apply
-      # wherever its key is absent. Unknown keys are rejected: the field set is this
-      # toolset version's complete member set.
+      # Sparse per-member overrides, keyed by member name. Absent, null, and {} are
+      # equivalent; a member's defaults apply wherever its key is absent.
       sig { returns(T.nilable(Anthropic::ComputerToolsetConfigs)) }
       attr_reader :configs
 
@@ -102416,11 +103192,8 @@ module Anthropic
         end
         def new(
           cache_control: nil, # Create a cache control breakpoint at this content block.
-          configs: nil, # Per-member configuration for `computer_toolset_20260801`: one optional field per
-                        # member tool, keyed by the member name — the same name the member's `tool_use`
-                        # blocks carry. Every member is an accepted key, and a member's defaults apply
-                        # wherever its key is absent. Unknown keys are rejected: the field set is this
-                        # toolset version's complete member set.
+          configs: nil, # Sparse per-member overrides, keyed by member name. Absent, null, and {} are
+                        # equivalent; a member's defaults apply wherever its key is absent.
           type: :computer_toolset_20260801
 ); end
       end
@@ -103525,21 +104298,21 @@ module Anthropic
     end
 
     class ContextManagementCapability < Anthropic::Internal::Type::BaseModel
-      # Indicates whether a capability is supported.
+      # Whether the clear_thinking_20251015 strategy is supported.
       sig { returns(T.nilable(Anthropic::CapabilitySupport)) }
       attr_reader :clear_thinking_20251015
 
       sig { params(clear_thinking_20251015: T.nilable(Anthropic::CapabilitySupport::OrHash)).void }
       attr_writer :clear_thinking_20251015
 
-      # Indicates whether a capability is supported.
+      # Whether the clear_tool_uses_20250919 strategy is supported.
       sig { returns(T.nilable(Anthropic::CapabilitySupport)) }
       attr_reader :clear_tool_uses_20250919
 
       sig { params(clear_tool_uses_20250919: T.nilable(Anthropic::CapabilitySupport::OrHash)).void }
       attr_writer :clear_tool_uses_20250919
 
-      # Indicates whether a capability is supported.
+      # Whether the compact_20260112 strategy is supported.
       sig { returns(T.nilable(Anthropic::CapabilitySupport)) }
       attr_reader :compact_20260112
 
@@ -103572,9 +104345,9 @@ module Anthropic
           ).returns(T.attached_class)
         end
         def new(
-          clear_thinking_20251015:, # Indicates whether a capability is supported.
-          clear_tool_uses_20250919:, # Indicates whether a capability is supported.
-          compact_20260112:, # Indicates whether a capability is supported.
+          clear_thinking_20251015:, # Whether the clear_thinking_20251015 strategy is supported.
+          clear_tool_uses_20250919:, # Whether the clear_tool_uses_20250919 strategy is supported.
+          compact_20260112:, # Whether the compact_20260112 strategy is supported.
           supported: # Whether this capability is supported by the model.
 ); end
       end
@@ -103664,6 +104437,77 @@ module Anthropic
 
       OrHash = T.type_alias do
           T.any(Anthropic::DeletedSkill, Anthropic::Internal::AnyHash)
+        end
+    end
+
+    class Diagnostics < Anthropic::Internal::Type::BaseModel
+      # Explains why the prompt cache could not fully reuse the prefix from the request
+      # identified by `diagnostics.previous_message_id`. `null` means diagnosis is still
+      # pending — the response was serialized before the background comparison
+      # completed.
+      sig { returns(T.nilable(Anthropic::CacheMissReason::Variants)) }
+      attr_accessor :cache_miss_reason
+
+      sig { override.returns({ cache_miss_reason: T.nilable(Anthropic::CacheMissReason::Variants) }) }
+      def to_hash; end
+
+      class << self
+        # Request-level diagnostics: why the prompt cache could not fully reuse the prefix
+        # of the request named by `diagnostics.previous_message_id`.
+        sig do
+          params(
+            cache_miss_reason: T.nilable(
+              T.any(
+                Anthropic::CacheMissModelChanged::OrHash,
+                Anthropic::CacheMissSystemChanged::OrHash,
+                Anthropic::CacheMissToolsChanged::OrHash,
+                Anthropic::CacheMissMessagesChanged::OrHash,
+                Anthropic::CacheMissPreviousMessageNotFound::OrHash,
+                Anthropic::CacheMissUnavailable::OrHash
+              )
+            )
+          ).returns(T.attached_class)
+        end
+        def new(
+          cache_miss_reason: # Explains why the prompt cache could not fully reuse the prefix from the request
+                             # identified by `diagnostics.previous_message_id`. `null` means diagnosis is still
+                             # pending — the response was serialized before the background comparison
+                             # completed.
+); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(Anthropic::Diagnostics, Anthropic::Internal::AnyHash)
+        end
+    end
+
+    class DiagnosticsParam < Anthropic::Internal::Type::BaseModel
+      # The `id` (`msg_...`) from this client's previous /v1/messages response. The
+      # server compares that request's prompt fingerprint against this one and returns
+      # `diagnostics.cache_miss_reason` when the prompt-cache prefix could not be
+      # reused. Pass `null` on the first turn to opt in without a prior message to
+      # compare.
+      sig { returns(T.nilable(String)) }
+      attr_accessor :previous_message_id
+
+      sig { override.returns({ previous_message_id: T.nilable(String) }) }
+      def to_hash; end
+
+      class << self
+        # Request-level diagnostics. Currently carries the previous response id for
+        # prompt-cache divergence reporting.
+        sig { params(previous_message_id: T.nilable(String)).returns(T.attached_class) }
+        def new(
+          previous_message_id: nil # The `id` (`msg_...`) from this client's previous /v1/messages response. The
+                                   # server compares that request's prompt fingerprint against this one and returns
+                                   # `diagnostics.cache_miss_reason` when the prompt-cache prefix could not be
+                                   # reused. Pass `null` on the first turn to opt in without a prior message to
+                                   # compare.
+); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(Anthropic::DiagnosticsParam, Anthropic::Internal::AnyHash)
         end
     end
 
@@ -103979,7 +104823,7 @@ module Anthropic
       sig { returns(T::Boolean) }
       attr_accessor :supported
 
-      # Indicates whether a capability is supported.
+      # Whether the model supports xhigh effort level.
       sig { returns(T.nilable(Anthropic::CapabilitySupport)) }
       attr_reader :xhigh
 
@@ -104017,7 +104861,7 @@ module Anthropic
           max:, # Whether the model supports max effort level.
           medium:, # Whether the model supports medium effort level.
           supported:, # Whether this capability is supported by the model.
-          xhigh: # Indicates whether a capability is supported.
+          xhigh: # Whether the model supports xhigh effort level.
 ); end
       end
 
@@ -105161,8 +106005,9 @@ module Anthropic
     end
 
     class Message < Anthropic::Internal::Type::BaseModel
-      # Information about the container used in the request (for the code execution
-      # tool)
+      # Information about the container used in this request.
+      #
+      # This will be non-null if a container tool (e.g. code execution) was used.
       sig { returns(T.nilable(Anthropic::Container)) }
       attr_reader :container
 
@@ -105204,6 +106049,14 @@ module Anthropic
       sig { returns(T::Array[Anthropic::ContentBlock::Variants]) }
       attr_accessor :content
 
+      # Request-level diagnostics. `null` when the request did not supply `diagnostics`,
+      # or when it did and no prompt-cache divergence was detected.
+      sig { returns(T.nilable(Anthropic::Diagnostics)) }
+      attr_reader :diagnostics
+
+      sig { params(diagnostics: T.nilable(Anthropic::Diagnostics::OrHash)).void }
+      attr_writer :diagnostics
+
       # Unique object identifier.
       #
       # The format and length of IDs may change over time.
@@ -105223,7 +106076,9 @@ module Anthropic
       sig { returns(Symbol) }
       attr_accessor :role
 
-      # Structured information about a refusal.
+      # Structured information about why model output stopped.
+      #
+      # This is `null` when the `stop_reason` has no additional detail to report.
       sig { returns(T.nilable(Anthropic::RefusalStopDetails)) }
       attr_reader :stop_details
 
@@ -105293,6 +106148,7 @@ module Anthropic
             id: String,
             container: T.nilable(Anthropic::Container),
             content: T::Array[Anthropic::ContentBlock::Variants],
+            diagnostics: T.nilable(Anthropic::Diagnostics),
             model: Anthropic::Model::Variants,
             role: Symbol,
             stop_details: T.nilable(Anthropic::RefusalStopDetails),
@@ -105325,6 +106181,7 @@ module Anthropic
                 Anthropic::ContainerUploadBlock::OrHash
               )
             ],
+            diagnostics: T.nilable(Anthropic::Diagnostics::OrHash),
             model: T.any(Anthropic::Model::OrSymbol, String),
             stop_details: T.nilable(Anthropic::RefusalStopDetails::OrHash),
             stop_reason: T.nilable(Anthropic::StopReason::OrSymbol),
@@ -105337,8 +106194,8 @@ module Anthropic
         def new(
           id:, # Unique object identifier.
                # The format and length of IDs may change over time.
-          container:, # Information about the container used in the request (for the code execution
-                      # tool)
+          container:, # Information about the container used in this request.
+                      # This will be non-null if a container tool (e.g. code execution) was used.
           content:, # Content generated by the model.
                     # This is an array of content blocks, each of which has a `type` that determines
                     # its shape.
@@ -105363,10 +106220,13 @@ module Anthropic
                     # ```json
                     # [{ "type": "text", "text": "B)" }]
                     # ```
+          diagnostics:, # Request-level diagnostics. `null` when the request did not supply `diagnostics`,
+                        # or when it did and no prompt-cache divergence was detected.
           model:, # The model that will complete your prompt.
                   # See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
                   # details and options.
-          stop_details:, # Structured information about a refusal.
+          stop_details:, # Structured information about why model output stopped.
+                         # This is `null` when the `stop_reason` has no additional detail to report.
           stop_reason:, # The reason that we stopped.
                         # This may be one the following values:
                         # - `"end_turn"`: the model reached a natural stopping point
@@ -105533,6 +106393,7 @@ module Anthropic
             T.any(
               Anthropic::ThinkingConfigEnabled,
               Anthropic::ThinkingConfigDisabled,
+              Anthropic::ThinkingConfigBetweenTools,
               Anthropic::ThinkingConfigAdaptive
             )
           ))
@@ -105544,6 +106405,7 @@ module Anthropic
           thinking: T.any(
               Anthropic::ThinkingConfigEnabled::OrHash,
               Anthropic::ThinkingConfigDisabled::OrHash,
+              Anthropic::ThinkingConfigBetweenTools::OrHash,
               Anthropic::ThinkingConfigAdaptive::OrHash
             )
         ).void
@@ -105747,6 +106609,7 @@ module Anthropic
               T.any(
                 Anthropic::ThinkingConfigEnabled,
                 Anthropic::ThinkingConfigDisabled,
+                Anthropic::ThinkingConfigBetweenTools,
                 Anthropic::ThinkingConfigAdaptive
               ),
             tool_choice:
@@ -105800,6 +106663,7 @@ module Anthropic
             thinking: T.any(
               Anthropic::ThinkingConfigEnabled::OrHash,
               Anthropic::ThinkingConfigDisabled::OrHash,
+              Anthropic::ThinkingConfigBetweenTools::OrHash,
               Anthropic::ThinkingConfigAdaptive::OrHash
             ),
             tool_choice: T.any(
@@ -106065,6 +106929,15 @@ module Anthropic
       sig { returns(T.nilable(T.any(Anthropic::ContainerParams, String))) }
       attr_accessor :container
 
+      # Request-level diagnostics. Supply `previous_message_id` to have the response
+      # include `diagnostics.cache_miss_reason` explaining any prompt-cache divergence
+      # from that prior request.
+      sig { returns(T.nilable(Anthropic::DiagnosticsParam)) }
+      attr_reader :diagnostics
+
+      sig { params(diagnostics: T.nilable(Anthropic::DiagnosticsParam::OrHash)).void }
+      attr_writer :diagnostics
+
       # Specifies the geographic region for inference processing. If not specified, the
       # workspace's `default_inference_geo` is used.
       sig { returns(T.nilable(String)) }
@@ -106241,6 +107114,7 @@ module Anthropic
             T.any(
               Anthropic::ThinkingConfigEnabled,
               Anthropic::ThinkingConfigDisabled,
+              Anthropic::ThinkingConfigBetweenTools,
               Anthropic::ThinkingConfigAdaptive
             )
           ))
@@ -106252,6 +107126,7 @@ module Anthropic
           thinking: T.any(
               Anthropic::ThinkingConfigEnabled::OrHash,
               Anthropic::ThinkingConfigDisabled::OrHash,
+              Anthropic::ThinkingConfigBetweenTools::OrHash,
               Anthropic::ThinkingConfigAdaptive::OrHash
             )
         ).void
@@ -106476,6 +107351,7 @@ module Anthropic
             model: T.any(Anthropic::Model::OrSymbol, String),
             cache_control: T.nilable(Anthropic::CacheControlEphemeral),
             container: T.nilable(T.any(Anthropic::ContainerParams, String)),
+            diagnostics: T.nilable(Anthropic::DiagnosticsParam),
             inference_geo: T.nilable(String),
             metadata: Anthropic::Metadata,
             output_config: Anthropic::OutputConfig,
@@ -106487,6 +107363,7 @@ module Anthropic
               T.any(
                 Anthropic::ThinkingConfigEnabled,
                 Anthropic::ThinkingConfigDisabled,
+                Anthropic::ThinkingConfigBetweenTools,
                 Anthropic::ThinkingConfigAdaptive
               ),
             tool_choice:
@@ -106539,6 +107416,7 @@ module Anthropic
             model: T.any(Anthropic::Model::OrSymbol, String),
             cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash),
             container: T.nilable(T.any(Anthropic::ContainerParams::OrHash, String)),
+            diagnostics: T.nilable(Anthropic::DiagnosticsParam::OrHash),
             inference_geo: T.nilable(String),
             metadata: Anthropic::Metadata::OrHash,
             output_config: Anthropic::OutputConfig::OrHash,
@@ -106549,6 +107427,7 @@ module Anthropic
             thinking: T.any(
               Anthropic::ThinkingConfigEnabled::OrHash,
               Anthropic::ThinkingConfigDisabled::OrHash,
+              Anthropic::ThinkingConfigBetweenTools::OrHash,
               Anthropic::ThinkingConfigAdaptive::OrHash
             ),
             tool_choice: T.any(
@@ -106656,6 +107535,9 @@ module Anthropic
           cache_control: nil, # Top-level cache control automatically applies a cache_control marker to the last
                               # cacheable block in the request.
           container: nil, # Container identifier for reuse across requests.
+          diagnostics: nil, # Request-level diagnostics. Supply `previous_message_id` to have the response
+                            # include `diagnostics.cache_miss_reason` explaining any prompt-cache divergence
+                            # from that prior request.
           inference_geo: nil, # Specifies the geographic region for inference processing. If not specified, the
                               # workspace's `default_inference_geo` is used.
           metadata: nil, # An object describing metadata about the request.
@@ -107214,6 +108096,15 @@ module Anthropic
             sig { returns(T.nilable(T.any(Anthropic::ContainerParams, String))) }
             attr_accessor :container
 
+            # Request-level diagnostics. Supply `previous_message_id` to have the response
+            # include `diagnostics.cache_miss_reason` explaining any prompt-cache divergence
+            # from that prior request.
+            sig { returns(T.nilable(Anthropic::DiagnosticsParam)) }
+            attr_reader :diagnostics
+
+            sig { params(diagnostics: T.nilable(Anthropic::DiagnosticsParam::OrHash)).void }
+            attr_writer :diagnostics
+
             # Specifies the geographic region for inference processing. If not specified, the
             # workspace's `default_inference_geo` is used.
             sig { returns(T.nilable(String)) }
@@ -107359,10 +108250,14 @@ module Anthropic
             sig { params(stop_sequences: T::Array[String]).void }
             attr_writer :stop_sequences
 
-            # Whether to incrementally stream the response using server-sent events.
+            # Whether to incrementally stream the response using server-sent events. When
+            # `true`, SDKs return a raw event stream.
             #
-            # See [streaming](https://platform.claude.com/docs/en/build-with-claude/streaming)
-            # for details.
+            # In the TypeScript, Python and Ruby SDKs, the recommended way to stream is
+            # `messages.stream()`. It sets `stream` for you and accumulates the events into
+            # the final message. See
+            # [Streaming with SDKs](https://platform.claude.com/docs/en/build-with-claude/streaming#streaming-with-sdks)
+            # for an example in each language.
             sig { returns(T.nilable(T::Boolean)) }
             attr_reader :stream
 
@@ -107412,6 +108307,7 @@ module Anthropic
                   T.any(
                     Anthropic::ThinkingConfigEnabled,
                     Anthropic::ThinkingConfigDisabled,
+                    Anthropic::ThinkingConfigBetweenTools,
                     Anthropic::ThinkingConfigAdaptive
                   )
                 ))
@@ -107423,6 +108319,7 @@ module Anthropic
                 thinking: T.any(
                     Anthropic::ThinkingConfigEnabled::OrHash,
                     Anthropic::ThinkingConfigDisabled::OrHash,
+                    Anthropic::ThinkingConfigBetweenTools::OrHash,
                     Anthropic::ThinkingConfigAdaptive::OrHash
                   )
               ).void
@@ -107628,6 +108525,7 @@ module Anthropic
                   cache_control: T.nilable(Anthropic::CacheControlEphemeral),
                   container:
                     T.nilable(T.any(Anthropic::ContainerParams, String)),
+                  diagnostics: T.nilable(Anthropic::DiagnosticsParam),
                   inference_geo: T.nilable(String),
                   metadata: Anthropic::Metadata,
                   output_config: Anthropic::OutputConfig,
@@ -107642,6 +108540,7 @@ module Anthropic
                     T.any(
                       Anthropic::ThinkingConfigEnabled,
                       Anthropic::ThinkingConfigDisabled,
+                      Anthropic::ThinkingConfigBetweenTools,
                       Anthropic::ThinkingConfigAdaptive
                     ),
                   tool_choice:
@@ -107696,6 +108595,7 @@ module Anthropic
                   model: T.any(Anthropic::Model::OrSymbol, String),
                   cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash),
                   container: T.nilable(T.any(Anthropic::ContainerParams::OrHash, String)),
+                  diagnostics: T.nilable(Anthropic::DiagnosticsParam::OrHash),
                   inference_geo: T.nilable(String),
                   metadata: Anthropic::Metadata::OrHash,
                   output_config: Anthropic::OutputConfig::OrHash,
@@ -107707,6 +108607,7 @@ module Anthropic
                   thinking: T.any(
                     Anthropic::ThinkingConfigEnabled::OrHash,
                     Anthropic::ThinkingConfigDisabled::OrHash,
+                    Anthropic::ThinkingConfigBetweenTools::OrHash,
                     Anthropic::ThinkingConfigAdaptive::OrHash
                   ),
                   tool_choice: T.any(
@@ -107811,6 +108712,9 @@ module Anthropic
                 cache_control: nil, # Top-level cache control automatically applies a cache_control marker to the last
                                     # cacheable block in the request.
                 container: nil, # Container identifier for reuse across requests.
+                diagnostics: nil, # Request-level diagnostics. Supply `previous_message_id` to have the response
+                                  # include `diagnostics.cache_miss_reason` explaining any prompt-cache divergence
+                                  # from that prior request.
                 inference_geo: nil, # Specifies the geographic region for inference processing. If not specified, the
                                     # workspace's `default_inference_geo` is used.
                 metadata: nil, # An object describing metadata about the request.
@@ -107827,9 +108731,13 @@ module Anthropic
                                      # text, you can use the `stop_sequences` parameter. If the model encounters one of
                                      # the custom sequences, the response `stop_reason` value will be `"stop_sequence"`
                                      # and the response `stop_sequence` value will contain the matched stop sequence.
-                stream: nil, # Whether to incrementally stream the response using server-sent events.
-                             # See [streaming](https://platform.claude.com/docs/en/build-with-claude/streaming)
-                             # for details.
+                stream: nil, # Whether to incrementally stream the response using server-sent events. When
+                             # `true`, SDKs return a raw event stream.
+                             # In the TypeScript, Python and Ruby SDKs, the recommended way to stream is
+                             # `messages.stream()`. It sets `stream` for you and accumulates the events into
+                             # the final message. See
+                             # [Streaming with SDKs](https://platform.claude.com/docs/en/build-with-claude/streaming#streaming-with-sdks)
+                             # for an example in each language.
                 system_: nil, # System prompt.
                               # A system prompt is a way of providing context and instructions to Claude, such
                               # as specifying a particular goal or role. See our
@@ -108849,8 +109757,11 @@ module Anthropic
       # Best combination of speed and intelligence
       CLAUDE_SONNET_4_6 = T.let(:"claude-sonnet-4-6", Anthropic::Model::TaggedSymbol)
 
-      # High-performance model for coding and agents
+      # Efficient model for coding and agents
       CLAUDE_SONNET_5 = T.let(:"claude-sonnet-5", Anthropic::Model::TaggedSymbol)
+
+      # Efficient model for coding and agents
+      CLAUDE_SONNET_5_5 = T.let(:"claude-sonnet-5-5", Anthropic::Model::TaggedSymbol)
 
       OrSymbol = T.type_alias { T.any(Symbol, String) }
       TaggedSymbol = T.type_alias { T.all(Symbol, Anthropic::Model) }
@@ -108971,7 +109882,8 @@ module Anthropic
     end
 
     class ModelInfo < Anthropic::Internal::Type::BaseModel
-      # Model capability information.
+      # Object mapping capability names to their support details. Keys are always
+      # present for all known capabilities.
       sig { returns(T.nilable(Anthropic::ModelCapabilities)) }
       attr_reader :capabilities
 
@@ -109033,7 +109945,8 @@ module Anthropic
         end
         def new(
           id:, # Unique model identifier.
-          capabilities:, # Model capability information.
+          capabilities:, # Object mapping capability names to their support details. Keys are always
+                         # present for all known capabilities.
           created_at:, # RFC 3339 datetime string representing the time at which the model was released.
                        # May be set to an epoch value if the release date is unknown.
           display_name:, # A human-readable name for the model.
@@ -109228,7 +110141,10 @@ module Anthropic
     end
 
     class OutputConfig < Anthropic::Internal::Type::BaseModel
-      # All possible effort levels.
+      # How much effort the model should put into its response. Higher effort levels may
+      # result in more thorough analysis but take longer.
+      #
+      # Valid values are `low`, `medium`, `high`, `xhigh`, or `max`.
       sig { returns(T.nilable(Anthropic::OutputConfig::Effort::OrSymbol)) }
       attr_accessor :effort
 
@@ -109257,13 +110173,18 @@ module Anthropic
           ).returns(T.attached_class)
         end
         def new(
-          effort: nil, # All possible effort levels.
+          effort: nil, # How much effort the model should put into its response. Higher effort levels may
+                       # result in more thorough analysis but take longer.
+                       # Valid values are `low`, `medium`, `high`, `xhigh`, or `max`.
           format_: nil # A schema to specify Claude's output format in responses. See
                        # [structured outputs](https://platform.claude.com/docs/en/build-with-claude/structured-outputs)
 ); end
       end
 
-      # All possible effort levels.
+      # How much effort the model should put into its response. Higher effort levels may
+      # result in more thorough analysis but take longer.
+      #
+      # Valid values are `low`, `medium`, `high`, `xhigh`, or `max`.
       module Effort
         extend Anthropic::Internal::Type::Enum
 
@@ -109890,15 +110811,18 @@ module Anthropic
       end
 
       class Delta < Anthropic::Internal::Type::BaseModel
-        # Information about the container used in the request (for the code execution
-        # tool)
+        # Information about the container used in this request.
+        #
+        # This will be non-null if a container tool (e.g. code execution) was used.
         sig { returns(T.nilable(Anthropic::Container)) }
         attr_reader :container
 
         sig { params(container: T.nilable(Anthropic::Container::OrHash)).void }
         attr_writer :container
 
-        # Structured information about a refusal.
+        # Structured information about why model output stopped.
+        #
+        # This is `null` when the `stop_reason` has no additional detail to report.
         sig { returns(T.nilable(Anthropic::RefusalStopDetails)) }
         attr_reader :stop_details
 
@@ -109932,9 +110856,10 @@ module Anthropic
             ).returns(T.attached_class)
           end
           def new(
-            container:, # Information about the container used in the request (for the code execution
-                        # tool)
-            stop_details:, # Structured information about a refusal.
+            container:, # Information about the container used in this request.
+                        # This will be non-null if a container tool (e.g. code execution) was used.
+            stop_details:, # Structured information about why model output stopped.
+                           # This is `null` when the `stop_reason` has no additional detail to report.
             stop_reason:,
             stop_sequence:
 ); end
@@ -110179,7 +111104,9 @@ module Anthropic
     end
 
     class RefusalStopDetails < Anthropic::Internal::Type::BaseModel
-      # The policy category that triggered a refusal.
+      # The policy category that triggered the refusal.
+      #
+      # `null` when the refusal doesn't map to a named category.
       sig { returns(T.nilable(Anthropic::RefusalStopDetails::Category::TaggedSymbol)) }
       attr_accessor :category
 
@@ -110214,7 +111141,8 @@ module Anthropic
           ).returns(T.attached_class)
         end
         def new(
-          category:, # The policy category that triggered a refusal.
+          category:, # The policy category that triggered the refusal.
+                     # `null` when the refusal doesn't map to a named category.
           explanation:, # Human-readable explanation of the refusal.
                         # This text is not guaranteed to be stable. `null` when no explanation is
                         # available for the category.
@@ -110222,7 +111150,9 @@ module Anthropic
 ); end
       end
 
-      # The policy category that triggered a refusal.
+      # The policy category that triggered the refusal.
+      #
+      # `null` when the refusal doesn't map to a named category.
       module Category
         extend Anthropic::Internal::Type::Enum
 
@@ -112894,6 +113824,26 @@ module Anthropic
         end
     end
 
+    class ThinkingConfigBetweenTools < Anthropic::Internal::Type::BaseModel
+      sig { returns(Symbol) }
+      attr_accessor :type
+
+      sig { override.returns({ type: Symbol }) }
+      def to_hash; end
+
+      class << self
+        sig { params(type: Symbol).returns(T.attached_class) }
+        def new(type: :between_tools); end
+      end
+
+      OrHash = T.type_alias do
+          T.any(
+            Anthropic::ThinkingConfigBetweenTools,
+            Anthropic::Internal::AnyHash
+          )
+        end
+    end
+
     class ThinkingConfigDisabled < Anthropic::Internal::Type::BaseModel
       sig { returns(Symbol) }
       attr_accessor :type
@@ -113057,6 +114007,11 @@ module Anthropic
 
         ADAPTIVE = T.let(:adaptive, Anthropic::ThinkingConfigParam::Type::TaggedSymbol)
 
+        BETWEEN_TOOLS = T.let(
+            :between_tools,
+            Anthropic::ThinkingConfigParam::Type::TaggedSymbol
+          )
+
         DISABLED = T.let(:disabled, Anthropic::ThinkingConfigParam::Type::TaggedSymbol)
 
         ENABLED = T.let(:enabled, Anthropic::ThinkingConfigParam::Type::TaggedSymbol)
@@ -113070,6 +114025,7 @@ module Anthropic
           T.any(
             Anthropic::ThinkingConfigEnabled,
             Anthropic::ThinkingConfigDisabled,
+            Anthropic::ThinkingConfigBetweenTools,
             Anthropic::ThinkingConfigAdaptive
           )
         end
@@ -115798,12 +116754,8 @@ module Anthropic
       sig { returns(Symbol) }
       attr_accessor :type
 
-      # Which sources contribute to the set of URLs web fetch may fetch.
-      #
-      # Each key is a tagged variant: `user_input` is `all` or `none`; the two tool
-      # filters are `all`, `none`, `only` (only the named tools' results) or `except`
-      # (every result but the named tools'). A named tool must be declared in this
-      # request's `tools[]`.
+      # Which sources contribute to the set of URLs the tool may fetch. Omitted means
+      # every source.
       sig { returns(T.nilable(Anthropic::WebFetchURLSources)) }
       attr_reader :url_sources
 
@@ -115862,11 +116814,8 @@ module Anthropic
                                    # The limit is approximate and does not apply to binary content such as PDFs.
           max_uses: nil, # Maximum number of times the tool can be used in the API request.
           strict: nil, # When true, guarantees schema validation on tool names and inputs
-          url_sources: nil, # Which sources contribute to the set of URLs web fetch may fetch.
-                            # Each key is a tagged variant: `user_input` is `all` or `none`; the two tool
-                            # filters are `all`, `none`, `only` (only the named tools' results) or `except`
-                            # (every result but the named tools'). A named tool must be declared in this
-                            # request's `tools[]`.
+          url_sources: nil, # Which sources contribute to the set of URLs the tool may fetch. Omitted means
+                            # every source.
           name: :web_fetch, # Name of the tool.
                             # This is how the tool will be called by the model and in `tool_use` blocks.
           type: :web_fetch_20250910
@@ -115992,12 +116941,8 @@ module Anthropic
       sig { returns(Symbol) }
       attr_accessor :type
 
-      # Which sources contribute to the set of URLs web fetch may fetch.
-      #
-      # Each key is a tagged variant: `user_input` is `all` or `none`; the two tool
-      # filters are `all`, `none`, `only` (only the named tools' results) or `except`
-      # (every result but the named tools'). A named tool must be declared in this
-      # request's `tools[]`.
+      # Which sources contribute to the set of URLs the tool may fetch. Omitted means
+      # every source.
       sig { returns(T.nilable(Anthropic::WebFetchURLSources)) }
       attr_reader :url_sources
 
@@ -116056,11 +117001,8 @@ module Anthropic
                                    # The limit is approximate and does not apply to binary content such as PDFs.
           max_uses: nil, # Maximum number of times the tool can be used in the API request.
           strict: nil, # When true, guarantees schema validation on tool names and inputs
-          url_sources: nil, # Which sources contribute to the set of URLs web fetch may fetch.
-                            # Each key is a tagged variant: `user_input` is `all` or `none`; the two tool
-                            # filters are `all`, `none`, `only` (only the named tools' results) or `except`
-                            # (every result but the named tools'). A named tool must be declared in this
-                            # request's `tools[]`.
+          url_sources: nil, # Which sources contribute to the set of URLs the tool may fetch. Omitted means
+                            # every source.
           name: :web_fetch, # Name of the tool.
                             # This is how the tool will be called by the model and in `tool_use` blocks.
           type: :web_fetch_20260209
@@ -116186,12 +117128,8 @@ module Anthropic
       sig { returns(Symbol) }
       attr_accessor :type
 
-      # Which sources contribute to the set of URLs web fetch may fetch.
-      #
-      # Each key is a tagged variant: `user_input` is `all` or `none`; the two tool
-      # filters are `all`, `none`, `only` (only the named tools' results) or `except`
-      # (every result but the named tools'). A named tool must be declared in this
-      # request's `tools[]`.
+      # Which sources contribute to the set of URLs the tool may fetch. Omitted means
+      # every source.
       sig { returns(T.nilable(Anthropic::WebFetchURLSources)) }
       attr_reader :url_sources
 
@@ -116262,11 +117200,8 @@ module Anthropic
                                    # The limit is approximate and does not apply to binary content such as PDFs.
           max_uses: nil, # Maximum number of times the tool can be used in the API request.
           strict: nil, # When true, guarantees schema validation on tool names and inputs
-          url_sources: nil, # Which sources contribute to the set of URLs web fetch may fetch.
-                            # Each key is a tagged variant: `user_input` is `all` or `none`; the two tool
-                            # filters are `all`, `none`, `only` (only the named tools' results) or `except`
-                            # (every result but the named tools'). A named tool must be declared in this
-                            # request's `tools[]`.
+          url_sources: nil, # Which sources contribute to the set of URLs the tool may fetch. Omitted means
+                            # every source.
           use_cache: nil, # Whether to use cached content. Set to false to bypass the cache and fetch fresh
                           # content. Only set to false when the user explicitly requests fresh content or
                           # when fetching rapidly-changing sources.
@@ -116409,12 +117344,8 @@ module Anthropic
       sig { returns(Symbol) }
       attr_accessor :type
 
-      # Which sources contribute to the set of URLs web fetch may fetch.
-      #
-      # Each key is a tagged variant: `user_input` is `all` or `none`; the two tool
-      # filters are `all`, `none`, `only` (only the named tools' results) or `except`
-      # (every result but the named tools'). A named tool must be declared in this
-      # request's `tools[]`.
+      # Which sources contribute to the set of URLs the tool may fetch. Omitted means
+      # every source.
       sig { returns(T.nilable(Anthropic::WebFetchURLSources)) }
       attr_reader :url_sources
 
@@ -116493,11 +117424,8 @@ module Anthropic
                                    # calls that paused before completing, are always returned in full so they can be
                                    # sent back on the next turn.
           strict: nil, # When true, guarantees schema validation on tool names and inputs
-          url_sources: nil, # Which sources contribute to the set of URLs web fetch may fetch.
-                            # Each key is a tagged variant: `user_input` is `all` or `none`; the two tool
-                            # filters are `all`, `none`, `only` (only the named tools' results) or `except`
-                            # (every result but the named tools'). A named tool must be declared in this
-                            # request's `tools[]`.
+          url_sources: nil, # Which sources contribute to the set of URLs the tool may fetch. Omitted means
+                            # every source.
           use_cache: nil, # Whether to use cached content. Set to false to bypass the cache and fetch fresh
                           # content. Only set to false when the user explicitly requests fresh content or
                           # when fetching rapidly-changing sources.
@@ -118816,9 +119744,8 @@ module Anthropic
                             # [MCP connector guide](https://platform.claude.com/docs/en/managed-agents/mcp-connector).
           metadata: nil, # Body param: Arbitrary key-value metadata. Maximum 16 pairs, keys up to 64 chars,
                          # values up to 512 chars.
-          multiagent: nil, # Body param: A coordinator topology: the session's primary thread orchestrates
-                           # work by spawning session threads, each running an agent drawn from the `agents`
-                           # roster.
+          multiagent: nil, # Body param: Multiagent orchestration configuration. Currently supports the
+                           # `coordinator` topology with a roster of 1-20 agents.
           skills: nil, # Body param: Skills available to the agent.
           system_: nil, # Body param: System prompt for the agent.
           tools: nil, # Body param: Tool configurations available to the agent. Maximum of 128 tools
@@ -118944,9 +119871,8 @@ module Anthropic
                       # [model string](https://platform.claude.com/docs/en/about-claude/models/overview#latest-models-comparison),
                       # e.g. `claude-opus-5`, or a `model_config` object for additional configuration
                       # control. Omit to preserve. Cannot be cleared.
-          multiagent: nil, # Body param: A coordinator topology: the session's primary thread orchestrates
-                           # work by spawning session threads, each running an agent drawn from the `agents`
-                           # roster.
+          multiagent: nil, # Body param: Multiagent orchestration configuration. Full replacement. Omit to
+                           # preserve; send null to clear.
           name: nil, # Body param: Human-readable name. Must be non-empty. Omit to preserve. Cannot be
                      # cleared.
           skills: nil, # Body param: Skills. Full replacement. Omit to preserve; send empty array or null
@@ -119144,15 +120070,18 @@ module Anthropic
           initial_events:, # Body param: Events to send to each session immediately after creation. At least
                            # 1, maximum 50.
           name:, # Body param: Human-readable name for the deployment.
-          budget: nil, # Body param: A hard spend ceiling. The session stops issuing new model requests
-                       # once the tracked list cost reaches `max_list_cost`.
+          budget: nil, # Body param: Enforced spend ceiling stamped onto each session created from this
+                       # deployment, copied at session-creation time. Omit to leave sessions uncapped.
+                       # The deployment agent's model must have a public list price, or the request is
+                       # rejected; a multiagent roster is re-validated in full when each fire copies the
+                       # cap, which fails closed the same way.
           description: nil, # Body param: Description of what the deployment does.
           metadata: nil, # Body param: Arbitrary key-value metadata. Maximum 16 pairs, keys up to 64 chars,
                          # values up to 512 chars.
           resources: nil, # Body param: Resources (e.g. repositories, files) to mount into each session's
                           # container. Maximum 500.
-          schedule: nil, # Body param: 5-field POSIX cron schedule. Literal wall-clock matching in the
-                         # configured timezone.
+          schedule: nil, # Body param: Optional recurring cron schedule. When present, the deployment fires
+                         # automatically. Both expression and timezone are required when schedule is set.
           vault_ids: nil, # Body param: Vault IDs for stored credentials the agent can use during sessions
                           # created from this deployment. Maximum 50.
           betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
@@ -119324,8 +120253,11 @@ module Anthropic
           agent: nil, # Body param: Agent to deploy. Accepts the `agent` ID string, which re-pins to the
                       # latest version, or an `agent` object with both id and version specified. Omit to
                       # preserve. Cannot be cleared.
-          budget: nil, # Body param: A hard spend ceiling. The session stops issuing new model requests
-                       # once the tracked list cost reaches `max_list_cost`.
+          budget: nil, # Body param: Spend ceiling for future sessions. Full replacement. Omit to
+                       # preserve; send null to clear (sessions created afterwards are uncapped). The
+                       # deployment agent's model must have a public list price, or the request is
+                       # rejected; a multiagent roster is re-validated in full when each fire copies the
+                       # cap, which fails closed the same way.
           description: nil, # Body param: Description. Omit to preserve; send empty string or null to clear.
           environment_id: nil, # Body param: ID of the `environment` where sessions run. Omit to preserve. Cannot
                                # be cleared.
@@ -119338,8 +120270,8 @@ module Anthropic
                      # cleared.
           resources: nil, # Body param: Session resources. Full replacement. Omit to preserve; send empty
                           # array or null to clear. Maximum 500.
-          schedule: nil, # Body param: 5-field POSIX cron schedule. Literal wall-clock matching in the
-                         # configured timezone.
+          schedule: nil, # Body param: Cron schedule. Full replacement. Omit to preserve; send null to
+                         # clear (revert to manual-only).
           vault_ids: nil, # Body param: Vault IDs. Full replacement. Omit to preserve; send empty array or
                           # null to clear. Maximum 50.
           betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
@@ -120411,12 +121343,10 @@ module Anthropic
                        # line and paragraph separators (U+2028, U+2029), and must be NFC-normalized.
                        # Paths are case-sensitive. The memory's `id` is preserved across renames. Omit to
                        # leave the path unchanged.
-            precondition: nil, # Body param: Optimistic-concurrency precondition: the update applies only if the
-                               # memory's stored `content_sha256` equals the supplied value. On mismatch, the
-                               # request returns `memory_precondition_failed_error` (HTTP 409); re-read the
-                               # memory and retry against the fresh state. If the precondition fails but the
-                               # stored state already exactly matches the requested `content` and `path`, the
-                               # server returns 200 instead of 409.
+            precondition: nil, # Body param: Optional optimistic-concurrency precondition. When supplied, the
+                               # update applies only if the memory's current state matches; on mismatch the
+                               # request returns `memory_precondition_failed_error` (HTTP 409). When omitted, the
+                               # update is unconditional.
             betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
             workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                                # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -120573,6 +121503,7 @@ module Anthropic
             thinking: T.any(
                 Anthropic::Beta::BetaThinkingConfigEnabled::OrHash,
                 Anthropic::Beta::BetaThinkingConfigDisabled::OrHash,
+                Anthropic::Beta::BetaThinkingConfigBetweenTools::OrHash,
                 Anthropic::Beta::BetaThinkingConfigAdaptive::OrHash
               ),
             tool_choice: T.any(
@@ -120676,13 +121607,14 @@ module Anthropic
                   # details and options.
           cache_control: nil, # Body param: Top-level cache control automatically applies a cache_control marker
                               # to the last cacheable block in the request.
-          compaction: nil, # Body param: Compact the whole conversation and return a signed `compaction`
-                           # block, alone, that a later request sends back first in `messages`, in place of
-                           # the messages it summarizes. There is no trigger and no pause flag: sending the
-                           # parameter compacts, and nothing is sampled after the block.
-                           # The summarization prompt is the server's own unless `instructions` are given,
-                           # which then replace it for this request; a value that is empty or only whitespace
-                           # counts as absent.
+          compaction: nil, # Body param: Compaction configuration.
+                           # When set on `POST /v1/messages`, the request is a compaction request: the
+                           # conversation in `messages` is summarized and the response holds only the
+                           # resulting `compaction` block (`stop_reason` `"compaction"`), which later
+                           # requests send first in `messages` in place of the messages it summarizes.
+                           # `POST /v1/messages/count_tokens` accepts this parameter and ignores it: the
+                           # count it returns is for the conversation in `messages` as sent. Cannot be
+                           # combined with `context_management`.
           context_management: nil, # Body param: Context management configuration.
                                    # This allows you to control how Claude manages context across multiple requests,
                                    # such as whether to clear function results or not.
@@ -120693,9 +121625,8 @@ module Anthropic
                               # [structured outputs](https://platform.claude.com/docs/en/build-with-claude/structured-outputs)
                               # A schema to specify Claude's output format in responses. This parameter will be
                               # removed in a future release.
-          speed: nil, # Body param: Inference speed mode. `fast` provides significantly faster output
-                      # token generation at premium pricing. Not all models support `fast`; invalid
-                      # combinations are rejected at create time.
+          speed: nil, # Body param: The inference speed mode for this request. `"fast"` enables high
+                      # output-tokens-per-second inference.
           system_: nil, # Body param: System prompt.
                         # A system prompt is a way of providing context and instructions to Claude, such
                         # as specifying a particular goal or role. See our
@@ -120835,6 +121766,7 @@ module Anthropic
             thinking: T.any(
                 Anthropic::Beta::BetaThinkingConfigEnabled::OrHash,
                 Anthropic::Beta::BetaThinkingConfigDisabled::OrHash,
+                Anthropic::Beta::BetaThinkingConfigBetweenTools::OrHash,
                 Anthropic::Beta::BetaThinkingConfigAdaptive::OrHash
               ),
             tool_choice: T.any(
@@ -120950,19 +121882,21 @@ module Anthropic
                   # details and options.
           cache_control: nil, # Body param: Top-level cache control automatically applies a cache_control marker
                               # to the last cacheable block in the request.
-          compaction: nil, # Body param: Compact the whole conversation and return a signed `compaction`
-                           # block, alone, that a later request sends back first in `messages`, in place of
-                           # the messages it summarizes. There is no trigger and no pause flag: sending the
-                           # parameter compacts, and nothing is sampled after the block.
-                           # The summarization prompt is the server's own unless `instructions` are given,
-                           # which then replace it for this request; a value that is empty or only whitespace
-                           # counts as absent.
+          compaction: nil, # Body param: Compaction configuration.
+                           # When set on `POST /v1/messages`, the request is a compaction request: the
+                           # conversation in `messages` is summarized and the response holds only the
+                           # resulting `compaction` block (`stop_reason` `"compaction"`), which later
+                           # requests send first in `messages` in place of the messages it summarizes.
+                           # `POST /v1/messages/count_tokens` accepts this parameter and ignores it: the
+                           # count it returns is for the conversation in `messages` as sent. Cannot be
+                           # combined with `context_management`.
           container: nil, # Body param: Container identifier for reuse across requests.
           context_management: nil, # Body param: Context management configuration.
                                    # This allows you to control how Claude manages context across multiple requests,
                                    # such as whether to clear function results or not.
-          diagnostics: nil, # Body param: Request-level diagnostics. Currently carries the previous response
-                            # id for prompt-cache divergence reporting.
+          diagnostics: nil, # Body param: Request-level diagnostics. Supply `previous_message_id` to have the
+                            # response include `diagnostics.cache_miss_reason` explaining any prompt-cache
+                            # divergence from that prior request.
           fallback_credit_token: nil, # Body param: The `fallback_credit_token` from a prior refusal's `stop_details`.
                                       # When a preceding request was refused and returned a `fallback_credit_token`,
                                       # pass that code here on the retry to have the retry's cache-creation tokens for
@@ -120999,9 +121933,8 @@ module Anthropic
                              # Anthropic offers different levels of service for your API requests. See
                              # [service-tiers](https://platform.claude.com/docs/en/api/service-tiers) for
                              # details.
-          speed: nil, # Body param: Inference speed mode. `fast` provides significantly faster output
-                      # token generation at premium pricing. Not all models support `fast`; invalid
-                      # combinations are rejected at create time.
+          speed: nil, # Body param: The inference speed mode for this request. `"fast"` enables high
+                      # output-tokens-per-second inference.
           stop_sequences: nil, # Body param: Custom text sequences that will cause the model to stop generating.
                                # Our models will normally stop when they have naturally completed their turn,
                                # which will result in a response `stop_reason` of `"end_turn"`.
@@ -121165,6 +122098,7 @@ module Anthropic
             thinking: T.any(
                 Anthropic::Beta::BetaThinkingConfigEnabled::OrHash,
                 Anthropic::Beta::BetaThinkingConfigDisabled::OrHash,
+                Anthropic::Beta::BetaThinkingConfigBetweenTools::OrHash,
                 Anthropic::Beta::BetaThinkingConfigAdaptive::OrHash
               ),
             tool_choice: T.any(
@@ -121612,19 +122546,21 @@ module Anthropic
                   # details and options.
           cache_control: nil, # Body param: Top-level cache control automatically applies a cache_control marker
                               # to the last cacheable block in the request.
-          compaction: nil, # Body param: Compact the whole conversation and return a signed `compaction`
-                           # block, alone, that a later request sends back first in `messages`, in place of
-                           # the messages it summarizes. There is no trigger and no pause flag: sending the
-                           # parameter compacts, and nothing is sampled after the block.
-                           # The summarization prompt is the server's own unless `instructions` are given,
-                           # which then replace it for this request; a value that is empty or only whitespace
-                           # counts as absent.
+          compaction: nil, # Body param: Compaction configuration.
+                           # When set on `POST /v1/messages`, the request is a compaction request: the
+                           # conversation in `messages` is summarized and the response holds only the
+                           # resulting `compaction` block (`stop_reason` `"compaction"`), which later
+                           # requests send first in `messages` in place of the messages it summarizes.
+                           # `POST /v1/messages/count_tokens` accepts this parameter and ignores it: the
+                           # count it returns is for the conversation in `messages` as sent. Cannot be
+                           # combined with `context_management`.
           container: nil, # Body param: Container identifier for reuse across requests.
           context_management: nil, # Body param: Context management configuration.
                                    # This allows you to control how Claude manages context across multiple requests,
                                    # such as whether to clear function results or not.
-          diagnostics: nil, # Body param: Request-level diagnostics. Currently carries the previous response
-                            # id for prompt-cache divergence reporting.
+          diagnostics: nil, # Body param: Request-level diagnostics. Supply `previous_message_id` to have the
+                            # response include `diagnostics.cache_miss_reason` explaining any prompt-cache
+                            # divergence from that prior request.
           fallback_credit_token: nil, # Body param: The `fallback_credit_token` from a prior refusal's `stop_details`.
                                       # When a preceding request was refused and returned a `fallback_credit_token`,
                                       # pass that code here on the retry to have the retry's cache-creation tokens for
@@ -121661,9 +122597,8 @@ module Anthropic
                              # Anthropic offers different levels of service for your API requests. See
                              # [service-tiers](https://platform.claude.com/docs/en/api/service-tiers) for
                              # details.
-          speed: nil, # Body param: Inference speed mode. `fast` provides significantly faster output
-                      # token generation at premium pricing. Not all models support `fast`; invalid
-                      # combinations are rejected at create time.
+          speed: nil, # Body param: The inference speed mode for this request. `"fast"` enables high
+                      # output-tokens-per-second inference.
           stop_sequences: nil, # Body param: Custom text sequences that will cause the model to stop generating.
                                # Our models will normally stop when they have naturally completed their turn,
                                # which will result in a response `stop_reason` of `"end_turn"`.
@@ -121827,7 +122762,6 @@ module Anthropic
             top_p: Float,
             betas: T::Array[T.any(String, Anthropic::AnthropicBeta::OrSymbol)],
             stream: T.noreturn,
-            compaction_control: T.nilable(T::Boolean),
             request_options: Anthropic::RequestOptions::OrHash
           ).returns(Anthropic::Helpers::Tools::Runner)
         end
@@ -122004,7 +122938,6 @@ module Anthropic
           betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
           stream: false, # There is no need to provide `stream:`. Instead, use `#stream_raw` or `#create`
                          # for streaming and non-streaming use cases, respectively.
-          compaction_control: nil,
           request_options: {}
 ); end
 
@@ -122923,16 +123856,15 @@ module Anthropic
                                # rejected with 400.
               description: nil, # Body param: Replaces the description. Omit to leave unchanged; send `null` to
                                 # clear (the field is stored as an empty string).
-              match: nil, # Body param: Does the incoming JWT qualify?
-                          # All populated fields must pass; omitted fields are skipped. At least one of
-                          # `subject_prefix` (other than a wildcard-only value like `*`), `claims`, or
-                          # `condition` is required; `audience` alone is not sufficient.
+              match: nil, # Body param: Replaces the entire match object. All populated matcher fields must
+                          # pass.
               name: nil, # Body param: Replaces the slug identifier (lowercase, digits, hyphens). Unique
                          # within the organization; a duplicate name returns 409.
               oauth_scope: nil, # Body param: Replaces the space-separated OAuth scopes granted on minted tokens.
                                 # OAuth callers may only set `workspace:developer` or `workspace:inference`; other
                                 # scopes (such as `org:admin`) require a Console session.
-              target: nil, # Body param: Bind to a fixed service account by ID.
+              target: nil, # Body param: Replaces the entire target object. Currently always a
+                           # `service_account` target.
               token_lifetime_seconds: nil, # Body param: Replaces the lifetime in seconds for access tokens minted via this
                                            # rule (60-86400). Minted tokens are capped at
                                            # `max(60, min(this value, 2 × remaining assertion validity))` seconds.
@@ -123733,11 +124665,13 @@ module Anthropic
           end
 
           class RateLimits
-            # List rate-limit overrides configured for a workspace.
+            # List a workspace's rate limits.
             #
-            # Returns only the groups and limiter types that have a workspace-level override.
-            # Groups without overrides inherit the organization limits and are not listed; use
-            # `GET /v1/organizations/rate_limits` to see those.
+            # By default, returns only the groups and limiter types that have a
+            # workspace-level override. With `include_inherited=true`, returns every group
+            # with organization-level limits the workspace can see, listing for each the
+            # values it inherits from the organization as well as its own overrides. Each
+            # value's `source` says which it is.
             #
             # When `limit` is omitted, every matching entry is returned in a single page; when
             # `limit` truncates the result, follow `next_page` to fetch the remaining entries.
@@ -123747,6 +124681,7 @@ module Anthropic
                 group_type: T.nilable(
                     Anthropic::Beta::Organization::Workspaces::RateLimitListParams::GroupType::OrSymbol
                   ),
+                include_inherited: T::Boolean,
                 limit: T.nilable(Integer),
                 page: T.nilable(String),
                 request_options: Anthropic::RequestOptions::OrHash
@@ -123757,6 +124692,8 @@ module Anthropic
             def list(
               workspace_id, # The ID of the workspace.
               group_type: nil, # Filter by group type.
+              include_inherited: nil, # Also list the limiter values the workspace inherits from the organization,
+                                      # including groups with no workspace-level override.
               limit: nil, # Maximum number of items to return per page. Ranges from `1` to `1000`.
                           # When omitted, every remaining entry is returned in a single page and `next_page`
                           # is `null`.
@@ -123993,8 +124930,10 @@ module Anthropic
                   # specified.
           environment_id:, # Body param: ID of the `environment` defining the container configuration for
                            # this session.
-          budget: nil, # Body param: A hard spend ceiling. The session stops issuing new model requests
-                       # once the tracked list cost reaches `max_list_cost`.
+          budget: nil, # Body param: Enforced spend ceiling for the session. Omit to create an uncapped
+                       # session. Every model the session can run — the agent's model and each callable
+                       # agent's model — must have a public list price, or the request is rejected with
+                       # reason `model_not_budgetable`.
           initial_events: nil, # Body param: Initial events to send to the `session` at creation, processed in
                                # order. Supports `user.message` and `user.define_outcome` events. Maximum 50
                                # events.
@@ -124120,12 +125059,17 @@ module Anthropic
         end
         def update(
           session_id, # Path param
-          agent: nil, # Body param: Mid-session agent configuration update. Only `tools` and
-                      # `mcp_servers` are updatable. Full replacement: the provided array becomes the
-                      # new value. To preserve existing entries, GET the session, modify the array, and
-                      # POST it back.
-          budget: nil, # Body param: A hard spend ceiling. The session stops issuing new model requests
-                       # once the tracked list cost reaches `max_list_cost`.
+          agent: nil, # Body param: Agent configuration update. Only `tools` and `mcp_servers` are
+                      # updatable mid-session. Only valid for sessions created from an agent or
+                      # deployment reference. The session must not be running.
+          budget: nil, # Body param: Enforced spend ceiling for the session. Set an object to replace the
+                       # budget of a session that was created with one, or `null` to remove it; omit to
+                       # preserve. A budget cannot be added to a session created without one (rejected
+                       # with reason `budget_create_only`), and a removed budget cannot be re-added.
+                       # Allowed in any non-terminated status. Lowering `max_list_cost` to at or below
+                       # the session's consumed list cost is rejected with reason `budget_not_raised`,
+                       # and every model the session can run must have a public list price or the request
+                       # is rejected with reason `model_not_budgetable`.
           metadata: nil, # Body param: Metadata patch. Set a key to a string to upsert it, or to null to
                          # delete it. Omit the field to preserve.
           title: nil, # Body param: Human-readable session title.
@@ -124158,7 +125102,9 @@ module Anthropic
               limit: Integer,
               order: Anthropic::Beta::Sessions::EventListParams::Order::OrSymbol,
               page: String,
-              types: T::Array[String],
+              types: T::Array[
+                  Anthropic::Beta::Sessions::BetaManagedAgentsSessionEventType::OrSymbol
+                ],
               betas: T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)],
               workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
@@ -125125,11 +126071,10 @@ module Anthropic
           ).returns(Anthropic::Beta::BetaUserProfile)
         end
         def create(
-          access_type: nil, # Body param: How the platform uses the API on behalf of the entity this profile
-                            # represents. `application`: the platform sells a product that uses the API behind
-                            # the scenes, and the profile represents an individual end-user of that product.
-                            # `passthrough`: the platform resells raw inference, and the profile identifies
-                            # the resold-to company.
+          access_type: nil, # Body param: How the platform uses the API for this entity. `application`
+                            # (default): the profile represents an individual end-user of the platform's
+                            # product. `passthrough`: the profile identifies a company the platform resells
+                            # Claude access to.
           external_id: nil, # Body param: Platform's own identifier for this user. Not enforced unique.
                             # Maximum 255 characters. Accepted under the `user-profiles-2026-03-24` and
                             # `user-profiles-2026-08-18` beta headers; under `user-profiles-2026-09-04` send
@@ -125137,7 +126082,12 @@ module Anthropic
           external_user_details: nil, # Body param: Details about the entity this profile represents, as the platform
                                       # states them. Every field is optional. Accepted under the
                                       # `user-profiles-2026-09-04` beta header only.
-          external_user_onboarded_at: nil, # Body param: A timestamp in RFC 3339 format
+          external_user_onboarded_at: nil, # Body param: When the entity this profile represents opened its account with the
+                                           # platform, in RFC 3339 format: for an `application` profile, when the end-user
+                                           # signed up; for a `passthrough` profile, when the company became the platform's
+                                           # customer. Must be a complete timestamp no more than 1 minute in the future.
+                                           # Optional. Accepted under the `user-profiles-2026-08-18` beta header; under
+                                           # `user-profiles-2026-09-04` send `external_user_details.onboarded_at` instead.
           metadata: nil, # Body param: Free-form key-value data to attach to this user profile. Maximum 16
                          # keys, with keys up to 64 characters and values up to 512 characters. Values must
                          # be non-empty strings.
@@ -125244,11 +126194,8 @@ module Anthropic
         end
         def update(
           user_profile_id, # Path param: The ID of the user profile to update (`uprof_...`).
-          access_type: nil, # Body param: How the platform uses the API on behalf of the entity this profile
-                            # represents. `application`: the platform sells a product that uses the API behind
-                            # the scenes, and the profile represents an individual end-user of that product.
-                            # `passthrough`: the platform resells raw inference, and the profile identifies
-                            # the resold-to company.
+          access_type: nil, # Body param: If present, replaces the stored access type. Omit to leave
+                            # unchanged.
           external_id: nil, # Body param: If present, replaces the stored external_id. Omit to leave
                             # unchanged. Maximum 255 characters. Accepted under the `user-profiles-2026-03-24`
                             # and `user-profiles-2026-08-18` beta headers; under `user-profiles-2026-09-04`
@@ -125257,7 +126204,11 @@ module Anthropic
                                       # states them. Each field sent replaces the stored value; omit a field to leave it
                                       # unchanged. Once set, a value cannot be cleared and `null` is rejected. Accepted
                                       # under the `user-profiles-2026-09-04` beta header only.
-          external_user_onboarded_at: nil, # Body param: A timestamp in RFC 3339 format
+          external_user_onboarded_at: nil, # Body param: If present, replaces the stored account creation time. Omit to leave
+                                           # unchanged; once set, the value cannot be cleared and `null` is rejected. Must be
+                                           # a complete RFC 3339 timestamp no more than 1 minute in the future. Accepted
+                                           # under the `user-profiles-2026-08-18` beta header; under
+                                           # `user-profiles-2026-09-04` send `external_user_details.onboarded_at` instead.
           metadata: nil, # Body param: Key-value pairs to merge into the stored metadata. Keys provided
                          # overwrite existing values. To remove a key, set its value to an empty string.
                          # Keys not provided are left unchanged. Maximum 16 keys, with keys up to 64
@@ -125466,7 +126417,7 @@ module Anthropic
           end
           def create(
             vault_id, # Path param: Identifier of the vault to create the credential in.
-            auth:, # Body param: Authentication details for creating a credential.
+            auth:, # Body param: Authentication configuration for the credential.
             display_name: nil, # Body param: Human-readable name for the credential. Up to 255 characters.
             metadata: nil, # Body param: Arbitrary key-value metadata to attach to the credential. Maximum 16
                            # pairs, keys up to 64 chars, values up to 512 chars.
@@ -125595,7 +126546,8 @@ module Anthropic
           def update(
             credential_id, # Path param: Unique identifier of the credential to update.
             vault_id:, # Path param: Identifier of the vault containing the credential.
-            auth: nil, # Body param: Updated authentication details for a credential.
+            auth: nil, # Body param: Updated authentication configuration. The `type` is immutable; the
+                       # variant sent must match the stored credential's type.
             display_name: nil, # Body param: Updated human-readable name for the credential. 1-255 characters.
             metadata: nil, # Body param: Metadata patch. Set a key to a string to upsert it, or to null to
                            # delete it. Omitted keys are preserved.
@@ -125942,6 +126894,7 @@ module Anthropic
           thinking: T.any(
               Anthropic::ThinkingConfigEnabled::OrHash,
               Anthropic::ThinkingConfigDisabled::OrHash,
+              Anthropic::ThinkingConfigBetweenTools::OrHash,
               Anthropic::ThinkingConfigAdaptive::OrHash
             ),
           tool_choice: T.any(
@@ -126145,6 +127098,7 @@ module Anthropic
           model: T.any(Anthropic::Model::OrSymbol, String),
           cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash),
           container: T.nilable(T.any(Anthropic::ContainerParams::OrHash, String)),
+          diagnostics: T.nilable(Anthropic::DiagnosticsParam::OrHash),
           inference_geo: T.nilable(String),
           metadata: Anthropic::Metadata::OrHash,
           output_config: Anthropic::OutputConfig::OrHash,
@@ -126155,6 +127109,7 @@ module Anthropic
           thinking: T.any(
               Anthropic::ThinkingConfigEnabled::OrHash,
               Anthropic::ThinkingConfigDisabled::OrHash,
+              Anthropic::ThinkingConfigBetweenTools::OrHash,
               Anthropic::ThinkingConfigAdaptive::OrHash
             ),
           tool_choice: T.any(
@@ -126263,6 +127218,9 @@ module Anthropic
         cache_control: nil, # Body param: Top-level cache control automatically applies a cache_control marker
                             # to the last cacheable block in the request.
         container: nil, # Body param: Container identifier for reuse across requests.
+        diagnostics: nil, # Body param: Request-level diagnostics. Supply `previous_message_id` to have the
+                          # response include `diagnostics.cache_miss_reason` explaining any prompt-cache
+                          # divergence from that prior request.
         inference_geo: nil, # Body param: Specifies the geographic region for inference processing. If not
                             # specified, the workspace's `default_inference_geo` is used.
         metadata: nil, # Body param: An object describing metadata about the request.
@@ -126403,6 +127361,7 @@ module Anthropic
           model: T.any(Anthropic::Model::OrSymbol, String),
           cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash),
           container: T.nilable(T.any(Anthropic::ContainerParams::OrHash, String)),
+          diagnostics: T.nilable(Anthropic::DiagnosticsParam::OrHash),
           inference_geo: T.nilable(String),
           metadata: Anthropic::Metadata::OrHash,
           output_config: Anthropic::OutputConfig::OrHash,
@@ -126413,6 +127372,7 @@ module Anthropic
           thinking: T.any(
               Anthropic::ThinkingConfigEnabled::OrHash,
               Anthropic::ThinkingConfigDisabled::OrHash,
+              Anthropic::ThinkingConfigBetweenTools::OrHash,
               Anthropic::ThinkingConfigAdaptive::OrHash
             ),
           tool_choice: T.any(
@@ -126521,6 +127481,9 @@ module Anthropic
         cache_control: nil, # Body param: Top-level cache control automatically applies a cache_control marker
                             # to the last cacheable block in the request.
         container: nil, # Body param: Container identifier for reuse across requests.
+        diagnostics: nil, # Body param: Request-level diagnostics. Supply `previous_message_id` to have the
+                          # response include `diagnostics.cache_miss_reason` explaining any prompt-cache
+                          # divergence from that prior request.
         inference_geo: nil, # Body param: Specifies the geographic region for inference processing. If not
                             # specified, the workspace's `default_inference_geo` is used.
         metadata: nil, # Body param: An object describing metadata about the request.
@@ -126651,6 +127614,7 @@ module Anthropic
           model: T.any(Anthropic::Model::OrSymbol, String),
           cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash),
           container: T.nilable(T.any(Anthropic::ContainerParams::OrHash, String)),
+          diagnostics: T.nilable(Anthropic::DiagnosticsParam::OrHash),
           inference_geo: T.nilable(String),
           metadata: Anthropic::Metadata::OrHash,
           output_config: Anthropic::OutputConfig::OrHash,
@@ -126771,6 +127735,9 @@ module Anthropic
         cache_control: nil, # Body param: Top-level cache control automatically applies a cache_control marker
                             # to the last cacheable block in the request.
         container: nil, # Body param: Container identifier for reuse across requests.
+        diagnostics: nil, # Body param: Request-level diagnostics. Supply `previous_message_id` to have the
+                          # response include `diagnostics.cache_miss_reason` explaining any prompt-cache
+                          # divergence from that prior request.
         inference_geo: nil, # Body param: Specifies the geographic region for inference processing. If not
                             # specified, the workspace's `default_inference_geo` is used.
         metadata: nil, # Body param: An object describing metadata about the request.
@@ -127387,6 +128354,7 @@ module Anthropic
   ThinkingBlockParam = Anthropic::Models::ThinkingBlockParam
   ThinkingCapability = Anthropic::Models::ThinkingCapability
   ThinkingConfigAdaptive = Anthropic::Models::ThinkingConfigAdaptive
+  ThinkingConfigBetweenTools = Anthropic::Models::ThinkingConfigBetweenTools
   ThinkingConfigDisabled = Anthropic::Models::ThinkingConfigDisabled
   ThinkingConfigEnabled = Anthropic::Models::ThinkingConfigEnabled
   ThinkingConfigParam = Anthropic::Models::ThinkingConfigParam

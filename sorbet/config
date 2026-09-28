@@ -14,3 +14,6 @@
 --suppress-payload-superclass-redefinition-for=RDoc::Markup::HardBreak
 --suppress-payload-superclass-redefinition-for=RDoc::Markup::Heading
 --enable-experimental-requires-ancestor
+--suppress-payload-superclass-redefinition-for=RDoc::Markup::List
+--suppress-payload-superclass-redefinition-for=RDoc::Markup::ListItem
+--suppress-payload-superclass-redefinition-for=RDoc::Markup::Raw

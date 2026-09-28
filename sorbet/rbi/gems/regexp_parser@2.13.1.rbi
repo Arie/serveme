@@ -2288,21 +2288,21 @@ Regexp::Parser::VERSION = T.let(T.unsafe(nil), String)
 
 # pkg:gem/regexp_parser#lib/regexp_parser/scanner/errors/scanner_error.rb:5
 class Regexp::Scanner
-  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2444
+  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2485
   def capturing_group_count; end
 
-  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2444
+  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2485
   def capturing_group_count=(_arg0); end
 
   # Emits an array with the details of the scanned pattern
   #
-  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2419
+  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2460
   def emit(type, token, text); end
 
-  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2444
+  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2485
   def literal_run; end
 
-  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2444
+  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2485
   def literal_run=(_arg0); end
 
   # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:963
@@ -2313,111 +2313,111 @@ class Regexp::Scanner
   # Appends one or more characters to the literal buffer, to be emitted later
   # by a call to emit_literal.
   #
-  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2503
+  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2544
   def append_literal(source, ts, te); end
 
-  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2448
+  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2489
   def block; end
 
-  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2448
+  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2489
   def block=(_arg0); end
 
-  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2448
+  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2489
   def char_pos; end
 
-  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2448
+  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2489
   def char_pos=(_arg0); end
 
-  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2448
+  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2489
   def collect_tokens; end
 
-  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2448
+  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2489
   def collect_tokens=(_arg0); end
 
-  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2448
+  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2489
   def conditional_stack; end
 
-  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2448
+  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2489
   def conditional_stack=(_arg0); end
 
   # Ragel offsets are bytes; emitted token positions are characters.
   #
-  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2484
+  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2525
   def copy(source, ts, te); end
 
   # Emits the literal run collected by calls to the append_literal method.
   #
-  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2508
+  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2549
   def emit_literal; end
 
-  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2543
+  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2584
   def emit_meta_control_sequence(data, source, ts, te, token); end
 
-  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2514
+  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2555
   def emit_options(text); end
 
-  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2488
+  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2529
   def error_text(source, ts, position); end
 
-  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2455
+  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2496
   def extract_encoding(input_object, options); end
 
-  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2448
+  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2489
   def free_spacing; end
 
-  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2448
+  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2489
   def free_spacing=(_arg0); end
 
-  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2463
+  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2504
   def free_spacing?(input_object, options); end
 
-  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2448
+  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2489
   def group_depth; end
 
-  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2448
+  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2489
   def group_depth=(_arg0); end
 
-  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2475
+  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2516
   def in_group?; end
 
-  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2479
+  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2520
   def in_set?; end
 
-  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2448
+  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2489
   def prev_token; end
 
-  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2448
+  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2489
   def prev_token=(_arg0); end
 
-  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2448
+  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2489
   def regexp_encoding; end
 
-  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2448
+  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2489
   def regexp_encoding=(_arg0); end
 
-  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2448
+  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2489
   def set_depth; end
 
-  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2448
+  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2489
   def set_depth=(_arg0); end
 
-  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2448
+  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2489
   def spacing_stack; end
 
-  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2448
+  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2489
   def spacing_stack=(_arg0); end
 
-  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2448
+  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2489
   def tokens; end
 
-  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2448
+  # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2489
   def tokens=(_arg0); end
 
   class << self
-    # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2404
+    # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2445
     def long_prop_map; end
 
-    # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2408
+    # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2449
     def parse_prop_map(name); end
 
     # Scans the given regular expression text, or Regexp object and collects the
@@ -2432,7 +2432,7 @@ class Regexp::Scanner
 
     # lazy-load property maps when first needed
     #
-    # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2400
+    # pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2441
     def short_prop_map; end
   end
 end
@@ -2472,7 +2472,7 @@ end
 
 # Use each_with_object for required_ruby_version >= 2.2,or #to_h for >= 2.6
 #
-# pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2413
+# pkg:gem/regexp_parser#lib/regexp_parser/scanner.rb:2454
 Regexp::Scanner::POSIX_CLASSES = T.let(T.unsafe(nil), Hash)
 
 # Unexpected end of pattern
@@ -3399,7 +3399,7 @@ class Regexp::Syntax::V3_5_0 < ::Regexp::Syntax::V3_2_0; end
 class Regexp::Syntax::V4_0_0 < ::Regexp::Syntax::V3_5_0; end
 
 # pkg:gem/regexp_parser#lib/regexp_parser/syntax/version_lookup.rb:64
-Regexp::Syntax::V4_0_5 = Regexp::Syntax::V4_0_0
+Regexp::Syntax::V4_0_7 = Regexp::Syntax::V4_0_0
 
 # pkg:gem/regexp_parser#lib/regexp_parser/syntax/version_lookup.rb:6
 Regexp::Syntax::VERSION_CONST_REGEXP = T.let(T.unsafe(nil), Regexp)

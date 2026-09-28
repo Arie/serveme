@@ -25,6 +25,14 @@ RSpec.describe MapSearchService do
   end
 
   describe '#search' do
+    it 'keeps ranked matches alongside an exact match' do
+      create_maps('arena', 'arena_badlands', 'arena_lumberyard')
+      results = described_class.new('arena').search
+
+      expect(results.first).to eq('arena')
+      expect(results).to include('arena_badlands', 'arena_lumberyard')
+    end
+
     it 'returns exact matches first' do
       service = described_class.new('cp_process_f12')
       results = service.search

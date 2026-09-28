@@ -15,24 +15,18 @@ class MapSearchService
     return [] if @query.empty?
 
     maps = MapUpload.available_maps
-
-    # Exact matches
-    exact_matches = maps.select { |map| map.downcase == @query }
-    return exact_matches if exact_matches.any?
-
-    # Get all league maps for reference
     league_maps = LeagueMaps.all_league_maps
 
-    # Partial matches with ranking
-    matches = maps.map do |map|
-      score = calculate_score(map.downcase, league_maps)
-      [ map, score ]
-    end
+    # An exact match goes first but must not hide the rest: searching "arena" should
+    # still surface arena_badlands and friends, not just the map named "arena".
+    exact_matches = maps.select { |map| map.downcase == @query }
 
-    matches.select { |_, score| score > 0 }
-           .sort_by { |_, score| -score }
-           .map(&:first)
-           .first(10)
+    ranked = maps.map { |map| [ map, calculate_score(map.downcase, league_maps) ] }
+                 .select { |_, score| score > 0 }
+                 .sort_by { |_, score| -score }
+                 .map(&:first)
+
+    (exact_matches + ranked).uniq.first(10)
   end
 
   private

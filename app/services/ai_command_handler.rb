@@ -218,6 +218,7 @@ class AiCommandHandler
       pl_ (payload, use configs ending in _stopwatch)
       ctf_ (capture the flag, use configs ending in _ctf)
       pass_ (PASS time, use configs ending in _pt, or starting with pass_ or pt_)
+      arena_ (arena mode. There is no cvar that switches gamemode: tf_gamemode_arena does not exist on these servers. Change to a specific arena_ map such as arena_badlands or arena_lumberyard. There is also a map called just "arena", which is not what people mean)
 
     Regions and biggest league in each region, current region #{SITE_HOST}. Include the region's league to select the best matching maps and configs:
     - serveme.tf: etf2l

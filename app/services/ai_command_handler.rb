@@ -69,6 +69,10 @@ class AiCommandHandler
   }.freeze
 
   AVAILABLE_TOOLS = [ MAP_SEARCH_TOOL, COMMAND_SEARCH_TOOL, RESERVATION_TOOL, SUBMIT_ACTION_TOOL ].freeze
+  INTERMEDIATE_TOOLS = %w[find_maps find_server_commands modify_reservation].freeze
+  # Tool rounds before submit_server_action is forced, so a request can need a map
+  # lookup and a command lookup without having to commit after the first one.
+  MAX_TOOL_ROUNDS = 3
 
   sig { params(reservation: T.nilable(Reservation)).void }
   def initialize(reservation)
@@ -452,40 +456,44 @@ class AiCommandHandler
 
   sig { params(messages: T::Array[T.untyped]).returns(T::Hash[String, T.untyped]) }
   def call_openai_and_handle_tools(messages)
-    response = OpenaiClient.chat({
-      messages: messages,
-      tools: AVAILABLE_TOOLS,
-      tool_choice: "required"
-    })
+    rounds = 0
 
-    message = response.dig("choices", 0, "message")
+    loop do
+      force_submit = rounds >= MAX_TOOL_ROUNDS
+      response = OpenaiClient.chat({
+        messages: messages,
+        tools: AVAILABLE_TOOLS,
+        tool_choice: force_submit ? { type: "function", function: { name: "submit_server_action" } } : "required"
+      })
 
-    if message["tool_calls"]
-      tool_call = message["tool_calls"][0] # Assuming one tool call per response for now
-      function_name = tool_call.dig("function", "name")
-      arguments_json = tool_call.dig("function", "arguments")
+      message = response.dig("choices", 0, "message")
+      return handle_unexpected_content(message["content"]) if message["tool_calls"].blank? && message["content"]
+      return handle_empty_response(response) if message["tool_calls"].blank?
 
-      begin
-        arguments = JSON.parse(arguments_json)
-      rescue JSON::ParserError => e
-        return handle_argument_parse_error(function_name, arguments_json, e)
+      # The model may ask for several tools at once. Every tool_call_id in an assistant
+      # message has to get a tool message back or the next request is rejected with a 400.
+      tool_calls = message["tool_calls"]
+      parsed = tool_calls.map do |tool_call|
+        name = tool_call.dig("function", "name")
+        json = tool_call.dig("function", "arguments")
+        begin
+          [ tool_call, name, JSON.parse(json) ]
+        rescue JSON::ParserError => e
+          return handle_argument_parse_error(name, json, e, after_intermediate: rounds.positive?)
+        end
       end
 
       messages << message
 
-      case function_name
-      when "submit_server_action"
-        handle_submit_action(arguments)
-      when "find_maps", "find_server_commands", "modify_reservation"
-        handle_intermediate_tool(messages, tool_call, function_name, arguments)
-      else
-        handle_unknown_tool(function_name)
-      end
+      submit = parsed.find { |_, name, _| name == "submit_server_action" }
+      return handle_submit_action(submit[2]) if submit
+      return handle_missing_submit_tool_error(message) if force_submit
 
-    elsif message["content"]
-      handle_unexpected_content(message["content"])
-    else
-      handle_empty_response(response)
+      unknown = parsed.find { |_, name, _| !INTERMEDIATE_TOOLS.include?(name) }
+      return handle_unknown_tool(unknown[1]) if unknown
+
+      parsed.each { |tool_call, name, arguments| append_tool_result(messages, tool_call, name, arguments) }
+      rounds += 1
     end
   end
 
@@ -498,38 +506,15 @@ class AiCommandHandler
     }
   end
 
-  sig { params(messages: T::Array[T.untyped], tool_call: T.untyped, function_name: T.untyped, arguments: T.untyped).returns(T::Hash[String, T.untyped]) }
-  def handle_intermediate_tool(messages, tool_call, function_name, arguments)
-    Rails.logger.info("[AI ##{reservation.id}] Calling tool '#{function_name}' with arguments: #{arguments.inspect}")
-    tool_result_content = perform_tool_action(function_name, arguments)
-
+  sig { params(messages: T::Array[T.untyped], tool_call: T.untyped, function_name: String, arguments: T.untyped).void }
+  def append_tool_result(messages, tool_call, function_name, arguments)
+    Rails.logger.info("[AI ##{reservation&.id || 'N/A'}] Calling tool '#{function_name}' with arguments: #{arguments.inspect}")
     messages << {
       role: "tool",
       tool_call_id: tool_call["id"],
       name: function_name,
-      content: tool_result_content.to_json
+      content: perform_tool_action(function_name, arguments).to_json
     }
-
-    final_response = OpenaiClient.chat({
-      messages: messages,
-      tools: AVAILABLE_TOOLS, # Still provide all tools
-      tool_choice: { type: "function", function: { name: "submit_server_action" } } # Force the final tool
-    })
-
-    final_message = final_response.dig("choices", 0, "message")
-
-    if final_message["tool_calls"] && final_message.dig("tool_calls", 0, "function", "name") == "submit_server_action"
-      final_tool_call = final_message["tool_calls"][0]
-      final_arguments_json = final_tool_call.dig("function", "arguments")
-      begin
-        final_arguments = JSON.parse(final_arguments_json)
-        handle_submit_action(final_arguments)
-      rescue JSON::ParserError => e
-        handle_argument_parse_error("submit_server_action", final_arguments_json, e, after_intermediate: true)
-      end
-    else
-      handle_missing_submit_tool_error(final_message)
-    end
   end
 
   sig { params(function_name: T.untyped, arguments: T.untyped).returns(T::Hash[Symbol, T.untyped]) }

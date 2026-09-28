@@ -445,7 +445,7 @@ RSpec.describe AiCommandHandler do
               messages: array_including(
                 { role: "tool", tool_call_id: tool_call_id, name: "modify_reservation", content: tool_result_content.to_json }
               ),
-              tool_choice: { type: "function", function: { name: "submit_server_action" } }
+              tool_choice: "required"
             ))
             .ordered
             .and_return(final_openai_response)
@@ -722,6 +722,59 @@ RSpec.describe AiCommandHandler do
 
       saved = store.read("ai_context_history:#{reservation.id}")
       expect(saved.last).to include("request" => "rename blue team?", "command" => nil, "success" => false)
+    end
+  end
+
+  describe 'multi-step tool use' do
+    before do
+      allow(server).to receive(:rcon_exec).and_return("")
+      allow(server).to receive(:rcon_say)
+      allow(MapSearchService).to receive(:new).and_return(instance_double(MapSearchService, search: [ "cp_process_f12" ]))
+    end
+
+    it 'allows a map lookup and a command lookup before submitting' do
+      allow(OpenaiClient).to receive(:chat).and_return(
+        build_openai_tool_request_response("find_maps", { query: "process" }, "c1"),
+        build_openai_tool_request_response("find_server_commands", { query: "mp_winlimit" }, "c2"),
+        build_openai_submit_response({ command: "changelevel cp_process_f12", response: "Changing map.", success: true }, "c3")
+      )
+
+      result = handler.process_request("put process on with the right winlimit")
+
+      expect(OpenaiClient).to have_received(:chat).exactly(3).times
+      expect(result["command"]).to eq("changelevel cp_process_f12")
+    end
+
+    it 'answers every tool_call_id when the model asks for several tools at once' do
+      parallel = build_openai_tool_request_response("find_maps", { query: "gully" }, "call_a")
+      parallel["choices"][0]["message"]["tool_calls"] << {
+        "id" => "call_b",
+        "type" => "function",
+        "function" => { "name" => "find_server_commands", "arguments" => { query: "mp_winlimit" }.to_json }
+      }
+      responses = [ parallel, build_openai_submit_response({ command: "changelevel cp_gullywash_f9", response: "Done.", success: true }, "c2") ]
+      calls = []
+      allow(OpenaiClient).to receive(:chat) { |params| calls << params; responses.shift }
+
+      handler.process_request("change the map to gully and set winlimit 5")
+
+      # OpenAI rejects the follow-up with a 400 unless both ids get a tool message back.
+      answered = calls.last[:messages].select { |m| m[:role] == "tool" }.map { |m| m[:tool_call_id] }
+      expect(answered).to contain_exactly("call_a", "call_b")
+    end
+
+    it 'forces submit_server_action once MAX_TOOL_ROUNDS lookups have happened' do
+      looping = build_openai_tool_request_response("find_maps", { query: "process" }, "c1")
+      allow(OpenaiClient).to receive(:chat).and_return(
+        looping, looping, looping,
+        build_openai_submit_response({ command: nil, response: "I need more to go on.", success: false }, "c4")
+      )
+
+      handler.process_request("something that keeps searching")
+
+      expect(OpenaiClient).to have_received(:chat)
+        .with(hash_including(tool_choice: { type: "function", function: { name: "submit_server_action" } })).once
+      expect(OpenaiClient).to have_received(:chat).exactly(described_class::MAX_TOOL_ROUNDS + 1).times
     end
   end
 

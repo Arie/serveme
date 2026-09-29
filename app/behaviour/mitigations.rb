@@ -22,7 +22,7 @@ module Mitigations
         #{iptables} -A #{chain_name} -t raw -j DROP;
         #{iptables} -C PREROUTING -t raw -p udp --destination-port #{server.port} -j #{chain_name} || #{iptables} -A PREROUTING -t raw -p udp --destination-port #{server.port} -j #{chain_name};
         #{iptables} -C PREROUTING -t raw -p tcp --destination-port #{server.port} -j #{chain_name} || #{iptables} -A PREROUTING -t raw -p tcp --destination-port #{server.port} -j #{chain_name};
-        #{iptables} -I #{chain_name} 1 -t raw -s direct.#{SITE_HOST} -j ACCEPT -m comment --comment "#{chain_name}-system"
+        #{iptables} -I #{chain_name} 1 -t raw -s #{DIRECT_HOST} -j ACCEPT -m comment --comment "#{chain_name}-system"
       ), log_stderr: false
     )
   end

@@ -60,9 +60,20 @@ class MapUpload < ActiveRecord::Base
     end
   end
 
+  # A LAN install has no bucket of its own; its servers download maps from
+  # the public fastdl, so it offers serveme.tf's map list.
+  sig { returns(T::Array[T::Hash[Symbol, T.untyped]]) }
+  def self.upstream_bucket_objects
+    response = Faraday.get("https://serveme.tf/api/maps.json")
+    JSON.parse(response.body).fetch("maps").map do |map_name|
+      { key: "maps/#{map_name}.bsp", map_name: map_name, size: 0, uploader: nil, upload_date: nil }
+    end
+  end
+
   sig { returns(T::Array[T::Hash[Symbol, T.untyped]]) }
   def self.fetch_bucket_objects
     return fake_bucket_objects if Rails.env.development?
+    return upstream_bucket_objects if LAN_MODE
     return [] unless ActiveStorage::Blob.service.respond_to?(:bucket)
 
     # Fetch all map uploads with their users in a single query

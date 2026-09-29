@@ -58,7 +58,8 @@ class CloudServer < RemoteServer
 
   sig { returns(T::Boolean) }
   def supports_mitigations?
-    true
+    # The firewall rules drop unknown UDP, which on a LAN only locks players out.
+    !LAN_MODE
   end
 
   sig { override.returns(T::Boolean) }

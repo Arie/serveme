@@ -17,6 +17,9 @@ Competitive TF2 servers worldwide in 60 seconds or less
   [geocoder initializer](https://github.com/alexreisner/geocoder)
 * Ripgrep installed
 
+## Running it at a LAN party
+`script/lan-quickstart` runs the website and the TF2 servers on one machine with Docker. See [docs/lan-party.md](docs/lan-party.md).
+
 ## Running locally
 1. Make sure you've installed the requirements.
 2. Review the yaml files in the `config` directory.

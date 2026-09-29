@@ -464,7 +464,7 @@ class Reservation < ActiveRecord::Base
 
     return T.must(user&.reservation_players&.last&.ip) if user&.reservation_players&.last&.ip
 
-    "direct.#{SITE_HOST}"
+    DIRECT_HOST
   end
 
   sig { returns(String) }

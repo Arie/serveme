@@ -50,3 +50,7 @@ discord_bot/config.yml
 # Impeccable local state (consent flag, per-session hook cache)
 /.impeccable/config.local.json
 /.impeccable/hook.cache.json
+
+# LAN quickstart settings and SSH key (script/lan-quickstart)
+/.env.lan
+/lan/

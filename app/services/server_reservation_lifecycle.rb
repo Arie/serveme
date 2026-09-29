@@ -45,7 +45,7 @@ class ServerReservationLifecycle
       reservation.status_update("Restarted server, waiting to boot")
     else
       reservation.status_update("Attempting fast start")
-      if @server.rcon_exec("removeip 1; removeip 1; removeip 1; sv_logsecret #{reservation.logsecret}; logaddress_add direct.#{SITE_HOST}:40001; servercfgfile reservation.cfg", allow_blocked: true)
+      if @server.rcon_exec("removeip 1; removeip 1; removeip 1; sv_logsecret #{reservation.logsecret}; logaddress_add #{LOG_ADDRESS}; servercfgfile reservation.cfg", allow_blocked: true)
         first_map = reservation.first_map.presence || "ctf_turbine"
         @server.rcon_exec("changelevel #{first_map}; exec reservation.cfg")
         reservation.status_update("Fast start attempted, waiting to boot")

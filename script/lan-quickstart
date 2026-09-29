@@ -1,0 +1,227 @@
+#!/usr/bin/env bash
+# Runs serveme on one machine for a LAN party: the website on
+# http://<LAN IP>:3000 and up to MAX_CONTAINERS TF2 servers in Docker.
+#
+#   script/lan-quickstart                 set up (first run) and start
+#   script/lan-quickstart admin <id64>    make a SteamID64 an admin
+#   script/lan-quickstart stop            stop everything, keep the data
+#   script/lan-quickstart logs            follow the website/worker logs
+#
+# Settings are asked for on the first run and saved in .env.lan. They can be
+# passed as environment variables instead: STEAM_API_KEY, LAN_IP,
+# ADMIN_STEAM_UID, MAX_CONTAINERS, WEB_PORT.
+set -euo pipefail
+
+cd "$(dirname "$0")/.."
+
+TF2_IMAGE="serveme/tf2-cloud-server:latest"
+ENV_FILE=".env.lan"
+SSH_DIR="lan/ssh"
+
+say() { printf '\n\033[1m==> %s\033[0m\n' "$*"; }
+die() { printf '\033[31mError: %s\033[0m\n' "$*" >&2; exit 1; }
+compose() { docker compose --env-file "$ENV_FILE" "$@"; }
+env_value() { grep -E "^$1=" "$ENV_FILE" 2>/dev/null | tail -n1 | cut -d= -f2-; }
+# Prints the answer, or nothing when there's no terminal to ask on.
+ask() { local answer=""; read -r -p "$1" answer || true; printf '%s' "$answer"; }
+as_root() { if [ "$(id -u)" -eq 0 ]; then "$@"; else sudo "$@"; fi; }
+
+check_requirements() {
+  command -v docker >/dev/null || die "Docker is not installed, see https://docs.docker.com/engine/install/"
+  docker compose version >/dev/null 2>&1 || die "The Docker Compose plugin is not installed"
+  docker info >/dev/null 2>&1 || die "Can't talk to Docker. Add yourself to the docker group (sudo usermod -aG docker $USER) and log in again"
+  command -v ssh-keygen >/dev/null || die "ssh-keygen is missing, install openssh-client"
+  command -v openssl >/dev/null || die "openssl is missing"
+}
+
+detect_lan_ip() {
+  ip -4 route get 1.1.1.1 2>/dev/null | awk '{for (i = 1; i < NF; i++) if ($i == "src") print $(i + 1)}'
+}
+
+write_env_file() {
+  [ -f "$ENV_FILE" ] && return
+
+  say "First run, a few questions"
+  local lan_ip steam_api_key admin_uid max_containers answer
+  lan_ip="${LAN_IP:-}"
+  if [ -z "$lan_ip" ]; then
+    lan_ip="$(detect_lan_ip)"
+    answer="$(ask "LAN IP players connect to [$lan_ip]: ")"
+    lan_ip="${answer:-$lan_ip}"
+  fi
+  [ -n "$lan_ip" ] || die "No LAN IP"
+
+  steam_api_key="${STEAM_API_KEY:-}"
+  if [ -z "$steam_api_key" ]; then
+    echo "Steam login needs a Steam Web API key. Get one at https://steamcommunity.com/dev/apikey"
+    echo "(the domain you fill in there doesn't matter)."
+    steam_api_key="$(ask "Steam Web API key: ")"
+  fi
+  [[ "$steam_api_key" =~ ^[0-9A-Fa-f]{32}$ ]] || die "That's not a Steam Web API key, those are 32 hexadecimal characters"
+
+  admin_uid="${ADMIN_STEAM_UID-}"
+  if [ -z "${ADMIN_STEAM_UID+set}" ]; then
+    admin_uid="$(ask "Your SteamID64 to make you admin (7656..., empty to skip): ")"
+  fi
+
+  max_containers="${MAX_CONTAINERS:-}"
+  if [ -z "$max_containers" ]; then
+    local suggested
+    suggested=$(( $(awk '/MemTotal/ {print int($2 / 1024 / 1024)}' /proc/meminfo) / 2 ))
+    [ "$suggested" -ge 1 ] || suggested=1
+    answer="$(ask "How many TF2 servers at most (they use ~1.5 GB RAM each) [$suggested]: ")"
+    max_containers="${answer:-$suggested}"
+  fi
+
+  local web_port="${WEB_PORT:-3000}"
+  umask 077
+  cat > "$ENV_FILE" <<EOF
+LAN_IP=$lan_ip
+WEB_PORT=$web_port
+SITE_HOST=$lan_ip
+SITE_URL=http://$lan_ip:$web_port
+DIRECT_HOST=$lan_ip
+CLOUD_CALLBACK_HOST=$lan_ip:$web_port
+STEAM_API_KEY=$steam_api_key
+SECRET_KEY_BASE=$(openssl rand -hex 64)
+POSTGRES_PASSWORD=$(openssl rand -hex 16)
+DOCKER_SSH_USER=$(id -un)
+MAX_CONTAINERS=$max_containers
+ADMIN_STEAM_UID=$admin_uid
+EOF
+  umask 022
+  echo "Saved settings in $ENV_FILE"
+}
+
+# The website starts the game servers over SSH to this machine, the same way
+# it drives the docker hosts in production.
+setup_ssh() {
+  mkdir -p "$SSH_DIR"
+  if [ ! -f "$SSH_DIR/id_ed25519.pub" ]; then
+    say "Creating the SSH key the website uses to start game servers"
+    ssh-keygen -q -t ed25519 -N "" -C "serveme-lan" -f "$SSH_DIR/id_ed25519"
+  fi
+
+  local pubkey
+  pubkey="$(cat "$SSH_DIR/id_ed25519.pub")"
+  mkdir -p ~/.ssh && chmod 700 ~/.ssh
+  touch ~/.ssh/authorized_keys && chmod 600 ~/.ssh/authorized_keys
+  grep -qxF "$pubkey" ~/.ssh/authorized_keys || echo "$pubkey" >> ~/.ssh/authorized_keys
+
+  if ! (command -v sshd >/dev/null || [ -x /usr/sbin/sshd ]); then
+    die "No SSH server on this machine. Install it (e.g. sudo apt install openssh-server) and run this again"
+  fi
+}
+
+install_seccomp_profile() {
+  # The game server containers need a few syscalls Docker's default profile blocks.
+  if ! cmp -s config/docker/seccomp-tf2.json /etc/docker/seccomp-tf2.json; then
+    say "Installing the TF2 seccomp profile in /etc/docker (needs sudo)"
+    as_root mkdir -p /etc/docker
+    as_root install -m 0644 config/docker/seccomp-tf2.json /etc/docker/seccomp-tf2.json
+  fi
+}
+
+# Player and server locations come from a MaxMind-format city database.
+# DB-IP's free City Lite (CC BY 4.0, https://db-ip.com) needs no account; put
+# a MaxMind GeoLite2-City.mmdb in lan/ instead if you have one.
+download_geoip() {
+  [ -s lan/GeoLite2-City.mmdb ] && return
+  say "Downloading the DB-IP City Lite geolocation database"
+  local month
+  for month in "$(date -u +%Y-%m)" "$(date -u -d '-1 month' +%Y-%m)"; do
+    if curl -fsSL "https://download.db-ip.com/free/dbip-city-lite-$month.mmdb.gz" | gunzip > lan/GeoLite2-City.mmdb.tmp; then
+      mv lan/GeoLite2-City.mmdb.tmp lan/GeoLite2-City.mmdb
+      return
+    fi
+  done
+  rm -f lan/GeoLite2-City.mmdb.tmp
+  die "Couldn't download the DB-IP City Lite database"
+}
+
+build_image() {
+  if [ -n "$(env_value SERVEME_IMAGE)" ] || [ -n "${SERVEME_IMAGE:-}" ]; then
+    compose pull web
+  else
+    say "Building the serveme image (takes a few minutes the first time)"
+    compose build web
+  fi
+}
+
+pull_tf2_image() {
+  if ! docker image inspect "$TF2_IMAGE" >/dev/null 2>&1; then
+    say "Downloading the TF2 server image (~15 GB, this takes a while)"
+  fi
+  docker pull "$TF2_IMAGE"
+}
+
+prepare_app() {
+  say "Preparing the database"
+  compose up -d --wait db redis
+  # The volumes and the SSH key have to belong to the rails user in the image.
+  compose run --rm --no-deps --user root --entrypoint "" web \
+    chown -R 1000:1000 /rails/server_logs /rails/log /rails/public/uploads /rails/storage /rails/tmp/maps /home/rails/.ssh
+  compose run --rm --no-deps web bin/rails db:prepare db:seed lan:setup
+
+  say "Checking the website can SSH into this machine"
+  compose run --rm --no-deps --entrypoint "" web \
+    ssh -o BatchMode=yes -o StrictHostKeyChecking=accept-new -o ConnectTimeout=5 \
+    "$(env_value DOCKER_SSH_USER)@$(env_value LAN_IP)" docker version --format '{{.Server.Version}}' >/dev/null \
+    || die "SSH to $(env_value DOCKER_SSH_USER)@$(env_value LAN_IP) with $SSH_DIR/id_ed25519 failed, or that user can't run docker"
+
+  local admin_uid
+  admin_uid="$(env_value ADMIN_STEAM_UID)"
+  [ -n "$admin_uid" ] && make_admin "$admin_uid"
+  return 0
+}
+
+make_admin() {
+  compose run --rm --no-deps web bin/rails lan:admin STEAM_UID="$1"
+}
+
+start() {
+  say "Starting serveme"
+  compose up -d --no-build
+  local url
+  url="http://$(env_value LAN_IP):$(env_value WEB_PORT)"
+  cat <<EOF
+
+serveme is running at $url
+
+Players log in with Steam there and reserve a server. The machine needs
+these ports reachable from the LAN:
+  $(env_value WEB_PORT)/tcp            website
+  27015-$((27015 + 10 * $(env_value MAX_CONTAINERS) - 1))/tcp+udp  game servers and SourceTV
+  39001/udp            game server logs (only from this machine)
+
+Make someone an admin:  script/lan-quickstart admin <SteamID64>
+Stop:                   script/lan-quickstart stop
+EOF
+}
+
+case "${1:-}" in
+  "")
+    check_requirements
+    write_env_file
+    setup_ssh
+    install_seccomp_profile
+    download_geoip
+    build_image
+    pull_tf2_image
+    prepare_app
+    start
+    ;;
+  admin)
+    [ -n "${2:-}" ] || die "Usage: script/lan-quickstart admin <SteamID64>"
+    make_admin "$2"
+    ;;
+  stop)
+    compose down
+    ;;
+  logs)
+    compose logs -f web sidekiq
+    ;;
+  *)
+    die "Unknown command $1, see the top of $0"
+    ;;
+esac

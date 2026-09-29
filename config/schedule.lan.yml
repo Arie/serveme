@@ -1,0 +1,37 @@
+# Loaded instead of schedule.yml when SERVEME_LAN is set. Leaves out the jobs
+# that need serveme.tf infrastructure: donations, SeaweedFS zip uploads,
+# private servers and cloud VM providers.
+clean_up_tz:
+  cron: "0 5 * * *"
+  class: "CleanupWorker"
+  queue: default
+
+minutely_tz:
+  cron: "* * * * *"
+  class: "CronWorker"
+  queue: priority
+
+server_updates_tz:
+  cron: "* * * * *"
+  class: "ServerVersionWorker"
+  queue: default
+
+available_maps_tz:
+  cron: "*/10 * * * *"
+  class: "AvailableMapsWorker"
+  queue: default
+
+league_maps_sync_tz:
+  cron: "0 * * * *"
+  class: "LeagueMapsSyncWorker"
+  queue: default
+
+docker_image_poll_tz:
+  cron: "*/5 * * * *"
+  class: "DockerImagePollWorker"
+  queue: default
+
+cloud_server_cleanup_tz:
+  cron: "*/10 * * * *"
+  class: "CloudServerCleanupWorker"
+  queue: default

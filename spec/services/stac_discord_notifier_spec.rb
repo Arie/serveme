@@ -100,5 +100,12 @@ RSpec.describe StacDiscordNotifier do
       expect(Net::HTTP).not_to receive(:new)
       notifier.notify(filtered_detections)
     end
+
+    it 'does nothing without a webhook url' do
+      allow(Rails.application.credentials).to receive(:dig).and_call_original
+      allow(Rails.application.credentials).to receive(:dig).with(:discord, :stac_webhook_url).and_return(nil)
+      expect(Net::HTTP).not_to receive(:new)
+      notifier.notify(detections)
+    end
   end
 end

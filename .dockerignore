@@ -80,3 +80,6 @@
 
 # Discord bot ships as a Kamal role using the same image (per-region).
 # Bot needs discord_bot/bot.rb + discord_bot/lib/, so don't ignore.
+
+# LAN quickstart SSH key
+/lan/

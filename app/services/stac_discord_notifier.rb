@@ -57,7 +57,10 @@ class StacDiscordNotifier
 
   sig { params(payload: T::Hash[Symbol, T.untyped]).returns(T.untyped) }
   def send_to_discord(payload)
-    uri = URI.parse(Rails.application.credentials.discord[:stac_webhook_url])
+    webhook_url = Rails.application.credentials.dig(:discord, :stac_webhook_url)
+    return if webhook_url.blank?
+
+    uri = URI.parse(webhook_url)
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
 

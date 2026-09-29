@@ -72,5 +72,5 @@ Serveme::Application.configure do
     }
   end
 
-  config.active_storage.service = :cloudflare
+  config.active_storage.service = ENV.fetch("ACTIVE_STORAGE_SERVICE", "cloudflare").to_sym
 end

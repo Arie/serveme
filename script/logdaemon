@@ -129,7 +129,7 @@ socket = if listen_fds > 0 && listen_pid == Process.pid
            UDPSocket.for_fd(3)
 else
            require 'optparse'
-           opts_h = { ip: '0.0.0.0', port: 40001 }
+           opts_h = { ip: '0.0.0.0', port: ENV.fetch('LOG_PORT', 40001).to_i }
            OptionParser.new do |opts|
              opts.banner = "Usage: #{$PROGRAM_NAME} [options]"
              opts.on('-i', '--ip IP', 'IP to bind to') { |ip| opts_h[:ip] = ip }

@@ -8,7 +8,7 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 #
-unless Server.all.any?
+unless Server.all.any? || LAN_MODE
   fb1 = { name: 'FakkelBrigade #1',
           path: '/home/tf2/tf2-1',
           ip: 'fakkelbrigade.eu',

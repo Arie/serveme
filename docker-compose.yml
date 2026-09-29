@@ -1,41 +1,86 @@
+# serveme for a LAN party: one machine runs the website and the TF2 servers.
+# Don't start this by hand, run script/lan-quickstart. It writes .env.lan,
+# the SSH key in lan/ssh and prepares the database.
+#
+# The app containers use host networking. The logdaemon has to receive the
+# servers' UDP logs on the LAN IP, and rcon/SSH to the game servers comes from
+# the host's own address, like on the production hosts.
+
+x-app: &app
+  image: ${SERVEME_IMAGE:-serveme-lan:latest}
+  build: .
+  restart: unless-stopped
+  network_mode: host
+  env_file: .env.lan
+  environment:
+    RAILS_ENV: production
+    RAILS_LOG_TO_STDOUT: "1"
+    SERVEME_LAN: "1"
+    # Not 40001: on this machine that's the first TF2 server's client port.
+    LOG_PORT: "39001"
+    ACTIVE_STORAGE_SERVICE: local
+    MAPS_DIR: /rails/tmp/maps
+    DATABASE_URL: postgres://serveme:${POSTGRES_PASSWORD}@127.0.0.1:${POSTGRES_PORT:-55432}/serveme_production
+    REDIS_URL: redis://127.0.0.1:${REDIS_PORT:-56379}/0
+  volumes:
+    - server_logs:/rails/server_logs
+    - logs:/rails/log
+    - uploads:/rails/public/uploads
+    - storage:/rails/storage
+    - maps:/rails/tmp/maps
+    - ./lan/ssh:/home/rails/.ssh
+    - ./lan/ssh/id_ed25519:/rails/tmp/cloud_ssh_key:ro
+    - ./lan/GeoLite2-City.mmdb:/rails/doc/GeoLite2-City.mmdb:ro
+  depends_on:
+    db:
+      condition: service_healthy
+    redis:
+      condition: service_started
+
 services:
   db:
     image: postgres:18
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
     environment:
-      POSTGRES_PASSWORD: password
-      POSTGRES_USER: postgres
+      POSTGRES_USER: serveme
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: serveme_production
     ports:
-      - "5435:5432"
+      - "127.0.0.1:${POSTGRES_PORT:-55432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "serveme", "-d", "serveme_production"]
+      interval: 2s
+      timeout: 5s
+      retries: 30
 
   redis:
     image: redis:8
+    restart: unless-stopped
     ports:
-      - "6380:6379"
+      - "127.0.0.1:${REDIS_PORT:-56379}:6379"
     volumes:
       - redis_data:/data
 
   web:
-    build:
-      context: .
-      args:
-        RUBY_VERSION: 3.4.1
-    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
-    volumes:
-      - .:/app
-      - bundle_cache:/usr/local/bundle
-    ports:
-      - "3000:3000"
-    depends_on:
-      - db
-      - redis
-    environment:
-      RAILS_ENV: production
-      DATABASE_URL: postgres://postgres:password@db:5435/serveme_production
-      REDIS_URL: redis://redis:6380/1
+    <<: *app
+    command: bin/rails server -b 0.0.0.0 -p ${WEB_PORT:-3000}
+
+  sidekiq:
+    <<: *app
+    command: bundle exec sidekiq -c 10
+
+  # Receives the game servers' logs on UDP LOG_PORT.
+  logdaemon:
+    <<: *app
+    command: bundle exec ruby script/logdaemon
 
 volumes:
   postgres_data:
   redis_data:
-  bundle_cache:
+  server_logs:
+  logs:
+  uploads:
+  storage:
+  maps:

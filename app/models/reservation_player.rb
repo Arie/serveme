@@ -205,6 +205,8 @@ class ReservationPlayer < ActiveRecord::Base
 
   sig { params(steam_uid: Integer).returns(T::Boolean) }
   def self.sdr_eligible_steam_profile?(steam_uid)
+    # A LAN install has no player history, and SDR is how remote friends join it.
+    return true if LAN_MODE
     return true if longtime_serveme_player?(steam_uid)
 
     has_connected_with_normal_ip_recently?(steam_uid) || has_logged_in_with_normal_ip_recently?(steam_uid)

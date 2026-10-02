@@ -5187,7 +5187,7 @@ class Spoom::Sorbet::Metrics::CodeMetricsVisitor < ::Spoom::Visitor
 
   # @override
   #
-  # pkg:gem/spoom#lib/spoom/sorbet/metrics/code_metrics_visitor.rb:131
+  # pkg:gem/spoom#lib/spoom/sorbet/metrics/code_metrics_visitor.rb:135
   sig { override.params(node: ::Prism::CallNode).void }
   def visit_call_node(node); end
 
@@ -5199,37 +5199,37 @@ class Spoom::Sorbet::Metrics::CodeMetricsVisitor < ::Spoom::Visitor
 
   # @override
   #
-  # pkg:gem/spoom#lib/spoom/sorbet/metrics/code_metrics_visitor.rb:106
+  # pkg:gem/spoom#lib/spoom/sorbet/metrics/code_metrics_visitor.rb:110
   sig { override.params(node: ::Prism::DefNode).void }
   def visit_def_node(node); end
 
   # @override
   #
-  # pkg:gem/spoom#lib/spoom/sorbet/metrics/code_metrics_visitor.rb:90
+  # pkg:gem/spoom#lib/spoom/sorbet/metrics/code_metrics_visitor.rb:94
   sig { override.params(node: ::Prism::ModuleNode).void }
   def visit_module_node(node); end
 
   # @override
   #
-  # pkg:gem/spoom#lib/spoom/sorbet/metrics/code_metrics_visitor.rb:98
+  # pkg:gem/spoom#lib/spoom/sorbet/metrics/code_metrics_visitor.rb:102
   sig { override.params(node: ::Prism::SingletonClassNode).void }
   def visit_singleton_class_node(node); end
 
   private
 
-  # pkg:gem/spoom#lib/spoom/sorbet/metrics/code_metrics_visitor.rb:220
+  # pkg:gem/spoom#lib/spoom/sorbet/metrics/code_metrics_visitor.rb:224
   sig { returns(T::Array[::Prism::CallNode]) }
   def collect_last_srb_sigs; end
 
-  # pkg:gem/spoom#lib/spoom/sorbet/metrics/code_metrics_visitor.rb:227
+  # pkg:gem/spoom#lib/spoom/sorbet/metrics/code_metrics_visitor.rb:231
   sig { params(node: T.any(::Prism::ClassNode, ::Prism::ModuleNode, ::Prism::SingletonClassNode)).returns(::String) }
   def node_key(node); end
 
-  # pkg:gem/spoom#lib/spoom/sorbet/metrics/code_metrics_visitor.rb:174
+  # pkg:gem/spoom#lib/spoom/sorbet/metrics/code_metrics_visitor.rb:178
   sig { params(node: ::Prism::CallNode).void }
   def visit_attr_accessor(node); end
 
-  # pkg:gem/spoom#lib/spoom/sorbet/metrics/code_metrics_visitor.rb:158
+  # pkg:gem/spoom#lib/spoom/sorbet/metrics/code_metrics_visitor.rb:162
   sig do
     params(
       node: T.any(::Prism::ClassNode, ::Prism::ModuleNode, ::Prism::SingletonClassNode),
@@ -5238,11 +5238,11 @@ class Spoom::Sorbet::Metrics::CodeMetricsVisitor < ::Spoom::Visitor
   end
   def visit_scope(node, &block); end
 
-  # pkg:gem/spoom#lib/spoom/sorbet/metrics/code_metrics_visitor.rb:194
+  # pkg:gem/spoom#lib/spoom/sorbet/metrics/code_metrics_visitor.rb:198
   sig { params(node: ::Prism::CallNode).void }
   def visit_sig(node); end
 
-  # pkg:gem/spoom#lib/spoom/sorbet/metrics/code_metrics_visitor.rb:204
+  # pkg:gem/spoom#lib/spoom/sorbet/metrics/code_metrics_visitor.rb:208
   sig { params(node: ::Prism::CallNode).void }
   def visit_type_member(node); end
 end

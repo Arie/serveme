@@ -14,18 +14,6 @@
 # Copyright The OpenTelemetry Authors
 #
 # SPDX-License-Identifier: Apache-2.0
-# Copyright The OpenTelemetry Authors
-#
-# SPDX-License-Identifier: Apache-2.0
-# Copyright The OpenTelemetry Authors
-#
-# SPDX-License-Identifier: Apache-2.0
-# Copyright The OpenTelemetry Authors
-#
-# SPDX-License-Identifier: Apache-2.0
-# Copyright The OpenTelemetry Authors
-#
-# SPDX-License-Identifier: Apache-2.0
 #
 # pkg:gem/opentelemetry-common#lib/opentelemetry/common/http.rb:7
 module OpenTelemetry; end
@@ -165,7 +153,7 @@ module OpenTelemetry::Common::Utilities
   #
   # @return [String] the cleansed URL.
   #
-  # pkg:gem/opentelemetry-common#lib/opentelemetry/common/utilities.rb:124
+  # pkg:gem/opentelemetry-common#lib/opentelemetry/common/utilities.rb:129
   def cleanse_url(url); end
 
   # Returns the first non nil environment variable requested,
@@ -177,7 +165,7 @@ module OpenTelemetry::Common::Utilities
   #
   # @return [String]
   #
-  # pkg:gem/opentelemetry-common#lib/opentelemetry/common/utilities.rb:141
+  # pkg:gem/opentelemetry-common#lib/opentelemetry/common/utilities.rb:146
   def config_opt(*env_vars, default: T.unsafe(nil)); end
 
   # Returns nil if timeout is nil, 0 if timeout has expired,
@@ -217,10 +205,10 @@ module OpenTelemetry::Common::Utilities
   #
   # @return [String]
   #
-  # pkg:gem/opentelemetry-common#lib/opentelemetry/common/utilities.rb:84
+  # pkg:gem/opentelemetry-common#lib/opentelemetry/common/utilities.rb:89
   def truncate(string, size); end
 
-  # pkg:gem/opentelemetry-common#lib/opentelemetry/common/utilities.rb:88
+  # pkg:gem/opentelemetry-common#lib/opentelemetry/common/utilities.rb:93
   def truncate_attribute_value(value, limit); end
 
   # Disables tracing within the provided block
@@ -229,28 +217,28 @@ module OpenTelemetry::Common::Utilities
   #
   # @param [optional Context] context Accepts an explicit context, defaults to current
   #
-  # pkg:gem/opentelemetry-common#lib/opentelemetry/common/utilities.rb:104
+  # pkg:gem/opentelemetry-common#lib/opentelemetry/common/utilities.rb:109
   def untraced(context = T.unsafe(nil)); end
 
   # Detects whether the current context has been set to disable tracing.
   #
-  # pkg:gem/opentelemetry-common#lib/opentelemetry/common/utilities.rb:114
+  # pkg:gem/opentelemetry-common#lib/opentelemetry/common/utilities.rb:119
   def untraced?(context = T.unsafe(nil)); end
 
   # Encodes a string in utf8
   #
   # @param [String] string The string to be utf8 encoded
   # @param [optional boolean] binary This option is for displaying binary data
-  # @param [optional String] placeholder The fallback string to be used if encoding fails
+  # @param [String, nil] placeholder The fallback value to be used if encoding fails
   #
-  # @return [String]
+  # @return [String, nil]
   #
   # pkg:gem/opentelemetry-common#lib/opentelemetry/common/utilities.rb:60
   def utf8_encode(string, binary: T.unsafe(nil), placeholder: T.unsafe(nil)); end
 
   # Returns true if exporter is a valid exporter.
   #
-  # pkg:gem/opentelemetry-common#lib/opentelemetry/common/utilities.rb:160
+  # pkg:gem/opentelemetry-common#lib/opentelemetry/common/utilities.rb:165
   def valid_exporter?(exporter); end
 
   # Returns a true if the provided url is valid
@@ -259,7 +247,7 @@ module OpenTelemetry::Common::Utilities
   #
   # @return [boolean]
   #
-  # pkg:gem/opentelemetry-common#lib/opentelemetry/common/utilities.rb:150
+  # pkg:gem/opentelemetry-common#lib/opentelemetry/common/utilities.rb:155
   def valid_url?(url); end
 end
 

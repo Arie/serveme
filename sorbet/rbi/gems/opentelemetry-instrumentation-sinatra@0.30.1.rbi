@@ -52,7 +52,7 @@ end
 # pkg:gem/opentelemetry-instrumentation-sinatra#lib/opentelemetry/instrumentation/sinatra/extensions/tracer_extension.rb:17
 module OpenTelemetry::Instrumentation::Sinatra::Extensions::TracerExtension::RenderPatches
   # pkg:gem/opentelemetry-instrumentation-sinatra#lib/opentelemetry/instrumentation/sinatra/extensions/tracer_extension.rb:18
-  def render(_engine, data, *_arg2); end
+  def render(_engine, data, *); end
 end
 
 # The {OpenTelemetry::Instrumentation::Sinatra::Instrumentation} class contains logic to detect and install the Sinatra instrumentation

@@ -15,15 +15,15 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 #
-# pkg:gem/opentelemetry-instrumentation-all#lib/opentelemetry/instrumentation/all.rb:58
+# pkg:gem/opentelemetry-instrumentation-all#lib/opentelemetry/instrumentation/all.rb:60
 module OpenTelemetry; end
 
-# pkg:gem/opentelemetry-instrumentation-all#lib/opentelemetry/instrumentation/all.rb:59
+# pkg:gem/opentelemetry-instrumentation-all#lib/opentelemetry/instrumentation/all.rb:61
 module OpenTelemetry::Instrumentation; end
 
 # Namespace for the Opentelemetry all-in-one gem
 #
-# pkg:gem/opentelemetry-instrumentation-all#lib/opentelemetry/instrumentation/all.rb:61
+# pkg:gem/opentelemetry-instrumentation-all#lib/opentelemetry/instrumentation/all.rb:63
 module OpenTelemetry::Instrumentation::All; end
 
 # pkg:gem/opentelemetry-instrumentation-all#lib/opentelemetry/instrumentation/all/version.rb:10

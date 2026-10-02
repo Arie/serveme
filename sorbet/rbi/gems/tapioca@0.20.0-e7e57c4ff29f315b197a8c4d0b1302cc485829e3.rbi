@@ -3147,10 +3147,10 @@ end
 # pkg:gem/tapioca#lib/tapioca/runtime/generic_type_registry.rb:23
 module Tapioca::Runtime::GenericTypeRegistry
   class << self
-    # pkg:gem/tapioca#lib/tapioca/runtime/generic_type_registry.rb:98
+    # pkg:gem/tapioca#lib/tapioca/runtime/generic_type_registry.rb:104
     def generic_type_instance?(instance); end
 
-    # pkg:gem/tapioca#lib/tapioca/runtime/generic_type_registry.rb:105
+    # pkg:gem/tapioca#lib/tapioca/runtime/generic_type_registry.rb:111
     def lookup_type_variables(constant); end
 
     # This method is responsible for building the name of the instantiated concrete type
@@ -3166,7 +3166,7 @@ module Tapioca::Runtime::GenericTypeRegistry
     #
     # This method returns the created or cached clone of the constant.
     #
-    # pkg:gem/tapioca#lib/tapioca/runtime/generic_type_registry.rb:82
+    # pkg:gem/tapioca#lib/tapioca/runtime/generic_type_registry.rb:88
     def register_type(constant, types); end
 
     # This method is called from intercepted calls to `type_member` and `type_template`.
@@ -3179,15 +3179,15 @@ module Tapioca::Runtime::GenericTypeRegistry
     # Finally, the original `type_variable` is returned from this method, so that the caller
     # can return it from the original methods as well.
     #
-    # pkg:gem/tapioca#lib/tapioca/runtime/generic_type_registry.rb:119
+    # pkg:gem/tapioca#lib/tapioca/runtime/generic_type_registry.rb:125
     def register_type_variable(constant, type_variable); end
 
     private
 
-    # pkg:gem/tapioca#lib/tapioca/runtime/generic_type_registry.rb:128
+    # pkg:gem/tapioca#lib/tapioca/runtime/generic_type_registry.rb:134
     def create_generic_type(constant, name); end
 
-    # pkg:gem/tapioca#lib/tapioca/runtime/generic_type_registry.rb:170
+    # pkg:gem/tapioca#lib/tapioca/runtime/generic_type_registry.rb:176
     def create_safe_subclass(constant); end
   end
 end
@@ -3200,6 +3200,11 @@ end
 class Tapioca::Runtime::GenericTypeRegistry::GenericType < ::T::Types::Base
   # pkg:gem/tapioca#lib/tapioca/runtime/generic_type_registry.rb:36
   def initialize(raw_type, underlying_type); end
+
+  # @override
+  #
+  # pkg:gem/tapioca#lib/tapioca/runtime/generic_type_registry.rb:63
+  def build_lazy_fields; end
 
   # @override
   #
@@ -3223,7 +3228,7 @@ class Tapioca::Runtime::GenericTypeRegistry::GenericType < ::T::Types::Base
 
   # Matches the always-true `<=` we define on the clone in `create_generic_type`.
   #
-  # pkg:gem/tapioca#lib/tapioca/runtime/generic_type_registry.rb:63
+  # pkg:gem/tapioca#lib/tapioca/runtime/generic_type_registry.rb:69
   def subtype_of_single?(type); end
 end
 

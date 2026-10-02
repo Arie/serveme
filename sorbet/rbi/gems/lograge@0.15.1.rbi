@@ -7,69 +7,69 @@
 
 # pkg:gem/lograge#lib/lograge/version.rb:3
 module Lograge
-  # pkg:gem/lograge#lib/lograge.rb:29
+  # pkg:gem/lograge#lib/lograge.rb:28
   def application; end
 
-  # pkg:gem/lograge#lib/lograge.rb:29
+  # pkg:gem/lograge#lib/lograge.rb:28
   def application=(val); end
 
-  # pkg:gem/lograge#lib/lograge.rb:51
+  # pkg:gem/lograge#lib/lograge.rb:50
   def before_format=(val); end
 
-  # pkg:gem/lograge#lib/lograge.rb:37
+  # pkg:gem/lograge#lib/lograge.rb:36
   def custom_options=(val); end
 
-  # pkg:gem/lograge#lib/lograge.rb:108
+  # pkg:gem/lograge#lib/lograge.rb:107
   def formatter; end
 
-  # pkg:gem/lograge#lib/lograge.rb:108
+  # pkg:gem/lograge#lib/lograge.rb:107
   def formatter=(val); end
 
-  # pkg:gem/lograge#lib/lograge.rb:29
+  # pkg:gem/lograge#lib/lograge.rb:28
   def ignore_tests=(val); end
 
-  # pkg:gem/lograge#lib/lograge.rb:100
+  # pkg:gem/lograge#lib/lograge.rb:99
   def log_level; end
 
-  # pkg:gem/lograge#lib/lograge.rb:100
+  # pkg:gem/lograge#lib/lograge.rb:99
   def log_level=(val); end
 
-  # pkg:gem/lograge#lib/lograge.rb:29
+  # pkg:gem/lograge#lib/lograge.rb:28
   def logger; end
 
-  # pkg:gem/lograge#lib/lograge.rb:29
+  # pkg:gem/lograge#lib/lograge.rb:28
   def logger=(val); end
 
   private
 
-  # pkg:gem/lograge#lib/lograge.rb:158
+  # pkg:gem/lograge#lib/lograge.rb:166
   def attach_to_action_cable; end
 
-  # pkg:gem/lograge#lib/lograge.rb:154
+  # pkg:gem/lograge#lib/lograge.rb:162
   def attach_to_action_controller; end
 
-  # pkg:gem/lograge#lib/lograge.rb:54
+  # pkg:gem/lograge#lib/lograge.rb:53
   def before_format(data, payload); end
 
-  # pkg:gem/lograge#lib/lograge.rb:79
+  # pkg:gem/lograge#lib/lograge.rb:78
   def controller_field(params); end
 
-  # pkg:gem/lograge#lib/lograge.rb:40
+  # pkg:gem/lograge#lib/lograge.rb:39
   def custom_options(event); end
 
-  # pkg:gem/lograge#lib/lograge.rb:229
+  # pkg:gem/lograge#lib/lograge.rb:237
   def deprecator; end
 
-  # pkg:gem/lograge#lib/lograge.rb:194
+  # pkg:gem/lograge#lib/lograge.rb:202
   def disable_rack_cache_verbose_output; end
 
-  # pkg:gem/lograge#lib/lograge.rb:177
+  # pkg:gem/lograge#lib/lograge.rb:185
   def extend_base_class(klass); end
 
-  # pkg:gem/lograge#lib/lograge.rb:87
+  # pkg:gem/lograge#lib/lograge.rb:86
   def ignore(test); end
 
-  # pkg:gem/lograge#lib/lograge.rb:95
+  # pkg:gem/lograge#lib/lograge.rb:94
   def ignore?(event); end
 
   # Set conditions for events that should be ignored
@@ -84,100 +84,103 @@ module Lograge
   # are given to 'ignore'.  Both methods can be called multiple times, which
   # just adds more ignore conditions to a list that is checked before logging.
   #
-  # pkg:gem/lograge#lib/lograge.rb:72
+  # pkg:gem/lograge#lib/lograge.rb:71
   def ignore_actions(actions); end
 
-  # pkg:gem/lograge#lib/lograge.rb:91
+  # pkg:gem/lograge#lib/lograge.rb:90
   def ignore_nothing; end
 
-  # pkg:gem/lograge#lib/lograge.rb:29
+  # pkg:gem/lograge#lib/lograge.rb:28
   def ignore_tests; end
 
-  # pkg:gem/lograge#lib/lograge.rb:198
+  # pkg:gem/lograge#lib/lograge.rb:206
   def keep_original_rails_log; end
 
-  # pkg:gem/lograge#lib/lograge.rb:225
+  # pkg:gem/lograge#lib/lograge.rb:233
   def lograge_config; end
 
-  # pkg:gem/lograge#lib/lograge.rb:235
+  # pkg:gem/lograge#lib/lograge.rb:243
   def notification_listeners_for(name); end
 
-  # pkg:gem/lograge#lib/lograge.rb:208
+  # pkg:gem/lograge#lib/lograge.rb:216
   def rack_cache_hashlike?(app); end
 
-  # pkg:gem/lograge#lib/lograge.rb:110
+  # pkg:gem/lograge#lib/lograge.rb:129
+  def rails_log_subscriber?(listener, subscriber); end
+
+  # pkg:gem/lograge#lib/lograge.rb:109
   def remove_existing_log_subscriptions; end
 
-  # pkg:gem/lograge#lib/lograge.rb:150
+  # pkg:gem/lograge#lib/lograge.rb:158
   def set_formatter; end
 
-  # pkg:gem/lograge#lib/lograge.rb:145
+  # pkg:gem/lograge#lib/lograge.rb:153
   def set_ignores; end
 
-  # pkg:gem/lograge#lib/lograge.rb:187
+  # pkg:gem/lograge#lib/lograge.rb:195
   def set_lograge_log_options; end
 
-  # pkg:gem/lograge#lib/lograge.rb:130
+  # pkg:gem/lograge#lib/lograge.rb:138
   def setup(app); end
 
-  # pkg:gem/lograge#lib/lograge.rb:165
+  # pkg:gem/lograge#lib/lograge.rb:173
   def setup_custom_payload; end
 
   # TODO: Remove with version 1.0
   #
-  # pkg:gem/lograge#lib/lograge.rb:215
+  # pkg:gem/lograge#lib/lograge.rb:223
   def support_deprecated_config; end
 
-  # pkg:gem/lograge#lib/lograge.rb:121
+  # pkg:gem/lograge#lib/lograge.rb:120
   def unsubscribe(component, subscriber); end
 
   class << self
-    # pkg:gem/lograge#lib/lograge.rb:29
+    # pkg:gem/lograge#lib/lograge.rb:28
     def application; end
 
-    # pkg:gem/lograge#lib/lograge.rb:29
+    # pkg:gem/lograge#lib/lograge.rb:28
     def application=(val); end
 
-    # pkg:gem/lograge#lib/lograge.rb:158
+    # pkg:gem/lograge#lib/lograge.rb:166
     def attach_to_action_cable; end
 
-    # pkg:gem/lograge#lib/lograge.rb:154
+    # pkg:gem/lograge#lib/lograge.rb:162
     def attach_to_action_controller; end
 
-    # pkg:gem/lograge#lib/lograge.rb:54
+    # pkg:gem/lograge#lib/lograge.rb:53
     def before_format(data, payload); end
 
-    # pkg:gem/lograge#lib/lograge.rb:51
+    # pkg:gem/lograge#lib/lograge.rb:50
     def before_format=(val); end
 
-    # pkg:gem/lograge#lib/lograge.rb:79
+    # pkg:gem/lograge#lib/lograge.rb:78
     def controller_field(params); end
 
-    # pkg:gem/lograge#lib/lograge.rb:40
+    # pkg:gem/lograge#lib/lograge.rb:39
     def custom_options(event); end
 
-    # pkg:gem/lograge#lib/lograge.rb:37
+    # pkg:gem/lograge#lib/lograge.rb:36
     def custom_options=(val); end
 
-    # pkg:gem/lograge#lib/lograge.rb:229
+    # pkg:gem/lograge#lib/lograge.rb:237
     def deprecator; end
 
-    # pkg:gem/lograge#lib/lograge.rb:194
+    # pkg:gem/lograge#lib/lograge.rb:202
     def disable_rack_cache_verbose_output; end
 
-    # pkg:gem/lograge#lib/lograge.rb:177
+    # pkg:gem/lograge#lib/lograge.rb:185
     def extend_base_class(klass); end
 
-    # pkg:gem/lograge#lib/lograge.rb:108
+    # pkg:gem/lograge#lib/lograge.rb:107
     def formatter; end
 
-    # pkg:gem/lograge#lib/lograge.rb:108
+    # pkg:gem/lograge#lib/lograge.rb:107
     def formatter=(val); end
 
-    # pkg:gem/lograge#lib/lograge.rb:87
+    # pkg:gem/lograge#lib/lograge.rb:86
     def ignore(test); end
 
-    # pkg:gem/lograge#lib/lograge.rb:95
+    # pkg:gem/lograge#lib/lograge.rb:94
     def ignore?(event); end
 
     # Set conditions for events that should be ignored
@@ -192,68 +195,71 @@ module Lograge
     # are given to 'ignore'.  Both methods can be called multiple times, which
     # just adds more ignore conditions to a list that is checked before logging.
     #
-    # pkg:gem/lograge#lib/lograge.rb:72
+    # pkg:gem/lograge#lib/lograge.rb:71
     def ignore_actions(actions); end
 
-    # pkg:gem/lograge#lib/lograge.rb:91
+    # pkg:gem/lograge#lib/lograge.rb:90
     def ignore_nothing; end
 
-    # pkg:gem/lograge#lib/lograge.rb:29
+    # pkg:gem/lograge#lib/lograge.rb:28
     def ignore_tests; end
 
-    # pkg:gem/lograge#lib/lograge.rb:29
+    # pkg:gem/lograge#lib/lograge.rb:28
     def ignore_tests=(val); end
 
-    # pkg:gem/lograge#lib/lograge.rb:198
+    # pkg:gem/lograge#lib/lograge.rb:206
     def keep_original_rails_log; end
 
-    # pkg:gem/lograge#lib/lograge.rb:100
+    # pkg:gem/lograge#lib/lograge.rb:99
     def log_level; end
 
-    # pkg:gem/lograge#lib/lograge.rb:100
+    # pkg:gem/lograge#lib/lograge.rb:99
     def log_level=(val); end
 
-    # pkg:gem/lograge#lib/lograge.rb:29
+    # pkg:gem/lograge#lib/lograge.rb:28
     def logger; end
 
-    # pkg:gem/lograge#lib/lograge.rb:29
+    # pkg:gem/lograge#lib/lograge.rb:28
     def logger=(val); end
 
-    # pkg:gem/lograge#lib/lograge.rb:225
+    # pkg:gem/lograge#lib/lograge.rb:233
     def lograge_config; end
 
-    # pkg:gem/lograge#lib/lograge.rb:235
+    # pkg:gem/lograge#lib/lograge.rb:243
     def notification_listeners_for(name); end
 
-    # pkg:gem/lograge#lib/lograge.rb:110
+    # pkg:gem/lograge#lib/lograge.rb:129
+    def rails_log_subscriber?(listener, subscriber); end
+
+    # pkg:gem/lograge#lib/lograge.rb:109
     def remove_existing_log_subscriptions; end
 
-    # pkg:gem/lograge#lib/lograge.rb:150
+    # pkg:gem/lograge#lib/lograge.rb:158
     def set_formatter; end
 
-    # pkg:gem/lograge#lib/lograge.rb:145
+    # pkg:gem/lograge#lib/lograge.rb:153
     def set_ignores; end
 
-    # pkg:gem/lograge#lib/lograge.rb:187
+    # pkg:gem/lograge#lib/lograge.rb:195
     def set_lograge_log_options; end
 
-    # pkg:gem/lograge#lib/lograge.rb:130
+    # pkg:gem/lograge#lib/lograge.rb:138
     def setup(app); end
 
-    # pkg:gem/lograge#lib/lograge.rb:165
+    # pkg:gem/lograge#lib/lograge.rb:173
     def setup_custom_payload; end
 
     # TODO: Remove with version 1.0
     #
-    # pkg:gem/lograge#lib/lograge.rb:215
+    # pkg:gem/lograge#lib/lograge.rb:223
     def support_deprecated_config; end
 
-    # pkg:gem/lograge#lib/lograge.rb:121
+    # pkg:gem/lograge#lib/lograge.rb:120
     def unsubscribe(component, subscriber); end
 
     private
 
-    # pkg:gem/lograge#lib/lograge.rb:208
+    # pkg:gem/lograge#lib/lograge.rb:216
     def rack_cache_hashlike?(app); end
   end
 end
@@ -524,22 +530,22 @@ class Lograge::Railtie < ::Rails::Railtie; end
 
 # pkg:gem/lograge#lib/lograge/silent_logger.rb:6
 class Lograge::SilentLogger < ::SimpleDelegator
-  # pkg:gem/lograge#lib/lograge/silent_logger.rb:9
+  # pkg:gem/lograge#lib/lograge/silent_logger.rb:8
   def debug(*_args); end
 
-  # pkg:gem/lograge#lib/lograge/silent_logger.rb:9
+  # pkg:gem/lograge#lib/lograge/silent_logger.rb:8
   def error(*_args); end
 
-  # pkg:gem/lograge#lib/lograge/silent_logger.rb:9
+  # pkg:gem/lograge#lib/lograge/silent_logger.rb:8
   def fatal(*_args); end
 
-  # pkg:gem/lograge#lib/lograge/silent_logger.rb:9
+  # pkg:gem/lograge#lib/lograge/silent_logger.rb:8
   def info(*_args); end
 
-  # pkg:gem/lograge#lib/lograge/silent_logger.rb:9
+  # pkg:gem/lograge#lib/lograge/silent_logger.rb:8
   def unknown(*_args); end
 
-  # pkg:gem/lograge#lib/lograge/silent_logger.rb:9
+  # pkg:gem/lograge#lib/lograge/silent_logger.rb:8
   def warn(*_args); end
 end
 

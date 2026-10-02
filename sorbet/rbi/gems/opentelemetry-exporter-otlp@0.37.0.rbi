@@ -39,7 +39,7 @@ class OpenTelemetry::Exporter::OTLP::Exporter
   # @param [optional Numeric] timeout An optional timeout in seconds.
   # @return [Integer] the result of the export.
   #
-  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:80
+  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:79
   def export(span_data, timeout: T.unsafe(nil)); end
 
   # Called when {OpenTelemetry::SDK::Trace::TracerProvider#force_flush} is called, if
@@ -48,7 +48,7 @@ class OpenTelemetry::Exporter::OTLP::Exporter
   #
   # @param [optional Numeric] timeout An optional timeout in seconds.
   #
-  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:91
+  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:90
   def force_flush(timeout: T.unsafe(nil)); end
 
   # Called when {OpenTelemetry::SDK::Trace::TracerProvider#shutdown} is called, if
@@ -57,7 +57,7 @@ class OpenTelemetry::Exporter::OTLP::Exporter
   #
   # @param [optional Numeric] timeout An optional timeout in seconds.
   #
-  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:100
+  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:99
   def shutdown(timeout: T.unsafe(nil)); end
 
   private
@@ -70,40 +70,37 @@ class OpenTelemetry::Exporter::OTLP::Exporter
   # and override this method's behaviour to explicitly trace the HTTP request.
   # This would allow you to trace your export pipeline.
   #
-  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:126
+  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:125
   def around_request; end
 
-  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:254
+  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:253
   def backoff?(retry_count:, reason:, retry_after: T.unsafe(nil)); end
 
-  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:276
+  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:275
   def encode(span_data); end
 
-  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:220
+  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:219
   def handle_redirect(location); end
 
-  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:108
+  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:107
   def http_connection(uri, ssl_verify_mode, certificate_file, client_certificate_file, client_key_file); end
 
-  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:236
+  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:235
   def log_request_failure(response_code); end
 
-  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:224
+  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:223
   def log_status(body); end
 
-  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:241
+  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:240
   def measure_request_duration; end
 
-  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:317
+  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:301
   def parse_headers(raw); end
 
-  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:289
-  def prepare_endpoint(endpoint); end
-
-  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:304
+  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:288
   def prepare_headers(config_headers); end
 
-  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:130
+  # pkg:gem/opentelemetry-exporter-otlp#lib/opentelemetry/exporter/otlp/exporter.rb:129
   def send_bytes(bytes, timeout:); end
 
   class << self

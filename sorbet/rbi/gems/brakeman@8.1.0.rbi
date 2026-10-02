@@ -91,7 +91,7 @@ module Brakeman
     def logger=(log); end
 
     # pkg:gem/brakeman#lib/brakeman.rb:668
-    def process_step(description, &_arg1); end
+    def process_step(description, &); end
 
     # pkg:gem/brakeman#lib/brakeman.rb:664
     def quiet=(val); end
@@ -239,7 +239,7 @@ class Brakeman::Logger::Base
   # Use ANSI codes to color a string
   #
   # pkg:gem/brakeman#lib/brakeman/logger.rb:65
-  def color(message, *_arg1); end
+  def color(message, *); end
 
   # pkg:gem/brakeman#lib/brakeman/logger.rb:73
   def color?; end
@@ -247,7 +247,7 @@ class Brakeman::Logger::Base
   # Wraps a step in the scanning process
   #
   # pkg:gem/brakeman#lib/brakeman/logger.rb:44
-  def context(description, &_arg1); end
+  def context(description, &); end
 
   # Output debug information
   #
@@ -266,7 +266,7 @@ class Brakeman::Logger::Base
   # Wraps a substep (e.g. processing one file)
   #
   # pkg:gem/brakeman#lib/brakeman/logger.rb:49
-  def single_context(description, &_arg1); end
+  def single_context(description, &); end
 
   # Show a spinner
   #
@@ -287,7 +287,7 @@ end
 # pkg:gem/brakeman#lib/brakeman/logger.rb:153
 class Brakeman::Logger::Console < ::Brakeman::Logger::Base
   # pkg:gem/brakeman#lib/brakeman/logger.rb:156
-  def initialize(options, *_arg1); end
+  def initialize(options, *); end
 
   # pkg:gem/brakeman#lib/brakeman/logger.rb:181
   def alert(message); end
@@ -305,7 +305,7 @@ class Brakeman::Logger::Console < ::Brakeman::Logger::Base
   def clear_prefix; end
 
   # pkg:gem/brakeman#lib/brakeman/logger.rb:187
-  def context(description, &_arg1); end
+  def context(description, &); end
 
   # pkg:gem/brakeman#lib/brakeman/logger.rb:154
   def prefix; end
@@ -322,7 +322,7 @@ class Brakeman::Logger::Console < ::Brakeman::Logger::Base
   def spin; end
 
   # pkg:gem/brakeman#lib/brakeman/logger.rb:195
-  def time_step(description, &_arg1); end
+  def time_step(description, &); end
 
   # pkg:gem/brakeman#lib/brakeman/logger.rb:208
   def update_progress(current, total, type = T.unsafe(nil)); end
@@ -337,19 +337,19 @@ end
 # pkg:gem/brakeman#lib/brakeman/logger.rb:130
 class Brakeman::Logger::Debug < ::Brakeman::Logger::Plain
   # pkg:gem/brakeman#lib/brakeman/logger.rb:135
-  def context(description, &_arg1); end
+  def context(description, &); end
 
   # pkg:gem/brakeman#lib/brakeman/logger.rb:131
   def debug(message); end
 
   # pkg:gem/brakeman#lib/brakeman/logger.rb:141
-  def single_context(description, &_arg1); end
+  def single_context(description, &); end
 end
 
 # pkg:gem/brakeman#lib/brakeman/logger.rb:90
 class Brakeman::Logger::Plain < ::Brakeman::Logger::Base
   # pkg:gem/brakeman#lib/brakeman/logger.rb:91
-  def initialize(options, *_arg1); end
+  def initialize(options, *); end
 
   # pkg:gem/brakeman#lib/brakeman/logger.rb:101
   def alert(message); end
@@ -358,16 +358,16 @@ class Brakeman::Logger::Plain < ::Brakeman::Logger::Base
   def announce(message); end
 
   # pkg:gem/brakeman#lib/brakeman/logger.rb:105
-  def context(description, &_arg1); end
+  def context(description, &); end
 
   # pkg:gem/brakeman#lib/brakeman/logger.rb:115
-  def time_step(description, &_arg1); end
+  def time_step(description, &); end
 end
 
 # pkg:gem/brakeman#lib/brakeman/logger.rb:124
 class Brakeman::Logger::Quiet < ::Brakeman::Logger::Base
   # pkg:gem/brakeman#lib/brakeman/logger.rb:125
-  def initialize(*_arg0); end
+  def initialize(*); end
 end
 
 # pkg:gem/brakeman#lib/brakeman.rb:675

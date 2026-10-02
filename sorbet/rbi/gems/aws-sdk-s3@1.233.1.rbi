@@ -12398,7 +12398,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   resp.inventory_configuration.id #=> String
   #   resp.inventory_configuration.included_object_versions #=> String, one of "All", "Current"
   #   resp.inventory_configuration.optional_fields #=> Array
-  #   resp.inventory_configuration.optional_fields[0] #=> String, one of "Size", "LastModifiedDate", "StorageClass", "ETag", "IsMultipartUploaded", "ReplicationStatus", "EncryptionStatus", "ObjectLockRetainUntilDate", "ObjectLockMode", "ObjectLockLegalHoldStatus", "ObjectLockEventHoldStatus", "ObjectLockEventHoldDuration", "IntelligentTieringAccessTier", "BucketKeyStatus", "ChecksumAlgorithm", "ObjectAccessControlList", "ObjectOwner", "LifecycleExpirationDate"
+  #   resp.inventory_configuration.optional_fields[0] #=> String, one of "Size", "LastModifiedDate", "StorageClass", "ETag", "IsMultipartUploaded", "ReplicationStatus", "EncryptionStatus", "ObjectLockRetainUntilDate", "ObjectLockMode", "ObjectLockLegalHoldStatus", "ObjectLockEventHoldStatus", "ObjectLockEventHoldDuration", "IntelligentTieringAccessTier", "BucketKeyStatus", "ChecksumAlgorithm", "ObjectAccessControlList", "ObjectOwner", "LifecycleExpirationDate", "IntelligentTieringReferenceDate"
   #   resp.inventory_configuration.schedule.frequency #=> String, one of "Daily", "Weekly"
   #
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketInventoryConfiguration AWS API Documentation
@@ -17375,7 +17375,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   resp.inventory_configuration_list[0].id #=> String
   #   resp.inventory_configuration_list[0].included_object_versions #=> String, one of "All", "Current"
   #   resp.inventory_configuration_list[0].optional_fields #=> Array
-  #   resp.inventory_configuration_list[0].optional_fields[0] #=> String, one of "Size", "LastModifiedDate", "StorageClass", "ETag", "IsMultipartUploaded", "ReplicationStatus", "EncryptionStatus", "ObjectLockRetainUntilDate", "ObjectLockMode", "ObjectLockLegalHoldStatus", "ObjectLockEventHoldStatus", "ObjectLockEventHoldDuration", "IntelligentTieringAccessTier", "BucketKeyStatus", "ChecksumAlgorithm", "ObjectAccessControlList", "ObjectOwner", "LifecycleExpirationDate"
+  #   resp.inventory_configuration_list[0].optional_fields[0] #=> String, one of "Size", "LastModifiedDate", "StorageClass", "ETag", "IsMultipartUploaded", "ReplicationStatus", "EncryptionStatus", "ObjectLockRetainUntilDate", "ObjectLockMode", "ObjectLockLegalHoldStatus", "ObjectLockEventHoldStatus", "ObjectLockEventHoldDuration", "IntelligentTieringAccessTier", "BucketKeyStatus", "ChecksumAlgorithm", "ObjectAccessControlList", "ObjectOwner", "LifecycleExpirationDate", "IntelligentTieringReferenceDate"
   #   resp.inventory_configuration_list[0].schedule.frequency #=> String, one of "Daily", "Weekly"
   #   resp.is_truncated #=> Boolean
   #   resp.next_continuation_token #=> String
@@ -20893,7 +20893,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #       },
   #       id: "InventoryId", # required
   #       included_object_versions: "All", # required, accepts All, Current
-  #       optional_fields: ["Size"], # accepts Size, LastModifiedDate, StorageClass, ETag, IsMultipartUploaded, ReplicationStatus, EncryptionStatus, ObjectLockRetainUntilDate, ObjectLockMode, ObjectLockLegalHoldStatus, ObjectLockEventHoldStatus, ObjectLockEventHoldDuration, IntelligentTieringAccessTier, BucketKeyStatus, ChecksumAlgorithm, ObjectAccessControlList, ObjectOwner, LifecycleExpirationDate
+  #       optional_fields: ["Size"], # accepts Size, LastModifiedDate, StorageClass, ETag, IsMultipartUploaded, ReplicationStatus, EncryptionStatus, ObjectLockRetainUntilDate, ObjectLockMode, ObjectLockLegalHoldStatus, ObjectLockEventHoldStatus, ObjectLockEventHoldDuration, IntelligentTieringAccessTier, BucketKeyStatus, ChecksumAlgorithm, ObjectAccessControlList, ObjectOwner, LifecycleExpirationDate, IntelligentTieringReferenceDate
   #       schedule: { # required
   #         frequency: "Daily", # required, accepts Daily, Weekly
   #       },
@@ -30975,7 +30975,7 @@ Aws::S3::ClientApi::Years = T.let(T.unsafe(nil), Seahorse::Model::Shapes::Intege
 #
 # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/default_executor.rb:6
 class Aws::S3::DefaultExecutor
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/default_executor.rb:12
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/default_executor.rb:19
   def initialize(options = T.unsafe(nil)); end
 
   # Immediately terminates all worker threads and clears pending tasks.
@@ -30983,7 +30983,7 @@ class Aws::S3::DefaultExecutor
   #
   # @return [Boolean] true when termination is complete
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/default_executor.rb:38
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/default_executor.rb:50
   def kill; end
 
   # Submits a task for execution.
@@ -30991,7 +30991,7 @@ class Aws::S3::DefaultExecutor
   # @param [Proc] block The block to be executed
   # @return [Boolean] Returns true if the task was submitted successfully
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/default_executor.rb:24
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/default_executor.rb:33
   def post(*args, &block); end
 
   # Gracefully shuts down the executor, optionally with a timeout.
@@ -31001,28 +31001,51 @@ class Aws::S3::DefaultExecutor
   #   If nil, waits indefinitely. If timeout expires, remaining threads are killed.
   # @return [Boolean] true when shutdown is complete
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/default_executor.rb:54
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/default_executor.rb:67
   def shutdown(timeout = T.unsafe(nil)); end
 
   private
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/default_executor.rb:84
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/default_executor.rb:82
+  def begin_shutdown; end
+
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/default_executor.rb:120
   def ensure_worker_available; end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/default_executor.rb:91
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/default_executor.rb:113
+  def finalize_shutdown; end
+
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/default_executor.rb:93
+  def join_workers(deadline); end
+
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/default_executor.rb:109
+  def kill_remaining_workers; end
+
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/default_executor.rb:140
+  def replace_worker(error); end
+
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/default_executor.rb:127
   def spawn_worker; end
 end
 
-# pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/default_executor.rb:7
+# pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/default_executor.rb:14
 Aws::S3::DefaultExecutor::DEFAULT_MAX_THREADS = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/default_executor.rb:8
+# pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/default_executor.rb:15
 Aws::S3::DefaultExecutor::RUNNING = T.let(T.unsafe(nil), Symbol)
 
-# pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/default_executor.rb:10
+# Raised when a task is posted to an executor that is shutting down or has been shut down.
+#
+# pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/default_executor.rb:8
+class Aws::S3::DefaultExecutor::RejectedExecutionError < ::RuntimeError
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/default_executor.rb:9
+  def initialize(msg = T.unsafe(nil)); end
+end
+
+# pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/default_executor.rb:17
 Aws::S3::DefaultExecutor::SHUTDOWN = T.let(T.unsafe(nil), Symbol)
 
-# pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/default_executor.rb:9
+# pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/default_executor.rb:16
 Aws::S3::DefaultExecutor::SHUTTING_DOWN = T.let(T.unsafe(nil), Symbol)
 
 # Raised when DirectoryDownloader fails to download objects from S3 bucket
@@ -35977,7 +36000,7 @@ class Aws::S3::MultipartFileUploader
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:75
   def abort_upload(upload_id, options, errors); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:174
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:182
   def apply_part_checksum(resp, part); end
 
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:108
@@ -35992,7 +36015,7 @@ class Aws::S3::MultipartFileUploader
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:53
   def complete_upload(upload_id, parts, file_size, options); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:181
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:189
   def compute_default_part_size(file_size); end
 
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:87
@@ -36007,10 +36030,10 @@ class Aws::S3::MultipartFileUploader
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:49
   def initiate_upload(options); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:185
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:193
   def part_size(total_size, part_size, offset); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:193
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:201
   def update_progress(progress, part); end
 
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:135
@@ -36042,41 +36065,41 @@ Aws::S3::MultipartFileUploader::MIN_PART_SIZE = T.let(T.unsafe(nil), Integer)
 
 # @api private
 #
-# pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:235
+# pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:243
 class Aws::S3::MultipartFileUploader::MultipartProgress
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:236
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:244
   def initialize(parts, progress_callback); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:244
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:252
   def call(part_number, bytes_read); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:242
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:250
   def progress_callback; end
 end
 
 # @api private
 #
-# pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:203
+# pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:211
 class Aws::S3::MultipartFileUploader::PartList
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:204
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:212
   def initialize(parts = T.unsafe(nil)); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:217
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:225
   def clear!; end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:225
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:233
   def part_sizes; end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:209
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:217
   def push(part); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:213
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:221
   def shift; end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:221
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:229
   def size; end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:229
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:237
   def to_a; end
 end
 
@@ -36109,7 +36132,7 @@ class Aws::S3::MultipartStreamUploader
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_stream_uploader.rb:83
   def abort_upload(upload_id, options, errors); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_stream_uploader.rb:181
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_stream_uploader.rb:196
   def clear_body(body); end
 
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_stream_uploader.rb:107
@@ -36118,7 +36141,7 @@ class Aws::S3::MultipartStreamUploader
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_stream_uploader.rb:46
   def complete_upload(upload_id, parts, options); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_stream_uploader.rb:161
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_stream_uploader.rb:176
   def create_completed_part(resp, part); end
 
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_stream_uploader.rb:95
@@ -36127,7 +36150,7 @@ class Aws::S3::MultipartStreamUploader
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_stream_uploader.rb:42
   def initiate_upload(options); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_stream_uploader.rb:171
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_stream_uploader.rb:186
   def ordered_parts(parts); end
 
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_stream_uploader.rb:113
@@ -36139,7 +36162,7 @@ class Aws::S3::MultipartStreamUploader
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_stream_uploader.rb:54
   def upload_parts(upload_id, options, &block); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_stream_uploader.rb:131
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_stream_uploader.rb:135
   def upload_with_executor(read_pipe, completed, errors, options); end
 end
 
@@ -36250,6 +36273,24 @@ class Aws::S3::MultipartUpload
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_upload.rb:123
   def client; end
 
+  # Completes the upload, requires a list of completed parts. You can
+  # provide the list of parts with `:part_number` and `:etag` values.
+  #
+  #     upload.complete(multipart_upload: { parts: [
+  #       { part_number: 1, etag:'etag1' },
+  #       { part_number: 2, etag:'etag2' },
+  #       ...
+  #     ]})
+  #
+  # Alternatively, you can pass **`compute_parts: true`** and the part
+  # list will be computed by calling {Client#list_parts}.
+  #
+  #     upload.complete(compute_parts: true)
+  #
+  # @option options [Boolean] :compute_parts (false) When `true`,
+  #   the {Client#list_parts} method will be called to determine
+  #   the list of required part numbers and their ETags.
+  #
   # @example Request syntax with placeholder values
   #
   #   object = multipart_upload.complete({
@@ -36510,23 +36551,6 @@ class Aws::S3::MultipartUpload
   #
   #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html
   # @return [Object]
-  # Completes the upload, requires a list of completed parts. You can
-  # provide the list of parts with `:part_number` and `:etag` values.
-  #
-  #     upload.complete(multipart_upload: { parts: [
-  #       { part_number: 1, etag:'etag1' },
-  #       { part_number: 2, etag:'etag2' },
-  #       ...
-  #     ]})
-  #
-  # Alternatively, you can pass **`compute_parts: true`** and the part
-  # list will be computed by calling {Client#list_parts}.
-  #
-  #     upload.complete(compute_parts: true)
-  #
-  # @option options [Boolean] :compute_parts (false) When `true`,
-  #   the {Client#list_parts} method will be called to determine
-  #   the list of required part numbers and their ETags.
   #
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_upload.rb:563
   def complete(options = T.unsafe(nil)); end
@@ -37850,6 +37874,95 @@ class Aws::S3::Object
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object.rb:352
   def content_type; end
 
+  # Make the method redefinable
+  # Copies another object to this object. Use `multipart_copy: true`
+  # for large objects. This is required for objects that exceed 5GB.
+  #
+  # @param [S3::Object, S3::ObjectVersion, S3::ObjectSummary, String, Hash]
+  #   source Where to copy object data from. `source` must be one of the
+  #   following:
+  #
+  #   * {Aws::S3::Object}
+  #   * {Aws::S3::ObjectSummary}
+  #   * {Aws::S3::ObjectVersion}
+  #   * Hash - with `:bucket` and `:key` and optional `:version_id`
+  #   * String - formatted like `"source-bucket-name/uri-escaped-key"`
+  #     or `"source-bucket-name/uri-escaped-key?versionId=version-id"`
+  #
+  # @option options [Boolean] :multipart_copy (false) When `true`,
+  #   the object will be copied using the multipart APIs. This is
+  #   necessary for objects larger than 5GB and can provide
+  #   performance improvements on large objects. Amazon S3 does
+  #   not accept multipart copies for objects smaller than 5MB.
+  #   Object metadata such as Content-Type will be copied, however,
+  #   Checksums are not copied.
+  #
+  # @option options [Integer] :content_length Only used when
+  #   `:multipart_copy` is `true`. Passing this options avoids a HEAD
+  #   request to query the source object size but prevents object metadata
+  #   from being copied. Raises an `ArgumentError` if
+  #   this option is provided when `:multipart_copy` is `false` or not set.
+  #
+  # @option options [S3::Client] :copy_source_client Only used when
+  #   `:multipart_copy` is `true` and the source object is in a
+  #   different region. You do not need to specify this option
+  #   if you have provided `:content_length`.
+  #
+  # @option options [String] :copy_source_region Only used when
+  #   `:multipart_copy` is `true` and the source object is in a
+  #   different region. You do not need to specify this option
+  #   if you have provided a `:source_client` or a `:content_length`.
+  #
+  # @option options [Boolean] :use_source_parts (false) Only used when
+  #   `:multipart_copy` is `true`. Use part sizes defined on the source
+  #   object if any exist. If copying or moving an object that
+  #   is already multipart, this does not re-part the object, instead
+  #   re-using the part definitions on the original. That means the etag
+  #   and any checksums will not change. This is especially useful if the
+  #   source object has parts with varied sizes.
+  #
+  # @option options [String] :tags_directive Only used when
+  #   `:multipart_copy` is `true`. When set to `'COPY'`, source object
+  #   tags are fetched and applied to the destination via PutObjectTagging.
+  #   When set to `'REPLACE'`, the provided `:tagging` value is parsed and
+  #   applied via PutObjectTagging. When not set, `:tagging` (if provided)
+  #   is passed to CreateMultipartUpload directly. Works with or without
+  #   `:content_length` — tags are fetched from source regardless of
+  #   whether HeadObject is skipped.
+  #
+  # @option options [String] :annotations_directive Only used when
+  #   `:multipart_copy` is `true`. When set to `'COPY'`, source object
+  #   annotations are fetched and applied to the destination after the
+  #   multipart upload completes. Works with or without `:content_length`.
+  #
+  # @option options [String] :metadata_directive Only used when
+  #   `:multipart_copy` is `true`. When set to `'REPLACE'`, source metadata
+  #   from HeadObject is not merged into CreateMultipartUpload — only
+  #   caller-supplied values (e.g. `:metadata`, `:content_type`) are used.
+  #   Has no effect when `:content_length` is provided since HeadObject
+  #   is already skipped.
+  #
+  # @example Basic object copy
+  #
+  #   bucket = Aws::S3::Bucket.new('target-bucket')
+  #   object = bucket.object('target-key')
+  #
+  #   # source as String
+  #   object.copy_from('source-bucket/source-key')
+  #
+  #   # source as Hash
+  #   object.copy_from(bucket:'source-bucket', key:'source-key')
+  #
+  #   # source as Aws::S3::Object
+  #   object.copy_from(bucket.object('source-key'))
+  #
+  # @example Managed copy of large objects
+  #
+  #   # uses multipart upload APIs to copy object
+  #   object.copy_from('src-bucket/src-key', multipart_copy: true)
+  #
+  # @see #copy_to
+  #
   # @example Request syntax with placeholder values
   #
   #   object.copy_from({
@@ -38670,94 +38783,6 @@ class Aws::S3::Object
   #   the request fails with the HTTP status code `403 Forbidden` (access
   #   denied).
   # @return [Types::CopyObjectOutput]
-  # Make the method redefinable
-  # Copies another object to this object. Use `multipart_copy: true`
-  # for large objects. This is required for objects that exceed 5GB.
-  #
-  # @param [S3::Object, S3::ObjectVersion, S3::ObjectSummary, String, Hash]
-  #   source Where to copy object data from. `source` must be one of the
-  #   following:
-  #
-  #   * {Aws::S3::Object}
-  #   * {Aws::S3::ObjectSummary}
-  #   * {Aws::S3::ObjectVersion}
-  #   * Hash - with `:bucket` and `:key` and optional `:version_id`
-  #   * String - formatted like `"source-bucket-name/uri-escaped-key"`
-  #     or `"source-bucket-name/uri-escaped-key?versionId=version-id"`
-  #
-  # @option options [Boolean] :multipart_copy (false) When `true`,
-  #   the object will be copied using the multipart APIs. This is
-  #   necessary for objects larger than 5GB and can provide
-  #   performance improvements on large objects. Amazon S3 does
-  #   not accept multipart copies for objects smaller than 5MB.
-  #   Object metadata such as Content-Type will be copied, however,
-  #   Checksums are not copied.
-  #
-  # @option options [Integer] :content_length Only used when
-  #   `:multipart_copy` is `true`. Passing this options avoids a HEAD
-  #   request to query the source object size but prevents object metadata
-  #   from being copied. Raises an `ArgumentError` if
-  #   this option is provided when `:multipart_copy` is `false` or not set.
-  #
-  # @option options [S3::Client] :copy_source_client Only used when
-  #   `:multipart_copy` is `true` and the source object is in a
-  #   different region. You do not need to specify this option
-  #   if you have provided `:content_length`.
-  #
-  # @option options [String] :copy_source_region Only used when
-  #   `:multipart_copy` is `true` and the source object is in a
-  #   different region. You do not need to specify this option
-  #   if you have provided a `:source_client` or a `:content_length`.
-  #
-  # @option options [Boolean] :use_source_parts (false) Only used when
-  #   `:multipart_copy` is `true`. Use part sizes defined on the source
-  #   object if any exist. If copying or moving an object that
-  #   is already multipart, this does not re-part the object, instead
-  #   re-using the part definitions on the original. That means the etag
-  #   and any checksums will not change. This is especially useful if the
-  #   source object has parts with varied sizes.
-  #
-  # @option options [String] :tags_directive Only used when
-  #   `:multipart_copy` is `true`. When set to `'COPY'`, source object
-  #   tags are fetched and applied to the destination via PutObjectTagging.
-  #   When set to `'REPLACE'`, the provided `:tagging` value is parsed and
-  #   applied via PutObjectTagging. When not set, `:tagging` (if provided)
-  #   is passed to CreateMultipartUpload directly. Works with or without
-  #   `:content_length` — tags are fetched from source regardless of
-  #   whether HeadObject is skipped.
-  #
-  # @option options [String] :annotations_directive Only used when
-  #   `:multipart_copy` is `true`. When set to `'COPY'`, source object
-  #   annotations are fetched and applied to the destination after the
-  #   multipart upload completes. Works with or without `:content_length`.
-  #
-  # @option options [String] :metadata_directive Only used when
-  #   `:multipart_copy` is `true`. When set to `'REPLACE'`, source metadata
-  #   from HeadObject is not merged into CreateMultipartUpload — only
-  #   caller-supplied values (e.g. `:metadata`, `:content_type`) are used.
-  #   Has no effect when `:content_length` is provided since HeadObject
-  #   is already skipped.
-  #
-  # @example Basic object copy
-  #
-  #   bucket = Aws::S3::Bucket.new('target-bucket')
-  #   object = bucket.object('target-key')
-  #
-  #   # source as String
-  #   object.copy_from('source-bucket/source-key')
-  #
-  #   # source as Hash
-  #   object.copy_from(bucket:'source-bucket', key:'source-key')
-  #
-  #   # source as Aws::S3::Object
-  #   object.copy_from(bucket.object('source-key'))
-  #
-  # @example Managed copy of large objects
-  #
-  #   # uses multipart upload APIs to copy object
-  #   object.copy_from('src-bucket/src-key', multipart_copy: true)
-  #
-  # @see #copy_to
   #
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object.rb:1654
   def copy_from(source, options = T.unsafe(nil)); end
@@ -38923,16 +38948,16 @@ class Aws::S3::Object
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object.rb:53
   def delete_marker; end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/customizations/object.rb:581
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/customizations/object.rb:584
   def deprecated_download_file(destination, options = T.unsafe(nil)); end
 
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object.rb:3743
   def deprecated_identifiers; end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/customizations/object.rb:501
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/customizations/object.rb:504
   def deprecated_upload_file(source, options = T.unsafe(nil)); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/customizations/object.rb:424
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/customizations/object.rb:427
   def deprecated_upload_stream(options = T.unsafe(nil), &block); end
 
   # Downloads a file in S3 to a path on disk.
@@ -39001,7 +39026,7 @@ class Aws::S3::Object
   # @see Client#get_object
   # @see Client#head_object
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/customizations/object.rb:568
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/customizations/object.rb:571
   def download_file(*args, &block); end
 
   # An entity tag (ETag) is an opaque identifier assigned by a web server
@@ -41493,7 +41518,7 @@ class Aws::S3::Object
   # @see Client#complete_multipart_upload
   # @see Client#upload_part
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/customizations/object.rb:483
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/customizations/object.rb:486
   def upload_file(*args, &block); end
 
   # Uploads a stream in a streaming fashion to the current object in S3.
@@ -41523,7 +41548,9 @@ class Aws::S3::Object
   #   and {Client#upload_part} can be provided.
   #
   # @option options [Integer] :thread_count (10) The number of parallel multipart uploads.
-  #   An additional thread is used internally for task coordination.
+  #   An additional thread is used internally for task coordination. This also bounds
+  #   how many parts are buffered ahead of the upload, limiting memory usage to roughly
+  #   `2 * :thread_count * :part_size`.
   #
   # @option options [Boolean] :tempfile (false) Normally read data is stored
   #   in memory when building the parts in order to complete the underlying
@@ -41547,7 +41574,7 @@ class Aws::S3::Object
   # @see Client#complete_multipart_upload
   # @see Client#upload_part
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/customizations/object.rb:406
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/customizations/object.rb:408
   def upload_stream(*args, &block); end
 
   # @param [String] id
@@ -41809,10 +41836,10 @@ class Aws::S3::Object::Collection < ::Aws::Resources::Collection
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object.rb:3906
   def batch_delete!(options = T.unsafe(nil)); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/customizations/object.rb:584
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/customizations/object.rb:587
   def delete(*args, &block); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/customizations/object.rb:586
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/customizations/object.rb:589
   def deprecated_delete(options = T.unsafe(nil)); end
 end
 
@@ -42348,6 +42375,11 @@ class Aws::S3::ObjectSummary
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/customizations/object_summary.rb:7
   def content_length; end
 
+  # Make the method redefinable
+  # @param (see Object#copy_from)
+  # @options (see Object#copy_from)
+  # @return (see Object#copy_from)
+  # @see Object#copy_from
   # @example Request syntax with placeholder values
   #
   #   object_summary.copy_from({
@@ -43168,11 +43200,6 @@ class Aws::S3::ObjectSummary
   #   the request fails with the HTTP status code `403 Forbidden` (access
   #   denied).
   # @return [Types::CopyObjectOutput]
-  # Make the method redefinable
-  # @param (see Object#copy_from)
-  # @options (see Object#copy_from)
-  # @return (see Object#copy_from)
-  # @see Object#copy_from
   #
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object_summary.rb:1158
   def copy_from(source, options = T.unsafe(nil)); end
@@ -48160,6 +48187,9 @@ class Aws::S3::TransferManager
   # @option options [Integer] :thread_count (10)
   #   The number of parallel multipart uploads. Only used when no custom executor is provided (creates
   #   {DefaultExecutor} with the given thread count). An additional thread is used internally for task coordination.
+  #   This also bounds how many parts are buffered ahead of the upload, limiting memory usage to roughly
+  #   `2 * :thread_count * :part_size`. When a custom `:executor` is provided, it is responsible for applying
+  #   its own backpressure.
   #
   # @option options [Boolean] :tempfile (false)
   #   Normally read data is stored in memory when building the parts in order to complete the underlying
@@ -48179,12 +48209,12 @@ class Aws::S3::TransferManager
   # @see Client#complete_multipart_upload
   # @see Client#upload_part
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/transfer_manager.rb:525
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/transfer_manager.rb:528
   def upload_stream(bucket:, key:, **options, &block); end
 
   private
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/transfer_manager.rb:545
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/transfer_manager.rb:548
   def resolve_http_chunk_size(opts); end
 end
 

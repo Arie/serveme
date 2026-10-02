@@ -8,42 +8,6 @@
 # Copyright The OpenTelemetry Authors
 #
 # SPDX-License-Identifier: Apache-2.0
-# Copyright The OpenTelemetry Authors
-#
-# SPDX-License-Identifier: Apache-2.0
-# Copyright The OpenTelemetry Authors
-#
-# SPDX-License-Identifier: Apache-2.0
-# Copyright The OpenTelemetry Authors
-#
-# SPDX-License-Identifier: Apache-2.0
-# Copyright The OpenTelemetry Authors
-#
-# SPDX-License-Identifier: Apache-2.0
-# Copyright The OpenTelemetry Authors
-#
-# SPDX-License-Identifier: Apache-2.0
-# Copyright The OpenTelemetry Authors
-#
-# SPDX-License-Identifier: Apache-2.0
-# Copyright The OpenTelemetry Authors
-#
-# SPDX-License-Identifier: Apache-2.0
-# Copyright The OpenTelemetry Authors
-#
-# SPDX-License-Identifier: Apache-2.0
-# Copyright The OpenTelemetry Authors
-#
-# SPDX-License-Identifier: Apache-2.0
-# Copyright The OpenTelemetry Authors
-#
-# SPDX-License-Identifier: Apache-2.0
-# Copyright The OpenTelemetry Authors
-#
-# SPDX-License-Identifier: Apache-2.0
-# Copyright The OpenTelemetry Authors
-#
-# SPDX-License-Identifier: Apache-2.0
 #
 # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/version.rb:7
 module OpenTelemetry; end
@@ -167,7 +131,7 @@ class OpenTelemetry::SDK::Logs::Export::BatchLogRecordProcessor < ::OpenTelemetr
   def fetch_batch; end
 
   # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/export/batch_log_record_processor.rb:211
-  def lock(&block); end
+  def lock(&); end
 
   # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/export/batch_log_record_processor.rb:158
   def log_records; end
@@ -434,14 +398,21 @@ class OpenTelemetry::SDK::Logs::LogRecord < ::OpenTelemetry::Logs::LogRecord
   #
   # @return [LogRecord]
   #
-  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:64
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:65
   def initialize(timestamp: T.unsafe(nil), observed_timestamp: T.unsafe(nil), severity_text: T.unsafe(nil), severity_number: T.unsafe(nil), body: T.unsafe(nil), attributes: T.unsafe(nil), event_name: T.unsafe(nil), trace_id: T.unsafe(nil), span_id: T.unsafe(nil), trace_flags: T.unsafe(nil), resource: T.unsafe(nil), instrumentation_scope: T.unsafe(nil), log_record_limits: T.unsafe(nil)); end
 
-  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:16
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:28
   def attributes; end
 
-  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:16
-  def attributes=(_arg0); end
+  # Sets the attributes for this {LogRecord} and reapplies the
+  # configured attribute limits.
+  #
+  # @param [optional Hash{String => String, Numeric, Boolean,
+  #   Array<String, Numeric, Boolean>}] new_attributes Attributes to
+  #   associate with the {LogRecord}.
+  #
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:102
+  def attributes=(new_attributes); end
 
   # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:16
   def body; end
@@ -497,7 +468,7 @@ class OpenTelemetry::SDK::Logs::LogRecord < ::OpenTelemetry::Logs::LogRecord
   # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:16
   def timestamp=(_arg0); end
 
-  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:97
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:106
   def to_log_record_data; end
 
   # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:16
@@ -514,19 +485,19 @@ class OpenTelemetry::SDK::Logs::LogRecord < ::OpenTelemetry::Logs::LogRecord
 
   private
 
-  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:117
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:126
   def to_integer_nanoseconds(timestamp); end
 
-  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:123
-  def trim_attributes(attributes); end
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:130
+  def trim_attributes(attrs); end
 
-  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:161
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:169
   def truncate_attribute_values(attributes, attribute_length_limit); end
 
-  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:138
-  def truncate_attributes(attributes, attribute_limit); end
-
   # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:143
+  def truncate_attributes(attrs, attribute_limit); end
+
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:151
   def validate_attributes(attrs); end
 end
 
@@ -548,6 +519,12 @@ class OpenTelemetry::SDK::Logs::LogRecordData < ::Struct
 
   # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record_data.rb:11
   def body=(_); end
+
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record_data.rb:11
+  def dropped_attributes_count; end
+
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record_data.rb:11
+  def dropped_attributes_count=(_); end
 
   # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record_data.rb:11
   def event_name; end
@@ -596,12 +573,6 @@ class OpenTelemetry::SDK::Logs::LogRecordData < ::Struct
 
   # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record_data.rb:11
   def timestamp=(_); end
-
-  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record_data.rb:11
-  def total_recorded_attributes; end
-
-  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record_data.rb:11
-  def total_recorded_attributes=(_); end
 
   # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record_data.rb:11
   def trace_flags; end

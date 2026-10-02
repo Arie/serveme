@@ -106,12 +106,10 @@ RUN echo "Cache bust: ${CACHEBUST}" \
     && wget -nv "https://github.com/sapphonie/SOAP-TF2DM/releases/download/v4.4.9/soap.zip" -O "soap-dm.zip" \
     && unzip -o soap-dm.zip \
     && rm soap-dm.zip \
-    # Improved-Match-Timer
-    && wget -nv "https://github.com/b4nnyBot/Progressive-Ruleset-Timer-Plugins/archive/master.zip" -O "improved-match-timer.zip" \
-    && unzip -o improved-match-timer.zip \
-    && cp -r Progressive-Ruleset-Timer-Plugins-main/* ./ \
-    && rm -r Progressive-Ruleset-Timer-Plugins-main \
-    && rm improved-match-timer.zip \
+    # Enhanced-Match-Timer
+    && wget -nv "https://github.com/ozfortress/Enhanced-Match-Timer/releases/latest/download/enhanced_match_timer.zip" -O "enhanced-match-timer.zip" \
+    && unzip -o enhanced-match-timer.zip -d addons/sourcemod \
+    && rm enhanced-match-timer.zip \
     # Socket
     && wget -nv "https://raw.githubusercontent.com/spiretf/docker-comp-server/master/socket_3.0.1.zip" -O "socket.zip" \
     && unzip -o socket.zip \
@@ -216,6 +214,8 @@ RUN cd /home/tf2/hlserver/tf2/tf \
     && rm rgl.zip \
     && sed -i '/^sm_updater/d' cfg/rgl_base.cfg \
     && rm -f addons/sourcemod/plugins/rglqol.smx addons/sourcemod/plugins/rglupdater.smx \
+    # RGL bundles the old Improved Match Timer and Roundtimer Override, both superseded by Enhanced Match Timer
+    && rm -f addons/sourcemod/plugins/improved_match_timer.smx addons/sourcemod/plugins/disabled/roundtimer_override.smx \
     && wget -nv "https://github.com/ozfortress/server-configs/archive/refs/heads/master.tar.gz" -O ozfortress.tar.gz \
     && tar xzf ozfortress.tar.gz --strip-components=1 server-configs-master/cfg/ \
     && rm ozfortress.tar.gz \

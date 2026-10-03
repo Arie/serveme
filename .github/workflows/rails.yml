@@ -136,14 +136,24 @@ jobs:
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
         run: script/check_swagger_sync
 
+      # parallel_rspec worker 1 uses serveme_test, workers 2..N use
+      # serveme_test2..N (see config/database.yml), same as script/test.
+      - name: Copy test database for parallel workers
+        env:
+          PGHOST: localhost
+          PGUSER: serveme
+          PGPASSWORD: secret
+        run: for i in $(seq 2 "$(nproc)"); do createdb --template serveme_test "serveme_test$i"; done
+
       - name: Run RSpec tests
         env:
           RAILS_ENV: test
           PGHOST: localhost
           PGUSER: serveme
           PGPASSWORD: secret
+          REDIS_LOCK_DB: 2
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
-        run: bundle exec rspec spec
+        run: bundle exec parallel_rspec -n "$(nproc)" spec
 
   cucumber:
     name: Cucumber

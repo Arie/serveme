@@ -25,6 +25,9 @@ Serveme::Application.configure do
 
   # Do not compress assets
   config.assets.compress = false
+  # sassc-rails' compressor has a random cache key, so leaving it on recompiles
+  # all Sass on every boot.
+  config.assets.css_compressor = nil
 
   # Expands the lines which load the assets
   config.assets.debug = true

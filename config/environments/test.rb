@@ -34,6 +34,15 @@ Serveme::Application.configure do
 
   config.eager_load = true
 
+  # Debug-level SQL logging costs ~8% of suite time. LOG_LEVEL=debug to get it back.
+  config.log_level = ENV.fetch("LOG_LEVEL", "warn").to_sym
+
+  # sassc-rails' CSS compressor uses SecureRandom.uuid as its cache key, which
+  # invalidates every cached stylesheet on each boot and makes the first page
+  # render in each test process recompile all Sass (~1s). Tests don't need
+  # minified CSS.
+  config.assets.css_compressor = nil
+
   config.cache_store = :memory_store, { size: 32.megabytes }
   config.active_storage.service = :local
   config.active_job.queue_adapter = :inline

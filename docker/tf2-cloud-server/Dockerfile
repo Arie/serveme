@@ -169,7 +169,7 @@ RUN echo "Cache bust: ${CACHEBUST}" \
     && rm p4sstime.zip \
     # MGE Mod (zip contents are relative to tf/)
     && cd /home/tf2/hlserver/tf2/tf \
-    && wget -nv "https://github.com/Arie/MGEMod/releases/latest/download/mge.zip" -O "mge.zip" \
+    && wget -nv "https://github.com/mgetf/MGEMod/releases/latest/download/mge.zip" -O "mge.zip" \
     && unzip -o mge.zip \
     && rm mge.zip \
     # tf2rue (TFTrue replacement, zip contents are relative to addons/sourcemod/)

@@ -201,4 +201,82 @@ Loaded plugins:
       subject.fetch_stats
     end
   end
+
+  describe '#fetch_realtime_stats' do
+    let(:server_connection) { double }
+    let(:combined_output) do
+      <<~OUTPUT
+        CPU    In (KB/s)  Out (KB/s)  Uptime  Map changes  FPS      Players  Connects
+        24.88  35.29      54.48       6       2            66.67    2        12
+        hostname: FakkelBrigade #1
+        map     : cp_process_final at: 0 x, 0 y, 0 z
+        #{players_line}
+        # userid name                uniqueid            connected ping loss state  adr
+        #      2 "SourceTV"          BOT                                     active
+        #      3 "zeta"              [U:1:1001]          12:34       45    0 active 1.2.3.4:27005
+        #      4 "Alpha"             [U:1:1002]          01:02:03    80    3 active 5.6.7.8:27005
+        #      5 "Spawning"          [U:1:1003]          00:05       60    0 spawning 9.9.9.9:27005
+      OUTPUT
+    end
+    let(:players_line) { 'players : 3 humans, 1 bots (24 max)' }
+
+    before do
+      Rails.cache.clear
+      server.stub(:rcon_auth)
+      subject.stub(server_connection: server_connection)
+      allow(server_connection).to receive(:rcon_exec).with('stats; status').and_return(combined_output)
+    end
+
+    it 'combines stats, status and per-player pings from a single rcon call' do
+      expect(subject.fetch_realtime_stats).to eq(
+        fps: 66.67,
+        cpu: 24.88,
+        traffic_in: 35.29,
+        traffic_out: 54.48,
+        player_count: 3,
+        player_pings: [
+          { name: 'Alpha', ping: 80, loss: 3 },
+          { name: 'zeta', ping: 45, loss: 0 }
+        ]
+      )
+      expect(server_connection).to have_received(:rcon_exec).once
+    end
+
+    context 'when status has no players line' do
+      let(:players_line) { '' }
+
+      it 'counts the active players itself' do
+        expect(subject.fetch_realtime_stats[:player_count]).to eq 2
+      end
+    end
+
+    it 'serves repeat calls from the cache' do
+      first = subject.fetch_realtime_stats
+
+      expect(subject.fetch_realtime_stats).to eq first
+      expect(server_connection).to have_received(:rcon_exec).once
+    end
+
+    context 'when another process holds the lock' do
+      before { allow($lock).to receive(:synchronize).and_return(nil) }
+
+      it 'falls back to the stale result' do
+        stale = { fps: 1.0, cpu: 2.0, traffic_in: 0, traffic_out: 0, player_count: 1, player_pings: [] }
+        Rails.cache.write('realtime_stats_1_stale', stale)
+
+        expect(subject.fetch_realtime_stats).to eq stale
+      end
+
+      it 'returns zeroes when nothing is cached' do
+        expect(subject.fetch_realtime_stats).to eq(fps: 0, cpu: 0, traffic_in: 0, traffic_out: 0, player_count: 0, player_pings: [])
+      end
+    end
+
+    it 'logs and re-raises rcon errors' do
+      allow(server_connection).to receive(:rcon_exec).and_raise(SteamCondenser::Error.new('BOOM'))
+      expect(Rails.logger).to receive(:error).with('Failed to fetch realtime stats: BOOM')
+
+      expect { subject.fetch_realtime_stats }.to raise_error(SteamCondenser::Error)
+    end
+  end
 end

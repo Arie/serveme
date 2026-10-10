@@ -163,10 +163,6 @@ RUN echo "Cache bust: ${CACHEBUST}" \
     # SourceMod execs cfg/sourcemod/stac.cfg after servercfgfile on every map load, so this
     # must live here rather than in reservation.cfg (StAC generates it with "0" otherwise)
     && printf 'stac_work_with_sv_cheats "1"\n' > /home/tf2/hlserver/tf2/tf/cfg/sourcemod/stac.cfg \
-    # p4sstime (zip contents are relative to addons/sourcemod/)
-    && wget -nv "https://github.com/p4sstime/p4sstime-server-resources/releases/latest/download/p4sstime.zip" -O "p4sstime.zip" \
-    && unzip -o p4sstime.zip \
-    && rm p4sstime.zip \
     # MGE Mod (zip contents are relative to tf/)
     && cd /home/tf2/hlserver/tf2/tf \
     && wget -nv "https://github.com/mgetf/MGEMod/releases/latest/download/mge.zip" -O "mge.zip" \

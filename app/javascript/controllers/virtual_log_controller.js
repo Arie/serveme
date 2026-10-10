@@ -220,6 +220,8 @@ export default class extends Controller {
 
       const data = await response.json()
 
+      const previousTotal = this.getEffectiveTotal()
+
       // Update totals
       this.totalLinesValue = data.total
       if (data.is_search) {
@@ -230,6 +232,15 @@ export default class extends Controller {
 
       // Update content height in case totals changed
       this.updateContentHeight()
+
+      // The live stream skips lines that are in the log file (heals, spawns,
+      // admin-only events), so the client-side total drifts below the server's.
+      // The server placed these lines at percent * its total, so rescale the
+      // scroll position to match or the viewport ends up far above them.
+      const newTotal = this.getEffectiveTotal()
+      if (!updateScroll && previousTotal > 0 && newTotal !== previousTotal) {
+        this.viewportTarget.scrollTop = this.viewportTarget.scrollTop * (newTotal / previousTotal)
+      }
 
       // Track loaded range for scroll detection
       this.loadedStartIndex = data.start_index

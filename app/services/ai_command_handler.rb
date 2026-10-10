@@ -114,7 +114,7 @@ class AiCommandHandler
 
   sig { returns(String) }
   def fetch_server_status
-    reservation.server.rcon_exec("status;mp_tournament_whitelist;sv_gravity;sv_cheats;mp_timelimit;mp_winlimit;mp_windifference;tf_weapon_criticals;host_timescale;sv_password;tv_status;sm plugins list;tftrue_whitelist_id").gsub(/(\b[0-9]{1,3}\.){3}[0-9]{1,3}\b/, "0.0.0.0")
+    reservation.server.rcon_exec("status;mp_tournament_whitelist;sv_gravity;sv_cheats;sv_wallbug;mp_timelimit;mp_winlimit;mp_windifference;tf_weapon_criticals;host_timescale;sv_password;tv_status;sm plugins list;tftrue_whitelist_id").gsub(/(\b[0-9]{1,3}\.){3}[0-9]{1,3}\b/, "0.0.0.0")
   end
 
   sig { returns(T.untyped) }
@@ -325,6 +325,7 @@ class AiCommandHandler
     - sv_allow_wait_command 0/1
     - sv_alltalk 0/1
     - sv_cheats 0/1
+    - sv_wallbug 0/1 (enables wallbugs, off by default)
 
     Competitive Fixes:
     - sm_inhibit_extendfreeze 0/1

@@ -1697,6 +1697,7 @@ ALLOWED_SERVER_COMMANDS = Set.new(%w[
   sv_vote_timer_allow_early_finish
   sv_vote_timer_duration
   sv_vote_ui_hide_disabled_issues
+  sv_wallbug
   sv_wateraccelerate
   sv_waterdist
   sv_waterfriction

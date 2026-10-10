@@ -14,19 +14,23 @@ class LogWorker
   attr_reader :parsed_secret, :parsed_event
 
   MAP_START         = /(Started map\ "(\w+)")/
-  END_COMMAND       = /^!end.*/
-  EXTEND_COMMAND    = /^!extend.*/
-  RCON_COMMAND      = /^!rcon.*/
-  SDR_INFO_COMMAND  = /^!sdr.*/
-  WEB_RCON_COMMAND = /^(\.|!)webrcon.*/
-  TIMELEFT_COMMAND  = /^!timeleft.*/
-  WHOIS_RESERVER    = /^!who$/
-  AI_COMMAND        = /^!ai\s+(.+)/
-  LOCK_COMMAND      = /^!lock.*/
-  UNLOCK_COMMAND    = /^!unlock.*/
-  UNBANALL_COMMAND  = /^!unbanall.*/
-  PASSWORD_COMMAND  = /^!password.*/
-  WHOIS_COMMAND     = /^!whois\s+(.+)/
+  END_COMMAND       = /^[!.\/]end.*/i
+  EXTEND_COMMAND    = /^[!.\/]extend.*/i
+  RCON_COMMAND      = /^[!.\/]rcon.*/i
+  SDR_INFO_COMMAND  = /^[!.\/]sdr.*/i
+  WEB_RCON_COMMAND  = /^[!.\/]webrcon.*/i
+  TIMELEFT_COMMAND  = /^[!.\/]timeleft.*/i
+  WHOIS_RESERVER    = /^[!.\/]who$/i
+  AI_COMMAND        = /^[!.\/]ai\s+(.+)/i
+  LOCK_COMMAND      = /^[!.\/]lock.*/i
+  UNLOCK_COMMAND    = /^[!.\/]unlock.*/i
+  UNBANALL_COMMAND  = /^[!.\/]unbanall.*/i
+  PASSWORD_COMMAND  = /^[!.\/]password.*/i
+  WHOIS_COMMAND     = /^[!.\/]whois\s+(.+)/i
+  HELP_COMMAND      = /^[!.\/](help|commands)$/i
+  STV_COMMAND       = /^[!.\/]stv$/i
+  UNPREFIXED_RCON   = /^rcon\s+(.+)/i
+  EXTEND_DEBOUNCE   = 60.seconds
   LOG_LINE_REGEX    = '(?\'secret\'\d*)(?\'line\'.*)'
 
 
@@ -74,11 +78,15 @@ class LogWorker
   def handle_message
     return if event.player.steam_id.in?(%w[Console BOT])
 
-    action = action_by_reserver || action_for_message_said_by_anyone
-    return unless action
-
-    reservation&.status_update("#{event.player.name}#{sayer_steam_uid ? " (#{sayer_steam_uid})" : ""}: #{event.message}")
-    send(action)
+    action = action_for_message_said_by_reserver
+    if action && !said_by_reserver?
+      private_say("Only the reservation creator (#{reserver.name}) can use that command")
+    elsif action ||= action_for_message_said_by_anyone
+      reservation&.status_update("#{event.player.name}#{sayer_steam_uid ? " (#{sayer_steam_uid})" : ""}: #{event.message}")
+      send(action)
+    else
+      return unless handle_unknown_command
+    end
     reservation&.server&.rcon_disconnect
   end
 
@@ -196,13 +204,32 @@ class LogWorker
 
   sig { void }
   def handle_extend
-    if reservation&.extend!
-      Rails.logger.info "Extended #{reservation} from chat"
-      reservation&.server&.rcon_say "Extended your reservation by #{(reserver.reservation_extension_time / 60.0).round} minutes"
-    else
-      Rails.logger.info "Couldn't extend #{reservation} from chat"
-      reservation&.server&.rcon_say "Couldn't extend your reservation: you can only extend when there's less than 1 hour left and no one else has booked the server."
+    res = T.must(reservation)
+    debounce_key = "chat_extend_#{res.id}"
+    unless Rails.cache.write(debounce_key, true, expires_in: EXTEND_DEBOUNCE, unless_exist: true)
+      return res.server&.rcon_say("Reservation was just extended, time left: #{minutes_left} minutes")
     end
+
+    result = res.extend!
+    if result
+      Rails.logger.info "Extended #{res} from chat"
+      res.server&.rcon_say "Extended your reservation by #{(reserver.reservation_extension_time / 60.0).round} minutes"
+      return
+    end
+
+    Rails.cache.delete(debounce_key)
+    Rails.logger.info "Couldn't extend #{res} from chat"
+    if result.nil?
+      res.server&.rcon_say "Couldn't extend yet: you can extend when there's less than 1 hour left (#{minutes_left} minutes left now)"
+    else
+      reason = res.errors.full_messages.first || "Server already booked in the selected timeframe"
+      res.server&.rcon_say "Couldn't extend your reservation: #{reason}"
+    end
+  end
+
+  sig { returns(Integer) }
+  def minutes_left
+    [ ((T.must(T.must(reservation).ends_at) - Time.current) / 60).round, 0 ].max
   end
 
   sig { void }
@@ -237,8 +264,7 @@ class LogWorker
 
   sig { void }
   def handle_timeleft
-    minutes_until_reservation_ends = ((T.must(T.must(reservation).ends_at) - Time.current) / 60).round
-    minutes = [ minutes_until_reservation_ends, 0 ].max
+    minutes = minutes_left
     timeleft = minutes.positive? ? "#{minutes} minutes" : "#{minutes} minute"
     reservation&.server&.rcon_say "Reservation time left: #{timeleft}"
   end
@@ -283,17 +309,16 @@ class LogWorker
       :handle_password
     when WHOIS_COMMAND
       :handle_whois
+    when HELP_COMMAND
+      :handle_help
+    when STV_COMMAND
+      :handle_stv
     end
   end
 
   sig { returns(T::Boolean) }
   def said_by_reserver?
     event.player.steam_id == reserver_steam_id
-  end
-
-  sig { returns(T.nilable(Symbol)) }
-  def action_by_reserver
-    action_for_message_said_by_reserver if said_by_reserver?
   end
 
   sig { returns(User) }
@@ -350,11 +375,6 @@ class LogWorker
   sig { void }
   def handle_ai
     return unless reservation
-
-    unless said_by_reserver?
-      reservation&.server&.rcon_say("AI commands are only available to reservation creators")
-      return
-    end
 
     # Rate limit AI commands per user
     user_key = "ai_command_count:user_#{today}:#{sayer_steam_uid}"
@@ -430,6 +450,39 @@ class LogWorker
       reservation&.server&.rcon_say "Password can't be sent via DM - plugins are disabled for this reservation"
       Rails.logger.info "Password request denied for #{event.player.name} (#{sayer_steam_uid}) - plugins disabled for reservation #{reservation&.id}"
     end
+  end
+
+  sig { void }
+  def handle_help
+    private_say "Anyone: !timeleft !extend !sdr !who !whois <name> !password !stv"
+    private_say "Reservation creator: !rcon <command> !ai <request> !end !lock !unlock !unbanall"
+  end
+
+  sig { void }
+  def handle_stv
+    res = T.must(reservation)
+    private_say "STV: connect #{res.public_ip}:#{res.public_tv_port} password #{res.tv_password}" if res.public_ip && res.public_tv_port
+    private_say "SDR STV: connect #{res.connect_sdr_ip}:#{res.connect_sdr_tv_port} password #{res.tv_password}" if res.connect_sdr_ip && res.connect_sdr_tv_port
+  end
+
+  sig { returns(T::Boolean) }
+  def handle_unknown_command
+    if (rcon_command = message.match(UNPREFIXED_RCON)&.[](1)) && said_by_reserver?
+      private_say "To send rcon commands from chat, use: !rcon #{rcon_command}"
+    elsif (suggestion = ChatCommandSuggester.suggest(message))
+      private_say "Unknown command, did you mean #{suggestion}? Type !help for all commands"
+    else
+      return false
+    end
+    true
+  end
+
+  # Needs SourceMod; without plugins the reply is dropped rather than shown to everyone.
+  sig { params(text: String).void }
+  def private_say(text)
+    return unless reservation&.enable_plugins?
+
+    reservation&.server&.rcon_exec "sm_psay ##{event.player.uid} #{text.delete(';"')}"
   end
 
   sig { void }

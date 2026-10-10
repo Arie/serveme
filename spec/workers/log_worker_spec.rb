@@ -97,10 +97,101 @@ describe LogWorker do
       LogWorker.perform_async(extend_team_line)
     end
 
-    it "notifies when extension wasn't possible" do
-      reservation.should_receive(:extend!).and_return(false)
-      server.should_receive(:rcon_say).with("Couldn't extend your reservation: you can only extend when there's less than 1 hour left and no one else has booked the server.")
+    it "explains when it's too early to extend" do
+      reservation.should_receive(:extend!).and_return(nil)
+      server.should_receive(:rcon_say).with(/Couldn't extend yet: you can extend when there's less than 1 hour left \(\d+ minutes left now\)/)
       LogWorker.perform_async(extend_line)
+    end
+
+    it 'explains when the server is booked after the reservation' do
+      reservation.should_receive(:extend!).and_return(false)
+      server.should_receive(:rcon_say).with("Couldn't extend your reservation: Server already booked in the selected timeframe")
+      LogWorker.perform_async(extend_line)
+    end
+
+    it 'does not stack extensions when several players say !extend at once' do
+      reservation.should_receive(:extend!).once.and_return(true)
+      server.should_receive(:rcon_say).with(/Extended/)
+      server.should_receive(:rcon_say).with(/Reservation was just extended, time left: \d+ minutes/)
+      LogWorker.perform_async(extend_line)
+      LogWorker.perform_async(lobby_extend_line)
+    end
+
+    it 'allows a retry right after a failed extension' do
+      reservation.should_receive(:extend!).twice.and_return(nil, true)
+      server.should_receive(:rcon_say).with(/Couldn't extend yet/)
+      server.should_receive(:rcon_say).with(/Extended/)
+      LogWorker.perform_async(extend_line)
+      LogWorker.perform_async(extend_line)
+    end
+  end
+
+  describe 'command prefixes and case' do
+    %w[!SDR .sdr /sdr !Sdr].each do |command|
+      it "recognizes #{command}" do
+        server.should_receive(:rcon_say).with('SDR info: connect 123.123.123.123:4567')
+        LogWorker.perform_async(%(1234567L 03/29/2014 - 13:15:53: "Arie - serveme.tf<3><[U:1:231702]><Red>" say "#{command}"))
+      end
+    end
+
+    it 'keeps the case of rcon arguments' do
+      server.should_receive(:rcon_exec).with('sv_password FooBar')
+      LogWorker.perform_async('1234567L 03/29/2014 - 13:15:53: "Arie - serveme.tf<3><[U:1:231702]><Red>" say "!RCON sv_password FooBar"')
+    end
+  end
+
+  describe 'reserver-only commands said by someone else' do
+    it 'tells the player privately who can use the command' do
+      reservation.stub(enable_plugins?: true)
+      ReservationWorker.should_not_receive(:perform_async)
+      server.should_receive(:rcon_exec).with("sm_psay #3 Only the reservation creator (#{user.name}) can use that command")
+      LogWorker.perform_async(troll_line)
+    end
+
+    it 'stays silent without plugins' do
+      reservation.stub(enable_plugins?: false)
+      server.should_not_receive(:rcon_exec)
+      server.should_not_receive(:rcon_say)
+      LogWorker.perform_async(ai_command_troll_line)
+    end
+  end
+
+  describe 'help, stv and typos' do
+    before { reservation.stub(enable_plugins?: true) }
+
+    it 'lists the commands privately' do
+      server.should_receive(:rcon_exec).with(/\Asm_psay #3 Anyone: !timeleft/)
+      server.should_receive(:rcon_exec).with(/\Asm_psay #3 Reservation creator: !rcon/)
+      LogWorker.perform_async('1234567L 03/29/2014 - 13:15:53: "Player<3><[U:1:12345]><Red>" say "!help"')
+    end
+
+    it 'sends the STV connect info privately' do
+      reservation.stub(public_ip: '1.2.3.4', public_tv_port: 27020, tv_password: 'tvpass', connect_sdr_ip: nil, connect_sdr_tv_port: nil)
+      server.should_receive(:rcon_exec).with('sm_psay #3 STV: connect 1.2.3.4:27020 password tvpass')
+      server.should_not_receive(:rcon_exec).with(/SDR STV/)
+      LogWorker.perform_async('1234567L 03/29/2014 - 13:15:53: "Player<3><[U:1:12345]><Red>" say "!stv"')
+    end
+
+    it 'includes SDR STV connect info when available' do
+      reservation.stub(public_ip: '1.2.3.4', public_tv_port: 27020, tv_password: 'tvpass', connect_sdr_ip: '169.254.1.1', connect_sdr_tv_port: 1234)
+      server.should_receive(:rcon_exec).with('sm_psay #3 STV: connect 1.2.3.4:27020 password tvpass')
+      server.should_receive(:rcon_exec).with('sm_psay #3 SDR STV: connect 169.254.1.1:1234 password tvpass')
+      LogWorker.perform_async('1234567L 03/29/2014 - 13:15:53: "Player<3><[U:1:12345]><Red>" say "!stv"')
+    end
+
+    it 'suggests the closest command for a typo' do
+      server.should_receive(:rcon_exec).with('sm_psay #3 Unknown command, did you mean !extend? Type !help for all commands')
+      LogWorker.perform_async('1234567L 03/29/2014 - 13:15:53: "Player<3><[U:1:12345]><Red>" say "!extned"')
+    end
+
+    it 'ignores normal chat' do
+      server.should_not_receive(:rcon_exec)
+      LogWorker.perform_async('1234567L 03/29/2014 - 13:15:53: "Player<3><[U:1:12345]><Red>" say "gg wp"')
+    end
+
+    it 'tells the reserver to prefix rcon commands' do
+      server.should_receive(:rcon_exec).with('sm_psay #3 To send rcon commands from chat, use: !rcon changelevel cp_process_f12')
+      LogWorker.perform_async('1234567L 03/29/2014 - 13:15:53: "Arie - serveme.tf<3><[U:1:231702]><Red>" say "rcon changelevel cp_process_f12"')
     end
   end
 

@@ -5,22 +5,35 @@
 # Please instead update this file by running `bin/tapioca gem opentelemetry-logs-api`.
 
 
-# OpenTelemetry is an open source observability framework, providing a
-# general-purpose API, SDK, and related tools required for the instrumentation
-# of cloud-native software, frameworks, and libraries.
-#
-# The OpenTelemetry module in the Logs API gem provides global accessors
-# for logs-related objects.
 # Copyright The OpenTelemetry Authors
 #
 # SPDX-License-Identifier: Apache-2.0
+# Defines the top-level accessors for the global logger provider. The Logs
+# API is unstable, so requiring +opentelemetry-logs-api+ does not define
+# these. Requiring +opentelemetry-logs-sdk+ does.
+#
+# These are delegators. The provider itself lives in
+# {OpenTelemetry::Internal}, so this file can be required at any point,
+# before or after the SDK is configured.
+# Installs the top-level logger provider accessors on behalf of logs SDKs
+# released before those accessors moved out of this gem. Those versions assign
+# and read +OpenTelemetry.logger_provider+ while configuring, and have no way
+# to require +opentelemetry/logs/global+ themselves.
+#
+# Such an SDK is always loaded by the time it reaches for the accessor, so the
+# check cannot happen at require time. It happens on the miss instead.
+#
+# Removal is tracked in #2414.
 #
 # pkg:gem/opentelemetry-logs-api#lib/opentelemetry/logs.rb:7
 module OpenTelemetry
+  extend ::OpenTelemetry::Logs::LegacyGlobalCompat
+  extend ::OpenTelemetry::Metrics::LegacyGlobalCompat
+
   # @return [Object, Logs::LoggerProvider] registered logger provider or a
   #   default no-op implementation of the logger provider.
   #
-  # pkg:gem/opentelemetry-logs-api#lib/opentelemetry-logs-api.rb:38
+  # pkg:gem/opentelemetry-logs-api#lib/opentelemetry/logs/global.rb:27
   def logger_provider; end
 
   # Register the global logger provider.
@@ -28,12 +41,32 @@ module OpenTelemetry
   # @param [LoggerProvider] provider A logger provider to register as the
   #   global instance.
   #
-  # pkg:gem/opentelemetry-logs-api#lib/opentelemetry-logs-api.rb:26
+  # pkg:gem/opentelemetry-logs-api#lib/opentelemetry/logs/global.rb:21
   def logger_provider=(provider); end
 end
 
+# @api private
+#
 # pkg:gem/opentelemetry-logs-api#lib/opentelemetry/internal/proxy_logger_provider.rb:8
-module OpenTelemetry::Internal; end
+module OpenTelemetry::Internal
+  class << self
+    # @return [Object, Logs::LoggerProvider] registered logger provider or a
+    #   default no-op implementation of the logger provider.
+    #
+    # pkg:gem/opentelemetry-logs-api#lib/opentelemetry/internal/global_logger_provider.rb:32
+    def logger_provider; end
+
+    # Registers the process-wide logger provider that instrumentation reads
+    # from. The public +OpenTelemetry.logger_provider+ accessor, defined in
+    # +opentelemetry/logs/global+, delegates here.
+    #
+    # @param [LoggerProvider] provider A logger provider to register as the
+    #   global instance.
+    #
+    # pkg:gem/opentelemetry-logs-api#lib/opentelemetry/internal/global_logger_provider.rb:20
+    def logger_provider=(provider); end
+  end
+end
 
 # @api private
 #
@@ -138,6 +171,38 @@ end
 #
 # pkg:gem/opentelemetry-logs-api#lib/opentelemetry/logs.rb:15
 module OpenTelemetry::Logs; end
+
+# Detects a logs SDK that predates {OpenTelemetry::Logs::Global} and
+# installs the accessors it expects. With no SDK loaded, +super+ raises
+# NoMethodError, which is what a caller holding only the API is meant to
+# get.
+#
+# @api private
+#
+# pkg:gem/opentelemetry-logs-api#lib/opentelemetry/logs/legacy_global_compat.rb:24
+module OpenTelemetry::Logs::LegacyGlobalCompat
+  private
+
+  # pkg:gem/opentelemetry-logs-api#lib/opentelemetry/logs/legacy_global_compat.rb:39
+  def method_missing(name, *, &); end
+
+  # pkg:gem/opentelemetry-logs-api#lib/opentelemetry/logs/legacy_global_compat.rb:49
+  def respond_to_missing?(name, include_private = T.unsafe(nil)); end
+
+  class << self
+    # Keyed on LoggerProvider rather than the SDK's Logs namespace, which
+    # another gem could plausibly define without the SDK being present.
+    #
+    # pkg:gem/opentelemetry-logs-api#lib/opentelemetry/logs/legacy_global_compat.rb:33
+    def handles?(name); end
+  end
+end
+
+# pkg:gem/opentelemetry-logs-api#lib/opentelemetry/logs/legacy_global_compat.rb:25
+OpenTelemetry::Logs::LegacyGlobalCompat::ACCESSORS = T.let(T.unsafe(nil), Array)
+
+# pkg:gem/opentelemetry-logs-api#lib/opentelemetry/logs/legacy_global_compat.rb:27
+OpenTelemetry::Logs::LegacyGlobalCompat::WARNING = T.let(T.unsafe(nil), String)
 
 # No-op implementation of an emitted log and its associated attributes.
 #

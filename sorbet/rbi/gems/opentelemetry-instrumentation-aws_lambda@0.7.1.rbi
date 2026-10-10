@@ -14,18 +14,12 @@
 # Copyright The OpenTelemetry Authors
 #
 # SPDX-License-Identifier: Apache-2.0
-# Copyright The OpenTelemetry Authors
-#
-# SPDX-License-Identifier: Apache-2.0
-# Copyright The OpenTelemetry Authors
-#
-# SPDX-License-Identifier: Apache-2.0
-# Copyright The OpenTelemetry Authors
-#
-# SPDX-License-Identifier: Apache-2.0
 #
 # pkg:gem/opentelemetry-instrumentation-aws_lambda#lib/opentelemetry/instrumentation.rb:13
-module OpenTelemetry; end
+module OpenTelemetry
+  extend ::OpenTelemetry::Logs::LegacyGlobalCompat
+  extend ::OpenTelemetry::Metrics::LegacyGlobalCompat
+end
 
 # "Instrumentation" are specified by
 # https://github.com/open-telemetry/opentelemetry-specification/blob/784635d01d8690c8f5fcd1f55bdbc8a13cf2f4f2/specification/glossary.md#instrumentation-library

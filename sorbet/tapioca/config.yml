@@ -5,6 +5,8 @@ gem:
   # - gem_name
   # doc: true
   # workers: 5
+  exclude:
+    - net-http # 0.10.0 flipped HTTPClientException/HTTPServerException, conflicts with Sorbet's stdlib net.rbi
 dsl:
   # Add your `dsl` command parameters here:
   #

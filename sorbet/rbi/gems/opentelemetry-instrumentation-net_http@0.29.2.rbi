@@ -16,7 +16,10 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation.rb:13
-module OpenTelemetry; end
+module OpenTelemetry
+  extend ::OpenTelemetry::Logs::LegacyGlobalCompat
+  extend ::OpenTelemetry::Metrics::LegacyGlobalCompat
+end
 
 # "Instrumentation" are specified by
 # https://github.com/open-telemetry/opentelemetry-specification/blob/784635d01d8690c8f5fcd1f55bdbc8a13cf2f4f2/specification/glossary.md#instrumentation-library
@@ -40,35 +43,49 @@ module OpenTelemetry::Instrumentation::Net::HTTP; end
 # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/http_helper.rb:13
 module OpenTelemetry::Instrumentation::Net::HTTP::HttpHelper
   class << self
+    # Returns the request path for strings and URI-like objects.
+    # @param path [String, #request_uri] The request path
+    # @return [String, nil] The normalized request path
+    #
+    # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/http_helper.rb:20
+    def request_path(path); end
+
     # Prepares span data using both old and stable semantic conventions
     # @param method [String, Symbol] The HTTP method
     # @return [SpanCreationAttributes] struct containing span_name and attributes hash
     #
-    # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/http_helper.rb:108
+    # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/http_helper.rb:127
     def span_attrs_for_dup(method); end
 
     # Prepares span data using old semantic conventions
     # @param method [String, Symbol] The HTTP method
     # @return [SpanCreationAttributes] struct containing span_name and attributes hash
     #
-    # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/http_helper.rb:59
+    # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/http_helper.rb:78
     def span_attrs_for_old(method); end
 
     # Prepares span data using stable semantic conventions
     # @param method [String, Symbol] The HTTP method
     # @return [SpanCreationAttributes] struct containing span_name and attributes hash
     #
-    # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/http_helper.rb:81
+    # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/http_helper.rb:100
     def span_attrs_for_stable(method); end
+
+    # Splits a request path into its path and query components.
+    # @param path [String, #request_uri] The request path
+    # @return [Array<String, String, nil>] The path and query components
+    #
+    # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/http_helper.rb:27
+    def split_path_and_query(path); end
   end
 end
 
 # Pre-computed mapping to avoid string allocations during normalization
 #
-# pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/http_helper.rb:18
+# pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/http_helper.rb:37
 OpenTelemetry::Instrumentation::Net::HTTP::HttpHelper::METHOD_CACHE = T.let(T.unsafe(nil), Hash)
 
-# pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/http_helper.rb:50
+# pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/http_helper.rb:69
 OpenTelemetry::Instrumentation::Net::HTTP::HttpHelper::OLD_SPAN_NAMES_BY_METHOD = T.let(T.unsafe(nil), Hash)
 
 # Lightweight struct to hold span creation attributes

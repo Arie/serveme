@@ -31130,25 +31130,25 @@ class Aws::S3::DirectoryDownloader::ObjectProducer
 
   private
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_downloader.rb:166
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_downloader.rb:167
   def apply_request_callback(key, params); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_downloader.rb:173
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_downloader.rb:174
   def build_object_entry(key); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_downloader.rb:189
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_downloader.rb:190
   def directory_marker?(obj); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_downloader.rb:183
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_downloader.rb:184
   def include_object?(obj); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_downloader.rb:193
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_downloader.rb:194
   def normalize_path(path); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_downloader.rb:199
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_downloader.rb:200
   def stream_objects(continuation_token: T.unsafe(nil)); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_downloader.rb:210
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_downloader.rb:211
   def validate_key(key); end
 end
 
@@ -31160,18 +31160,18 @@ Aws::S3::DirectoryDownloader::ObjectProducer::DONE_MARKER = T.let(T.unsafe(nil),
 
 # @api private
 #
-# pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_downloader.rb:218
+# pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_downloader.rb:219
 class Aws::S3::DirectoryDownloader::ObjectProducer::DownloadEntry
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_downloader.rb:219
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_downloader.rb:220
   def initialize(opts = T.unsafe(nil)); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_downloader.rb:225
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_downloader.rb:226
   def error; end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_downloader.rb:225
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_downloader.rb:226
   def params; end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_downloader.rb:225
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_downloader.rb:226
   def path; end
 end
 
@@ -31257,28 +31257,28 @@ class Aws::S3::DirectoryUploader::FileProducer
 
   private
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_uploader.rb:170
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_uploader.rb:174
   def apply_request_callback(file_path, params); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_uploader.rb:177
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_uploader.rb:181
   def build_upload_entry(file_path, key); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_uploader.rb:183
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_uploader.rb:187
   def find_directly; end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_uploader.rb:203
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_uploader.rb:207
   def find_recursively; end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_uploader.rb:236
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_uploader.rb:240
   def get_file_stat(full_path); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_uploader.rb:245
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_uploader.rb:249
   def handle_directory(dir_path, dir_name, key_prefix, ancestors); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_uploader.rb:213
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_uploader.rb:217
   def include_file?(file_path, file_name); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_uploader.rb:219
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_uploader.rb:223
   def scan_directory(dir_path, key_prefix: T.unsafe(nil), ancestors: T.unsafe(nil)); end
 end
 
@@ -31290,15 +31290,15 @@ Aws::S3::DirectoryUploader::FileProducer::DONE_MARKER = T.let(T.unsafe(nil), Sym
 
 # @api private
 #
-# pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_uploader.rb:259
+# pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_uploader.rb:263
 class Aws::S3::DirectoryUploader::FileProducer::UploadEntry
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_uploader.rb:260
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_uploader.rb:264
   def initialize(opts = T.unsafe(nil)); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_uploader.rb:265
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_uploader.rb:269
   def params; end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_uploader.rb:265
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_uploader.rb:269
   def path; end
 end
 
@@ -35656,64 +35656,64 @@ class Aws::S3::FileDownloader
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:55
   def cleanup_temp_file(opts); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:118
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:125
   def compute_chunk(chunk_size, file_size); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:124
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:131
   def compute_mode(file_size, total_parts, etag, opts); end
 
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:62
   def download_with_executor(part_list, total_size, opts); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:225
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:232
   def execute_checksum_callback(resp, opts); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:136
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:143
   def extract_range(value); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:102
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:109
   def get_opts(opts); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:93
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:100
   def handle_checksum_mode_option(option_key, opts); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:110
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:117
   def head_opts(opts); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:140
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:147
   def multipart_download(opts); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:162
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:169
   def multithreaded_get_by_parts(total_parts, file_size, etag, opts); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:170
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:177
   def multithreaded_get_by_ranges(file_size, etag, opts); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:186
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:193
   def range_request(opts); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:192
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:199
   def resolve_temp_path(opts); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:210
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:217
   def single_part_progress(opts); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:198
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:205
   def single_request(opts); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:216
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:223
   def update_progress(progress, part); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:231
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:238
   def validate_destination!(destination); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:238
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:245
   def validate_opts!(opts); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:258
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:265
   def validate_range(actual, expected); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:264
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:271
   def write(body, range, opts); end
 end
 
@@ -35731,44 +35731,44 @@ Aws::S3::FileDownloader::MIN_CHUNK_SIZE = T.let(T.unsafe(nil), Integer)
 
 # @api private
 #
-# pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:300
+# pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:307
 class Aws::S3::FileDownloader::MultipartProgress
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:301
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:308
   def initialize(parts, total_size, progress_callback); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:310
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:317
   def call(part_number, bytes_received, total); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:308
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:315
   def progress_callback; end
 end
 
 # @api private
 #
-# pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:270
+# pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:277
 class Aws::S3::FileDownloader::Part < ::Struct
   include ::Aws::Structure
 end
 
 # @api private
 #
-# pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:275
+# pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:282
 class Aws::S3::FileDownloader::PartList
   include ::Enumerable
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:277
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:284
   def initialize(parts = T.unsafe(nil)); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:290
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:297
   def clear!; end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:294
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:301
   def each(&block); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:282
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:289
   def shift; end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:286
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/file_downloader.rb:293
   def size; end
 end
 
@@ -36000,7 +36000,7 @@ class Aws::S3::MultipartFileUploader
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:75
   def abort_upload(upload_id, options, errors); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:182
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:181
   def apply_part_checksum(resp, part); end
 
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:108
@@ -36015,7 +36015,7 @@ class Aws::S3::MultipartFileUploader
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:53
   def complete_upload(upload_id, parts, file_size, options); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:189
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:188
   def compute_default_part_size(file_size); end
 
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:87
@@ -36030,10 +36030,10 @@ class Aws::S3::MultipartFileUploader
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:49
   def initiate_upload(options); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:193
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:192
   def part_size(total_size, part_size, offset); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:201
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:200
   def update_progress(progress, part); end
 
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:135
@@ -36065,41 +36065,41 @@ Aws::S3::MultipartFileUploader::MIN_PART_SIZE = T.let(T.unsafe(nil), Integer)
 
 # @api private
 #
-# pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:243
+# pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:242
 class Aws::S3::MultipartFileUploader::MultipartProgress
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:244
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:243
   def initialize(parts, progress_callback); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:252
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:251
   def call(part_number, bytes_read); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:250
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:249
   def progress_callback; end
 end
 
 # @api private
 #
-# pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:211
+# pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:210
 class Aws::S3::MultipartFileUploader::PartList
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:212
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:211
   def initialize(parts = T.unsafe(nil)); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:225
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:224
   def clear!; end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:233
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:232
   def part_sizes; end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:217
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:216
   def push(part); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:221
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:220
   def shift; end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:229
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:228
   def size; end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:237
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_file_uploader.rb:236
   def to_a; end
 end
 
@@ -36273,24 +36273,6 @@ class Aws::S3::MultipartUpload
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_upload.rb:123
   def client; end
 
-  # Completes the upload, requires a list of completed parts. You can
-  # provide the list of parts with `:part_number` and `:etag` values.
-  #
-  #     upload.complete(multipart_upload: { parts: [
-  #       { part_number: 1, etag:'etag1' },
-  #       { part_number: 2, etag:'etag2' },
-  #       ...
-  #     ]})
-  #
-  # Alternatively, you can pass **`compute_parts: true`** and the part
-  # list will be computed by calling {Client#list_parts}.
-  #
-  #     upload.complete(compute_parts: true)
-  #
-  # @option options [Boolean] :compute_parts (false) When `true`,
-  #   the {Client#list_parts} method will be called to determine
-  #   the list of required part numbers and their ETags.
-  #
   # @example Request syntax with placeholder values
   #
   #   object = multipart_upload.complete({
@@ -36551,6 +36533,23 @@ class Aws::S3::MultipartUpload
   #
   #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html
   # @return [Object]
+  # Completes the upload, requires a list of completed parts. You can
+  # provide the list of parts with `:part_number` and `:etag` values.
+  #
+  #     upload.complete(multipart_upload: { parts: [
+  #       { part_number: 1, etag:'etag1' },
+  #       { part_number: 2, etag:'etag2' },
+  #       ...
+  #     ]})
+  #
+  # Alternatively, you can pass **`compute_parts: true`** and the part
+  # list will be computed by calling {Client#list_parts}.
+  #
+  #     upload.complete(compute_parts: true)
+  #
+  # @option options [Boolean] :compute_parts (false) When `true`,
+  #   the {Client#list_parts} method will be called to determine
+  #   the list of required part numbers and their ETags.
   #
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_upload.rb:563
   def complete(options = T.unsafe(nil)); end

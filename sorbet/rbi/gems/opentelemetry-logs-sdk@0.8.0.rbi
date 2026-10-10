@@ -10,7 +10,10 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/version.rb:7
-module OpenTelemetry; end
+module OpenTelemetry
+  extend ::OpenTelemetry::Logs::LegacyGlobalCompat
+  extend ::OpenTelemetry::Metrics::LegacyGlobalCompat
+end
 
 # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/version.rb:8
 module OpenTelemetry::SDK; end

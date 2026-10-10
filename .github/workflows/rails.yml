@@ -47,7 +47,9 @@ jobs:
       # ruby-vips dlopens libvips at boot (Active Storage requires it), and
       # bin/importmap boots the app.
       - name: Install dependencies
-        run: sudo apt install libvips42t64
+        run: |
+          sudo apt update
+          sudo apt install libvips42t64
 
       - uses: ./.github/actions/ruby
 

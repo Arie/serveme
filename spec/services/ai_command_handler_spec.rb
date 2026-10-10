@@ -869,4 +869,166 @@ RSpec.describe AiCommandHandler do
       end
     end
   end
+
+  describe 'malformed OpenAI responses' do
+    before do
+      allow(server).to receive(:rcon_say)
+      allow(LeagueMaps).to receive(:grouped_league_maps).and_return([])
+    end
+
+    define_method(:tool_call_response) do |name, raw_arguments|
+      { "choices" => [ { "message" => { "content" => nil, "tool_calls" => [
+        { "id" => "c1", "type" => "function", "function" => { "name" => name, "arguments" => raw_arguments } }
+      ] } } ] }
+    end
+
+    it 'reports unparseable tool arguments' do
+      allow(OpenaiClient).to receive(:chat).and_return(tool_call_response("find_maps", "{not json"))
+      expect(Rails.logger).to receive(:error).with(include("Failed to parse arguments for tool 'find_maps'"))
+
+      result = handler.process_request("change map")
+
+      expect(result).to eq("success" => false, "response" => "Internal error processing AI tool arguments.", "command" => nil)
+    end
+
+    it 'names the final submit call when arguments break after a lookup' do
+      allow(OpenaiClient).to receive(:chat).and_return(
+        build_openai_tool_request_response("find_maps", { query: "badwater" }),
+        tool_call_response("submit_server_action", "{not json")
+      )
+      expect(Rails.logger).to receive(:error).with(include("Failed to parse arguments for final submit_server_action call"))
+
+      expect(handler.process_request("change map")["success"]).to be false
+    end
+
+    it 'rejects tools it does not know' do
+      allow(OpenaiClient).to receive(:chat).and_return(build_openai_tool_request_response("rm_rf", {}))
+      expect(Rails.logger).to receive(:error).with(include("Requested unknown tool: rm_rf"))
+
+      expect(handler.process_request("do it")["response"]).to eq("Internal error: AI requested an unknown tool.")
+    end
+
+    it 'handles a response with neither content nor tool calls' do
+      allow(OpenaiClient).to receive(:chat).and_return({ "choices" => [ { "message" => { "content" => nil } } ] })
+      expect(Rails.logger).to receive(:error).with(include("Response had neither content nor tool calls"))
+
+      expect(handler.process_request("hi")["response"]).to eq("AI returned an empty or invalid response.")
+    end
+
+    it 'tells the player when the response structure is unusable' do
+      allow(OpenaiClient).to receive(:chat).and_return({ "choices" => [] })
+      allow(Rails.logger).to receive(:error)
+      expect(server).to receive(:rcon_say).with("Sorry, I had trouble understanding the AI's response format. Please try again.")
+
+      expect(handler.process_request("hi")["success"]).to be false
+    end
+  end
+
+  describe 'reservation modification actions' do
+    define_method(:modify) { |action| handler.send(:perform_reservation_modification, { "action" => action }) }
+
+    it 'locks the server' do
+      expect(reservation).to receive(:lock!)
+      expect(reservation).to receive(:status_update).with(include("Server locked via AI command"))
+
+      expect(modify("lock")).to eq(success: true, message: "Server locked. Password changed and no new connections allowed.")
+    end
+
+    it 'unlocks a locked server and tells the players' do
+      allow(reservation).to receive(:unlock!).and_return(true)
+      expect(server).to receive(:rcon_say).with("Server unlocked, original password restored!")
+      expect(reservation).to receive(:status_update).with("Server unlocked via AI command")
+
+      expect(modify("unlock")[:success]).to be true
+    end
+
+    it 'reports when the server was not locked' do
+      allow(reservation).to receive(:unlock!).and_return(false)
+
+      expect(modify("unlock")).to eq(success: false, message: "Server is not currently locked.")
+    end
+
+    it 'unbans everyone and records it when bans were lifted' do
+      allow(reservation).to receive(:unban_all!).and_return({ count: 2, message: "Unbanned 2 players" })
+      expect(reservation).to receive(:status_update).with("Unbanned 2 players via AI command")
+
+      expect(modify("unbanall")).to eq(success: true, message: "Unbanned 2 players")
+    end
+
+    it 'does not record an unban when nobody was banned' do
+      allow(reservation).to receive(:unban_all!).and_return({ count: 0, message: "No bans" })
+      expect(reservation).not_to receive(:status_update)
+
+      expect(modify("unbanall")[:success]).to be true
+    end
+
+    it 'reports an unban failure' do
+      allow(reservation).to receive(:unban_all!).and_return({ count: nil, message: "Could not read ban list" })
+
+      expect(modify("unbanall")).to eq(success: false, message: "Could not read ban list")
+    end
+
+    it 'rejects unknown actions' do
+      expect(Rails.logger).to receive(:error).with(include("Unknown action requested in modify_reservation: explode"))
+
+      expect(modify("explode")[:success]).to be false
+    end
+  end
+
+  describe 'tool dispatch' do
+    it 'returns an error for tools it cannot perform' do
+      expect(Rails.logger).to receive(:error).with(include("Unknown action requested in perform_tool_action: nope"))
+
+      expect(handler.send(:perform_tool_action, "nope", {})).to eq(error: "Unknown tool action")
+    end
+
+    it 'strips shell-ish characters from command searches' do
+      expect(server).to receive(:rcon_exec).with('find "mp_time quit"').and_return("mp_timelimit")
+
+      expect(handler.send(:perform_command_search, { "query" => 'mp_time; "quit"' })).to eq(results: "mp_timelimit")
+    end
+  end
+
+  describe '#fetch_server_status' do
+    it 'queries the server and masks IP addresses' do
+      allow(server).to receive(:rcon_exec).with(start_with("status;")).and_return("udp/ip  : 1.2.3.4:27015 (public IP from Steam: 5.6.7.8)")
+
+      expect(handler.send(:fetch_server_status)).to eq("udp/ip  : 0.0.0.0:27015 (public IP from Steam: 0.0.0.0)")
+    end
+  end
+
+  describe 'sayer identity' do
+    define_method(:sayer_message) do |sayer|
+      handler.instance_variable_set(:@sayer, sayer)
+      handler.send(:sayer_info_message)
+    end
+
+    it 'is omitted without a sayer or steam id' do
+      expect(sayer_message(nil)).to be_nil
+      expect(sayer_message({ name: "anon", steam_uid: nil })).to be_nil
+    end
+
+    it 'describes a registered admin donator who made the reservation' do
+      allow(User).to receive(:find_by).with(uid: user.uid).and_return(user)
+      allow(user).to receive_messages(admin?: true, donator?: true, nickname: "Arie")
+
+      expect(sayer_message({ name: "Arie - serveme.tf", steam_uid: user.uid.to_i })).to eq(<<~MSG.chomp)
+        The player who sent the chat message has the following identity:
+        - In-game name: Arie - serveme.tf
+        - Steam ID (steamID64): #{user.uid}
+        - Account: registered on serveme.tf, admin, donator
+        - Site nickname: Arie
+        - Is the reservation creator: yes
+      MSG
+    end
+
+    it 'describes an unregistered player who is not the reserver' do
+      allow(User).to receive(:find_by).and_return(nil)
+
+      message = sayer_message({ name: "", steam_uid: "76561197960265729" })
+
+      expect(message).not_to include("In-game name")
+      expect(message).to include("- Account: not registered on serveme.tf", "- Is the reservation creator: no")
+    end
+  end
 end

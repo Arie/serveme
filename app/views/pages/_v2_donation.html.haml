@@ -8,6 +8,7 @@
 - raised = Order.monthly_total.round
 - goal = Order.monthly_goal.round
 - state = if pct >= 100 then "success" elsif pct >= 70 then "success" elsif pct >= 30 then "warn" else "danger" end
+- fill_class = { "success" => "bg-success", "warn" => "bg-warn", "danger" => "bg-danger" }.fetch(state)
 
 %section{class: "pt-8 pb-7 border-b border-line", "aria-label": "Monthly funding"}
   %div{class: "flex items-start justify-between flex-wrap gap-4"}
@@ -36,7 +37,7 @@
       than the canvas behind it, so at 0% the meter vanished into the page
       instead of reading as an empty control. See DESIGN.md, The Visible Track Rule.
     %div{class: "relative h-2.5 grow rounded-pill bg-elevated overflow-hidden border border-line shadow-[inset_0_1px_2px_var(--color-shadow-surface)]", role: "progressbar", "aria-valuenow": pct, "aria-valuemin": 0, "aria-valuemax": 100, "aria-label": "Monthly funding"}
-      %div{class: "h-full rounded-pill", style: "width: #{width}%; background: var(--color-#{state})"}
+      %div{class: "h-full rounded-pill #{fill_class}", style: "width: #{width}%"}
     %p{class: "font-mono whitespace-nowrap"}
       %span{class: "text-ink font-semibold"}= "#{unit}#{raised}"
       %span{class: "text-faint"}= "of #{unit}#{goal}"

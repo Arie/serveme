@@ -103,7 +103,7 @@ RUN echo "Cache bust: ${CACHEBUST}" \
     && tar -xf steamworks.tar.gz --strip-components 1 \
     && rm steamworks.tar.gz \
     # SOAP-DM
-    && wget -nv "https://github.com/sapphonie/SOAP-TF2DM/releases/download/v4.4.9/soap.zip" -O "soap-dm.zip" \
+    && wget -nv "https://github.com/sapphonie/SOAP-TF2DM/releases/download/v4.5.0b/soap.zip" -O "soap-dm.zip" \
     && unzip -o soap-dm.zip \
     && rm soap-dm.zip \
     # Enhanced-Match-Timer
@@ -157,7 +157,7 @@ RUN echo "Cache bust: ${CACHEBUST}" \
     && wget -nv "https://github.com/Arie/serveme/raw/refs/heads/master/doc/web_rcon.smx" -O "web_rcon.smx" \
     # STAC anti-cheat (zip contents are relative to addons/sourcemod/)
     && cd /home/tf2/hlserver/tf2/tf/addons/sourcemod \
-    && wget -nv "https://github.com/sapphonie/StAC-tf2/releases/download/v6.3.12/stac.zip" -O "stac.zip" \
+    && wget -nv "https://github.com/sapphonie/StAC-tf2/releases/download/v6.3.13/stac.zip" -O "stac.zip" \
     && unzip -o stac.zip \
     && rm stac.zip \
     # SourceMod execs cfg/sourcemod/stac.cfg after servercfgfile on every map load, so this

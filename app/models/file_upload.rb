@@ -113,9 +113,12 @@ class FileUpload < ActiveRecord::Base
       next unless path.start_with?("cfg")
 
       file_paths.each do |file_path|
-        content = File.read(file_path)
+        next unless File.extname(file_path).casecmp?(".cfg")
+
+        # Binary, because uploaded cfgs aren't guaranteed to be valid UTF-8
+        content = File.binread(file_path)
         sanitized = content.each_line.reject { |line| DISALLOWED_CFG_COMMANDS.any? { |cmd| line.match?(/^\s*#{cmd}/i) } }.join
-        File.write(file_path, sanitized) if sanitized != content
+        File.binwrite(file_path, sanitized) if sanitized != content
       end
     end
   end

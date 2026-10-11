@@ -214,4 +214,29 @@ describe FileUpload do
       malicious_zip&.unlink
     end
   end
+
+  describe 'cfg sanitization' do
+    it 'strips disallowed commands from cfg files that are not valid UTF-8' do
+      Dir.mktmpdir do |dir|
+        cfg_path = File.join(dir, 'latin1.cfg')
+        File.binwrite(cfg_path, "// caf\xE9 config\nhostname \"evil\"\nmp_timelimit 30\n".b)
+
+        file_upload.send(:sanitize_cfg_files, 'cfg' => [ cfg_path ])
+
+        expect(File.binread(cfg_path)).to eq("// caf\xE9 config\nmp_timelimit 30\n".b)
+      end
+    end
+
+    it 'leaves non-cfg files in cfg dirs untouched' do
+      Dir.mktmpdir do |dir|
+        zip_path = File.join(dir, 'etf2l_configs.zip')
+        content = "PK\x03\x04\xFF\nhostname \"evil\"\n".b
+        File.binwrite(zip_path, content)
+
+        file_upload.send(:sanitize_cfg_files, 'cfg' => [ zip_path ])
+
+        expect(File.binread(zip_path)).to eq(content)
+      end
+    end
+  end
 end

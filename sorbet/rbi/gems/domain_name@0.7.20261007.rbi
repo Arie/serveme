@@ -64,22 +64,22 @@ class DomainName
   # pkg:gem/domain_name#lib/domain_name.rb:77
   def initialize(hostname); end
 
-  # pkg:gem/domain_name#lib/domain_name.rb:194
+  # pkg:gem/domain_name#lib/domain_name.rb:202
   def <(other); end
 
-  # pkg:gem/domain_name#lib/domain_name.rb:216
+  # pkg:gem/domain_name#lib/domain_name.rb:224
   def <=(other); end
 
-  # pkg:gem/domain_name#lib/domain_name.rb:178
+  # pkg:gem/domain_name#lib/domain_name.rb:182
   def <=>(other); end
 
   # pkg:gem/domain_name#lib/domain_name.rb:173
   def ==(other); end
 
-  # pkg:gem/domain_name#lib/domain_name.rb:205
+  # pkg:gem/domain_name#lib/domain_name.rb:213
   def >(other); end
 
-  # pkg:gem/domain_name#lib/domain_name.rb:227
+  # pkg:gem/domain_name#lib/domain_name.rb:235
   def >=(other); end
 
   # Returns true if this domain name has a canonical registered
@@ -111,7 +111,7 @@ class DomainName
   # pkg:gem/domain_name#lib/domain_name.rb:31
   def domain; end
 
-  # pkg:gem/domain_name#lib/domain_name.rb:255
+  # pkg:gem/domain_name#lib/domain_name.rb:263
   def domain_idn; end
 
   # The full host name normalized, ASCII-ized and downcased using the
@@ -122,13 +122,13 @@ class DomainName
   # pkg:gem/domain_name#lib/domain_name.rb:20
   def hostname; end
 
-  # pkg:gem/domain_name#lib/domain_name.rb:244
+  # pkg:gem/domain_name#lib/domain_name.rb:252
   def hostname_idn; end
 
-  # pkg:gem/domain_name#lib/domain_name.rb:253
+  # pkg:gem/domain_name#lib/domain_name.rb:261
   def idn; end
 
-  # pkg:gem/domain_name#lib/domain_name.rb:268
+  # pkg:gem/domain_name#lib/domain_name.rb:276
   def inspect; end
 
   # Returns an IPAddr object if this is an IP address.
@@ -156,13 +156,13 @@ class DomainName
   # pkg:gem/domain_name#lib/domain_name.rb:42
   def tld; end
 
-  # pkg:gem/domain_name#lib/domain_name.rb:259
+  # pkg:gem/domain_name#lib/domain_name.rb:267
   def tld_idn; end
 
-  # pkg:gem/domain_name#lib/domain_name.rb:238
+  # pkg:gem/domain_name#lib/domain_name.rb:246
   def to_s; end
 
-  # pkg:gem/domain_name#lib/domain_name.rb:242
+  # pkg:gem/domain_name#lib/domain_name.rb:250
   def to_str; end
 
   # Returns a host name representation suitable for use in the host
@@ -173,14 +173,14 @@ class DomainName
   def uri_host; end
 
   class << self
-    # pkg:gem/domain_name#lib/domain_name/etld_data.rb:10340
+    # pkg:gem/domain_name#lib/domain_name/etld_data.rb:10346
     def etld_data; end
 
     # Normalizes a _domain_ using the Punycode algorithm as necessary.
     # Input must be strictly ASCII-only or unicode.
     # The result will be a downcased, ASCII-only string.
     #
-    # pkg:gem/domain_name#lib/domain_name.rb:283
+    # pkg:gem/domain_name#lib/domain_name.rb:291
     def normalize(domain); end
   end
 end
@@ -199,35 +199,38 @@ module DomainName::Punycode
   class << self
     # Decode a +string+ encoded in Punycode
     #
-    # pkg:gem/domain_name#lib/domain_name/punycode.rb:194
+    # pkg:gem/domain_name#lib/domain_name/punycode.rb:206
     def decode(string); end
 
-    # Decode a hostname using IDN/Punycode algorithms
+    # Decode a hostname using IDN/Punycode algorithms.  Raises
+    # ArgumentError if an encoded label exceeds MAX_LABEL_LENGTH.
     #
-    # pkg:gem/domain_name#lib/domain_name/punycode.rb:276
+    # pkg:gem/domain_name#lib/domain_name/punycode.rb:289
     def decode_hostname(hostname); end
 
     # Encode a +string+ in Punycode
     #
-    # pkg:gem/domain_name#lib/domain_name/punycode.rb:101
+    # pkg:gem/domain_name#lib/domain_name/punycode.rb:104
     def encode(string); end
 
-    # Encode a hostname using IDN/Punycode algorithms
+    # Encode a hostname using IDN/Punycode algorithms.  Raises
+    # ArgumentError if an encoded label would exceed
+    # MAX_LABEL_LENGTH.
     #
-    # pkg:gem/domain_name#lib/domain_name/punycode.rb:181
+    # pkg:gem/domain_name#lib/domain_name/punycode.rb:186
     def encode_hostname(hostname); end
   end
 end
 
 # Most errors we raise are basically kind of ArgumentError.
 #
-# pkg:gem/domain_name#lib/domain_name/punycode.rb:96
+# pkg:gem/domain_name#lib/domain_name/punycode.rb:99
 class DomainName::Punycode::ArgumentError < ::ArgumentError; end
 
 # pkg:gem/domain_name#lib/domain_name/punycode.rb:53
 DomainName::Punycode::BASE = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/domain_name#lib/domain_name/punycode.rb:97
+# pkg:gem/domain_name#lib/domain_name/punycode.rb:100
 class DomainName::Punycode::BufferOverflowError < ::DomainName::Punycode::ArgumentError; end
 
 # pkg:gem/domain_name#lib/domain_name/punycode.rb:65
@@ -271,6 +274,11 @@ DomainName::Punycode::LOBASE = T.let(T.unsafe(nil), Integer)
 # pkg:gem/domain_name#lib/domain_name/punycode.rb:62
 DomainName::Punycode::MAXINT = T.let(T.unsafe(nil), Integer)
 
+# The maximum length of a label in a hostname (RFC 1035)
+#
+# pkg:gem/domain_name#lib/domain_name/punycode.rb:96
+DomainName::Punycode::MAX_LABEL_LENGTH = T.let(T.unsafe(nil), Integer)
+
 # pkg:gem/domain_name#lib/domain_name/punycode.rb:93
 DomainName::Punycode::PREFIX = T.let(T.unsafe(nil), String)
 
@@ -297,6 +305,6 @@ class Object < ::BasicObject
 
   # Short hand for DomainName.new().
   #
-  # pkg:gem/domain_name#lib/domain_name.rb:293
+  # pkg:gem/domain_name#lib/domain_name.rb:301
   def DomainName(hostname); end
 end

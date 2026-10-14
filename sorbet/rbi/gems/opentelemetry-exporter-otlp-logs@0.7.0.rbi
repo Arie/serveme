@@ -16,7 +16,10 @@
 # See the documentation for the `opentelemetry-api` gem for details.
 #
 # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/version.rb:7
-module OpenTelemetry; end
+module OpenTelemetry
+  extend ::OpenTelemetry::Logs::LegacyGlobalCompat
+  extend ::OpenTelemetry::Metrics::LegacyGlobalCompat
+end
 
 # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/version.rb:8
 module OpenTelemetry::Exporter; end
@@ -76,20 +79,8 @@ class OpenTelemetry::Exporter::OTLP::Logs::LogsExporter
   # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb:131
   def around_request; end
 
-  # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb:333
-  def as_otlp_any_value(value); end
-
-  # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb:324
-  def as_otlp_key_value(key, value); end
-
-  # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb:308
-  def as_otlp_log_record(log_record_data); end
-
   # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb:257
   def backoff?(retry_count:, retry_after: T.unsafe(nil)); end
-
-  # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb:278
-  def encode(log_record_data); end
 
   # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb:109
   def handle_http_error(response); end
@@ -106,10 +97,10 @@ class OpenTelemetry::Exporter::OTLP::Logs::LogsExporter
   # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb:233
   def log_status(body); end
 
-  # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb:367
+  # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb:291
   def parse_headers(raw); end
 
-  # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb:354
+  # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb:278
   def prepare_headers(config_headers); end
 
   # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/exporter/otlp/logs/logs_exporter.rb:135
@@ -152,7 +143,7 @@ module Opentelemetry; end
 # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/common/v1/common_pb.rb:14
 module Opentelemetry::Proto; end
 
-# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/collector/trace/v1/trace_service_pb.rb:17
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/collector/logs/v1/logs_service_pb.rb:17
 module Opentelemetry::Proto::Collector; end
 
 # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/collector/logs/v1/logs_service_pb.rb:18
@@ -169,6 +160,21 @@ class Opentelemetry::Proto::Collector::Logs::V1::ExportLogsServiceRequest < ::Go
 
 # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/collector/logs/v1/logs_service_pb.rb:21
 class Opentelemetry::Proto::Collector::Logs::V1::ExportLogsServiceResponse < ::Google::Protobuf::AbstractMessage; end
+
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/collector/metrics/v1/metrics_service_pb.rb:18
+module Opentelemetry::Proto::Collector::Metrics; end
+
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/collector/metrics/v1/metrics_service_pb.rb:19
+module Opentelemetry::Proto::Collector::Metrics::V1; end
+
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/collector/metrics/v1/metrics_service_pb.rb:22
+class Opentelemetry::Proto::Collector::Metrics::V1::ExportMetricsPartialSuccess < ::Google::Protobuf::AbstractMessage; end
+
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/collector/metrics/v1/metrics_service_pb.rb:20
+class Opentelemetry::Proto::Collector::Metrics::V1::ExportMetricsServiceRequest < ::Google::Protobuf::AbstractMessage; end
+
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/collector/metrics/v1/metrics_service_pb.rb:21
+class Opentelemetry::Proto::Collector::Metrics::V1::ExportMetricsServiceResponse < ::Google::Protobuf::AbstractMessage; end
 
 # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/collector/trace/v1/trace_service_pb.rb:18
 module Opentelemetry::Proto::Collector::Trace; end
@@ -335,6 +341,103 @@ Opentelemetry::Proto::Logs::V1::SeverityNumber::SEVERITY_NUMBER_WARN3 = T.let(T.
 
 # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/logs/v1/logs_pb.rb:24
 Opentelemetry::Proto::Logs::V1::SeverityNumber::SEVERITY_NUMBER_WARN4 = T.let(T.unsafe(nil), Integer)
+
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/metrics/v1/metrics_pb.rb:18
+module Opentelemetry::Proto::Metrics; end
+
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/metrics/v1/metrics_pb.rb:19
+module Opentelemetry::Proto::Metrics::V1; end
+
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/metrics/v1/metrics_pb.rb:36
+module Opentelemetry::Proto::Metrics::V1::AggregationTemporality
+  class << self
+    # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/metrics/v1/metrics_pb.rb:36
+    def descriptor; end
+
+    # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/metrics/v1/metrics_pb.rb:36
+    def lookup(_arg0); end
+
+    # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/metrics/v1/metrics_pb.rb:36
+    def resolve(_arg0); end
+  end
+end
+
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/metrics/v1/metrics_pb.rb:36
+Opentelemetry::Proto::Metrics::V1::AggregationTemporality::AGGREGATION_TEMPORALITY_CUMULATIVE = T.let(T.unsafe(nil), Integer)
+
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/metrics/v1/metrics_pb.rb:36
+Opentelemetry::Proto::Metrics::V1::AggregationTemporality::AGGREGATION_TEMPORALITY_DELTA = T.let(T.unsafe(nil), Integer)
+
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/metrics/v1/metrics_pb.rb:36
+Opentelemetry::Proto::Metrics::V1::AggregationTemporality::AGGREGATION_TEMPORALITY_UNSPECIFIED = T.let(T.unsafe(nil), Integer)
+
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/metrics/v1/metrics_pb.rb:37
+module Opentelemetry::Proto::Metrics::V1::DataPointFlags
+  class << self
+    # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/metrics/v1/metrics_pb.rb:37
+    def descriptor; end
+
+    # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/metrics/v1/metrics_pb.rb:37
+    def lookup(_arg0); end
+
+    # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/metrics/v1/metrics_pb.rb:37
+    def resolve(_arg0); end
+  end
+end
+
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/metrics/v1/metrics_pb.rb:37
+Opentelemetry::Proto::Metrics::V1::DataPointFlags::DATA_POINT_FLAGS_DO_NOT_USE = T.let(T.unsafe(nil), Integer)
+
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/metrics/v1/metrics_pb.rb:37
+Opentelemetry::Proto::Metrics::V1::DataPointFlags::DATA_POINT_FLAGS_NO_RECORDED_VALUE_MASK = T.let(T.unsafe(nil), Integer)
+
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/metrics/v1/metrics_pb.rb:35
+class Opentelemetry::Proto::Metrics::V1::Exemplar < ::Google::Protobuf::AbstractMessage; end
+
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/metrics/v1/metrics_pb.rb:27
+class Opentelemetry::Proto::Metrics::V1::ExponentialHistogram < ::Google::Protobuf::AbstractMessage; end
+
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/metrics/v1/metrics_pb.rb:31
+class Opentelemetry::Proto::Metrics::V1::ExponentialHistogramDataPoint < ::Google::Protobuf::AbstractMessage; end
+
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/metrics/v1/metrics_pb.rb:32
+class Opentelemetry::Proto::Metrics::V1::ExponentialHistogramDataPoint::Buckets < ::Google::Protobuf::AbstractMessage; end
+
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/metrics/v1/metrics_pb.rb:24
+class Opentelemetry::Proto::Metrics::V1::Gauge < ::Google::Protobuf::AbstractMessage; end
+
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/metrics/v1/metrics_pb.rb:26
+class Opentelemetry::Proto::Metrics::V1::Histogram < ::Google::Protobuf::AbstractMessage; end
+
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/metrics/v1/metrics_pb.rb:30
+class Opentelemetry::Proto::Metrics::V1::HistogramDataPoint < ::Google::Protobuf::AbstractMessage; end
+
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/metrics/v1/metrics_pb.rb:23
+class Opentelemetry::Proto::Metrics::V1::Metric < ::Google::Protobuf::AbstractMessage; end
+
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/metrics/v1/metrics_pb.rb:20
+class Opentelemetry::Proto::Metrics::V1::MetricsData < ::Google::Protobuf::AbstractMessage; end
+
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/metrics/v1/metrics_pb.rb:29
+class Opentelemetry::Proto::Metrics::V1::NumberDataPoint < ::Google::Protobuf::AbstractMessage; end
+
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/metrics/v1/metrics_pb.rb:21
+class Opentelemetry::Proto::Metrics::V1::ResourceMetrics < ::Google::Protobuf::AbstractMessage; end
+
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/metrics/v1/metrics_pb.rb:22
+class Opentelemetry::Proto::Metrics::V1::ScopeMetrics < ::Google::Protobuf::AbstractMessage; end
+
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/metrics/v1/metrics_pb.rb:25
+class Opentelemetry::Proto::Metrics::V1::Sum < ::Google::Protobuf::AbstractMessage; end
+
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/metrics/v1/metrics_pb.rb:28
+class Opentelemetry::Proto::Metrics::V1::Summary < ::Google::Protobuf::AbstractMessage; end
+
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/metrics/v1/metrics_pb.rb:33
+class Opentelemetry::Proto::Metrics::V1::SummaryDataPoint < ::Google::Protobuf::AbstractMessage; end
+
+# pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/metrics/v1/metrics_pb.rb:34
+class Opentelemetry::Proto::Metrics::V1::SummaryDataPoint::ValueAtQuantile < ::Google::Protobuf::AbstractMessage; end
 
 # pkg:gem/opentelemetry-exporter-otlp-logs#lib/opentelemetry/proto/resource/v1/resource_pb.rb:17
 module Opentelemetry::Proto::Resource; end

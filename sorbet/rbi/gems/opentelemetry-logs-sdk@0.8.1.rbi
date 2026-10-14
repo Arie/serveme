@@ -157,7 +157,7 @@ end
 
 # Outputs {LogRecordData} to the console.
 #
-# Potentially useful for exploratory purposes.
+# This exporter is intended for debugging and learning purposes. It is not recommended for production use. The output format is not standardized and can change at any time.
 #
 # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/export/console_log_record_exporter.rb:14
 class OpenTelemetry::SDK::Logs::Export::ConsoleLogRecordExporter
@@ -414,7 +414,7 @@ class OpenTelemetry::SDK::Logs::LogRecord < ::OpenTelemetry::Logs::LogRecord
   #   Array<String, Numeric, Boolean>}] new_attributes Attributes to
   #   associate with the {LogRecord}.
   #
-  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:102
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:103
   def attributes=(new_attributes); end
 
   # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:16
@@ -471,7 +471,7 @@ class OpenTelemetry::SDK::Logs::LogRecord < ::OpenTelemetry::Logs::LogRecord
   # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:16
   def timestamp=(_arg0); end
 
-  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:106
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:107
   def to_log_record_data; end
 
   # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:16
@@ -488,19 +488,19 @@ class OpenTelemetry::SDK::Logs::LogRecord < ::OpenTelemetry::Logs::LogRecord
 
   private
 
-  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:126
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:127
   def to_integer_nanoseconds(timestamp); end
 
-  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:130
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:131
   def trim_attributes(attrs); end
 
-  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:169
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:170
   def truncate_attribute_values(attributes, attribute_length_limit); end
 
-  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:143
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:144
   def truncate_attributes(attrs, attribute_limit); end
 
-  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:151
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/log_record.rb:152
   def validate_attributes(attrs); end
 end
 
@@ -759,7 +759,7 @@ class OpenTelemetry::SDK::Logs::LoggerProvider < ::OpenTelemetry::Logs::LoggerPr
   # @param [LogRecordProcessor] log_record_processor The
   #   {LogRecordProcessor} to add to this LoggerProvider.
   #
-  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/logger_provider.rb:62
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/logger_provider.rb:70
   def add_log_record_processor(log_record_processor); end
 
   # Immediately export all {LogRecord}s that have not yet been exported
@@ -774,7 +774,7 @@ class OpenTelemetry::SDK::Logs::LoggerProvider < ::OpenTelemetry::Logs::LoggerPr
   # @return [Integer] Export::SUCCESS if no error occurred, Export::FAILURE if
   #   a non-specific failure occurred, Export::TIMEOUT if a timeout occurred.
   #
-  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/logger_provider.rb:116
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/logger_provider.rb:124
   def force_flush(timeout: T.unsafe(nil)); end
 
   # Returns an {OpenTelemetry::SDK::Logs::Logger} instance.
@@ -789,7 +789,7 @@ class OpenTelemetry::SDK::Logs::LoggerProvider < ::OpenTelemetry::Logs::LoggerPr
 
   # @api private
   #
-  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/logger_provider.rb:133
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/logger_provider.rb:141
   def on_emit(timestamp: T.unsafe(nil), observed_timestamp: T.unsafe(nil), severity_text: T.unsafe(nil), severity_number: T.unsafe(nil), body: T.unsafe(nil), attributes: T.unsafe(nil), event_name: T.unsafe(nil), trace_id: T.unsafe(nil), span_id: T.unsafe(nil), trace_flags: T.unsafe(nil), instrumentation_scope: T.unsafe(nil), context: T.unsafe(nil)); end
 
   # Attempts to stop all the activity for this LoggerProvider. Calls
@@ -805,7 +805,7 @@ class OpenTelemetry::SDK::Logs::LoggerProvider < ::OpenTelemetry::Logs::LoggerPr
   # @return [Integer] Export::SUCCESS if no error occurred, Export::FAILURE if
   #   a non-specific failure occurred, Export::TIMEOUT if a timeout occurred.
   #
-  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/logger_provider.rb:85
+  # pkg:gem/opentelemetry-logs-sdk#lib/opentelemetry/sdk/logs/logger_provider.rb:93
   def shutdown(timeout: T.unsafe(nil)); end
 end
 

@@ -118,12 +118,15 @@ class OpenTelemetry::Internal::ProxyMeter < ::OpenTelemetry::Metrics::Meter
   #
   # @param [Meter] meter The Meter to delegate to
   #
-  # pkg:gem/opentelemetry-metrics-api#lib/opentelemetry/internal/proxy_meter.rb:28
+  # pkg:gem/opentelemetry-metrics-api#lib/opentelemetry/internal/proxy_meter.rb:31
   def delegate=(meter); end
 
   private
 
-  # pkg:gem/opentelemetry-metrics-api#lib/opentelemetry/internal/proxy_meter.rb:41
+  # Does not call `super`: the base registry keys instruments by name, so a repeated
+  # registration would replace an earlier placeholder that then never gets upgraded.
+  #
+  # pkg:gem/opentelemetry-metrics-api#lib/opentelemetry/internal/proxy_meter.rb:47
   def create_instrument(kind, name, unit, description, callback, exemplar_filter, exemplar_reservoir, advisory); end
 end
 

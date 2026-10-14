@@ -1174,53 +1174,53 @@ class Pagy::Offset < ::Pagy
   include ::Pagy::NumericHelperLoader
   include ::Pagy::NumericHelpers
 
-  # pkg:gem/pagy#lib/pagy/classes/offset/offset.rb:18
+  # pkg:gem/pagy#lib/pagy/classes/offset/offset.rb:19
   def initialize(**); end
 
-  # pkg:gem/pagy#lib/pagy/classes/offset/offset.rb:36
+  # pkg:gem/pagy#lib/pagy/classes/offset/offset.rb:37
   def count; end
 
-  # pkg:gem/pagy#lib/pagy/classes/offset/offset.rb:36
+  # pkg:gem/pagy#lib/pagy/classes/offset/offset.rb:37
   def from; end
 
-  # pkg:gem/pagy#lib/pagy/classes/offset/offset.rb:36
+  # pkg:gem/pagy#lib/pagy/classes/offset/offset.rb:37
   def in; end
 
-  # pkg:gem/pagy#lib/pagy/classes/offset/offset.rb:36
+  # pkg:gem/pagy#lib/pagy/classes/offset/offset.rb:37
   def last; end
 
-  # pkg:gem/pagy#lib/pagy/classes/offset/offset.rb:36
+  # pkg:gem/pagy#lib/pagy/classes/offset/offset.rb:37
   def next; end
 
-  # pkg:gem/pagy#lib/pagy/classes/offset/offset.rb:36
+  # pkg:gem/pagy#lib/pagy/classes/offset/offset.rb:37
   def offset; end
 
-  # pkg:gem/pagy#lib/pagy/classes/offset/offset.rb:37
+  # pkg:gem/pagy#lib/pagy/classes/offset/offset.rb:38
   def pages; end
 
-  # pkg:gem/pagy#lib/pagy/classes/offset/offset.rb:36
+  # pkg:gem/pagy#lib/pagy/classes/offset/offset.rb:37
   def previous; end
 
-  # pkg:gem/pagy#lib/pagy/classes/offset/offset.rb:39
+  # pkg:gem/pagy#lib/pagy/classes/offset/offset.rb:40
   def records(collection); end
 
-  # pkg:gem/pagy#lib/pagy/classes/offset/offset.rb:36
+  # pkg:gem/pagy#lib/pagy/classes/offset/offset.rb:37
   def to; end
 
   protected
 
   # Called by false in_range?
   #
-  # pkg:gem/pagy#lib/pagy/classes/offset/offset.rb:56
+  # pkg:gem/pagy#lib/pagy/classes/offset/offset.rb:57
   def assign_empty_page_variables; end
 
-  # pkg:gem/pagy#lib/pagy/classes/offset/offset.rb:47
+  # pkg:gem/pagy#lib/pagy/classes/offset/offset.rb:48
   def assign_last; end
 
-  # pkg:gem/pagy#lib/pagy/classes/offset/offset.rb:51
+  # pkg:gem/pagy#lib/pagy/classes/offset/offset.rb:52
   def assign_offset; end
 
-  # pkg:gem/pagy#lib/pagy/classes/offset/offset.rb:45
+  # pkg:gem/pagy#lib/pagy/classes/offset/offset.rb:46
   def offset?; end
 end
 
@@ -1271,6 +1271,9 @@ end
 
 # pkg:gem/pagy#lib/pagy/classes/offset/offset.rb:9
 Pagy::Offset::DEFAULT = T.let(T.unsafe(nil), Hash)
+
+# pkg:gem/pagy#lib/pagy/classes/offset/offset.rb:10
+Pagy::Offset::MAX_OFFSET = T.let(T.unsafe(nil), Integer)
 
 # pkg:gem/pagy#lib/pagy/toolbox/paginators/offset.rb:6
 module Pagy::OffsetPaginator

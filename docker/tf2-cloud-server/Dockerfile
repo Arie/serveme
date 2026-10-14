@@ -135,7 +135,7 @@ RUN echo "Cache bust: ${CACHEBUST}" \
     && unzip -o f2-sourcemod-plugins.zip \
     && rm f2-sourcemod-plugins.zip \
     # mapdownloader
-    && wget -nv https://codeberg.org/spire/mapdownloader/raw/master/plugin/mapdownloader.smx \
+    && wget -nv "https://github.com/Arie/mapdownloader/raw/refs/heads/master/plugin/mapdownloader.smx" -O "mapdownloader.smx" \
     # demos.tf uploader
     && wget -nv https://codeberg.org/demostf/plugin/raw/467a8858e642729c2bdbc769a28c7d450a2c1123/demostf.smx \
     # Pause
